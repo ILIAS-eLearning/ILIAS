@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilAccessHandler
  * Checks access for ILIAS objects
@@ -98,7 +100,7 @@ class ilAccess implements ilAccessHandler
         bool $a_access_granted,
         ?int $a_user_id = null,
         ?ilAccessInfo $a_info = null
-    ) : void {
+    ): void {
         if ($a_user_id === null) {
             $a_user_id = $this->user->getId();
         }
@@ -122,7 +124,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function setPreventCachingLastResult(bool $a_val) : void
+    public function setPreventCachingLastResult(bool $a_val): void
     {
         $this->prevent_caching_last_result = $a_val;
     }
@@ -130,7 +132,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function getPreventCachingLastResult() : bool
+    public function getPreventCachingLastResult(): bool
     {
         return $this->prevent_caching_last_result;
     }
@@ -143,7 +145,7 @@ class ilAccess implements ilAccessHandler
         string $a_cmd,
         int $a_ref_id,
         ?int $a_user_id = null
-    ) : array {
+    ): array {
         if ($a_user_id === null) {
             $a_user_id = $this->user->getId();
         }
@@ -156,7 +158,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function storeCache() : void
+    public function storeCache(): void
     {
         $query = "DELETE FROM acc_cache WHERE user_id = " . $this->db->quote($this->user->getId(), 'integer');
         $res = $this->db->manipulate($query);
@@ -171,7 +173,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function readCache(int $a_secs = 0) : bool
+    public function readCache(int $a_secs = 0): bool
     {
         if ($a_secs > 0) {
             $query = "SELECT * FROM acc_cache WHERE user_id = " .
@@ -189,7 +191,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function getResults() : array
+    public function getResults(): array
     {
         return $this->results;
     }
@@ -197,7 +199,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function setResults(array $a_results) : void
+    public function setResults(array $a_results): void
     {
         $this->results = $a_results;
     }
@@ -205,7 +207,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function addInfoItem(string $a_type, string $a_text, string $a_data = "") : void
+    public function addInfoItem(string $a_type, string $a_text, string $a_data = ""): void
     {
         $this->current_info->addInfoItem($a_type, $a_text, $a_data);
     }
@@ -220,7 +222,7 @@ class ilAccess implements ilAccessHandler
         string $a_type = "",
         ?int $a_obj_id = null,
         ?int $a_tree_id = null
-    ) : bool {
+    ): bool {
         return $this->checkAccessOfUser(
             $this->user->getId(),
             $a_permission,
@@ -243,7 +245,7 @@ class ilAccess implements ilAccessHandler
         string $a_type = "",
         ?int $a_obj_id = 0,
         ?int $a_tree_id = 0
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilBench = $DIC['ilBench'];
@@ -353,7 +355,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function getInfo() : array
+    public function getInfo(): array
     {
         return is_object($this->last_info) ? $this->last_info->getInfoItems() : array();
     }
@@ -361,7 +363,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function getResultLast() : array
+    public function getResultLast(): array
     {
         return $this->last_result;
     }
@@ -369,7 +371,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function getResultAll(int $a_ref_id = 0) : array
+    public function getResultAll(int $a_ref_id = 0): array
     {
         if ($a_ref_id == "") {
             return $this->results;
@@ -381,7 +383,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function doCacheCheck(string $a_permission, string $a_cmd, int $a_ref_id, int $a_user_id) : array
+    public function doCacheCheck(string $a_permission, string $a_cmd, int $a_ref_id, int $a_user_id): array
     {
         $stored_access = $this->getStoredAccessResult($a_permission, $a_cmd, $a_ref_id, $a_user_id);
 
@@ -409,7 +411,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function doTreeCheck(string $a_permission, string $a_cmd, int $a_ref_id, int $a_user_id) : bool
+    public function doTreeCheck(string $a_permission, string $a_cmd, int $a_ref_id, int $a_user_id): bool
     {
         // Get stored result
         $tree_cache_key = $a_user_id . ':' . $a_ref_id;
@@ -466,7 +468,7 @@ class ilAccess implements ilAccessHandler
         int $a_ref_id,
         int $a_user_id,
         string $a_type
-    ) : bool {
+    ): bool {
         if ($a_permission == "") {
             $message = sprintf(
                 '%s::doRBACCheck(): No operations given! $a_ref_id: %s',
@@ -509,7 +511,7 @@ class ilAccess implements ilAccessHandler
         int $a_ref_id,
         int $a_user_id,
         bool $a_all = false
-    ) : bool {
+    ): bool {
         $path = $this->repositoryTree->getPathId($a_ref_id);
         foreach ($path as $id) {
             if ($a_ref_id === $id) {
@@ -540,7 +542,7 @@ class ilAccess implements ilAccessHandler
         int $a_user_id,
         int $a_obj_id,
         string $a_type
-    ) : bool {
+    ): bool {
         $cache_perm = ($a_permission == "visible")
             ? "visible"
             : "other";
@@ -624,7 +626,7 @@ class ilAccess implements ilAccessHandler
         int $a_user_id,
         int $a_obj_id,
         string $a_type
-    ) : bool {
+    ): bool {
         if (
             ($a_permission == 'visible') &&
             !$this->checkAccessOfUser($a_user_id, "write", "", $a_ref_id, $a_type, $a_obj_id)
@@ -677,7 +679,7 @@ class ilAccess implements ilAccessHandler
         int $a_user_id,
         int $a_obj_id,
         string $a_type
-    ) : bool {
+    ): bool {
         // check for a deactivated plugin
         if ($this->objDefinition->isPluginTypeName($a_type) && !$this->objDefinition->isPlugin($a_type)) {
             return false;
@@ -725,7 +727,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function clear() : void
+    public function clear(): void
     {
         $this->results = array();
         $this->last_result = [];
@@ -737,7 +739,7 @@ class ilAccess implements ilAccessHandler
      * @inheritdoc
      * @todo check for valid properties
      */
-    public function enable(string $a_str, bool $a_bool) : void
+    public function enable(string $a_str, bool $a_bool): void
     {
         $this->$a_str = $a_bool;
     }
@@ -751,7 +753,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function filterUserIdsForCurrentUsersPositionsAndPermission(array $user_ids, string $permission) : array
+    public function filterUserIdsForCurrentUsersPositionsAndPermission(array $user_ids, string $permission): array
     {
         return $this->ilOrgUnitPositionAccess->filterUserIdsForCurrentUsersPositionsAndPermission(
             $user_ids,
@@ -762,7 +764,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function filterUserIdsForUsersPositionsAndPermission(array $user_ids, int $for_user_id, string $permission) : array
+    public function filterUserIdsForUsersPositionsAndPermission(array $user_ids, int $for_user_id, string $permission): array
     {
         return $this->ilOrgUnitPositionAccess->filterUserIdsForUsersPositionsAndPermission(
             $user_ids,
@@ -774,7 +776,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function isCurrentUserBasedOnPositionsAllowedTo(string $permission, array $on_user_ids) : bool
+    public function isCurrentUserBasedOnPositionsAllowedTo(string $permission, array $on_user_ids): bool
     {
         return $this->ilOrgUnitPositionAccess->isCurrentUserBasedOnPositionsAllowedTo($permission, $on_user_ids);
     }
@@ -782,7 +784,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function isUserBasedOnPositionsAllowedTo(int $which_user_id, string $permission, array $on_user_ids) : bool
+    public function isUserBasedOnPositionsAllowedTo(int $which_user_id, string $permission, array $on_user_ids): bool
     {
         return $this->ilOrgUnitPositionAccess->isUserBasedOnPositionsAllowedTo(
             $which_user_id,
@@ -794,7 +796,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function checkPositionAccess(string $pos_perm, int $ref_id) : bool
+    public function checkPositionAccess(string $pos_perm, int $ref_id): bool
     {
         return $this->ilOrgUnitPositionAccess->checkPositionAccess($pos_perm, $ref_id);
     }
@@ -802,7 +804,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function checkRbacOrPositionPermissionAccess(string $rbac_perm, string $pos_perm, int $ref_id) : bool
+    public function checkRbacOrPositionPermissionAccess(string $rbac_perm, string $pos_perm, int $ref_id): bool
     {
         return $this->ilOrgUnitPositionAccess->checkRbacOrPositionPermissionAccess($rbac_perm, $pos_perm, $ref_id);
     }
@@ -810,7 +812,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function filterUserIdsByPositionOfCurrentUser(string $pos_perm, int $ref_id, array $user_ids) : array
+    public function filterUserIdsByPositionOfCurrentUser(string $pos_perm, int $ref_id, array $user_ids): array
     {
         return $this->ilOrgUnitPositionAccess->filterUserIdsByPositionOfCurrentUser($pos_perm, $ref_id, $user_ids);
     }
@@ -818,7 +820,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function filterUserIdsByPositionOfUser(int $user_id, string $pos_perm, int $ref_id, array $user_ids) : array
+    public function filterUserIdsByPositionOfUser(int $user_id, string $pos_perm, int $ref_id, array $user_ids): array
     {
         return $this->ilOrgUnitPositionAccess->filterUserIdsByPositionOfUser($user_id, $pos_perm, $ref_id, $user_ids);
     }
@@ -826,7 +828,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function filterUserIdsByRbacOrPositionOfCurrentUser(string $rbac_perm, string $pos_perm, int $ref_id, array $user_ids) : array
+    public function filterUserIdsByRbacOrPositionOfCurrentUser(string $rbac_perm, string $pos_perm, int $ref_id, array $user_ids): array
     {
         return $this->ilOrgUnitPositionAccess->filterUserIdsByRbacOrPositionOfCurrentUser(
             $rbac_perm,
@@ -839,7 +841,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function hasCurrentUserAnyPositionAccess(int $ref_id) : bool
+    public function hasCurrentUserAnyPositionAccess(int $ref_id): bool
     {
         return $this->ilOrgUnitPositionAccess->hasCurrentUserAnyPositionAccess($ref_id);
     }
@@ -847,7 +849,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function hasUserRBACorAnyPositionAccess(string $rbac_perm, int $ref_id) : bool
+    public function hasUserRBACorAnyPositionAccess(string $rbac_perm, int $ref_id): bool
     {
         return $this->ilOrgUnitPositionAccess->hasUserRBACorAnyPositionAccess($rbac_perm, $ref_id);
     }

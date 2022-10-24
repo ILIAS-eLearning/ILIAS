@@ -27,7 +27,6 @@ use Psr\Http\Message\ResponseInterface;
  */
 class DefaultResponseSenderStrategy implements ResponseSenderStrategy
 {
-
     /**
      * Sends the rendered response to the client.
      *
@@ -35,7 +34,7 @@ class DefaultResponseSenderStrategy implements ResponseSenderStrategy
      *
      * @throws ResponseSendingException Thrown if the response was already sent to the client.
      */
-    public function sendResponse(ResponseInterface $response) : void
+    public function sendResponse(ResponseInterface $response): void
     {
         //check if the request is already send
         if (headers_sent()) {
@@ -57,16 +56,16 @@ class DefaultResponseSenderStrategy implements ResponseSenderStrategy
         $resource = $response->getBody()->detach();
 
         $sendStatus = false;
-    
+
         if (is_resource($resource)) {
             set_time_limit(0);
             try {
                 ob_end_clean(); // see https://mantis.ilias.de/view.php?id=32046
             } catch (\Throwable $t) {
             }
-        
+
             $sendStatus = fpassthru($resource);
-        
+
             //free up resources
             fclose($resource);
         }

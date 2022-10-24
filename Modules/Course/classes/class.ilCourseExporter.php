@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Folder export
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -34,14 +36,14 @@ class ilCourseExporter extends ilXmlExporter
         $this->logger = $DIC->logger()->crs();
     }
 
-    public function init() : void
+    public function init(): void
     {
     }
 
     /**
      * Get head dependencies
      */
-    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         if ($a_entity != self::ENTITY_MAIN) {
             return array();
@@ -57,7 +59,7 @@ class ilCourseExporter extends ilXmlExporter
         );
     }
 
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         $dependencies = array();
         if ($a_entity == self::ENTITY_MAIN) {
@@ -90,7 +92,7 @@ class ilCourseExporter extends ilXmlExporter
         return $dependencies;
     }
 
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         $refs = ilObject::_getAllReferences((int) $a_id);
         $course_ref_id = end($refs);
@@ -121,7 +123,7 @@ class ilCourseExporter extends ilXmlExporter
         return $this->writer->xmlDumpMem(false);
     }
 
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             "4.1.0" => array(

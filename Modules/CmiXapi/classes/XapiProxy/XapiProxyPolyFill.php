@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
     /**
      * This file is part of ILIAS, a powerful learning management system
      * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
      * https://github.com/ILIAS-eLearning
      *
      *********************************************************************/
-    
+
     namespace XapiProxy;
 
     class XapiProxyPolyFill
@@ -41,7 +43,7 @@
         protected string $fallbackLrsKey = '';
         protected string $fallbackLrsSecret = '';
 
-        const PARTS_REG = '/^(.*?xapiproxy\.php)(\/([^?]+)?\??.*)/'; //'/^(.*?xapiproxy\.php)(\/([^\?]+)?\??.*)/';
+        public const PARTS_REG = '/^(.*?xapiproxy\.php)(\/([^?]+)?\??.*)/'; //'/^(.*?xapiproxy\.php)(\/([^\?]+)?\??.*)/';
 
         protected array $sniffVerbs = array(
             "http://adlnet.gov/expapi/verbs/completed" => "completed",
@@ -49,8 +51,8 @@
             "http://adlnet.gov/expapi/verbs/failed" => "failed",
             "http://adlnet.gov/expapi/verbs/satisfied" => "passed"
         );
-        
-        const TERMINATED_VERB = "http://adlnet.gov/expapi/verbs/terminated";
+
+        public const TERMINATED_VERB = "http://adlnet.gov/expapi/verbs/terminated";
 
         public function __construct(string $client, string $token, ?bool $plugin = false)
         {
@@ -58,11 +60,11 @@
             $this->token = $token;
             $this->plugin = $plugin;
             $this->table_prefix = $this->plugin ? "xxcf" : "cmix";
-            preg_match(self::PARTS_REG, $GLOBALS['DIC']->http()->request()->getUri(), $this->cmdParts);
+            preg_match(self::PARTS_REG, (string) $GLOBALS['DIC']->http()->request()->getUri(), $this->cmdParts);
             $this->method = strtolower($GLOBALS['DIC']->http()->request()->getMethod());
         }
 
-        public function log() : \ilLogger
+        public function log(): \ilLogger
         {
             if ($this->plugin) {
                 global $log;
@@ -72,7 +74,7 @@
             }
         }
 
-        public function msg(string $msg) : string
+        public function msg(string $msg): string
         {
             if ($this->plugin) {
                 return "XapiCmi5Plugin: " . $msg;
@@ -81,7 +83,7 @@
             }
         }
 
-        public function initLrs() : void
+        public function initLrs(): void
         {
             $this->log()->debug($this->msg('initLrs'));
 //            if ($this->plugin) {
@@ -114,7 +116,7 @@
 //            }
         }
 
-        private function getLrsTypePlugin() : void
+        private function getLrsTypePlugin(): void
         {
             try {
                 $lrsType = $this->getLrsTypeAndMoreByToken();
@@ -148,7 +150,7 @@
         /**
          * @return \ilCmiXapiLrsType|void|null
          */
-        private function getLrsType() : \ilCmiXapiLrsType
+        private function getLrsType(): \ilCmiXapiLrsType
         { // Core new > 6
             try {
                 $lrsType = $this->getLrsTypeAndMoreByToken();
@@ -180,7 +182,7 @@
          * hybrid function, maybe two distinct functions would be better?
          * @return \ilCmiXapiLrsType|null
          */
-        private function getLrsTypeAndMoreByToken() : ?\ilCmiXapiLrsType
+        private function getLrsTypeAndMoreByToken(): ?\ilCmiXapiLrsType
         {
             $type_id = null;
             $lrs = null;
@@ -211,7 +213,7 @@
 //                    $lrs = ($this->plugin) ? new \ilXapiCmi5LrsType($type_id) : new \ilCmiXapiLrsType($type_id);
                     $lrs = new \ilCmiXapiLrsType($type_id);
                 }
-    
+
                 $sarr = [];
                 if ((bool) $row->only_moveon) {
                     if ((bool) $row->achieved) {

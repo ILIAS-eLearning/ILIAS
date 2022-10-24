@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,7 +39,7 @@ class InternalRepoService
         $this->db = $db;
     }
 
-    public function execution() : Execution\RepoService
+    public function execution(): Execution\RepoService
     {
         return new Execution\RepoService(
             $this->data,
@@ -45,7 +47,7 @@ class InternalRepoService
         );
     }
 
-    public function participants() : Participants\RepoService
+    public function participants(): Participants\RepoService
     {
         return new Participants\RepoService(
             $this->data,
@@ -53,7 +55,7 @@ class InternalRepoService
         );
     }
 
-    public function code() : Code\CodeDBRepo
+    public function code(): Code\CodeDBRepo
     {
         return new Code\CodeDBRepo(
             $this->data,
@@ -61,7 +63,7 @@ class InternalRepoService
         );
     }
 
-    public function settings() : Settings\SettingsDBRepository
+    public function settings(): Settings\SettingsDBRepository
     {
         return new Settings\SettingsDBRepository(
             $this->data,
@@ -69,12 +71,12 @@ class InternalRepoService
         );
     }
 
-    public function edit() : Editing\EditSessionRepo
+    public function edit(): Editing\EditSessionRepo
     {
         return new Editing\EditSessionRepo();
     }
 
-    public function evaluation() : Evaluation\EvaluationSessionRepo
+    public function evaluation(): Evaluation\EvaluationSessionRepo
     {
         return new Evaluation\EvaluationSessionRepo();
     }

@@ -36,7 +36,7 @@ class ilSkillTree extends ilTree
     /**
      * @return array{skill_id: int, child: int, tref_id: int, parent: int}[]
      */
-    public function getSkillTreePath(int $a_base_skill_id, int $a_tref_id = 0) : array
+    public function getSkillTreePath(int $a_base_skill_id, int $a_tref_id = 0): array
     {
         if ($a_tref_id > 0) {
             $path = $this->getPathFull($a_tref_id);
@@ -81,7 +81,7 @@ class ilSkillTree extends ilTree
         return [];
     }
 
-    public function getSkillTreePathAsString(int $a_base_skill_id, int $a_tref_id = 0) : string
+    public function getSkillTreePathAsString(int $a_base_skill_id, int $a_tref_id = 0): string
     {
         $path = $this->getSkillTreePath($a_base_skill_id, $a_tref_id);
         $str = "";
@@ -95,13 +95,13 @@ class ilSkillTree extends ilTree
         return $str;
     }
 
-    public function getTopParentNodeId(int $a_node_id) : int
+    public function getTopParentNodeId(int $a_node_id): int
     {
         $path = $this->getPathId($a_node_id);
         return $path[1];
     }
 
-    public function getMaxOrderNr(int $a_par_id, bool $a_templates = false) : int
+    public function getMaxOrderNr(int $a_par_id, bool $a_templates = false): int
     {
         if ($a_par_id != $this->readRootId()) {
             $childs = $this->getChilds($a_par_id);
@@ -145,7 +145,7 @@ class ilSkillTree extends ilTree
         }
     }
 
-    public function getChildsByTypeFilter($a_node_id, $a_types, $a_order = "", $a_direction = "ASC") : array
+    public function getChildsByTypeFilter($a_node_id, $a_types, $a_order = "", $a_direction = "ASC"): array
     {
         $this->initChildsData();
         $childs = [];

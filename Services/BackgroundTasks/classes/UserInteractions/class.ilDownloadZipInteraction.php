@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractUserInteraction;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
@@ -34,8 +34,8 @@ use ILIAS\Filesystem\Util\LegacyPathHelper;
  */
 class ilDownloadZipInteraction extends AbstractUserInteraction
 {
-    const OPTION_DOWNLOAD = 'download';
-    const OPTION_CANCEL = 'cancel';
+    public const OPTION_DOWNLOAD = 'download';
+    public const OPTION_CANCEL = 'cancel';
     private ?ilLogger $logger;
 
 
@@ -49,7 +49,7 @@ class ilDownloadZipInteraction extends AbstractUserInteraction
     /**
      * @inheritdoc
      */
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return [
             new SingleType(StringValue::class),
@@ -61,7 +61,7 @@ class ilDownloadZipInteraction extends AbstractUserInteraction
     /**
      * @inheritDoc
      */
-    public function getRemoveOption() : Option
+    public function getRemoveOption(): Option
     {
         return new UserInteractionOption('remove', self::OPTION_CANCEL);
     }
@@ -70,7 +70,7 @@ class ilDownloadZipInteraction extends AbstractUserInteraction
     /**
      * @inheritDoc
      */
-    public function getOutputType() : Type
+    public function getOutputType(): Type
     {
         return new SingleType(StringValue::class);
     }
@@ -79,7 +79,7 @@ class ilDownloadZipInteraction extends AbstractUserInteraction
     /**
      * @inheritDoc
      */
-    public function getOptions(array $input) : array
+    public function getOptions(array $input): array
     {
         return [
             new UserInteractionOption('download', self::OPTION_DOWNLOAD),
@@ -90,7 +90,7 @@ class ilDownloadZipInteraction extends AbstractUserInteraction
     /**
      * @inheritDoc
      */
-    public function interaction(array $input, Option $user_selected_option, Bucket $bucket) : Value
+    public function interaction(array $input, Option $user_selected_option, Bucket $bucket): Value
     {
         global $DIC;
         $zip_name = $input[1];
@@ -119,7 +119,13 @@ class ilDownloadZipInteraction extends AbstractUserInteraction
         $this->logger->info("Delivering File.");
 
         ilFileDelivery::deliverFileAttached($download_name->getValue(), $zip_name->getValue());
-    
+
         return new ThunkValue();
     }
+
+    public function canBeSkipped(array $input): bool
+    {
+        return false;
+    }
+
 }

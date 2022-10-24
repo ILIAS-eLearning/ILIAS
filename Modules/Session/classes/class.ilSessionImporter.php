@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,13 +30,13 @@ class ilSessionImporter extends ilXmlImporter
 {
     protected ilSessionDataSet $ds;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilSessionDataSet();
         $this->ds->setDSPrefix("ds");
     }
 
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
         $this->ds->setTargetId((string) $a_mapping->getTargetId());
         $parser = new ilDataSetImportParser(

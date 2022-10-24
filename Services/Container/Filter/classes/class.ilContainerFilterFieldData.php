@@ -32,7 +32,7 @@ class ilContainerFilterFieldData
         $this->db = $DIC->database();
     }
 
-    public function getFilterSetForRefId(int $ref_id) : ilContainerFilterSet
+    public function getFilterSetForRefId(int $ref_id): ilContainerFilterSet
     {
         $db = $this->db;
 
@@ -53,14 +53,14 @@ class ilContainerFilterFieldData
         }
         $filter = ilArrayUtil::sortArray($filter, "sort", "asc", true);
 
-        $filter = array_map(static function (array $i) : ilContainerFilterField {
+        $filter = array_map(static function (array $i): ilContainerFilterField {
             return $i["field"];
         }, $filter);
 
         return new ilContainerFilterSet($filter);
     }
 
-    public function saveFilterSetForRefId(int $ref_id, ilContainerFilterSet $set) : void
+    public function saveFilterSetForRefId(int $ref_id, ilContainerFilterSet $set): void
     {
         $db = $this->db;
 

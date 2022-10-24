@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ class ilMailMimeTransportFactory
         $this->eventHandler = $eventHandler;
     }
 
-    public function getTransport() : ilMailMimeTransport
+    public function getTransport(): ilMailMimeTransport
     {
         if (!$this->settings->get('mail_allow_external', '0')) {
             return new ilMailMimeTransportNull();

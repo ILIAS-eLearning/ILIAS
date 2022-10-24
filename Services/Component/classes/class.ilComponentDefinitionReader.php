@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -19,7 +21,7 @@ class ilComponentDefinitionReader
      * This methods is supposed to purge existing data in the registered
      * processor.
      */
-    public function purge() : void
+    public function purge(): void
     {
         foreach ($this->processors as $p) {
             $p->purge();
@@ -30,7 +32,7 @@ class ilComponentDefinitionReader
      * This reads the component.xml of all components in the core and processes
      * them with the provided processor.
      */
-    public function readComponentDefinitions() : void
+    public function readComponentDefinitions(): void
     {
         foreach ($this->getComponents() as [$type, $component, $path]) {
             $file = $this->readFile($path);
@@ -44,7 +46,7 @@ class ilComponentDefinitionReader
         }
     }
 
-    protected function readFile(string $path) : string
+    protected function readFile(string $path): string
     {
         if (!file_exists($path)) {
             throw new \InvalidArgumentException(
@@ -54,7 +56,7 @@ class ilComponentDefinitionReader
         return file_get_contents($path);
     }
 
-    protected function parseComponentXML(string $type, string $component, string $xml) : void
+    protected function parseComponentXML(string $type, string $component, string $xml): void
     {
         $xml_parser = null;
         try {
@@ -78,14 +80,14 @@ class ilComponentDefinitionReader
         }
     }
 
-    public function beginTag($_, string $name, array $attributes) : void
+    public function beginTag($_, string $name, array $attributes): void
     {
         foreach ($this->processors as $processor) {
             $processor->beginTag($name, $attributes);
         }
     }
 
-    public function endTag($_, string $name) : void
+    public function endTag($_, string $name): void
     {
         foreach ($this->processors as $processor) {
             $processor->endTag($name);
@@ -95,7 +97,7 @@ class ilComponentDefinitionReader
     /**
      * @return Iterator<string>
      */
-    protected function getComponents() : \Iterator
+    protected function getComponents(): \Iterator
     {
         foreach ($this->getComponentInfo("Modules", "module.xml") as $i) {
             yield $i;
@@ -108,7 +110,7 @@ class ilComponentDefinitionReader
     /**
      * @return Iterator<array>
      */
-    protected function getComponentInfo(string $type, string $name) : \Iterator
+    protected function getComponentInfo(string $type, string $name): \Iterator
     {
         $dir = __DIR__ . "/../../../" . $type;
         foreach ($this->getComponentPaths($dir, $name) as $c) {
@@ -123,7 +125,7 @@ class ilComponentDefinitionReader
     /**
      * @return Iterator<string>
      */
-    protected function getComponentPaths(string $root, string $name) : \Iterator
+    protected function getComponentPaths(string $root, string $name): \Iterator
     {
         $dir = opendir($root);
         while ($sub = readdir($dir)) {

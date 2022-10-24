@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,13 +29,13 @@
  */
 class ilCmiXapiLP extends ilObjectLP
 {
-    const MOVEON_COMPLETED = 'Completed';
-    const MOVEON_PASSED = 'Passed';
-    const MOVEON_COMPLETED_OR_PASSED = 'CompletedOrPassed';
-    const MOVEON_COMPLETED_AND_PASSED = 'CompletedAndPassed';
-    const MOVEON_NOT_APPLICABLE = 'NotApplicable';
+    public const MOVEON_COMPLETED = 'Completed';
+    public const MOVEON_PASSED = 'Passed';
+    public const MOVEON_COMPLETED_OR_PASSED = 'CompletedOrPassed';
+    public const MOVEON_COMPLETED_AND_PASSED = 'CompletedAndPassed';
+    public const MOVEON_NOT_APPLICABLE = 'NotApplicable';
 
-    public function initModeOptions(ilRadioGroupInputGUI $modeRadio) : void
+    public function initModeOptions(ilRadioGroupInputGUI $modeRadio): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $modeCompleted = new ilRadioOption(
@@ -42,7 +44,7 @@ class ilCmiXapiLP extends ilObjectLP
         );
         $modeCompleted->setInfo($DIC->language()->txt('cmix_lp_mode_deactivated_info'));
         $modeRadio->addOption($modeCompleted);
-        
+
         $modeCompleted = new ilRadioOption(
             $DIC->language()->txt('cmix_lp_mode_when_completed'),
             (string) ilLPObjSettings::LP_MODE_CMIX_COMPLETED
@@ -55,7 +57,7 @@ class ilCmiXapiLP extends ilObjectLP
         );
         $modeCompletedFailed->setInfo($DIC->language()->txt('cmix_lp_mode_with_failed_info'));
         $modeCompleted->addSubItem($modeCompletedFailed);
-        
+
         $modePassed = new ilRadioOption(
             $DIC->language()->txt('cmix_lp_mode_when_passed'),
             (string) ilLPObjSettings::LP_MODE_CMIX_PASSED
@@ -68,7 +70,7 @@ class ilCmiXapiLP extends ilObjectLP
         );
         $modePassedFailed->setInfo($DIC->language()->txt('cmix_lp_mode_with_failed_info'));
         $modePassed->addSubItem($modePassedFailed);
-        
+
         $modePassedOrCompleted = new ilRadioOption(
             $DIC->language()->txt('cmix_lp_mode_when_passed_or_completed'),
             (string) ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED
@@ -81,7 +83,7 @@ class ilCmiXapiLP extends ilObjectLP
         );
         $modePassedOrCompletedFailed->setInfo($DIC->language()->txt('cmix_lp_mode_with_failed_info'));
         $modePassedOrCompleted->addSubItem($modePassedOrCompletedFailed);
-        
+
         switch ($this->getCurrentMode()) {
             case ilLPObjSettings::LP_MODE_CMIX_COMPLETED:
                 $modeRadio->setValue((string) ilLPObjSettings::LP_MODE_CMIX_COMPLETED);
@@ -107,11 +109,11 @@ class ilCmiXapiLP extends ilObjectLP
         }
     }
 
-    public function fetchModeOption(ilPropertyFormGUI $form) : int
+    public function fetchModeOption(ilPropertyFormGUI $form): int
     {
         $mainMode = (int) $form->getInput('modus');
         $failedOpt = (int) $form->getInput('modus_' . $mainMode . '_failed');
-        
+
         if ($failedOpt) {
             switch ($mainMode) {
                 case ilLPObjSettings::LP_MODE_CMIX_COMPLETED:
@@ -124,16 +126,16 @@ class ilCmiXapiLP extends ilObjectLP
                     return ilLPObjSettings::LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED;
             }
         }
-        
+
         return $mainMode;
     }
-    
-    public function getDefaultMode() : int
+
+    public function getDefaultMode(): int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
 
-    public function getValidModes() : array
+    public function getValidModes(): array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,

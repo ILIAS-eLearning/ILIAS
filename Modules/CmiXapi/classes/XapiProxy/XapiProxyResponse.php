@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
     /**
      * This file is part of ILIAS, a powerful learning management system
      * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
      * https://github.com/ILIAS-eLearning
      *
      *********************************************************************/
-    
+
     namespace XapiProxy;
 
     use Psr\Http\Message\ServerRequestInterface;
@@ -34,7 +36,7 @@
             $this->xapiproxy = $xapiproxy;
         }
 
-        public function checkResponse(Response $response, string $endpoint) : bool
+        public function checkResponse(array $response, string $endpoint): bool
         {
             if ($response['state'] == 'fulfilled') {
                 $status = $response['value']->getStatusCode();
@@ -53,8 +55,8 @@
                 return false;
             }
         }
-        
-        public function handleResponse(Request $request, Response $response, ?string $fakePostBody = null) : void
+
+        public function handleResponse(Request $request, Response $response, ?string $fakePostBody = null): void
         {
             // check transfer encoding bug
             if ($fakePostBody !== null) {
@@ -79,7 +81,7 @@
             }
         }
 
-        public function fakeResponseBlocked(?string $post = null) : void
+        public function fakeResponseBlocked(?string $post = null): void
         {
             $this->xapiproxy->log()->debug($this->msg("fakeResponseFromBlockedRequest"));
             if ($post === null) {
@@ -103,7 +105,7 @@
             }
         }
 
-        public function exitResponseError() : void
+        public function exitResponseError(): void
         {
             header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
             header('Access-Control-Allow-Credentials: true');
@@ -112,8 +114,8 @@
             echo "HTTP/1.1 412 Wrong Response";
             exit;
         }
-        
-        public function exitProxyError() : void
+
+        public function exitProxyError(): void
         {
             header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
             header('Access-Control-Allow-Credentials: true');
@@ -122,8 +124,8 @@
             echo "HTTP/1.1 500 XapiProxy Error (Ask For Logs)";
             exit;
         }
-    
-        public function sendData(string $obj) : void
+
+        public function sendData(string $obj): void
         {
             $this->xapiproxy->log()->debug($this->msg("sendData: " . $obj));
             header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
@@ -135,8 +137,8 @@
             echo $obj;
             exit;
         }
-    
-        public function emit(\GuzzleHttp\Psr7\Response $response) : void
+
+        public function emit(\GuzzleHttp\Psr7\Response $response): void
         {
             $this->xapiproxy->log()->debug($this->msg('emitting response'));
             if (headers_sent()) {
@@ -150,7 +152,7 @@
 
             $reasonPhrase = $response->getReasonPhrase();
             $statusCode = $response->getStatusCode();
-            
+
             // header
             foreach ($response->getHeaders() as $header => $values) {
                 $name = ucwords($header, '-');
@@ -172,12 +174,12 @@
                 $statusCode,
                 ($reasonPhrase ? ' ' . $reasonPhrase : '')
             ), true, $statusCode);
-            
+
             // body
             echo $response->getBody();
         }
 
-        private function msg(string $msg) : string
+        private function msg(string $msg): string
         {
             return $this->xapiproxy->msg($msg);
         }

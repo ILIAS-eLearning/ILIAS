@@ -81,7 +81,7 @@ class ilSkillUsageTableGUI extends ilTable2GUI
 //		$this->addCommandButton("", $lng->txt(""));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $this->tpl->setVariable("TYPE_INFO", ilSkillUsage::getTypeInfoString($a_set["type"]));

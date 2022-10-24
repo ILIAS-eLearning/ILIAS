@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Tree;
 
 use ILIAS\UI\Component\Tree as ITree;
@@ -25,7 +27,7 @@ class Factory implements ITree\Factory
     /**
      * @inheritdoc
      */
-    public function node() : ITree\Node\Factory
+    public function node(): ITree\Node\Factory
     {
         return new Node\Factory();
     }
@@ -33,7 +35,7 @@ class Factory implements ITree\Factory
     /**
      * @inheritdoc
      */
-    public function expandable(string $label, ITree\TreeRecursion $recursion) : ITree\Expandable
+    public function expandable(string $label, ITree\TreeRecursion $recursion): ITree\Expandable
     {
         return new Expandable($label, $recursion);
     }

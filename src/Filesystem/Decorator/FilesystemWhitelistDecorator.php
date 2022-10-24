@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Decorator;
@@ -62,7 +63,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function hasDir(string $path) : bool
+    public function hasDir(string $path): bool
     {
         return $this->filesystem->hasDir($path);
     }
@@ -71,7 +72,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function listContents(string $path = '', bool $recursive = false) : array
+    public function listContents(string $path = '', bool $recursive = false): array
     {
         return $this->filesystem->listContents($path, $recursive);
     }
@@ -80,7 +81,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function createDir(string $path, string $visibility = Visibility::PUBLIC_ACCESS) : void
+    public function createDir(string $path, string $visibility = Visibility::PUBLIC_ACCESS): void
     {
         $this->filesystem->createDir($path, $visibility);
     }
@@ -89,7 +90,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function copyDir(string $source, string $destination) : void
+    public function copyDir(string $source, string $destination): void
     {
         $this->ensureDirectoryExistence($source);
         $this->ensureEmptyDirectory($destination);
@@ -116,7 +117,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function deleteDir(string $path) : void
+    public function deleteDir(string $path): void
     {
         $this->filesystem->deleteDir($path);
     }
@@ -125,7 +126,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function read(string $path) : string
+    public function read(string $path): string
     {
         return $this->filesystem->read($path);
     }
@@ -134,7 +135,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function has(string $path) : bool
+    public function has(string $path): bool
     {
         return $this->filesystem->has($path);
     }
@@ -143,7 +144,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function getMimeType(string $path) : string
+    public function getMimeType(string $path): string
     {
         return $this->filesystem->getMimeType($path);
     }
@@ -152,7 +153,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function getTimestamp(string $path) : \DateTimeImmutable
+    public function getTimestamp(string $path): \DateTimeImmutable
     {
         return $this->filesystem->getTimestamp($path);
     }
@@ -161,7 +162,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function getSize(string $path, int $fileSizeUnit) : DataSize
+    public function getSize(string $path, int $fileSizeUnit): DataSize
     {
         return $this->filesystem->getSize(
             $path,
@@ -173,7 +174,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function setVisibility(string $path, string $visibility) : bool
+    public function setVisibility(string $path, string $visibility): bool
     {
         return $this->filesystem->setVisibility(
             $this->sanitizer->sanitize($path),
@@ -185,7 +186,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function getVisibility(string $path) : string
+    public function getVisibility(string $path): string
     {
         return $this->filesystem->getVisibility($path);
     }
@@ -194,7 +195,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function readStream(string $path) : FileStream
+    public function readStream(string $path): FileStream
     {
         return $this->filesystem->readStream($path);
     }
@@ -203,7 +204,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function writeStream(string $path, FileStream $stream) : void
+    public function writeStream(string $path, FileStream $stream): void
     {
         $this->filesystem->writeStream($this->sanitizer->sanitize($path), $stream);
     }
@@ -212,7 +213,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function putStream(string $path, FileStream $stream) : void
+    public function putStream(string $path, FileStream $stream): void
     {
         $this->filesystem->putStream($this->sanitizer->sanitize($path), $stream);
     }
@@ -221,7 +222,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function updateStream(string $path, FileStream $stream) : void
+    public function updateStream(string $path, FileStream $stream): void
     {
         $this->filesystem->updateStream($this->sanitizer->sanitize($path), $stream);
     }
@@ -230,7 +231,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function write(string $path, string $content) : void
+    public function write(string $path, string $content): void
     {
         $this->filesystem->write($this->sanitizer->sanitize($path), $content);
     }
@@ -239,7 +240,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function update(string $path, string $new_content) : void
+    public function update(string $path, string $new_content): void
     {
         $this->filesystem->update($this->sanitizer->sanitize($path), $new_content);
     }
@@ -248,7 +249,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function put(string $path, string $content) : void
+    public function put(string $path, string $content): void
     {
         $this->filesystem->put($this->sanitizer->sanitize($path), $content);
     }
@@ -257,7 +258,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function delete(string $path) : void
+    public function delete(string $path): void
     {
         $this->filesystem->delete($path);
     }
@@ -266,7 +267,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function readAndDelete(string $path) : string
+    public function readAndDelete(string $path): string
     {
         return $this->filesystem->readAndDelete($path);
     }
@@ -275,7 +276,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function rename(string $path, string $new_path) : void
+    public function rename(string $path, string $new_path): void
     {
         $this->filesystem->rename(
             $path,
@@ -287,7 +288,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function copy(string $path, string $copy_path) : void
+    public function copy(string $path, string $copy_path): void
     {
         $this->filesystem->copy(
             $path,
@@ -303,7 +304,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
      *
      * @throws IOException Thrown if the metadata of the path can not be fetched.
      */
-    private function ensureEmptyDirectory(string $path) : void
+    private function ensureEmptyDirectory(string $path): void
     {
 
         //check if destination dir is empty
@@ -326,7 +327,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
      *
      * @throws DirectoryNotFoundException Thrown if the directory was not found.
      */
-    private function ensureDirectoryExistence(string $path) : void
+    private function ensureDirectoryExistence(string $path): void
     {
         if (!$this->hasDir($path)) {
             throw new DirectoryNotFoundException("Directory \"$path\" not found.");
@@ -336,7 +337,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function finder() : Finder
+    public function finder(): Finder
     {
         return $this->filesystem->finder();
     }

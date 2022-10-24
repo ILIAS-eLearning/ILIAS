@@ -53,7 +53,7 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
         $this->setTitle($lng->txt("cont_mob_usages"));
     }
 
-    public function getItems() : void
+    public function getItems(): void
     {
         $usages = $this->page->getUsages($this->incl_hist);
 
@@ -71,7 +71,7 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
                     $repo_tree = $this->repo_tree;
                     $ref_ids = array_filter(
                         ilObject::_getAllReferences($page_obj->getRepoObjId()),
-                        static function ($ref_id) use ($repo_tree) : bool {
+                        static function ($ref_id) use ($repo_tree): bool {
                             return $repo_tree->isInTree($ref_id);
                         }
                     );
@@ -102,7 +102,7 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
         $this->setData($agg_usages);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $usage = $a_set;
@@ -248,7 +248,7 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
         }
     }
 
-    public function getFirstWritableRefId(int $a_obj_id) : int
+    public function getFirstWritableRefId(int $a_obj_id): int
     {
         $ilAccess = $this->access;
 

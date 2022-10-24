@@ -1,16 +1,23 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
 
 /**
  * Class class.ilRegistrationAccessLimitation
@@ -34,7 +41,7 @@ class ilRegistrationRoleAccessLimitations
         $this->read();
     }
 
-    private function read() : void
+    private function read(): void
     {
         $query = "SELECT * FROM reg_access_limit ";
         $res = $this->db->query($query);
@@ -49,7 +56,7 @@ class ilRegistrationRoleAccessLimitations
         }
     }
 
-    public function save() : bool
+    public function save(): bool
     {
         foreach ($this->access_limitations as $key => $data) {
             $limit_value = "";
@@ -73,7 +80,7 @@ class ilRegistrationRoleAccessLimitations
         return true;
     }
 
-    public function validate() : int
+    public function validate(): int
     {
         foreach ($this->access_limitations as $data) {
             if ($data['mode'] === "null") {
@@ -91,38 +98,38 @@ class ilRegistrationRoleAccessLimitations
         return 0;
     }
 
-    public function getMode(int $a_role_id) : string
+    public function getMode(int $a_role_id): string
     {
         return isset($this->access_limitations[$a_role_id]) ? $this->access_limitations[$a_role_id]['mode'] : 'null';
     }
 
-    public function setMode(string $a_mode, int $a_role_id) : void
+    public function setMode(string $a_mode, int $a_role_id): void
     {
         $this->access_limitations[$a_role_id]['mode'] = $a_mode;
     }
 
-    public function getAbsolute(int $a_role_id) : int
+    public function getAbsolute(int $a_role_id): int
     {
         return $this->access_limitations[$a_role_id] ? $this->access_limitations[$a_role_id]['absolute'] : time();
     }
 
-    public function setAbsolute(string $date, int $a_role_id) : void
+    public function setAbsolute(string $date, int $a_role_id): void
     {
         $this->access_limitations[$a_role_id]['absolute'] = strtotime($date);
     }
 
-    public function getRelative(int $a_role_id, string $a_type) : int
+    public function getRelative(int $a_role_id, string $a_type): int
     {
         return $this->access_limitations[$a_role_id] ? $this->access_limitations[$a_role_id]['relative_' . $a_type] : 0;
     }
 
-    public function setRelative(array $a_arr, int $a_role_id) : void
+    public function setRelative(array $a_arr, int $a_role_id): void
     {
         $this->access_limitations[$a_role_id]['relative_d'] = $a_arr['dd'];
         $this->access_limitations[$a_role_id]['relative_m'] = $a_arr['MM'];
     }
 
-    public function resetAccessLimitations() : void
+    public function resetAccessLimitations(): void
     {
         $this->access_limitations = [];
     }

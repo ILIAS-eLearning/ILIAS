@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Course XML Parser
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -69,7 +71,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     /**
      * @inheritDoc
      */
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         $this->sax_controller->setHandlers($a_xml_parser);
         $this->sax_controller->setDefaultElementHandler($this);
@@ -82,7 +84,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     /**
      * @inheritDoc
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         if ($this->in_meta_data) {
             parent::handlerBeginTag($a_xml_parser, $a_name, $a_attribs);
@@ -279,7 +281,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         }
     }
 
-    public function __parseId($a_id) : array
+    public function __parseId($a_id): array
     {
         $fields = explode('_', $a_id);
 
@@ -308,7 +310,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     /**
      * attach or detach admin from course member
      */
-    private function handleAdmin(array $a_attribs, array $id_data) : void
+    private function handleAdmin(array $a_attribs, array $id_data): void
     {
         if (!isset($a_attribs['action']) || $a_attribs['action'] == 'Attach') {
             // if action not set, or attach
@@ -347,7 +349,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         }
     }
 
-    private function handleTutor(array $a_attribs, array $id_data) : void
+    private function handleTutor(array $a_attribs, array $id_data): void
     {
         if (!isset($a_attribs['action']) || $a_attribs['action'] == 'Attach') {
             // if action not set, or attach
@@ -388,7 +390,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     /**
      * attach or detach user/member/admin from course member
      */
-    private function handleMember(array $a_attribs, array $id_data) : void
+    private function handleMember(array $a_attribs, array $id_data): void
     {
         if (!isset($a_attribs['action']) || $a_attribs['action'] == 'Attach') {
             // if action not set, or set and attach
@@ -420,7 +422,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     /**
      * attach or detach members from subscribers
      */
-    private function handleSubscriber(array $a_attribs, array $id_data) : void
+    private function handleSubscriber(array $a_attribs, array $id_data): void
     {
         if (!isset($a_attribs['action']) || $a_attribs['action'] == 'Attach') {
             // if action not set, or attach
@@ -438,7 +440,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     /**
      * attach or detach members from waitinglist
      */
-    private function handleWaitingList(array $a_attribs, array $id_data) : void
+    private function handleWaitingList(array $a_attribs, array $id_data): void
     {
         if (!isset($a_attribs['action']) || $a_attribs['action'] == 'Attach') {
             // if action not set, or attach
@@ -456,7 +458,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     /**
      * @inheritDoc
      */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         if ($this->in_meta_data) {
             parent::handlerEndTag($a_xml_parser, $a_name);
@@ -607,7 +609,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 
     // PRIVATE
 
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         // call meta data handler
         if ($this->in_meta_data) {

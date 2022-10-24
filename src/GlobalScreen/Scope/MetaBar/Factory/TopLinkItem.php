@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -30,7 +32,7 @@ class TopLinkItem extends AbstractBaseItem implements isItem, hasTitle, hasSymbo
     protected ?Symbol $symbol = null;
     protected string $title = "";
     protected string $action = "";
-    
+
     /**
      * @inheritDoc
      */
@@ -39,65 +41,65 @@ class TopLinkItem extends AbstractBaseItem implements isItem, hasTitle, hasSymbo
         parent::__construct($provider_identification);
         $this->renderer = new TopLinkItemRenderer();
     }
-    
-    public function withAction(string $action) : self
+
+    public function withAction(string $action): self
     {
         $clone = clone($this);
         $clone->action = $action;
-        
+
         return $clone;
     }
-    
+
     /**
      * @return string
      */
-    public function getAction() : string
+    public function getAction(): string
     {
         return $this->action;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function withSymbol(Symbol $symbol) : hasSymbol
+    public function withSymbol(Symbol $symbol): hasSymbol
     {
         $clone = clone($this);
         $clone->symbol = $symbol;
-        
+
         return $clone;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getSymbol() : Symbol
+    public function getSymbol(): Symbol
     {
         return $this->symbol;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function hasSymbol() : bool
+    public function hasSymbol(): bool
     {
         return ($this->symbol instanceof Symbol);
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function withTitle(string $title) : hasTitle
+    public function withTitle(string $title): hasTitle
     {
         $clone = clone($this);
         $clone->title = $title;
-        
+
         return $clone;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }

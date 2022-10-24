@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -37,7 +39,7 @@ class ilSCORMTrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
     /**
      * @throws ilCtrlException
      */
-    public function parse(string $userSelected, string $report, array $reports) : void
+    public function parse(string $userSelected, string $report, array $reports): void
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -47,7 +49,7 @@ class ilSCORMTrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
         $this->form->setFormAction($ilCtrl->getFormAction($this->parent_obj));
 
         $options = array("all" => $lng->txt("all"));
-        $users = ilTrQuery::getParticipantsForObject($this->parent_obj->object->getRefID());
+        $users = ilTrQuery::getParticipantsForObject($this->parent_obj->getRefId());
         $privacy = ilPrivacySettings::getInstance();
         $allowExportPrivacy = $privacy->enabledExportSCORM();
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -95,7 +97,7 @@ class ilInfoScreenGUI
      * @throws ilDateTimeException
      * @throws ilObjectNotFoundException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $tpl = $this->tpl;
 
@@ -103,7 +105,7 @@ class ilInfoScreenGUI
 
         $cmd = $this->ctrl->getCmd("showSummary");
         $this->ctrl->setReturn($this, "showSummary");
-        
+
         $this->setTabs();
 
         switch ($next_class) {
@@ -125,60 +127,60 @@ class ilInfoScreenGUI
                 $html = $this->ctrl->forwardCommand($user_profile);
                 $tpl->setContent($html);
                 break;
-            
+
             case "ilcommonactiondispatchergui":
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;
-                
+
             default:
                 $this->$cmd();
                 break;
         }
     }
 
-    public function setTableClass(string $a_val) : void
+    public function setTableClass(string $a_val): void
     {
         $this->table_class = $a_val;
     }
-    
-    public function getTableClass() : string
+
+    public function getTableClass(): string
     {
         return $this->table_class;
     }
-    
-    public function enablePrivateNotes(bool $a_enable = true) : void
+
+    public function enablePrivateNotes(bool $a_enable = true): void
     {
         $this->private_notes_enabled = $a_enable;
     }
 
-    public function enableLearningProgress(bool $a_enable = true) : void
+    public function enableLearningProgress(bool $a_enable = true): void
     {
         $this->learning_progress_enabled = $a_enable;
     }
 
-    public function enableAvailability(bool $a_enable = true) : void
+    public function enableAvailability(bool $a_enable = true): void
     {
         $this->availability_enabled = $a_enable;
     }
 
-    public function enableBookingInfo(bool $a_enable = true) : void
+    public function enableBookingInfo(bool $a_enable = true): void
     {
         $this->booking_enabled = $a_enable;
     }
 
 
-    public function enableFeedback(bool $a_enable = true) : void
+    public function enableFeedback(bool $a_enable = true): void
     {
         $this->feedback_enabled = $a_enable;
     }
 
-    public function enableNews(bool $a_enable = true) : void
+    public function enableNews(bool $a_enable = true): void
     {
         $this->news_enabled = $a_enable;
     }
 
-    public function enableNewsEditing(bool $a_enable = true) : void
+    public function enableNewsEditing(bool $a_enable = true): void
     {
         $this->news_editing = $a_enable;
     }
@@ -187,29 +189,29 @@ class ilInfoScreenGUI
     * This function is supposed to be used for block type specific
     * properties, that should be passed to ilBlockGUI->setProperty
     */
-    public function setBlockProperty(string $a_block_type, string $a_property, string $a_value) : void
+    public function setBlockProperty(string $a_block_type, string $a_property, string $a_value): void
     {
         $this->block_property[$a_block_type][$a_property] = $a_value;
     }
-    
-    public function getAllBlockProperties() : array
+
+    public function getAllBlockProperties(): array
     {
         return $this->block_property;
     }
 
-    public function addSection(string $a_title) : void
+    public function addSection(string $a_title): void
     {
         $this->sec_nr++;
         $this->section[$this->sec_nr]["title"] = $a_title;
         $this->section[$this->sec_nr]["hidden"] = $this->hidden;
     }
 
-    public function setFormAction(string $a_form_action) : void
+    public function setFormAction(string $a_form_action): void
     {
         $this->form_action = $a_form_action;
     }
 
-    public function removeFormAction() : void
+    public function removeFormAction(): void
     {
         $this->form_action = "";
     }
@@ -221,7 +223,7 @@ class ilInfoScreenGUI
     * @param	string	$a_value	property value
     * @param	string	$a_link		link (will link the property value string)
     */
-    public function addProperty(string $a_name, string $a_value, string $a_link = "") : void
+    public function addProperty(string $a_name, string $a_value, string $a_link = ""): void
     {
         $this->section[$this->sec_nr]["properties"][] =
             array("name" => $a_name, "value" => $a_value,
@@ -237,7 +239,7 @@ class ilInfoScreenGUI
         string $a_checkbox_value,
         string $a_checkbox_label = "",
         bool $a_checkbox_checked = false
-    ) : void {
+    ): void {
         $checkbox = "<input type=\"checkbox\" name=\"$a_checkbox_name\" value=\"$a_checkbox_value\" id=\"$a_checkbox_name$a_checkbox_value\"";
         if ($a_checkbox_checked) {
             $checkbox .= " checked=\"checked\"";
@@ -261,7 +263,7 @@ class ilInfoScreenGUI
         string $direct_button_command = "",
         string $direct_button_label = "",
         bool $direct_button_primary = false
-    ) : void {
+    ): void {
         $input = "<span class=\"form-inline\"><input class=\"form-control\" type=\"text\" name=\"$a_input_name\" id=\"$a_input_name\"";
         if (strlen($a_input_value)) {
             $input .= " value=\"" . ilLegacyFormElementsUtil::prepareFormOutput($a_input_value) . "\"";
@@ -291,7 +293,7 @@ class ilInfoScreenGUI
         string $a_frame = "",
         string $a_position = "top",
         bool $a_primary = false
-    ) : void {
+    ): void {
         if ($a_position == "top") {
             $this->top_buttons[] =
                 array("title" => $a_title,"link" => $a_link,"target" => $a_frame,"primary" => $a_primary);
@@ -306,18 +308,18 @@ class ilInfoScreenGUI
         string $a_command,
         string $a_title,
         string $a_position = "top"
-    ) : void {
+    ): void {
         if ($a_position == "top") {
             $this->top_formbuttons[] = array("command" => $a_command, "title" => $a_title);
         }
     }
 
-    public function addHiddenElement(string $a_name, string $a_value) : void
+    public function addHiddenElement(string $a_name, string $a_value): void
     {
         $this->hiddenelements[] = array("name" => $a_name, "value" => $a_value);
     }
 
-    public function addMetaDataSections(int $a_rep_obj_id, int $a_obj_id, string $a_type) : void
+    public function addMetaDataSections(int $a_rep_obj_id, int $a_obj_id, string $a_type): void
     {
         $lng = $this->lng;
 
@@ -438,7 +440,7 @@ class ilInfoScreenGUI
      * @throws ilDateTimeException
      * @throws ilObjectNotFoundException
      */
-    public function addObjectSections() : void
+    public function addObjectSections(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -454,13 +456,13 @@ class ilInfoScreenGUI
 
         $this->addSection($lng->txt("additional_info"));
         $a_obj = $this->gui_object->getObject();
-                
+
         // links to the object
         if (is_object($a_obj)) {
             // permanent link
             $type = $a_obj->getType();
             $ref_id = $a_obj->getRefId();
-            
+
             if ($ref_id) {
                 if (ilECSServerSettings::getInstance()->activeServerExists()) {
                     $this->addProperty(
@@ -499,8 +501,8 @@ class ilInfoScreenGUI
                 }
             }
         }
-                
-                
+
+
         // creation date
         if ($ilAccess->checkAccess("edit_permissions", "", $ref_id)) {
             $this->addProperty(
@@ -593,7 +595,7 @@ class ilInfoScreenGUI
      * @throws ilDateTimeException
      * @throws ilObjectNotFoundException
      */
-    public function showSummary() : void
+    public function showSummary(): void
     {
         $tpl = $this->tpl;
 
@@ -609,7 +611,7 @@ class ilInfoScreenGUI
      * @throws ilDateTimeException
      * @throws ilObjectNotFoundException
      */
-    public function getCenterColumnHTML() : string
+    public function getCenterColumnHTML(): string
     {
         $ilCtrl = $this->ctrl;
         $html = "";
@@ -634,7 +636,7 @@ class ilInfoScreenGUI
                 $html = $this->getHTML();
             }
         }
-        
+
         return $html;
     }
 
@@ -642,7 +644,7 @@ class ilInfoScreenGUI
      * @return string
      * @throws ilCtrlException
      */
-    public function getRightColumnHTML() : string
+    public function getRightColumnHTML(): string
     {
         $ilCtrl = $this->ctrl;
 
@@ -664,19 +666,19 @@ class ilInfoScreenGUI
     /**
     * Set column settings.
     */
-    public function setColumnSettings(ilColumnGUI $column_gui) : void
+    public function setColumnSettings(ilColumnGUI $column_gui): void
     {
         $column_gui->setEnableEdit($this->news_editing);
         $column_gui->setRepositoryMode(true);
         $column_gui->setAllBlockProperties($this->getAllBlockProperties());
     }
-    
-    public function setOpenFormTag(bool $a_val) : void
+
+    public function setOpenFormTag(bool $a_val): void
     {
         $this->open_form_tag = $a_val;
     }
 
-    public function setCloseFormTag(bool $a_val) : void
+    public function setCloseFormTag(bool $a_val): void
     {
         $this->close_form_tag = $a_val;
     }
@@ -688,20 +690,20 @@ class ilInfoScreenGUI
      * @throws ilDateTimeException
      * @throws ilObjectNotFoundException
      */
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $lng = $this->lng;
         $ilSetting = $this->settings;
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
-        
+
         $tpl = new ilTemplate("tpl.infoscreen.html", true, true, "Services/InfoScreen");
 
         // other class handles form action (@todo: this is not implemented/tested)
         if ($this->form_action == "") {
             $this->setFormAction($ilCtrl->getFormAction($this));
         }
-        
+
         iljQueryUtil::initjQuery();
 
         if ($this->hidden) {
@@ -710,10 +712,10 @@ class ilInfoScreenGUI
                 $this->addButton($lng->txt("show_hidden_sections"), "JavaScript:toggleSections(this, '" . $lng->txt("show_hidden_sections") . "', '" . $lng->txt("hide_visible_sections") . "');");
             }
         }
-        
-        
+
+
         // DEPRECATED - use ilToolbarGUI
-        
+
         // add top buttons
         if (count($this->top_buttons) > 0) {
             $tpl->addBlockFile("TOP_BUTTONS", "top_buttons", "tpl.buttons.html");
@@ -751,7 +753,7 @@ class ilInfoScreenGUI
                 $tpl->setVariable("FORMACTION", $this->form_action);
                 $tpl->parseCurrentBlock();
             }
-            
+
             if ($this->close_form_tag) {
                 $tpl->touchBlock("formbottom");
             }
@@ -840,7 +842,7 @@ class ilInfoScreenGUI
         return $tpl->get();
     }
 
-    public function getContextRefId() : int
+    public function getContextRefId(): int
     {
         if ($this->contextRefId !== null) {
             return $this->contextRefId;
@@ -849,12 +851,12 @@ class ilInfoScreenGUI
         return $this->gui_object->getObject()->getRefId();
     }
 
-    public function setContextRefId(int $contextRefId) : void
+    public function setContextRefId(int $contextRefId): void
     {
         $this->contextRefId = $contextRefId;
     }
 
-    public function getContextObjId() : int
+    public function getContextObjId(): int
     {
         if ($this->contextObjId !== null) {
             return $this->contextObjId;
@@ -863,12 +865,12 @@ class ilInfoScreenGUI
         return $this->gui_object->getObject()->getId();
     }
 
-    public function setContextObjId(int $contextObjId) : void
+    public function setContextObjId(int $contextObjId): void
     {
         $this->contextObjId = $contextObjId;
     }
 
-    public function getContentObjType() : string
+    public function getContentObjType(): string
     {
         if ($this->contentObjType !== null) {
             return $this->contentObjType;
@@ -877,7 +879,7 @@ class ilInfoScreenGUI
         return $this->gui_object->getObject()->getType();
     }
 
-    public function setContentObjType(string $contentObjType) : void
+    public function setContentObjType(string $contentObjType): void
     {
         $this->contentObjType = $contentObjType;
     }
@@ -886,7 +888,7 @@ class ilInfoScreenGUI
      * @param ilTemplate $a_tpl
      * @throws ilDateTimeException
      */
-    public function showLearningProgress(ilTemplate $a_tpl) : void
+    public function showLearningProgress(ilTemplate $a_tpl): void
     {
         return;
 
@@ -903,7 +905,7 @@ class ilInfoScreenGUI
         if (!ilObjUserTracking::_enabledLearningProgress()) {
             return;
         }
-            
+
         $olp = ilObjectLP::getInstance($this->getContextObjId());
         if ($olp->getCurrentMode() != ilLPObjSettings::LP_MODE_MANUAL) {
             return;
@@ -920,7 +922,7 @@ class ilInfoScreenGUI
         $a_tpl->parseCurrentBlock();
     }
 
-    public function saveProgress(bool $redirect = true) : void
+    public function saveProgress(bool $redirect = true): void
     {
         $ilUser = $this->user;
 
@@ -943,7 +945,7 @@ class ilInfoScreenGUI
      * @return string
      * @throws ilCtrlException
      */
-    public function showNotesSection() : string
+    public function showNotesSection(): string
     {
         global $DIC;
 
@@ -958,18 +960,18 @@ class ilInfoScreenGUI
             $this->gui_object->getObject()->getType()
         );
         $notes_gui->setUseObjectTitleHeader(false);
-        
+
         // global switch
         if ($ilSetting->get("disable_comments")) {
             $notes_gui->enablePublicNotes(false);
         } else {
             $ref_id = $this->gui_object->getObject()->getRefId();
             $has_write = $ilAccess->checkAccess("write", "", $ref_id);
-            
+
             if ($has_write && $ilSetting->get("comments_del_tutor", "1")) {
                 $notes_gui->enablePublicNotesDeletion();
             }
-            
+
             /* should probably be discussed further
             for now this will only work properly with comments settings
             (see ilNoteGUI constructor)
@@ -996,7 +998,7 @@ class ilInfoScreenGUI
     /**
      * @param string $a_section section name. Leave empty to place this info string inside a section
      */
-    public function showLDAPRoleGroupMappingInfo(string $a_section = '') : void
+    public function showLDAPRoleGroupMappingInfo(string $a_section = ''): void
     {
         if (strlen($a_section)) {
             $this->addSection($a_section);
@@ -1016,12 +1018,12 @@ class ilInfoScreenGUI
         }
     }
 
-    public function setTabs() : void
+    public function setTabs(): void
     {
         $this->getTabs($this->tabs_gui);
     }
 
-    public function getTabs(ilTabsGUI $tabs_gui) : void
+    public function getTabs(ilTabsGUI $tabs_gui): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $force_active = ($next_class == "ilnotegui");
@@ -1036,8 +1038,8 @@ class ilInfoScreenGUI
         );
     }
 
-    
-    public function addTagging() : void
+
+    public function addTagging(): void
     {
         $lng = $this->lng;
 
@@ -1049,23 +1051,23 @@ class ilInfoScreenGUI
             $this->gui_object->getObject()->getId(),
             $this->gui_object->getObject()->getType()
         );
-        
+
         $this->addSection($lng->txt("tagging_tags"));
-        
+
         if ($tags_set->get("enable_all_users")) {
             $this->addProperty(
                 $lng->txt("tagging_all_users"),
                 $tagging_gui->getAllUserTagsForObjectHTML()
             );
         }
-        
+
         $this->addProperty(
             $lng->txt("tagging_my_tags"),
             $tagging_gui->getTaggingInputHTML()
         );
     }
-    
-    public function saveTags() : void
+
+    public function saveTags(): void
     {
         $tagging_gui = new ilTaggingGUI();
         $tagging_gui->setObject(
@@ -1078,16 +1080,16 @@ class ilInfoScreenGUI
         $this->ctrl->redirect($this, ""); // #14993
     }
 
-    public function hideFurtherSections(bool $a_add_toggle = true) : void
+    public function hideFurtherSections(bool $a_add_toggle = true): void
     {
         $this->hidden = true;
         $this->show_hidden_toggle = $a_add_toggle;
     }
 
-    public function getHiddenToggleButton() : string
+    public function getHiddenToggleButton(): string
     {
         $lng = $this->lng;
-        
+
         return "<a onClick=\"toggleSections(this, '" . $lng->txt("show_hidden_sections") . "', '" . $lng->txt("hide_visible_sections") . "'); return false;\" href=\"#\">" . $lng->txt("show_hidden_sections") . "</a>";
     }
 
@@ -1096,7 +1098,7 @@ class ilInfoScreenGUI
      * @throws ilDatabaseException
      * @throws ilDateTimeException
      */
-    protected function addAvailability() : void
+    protected function addAvailability(): void
     {
         if (
             !is_object($this->gui_object) ||
@@ -1123,7 +1125,7 @@ class ilInfoScreenGUI
     /**
      * Add preconditions
      */
-    protected function addPreconditions() : void
+    protected function addPreconditions(): void
     {
         if (
             !is_object($this->gui_object) ||
@@ -1156,7 +1158,7 @@ class ilInfoScreenGUI
         ilObject $obj,
         array $conditions,
         bool $obligatory = true
-    ) : void {
+    ): void {
         $lng = $this->lng;
         $tree = $this->tree;
 
@@ -1232,7 +1234,7 @@ class ilInfoScreenGUI
      * @throws ilDatabaseException
      * @throws ilDateTimeException
      */
-    public function addAccessPeriodProperty() : void
+    public function addAccessPeriodProperty(): void
     {
         $a_obj = $this->gui_object->getObject();
 

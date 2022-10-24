@@ -56,12 +56,12 @@ class ilDownloadContainerFilesBackgroundTask
         $this->lng = $DIC->language();
     }
 
-    public function setBucketTitle(string $a_title) : void
+    public function setBucketTitle(string $a_title): void
     {
         $this->bucket_title = $a_title;
     }
 
-    public function getBucketTitle() : string
+    public function getBucketTitle(): string
     {
         //TODO: fix ilUtil zip stuff
         // Error If name starts "-"
@@ -74,7 +74,7 @@ class ilDownloadContainerFilesBackgroundTask
     }
 
 
-    public function run() : bool
+    public function run(): bool
     {
         // This is our Bucket
         $this->logger->info('Started download container files background task');

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ class ilLDAPServerTableGUI extends ilTable2GUI
     public function __construct(?object $a_parent_obj, string $a_parent_cmd = "", string $a_template_context = "")
     {
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
-        
+
         global $DIC;
         $this->rbacSystem = $DIC->rbac()->system();
 
@@ -40,7 +42,7 @@ class ilLDAPServerTableGUI extends ilTable2GUI
             );
         }
         $this->setId('ldap_server_list');
-        
+
         $this->setTitle($this->lng->txt('ldap_servers'));
         $this->setRowTemplate('tpl.ldap_server_row.html', 'Services/LDAP');
 
@@ -48,11 +50,11 @@ class ilLDAPServerTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('title'), '', '80%');
         $this->addColumn($this->lng->txt('user'), "", "4%");
         $this->addColumn($this->lng->txt('actions'), '', '15%');
-        
+
         $this->importData();
     }
-    
-    private function importData() : void
+
+    private function importData(): void
     {
         $data = ilLDAPServer::_getAllServer();
         $this->setData($data);
@@ -61,7 +63,7 @@ class ilLDAPServerTableGUI extends ilTable2GUI
     /**
      * @throws ilCtrlException
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($a_set['active']) {
             $this->tpl->setVariable('IMAGE_OK', ilUtil::getImagePath('icon_ok.svg'));
@@ -70,16 +72,16 @@ class ilLDAPServerTableGUI extends ilTable2GUI
             $this->tpl->setVariable('IMAGE_OK', ilUtil::getImagePath('icon_not_ok.svg'));
             $this->tpl->setVariable('TXT_OK', $this->lng->txt('inactive'));
         }
-        
+
         $this->tpl->setVariable('VAL_TITLE', $a_set["name"]);
-        
+
         //user
         $user = count(ilObjUser::_getExternalAccountsByAuthMode("ldap_" . $a_set["server_id"]));
         $this->tpl->setVariable('VAL_USER', $user);
-        
+
         $this->ctrl->setParameter($this->getParentObject(), 'ldap_server_id', $a_set['server_id']);
         $this->tpl->setVariable('EDIT_LINK', $this->ctrl->getLinkTarget($this->getParentObject(), 'editServerSettings'));
-        
+
         //actions
         if ($this->rbacSystem->checkAccess("write", $this->ref_id)) {
             $list = new ilAdvancedSelectionListGUI();

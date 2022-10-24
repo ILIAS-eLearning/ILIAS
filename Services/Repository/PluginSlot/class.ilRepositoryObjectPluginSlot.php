@@ -24,7 +24,7 @@
 class ilRepositoryObjectPluginSlot
 {
     // Adds objects that can be created to the add new object list array
-    public static function addCreatableSubObjects(array $a_obj_array) : array
+    public static function addCreatableSubObjects(array $a_obj_array): array
     {
         global $DIC;
 
@@ -37,12 +37,12 @@ class ilRepositoryObjectPluginSlot
 
         return $a_obj_array;
     }
-    
+
     // Checks whether a repository type is a plugin or not
     public static function isTypePlugin(
         string $a_type,
         bool $a_active_status = true
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $component_repository = $DIC["component.repository"];
@@ -58,22 +58,21 @@ class ilRepositoryObjectPluginSlot
         $plugin = $component_repository->getPluginById($a_type);
         return $plugin->isActive();
     }
-    
+
     // Check whether a repository type is a plugin which has active learning progress
     public static function isTypePluginWithLP(
         string $a_type,
         bool $a_active_status = true
-    ) : bool {
+    ): bool {
         global $DIC;
         $component_repository = $DIC["component.repository"];
 
         if (!$component_repository->hasPluginId($a_type)) {
             return false;
         }
-
         $slot = $component_repository->getPluginSlotById("robj");
-        if ($slot->hasPluginName($a_type)) {
-            $plugin = $slot->getPluginByName($a_type);
+        if ($slot->hasPluginId($a_type)) {
+            $plugin = $slot->getPluginById($a_type);
             if (!$a_active_status || $plugin->isActive()) {
                 if ($plugin->supportsLearningProgress()) {
                     return true;

@@ -97,7 +97,7 @@ class ilMStShowUserCoursesGUI
         }
     }
 
-    protected function index() : void
+    protected function index(): void
     {
         $this->listUsers();
     }
@@ -114,7 +114,7 @@ class ilMStShowUserCoursesGUI
         $DIC->ui()->mainTemplate()->setContent($this->table->getHTML());
     }
 
-    protected function applyFilter() : void
+    protected function applyFilter(): void
     {
         $this->table = new ilMStShowUserCoursesTableGUI($this, self::CMD_APPLY_FILTER);
         $this->table->writeFilterToSession();
@@ -122,7 +122,7 @@ class ilMStShowUserCoursesGUI
         $this->index();
     }
 
-    protected function resetFilter() : void
+    protected function resetFilter(): void
     {
         $this->table = new ilMStShowUserCoursesTableGUI($this, self::CMD_RESET_FILTER);
         $this->table->resetOffset();
@@ -130,20 +130,20 @@ class ilMStShowUserCoursesGUI
         $this->index();
     }
 
-    final public function getId() : string
+    final public function getId(): string
     {
         $this->table = new ilMStShowUserCoursesTableGUI($this, self::CMD_INDEX);
 
         return $this->table->getId();
     }
 
-    final public function cancel() : void
+    final public function cancel(): void
     {
         global $DIC;
         $DIC->ctrl()->redirect($this);
     }
 
-    final public function getActions() : void
+    final public function getActions(): void
     {
         global $DIC;
 

@@ -1,8 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssSpecificFeedbackIdentifier.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilAssClozeTestFeedbackIdMap
@@ -18,16 +30,16 @@ class ilAssSpecificFeedbackIdentifierList implements Iterator
      * @var ilAssSpecificFeedbackIdentifier[]
      */
     protected array $map = array();
-    
-    protected function add(ilAssSpecificFeedbackIdentifier $identifier) : void
+
+    protected function add(ilAssSpecificFeedbackIdentifier $identifier): void
     {
         $this->map[] = $identifier;
     }
-    
-    public function load(int $questionId) : void
+
+    public function load(int $questionId): void
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         $res = $DIC->database()->queryF(
             "SELECT feedback_id, question, answer FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
             array('integer'),
@@ -36,14 +48,14 @@ class ilAssSpecificFeedbackIdentifierList implements Iterator
 
         while ($row = $DIC->database()->fetchAssoc($res)) {
             $identifier = new ilAssSpecificFeedbackIdentifier();
-            
+
             $identifier->setQuestionId($questionId);
-            
+
             $identifier->setQuestionIndex($row['question']);
             $identifier->setAnswerIndex($row['answer']);
-            
+
             $identifier->setFeedbackId($row['feedback_id']);
-            
+
             $this->add($identifier);
         }
     }
@@ -65,8 +77,8 @@ class ilAssSpecificFeedbackIdentifierList implements Iterator
     {
         return key($this->map);
     }
-    
-    public function valid() : bool
+
+    public function valid(): bool
     {
         return key($this->map) !== null;
     }
@@ -76,8 +88,8 @@ class ilAssSpecificFeedbackIdentifierList implements Iterator
     {
         return reset($this->map);
     }
-    
-    protected function getSpecificFeedbackTableName() : string
+
+    protected function getSpecificFeedbackTableName(): string
     {
         require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssClozeTestFeedback.php';
         return ilAssClozeTestFeedback::TABLE_NAME_SPECIFIC_FEEDBACK;

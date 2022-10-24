@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 
 use ILIAS\Filesystem\Stream\Streams;
@@ -36,7 +38,7 @@ class ilCtrlAwareStorageUploadHandler extends AbstractCtrlAwareUploadHandler
 {
     protected ResourceStakeholder $stakeholder;
     protected \ILIAS\ResourceStorage\Services $storage;
-    
+
     public function __construct(ResourceStakeholder $stakeholder)
     {
         global $DIC;
@@ -49,15 +51,15 @@ class ilCtrlAwareStorageUploadHandler extends AbstractCtrlAwareUploadHandler
             $this->stakeholder = $stakeholder;
         }
     }
-    
-    protected function getUploadResult() : HandlerResult
+
+    protected function getUploadResult(): HandlerResult
     {
         $this->upload->register(new ilCountPDFPagesPreProcessors());
         $this->upload->process();
-        
+
         $result_array = $this->upload->getResults();
         $result = end($result_array);
-        
+
         if ($result instanceof UploadResult && $result->isOK()) {
             $identifier = $this->storage->manage()->upload($result, $this->stakeholder)->serialize();
             $status = HandlerResult::STATUS_OK;
@@ -67,11 +69,11 @@ class ilCtrlAwareStorageUploadHandler extends AbstractCtrlAwareUploadHandler
             $status = HandlerResult::STATUS_FAILED;
             $message = $result->getStatus()->getMessage();
         }
-        
+
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
     }
-    
-    protected function getRemoveResult(string $identifier) : HandlerResult
+
+    protected function getRemoveResult(string $identifier): HandlerResult
     {
         if (null !== ($id = $this->storage->manage()->find($identifier))) {
             $this->storage->manage()->remove($id, $this->stakeholder);
@@ -81,11 +83,11 @@ class ilCtrlAwareStorageUploadHandler extends AbstractCtrlAwareUploadHandler
             $status = HandlerResult::STATUS_OK;
             $message = "file with identifier '$identifier' doesn't exist, nothing to do.";
         }
-        
+
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
     }
-    
-    public function getInfoResult(string $identifier) : ?FileInfoResult
+
+    public function getInfoResult(string $identifier): ?FileInfoResult
     {
         if (null !== ($id = $this->storage->manage()->find($identifier))) {
             $revision = $this->storage->manage()->getCurrentRevision($id)->getInformation();
@@ -96,17 +98,17 @@ class ilCtrlAwareStorageUploadHandler extends AbstractCtrlAwareUploadHandler
             $title = $mime = 'unknown';
             $size = 0;
         }
-        
+
         return new BasicFileInfoResult($this->getFileIdentifierParameterName(), $identifier, $title, $size, $mime);
     }
-    
-    public function getInfoForExistingFiles(array $file_ids) : array
+
+    public function getInfoForExistingFiles(array $file_ids): array
     {
         $info_results = [];
         foreach ($file_ids as $identifier) {
             $info_results[] = $this->getInfoResult($identifier);
         }
-        
+
         return $info_results;
     }
 }

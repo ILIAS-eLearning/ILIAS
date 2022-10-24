@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -46,9 +48,9 @@ function setup_exit($message)
     }
 }
 
-function build_container_for_setup(string $executed_in_directory) : \Pimple\Container
+function build_container_for_setup(string $executed_in_directory): \Pimple\Container
 {
-    $c = new \Pimple\Container;
+    $c = new \Pimple\Container();
 
     $c["app"] = function ($c) {
         return new \ILIAS\Setup\CLI\App(

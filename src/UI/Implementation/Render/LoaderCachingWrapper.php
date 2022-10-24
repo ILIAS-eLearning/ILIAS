@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Render;
 
 use ILIAS\UI\Component\Component;
@@ -42,7 +44,7 @@ class LoaderCachingWrapper implements Loader
     /**
      * @inheritdocs
      */
-    public function getRendererFor(Component $component, array $contexts) : ComponentRenderer
+    public function getRendererFor(Component $component, array $contexts): ComponentRenderer
     {
         $key = $this->getCacheKey($component, $contexts);
         if (isset($this->cache[$key])) {
@@ -58,7 +60,7 @@ class LoaderCachingWrapper implements Loader
      *
      * @param	Component[]	$contexts
      */
-    protected function getCacheKey(Component $component, array $contexts) : string
+    protected function getCacheKey(Component $component, array $contexts): string
     {
         return $component->getCanonicalName() . " " . implode("_", $this->getContextNames($contexts));
     }
@@ -66,7 +68,7 @@ class LoaderCachingWrapper implements Loader
     /**
      * @inheritdocs
      */
-    public function getRendererFactoryFor(Component $component) : RendererFactory
+    public function getRendererFactoryFor(Component $component): RendererFactory
     {
         return $this->loader->getRendererFactoryFor($component);
     }

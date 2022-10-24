@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\MainControls;
 
 use ILIAS\Data\URI;
@@ -28,7 +30,7 @@ use ILIAS\UI\Component\Component;
  */
 interface ModeInfo extends Component
 {
-    public function getModeTitle() : string;
+    public function getModeTitle(): string;
 
-    public function getCloseAction() : URI;
+    public function getCloseAction(): URI;
 }

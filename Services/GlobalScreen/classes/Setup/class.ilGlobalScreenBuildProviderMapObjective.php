@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
@@ -26,12 +28,12 @@ use ILIAS\Setup;
  */
 class ilGlobalScreenBuildProviderMapObjective extends Setup\Artifact\BuildArtifactObjective
 {
-    public function getArtifactPath() : string
+    public function getArtifactPath(): string
     {
         return "Services/GlobalScreen/artifacts/global_screen_providers.php";
     }
-    
-    public function build() : Setup\Artifact
+
+    public function build(): Setup\Artifact
     {
         $class_names = [];
         $i = [
@@ -41,14 +43,14 @@ class ilGlobalScreenBuildProviderMapObjective extends Setup\Artifact\BuildArtifa
             ModificationProvider::class,
             NotificationProvider::class,
         ];
-        
+
         $finder = new Setup\ImplementationOfInterfaceFinder();
         foreach ($i as $interface) {
             $class_names[$interface] = iterator_to_array(
                 $finder->getMatchingClassNames($interface)
             );
         }
-        
+
         return new Setup\Artifact\ArrayArtifact($class_names);
     }
 }

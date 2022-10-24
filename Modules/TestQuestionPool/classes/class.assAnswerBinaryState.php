@@ -1,7 +1,21 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Modules/TestQuestionPool/classes/class.assAnswerSimple.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
@@ -50,7 +64,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      * @return boolean state
      * @see $state
      */
-    public function getState() : bool
+    public function getState(): bool
     {
         return $this->checked;
     }
@@ -63,7 +77,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      * @return boolean state
      * @see $state
      */
-    public function isStateChecked() : bool
+    public function isStateChecked(): bool
     {
         return $this->checked;
     }
@@ -76,7 +90,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      * @return boolean state
      * @see $state
      */
-    public function isStateSet() : bool
+    public function isStateSet(): bool
     {
         return $this->checked;
     }
@@ -89,7 +103,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      * @return boolean state
      * @see $state
      */
-    public function isStateUnset() : bool
+    public function isStateUnset(): bool
     {
         return !$this->checked;
     }
@@ -102,7 +116,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      * @return boolean state
      * @see $state
      */
-    public function isStateUnchecked() : bool
+    public function isStateUnchecked(): bool
     {
         return !$this->checked;
     }
@@ -116,7 +130,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      *
      * @see $state
      */
-    public function setState(bool $state = false) : void
+    public function setState(bool $state = false): void
     {
         $this->checked = $state;
     }
@@ -128,7 +142,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      *
      * @see $state
      */
-    public function setChecked() : void
+    public function setChecked(): void
     {
         $this->checked = true;
     }
@@ -140,7 +154,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      *
      * @see $state
      */
-    public function setSet() : void
+    public function setSet(): void
     {
         $this->checked = true;
     }
@@ -152,7 +166,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      *
      * @see $state
      */
-    public function setUnset() : void
+    public function setUnset(): void
     {
         $this->checked = false;
     }
@@ -164,7 +178,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      *
      * @see $state
      */
-    public function setUnchecked() : void
+    public function setUnchecked(): void
     {
         $this->checked = false;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Crawler\Entry;
 
 use JsonSerializable;
@@ -41,14 +43,14 @@ class ComponentEntryDescription extends AbstractEntryPart implements JsonSeriali
         $this->setDescription($description);
     }
 
-    public function withDescription(array $description = array()) : ComponentEntryDescription
+    public function withDescription(array $description = array()): ComponentEntryDescription
     {
         $clone = clone $this;
         $clone->setDescription($description);
         return $clone;
     }
 
-    protected function setDescription(array $descriptionElements) : void
+    protected function setDescription(array $descriptionElements): void
     {
         if (!$descriptionElements) {
             return;
@@ -83,12 +85,12 @@ class ComponentEntryDescription extends AbstractEntryPart implements JsonSeriali
         return $this->description[$key];
     }
 
-    public function getDescription() : array
+    public function getDescription(): array
     {
         return $this->description;
     }
 
-    public function jsonSerialize() : array
+    public function jsonSerialize(): array
     {
         return $this->getDescription();
     }

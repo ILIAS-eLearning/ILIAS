@@ -34,7 +34,7 @@ class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
         $this->on_mem_overview = $on_mem_overview;
     }
 
-    protected function initViewSettings() : void
+    protected function initViewSettings(): void
     {
         $this->viewSettings = new ilPDSelectedItemsBlockViewSettings(
             $this->user,
@@ -47,7 +47,7 @@ class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
         $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
     }
 
-    protected function returnToContext() : void
+    protected function returnToContext(): void
     {
         if ($this->on_mem_overview) {
             $this->ctrl->redirectByClass('ilmembershipoverviewgui', '');
@@ -55,7 +55,7 @@ class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
         parent::returnToContext();
     }
 
-    protected function getViewTitle() : string
+    protected function getViewTitle(): string
     {
         if ($this->on_mem_overview) {
             return $this->lng->txt("mmbr_memberships");
@@ -63,7 +63,7 @@ class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
         return parent::getViewTitle();
     }
 
-    public function getNoItemFoundContent() : string
+    public function getNoItemFoundContent(): string
     {
         $txt = $this->lng->txt("rep_mo_mem_dash");
         return $txt;

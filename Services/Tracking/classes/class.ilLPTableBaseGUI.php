@@ -68,7 +68,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         }
     }
 
-    protected function initItemIdFromPost() : array
+    protected function initItemIdFromPost(): array
     {
         if ($this->http->wrapper()->post()->has('item_id')) {
             return $this->http->wrapper()->post()->retrieve(
@@ -81,7 +81,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         return [];
     }
 
-    protected function initUidFromPost() : array
+    protected function initUidFromPost(): array
     {
         if ($this->http->wrapper()->post()->has('uid')) {
             return $this->http->wrapper()->post()->retrieve(
@@ -94,7 +94,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         return [];
     }
 
-    public function executeCommand() : bool
+    public function executeCommand(): bool
     {
         $this->determineSelectedFilters();
         if (!$this->ctrl->getNextClass($this)) {
@@ -199,7 +199,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
     /**
      * @return int[]
      */
-    protected function findReferencesForObjId(int $a_obj_id) : array
+    protected function findReferencesForObjId(int $a_obj_id): array
     {
         $ref_ids = array_keys(ilObject::_getAllReferences($a_obj_id));
         sort($ref_ids, SORT_NUMERIC);
@@ -212,7 +212,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         array $a_user_ids,
         $a_parent_obj,
         string $a_parent_cmd
-    ) : void {
+    ): void {
         // see ilObjCourseGUI::sendMailToSelectedUsersObject()
 
         $rcps = array();
@@ -272,7 +272,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         string $permission,
         ?array $preset_obj_ids = null,
         bool $a_check_lp_activation = true
-    ) : array {
+    ): array {
         $query_parser = new ilQueryParser($filter["query"] ?? '');
         $query_parser->setMinWordLength(0);
         $query_parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
@@ -326,7 +326,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
      * Checks wheather the object is hidden and mode is not LP_MODE_DEACTIVATED
      * @access public
      */
-    public function searchFilterListener(int $a_ref_id, array $a_data) : bool
+    public function searchFilterListener(int $a_ref_id, array $a_data): bool
     {
         if (is_array($this->filter["hide"]) && in_array(
             $a_data["obj_id"],
@@ -344,7 +344,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         return true;
     }
 
-    protected function initRepositoryFilter(array $filter) : array
+    protected function initRepositoryFilter(array $filter): array
     {
         $repo = new ilRepositorySelector2InputGUI(
             $this->lng->txt('trac_filter_area'),
@@ -449,7 +449,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
     /**
      */
-    protected function buildPath(array $ref_ids) : array
+    protected function buildPath(array $ref_ids): array
     {
         if (!count($ref_ids)) {
             return [];
@@ -485,7 +485,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         bool $a_split_learning_resources = false,
         bool $a_include_digilib = false,
         bool $a_allow_undefined_lp = false
-    ) : array {
+    ): array {
         global $DIC;
 
         $component_repository = $DIC['component.repository'];
@@ -547,7 +547,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         string $id,
         ?string $value,
         string $type
-    ) : string {
+    ): string {
         // get rid of aggregation
         $pos = strrpos($id, "_");
         if ($pos !== false) {
@@ -621,7 +621,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
             case "status":
                 $icons = ilLPStatusIcons::getInstance($this->getIconVariant());
-                $value = $icons->renderIconForStatus($value);
+                $value = $icons->renderIconForStatus((int) $value);
                 break;
 
             case "language":
@@ -637,7 +637,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         return $value;
     }
 
-    public function getCurrentFilter(bool $as_query = false) : array
+    public function getCurrentFilter(bool $as_query = false): array
     {
         $result = array();
         foreach ($this->filter as $id => $value) {
@@ -669,7 +669,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
                     break;
 
                 case "status":
-                    if ($value !== false) {
+                    if ($value) {
                         $result[$id] = $value;
                     }
                     break;
@@ -729,12 +729,14 @@ class ilLPTableBaseGUI extends ilTable2GUI
                     break;
             }
         }
-
         return $result;
     }
 
-    protected function isPercentageAvailable(int $a_obj_id) : bool
+    protected function isPercentageAvailable(int $a_obj_id): bool
     {
+        if ($a_obj_id === 0) {
+            return false;
+        }
         $olp = ilObjectLP::getInstance($a_obj_id);
         $mode = $olp->getCurrentMode();
         if (in_array(
@@ -797,7 +799,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
     /**
      * Build export meta data
      */
-    protected function getExportMeta() : array
+    protected function getExportMeta(): array
     {
         global $DIC;
 
@@ -851,7 +853,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         return $data;
     }
 
-    protected function fillMetaExcel(ilExcel $a_excel, int &$a_row) : void
+    protected function fillMetaExcel(ilExcel $a_excel, int &$a_row): void
     {
         foreach ($this->getExportMeta() as $caption => $value) {
             $a_excel->setCell($a_row, 0, $caption);
@@ -861,7 +863,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $a_row++;
     }
 
-    protected function fillMetaCSV(ilCSVWriter $a_csv) : void
+    protected function fillMetaCSV(ilCSVWriter $a_csv): void
     {
         foreach ($this->getExportMeta() as $caption => $value) {
             $a_csv->addColumn(strip_tags($caption));
@@ -896,7 +898,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
     protected function formatSeconds(
         int $seconds,
         bool $a_shorten_zero = false
-    ) : string {
+    ): string {
         $seconds = ($seconds > 0) ? $seconds : 0;
         if ($a_shorten_zero && !$seconds) {
             return "-";
@@ -930,7 +932,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         int $a_max_value,
         bool $a_anonymize = false,
         bool $a_format_seconds = false
-    ) : array {
+    ): array {
         $step = 0;
         if ($a_max_value) {
             $step = $a_max_value / 10;
@@ -959,7 +961,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         return $value_ticks;
     }
 
-    protected function getMonthsFilter($a_short = false) : array
+    protected function getMonthsFilter($a_short = false): array
     {
         $options = array();
         for ($loop = 0; $loop < 10; $loop++) {
@@ -982,7 +984,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         return $options;
     }
 
-    protected function getMonthsYear($a_year = null, $a_short = false) : array
+    protected function getMonthsYear($a_year = null, $a_short = false): array
     {
         if (!$a_year) {
             $a_year = date("Y");
@@ -1006,7 +1008,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
     protected function getSelectableUserColumns(
         int $a_in_course = 0,
         int $a_in_group = 0
-    ) : array {
+    ): array {
         $cols = $privacy_fields = array();
 
         $up = new ilUserProfile();
@@ -1115,15 +1117,15 @@ class ilLPTableBaseGUI extends ilTable2GUI
             )) {
                 // other user profile fields
                 foreach ($ufs as $f => $fd) {
-                    if (!isset($cols[$f]) && $f != "username" && !$fd["lists_hide"]) {
+                    if (!isset($cols[$f]) && $f != "username" && !($fd["lists_hide"] ?? false)) {
                         if ($a_in_course &&
-                            !($fd["course_export_fix_value"] || $this->setting->get(
+                            !(!($fd["course_export_fix_value"] ?? false) || $this->setting->get(
                                 "usr_settings_course_export_" . $f
                             ))) {
                             continue;
                         }
                         if ($a_in_group &&
-                            !($fd["group_export_fix_value"] || $this->setting->get(
+                            !(!($fd["group_export_fix_value"] ?? false) || $this->setting->get(
                                 "usr_settings_group_export_" . $f
                             ))) {
                             continue;
@@ -1133,7 +1135,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
                             "txt" => $this->lng->txt($f),
                             "default" => false
                         );
-
                         $privacy_fields[] = $f;
                     }
                 }
@@ -1167,7 +1168,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
     /**
      * Add selected users to clipboard
      */
-    protected function addToClipboard() : void
+    protected function addToClipboard(): void
     {
         $users = $this->initUidFromPost();
         $clip = ilUserClipboard::getInstance($this->user->getId());
@@ -1186,7 +1187,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
     /**
      * Gets the variant of LP icons that is shown in the table.
      */
-    public function getIconVariant() : int
+    public function getIconVariant(): int
     {
         return $this->icon_variant;
     }
@@ -1194,7 +1195,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
     /**
      * Sets the variant of LP icons that is shown in the table.
      */
-    public function setIconVariant(int $variant) : void
+    public function setIconVariant(int $variant): void
     {
         $this->icon_variant = $variant;
     }

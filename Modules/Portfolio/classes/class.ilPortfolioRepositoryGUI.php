@@ -39,7 +39,7 @@ class ilPortfolioRepositoryGUI
     protected int $user_id;
     protected ilPortfolioAccessHandler $access_handler;
     protected \ILIAS\DI\UIServices $ui;
-    
+
     public function __construct()
     {
         global $DIC;
@@ -66,11 +66,11 @@ class ilPortfolioRepositoryGUI
             ->internal()
             ->gui()
             ->standardRequest();
-                
+
         $this->user_id = $ilUser->getId();
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -83,7 +83,7 @@ class ilPortfolioRepositoryGUI
 
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd("show");
-                        
+
         $tpl->setTitle($lng->txt("portfolio"));
         $tpl->setTitleIcon(
             ilUtil::getImagePath("icon_prtf.svg"),
@@ -116,68 +116,68 @@ class ilPortfolioRepositoryGUI
                 break;
         }
     }
-    
-    public function setTabs() : void
+
+    public function setTabs(): void
     {
         $ilTabs = $this->tabs;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilHelp = $this->help;
-        
+
         $ilHelp->setScreenIdComponent("prtf");
-        
+
         $ilTabs->addTab(
             "mypf",
             $lng->txt("prtf_tab_portfolios"),
             $ilCtrl->getLinkTarget($this)
         );
-        
+
         $ilTabs->addTab(
             "otpf",
             $lng->txt("prtf_tab_other_users"),
             $ilCtrl->getLinkTarget($this, "showotherFilter")
         );
-        
+
         $ilTabs->activateTab("mypf");
     }
 
-    protected function setLocator() : void
+    protected function setLocator(): void
     {
         $ilLocator = $this->locator;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
-        
+
         $ilLocator->addItem(
             $lng->txt("portfolio"),
             $ilCtrl->getLinkTarget($this, "show")
         );
-        
+
         $tpl->setLocator();
     }
-    
+
     protected function checkAccess(
         string $a_permission,
         ?int $a_portfolio_id = null
-    ) : bool {
+    ): bool {
         if ($a_portfolio_id) {
             return $this->access_handler->checkAccess($a_permission, "", $a_portfolio_id);
         }
         // currently only object-based permissions
         return true;
     }
-    
-    
+
+
     //
     // LIST INCL. ACTIONS
     //
-    
-    protected function show() : void
+
+    protected function show(): void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
         $ilCtrl = $this->ctrl;
-        
+
         $button = ilLinkButton::getInstance();
         $button->setCaption("prtf_add_portfolio");
         $button->setUrl($ilCtrl->getLinkTargetByClass("ilObjPortfolioGUI", "create"));
@@ -187,7 +187,7 @@ class ilPortfolioRepositoryGUI
         $tpl->setContent($portfolio_list);
     }
 
-    protected function getPortfolioList() : string
+    protected function getPortfolioList(): string
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -325,7 +325,7 @@ class ilPortfolioRepositoryGUI
     }
 
 
-    protected function setOnline() : void
+    protected function setOnline(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -341,7 +341,7 @@ class ilPortfolioRepositoryGUI
         $ilCtrl->redirect($this, "show");
     }
 
-    protected function setOffline() : void
+    protected function setOffline(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -358,7 +358,7 @@ class ilPortfolioRepositoryGUI
     }
 
 
-    protected function saveTitles() : void
+    protected function saveTitles(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -379,12 +379,12 @@ class ilPortfolioRepositoryGUI
                 $portfolio->update();
             }
         }
-        
+
         $this->tpl->setOnScreenMessage('success', $lng->txt("saved_successfully"), true);
         $ilCtrl->redirect($this, "show");
     }
-    
-    protected function confirmPortfolioDeletion() : void
+
+    protected function confirmPortfolioDeletion(): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -410,7 +410,7 @@ class ilPortfolioRepositoryGUI
         }
     }
 
-    protected function deletePortfolios() : void
+    protected function deletePortfolios(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -428,13 +428,13 @@ class ilPortfolioRepositoryGUI
         $this->tpl->setOnScreenMessage('success', $lng->txt("prtf_portfolio_deleted"), true);
         $ilCtrl->redirect($this, "show");
     }
-    
-    
+
+
     //
     // DEFAULT PORTFOLIO (aka profile)
     //
-    
-    protected function unsetDefault() : void
+
+    protected function unsetDefault(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -444,26 +444,26 @@ class ilPortfolioRepositoryGUI
             // #12845
             $ilUser->setPref("public_profile", "n");
             $ilUser->writePrefs();
-            
+
             ilObjPortfolio::setUserDefault($this->user_id);
             $this->tpl->setOnScreenMessage('success', $lng->txt("prtf_unset_default_share_info"), true);
         }
         $ilCtrl->redirect($this, "show");
     }
-    
+
     /**
      * Confirm sharing when setting default
      */
-    protected function setDefaultConfirmation() : void
+    protected function setDefaultConfirmation(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
         $ilSetting = $this->settings;
-        
+
         $prtf_id = $this->port_request->getPortfolioId();
-        
+
         if ($prtf_id && $this->checkAccess("write")) {
             // if already shared, no need to ask again
             if ($this->access_handler->hasRegisteredPermission($prtf_id) ||
@@ -471,7 +471,7 @@ class ilPortfolioRepositoryGUI
                 $this->setDefault($prtf_id);
                 return;
             }
-            
+
             $ilTabs->clearTargets();
             $ilTabs->setBackTarget(
                 $lng->txt("cancel"),
@@ -491,17 +491,17 @@ class ilPortfolioRepositoryGUI
             $cgui->setCancel($lng->txt("prtf_set_default_publish_global"), "setDefaultGlobal");
             $cgui->setConfirm($lng->txt("prtf_set_default_publish_registered"), "setDefaultRegistered");
             $tpl->setContent($cgui->getHTML());
-            
+
             return;
         }
-        
+
         $ilCtrl->redirect($this, "show");
     }
-    
-    protected function setDefaultGlobal() : void
+
+    protected function setDefaultGlobal(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $prtf_id = $this->port_request->getPortfolioId();
         if ($prtf_id && $this->checkAccess("write")) {
             $this->access_handler->addPermission($prtf_id, ilWorkspaceAccessGUI::PERMISSION_ALL);
@@ -509,11 +509,11 @@ class ilPortfolioRepositoryGUI
         }
         $ilCtrl->redirect($this, "show");
     }
-    
-    protected function setDefaultRegistered() : void
+
+    protected function setDefaultRegistered(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $prtf_id = $this->port_request->getPortfolioId();
         if ($prtf_id && $this->checkAccess("write")) {
             $this->access_handler->addPermission($prtf_id, ilWorkspaceAccessGUI::PERMISSION_REGISTERED);
@@ -521,8 +521,8 @@ class ilPortfolioRepositoryGUI
         }
         $ilCtrl->redirect($this, "show");
     }
-    
-    protected function setDefault(int $a_prtf_id) : void
+
+    protected function setDefault(int $a_prtf_id): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -545,7 +545,7 @@ class ilPortfolioRepositoryGUI
         $ilCtrl->redirect($this, "show");
     }
 
-    protected function getWorkspaceAccess() : ilPortfolioAccessHandler
+    protected function getWorkspaceAccess(): ilPortfolioAccessHandler
     {
         /** @var ilWorkspaceAccessHandler $wsp_access */
         $wsp_access = $this->access_handler;
@@ -557,39 +557,39 @@ class ilPortfolioRepositoryGUI
     //
     // SHARE
     //
-        
-    protected function showOtherFilter() : void
+
+    protected function showOtherFilter(): void
     {
         $this->showOther(false);
     }
-    
+
     protected function showOther(
         bool $a_load_data = true
-    ) : void {
+    ): void {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
-        
+
         $ilTabs->activateTab("otpf");
-        
+
         $tbl = new ilWorkspaceShareTableGUI($this, "showOther", $this->getWorkspaceAccess(), null, $a_load_data);
         $tpl->setContent($tbl->getHTML());
     }
-    
-    protected function applyShareFilter() : void
+
+    protected function applyShareFilter(): void
     {
         $tbl = new ilWorkspaceShareTableGUI($this, "showOther", $this->getWorkspaceAccess());
         $tbl->resetOffset();
         $tbl->writeFilterToSession();
-        
+
         $this->showOther();
     }
-    
-    protected function resetShareFilter() : void
+
+    protected function resetShareFilter(): void
     {
         $tbl = new ilWorkspaceShareTableGUI($this, "showOther", $this->getWorkspaceAccess());
         $tbl->resetOffset();
         $tbl->resetFilter();
-        
+
         $this->showOther();
     }
 }

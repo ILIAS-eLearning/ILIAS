@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,11 +17,11 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Table\Column;
 
 interface Number extends Column
 {
-    public function withDecimals(int $number_of_decimals) : Number;
-    public function getDecimals() : int;
+    public function withDecimals(int $number_of_decimals): Number;
+    public function getDecimals(): int;
 }

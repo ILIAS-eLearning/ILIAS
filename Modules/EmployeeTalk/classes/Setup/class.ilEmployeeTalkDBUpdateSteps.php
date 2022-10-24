@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,12 +33,12 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
-    public function prepare(\ilDBInterface $db) : void
+    public function prepare(\ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    private function useTransaction(callable $updateStep) : void
+    private function useTransaction(callable $updateStep): void
     {
         try {
             if ($this->db->supportsTransactions()) {
@@ -55,12 +57,12 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
-    public function step_1() : void
+    public function step_1(): void
     {
         // removed this content in favour of a ilTreeAdminNodeAddedObjective
     }
 
-    public function step_2() : void
+    public function step_2(): void
     {
         $this->useTransaction(function (\ilDBInterface $db) {
             $etalTableName = 'etal_data';
@@ -82,7 +84,7 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
         });
     }
 
-    public function step_3() : void
+    public function step_3(): void
     {
         $this->useTransaction(function (\ilDBInterface $db) {
             $etalTableName = 'etal_data';
@@ -100,7 +102,7 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
         });
     }
 
-    public function step_4() : void
+    public function step_4(): void
     {
         $this->useTransaction(function (\ilDBInterface $db) {
             ilOrgUnitOperationContextQueries::registerNewContext(
@@ -128,7 +130,7 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
         });
     }
 
-    public function step_5() : void
+    public function step_5(): void
     {
         $this->useTransaction(function (\ilDBInterface $db) {
             EmployeeTalkSerieSettings::updateDB(); // Please do not use updateDB in core!

@@ -1,7 +1,20 @@
 <?php
 
-require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacException.php';
-require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacFormAlertProvider.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class AnswerIndexNotExist
@@ -45,14 +58,14 @@ class ilAssLacAnswerIndexNotExist extends ilAssLacException implements ilAssLacF
                 $this->getAnswerIndex()
             );
         }
-        
+
         parent::__construct($msg);
     }
 
     /**
      * @return int
      */
-    public function getQuestionIndex() : int
+    public function getQuestionIndex(): int
     {
         return $this->question_index;
     }
@@ -60,7 +73,7 @@ class ilAssLacAnswerIndexNotExist extends ilAssLacException implements ilAssLacF
     /**
      * @return int
      */
-    public function getAnswerIndex() : int
+    public function getAnswerIndex(): int
     {
         return $this->answer_index;
     }
@@ -69,7 +82,7 @@ class ilAssLacAnswerIndexNotExist extends ilAssLacException implements ilAssLacF
      * @param ilLanguage $lng
      * @return string
      */
-    public function getFormAlert(ilLanguage $lng) : string
+    public function getFormAlert(ilLanguage $lng): string
     {
         if ($this->getQuestionIndex() === null) {
             return sprintf(
@@ -77,7 +90,7 @@ class ilAssLacAnswerIndexNotExist extends ilAssLacException implements ilAssLacF
                 $this->getAnswerIndex()
             );
         }
-        
+
         return sprintf(
             $lng->txt("ass_lac_answer_index_not_exist"),
             $this->getQuestionIndex(),

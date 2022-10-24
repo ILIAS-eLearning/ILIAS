@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,67 +33,67 @@ trait GlobalDICDomainServices
 {
     private \ILIAS\DI\Container $DIC;
 
-    protected function initDomainServices(\ILIAS\DI\Container $DIC) : void
+    protected function initDomainServices(\ILIAS\DI\Container $DIC): void
     {
         $this->DIC = $DIC;
     }
 
-    public function repositoryTree() : \ilTree
+    public function repositoryTree(): \ilTree
     {
         return $this->DIC->repositoryTree();
     }
 
-    public function access() : \ilAccessHandler
+    public function access(): \ilAccessHandler
     {
         return $this->DIC->access();
     }
 
-    public function rbac() : RBACServices
+    public function rbac(): RBACServices
     {
         return $this->DIC->rbac();
     }
 
-    public function lng() : \ilLanguage
+    public function lng(): \ilLanguage
     {
         return $this->DIC->language();
     }
 
-    public function user() : \ilObjUser
+    public function user(): \ilObjUser
     {
         return $this->DIC->user();
     }
 
-    public function logger() : LoggingServices
+    public function logger(): LoggingServices
     {
         return $this->DIC->logger();
     }
 
-    public function refinery() : Refinery\Factory
+    public function refinery(): Refinery\Factory
     {
         return $this->DIC->refinery();
     }
 
-    public function filesystem() : Filesystems
+    public function filesystem(): Filesystems
     {
         return $this->DIC->filesystem();
     }
 
-    public function resourceStorage() : ResourceStorage\Services
+    public function resourceStorage(): ResourceStorage\Services
     {
         return $this->DIC->resourceStorage();
     }
 
-    public function event() : \ilAppEventHandler
+    public function event(): \ilAppEventHandler
     {
         return $this->DIC->event();
     }
 
-    public function settings() : \ilSetting
+    public function settings(): \ilSetting
     {
         return $this->DIC->settings();
     }
 
-    public function objectDefinition() : \ilObjectDefinition
+    public function objectDefinition(): \ilObjectDefinition
     {
         return $this->DIC["objDefinition"];
     }

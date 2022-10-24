@@ -15,13 +15,13 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Types;
 
 class SingleType implements Type, Ancestors
 {
     protected \ReflectionClass $type;
-    
+
     /**
      * SingleType constructor.
      * @param $fullyQualifiedClassName
@@ -30,51 +30,51 @@ class SingleType implements Type, Ancestors
     {
         $this->type = new \ReflectionClass($fullyQualifiedClassName);
     }
-    
+
     /**
      * @inheritdoc
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->type->getName();
     }
-    
+
     /**
      * @inheritdoc
      */
-    public function isExtensionOf(Type $type) : bool
+    public function isExtensionOf(Type $type): bool
     {
         if (!$type instanceof SingleType) {
             return false;
         }
-        
+
         return $this->type->isSubclassOf($type->__toString()) || $this->__toString() === $type->__toString();
     }
-    
+
     /**
      * @inheritdoc
      */
-    public function getAncestors() : array
+    public function getAncestors(): array
     {
         $class = $this->type;
         $ancestors = [new SingleType($class->getName())];
-        
+
         while ($class = $class->getParentClass()) {
             $ancestors[] = new SingleType($class->getName());
         }
-        
+
         return array_reverse($ancestors);
     }
-    
+
     /**
      * @inheritdoc
      */
-    public function equals(Type $otherType) : bool
+    public function equals(Type $otherType): bool
     {
         if (!$otherType instanceof SingleType) {
             return false;
         }
-        
+
         return $this->__toString() === $otherType->__toString();
     }
 }

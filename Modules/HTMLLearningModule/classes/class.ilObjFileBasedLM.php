@@ -40,7 +40,7 @@ class ilObjFileBasedLM extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function update(bool $a_skip_meta = false) : bool
+    public function update(bool $a_skip_meta = false): bool
     {
         $ilDB = $this->db;
 
@@ -55,10 +55,10 @@ class ilObjFileBasedLM extends ilObject
         return true;
     }
 
-    public function read() : void
+    public function read(): void
     {
         $ilDB = $this->db;
-        
+
         parent::read();
 
         $q = "SELECT * FROM file_based_lm WHERE id = " . $ilDB->quote($this->getId(), "integer");
@@ -67,7 +67,7 @@ class ilObjFileBasedLM extends ilObject
         $this->setStartFile((string) $lm_rec["startfile"]);
     }
 
-    public function create(bool $a_skip_meta = false) : int
+    public function create(bool $a_skip_meta = false): int
     {
         $ilDB = $this->db;
 
@@ -83,7 +83,7 @@ class ilObjFileBasedLM extends ilObject
         return $id;
     }
 
-    public function getDataDirectory(string $mode = "filesystem") : string
+    public function getDataDirectory(string $mode = "filesystem"): string
     {
         $lm_data_dir = ilFileUtils::getWebspaceDir($mode) . "/lm_data";
         $lm_dir = $lm_data_dir . "/lm_" . $this->getId();
@@ -91,12 +91,12 @@ class ilObjFileBasedLM extends ilObject
         return $lm_dir;
     }
 
-    public function createDataDirectory() : void
+    public function createDataDirectory(): void
     {
         ilFileUtils::makeDir($this->getDataDirectory());
     }
 
-    public function getStartFile() : ?string
+    public function getStartFile(): ?string
     {
         return $this->start_file;
     }
@@ -104,15 +104,15 @@ class ilObjFileBasedLM extends ilObject
     public function setStartFile(
         string $a_file,
         bool $a_omit_file_check = false
-    ) : void {
+    ): void {
         if ($a_file &&
             (file_exists($this->getDataDirectory() . "/" . $a_file) || $a_omit_file_check)) {
             $this->start_file = $a_file;
         }
     }
-    
 
-    public function delete() : bool
+
+    public function delete(): bool
     {
         $ilDB = $this->db;
 
@@ -143,16 +143,16 @@ class ilObjFileBasedLM extends ilObject
     public function populateByDirectoy(
         string $a_dir,
         string $a_filename = ""
-    ) : void {
+    ): void {
         preg_match("/.*htlm_([0-9]*)\.zip/", $a_filename, $match);
-        if (is_dir($a_dir . "/htlm_" . $match[1])) {
-            $a_dir .= "/htlm_" . $match[1];
+        if (is_dir($a_dir . "/htlm_" . ($match[1] ?? ""))) {
+            $a_dir .= "/htlm_" . ($match[1] ?? "");
         }
         ilFileUtils::rCopy($a_dir, $this->getDataDirectory());
         ilFileUtils::renameExecutables($this->getDataDirectory());
     }
-    
-    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
+
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false): ?ilObject
     {
         /** @var ilObjFileBasedLM $new_obj */
         $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
@@ -176,7 +176,7 @@ class ilObjFileBasedLM extends ilObject
         return $new_obj;
     }
 
-    public function isInfoEnabled() : bool
+    public function isInfoEnabled(): bool
     {
         return ilObjContentObjectAccess::isInfoEnabled($this->getId());
     }

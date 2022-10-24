@@ -67,14 +67,14 @@ class WikiHtmlExport
             ->domain()
             ->styleForRefId($a_wiki->getRefId());
     }
-    
+
     public function setMode(
         string $a_val
-    ) : void {
+    ): void {
         $this->mode = $a_val;
     }
-    
-    public function getMode() : string
+
+    public function getMode(): string
     {
         return $this->mode;
     }
@@ -84,7 +84,7 @@ class WikiHtmlExport
      * @throws \ilTemplateException
      * @throws \ilWikiExportException
      */
-    public function buildExportFile(bool $print_version = false) : string
+    public function buildExportFile(bool $print_version = false): string
     {
         $global_screen = $this->global_screen;
         $ilDB = $this->db;
@@ -180,7 +180,7 @@ class WikiHtmlExport
      * @throws \ilTemplateException
      * @throws \ilWikiExportException
      */
-    public function exportHTMLPages() : void
+    public function exportHTMLPages(): void
     {
         global $DIC;
 
@@ -206,7 +206,7 @@ class WikiHtmlExport
             }
         }
         $this->co_page_html_export->exportPageElements(
-            function (int $total, int $cnt) : void {
+            function (int $total, int $cnt): void {
                 $this->updateUserHTMLStatusForPageElements($total, $cnt);
             }
         );
@@ -215,7 +215,7 @@ class WikiHtmlExport
     /**
      * Export all pages as one print version
      */
-    public function exportHTMLPagesPrint() : void
+    public function exportHTMLPagesPrint(): void
     {
         // collect page elements
         $pages = \ilWikiPage::getAllWikiPages($this->wiki->getId());
@@ -228,7 +228,7 @@ class WikiHtmlExport
 
         // render print view
         $wiki_gui = new \ilObjWikiGUI([], $this->wiki->getRefId(), true);
-        $print_view = $wiki_gui->getPrintView();
+        $print_view = $wiki_gui->getPrintView(true);
         $print_view->setOffline(true);
         $html = $print_view->renderPrintView();
         file_put_contents($this->export_dir . "/index.html", $html);
@@ -237,7 +237,7 @@ class WikiHtmlExport
     /**
      * Export user images
      */
-    protected function exportUserImages() : void
+    protected function exportUserImages(): void
     {
         if (in_array($this->getMode(), [self::MODE_COMMENTS, self::MODE_USER_COMMENTS])) {
             $user_export = new \ILIAS\Notes\Export\UserImageExporter();
@@ -251,7 +251,7 @@ class WikiHtmlExport
     public function updateUserHTMLStatusForPageElements(
         int $a_total,
         int $a_cnt
-    ) : void {
+    ): void {
         if (in_array($this->getMode(), [self::MODE_USER, self::MODE_USER_COMMENTS])) {
             $this->user_html_exp->updateStatus(50 + (50 / $a_total * $a_cnt), \ilWikiUserHTMLExport::RUNNING);
         }
@@ -265,7 +265,7 @@ class WikiHtmlExport
     public function exportPageHTML(
         int $a_page_id,
         \ilGlobalPageTemplate $tpl
-    ) : void {
+    ): void {
         $this->log->debug("Export page:" . $a_page_id);
         $lng = $this->lng;
         $ilTabs = $this->tabs;
@@ -341,7 +341,7 @@ class WikiHtmlExport
     /**
      * Get user export file
      */
-    public function getUserExportFile() : string
+    public function getUserExportFile(): string
     {
         $exp_dir =
             \ilExport::_getExportDirectory($this->wiki->getId(), $this->getMode(), "wiki");

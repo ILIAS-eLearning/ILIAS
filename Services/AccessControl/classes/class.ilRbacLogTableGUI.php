@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilRbacLogTableGUI
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -66,7 +68,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
         $this->getItems($this->ref_id, $this->filter);
     }
 
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $item = $this->addFilterItemByMetaType("action", ilTable2GUI::FILTER_SELECT);
         $item->setOptions(array("" => $this->lng->txt("all")) + $this->action_map);
@@ -76,7 +78,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
         $this->filter["date"] = $item->getDate();
     }
 
-    protected function getItems(int $a_ref_id, array $a_current_filter = null) : void
+    protected function getItems(int $a_ref_id, array $a_current_filter = null): void
     {
         global $DIC;
 
@@ -99,7 +101,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
         $this->setMaxCount((int) $data["cnt"]);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("DATE", ilDatePresentation::formatDate(new ilDateTime($a_set["created"] ?? 0, IL_CAL_UNIX)));
         $name = ilObjUser::_lookupName((int) ($a_set["user_id"]) ?? 0);
@@ -125,7 +127,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
         }
     }
 
-    protected function parseChangesFaPa(array $raw) : array
+    protected function parseChangesFaPa(array $raw): array
     {
         $result = array();
 
@@ -168,7 +170,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
         return $result;
     }
 
-    protected function parseChangesTemplate(array $raw) : array
+    protected function parseChangesTemplate(array $raw): array
     {
         $result = array();
         foreach ($raw as $type => $actions) {
@@ -189,7 +191,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
     /**
      * @param array|int|string $a_op
      */
-    protected function getOPCaption(string $a_type, $a_op) : string
+    protected function getOPCaption(string $a_type, $a_op): string
     {
         // #11717
         if (is_array($a_op)) {
@@ -231,7 +233,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
     /**
      * Check the type for plugin and get the translation for op_id
      */
-    protected function getTranslationFromPlugin(string $type, string $op_id) : ?string
+    protected function getTranslationFromPlugin(string $type, string $op_id): ?string
     {
         global $objDefinition;
 
@@ -244,7 +246,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
     /**
      * Check the op is translated correctly
      */
-    protected function notTranslated(?string $perm, string $op_id) : bool
+    protected function notTranslated(?string $perm, string $op_id): bool
     {
         return is_null($perm) || (strpos($perm, $op_id) !== false);
     }

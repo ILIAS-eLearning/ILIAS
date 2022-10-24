@@ -69,18 +69,18 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         $this->lng->loadLanguageModule("cntr");
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return "wfld";
     }
 
-    protected function setTabs(bool $a_show_settings = true) : void
+    protected function setTabs(bool $a_show_settings = true): void
     {
         $lng = $this->lng;
         $ilHelp = $this->help;
 
         $ilHelp->setScreenIdComponent("wfld");
-        
+
         $this->ctrl->setParameter($this, "wsp_id", $this->node_id);
 
         $this->tabs_gui->addTab(
@@ -88,25 +88,25 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
             $lng->txt("wsp_tab_personal"),
             $this->ctrl->getLinkTarget($this, "")
         );
-        
+
         $this->ctrl->setParameterByClass(
             "ilObjWorkspaceRootFolderGUI",
             "wsp_id",
             $this->getAccessHandler()->getTree()->getRootId()
         );
-        
+
         $this->tabs_gui->addTab(
             "share",
             $lng->txt("wsp_tab_shared"),
             $this->ctrl->getLinkTargetByClass("ilObjWorkspaceRootFolderGUI", "shareFilter")
         );
-        
+
         $this->tabs_gui->addTab(
             "ownership",
             $lng->txt("wsp_tab_ownership"),
             $this->ctrl->getLinkTargetByClass(array("ilObjWorkspaceRootFolderGUI", "ilObjectOwnershipManagementGUI"), "listObjects")
         );
-        
+
         if (!$this->ctrl->getNextClass($this)) {
             if (stristr($this->ctrl->getCmd(), "share")) {
                 $this->tabs_gui->activateTab("share");
@@ -117,17 +117,17 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         }
     }
 
-    public function isActiveAdministrationPanel() : bool
+    public function isActiveAdministrationPanel(): bool
     {
         return (bool) ilSession::get("il_wsp_admin_panel");
     }
 
-    public function setAdministrationPanel(bool $active) : void
+    public function setAdministrationPanel(bool $active): void
     {
         ilSession::set("il_wsp_admin_panel", $active);
     }
 
-    protected function addContentSubTabs(bool $a_show_settings) : void
+    protected function addContentSubTabs(bool $a_show_settings): void
     {
         $tabs = $this->tabs;
         $ctrl = $this->ctrl;
@@ -153,19 +153,19 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         }
     }
 
-    protected function enableAdminPanel() : void
+    protected function enableAdminPanel(): void
     {
         $this->setAdministrationPanel(true);
         $this->ctrl->redirect($this, "");
     }
 
-    protected function disableAdminPanel() : void
+    protected function disableAdminPanel(): void
     {
         $this->setAdministrationPanel(false);
         $this->ctrl->redirect($this, "");
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -175,14 +175,14 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;
-            
+
             case "ilobjectownershipmanagementgui":
                 $this->prepareOutput();
                 $this->tabs_gui->activateTab("ownership");
                 $gui = new ilObjectOwnershipManagementGUI();
                 $this->ctrl->forwardCommand($gui);
                 break;
-            
+
             default:
                 $this->prepareOutput();
                 if ($this->type != "wsrt") {
@@ -195,8 +195,8 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
                 break;
         }
     }
-    
-    protected function initCreationForms($a_new_type) : array
+
+    protected function initCreationForms($a_new_type): array
     {
         $forms = array(
             self::CFORM_NEW => $this->initCreateForm($a_new_type)
@@ -205,7 +205,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         return $forms;
     }
 
-    public function render() : void
+    public function render(): void
     {
         $tpl = $this->tpl;
         $ilUser = $this->user;
@@ -215,19 +215,19 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         $this->showAdministrationPanel();
 
         $this->session_repo->clearClipboard();
-        
+
         // add new item
         $gui = new ilObjectAddNewItemGUI($this->node_id);
         $gui->setMode(ilObjectDefinition::MODE_WORKSPACE);
         $gui->setCreationUrl($ilCtrl->getLinkTarget($this, "create"));
         $gui->render();
-    
+
         ilObjectListGUI::prepareJsLinks(
             "",
             "",
             $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false)
         );
-        
+
         $gui = new ilWorkspaceContentGUI(
             $this,
             $this->node_id,
@@ -254,24 +254,24 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
         $tpl->setLeftNavContent($left);
     }
-    
-    public function edit() : void
+
+    public function edit(): void
     {
         parent::edit();
-      
-        $this->tabs_gui->activateTab("wsp");
-        $this->tabs_gui->activateSubTab("settings");
-    }
-    
-    public function update() : void
-    {
-        parent::update();
-        
+
         $this->tabs_gui->activateTab("wsp");
         $this->tabs_gui->activateSubTab("settings");
     }
 
-    public function cut() : void
+    public function update(): void
+    {
+        parent::update();
+
+        $this->tabs_gui->activateTab("wsp");
+        $this->tabs_gui->activateSubTab("settings");
+    }
+
+    public function cut(): void
     {
         $item_ids = $this->std_request->getItemIds();
         if (count($item_ids) == 0) {
@@ -305,20 +305,20 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
         $this->showMoveIntoObjectTree($repo_switch_allowed);
     }
-        
-    public function cut_for_repository() : void
+
+    public function cut_for_repository(): void
     {
         $this->session_repo->setClipboardWsp2Repo(true);
         $this->cut();
     }
-    
-    public function cut_for_workspace() : void
+
+    public function cut_for_workspace(): void
     {
         $this->session_repo->setClipboardWsp2Repo(false);
         $this->cut();
     }
 
-    public function copy() : void
+    public function copy(): void
     {
         $ilUser = $this->user;
 
@@ -351,14 +351,14 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
         $this->showMoveIntoObjectTree($repo_switch_allowed);
     }
-    
-    public function copyShared() : void
+
+    public function copyShared(): void
     {
         $ids = $this->std_request->getItemIds();
         if (count($ids) != 1) {
             $this->ctrl->redirect($this, "share");
         }
-        
+
         $current_node = current($ids);
         $handler = $this->getAccessHandler();
         // see ilSharedRessourceGUI::hasAccess()
@@ -376,28 +376,28 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
                 return;
             }
         }
-        
+
         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
         $this->ctrl->redirect($this, "share");
     }
-        
-    public function copy_to_repository() : void
+
+    public function copy_to_repository(): void
     {
         $this->session_repo->setClipboardWsp2Repo(true);
         $this->copy();
     }
 
-    public function copy_to_workspace() : void
+    public function copy_to_workspace(): void
     {
         $this->session_repo->setClipboardWsp2Repo(false);
         $this->copy();
     }
 
-    public function showMoveIntoObjectTree(bool $repo_switch_allowed = false) : void
+    public function showMoveIntoObjectTree(bool $repo_switch_allowed = false): void
     {
         $ilTabs = $this->tabs;
         $tree = $this->tree;
-        
+
         $ilTabs->clearTargets();
 
         if (!$this->session_repo->getClipboardShared()) {
@@ -411,18 +411,18 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
                 $this->ctrl->getLinkTarget($this, 'share')
             );
         }
-        
+
         $mode = $this->session_repo->getClipboardCmd();
 
         $this->tpl->setOnScreenMessage('info', $this->lng->txt('msg_' . $mode . '_clipboard'));
-        
+
         $this->tpl->addBlockFile(
             'ADM_CONTENT',
             'adm_content',
             'tpl.paste_into_multiple_objects.html',
             "Services/Object"
         );
-        
+
         // move/copy in personal workspace
         if (!$this->session_repo->getClipboardWsp2Repo()) {
             $exp = new ilWorkspaceExplorerGUI($this->user->getId(), $this, "showMoveIntoObjectTree", $this, "");
@@ -459,7 +459,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
                 'paste_' . $mode . '_repexpand'
             );
             $exp->setTargetGet('ref_id');
-            
+
             if ($this->std_request->getPasteExpand($mode) == '') {
                 $expanded = $tree->readRootId();
             } else {
@@ -488,7 +488,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
                 }
             }
         }
-        
+
 
         unset($exp);
 
@@ -502,7 +502,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         $this->tpl->setVariable('TXT_SUBMIT', $this->lng->txt('paste'));
     }
 
-    public function performPasteIntoMultipleObjects() : void
+    public function performPasteIntoMultipleObjects(): void
     {
         $ilUser = $this->user;
         $owner = 0;
@@ -642,107 +642,108 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
                 $wizard_options->deleteAll();
             }
         }
-        
+
         // redirect to target if not repository
         if (!$this->session_repo->getClipboardWsp2Repo()) {
-            $redirect_node = $target_node_id;
+            //$redirect_node = $target_node_id;
+            $redirect_node = $this->node_id;    // see bug 34459
         } else {
             // reload current folder
             $redirect_node = $this->node_id;
         }
-        
+
         $this->session_repo->clearClipboard();
-        
+
         // #17746
         if ($mode == 'cut') {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_cut_copied'), true);
         } else {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_cloned'), true);
         }
-        
+
         $this->ctrl->setParameter($this, "wsp_id", $redirect_node);
         $this->ctrl->redirect($this);
     }
-    
-    public function shareFilter() : void
+
+    public function shareFilter(): void
     {
         $this->share(false);
     }
-    
-    public function share(bool $a_load_data = true) : void
+
+    public function share(bool $a_load_data = true): void
     {
         $tpl = $this->tpl;
-    
+
         $tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler(), $this->node_id, $a_load_data);
         $tpl->setContent($tbl->getHTML());
     }
-    
-    public function applyShareFilter() : void
+
+    public function applyShareFilter(): void
     {
         $tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler(), $this->node_id);
         $tbl->resetOffset();
         $tbl->writeFilterToSession();
-        
+
         $this->share();
     }
-    
-    public function resetShareFilter() : void
+
+    public function resetShareFilter(): void
     {
         $tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler(), $this->node_id);
         $tbl->resetOffset();
         $tbl->resetFilter();
-        
+
         $this->shareFilter();
     }
-    
-    protected function passwordForm(int $a_node_id, ?ilPropertyFormGUI $form = null) : void
+
+    protected function passwordForm(int $a_node_id, ?ilPropertyFormGUI $form = null): void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
         $ilTabs = $this->tabs;
-        
+
         $tpl->setTitle($lng->txt("wsp_password_protected_resource"));
         $tpl->setDescription($lng->txt("wsp_password_protected_resource_info"));
-        
+
         $ilTabs->clearTargets();
         $ilTabs->setBackTarget(
             $lng->txt("back"),
             $this->ctrl->getLinkTarget($this, "share")
         );
-        
+
         if (!$form) {
             $form = $this->initPasswordForm($a_node_id);
         }
-    
+
         $tpl->setContent($form->getHTML());
     }
-    
-    protected function initPasswordForm(int $a_node_id) : ilPropertyFormGUI
+
+    protected function initPasswordForm(int $a_node_id): ilPropertyFormGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-                        
+
         $this->ctrl->setParameter($this, "item_ref_id", $a_node_id);
-        
+
         $object_data = $this->getAccessHandler()->getObjectDataFromNode($a_node_id);
-        
+
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this, "checkPassword"));
         $form->setTitle($lng->txt("wsp_password_for") . ": " . $object_data["title"]);
-        
+
         $password = new ilPasswordInputGUI($lng->txt("password"), "password");
         $password->setRetype(false);
         $password->setRequired(true);
         $password->setSkipSyntaxCheck(true);
         $form->addItem($password);
-        
+
         $form->addCommandButton("checkPassword", $lng->txt("submit"));
         $form->addCommandButton("share", $lng->txt("cancel"));
-        
+
         return $form;
     }
-    
-    protected function checkPassword() : void
+
+    protected function checkPassword(): void
     {
         $lng = $this->lng;
 
@@ -751,7 +752,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
             $this->ctrl->redirect($this, "share");
         }
         $node_id = current($ids);
-         
+
         $form = $this->initPasswordForm($node_id);
         if ($form->checkInput()) {
             $password = ilWorkspaceAccessHandler::getSharedNodePassword($node_id);
@@ -759,7 +760,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
             if ($input == $password) {
                 // we save password and start over
                 ilWorkspaceAccessHandler::keepSharedSessionPassword($node_id, $input);
-                
+
                 $this->ctrl->setParameter($this, "item_ref_id", $node_id);
                 $this->ctrl->redirect($this, "copyShared");
             } else {
@@ -768,12 +769,12 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
                 $this->tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
             }
         }
-        
+
         $form->setValuesByPost();
         $this->passwordForm($node_id, $form);
     }
-    
-    public static function _goto(string $a_target) : void
+
+    public static function _goto(string $a_target): void
     {
         global $DIC;
         $ctrl = $DIC->ctrl();
@@ -786,7 +787,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         $ctrl->redirectByClass("ilsharedresourceGUI");
     }
 
-    public function listSharedResourcesOfOtherUser() : void
+    public function listSharedResourcesOfOtherUser(): void
     {
         $tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler(), $this->node_id);
         $tbl->resetOffset();
@@ -795,7 +796,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         $this->share();
     }
 
-    protected function deleteConfirmation() : void
+    protected function deleteConfirmation(): void
     {
         global $DIC;
 
@@ -859,7 +860,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
     // admin panel
     //
 
-    public function showAdministrationPanel() : void
+    public function showAdministrationPanel(): void
     {
         global $DIC;
 
@@ -937,13 +938,13 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
     /**
      * Set sortation
      */
-    protected function setSortation() : void
+    protected function setSortation(): void
     {
         $this->user_folder_settings->updateSortation($this->object->getId(), $this->requested_sortation);
         $this->ctrl->redirect($this, "");
     }
 
-    public function download() : void
+    public function download(): void
     {
         // This variable determines whether the task has been initiated by a folder's action drop-down to prevent a folder
         // duplicate inside the zip.
@@ -964,8 +965,12 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         $this->ctrl->redirect($this);
     }
 
-    public function getBucketTitle() : string
+    public function getBucketTitle(): string
     {
-        return ilFileUtils::getASCIIFilename($this->object->getTitle());
+        $title = ilFileUtils::getASCIIFilename($this->object->getTitle());
+        if ($title === '') { // $this->>object->getTitle() is empty in root of personal and shared resources
+            $title = $this->lng->txt('personal_resources');
+        }
+        return $title;
     }
 }

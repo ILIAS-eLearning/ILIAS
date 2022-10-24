@@ -25,12 +25,12 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
      * @var bool
      */
     protected $editElementOccuranceEnabled = false;
-    
+
     /**
      * @var bool
      */
     protected $editElementOrderEnabled = false;
-    
+
     /**
      * Constructor
      *
@@ -45,45 +45,45 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
         parent::__construct($a_title, $a_postvar);
         $this->validationRegexp = "";
     }
-    
+
     /**
      * @return	boolean $editElementOccuranceEnabled
      */
-    public function isEditElementOccuranceEnabled() : bool
+    public function isEditElementOccuranceEnabled(): bool
     {
         return $this->editElementOccuranceEnabled;
     }
-    
+
     /**
      * @param	boolean	$editElementOccuranceEnabled
      */
-    public function setEditElementOccuranceEnabled($editElementOccuranceEnabled) : void
+    public function setEditElementOccuranceEnabled($editElementOccuranceEnabled): void
     {
         $this->editElementOccuranceEnabled = $editElementOccuranceEnabled;
     }
-    
+
     /**
      * @return boolean
      */
-    public function isEditElementOrderEnabled() : bool
+    public function isEditElementOrderEnabled(): bool
     {
         return $this->editElementOrderEnabled;
     }
-    
+
     /**
      * @param boolean $editElementOrderEnabled
      */
-    public function setEditElementOrderEnabled($editElementOrderEnabled) : void
+    public function setEditElementOrderEnabled($editElementOrderEnabled): void
     {
         $this->editElementOrderEnabled = $editElementOrderEnabled;
     }
-    
+
     /**
      * Check input, strip slashes etc. set alert, if input is not ok.
      *fetchImageTitle
      * @return	boolean		Input ok, true/false
      */
-    public function onCheckInput() : bool
+    public function onCheckInput(): bool
     {
         $lng = $this->lng;
 
@@ -93,7 +93,7 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
             $this->setAlert($lng->txt("msg_input_is_required"));
             return false;
         }
-        
+
         foreach ($submittedElements as $submittedValue) {
             $submittedContentText = $this->fetchContentTextFromValue($submittedValue);
 
@@ -101,7 +101,7 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
                 $this->setAlert($lng->txt('msg_input_is_required'));
                 return false;
             }
-            
+
             if ($this->getValidationRegexp() !== '') {
                 if (!preg_match($this->getValidationRegexp(), (string) $submittedContentText)) {
                     $this->setAlert($lng->txt('msg_wrong_format'));
@@ -112,12 +112,12 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 
         return $this->checkSubItemsInput();
     }
-    
+
     /**
      * @param string $mode
      * @return string
      */
-    public function render(string $a_mode = "") : string
+    public function render(string $a_mode = ""): string
     {
         $tpl = new ilTemplate("tpl.prop_multi_text_inp.html", true, true, "Services/Form");
         $i = 0;
@@ -143,7 +143,7 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
             $tpl->setVariable("ID", $this->getMultiValuePosIndexedFieldId($identifier, $i));
             $tpl->setVariable("SIZE", $this->getSize());
             $tpl->setVariable("MAXLENGTH", $this->getMaxLength());
-            
+
             if ($this->getDisabled()) {
                 $tpl->setVariable(
                     "DISABLED",
@@ -157,35 +157,35 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
                 $tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
                 $tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
             }
-            
+
             $tpl->parseCurrentBlock();
             $i++;
         }
         $tpl->setVariable("ELEMENT_ID", $this->getFieldId());
-        
+
         if (!$this->getDisabled()) {
             $globalTpl = $GLOBALS['DIC'] ? $GLOBALS['DIC']['tpl'] : $GLOBALS['tpl'];
             $globalTpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
             $globalTpl->addJavascript("./Services/Form/js/ServiceFormIdentifiedWizardInputExtend.js");
             $globalTpl->addJavascript("./Services/Form/js/ServiceFormMultiTextInputInit.js");
         }
-        
+
         return $tpl->get();
     }
-    
+
     /**
      * @param $value
      * @return bool
      */
-    protected function valueHasContentText($value) : bool
+    protected function valueHasContentText($value): bool
     {
         if ($value === null || is_array($value) || is_object($value)) {
             return false;
         }
-        
+
         return (bool) strlen($value);
     }
-    
+
     /**
      * @param mixed $value
      * @return string|ilAssOrderingElement|null
@@ -195,7 +195,7 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
         if ($this->valueHasContentText($value)) {
             return $value;
         }
-        
+
         return null;
     }
 }

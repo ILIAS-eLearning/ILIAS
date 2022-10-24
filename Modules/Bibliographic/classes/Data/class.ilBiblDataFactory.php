@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBiblDataFactory
  *
@@ -22,9 +22,8 @@
  */
 class ilBiblDataFactory implements ilBiblDataFactoryInterface
 {
-    
     /** @noinspection PhpIncompatibleReturnTypeInspection */
-    public function getIlBiblDataById(int $id) : ?ilBiblData
+    public function getIlBiblDataById(int $id): ?ilBiblData
     {
         return ilBiblData::where(["id" => $id])->first();
     }

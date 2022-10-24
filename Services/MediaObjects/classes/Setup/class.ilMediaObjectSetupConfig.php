@@ -31,7 +31,7 @@ class ilMediaObjectSetupConfig implements Setup\Config
         $this->path_to_ffmpeg = $this->toLinuxConvention($path_to_ffmpeg);
     }
 
-    protected function toLinuxConvention(?string $p) : ?string
+    protected function toLinuxConvention(?string $p): ?string
     {
         if (!$p) {
             return null;
@@ -39,7 +39,7 @@ class ilMediaObjectSetupConfig implements Setup\Config
         return preg_replace("/\\\\/", "/", $p);
     }
 
-    public function getPathToFFMPEG() : ?string
+    public function getPathToFFMPEG(): ?string
     {
         return $this->path_to_ffmpeg;
     }

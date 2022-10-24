@@ -83,7 +83,7 @@ class shibConfig
         }
     }
 
-    public static function getInstance() : shibConfig
+    public static function getInstance(): shibConfig
     {
         if (!isset(self::$cache)) {
             self::$cache = new self();
@@ -103,352 +103,352 @@ class shibConfig
         return $this->{$key};
     }
 
-    public function setCity(string $city) : void
+    public function setCity(string $city): void
     {
         $this->city = $city;
     }
 
-    public function getCity() : string
+    public function getCity(): string
     {
         return $this->city;
     }
 
-    public function setCountry(string $country) : void
+    public function setCountry(string $country): void
     {
         $this->country = $country;
     }
 
-    public function getCountry() : string
+    public function getCountry(): string
     {
         return $this->country;
     }
 
-    public function setDataConv(string $data_conv) : void
+    public function setDataConv(string $data_conv): void
     {
         $this->data_conv = $data_conv;
     }
 
-    public function getDataConv() : string
+    public function getDataConv(): string
     {
         return $this->data_conv;
     }
 
-    public function setDepartment(string $department) : void
+    public function setDepartment(string $department): void
     {
         $this->department = $department;
     }
 
-    public function getDepartment() : string
+    public function getDepartment(): string
     {
         return $this->department;
     }
 
-    public function setEmail(string $email) : void
+    public function setEmail(string $email): void
     {
         $this->email = $email;
     }
 
-    public function getEmail() : string
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    public function setFax(string $fax) : void
+    public function setFax(string $fax): void
     {
         $this->fax = $fax;
     }
 
-    public function getFax() : string
+    public function getFax(): string
     {
         return $this->fax;
     }
 
-    public function setFirstname(string $firstname) : void
+    public function setFirstname(string $firstname): void
     {
         $this->firstname = $firstname;
     }
 
-    public function getFirstname() : string
+    public function getFirstname(): string
     {
         return $this->firstname;
     }
 
-    public function setGender(string $gender) : void
+    public function setGender(string $gender): void
     {
         $this->gender = $gender;
     }
 
-    public function getGender() : string
+    public function getGender(): string
     {
         return $this->gender;
     }
 
-    public function setHobby(string $hobby) : void
+    public function setHobby(string $hobby): void
     {
         $this->hobby = $hobby;
     }
 
-    public function getHobby() : string
+    public function getHobby(): string
     {
         return $this->hobby;
     }
 
-    public function setInstitution(string $institution) : void
+    public function setInstitution(string $institution): void
     {
         $this->institution = $institution;
     }
 
-    public function getInstitution() : string
+    public function getInstitution(): string
     {
         return $this->institution;
     }
 
-    public function setLanguage(string $language) : void
+    public function setLanguage(string $language): void
     {
         $this->language = $language;
     }
 
-    public function getLanguage() : string
+    public function getLanguage(): string
     {
         return $this->language;
     }
 
-    public function setLastname(string $lastname) : void
+    public function setLastname(string $lastname): void
     {
         $this->lastname = $lastname;
     }
 
-    public function getLastname() : string
+    public function getLastname(): string
     {
         return $this->lastname;
     }
 
-    public function setLogin(string $login) : void
+    public function setLogin(string $login): void
     {
         $this->login = $login;
     }
 
-    public function getLogin() : string
+    public function getLogin(): string
     {
         return $this->login;
     }
 
-    public function setMatriculation(string $matriculation) : void
+    public function setMatriculation(string $matriculation): void
     {
         $this->matriculation = $matriculation;
     }
 
-    public function getMatriculation() : string
+    public function getMatriculation(): string
     {
         return $this->matriculation;
     }
 
-    public function setPhoneHome(string $phone_home) : void
+    public function setPhoneHome(string $phone_home): void
     {
         $this->phone_home = $phone_home;
     }
 
-    public function getPhoneHome() : string
+    public function getPhoneHome(): string
     {
         return $this->phone_home;
     }
 
-    public function setPhoneMobile(string $phone_mobile) : void
+    public function setPhoneMobile(string $phone_mobile): void
     {
         $this->phone_mobile = $phone_mobile;
     }
 
-    public function getPhoneMobile() : string
+    public function getPhoneMobile(): string
     {
         return $this->phone_mobile;
     }
 
-    public function setPhoneOffice(string $phone_office) : void
+    public function setPhoneOffice(string $phone_office): void
     {
         $this->phone_office = $phone_office;
     }
 
-    public function getPhoneOffice() : string
+    public function getPhoneOffice(): string
     {
         return $this->phone_office;
     }
 
-    public function setStreet(string $street) : void
+    public function setStreet(string $street): void
     {
         $this->street = $street;
     }
 
-    public function getStreet() : string
+    public function getStreet(): string
     {
         return $this->street;
     }
 
-    public function setTitle(string $title) : void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setUpdateCity(bool $update_city) : void
+    public function setUpdateCity(bool $update_city): void
     {
         $this->update_city = $update_city;
     }
 
-    public function getUpdateCity() : bool
+    public function getUpdateCity(): bool
     {
         return $this->update_city;
     }
 
-    public function setUpdateCountry(bool $update_country) : void
+    public function setUpdateCountry(bool $update_country): void
     {
         $this->update_country = $update_country;
     }
 
-    public function getUpdateCountry() : bool
+    public function getUpdateCountry(): bool
     {
         return $this->update_country;
     }
 
-    public function setUpdateDataConv(bool $update_data_conv) : void
+    public function setUpdateDataConv(bool $update_data_conv): void
     {
         $this->update_data_conv = $update_data_conv;
     }
 
-    public function getUpdateDataConv() : bool
+    public function getUpdateDataConv(): bool
     {
         return $this->update_data_conv;
     }
 
-    public function setUpdateDepartment(bool $update_department) : void
+    public function setUpdateDepartment(bool $update_department): void
     {
         $this->update_department = $update_department;
     }
 
-    public function getUpdateDepartment() : bool
+    public function getUpdateDepartment(): bool
     {
         return $this->update_department;
     }
 
-    public function setUpdateEmail(bool $update_email) : void
+    public function setUpdateEmail(bool $update_email): void
     {
         $this->update_email = $update_email;
     }
 
-    public function getUpdateEmail() : bool
+    public function getUpdateEmail(): bool
     {
         return $this->update_email;
     }
 
-    public function setUpdateFax(bool $update_fax) : void
+    public function setUpdateFax(bool $update_fax): void
     {
         $this->update_fax = $update_fax;
     }
 
-    public function getUpdateFax() : bool
+    public function getUpdateFax(): bool
     {
         return $this->update_fax;
     }
 
-    public function setUpdateGender(bool $update_gender) : void
+    public function setUpdateGender(bool $update_gender): void
     {
         $this->update_gender = $update_gender;
     }
 
-    public function getUpdateGender() : bool
+    public function getUpdateGender(): bool
     {
         return $this->update_gender;
     }
 
-    public function setUpdateHobby(bool $update_hobby) : void
+    public function setUpdateHobby(bool $update_hobby): void
     {
         $this->update_hobby = $update_hobby;
     }
 
-    public function getUpdateHobby() : bool
+    public function getUpdateHobby(): bool
     {
         return $this->update_hobby;
     }
 
-    public function setUpdateInstitution(bool $update_institution) : void
+    public function setUpdateInstitution(bool $update_institution): void
     {
         $this->update_institution = $update_institution;
     }
 
-    public function getUpdateInstitution() : bool
+    public function getUpdateInstitution(): bool
     {
         return $this->update_institution;
     }
 
-    public function setUpdateLanguage(bool $update_language) : void
+    public function setUpdateLanguage(bool $update_language): void
     {
         $this->update_language = $update_language;
     }
 
-    public function getUpdateLanguage() : bool
+    public function getUpdateLanguage(): bool
     {
         return $this->update_language;
     }
 
-    public function setUpdateLogin(bool $update_login) : void
+    public function setUpdateLogin(bool $update_login): void
     {
         $this->update_login = $update_login;
     }
 
-    public function getUpdateLogin() : bool
+    public function getUpdateLogin(): bool
     {
         return $this->update_login;
     }
 
-    public function setUpdateMatriculation(bool $update_matriculation) : void
+    public function setUpdateMatriculation(bool $update_matriculation): void
     {
         $this->update_matriculation = $update_matriculation;
     }
 
-    public function getUpdateMatriculation() : bool
+    public function getUpdateMatriculation(): bool
     {
         return $this->update_matriculation;
     }
 
-    public function setUpdatePhoneHome(bool $update_phone_home) : void
+    public function setUpdatePhoneHome(bool $update_phone_home): void
     {
         $this->update_phone_home = $update_phone_home;
     }
 
-    public function getUpdatePhoneHome() : bool
+    public function getUpdatePhoneHome(): bool
     {
         return $this->update_phone_home;
     }
 
-    public function setUpdatePhoneMobile(bool $update_phone_mobile) : void
+    public function setUpdatePhoneMobile(bool $update_phone_mobile): void
     {
         $this->update_phone_mobile = $update_phone_mobile;
     }
 
-    public function getUpdatePhoneMobile() : bool
+    public function getUpdatePhoneMobile(): bool
     {
         return $this->update_phone_mobile;
     }
 
-    public function setUpdatePhoneOffice(bool $update_phone_office) : void
+    public function setUpdatePhoneOffice(bool $update_phone_office): void
     {
         $this->update_phone_office = $update_phone_office;
     }
 
-    public function getUpdatePhoneOffice() : bool
+    public function getUpdatePhoneOffice(): bool
     {
         return $this->update_phone_office;
     }
 
-    public function setUpdateStreet(bool $update_street) : void
+    public function setUpdateStreet(bool $update_street): void
     {
         $this->update_street = $update_street;
     }
 
-    public function getUpdateStreet() : bool
+    public function getUpdateStreet(): bool
     {
         return $this->update_street;
     }
@@ -456,7 +456,7 @@ class shibConfig
     /**
      * @param mixed $update_title
      */
-    public function setUpdateTitle(bool $update_title) : void
+    public function setUpdateTitle(bool $update_title): void
     {
         $this->update_title = $update_title;
     }
@@ -464,67 +464,67 @@ class shibConfig
     /**
      * @return mixed
      */
-    public function getUpdateTitle() : bool
+    public function getUpdateTitle(): bool
     {
         return $this->update_title;
     }
 
-    public function setUpdateZipcode(bool $update_zipcode) : void
+    public function setUpdateZipcode(bool $update_zipcode): void
     {
         $this->update_zipcode = $update_zipcode;
     }
 
-    public function getUpdateZipcode() : bool
+    public function getUpdateZipcode(): bool
     {
         return $this->update_zipcode;
     }
 
-    public function setZipcode(string $zipcode) : void
+    public function setZipcode(string $zipcode): void
     {
         $this->zipcode = $zipcode;
     }
 
-    public function getZipcode() : string
+    public function getZipcode(): string
     {
         return $this->zipcode;
     }
 
-    public function setUserDefaultRole(int $user_default_role) : void
+    public function setUserDefaultRole(int $user_default_role): void
     {
         $this->user_default_role = $user_default_role;
     }
 
-    public function getUserDefaultRole() : int
+    public function getUserDefaultRole(): int
     {
         return $this->user_default_role;
     }
 
-    public function setUpdateFirstname(bool $update_firstname) : void
+    public function setUpdateFirstname(bool $update_firstname): void
     {
         $this->update_firstname = $update_firstname;
     }
 
-    public function getUpdateFirstname() : bool
+    public function getUpdateFirstname(): bool
     {
         return $this->update_firstname;
     }
 
-    public function setUpdateLastname(bool $update_lastname) : void
+    public function setUpdateLastname(bool $update_lastname): void
     {
         $this->update_lastname = $update_lastname;
     }
 
-    public function getUpdateLastname() : bool
+    public function getUpdateLastname(): bool
     {
         return $this->update_lastname;
     }
 
-    public function isActivateNew() : bool
+    public function isActivateNew(): bool
     {
         return $this->activate_new;
     }
 
-    public function setActivateNew(bool $activate_new) : void
+    public function setActivateNew(bool $activate_new): void
     {
         $this->activate_new = $activate_new;
     }

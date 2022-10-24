@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/InputTest.php");
@@ -30,12 +32,12 @@ class TextInputTest extends ILIAS_UI_TestBase
 {
     protected DefNamesource $name_source;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->name_source = new DefNamesource();
     }
 
-    protected function buildFactory() : I\Input\Field\Factory
+    protected function buildFactory(): I\Input\Field\Factory
     {
         $df = new Data\Factory();
         $language = $this->createMock(ilLanguage::class);
@@ -48,7 +50,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $f = $this->buildFactory();
 
@@ -58,7 +60,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(Field\Text::class, $text);
     }
 
-    public function test_render() : void
+    public function test_render(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -80,7 +82,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_error() : void
+    public function test_render_error(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -95,7 +97,7 @@ class TextInputTest extends ILIAS_UI_TestBase
 <div class="form-group row">
    <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
    <div class="col-sm-8 col-md-9 col-lg-10">
-      <div class="help-block alert alert-danger" role="alert">an_error</div>
+      <div class="help-block alert alert-danger" aria-describedby="id_1" role="alert">an_error</div>
       <input id="id_1" type="text" name="name_0" class="form-control form-control-sm" />
       <div class="help-block">byline</div>
    </div>
@@ -104,7 +106,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_no_byline() : void
+    public function test_render_no_byline(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -122,7 +124,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_value() : void
+    public function test_render_value(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -141,7 +143,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_value_0() : void
+    public function test_render_value_0(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -160,7 +162,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_required() : void
+    public function test_render_required(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -178,7 +180,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_disabled() : void
+    public function test_render_disabled(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -196,7 +198,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_max_length() : void
+    public function test_max_length(): void
     {
         $f = $this->buildFactory();
 
@@ -213,7 +215,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $text->withValue("12345");
     }
 
-    public function test_render_max_value() : void
+    public function test_render_max_value(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -231,7 +233,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_value_required() : void
+    public function test_value_required(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -248,7 +250,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $this->assertTrue($value2->isError());
     }
 
-    public function test_stripsTags() : void
+    public function test_stripsTags(): void
     {
         $f = $this->buildFactory();
         $name = "name_0";

@@ -23,7 +23,6 @@
  */
 class ilDclFieldProperty extends ActiveRecord
 {
-
     /**
      * @var ?int
      * @db_has_field        true
@@ -70,37 +69,37 @@ class ilDclFieldProperty extends ActiveRecord
     /**
      * @description Return the Name of your Database Table
      */
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return "il_dcl_field_prop";
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setId(int $id) : void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    public function getFieldId() : int
+    public function getFieldId(): int
     {
         return $this->field_id;
     }
 
-    public function setFieldId(int $field_id) : void
+    public function setFieldId(int $field_id): void
     {
         $this->field_id = $field_id;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName(string $name) : void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -116,24 +115,24 @@ class ilDclFieldProperty extends ActiveRecord
     /**
      * @param string|array|int $value
      */
-    public function setValue($value) : void
+    public function setValue($value): void
     {
         $this->value = $value;
     }
 
-    public function create() : void
+    public function create(): void
     {
         $this->value = $this->serializeData($this->value);
         parent::create();
     }
 
-    public function update() : void
+    public function update(): void
     {
         $this->value = $this->serializeData($this->value);
         parent::update();
     }
 
-    public function afterObjectLoad() : void
+    public function afterObjectLoad(): void
     {
         $this->value = $this->deserializeData($this->value);
     }
@@ -142,7 +141,7 @@ class ilDclFieldProperty extends ActiveRecord
      * Serialize data before storing to db
      * @param int|string|array $value
      */
-    public function serializeData($value) : string
+    public function serializeData($value): string
     {
         if (is_array($value)) {
             $value = json_encode($value);

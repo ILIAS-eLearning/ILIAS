@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,34 +32,34 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
      * @var ilObjLTIConsumer
      */
     protected ilObjLTIConsumer $object;
-    
+
     /**
      * ilLTIConsumerSettingsFormGUI constructor.
      */
     public function __construct(ilObjLTIConsumer $object, string $formaction, string $saveCommand, string $cancelCommand)
     {
         $this->object = $object;
-        
+
         parent::__construct();
-        
+
         $this->initForm($formaction, $saveCommand, $cancelCommand);
     }
 
-    protected function initForm(string $formaction, string $saveCommand, string $cancelCommand) : void
+    protected function initForm(string $formaction, string $saveCommand, string $cancelCommand): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $DIC->language()->loadLanguageModule('lti');
         $this->setFormAction($formaction);
         $this->addCommandButton($saveCommand, $DIC->language()->txt('save'));
         $this->addCommandButton($cancelCommand, $DIC->language()->txt('cancel'));
-        
+
         $this->setTitle($DIC->language()->txt('lti_settings_form'));
-        
+
         $item = new ilNonEditableValueGUI($DIC->language()->txt('provider_info'));
         $item->setValue($this->object->getProvider()->getTitle());
         $item->setInfo($this->object->getProvider()->getDescription());
         $this->addItem($item);
-        
+
         $item = new ilTextInputGUI($DIC->language()->txt('title'), 'title');
         $item->setSize(40);
         $item->setMaxLength(128);
@@ -65,13 +67,13 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
         $item->setInfo($DIC->language()->txt('title_info'));
         $item->setValue($this->object->getTitle());
         $this->addItem($item);
-        
+
         $item = new ilTextAreaInputGUI($DIC->language()->txt('description'), 'description');
         $item->setInfo($DIC->language()->txt('description_info'));
         $item->setRows(2);
         $item->setValue($this->object->getDescription());
         $this->addItem($item);
-        
+
         $item = new ilCheckboxInputGUI($DIC->language()->txt('online'), 'online');
         $item->setInfo($DIC->language()->txt("online_info"));
         $item->setValue("1");
@@ -79,17 +81,17 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
             $item->setChecked(true);
         }
         $this->addItem($item);
-        
+
         if ($this->object->getProvider()->getLtiVersion() == 'LTI-1p0' && $this->object->getProvider()->isProviderKeyCustomizable()) {
             $sectionHeader = new ilFormSectionHeaderGUI();
             $sectionHeader->setTitle($DIC->language()->txt('lti_con_prov_authentication'));
             $this->addItem($sectionHeader);
-            
+
             $providerKeyInp = new ilTextInputGUI($DIC->language()->txt('lti_con_prov_key'), 'provider_key');
             $providerKeyInp->setValue($this->object->getCustomLaunchKey());
             $providerKeyInp->setRequired(true);
             $this->addItem($providerKeyInp);
-            
+
             $providerSecretInp = new ilTextInputGUI($DIC->language()->txt('lti_con_prov_secret'), 'provider_secret');
             $providerSecretInp->setValue($this->object->getCustomLaunchSecret());
             $providerSecretInp->setRequired(true);
@@ -113,11 +115,11 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
             $masteryScore->setValue((string) $this->object->getMasteryScorePercent());
             $this->addItem($masteryScore);
         }
-        
+
         $item = new ilFormSectionHeaderGUI();
         $item->setTitle($DIC->language()->txt('lti_form_section_appearance'));
         $this->addItem($item);
-        
+
         $item = new ilRadioGroupInputGUI($DIC->language()->txt('launch_method'), 'launch_method');
         $item->setRequired(true);
         $item->setValue($this->object->getLaunchMethod());
@@ -140,8 +142,13 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
         $optEmbedded->setInfo($DIC->language()->txt('launch_method_embedded_info'));
         $item->addOption($optEmbedded);
         $this->addItem($item);
-        
-        
+
+        $customParams = new ilTextAreaInputGUI($DIC->language()->txt('launch_custom_params'), 'custom_params');
+        $customParams->setRows(6);
+        $customParams->setValue($this->object->getCustomParams());
+        $customParams->setInfo($DIC->language()->txt('lti_con_prov_custom_params_info'));
+        $this->addItem($customParams);
+
         if ($this->object->getProvider()->getUseXapi()) {
             $item = new ilCheckboxInputGUI($DIC->language()->txt('use_xapi'), 'use_xapi');
             $item->setInfo($DIC->language()->txt("use_xapi_info"));
@@ -149,7 +156,7 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
             if ($this->object->getUseXapi()) {
                 $item->setChecked(true);
             }
-            
+
             if (!strlen($this->object->getProvider()->getXapiActivityId())) {
                 $subitem = new ilTextInputGUI($DIC->language()->txt('activity_id'), 'activity_id');
                 $subitem->setSize(40);
@@ -159,7 +166,7 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
                 $subitem->setValue($this->object->getCustomActivityId());
                 $item->addSubItem($subitem);
             }
-            
+
             $subitem = new ilCheckboxInputGUI($DIC->language()->txt('show_statements'), 'show_statements');
             $subitem->setInfo($DIC->language()->txt("show_statements_info"));
             $subitem->setValue("1");
@@ -167,7 +174,7 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
                 $subitem->setChecked(true);
             }
             $item->addSubItem($subitem);
-            
+
             $highscore = new ilCheckboxInputGUI($DIC->language()->txt("highscore_enabled"), "highscore_enabled");
             $highscore->setValue("1");
             $highscore->setChecked($this->object->getHighscoreEnabled());
@@ -213,13 +220,13 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
             $this->addItem($item);
         }
     }
-    
-    public function initObject(ilObjLTIConsumer $object) : void
+
+    public function initObject(ilObjLTIConsumer $object): void
     {
         $object->setTitle($this->getInput('title'));
         $object->setDescription($this->getInput('description'));
         $object->setOfflineStatus(!(bool) $this->getInput('online'));
-        
+
         if ($object->getProvider()->getLtiVersion() == 'LTI-1p0' && $object->getProvider()->isProviderKeyCustomizable()) {
             $object->setCustomLaunchKey($this->getInput('provider_key'));
             $object->setCustomLaunchSecret($this->getInput('provider_secret'));
@@ -230,6 +237,7 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
         }
 
         $object->setLaunchMethod($this->getInput('launch_method'));
+        $object->setCustomParams($this->getInput('custom_params'));
         $object->setUseXapi((bool) $this->getInput('use_xapi'));
         if ($object->getUseXapi()) {
             if (!strlen($this->object->getProvider()->getXapiActivityId())) {

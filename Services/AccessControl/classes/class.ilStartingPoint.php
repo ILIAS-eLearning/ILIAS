@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilStartingPoint
  * @author Jesús López <lopez@leifos.com>
@@ -29,7 +31,7 @@ class ilStartingPoint
     public const FALLBACK_RULE = 1;
     public const ROLE_BASED = 2;
     public const USER_SELECTION_RULE = 3;
-    
+
     protected ?int $starting_point = null;
     protected ?int $starting_object = null;
     protected ?int $starting_position = null;
@@ -50,7 +52,7 @@ class ilStartingPoint
         $this->setData();
     }
 
-    private function setData() : void
+    private function setData(): void
     {
         $query = "SELECT * FROM usr_starting_point WHERE id = " . $this->db->quote($this->id, 'integer');
         $res = $this->db->query($query);
@@ -66,42 +68,42 @@ class ilStartingPoint
         }
     }
 
-    public function setStartingPoint(int $a_starting_point) : void
+    public function setStartingPoint(int $a_starting_point): void
     {
         $this->starting_point = $a_starting_point;
     }
 
-    public function getStartingPoint() : int
+    public function getStartingPoint(): int
     {
         return $this->starting_point;
     }
 
-    public function setStartingObject(int $a_starting_object) : void
+    public function setStartingObject(int $a_starting_object): void
     {
         $this->starting_object = $a_starting_object;
     }
 
-    public function getStartingObject() : int
+    public function getStartingObject(): int
     {
         return $this->starting_object;
     }
 
-    public function setPosition(int $a_starting_position) : void
+    public function setPosition(int $a_starting_position): void
     {
         $this->starting_position = $a_starting_position;
     }
 
-    public function getPosition() : int
+    public function getPosition(): int
     {
         return $this->starting_position;
     }
 
-    public function setRuleType(int $a_rule_type) : void
+    public function setRuleType(int $a_rule_type): void
     {
         $this->rule_type = $a_rule_type;
     }
 
-    public function getRuleType() : int
+    public function getRuleType(): int
     {
         return $this->rule_type;
     }
@@ -109,7 +111,7 @@ class ilStartingPoint
     /**
      * serialized string
      */
-    public function setRuleOptions(string $a_rule_options) : void
+    public function setRuleOptions(string $a_rule_options): void
     {
         $this->rule_options = $a_rule_options;
     }
@@ -117,7 +119,7 @@ class ilStartingPoint
     /**
      * Gets calendar view
      */
-    public function getCalendarView() : int
+    public function getCalendarView(): int
     {
         return $this->calendar_view;
     }
@@ -125,22 +127,22 @@ class ilStartingPoint
     /**
      * Sets calendar view
      */
-    public function setCalendarView(int $calendar_view) : void
+    public function setCalendarView(int $calendar_view): void
     {
         $this->calendar_view = $calendar_view;
     }
 
-    public function getCalendarPeriod() : int
+    public function getCalendarPeriod(): int
     {
         return $this->calendar_period;
     }
 
-    public function setCalendarPeriod(int $calendar_period) : void
+    public function setCalendarPeriod(int $calendar_period): void
     {
         $this->calendar_period = $calendar_period;
     }
 
-    public function getRuleOptions() : ?string
+    public function getRuleOptions(): ?string
     {
         return $this->rule_options;
     }
@@ -148,7 +150,7 @@ class ilStartingPoint
     /**
      * Get all the starting points in database
      */
-    public static function getStartingPoints() : array
+    public static function getStartingPoints(): array
     {
         global $DIC;
 
@@ -173,7 +175,7 @@ class ilStartingPoint
         return $points;
     }
 
-    public static function onRoleDeleted(ilObjRole $role) : void
+    public static function onRoleDeleted(ilObjRole $role): void
     {
         foreach (self::getRolesWithStartingPoint() as $roleId => $data) {
             if ((int) $roleId === $role->getId()) {
@@ -192,7 +194,7 @@ class ilStartingPoint
     /**
      * get array with all roles which have starting point defined.
      */
-    public static function getRolesWithStartingPoint() : array
+    public static function getRolesWithStartingPoint(): array
     {
         global $DIC;
 
@@ -221,7 +223,7 @@ class ilStartingPoint
     /**
      * Get id and title of the roles without starting points
      */
-    public static function getGlobalRolesWithoutStartingPoint() : array
+    public static function getGlobalRolesWithoutStartingPoint(): array
     {
         global $DIC;
 
@@ -251,7 +253,7 @@ class ilStartingPoint
     /**
      * insert starting point into database
      */
-    public function save() : void
+    public function save(): void
     {
         //get position
         $max_position = $this->getMaxPosition();
@@ -287,7 +289,7 @@ class ilStartingPoint
     /**
      * update starting point
      */
-    public function update() : void
+    public function update(): void
     {
         $this->db->manipulateF(
             'UPDATE usr_starting_point
@@ -323,13 +325,13 @@ class ilStartingPoint
     /**
      * delete starting point
      */
-    public function delete() : void
+    public function delete(): void
     {
         $query = "DELETE FROM usr_starting_point WHERE id = " . $this->db->quote($this->id, "integer");
         $this->db->manipulate($query);
     }
 
-    public function getMaxPosition() : int
+    public function getMaxPosition(): int
     {
         //get max order number
         $result = $this->db->query("SELECT max(position) as max_order FROM usr_starting_point");
@@ -341,7 +343,7 @@ class ilStartingPoint
         return $order_val;
     }
 
-    public static function reArrangePositions(array $a_items) : array
+    public static function reArrangePositions(array $a_items): array
     {
         $ord_const = 0;
         $rearranged = [];
@@ -356,7 +358,7 @@ class ilStartingPoint
     /**
      * Save all starting point positions. Ordering values with increment +10
      */
-    public function saveOrder(array $a_items) : void
+    public function saveOrder(array $a_items): void
     {
         asort($a_items);
         $nr = 10;

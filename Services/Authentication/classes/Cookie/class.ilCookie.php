@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,85 +33,85 @@ class ilCookie
     private string $domain = '';
     private bool $secure = false;
     private bool $http_only = false;
-    
+
     public function __construct(string $a_name)
     {
         $this->name = $a_name;
     }
-    
-    public function setName(string $a_name) : void
+
+    public function setName(string $a_name): void
     {
         $this->name = $a_name;
     }
-    
+
     /**
      * Get name
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
-    
+
     /**
      * Currently no restriction on cookie length.
      * RFC 2965 suggests a minimum of 4096 bytes
      */
-    public function setValue(string $a_value) : void
+    public function setValue(string $a_value): void
     {
         $this->value = $a_value;
     }
-    
-    public function getValue() : string
+
+    public function getValue(): string
     {
         return $this->value;
     }
-    
-    public function setExpire(int $a_expire) : void
+
+    public function setExpire(int $a_expire): void
     {
         $this->expire = $a_expire;
     }
-    
-    public function getExpire() : int
+
+    public function getExpire(): int
     {
         return $this->expire;
     }
-    
-    public function setPath(string $a_path) : void
+
+    public function setPath(string $a_path): void
     {
         $this->path = $a_path;
     }
-    
-    public function getPath() : string
+
+    public function getPath(): string
     {
         return $this->path;
     }
-    
-    public function setDomain(string $a_domain) : void
+
+    public function setDomain(string $a_domain): void
     {
         $this->domain = $a_domain;
     }
-    
-    public function getDomain() : string
+
+    public function getDomain(): string
     {
         return $this->domain;
     }
-    
-    public function setSecure(bool $a_status) : void
+
+    public function setSecure(bool $a_status): void
     {
         $this->secure = $a_status;
     }
-    
-    public function isSecure() : bool
+
+    public function isSecure(): bool
     {
         return $this->secure;
     }
-    
-    public function setHttpOnly(bool $a_http_only) : void
+
+    public function setHttpOnly(bool $a_http_only): void
     {
         $this->http_only = $a_http_only;
     }
-    
-    public function isHttpOnly() : bool
+
+    public function isHttpOnly(): bool
     {
         return $this->http_only;
     }

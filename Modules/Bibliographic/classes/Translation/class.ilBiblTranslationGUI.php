@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Modules\OrgUnit\ARHelper\DIC;
 
 /**
@@ -27,13 +27,13 @@ use ILIAS\Modules\OrgUnit\ARHelper\DIC;
 class ilBiblTranslationGUI
 {
     use DIC;
-    const P_TRANSLATIONS = 'translations';
-    const P_DELETE = 'delete';
-    const CMD_ADD_LANGUAGE = "addLanguages";
-    const CMD_SAVE_LANGUAGES = "saveLanguages";
-    const CMD_SAVE_TRANSLATIONS = "saveTranslations";
-    const CMD_DELETE_TRANSLATIONS = "deleteTranslations";
-    const CMD_DEFAULT = 'index';
+    public const P_TRANSLATIONS = 'translations';
+    public const P_DELETE = 'delete';
+    public const CMD_ADD_LANGUAGE = "addLanguages";
+    public const CMD_SAVE_LANGUAGES = "saveLanguages";
+    public const CMD_SAVE_TRANSLATIONS = "saveTranslations";
+    public const CMD_DELETE_TRANSLATIONS = "deleteTranslations";
+    public const CMD_DEFAULT = 'index';
     protected \ilBiblAdminFactoryFacadeInterface $facade;
     protected \ilBiblFieldInterface $field;
     private \ilGlobalTemplateInterface $main_tpl;
@@ -51,7 +51,7 @@ class ilBiblTranslationGUI
     }
 
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $this->ctrl()->saveParameter($this, ilBiblAdminFieldGUI::FIELD_IDENTIFIER);
         switch ($this->ctrl()->getNextClass()) {
@@ -62,7 +62,7 @@ class ilBiblTranslationGUI
     }
 
 
-    protected function index() : void
+    protected function index(): void
     {
         $this->initToolbar();
 
@@ -71,14 +71,14 @@ class ilBiblTranslationGUI
     }
 
 
-    protected function initToolbar() : void
+    protected function initToolbar(): void
     {
         $this->toolbar()->addButton($this->lng()->txt("obj_add_languages"), $this->ctrl()
             ->getLinkTarget($this, self::CMD_ADD_LANGUAGE));
     }
 
 
-    protected function saveTranslations() : void
+    protected function saveTranslations(): void
     {
         $to_translate = (array) $this->http()->request()->getParsedBody()[self::P_TRANSLATIONS];
         foreach ($to_translate as $id => $data) {
@@ -92,7 +92,7 @@ class ilBiblTranslationGUI
     }
 
 
-    protected function deleteTranslations() : void
+    protected function deleteTranslations(): void
     {
         $to_delete = (array) $this->http()->request()->getParsedBody()[self::P_DELETE];
         foreach ($to_delete as $id) {
@@ -103,7 +103,7 @@ class ilBiblTranslationGUI
     }
 
 
-    protected function addLanguages() : void
+    protected function addLanguages(): void
     {
         $form = $this->getLanguagesForm();
 
@@ -111,7 +111,7 @@ class ilBiblTranslationGUI
     }
 
 
-    protected function saveLanguages() : void
+    protected function saveLanguages(): void
     {
         $form = $this->getLanguagesForm();
         if ($form->checkInput()) {
@@ -132,7 +132,7 @@ class ilBiblTranslationGUI
     }
 
 
-    protected function getLanguagesForm() : \ilPropertyFormGUI
+    protected function getLanguagesForm(): \ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl()->getFormAction($this));
@@ -160,7 +160,7 @@ class ilBiblTranslationGUI
     }
 
 
-    protected function cancel() : void
+    protected function cancel(): void
     {
         $this->ctrl()->redirect($this, self::CMD_DEFAULT);
     }

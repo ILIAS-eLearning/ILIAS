@@ -24,40 +24,40 @@
  */
 class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, ilAssSpecificFeedbackOptionLabelProvider
 {
-    const NUM_REQUIRED_ANSWERS = 4;
-    
-    const PARTIAL_SCORING_NUM_CORRECT_ANSWERS = 3;
-    
-    const ANSWER_TYPE_SINGLE_LINE = 'singleLine';
-    const ANSWER_TYPE_MULTI_LINE = 'multiLine';
-    
-    const OPTION_LABEL_RIGHT_WRONG = 'right_wrong';
-    const OPTION_LABEL_PLUS_MINUS = 'plus_minus';
-    const OPTION_LABEL_APPLICABLE_OR_NOT = 'applicable_or_not';
-    const OPTION_LABEL_ADEQUATE_OR_NOT = 'adequate_or_not';
-    const OPTION_LABEL_CUSTOM = 'customlabel';
-    
-    const DEFAULT_THUMB_SIZE = 150;
-    const THUMB_PREFIX = 'thumb.';
+    public const NUM_REQUIRED_ANSWERS = 4;
+
+    public const PARTIAL_SCORING_NUM_CORRECT_ANSWERS = 3;
+
+    public const ANSWER_TYPE_SINGLE_LINE = 'singleLine';
+    public const ANSWER_TYPE_MULTI_LINE = 'multiLine';
+
+    public const OPTION_LABEL_RIGHT_WRONG = 'right_wrong';
+    public const OPTION_LABEL_PLUS_MINUS = 'plus_minus';
+    public const OPTION_LABEL_APPLICABLE_OR_NOT = 'applicable_or_not';
+    public const OPTION_LABEL_ADEQUATE_OR_NOT = 'adequate_or_not';
+    public const OPTION_LABEL_CUSTOM = 'customlabel';
+
+    public const DEFAULT_THUMB_SIZE = 150;
+    public const THUMB_PREFIX = 'thumb.';
 
     private $shuffleAnswersEnabled;
-    
+
     private $answerType;
-    
+
     private $thumbSize;
 
     private $scorePartialSolutionEnabled;
-    
+
     private $optionLabel;
-    
+
     private $customTrueOptionLabel;
-    
+
     private $customFalseOptionLabel;
 
     private $specificFeedbackSetting;
-    
+
     private $answers;
-    
+
     public function __construct($title = '', $comment = '', $author = '', $owner = -1, $question = '')
     {
         parent::__construct($title, $comment, $author, $owner, $question);
@@ -71,76 +71,76 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $this->customFalseOptionLabel = '';
 
         $this->specificFeedbackSetting = ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL;
-        
+
         $this->answers = array();
     }
-    
-    public function getQuestionType() : string
+
+    public function getQuestionType(): string
     {
         return 'assKprimChoice';
     }
-    
-    public function getAdditionalTableName() : string
+
+    public function getAdditionalTableName(): string
     {
         return "qpl_qst_kprim";
     }
 
-    public function getAnswerTableName() : string
+    public function getAnswerTableName(): string
     {
         return "qpl_a_kprim";
     }
 
-    public function setShuffleAnswersEnabled($shuffleAnswersEnabled) : void
+    public function setShuffleAnswersEnabled($shuffleAnswersEnabled): void
     {
         $this->shuffleAnswersEnabled = $shuffleAnswersEnabled;
     }
 
-    public function isShuffleAnswersEnabled() : bool
+    public function isShuffleAnswersEnabled(): bool
     {
         return $this->shuffleAnswersEnabled;
     }
 
-    public function setAnswerType($answerType) : void
+    public function setAnswerType($answerType): void
     {
         $this->answerType = $answerType;
     }
 
-    public function getAnswerType() : string
+    public function getAnswerType(): string
     {
         return $this->answerType;
     }
 
-    public function setThumbSize($thumbSize) : void
+    public function setThumbSize($thumbSize): void
     {
         $this->thumbSize = $thumbSize;
     }
 
-    public function getThumbSize() : int
+    public function getThumbSize(): int
     {
         return $this->thumbSize;
     }
 
-    public function setScorePartialSolutionEnabled($scorePartialSolutionEnabled) : void
+    public function setScorePartialSolutionEnabled($scorePartialSolutionEnabled): void
     {
         $this->scorePartialSolutionEnabled = $scorePartialSolutionEnabled;
     }
 
-    public function isScorePartialSolutionEnabled() : bool
+    public function isScorePartialSolutionEnabled(): bool
     {
         return $this->scorePartialSolutionEnabled;
     }
 
-    public function setOptionLabel($optionLabel) : void
+    public function setOptionLabel($optionLabel): void
     {
         $this->optionLabel = $optionLabel;
     }
 
-    public function getOptionLabel() : string
+    public function getOptionLabel(): string
     {
         return $this->optionLabel;
     }
 
-    public function setCustomTrueOptionLabel($customTrueOptionLabel) : void
+    public function setCustomTrueOptionLabel($customTrueOptionLabel): void
     {
         $this->customTrueOptionLabel = $customTrueOptionLabel;
     }
@@ -150,7 +150,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return $this->customTrueOptionLabel;
     }
 
-    public function setCustomFalseOptionLabel($customFalseOptionLabel) : void
+    public function setCustomFalseOptionLabel($customFalseOptionLabel): void
     {
         $this->customFalseOptionLabel = $customFalseOptionLabel;
     }
@@ -160,26 +160,26 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return $this->customFalseOptionLabel;
     }
 
-    public function setSpecificFeedbackSetting($specificFeedbackSetting) : void
+    public function setSpecificFeedbackSetting($specificFeedbackSetting): void
     {
         $this->specificFeedbackSetting = $specificFeedbackSetting;
     }
 
-    public function getSpecificFeedbackSetting() : int
+    public function getSpecificFeedbackSetting(): int
     {
         return $this->specificFeedbackSetting;
     }
 
-    public function setAnswers($answers) : void
+    public function setAnswers($answers): void
     {
         $this->answers = $answers;
     }
 
-    public function getAnswers() : array
+    public function getAnswers(): array
     {
         return $this->answers;
     }
-    
+
     public function getAnswer($position)
     {
         foreach ($this->getAnswers() as $answer) {
@@ -187,19 +187,19 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                 return $answer;
             }
         }
-        
+
         return null;
     }
-    
-    public function addAnswer(ilAssKprimChoiceAnswer $answer) : void
+
+    public function addAnswer(ilAssKprimChoiceAnswer $answer): void
     {
         $this->answers[] = $answer;
     }
-    
-    public function loadFromDb($questionId) : void
+
+    public function loadFromDb($questionId): void
     {
         $res = $this->db->queryF($this->buildQuestionDataQuery(), array('integer'), array($questionId));
-        
+
         while ($data = $this->db->fetchAssoc($res)) {
             $this->setId($questionId);
 
@@ -219,22 +219,22 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data['question_text'], 1));
 
             $this->setShuffleAnswersEnabled((bool) $data['shuffle_answers']);
-            
+
             if ($this->isValidAnswerType($data['answer_type'])) {
                 $this->setAnswerType($data['answer_type']);
             }
-            
+
             if (is_numeric($data['thumb_size'])) {
                 $this->setThumbSize((int) $data['thumb_size']);
             }
-            
+
             if ($this->isValidOptionLabel($data['opt_label'])) {
                 $this->setOptionLabel($data['opt_label']);
             }
-            
+
             $this->setCustomTrueOptionLabel($data['custom_true']);
             $this->setCustomFalseOptionLabel($data['custom_false']);
-            
+
             if ($data['score_partsol'] !== null) {
                 $this->setScorePartialSolutionEnabled((bool) $data['score_partsol']);
             }
@@ -242,13 +242,13 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
             if (isset($data['feedback_setting'])) {
                 $this->setSpecificFeedbackSetting((int) $data['feedback_setting']);
             }
-            
+
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
                 $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
             }
-            
+
             try {
                 $this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
             } catch (ilTestQuestionPoolException $e) {
@@ -259,8 +259,8 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
         parent::loadFromDb($questionId);
     }
-    
-    private function loadAnswerData($questionId) : void
+
+    private function loadAnswerData($questionId): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -278,29 +278,29 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
             $answer = new ilAssKprimChoiceAnswer();
 
             $answer->setPosition($data['position']);
-            
+
             $answer->setAnswertext(ilRTE::_replaceMediaObjectImageSrc($data['answertext'], 1));
-            
+
             $answer->setImageFile($data['imagefile']);
             $answer->setThumbPrefix($this->getThumbPrefix());
             $answer->setImageFsDir($this->getImagePath());
             $answer->setImageWebDir($this->getImagePathWeb());
-            
+
             $answer->setCorrectness($data['correctness']);
 
             $this->answers[$answer->getPosition()] = $answer;
         }
-        
+
         for ($i = count($this->answers); $i < self::NUM_REQUIRED_ANSWERS; $i++) {
             $answer = new ilAssKprimChoiceAnswer();
-            
+
             $answer->setPosition($i);
 
             $this->answers[$answer->getPosition()] = $answer;
         }
     }
 
-    public function saveToDb($originalId = '') : void
+    public function saveToDb($originalId = ''): void
     {
         if ($originalId == '') {
             $this->saveQuestionDataToDb();
@@ -350,25 +350,25 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                 )
             );
         }
-        
+
         $this->rebuildThumbnails();
     }
-    
-    public function isComplete() : bool
+
+    public function isComplete(): bool
     {
         foreach (array($this->title, $this->author, $this->question) as $text) {
             if (!strlen($text)) {
                 return false;
             }
         }
-        
+
         if (!isset($this->points)) {
             return false;
         }
 
         foreach ($this->getAnswers() as $answer) {
             /* @var ilAssKprimChoiceAnswer $answer */
-            
+
             if (is_null($answer->getCorrectness())) {
                 return false;
             }
@@ -392,7 +392,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
+    public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
     {
         /** @var ilDBInterface $ilDB */
         $ilDB = $GLOBALS['DIC']['ilDB'];
@@ -461,7 +461,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
-        
+
         $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
 
         while ($data = $ilDB->fetchAssoc($result)) {
@@ -472,19 +472,19 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
         return $points;
     }
-    
-    public function getValidAnswerTypes() : array
+
+    public function getValidAnswerTypes(): array
     {
         return array(self::ANSWER_TYPE_SINGLE_LINE, self::ANSWER_TYPE_MULTI_LINE);
     }
-    
-    public function isValidAnswerType($answerType) : bool
+
+    public function isValidAnswerType($answerType): bool
     {
         $validTypes = $this->getValidAnswerTypes();
         return in_array($answerType, $validTypes);
     }
-    
-    public function isSingleLineAnswerType($answerType) : bool
+
+    public function isSingleLineAnswerType($answerType): bool
     {
         return $answerType == assKprimChoice::ANSWER_TYPE_SINGLE_LINE;
     }
@@ -493,7 +493,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
      * @param ilLanguage $lng
      * @return array
      */
-    public function getAnswerTypeSelectOptions(ilLanguage $lng) : array
+    public function getAnswerTypeSelectOptions(ilLanguage $lng): array
     {
         return array(
             self::ANSWER_TYPE_SINGLE_LINE => $lng->txt('answers_singleline'),
@@ -501,7 +501,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         );
     }
 
-    public function getValidOptionLabels() : array
+    public function getValidOptionLabels(): array
     {
         return array(
             self::OPTION_LABEL_RIGHT_WRONG,
@@ -512,7 +512,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         );
     }
 
-    public function getValidOptionLabelsTranslated(ilLanguage $lng) : array
+    public function getValidOptionLabelsTranslated(ilLanguage $lng): array
     {
         return array(
             self::OPTION_LABEL_RIGHT_WRONG => $lng->txt('option_label_right_wrong'),
@@ -522,8 +522,8 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
             self::OPTION_LABEL_CUSTOM => $lng->txt('option_label_custom')
         );
     }
-    
-    public function isValidOptionLabel($optionLabel) : bool
+
+    public function isValidOptionLabel($optionLabel): bool
     {
         $validLabels = $this->getValidOptionLabels();
         return in_array($optionLabel, $validLabels);
@@ -570,8 +570,8 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                 return $this->getCustomFalseOptionLabel();
         }
     }
-    
-    public function getInstructionTextTranslation(ilLanguage $lng, $optionLabel) : string
+
+    public function getInstructionTextTranslation(ilLanguage $lng, $optionLabel): string
     {
         return sprintf(
             $lng->txt('kprim_instruction_text'),
@@ -579,18 +579,18 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
             $this->getFalseOptionLabelTranslation($lng, $optionLabel)
         );
     }
-    
-    public function isCustomOptionLabel($labelValue) : bool
+
+    public function isCustomOptionLabel($labelValue): bool
     {
         return $labelValue == self::OPTION_LABEL_CUSTOM;
     }
 
-    public function getThumbPrefix() : string
+    public function getThumbPrefix(): string
     {
         return self::THUMB_PREFIX;
     }
 
-    public function rebuildThumbnails() : void
+    public function rebuildThumbnails(): void
     {
         if ($this->isSingleLineAnswerType($this->getAnswerType()) && $this->getThumbSize()) {
             foreach ($this->getAnswers() as $answer) {
@@ -600,8 +600,8 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
             }
         }
     }
-    
-    protected function generateThumbForFile($path, $file) : void
+
+    protected function generateThumbForFile($path, $file): void
     {
         $filename = $path . $file;
         if (@file_exists($filename)) {
@@ -623,27 +623,27 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         }
     }
 
-    public function handleFileUploads($answers, $files) : void
+    public function handleFileUploads($answers, $files): void
     {
         foreach ($answers as $answer) {
             /* @var ilAssKprimChoiceAnswer $answer */
-            
+
             if (!isset($files[$answer->getPosition()])) {
                 continue;
             }
-            
+
             $this->handleFileUpload($answer, $files[$answer->getPosition()]);
         }
     }
-    
-    private function handleFileUpload(ilAssKprimChoiceAnswer $answer, $fileData) : int
+
+    private function handleFileUpload(ilAssKprimChoiceAnswer $answer, $fileData): int
     {
         $imagePath = $this->getImagePath();
 
         if (!file_exists($imagePath)) {
             ilFileUtils::makeDirParents($imagePath);
         }
-        
+
         $filename = $this->buildHashedImageFilename($fileData['name'], true);
 
         $answer->setImageFsDir($imagePath);
@@ -652,18 +652,18 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         if (!ilFileUtils::moveUploadedFile($fileData['tmp_name'], $fileData['name'], $answer->getImageFsPath())) {
             return 2;
         }
-        
+
         return 0;
     }
-    
-    public function removeAnswerImage($position) : void
+
+    public function removeAnswerImage($position): void
     {
         $answer = $this->getAnswer($position);
-        
+
         if (file_exists($answer->getImageFsPath())) {
             ilFileUtils::delDir($answer->getImageFsPath());
         }
-        
+
         if (file_exists($answer->getThumbFsPath())) {
             ilFileUtils::delDir($answer->getThumbFsPath());
         }
@@ -671,15 +671,20 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $answer->setImageFile(null);
     }
 
-    protected function getSolutionSubmit() : array
+    protected function getSolutionSubmit(): array
     {
-        $solutionSubmit = array();
-        foreach ($_POST as $key => $value) {
-            $matches = null;
-            
-            if (preg_match("/^kprim_choice_result_(\d+)/", $key, $matches)) {
-                if (strlen($value)) {
-                    $solutionSubmit[$matches[1]] = $value;
+        $solutionSubmit = [];
+        $post = $this->dic->http()->wrapper()->post();
+
+        foreach ($this->getAnswers() as $index => $a) {
+            if ($post->has("kprim_choice_result_$index")) {
+                $value = $post->retrieve(
+                    "kprim_choice_result_$index",
+                    $this->dic->refinery()->kindlyTo()->string()
+                );
+                if (is_numeric($value)) {
+                    $solutionSubmit[] = $value;
+
                 }
             }
         }
@@ -689,17 +694,17 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     protected function calculateReachedPointsForSolution($found_values, $active_id = 0)
     {
         $numCorrect = 0;
-        
+
         foreach ($this->getAnswers() as $key => $answer) {
             if (!isset($found_values[$answer->getPosition()])) {
                 continue;
             }
-            
+
             if ($found_values[$answer->getPosition()] == $answer->getCorrectness()) {
                 $numCorrect++;
             }
         }
-        
+
         if ($numCorrect >= self::NUM_REQUIRED_ANSWERS) {
             $points = $this->getPoints();
         } elseif ($this->isScorePartialSolutionEnabled() && $numCorrect >= self::PARTIAL_SCORING_NUM_CORRECT_ANSWERS) {
@@ -707,7 +712,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         } else {
             $points = 0;
         }
-        
+
         if ($active_id) {
             if (count($found_values) == 0) {
                 $points = 0;
@@ -716,7 +721,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return $points;
     }
 
-    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null) : int
+    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null): int
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
@@ -764,7 +769,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return $clone->id;
     }
 
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "") : int
+    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = ""): int
     {
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
@@ -801,7 +806,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     /**
      * Copies an assMultipleChoice object
      */
-    public function copyObject($target_questionpool_id, $title = "") : int
+    public function copyObject($target_questionpool_id, $title = ""): int
     {
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
@@ -829,10 +834,10 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return $clone->id;
     }
 
-    protected function beforeSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId) : void
+    protected function beforeSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId): void
     {
         parent::beforeSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
-        
+
         $question = self::instantiateQuestion($origQuestionId);
 
         foreach ($question->getAnswers() as $answer) {
@@ -840,14 +845,14 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         }
     }
 
-    protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId) : void
+    protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId): void
     {
         parent::afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
-        
+
         $this->cloneAnswerImages($dupQuestionId, $dupParentObjId, $origQuestionId, $origParentObjId);
     }
 
-    protected function cloneAnswerImages($sourceQuestionId, $sourceParentId, $targetQuestionId, $targetParentId) : void
+    protected function cloneAnswerImages($sourceQuestionId, $sourceParentId, $targetQuestionId, $targetParentId): void
     {
         /** @var $ilLog ilLogger */
         global $DIC;
@@ -858,7 +863,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
         foreach ($this->getAnswers() as $answer) {
             $filename = $answer->getImageFile();
-            
+
             if (strlen($filename)) {
                 if (!file_exists($targetPath)) {
                     ilFileUtils::makeDirParents($targetPath);
@@ -895,21 +900,21 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         }
     }
 
-    protected function getRTETextWithMediaObjects() : string
+    protected function getRTETextWithMediaObjects(): string
     {
         $combinedText = parent::getRTETextWithMediaObjects();
-        
+
         foreach ($this->getAnswers() as $answer) {
             $combinedText .= $answer->getAnswertext();
         }
-        
+
         return $combinedText;
     }
-    
+
     /**
      * @param ilAssSelfAssessmentMigrator $migrator
      */
-    protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator) : void
+    protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator): void
     {
         foreach ($this->getAnswers() as $answer) {
             /* @var ilAssKprimChoiceAnswer $answer */
@@ -920,7 +925,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     /**
      * Returns a JSON representation of the question
      */
-    public function toJSON() : string
+    public function toJSON(): string
     {
         $this->lng->loadLanguageModule('assessment');
 
@@ -943,12 +948,12 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
         $result['trueOptionLabel'] = $this->getTrueOptionLabelTranslation($this->lng, $this->getOptionLabel());
         $result['falseOptionLabel'] = $this->getFalseOptionLabelTranslation($this->lng, $this->getOptionLabel());
-        
+
         $result['num_allowed_failures'] = $this->getNumAllowedFailures();
-        
+
         $answers = array();
         $has_image = false;
-        
+
         foreach ($this->getAnswers() as $key => $answer) {
             if (strlen((string) $answer->getImageFile())) {
                 $has_image = true;
@@ -964,7 +969,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                 )
             );
         }
-        
+
         $result['answers'] = $answers;
 
         if ($has_image) {
@@ -977,27 +982,27 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
         return json_encode($result);
     }
-    
-    private function getNumAllowedFailures() : int
+
+    private function getNumAllowedFailures(): int
     {
         if ($this->isScorePartialSolutionEnabled()) {
             return self::NUM_REQUIRED_ANSWERS - self::PARTIAL_SCORING_NUM_CORRECT_ANSWERS;
         }
-        
+
         return 0;
     }
-    
-    public function getSpecificFeedbackAllCorrectOptionLabel() : string
+
+    public function getSpecificFeedbackAllCorrectOptionLabel(): string
     {
         return 'feedback_correct_kprim';
     }
 
-    public static function isObligationPossible(int $questionId) : bool
+    public static function isObligationPossible(int $questionId): bool
     {
         return true;
     }
 
-    public function isAnswered(int $active_id, int $pass) : bool
+    public function isAnswered(int $active_id, int $pass): bool
     {
         $numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
 
@@ -1007,12 +1012,12 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass): int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
         $solution = $this->getSolutionValues($active_id, $pass);
-        
+
         $i = 1;
         foreach ($this->getAnswers() as $id => $answer) {
             $worksheet->setCell($startrow + $i, 0, $answer->getAnswertext());
@@ -1030,13 +1035,13 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
         return $startrow + $i + 1;
     }
-    
-    public function moveAnswerDown($position) : bool
+
+    public function moveAnswerDown($position): bool
     {
         if ($position < 0 || $position >= (self::NUM_REQUIRED_ANSWERS - 1)) {
             return false;
         }
-        
+
         for ($i = 0, $max = count($this->answers); $i < $max; $i++) {
             if ($i == $position) {
                 $movingAnswer = $this->answers[$i];
@@ -1051,13 +1056,13 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         }
         return true;
     }
-    
-    public function moveAnswerUp($position) : bool
+
+    public function moveAnswerUp($position): bool
     {
         if ($position <= 0 || $position > (self::NUM_REQUIRED_ANSWERS - 1)) {
             return false;
         }
-        
+
         for ($i = 0, $max = count($this->answers); $i < $max; $i++) {
             if ($i == $position) {
                 $movingAnswer = $this->answers[$i];
@@ -1070,7 +1075,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                 $this->answers[$i] = $targetAnswer;
             }
         }
-        
+
         return true;
     }
 }

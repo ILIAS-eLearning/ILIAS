@@ -1,4 +1,6 @@
-<?php namespace ILIAS\Container\Screen;
+<?php
+
+namespace ILIAS\Container\Screen;
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,12 +41,12 @@ class MemberViewLayoutProvider extends AbstractModificationProvider
     /**
      * @inheritDoc
      */
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->repository();
     }
 
-    public static function getMemberViewModeInfo(\ILIAS\DI\Container $dic) : ?ModeInfo
+    public static function getMemberViewModeInfo(\ILIAS\DI\Container $dic): ?ModeInfo
     {
         $mv = ilMemberViewSettings::getInstance();
         if (!$mv->isActive()) {
@@ -68,7 +70,7 @@ class MemberViewLayoutProvider extends AbstractModificationProvider
     /**
      * @inheritDoc
      */
-    public function getPageBuilderDecorator(CalledContexts $screen_context_stack) : ?PageBuilderModification
+    public function getPageBuilderDecorator(CalledContexts $screen_context_stack): ?PageBuilderModification
     {
         $mv_mode_info = self::getMemberViewModeInfo($this->dic);
         if (is_null($mv_mode_info)) {
@@ -78,7 +80,7 @@ class MemberViewLayoutProvider extends AbstractModificationProvider
         return $this->factory->page()
             ->withLowPriority()
             ->withModification(
-                static function (PagePartProvider $parts) use ($mv_mode_info) : Page {
+                static function (PagePartProvider $parts) use ($mv_mode_info): Page {
                     $p = new StandardPageBuilder();
                     $page = $p->build($parts);
                     return $page->withModeInfo($mv_mode_info);

@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * This class represents a random test input property in a property form.
@@ -11,7 +26,7 @@
 class ilRandomTestROInputGUI extends ilSubEnabledFormPropertyGUI
 {
     protected $values = array();
-    
+
     /**
     * Constructor
     *
@@ -32,7 +47,7 @@ class ilRandomTestROInputGUI extends ilSubEnabledFormPropertyGUI
     public function setValue($a_value)
     {
     }
-    
+
     public function setValueByArray($a_values)
     {
     }
@@ -52,7 +67,7 @@ class ilRandomTestROInputGUI extends ilSubEnabledFormPropertyGUI
     *
     * @return	array	Values
     */
-    public function getValues() : array
+    public function getValues(): array
     {
         return $this->values;
     }
@@ -61,7 +76,7 @@ class ilRandomTestROInputGUI extends ilSubEnabledFormPropertyGUI
     * Check input, strip slashes etc. set alert, if input is not ok.
     * @return	boolean		Input ok, true/false
     */
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         return $this->checkSubItemsInput();
     }
@@ -73,7 +88,7 @@ class ilRandomTestROInputGUI extends ilSubEnabledFormPropertyGUI
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         $tpl = new ilTemplate("tpl.prop_randomtestroinput.html", true, true, "Modules/Test");
         $i = 0;
         foreach ($this->values as $value) {

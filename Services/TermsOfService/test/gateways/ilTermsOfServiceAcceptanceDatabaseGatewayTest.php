@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
  */
 class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBaseTest
 {
-    public function testInstanceCanBeCreated() : void
+    public function testInstanceCanBeCreated(): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
         $gateway = new ilTermsOfServiceAcceptanceDatabaseGateway($database);
@@ -30,7 +32,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
         $this->assertInstanceOf(ilTermsOfServiceAcceptanceDatabaseGateway::class, $gateway);
     }
 
-    public function testAcceptanceIsTrackedAndCreatesANewTermsOfServicesVersionIfNecessary() : void
+    public function testAcceptanceIsTrackedAndCreatesANewTermsOfServicesVersionIfNecessary(): void
     {
         $entity = new ilTermsOfServiceAcceptanceEntity();
         $entity = $entity
@@ -95,7 +97,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
         $gateway->trackAcceptance($entity);
     }
 
-    public function testAcceptanceIsTrackedAndRefersToAnExistingTermsOfServicesVersion() : void
+    public function testAcceptanceIsTrackedAndRefersToAnExistingTermsOfServicesVersion(): void
     {
         $entity = new ilTermsOfServiceAcceptanceEntity();
         $entity = $entity
@@ -148,7 +150,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
         $gateway->trackAcceptance($entity);
     }
 
-    public function testLatestAcceptanceOfUserCanBeLoaded() : void
+    public function testLatestAcceptanceOfUserCanBeLoaded(): void
     {
         $entity = new ilTermsOfServiceAcceptanceEntity();
 
@@ -182,7 +184,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
         $this->assertSame($expected['hash'], $entity->getHash());
     }
 
-    public function testAcceptanceHistoryOfAUserCanBeDeleted() : void
+    public function testAcceptanceHistoryOfAUserCanBeDeleted(): void
     {
         $entity = new ilTermsOfServiceAcceptanceEntity();
         $entity = $entity->withUserId(4711);
@@ -204,7 +206,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
         $gateway->deleteAcceptanceHistoryByUser($entity);
     }
 
-    public function testAcceptanceHistoryRecordCanBeLoadedById() : void
+    public function testAcceptanceHistoryRecordCanBeLoadedById(): void
     {
         $entity = new ilTermsOfServiceAcceptanceEntity();
 

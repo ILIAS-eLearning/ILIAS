@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,22 +42,22 @@ class ilContainerReferenceXmlWriter extends ilXmlWriter
         $this->ref = $ref;
     }
 
-    public function setMode(int $a_mode) : void
+    public function setMode(int $a_mode): void
     {
         $this->mode = $a_mode;
     }
 
-    public function getMode() : int
+    public function getMode(): int
     {
         return $this->mode;
     }
 
-    public function getReference() : ?ilContainerReference
+    public function getReference(): ?ilContainerReference
     {
         return $this->ref;
     }
 
-    public function export(bool $a_with_header = true) : void
+    public function export(bool $a_with_header = true): void
     {
         if ($this->getMode() === self::MODE_EXPORT) {
             if ($a_with_header) {
@@ -68,12 +70,12 @@ class ilContainerReferenceXmlWriter extends ilXmlWriter
         }
     }
 
-    public function getXml() : string
+    public function getXml(): string
     {
         return $this->xmlDumpMem(false);
     }
 
-    protected function buildHeader() : void
+    protected function buildHeader(): void
     {
         $ilSetting = $this->settings;
 
@@ -81,19 +83,19 @@ class ilContainerReferenceXmlWriter extends ilXmlWriter
         $this->xmlSetGenCmt("Export of ILIAS container reference " . $this->getReference()->getId() . " of installation " . $ilSetting->get('inst_id') . ".");
         $this->xmlHeader();
     }
-    
-    protected function buildTarget() : void
+
+    protected function buildTarget(): void
     {
         $this->xmlElement('Target', ['id' => $this->getReference()->getTargetId()]);
     }
-    
-    protected function buildTitle() : void
+
+    protected function buildTitle(): void
     {
         $title = '';
         if ($this->getReference()->getTitleType() === ilContainerReference::TITLE_TYPE_CUSTOM) {
             $title = $this->getReference()->getTitle();
         }
-        
+
         $this->xmlElement(
             'Title',
             [
@@ -103,12 +105,12 @@ class ilContainerReferenceXmlWriter extends ilXmlWriter
         );
     }
 
-    protected function buildReference() : void
+    protected function buildReference(): void
     {
         $this->xmlStartTag('ContainerReference');
     }
-    
-    protected function buildFooter() : void
+
+    protected function buildFooter(): void
     {
         $this->xmlEndTag('ContainerReference');
     }

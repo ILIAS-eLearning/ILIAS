@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Bibliographic Libraries Form.
  *
@@ -50,7 +50,7 @@ class ilBiblLibraryFormGUI extends ilPropertyFormGUI
      *
      * @access private
      */
-    private function initForm() : void
+    private function initForm(): void
     {
         $this->setFormAction($this->ctrl()->getFormActionByClass(ilBiblLibraryGUI::class));
         $name = new ilTextInputGUI($this->lng()->txt("bibl_library_name"), 'name');
@@ -80,7 +80,7 @@ class ilBiblLibraryFormGUI extends ilPropertyFormGUI
     }
 
 
-    private function fillForm() : void
+    private function fillForm(): void
     {
         $this->setValuesByArray(array(
             'name' => $this->object->getName(),
@@ -91,7 +91,7 @@ class ilBiblLibraryFormGUI extends ilPropertyFormGUI
     }
 
 
-    public function saveObject() : bool
+    public function saveObject(): bool
     {
         if (!$this->checkInput()) {
             return false;

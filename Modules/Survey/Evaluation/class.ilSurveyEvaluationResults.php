@@ -38,7 +38,7 @@ class ilSurveyEvaluationResults
     protected $median;
     protected array $variables = array();
     protected array $answers = array();
-    
+
     public function __construct(
         SurveyQuestion $a_question
     ) {
@@ -47,28 +47,28 @@ class ilSurveyEvaluationResults
         $this->lng = $DIC->language();
         $this->question = $a_question;
     }
-    
-    public function getQuestion() : SurveyQuestion
+
+    public function getQuestion(): SurveyQuestion
     {
         return $this->question;
     }
-    
-    public function setUsersAnswered(int $a_value) : void
+
+    public function setUsersAnswered(int $a_value): void
     {
         $this->users_answered = $a_value;
     }
-    
-    public function getUsersAnswered() : int
+
+    public function getUsersAnswered(): int
     {
         return $this->users_answered;
     }
-    
-    public function setUsersSkipped(int $a_value) : void
+
+    public function setUsersSkipped(int $a_value): void
     {
         $this->users_skipped = $a_value;
     }
-    
-    public function getUsersSkipped() : int
+
+    public function getUsersSkipped(): int
     {
         return $this->users_skipped;
     }
@@ -79,7 +79,7 @@ class ilSurveyEvaluationResults
     public function setMode(
         $a_value,
         int $a_nr_of_selections
-    ) : void {
+    ): void {
         $this->mode_value = is_array($a_value)
             ? $a_value
             : trim($a_value);
@@ -93,15 +93,15 @@ class ilSurveyEvaluationResults
     {
         return $this->mode_value;
     }
-    
-    public function getModeValueAsText() : string
+
+    public function getModeValueAsText(): string
     {
         if ($this->mode_value === null) {
             return "";
         }
-        
+
         $res = array();
-        
+
         $mvalues = $this->mode_value;
         if (!is_array($mvalues)) {
             $mvalues = array($mvalues);
@@ -110,21 +110,21 @@ class ilSurveyEvaluationResults
         foreach ($mvalues as $value) {
             $res[] = $this->getScaleText($value);
         }
-        
+
         return implode(", ", $res);
     }
-    
-    public function getModeNrOfSelections() : int
+
+    public function getModeNrOfSelections(): int
     {
         return $this->mode_nr_of_selections;
     }
-    
-    public function setMean(float $a_mean) : void
+
+    public function setMean(float $a_mean): void
     {
         $this->arithmetic_mean = $a_mean;
     }
-    
-    public function getMean() : float
+
+    public function getMean(): float
     {
         return $this->arithmetic_mean;
     }
@@ -132,7 +132,7 @@ class ilSurveyEvaluationResults
     /**
      * @param string|array $a_value
      */
-    public function setMedian($a_value) : void
+    public function setMedian($a_value): void
     {
         $this->median = is_array($a_value)
             ? $a_value
@@ -146,15 +146,15 @@ class ilSurveyEvaluationResults
     {
         return $this->median;
     }
-    
-    public function getMedianAsText() : string
+
+    public function getMedianAsText(): string
     {
         $lng = $this->lng;
-        
+
         if ($this->median === null) {
             return "";
         }
-        
+
         if (!is_array($this->median)) {
             return $this->getScaleText($this->median);
         }
@@ -164,32 +164,32 @@ class ilSurveyEvaluationResults
             $lng->txt("and") . " " .
             $this->getScaleText($this->median[1]);
     }
-    
+
     public function addVariable(
         ilSurveyEvaluationResultsVariable $a_variable
-    ) : void {
+    ): void {
         $this->variables[] = $a_variable;
     }
-    
-    public function getVariables() : array
+
+    public function getVariables(): array
     {
         return $this->variables ?? [];
     }
-    
+
     public function addAnswer(
         ilSurveyEvaluationResultsAnswer $a_answer
-    ) : void {
+    ): void {
         $this->answers[] = $a_answer;
     }
-    
-    public function getAnswers() : array
+
+    public function getAnswers(): array
     {
         return $this->answers ?? [];
     }
-    
+
     public function getScaleText(
         int $a_value
-    ) : string {
+    ): string {
         if (!count($this->variables)) {
             return $a_value;
         } else {
@@ -204,7 +204,7 @@ class ilSurveyEvaluationResults
 
     protected function getCatTitle(
         int $a_value
-    ) : string {
+    ): string {
         if (!count($this->variables)) {
             return $a_value;
         } else {
@@ -217,24 +217,24 @@ class ilSurveyEvaluationResults
         return "";
     }
 
-    public function getMappedTextAnswers() : array
+    public function getMappedTextAnswers(): array
     {
         $res = array();
-        
+
         foreach ($this->answers as $answer) {
             if ($answer->text) {
                 $res[$this->getScaleText($answer->value)][] = $answer->text;
             }
         }
-        
+
         return $res;
     }
-        
+
     public function getUserResults(
         int $a_active_id
-    ) : array {
+    ): array {
         $res = array();
-    
+
         $answers = $this->getAnswers();
         if ($answers) {
             foreach ($answers as $answer) {
@@ -248,7 +248,7 @@ class ilSurveyEvaluationResults
                 }
             }
         }
-        
+
         return $res;
     }
 }

@@ -80,8 +80,8 @@ abstract class ilTestProcessLocker
     protected function onAfterExecutingRandomPassBuildOperation($withTaxonomyTables = false)
     {
     }
-    
-    
+
+
     /**
      * @param callable $operation
      */
@@ -92,7 +92,7 @@ abstract class ilTestProcessLocker
         $this->onAfterExecutingTestFinishOperation();
     }
 
-    final public function executeNamedOperation(string $operationDescriptor, callable $operation) : void
+    final public function executeNamedOperation(string $operationDescriptor, callable $operation): void
     {
         $this->onBeforeExecutingNamedOperation($operationDescriptor);
         $this->executeOperation($operation);
@@ -113,11 +113,11 @@ abstract class ilTestProcessLocker
     {
     }
 
-    protected function onBeforeExecutingNamedOperation(string $operationDescriptor) : void
+    protected function onBeforeExecutingNamedOperation(string $operationDescriptor): void
     {
     }
 
-    protected function onAfterExecutingNamedOperation(string $operationDescriptor) : void
+    protected function onAfterExecutingNamedOperation(string $operationDescriptor): void
     {
     }
 }

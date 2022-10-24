@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,12 +33,12 @@ class ilTermsOfServiceAcceptanceEntity
     protected int $document_id = 0;
     protected string $criteria = '';
 
-    public function getHash() : string
+    public function getHash(): string
     {
         return $this->hash;
     }
 
-    public function withHash(string $hash) : self
+    public function withHash(string $hash): self
     {
         $clone = clone $this;
 
@@ -45,12 +47,12 @@ class ilTermsOfServiceAcceptanceEntity
         return $clone;
     }
 
-    public function getText() : string
+    public function getText(): string
     {
         return $this->text;
     }
 
-    public function withText(string $text) : self
+    public function withText(string $text): self
     {
         $clone = clone $this;
 
@@ -59,12 +61,12 @@ class ilTermsOfServiceAcceptanceEntity
         return $clone;
     }
 
-    public function getTimestamp() : int
+    public function getTimestamp(): int
     {
         return $this->timestamp;
     }
 
-    public function withTimestamp(int $timestamp) : self
+    public function withTimestamp(int $timestamp): self
     {
         $clone = clone $this;
 
@@ -73,12 +75,12 @@ class ilTermsOfServiceAcceptanceEntity
         return $clone;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->user_id;
     }
 
-    public function withUserId(int $user_id) : self
+    public function withUserId(int $user_id): self
     {
         $clone = clone $this;
 
@@ -87,12 +89,12 @@ class ilTermsOfServiceAcceptanceEntity
         return $clone;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function withId(int $id) : self
+    public function withId(int $id): self
     {
         $clone = clone $this;
 
@@ -101,12 +103,12 @@ class ilTermsOfServiceAcceptanceEntity
         return $clone;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function withTitle(string $title) : self
+    public function withTitle(string $title): self
     {
         $clone = clone $this;
 
@@ -115,12 +117,12 @@ class ilTermsOfServiceAcceptanceEntity
         return $clone;
     }
 
-    public function getDocumentId() : int
+    public function getDocumentId(): int
     {
         return $this->document_id;
     }
 
-    public function withDocumentId(int $document_id) : self
+    public function withDocumentId(int $document_id): self
     {
         $clone = clone $this;
 
@@ -129,12 +131,12 @@ class ilTermsOfServiceAcceptanceEntity
         return $clone;
     }
 
-    public function getSerializedCriteria() : string
+    public function getSerializedCriteria(): string
     {
         return $this->criteria;
     }
 
-    public function withSerializedCriteria(string $criteria) : self
+    public function withSerializedCriteria(string $criteria): self
     {
         $clone = clone $this;
 

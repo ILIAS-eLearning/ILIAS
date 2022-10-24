@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component;
 
 /**
@@ -37,12 +39,12 @@ class Signal implements \ILIAS\UI\Component\Signal
     /**
      * @inheritdoc
      */
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getOptions() : array
+    public function getOptions(): array
     {
         return $this->options;
     }
@@ -50,7 +52,7 @@ class Signal implements \ILIAS\UI\Component\Signal
     /**
      * @param mixed $value
      */
-    public function addOption(string $key, $value) : void
+    public function addOption(string $key, $value): void
     {
         $this->options[$key] = $value;
     }
@@ -63,7 +65,7 @@ class Signal implements \ILIAS\UI\Component\Signal
         return (isset($this->options[$key])) ? $this->options[$key] : null;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->id;
     }

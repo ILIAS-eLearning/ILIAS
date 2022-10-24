@@ -611,6 +611,14 @@ export default class TinyWrapper {
         cb();
       });
       wrapper.autoScroll();
+      this.clearUndo();
+    }
+  }
+
+  // see e.g. #32336
+  clearUndo() {
+    if (this.tiny) {
+      this.tiny.undoManager.clear();
     }
   }
 
@@ -765,6 +773,8 @@ export default class TinyWrapper {
       back_el = back_el.parentNode;
     }
 
+    this.log(back_el);
+
     if (!back_el) {
       return;
     }
@@ -903,6 +913,7 @@ export default class TinyWrapper {
     }
     this.autoResize();
     this.setParagraphClass(characteristic);
+    this.clearUndo();
   }
 
   getText() {

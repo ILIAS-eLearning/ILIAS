@@ -1,18 +1,22 @@
 <?php
 
-use ILIAS\Refinery\Random\Group as RandomGroup;
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacResultOfAnswerOfQuestionExpression.php";
-require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacExpressionNotSupportedByQuestion.php";
-require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacQuestionNotExist.php";
-require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacOperatorNotSupportedByExpression.php";
-require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacUnsupportedExpression.php";
-require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacUnsupportedOperation.php";
-require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacAnswerIndexNotExist.php";
-require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacQuestionNotReachable.php";
-require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacAnswerValueNotExist.php";
-require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacUnableToParseCondition.php";
-require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacDuplicateElement.php";
+use ILIAS\Refinery\Random\Group as RandomGroup;
 
 /**
  * Class CompositeValidator
@@ -23,7 +27,6 @@ require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Ex
  */
 class ilAssLacCompositeValidator
 {
-
     /**
      * @var ilAssLacQuestionProvider
      *
@@ -44,7 +47,7 @@ class ilAssLacCompositeValidator
         $this->randomGroup = $DIC->refinery()->random();
     }
 
-    public function validate(ilAssLacAbstractComposite $composite) : void
+    public function validate(ilAssLacAbstractComposite $composite): void
     {
         if (count($composite->nodes) > 0) {
             $this->validate($composite->nodes[0]);
@@ -55,7 +58,7 @@ class ilAssLacCompositeValidator
         return;
     }
 
-    private function validateSubTree(ilAssLacAbstractComposite $composite) : void
+    private function validateSubTree(ilAssLacAbstractComposite $composite): void
     {
         if ($composite->nodes[0] instanceof ilAssLacQuestionExpressionInterface &&
             $composite->nodes[1] instanceof ilAssLacSolutionExpressionInterface
@@ -131,7 +134,7 @@ class ilAssLacCompositeValidator
      *
      * @throws ilAssLacAnswerValueNotExist
      */
-    private function validateClozeTest($answer_index, $question, $answer_expression, $question_index) : void
+    private function validateClozeTest($answer_index, $question, $answer_expression, $question_index): void
     {
         if ($answer_index !== null) {
             $options = $question->getAvailableAnswerOptions($answer_index);
@@ -184,7 +187,7 @@ class ilAssLacCompositeValidator
      *
      * @throws ilAssLacAnswerIndexNotExist
      */
-    private function checkIfAnswerIndexOfQuestionExists($question, $question_index, $answer_index) : void
+    private function checkIfAnswerIndexOfQuestionExists($question, $question_index, $answer_index): void
     {
         $answer_options = $question->getAvailableAnswerOptions($answer_index);
         if ($answer_options == null) {
@@ -198,7 +201,7 @@ class ilAssLacCompositeValidator
      *
      * @throws ilAssLacQuestionNotExist
      */
-    private function checkQuestionExists($question, $index) : void
+    private function checkQuestionExists($question, $index): void
     {
         if ($question == null) {
             throw new ilAssLacQuestionNotExist($index);
@@ -210,7 +213,7 @@ class ilAssLacCompositeValidator
      *
      * @return bool
      */
-    private function isResultOfAnswerExpression($expression) : bool
+    private function isResultOfAnswerExpression($expression): bool
     {
         // @PHP8-CR I suspect this cluster of typizations is broken in some way. I still leave these remarks "intact"
         // to assist a more thorough analysis.
@@ -232,7 +235,7 @@ class ilAssLacCompositeValidator
      *
      * @throws ilAssLacExpressionNotSupportedByQuestion
      */
-    private function checkAnswerExpressionExist($expressions, $answer_expression, $question_index) : void
+    private function checkAnswerExpressionExist($expressions, $answer_expression, $question_index): void
     {
         if (!in_array($answer_expression::$identifier, $expressions)) {
             throw new ilAssLacExpressionNotSupportedByQuestion($answer_expression->getValue(), $question_index);
@@ -246,14 +249,14 @@ class ilAssLacCompositeValidator
      *
      * @throws ilAssLacOperatorNotSupportedByExpression
      */
-    private function checkOperatorExistForExpression($operators, $answer_expression, $pattern) : void
+    private function checkOperatorExistForExpression($operators, $answer_expression, $pattern): void
     {
         if (!in_array($pattern, $operators)) {
             throw new ilAssLacOperatorNotSupportedByExpression($answer_expression->getValue(), $pattern);
         }
     }
-    
-    protected function getNonShuffler() : \ILIAS\Refinery\Transformation
+
+    protected function getNonShuffler(): \ILIAS\Refinery\Transformation
     {
         return $this->randomGroup->dontShuffle();
     }

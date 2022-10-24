@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -28,12 +30,11 @@
  */
 class ilCalendarRecurrenceExclusions
 {
-
     /**
      * Read exclusion dates
      * @return ilCalendarRecurrenceExclusion[]
      */
-    public static function getExclusionDates($a_cal_id) : array
+    public static function getExclusionDates($a_cal_id): array
     {
         global $DIC;
 
@@ -51,7 +52,7 @@ class ilCalendarRecurrenceExclusions
     /**
      * Delete exclusion dates of calendar entry
      */
-    public static function delete(int $a_cal_id) : void
+    public static function delete(int $a_cal_id): void
     {
         global $DIC;
 

@@ -43,7 +43,7 @@ class ilSkillObjDeletionHandler
         $this->profile_completion_manager = $DIC->skills()->internal()->manager()->getProfileCompletionManager();
     }
 
-    public function processDeletion() : void
+    public function processDeletion(): void
     {
         if ($this->obj_type == "usr" && ilObject::_lookupType($this->obj_id) == "usr") {
             ilPersonalSkill::removeSkills($this->obj_id);

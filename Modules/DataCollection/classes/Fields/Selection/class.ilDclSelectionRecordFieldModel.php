@@ -22,10 +22,9 @@
  */
 abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-
     // those should be overwritten by subclasses
-    const PROP_SELECTION_TYPE = '';
-    const PROP_SELECTION_OPTIONS = '';
+    public const PROP_SELECTION_TYPE = '';
+    public const PROP_SELECTION_OPTIONS = '';
 
     /**
      * @return array|string
@@ -45,7 +44,7 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel
     /**
      * @param array|string|int $value
      */
-    public function parseExportValue($value) : string
+    public function parseExportValue($value): string
     {
         $values = ilDclSelectionOption::getValues($this->getField()->getId(), $value);
 
@@ -87,7 +86,7 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel
      * @param $stringValues string
      * @return int[]
      */
-    protected function getMultipleValuesFromString(string $stringValues) : array
+    protected function getMultipleValuesFromString(string $stringValues): array
     {
         $delimiter = strpos($stringValues, '; ') ? '; ' : ', ';
         $slicedStrings = explode($delimiter, $stringValues);
@@ -115,7 +114,7 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel
         return $slicedReferences;
     }
 
-    protected function getValueFromString(string $string) : ?int
+    protected function getValueFromString(string $string): ?int
     {
         $options = $this->getField()->getProperty(static::PROP_SELECTION_OPTIONS);
         foreach ($options as $opt) {

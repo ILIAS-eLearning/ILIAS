@@ -52,22 +52,22 @@ class ilContainerFilterService
             : $container_field_data;
     }
 
-    public function util() : ilContainerFilterUtil
+    public function util(): ilContainerFilterUtil
     {
         return new ilContainerFilterUtil($this, $this->adv_adapter, $this->lng);
     }
 
-    public function advancedMetadata() : ilContainerFilterAdvMDAdapter
+    public function advancedMetadata(): ilContainerFilterAdvMDAdapter
     {
         return $this->adv_adapter;
     }
 
-    public function data() : ilContainerFilterFieldData
+    public function data(): ilContainerFilterFieldData
     {
         return $this->field_data;
     }
 
-    public function field(int $record_set_id, int $field_id) : ilContainerFilterField
+    public function field(int $record_set_id, int $field_id): ilContainerFilterField
     {
         return new ilContainerFilterField($record_set_id, $field_id);
     }
@@ -75,7 +75,7 @@ class ilContainerFilterService
     /**
      * Filter Set
      */
-    public function set(array $fields) : ilContainerFilterSet
+    public function set(array $fields): ilContainerFilterSet
     {
         return new ilContainerFilterSet($fields);
     }
@@ -83,7 +83,7 @@ class ilContainerFilterService
     /**
      * Get standard set
      */
-    public function standardSet() : ilContainerFilterSet
+    public function standardSet(): ilContainerFilterSet
     {
         return new ilContainerFilterSet(
             [
@@ -102,7 +102,7 @@ class ilContainerFilterService
     /**
      * User filter
      */
-    public function userFilter(?array $data) : ilContainerUserFilter
+    public function userFilter(?array $data): ilContainerUserFilter
     {
         return new ilContainerUserFilter($data);
     }

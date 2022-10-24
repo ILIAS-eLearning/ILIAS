@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * class ilObjectDataCache
  *
@@ -40,14 +42,14 @@ class ilObjectDataCache
         $this->db = $DIC->database();
     }
 
-    public function deleteCachedEntry(int $obj_id) : void
+    public function deleteCachedEntry(int $obj_id): void
     {
         if (isset($this->object_data_cache[$obj_id])) {
             unset($this->object_data_cache[$obj_id]);
         }
     }
 
-    public function lookupObjId(int $ref_id) : int
+    public function lookupObjId(int $ref_id): int
     {
         if (!$this->__isReferenceCached($ref_id)) {
             $obj_id = $this->__storeReference($ref_id);
@@ -57,7 +59,7 @@ class ilObjectDataCache
         return (int) ($this->reference_cache[$ref_id] ?? 0);
     }
 
-    public function lookupTitle(int $obj_id) : string
+    public function lookupTitle(int $obj_id): string
     {
         if (!$this->__isObjectCached($obj_id)) {
             $this->__storeObjectData($obj_id);
@@ -66,7 +68,7 @@ class ilObjectDataCache
         return (string) ($this->object_data_cache[$obj_id]['title'] ?? '');
     }
 
-    public function lookupType(int $obj_id) : string
+    public function lookupType(int $obj_id): string
     {
         if (!$this->__isObjectCached($obj_id)) {
             $this->__storeObjectData($obj_id);
@@ -75,16 +77,16 @@ class ilObjectDataCache
         return (string) ($this->object_data_cache[$obj_id]['type'] ?? '');
     }
 
-    public function lookupOwner(int $obj_id) : int
+    public function lookupOwner(int $obj_id): int
     {
         if (!$this->__isObjectCached($obj_id)) {
             $this->__storeObjectData($obj_id);
         }
 
-        return (int) ($this->object_data_cache[$obj_id]['owner']);
+        return (int) ($this->object_data_cache[$obj_id]['owner'] ?? 0);
     }
 
-    public function lookupDescription(int $obj_id) : string
+    public function lookupDescription(int $obj_id): string
     {
         if (!$this->__isObjectCached($obj_id)) {
             $this->__storeObjectData($obj_id);
@@ -93,7 +95,7 @@ class ilObjectDataCache
         return (string) ($this->object_data_cache[$obj_id]['description'] ?? '');
     }
 
-    public function lookupLastUpdate(int $obj_id) : string
+    public function lookupLastUpdate(int $obj_id): string
     {
         if (!$this->__isObjectCached($obj_id)) {
             $this->__storeObjectData($obj_id);
@@ -104,7 +106,7 @@ class ilObjectDataCache
     /**
      * Check if supports centralized offline handling and is offline
      */
-    public function lookupOfflineStatus(int $obj_id) : bool
+    public function lookupOfflineStatus(int $obj_id): bool
     {
         if (!$this->__isObjectCached($obj_id)) {
             $this->__storeObjectData($obj_id);
@@ -118,7 +120,7 @@ class ilObjectDataCache
     /**
      * checks whether a reference id is already in cache or not
      */
-    private function __isReferenceCached(int $ref_id) : bool
+    private function __isReferenceCached(int $ref_id): bool
     {
         if (isset($this->reference_cache[$ref_id])) {
             return true;
@@ -130,7 +132,7 @@ class ilObjectDataCache
     /**
      * checks whether an object is already in cache or not
      */
-    private function __isObjectCached(int $obj_id) : bool
+    private function __isObjectCached(int $obj_id): bool
     {
         if (isset($this->object_data_cache[$obj_id])) {
             return true;
@@ -144,7 +146,7 @@ class ilObjectDataCache
      * Maybe it could be useful to find all references of that object and store them also in the cache.
      * But this would be an extra query.
      */
-    private function __storeReference(int $ref_id) : int
+    private function __storeReference(int $ref_id): int
     {
         $sql =
             "SELECT obj_id" . PHP_EOL
@@ -162,7 +164,7 @@ class ilObjectDataCache
     /**
      * Stores object data in cache
      */
-    private function __storeObjectData(int $obj_id) : void
+    private function __storeObjectData(int $obj_id): void
     {
         global $DIC;
 
@@ -196,7 +198,6 @@ class ilObjectDataCache
                     . "FROM object_translation" . PHP_EOL
                     . "WHERE obj_id = " . $this->db->quote($obj_id, 'integer') . PHP_EOL
                     . "AND lang_code = " . $this->db->quote($user->getLanguage(), 'text') . PHP_EOL
-                    . "AND NOT lang_default = 1" . PHP_EOL
                 ;
                 $trans_res = $this->db->query($sql);
 
@@ -211,7 +212,7 @@ class ilObjectDataCache
         }
     }
 
-    public function isTranslatedDescription(int $obj_id) : bool
+    public function isTranslatedDescription(int $obj_id): bool
     {
         return in_array($obj_id, $this->description_trans);
     }
@@ -221,7 +222,7 @@ class ilObjectDataCache
      * @param int[] $obj_ids
      * @param string $lang
      */
-    public function preloadObjectCache(array $obj_ids, string $lang = '') : void
+    public function preloadObjectCache(array $obj_ids, string $lang = ''): void
     {
         global $DIC;
 
@@ -277,7 +278,7 @@ class ilObjectDataCache
      * @param int[] $obj_ids
      * @param string $lang
      */
-    public function preloadTranslations(array $obj_ids, string $lang) : void
+    public function preloadTranslations(array $obj_ids, string $lang): void
     {
         $ids = [];
         foreach ($obj_ids as $id) {
@@ -294,7 +295,6 @@ class ilObjectDataCache
                 . "FROM object_translation" . PHP_EOL
                 . "WHERE " . $this->db->in('obj_id', $ids, false, 'integer') . PHP_EOL
                 . "AND lang_code = " . $this->db->quote($lang, 'text') . PHP_EOL
-                . "AND NOT lang_default = 1" . PHP_EOL
             ;
             $result = $this->db->query($sql);
             while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -311,7 +311,7 @@ class ilObjectDataCache
      * @param int[] $ref_ids
      * @param bool $incl_obj
      */
-    public function preloadReferenceCache(array $ref_ids, bool $incl_obj = true) : void
+    public function preloadReferenceCache(array $ref_ids, bool $incl_obj = true): void
     {
         if ($ref_ids === []) {
             return;

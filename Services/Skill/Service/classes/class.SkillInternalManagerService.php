@@ -53,17 +53,17 @@ class SkillInternalManagerService
         $this->usr_id = $usr_id;
     }
 
-    public function getLevelManager() : SkillLevelManager
+    public function getLevelManager(): SkillLevelManager
     {
         return new SkillLevelManager();
     }
 
-    public function getUserLevelManager() : SkillUserLevelManager
+    public function getUserLevelManager(): SkillUserLevelManager
     {
         return new SkillUserLevelManager();
     }
 
-    public function getTreeManager() : Tree\SkillTreeManager
+    public function getTreeManager(): Tree\SkillTreeManager
     {
         return new Tree\SkillTreeManager(
             $this->skmg_ref_id,
@@ -75,7 +75,7 @@ class SkillInternalManagerService
     /**
      * Manages nodes in a skill tree
      */
-    public function getTreeNodeManager(int $tree_id) : Tree\SkillTreeNodeManager
+    public function getTreeNodeManager(int $tree_id): Tree\SkillTreeNodeManager
     {
         return new Tree\SkillTreeNodeManager(
             $tree_id,
@@ -83,22 +83,22 @@ class SkillInternalManagerService
         );
     }
 
-    public function getTreeAccessManager(int $obj_ref_id) : SkillTreeAccess
+    public function getTreeAccessManager(int $obj_ref_id): SkillTreeAccess
     {
         return new SkillTreeAccess($this->rbac_system, $obj_ref_id, $this->usr_id);
     }
 
-    public function getManagementAccessManager(int $skmg_ref_id) : SkillManagementAccess
+    public function getManagementAccessManager(int $skmg_ref_id): SkillManagementAccess
     {
         return new SkillManagementAccess($this->rbac_system, $skmg_ref_id, $this->usr_id);
     }
 
-    public function getProfileManager() : Profile\SkillProfileManager
+    public function getProfileManager(): Profile\SkillProfileManager
     {
         return new Profile\SkillProfileManager();
     }
 
-    public function getProfileCompletionManager() : Profile\SkillProfileCompletionManager
+    public function getProfileCompletionManager(): Profile\SkillProfileCompletionManager
     {
         return new Profile\SkillProfileCompletionManager($this->getProfileManager());
     }

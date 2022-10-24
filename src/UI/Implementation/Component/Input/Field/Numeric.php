@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
@@ -55,7 +57,7 @@ class Numeric extends Input implements C\Input\Field\Numeric
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value) : bool
+    protected function isClientSideValueOk($value): bool
     {
         return is_numeric($value) || $value === "" || $value === null;
     }
@@ -63,7 +65,7 @@ class Numeric extends Input implements C\Input\Field\Numeric
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement() : ?Constraint
+    protected function getConstraintForRequirement(): ?Constraint
     {
         return $this->refinery->numeric()->isNumeric();
     }
@@ -71,7 +73,7 @@ class Numeric extends Input implements C\Input\Field\Numeric
     /**
      * @inheritdoc
      */
-    public function getUpdateOnLoadCode() : Closure
+    public function getUpdateOnLoadCode(): Closure
     {
         return fn ($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
@@ -82,7 +84,7 @@ class Numeric extends Input implements C\Input\Field\Numeric
     /**
      * @inheritdoc
      */
-    public function isComplex() : bool
+    public function isComplex(): bool
     {
         return $this->complex;
     }

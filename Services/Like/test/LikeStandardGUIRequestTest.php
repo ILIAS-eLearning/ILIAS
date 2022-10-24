@@ -7,11 +7,11 @@ use PHPUnit\Framework\TestCase;
  */
 class LikeStandardGUIRequestTest extends TestCase
 {
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getRequest(array $get, array $post) : \ILIAS\Like\StandardGUIRequest
+    protected function getRequest(array $get, array $post): \ILIAS\Like\StandardGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
@@ -25,7 +25,7 @@ class LikeStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testValue() : void
+    public function testValue(): void
     {
         $request = $this->getRequest(
             [
@@ -40,7 +40,7 @@ class LikeStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testExpressionKey() : void
+    public function testExpressionKey(): void
     {
         $request = $this->getRequest(
             [
@@ -55,7 +55,7 @@ class LikeStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testModalSignalId() : void
+    public function testModalSignalId(): void
     {
         $request = $this->getRequest(
             [

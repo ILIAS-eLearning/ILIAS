@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -149,7 +151,7 @@ class ilCmiXapiDataSet extends ilDataSet
         string $a_version,
         ?array $a_rec = null,
         ?array $a_ids = null
-    ) : array {
+    ): array {
         return [];
     }
     public function getCmiXapiXmlRepresentation(
@@ -159,7 +161,7 @@ class ilCmiXapiDataSet extends ilDataSet
         string $a_field = "",
         bool $a_omit_header = false,
         bool $a_omit_types = false
-    ) : string {
+    ): string {
         global $DIC;
         /** @var \ILIAS\DI\Container $DIC */
 
@@ -170,7 +172,7 @@ class ilCmiXapiDataSet extends ilDataSet
         $this->readData($a_entity, $a_schema_version, $a_ids);
 
         //var_dump($this->data); exit;
-        $id = $this->data["Id"];
+        $id = (int) $this->data["Id"];
 
         // prepare archive skeleton
         $objTypeAndId = "cmix_" . $id;
@@ -290,7 +292,7 @@ class ilCmiXapiDataSet extends ilDataSet
      * @param string $a_version version number
      * @return array types array
      */
-    protected function getTypes(string $a_entity, string $a_version) : array
+    protected function getTypes(string $a_entity, string $a_version): array
     {
         $types = [];
         foreach ($this->_cmixSettingsProperties as $key => $value) {
@@ -313,7 +315,7 @@ class ilCmiXapiDataSet extends ilDataSet
         return $types;
     }
 
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         global $DIC;
         /** @var $DIC \ILIAS\DI\Container */
@@ -356,14 +358,14 @@ class ilCmiXapiDataSet extends ilDataSet
         //var_dump($this->data); exit;
     }
 
-    public function buildMetaData(int $id) : string
+    public function buildMetaData(int $id): string
     {
         $md2xml = new ilMD2XML($id, $id, "cmix");
         $md2xml->startExport();
         return $md2xml->getXML();
     }
 
-    private function buildManifest() : string
+    private function buildManifest(): string
     {
         $manWriter = new ilXmlWriter();
         $manWriter->xmlHeader();
@@ -377,7 +379,7 @@ class ilCmiXapiDataSet extends ilDataSet
     /**
      * @param mixed $a_entity
      */
-    private function buildProperties($a_entity, bool $a_omit_header = false) : string
+    private function buildProperties($a_entity, bool $a_omit_header = false): string
     {
         $atts = array(
             "InstallationId" => IL_INST_ID,
@@ -408,7 +410,7 @@ class ilCmiXapiDataSet extends ilDataSet
         array $a_rec,
         ilImportMapping $a_mapping,
         string $a_schema_version
-    ) : void {
+    ): void {
         //var_dump( [$a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version] ); exit;
         switch ($a_entity) {
             case "cmix":
@@ -435,7 +437,7 @@ class ilCmiXapiDataSet extends ilDataSet
      * Get supported versions
      * @return string[]
      */
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return array("5.1.0");
     }
@@ -443,7 +445,7 @@ class ilCmiXapiDataSet extends ilDataSet
     /**
      * Get xml namespace
      */
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    public function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "http://www.ilias.de/xml/Modules/CmiXapi/" . $a_entity;
     }

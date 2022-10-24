@@ -40,72 +40,72 @@ class ilPanelGUI
     {
     }
 
-    public static function getInstance() : self
+    public static function getInstance(): self
     {
         return new ilPanelGUI();
     }
 
-    public function setHeading(string $a_val) : void
+    public function setHeading(string $a_val): void
     {
         $this->heading = $a_val;
     }
 
-    public function getHeading() : string
+    public function getHeading(): string
     {
         return $this->heading;
     }
 
-    public function setBody(string $a_val) : void
+    public function setBody(string $a_val): void
     {
         $this->body = $a_val;
     }
 
-    public function getBody() : string
+    public function getBody(): string
     {
         return $this->body;
     }
 
-    public function setFooter(string $a_val) : void
+    public function setFooter(string $a_val): void
     {
         $this->footer = $a_val;
     }
 
-    public function getFooter() : string
+    public function getFooter(): string
     {
         return $this->footer;
     }
 
-    public function setPanelStyle(int $a_val) : void
+    public function setPanelStyle(int $a_val): void
     {
         $this->panel_style = $a_val;
     }
 
-    public function getPanelStyle() : int
+    public function getPanelStyle(): int
     {
         return $this->panel_style;
     }
 
-    public function setHeadingStyle(int $a_val) : void
+    public function setHeadingStyle(int $a_val): void
     {
         $this->heading_style = $a_val;
     }
 
-    public function getHeadingStyle() : int
+    public function getHeadingStyle(): int
     {
         return $this->heading_style;
     }
 
-    public function setFooterStyle(int $a_val) : void
+    public function setFooterStyle(int $a_val): void
     {
         $this->footer_style = $a_val;
     }
 
-    public function getFooterStyle() : int
+    public function getFooterStyle(): int
     {
         return $this->footer_style;
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $tpl = new ilTemplate("tpl.panel.html", true, true, "Services/UIComponent/Panel");
 
@@ -131,17 +131,17 @@ class ilPanelGUI
         }
 
         $tpl->setVariable("BODY", $this->getBody());
-        
+
         if ($this->getFooter() !== "") {
             $tpl->setCurrentBlock("footer");
             $tpl->setVariable("FOOTER", $this->getFooter());
-            
+
             switch ($this->getFooterStyle()) {
                 case self::FOOTER_STYLE_BLOCK:
                     $tpl->setVariable("FOOT_DIV_STYLE", "panel-footer ilBlockInfo");
                     break;
             }
-                        
+
             $tpl->parseCurrentBlock();
         }
 

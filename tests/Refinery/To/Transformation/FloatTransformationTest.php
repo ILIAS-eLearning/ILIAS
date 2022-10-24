@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,12 +29,12 @@ class FloatTransformationTest extends TestCase
 {
     private FloatTransformation $transformation;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->transformation = new FloatTransformation();
     }
 
-    public function testIntegerToFloatTransformation() : void
+    public function testIntegerToFloatTransformation(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -45,7 +47,7 @@ class FloatTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testStringToFloatTransformation() : void
+    public function testStringToFloatTransformation(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -58,14 +60,14 @@ class FloatTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testFloatToFloatTransformation() : void
+    public function testFloatToFloatTransformation(): void
     {
         $transformedValue = $this->transformation->transform(10.5);
 
         $this->assertEquals(10.5, $transformedValue);
     }
 
-    public function testNegativeIntegerToFloatTransformation() : void
+    public function testNegativeIntegerToFloatTransformation(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -78,7 +80,7 @@ class FloatTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testZeroIntegerToFloatTransformation() : void
+    public function testZeroIntegerToFloatTransformation(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -91,14 +93,14 @@ class FloatTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testZeroFloatToFloatTransformation() : void
+    public function testZeroFloatToFloatTransformation(): void
     {
         $transformedValue = $this->transformation->transform(0.0);
 
         $this->assertEquals(0.0, $transformedValue);
     }
 
-    public function testPositiveIntegerToFloatApply() : void
+    public function testPositiveIntegerToFloatApply(): void
     {
         $resultObject = new Result\Ok(200);
 
@@ -107,7 +109,7 @@ class FloatTransformationTest extends TestCase
         $this->assertTrue($transformedObject->isError());
     }
 
-    public function testNegativeIntegerToFloatApply() : void
+    public function testNegativeIntegerToFloatApply(): void
     {
         $resultObject = new Result\Ok(-200);
 
@@ -116,7 +118,7 @@ class FloatTransformationTest extends TestCase
         $this->assertTrue($transformedObject->isError());
     }
 
-    public function testZeroIntegerToFloatApply() : void
+    public function testZeroIntegerToFloatApply(): void
     {
         $resultObject = new Result\Ok(0);
 
@@ -125,7 +127,7 @@ class FloatTransformationTest extends TestCase
         $this->assertTrue($transformedObject->isError());
     }
 
-    public function testStringToFloatApply() : void
+    public function testStringToFloatApply(): void
     {
         $resultObject = new Result\Ok('hello');
 
@@ -134,7 +136,7 @@ class FloatTransformationTest extends TestCase
         $this->assertTrue($transformedObject->isError());
     }
 
-    public function testIntegerToFloatApply() : void
+    public function testIntegerToFloatApply(): void
     {
         $resultObject = new Result\Ok(200);
 
@@ -143,7 +145,7 @@ class FloatTransformationTest extends TestCase
         $this->assertTrue($transformedObject->isError());
     }
 
-    public function testFloatToFloatApply() : void
+    public function testFloatToFloatApply(): void
     {
         $resultObject = new Result\Ok(10.5);
 
@@ -152,7 +154,7 @@ class FloatTransformationTest extends TestCase
         $this->assertEquals(10.5, $transformedObject->value());
     }
 
-    public function testBooleanToFloatApply() : void
+    public function testBooleanToFloatApply(): void
     {
         $resultObject = new Result\Ok(true);
 

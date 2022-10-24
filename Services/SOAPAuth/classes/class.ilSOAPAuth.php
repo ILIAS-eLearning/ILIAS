@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -18,7 +20,7 @@ include_once("./webservice/soap/lib/nusoap.php");
 
 class ilSOAPAuth
 {
-    public static function testConnection(string $a_ext_uid, string $a_soap_pw, bool $a_new_user) : string
+    public static function testConnection(string $a_ext_uid, string $a_soap_pw, bool $a_new_user): string
     {
         global $ilSetting;
 

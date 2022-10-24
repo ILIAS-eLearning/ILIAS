@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilLOInvalidConfigurationException
  * @author Stefan Meyer <smeyer.ilias@gmx.de>

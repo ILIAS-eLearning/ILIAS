@@ -31,18 +31,18 @@ include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
 */
 class ilTestScoringGUI extends ilTestServiceGUI
 {
-    const PART_FILTER_ACTIVE_ONLY = 1;
-    const PART_FILTER_INACTIVE_ONLY = 2;
-    const PART_FILTER_ALL_USERS = 3; // default
-    const PART_FILTER_MANSCORING_DONE = 4;
-    const PART_FILTER_MANSCORING_NONE = 5;
+    public const PART_FILTER_ACTIVE_ONLY = 1;
+    public const PART_FILTER_INACTIVE_ONLY = 2;
+    public const PART_FILTER_ALL_USERS = 3; // default
+    public const PART_FILTER_MANSCORING_DONE = 4;
+    public const PART_FILTER_MANSCORING_NONE = 5;
     //const PART_FILTER_MANSCORING_PENDING	= 6;
-    
+
     /**
      * @var ilTestAccess
      */
     protected $testAccess;
-    
+
     /**
     * ilTestScoringGUI constructor
     *
@@ -55,15 +55,15 @@ class ilTestScoringGUI extends ilTestServiceGUI
     {
         parent::__construct($a_object);
     }
-    
+
     /**
      * @return ilTestAccess
      */
-    public function getTestAccess() : ilTestAccess
+    public function getTestAccess(): ilTestAccess
     {
         return $this->testAccess;
     }
-    
+
     /**
      * @param ilTestAccess $testAccess
      */
@@ -87,14 +87,14 @@ class ilTestScoringGUI extends ilTestServiceGUI
         $ilTabs->addSubTab('man_scoring', $this->lng->txt('tst_man_scoring_by_part'), $this->ctrl->getLinkTargetByClass('ilTestScoringGUI', 'showManScoringParticipantsTable'));
         $ilTabs->setSubTabActive($active_sub_tab);
     }
-    
-    private function fetchActiveIdParameter() : int
+
+    private function fetchActiveIdParameter(): int
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
-        
+
         // fetch active_id
-        
+
         if (!$this->testrequest->isset('active_id') || !(int) $this->testrequest->raw('active_id')) {
             // allow only write access
             $this->tpl->setOnScreenMessage('failure', 'no active id given!', true);
@@ -102,14 +102,14 @@ class ilTestScoringGUI extends ilTestServiceGUI
         } else {
             $activeId = (int) $this->testrequest->raw('active_id');
         }
-        
+
         return $activeId;
     }
-    
+
     private function fetchPassParameter($activeId)
     {
         // fetch pass nr
-        
+
         $maxPass = $this->object->_getMaxPass($activeId);
         if ($this->testrequest->isset("pass") && 0 <= (int) $this->testrequest->raw("pass") && $maxPass >= (int) $this->testrequest->raw("pass")) {
             $pass = $this->testrequest->raw("pass");
@@ -118,17 +118,17 @@ class ilTestScoringGUI extends ilTestServiceGUI
         } else {
             $pass = $this->object->_getResultPass($activeId);
         }
-        
+
         return $pass;
     }
-    
+
     /**
     * execute command
     */
     public function executeCommand()
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         if (!$this->getTestAccess()->checkScoreParticipantsAccess()) {
             ilObjTestGUI::accessViolationRedirect();
         }
@@ -139,82 +139,82 @@ class ilTestScoringGUI extends ilTestServiceGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("manscoring_not_allowed"), true);
             $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
         }
-        
+
         $DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_MANUAL_SCORING);
         $this->buildSubTabs($this->getActiveSubTabId());
-        
+
         $nextClass = $this->ctrl->getNextClass($this);
         $command = $this->ctrl->getCmd($this->getDefaultCommand());
-        
+
         switch ($nextClass) {
             default:
                 $this->$command();
                 break;
         }
     }
-    
+
     /**
      * @return string
      */
-    protected function getDefaultCommand() : string
+    protected function getDefaultCommand(): string
     {
         return 'manscoring';
     }
-    
+
     /**
      * @return string
      */
-    protected function getActiveSubTabId() : string
+    protected function getActiveSubTabId(): string
     {
         return 'man_scoring';
     }
-    
+
     private function showManScoringParticipantsTable()
     {
         global $DIC;
         $tpl = $DIC['tpl'];
 
         $table = $this->buildManScoringParticipantsTable(true);
-        
+
         $tpl->setContent($table->getHTML());
     }
-    
+
     private function applyManScoringParticipantsFilter()
     {
         $table = $this->buildManScoringParticipantsTable(false);
-        
+
         $table->resetOffset();
         $table->writeFilterToSession();
-        
+
         $this->showManScoringParticipantsTable();
     }
-    
+
     private function resetManScoringParticipantsFilter()
     {
         $table = $this->buildManScoringParticipantsTable(false);
-        
+
         $table->resetOffset();
         $table->resetFilter();
 
         $this->showManScoringParticipantsTable();
     }
-    
+
     private function showManScoringParticipantScreen(ilPropertyFormGUI $form = null)
     {
         global $DIC;
         $tpl = $DIC['tpl'];
         $lng = $DIC['lng'];
-        
+
         $activeId = $this->fetchActiveIdParameter();
-        
+
         if (!$this->getTestAccess()->checkScoreParticipantsAccessForActiveId($activeId)) {
             ilObjTestGUI::accessViolationRedirect();
         }
-        
+
         $pass = $this->fetchPassParameter($activeId);
 
         $contentHTML = '';
-        
+
         // pass overview table
         require_once 'Modules/Test/classes/tables/class.ilTestPassManualScoringOverviewTableGUI.php';
         $table = new ilTestPassManualScoringOverviewTableGUI($this, 'showManScoringParticipantScreen');
@@ -230,16 +230,16 @@ class ilTestScoringGUI extends ilTestServiceGUI
         $contentHTML .= $table->getHTML() . '<br />';
 
         // pass scoring form
-        
+
         if ($form === null) {
             $questionGuiList = $this->service->getManScoringQuestionGuiList($activeId, $pass);
             $form = $this->buildManScoringParticipantForm($questionGuiList, $activeId, $pass, true);
         }
-        
+
         $contentHTML .= $form->getHTML();
-        
+
         // set content
-        
+
         $tpl->setContent($contentHTML);
     }
 
@@ -252,20 +252,20 @@ class ilTestScoringGUI extends ilTestServiceGUI
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
-            
+
         $activeId = $this->fetchActiveIdParameter();
-        
+
         if (!$this->getTestAccess()->checkScoreParticipantsAccessForActiveId($activeId)) {
             ilObjTestGUI::accessViolationRedirect();
         }
-        
+
         $pass = $this->fetchPassParameter($activeId);
-        
+
         $questionGuiList = $this->service->getManScoringQuestionGuiList($activeId, $pass);
         $form = $this->buildManScoringParticipantForm($questionGuiList, $activeId, $pass, false);
-        
+
         $form->setValuesByPost();
-        
+
         if (!$form->checkInput()) {
             $this->tpl->setOnScreenMessage('failure', sprintf($lng->txt('tst_save_manscoring_failed'), $pass + 1));
             $this->showManScoringParticipantScreen($form);
@@ -273,33 +273,33 @@ class ilTestScoringGUI extends ilTestServiceGUI
         }
 
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-        
+
         $maxPointsByQuestionId = array();
         $maxPointsExceeded = false;
         foreach ($questionGuiList as $questionId => $questionGui) {
             $reachedPoints = $form->getItemByPostVar("question__{$questionId}__points")->getValue();
             $maxPoints = assQuestion::_getMaximumPoints($questionId);
-            
+
             if ($reachedPoints > $maxPoints) {
                 $maxPointsExceeded = true;
-                
+
                 $form->getItemByPostVar("question__{$questionId}__points")->setAlert(sprintf(
                     $lng->txt('tst_manscoring_maxpoints_exceeded_input_alert'),
                     $maxPoints
                 ));
             }
-            
+
             $maxPointsByQuestionId[$questionId] = $maxPoints;
         }
-        
+
         if ($maxPointsExceeded) {
             $this->tpl->setOnScreenMessage('failure', sprintf($lng->txt('tst_save_manscoring_failed'), $pass + 1));
             $this->showManScoringParticipantScreen($form);
             return false;
         }
-        
+
         include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-        
+
         foreach ($questionGuiList as $questionId => $questionGui) {
             $reachedPoints = $form->getItemByPostVar("question__{$questionId}__points")->getValue();
 
@@ -318,7 +318,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
                 false,
                 ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
             );
-                    
+
             $this->object->saveManualFeedback($activeId, (int) $questionId, (int) $pass, $feedback);
 
             $notificationData[$questionId] = array(
@@ -359,7 +359,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
         $scorer = new ilTestScoring($this->object);
         $scorer->setPreserveManualScores(true);
         $scorer->recalculateSolutions();
-        
+
         if ($this->object->getAnonymity() == 0) {
             $user_name = ilObjUser::_lookupName(ilObjTestAccess::_getParticipantId($activeId));
             $name_real_or_anon = $user_name['firstname'] . ' ' . $user_name['lastname'];
@@ -377,7 +377,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
-        
+
         $table = $this->buildManScoringParticipantsTable(true);
 
         if ($this->saveManScoringParticipantScreen(false)) {
@@ -399,7 +399,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
             $ilCtrl->redirectByClass("iltestscoringgui", "showManScoringParticipantsTable");
         }
     }
-    
+
     private function saveReturnManScoringParticipantScreen()
     {
         global $DIC;
@@ -410,33 +410,33 @@ class ilTestScoringGUI extends ilTestServiceGUI
         }
     }
 
-    private function buildManScoringParticipantForm($questionGuiList, $activeId, $pass, $initValues = false) : ilPropertyFormGUI
+    private function buildManScoringParticipantForm($questionGuiList, $activeId, $pass, $initValues = false): ilPropertyFormGUI
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
-        
+
         require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         require_once 'Services/Form/classes/class.ilFormSectionHeaderGUI.php';
         require_once 'Services/Form/classes/class.ilCustomInputGUI.php';
         require_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
         require_once 'Services/Form/classes/class.ilTextInputGUI.php';
         require_once 'Services/Form/classes/class.ilTextAreaInputGUI.php';
-        
+
         $ilCtrl->setParameter($this, 'active_id', $activeId);
         $ilCtrl->setParameter($this, 'pass', $pass);
-        
+
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
-        
+
         $form->setTitle(sprintf($lng->txt('manscoring_results_pass'), $pass + 1));
         $form->setTableWidth('100%');
-        
+
         foreach ($questionGuiList as $questionId => $questionGUI) {
             $questionHeader = sprintf($lng->txt('tst_manscoring_question_section_header'), $questionGUI->object->getTitle());
             $questionSolution = $questionGUI->getSolutionOutput($activeId, $pass, false, false, true, false, false, true);
             $bestSolution = $questionGUI->object->getSuggestedSolutionOutput();
-        
+
             $sect = new ilFormSectionHeaderGUI();
             $sect->setTitle($questionHeader . ' [' . $this->lng->txt('question_id_short') . ': ' . $questionGUI->object->getId() . ']');
             $form->addItem($sect);
@@ -450,13 +450,13 @@ class ilTestScoringGUI extends ilTestServiceGUI
                 $text->setValue(assQuestion::_getReachedPoints($activeId, $questionId, $pass));
             }
             $form->addItem($text);
-            
+
             $nonedit = new ilNonEditableValueGUI($lng->txt('tst_manscoring_input_max_points_for_question'), "question__{$questionId}__maxpoints");
             if ($initValues) {
                 $nonedit->setValue(assQuestion::_getMaximumPoints($questionId));
             }
             $form->addItem($nonedit);
-            
+
             $area = new ilTextAreaInputGUI($lng->txt('set_manual_feedback'), "question__{$questionId}__feedback");
             $area->setUseRTE(true);
             if ($initValues) {
@@ -469,24 +469,24 @@ class ilTestScoringGUI extends ilTestServiceGUI
                 $form->addItem($cust);
             }
         }
-        
+
         $sect = new ilFormSectionHeaderGUI();
         $sect->setTitle($lng->txt('tst_participant'));
         $form->addItem($sect);
-        
+
         $check = new ilCheckboxInputGUI($lng->txt('set_manscoring_done'), 'manscoring_done');
         if ($initValues && ilTestService::isManScoringDone($activeId)) {
             $check->setChecked(true);
         }
         $form->addItem($check);
-        
+
         $check = new ilCheckboxInputGUI($lng->txt('tst_manscoring_user_notification'), 'manscoring_notify');
         $form->addItem($check);
-        
+
         $form->addCommandButton('saveManScoringParticipantScreen', $lng->txt('save'));
         $form->addCommandButton('saveReturnManScoringParticipantScreen', $lng->txt('save_return'));
         $form->addCommandButton('saveNextManScoringParticipantScreen', $lng->txt('save_and_next'));
-        
+
         return $form;
     }
 
@@ -497,25 +497,25 @@ class ilTestScoringGUI extends ilTestServiceGUI
     /**
      * @return ilTestManScoringParticipantsTableGUI
      */
-    private function buildManScoringParticipantsTable($withData = false) : ilTestManScoringParticipantsTableGUI
+    private function buildManScoringParticipantsTable($withData = false): ilTestManScoringParticipantsTableGUI
     {
         require_once 'Modules/Test/classes/tables/class.ilTestManScoringParticipantsTableGUI.php';
         $table = new ilTestManScoringParticipantsTableGUI($this);
-        
+
         if ($withData) {
             $participantStatusFilterValue = $table->getFilterItemByPostVar('participant_status')->getValue();
-            
+
             require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
             $participantList = new ilTestParticipantList($this->object);
-            
+
             $participantList->initializeFromDbRows(
                 $this->object->getTestParticipantsForManualScoring($participantStatusFilterValue)
             );
-            
+
             $participantList = $participantList->getAccessFilteredList(
                 ilTestParticipantAccessFilter::getScoreParticipantsUserFilter($this->ref_id)
             );
-            
+
             $table->setData($participantList->getParticipantsTableRows());
         }
 

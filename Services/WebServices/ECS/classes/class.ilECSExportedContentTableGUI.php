@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -20,12 +22,12 @@
 class ilECSExportedContentTableGUI extends ilTable2GUI
 {
     private ilObjectDataCache $ilObjDataCache;
-    
+
     public function __construct($a_parent_obj, $a_parent_cmd = '')
     {
         global $DIC;
         $this->ilObjDataCache = $DIC['ilObjDataCache'];
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->addColumn($this->lng->txt('title'), 'title', '40%');
         $this->addColumn($this->lng->txt('ecs_meta_data'), 'md', '40%');
@@ -35,14 +37,14 @@ class ilECSExportedContentTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection('asc');
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
     }
-    
+
     /**
      * Fill row
      *
      * @param array row data
      *
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
         $this->tpl->setVariable('VAL_LINK', ilLink::_getLink($a_set['ref_id'], 'rcrs'));
@@ -53,8 +55,8 @@ class ilECSExportedContentTableGUI extends ilTable2GUI
         $this->tpl->setVariable('TXT_DNS', $this->lng->txt('ecs_dns'));
         $this->tpl->setVariable('TXT_ABR', $this->lng->txt('ecs_abr'));
         $this->tpl->setVariable('VAL_LAST_UPDATE', $a_set['last_update']);
-        
-        
+
+
         $this->tpl->setVariable('TXT_TERM', $this->lng->txt('ecs_field_term'));
         $this->tpl->setVariable('TXT_CRS_TYPE', $this->lng->txt('ecs_field_courseType'));
         $this->tpl->setVariable('TXT_CRS_ID', $this->lng->txt('ecs_field_courseID'));
@@ -69,9 +71,9 @@ class ilECSExportedContentTableGUI extends ilTable2GUI
 
         $sid = array_pop($a_set['sids']);
         $settings = ilECSDataMappingSettings::getInstanceByServerId($sid);
-                
+
         $values = ilECSUtils::getAdvancedMDValuesForObjId($a_set['obj_id']);
-                
+
         if ($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT, 'lecturer')) {
             $this->tpl->setVariable('VAL_LECTURER', $values[$field] ?? '--');
         }
@@ -103,17 +105,17 @@ class ilECSExportedContentTableGUI extends ilTable2GUI
             $this->tpl->setVariable('VAL_END', isset($values[$field]) ? ilDatePresentation::formatDate(new ilDateTime($values[$field], IL_CAL_UNIX)) : '--');
         }
     }
-    
+
     /**
      * Parse
      *
      * @param array array of released content obj_ids
      *
      */
-    public function parse($a_obj_ids) : void
+    public function parse($a_obj_ids): void
     {
         $this->ilObjDataCache->preloadObjectCache($a_obj_ids);
-        
+
         // read obj_ids
         $obj_ids = array();
         foreach ($a_obj_ids as $obj_id) {
@@ -122,7 +124,7 @@ class ilECSExportedContentTableGUI extends ilTable2GUI
 
             $obj_ids[$ref_id] = $obj_id;
         }
-        
+
         $content = array();
         foreach ($obj_ids as $ref_id => $obj_id) {
             $tmp_arr['sids'] = ilECSExportManager::getInstance()->lookupServerIds($obj_id);

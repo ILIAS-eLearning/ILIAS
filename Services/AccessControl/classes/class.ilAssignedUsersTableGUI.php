@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * TableGUI class for role administration
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -75,7 +77,7 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
     /**
      * get current role id
      */
-    public function getRoleId() : int
+    public function getRoleId(): int
     {
         return $this->role_id;
     }
@@ -83,7 +85,7 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
     /**
      * Check if role assignment is editable
      */
-    public function isRoleAssignmentEditable() : bool
+    public function isRoleAssignmentEditable(): bool
     {
         return $this->roleAssignmentEditable;
     }
@@ -91,7 +93,7 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
     /**
      * Get user items
      */
-    public function getItems() : void
+    public function getItems(): void
     {
         $this->determineOffsetAndOrder();
         $usr_data = ilUserQuery::getUserListData(
@@ -114,7 +116,7 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
     /**
      * Fill table row
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("VAL_FIRSTNAME", $a_set["firstname"]);
         $this->tpl->setVariable("VAL_LASTNAME", $a_set["lastname"]);

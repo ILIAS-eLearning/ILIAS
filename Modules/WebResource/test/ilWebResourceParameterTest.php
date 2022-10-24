@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
 
@@ -25,7 +27,7 @@ use ILIAS\DI\Container;
  */
 class ilWebResourceParameterTest extends TestCase
 {
-    protected function initDependencies() : void
+    protected function initDependencies(): void
     {
         $user = $this->getMockBuilder(ilObjUser::class)
                      ->disableOriginalConstructor()
@@ -36,7 +38,7 @@ class ilWebResourceParameterTest extends TestCase
         $user->method('getMatriculation')->willReturn('matriculation');
     }
 
-    public function testAppendToLink() : void
+    public function testAppendToLink(): void
     {
         $user = $this->getMockBuilder(ilObjUser::class)
                      ->disableOriginalConstructor()
@@ -104,7 +106,7 @@ class ilWebResourceParameterTest extends TestCase
         );
     }
 
-    public function testAppendToLinkException() : void
+    public function testAppendToLinkException(): void
     {
         $user = $this->getMockBuilder(ilObjUser::class)
                      ->disableOriginalConstructor()
@@ -118,7 +120,7 @@ class ilWebResourceParameterTest extends TestCase
         $param->appendToLink($link);
     }
 
-    public function testToXML() : void
+    public function testToXML(): void
     {
         $user = $this->getMockBuilder(ilObjUser::class)
                      ->disableOriginalConstructor()
@@ -181,7 +183,7 @@ class ilWebResourceParameterTest extends TestCase
         $param->toXML($writer);
     }
 
-    public function testGetInfo() : void
+    public function testGetInfo(): void
     {
         $user = $this->getMockBuilder(ilObjUser::class)
                      ->disableOriginalConstructor()
@@ -227,7 +229,7 @@ class ilWebResourceParameterTest extends TestCase
         $this->assertSame('name4=SESSION_ID', $param->getInfo());
     }
 
-    public function testGetInfoException() : void
+    public function testGetInfoException(): void
     {
         $user = $this->getMockBuilder(ilObjUser::class)
                      ->disableOriginalConstructor()

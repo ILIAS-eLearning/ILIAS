@@ -13,48 +13,72 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+use ILIAS\Refinery\To\Transformation\ListTransformation;
 
 class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 {
     private $value_combination;
     private $value;
+    private ArrayBasedRequestWrapper $post;
+    private ArrayBasedRequestWrapper $query;
+
+    public function __construct(string $a_title = "", string $a_postvar = "")
+    {
+        parent::__construct($a_title, $a_postvar);
+        $this->post = $this->http->wrapper()->post();
+        $this->query = $this->http->wrapper()->query();
+    }
 
     /**
      * Set Value.
      * @param    string $a_value Value
      */
-    public function setValue($a_value) : void
+    public function setValue($a_value): void
     {
         $this->value = $a_value;
     }
 
+    /**
+     * @throws JsonException
+     */
     public function getValue()
     {
         $editOrOpen = $this->value;
         if (isset($editOrOpen['author'])) {
-            $json = json_decode(ilUtil::stripSlashes($_POST['gap_json_post']));
+            $json = json_decode($this->post->retrieve(
+                "gap_json_post",
+                $this->refinery->kindlyTo()->string()
+            ), true, 512, JSON_THROW_ON_ERROR);
             return $json[0];
         }
         return $this->value;
     }
 
-    public function setValueCombination($value) : void
+    public function setValueCombination($value): void
     {
         $this->value_combination = $value;
     }
 
+    /**
+     * @throws JsonException
+     */
     public function getValueCombination()
     {
         $editOrOpen = $this->value;
         if (isset($editOrOpen['author'])) {
-            $json = json_decode(ilUtil::stripSlashes($_POST['gap_json_combination_post']));
-            return $json;
+            return json_decode($this->post->retrieve(
+                "gap_json_combination_post",
+                $this->refinery->kindlyTo()->string()
+            ), true, 512, JSON_THROW_ON_ERROR);
         }
         return (array) $this->value_combination;
     }
 
-    public function setValueCombinationFromDb($value) : void
+    public function setValueCombinationFromDb($value): void
     {
         $return_array = array();
         if ($value) {
@@ -69,31 +93,65 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         }
     }
 
-    public function checkInput() : bool
+    /**
+     * @throws JsonException
+     */
+    public function checkInput(): bool
     {
         $error = false;
-        $json = self::stripSlashesRecursive(json_decode($_POST['gap_json_post'], true), false);
+        $json = self::stripSlashesRecursive(
+            json_decode(
+                $this->post->retrieve(
+                    "gap_json_post",
+                    $this->refinery->kindlyTo()->string()
+                ),
+                true,
+                512,
+                JSON_THROW_ON_ERROR
+            ),
+            false
+        );
         $gap = self::stripSlashesRecursive($this->raw('gap'));
         $gaps_used_in_combination = array();
-        if (isset($_POST['gap_combination'])) {
-            $_POST['gap_combination'] = self::stripSlashesRecursive($_POST['gap_combination']);
-            $_POST['gap_combination_values'] = self::stripSlashesRecursive($_POST['gap_combination_values']);
+        if ($this->post->has('gap_combination')) {
+            $gapCombination = $this->post->retrieve(
+                "gap_combination",
+                $this->refinery->kindlyTo()->recordOf(
+                    [
+                        'select' => new ListTransformation(
+                            new ListTransformation($this->refinery->kindlyTo()->string())
+                        ),
+                        'points' => new ListTransformation(
+                            new ListTransformation($this->refinery->kindlyTo()->string())
+                        ),
+                    ]
+                )
+            );
+            $gapCombinationValues = $this->post->retrieve(
+                "gap_combination_values",
+                $this->refinery->kindlyTo()->listOf(
+                    new ListTransformation(
+                        new ListTransformation($this->refinery->kindlyTo()->string())
+                    )
+                )
+            );
+
             $gap_with_points = array();
 
-            for ($i = 0; $i < count($_POST['gap_combination']['select']); $i++) {
-                foreach ($_POST['gap_combination']['select'][$i] as $key => $item) {
+            for ($i = 0, $iMax = count($gapCombination['select']); $i < $iMax; $i++) {
+                foreach ($gapCombination['select'][$i] as $key => $item) {
                     if ($item == 'none_selected_minus_one') {
                         return false;
                     }
                     $gaps_used_in_combination[$item] = $item;
                     $check_points_for_best_scoring = false;
-                    foreach ($_POST['gap_combination_values'][$i] as $index => $answeritems) {
+                    foreach ($gapCombinationValues[$i] as $index => $answeritems) {
                         foreach ($answeritems as $answeritem) {
                             if ($answeritem == 'none_selected_minus_one') {
                                 return false;
                             }
                         }
-                        $points = $_POST['gap_combination']['points'][$i][$index];
+                        $points = $gapCombination['points'][$i][$index];
                         if ($points > 0) {
                             $check_points_for_best_scoring = true;
                         }
@@ -109,7 +167,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
             foreach ($gap as $key => $item) {
                 $getType = ilUtil::stripSlashes($this->raw('clozetype_' . $key));
                 $gapsize = $this->raw('gap_' . $key . '_gapsize');
-                
+
                 //$json[0][$key]->text_field_length = $gapsize > 0 ? $gapsize : '';
                 $json[0][$key]['text_field_length'] = $gapsize > 0 ? $gapsize : '';
 
@@ -141,11 +199,6 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                                 $error = true;
                             }
                         }
-                        if ($getType == CLOZE_SELECT) {
-                            if (!strlen(ilUtil::stripSlashes($this->raw('shuffle_' . $key)))) {
-                                $error = true;
-                            }
-                        }
                     } else {
                         $error = true;
                     }
@@ -171,7 +224,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                         }
                     }
 
-                    if ($gap_with_points && is_array($gap_with_points) && array_key_exists($key, $gap_with_points)) {
+                    if (isset($gap_with_points) && is_array($gap_with_points) && array_key_exists($key, $gap_with_points)) {
                         $points += $gap_with_points[$key];
                     }
 
@@ -181,7 +234,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                         }
                     }
 
-                    $json[0][$key]->values[0]->error = $mark_errors;
+                    $json[0][$key]["values"][0]["error"] = $mark_errors;
                 }
             }
         }
@@ -189,7 +242,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         return !$error;
     }
 
-    public function setValueByArray($data) : void
+    public function setValueByArray($data): void
     {
         $this->setValue($data);
     }
@@ -197,7 +250,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param ilTemplate $template
      */
-    public function insert(ilTemplate $template) : void
+    public function insert(ilTemplate $template): void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -223,10 +276,10 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 
         $DIC->ui()->mainTemplate()->addOnLoadCode(
             $cloze_settings_js
-            . 'ClozeGapBuilder.Init();'
+            . 'ClozeQuestionGapBuilder.Init();'
         );
         $DIC->ui()->mainTemplate()->addJavascript(
-            './Modules/TestQuestionPool/templates/default/cloze_gap_builder.js'
+            './Modules/TestQuestionPool/templates/default/clozeQuestionGapBuilder.js'
         );
 
 

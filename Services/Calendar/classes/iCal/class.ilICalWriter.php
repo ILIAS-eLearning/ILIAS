@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
     +-----------------------------------------------------------------------------+
@@ -37,7 +39,7 @@ class ilICalWriter
         $this->ical = '';
     }
 
-    public static function escapeText(string $a_text) : string
+    public static function escapeText(string $a_text): string
     {
         $a_text = str_replace("\r\n", '\\n', $a_text);
 
@@ -56,7 +58,7 @@ class ilICalWriter
         );
     }
 
-    public function addLine(string $a_line) : void
+    public function addLine(string $a_line): void
     {
         // use multibyte split
         $chunks = array();

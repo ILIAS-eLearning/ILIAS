@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,14 +17,14 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Storage for ilLSPostConditions
  */
 class ilLSPostConditionDB
 {
-    const TABLE_NAME = 'post_conditions';
-    const STD_ALWAYS_OPERATOR = 'always';
+    public const TABLE_NAME = 'post_conditions';
+    public const STD_ALWAYS_OPERATOR = 'always';
 
     protected ilDBInterface $db;
 
@@ -34,7 +36,7 @@ class ilLSPostConditionDB
     /**
      * @return ilLSPostCondition[]
      */
-    public function select(array $ref_ids) : array
+    public function select(array $ref_ids): array
     {
         if ($ref_ids === []) {
             return [];
@@ -68,7 +70,7 @@ class ilLSPostConditionDB
         return $conditions;
     }
 
-    public function delete(array $ref_ids, ilDBInterface $db = null) : void
+    public function delete(array $ref_ids, ilDBInterface $db = null): void
     {
         if ($ref_ids === []) {
             return;
@@ -86,7 +88,7 @@ class ilLSPostConditionDB
         $db->manipulate($query);
     }
 
-    protected function insert(array $ls_post_conditions, ilDBInterface $db) : void
+    protected function insert(array $ls_post_conditions, ilDBInterface $db): void
     {
         foreach ($ls_post_conditions as $condition) {
             $values = [
@@ -100,7 +102,7 @@ class ilLSPostConditionDB
     /**
      * @param ilLSPostCondition[]
      */
-    public function upsert(array $ls_post_conditions) : void
+    public function upsert(array $ls_post_conditions): void
     {
         if ($ls_post_conditions === []) {
             return;
@@ -114,7 +116,7 @@ class ilLSPostConditionDB
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock(static::TABLE_NAME);
         $ilAtomQuery->addQueryCallable(
-            function (ilDBInterface $db) use ($ref_ids, $ls_post_conditions) : void {
+            function (ilDBInterface $db) use ($ref_ids, $ls_post_conditions): void {
                 $this->delete($ref_ids, $db);
                 $this->insert($ls_post_conditions, $db);
             }

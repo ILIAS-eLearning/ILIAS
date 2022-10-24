@@ -1,6 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -41,7 +55,7 @@ class ilTestRandomQuestionSetStagingPoolQuestion
     /**
      * @return int
      */
-    public function getTestId() : int
+    public function getTestId(): int
     {
         return $this->testId;
     }
@@ -57,7 +71,7 @@ class ilTestRandomQuestionSetStagingPoolQuestion
     /**
      * @return int
      */
-    public function getPoolId() : int
+    public function getPoolId(): int
     {
         return $this->poolId;
     }
@@ -73,7 +87,7 @@ class ilTestRandomQuestionSetStagingPoolQuestion
     /**
      * @return int
      */
-    public function getQuestionId() : int
+    public function getQuestionId(): int
     {
         return $this->questionId;
     }
@@ -85,11 +99,11 @@ class ilTestRandomQuestionSetStagingPoolQuestion
     {
         $this->questionId = $questionId;
     }
-    
+
     public function saveQuestionStaging()
     {
         $nextId = $this->db->nextId('tst_rnd_cpy');
-        
+
         $this->db->insert('tst_rnd_cpy', array(
             'copy_id' => array('integer', $nextId),
             'tst_fi' => array('integer', $this->getTestId()),

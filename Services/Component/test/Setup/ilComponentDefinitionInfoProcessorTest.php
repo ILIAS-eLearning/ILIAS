@@ -8,12 +8,12 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
 {
     protected ilComponentInfoDefinitionProcessor $processor;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->processor = new ilComponentInfoDefinitionProcessor();
     }
 
-    public function testPurge() : void
+    public function testPurge(): void
     {
         $type = "Modules";
         $name = "NAME";
@@ -26,7 +26,7 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
         $this->assertEquals([], $this->processor->getData());
     }
 
-    public function testBeginTag() : void
+    public function testBeginTag(): void
     {
         $type1 = "Modules";
         $name1 = "NAME1";
@@ -72,7 +72,7 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
         $this->assertEquals($expected, $this->processor->getData());
     }
 
-    public function testTagComponentTypeMismatch() : void
+    public function testTagComponentTypeMismatch(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -84,7 +84,7 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
         $this->processor->beginTag("module", ["id" => $id]);
     }
 
-    public function testMissingId() : void
+    public function testMissingId(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -95,7 +95,7 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
         $this->processor->beginTag("service", []);
     }
 
-    public function testDuplicateComponentId() : void
+    public function testDuplicateComponentId(): void
     {
         $this->expectException(\LogicException::class);
 
@@ -106,7 +106,7 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
         $this->processor->beginTag("module", ["id" => "id"]);
     }
 
-    public function testDuplicatePluginId() : void
+    public function testDuplicatePluginId(): void
     {
         $this->expectException(\LogicException::class);
 

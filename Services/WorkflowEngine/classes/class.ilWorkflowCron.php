@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,7 +38,7 @@ class ilWorkflowCron
      * here and leave the ordering here clear enough to make it a useful tool
      * to control the facile order of events.
      */
-    public static function executeCronjob() : void
+    public static function executeCronjob(): void
     {
         self::raiseTimePassedEvent();
     }
@@ -44,7 +46,7 @@ class ilWorkflowCron
     /**
      * Raises the generic "time passed" event.
      */
-    public static function raiseTimePassedEvent() : void
+    public static function raiseTimePassedEvent(): void
     {
         $workflow_engine = new ilWorkflowEngine();
 

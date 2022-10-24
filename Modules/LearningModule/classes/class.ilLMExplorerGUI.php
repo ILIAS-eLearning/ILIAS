@@ -59,7 +59,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
         }
 
         parent::__construct($a_id, $a_parent_obj, $a_parent_cmd, $tree);
-        
+
         $this->setSkipRootNode(false);
         $this->setAjax(false);
         $this->setPreloadChilds(true);
@@ -75,7 +75,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
         }
     }
 
-    public function beforeRendering() : void
+    public function beforeRendering(): void
     {
         if ($this->cnt_lmobj > 200 && !$this->getOfflineMode()) {
             $class = (is_object($this->parent_obj))
@@ -90,7 +90,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
     /**
      * @param object|array $a_node
      */
-    public function getNodeContent($a_node) : string
+    public function getNodeContent($a_node): string
     {
         if ($a_node["child"] == $this->getNodeId($this->getRootNode())) {
             return $this->lm->getTitle();
@@ -109,11 +109,11 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
             $lang
         );
     }
-    
+
     /**
      * @param object|array $a_node
      */
-    public function isNodeHighlighted($a_node) : bool
+    public function isNodeHighlighted($a_node): bool
     {
         if ($a_node["child"] == $this->obj_id ||
             ($this->obj_id == "" && $a_node["child"] == $this->getNodeId($this->getRootNode()))) {
@@ -126,7 +126,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
      * @param int $a_id lm tree node id
      * @throws ilInvalidLPStatusException
      */
-    protected function checkLPIcon(int $a_id) : string
+    protected function checkLPIcon(int $a_id): string
     {
         $ilUser = $this->user;
 

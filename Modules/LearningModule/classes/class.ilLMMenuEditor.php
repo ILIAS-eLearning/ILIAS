@@ -43,81 +43,81 @@ class ilLMMenuEditor
         $this->link_ref_id = null;
     }
 
-    public function setObjId(int $a_obj_id) : void
+    public function setObjId(int $a_obj_id): void
     {
         $this->lm_id = $a_obj_id;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->lm_id;
     }
 
-    public function setEntryId(int $a_id) : void
+    public function setEntryId(int $a_id): void
     {
         $this->entry_id = $a_id;
     }
 
-    public function getEntryId() : int
+    public function getEntryId(): int
     {
         return $this->entry_id;
     }
 
-    public function setLinkType(string $a_link_type) : void
+    public function setLinkType(string $a_link_type): void
     {
         $this->link_type = $a_link_type;
     }
-    
-    public function getLinkType() : string
+
+    public function getLinkType(): string
     {
         return $this->link_type;
     }
-    
-    public function setTitle(string $a_title) : void
+
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
-    
-    public function setTarget(string $a_target) : void
+
+    public function setTarget(string $a_target): void
     {
         $this->target = $a_target;
     }
-    
-    public function getTarget() : string
+
+    public function getTarget(): string
     {
         return $this->target;
     }
-    
-    public function setLinkRefId(int $a_link_ref_id) : void
+
+    public function setLinkRefId(int $a_link_ref_id): void
     {
         $this->link_ref_id = $a_link_ref_id;
     }
 
-    public function getLinkRefId() : int
+    public function getLinkRefId(): int
     {
         return $this->link_ref_id;
     }
-    
-    public function setActive(string $a_val) : void
+
+    public function setActive(string $a_val): void
     {
         $this->active = $a_val;
     }
-    
-    public function getActive() : string
+
+    public function getActive(): string
     {
         return $this->active;
     }
-    
 
-    public function create() : void
+
+    public function create(): void
     {
         $ilDB = $this->db;
-        
+
         $id = $ilDB->nextId("lm_menu");
         $q = "INSERT INTO lm_menu (id, lm_id,link_type,title,target,link_ref_id, active) " .
              "VALUES " .
@@ -133,24 +133,24 @@ class ilLMMenuEditor
         $ilDB->manipulate($q);
         $this->entry_id = $id;
     }
-    
+
     public function getMenuEntries(
         bool $a_only_active = false
-    ) : array {
+    ): array {
         $ilDB = $this->db;
 
         $and = "";
-        
+
         $entries = array();
-        
+
         if ($a_only_active === true) {
             $and = " AND active = " . $ilDB->quote("y", "text");
         }
-        
+
         $q = "SELECT * FROM lm_menu " .
              "WHERE lm_id = " . $ilDB->quote($this->lm_id, "integer") .
              $and;
-             
+
         $r = $ilDB->query($q);
 
         while ($row = $ilDB->fetchObject($r)) {
@@ -165,20 +165,20 @@ class ilLMMenuEditor
 
         return $entries;
     }
-    
-    public function delete(int $a_id) : void
+
+    public function delete(int $a_id): void
     {
         $ilDB = $this->db;
-        
+
         $q = "DELETE FROM lm_menu WHERE id = " .
             $ilDB->quote($a_id, "integer");
         $ilDB->manipulate($q);
     }
-    
-    public function update() : void
+
+    public function update(): void
     {
         $ilDB = $this->db;
-        
+
         $q = "UPDATE lm_menu SET " .
             " link_type = " . $ilDB->quote($this->getLinkType(), "text") . "," .
             " title = " . $ilDB->quote($this->getTitle(), "text") . "," .
@@ -187,21 +187,21 @@ class ilLMMenuEditor
             " WHERE id = " . $ilDB->quote($this->getEntryId(), "integer");
         $ilDB->manipulate($q);
     }
-    
-    public function readEntry(int $a_id) : void
+
+    public function readEntry(int $a_id): void
     {
         $ilDB = $this->db;
-        
+
         if (!$a_id) {
             return;
         }
-        
+
         $q = "SELECT * FROM lm_menu WHERE id = " .
             $ilDB->quote($a_id, "integer");
         $r = $ilDB->query($q);
 
         $row = $ilDB->fetchObject($r);
-        
+
         $this->setTitle($row->title);
         $this->setTarget($row->target);
         $this->setLinkType($row->link_type);
@@ -209,14 +209,14 @@ class ilLMMenuEditor
         $this->setEntryId($a_id);
         $this->setActive($row->active);
     }
-    
+
     /**
      * update active status of all menu entries of lm
      */
-    public function updateActiveStatus(array $a_entries) : void
+    public function updateActiveStatus(array $a_entries): void
     {
         $ilDB = $this->db;
-        
+
         // update active status
         $q = "UPDATE lm_menu SET " .
              "active = CASE " .
@@ -232,7 +232,7 @@ class ilLMMenuEditor
     public static function fixImportMenuItems(
         int $new_lm_id,
         array $ref_mapping
-    ) : void {
+    ): void {
         global $DIC;
 
         $db = $DIC->database();
@@ -248,7 +248,7 @@ class ilLMMenuEditor
             if ($rec["link_type"] == "intern") {
                 $link = explode("_", $rec["link_ref_id"]);
                 $ref_id = (int) $link[count($link) - 1];
-                $new_ref_id = $ref_mapping[$ref_id];
+                $new_ref_id = $ref_mapping[$ref_id] ?? 0;
                 // if ref id has been imported, update it
                 if ($new_ref_id > 0) {
                     $new_target = str_replace((string) $ref_id, (string) $new_ref_id, $rec["target"]);
@@ -273,7 +273,7 @@ class ilLMMenuEditor
     public static function writeActive(
         int $entry_id,
         bool $active
-    ) : void {
+    ): void {
         global $DIC;
 
         $db = $DIC->database();

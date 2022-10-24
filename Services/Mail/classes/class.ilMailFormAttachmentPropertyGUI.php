@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,12 +36,12 @@ class ilMailFormAttachmentPropertyGUI extends ilFormPropertyGUI
         $this->setTitle($this->lng->txt('attachments'));
     }
 
-    public function addItem(string $label) : void
+    public function addItem(string $label): void
     {
         $this->items[] = $label;
     }
-    
-    public function insert(ilTemplate $a_tpl) : void
+
+    public function insert(ilTemplate $a_tpl): void
     {
         $tpl = new ilTemplate('tpl.mail_new_attachments.html', true, true, 'Services/Mail');
 
@@ -49,7 +51,7 @@ class ilMailFormAttachmentPropertyGUI extends ilFormPropertyGUI
             $tpl->parseCurrentBlock();
         }
         $tpl->setVariable('ATTACHMENT_BUTTON_LABEL', $this->buttonLabel);
-        
+
         $a_tpl->setCurrentBlock('prop_generic');
         $a_tpl->setVariable('PROP_GENERIC', $tpl->get());
         $a_tpl->parseCurrentBlock();

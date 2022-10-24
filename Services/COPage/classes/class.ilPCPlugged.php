@@ -29,7 +29,7 @@ class ilPCPlugged extends ilPageContent
     protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -39,7 +39,7 @@ class ilPCPlugged extends ilPageContent
         $this->component_factory = $DIC["component.factory"];
     }
 
-    public function setNode(php4DOMElement $a_node) : void
+    public function setNode(php4DOMElement $a_node): void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->plug_node = $a_node->first_child();		// this is the Plugged node
@@ -54,7 +54,7 @@ class ilPCPlugged extends ilPageContent
         string $a_pc_id,
         string $a_plugin_name,
         string $a_plugin_version
-    ) : void {
+    ): void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->plug_node = $this->dom->create_element("Plugged");
@@ -66,12 +66,12 @@ class ilPCPlugged extends ilPageContent
     /**
      * Set properties of plugged component.
      */
-    public function setProperties(array $a_properties) : void
+    public function setProperties(array $a_properties): void
     {
         if (!is_object($this->plug_node)) {
             return;
         }
-        
+
         // delete properties
         $children = $this->plug_node->child_nodes();
         for ($i = 0; $i < count($children); $i++) {
@@ -91,10 +91,10 @@ class ilPCPlugged extends ilPageContent
     /**
      * Get properties of plugged component
      */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $properties = array();
-        
+
         if (is_object($this->plug_node)) {
             // delete properties
             $children = $this->plug_node->child_nodes();
@@ -105,11 +105,11 @@ class ilPCPlugged extends ilPageContent
                 }
             }
         }
-        
+
         return $properties;
     }
-    
-    public function setPluginVersion(string $a_version) : void
+
+    public function setPluginVersion(string $a_version): void
     {
         if (!empty($a_version)) {
             $this->plug_node->set_attribute("PluginVersion", $a_version);
@@ -120,7 +120,7 @@ class ilPCPlugged extends ilPageContent
         }
     }
 
-    public function getPluginVersion() : string
+    public function getPluginVersion(): string
     {
         if (is_object($this->plug_node)) {
             return $this->plug_node->get_attribute("PluginVersion");
@@ -128,7 +128,7 @@ class ilPCPlugged extends ilPageContent
         return "";
     }
 
-    public function setPluginName(string $a_name) : void
+    public function setPluginName(string $a_name): void
     {
         if (!empty($a_name)) {
             $this->plug_node->set_attribute("PluginName", $a_name);
@@ -139,7 +139,7 @@ class ilPCPlugged extends ilPageContent
         }
     }
 
-    public function getPluginName() : string
+    public function getPluginName(): string
     {
         if (is_object($this->plug_node)) {
             return $this->plug_node->get_attribute("PluginName");
@@ -154,7 +154,7 @@ class ilPCPlugged extends ilPageContent
     public static function handleCopiedPluggedContent(
         ilPageObject $a_page,
         DOMDocument $a_domdoc
-    ) : void {
+    ): void {
         global $DIC;
         $component_repository = $DIC['component.repository'];
         $component_factory = $DIC['component.factory'];
@@ -198,7 +198,7 @@ class ilPCPlugged extends ilPageContent
     /**
      * After repository (container) copy action
      */
-    public static function afterRepositoryCopy(ilPageObject $page, array $mapping, int $source_ref_id) : void
+    public static function afterRepositoryCopy(ilPageObject $page, array $mapping, int $source_ref_id): void
     {
         global $DIC;
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
@@ -245,7 +245,7 @@ class ilPCPlugged extends ilPageContent
     public static function handleDeletedPluggedNode(
         ilPageObject $a_page,
         DOMNode $a_node
-    ) : void {
+    ): void {
         global $DIC;
         $component_repository = $DIC['component.repository'];
         $component_factory = $DIC['component.factory'];
@@ -274,7 +274,7 @@ class ilPCPlugged extends ilPageContent
         string $a_output,
         string $a_mode,
         bool $a_abstract_only = false
-    ) : string {
+    ): string {
         $lng = $this->lng;
 
         $end = 0;
@@ -296,7 +296,7 @@ class ilPCPlugged extends ilPageContent
             for ($i = 3; $i < count($param); $i += 2) {
                 $properties[$param[$i]] = $param[$i + 1];
             }
-            
+
             // get html from plugin
             if ($a_mode == "edit") {
                 $plugin_html = '<div class="ilBox">' . $lng->txt("content_plugin_not_activated") . " (" . $plugin_name . ")</div>";
@@ -310,7 +310,7 @@ class ilPCPlugged extends ilPageContent
                 $gui_obj = $plugin_obj->getUIClassInstance();
                 $plugin_html = $gui_obj->getElementHTML($a_mode, $properties, $plugin_version);
             }
-            
+
             $a_output = substr($a_output, 0, $start) .
                 $plugin_html .
                 substr($a_output, $end + 5);
@@ -325,18 +325,18 @@ class ilPCPlugged extends ilPageContent
                 $end = strpos($a_output, "}}}}}", $start);
             }
         }
-                
+
         return $a_output;
     }
-    
-    public function getJavascriptFiles(string $a_mode) : array
+
+    public function getJavascriptFiles(string $a_mode): array
     {
         $js_files = array();
-        
+
         foreach ($this->component_factory->getActivePluginsInSlot("pgcp") as $plugin) {
             $plugin->setPageObj($this->getPage());
             $pl_dir = $plugin->getDirectory();
-            
+
             $pl_js_files = $plugin->getJavascriptFiles($a_mode);
             foreach ($pl_js_files as $pl_js_file) {
                 if (!is_int(strpos($pl_js_file, "//"))) {
@@ -350,15 +350,15 @@ class ilPCPlugged extends ilPageContent
         //var_dump($js_files);
         return $js_files;
     }
-    
-    public function getCssFiles(string $a_mode) : array
+
+    public function getCssFiles(string $a_mode): array
     {
         $css_files = array();
-        
+
         foreach ($this->component_factory->getActivePluginsInSlot("pgcp") as $plugin) {
             $plugin->setPageObj($this->getPage());
             $pl_dir = $plugin->getDirectory();
-            
+
             $pl_css_files = $plugin->getCssFiles($a_mode);
             foreach ($pl_css_files as $pl_css_file) {
                 if (!is_int(strpos($pl_css_file, "//"))) {

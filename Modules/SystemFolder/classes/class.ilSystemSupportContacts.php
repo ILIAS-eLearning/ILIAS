@@ -24,7 +24,7 @@ class ilSystemSupportContacts
 
         return $ilSetting->get("adm_support_contacts");
     }
-    
+
     /**
      * Set list
      *

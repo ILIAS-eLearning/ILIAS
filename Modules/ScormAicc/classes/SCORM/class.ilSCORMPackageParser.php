@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -60,7 +62,7 @@ class ilSCORMPackageParser extends ilSaxParser
      * @param resource|XMLParser $a_xml_parser
      * @return void
      */
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -70,12 +72,12 @@ class ilSCORMPackageParser extends ilSaxParser
     /**
      * @throws ilSaxParserException
      */
-    public function startParsing() : void
+    public function startParsing(): void
     {
         parent::startParsing();
     }
 
-    public function getPackageTitle() : string
+    public function getPackageTitle(): string
     {
         return $this->package_title;
     }
@@ -83,7 +85,7 @@ class ilSCORMPackageParser extends ilSaxParser
     /**
      * update parsing status for a element begin
      */
-    public function beginElement(string $a_name) : void
+    public function beginElement(string $a_name): void
     {
 //        if (!isset($this->status["$a_name"])) {
 //            $this->cnt[$a_name] == 1;
@@ -96,7 +98,7 @@ class ilSCORMPackageParser extends ilSaxParser
     /**
      * update parsing status for an element ending
      */
-    public function endElement(string $a_name) : void
+    public function endElement(string $a_name): void
     {
 //        $this->cnt[$a_name]--;
         unset($this->current_element[count($this->current_element) - 1]);
@@ -105,12 +107,12 @@ class ilSCORMPackageParser extends ilSaxParser
     /**
      * returns current element
      */
-    public function getCurrentElement() : ?string
+    public function getCurrentElement(): ?string
     {
         return ($this->current_element[count($this->current_element) - 1]);
     }
 
-    public function getAncestorElement(int $nr = 1) : ?string
+    public function getAncestorElement(int $nr = 1): ?string
     {
         return ($this->current_element[count($this->current_element) - 1 - $nr]);
     }
@@ -130,7 +132,7 @@ class ilSCORMPackageParser extends ilSaxParser
     /**
      * generate a tag with given name and attributes
      */
-    public function buildTag(string $type, string $name, ?array $attr = null) : string
+    public function buildTag(string $type, string $name, ?array $attr = null): string
     {
         $tag = "<";
 
@@ -151,7 +153,7 @@ class ilSCORMPackageParser extends ilSaxParser
         return $tag;
     }
 
-    public function getCurrentParent() : int
+    public function getCurrentParent(): int
     {
         return $this->parent_stack[count($this->parent_stack) - 1];
     }
@@ -163,7 +165,7 @@ class ilSCORMPackageParser extends ilSaxParser
      * @param array  $a_attribs
      * @return void
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         //echo "<br>handlerBeginTag:".$a_name;
         switch ($a_name) {
@@ -283,7 +285,7 @@ class ilSCORMPackageParser extends ilSaxParser
      * @param string             $a_name
      * @return void
      */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         //echo "<br>handlerEndTag:".$a_name;
 
@@ -320,7 +322,7 @@ class ilSCORMPackageParser extends ilSaxParser
      * @param string|null        $a_data
      * @return void
      */
-    public function handlerCharacterData($a_xml_parser, ?string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, ?string $a_data): void
     {
         //echo "<br>handlerCharacterData:".$this->getCurrentElement().":".$a_data;
         // DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA

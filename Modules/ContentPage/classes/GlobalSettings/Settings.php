@@ -1,5 +1,6 @@
-<?php declare(strict_types=1);
+<?php
 
+declare(strict_types=1);
 
 namespace ILIAS\ContentPage\GlobalSettings;
 
@@ -12,12 +13,12 @@ class Settings
 {
     protected bool $readingTimeEnabled = false;
 
-    public function isReadingTimeEnabled() : bool
+    public function isReadingTimeEnabled(): bool
     {
         return $this->readingTimeEnabled;
     }
 
-    public function withEnabledReadingTime() : self
+    public function withEnabledReadingTime(): self
     {
         $clone = clone $this;
         $clone->readingTimeEnabled = true;
@@ -25,7 +26,7 @@ class Settings
         return $clone;
     }
 
-    public function withDisabledReadingTime() : self
+    public function withDisabledReadingTime(): self
     {
         $clone = clone $this;
         $clone->readingTimeEnabled = false;

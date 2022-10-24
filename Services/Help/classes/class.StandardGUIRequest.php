@@ -38,38 +38,44 @@ class StandardGUIRequest
         );
     }
 
-    public function getIds() : array
+    public function getIds(): array
     {
         return $this->intArray("id");
     }
 
-    public function getHelpModule() : string
+    public function getHelpModule(): string
     {
         return $this->str("help_module");
     }
 
-    public function getHelpScreenId() : string
+    public function getHelpScreenId(): string
     {
         return $this->str("help_screen_id");
     }
 
-    public function getHelpPage() : int
+    public function getHelpPage(): int
     {
         return $this->int("help_page");
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getTerm() : string
+    public function getTerm(): string
     {
         return $this->str("term");
     }
 
-    public function getHelpModuleId() : int
+    public function getHelpModuleId(): int
     {
         return $this->int("hm_id");
     }
+
+    public function getHelpMode(): string
+    {
+        return $this->str("help_mode");
+    }
+
 }

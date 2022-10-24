@@ -1,9 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
-require_once 'Services/Form/classes/class.ilNumberInputGUI.php';
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilUnitTableGUI
@@ -42,7 +53,7 @@ class ilUnitTableGUI extends ilTable2GUI
         }
 
         $this->setTitle(sprintf($this->lng->txt('un_units_of_category_x'), $category->getDisplayString()));
-        
+
         $this->addColumn($this->lng->txt('un_sequence'), '');
         $this->addColumn($this->lng->txt('unit'), '');
         $this->addColumn($this->lng->txt('baseunit'), '');
@@ -63,7 +74,7 @@ class ilUnitTableGUI extends ilTable2GUI
     /**
      * @param array $a_set
      */
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         /**
          * @var $ilCtrl ilCtrl

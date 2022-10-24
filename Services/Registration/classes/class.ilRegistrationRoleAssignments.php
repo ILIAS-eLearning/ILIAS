@@ -1,16 +1,23 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
 
 /**
  * Class class.ilregistrationEmailRoleAssignments
@@ -36,7 +43,7 @@ class ilRegistrationRoleAssignments
         $this->read();
     }
 
-    public function getRoleByEmail(string $a_email) : int
+    public function getRoleByEmail(string $a_email): int
     {
         foreach ($this->assignments as $assignment) {
             if (!$assignment['domain'] || !$assignment['role']) {
@@ -54,7 +61,7 @@ class ilRegistrationRoleAssignments
         return $this->getDefaultRole();
     }
 
-    public function getDomainsByRole(int $role_id) : array
+    public function getDomainsByRole(int $role_id): array
     {
         $query = $this->db->query("SELECT * FROM reg_er_assignments " .
             "WHERE role = " . $this->db->quote($role_id, 'integer'));
@@ -66,32 +73,32 @@ class ilRegistrationRoleAssignments
         return $res;
     }
 
-    public function getAssignments() : array
+    public function getAssignments(): array
     {
         return $this->assignments;
     }
 
-    public function setDomain(int $id, string $a_domain) : void
+    public function setDomain(int $id, string $a_domain): void
     {
         $this->assignments[$id]['domain'] = $a_domain;
     }
 
-    public function setRole(int $id, int $a_role) : void
+    public function setRole(int $id, int $a_role): void
     {
         $this->assignments[$id]['role'] = $a_role;
     }
 
-    public function getDefaultRole() : int
+    public function getDefaultRole(): int
     {
         return $this->default_role;
     }
 
-    public function setDefaultRole(int $a_role_id) : void
+    public function setDefaultRole(int $a_role_id): void
     {
         $this->default_role = $a_role_id;
     }
 
-    public function deleteAll() : bool
+    public function deleteAll(): bool
     {
         $query = "DELETE FROM reg_er_assignments ";
         $this->db->manipulate($query);
@@ -99,7 +106,7 @@ class ilRegistrationRoleAssignments
         return true;
     }
 
-    public function save() : bool
+    public function save(): bool
     {
         // Save default role
         $this->settings->set('reg_default_role', (string) $this->getDefaultRole());
@@ -120,7 +127,7 @@ class ilRegistrationRoleAssignments
         return true;
     }
 
-    public function read() : bool
+    public function read(): bool
     {
         $query = "SELECT * FROM reg_er_assignments ";
         $res = $this->db->query($query);

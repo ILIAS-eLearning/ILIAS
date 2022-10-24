@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -26,7 +28,7 @@ class ilECSCategoryMapping
      *
      * @return ilECSCategoryMappingRule[]
      */
-    public static function getActiveRules() : array
+    public static function getActiveRules(): array
     {
         global $DIC;
 
@@ -42,12 +44,12 @@ class ilECSCategoryMapping
     /**
      * get matching category
      */
-    public static function getMatchingCategory(int $a_server_id, array $a_matchable_content) : ?int
+    public static function getMatchingCategory(int $a_server_id, array $a_matchable_content): ?int
     {
         global $DIC;
 
         $logger = $DIC->logger()->wsrv();
-        
+
         if (is_null(self::$cached_active_rules)) {
             self::$cached_active_rules = self::getActiveRules();
         }
@@ -63,23 +65,23 @@ class ilECSCategoryMapping
 
         return ilECSSetting::getInstanceByServerId($a_server_id)->getImportId();
     }
-    
+
     /**
      * Handle update of ecs content and create references.
      */
-    public static function handleUpdate(int $a_obj_id, int $a_server_id, array $a_matchable_content) : bool
+    public static function handleUpdate(int $a_obj_id, int $a_server_id, array $a_matchable_content): bool
     {
         global $DIC;
 
         $tree = $DIC->repositoryTree();
         $logger = $DIC->logger()->wsrv();
-     
+
         $cat = self::getMatchingCategory($a_server_id, $a_matchable_content);
-                    
+
         $a_ref_id = current(ilObject::_getAllReferences($a_obj_id));
         $references = ilObject::_getAllReferences(ilObject::_lookupObjId($a_ref_id));
         $all_cats = self::lookupHandledCategories();
-                
+
         $exists = false;
         foreach (array_keys($references) as $ref_id) {
             if ($tree->getParentId($ref_id) === $cat) {
@@ -87,10 +89,10 @@ class ilECSCategoryMapping
             }
         }
         $logger->info(__METHOD__ . ': Creating/Deleting references...');
-        
+
         if (!$exists) {
             $logger->info(__METHOD__ . ': Add new reference. STEP 1');
-            
+
             if ($obj_data = ilObjectFactory::getInstanceByRefId($a_ref_id, false)) {
                 $obj_data->createReference();
                 $obj_data->putInTree($cat);
@@ -118,12 +120,12 @@ class ilECSCategoryMapping
     /**
      * @return int[] the container ids for the ecs container mapping
      */
-    public static function lookupHandledCategories() : array
+    public static function lookupHandledCategories(): array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $ref_ids = [];
         $res = $ilDB->query("SELECT container_id FROM ecs_container_mapping ");
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -135,26 +137,26 @@ class ilECSCategoryMapping
     /**
      * @return array<string,string> tthe possible fields with translation
      */
-    public static function getPossibleFields() : array
+    public static function getPossibleFields(): array
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-        
+
         $options = array(
             "community" => $lng->txt("ecs_field_community"),
             "part_id" => $lng->txt("ecs_field_part_id"),
             "type" => $lng->txt("type")
         );
-        
+
         // will be handled by server soon?
-        
+
         // only courses for now
         $course_fields = ilECSUtils::_getOptionalECourseFields();
         foreach ($course_fields as $field) {
             $options[$field] = $lng->txt("obj_rcrs") . " - " . $lng->txt("ecs_field_" . $field);
         }
-        
+
         return $options;
     }
 }

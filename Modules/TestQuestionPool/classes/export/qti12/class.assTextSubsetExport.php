@@ -33,13 +33,13 @@ class assTextSubsetExport extends assQuestionExport
     * Returns a QTI xml representation of the question and sets the internal
     * domxml variable with the DOM XML representation of the QTI xml representation
     */
-    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false) : string
+    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false): string
     {
         global $DIC;
         $ilias = $DIC['ilias'];
-        
+
         include_once("./Services/Xml/classes/class.ilXmlWriter.php");
-        $a_xml_writer = new ilXmlWriter;
+        $a_xml_writer = new ilXmlWriter();
         // set xml header
         $a_xml_writer->xmlHeader();
         $a_xml_writer->xmlStartTag("questestinterop");
@@ -70,11 +70,11 @@ class assTextSubsetExport extends assQuestionExport
         $a_xml_writer->xmlElement("fieldlabel", null, "AUTHOR");
         $a_xml_writer->xmlElement("fieldentry", null, $this->object->getAuthor());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
-        
+
         // additional content editing information
         $this->addAdditionalContentEditingModeInformation($a_xml_writer);
         $this->addGeneralMetadata($a_xml_writer);
-        
+
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "textrating");
         $a_xml_writer->xmlElement("fieldentry", null, $this->object->getTextRating());
@@ -102,12 +102,12 @@ class assTextSubsetExport extends assQuestionExport
         // add answers to presentation
         for ($counter = 1; $counter <= $this->object->getCorrectAnswers(); $counter++) {
             $attrs = array(
-                "ident" => "TEXTSUBSET_" . sprintf("%02d", $counter),
+                "ident" => "TEXTSUBSET_$counter",
                 "rcardinality" => "Single"
             );
             $a_xml_writer->xmlStartTag("response_str", $attrs);
             $solution = $this->object->getSuggestedSolution(0);
-            if (count($solution)) {
+            if ($solution !== null && count($solution)) {
                 if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
                     $a_xml_writer->xmlStartTag("material");
                     $intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
@@ -130,10 +130,10 @@ class assTextSubsetExport extends assQuestionExport
             $a_xml_writer->xmlEndTag("render_fib");
             $a_xml_writer->xmlEndTag("response_str");
         }
-        
+
         $a_xml_writer->xmlEndTag("flow");
         $a_xml_writer->xmlEndTag("presentation");
-        
+
         // PART II: qti resprocessing
         $a_xml_writer->xmlStartTag("resprocessing");
         $a_xml_writer->xmlStartTag("outcomes");
@@ -156,7 +156,7 @@ class assTextSubsetExport extends assQuestionExport
                 // qti conditionvar
                 $a_xml_writer->xmlStartTag("conditionvar");
                 $attrs = array(
-                    "respident" => "TEXTSUBSET_" . sprintf("%02d", $counter)
+                    "respident" => "TEXTSUBSET_$counter"
                 );
                 $a_xml_writer->xmlElement("varsubset", $attrs, join(",", $scoreanswers));
                 $a_xml_writer->xmlEndTag("conditionvar");
@@ -169,7 +169,7 @@ class assTextSubsetExport extends assQuestionExport
                 // qti displayfeedback
                 $attrs = array(
                     "feedbacktype" => "Response",
-                    "linkrefid" => "Matches_" . sprintf("%02d", $counter)
+                    "linkrefid" => "Matches_$counter"
                 );
                 $a_xml_writer->xmlElement("displayfeedback", $attrs);
                 $a_xml_writer->xmlEndTag("respcondition");
@@ -237,7 +237,7 @@ class assTextSubsetExport extends assQuestionExport
         // PART III: qti itemfeedback
         for ($counter = 1; $counter <= $this->object->getCorrectAnswers(); $counter++) {
             $attrs = array(
-                "ident" => "Matches_" . sprintf("%02d", $counter),
+                "ident" => "Matches_$counter",
                 "view" => "All"
             );
             $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
@@ -249,7 +249,7 @@ class assTextSubsetExport extends assQuestionExport
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
-        
+
         if (strlen($feedback_allcorrect)) {
             $attrs = array(
                 "ident" => "response_allcorrect",

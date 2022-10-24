@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,22 +37,22 @@ class ilQTIMaterial
      */
     public array $materials = [];
 
-    public function addMattext(ilQTIMattext $a_mattext) : void
+    public function addMattext(ilQTIMattext $a_mattext): void
     {
         $this->materials[] = array("material" => $a_mattext, "type" => "mattext");
     }
 
-    public function addMatimage(ilQTIMatimage $a_matimage) : void
+    public function addMatimage(ilQTIMatimage $a_matimage): void
     {
         $this->materials[] = array("material" => $a_matimage, "type" => "matimage");
     }
 
-    public function addMatapplet(ilQTIMatapplet $a_matapplet) : void
+    public function addMatapplet(ilQTIMatapplet $a_matapplet): void
     {
         $this->materials[] = array("material" => $a_matapplet, "type" => "matapplet");
     }
 
-    public function getMaterialCount() : int
+    public function getMaterialCount(): int
     {
         return count($this->materials);
     }
@@ -67,22 +69,22 @@ class ilQTIMaterial
         return false;
     }
 
-    public function setFlow(int $a_flow) : void
+    public function setFlow(int $a_flow): void
     {
         $this->flow = $a_flow;
     }
 
-    public function getFlow() : int
+    public function getFlow(): int
     {
         return $this->flow;
     }
 
-    public function setLabel(string $a_label) : void
+    public function setLabel(string $a_label): void
     {
         $this->label = $a_label;
     }
 
-    public function getLabel() : ?string
+    public function getLabel(): ?string
     {
         return $this->label;
     }

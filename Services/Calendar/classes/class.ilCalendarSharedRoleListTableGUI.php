@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -49,7 +51,7 @@ class ilCalendarSharedRoleListTableGUI extends ilTable2GUI
         $this->setPrefix('search');
     }
 
-    public function setRoles(array $a_role_ids) : void
+    public function setRoles(array $a_role_ids): void
     {
         $this->role_ids = $a_role_ids;
     }
@@ -57,7 +59,7 @@ class ilCalendarSharedRoleListTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('TITLE', $a_set['title']);
@@ -67,7 +69,7 @@ class ilCalendarSharedRoleListTableGUI extends ilTable2GUI
         $this->tpl->setVariable('NUM_USERS', $a_set['num']);
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $users = $roles = array();
         foreach ($this->role_ids as $id) {

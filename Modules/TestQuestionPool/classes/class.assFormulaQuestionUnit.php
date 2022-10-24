@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,7 +33,7 @@ class assFormulaQuestionUnit
     private int $baseunit = 0;
     private ?string $baseunit_title = null;
 
-    public function initFormArray(array $data) : void
+    public function initFormArray(array $data): void
     {
         $this->id = (int) $data['unit_id'];
         $this->unit = $data['unit'];
@@ -42,52 +44,52 @@ class assFormulaQuestionUnit
         $this->sequence = (int) $data['sequence'];
     }
 
-    public function setId(int $id) : void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setUnit(string $unit) : void
+    public function setUnit(string $unit): void
     {
         $this->unit = $unit;
     }
 
-    public function getUnit() : string
+    public function getUnit(): string
     {
         return $this->unit;
     }
 
-    public function setSequence(int $sequence) : void
+    public function setSequence(int $sequence): void
     {
         $this->sequence = $sequence;
     }
 
-    public function getSequence() : int
+    public function getSequence(): int
     {
         return $this->sequence;
     }
 
-    public function setFactor(float $factor) : void
+    public function setFactor(float $factor): void
     {
         $this->factor = $factor;
     }
 
-    public function getFactor() : float
+    public function getFactor(): float
     {
         return $this->factor;
     }
 
-    public function setBaseUnit(int $baseunit) : void
+    public function setBaseUnit(int $baseunit): void
     {
         $this->baseunit = $baseunit;
     }
 
-    public function getBaseUnit() : int
+    public function getBaseUnit(): int
     {
         if ($this->baseunit > 0) {
             return $this->baseunit;
@@ -96,27 +98,27 @@ class assFormulaQuestionUnit
         return $this->id;
     }
 
-    public function setBaseunitTitle(?string $baseunit_title) : void
+    public function setBaseunitTitle(?string $baseunit_title): void
     {
         $this->baseunit_title = $baseunit_title;
     }
 
-    public function getBaseunitTitle() : ?string
+    public function getBaseunitTitle(): ?string
     {
         return $this->baseunit_title;
     }
 
-    public function setCategory(int $category) : void
+    public function setCategory(int $category): void
     {
         $this->category = $category;
     }
-    
-    public function getCategory() : int
+
+    public function getCategory(): int
     {
         return $this->category;
     }
 
-    public function getDisplayString() : string
+    public function getDisplayString(): string
     {
         global $DIC;
 
@@ -130,11 +132,11 @@ class assFormulaQuestionUnit
         return $unit;
     }
 
-    public static function lookupUnitFactor(int $a_unit_id) : float
+    public static function lookupUnitFactor(int $a_unit_id): float
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $res = $ilDB->queryF(
             'SELECT factor FROM il_qpl_qst_fq_unit WHERE unit_id = %s',
             ['integer'],

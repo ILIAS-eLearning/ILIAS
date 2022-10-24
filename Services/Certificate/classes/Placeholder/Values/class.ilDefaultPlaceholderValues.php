@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -108,7 +110,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
      * @throws ilInvalidCertificateException
      * @throws ilObjectNotFoundException
      */
-    public function getPlaceholderValues(int $userId, int $objId) : array
+    public function getPlaceholderValues(int $userId, int $objId): array
     {
         /** @var ilObjUser $user */
         $user = $this->objectHelper->getInstanceByObjId($userId);
@@ -173,7 +175,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
      * @throws ilDateTimeException
      * @throws ilException
      */
-    public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
+    public function getPlaceholderValuesForPreview(int $userId, int $objId): array
     {
         $previewPlacholderValues = [
             "USER_LOGIN" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_login")),

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Writeable part of repository interface to ilComponenDataDB.
@@ -12,12 +14,12 @@ interface ilComponentRepository
      *
      * @throws \InvalidArgumentException if $type is not known
      */
-    public function hasComponent(string $type, string $name) : bool;
+    public function hasComponent(string $type, string $name): bool;
 
     /**
      * Check if a component exists.
      */
-    public function hasComponentId(string $id) : bool;
+    public function hasComponentId(string $id): bool;
 
     /**
      * Get all components.
@@ -26,26 +28,26 @@ interface ilComponentRepository
      *
      * @return Iterator <string, ilComponentInfo>
      */
-    public function getComponents() : Iterator;
+    public function getComponents(): Iterator;
 
     /**
      * Get a component by id.
      *
      * @throws \InvalidArgumentException if component does not exist
      */
-    public function getComponentById(string $id) : ilComponentInfo;
+    public function getComponentById(string $id): ilComponentInfo;
 
     /**
      * Get a component by type and name.
      *
      * @throws \InvalidArgumentException if component does not exist
      */
-    public function getComponentByTypeAndName(string $type, string $name) : ilComponentInfo;
+    public function getComponentByTypeAndName(string $type, string $name): ilComponentInfo;
 
     /**
      * Check if a slot exists.
      */
-    public function hasPluginSlotId(string $id) : bool;
+    public function hasPluginSlotId(string $id): bool;
 
     /**
      * Get all pluginslots.
@@ -54,19 +56,19 @@ interface ilComponentRepository
      *
      * @return Iterator<string, ilPluginSlotInfo>
      */
-    public function getPluginSlots() : Iterator;
+    public function getPluginSlots(): Iterator;
 
     /**
      * Get pluginslot by id.
      *
      * @throws \InvalidArgumentException if pluginslot does not exist
      */
-    public function getPluginSlotById(string $id) : ilPluginSlotInfo;
+    public function getPluginSlotById(string $id): ilPluginSlotInfo;
 
     /**
      * Check if a plugin exists.
      */
-    public function hasPluginId(string $id) : bool;
+    public function hasPluginId(string $id): bool;
 
     /**
      * Get all plugins.
@@ -75,19 +77,19 @@ interface ilComponentRepository
      *
      * @return Iterator<string, ilPluginInfo>
      */
-    public function getPlugins() : Iterator;
+    public function getPlugins(): Iterator;
 
     /**
      * Get a plugin by id.
      *
      * @throws \InvalidArgumentException if plugin does not exist
      */
-    public function getPluginById(string $id) : ilPluginInfo;
+    public function getPluginById(string $id): ilPluginInfo;
 
     /**
      * Get a plugin by name.
      *
      * @throws \InvalidArgumentException if plugin does not exist.
      */
-    public function getPluginByName(string $name) : ilPluginInfo;
+    public function getPluginByName(string $name): ilPluginInfo;
 }

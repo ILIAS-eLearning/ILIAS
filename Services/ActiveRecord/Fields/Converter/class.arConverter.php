@@ -57,7 +57,7 @@ class arConverter
         $this->readStructure();
     }
 
-    public function readStructure() : void
+    public function readStructure(): void
     {
         $sql = 'DESCRIBE ' . $this->getTableName();
         $res = self::getDB()->query($sql);
@@ -66,7 +66,7 @@ class arConverter
         }
     }
 
-    public function downloadClassFile() : void
+    public function downloadClassFile(): void
     {
         $header = "<?php
 require_once('./Services/ActiveRecord/class.ActiveRecord.php');
@@ -133,7 +133,7 @@ class {CLASS_NAME} extends ActiveRecord {
     /**
      * @return array<string, string>
      */
-    protected function returnAttributesForField(stdClass $field) : array
+    protected function returnAttributesForField(stdClass $field): array
     {
         $attributes = array();
         $attributes[arFieldList::HAS_FIELD] = 'true';
@@ -151,7 +151,7 @@ class {CLASS_NAME} extends ActiveRecord {
         return $attributes;
     }
 
-    protected static function lookupFieldType(string $field_name) : string
+    protected static function lookupFieldType(string $field_name): string
     {
         preg_match(self::REGEX, $field_name, $matches);
 
@@ -174,19 +174,19 @@ class {CLASS_NAME} extends ActiveRecord {
         return $matches[2];
     }
 
-    public static function getDB() : ilDBInterface
+    public static function getDB(): ilDBInterface
     {
         global $DIC;
 
         return $DIC['ilDB'];
     }
 
-    public function setTableName(string $table_name) : void
+    public function setTableName(string $table_name): void
     {
         $this->table_name = $table_name;
     }
 
-    public function getTableName() : string
+    public function getTableName(): string
     {
         return $this->table_name;
     }
@@ -194,7 +194,7 @@ class {CLASS_NAME} extends ActiveRecord {
     /**
      * @param mixed[] $structure
      */
-    public function setStructure(array $structure) : void
+    public function setStructure(array $structure): void
     {
         $this->structure = $structure;
     }
@@ -202,12 +202,12 @@ class {CLASS_NAME} extends ActiveRecord {
     /**
      * @return mixed[]
      */
-    public function getStructure() : array
+    public function getStructure(): array
     {
         return $this->structure;
     }
 
-    public function addStructure(stdClass $structure) : void
+    public function addStructure(stdClass $structure): void
     {
         if (!in_array($structure->Field, $this->ids)) {
             $this->structure[] = $structure;
@@ -215,12 +215,12 @@ class {CLASS_NAME} extends ActiveRecord {
         }
     }
 
-    public function setClassName(string $class_name) : void
+    public function setClassName(string $class_name): void
     {
         $this->class_name = $class_name;
     }
 
-    public function getClassName() : string
+    public function getClassName(): string
     {
         return $this->class_name;
     }

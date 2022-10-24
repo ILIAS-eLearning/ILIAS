@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,16 +36,18 @@ class ilSessionMailTemplateParticipantContext extends ilMailTemplateContext
     {
         global $DIC;
 
+        parent::__construct();
+
         $this->lng = $DIC->language();
         $this->obj_data_cache = $DIC['ilObjDataCache'];
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return self::ID;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $lng = $this->lng;
 
@@ -51,7 +55,7 @@ class ilSessionMailTemplateParticipantContext extends ilMailTemplateContext
         return $lng->txt('sess_mail_context_participant_title');
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         $lng = $this->lng;
 
@@ -59,7 +63,7 @@ class ilSessionMailTemplateParticipantContext extends ilMailTemplateContext
         return $lng->txt('sess_mail_context_participant_info');
     }
 
-    public function getSpecificPlaceholders() : array
+    public function getSpecificPlaceholders(): array
     {
         $lng = $this->lng;
 
@@ -95,7 +99,7 @@ class ilSessionMailTemplateParticipantContext extends ilMailTemplateContext
         array $context_parameters,
         ?ilObjUser $recipient = null,
         bool $html_markup = false
-    ) : string {
+    ): string {
         $ilObjDataCache = $this->obj_data_cache;
         $obj_id = $ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']);
         $sess_data = ilObjSession::lookupSession($obj_id);

@@ -42,7 +42,7 @@ class ilGlossaryTermPermission
         $this->log = ilLoggerFactory::getLogger('glo');
     }
 
-    public static function getInstance() : self
+    public static function getInstance(): self
     {
         return new self();
     }
@@ -50,7 +50,7 @@ class ilGlossaryTermPermission
     public function checkPermission(
         string $a_perm,
         int $a_term_id
-    ) : bool {
+    ): bool {
         $this->log->debug("check permission " . $a_perm . " for " . $a_term_id . ".");
         $glo_id = $this->getGlossaryIdForTerm($a_term_id);
         if (!isset($this->permission[$a_perm][$glo_id])) {
@@ -70,7 +70,7 @@ class ilGlossaryTermPermission
         return $this->permission[$a_perm][$glo_id];
     }
 
-    protected function getGlossaryIdForTerm(int $a_term_id) : int
+    protected function getGlossaryIdForTerm(int $a_term_id): int
     {
         if (!isset($this->glossary_id[$a_term_id])) {
             $this->glossary_id[$a_term_id] = ilGlossaryTerm::_lookGlossaryID($a_term_id);

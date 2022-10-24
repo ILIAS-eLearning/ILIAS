@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,7 +33,7 @@ class ReservationTableSessionRepository
     {
     }
 
-    public function setObjectFilter(string $form_id, string $filter_value) : void
+    public function setObjectFilter(string $form_id, string $filter_value): void
     {
         $form_array = [];
         if (\ilSession::has("form_" . $form_id)) {
@@ -41,7 +43,7 @@ class ReservationTableSessionRepository
         \ilSession::set("form_" . $form_id, $form_array);
     }
 
-    public function setFromToFilter(string $form_id, string $filter_value) : void
+    public function setFromToFilter(string $form_id, string $filter_value): void
     {
         $form_array = [];
         if (\ilSession::has("form_" . $form_id)) {
@@ -51,7 +53,7 @@ class ReservationTableSessionRepository
         \ilSession::set("form_" . $form_id, $form_array);
     }
 
-    public function hasFromToFilter(string $form_id) : bool
+    public function hasFromToFilter(string $form_id): bool
     {
         if (\ilSession::has("form_" . $form_id)) {
             $form_array = \ilSession::get("form_" . $form_id);

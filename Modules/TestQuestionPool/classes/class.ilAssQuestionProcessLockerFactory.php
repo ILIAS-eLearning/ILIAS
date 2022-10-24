@@ -1,11 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLocker.php';
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLockerNone.php';
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLockerFile.php';
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLockerDb.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -48,7 +57,7 @@ class ilAssQuestionProcessLockerFactory
     {
         $this->settings = $settings;
         $this->db = $db;
-        
+
         $this->questionId = null;
         $this->userId = null;
         $this->assessmentLogEnabled = false;
@@ -57,7 +66,7 @@ class ilAssQuestionProcessLockerFactory
     /**
      * @param int $questionId
      */
-    public function setQuestionId($questionId) : void
+    public function setQuestionId($questionId): void
     {
         $this->questionId = $questionId;
     }
@@ -65,15 +74,15 @@ class ilAssQuestionProcessLockerFactory
     /**
      * @return int
      */
-    public function getQuestionId() : ?int
+    public function getQuestionId(): ?int
     {
         return $this->questionId;
     }
-    
+
     /**
      * @param int $userId
      */
-    public function setUserId($userId) : void
+    public function setUserId($userId): void
     {
         $this->userId = $userId;
     }
@@ -81,7 +90,7 @@ class ilAssQuestionProcessLockerFactory
     /**
      * @return int
      */
-    public function getUserId() : ?int
+    public function getUserId(): ?int
     {
         return $this->userId;
     }
@@ -89,7 +98,7 @@ class ilAssQuestionProcessLockerFactory
     /**
      * @param bool $assessmentLogEnabled
      */
-    public function setAssessmentLogEnabled($assessmentLogEnabled) : void
+    public function setAssessmentLogEnabled($assessmentLogEnabled): void
     {
         $this->assessmentLogEnabled = $assessmentLogEnabled;
     }
@@ -97,12 +106,12 @@ class ilAssQuestionProcessLockerFactory
     /**
      * @return bool
      */
-    public function isAssessmentLogEnabled() : bool
+    public function isAssessmentLogEnabled(): bool
     {
         return $this->assessmentLogEnabled;
     }
 
-    private function getLockModeSettingValue() : ?string
+    private function getLockModeSettingValue(): ?string
     {
         return $this->settings->get('ass_process_lock_mode', ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_NONE);
     }
@@ -114,10 +123,10 @@ class ilAssQuestionProcessLockerFactory
     {
         switch ($this->getLockModeSettingValue()) {
             case ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_NONE:
-                
+
                 $locker = new ilAssQuestionProcessLockerNone();
                 break;
-                
+
             case ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_FILE:
 
                 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLockFileStorage.php';
@@ -126,14 +135,14 @@ class ilAssQuestionProcessLockerFactory
 
                 $locker = new ilAssQuestionProcessLockerFile($storage);
                 break;
-            
+
             case ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_DB:
 
                 $locker = new ilAssQuestionProcessLockerDb($this->db);
                 $locker->setAssessmentLogEnabled($this->isAssessmentLogEnabled());
                 break;
         }
-        
+
         return $locker;
     }
 }

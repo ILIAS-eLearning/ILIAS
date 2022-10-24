@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -77,7 +78,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         }
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $this->checkAccessOrFail();
         $this->isReadonly = !$this->talkAccess->canEdit(intval($this->object->getRefId()));

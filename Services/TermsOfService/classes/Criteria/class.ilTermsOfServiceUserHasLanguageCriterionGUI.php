@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,7 +38,7 @@ class ilTermsOfServiceUserHasLanguageCriterionGUI implements ilTermsOfServiceCri
         $this->lng = $lng;
     }
 
-    public function appendOption(ilRadioGroupInputGUI $group, ilTermsOfServiceCriterionConfig $config) : void
+    public function appendOption(ilRadioGroupInputGUI $group, ilTermsOfServiceCriterionConfig $config): void
     {
         $option = new ilRadioOption($this->getIdentPresentation(), $this->type->getTypeIdent());
         $option->setInfo($this->lng->txt('tos_crit_type_usr_language_info'));
@@ -52,7 +54,7 @@ class ilTermsOfServiceUserHasLanguageCriterionGUI implements ilTermsOfServiceCri
             $options[$lng] = $this->lng->txt('meta_l_' . $lng);
         }
 
-        asort($options);
+        natcasesort($options);
 
         $languageSelection->setOptions(['' => $this->lng->txt('please_choose')] + $options);
         $languageSelection->setValue((string) ($config['lng'] ?? ''));
@@ -62,7 +64,7 @@ class ilTermsOfServiceUserHasLanguageCriterionGUI implements ilTermsOfServiceCri
         $group->addOption($option);
     }
 
-    public function getConfigByForm(ilPropertyFormGUI $form) : ilTermsOfServiceCriterionConfig
+    public function getConfigByForm(ilPropertyFormGUI $form): ilTermsOfServiceCriterionConfig
     {
         $config = new ilTermsOfServiceCriterionConfig([
             'lng' => (string) $form->getInput($this->type->getTypeIdent() . '_lng')
@@ -71,12 +73,12 @@ class ilTermsOfServiceUserHasLanguageCriterionGUI implements ilTermsOfServiceCri
         return $config;
     }
 
-    public function getIdentPresentation() : string
+    public function getIdentPresentation(): string
     {
         return $this->lng->txt('tos_crit_type_usr_language');
     }
 
-    public function getValuePresentation(ilTermsOfServiceCriterionConfig $config, Factory $uiFactory) : Component
+    public function getValuePresentation(ilTermsOfServiceCriterionConfig $config, Factory $uiFactory): Component
     {
         $lng = $config['lng'] ?? '';
 

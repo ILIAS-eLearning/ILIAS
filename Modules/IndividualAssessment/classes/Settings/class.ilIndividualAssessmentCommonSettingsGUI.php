@@ -1,11 +1,27 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilIndividualAssessmentCommonSettingsGUI
 {
-    const CMD_EDIT = 'editSettings';
-    const CMD_SAVE = 'saveSettings';
+    public const CMD_EDIT = 'editSettings';
+    public const CMD_SAVE = 'saveSettings';
 
     protected ilObjIndividualAssessment $object;
     protected ilCtrl $ctrl;
@@ -27,7 +43,7 @@ class ilIndividualAssessmentCommonSettingsGUI
         $this->object_service = $object_service;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
         switch ($cmd) {
@@ -42,7 +58,7 @@ class ilIndividualAssessmentCommonSettingsGUI
         }
     }
 
-    protected function editSettings(ilPropertyFormGUI $form = null) : void
+    protected function editSettings(ilPropertyFormGUI $form = null): void
     {
         if (is_null($form)) {
             $form = $this->buildForm();
@@ -50,7 +66,7 @@ class ilIndividualAssessmentCommonSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function buildForm() : ilPropertyFormGUI
+    protected function buildForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -64,7 +80,7 @@ class ilIndividualAssessmentCommonSettingsGUI
         return $form;
     }
 
-    protected function addServiceSettingsToForm(ilPropertyFormGUI $form) : void
+    protected function addServiceSettingsToForm(ilPropertyFormGUI $form): void
     {
         ilObjectServiceSettingsGUI::initServiceSettingsForm(
             $this->object->getId(),
@@ -76,7 +92,7 @@ class ilIndividualAssessmentCommonSettingsGUI
         );
     }
 
-    protected function addCommonFieldsToForm(ilPropertyFormGUI $form) : void
+    protected function addCommonFieldsToForm(ilPropertyFormGUI $form): void
     {
         $section_appearance = new ilFormSectionHeaderGUI();
         $section_appearance->setTitle($this->txt('cont_presentation'));
@@ -88,7 +104,7 @@ class ilIndividualAssessmentCommonSettingsGUI
         $form_service->addTileImage();
     }
 
-    protected function saveSettings() : void
+    protected function saveSettings(): void
     {
         $form = $this->buildForm();
 
@@ -117,7 +133,7 @@ class ilIndividualAssessmentCommonSettingsGUI
         $this->ctrl->redirect($this, self::CMD_EDIT);
     }
 
-    protected function txt(string $code) : string
+    protected function txt(string $code): string
     {
         return $this->lng->txt($code);
     }

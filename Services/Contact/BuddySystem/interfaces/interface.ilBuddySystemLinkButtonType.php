@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,9 +24,9 @@
  */
 interface ilBuddySystemLinkButtonType
 {
-    public function getHTML() : string;
+    public function getHTML(): string;
 
-    public function getUsrId() : int;
+    public function getUsrId(): int;
 
-    public function getBuddyList() : ilBuddyList;
+    public function getBuddyList(): ilBuddyList;
 }

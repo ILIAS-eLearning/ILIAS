@@ -22,7 +22,7 @@
 class ilSurveyPhrasesTableGUI extends ilTable2GUI
 {
     protected bool $confirmdelete;
-    
+
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
@@ -38,7 +38,7 @@ class ilSurveyPhrasesTableGUI extends ilTable2GUI
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
         $this->confirmdelete = $confirmdelete;
-    
+
         $this->setFormName('phrases');
         $this->setStyle('table', 'fullwidth');
         if (!$confirmdelete) {
@@ -60,7 +60,7 @@ class ilSurveyPhrasesTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setDefaultOrderField("phrase");
         $this->setDefaultOrderDirection("asc");
-        
+
         if ($confirmdelete) {
             $this->disable('sort');
             $this->disable('select_all');
@@ -73,7 +73,7 @@ class ilSurveyPhrasesTableGUI extends ilTable2GUI
         $this->enable('header');
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if (!$this->confirmdelete) {
             $this->tpl->setCurrentBlock('checkbox');

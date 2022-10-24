@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,7 +25,7 @@ use PHPUnit\Framework\TestSuite;
  */
 class ilServicesMathSuite extends TestSuite
 {
-    public static function suite() : \ilServicesMathSuite
+    public static function suite(): \ilServicesMathSuite
     {
         $suite = new self();
         require_once 'Services/Math/test/ilMathTest.php';

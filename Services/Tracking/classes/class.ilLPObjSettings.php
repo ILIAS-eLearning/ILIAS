@@ -1,5 +1,22 @@
-<?php declare(strict_types=0);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=0);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilLPObjSettings
@@ -274,7 +291,7 @@ class ilLPObjSettings
      * @access public
      * @param int new obj id
      */
-    public function cloneSettings(int $a_new_obj_id) : bool
+    public function cloneSettings(int $a_new_obj_id): bool
     {
         global $DIC;
 
@@ -291,37 +308,37 @@ class ilLPObjSettings
         return true;
     }
 
-    public function getVisits() : int
+    public function getVisits(): int
     {
         return $this->visits;
     }
 
-    public function setVisits(int $a_visits) : void
+    public function setVisits(int $a_visits): void
     {
         $this->visits = $a_visits;
     }
 
-    public function setMode(int $a_mode) : void
+    public function setMode(int $a_mode): void
     {
         $this->obj_mode = $a_mode;
     }
 
-    public function getMode() : int
+    public function getMode(): int
     {
         return $this->obj_mode;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function getObjType() : string
+    public function getObjType(): string
     {
         return $this->obj_type;
     }
 
-    public function read() : bool
+    public function read(): bool
     {
         $res = $this->db->query(
             "SELECT * FROM ut_lp_settings WHERE obj_id = " .
@@ -337,7 +354,7 @@ class ilLPObjSettings
         return false;
     }
 
-    public function update(bool $a_refresh_lp = true) : bool
+    public function update(bool $a_refresh_lp = true): bool
     {
         if (!$this->is_stored) {
             return $this->insert();
@@ -360,7 +377,7 @@ class ilLPObjSettings
         return true;
     }
 
-    public function insert() : bool
+    public function insert(): bool
     {
         $query = "INSERT INTO ut_lp_settings (obj_id,obj_type,u_mode,visits) " .
             "VALUES(" .
@@ -375,13 +392,13 @@ class ilLPObjSettings
         return true;
     }
 
-    protected function doLPRefresh() : void
+    protected function doLPRefresh(): void
     {
         // refresh learning progress
         ilLPStatusWrapper::_refreshStatus($this->getObjId());
     }
 
-    public static function _delete(int $a_obj_id) : bool
+    public static function _delete(int $a_obj_id): bool
     {
         global $DIC;
 
@@ -394,7 +411,7 @@ class ilLPObjSettings
         return true;
     }
 
-    public static function _lookupVisits(int $a_obj_id) : int
+    public static function _lookupVisits(int $a_obj_id): int
     {
         global $DIC;
 
@@ -409,7 +426,7 @@ class ilLPObjSettings
         return self::LP_DEFAULT_VISITS;
     }
 
-    public static function _lookupDBModeForObjects(array $a_obj_ids) : array
+    public static function _lookupDBModeForObjects(array $a_obj_ids): array
     {
         global $DIC;
 
@@ -425,7 +442,7 @@ class ilLPObjSettings
         return $res;
     }
 
-    public static function _lookupDBMode(int $a_obj_id) : int
+    public static function _lookupDBMode(int $a_obj_id): ?int
     {
         global $DIC;
 
@@ -433,15 +450,14 @@ class ilLPObjSettings
         // this does NOT handle default mode!
         $query = "SELECT u_mode FROM ut_lp_settings" .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer");
-        $set = $ilDB->query($query);
-        $row = $ilDB->fetchAssoc($set);
-        if (is_array($row)) {
-            return (int) $row['u_mode'];
+        $res = $ilDB->query($query);
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            return (int) $row->u_mode;
         }
-        return 0;
+        return null;
     }
 
-    public static function _mode2Text(int $a_mode) : string
+    public static function _mode2Text(int $a_mode): string
     {
         global $DIC;
 
@@ -453,7 +469,7 @@ class ilLPObjSettings
         return '';
     }
 
-    public static function _mode2InfoText(int $a_mode) : string
+    public static function _mode2InfoText(int $a_mode): string
     {
         global $DIC;
 
@@ -470,7 +486,7 @@ class ilLPObjSettings
         return '';
     }
 
-    public static function getClassMap() : array
+    public static function getClassMap(): array
     {
         $res = array();
         foreach (self::$map as $mode => $item) {
@@ -481,7 +497,7 @@ class ilLPObjSettings
         return $res;
     }
 
-    public static function _deleteByObjId(int $a_obj_id) : void
+    public static function _deleteByObjId(int $a_obj_id): void
     {
         global $DIC;
 

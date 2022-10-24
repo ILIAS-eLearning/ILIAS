@@ -35,7 +35,7 @@ trait DIC
         return $DIC;
     }
 
-    protected function ctrl():  \ilCtrl
+    protected function ctrl(): \ilCtrl
     {
         return $this->dic()->ctrl();
     }

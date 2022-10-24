@@ -57,13 +57,13 @@ class ilDataSetImportParser extends ilSaxParser
         $this->startParsing();
     }
 
-    public function getCurrentInstallationId() : string
+    public function getCurrentInstallationId(): string
     {
         return $this->current_installation_id;
     }
 
 
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handleBeginTag', 'handleEndTag');
@@ -75,7 +75,7 @@ class ilDataSetImportParser extends ilSaxParser
         $a_xml_parser,
         string $a_name,
         array $a_attribs
-    ) : void {
+    ): void {
         switch ($a_name) {
             case $this->dspref . "DataSet":
 //				$this->import->initDataset($this->ds_component, $a_attribs["top_entity"]);
@@ -111,7 +111,7 @@ class ilDataSetImportParser extends ilSaxParser
     public function handleEndTag(
         $a_xml_parser,
         string $a_name
-    ) : void {
+    ): void {
         switch ($a_name) {
             case $this->dspref . "Types":
                 $this->entities[$this->current_entity] =
@@ -153,7 +153,7 @@ class ilDataSetImportParser extends ilSaxParser
     public function handleCharacterData(
         $a_xml_parser,
         string $a_data
-    ) : void {
+    ): void {
         $this->chr_data .= $a_data;
     }
 }

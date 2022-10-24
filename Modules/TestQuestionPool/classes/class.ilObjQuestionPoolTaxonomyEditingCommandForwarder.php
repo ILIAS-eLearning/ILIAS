@@ -46,7 +46,7 @@ class ilObjQuestionPoolTaxonomyEditingCommandForwarder
         $this->lng = $lng;
     }
 
-    public function forward() : void
+    public function forward(): void
     {
         $this->tabs->setTabActive('settings');
         $this->lng->loadLanguageModule('tax');
@@ -58,10 +58,10 @@ class ilObjQuestionPoolTaxonomyEditingCommandForwarder
         $questionList->load();
 
         $taxGUI = new ilObjTaxonomyGUI();
-        
+
         $taxGUI->setAssignedObject($this->poolOBJ->getId());
         $taxGUI->setMultiple(true);
-            
+
         $taxGUI->activateAssignedItemSorting($questionList, 'qpl', $this->poolOBJ->getId(), 'quest');
 
         $this->ctrl->forwardCommand($taxGUI);

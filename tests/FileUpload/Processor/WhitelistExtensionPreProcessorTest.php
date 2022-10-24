@@ -21,7 +21,6 @@ use PHPUnit\Framework\TestCase;
  */
 class WhitelistExtensionPreProcessorTest extends TestCase
 {
-
     /**
      * @Test
      * @small

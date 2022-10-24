@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -92,16 +94,16 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         $this->pushParentId($a_parent_id);
     }
 
-    public function pushParentId(int $a_id) : void
+    public function pushParentId(int $a_id): void
     {
         $this->parent[] = $a_id;
     }
-    public function popParentId() : void
+    public function popParentId(): void
     {
         array_pop($this->parent);
     }
 
-    public function getParentId() : int
+    public function getParentId(): int
     {
         return $this->parent[count($this->parent) - 1];
     }
@@ -110,7 +112,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     /**
      * @inheritDoc
      */
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         $this->sax_controller->setHandlers($a_xml_parser);
         $this->sax_controller->setDefaultElementHandler($this);
@@ -130,7 +132,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     /**
      * @inheritDoc
      */
-    public function startParsing() : void
+    public function startParsing(): void
     {
         parent::startParsing();
 
@@ -152,7 +154,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
      * @inheritDoc
      * @param mixed|null $a_attribs
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         global $DIC;
 
@@ -260,7 +262,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         }
     }
 
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         if ($this->lom_parsing_active) {
             parent::handlerEndTag($a_xml_parser, $a_name);
@@ -375,7 +377,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     /**
      * @inheritDoc
      */
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         if ($this->lom_parsing_active) {
             parent::handlerCharacterData($a_xml_parser, $a_data);
@@ -389,7 +391,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         }
     }
 
-    public function save() : bool
+    public function save(): bool
     {
         if ($this->group_imported) {
             return true;
@@ -547,7 +549,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         return true;
     }
 
-    public function assignMembers() : void
+    public function assignMembers(): void
     {
         $this->participants = new ilGroupParticipants($this->group_obj->getId());
         $this->participants->add($this->user->getId(), ilParticipants::IL_GRP_ADMIN);
@@ -602,7 +604,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         }
     }
 
-    public function parseId(string $a_id) : array
+    public function parseId(string $a_id): array
     {
         $fields = explode('_', $a_id);
 
@@ -630,12 +632,12 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     }
 
 
-    public function setMode(int $mode) : void
+    public function setMode(int $mode): void
     {
         $this->mode = $mode;
     }
 
-    public function initContainerSorting(array $a_attribs, int $a_group_id) : void
+    public function initContainerSorting(array $a_attribs, int $a_group_id): void
     {
         ilContainerSortingSettings::_importContainerSortingSettings($a_attribs, $a_group_id);
     }

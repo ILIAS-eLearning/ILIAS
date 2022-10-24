@@ -1,7 +1,20 @@
 <?php
 
-require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacException.php';
-require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacFormAlertProvider.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilAssLacQuestionNotReachable
@@ -39,7 +52,7 @@ class ilAssLacAnswerValueNotExist extends ilAssLacException implements ilAssLacF
         $this->question_index = $question_index;
         $this->answer_index = $answer_index;
         $this->value = $value;
-        
+
         if ($this->getQuestionIndex() === null && $this->getAnswerIndex() === null) {
             $msg = sprintf(
                 'The value "%s" does not exist for the current question',
@@ -72,7 +85,7 @@ class ilAssLacAnswerValueNotExist extends ilAssLacException implements ilAssLacF
     /**
      * @return int
      */
-    public function getQuestionIndex() : int
+    public function getQuestionIndex(): int
     {
         return $this->question_index;
     }
@@ -80,7 +93,7 @@ class ilAssLacAnswerValueNotExist extends ilAssLacException implements ilAssLacF
     /**
      * @return int
      */
-    public function getAnswerIndex() : ?int
+    public function getAnswerIndex(): ?int
     {
         return $this->answer_index;
     }
@@ -88,7 +101,7 @@ class ilAssLacAnswerValueNotExist extends ilAssLacException implements ilAssLacF
     /**
      * @return string
      */
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }
@@ -97,7 +110,7 @@ class ilAssLacAnswerValueNotExist extends ilAssLacException implements ilAssLacF
      * @param ilLanguage $lng
      * @return string
      */
-    public function getFormAlert(ilLanguage $lng) : string
+    public function getFormAlert(ilLanguage $lng): string
     {
         if ($this->getQuestionIndex() === null && $this->getAnswerIndex() === null) {
             return sprintf(

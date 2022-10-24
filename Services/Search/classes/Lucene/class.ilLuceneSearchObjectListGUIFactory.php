@@ -27,8 +27,8 @@
 class ilLuceneSearchObjectListGUIFactory
 {
     private static array $item_list_gui = [];
-    
-    public static function factory(string $a_type) : ilObjectListGUI
+
+    public static function factory(string $a_type): ilObjectListGUI
     {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;

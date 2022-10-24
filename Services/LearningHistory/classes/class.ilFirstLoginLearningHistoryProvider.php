@@ -22,12 +22,12 @@
  */
 class ilFirstLoginLearningHistoryProvider extends ilAbstractLearningHistoryProvider implements ilLearningHistoryProviderInterface
 {
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return true;
     }
 
-    public function getEntries(int $ts_start, int $ts_end) : array
+    public function getEntries(int $ts_start, int $ts_end): array
     {
         $entries = [];
         $ts = ilObjUser::_lookupFirstLogin($this->getUserId());
@@ -50,7 +50,7 @@ class ilFirstLoginLearningHistoryProvider extends ilAbstractLearningHistoryProvi
         return $entries;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         $lng = $this->getLanguage();
         $lng->loadLanguageModule("lhist");

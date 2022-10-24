@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -108,27 +110,27 @@ class ilLearningProgressBaseGUI
         $this->logger = $DIC->logger()->trac();
     }
 
-    public function isAnonymized() : bool
+    public function isAnonymized(): bool
     {
         return $this->anonymized;
     }
 
-    public function getMode() : int
+    public function getMode(): int
     {
         return $this->mode;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    protected function initUserIdFromQuery() : int
+    protected function initUserIdFromQuery(): int
     {
         if ($this->http->wrapper()->query()->has('user_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -139,7 +141,7 @@ class ilLearningProgressBaseGUI
         return 0;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         if ($this->usr_id) {
             return $this->usr_id;
@@ -150,7 +152,7 @@ class ilLearningProgressBaseGUI
         return 0;
     }
 
-    public function __getDefaultCommand() : string
+    public function __getDefaultCommand(): string
     {
         if (strlen($cmd = $this->ctrl->getCmd())) {
             return $cmd;
@@ -158,7 +160,7 @@ class ilLearningProgressBaseGUI
         return 'show';
     }
 
-    public function __setSubTabs(int $a_active) : void
+    public function __setSubTabs(int $a_active): void
     {
         switch ($this->getMode()) {
             case self::LP_CONTEXT_PERSONAL_DESKTOP:
@@ -321,7 +323,7 @@ class ilLearningProgressBaseGUI
         }
     }
 
-    public function __buildFooter() : void
+    public function __buildFooter(): void
     {
         switch ($this->getMode()) {
             case self::LP_CONTEXT_PERSONAL_DESKTOP:
@@ -329,7 +331,7 @@ class ilLearningProgressBaseGUI
         }
     }
 
-    public function __buildHeader() : void
+    public function __buildHeader(): void
     {
     }
 
@@ -340,7 +342,7 @@ class ilLearningProgressBaseGUI
     public static function _getStatusText(
         int $a_status,
         ?ilLanguage $a_lng = null
-    ) : string {
+    ): string {
         global $DIC;
 
         $lng = $DIC->language();
@@ -372,7 +374,7 @@ class ilLearningProgressBaseGUI
         ilInfoScreenGUI $info,
         int $item_id = 0,
         bool $add_section = true
-    ) : bool {
+    ): bool {
         $details_id = $item_id ?: $this->details_id;
 
         $olp = ilObjectLP::getInstance($details_id);
@@ -408,9 +410,8 @@ class ilLearningProgressBaseGUI
         ilInfoScreenGUI $info,
         int $item_id,
         int $user_id
-    ) : void {
+    ): void {
         $type = $this->ilObjectDataCache->lookupType($item_id);
-
         // Section learning_progress
         // $info->addSection($this->lng->txt('trac_learning_progress'));
         // see ilLPTableBaseGUI::parseTitle();
@@ -438,34 +439,36 @@ class ilLearningProgressBaseGUI
                     $status_text
             );
 
-            // status
-            $i_tpl = new ilTemplate(
-                "tpl.lp_edit_manual_info_page.html",
-                true,
-                true,
-                "Services/Tracking"
-            );
-            $i_tpl->setVariable(
-                "INFO_EDITED",
-                $this->lng->txt("trac_info_edited")
-            );
-            $i_tpl->setVariable(
-                "SELECT_STATUS",
-                ilLegacyFormElementsUtil::formSelect(
-                    (int) ilLPMarks::_hasCompleted(
-                        $user_id,
-                        $item_id
-                    ),
-                    'lp_edit',
-                    [0 => $this->lng->txt('trac_not_completed'),
-                     1 => $this->lng->txt('trac_completed')
-                    ],
-                    false,
-                    true
-                )
-            );
-            $i_tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-            $info->addProperty($this->lng->txt('trac_status'), $i_tpl->get());
+            if ($olp->getCurrentMode() === ilLPObjSettings::LP_MODE_MANUAL) {
+                // status
+                $i_tpl = new ilTemplate(
+                    "tpl.lp_edit_manual_info_page.html",
+                    true,
+                    true,
+                    "Services/Tracking"
+                );
+                $i_tpl->setVariable(
+                    "INFO_EDITED",
+                    $this->lng->txt("trac_info_edited")
+                );
+                $i_tpl->setVariable(
+                    "SELECT_STATUS",
+                    ilLegacyFormElementsUtil::formSelect(
+                        (int) ilLPMarks::_hasCompleted(
+                            $user_id,
+                            $item_id
+                        ),
+                        'lp_edit',
+                        [0 => $this->lng->txt('trac_not_completed'),
+                         1 => $this->lng->txt('trac_completed')
+                        ],
+                        false,
+                        true
+                    )
+                );
+                $i_tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+                $info->addProperty($this->lng->txt('trac_status'), $i_tpl->get());
+            }
 
             // #15334 - see ilLPTableBaseGUI::isPercentageAvailable()
             $mode = $olp->getCurrentMode();
@@ -506,7 +509,7 @@ class ilLearningProgressBaseGUI
         // More infos for lm's
         if (in_array($type, ["lm", "htlm"])) {
             $progress = ilLearningProgress::_getProgress($user_id, $item_id);
-            if ($progress['access_time']) {
+            if ($progress['access_time'] ?? false) {
                 $info->addProperty(
                     $this->lng->txt('trac_last_access'),
                     ilDatePresentation::formatDate(
@@ -522,7 +525,7 @@ class ilLearningProgressBaseGUI
 
             $info->addProperty(
                 $this->lng->txt('trac_visits'),
-                (string) $progress['visits']
+                (string) ($progress['visits'] ?? "")
             );
 
             if ($type == 'lm') {
@@ -537,7 +540,7 @@ class ilLearningProgressBaseGUI
     }
 
     /** @noinspection PhpInconsistentReturnPointsInspection */
-    public static function __readStatus(int $a_obj_id, int $user_id) : string
+    public static function __readStatus(int $a_obj_id, int $user_id): string
     {
         $status = ilLPStatus::_lookupStatus($a_obj_id, $user_id);
 
@@ -557,7 +560,7 @@ class ilLearningProgressBaseGUI
         }
     }
 
-    public function __getLegendHTML(int $variant = ilLPStatusIcons::ICON_VARIANT_LONG) : string
+    public function __getLegendHTML(int $variant = ilLPStatusIcons::ICON_VARIANT_LONG): string
     {
         $icons = ilLPStatusIcons::getInstance($variant);
 
@@ -611,7 +614,7 @@ class ilLearningProgressBaseGUI
         int $a_user_id,
         int $a_obj_id,
         ?string $a_cancel = null
-    ) : ilPropertyFormGUI {
+    ): ilPropertyFormGUI {
         $olp = ilObjectLP::getInstance($a_obj_id);
         $lp_mode = $olp->getCurrentMode();
 
@@ -671,7 +674,7 @@ class ilLearningProgressBaseGUI
         int $a_ref_id,
         ?string $a_cancel = null,
         int $a_sub_id = 0
-    ) : string {
+    ): string {
         if (!$a_sub_id) {
             $obj_id = ilObject::_lookupObjId($a_ref_id);
         } else {
@@ -684,7 +687,7 @@ class ilLearningProgressBaseGUI
         return $form->getHTML();
     }
 
-    public function __updateUser(int $user_id, int $obj_id) : void
+    public function __updateUser(int $user_id, int $obj_id): void
     {
         $form = $this->initEditUserForm($user_id, $obj_id);
         if ($form->checkInput()) {
@@ -721,7 +724,7 @@ class ilLearningProgressBaseGUI
     public static function isObjectOffline(
         int $a_obj_id,
         string $a_type = ''
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $objDefinition = $DIC['objDefinition'];

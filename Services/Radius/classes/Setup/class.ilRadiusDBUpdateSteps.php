@@ -20,12 +20,12 @@ class ilRadiusDBUpdateSteps implements \ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
-    public function prepare(\ilDBInterface $db) : void
+    public function prepare(\ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function step_1() : void
+    public function step_1(): void
     {
         $this->db->manipulate("UPDATE usr_data " .
             "SET active=" . $this->db->quote(0, "integer") .

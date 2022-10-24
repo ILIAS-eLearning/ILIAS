@@ -1,17 +1,20 @@
 <?php
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 // declare(strict_types=1);
 /**
  * Class ilWACPath
@@ -140,7 +143,7 @@ class ilWACPath
         $this->handleParameters();
     }
 
-    protected function handleParameters() : void
+    protected function handleParameters(): void
     {
         $param = $this->getParameters();
         if (isset($param[ilWACSignedPath::WAC_TOKEN_ID])) {
@@ -157,7 +160,7 @@ class ilWACPath
     /**
      * @return string[]
      */
-    public function getParameters() : array
+    public function getParameters(): array
     {
         return $this->parameters;
     }
@@ -165,7 +168,7 @@ class ilWACPath
     /**
      * @param string[] $parameters
      */
-    public function setParameters(array $parameters) : void
+    public function setParameters(array $parameters): void
     {
         $this->parameters = $parameters;
     }
@@ -173,7 +176,7 @@ class ilWACPath
     /**
      * @return string[]
      */
-    public static function getAudioSuffixes() : array
+    public static function getAudioSuffixes(): array
     {
         return self::$audio_suffixes;
     }
@@ -181,7 +184,7 @@ class ilWACPath
     /**
      * @param string[] $audio_suffixes
      */
-    public static function setAudioSuffixes(array $audio_suffixes) : void
+    public static function setAudioSuffixes(array $audio_suffixes): void
     {
         self::$audio_suffixes = $audio_suffixes;
     }
@@ -189,7 +192,7 @@ class ilWACPath
     /**
      * @return string[]
      */
-    public static function getImageSuffixes() : array
+    public static function getImageSuffixes(): array
     {
         return self::$image_suffixes;
     }
@@ -197,7 +200,7 @@ class ilWACPath
     /**
      * @param string[] $image_suffixes
      */
-    public static function setImageSuffixes(array $image_suffixes) : void
+    public static function setImageSuffixes(array $image_suffixes): void
     {
         self::$image_suffixes = $image_suffixes;
     }
@@ -205,7 +208,7 @@ class ilWACPath
     /**
      * @return string[]
      */
-    public static function getVideoSuffixes() : array
+    public static function getVideoSuffixes(): array
     {
         return self::$video_suffixes;
     }
@@ -213,160 +216,160 @@ class ilWACPath
     /**
      * @param string[] $video_suffixes
      */
-    public static function setVideoSuffixes(array $video_suffixes) : void
+    public static function setVideoSuffixes(array $video_suffixes): void
     {
         self::$video_suffixes = $video_suffixes;
     }
 
-    public function getPrefix() : string
+    public function getPrefix(): string
     {
         return $this->prefix;
     }
 
-    public function setPrefix(string $prefix) : void
+    public function setPrefix(string $prefix): void
     {
         $this->prefix = $prefix;
     }
 
-    public function getAppendix() : string
+    public function getAppendix(): string
     {
         return $this->appendix;
     }
 
-    public function setAppendix(string $appendix) : void
+    public function setAppendix(string $appendix): void
     {
         $this->appendix = $appendix;
     }
 
-    public function getModulePath() : string
+    public function getModulePath(): string
     {
         return $this->module_path;
     }
 
-    public function setModulePath(string $module_path) : void
+    public function setModulePath(string $module_path): void
     {
         $this->module_path = $module_path;
     }
 
-    public function getDirName() : string
+    public function getDirName(): string
     {
         return dirname($this->getPathWithoutQuery());
     }
 
-    public function getPathWithoutQuery() : string
+    public function getPathWithoutQuery(): string
     {
         return $this->path_without_query;
     }
 
-    public function setPathWithoutQuery(string $path_without_query) : void
+    public function setPathWithoutQuery(string $path_without_query): void
     {
         $this->path_without_query = $path_without_query;
     }
 
-    public function isImage() : bool
+    public function isImage(): bool
     {
         return in_array(strtolower($this->getSuffix()), self::$image_suffixes);
     }
 
-    public function getSuffix() : string
+    public function getSuffix(): string
     {
         return $this->suffix;
     }
 
-    public function setSuffix(string $suffix) : void
+    public function setSuffix(string $suffix): void
     {
         $this->suffix = $suffix;
     }
 
-    public function isStreamable() : bool
+    public function isStreamable(): bool
     {
         return ($this->isAudio() || $this->isVideo());
     }
 
-    public function isAudio() : bool
+    public function isAudio(): bool
     {
         return in_array(strtolower($this->getSuffix()), self::$audio_suffixes);
     }
 
-    public function isVideo() : bool
+    public function isVideo(): bool
     {
         return in_array(strtolower($this->getSuffix()), self::$video_suffixes);
     }
 
-    public function fileExists() : bool
+    public function fileExists(): bool
     {
         return is_file($this->getPathWithoutQuery());
     }
 
-    public function hasToken() : bool
+    public function hasToken(): bool
     {
         return ($this->token !== '');
     }
 
-    public function hasTimestamp() : bool
+    public function hasTimestamp(): bool
     {
         return ($this->timestamp !== 0);
     }
 
-    public function hasTTL() : bool
+    public function hasTTL(): bool
     {
         return ($this->ttl !== 0);
     }
 
-    public function getToken() : string
+    public function getToken(): string
     {
         return $this->token;
     }
 
-    public function setToken(string $token) : void
+    public function setToken(string $token): void
     {
         $this->parameters[ilWACSignedPath::WAC_TOKEN_ID] = $token;
         $this->token = $token;
     }
 
-    public function getTimestamp() : int
+    public function getTimestamp(): int
     {
         return $this->timestamp;
     }
 
-    public function setTimestamp(int $timestamp) : void
+    public function setTimestamp(int $timestamp): void
     {
         $this->parameters[ilWACSignedPath::WAC_TIMESTAMP_ID] = $timestamp;
         $this->timestamp = $timestamp;
     }
 
-    public function getTTL() : int
+    public function getTTL(): int
     {
         return $this->ttl;
     }
 
-    public function setTTL(int $ttl) : void
+    public function setTTL(int $ttl): void
     {
         $this->parameters[ilWACSignedPath::WAC_TTL_ID] = $ttl;
         $this->ttl = $ttl;
     }
 
-    public function getClient() : string
+    public function getClient(): string
     {
         return $this->client;
     }
 
-    public function setClient(string $client) : void
+    public function setClient(string $client): void
     {
         $this->client = $client;
     }
 
-    public function getSecurePathId() : string
+    public function getSecurePathId(): string
     {
         return $this->secure_path_id;
     }
 
-    public function setSecurePathId(string $secure_path_id) : void
+    public function setSecurePathId(string $secure_path_id): void
     {
         $this->secure_path_id = $secure_path_id;
     }
 
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -374,83 +377,83 @@ class ilWACPath
     /**
      * Returns a clean (everything behind ? is removed and rawurldecoded path
      */
-    public function getCleanURLdecodedPath() : string
+    public function getCleanURLdecodedPath(): string
     {
         $path = explode("?", $this->path); // removing everything behind ?
         return rawurldecode($path[0]);
     }
 
-    public function setPath(string $path) : void
+    public function setPath(string $path): void
     {
         $this->path = $path;
     }
 
-    public function getQuery() : string
+    public function getQuery(): string
     {
         return $this->query;
     }
 
-    public function setQuery(string $query) : void
+    public function setQuery(string $query): void
     {
         $this->query = $query;
     }
 
-    public function getFileName() : string
+    public function getFileName(): string
     {
         return $this->file_name;
     }
 
-    public function setFileName(string $file_name) : void
+    public function setFileName(string $file_name): void
     {
         $this->file_name = $file_name;
     }
 
-    public function getOriginalRequest() : string
+    public function getOriginalRequest(): string
     {
         return $this->original_request;
     }
 
-    public function setOriginalRequest(string $original_request) : void
+    public function setOriginalRequest(string $original_request): void
     {
         $this->original_request = $original_request;
     }
 
-    public function getSecurePath() : string
+    public function getSecurePath(): string
     {
         return $this->secure_path;
     }
 
-    public function setSecurePath(string $secure_path) : void
+    public function setSecurePath(string $secure_path): void
     {
         $this->secure_path = $secure_path;
     }
 
-    public function isInSecFolder() : bool
+    public function isInSecFolder(): bool
     {
         return $this->in_sec_folder;
     }
 
-    public function setInSecFolder(bool $in_sec_folder) : void
+    public function setInSecFolder(bool $in_sec_folder): void
     {
         $this->in_sec_folder = $in_sec_folder;
     }
 
-    public function getModuleType() : string
+    public function getModuleType(): string
     {
         return $this->module_type;
     }
 
-    public function setModuleType(string $module_type) : void
+    public function setModuleType(string $module_type): void
     {
         $this->module_type = $module_type;
     }
 
-    public function getModuleIdentifier() : string
+    public function getModuleIdentifier(): string
     {
         return $this->module_identifier;
     }
 
-    public function setModuleIdentifier(string $module_identifier) : void
+    public function setModuleIdentifier(string $module_identifier): void
     {
         $this->module_identifier = $module_identifier;
     }

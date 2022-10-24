@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Provider;
@@ -62,7 +63,7 @@ final class DelegatingFilesystemFactory implements FilesystemFactory
     /**
      * @inheritDoc
      */
-    public function getLocal(LocalConfig $config, bool $read_only = false) : Filesystem
+    public function getLocal(LocalConfig $config, bool $read_only = false): Filesystem
     {
         if ($read_only) {
             return new ReadOnlyDecorator(new FilesystemWhitelistDecorator($this->implementation->getLocal($config), $this->sanitizer));

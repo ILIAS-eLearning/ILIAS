@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -45,7 +47,7 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
         $this->init();
     }
 
-    protected function init() : void
+    protected function init(): void
     {
     }
 
@@ -53,7 +55,7 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
      * @see http://php.net/manual/en/function.password-hash.php#example-984
      * @throws ilPasswordException
      */
-    public function benchmarkCost(float $time_target = 0.05) : int
+    public function benchmarkCost(float $time_target = 0.05): int
     {
         $cost = 8;
 
@@ -68,17 +70,17 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
         return $cost;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return 'bcryptphp';
     }
 
-    public function getCosts() : string
+    public function getCosts(): string
     {
         return $this->costs;
     }
 
-    public function setCosts(string $costs) : void
+    public function setCosts(string $costs): void
     {
         if ($costs !== '') {
             $numeric_costs = (int) $costs;
@@ -89,7 +91,7 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
         }
     }
 
-    public function encodePassword(string $raw, string $salt) : string
+    public function encodePassword(string $raw, string $salt): string
     {
         if ($this->isPasswordTooLong($raw)) {
             throw new ilPasswordException('Invalid password.');
@@ -100,12 +102,12 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
         ]);
     }
 
-    public function isPasswordValid(string $encoded, string $raw, string $salt) : bool
+    public function isPasswordValid(string $encoded, string $raw, string $salt): bool
     {
         return password_verify($raw, $encoded);
     }
 
-    public function requiresReencoding(string $encoded) : bool
+    public function requiresReencoding(string $encoded): bool
     {
         return password_needs_rehash($encoded, PASSWORD_BCRYPT, [
             'cost' => $this->getCosts()

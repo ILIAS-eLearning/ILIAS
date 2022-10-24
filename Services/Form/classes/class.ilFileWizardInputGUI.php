@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ class ilFileWizardInputGUI extends ilFileInputGUI
     protected array $filenames = array();
     protected bool $allowMove = false;
     protected string $imagepath_web = "";
-    
+
     public function __construct(
         string $a_title = "",
         string $a_postvar = ""
@@ -40,48 +42,48 @@ class ilFileWizardInputGUI extends ilFileInputGUI
         parent::__construct($a_title, $a_postvar);
     }
 
-    public function setImagePathWeb(string $a_path) : void
+    public function setImagePathWeb(string $a_path): void
     {
         $this->imagepath_web = $a_path;
     }
 
-    public function getImagePathWeb() : string
+    public function getImagePathWeb(): string
     {
         return $this->imagepath_web;
     }
 
-    public function setFilenames(array $a_filenames) : void
+    public function setFilenames(array $a_filenames): void
     {
         $this->filenames = $a_filenames;
     }
 
-    public function getFilenames() : array
+    public function getFilenames(): array
     {
         return $this->filenames;
     }
 
-    public function setAllowMove(bool $a_allow_move) : void
+    public function setAllowMove(bool $a_allow_move): void
     {
         $this->allowMove = $a_allow_move;
     }
 
-    public function getAllowMove() : bool
+    public function getAllowMove(): bool
     {
         return $this->allowMove;
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $lng = $this->lng;
-        
+
         // see ilFileInputGUI
         // if no information is received, something went wrong
         // this is e.g. the case, if the post_max_size has been exceeded
-        if (!is_array($_FILES[$this->getPostVar()])) {
+        if (!isset($_FILES[$this->getPostVar()]) || !is_array($_FILES[$this->getPostVar()])) {
             $this->setAlert($lng->txt("form_msg_file_size_exceeds"));
             return false;
         }
-        
+
         $pictures = $_FILES[$this->getPostVar()];
         $uploadcheck = true;
         if (is_array($pictures)) {
@@ -161,14 +163,14 @@ class ilFileWizardInputGUI extends ilFileInputGUI
         if (!$uploadcheck) {
             return false;
         }
-        
+
         return $this->checkSubItemsInput();
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $lng = $this->lng;
-        
+
         $tpl = new ilTemplate("tpl.prop_filewizardinput.html", true, true, "Services/Form");
 
         $i = 0;
@@ -211,7 +213,7 @@ class ilFileWizardInputGUI extends ilFileInputGUI
                     " disabled=\"disabled\""
                 );
             }
-            
+
             $tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
             $tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
             $tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice") . " " . $this->getMaxFileSizeString());
@@ -225,7 +227,7 @@ class ilFileWizardInputGUI extends ilFileInputGUI
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();
-        
+
         $main_tpl = $this->tpl;
         $main_tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
         $main_tpl->addJavascript("./Services/Form/templates/default/filewizard.js");

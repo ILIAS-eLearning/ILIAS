@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . '/ModalBase.php');
 
 /**
@@ -25,7 +27,7 @@ require_once(__DIR__ . '/ModalBase.php');
  */
 class ModalFactoryTest extends ModalBase
 {
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $factory = $this->getModalFactory();
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Modal\\Factory", $factory);

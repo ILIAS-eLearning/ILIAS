@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -12,21 +14,21 @@ class ilLoggingDefinitionProcessor implements ilComponentDefinitionProcessor
         $this->db = $db;
     }
 
-    public function purge() : void
+    public function purge(): void
     {
     }
 
-    public function beginComponent(string $component, string $type) : void
-    {
-        $this->component_id = '';
-    }
-
-    public function endComponent(string $component, string $type) : void
+    public function beginComponent(string $component, string $type): void
     {
         $this->component_id = '';
     }
 
-    public function beginTag(string $name, array $attributes) : void
+    public function endComponent(string $component, string $type): void
+    {
+        $this->component_id = '';
+    }
+
+    public function beginTag(string $name, array $attributes): void
     {
         if ($name === "module" || $name === "service") {
             $this->component_id = $attributes["id"] ?? '';
@@ -45,7 +47,7 @@ class ilLoggingDefinitionProcessor implements ilComponentDefinitionProcessor
         ilLogComponentLevels::updateFromXML($this->component_id);
     }
 
-    public function endTag(string $name) : void
+    public function endTag(string $name): void
     {
         if ($name === "module" || $name === "service") {
             $this->component_id = '';

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,14 +22,14 @@ use PHPUnit\Framework\TestCase;
 
 class ilUtilsPreventTest extends TestCase
 {
-    private function extractMethodNames(array $reflection_methods) : array
+    private function extractMethodNames(array $reflection_methods): array
     {
-        return array_map(function (ReflectionMethod $m) : string {
+        return array_map(function (ReflectionMethod $m): string {
             return $m->getName();
         }, $reflection_methods);
     }
 
-    public function testAmountOfMethodsInUtil() : void
+    public function testAmountOfMethodsInUtil(): void
     {
         $r = new ReflectionClass(ilUtil::class);
         $methods = $this->extractMethodNames($r->getMethods());
@@ -84,7 +86,7 @@ class ilUtilsPreventTest extends TestCase
         ], $methods);
     }
 
-    public function testAmountOfMethodsInArrayUtil() : void
+    public function testAmountOfMethodsInArrayUtil(): void
     {
         $r = new ReflectionClass(ilArrayUtil::class);
         $methods = $this->extractMethodNames($r->getMethods());
@@ -102,7 +104,7 @@ class ilUtilsPreventTest extends TestCase
         ], $methods);
     }
 
-    public function testAmountOfMethodsInShellUtil() : void
+    public function testAmountOfMethodsInShellUtil(): void
     {
         $r = new ReflectionClass(ilShellUtil::class);
         $methods = $this->extractMethodNames($r->getMethods());
@@ -121,7 +123,7 @@ class ilUtilsPreventTest extends TestCase
         ], $methods);
     }
 
-    public function testAmountOfMethodsInLegacyFormUtil() : void
+    public function testAmountOfMethodsInLegacyFormUtil(): void
     {
         $r = new ReflectionClass(ilLegacyFormElementsUtil::class);
         $methods = $this->extractMethodNames($r->getMethods());
@@ -138,7 +140,7 @@ class ilUtilsPreventTest extends TestCase
         ], $methods);
     }
 
-    public function testAmountOfMethodsInStrUtil() : void
+    public function testAmountOfMethodsInStrUtil(): void
     {
         $r = new ReflectionClass(ilStr::class);
         $methods = $this->extractMethodNames($r->getMethods());

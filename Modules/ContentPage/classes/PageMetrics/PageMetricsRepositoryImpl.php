@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,7 +38,7 @@ class PageMetricsRepositoryImp implements PageMetricsRepository
         $this->db = $db;
     }
 
-    public function store(PageMetrics $pageMetrics) : void
+    public function store(PageMetrics $pageMetrics): void
     {
         $this->db->replace(
             'content_page_metrics',
@@ -51,7 +53,7 @@ class PageMetricsRepositoryImp implements PageMetricsRepository
         );
     }
 
-    public function delete(PageMetrics $pageMetrics) : void
+    public function delete(PageMetrics $pageMetrics): void
     {
         $this->db->queryF(
             'DELETE FROM content_page_metrics WHERE content_page_id = %s AND page_id = %s AND lang = %s',
@@ -63,7 +65,7 @@ class PageMetricsRepositoryImp implements PageMetricsRepository
     /**
      * @inheritDoc
      */
-    public function findBy(int $contentPageId, int $pageId, string $language) : PageMetrics
+    public function findBy(int $contentPageId, int $pageId, string $language): PageMetrics
     {
         $res = $this->db->queryF(
             'SELECT * FROM content_page_metrics WHERE content_page_id = %s AND page_id = %s AND lang = %s',

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjectActivationGUI
  *
@@ -66,7 +68,7 @@ class ilObjectActivationGUI
         $this->ctrl->saveParameter($this, 'item_id');
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $this->__setTabs();
 
@@ -77,9 +79,9 @@ class ilObjectActivationGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("crs_no_item_id_given"), true);
             $this->ctrl->returnToParent($this);
         }
-        
+
         $this->tpl->loadStandardTemplate();
-        
+
         switch ($this->ctrl->getNextClass($this)) {
             case 'ilconditionhandlergui':
                 // preconditions for single course items
@@ -101,37 +103,37 @@ class ilObjectActivationGUI
                 $this->tabs_gui->setTabActive('timings');
                 break;
         }
-        
+
         $this->tpl->printToStdout();
     }
 
-    public function getItemId() : int
+    public function getItemId(): int
     {
         return $this->item_id;
     }
 
-    public function getTimingMode() : ?int
+    public function getTimingMode(): ?int
     {
         return $this->timing_mode;
     }
 
-    public function getParentId() : int
+    public function getParentId(): int
     {
         return $this->parent_ref_id;
     }
 
-    public function getActivation() : ?ilObjectActivation
+    public function getActivation(): ?ilObjectActivation
     {
         return $this->activation;
     }
 
-    public function cancel() : void
+    public function cancel(): void
     {
         $this->ctrl->setParameterByClass('ilrepositorygui', 'ref_id', $this->parent_ref_id);
         $this->ctrl->redirectByClass('ilrepositorygui');
     }
 
-    public function edit(ilPropertyFormGUI $form = null) : void
+    public function edit(ilPropertyFormGUI $form = null): void
     {
         // #19997 - see ilObjectListGUI::insertTimingsCommand()
         if (
@@ -140,7 +142,7 @@ class ilObjectActivationGUI
         ) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
-        
+
         if (!$form instanceof ilPropertyFormGUI) {
             // show edit warning if timings are on
             if ($this->tree->checkForParentType($this->getParentId(), 'crs')) {
@@ -153,8 +155,8 @@ class ilObjectActivationGUI
         }
         $this->tpl->setContent($form->getHTML());
     }
-    
-    protected function initFormEdit() : ilPropertyFormGUI
+
+    protected function initFormEdit(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -190,7 +192,7 @@ class ilObjectActivationGUI
         return $form;
     }
 
-    public function update() : void
+    public function update(): void
     {
         // #19997 - see ilObjectListGUI::insertTimingsCommand()
         if (
@@ -239,7 +241,7 @@ class ilObjectActivationGUI
         $this->edit($form);
     }
 
-    protected function __setTabs() : bool
+    protected function __setTabs(): bool
     {
         $this->tabs_gui->clearTargets();
 
@@ -250,14 +252,14 @@ class ilObjectActivationGUI
         $ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->string());
         $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
         $this->tabs_gui->setBackTarget($this->lng->txt('btn_back'), $back_link);
-        
+
         $this->tabs_gui->addTarget(
             "timings",
             $this->ctrl->getLinkTarget($this, 'edit'),
             "edit",
             get_class($this)
         );
-        
+
         $this->ctrl->setParameterByClass('ilconditionhandlergui', 'item_id', $this->item_id);
         $this->tabs_gui->addTarget(
             "preconditions",
@@ -268,7 +270,7 @@ class ilObjectActivationGUI
         return true;
     }
 
-    protected function initTimingMode() : void
+    protected function initTimingMode(): void
     {
         // Check for parent course and if available read timing mode (abs | rel)
         $crs_ref_id = $this->tree->checkForParentType($this->parent_ref_id, 'crs');
@@ -281,7 +283,7 @@ class ilObjectActivationGUI
         }
     }
 
-    protected function initItem() : void
+    protected function initItem(): void
     {
         $this->activation = new ilObjectActivation();
         $this->getActivation()->read($this->item_id, $this->getParentId());

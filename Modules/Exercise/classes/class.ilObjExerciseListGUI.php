@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * ListGUI class for exercise objects.
  *
@@ -23,7 +23,7 @@
  */
 class ilObjExerciseListGUI extends ilObjectListGUI
 {
-    public function init() : void
+    public function init(): void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -39,7 +39,7 @@ class ilObjExerciseListGUI extends ilObjectListGUI
         if ($this->substitutions->isActive()) {
             $this->substitutions_enabled = true;
         }
-        
+
         // general commands array
         $this->commands = ilObjExerciseAccess::_getCommands();
     }
@@ -47,7 +47,7 @@ class ilObjExerciseListGUI extends ilObjectListGUI
     /**
      * @throws ilDateTimeException
      */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $props = array();
         $rem = ilObjExerciseAccess::_lookupRemainingWorkingTimeString($this->obj_id);
@@ -63,7 +63,7 @@ class ilObjExerciseListGUI extends ilObjectListGUI
         return $props;
     }
 
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         return "ilias.php?baseClass=ilExerciseHandlerGUI&ref_id=" . $this->ref_id . "&cmd=$cmd";
     }

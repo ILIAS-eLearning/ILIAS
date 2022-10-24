@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -37,8 +39,8 @@ class ilAuthProviderECS extends ilAuthProvider
 
     protected ilECSSetting $currentServer;
     protected ilECSServerSettings $servers;
-    
-    
+
+
     /**
      * Constructor
      * @param \ilAuthCredentials $credentials
@@ -61,24 +63,24 @@ class ilAuthProviderECS extends ilAuthProvider
 
         $this->initECSServices();
     }
-    
+
     /**
      * get abbreviation
      */
-    public function getAbreviation() : string
+    public function getAbreviation(): string
     {
         return $this->abreviation;
     }
-    
+
     /**
      * get mid
      */
-    public function getMID() : int
+    public function getMID(): int
     {
         return $this->mid;
     }
-    
-    public function setMID(int $a_mid) : void
+
+    public function setMID(int $a_mid): void
     {
         $this->mid = $a_mid;
     }
@@ -86,7 +88,7 @@ class ilAuthProviderECS extends ilAuthProvider
     /**
      * Set current server
      */
-    public function setCurrentServer(ilECSSetting $server) : void
+    public function setCurrentServer(ilECSSetting $server): void
     {
         $this->currentServer = $server;
     }
@@ -94,7 +96,7 @@ class ilAuthProviderECS extends ilAuthProvider
     /**
      * Get current server
      */
-    public function getCurrentServer() : ilECSSetting
+    public function getCurrentServer(): ilECSSetting
     {
         return $this->currentServer;
     }
@@ -102,16 +104,16 @@ class ilAuthProviderECS extends ilAuthProvider
     /**
      * Get server settings
      */
-    public function getServerSettings() : ilECSServerSettings
+    public function getServerSettings(): ilECSServerSettings
     {
         return $this->servers;
     }
-    
+
 
     /**
      * Try ecs authentication
      */
-    public function doAuthentication(\ilAuthStatus $status) : bool
+    public function doAuthentication(\ilAuthStatus $status): bool
     {
         $this->getLogger()->debug('Starting ECS authentication');
         if (!$this->getServerSettings()->activeServerExists()) {
@@ -119,7 +121,7 @@ class ilAuthProviderECS extends ilAuthProvider
             $this->handleAuthenticationFail($status, 'err_wrong_login');
             return false;
         }
-        
+
         // Iterate through all active ecs instances
         foreach ($this->getServerSettings()->getServers(ilECSServerSettings::ACTIVE_SERVER) as $server) {
             $this->setCurrentServer($server);
@@ -136,7 +138,7 @@ class ilAuthProviderECS extends ilAuthProvider
      * Redirects to shibboleth login; to standard login page for LDAP based authentication
      * or authenticates/creates a local account
      */
-    protected function handleLoginByAuthMode(ilAuthStatus $status) : bool
+    protected function handleLoginByAuthMode(ilAuthStatus $status): bool
     {
         $is_external_account = false;
         if ($this->http->wrapper()->query()->has('ecs_external_account')) {
@@ -192,7 +194,7 @@ class ilAuthProviderECS extends ilAuthProvider
         return false;
     }
 
-    protected function resumeCurrentSession() : bool
+    protected function resumeCurrentSession(): bool
     {
         $session_user_id = $this->authSession->getUserId();
         if (!$session_user_id || $session_user_id == ANONYMOUS_USER_ID) {
@@ -222,17 +224,17 @@ class ilAuthProviderECS extends ilAuthProvider
     public function handleLogin()
     {
         $user = new ilECSUser($this->http->request()->getQueryParams());
-        
+
         if (!$usr_id = ilObject::_lookupObjIdByImportId($user->getImportId())) {
             $username = $this->createUser($user);
         } else {
             $username = $this->updateUser($user, $usr_id);
         }
-        
+
         // set user imported
         $import = new ilECSImport($this->getCurrentServer()->getServerId(), $usr_id);
         $import->save();
-        
+
         // Store remote user data
         $remoteUserRepository = new ilECSRemoteUserRepository();
         $remoteUserRepository->createIfNotExisting(
@@ -243,11 +245,11 @@ class ilAuthProviderECS extends ilAuthProvider
         );
 
         $this->getLogger()->info('Current user is: ' . $username);
-        
+
         return ilObjUser::_lookupId($username);
     }
 
-    public function initRemoteUserWithRemoteId() : void
+    public function initRemoteUserWithRemoteId(): void
     {
         $user = new ilECSUser($this->http->request()->getQueryParams());
 
@@ -260,11 +262,11 @@ class ilAuthProviderECS extends ilAuthProvider
             $user->getLogin()
         );
     }
-    
+
     /**
      * Validate ECS hash
      */
-    public function validateHash() : bool
+    public function validateHash(): bool
     {
         // fetch hash
         $hash = "";
@@ -290,7 +292,7 @@ class ilAuthProviderECS extends ilAuthProvider
             $connector = new ilECSConnector($this->getCurrentServer());
             $res = $connector->getAuth($hash);
             $auths = $res->getResult();
-            
+
             $this->getLogger()->dump($auths, ilLogLevel::DEBUG);
 
             if ($auths->pid) {
@@ -312,21 +314,21 @@ class ilAuthProviderECS extends ilAuthProvider
             } else {
                 $this->abreviation = $auths->abbr;
             }
-            
+
             $this->getLogger()->debug('Got abbreviation: ' . $this->abreviation);
         } catch (ilECSConnectorException $e) {
             $this->getLogger()->warning('Authentication failed with message: ' . $e->getMessage());
             return false;
         }
-        
+
         // read current mid
         try {
             $connector = new ilECSConnector($this->getCurrentServer());
             $details = $connector->getAuth($hash, true);
-            
+
             $this->getLogger()->dump($details, ilLogLevel::DEBUG);
             $this->getLogger()->debug('Token create for mid: ' . $details->getFirstSender());
-            
+
             $this->setMID($details->getFirstSender());
         } catch (ilECSConnectorException $e) {
             $this->getLogger()->warning('Receiving mid failed with message: ' . $e->getMessage());
@@ -339,15 +341,15 @@ class ilAuthProviderECS extends ilAuthProvider
     /**
      * Init ECS Services
      */
-    private function initECSServices() : void
+    private function initECSServices(): void
     {
         $this->servers = ilECSServerSettings::getInstance();
     }
-    
+
     /**
      * create new user
      */
-    protected function createUser(ilECSUser $user) : string
+    protected function createUser(ilECSUser $user): string
     {
         $userObj = new ilObjUser();
         $userObj->setOwner(SYSTEM_USER_ID);
@@ -399,14 +401,14 @@ class ilAuthProviderECS extends ilAuthProvider
         // Send Mail
         #$this->sendNotification($userObj);
         $this->resetMailOptions($userObj->getId());
-        
+
         return $userObj->getLogin();
     }
-    
+
     /**
      * update existing user
      */
-    protected function updateUser(ilECSUser $user, int $a_local_user_id) : string
+    protected function updateUser(ilECSUser $user, int $a_local_user_id): string
     {
         $user_obj = new ilObjUser($a_local_user_id);
         $user_obj->setFirstname($user->getFirstname());
@@ -414,7 +416,7 @@ class ilAuthProviderECS extends ilAuthProvider
         $user_obj->setEmail($user->getEmail());
         $user_obj->setInstitution($user->getInstitution());
         $user_obj->setActive(true);
-        
+
         $until = $user_obj->getTimeLimitUntil();
 
         if ($until < (time() + (int) $this->clientIniFile->readVariable('session', 'expire'))) {
@@ -423,25 +425,25 @@ class ilAuthProviderECS extends ilAuthProvider
         }
         $user_obj->update();
         $user_obj->refreshLogin();
-        
+
         if ($this->getCurrentServer()->getGlobalRole()) {
             $this->rbacAdmin->assignUser(
                 $this->getCurrentServer()->getGlobalRole(),
                 $user_obj->getId()
             );
         }
-        
+
         $this->resetMailOptions($a_local_user_id);
 
         $this->getLogger()->debug('Finished update of remote user with usr_id: ' . $user->getImportId());
         return $user_obj->getLogin();
     }
-    
+
     /**
      * Reset mail options to "local only"
      *
      */
-    protected function resetMailOptions(int $a_usr_id) : void
+    protected function resetMailOptions(int $a_usr_id): void
     {
         $options = new ilMailOptions($a_usr_id);
         $options->setIncomingType(ilMailOptions::INCOMING_LOCAL);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -26,49 +28,48 @@ use LogicException;
  */
 class ContextStack
 {
-    
     /**
      * @var ScreenContext[]
      */
     protected array $stack = [];
-    
+
     /**
      * @param ScreenContext $context
      */
-    public function push(ScreenContext $context) : void
+    public function push(ScreenContext $context): void
     {
         if (in_array($context, $this->stack)) {
             throw new LogicException("A context can only be claimed once");
         }
         $this->stack[] = $context;
     }
-    
+
     /**
      * @return ScreenContext
      */
-    public function getLast() : ScreenContext
+    public function getLast(): ScreenContext
     {
         return end($this->stack);
     }
-    
+
     /**
      * @return ScreenContext[]
      */
-    public function getStack() : array
+    public function getStack(): array
     {
         return $this->stack;
     }
-    
+
     /**
      * @return string[]
      */
-    public function getStackAsArray() : array
+    public function getStackAsArray(): array
     {
         $return = [];
         foreach ($this->stack as $item) {
             $return[] = $item->getUniqueContextIdentifier();
         }
-        
+
         return $return;
     }
 }

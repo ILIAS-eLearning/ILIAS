@@ -62,10 +62,10 @@ class ilPoolSelectorGUI extends ilRepositorySelectorExplorerGUI
      * @param mixed $a_node node object/array
      * @return string href attribute
      */
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
         $ilCtrl = $this->ctrl;
-        
+
         $ilCtrl->setParameterByClass($this->selection_gui, "subCmd", $this->selection_subcmd);
         $link = parent::getNodeHref($a_node);
         $ilCtrl->setParameterByClass($this->selection_gui, "subCmd", "");
@@ -77,7 +77,8 @@ class ilPoolSelectorGUI extends ilRepositorySelectorExplorerGUI
      * @param array $a_node node data
      * @return bool visible true/false
      */
-    public function isNodeVisible($a_node) : bool
+    /* This might be very expensive performance wise, see #32883
+    public function isNodeVisible($a_node): bool
     {
         if (parent::isNodeVisible($a_node)) {
             //hide empty container
@@ -90,7 +91,7 @@ class ilPoolSelectorGUI extends ilRepositorySelectorExplorerGUI
                 return true;
             }
         }
-        
+
         return false;
-    }
+    }*/
 }

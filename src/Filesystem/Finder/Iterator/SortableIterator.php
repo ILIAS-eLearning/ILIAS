@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Finder\Iterator;
@@ -59,21 +60,21 @@ class SortableIterator implements IteratorAggregate
         $order = $reverseOrder ? -1 : 1;
 
         if (self::SORT_BY_NAME === $sort) {
-            $this->sort = static function (Metadata $left, Metadata $right) use ($order) : int {
+            $this->sort = static function (Metadata $left, Metadata $right) use ($order): int {
                 $leftRealPath = $left->getPath();
                 $rightRealPath = $right->getPath();
 
                 return $order * strcmp($leftRealPath, $rightRealPath);
             };
         } elseif (self::SORT_BY_NAME_NATURAL === $sort) {
-            $this->sort = static function (Metadata $left, Metadata $right) use ($order) : int {
+            $this->sort = static function (Metadata $left, Metadata $right) use ($order): int {
                 $leftRealPath = $left->getPath();
                 $rightRealPath = $right->getPath();
 
                 return $order * strnatcmp($leftRealPath, $rightRealPath);
             };
         } elseif (self::SORT_BY_TYPE === $sort) {
-            $this->sort = static function (Metadata $left, Metadata $right) use ($order) : int {
+            $this->sort = static function (Metadata $left, Metadata $right) use ($order): int {
                 if ($left->isDir() && $right->isFile()) {
                     return -$order;
                 } elseif ($left->isFile() && $right->isDir()) {
@@ -86,7 +87,7 @@ class SortableIterator implements IteratorAggregate
                 return $order * strcmp($leftRealPath, $rightRealPath);
             };
         } elseif (self::SORT_BY_TIME === $sort) {
-            $this->sort = function (Metadata $left, Metadata $right) use ($order) : int {
+            $this->sort = function (Metadata $left, Metadata $right) use ($order): int {
                 $leftTimestamp = $this->filesystem->getTimestamp($left->getPath());
                 $rightTimestamp = $this->filesystem->getTimestamp($right->getPath());
 
@@ -107,7 +108,7 @@ class SortableIterator implements IteratorAggregate
     /**
      * @inheritdoc
      */
-    public function getIterator() : \Traversable
+    public function getIterator(): \Traversable
     {
         if (1 === $this->sort) {
             return $this->iterator;

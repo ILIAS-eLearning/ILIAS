@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,7 +34,7 @@ class ilQTIAssessmentcontrol
     public string $view = "All";
     public string $feedbackswitch = "";
 
-    public function setView(string $a_view) : void
+    public function setView(string $a_view): void
     {
         switch ($a_view) {
             case "Administrator":
@@ -52,37 +54,37 @@ class ilQTIAssessmentcontrol
         }
     }
 
-    public function getView() : string
+    public function getView(): string
     {
         return $this->view;
     }
 
-    public function setHintswitch(string $a_hintswitch) : void
+    public function setHintswitch(string $a_hintswitch): void
     {
         $this->hintswitch = 'No' === $a_hintswitch ? 'No' : 'Yes';
     }
 
-    public function getHintswitch() : string
+    public function getHintswitch(): string
     {
         return $this->hintswitch;
     }
 
-    public function setSolutionswitch(string $a_solutionswitch) : void
+    public function setSolutionswitch(string $a_solutionswitch): void
     {
         $this->solutionswitch = 'No' === $a_solutionswitch ? 'No' : 'Yes';
     }
 
-    public function getSolutionswitch() : string
+    public function getSolutionswitch(): string
     {
         return $this->solutionswitch;
     }
 
-    public function setFeedbackswitch(string $a_feedbackswitch) : void
+    public function setFeedbackswitch(string $a_feedbackswitch): void
     {
         $this->feedbackswitch = 'No' === $a_feedbackswitch ? 'No' : 'Yes';
     }
 
-    public function getFeedbackswitch() : string
+    public function getFeedbackswitch(): string
     {
         return $this->feedbackswitch;
     }

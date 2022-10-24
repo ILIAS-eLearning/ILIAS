@@ -30,7 +30,7 @@ class ilMediaPoolImportConfig extends ilImportConfig
     public function setTranslationImportMode(
         ?ilObjMediaPool $a_mep,
         string $a_lang = ""
-    ) : void {
+    ): void {
         if ($a_mep !== null) {
             $this->transl_into = true;
             $this->transl_into_mep = $a_mep;
@@ -40,17 +40,17 @@ class ilMediaPoolImportConfig extends ilImportConfig
         }
     }
 
-    public function getTranslationImportMode() : bool
+    public function getTranslationImportMode(): bool
     {
         return $this->transl_into;
     }
 
-    public function getTranslationMep() : ?ilObjMediaPool
+    public function getTranslationMep(): ?ilObjMediaPool
     {
         return $this->transl_into_mep;
     }
 
-    public function getTranslationLang() : string
+    public function getTranslationLang(): string
     {
         return $this->transl_lang;
     }

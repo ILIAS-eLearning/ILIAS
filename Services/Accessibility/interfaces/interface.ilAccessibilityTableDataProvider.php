@@ -26,5 +26,5 @@ interface ilAccessibilityTableDataProvider
      * @param array $filter Filter settings provided by a ilTable2GUI instance
      * @return array An associative array with keys 'items' (array of items) and 'cnt' (number of total items)
      */
-    public function getList(array $params, array $filter) : array;
+    public function getList(array $params, array $filter): array;
 }

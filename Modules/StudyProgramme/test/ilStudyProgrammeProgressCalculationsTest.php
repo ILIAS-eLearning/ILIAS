@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
     public ilPRGMessageCollection $messages;
     public array $mock_tree = [];
 
-    protected function buildProgramme(int $prg_id) : ilObjStudyProgramme
+    protected function buildProgramme(int $prg_id): ilObjStudyProgramme
     {
         $settings = new SettingsMock(
             $prg_id
@@ -53,13 +55,13 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
         return new PrgMock($prg_id, $this->progress_repo, $this->assignment_repo, $this->settings_repo, $this->mock_tree);
     }
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->progress_repo = new ProgressRepoMock();
         $this->assignment_repo = new AssignmentRepoMock();
         $this->settings_repo = new SettingsRepoMock();
         $this->messages = new ilPRGMessageCollection();
-        
+
         /*
         └── 1
             ├── 11
@@ -81,12 +83,12 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
     }
 
 
-    protected function getRootPrg() : PrgMock
+    protected function getRootPrg(): PrgMock
     {
         return $this->mock_tree[1]['prg'];
     }
 
-    protected function setPointsForNode(int $node_id, int $points) : void
+    protected function setPointsForNode(int $node_id, int $points): void
     {
         $set = new ilStudyProgrammeAssessmentSettings($points, ilStudyProgrammeAssessmentSettings::STATUS_ACTIVE);
         $this->settings_repo->update($this->settings_repo->get($node_id)->withAssessmentSettings($set));
@@ -95,14 +97,14 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
         $this->assertEquals($points, $this->mock_tree[$node_id]['prg']->getPoints());
     }
 
-    protected function setModeForNode(int $node_id, int $mode) : void
+    protected function setModeForNode(int $node_id, int $mode): void
     {
         $set = $this->settings_repo->get($node_id)->setLPMode($mode);
         $this->settings_repo->update($set);
     }
-    
+
     //this is a meta-test to assure that this setup is working properly
-    public function testInternalTreeIntegrity() : void
+    public function testInternalTreeIntegrity(): void
     {
         $progress = $this->progress_repo->get(111);
         $parent = $this->getRootPrg()->getParentProgress($progress);
@@ -128,7 +130,7 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
     }
 
     //this is another meta-test to assure that there are no unwanted side effects in the repos
-    public function testInternalRunIntegrity() : void
+    public function testInternalRunIntegrity(): void
     {
         $progress = $this->progress_repo->get(11);
         $this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $progress->getStatus());
@@ -143,12 +145,12 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
         ├── 12
         └── 13
      */
-    public function testParentAcquisition() : void
+    public function testParentAcquisition(): void
     {
         $progress = $this->getRootPrg()
             ->testUpdateParentProgress($this->progress_repo->get(112));
         $this->assertEquals($this->progress_repo->get(1), $progress);
-        
+
         $progress = $this->getRootPrg()
             ->testUpdateParentProgress($this->progress_repo->get(13));
         $this->assertEquals($this->progress_repo->get(1), $progress);
@@ -162,7 +164,7 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
         ├── 12 (12) <-- turns irrelevant
         └── 13 (10)
      */
-    public function testChildrenPossiblePointsAddition() : void
+    public function testChildrenPossiblePointsAddition(): void
     {
         $this->setPointsForNode(111, 5);
         $this->setPointsForNode(112, 10);
@@ -187,7 +189,7 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
 
         $this->getRootPrg()->markNotRelevant(12, 6, $this->messages);
         $this->getRootPrg()->markNotRelevant(112, 6, $this->messages);
-        
+
         $this->assertEquals(
             5, //111 (w/o + 112)
             $this->getRootPrg()->getPossiblePointsOfRelevantChildren(
@@ -211,7 +213,7 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
         ├── 12 (12)
         └── 13 (10)
      */
-    public function testAchievedPoints() : void
+    public function testAchievedPoints(): void
     {
         $this->setPointsForNode(111, 5);
         $this->setPointsForNode(112, 10);
@@ -244,7 +246,7 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
         ├── 12 (2)
         └── 13 (2)
      */
-    public function testMarkAccreditedShouldCompleteParentBySufficientPoints() : void
+    public function testMarkAccreditedShouldCompleteParentBySufficientPoints(): void
     {
         $this->setPointsForNode(111, 5);
         $this->setPointsForNode(112, 7);
@@ -271,7 +273,7 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
                 $this->progress_repo->get(1)
             )
         );
-        
+
         $this->assertEquals(ilStudyProgrammeProgress::STATUS_ACCREDITED, $this->progress_repo->get(111)->getStatus());
         $this->assertEquals(ilStudyProgrammeProgress::STATUS_ACCREDITED, $this->progress_repo->get(112)->getStatus());
         $this->assertEquals(ilStudyProgrammeProgress::STATUS_COMPLETED, $this->progress_repo->get(11)->getStatus());
@@ -283,7 +285,7 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
         ├── 11 (5, LP)
         └── 12 (5)
      */
-    public function testMarkAccreditedOnLPNode() : void
+    public function testMarkAccreditedOnLPNode(): void
     {
         $this->setPointsForNode(1, 10);
         $this->setPointsForNode(11, 5);
@@ -294,13 +296,13 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
                 11 => $this->mock_tree[13],
                 12 => $this->mock_tree[12]
         ];
-     
+
         $this->getRootPrg()->markAccredited(11, 6, $this->messages);
         $this->assertEquals(ilStudyProgrammeProgress::STATUS_ACCREDITED, $this->progress_repo->get(11)->getStatus());
         $this->assertEquals(5, $this->progress_repo->get(11)->getCurrentAmountOfPoints());
         $this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $this->progress_repo->get(12)->getStatus());
         $this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $this->progress_repo->get(1)->getStatus());
-        
+
         $this->getRootPrg()->markAccredited(12, 6, $this->messages);
         $this->assertEquals(ilStudyProgrammeProgress::STATUS_ACCREDITED, $this->progress_repo->get(11)->getStatus());
         $this->assertEquals(ilStudyProgrammeProgress::STATUS_ACCREDITED, $this->progress_repo->get(12)->getStatus());
@@ -318,7 +320,7 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
         ├── 12
         └── 13
      */
-    public function testMarkAccreditedShouldNotChangeIrrelevantParent() : void
+    public function testMarkAccreditedShouldNotChangeIrrelevantParent(): void
     {
         $this->progress_repo->update(
             $this->progress_repo->get(11)->withStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
@@ -333,7 +335,7 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
         $this->assertEquals(0, $this->progress_repo->get(1)->getCurrentAmountOfPoints());
     }
 
-    public function testMarkRelevantShouldRecalculateStatusAndPoints() : void
+    public function testMarkRelevantShouldRecalculateStatusAndPoints(): void
     {
         $this->progress_repo->update(
             $this->progress_repo->get(11)->withStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
@@ -346,7 +348,7 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
         $this->getRootPrg()->markRelevant(11, 6, $this->messages);
         $this->assertEquals(ilStudyProgrammeProgress::STATUS_COMPLETED, $this->progress_repo->get(11)->getStatus());
         $this->assertEquals(2, $this->progress_repo->get(1)->getCurrentAmountOfPoints());
-        
+
         $this->getRootPrg()->markNotRelevant(11, 6, $this->messages);
         $this->assertEquals(ilStudyProgrammeProgress::STATUS_COMPLETED, $this->progress_repo->get(11)->getStatus());
         $this->assertEquals(ilStudyProgrammeProgress::STATUS_ACCREDITED, $this->progress_repo->get(111)->getStatus());
@@ -361,7 +363,7 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
         ├── 12 (2 points)
         └── 13 (accredited, 2 points)
      */
-    public function testSuccessionCompletingParents() : void
+    public function testSuccessionCompletingParents(): void
     {
         $this->setPointsForNode(1, 6);
         $this->setPointsForNode(11, 4);
@@ -375,10 +377,10 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
 
         $this->assertEquals(ilStudyProgrammeProgress::STATUS_COMPLETED, $this->progress_repo->get(111)->getStatus());
         $this->assertEquals(2, $this->progress_repo->get(111)->getCurrentAmountOfPoints());
-        
+
         $this->assertEquals(ilStudyProgrammeProgress::STATUS_COMPLETED, $this->progress_repo->get(11)->getStatus());
         $this->assertEquals(5, $this->progress_repo->get(11)->getCurrentAmountOfPoints());
-        
+
         $this->assertEquals(ilStudyProgrammeProgress::STATUS_COMPLETED, $this->progress_repo->get(1)->getStatus());
         $this->assertEquals(6, $this->progress_repo->get(1)->getCurrentAmountOfPoints());
     }
@@ -391,7 +393,7 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
         ├── 12 (2 points)
         └── 13 (accredited, 2 points)
      */
-    public function testMarkIrrelevantDoesNotCompleteParent() : void
+    public function testMarkIrrelevantDoesNotCompleteParent(): void
     {
         $this->setPointsForNode(1, 6);
         $this->getRootPrg()->markAccredited(11, 6, $this->messages);
@@ -401,13 +403,13 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
         $this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $this->progress_repo->get(1)->getStatus());
 
         $this->getRootPrg()->markNotRelevant(12, 6, $this->messages);
-        
+
         $this->assertEquals(4, $this->progress_repo->get(1)->getCurrentAmountOfPoints());
         $this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $this->progress_repo->get(1)->getStatus());
     }
 
 
-    public function testFailByDeadline() : void
+    public function testFailByDeadline(): void
     {
         $past = DateTimeImmutable::createFromFormat('Ymd', '20010101');
         $progress = $this->progress_repo->get(13)->withDeadline($past);
@@ -420,7 +422,7 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
         );
     }
 
-    public function testDontFailByFutureDeadline() : void
+    public function testDontFailByFutureDeadline(): void
     {
         $progress = $this->progress_repo->get(13);
         $future = (new DateTimeImmutable())->add(new DateInterval('P1D'));
@@ -434,7 +436,7 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
         );
     }
 
-    public function testDontFailByDeadlineIfSucceeded() : void
+    public function testDontFailByDeadlineIfSucceeded(): void
     {
         $progress = $this->progress_repo->get(13)
             ->withStatus(ilStudyProgrammeProgress::STATUS_COMPLETED);
@@ -451,18 +453,18 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
         );
     }
 
-    public function testChangingDeadline() : void
+    public function testChangingDeadline(): void
     {
         $past = DateTimeImmutable::createFromFormat('Ymd', '20010101');
         $this->getRootPrg()->changeProgressDeadline(12, 6, $this->messages, $past);
-        
+
         $this->assertEquals(
             ilStudyProgrammeProgress::STATUS_FAILED,
             $this->progress_repo->get(12)->getStatus()
         );
     }
 
-    public function testDontChangeDeadlineForCompleted() : void
+    public function testDontChangeDeadlineForCompleted(): void
     {
         $this->progress_repo->update(
             $this->progress_repo->get(12)
@@ -471,13 +473,13 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
 
         $past = DateTimeImmutable::createFromFormat('Ymd', '20010101');
         $this->getRootPrg()->changeProgressDeadline(12, 6, $this->messages, $past);
-        
+
         $progress = $this->progress_repo->get(12);
         $this->assertEquals(ilStudyProgrammeProgress::STATUS_COMPLETED, $progress->getStatus());
         $this->assertNull($progress->getDeadline());
     }
 
-    public function testTranstitionToProgressWithPastDeadline() : void
+    public function testTranstitionToProgressWithPastDeadline(): void
     {
         $past = DateTimeImmutable::createFromFormat('Ymd', '20010101');
         $this->progress_repo->update(
@@ -487,14 +489,14 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
         );
 
         $this->getRootPrg()->unmarkAccredited(11, 6, $this->messages);
-        
+
         $this->assertEquals(
             ilStudyProgrammeProgress::STATUS_FAILED,
             $this->progress_repo->get(11)->getStatus()
         );
     }
 
-    public function testChangingValidity() : void
+    public function testChangingValidity(): void
     {
         $future = (new DateTimeImmutable())->add(new DateInterval('P1D'));
         $this->progress_repo->update(
@@ -509,7 +511,7 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
         );
     }
 
-    public function testDontChangeValidityForIncomplete() : void
+    public function testDontChangeValidityForIncomplete(): void
     {
         $future = (new DateTimeImmutable())->add(new DateInterval('P1D'));
         $this->progress_repo->update(
@@ -520,23 +522,23 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
         $this->assertNull($this->progress_repo->get(1)->getValidityOfQualification());
     }
 
-    public function testMarkAsIndividual() : void
+    public function testMarkAsIndividual(): void
     {
         $this->assertFalse($this->progress_repo->get(11)->hasIndividualModifications());
-        
+
         $this->getRootPrg()->markNotRelevant(11, 6, $this->messages);
         $this->assertTrue($this->progress_repo->get(11)->hasIndividualModifications());
 
         $future = (new DateTimeImmutable())->add(new DateInterval('P1D'));
-        
+
         $this->getRootPrg()->changeProgressDeadline(12, 6, $this->messages, $future);
         $this->assertTrue($this->progress_repo->get(12)->hasIndividualModifications());
-        
+
         $this->getRootPrg()->changeProgressValidityDate(13, 6, $this->messages, $future);
         $this->assertFalse($this->progress_repo->get(13)->hasIndividualModifications());
     }
-    
-    public function testUpdateFromSettingsResetsIndividual() : void
+
+    public function testUpdateFromSettingsResetsIndividual(): void
     {
         $future = (new DateTimeImmutable())->add(new DateInterval('P1D'));
         $prg = $this->getRootPrg();
@@ -548,10 +550,10 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
         $this->assertFalse($this->progress_repo->get(12)->hasIndividualModifications());
     }
 
-    public function testUpdatePlanFromSettings() : void
+    public function testUpdatePlanFromSettings(): void
     {
-        $future = (new DateTime())->add(new DateInterval('P1D'));
-        $future2 = (new DateTime())->add(new DateInterval('P4D'));
+        $future = (new DateTimeImmutable())->add(new DateInterval('P1D'));
+        $future2 = (new DateTimeImmutable())->add(new DateInterval('P4D'));
         $points = 73;
 
         $set_dl = new ilStudyProgrammeDeadlineSettings(null, $future);
@@ -567,13 +569,13 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
             $this->mock_tree[$id]['prg']->updateSettings($settings);
             $progress = $this->progress_repo->get($id)
                 ->withAmountOfPoints(69)
-                ->withDeadline(DateTimeImmutable::createFromMutable($future2))
-                ->withValidityOfQualification(DateTimeImmutable::createFromMutable($future));
+                ->withDeadline($future2)
+                ->withValidityOfQualification($future);
             $progress = $progress->markAccredited(
                 new DateTimeImmutable(),
                 6
             );
-            
+
             $this->progress_repo->update($progress);
             $progress = $this->progress_repo->get($id);
             $this->assertEquals($future2, $progress->getDeadline());

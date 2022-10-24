@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,7 +28,7 @@ class VirusScannerFactoryTest extends VirusScannerBaseTest
 {
     public static ilLogger $logger;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -41,17 +43,17 @@ class VirusScannerFactoryTest extends VirusScannerBaseTest
         $logger = $this->getMockBuilder(ilLogger::class)->disableOriginalConstructor()->getMock();
         self::$logger = $logger;
 
-        $logger_factory = new class extends ilLoggerFactory {
+        $logger_factory = new class () extends ilLoggerFactory {
             public function __construct()
             {
             }
 
-            public static function getRootLogger() : ilLogger
+            public static function getRootLogger(): ilLogger
             {
                 return VirusScannerFactoryTest::$logger;
             }
 
-            public function getComponentLogger(string $a_component_id) : ilLogger
+            public function getComponentLogger(string $a_component_id): ilLogger
             {
                 return VirusScannerFactoryTest::$logger;
             }
@@ -68,28 +70,28 @@ class VirusScannerFactoryTest extends VirusScannerBaseTest
         $this->setGlobalVariable('ilErr', $this->getMockBuilder(ilErrorHandling::class)->disableOriginalConstructor()->getMock());
     }
 
-    public function testSophosScanStrategyCanBeRetrievedAccordingToGlobalSetting() : void
+    public function testSophosScanStrategyCanBeRetrievedAccordingToGlobalSetting(): void
     {
         define("IL_VIRUS_SCANNER", 'Sophos');
 
         self::assertInstanceOf(ilVirusScannerSophos::class, ilVirusScannerFactory::_getInstance());
     }
 
-    public function testAntiVirScanStrategyCanBeRetrievedAccordingToGlobalSetting() : void
+    public function testAntiVirScanStrategyCanBeRetrievedAccordingToGlobalSetting(): void
     {
         define("IL_VIRUS_SCANNER", 'AntiVir');
 
         self::assertInstanceOf(ilVirusScannerAntiVir::class, ilVirusScannerFactory::_getInstance());
     }
 
-    public function testClamAvScanStrategyCanBeRetrievedAccordingToGlobalSetting() : void
+    public function testClamAvScanStrategyCanBeRetrievedAccordingToGlobalSetting(): void
     {
         define("IL_VIRUS_SCANNER", 'ClamAV');
 
         self::assertInstanceOf(ilVirusScannerClamAV::class, ilVirusScannerFactory::_getInstance());
     }
 
-    public function testIcapClientScanStrategyCanBeRetrievedAccordingToGlobalSetting() : void
+    public function testIcapClientScanStrategyCanBeRetrievedAccordingToGlobalSetting(): void
     {
         define("IL_VIRUS_SCANNER", 'icap');
         define("IL_ICAP_CLIENT", 'phpunit');

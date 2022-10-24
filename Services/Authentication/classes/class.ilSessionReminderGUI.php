@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,7 +34,7 @@ class ilSessionReminderGUI
         $this->lng = $language;
     }
 
-    public function populatePage() : void
+    public function populatePage(): void
     {
         if (!$this->sessionReminder->isActive()) {
             return;

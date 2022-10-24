@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -15,7 +17,7 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilCtrlTest extends TestCase
 {
-    public function testCallBaseClassWithoutBaseClass() : void
+    public function testCallBaseClassWithoutBaseClass(): void
     {
         $ctrl = $this->getMockedCtrl();
 
@@ -24,7 +26,7 @@ class ilCtrlTest extends TestCase
         $ctrl->callBaseClass();
     }
 
-    public function testCallBaseClassWithInvalidProvidedBaseClass() : void
+    public function testCallBaseClassWithInvalidProvidedBaseClass(): void
     {
         $structure = $this->createMock(ilCtrlStructureInterface::class);
         $structure
@@ -52,7 +54,7 @@ class ilCtrlTest extends TestCase
         $ctrl->callBaseClass($invalid_baseclass);
     }
 
-    public function testForwardCommandWithInvalidObject() : void
+    public function testForwardCommandWithInvalidObject(): void
     {
         $ctrl = $this->getMockedCtrl();
 
@@ -63,7 +65,7 @@ class ilCtrlTest extends TestCase
         $ctrl->forwardCommand(new ilCtrlInvalidGuiClass());
     }
 
-    public function testForwardCommandWithValidObject() : void
+    public function testForwardCommandWithValidObject(): void
     {
         $ctrl = $this->getMockedCtrl();
 
@@ -75,7 +77,7 @@ class ilCtrlTest extends TestCase
         );
     }
 
-    public function testGetHtmlWithInvalidObject() : void
+    public function testGetHtmlWithInvalidObject(): void
     {
         $ctrl = $this->getMockedCtrl();
 
@@ -86,7 +88,7 @@ class ilCtrlTest extends TestCase
         $ctrl->getHTML(new ilCtrlInvalidGuiClass());
     }
 
-    public function testGetHtmlWithValidObject() : void
+    public function testGetHtmlWithValidObject(): void
     {
         $ctrl = $this->getMockedCtrl();
 
@@ -95,7 +97,7 @@ class ilCtrlTest extends TestCase
         $this->assertEquals('foo', $ctrl->getHTML(new ilCtrlCommandClass2TestGUI()));
     }
 
-    public function testGetHtmlWithValidObjectAndParameters() : void
+    public function testGetHtmlWithValidObjectAndParameters(): void
     {
         $ctrl = $this->getMockedCtrl();
 
@@ -104,7 +106,7 @@ class ilCtrlTest extends TestCase
         $this->assertEquals('bar', $ctrl->getHTML(new ilCtrlCommandClass2TestGUI(), ['bar']));
     }
 
-    public function testGetCmdWithoutProvidedCmd() : void
+    public function testGetCmdWithoutProvidedCmd(): void
     {
         $ctrl = $this->getMockedCtrl();
 
@@ -112,7 +114,7 @@ class ilCtrlTest extends TestCase
         $this->assertEmpty($ctrl->getCmd());
     }
 
-    public function testGetCmdWithoutProvidedCmdAndFallback() : void
+    public function testGetCmdWithoutProvidedCmdAndFallback(): void
     {
         $ctrl = new ilCtrl(
             $this->createMock(ilCtrlStructureInterface::class),
@@ -200,7 +202,7 @@ class ilCtrlTest extends TestCase
      *
      * @return ilCtrlInterface
      */
-    private function getMockedCtrl() : ilCtrlInterface
+    private function getMockedCtrl(): ilCtrlInterface
     {
         return new ilCtrl(
             $this->createMock(ilCtrlStructureInterface::class),

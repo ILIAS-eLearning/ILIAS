@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -23,27 +25,26 @@ namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
  */
 interface isParent extends isItem
 {
-    
     /**
      * @return isItem[]
      */
-    public function getChildren() : array;
-    
+    public function getChildren(): array;
+
     /**
      * @param isItem[] $children
      * @return isParent
      */
-    public function withChildren(array $children) : isParent;
-    
+    public function withChildren(array $children): isParent;
+
     /**
      * Attention
      * @param isChild $child
      * @return isParent
      */
-    public function appendChild(isChild $child) : isParent;
-    
+    public function appendChild(isChild $child): isParent;
+
     /**
      * @return bool
      */
-    public function hasChildren() : bool;
+    public function hasChildren(): bool;
 }

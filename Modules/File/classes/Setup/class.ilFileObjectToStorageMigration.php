@@ -25,7 +25,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
 {
     private const FILE_PATH_REGEX = '/.*\/file_([\d]*)$/';
     public const MIGRATION_LOG_CSV = "migration_log.csv";
-    private ilFileObjectToStorageMigrationHelper $helper;
+    private ?ilFileObjectToStorageMigrationHelper $helper = null;
 
     protected bool $prepared = false;
     private bool $confirmed = false;
@@ -35,7 +35,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
     /**
      * @inheritDoc
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Migration of File-Objects to Storage service";
     }
@@ -43,7 +43,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
     /**
      * @inheritDoc
      */
-    public function getDefaultAmountOfStepsPerRun() : int
+    public function getDefaultAmountOfStepsPerRun(): int
     {
         return 10;
     }
@@ -51,7 +51,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
     /**
      * @inheritDoc
      */
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective(),
@@ -64,7 +64,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
     /**
      * @inheritDoc
      */
-    public function prepare(Environment $environment) : void
+    public function prepare(Environment $environment): void
     {
         /**
          * @var $ilias_ini  ilIniFile
@@ -130,8 +130,14 @@ class ilFileObjectToStorageMigration implements Setup\Migration
     /**
      * @inheritDoc
      */
-    public function step(Environment $environment) : void
+    public function step(Environment $environment): void
     {
+        if ($this->helper === null) {
+            $environment->getResource(Environment::RESOURCE_ADMIN_INTERACTION)->inform(
+                "No migration possible, base-directory not found."
+            );
+            return;
+        }
         $this->showConfirmation($environment);
         $item = $this->helper->getNext();
         $this->runner->migrate($item);
@@ -140,7 +146,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
     /**
      * @inheritDoc
      */
-    public function getRemainingAmountOfSteps() : int
+    public function getRemainingAmountOfSteps(): int
     {
         $r = $this->database->query("SELECT COUNT(file_id) AS amount FROM file_data WHERE rid IS NULL OR rid = '';");
         $d = $this->database->fetchObject($r);
@@ -152,7 +158,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
      * @param Environment $environment
      * @return void
      */
-    protected function showConfirmation(Environment $environment) : void
+    protected function showConfirmation(Environment $environment): void
     {
         if (!$this->confirmed) {
             $io = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);

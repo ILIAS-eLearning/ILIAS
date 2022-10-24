@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,7 +32,7 @@ class ilHtmlToPdfTransformerFactory
         $this->lng = $lng;
     }
 
-    protected function generateTempPath(string $output) : string
+    protected function generateTempPath(string $output): string
     {
         $dir = ilFileUtils::ilTempnam();
         if (!is_dir($dir)) {
@@ -54,7 +56,7 @@ class ilHtmlToPdfTransformerFactory
         if (basename($output) === $output) {
             $output = $this->generateTempPath($output);
         }
-        
+
         $job = new ilPDFGenerationJob();
         $job->setFilename($output);
         $job->addPage($src);
@@ -80,7 +82,7 @@ class ilHtmlToPdfTransformerFactory
         return false;
     }
 
-    protected function createOneFileFromArray(array $src) : string
+    protected function createOneFileFromArray(array $src): string
     {
         $tmp_file = dirname(reset($src)) . '/complete_pages_overview.html';
         $html_content = '';

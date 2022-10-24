@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -155,14 +157,14 @@ class ilMailSearchObjectMembershipsTableGUI extends ilTable2GUI
         return $value;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
-        $trafo = $this->refinery->custom()->transformation(function ($value) : string {
-            if (!is_array($value)) {
-                return $this->refinery->in()->series([
-                    $this->refinery->kindlyTo()->int(),
-                    $this->refinery->kindlyTo()->string()
-                ])->transform($value);
+        $trafo = $this->refinery->custom()->transformation(function ($value): string {
+            if (is_string($value)) {
+                return $this->refinery
+                    ->custom()
+                    ->transformation(fn (string $value): string => ilUtil::stripSlashes($value))
+                    ->transform($value);
             }
 
             return implode(
@@ -175,7 +177,7 @@ class ilMailSearchObjectMembershipsTableGUI extends ilTable2GUI
                 )->transform($value)
             );
         });
-        
+
         $current_selection_list = new ilAdvancedSelectionListGUI();
         $current_selection_list->setListTitle($this->lng->txt('actions'));
         $current_selection_list->setId('act_' . md5($a_set['members_id'] . '::' . $a_set['search_' . $this->mode['short']]));

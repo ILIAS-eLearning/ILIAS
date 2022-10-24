@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestTabsManagerTest
@@ -12,7 +28,7 @@ class ilTestTabsManagerTest extends ilTestBaseTestCase
 
     private $tabs_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -27,12 +43,12 @@ class ilTestTabsManagerTest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestTabsManager::class, $this->testObj);
     }
 
-    public function testActivateTab() : void
+    public function testActivateTab(): void
     {
         $this->tabs_mock->expects($this->exactly(2))->method("activateTab");
         $this->testObj->activateTab(ilTestTabsManager::TAB_ID_EXAM_DASHBOARD);
@@ -40,7 +56,7 @@ class ilTestTabsManagerTest extends ilTestBaseTestCase
         $this->testObj->activateTab("randomString");
     }
 
-    public function testActivateSubTab() : void
+    public function testActivateSubTab(): void
     {
         $this->tabs_mock->expects($this->exactly(10))->method("activateSubTab");
 
@@ -58,35 +74,35 @@ class ilTestTabsManagerTest extends ilTestBaseTestCase
         $this->testObj->activateSubTab("randomString");
     }
 
-    public function testTestOBJ() : void
+    public function testTestOBJ(): void
     {
         $mock = $this->createMock(ilObjTest::class);
         $this->testObj->setTestOBJ($mock);
         $this->assertEquals($mock, $this->testObj->getTestOBJ());
     }
 
-    public function testTestSession() : void
+    public function testTestSession(): void
     {
         $mock = $this->createMock(ilTestSession::class);
         $this->testObj->setTestSession($mock);
         $this->assertEquals($mock, $this->testObj->getTestSession());
     }
 
-    public function testTestQuestionSetConfig() : void
+    public function testTestQuestionSetConfig(): void
     {
         $mock = $this->createMock(ilTestQuestionSetConfig::class);
         $this->testObj->setTestQuestionSetConfig($mock);
         $this->assertEquals($mock, $this->testObj->getTestQuestionSetConfig());
     }
 
-    public function testHiddenTabs() : void
+    public function testHiddenTabs(): void
     {
         $expected = ["Test", "Hello", "World"];
         $this->testObj->setHiddenTabs($expected);
         $this->assertEquals($expected, $this->testObj->getHiddenTabs());
     }
 
-    public function testResetHiddenTabs() : void
+    public function testResetHiddenTabs(): void
     {
         $expected = ["Test", "Hello", "World"];
         $this->testObj->setHiddenTabs($expected);
@@ -94,19 +110,19 @@ class ilTestTabsManagerTest extends ilTestBaseTestCase
         $this->assertEquals([], $this->testObj->getHiddenTabs());
     }
 
-    public function testParentBackLabel() : void
+    public function testParentBackLabel(): void
     {
         $this->testObj->setParentBackLabel("Test");
         $this->assertEquals("Test", $this->testObj->getParentBackLabel());
     }
 
-    public function testParentBackHref() : void
+    public function testParentBackHref(): void
     {
         $this->testObj->setParentBackHref("Test");
         $this->assertEquals("Test", $this->testObj->getParentBackHref());
     }
 
-    public function testHasParentBackLink() : void
+    public function testHasParentBackLink(): void
     {
         $this->assertFalse($this->testObj->hasParentBackLink());
 

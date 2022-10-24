@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Button;
 
 use ILIAS\UI\Component\Signal;
@@ -39,7 +41,7 @@ interface Toggle extends Button
      */
     public function getActionOff();
 
-    public function withAdditionalToggleOnSignal(Signal $signal) : Toggle;
+    public function withAdditionalToggleOnSignal(Signal $signal): Toggle;
 
-    public function withAdditionalToggleOffSignal(Signal $signal) : Toggle;
+    public function withAdditionalToggleOffSignal(Signal $signal): Toggle;
 }

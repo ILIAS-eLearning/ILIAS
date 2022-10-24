@@ -39,7 +39,7 @@ class ilPCMapGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -54,16 +54,16 @@ class ilPCMapGUI extends ilPageContentGUI
         }
     }
 
-    public function insert() : void
+    public function insert(): void
     {
         $tpl = $this->tpl;
-        
+
         $this->displayValidationError();
         $this->initForm("create");
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function edit() : void
+    public function edit(): void
     {
         $tpl = $this->tpl;
         $this->displayValidationError();
@@ -72,10 +72,10 @@ class ilPCMapGUI extends ilPageContentGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function getValues() : void
+    public function getValues(): void
     {
         $values = array();
-        
+
         $values["location"]["latitude"] = $this->content_obj->getLatitude();
         $values["location"]["longitude"] = $this->content_obj->getLongitude();
         $values["location"]["zoom"] = $this->content_obj->getZoom();
@@ -83,11 +83,11 @@ class ilPCMapGUI extends ilPageContentGUI
         $values["height"] = $this->content_obj->getHeight();
         $values["caption"] = ilPCMap::handleCaptionFormOutput($this->content_obj->getCaption());
         $values["horizontal_align"] = $this->content_obj->getHorizontalAlign();
-        
+
         $this->form->setValuesByArray($values);
     }
 
-    public function initForm(string $a_mode) : void
+    public function initForm(string $a_mode): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -162,10 +162,10 @@ class ilPCMapGUI extends ilPageContentGUI
         }
     }
 
-    public function create() : void
+    public function create(): void
     {
         $tpl = $this->tpl;
-        
+
         $this->initForm("create");
         if ($this->form->checkInput()) {
             $this->content_obj = new ilPCMap($this->getPage());
@@ -193,10 +193,10 @@ class ilPCMapGUI extends ilPageContentGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function update() : void
+    public function update(): void
     {
         $tpl = $this->tpl;
-        
+
         $this->initForm("update");
         if ($this->form->checkInput()) {
             $location = $this->form->getInput("location");

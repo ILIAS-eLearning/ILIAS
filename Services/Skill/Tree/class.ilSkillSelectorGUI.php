@@ -31,11 +31,6 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
     protected string $select_par = "";
     protected SkillAdminGUIRequest $admin_gui_request;
 
-    /**
-     * @var string[]
-     */
-    protected array $requested_selected_ids = [];
-
     public function __construct(
         $a_parent_obj,
         string $a_parent_cmd,
@@ -55,18 +50,17 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
         $this->select_cmd = $a_select_cmd;
         $this->select_par = $a_select_par;
         $this->setSkipRootNode(true);
-        $this->requested_selected_ids = $this->admin_gui_request->getSelectedIds($this->select_postvar);
     }
 
-    public function setSkillSelected(string $a_id) : void
+    public function setSkillSelected(string $a_id): void
     {
         $this->setNodeSelected($this->vtree->getCSkillIdForVTreeId($a_id));
     }
 
-    public function getSelectedSkills() : array
+    public function getSelectedSkills(): array
     {
         $skills = [];
-        $pa = $this->requested_selected_ids;
+        $pa = $this->admin_gui_request->getSelectedIds($this->select_postvar);
         if (!empty($pa)) {
             foreach ($pa as $p) {
                 $skills[] = $this->vtree->getCSkillIdForVTreeId($p);
@@ -74,21 +68,21 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
         }
         return $skills;
     }
-    
+
     /**
      * @inheritdoc
      */
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
         if ($this->select_multi) {
             return "#";
         }
 
         $ilCtrl = $this->ctrl;
-        
+
         // we have a tree id like <skl_tree_id>:<skl_template_tree_id>
         // and make a "common" skill id in format <skill_id>:<tref_id>
-        
+
         $id_parts = explode(":", $a_node["id"]);
         if (!isset($id_parts[1]) || $id_parts[1] == 0) {
             // skill in main tree
@@ -97,18 +91,18 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
             // skill in template
             $skill_id = $id_parts[1] . ":" . $id_parts[0];
         }
-        
+
         $ilCtrl->setParameterByClass($this->select_gui, $this->select_par, $skill_id);
         $ret = $ilCtrl->getLinkTargetByClass($this->select_gui, $this->select_cmd);
         $ilCtrl->setParameterByClass($this->select_gui, $this->select_par, "");
-        
+
         return $ret;
     }
 
     /**
      * @inheritdoc
      */
-    public function isNodeClickable($a_node) : bool
+    public function isNodeClickable($a_node): bool
     {
         return $this->nodeHasAction($a_node);
     }
@@ -116,7 +110,7 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
     /**
      * @inheritdoc
      */
-    protected function isNodeSelectable($a_node) : bool
+    protected function isNodeSelectable($a_node): bool
     {
         return $this->nodeHasAction($a_node);
     }
@@ -125,7 +119,7 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
      * @param array|object $a_node
      * @return bool
      */
-    private function nodeHasAction($a_node) : bool
+    private function nodeHasAction($a_node): bool
     {
         if (in_array($a_node["type"], array("skll", "sktp"))) {
             return true;

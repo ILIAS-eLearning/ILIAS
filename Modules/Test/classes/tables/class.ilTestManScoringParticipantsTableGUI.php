@@ -1,8 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 *
@@ -14,19 +26,19 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
 {
-    const PARENT_DEFAULT_CMD = 'showManScoringParticipantsTable';
-    const PARENT_APPLY_FILTER_CMD = 'applyManScoringParticipantsFilter';
-    const PARENT_RESET_FILTER_CMD = 'resetManScoringParticipantsFilter';
-    
-    const PARENT_EDIT_SCORING_CMD = 'showManScoringParticipantScreen';
-    
+    public const PARENT_DEFAULT_CMD = 'showManScoringParticipantsTable';
+    public const PARENT_APPLY_FILTER_CMD = 'applyManScoringParticipantsFilter';
+    public const PARENT_RESET_FILTER_CMD = 'resetManScoringParticipantsFilter';
+
+    public const PARENT_EDIT_SCORING_CMD = 'showManScoringParticipantScreen';
+
     public function __construct($parentObj)
     {
         $this->setPrefix('manScorePartTable');
         $this->setId('manScorePartTable');
 
         parent::__construct($parentObj, self::PARENT_DEFAULT_CMD);
-        
+
         $this->setFilterCommand(self::PARENT_APPLY_FILTER_CMD);
         $this->setResetCommand(self::PARENT_RESET_FILTER_CMD);
 
@@ -47,12 +59,12 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
 
         $this->initFilter();
     }
-    
-    private function initColumns() : void
+
+    private function initColumns(): void
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         if ($this->parent_obj->getObject()->getAnonymity()) {
             $this->addColumn($lng->txt("name"), 'lastname', '100%');
         } else {
@@ -60,25 +72,25 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
             $this->addColumn($lng->txt("firstname"), 'firstname', '');
             $this->addColumn($lng->txt("login"), 'login', '');
         }
-        
-        $this->addColumn('', '', '1%');
+
+        $this->addColumn($this->lng->txt('actions'), '', '1%');
     }
-    
-    private function initOrdering() : void
+
+    private function initOrdering(): void
     {
         $this->enable('sort');
 
         $this->setDefaultOrderField("lastname");
         $this->setDefaultOrderDirection("asc");
     }
-    
-    public function initFilter() : void
+
+    public function initFilter(): void
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         $this->setDisableFilterHiding(true);
-        
+
         include_once 'Services/Form/classes/class.ilSelectInputGUI.php';
         $participantStatus = new ilSelectInputGUI($lng->txt('tst_participant_status'), 'participant_status');
 
@@ -95,37 +107,37 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
         $this->addFilterItem($participantStatus);
 
         $participantStatus->readFromSession();
-        
+
         if (!$participantStatus->getValue()) {
             $participantStatus->setValue((string) ilTestScoringGUI::PART_FILTER_MANSCORING_NONE);
         }
     }
 
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
 
         $ilCtrl->setParameter($this->parent_obj, 'active_id', $a_set['active_id']);
-    
+
         if (!$this->parent_obj->object->getAnonymity()) {
             $this->tpl->setCurrentBlock('personal');
             $this->tpl->setVariable("PARTICIPANT_FIRSTNAME", $a_set['firstname']);
             $this->tpl->setVariable("PARTICIPANT_LOGIN", $a_set['login']);
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->tpl->setVariable("PARTICIPANT_LASTNAME", $a_set['lastname']);
 
         $this->tpl->setVariable("HREF_SCORE_PARTICIPANT", $ilCtrl->getLinkTarget($this->parent_obj, self::PARENT_EDIT_SCORING_CMD));
         $this->tpl->setVariable("TXT_SCORE_PARTICIPANT", $lng->txt('tst_edit_scoring'));
     }
-    
-    public function getInternalyOrderedDataValues() : array
+
+    public function getInternalyOrderedDataValues(): array
     {
         $this->determineOffsetAndOrder();
-        
+
         return ilArrayUtil::sortArray(
             $this->getData(),
             $this->getOrderField(),

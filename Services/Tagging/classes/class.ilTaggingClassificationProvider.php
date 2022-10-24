@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -57,7 +59,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
         $this->requested_tag_code = trim($body["tag"] ?? ($params["tag"] ?? ""));
     }
 
-    protected function init() : void
+    protected function init(): void
     {
         $tags_set = new ilSetting("tags");
         $this->enable_all_users = (bool) $tags_set->get("enable_all_users", '0');
@@ -70,7 +72,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
         int $a_parent_ref_id,
         int $a_parent_obj_id,
         string $a_parent_obj_type
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilUser = $DIC->user();
@@ -100,7 +102,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
     public function render(
         array &$a_html,
         object $a_parent_gui
-    ) : void {
+    ): void {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
 
@@ -125,12 +127,12 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
                     $tpl->setCurrentBlock("tag_bl");
                     foreach ($tags as $tag => $counter) {
                         $ctrl->setParameter($a_parent_gui, "tag_type", $type);
-                        $ctrl->setParameter($a_parent_gui, "tag", md5($tag));
+                        $ctrl->setParameter($a_parent_gui, "tag", md5((string) $tag));
                         $tpl->setVariable("HREF", $ctrl->getLinkTarget($a_parent_gui, "toggle"));
 
                         $tpl->setVariable("TAG_TYPE", $type);
                         $tpl->setVariable("TAG_TITLE", $tag);
-                        $tpl->setVariable("TAG_CODE", md5($tag));
+                        $tpl->setVariable("TAG_CODE", md5((string) $tag));
                         $tpl->setVariable(
                             "REL_CLASS",
                             ilTagging::getRelevanceClass($counter, $max)
@@ -155,7 +157,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
     /**
      * @inheritDoc
      */
-    public function importPostData(?array $a_saved = null) : array
+    public function importPostData(?array $a_saved = null): array
     {
         $type = $this->requested_type;
         $tag_code = $this->requested_tag_code;
@@ -191,7 +193,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
     /**
      * @inheritDoc
      */
-    public function setSelection(array $a_value) : void
+    public function setSelection(array $a_value): void
     {
         $this->selection = $a_value;
     }
@@ -199,7 +201,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
     /**
      * @inheritDoc
      */
-    public function getFilteredObjects() : array
+    public function getFilteredObjects(): array
     {
         $ilUser = $this->user;
 
@@ -220,7 +222,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
                     : true;
 
                 foreach ($this->selection[$type] as $tag) {
-                    $found[$tag] = array_keys(ilTagging::_findObjectsByTag($tag, $ilUser->getId(), $invert));
+                    $found[$tag] = array_keys(ilTagging::_findObjectsByTag((string) $tag, $ilUser->getId(), $invert));
                 }
             }
         }
@@ -249,7 +251,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
         return [];
     }
 
-    protected function getSubTreeTags() : array
+    protected function getSubTreeTags(): array
     {
         $tree = $this->tree;
         $ilUser = $this->user;
@@ -284,7 +286,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
         return [];
     }
 
-    public function initListGUI(ilObjectListGUI $a_list_gui) : void
+    public function initListGUI(ilObjectListGUI $a_list_gui): void
     {
         $a_list_gui->enableTags(true);
     }

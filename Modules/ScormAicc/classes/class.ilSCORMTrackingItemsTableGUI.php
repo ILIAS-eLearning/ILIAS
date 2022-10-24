@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -28,7 +30,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
     private bool $bySCO = false;
     private array $scosSelected;
     private array $userSelected;
-    private bool $allowExportPrivacy;
+    private bool $allowExportPrivacy = false;
     private string $lmTitle = "";
     private string $report;
 
@@ -46,7 +48,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         $lng = $DIC->language();
         $rbacsystem = $DIC->rbac();
         $lng->loadLanguageModule("scormtrac");
-    
+
         $this->obj_id = $a_obj_id;
         $this->report = $a_report;
         $this->scosSelected = $a_scosSelected;
@@ -55,7 +57,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
             $this->bySCO = true;
         }
         if ($a_parent_obj !== null) {
-            $this->lmTitle = $a_parent_obj->object->getTitle();
+            $this->lmTitle = $a_parent_obj->getObject()->getTitle();
         }
 
         $this->setId('AICC' . $this->report);
@@ -110,11 +112,11 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
     /**
      * @return array<string, array<string, mixed>>
      */
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         // default fields
         $cols = array();
-        
+
         switch ($this->report) {
             case "exportSelectedCore":
                 $cols = ilSCORMTrackingItems::exportSelectedCoreColumns($this->bySCO, $this->allowExportPrivacy);
@@ -141,16 +143,16 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
                 $cols = ilSCORMTrackingItems::exportSelectedSuccessColumns();
             break;
         }
-        
+
         return $cols;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function getItems() : void
+    public function getItems(): void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -208,8 +210,8 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         $lng->loadLanguageModule("trac");
         if ($id === "status") {
             $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SCORM);
-            $path = $icons->getImagePathForStatus($value);
-            $text = ilLearningProgressBaseGUI::_getStatusText((integer) $value);
+            $path = $icons->getImagePathForStatus((int) $value);
+            $text = ilLearningProgressBaseGUI::_getStatusText((int) $value);
             $value = ilUtil::img($path, $text);
         }
         //BLUM round
@@ -217,7 +219,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
             return $value;
         }
         if (is_numeric($value)) {
-            return round($value, 2);
+            return round((float)$value, 2);
         }
         return $value;
     }
@@ -226,7 +228,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
      * Fill table row
      * @throws ilTemplateException
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -239,7 +241,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row) : void
+    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row): void
     {
         $labels = $this->getSelectableColumns();
         $cnt = 0;
@@ -249,7 +251,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set): void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -266,7 +268,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillHeaderCSV(ilCSVWriter $a_csv) : void
+    protected function fillHeaderCSV(ilCSVWriter $a_csv): void
     {
         $labels = $this->getSelectableColumns();
         foreach ($this->getSelectedColumns() as $c) {
@@ -276,7 +278,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         $a_csv->addRow();
     }
 
-    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -289,7 +291,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
             }
             $a_csv->addColumn($val);
         }
-        
+
         $a_csv->addRow();
     }
 }

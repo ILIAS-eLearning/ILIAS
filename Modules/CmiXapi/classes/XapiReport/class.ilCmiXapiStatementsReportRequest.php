@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@
 class ilCmiXapiStatementsReportRequest extends ilCmiXapiAbstractRequest
 {
     protected ilCmiXapiStatementsReportLinkBuilder $linkBuilder;
-    
+
     /**
      * ilCmiXapiStatementsReportRequest constructor.
      */
@@ -37,11 +39,11 @@ class ilCmiXapiStatementsReportRequest extends ilCmiXapiAbstractRequest
         parent::__construct($basicAuth);
         $this->linkBuilder = $linkBuilder;
     }
-    
-    public function queryReport(int $objId) : \ilCmiXapiStatementsReport
+
+    public function queryReport(int $objId): \ilCmiXapiStatementsReport
     {
         $reportResponse = $this->sendRequest($this->linkBuilder->getUrl());
-        
+
         return new ilCmiXapiStatementsReport($reportResponse, $objId);
     }
 }

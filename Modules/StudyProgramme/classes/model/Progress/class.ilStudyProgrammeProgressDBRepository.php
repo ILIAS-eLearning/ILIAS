@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -56,7 +58,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         ilStudyProgrammeSettings $prg,
         ilStudyProgrammeAssignment $ass,
         int $acting_user = null
-    ) : ilStudyProgrammeProgress {
+    ): ilStudyProgrammeProgress {
         $id = $this->nextId();
         $row = [
             self::FIELD_ID => $id,
@@ -85,7 +87,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
      *
      * @throws ilException
      */
-    public function get(int $id) : ilStudyProgrammeProgress
+    public function get(int $id): ilStudyProgrammeProgress
     {
         foreach ($this->loadByFilter([self::FIELD_ID => $id]) as $row) {
             return $this->buildByRow($row);
@@ -102,7 +104,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
     public function getByIds(
         int $prg_id,
         int $assignment_id
-    ) : ilStudyProgrammeProgress {
+    ): ilStudyProgrammeProgress {
         return $this->getByPrgIdAndAssignmentId($prg_id, $assignment_id);
     }
 
@@ -150,7 +152,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
      *
      * @throws ilException
      */
-    public function getByPrgIdAndUserId(int $prg_id, int $usr_id) : array
+    public function getByPrgIdAndUserId(int $prg_id, int $usr_id): array
     {
         $return = [];
         foreach ($this->loadByFilter([self::FIELD_PRG_ID => $prg_id, self::FIELD_USR_ID => $usr_id]) as $row) {
@@ -164,7 +166,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
      *
      * @throws ilException
      */
-    public function getByPrgId(int $prg_id) : array
+    public function getByPrgId(int $prg_id): array
     {
         $return = [];
         foreach ($this->loadByFilter([self::FIELD_PRG_ID => $prg_id]) as $row) {
@@ -190,7 +192,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
      * @throws ilException
      * @return ilStudyProgrammeProgress[]
      */
-    public function getByAssignmentId(int $assignment_id) : array
+    public function getByAssignmentId(int $assignment_id): array
     {
         $return = [];
         foreach ($this->loadByFilter([self::FIELD_ASSIGNMENT_ID => $assignment_id]) as $row) {
@@ -204,7 +206,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
      *
      * @throws ilException
      */
-    public function getExpiredSuccessfull() : array
+    public function getExpiredSuccessfull(): array
     {
         $return = [];
         foreach ($this->loadExpiredSuccessful() as $row) {
@@ -216,7 +218,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
     /**
      * @throws ilException
      */
-    public function getPassedDeadline() : array
+    public function getPassedDeadline(): array
     {
         $return = [];
         foreach ($this->loadPassedDeadline() as $row) {
@@ -228,7 +230,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
     /**
      * @throws ilException
      */
-    public function getRiskyToFailInstances() : array
+    public function getRiskyToFailInstances(): array
     {
         $return = [];
         foreach ($this->loadRiskyToFailInstance() as $row) {
@@ -240,7 +242,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
     /**
      * @inheritdoc
      */
-    public function update(ilStudyProgrammeProgress $progress) : void
+    public function update(ilStudyProgrammeProgress $progress): void
     {
         $this->updateRowDB(
             [
@@ -280,7 +282,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         );
     }
 
-    protected function insertRowDB(array $row) : void
+    protected function insertRowDB(array $row): void
     {
         $this->db->insert(
             self::TABLE,
@@ -308,7 +310,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
     /**
      * @return int[] node_ids the user had progresses on
      */
-    public function deleteForAssignmentId(int $assignment_id) : array
+    public function deleteForAssignmentId(int $assignment_id): array
     {
         $progresses = $this->getByAssignmentId($assignment_id);
 
@@ -319,14 +321,14 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         $this->db->manipulate($query);
 
         return array_map(
-            static function (ilStudyProgrammeProgress $progress) : int {
+            static function (ilStudyProgrammeProgress $progress): int {
                 return $progress->getNodeId();
             },
             $progresses
         );
     }
 
-    public function sentRiskyToFailFor(int $progress_id) : void
+    public function sentRiskyToFailFor(int $progress_id): void
     {
         $where = [
             self::FIELD_ID => [
@@ -345,7 +347,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         $this->db->update(self::TABLE, $values, $where);
     }
 
-    public function sentExpiryInfoFor(int $progress_id) : void
+    public function sentExpiryInfoFor(int $progress_id): void
     {
         $where = [
             self::FIELD_ID => [
@@ -364,7 +366,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         $this->db->update(self::TABLE, $values, $where);
     }
 
-    protected function updateRowDB(array $data) : void
+    protected function updateRowDB(array $data): void
     {
         $where = [
             self::FIELD_ID => [
@@ -442,7 +444,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
     /**
      * @throws ilException
      */
-    protected function buildByRow(array $row) : ilStudyProgrammeProgress
+    protected function buildByRow(array $row): ilStudyProgrammeProgress
     {
         $prgrs = (new ilStudyProgrammeProgress((int) $row[self::FIELD_ID]))
             ->withAssignmentId((int) $row[self::FIELD_ASSIGNMENT_ID])
@@ -487,7 +489,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         return $prgrs;
     }
 
-    protected function loadByFilter(array $filter) : Generator
+    protected function loadByFilter(array $filter): Generator
     {
         $q = $this->getSQLHeader()
             . '	WHERE TRUE';
@@ -500,7 +502,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         }
     }
 
-    protected function loadExpiredSuccessful() : Generator
+    protected function loadExpiredSuccessful(): Generator
     {
         $q = $this->getSQLHeader()
             . ' WHERE ' . $this->db->in(
@@ -526,7 +528,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         }
     }
 
-    protected function loadPassedDeadline() : Generator
+    protected function loadPassedDeadline(): Generator
     {
         $q =
              $this->getSQLHeader() . PHP_EOL
@@ -551,7 +553,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         }
     }
 
-    protected function loadRiskyToFailInstance() : Generator
+    protected function loadRiskyToFailInstance(): Generator
     {
         $q = $this->getSQLHeader()
             . ' WHERE ' . $this->db->in(
@@ -577,7 +579,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         }
     }
 
-    protected function getSQLHeader() : string
+    protected function getSQLHeader(): string
     {
         return 'SELECT ' . self::FIELD_ID
             . ', ' . self::FIELD_ASSIGNMENT_ID
@@ -602,7 +604,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
      * @param array <int, DateTimeImmutable>    $programmes_and_due
      * @return ilStudyProgrammeProgress[]
      */
-    public function getRiskyToFail(array $programmes_and_due) : array
+    public function getRiskyToFail(array $programmes_and_due): array
     {
         $ret = [];
         if (count($programmes_and_due) === 0) {
@@ -619,7 +621,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
                 . ')';
         }
         $query = $this->getSQLHeader() . ' WHERE ' . implode(' OR ', $where);
-        
+
         $res = $this->db->query($query);
         while ($rec = $this->db->fetchAssoc($res)) {
             $ret[] = $this->buildByRow($rec);
@@ -634,7 +636,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
     public function getAboutToExpire(
         array $programmes_and_due,
         bool $discard_formerly_notified = true
-    ) : array {
+    ): array {
         $ret = [];
         if (count($programmes_and_due) === 0) {
             return $ret;
@@ -650,7 +652,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
             if ($discard_formerly_notified) {
                 $where_clause .= ' AND ' . self::FIELD_MAIL_SENT_WILLEXPIRE . ' IS NULL';
             }
-            
+
             $where_clause .= ')';
             $where[] = $where_clause;
         }
@@ -662,8 +664,8 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         }
         return $ret;
     }
-        
-    protected function nextId() : int
+
+    protected function nextId(): int
     {
         return $this->db->nextId(self::TABLE);
     }
@@ -671,7 +673,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
     public function deleteAllOrphanedProgresses(
         string $assignment_table,
         string $assignment_id_field
-    ) : void {
+    ): void {
         $query = 'DELETE FROM ' . self::TABLE . PHP_EOL
             . 'WHERE ' . self::FIELD_ASSIGNMENT_ID . PHP_EOL
             . 'NOT IN (' . PHP_EOL
@@ -681,7 +683,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         $this->db->manipulate($query);
     }
 
-    public function deleteProgressesFor(int $prg_obj_id) : void
+    public function deleteProgressesFor(int $prg_obj_id): void
     {
         $query = 'DELETE FROM ' . self::TABLE . PHP_EOL
             . ' WHERE ' . self::FIELD_PRG_ID . ' = '

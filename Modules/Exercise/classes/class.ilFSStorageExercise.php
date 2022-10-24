@@ -39,15 +39,15 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
     /**
      * Append ass_<ass_id> to path (assignment id)
      */
-    public function init() : bool
+    public function init(): bool
     {
         if (parent::init()) {
             if ($this->ass_id > 0) {
-                $this->submission_path = $this->path . "/subm_" . $this->ass_id;
-                $this->tmp_path = $this->path . "/tmp_" . $this->ass_id;
-                $this->feedb_path = $this->path . "/feedb_" . $this->ass_id;
-                $this->multi_feedback_upload_path = $this->path . "/mfb_up_" . $this->ass_id;
-                $this->peer_review_upload_path = $this->path . "/peer_up_" . $this->ass_id;
+                $this->submission_path = $this->getAbsolutePath() . "/subm_" . $this->ass_id;
+                $this->tmp_path = $this->getAbsolutePath() . "/tmp_" . $this->ass_id;
+                $this->feedb_path = $this->getAbsolutePath() . "/feedb_" . $this->ass_id;
+                $this->multi_feedback_upload_path = $this->getAbsolutePath() . "/mfb_up_" . $this->ass_id;
+                $this->peer_review_upload_path = $this->getAbsolutePath() . "/peer_up_" . $this->ass_id;
                 $this->path .= "/ass_" . $this->ass_id;
             }
         } else {
@@ -56,29 +56,29 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
         return true;
     }
 
-    protected function getPathPostfix() : string
+    protected function getPathPostfix(): string
     {
         return 'exc';
     }
 
-    protected function getPathPrefix() : string
+    protected function getPathPrefix(): string
     {
         return 'ilExercise';
     }
 
-    public function getAbsoluteSubmissionPath() : string
+    public function getAbsoluteSubmissionPath(): string
     {
         return $this->submission_path;
     }
 
-    public function getTempPath() : string
+    public function getTempPath(): string
     {
         return $this->tmp_path;
     }
 
     public function getFeedbackPath(
         string $a_user_id
-    ) : string {
+    ): string {
         $path = $this->feedb_path . "/" . $a_user_id;
         if (!file_exists($path)) {
             ilFileUtils::makeDirParents($path);
@@ -86,7 +86,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
         return $path;
     }
 
-    public function getGlobalFeedbackPath() : string
+    public function getGlobalFeedbackPath(): string
     {
         $path = $this->feedb_path . "/0";
         if (!file_exists($path)) {
@@ -101,7 +101,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
      */
     public function getMultiFeedbackUploadPath(
         int $a_user_id
-    ) : string {
+    ): string {
         $path = $this->multi_feedback_upload_path . "/" . $a_user_id;
         if (!file_exists($path)) {
             ilFileUtils::makeDirParents($path);
@@ -117,7 +117,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
         int $a_peer_id,
         int $a_giver_id,
         ?int $a_crit_id = null
-    ) : string {
+    ): string {
         $path = $this->peer_review_upload_path . "/" . $a_peer_id . "/" . $a_giver_id . "/";
 
         if ((int) $a_crit_id !== 0) {
@@ -132,7 +132,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
     /**
      * Create directory
      */
-    public function create() : void
+    public function create(): void
     {
         parent::create();
         if (!file_exists($this->submission_path)) {
@@ -146,7 +146,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
         }
     }
 
-    public function getFiles() : array
+    public function getFiles(): array
     {
         $files = array();
         if (!is_dir($this->path)) {
@@ -185,7 +185,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
         array $a_http_post_file,
         int $user_id,
         bool $is_unziped = false
-    ) : ?array {
+    ): ?array {
         $this->create();
         // TODO:
         // CHECK UPLOAD LIMIT
@@ -253,7 +253,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
      */
     public function getFeedbackFiles(
         string $a_user_id
-    ) : array {
+    ): array {
         $files = array();
 
         $dir = $this->getFeedbackPath($a_user_id);
@@ -271,12 +271,12 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
 
     public function countFeedbackFiles(
         string $a_user_id
-    ) : int {
+    ): int {
         $fbf = $this->getFeedbackFiles($a_user_id);
         return count($fbf);
     }
 
-    public function getAssignmentFilePath(string $a_file) : string
+    public function getAssignmentFilePath(string $a_file): string
     {
         return $this->getAbsolutePath() . "/" . $a_file;
     }
@@ -284,7 +284,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
     public function getFeedbackFilePath(
         string $a_user_id,
         string $a_file
-    ) : string {
+    ): string {
         $dir = $this->getFeedbackPath($a_user_id);
         return $dir . "/" . $a_file;
     }
@@ -294,7 +294,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
      */
     public function uploadAssignmentFiles(
         array $a_files
-    ) : void {
+    ): void {
         if (is_array($a_files["name"])) {
             foreach ($a_files["name"] as $k => $name) {
                 if ($name != "") {
@@ -302,7 +302,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
                     ilFileUtils::moveUploadedFile(
                         $tmp_name,
                         basename($name),
-                        $this->path . DIRECTORY_SEPARATOR . basename($name),
+                        $this->getAbsolutePath() . DIRECTORY_SEPARATOR . basename($name),
                         false
                     );
                 }

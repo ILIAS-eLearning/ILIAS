@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,7 +25,7 @@
  */
 class ilCertificateUtilHelper
 {
-    public function deliverData(string $data, string $fileName, string $mimeType) : void
+    public function deliverData(string $data, string $fileName, string $mimeType): void
     {
         ilUtil::deliverData(
             $data,
@@ -32,7 +34,7 @@ class ilCertificateUtilHelper
         );
     }
 
-    public function prepareFormOutput(string $string) : string
+    public function prepareFormOutput(string $string): string
     {
         return ilLegacyFormElementsUtil::prepareFormOutput($string);
     }
@@ -43,36 +45,36 @@ class ilCertificateUtilHelper
         string $targetFormat = '',
         string $geometry = '',
         string $backgroundColor = ''
-    ) : void {
+    ): void {
         ilShellUtil::convertImage($from, $to, $targetFormat, $geometry, $backgroundColor);
     }
 
-    public function stripSlashes(string $string) : string
+    public function stripSlashes(string $string): string
     {
         return ilUtil::stripSlashes($string);
     }
 
-    public function zip(string $exportPath, string $zipPath) : void
+    public function zip(string $exportPath, string $zipPath): void
     {
         ilFileUtils::zip($exportPath, $zipPath);
     }
 
-    public function deliverFile(string $zipPath, string $zipFileName, string $mime) : void
+    public function deliverFile(string $zipPath, string $zipFileName, string $mime): void
     {
         ilFileDelivery::deliverFileLegacy($zipPath, $zipFileName, $mime);
     }
 
-    public function getDir(string $copyDirectory) : array
+    public function getDir(string $copyDirectory): array
     {
         return ilFileUtils::getDir($copyDirectory);
     }
 
-    public function unzip(string $file, bool $overwrite) : void
+    public function unzip(string $file, bool $overwrite): void
     {
         ilFileUtils::unzip($file, $overwrite);
     }
 
-    public function delDir(string $path) : void
+    public function delDir(string $path): void
     {
         ilFileUtils::delDir($path);
     }
@@ -92,7 +94,7 @@ class ilCertificateUtilHelper
         string $target,
         bool $raise_errors = true,
         string $mode = 'move_uploaded'
-    ) : bool {
+    ): bool {
         return ilFileUtils::moveUploadedFile(
             $file,
             $name,
@@ -107,7 +109,7 @@ class ilCertificateUtilHelper
         string $module_path = "",
         string $mode = "output",
         bool $offline = false
-    ) : string {
+    ): string {
         return ilUtil::getImagePath(
             $img,
             $module_path,

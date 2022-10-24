@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -64,7 +66,7 @@ class ilTaggingGUI
     /**
      * Execute command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -91,7 +93,7 @@ class ilTaggingGUI
         string $a_obj_type,
         int $a_sub_obj_id = 0,
         string $a_sub_obj_type = ""
-    ) : void {
+    ): void {
         $ilUser = $this->user;
 
         $this->obj_id = $a_obj_id;
@@ -112,37 +114,37 @@ class ilTaggingGUI
         }
     }
 
-    public function setUserId(int $a_userid) : void
+    public function setUserId(int $a_userid): void
     {
         $this->userid = $a_userid;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->userid;
     }
 
-    public function setSaveCmd(string $a_savecmd) : void
+    public function setSaveCmd(string $a_savecmd): void
     {
         $this->savecmd = $a_savecmd;
     }
 
-    public function getSaveCmd() : string
+    public function getSaveCmd(): string
     {
         return $this->savecmd;
     }
 
-    public function setInputFieldName(string $a_inputfieldname) : void
+    public function setInputFieldName(string $a_inputfieldname): void
     {
         $this->inputfieldname = $a_inputfieldname;
     }
 
-    public function getInputFieldName() : string
+    public function getInputFieldName(): string
     {
         return $this->inputfieldname;
     }
 
-    public function getTaggingInputHTML() : string
+    public function getTaggingInputHTML(): string
     {
         $lng = $this->lng;
 
@@ -167,7 +169,7 @@ class ilTaggingGUI
         return $ttpl->get();
     }
 
-    protected function getTagsFromInput(string $input) : array
+    protected function getTagsFromInput(string $input): array
     {
         $input = ilUtil::stripSlashes($input);
         $input = str_replace("\r", "\n", $input);
@@ -177,7 +179,7 @@ class ilTaggingGUI
         return $itags;
     }
 
-    public function saveInput() : void
+    public function saveInput(): void
     {
         $lng = $this->lng;
         $request = $this->request;
@@ -206,7 +208,7 @@ class ilTaggingGUI
     }
 
     // Check whether a tag is forbiddens
-    public function isForbidden(string $a_tag) : bool
+    public function isForbidden(string $a_tag): bool
     {
         foreach ($this->forbidden as $f) {
             if (is_int(strpos(strtolower(
@@ -220,7 +222,7 @@ class ilTaggingGUI
     }
 
     // Get Input HTML for Tagging of an object (and a user)
-    public function getAllUserTagsForObjectHTML() : string
+    public function getAllUserTagsForObjectHTML(): string
     {
         $ttpl = new ilTemplate("tpl.tag_cloud.html", true, true, "Services/Tagging");
         $tags = ilTagging::getTagsForObject(
@@ -258,7 +260,7 @@ class ilTaggingGUI
     public static function initJavascript(
         string $a_ajax_url,
         ilGlobalTemplateInterface $a_main_tpl = null
-    ) : void {
+    ): void {
         global $DIC;
 
         if ($a_main_tpl != null) {
@@ -282,7 +284,7 @@ class ilTaggingGUI
     public static function getListTagsJSCall(
         string $a_hash,
         string $a_update_code = null
-    ) : string {
+    ): string {
         if ($a_update_code === null) {
             $a_update_code = "null";
         } else {
@@ -294,7 +296,7 @@ class ilTaggingGUI
     /**
      * Get HTML
      */
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -376,7 +378,7 @@ class ilTaggingGUI
     /**
      * Save JS
      */
-    public function saveJS() : void
+    public function saveJS(): void
     {
         $request = $this->request;
         $body = $request->getParsedBody();

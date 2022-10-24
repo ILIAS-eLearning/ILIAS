@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -103,7 +105,7 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
     /**
      * @return mixed[]
      */
-    public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
+    public function getPlaceholderValuesForPreview(int $userId, int $objId): array
     {
         $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 
@@ -119,7 +121,7 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
     /**
      * @return mixed[]
      */
-    public function getPlaceholderValues(int $userId, int $objId) : array
+    public function getPlaceholderValues(int $userId, int $objId): array
     {
         $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValues($userId, $objId);
 
@@ -134,7 +136,7 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
         return $placeholders;
     }
 
-    protected function getReachedScore(int $objectId, int $userId) : string
+    protected function getReachedScore(int $objectId, int $userId): string
     {
         try {
             $cmixResult = ilCmiXapiResult::getInstanceByObjIdAndUsrId(

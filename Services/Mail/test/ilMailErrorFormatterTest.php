@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,7 +22,7 @@ class ilMailErrorFormatterTest extends ilMailBaseTest
 {
     private ilMailErrorFormatter $errorFormatter;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -29,11 +31,11 @@ class ilMailErrorFormatterTest extends ilMailBaseTest
         $this->setGlobalVariable('component.factory', $componentFactory);
 
         $languageMock = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
-        $languageMock->method('txt')->willReturnCallback(static function (string $key) : string {
+        $languageMock->method('txt')->willReturnCallback(static function (string $key): string {
             if ('error1' === $key) {
                 return '-' . $key . '-';
             }
-            
+
             if ('error3' === $key) {
                 return $key . ' (1. %s/2. %s/3. %s)';
             }
@@ -44,7 +46,7 @@ class ilMailErrorFormatterTest extends ilMailBaseTest
         $this->errorFormatter = new ilMailErrorFormatter($languageMock);
     }
 
-    public function errorCollectionProvider() : array
+    public function errorCollectionProvider(): array
     {
         return [
             'Zero errors' => [
@@ -72,7 +74,7 @@ class ilMailErrorFormatterTest extends ilMailBaseTest
      * @param string $expectedHtml
      * @return void
      */
-    public function testErrorFormatter(array $errors, string $expectedHtml) : void
+    public function testErrorFormatter(array $errors, string $expectedHtml): void
     {
         $this->assertSame($expectedHtml, $this->brutallyTrimHTML($this->errorFormatter->format($errors)));
     }

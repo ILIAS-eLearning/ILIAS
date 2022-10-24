@@ -37,7 +37,7 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
     /**
      * @inheritDoc
      */
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->main()->desktop();
     }
@@ -46,7 +46,7 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
     /**
      * @inheritDoc
      */
-    public function getToolsForContextStack(CalledContexts $called_contexts) : array
+    public function getToolsForContextStack(CalledContexts $called_contexts): array
     {
         $lang = $this->dic->language();
 
@@ -64,7 +64,7 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
             $tools[] = $this->factory->tool($this->identification_provider->contextAwareIdentifier("tree"))
                 ->withTitle($title)
                 ->withSymbol($icon)
-                ->withContentWrapper(function () use ($tree_id) : Legacy {
+                ->withContentWrapper(function () use ($tree_id): Legacy {
                     return $this->dic->ui()->factory()->legacy($this->getSkillTree($tree_id));
                 });
         }
@@ -77,14 +77,14 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
             $tools[] = $this->factory->tool($this->identification_provider->contextAwareIdentifier("tree"))
                 ->withTitle("Templates")
                 ->withSymbol($icon)
-                ->withContentWrapper(function () use ($tree_id) : Legacy {
+                ->withContentWrapper(function () use ($tree_id): Legacy {
                     return $this->dic->ui()->factory()->legacy($this->getTemplateTree($tree_id));
                 });
         }
         return $tools;
     }
 
-    private function getSkillTree(int $tree_id) : string
+    private function getSkillTree(int $tree_id): string
     {
         $exp = new ilSkillTreeExplorerGUI(["ilAdministrationGUI", "ilObjSkillManagementGUI",
                                            "SkillTreeAdminGUI", "ilObjSkillTreeGUI"], "showTree", $tree_id);
@@ -92,7 +92,7 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
         return $exp->getHTML();
     }
 
-    private function getTemplateTree(int $tree_id) : string
+    private function getTemplateTree(int $tree_id): string
     {
         $exp = new ilSkillTemplateTreeExplorerGUI(["ilAdministrationGUI", "ilObjSkillManagementGUI",
                                                    "SkillTreeAdminGUI", "ilObjSkillTreeGUI"], "showTree", $tree_id);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
  */
 class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
 {
-    public function testDocumentCanBeAccepted() : void
+    public function testDocumentCanBeAccepted(): void
     {
         $dataGatewayFactory = $this->getMockBuilder(ilTermsOfServiceDataGatewayFactory::class)->getMock();
         $dataGateway = $this->createMock(ilTermsOfServiceAcceptanceDataGateway::class);
@@ -95,7 +97,7 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
         $helper->trackAcceptance($user, $document);
     }
 
-    public function testAcceptanceHistoryCanBeDeleted() : void
+    public function testAcceptanceHistoryCanBeDeleted(): void
     {
         $dataGatewayFactory = $this->getMockBuilder(ilTermsOfServiceDataGatewayFactory::class)->getMock();
         $dataGateway = $this->createMock(ilTermsOfServiceAcceptanceDataGateway::class);
@@ -133,7 +135,7 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
         $helper->deleteAcceptanceHistoryByUser($user->getId());
     }
 
-    public function testLatestAcceptanceHistoryEntityCanBeLoadedForUser() : void
+    public function testLatestAcceptanceHistoryEntityCanBeLoadedForUser(): void
     {
         $dataGatewayFactory = $this->getMockBuilder(ilTermsOfServiceDataGatewayFactory::class)->getMock();
         $dataGateway = $this->createMock(ilTermsOfServiceAcceptanceDataGateway::class);
@@ -176,7 +178,7 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
         $this->assertSame($entity, $helper->getCurrentAcceptanceForUser($user));
     }
 
-    public function testAcceptanceHistoryEntityCanBeLoadedById() : void
+    public function testAcceptanceHistoryEntityCanBeLoadedById(): void
     {
         $dataGatewayFactory = $this->getMockBuilder(ilTermsOfServiceDataGatewayFactory::class)->getMock();
         $dataGateway = $this->createMock(ilTermsOfServiceAcceptanceDataGateway::class);
@@ -218,7 +220,7 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
         $this->assertSame($entity, $helper->getById($entity->getId()));
     }
 
-    public function testDocumentMustBeResigned() : void
+    public function testDocumentMustBeResigned(): void
     {
         $dataGatewayFactory = $this->getMockBuilder(ilTermsOfServiceDataGatewayFactory::class)->getMock();
         $dataGateway = $this->createMock(ilTermsOfServiceAcceptanceDataGateway::class);

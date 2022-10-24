@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestRandomQuestionSelectionTableGUI
@@ -18,10 +36,10 @@ class ilTestRandomQuestionSelectionTableGUI extends \ilTable2GUI
         $this->setRowTemplate('tpl.il_as_tst_random_question_offer.html', 'Modules/Test');
     }
 
-    public function build(int $numberOfQuestions, int $selectedPool) : self
+    public function build(int $numberOfQuestions, int $selectedPool): self
     {
         $this->setTitle($this->lng->txt('tst_question_offer'));
-        
+
         $questionIds = $this->test->randomSelectQuestions(
             $numberOfQuestions,
             $selectedPool

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -50,7 +52,7 @@ class ilExportFileParser extends ilSaxParser
     /**
      * @inheritDoc
      */
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handleBeginTag', 'handleEndTag');
@@ -60,12 +62,12 @@ class ilExportFileParser extends ilSaxParser
     /**
      * @inheritDoc
      */
-    public function startParsing() : void
+    public function startParsing(): void
     {
         parent::startParsing();
     }
 
-    public function handleBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handleBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         if ($this->in_export_item) {
             $this->export_item_writer->xmlStartTag($a_name, $a_attribs);
@@ -92,7 +94,7 @@ class ilExportFileParser extends ilSaxParser
         }
     }
 
-    public function handleEndTag($a_xml_parser, string $a_name) : void
+    public function handleEndTag($a_xml_parser, string $a_name): void
     {
         switch ($a_name) {
             case "exp:ExportItem":
@@ -120,7 +122,7 @@ class ilExportFileParser extends ilSaxParser
     /**
      * End Tag
      */
-    public function handleCharacterData($a_xml_parser, string $a_data) : void
+    public function handleCharacterData($a_xml_parser, string $a_data): void
     {
         $this->chr_data .= $a_data;
         if ($this->in_export_item) {

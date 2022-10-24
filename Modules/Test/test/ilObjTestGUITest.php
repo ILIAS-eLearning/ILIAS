@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
 {
     private ilObjTestGUI $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -54,12 +56,12 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $this->testObj = new ilObjTestGUI();
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilObjTestGUI::class, $this->testObj);
     }
 
-    public function testTestAccess() : void
+    public function testTestAccess(): void
     {
         $this->assertNull($this->testObj->getTestAccess());
         $testAccess_mock = $this->createMock(ilTestAccess::class);
@@ -68,7 +70,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $this->assertEquals($testAccess_mock, $this->testObj->getTestAccess());
     }
 
-    public function testGetTabsManager() : void
+    public function testGetTabsManager(): void
     {
         $this->assertNull($this->testObj->getTabsManager());
         $testTabsManager_mock = $this->createMock(ilTestTabsManager::class);
@@ -77,7 +79,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $this->assertEquals($testTabsManager_mock, $this->testObj->getTabsManager());
     }
 
-    public function testRunObject() : void
+    public function testRunObject(): void
     {
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $ctrl_mock
@@ -91,7 +93,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $testObj->runObject();
     }
 
-    public function testOutEvaluationObject() : void
+    public function testOutEvaluationObject(): void
     {
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $ctrl_mock
@@ -105,7 +107,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $testObj->outEvaluationObject();
     }
 
-    public function testBackObject() : void
+    public function testBackObject(): void
     {
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $ctrl_mock
@@ -119,7 +121,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $testObj->backObject();
     }
 
-    public function testCancelRandomSelectObject() : void
+    public function testCancelRandomSelectObject(): void
     {
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $ctrl_mock
@@ -133,7 +135,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $testObj->cancelRandomSelectObject();
     }
 
-    public function testCancelCreateQuestionObject() : void
+    public function testCancelCreateQuestionObject(): void
     {
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $ctrl_mock
@@ -147,7 +149,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $testObj->cancelCreateQuestionObject();
     }
 
-    public function testCancelRemoveQuestionsObject() : void
+    public function testCancelRemoveQuestionsObject(): void
     {
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $ctrl_mock
@@ -161,7 +163,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $testObj->cancelRemoveQuestionsObject();
     }
 
-    public function testMoveQuestionsObject() : void
+    public function testMoveQuestionsObject(): void
     {
         $_POST['q_id'] = 1;
 

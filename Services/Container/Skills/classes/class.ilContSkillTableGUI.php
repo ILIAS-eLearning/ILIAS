@@ -73,14 +73,14 @@ class ilContSkillTableGUI extends ilTable2GUI
         //$this->addCommandButton("", $lng->txt(""));
     }
 
-    public function getSkills() : array
+    public function getSkills(): array
     {
         $skills = $this->container_skill_collector->getSkillsForTableGUI();
 
         return $skills;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $tpl = $this->tpl;
 

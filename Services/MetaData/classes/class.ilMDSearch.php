@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -45,17 +47,17 @@ class ilMDSearch
         $this->search_result = new ilSearchResult();
     }
 
-    public function setMode(string $a_mode) : void
+    public function setMode(string $a_mode): void
     {
         $this->mode = $a_mode;
     }
 
-    public function getMode() : string
+    public function getMode(): string
     {
         return $this->mode;
     }
 
-    public function performSearch() : ?ilSearchResult
+    public function performSearch(): ?ilSearchResult
     {
         switch ($this->getMode()) {
             case 'all':
@@ -71,7 +73,7 @@ class ilMDSearch
         return null;
     }
 
-    public function __searchKeywordsOnly() : ilSearchResult
+    public function __searchKeywordsOnly(): ilSearchResult
     {
         $where = " WHERE ";
         $field = " keyword ";

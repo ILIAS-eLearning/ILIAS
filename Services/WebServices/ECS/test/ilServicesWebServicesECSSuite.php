@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -18,7 +20,7 @@ use PHPUnit\Framework\TestSuite;
 
 class ilServicesWebServicesECSSuite extends TestSuite
 {
-    public static function suite() : self
+    public static function suite(): self
     {
         $suite = new ilServicesWebServicesECSSuite();
         require_once __DIR__ . '/ilECSUserTest.php';

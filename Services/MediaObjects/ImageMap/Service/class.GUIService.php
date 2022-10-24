@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,7 +39,7 @@ class GUIService
         $this->domain_service = $domain_service;
     }
 
-    public function request() : ImageMapGUIRequest
+    public function request(): ImageMapGUIRequest
     {
         return new ImageMapGUIRequest(
             $this->gui_service->http(),

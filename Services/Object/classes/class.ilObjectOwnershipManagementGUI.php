@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjectOwnershipManagementGUI
  *
@@ -25,7 +27,7 @@
  */
 class ilObjectOwnershipManagementGUI
 {
-    const P_OWNID = 'ownid';
+    public const P_OWNID = 'ownid';
     protected ilObjUser $user;
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
@@ -36,7 +38,7 @@ class ilObjectOwnershipManagementGUI
     protected int $user_id;
     protected int $own_id = 0;
     private ilObjectRequestRetriever $retriever;
-    
+
     public function __construct(int $user_id = null)
     {
         global $DIC;
@@ -56,8 +58,8 @@ class ilObjectOwnershipManagementGUI
         }
         $this->own_id = $this->retriever->getMaybeInt(self::P_OWNID, 0);
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -67,19 +69,19 @@ class ilObjectOwnershipManagementGUI
         }
         $this->$cmd();
     }
-    
-    public function listObjects() : void
+
+    public function listObjects(): void
     {
         $sel_type = '';
 
         $objects = ilObject::getAllOwnedRepositoryObjects($this->user_id);
-        
+
         if (sizeof($objects)) {
             $this->toolbar->setFormAction($this->ctrl->getFormAction($this, "listObjects"));
-            
+
             $sel = new ilSelectInputGUI($this->lng->txt("type"), "type");
             $this->toolbar->addStickyItem($sel, true);
-            
+
             $button = ilSubmitButton::getInstance();
             $button->setCaption("ok");
             $button->setCommand("listObjects");
@@ -105,7 +107,7 @@ class ilObjectOwnershipManagementGUI
             }
             $this->ctrl->setParameter($this, "type", $sel_type);
         }
-        
+
         if ($sel_type === '') {
             return;
         }
@@ -113,28 +115,28 @@ class ilObjectOwnershipManagementGUI
         if (is_array($objects[$sel_type]) && sizeof($objects[$sel_type])) {
             ilObject::fixMissingTitles($sel_type, $objects[$sel_type]);
         }
-        
+
         $tbl = new ilObjectOwnershipManagementTableGUI($this, "listObjects", $this->user_id, $objects[$sel_type]);
         $this->tpl->setContent($tbl->getHTML());
     }
-    
-    public function applyFilter() : void
+
+    public function applyFilter(): void
     {
         $tbl = new ilObjectOwnershipManagementTableGUI($this, "listObjects", $this->user_id);
         $tbl->resetOffset();
         $tbl->writeFilterToSession();
         $this->listObjects();
     }
-    
-    public function resetFilter() : void
+
+    public function resetFilter(): void
     {
         $tbl = new ilObjectOwnershipManagementTableGUI($this, "listObjects", $this->user_id);
         $tbl->resetOffset();
         $tbl->resetFilter();
         $this->listObjects();
     }
-    
-    protected function redirectParentCmd(int $ref_id, string $cmd) : void
+
+    protected function redirectParentCmd(int $ref_id, string $cmd): void
     {
         $parent = $this->tree->getParentId($ref_id);
         $this->ctrl->setParameterByClass("ilRepositoryGUI", "ref_id", $parent);
@@ -142,13 +144,13 @@ class ilObjectOwnershipManagementGUI
         $this->ctrl->setParameterByClass("ilRepositoryGUI", "cmd", $cmd);
         $this->ctrl->redirectByClass("ilRepositoryGUI");
     }
-    
-    protected function redirectCmd(int $ref_id, string $class, string $cmd = null) : void
+
+    protected function redirectCmd(int $ref_id, string $class, string $cmd = null): void
     {
         $node = $this->tree->getNodeData($ref_id);
         $gui_class = "ilObj" . $this->obj_definition->getClassName($node["type"]) . "GUI";
         $path = ["ilRepositoryGUI", $gui_class, $class];
-        
+
         if ($class == "ilExportGUI") {
             try {
                 $this->ctrl->getLinkTargetByClass($path);
@@ -169,37 +171,37 @@ class ilObjectOwnershipManagementGUI
                 $this->ctrl->redirectByClass($path);
             }
         }
-        
+
         $this->ctrl->setParameterByClass($class, "ref_id", $ref_id);
         $this->ctrl->setParameterByClass($class, "cmd", $cmd);
         $this->ctrl->redirectByClass($path);
     }
-    
-    public function delete() : void
+
+    public function delete(): void
     {
         $this->redirectParentCmd(
             $this->own_id,
             "delete"
         );
     }
-    
-    public function move() : void
+
+    public function move(): void
     {
         $this->redirectParentCmd(
             $this->own_id,
             "cut"
         );
     }
-    
-    public function export() : void
+
+    public function export(): void
     {
         $this->redirectCmd(
             $this->own_id,
             ilExportGUI::class
         );
     }
-    
-    public function changeOwner() : void
+
+    public function changeOwner(): void
     {
         $this->redirectCmd(
             $this->own_id,

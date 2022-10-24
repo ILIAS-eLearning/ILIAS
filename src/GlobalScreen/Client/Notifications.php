@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -41,15 +44,15 @@ class Notifications
     /**
      * Name of the GET param used in the async calls
      */
-    const MODE = "mode";
+    public const MODE = "mode";
     /**
      * Value of the MODE GET param, if the Notification Center has been opened
      */
-    const MODE_OPENED = "opened";
+    public const MODE_OPENED = "opened";
     /**
      * Value of the MODE GET param, if the Notification Center has been closed
      */
-    const MODE_CLOSED = "closed";
+    public const MODE_CLOSED = "closed";
     /**
      * Value of the MODE GET param, if the Notification Center should be rerendered
      */
@@ -57,15 +60,15 @@ class Notifications
     /**
      * NAME of the GET param, to indicate the item ID of the closed item
      */
-    const ITEM_ID = "item_id";
+    public const ITEM_ID = "item_id";
     /**
      * Used to read the identifiers out of the GET param later
      */
-    const NOTIFICATION_IDENTIFIERS = "notification_identifiers";
+    public const NOTIFICATION_IDENTIFIERS = "notification_identifiers";
     /**
      * Location of the endpoint handling async notification requests
      */
-    const NOTIFY_ENDPOINT = ILIAS_HTTP_PATH . "/src/GlobalScreen/Client/notify.php";
+    public const NOTIFY_ENDPOINT = "src/GlobalScreen/Client/notify.php";
     protected array $identifiers_to_handle = [];
     protected ?string $single_identifier_to_handle;
     protected array $administrative_notifications = [];
@@ -76,7 +79,7 @@ class Notifications
         $this->dic = $DIC;
     }
 
-    public function run() : void
+    public function run(): void
     {
         /**
          * @DI $DI
@@ -110,7 +113,7 @@ class Notifications
      * Loops through all available open callable provided by the notification
      * providers
      */
-    private function handleOpened() : void
+    private function handleOpened(): void
     {
         foreach ($this->notification_groups as $notification_group) {
             foreach ($notification_group->getNotifications() as $notification) {
@@ -127,7 +130,7 @@ class Notifications
     /**
      * Runs the closed callable if such a callable is provided
      */
-    private function handleClosed() : void
+    private function handleClosed(): void
     {
         foreach ($this->notification_groups as $notification_group) {
             foreach ($notification_group->getNotifications() as $notification) {
@@ -151,7 +154,7 @@ class Notifications
      * @throws ResponseSendingException
      * @throws JsonException
      */
-    private function handleRerender() : void
+    private function handleRerender(): void
     {
         $notifications = [];
         $amount = 0;

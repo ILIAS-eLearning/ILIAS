@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -23,7 +25,6 @@ namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information;
  */
 final class TypeInformationCollection
 {
-
     /**
      * @var TypeInformation[]
      */
@@ -32,12 +33,12 @@ final class TypeInformationCollection
     /**
      * @param TypeInformation $information
      */
-    public function add(TypeInformation $information) : void
+    public function add(TypeInformation $information): void
     {
         $this->type_informations[$information->getType()] = $information;
     }
 
-    public function get(string $type) : TypeInformation
+    public function get(string $type): TypeInformation
     {
         if (isset($this->type_informations[$type]) && $this->type_informations[$type] instanceof TypeInformation) {
             return $this->type_informations[$type];
@@ -49,7 +50,7 @@ final class TypeInformationCollection
     /**
      * @return TypeInformation[]
      */
-    public function getAll() : array
+    public function getAll(): array
     {
         return $this->type_informations;
     }
@@ -57,7 +58,7 @@ final class TypeInformationCollection
     /**
      * @param TypeInformationCollection $collection
      */
-    public function append(TypeInformationCollection $collection) : void
+    public function append(TypeInformationCollection $collection): void
     {
         foreach ($collection->getAll() as $type_information) {
             $this->add($type_information);

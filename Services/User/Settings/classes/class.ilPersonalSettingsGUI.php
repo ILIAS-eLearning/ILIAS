@@ -61,7 +61,7 @@ class ilPersonalSettingsGUI
     /**
      * execute command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
 
@@ -87,7 +87,7 @@ class ilPersonalSettingsGUI
     }
 
     // init sub tabs
-    public function __initSubTabs(string $a_cmd) : void
+    public function __initSubTabs(string $a_cmd): void
     {
         global $DIC;
 
@@ -98,7 +98,7 @@ class ilPersonalSettingsGUI
         $ilUser = $DIC['ilUser'];
 
         $ilHelp->setScreenIdComponent("user");
-        
+
         $showPassword = $a_cmd == 'showPassword';
         $showGeneralSettings = $a_cmd == 'showGeneralSettings';
 
@@ -150,7 +150,7 @@ class ilPersonalSettingsGUI
     /**
      * Set header
      */
-    public function setHeader() : void
+    public function setHeader(): void
     {
         $this->tpl->setTitle($this->lng->txt('personal_settings'));
     }
@@ -164,12 +164,12 @@ class ilPersonalSettingsGUI
     public function showPassword(
         bool $a_no_init = false,
         bool $hide_form = false
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilTabs = $DIC['ilTabs'];
         $ilUser = $DIC['ilUser'];
-        
+
         $this->__initSubTabs("showPersonalData");
         $ilTabs->activateTab("password");
 
@@ -191,16 +191,16 @@ class ilPersonalSettingsGUI
         $this->tpl->printToStdout();
     }
 
-    public function initPasswordForm() : void
+    public function initPasswordForm(): void
     {
         global $DIC;
 
         $lng = $DIC['lng'];
         $ilUser = $DIC['ilUser'];
         $ilSetting = $DIC['ilSetting'];
-        
+
         $this->form = new ilPropertyFormGUI();
-    
+
         // Check whether password change is allowed
         if ($this->allowPasswordChange()) {
             // The current password needs to be checked for verification
@@ -223,7 +223,7 @@ class ilPersonalSettingsGUI
                 }
                 $this->form->addItem($cpass);
             }
-            
+
             // new password
             $ipass = new ilPasswordInputGUI($lng->txt("desired_password"), "new_password");
             if ($pw_info_set === false) {
@@ -233,12 +233,12 @@ class ilPersonalSettingsGUI
 
             $this->form->addItem($ipass);
             $this->form->addCommandButton("savePassword", $lng->txt("save"));
-            
+
             switch ($ilUser->getAuthMode(true)) {
                 case ilAuthUtils::AUTH_LOCAL:
                     $this->form->setTitle($lng->txt("chg_password"));
                     break;
-                    
+
                 case ilAuthUtils::AUTH_SHIBBOLETH:
                 case ilAuthUtils::AUTH_CAS:
                     if (ilDAVActivationChecker::_isActive()) {
@@ -254,11 +254,11 @@ class ilPersonalSettingsGUI
             $this->form->setFormAction($this->ctrl->getFormAction($this));
         }
     }
-    
+
     /**
      * Check, whether password change is allowed for user
      */
-    protected function allowPasswordChange() : bool
+    protected function allowPasswordChange(): bool
     {
         global $DIC;
 
@@ -275,8 +275,8 @@ class ilPersonalSettingsGUI
 
         return \ilAuthUtils::isPasswordModificationHidden() && ($ilUser->isPasswordChangeDemanded() || $ilUser->isPasswordExpired());
     }
-    
-    public function savePassword() : void
+
+    public function savePassword(): void
     {
         global $DIC;
 
@@ -288,13 +288,13 @@ class ilPersonalSettingsGUI
             $ilCtrl->redirect($this, "showPersonalData");
             return;
         }
-        
+
         $this->initPasswordForm();
         if ($this->form->checkInput()) {
             $cp = $this->form->getItemByPostVar("current_password");
             $np = $this->form->getItemByPostVar("new_password");
             $error = false;
-            
+
             // The old password needs to be checked for verification
             // unless the user uses Shibboleth authentication with additional
             // local authentication for WebDAV.
@@ -330,7 +330,7 @@ class ilPersonalSettingsGUI
                 $error = true;
                 $np->setAlert($this->lng->txt("new_pass_equals_old_pass"));
             }
-            
+
             if (!$error) {
                 $ilUser->resetPassword($this->entered_new_password, $this->entered_new_password);
                 if ($this->entered_current_password != $this->entered_new_password) {
@@ -354,29 +354,29 @@ class ilPersonalSettingsGUI
         $this->form->setValuesByPost();
         $this->showPassword(true);
     }
-    
+
     //
     //
     //	GENERAL SETTINGS FORM
     //
     //
 
-    public function workWithUserSetting(string $setting) : bool
+    public function workWithUserSetting(string $setting): bool
     {
         return $this->user_settings_config->isVisibleAndChangeable($setting);
     }
 
-    public function userSettingVisible(string $setting) : bool
+    public function userSettingVisible(string $setting): bool
     {
         return $this->user_settings_config->isVisible($setting);
     }
 
-    public function userSettingEnabled(string $setting) : bool
+    public function userSettingEnabled(string $setting): bool
     {
         return $this->user_settings_config->isChangeable($setting);
     }
 
-    public function showGeneralSettings(bool $a_no_init = false) : void
+    public function showGeneralSettings(bool $a_no_init = false): void
     {
         global $DIC;
 
@@ -394,7 +394,7 @@ class ilPersonalSettingsGUI
         $this->tpl->printToStdout();
     }
 
-    public function initGeneralSettingsForm() : void
+    public function initGeneralSettingsForm(): void
     {
         global $DIC;
 
@@ -402,7 +402,7 @@ class ilPersonalSettingsGUI
         $ilUser = $DIC['ilUser'];
         $styleDefinition = $DIC['styleDefinition'];
         $ilSetting = $DIC['ilSetting'];
-        
+
         $this->form = new ilPropertyFormGUI();
 
         // language
@@ -412,7 +412,7 @@ class ilPersonalSettingsGUI
             foreach ($languages as $lang_key) {
                 $options[$lang_key] = ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_" . $lang_key);
             }
-            
+
             $si = new ilSelectInputGUI($this->lng->txt("language"), "language");
             $si->setOptions($options);
             $si->setValue($ilUser->getLanguage());
@@ -457,7 +457,7 @@ class ilPersonalSettingsGUI
         // hits per page
         if ($this->userSettingVisible("hits_per_page")) {
             $si = new ilSelectInputGUI($this->lng->txt("hits_per_page"), "hits_per_page");
-            
+
             $hits_options = array(10,15,20,30,40,50,100,9999);
             $options = array();
 
@@ -565,8 +565,8 @@ class ilPersonalSettingsGUI
         $select->setInfo($lng->txt('cal_time_format_info'));
         $select->setValue($user_settings->getTimeFormat());
         $this->form->addItem($select);
-        
-        
+
+
         // starting point
         if (ilUserUtil::hasPersonalStartingPoint()) {
             $this->lng->loadLanguageModule("administration");
@@ -583,7 +583,7 @@ class ilPersonalSettingsGUI
                 ? ilUserUtil::getPersonalStartingPoint()
                 : 0);
             $this->form->addItem($si);
-            
+
             // starting point: repository object
             $repobj = new ilRadioOption($lng->txt("adm_user_starting_point_object"), ilUserUtil::START_REPOSITORY_OBJ);
             $repobj_id = new ilTextInputGUI($lng->txt("adm_user_starting_point_ref_id"), "usr_start_ref_id");
@@ -604,28 +604,28 @@ class ilPersonalSettingsGUI
             $repobj->addSubItem($repobj_id);
             $si->addOption($repobj);
         }
-        
+
         // selector for unicode characters
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
         if ($ilSetting->get('char_selector_availability') > 0) {
             $char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_USER);
-            $char_selector->getConfig()->setAvailability($ilUser->getPref('char_selector_availability'));
-            $char_selector->getConfig()->setDefinition($ilUser->getPref('char_selector_definition'));
+            $char_selector->getConfig()->setAvailability((int) $ilUser->getPref('char_selector_availability'));
+            $char_selector->getConfig()->setDefinition((string) $ilUser->getPref('char_selector_definition'));
             $char_selector->addFormProperties($this->form);
             $char_selector->setFormValues($this->form);
         }
-        
+
         $this->form->addCommandButton("saveGeneralSettings", $lng->txt("save"));
         $this->form->setTitle($lng->txt("general_settings"));
         $this->form->setFormAction($this->ctrl->getFormAction($this));
     }
-    
+
     /**
      * Save general settings
      */
-    public function saveGeneralSettings() : void
+    public function saveGeneralSettings(): void
     {
         global $DIC;
 
@@ -634,7 +634,7 @@ class ilPersonalSettingsGUI
         $ilCtrl = $DIC['ilCtrl'];
         $ilUser = $DIC['ilUser'];
         $ilSetting = $DIC->settings();
-    
+
         $this->initGeneralSettingsForm();
         if ($this->form->checkInput()) {
             if ($this->workWithUserSetting("skin_style")) {
@@ -654,7 +654,7 @@ class ilPersonalSettingsGUI
             if ($this->workWithUserSetting("language")) {
                 $ilUser->setLanguage($this->form->getInput("language"));
             }
-            
+
             // hits per page
             if ($this->workWithUserSetting("hits_per_page")) {
                 if ($this->form->getInput("hits_per_page") != "") {
@@ -718,7 +718,7 @@ class ilPersonalSettingsGUI
             $user_settings->setDateFormat((int) $this->form->getInput("date_format"));
             $user_settings->setTimeFormat((int) $this->form->getInput("time_format"));
             $user_settings->save();
-            
+
             $this->tpl->setOnScreenMessage('success', $lng->txtlng("common", "msg_obj_modified", $ilUser->getLanguage()), true);
 
             $ilCtrl->redirect($this, "showGeneralSettings");
@@ -727,11 +727,11 @@ class ilPersonalSettingsGUI
         $this->form->setValuesByPost();
         $this->showGeneralSettings(true);
     }
-    
+
     /**
      * Delete own account dialog - 1st confirmation
      */
-    protected function deleteOwnAccount1() : void
+    protected function deleteOwnAccount1(): void
     {
         global $DIC;
 
@@ -739,48 +739,48 @@ class ilPersonalSettingsGUI
         $ilToolbar = $DIC['ilToolbar'];
         $ilUser = $DIC['ilUser'];
         $ilSetting = $DIC['ilSetting'];
-        
+
         if (!(bool) $ilSetting->get('user_delete_own_account') ||
             $ilUser->getId() == SYSTEM_USER_ID) {
             $this->ctrl->redirect($this, "showGeneralSettings");
         }
-        
+
         // too make sure
         $ilUser->removeDeletionFlag();
-        
+
         $this->setHeader();
         $this->__initSubTabs("deleteOwnAccount");
         $ilTabs->activateTab("delacc");
-        
+
         $this->tpl->setOnScreenMessage('info', $this->lng->txt('user_delete_own_account_info'));
         $ilToolbar->addButton(
             $this->lng->txt('btn_next'),
             $this->ctrl->getLinkTarget($this, 'deleteOwnAccount2')
         );
-        
+
         $this->tpl->printToStdout();
     }
-    
+
     /**
      * Delete own account dialog - login redirect
      */
-    protected function deleteOwnAccount2() : void
+    protected function deleteOwnAccount2(): void
     {
         global $DIC;
 
         $ilTabs = $DIC['ilTabs'];
         $ilUser = $DIC['ilUser'];
         $ilSetting = $DIC['ilSetting'];
-        
+
         if (!(bool) $ilSetting->get('user_delete_own_account') ||
             $ilUser->getId() == SYSTEM_USER_ID) {
             $this->ctrl->redirect($this, "showGeneralSettings");
         }
-        
+
         $this->setHeader();
         $this->__initSubTabs("deleteOwnAccount");
         $ilTabs->activateTab("delacc");
-        
+
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($this->lng->txt('user_delete_own_account_logout_confirmation'));
         $cgui->setFormAction($this->ctrl->getFormAction($this));
@@ -789,54 +789,54 @@ class ilPersonalSettingsGUI
         $this->tpl->setContent($cgui->getHTML());
         $this->tpl->printToStdout();
     }
-    
-    protected function abortDeleteOwnAccount() : void
+
+    protected function abortDeleteOwnAccount(): void
     {
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
         $ilUser = $DIC['ilUser'];
-        
+
         $ilUser->removeDeletionFlag();
-        
+
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("user_delete_own_account_aborted"), true);
         $ilCtrl->redirect($this, "showGeneralSettings");
     }
-    
-    protected function deleteOwnAccountLogout() : void
+
+    protected function deleteOwnAccountLogout(): void
     {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        
+
         // we are setting the flag and ending the session in the same step
-        
+
         $ilUser->activateDeletionFlag();
-        
+
         // see ilStartupGUI::doLogout()
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $GLOBALS['DIC']['ilAuthSession']->logout();
-        
+
         ilUtil::redirect("login.php?cmd=force_login&target=usr_" . md5("usrdelown"));
     }
-    
+
     /**
      * Delete own account dialog - final confirmation
      */
-    protected function deleteOwnAccount3() : void
+    protected function deleteOwnAccount3(): void
     {
         global $DIC;
 
         $ilTabs = $DIC['ilTabs'];
         $ilUser = $DIC['ilUser'];
         $ilSetting = $DIC['ilSetting'];
-        
+
         if (!(bool) $ilSetting->get('user_delete_own_account') ||
             $ilUser->getId() == SYSTEM_USER_ID ||
             !$ilUser->hasDeletionFlag()) {
             $this->ctrl->redirect($this, "showGeneralSettings");
         }
-    
+
         $this->setHeader();
         $this->__initSubTabs("deleteOwnAccount");
         $ilTabs->activateTab("delacc");
@@ -849,30 +849,30 @@ class ilPersonalSettingsGUI
         $this->tpl->setContent($cgui->getHTML());
         $this->tpl->printToStdout();
     }
-    
+
     /**
      * Delete own account dialog - action incl. notification email
      */
-    protected function deleteOwnAccount4() : void
+    protected function deleteOwnAccount4(): void
     {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
         $ilSetting = $DIC['ilSetting'];
         $ilLog = $DIC['ilLog'];
-        
+
         if (!(bool) $ilSetting->get('user_delete_own_account') ||
             $ilUser->getId() == SYSTEM_USER_ID ||
             !$ilUser->hasDeletionFlag()) {
             $this->ctrl->redirect($this, "showGeneralSettings");
         }
-        
+
         // build notification
-        
+
         $ntf = new ilSystemNotification();
         $ntf->setLangModules(array("user"));
         $ntf->addAdditionalInfo("profile", $ilUser->getProfileAsString($this->lng), true);
-        
+
         // mail message
         ilDatePresentation::setUseRelativeDates(false);
         $ntf->setIntroductionDirect(
@@ -883,11 +883,11 @@ class ilPersonalSettingsGUI
                 ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX))
             )
         );
-        
+
         $message = $ntf->composeAndGetMessage($ilUser->getId(), null, null, true);
         $subject = $this->lng->txt("user_delete_own_account_email_subject");
-        
-        
+
+
         // send notification
         $user_email = $ilUser->getEmail();
         $admin_mail = $ilSetting->get("user_delete_own_account_email");
@@ -911,9 +911,9 @@ class ilPersonalSettingsGUI
             $mmail->Body($message);
             $mmail->Send();
         }
-        
+
         $ilLog->write("Account deleted: " . $ilUser->getLogin() . " (" . $ilUser->getId() . ")");
-        
+
         $ilUser->delete();
 
         // terminate session

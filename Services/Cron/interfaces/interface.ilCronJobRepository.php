@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,14 +20,14 @@
 
 interface ilCronJobRepository
 {
-    public function getJobInstanceById(string $id) : ?ilCronJob;
+    public function getJobInstanceById(string $id): ?ilCronJob;
 
     public function getJobInstance(
         string $a_id,
         string $a_component,
         string $a_class,
         bool $isCreationContext = false
-    ) : ?ilCronJob;
+    ): ?ilCronJob;
 
     /**
      * Get cron job configuration/execution data
@@ -33,36 +35,36 @@ interface ilCronJobRepository
      * @param bool $withInactiveJobsIncluded
      * @return array<int, array<string, mixed>>
      */
-    public function getCronJobData($id = null, bool $withInactiveJobsIncluded = true) : array;
+    public function getCronJobData($id = null, bool $withInactiveJobsIncluded = true): array;
 
-    public function registerJob(string $a_component, string $a_id, string $a_class, ?string $a_path) : void;
+    public function registerJob(string $a_component, string $a_id, string $a_class, ?string $a_path): void;
 
-    public function unregisterJob(string $a_component, array $a_xml_job_ids) : void;
+    public function unregisterJob(string $a_component, array $a_xml_job_ids): void;
 
-    public function createDefaultEntry(ilCronJob $job, string $component, string $class, ?string $path) : void;
+    public function createDefaultEntry(ilCronJob $job, string $component, string $class, ?string $path): void;
 
     /**
      * @param bool $withOnlyActive
      * @return array<int, array{0: ilCronJob, 1: array<string, mixed>}>
      */
-    public function getPluginJobs(bool $withOnlyActive = false) : array;
+    public function getPluginJobs(bool $withOnlyActive = false): array;
 
-    public function resetJob(ilCronJob $job) : void;
+    public function resetJob(ilCronJob $job): void;
 
     public function updateJobResult(
         ilCronJob $job,
         ilObjUser $actor,
         ilCronJobResult $result,
         bool $wasManualExecution = false
-    ) : void;
+    ): void;
 
-    public function updateRunInformation(string $jobId, int $runningTimestamp, int $aliveTimestamp) : void;
+    public function updateRunInformation(string $jobId, int $runningTimestamp, int $aliveTimestamp): void;
 
-    public function updateJobSchedule(ilCronJob $job, ?int $scheduleType, ?int $scheduleValue) : void;
+    public function updateJobSchedule(ilCronJob $job, ?int $scheduleType, ?int $scheduleValue): void;
 
-    public function activateJob(ilCronJob $job, ilObjUser $actor, bool $wasManuallyExecuted = false) : void;
+    public function activateJob(ilCronJob $job, ilObjUser $actor, bool $wasManuallyExecuted = false): void;
 
-    public function deactivateJob(ilCronJob $job, ilObjUser $actor, bool $wasManuallyExecuted = false) : void;
+    public function deactivateJob(ilCronJob $job, ilObjUser $actor, bool $wasManuallyExecuted = false): void;
 
-    public function findAll() : ilCronJobCollection;
+    public function findAll(): ilCronJobCollection;
 }

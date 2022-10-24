@@ -1,4 +1,21 @@
 <?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\HTTP\Cookies\CookieFactory;
 use ILIAS\HTTP\Services;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
@@ -7,19 +24,6 @@ use org\bovigo\vfs;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * TestCase for the ilWACCheckingInstanceTest
  *
@@ -33,7 +37,6 @@ use Psr\Http\Message\UriInterface;
  */
 class ilWACCheckingInstanceTest //extends MockeryTestCase
 {
-
     /**
      * @var vfs\vfsStreamFile
      */
@@ -47,7 +50,7 @@ class ilWACCheckingInstanceTest //extends MockeryTestCase
     /**
      * Setup
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->root = vfs\vfsStream::setup('ilias.de');
         $this->file_one = vfs\vfsStream::newFile('data/trunk/mobs/mm_123/dummy.jpg')
@@ -69,25 +72,25 @@ class ilWACCheckingInstanceTest //extends MockeryTestCase
      * @backupGlobals          disabled
      * @backupStaticAttributes disabled
      */
-    public function testDeliver() : void
+    public function testDeliver(): void
     {
         self::markTestSkipped("WIP");
     }
 
 
-    public function testBasic() : void
+    public function testBasic(): void
     {
         self::markTestSkipped("Can't run test without db.");
     }
 
 
-    public function testBasicWithFileSigning() : void
+    public function testBasicWithFileSigning(): void
     {
         self::markTestSkipped("WIP");
     }
 
 
-    public function testBasicWithFolderSigning() : void
+    public function testBasicWithFolderSigning(): void
     {
         self::markTestSkipped("WIP");
     }
@@ -96,7 +99,7 @@ class ilWACCheckingInstanceTest //extends MockeryTestCase
     /**
      * @Test
      */
-    public function testNonCheckingInstanceNoSec() : void
+    public function testNonCheckingInstanceNoSec(): void
     {
         self::markTestSkipped("Can't run test without db.");
 

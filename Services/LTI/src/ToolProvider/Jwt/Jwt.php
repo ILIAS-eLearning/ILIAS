@@ -29,7 +29,6 @@ use ILIAS\LTI\ToolProvider\Util;
  */
 class Jwt
 {
-
     /**
      * Life (in seconds) of an issued JWT (default is 1 minute).
      *
@@ -56,7 +55,7 @@ class Jwt
      *
      * @var ClientInterface $jwtClient
      */
-    private static ClientInterface $jwtClient;
+    private static ?ClientInterface $jwtClient = null; //changed ... = null
 
     /**
      * Class constructor.
@@ -85,11 +84,10 @@ class Jwt
      */
     public static function getJwtClient()
     {
-        if (!self::$jwtClient) {
+        if (empty(self::$jwtClient)) { //changed
             self::$jwtClient = new FirebaseClient();
             Util::logDebug('JwtClient set to \'' . get_class(self::$jwtClient) . '\'');
         }
-
         return self::$jwtClient;
     }
 }

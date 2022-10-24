@@ -1,16 +1,24 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 /**
- * @author        Björn Heyser <bheyser@databay.de>
- * @version        $Id$
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @package        Modules/Test(QuestionPool)
- */
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
 {
-    const POST_VARIABLE_NAME = 'ordering';
-    
+    public const POST_VARIABLE_NAME = 'ordering';
+
     /**
      * ilAssOrderingImagesInputGUI constructor.
      *
@@ -22,60 +30,70 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
         require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingDefaultElementFallback.php';
         $manipulator = new ilAssOrderingDefaultElementFallback();
         $this->addFormValuesManipulator($manipulator);
-        
+
         parent::__construct('', $postVar);
-        
+
         $this->addFormValuesManipulator($converter);
-        
+
         self::$instanceCounter++;
     }
-    
+
     public static $instanceCounter = 0;
-    
+
     /**
      * FOR COMPATIBILITY ONLY
      *
      * @param $stylingDisabled
      */
-    public function setStylingDisabled($stylingDisabled) : void
+    public function setStylingDisabled($stylingDisabled): void
     {
     }
-    
+
     /**
      * FOR COMPATIBILITY ONLY
      *
      * @return bool
      */
-    public function getStylingDisabled() : bool
+    public function getStylingDisabled(): bool
     {
         return false;
     }
-    
+
     /**
      * @param ilAssOrderingElementList $elementList
      */
-    public function setElementList(ilAssOrderingElementList $elementList) : void
+    public function setElementList(ilAssOrderingElementList $elementList): void
     {
         $this->setIdentifiedMultiValues($elementList->getRandomIdentifierIndexedElements());
     }
-    
+
     /**
      * @param integer $questionId
      * @return ilAssOrderingElementList
      */
-    public function getElementList($questionId) : ilAssOrderingElementList
+    public function getElementList($questionId): ilAssOrderingElementList
     {
         require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElementList.php';
         return ilAssOrderingElementList::buildInstance($questionId, $this->getIdentifiedMultiValues());
     }
-    
+
     /**
      * @param string $filenameInput
      * @return bool
      */
-    protected function isValidFilenameInput($filenameInput) : bool
+    protected function isValidFilenameInput($filenameInput): bool
     {
         /* @var ilAssOrderingElement $filenameInput */
         return (bool) strlen($filenameInput->getContent());
+    }
+
+    public function setPending(string $a_val): void
+    {
+        $this->pending = $a_val;
+    }
+
+    public function getPending(): string
+    {
+        return $this->pending;
     }
 }

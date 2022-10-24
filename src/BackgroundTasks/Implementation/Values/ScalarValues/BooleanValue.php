@@ -15,14 +15,14 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Implementation\Values\ScalarValues;
 
 use ILIAS\BackgroundTasks\Value;
 
 class BooleanValue extends ScalarValue
 {
-    public function setValue($value) : void
+    public function setValue($value): void
     {
         if (!is_bool($value)) {
             throw new \InvalidArgumentException("The value given must be a boolean! See php-documentation is_bool().");

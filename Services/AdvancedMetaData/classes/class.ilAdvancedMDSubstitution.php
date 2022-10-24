@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -57,7 +59,7 @@ class ilAdvancedMDSubstitution
 
     /**
      */
-    public static function _getInstanceByObjectType(string $a_type) : ilAdvancedMDSubstitution
+    public static function _getInstanceByObjectType(string $a_type): ilAdvancedMDSubstitution
     {
         if (isset(self::$instances[$a_type])) {
             return self::$instances[$a_type];
@@ -68,7 +70,7 @@ class ilAdvancedMDSubstitution
     /**
      * Sort definitions
      */
-    public function sortDefinitions(array $a_definitions) : array
+    public function sortDefinitions(array $a_definitions): array
     {
         $sorted = array();
         foreach ($this->substitutions as $field_id) {
@@ -80,32 +82,32 @@ class ilAdvancedMDSubstitution
         return array_merge($sorted, $a_definitions);
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return $this->active;
     }
 
-    public function isDescriptionEnabled() : bool
+    public function isDescriptionEnabled(): bool
     {
         return $this->enabled_desc;
     }
 
-    public function enableDescription(bool $a_status) : void
+    public function enableDescription(bool $a_status): void
     {
         $this->enabled_desc = $a_status;
     }
 
-    public function enabledFieldNames() : bool
+    public function enabledFieldNames(): bool
     {
         return $this->enabled_field_names;
     }
 
-    public function enableFieldNames(bool $a_status) : void
+    public function enableFieldNames(bool $a_status): void
     {
         $this->enabled_field_names = $a_status;
     }
 
-    public function getParsedSubstitutions(int $a_ref_id, int $a_obj_id) : array
+    public function getParsedSubstitutions(int $a_ref_id, int $a_obj_id): array
     {
         if (!count($this->getSubstitutions())) {
             return array();
@@ -143,7 +145,7 @@ class ilAdvancedMDSubstitution
         return $substituted;
     }
 
-    private function parseValue(int $a_field_id, array $a_values_records) : ?string
+    private function parseValue(int $a_field_id, array $a_values_records): ?string
     {
         foreach ($a_values_records as $a_values) {
             if ($a_values->getADTGroup()->hasElement((string) $a_field_id)) {
@@ -156,7 +158,7 @@ class ilAdvancedMDSubstitution
         return null;
     }
 
-    public function resetSubstitutions() : void
+    public function resetSubstitutions(): void
     {
         $this->substitutions = array();
         $this->bold = array();
@@ -168,7 +170,7 @@ class ilAdvancedMDSubstitution
      * @access public
      * @param int field id
      */
-    public function appendSubstitution(int $a_field_id, bool $a_bold = false, bool $a_newline = false) : void
+    public function appendSubstitution(int $a_field_id, bool $a_bold = false, bool $a_newline = false): void
     {
         $this->substitutions[] = $a_field_id;
         if ($a_bold) {
@@ -179,22 +181,22 @@ class ilAdvancedMDSubstitution
         }
     }
 
-    public function getSubstitutions() : array
+    public function getSubstitutions(): array
     {
         return !$this->substitutions ? array() : $this->substitutions;
     }
 
-    public function isSubstituted(int $a_field_id) : bool
+    public function isSubstituted(int $a_field_id): bool
     {
         return in_array($a_field_id, $this->getSubstitutions());
     }
 
-    public function isBold(int $a_field_id) : bool
+    public function isBold(int $a_field_id): bool
     {
         return in_array($a_field_id, $this->bold);
     }
 
-    public function hasNewline(int $a_field_id) : bool
+    public function hasNewline(int $a_field_id): bool
     {
         return in_array($a_field_id, $this->newline);
     }
@@ -203,7 +205,7 @@ class ilAdvancedMDSubstitution
      * update
      * @access public
      */
-    public function update() : void
+    public function update(): void
     {
         global $DIC;
 
@@ -235,7 +237,7 @@ class ilAdvancedMDSubstitution
      * Read db entries
      * @access private
      */
-    private function read() : void
+    private function read(): void
     {
         global $DIC;
 
@@ -279,7 +281,7 @@ class ilAdvancedMDSubstitution
         }
     }
 
-    private function initECSMappings() : void
+    private function initECSMappings(): void
     {
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -14,7 +16,7 @@ class ilDidacticTemplateIncludeFilterPattern extends ilDidacticTemplateFilterPat
         $this->setPatternType(self::PATTERN_INCLUDE);
     }
 
-    public function valid(string $a_source) : bool
+    public function valid(string $a_source): bool
     {
         $a_source = trim($a_source);
         switch ($this->getPatternSubType()) {
@@ -25,7 +27,7 @@ class ilDidacticTemplateIncludeFilterPattern extends ilDidacticTemplateFilterPat
         return false;
     }
 
-    public function toXml(ilXmlWriter $writer) : void
+    public function toXml(ilXmlWriter $writer): void
     {
         switch ($this->getPatternSubType()) {
             case ilDidacticTemplateFilterPattern::PATTERN_SUBTYPE_REGEX:

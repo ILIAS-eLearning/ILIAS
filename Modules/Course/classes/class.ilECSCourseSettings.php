@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilECSCourseSettings
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -33,7 +35,7 @@ class ilECSCourseSettings extends ilECSObjectSettings
         parent::__construct($a_content_object);
     }
 
-    protected function getECSObjectType() : string
+    protected function getECSObjectType(): string
     {
         return '/campusconnect/courselinks';
     }

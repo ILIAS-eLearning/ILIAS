@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -47,12 +49,12 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
         $this->actor = $DIC->user();
     }
 
-    private function getResponseWithText(string $body) : ResponseInterface
+    private function getResponseWithText(string $body): ResponseInterface
     {
         return $this->dic->http()->response()->withBody(Streams::ofString($body));
     }
 
-    protected static function isOnScreenChatAccessible(ilSetting $chatSettings) : bool
+    protected static function isOnScreenChatAccessible(ilSetting $chatSettings): bool
     {
         global $DIC;
 
@@ -67,14 +69,14 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
      * @param ilChatroomServerSettings $chatSettings
      * @return array<string, string>
      */
-    protected static function getEmoticons(ilChatroomServerSettings $chatSettings) : array
+    protected static function getEmoticons(ilChatroomServerSettings $chatSettings): array
     {
         $smileys = [];
 
         if ($chatSettings->getSmiliesEnabled()) {
             $smileys_array = ilChatroomSmilies::_getSmilies();
             foreach ($smileys_array as $smiley_array) {
-                $new_keys = array();
+                $new_keys = [];
                 $new_val = '';
                 foreach ($smiley_array as $key => $value) {
                     if ($key === 'smiley_keywords') {
@@ -99,7 +101,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
         return $smileys;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
         switch ($cmd) {
@@ -141,7 +143,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
         }
     }
 
-    private function verifyLogin() : ResponseInterface
+    private function verifyLogin(): ResponseInterface
     {
         ilSession::enableWebAccessWithoutSession(true);
 
@@ -150,7 +152,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
         ], JSON_THROW_ON_ERROR));
     }
 
-    private function getUserList() : ResponseInterface
+    private function getUserList(): ResponseInterface
     {
         if (!$this->actor->getId() || $this->actor->isAnonymous()) {
             return $this->getResponseWithText(json_encode([], JSON_THROW_ON_ERROR));
@@ -170,7 +172,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
         return $this->getResponseWithText($auto->getList($this->http->request()->getQueryParams()['term'] ?? ''));
     }
 
-    private function getUserProfileData() : ResponseInterface
+    private function getUserProfileData(): ResponseInterface
     {
         if (!$this->actor->getId() || $this->actor->isAnonymous()) {
             return $this->getResponseWithText(json_encode([], JSON_THROW_ON_ERROR));
@@ -190,7 +192,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
         return $this->getResponseWithText(json_encode($data, JSON_THROW_ON_ERROR));
     }
 
-    public static function initializeFrontend(ilGlobalTemplateInterface $page) : void
+    public static function initializeFrontend(ilGlobalTemplateInterface $page): void
     {
         global $DIC;
 
@@ -224,7 +226,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
 
             $subscriberRepo = new Subscriber($DIC->database(), $DIC->user());
 
-            $guiConfig = array(
+            $guiConfig = [
                 'chatWindowTemplate' => $chatWindowTemplate->get(),
                 'messageTemplate' => (new ilTemplate(
                     'tpl.chat-message.html',
@@ -280,7 +282,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
                     ilUtil::yn2tf((string) $DIC->user()->getPref('chat_broadcast_typing'))
                 ),
                 'notificationIconPath' => ilUtil::getImagePath('icon_chta.png'),
-            );
+            ];
 
             $chatConfig = [
                 'url' => $settings->generateClientUrl() . '/' . $settings->getInstance() . '-im',
@@ -294,7 +296,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
                 'chat_osc_emoticons',
                 'chat_osc_write_a_msg',
                 'autocomplete_more',
-                'close',
+                'chat_osc_minimize',
                 'chat_osc_invite_to_conversation',
                 'chat_osc_user',
                 'chat_osc_add_user',

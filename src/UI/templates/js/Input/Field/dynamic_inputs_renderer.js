@@ -14,6 +14,7 @@ il.UI.Input = il.UI.Input || {};
     const SELECTORS = {
       dynamic_inputs_list: '.ui-input-dynamic-inputs-list',
       dynamic_input: '.ui-input-dynamic-input',
+      dynamic_input_close: '[data-action="remove"] .glyph',
     };
 
     /**
@@ -69,7 +70,7 @@ il.UI.Input = il.UI.Input || {};
      */
     let registerEventListeners = function (input_id) {
       // register the removal event listener for dynamic inputs.
-      $(document).on('click', `#${input_id} .glyph[aria-label="Close"]`, removeDynamicInputHook);
+      $(document).on('click', `#${input_id} ${SELECTORS.dynamic_input_close}`, removeDynamicInputHook);
     }
 
     let removeDynamicInputHook = function () {

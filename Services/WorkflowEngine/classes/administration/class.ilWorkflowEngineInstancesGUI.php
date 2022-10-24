@@ -31,7 +31,7 @@ class ilWorkflowEngineInstancesGUI
         $this->parent_gui = $parent_gui;
     }
 
-    public function handle(string $command) : string
+    public function handle(string $command): string
     {
         return "Hello, world";
     }

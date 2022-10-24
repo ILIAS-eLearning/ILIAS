@@ -1,7 +1,20 @@
 <?php
 
-include_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacAbstractExpression.php";
-require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacQuestionExpressionInterface.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ResultOfAnswerOfCurrentQuestion for the expression R[m]
@@ -41,7 +54,7 @@ class ilAssLacResultOfAnswerOfCurrentQuestionExpression extends ilAssLacAbstract
      * Get the Pattern to match relevant informations for an Expression
      * @return string
      */
-    public function getPattern() : string
+    public function getPattern(): string
     {
         return '/\[(\d+)\]/';
     }
@@ -53,7 +66,7 @@ class ilAssLacResultOfAnswerOfCurrentQuestionExpression extends ilAssLacAbstract
      *
      * @param array $matches
      */
-    protected function setMatches($matches) : void
+    protected function setMatches($matches): void
     {
         $this->answer_index = $matches[1][0];
     }
@@ -61,7 +74,7 @@ class ilAssLacResultOfAnswerOfCurrentQuestionExpression extends ilAssLacAbstract
     /**
      * @return int
      */
-    public function getQuestionIndex() : ?int
+    public function getQuestionIndex(): ?int
     {
         return null;
     }
@@ -69,7 +82,7 @@ class ilAssLacResultOfAnswerOfCurrentQuestionExpression extends ilAssLacAbstract
     /**
      * @return int
      */
-    public function getAnswerIndex() : int
+    public function getAnswerIndex(): int
     {
         return $this->answer_index;
     }
@@ -78,7 +91,7 @@ class ilAssLacResultOfAnswerOfCurrentQuestionExpression extends ilAssLacAbstract
      * Get the value of this Expression
      * @return string
      */
-    public function getValue() : string
+    public function getValue(): string
     {
         return 'R[' . $this->answer_index . ']';
     }
@@ -87,7 +100,7 @@ class ilAssLacResultOfAnswerOfCurrentQuestionExpression extends ilAssLacAbstract
      * Get a human readable description of the Composite element
      * @return string
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return "Aktuelle Frage mit Anwort " . $this->answer_index . " beantwortet ";
     }

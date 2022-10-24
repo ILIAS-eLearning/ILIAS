@@ -92,7 +92,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 
         $this->setChildLimit((int) $ilSetting->get("rep_tree_limit_number"));
     }
-        
+
     public function getRootNode()
     {
         if ($this->top_node_id > 0) {
@@ -104,12 +104,12 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         return $root_node;
     }
 
-    public function getNodeContent($a_node) : string
+    public function getNodeContent($a_node): string
     {
         $lng = $this->lng;
-        
+
         $title = $a_node["title"];
-                        
+
         if ($a_node["child"] == $this->getNodeId($this->getRootNode())) {
             if ($title === "ILIAS") {
                 $title = $lng->txt("repository");
@@ -122,14 +122,14 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         }
         return $title;
     }
-    
-    public function getNodeIcon($a_node) : string
+
+    public function getNodeIcon($a_node): string
     {
         $obj_id = ilObject::_lookupObjId($a_node["child"]);
         return ilObject::_getIcon($obj_id, "tiny", $a_node["type"]);
     }
 
-    public function getNodeIconAlt($a_node) : string
+    public function getNodeIconAlt($a_node): string
     {
         $lng = $this->lng;
 
@@ -144,8 +144,8 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         $lng = $this->lng;
         return $lng->txt("obj_" . $a_node["type"]) . ": " . $this->getNodeContent($a_node);
     }
-    
-    public function isNodeHighlighted($a_node) : bool
+
+    public function isNodeHighlighted($a_node): bool
     {
         if ((int) $a_node["child"] === $this->cur_ref_id ||
             ($this->cur_ref_id === 0 && (int) $a_node["child"] === (int) $this->getNodeId($this->getRootNode()))) {
@@ -153,8 +153,8 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         }
         return false;
     }
-    
-    public function getNodeHref($a_node) : string
+
+    public function getNodeHref($a_node): string
     {
         $ilCtrl = $this->ctrl;
 
@@ -205,7 +205,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         }
     }
 
-    public function isNodeVisible($a_node) : bool
+    public function isNodeVisible($a_node): bool
     {
         $ilAccess = $this->access;
         $tree = $this->tree;
@@ -235,11 +235,11 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
                 }
             }
         }
-        
+
         return true;
     }
-    
-    protected function getParentCourseOrGroup(int $node_id) : int
+
+    protected function getParentCourseOrGroup(int $node_id): int
     {
         $current_node_id = $node_id;
         while (isset($this->parent_node_id[$current_node_id])) {
@@ -251,9 +251,9 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         }
         return 0;
     }
-    
-    
-    public function sortChilds(array $a_childs, $a_parent_node_id) : array
+
+
+    public function sortChilds(array $a_childs, $a_parent_node_id): array
     {
         $objDefinition = $this->obj_definition;
         $ilAccess = $this->access;
@@ -288,7 +288,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 
                     // #16697 - check item group permissions
                     $may_read = $ilAccess->checkAccess('read', '', $g);
-                    
+
                     // see bug #0015978
                     if ($may_read) {
                         $items = ilContainerSorting::_getInstance($parent_obj_id)->sortSubItems('itgr', $child["obj_id"], $items);
@@ -296,7 +296,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 
                     foreach ($items as $item) {
                         $in_any_group[] = $item["child"];
-                        
+
                         if ($may_read) {
                             $igroup[$g][] = $item;
                             $group[$g][] = $item;
@@ -313,7 +313,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
                 $group[$g][] = $child;
             }
         }
-        
+
         $in_any_group = array_unique($in_any_group);
 
         // custom block sorting?
@@ -409,7 +409,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
      * @param object|array $a_node
      * @return bool
      */
-    public function nodeHasVisibleChilds($a_node) : bool
+    public function nodeHasVisibleChilds($a_node): bool
     {
         if (!$this->obj_definition->isContainer($a_node["type"] ?? "")) {
             return false;
@@ -417,7 +417,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         return parent::nodeHasVisibleChilds($a_node);
     }
 
-    public function getChildsOfNode($a_parent_node_id) : array
+    public function getChildsOfNode($a_parent_node_id): array
     {
         $rbacsystem = $this->rbacsystem;
 
@@ -439,8 +439,8 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 
         return $childs;
     }
-    
-    public function isNodeClickable($a_node) : bool
+
+    public function isNodeClickable($a_node): bool
     {
         $rbacsystem = $this->rbacsystem;
         $ilDB = $this->db;
@@ -485,7 +485,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
             case 'crsr':
             case 'catr':
                 return ilContainerReferenceAccess::_isAccessible($a_node["child"]);
-            
+
             case 'prg':
                     return $rbacsystem->checkAccess("read", $a_node["child"]);
 
@@ -528,7 +528,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         }
     }
 
-    public static function getTopNodeForRefId(int $ref_id) : int
+    public static function getTopNodeForRefId(int $ref_id): int
     {
         global $DIC;
 

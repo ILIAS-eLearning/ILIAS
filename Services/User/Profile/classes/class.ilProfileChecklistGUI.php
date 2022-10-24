@@ -36,7 +36,7 @@ class ilProfileChecklistGUI
         $this->lng = $DIC->language();
     }
 
-    public function render(int $active_step) : string
+    public function render(int $active_step): string
     {
         $ui = $this->ui;
         $lng = $this->lng;
@@ -68,7 +68,7 @@ class ilProfileChecklistGUI
     /**
      * Get ui checklist status. Maps the checklist status to the UI element status.
      */
-    protected function getUIChecklistStatus(int $check_list_status) : int
+    protected function getUIChecklistStatus(int $check_list_status): int
     {
         switch ($check_list_status) {
             case ilProfileChecklistStatus::STATUS_NOT_STARTED: return Step::NOT_STARTED;

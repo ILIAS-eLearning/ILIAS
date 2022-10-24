@@ -44,7 +44,7 @@ class TableCommandActionHandler implements Server\CommandActionHandler
         $this->ui_wrapper = new Server\UIWrapper($this->ui, $this->lng);
     }
 
-    public function handle(array $query, array $body) : Server\Response
+    public function handle(array $query, array $body): Server\Response
     {
         switch ($body["action"]) {
             case "update.data":
@@ -58,7 +58,7 @@ class TableCommandActionHandler implements Server\CommandActionHandler
         }
     }
 
-    protected function updateDataCommand(array $body) : Server\Response
+    protected function updateDataCommand(array $body): Server\Response
     {
         $updated = $this->updateData($body["data"]["pcid"], $body["data"]["content"]);
         if ($body["data"]["redirect"]) {
@@ -76,7 +76,7 @@ class TableCommandActionHandler implements Server\CommandActionHandler
         \ilPageObjectGUI $page_gui,
         $updated,
         string $pcid
-    ) : Server\Response {
+    ): Server\Response {
         $error = null;
 
         $last_change = null;
@@ -153,7 +153,7 @@ class TableCommandActionHandler implements Server\CommandActionHandler
     }
 
 
-    protected function modifyTableCommand(array $body) : Server\Response
+    protected function modifyTableCommand(array $body): Server\Response
     {
         $page = $this->page_gui->getPageObject();
         $page->addHierIDs();
@@ -216,7 +216,7 @@ class TableCommandActionHandler implements Server\CommandActionHandler
     public function sendTable(
         \ilPageObjectGUI $page_gui,
         string $pcid
-    ) : Server\Response {
+    ): Server\Response {
         $page = $page_gui->getPageObject();
         $page->addHierIDs();
         $table = $page->getContentObjectForPcId($pcid);

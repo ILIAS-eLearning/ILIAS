@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -57,7 +59,7 @@ class ilChatroomSmiliesTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_SMILEY_ID', $a_set['smiley_id']);
         $this->tpl->setVariable('VAL_SMILEY_PATH', $a_set['smiley_fullpath']);
@@ -71,7 +73,7 @@ class ilChatroomSmiliesTableGUI extends ilTable2GUI
             $current_selection_list = new ilAdvancedSelectionListGUI();
             $current_selection_list->setListTitle($this->lng->txt('actions'));
             $current_selection_list->setId('act_' . $a_set['smiley_id']);
-            
+
             $this->ctrl->setParameter($this->gui, 'smiley_id', $a_set['smiley_id']);
             $current_selection_list->addItem(
                 $this->lng->txt('edit'),

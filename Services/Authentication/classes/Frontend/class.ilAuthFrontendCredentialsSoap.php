@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
     private ilCtrl $ctrl;
 
     private ilSetting $settings;
-    
+
     private ilAuthSession $authSession;
     private \ilGlobalTemplateInterface $main_tpl;
     private ilLogger $logger;
@@ -51,7 +53,7 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
     /**
      * Check if an authentication attempt should be done when login page has been called.
      */
-    public function tryAuthenticationOnLoginPage() : void
+    public function tryAuthenticationOnLoginPage(): void
     {
         $cmd = '';
         if (isset($this->httpRequest->getQueryParams()['cmd']) && is_string($this->httpRequest->getQueryParams()['cmd'])) {

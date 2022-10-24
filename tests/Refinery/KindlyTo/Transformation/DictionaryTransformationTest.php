@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,7 +33,7 @@ class DictionaryTransformationTest extends TestCase
      * @param array $originVal
      * @param array $expectedVal
      */
-    public function testDictionaryTransformation(array $originVal, array $expectedVal) : void
+    public function testDictionaryTransformation(array $originVal, array $expectedVal): void
     {
         $transformation = new DictionaryTransformation(new StringTransformation());
         $transformedValue = $transformation->transform($originVal);
@@ -43,14 +45,14 @@ class DictionaryTransformationTest extends TestCase
      * @dataProvider TransformationFailingDataProvider
      * @param mixed $failingVal
      */
-    public function testTransformationFailures($failingVal) : void
+    public function testTransformationFailures($failingVal): void
     {
         $this->expectException(ConstraintViolationException::class);
         $transformation = new DictionaryTransformation(new StringTransformation());
         $transformation->transform($failingVal);
     }
 
-    public function TransformationFailingDataProvider() : array
+    public function TransformationFailingDataProvider(): array
     {
         return [
             'from_is_a_string' => ['hello'],
@@ -63,7 +65,7 @@ class DictionaryTransformationTest extends TestCase
         ];
     }
 
-    public function DictionaryTransformationDataProvider() : array
+    public function DictionaryTransformationDataProvider(): array
     {
         return [
             'first_arr' => [['hello' => 'world'], ['hello' => 'world'] ],

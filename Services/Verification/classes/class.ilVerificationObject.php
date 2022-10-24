@@ -47,12 +47,12 @@ abstract class ilVerificationObject extends ilObject2
     /**
      * Return property map (name => type)
      */
-    abstract protected function getPropertyMap() : array;
+    abstract protected function getPropertyMap(): array;
 
     /**
      * Check if given property is valid
      */
-    public function hasProperty(string $a_name) : bool
+    public function hasProperty(string $a_name): bool
     {
         return array_key_exists($a_name, $this->map);
     }
@@ -60,7 +60,7 @@ abstract class ilVerificationObject extends ilObject2
     /**
      * Get property data type
      */
-    public function getPropertyType(string $a_name) : ?int
+    public function getPropertyType(string $a_name): ?int
     {
         if ($this->hasProperty($a_name)) {
             return (int) $this->map[$a_name];
@@ -84,7 +84,7 @@ abstract class ilVerificationObject extends ilObject2
      * Set property value
      * @param mixed $a_value
      */
-    public function setProperty(string $a_name, $a_value) : void
+    public function setProperty(string $a_name, $a_value): void
     {
         if ($this->hasProperty($a_name)) {
             $this->properties[$a_name] = $a_value;
@@ -102,11 +102,11 @@ abstract class ilVerificationObject extends ilObject2
         string $a_type,
         $a_data = null,
         ?string $a_raw_data = null
-    ) : void {
+    ): void {
         $data_type = $this->getPropertyType($a_type);
         if ($data_type) {
             $value = null;
-            
+
             switch ($data_type) {
                 case self::TYPE_STRING:
                     $value = (string) $a_data;
@@ -144,7 +144,7 @@ abstract class ilVerificationObject extends ilObject2
      *
      * @return array(parameters, raw_data)
      */
-    protected function exportProperty(string $a_name) : ?array
+    protected function exportProperty(string $a_name): ?array
     {
         $data_type = $this->getPropertyType($a_name);
         if ($data_type) {
@@ -176,7 +176,7 @@ abstract class ilVerificationObject extends ilObject2
         return null;
     }
 
-    protected function doRead() : void
+    protected function doRead(): void
     {
         $ilDB = $this->db;
 
@@ -195,31 +195,31 @@ abstract class ilVerificationObject extends ilObject2
         }
     }
 
-    protected function doCreate(bool $clone_mode = false) : void
+    protected function doCreate(bool $clone_mode = false): void
     {
         $this->saveProperties();
     }
 
-    protected function doUpdate() : void
+    protected function doUpdate(): void
     {
         $this->saveProperties();
     }
-    
+
     /**
      * Save current properties to database
      */
-    protected function saveProperties() : bool
+    protected function saveProperties(): bool
     {
         $ilDB = $this->db;
-        
+
         if ($this->id) {
             // remove all existing properties
             $ilDB->manipulate("DELETE FROM il_verification" .
                 " WHERE id = " . $ilDB->quote($this->id, "integer"));
-            
+
             foreach ($this->getPropertyMap() as $name => $type) {
                 $property = $this->exportProperty($name);
-                
+
                 $fields = array("id" => array("integer", $this->id),
                     "type" => array("text", $name),
                     "parameters" => array("text", $property["parameters"]),
@@ -227,7 +227,7 @@ abstract class ilVerificationObject extends ilObject2
 
                 $ilDB->insert("il_verification", $fields);
             }
-            
+
             $this->handleQuotaUpdate();
 
             return true;
@@ -235,7 +235,7 @@ abstract class ilVerificationObject extends ilObject2
         return false;
     }
 
-    protected function doDelete() : void
+    protected function doDelete(): void
     {
         $ilDB = $this->db;
 
@@ -243,33 +243,33 @@ abstract class ilVerificationObject extends ilObject2
             // remove all files
             $storage = new ilVerificationStorageFile($this->id);
             $storage->delete();
-            
+
             $this->handleQuotaUpdate();
-            
+
             $ilDB->manipulate("DELETE FROM il_verification" .
                 " WHERE id = " . $ilDB->quote($this->id, "integer"));
         }
     }
-    
-    public static function initStorage(int $a_id, string $a_subdir = null) : string
+
+    public static function initStorage(int $a_id, string $a_subdir = null): string
     {
         $storage = new ilVerificationStorageFile($a_id);
         $storage->create();
-        
+
         $path = $storage->getAbsolutePath() . "/";
-        
+
         if ($a_subdir) {
             $path .= $a_subdir . "/";
-            
+
             if (!is_dir($path)) {
                 mkdir($path);
             }
         }
-        
+
         return $path;
     }
-    
-    public function getFilePath() : string
+
+    public function getFilePath(): string
     {
         $file = $this->getProperty("file");
         if ($file) {
@@ -278,13 +278,13 @@ abstract class ilVerificationObject extends ilObject2
         }
         return "";
     }
-    
-    public function getOfflineFilename() : string
+
+    public function getOfflineFilename(): string
     {
         return ilFileUtils::getASCIIFilename($this->getTitle()) . ".pdf";
     }
-    
-    protected function handleQuotaUpdate() : void
+
+    protected function handleQuotaUpdate(): void
     {
     }
 }

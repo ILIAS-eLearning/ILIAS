@@ -49,7 +49,7 @@ class ilLMMenuGUI
         $this->user = $DIC->user();
     }
 
-    public function getEntries() : array
+    public function getEntries(): array
     {
         $ui = $this->ui;
         $lng = $this->lng;

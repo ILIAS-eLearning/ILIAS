@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,5 +27,5 @@ interface ilTermsOfServiceControllerEnabled
     /**
      * The implemented class should be ilCtrlInterface enabled and execute or forward the given command
      */
-    public function executeCommand() : void;
+    public function executeCommand(): void;
 }

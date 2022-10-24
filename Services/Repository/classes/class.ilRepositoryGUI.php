@@ -108,7 +108,7 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
         }
     }
 
-    protected function redirectToRoot() : void
+    protected function redirectToRoot(): void
     {
         $ctrl = $this->ctrl;
         $ctrl->setParameterByClass(
@@ -120,7 +120,7 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
         $ctrl->redirectByClass(self::class, "");
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $rbacsystem = $this->rbacsystem;
         $lng = $this->lng;
@@ -237,7 +237,7 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
         }
     }
 
-    public function show() : void
+    public function show(): void
     {
         // normal command processing
         $this->ctrl->forwardCommand($this->gui_obj);
@@ -245,7 +245,7 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
         $this->tpl->printToStdout();
     }
 
-    public function showRepTree() : void
+    public function showRepTree(): void
     {
         $exp = new ilRepositoryExplorerGUI($this, "showRepTree");
         // root node should be skipped, see #26787

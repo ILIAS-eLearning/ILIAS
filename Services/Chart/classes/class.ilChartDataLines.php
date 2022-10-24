@@ -22,39 +22,39 @@ class ilChartDataLines extends ilChartData
 {
     protected ?int $line_width = null;
     protected bool $steps = false;
-    
-    protected function getTypeString() : string
+
+    protected function getTypeString(): string
     {
         return "lines";
     }
-    
-    public function setLineWidth(int $a_value) : void
+
+    public function setLineWidth(int $a_value): void
     {
         $this->line_width = $a_value;
     }
 
-    public function getLineWidth() : ?int
+    public function getLineWidth(): ?int
     {
         return $this->line_width;
     }
 
-    public function setLineSteps(bool $a_value) : void
+    public function setLineSteps(bool $a_value): void
     {
         $this->steps = $a_value;
     }
 
-    public function getLineSteps() : bool
+    public function getLineSteps(): bool
     {
         return $this->steps;
     }
-    
-    protected function parseDataOptions(array &$a_options) : void
+
+    protected function parseDataOptions(array &$a_options): void
     {
         $width = $this->getLineWidth();
         if ($width !== null) {
             $a_options["lineWidth"] = $width;
         }
-        
+
         if ($this->getLineSteps()) {
             $a_options["steps"] = true;
         }

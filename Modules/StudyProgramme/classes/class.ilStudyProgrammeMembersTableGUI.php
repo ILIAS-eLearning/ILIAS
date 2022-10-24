@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -57,7 +59,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     protected ilPRGPermissionsHelper $permissions;
     protected bool $may_edit_anything;
     protected array $user_ids_viewer_may_read_learning_progress_of;
-    
+
     public function __construct(
         int $prg_obj_id,
         int $prg_ref_id,
@@ -133,7 +135,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         );
 
         $progress_ids = array_map(
-            static function (array $row) : int {
+            static function (array $row): int {
                 return (int) $row['prgrs_id'];
             },
             $members_list
@@ -163,17 +165,17 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         'prg_completion_date' => 'completion_date',
     ];
 
-    protected function postOrder(array $list, Data\Order $order) : array
+    protected function postOrder(array $list, Data\Order $order): array
     {
         [$aspect, $direction] = $order->join('', function ($i, $k, $v) {
             return [$k, $v];
         });
-        
+
         if (array_key_exists($aspect, self::ORDER_MAPPING)) {
             $aspect = self::ORDER_MAPPING[$aspect];
         }
-        
-        usort($list, static function (array $a, array $b) use ($aspect) : int {
+
+        usort($list, static function (array $a, array $b) use ($aspect): int {
             if (is_numeric($a[$aspect])) {
                 return $a[$aspect] <=> $b[$aspect];
             }
@@ -186,7 +188,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         return $list;
     }
 
-    protected function getOrdering() : Data\Order
+    protected function getOrdering(): Data\Order
     {
         $field = $this->getOrderField();
         if (!$field) {
@@ -200,12 +202,12 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         return $this->data_factory->order($field, strtoupper($direction));
     }
 
-    protected function getUserDateFormat() : string
+    protected function getUserDateFormat(): string
     {
         return ilCalendarUtil::getUserDateFormat(0, true);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $usr_id = (int) $a_set['usr_id'];
         if ($this->may_edit_anything) {
@@ -274,13 +276,13 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                     if ($a_set["individual"]) {
                         $individual = $this->lng->txt("yes");
                     }
-                    
+
                     $this->tpl->setVariable(
                         "CUSTOM_PLAN",
                         $individual
                     );
                     break;
-                    
+
                 case "prg_belongs_to":
                     $this->tpl->setVariable("BELONGS_TO", $a_set["belongs_to"]);
                     break;
@@ -338,7 +340,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         );
     }
 
-    protected function getValueOrEmptyString(bool $condition, string $value) : string
+    protected function getValueOrEmptyString(bool $condition, string $value): string
     {
         if ($condition) {
             return $value;
@@ -354,7 +356,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         array $actions,
         int $prgrs_id,
         int $ass_id
-    ) : string {
+    ): string {
         $l = new ilAdvancedSelectionListGUI();
 
         $view_individual_plan = $this->permissions->may(ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN);
@@ -392,12 +394,12 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     /**
      * Get ilias link for action
      */
-    protected function getLinkTargetForAction(string $action, int $prgrs_id, int $ass_id) : string
+    protected function getLinkTargetForAction(string $action, int $prgrs_id, int $ass_id): string
     {
         return $this->getParentObject()->getLinkTargetForAction($action, $prgrs_id, $ass_id);
     }
 
-    protected function getCompletionLink(int $target_obj_id, int $target_ref_id) : string
+    protected function getCompletionLink(int $target_obj_id, int $target_ref_id): string
     {
         $link = '?';
         if (ilObject::_exists($target_ref_id, true) &&
@@ -423,7 +425,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         int $limit = null,
         int $offset = null,
         array $filter = []
-    ) : array {
+    ): array {
         // TODO: Reimplement this in terms of ActiveRecord when innerjoin
         // supports the required rename functionality
 
@@ -494,7 +496,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                 //If the status completed is set by crs reference
                 //use crs title
                 if ($rec["completion_by_type"] === "crsr") {
-                    $completion_id = $rec["completion_by_id"];
+                    $completion_id = (int)$rec["completion_by_id"];
                     $obj_id = ilContainerReference::_lookupTargetId($completion_id);
                     $ref_id = ilContainerReference::_lookupTargetRefId($completion_id);
                     $rec["completion_by"] = $this->getCompletionLink($obj_id, $ref_id);
@@ -506,7 +508,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                 if (!$rec["completion_by"]) {
                     $prgrs = $this->sp_user_progress_db->getByPrgIdAndAssignmentId(
                         $this->prg_obj_id,
-                        $rec["assignment_id"]
+                        (int) $rec["assignment_id"]
                     );
                     $prg = ilObjStudyProgramme::getInstanceByObjId($this->prg_obj_id);
 
@@ -547,7 +549,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                     $rec['prg_validity'] = $this->lng->txt('prg_still_valid');
                 }
             }
-            
+
             $rec['prg_deadline'] = null;
             if ($progress->isSuccessful() === false
                 && !is_null($progress->getDeadline())
@@ -566,7 +568,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     /**
      * Get maximum number of rows the table could have
      */
-    protected function countFetchData(int $prg_id, array $filter = []) : int
+    protected function countFetchData(int $prg_id, array $filter = []): int
     {
         // TODO: Reimplement this in terms of ActiveRecord when innerjoin
         // supports the required rename functionality
@@ -581,7 +583,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         return (int) $rec["cnt"];
     }
 
-    protected function getFrom() : string
+    protected function getFrom(): string
     {
         return
             "FROM " . ilStudyProgrammeProgressDBRepository::TABLE . " prgrs" . PHP_EOL
@@ -598,10 +600,10 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     /**
      * Get the sql part WHERE
      */
-    protected function getWhere(int $prg_id) : string
+    protected function getWhere(int $prg_id): string
     {
         $q = "WHERE prgrs.prg_id = " . $this->db->quote($prg_id, "integer") . PHP_EOL;
-            
+
         //get all potentially visible users:
         $visible = [];
         foreach ($this->permissions::ORGU_OPERATIONS as $op) {
@@ -622,7 +624,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     /**
      * Get selectable columns
      */
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         $cols = [];
         foreach (self::COLUMNS as $column) {
@@ -638,7 +640,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     /**
      * Add multicommands to table
      */
-    protected function addMultiCommands() : void
+    protected function addMultiCommands(): void
     {
         foreach ($this->getMultiCommands() as $cmd => $caption) {
             $this->addMultiCommand($cmd, $caption);
@@ -650,7 +652,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
      *
      * @return string[]
      */
-    protected function getMultiCommands() : array
+    protected function getMultiCommands(): array
     {
         $permissions_for_edit_individual_plan = [
             'updateFromCurrentPlanMulti' => $this->lng->txt('prg_multi_update_from_current_plan'),
@@ -661,7 +663,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             'markAccreditedMulti' => $this->lng->txt('prg_multi_mark_accredited'),
             'unmarkAccreditedMulti' => $this->lng->txt('prg_multi_unmark_accredited')
         ];
-        
+
         $permissions_for_manage = [
             'removeUserMulti' => $this->lng->txt('prg_multi_remove_user')
         ];
@@ -688,7 +690,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         int $node_id,
         int $root_prg_id,
         int $status
-    ) : array {
+    ): array {
         $actions = array();
 
         if ($node_id === $root_prg_id) {
@@ -709,7 +711,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     /**
      * Get options of filter "validity".
      */
-    protected function getValidityOptions() : array
+    protected function getValidityOptions(): array
     {
         return [
             self::VALIDITY_OPTION_VALID => $this->lng->txt("prg_still_valid"),
@@ -720,7 +722,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     /**
      * Get options of filter "status".
      */
-    protected function getStatusOptions() : array
+    protected function getStatusOptions(): array
     {
         return [
             ilStudyProgrammeProgress::STATUS_IN_PROGRESS => $this->lng->txt("prg_status_in_progress"),
@@ -734,7 +736,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     /**
      * @inheritdoc
      */
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $item = $this->addFilterItemByMetaType('prg_validity', self::FILTER_SELECT);
         $item->setOptions(
@@ -753,7 +755,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     /**
      * Get filter-values by field id.
      */
-    protected function getFilterValues() : array
+    protected function getFilterValues(): array
     {
         $f = [];
         foreach ($this->filters as $item) {
@@ -765,7 +767,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     /**
      * Get the additional sql WHERE-part for filters.
      */
-    protected function getFilterWhere(array $filter) : string
+    protected function getFilterWhere(array $filter): string
     {
         $buf = [''];
 
@@ -785,7 +787,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         if ($filter['prg_status'] && (int) $filter['prg_status'] !== self::OPTION_ALL) {
             $buf[] = 'AND prgrs.status = ' . $this->db->quote($filter['prg_status'], "integer");
         }
-        
+
         $filter_success = 'prgrs.status IN ('
             . ilStudyProgrammeProgress::STATUS_COMPLETED
             . ','
@@ -828,7 +830,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         return implode(PHP_EOL, $buf);
     }
 
-    protected function getOrguValidUsersFilter() : string
+    protected function getOrguValidUsersFilter(): string
     {
         if ($this->permissions->may($this->permissions::ROLEPERM_MANAGE_MEMBERS)) {
             return '';

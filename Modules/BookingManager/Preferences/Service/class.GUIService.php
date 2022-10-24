@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,7 +43,7 @@ class GUIService
         $this->gui_service = $gui_service;
     }
 
-    public function BookingPreferencesGUI(\ilObjBookingPool $pool) : \ilBookingPreferencesGUI
+    public function BookingPreferencesGUI(\ilObjBookingPool $pool): \ilBookingPreferencesGUI
     {
         return new \ilBookingPreferencesGUI($pool);
     }

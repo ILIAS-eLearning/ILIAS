@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -10,7 +12,7 @@
 class ilGroupAppEventListener
 {
     private ilLogger $logger;
-    
+
     /**
      * Constructor
      */
@@ -20,15 +22,15 @@ class ilGroupAppEventListener
 
         $this->logger = $DIC->logger()->grp();
     }
-    
+
     /**
      */
-    public function getLogger() : ilLogger
+    public function getLogger(): ilLogger
     {
         return $this->logger;
     }
-    
-    protected function handleUserAssignments(string $a_event, array $a_parameters) : void
+
+    protected function handleUserAssignments(string $a_event, array $a_parameters): void
     {
         if ($a_parameters['type'] != 'grp') {
             $this->getLogger()->debug('Ignoring event for type ' . $a_parameters['type']);
@@ -50,23 +52,23 @@ class ilGroupAppEventListener
             (int) $a_parameters['role_id'],
             $new_status
         );
-        
+
         if ($a_event == 'deassignUser') {
             self::doAutoFill((int) $a_parameters['obj_id']);
         }
     }
-    
+
     /**
      * Trigger autofill from waiting list
      */
-    protected static function doAutoFill(int $a_obj_id) : void
+    protected static function doAutoFill(int $a_obj_id): void
     {
         global $DIC;
 
         $logger = $DIC->logger()->grp();
         $refs = ilObject::_getAllReferences($a_obj_id);
         $ref_id = end($refs);
-        
+
         $group = ilObjectFactory::getInstanceByRefId($ref_id, false);
         if (!$group instanceof ilObjGroup) {
             $logger->warning('Cannot handle event deassign user since passed obj_id is not of type group: ' . $a_obj_id);
@@ -81,7 +83,7 @@ class ilGroupAppEventListener
     * @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
     * @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)
     */
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         if ($a_component == 'Services/AccessControl') {
             $listener = new self();

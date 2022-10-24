@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -53,29 +55,29 @@ class ilCalendarMailNotification extends ilMailNotification
         $this->rbacreview = $DIC->rbac()->review();
     }
 
-    public function setAppointmentId(int $a_id) : void
+    public function setAppointmentId(int $a_id): void
     {
         $this->appointment_id = $a_id;
         $this->appointment = new ilCalendarEntry($this->getAppointmentId());
     }
 
-    public function getAppointment() : ?ilCalendarEntry
+    public function getAppointment(): ?ilCalendarEntry
     {
         return $this->appointment;
     }
 
-    public function getAppointmentId() : ?int
+    public function getAppointmentId(): ?int
     {
         return $this->appointment_id;
     }
 
-    public function appendAppointmentDetails() : void
+    public function appendAppointmentDetails(): void
     {
         $app = new ilCalendarEntry($this->getAppointmentId());
         $this->appendBody($app->appointmentToMailString($this->getLanguage()));
     }
 
-    public function send() : void
+    public function send(): void
     {
         switch ($this->getType()) {
             case self::TYPE_USER:
@@ -377,7 +379,7 @@ class ilCalendarMailNotification extends ilMailNotification
         $this->deleteAttachments();
     }
 
-    protected function addAttachment() : void
+    protected function addAttachment(): void
     {
         $export = new ilCalendarExport();
         $export->setExportType(ilCalendarExport::EXPORT_APPOINTMENTS);
@@ -397,7 +399,7 @@ class ilCalendarMailNotification extends ilMailNotification
         );
     }
 
-    protected function deleteAttachments() : void
+    protected function deleteAttachments(): void
     {
         $attachment = new ilFileDataMail($this->getSender());
         $attachment->unlinkFiles($this->getAttachments());

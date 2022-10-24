@@ -42,7 +42,7 @@ class ilSurveyImporter extends ilXmlImporter
     }
 
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilSurveyDataSet();
         $this->ds->setDSPrefix("ds");
@@ -57,12 +57,12 @@ class ilSurveyImporter extends ilXmlImporter
      * since the survey import uses multiple input files being processed for every survey
      * and all of these need the current survey object (ilSurveyImporter is intantiated multiple times)
      */
-    public function setSurvey(ilObjSurvey $a_val) : void
+    public function setSurvey(ilObjSurvey $a_val): void
     {
         self::$survey = $a_val;
     }
 
-    public function getSurvey() : ilObjSurvey
+    public function getSurvey(): ilObjSurvey
     {
         return self::$survey;
     }
@@ -78,7 +78,7 @@ class ilSurveyImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         if ($a_entity === "svy") {
             // Container import => test object already created
             if (!($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id))) {    // case ii, non container
@@ -174,18 +174,18 @@ class ilSurveyImporter extends ilXmlImporter
             );
         }
     }
-    
-    
+
+
     /**
      * Create qti and xml file name
      */
-    protected function parseXmlFileNames() : array
+    protected function parseXmlFileNames(): array
     {
         $GLOBALS['ilLog']->write(__METHOD__ . ': ' . $this->getImportDirectory());
-        
+
         $basename = basename($this->getImportDirectory());
         $xml = $this->getImportDirectory() . '/' . $basename . '.xml';
-        
+
         return array($xml);
     }
 }

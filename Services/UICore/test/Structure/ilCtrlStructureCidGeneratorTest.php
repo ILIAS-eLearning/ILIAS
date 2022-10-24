@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -11,7 +13,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilCtrlStructureCidGeneratorTest extends TestCase
 {
-    public function testCidGeneratorIncrements() : void
+    public function testCidGeneratorIncrements(): void
     {
         $generator = new ilCtrlStructureCidGenerator();
         $first_cid = $generator->getCid();
@@ -22,7 +24,7 @@ class ilCtrlStructureCidGeneratorTest extends TestCase
         $this->assertEquals('1', $next_cid);
     }
 
-    public function testCidGeneratorPositiveContinuousIncrements() : void
+    public function testCidGeneratorPositiveContinuousIncrements(): void
     {
         $generator = new ilCtrlStructureCidGenerator(100);
         $first_cid = $generator->getCid();
@@ -33,7 +35,7 @@ class ilCtrlStructureCidGeneratorTest extends TestCase
         $this->assertEquals('2t', $next_cid);
     }
 
-    public function testCidGeneratorNegativeContinuousIncrements() : void
+    public function testCidGeneratorNegativeContinuousIncrements(): void
     {
         $generator = new ilCtrlStructureCidGenerator(-100);
         $first_cid = $generator->getCid();
@@ -44,7 +46,7 @@ class ilCtrlStructureCidGeneratorTest extends TestCase
         $this->assertEquals('-2r', $next_cid);
     }
 
-    public function testCidGeneratorContinuousIncrementsFromMaxIntegerValue() : void
+    public function testCidGeneratorContinuousIncrementsFromMaxIntegerValue(): void
     {
         $generator = new ilCtrlStructureCidGenerator(9223372036854775807);
 
@@ -53,7 +55,7 @@ class ilCtrlStructureCidGeneratorTest extends TestCase
         $cid = $generator->getCid();
     }
 
-    public function testCidGeneratorIndexByCidValue() : void
+    public function testCidGeneratorIndexByCidValue(): void
     {
         $generator = new ilCtrlStructureCidGenerator();
 
@@ -65,7 +67,7 @@ class ilCtrlStructureCidGeneratorTest extends TestCase
         $this->assertEquals(-1, $generator->getIndexByCid('-1'));
     }
 
-    public function testCidGeneratorCidByIndexValue() : void
+    public function testCidGeneratorCidByIndexValue(): void
     {
         $generator = new ilCtrlStructureCidGenerator();
 

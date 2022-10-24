@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\MessageBox;
 
 /**
@@ -41,7 +43,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\MessageBox\MessageBox
      */
-    public function failure(string $message_text) : MessageBox;
+    public function failure(string $message_text): MessageBox;
 
     /**
      * ---
@@ -60,7 +62,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\MessageBox\MessageBox
      */
-    public function success(string $message_text) : MessageBox;
+    public function success(string $message_text): MessageBox;
 
     /**
      * ---
@@ -82,7 +84,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\MessageBox\MessageBox
      */
-    public function info(string $message_text) : MessageBox;
+    public function info(string $message_text): MessageBox;
 
     /**
      * ---
@@ -100,5 +102,5 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\MessageBox\MessageBox
      */
-    public function confirmation(string $message_text) : MessageBox;
+    public function confirmation(string $message_text): MessageBox;
 }

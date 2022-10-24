@@ -37,7 +37,7 @@ class ilDOMUtil
         string $a_content,
         array $a_attributes,
         bool $a_remove_childs = true
-    ) : void {
+    ): void {
         $search = $a_successors;
         $search[] = $a_node_name;
         $child_name = "";
@@ -92,7 +92,7 @@ class ilDOMUtil
     public static function set_attributes(
         php4DOMElement $a_node,
         array $a_attributes
-    ) : void {
+    ): void {
         foreach ($a_attributes as $attribute => $value) {
             if ($value != "") {
                 $a_node->set_attribute($attribute, $value);
@@ -110,7 +110,7 @@ class ilDOMUtil
     public static function deleteAllChildsByName(
         php4DOMElement $a_parent,
         array $a_node_names
-    ) : void {
+    ): void {
         $childs = $a_parent->child_nodes();
         foreach ($childs as $child) {
             $child_name = $child->node_name();
@@ -132,7 +132,7 @@ class ilDOMUtil
         array $a_successors,
         string $a_content,
         array $a_attributes
-    ) : php4DOMElement {
+    ): php4DOMElement {
         $search = $a_successors;
         $child = null;
         $childs = $parent_node->child_nodes();

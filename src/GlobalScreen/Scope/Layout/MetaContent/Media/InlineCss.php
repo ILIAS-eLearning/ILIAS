@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -23,7 +25,7 @@ namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
  */
 class InlineCss extends AbstractMedia
 {
-    const MEDIA_SCREEN = "screen";
+    public const MEDIA_SCREEN = "screen";
     /**
      * @var string
      */
@@ -43,7 +45,7 @@ class InlineCss extends AbstractMedia
     /**
      * @return string
      */
-    public function getMedia() : string
+    public function getMedia(): string
     {
         return $this->media;
     }

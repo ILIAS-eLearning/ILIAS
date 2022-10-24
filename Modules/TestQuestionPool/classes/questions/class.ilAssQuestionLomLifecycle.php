@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -45,7 +47,7 @@ class ilAssQuestionLomLifecycle
         $this->setIdentifier($identifier);
     }
 
-    public function getIdentifier() : string
+    public function getIdentifier(): string
     {
         return $this->identifier;
     }
@@ -54,7 +56,7 @@ class ilAssQuestionLomLifecycle
      * @param mixed $identifier
      * @throws ilTestQuestionPoolInvalidArgumentException
      */
-    public function setIdentifier($identifier) : void
+    public function setIdentifier($identifier): void
     {
         $this->validateIdentifier($identifier);
         $this->identifier = $identifier;
@@ -63,7 +65,7 @@ class ilAssQuestionLomLifecycle
     /**
      * @return string[]
      */
-    public function getValidIdentifiers() : array
+    public function getValidIdentifiers(): array
     {
         return [self::DRAFT, self::FINAL, self::REVISED, self::UNAVAILABLE];
     }
@@ -72,7 +74,7 @@ class ilAssQuestionLomLifecycle
      * @param mixed $identifier
      * @throws ilTestQuestionPoolInvalidArgumentException
      */
-    public function validateIdentifier($identifier) : void
+    public function validateIdentifier($identifier): void
     {
         if (!in_array($identifier, $this->getValidIdentifiers(), true)) {
             throw new ilTestQuestionPoolInvalidArgumentException(
@@ -81,7 +83,7 @@ class ilAssQuestionLomLifecycle
         }
     }
 
-    public function getMappedIliasLifecycleIdentifer() : string
+    public function getMappedIliasLifecycleIdentifer(): string
     {
         switch ($this->getIdentifier()) {
             case self::UNAVAILABLE:

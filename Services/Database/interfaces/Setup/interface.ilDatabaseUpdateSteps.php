@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * This interface tags classes that contain database update steps. It has no
  * requirements for any methods (currently), but instead is just used to mark
@@ -48,5 +48,5 @@ interface ilDatabaseUpdateSteps
      * Do not use anything from the globals or the DIC inside your steps, only use
      * the instance of the database provided here.
      */
-    public function prepare(\ilDBInterface $db) : void;
+    public function prepare(\ilDBInterface $db): void;
 }

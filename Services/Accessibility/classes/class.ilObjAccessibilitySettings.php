@@ -32,7 +32,7 @@ class ilObjAccessibilitySettings extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public static function getControlConceptStatus() : bool
+    public static function getControlConceptStatus(): bool
     {
         global $DIC;
 
@@ -41,7 +41,7 @@ class ilObjAccessibilitySettings extends ilObject
         return (bool) $settings->get('acc_ctrl_cpt_status', '1');
     }
 
-    public static function saveControlConceptStatus(bool $status) : void
+    public static function saveControlConceptStatus(bool $status): void
     {
         global $DIC;
 

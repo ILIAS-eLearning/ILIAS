@@ -243,7 +243,7 @@ with the il- variable set here.
 @il-mainbar-tools-bg: @il-main-dark-bg;
 @il-mainbar-tools-item-gap: 3px;
 @il-mainbar-icon-filter: invert(50%);
-@il-mainbar-trigger-icon-filter: brightness(3);
+@il-mainbar-trigger-icon-filter: brightness(5);
 @il-mainbar-trigger-icon-size: 25px;
 //** tools
 @il-mainbar-remove-tools-btn-height: 45px;
@@ -261,12 +261,13 @@ with the il- variable set here.
 @il-slate-bulky-bg-color: @il-main-darker-bg;
 @il-slate-bulky-level2-bg-color: @il-main-dark-bg;
 @il-slate-bulky-bg-color-engaged: fade(@il-main-color, 30%);
-@il-slate-content-padding: 10px;
-@il-slate-tree-padding: 4px 0;
-@il-slate-bulky-padding: 10px 40px 15px 10px;
-@il-slate-bulky-link-padding: 10px 10px 15px 10px;
+@il-slate-content-padding: @il-padding-base-horizontal;
+@il-slate-tree-padding: @il-padding-small-vertical 0;
+@il-slate-bulky-padding-vertical: @il-padding-xxxlarge-vertical;
+@il-slate-bulky-padding: @il-slate-bulky-padding-vertical 40px @il-slate-bulky-padding-vertical @il-padding-base-horizontal;
+@il-slate-bulky-link-padding: @il-slate-bulky-padding-vertical @il-padding-base-horizontal @il-slate-bulky-padding-vertical @il-padding-base-horizontal;
 @il-slate-bulky-glyph-size: 1.0625rem;
-@il-slate-bulky-glyph-margin-right: 5px;
+@il-slate-bulky-glyph-margin-right: @il-margin-small-horizontal;
 @il-slate-bulky-label-size: 0.9375rem;
 @il-slate-bulky-icon-size: 1.0625rem;
 @il-slate-content-spacing: 2px;
@@ -306,6 +307,8 @@ with the il- variable set here.
 @il-footer-padding: 10px 0 10px 5px;
 //** controls the height of the footer.
 @il-footer-height: 45px;
+//** controls margin from the footer to the main content, increase/decrase depending on the content (default, space for 4 lines).
+@il-footer-margin-bottom: 2*@il-line-height-computed*2;
 
 //== Buttons
 //
@@ -530,7 +533,7 @@ with the il- variable set here.
 //== Toolbar
 //
 //##
-@il-toolbar-margin: @il-margin-xlarge-horizontal; 
+@il-toolbar-margin: @il-margin-xlarge-horizontal;
 @il-toolbar-bg: @il-main-dark-bg;
 @il-toolbar-height: 40px;
 @il-toolbar-border: 1px solid @il-main-border-color;
@@ -538,8 +541,10 @@ with the il- variable set here.
 //== Postings
 //
 //##
-@il-posting-by-moderator-bg: #ff9;
-@il-posting-needs-moderation-bg: #ffe4e4;
+@il-posting-left-border-width: @il-padding-small-horizontal;
+@il-posting-by-moderator-bg: @il-extended-color-1;
+@il-posting-needs-moderation-bg: @il-extended-color-6;
+@il-posting-censored-bg: @il-warning-color;
 
 //== Glyph
 //
@@ -869,7 +874,7 @@ with the il- variable set here.
 //== Drilldown Menu
 //
 //##
-@il-drilldown-item-height: 48px;
+@il-drilldown-item-height: 2 * @il-slate-bulky-padding-vertical + @il-line-height-computed;
 
 //== Toast
 //

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Menu;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -29,7 +31,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         $this->checkComponent($component);
 
@@ -43,7 +45,9 @@ class Renderer extends AbstractComponentRenderer
             $back_signal = $component->getBacklinkSignal();
             $persistence_id = $component->getPersistenceId();
             $glyph = $ui_factory->symbol()->glyph()->collapsehorizontal();
-            $btn = $ui_factory->button()->bulky($glyph, '', '#')->withOnClick($back_signal);
+            $btn = $ui_factory->button()->bulky($glyph, '', '#')
+                                        ->withOnClick($back_signal)
+                                        ->withAriaLabel($this->txt('back'));
             $back_button_html = $default_renderer->render($btn);
 
             $component = $component->withAdditionalOnLoadCode(
@@ -78,7 +82,7 @@ class Renderer extends AbstractComponentRenderer
     protected function renderMenu(
         Menu\Menu $component,
         RendererInterface $default_renderer
-    ) : string {
+    ): string {
         $tpl_menu = $this->getTemplate('tpl.menu.html', true, true);
 
         $label = $component->getLabel();
@@ -100,7 +104,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function registerResources(ResourceRegistry $registry) : void
+    public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/Menu/dist/drilldown.js');
@@ -109,7 +113,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array(
             Menu\Menu::class

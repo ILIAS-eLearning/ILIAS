@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class ilObjChatroomAdminAccessTest extends ilChatroomAbstractTest
     /** @var ilRbacSystem&MockObject */
     protected ilRbacSystem $ilAccessMock;
 
-    public function testCommandDefitionFullfilsExpectations() : void
+    public function testCommandDefitionFullfilsExpectations(): void
     {
         $expected = [
             ['permission' => 'read', 'cmd' => 'view', 'lang_var' => 'enter', 'default' => true],
@@ -42,7 +44,7 @@ class ilObjChatroomAdminAccessTest extends ilChatroomAbstractTest
         $this->assertSame($expected, $commands);
     }
 
-    public function testGotoCheckFails() : void
+    public function testGotoCheckFails(): void
     {
         $this->ilAccessMock
             ->method('checkAccess')
@@ -59,7 +61,7 @@ class ilObjChatroomAdminAccessTest extends ilChatroomAbstractTest
         $this->assertFalse($this->adminAccess::_checkGoto('chtr_1'));
     }
 
-    public function testGotoCheckSucceeds() : void
+    public function testGotoCheckSucceeds(): void
     {
         $this->ilAccessMock->expects($this->once())
             ->method('checkAccess')
@@ -71,7 +73,7 @@ class ilObjChatroomAdminAccessTest extends ilChatroomAbstractTest
         $this->assertTrue($this->adminAccess::_checkGoto('chtr_5'));
     }
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 

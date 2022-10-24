@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,12 +23,12 @@
  */
 class ilPCLauncher extends ilPageContent
 {
-    const PCTYPE = 'lsolauncher';
-    const PCELEMENT = 'Launcher';
-    const PLACEHOLDER = '[[[LAUNCHER]]]';
-    const PROVIDING_TYPES = ['lso'];
+    public const PCTYPE = 'lsolauncher';
+    public const PCELEMENT = 'Launcher';
+    public const PLACEHOLDER = '[[[LAUNCHER]]]';
+    public const PROVIDING_TYPES = ['lso'];
 
-    public function init() : void
+    public function init(): void
     {
         $this->setType(self::PCTYPE);
     }
@@ -35,7 +37,7 @@ class ilPCLauncher extends ilPageContent
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
-    ) : void {
+    ): void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->cach_node = $this->dom->create_element(self::PCELEMENT);
@@ -49,7 +51,7 @@ class ilPCLauncher extends ilPageContent
         string $a_output,
         string $a_mode,
         bool $a_abstract_only = false
-    ) : string {
+    ): string {
         if ($a_mode == 'edit') {
             return $a_output;
         }
@@ -62,13 +64,13 @@ class ilPCLauncher extends ilPageContent
         return $a_output;
     }
 
-    protected function supportsLauncher(int $parent_obj_id) : bool
+    protected function supportsLauncher(int $parent_obj_id): bool
     {
         $parent_obj_type = \ilObject::_lookupType($parent_obj_id);
         return in_array($parent_obj_type, self::PROVIDING_TYPES);
     }
 
-    protected function replaceWithRenderedButtons(int $obj_id, $html) : string
+    protected function replaceWithRenderedButtons(int $obj_id, $html): string
     {
         $lso = \ilObjectFactory::getInstanceByObjId($obj_id);
         $rendered_buttons = $lso->getCurrentUserLaunchButtons();

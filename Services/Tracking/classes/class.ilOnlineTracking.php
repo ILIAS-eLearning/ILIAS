@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -15,7 +17,7 @@ class ilOnlineTracking
      */
     protected static ?int $last_access_time = null;
 
-    public static function getOnlineTime(int $a_user_id) : int
+    public static function getOnlineTime(int $a_user_id): int
     {
         global $DIC;
 
@@ -32,7 +34,7 @@ class ilOnlineTracking
         return 0;
     }
 
-    public static function addUser(int $a_user_id) : bool
+    public static function addUser(int $a_user_id): bool
     {
         global $DIC;
 
@@ -58,7 +60,7 @@ class ilOnlineTracking
         return true;
     }
 
-    public static function updateAccess(ilObjUser $user) : bool
+    public static function updateAccess(ilObjUser $user): bool
     {
         global $DIC;
 

@@ -10,19 +10,19 @@ class TaxAssignmentTest extends TestCase
 {
     //protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
     /**
      * Test if each rater has $num_assignments peers
      */
-    public function testNewTaxAssignment() : void
+    public function testNewTaxAssignment(): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
 

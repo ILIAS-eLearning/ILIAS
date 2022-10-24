@@ -63,7 +63,7 @@ class ilSurveyCategory
      * @param mixed $value
      * @return void
      */
-    public function __set(string $key, $value) : void
+    public function __set(string $key, $value): void
     {
         switch ($key) {
             default:

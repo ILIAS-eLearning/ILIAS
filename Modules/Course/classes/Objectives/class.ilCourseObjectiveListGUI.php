@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * List gui for course objectives
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -25,7 +27,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
     /**
      * @inheritDoc
      */
-    public function init() : void
+    public function init(): void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = false;
@@ -47,7 +49,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
         string $a_title,
         string $a_description,
         bool $a_manage = false
-    ) : string {
+    ): string {
         $this->tpl = new ilTemplate(
             "tpl.container_list_item.html",
             true,
@@ -80,15 +82,15 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
     /**
      * @inheritDoc
      */
-    public function insertTitle() : void
+    public function insertTitle(): void
     {
         if (
             ilCourseObjectiveResultCache::getStatus(
                 $this->user->getId(),
-                $this->getContainerObject()->object->getId()
+                $this->getContainerObject()->getObject()->getId()
             ) != ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_NONE && ilCourseObjectiveResultCache::isSuggested(
                 $this->user->getId(),
-                $this->getContainerObject()->object->getId(),
+                $this->getContainerObject()->getObject()->getId(),
                 $this->obj_id
             )
         ) {
@@ -106,7 +108,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
         $this->tpl->setCurrentBlock("item_title_linked");
         $this->tpl->setVariable("TXT_TITLE_LINKED", $this->getTitle());
 
-        $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->getContainerObject()->object->getRefId());
+        $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->getContainerObject()->getObject()->getRefId());
         $this->ctrl->setParameterByClass("ilrepositorygui", "objective_details", $this->obj_id);
         $link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "");
         $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
@@ -118,7 +120,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
     /**
      * @inheritDoc
      */
-    public function insertProgressInfo() : void
+    public function insertProgressInfo(): void
     {
         $this->lng->loadLanguageModule('trac');
         $this->tpl->setCurrentBlock('item_progress');
@@ -127,7 +129,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
 
         switch (ilCourseObjectiveResultCache::getStatus(
             $this->user->getId(),
-            $this->getContainerObject()->object->getId()
+            $this->getContainerObject()->getObject()->getId()
         )) {
             case ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_NONE:
                 $this->tpl->setVariable('TXT_PROGRESS_INFO', $this->lng->txt('crs_objective_status'));
@@ -142,7 +144,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
                 $this->tpl->setVariable('TXT_PROGRESS_INFO', $this->lng->txt('crs_objective_pretest'));
                 if (ilCourseObjectiveResultCache::isSuggested(
                     $this->user->getId(),
-                    $this->getContainerObject()->object->getId(),
+                    $this->getContainerObject()->getObject()->getId(),
                     $this->obj_id
                 )) {
                     $this->tpl->setVariable(
@@ -162,7 +164,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
                 $this->tpl->setVariable('TXT_PROGRESS_INFO', $this->lng->txt('crs_objective_result'));
                 if (ilCourseObjectiveResultCache::isSuggested(
                     $this->user->getId(),
-                    $this->getContainerObject()->object->getId(),
+                    $this->getContainerObject()->getObject()->getId(),
                     $this->obj_id
                 )) {
                     $this->tpl->setVariable(

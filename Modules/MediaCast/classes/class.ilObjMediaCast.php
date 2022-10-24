@@ -34,7 +34,7 @@ class ilObjMediaCast extends ilObject
     public const AUTOPLAY_NO = 0;
     public const AUTOPLAY_ACT = 1;
     public const AUTOPLAY_INACT = 2;
-
+    protected \ILIAS\MediaObjects\Tracking\TrackingManager $mob_tracking;
 
     protected array $itemsarray;
     protected ilObjUser $user;
@@ -62,65 +62,68 @@ class ilObjMediaCast extends ilObject
         $mcst_set = new ilSetting("mcst");
         $this->setDefaultAccess($mcst_set->get("defaultaccess") == "users" ? 0 : 1);
         $this->setOrder(self::ORDER_CREATION_DATE_DESC);
+        $this->mob_tracking = $DIC->mediaObjects()->internal()
+            ->domain()
+            ->tracking();
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function setOnline(bool $a_online) : void
+    public function setOnline(bool $a_online): void
     {
         $this->online = $a_online;
     }
 
-    public function getOnline() : bool
+    public function getOnline(): bool
     {
         return $this->online;
     }
 
-    public function setPublicFiles(bool $a_publicfiles) : void
+    public function setPublicFiles(bool $a_publicfiles): void
     {
         $this->publicfiles = $a_publicfiles;
     }
 
-    public function getPublicFiles() : bool
+    public function getPublicFiles(): bool
     {
         return $this->publicfiles;
     }
 
-    public function setViewMode(string $a_val) : void
+    public function setViewMode(string $a_val): void
     {
         $this->view_mode = $a_val;
     }
 
-    public function getViewMode() : string
+    public function getViewMode(): string
     {
         return $this->view_mode;
     }
 
-    public function setItemsArray(array $a_itemsarray) : void
+    public function setItemsArray(array $a_itemsarray): void
     {
         $this->itemsarray = $a_itemsarray;
     }
 
-    public function getItemsArray() : array
+    public function getItemsArray(): array
     {
         return $this->itemsarray;
     }
 
-    public function setAutoplayMode(int $a_val) : void
+    public function setAutoplayMode(int $a_val): void
     {
         $this->autoplay_mode = $a_val;
     }
 
-    public function getAutoplayMode() : int
+    public function getAutoplayMode(): int
     {
         return $this->autoplay_mode;
     }
 
-    public function setNumberInitialVideos(int $a_val) : void
+    public function setNumberInitialVideos(int $a_val): void
     {
         $this->nr_initial_videos = $a_val;
     }
 
-    public function getNumberInitialVideos() : int
+    public function getNumberInitialVideos(): int
     {
         return $this->nr_initial_videos;
     }
@@ -128,17 +131,17 @@ class ilObjMediaCast extends ilObject
     /**
      * Set new items automatically in lp
      */
-    public function setNewItemsInLearningProgress(bool $a_val) : void
+    public function setNewItemsInLearningProgress(bool $a_val): void
     {
         $this->new_items_in_lp = $a_val;
     }
 
-    public function getNewItemsInLearningProgress() : bool
+    public function getNewItemsInLearningProgress(): bool
     {
         return $this->new_items_in_lp;
     }
 
-    public function getSortedItemsArray() : array
+    public function getSortedItemsArray(): array
     {
         $med_items = $this->getItemsArray();
 
@@ -147,15 +150,15 @@ class ilObjMediaCast extends ilObject
             case ilObjMediaCast::ORDER_TITLE:
                 $med_items = ilArrayUtil::sortArray($med_items, "title", "asc", false, true);
                 break;
-            
+
             case ilObjMediaCast::ORDER_CREATION_DATE_ASC:
                 $med_items = ilArrayUtil::sortArray($med_items, "creation_date", "asc", false, true);
                 break;
-            
+
             case ilObjMediaCast::ORDER_CREATION_DATE_DESC:
                 $med_items = ilArrayUtil::sortArray($med_items, "creation_date", "desc", false, true);
                 break;
-            
+
             case ilObjMediaCast::ORDER_MANUAL:
                 $order = array_flip($this->readOrder());
                 $pos = sizeof($order);
@@ -168,50 +171,50 @@ class ilObjMediaCast extends ilObject
                         $med_items[$idx]["order"] = (++$pos) * 10;
                     }
                 }
-                
+
                 $med_items = ilArrayUtil::sortArray($med_items, "order", "asc", true, true);
                 break;
         }
         return $med_items;
     }
-    
-    public function setDownloadable(bool $a_downloadable) : void
+
+    public function setDownloadable(bool $a_downloadable): void
     {
         $this->downloadable = $a_downloadable;
     }
 
-    public function getDownloadable() : bool
+    public function getDownloadable(): bool
     {
         return $this->downloadable;
     }
-    
-    public function getDefaultAccess() : int
+
+    public function getDefaultAccess(): int
     {
         return $this->defaultAccess;
     }
-    
-    public function setDefaultAccess(int $value) : void
+
+    public function setDefaultAccess(int $value): void
     {
         $this->defaultAccess = ($value === 0) ? 0 : 1;
     }
-    
-    public function setOrder(int $a_value) : void
+
+    public function setOrder(int $a_value): void
     {
         $this->order = $a_value;
     }
 
-    public function getOrder() : int
+    public function getOrder(): int
     {
         return $this->order;
     }
-    
-    
-    public function create() : int
+
+
+    public function create(): int
     {
         $ilDB = $this->db;
 
         $id = parent::create();
-        
+
         $query = "INSERT INTO il_media_cast_data (" .
             " id" .
             ", is_online" .
@@ -239,10 +242,10 @@ class ilObjMediaCast extends ilObject
         return $id;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         $ilDB = $this->db;
-        
+
         if (!parent::update()) {
             return false;
         }
@@ -264,32 +267,32 @@ class ilObjMediaCast extends ilObject
 
         return true;
     }
-    
-    public function read() : void
+
+    public function read(): void
     {
         $ilDB = $this->db;
-        
+
         parent::read();
         $this->readItems();
-        
+
         $query = "SELECT * FROM il_media_cast_data WHERE id = " .
             $ilDB->quote($this->getId(), "integer");
         $set = $ilDB->query($query);
         $rec = $ilDB->fetchAssoc($set);
 
-        $this->setOnline($rec["is_online"]);
-        $this->setPublicFiles($rec["public_files"]);
-        $this->setDownloadable($rec["downloadable"]);
-        $this->setDefaultAccess($rec["def_access"]);
+        $this->setOnline((bool) $rec["is_online"]);
+        $this->setPublicFiles((bool) $rec["public_files"]);
+        $this->setDownloadable((bool) $rec["downloadable"]);
+        $this->setDefaultAccess((int) $rec["def_access"]);
         $this->setOrder((int) $rec["sortmode"]);
-        $this->setViewMode($rec["viewmode"]);
+        $this->setViewMode((string) $rec["viewmode"]);
         $this->setAutoplayMode((int) $rec["autoplaymode"]);
         $this->setNumberInitialVideos((int) $rec["nr_initial_videos"]);
         $this->setNewItemsInLearningProgress((bool) $rec["new_items_in_lp"]);
     }
 
 
-    public function delete() : bool
+    public function delete(): bool
     {
         $ilDB = $this->db;
 
@@ -304,49 +307,49 @@ class ilObjMediaCast extends ilObject
             $news_item = new ilNewsItem($item["id"]);
             $news_item->delete();
         }
-        
+
         $this->deleteOrder();
 
         // delete record of table il_media_cast_data
         $query = "DELETE FROM il_media_cast_data" .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer");
         $ilDB->manipulate($query);
-        
+
         return true;
     }
 
-    public function readItems(bool $a_oldest_first = false) : array
+    public function readItems(bool $a_oldest_first = false): array
     {
         //
         $it = new ilNewsItem();
         $it->setContextObjId($this->getId());
         $it->setContextObjType($this->getType());
         $this->itemsarray = $it->queryNewsForContext(false, 0, "", false, $a_oldest_first);
-        
+
         return $this->itemsarray;
     }
 
-    public function deleteOrder() : void
+    public function deleteOrder(): void
     {
         $ilDB = $this->db;
-        
+
         if (!$this->getId()) {
             return;
         }
-        
+
         $sql = "DELETE FROM il_media_cast_data_ord" .
             " WHERE obj_id = " . $ilDB->quote($this->getId(), "integer");
         $ilDB->manipulate($sql);
     }
-    
-    public function readOrder() : ?array
+
+    public function readOrder(): ?array
     {
         $ilDB = $this->db;
-        
+
         if (!$this->getId()) {
             return null;
         }
-        
+
         $all = array();
         $sql = "SELECT item_id FROM il_media_cast_data_ord" .
             " WHERE obj_id = " . $ilDB->quote($this->getId(), "integer") .
@@ -357,21 +360,21 @@ class ilObjMediaCast extends ilObject
         }
         return $all;
     }
-    
-    public function saveOrder(array $a_items) : void
+
+    public function saveOrder(array $a_items): void
     {
         $ilDB = $this->db;
-        
+
         if (!$this->getId()) {
             return;
         }
-        
+
         $this->deleteOrder();
-        
+
         $pos = 0;
         foreach ($a_items as $item_id) {
             $pos++;
-            
+
             $sql = "INSERT INTO il_media_cast_data_ord (obj_id,item_id,pos)" .
                 " VALUES (" . $ilDB->quote($this->getId(), "integer") . "," .
                 $ilDB->quote($item_id, "integer") . "," .
@@ -383,7 +386,7 @@ class ilObjMediaCast extends ilObject
     protected function copyOrder(
         ilObjMediaCast $newObj,
         array $mapping
-    ) : void {
+    ): void {
         $items = [];
         foreach ($this->readOrder() as $i) {
             $items[] = $mapping[$i];
@@ -391,7 +394,7 @@ class ilObjMediaCast extends ilObject
         $newObj->saveOrder($items);
     }
 
-    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false): ?ilObject
     {
         /** @var ilObjMediaCast $new_obj */
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
@@ -402,7 +405,7 @@ class ilObjMediaCast extends ilObject
         if (!$cp_options->isRootNode($this->getRefId())) {
             $new_obj->setOnline($this->getOnline());
         }
-        
+
         $new_obj->setPublicFiles($this->getPublicFiles());
         $new_obj->setDownloadable($this->getDownloadable());
         $new_obj->setDefaultAccess($this->getDefaultAccess());
@@ -416,8 +419,8 @@ class ilObjMediaCast extends ilObject
 
         $pf = ilBlockSetting::_lookup("news", "public_feed", 0, $this->getId());
         $keeprss = (int) ilBlockSetting::_lookup("news", "keep_rss_min", 0, $this->getId());
-        ilBlockSetting::_write("news", "public_feed", $pf, 0, $new_obj->getId());
-        ilBlockSetting::_write("news", "keep_rss_min", $keeprss, 0, $new_obj->getId());
+        ilBlockSetting::_write("news", "public_feed", (string) $pf, 0, $new_obj->getId());
+        ilBlockSetting::_write("news", "keep_rss_min", (string) $keeprss, 0, $new_obj->getId());
 
         // copy items
         $mapping = $this->copyItems($new_obj);
@@ -439,7 +442,7 @@ class ilObjMediaCast extends ilObject
         return $new_obj;
     }
 
-    public function copyItems(ilObjMediaCast $a_new_obj) : array
+    public function copyItems(ilObjMediaCast $a_new_obj): array
     {
         $ilUser = $this->user;
 
@@ -468,21 +471,16 @@ class ilObjMediaCast extends ilObject
         }
         return $item_mapping;
     }
-    
+
     public function handleLPUpdate(
         int $a_user_id,
         int $a_mob_id
-    ) : void {
-        // using read events to persist mob status
-        ilChangeEvent::_recordReadEvent(
-            "mob",
-            $this->getRefId(),
+    ): void {
+        $this->mob_tracking->saveCompletion(
             $a_mob_id,
+            $this->getRefId(),
             $a_user_id
         );
-        
-        // trigger LP update
-        ilLPStatusWrapper::_updateStatus($this->getId(), $a_user_id);
     }
 
     /**
@@ -492,7 +490,7 @@ class ilObjMediaCast extends ilObject
         int $mob_id,
         int $user_id,
         string $long_desc = ""
-    ) : int {
+    ): int {
         $mob = new ilObjMediaObject($mob_id);
         $news_set = new ilSetting("news");
         $enable_internal_rss = $news_set->get("enable_rss_for_internal");
@@ -530,7 +528,7 @@ class ilObjMediaCast extends ilObject
     /**
      * Get playtime for seconds
      */
-    public function getPlaytimeForSeconds(int $seconds) : string
+    public function getPlaytimeForSeconds(int $seconds): string
     {
         $hours = floor($seconds / 3600);
         $minutes = floor(($seconds % 3600) / 60);

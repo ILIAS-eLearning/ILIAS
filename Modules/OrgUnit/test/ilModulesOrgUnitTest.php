@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,12 +37,12 @@ class ilModulesOrgUnitTest extends TestCase
     protected $db_mock;
     protected $manager_mock;
     private PHPUnit\Framework\MockObject\MockObject $component_factory_mock;
-    
-    protected function setUp() : void
+
+    protected function setUp(): void
     {
         global $DIC;
         $this->dic_backup = is_object($DIC) ? clone $DIC : $DIC;
-        
+
         $DIC = new Container();
         $DIC['resource_storage'] = $this->storage_mock = $this->createMock(Services::class);
         $this->manager_mock = $this->createMock(Manager::class);
@@ -65,7 +67,7 @@ class ilModulesOrgUnitTest extends TestCase
                                 ->disableOriginalConstructor()
                                 ->disableArgumentCloning()
                                 ->getMock();*/
-        
+
         if (!defined('ILIAS_LOG_ENABLED')) {
             define('ILIAS_LOG_ENABLED', false);
         }
@@ -73,14 +75,14 @@ class ilModulesOrgUnitTest extends TestCase
             define('DEBUG', false);
         }
     }
-    
-    protected function tearDown() : void
+
+    protected function tearDown(): void
     {
         global $DIC;
         $DIC = $this->dic_backup;
     }
-    
-    public function testIfOrgUnitHasRequiredLocalRoles() : void
+
+    public function testIfOrgUnitHasRequiredLocalRoles(): void
     {
         $rec = new stdClass();
         $rec->icon = '';

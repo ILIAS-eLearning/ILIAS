@@ -1,8 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Form/classes/class.ilFileInputGUI.php';
-require_once 'Modules/TestQuestionPool/classes/class.assAnswerImagemap.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilHtmlImageMapFileInputGUI
@@ -13,11 +25,11 @@ class ilHtmlImageMapFileInputGUI extends ilFileInputGUI
      * @var ASS_AnswerImagemap[]
      */
     protected $shapes = array();
-    
+
     /**
      * {@inheritdoc}
      */
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         /**
          * @var $lng ilLanguage
@@ -65,7 +77,7 @@ class ilHtmlImageMapFileInputGUI extends ilFileInputGUI
     /**
      * @return ASS_AnswerImagemap[]
      */
-    public function getShapes() : array
+    public function getShapes(): array
     {
         return $this->shapes;
     }

@@ -19,7 +19,7 @@ class ilTaxonomyGSToolProvider extends AbstractDynamicToolProvider
     /**
      * @inheritDoc
      */
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->main()->main();
     }
@@ -27,7 +27,7 @@ class ilTaxonomyGSToolProvider extends AbstractDynamicToolProvider
     /**
      * @inheritDoc
      */
-    public function getToolsForContextStack(CalledContexts $called_contexts) : array
+    public function getToolsForContextStack(CalledContexts $called_contexts): array
     {
         global $DIC;
 
@@ -42,15 +42,15 @@ class ilTaxonomyGSToolProvider extends AbstractDynamicToolProvider
         if ($additional_data->is(self::SHOW_TAX_TREE, true)) {
             $iff = fn (
                 $id
-            ) : \ILIAS\GlobalScreen\Identification\IdentificationInterface => $this->identification_provider->contextAwareIdentifier($id);
+            ): \ILIAS\GlobalScreen\Identification\IdentificationInterface => $this->identification_provider->contextAwareIdentifier($id);
             $l = fn (
                 string $content
-            ) : \ILIAS\UI\Component\Legacy\Legacy => $this->dic->ui()->factory()->legacy($content);
+            ): \ILIAS\UI\Component\Legacy\Legacy => $this->dic->ui()->factory()->legacy($content);
             $tools[] = $this->factory->tool($iff("tree"))
                                      ->withTitle($title)
                                      ->withSymbol($icon)
                                      ->withContentWrapper(fn (
-                                     ) : \ILIAS\UI\Component\Legacy\Legacy => $l($this->getEditTree(
+                                     ): \ILIAS\UI\Component\Legacy\Legacy => $l($this->getEditTree(
                                          $additional_data->get(self::TAX_TREE_GUI_PATH),
                                          $additional_data->get(self::TAX_ID),
                                          $additional_data->get(self::TAX_TREE_CMD),
@@ -61,7 +61,7 @@ class ilTaxonomyGSToolProvider extends AbstractDynamicToolProvider
         return $tools;
     }
 
-    private function getEditTree(array $gui_path, int $tax_id, string $cmd, string $parent_cmd) : string
+    private function getEditTree(array $gui_path, int $tax_id, string $cmd, string $parent_cmd): string
     {
         $target_gui = $gui_path[count($gui_path) - 1];
         $tax_exp = new ilTaxonomyExplorerGUI(

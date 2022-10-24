@@ -30,7 +30,7 @@ class ilSaxController
      */
     protected $handler_in_use = null;
     protected ?ilSaxSubsetParser $current_handler;
-    
+
     /**
      * Set handlers
      *
@@ -69,7 +69,7 @@ class ilSaxController
      * @param	string		$a_name				element name
      * @param	array		$a_attribs			element attributes array
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) :void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         if (isset($this->element_handlers[$a_name]) or $this->handler_in_use) {
             if (!$this->handler_in_use) {
@@ -92,7 +92,7 @@ class ilSaxController
     * @param	resource	$a_xml_parser		xml parser
     * @param	string		$a_name				element name
     */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         if (isset($this->element_handlers[$a_name])) {
             $this->handler_in_use = false;
@@ -118,7 +118,7 @@ class ilSaxController
     public function handlerCharacterData(
         $a_xml_parser,
         string $a_data
-    ) : void {
+    ): void {
         $this->current_handler->handlerCharacterData(
             $a_xml_parser,
             $a_data

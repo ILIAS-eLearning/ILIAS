@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
     /**
      * @return MockObject&ilTermsOfServiceCriterionTypeFactoryInterface
      */
-    protected function getCriterionTypeFactoryMock() : ilTermsOfServiceCriterionTypeFactoryInterface
+    protected function getCriterionTypeFactoryMock(): ilTermsOfServiceCriterionTypeFactoryInterface
     {
         $criterionTypeFactory = $this
             ->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)
@@ -41,7 +43,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
      * @param string $typeIdent
      * @return MockObject&ilTermsOfServiceCriterionType
      */
-    protected function getCriterionTypeMock(string $typeIdent) : ilTermsOfServiceCriterionType
+    protected function getCriterionTypeMock(string $typeIdent): ilTermsOfServiceCriterionType
     {
         $criterionType = $this
             ->getMockBuilder(ilTermsOfServiceCriterionType::class)
@@ -57,7 +59,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
     /**
      * @return MockObject&ilTermsOfServiceCriterionTypeFactoryInterface
      */
-    protected function getTypeMockForConstraint() : ilTermsOfServiceCriterionTypeFactoryInterface
+    protected function getTypeMockForConstraint(): ilTermsOfServiceCriterionTypeFactoryInterface
     {
         $criterionTypeFactory = $this->getCriterionTypeFactoryMock();
 
@@ -80,7 +82,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         return $criterionTypeFactory;
     }
 
-    public function criteriaAssignmentProvider() : array
+    public function criteriaAssignmentProvider(): array
     {
         $criterionAssignment1 = $this
             ->getMockBuilder(ilTermsOfServiceDocumentCriterionAssignment::class)
@@ -175,7 +177,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
-    ) : void {
+    ): void {
         $document1 = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -211,7 +213,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
-    ) : void {
+    ): void {
         $document1 = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -262,7 +264,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
-    ) : void {
+    ): void {
         $document1 = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -298,7 +300,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
-    ) : void {
+    ): void {
         $document1 = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -344,7 +346,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
-    ) : void {
+    ): void {
         $document1 = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -380,7 +382,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
-    ) : void {
+    ): void {
         $document1 = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -428,7 +430,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
-    ) : void {
+    ): void {
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()

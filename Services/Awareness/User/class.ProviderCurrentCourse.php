@@ -51,7 +51,7 @@ class ProviderCurrentCourse implements Provider
      * Get provider id
      * @return string provider id
      */
-    public function getProviderId() : string
+    public function getProviderId(): string
     {
         return "crs_current";
     }
@@ -60,7 +60,7 @@ class ProviderCurrentCourse implements Provider
      * Provider title (used in awareness overlay and in administration settings)
      * @return string provider title
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $this->lng->loadLanguageModule("crs");
         return $this->lng->txt("crs_awrn_current_course");
@@ -70,7 +70,7 @@ class ProviderCurrentCourse implements Provider
      * Provider info (used in administration settings)
      * @return string provider info text
      */
-    public function getInfo() : string
+    public function getInfo(): string
     {
         $this->lng->loadLanguageModule("crs");
         return $this->lng->txt("crs_awrn_current_course_info");
@@ -81,7 +81,7 @@ class ProviderCurrentCourse implements Provider
      * @param ?int[] $user_ids
      * @return int[] array of user IDs
      */
-    public function getInitialUserSet(?array $user_ids = null) : array
+    public function getInitialUserSet(?array $user_ids = null): array
     {
         $ilDB = $this->db;
         $tree = $this->tree;
@@ -118,7 +118,7 @@ class ProviderCurrentCourse implements Provider
         return $ub;
     }
 
-    public function isHighlighted() : bool
+    public function isHighlighted(): bool
     {
         return false;
     }

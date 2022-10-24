@@ -25,18 +25,18 @@ class ilMediaCastDataSet extends ilDataSet
 {
     protected ilObjMediaCast $current_obj;
     protected array $order = array();
-    
-    public function getSupportedVersions() : array
+
+    public function getSupportedVersions(): array
     {
-        return array("5.0.0", "4.1.0");
+        return array("8.0", "5.0.0", "4.1.0");
     }
-    
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+
+    public function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "https://www.ilias.de/xml/Modules/MediaCast/" . $a_entity;
     }
-    
-    protected function getTypes(string $a_entity, string $a_version) : array
+
+    protected function getTypes(string $a_entity, string $a_version): array
     {
         if ($a_entity == "mcst") {
             switch ($a_version) {
@@ -63,6 +63,24 @@ class ilMediaCastDataSet extends ilDataSet
                         "KeepRssMin" => "integer",
                         "Order" => "text"
                     );
+
+                case "8.0":
+                    return array(
+                        "Id" => "integer",
+                        "Title" => "text",
+                        "Description" => "text",
+                        "PublicFiles" => "integer",
+                        "Downloadable" => "integer",
+                        "DefaultAccess" => "integer",
+                        "Sortmode" => "integer",
+                        "Viewmode" => "text",
+                        "PublicFeed" => "integer",
+                        "KeepRssMin" => "integer",
+                        "Order" => "text",
+                        "Autoplaymode" => "integer",
+                        "NrInitialVideos" => "integer",
+                        "NewItemsInLp" => "integer"
+                    );
             }
         }
         return [];
@@ -72,7 +90,7 @@ class ilMediaCastDataSet extends ilDataSet
         string $a_entity,
         string $a_version,
         array $a_ids
-    ) : void {
+    ): void {
         $ilDB = $this->db;
 
 
@@ -92,7 +110,7 @@ class ilMediaCastDataSet extends ilDataSet
                         " FROM il_media_cast_data JOIN object_data ON (il_media_cast_data.id = object_data.obj_id) " .
                         "WHERE " .
                         $ilDB->in("id", $a_ids, false, "integer"));
-                    
+
                     // #17174 - manual order?
                     $order = array();
                     $set = $ilDB->query("SELECT * FROM il_media_cast_data_ord" .
@@ -105,7 +123,36 @@ class ilMediaCastDataSet extends ilDataSet
                     foreach ($this->data as $k => $v) {
                         $this->data[$k]["PublicFeed"] = ilBlockSetting::_lookup("news", "public_feed", 0, $v["Id"]);
                         $this->data[$k]["KeepRssMin"] = (int) ilBlockSetting::_lookup("news", "keep_rss_min", 0, $v["Id"]);
-                        
+
+                        // manual order?
+                        if ($this->data[$k]["Sortmode"] == 4 &&
+                            array_key_exists($v["Id"], $order)) {
+                            $this->data[$k]["Order"] = implode(";", $order[$v["Id"]]);
+                        }
+                    }
+                    break;
+
+                case "8.0":
+                    $this->getDirectDataFromQuery("SELECT id, title, description, " .
+                        " public_files, downloadable, def_access default_access, sortmode, viewmode," .
+                        " autoplaymode,nr_initial_videos,new_items_in_lp" .
+                        " FROM il_media_cast_data JOIN object_data ON (il_media_cast_data.id = object_data.obj_id) " .
+                        "WHERE " .
+                        $ilDB->in("id", $a_ids, false, "integer"));
+
+                    // #17174 - manual order?
+                    $order = array();
+                    $set = $ilDB->query("SELECT * FROM il_media_cast_data_ord" .
+                        " WHERE " . $ilDB->in("obj_id", $a_ids, false, "integer") .
+                        " ORDER BY pos");
+                    while ($row = $ilDB->fetchAssoc($set)) {
+                        $order[$row["obj_id"]][] = $row["item_id"];
+                    }
+
+                    foreach ($this->data as $k => $v) {
+                        $this->data[$k]["PublicFeed"] = ilBlockSetting::_lookup("news", "public_feed", 0, $v["Id"]);
+                        $this->data[$k]["KeepRssMin"] = (int) ilBlockSetting::_lookup("news", "keep_rss_min", 0, $v["Id"]);
+
                         // manual order?
                         if ($this->data[$k]["Sortmode"] == 4 &&
                             array_key_exists($v["Id"], $order)) {
@@ -116,26 +163,26 @@ class ilMediaCastDataSet extends ilDataSet
             }
         }
     }
-    
+
     protected function getDependencies(
         string $a_entity,
         string $a_version,
         ?array $a_rec = null,
         ?array $a_ids = null
-    ) : array {
+    ): array {
         return [];
     }
-    
+
     public function importRecord(
         string $a_entity,
         array $a_types,
         array $a_rec,
         ilImportMapping $a_mapping,
         string $a_schema_version
-    ) : void {
+    ): void {
         switch ($a_entity) {
             case "mcst":
-                
+
                 if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
                     $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
                 } else {
@@ -143,18 +190,18 @@ class ilMediaCastDataSet extends ilDataSet
                     $newObj->setType("mcst");
                     $newObj->create();
                 }
-                
-                $newObj->setTitle($a_rec["Title"]);
-                $newObj->setDescription($a_rec["Description"]);
-                $newObj->setDefaultAccess($a_rec["DefaultAccess"]);
-                $newObj->setDownloadable($a_rec["Downloadable"]);
-                $newObj->setPublicFiles($a_rec["PublicFiles"]);
 
-                if ($a_schema_version == "5.0.0") {
-                    $newObj->setOrder($a_rec["Sortmode"]);
-                    $newObj->setViewMode($a_rec["Viewmode"]);
-                    
-                    if ($a_rec["Order"]) {
+                $newObj->setTitle($a_rec["Title"] ?? "");
+                $newObj->setDescription($a_rec["Description"] ?? "");
+                $newObj->setDefaultAccess((int) ($a_rec["DefaultAccess"] ?? 0));
+                $newObj->setDownloadable((bool) (int) ($a_rec["Downloadable"] ?? false));
+                $newObj->setPublicFiles((bool) (int) ($a_rec["PublicFiles"] ?? false));
+
+                if (in_array($a_schema_version, ["5.0.0", "8.0"])) {
+                    $newObj->setOrder((int) ($a_rec["Sortmode"] ?? 0));
+                    $newObj->setViewMode((string) ($a_rec["Viewmode"] ?? ""));
+
+                    if ($a_rec["Order"] ?? false) {
                         $this->order[$newObj->getId()] = explode(";", $a_rec["Order"]);
                     }
 
@@ -174,6 +221,11 @@ class ilMediaCastDataSet extends ilDataSet
                         $newObj->getId()
                     );
                 }
+                if (in_array($a_schema_version, ["8.0"])) {
+                    $newObj->setAutoplayMode((int) ($a_rec["Autoplaymode"] ?? 0));
+                    $newObj->setNumberInitialVideos((int) ($a_rec["NrInitialVideos"] ?? 0));
+                    $newObj->setNewItemsInLearningProgress((bool) (int) ($a_rec["NewItemsInLp"] ?? false));
+                }
 
                 $newObj->update();
                 $this->current_obj = $newObj;
@@ -187,8 +239,8 @@ class ilMediaCastDataSet extends ilDataSet
                 break;
         }
     }
-    
-    public function getOrder() : array
+
+    public function getOrder(): array
     {
         return $this->order;
     }

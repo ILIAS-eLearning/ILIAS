@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
     +-----------------------------------------------------------------------------+
@@ -70,128 +72,128 @@ class ilMDCreator
     }
 
     // SET/GET
-    public function setTitle(string $a_title) : void
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setDescription(string $a_desc) : void
+    public function setDescription(string $a_desc): void
     {
         $this->description = $a_desc;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function setTitleLanguage(string $a_lng) : void
+    public function setTitleLanguage(string $a_lng): void
     {
         $this->title_lng = $a_lng;
     }
 
-    public function getTitleLanguage() : ilMDLanguageItem
+    public function getTitleLanguage(): ilMDLanguageItem
     {
         return new ilMDLanguageItem($this->title_lng);
     }
 
-    public function setDescriptionLanguage(string $a_lng) : void
+    public function setDescriptionLanguage(string $a_lng): void
     {
         $this->title_lng = $a_lng;
     }
 
-    public function getDescriptionLanguage() : ilMDLanguageItem
+    public function getDescriptionLanguage(): ilMDLanguageItem
     {
         return new ilMDLanguageItem($this->title_lng);
     }
 
-    public function setLanguage(string $a_lng) : void
+    public function setLanguage(string $a_lng): void
     {
         $this->title_lng = $a_lng;
     }
 
-    public function getLanguage() : ilMDLanguageItem
+    public function getLanguage(): ilMDLanguageItem
     {
         return new ilMDLanguageItem($this->title_lng);
     }
 
-    public function setKeyword(string $a_key) : void
+    public function setKeyword(string $a_key): void
     {
         $this->keyword = $a_key;
     }
 
-    public function getKeyword() : string
+    public function getKeyword(): string
     {
         return $this->keyword;
     }
 
-    public function getRBACId() : int
+    public function getRBACId(): int
     {
         return $this->rbac_id;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function getObjType() : string
+    public function getObjType(): string
     {
         return $this->obj_type;
     }
 
-    public function setKeywordLanguage(string $a_lng) : void
+    public function setKeywordLanguage(string $a_lng): void
     {
         $this->title_lng = $a_lng;
     }
 
-    public function getKeywordLanguage() : ilMDLanguageItem
+    public function getKeywordLanguage(): ilMDLanguageItem
     {
         return new ilMDLanguageItem($this->title_lng);
     }
 
-    public function setCatalog(string $a_cat) : void
+    public function setCatalog(string $a_cat): void
     {
         $this->catalog = $a_cat;
     }
 
-    public function getCatalog() : string
+    public function getCatalog(): string
     {
         return $this->catalog ?: 'ILIAS';
     }
 
-    public function setEntry(string $a_entry) : void
+    public function setEntry(string $a_entry): void
     {
         $this->entry = $a_entry;
     }
 
-    public function getEntry() : string
+    public function getEntry(): string
     {
         return $this->entry ?: 'il__' . $this->getObjType() . '_' . $this->getObjId();
     }
 
-    public function setStructure(string $a_structure) : void
+    public function setStructure(string $a_structure): void
     {
         $this->structure = $a_structure;
     }
 
-    public function getStructure() : string
+    public function getStructure(): string
     {
         return $this->structure ?: 'Hierarchical';
     }
 
-    public function create() : void
+    public function create(): void
     {
         $this->__createGeneral();
     }
 
     // PROTECTED
-    public function __createGeneral() : bool
+    public function __createGeneral(): bool
     {
         $md_gen = $this->md_obj->addGeneral();
 

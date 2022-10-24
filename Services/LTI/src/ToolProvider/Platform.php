@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 namespace ILIAS\LTI\ToolProvider;
 
 use ILIAS\LTI\ToolProvider\DataConnector\DataConnector;
@@ -156,7 +155,7 @@ class Platform
      *
      * @return AccessToken Access token
      */
-    public function getAccessToken() : ?AccessToken
+    public function getAccessToken(): ?AccessToken
     {
         return $this->accessToken;
     }
@@ -221,7 +220,7 @@ class Platform
         $this->name = null;
         $this->secret = null;
         $this->signatureMethod = 'HMAC-SHA1';
-        $this->encryptionMethod = null;
+        $this->encryptionMethod = ''; //changed from null
         $this->rsaKey = null;
         $this->kid = null;
         $this->jku = null;
@@ -261,7 +260,7 @@ class Platform
      *
      * @return bool    True if the object was successfully saved
      */
-    public function save() : bool
+    public function save(): bool
     {
         return $this->dataConnector->savePlatform($this);
     }
@@ -271,7 +270,7 @@ class Platform
      *
      * @return bool    True if the object was successfully deleted
      */
-    public function delete() : bool
+    public function delete(): bool
     {
         return $this->dataConnector->deletePlatform($this);
     }
@@ -283,7 +282,7 @@ class Platform
      *
      * @return string  Platform ID value
      */
-    public function getId() : ?string
+    public function getId(): ?string
     {
         if (!empty($this->key)) {
             $id = $this->key;
@@ -307,7 +306,7 @@ class Platform
      *
      * @return string Family code
      */
-    public function getFamilyCode() : ?string
+    public function getFamilyCode(): ?string
     {
         $familyCode = '';
         if (!empty($this->consumerVersion)) {
@@ -326,7 +325,7 @@ class Platform
      *
      * @return DataConnector|null Data connector object or string
      */
-    public function getDataConnector() : ?DataConnector
+    public function getDataConnector(): ?DataConnector
     {
         return $this->dataConnector;
     }
@@ -336,7 +335,7 @@ class Platform
      *
      * @return bool    True if the platform is enabled and within any date constraints
      */
-    public function getIsAvailable() : bool
+    public function getIsAvailable(): bool
     {
         $ok = $this->enabled;
 
@@ -356,7 +355,7 @@ class Platform
      *
      * @return bool    True if this platform supports the Tool Settings service
      */
-    public function hasToolSettingsService() : bool
+    public function hasToolSettingsService(): bool
     {
         $has = !empty($this->getSetting('custom_system_setting_url'));
         if (!$has) {
@@ -395,7 +394,7 @@ class Platform
      * @param array $settings An associative array of settings (optional, default is none)
      * @return bool    True if action was successful, otherwise false
      */
-    public function setToolSettings(array $settings = array()) : bool
+    public function setToolSettings(array $settings = array()): bool
     {
         $ok = false;
         if (!empty($this->getSetting('custom_system_setting_url'))) {
@@ -418,7 +417,7 @@ class Platform
      *
      * @return array Array of Tool objects
      */
-    public function getTools() : array
+    public function getTools(): array
     {
         return $this->dataConnector->getTools();
     }
@@ -428,7 +427,7 @@ class Platform
      *
      * @return bool    True if this platform supports the Access Token service
      */
-    public function hasAccessTokenService() : bool
+    public function hasAccessTokenService(): bool
     {
         $has = !empty($this->getSetting('custom_oauth2_access_token_url'));
         if (!$has) {
@@ -442,7 +441,7 @@ class Platform
      *
      * @return array The message parameter array
      */
-    public function getMessageParameters() : array
+    public function getMessageParameters(): array
     {
         if ($this->ok && is_null($this->messageParameters)) {
             $this->parseMessage();
@@ -494,7 +493,7 @@ class Platform
      * @param bool               $autoEnable    true if the platform is to be enabled automatically (optional, default is false)
      * @return Platform       The platform object
      */
-    public static function fromConsumerKey(string $key = null, DataConnector $dataConnector = null, bool $autoEnable = false) : Platform
+    public static function fromConsumerKey(string $key = null, DataConnector $dataConnector = null, bool $autoEnable = false): Platform
     {
         $platform = new static($dataConnector);
         $platform->key = $key;
@@ -508,29 +507,30 @@ class Platform
         return $platform;
     }
 
-    /**
-     * Load the platform from the database by its platform, client and deployment IDs.
-     * @param string             $platformId    The platform ID
-     * @param string             $clientId      The client ID
-     * @param string             $deploymentId  The deployment ID
-     * @param DataConnector|null $dataConnector A data connector object
-     * @param bool               $autoEnable    True if the platform is to be enabled automatically (optional, default is false)
-     * @return Platform       The platform object
-     */
-    public static function fromPlatformId(string $platformId, string $clientId, string $deploymentId, DataConnector $dataConnector = null, bool $autoEnable = false) : Platform
-    {
-        $platform = new static($dataConnector);
-        $platform->platformId = $platformId;
-        $platform->clientId = $clientId;
-        $platform->deploymentId = $deploymentId;
-        if ($dataConnector->loadPlatform($platform)) {
-            if ($autoEnable) {
-                $platform->enabled = true;
-            }
-        }
+    //changed; to be erased because of php strict standards
+    // /**
+    // * Load the platform from the database by its platform, client and deployment IDs.
+    // * @param string             $platformId    The platform ID
+    // * @param string             $clientId      The client ID
+    // * @param string             $deploymentId  The deployment ID
+    // * @param DataConnector|null $dataConnector A data connector object
+    // * @param bool               $autoEnable    True if the platform is to be enabled automatically (optional, default is false)
+    // * @return Platform       The platform object
+    // */
+    // public static function fromPlatformId(string $platformId, string $clientId, string $deploymentId, DataConnector $dataConnector = null, bool $autoEnable = false) : Platform
+    // {
+    // $platform = new static($dataConnector);
+    // $platform->platformId = $platformId;
+    // $platform->clientId = $clientId;
+    // $platform->deploymentId = $deploymentId;
+    // if ($dataConnector->loadPlatform($platform)) {
+    // if ($autoEnable) {
+    // $platform->enabled = true;
+    // }
+    // }
 
-        return $platform;
-    }
+    // return $platform;
+    // }
 
     //changed; to be erased because of php strict standards
 //    /**
@@ -643,7 +643,7 @@ class Platform
      *
      * @return bool    True if the request has been successfully validated.
      */
-    private function authenticate() : bool
+    private function authenticate(): bool
     {
         $this->checkMessage();
         if ($this->ok) {

@@ -48,7 +48,7 @@ class LegacyPathHelperTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -87,7 +87,7 @@ class LegacyPathHelperTest extends TestCase
      * @Test
      * @small
      */
-    public function testDeriveFilesystemFromWithWebTargetWhichShouldSucceed() : void
+    public function testDeriveFilesystemFromWithWebTargetWhichShouldSucceed(): void
     {
         $target = $this->webPath . '/testtarget';
 
@@ -105,7 +105,7 @@ class LegacyPathHelperTest extends TestCase
      * @Test
      * @small
      */
-    public function testDeriveFilesystemFromWithStorageTargetWhichShouldSucceed() : void
+    public function testDeriveFilesystemFromWithStorageTargetWhichShouldSucceed(): void
     {
         $target = $this->storagePath . '/testtarget';
 
@@ -123,7 +123,7 @@ class LegacyPathHelperTest extends TestCase
      * @Test
      * @small
      */
-    public function testDeriveFilesystemFromWithRelativeLibsTargetWhichShouldSucceed() : void
+    public function testDeriveFilesystemFromWithRelativeLibsTargetWhichShouldSucceed(): void
     {
         $target = './libs/bower/bower_components/mediaelement/build';
 
@@ -140,7 +140,7 @@ class LegacyPathHelperTest extends TestCase
      * @Test
      * @small
      */
-    public function testDeriveFilesystemFromWithAbsoluteLibsTargetWhichShouldSucceed() : void
+    public function testDeriveFilesystemFromWithAbsoluteLibsTargetWhichShouldSucceed(): void
     {
         $target = $this->libsPath . 'libs/bower/bower_components/mediaelement/build';
 
@@ -158,7 +158,7 @@ class LegacyPathHelperTest extends TestCase
      * @Test
      * @small
      */
-    public function testDeriveFilesystemFromWithInvalidTargetWhichShouldFail() : void
+    public function testDeriveFilesystemFromWithInvalidTargetWhichShouldFail(): void
     {
         $target = '/invalid/path/to/testtarget';
 
@@ -173,7 +173,7 @@ class LegacyPathHelperTest extends TestCase
      * @Test
      * @small
      */
-    public function testCreateRelativePathWithWebTargetWhichShouldSucceed() : void
+    public function testCreateRelativePathWithWebTargetWhichShouldSucceed(): void
     {
         $expectedPath = 'testtarget/subdir';
         $target = $this->webPath . '/' . $expectedPath;
@@ -187,7 +187,7 @@ class LegacyPathHelperTest extends TestCase
      * @Test
      * @small
      */
-    public function testCreateRelativePathWithStorageTargetWhichShouldSucceed() : void
+    public function testCreateRelativePathWithStorageTargetWhichShouldSucceed(): void
     {
         $expectedPath = 'testtarget/subdir';
         $target = $this->storagePath . '/' . $expectedPath;
@@ -201,7 +201,7 @@ class LegacyPathHelperTest extends TestCase
      * @Test
      * @small
      */
-    public function testCreateRelativePathWithInvalidTargetWhichShouldFail() : void
+    public function testCreateRelativePathWithInvalidTargetWhichShouldFail(): void
     {
         $target = '/invalid/path/to/target';
 

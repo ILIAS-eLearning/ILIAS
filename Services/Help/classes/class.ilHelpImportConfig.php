@@ -25,12 +25,12 @@ class ilHelpImportConfig extends ilImportConfig
 {
     protected int $module_id = 0;
 
-    public function setModuleId(int $a_val) : void
+    public function setModuleId(int $a_val): void
     {
         $this->module_id = $a_val;
     }
 
-    public function getModuleId() : int
+    public function getModuleId(): int
     {
         return $this->module_id;
     }

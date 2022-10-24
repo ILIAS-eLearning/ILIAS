@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,7 +31,7 @@ class UIModifier extends Mode\AbstractUIModifier
 {
     public function getSurveySettingsGeneral(
         \ilObjSurvey $survey
-    ) : array {
+    ): array {
         $items = [];
         $lng = $this->service->gui()->lng();
 
@@ -44,7 +46,7 @@ class UIModifier extends Mode\AbstractUIModifier
     public function getSurveySettingsReminderTargets(
         \ilObjSurvey $survey,
         InternalGUIService $ui_service
-    ) : array {
+    ): array {
         $items = [];
         $lng = $ui_service->lng();
 
@@ -78,7 +80,7 @@ class UIModifier extends Mode\AbstractUIModifier
     public function getSurveySettingsResults(
         \ilObjSurvey $survey,
         InternalGUIService $ui_service
-    ) : array {
+    ): array {
         $items = [];
         $lng = $ui_service->lng();
 
@@ -105,7 +107,7 @@ class UIModifier extends Mode\AbstractUIModifier
     public function setValuesFromForm(
         \ilObjSurvey $survey,
         \ilPropertyFormGUI $form
-    ) : void {
+    ): void {
         if ($form->getInput("remind_appraisees") && $form->getInput("remind_raters")) {
             $survey->setReminderTarget(\ilObjSurvey::NOTIFICATION_APPRAISEES_AND_RATERS);
         } elseif ($form->getInput("remind_appraisees")) {

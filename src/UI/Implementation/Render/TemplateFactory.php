@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Render;
 
 use InvalidArgumentException;
@@ -30,5 +32,5 @@ interface TemplateFactory
      *
      * @throws InvalidArgumentException	if there is no such template
      */
-    public function getTemplate(string $path, bool $purge_unfilled_vars, bool $purge_unused_blocks) : Template;
+    public function getTemplate(string $path, bool $purge_unfilled_vars, bool $purge_unused_blocks): Template;
 }

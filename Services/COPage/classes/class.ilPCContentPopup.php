@@ -26,7 +26,7 @@ class ilPCContentPopup extends ilPageContent
     /**
     * Init page content component.
     */
-    public function init() : void
+    public function init(): void
     {
         $this->setType("contpop");
     }

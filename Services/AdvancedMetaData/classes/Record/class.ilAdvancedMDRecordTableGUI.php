@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -39,7 +41,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
         $this->setShowRowsSelector(true);
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         if ($a_field == 'position') {
             return true;
@@ -47,7 +49,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
         return parent::numericOrdering($a_field);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         // assigned object types
         $disabled = !$a_set["perm"][ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES];
@@ -106,7 +108,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
             if (!$do_select && !$value) {
                 continue;
             }
-    
+
             if ($do_select) {
                 $this->tpl->setCurrentBlock('ass_obj_types');
                 $this->tpl->setVariable('VAL_OBJ_TYPE', $obj_type["text"]);

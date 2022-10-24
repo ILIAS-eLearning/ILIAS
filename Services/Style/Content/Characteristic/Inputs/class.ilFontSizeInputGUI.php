@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,7 +28,7 @@ class ilFontSizeInputGUI extends ilFormPropertyGUI
     protected ilObjUser $user;
 
     protected string $value = "";
-    
+
     public function __construct(string $a_title = "", string $a_postvar = "")
     {
         global $DIC;
@@ -37,65 +39,65 @@ class ilFontSizeInputGUI extends ilFormPropertyGUI
         $this->setType("fontsize");
     }
 
-    public function setValue(string $a_value) : void
+    public function setValue(string $a_value): void
     {
         $this->value = $a_value;
     }
 
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }
-    
-    public function checkInput() : bool
+
+    public function checkInput(): bool
     {
         $lng = $this->lng;
 
         $input = $this->getInput();
-        
+
         $type = $input["type"];
         $num_value = $input["num_value"];
         $num_unit = $input["num_unit"];
         $pre_value = $input["pre_value"];
-            
+
         if ($this->getRequired() && $type == "numeric" && trim($num_value) == "") {
             $this->setAlert($lng->txt("msg_input_is_required"));
 
             return false;
         }
-        
+
         if ($type == "numeric") {
             if (!is_numeric($num_value) && $num_value != "") {
                 $this->setAlert($lng->txt("sty_msg_input_must_be_numeric"));
-    
+
                 return false;
             }
-            
+
             if (trim($num_value) != "") {
                 $this->setValue($num_value . $num_unit);
             }
         } else {
             $this->setValue($pre_value);
         }
-        
+
         return true;
     }
 
-    public function getInput() : array
+    public function getInput(): array
     {
         return $this->strArray($this->getPostVar());
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $tpl = new ilTemplate("tpl.prop_fontsize.html", true, true, "Services/Style/Content");
-        
+
         $tpl->setVariable("POSTVAR", $this->getPostVar());
         $current_unit = "";
-        
+
         $unit_options = ilObjStyleSheet::_getStyleParameterNumericUnits();
         $pre_options = ilObjStyleSheet::_getStyleParameterValues("font-size");
-        
+
         $value = strtolower(trim($this->getValue()));
 
         if (in_array($value, $pre_options)) {
@@ -117,7 +119,7 @@ class ilFontSizeInputGUI extends ilFormPropertyGUI
                 $current_unit = "px";
             }
         }
-        
+
         foreach ($unit_options as $option) {
             $tpl->setCurrentBlock("unit_option");
             $tpl->setVariable("VAL_UNIT", $option);
@@ -127,7 +129,7 @@ class ilFontSizeInputGUI extends ilFormPropertyGUI
             }
             $tpl->parseCurrentBlock();
         }
-        
+
         foreach ($pre_options as $option) {
             $tpl->setCurrentBlock("pre_option");
             $tpl->setVariable("VAL_PRE", $option);
@@ -143,7 +145,7 @@ class ilFontSizeInputGUI extends ilFormPropertyGUI
         $a_tpl->parseCurrentBlock();
     }
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         if ($a_values[$this->getPostVar()]["type"] == "predefined") {
             $this->setValue($a_values[$this->getPostVar()]["pre_value"]);

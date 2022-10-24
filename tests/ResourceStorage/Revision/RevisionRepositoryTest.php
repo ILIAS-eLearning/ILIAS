@@ -31,14 +31,14 @@ class RevisionRepositoryTest extends AbstractBaseTest
      */
     private $info_resolver;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->info_resolver = $this->createMock(InfoResolver::class);
         $this->resource = new StorableFileResource($this->id_generator->getUniqueResourceIdentification());
     }
 
-    public function testUpload() : void
+    public function testUpload(): void
     {
         $upload_result = $this->getDummyUploadResult(
             'info.xml',
@@ -60,7 +60,7 @@ class RevisionRepositoryTest extends AbstractBaseTest
         $this->assertEquals(100, $revision->getVersionNumber());
     }
 
-    public function testStream() : void
+    public function testStream(): void
     {
         $stream = $this->getDummyStream();
         $i = rand();
@@ -79,7 +79,7 @@ class RevisionRepositoryTest extends AbstractBaseTest
         $this->assertEquals($i, $revision->getVersionNumber());
     }
 
-    public function testClone() : void
+    public function testClone(): void
     {
         $revision = $this->getDummyFileRevision($this->id_generator->getUniqueResourceIdentification());
         $old_revisions_id = 99;

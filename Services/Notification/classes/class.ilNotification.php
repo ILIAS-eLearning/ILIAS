@@ -37,7 +37,7 @@ class ilNotification
         int $type,
         int $user_id,
         int $id
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -66,8 +66,12 @@ class ilNotification
                     " AND id = " . $ilDB->quote($id, "integer") .
                     " AND activated = " . $ilDB->quote(0, "integer"));
                 $rec = $ilDB->fetchAssoc($set);
+                // if there is no user record, take the default value
+                if (!isset($rec["user_id"])) {
+                    return $notification;
+                }
                 // ... except when the opted out
-                return isset($rec["user_id"]) && $rec["user_id"] !== $user_id;
+                return isset($rec["user_id"]) && ((int) $rec["user_id"] !== $user_id);
             }
 
             if ($notification && $setting->getMode() === ilObjNotificationSettings::MODE_DEF_ON_NO_OPT_OUT) {
@@ -88,7 +92,7 @@ class ilNotification
     /**
      * Is opt out (disable notification) allowed?
      */
-    public static function hasOptOut(int $obj_id) : bool
+    public static function hasOptOut(int $obj_id): bool
     {
         $setting = new ilObjNotificationSettings($obj_id);
         return $setting->getMode() !== ilObjNotificationSettings::MODE_DEF_ON_NO_OPT_OUT;
@@ -102,7 +106,7 @@ class ilNotification
         int $id,
         ?int $page_id = null,
         bool $ignore_threshold = false
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -203,7 +207,7 @@ class ilNotification
         int $user_id,
         int $id,
         bool $status = true
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -224,7 +228,7 @@ class ilNotification
         int $id,
         array $user_ids,
         ?int $page_id = null
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -249,7 +253,7 @@ class ilNotification
     public static function removeForObject(
         int $type,
         int $id
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -264,7 +268,7 @@ class ilNotification
      */
     public static function removeForUser(
         int $user_id
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -280,7 +284,7 @@ class ilNotification
     public static function getActivatedNotifications(
         int $type,
         int $user_id
-    ) : array {
+    ): array {
         global $DIC;
 
         $db = $DIC->database();

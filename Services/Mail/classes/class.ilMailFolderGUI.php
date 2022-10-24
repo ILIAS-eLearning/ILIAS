@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,7 +25,6 @@ use ILIAS\Refinery\Factory as Refinery;
  * @author       Jens Conze
  * @version      $Id$
  * @ingroup      ServicesMail
- * @ilCtrl_Calls ilMailFolderGUI: ilMailOptionsGUI, ilMailAttachmentGUI, ilMailSearchGUI
  * @ilCtrl_Calls ilMailFolderGUI: ilPublicUserProfileGUI
  */
 class ilMailFolderGUI
@@ -42,6 +43,7 @@ class ilMailFolderGUI
     private GlobalHttpState $http;
     private Refinery $refinery;
     private int $currentFolderId = 0;
+    private ilErrorHandling $error;
 
     public function __construct()
     {
@@ -55,6 +57,7 @@ class ilMailFolderGUI
         $this->tabs = $DIC->tabs();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->error = $DIC['ilErr'];
 
         $this->umail = new ilMail($this->user->getId());
         $this->mbox = new ilMailbox($this->user->getId());
@@ -62,7 +65,7 @@ class ilMailFolderGUI
         $this->initFolder();
     }
 
-    protected function initFolder() : void
+    protected function initFolder(): void
     {
         if ($this->http->wrapper()->post()->has('mobj_id')) {
             $folderId = $this->http->wrapper()->post()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
@@ -79,7 +82,7 @@ class ilMailFolderGUI
         $this->currentFolderId = $folderId;
     }
 
-    protected function parseCommand(string $originalCommand) : string
+    protected function parseCommand(string $originalCommand): string
     {
         if (preg_match('/^([a-zA-Z0-9]+?)_(\d+?)$/', $originalCommand, $matches) && 3 === count($matches)) {
             $originalCommand = $matches[1];
@@ -88,7 +91,7 @@ class ilMailFolderGUI
         return $originalCommand;
     }
 
-    protected function parseFolderIdFromCommand(string $command) : int
+    protected function parseFolderIdFromCommand(string $command): int
     {
         if (
             preg_match('/^([a-zA-Z0-9]+?)_(\d+?)$/', $command, $matches) &&
@@ -100,7 +103,7 @@ class ilMailFolderGUI
         throw new InvalidArgumentException("Cannot parse a numeric folder id from command string!");
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->parseCommand(
             $this->ctrl->getCmd()
@@ -110,11 +113,6 @@ class ilMailFolderGUI
         switch (strtolower($nextClass)) {
             case strtolower(ilContactGUI::class):
                 $this->ctrl->forwardCommand(new ilContactGUI());
-                break;
-
-            case strtolower(ilMailOptionsGUI::class):
-                $this->tpl->setTitle($this->lng->txt('mail'));
-                $this->ctrl->forwardCommand(new ilMailOptionsGUI());
                 break;
 
             case strtolower(ilPublicUserProfileGUI::class):
@@ -145,7 +143,7 @@ class ilMailFolderGUI
         }
     }
 
-    protected function performEmptyTrash() : void
+    protected function performEmptyTrash(): void
     {
         $this->umail->deleteMailsOfFolder($this->currentFolderId);
 
@@ -154,7 +152,7 @@ class ilMailFolderGUI
         $this->ctrl->redirect($this, 'showFolder');
     }
 
-    protected function confirmEmptyTrash() : void
+    protected function confirmEmptyTrash(): void
     {
         if ($this->umail->countMailsOfFolder($this->currentFolderId)) {
             $this->confirmTrashDeletion = true;
@@ -166,7 +164,7 @@ class ilMailFolderGUI
     /**
      * @throws ilCtrlException
      */
-    protected function showUser() : void
+    protected function showUser(): void
     {
         $userId = 0;
         if ($this->http->wrapper()->query()->has('user')) {
@@ -200,7 +198,7 @@ class ilMailFolderGUI
         $this->tpl->printToStdout();
     }
 
-    protected function addSubFolderCommands(bool $isUserSubFolder = false) : void
+    protected function addSubFolderCommands(bool $isUserSubFolder = false): void
     {
         $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
         $this->toolbar->addButton(
@@ -221,7 +219,7 @@ class ilMailFolderGUI
         $this->ctrl->clearParameters($this);
     }
 
-    protected function showFolder(bool $oneConfirmationDialogueRendered = false) : void
+    protected function showFolder(bool $oneConfirmationDialogueRendered = false): void
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail.html', 'Services/Mail');
         $this->tpl->setTitle($this->lng->txt('mail'));
@@ -293,7 +291,7 @@ class ilMailFolderGUI
         $this->tpl->printToStdout();
     }
 
-    protected function deleteSubFolder(bool $a_show_confirm = true) : void
+    protected function deleteSubFolder(bool $a_show_confirm = true): void
     {
         if ($a_show_confirm) {
             $confirmationGui = new ilConfirmationGUI();
@@ -314,7 +312,7 @@ class ilMailFolderGUI
     /**
      * @throws ilInvalidTreeStructureException
      */
-    protected function performDeleteSubFolder() : void
+    protected function performDeleteSubFolder(): void
     {
         $parentFolderId = $this->mbox->getParentFolderId($this->currentFolderId);
         if ($parentFolderId > 0 && $this->mbox->deleteFolder($this->currentFolderId)) {
@@ -327,7 +325,7 @@ class ilMailFolderGUI
         }
     }
 
-    protected function getSubFolderForm(string $mode = 'create') : ilPropertyFormGUI
+    protected function getSubFolderForm(string $mode = 'create'): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
@@ -349,7 +347,7 @@ class ilMailFolderGUI
         return $form;
     }
 
-    protected function performAddSubFolder() : void
+    protected function performAddSubFolder(): void
     {
         $form = $this->getSubFolderForm();
         $isFormValid = $form->checkInput();
@@ -370,7 +368,7 @@ class ilMailFolderGUI
         $this->addSubFolder($form);
     }
 
-    protected function addSubFolder(ilPropertyFormGUI $form = null) : void
+    protected function addSubFolder(ilPropertyFormGUI $form = null): void
     {
         if (null === $form) {
             $form = $this->getSubFolderForm();
@@ -381,7 +379,7 @@ class ilMailFolderGUI
         $this->tpl->printToStdout();
     }
 
-    protected function performRenameSubFolder() : void
+    protected function performRenameSubFolder(): void
     {
         $form = $this->getSubFolderForm('edit');
         $isFormValid = $form->checkInput();
@@ -407,7 +405,7 @@ class ilMailFolderGUI
         $this->renameSubFolder($form);
     }
 
-    protected function renameSubFolder(ilPropertyFormGUI $form = null) : void
+    protected function renameSubFolder(ilPropertyFormGUI $form = null): void
     {
         if (null === $form) {
             $form = $this->getSubFolderForm('edit');
@@ -424,7 +422,7 @@ class ilMailFolderGUI
     /**
      * @return int[]
      */
-    protected function getMailIdsFromRequest(bool $ignoreHttpGet = false) : array
+    protected function getMailIdsFromRequest(bool $ignoreHttpGet = false): array
     {
         $mailIds = [];
         if ($this->http->wrapper()->post()->has('mail_id')) {
@@ -447,7 +445,7 @@ class ilMailFolderGUI
         return array_filter(array_map('intval', $mailIds));
     }
 
-    protected function markMailsRead() : void
+    protected function markMailsRead(): void
     {
         $mailIds = $this->getMailIdsFromRequest();
         if ($mailIds !== []) {
@@ -460,7 +458,7 @@ class ilMailFolderGUI
         $this->showFolder();
     }
 
-    protected function markMailsUnread() : void
+    protected function markMailsUnread(): void
     {
         $mailIds = $this->getMailIdsFromRequest();
         if ($mailIds !== []) {
@@ -473,7 +471,7 @@ class ilMailFolderGUI
         $this->showFolder();
     }
 
-    protected function moveSingleMail() : void
+    protected function moveSingleMail(): void
     {
         $mailIds = $this->getMailIdsFromRequest();
         if (1 !== count($mailIds)) {
@@ -512,7 +510,7 @@ class ilMailFolderGUI
         }
     }
 
-    protected function moveMails() : void
+    protected function moveMails(): void
     {
         $mailIds = $this->getMailIdsFromRequest();
         if ($mailIds === []) {
@@ -532,7 +530,7 @@ class ilMailFolderGUI
         }
     }
 
-    protected function deleteMails() : void
+    protected function deleteMails(): void
     {
         $trashFolderId = $this->mbox->getTrashFolder();
         $mailIds = $this->getMailIdsFromRequest();
@@ -555,7 +553,7 @@ class ilMailFolderGUI
         $this->showFolder();
     }
 
-    protected function confirmDeleteMails() : void
+    protected function confirmDeleteMails(): void
     {
         $mailIds = $this->getMailIdsFromRequest();
         if ($mailIds === []) {
@@ -574,19 +572,22 @@ class ilMailFolderGUI
         $this->showFolder();
     }
 
-    protected function showMail() : void
+    protected function showMail(): void
     {
-        if ((int) ilSession::get('mail_id') > 0) {
-            $mailId = (int) ilSession::get('mail_id');
-            ilSession::set('mail_id', null);
-        } else {
-            $mailId = 0;
-            if ($this->http->wrapper()->query()->has('mail_id')) {
-                $mailId = $this->http->wrapper()->query()->retrieve('mail_id', $this->refinery->kindlyTo()->int());
-            }
+        $mailId = 0;
+        if ($this->http->wrapper()->query()->has('mail_id')) {
+            $mailId = $this->http->wrapper()->query()->retrieve('mail_id', $this->refinery->kindlyTo()->int());
+        }
+
+        if ($mailId <= 0) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
         $mailData = $this->umail->getMail($mailId);
+        if ($mailData === null) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        }
+
         $this->umail->markRead([$mailId]);
 
         $this->tpl->setTitle($this->lng->txt('mail_mails_of'));
@@ -837,7 +838,7 @@ class ilMailFolderGUI
         $this->tpl->printToStdout();
     }
 
-    protected function printMail() : void
+    protected function printMail(): void
     {
         $tplprint = new ilTemplate('tpl.mail_print.html', true, true, 'Services/Mail');
 
@@ -894,16 +895,15 @@ class ilMailFolderGUI
         $tplprint->show();
     }
 
-    protected function deliverFile() : void
+    protected function deliverFile(): void
     {
         $mailId = 0;
         if ($this->http->wrapper()->query()->has('mail_id')) {
             $mailId = $this->http->wrapper()->query()->retrieve('mail_id', $this->refinery->kindlyTo()->int());
         }
 
-        if ((int) ilSession::get('mail_id') > 0) {
-            $mailId = (int) ilSession::get('mail_id');
-            ilSession::set('mail_id', null);
+        if ($mailId <= 0) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
         $filename = '';
@@ -940,7 +940,7 @@ class ilMailFolderGUI
         }
     }
 
-    protected function deliverAttachments() : void
+    protected function deliverAttachments(): void
     {
         try {
             $mailId = 0;
@@ -995,8 +995,8 @@ class ilMailFolderGUI
             $this->ctrl->redirect($this);
         }
     }
-    
-    protected function getMailFolderTable() : ilMailFolderTableGUI
+
+    protected function getMailFolderTable(): ilMailFolderTableGUI
     {
         $table = new ilMailFolderTableGUI(
             $this,
@@ -1007,11 +1007,11 @@ class ilMailFolderGUI
             $this->currentFolderId === $this->mbox->getDraftsFolder()
         );
         $table->initFilter();
-        
+
         return $table;
     }
 
-    protected function applyFilter() : void
+    protected function applyFilter(): void
     {
         $table = $this->getMailFolderTable();
         $table->resetOffset();
@@ -1020,7 +1020,7 @@ class ilMailFolderGUI
         $this->showFolder();
     }
 
-    protected function resetFilter() : void
+    protected function resetFilter(): void
     {
         $table = $this->getMailFolderTable();
         $table->resetOffset();

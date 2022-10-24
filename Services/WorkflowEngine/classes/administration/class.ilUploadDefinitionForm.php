@@ -34,7 +34,7 @@ class ilUploadDefinitionForm
         $this->lng = $DIC->language();
     }
 
-    public function getForm(string $action) : ilPropertyFormGUI
+    public function getForm(string $action): ilPropertyFormGUI
     {
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($action);

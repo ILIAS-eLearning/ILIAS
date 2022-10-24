@@ -1,7 +1,21 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/class.assAnswerSimple.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 /**
@@ -51,7 +65,7 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple
     * @access public
     * @see $points_unchecked
     */
-    public function getPointsUnchecked() : float
+    public function getPointsUnchecked(): float
     {
         return $this->points_unchecked;
     }
@@ -65,10 +79,10 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple
     * @access public
     * @see $state
     */
-    public function setPointsUnchecked($points_unchecked = 0.0) : void
+    public function setPointsUnchecked($points_unchecked = 0.0): void
     {
         $new_points = str_replace(",", ".", $points_unchecked);
-        
+
         if ($this->checkPoints($new_points)) {
             $this->points_unchecked = $new_points;
         } else {
@@ -76,12 +90,12 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple
         }
     }
 
-    public function setPointsChecked($points_checked) : void
+    public function setPointsChecked($points_checked): void
     {
         $this->setPoints($points_checked);
     }
-    
-    public function getPointsChecked() : float
+
+    public function getPointsChecked(): float
     {
         return $this->getPoints();
     }

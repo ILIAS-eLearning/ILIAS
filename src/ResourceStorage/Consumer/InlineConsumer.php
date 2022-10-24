@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Consumer;
 
 use ILIAS\HTTP\Response\ResponseHeader;
@@ -25,7 +27,7 @@ use ILIAS\HTTP\Response\ResponseHeader;
  */
 class InlineConsumer extends BaseConsumer implements DeliveryConsumer
 {
-    public function run() : void
+    public function run(): void
     {
         global $DIC;
 

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\DI;
@@ -31,7 +32,7 @@ class UIServices
     /**
      * Get the factory that crafts UI components.
      */
-    public function factory() : \ILIAS\UI\Factory
+    public function factory(): \ILIAS\UI\Factory
     {
         return $this->container["ui.factory"];
     }
@@ -39,7 +40,7 @@ class UIServices
     /**
      * Get a renderer for UI components.
      */
-    public function renderer() : \ILIAS\UI\Renderer
+    public function renderer(): \ILIAS\UI\Renderer
     {
         return $this->container["ui.renderer"];
     }
@@ -49,7 +50,7 @@ class UIServices
      *
      * @return \ilGlobalTemplateInterface
      */
-    public function mainTemplate() : \ilGlobalTemplateInterface
+    public function mainTemplate(): \ilGlobalTemplateInterface
     {
         return $this->container["tpl"];
     }

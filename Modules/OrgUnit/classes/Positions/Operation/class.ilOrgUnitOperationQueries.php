@@ -22,7 +22,6 @@
  */
 class ilOrgUnitOperationQueries
 {
-
     /**
      * @param string $context ilOrgUnitOperationContext::CONTEXT_OBJECT will provide this new
      *                        operation to all contexts such as
@@ -37,7 +36,7 @@ class ilOrgUnitOperationQueries
         string $operation_name,
         string $description,
         string $context = ilOrgUnitOperationContext::CONTEXT_OBJECT
-    ) : void {
+    ): void {
         $contextList = ilOrgUnitOperationContext::where(array('context' => $context));
         if (!$contextList->hasSets()) {
             throw new ilException('Context does not exist! register context first using ilOrgUnitOperationContext::registerNewContext()');
@@ -70,7 +69,7 @@ class ilOrgUnitOperationQueries
         string $operation_name,
         string $description,
         array $contexts
-    ) : void {
+    ): void {
         foreach ($contexts as $context) {
             self::registerNewOperation($operation_name, $description, $context);
         }
@@ -79,7 +78,7 @@ class ilOrgUnitOperationQueries
     /**
      * @return ilOrgUnitOperation[]
      */
-    public static function getOperationsForContextName(string $context_name) : array
+    public static function getOperationsForContextName(string $context_name): array
     {
         $context = ilOrgUnitOperationContextQueries::findByName($context_name);
         return ilOrgUnitOperation::where(array('context_id' => $context->getPopulatedContextIds()))
@@ -89,7 +88,7 @@ class ilOrgUnitOperationQueries
     /**
      * @return ilOrgUnitOperation[]
      */
-    public static function getOperationsForContextId(string $context_id) : array
+    public static function getOperationsForContextId(string $context_id): array
     {
         $context = ilOrgUnitOperationContextQueries::findById($context_id);
         return ilOrgUnitOperation::where(array('context_id' => $context->getPopulatedContextIds()))
@@ -99,7 +98,7 @@ class ilOrgUnitOperationQueries
     /**
      * @throws arException
      */
-    public static function findById(int $operation_id) : ActiveRecord /* ilOrgUnitOperation|ActiveRecord */
+    public static function findById(int $operation_id): ActiveRecord /* ilOrgUnitOperation|ActiveRecord */
     {
         return ilOrgUnitOperation::findOrFail($operation_id);
     }
@@ -107,7 +106,7 @@ class ilOrgUnitOperationQueries
     public static function findByOperationString(
         string $operation_string,
         string $context_name
-    ) : ?ActiveRecord /*ilOrgUnitOperation|ActiveRecord*/ {
+    ): ?ActiveRecord /*ilOrgUnitOperation|ActiveRecord*/ {
         $context = ilOrgUnitOperationContextQueries::findByName($context_name);
 
         return ilOrgUnitOperation::where(['operation_string' => $operation_string,

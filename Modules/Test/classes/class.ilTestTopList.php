@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestTopList
@@ -27,7 +42,7 @@ class ilTestTopList
      * @param int $a_user_id
      * @return array
      */
-    public function getUserToplistByWorkingtime(int $a_test_ref_id, int $a_user_id) : array
+    public function getUserToplistByWorkingtime(int $a_test_ref_id, int $a_user_id): array
     {
         $result = $this->db->query(
             '
@@ -176,7 +191,7 @@ class ilTestTopList
      * @param int $a_user_id
      * @return array
      */
-    public function getGeneralToplistByPercentage(int $a_test_ref_id, int $a_user_id) : array
+    public function getGeneralToplistByPercentage(int $a_test_ref_id, int $a_user_id): array
     {
         $this->db->setLimit($this->object->getHighscoreTopNum(), 0);
         $result = $this->db->query(
@@ -210,7 +225,7 @@ class ilTestTopList
      * @param int $a_user_id
      * @return array
      */
-    public function getGeneralToplistByWorkingtime(int $a_test_ref_id, int $a_user_id) : array
+    public function getGeneralToplistByWorkingtime(int $a_test_ref_id, int $a_user_id): array
     {
         $this->db->setLimit($this->object->getHighscoreTopNum(), 0);
         $result = $this->db->query(
@@ -243,7 +258,7 @@ class ilTestTopList
      * @param int $a_user_id
      * @return array
      */
-    public function getUserToplistByPercentage(int $a_test_ref_id, int $a_user_id) : array
+    public function getUserToplistByPercentage(int $a_test_ref_id, int $a_user_id): array
     {
         $result = $this->db->query(
             '
@@ -394,7 +409,7 @@ class ilTestTopList
      * @return array
      * @throws ilDateTimeException
      */
-    private function getResultTableRow(array $row, int $i, int $usrId) : array
+    private function getResultTableRow(array $row, int $i, int $usrId): array
     {
         $item = [];
 
@@ -435,7 +450,7 @@ class ilTestTopList
      * @param int $seconds
      * @return string
      */
-    private function formatTime(int $seconds) : string
+    private function formatTime(int $seconds): string
     {
         $retval = '';
         $hours = intval($seconds / 3600);

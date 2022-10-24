@@ -51,11 +51,11 @@ class ilContainerFilterTableGUI extends ilTable2GUI
         $this->setRowTemplate("tpl.cont_filter_row.html", "Services/Container/Filter");
     }
 
-    protected function getItems() : array
+    protected function getItems(): array
     {
         $service = $this->container_filter_service;
 
-        $items = array_map(static function (ilContainerFilterField $i) use ($service) : array {
+        $items = array_map(static function (ilContainerFilterField $i) use ($service): array {
             return [
                 "record_set_id" => $i->getRecordSetId(),
                 "record_title" => $service->util()->getContainerRecordTitle($i->getRecordSetId()),
@@ -65,7 +65,7 @@ class ilContainerFilterTableGUI extends ilTable2GUI
         return $items;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $tpl = $this->tpl;
 

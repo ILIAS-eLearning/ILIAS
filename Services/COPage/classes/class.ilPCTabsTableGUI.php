@@ -37,9 +37,9 @@ class ilPCTabsTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->addColumn("", "", "1");
         $this->addColumn($lng->txt("cont_position"), "", "1");
         $this->addColumn($lng->txt("title"), "", "100%");
@@ -49,18 +49,18 @@ class ilPCTabsTableGUI extends ilTable2GUI
             "tpl.tabs_row.html",
             "Services/COPage"
         );
-            
+
         $this->tabs = $a_tabs;
         $this->setData($this->tabs->getCaptions());
         $this->setLimit(0);
-        
+
         $this->addMultiCommand("confirmTabsDeletion", $lng->txt("delete"));
         $this->addCommandButton("saveTabs", $lng->txt("save"));
-        
+
         $this->setTitle($lng->txt("cont_tabs"));
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $this->pos += 10;
         $this->tpl->setVariable("POS", ilLegacyFormElementsUtil::prepareFormOutput($this->pos));

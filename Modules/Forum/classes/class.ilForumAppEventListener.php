@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,8 +27,8 @@ class ilForumAppEventListener implements ilAppEventListener
 {
     /** @var array<int, int[]> */
     protected static array $ref_ids = [];
-    
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         /**
          * @var $post   ilForumPost
@@ -484,7 +486,7 @@ class ilForumAppEventListener implements ilAppEventListener
      * @param int $obj_id
      * @return int[]
      */
-    private static function getCachedReferences(int $obj_id) : array
+    private static function getCachedReferences(int $obj_id): array
     {
         if (!array_key_exists($obj_id, self::$ref_ids)) {
             self::$ref_ids[$obj_id] = ilObject::_getAllReferences($obj_id);
@@ -497,7 +499,7 @@ class ilForumAppEventListener implements ilAppEventListener
         ilForumNotificationDataProvider $provider,
         int $notification_type,
         ilLogger $logger
-    ) : void {
+    ): void {
         switch ($notification_type) {
             case ilForumMailNotification::TYPE_POST_ACTIVATION:
                 self::sendNotification(
@@ -539,7 +541,7 @@ class ilForumAppEventListener implements ilAppEventListener
         ilLogger $logger,
         int $notificationTypes,
         array $recipients
-    ) : void {
+    ): void {
         if (count($recipients)) {
             $logger->debug(sprintf(
                 'Will send %s notification(s) to: %s',

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -32,27 +34,27 @@ class ilMDLocation extends ilMDBase
     private string $location_type = '';
 
     // SET/GET
-    public function setLocation(string $a_location) : void
+    public function setLocation(string $a_location): void
     {
         $this->location = $a_location;
     }
 
-    public function getLocation() : string
+    public function getLocation(): string
     {
         return $this->location;
     }
 
-    public function setLocationType(string $a_location_type) : void
+    public function setLocationType(string $a_location_type): void
     {
         $this->location_type = $a_location_type;
     }
 
-    public function getLocationType() : string
+    public function getLocationType(): string
     {
         return $this->location_type;
     }
 
-    public function save() : int
+    public function save(): int
     {
         $fields = $this->__getFields();
         $fields['meta_location_id'] = array('integer', $next_id = $this->db->nextId('il_meta_location'));
@@ -64,7 +66,7 @@ class ilMDLocation extends ilMDBase
         return 0;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         return $this->getMetaId() && $this->db->update(
             'il_meta_location',
@@ -73,7 +75,7 @@ class ilMDLocation extends ilMDBase
         );
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_location " .
@@ -88,7 +90,7 @@ class ilMDLocation extends ilMDBase
     /**
      * @return array<string, array<string, mixed>>
      */
-    public function __getFields() : array
+    public function __getFields(): array
     {
         return array(
             'rbac_id' => array('integer', $this->getRBACId()),
@@ -101,7 +103,7 @@ class ilMDLocation extends ilMDBase
         );
     }
 
-    public function read() : bool
+    public function read(): bool
     {
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_location " .
@@ -121,7 +123,7 @@ class ilMDLocation extends ilMDBase
         return true;
     }
 
-    public function toXML(ilXmlWriter $writer) : void
+    public function toXML(ilXmlWriter $writer): void
     {
         $writer->xmlElement(
             'Location',
@@ -137,7 +139,7 @@ class ilMDLocation extends ilMDBase
     /**
      * @return int[]
      */
-    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type) : array
+    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type): array
     {
         global $DIC;
 

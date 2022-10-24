@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
     +-----------------------------------------------------------------------------+
@@ -50,7 +52,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         $this->refinery = $DIC->refinery();
     }
 
-    protected function initEntryIdFromQuery() : int
+    protected function initEntryIdFromQuery(): int
     {
         $entry_id = 0;
         if ($this->http->wrapper()->query()->has('entry_id')) {
@@ -62,7 +64,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         return $entry_id;
     }
 
-    protected function initEntryIdFromPost() : array
+    protected function initEntryIdFromPost(): array
     {
         $entries = [];
         if ($this->http->wrapper()->post()->has('entry_id')) {
@@ -76,7 +78,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         return [];
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -123,22 +125,22 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         }
     }
 
-    protected function getType() : string
+    protected function getType(): string
     {
         return $this->type;
     }
 
-    protected function getParentObjType() : string
+    protected function getParentObjType(): string
     {
         return 'meta';
     }
 
-    protected function getAdministrationFormId() : int
+    protected function getAdministrationFormId(): int
     {
         return ilAdministrationSettingsFormHandler::FORM_META_COPYRIGHT;
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
@@ -171,7 +173,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function showGeneralSettings(?ilPropertyFormGUI $form = null) : void
+    public function showGeneralSettings(?ilPropertyFormGUI $form = null): void
     {
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initGeneralSettingsForm();
@@ -179,7 +181,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function initGeneralSettingsForm(string $a_mode = "edit") : ilPropertyFormGUI
+    public function initGeneralSettingsForm(string $a_mode = "edit"): ilPropertyFormGUI
     {
         $this->tabs_gui->setTabActive('md_general_settings');
         $form = new ilPropertyFormGUI();
@@ -199,7 +201,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         return $form;
     }
 
-    public function saveGeneralSettings() : void
+    public function saveGeneralSettings(): void
     {
         if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
             $this->ctrl->redirect($this, "showGeneralSettings");
@@ -222,7 +224,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         $this->showGeneralSettings($form);
     }
 
-    public function showCopyrightSettings(?ilPropertyFormGUI $form = null) : void
+    public function showCopyrightSettings(?ilPropertyFormGUI $form = null): void
     {
         $this->tabs_gui->setTabActive('md_copyright');
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.settings.html', 'Services/MetaData');
@@ -245,7 +247,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         $this->tpl->setVariable('COPYRIGHT_TABLE', $table_gui->getHTML());
     }
 
-    public function saveCopyrightSettings() : void
+    public function saveCopyrightSettings(): void
     {
         if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
             $this->ctrl->redirect($this, "showCopyrightSettings");
@@ -261,13 +263,13 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         $this->showCopyrightSettings($form);
     }
 
-    public function showCopyrightUsages() : void
+    public function showCopyrightUsages(): void
     {
         $this->ctrl->setParameterByClass('ilmdcopyrightusagegui', 'entry_id', $this->initEntryIdFromQuery());
         $this->ctrl->redirectByClass('ilmdcopyrightusagegui', "showUsageTable");
     }
 
-    public function editEntry(?ilPropertyFormGUI $form = null) : void
+    public function editEntry(?ilPropertyFormGUI $form = null): void
     {
         $this->ctrl->saveParameter($this, 'entry_id');
         if (!$form instanceof ilPropertyFormGUI) {
@@ -276,7 +278,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function addEntry(?ilPropertyFormGUI $form = null) : void
+    public function addEntry(?ilPropertyFormGUI $form = null): void
     {
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initCopyrightEditForm('add');
@@ -284,7 +286,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function saveEntry() : bool
+    public function saveEntry(): bool
     {
         $form = $this->initCopyrightEditForm('add');
         if ($form->checkInput()) {
@@ -312,7 +314,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         return false;
     }
 
-    public function confirmDeleteEntries() : void
+    public function confirmDeleteEntries(): void
     {
         $entry_ids = $this->initEntryIdFromPost();
         if (!count($entry_ids)) {
@@ -336,7 +338,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         $this->tpl->setContent($c_gui->getHTML());
     }
 
-    public function deleteEntries() : bool
+    public function deleteEntries(): bool
     {
         $entry_ids = $this->initEntryIdFromPost();
         if (!count($entry_ids)) {
@@ -354,7 +356,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         return true;
     }
 
-    public function updateEntry() : bool
+    public function updateEntry(): bool
     {
         $this->entry = new ilMDCopyrightSelectionEntry($this->initEntryIdFromQuery());
         $form = $this->initCopyrightEditForm();
@@ -378,7 +380,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         return false;
     }
 
-    protected function initSettingsForm() : ilPropertyFormGUI
+    protected function initSettingsForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -403,7 +405,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         return $form;
     }
 
-    public function initCopyrightEditForm(string $a_mode = 'edit') : ilPropertyFormGUI
+    public function initCopyrightEditForm(string $a_mode = 'edit'): ilPropertyFormGUI
     {
         if (!is_object($this->entry)) {
             $this->entry = new ilMDCopyrightSelectionEntry($this->initEntryIdFromQuery());
@@ -451,12 +453,12 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         return $form;
     }
 
-    protected function initMDSettings() : void
+    protected function initMDSettings(): void
     {
         $this->md_settings = ilMDSettings::_getInstance();
     }
 
-    public function saveCopyrightPosition() : bool
+    public function saveCopyrightPosition(): bool
     {
         if (!$this->http->wrapper()->post()->has('order')) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_select_one'), true);

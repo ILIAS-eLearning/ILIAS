@@ -30,7 +30,7 @@ class ilBadgeAssignment
     protected int $awarded_by = 0;
     protected ?int $pos = null;
     protected bool $stored = false;
-    
+
     public function __construct(
         int $a_badge_id = null,
         int $a_user_id = null
@@ -42,14 +42,14 @@ class ilBadgeAssignment
             $a_user_id) {
             $this->setBadgeId($a_badge_id);
             $this->setUserId($a_user_id);
-            
+
             $this->read($a_badge_id, $a_user_id);
         }
     }
 
     public static function getNewCounter(
         int $a_user_id
-    ) : int {
+    ): int {
         global $DIC;
 
         $db = $DIC->database();
@@ -80,7 +80,7 @@ class ilBadgeAssignment
 
     public static function getLatestTimestamp(
         int $a_user_id
-    ) : int {
+    ): int {
         global $DIC;
 
         $db = $DIC->database();
@@ -101,11 +101,11 @@ class ilBadgeAssignment
      */
     public static function getInstancesByUserId(
         int $a_user_id
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $res = array();
 
         $set = $ilDB->query("SELECT * FROM badge_user_badge" .
@@ -116,7 +116,7 @@ class ilBadgeAssignment
             $obj->importDBRow($row);
             $res[] = $obj;
         }
-        
+
         return $res;
     }
 
@@ -126,13 +126,13 @@ class ilBadgeAssignment
      */
     public static function getInstancesByBadgeId(
         int $a_badge_id
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $res = array();
-        
+
         $set = $ilDB->query("SELECT * FROM badge_user_badge" .
             " WHERE badge_id = " . $ilDB->quote($a_badge_id, "integer"));
         while ($row = $ilDB->fetchAssoc($set)) {
@@ -140,7 +140,7 @@ class ilBadgeAssignment
             $obj->importDBRow($row);
             $res[] = $obj;
         }
-        
+
         return $res;
     }
 
@@ -150,13 +150,13 @@ class ilBadgeAssignment
      */
     public static function getInstancesByParentId(
         int $a_parent_obj_id
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $res = array();
-        
+
         $badge_ids = array();
         foreach (ilBadge::getInstancesByParentId($a_parent_obj_id) as $badge) {
             $badge_ids[] = $badge->getId();
@@ -170,7 +170,7 @@ class ilBadgeAssignment
                 $res[] = $obj;
             }
         }
-        
+
         return $res;
     }
 
@@ -180,85 +180,85 @@ class ilBadgeAssignment
      */
     public static function getAssignedUsers(
         int $a_badge_id
-    ) : array {
+    ): array {
         $res = [];
-        
+
         foreach (self::getInstancesByBadgeId($a_badge_id) as $ass) {
             $res[] = $ass->getUserId();
         }
-        
+
         return $res;
     }
-    
+
     public static function exists(
         int $a_badge_id,
         int $a_user_id
-    ) : bool {
+    ): bool {
         $obj = new self($a_badge_id, $a_user_id);
         return $obj->stored;
     }
-    
-    
+
+
     //
     // setter/getter
     //
-    
-    protected function setBadgeId(int $a_value) : void
+
+    protected function setBadgeId(int $a_value): void
     {
         $this->badge_id = $a_value;
     }
-    
-    public function getBadgeId() : int
+
+    public function getBadgeId(): int
     {
         return $this->badge_id;
     }
-    
-    protected function setUserId(int $a_value) : void
+
+    protected function setUserId(int $a_value): void
     {
         $this->user_id = $a_value;
     }
-    
-    public function getUserId() : int
+
+    public function getUserId(): int
     {
         return $this->user_id;
     }
-    
-    protected function setTimestamp(int $a_value) : void
+
+    protected function setTimestamp(int $a_value): void
     {
         $this->tstamp = $a_value;
     }
-    
-    public function getTimestamp() : int
+
+    public function getTimestamp(): int
     {
         return $this->tstamp;
     }
-    
-    public function setAwardedBy(int $a_id) : void
+
+    public function setAwardedBy(int $a_id): void
     {
         $this->awarded_by = $a_id;
     }
-    
-    public function getAwardedBy() : int
+
+    public function getAwardedBy(): int
     {
         return $this->awarded_by;
     }
-    
-    public function setPosition(?int $a_value) : void
+
+    public function setPosition(?int $a_value): void
     {
         $this->pos = $a_value;
     }
-    
-    public function getPosition() : ?int
+
+    public function getPosition(): ?int
     {
         return $this->pos;
     }
-    
-    
+
+
     //
     // crud
     //
-    
-    protected function importDBRow(array $a_row) : void
+
+    protected function importDBRow(array $a_row): void
     {
         $this->stored = true;
         $this->setBadgeId((int) $a_row["badge_id"]);
@@ -267,13 +267,13 @@ class ilBadgeAssignment
         $this->setAwardedBy((int) $a_row["awarded_by"]);
         $this->setPosition($a_row["pos"]);
     }
-    
+
     protected function read(
         int $a_badge_id,
         int $a_user_id
-    ) : void {
+    ): void {
         $ilDB = $this->db;
-        
+
         $set = $ilDB->query("SELECT * FROM badge_user_badge" .
             " WHERE badge_id = " . $ilDB->quote($a_badge_id, "integer") .
             " AND user_id = " . $ilDB->quote($a_user_id, "integer"));
@@ -286,7 +286,7 @@ class ilBadgeAssignment
     /**
      * @return array<string, array>
      */
-    protected function getPropertiesForStorage() : array
+    protected function getPropertiesForStorage(): array
     {
         return [
             "tstamp" => ["integer", $this->stored ? $this->getTimestamp() : time()],
@@ -294,76 +294,76 @@ class ilBadgeAssignment
             "pos" => ["integer", $this->getPosition()]
         ];
     }
-    
-    public function store() : void
+
+    public function store(): void
     {
         $ilDB = $this->db;
-        
+
         if (!$this->getBadgeId() ||
             !$this->getUserId()) {
             return;
         }
-        
+
         $keys = array(
             "badge_id" => array("integer", $this->getBadgeId()),
             "user_id" => array("integer", $this->getUserId())
         );
         $fields = $this->getPropertiesForStorage();
-        
+
         if (!$this->stored) {
             $ilDB->insert("badge_user_badge", $fields + $keys);
         } else {
             $ilDB->update("badge_user_badge", $fields, $keys);
         }
     }
-    
-    public function delete() : void
+
+    public function delete(): void
     {
         $ilDB = $this->db;
-        
+
         if (!$this->getBadgeId() ||
             !$this->getUserId()) {
             return;
         }
-        
+
         $this->deleteStaticFiles();
-        
+
         $ilDB->manipulate("DELETE FROM badge_user_badge" .
             " WHERE badge_id = " . $ilDB->quote($this->getBadgeId(), "integer") .
             " AND user_id = " . $ilDB->quote($this->getUserId(), "integer"));
     }
-    
-    public static function deleteByUserId(int $a_user_id) : void
+
+    public static function deleteByUserId(int $a_user_id): void
     {
         foreach (self::getInstancesByUserId($a_user_id) as $ass) {
             $ass->delete();
         }
     }
-    
-    public static function deleteByBadgeId(int $a_badge_id) : void
+
+    public static function deleteByBadgeId(int $a_badge_id): void
     {
         foreach (self::getInstancesByBadgeId($a_badge_id) as $ass) {
             $ass->delete();
         }
     }
-    
-    public static function deleteByParentId(int $a_parent_obj_id) : void
+
+    public static function deleteByParentId(int $a_parent_obj_id): void
     {
         foreach (self::getInstancesByParentId($a_parent_obj_id) as $ass) {
             $ass->delete();
         }
     }
-    
+
     public static function updatePositions(
         int $a_user_id,
         array $a_positions
-    ) : void {
+    ): void {
         $existing = array();
         foreach (self::getInstancesByUserId($a_user_id) as $ass) {
             $badge = new ilBadge($ass->getBadgeId());
             $existing[$badge->getId()] = array($badge->getTitle(), $ass);
         }
-        
+
         $new_pos = 0;
         foreach ($a_positions as $title) {
             foreach ($existing as $id => $item) {
@@ -386,11 +386,11 @@ class ilBadgeAssignment
         int $a_user_id,
         int $a_ts_from,
         int $a_ts_to
-    ) : array {
+    ): array {
         global $DIC;
-        
+
         $db = $DIC->database();
-        
+
         $set = $db->queryF(
             "SELECT bdg.parent_id, ub.tstamp, bdg.title FROM badge_user_badge ub JOIN badge_badge bdg" .
             " ON (ub.badge_id = bdg.id) " .
@@ -405,17 +405,17 @@ class ilBadgeAssignment
         return $res;
     }
 
-    public function deleteStaticFiles() : void
+    public function deleteStaticFiles(): void
     {
         // remove instance files
         $path = ilBadgeHandler::getInstance()->getInstancePath($this);
         $path = str_replace(".json", ".*", $path);
         array_map("unlink", glob($path));
     }
-        
+
     public static function clearBadgeCache(
         int $a_user_id
-    ) : void {
+    ): void {
         foreach (self::getInstancesByUserId($a_user_id) as $ass) {
             $ass->deleteStaticFiles();
         }

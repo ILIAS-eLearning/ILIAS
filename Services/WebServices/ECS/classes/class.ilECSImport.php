@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -42,96 +44,96 @@ class ilECSImport
 
         $this->read();
     }
-    
-    public function setServerId($a_server_id) : void
+
+    public function setServerId($a_server_id): void
     {
         $this->server_id = $a_server_id;
     }
 
-    public function getServerId() : int
+    public function getServerId(): int
     {
         return $this->server_id;
     }
-    
+
     /**
      * Set imported
      */
-    public function setImported(bool $a_status) : void
+    public function setImported(bool $a_status): void
     {
         $this->imported = $a_status;
     }
-    
-    public function setSubId($a_id) : void
+
+    public function setSubId($a_id): void
     {
         $this->sub_id = $a_id;
     }
-    
-    public function getSubId() : ?string
+
+    public function getSubId(): ?string
     {
         return (isset($this->sub_id) && $this->sub_id !== '') ? $this->sub_id : null;
     }
-    
+
     /**
      * Set content id.
      */
-    public function setContentId($a_content_id) : void
+    public function setContentId($a_content_id): void
     {
         $this->content_id = $a_content_id;
     }
-    
+
     /**
      * get content id
      */
-    public function getContentId() : string
+    public function getContentId(): string
     {
         return $this->content_id;
     }
-    
+
     /**
      * set mid
      */
-    public function setMID($a_mid) : void
+    public function setMID($a_mid): void
     {
         $this->mid = $a_mid;
     }
-    
+
     /**
      * get mid
      */
-    public function getMID() : int
+    public function getMID(): int
     {
         return $this->mid;
     }
-    
+
     /**
      * set econtent id
      *
      * @param int econtent id
      *
      */
-    public function setEContentId($a_id) : void
+    public function setEContentId($a_id): void
     {
         $this->econtent_id = $a_id;
     }
-    
+
     /**
      * get econtent id
      */
-    public function getEContentId() : string
+    public function getEContentId(): string
     {
         return $this->econtent_id;
     }
-    
+
     /**
      * Save
      */
-    public function save() : bool
+    public function save(): bool
     {
         $query = "DELETE FROM ecs_import " .
             "WHERE obj_id = " . $this->db->quote($this->obj_id, 'integer') . " " .
             'AND server_id = ' . $this->db->quote($this->getServerId(), 'integer');
         $this->db->manipulate($query);
-        
+
         $query = "INSERT INTO ecs_import (obj_id,mid,econtent_id,sub_id,server_id,content_id) " .
             "VALUES ( " .
             $this->db->quote($this->obj_id, 'integer') . ", " .
@@ -141,16 +143,16 @@ class ilECSImport
             $this->db->quote($this->getServerId(), 'integer') . ', ' .
             $this->db->quote($this->getContentId(), 'text') . ' ' .
             ")";
-        
+
         $this->db->manipulate($query);
-        
+
         return true;
     }
-    
+
     /**
      * Read
      */
-    private function read() : void
+    private function read(): void
     {
         $query = "SELECT * FROM ecs_import WHERE " .
             "obj_id = " . $this->db->quote($this->obj_id, 'integer') . " " .

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Finder\Iterator;
@@ -38,7 +39,7 @@ class DepthRangeFilterIterator extends \FilterIterator
      */
     public function __construct(RecursiveIteratorIterator $iterator, array $comparators)
     {
-        array_walk($comparators, static function ($comparator) : void {
+        array_walk($comparators, static function ($comparator): void {
             if (!($comparator instanceof NumberComparator)) {
                 if (is_object($comparator)) {
                     throw new InvalidArgumentException(sprintf(
@@ -82,7 +83,7 @@ class DepthRangeFilterIterator extends \FilterIterator
     /**
      * @inheritdoc
      */
-    public function accept() : bool
+    public function accept(): bool
     {
         return $this->getInnerIterator()->getDepth() >= $this->minDepth;
     }

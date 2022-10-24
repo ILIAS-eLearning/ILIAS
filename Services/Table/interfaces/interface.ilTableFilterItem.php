@@ -27,10 +27,10 @@ interface ilTableFilterItem
     /**
      * Get input item HTML to be inserted into table filters
      */
-    public function getTableFilterHTML() : string;
+    public function getTableFilterHTML(): string;
 
     /**
      * Get label "for" attribute value
      */
-    public function getTableFilterLabelFor() : string;
+    public function getTableFilterLabelFor(): string;
 }

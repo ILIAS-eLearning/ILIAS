@@ -39,7 +39,7 @@ class ilPCSectionEditorGUI implements \ILIAS\COPage\Editor\Components\PageCompon
         string $page_type,
         ilPageObjectGUI $page_gui,
         int $style_id
-    ) : array {
+    ): array {
         $form = $this->getCreationForm($page_gui, $ui_wrapper, $style_id);
         return [
             "creation_form" => $form,
@@ -51,7 +51,7 @@ class ilPCSectionEditorGUI implements \ILIAS\COPage\Editor\Components\PageCompon
         ilPageObjectGUI $page_gui,
         UIWrapper $ui_wrapper,
         int $style_id
-    ) : string {
+    ): string {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
 
@@ -78,7 +78,7 @@ class ilPCSectionEditorGUI implements \ILIAS\COPage\Editor\Components\PageCompon
         \ilPageObjectGUI $page_gui,
         int $style_id,
         string $pcid
-    ) : string {
+    ): string {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
 

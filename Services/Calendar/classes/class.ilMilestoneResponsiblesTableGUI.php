@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -99,7 +101,7 @@ class ilMilestoneResponsiblesTableGUI extends ilTable2GUI
      * Standard Version of Fill Row. Most likely to
      * be overwritten by derived class.
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if (is_array($this->resp_users) && in_array($a_set["user_id"], $this->resp_users)) {
             $this->tpl->setVariable("CHECKED", ' checked="checked" ');

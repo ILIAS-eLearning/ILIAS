@@ -26,7 +26,7 @@ class ilPortfolioAppEventListener
         string $component,
         string $event,
         array $parameter
-    ) : void {
+    ): void {
         switch ($component) {
             case "Services/Object":
                 switch ($event) {
@@ -47,7 +47,7 @@ class ilPortfolioAppEventListener
 
     protected static function beforeDeletion(
         array $parameter
-    ) : void {
+    ): void {
         if (is_object($parameter["object"])) {
             /** @var ilObject $obj */
             $obj = $parameter["object"];
@@ -61,7 +61,7 @@ class ilPortfolioAppEventListener
 
     protected static function firstLogin(
         array $parameter
-    ) : void {
+    ): void {
         $manager = new \ILIAS\Portfolio\Administration\PortfolioRoleAssignmentManager();
         if (isset($parameter["user_obj"]) && is_object($parameter["user_obj"])) {
             /** @var ilObjUser $obj */

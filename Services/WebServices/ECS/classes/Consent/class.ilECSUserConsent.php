@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,17 +36,17 @@ class ilECSUserConsent
         $this->mid = $a_mid;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->usr_id;
     }
 
-    public function getMid() : int
+    public function getMid(): int
     {
         return $this->mid;
     }
 
-    public function save() : void
+    public function save(): void
     {
         $this->db->replace(
             'ecs_user_consent',
@@ -56,7 +58,7 @@ class ilECSUserConsent
         );
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $query = 'DELETE FROM ecs_user_consent ' .
             'WHERE usr_id = ' . $this->db->quote(

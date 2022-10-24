@@ -41,15 +41,15 @@ use ILIAS\OrgUnit\Provider\OrgUnitToolProvider;
  */
 class ilObjOrgUnitGUI extends ilContainerGUI
 {
-    const TAB_POSITIONS = 'positions';
-    const TAB_ORGU_TYPES = 'orgu_types';
-    const TAB_SETTINGS = "settings";
-    const TAB_STAFF = 'orgu_staff';
-    const TAB_GLOBAL_SETTINGS = 'global_settings';
-    const TAB_EXPORT = 'export';
-    const TAB_VIEW_CONTENT = 'view_content';
+    public const TAB_POSITIONS = 'positions';
+    public const TAB_ORGU_TYPES = 'orgu_types';
+    public const TAB_SETTINGS = "settings";
+    public const TAB_STAFF = 'orgu_staff';
+    public const TAB_GLOBAL_SETTINGS = 'global_settings';
+    public const TAB_EXPORT = 'export';
+    public const TAB_VIEW_CONTENT = 'view_content';
 
-    const CMD_EDIT_SETTINGS = 'editSettings';
+    public const CMD_EDIT_SETTINGS = 'editSettings';
 
     public ilCtrl $ctrl;
     public ilTabsGUI $tabs_gui;
@@ -64,9 +64,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     public function __construct()
     {
         global $DIC;
-
-
-
         $this->ctrl = $DIC->ctrl();
         $this->ilAccess = $DIC->access();
         $this->ilLocator = $DIC['ilLocator'];
@@ -93,7 +90,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
      * @throws ilException
      * @throws ilRepositoryException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
@@ -189,10 +186,10 @@ class ilObjOrgUnitGUI extends ilContainerGUI
             case "ilinfoscreengui":
                 $this->tabs_gui->activateTab("info_short");
                 if (!$this->ilAccess->checkAccess(
-                        "read",
-                        "",
-                        $this->ref_id
-                    ) and !$this->ilAccess->checkAccess("visible", "", $this->ref_id)) {
+                    "read",
+                    "",
+                    $this->ref_id
+                ) and !$this->ilAccess->checkAccess("visible", "", $this->ref_id)) {
                     $this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->MESSAGE);
                 }
                 $info = new ilInfoScreenGUI($this);
@@ -355,7 +352,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         }
     }
 
-    protected function afterSave(ilObject $new_object) : void
+    protected function afterSave(ilObject $new_object): void
     {
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
@@ -365,7 +362,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         ));
     }
 
-    public function view() : void
+    public function view(): void
     {
         if (!$this->rbacsystem->checkAccess("read", $_GET["ref_id"])) {
             if ($this->rbacsystem->checkAccess("visible", $_GET["ref_id"])) {
@@ -385,7 +382,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
             $this->tabs->activateSubTab("view_content");
         }
 
-        //$container_view->setOutput();
+        $container_view->setOutput();
 
         $this->adminCommands = $container_view->adminCommands;
 
@@ -394,7 +391,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         if ($this->ctrl->getNextClass() !== "ilcolumngui") {
             $this->showAdministrationPanel();
             $this->showPossibleSubObjects();
-
         }
         $this->showPermanentLink();
         $this->tabs_gui->activateTab(self::TAB_VIEW_CONTENT);
@@ -407,7 +403,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
      * We override the method of class.ilObjectGUI because we have no copy functionality
      * at the moment
      */
-    protected function initCreationForms(string $new_type) : array
+    protected function initCreationForms(string $new_type): array
     {
         $forms = array(
             self::CFORM_NEW => $this->initCreateForm($new_type),
@@ -417,9 +413,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         return $forms;
     }
 
-    public function showPossibleSubObjects() : void
+    public function showPossibleSubObjects(): void
     {
-
         $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
         $gui->setMode(ilObjectDefinition::MODE_ADMINISTRATION);
         //$gui->setCreationUrl("ilias.php?ref_id=" . $_GET["ref_id"] . "&admin_mode=settings&cmd=create&baseClass=ilAdministrationGUI&cmdClass=ilobjorgunitgui");
@@ -430,7 +425,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     /**
      * called by prepare output
      */
-    public function setTitleAndDescription() : void
+    public function setTitleAndDescription(): void
     {
         # all possible create permissions
         parent::setTitleAndDescription();
@@ -449,7 +444,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         }
     }
 
-    protected function addAdminLocatorItems(bool $do_not_add_object = false) : void
+    protected function addAdminLocatorItems(bool $do_not_add_object = false): void
     {
         $path = $this->tree->getPathFull($_GET["ref_id"], ilObjOrgUnit::getRootOrgRefId());
         // add item for each node on path
@@ -468,7 +463,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         }
     }
 
-    protected function redirectToRefId(int $ref_id, string $cmd = "") : void
+    protected function redirectToRefId(int $ref_id, string $cmd = ""): void
     {
         $obj_type = ilObject::_lookupType($ref_id, true);
         if ($obj_type !== "orgu") {
@@ -479,7 +474,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         }
     }
 
-    public function getTabs() : void
+    public function getTabs(): void
     {
         $read_access_ref_id = $this->rbacsystem->checkAccess('visible, read', $this->object->getRefId());
         if ($read_access_ref_id) {
@@ -555,7 +550,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         parent::getTabs();
     }
 
-    protected function setSubTabsSettings(string $active_tab_id) : void
+    protected function setSubTabsSettings(string $active_tab_id): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -600,14 +595,16 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         }
     }
 
-    public function setContentSubTabs() : void
+    public function setContentSubTabs(): void
     {
         $this->addStandardContainerSubTabs();
-        //only display the import tab at the first level
-        if ($this->rbacsystem->checkAccess(
-                "visible, read",
-                $_GET["ref_id"]
-            ) and $this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
+
+        $ref_id = $this->object->getRefId();
+        $may_create_orgus = $this->ilAccess->checkAccess("create_orgu", "", $ref_id, 'orgu');
+
+        if ($ref_id === ilObjOrgUnit::getRootOrgRefId() //only display the import tab at the first level
+            && $may_create_orgus
+        ) {
             $this->tabs_gui->addSubTab(
                 "import",
                 $this->lng->txt("import"),
@@ -619,7 +616,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     /**
      * Initialize the form for editing advanced meta data
      */
-    protected function initAdvancedSettingsForm() : ilPropertyFormGUI
+    protected function initAdvancedSettingsForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -632,7 +629,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     /**
      * Edit Advanced Metadata
      */
-    protected function editAdvancedSettings() : void
+    protected function editAdvancedSettings(): void
     {
         if ($this->ilAccess->checkAccess("write", "", $this->ref_id) === false) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
@@ -654,7 +651,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     /**
      * Update Advanced Metadata
      */
-    protected function updateAdvancedSettings() : void
+    protected function updateAdvancedSettings(): void
     {
         if (!$this->ilAccess->checkAccess('write', '', $this->ref_id)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
@@ -680,7 +677,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         }
     }
 
-    public function editSettings() : void
+    public function editSettings(): void
     {
         if (!$this->ilAccess->checkAccess('write', "", $this->ref_id)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
@@ -690,7 +687,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function updateSettings() : void
+    public function updateSettings(): void
     {
         if (!$this->ilAccess->checkAccess('write', '', $this->ref_id)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
@@ -705,22 +702,22 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         }
     }
 
-    public function showAdministrationPanel() : void
+    public function showAdministrationPanel(): void
     {
         parent::showAdministrationPanel();
         //an ugly encapsulation violation in order to remove the "verknüpfen"/"link" and copy button.
         if (empty($this->toolbar->items) === false) {
-             foreach ($this->toolbar->items as $key => $item) {
-                 if ($item["cmd"] == "link" || $item["cmd"] == "copy"
+            foreach ($this->toolbar->items as $key => $item) {
+                if ($item["cmd"] == "link" || $item["cmd"] == "copy"
                      || $item["cmd"] == "download"
                  ) {
-                     unset($this->toolbar->items[$key]);
-                 }
-             }
-         }
+                    unset($this->toolbar->items[$key]);
+                }
+            }
+        }
     }
 
-    public static function _goto(int $ref_id) : void
+    public static function _goto(int $ref_id): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -731,7 +728,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         $ilCtrl->redirectByClass(array("ilAdministrationGUI", "ilObjOrgUnitGUI"), "view");
     }
 
-    protected function getTreeSelectorGUI(string $cmd) : ilTreeExplorerGUI
+    protected function getTreeSelectorGUI(string $cmd): ilTreeExplorerGUI
     {
         $explorer = new ilOrgUnitExplorerGUI("rep_exp_sel", $this, "showPasteTree", $this->tree);
         $explorer->setAjax(false);
@@ -740,7 +737,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         return $explorer;
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $this->getTabs();
     }
@@ -748,7 +745,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     /**
      * @description Prepare $_POST for the generic method performPasteIntoMultipleObjectsObject
      */
-    public function performPaste() : void
+    public function performPaste(): void
     {
         if (!in_array($_SESSION["clipboard"]['cmd'], array('cut'))) {
             $message = __METHOD__ . ": cmd was not 'cut' ; may be a hack attempt!";
@@ -762,7 +759,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         $this->ctrl->returnToParent($this);
     }
 
-    public function doUserAutoCompleteObject() : void
+    public function doUserAutoCompleteObject(): void
     {
     }
 
@@ -774,7 +771,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
      * confirmed deletion of org units -> org units are deleted immediately, without putting them to the trash
      * @throws ilRepositoryException
      */
-    public function confirmedDeleteObject() : void
+    public function confirmedDeleteObject(): void
     {
         $ids = filter_input(INPUT_POST, 'id', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
         if (count($ids) > 0) {
@@ -788,7 +785,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
      * Display deletion confirmation screen for Org Units.
      * Information to the user that Org units will be deleted immediately.
      */
-    public function deleteObject(bool $error = false) : void
+    public function deleteObject(bool $error = false): void
     {
         $ilCtrl = $this->ctrl;
         $ru = new ilRepositoryTrashGUI($this);
@@ -804,16 +801,5 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         if (!$ru->showDeleteConfirmation($arr_ref_ids, false)) {
             $ilCtrl->returnToParent($this);
         }
-    }
-
-    /**
-     * @throws ilCtrlException
-     */
-    public function cancelMoveLinkObject() : void
-    {
-        $parent_ref_id = $_SESSION["clipboard"]["parent"];
-        unset($_SESSION["clipboard"]);
-        $this->ctrl->setParameter($this, 'ref_id', $parent_ref_id);
-        $this->ctrl->redirect($this);
     }
 }

@@ -26,23 +26,23 @@ class ilKSDocumentationGotoLinkTest extends TestCase
 {
     protected ilKSDocumentationGotoLink $goto_link;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->goto_link = new ilKSDocumentationGotoLink();
     }
 
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(ilKSDocumentationGotoLink::class, $this->goto_link);
     }
 
-    public function testGenerateGotoLink() : void
+    public function testGenerateGotoLink(): void
     {
         $link = $this->goto_link->generateGotoLink('nodeId', 'skinId', 'styleId');
         $this->assertEquals('_nodeId_skinId_styleId', $link);
     }
 
-    public function testRedirectWithGotoLink() : void
+    public function testRedirectWithGotoLink(): void
     {
         $ctrl_observer = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->onlyMethods([
             'setParameterByClass',

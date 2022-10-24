@@ -43,7 +43,7 @@ class ilNavigationHistoryGUI implements ilCtrlBaseClassInterface
         );
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -57,11 +57,11 @@ class ilNavigationHistoryGUI implements ilCtrlBaseClassInterface
         }
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $ilNavigationHistory = $this->nav_history;
         $lng = $this->lng;
-        
+
         $selection = new ilAdvancedSelectionListGUI();
         $selection->setFormSelectMode(
             "url_ref_id",
@@ -103,7 +103,7 @@ class ilNavigationHistoryGUI implements ilCtrlBaseClassInterface
             }
         }
         $html = $selection->getHTML();
-        
+
         if ($html === "") {
             $selection->addItem(
                 $lng->txt("no_items"),
@@ -118,12 +118,12 @@ class ilNavigationHistoryGUI implements ilCtrlBaseClassInterface
         }
         return $html;
     }
-    
-    public function handleNavigationRequest() : void
+
+    public function handleNavigationRequest(): void
     {
         $ilNavigationHistory = $this->nav_history;
         $ilCtrl = $this->ctrl;
-        
+
         if ($this->request->getTarget() === "navi_request") {
             $items = $ilNavigationHistory->getItems();
             foreach ($items as $item) {
@@ -139,17 +139,17 @@ class ilNavigationHistoryGUI implements ilCtrlBaseClassInterface
             if ($this->request->getUrlRefId() === 0 && $item["link"] != "") {
                 ilUtil::redirect($item["link"]);
             }
-            
+
             $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", "");
             $ilCtrl->setParameterByClass("ilrepositorygui", "getlast", "true");
             $ilCtrl->redirectByClass("ilrepositorygui", "");
         }
     }
-    
-    public function removeEntries() : void
+
+    public function removeEntries(): void
     {
         $ilNavigationHistory = $this->nav_history;
-        
+
         $ilNavigationHistory->deleteDBEntries();
         $ilNavigationHistory->deleteSessionEntries();
     }

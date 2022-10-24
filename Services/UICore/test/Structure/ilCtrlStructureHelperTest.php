@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -10,14 +12,14 @@ use PHPUnit\Framework\TestCase;
  */
 class ilCtrlStructureHelperTest extends TestCase
 {
-    public function testStructureHelperWithEmptyArrays() : void
+    public function testStructureHelperWithEmptyArrays(): void
     {
         $helper = new ilCtrlStructureHelper([], []);
 
         $this->assertEmpty($helper->getStructure());
     }
 
-    public function testStructureHelperWithCtrlStructure() : void
+    public function testStructureHelperWithCtrlStructure(): void
     {
         $expected_value = ['entry0'];
         $helper = new ilCtrlStructureHelper([], $expected_value);
@@ -25,7 +27,7 @@ class ilCtrlStructureHelperTest extends TestCase
         $this->assertEquals($expected_value, $helper->getStructure());
     }
 
-    public function testStructureHelperUnnecessaryEntryFilter() : void
+    public function testStructureHelperUnnecessaryEntryFilter(): void
     {
         $helper = new ilCtrlStructureHelper(
             [

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,7 +25,7 @@ abstract class ilMathJaxBaseTest extends TestCase
     /**
      * Get a config without active settings
      */
-    protected function getEmptyConfig() : ilMathJaxConfig
+    protected function getEmptyConfig(): ilMathJaxConfig
     {
         return new ilMathJaxConfig(
             false,
@@ -42,7 +44,7 @@ abstract class ilMathJaxBaseTest extends TestCase
     /**
      * Get a factory mockup that will deliver other mockups
      */
-    protected function getFactoryMock(?string $imagefile = null) : ilMathJaxFactory
+    protected function getFactoryMock(?string $imagefile = null): ilMathJaxFactory
     {
         $factory = $this
             ->getMockBuilder(ilMathJaxFactory::class)
@@ -60,7 +62,7 @@ abstract class ilMathJaxBaseTest extends TestCase
     /**
      * Get a global template mockup
      */
-    protected function getTemplateMock() : ilGlobalTemplate
+    protected function getTemplateMock(): ilGlobalTemplate
     {
         $template = $this
             ->getMockBuilder(ilGlobalTemplate::class)
@@ -74,7 +76,7 @@ abstract class ilMathJaxBaseTest extends TestCase
      * Get a cached image mockup from an example file
      * @param string $imagefile name of the example file in the test directory
      */
-    protected function getImageMock(string $imagefile) : ilMathJaxImage
+    protected function getImageMock(string $imagefile): ilMathJaxImage
     {
         $image = $this
             ->getMockBuilder(ilMathJaxImage::class)
@@ -91,7 +93,7 @@ abstract class ilMathJaxBaseTest extends TestCase
     /**
      * Get a mockup of the class for server calls
      */
-    protected function getServerMock() : ilMathJaxServer
+    protected function getServerMock(): ilMathJaxServer
     {
         $server = $this
             ->getMockBuilder(ilMathJaxServer::class)

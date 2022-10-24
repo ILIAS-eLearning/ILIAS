@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Exercise derived task provider factory
  *
@@ -48,7 +48,7 @@ class ilExerciseDerivedTaskProviderFactory implements ilDerivedTaskProviderFacto
     /**
      * @return \ilExerciseDerivedTaskProvider[]
      */
-    public function getProviders() : array
+    public function getProviders(): array
     {
         return [
             new ilExerciseDerivedTaskProvider(
@@ -58,7 +58,8 @@ class ilExerciseDerivedTaskProviderFactory implements ilDerivedTaskProviderFacto
                 new ilExerciseDerivedTaskAction(
                     new ilExcMemberRepository(),
                     new ilExcAssMemberStateRepository(),
-                    new ilExcTutorRepository()
+                    new ilExcTutorRepository(),
+                    new \ILIAS\Exercise\Submission\SubmissionDBRepository()
                 )
             )
         ];

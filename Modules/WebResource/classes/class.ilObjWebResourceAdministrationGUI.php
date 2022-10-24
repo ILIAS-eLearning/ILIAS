@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Web Resource Administration Settings.
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -44,7 +46,7 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
         $this->lng->loadLanguageModule("webr");
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -76,7 +78,7 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->rbac_system->checkAccess(
             "visible,read",
@@ -102,7 +104,7 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function editSettings(?ilPropertyFormGUI $a_form = null) : bool
+    public function editSettings(?ilPropertyFormGUI $a_form = null): bool
     {
         $this->tabs_gui->setTabActive('settings');
         if (!$a_form) {
@@ -112,7 +114,7 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
         return true;
     }
 
-    public function saveSettings() : void
+    public function saveSettings(): void
     {
         $this->checkPermission("write");
         $form = $this->initFormSettings();
@@ -132,7 +134,7 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
         $this->editSettings($form);
     }
 
-    protected function initFormSettings() : ilPropertyFormGUI
+    protected function initFormSettings(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "saveSettings"));

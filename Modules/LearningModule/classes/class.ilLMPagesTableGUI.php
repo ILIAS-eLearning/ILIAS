@@ -39,29 +39,29 @@ class ilLMPagesTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         $this->lm = $a_lm;
         $this->lm_set = new ilSetting("lm");
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData(ilLMPageObject::getPageList($this->lm->getId()));
         $this->setTitle($lng->txt("cont_pages"));
-        
+
         $this->addColumn($this->lng->txt(""), "", "1");
         $this->addColumn($this->lng->txt("type"), "", "1");
         $this->addColumn($this->lng->txt("title"));
         $this->addColumn($this->lng->txt("cont_usage"));
-        
+
         $this->setSelectAllCheckbox("id[]");
-        
+
         if ($this->lm->getLayoutPerPage()) {
             $this->addColumn($this->lng->txt("cont_layout"));
         }
-        
+
         $this->setLimit(9999);
-        
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.page_list_row.html", "Modules/LearningModule");
-        
+
         if (ilEditClipboard::getContentObjectType() == "pg" &&
             ilEditClipboard::getAction() == "copy") {
             $this->addMultiCommand("pastePage", $lng->txt("pastePage"));
@@ -70,7 +70,7 @@ class ilLMPagesTableGUI extends ilTable2GUI
         if ($this->lm->getLayoutPerPage()) {
             $this->addMultiCommand("setPageLayout", $lng->txt("cont_set_layout"));
         }
-        
+
         $this->addMultiCommand("activatePages", $lng->txt("cont_de_activate"));
         $this->addMultiCommand("movePage", $lng->txt("movePage"));
         $this->addMultiCommand("copyPage", $lng->txt("copyPage"));
@@ -78,21 +78,21 @@ class ilLMPagesTableGUI extends ilTable2GUI
         $this->addMultiCommand("selectHeader", $lng->txt("selectHeader"));
         $this->addMultiCommand("selectFooter", $lng->txt("selectFooter"));
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
         // icon...
-        
+
         // check activation
         $active = ilLMPage::_lookupActive(
             $a_set["obj_id"],
             $this->lm->getType(),
             $this->lm_set->get("time_scheduled_page_activation")
         );
-            
+
         // is page scheduled?
         $img_sc = ($this->lm_set->get("time_scheduled_page_activation") &&
             ilLMPage::_isScheduledActivation($a_set["obj_id"], $this->lm->getType()))
@@ -125,7 +125,7 @@ class ilLMPagesTableGUI extends ilTable2GUI
         );
         $this->tpl->setVariable("TITLE", $a_set["title"]);
         $this->tpl->setVariable("ID", $a_set["obj_id"]);
-        
+
         // context
         if ($this->lm->lm_tree->isInTree($a_set["obj_id"])) {
             $path_str = $this->parent_obj->getContextPath($a_set["obj_id"]);
@@ -141,7 +141,7 @@ class ilLMPagesTableGUI extends ilTable2GUI
         if ($a_set["obj_id"] == $this->lm->getFooterPage()) {
             $add_str .= " <b>(" . $lng->txt("cont_footer") . ")</b>";
         }
-    
+
         $this->tpl->setVariable("USAGE", $path_str . $add_str);
 
         // layout

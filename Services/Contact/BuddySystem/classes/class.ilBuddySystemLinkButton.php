@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -48,22 +50,22 @@ class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
      * @return ilBuddySystemLinkButton
      * @throws ilBuddySystemException
      */
-    public static function getInstanceByUserId(int $usrId) : self
+    public static function getInstanceByUserId(int $usrId): self
     {
         return new self($usrId);
     }
 
-    public function getUsrId() : int
+    public function getUsrId(): int
     {
         return $this->usrId;
     }
 
-    public function getBuddyList() : ilBuddyList
+    public function getBuddyList(): ilBuddyList
     {
         return $this->buddyList;
     }
 
-    public function getHtml() : string
+    public function getHtml(): string
     {
         $this->lng->loadLanguageModule('buddysystem');
 
@@ -76,7 +78,7 @@ class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
         // The ILIAS JF decided to add a new personal setting
         if (
             $relation->isUnlinked() &&
-            !ilUtil::yn2tf(ilObjUser::_lookupPref($this->getUsrId(), 'bs_allow_to_contact_me'))
+            !ilUtil::yn2tf((string) ilObjUser::_lookupPref($this->getUsrId(), 'bs_allow_to_contact_me'))
         ) {
             return '';
         }

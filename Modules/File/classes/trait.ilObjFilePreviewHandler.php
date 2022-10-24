@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Trait ilObjFilePreviewHandler
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -25,7 +25,7 @@ trait ilObjFilePreviewHandler
     /**
      * Deletes the preview of the file object.
      */
-    protected function deletePreview() : void
+    protected function deletePreview(): void
     {
         // only normal files are supported
         if ($this->getMode() !== self::MODE_OBJECT) {
@@ -39,7 +39,7 @@ trait ilObjFilePreviewHandler
      * @param bool $force true, to force the creation of the preview; false, to create the preview
      *                    only if the file is newer.
      */
-    protected function createPreview(bool $force = false) : void
+    protected function createPreview(bool $force = false): void
     {
         // only normal files are supported
         if ($this->getMode() != self::MODE_OBJECT) {

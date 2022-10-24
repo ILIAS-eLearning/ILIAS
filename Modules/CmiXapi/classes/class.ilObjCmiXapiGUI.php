@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,22 +39,22 @@
  */
 class ilObjCmiXapiGUI extends ilObject2GUI
 {
-    const TAB_ID_INFO = 'tab_info';
-    const TAB_ID_SETTINGS = 'tab_settings';
-    const TAB_ID_STATEMENTS = 'tab_statements';
-    const TAB_ID_SCORING = 'tab_scoring';
-    const TAB_ID_LEARNING_PROGRESS = 'learning_progress';
-    const TAB_ID_METADATA = 'tab_metadata';
-    const TAB_ID_EXPORT = 'tab_export';
-    const TAB_ID_PERMISSIONS = 'perm_settings';
+    public const TAB_ID_INFO = 'tab_info';
+    public const TAB_ID_SETTINGS = 'tab_settings';
+    public const TAB_ID_STATEMENTS = 'tab_statements';
+    public const TAB_ID_SCORING = 'tab_scoring';
+    public const TAB_ID_LEARNING_PROGRESS = 'learning_progress';
+    public const TAB_ID_METADATA = 'tab_metadata';
+    public const TAB_ID_EXPORT = 'tab_export';
+    public const TAB_ID_PERMISSIONS = 'perm_settings';
 
-    const CMD_INFO_SCREEN = 'infoScreen';
-    const CMD_FETCH_XAPI_STATEMENTS = 'fetchXapiStatements';
+    public const CMD_INFO_SCREEN = 'infoScreen';
+    public const CMD_FETCH_XAPI_STATEMENTS = 'fetchXapiStatements';
 
-    const DEFAULT_CMD = self::CMD_INFO_SCREEN;
+    public const DEFAULT_CMD = self::CMD_INFO_SCREEN;
 
-    const NEW_OBJ_TITLE = "";
-    
+    public const NEW_OBJ_TITLE = "";
+
     private ilCmiXapiAccess $cmixAccess;
 
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
@@ -66,7 +68,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $this->lng->loadLanguageModule("cmix");
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return 'cmix';
     }
@@ -74,7 +76,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
     /**
      * @throws ilCtrlException
      */
-    protected function initCreateForm(string $a_new_type) : \ilPropertyFormGUI
+    protected function initCreateForm(string $a_new_type): \ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
@@ -158,7 +160,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         return $form;
     }
 
-    protected function afterSave(ilObject $newObject) : void
+    protected function afterSave(ilObject $newObject): void
     {
         /* @var ilObjCmiXapi $newObject */
         $form = $this->initCreateForm($newObject->getType());
@@ -183,7 +185,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 
                     try {
                         $uploadImporter = new ilCmiXapiContentUploadImporter($newObject);
-                        $uploadImporter->importFormUpload($form->getItemByPostVar('uploadfile'));
+                        $uploadImporter->importFormUpload((array) $form->getInput('uploadfile'));
 
                         $newObject->setSourceType(ilObjCmiXapi::SRC_TYPE_LOCAL);
                     } catch (ilCmiXapiInvalidUploadContentException $e) {
@@ -234,7 +236,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         throw new ilCmiXapiException('invalid creation form submit!');
     }
 
-    public function initMetadata(ilObjCmiXapi $object) : void
+    public function initMetadata(ilObjCmiXapi $object): void
     {
         $metadata = new ilMD($object->getId(), $object->getId(), $object->getType());
 
@@ -253,7 +255,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $id->save();
     }
 
-    protected function initHeaderAction(?string $sub_type = null, ?int $sub_id = null) : ?ilObjectListGUI
+    protected function initHeaderAction(?string $sub_type = null, ?int $sub_id = null): ?ilObjectListGUI
     {
         $return = parent::initHeaderAction($sub_type, $sub_id);
 
@@ -285,7 +287,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         return $return;
     }
 
-    public static function _goto(string $a_target) : void
+    public static function _goto(string $a_target): void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -322,7 +324,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $err->raiseError($lng->txt("msg_no_perm_read_lm"), $err->FATAL);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -448,7 +450,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         }
     }
 
-    protected function setTabs() : void
+    protected function setTabs(): void
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -529,7 +531,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         }
     }
 
-    protected function debug() : void
+    protected function debug(): void
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -564,7 +566,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         }
     }
 
-    protected function addLocatorItems() : void
+    protected function addLocatorItems(): void
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -579,7 +581,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         );
     }
 
-    protected function trackObjectReadEvent() : void
+    protected function trackObjectReadEvent(): void
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -592,7 +594,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         );
     }
 
-    public function infoScreen() : void
+    public function infoScreen(): void
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -604,7 +606,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $this->infoScreenForward();
     }
 
-    public function infoScreenForward() : void
+    public function infoScreenForward(): void
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -700,7 +702,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $this->ctrl->forwardCommand($info);
     }
 
-    protected function initInfoScreenToolbar() : void
+    protected function initInfoScreenToolbar(): void
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -778,7 +780,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         }
     }
 
-    protected function handleAvailablityMessage() : void
+    protected function handleAvailablityMessage(): void
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -788,7 +790,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         }
     }
 
-    protected function isFetchXapiStatementsRequired(ilCmiXapiUser $cmixUser) : bool
+    protected function isFetchXapiStatementsRequired(ilCmiXapiUser $cmixUser): bool
     {
         global $DIC;
         if ($this->object->getLaunchMode() != ilObjCmiXapi::LAUNCH_MODE_NORMAL) {
@@ -806,7 +808,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         return false;
     }
 
-    protected function sendLastFetchInfo(ilCmiXapiUser $cmixUser) : void
+    protected function sendLastFetchInfo(ilCmiXapiUser $cmixUser): void
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -822,7 +824,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $this->tpl->setOnScreenMessage('info', $info);
     }
 
-    protected function fetchXapiStatements() : void
+    protected function fetchXapiStatements(): void
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -857,7 +859,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
     protected function getXapiStatementsReport(
         ilCmiXapiDateTime $since,
         ilCmiXapiDateTime $until
-    ) : \ilCmiXapiStatementsReport {
+    ): \ilCmiXapiStatementsReport {
         $filter = $this->buildReportFilter($since, $until);
 
         $linkBuilder = new ilCmiXapiStatementsReportLinkBuilder(
@@ -877,7 +879,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
     protected function buildReportFilter(
         ilCmiXapiDateTime $since,
         ilCmiXapiDateTime $until
-    ) : \ilCmiXapiStatementsReportFilter {
+    ): \ilCmiXapiStatementsReportFilter {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
 
@@ -896,7 +898,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         return $filter;
     }
 
-    public static function getPrivacyIdentString(int $ident) : string
+    public static function getPrivacyIdentString(int $ident): string
     {
         switch ($ident) {
             case 0:
@@ -909,11 +911,15 @@ class ilObjCmiXapiGUI extends ilObject2GUI
                 return "real_email";
             case 4:
                 return "il_uuid_random";
+            case 5:
+                return "il_uuid_sha256";
+            case 6:
+                return "il_uuid_sha256url";
         }
         return '';
     }
 
-    public static function getPrivacyNameString(int $ident) : string
+    public static function getPrivacyNameString(int $ident): string
     {
         switch ($ident) {
             case 0:

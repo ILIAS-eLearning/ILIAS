@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,7 +33,7 @@ class SplitStringTest extends TestCase
     private ?Transformation $split_string;
     private ?Refinery $f;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $dataFactory = new DataFactory();
         $language = $this->createMock(ilLanguage::class);
@@ -39,19 +41,19 @@ class SplitStringTest extends TestCase
         $this->split_string = $this->f->string()->splitString("#");
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         $this->f = null;
         $this->split_string = null;
     }
 
-    public function testTransform() : void
+    public function testTransform(): void
     {
         $arr = $this->split_string->transform(self::STRING_TO_SPLIT);
         $this->assertEquals(static::$result, $arr);
     }
 
-    public function testTransformFails() : void
+    public function testTransformFails(): void
     {
         $raised = false;
         try {
@@ -81,14 +83,14 @@ class SplitStringTest extends TestCase
         $this->assertTrue($raised);
     }
 
-    public function testInvoke() : void
+    public function testInvoke(): void
     {
         $split_string = $this->f->string()->splitString("#");
         $arr = $split_string(self::STRING_TO_SPLIT);
         $this->assertEquals(static::$result, $arr);
     }
 
-    public function testInvokeFails() : void
+    public function testInvokeFails(): void
     {
         $split_string = $this->f->string()->splitString("#");
 
@@ -120,7 +122,7 @@ class SplitStringTest extends TestCase
         $this->assertTrue($raised);
     }
 
-    public function testApplyToWithValidValueReturnsAnOkResult() : void
+    public function testApplyToWithValidValueReturnsAnOkResult(): void
     {
         $factory = new DataFactory();
         $valueObject = $factory->ok(self::STRING_TO_SPLIT);
@@ -131,7 +133,7 @@ class SplitStringTest extends TestCase
         $this->assertFalse($resultObject->isError());
     }
 
-    public function testApplyToWithInvalidValueWillLeadToErrorResult() : void
+    public function testApplyToWithInvalidValueWillLeadToErrorResult(): void
     {
         $factory = new DataFactory();
         $valueObject = $factory->ok(42);

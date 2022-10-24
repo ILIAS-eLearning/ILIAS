@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -31,7 +33,7 @@ final class ilXMLChecker
         $this->result = new Result\Error('No XML parsed, yet');
     }
 
-    private function beginLogging() : void
+    private function beginLogging(): void
     {
         if (0 === count($this->errorStack)) {
             $this->xmlErrorState = libxml_use_internal_errors(true);
@@ -43,7 +45,7 @@ final class ilXMLChecker
         $this->errorStack[] = [];
     }
 
-    private function addErrors() : void
+    private function addErrors(): void
     {
         $currentErrors = libxml_get_errors();
         libxml_clear_errors();
@@ -55,7 +57,7 @@ final class ilXMLChecker
     /**
      * @return LibXMLError[] An array with the LibXMLErrors which has occurred since beginLogging() was called.
      */
-    private function endLogging() : array
+    private function endLogging(): array
     {
         $this->addErrors();
 
@@ -68,7 +70,7 @@ final class ilXMLChecker
         return $errors;
     }
 
-    public function parse(string $xmlString) : void
+    public function parse(string $xmlString): void
     {
         try {
             $this->beginLogging();
@@ -80,7 +82,7 @@ final class ilXMLChecker
         } catch (Exception $e) {
             $this->result = $this->dataFactory->error(implode(
                 "\n",
-                array_map(static function (LibXMLError $error) : string {
+                array_map(static function (LibXMLError $error): string {
                     return implode(',', [
                         'level=' . $error->level,
                         'code=' . $error->code,
@@ -93,7 +95,7 @@ final class ilXMLChecker
         }
     }
 
-    public function result() : Result
+    public function result(): Result
     {
         return $this->result;
     }

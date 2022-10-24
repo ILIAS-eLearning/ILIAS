@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -48,7 +49,7 @@ final class IliasDBEmployeeTalkSeriesRepository
     /**
      * @return ilObjEmployeeTalkSeries[]
      */
-    public function findByOwnerAndEmployee() : array
+    public function findByOwnerAndEmployee(): array
     {
         $userId = $this->currentUser->getId();
 

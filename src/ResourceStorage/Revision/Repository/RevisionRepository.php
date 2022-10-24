@@ -14,7 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Revision\Repository;
 
 use ILIAS\Filesystem\Stream\FileStream;
@@ -41,24 +41,24 @@ interface RevisionRepository extends LockingRepository, PreloadableRepository
         InfoResolver $info_resolver,
         StorableResource $resource,
         UploadResult $result
-    ) : UploadedFileRevision;
+    ): UploadedFileRevision;
 
     public function blankFromStream(
         InfoResolver $info_resolver,
         StorableResource $resource,
         FileStream $stream,
         bool $keep_original = false
-    ) : FileStreamRevision;
+    ): FileStreamRevision;
 
     public function blankFromClone(
         InfoResolver $info_resolver,
         StorableResource $resource,
         FileRevision $revision_to_clone
-    ) : CloneRevision;
+    ): CloneRevision;
 
-    public function store(Revision $revision) : void;
+    public function store(Revision $revision): void;
 
-    public function get(StorableResource $resource) : RevisionCollection;
+    public function get(StorableResource $resource): RevisionCollection;
 
-    public function delete(Revision $revision) : void;
+    public function delete(Revision $revision): void;
 }

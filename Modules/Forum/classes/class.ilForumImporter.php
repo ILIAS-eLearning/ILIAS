@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilForumImporter extends ilXmlImporter implements ilForumObjectConstants
 {
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
         $this->content_style_domain = $DIC
@@ -33,7 +35,7 @@ class ilForumImporter extends ilXmlImporter implements ilForumObjectConstants
             ->domain();
     }
 
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
         if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
             $newObj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
@@ -53,7 +55,7 @@ class ilForumImporter extends ilXmlImporter implements ilForumObjectConstants
         $a_mapping->addMapping('Modules/Forum', 'frm', $a_id, (string) $newObj->getId());
     }
 
-    public function finalProcessing(ilImportMapping $a_mapping) : void
+    public function finalProcessing(ilImportMapping $a_mapping): void
     {
         parent::finalProcessing($a_mapping);
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -57,17 +59,17 @@ class ilAdvancedMDRecordParser extends ilSaxParser
         $this->log = ilLoggerFactory::getLogger('amet');
     }
 
-    public function setMode(int $a_mode) : void
+    public function setMode(int $a_mode): void
     {
         $this->mode = $a_mode;
     }
 
-    public function getMode() : int
+    public function getMode(): int
     {
         return $this->mode;
     }
 
-    public function startParsing() : void
+    public function startParsing(): void
     {
         parent::startParsing();
         if ($this->is_error) {
@@ -80,7 +82,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
      * @param resource    reference to the xml parser
      * @access    private
      */
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -91,7 +93,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
      * Handler for start tags
      * @access protected
      */
-    protected function handlerBeginTag($a_xml_parser, $a_name, $a_attribs) : void
+    protected function handlerBeginTag($a_xml_parser, $a_name, $a_attribs): void
     {
         switch ($a_name) {
             case 'AdvancedMetaDataRecords':
@@ -187,7 +189,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
      * Handler for end tags
      * @access protected
      */
-    protected function handlerEndTag($a_xml_parser, $a_name) : void
+    protected function handlerEndTag($a_xml_parser, $a_name): void
     {
         switch ($a_name) {
             case 'AdvancedMetaDataRecords':
@@ -258,7 +260,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
      * @param resource $a_xml_parser xml parser
      * @param string   $a_data       character data
      */
-    protected function handlerCharacterData($a_xml_parser, string $a_data) : void
+    protected function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         if ($a_data != "\n") {
             // Replace multiple tabs with one space
@@ -268,7 +270,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
         }
     }
 
-    private function initRecordObject(string $a_id) : bool
+    private function initRecordObject(string $a_id): bool
     {
         switch ($this->getMode()) {
             case self::MODE_INSERT:
@@ -301,17 +303,17 @@ class ilAdvancedMDRecordParser extends ilSaxParser
         }
     }
 
-    private function getCurrentRecord() : ?ilAdvancedMDRecord
+    private function getCurrentRecord(): ?ilAdvancedMDRecord
     {
         return $this->current_record;
     }
 
-    private function getCurrentField() : ?ilAdvancedMDFieldDefinition
+    private function getCurrentField(): ?ilAdvancedMDFieldDefinition
     {
         return $this->current_field;
     }
 
-    private function extractRecordId(string $a_id_string) : int
+    private function extractRecordId(string $a_id_string): int
     {
         // first lookup import id
         if ($record_id = ilAdvancedMDRecord::_lookupRecordIdByImportId($a_id_string)) {
@@ -320,13 +322,13 @@ class ilAdvancedMDRecordParser extends ilSaxParser
         return 0;
     }
 
-    private function appendErrorMessage(string $a_msg) : void
+    private function appendErrorMessage(string $a_msg): void
     {
         $this->is_error = true;
         $this->error_msg[] = $a_msg;
     }
 
-    private function storeRecords() : void
+    private function storeRecords(): void
     {
         switch ($this->getMode()) {
             case self::MODE_INSERT_VALIDATION:
@@ -396,7 +398,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
         }
     }
 
-    public function setContext(int $a_obj_id, string $a_obj_type, ?string $a_sub_type = null) : void
+    public function setContext(int $a_obj_id, string $a_obj_type, ?string $a_sub_type = null): void
     {
         if (!$a_sub_type) {
             $a_sub_type = "-";
@@ -409,7 +411,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
         );
     }
 
-    public function getRecordMap() : array
+    public function getRecordMap(): array
     {
         return $this->rec_map;
     }

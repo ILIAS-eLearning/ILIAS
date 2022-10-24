@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -11,7 +13,7 @@ class ilLPCollectionOfSCOs extends ilLPCollection
 {
     protected static array $possible_items = array();
 
-    public function getPossibleItems() : array
+    public function getPossibleItems(): array
     {
         if (!isset(self::$possible_items[$this->obj_id])) {
             $items = array();
@@ -49,7 +51,7 @@ class ilLPCollectionOfSCOs extends ilLPCollection
         return self::$possible_items[$this->obj_id];
     }
 
-    public function getTableGUIData(int $a_parent_ref_id) : array
+    public function getTableGUIData(int $a_parent_ref_id): array
     {
         $data = array();
 
@@ -76,7 +78,7 @@ class ilLPCollectionOfSCOs extends ilLPCollection
     public function getScoresForUserAndCP_Node_Id(
         int $item_id,
         int $user_id
-    ) : array {
+    ): array {
         switch (ilObjSAHSLearningModule::_lookupSubType($this->obj_id)) {
             case 'hacp':
             case 'aicc':
@@ -107,7 +109,7 @@ class ilLPCollectionOfSCOs extends ilLPCollection
      * @param int $a_target_id
      * @param int $a_copy_id
      */
-    public function cloneCollection(int $a_target_id, int $a_copy_id) : void
+    public function cloneCollection(int $a_target_id, int $a_copy_id): void
     {
         $target_obj_id = ilObject::_lookupObjId($a_target_id);
         $new_collection = new static($target_obj_id, $this->mode);
@@ -121,7 +123,7 @@ class ilLPCollectionOfSCOs extends ilLPCollection
         }
     }
 
-    protected function itemsAreEqual(int $item_a_id, int $item_b_id) : bool
+    protected function itemsAreEqual(int $item_a_id, int $item_b_id): bool
     {
         global $DIC;
         switch (ilObjSAHSLearningModule::_lookupSubType($this->obj_id)) {

@@ -31,46 +31,46 @@ class ilSkillManagementSettings extends ilSetting
         parent::__construct("skmg");
     }
 
-    public function activate(bool $a_active) : void
+    public function activate(bool $a_active): void
     {
         $value = $a_active ? "1" : "0";
         $this->set("enable_skmg", $value);
     }
 
-    public function isActivated() : bool
+    public function isActivated(): bool
     {
         return (bool) $this->get("enable_skmg", "0");
     }
 
-    public function setHideProfileBeforeSelfEval(bool $a_val) : void
+    public function setHideProfileBeforeSelfEval(bool $a_val): void
     {
         $value = $a_val ? "1" : "0";
         $this->set("hide_profile_self_eval", $value);
     }
 
-    public function getHideProfileBeforeSelfEval() : bool
+    public function getHideProfileBeforeSelfEval(): bool
     {
         return (bool) $this->get("hide_profile_self_eval", "0");
     }
 
-    public function setLocalAssignmentOfProfiles(bool $a_val) : void
+    public function setLocalAssignmentOfProfiles(bool $a_val): void
     {
         $value = $a_val ? "1" : "0";
         $this->set("local_assignment_profiles", $value);
     }
 
-    public function getLocalAssignmentOfProfiles() : bool
+    public function getLocalAssignmentOfProfiles(): bool
     {
         return (bool) $this->get("local_assignment_profiles", "0");
     }
 
-    public function setAllowLocalProfiles(bool $a_val) : void
+    public function setAllowLocalProfiles(bool $a_val): void
     {
         $value = $a_val ? "1" : "0";
         $this->set("allow_local_profiles", $value);
     }
 
-    public function getAllowLocalProfiles() : bool
+    public function getAllowLocalProfiles(): bool
     {
         return (bool) $this->get("allow_local_profiles", "0");
     }

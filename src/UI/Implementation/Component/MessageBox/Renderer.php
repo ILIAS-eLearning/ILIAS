@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\MessageBox;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -31,7 +33,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         $ui_fac = $this->getUIFactory();
 
@@ -52,6 +54,11 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable("MESSAGE_TEXT", $component->getMessageText());
         $tpl->setVariable("ACC_TEXT", $this->txt($component->getType() . "_message"));
+        if ($component->getType() == Component\MessageBox\MessageBox::FAILURE) {
+            $tpl->setVariable("ROLE", "alert");
+        } else {
+            $tpl->setVariable("ROLE", "status");
+        }
 
 
         $links = $component->getLinks();
@@ -70,7 +77,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array(Component\MessageBox\MessageBox::class);
     }

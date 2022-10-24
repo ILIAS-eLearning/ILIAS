@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -31,10 +33,10 @@ use PHPUnit\Framework\TestSuite;
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilModulesBibliographicSuite extends TestSuite
 {
-    public static function suite() : self
+    public static function suite(): self
     {
         $suite = new self();
         /** @noRector */
@@ -43,7 +45,7 @@ class ilModulesBibliographicSuite extends TestSuite
         /** @noRector */
         require_once("./Modules/Bibliographic/test/ilRisParserTest.php");
         $suite->addTestSuite("ilRisParserTest");
-        
+
         return $suite;
     }
 }

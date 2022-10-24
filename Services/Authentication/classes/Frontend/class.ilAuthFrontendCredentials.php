@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,7 +28,7 @@ class ilAuthFrontendCredentials implements ilAuthCredentials
     private string $username = '';
     private string $password = '';
     private string $auth_mode = '';
-    
+
     public function __construct()
     {
         global $DIC;
@@ -36,7 +38,7 @@ class ilAuthFrontendCredentials implements ilAuthCredentials
     /**
      * Set username
      */
-    public function setUsername(string $a_name) : void
+    public function setUsername(string $a_name): void
     {
         $this->logger->debug('Username: "' . $a_name . '"');
         $this->username = trim($a_name);
@@ -45,7 +47,7 @@ class ilAuthFrontendCredentials implements ilAuthCredentials
     /**
      * Get username
      */
-    public function getUsername() : string
+    public function getUsername(): string
     {
         return $this->username;
     }
@@ -53,7 +55,7 @@ class ilAuthFrontendCredentials implements ilAuthCredentials
     /**
      * Set password
      */
-    public function setPassword(string $a_password) : void
+    public function setPassword(string $a_password): void
     {
         $this->password = $a_password;
     }
@@ -61,7 +63,7 @@ class ilAuthFrontendCredentials implements ilAuthCredentials
     /**
      * Get password
      */
-    public function getPassword() : string
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -69,15 +71,15 @@ class ilAuthFrontendCredentials implements ilAuthCredentials
     /**
      * Set auth mode
      */
-    public function setAuthMode(string $a_auth_mode) : void
+    public function setAuthMode(string $a_auth_mode): void
     {
         $this->auth_mode = $a_auth_mode;
     }
-    
+
     /**
      * Get auth mode
      */
-    public function getAuthMode() : string
+    public function getAuthMode(): string
     {
         return $this->auth_mode;
     }

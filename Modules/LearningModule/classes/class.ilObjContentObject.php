@@ -102,10 +102,10 @@ class ilObjContentObject extends ilObject
      */
     public function create(
         bool $a_no_meta_data = false
-    ) : int {
+    ): int {
         $this->setOfflineStatus(true);
         $id = parent::create();
-        
+
         // meta data will be created by
         // import parser
         if (!$a_no_meta_data) {
@@ -117,16 +117,16 @@ class ilObjContentObject extends ilObject
         return $id;
     }
 
-    public function read() : void
+    public function read(): void
     {
         $ilDB = $this->db;
-        
+
         parent::read();
 
         $this->lm_tree = new ilLMTree($this->getId());
 
         $this->readProperties();
-        
+
         // read auto glossaries
         $set = $ilDB->query(
             "SELECT * FROM lm_glossaries " .
@@ -139,65 +139,65 @@ class ilObjContentObject extends ilObject
         $this->setAutoGlossaries($glos);
     }
 
-    public function setLayoutPerPage(bool $a_val) : void
+    public function setLayoutPerPage(bool $a_val): void
     {
         $this->layout_per_page = $a_val;
     }
-    
-    public function getLayoutPerPage() : bool
+
+    public function getLayoutPerPage(): bool
     {
         return $this->layout_per_page;
     }
-    
+
     /**
      * Set disable default feedback for questions
      */
-    public function setDisableDefaultFeedback(bool $a_val) : void
+    public function setDisableDefaultFeedback(bool $a_val): void
     {
         $this->disable_def_feedback = $a_val;
     }
-    
-    public function getDisableDefaultFeedback() : bool
+
+    public function getDisableDefaultFeedback(): bool
     {
         return $this->disable_def_feedback;
     }
-    
-    public function setProgressIcons(bool $a_val) : void
+
+    public function setProgressIcons(bool $a_val): void
     {
         $this->progr_icons = $a_val;
     }
-    
-    public function getProgressIcons() : bool
+
+    public function getProgressIcons(): bool
     {
         return $this->progr_icons;
     }
 
-    public function setStoreTries(bool $a_val) : void
+    public function setStoreTries(bool $a_val): void
     {
         $this->store_tries = $a_val;
     }
 
-    public function getStoreTries() : bool
+    public function getStoreTries(): bool
     {
         return $this->store_tries;
     }
-    
-    public function setRestrictForwardNavigation(bool $a_val) : void
+
+    public function setRestrictForwardNavigation(bool $a_val): void
     {
         $this->restrict_forw_nav = $a_val;
     }
-    
-    public function getRestrictForwardNavigation() : bool
+
+    public function getRestrictForwardNavigation(): bool
     {
         return $this->restrict_forw_nav;
     }
-    
-    public function getTree() : ilLMTree
+
+    public function getTree(): ilLMTree
     {
         return $this->lm_tree;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         $this->updateMetaData();
         parent::update();
@@ -206,10 +206,10 @@ class ilObjContentObject extends ilObject
         return true;
     }
 
-    public function updateAutoGlossaries() : void
+    public function updateAutoGlossaries(): void
     {
         $ilDB = $this->db;
-        
+
         // update auto glossaries
         $ilDB->manipulate(
             "DELETE FROM lm_glossaries WHERE " .
@@ -223,23 +223,23 @@ class ilObjContentObject extends ilObject
                 ")");
         }
     }
-    
+
 
     /**
      * if implemented, this function should be called from an Out/GUI-Object
      */
-    public function import() : void
+    public function import(): void
     {
         // nothing to do. just display the dialogue in Out
     }
 
-    public function createLMTree() : void
+    public function createLMTree(): void
     {
         $this->lm_tree = new ilLMTree($this->getId(), false);
         $this->lm_tree->addTree($this->getId(), 1);
     }
-    
-    public function setAutoGlossaries(array $a_val) : void
+
+    public function setAutoGlossaries(array $a_val): void
     {
         $this->auto_glossaries = array();
         if (is_array($a_val)) {
@@ -252,13 +252,13 @@ class ilObjContentObject extends ilObject
             }
         }
     }
-    
-    public function getAutoGlossaries() : array
+
+    public function getAutoGlossaries(): array
     {
         return $this->auto_glossaries;
     }
 
-    public function removeAutoGlossary(int $a_glo_id) : void
+    public function removeAutoGlossary(int $a_glo_id): void
     {
         $glo_ids = array();
         foreach ($this->getAutoGlossaries() as $g) {
@@ -268,14 +268,14 @@ class ilObjContentObject extends ilObject
         }
         $this->setAutoGlossaries($glo_ids);
     }
-    
-    public function addFirstChapterAndPage() : void
+
+    public function addFirstChapterAndPage(): void
     {
         $lng = $this->lng;
-        
+
 
         $root_id = $this->lm_tree->getRootId();
-        
+
         // chapter
         $chap = new ilStructureObject($this->lm);
         $chap->setType("st");
@@ -294,21 +294,21 @@ class ilObjContentObject extends ilObject
         $page->create();
         ilLMObject::putInTree($page, $chap->getId(), ilTree::POS_FIRST_NODE);
     }
-    
+
     /**
      * Set for translation (lm has been imported for translation purposes)
      */
-    public function setForTranslation(bool $a_val) : void
+    public function setForTranslation(bool $a_val): void
     {
         $this->for_translation = $a_val;
     }
-    
-    public function getForTranslation() : bool
+
+    public function getForTranslation(): bool
     {
         return $this->for_translation;
     }
 
-    public function getLMTree() : ilLMTree
+    public function getLMTree(): ilLMTree
     {
         return $this->lm_tree;
     }
@@ -319,7 +319,7 @@ class ilObjContentObject extends ilObject
      * (data_dir/lm_data/lm_<id>/import, depending on data
      * directory that is set in ILIAS setup/ini)
      */
-    public function createImportDirectory() : void
+    public function createImportDirectory(): void
     {
         $ilErr = $this->error;
 
@@ -344,18 +344,18 @@ class ilObjContentObject extends ilObject
         }
     }
 
-    public function getDataDirectory() : string
+    public function getDataDirectory(): string
     {
         return ilFileUtils::getDataDir() . "/lm_data" .
             "/lm_" . $this->getId();
     }
 
-    public function getImportDirectory() : string
+    public function getImportDirectory(): string
     {
         if (strlen($this->import_dir)) {
             return $this->import_dir;
         }
-        
+
         $import_dir = ilFileUtils::getDataDir() . "/lm_data" .
             "/lm_" . $this->getId() . "/import";
         if (is_dir($import_dir)) {
@@ -363,8 +363,8 @@ class ilObjContentObject extends ilObject
         }
         return "";
     }
-    
-    public function setImportDirectory(string $a_import_dir) : void
+
+    public function setImportDirectory(string $a_import_dir): void
     {
         $this->import_dir = $a_import_dir;
     }
@@ -377,7 +377,7 @@ class ilObjContentObject extends ilObject
      */
     public function createExportDirectory(
         string $a_type = "xml"
-    ) : void {
+    ): void {
         $ilErr = $this->error;
 
         $lm_data_dir = ilFileUtils::getDataDir() . "/lm_data";
@@ -406,7 +406,7 @@ class ilObjContentObject extends ilObject
 
     public function getExportDirectory(
         string $a_type = "xml"
-    ) : string {
+    ): string {
         switch ($a_type) {
             default:			// = xml
                 if (substr($a_type, 0, 4) == "html") {
@@ -428,7 +428,7 @@ class ilObjContentObject extends ilObject
      * learning module tree and pages have been deleted correctly as desired
      * @return bool true if all object data were removed; false if only a references were removed
      */
-    public function delete() : bool
+    public function delete(): bool
     {
         $ilDB = $this->db;
 
@@ -468,16 +468,16 @@ class ilObjContentObject extends ilObject
             " lm_id = " . $ilDB->quote($this->getId(), "integer")
         );
 
-        
+
         return true;
     }
 
-    public function getLayout() : string
+    public function getLayout(): string
     {
         return $this->layout;
     }
 
-    public function setLayout(string $a_layout) : void
+    public function setLayout(string $a_layout): void
     {
         $this->layout = $a_layout;
     }
@@ -485,7 +485,7 @@ class ilObjContentObject extends ilObject
     public static function writeHeaderPage(
         int $a_lm_id,
         int $a_page_id
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -500,7 +500,7 @@ class ilObjContentObject extends ilObject
     public static function writeFooterPage(
         int $a_lm_id,
         int $a_page_id
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -519,7 +519,7 @@ class ilObjContentObject extends ilObject
     public static function _moveLMStyles(
         int $a_from_style,
         int $a_to_style
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -536,7 +536,7 @@ class ilObjContentObject extends ilObject
                     " stylesheet = " . $ilDB->quote($a_to_style, "integer") .
                     " WHERE stylesheet = " . $ilDB->quote($style_rec["stylesheet"], "integer");
                 $ilDB->manipulate($q);
-                
+
                 // delete style
                 $style_obj = ilObjectFactory::getInstanceByObjId($style_rec["stylesheet"]);
                 $style_obj->delete();
@@ -552,7 +552,7 @@ class ilObjContentObject extends ilObject
     protected static function _lookup(
         int $a_obj_id,
         string $a_field
-    ) : string {
+    ): string {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -568,11 +568,11 @@ class ilObjContentObject extends ilObject
 
     public static function _lookupRestrictForwardNavigation(
         int $a_obj_id
-    ) : string {
+    ): string {
         return self::_lookup($a_obj_id, "restrict_forw_nav");
     }
 
-    public static function _lookupStyleSheetId(int $a_cont_obj_id) : int
+    public static function _lookupStyleSheetId(int $a_cont_obj_id): int
     {
         global $DIC;
 
@@ -585,8 +585,8 @@ class ilObjContentObject extends ilObject
 
         return (int) $sheet["stylesheet"];
     }
-    
-    public static function _lookupContObjIdByStyleId(int $a_style_id) : array
+
+    public static function _lookupContObjIdByStyleId(int $a_style_id): array
     {
         global $DIC;
 
@@ -602,7 +602,7 @@ class ilObjContentObject extends ilObject
         return $obj_ids;
     }
 
-    public static function _lookupDisableDefaultFeedback(int $a_id) : bool
+    public static function _lookupDisableDefaultFeedback(int $a_id): bool
     {
         global $DIC;
 
@@ -613,10 +613,10 @@ class ilObjContentObject extends ilObject
         $res = $ilDB->query($q);
         $rec = $ilDB->fetchAssoc($res);
 
-        return (bool) $rec["disable_def_feedback"];
+        return (bool) ($rec["disable_def_feedback"] ?? false);
     }
 
-    public static function _lookupStoreTries(int $a_id) : bool
+    public static function _lookupStoreTries(int $a_id): bool
     {
         global $DIC;
 
@@ -627,37 +627,37 @@ class ilObjContentObject extends ilObject
         $res = $ilDB->query($q);
         $rec = $ilDB->fetchAssoc($res);
 
-        return (bool) $rec["store_tries"];
+        return (bool) ($rec["store_tries"] ?? false);
     }
 
 
     /**
      * gets the number of learning modules assigned to a content style
      */
-    public static function _getNrOfAssignedLMs(int $a_style_id) : int
+    public static function _getNrOfAssignedLMs(int $a_style_id): int
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $q = "SELECT count(*) as cnt FROM content_object " .
             " WHERE stylesheet = " . $ilDB->quote($a_style_id, "integer");
         $cset = $ilDB->query($q);
         $crow = $ilDB->fetchAssoc($cset);
 
-        return (int) $crow["cnt"];
+        return (int) ($crow["cnt"] ?? 0);
     }
-    
-    
+
+
     /**
      * get number of learning modules with individual styles
      */
-    public static function _getNrLMsIndividualStyles() : int
+    public static function _getNrLMsIndividualStyles(): int
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         // joining with style table (not perfectly nice)
         $q = "SELECT count(*) as cnt FROM content_object, style_data " .
             " WHERE stylesheet = style_data.id " .
@@ -671,12 +671,12 @@ class ilObjContentObject extends ilObject
     /**
      * get number of learning modules assigned no style
      */
-    public static function _getNrLMsNoStyle() : int
+    public static function _getNrLMsNoStyle(): int
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $q = "SELECT count(*) as cnt FROM content_object " .
             " WHERE stylesheet = " . $ilDB->quote(0, "integer");
         $cset = $ilDB->query($q);
@@ -690,11 +690,11 @@ class ilObjContentObject extends ilObject
      */
     public static function _deleteStyleAssignments(
         int $a_style_id
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $q = "UPDATE content_object SET " .
             " stylesheet = " . $ilDB->quote(0, "integer") .
             " WHERE stylesheet = " . $ilDB->quote($a_style_id, "integer");
@@ -705,7 +705,7 @@ class ilObjContentObject extends ilObject
     /**
      * get page header mode (ilLMOBject::CHAPTER_TITLE | ilLMOBject::PAGE_TITLE | ilLMOBject::NO_HEADER)
      */
-    public function getPageHeader() : string
+    public function getPageHeader(): string
     {
         return $this->pg_header;
     }
@@ -716,22 +716,22 @@ class ilObjContentObject extends ilObject
      */
     public function setPageHeader(
         string $a_pg_header = ilLMObject::CHAPTER_TITLE
-    ) : void {
+    ): void {
         $this->pg_header = $a_pg_header;
     }
 
     /**
      * get toc mode ("chapters" | "pages")
      */
-    public function getTOCMode() : string
+    public function getTOCMode(): string
     {
         return $this->toc_mode;
     }
-    
+
     /**
      * get public access mode ("complete" | "selected")
      */
-    public function getPublicAccessMode() : string
+    public function getPublicAccessMode(): string
     {
         return $this->public_access_mode;
     }
@@ -740,153 +740,153 @@ class ilObjContentObject extends ilObject
      * set toc mode
      * @param string $a_toc_mode		"chapters" | "pages"
      */
-    public function setTOCMode(string $a_toc_mode = "chapters") : void
+    public function setTOCMode(string $a_toc_mode = "chapters"): void
     {
         $this->toc_mode = $a_toc_mode;
     }
 
-    public function setActiveLMMenu(bool $a_act_lm_menu) : void
+    public function setActiveLMMenu(bool $a_act_lm_menu): void
     {
         $this->lm_menu_active = $a_act_lm_menu;
     }
 
-    public function isActiveLMMenu() : bool
+    public function isActiveLMMenu(): bool
     {
         return $this->lm_menu_active;
     }
 
-    public function setActiveTOC(bool $a_toc) : void
+    public function setActiveTOC(bool $a_toc): void
     {
         $this->toc_active = $a_toc;
     }
 
-    public function isActiveTOC() : bool
+    public function isActiveTOC(): bool
     {
         return $this->toc_active;
     }
 
-    public function setActiveNumbering(bool $a_num) : void
+    public function setActiveNumbering(bool $a_num): void
     {
         $this->numbering = $a_num;
     }
 
-    public function isActiveNumbering() : bool
+    public function isActiveNumbering(): bool
     {
         return $this->numbering;
     }
 
-    public function setActivePrintView(bool $a_print) : void
+    public function setActivePrintView(bool $a_print): void
     {
         $this->print_view_active = $a_print;
     }
 
-    public function isActivePrintView() : bool
+    public function isActivePrintView(): bool
     {
         return $this->print_view_active;
     }
 
-    public function setActivePreventGlossaryAppendix(bool $a_print) : void
+    public function setActivePreventGlossaryAppendix(bool $a_print): void
     {
         $this->prevent_glossary_appendix_active = $a_print;
     }
-    
-    public function isActivePreventGlossaryAppendix() : bool
+
+    public function isActivePreventGlossaryAppendix(): bool
     {
         return $this->prevent_glossary_appendix_active;
     }
-    
+
     /**
      * Set hide header footer in print mode
      */
-    public function setHideHeaderFooterPrint(bool $a_val) : void
+    public function setHideHeaderFooterPrint(bool $a_val): void
     {
         $this->hide_header_footer_print = $a_val;
     }
 
-    public function getHideHeaderFooterPrint() : bool
+    public function getHideHeaderFooterPrint(): bool
     {
         return $this->hide_header_footer_print;
     }
 
-    public function setActiveDownloads(bool $a_down) : void
+    public function setActiveDownloads(bool $a_down): void
     {
         $this->downloads_active = $a_down;
     }
-    
-    public function isActiveDownloads() : bool
+
+    public function isActiveDownloads(): bool
     {
         return $this->downloads_active;
     }
-    
-    public function setActiveDownloadsPublic(bool $a_down) : void
+
+    public function setActiveDownloadsPublic(bool $a_down): void
     {
         $this->downloads_public_active = $a_down;
     }
-    
-    public function isActiveDownloadsPublic() : bool
+
+    public function isActiveDownloadsPublic(): bool
     {
         return $this->downloads_public_active;
     }
 
-    public function setPublicNotes(bool $a_pub_notes) : void
+    public function setPublicNotes(bool $a_pub_notes): void
     {
         $this->pub_notes = $a_pub_notes;
     }
 
-    public function publicNotes() : bool
+    public function publicNotes(): bool
     {
         return $this->pub_notes;
     }
-    
-    public function setCleanFrames(bool $a_clean) : void
+
+    public function setCleanFrames(bool $a_clean): void
     {
         $this->clean_frames = $a_clean;
     }
 
-    public function cleanFrames() : bool
+    public function cleanFrames(): bool
     {
         return $this->clean_frames;
     }
-    
-    public function setHistoryUserComments(bool $a_comm) : void
+
+    public function setHistoryUserComments(bool $a_comm): void
     {
         $this->user_comments = $a_comm;
     }
 
-    public function setPublicAccessMode(string $a_mode) : void
+    public function setPublicAccessMode(string $a_mode): void
     {
         $this->public_access_mode = $a_mode;
     }
 
-    public function isActiveHistoryUserComments() : bool
+    public function isActiveHistoryUserComments(): bool
     {
         return $this->user_comments;
     }
 
-    public function setHeaderPage(int $a_pg) : void
+    public function setHeaderPage(int $a_pg): void
     {
         $this->header_page = $a_pg;
     }
-    
-    public function getHeaderPage() : int
+
+    public function getHeaderPage(): int
     {
         return $this->header_page;
     }
-    
-    public function setFooterPage(int $a_pg) : void
+
+    public function setFooterPage(int $a_pg): void
     {
         $this->footer_page = $a_pg;
     }
-    
-    public function getFooterPage() : int
+
+    public function getFooterPage(): int
     {
         return $this->footer_page;
     }
 
-    public function readProperties() : void
+    public function readProperties(): void
     {
         $ilDB = $this->db;
-        
+
         $q = "SELECT * FROM content_object WHERE id = " .
             $ilDB->quote($this->getId(), "integer");
         $lm_set = $ilDB->query($q);
@@ -916,22 +916,22 @@ class ilObjContentObject extends ilObject
         $this->setProgressIcons($lm_rec["progr_icons"]);
         $this->setStoreTries($lm_rec["store_tries"]);
         $this->setRestrictForwardNavigation($lm_rec["restrict_forw_nav"]);
-        
+
         // #14661
         $this->setPublicNotes($this->notes->domain()->commentsActive($this->getId()));
 
         $this->setForTranslation($lm_rec["for_translation"]);
     }
 
-    public function updateProperties() : void
+    public function updateProperties(): void
     {
         $ilDB = $this->db;
-        
+
         // force clean_frames to be set, if layout per page is activated
         if ($this->getLayoutPerPage()) {
             $this->setCleanFrames(true);
         }
-        
+
         $q = "UPDATE content_object SET " .
             " default_layout = " . $ilDB->quote($this->getLayout(), "text") . ", " .
             " page_header = " . $ilDB->quote($this->getPageHeader(), "text") . "," .
@@ -968,7 +968,7 @@ class ilObjContentObject extends ilObject
     /**
      * create new properties record
      */
-    public function createProperties() : void
+    public function createProperties(): void
     {
         $ilDB = $this->db;
 
@@ -985,7 +985,7 @@ class ilObjContentObject extends ilObject
     /**
      * get all available lm layouts
      */
-    public static function getAvailableLayouts() : array
+    public static function getAvailableLayouts(): array
     {
         $dir = opendir("./Modules/LearningModule/layouts/lm");
 
@@ -1000,7 +1000,7 @@ class ilObjContentObject extends ilObject
             }
         }
         asort($layouts);
-        
+
         // workaround: fix ordering
         $ret = array(
             'toc2win' => 'toc2win',
@@ -1011,7 +1011,7 @@ class ilObjContentObject extends ilObject
             'presentation' => 'presentation',
             'fullscreen' => 'fullscreen'
             );
-        
+
         foreach ($layouts as $l) {
             if (!in_array($l, $ret)) {
                 $ret[$l] = $l;
@@ -1028,7 +1028,7 @@ class ilObjContentObject extends ilObject
         int $cont_ref_id,
         int $cont_obj_id,
         int $page_id
-    ) : bool {
+    ): bool {
         $lm_tree = new ilTree($cont_obj_id);
         $lm_tree->setTableNames('lm_tree', 'lm_data');
         $lm_tree->setTreeTablePK("lm_id");
@@ -1043,7 +1043,7 @@ class ilObjContentObject extends ilObject
                 }
             }
         }
-        
+
         return true;
     }
 
@@ -1054,7 +1054,7 @@ class ilObjContentObject extends ilObject
         int $cont_ref_id,
         int $cont_obj_id,
         int $page_id
-    ) : array {
+    ): array {
         $lm_tree = new ilTree($cont_obj_id);
         $lm_tree->setTableNames('lm_tree', 'lm_data');
         $lm_tree->setTreeTablePK("lm_id");
@@ -1076,7 +1076,7 @@ class ilObjContentObject extends ilObject
                 }
             }
         }
-        
+
         return $conds;
     }
 
@@ -1087,7 +1087,7 @@ class ilObjContentObject extends ilObject
         int $cont_obj_ref_id,
         int $cont_obj_id,
         int $page_id
-    ) : int {
+    ): int {
         $lm_tree = new ilTree($cont_obj_id);
         $lm_tree->setTableNames('lm_tree', 'lm_data');
         $lm_tree->setTreeTablePK("lm_id");
@@ -1108,7 +1108,7 @@ class ilObjContentObject extends ilObject
                 }
             }
         }
-        
+
         return 0;
     }
 
@@ -1118,7 +1118,7 @@ class ilObjContentObject extends ilObject
     public static function hasSuccessorPage(
         int $a_cont_obj_id,
         int $a_page_id
-    ) : bool {
+    ): bool {
         $tree = new ilTree($a_cont_obj_id);
         $tree->setTableNames('lm_tree', 'lm_data');
         $tree->setTreeTablePK("lm_id");
@@ -1134,19 +1134,19 @@ class ilObjContentObject extends ilObject
     /**
      * @throws ilInvalidTreeStructureException
      */
-    public function checkTree() : void
+    public function checkTree(): void
     {
         $tree = new ilLMTree($this->getId());
         $tree->checkTree();
         $tree->checkTreeChilds();
     }
 
-    public function fixTree() : void
+    public function fixTree(): void
     {
         $ilDB = $this->db;
 
         $tree = $this->getLMTree();
-        
+
         // check numbering, if errors, renumber
         // it is very important to keep this step before deleting subtrees
         // in the following steps
@@ -1218,7 +1218,7 @@ class ilObjContentObject extends ilObject
                     if ($cobj->getType() == "pg") {
                         // make a copy of it
                         $pg_copy = $cobj->copy($this->lm);
-                        
+
                         // replace the child in the tree with the copy (id)
                         $ilDB->manipulate(
                             "UPDATE lm_tree SET " .
@@ -1229,7 +1229,7 @@ class ilObjContentObject extends ilObject
                     } elseif ($cobj->getType() == "st") {
                         // make a copy of it
                         $st_copy = $cobj->copy($this->lm);
-                        
+
                         // replace the child in the tree with the copy (id)
                         $ilDB->manipulate(
                             "UPDATE lm_tree SET " .
@@ -1237,7 +1237,7 @@ class ilObjContentObject extends ilObject
                             " WHERE child = " . $ilDB->quote($cobj->getId(), "integer") .
                             " AND lm_id = " . $ilDB->quote($this->getId(), "integer")
                         );
-                        
+
                         // make all childs refer to the copy now
                         $ilDB->manipulate(
                             "UPDATE lm_tree SET " .
@@ -1270,7 +1270,7 @@ class ilObjContentObject extends ilObject
     /**
      * Check tree (this has been copied from fixTree due to a bug fixing, should be reorganised)
      */
-    public function checkStructure() : array
+    public function checkStructure(): array
     {
         $issues = [];
         $ilDB = $this->db;
@@ -1374,7 +1374,7 @@ class ilObjContentObject extends ilObject
         int $a_inst,
         string $a_target_dir,
         ilLog $expLog
-    ) : void {
+    ): void {
         $attrs = array();
         switch ($this->getType()) {
             case "lm":
@@ -1414,7 +1414,7 @@ class ilObjContentObject extends ilObject
             fwrite($qti_file, $pool->questionsToXML($this->q_ids));
             fclose($qti_file);
         }
-        
+
         // To do: implement version selection/detection
         // Properties
         $expLog->write(date("[y-m-d H:i:s] ") . "Start Export Properties");
@@ -1426,7 +1426,7 @@ class ilObjContentObject extends ilObject
 
     public function exportXMLMetaData(
         ilXmlWriter $a_xml_writer
-    ) : void {
+    ): void {
         $md2xml = new ilMD2XML($this->getId(), 0, $this->getType());
         $md2xml->setExportMode(true);
         $md2xml->startExport();
@@ -1437,7 +1437,7 @@ class ilObjContentObject extends ilObject
         ilXmlWriter $a_xml_writer,
         int $a_inst,
         ilLog $expLog
-    ) : void {
+    ): void {
         $childs = $this->lm_tree->getChilds($this->lm_tree->getRootId());
         foreach ($childs as $child) {
             if ($child["type"] != "st") {
@@ -1454,22 +1454,22 @@ class ilObjContentObject extends ilObject
         ilXmlWriter $a_xml_writer,
         int $a_inst,
         ilLog $expLog
-    ) : void {
+    ): void {
         $pages = ilLMPageObject::getPageList($this->getId());
         foreach ($pages as $page) {
             if (ilLMPage::_exists($this->getType(), $page["obj_id"])) {
                 $expLog->write(date("[y-m-d H:i:s] ") . "Page Object " . $page["obj_id"]);
-    
+
                 // export xml to writer object
                 $page_obj = new ilLMPageObject($this->lm, $page["obj_id"]);
                 $page_obj->exportXML($a_xml_writer, "normal", $a_inst);
-    
+
                 // collect media objects
                 $mob_ids = $page_obj->getMediaObjectIds();
                 foreach ($mob_ids as $mob_id) {
                     $this->mob_ids[$mob_id] = $mob_id;
                 }
-    
+
                 // collect all file items
                 $file_ids = $page_obj->getFileItemIds();
                 foreach ($file_ids as $file_id) {
@@ -1481,7 +1481,7 @@ class ilObjContentObject extends ilObject
                 foreach ($q_ids as $q_id) {
                     $this->q_ids[$q_id] = $q_id;
                 }
-    
+
                 unset($page_obj);
             }
         }
@@ -1492,9 +1492,9 @@ class ilObjContentObject extends ilObject
         int $a_inst,
         string $a_target_dir,
         ilLog $expLog
-    ) : void {
+    ): void {
         $linked_mobs = array();
-        
+
         // mobs directly embedded into pages
         foreach ($this->mob_ids as $mob_id) {
             if ($mob_id > 0 && ilObject::_lookupType($mob_id) == "mob") {
@@ -1502,10 +1502,10 @@ class ilObjContentObject extends ilObject
                 $media_obj = new ilObjMediaObject($mob_id);
                 $media_obj->exportXML($a_xml_writer, $a_inst);
                 $media_obj->exportFiles($a_target_dir);
-                
+
                 $lmobs = $media_obj->getLinkedMediaObjects($this->mob_ids);
                 $linked_mobs = array_merge($linked_mobs, $lmobs);
-                
+
                 unset($media_obj);
             }
         }
@@ -1525,7 +1525,7 @@ class ilObjContentObject extends ilObject
     public function exportFileItems(
         string $a_target_dir,
         ilLog $expLog
-    ) : void {
+    ): void {
         foreach ($this->file_ids as $file_id) {
             $expLog->write(date("[y-m-d H:i:s] ") . "File Item " . $file_id);
             $file_obj = new ilObjFile($file_id, false);
@@ -1537,22 +1537,22 @@ class ilObjContentObject extends ilObject
     public function exportXMLProperties(
         ilXmlWriter $a_xml_writer,
         ilLog $expLog
-    ) : void {
+    ): void {
         $attrs = array();
         $a_xml_writer->xmlStartTag("Properties", $attrs);
 
         // Layout
         $attrs = array("Name" => "Layout", "Value" => $this->getLayout());
         $a_xml_writer->xmlElement("Property", $attrs);
-        
+
         // Page Header
         $attrs = array("Name" => "PageHeader", "Value" => $this->getPageHeader());
         $a_xml_writer->xmlElement("Property", $attrs);
-        
+
         // TOC Mode
         $attrs = array("Name" => "TOCMode", "Value" => $this->getTOCMode());
         $a_xml_writer->xmlElement("Property", $attrs);
-        
+
         // LM Menu Activation
         $attrs = array("Name" => "ActiveLMMenu", "Value" =>
             ilUtil::tf2yn($this->isActiveLMMenu()));
@@ -1567,12 +1567,12 @@ class ilObjContentObject extends ilObject
         $attrs = array("Name" => "ActiveTOC", "Value" =>
             ilUtil::tf2yn($this->isActiveTOC()));
         $a_xml_writer->xmlElement("Property", $attrs);
-        
+
         // Print view button activation
         $attrs = array("Name" => "ActivePrintView", "Value" =>
             ilUtil::tf2yn($this->isActivePrintView()));
         $a_xml_writer->xmlElement("Property", $attrs);
-        
+
         // Note that download button is not saved, because
         // download files do not exist after import
 
@@ -1580,17 +1580,17 @@ class ilObjContentObject extends ilObject
         $attrs = array("Name" => "CleanFrames", "Value" =>
             ilUtil::tf2yn($this->cleanFrames()));
         $a_xml_writer->xmlElement("Property", $attrs);
-        
+
         // Public notes activation
         $attrs = array("Name" => "PublicNotes", "Value" =>
             ilUtil::tf2yn($this->publicNotes()));
         $a_xml_writer->xmlElement("Property", $attrs);
-        
+
         // History comments for authors activation
         $attrs = array("Name" => "HistoryUserComments", "Value" =>
             ilUtil::tf2yn($this->isActiveHistoryUserComments()));
         $a_xml_writer->xmlElement("Property", $attrs);
-        
+
         // Rating
         $attrs = array("Name" => "Rating", "Value" =>
             ilUtil::tf2yn($this->hasRating()));
@@ -1641,12 +1641,12 @@ class ilObjContentObject extends ilObject
         $a_xml_writer->xmlEndTag("Properties");
     }
 
-    public function getExportFiles() : array
+    public function getExportFiles(): array
     {
         $file = array();
-        
+
         $types = array("xml", "html");
-        
+
         foreach ($types as $type) {
             $dir = $this->getExportDirectory($type);
             // quit if import dir not available
@@ -1654,12 +1654,12 @@ class ilObjContentObject extends ilObject
                 !is_writeable($dir)) {
                 continue;
             }
-    
+
             // open directory
             $cdir = dir($dir);
-    
+
             // initialize array
-    
+
             // get files and save the in the array
             while ($entry = $cdir->read()) {
                 if ($entry != "." and
@@ -1670,7 +1670,7 @@ class ilObjContentObject extends ilObject
                         "size" => filesize($dir . "/" . $entry));
                 }
             }
-    
+
             // close import directory
             $cdir->close();
         }
@@ -1679,25 +1679,25 @@ class ilObjContentObject extends ilObject
         ksort($file);
         return $file;
     }
-    
+
     /**
      * specify public export file for type
      */
     public function setPublicExportFile(
         string $a_type,
         string $a_file
-    ) : void {
+    ): void {
         $this->public_export_file[$a_type] = $a_file;
     }
 
-    public function getPublicExportFile(string $a_type) : string
+    public function getPublicExportFile(string $a_type): string
     {
         return $this->public_export_file[$a_type] ?? "";
     }
-    
+
     public function getOfflineFiles(
         string $dir
-    ) : array {
+    ): array {
         // quit if offline dir not available
         if (!is_dir($dir) or
             !is_writeable($dir)) {
@@ -1727,11 +1727,11 @@ class ilObjContentObject extends ilObject
         sort($file);
         return $file;
     }
-    
+
     public function exportFO(
         ilXmlWriter $a_xml_writer,
         string $a_target_dir
-    ) : void {
+    ): void {
         throw new ilException("Export FO is deprecated.");
         /*
         // fo:root (start)
@@ -1803,7 +1803,7 @@ class ilObjContentObject extends ilObject
 
     public function exportFOStructureObjects(
         ilXmlWriter $a_xml_writer
-    ) : void {
+    ): void {
         $childs = $this->lm_tree->getChilds($this->lm_tree->getRootId());
         foreach ($childs as $child) {
             if ($child["type"] != "st") {
@@ -1822,7 +1822,10 @@ class ilObjContentObject extends ilObject
         bool $first_child,
         bool $as_subitem = false,
         string $movecopy = "move"
-    ) : void {
+    ): void {
+        if ($source_id === $target_id) {
+            return;
+        }
         $lmtree = new ilTree($this->getId());
         $lmtree->setTableNames('lm_tree', 'lm_data');
         $lmtree->setTreeTablePK("lm_id");
@@ -1929,7 +1932,7 @@ class ilObjContentObject extends ilObject
             if ($first_child) {		// as first subchapter
                 $target_pos = ilTree::POS_FIRST_NODE;
                 $target_parent = $target_id;
-                
+
                 $pg_childs = $lmtree->getChildsByType($target_parent, "pg");
                 if (count($pg_childs) != 0) {
                     $target_pos = $pg_childs[count($pg_childs) - 1]["obj_id"];
@@ -1973,17 +1976,17 @@ class ilObjContentObject extends ilObject
     /**
      * Validate all pages
      */
-    public function validatePages() : string
+    public function validatePages(): string
     {
         $mess = "";
-        
+
         $pages = ilLMPageObject::getPageList($this->getId());
         foreach ($pages as $page) {
             if (ilLMPage::_exists($this->getType(), $page["obj_id"])) {
                 $cpage = new ilLMPage($page["obj_id"]);
                 $cpage->buildDom();
                 $error = $cpage->validateDom();
-                
+
                 if ($error != "") {
                     $this->lng->loadLanguageModule("content");
                     $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("cont_import_validation_errors"));
@@ -2002,11 +2005,11 @@ class ilObjContentObject extends ilObject
                 }
             }
         }
-        
+
         return $mess;
     }
-    
-    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
+
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false): ?ilObject
     {
         /** @var ilObjLearningModule $new_obj */
         $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
@@ -2019,7 +2022,7 @@ class ilObjContentObject extends ilObject
         if (!$cp_options->isRootNode($this->getRefId())) {
             $new_obj->setOfflineStatus($this->getOfflineStatus());
         }
-        
+
         //		$new_obj->setTitle($this->getTitle());
         $new_obj->setDescription($this->getDescription());
         $new_obj->setLayoutPerPage($this->getLayoutPerPage());
@@ -2046,15 +2049,15 @@ class ilObjContentObject extends ilObject
         $new_obj->setAutoGlossaries($this->getAutoGlossaries());
 
         $new_obj->update();
-        
+
         $new_obj->createLMTree();
-        
+
         // copy style
         $style = $this->content_style_domain->styleForObjId($this->getId());
         $style->cloneTo($new_obj->getId());
 
         $new_obj->update();
-        
+
         // copy content
         $copied_nodes = $this->copyAllPagesAndChapters($new_obj, $copy_id);
 
@@ -2100,14 +2103,14 @@ class ilObjContentObject extends ilObject
 
         return $new_obj;
     }
-    
+
     public function copyAllPagesAndChapters(
         ilObjLearningModule $a_target_obj,
         int $a_copy_id = 0
-    ) : array {
+    ): array {
         $parent_id = $a_target_obj->lm_tree->readRootId();
         $time = null;
-        
+
         // get all chapters of root lm
         $chapters = $this->lm_tree->getChildsByType($this->lm_tree->readRootId(), "st");
         $copied_nodes = array();
@@ -2118,14 +2121,14 @@ class ilObjContentObject extends ilObject
                 $chap["child"],
                 $parent_id,
                 ilTree::POS_LAST_NODE,
-                $time,
+                (string) $time,
                 $copied_nodes,
                 true,
                 $this->lm
             );
             $target = $cid;
         }
-        
+
         // copy free pages
         $pages = ilLMPageObject::getPageList($this->getId());
         foreach ($pages as $p) {
@@ -2135,7 +2138,7 @@ class ilObjContentObject extends ilObject
                 $copied_nodes[$item->getId()] = $target_item->getId();
             }
         }
-        
+
         // Add mapping for pages and chapters
         $options = ilCopyWizardOptions::_getInstance($a_copy_id);
         foreach ($copied_nodes as $old_id => $new_id) {
@@ -2154,11 +2157,11 @@ class ilObjContentObject extends ilObject
 
     public static function lookupAutoGlossaries(
         int $a_lm_id
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         // read auto glossaries
         $set = $ilDB->query(
             "SELECT * FROM lm_glossaries " .
@@ -2170,16 +2173,16 @@ class ilObjContentObject extends ilObject
         }
         return $glos;
     }
-    
+
     public function autoLinkGlossaryTerms(
         int $a_glo_ref_id
-    ) : void {
+    ): void {
         // get terms
         $terms = ilGlossaryTerm::getTermList([$a_glo_ref_id]);
 
         // each get page: get content
         $pages = ilLMPage::getAllPages($this->getType(), $this->getId());
-        
+
         // determine terms that occur in the page
         $found_pages = array();
         foreach ($pages as $p) {
@@ -2195,13 +2198,13 @@ class ilObjContentObject extends ilObject
             }
             reset($terms);
         }
-        
+
         // ilPCParagraph autoLinkGlossariesPage with page and terms
         foreach ($found_pages as $id => $fp) {
             ilPCParagraph::autoLinkGlossariesPage($fp["page"], $fp["terms"]);
         }
     }
-    
+
 
     ////
     //// Online help
@@ -2214,7 +2217,7 @@ class ilObjContentObject extends ilObject
     public static function isOnlineHelpModule(
         int $a_id,
         bool $a_as_obj_id = false
-    ) : bool {
+    ): bool {
         if (!$a_as_obj_id && $a_id > 0 && $a_id === (int) OH_REF_ID) {
             return true;
         }
@@ -2223,31 +2226,31 @@ class ilObjContentObject extends ilObject
         }
         return false;
     }
-        
-    public function setRating(bool $a_value) : void
+
+    public function setRating(bool $a_value): void
     {
         $this->rating = $a_value;
     }
-    
-    public function hasRating() : bool
+
+    public function hasRating(): bool
     {
         return $this->rating;
     }
-    
-    public function setRatingPages(bool $a_value) : void
+
+    public function setRatingPages(bool $a_value): void
     {
         $this->rating_pages = $a_value;
     }
-    
-    public function hasRatingPages() : bool
+
+    public function hasRatingPages(): bool
     {
         return $this->rating_pages;
     }
-    
-    
+
+
     protected function doMDUpdateListener(
         string $a_element
-    ) : void {
+    ): void {
         switch ($a_element) {
             case 'Educational':
                 $obj_lp = ilObjectLP::getInstance($this->getId());
@@ -2282,13 +2285,13 @@ class ilObjContentObject extends ilObject
 
         }
     }
-    
+
     /**
      * Get public export files
      *
      * @return array array of arrays with keys "type" (html, scorm or xml), "file" (filename) and "size" in bytes, "dir_type" detailed directory type, e.g. html_de
      */
-    public function getPublicExportFiles() : array
+    public function getPublicExportFiles(): array
     {
         $dirs = array("xml");
         $export_files = array();
@@ -2323,7 +2326,7 @@ class ilObjContentObject extends ilObject
         return $export_files;
     }
 
-    public function isInfoEnabled() : bool
+    public function isInfoEnabled(): bool
     {
         return ilObjContentObjectAccess::isInfoEnabled($this->getId());
     }

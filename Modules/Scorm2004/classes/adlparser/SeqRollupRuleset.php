@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,8 +29,8 @@
         public bool $mIsCompleted = false;
 
         public bool $mIsIncomplete = false;
-        
-        
+
+
         public function __construct(?array $iRules)
         {
             $this->mRollupRules = $iRules;

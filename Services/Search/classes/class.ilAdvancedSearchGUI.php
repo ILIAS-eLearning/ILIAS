@@ -1,25 +1,20 @@
 <?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Class ilAdvancedSearchGUI
@@ -47,11 +42,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 
 
-    
+
     private bool $stored = false;
     private array $options = array();
     protected array $filter = array();
-    
+
     protected ilTabsGUI $tabs_gui;
     protected ilHelpGUI $help_gui;
 
@@ -61,8 +56,8 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
         $this->tabs_gui = $DIC->tabs();
         $this->help_gui = $DIC->help();
-        
-        
+
+
         parent::__construct();
 
         $this->lng->loadLanguageModule('meta');
@@ -71,21 +66,21 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $this->__setSearchOptions();
     }
 
-    public function getRootNode() : int
+    public function getRootNode(): int
     {
         return ROOT_FOLDER_ID;
     }
 
 
-    public function executeCommand() : bool
+    public function executeCommand(): bool
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         switch ($next_class) {
             case "ilpropertyformgui":
-            
-            
+
+
             case 'ilobjectcopygui':
                 $this->prepareOutput();
                 $this->ctrl->setReturn($this, '');
@@ -93,7 +88,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
                 $cp = new ilObjectCopyGUI($this);
                 $this->ctrl->forwardCommand($cp);
                 break;
-            
+
             default:
                 $this->initUserSearchCache();
                 if (!$cmd) {
@@ -102,7 +97,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
                         case self::TYPE_ADV_MD:
                             $cmd = "showSavedAdvMDResults";
                             break;
-                        
+
                         default:
                             $cmd = "showSavedResults";
                             break;
@@ -114,7 +109,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         }
         return true;
     }
-    public function reset() : void
+    public function reset(): void
     {
         $this->initSearchType(self::TYPE_LOM);
         $this->options = array();
@@ -123,7 +118,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $this->showSearch();
     }
 
-    public function searchInResults() : bool
+    public function searchInResults(): bool
     {
         $this->initSearchType(self::TYPE_LOM);
         $this->search_mode = 'in_results';
@@ -134,7 +129,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         return true;
     }
 
-    protected function remoteSearch() : void
+    protected function remoteSearch(): void
     {
         $root_id = 0;
         if ($this->http->wrapper()->post()->has('root_id')) {
@@ -163,8 +158,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 
 
-    public function performSearch() : bool
+    public function performSearch(): bool
     {
+        global $DIC;
         $this->initSearchType(self::TYPE_LOM);
         $page_number = $this->initPageNumberFromQuery();
         if (!$page_number and $this->search_mode != 'in_results') {
@@ -176,7 +172,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             $this->search_cache->setQuery(
                 $this->http->wrapper()->post()->retrieve(
                     'query',
-                    $this->refinery->kindlyTo()->string()
+                    $this->refinery->kindlyTo()->dictOf(
+                        $this->refinery->kindlyTo()->string()
+                    )
                 )
             );
         }
@@ -223,9 +221,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         if ($res_key = $this->__performKeywordSearch()) {
             $this->__storeEntries($res, $res_key);
         }
-                
+
         $this->searchAdvancedMD($res);
-                    
+
         if ($this->search_mode == 'in_results') {
             $old_result_obj = new ilSearchResult($this->user->getId());
             $old_result_obj->read(ilUserSearchCache::ADVANCED_MD_SEARCH);
@@ -236,7 +234,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $res->filter($this->getRootNode(), (ilSearchSettings::getInstance()->getDefaultOperator() == ilSearchSettings::OPERATOR_AND));
         $res->save();
         $this->showSearch();
-        
+
         if (!count($res->getResults())) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('search_no_match'));
         }
@@ -247,7 +245,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         }
 
         $this->addPager($res, 'adv_max_page');
-        
+
         $presentation = new ilSearchResultPresentation($this, ilSearchResultPresentation::MODE_STANDARD);
         $presentation->setResults($res->getResultsForPresentation());
         $presentation->setPreviousNext($this->prev_link, $this->next_link);
@@ -257,9 +255,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         }
         return true;
     }
-    
 
-    protected function initAdvancedMetaDataForm() : ?ilPropertyFormGUI
+
+    protected function initAdvancedMetaDataForm(): ?ilPropertyFormGUI
     {
         if (is_object($this->form)) {
             return $this->form;
@@ -269,7 +267,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $this->form->setTitle($this->lng->txt('adv_md_search_title'));
         $this->form->addCommandButton('performAdvMDSearch', $this->lng->txt('search'));
         #$this->form->setSubformMode('right');
-        
+
         $content = new ilTextInputGUI($this->lng->txt('meta_title') . '/' .
             $this->lng->txt('meta_keyword') . '/' .
             $this->lng->txt('meta_description'), 'title');
@@ -285,7 +283,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $group->addOption($radio_option);
         $content->addSubItem($group);
         $this->form->addItem($content);
-        
+
         $type = new ilSelectInputGUI($this->lng->txt('type'), 'type');
         $options['adv_all'] = $this->lng->txt('search_any');
         foreach (ilAdvancedMDRecord::_getActivatedObjTypes() as $obj_type) {
@@ -294,16 +292,16 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $type->setOptions($options);
         $type->setValue($this->options['type']);
         $this->form->addItem($type);
-        
+
         $record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_SEARCH);
         $record_gui->setPropertyForm($this->form);
         $record_gui->setSearchValues($this->options);
         $record_gui->parse();
         return null;
     }
-    
 
-    protected function performAdvMDSearch() : bool
+
+    protected function performAdvMDSearch(): bool
     {
         $this->initSearchType(self::TYPE_ADV_MD);
         $page_number = $this->initPageNumberFromQuery();
@@ -325,7 +323,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $res->filter($this->getRootNode(), true);
         $res->save();
         $this->showAdvMDSearch();
-        
+
         if (!count($res->getResults())) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('search_no_match'));
         }
@@ -336,7 +334,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         }
 
         $this->addPager($res, 'adv_max_page');
-        
+
         $presentation = new ilSearchResultPresentation($this, ilSearchResultPresentation::MODE_STANDARD);
         $presentation->setResults($res->getResultsForPresentation());
         $presentation->setPreviousNext($this->prev_link, $this->next_link);
@@ -346,9 +344,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         }
         return true;
     }
-    
-    
-    public function showAdvMDSearch() : bool
+
+
+    public function showAdvMDSearch(): bool
     {
         $session_options = ilSession::get('search_adv_md');
         if ($session_options !== null) {
@@ -363,9 +361,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $this->tpl->setVariable('SEARCH_FORM', $this->form->getHTML());
         return true;
     }
-    
 
-    protected function initFormSearch() : bool
+
+    protected function initFormSearch(): bool
     {
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this, 'performSearch'));
@@ -378,7 +376,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
                 $section->setTitle($definition['name']);
                 $this->form->addItem($section);
             }
-            
+
             foreach ($definition['fields'] as $field_name) {
                 if (is_object($element = $this->fields->getFormElement($this->search_cache->getQuery(), $field_name, $this->form))) {
                     $this->form->addItem($element);
@@ -387,10 +385,10 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         }
         return true;
     }
-    
 
 
-    public function showSearch() : bool
+
+    public function showSearch(): bool
     {
         $this->setSubTabs();
         $this->tabs_gui->setSubTabActive('search_lom');
@@ -402,10 +400,10 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         return true;
     }
 
-    public function prepareOutput() : void
+    public function prepareOutput(): void
     {
         parent::prepareOutput();
-        
+
         $this->help_gui->setScreenIdComponent("src");
 
         $this->tabs_gui->addTab(
@@ -422,7 +420,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     }
 
 
-    private function showSavedAdvMDResults() : bool
+    private function showSavedAdvMDResults(): bool
     {
         $this->initSearchType(self::TYPE_ADV_MD);
         $result_obj = new ilSearchResult($this->user->getId());
@@ -437,7 +435,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             $presentation = new ilSearchResultPresentation($this, ilSearchResultPresentation::MODE_STANDARD);
             $presentation->setResults($result_obj->getResultsForPresentation());
             $presentation->setPreviousNext($this->prev_link, $this->next_link);
-            
+
             if ($presentation->render()) {
                 $this->tpl->setVariable('RESULTS', $presentation->getHTML());
             }
@@ -445,9 +443,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
         return true;
     }
-    
-    
-    public function showSavedResults() : bool
+
+
+    public function showSavedResults(): bool
     {
         $this->initSearchType(self::TYPE_LOM);
         $result_obj = new ilSearchResult($this->user->getId());
@@ -462,7 +460,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             $presentation = new ilSearchResultPresentation($this, ilSearchResultPresentation::MODE_STANDARD);
             $presentation->setResults($result_obj->getResultsForPresentation());
             $presentation->setPreviousNext($this->prev_link, $this->next_link);
-            
+
             if ($presentation->render()) {
                 $this->tpl->setVariable('RESULTS', $presentation->getHTML());
             }
@@ -471,9 +469,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         return true;
     }
 
-    public function __performContentSearch() : ?ilSearchResult
+    public function __performContentSearch(): ?ilSearchResult
     {
-        if (!$this->options['lom_content']) {
+        if (!($this->options['lom_content'] ?? null)) {
             return null;
         }
 
@@ -483,6 +481,14 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         #$query_parser->setCombination($this->options['content_ao']);
         $query_parser->setCombination(ilQueryParser::QP_COMBINATION_OR);
         $query_parser->parse();
+
+        if (!isset($this->options['type'])) {
+            if ($tit_res = $this->__performTitleSearch()) {
+                $res->mergeEntries($tit_res);
+            }
+
+            return $res;
+        }
 
         if ($this->options['type'] == 'all' or $this->options['type'] == 'lms') {
             // LM content search
@@ -518,9 +524,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     }
 
 
-    public function __performTitleSearch() : ?ilSearchResult
+    public function __performTitleSearch(): ?ilSearchResult
     {
-        if (!$this->options['lom_content']) {
+        if (!($this->options['lom_content'] ?? null)) {
             return null;
         }
 
@@ -530,32 +536,35 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $query_parser->setCombination(ilQueryParser::QP_COMBINATION_OR);
         $query_parser->parse();
         $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
-        
+
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('title_description');
         $meta_search->setOptions($this->options);
         $res_tit = $meta_search->performSearch();
-        
+
         $meta_search->setMode('keyword_all');
         $res_key = $meta_search->performSearch();
-        
+
         // merge them
         $res_tit->mergeEntries($res_key);
-        
-        
+
+
         return $res_tit;
     }
 
 
 
-    public function __performGeneralSearch() : ?ilSearchResult
+    public function __performGeneralSearch(): ?ilSearchResult
     {
-        if (!$this->options['lom_coverage'] and !$this->options['lom_structure']) {
+        if (
+            !($this->options['lom_coverage'] ?? null) and
+            !($this->options['lom_structure'] ?? null)
+        ) {
             return null;
         }
 
 
-        if ($this->options['lom_coverage']) {
+        if (($this->options['lom_coverage'] ?? null)) {
             $query_parser = new ilQueryParser(ilUtil::stripSlashes($this->options['lom_coverage']));
             #$query_parser->setCombination($this->options['coverage_ao']);
             $query_parser->setCombination(ilQueryParser::QP_COMBINATION_OR);
@@ -572,10 +581,13 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         return $res;
     }
 
-    public function __performLifecycleSearch() : ?ilSearchResult
+    public function __performLifecycleSearch(): ?ilSearchResult
     {
         // Return if 'any'
-        if (!$this->options['lom_status'] and !$this->options['lom_version']) {
+        if (
+            !($this->options['lom_status'] ?? null) and
+            !($this->options['lom_version'] ?? null)
+        ) {
             return null;
         }
 
@@ -592,9 +604,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
         return $res;
     }
-    public function __performLanguageSearch() : ?ilSearchResult
+    public function __performLanguageSearch(): ?ilSearchResult
     {
-        if (!$this->options['lom_language']) {
+        if (!($this->options['lom_language'] ?? null)) {
             return null;
         }
 
@@ -607,9 +619,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
         return $res;
     }
-    public function __performContributeSearch() : ?ilSearchResult
+    public function __performContributeSearch(): ?ilSearchResult
     {
-        if (!strlen($this->options['lom_role'])) {
+        if (!strlen($this->options['lom_role'] ?? '')) {
             return null;
         }
 
@@ -622,13 +634,13 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
         return $res;
     }
-    public function __performEntitySearch() : ?ilSearchResult
+    public function __performEntitySearch(): ?ilSearchResult
     {
         // Return if 'any'
-        if (!$this->options['lom_role_entry']) {
+        if (!($this->options['lom_role_entry'] ?? null)) {
             return null;
         }
-        
+
 
         $query_parser = new ilQueryParser(ilUtil::stripSlashes($this->options['lom_role_entry']));
         #$query_parser->setCombination($this->options['entity_ao']);
@@ -645,7 +657,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     }
 
 
-    public function __performRequirementSearch() : ?ilSearchResult
+    public function __performRequirementSearch(): ?ilSearchResult
     {
         $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
@@ -655,7 +667,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
         return $res;
     }
-    public function __performFormatSearch() : ?ilSearchResult
+    public function __performFormatSearch(): ?ilSearchResult
     {
         $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
@@ -665,7 +677,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
         return $res;
     }
-    public function __performEducationalSearch() : ?ilSearchResult
+    public function __performEducationalSearch(): ?ilSearchResult
     {
         $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
@@ -675,7 +687,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
         return $res;
     }
-    public function __performTypicalAgeRangeSearch() : ?ilSearchResult
+    public function __performTypicalAgeRangeSearch(): ?ilSearchResult
     {
         $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
@@ -685,9 +697,12 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
         return $res;
     }
-    public function __performRightsSearch() : ?ilSearchResult
+    public function __performRightsSearch(): ?ilSearchResult
     {
-        if (!$this->options['lom_copyright'] and !$this->options['lom_costs']) {
+        if (
+            !($this->options['lom_copyright'] ?? null) and
+            !($this->options['lom_costs'] ?? null)
+        ) {
             return null;
         }
 
@@ -701,10 +716,10 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         return $res;
     }
 
-    public function __performClassificationSearch() : ?ilSearchResult
+    public function __performClassificationSearch(): ?ilSearchResult
     {
         // Return if 'any'
-        if (!$this->options['lom_purpose']) {
+        if (!($this->options['lom_purpose'] ?? null)) {
             return null;
         }
 
@@ -718,10 +733,10 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         return $res;
     }
 
-    public function __performTaxonSearch() : ?ilSearchResult
+    public function __performTaxonSearch(): ?ilSearchResult
     {
         // Return if 'any'
-        if (!$this->options['lom_taxon']) {
+        if (!($this->options['lom_taxon'] ?? null)) {
             return null;
         }
 
@@ -737,16 +752,16 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
         return $res;
     }
-    
-    private function searchAdvancedMD(ilSearchResult $res) : void
+
+    private function searchAdvancedMD(ilSearchResult $res): void
     {
         $this->initFormSearch();
-        
+
         foreach (array_keys($this->options) as $key) {
-            if (substr($key, 0, 3) != 'adv') {
+            if (substr((string) $key, 0, 3) != 'adv') {
                 continue;
             }
-            
+
             // :TODO: ?
             if (!$key) {
                 continue;
@@ -754,15 +769,15 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
             $field_id = substr($key, 4);
             $field = ilAdvancedMDFieldDefinition::getInstance((int) $field_id);
-        
+
             $field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, false);
             $field_form->setElementId("query[" . $key . "]");
             $field_form->setForm($this->form);
-        
+
             // reload search values
             $field_form->importFromPost($this->options);
             $field_form->validate();
-                                                
+
             $parser_value = $field->getSearchQueryParserValue($field_form);
 
             $adv_md_search = ilObjectSearchFactory::_getAdvancedMDSearchInstance(new ilQueryParser($parser_value));
@@ -776,10 +791,10 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         }
     }
 
-    public function __performKeywordSearch() : ?ilSearchResult
+    public function __performKeywordSearch(): ?ilSearchResult
     {
         // Return if 'any'
-        if (!$this->options['lom_keyword']) {
+        if (!($this->options['lom_keyword'] ?? null)) {
             return null;
         }
 
@@ -793,17 +808,19 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $meta_search->setMode('keyword');
         $meta_search->setOptions($this->options);
         $res = $meta_search->performSearch();
-        
+
         return $res;
     }
 
-    public function __setSearchOptions() : bool
+    public function __setSearchOptions(): bool
     {
         $query = '';
         if ($this->http->wrapper()->post()->has('query')) {
             $query = $this->http->wrapper()->post()->retrieve(
                 'query',
-                $this->refinery->kindlyTo()->string()
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->string()
+                )
             );
         }
 
@@ -825,7 +842,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             case 'cat':
                 $this->filter[] = 'cat';
                 break;
-            
+
             case 'webr':
                 $this->filter[] = 'webr';
                 break;
@@ -855,11 +872,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
                 $this->filter[] = 'mob';
                 $this->filter[] = 'mpg';
                 break;
-                    
+
             case 'crs':
                 $this->filter[] = 'crs';
                 break;
-                
+
             case 'file':
                 $this->filter[] = 'file';
                 break;
@@ -893,7 +910,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         return true;
     }
 
-    public function __getFilterSelect() : string
+    public function __getFilterSelect(): string
     {
         $options = array('all' => $this->lng->txt('search_any'),
                          'crs' => $this->lng->txt('objs_crs'),
@@ -911,7 +928,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     }
 
 
-    public function __storeEntries(ilSearchResult $res, ilSearchResult $new_res) : bool
+    public function __storeEntries(ilSearchResult $res, ilSearchResult $new_res): bool
     {
         if ($this->stored == false) {
             $res->mergeEntries($new_res);
@@ -923,8 +940,8 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             return true;
         }
     }
-    
-    private function initUserSearchCache() : void
+
+    private function initUserSearchCache(): void
     {
         $this->search_cache = ilUserSearchCache::_getInstance($this->user->getId());
         $this->search_cache->switchSearchType(ilUserSearchCache::ADVANCED_SEARCH);
@@ -934,13 +951,13 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         }
         $post_cmd = (array) ($this->http->request()->getParsedBody()['cmd'] ?? []);
         $post_query = (array) ($this->http->request()->getParsedBody()['query'] ?? []);
-        if ($post_cmd['performSearch']) {
+        if ($post_cmd['performSearch'] ?? null) {
             $this->search_cache->setQuery($post_query['lomContent'] ?? '');
             $this->search_cache->save();
         }
     }
-    
-    public function setSubTabs() : bool
+
+    public function setSubTabs(): bool
     {
         if (!count(ilAdvancedMDFieldDefinition::getSearchableDefinitionIds())) {
             return true;
@@ -948,15 +965,15 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $this->tabs_gui->addSubTabTarget('search_lom', $this->ctrl->getLinkTarget($this, 'showSavedResults'));
         return true;
     }
-    
 
-    private function toUnixTime(array $date, array $time = array()) : int
+
+    private function toUnixTime(array $date, array $time = array()): int
     {
         return mktime($time['h'], $time['m'], 0, $date['m'], $date['d'], $date['y']);
     }
-    
 
-    private function initSearchType(int $type) : void
+
+    private function initSearchType(int $type): void
     {
         if ($type == self::TYPE_LOM) {
             ilSession::set('search_last_sub_section', self::TYPE_LOM);

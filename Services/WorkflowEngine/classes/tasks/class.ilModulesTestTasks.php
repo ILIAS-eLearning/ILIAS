@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -15,7 +16,7 @@ class ilModulesTestTasks
      * @param array  $params
      * @return array
      */
-    public static function createTestInCourse(ilNode $context, array $params) : array
+    public static function createTestInCourse(ilNode $context, array $params): array
     {
         //IN: targetref, titlestring
         //OUT: refid
@@ -45,7 +46,7 @@ class ilModulesTestTasks
      * @param array  $params
      * @return array
      */
-    public static function assignUsersToTest(ilNode $context, array $params) : array
+    public static function assignUsersToTest(ilNode $context, array $params): array
     {
         //IN: anonuserlist
         //OUT: void

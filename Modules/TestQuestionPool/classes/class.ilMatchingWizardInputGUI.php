@@ -31,6 +31,7 @@ require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
  */
 class ilMatchingWizardInputGUI extends ilTextInputGUI
 {
+    private string $pending;
     protected $text_name = '';
     protected $image_name = '';
     protected $values = array();
@@ -43,7 +44,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         parent::__construct($a_title, $a_postvar);
         $this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
         $this->setSize('40');
@@ -51,13 +52,13 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
         $this->text_name = $lng->txt('answer_text');
         $this->image_name = $lng->txt('answer_image');
     }
-    
+
     /**
     * Set Accepted Suffixes.
     *
     * @param	array	$a_suffixes	Accepted Suffixes
     */
-    public function setSuffixes($a_suffixes) : void
+    public function setSuffixes($a_suffixes): void
     {
         $this->suffixes = $a_suffixes;
     }
@@ -67,17 +68,17 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     *
     * @return	array	Accepted Suffixes
     */
-    public function getSuffixes() : array
+    public function getSuffixes(): array
     {
         return $this->suffixes;
     }
-    
+
     /**
     * Set hide images.
     *
     * @param	bool	$a_hide	Hide images
     */
-    public function setHideImages($a_hide) : void
+    public function setHideImages($a_hide): void
     {
         $this->hideImages = $a_hide;
     }
@@ -87,7 +88,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_value	Value
     */
-    public function setValues($a_values) : void
+    public function setValues($a_values): void
     {
         $this->values = $a_values;
     }
@@ -97,27 +98,27 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     *
     * @return	array	Values
     */
-    public function getValues() : array
+    public function getValues(): array
     {
         return $this->values;
     }
 
-    public function setTextName($a_value) : void
+    public function setTextName($a_value): void
     {
         $this->text_name = $a_value;
     }
-    
-    public function setImageName($a_value) : void
+
+    public function setImageName($a_value): void
     {
         $this->image_name = $a_value;
     }
-    
+
     /**
     * Set question object
     *
     * @param	object	$a_value	test object
     */
-    public function setQuestionObject($a_value) : void
+    public function setQuestionObject($a_value): void
     {
         $this->qstObject = &$a_value;
     }
@@ -127,7 +128,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     *
     * @return	object	Value
     */
-    public function getQuestionObject() : ?object
+    public function getQuestionObject(): ?object
     {
         return $this->qstObject;
     }
@@ -137,7 +138,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     *
     * @param	boolean	$a_allow_move Allow move
     */
-    public function setAllowMove($a_allow_move) : void
+    public function setAllowMove($a_allow_move): void
     {
         $this->allowMove = $a_allow_move;
     }
@@ -147,12 +148,12 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     *
     * @return	boolean	Allow move
     */
-    public function getAllowMove() : bool
+    public function getAllowMove(): bool
     {
         return $this->allowMove;
     }
 
-    public function setValue($a_value) : void
+    public function setValue($a_value): void
     {
         $this->values = array();
         if (is_array($a_value)) {
@@ -173,7 +174,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     * Check input, strip slashes etc. set alert, if input is not ok.
     * @return	boolean		Input ok, true/false
     */
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -264,7 +265,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
                                 $this->setAlert($lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1]);
                                 return false;
                             }
-                            
+
                             if (!in_array(strtolower($suffix), $this->getSuffixes())) {
                                 $this->setAlert($lng->txt("form_msg_file_wrong_file_type"));
                                 return false;
@@ -281,11 +282,11 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     * Insert property html
     * @return	void	Size
     */
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         $tpl = new ilTemplate("tpl.prop_matchingwizardinput.html", true, true, "Modules/TestQuestionPool");
         $i = 0;
         foreach ($this->values as $value) {
@@ -382,5 +383,15 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();
+    }
+
+    public function setPending(string $a_val): void
+    {
+        $this->pending = $a_val;
+    }
+
+    public function getPending(): string
+    {
+        return $this->pending;
     }
 }

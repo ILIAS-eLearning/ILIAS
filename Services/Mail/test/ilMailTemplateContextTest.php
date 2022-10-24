@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,24 +32,24 @@ class ilMailTemplateContextTest extends ilMailBaseTest
         ilMailEnvironmentHelper $envHelper,
         ilMailUserHelper $usernameHelper,
         ilMailLanguageHelper $languageHelper
-    ) : ilMailTemplateContext {
-        return new class($orgUnitUserService, $envHelper, $usernameHelper, $languageHelper) extends ilMailTemplateContext {
-            public function getId() : string
+    ): ilMailTemplateContext {
+        return new class ($orgUnitUserService, $envHelper, $usernameHelper, $languageHelper) extends ilMailTemplateContext {
+            public function getId(): string
             {
                 return 'phpunuit';
             }
 
-            public function getTitle() : string
+            public function getTitle(): string
             {
                 return 'phpunuit';
             }
 
-            public function getDescription() : string
+            public function getDescription(): string
             {
                 return 'phpunuit';
             }
 
-            public function getSpecificPlaceholders() : array
+            public function getSpecificPlaceholders(): array
             {
                 return [];
             }
@@ -57,7 +59,7 @@ class ilMailTemplateContextTest extends ilMailBaseTest
                 array $context_parameters,
                 ilObjUser $recipient = null,
                 bool $html_markup = false
-            ) : string {
+            ): string {
                 return '';
             }
         };
@@ -66,7 +68,7 @@ class ilMailTemplateContextTest extends ilMailBaseTest
     /**
      * @throws ReflectionException
      */
-    private function generateOrgUnitUsers(int $amount) : array
+    private function generateOrgUnitUsers(int $amount): array
     {
         $users = [];
 
@@ -86,7 +88,7 @@ class ilMailTemplateContextTest extends ilMailBaseTest
     /**
      * @throws ReflectionException
      */
-    public function userProvider() : array
+    public function userProvider(): array
     {
         $testUsers = [];
 
@@ -144,7 +146,7 @@ class ilMailTemplateContextTest extends ilMailBaseTest
         ilObjUser $user,
         ilOrgUnitUser $ouUser,
         array $superiors
-    ) : void {
+    ): void {
         $ouService = $this->getMockBuilder(OrgUnitUserService::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getUsers',])
@@ -185,7 +187,7 @@ class ilMailTemplateContextTest extends ilMailBaseTest
             }, $superiors));
         }
 
-        $firstAndLastnames = array_map(static function (ilOrgUnitUser $user, int $key) : string {
+        $firstAndLastnames = array_map(static function (ilOrgUnitUser $user, int $key): string {
             return "PhpSup$key UnitSup$key";
         }, $superiors, array_keys($superiors));
 

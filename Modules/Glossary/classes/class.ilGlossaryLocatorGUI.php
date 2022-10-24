@@ -59,27 +59,27 @@ class ilGlossaryLocatorGUI
             ->request();
     }
 
-    public function setTemplateVariable(string $a_temp_var) : void
+    public function setTemplateVariable(string $a_temp_var): void
     {
         $this->temp_var = $a_temp_var;
     }
 
-    public function setTerm(ilGlossaryTerm $a_term) : void
+    public function setTerm(ilGlossaryTerm $a_term): void
     {
         $this->term = $a_term;
     }
 
-    public function setGlossary(ilObjGlossary $a_glossary) : void
+    public function setGlossary(ilObjGlossary $a_glossary): void
     {
         $this->glossary = $a_glossary;
     }
 
-    public function setDefinition(ilGlossaryDefinition $a_def) : void
+    public function setDefinition(ilGlossaryDefinition $a_def): void
     {
         $this->definition = $a_def;
     }
 
-    public function setMode(string $a_mode) : void
+    public function setMode(string $a_mode): void
     {
         $this->mode = $a_mode;
     }
@@ -87,15 +87,15 @@ class ilGlossaryLocatorGUI
     /**
      * display locator
      */
-    public function display() : void
+    public function display(): void
     {
         $ilCtrl = $this->ctrl;
         $ilLocator = $this->locator;
         $tpl = $this->tpl;
-        
+
         // repository links
         $ilLocator->addRepositoryItems();
-        
+
         // glossary link
         $title = $this->glossary->getTitle();
         if ($this->mode == "edit") {
@@ -108,7 +108,7 @@ class ilGlossaryLocatorGUI
             }
         }
         $ilLocator->addItem($title, $link, "");
-        
+
         if (is_object($this->term) && $this->mode != "edit") {
             $ilCtrl->setParameterByClass("ilglossarypresentationgui", "term_id", $this->term->getId());
             $ilLocator->addItem(
@@ -136,7 +136,7 @@ class ilGlossaryLocatorGUI
             }
             $ilLocator->addItem($title, $link);
         }
-        
+
         $tpl->setLocator();
     }
 }

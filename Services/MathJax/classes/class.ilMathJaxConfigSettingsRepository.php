@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,7 +33,7 @@ class ilMathJaxConfigSettingsRepository implements ilMathJaxConfigRespository
     /**
      * Get the MathJax Configuration
      */
-    public function getConfig() : ilMathJaxConfig
+    public function getConfig(): ilMathJaxConfig
     {
         return new ilMathJaxConfig(
             (bool) $this->settings->get('enable'),
@@ -50,7 +52,7 @@ class ilMathJaxConfigSettingsRepository implements ilMathJaxConfigRespository
     /**
      * Update the MathNax Configuration
      */
-    public function updateConfig(ilMathJaxConfig $config) : void
+    public function updateConfig(ilMathJaxConfig $config): void
     {
         $this->settings->set('enable', (string) $config->isClientEnabled());
         $this->settings->set('path_to_polyfill', $config->getClintPolyfillUrl());

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Resource\InfoResolver;
 
 use DateTimeImmutable;
@@ -26,19 +28,19 @@ use DateTimeImmutable;
  */
 interface InfoResolver
 {
-    public function getNextVersionNumber() : int;
+    public function getNextVersionNumber(): int;
 
-    public function getOwnerId() : int;
+    public function getOwnerId(): int;
 
-    public function getRevisionTitle() : string;
+    public function getRevisionTitle(): string;
 
-    public function getFileName() : string;
+    public function getFileName(): string;
 
-    public function getMimeType() : string;
+    public function getMimeType(): string;
 
-    public function getSuffix() : string;
+    public function getSuffix(): string;
 
-    public function getCreationDate() : DateTimeImmutable;
+    public function getCreationDate(): DateTimeImmutable;
 
-    public function getSize() : int;
+    public function getSize(): int;
 }

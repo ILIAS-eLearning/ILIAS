@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ interface ilComponentFactory
      * given id in one process, so the instance might be shared among various
      * components.
      */
-    public function getPlugin(string $id) : ilPlugin;
+    public function getPlugin(string $id): ilPlugin;
 
     /**
      * Get the active plugins for the given slot. There will only be one instance
@@ -36,5 +38,5 @@ interface ilComponentFactory
      *
      * @return \Iterator <ilPlugin>
      */
-    public function getActivePluginsInSlot(string $slot_id) : \Iterator;
+    public function getActivePluginsInSlot(string $slot_id): \Iterator;
 }

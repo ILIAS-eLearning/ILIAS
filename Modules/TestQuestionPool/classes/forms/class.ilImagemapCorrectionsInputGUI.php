@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilImagemapCorrectionsInputGUI
@@ -12,12 +26,12 @@
  */
 class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
 {
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         $this->setAreasByArray($a_values[$this->getPostVar()]['coords']);
     }
-    
-    public function setAreasByArray($a_areas) : void
+
+    public function setAreasByArray($a_areas): void
     {
         if (is_array($a_areas['points'])) {
             foreach ($this->areas as $idx => $name) {
@@ -26,21 +40,21 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
                 } else {
                     $this->areas[$idx]->setPointsUnchecked(0);
                 }
-                
+
                 $this->areas[$idx]->setPoints($a_areas['points'][$idx]);
             }
         }
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         if (is_array($_POST[$this->getPostVar()])) {
             $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
         }
-        
+
         $max = 0;
         if (is_array($_POST[$this->getPostVar()]['coords']['points'])) {
             foreach ($_POST[$this->getPostVar()]['coords']['points'] as $idx => $name) {
@@ -57,15 +71,15 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
                 }
             }
         }
-        
+
         if ($max == 0) {
             $this->setAlert($lng->txt("enter_enough_positive_points"));
             return false;
         }
         return true;
     }
-    
-    public function insert(ilTemplate $a_tpl) : void
+
+    public function insert(ilTemplate $a_tpl): void
     {
         global $DIC;
         $lng = $DIC['lng'];

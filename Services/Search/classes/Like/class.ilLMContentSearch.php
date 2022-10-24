@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -34,7 +36,7 @@
 
 class ilLMContentSearch extends ilAbstractSearch
 {
-    public function performSearch() : ilSearchResult
+    public function performSearch(): ilSearchResult
     {
         $this->setFields(array('content'));
 
@@ -48,8 +50,8 @@ class ilLMContentSearch extends ilAbstractSearch
             $where .
             "AND obj_id = page_id " .
             $in;
-            
-        
+
+
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             // workaround to get term ids for definition ids (which is not the same!!!)
@@ -72,22 +74,22 @@ class ilLMContentSearch extends ilAbstractSearch
 
 
     // Protected can be overwritten in Like or Fulltext classes
-    public function __createInStatement() : string
+    public function __createInStatement(): string
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         if (!$this->getFilter() and !$this->getIdFilter()) {
             return '';
         }
-        
+
         $in = '';
         if ($this->getFilter()) {
             $type = "('";
             $type .= implode("','", $this->getFilter());
             $type .= "')";
-            
+
             $in = " AND parent_type IN " . $type . ' ';
         }
         if ($this->getIdFilter()) {

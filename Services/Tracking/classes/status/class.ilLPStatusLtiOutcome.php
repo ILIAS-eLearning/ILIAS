@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -15,7 +17,7 @@ class ilLPStatusLtiOutcome extends ilLPStatus
     private function getLtiUserResult(
         int $objId,
         int $usrId
-    ) : ilLTIConsumerResult {
+    ): ?ilLTIConsumerResult {
         if (!isset(self::$userResultCache[$objId])) {
             self::$userResultCache[$objId] = array();
         }
@@ -27,7 +29,7 @@ class ilLPStatusLtiOutcome extends ilLPStatus
         return self::$userResultCache[$objId][$usrId];
     }
 
-    private function ensureObject(int $objId, $object) : ilObjLTIConsumer
+    private function ensureObject(int $objId, $object): ilObjLTIConsumer
     {
         if (!($object instanceof ilObjLTIConsumer)) {
             $object = ilObjectFactory::getInstanceByObjId($objId);
@@ -39,7 +41,7 @@ class ilLPStatusLtiOutcome extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         $ltiResult = $this->getLtiUserResult($a_obj_id, $a_usr_id);
 
         if ($ltiResult instanceof ilLTIConsumerResult) {
@@ -60,7 +62,7 @@ class ilLPStatusLtiOutcome extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         ?object $a_obj = null
-    ) : int {
+    ): int {
         $ltiResult = $this->getLtiUserResult($a_obj_id, $a_usr_id);
 
         if ($ltiResult instanceof ilLTIConsumerResult) {

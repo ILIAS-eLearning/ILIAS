@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,4 +20,14 @@
 
 class ilBuddySystemIgnoredRequestRelationStateTableFilterMapper extends ilAbstractBuddySystemRelationStateTableFilterMapper
 {
+    public function filterMatchesRelation(string $filter_key, ilBuddySystemRelation $relation): bool
+    {
+        if (ilBuddySystemRequestedRelationState::class . '_a' === $filter_key) {
+            return $relation->isOwnedByActor();
+        } elseif ($relation->isOwnedByActor()) {
+            return false;
+        }
+
+        return parent::filterMatchesRelation($filter_key, $relation);
+    }
 }

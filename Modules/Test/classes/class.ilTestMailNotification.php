@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Mail/classes/class.ilMailNotification.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestMailNotification
@@ -34,16 +47,16 @@ class ilTestMailNotification extends ilMailNotification
         $this->appendBody("\n\n");
         $this->appendBody($this->language->txt('user_has_finished_a_test'));
         $this->appendBody("\n\n");
-        
+
         $this->appendBody($this->language->txt('title') . ': ' . $title);
         $this->appendBody("\n");
         $this->appendBody($this->language->txt('tst_participant') . ': ' . $usr_data);
         $this->appendBody("\n");
-        
+
         ilDatePresentation::setUseRelativeDates(false);
         $this->appendBody($this->language->txt('tst_finished') . ': ' . ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX)));
         $this->appendBody("\n\n");
-        
+
         $this->appendBody($this->language->txt('tst_notification_explanation_admin'));
         $this->appendBody("\n");
         $this->getMail()->appendInstallationSignature(true);
@@ -81,10 +94,10 @@ class ilTestMailNotification extends ilMailNotification
 
         $this->appendBody($this->language->txt('tst_attached_xls_file'));
         $this->appendBody("\n\n");
-        
+
         $this->appendBody($this->language->txt('tst_notification_explanation_admin'));
         $this->appendBody("\n");
-        
+
         $this->setAttachments($file_names);
         $this->getMail()->appendInstallationSignature(true);
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,19 +23,19 @@ use PHPUnit\Framework\TestCase;
 
 class ilQTIRenderFibTest extends TestCase
 {
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(ilQTIRenderFib::class, new ilQTIRenderFib());
     }
 
-    public function testSetGetMinnumber() : void
+    public function testSetGetMinnumber(): void
     {
         $instance = new ilQTIRenderFib();
         $instance->setMinnumber('Some input.');
         $this->assertEquals('Some input.', $instance->getMinnumber());
     }
 
-    public function testSetGetMaxnumber() : void
+    public function testSetGetMaxnumber(): void
     {
         $instance = new ilQTIRenderFib();
         $instance->setMaxnumber('Some input.');
@@ -43,7 +45,7 @@ class ilQTIRenderFibTest extends TestCase
     /**
      * @dataProvider prompts
      */
-    public function testSetGetPrompt(string $input, ?string $expected) : void
+    public function testSetGetPrompt(string $input, ?string $expected): void
     {
         $instance = new ilQTIRenderFib();
         $instance->setPrompt($input);
@@ -53,42 +55,42 @@ class ilQTIRenderFibTest extends TestCase
     /**
      * @dataProvider fibtypes
      */
-    public function testSetGetFibtype(string $input, ?string $expected) : void
+    public function testSetGetFibtype(string $input, ?string $expected): void
     {
         $instance = new ilQTIRenderFib();
         $instance->setFibtype($input);
         $this->assertEquals($expected, $instance->getFibtype());
     }
 
-    public function testSetGetRows() : void
+    public function testSetGetRows(): void
     {
         $instance = new ilQTIRenderFib();
         $instance->setRows('Some input.');
         $this->assertEquals('Some input.', $instance->getRows());
     }
 
-    public function testSetGetMaxchars() : void
+    public function testSetGetMaxchars(): void
     {
         $instance = new ilQTIRenderFib();
         $instance->setMaxchars('Some input.');
         $this->assertEquals('Some input.', $instance->getMaxchars());
     }
 
-    public function testSetGetColumns() : void
+    public function testSetGetColumns(): void
     {
         $instance = new ilQTIRenderFib();
         $instance->setColumns('Some input.');
         $this->assertEquals('Some input.', $instance->getColumns());
     }
 
-    public function testSetGetCharset() : void
+    public function testSetGetCharset(): void
     {
         $instance = new ilQTIRenderFib();
         $instance->setCharset('Some input.');
         $this->assertEquals('Some input.', $instance->getCharset());
     }
 
-    public function prompts() : array
+    public function prompts(): array
     {
         class_exists(ilQTIRenderFib::class); // Force autoload to define the constants.
         return [
@@ -103,7 +105,7 @@ class ilQTIRenderFibTest extends TestCase
         ];
     }
 
-    public function fibtypes() : array
+    public function fibtypes(): array
     {
         class_exists(ilQTIRenderFib::class); // Force autoload to define the constants.
         return [

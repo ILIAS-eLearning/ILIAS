@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Symbol\Glyph;
 
 use ILIAS\UI\Implementation\Render;
@@ -29,7 +31,7 @@ class GlyphRendererFactory extends Render\DefaultRendererFactory
         'BulkyLink'
     ];
 
-    public function getRendererInContext(Component\Component $component, array $contexts) : ComponentRenderer
+    public function getRendererInContext(Component\Component $component, array $contexts): ComponentRenderer
     {
         if (count(array_intersect(self::USE_BUTTON_CONTEXT_FOR, $contexts)) > 0) {
             return new ButtonContextRenderer(

@@ -23,7 +23,7 @@
 class ilPageLinker implements \ILIAS\COPage\PageLinker
 {
     protected bool $offline;
-    protected string $profile_back_url;
+    protected string $profile_back_url = "";
     protected ilCtrl $ctrl;
     protected string $cmd_gui;
 
@@ -44,19 +44,24 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
             : $ctrl;
     }
 
-    public function setOffline(bool $offline = true) : void
+    public function setOffline(bool $offline = true): void
     {
         $this->offline = $offline;
     }
 
+    public function setProfileBackUrl(string $url) : void
+    {
+        $this->profile_back_url = $url;
+    }
 
-    public function getLayoutLinkTargets() : array
+
+    public function getLayoutLinkTargets(): array
     {
         $targets = [];
         return $targets;
     }
 
-    public function getLinkTargetsXML() : string
+    public function getLinkTargetsXML(): string
     {
         $layoutLinkTargets = $this->getLayoutLinkTargets();
 
@@ -72,8 +77,9 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
         return $link_info;
     }
 
-    public function getLinkXML(array $int_links) : string
+    public function getLinkXML(array $int_links): string
     {
+        $ilCtrl = $this->ctrl;
         $link_info = "<IntLinkInfos>";
         foreach ($int_links as $int_link) {
             $target = $int_link["Target"];
@@ -146,13 +152,19 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                         break;
 
                     case "RepositoryItem":
-                        $obj_type = ilObject::_lookupType($target_id, true);
-                        $obj_id = ilObject::_lookupObjId($target_id);
+                        $obj_type = ilObject::_lookupType((int) $target_id, true);
+                        $obj_id = ilObject::_lookupObjId((int) $target_id);
                         $href = "./goto.php?target=" . $obj_type . "_" . $target_id;
                         break;
 
+                    case "File":
+                        if (!$this->offline) {
+                            $href = "#";
+                        }
+                        break;
+
                     case "User":
-                        $obj_type = ilObject::_lookupType($target_id);
+                        $obj_type = ilObject::_lookupType((int) $target_id);
                         if ($obj_type == "usr") {
                             $back = $this->profile_back_url;
                             //var_dump($back); exit;
@@ -190,11 +202,10 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
         }
         $link_info .= "</IntLinkInfos>";
         $link_info .= $this->getLinkTargetsXML();
-
         return $link_info;
     }
 
-    public function getFullscreenLink() : string
+    public function getFullscreenLink(): string
     {
         if ($this->offline) {
             return "fullscreen.html";

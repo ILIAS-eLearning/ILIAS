@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
 use ILIAS\BackgroundTasks\Types\SingleType;
@@ -47,7 +47,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return
             [
@@ -59,7 +59,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function getOutputType() : Type
+    public function getOutputType(): Type
     {
         return new SingleType(ilCopyDefinition::class);
     }
@@ -68,7 +68,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function isStateless() : bool
+    public function isStateless(): bool
     {
         return true;
     }
@@ -78,7 +78,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
      * @inheritDoc
      * @todo use filesystem service
      */
-    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer) : Value
+    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer): Value
     {
         $this->logger->debug('Start checking adherence to maxsize!');
         $this->logger->dump($input);
@@ -111,7 +111,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
      * Calculates the number and size of the files being downloaded recursively.
 
      */
-    protected function calculateRecursive(array $a_ref_ids, int &$a_file_size) : void
+    protected function calculateRecursive(array $a_ref_ids, int &$a_file_size): void
     {
         global $DIC;
         $tree = $DIC['tree'];
@@ -149,7 +149,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
      *
      *
      */
-    protected function validateAccess(int $ref_id) : bool
+    protected function validateAccess(int $ref_id): bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -164,7 +164,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function getExpectedTimeOfTaskInSeconds() : int
+    public function getExpectedTimeOfTaskInSeconds(): int
     {
         return 30;
     }

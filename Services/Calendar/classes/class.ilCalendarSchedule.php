@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -108,37 +110,37 @@ class ilCalendarSchedule
     /**
      * Check if events are limited
      */
-    protected function areEventsLimited() : bool
+    protected function areEventsLimited(): bool
     {
         return $this->limit_events != -1;
     }
 
-    public function getEventsLimit() : int
+    public function getEventsLimit(): int
     {
         return $this->limit_events;
     }
 
-    public function setEventsLimit(int $a_limit) : void
+    public function setEventsLimit(int $a_limit): void
     {
         $this->limit_events = $a_limit;
     }
 
-    public function addSubitemCalendars(bool $a_status) : void
+    public function addSubitemCalendars(bool $a_status): void
     {
         $this->subitems_enabled = $a_status;
     }
 
-    public function enabledSubitemCalendars() : bool
+    public function enabledSubitemCalendars(): bool
     {
         return $this->subitems_enabled;
     }
 
-    public function addFilter(ilCalendarScheduleFilter $a_filter) : void
+    public function addFilter(ilCalendarScheduleFilter $a_filter): void
     {
         $this->filters[] = $a_filter;
     }
 
-    public function getByDay(ilDate $a_start, string $a_timezone) : array
+    public function getByDay(ilDate $a_start, string $a_timezone): array
     {
         $start = new ilDateTime($a_start->get(IL_CAL_DATETIME), IL_CAL_DATETIME, $this->timezone);
         $fstart = new ilDate($a_start->get(IL_CAL_UNIX), IL_CAL_UNIX);
@@ -180,7 +182,7 @@ class ilCalendarSchedule
         return array_merge($tmp_schedule_fullday, $tmp_schedule);
     }
 
-    public function calculate() : void
+    public function calculate(): void
     {
         $events = $this->getEvents();
 
@@ -306,12 +308,12 @@ class ilCalendarSchedule
         }
     }
 
-    public function getScheduledEvents() : array
+    public function getScheduledEvents(): array
     {
         return $this->schedule;
     }
 
-    protected function filterCategories(array $a_cats) : array
+    protected function filterCategories(array $a_cats): array
     {
         if (!count($a_cats)) {
             return $a_cats;
@@ -322,7 +324,7 @@ class ilCalendarSchedule
         return $a_cats;
     }
 
-    protected function modifyEventByFilters(ilCalendarEntry $event) : ?ilCalendarEntry
+    protected function modifyEventByFilters(ilCalendarEntry $event): ?ilCalendarEntry
     {
         foreach ($this->filters as $filter) {
             $res = $filter->modifyEvent($event);
@@ -335,7 +337,7 @@ class ilCalendarSchedule
         return $event;
     }
 
-    protected function addCustomEvents(ilDate $start, ilDate $end, array $categories) : array
+    protected function addCustomEvents(ilDate $start, ilDate $end, array $categories): array
     {
         $new_events = array();
         foreach ($this->filters as $filter) {
@@ -354,7 +356,7 @@ class ilCalendarSchedule
      * @access protected
      * @return
      */
-    public function getChangedEvents(bool $a_include_subitem_calendars = false) : array
+    public function getChangedEvents(bool $a_include_subitem_calendars = false): array
     {
         $cats = ilCalendarCategories::_getInstance($this->user->getId())->getCategories($a_include_subitem_calendars);
         $cats = $this->filterCategories($cats);
@@ -392,7 +394,7 @@ class ilCalendarSchedule
     /**
      * Read events (will be moved to another class, since only active and/or visible calendars are shown)
      */
-    public function getEvents() : array
+    public function getEvents(): array
     {
         $cats = ilCalendarCategories::_getInstance($this->user->getId())->getCategories($this->enabledSubitemCalendars());
         $cats = $this->filterCategories($cats);
@@ -439,7 +441,7 @@ class ilCalendarSchedule
         return $events;
     }
 
-    protected function initPeriod(ilDate $seed) : void
+    protected function initPeriod(ilDate $seed): void
     {
         switch ($this->type) {
             case self::TYPE_DAY:
@@ -547,7 +549,7 @@ class ilCalendarSchedule
         }
     }
 
-    public function setPeriod(ilDate $a_start, ilDate $a_end) : void
+    public function setPeriod(ilDate $a_start, ilDate $a_end): void
     {
         $this->start = $a_start;
         $this->end = $a_end;

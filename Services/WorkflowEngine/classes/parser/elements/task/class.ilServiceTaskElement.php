@@ -26,7 +26,7 @@ class ilServiceTaskElement extends ilBaseElement
 {
     public string $element_varname;
 
-    public function getPHP(array $element, ilWorkflowScaffold $class_object) : string
+    public function getPHP(array $element, ilWorkflowScaffold $class_object): string
     {
         $code = "";
         $element_id = ilBPMN2ParserUtils::xsIDToPHPVarname($element['attributes']['id']);

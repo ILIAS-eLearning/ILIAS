@@ -1,7 +1,21 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Modules/TestQuestionPool/classes/class.assAnswerSimple.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
@@ -35,7 +49,7 @@ class assAnswerCloze extends ASS_AnswerSimple
     protected ?string $upperBound;
 
     protected int $gap_size;
-    
+
 
     /**
      * assAnswerCloze constructor
@@ -61,7 +75,7 @@ class assAnswerCloze extends ASS_AnswerSimple
      * @param $bound string A string defining the lower bound of an answer for numeric gaps.
      * @TODO: Refactor method to get rid of "locale magic".
      */
-    public function setLowerBound(string $bound) : void
+    public function setLowerBound(string $bound): void
     {
         $boundvalue = $this->getNumericValueFromText($bound);
         $value = $this->getNumericValueFromAnswerText();
@@ -78,18 +92,18 @@ class assAnswerCloze extends ASS_AnswerSimple
      * @param $bound string A string defining the upper bound of an answer for numeric gaps.
      * @TODO: Refactor method to get rid of "locale magic".
      */
-    public function setUpperBound(string $bound) : void
+    public function setUpperBound(string $bound): void
     {
         $boundvalue = $this->getNumericValueFromText($bound);
         $value = $this->getNumericValueFromAnswerText();
-        
+
         if ($boundvalue === false || $boundvalue < $value) {
             $this->upperBound = $this->getAnswertext();
         } else {
             $this->upperBound = $bound;
         }
     }
-    
+
     protected function getNumericValueFromAnswerText()
     {
         return $this->getNumericValueFromText($this->getAnswertext());
@@ -109,7 +123,7 @@ class assAnswerCloze extends ASS_AnswerSimple
      *
      * @return null|string
      */
-    public function getLowerBound() : ?string
+    public function getLowerBound(): ?string
     {
         return $this->lowerBound;
     }
@@ -119,7 +133,7 @@ class assAnswerCloze extends ASS_AnswerSimple
      *
      * @return null|string
      */
-    public function getUpperBound() : ?string
+    public function getUpperBound(): ?string
     {
         return $this->upperBound;
     }
@@ -127,7 +141,7 @@ class assAnswerCloze extends ASS_AnswerSimple
     /**
      * @param int $gap_size
      */
-    public function setGapSize(int $gap_size) : void
+    public function setGapSize(int $gap_size): void
     {
         $this->gap_size = $gap_size;
     }
@@ -135,7 +149,7 @@ class assAnswerCloze extends ASS_AnswerSimple
     /**
      * @return int
      */
-    public function getGapSize() : int
+    public function getGapSize(): int
     {
         return $this->gap_size;
     }

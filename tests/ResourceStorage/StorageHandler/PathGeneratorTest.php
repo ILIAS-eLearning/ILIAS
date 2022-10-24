@@ -39,7 +39,7 @@ class PathGeneratorTest extends AbstractBaseTest
         "*", // (asterisk)
     ];
 
-    public function testPathGeneratorV1() : void
+    public function testPathGeneratorV1(): void
     {
         $identification_generator = new UniqueIDIdentificationGenerator();
         $identification = $identification_generator->getUniqueResourceIdentification();
@@ -55,7 +55,7 @@ class PathGeneratorTest extends AbstractBaseTest
         $this->assertEquals($identification->serialize(), $new_identification->serialize());
     }
 
-    public function testPathGeneratorV2() : void
+    public function testPathGeneratorV2(): void
     {
         $identification_generator = new UniqueIDIdentificationGenerator();
         $identification = $identification_generator->getUniqueResourceIdentification();

@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -21,8 +34,8 @@ class ilAssQuestionPreviewToolbarGUI extends ilToolbarGUI
 
         parent::__construct();
     }
-    
-    public function build() : void
+
+    public function build(): void
     {
         //Edit Question
         $button_edit_question = ilLinkButton::getInstance();
@@ -48,7 +61,7 @@ class ilAssQuestionPreviewToolbarGUI extends ilToolbarGUI
         //$this->addFormButton($this->lng->txt('qpl_reset_preview'), $this->getResetPreviewCmd(), '', false);
     }
 
-    public function setResetPreviewCmd($resetPreviewCmd) : void
+    public function setResetPreviewCmd($resetPreviewCmd): void
     {
         $this->resetPreviewCmd = $resetPreviewCmd;
     }
@@ -69,7 +82,7 @@ class ilAssQuestionPreviewToolbarGUI extends ilToolbarGUI
     /**
      * @param mixed $editQuestionCmd
      */
-    public function setEditQuestionCmd($editQuestionCmd) : void
+    public function setEditQuestionCmd($editQuestionCmd): void
     {
         $this->editQuestionCmd = $editQuestionCmd;
     }
@@ -85,7 +98,7 @@ class ilAssQuestionPreviewToolbarGUI extends ilToolbarGUI
     /**
      * @param mixed $editPageCmd
      */
-    public function setEditPageCmd($editPageCmd) : void
+    public function setEditPageCmd($editPageCmd): void
     {
         $this->editPageCmd = $editPageCmd;
     }

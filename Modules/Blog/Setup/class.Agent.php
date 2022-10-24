@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,12 +29,12 @@ use ILIAS\Setup\Metrics;
  */
 class Agent extends Setup\Agent\NullAgent
 {
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         return new \ilDatabaseUpdateStepsExecutedObjective(new BlogDBUpdateSteps());
     }
 
-    public function getStatusObjective(Metrics\Storage $storage) : Objective
+    public function getStatusObjective(Metrics\Storage $storage): Objective
     {
         return new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new BlogDBUpdateSteps());
     }

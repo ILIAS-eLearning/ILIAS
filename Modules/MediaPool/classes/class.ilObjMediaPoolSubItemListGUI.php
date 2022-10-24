@@ -22,10 +22,10 @@
  */
 class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
 {
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $lng = $this->lng;
-        
+
         $lng->loadLanguageModule('content');
         foreach ($this->getSubItemIds(true) as $sub_item) {
             if (
@@ -44,7 +44,7 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
                     $this->tpl->setVariable('LINK', ilLink::_getLink($this->getRefId(), 'mep', array(), '_' . $sub_item));
                     $this->tpl->setVariable('TARGET', $this->getItemListGUI()->getCommandFrame(''));
                     break;
-                    
+
                 case 'mob':
                     $this->tpl->setVariable(
                         'LINK',
@@ -53,23 +53,23 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
                     );
                     $this->tpl->setVariable('TARGET', $this->getItemListGUI()->getCommandFrame(''));
                     break;
-                
+
                 default:
 
             }
-            
-            
+
+
             $this->tpl->setVariable('SUBITEM_TYPE', $lng->txt('obj_' . ilMediaPoolItem::lookupType($sub_item)));
             $this->tpl->setVariable('TITLE', ilMediaPoolItem::lookupTitle($sub_item));
             #$this->getItemListGUI()->setChildId($sub_item);
-            
+
             // begin-patch mime_filter
 
             if (!$this->parseImage($sub_item)) {
                 $this->tpl->setVariable('SUBITEM_TYPE', $lng->txt('obj_' . ilMediaPoolItem::lookupType($sub_item)));
                 $this->tpl->setVariable('SEPERATOR', ':');
             }
-            
+
 
             if (count($this->getSubItemIds(true)) > 1) {
                 $this->parseRelevance($sub_item);
@@ -77,13 +77,13 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
 
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->showDetailsLink();
-        
+
         return $this->tpl->get();
     }
-    
-    protected function parseImage(int $a_sub_id) : bool
+
+    protected function parseImage(int $a_sub_id): bool
     {
         $sub_id = ilMediaPoolItem::lookupForeignId($a_sub_id);
         // output thumbnail (or mob icon)
@@ -91,7 +91,7 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
             $mob = new ilObjMediaObject($sub_id);
             $med = $mob->getMediaItem("Standard");
             $target = $med->getThumbnailTarget();
-            
+
             if ($target != "") {
                 // begin-patch mime_filter
                 $this->tpl->setVariable(

@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Export/classes/class.ilExportGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Signature Plugin Class
@@ -24,7 +37,7 @@ class ilTestSignatureGUI
 
     /** @var $testGUI \ilObjTestGUI */
     protected $testGUI;
-    
+
     /** @var $ilTestOutputGUI \ilTestOutputGUI */
     protected $ilTestOutputGUI;
 
@@ -41,7 +54,7 @@ class ilTestSignatureGUI
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
         $component_factory = $DIC["component.factory"];
-        
+
         $this->lng = $lng;
         $this->ilCtrl = $ilCtrl;
         $this->tpl = $tpl;
@@ -95,7 +108,7 @@ class ilTestSignatureGUI
     /**
      * @return \ilObjTest
      */
-    public function getTest() : ilObjTest
+    public function getTest(): ilObjTest
     {
         return $this->test;
     }
@@ -111,7 +124,7 @@ class ilTestSignatureGUI
     /**
      * @return \ilObjTestGUI
      */
-    public function getTestGUI() : ilObjTestGUI
+    public function getTestGUI(): ilObjTestGUI
     {
         return $this->testGUI;
     }
@@ -127,7 +140,7 @@ class ilTestSignatureGUI
     /**
      * @return \ilTestOutputGUI
      */
-    public function getTestOutputGUI() : ilTestOutputGUI
+    public function getTestOutputGUI(): ilTestOutputGUI
     {
         return $this->ilTestOutputGUI;
     }

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilExcCriteriaBool
  *
@@ -24,18 +24,18 @@
  */
 class ilExcCriteriaBool extends ilExcCriteria
 {
-    public function getType() : string
+    public function getType(): string
     {
         return "bool";
     }
-    
-    
+
+
     // PEER REVIEW
-    
-    public function addToPeerReviewForm($a_value = null) : void
+
+    public function addToPeerReviewForm($a_value = null): void
     {
         $lng = $this->lng;
-        
+
         if (!$this->isRequired()) {
             $input = new ilCheckboxInputGUI($this->getTitle(), "prccc_bool_" . $this->getId());
             $input->setInfo($this->getDescription());
@@ -56,21 +56,21 @@ class ilExcCriteriaBool extends ilExcCriteria
         }
         $this->form->addItem($input);
     }
-    
-    public function importFromPeerReviewForm() : int
+
+    public function importFromPeerReviewForm(): int
     {
         return (int) $this->form->getInput("prccc_bool_" . $this->getId());
     }
-    
-    public function hasValue($a_value) : int
+
+    public function hasValue($a_value): int
     {
         return (int) $a_value;
     }
-    
-    public function getHTML($a_value) : string
+
+    public function getHTML($a_value): string
     {
         $lng = $this->lng;
-    
+
         $caption = null;
         if ($this->isRequired() && $a_value < 0) {
             $caption = $lng->txt("no");

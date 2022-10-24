@@ -48,12 +48,12 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
     protected ?int $current_page_id = 0;
     protected array $additional_content = [];
 
-    protected function getObjectClass() : string
+    protected function getObjectClass(): string
     {
         return \ilObjLearningModule::class;
     }
 
-    protected function setObject(\ilObject $object) : void
+    protected function setObject(\ilObject $object): void
     {
         global $DIC;
 
@@ -72,7 +72,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         State $state,
         string $command,
         int $parameter = null
-    ) : State {
+    ): State {
         switch ($command) {
             case "layout":
                 if ($parameter > 0) {
@@ -91,7 +91,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
     }
 
     // Init learning module presentation service
-    protected function initLMService(?int $current_page) : void
+    protected function initLMService(?int $current_page): void
     {
         if (is_object($this->lm_pres)) {
             return;
@@ -109,12 +109,12 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         $this->lm_pres_service = $this->lm_pres->getService();
     }
 
-    protected function hasPermissionToAccessKioskMode() : bool
+    protected function hasPermissionToAccessKioskMode(): bool
     {
         return $this->access->checkAccess('read', '', $this->lm->getRefId());
     }
 
-    public function buildInitialState(State $empty_state) : State
+    public function buildInitialState(State $empty_state): State
     {
         return $empty_state->withValueFor("current_page", "");
     }
@@ -122,7 +122,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
     public function buildControls(
         State $state,
         ControlBuilder $builder
-    ) : ControlBuilder {
+    ): ControlBuilder {
         global $DIC;
 
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -177,7 +177,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
 
     protected function maybeBuildLearningProgressToggleControl(
         ControlBuilder $builder
-    ) : ControlBuilder {
+    ): ControlBuilder {
         $learningProgress = \ilObjectLP::getInstance($this->lm->getId());
         if ($learningProgress->getCurrentMode() == \ilLPObjSettings::LP_MODE_MANUAL) {
             $isCompleted = \ilLPMarks::_hasCompleted($this->user->getId(), $this->lm->getId());
@@ -198,7 +198,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
 
     protected function toggleLearningProgress(
         string $command
-    ) : void {
+    ): void {
         if (self::CMD_TOGGLE_LEARNING_PROGRESS === $command) {
             $learningProgress = \ilObjectLP::getInstance($this->lm->getId());
             if ($learningProgress->getCurrentMode() == \ilLPObjSettings::LP_MODE_MANUAL) {
@@ -220,7 +220,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         State $state,
         string $command,
         array $post
-    ) : State {
+    ): State {
         return $state;
     }
 
@@ -229,7 +229,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         Factory $factory,
         URLBuilder $url_builder,
         array $post = null
-    ) : Component {
+    ): Component {
         $this->ctrl->setParameterByClass("illmpresentationgui", 'ref_id', $this->lm->getRefId());
         $content = $this->uiRenderer->render($this->messages);
         // @todo Check non-existence of third parameter (existed in ILIAS 7)

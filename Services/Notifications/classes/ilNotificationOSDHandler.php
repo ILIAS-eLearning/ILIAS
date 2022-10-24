@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,14 +20,10 @@
 
 namespace ILIAS\Notifications;
 
-use ilDBInterface;
-use ILIAS\DI\Container;
-use ILIAS\Notifications\Model\ilNotificationConfig;
-use ILIAS\Notifications\Model\ilNotificationLink;
 use ILIAS\Notifications\Model\ilNotificationObject;
 use ILIAS\Notifications\Model\OSD\ilOSDNotificationObject;
 use ILIAS\Notifications\Repository\ilNotificationOSDRepository;
-use ilLanguage;
+use ILIAS\Data\Clock\ClockInterface;
 
 /**
  * @author Jan Posselt <jposselt@databay.de>
@@ -33,16 +31,22 @@ use ilLanguage;
 class ilNotificationOSDHandler extends ilNotificationHandler
 {
     private ilNotificationOSDRepository $repo;
+    private ClockInterface $clock;
 
-    public function __construct(?ilNotificationOSDRepository $repo = null)
+    public function __construct(?ilNotificationOSDRepository $repo = null, ?ClockInterface $clock = null)
     {
         if ($repo === null) {
             $repo = new ilNotificationOSDRepository();
         }
         $this->repo = $repo;
+
+        if ($clock === null) {
+            $clock = (new \ILIAS\Data\Factory())->clock()->utc();
+        }
+        $this->clock = $clock;
     }
 
-    public function notify(ilNotificationObject $notification) : void
+    public function notify(ilNotificationObject $notification): void
     {
         $this->repo->createOSDNotification($notification->user->getId(), $notification);
     }
@@ -50,7 +54,7 @@ class ilNotificationOSDHandler extends ilNotificationHandler
     /**
      * @return ilOSDNotificationObject[]
      */
-    public function getNotificationsForUser(int $user_id, bool $append_osd_id_to_link = true, int $max_age_seconds = 0, string $type = '') : array
+    public function getNotificationsForUser(int $user_id, bool $append_osd_id_to_link = true, int $max_age_seconds = 0, string $type = ''): array
     {
         $notifications = $this->repo->getOSDNotificationsByUser($user_id, $max_age_seconds, $type);
 
@@ -65,12 +69,17 @@ class ilNotificationOSDHandler extends ilNotificationHandler
         return $notifications;
     }
 
-    public function removeNotification(int $notification_osd_id) : bool
+    public function deleteStaleNotificationsForUserAndType(int $user_id, string $type): void
+    {
+        $this->repo->deleteStaleNotificationsForUserAndType($user_id, $type, $this->clock->now()->getTimestamp());
+    }
+
+    public function removeNotification(int $notification_osd_id): bool
     {
         return $this->repo->deleteOSDNotificationById($notification_osd_id);
     }
 
-    private function appendParamToLink(string $link, string $param, int $value) : string
+    private function appendParamToLink(string $link, string $param, int $value): string
     {
         if (strpos($link, '?') !== false) {
             $link .= '&' . $param . '=' . $value;

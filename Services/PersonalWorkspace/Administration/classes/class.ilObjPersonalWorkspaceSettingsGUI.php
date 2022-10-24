@@ -62,7 +62,7 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
      * @throws ilCtrlException
      * @throws ilPermissionException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
         $tabs = $this->tabs;
@@ -95,7 +95,7 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $rbacsystem = $this->rbacsystem;
         $lng = $this->lng;
@@ -119,13 +119,13 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function editSettings() : void
+    public function editSettings(): void
     {
         $form = $this->getSettingsForm();
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function getSettingsForm() : ilPropertyFormGUI
+    public function getSettingsForm(): ilPropertyFormGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -170,7 +170,7 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
         return $form;
     }
 
-    public function saveSettings() : void
+    public function saveSettings(): void
     {
         $ilCtrl = $this->ctrl;
         $ilSetting = $this->settings;

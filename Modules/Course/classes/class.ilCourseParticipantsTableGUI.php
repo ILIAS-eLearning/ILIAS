@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @ingroup ModulesCourse
@@ -134,10 +136,11 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $this->addCommandButton('updateParticipantsStatus', $this->lng->txt('save'));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
         $this->tpl->setVariable('VAL_NAME', $a_set['lastname'] . ', ' . $a_set['firstname']);
+        $this->tpl->setVariable('SELECT_PARTICIPANT', $this->lng->txt("select") . ' ' . $a_set['lastname'] . ', ' . $a_set['firstname']);
 
         if (
             !$this->access->checkAccessOfUser($a_set['usr_id'], 'read', '', $this->getRepositoryObject()->getRefId()) &&
@@ -164,7 +167,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                     break;
 
                 case 'birthday':
-                    $a_set['birthday'] = $a_set['birthday'] ? ilDatePresentation::formatDate(new ilDate(
+                    $a_set['birthday'] = ($a_set['birthday'] ?? false) ? ilDatePresentation::formatDate(new ilDate(
                         $a_set['birthday'],
                         IL_CAL_DATE
                     )) : $this->lng->txt('no_date');
@@ -252,6 +255,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             $this->tpl->setCurrentBlock('grade');
             $this->tpl->setVariable('VAL_PASSED_ID', $a_set['usr_id']);
             $this->tpl->setVariable('VAL_PASSED_CHECKED', ($a_set['passed'] ? 'checked="checked"' : ''));
+            $this->tpl->setVariable('PASSED_TITLE', $this->lng->txt('crs_member_passed'));
             $this->tpl->parseCurrentBlock();
         } else {
             $this->tpl->setVariable('VAL_PASSED_TXT', ($a_set['passed']
@@ -267,12 +271,14 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             $this->tpl->setCurrentBlock('with_contact');
             $this->tpl->setVariable('VAL_CONTACT_ID', $a_set['usr_id']);
             $this->tpl->setVariable('VAL_CONTACT_CHECKED', $a_set['contact'] ? 'checked="checked"' : '');
+            $this->tpl->setVariable('CONTACT_TITLE', $this->lng->txt('crs_mem_contact'));
             $this->tpl->parseCurrentBlock();
             // cognos-blu-patch: end
 
             $this->tpl->setCurrentBlock('with_notification');
             $this->tpl->setVariable('VAL_NOTIFICATION_ID', $a_set['usr_id']);
             $this->tpl->setVariable('VAL_NOTIFICATION_CHECKED', ($a_set['notification'] ? 'checked="checked"' : ''));
+            $this->tpl->setVariable('NOTIFICATION_TITLE', $this->lng->txt('crs_notification_list_title'));
             $this->tpl->parseCurrentBlock();
         }
 
@@ -284,6 +290,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             $this->tpl->setCurrentBlock('with_blocked');
             $this->tpl->setVariable('VAL_BLOCKED_ID', $a_set['usr_id']);
             $this->tpl->setVariable('VAL_BLOCKED_CHECKED', ($a_set['blocked'] ? 'checked="checked"' : ''));
+            $this->tpl->setVariable('BLOCKED_TITLE', $this->lng->txt('crs_blocked'));
             $this->tpl->parseCurrentBlock();
         }
 
@@ -314,7 +321,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         }
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $this->determineOffsetAndOrder(true);
 

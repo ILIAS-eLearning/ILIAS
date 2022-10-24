@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilObjectReferenceCustomIconPresenter implements ilObjectCustomIconPresenter
 {
     private ilObjectCustomIconFactory $factory;
@@ -33,23 +35,23 @@ class ilObjectReferenceCustomIconPresenter implements ilObjectCustomIconPresente
      * If the target is invalid the icon instance
      * creation is based on the reference object obj_id
      */
-    public function init() : void
+    public function init(): void
     {
         $target_obj_id = $this->lookupTargetId();
         $this->icon = $this->factory->getByObjId($target_obj_id);
     }
 
-    public function exists() : bool
+    public function exists(): bool
     {
         return $this->icon->exists();
     }
 
-    public function getFullPath() : string
+    public function getFullPath(): string
     {
         return $this->icon->getFullPath();
     }
 
-    protected function lookupTargetId() : int
+    protected function lookupTargetId(): int
     {
         return ilContainerReference::_lookupTargetId($this->obj_id);
     }

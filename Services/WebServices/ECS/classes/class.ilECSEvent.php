@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -29,7 +31,7 @@ class ilECSEvent
     public string $ressource = '';
     public int $ressource_id = 0;
     public ?string $ressource_type = '';
-    
+
     /**
      * @param object json object
      */
@@ -38,19 +40,19 @@ class ilECSEvent
         $this->json_obj = $json_obj;
         $this->read();
     }
-    
+
     /**
      * get title
      */
-    public function getStatus() : string
+    public function getStatus(): string
     {
         return $this->status;
     }
-    
+
     /**
      * getDescription
      */
-    public function getRessource() : string
+    public function getRessource(): string
     {
         return $this->ressource;
     }
@@ -58,7 +60,7 @@ class ilECSEvent
     /**
      * Get ressource id
      */
-    public function getRessourceId() : int
+    public function getRessourceId(): int
     {
         return $this->ressource_id;
     }
@@ -67,16 +69,16 @@ class ilECSEvent
     /**
      * Get ressource type
      */
-    public function getRessourceType() : ?string
+    public function getRessourceType(): ?string
     {
         return $this->ressource_type;
     }
 
-    
+
     /**
      * Read community entries and participants
      */
-    private function read() : void
+    private function read(): void
     {
         $this->status = $this->json_obj->status;
         $this->ressource = $this->json_obj->ressource;

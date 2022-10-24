@@ -29,21 +29,21 @@ class ilExternalMediaAnalyzer
      */
     public static function isYouTube(
         string $a_location
-    ) : bool {
+    ): bool {
         if (strpos($a_location, "youtube.com") > 0 ||
                 strpos($a_location, "youtu.be") > 0) {
             return true;
         }
         return false;
     }
-    
+
     /**
      * Extract YouTube Parameter
      * @return array<string,string>
      */
     public static function extractYouTubeParameters(
         string $a_location
-    ) : array {
+    ): array {
         $par = array();
         $pos1 = strpos($a_location, "v=");
         $pos2 = strpos($a_location, "&", $pos1);
@@ -64,7 +64,7 @@ class ilExternalMediaAnalyzer
      */
     public static function isFlickr(
         string $a_location
-    ) : bool {
+    ): bool {
         if (strpos($a_location, "flickr.com") > 0) {
             return true;
         }
@@ -77,7 +77,7 @@ class ilExternalMediaAnalyzer
      */
     public static function extractFlickrParameters(
         string $a_location
-    ) : array {
+    ): array {
         $par = array();
         $pos1 = strpos($a_location, "flickr.com/photos/");
         $pos2 = strpos($a_location, "/", $pos1 + 18);
@@ -87,7 +87,7 @@ class ilExternalMediaAnalyzer
                 : $a_location;
             $par["user_id"] = substr($a_location, $pos1 + 18, $len - ($pos1 + 18));
         }
-        
+
         // tags
         $pos1 = strpos($a_location, "/tags/");
         $pos2 = strpos($a_location, "/", $pos1 + 6);
@@ -116,20 +116,20 @@ class ilExternalMediaAnalyzer
      */
     public static function isGoogleVideo(
         string $a_location
-    ) : bool {
+    ): bool {
         if (strpos($a_location, "video.google") > 0) {
             return true;
         }
         return false;
     }
-    
+
     /**
      * Extract GoogleVideo Parameter
      * @return array<string,string>
      */
     public static function extractGoogleVideoParameters(
         string $a_location
-    ) : array {
+    ): array {
         $par = array();
         $pos1 = strpos($a_location, "docid=");
         $pos2 = strpos($a_location, "&", $pos1 + 6);
@@ -148,7 +148,7 @@ class ilExternalMediaAnalyzer
      */
     public static function isVimeo(
         string $a_location
-    ) : bool {
+    ): bool {
         if (strpos($a_location, "vimeo.com") > 0) {
             return true;
         }
@@ -161,7 +161,7 @@ class ilExternalMediaAnalyzer
      */
     public static function extractVimeoParameters(
         string $a_location
-    ) : array {
+    ): array {
         $par = array();
         $pos1 = strpos($a_location, "vimeo.com/");
         $pos2 = strpos($a_location, "&", $pos1 + 10);
@@ -175,7 +175,7 @@ class ilExternalMediaAnalyzer
         return $par;
     }
 
-    public static function getVimeoMetadata(string $vid) : array
+    public static function getVimeoMetadata(string $vid): array
     {
         $json_url = 'https://vimeo.com/api/oembed.json?url=https%3A//vimeo.com/' . $vid;
 
@@ -196,7 +196,7 @@ class ilExternalMediaAnalyzer
         return $r;
     }
 
-    public static function getYoutubeMetadata(string $vid) : array
+    public static function getYoutubeMetadata(string $vid): array
     {
         $json_url = 'https://www.youtube.com/oembed?url=http%3A//youtube.com/watch%3Fv%3D' . $vid . '&format=json';
 
@@ -222,20 +222,20 @@ class ilExternalMediaAnalyzer
      */
     public static function isGoogleDocument(
         string $a_location
-    ) : bool {
+    ): bool {
         if (strpos($a_location, "docs.google") > 0) {
             return true;
         }
         return false;
     }
-    
+
     /**
      * Extract GoogleDocument Parameter
      * @return array<string,string>
      */
     public static function extractGoogleDocumentParameters(
         string $a_location
-    ) : array {
+    ): array {
         $par = array();
         $pos1 = strpos($a_location, "id=");
         $pos2 = strpos($a_location, "&", $pos1 + 3);
@@ -262,7 +262,7 @@ class ilExternalMediaAnalyzer
 
         return $par;
     }
-    
+
     /**
      * Extract URL information to parameter array
      * @return array<string,string>
@@ -270,9 +270,9 @@ class ilExternalMediaAnalyzer
     public static function extractUrlParameters(
         string $a_location,
         array $a_parameter
-    ) : array {
+    ): array {
         $ext_par = array();
-        
+
         // YouTube
         if (ilExternalMediaAnalyzer::isYouTube($a_location)) {
             $ext_par = ilExternalMediaAnalyzer::extractYouTubeParameters($a_location);

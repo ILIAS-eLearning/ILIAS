@@ -280,7 +280,7 @@ var renderer = function($) {
                     .children().first()
                     .children().first();
             if(someting_to_focus_on[0]){
-                if(!someting_to_focus_on.attr('tabindex')) { //cannot focus w/o index
+                if(!someting_to_focus_on.is(":focusable")) { //cannot focus w/o index
                     someting_to_focus_on.attr('tabindex', '-1');
                 }
                 someting_to_focus_on[0].focus();

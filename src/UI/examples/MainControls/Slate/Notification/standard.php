@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\MainControls\Slate\Notification;
 
@@ -74,7 +76,7 @@ function standard()
         $generic_item1_with_aggregates,
         $generic_item2
     ]);
-    
+
     //Add them to the center which is added to the top bar.
     $notification_center = $f->mainControls()->slate()->combined(
         "Notification Center",

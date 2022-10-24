@@ -25,7 +25,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 {
     protected ilTabsGUI $tabs;
     protected array $force_details = [];
-    
+
     public function __construct(ilContainerGUI $container_gui_obj)
     {
         global $DIC;
@@ -40,7 +40,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
     }
 
 
-    protected function getDetailsLevel(int $a_item_id) : int
+    protected function getDetailsLevel(int $a_item_id): int
     {
         if ($this->getContainerGUI()->isActiveAdministrationPanel()) {
             return self::DETAILS_DEACTIVATED;
@@ -55,7 +55,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         return self::DETAILS_TITLE;
     }
 
-    public function getMainContent() : string
+    public function getMainContent(): string
     {
         // see bug #7452
         //		$ilTabs->setSubTabActive($this->getContainerObject()->getType().'_content');
@@ -68,26 +68,26 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         );
 
         $this->showMaterials($tpl);
-            
+
         return $tpl->get();
     }
 
-    private function showMaterials(ilTemplate $a_tpl) : void
+    private function showMaterials(ilTemplate $a_tpl): void
     {
         $lng = $this->lng;
 
         $this->items = $this->getContainerObject()->getSubItems($this->getContainerGUI()->isActiveAdministrationPanel());
         $this->clearAdminCommandsDetermination();
-        
+
         $this->initRenderer();
-        
+
         $output_html = $this->getContainerGUI()->getContainerPageHTML();
-        
+
         // get embedded blocks
         if ($output_html != "") {
             $output_html = $this->insertPageEmbeddedBlocks($output_html);
         }
-        
+
         if (isset($this->items["sess"]) ||
             isset($this->items['sess_link']['prev']['value']) ||
             isset($this->items['sess_link']['next']['value'])) {
@@ -100,12 +100,12 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
             if (isset($this->items['sess_link']['next']['value'])) {
                 $postfix = $this->renderSessionLimitLink(false);
             }
-            
+
             $this->renderer->addTypeBlock("sess", $prefix, $postfix);
             $this->renderer->setBlockPosition("sess", 1);
-            
+
             $position = 1;
-            
+
             foreach ($this->items["sess"] as $item_data) {
                 if (!$this->renderer->hasItem($item_data["child"])) {
                     $html = $this->renderItem($item_data, $position++, true);
@@ -117,19 +117,19 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         }
 
         $pos = $this->getItemGroupsHTML(1);
-        
+
         if (isset($this->items["_all"])) {
             $this->renderer->addCustomBlock("_all", $lng->txt("content"));
             $this->renderer->setBlockPosition("_all", ++$pos);
-                        
+
             $position = 1;
-            
+
             foreach ($this->items["_all"] as $item_data) {
                 // #14599
                 if ($item_data["type"] === "sess" || $item_data["type"] === "itgr") {
                     continue;
                 }
-                
+
                 if (!$this->renderer->hasItem($item_data["child"])) {
                     $html = $this->renderItem($item_data, $position++, true);
                     if ($html != "") {
@@ -140,17 +140,17 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         }
 
         $output_html .= $this->renderer->getHTML();
-        
+
         $a_tpl->setVariable("CONTAINER_PAGE_CONTENT", $output_html);
     }
 
     protected function renderSessionLimitLink(
         bool $a_previous = true
-    ) : string {
+    ): string {
         $lng = $this->lng;
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
-        
+
         $lng->loadLanguageModule('crs');
 
         $tpl = new ilTemplate(
@@ -164,7 +164,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 
         if ($a_previous) {
             $prefp = $ilUser->getPref('crs_sess_show_prev_' . $this->getContainerObject()->getId());
-            
+
             if ($prefp) {
                 $tpl->setVariable('TXT_TITLE_LINKED', $lng->txt('crs_link_hide_prev_sessions'));
             } else {
@@ -187,11 +187,11 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 
         return $tpl->get();
     }
-    
-    
+
+
     public function addFooterRow(
         ilTemplate $tpl
-    ) : void {
+    ): void {
         $ilCtrl = $this->ctrl;
 
         $ilCtrl->setParameterByClass(
@@ -199,13 +199,13 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
             "ref_id",
             $this->request->getRefId()
         );
-        
+
         $tpl->setCurrentBlock('container_details_row');
         $tpl->setVariable('TXT_DETAILS', $this->lng->txt('details'));
         $tpl->parseCurrentBlock();
     }
-    
-    protected function initDetails() : void
+
+    protected function initDetails(): void
     {
         $this->handleSessionExpand();
 
@@ -221,7 +221,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         ilContainer $container,
         bool $admin_panel_enabled = false,
         bool $include_side_block = false
-    ) : array {
+    ): array {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 

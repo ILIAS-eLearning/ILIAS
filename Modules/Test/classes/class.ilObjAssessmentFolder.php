@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -43,7 +45,7 @@ class ilObjAssessmentFolder extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public static function getSkillTriggerAnswerNumberBarrier() : int
+    public static function getSkillTriggerAnswerNumberBarrier(): int
     {
         $assSettings = new ilSetting('assessment');
 
@@ -53,21 +55,21 @@ class ilObjAssessmentFolder extends ilObject
         );
     }
 
-    public function _enableAssessmentLogging(bool $a_enable) : void
+    public function _enableAssessmentLogging(bool $a_enable): void
     {
         $setting = new ilSetting('assessment');
 
         $setting->set('assessment_logging', (string) ((int) $a_enable));
     }
 
-    public function _setLogLanguage(string $a_language) : void
+    public function _setLogLanguage(string $a_language): void
     {
         $setting = new ilSetting('assessment');
 
         $setting->set('assessment_log_language', $a_language);
     }
 
-    public static function _enabledAssessmentLogging() : bool
+    public static function _enabledAssessmentLogging(): bool
     {
         $setting = new ilSetting('assessment');
 
@@ -78,7 +80,7 @@ class ilObjAssessmentFolder extends ilObject
      * Returns the forbidden questiontypes for ILIAS
      * @return int[]
      */
-    public static function _getForbiddenQuestionTypes() : array
+    public static function _getForbiddenQuestionTypes(): array
     {
         $setting = new ilSetting('assessment');
         $types = $setting->get('forbidden_questiontypes', '');
@@ -97,7 +99,7 @@ class ilObjAssessmentFolder extends ilObject
      * Sets the forbidden questiontypes for ILIAS
      * @param int[] $typeIds An array containing the database ID's of the forbidden question types
      */
-    public function _setForbiddenQuestionTypes(array $typeIds) : void
+    public function _setForbiddenQuestionTypes(array $typeIds): void
     {
         $setting = new ilSetting('assessment');
 
@@ -109,7 +111,7 @@ class ilObjAssessmentFolder extends ilObject
         $setting->set('forbidden_questiontypes', $types);
     }
 
-    public static function _getLogLanguage() : string
+    public static function _getLogLanguage(): string
     {
         $setting = new ilSetting('assessment');
 
@@ -125,7 +127,7 @@ class ilObjAssessmentFolder extends ilObject
      * Returns the fact wether manually scoreable
      * question types exist or not
      */
-    public static function _mananuallyScoreableQuestionTypesExists() : bool
+    public static function _mananuallyScoreableQuestionTypesExists(): bool
     {
         return count(self::_getManualScoring()) > 0;
     }
@@ -134,7 +136,7 @@ class ilObjAssessmentFolder extends ilObject
      * Retrieve the manual scoring settings
      * @return int[]
      */
-    public static function _getManualScoring() : array
+    public static function _getManualScoring(): array
     {
         $setting = new ilSetting('assessment');
 
@@ -146,7 +148,7 @@ class ilObjAssessmentFolder extends ilObject
      * Retrieve the manual scoring settings as type strings
      * @return string[]
      */
-    public static function _getManualScoringTypes() : array
+    public static function _getManualScoringTypes(): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -168,7 +170,7 @@ class ilObjAssessmentFolder extends ilObject
      * Set the manual scoring settings
      * @param int[] $type_ids An array containing the database ids of the question types which could be scored manually
      */
-    public function _setManualScoring(array $type_ids) : void
+    public function _setManualScoring(array $type_ids): void
     {
         $setting = new ilSetting('assessment');
         if ($type_ids === []) {
@@ -181,7 +183,7 @@ class ilObjAssessmentFolder extends ilObject
     /**
      * @return int[]
      */
-    public static function getScoringAdjustableQuestions() : array
+    public static function getScoringAdjustableQuestions(): array
     {
         $setting = new ilSetting('assessment');
 
@@ -193,7 +195,7 @@ class ilObjAssessmentFolder extends ilObject
      * @param int[] $type_ids
      * @return void
      */
-    public static function setScoringAdjustableQuestions(array $type_ids) : void
+    public static function setScoringAdjustableQuestions(array $type_ids): void
     {
         $setting = new ilSetting('assessment');
         if ($type_ids === []) {
@@ -203,13 +205,13 @@ class ilObjAssessmentFolder extends ilObject
         }
     }
 
-    public static function getScoringAdjustmentEnabled() : bool
+    public static function getScoringAdjustmentEnabled(): bool
     {
         $setting = new ilSetting('assessment');
         return (bool) $setting->get('assessment_adjustments_enabled', '0');
     }
 
-    public static function setScoringAdjustmentEnabled(bool $active) : void
+    public static function setScoringAdjustmentEnabled(bool $active): void
     {
         $setting = new ilSetting('assessment');
         $setting->set('assessment_adjustments_enabled', (string) ((int) $active));
@@ -233,24 +235,24 @@ class ilObjAssessmentFolder extends ilObject
         $original_id = 0,
         $test_only = false,
         $test_ref_id = 0
-    ) : void {
+    ): void {
         global $DIC;
         $ilUser = $DIC['ilUser'];
         $ilDB = $DIC['ilDB'];
 
-        $question_id = 0;
+        $db_question_id = 0;
         if (is_numeric($question_id)) {
-            $question_id = (int) $question_id;
+            $db_question_id = (int) $question_id;
         }
 
-        $original_id = 0;
+        $db_original_id = 0;
         if (is_numeric($original_id)) {
-            $original_id = (int) $original_id;
+            $db_original_id = (int) $original_id;
         }
 
-        $test_ref_id = 0;
+        $db_test_ref_id = 0;
         if (is_numeric($test_ref_id)) {
-            $test_ref_id = (int) $test_ref_id;
+            $db_test_ref_id = (int) $test_ref_id;
         }
 
         $only = ($test_only === true) ? 1 : 0;
@@ -263,10 +265,10 @@ class ilObjAssessmentFolder extends ilObject
                 $user_id,
                 $object_id,
                 $logtext,
-                $question_id,
-                $original_id,
+                $db_question_id,
+                $db_original_id,
                 $only,
-                $test_ref_id,
+                $db_test_ref_id,
                 time()
             ]
         );
@@ -279,7 +281,7 @@ class ilObjAssessmentFolder extends ilObject
      * @param int $test_id Database id of the ILIAS test object
      * @return array<string, mixed>[] Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
      */
-    public static function getLog(int $ts_from, int $ts_to, int $test_id, bool $test_only = false) : array
+    public static function getLog(int $ts_from, int $ts_to, int $test_id, bool $test_only = false): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -331,7 +333,7 @@ class ilObjAssessmentFolder extends ilObject
      * @param integer $test_id Database id of the ILIAS test object
      * @return array<string, mixed>[] Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
      */
-    public static function _getLog(int $ts_from, int $ts_to, int $test_id, bool $test_only = false) : array
+    public static function _getLog(int $ts_from, int $ts_to, int $test_id, bool $test_only = false): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -385,7 +387,7 @@ class ilObjAssessmentFolder extends ilObject
      * @param int $test_obj_id Database id of the ILIAS test object
      * @return int The number of log entries for the test object
      */
-    public function getNrOfLogEntries(int $test_obj_id) : int
+    public function getNrOfLogEntries(int $test_obj_id): int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -407,7 +409,7 @@ class ilObjAssessmentFolder extends ilObject
      * Deletes the log entries for a given array of test object IDs
      * @param int[] $a_array An array containing the object IDs of the tests
      */
-    public function deleteLogEntries(array $a_array) : void
+    public function deleteLogEntries(array $a_array): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -426,7 +428,7 @@ class ilObjAssessmentFolder extends ilObject
     /**
      * Returns the fact wether content editing with ilias page editor is enabled for questions or not
      */
-    public static function isAdditionalQuestionContentEditingModePageObjectEnabled() : bool
+    public static function isAdditionalQuestionContentEditingModePageObjectEnabled(): bool
     {
         global $DIC;
         $ilSetting = $DIC->settings();
@@ -439,12 +441,12 @@ class ilObjAssessmentFolder extends ilObject
         return (bool) $isPageEditorEnabled;
     }
 
-    public function getAssessmentProcessLockMode() : string
+    public function getAssessmentProcessLockMode(): string
     {
         return $this->setting->get('ass_process_lock_mode', self::ASS_PROC_LOCK_MODE_NONE);
     }
 
-    public function setAssessmentProcessLockMode(string $lockMode) : void
+    public function setAssessmentProcessLockMode(string $lockMode): void
     {
         $this->setting->set('ass_process_lock_mode', $lockMode);
     }
@@ -452,7 +454,7 @@ class ilObjAssessmentFolder extends ilObject
     /**
      * @return string[]
      */
-    public static function getValidAssessmentProcessLockModes() : array
+    public static function getValidAssessmentProcessLockModes(): array
     {
         return [
             self::ASS_PROC_LOCK_MODE_NONE,
@@ -461,7 +463,7 @@ class ilObjAssessmentFolder extends ilObject
         ];
     }
 
-    public function getSkillTriggeringNumAnswersBarrier() : string
+    public function getSkillTriggeringNumAnswersBarrier(): string
     {
         return $this->setting->get(
             'ass_skl_trig_num_answ_barrier',
@@ -469,17 +471,17 @@ class ilObjAssessmentFolder extends ilObject
         );
     }
 
-    public function setSkillTriggeringNumAnswersBarrier(int $skillTriggeringNumAnswersBarrier) : void
+    public function setSkillTriggeringNumAnswersBarrier(int $skillTriggeringNumAnswersBarrier): void
     {
         $this->setting->set('ass_skl_trig_num_answ_barrier', (string) $skillTriggeringNumAnswersBarrier);
     }
 
-    public function setExportEssayQuestionsWithHtml(bool $value) : void
+    public function setExportEssayQuestionsWithHtml(bool $value): void
     {
         $this->setting->set('export_essay_qst_with_html', (string) ((int) $value));
     }
 
-    public function getExportEssayQuestionsWithHtml() : bool
+    public function getExportEssayQuestionsWithHtml(): bool
     {
         return (bool) $this->setting->get('export_essay_qst_with_html', '0');
     }
@@ -489,7 +491,7 @@ class ilObjAssessmentFolder extends ilObject
      * @return array<string, array{question_type_id: int, type_tag: string, plugin: int, plugin_name: string|null}>
      * @throws ilTestQuestionPoolInvalidArgumentException
      */
-    public function fetchScoringAdjustableTypes(array $allQuestionTypes) : array
+    public function fetchScoringAdjustableTypes(array $allQuestionTypes): array
     {
         $scoringAdjustableQuestionTypes = [];
 
@@ -503,8 +505,8 @@ class ilObjAssessmentFolder extends ilObject
 
         return $scoringAdjustableQuestionTypes;
     }
-    
-    private function questionSupportsScoringAdjustment(assQuestionGUI $question_object) : bool
+
+    private function questionSupportsScoringAdjustment(assQuestionGUI $question_object): bool
     {
         return (
             $question_object instanceof ilGuiQuestionScoringAdjustable ||

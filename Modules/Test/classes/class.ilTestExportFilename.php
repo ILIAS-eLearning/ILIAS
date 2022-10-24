@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Component/classes/class.ilPlugin.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
@@ -32,7 +45,7 @@ class ilTestExportFilename
     /**
      * @return int
      */
-    public function getTimestamp() : int
+    public function getTimestamp(): int
     {
         return $this->timestamp;
     }
@@ -43,7 +56,7 @@ class ilTestExportFilename
      * @return string
      * @throws ilException
      */
-    public function getPathname($extension, $additional = '') : string
+    public function getPathname($extension, $additional = ''): string
     {
         if (!is_string($extension) || !strlen($extension)) {
             throw new ilException('Missing file extension! Please pass a file extension of type string.');

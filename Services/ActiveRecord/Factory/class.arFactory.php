@@ -20,12 +20,11 @@
  */
 class arFactory
 {
-
     /**
      * @param   mixed    $primary_key
      * @throws arException
      */
-    public static function getInstance(string $class_name, $primary_key = 0, array $additional_arguments = array()) : \ActiveRecord
+    public static function getInstance(string $class_name, $primary_key = 0, array $additional_arguments = array()): \ActiveRecord
     {
         $ref = new ReflectionClass($class_name);
         if ($ref->isInstantiable()) {

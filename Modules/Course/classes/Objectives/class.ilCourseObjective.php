@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * class ilcourseobjective
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -51,12 +53,12 @@ class ilCourseObjective
         }
     }
 
-    public function getCourse() : ilObject
+    public function getCourse(): ilObject
     {
         return $this->course_obj;
     }
 
-    public static function _lookupContainerIdByObjectiveId(int $a_objective_id) : int
+    public static function _lookupContainerIdByObjectiveId(int $a_objective_id): int
     {
         global $DIC;
 
@@ -70,12 +72,12 @@ class ilCourseObjective
         return 0;
     }
 
-    public static function _getCountObjectives(int $a_obj_id, bool $a_activated_only = false) : int
+    public static function _getCountObjectives(int $a_obj_id, bool $a_activated_only = false): int
     {
         return count(ilCourseObjective::_getObjectiveIds($a_obj_id, $a_activated_only));
     }
 
-    public static function lookupMaxPasses(int $a_objective_id) : int
+    public static function lookupMaxPasses(int $a_objective_id): int
     {
         global $DIC;
 
@@ -110,7 +112,7 @@ class ilCourseObjective
         return "";
     }
 
-    public function ilClone(int $a_target_id, int $a_copy_id) : void
+    public function ilClone(int $a_target_id, int $a_copy_id): void
     {
         $query = "SELECT * FROM crs_objectives " .
             "WHERE crs_id  = " . $this->db->quote($this->course_obj->getId(), 'integer') . ' ' .
@@ -179,69 +181,69 @@ class ilCourseObjective
         $this->logger->debug('Finished copying objectives');
     }
 
-    public function setActive(bool $a_stat) : void
+    public function setActive(bool $a_stat): void
     {
         $this->active = $a_stat;
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return $this->active;
     }
 
-    public function setPasses(int $a_passes) : void
+    public function setPasses(int $a_passes): void
     {
         $this->passes = $a_passes;
     }
 
-    public function getPasses() : int
+    public function getPasses(): int
     {
         return $this->passes;
     }
 
-    public function arePassesLimited() : bool
+    public function arePassesLimited(): bool
     {
         return $this->passes > 0;
     }
 
     // end-patch lok
 
-    public function setTitle(string $a_title) : void
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setDescription(string $a_description) : void
+    public function setDescription(string $a_description): void
     {
         $this->description = $a_description;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function setObjectiveId(int $a_objective_id) : void
+    public function setObjectiveId(int $a_objective_id): void
     {
         $this->objective_id = $a_objective_id;
     }
 
-    public function getObjectiveId() : int
+    public function getObjectiveId(): int
     {
         return $this->objective_id;
     }
 
-    public function setPosition(int $a_pos) : void
+    public function setPosition(int $a_pos): void
     {
         $this->position = $a_pos;
     }
 
-    public function add() : int
+    public function add(): int
     {
         $next_id = $this->db->nextId('crs_objectives');
         $query = "INSERT INTO crs_objectives (crs_id,objective_id,active,title,description,position,created,passes) " .
@@ -262,7 +264,7 @@ class ilCourseObjective
         return $this->objective_id = $next_id;
     }
 
-    public function update() : void
+    public function update(): void
     {
         $query = "UPDATE crs_objectives " .
             "SET title = " . $this->db->quote($this->getTitle(), 'text') . ", " .
@@ -274,7 +276,7 @@ class ilCourseObjective
         $res = $this->db->manipulate($query);
     }
 
-    public function writePosition(int $a_position) : void
+    public function writePosition(int $a_position): void
     {
         $query = "UPDATE crs_objectives " .
             "SET position = " . $this->db->quote((string) $a_position, 'integer') . " " .
@@ -282,12 +284,12 @@ class ilCourseObjective
         $res = $this->db->manipulate($query);
     }
 
-    public function validate() : bool
+    public function validate(): bool
     {
         return (bool) strlen($this->getTitle());
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $tmp_obj_qst = new ilCourseObjectiveQuestion($this->getObjectiveId());
         $tmp_obj_qst->deleteAll();
@@ -304,7 +306,7 @@ class ilCourseObjective
         ilLPStatusWrapper::_refreshStatus($this->course_obj->getId());
     }
 
-    public function moveUp() : void
+    public function moveUp(): void
     {
         if (!$this->getObjectiveId()) {
             return;
@@ -329,7 +331,7 @@ class ilCourseObjective
         $this->__read();
     }
 
-    public function moveDown() : void
+    public function moveDown(): void
     {
         if (!$this->getObjectiveId()) {
             return;
@@ -354,27 +356,27 @@ class ilCourseObjective
         $this->__read();
     }
 
-    public function __setPosition(int $a_position) : void
+    public function __setPosition(int $a_position): void
     {
         $this->position = $a_position;
     }
 
-    public function __getPosition() : int
+    public function __getPosition(): int
     {
         return $this->position;
     }
 
-    public function __setCreated(int $a_created) : void
+    public function __setCreated(int $a_created): void
     {
         $this->created = $a_created;
     }
 
-    public function __getCreated() : int
+    public function __getCreated(): int
     {
         return $this->created;
     }
 
-    public function __read() : void
+    public function __read(): void
     {
         if ($this->getObjectiveId()) {
             $query = "SELECT * FROM crs_objectives " .
@@ -396,7 +398,7 @@ class ilCourseObjective
         }
     }
 
-    public function __getOrderColumn() : string
+    public function __getOrderColumn(): string
     {
         switch ($this->course_obj->getOrderType()) {
             case ilContainer::SORT_MANUAL:
@@ -411,7 +413,7 @@ class ilCourseObjective
         return '';
     }
 
-    public function __updateTop() : void
+    public function __updateTop(): void
     {
         $query = "UPDATE crs_objectives " .
             "SET position = position - 1 " .
@@ -420,7 +422,7 @@ class ilCourseObjective
         $res = $this->db->manipulate($query);
     }
 
-    public function __getLastPosition() : int
+    public function __getLastPosition(): int
     {
         $query = "SELECT MAX(position) pos FROM crs_objectives " .
             "WHERE crs_id = " . $this->db->quote($this->course_obj->getId(), 'integer') . " ";
@@ -432,7 +434,7 @@ class ilCourseObjective
         return 0;
     }
 
-    public static function _getObjectiveIds(int $course_id, bool $a_activated_only = false) : array
+    public static function _getObjectiveIds(int $course_id, bool $a_activated_only = false): array
     {
         global $DIC;
 
@@ -457,7 +459,7 @@ class ilCourseObjective
         return $ids;
     }
 
-    public static function _deleteAll(int $course_id) : void
+    public static function _deleteAll(int $course_id): void
     {
         global $DIC;
 
@@ -488,7 +490,7 @@ class ilCourseObjective
         ilLPStatusWrapper::_refreshStatus($course_id);
     }
 
-    public function toXml(ilXmlWriter $writer) : void
+    public function toXml(ilXmlWriter $writer): void
     {
         $writer->xmlStartTag(
             'Objective',

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input\Container\Filter;
 
 use ILIAS\UI\Component\Input\Container\Filter as F;
@@ -49,7 +51,7 @@ class Factory implements F\Factory
         array $is_input_rendered,
         bool $is_activated = false,
         bool $is_expanded = false
-    ) : F\Standard {
+    ): F\Standard {
         return new Standard(
             $this->signal_generator,
             $this->field_factory,

@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 
@@ -53,7 +55,7 @@ class ilCourseParticipantsGroupsGUI
         $this->ref_id = $a_ref_id;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         if (!$this->access->checkRbacOrPositionPermissionAccess('manage_members', 'manage_members', $this->ref_id)) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->WARNING);
@@ -65,13 +67,13 @@ class ilCourseParticipantsGroupsGUI
         $this->$cmd();
     }
 
-    public function show() : void
+    public function show(): void
     {
         $tbl_gui = new ilCourseParticipantsGroupsTableGUI($this, "show", $this->ref_id);
         $this->tpl->setContent($tbl_gui->getHTML());
     }
 
-    public function applyFilter() : void
+    public function applyFilter(): void
     {
         $tbl_gui = new ilCourseParticipantsGroupsTableGUI($this, "show", $this->ref_id);
         $tbl_gui->resetOffset();
@@ -79,7 +81,7 @@ class ilCourseParticipantsGroupsGUI
         $this->show();
     }
 
-    public function resetFilter() : void
+    public function resetFilter(): void
     {
         $tbl_gui = new ilCourseParticipantsGroupsTableGUI($this, "show", $this->ref_id);
         $tbl_gui->resetOffset();
@@ -87,7 +89,7 @@ class ilCourseParticipantsGroupsGUI
         $this->show();
     }
 
-    public function confirmRemove() : void
+    public function confirmRemove(): void
     {
         $grp_id = 0;
         if ($this->http->wrapper()->query()->has('grp_id')) {
@@ -120,7 +122,7 @@ class ilCourseParticipantsGroupsGUI
         $this->tpl->setContent($confirm->getHTML());
     }
 
-    protected function remove() : void
+    protected function remove(): void
     {
         $grp_id = 0;
         if ($this->http->wrapper()->post()->has('grp_id')) {
@@ -155,7 +157,7 @@ class ilCourseParticipantsGroupsGUI
         $this->ctrl->redirect($this, "show");
     }
 
-    protected function add() : void
+    protected function add(): void
     {
         $grp_id = 0;
         if ($this->http->wrapper()->post()->has('grp_id')) {

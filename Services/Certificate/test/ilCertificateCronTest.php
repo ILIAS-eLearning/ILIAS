@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,7 +23,7 @@
  */
 class ilCertificateCronTest extends ilCertificateBaseTestCase
 {
-    public function testGetTitle() : void
+    public function testGetTitle(): void
     {
         $queueRepository = $this->getMockBuilder(ilCertificateQueueRepository::class)
             ->disableOriginalConstructor()
@@ -82,7 +84,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
         $this->assertSame('SomeTitle', $title);
     }
 
-    public function testGetDescription() : void
+    public function testGetDescription(): void
     {
         $queueRepository = $this->getMockBuilder(ilCertificateQueueRepository::class)
             ->disableOriginalConstructor()
@@ -143,7 +145,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
         $this->assertSame('SomeDescription', $title);
     }
 
-    public function testGetId() : void
+    public function testGetId(): void
     {
         $database = $this->createMock(ilDBInterface::class);
 
@@ -223,7 +225,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
         $this->assertSame('certificate', $id);
     }
 
-    public function testActivation() : void
+    public function testActivation(): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
@@ -305,7 +307,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
         $this->assertTrue($activation);
     }
 
-    public function testFlexibleActivation() : void
+    public function testFlexibleActivation(): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
@@ -387,7 +389,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
         $this->assertTrue($flexibleSchedule);
     }
 
-    public function testGetDefaultScheduleType() : void
+    public function testGetDefaultScheduleType(): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
@@ -469,7 +471,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
         $this->assertSame(2, $flexibleSchedule);
     }
 
-    public function testGetDefaultScheduleValue() : void
+    public function testGetDefaultScheduleValue(): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()

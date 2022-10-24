@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Unit tests
@@ -12,7 +27,7 @@ class assOrderingQuestionTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -35,7 +50,7 @@ class assOrderingQuestionTest extends assBaseTestCase
         $this->setGlobalVariable('ilDB', $this->getDatabaseMock());
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assOrderingQuestion.php';
@@ -46,7 +61,7 @@ class assOrderingQuestionTest extends assBaseTestCase
         $this->assertInstanceOf('assOrderingQuestion', $instance);
     }
 
-    public function testOrderingElementListDefaults() : ilAssOrderingElementList
+    public function testOrderingElementListDefaults(): ilAssOrderingElementList
     {
         $question_id = 7;
         $list = new ilAssOrderingElementList($question_id);
@@ -65,7 +80,7 @@ class assOrderingQuestionTest extends assBaseTestCase
         $this->assertNotEquals($original, $list->withElements([]));
     }
 
-    public function testOrderingElementDefaults() : ilAssOrderingElement
+    public function testOrderingElementDefaults(): ilAssOrderingElement
     {
         $element_id = 12;
         $element = new ilAssOrderingElement($element_id);

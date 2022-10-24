@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Export/classes/class.ilXmlExporter.php';
@@ -13,13 +14,12 @@ include_once './Services/ContainerReference/classes/class.ilContainerReferenceEx
  */
 class ilGroupReferenceExporter extends ilContainerReferenceExporter
 {
-
     /**
      * Init xml writer
      * @param ilContainerReference $ref
      * @return ilContainerReferenceXmlWriter
      */
-    protected function initWriter(ilContainerReference $ref) : ilContainerReferenceXmlWriter
+    protected function initWriter(ilContainerReference $ref): ilContainerReferenceXmlWriter
     {
         include_once './Modules/GroupReference/classes/class.ilGroupReferenceXmlWriter.php';
         return new ilGroupReferenceXmlWriter($ref);

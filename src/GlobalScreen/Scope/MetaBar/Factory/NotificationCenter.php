@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -28,27 +30,26 @@ use ILIAS\UI\Component\Symbol\Symbol;
  */
 class NotificationCenter extends AbstractBaseItem implements hasSymbol
 {
-    
     /**
      * Amount of notifications already consulted by the user (will spawn
      * status counters)
      * @var int
      */
     private int $amount_of_old_notifications = 0;
-    
+
     /**
      * Amount of notifications not yet consulted by the user (will spawn
      * novelty counters)
      * @var int
      */
     private int $amount_of_new_notifications = 0;
-    
+
     /**
      * Set of notifications in the center.
      * @var isNotificationItem[]
      */
     private array $notifications = [];
-    
+
     /**
      * @inheritDoc
      */
@@ -57,49 +58,49 @@ class NotificationCenter extends AbstractBaseItem implements hasSymbol
         parent::__construct($provider_identification);
         $this->renderer = new NotificationCenterRenderer();
     }
-    
+
     /**
      * @param isNotificationItem[] $notifications
      */
-    public function withNotifications(array $notifications) : self
+    public function withNotifications(array $notifications): self
     {
         $clone = clone($this);
         $clone->notifications = $notifications;
-        
+
         return $clone;
     }
-    
+
     /**
      * @return isNotificationItem[]
      */
-    public function getNotifications() : array
+    public function getNotifications(): array
     {
         return $this->notifications;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function withSymbol(Symbol $symbol) : hasSymbol
+    public function withSymbol(Symbol $symbol): hasSymbol
     {
         return $this;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function hasSymbol() : bool
+    public function hasSymbol(): bool
     {
         return true;
     }
-    
+
     /**
      * @return Symbol
      */
-    public function getSymbol() : Symbol
+    public function getSymbol(): Symbol
     {
         global $DIC;
-        
+
         $f = $DIC->ui()->factory();
         $new = $this->getAmountOfNewNotifications();
         $old = $this->getAmountOfOldNotifications() - $new;
@@ -109,51 +110,51 @@ class NotificationCenter extends AbstractBaseItem implements hasSymbol
         }
         return $glyph;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getPosition() : int
+    public function getPosition(): int
     {
         return 1;
     }
-    
+
     /**
      * Get a Center like this, but with a given amount of old notifications
      */
-    public function withAmountOfOldNotifications(int $amount) : self
+    public function withAmountOfOldNotifications(int $amount): self
     {
         $clone = clone($this);
         $clone->amount_of_old_notifications = $amount;
-        
+
         return $clone;
     }
-    
+
     /**
      * Get the amount of old notifications
      * @return int
      */
-    public function getAmountOfOldNotifications() : int
+    public function getAmountOfOldNotifications(): int
     {
         return $this->amount_of_old_notifications;
     }
-    
+
     /**
      * Get a Center like this, but with a given amount of new notifications
      */
-    public function withAmountOfNewNotifications(int $amount) : self
+    public function withAmountOfNewNotifications(int $amount): self
     {
         $clone = clone($this);
         $clone->amount_of_new_notifications = $amount;
-        
+
         return $clone;
     }
-    
+
     /**
      * Get the amount of new notifications
      * @return int
      */
-    public function getAmountOfNewNotifications() : int
+    public function getAmountOfNewNotifications(): int
     {
         return $this->amount_of_new_notifications;
     }

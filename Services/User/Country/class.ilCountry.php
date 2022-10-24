@@ -26,7 +26,7 @@ class ilCountry
      * Get country codes (DIN EN 3166-1)
      * @return string[] array of country codes
      */
-    public static function getCountryCodes() : array
+    public static function getCountryCodes(): array
     {
         $cntcodes = array(
             "AD", "AE", "AF", "AG", "AI", "AL", "AM", "AN",

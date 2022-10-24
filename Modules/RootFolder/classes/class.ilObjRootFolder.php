@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,13 +33,13 @@ class ilObjRootFolder extends ilContainer
     /**
      * @throws ilException
      */
-    public function delete() : bool
+    public function delete(): bool
     {
         $message = get_class($this) . "::delete(): Can't delete root folder!";
         throw new ilException($message);
     }
 
-    public function getTranslations() : array
+    public function getTranslations(): array
     {
         global $ilDB;
 
@@ -64,7 +66,7 @@ class ilObjRootFolder extends ilContainer
     }
 
     // remove translations of current category
-    public function deleteTranslation(string $a_lang) : void
+    public function deleteTranslation(string $a_lang): void
     {
         global $ilDB;
 
@@ -75,7 +77,7 @@ class ilObjRootFolder extends ilContainer
     }
 
     // remove all Translations of current category
-    public function removeTranslations() : void
+    public function removeTranslations(): void
     {
         global $ilDB;
 
@@ -85,7 +87,7 @@ class ilObjRootFolder extends ilContainer
     }
 
     // add a new translation to current category
-    public function addTranslation(string $a_title, string $a_desc, string $a_lang, string $a_lang_default) : void
+    public function addTranslation(string $a_title, string $a_desc, string $a_lang, string $a_lang_default): void
     {
         global $ilDB;
 
@@ -103,8 +105,8 @@ class ilObjRootFolder extends ilContainer
              $ilDB->quote($a_lang_default, 'integer') . ")";
         $ilDB->manipulate($query);
     }
-    
-    public function addAdditionalSubItemInformation(array &$object) : void
+
+    public function addAdditionalSubItemInformation(array &$object): void
     {
         ilObjectActivation::addAdditionalSubItemInformation($object);
     }

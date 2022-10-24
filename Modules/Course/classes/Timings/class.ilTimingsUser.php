@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Handle user timings
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -48,7 +50,7 @@ class ilTimingsUser
         $this->container_ref_id = end($refs);
     }
 
-    public static function getInstanceByContainerId(int $a_container_obj_id) : self
+    public static function getInstanceByContainerId(int $a_container_obj_id): self
     {
         if (array_key_exists($a_container_obj_id, self::$instances)) {
             return self::$instances[$a_container_obj_id];
@@ -56,22 +58,22 @@ class ilTimingsUser
         return self::$instances[$a_container_obj_id] = new self($a_container_obj_id);
     }
 
-    public function getContainerObjId() : int
+    public function getContainerObjId(): int
     {
         return $this->container_obj_id;
     }
 
-    public function getContainerRefId() : int
+    public function getContainerRefId(): int
     {
         return $this->container_ref_id;
     }
 
-    public function getItemIds() : array
+    public function getItemIds(): array
     {
         return $this->item_ids;
     }
 
-    public function init() : void
+    public function init(): void
     {
         if ($this->initialized) {
             return;
@@ -81,7 +83,7 @@ class ilTimingsUser
         $this->initialized = true;
     }
 
-    public function handleNewMembership(int $a_usr_id, ilDateTime $sub_date) : void
+    public function handleNewMembership(int $a_usr_id, ilDateTime $sub_date): void
     {
         foreach ($this->getItemIds() as $item_ref_id) {
             $item = ilObjectActivation::getItem($item_ref_id);
@@ -100,7 +102,7 @@ class ilTimingsUser
         }
     }
 
-    public function handleUnsubscribe(int $a_usr_id) : void
+    public function handleUnsubscribe(int $a_usr_id): void
     {
         $query = 'DELETE FROM crs_timings_user WHERE ' . $this->db->in(
             'ref_id',
@@ -116,7 +118,7 @@ class ilTimingsUser
      * Check if users currently exceeded ANY object
      * @param int[] $a_user_ids
      */
-    public static function lookupTimingsExceededByUser(array $a_user_ids) : array
+    public static function lookupTimingsExceededByUser(array $a_user_ids): array
     {
         $res = array();
 
@@ -134,7 +136,7 @@ class ilTimingsUser
      *
      * @param int[]  $a_user_ids
      */
-    public static function lookupTimings(array $a_user_ids, array &$a_meta = null, bool $a_only_exceeded = true) : array
+    public static function lookupTimings(array $a_user_ids, array &$a_meta = null, bool $a_only_exceeded = true): array
     {
         global $DIC;
 
@@ -311,7 +313,7 @@ class ilTimingsUser
      * Check object LP modes
      * @param int[]  $a_ref_ids
      */
-    public static function getObjectsWithInactiveLP(array $a_ref_ids, array &$a_obj_map = null) : array
+    public static function getObjectsWithInactiveLP(array $a_ref_ids, array &$a_obj_map = null): array
     {
         global $DIC;
 

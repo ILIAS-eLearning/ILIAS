@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,7 +28,7 @@ class StringTransformationTest extends TestCase
 {
     private StringTransformation $transformation;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->transformation = new StringTransformation();
     }
@@ -36,16 +38,16 @@ class StringTransformationTest extends TestCase
      * @param mixed $originVal
      * @param string $expectedVal
      */
-    public function testStringTransformation($originVal, string $expectedVal) : void
+    public function testStringTransformation($originVal, string $expectedVal): void
     {
         $transformedValue = $this->transformation->transform($originVal);
         $this->assertIsString($transformedValue);
         $this->assertEquals($expectedVal, $transformedValue);
     }
 
-    public function StringTestDataProvider() : array
+    public function StringTestDataProvider(): array
     {
-        $obj = new class extends stdClass {
+        $obj = new class () extends stdClass {
             public function __toString()
             {
                 return 'an object';

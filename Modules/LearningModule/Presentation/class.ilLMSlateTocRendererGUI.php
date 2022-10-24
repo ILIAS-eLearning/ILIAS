@@ -34,7 +34,7 @@ class ilLMSlateTocRendererGUI
         $this->service = $service;
     }
 
-    public function render() : string
+    public function render(): string
     {
         $fac = new ilLMTOCExplorerGUIFactory();
 
@@ -46,7 +46,7 @@ class ilLMSlateTocRendererGUI
     /**
      * Render into ls toc
      */
-    public function renderLSToc(\LSTOCBuilder $toc) : void
+    public function renderLSToc(\LSTOCBuilder $toc): void
     {
         $fac = new ilLMTOCExplorerGUIFactory();
         $exp = $fac->getExplorer($this->service, "ilTOC");

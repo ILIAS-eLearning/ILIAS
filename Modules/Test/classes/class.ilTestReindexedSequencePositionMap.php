@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,13 +27,13 @@ class ilTestReindexedSequencePositionMap
 {
     /** @var array<int, int> */
     private array $sequencePositionMap = [];
-    
-    public function addPositionMapping(int $oldSequencePosition, int $newSequencePosition) : void
+
+    public function addPositionMapping(int $oldSequencePosition, int $newSequencePosition): void
     {
         $this->sequencePositionMap[$oldSequencePosition] = $newSequencePosition;
     }
-    
-    public function getNewSequencePosition(int $oldSequencePosition) : ?int
+
+    public function getNewSequencePosition(int $oldSequencePosition): ?int
     {
         return $this->sequencePositionMap[$oldSequencePosition] ?? null;
     }

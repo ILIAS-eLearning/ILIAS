@@ -1,0 +1,37 @@
+<iframe id="lti_dyn_reg_iframe" name="lti_dyn_reg_iframe" src="{LTI_DYN_REG_URL}" width="0" height="0" style="visibility: hidden"></iframe>
+<script>
+  let toolRegUrl = "{LTI_TOOL_REG_URL}";
+  let regEndUrl = "{LTI_REG_END_URL}";
+  let toolConfigUrl = "{LTI_SHOW_TOOL_CONFIG_URL}";
+  let errorUrl = "{LTI_REG_ERROR_URL}";
+  let origin = new URL(toolRegUrl).origin;
+  window.addEventListener('message', e => {
+    if (origin === e.origin) {
+      if (e.data.subject && e.data.subject === 'org.imsglobal.lti.close') {
+        console.log('lti tool adding succeeded');
+        fetch(regEndUrl)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error !== '') {
+            console.error('Error:', data.error);
+            location.assign(errorUrl+"&new_type=lti&error="+btoa(data.error));
+          } else {
+            console.log('toolConfigUrl: '+toolConfigUrl);
+            location.assign(toolConfigUrl+"&new_type=lti&provider_id="+data.providerId);
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          location.assign(errorUrl+"&new_type=lti&error="+btoa(error));
+        });
+      } else {
+        console.log('Tool Message:', e.data);
+        location.assign(errorUrl+"&new_type=lti&error="+btoa(e.data));
+        // ToDo: wait for xx seconds and redirect to GUI
+      }
+    }
+  }, false);
+  window.setTimeout(function() {
+    location.assign(errorUrl+"&new_type=lti&error="+btoa('timeout'));
+  },10000);
+</script>

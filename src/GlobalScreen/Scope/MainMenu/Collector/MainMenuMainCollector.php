@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -75,12 +77,12 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     /**
      * @return Iterator <\ILIAS\GlobalScreen\Provider\Provider[]>
      */
-    private function getProvidersFromList() : Iterator
+    private function getProvidersFromList(): Iterator
     {
         yield from $this->providers;
     }
 
-    public function collectStructure() : void
+    public function collectStructure(): void
     {
         foreach ($this->getProvidersFromList() as $provider) {
             $this->type_information_collection->append($provider->provideTypeInformation());
@@ -89,10 +91,10 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
         }
     }
 
-    public function filterItemsByVisibilty(bool $async_only = false) : void
+    public function filterItemsByVisibilty(bool $async_only = false): void
     {
         // apply filter
-        $this->map->filter(function (isItem $item) use ($async_only) : bool {
+        $this->map->filter(function (isItem $item) use ($async_only): bool {
             if ($async_only && !$item instanceof supportsAsynchronousLoading) {
                 return false;
             }
@@ -118,9 +120,9 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
         });
     }
 
-    public function prepareItemsForUIRepresentation() : void
+    public function prepareItemsForUIRepresentation(): void
     {
-        $this->map->walk(function (isItem &$item) : isItem {
+        $this->map->walk(function (isItem &$item): isItem {
             if (is_null($item->getTypeInformation())) {
                 $item->setTypeInformation(
                     $this->getTypeInformationForItem($item)
@@ -157,10 +159,10 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
         });
     }
 
-    public function cleanupItemsForUIRepresentation() : void
+    public function cleanupItemsForUIRepresentation(): void
     {
         // Remove not visible children
-        $this->map->walk(function (isItem &$item) : isItem {
+        $this->map->walk(function (isItem &$item): isItem {
             if ($item instanceof isParent) {
                 foreach ($item->getChildren() as $child) {
                     if (!$this->map->existsInFilter($child->getProviderIdentification())) {
@@ -171,7 +173,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             return $item;
         });
 
-        $this->map->walk(static function (isItem &$i) : void {
+        $this->map->walk(static function (isItem &$i): void {
             if ($i instanceof isParent && count($i->getChildren()) === 0) {
                 $i = $i->withAvailableCallable(static function () {
                     return false;
@@ -182,7 +184,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
         });
 
         // filter empty slates
-        $this->map->filter(static function (isItem $i) : bool {
+        $this->map->filter(static function (isItem $i): bool {
             if ($i instanceof isParent) {
                 return count($i->getChildren()) > 0;
             }
@@ -191,7 +193,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
         });
     }
 
-    public function sortItemsForUIRepresentation() : void
+    public function sortItemsForUIRepresentation(): void
     {
         $this->map->sort();
     }
@@ -202,7 +204,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
      * visibility of the currently user.
      * @return Generator|isTopItem[]|isInterchangeableItem[]
      */
-    public function getItemsForUIRepresentation() : Generator
+    public function getItemsForUIRepresentation(): Generator
     {
         foreach ($this->map->getAllFromFilter() as $item) {
             if ($item->isTop()) {
@@ -214,18 +216,26 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     /**
      * @return Iterator <Generator&isItem[]>
      */
-    public function getRawItems() : Iterator
+    public function getRawItems(): Iterator
     {
         yield from $this->map->getAllFromFilter();
     }
 
+    /**
+     * @return Iterator <Generator&isItem[]>
+     */
+    public function getRawUnfilteredItems(): Iterator
+    {
+        yield from $this->map->getAllFromRaw();
+    }
 
-    public function hasItems() : bool
+
+    public function hasItems(): bool
     {
         return $this->map->has();
     }
 
-    public function hasVisibleItems() : bool
+    public function hasVisibleItems(): bool
     {
         if (!$this->hasItems()) {
             return false;
@@ -241,7 +251,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
      * @return isItem
      * @deprecated
      */
-    public function getSingleItemFromFilter(IdentificationInterface $identification) : isItem
+    public function getSingleItemFromFilter(IdentificationInterface $identification): isItem
     {
         return $this->map->getSingleItemFromFilter($identification);
     }
@@ -251,7 +261,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
      * @return isItem
      * @deprecated
      */
-    public function getSingleItemFromRaw(IdentificationInterface $identification) : isItem
+    public function getSingleItemFromRaw(IdentificationInterface $identification): isItem
     {
         return $this->map->getSingleItemFromRaw($identification);
     }
@@ -260,7 +270,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
      * @param isItem $item
      * @return TypeHandler
      */
-    public function getTypeHandlerForItem(isItem $item) : TypeHandler
+    public function getTypeHandlerForItem(isItem $item): TypeHandler
     {
         $type_information = $this->getTypeInformationForItem($item);
         if ($type_information === null) {
@@ -273,7 +283,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     /**
      * @param isItem $item
      */
-    public function getItemInformation() : ?ItemInformation
+    public function getItemInformation(): ?ItemInformation
     {
         return $this->information;
     }
@@ -282,7 +292,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
      * @param isItem $item
      * @return TypeInformation
      */
-    public function getTypeInformationForItem(isItem $item) : TypeInformation
+    public function getTypeInformationForItem(isItem $item): TypeInformation
     {
         return $this->getTypeInformationCollection()->get(get_class($item));
     }
@@ -290,7 +300,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     /**
      * @return TypeInformationCollection
      */
-    public function getTypeInformationCollection() : TypeInformationCollection
+    public function getTypeInformationCollection(): TypeInformationCollection
     {
         return $this->type_information_collection;
     }

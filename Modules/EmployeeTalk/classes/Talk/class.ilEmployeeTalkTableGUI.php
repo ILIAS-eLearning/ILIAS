@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -23,10 +24,10 @@ use ILIAS\DI\UIServices;
 
 final class ilEmployeeTalkTableGUI extends ilTable2GUI
 {
-    const STATUS_ALL = 0;
-    const STATUS_PENDING = 1;
-    const STATUS_COMPLETED = 2;
-    
+    public const STATUS_ALL = 0;
+    public const STATUS_PENDING = 1;
+    public const STATUS_COMPLETED = 2;
+
     private ilLanguage $language;
     private ilObjUser $currentUser;
     private UIServices $ui;

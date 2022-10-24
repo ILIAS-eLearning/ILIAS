@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Team wiki type gui implementations
  *
@@ -66,7 +66,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     /**
      * Execute command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -84,15 +84,16 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function addEditFormCustomProperties(ilPropertyFormGUI $form) : void
+    public function addEditFormCustomProperties(ilPropertyFormGUI $form): void
     {
         $lng = $this->lng;
 
         // template
         $rd_template = new ilRadioGroupInputGUI($lng->txt("exc_template"), "template");
         $rd_template->setRequired(true);
-        $radio_no_template = new ilRadioOption($lng->txt("exc_without_wiki_template"), 0, $lng->txt("exc_without_wiki_template_info"));
-        $radio_with_template = new ilRadioOption($lng->txt("exc_with_wiki_template"), 1, $lng->txt("exc_with_wiki_template_info"));
+        $rd_template->setValue("0");
+        $radio_no_template = new ilRadioOption($lng->txt("exc_without_wiki_template"), "0", $lng->txt("exc_without_wiki_template_info"));
+        $radio_with_template = new ilRadioOption($lng->txt("exc_with_wiki_template"), "1", $lng->txt("exc_with_wiki_template_info"));
 
         $repo = new ilRepositorySelector2InputGUI($lng->txt("wiki_exc_template"), "template_ref_id");
         $repo->setRequired(true);
@@ -116,7 +117,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form) : void
+    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form): void
     {
         $ar = new ilExAssWikiTeamAR();
         $ar->setId($ass->getId());
@@ -131,22 +132,23 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function getFormValuesArray(ilExAssignment $ass) : array
+    public function getFormValuesArray(ilExAssignment $ass): array
     {
         $values = [];
 
         $ar = new ilExAssWikiTeamAR($ass->getId());
 
+        $values["template"] = "0";
         if ($ar->getTemplateRefId() > 0) {
             $values["template_ref_id"] = $ar->getTemplateRefId();
-            $values["template"] = 1;
+            $values["template"] = "1";
         }
         $values["container_ref_id"] = $ar->getContainerRefId();
 
         return $values;
     }
 
-    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission) : void
+    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission): void
     {
         $this->ctrl->getHTML($this, array("mode" => self::MODE_OVERVIEW, "info" => $a_info, "submission" => $a_submission));
     }
@@ -156,7 +158,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
      *
      * @param array $par parameter
      */
-    public function getHTML(array $par) : string
+    public function getHTML(array $par): string
     {
         switch ($par["mode"]) {
             case self::MODE_OVERVIEW:
@@ -169,7 +171,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     /**
      * Render overview content
      */
-    protected function renderOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission) : void
+    protected function renderOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission): void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -199,7 +201,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
             // remove invalid resource if no upload yet (see download below)
             elseif (substr($selected_wiki["filename"], -1) == "/") {
                 // #16887
-                $a_submission->deleteResourceObject($selected_wiki["returned_id"]);
+                $a_submission->deleteResourceObject();
             }
         }
         if ($a_submission->canSubmit()) {
@@ -231,7 +233,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     /**
      * Create wiki for assignment
      */
-    protected function createWiki() : void
+    protected function createWiki(): void
     {
         $access = $this->access;
         $lng = $this->lng;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,7 +25,7 @@ class ilPDFGeneratorUtils
      * This function should be called as in a request before any content is generated
      * It sets the generation mode for Latex processing according the needs of the PDF renderer
      */
-    public static function prepareGenerationRequest(string $service, string $purpose) : void
+    public static function prepareGenerationRequest(string $service, string $purpose): void
     {
         try {
             $map = self::getRendererMapForPurpose($service, $purpose);
@@ -34,7 +36,7 @@ class ilPDFGeneratorUtils
         }
     }
 
-    public static function getTestPdfDir() : string
+    public static function getTestPdfDir(): string
     {
         $iliasPDFTestPath = 'data/' . CLIENT_ID . '/pdf_service/';
         if (!is_dir($iliasPDFTestPath) && !mkdir($iliasPDFTestPath) && !is_dir($iliasPDFTestPath)) {
@@ -44,7 +46,7 @@ class ilPDFGeneratorUtils
         return $iliasPDFTestPath;
     }
 
-    public static function removePrintMediaDefinitionsFromStyleFile(string $path) : void
+    public static function removePrintMediaDefinitionsFromStyleFile(string $path): void
     {
         foreach (glob($path . '*.css') as $filename) {
             $content = file_get_contents($filename);
@@ -53,7 +55,7 @@ class ilPDFGeneratorUtils
         }
     }
 
-    public static function removeWrongPathFromStyleFiles(string $path) : void
+    public static function removeWrongPathFromStyleFiles(string $path): void
     {
         foreach (glob($path . '*.css') as $filename) {
             $content = file_get_contents($filename);
@@ -65,7 +67,7 @@ class ilPDFGeneratorUtils
     /**
      * @param ilPropertyFormGUI $form
      */
-    public static function setCheckedIfTrue(ilPropertyFormGUI $form) : void
+    public static function setCheckedIfTrue(ilPropertyFormGUI $form): void
     {
         foreach ($form->getItems() as $item) {
             if ($item instanceof ilCheckboxInputGUI) {
@@ -79,7 +81,7 @@ class ilPDFGeneratorUtils
     /**
      * @return array<string, string[]>
      */
-    public static function getPurposeMap() : array
+    public static function getPurposeMap(): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -98,7 +100,7 @@ class ilPDFGeneratorUtils
     /**
      * @return array<string, array<string, array{selected: string, preferred: string}>>
      */
-    public static function getSelectionMap() : array
+    public static function getSelectionMap(): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -117,7 +119,7 @@ class ilPDFGeneratorUtils
     /**
      * @return array<string, array<string, string[]>>
      */
-    public static function getRenderers() : array
+    public static function getRenderers(): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -132,7 +134,7 @@ class ilPDFGeneratorUtils
         return $renderers;
     }
 
-    public static function updateRendererSelection(string $service, string $purpose, string $renderer) : void
+    public static function updateRendererSelection(string $service, string $purpose, string $renderer): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -174,7 +176,7 @@ class ilPDFGeneratorUtils
         return $class_instance->getDefaultConfig($service, $purpose);
     }
 
-    public static function removeRendererConfig(string $service, string $purpose, string $renderer) : void
+    public static function removeRendererConfig(string $service, string $purpose, string $renderer): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -210,14 +212,14 @@ class ilPDFGeneratorUtils
         return new $classname();
     }
 
-    protected static function isRendererPlugin(string $path) : bool
+    protected static function isRendererPlugin(string $path): bool
     {
         $needle = 'Plugin.php';
         $length = strlen($needle);
         return (substr($path, -$length) === $needle);
     }
 
-    public static function saveRendererPurposeConfig(string $service, string $purpose, string $renderer, array $config) : void
+    public static function saveRendererPurposeConfig(string $service, string $purpose, string $renderer, array $config): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -244,7 +246,7 @@ class ilPDFGeneratorUtils
      * @param string $purpose
      * @return array{selected: string, preferred: string}
      */
-    public static function getRendererMapForPurpose(string $service, string $purpose) : array
+    public static function getRendererMapForPurpose(string $service, string $purpose): array
     {
         global $DIC;
         $ilDB = $DIC->database();

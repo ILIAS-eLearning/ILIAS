@@ -1,6 +1,20 @@
 <?php
 
-include_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/ilAssLacCompositeInterface.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class AbstractComposite
@@ -11,7 +25,6 @@ include_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/il
  */
 abstract class ilAssLacAbstractComposite implements ilAssLacCompositeInterface
 {
-
     /**
      * @var ilAssLacAbstractComposite[]
      */
@@ -22,7 +35,7 @@ abstract class ilAssLacAbstractComposite implements ilAssLacCompositeInterface
      *
      * @param ilAssLacCompositeInterface $node
      */
-    public function addNode(ilAssLacCompositeInterface $node) : void
+    public function addNode(ilAssLacCompositeInterface $node): void
     {
         $this->nodes[] = $node;
     }
@@ -31,7 +44,7 @@ abstract class ilAssLacAbstractComposite implements ilAssLacCompositeInterface
      * Describes a Composite tree Structure as human readable string
      * @return string
      */
-    public function describe() : string
+    public function describe(): string
     {
         $description = "";
         if (\count($this->nodes) > 0) {

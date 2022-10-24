@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Render;
 
 use ILIAS\UI\Component\Component;
@@ -58,7 +60,7 @@ class FSLoader implements Loader
     /**
      * @inheritdocs
      */
-    public function getRendererFor(Component $component, array $contexts) : ComponentRenderer
+    public function getRendererFor(Component $component, array $contexts): ComponentRenderer
     {
         $context_names = $this->getContextNames($contexts);
         $factory = $this->getRendererFactoryFor($component);
@@ -68,7 +70,7 @@ class FSLoader implements Loader
     /**
      * @inheritdocs
      */
-    public function getRendererFactoryFor(Component $component) : RendererFactory
+    public function getRendererFactoryFor(Component $component): RendererFactory
     {
         if ($component instanceof Glyph) {
             return $this->glyph_renderer_factory;

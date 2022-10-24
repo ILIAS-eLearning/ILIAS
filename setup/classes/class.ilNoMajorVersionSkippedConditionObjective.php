@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class ilNoMajorVersionSkippedConditionObjective implements Setup\Objective
         $this->data_factory = $data_factory;
     }
 
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash(
             "sha256",
@@ -36,24 +38,24 @@ class ilNoMajorVersionSkippedConditionObjective implements Setup\Objective
         );
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "No major version is skipped in update.";
     }
 
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
 
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         return [
             new ilSettingsFactoryExistsObjective()
         ];
     }
 
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
         $settings = $factory->settingsFor("common");
@@ -80,7 +82,7 @@ class ilNoMajorVersionSkippedConditionObjective implements Setup\Objective
         return $environment;
     }
 
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         return true;
     }

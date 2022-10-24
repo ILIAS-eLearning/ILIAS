@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Crawler\Entry;
 
 use ILIAS\UI\Implementation\Crawler as Crawler;
@@ -34,7 +36,7 @@ class AbstractEntryPart
         $this->f = new Crawler\Exception\Factory();
     }
 
-    protected function assert() : Crawler\Exception\CrawlerAssertion
+    protected function assert(): Crawler\Exception\CrawlerAssertion
     {
         return $this->f->assertion();
     }

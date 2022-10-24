@@ -22,7 +22,7 @@ class ilPluginStateDBOverIlDBInterfaceTest extends TestCase
         ]
     ];
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->il_db = $this->createMock(\ilDBInterface::class);
         $this->data_factory = new Data\Factory();
@@ -32,7 +32,7 @@ class ilPluginStateDBOverIlDBInterfaceTest extends TestCase
         );
     }
 
-    public function testIsPluginActivated() : void
+    public function testIsPluginActivated(): void
     {
         $handle = $this->createMock(\ilDBStatement::class);
 
@@ -50,7 +50,7 @@ class ilPluginStateDBOverIlDBInterfaceTest extends TestCase
         $this->assertFalse($this->db->isPluginActivated("plg3"));
     }
 
-    public function testGetCurrentPluginVersion() : void
+    public function testGetCurrentPluginVersion(): void
     {
         $handle = $this->createMock(\ilDBStatement::class);
 
@@ -68,7 +68,7 @@ class ilPluginStateDBOverIlDBInterfaceTest extends TestCase
         $this->assertEquals(null, $this->db->getCurrentPluginVersion("plg3"));
     }
 
-    public function testGetCurrentPluginDBVersion() : void
+    public function testGetCurrentPluginDBVersion(): void
     {
         $handle = $this->createMock(\ilDBStatement::class);
 
@@ -86,7 +86,7 @@ class ilPluginStateDBOverIlDBInterfaceTest extends TestCase
         $this->assertEquals(null, $this->db->getCurrentPluginVersion("plg3"));
     }
 
-    public function testSetCurrentPluginVersionKnownPlugin() : void
+    public function testSetCurrentPluginVersionKnownPlugin(): void
     {
         $handle = $this->createMock(\ilDBStatement::class);
 
@@ -119,7 +119,7 @@ class ilPluginStateDBOverIlDBInterfaceTest extends TestCase
         $this->db->setCurrentPluginVersion($PLUGIN_ID, $VERSION, $DB_VERSION);
     }
 
-    public function testSetCurrentPluginVersionUnknownPlugin() : void
+    public function testSetCurrentPluginVersionUnknownPlugin(): void
     {
         $handle = $this->createMock(\ilDBStatement::class);
 
@@ -151,13 +151,13 @@ class ilPluginStateDBOverIlDBInterfaceTest extends TestCase
         $this->db->setCurrentPluginVersion($PLUGIN_ID, $VERSION, $DB_VERSION);
     }
 
-    public function testSetActivationNotExistingPlugin() : void
+    public function testSetActivationNotExistingPlugin(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->db->setActivation("SOME_ID", true);
     }
 
-    public function testSetActivationTrue() : void
+    public function testSetActivationTrue(): void
     {
         $handle = $this->createMock(\ilDBStatement::class);
 
@@ -187,7 +187,7 @@ class ilPluginStateDBOverIlDBInterfaceTest extends TestCase
         $this->db->setActivation($PLUGIN_ID, true);
     }
 
-    public function testSetActivationFalse() : void
+    public function testSetActivationFalse(): void
     {
         $handle = $this->createMock(\ilDBStatement::class);
 
@@ -218,7 +218,7 @@ class ilPluginStateDBOverIlDBInterfaceTest extends TestCase
     }
 
 
-    public function testRemove() : void
+    public function testRemove(): void
     {
         $PLUGIN_ID = "plg1";
 

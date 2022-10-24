@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,6 +20,7 @@
 
     // hardcoded namespace
     // attention: maybe a problem with composer v2 / psr4 autoload  requires exact matching of namespace and parent folder name?
+
     namespace XapiProxy;
 
     // hardcoded context for better performance
@@ -58,7 +61,7 @@
     /**
      * handle path context
      */
-    
+
     if ($plugin) {
         /**
          *
@@ -70,9 +73,10 @@
     } else {
         chdir("../../");
     }
+    require_once("Services/Init/classes/class.ilInitialisation.php");
     DataService::initIlias($client);
     $dic = $GLOBALS['DIC'];
-    
+
     $xapiproxy = new XapiProxy($client, $token, $plugin);
 
     /**
@@ -85,7 +89,7 @@
     }
     $req = new XapiProxyRequest($xapiproxy);
     $resp = new XapiProxyResponse($xapiproxy);
-    
+
     $xapiproxy->setXapiProxyRequest($req);
     $xapiproxy->setXapiProxyResponse($resp);
 

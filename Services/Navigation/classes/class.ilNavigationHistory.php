@@ -57,7 +57,7 @@ class ilNavigationHistory
         string $a_title = "",
         ?int $a_sub_obj_id = null,
         string $a_goto_link = ""
-    ) : void {
+    ): void {
         $ilUser = $this->user;
         $ilDB = $this->db;
 
@@ -65,9 +65,9 @@ class ilNavigationHistory
         if ((int) ($ilUser->prefs["store_last_visited"] ?? 0) == 2) {
             return;
         }
-        
+
         $a_sub_obj_id = (string) $a_sub_obj_id;
-        
+
         if ($a_title === "" && $a_ref_id > 0) {
             $obj_id = ilObject::_lookupObjId($a_ref_id);
             if (ilObject::_exists($obj_id)) {
@@ -79,7 +79,7 @@ class ilNavigationHistory
 
         $new_items[$id] = array("id" => $id,"ref_id" => $a_ref_id, "link" => $a_link, "title" => $a_title,
             "type" => $a_type, "sub_obj_id" => $a_sub_obj_id, "goto_link" => $a_goto_link);
-        
+
         $cnt = 1;
         foreach ($this->items as $key => $item) {
             if ($item["id"] != $id && $cnt <= 10) {
@@ -87,7 +87,7 @@ class ilNavigationHistory
                 $cnt++;
             }
         }
-        
+
         // put items in session
         $this->items = $new_items;
 
@@ -108,20 +108,20 @@ class ilNavigationHistory
                 "usr_id" => array("integer", $ilUser->getId()))
         );
     }
-    
+
     /**
      * Get navigation item stack.
      */
-    public function getItems() : array
+    public function getItems(): array
     {
         $tree = $this->tree;
         $ilDB = $this->db;
         $ilUser = $this->user;
         $objDefinition = $this->obj_definition;
         $component_repository = $this->component_repository;
-        
+
         $items = array();
-        
+
         foreach ($this->items as $it) {
             if (
                 $tree->isInTree($it["ref_id"]) &&
@@ -167,12 +167,12 @@ class ilNavigationHistory
         }
         return $items;
     }
-    
-    public function deleteDBEntries() : void
+
+    public function deleteDBEntries(): void
     {
         $ilUser = $this->user;
         $ilDB = $this->db;
-        
+
         // update entries in db
         $ilDB->update(
             "usr_data",
@@ -183,7 +183,7 @@ class ilNavigationHistory
         );
     }
 
-    public function deleteSessionEntries() : void
+    public function deleteSessionEntries(): void
     {
         $this->repo->setHistory([]);
     }

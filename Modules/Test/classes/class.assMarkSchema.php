@@ -78,14 +78,14 @@ class ASS_MarkSchema
      * @param float   $percentage   The minimum percentage level reaching the mark.
      * @param integer $passed       The passed status of the mark (0 = failed, 1 = passed).
      */
-    public function addMarkStep(string $txt_short = "", string $txt_official = "", $percentage = 0, $passed = 0) : void
+    public function addMarkStep(string $txt_short = "", string $txt_official = "", $percentage = 0, $passed = 0): void
     {
         require_once './Modules/Test/classes/class.assMark.php';
         $mark = new ASS_Mark($txt_short, $txt_official, $percentage, $passed);
         array_push($this->mark_steps, $mark);
     }
 
-    public function saveToDb(int $test_id) : void
+    public function saveToDb(int $test_id): void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -106,7 +106,7 @@ class ASS_MarkSchema
                 }
             }
         }
-        
+
         if (!$test_id) {
             return;
         }
@@ -119,7 +119,7 @@ class ASS_MarkSchema
         if (count($this->mark_steps) == 0) {
             return;
         }
-    
+
         // Write new datasets
         foreach ($this->mark_steps as $key => $value) {
             $next_id = $ilDB->nextId('tst_mark');
@@ -188,11 +188,11 @@ class ASS_MarkSchema
         }
     }
 
-    public function loadFromDb(int $test_id) : void
+    public function loadFromDb(int $test_id): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         if (!$test_id) {
             return;
         }
@@ -208,20 +208,20 @@ class ASS_MarkSchema
             }
         }
     }
-  
-    public function flush() : void
+
+    public function flush(): void
     {
         $this->mark_steps = array();
     }
-  
+
     /**
      * Sorts the mark schema using the minimum level values.
      *
      * @see $mark_steps
      */
-    public function sort() : void
+    public function sort(): void
     {
-        function level_sort($a, $b) : int
+        function level_sort($a, $b): int
         {
             if ($a->getMinimumLevel() == $b->getMinimumLevel()) {
                 $res = strcmp($a->getShortName(), $b->getShortName());
@@ -235,7 +235,7 @@ class ASS_MarkSchema
         }
         usort($this->mark_steps, 'level_sort');
     }
-  
+
     /**
      * Deletes the mark step with a given index.
      *
@@ -262,7 +262,7 @@ class ASS_MarkSchema
      * Deletes multiple mark steps using their index positions.
      * @param array $indexes An array with all the index positions to delete.
      */
-    public function deleteMarkSteps(array $indexes) : void
+    public function deleteMarkSteps(array $indexes): void
     {
         foreach ($indexes as $key => $index) {
             if (!(($index < 0) or (count($this->mark_steps) < 1))) {
@@ -293,7 +293,7 @@ class ASS_MarkSchema
         }
         return false;
     }
-  
+
     /**
      * Returns the matching mark for a given percentage.
      *
@@ -348,7 +348,7 @@ class ASS_MarkSchema
         }
         return false;
     }
-    
+
     /**
      * Returns the matching mark for a given percentage
      *
@@ -369,7 +369,7 @@ class ASS_MarkSchema
             array('integer'),
             array($active_id)
         );
-        
+
         /** @noinspection PhpAssignmentInConditionInspection */
         while ($row = $ilDB->fetchAssoc($result)) {
             if ($percentage >= $row["minimum_level"]) {
@@ -378,7 +378,7 @@ class ASS_MarkSchema
         }
         return false;
     }
-    
+
     /**
      * Check the marks for consistency.
      *
@@ -398,11 +398,11 @@ class ASS_MarkSchema
                 $passed++;
             }
         }
-        
+
         if ($minimum_percentage != 0) {
             return "min_percentage_ne_0";
         }
-        
+
         if ($passed == 0) {
             return "no_passed_mark";
         }
@@ -412,7 +412,7 @@ class ASS_MarkSchema
     /**
      * @return ASS_Mark[]
      */
-    public function getMarkSteps() : array
+    public function getMarkSteps(): array
     {
         return $this->mark_steps;
     }
@@ -420,7 +420,7 @@ class ASS_MarkSchema
     /**
      * @param ASS_Mark[] $mark_steps
      */
-    public function setMarkSteps(array $mark_steps) : void
+    public function setMarkSteps(array $mark_steps): void
     {
         $this->mark_steps = $mark_steps;
     }
@@ -428,7 +428,7 @@ class ASS_MarkSchema
     /**
      * Logs an action into the Test&Assessment log.
      */
-    public function logAction($test_id, string $logtext = "") : void
+    public function logAction($test_id, string $logtext = ""): void
     {
         /** @var $ilUser ilObjUser */
         global $DIC;

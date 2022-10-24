@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * abstract parent class for page object forwarders
@@ -19,7 +34,7 @@ abstract class ilAssQuestionAbstractPageObjectCommandForwarder
      * @var assQuestion
      */
     protected $questionOBJ = null;
-    
+
     /**
      * global $ilCtrl
      *
@@ -43,7 +58,7 @@ abstract class ilAssQuestionAbstractPageObjectCommandForwarder
      * @var ilCtrl
      */
     protected $lng = null;
-    
+
     /**
      * Constructor
      *
@@ -56,7 +71,7 @@ abstract class ilAssQuestionAbstractPageObjectCommandForwarder
     public function __construct(assQuestion $questionOBJ, ilCtrl $ctrl, ilTabsGUI $tabs, ilLanguage $lng)
     {
         $this->questionOBJ = $questionOBJ;
-        
+
         $this->ctrl = $ctrl;
         $this->tabs = $tabs;
         $this->lng = $lng;
@@ -64,7 +79,7 @@ abstract class ilAssQuestionAbstractPageObjectCommandForwarder
         global $DIC;
         $this->request = $DIC->testQuestionPool()->internal()->request();
         $this->tabs->clearTargets();
-        
+
         $this->lng->loadLanguageModule('content');
     }
 
@@ -73,14 +88,14 @@ abstract class ilAssQuestionAbstractPageObjectCommandForwarder
      * by derived forwarder classes
      */
     abstract public function forward();
-    
+
     /**
      * ensures an existing page object with giben type/id
      *
      * @access protected
      */
-    abstract protected function ensurePageObjectExists($pageObjectType, $pageObjectId) : void;
-    
+    abstract protected function ensurePageObjectExists($pageObjectType, $pageObjectId): void;
+
     /**
      * instantiates, initialises and returns a page object gui object
      */

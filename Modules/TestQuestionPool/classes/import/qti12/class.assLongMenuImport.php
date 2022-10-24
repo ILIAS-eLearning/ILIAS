@@ -1,12 +1,25 @@
 <?php
-require_once 'Modules/TestQuestionPool/classes/import/qti12/class.assQuestionImport.php';
-require_once 'Modules/TestQuestionPool/classes/class.assLongMenu.php';
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 class assLongMenuImport extends assQuestionImport
 {
     public $object;
 
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping) : void
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, $import_mapping): array
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -35,7 +48,7 @@ class assLongMenuImport extends assQuestionImport
                         $this->object->setQuestion($this->object->QTIMaterialToString($material));
                     }
 
-                    
+
                     break;
             }
         }
@@ -157,29 +170,29 @@ class assLongMenuImport extends assQuestionImport
         }
         $this->object->setAnswers($answers);
         // handle the import of media objects in XHTML code
-        if (count($feedbacks) > 0) {
+        if (isset($feedbacks) && count($feedbacks) > 0) {
             foreach ($feedbacks as $ident => $material) {
                 $m = $this->object->QTIMaterialToString($material);
                 $feedbacks[$ident] = $m;
             }
         }
-        if (is_array($feedbacksgeneric) && count($feedbacksgeneric) > 0) {
+        if (isset($feedbacksgeneric) && is_array($feedbacksgeneric) && count($feedbacksgeneric) > 0) {
             foreach ($feedbacksgeneric as $correctness => $material) {
                 $m = $this->object->QTIMaterialToString($material);
                 $feedbacksgeneric[$correctness] = $m;
             }
         }
-        
+
         $this->addGeneralMetadata($item);
         $this->object->setTitle($item->getTitle());
-        $this->object->setNrOfTries($item->getMaxattempts());
+        $this->object->setNrOfTries((int)$item->getMaxattempts());
         $this->object->setComment($item->getComment());
         $this->object->setAuthor($item->getAuthor());
         $this->object->setOwner($ilUser->getId());
         $this->object->setObjId($questionpool_id);
         $this->object->setMinAutoComplete($item->getMetadataEntry("minAutoCompleteLength"));
         $this->object->setIdenticalscoring((int) $item->getMetadataEntry("identical_scoring"));
-        $this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+        $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $this->object->setCorrectAnswers($correct_answers);
         $this->object->setPoints($sum);
         // additional content editing mode information
@@ -188,7 +201,7 @@ class assLongMenuImport extends assQuestionImport
         );
         $this->object->saveToDb();
 
-        if (count($feedbacks) > 0) {
+        if (isset($feedbacks) && count($feedbacks) > 0) {
             foreach ($feedbacks as $ident => $material) {
                 $this->object->feedbackOBJ->importSpecificAnswerFeedback(
                     $this->object->getId(),
@@ -198,7 +211,7 @@ class assLongMenuImport extends assQuestionImport
                 );
             }
         }
-        if (is_array($feedbacksgeneric) && count($feedbacksgeneric) > 0) {
+        if (isset($feedbacksgeneric) && is_array($feedbacksgeneric) && count($feedbacksgeneric) > 0) {
             foreach ($feedbacksgeneric as $correctness => $material) {
                 $this->object->feedbackOBJ->importGenericFeedback(
                     $this->object->getId(),
@@ -217,12 +230,13 @@ class assLongMenuImport extends assQuestionImport
 
         if ($tst_id > 0) {
             $q_1_id = $this->object->getId();
-            $question_id = $this->object->duplicate(true, null, null, null, $tst_id);
+            $question_id = $this->object->duplicate(true, "", "", "", $tst_id);
             $tst_object->questions[$question_counter++] = $question_id;
             $import_mapping[$item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
         } else {
             $import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
         }
+        return $import_mapping;
     }
 
     private function getIdFromGapIdent($ident)

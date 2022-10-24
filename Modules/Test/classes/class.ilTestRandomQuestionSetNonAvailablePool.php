@@ -1,6 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -10,14 +24,14 @@
  */
 class ilTestRandomQuestionSetNonAvailablePool
 {
-    const UNAVAILABILITY_STATUS_LOST = 'lost';
-    const UNAVAILABILITY_STATUS_TRASHED = 'trashed';
-    
+    public const UNAVAILABILITY_STATUS_LOST = 'lost';
+    public const UNAVAILABILITY_STATUS_TRASHED = 'trashed';
+
     /**
      * @var string
      */
     protected $unavailabilityStatus;
-    
+
     /**
      * @var integer
      */
@@ -39,7 +53,7 @@ class ilTestRandomQuestionSetNonAvailablePool
     /**
      * @return int
      */
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -55,7 +69,7 @@ class ilTestRandomQuestionSetNonAvailablePool
     /**
      * @return string
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -71,7 +85,7 @@ class ilTestRandomQuestionSetNonAvailablePool
     /**
      * @return string
      */
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -83,15 +97,15 @@ class ilTestRandomQuestionSetNonAvailablePool
     {
         $this->path = $path;
     }
-    
+
     /**
      * @return string
      */
-    public function getUnavailabilityStatus() : string
+    public function getUnavailabilityStatus(): string
     {
         return $this->unavailabilityStatus;
     }
-    
+
     /**
      * @param string $unavailabilityStatus
      */
@@ -100,12 +114,12 @@ class ilTestRandomQuestionSetNonAvailablePool
         $this->unavailabilityStatus = $unavailabilityStatus;
     }
 
-    public function getRefId() : ?int
+    public function getRefId(): ?int
     {
         return $this->ref_id;
     }
 
-    public function setRefId(?int $ref_id) : void
+    public function setRefId(?int $ref_id): void
     {
         $this->ref_id = $ref_id;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,7 +38,7 @@ class ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation implements ilTermsOfS
         $this->log = $log;
     }
 
-    public function withContextUser(ilObjUser $user) : ilTermsOfServiceDocumentCriteriaEvaluation
+    public function withContextUser(ilObjUser $user): ilTermsOfServiceDocumentCriteriaEvaluation
     {
         $clone = clone $this;
         $clone->user = $user;
@@ -44,7 +46,7 @@ class ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation implements ilTermsOfS
         return $clone;
     }
 
-    public function evaluate(ilTermsOfServiceSignableDocument $document) : bool
+    public function evaluate(ilTermsOfServiceSignableDocument $document): bool
     {
         $this->log->debug(sprintf(
             'Evaluating criteria for document "%s" (id: %s) and user "%s" (id: %s)',

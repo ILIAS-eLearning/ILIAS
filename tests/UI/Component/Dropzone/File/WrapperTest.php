@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\UI\Component\Dropzone\File;
 
 /**
@@ -23,14 +25,14 @@ namespace ILIAS\Tests\UI\Component\Dropzone\File;
  */
 class WrapperTest extends FileTestBase
 {
-    public function testRenderWrapper() : void
+    public function testRenderWrapper(): void
     {
         $expected_html = $this->brutallyTrimHTML('
             <div id="id_6" class="ui-dropzone ui-dropzone-wrapper">
                 <div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">
                     <div class="modal-dialog" role="document" data-replace-marker="component">
                         <div class="modal-content">
-                            <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><span class="modal-title"></span></div>
+                            <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button><span class="modal-title"></span></div>
                             <div class="modal-body">
                                 <form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="#" method="post" novalidate="novalidate">
                                     <div class="il-standard-form-header clearfix">
@@ -49,7 +51,7 @@ class WrapperTest extends FileTestBase
                                     </div>
                                 </form>
                             </div>
-                            <div class="modal-footer"><button class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</button></div>
+                            <div class="modal-footer"><button class="btn btn-default" data-dismiss="modal" aria-label="close">cancel</button></div>
                         </div>
                     </div>
                 </div>
@@ -68,14 +70,14 @@ class WrapperTest extends FileTestBase
         $this->assertEquals($expected_html, $this->getDropzoneHtml($dropzone));
     }
 
-    public function testRenderWrapperWithMetadata() : void
+    public function testRenderWrapperWithMetadata(): void
     {
         $expected_html = $this->brutallyTrimHTML('
             <div id="id_7" class="ui-dropzone ui-dropzone-wrapper">
                 <div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">
                     <div class="modal-dialog" role="document" data-replace-marker="component">
                         <div class="modal-content">
-                            <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><span class="modal-title"></span></div>
+                            <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button><span class="modal-title"></span></div>
                             <div class="modal-body">
                                 <form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="#" method="post" novalidate="novalidate">
                                     <div class="il-standard-form-header clearfix">
@@ -94,7 +96,7 @@ class WrapperTest extends FileTestBase
                                     </div>
                                 </form>
                             </div>
-                            <div class="modal-footer"><button class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</button></div>
+                            <div class="modal-footer"><button class="btn btn-default" data-dismiss="modal" aria-label="close">cancel</button></div>
                         </div>
                     </div>
                 </div>
@@ -114,14 +116,14 @@ class WrapperTest extends FileTestBase
         $this->assertEquals($expected_html, $this->getDropzoneHtml($dropzone));
     }
 
-    public function testRenderWrapperWithTitle() : void
+    public function testRenderWrapperWithTitle(): void
     {
         $expected_html = $this->brutallyTrimHTML('
             <div id="id_6" class="ui-dropzone ui-dropzone-wrapper">
                 <div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">
                     <div class="modal-dialog" role="document" data-replace-marker="component">
                         <div class="modal-content">
-                            <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><span class="modal-title">test_title</span></div>
+                            <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button><span class="modal-title">test_title</span></div>
                             <div class="modal-body">
                                 <form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="#" method="post" novalidate="novalidate">
                                     <div class="il-standard-form-header clearfix">
@@ -140,7 +142,7 @@ class WrapperTest extends FileTestBase
                                     </div>
                                 </form>
                             </div>
-                            <div class="modal-footer"><button class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</button></div>
+                            <div class="modal-footer"><button class="btn btn-default" data-dismiss="modal" aria-label="close">cancel</button></div>
                         </div>
                     </div>
                 </div>

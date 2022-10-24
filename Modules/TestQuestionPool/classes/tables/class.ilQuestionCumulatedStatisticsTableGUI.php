@@ -1,9 +1,20 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
-require_once 'Services/Tree/classes/class.ilPathGUI.php';
-require_once 'Services/Link/classes/class.ilLink.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilQuestionUsagesTableGUI
@@ -47,7 +58,7 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
     /**
      *
      */
-    protected function initColumns() : void
+    protected function initColumns(): void
     {
         $this->addColumn($this->lng->txt('result'), 'result');
         $this->addColumn($this->lng->txt('value'), 'value');
@@ -56,7 +67,7 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
     /**
      *
      */
-    protected function initData() : void
+    protected function initData(): void
     {
         $rows = array();
 
@@ -85,7 +96,7 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
      * @param string $a_field
      * @return bool
      */
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         if ('value' == $a_field) {
             return true;
@@ -97,7 +108,7 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
     /**
      * @param array $a_set
      */
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_RESULT', $a_set['result']);
         $this->tpl->setVariable('VAL_VALUE', $a_set['is_percent'] ? sprintf("%2.2f", $a_set['value'])

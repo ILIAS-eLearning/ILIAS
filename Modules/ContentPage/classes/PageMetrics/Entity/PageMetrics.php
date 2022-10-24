@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,22 +41,22 @@ class PageMetrics
         $this->readingTime = $readingTime;
     }
 
-    public function contentPageId() : int
+    public function contentPageId(): int
     {
         return $this->contentPageId;
     }
 
-    public function pageId() : int
+    public function pageId(): int
     {
         return $this->pageId;
     }
 
-    public function language() : string
+    public function language(): string
     {
         return $this->language;
     }
 
-    public function readingTime() : PageReadingTime
+    public function readingTime(): PageReadingTime
     {
         return $this->readingTime;
     }

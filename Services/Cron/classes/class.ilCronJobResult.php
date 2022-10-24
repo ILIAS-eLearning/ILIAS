@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class ilCronJobResult
     public const CODE_NO_RESULT = 'job_no_result';
     public const CODE_MANUAL_RESET = 'job_manual_reset';
     public const CODE_SUPPOSED_CRASH = 'job_auto_deactivation_time_limit';
-    
+
     protected int $status = self::STATUS_NO_ACTION;
     protected string $message = '';
     protected ?string $code = null;
@@ -37,7 +39,7 @@ class ilCronJobResult
     /**
      * @return string[]
      */
-    public static function getCoreCodes() : array
+    public static function getCoreCodes(): array
     {
         return [
             self::CODE_NO_RESULT,
@@ -45,13 +47,13 @@ class ilCronJobResult
             self::CODE_SUPPOSED_CRASH,
         ];
     }
-    
-    public function getStatus() : int
+
+    public function getStatus(): int
     {
         return $this->status;
     }
-    
-    public function setStatus(int $a_value) : void
+
+    public function setStatus(int $a_value): void
     {
         if (!in_array($a_value, $this->getValidStatus(), true)) {
             throw new InvalidArgumentException(sprintf(
@@ -67,7 +69,7 @@ class ilCronJobResult
     /**
      * @return int[]
      */
-    protected function getValidStatus() : array
+    protected function getValidStatus(): array
     {
         return [
             self::STATUS_INVALID_CONFIGURATION,
@@ -78,23 +80,23 @@ class ilCronJobResult
             self::STATUS_RESET,
         ];
     }
-    
-    public function getMessage() : string
+
+    public function getMessage(): string
     {
         return $this->message;
     }
-    
-    public function setMessage(string $a_value) : void
+
+    public function setMessage(string $a_value): void
     {
         $this->message = trim($a_value);
     }
-    
-    public function getCode() : ?string
+
+    public function getCode(): ?string
     {
         return $this->code;
     }
-    
-    public function setCode(string $a_value) : void
+
+    public function setCode(string $a_value): void
     {
         if (!in_array($a_value, self::getCoreCodes(), true)) {
             throw new InvalidArgumentException(sprintf(
@@ -106,13 +108,13 @@ class ilCronJobResult
 
         $this->code = $a_value;
     }
-    
-    public function getDuration() : float
+
+    public function getDuration(): float
     {
         return (float) $this->duration;
     }
-    
-    public function setDuration(float $a_value) : void
+
+    public function setDuration(float $a_value): void
     {
         $this->duration = number_format($a_value, 3, '.', '');
     }

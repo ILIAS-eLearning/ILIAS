@@ -36,22 +36,22 @@ class ilSkillTemplateReference extends ilSkillTreeNode
         $this->setType("sktr");
     }
 
-    public function setSkillTemplateId(int $a_val) : void
+    public function setSkillTemplateId(int $a_val): void
     {
         $this->skill_template_id = $a_val;
     }
 
-    public function getSkillTemplateId() : int
+    public function getSkillTemplateId(): int
     {
         return $this->skill_template_id;
     }
 
-    public function read() : void
+    public function read(): void
     {
         $ilDB = $this->db;
-        
+
         parent::read();
-        
+
         $set = $ilDB->query(
             "SELECT * FROM skl_templ_ref " .
             " WHERE skl_node_id = " . $ilDB->quote($this->getId(), "integer")
@@ -60,12 +60,12 @@ class ilSkillTemplateReference extends ilSkillTreeNode
         $this->setSkillTemplateId((int) $rec["templ_id"]);
     }
 
-    public function create() : void
+    public function create(): void
     {
         $ilDB = $this->db;
-        
+
         parent::create();
-        
+
         $ilDB->manipulate("INSERT INTO skl_templ_ref " .
             "(skl_node_id, templ_id) VALUES (" .
             $ilDB->quote($this->getId(), "integer") . "," .
@@ -73,12 +73,12 @@ class ilSkillTemplateReference extends ilSkillTreeNode
             ")");
     }
 
-    public function update() : void
+    public function update(): void
     {
         $ilDB = $this->db;
-        
+
         parent::update();
-        
+
         $ilDB->manipulate(
             "UPDATE skl_templ_ref SET " .
             " templ_id = " . $ilDB->quote($this->getSkillTemplateId(), "integer") .
@@ -86,7 +86,7 @@ class ilSkillTemplateReference extends ilSkillTreeNode
         );
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $ilDB = $this->db;
 
@@ -98,7 +98,7 @@ class ilSkillTemplateReference extends ilSkillTreeNode
         parent::delete();
     }
 
-    public function copy() : ilSkillTemplateReference
+    public function copy(): ilSkillTemplateReference
     {
         $sktr = new ilSkillTemplateReference();
         $sktr->setTitle($this->getTitle());
@@ -112,7 +112,7 @@ class ilSkillTemplateReference extends ilSkillTreeNode
         return $sktr;
     }
 
-    public static function _lookupTemplateId(int $a_obj_id) : int
+    public static function _lookupTemplateId(int $a_obj_id): int
     {
         global $DIC;
 
@@ -130,7 +130,7 @@ class ilSkillTemplateReference extends ilSkillTreeNode
      * @param int $a_template_id (top) template node id
      * @return array|int[]
      */
-    public static function _lookupTrefIdsForTopTemplateId(int $a_template_id) : array
+    public static function _lookupTrefIdsForTopTemplateId(int $a_template_id): array
     {
         global $DIC;
 
@@ -152,7 +152,7 @@ class ilSkillTemplateReference extends ilSkillTreeNode
      * @param int $a_tid template node id (node id in template tree)
      * @return array|int[]
      */
-    public static function _lookupTrefIdsForTemplateId(int $a_tid) : array
+    public static function _lookupTrefIdsForTemplateId(int $a_tid): array
     {
         global $DIC;
 

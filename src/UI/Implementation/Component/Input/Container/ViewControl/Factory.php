@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input\Container\ViewControl;
 
 use ILIAS\UI\Component\Input\Container\ViewControl as V;
@@ -25,7 +27,7 @@ use ILIAS\UI\Component\Input\Container\ViewControl as V;
  */
 class Factory implements V\Factory
 {
-    public function standard(array $controls) : V\Standard
+    public function standard(array $controls): V\Standard
     {
         return new Standard($controls);
     }

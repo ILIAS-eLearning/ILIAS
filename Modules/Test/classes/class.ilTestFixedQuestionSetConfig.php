@@ -31,25 +31,25 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
      *
      * @return boolean
      */
-    public function isQuestionSetConfigured() : bool
+    public function isQuestionSetConfigured(): bool
     {
-        if ($this->testOBJ->getQuestionCount() > 0) {
+        if ($this->testOBJ->getQuestionCountWithoutReloading() > 0) {
             return true;
         }
         return false;
     }
-    
+
     /**
      * returns the fact wether a useable question set config exists or not
      *
      * @return boolean
      */
-    public function doesQuestionSetRelatedDataExist() : bool
+    public function doesQuestionSetRelatedDataExist(): bool
     {
         return $this->isQuestionSetConfigured();
     }
-    
-    public function removeQuestionSetRelatedData() : void
+
+    public function removeQuestionSetRelatedData(): void
     {
         $res = $this->db->queryF(
             'SELECT question_fi FROM tst_test_question WHERE test_fi = %s',
@@ -82,29 +82,27 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
      *
      * @param ilObjTest $cloneTestOBJ
      */
-    public function cloneQuestionSetRelatedData(ilObjTest $cloneTestOBJ)
+    public function cloneQuestionSetRelatedData(ilObjTest $clone_test_obj)
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];
 
-        require_once 'Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
-        require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
-
-        $cwo = ilCopyWizardOptions::_getInstance($cloneTestOBJ->getTmpCopyWizardCopyId());
+        $cwo = ilCopyWizardOptions::_getInstance($clone_test_obj->getTmpCopyWizardCopyId());
 
         foreach ($this->testOBJ->questions as $key => $question_id) {
             $question = assQuestion::instantiateQuestion($question_id);
-            $cloneTestOBJ->questions[$key] = $question->duplicate(true, null, null, null, $cloneTestOBJ->getId());
+
+            $clone_test_obj->questions[$key] = $question->duplicate(true, '', '', '', $clone_test_obj->getId());
 
             $original_id = assQuestion::_getOriginalId($question_id);
 
-            $question = assQuestion::instantiateQuestion($cloneTestOBJ->questions[$key]);
+            $question = assQuestion::instantiateQuestion($clone_test_obj->questions[$key]);
             $question->saveToDb($original_id);
 
             // Save the mapping of old question id <-> new question id
             // This will be used in class.ilObjCourse::cloneDependencies to copy learning objectives
             $originalKey = $this->testOBJ->getRefId() . '_question_' . $question_id;
-            $mappedKey = $cloneTestOBJ->getRefId() . '_question_' . $cloneTestOBJ->questions[$key];
+            $mappedKey = $clone_test_obj->getRefId() . '_question_' . $clone_test_obj->questions[$key];
             $cwo->appendMapping($originalKey, $mappedKey);
             $ilLog->write(__METHOD__ . ": Added question id mapping $originalKey <-> $mappedKey");
         }
@@ -125,30 +123,30 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
     {
         // TODO: Implement saveToDb() method.
     }
-    
-    public function reindexQuestionOrdering() : ilTestReindexedSequencePositionMap
+
+    public function reindexQuestionOrdering(): ilTestReindexedSequencePositionMap
     {
         $query = "
 			SELECT question_fi, sequence FROM tst_test_question
 			WHERE test_fi = %s
 			ORDER BY sequence ASC
 		";
-        
+
         $res = $this->db->queryF(
             $query,
             ['integer'],
             [$this->testOBJ->getTestId()]
         );
-        
+
         $sequenceIndex = 0;
 
         $reindexedSequencePositionMap = new ilTestReindexedSequencePositionMap();
-        
+
         while ($row = $this->db->fetchAssoc($res)) {
             $sequenceIndex++; // start with 1
-            
+
             $reindexedSequencePositionMap->addPositionMapping((int) $row['sequence'], $sequenceIndex);
-            
+
             $this->db->update(
                 'tst_test_question',
                 ['sequence' => ['integer', $sequenceIndex]],
@@ -177,7 +175,7 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
         // TODO: Implement deleteFromDb() method.
     }
 
-    public function isResultTaxonomyFilterSupported() : bool
+    public function isResultTaxonomyFilterSupported(): bool
     {
         return false;
     }

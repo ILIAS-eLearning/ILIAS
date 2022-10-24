@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ use ilDBInterface;
  */
 class ContainerDBRepository
 {
-    const TABLE_NAME = 'sty_rep_container';
+    public const TABLE_NAME = 'sty_rep_container';
 
     protected ilDBInterface $db;
 
@@ -36,7 +38,7 @@ class ContainerDBRepository
         $this->db = $db;
     }
 
-    public function updateReuse(int $ref_id, bool $reuse) : void
+    public function updateReuse(int $ref_id, bool $reuse): void
     {
         $db = $this->db;
 
@@ -51,7 +53,7 @@ class ContainerDBRepository
         );
     }
 
-    public function readReuse(int $ref_id) : bool
+    public function readReuse(int $ref_id): bool
     {
         $db = $this->db;
 
@@ -70,7 +72,7 @@ class ContainerDBRepository
      * For an array of ref ids, return only the ref ids
      * that have the reuse flag set.
      */
-    public function filterByReuse(array $ref_ids) : array
+    public function filterByReuse(array $ref_ids): array
     {
         $db = $this->db;
 

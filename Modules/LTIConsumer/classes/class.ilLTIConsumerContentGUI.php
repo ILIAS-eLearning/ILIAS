@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,8 +29,8 @@
  */
 class ilLTIConsumerContentGUI
 {
-    const CMD_LAUNCH = 'launch';
-    const CMD_SHOW_EMBEDDED = 'showEmbedded';
+    public const CMD_LAUNCH = 'launch';
+    public const CMD_SHOW_EMBEDDED = 'showEmbedded';
 
     protected ilObjLTIConsumer $object;
 
@@ -52,16 +54,14 @@ class ilLTIConsumerContentGUI
     /**
      * @throws ilLtiConsumerException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         if ($this->object->getProvider()->getAvailability() == ilLTIConsumeProvider::AVAILABILITY_NONE) {
             throw new ilLtiConsumerException('access denied!');
         }
-
         $command = $DIC->ctrl()->getCmd(self::CMD_LAUNCH);
-
         $this->{$command}();
     }
 
@@ -69,7 +69,7 @@ class ilLTIConsumerContentGUI
      * @throws ilCtrlException
      * @throws ilTemplateException
      */
-    protected function launch() : void
+    protected function launch(): void
     {
         if ($this->object->getProvider()->getLtiVersion() == "LTI-1p0") {
             if ($this->object->isLaunchMethodEmbedded()) {
@@ -109,7 +109,7 @@ class ilLTIConsumerContentGUI
         }
     }
 
-    protected function getLoginLTI13Form() : ?string
+    protected function getLoginLTI13Form(): ?string
     {
         $loginData = ilSession::get('lti13_login_data');
         ilSession::clear('lti13_login_data');
@@ -143,7 +143,7 @@ class ilLTIConsumerContentGUI
         return null;
     }
 
-    protected function getStartButtonTxt11() : string
+    protected function getStartButtonTxt11(): string
     {
         if ($this->object->getOfflineStatus() ||
             $this->object->isLaunchMethodEmbedded() ||
@@ -209,7 +209,7 @@ class ilLTIConsumerContentGUI
         return($output);
     }
 
-    protected function getStartButtonTxt13() : string
+    protected function getStartButtonTxt13(): string
     {
         if ($this->object->getOfflineStatus() ||
             $this->object->isLaunchMethodEmbedded() ||
@@ -261,7 +261,7 @@ class ilLTIConsumerContentGUI
     }
 
     // TODO: merge with getStartButtonTxt13 (paramter)
-    protected function getEmbeddedAutoStartFormular() : string
+    protected function getEmbeddedAutoStartFormular(): string
     {
         $this->initCmixUser();
         $user_ident = $this->cmixUser->getUsrIdent();
@@ -297,7 +297,7 @@ class ilLTIConsumerContentGUI
     /**
      * @throws ilTemplateException
      */
-    protected function showEmbedded() : void
+    protected function showEmbedded(): void
     {
         if ($this->object->getProvider()->getLtiVersion() == "LTI-1p0") {
             $this->initCmixUser();
@@ -329,7 +329,7 @@ class ilLTIConsumerContentGUI
         }
     }
 
-    protected function getLaunchParameters() : array
+    protected function getLaunchParameters(): array
     {
         $ilLTIConsumerLaunch = new ilLTIConsumerLaunch($this->object->getRefId());
         $launchContext = $ilLTIConsumerLaunch->getContext();
@@ -353,7 +353,7 @@ class ilLTIConsumerContentGUI
         );
     }
 
-    protected function getLaunchParametersLTI13(string $endpoint, string $clientId, int $deploymentId, string $nonce) : ?array
+    protected function getLaunchParametersLTI13(string $endpoint, string $clientId, int $deploymentId, string $nonce): ?array
     {
         $ilLTIConsumerLaunch = new ilLTIConsumerLaunch($this->object->getRefId());
         $launchContext = $ilLTIConsumerLaunch->getContext();
@@ -375,7 +375,7 @@ class ilLTIConsumerContentGUI
         );
     }
 
-    public static function isEmbeddedLaunchRequest() : bool
+    public static function isEmbeddedLaunchRequest(): bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -390,7 +390,7 @@ class ilLTIConsumerContentGUI
         return true;
     }
 
-    protected function initCmixUser() : void
+    protected function initCmixUser(): void
     {
         $this->cmixUser = new ilCmiXapiUser($this->object->getId(), $this->dic->user()->getId(), $this->object->getProvider()->getPrivacyIdent());
         $user_ident = $this->cmixUser->getUsrIdent();
@@ -401,7 +401,7 @@ class ilLTIConsumerContentGUI
         }
     }
 
-    private function validateLTI13InitalLogin(array $loginData) : ?string
+    private function validateLTI13InitalLogin(array $loginData): ?string
     {
         $scope = $loginData['scope'];
         $responsetype = $loginData['response_type'];
@@ -464,7 +464,6 @@ class ilLTIConsumerContentGUI
         if (!in_array($redirecturi, $uris)) {
             $ok = false;
             $error = 'invalid_request';
-            //throw new moodle_exception('invalidrequest', 'error');
         }
 
         if ($ok) {
@@ -493,7 +492,9 @@ class ilLTIConsumerContentGUI
     }
 
     // TODO: request_wrapper?
+
     /**
+     * @param string $key
      * @param mixed  $default
      * @return mixed|null
      */

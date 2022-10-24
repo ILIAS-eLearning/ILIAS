@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\Factory as RefineryFactory;
@@ -16,7 +31,7 @@ abstract class assBaseTestCase extends TestCase
     /**
      * @inheritdoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         global $DIC;
 
@@ -53,6 +68,12 @@ abstract class assBaseTestCase extends TestCase
         $dbMock = $this->createMock(ilDBInterface::class);
         $this->setGlobalVariable('ilDB', $dbMock);
 
+        $treeMock = $this->createMock(ilTree::class);
+        $this->setGlobalVariable('tree', $treeMock);
+
+        $repository_mock = $this->createMock(ilComponentRepository::class);
+        $this->setGlobalVariable('component.repository', $repository_mock);
+
         $this->setGlobalVariable('http', $this->getMockBuilder(ILIAS\HTTP\Services::class)->disableOriginalConstructor()->getMock());
 
         $this->setGlobalVariable('upload', $this->createMock(ILIAS\FileUpload\FileUpload::class));
@@ -60,7 +81,7 @@ abstract class assBaseTestCase extends TestCase
         parent::setUp();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         global $DIC;
 
@@ -73,7 +94,7 @@ abstract class assBaseTestCase extends TestCase
      * @param string $name
      * @param mixed $value
      */
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 

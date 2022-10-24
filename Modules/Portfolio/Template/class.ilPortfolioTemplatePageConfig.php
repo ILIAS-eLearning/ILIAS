@@ -22,7 +22,7 @@
  */
 class ilPortfolioTemplatePageConfig extends ilPortfolioPageConfig
 {
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -47,8 +47,8 @@ class ilPortfolioTemplatePageConfig extends ilPortfolioPageConfig
         $this->setSectionProtection(ilPageConfig::SEC_PROTECT_EDITABLE);
         $this->setSectionProtectionInfo($lng->txt("prtf_sec_protected_info"));
     }
-    
-    public function getAvailablePlaceholderTypes() : array
+
+    public function getAvailablePlaceholderTypes(): array
     {
         // no questions
         $all = array(
@@ -60,7 +60,7 @@ class ilPortfolioTemplatePageConfig extends ilPortfolioPageConfig
         if (true === $validator->validate()) {
             $all[] = ilPCPlaceHolderGUI::TYPE_VERIFICATION;
         }
-        
+
         return $all;
     }
 }

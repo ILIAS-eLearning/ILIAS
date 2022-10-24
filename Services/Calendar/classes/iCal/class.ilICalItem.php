@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -38,32 +40,32 @@ abstract class ilICalItem
         $this->value = $a_value;
     }
 
-    public function setValue(string $a_value) : void
+    public function setValue(string $a_value): void
     {
         $this->value = $a_value;
     }
 
-    public function getValue() : string
+    public function getValue(): string
     {
         return trim($this->value);
     }
 
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->items;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getItemsByName(string $a_name, bool $a_recursive = true) : array
+    public function getItemsByName(string $a_name, bool $a_recursive = true): array
     {
         return [];
     }
 
-    public function addItem(ilICalItem $a_item) : void
+    public function addItem(ilICalItem $a_item): void
     {
         $this->items[] = $a_item;
     }

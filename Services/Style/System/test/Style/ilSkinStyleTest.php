@@ -26,14 +26,14 @@ class ilSkinStyleTest extends TestCase
 {
     protected ilSkinStyle $style1;
 
-    public function testStyleNameAndId() : void
+    public function testStyleNameAndId(): void
     {
         $this->style1 = new ilSkinStyle('style1', 'Style 1');
         $this->assertEquals('style1', $this->style1->getId());
         $this->assertEquals('Style 1', $this->style1->getName());
     }
 
-    public function testStyleProperties() : void
+    public function testStyleProperties(): void
     {
         $this->style1 = new ilSkinStyle('style1', 'Style 1');
         $this->style1->setId('id');

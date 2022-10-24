@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,7 +32,7 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
     /** @var MockObject&ilCtrlInterface */
     private $controller;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->database = $this->createMock(ilDBInterface::class);
         $this->controller = $this->createMock(ilCtrlInterface::class);
@@ -39,7 +41,7 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                          ->getMock();
     }
 
-    public function testGetUserData() : void
+    public function testGetUserData(): void
     {
         $filter = new \ILIAS\Certificate\API\Filter\UserDataFilter();
 

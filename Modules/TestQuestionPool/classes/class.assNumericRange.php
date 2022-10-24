@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
@@ -36,7 +51,7 @@ class assNumericRange
      * @var $upperlimit double
      */
     protected $upperlimit;
-    
+
     /**
      * The points for entering a number in the correct range
      *
@@ -82,7 +97,7 @@ class assNumericRange
      *
      * @see $lowerlimit
     */
-    public function getLowerLimit() : float
+    public function getLowerLimit(): float
     {
         return $this->lowerlimit;
     }
@@ -96,7 +111,7 @@ class assNumericRange
      *
      * @see $upperlimit
      */
-    public function getUpperLimit() : float
+    public function getUpperLimit(): float
     {
         return $this->upperlimit;
     }
@@ -110,7 +125,7 @@ class assNumericRange
      *
      * @see $points
      */
-    public function getPoints() : float
+    public function getPoints(): float
     {
         return $this->points;
     }
@@ -124,7 +139,7 @@ class assNumericRange
      *
      * @see $order
      */
-    public function getOrder() : int
+    public function getOrder(): int
     {
         return $this->order;
     }
@@ -138,7 +153,7 @@ class assNumericRange
      *
      * @see $lowerlimit
     */
-    public function setLowerLimit($limit) : void
+    public function setLowerLimit($limit): void
     {
         $this->lowerlimit = $limit;
     }
@@ -152,7 +167,7 @@ class assNumericRange
      *
      * @see $upperlimit
      */
-    public function setUpperLimit($limit) : void
+    public function setUpperLimit($limit): void
     {
         $this->upperlimit = $limit;
     }
@@ -166,7 +181,7 @@ class assNumericRange
      *
      * @see $points
      */
-    public function setPoints($points) : void
+    public function setPoints($points): void
     {
         $this->points = $points;
     }
@@ -180,7 +195,7 @@ class assNumericRange
      *
      * @see $order
      */
-    public function setOrder($order) : void
+    public function setOrder($order): void
     {
         $this->order = $order;
     }
@@ -197,7 +212,7 @@ class assNumericRange
      * @see $upperlimit
      * @see $lowerlimit
      */
-    public function contains($value) : bool
+    public function contains($value): bool
     {
         require_once './Services/Math/classes/class.EvalMath.php';
         $eval = new EvalMath();

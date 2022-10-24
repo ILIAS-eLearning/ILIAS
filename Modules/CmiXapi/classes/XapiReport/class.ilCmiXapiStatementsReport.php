@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,11 +30,11 @@
 class ilCmiXapiStatementsReport
 {
     protected string $response;
-    
+
     protected array $statements;
-    
+
     protected int $maxCount;
-    
+
     /**
      * @var ilCmiXapiUser[]
      */
@@ -43,7 +45,7 @@ class ilCmiXapiStatementsReport
     * @var ilObjCmiXapi::CONT_TYPE_GENERIC|ilObjCmiXapi::CONT_TYPE_CMI5
     */
     protected string $contentType;
-    
+
     protected bool $isMixedContentType;
 
     public function __construct(string $responseBody, int $objId)
@@ -52,11 +54,11 @@ class ilCmiXapiStatementsReport
         $this->userLanguage = $DIC->user()->getLanguage();
 
         $responseBody = json_decode($responseBody, true);
-        
+
         $this->contentType = ilObjCmiXapi::getInstance($objId, false)->getContentType();
-        
+
         $this->isMixedContentType = ilObjCmiXapi::getInstance($objId, false)->isMixedContentType();
-        
+
         if (is_array($responseBody) && count($responseBody) > 0) {
             $this->response = current($responseBody);
             $this->statements = $this->response['statements'];
@@ -66,37 +68,37 @@ class ilCmiXapiStatementsReport
             $this->statements = array();
             $this->maxCount = 0;
         }
-        
+
         foreach (ilCmiXapiUser::getUsersForObject($objId) as $cmixUser) {
             $this->cmixUsersByIdent[$cmixUser->getUsrIdent()] = $cmixUser;
         }
     }
-    
-    public function getMaxCount() : int
+
+    public function getMaxCount(): int
     {
         return $this->maxCount;
     }
-    
+
     /**
      * @return mixed[]
      */
-    public function getStatements() : array
+    public function getStatements(): array
     {
         return $this->statements;
     }
-    
-    public function hasStatements() : bool
+
+    public function hasStatements(): bool
     {
         return (bool) count($this->statements);
     }
-    
+
     /**
      * @return array<int, array<string, mixed>>
      */
-    public function getTableData() : array
+    public function getTableData(): array
     {
         $data = [];
-        
+
         foreach ($this->statements as $statement) {
             $data[] = [
                 'date' => $this->fetchDate($statement),
@@ -108,7 +110,7 @@ class ilCmiXapiStatementsReport
                 'statement' => json_encode($statement, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
             ];
         }
-        
+
         return $data;
     }
 
@@ -119,8 +121,8 @@ class ilCmiXapiStatementsReport
     {
         return $statement['timestamp'];
     }
-    
-    protected function fetchActor(array $statement) : \ilCmiXapiUser
+
+    protected function fetchActor(array $statement): \ilCmiXapiUser
     {
         if ($this->isMixedContentType) {
             $ident = str_replace('mailto:', '', $statement['actor']['mbox']);
@@ -134,18 +136,18 @@ class ilCmiXapiStatementsReport
         }
         return $this->cmixUsersByIdent[$ident];
     }
-    
-    protected function fetchVerbId(array $statement) : string
+
+    protected function fetchVerbId(array $statement): string
     {
         return $statement['verb']['id'];
     }
-    
-    protected function fetchVerbDisplay(array $statement) : string
+
+    protected function fetchVerbDisplay(array $statement): string
     {
         return $statement['verb']['display']['en-US'];
     }
-    
-    protected function fetchObjectName(array $statement) : string
+
+    protected function fetchObjectName(array $statement): string
     {
         $ret = urldecode($statement['object']['id']);
         $lang = self::getLanguageEntry($statement['object']['definition']['name'], $this->userLanguage);
@@ -155,8 +157,8 @@ class ilCmiXapiStatementsReport
         }
         return $ret;
     }
-    
-    protected function fetchObjectInfo(array $statement) : string
+
+    protected function fetchObjectInfo(array $statement): string
     {
         return $statement['object']['definition']['description']['en-US'];
     }
@@ -165,7 +167,7 @@ class ilCmiXapiStatementsReport
      *  with multiple language keys like [de-DE] [en-US]
      * @return array<string, mixed>
      */
-    public static function getLanguageEntry(array $obj, string $userLanguage) : array
+    public static function getLanguageEntry(array $obj, string $userLanguage): array
     {
         $defaultLanguage = 'en-US';
         $defaultLanguageEntry = '';

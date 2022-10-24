@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * LO courses user results
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -48,7 +50,7 @@ class ilLOUserResults
         int $a_user_id,
         int $a_objective_id,
         int $a_tst_type
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -77,7 +79,7 @@ class ilLOUserResults
         return $ur;
     }
 
-    public static function resetFinalByObjective(int $a_objective_id) : void
+    public static function resetFinalByObjective(int $a_objective_id): void
     {
         global $DIC;
 
@@ -88,17 +90,17 @@ class ilLOUserResults
         $db->manipulate($query);
     }
 
-    protected static function isValidType(int $a_type) : bool
+    protected static function isValidType(int $a_type): bool
     {
         return in_array($a_type, array(self::TYPE_INITIAL, self::TYPE_QUALIFIED));
     }
 
-    protected static function isValidStatus(int $a_status) : bool
+    protected static function isValidStatus(int $a_status): bool
     {
         return in_array($a_status, array(self::STATUS_COMPLETED, self::STATUS_FAILED));
     }
 
-    public static function deleteResultsForUser(int $a_user_id) : bool
+    public static function deleteResultsForUser(int $a_user_id): bool
     {
         global $DIC;
 
@@ -112,7 +114,7 @@ class ilLOUserResults
         return true;
     }
 
-    public static function deleteResultsForCourse(int $a_course_id) : bool
+    public static function deleteResultsForCourse(int $a_course_id): bool
     {
         global $DIC;
 
@@ -125,7 +127,7 @@ class ilLOUserResults
         return true;
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $query = 'DELETE FROM loc_user_results ' .
             'WHERE course_id = ' . $this->db->quote($this->course_obj_id, ilDBConstants::T_INTEGER) . ' ' .
@@ -139,7 +141,7 @@ class ilLOUserResults
         bool $a_remove_initial,
         bool $a_remove_qualified,
         array $a_objective_ids
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -183,7 +185,7 @@ class ilLOUserResults
         int $a_limit_percentage,
         int $a_tries,
         bool $a_is_final
-    ) : bool {
+    ): bool {
         if (!self::isValidType($a_type) ||
             !self::isValidStatus($a_status)) {
             return false;
@@ -208,7 +210,7 @@ class ilLOUserResults
         return true;
     }
 
-    protected function findObjectiveIds(int $a_type = 0, int $a_status = 0, ?bool $a_is_final = null) : array
+    protected function findObjectiveIds(int $a_type = 0, int $a_status = 0, ?bool $a_is_final = null): array
     {
         $res = array();
         $sql = "SELECT objective_id" .
@@ -234,7 +236,7 @@ class ilLOUserResults
         return $res;
     }
 
-    public function getCompletedObjectiveIdsByType(int $a_type) : array
+    public function getCompletedObjectiveIdsByType(int $a_type): array
     {
         return $this->findObjectiveIds($a_type, self::STATUS_COMPLETED);
     }
@@ -242,7 +244,7 @@ class ilLOUserResults
     /**
      * Get all objectives where the user failed the initial test
      */
-    public function getSuggestedObjectiveIds() : array
+    public function getSuggestedObjectiveIds(): array
     {
         return $this->findObjectiveIds(self::TYPE_INITIAL, self::STATUS_FAILED);
     }
@@ -250,7 +252,7 @@ class ilLOUserResults
     /**
      * Get all objectives where the user completed the qualified test
      */
-    public function getCompletedObjectiveIds() : array
+    public function getCompletedObjectiveIds(): array
     {
         $settings = ilLOSettings::getInstanceByObjId($this->course_obj_id);
 
@@ -282,12 +284,12 @@ class ilLOUserResults
         return [];
     }
 
-    public function getFailedObjectiveIds(bool $a_is_final = true) : array
+    public function getFailedObjectiveIds(bool $a_is_final = true): array
     {
         return $this->findObjectiveIds(self::TYPE_QUALIFIED, self::STATUS_FAILED, $a_is_final);
     }
 
-    public function getCourseResultsForUserPresentation() : array
+    public function getCourseResultsForUserPresentation(): array
     {
         $res = [];
         $settings = ilLOSettings::getInstanceByObjId($this->course_obj_id);
@@ -317,7 +319,7 @@ class ilLOUserResults
     /**
      * @return int[]
      */
-    public static function getObjectiveStatusForLP(int $a_user_id, int $a_obj_id, array $a_objective_ids) : array
+    public static function getObjectiveStatusForLP(int $a_user_id, int $a_obj_id, array $a_objective_ids): array
     {
         global $DIC;
 
@@ -450,7 +452,7 @@ class ilLOUserResults
         }
     }
 
-    public static function hasResults(int $a_container_id, int $a_user_id) : bool
+    public static function hasResults(int $a_container_id, int $a_user_id): bool
     {
         global $DIC;
 
@@ -469,7 +471,7 @@ class ilLOUserResults
     /**
      * Get completed learning objectives for user and time frame
      */
-    public static function getCompletionsOfUser(int $a_user_id, int $a_from_ts, int $a_to_ts) : array
+    public static function getCompletionsOfUser(int $a_user_id, int $a_from_ts, int $a_to_ts): array
     {
         global $DIC;
 

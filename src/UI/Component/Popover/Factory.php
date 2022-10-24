@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,10 +17,10 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Popover;
 
-use \ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Component;
 
 /**
  * Factory to create different types of Popovers.
@@ -50,7 +52,7 @@ interface Factory
      * @param Component|Component[] $content
      * @return \ILIAS\UI\Component\Popover\Standard
      */
-    public function standard($content) : Standard;
+    public function standard($content): Standard;
 
 
     /**
@@ -70,5 +72,5 @@ interface Factory
      * @param Component[] $items
      * @return \ILIAS\UI\Component\Popover\Listing
      */
-    public function listing(array $items) : Listing;
+    public function listing(array $items): Listing;
 }

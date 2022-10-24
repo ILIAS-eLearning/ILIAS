@@ -36,7 +36,7 @@ class ilDummyDerivedTaskProvider implements ilDerivedTaskProvider
     /**
      * @inheritdoc
      */
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return true;
     }
@@ -44,7 +44,7 @@ class ilDummyDerivedTaskProvider implements ilDerivedTaskProvider
     /**
      * @inheritdoc
      */
-    public function getTasks(int $user_id) : array
+    public function getTasks(int $user_id): array
     {
         $tasks = [];
 

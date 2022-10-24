@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Description of class
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -47,27 +49,27 @@ class ilRoleXmlImporter
         $this->role_folder = $a_role_folder_id;
     }
 
-    public function setXml(string $a_xml) : void
+    public function setXml(string $a_xml): void
     {
         $this->xml = $a_xml;
     }
 
-    public function getXml() : string
+    public function getXml(): string
     {
         return $this->xml;
     }
 
-    public function getRoleFolderId() : int
+    public function getRoleFolderId(): int
     {
         return $this->role_folder;
     }
 
-    public function getRole() : ?ilObject
+    public function getRole(): ?ilObject
     {
         return $this->role;
     }
 
-    public function setRole(ilObject $role) : void
+    public function setRole(ilObject $role): void
     {
         $this->role = $role;
     }
@@ -76,7 +78,7 @@ class ilRoleXmlImporter
      * import role | role templatae
      * @throws ilRoleImporterException
      */
-    public function import() : void
+    public function import(): void
     {
         $use_internal_errors = libxml_use_internal_errors(true);
         $root = simplexml_load_string($this->getXml());
@@ -92,7 +94,7 @@ class ilRoleXmlImporter
         }
     }
 
-    public function importSimpleXml(SimpleXMLElement $role) : int
+    public function importSimpleXml(SimpleXMLElement $role): int
     {
         $import_id = (string) $role['id'];
         $this->logger->info('Importing role with import_id: ' . $import_id);
@@ -165,7 +167,7 @@ class ilRoleXmlImporter
         return $this->getRole()->getId();
     }
 
-    protected function assignToRoleFolder() : void
+    protected function assignToRoleFolder(): void
     {
         if (!$this->getRoleFolderId()) {
             return;
@@ -182,7 +184,7 @@ class ilRoleXmlImporter
         );
     }
 
-    protected function initRole(string $import_id) : void
+    protected function initRole(string $import_id): void
     {
         if ($this->getRole()) {
             return;
@@ -208,7 +210,7 @@ class ilRoleXmlImporter
         $this->role->setImportId($import_id);
     }
 
-    protected function parseXmlErrors() : string
+    protected function parseXmlErrors(): string
     {
         $errors = '';
 

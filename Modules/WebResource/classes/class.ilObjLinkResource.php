@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class ilObjLinkResource extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    protected function getWebLinkRepo() : ilWebLinkRepository
+    protected function getWebLinkRepo(): ilWebLinkRepository
     {
         return new ilWebLinkDatabaseRepository($this->getId());
     }
@@ -36,7 +38,7 @@ class ilObjLinkResource extends ilObject
     /**
      * @todo how to handle this meta data switch
      */
-    public function create($a_upload = false) : int
+    public function create($a_upload = false): int
     {
         $new_id = parent::create();
         if (!$a_upload) {
@@ -45,13 +47,13 @@ class ilObjLinkResource extends ilObject
         return $new_id;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         $this->updateMetaData();
         return parent::update();
     }
 
-    protected function doMDUpdateListener(string $a_element) : void
+    protected function doMDUpdateListener(string $a_element): void
     {
         $md = new ilMD($this->getId(), 0, $this->getType());
         if (!is_object($md_gen = $md->getGeneral())) {
@@ -78,7 +80,7 @@ class ilObjLinkResource extends ilObject
         }
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         // always call parent delete function first!!
         if (!parent::delete()) {
@@ -87,7 +89,9 @@ class ilObjLinkResource extends ilObject
 
         // delete items and list
         $this->getWebLinkRepo()->deleteAllItems();
-        $this->getWebLinkRepo()->deleteList();
+        if ($this->getWebLinkRepo()->doesListExist()) {
+            $this->getWebLinkRepo()->deleteList();
+        }
 
         // delete meta data
         $this->deleteMetaData();
@@ -99,7 +103,7 @@ class ilObjLinkResource extends ilObject
         int $target_id,
         int $copy_id = 0,
         bool $omit_tree = false
-    ) : ?ilObject {
+    ): ?ilObject {
         $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
         $this->cloneMetaData($new_obj);
 
@@ -125,7 +129,7 @@ class ilObjLinkResource extends ilObject
 
         // append copy info weblink title
         if ($new_web_link_repo->doesOnlyOneItemExist(true)) {
-            $item = ilObjLinkResourceAccess::_getFirstLink($this->getId());
+            $item = ilObjLinkResourceAccess::_getFirstLink($new_obj->getId());
             $draft = new ilWebLinkDraftItem(
                 $item->isInternal(),
                 $new_obj->getTitle(),
@@ -139,7 +143,7 @@ class ilObjLinkResource extends ilObject
         return $new_obj;
     }
 
-    public function toXML(ilXmlWriter $writer) : void
+    public function toXML(ilXmlWriter $writer): void
     {
         $attribs = array("obj_id" => "il_" . IL_INST_ID . "_webr_" . $this->getId(
             )

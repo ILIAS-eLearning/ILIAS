@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -22,8 +23,8 @@ use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
 
 final class EmployeeTalkUserActionProvider extends ilUserActionProvider
 {
-    const JUMP_TO_USER_TALK_LIST = 'etal_jump_to_user_talks';
-    
+    public const JUMP_TO_USER_TALK_LIST = 'etal_jump_to_user_talks';
+
     private ilLanguage $language;
     private ilCtrl $controlFlow;
 
@@ -41,7 +42,7 @@ final class EmployeeTalkUserActionProvider extends ilUserActionProvider
         $this->language->loadLanguageModule('etal');
     }
 
-    public function collectActionsForTargetUser($a_target_user) : ilUserActionCollection
+    public function collectActionsForTargetUser($a_target_user): ilUserActionCollection
     {
         $actions = ilUserActionCollection::getInstance();
 
@@ -60,12 +61,12 @@ final class EmployeeTalkUserActionProvider extends ilUserActionProvider
         return $actions;
     }
 
-    public function getComponentId() : string
+    public function getComponentId(): string
     {
         return "etal";
     }
 
-    public function getActionTypes() : array
+    public function getActionTypes(): array
     {
         return [
             self::JUMP_TO_USER_TALK_LIST => $this->language->txt('mm_org_etal')

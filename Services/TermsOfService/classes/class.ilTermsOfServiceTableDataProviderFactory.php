@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,7 +35,7 @@ class ilTermsOfServiceTableDataProviderFactory
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      * @throws InvalidArgumentException
      */
-    public function getByContext(string $context) : ilTermsOfServiceTableDataProvider
+    public function getByContext(string $context): ilTermsOfServiceTableDataProvider
     {
         switch ($context) {
             case self::CONTEXT_ACCEPTANCE_HISTORY:
@@ -52,7 +54,7 @@ class ilTermsOfServiceTableDataProviderFactory
      * @param array $mandatoryMemberVariables
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      */
-    protected function validateConfiguration(array $mandatoryMemberVariables) : void
+    protected function validateConfiguration(array $mandatoryMemberVariables): void
     {
         foreach ($mandatoryMemberVariables as $member) {
             if (null === $this->{$member}) {
@@ -67,7 +69,7 @@ class ilTermsOfServiceTableDataProviderFactory
      * @return ilTermsOfServiceException
      * @throws InvalidArgumentException
      */
-    protected function getExceptionByMember(string $member) : ilTermsOfServiceException
+    protected function getExceptionByMember(string $member): ilTermsOfServiceException
     {
         switch ($member) {
             case 'db':
@@ -80,12 +82,12 @@ class ilTermsOfServiceTableDataProviderFactory
         }
     }
 
-    public function setDatabaseAdapter(?ilDBInterface $db) : void
+    public function setDatabaseAdapter(?ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function getDatabaseAdapter() : ?ilDBInterface
+    public function getDatabaseAdapter(): ?ilDBInterface
     {
         return $this->db;
     }

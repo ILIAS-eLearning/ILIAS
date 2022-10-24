@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Counter;
 
 use ILIAS\UI\Component\Component;
@@ -34,10 +36,10 @@ interface Counter extends Component
      *
      * @return	string	One of the counter types.
      */
-    public function getType() : string;
+    public function getType(): string;
 
     /**
      * Get the number on the counter.
      */
-    public function getNumber() : int;
+    public function getNumber(): int;
 }

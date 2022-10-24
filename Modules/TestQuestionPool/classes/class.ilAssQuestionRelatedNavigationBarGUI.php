@@ -1,6 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -29,11 +43,11 @@ class ilAssQuestionRelatedNavigationBarGUI
     protected $hintRequestsPossible;
 
     protected $hintRequestsExist;
-    
+
     protected $hintRequestCmd;
-    
+
     protected $hintListCmd;
-    
+
     public function __construct(ilCtrl $ctrl, ilLanguage $lng)
     {
         $this->ctrl = $ctrl;
@@ -45,7 +59,7 @@ class ilAssQuestionRelatedNavigationBarGUI
         return $this->hintListCmd;
     }
 
-    public function setHintListCmd($hintListCmd) : void
+    public function setHintListCmd($hintListCmd): void
     {
         $this->hintListCmd = $hintListCmd;
     }
@@ -55,12 +69,12 @@ class ilAssQuestionRelatedNavigationBarGUI
         return $this->hintRequestCmd;
     }
 
-    public function setHintRequestCmd($hintRequestCmd) : void
+    public function setHintRequestCmd($hintRequestCmd): void
     {
         $this->hintRequestCmd = $hintRequestCmd;
     }
 
-    public function setHintRequestsExist($hintRequestsExist) : void
+    public function setHintRequestsExist($hintRequestsExist): void
     {
         $this->hintRequestsExist = $hintRequestsExist;
     }
@@ -70,7 +84,7 @@ class ilAssQuestionRelatedNavigationBarGUI
         return $this->hintRequestsExist;
     }
 
-    public function setHintRequestsPossible($hintRequestsPossible) : void
+    public function setHintRequestsPossible($hintRequestsPossible): void
     {
         $this->hintRequestsPossible = $hintRequestsPossible;
     }
@@ -80,7 +94,7 @@ class ilAssQuestionRelatedNavigationBarGUI
         return $this->hintRequestsPossible;
     }
 
-    public function setHintProvidingEnabled($hintProvidingEnabled) : void
+    public function setHintProvidingEnabled($hintProvidingEnabled): void
     {
         $this->hintProvidingEnabled = $hintProvidingEnabled;
     }
@@ -90,7 +104,7 @@ class ilAssQuestionRelatedNavigationBarGUI
         return $this->hintProvidingEnabled;
     }
 
-    public function setInstantResponseEnabled($instantFeedbackEnabled) : void
+    public function setInstantResponseEnabled($instantFeedbackEnabled): void
     {
         $this->instantResponseEnabled = $instantFeedbackEnabled;
     }
@@ -100,7 +114,7 @@ class ilAssQuestionRelatedNavigationBarGUI
         return $this->instantResponseEnabled;
     }
 
-    public function setInstantResponseCmd($instantResponseCmd) : void
+    public function setInstantResponseCmd($instantResponseCmd): void
     {
         $this->instantResponseCmd = $instantResponseCmd;
     }
@@ -110,7 +124,7 @@ class ilAssQuestionRelatedNavigationBarGUI
         return $this->instantResponseCmd;
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $navTpl = new ilTemplate('tpl.qst_question_related_navigation.html', true, true, 'Modules/TestQuestionPool');
 
@@ -135,7 +149,7 @@ class ilAssQuestionRelatedNavigationBarGUI
                 } else {
                     $buttonText = $this->lng->txt("button_request_question_hint");
                 }
-                
+
                 $navTpl->setCurrentBlock("button_request_next_question_hint");
                 $navTpl->setVariable("CMD_REQUEST_NEXT_QUESTION_HINT", $this->getHintRequestCmd());
                 $navTpl->setVariable("TEXT_REQUEST_NEXT_QUESTION_HINT", $buttonText);
@@ -158,7 +172,7 @@ class ilAssQuestionRelatedNavigationBarGUI
             $navTpl->setCurrentBlock("question_related_navigation");
             $navTpl->parseCurrentBlock();
         }
-        
+
         return $navTpl->get();
     }
 }

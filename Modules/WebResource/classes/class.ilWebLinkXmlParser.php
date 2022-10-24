@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * XML  parser for weblink xml
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -70,27 +72,27 @@ class ilWebLinkXmlParser extends ilMDSaxParser
         $this->setThrowException(true);
     }
 
-    public function setWebLink(ilObjLinkResource $webl) : void
+    public function setWebLink(ilObjLinkResource $webl): void
     {
         $this->webl = $webl;
     }
 
-    public function getWebLink() : ilObjLinkResource
+    public function getWebLink(): ilObjLinkResource
     {
         return $this->webl;
     }
 
-    public function setMode(int $a_mode) : void
+    public function setMode(int $a_mode): void
     {
         $this->mode = $a_mode;
     }
 
-    public function getMode() : int
+    public function getMode(): int
     {
         return $this->mode;
     }
 
-    protected function resetStoredValues() : void
+    protected function resetStoredValues(): void
     {
         $this->current_item_create = false;
         $this->current_item_update = false;
@@ -105,12 +107,12 @@ class ilWebLinkXmlParser extends ilMDSaxParser
         $this->current_internal = null;
     }
 
-    public function start() : void
+    public function start(): void
     {
         $this->startParsing();
     }
 
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler(
@@ -125,7 +127,7 @@ class ilWebLinkXmlParser extends ilMDSaxParser
         $a_xml_parser,
         string $a_name,
         array $a_attribs
-    ) : void {
+    ): void {
         global $DIC;
 
         if ($this->in_metadata) {
@@ -259,7 +261,7 @@ class ilWebLinkXmlParser extends ilMDSaxParser
         }
     }
 
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         if ($this->in_metadata) {
             parent::handlerEndTag($a_xml_parser, $a_name);
@@ -349,7 +351,7 @@ class ilWebLinkXmlParser extends ilMDSaxParser
         $this->cdata = '';
     }
 
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         if ($this->in_metadata) {
             parent::handlerCharacterData($a_xml_parser, $a_data);

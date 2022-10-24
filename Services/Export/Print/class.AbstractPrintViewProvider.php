@@ -46,19 +46,19 @@ abstract class AbstractPrintViewProvider implements PrintViewProvider
      * Get output mode
      * @return string self::PRINT|self::OFFLINE
      */
-    protected function getOutputMode() : string
+    protected function getOutputMode(): string
     {
         return $this->offline
             ? self::OFFLINE
             : self::PRINT;
     }
 
-    public function getOnSubmitCode() : string
+    public function getOnSubmitCode(): string
     {
         return "";
     }
 
-    public function autoPageBreak() : bool
+    public function autoPageBreak(): bool
     {
         return true;
     }
@@ -66,7 +66,7 @@ abstract class AbstractPrintViewProvider implements PrintViewProvider
     /**
      * @inheritDoc
      */
-    public function getSelectionForm() : ?ilPropertyFormGUI
+    public function getSelectionForm(): ?ilPropertyFormGUI
     {
         return null;
     }
@@ -74,7 +74,7 @@ abstract class AbstractPrintViewProvider implements PrintViewProvider
     /**
      * @inheritDoc
      */
-    public function getPages() : array
+    public function getPages(): array
     {
         return [];
     }
@@ -82,7 +82,7 @@ abstract class AbstractPrintViewProvider implements PrintViewProvider
     /**
      * @inheritDoc
      */
-    public function getTemplateInjectors() : array
+    public function getTemplateInjectors(): array
     {
         return [];
     }

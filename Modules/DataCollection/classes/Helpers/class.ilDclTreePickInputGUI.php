@@ -55,7 +55,7 @@ class ilDclTreePickInputGUI extends ilCustomInputGUI
         $this->lng = $lng;
     }
 
-    public function getHtml() : string
+    public function getHtml(): string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -73,7 +73,7 @@ class ilDclTreePickInputGUI extends ilCustomInputGUI
         return $out;
     }
 
-    public function setValueByArray(array $values) : void
+    public function setValueByArray(array $values): void
     {
         parent::setValueByArray($values);
         $path = new ilPathGUI();

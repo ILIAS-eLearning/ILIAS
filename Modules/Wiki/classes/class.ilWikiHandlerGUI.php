@@ -56,13 +56,13 @@ class ilWikiHandlerGUI implements ilCtrlBaseClassInterface
 
         $DIC->globalScreen()->tool()->context()->claim()->repository();
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $ilAccess = $this->access;
         $tpl = $this->tpl;
         $ilNavigationHistory = $this->nav_history;
-        
+
         $next_class = $this->ctrl->getNextClass($this);
         if ($next_class == "") {
             $this->ctrl->setCmdClass("ilobjwikigui");
@@ -85,9 +85,9 @@ class ilWikiHandlerGUI implements ilCtrlBaseClassInterface
 
                 $page_id = ilWikiPage::getPageIdForTitle($obj_id, $page);
                 $ptitle = ilWikiPage::lookupTitle($page_id);
-                
+
                 $title .= ": " . $ptitle;
-                
+
                 $append = ($this->requested_page !== "")
                     ? "_" . ilWikiUtil::makeUrlTitle($page)
                     : "";

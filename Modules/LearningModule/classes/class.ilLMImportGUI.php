@@ -46,8 +46,8 @@ class ilLMImportGUI
         $this->tpl = $DIC["tpl"];
         $this->lm = $a_lm;
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -57,8 +57,8 @@ class ilLMImportGUI
             $this->$cmd();
         }
     }
-    
-    public function showTranslationImportForm() : void
+
+    public function showTranslationImportForm(): void
     {
         $lng = $this->lng;
         $tpl = $this->tpl;
@@ -68,7 +68,7 @@ class ilLMImportGUI
         $tpl->setContent($form->getHTML());
     }
 
-    public function initTranslationImportForm() : ilPropertyFormGUI
+    public function initTranslationImportForm(): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -88,8 +88,8 @@ class ilLMImportGUI
 
         $ot = ilObjectTranslation::getInstance($this->lm->getId());
         foreach ($ot->getLanguages() as $l) {
-            if ($l["lang_code"] != $ot->getMasterLanguage()) {
-                $options[$l["lang_code"]] = $lng->txt("meta_l_" . $l["lang_code"]);
+            if ($l->getLanguageCode() !== $ot->getMasterLanguage()) {
+                $options[$l->getLanguageCode()] = $lng->txt("meta_l_" . $l->getLanguageCode());
             }
         }
         $si = new ilSelectInputGUI($lng->txt("cont_import_lang"), "import_lang");
@@ -103,7 +103,7 @@ class ilLMImportGUI
         return $form;
     }
 
-    public function importTranslation() : void
+    public function importTranslation(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;

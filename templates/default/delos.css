@@ -7027,7 +7027,10 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   padding: 6px 15px;
 }
 .panel-secondary .panel-body .il-item-group:first-child {
-  margin: -15px -15px 0 -15px;
+  margin-top: -15px;
+}
+.panel-secondary .panel-body .il-item-group:last-child {
+  margin-bottom: -15px;
 }
 .panel-secondary .panel-body .il-item-group .il-item {
   padding-left: 15px;
@@ -7122,8 +7125,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .il-card a {
   overflow: hidden;
 }
-.il-card .card-title .btn,
-.il-card .card-title a {
+.il-card .card-title {
   font-size: 0.875rem;
 }
 .il-card.thumbnail {
@@ -7170,7 +7172,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   z-index: 300;
 }
 .il-card .il-card-repository-head .icon {
-  filter: brightness(3);
+  filter: brightness(5);
 }
 .il-card .il-card-repository-head > div {
   padding: 6px 6px;
@@ -7757,6 +7759,9 @@ ul.dropdown-menu > li > .btn:focus {
   color: #6f6f6f;
   overflow: hidden;
 }
+.il-item .il-item-property-name:not(:empty):after {
+  content: ": ";
+}
 .il-item .il-item-property-value {
   font-size: 0.75rem;
   overflow: hidden;
@@ -7818,7 +7823,7 @@ ul.dropdown-menu > li > .btn:focus {
   margin-right: 0px;
 }
 .il-notification-item .dropdown {
-  margin-top: -6.875rem;
+  margin-top: -20px;
 }
 .il-item-shy {
   display: flex;
@@ -7850,7 +7855,6 @@ ul.dropdown-menu > li > .btn:focus {
 }
 @media only screen and (min-width: 769px) {
   .panel-secondary .il-item {
-    padding: 6px 15px;
     width: 100%;
   }
   .panel-secondary .il-item .il-item-title {
@@ -7859,6 +7863,10 @@ ul.dropdown-menu > li > .btn:focus {
   .panel-secondary .il-item .il-item-description {
     padding-top: 0;
     word-break: break-word;
+  }
+  .panel-secondary .il-item .il-item-divider {
+    padding: 6px 0 0 0;
+    margin: 0 0 6px 0;
   }
   .panel-secondary .il-item .col-sm-3 {
     margin-top: 3px;
@@ -8521,6 +8529,9 @@ input[type="checkbox"]:focus:focus-visible {
   background-color: initial;
   font-size: 0.875rem;
 }
+.il-filter .glyphicon {
+  font-size: 0.875rem;
+}
 .il-filter-inputs-active {
   background-color: #f9f9f9;
   padding: 3px 9px;
@@ -8617,21 +8628,22 @@ input[type="checkbox"]:focus:focus-visible {
   margin-bottom: 6px;
   padding: 9px;
 }
-.ui-input-file-input .glyph[aria-label="Close"],
-.ui-input-file-input .glyph[aria-label="Close Disabled"] {
-  margin-right: 9px;
-  float: right;
+.ui-input-file-input span {
+  font-size: 0.875rem;
 }
-.ui-input-file-input .glyph[aria-label="Expand Content"],
-.ui-input-file-input .glyph[aria-label="Collapse Content"] {
+.ui-input-file-input span[data-action="collapse"],
+.ui-input-file-input span [data-file-action="expand"] {
   margin: 9px 0;
 }
-.ui-input-file-info span[data-dz-name],
-.ui-input-file-info span[data-dz-size] {
-  font-size: 0.875rem;
+.ui-input-file-input span[data-action="remove"] .glyph {
   margin-left: 9px;
+  float: right;
 }
-.ui-input-file-info span[data-dz-size] {
+.ui-input-file-input span[data-dz-name] {
+  margin-right: 9px;
+}
+.ui-input-file-input span[data-dz-size] {
+  margin-right: 9px;
   font-style: italic;
 }
 .il-table-presentation-viewcontrols {
@@ -8887,7 +8899,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
   color: #161616;
   font-size: 1.115rem;
   font-weight: 400;
-  margin-bottom: 30px;
+  margin-bottom: 27px;
   margin-top: 0;
   padding: 6px 12px;
 }
@@ -8989,7 +9001,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
   color: #161616;
   font-size: 1rem;
   font-weight: 400;
-  margin-top: -5px;
+  margin-top: -4.5px;
 }
 #il_right_col .il-workflow {
   border: 1px solid #dddddd;
@@ -9106,17 +9118,37 @@ div.alert ul > li:before {
   -o-transition: -o-transform 0.15s ease-out;
   transition: transform 0.15s ease-out;
 }
-.carousel.slide.text-only .carousel-inner {
+.carousel .carousel-inner {
   min-height: 400px;
 }
-.carousel.slide.text-only .carousel-indicators li {
-  border-color: black;
+.carousel .carousel-indicators li {
+  border-color: #dddddd;
+  background-color: #4c6586;
 }
-.carousel.slide.text-only .carousel-indicators li.active {
-  background-color: black;
+.carousel .carousel-indicators li.active {
+  background-color: white;
 }
-.carousel.slide.text-only .carousel-control {
-  background: none !important;
+.carousel .carousel-control {
+  background: transparent;
+  color: #4c6586;
+  text-shadow: 0px 0px 8px white;
+  opacity: 0.9;
+}
+.carousel .carousel-control:hover,
+.carousel .carousel-control:focus-visible {
+  position: absolute;
+  opacity: 1;
+  text-shadow: 0px 0px 10px white;
+}
+.il-modal-roundtrip .il-standard-form .row .col-sm-4,
+.il-modal-roundtrip .il-standard-form .row .col-md-3,
+.il-modal-roundtrip .il-standard-form .row .col-lg-2 {
+  width: 33.33%;
+}
+.il-modal-roundtrip .il-standard-form .row .col-sm-8,
+.il-modal-roundtrip .il-standard-form .row .col-md-9,
+.il-modal-roundtrip .il-standard-form .row .col-lg-10 {
+  width: 66.67%;
 }
 .il-tree {
   list-style-type: none;
@@ -9580,7 +9612,7 @@ footer {
     flex-grow: 1;
   }
   footer {
-    margin-bottom: 30px;
+    margin-bottom: 80px;
   }
 }
 /*
@@ -9614,10 +9646,10 @@ footer {
   display: none;
 }
 .il-maincontrols-slate .btn-bulky {
-  padding: 10px 40px 15px 10px;
+  padding: 15px 40px 15px 9px;
 }
 .il-maincontrols-slate .link-bulky {
-  padding: 10px 10px 15px 10px;
+  padding: 15px 9px 15px 9px;
 }
 .il-maincontrols-slate .btn-bulky,
 .il-maincontrols-slate .link-bulky {
@@ -9635,8 +9667,9 @@ footer {
   font-family: "il-icons";
   font-size: 1.0625rem;
   position: absolute;
-  right: 10px;
-  top: 17px;
+  right: 9px;
+  top: 15px;
+  line-height: 20px;
 }
 .il-maincontrols-slate .btn-bulky.engaged::before,
 .il-maincontrols-slate .link-bulky.engaged::before {
@@ -9659,7 +9692,7 @@ footer {
 }
 .il-maincontrols-slate .btn-bulky .icon,
 .il-maincontrols-slate .link-bulky .icon {
-  margin-right: 5px;
+  margin-right: 6px;
   filter: invert(50%);
 }
 .il-maincontrols-slate .btn-bulky .icon.small,
@@ -9673,7 +9706,7 @@ footer {
 .il-maincontrols-slate .btn-bulky .bulky-label,
 .il-maincontrols-slate .link-bulky .bulky-label {
   font-size: 0.9375rem;
-  line-height: 0.99609375rem;
+  line-height: 20px;
   text-align: left;
   word-break: normal;
 }
@@ -9717,6 +9750,13 @@ footer {
 .il-maincontrols-slate #ilHelpPanel .btn-bulky .bulky-label {
   margin-top: 3px;
 }
+.il-maincontrols-slate .panel-body::after {
+  content: "";
+  display: inline;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
 .il-maincontrols-slate.engaged[data-depth-level="2"] .btn-bulky:not(:hover),
 .il-maincontrols-slate.engaged[data-depth-level="2"] .link-bulky:not(:hover) {
   background-color: #f9f9f9;
@@ -9734,16 +9774,16 @@ footer {
 .il-maincontrols-slate-content h2,
 .il-maincontrols-slate-content h3,
 .il-maincontrols-slate-content li {
-  padding: 10px 20px;
+  padding: 9px 18px;
 }
 .il-maincontrols-slate-content > hr {
-  margin: 10px 0;
+  margin: 9px 0;
 }
 .il-maincontrols-slate-content li.jstree-node {
-  padding: 4px 0;
+  padding: 3px 0;
 }
 .il-maincontrols-slate-content li.il-workflow-step {
-  padding: 0 20px;
+  padding: 0 18px;
 }
 .il-maincontrols-slate-close button,
 .il-maincontrols-slate-back button {
@@ -9825,7 +9865,7 @@ footer {
   filter: invert(50%);
   font-family: 'il-icons';
   font-size: 1.0625rem;
-  margin-right: 5px;
+  margin-right: 6px;
   position: relative;
 }
 .il-maincontrols-metabar .input-group {
@@ -9959,10 +9999,11 @@ footer {
   .il-metabar-slates .il-metabar-more-slate .btn-bulky:after {
     content: "\e606";
     font-family: "il-icons";
-    font-size: 0.875rem;
     position: absolute;
+    font-size: 1.0625rem;
     right: 12px;
-    top: 1.42857143;
+    top: 15px;
+    line-height: 20px;
   }
   .il-metabar-slates .il-maincontrols-slate {
     min-width: 260px;
@@ -10068,7 +10109,7 @@ footer {
 }
 .il-mainbar-triggers .btn-bulky .icon,
 .il-mainbar-triggers .il-link.link-bulky .icon {
-  filter: brightness(3);
+  filter: brightness(5);
 }
 .il-mainbar-triggers .btn-bulky .icon.small,
 .il-mainbar-triggers .il-link.link-bulky .icon.small {
@@ -10155,7 +10196,7 @@ footer {
   }
   .il-mainbar-triggers .btn-bulky:hover .icon,
   .il-mainbar-triggers .il-link.link-bulky:hover .icon {
-    filter: brightness(3);
+    filter: brightness(5);
   }
   .il-mainbar-triggers .btn-bulky:hover .bulky-label,
   .il-mainbar-triggers .il-link.link-bulky:hover .bulky-label {
@@ -10201,7 +10242,7 @@ footer {
 }
 .il-mainbar-tools-button .btn-bulky .icon,
 .il-mainbar-tools-button .btn-bulky.engaged .icon {
-  filter: brightness(3);
+  filter: brightness(5);
 }
 .il-mainbar-tools-button .btn-bulky.engaged {
   background-color: #e2e8ef;
@@ -10228,7 +10269,7 @@ footer {
 .il-mainbar-tools-entries .btn-bulky .icon,
 .il-mainbar-tools-entries .btn-bulky .icon,
 .il-mainbar-tools-entries .il-link.link-bulky .icon {
-  filter: brightness(3);
+  filter: brightness(5);
 }
 .il-mainbar-tools-entries .btn-bulky .bulky-label,
 .il-mainbar-tools-entries .btn-bulky .bulky-label,
@@ -10330,9 +10371,6 @@ footer {
 .il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content .panel-secondary {
   margin-bottom: 0;
   border: none;
-}
-.il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content .panel-secondary .panel-body {
-  padding-bottom: 0;
 }
 /*
 **************************************************************
@@ -10617,7 +10655,7 @@ footer {
   position: relative;
   display: flex;
   align-items: center;
-  min-height: 48px;
+  min-height: 50px;
   margin-bottom: 2px;
   padding: 6px 12px;
   padding-left: 0;
@@ -10664,7 +10702,7 @@ footer {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  min-height: 48px;
+  min-height: 50px;
   padding: 6px 12px;
   margin-bottom: 2px;
   font-size: 0.9375rem;
@@ -11195,6 +11233,29 @@ footer {
 }
 .il-audio-player {
   background: #2c2c2c;
+}
+.il-audio-container button:focus-visible,
+.il-video-container button:focus-visible {
+  position: relative;
+  outline: 2px solid #FFFFFF;
+  outline-offset: 4px;
+}
+.il-audio-container button:focus-visible::after,
+.il-video-container button:focus-visible::after {
+  content: " ";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid #FFFFFF;
+  outline: 3px solid #0078D7;
+}
+.il-audio-container button:active,
+.il-video-container button:active,
+.il-audio-container button.engaged,
+.il-video-container button.engaged {
+  outline: none;
 }
 /**
 This file contains all less Variables set by ILIAS. Please do not overwrite bootstrap standard variables here.
@@ -12681,20 +12742,16 @@ div.il_info {
   text-align: right;
 }
 /* ---------------- headlines ------------------ */
-a#il_mhead_t_focus {
+h1.il-page-content-header {
   color: #2c2c2c;
   vertical-align: middle;
   font-size: 1.75rem;
   font-weight: 600;
-  cursor: default;
 }
 @media only screen and (max-width: 768px) {
-  a#il_mhead_t_focus {
+  h1.il-page-content-header {
     font-size: 1.5rem;
   }
-}
-a#il_mhead_t_focus[href] {
-  cursor: pointer;
 }
 h1.ilHeader {
   padding: 10px 0 0;
@@ -13052,8 +13109,8 @@ div.ilRightPanel {
   /* may causes a scrollbar when omitted */
   right: -2000px;
 }
-a.ilAccAnchor,
-a.ilAccAnchor:hover {
+div.ilAccAnchor,
+div.ilAccAnchor:hover {
   text-decoration: none;
   color: inherit;
 }
@@ -13255,11 +13312,13 @@ img.ilSmallIcon {
   width: 100%;
 }
 .il_VAccordionInnerContainer {
+  border: 1px solid #dddddd;
   margin-bottom: 12px;
+  border-radius: 3px;
 }
-.il_VAccordionContent .form-horizontal,
-.il_HAccordionContent .form-horizontal {
-  background-color: #f9f9f9;
+.il_VAccordionContent,
+.il_HAccordionContent {
+  padding-top: 9px;
 }
 .il_HAccordionHeadActive,
 .il_VAccordionHeadActive {
@@ -13632,14 +13691,14 @@ blockquote.ilForumQuote {
 div.ilForumQuoteHead {
   font-weight: 600;
   font-size: 0.75rem;
-  margin: 0 0 10px;
+  margin: 0 0 12px;
 }
 /* Modules/Forum */
 #ilFrmPostList {
   list-style: none;
   margin: 0;
   padding: 0;
-  background-color: #f9f9f9;
+  background-color: white;
 }
 .ilFrmPostImage {
   float: left;
@@ -13648,14 +13707,14 @@ div.ilForumQuoteHead {
 }
 .ilFrmPostImage img {
   vertical-align: top;
-  margin: 5px 20px 5px 5px;
+  margin: 9px 18px 9px 6px;
   border: none;
   max-width: 100%;
 }
 @media only screen and (min-width: 768px) {
   .ilFrmPostImage img {
     margin: 0 !important;
-    padding: 5px 8px 5px 5px;
+    padding: 6px 9px 9px 6px;
   }
 }
 .ilFrmPostClear {
@@ -13670,7 +13729,7 @@ div.ilForumQuoteHead {
 }
 @media only screen and (max-width: 768px) {
   .ilFrmPostTitle {
-    margin-top: 5px;
+    margin-top: 6px;
     font-size: 0.875rem;
   }
 }
@@ -13678,12 +13737,13 @@ div.ilFrmPostHeader span.small {
   color: #6f6f6f;
 }
 .ilFrmPostContentContainer {
-  margin: 0 0 10px;
+  margin: 0 0 3px;
   width: 80%;
   float: left;
 }
 @media only screen and (max-width: 768px) {
   .ilFrmPostContentContainer {
+    padding-left: 6px;
     width: 100%;
   }
 }
@@ -13707,31 +13767,36 @@ div.ilFrmPostHeader span.small {
   display: none;
 }
 .ilFrmPostContent {
-  margin-top: 20px;
+  margin-top: 15px;
 }
-.ilFrmPostRow {
-  padding: 3px;
-  border-top: 1px solid #f0f0f0;
+li.ilFrmPostRow {
+  padding: 3px 0 3px 3px;
+  margin-bottom: 15px;
+  border-left: 6px solid #dddddd;
 }
-.ilFrmPostRow div.ilForm {
+li.ilFrmPostRow.tblrowmarked {
+  background-color: white;
+  border-left: 6px solid #B54F00;
+}
+li.ilFrmPostRow div.ilForm {
   width: 100%;
   max-width: 1000px;
 }
-.ilFrmPostRow div.ilForm div.ilFormValue {
+li.ilFrmPostRow div.ilForm div.ilFormValue {
   width: auto;
 }
-.ilFrmPostRow div.ilForm div.ilFormOption {
+li.ilFrmPostRow div.ilForm div.ilFormOption {
   width: 150px;
 }
 @media only screen and (max-width: 768px) {
-  .ilFrmPostRow div.ilForm,
-  .ilFrmPostRow div.ilForm input[type=text],
-  .ilFrmPostRow div.ilForm textarea {
+  li.ilFrmPostRow div.ilForm,
+  li.ilFrmPostRow div.ilForm input[type=text],
+  li.ilFrmPostRow div.ilForm textarea {
     width: 100%;
   }
 }
 @media only screen and (max-width: 768px) {
-  .ilFrmPostRow img.ilUserIcon {
+  li.ilFrmPostRow img.ilUserIcon {
     width: 50px;
     height: 50px;
   }
@@ -13769,9 +13834,10 @@ div.ilFrmPostHeader span.small {
   margin: 0;
   padding: 0;
   font-weight: 600;
+  color: #B54F00;
 }
 .ilFrmPostAttachmentsContainer {
-  margin: 20px 0 0;
+  margin: 15px 0 0;
   font-weight: 600;
 }
 .ilFrmPostAttachmentsContainer a {
@@ -13784,16 +13850,14 @@ div.ilFrmPostHeader span.small {
   float: right;
   margin: 0 0 3px;
 }
-.ilModeratorPosting {
-  background-color: #ff9;
-  padding: 0 5px;
+li.ilModeratorPosting {
+  border-left: 6px solid #f3de2c;
 }
-.ilPostingNeedsActivation {
-  background-color: #ffe4e4;
-  padding: 0 5px;
+li.ilPostingNeedsActivation {
+  border-left: 6px solid #82639e;
 }
 .ilFrmBottomToolbar {
-  margin-top: 20px;
+  margin-top: 15px;
 }
 .ilForumTreeTitle {
   display: inline-block;
@@ -13816,6 +13880,9 @@ div.ilFrmPostHeader span.small {
 }
 .ilForumNotificationSettingsForm {
   white-space: normal;
+}
+.ilForumDraftHistoryEntry {
+  padding: 5px;
 }
 /* Services/Mail */
 a.mailread,
@@ -14602,6 +14669,29 @@ p#copg-auto-save {
 #il-copg-ed-modal .modal-content .Whoops.container .details-container {
   position: static;
 }
+.ilPageVideo button:focus-visible,
+.ilPageAudio button:focus-visible {
+  position: relative;
+  outline: 2px solid #FFFFFF;
+  outline-offset: 4px;
+}
+.ilPageVideo button:focus-visible::after,
+.ilPageAudio button:focus-visible::after {
+  content: " ";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid #FFFFFF;
+  outline: 3px solid #0078D7;
+}
+.ilPageVideo button:active,
+.ilPageAudio button:active,
+.ilPageVideo button.engaged,
+.ilPageAudio button.engaged {
+  outline: none;
+}
 /* Services/Calendar */
 td.even {
   color: #161616;
@@ -15128,6 +15218,15 @@ div.ilTableNav {
   padding: 0 15px;
   font-size: 0.625rem;
   text-align: right;
+  line-height: 20px;
+}
+div.ilTableNav .ilValignMiddle span,
+div.ilTableNav .ilValignMiddle a,
+div.ilTableNav .ilValignMiddle label {
+  vertical-align: middle;
+}
+div.ilTableNav .ilValignMiddle label {
+  margin-bottom: 0;
 }
 div.ilTableNav table {
   width: 100%;
@@ -15213,9 +15312,10 @@ legend.ilTableFilter {
   font-weight: 400;
   text-align: right;
 }
-legend.ilTableFilter > a {
+legend.ilTableFilter > a.btn {
   margin-right: -15px;
   margin-top: -12px;
+  vertical-align: middle;
 }
 fieldset.ilTableFilter {
   background-color: #f9f9f9;
@@ -15285,7 +15385,7 @@ tr.tblheader {
   background-color: #d0d0ff;
 }
 .tblrowmarked {
-  background-color: #ffe4e4 !important;
+  background-color: #e2e8ef;
   color: #161616;
   padding: 3px;
 }
@@ -15302,7 +15402,7 @@ tr.tblheader {
   vertical-align: top;
 }
 .tblrowmarkedtop {
-  background-color: #ffe4e4;
+  background-color: #e2e8ef;
   color: #161616;
   padding: 3px;
   vertical-align: top;
@@ -15416,20 +15516,15 @@ div.ilNoteInput {
 [data-note-el='edit-form-area'] > button {
   margin-bottom: 9px;
 }
-.il-notes-section .panel h2 {
-  display: none;
-}
 .il-notes-section .panel .dropdown-menu {
   right: 0;
   left: inherit;
 }
+.il-notes-section .il-standard-form-header {
+  border-top: 1px solid #dddddd;
+}
 .il-notes-section .il-standard-form-header .il-standard-form-cmd {
   visibility: hidden;
-}
-.il-notes-section .il-section-input-header,
-.il-notes-section .il-standard-form-footer,
-.il-notes-section .il-standard-form-header {
-  background-color: #f9f9f9;
 }
 .il-notes-section textarea {
   height: 6em;
@@ -16925,6 +17020,10 @@ body.ilBodyPrint {
   margin: 15px 0 0 0;
   border-top: 1px solid #dddddd;
 }
+.il_InfoScreenPropertyValue {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
 .il_InfoScreenPropertyValue .ilProfile {
   margin: 0;
 }
@@ -16935,7 +17034,7 @@ body.ilBodyPrint {
   }
 }
 .ilStartupSection {
-  padding-top: 50px;
+  padding-top: 20px;
   width: fit-content;
   margin-left: auto;
   margin-right: auto;
@@ -16950,6 +17049,12 @@ body.ilBodyPrint {
   .ilStartupSection {
     padding-top: 15px;
   }
+}
+ul.ilStartupSectionRegistrationLinks {
+  list-style: none;
+}
+ul.ilStartupSectionRegistrationLinks li {
+  display: inline-block;
 }
 div.ilStartupSection form.form-horizontal {
   border: 1px solid #dddddd;
@@ -17134,8 +17239,8 @@ div.ilRatingOverlay {
 }
 /* Modules/Excercise */
 .ilExcAssignmentBody {
-  padding: 20px;
-  background-color: #f9f9f9;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 .ilExcAssignmentHead img {
   display: block;
@@ -17321,6 +17426,7 @@ span.ilNewsRssIcon:hover {
   padding: 20px;
   position: relative;
   background: #f9f9f9;
+  border: 1px solid #dddddd;
 }
 @media only screen and (max-width: 768px) {
   .ilTimeline > li > .ilTimelinePanel {
@@ -17333,8 +17439,8 @@ span.ilNewsRssIcon:hover {
   right: -14px;
   display: inline-block;
   border-top: 14px solid transparent;
-  border-left: 14px solid #f9f9f9;
-  border-right: 0 solid #f9f9f9;
+  border-left: 14px solid #dddddd;
+  border-right: 0 solid #dddddd;
   border-bottom: 14px solid transparent;
   content: " ";
 }
@@ -18225,10 +18331,12 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   height: 16px;
   vertical-align: sub;
 }
-#onscreenchat-container .chat-window-wrapper .panel .panel-heading .minimize,
-#onscreenchat-container .chat-window-wrapper .panel .panel-heading .close {
-  margin-top: -2px;
+#onscreenchat-container .chat-window-wrapper .panel .panel-heading a.glyph {
+  vertical-align: middle;
+}
+#onscreenchat-container .chat-window-wrapper .panel .panel-heading .minimize {
   margin-left: 5px;
+  vertical-align: middle;
 }
 #onscreenchat-container .chat-window-wrapper .panel .panel .slidedown .glyphicon,
 #onscreenchat-container .chat-window-wrapper .panel .chat .glyphicon {
@@ -18977,8 +19085,7 @@ span.ilProfileBadge .modal .img-responsive {
 }
 .ilPreviewTooltipContent {
   position: relative;
-  background: #F8F8F8;
-  border: 1px solid #E9E9E9;
+  background: white;
   padding: 0;
 }
 .ilPreviewTooltipContent .ilPreviewList {
@@ -19149,6 +19256,14 @@ div.ilc_Question {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+.ilc_qinput_TextInput {
+  max-width: 65vw;
+}
+@media only screen and (max-width: 768px) {
+  .ilc_qinput_TextInput {
+    max-width: 100%;
+  }
+}
 .testSheet {
   background: #EEEEEE;
   border-spacing: 1px;
@@ -19283,29 +19398,6 @@ div.textbox {
   padding-left: 20px;
   background: none;
   cursor: default;
-}
-.clearfix:after,
-.dl-horizontal dd:after,
-.btn-toolbar:after,
-.btn-group-vertical > .btn-group:after,
-.nav:after,
-.pager:after,
-.panel-body:after,
-.modal-header:after,
-.modal-footer:after,
-.container:after,
-.container-fluid:after,
-.row:after,
-.form-horizontal .form-group:after,
-.navbar:after,
-.navbar-header:after,
-.navbar-collapse:after,
-.il-table-presentation-row .il-table-presentation-row-expanded:after {
-  content: ".";
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden;
 }
 div.odd {
   padding: 0.5em 0;

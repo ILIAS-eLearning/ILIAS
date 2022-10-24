@@ -23,9 +23,9 @@
  */
 class ilDclExpressionParser
 {
-    const N_DECIMALS = 1;
-    const SCIENTIFIC_NOTATION_UPPER = 1000000000000;
-    const SCIENTIFIC_NOTATION_LOWER = 0.000000001;
+    public const N_DECIMALS = 1;
+    public const SCIENTIFIC_NOTATION_UPPER = 1000000000000;
+    public const SCIENTIFIC_NOTATION_LOWER = 0.000000001;
 
     protected ilDclBaseRecordModel $record;
     protected ilDclBaseFieldModel $field;
@@ -63,7 +63,7 @@ class ilDclExpressionParser
      * to produce resulting string of parsed expression.
      * @throws ilException
      */
-    public function parse() : string
+    public function parse(): string
     {
         if (isset(self::$cache_tokens[$this->field->getId()])) {
             $tokens = self::$cache_tokens[$this->field->getId()];
@@ -112,15 +112,14 @@ class ilDclExpressionParser
             return sprintf("%e", $value);
         }
         return $value;
-
     }
 
-    public static function getOperators() : array
+    public static function getOperators(): array
     {
         return self::$operators;
     }
 
-    public static function getFunctions() : array
+    public static function getFunctions(): array
     {
         return self::$functions;
     }
@@ -128,7 +127,7 @@ class ilDclExpressionParser
     /**
      * Check if a given token is a math expression
      */
-    protected function isMathToken(string $token) : bool
+    protected function isMathToken(string $token): bool
     {
         if (isset(self::$cache_math_tokens[$this->field->getId()][$token])) {
             return self::$cache_math_tokens[$this->field->getId()][$token];
@@ -138,8 +137,10 @@ class ilDclExpressionParser
             }
             $operators = array_keys(self::getOperators());
             $functions = self::getFunctions();
-            $result = (bool) preg_match('#(\\' . implode("|\\", $operators) . '|' . implode('|', $functions) . ')#',
-                $token);
+            $result = (bool) preg_match(
+                '#(\\' . implode("|\\", $operators) . '|' . implode('|', $functions) . ')#',
+                $token
+            );
             self::$cache_math_tokens[$this->field->getId()][$token] = $result;
 
             return $result;
@@ -149,7 +150,7 @@ class ilDclExpressionParser
     /**
      * Execute any math functions inside a token
      */
-    protected function calculateFunctions(string $token) : string
+    protected function calculateFunctions(string $token): string
     {
         if (isset(self::$cache_math_function_tokens[$this->field->getId()][$token])) {
             $result = self::$cache_math_function_tokens[$this->field->getId()][$token];
@@ -182,7 +183,7 @@ class ilDclExpressionParser
     /**
      * Helper method to return the function and its arguments from a preg_replace_all $result array
      */
-    protected function getFunctionArgs(int $index, array $data) : array
+    protected function getFunctionArgs(int $index, array $data): array
     {
         $return = array(
             'function' => '',
@@ -205,7 +206,7 @@ class ilDclExpressionParser
     /**
      * Given an array of tokens, replace each token that is a placeholder (e.g. [[Field name]]) with it's value
      */
-    protected function substituteFieldValues(array $tokens) : array
+    protected function substituteFieldValues(array $tokens): array
     {
         $replaced = array();
         foreach ($tokens as $token) {
@@ -223,7 +224,7 @@ class ilDclExpressionParser
      * Substitute field values in placehoders like [[Field Title]] from current record
      * @throws ilException
      */
-    protected function substituteFieldValue(string $placeholder) : string
+    protected function substituteFieldValue(string $placeholder): string
     {
         if (isset(self::$cache_fields[$placeholder])) {
             $field = self::$cache_fields[$placeholder];
@@ -255,7 +256,7 @@ class ilDclExpressionParser
      * Parse a math expression
      * @throws Exception
      */
-    protected function parseMath(array $tokens) : ?string
+    protected function parseMath(array $tokens): ?string
     {
         $operators = self::$operators;
         $precedence = 0;

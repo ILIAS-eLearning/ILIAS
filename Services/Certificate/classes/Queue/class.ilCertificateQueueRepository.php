@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,7 +32,7 @@ class ilCertificateQueueRepository
         $this->logger = $logger;
     }
 
-    public function addToQueue(ilCertificateQueueEntry $certificateQueueEntry) : void
+    public function addToQueue(ilCertificateQueueEntry $certificateQueueEntry): void
     {
         $this->logger->debug('START - Add new entry to certificate cron job queue');
 
@@ -55,7 +57,7 @@ class ilCertificateQueueRepository
         $this->database->insert('il_cert_cron_queue', $row);
     }
 
-    public function removeFromQueue(int $id) : void
+    public function removeFromQueue(int $id): void
     {
         $this->logger->debug(sprintf('START - Remove entry(id: "%s") from queue', $id));
 
@@ -69,7 +71,7 @@ class ilCertificateQueueRepository
     /**
      * @return ilCertificateQueueEntry[]
      */
-    public function getAllEntriesFromQueue() : array
+    public function getAllEntriesFromQueue(): array
     {
         $this->logger->debug('START - Fetch all entries from queue');
 
@@ -82,7 +84,7 @@ class ilCertificateQueueRepository
                 'Queue entry found: "%s"',
                 json_encode($row, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT)
             ));
-            
+
             $result[] = new ilCertificateQueueEntry(
                 (int) $row['obj_id'],
                 (int) $row['usr_id'],
@@ -99,7 +101,7 @@ class ilCertificateQueueRepository
         return $result;
     }
 
-    public function removeFromQueueByUserId(int $user_id) : void
+    public function removeFromQueueByUserId(int $user_id): void
     {
         $this->logger->debug(sprintf('START - Remove entries for user (usr_id: "%s") from queue', $user_id));
 

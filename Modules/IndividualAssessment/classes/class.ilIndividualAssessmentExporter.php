@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2020 - Stefan Hecken <stefan.hecken@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Manual Assessment exporter class
@@ -12,7 +28,7 @@ class ilIndividualAssessmentExporter extends ilXmlExporter
     /**
      * initialize the exporter
      */
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilIndividualAssessmentDataSet();
     }
@@ -20,7 +36,7 @@ class ilIndividualAssessmentExporter extends ilXmlExporter
     /**
      * @inheritdoc
      */
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         ilFileUtils::makeDirParents($this->getAbsoluteExportDirectory());
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
@@ -31,7 +47,7 @@ class ilIndividualAssessmentExporter extends ilXmlExporter
     /**
      * @inheritdoc
      */
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         $res = [];
 
@@ -50,7 +66,7 @@ class ilIndividualAssessmentExporter extends ilXmlExporter
     /**
      * @inheritdoc
      */
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return [
             "5.2.0" => [

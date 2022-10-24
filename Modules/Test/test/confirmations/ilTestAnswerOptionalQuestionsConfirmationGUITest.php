@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestAnswerOptionalQuestionsConfirmationGUITest
@@ -9,20 +26,20 @@ class ilTestAnswerOptionalQuestionsConfirmationGUITest extends ilTestBaseTestCas
 {
     protected $lng_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->lng_mock = $this->createMock(ilLanguage::class);
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $instance = new ilTestAnswerOptionalQuestionsConfirmationGUI($this->lng_mock);
 
         $this->assertInstanceOf(ilTestAnswerOptionalQuestionsConfirmationGUI::class, $instance);
     }
 
-    public function testGetAndSetCancelCmd() : void
+    public function testGetAndSetCancelCmd(): void
     {
         $expect = "testCancelCmd";
 
@@ -33,7 +50,7 @@ class ilTestAnswerOptionalQuestionsConfirmationGUITest extends ilTestBaseTestCas
         $this->assertEquals($expect, $gui->getCancelCmd());
     }
 
-    public function testGetAndSetConfirmCmd() : void
+    public function testGetAndSetConfirmCmd(): void
     {
         $expect = "testConfirmCmd";
 

@@ -1,18 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * Class ilObjFileServices
@@ -20,81 +24,121 @@
 class ilFileServicesSettings
 {
     private ilSetting $settings;
-    private ilRbacSystem $rbac;
+    private ilDBInterface $db;
     private array $white_list_default = [];
     private array $white_list_negative = [];
     private array $white_list_positive = [];
     private array $white_list_overall = [];
     private array $black_list_prohibited = [];
     private array $black_list_overall = [];
-    
-    
+    private bool $convert_to_ascii = true;
+    private ?bool $bypass = null;
+    protected int $file_admin_ref_id;
+
     public function __construct(
-        ilSetting $settings
+        ilSetting $settings,
+        ilIniFile $client_ini,
+        ilDBInterface $db
     ) {
+        $this->db = $db;
+        $this->convert_to_ascii = (bool) !$client_ini->readVariable('file_access', 'disable_ascii');
         $this->settings = $settings;
         /** @noRector */
-        $this->white_list_default = include "Services/FileServices/defaults/default_whitelist.php";
+        $this->white_list_default = include "./Services/FileServices/defaults/default_whitelist.php";
+        $this->file_admin_ref_id = $this->determineFileAdminRefId();
         $this->read();
     }
-    
-    private function read() : void
+
+    private function determineFileAdminRefId(): int
+    {
+        $r = $this->db->query(
+            "SELECT ref_id FROM object_reference JOIN object_data ON object_reference.obj_id = object_data.obj_id WHERE object_data.type = 'facs';"
+        );
+        $r = $this->db->fetchObject($r);
+        return (int) ($r->ref_id ?? 0);
+    }
+
+    private function determineByPass(): bool
+    {
+        global $DIC;
+        return $DIC->isDependencyAvailable('rbac')
+            && $DIC->rbac()->system()->checkAccess(
+                'upload_blacklisted_files',
+                $this->file_admin_ref_id
+            );
+    }
+
+    public function isByPassAllowedForCurrentUser(): bool
+    {
+        if ($this->bypass !== null) {
+            return $this->bypass;
+        }
+        return $this->bypass = $this->determineByPass();
+    }
+
+    private function read(): void
     {
         $this->readBlackList();
         $this->readWhiteList();
     }
-    
-    private function readWhiteList() : void
+
+    public function isASCIIConvertionEnabled(): bool
+    {
+        return $this->convert_to_ascii;
+    }
+
+    private function readWhiteList(): void
     {
         $cleaner = $this->getCleaner();
-        
+
         $this->white_list_negative = array_map(
             $cleaner,
             explode(",", $this->settings->get("suffix_repl_additional") ?? '')
         );
-        
+
         $this->white_list_positive = array_map(
             $cleaner,
             explode(",", $this->settings->get("suffix_custom_white_list") ?? '')
         );
-        
+
         $this->white_list_overall = array_merge($this->white_list_default, $this->white_list_positive);
         $this->white_list_overall = array_diff($this->white_list_overall, $this->white_list_negative);
         $this->white_list_overall = array_diff($this->white_list_overall, $this->black_list_overall);
         $this->white_list_overall[] = '';
         $this->white_list_overall = array_unique($this->white_list_overall);
+        $this->white_list_overall = array_diff($this->white_list_overall, $this->black_list_prohibited);
     }
-    
-    private function readBlackList() : void
+
+    private function readBlackList(): void
     {
         $cleaner = $this->getCleaner();
-        
+
         $this->black_list_prohibited = array_map(
             $cleaner,
             explode(",", $this->settings->get("suffix_custom_expl_black") ?? '')
         );
-        
-        $this->black_list_prohibited = array_filter($this->black_list_prohibited, fn ($item) : bool => $item !== '');
+
+        $this->black_list_prohibited = array_filter($this->black_list_prohibited, fn ($item): bool => $item !== '');
         $this->black_list_overall = $this->black_list_prohibited;
     }
-    
-    private function getCleaner() : Closure
+
+    private function getCleaner(): Closure
     {
-        return function (string $suffix) : string {
+        return function (string $suffix): string {
             return trim(strtolower($suffix));
         };
     }
-    
-    public function getWhiteListedSuffixes() : array
+
+    public function getWhiteListedSuffixes(): array
     {
         return $this->white_list_overall;
     }
-    
-    public function getBlackListedSuffixes() : array
+
+    public function getBlackListedSuffixes(): array
     {
         return $this->black_list_overall;
     }
-    
+
     /**
      * @internal
      */
@@ -102,27 +146,27 @@ class ilFileServicesSettings
     {
         return $this->white_list_default;
     }
-    
+
     /**
      * @internal
      */
-    public function getWhiteListNegative() : array
+    public function getWhiteListNegative(): array
     {
         return $this->white_list_negative;
     }
-    
+
     /**
      * @internal
      */
-    public function getWhiteListPositive() : array
+    public function getWhiteListPositive(): array
     {
         return $this->white_list_positive;
     }
-    
+
     /**
      * @internal
      */
-    public function getProhibited() : array
+    public function getProhibited(): array
     {
         return $this->black_list_prohibited;
     }

@@ -50,7 +50,7 @@ class MediaObjectStyleSelector
         string $type = "media-action",
         string $action = "media.class",
         string $attr = "class"
-    ) : Dropdown {
+    ): Dropdown {
         $a_chars = \ilPCMediaObjectGUI::_getCharacteristics($this->style_id);
         $ui_wrapper = $this->ui_wrapper;
         $ui = $this->ui;

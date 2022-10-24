@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use ILIAS\Filesystem\Stream\Streams;
@@ -30,8 +32,10 @@ use Psr\Http\Message\RequestInterface;
  */
 class ilDAVFile implements IFile
 {
-    use ilObjFileNews, ilWebDAVCheckValidTitleTrait, ilWebDAVCommonINodeFunctionsTrait;
-    
+    use ilObjFileNews;
+    use ilWebDAVCheckValidTitleTrait;
+    use ilWebDAVCommonINodeFunctionsTrait;
+
     protected ilObjFile $obj;
     protected ilWebDAVRepositoryHelper $repo_helper;
     protected Manager $resource_manager;
@@ -62,25 +66,25 @@ class ilDAVFile implements IFile
     /**
      * @param string|resource $data
      */
-    public function put($data) : ?string
+    public function put($data): ?string
     {
         if (!$this->repo_helper->checkAccess('write', $this->obj->getRefId())) {
             throw new Forbidden("Permission denied. No write access for this file");
         }
-        
+
         $size = 0;
-        
+
         if ($this->request->hasHeader("Content-Length")) {
             $size = (int) $this->request->getHeader("Content-Length")[0];
         }
         if ($size === 0 && $this->request->hasHeader('X-Expected-Entity-Length')) {
             $size = (int) $this->request->getHeader('X-Expected-Entity-Length')[0];
         }
-        
+
         if ($size > ilFileUtils::getUploadSizeLimitBytes()) {
             throw new Forbidden('File is too big');
         }
-        
+
         if ($this->needs_size_check && $this->getSize() === 0) {
             $parent_ref_id = $this->repo_helper->getParentOfRefId($this->obj->getRefId());
             $obj_id = $this->obj->getId();
@@ -88,7 +92,7 @@ class ilDAVFile implements IFile
             $file_obj = new ilObjFile();
             $file_obj->setTitle($this->getName());
             $file_obj->setFileName($this->getName());
-            
+
             $file_dav = $this->dav_factory->createDAVObject($file_obj, $parent_ref_id);
             $file_dav->noSizeCheckNeeded();
             $this->repo_helper->updateLocksAfterResettingObject($obj_id, $file_obj->getId());
@@ -96,16 +100,16 @@ class ilDAVFile implements IFile
         }
 
         $stream = Streams::ofResource($data);
-        
+
         if ($this->versioning_enabled === true ||
             $this->obj->getVersion() === 0 && $this->obj->getMaxVersion() === 0) {
             $this->obj->appendStream($stream, $this->obj->getTitle());
         } else {
             $this->obj->replaceWithStream($stream, $this->obj->getTitle());
         }
-        
+
         $stream->close();
-        
+
         return $this->getETag();
     }
 
@@ -117,26 +121,26 @@ class ilDAVFile implements IFile
         if (!$this->repo_helper->checkAccess("read", $this->obj->getRefId())) {
             throw new Forbidden("Permission denied. No read access for this file");
         }
-        
+
         if (($r_id = $this->obj->getResourceId()) &&
             ($identification = $this->resource_manager->find($r_id))) {
             return $this->resource_consumer->stream($identification)->getStream()->getContents();
         }
-        
+
         throw new NotFound("File not found");
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return ilFileUtils::getValidFilename($this->obj->getTitle());
     }
 
-    public function getContentType() : ?string
+    public function getContentType(): ?string
     {
         return  $this->obj->getFileType();
     }
 
-    public function getETag() : ?string
+    public function getETag(): ?string
     {
         if ($this->getSize() > 0) {
             return '"' . sha1(
@@ -149,7 +153,7 @@ class ilDAVFile implements IFile
         return null;
     }
 
-    public function getSize() : int
+    public function getSize(): int
     {
         try {
             return $this->obj->getFileSize();
@@ -157,32 +161,33 @@ class ilDAVFile implements IFile
             return -1;
         }
     }
-    
-    public function noSizeCheckNeeded() : void
+
+    public function noSizeCheckNeeded(): void
     {
         $this->needs_size_check = false;
     }
 
-    public function setName($name) : void
+    public function setName($name): void
     {
         if (!$this->repo_helper->checkAccess("write", $this->obj->getRefId())) {
             throw new Forbidden('Permission denied');
         }
-        
-        if ($this->isDAVableObjTitle($name) && $this->hasValidFileExtension($name)) {
+
+        if ($this->isDAVableObjTitle($name) &&
+            $name === $this->obj->checkFileExtension($this->getName(), $name)) {
             $this->obj->setTitle($name);
             $this->obj->update();
         } else {
             throw new ilWebDAVNotDavableException(ilWebDAVNotDavableException::OBJECT_TITLE_NOT_DAVABLE);
         }
     }
-    
-    public function delete() : void
+
+    public function delete(): void
     {
         $this->repo_helper->deleteObject($this->obj->getRefId());
     }
-    
-    public function getLastModified() : ?int
+
+    public function getLastModified(): ?int
     {
         return $this->retrieveLastModifiedAsIntFromObjectLastUpdateString($this->obj->getLastUpdateDate());
     }

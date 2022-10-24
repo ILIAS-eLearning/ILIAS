@@ -31,13 +31,13 @@ use ILIAS\FileUpload\Handler\BasicHandlerResult;
  */
 class ilFileVersionsUploadHandlerGUI extends ilCtrlAwareStorageUploadHandler
 {
-    const MODE_APPEND = 'append';
-    const MODE_REPLACE = 'replace';
-    const P_UPLOAD_MODE = 'upload_mode';
+    public const MODE_APPEND = 'append';
+    public const MODE_REPLACE = 'replace';
+    public const P_UPLOAD_MODE = 'upload_mode';
     protected ilObjFile $file;
     protected bool $append;
     protected string $upload_mode = self::MODE_APPEND;
-    
+
     public function __construct(ilObjFile $existing_file, string $upload_mode = self::MODE_APPEND)
     {
         global $DIC;
@@ -46,24 +46,24 @@ class ilFileVersionsUploadHandlerGUI extends ilCtrlAwareStorageUploadHandler
         $this->upload_mode = $this->http->wrapper()->query()->has(self::P_UPLOAD_MODE)
             ? $this->http->wrapper()->query()->retrieve(self::P_UPLOAD_MODE, $DIC->refinery()->kindlyTo()->string())
             : $upload_mode;
-        
+
         $this->ctrl->setParameter($this, self::P_UPLOAD_MODE, $this->upload_mode);
     }
-    
-    protected function getUploadResult() : HandlerResult
+
+    protected function getUploadResult(): HandlerResult
     {
         $this->upload->register(new ilCountPDFPagesPreProcessors());
         $this->upload->process();
         $upload_mode =
-        
+
         $result_array = $this->upload->getResults();
         $result = end($result_array);
-        
+
         if ($result instanceof UploadResult && $result->isOK()) {
             if ($this->upload_mode === self::MODE_REPLACE) {
-                $identifier = (string) $this->file->replaceWithUpload($result, $this->file->getTitle());
+                $identifier = (string) $this->file->replaceWithUpload($result, $result->getName());
             } else {
-                $identifier = (string) $this->file->appendUpload($result, $this->file->getTitle());
+                $identifier = (string) $this->file->appendUpload($result, $result->getName());
             }
             $status = HandlerResult::STATUS_OK;
             $message = "file upload OK";
@@ -72,7 +72,7 @@ class ilFileVersionsUploadHandlerGUI extends ilCtrlAwareStorageUploadHandler
             $status = HandlerResult::STATUS_FAILED;
             $message = $result->getStatus()->getMessage();
         }
-        
+
         return new BasicHandlerResult(
             $this->getFileIdentifierParameterName(),
             $status,

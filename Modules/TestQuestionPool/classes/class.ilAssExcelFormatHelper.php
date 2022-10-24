@@ -1,7 +1,22 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 require_once 'Modules/Test/classes/inc.AssessmentConstants.php';
-require_once 'Services/Excel/classes/class.ilExcel.php';
 
 /**
  * Class ilAssExcelFormatHelper
@@ -9,7 +24,7 @@ require_once 'Services/Excel/classes/class.ilExcel.php';
  */
 class ilAssExcelFormatHelper extends ilExcel
 {
-    const escapeString = true;
+    public const escapeString = true;
 
     protected $stringEscaping = self::escapeString;
 
@@ -25,7 +40,7 @@ class ilAssExcelFormatHelper extends ilExcel
      * @param string $coordinates
      * @param string $value
      */
-    public function setFormattedExcelTitle($coordinates, $value) : void
+    public function setFormattedExcelTitle($coordinates, $value): void
     {
         $this->setCellByCoordinates($coordinates, $value);
         $this->setColors($coordinates, EXCEL_BACKGROUND_COLOR);
@@ -35,7 +50,7 @@ class ilAssExcelFormatHelper extends ilExcel
     /**
      * @inheritdoc
      */
-    public function setCellByCoordinates($a_coords, $a_value) : void
+    public function setCellByCoordinates($a_coords, $a_value): void
     {
         if (is_string($a_value) && !is_numeric($a_value)) {
             $this->workbook->getActiveSheet()->setCellValueExplicit(
@@ -52,7 +67,7 @@ class ilAssExcelFormatHelper extends ilExcel
     /**
      * @inheritdoc
      */
-    public function setCell($a_row, $a_col, $a_value, $datatype = null) : void
+    public function setCell($a_row, $a_col, $a_value, $datatype = null): void
     {
         if (is_string($a_value) && !is_numeric($a_value)) {
             $this->workbook->getActiveSheet()->setCellValueExplicitByColumnAndRow(
@@ -71,7 +86,7 @@ class ilAssExcelFormatHelper extends ilExcel
      * @param string $a_value
      * @return string
      */
-    protected function prepareString($a_value) : string
+    protected function prepareString($a_value): string
     {
         if ($this->stringEscaping == false) {
             return $a_value;
@@ -91,7 +106,7 @@ class ilAssExcelFormatHelper extends ilExcel
     /**
      * @param int $stringEscaping
      */
-    public function setStringEscaping($stringEscaping) : void
+    public function setStringEscaping($stringEscaping): void
     {
         $this->stringEscaping = $stringEscaping;
     }

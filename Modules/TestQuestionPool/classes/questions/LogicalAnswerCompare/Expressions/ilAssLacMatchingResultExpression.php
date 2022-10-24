@@ -1,7 +1,20 @@
 <?php
 
-include_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacAbstractExpression.php";
-include_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacSolutionExpressionInterface.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class MatchingResultExpression for the expression ;n:m;
@@ -45,7 +58,7 @@ class ilAssLacMatchingResultExpression extends ilAssLacAbstractExpression implem
      */
     protected $right_numeric_value;
 
-    protected function getPattern() : string
+    protected function getPattern(): string
     {
         return '/;(\d+):(\d+);/';
     }
@@ -57,7 +70,7 @@ class ilAssLacMatchingResultExpression extends ilAssLacAbstractExpression implem
      *
      * @param array $matches
      */
-    protected function setMatches($matches) : void
+    protected function setMatches($matches): void
     {
         $this->left_numeric_value = $matches[1][0];
         $this->right_numeric_value = $matches[2][0];
@@ -66,7 +79,7 @@ class ilAssLacMatchingResultExpression extends ilAssLacAbstractExpression implem
     /**
      * @return float
      */
-    public function getRightNumericValue() : float
+    public function getRightNumericValue(): float
     {
         return $this->right_numeric_value;
     }
@@ -74,7 +87,7 @@ class ilAssLacMatchingResultExpression extends ilAssLacAbstractExpression implem
     /**
      * @return float
      */
-    public function getLeftNumericValue() : float
+    public function getLeftNumericValue(): float
     {
         return $this->left_numeric_value;
     }
@@ -83,7 +96,7 @@ class ilAssLacMatchingResultExpression extends ilAssLacAbstractExpression implem
      * Get the value of this Expression
      * @return string
      */
-    public function getValue() : string
+    public function getValue(): string
     {
         return ";" . $this->left_numeric_value . ":" . $this->right_numeric_value . ";";
     }
@@ -92,7 +105,7 @@ class ilAssLacMatchingResultExpression extends ilAssLacAbstractExpression implem
      * Get a human readable description of the Composite element
      * @return string
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return "0 beantwortet ";
     }
@@ -104,7 +117,7 @@ class ilAssLacMatchingResultExpression extends ilAssLacAbstractExpression implem
      *
      * @return bool
      */
-    public function checkResult($result, $comperator, $index = null) : bool
+    public function checkResult($result, $comperator, $index = null): bool
     {
         $solutions = $result->getSolutions();
         $isTrue = false;
@@ -121,7 +134,7 @@ class ilAssLacMatchingResultExpression extends ilAssLacAbstractExpression implem
      *
      * @return bool
      */
-    private function compare($comperator, $left, $right) : bool
+    private function compare($comperator, $left, $right): bool
     {
         switch ($comperator) {
             case "=":

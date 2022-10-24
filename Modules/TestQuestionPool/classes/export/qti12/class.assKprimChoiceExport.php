@@ -29,14 +29,14 @@ class assKprimChoiceExport extends assQuestionExport
      * @var assKprimChoice
      */
     public $object;
-    
-    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false) : string
+
+    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false): string
     {
         global $DIC;
         $ilias = $DIC['ilias'];
 
         include_once("./Services/Xml/classes/class.ilXmlWriter.php");
-        $xml = new ilXmlWriter;
+        $xml = new ilXmlWriter();
         // set xml header
         $xml->xmlHeader();
         $xml->xmlStartTag("questestinterop");
@@ -151,7 +151,7 @@ class assKprimChoiceExport extends assQuestionExport
         $akeys = array_keys($answers);
         foreach ($akeys as $index) {
             $answer = $this->object->getAnswer($index);
-            
+
             $xml->xmlStartTag('response_label', array('ident' => $answer->getPosition()));
 
             if (strlen($answer->getImageFile())) {
@@ -194,7 +194,7 @@ class assKprimChoiceExport extends assQuestionExport
         $xml->xmlEndTag("presentation");
 
         // PART II: qti resprocessing
-        
+
         $xml->xmlStartTag('resprocessing');
 
         $xml->xmlStartTag('outcomes');
@@ -207,7 +207,7 @@ class assKprimChoiceExport extends assQuestionExport
 
         foreach ($answers as $answer) {
             $xml->xmlStartTag('respcondition', array('continue' => 'Yes'));
-            
+
             $xml->xmlStartTag('conditionvar');
             $xml->xmlElement('varequal', array('respident' => $answer->getPosition()), $answer->getCorrectness());
             $xml->xmlEndTag('conditionvar');
@@ -235,18 +235,18 @@ class assKprimChoiceExport extends assQuestionExport
         $xml->xmlEndTag('conditionvar');
 
         $xml->xmlElement('setvar', array('action' => 'Add'), $this->object->getPoints());
-        
+
         if (strlen($feedback_allcorrect)) {
             $xml->xmlElement('displayfeedback', array('feedbacktype' => 'Response', 'linkrefid' => 'response_allcorrect'));
         }
 
         $xml->xmlEndTag('respcondition');
-        
+
         $feedback_onenotcorrect = $this->object->feedbackOBJ->getGenericFeedbackExportPresentation(
             $this->object->getId(),
             false
         );
-        
+
         $xml->xmlStartTag('respcondition', array('continue' => 'Yes'));
 
         $xml->xmlStartTag('conditionvar');
@@ -266,13 +266,13 @@ class assKprimChoiceExport extends assQuestionExport
         }
 
         $xml->xmlEndTag('respcondition');
-        
+
         $xml->xmlEndTag('resprocessing');
 
         foreach ($answers as $answer) {
             $xml->xmlStartTag('itemfeedback', array('ident' => "response_{$answer->getPosition()}", 'view' => 'All'));
             $xml->xmlStartTag('flow_mat');
-            
+
             $this->object->addQTIMaterial($xml, $this->object->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation(
                 $this->object->getId(),
                 0,
@@ -285,9 +285,9 @@ class assKprimChoiceExport extends assQuestionExport
         if (strlen($feedback_allcorrect)) {
             $xml->xmlStartTag('itemfeedback', array('ident' => 'response_allcorrect', 'view' => 'All'));
             $xml->xmlStartTag('flow_mat');
-            
+
             $this->object->addQTIMaterial($xml, $feedback_allcorrect);
-            
+
             $xml->xmlEndTag('flow_mat');
             $xml->xmlEndTag('itemfeedback');
         }
@@ -313,17 +313,17 @@ class assKprimChoiceExport extends assQuestionExport
         }
         return $xml;
     }
-    
+
     private function getMinPoints()
     {
         if ($this->object->isScorePartialSolutionEnabled()) {
             return ($this->object->getPoints() / 2);
         }
-        
+
         return 0;
     }
-    
-    private function getMaxPoints() : float
+
+    private function getMaxPoints(): float
     {
         return $this->object->getPoints();
     }

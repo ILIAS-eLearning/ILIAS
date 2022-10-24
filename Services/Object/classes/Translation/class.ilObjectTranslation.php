@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class handles translation mode for an object.
  *
@@ -71,7 +73,7 @@ class ilObjectTranslation
         $this->read();
     }
 
-    public static function getInstance(int $obj_id) : ilObjectTranslation
+    public static function getInstance(int $obj_id): ilObjectTranslation
     {
         if (!isset(self::$instances[$obj_id])) {
             self::$instances[$obj_id] = new ilObjectTranslation($obj_id);
@@ -80,22 +82,22 @@ class ilObjectTranslation
         return self::$instances[$obj_id];
     }
 
-    public function setObjId(int $val) : void
+    public function setObjId(int $val): void
     {
         $this->obj_id = $val;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function setMasterLanguage(string $val) : void
+    public function setMasterLanguage(string $val): void
     {
         $this->master_lang = $val;
     }
 
-    public function getMasterLanguage() : string
+    public function getMasterLanguage(): string
     {
         return $this->master_lang;
     }
@@ -103,7 +105,7 @@ class ilObjectTranslation
     /**
      * @param array $val array of language codes
      */
-    public function setLanguages(array $val) : void
+    public function setLanguages(array $val): void
     {
         $this->languages = $val;
     }
@@ -111,17 +113,17 @@ class ilObjectTranslation
     /**
      * @return array array of language codes
      */
-    public function getLanguages() : array
+    public function getLanguages(): array
     {
         return $this->languages;
     }
 
-    public function setFallbackLanguage(string $val) : void
+    public function setFallbackLanguage(string $val): void
     {
         $this->fallback_language = $val;
     }
 
-    public function getFallbackLanguage() : string
+    public function getFallbackLanguage(): string
     {
         return $this->fallback_language;
     }
@@ -132,7 +134,7 @@ class ilObjectTranslation
         string $description,
         bool $default,
         bool $force = false
-    ) : void {
+    ): void {
         if ($lang !== "" && (!isset($this->languages[$lang]) || $force)) {
             if ($default) {
                 foreach ($this->languages as $l) {
@@ -148,11 +150,15 @@ class ilObjectTranslation
         }
     }
 
-    public function getDefaultTitle() : string
+    public function getDefaultTitle(): string
     {
-        foreach ($this->languages as $l) {
-            if ($l->isDefault()) {
-                return $l->getTitle();
+        if ($this->getFallbackLanguage() !== "") {
+            return $this->languages[$this->getFallbackLanguage()]->getTitle();
+        } else {
+            foreach ($this->languages as $l) {
+                if ($l->isDefault()) {
+                    return $l->getTitle();
+                }
             }
         }
         if (count($this->languages) == 0) {
@@ -161,17 +167,24 @@ class ilObjectTranslation
         return "";
     }
 
-    public function setDefaultTitle(string $title) : void
+    public function setDefaultTitle(string $title): void
     {
-        foreach ($this->languages as $l) {
-            if ($l->isDefault()) {
-                $l->setTitle($title);
+        if ($this->getFallbackLanguage() !== "") {
+            $this->languages[$this->getFallbackLanguage()]->setTitle($title);
+        } else {
+            foreach ($this->languages as $l) {
+                if ($l->isDefault()) {
+                    $l->setTitle($title);
+                }
             }
         }
     }
 
-    public function getDefaultDescription() : string
+    public function getDefaultDescription(): string
     {
+        if ($this->getFallbackLanguage() !== "") {
+            return $this->languages[$this->getFallbackLanguage()]->getDescription();
+        }
         foreach ($this->languages as $l) {
             if ($l->isDefault()) {
                 return $l->getDescription();
@@ -183,17 +196,25 @@ class ilObjectTranslation
         return "";
     }
 
-    public function setDefaultDescription(string $description) : void
+    public function setDefaultDescription(string $description): void
     {
-        foreach ($this->languages as $l) {
-            if ($l->isDefault()) {
-                $l->setDescription($description);
+        if ($this->getFallbackLanguage() !== "") {
+            $this->languages[$this->getFallbackLanguage()]
+                ->setDescription($description);
+        } else {
+            foreach ($this->languages as $l) {
+                if ($l->isDefault()) {
+                    $l->setDescription($description);
+                }
             }
         }
     }
 
-    public function getDefaultLanguage() : string
+    public function getDefaultLanguage(): string
     {
+        if ($this->getFallbackLanguage() !== "") {
+            return $this->getFallbackLanguage();
+        }
         foreach ($this->languages as $l) {
             if ($l->isDefault()) {
                 return $l->getLanguageCode();
@@ -202,24 +223,24 @@ class ilObjectTranslation
         return "";
     }
 
-    public function removeLanguage(string $lang) : void
+    public function removeLanguage(string $lang): void
     {
         if ($lang != $this->getMasterLanguage()) {
             unset($this->languages[$lang]);
         }
     }
 
-    protected function setContentActivated(bool $val) : void
+    protected function setContentActivated(bool $val): void
     {
         $this->content_activated = $val;
     }
 
-    public function getContentActivated() : bool
+    public function getContentActivated(): bool
     {
         return $this->content_activated;
     }
 
-    public function read() : void
+    public function read(): void
     {
         $sql =
             "SELECT obj_id, master_lang, fallback_lang" . PHP_EOL
@@ -248,7 +269,7 @@ class ilObjectTranslation
         }
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $this->db->manipulate(
             "DELETE FROM obj_content_master_lng " .
@@ -260,7 +281,7 @@ class ilObjectTranslation
         );
     }
 
-    public function deactivateContentTranslation() : void
+    public function deactivateContentTranslation(): void
     {
         $this->db->manipulate(
             "DELETE FROM obj_content_master_lng " .
@@ -268,7 +289,7 @@ class ilObjectTranslation
         );
     }
 
-    public function save() : void
+    public function save(): void
     {
         $this->delete();
 
@@ -313,7 +334,7 @@ class ilObjectTranslation
     /**
      * Copy multilingual settings
      */
-    public function copy(int $obj_id) : ilObjectTranslation
+    public function copy(int $obj_id): ilObjectTranslation
     {
         $target_ml = new ilObjectTranslation($obj_id);
         $target_ml->setMasterLanguage($this->getMasterLanguage());
@@ -334,7 +355,7 @@ class ilObjectTranslation
      * @param string $parent_type page parent type
      * @return string effective language ("-" for master)
      */
-    public function getEffectiveContentLang(string $lang, string $parent_type) : string
+    public function getEffectiveContentLang(string $lang, string $parent_type): string
     {
         $langs = $this->getLanguages();
         $page_lang_key = ($lang == $this->getMasterLanguage())

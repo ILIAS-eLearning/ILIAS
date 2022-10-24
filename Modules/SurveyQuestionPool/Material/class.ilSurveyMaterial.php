@@ -39,12 +39,12 @@ class ilSurveyMaterial
         );
     }
 
-    public function __set(string $name, string $value) : void
+    public function __set(string $name, string $value): void
     {
         $this->data[$name] = $value;
     }
 
-    public function __get(string $name) : ?string
+    public function __get(string $name): ?string
     {
         if (array_key_exists($name, $this->data)) {
             switch ($name) {

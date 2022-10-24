@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\FileDeliveryTypes;
@@ -30,7 +31,6 @@ use ILIAS\HTTP\Services;
  */
 final class PHP implements ilFileDeliveryType
 {
-
     /**
      * @var resource
      */
@@ -52,7 +52,7 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritDoc
      */
-    public function doesFileExists(string $path_to_file) : bool
+    public function doesFileExists(string $path_to_file): bool
     {
         return is_readable($path_to_file);
     }
@@ -61,11 +61,11 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function prepare(string $path_to_file) : bool
+    public function prepare(string $path_to_file): bool
     {
         set_time_limit(0);
         $this->file = fopen($path_to_file, "rb");
-        
+
         return true;
     }
 
@@ -73,7 +73,7 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function deliver(string $path_to_file, bool $file_marked_to_delete) : void
+    public function deliver(string $path_to_file, bool $file_marked_to_delete): void
     {
         $this->httpService->sendResponse();
         fpassthru($this->file);
@@ -85,7 +85,7 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsInlineDelivery() : bool
+    public function supportsInlineDelivery(): bool
     {
         return true;
     }
@@ -94,7 +94,7 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsAttachmentDelivery() : bool
+    public function supportsAttachmentDelivery(): bool
     {
         return true;
     }
@@ -103,7 +103,7 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsStreaming() : bool
+    public function supportsStreaming(): bool
     {
         return false;
     }
@@ -112,7 +112,7 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function handleFileDeletion(string $path_to_file) : bool
+    public function handleFileDeletion(string $path_to_file): bool
     {
         return unlink($path_to_file);
     }

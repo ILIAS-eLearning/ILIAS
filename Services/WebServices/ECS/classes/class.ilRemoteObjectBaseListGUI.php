@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\UI\Component\Card\RepositoryObject;
 
@@ -31,7 +33,7 @@ class ilRemoteObjectBaseListGUI extends ilObjectListGUI
     /**
      * lookup organization
      */
-    public function _lookupOrganization(string $table, int $a_obj_id) : string
+    public function _lookupOrganization(string $table, int $a_obj_id): string
     {
         $query = "SELECT organization FROM " . $this->db->quoteIdentifier(
             $table
@@ -44,7 +46,7 @@ class ilRemoteObjectBaseListGUI extends ilObjectListGUI
         return '';
     }
 
-    public function insertTitle() : void
+    public function insertTitle(): void
     {
         $this->ctrl->setReturnByClass(
             $this->getGUIClassname(),
@@ -72,7 +74,7 @@ class ilRemoteObjectBaseListGUI extends ilObjectListGUI
         string $type,
         string $title,
         string $description
-    ) : ?RepositoryObject {
+    ): ?RepositoryObject {
         $consent_gui = new ilECSUserConsentModalGUI(
             $this->user->getId(),
             $ref_id
@@ -92,7 +94,7 @@ class ilRemoteObjectBaseListGUI extends ilObjectListGUI
         return null;
     }
 
-    public function createDefaultCommand(array $command) : array
+    public function createDefaultCommand(array $command): array
     {
         $consent_gui = new ilECSUserConsentModalGUI(
             $this->user->getId(),
@@ -107,7 +109,7 @@ class ilRemoteObjectBaseListGUI extends ilObjectListGUI
         return $command;
     }
 
-    protected function getGUIClassname() : string
+    protected function getGUIClassname(): string
     {
         $classname = $this->obj_definition->getClassName($this->type);
         return 'ilObj' . $classname . 'GUI';

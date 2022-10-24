@@ -40,13 +40,13 @@ class ilSurveyConstraintsGUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         $tpl = $DIC["tpl"];
-        
+
         $this->parent_gui = $a_parent_gui;
 
         /** @var ilObjSurvey $survey */
         $survey = $this->parent_gui->getObject();
         $this->object = $survey;
-        
+
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
         $this->tpl = $tpl;
@@ -60,21 +60,21 @@ class ilSurveyConstraintsGUI
             ->editing()
             ->request();
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $cmd = $ilCtrl->getCmd("constraints");
         $cmd .= "Object";
-        
+
         $this->$cmd();
     }
-    
+
     /**
      * Administration page for survey constraints
      */
-    public function constraintsObject() : void
+    public function constraintsObject(): void
     {
         $step = $this->request->getStep();
         switch ($step) {
@@ -85,9 +85,9 @@ class ilSurveyConstraintsGUI
             case 2:
                 return;
         }
-        
+
         $hasDatasets = ilObjSurvey::_hasDatasets($this->object->getSurveyId());
-        
+
         $tbl = new SurveyConstraintsTableGUI($this, "constraints", $this->object, $hasDatasets);
 
         $mess = "";
@@ -100,11 +100,11 @@ class ilSurveyConstraintsGUI
 
         $this->tpl->setContent($mess . $tbl->getHTML());
     }
-    
+
     /**
      * Add a precondition for a survey question or question block
      */
-    public function constraintsAddObject() : void
+    public function constraintsAddObject(): void
     {
         if ($this->request->getConstraintPar("v") === '') {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_enter_value_for_valid_constraint"));
@@ -151,7 +151,7 @@ class ilSurveyConstraintsGUI
     /**
      * Handles the first step of the precondition add action
      */
-    public function constraintStep1Object($start = null) : void
+    public function constraintStep1Object($start = null): void
     {
         $survey_questions = $this->object->getSurveyQuestions();
         $structure = $this->edit_manager->getConstraintStructure();
@@ -179,11 +179,11 @@ class ilSurveyConstraintsGUI
         }
         $this->constraintForm(1, $this->getConstraintParsFromPost(), $survey_questions, $option_questions);
     }
-    
+
     /**
      * Handles the second step of the precondition add action
      */
-    public function constraintStep2Object() : void
+    public function constraintStep2Object(): void
     {
         $survey_questions = $this->object->getSurveyQuestions();
         $option_questions = array();
@@ -195,11 +195,11 @@ class ilSurveyConstraintsGUI
         );
         $this->constraintForm(2, $this->getConstraintParsFromPost(), $survey_questions, $option_questions);
     }
-    
+
     /**
      * Handles the third step of the precondition add action
      */
-    public function constraintStep3Object() : void
+    public function constraintStep3Object(): void
     {
         $survey_questions = $this->object->getSurveyQuestions();
         $option_questions = array();
@@ -207,7 +207,7 @@ class ilSurveyConstraintsGUI
             if (!$this->validateConstraintForEdit($this->request->getPrecondition())) {
                 $this->ctrl->redirect($this, "constraints");
             }
-            
+
             $pc = $this->object->getPrecondition($this->request->getPrecondition());
             $postvalues = array(
                 "c" => $pc["conjunction"],
@@ -231,7 +231,7 @@ class ilSurveyConstraintsGUI
         }
     }
 
-    protected function getConstraintParsFromPost() : array
+    protected function getConstraintParsFromPost(): array
     {
         return [
             "c" => $this->request->getConstraintPar("c"),
@@ -247,7 +247,7 @@ class ilSurveyConstraintsGUI
         array $postvalues,
         array $survey_questions,
         ?array $questions = null
-    ) : void {
+    ): void {
         if ((string) $this->request->getStart() !== '') {
             $this->ctrl->setParameter($this, "start", $this->request->getStart());
         }
@@ -258,7 +258,7 @@ class ilSurveyConstraintsGUI
         $form->setId("constraintsForm");
 
         $constraint_structure = $this->edit_manager->getConstraintStructure();
-                
+
         // #9366
         $title = array();
         $title_ids = $this->edit_manager->getConstraintElements();
@@ -279,7 +279,7 @@ class ilSurveyConstraintsGUI
         $header = new ilFormSectionHeaderGUI();
         $header->setTitle(implode("<br/>", $title));
         $form->addItem($header);
-        
+
         $fulfilled = new ilRadioGroupInputGUI($this->lng->txt("constraint_fulfilled"), "c");
         $fulfilled->addOption(new ilRadioOption($this->lng->txt("conjunction_and"), '0', ''));
         $fulfilled->addOption(new ilRadioOption($this->lng->txt("conjunction_or"), '1', ''));
@@ -310,7 +310,7 @@ class ilSurveyConstraintsGUI
             $step2->setValue($postvalues["r"]);
             $form->addItem($step2);
         }
-        
+
         if ($step > 2) {
             $variables = $this->object->getVariables($postvalues["q"]);
             $question_type = $survey_questions[$postvalues["q"]]["type_tag"];
@@ -344,7 +344,7 @@ class ilSurveyConstraintsGUI
 
         $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
     }
-    
+
     /**
      * Validate if given constraint id is part of current survey and
      * there are sufficient permissions to edit.
@@ -352,57 +352,57 @@ class ilSurveyConstraintsGUI
      */
     protected function validateConstraintForEdit(
         int $a_id
-    ) : bool {
+    ): bool {
         $ilAccess = $this->access;
-        
+
         if (ilObjSurvey::_hasDatasets($this->object->getSurveyId())) {
             return false;
         }
         if (!$ilAccess->checkAccess("write", "", $this->object->getRefId())) {
             return false;
         }
-        
+
         return true;
     }
-    
+
     /**
      * Delete constraint confirmation
      */
-    public function confirmDeleteConstraintsObject() : void
+    public function confirmDeleteConstraintsObject(): void
     {
         $id = (int) $this->request->getPrecondition();
         if (!$this->validateConstraintForEdit($id)) {
             $this->ctrl->redirect($this, "constraints");
         }
-        
+
         $constraint = $this->object->getPrecondition($id);
         $questions = $this->object->getSurveyQuestions();
         $question = $questions[$constraint["question_fi"]];
         $relation = $questions[$constraint["ref_question_fi"]];
         $relation = $relation["title"];
-        
+
         // see ilSurveyConstraintsTableGUI
         $question_type = SurveyQuestion::_getQuestionType($constraint["question_fi"]);
         SurveyQuestion::_includeClass($question_type);
         $question_obj = new $question_type();
         $question_obj->loadFromDb($constraint["question_fi"]);
         $valueoutput = $question_obj->getPreconditionValueOutput($constraint["value"]);
-        
+
         $title = $question["title"] . " " . $constraint["shortname"] . " " . $valueoutput;
-        
+
         $this->ctrl->saveParameter($this, "precondition");
-        
+
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText(sprintf($this->lng->txt("survey_sure_delete_constraint"), $title, $relation));
 
         $cgui->setFormAction($this->ctrl->getFormAction($this, "deleteConstraints"));
         $cgui->setCancel($this->lng->txt("cancel"), "constraints");
         $cgui->setConfirm($this->lng->txt("confirm"), "deleteConstraints");
-        
+
         $this->tpl->setContent($cgui->getHTML());
     }
 
-    public function deleteConstraintsObject() : void
+    public function deleteConstraintsObject(): void
     {
         $id = (int) $this->request->getPrecondition();
         if ($this->validateConstraintForEdit($id)) {
@@ -412,8 +412,8 @@ class ilSurveyConstraintsGUI
 
         $this->ctrl->redirect($this, "constraints");
     }
-    
-    public function createConstraintsObject() : void
+
+    public function createConstraintsObject(): void
     {
         $include_elements = $this->request->getIncludeElements();
         if (count($include_elements) === 0) {
@@ -429,12 +429,12 @@ class ilSurveyConstraintsGUI
     /**
      * @throws ilCtrlException
      */
-    public function editPreconditionObject() : void
+    public function editPreconditionObject(): void
     {
         if (!$this->validateConstraintForEdit($this->request->getPrecondition())) {
             $this->ctrl->redirect($this, "constraints");
         }
-        
+
         $this->edit_manager->setConstraintElements([$this->request->getStart()]);
         $this->ctrl->setParameter($this, "precondition", $this->request->getPrecondition());
         $this->ctrl->setParameter($this, "start", $this->request->getStart());

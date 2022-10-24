@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Symbol\Icon;
 
 use ILIAS\UI\Component as C;
@@ -169,7 +171,8 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         self::ADN,
         self::NOTA,
         self::GCON,
-        self::CON
+        self::CON,
+        self::FILS
     ];
 
     public function __construct(string $name, string $label, string $size, bool $is_disabled)
@@ -191,7 +194,7 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
     * get all defined constants
      * @return string[]
     */
-    public function getAllStandardHandles() : array
+    public function getAllStandardHandles(): array
     {
         return self::$standard_icons;
     }

@@ -41,7 +41,7 @@ class ilMediaPoolPresentationGUI implements ilCtrlBaseClassInterface
         $lng = $DIC->language();
         $objDefinition = $DIC["objDefinition"];
         $ilCtrl = $DIC->ctrl();
-        
+
         $lng->loadLanguageModule("content");
 
         $this->ctrl = $ilCtrl;
@@ -58,7 +58,7 @@ class ilMediaPoolPresentationGUI implements ilCtrlBaseClassInterface
             ->standardRequest();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;

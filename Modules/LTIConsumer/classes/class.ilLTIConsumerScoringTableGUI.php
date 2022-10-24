@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@
  */
 class ilLTIConsumerScoringTableGUI extends ilTable2GUI
 {
-    const TABLE_ID = 'cmix_scoring_table_';
+    public const TABLE_ID = 'cmix_scoring_table_';
 
     /**
      * @var bool
@@ -50,13 +52,13 @@ class ilLTIConsumerScoringTableGUI extends ilTable2GUI
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         $this->isMultiActorReport = $isMultiActorReport;
-        
+
         $this->setId(self::TABLE_ID . $tableId);
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->_parent = $a_parent_obj;
 
         $DIC->language()->loadLanguageModule('assessment');
-        
+
         $this->setRowTemplate('tpl.lti_consumer_scoring_table_row.html', 'Modules/LTIConsumer');
 
         if ($tableId === 'highscore') {
@@ -78,11 +80,11 @@ class ilLTIConsumerScoringTableGUI extends ilTable2GUI
         $this->resetOffset();
         $this->setDefaultOrderField('rank');
         $this->setDefaultOrderDirection('asc');
-        
+
         $this->hasOutcomeAccess = $hasOutcomeAccess;
     }
 
-    protected function initColumns() : void
+    protected function initColumns(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -105,7 +107,7 @@ class ilLTIConsumerScoringTableGUI extends ilTable2GUI
         $this->setLimit($this->_parent->getObject()->getHighscoreTopNum());
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -137,21 +139,21 @@ class ilLTIConsumerScoringTableGUI extends ilTable2GUI
         $highlight = $a_set['ilias_user_id'] == $DIC->user()->getId() ? 'tblrowmarked' : '';
         $this->tpl->setVariable('HIGHLIGHT', $highlight);
     }
-    
-    protected function getUsername(array $data) : string
+
+    protected function getUsername(array $data): string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
         if ($this->hasOutcomeAccess) {
             $user = ilObjectFactory::getInstanceByObjId($data['ilias_user_id'], false);
-            
+
             if ($user) {
                 return $user->getFullname();
             }
-            
+
             return $DIC->language()->txt('deleted_user');
         }
-        
+
         return $data['user'];
     }
 }

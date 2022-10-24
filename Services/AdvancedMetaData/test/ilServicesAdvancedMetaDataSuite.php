@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestSuite as TestSuite;
  */
 class ilServicesAdvancedMetaDataSuite extends TestSuite
 {
-    public static function suite() : self
+    public static function suite(): self
     {
         $suite = new self();
 

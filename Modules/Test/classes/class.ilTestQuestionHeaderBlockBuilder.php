@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/TestQuestionPool/interfaces/interface.ilQuestionHeaderBlockBuilder.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -66,7 +79,7 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
     public function __construct(ilLanguage $lng)
     {
         $this->lng = $lng;
-        
+
         $this->headerMode = null;
         $this->questionTitle = '';
         $this->questionPoints = 0.0;
@@ -80,7 +93,7 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
     /**
      * @return int
      */
-    public function getHeaderMode() : ?int
+    public function getHeaderMode(): ?int
     {
         return $this->headerMode;
     }
@@ -96,7 +109,7 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
     /**
      * @return string
      */
-    public function getQuestionTitle() : string
+    public function getQuestionTitle(): string
     {
         return $this->questionTitle;
     }
@@ -112,7 +125,7 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
     /**
      * @return float
      */
-    public function getQuestionPoints() : float
+    public function getQuestionPoints(): float
     {
         return $this->questionPoints;
     }
@@ -137,7 +150,7 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
     /**
      * @return int
      */
-    public function getQuestionPosition() : int
+    public function getQuestionPosition(): int
     {
         return $this->questionPosition;
     }
@@ -153,7 +166,7 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
     /**
      * @return int
      */
-    public function getQuestionCount() : int
+    public function getQuestionCount(): int
     {
         return $this->questionCount;
     }
@@ -169,7 +182,7 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
     /**
      * @return boolean
      */
-    public function isQuestionPostponed() : bool
+    public function isQuestionPostponed(): bool
     {
         return $this->questionPostponed;
     }
@@ -178,7 +191,7 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
     /**
      * @return boolean | null
      */
-    public function isQuestionAnswered() : ?bool
+    public function isQuestionAnswered(): ?bool
     {
         return $this->questionAnswered;
     }
@@ -195,7 +208,7 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
     /**
      * @return boolean
      */
-    public function isQuestionObligatory() : bool
+    public function isQuestionObligatory(): bool
     {
         return $this->questionObligatory;
     }
@@ -211,7 +224,7 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
     /**
      * @return string
      */
-    public function getQuestionRelatedObjectives() : string
+    public function getQuestionRelatedObjectives(): string
     {
         return $this->questionRelatedObjectives;
     }
@@ -223,13 +236,13 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
     {
         $this->questionRelatedObjectives = $questionRelatedObjectives;
     }
-    
-    protected function buildQuestionPositionString() : string
+
+    protected function buildQuestionPositionString(): string
     {
         if (!$this->getQuestionPosition()) {
             return '';
         }
-        
+
         if ($this->getQuestionCount()) {
             return sprintf($this->lng->txt("tst_position"), $this->getQuestionPosition(), $this->getQuestionCount());
         }
@@ -238,7 +251,7 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
     }
 
     // fau: testNav - remove HTML from building strings (is now in tpl.tst_question_info.html)
-    protected function buildQuestionPointsString() : string
+    protected function buildQuestionPointsString(): string
     {
         if ($this->getQuestionPoints() == 1) {
             return "{$this->getQuestionPoints()} {$this->lng->txt('point')}";
@@ -246,32 +259,32 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
 
         return "{$this->getQuestionPoints()} {$this->lng->txt('points')}";
     }
-    
-    protected function buildQuestionPostponedString() : string
+
+    protected function buildQuestionPostponedString(): string
     {
         if ($this->isQuestionPostponed()) {
             return $this->lng->txt("postponed");
         }
-        
+
         return '';
     }
-    
-    protected function buildQuestionObligatoryString() : string
+
+    protected function buildQuestionObligatoryString(): string
     {
         if ($this->isQuestionObligatory()) {
             return $this->lng->txt("tst_you_have_to_answer_this_question");
         }
-        
+
         return '';
     }
-    
-    protected function buildQuestionRelatedObjectivesString() : string
+
+    protected function buildQuestionRelatedObjectivesString(): string
     {
         if (strlen($this->getQuestionRelatedObjectives())) {
             $label = $this->lng->txt('tst_res_lo_objectives_header');
             return $label . ': ' . $this->getQuestionRelatedObjectives();
         }
-        
+
         return '';
     }
     // fau.
@@ -284,7 +297,7 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
      * This is shown above the title line in a test run
      * @return	string
      */
-    public function getPresentationTitle() : string
+    public function getPresentationTitle(): string
     {
         switch ($this->getHeaderMode()) {
             case 2: 	// neither titles nor points => show position as title
@@ -304,7 +317,7 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
      * This is shown below the title line in a test run
      * @return string		html code of the info block
      */
-    public function getQuestionInfoHTML() : string
+    public function getQuestionInfoHTML(): string
     {
         $tpl = new ilTemplate('tpl.tst_question_info.html', true, true, 'Modules/Test');
 
@@ -355,7 +368,7 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
     }
     // fau.
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $headerBlock = $this->buildQuestionPositionString();
 
@@ -366,13 +379,13 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
                 $headerBlock .= $this->buildQuestionPostponedString();
                 $headerBlock .= $this->buildQuestionObligatoryString();
                 break;
-            
+
             case 2:
 
                 $headerBlock .= $this->buildQuestionPostponedString();
                 $headerBlock .= $this->buildQuestionObligatoryString();
                 break;
-            
+
             case 0:
             default:
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +18,7 @@
  *********************************************************************/
 
 /** @noinspection PhpIncompatibleReturnTypeInspection */
+
 namespace ILIAS\GlobalScreen\Scope\Notification;
 
 use ILIAS\GlobalScreen\Scope\Notification\Factory\NotificationFactory;
@@ -32,7 +35,7 @@ class NotificationServices
     /**
      * @return NotificationFactory
      */
-    public function factory() : NotificationFactory
+    public function factory(): NotificationFactory
     {
         return $this->get(NotificationFactory::class);
     }

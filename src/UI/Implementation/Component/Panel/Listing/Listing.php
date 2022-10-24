@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Panel\Listing;
 
 use ILIAS\UI\Component as C;
@@ -50,7 +52,7 @@ abstract class Listing implements C\Panel\Listing\Listing
     /**
      * @inheritdoc
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -58,7 +60,7 @@ abstract class Listing implements C\Panel\Listing\Listing
     /**
      * @inheritdoc
      */
-    public function getItemGroups() : array
+    public function getItemGroups(): array
     {
         return $this->item_groups;
     }
@@ -66,7 +68,7 @@ abstract class Listing implements C\Panel\Listing\Listing
     /**
      * @inheritdoc
      */
-    public function withActions(C\Dropdown\Standard $actions) : C\Panel\Listing\Listing
+    public function withActions(C\Dropdown\Standard $actions): C\Panel\Listing\Listing
     {
         $clone = clone $this;
         $clone->actions = $actions;
@@ -76,7 +78,7 @@ abstract class Listing implements C\Panel\Listing\Listing
     /**
      * @inheritdoc
      */
-    public function getActions() : ?C\Dropdown\Standard
+    public function getActions(): ?C\Dropdown\Standard
     {
         return $this->actions;
     }

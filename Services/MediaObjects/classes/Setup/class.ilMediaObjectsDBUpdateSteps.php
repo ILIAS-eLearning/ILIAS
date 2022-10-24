@@ -25,12 +25,12 @@ class ilMediaObjectsDBUpdateSteps implements \ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
-    public function prepare(\ilDBInterface $db) : void
+    public function prepare(\ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function step_1() : void
+    public function step_1(): void
     {
         $db = $this->db;
         if (!$db->tableColumnExists('media_item', 'duration')) {

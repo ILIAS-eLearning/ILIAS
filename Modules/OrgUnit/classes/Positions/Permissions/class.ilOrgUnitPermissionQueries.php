@@ -22,7 +22,6 @@
  */
 class ilOrgUnitPermissionQueries
 {
-
     /**
      * @throws ilException
      */
@@ -80,8 +79,10 @@ class ilOrgUnitPermissionQueries
         $ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
 
         if (!$ilOrgUnitObjectPositionSetting->isActive()) {
-            throw new ilPositionPermissionsNotActive("Postion-related permissions not active in {$context->getContext()}",
-                $context->getContext());
+            throw new ilPositionPermissionsNotActive(
+                "Postion-related permissions not active in {$context->getContext()}",
+                $context->getContext()
+            );
         }
 
         /**
@@ -116,8 +117,10 @@ class ilOrgUnitPermissionQueries
         $ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
 
         if (!$ilOrgUnitObjectPositionSetting->isActive()) {
-            throw new ilPositionPermissionsNotActive("Position-related permissions not active in {$context->getContext()}",
-                $context->getContext());
+            throw new ilPositionPermissionsNotActive(
+                "Position-related permissions not active in {$context->getContext()}",
+                $context->getContext()
+            );
         }
 
         $dedicated_set = ilOrgUnitPermission::where([
@@ -160,8 +163,10 @@ class ilOrgUnitPermissionQueries
         $ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
 
         if (!$ilOrgUnitObjectPositionSetting->isActive()) {
-            throw new ilPositionPermissionsNotActive("Position-related permissions not active in {$context->getContext()}",
-                $context->getContext());
+            throw new ilPositionPermissionsNotActive(
+                "Position-related permissions not active in {$context->getContext()}",
+                $context->getContext()
+            );
         }
 
         $dedicated_set = ilOrgUnitPermission::where([

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,14 +24,14 @@
  */
 interface ilTermsOfServiceSignableDocument
 {
-    public function content() : string;
+    public function content(): string;
 
-    public function title() : string;
+    public function title(): string;
 
-    public function id() : int;
+    public function id(): int;
 
     /**
      * @return ilTermsOfServiceEvaluableCriterion[]
      */
-    public function criteria() : array;
+    public function criteria(): array;
 }

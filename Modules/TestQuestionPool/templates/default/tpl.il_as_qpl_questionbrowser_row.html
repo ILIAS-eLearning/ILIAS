@@ -1,54 +1,50 @@
 <tr class="{CSS_ROW}">
 <!-- BEGIN checkbox -->
-	<td class="std" style="vertical-align: top">
+	<td class="std">
 		<input type="checkbox" name="q_id[]" value="{CB_QUESTION_ID}" id="cb_{CB_QUESTION_ID}" {VAL_CHECKED} />
 	</td>
 <!-- END checkbox -->
-	<td class="std" style="vertical-align: top">
-<!-- BEGIN qpl_warning -->	
-	<img src="{IMAGE_WARNING}" border="0" alt="{ALT_WARNING}" title="{TITLE_WARNING}" />
-<!-- END qpl_warning -->
-	<!-- BEGIN title_unlinked -->
-	<label for="cb_{QUESTION_ID_UNLINKED}"><strong>{QUESTION_TITLE_UNLINKED}</strong></label>
-	<!-- END title_unlinked -->
-	<!-- BEGIN title_linked -->
-	<a href="{QUESTION_HREF_LINKED}" title="{QUESTION_TITLE_LINKED}"><strong>{QUESTION_TITLE_LINKED}</strong></a>
-	<!-- END title_linked -->
+	<td class="std"><!-- BEGIN qpl_warning -->{ICON_WARNING}<!-- END qpl_warning -->
+	<label for="cb_{QUESTION_ID}">
+		<!-- BEGIN title_unlinked --><strong>{QUESTION_TITLE_UNLINKED}</strong><!-- END title_unlinked -->
+		<!-- BEGIN title_linked --><a href="{QUESTION_HREF_LINKED}" title="{QUESTION_TITLE_LINKED}"><strong>{QUESTION_TITLE_LINKED}</strong></a><!-- END title_linked -->
+	</label>
+
 <!-- BEGIN hidden -->
 		<input type="hidden" name="q_id[]" value="{HIDDEN_QUESTION_ID}" />
 <!-- END hidden -->
 	</td>
 <!-- BEGIN description -->
-	<td class="std" style="vertical-align: top">{QUESTION_COMMENT}</td>
+	<td class="std">{QUESTION_COMMENT}</td>
 <!-- END description -->
 <!-- BEGIN type -->
-	<td class="std" style="vertical-align: top">{QUESTION_TYPE}</td>
+	<td class="std">{QUESTION_TYPE}</td>
 <!-- END type -->
 <!-- BEGIN points -->
 	<td class="ilCenter">{QUESTION_POINTS}</td>
 <!-- END points -->
 <!-- BEGIN statistics -->
-	<td class="std" style="text-align: center; vertical-align: top"><a href="{LINK_ASSESSMENT}"><img alt="{TXT_ASSESSMENT}" title="{TXT_ASSESSMENT}" border="0" src="{IMG_ASSESSMENT}" /></a></td>
+	<td class="std"><a href="{LINK_ASSESSMENT}"><img alt="{TXT_ASSESSMENT}" title="{TXT_ASSESSMENT}" border="0" src="{IMG_ASSESSMENT}" /></a></td>
 <!-- END statistics -->
 <!-- BEGIN author -->
-	<td class="std" style="vertical-align: top">{QUESTION_AUTHOR}</td>
+	<td class="std">{QUESTION_AUTHOR}</td>
 <!-- END author -->
 <!-- BEGIN lifecycle -->
-	<td class="std" style="vertical-align: top">{QUESTION_LIFECYCLE}</td>
+	<td class="std">{QUESTION_LIFECYCLE}</td>
 <!-- END lifecycle -->
 <!-- BEGIN comments -->
-	<td class="std" style="vertical-align: top">{COMMENTS}</td>
+	<td class="std">{COMMENTS}</td>
 <!-- END comments -->
 <!-- BEGIN created -->
-	<td class="std" style="vertical-align: top">{QUESTION_CREATED}</td>
+	<td class="std">{QUESTION_CREATED}</td>
 <!-- END created -->
 <!-- BEGIN updated -->
-	<td class="std" style="vertical-align: top">{QUESTION_UPDATED}</td>
+	<td class="std">{QUESTION_UPDATED}</td>
 <!-- END updated -->
 <!-- BEGIN working_time -->
-    <td class="std" style="vertical-align: top">{WORKING_TIME}</td>
+    <td class="std">{WORKING_TIME}</td>
 <!-- END working_time -->
 <!-- BEGIN actions -->
-	<td class="std" style="vertical-align: top">{ACTIONS}</td>
+	<td class="std">{ACTIONS}</td>
 <!-- END actions -->
 </tr>

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -27,17 +29,17 @@ class ilDidacticTemplateImport
         $this->settings = $DIC->settings();
     }
 
-    public function setInputFile(string $a_file) : void
+    public function setInputFile(string $a_file): void
     {
         $this->xmlfile = $a_file;
     }
 
-    public function getInputFile() : string
+    public function getInputFile(): string
     {
         return $this->xmlfile;
     }
 
-    public function getInputType() : int
+    public function getInputType(): int
     {
         return $this->type;
     }
@@ -45,7 +47,7 @@ class ilDidacticTemplateImport
     /**
      * Do import
      */
-    public function import(int $a_dtpl_id = 0) : ilDidacticTemplateSetting
+    public function import(int $a_dtpl_id = 0): ilDidacticTemplateSetting
     {
         $root = null;
         $use_internal_errors = libxml_use_internal_errors(true);
@@ -68,7 +70,7 @@ class ilDidacticTemplateImport
     /**
      * Parse settings
      */
-    protected function parseSettings(SimpleXMLElement $root) : ilDidacticTemplateSetting
+    protected function parseSettings(SimpleXMLElement $root): ilDidacticTemplateSetting
     {
         $icon = '';
         $setting = new ilDidacticTemplateSetting();
@@ -124,7 +126,7 @@ class ilDidacticTemplateImport
         return $setting;
     }
 
-    protected function canUseIcons(ilDidacticTemplateSetting $setting) : bool
+    protected function canUseIcons(ilDidacticTemplateSetting $setting): bool
     {
         foreach ($setting->getAssignments() as $assignment) {
             if (!$this->objDefinition->isContainer($assignment)) {
@@ -138,7 +140,7 @@ class ilDidacticTemplateImport
     /**
      * Parse template action from xml
      */
-    protected function parseActions(ilDidacticTemplateSetting $set, SimpleXMLElement $actions = null) : void
+    protected function parseActions(ilDidacticTemplateSetting $set, SimpleXMLElement $actions = null): void
     {
         if ($actions === null) {
             return;
@@ -285,7 +287,7 @@ class ilDidacticTemplateImport
     /**
      * Parse xml errors from libxml_get_errors
      */
-    protected function parseXmlErrors() : string
+    protected function parseXmlErrors(): string
     {
         $errors = '';
         foreach (libxml_get_errors() as $err) {

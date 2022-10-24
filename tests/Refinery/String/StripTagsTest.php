@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,11 +27,11 @@ class StripTagsTest extends TestCase
 {
     private const STRING_TO_STRIP = "I <script>contain</a> tags.";
     private const EXPECTED_RESULT = "I contain tags.";
-    
+
     private Refinery $f;
     private Transformation $strip_tags;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->f = new Refinery(
             $this->createMock(DataFactory::class),
@@ -38,13 +40,13 @@ class StripTagsTest extends TestCase
         $this->strip_tags = $this->f->string()->stripTags();
     }
 
-    public function testTransform() : void
+    public function testTransform(): void
     {
         $res = $this->strip_tags->transform(self::STRING_TO_STRIP);
         $this->assertEquals(self::EXPECTED_RESULT, $res);
     }
 
-    public function testNoString() : void
+    public function testNoString(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->strip_tags->transform(0);

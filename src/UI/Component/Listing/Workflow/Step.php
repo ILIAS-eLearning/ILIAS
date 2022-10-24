@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Listing\Workflow;
 
 use ILIAS\UI\Component\Component;
@@ -39,12 +41,12 @@ interface Step extends Component
     /**
      * Get the label of this step.
      */
-    public function getLabel() : string;
+    public function getLabel(): string;
 
     /**
      * Get the description of this step.
      */
-    public function getDescription() : string;
+    public function getDescription(): string;
 
 
     /**
@@ -59,7 +61,7 @@ interface Step extends Component
      *
      * @param 	mixed 	$status
      */
-    public function withAvailability($status) : Step;
+    public function withAvailability($status): Step;
 
     /**
      * Get the status of this step.
@@ -73,7 +75,7 @@ interface Step extends Component
      *
      * @param 	mixed 	$status
      */
-    public function withStatus($status) : Step;
+    public function withStatus($status): Step;
 
     /**
      * Get the action of this Step.

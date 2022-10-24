@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 final class ilWebDAVMountInstructionsDocument
 {
     private int $id;
@@ -52,53 +54,53 @@ final class ilWebDAVMountInstructionsDocument
         $this->last_modified_usr_id = $a_last_modified_usr_id;
         $this->sorting = $a_sorting;
     }
-    
-    public function getId() : int
+
+    public function getId(): int
     {
         return $this->id;
     }
-    
-    public function getTitle() : string
+
+    public function getTitle(): string
     {
         return $this->title;
     }
-    
-    public function getUploadedInstructions() : string
+
+    public function getUploadedInstructions(): string
     {
         return $this->uploaded_instructions;
     }
-    
-    public function getProcessedInstructions() : string
+
+    public function getProcessedInstructions(): string
     {
         return $this->processed_instructions;
     }
-    
-    public function getLanguage() : string
+
+    public function getLanguage(): string
     {
         return $this->language;
     }
-    
-    public function getCreationTs() : string
+
+    public function getCreationTs(): string
     {
         return $this->creation_ts;
     }
-    
-    public function getModificationTs() : string
+
+    public function getModificationTs(): string
     {
         return $this->modification_ts;
     }
-    
-    public function getOwnerUsrId() : int
+
+    public function getOwnerUsrId(): int
     {
         return $this->owner_usr_id;
     }
-    
-    public function getLastModificationUsrId() : int
+
+    public function getLastModificationUsrId(): int
     {
         return $this->last_modified_usr_id;
     }
-    
-    public function getSorting() : int
+
+    public function getSorting(): int
     {
         return $this->sorting;
     }

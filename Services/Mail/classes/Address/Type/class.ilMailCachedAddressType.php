@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,20 +35,20 @@ class ilMailCachedAddressType implements ilMailAddressType
         $this->inner = $inner;
         $this->useCache = $useCache;
     }
-    
-    public static function clearCache() : void
+
+    public static function clearCache(): void
     {
         self::$isValidCache = [];
         self::$usrIdsByAddressCache = [];
     }
 
-    private function getCacheKey() : string
+    private function getCacheKey(): string
     {
         $address = $this->getAddress();
         return (string) $address;
     }
 
-    public function validate(int $senderId) : bool
+    public function validate(int $senderId): bool
     {
         $cacheKey = $this->getCacheKey();
 
@@ -57,17 +59,17 @@ class ilMailCachedAddressType implements ilMailAddressType
         return self::$isValidCache[$cacheKey];
     }
 
-    public function getErrors() : array
+    public function getErrors(): array
     {
         return $this->inner->getErrors();
     }
 
-    public function getAddress() : ilMailAddress
+    public function getAddress(): ilMailAddress
     {
         return $this->inner->getAddress();
     }
 
-    public function resolve() : array
+    public function resolve(): array
     {
         $cacheKey = $this->getCacheKey();
 

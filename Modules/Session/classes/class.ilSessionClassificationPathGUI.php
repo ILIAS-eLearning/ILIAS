@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,7 +36,7 @@ class ilSessionClassificationPathGUI extends ilPathGUI
         $this->access = $DIC->access();
     }
 
-    protected function buildTitle(int $a_obj_id) : string
+    protected function buildTitle(int $a_obj_id): string
     {
         if (ilObject::_lookupType($a_obj_id) !== 'sess') {
             return ilObject::_lookupTitle($a_obj_id);
@@ -46,7 +48,7 @@ class ilSessionClassificationPathGUI extends ilPathGUI
     /**
      * @inheritdoc
      */
-    protected function getPathIds() : array
+    protected function getPathIds(): array
     {
         $this->enableHideLeaf(false);
         $path = parent::getPathIds();
@@ -68,7 +70,7 @@ class ilSessionClassificationPathGUI extends ilPathGUI
         return $new_path;
     }
 
-    protected function findSessionContainerForItem(int $item_ref_id) : int
+    protected function findSessionContainerForItem(int $item_ref_id): int
     {
         $access = $this->access;
 

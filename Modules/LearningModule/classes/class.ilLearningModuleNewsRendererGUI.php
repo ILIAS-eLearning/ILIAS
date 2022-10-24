@@ -23,7 +23,7 @@
  */
 class ilLearningModuleNewsRendererGUI extends ilNewsDefaultRendererGUI
 {
-    public function getObjectLink() : string
+    public function getObjectLink(): string
     {
         $n = $this->getNewsItem();
         if ($n->getContextSubObjType() == "pg"

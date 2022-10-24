@@ -6,49 +6,49 @@ use PHPUnit\Framework\TestCase;
 
 class ilComponentBuildPluginInfoObjectiveTest extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->scanned = [];
         $this->dirs = [];
         $this->read = [];
         $this->files = [];
         $this->added = [];
-        $this->builder = new class($this) extends ilComponentBuildPluginInfoObjective {
+        $this->builder = new class ($this) extends ilComponentBuildPluginInfoObjective {
             protected const BASE_PATH = "";
             protected ilComponentBuildPluginInfoObjectiveTest $test;
             public function __construct($test)
             {
                 $this->test = $test;
             }
-            protected function scanDir(string $dir) : array
+            protected function scanDir(string $dir): array
             {
                 $this->test->scanned[] = $dir;
                 return $this->test->dirs[$dir] ?? [];
             }
-            public function _scanDir(string $dir) : array
+            public function _scanDir(string $dir): array
             {
                 return parent::scanDir($dir);
             }
-            protected function readFile(string $path) : ?string
+            protected function readFile(string $path): ?string
             {
                 return $this->test->files[$path] ?? null;
             }
-            public function _readFile(string $path) : ?string
+            public function _readFile(string $path): ?string
             {
                 return parent::readFile($path);
             }
-            protected function addPlugin(array &$data, string $type, string $component, string $slot, string $plugin) : void
+            protected function addPlugin(array &$data, string $type, string $component, string $slot, string $plugin): void
             {
                 $this->test->added[] = "$type/$component/$slot/$plugin";
             }
-            public function _addPlugin(array &$data, string $type, string $component, string $slot, string $plugin) : void
+            public function _addPlugin(array &$data, string $type, string $component, string $slot, string $plugin): void
             {
                 parent::addPlugin($data, $type, $component, $slot, $plugin);
             }
         };
     }
 
-    public function testScanningTopLevel() : void
+    public function testScanningTopLevel(): void
     {
         $this->builder->build();
 
@@ -58,7 +58,7 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
         $this->assertEquals($expected, $this->scanned);
     }
 
-    public function testScanningComplete() : void
+    public function testScanningComplete(): void
     {
         $this->dirs = [
             "Modules" => ["Module1", "Module2"],
@@ -78,7 +78,7 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
         $this->assertEquals($expected, $this->scanned);
     }
 
-    public function testPluginsAdded() : void
+    public function testPluginsAdded(): void
     {
         $this->dirs = [
             "Modules" => ["Module1"],
@@ -101,7 +101,7 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
         $this->assertEquals($expected, $this->added);
     }
 
-    public function testScanDir() : void
+    public function testScanDir(): void
     {
         // Use the component directory without artifacts, because this should be mostly stable.
         $expected = ["ROADMAP.md", "classes", "exceptions", "maintenance.json", "service.xml", "test"];
@@ -109,7 +109,7 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testAddPlugins() : void
+    public function testAddPlugins(): void
     {
         $data = [];
         $this->files["Modules/Module1/Slot1/Plugin1/plugin.php"] = <<<'PLUGIN'

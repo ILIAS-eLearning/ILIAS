@@ -1,8 +1,24 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 class assClozeGapCombination
 {
-    public function loadFromDb($question_id) : array
+    public function loadFromDb($question_id): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -32,7 +48,7 @@ class assClozeGapCombination
             if (isset($return_array[$data['combination_id'] . '::' . $data['gap_fi']])) {
                 continue;
             }
-            
+
             $return_array[$data['combination_id'] . '::' . $data['row_id'] . '::' . $data['gap_fi']] = array(
                                     'cid' => $data['combination_id'],
                                     'gap_fi' => $data['gap_fi'],
@@ -43,11 +59,11 @@ class assClozeGapCombination
                                     'best_solution' => $data['best_solution']
                                  );
         }
-        
+
         return array_values($return_array);
     }
 
-    public function getCleanCombinationArray($question_id) : array
+    public function getCleanCombinationArray($question_id): array
     {
         $assClozeGapCombinationObj = new assClozeGapCombination();
         $combination_from_db = $assClozeGapCombinationObj->loadFromDb($question_id);
@@ -59,8 +75,8 @@ class assClozeGapCombination
         }
         return $clean_array;
     }
-    
-    public function saveGapCombinationToDb($question_id, $gap_combinations, $gap_values) : void
+
+    public function saveGapCombinationToDb($question_id, $gap_combinations, $gap_values): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -108,7 +124,7 @@ class assClozeGapCombination
             }
         }
     }
-    public static function importGapCombinationToDb($question_id, $gap_combinations) : void
+    public static function importGapCombinationToDb($question_id, $gap_combinations): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -144,7 +160,7 @@ class assClozeGapCombination
         }
     }
 
-    public static function clearGapCombinationsFromDb($question_id) : void
+    public static function clearGapCombinationsFromDb($question_id): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -156,7 +172,7 @@ class assClozeGapCombination
         );
     }
 
-    public function combinationExistsForQid($question_id) : bool
+    public function combinationExistsForQid($question_id): bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -173,7 +189,7 @@ class assClozeGapCombination
         }
     }
 
-    public function getGapsWhichAreUsedInCombination($question_id) : array
+    public function getGapsWhichAreUsedInCombination($question_id): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -191,8 +207,8 @@ class assClozeGapCombination
         }
         return $gaps;
     }
-    
-    public function getMaxPointsForCombination(int $question_id, int $combination_id = -1) : float
+
+    public function getMaxPointsForCombination(int $question_id, int $combination_id = -1): float
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -251,7 +267,7 @@ class assClozeGapCombination
                 } else {
                     $return_string .= $data['answer'] . '|';
                 }
-                
+
                 $points = ' (' . $data['points'] . ' ' . $lng->txt('points') . ')';
             }
             return rtrim($return_string, '|') . $points;

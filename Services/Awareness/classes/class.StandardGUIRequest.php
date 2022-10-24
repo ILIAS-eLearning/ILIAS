@@ -23,7 +23,7 @@ use ILIAS\Repository;
 class StandardGUIRequest
 {
     use Repository\BaseGUIRequest;
-    
+
     public function __construct(
         \ILIAS\HTTP\Services $http,
         \ILIAS\Refinery\Factory $refinery,
@@ -38,12 +38,12 @@ class StandardGUIRequest
         );
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getFilter() : string
+    public function getFilter(): string
     {
         return $this->str("filter");
     }

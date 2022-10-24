@@ -35,7 +35,7 @@ class ilObjWikiSubItemListGUI extends ilSubItemListGUI
         $this->user = $DIC->user();
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $lng = $this->lng;
 
@@ -47,9 +47,9 @@ class ilObjWikiSubItemListGUI extends ilSubItemListGUI
                 $this->tpl->setVariable('TXT_FRAGMENT', $this->getHighlighter()->getContent($this->getObjId(), $sub_item));
                 $this->tpl->parseCurrentBlock();
             }
-            
+
             $this->tpl->setCurrentBlock('subitem');
-            
+
             // TODO: subitem type must returned from lucene
             if (($title = ilWikiPage::lookupTitle($sub_item)) !== false) {
                 // Page
@@ -58,7 +58,7 @@ class ilObjWikiSubItemListGUI extends ilSubItemListGUI
 
                 $link = '&srcstring=1';
                 $link = ilObjWikiGUI::getGotoLink($this->getRefId(), $title) . $link;
-                
+
                 $this->tpl->setVariable('LINK', $link);
                 $this->tpl->setVariable('TARGET', $this->getItemListGUI()->getCommandFrame(''));
                 $this->tpl->setVariable('TITLE', $title);
@@ -77,12 +77,12 @@ class ilObjWikiSubItemListGUI extends ilSubItemListGUI
             if (count($this->getSubItemIds(true)) > 1) {
                 $this->parseRelevance($sub_item);
             }
-            
+
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->showDetailsLink();
-        
+
         return $this->tpl->get();
     }
 }

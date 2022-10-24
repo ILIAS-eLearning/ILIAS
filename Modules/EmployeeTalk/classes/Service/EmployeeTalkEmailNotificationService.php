@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -90,9 +91,9 @@ final class EmployeeTalkEmailNotificationService
         //$mailsent = false;
         $subject =  $language->txt('notification_talks_subject');
         //if ($allowExternalMails) {
-            //$mailsent = mail($this->encodeWord($toName) . " <$to>", $this->encodeWord("$subjectPrefix $subject: $subjectDetails"), $this->getMessage($mime_boundary), $headers);
+        //$mailsent = mail($this->encodeWord($toName) . " <$to>", $this->encodeWord("$subjectPrefix $subject: $subjectDetails"), $this->getMessage($mime_boundary), $headers);
         //}
-        
+
         $mail = new \ilSystemNotification();
         $mail->setSubjectDirect("$subjectPrefix $subject: $subjectDetails");
         $attachment = new \ilFileDataMail(ANONYMOUS_USER_ID);
@@ -176,7 +177,7 @@ final class EmployeeTalkEmailNotificationService
     private function getIcalEvent(string $mime_boundary): string
     {
         $message = "--$mime_boundary\r\n";
-        $message .= 'Content-Type: text/calendar;name="appointment.ics";method=' . $this->calendar->getMethod()."\r\n";
+        $message .= 'Content-Type: text/calendar;name="appointment.ics";method=' . $this->calendar->getMethod() . "\r\n";
         $message .= "Content-Disposition: attachment;filename=\"appointment.ics\"\r\n";
         $message .= "Content-Transfer-Encoding: UTF8\r\n\r\n";
         $message .= $this->calendar->render() . "\r\n";

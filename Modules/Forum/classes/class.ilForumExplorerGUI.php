@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -59,12 +61,12 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         $this->setNodeOpen($this->root_node->getId());
     }
 
-    private function getRootNodeId() : int
+    private function getRootNodeId(): int
     {
         return $this->root_node->getId();
     }
 
-    private function getAuthorInformationByNode(array $node) : ilForumAuthorInformation
+    private function getAuthorInformationByNode(array $node): ilForumAuthorInformation
     {
         return $this->authorInformation[(int) $node['pos_pk']] ?? ($this->authorInformation[(int) $node['pos_pk']] = new ilForumAuthorInformation(
             (int) ($node['pos_author_id'] ?? 0),
@@ -74,7 +76,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         ));
     }
 
-    public function getChildsOfNode($a_parent_node_id) : array
+    public function getChildsOfNode($a_parent_node_id): array
     {
         if ($this->preloaded) {
             return $this->preloaded_children[$a_parent_node_id] ?? [];
@@ -83,13 +85,13 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         return $this->thread->getNestedSetPostChildren($a_parent_node_id, 1);
     }
 
-    protected function preloadChilds() : void
+    protected function preloadChilds(): void
     {
         $this->preloaded_children = [];
 
         $children = $this->thread->getNestedSetPostChildren($this->root_node->getId());
 
-        array_walk($children, function ($node, $key) : void {
+        array_walk($children, function ($node, $key): void {
             if (!array_key_exists((int) $node['pos_pk'], $this->preloaded_children)) {
                 $this->preloaded_children[(int) $node['pos_pk']] = [];
             }
@@ -100,17 +102,17 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         $this->preloaded = true;
     }
 
-    public function getChildren($record, $environment = null) : array
+    public function getChildren($record, $environment = null): array
     {
         return $this->getChildsOfNode((int) $record['pos_pk']);
     }
 
-    public function getTreeLabel() : string
+    public function getTreeLabel(): string
     {
         return $this->lng->txt("frm_posts");
     }
 
-    public function getTreeComponent() : Tree
+    public function getTreeComponent(): Tree
     {
         $rootNode = [
             [
@@ -134,7 +136,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
     protected function createNode(
         \ILIAS\UI\Component\Tree\Node\Factory $factory,
         $record
-    ) : \ILIAS\UI\Component\Tree\Node\Node {
+    ): \ILIAS\UI\Component\Tree\Node\Node {
         $nodeIconPath = $this->getNodeIcon($record);
 
         $icon = null;
@@ -159,7 +161,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         return $node;
     }
 
-    protected function getNodeStateToggleCmdClasses($record) : array
+    protected function getNodeStateToggleCmdClasses($record): array
     {
         return [
             ilRepositoryGUI::class,
@@ -167,12 +169,12 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         ];
     }
 
-    public function getNodeId($a_node) : int
+    public function getNodeId($a_node): int
     {
         return (isset($a_node['pos_pk']) ? (int) $a_node['pos_pk'] : 0);
     }
 
-    public function getNodeIcon($a_node) : string
+    public function getNodeIcon($a_node): string
     {
         if ($this->getRootNodeId() === (int) $a_node['pos_pk']) {
             return ilObject::_getIcon(0, 'tiny', 'frm');
@@ -181,7 +183,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         return $this->getAuthorInformationByNode($a_node)->getProfilePicture();
     }
 
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
         if ($this->getRootNodeId() === (int) $a_node['pos_pk']) {
             return '';
@@ -208,7 +210,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         return $url;
     }
 
-    public function getNodeContent($a_node) : string
+    public function getNodeContent($a_node): string
     {
         return $a_node['pos_subject'];
     }

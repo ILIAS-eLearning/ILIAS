@@ -33,32 +33,32 @@ class ilMediaObjectConfigStoredObjective implements Setup\Objective
         $this->config = $config;
     }
 
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class);
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Store configuration of Services/MediaObject";
     }
 
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return false;
     }
 
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective()
         ];
     }
 
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
-    
+
         $ini->setVariable(
             "tools",
             "ffmpeg",
@@ -76,7 +76,7 @@ class ilMediaObjectConfigStoredObjective implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
 

@@ -39,14 +39,14 @@ class ilWorkflowScaffold
 
     public string $workflow_name;
 
-    public function registerRequire(string $require) : void
+    public function registerRequire(string $require): void
     {
         if (!in_array($require, $this->requires, true)) {
             $this->requires[] = $require;
         }
     }
 
-    public function getRequires() : string
+    public function getRequires(): string
     {
         $requires = '';
         foreach ($this->requires as $required_file) {
@@ -62,22 +62,22 @@ class ilWorkflowScaffold
     /** @var array $start_event_refs */
     public array $start_event_refs = [];
 
-    public function registerStartEventRef(string $start_event_ref) : void
+    public function registerStartEventRef(string $start_event_ref): void
     {
         $this->start_event_refs[] = ['type' => 'message', 'ref' => $start_event_ref];
     }
 
-    public function registerStartSignalRef(string $start_event_ref) : void
+    public function registerStartSignalRef(string $start_event_ref): void
     {
         $this->start_event_refs[] = ['type' => 'signal', 'ref' => $start_event_ref];
     }
 
-    public function registerStartTimerRef(string $start_event_ref) : void
+    public function registerStartTimerRef(string $start_event_ref): void
     {
         $this->start_event_refs[] = ['type' => 'timeDate', 'ref' => $start_event_ref];
     }
 
-    public function getStartEventInfo() : string
+    public function getStartEventInfo(): string
     {
         $event_definitions = [];
         foreach ($this->start_event_refs as $start_event_ref) {
@@ -139,12 +139,12 @@ class ilWorkflowScaffold
     /**
      * @param mixed $workflow_name
      */
-    public function setWorkflowName($workflow_name) : void
+    public function setWorkflowName($workflow_name): void
     {
         $this->workflow_name = $workflow_name;
     }
 
-    public function addAuxilliaryMethod(string $auxilliary_method) : void
+    public function addAuxilliaryMethod(string $auxilliary_method): void
     {
         $this->auxilliary_methods[] = $auxilliary_method;
     }
@@ -156,17 +156,17 @@ class ilWorkflowScaffold
         $this->auxilliary_methods = [];
     }
 
-    public function getConstructorMethodContent() : ?string
+    public function getConstructorMethodContent(): ?string
     {
         return $this->constructor_method_content;
     }
 
-    public function setConstructorMethodContent(string $constructor_method_content) : void
+    public function setConstructorMethodContent(string $constructor_method_content): void
     {
         $this->constructor_method_content = $constructor_method_content;
     }
 
-    public function getPHP() : string
+    public function getPHP(): string
     {
         $pre_constructor_content = $this->getRequires();
         $pre_constructor_content .= "
@@ -196,7 +196,7 @@ class ilWorkflowScaffold
      * @param string $start_event_ref
      * @return array
      */
-    public function getTimeDateEventDefinition(string $start_event_ref) : array
+    public function getTimeDateEventDefinition(string $start_event_ref): array
     {
         $content = '';
         foreach ((array) $this->bpmn2_array['children'] as $elements) {

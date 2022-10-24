@@ -58,14 +58,14 @@ class ilBadgeProfileGUI
         $this->noti_repo = new BadgeNotificationPrefRepository();
     }
 
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
         $lng->loadLanguageModule("badge");
-        
+
         switch ($ilCtrl->getNextClass()) {
             default:
                 $this->setTabs();
@@ -74,15 +74,15 @@ class ilBadgeProfileGUI
                 break;
         }
     }
-    
-    protected function setTabs() : void
+
+    protected function setTabs(): void
     {
         $ilTabs = $this->tabs;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
     }
-    
-    protected function getSubTabs(string $a_active) : void
+
+    protected function getSubTabs(string $a_active): void
     {
         $ilTabs = $this->tabs;
         $lng = $this->lng;
@@ -100,20 +100,20 @@ class ilBadgeProfileGUI
         );
         $ilTabs->activateTab($a_active);
     }
-    
-    protected function listBadges() : void
+
+    protected function listBadges(): void
     {
         $tpl = $this->tpl;
         $ilUser = $this->user;
-            
+
         $this->getSubTabs("list");
-        
+
         $data = array();
-        
+
         // see ilBadgePersonalTableGUI::getItems()
         foreach (ilBadgeAssignment::getInstancesByUserId($ilUser->getId()) as $ass) {
             $badge = new ilBadge($ass->getBadgeId());
-            
+
             $data[] = array(
                 "id" => $badge->getId(),
                 "title" => $badge->getTitle(),
@@ -126,7 +126,7 @@ class ilBadgeProfileGUI
                 "renderer" => new ilBadgeRenderer($ass)
             );
         }
-        
+
         // :TODO:
         $data = ilArrayUtil::sortArray($data, "issued_on", "desc", true);
 
@@ -142,7 +142,7 @@ class ilBadgeProfileGUI
                 $badge["title"],
                 $this->factory->legacy($badge["renderer"]->renderModalContent())
             )->withCancelButtonLabel("ok");
-            $image = $this->factory->image()->responsive($badge["image"], $badge["name"])
+            $image = $this->factory->image()->responsive(ilWACSignedPath::signFile($badge["image"]), $badge["name"])
                 ->withAction($modal->getShowSignal());
 
             $this->ctrl->setParameter($this, "badge_id", $badge["id"]);
@@ -164,7 +164,7 @@ class ilBadgeProfileGUI
 
                 $ref_ids = ilObject::_getAllReferences($badge["object"]["id"]);
                 $parent_ref_id = array_shift($ref_ids);
-                if ($this->access->checkAccess("read", "", $parent_ref_id)) {
+                if ($parent_ref_id && $this->access->checkAccess("read", "", $parent_ref_id)) {
                     $parent_link = $this->factory->link()->standard($badge["object"]["title"], ilLink::_getLink($parent_ref_id));
                 } else {
                     $parent_link = $this->factory->legacy($badge["object"]["title"]);
@@ -196,35 +196,35 @@ class ilBadgeProfileGUI
 
         $this->noti_repo->updateLastCheckedTimestamp();
     }
-    
-    protected function manageBadges() : void
+
+    protected function manageBadges(): void
     {
         $tpl = $this->tpl;
-            
+
         $this->getSubTabs("manage");
-        
+
         $tbl = new ilBadgePersonalTableGUI($this, "manageBadges");
-        
+
         $tpl->setContent($tbl->getHTML());
     }
-    
-    protected function applyFilter() : void
+
+    protected function applyFilter(): void
     {
         $tbl = new ilBadgePersonalTableGUI($this, "manageBadges");
         $tbl->resetOffset();
         $tbl->writeFilterToSession();
         $this->manageBadges();
     }
-    
-    protected function resetFilter() : void
+
+    protected function resetFilter(): void
     {
         $tbl = new ilBadgePersonalTableGUI($this, "manageBadges");
         $tbl->resetOffset();
         $tbl->resetFilter();
         $this->manageBadges();
     }
-    
-    protected function getMultiSelection() : array
+
+    protected function getMultiSelection(): array
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -239,7 +239,7 @@ class ilBadgeProfileGUI
                     $res[] = $ass;
                 }
             }
-            
+
             return $res;
         }
 
@@ -247,12 +247,12 @@ class ilBadgeProfileGUI
         $ilCtrl->redirect($this, "manageBadges");
         return [];
     }
-    
-    protected function activate() : void
+
+    protected function activate(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         foreach ($this->getMultiSelection() as $ass) {
             // already active?
             if (!$ass->getPosition()) {
@@ -260,16 +260,16 @@ class ilBadgeProfileGUI
                 $ass->store();
             }
         }
-        
+
         $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "manageBadges");
     }
-    
-    protected function deactivate() : void
+
+    protected function deactivate(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         foreach ($this->getMultiSelection() as $ass) {
             // already inactive?
             if ($ass->getPosition()) {
@@ -277,12 +277,12 @@ class ilBadgeProfileGUI
                 $ass->store();
             }
         }
-        
+
         $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "manageBadges");
     }
 
-    protected function activateInCard() : void
+    protected function activateInCard(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -299,7 +299,7 @@ class ilBadgeProfileGUI
         $ilCtrl->redirect($this, "listBadges");
     }
 
-    protected function deactivateInCard() : void
+    protected function deactivateInCard(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -315,42 +315,42 @@ class ilBadgeProfileGUI
         $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "listBadges");
     }
-    
-    
 
-    protected function setBackpackSubTabs() : void
+
+
+    protected function setBackpackSubTabs(): void
     {
         $ilTabs = $this->tabs;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         $ilTabs->addSubTab(
             "backpack_badges",
             $lng->txt("obj_bdga"),
             $ilCtrl->getLinkTarget($this, "listBackpackGroups")
         );
-        
+
         $ilTabs->addSubTab(
             "backpack_settings",
             $lng->txt("settings"),
             $ilCtrl->getLinkTarget($this, "editSettings")
         );
-        
+
         $ilTabs->activateTab("backpack_badges");
     }
-    
-    protected function listBackpackGroups() : void
+
+    protected function listBackpackGroups(): void
     {
         $lng = $this->lng;
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
-        
+
         $this->setBackpackSubTabs();
         $ilTabs->activateSubTab("backpack_badges");
-        
+
         $this->tpl->setOnScreenMessage('info', $lng->txt("badge_backpack_gallery_info"));
-                
+
         $bp = new ilBadgeBackpack($this->getBackpackMail());
         $bp_groups = $bp->getGroups();
 
@@ -362,7 +362,7 @@ class ilBadgeProfileGUI
         $tmpl = new ilTemplate("tpl.badge_backpack.html", true, true, "Services/Badge");
 
         $tmpl->setVariable("BACKPACK_TITLE", $lng->txt("badge_backpack_list"));
-        
+
         ilDatePresentation::setUseRelativeDates(false);
 
         foreach ($bp_groups as $group_id => $group) {
@@ -388,73 +388,73 @@ class ilBadgeProfileGUI
 
         $tpl->setContent($tmpl->get());
     }
-    
+
     //
     // settings
     //
-    
-    protected function getBackpackMail() : string
+
+    protected function getBackpackMail(): string
     {
         $ilUser = $this->user;
-        
+
         $mail = $ilUser->getPref(self::BACKPACK_EMAIL);
         if (!$mail) {
             $mail = $ilUser->getEmail();
         }
         return $mail;
     }
-    
-    protected function initSettingsForm() : ilPropertyFormGUI
+
+    protected function initSettingsForm(): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this, "saveSettings"));
         $form->setTitle($lng->txt("settings"));
-        
+
         $email = new ilEMailInputGUI($lng->txt("badge_backpack_email"), "email");
         // $email->setRequired(true);
         $email->setInfo($lng->txt("badge_backpack_email_info"));
         $email->setValue($this->getBackpackMail());
         $form->addItem($email);
-        
+
         $form->addCommandButton("saveSettings", $lng->txt("save"));
-        
+
         return $form;
     }
-    
-    protected function editSettings(ilPropertyFormGUI $a_form = null) : void
+
+    protected function editSettings(ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
-        
+
         $ilCtrl->redirect($this, "listBadges");
     }
-    
-    protected function saveSettings() : void
+
+    protected function saveSettings(): void
     {
         $ilUser = $this->user;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
             $new_email = $form->getInput("email");
             $old_email = $this->getBackpackMail();
-            
+
             ilObjUser::_writePref($ilUser->getId(), self::BACKPACK_EMAIL, $new_email);
-            
+
             // if email was changed: delete badge files
             if ($new_email != $old_email) {
                 ilBadgeAssignment::clearBadgeCache($ilUser->getId());
             }
-                    
+
             $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "editSettings");
         }
-        
+
         $form->setValuesByPost();
         $this->editSettings($form);
     }

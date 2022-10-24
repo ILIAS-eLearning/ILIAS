@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,7 +37,7 @@ class ilObjStudyProgrammeReferenceAccess extends ilContainerReferenceAccess
     *
     * @return	boolean		true, if everything is ok
     */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "") : bool
+    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = ""): bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -66,7 +68,7 @@ class ilObjStudyProgrammeReferenceAccess extends ilContainerReferenceAccess
                             $target_id,
                             $parent_progress->getAssignmentId()
                         );
-                        
+
                         if (!$progress) {
                             continue;
                         }
@@ -82,7 +84,7 @@ class ilObjStudyProgrammeReferenceAccess extends ilContainerReferenceAccess
         return true;
     }
 
-    public static function _getCommands(int $a_ref_id = null) : array
+    public static function _getCommands(int $a_ref_id = null): array
     {
         global $DIC;
         $ilAccess = $DIC->access();

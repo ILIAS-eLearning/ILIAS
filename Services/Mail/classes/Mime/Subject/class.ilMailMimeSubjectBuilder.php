@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,7 +33,7 @@ class ilMailMimeSubjectBuilder
         $this->defaultPrefix = $defaultPrefix;
     }
 
-    public function subject(string $subject, bool $addPrefix = false, string $contextPrefix = '') : string
+    public function subject(string $subject, bool $addPrefix = false, string $contextPrefix = ''): string
     {
         $subject = trim($subject);
         $contextPrefix = trim($contextPrefix);

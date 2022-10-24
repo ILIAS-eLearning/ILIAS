@@ -14,7 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Consumer;
 
 use ILIAS\ResourceStorage\Revision\Revision;
@@ -29,7 +29,7 @@ trait GetRevisionTrait
     /**
      * @throws OutOfBoundsException
      */
-    protected function getRevision() : Revision
+    protected function getRevision(): Revision
     {
         if ($this->revision_number !== null) {
             if ($this->resource->hasSpecificRevision($this->revision_number)) {

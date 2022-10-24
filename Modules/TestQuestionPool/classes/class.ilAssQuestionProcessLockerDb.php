@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLocker.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -34,12 +47,12 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
         $this->db = $db;
     }
 
-    public function isAssessmentLogEnabled() : bool
+    public function isAssessmentLogEnabled(): bool
     {
         return $this->assessmentLogEnabled;
     }
 
-    public function setAssessmentLogEnabled($assessmentLogEnabled) : void
+    public function setAssessmentLogEnabled($assessmentLogEnabled): void
     {
         $this->assessmentLogEnabled = $assessmentLogEnabled;
     }
@@ -47,7 +60,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * @return array
      */
-    private function getTablesUsedDuringAssessmentLog() : array
+    private function getTablesUsedDuringAssessmentLog(): array
     {
         return array(
             array('name' => 'qpl_questions', 'sequence' => false),
@@ -60,7 +73,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * @return array
      */
-    private function getTablesUsedDuringSolutionUpdate() : array
+    private function getTablesUsedDuringSolutionUpdate(): array
     {
         return array(
             array('name' => 'tst_solutions', 'sequence' => true)
@@ -70,7 +83,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * @return array
      */
-    private function getTablesUsedDuringResultUpdate() : array
+    private function getTablesUsedDuringResultUpdate(): array
     {
         return array(
             array('name' => 'tst_test_result', 'sequence' => true)
@@ -80,7 +93,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * {@inheritdoc}
      */
-    protected function onBeforeExecutingUserSolutionUpdateOperation() : void
+    protected function onBeforeExecutingUserSolutionUpdateOperation(): void
     {
         $tables = $this->getTablesUsedDuringSolutionUpdate();
 
@@ -97,7 +110,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * {@inheritdoc}
      */
-    protected function onBeforeExecutingUserQuestionResultUpdateOperation() : void
+    protected function onBeforeExecutingUserQuestionResultUpdateOperation(): void
     {
         $this->atom_query = $this->db->buildAtomQuery();
         foreach ($this->getTablesUsedDuringResultUpdate() as $table) {
@@ -108,7 +121,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * {@inheritdoc}
      */
-    protected function onBeforeExecutingUserSolutionAdoptOperation() : void
+    protected function onBeforeExecutingUserSolutionAdoptOperation(): void
     {
         $this->atom_query = $this->db->buildAtomQuery();
         foreach (array_merge(
@@ -122,7 +135,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * {@inheritdoc}
      */
-    protected function onBeforeExecutingUserTestResultUpdateOperation() : void
+    protected function onBeforeExecutingUserTestResultUpdateOperation(): void
     {
         $this->atom_query = $this->db->buildAtomQuery();
         $this->atom_query->addTableLock('tst_result_cache');
@@ -133,7 +146,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * {@inheritdoc}
      */
-    protected function executeOperation(callable $operation) : void
+    protected function executeOperation(callable $operation): void
     {
         if ($this->atom_query) {
             $this->atom_query->addQueryCallable(function (ilDBInterface $ilDB) use ($operation) {

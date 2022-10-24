@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -20,12 +22,12 @@ class ilAdvancedMDRecordObjectOrdering
         $this->db = $db;
     }
 
-    public function setPosition(int $position) : void
+    public function setPosition(int $position): void
     {
         $this->position = $position;
     }
 
-    public function getPosition() : int
+    public function getPosition(): int
     {
         return $this->position;
     }
@@ -34,7 +36,7 @@ class ilAdvancedMDRecordObjectOrdering
      * Save entry
      * @throws ilDatabaseException
      */
-    public function save() : void
+    public function save(): void
     {
         $this->delete();
 
@@ -51,7 +53,7 @@ class ilAdvancedMDRecordObjectOrdering
     /**
      * Delete entry
      */
-    public function delete() : void
+    public function delete(): void
     {
         $query = 'DELETE FROM adv_md_record_obj_ord WHERE ' .
             'record_id = ' . $this->db->quote($this->record_id, 'integer') . ' ' .

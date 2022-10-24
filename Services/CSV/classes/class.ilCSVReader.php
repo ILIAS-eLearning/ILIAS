@@ -20,7 +20,7 @@
  */
 class ilCSVReader
 {
-    const AUTO_DETECT_LINE_ENDINGS = "auto_detect_line_endings";
+    public const AUTO_DETECT_LINE_ENDINGS = "auto_detect_line_endings";
     /**
      * @var resource
      */
@@ -30,64 +30,64 @@ class ilCSVReader
     private string $separator = ';';
     private string $delimiter = '""';
     private int $length = 1024;
-    
-    private function parse() : void
+
+    private function parse(): void
     {
         $row = 0;
-        
+
         while (($line = fgetcsv($this->file_resource, $this->length, $this->separator)) !== false) {
             $line_count = count($line);
             for ($col = 0; $col < $line_count; $col++) {
                 $this->data[$row][$col] = $this->unquote($line[$col]);
             }
-            
+
             ++$row;
         }
     }
-    
-    public function setSeparator(string $a_sep) : void
+
+    public function setSeparator(string $a_sep): void
     {
         $this->separator = $a_sep;
     }
-    
-    public function setDelimiter(string $a_del) : void
+
+    public function setDelimiter(string $a_del): void
     {
         $this->delimiter = $a_del;
     }
-    
-    public function setLength(int $a_length) : void
+
+    public function setLength(int $a_length): void
     {
         $this->length = $a_length;
     }
-    
-    public function open(string $path_to_file) : bool
+
+    public function open(string $path_to_file): bool
     {
         $this->line_ends = ini_get(self::AUTO_DETECT_LINE_ENDINGS);
         ini_set(self::AUTO_DETECT_LINE_ENDINGS, true);
-        
+
         $this->file_resource = fopen(ilUtil::stripSlashes($path_to_file), "r");
-        
+
         if (!is_resource($this->file_resource)) {
             throw new RuntimeException('sould not open stream to ' . $path_to_file);
         }
         return true;
     }
-    
-    public function close() : bool
+
+    public function close(): bool
     {
         ini_set(self::AUTO_DETECT_LINE_ENDINGS, $this->line_ends);
-        
+
         return fclose($this->file_resource);
     }
-    
-    public function getCsvAsArray() : array
+
+    public function getCsvAsArray(): array
     {
         $this->parse();
-        
+
         return $this->data;
     }
-    
-    private function unquote(string $a_str) : string
+
+    private function unquote(string $a_str): string
     {
         return str_replace($this->delimiter . $this->delimiter, $this->delimiter, $a_str);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,18 +17,18 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\Filesystem\Exception\IOException;
 
 interface ilObjectTileImageInterface
 {
-    public function getExtension() : string;
+    public function getExtension(): string;
 
-    public function copy(int $target_obj_id) : void;
+    public function copy(int $target_obj_id): void;
 
-    public function delete() : void;
+    public function delete(): void;
 
     /**
      * Save image from request
@@ -34,11 +36,11 @@ interface ilObjectTileImageInterface
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public function saveFromHttpRequest(string $tmp_name) : void;
+    public function saveFromHttpRequest(string $tmp_name): void;
 
-    public function exists() : bool;
+    public function exists(): bool;
 
-    public function getFullPath() : string;
+    public function getFullPath(): string;
 
-    public function createFromImportDir(string $source_dir, string $ext) : void;
+    public function createFromImportDir(string $source_dir, string $ext): void;
 }

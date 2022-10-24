@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -74,21 +76,21 @@ class ilQueryParser
         $this->message = '';
 
         $this->setMinWordLength(1);
-        
+
         $this->setAllowedWildcards(false);
     }
 
-    public function setMinWordLength(int $a_length) : void
+    public function setMinWordLength(int $a_length): void
     {
         $this->min_word_length = $a_length;
     }
 
-    public function getMinWordLength() : int
+    public function getMinWordLength(): int
     {
         return $this->min_word_length;
     }
-    
-    public function setGlobalMinLength(int $a_value) : void
+
+    public function setGlobalMinLength(int $a_value): void
     {
         if ($a_value < 1) {
             return;
@@ -96,31 +98,31 @@ class ilQueryParser
 
         $this->global_min_length = $a_value;
     }
-    
-    public function getGlobalMinLength() : int
+
+    public function getGlobalMinLength(): int
     {
         return $this->global_min_length;
     }
-    
-    public function setAllowedWildcards(bool $a_value) : void
+
+    public function setAllowedWildcards(bool $a_value): void
     {
         $this->wildcards_allowed = $a_value;
     }
-    
-    public function getAllowedWildcards() : bool
+
+    public function getAllowedWildcards(): bool
     {
         return $this->wildcards_allowed;
     }
 
-    public function setMessage(string $a_msg) : void
+    public function setMessage(string $a_msg): void
     {
         $this->message = $a_msg;
     }
-    public function getMessage() : string
+    public function getMessage(): string
     {
         return $this->message;
     }
-    public function appendMessage(string $a_msg) : void
+    public function appendMessage(string $a_msg): void
     {
         if (strlen($this->getMessage())) {
             $this->message .= '<br />';
@@ -128,16 +130,16 @@ class ilQueryParser
         $this->message .= $a_msg;
     }
 
-    public function setCombination(string $a_combination) : void
+    public function setCombination(string $a_combination): void
     {
         $this->combination = $a_combination;
     }
-    public function getCombination() : string
+    public function getCombination(): string
     {
         return $this->combination;
     }
 
-    public function getQueryString() : string
+    public function getQueryString(): string
     {
         return trim($this->query_str);
     }
@@ -145,7 +147,7 @@ class ilQueryParser
     /**
      * @return string[]
      */
-    public function getWords() : array
+    public function getWords(): array
     {
         return $this->words ?? array();
     }
@@ -153,7 +155,7 @@ class ilQueryParser
     /**
      * @return string[]
      */
-    public function getQuotedWords(bool $with_quotation = false) : array
+    public function getQuotedWords(bool $with_quotation = false): array
     {
         if ($with_quotation) {
             return $this->quoted_words ?: array();
@@ -165,7 +167,7 @@ class ilQueryParser
         }
     }
 
-    public function getLuceneQueryString() : string
+    public function getLuceneQueryString(): string
     {
         $counter = 0;
         $tmp_str = "";
@@ -177,7 +179,7 @@ class ilQueryParser
         }
         return $tmp_str;
     }
-    public function parse() : bool
+    public function parse(): bool
     {
         $this->words = array();
 
@@ -187,20 +189,20 @@ class ilQueryParser
             if (!strlen(trim($word))) {
                 continue;
             }
-            
+
             if (strlen(trim($word)) < $this->getMinWordLength()) {
                 $this->setMessage(sprintf($this->lng->txt('search_minimum_info'), $this->getMinWordLength()));
                 continue;
             }
-            
+
             $this->words[] = addslashes($word);
         }
-        
+
         $fullstr = trim($this->getQueryString());
         if (!in_array($fullstr, $this->words)) {
             $this->words[] = addslashes($fullstr);
         }
-        
+
         if (!$this->getAllowedWildcards()) {
             // #14768
             foreach ($this->words as $idx => $word) {
@@ -215,11 +217,11 @@ class ilQueryParser
         // Parse strings like && 'A "B C D" E' as 'A' && 'B C D' && 'E'
         // Can be used in LIKE search or fulltext search > MYSQL 4.0
         $this->__parseQuotation();
-        
+
         return true;
     }
 
-    public function __parseQuotation() : bool
+    public function __parseQuotation(): bool
     {
         if (!strlen($this->getQueryString())) {
             $this->quoted_words[] = '';
@@ -237,10 +239,10 @@ class ilQueryParser
             if (!strlen(trim($word))) {
                 continue;
             }
-            
+
             $this->quoted_words[] = addslashes($word);
         }
-        
+
         if (!$this->getAllowedWildcards()) {
             // #14768
             foreach ($this->quoted_words as $idx => $word) {
@@ -254,7 +256,7 @@ class ilQueryParser
         return true;
     }
 
-    public function validate() : bool
+    public function validate(): bool
     {
         // Words with less than 3 characters
         if (strlen($this->getMessage())) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ class ilDefaultLanguageSetObjective extends ilLanguageObjective
     /**
      * @inheritDoc
      */
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash(
             "sha256",
@@ -35,7 +37,7 @@ class ilDefaultLanguageSetObjective extends ilLanguageObjective
     /**
      * @inheritDoc
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Set default language to en";
     }
@@ -43,7 +45,7 @@ class ilDefaultLanguageSetObjective extends ilLanguageObjective
     /**
      * @inheritDoc
      */
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
@@ -51,7 +53,7 @@ class ilDefaultLanguageSetObjective extends ilLanguageObjective
     /**
      * @inheritDoc
      */
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         return [
             new \ilIniFilesLoadedObjective(),
@@ -62,7 +64,7 @@ class ilDefaultLanguageSetObjective extends ilLanguageObjective
     /**
      * @inheritDoc
      */
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
 
@@ -82,7 +84,7 @@ class ilDefaultLanguageSetObjective extends ilLanguageObjective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);

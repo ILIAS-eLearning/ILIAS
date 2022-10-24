@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -31,7 +33,7 @@ use Exception;
  */
 class TopParentItemDrilldownRenderer extends BaseTypeRenderer
 {
-    public function getComponentWithContent(isItem $item) : Component
+    public function getComponentWithContent(isItem $item): Component
     {
         $entries = [];
         foreach ($item->getChildren() as $child) {
@@ -49,7 +51,7 @@ class TopParentItemDrilldownRenderer extends BaseTypeRenderer
         return $slate;
     }
 
-    protected function buildEntry(AbstractChildItem $item) : Component
+    protected function buildEntry(AbstractChildItem $item): Component
     {
         $title = $item->getTitle();
         $symbol = $this->getStandardSymbol($item);
@@ -81,12 +83,12 @@ class TopParentItemDrilldownRenderer extends BaseTypeRenderer
         return $entry;
     }
 
-    protected function getDataFactory() : Factory
+    protected function getDataFactory(): Factory
     {
         return new Factory();
     }
 
-    private function getBaseURL() : string
+    private function getBaseURL(): string
     {
         return ILIAS_HTTP_PATH;
     }

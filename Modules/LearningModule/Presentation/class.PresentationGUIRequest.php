@@ -38,67 +38,67 @@ class PresentationGUIRequest
         );
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->int("obj_id");
     }
 
-    public function getObjType() : string
+    public function getObjType(): string
     {
         return $this->str("obj_type");
     }
 
-    public function getTranslation() : string
+    public function getTranslation(): string
     {
         return $this->str("transl");
     }
 
-    public function getFocusId() : int
+    public function getFocusId(): int
     {
         return $this->int("focus_id");
     }
 
-    public function getFocusReturn() : int
+    public function getFocusReturn(): int
     {
         return $this->int("focus_return");
     }
 
-    public function getBackPage() : string
+    public function getBackPage(): string
     {
         return $this->str("back_pg");
     }
 
-    public function getSearchString() : string
+    public function getSearchString(): string
     {
         return $this->str("srcstring");
     }
 
-    public function getFrame() : string
+    public function getFrame(): string
     {
         return $this->str("frame");
     }
 
-    public function getFromPage() : string
+    public function getFromPage(): string
     {
         return $this->str("from_page");
     }
 
-    public function getMobId() : int
+    public function getMobId(): int
     {
         return $this->int("mob_id");
     }
 
-    public function getEmbedMode() : int
+    public function getEmbedMode(): int
     {
         return $this->int("embed_mode");
     }
 
-    public function getCmd() : string
+    public function getCmd(): string
     {
         if (!$this->isArray("cmd")) {
             return $this->str("cmd");
@@ -106,57 +106,57 @@ class PresentationGUIRequest
         return "";
     }
 
-    public function getPgId() : int
+    public function getPgId(): int
     {
         return $this->int("pg_id");
     }
 
-    public function getPgType() : string
+    public function getPgType(): string
     {
         return $this->str("pg_type");
     }
 
-    public function getNotificationSwitch() : int
+    public function getNotificationSwitch(): int
     {
         return $this->int("ntf");
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->str("type");
     }
 
-    public function getUrl() : string
+    public function getUrl(): string
     {
         return $this->str("url");
     }
 
-    public function getRating() : int
+    public function getRating(): int
     {
         return $this->int("rating");
     }
 
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->strArray("item");
     }
 
-    public function getSelectedType() : string
+    public function getSelectedType(): string
     {
         return $this->str("sel_type");
     }
 
-    public function getSelectedObjIds() : array
+    public function getSelectedObjIds(): array
     {
         return $this->intArray("obj_id");
     }
 
-    public function getQuestionPageId() : int
+    public function getQuestionPageId(): int
     {
         return $this->int("page_id");
     }
 
-    public function getQuestionId() : int
+    public function getQuestionId(): int
     {
         return $this->int("id");
     }

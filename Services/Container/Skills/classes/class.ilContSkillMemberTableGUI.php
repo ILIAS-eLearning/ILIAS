@@ -41,11 +41,11 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
         $this->setId("cont_skll_mem_" . $a_cont_skills->getId());
 
         $this->container_skills = $a_cont_skills;
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->getMembers());
         $this->setTitle($this->lng->txt("cont_cont_skills"));
-        
+
         $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("name"), "name");
         $this->addColumn($this->lng->txt("login"), "login");
@@ -56,7 +56,7 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
         $this->setDefaultOrderField("name");
         $this->setDefaultOrderDirection("asc");
         $this->setSelectAllCheckbox("usr_id");
-        
+
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.cont_member_skill_row.html", "Services/Container/Skills");
 
@@ -66,7 +66,7 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
         $this->addMultiCommand("deassignCompetencesConfirm", $this->lng->txt("cont_deassign_competence"));
     }
 
-    public function getMembers() : array
+    public function getMembers(): array
     {
         $p = ilCourseParticipants::getInstanceByObjId($this->container_skills->getId());
 
@@ -83,7 +83,7 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
         return $members;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $tpl = $this->tpl;
         $ctrl = $this->ctrl;

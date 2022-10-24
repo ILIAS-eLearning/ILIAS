@@ -24,10 +24,12 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
     protected \ILIAS\SurveyQuestionPool\Editing\EditManager $edit_manager;
     protected ilRbacReview $rbacreview;
     protected ilObjUser $user;
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $renderer;
     protected bool $editable = true;
     protected bool $writeAccess = false;
     protected array $filter = [];
-    
+
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
@@ -43,24 +45,27 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
                                   ->internal()
                                   ->domain()
                                   ->editing();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
 
+        $this->renderer = $DIC->ui()->renderer();
+        $this->ui_factory = $DIC->ui()->factory();
+
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
-    
+
         $this->setWriteAccess($a_write_access);
 
         if ($this->getWriteAccess()) {
             $this->addColumn('', '', '1%');
         }
-        
+
         $this->addColumn($this->lng->txt("title"), 'title', '');
         $this->addColumn($this->lng->txt("obligatory"), "");
-        
+
         foreach ($this->getSelectedColumns() as $c) {
             if (strcmp($c, 'description') === 0) {
                 $this->addColumn($this->lng->txt("description"), 'description', '');
@@ -78,22 +83,22 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
                 $this->addColumn($this->lng->txt("last_update"), 'tstamp', '');
             }
         }
-        
+
         $this->addColumn("", "");
 
         $clip_questions = $this->edit_manager->getQuestionsFromClipboard();
         if ($this->getWriteAccess()) {
             $this->setSelectAllCheckbox('q_id');
-        
+
             $this->addMultiCommand('copy', $this->lng->txt('copy'));
             $this->addMultiCommand('move', $this->lng->txt('move'));
             $this->addMultiCommand('exportQuestion', $this->lng->txt('export'));
             $this->addMultiCommand('deleteQuestions', $this->lng->txt('delete'));
-            
+
             if (count($clip_questions) > 0) {
                 $this->addCommandButton('paste', $this->lng->txt('paste'));
             }
-            
+
             $this->addCommandButton("saveObligatory", $this->lng->txt("spl_save_obligatory_state"));
         }
 
@@ -103,16 +108,16 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setDefaultOrderField("title");
         $this->setDefaultOrderDirection("asc");
-        
+
         $this->setShowRowsSelector(true);
-        
+
         $this->setFilterCommand('filterQuestionBrowser');
         $this->setResetCommand('resetfilterQuestionBrowser');
-        
+
         $this->initFilter();
     }
 
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $lng = $this->lng;
 
@@ -124,7 +129,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         $this->addFilterItem($ti);
         $ti->readFromSession();
         $this->filter["title"] = $ti->getValue();
-        
+
         // description
         $ti = new ilTextInputGUI($lng->txt("description"), "description");
         $ti->setMaxLength(64);
@@ -133,7 +138,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         $this->addFilterItem($ti);
         $ti->readFromSession();
         $this->filter["description"] = $ti->getValue();
-        
+
         // author
         $ti = new ilTextInputGUI($lng->txt("author"), "author");
         $ti->setMaxLength(64);
@@ -142,7 +147,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         $this->addFilterItem($ti);
         $ti->readFromSession();
         $this->filter["author"] = $ti->getValue();
-        
+
         // questiontype
         $types = ilObjSurveyQuestionPool::_getQuestiontypes();
         $options = array();
@@ -158,7 +163,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         $this->filter["type"] = $si->getValue();
     }
 
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         $lng = $this->lng;
         $cols["description"] = array(
@@ -184,7 +189,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         return $cols;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $class = strtolower(SurveyQuestionGUI::_getGUIClassNameForId($a_set["question_id"]));
         $guiclass = $class . "GUI";
@@ -193,7 +198,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         $obligatory = "";
         if ($this->getEditable()) {
             $url_edit = $this->ctrl->getLinkTargetByClass(strtolower($guiclass), "editQuestion");
-            
+
             $this->tpl->setCurrentBlock("title_link_bl");
             $this->tpl->setVariable("QUESTION_TITLE_LINK", $a_set["title"]);
             $this->tpl->setVariable("URL_TITLE", $url_edit);
@@ -204,13 +209,12 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
 
         if ((int) $a_set["complete"] === 0) {
+            $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath("icon_alert.svg"), $this->lng->txt("warning_question_not_complete"));
             $this->tpl->setCurrentBlock("qpl_warning");
-            $this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("icon_alert.svg"));
-            $this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
-            $this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
+            $this->tpl->setVariable("ICON_WARNING", $this->renderer->render($icon));
             $this->tpl->parseCurrentBlock();
         }
-        
+
         foreach ($this->getSelectedColumns() as $c) {
             if (strcmp($c, 'description') === 0) {
                 $this->tpl->setCurrentBlock('description');
@@ -238,7 +242,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
                 $this->tpl->parseCurrentBlock();
             }
         }
-        
+
         // actions
         $list = new ilAdvancedSelectionListGUI();
         $list->setId($a_set["question_id"]);
@@ -249,7 +253,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         $list->addItem($this->lng->txt("preview"), "", $this->ctrl->getLinkTargetByClass(strtolower($guiclass), "preview"));
         $this->tpl->setVariable("ACTION", $list->getHTML());
         $this->tpl->parseCurrentBlock();
-            
+
         // obligatory
         if ($this->getEditable()) {
             $checked = $a_set["obligatory"] ? " checked=\"checked\"" : "";
@@ -261,29 +265,29 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
                 "\" title=\"" . $this->lng->txt("question_obligatory") . "\" />";
         }
         $this->tpl->setVariable("OBLIGATORY", $obligatory);
-                    
+
         if ($this->getWriteAccess()) {
             $this->tpl->setVariable('CBOX_ID', $a_set["question_id"]);
         }
         $this->tpl->setVariable('QUESTION_ID', $a_set["question_id"]);
     }
-    
-    public function setEditable(bool $value) : void
+
+    public function setEditable(bool $value): void
     {
         $this->editable = $value;
     }
-    
-    public function getEditable() : bool
+
+    public function getEditable(): bool
     {
         return $this->editable;
     }
 
-    public function setWriteAccess(bool $value) : void
+    public function setWriteAccess(bool $value): void
     {
         $this->writeAccess = $value;
     }
-    
-    public function getWriteAccess() : bool
+
+    public function getWriteAccess(): bool
     {
         return $this->writeAccess;
     }

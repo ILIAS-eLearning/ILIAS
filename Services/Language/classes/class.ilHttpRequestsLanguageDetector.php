@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,7 +39,7 @@ class ilHttpRequestsLanguageDetector implements ilLanguageDetector
      * Returns the detected ISO2 language code
      * @throws ilLanguageException
      */
-    public function getIso2LanguageCode() : string
+    public function getIso2LanguageCode(): string
     {
         if (strlen($this->header_value)) {
             $matches = array();

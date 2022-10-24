@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\UI\Component\Dropzone\File;
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
@@ -44,15 +46,16 @@ abstract class FileTestBase extends ILIAS_UI_TestBase
 
         $this->generator = new IncrementalSignalGenerator();
         $this->factory = new I\Component\Dropzone\File\Factory(
+            $this->generator,
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             $this->getInputFactory(),
             $this->getLanguage()
         );
     }
 
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        return new class($this->generator) extends NoUIFactory {
+        return new class ($this->generator) extends NoUIFactory {
             protected I\Component\SignalGeneratorInterface $generator;
 
             public function __construct(I\Component\SignalGeneratorInterface $generator)
@@ -60,22 +63,22 @@ abstract class FileTestBase extends ILIAS_UI_TestBase
                 $this->generator = $generator;
             }
 
-            public function legacy(string $content) : C\Legacy\Legacy
+            public function legacy(string $content): C\Legacy\Legacy
             {
                 return new I\Component\Legacy\Legacy($content, $this->generator);
             }
 
-            public function button() : C\Button\Factory
+            public function button(): C\Button\Factory
             {
                 return new I\Component\Button\Factory();
             }
 
-            public function modal() : C\Modal\Factory
+            public function modal(): C\Modal\Factory
             {
                 return new I\Component\Modal\Factory($this->generator);
             }
 
-            public function symbol() : C\Symbol\Factory
+            public function symbol(): C\Symbol\Factory
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
@@ -86,54 +89,54 @@ abstract class FileTestBase extends ILIAS_UI_TestBase
         };
     }
 
-    protected function getUploadHandlerMock() : C\Input\Field\UploadHandler
+    protected function getUploadHandlerMock(): C\Input\Field\UploadHandler
     {
-        return new class() implements C\Input\Field\UploadHandler {
-            public function getFileIdentifierParameterName() : string
+        return new class () implements C\Input\Field\UploadHandler {
+            public function getFileIdentifierParameterName(): string
             {
                 return 'fid';
             }
 
-            public function getUploadURL() : string
+            public function getUploadURL(): string
             {
                 return '';
             }
 
-            public function getFileRemovalURL() : string
+            public function getFileRemovalURL(): string
             {
                 return '';
             }
 
-            public function getExistingFileInfoURL() : string
+            public function getExistingFileInfoURL(): string
             {
                 return '';
             }
 
-            public function getInfoForExistingFiles(array $file_ids) : array
+            public function getInfoForExistingFiles(array $file_ids): array
             {
                 return [];
             }
 
-            public function getInfoResult(string $identifier) : ?FileInfoResult
+            public function getInfoResult(string $identifier): ?FileInfoResult
             {
                 return null;
             }
         };
     }
 
-    protected function getIncrementalNameSource() : I\Component\Input\NameSource
+    protected function getIncrementalNameSource(): I\Component\Input\NameSource
     {
-        return new class() implements I\Component\Input\NameSource {
+        return new class () implements I\Component\Input\NameSource {
             protected int $count = 0;
 
-            public function getNewName() : string
+            public function getNewName(): string
             {
                 return 'name_' . $this->count++;
             }
         };
     }
 
-    protected function getInputFactory() : C\Input\Factory
+    protected function getInputFactory(): C\Input\Factory
     {
         return new I\Component\Input\Factory(
             $this->generator,
@@ -149,7 +152,7 @@ abstract class FileTestBase extends ILIAS_UI_TestBase
         );
     }
 
-    protected function getFieldFactory() : C\Input\Field\Factory
+    protected function getFieldFactory(): C\Input\Field\Factory
     {
         return new I\Component\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
@@ -160,7 +163,7 @@ abstract class FileTestBase extends ILIAS_UI_TestBase
         );
     }
 
-    protected function getDropzoneHtml(C\Dropzone\File\File $dropzone) : string
+    protected function getDropzoneHtml(C\Dropzone\File\File $dropzone): string
     {
         return $this->brutallyTrimHTML(
             $this->getDefaultRenderer()->render($dropzone)

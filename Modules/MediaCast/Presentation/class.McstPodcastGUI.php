@@ -20,9 +20,11 @@
  * Podcast GUI for mediacasts
  *
  * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls McstPodcastGUI: ilMediaObjectsPlayerWrapperGUI
  */
 class McstPodcastGUI
 {
+    protected ilMediaObjectsPlayerWrapperGUI $player_wrapper;
     protected ilCtrl $ctrl;
     protected \ilObjMediaCast $media_cast;
     protected ilGlobalTemplateInterface $tpl;
@@ -42,9 +44,36 @@ class McstPodcastGUI
         $this->tpl = $tpl;
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
+        $this->player_wrapper = $DIC->mediaObjects()
+            ->internal()
+            ->gui()
+            ->player()
+            ->wrapper();
     }
 
-    public function getHTML() : string
+    /**
+     * @throws ilCtrlException
+     */
+    public function executeCommand() : void
+    {
+        $ctrl = $this->ctrl;
+
+        $next_class = $ctrl->getNextClass($this);
+        $cmd = $ctrl->getCmd("show");
+
+        switch ($next_class) {
+            case strtolower(ilMediaObjectsPlayerWrapperGUI::class):
+                $ctrl->forwardCommand($this->player_wrapper);
+                break;
+
+            default:
+                if (in_array($cmd, array(""))) {
+                    $this->$cmd();
+                }
+        }
+    }
+
+    public function getHTML(): string
     {
         $f = $this->ui->factory();
         $renderer = $this->ui->renderer();
@@ -54,23 +83,15 @@ class McstPodcastGUI
         $items = [];
         foreach ($this->media_cast->getSortedItemsArray() as $med_item) {
             $mob = new \ilObjMediaObject($med_item["mob_id"]);
-            $med = $mob->getMediaItem("Standard");
 
-            if ($med->getFormat() !== "audio/mpeg") {
+            $audio = $this->player_wrapper->audio(
+                $mob,
+                $this->media_cast->getRefId()
+            );
+
+            if (is_null($audio)) {
                 continue;
             }
-
-            if (strcasecmp("Reference", $med->getLocationType()) == 0) {
-                $resource = $med->getLocation();
-            } else {
-                $path_to_file = \ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation();
-                $resource = $path_to_file;
-            }
-
-            $audio = $f->player()->audio(
-                $resource,
-                ""
-            );
 
             $item = $f->item()->standard($mob->getTitle())
                 ->withAudioPlayer($audio)

@@ -2,34 +2,20 @@
 
 This is the coding style for the [ILIAS project](https://github.com/ILIAS-eLearning/ILIAS).
 
-## PSR-2 and additions
+## PSR-12 and additions
 
-The ILIAS coding standard is aligned to the widely used and established [PSR-2 standard](https://www.php-fig.org/psr/psr-2/)
+The ILIAS coding standard is aligned to the widely used and established [PSR-12 standard](https://www.php-fig.org/psr/psr-12/)
 of the [PHP Interop Group (PHP-FIG)](https://www.php-fig.org/), extended by the
 following additions:
 
-### Operators
+### Property and Variable Names
 
-Operators MUST have a space before and after the operator.
-
-Mathematical Operators:
+Names of properties and variables MUST be written in underscore-case:
 
 ```php
-$result = 1 + $value;
-```
+$foo_bar = 3;
+$this->foo_bar = 3;
 
-Comparsion Operators:
-
-```php
-if ($size > 0) {
-    // ...
-}
-```
-
-Concatenation Operator:
-
-```php
-$test = 'hello ' . $name . '!';
 ```
 
 ### Type cast
@@ -38,14 +24,6 @@ Spaces MUST be added after a type cast.
 
 ```php
 $foo = (int) '12345';
-```
-
-### Return Type Declaration
-
-Spaces MUST be added around a colon in return type declaration.
-
-```php
-function () : void {}
 ```
 
 ## Code Style Checks and Fixes

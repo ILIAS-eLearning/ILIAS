@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Crawler;
 
 use ILIAS\UI\Implementation\Crawler\Entry as Entry;
@@ -42,7 +44,7 @@ class FactoriesCrawler implements Crawler
         string $factoryPath,
         Entry\ComponentEntry $parent = null,
         int $depth = 0
-    ) : Entry\ComponentEntries {
+    ): Entry\ComponentEntries {
         $depth++;
         if ($depth > 30) {
             throw $this->ef->exception(Exception\CrawlerException::CRAWL_MAX_NESTING_REACHED, " Current Path: " . $factoryPath . " Parent: " . $parent->getId());

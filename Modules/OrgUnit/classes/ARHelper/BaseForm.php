@@ -50,13 +50,13 @@ abstract class BaseForm extends \ilPropertyFormGUI
         parent::__construct();
     }
 
-    abstract protected function initFormElements() : void;
+    abstract protected function initFormElements(): void;
 
-    abstract public function fillForm() : void;
+    abstract public function fillForm(): void;
 
-    abstract protected function fillObject() : bool;
+    abstract protected function fillObject(): bool;
 
-    public function saveObject() : bool
+    public function saveObject(): bool
     {
         if ($this->fillObject() === false) {
             return false;
@@ -70,7 +70,7 @@ abstract class BaseForm extends \ilPropertyFormGUI
         return $this->object->getId();
     }
 
-    private function initButtons() : void
+    private function initButtons(): void
     {
         if (!$this->object->getId()) {
             $this->setTitle($this->txt('create'));
@@ -84,7 +84,7 @@ abstract class BaseForm extends \ilPropertyFormGUI
     }
 
 
-    private function txt(string $key) : string
+    private function txt(string $key): string
     {
         return $this->lng->txt($key);
     }
@@ -93,5 +93,4 @@ abstract class BaseForm extends \ilPropertyFormGUI
     {
         return $this->lng->txt($key . '_info');
     }
-
 }

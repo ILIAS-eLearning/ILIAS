@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Table\Data;
 
@@ -41,7 +43,7 @@ function base()
     ];
 
     // retrieve data and map records to table rows
-    $data_retrieval = new class($dummy_records) extends T\DataRetrieval {
+    $data_retrieval = new class ($dummy_records) extends T\DataRetrieval {
         protected $records;
 
         public function __construct(array $dummy_records)
@@ -55,7 +57,7 @@ function base()
             Order $order,
             array $visible_column_ids,
             array $additional_parameters
-        ) : \Generator {
+        ): \Generator {
             foreach ($this->records as $record) {
                 //maybe do something with the record
                 $record['f4'] = $record['f3'] * 2;

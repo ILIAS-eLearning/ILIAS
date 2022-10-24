@@ -1,6 +1,22 @@
-<?php declare(strict_types=0);
+<?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=0);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author     Stefan Meyer <meyer@leifos.com>
@@ -8,7 +24,7 @@
  */
 class ilLPStatusVisits extends ilLPStatus
 {
-    public static function _getInProgress(int $a_obj_id) : array
+    public static function _getInProgress(int $a_obj_id): array
     {
         global $DIC;
 
@@ -27,7 +43,7 @@ class ilLPStatusVisits extends ilLPStatus
         return $user_ids;
     }
 
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         global $DIC;
 
@@ -46,7 +62,7 @@ class ilLPStatusVisits extends ilLPStatus
         return $user_ids;
     }
 
-    public static function _getStatusInfo(int $a_obj_id) : array
+    public static function _getStatusInfo(int $a_obj_id): array
     {
         $status_info['visits'] = ilLPObjSettings::_lookupVisits($a_obj_id);
         return $status_info;
@@ -56,7 +72,7 @@ class ilLPStatusVisits extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
@@ -76,7 +92,7 @@ class ilLPStatusVisits extends ilLPStatus
                         $a_obj_id,
                         $a_usr_id
                     );
-                    if ($re[0]['read_count'] >= $required_visits) {
+                    if (($re[0]['read_count'] ?? 0) >= $required_visits) {
                         $status = self::LP_STATUS_COMPLETED_NUM;
                     }
                 }
@@ -89,18 +105,17 @@ class ilLPStatusVisits extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         ?object $a_obj = null
-    ) : int {
+    ): int {
         $reqv = ilLPObjSettings::_lookupVisits($a_obj_id);
 
         $re = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_usr_id);
-        $rc = (int) $re[0]["read_count"];
+        $rc = (int) ($re[0]["read_count"] ?? 0);
 
-        if ($reqv > 0) {
+        if ($reqv > 0 && $rc) {
             $per = min(100, 100 / $reqv * $rc);
         } else {
             $per = 100;
         }
-
         return $per;
     }
 }

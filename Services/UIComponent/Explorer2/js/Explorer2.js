@@ -25,16 +25,26 @@ il.Explorer2 = {
 	
 	init: function (config, js_tree_config) {
 		if (config.ajax) {
+			const node_name = config.node_par_name;
 			js_tree_config.core.data = {url: config.url + "&exp_cmd=getNodeAsync",
 				data: function(n) {
 					var id = n.id;
 					if (n.id === "#") {
 						id = "";
 					}
-					return {node_id: id,
-						exp_cont: config.container_id,
-						searchterm: il.Explorer2.current_search_term
-					};
+					if (id == "") {
+						return {
+							exp_cont: config.container_id,
+							searchterm: il.Explorer2.current_search_term
+						};
+					} else {
+						let d = {
+							exp_cont: config.container_id,
+							searchterm: il.Explorer2.current_search_term
+						};
+						d[node_name] = id;
+						return d;
+					}
 			}};
 		}
 		config.js_tree_config = js_tree_config;
@@ -116,8 +126,9 @@ il.Explorer2 = {
 		} else {
 			url = url + "&exp_cmd=closeNode";
 		}
-		url = url + "&exp_cont=" + container_id + "&node_id=" + id;
-		
+		if (id != "") {
+			url = url + "&exp_cont=" + container_id + "&" + t.configs[container_id].node_par_name + "=" + id;
+		}
 		il.Util.sendAjaxGetRequestToUrl(url, {}, {}, null);
 	},
 	

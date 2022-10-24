@@ -33,7 +33,7 @@ class ilBookingInfoListItemPropertiesAdapter
     public function appendProperties(
         int $obj_id,
         array $props
-    ) : array {
+    ): array {
         $repo = $this->repo;
         $info = [];
         foreach ($repo->getCachedContextObjBookingInfo($obj_id) as $item) {

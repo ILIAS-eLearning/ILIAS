@@ -56,7 +56,7 @@ class SkillProfileCompletionManager
         string $gap_mode = "",
         string $gap_mode_type = "",
         int $gap_mode_obj_id = 0
-    ) : array {
+    ): array {
         // get actual levels for gap analysis
         $actual_levels = [];
         foreach ($skills as $sk) {
@@ -81,7 +81,6 @@ class SkillProfileCompletionManager
                 } else {
                     $max = $bs->getMaxLevelPerObject($sk["tref_id"], $gap_mode_obj_id, $user_id);
                 }
-
             } else {
                 $max = $bs->getMaxLevel($sk["tref_id"], $user_id);
             }
@@ -97,7 +96,7 @@ class SkillProfileCompletionManager
         string $gap_mode = "",
         string $gap_mode_type = "",
         int $gap_mode_obj_id = 0
-    ) : array {
+    ): array {
         // todo for coming feature
         return [];
     }
@@ -112,7 +111,7 @@ class SkillProfileCompletionManager
         string $gap_mode = "",
         string $gap_mode_type = "",
         int $gap_mode_obj_id = 0
-    ) : array {
+    ): array {
         // get actual next level fulfilments for gap analysis
         $fuls = [];
         foreach ($skills as $sk) {
@@ -133,7 +132,7 @@ class SkillProfileCompletionManager
     /**
      * Get progress in percent for a profile
      */
-    public function getProfileProgress(int $user_id, int $profile_id) : int
+    public function getProfileProgress(int $user_id, int $profile_id): int
     {
         $profile = $this->profile_manager->getById($profile_id);
         $profile_levels = $profile->getSkillLevels();
@@ -166,7 +165,7 @@ class SkillProfileCompletionManager
     /**
      * Check if a profile is fulfilled (progress = 100%)
      */
-    public function isProfileFulfilled(int $user_id, int $profile_id) : bool
+    public function isProfileFulfilled(int $user_id, int $profile_id): bool
     {
         if ($this->getProfileProgress($user_id, $profile_id) == 100) {
             return true;
@@ -178,7 +177,7 @@ class SkillProfileCompletionManager
      * Get all profiles of user which are fulfilled or non-fulfilled
      * @return array<int, bool>
      */
-    public function getAllProfileCompletionsForUser(int $user_id) : array
+    public function getAllProfileCompletionsForUser(int $user_id): array
     {
         $user_profiles = $this->profile_manager->getProfilesOfUser($user_id);
         $profile_comps = [];
@@ -196,7 +195,7 @@ class SkillProfileCompletionManager
     /**
      * Get profile completion entries for given user-profile-combination
      */
-    public function getEntries(int $user_id, int $profile_id) : array
+    public function getEntries(int $user_id, int $profile_id): array
     {
         return $this->profile_completion_repo->getEntries($user_id, $profile_id);
     }
@@ -205,7 +204,7 @@ class SkillProfileCompletionManager
      * Get all profile completion entries for a user
      * @return array{profile_id: int, user_id: int, date: string, fulfilled: int}[]
      */
-    public function getFulfilledEntriesForUser(int $user_id) : array
+    public function getFulfilledEntriesForUser(int $user_id): array
     {
         return $this->profile_completion_repo->getFulfilledEntriesForUser($user_id);
     }
@@ -213,7 +212,7 @@ class SkillProfileCompletionManager
     /**
      * Get all profile completion entries for a user
      */
-    public function getAllEntriesForUser(int $user_id) : array
+    public function getAllEntriesForUser(int $user_id): array
     {
         return $this->profile_completion_repo->getAllEntriesForUser($user_id);
     }
@@ -221,7 +220,7 @@ class SkillProfileCompletionManager
     /**
      * Get all completion entries for a single profile
      */
-    public function getAllEntriesForProfile(int $profile_id) : array
+    public function getAllEntriesForProfile(int $profile_id): array
     {
         return $this->profile_completion_repo->getAllEntriesForProfile($profile_id);
     }
@@ -229,7 +228,7 @@ class SkillProfileCompletionManager
     /**
      * Write profile completion entries (fulfilled or non-fulfilled) of user for all profiles
      */
-    public function writeCompletionEntryForAllProfiles(int $user_id) : void
+    public function writeCompletionEntryForAllProfiles(int $user_id): void
     {
         $completions = $this->getAllProfileCompletionsForUser($user_id);
         foreach ($completions as $profile_id => $fulfilled) {
@@ -244,7 +243,7 @@ class SkillProfileCompletionManager
     /**
      * Write profile completion entry (fulfilled or non-fulfilled) of user for given profile
      */
-    public function writeCompletionEntryForSingleProfile(int $user_id, int $profile_id) : void
+    public function writeCompletionEntryForSingleProfile(int $user_id, int $profile_id): void
     {
         if ($this->isProfileFulfilled($user_id, $profile_id)) {
             $this->profile_completion_repo->addFulfilmentEntry($user_id, $profile_id);
@@ -256,7 +255,7 @@ class SkillProfileCompletionManager
     /**
      * Delete all profile completion entries for a profile
      */
-    public function deleteEntriesForProfile(int $profile_id) : void
+    public function deleteEntriesForProfile(int $profile_id): void
     {
         $this->profile_completion_repo->deleteEntriesForProfile($profile_id);
     }
@@ -264,7 +263,7 @@ class SkillProfileCompletionManager
     /**
      * Delete all profile completion entries for a user
      */
-    public function deleteEntriesForUser(int $user_id) : void
+    public function deleteEntriesForUser(int $user_id): void
     {
         $this->profile_completion_repo->deleteEntriesForUser($user_id);
     }

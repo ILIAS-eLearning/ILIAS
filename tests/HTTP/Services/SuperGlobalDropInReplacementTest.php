@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -27,7 +29,7 @@ use OutOfBoundsException;
 
 class SuperGlobalDropInReplacementTest extends AbstractBaseTest
 {
-    private function getRefinery() : Refinery
+    private function getRefinery(): Refinery
     {
         return new Refinery(
             new DataFactory(),
@@ -35,7 +37,7 @@ class SuperGlobalDropInReplacementTest extends AbstractBaseTest
         );
     }
 
-    public function testValueCanBeAssignedIfSuperGlobalIsMutable() : void
+    public function testValueCanBeAssignedIfSuperGlobalIsMutable(): void
     {
         $super_global = new SuperGlobalDropInReplacement($this->getRefinery(), ['foo' => 'bar']);
         $super_global['foo'] = 'phpunit';
@@ -43,7 +45,7 @@ class SuperGlobalDropInReplacementTest extends AbstractBaseTest
         self::assertEquals('phpunit', $super_global['foo']);
     }
 
-    public function testExceptionIsRaisedIfValueIsAssignedButSuperGlobalIsImmutable() : void
+    public function testExceptionIsRaisedIfValueIsAssignedButSuperGlobalIsImmutable(): void
     {
         $this->expectException(OutOfBoundsException::class);
 

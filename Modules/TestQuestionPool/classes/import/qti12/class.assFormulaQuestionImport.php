@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assQuestionImport.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Class for formula question imports
@@ -27,7 +40,7 @@ class assFormulaQuestionImport extends assQuestionImport
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping) : void
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, $import_mapping): array
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -48,11 +61,11 @@ class assFormulaQuestionImport extends assQuestionImport
         $this->object->setOwner($ilUser->getId());
         $this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
-        $this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+        $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         if (preg_match_all("/(\\\$v\\d+)/ims", $this->object->getQuestion(), $matches)) {
             foreach ($matches[1] as $variable) {
-                $data = unserialize($item->getMetadataEntry($variable));
-                $unit = $this->object->getUnitRepository()->getUnit($data["unitvalue"]);
+                $data = unserialize($item->getMetadataEntry($variable), ["allowed_classes" => false]);
+                $unit = $this->object->getUnitRepository()->getUnit((int) $data["unitvalue"]);
                 require_once 'Modules/TestQuestionPool/classes/class.assFormulaQuestionVariable.php';
                 $varObj = new assFormulaQuestionVariable($variable, $data["rangemin"], $data["rangemax"], $unit, $data["precision"], $data["intprecision"]);
                 $this->object->addVariable($varObj);
@@ -60,13 +73,16 @@ class assFormulaQuestionImport extends assQuestionImport
         }
         if (preg_match_all("/(\\\$r\\d+)/ims", $this->object->getQuestion(), $rmatches)) {
             foreach ($rmatches[1] as $result) {
-                $data = unserialize($item->getMetadataEntry($result));
-                $unit = $this->object->getUnitRepository()->getUnit($data["unitvalue"]);
+                $data = unserialize($item->getMetadataEntry($result), ["allowed_classes" => false]);
+                $unit = $this->object->getUnitRepository()->getUnit((int) $data["unitvalue"]);
                 require_once 'Modules/TestQuestionPool/classes/class.assFormulaQuestionResult.php';
                 if (!is_array($data["rating"])) {
                     $resObj = new assFormulaQuestionResult($result, $data["rangemin"], $data["rangemax"], $data["tolerance"], $unit, $data["formula"], $data["points"], $data["precision"], true);
                 } else {
                     $resObj = new assFormulaQuestionResult($result, $data["rangemin"], $data["rangemax"], $data["tolerance"], $unit, $data["formula"], $data["points"], $data["precision"], false, $data["rating"]["sign"], $data["rating"]["value"], $data["rating"]["unit"]);
+                }
+                if (array_key_exists('resulttype', $data)) {
+                    $resObj->setResultType($data["resulttype"]);
                 }
                 $this->object->addResult($resObj);
                 if (is_array($data["resultunits"])) {
@@ -104,14 +120,14 @@ class assFormulaQuestionImport extends assQuestionImport
                 $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                 ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
                 $questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
-                
+
                 foreach ($feedbacksgeneric as $correctness => $material) {
                     $feedbacksgeneric[$correctness] = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $material);
                 }
             }
         }
         $this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc($questiontext, 1));
-        
+
         foreach ($feedbacksgeneric as $correctness => $material) {
             $this->object->feedbackOBJ->importGenericFeedback(
                 $this->object->getId(),
@@ -124,7 +140,7 @@ class assFormulaQuestionImport extends assQuestionImport
         $this->object->setAdditionalContentEditingMode(
             $this->fetchAdditionalContentEditingModeInformation($item)
         );
-        
+
         $this->object->saveToDb();
         if (count($item->suggested_solutions)) {
             foreach ($item->suggested_solutions as $suggested_solution) {
@@ -134,11 +150,12 @@ class assFormulaQuestionImport extends assQuestionImport
         }
         if ($tst_id > 0) {
             $q_1_id = $this->object->getId();
-            $question_id = $this->object->duplicate(true);
+            $question_id = $this->object->duplicate();
             $tst_object->questions[$question_counter++] = $question_id;
             $import_mapping[$item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
         } else {
             $import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
         }
+        return $import_mapping;
     }
 }

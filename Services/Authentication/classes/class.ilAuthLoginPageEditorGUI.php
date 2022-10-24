@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -78,10 +80,8 @@ class ilAuthLoginPageEditorGUI
         if ($query_wrapper->has("redirectSource")) {
             $this->redirect_source = $query_wrapper->retrieve("redirectSource", $refinery->kindlyTo()->string());
         }
-        if ($is_post_request) {
-            if ($post_wrapper->has("key")) {
-                $this->key = $post_wrapper->retrieve("key", $refinery->kindlyTo()->int());
-            }
+        if ($post_wrapper->has("key")) {
+            $this->key = $post_wrapper->retrieve("key", $refinery->kindlyTo()->int());
         } elseif ($query_wrapper->has("key")) {
             $this->key = $query_wrapper->retrieve("key", $refinery->kindlyTo()->int());
         }
@@ -95,12 +95,12 @@ class ilAuthLoginPageEditorGUI
         }
     }
 
-    public function getSettings() : ilAuthLoginPageEditorSettings
+    public function getSettings(): ilAuthLoginPageEditorSettings
     {
         return $this->settings;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
@@ -108,7 +108,7 @@ class ilAuthLoginPageEditorGUI
     /**
      * ilCtrl execute command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         switch ($this->ctrl->getNextClass($this)) {
             case 'illoginpagegui':
@@ -137,7 +137,7 @@ class ilAuthLoginPageEditorGUI
     /**
      * Forward to page editor
      */
-    protected function forwardToPageObject() : void
+    protected function forwardToPageObject(): void
     {
         $this->ctrl->saveParameter($this, 'key');
 
@@ -186,7 +186,7 @@ class ilAuthLoginPageEditorGUI
     /**
      * Show current activated editor
      */
-    protected function show() : void
+    protected function show(): void
     {
         $this->addEditorSwitch();
 
@@ -203,7 +203,7 @@ class ilAuthLoginPageEditorGUI
     /**
      * Show editor switch
      */
-    protected function addEditorSwitch() : void
+    protected function addEditorSwitch(): void
     {
         $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
         switch ($this->getSettings()->getMode()) {
@@ -228,7 +228,7 @@ class ilAuthLoginPageEditorGUI
     /**
      * Switch editor mode to ILIAS Page editor
      */
-    protected function switchIPE() : void
+    protected function switchIPE(): void
     {
         $this->getSettings()->setMode(ilAuthLoginPageEditorSettings::MODE_IPE);
         $this->getSettings()->update();
@@ -240,7 +240,7 @@ class ilAuthLoginPageEditorGUI
     /**
      * Switch editor mode to richtext editor
      */
-    protected function switchRTE() : void
+    protected function switchRTE(): void
     {
         $this->getSettings()->setMode(ilAuthLoginPageEditorSettings::MODE_RTE);
         $this->getSettings()->update();
@@ -252,7 +252,7 @@ class ilAuthLoginPageEditorGUI
     /**
      * Activate languages
      */
-    protected function activate() : void
+    protected function activate(): void
     {
         $settings = ilAuthLoginPageEditorSettings::getInstance();
         foreach ($this->visible_languages as $lang_key) {
@@ -267,7 +267,7 @@ class ilAuthLoginPageEditorGUI
     /**
      * Show ILIAS page editor summary.
      */
-    protected function showIliasEditor() : void
+    protected function showIliasEditor(): void
     {
         $tbl = new ilAuthLoginPageEditorTableGUI($this, 'show');
         $tbl->parse();
@@ -282,7 +282,7 @@ class ilAuthLoginPageEditorGUI
      * @global ilSetting $ilSetting
      * @author Michael Jansen
      */
-    protected function showRichtextEditor() : void
+    protected function showRichtextEditor(): void
     {
         if (!$this->rbacsystem->checkAccess("visible,read", $this->getRefId())) {
             $this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
@@ -308,7 +308,7 @@ class ilAuthLoginPageEditorGUI
      *
      * @author Michael Jansen
      */
-    protected function saveLoginInfo() : void
+    protected function saveLoginInfo(): void
     {
         if (!$this->rbacsystem->checkAccess("write", $this->getRefId())) {
             $this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
@@ -337,7 +337,7 @@ class ilAuthLoginPageEditorGUI
     /**
      * Init login form
      */
-    protected function initLoginForm() : void
+    protected function initLoginForm(): void
     {
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this, 'saveLoginInfo'));
@@ -414,7 +414,7 @@ class ilAuthLoginPageEditorGUI
      *         an empty array, if $a_a_def_language is empty
      * @author Michael Jansen
      */
-    private function setDefLangFirst(string $a_def_language, array $a_languages) : array
+    private function setDefLangFirst(string $a_def_language, array $a_languages): array
     {
         $languages = [];
         if ($a_def_language !== "") {

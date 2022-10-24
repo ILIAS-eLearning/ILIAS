@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -28,7 +30,7 @@ class JsCollection extends AbstractCollection
     /**
      * @param Js $item
      */
-    public function addItem(Js $item) : void
+    public function addItem(Js $item): void
     {
         $basename = $this->stripPath($item->getContent());
         if (!array_key_exists($basename, $this->items)) {
@@ -43,7 +45,7 @@ class JsCollection extends AbstractCollection
 
     private function storeItem(
         js $item
-    ) : void {
+    ): void {
         $strip_path = $this->stripPath($item->getContent());
         $this->items[$strip_path] = $item;
         $this->path_storage[$strip_path] = $item->getBatch();
@@ -52,7 +54,7 @@ class JsCollection extends AbstractCollection
     /**
      * @return Js[]
      */
-    public function getItemsInOrderOfDelivery() : array
+    public function getItemsInOrderOfDelivery(): array
     {
         $ordered = [];
         foreach ($this->getItems() as $js) {

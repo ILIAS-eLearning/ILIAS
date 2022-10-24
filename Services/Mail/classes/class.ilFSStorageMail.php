@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,17 +30,17 @@ class ilFSStorageMail extends ilFileSystemAbstractionStorage
         $this->appendToPath('_' . $a_usr_id);
     }
 
-    protected function getPathPostfix() : string
+    protected function getPathPostfix(): string
     {
         return 'mail';
     }
 
-    protected function getPathPrefix() : string
+    protected function getPathPrefix(): string
     {
         return 'mail';
     }
 
-    public function getRelativePathExMailDirectory() : string
+    public function getRelativePathExMailDirectory(): string
     {
         $path = '';
         switch ($this->getStorageType()) {

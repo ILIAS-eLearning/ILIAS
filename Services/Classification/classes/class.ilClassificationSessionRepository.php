@@ -30,12 +30,12 @@ class ilClassificationSessionRepository
         $this->key = self::BASE_SESSION_KEY . "_" . $base_ref_id;
     }
 
-    public function unsetAll() : void
+    public function unsetAll(): void
     {
         ilSession::clear($this->key);
     }
 
-    public function unsetValueForProvider(string $provider) : void
+    public function unsetValueForProvider(string $provider): void
     {
         if (ilSession::has($this->key)) {
             $vals = ilSession::get($this->key);
@@ -44,12 +44,12 @@ class ilClassificationSessionRepository
         }
     }
 
-    public function isEmpty() : bool
+    public function isEmpty(): bool
     {
         return !ilSession::has($this->key);
     }
 
-    public function getValueForProvider(string $provider) : array
+    public function getValueForProvider(string $provider): array
     {
         if (ilSession::has($this->key)) {
             $vals = ilSession::get($this->key);
@@ -58,7 +58,7 @@ class ilClassificationSessionRepository
         return [];
     }
 
-    public function setValueForProvider(string $provider, array $value) : void
+    public function setValueForProvider(string $provider, array $value): void
     {
         $vals = [];
         if (ilSession::has($this->key)) {

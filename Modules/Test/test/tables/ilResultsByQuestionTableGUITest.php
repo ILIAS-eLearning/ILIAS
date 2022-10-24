@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilResultsByQuestionTableGUITest extends ilTestBaseTestCase
     private ilResultsByQuestionTableGUI $tableGui;
     private ilObjTestGUI $parentObj_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -51,12 +53,12 @@ class ilResultsByQuestionTableGUITest extends ilTestBaseTestCase
         $this->tableGui = new ilResultsByQuestionTableGUI($this->parentObj_mock, "");
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilResultsByQuestionTableGUI::class, $this->tableGui);
     }
 
-    public function testNumericOrdering() : void
+    public function testNumericOrdering(): void
     {
         $this->assertTrue($this->tableGui->numericOrdering("qid"));
         $this->assertTrue($this->tableGui->numericOrdering("number_of_answers"));

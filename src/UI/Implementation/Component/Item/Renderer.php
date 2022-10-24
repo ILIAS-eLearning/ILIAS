@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Item;
 
 use ILIAS\UI\Component\Component;
@@ -35,7 +37,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component $component, RendererInterface $default_renderer) : string
+    public function render(Component $component, RendererInterface $default_renderer): string
     {
         $this->checkComponent($component);
 
@@ -51,7 +53,7 @@ class Renderer extends AbstractComponentRenderer
         return "";
     }
 
-    protected function renderGroup(Group $component, RendererInterface $default_renderer) : string
+    protected function renderGroup(Group $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.group.html", true, true);
         $title = $component->getTitle();
@@ -81,7 +83,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderStandard(Item $component, RendererInterface $default_renderer) : string
+    protected function renderStandard(Item $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.item_standard.html", true, true);
 
@@ -160,7 +162,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderShy(Shy $component, RendererInterface $default_renderer) : string
+    protected function renderShy(Shy $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.item_shy.html", true, true);
 
@@ -205,7 +207,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderNotification(Notification $component, RendererInterface $default_renderer) : string
+    protected function renderNotification(Notification $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.item_notification.html", true, true);
         $this->renderTitle($component, $default_renderer, $tpl);
@@ -276,7 +278,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderTitle(Item $component, RendererInterface $default_renderer, Template $tpl) : void
+    protected function renderTitle(Item $component, RendererInterface $default_renderer, Template $tpl): void
     {
         $title = $component->getTitle();
         if ($title instanceof Button\Shy || $title instanceof Link) {
@@ -287,7 +289,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("TITLE", $title);
     }
 
-    protected function renderDescription(Item $component, Template $tpl) : void
+    protected function renderDescription(Item $component, Template $tpl): void
     {
         // description
         $desc = $component->getDescription();
@@ -302,7 +304,7 @@ class Renderer extends AbstractComponentRenderer
         Item $component,
         RendererInterface $default_renderer,
         Template $tpl
-    ) : void {
+    ): void {
         // description
         $audio = $component->getAudioPlayer();
         if (!is_null($audio)) {
@@ -312,7 +314,7 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
-    protected function renderProperties(Item $component, RendererInterface $default_renderer, Template $tpl) : void
+    protected function renderProperties(Item $component, RendererInterface $default_renderer, Template $tpl): void
     {
         $props = $component->getProperties();
         if (count($props) > 0) {
@@ -348,7 +350,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function registerResources(ResourceRegistry $registry) : void
+    public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/Item/dist/notification.js');
@@ -357,7 +359,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return [
             Standard::class,

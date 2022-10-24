@@ -28,12 +28,12 @@ class ilAccessibilityTrimmedDocumentPurifier implements ilHtmlPurifierInterface
         $this->inner = $inner;
     }
 
-    public function purify(string $html) : string
+    public function purify(string $html): string
     {
         return trim($this->inner->purify($html));
     }
 
-    public function purifyArray(array $htmlCollection) : array
+    public function purifyArray(array $htmlCollection): array
     {
         foreach ($htmlCollection as $key => $html) {
             $htmlCollection[$key] = $this->purify($html);

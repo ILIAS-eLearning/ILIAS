@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -20,38 +22,38 @@ use ILIAS\DI\Container;
 class ilServicesAuthShibbolethTest extends TestCase
 {
     private ?\ILIAS\DI\Container $dic_backup;
-    
-    protected function setUp() : void
+
+    protected function setUp(): void
     {
         global $DIC;
         $this->dic_backup = is_object($DIC) ? clone $DIC : $DIC;
-        
+
         $DIC = new Container();
         $DIC['ilDB'] = $this->createMock(ilDBInterface::class);
     }
-    
-    protected function tearDown() : void
+
+    protected function tearDown(): void
     {
         global $DIC;
         $DIC = $this->dic_backup;
     }
-    
-    public function testRuleAssignement() : void
+
+    public function testRuleAssignement(): void
     {
         $rule = new ilShibbolethRoleAssignmentRule();
         $rule->setName('attribute_1');
         $rule->setValue('value_1');
-        
+
         $this->assertTrue($rule->matches(['attribute_1' => 'value_1']));
         $this->assertFalse($rule->matches(['attribute_2' => 'value_2']));
     }
-    
-    public function testWildcardRuleAssignement() : void
+
+    public function testWildcardRuleAssignement(): void
     {
         $rule = new ilShibbolethRoleAssignmentRule();
         $rule->setName('attribute_1');
         $rule->setValue('value_*');
-        
+
         $this->assertTrue($rule->matches(['attribute_1' => 'value_1']));
         $this->assertTrue($rule->matches(['attribute_1' => 'value_2']));
         $this->assertFalse($rule->matches(['attribute_2' => 'value_2']));

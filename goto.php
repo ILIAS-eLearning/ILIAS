@@ -107,7 +107,7 @@ switch ($target_type) {
 
     // exception, must be kept for now
     case "git":
-        $target_ref_id = $target_arr[2];
+        $target_ref_id = $target_arr[2] ?? 0;
         ilGlossaryTermGUI::_goto($target_id, $target_ref_id);
         break;
 
@@ -115,7 +115,7 @@ switch ($target_type) {
     case "glo":
         ilObjGlossaryGUI::_goto($target_id);
         break;
-        
+
     // please migrate to default branch implementation
     case "lm":
         ilObjContentObjectGUI::_goto($target_id);
@@ -125,24 +125,24 @@ switch ($target_type) {
     case "htlm":
         ilObjFileBasedLMGUI::_goto($target_id);
         break;
-        
+
     // please migrate to default branch implementation
     case "frm":
         $target_thread = isset($target_arr[2]) ? $target_arr[2] : 0;
         $target_posting = isset($target_arr[3]) ? $target_arr[3] : 0;
         ilObjForumGUI::_goto($target_id, $target_thread, $target_posting);
         break;
-        
+
     // please migrate to default branch implementation
     case "exc":
         ilObjExerciseGUI::_goto($target_id, $rest);
         break;
-        
+
     // please migrate to default branch implementation
     case "tst":
         ilObjTestGUI::_goto($target_id);
         break;
-    
+
     // please migrate to default branch implementation
     case "qpl":
         ilObjQuestionPoolGUI::_goto($target_id);
@@ -167,7 +167,7 @@ switch ($target_type) {
     case "grp":
         ilObjGroupGUI::_goto($target_id, $additional);
         break;
-        
+
     // please migrate to default branch implementation
     case "file":
         ilObjFileGUI::_goto($target_id, $rest);

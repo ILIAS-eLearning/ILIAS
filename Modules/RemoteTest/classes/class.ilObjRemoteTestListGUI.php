@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -40,7 +42,7 @@ class ilObjRemoteTestListGUI extends ilRemoteObjectBaseListGUI
      *
      * @access public
      */
-    public function init() : void
+    public function init(): void
     {
         $this->copy_enabled = false;
         $this->static_link_enabled = true;
@@ -69,7 +71,7 @@ class ilObjRemoteTestListGUI extends ilRemoteObjectBaseListGUI
      * @param
      *
      */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         if ($org = $this->_lookupOrganization(ilObjRemoteTest::DB_TABLE_NAME, $this->obj_id)) {
             $this->addCustomProperty($this->lng->txt('organization'), $org, false, true);
@@ -88,7 +90,7 @@ class ilObjRemoteTestListGUI extends ilRemoteObjectBaseListGUI
      * @param
      * @return
      */
-    public function getCommandFrame(string $cmd) : string
+    public function getCommandFrame(string $cmd): string
     {
         switch ($cmd) {
             case 'show':

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -37,7 +39,7 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
     /**
      * @inheritDoc
      */
-    public function getCidPath() : ?string
+    public function getCidPath(): ?string
     {
         // cannot use empty(), since '0' would be considered
         // empty and that's an actual cid.
@@ -51,7 +53,7 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
     /**
      * @inheritDoc
      */
-    public function getCurrentCid() : ?string
+    public function getCurrentCid(): ?string
     {
         if (null !== $this->getCidPath()) {
             // use default order (command- to baseclass) and
@@ -65,7 +67,7 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
     /**
      * @inheritDoc
      */
-    public function getNextCid(string $current_class) : ?string
+    public function getNextCid(string $current_class): ?string
     {
         $current_cid = $this->structure->getClassCidByName($current_class);
         $cid_array = $this->getCidArray(SORT_ASC);
@@ -83,7 +85,7 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
     /**
      * @inheritDoc
      */
-    public function getCidPaths(int $order = SORT_DESC) : array
+    public function getCidPaths(int $order = SORT_DESC): array
     {
         if (null === $this->getCidPath()) {
             return [];
@@ -111,7 +113,7 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
     /**
      * @inheritDoc
      */
-    public function getCidArray(int $order = SORT_DESC) : array
+    public function getCidArray(int $order = SORT_DESC): array
     {
         if (null === $this->getCidPath()) {
             return [];
@@ -128,7 +130,7 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
     /**
      * @inheritDoc
      */
-    public function getBaseClass() : ?string
+    public function getBaseClass(): ?string
     {
         if (null !== $this->cid_path) {
             $cid_array = $this->getCidArray(SORT_ASC);
@@ -144,7 +146,7 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
     /**
      * @inheritDoc
      */
-    public function getException() : ?ilCtrlException
+    public function getException(): ?ilCtrlException
     {
         return $this->exception;
     }
@@ -157,7 +159,7 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
      * @param string                 $target_class
      * @return string|null
      */
-    protected function getPathToRelatedClassInContext(ilCtrlContextInterface $context, string $target_class) : ?string
+    protected function getPathToRelatedClassInContext(ilCtrlContextInterface $context, string $target_class): ?string
     {
         if (null !== $context->getPath()->getCidPath()) {
             foreach ($context->getPath()->getCidArray() as $index => $cid) {
@@ -183,7 +185,7 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
      * @param string $parent_class
      * @return bool
      */
-    protected function isClassChildOf(string $child_class, string $parent_class) : bool
+    protected function isClassChildOf(string $child_class, string $parent_class): bool
     {
         $children = $this->structure->getChildrenByName($parent_class);
         if (null !== $children) {
@@ -201,7 +203,7 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
      * @param string $child_class
      * @return bool
      */
-    protected function isClassParentOf(string $parent_class, string $child_class) : bool
+    protected function isClassParentOf(string $parent_class, string $child_class): bool
     {
         $parents = $this->structure->getParentsByName($child_class);
         if (null !== $parents) {
@@ -218,7 +220,7 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
      * @param string|null $path
      * @return string
      */
-    protected function appendCid(string $cid, string $path = null) : string
+    protected function appendCid(string $cid, string $path = null): string
     {
         if (null === $path) {
             return $cid;

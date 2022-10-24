@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -77,7 +79,7 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
      * @throws ilException
      * @throws ilWACException
      */
-    public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI
+    public function createForm(ilCertificateGUI $certificateGUI): ilPropertyFormGUI
     {
         $form = $this->settingsFormFactory->createForm($certificateGUI);
 
@@ -94,22 +96,22 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
         return $form;
     }
 
-    public function save(array $formFields) : void
+    public function save(array $formFields): void
     {
-        $this->setting->set('certificate_' . $this->object->getId(), (string) $formFields['certificate_enabled_scorm']);
-        $this->setting->set('certificate_short_name_' . $this->object->getId(), (string) $formFields['short_name']);
+        $this->setting->set('certificate_' . $this->object->getId(), (string) ($formFields['certificate_enabled_scorm'] ?? '0'));
+        $this->setting->set('certificate_short_name_' . $this->object->getId(), (string) ($formFields['short_name'] ?? ''));
     }
 
-    public function fetchFormFieldData(string $content) : array
+    public function fetchFormFieldData(string $content): array
     {
         $formFields = $this->settingsFormFactory->fetchFormFieldData($content);
         $formFields['certificate_enabled_scorm'] = $this->setting->get(
             'certificate_' . $this->object->getId(),
-            (string) $formFields['certificate_enabled_scorm']
+            (string) ($formFields['certificate_enabled_scorm'] ?? '0')
         );
         $formFields['short_name'] = $this->setting->get(
             'certificate_short_name_' . $this->object->getId(),
-            (string) $formFields['short_name']
+            (string) ($formFields['short_name'] ?? '')
         );
 
         return $formFields;

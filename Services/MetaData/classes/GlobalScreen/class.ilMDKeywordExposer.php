@@ -12,16 +12,16 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\ContentModification;
  */
 class ilMDKeywordExposer extends AbstractModificationProvider
 {
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->repository();
     }
-    
-    public function getContentModification(CalledContexts $screen_context_stack) : ?ContentModification
+
+    public function getContentModification(CalledContexts $screen_context_stack): ?ContentModification
     {
         if ($screen_context_stack->current()->hasReferenceId()) {
             $object_id = $screen_context_stack->current()->getReferenceId()->toObjectId()->toInt();
-            
+
             if ($general = $this->getGeneral($object_id)) {
                 // Keywords
                 $keywords = [];
@@ -29,9 +29,9 @@ class ilMDKeywordExposer extends AbstractModificationProvider
                     $keyword = $general->getKeyword($keyword_id);
                     $keywords[] = $keyword->getKeyword();
                 }
-    
+
                 $delimiter = ilMDSettings::_getInstance()->getDelimiter() ?? ",";
-                
+
                 if (count($keywords) > 0) {
                     $this->globalScreen()->layout()->meta()->addMetaDatum('keywords', implode($delimiter, $keywords));
                 }
@@ -45,7 +45,7 @@ class ilMDKeywordExposer extends AbstractModificationProvider
                     $this->globalScreen()->layout()->meta()->addMetaDatum('languages', implode($delimiter, $languages));
                 }
             }
-    
+
             if ($rights = $this->getRights($object_id)) {
                 // Copyright
                 $copy_right_id = ilMDCopyrightSelectionEntry::_extractEntryId($rights->getDescription());
@@ -55,27 +55,27 @@ class ilMDKeywordExposer extends AbstractModificationProvider
                 }
             }
         }
-        
+
         return null;
     }
-    
-    private function getGeneral(int $object_id) : ?ilMDGeneral
+
+    private function getGeneral(int $object_id): ?ilMDGeneral
     {
         if ($id = ilMDGeneral::_getId($object_id, $object_id)) {
             $gen = new ilMDGeneral();
             $gen->setMetaId($id);
-            
+
             return $gen;
         }
         return null;
     }
-    
-    private function getRights(int $object_id) : ?ilMDRights
+
+    private function getRights(int $object_id): ?ilMDRights
     {
         if ($id = ilMDRights::_getId($object_id, $object_id)) {
             $rig = new ilMDRights();
             $rig->setMetaId($id);
-            
+
             return $rig;
         }
         return null;

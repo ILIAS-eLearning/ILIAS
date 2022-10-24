@@ -1,8 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 *
@@ -25,7 +37,7 @@ class ilTestInviteUsersTableGUI extends ilTable2GUI
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
         $this->counter = 1;
-        
+
         $this->setFormName('inviteusers');
         $this->setStyle('table', 'fullwidth');
 
@@ -34,9 +46,9 @@ class ilTestInviteUsersTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("firstname"), 'firstname', '');
         $this->addColumn($this->lng->txt("lastname"), 'lastname', '');
         $this->addColumn($this->lng->txt("clientip"), 'clientip', '');
-    
+
         $this->setTitle($this->lng->txt('search_users'), 'icon_usr.svg', $this->lng->txt('usr'));
-    
+
         $this->setRowTemplate("tpl.il_as_tst_invite_users_row.html", "Modules/Test");
 
         $this->addMultiCommand('addParticipants', $this->lng->txt('add'));
@@ -47,13 +59,13 @@ class ilTestInviteUsersTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
         $this->setPrefix('user_select');
         $this->setSelectAllCheckbox('user_select');
-        
+
         $this->enable('header');
         $this->enable('sort');
         $this->enable('select_all');
     }
 
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("USER_ID", $a_set['usr_id']);
         $this->tpl->setVariable("LOGIN", $a_set['login']);

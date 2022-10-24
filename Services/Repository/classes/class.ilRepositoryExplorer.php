@@ -22,6 +22,9 @@ use ILIAS\Repository\StandardGUIRequest;
  * Repository Explorer
  *
  * @author Alexander Killing <killing@leifos.de>
+ * @deprecated
+ * only use seems to be ilPasteIntoMultipleItemsExplorer
+ * which is still used in repository and workspace.
  */
 class ilRepositoryExplorer extends ilExplorer
 {
@@ -88,7 +91,7 @@ class ilRepositoryExplorer extends ilExplorer
     /**
      * set force open path
      */
-    public function setForceOpenPath(array $a_path) : void
+    public function setForceOpenPath(array $a_path): void
     {
         $this->force_open_path = $a_path;
     }
@@ -96,7 +99,7 @@ class ilRepositoryExplorer extends ilExplorer
     /**
     * note: most of this stuff is used by ilCourseContentInterface too
     */
-    public function buildLinkTarget($a_node_id, string $a_type) : string
+    public function buildLinkTarget($a_node_id, string $a_type): string
     {
         $ilCtrl = $this->ctrl;
 
@@ -147,16 +150,16 @@ class ilRepositoryExplorer extends ilExplorer
         }
     }
 
-    public function getImage(string $a_name, string $a_type = "", $a_obj_id = "") : string
+    public function getImage(string $a_name, string $a_type = "", $a_obj_id = ""): string
     {
         if ($a_type !== "") {
             return ilObject::_getIcon((int) $a_obj_id, "tiny", $a_type);
         }
-        
+
         return parent::getImage($a_name);
     }
 
-    public function isClickable(string $type, int $ref_id = 0) : bool
+    public function isClickable(string $type, int $ref_id = 0): bool
     {
         $rbacsystem = $this->rbacsystem;
         $ilDB = $this->db;
@@ -207,7 +210,7 @@ class ilRepositoryExplorer extends ilExplorer
             case 'prg':
                     return $rbacsystem->checkAccess("visible", $ref_id);
 
-                
+
 
             // all other types are only clickable, if read permission is given
             default:
@@ -251,7 +254,7 @@ class ilRepositoryExplorer extends ilExplorer
     /**
      * @param int|string $a_parent_id
      */
-    public function showChilds($a_parent_id, int $a_obj_id = 0) : bool
+    public function showChilds($a_parent_id, int $a_obj_id = 0): bool
     {
         $rbacsystem = $this->rbacsystem;
 
@@ -268,7 +271,7 @@ class ilRepositoryExplorer extends ilExplorer
         return false;
     }
 
-    public function isVisible($a_ref_id, string $a_type) : bool
+    public function isVisible($a_ref_id, string $a_type): bool
     {
         $ilAccess = $this->access;
         $tree = $this->tree;
@@ -277,7 +280,7 @@ class ilRepositoryExplorer extends ilExplorer
         if (!$ilAccess->checkAccess('visible', '', $a_ref_id)) {
             return false;
         }
-        
+
         $is_course = false;
         $container_parent_id = $tree->checkForParentType($a_ref_id, 'grp');
         if (!$container_parent_id) {
@@ -303,12 +306,12 @@ class ilRepositoryExplorer extends ilExplorer
                 }
             }
         }
-        
+
         return true;
     }
 
 
-    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option): void
     {
         $lng = $this->lng;
         $tree = $this->tree;
@@ -346,8 +349,8 @@ class ilRepositoryExplorer extends ilExplorer
         $tpl->setCurrentBlock("element");
         $tpl->parseCurrentBlock();
     }
-    
-    public function sortNodes(array $a_nodes, $a_parent_obj_id) : array
+
+    public function sortNodes(array $a_nodes, $a_parent_obj_id): array
     {
         $objDefinition = $this->obj_definition;
 
@@ -362,7 +365,7 @@ class ilRepositoryExplorer extends ilExplorer
             $this->type_grps[$parent_type] = $objDefinition->getGroupedRepositoryObjectTypes($parent_type);
         }
         $group = [];
-        
+
         foreach ($a_nodes as $node) {
             $g = $objDefinition->getGroupOfObj($node["type"]);
             if ($g == "") {
@@ -377,17 +380,17 @@ class ilRepositoryExplorer extends ilExplorer
                 // do we have to sort this group??
                 $sort = ilContainerSorting::_getInstance($a_parent_obj_id);
                 $group = $sort->sortItems($group);
-                
+
                 foreach ($group[$t] as $k => $item) {
                     $nodes[] = $item;
                 }
             }
         }
-        
+
         return $nodes;
     }
 
-    public function forceExpanded($a_obj_id) : bool
+    public function forceExpanded($a_obj_id): bool
     {
         if (in_array($a_obj_id, $this->force_open_path)) {
             return true;

@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilQuestionPoolImportVerificationTableGUI
@@ -32,7 +45,7 @@ class ilQuestionPoolImportVerificationTableGUI extends ilTable2GUI
     /**
      *
      */
-    protected function initColumns() : void
+    protected function initColumns(): void
     {
         $this->addColumn('', '', '1%', true);
         $this->addColumn($this->lng->txt('question_title'));
@@ -42,7 +55,7 @@ class ilQuestionPoolImportVerificationTableGUI extends ilTable2GUI
     /**
      * @inheritdoc
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $a_set['chb'] = ilLegacyFormElementsUtil::formCheckbox(true, 'ident[]', $a_set['ident']);
         parent::fillRow($a_set);

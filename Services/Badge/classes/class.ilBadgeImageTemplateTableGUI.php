@@ -23,7 +23,7 @@
 class ilBadgeImageTemplateTableGUI extends ilTable2GUI
 {
     protected bool $has_write;
-    
+
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd = "",
@@ -35,41 +35,41 @@ class ilBadgeImageTemplateTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         $this->setId("bdgtmpl");
         $this->has_write = $a_has_write;
-                
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
-            
+
         $this->setLimit(9999);
-        
+
         $this->setTitle($lng->txt("badge_image_templates"));
-                        
+
         if ($this->has_write) {
             $this->addColumn("", "", 1);
         }
-        
+
         $this->addColumn($lng->txt("title"), "title");
         $this->addColumn($lng->txt("image"), "image");
-                
+
         if ($this->has_write) {
             $this->addColumn($lng->txt("action"), "");
             $this->addMultiCommand("confirmDeleteImageTemplates", $lng->txt("delete"));
         }
-        
+
         $this->setSelectAllCheckbox("id");
-            
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.template_row.html", "Services/Badge");
         $this->setDefaultOrderField("title");
-                                
+
         $this->getItems();
     }
-    
-    public function getItems() : void
+
+    public function getItems(): void
     {
         $data = array();
-        
+
         foreach (ilBadgeImageTemplate::getInstances() as $template) {
             $data[] = array(
                 "id" => $template->getId(),
@@ -78,28 +78,28 @@ class ilBadgeImageTemplateTableGUI extends ilTable2GUI
                 "file" => $template->getImage()
             );
         }
-        
+
         $this->setData($data);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         if ($this->has_write) {
             $this->tpl->setVariable("VAL_ID", $a_set["id"]);
         }
-        
+
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
-        $this->tpl->setVariable("VAL_IMG", $a_set["path"]);
+        $this->tpl->setVariable("VAL_IMG", ilWACSignedPath::signFile($a_set["path"]));
         $this->tpl->setVariable("TXT_IMG", $a_set["file"]);
-        
+
         if ($this->has_write) {
             $ilCtrl->setParameter($this->getParentObject(), "tid", $a_set["id"]);
             $url = $ilCtrl->getLinkTarget($this->getParentObject(), "editImageTemplate");
             $ilCtrl->setParameter($this->getParentObject(), "tid", "");
-            
+
             $this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
             $this->tpl->setVariable("URL_EDIT", $url);
         }

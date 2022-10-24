@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -42,7 +44,7 @@ class ilCalendarRemoteAccessHandler
     {
     }
 
-    public function getTokenHandler() : ?ilCalendarAuthenticationToken
+    public function getTokenHandler(): ?ilCalendarAuthenticationToken
     {
         return $this->token_handler;
     }
@@ -50,7 +52,7 @@ class ilCalendarRemoteAccessHandler
     /**
      * Fetch client id, the chosen calendar...
      */
-    public function parseRequest() : void
+    public function parseRequest(): void
     {
         // before initialization: $_GET and $_COOKIE is required is unavoidable
         // in the moment.
@@ -62,7 +64,7 @@ class ilCalendarRemoteAccessHandler
         }
     }
 
-    public function handleRequest() : bool
+    public function handleRequest(): bool
     {
         session_name('ILCALSESSID');
         $this->initIlias();
@@ -101,7 +103,7 @@ class ilCalendarRemoteAccessHandler
         exit;
     }
 
-    protected function initTokenHandler() : void
+    protected function initTokenHandler(): void
     {
         global $DIC;
 
@@ -137,7 +139,7 @@ class ilCalendarRemoteAccessHandler
         $this->logger = $DIC->logger()->cal();
     }
 
-    protected function initUser() : bool
+    protected function initUser(): bool
     {
         global $DIC;
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -43,12 +45,12 @@ final class PageMetricsService implements ilContentPageObjectConstants
         $this->refinery = $refinery;
     }
 
-    protected function doesPageExistsForLanguage(int $contentPageId, string $language) : bool
+    protected function doesPageExistsForLanguage(int $contentPageId, string $language): bool
     {
         return ilContentPagePage::_exists(self::OBJ_TYPE, $contentPageId, $language);
     }
 
-    protected function ensurePageObjectExists(int $contentPageId, string $language) : void
+    protected function ensurePageObjectExists(int $contentPageId, string $language): void
     {
         if (!$this->doesPageExistsForLanguage($contentPageId, $language)) {
             $pageObject = new ilContentPagePage();
@@ -63,15 +65,16 @@ final class PageMetricsService implements ilContentPageObjectConstants
      * @param StorePageMetricsCommand $command
      * @throws ilException
      */
-    public function store(StorePageMetricsCommand $command) : void
+    public function store(StorePageMetricsCommand $command): void
     {
         $this->ensurePageObjectExists($command->getContentPageId(), $command->getLanguage());
 
-        $pageObjectGUI = new ilContentPagePageGUI($command->getContentPageId(), 0, true, $command->getLanguage());
+        $pageObjectGUI = new ilContentPagePageGUI($command->getContentPageId(), 0, false, $command->getLanguage());
         $pageObjectGUI->setEnabledTabs(false);
         $pageObjectGUI->setFileDownloadLink(ILIAS_HTTP_PATH);
         $pageObjectGUI->setFullscreenLink(ILIAS_HTTP_PATH);
         $pageObjectGUI->setSourcecodeDownloadScript(ILIAS_HTTP_PATH);
+        $pageObjectGUI->setProfileBackUrl(ILIAS_HTTP_PATH);
         $text = $pageObjectGUI->getHTML();
 
         $readingTimeTransformation = $this->refinery->string()->estimatedReadingTime();
@@ -91,7 +94,7 @@ final class PageMetricsService implements ilContentPageObjectConstants
      * @return PageMetrics
      * @throws CouldNotFindPageMetrics
      */
-    public function get(GetPageMetricsCommand $command) : PageMetrics
+    public function get(GetPageMetricsCommand $command): PageMetrics
     {
         return $this->pageMetricsRepository->findBy(
             $command->getContentPageId(),

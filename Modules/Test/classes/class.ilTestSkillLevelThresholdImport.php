@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -17,7 +32,7 @@ class ilTestSkillLevelThresholdImport
      * @var integer
      */
     protected $importSkillTrefId = null;
-    
+
     /**
      * @var integer
      */
@@ -26,12 +41,12 @@ class ilTestSkillLevelThresholdImport
      * @var integer
      */
     protected $orderIndex = null;
-    
+
     /**
      * @var integer
      */
     protected $threshold = null;
-    
+
     /**
      * @var string
      */
@@ -40,15 +55,15 @@ class ilTestSkillLevelThresholdImport
      * @var string
      */
     protected $originalLevelDescription = null;
-    
+
     /**
      * @return int
      */
-    public function getImportSkillBaseId() : ?int
+    public function getImportSkillBaseId(): ?int
     {
         return $this->importSkillBaseId;
     }
-    
+
     /**
      * @param int $importSkillBaseId
      */
@@ -56,15 +71,15 @@ class ilTestSkillLevelThresholdImport
     {
         $this->importSkillBaseId = $importSkillBaseId;
     }
-    
+
     /**
      * @return int
      */
-    public function getImportSkillTrefId() : ?int
+    public function getImportSkillTrefId(): ?int
     {
         return $this->importSkillTrefId;
     }
-    
+
     /**
      * @param int $importSkillTrefId
      */
@@ -72,15 +87,15 @@ class ilTestSkillLevelThresholdImport
     {
         $this->importSkillTrefId = $importSkillTrefId;
     }
-    
+
     /**
      * @return int
      */
-    public function getImportLevelId() : ?int
+    public function getImportLevelId(): ?int
     {
         return $this->importLevelId;
     }
-    
+
     /**
      * @param int $importLevelId
      */
@@ -88,15 +103,15 @@ class ilTestSkillLevelThresholdImport
     {
         $this->importLevelId = $importLevelId;
     }
-    
+
     /**
      * @return int
      */
-    public function getOrderIndex() : ?int
+    public function getOrderIndex(): ?int
     {
         return $this->orderIndex;
     }
-    
+
     /**
      * @param int $orderIndex
      */
@@ -104,15 +119,15 @@ class ilTestSkillLevelThresholdImport
     {
         $this->orderIndex = $orderIndex;
     }
-    
+
     /**
      * @return int
      */
-    public function getThreshold() : ?int
+    public function getThreshold(): ?int
     {
         return $this->threshold;
     }
-    
+
     /**
      * @param int $threshold
      */
@@ -120,15 +135,15 @@ class ilTestSkillLevelThresholdImport
     {
         $this->threshold = $threshold;
     }
-    
+
     /**
      * @return string
      */
-    public function getOriginalLevelTitle() : ?string
+    public function getOriginalLevelTitle(): ?string
     {
         return $this->originalLevelTitle;
     }
-    
+
     /**
      * @param string $originalLevelTitle
      */
@@ -136,15 +151,15 @@ class ilTestSkillLevelThresholdImport
     {
         $this->originalLevelTitle = $originalLevelTitle;
     }
-    
+
     /**
      * @return string
      */
-    public function getOriginalLevelDescription() : ?string
+    public function getOriginalLevelDescription(): ?string
     {
         return $this->originalLevelDescription;
     }
-    
+
     /**
      * @param string $originalLevelDescription
      */

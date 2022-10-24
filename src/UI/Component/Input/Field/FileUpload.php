@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Input\Field;
 
 /**
@@ -23,23 +25,23 @@ namespace ILIAS\UI\Component\Input\Field;
  */
 interface FileUpload
 {
-    public function getUploadHandler() : UploadHandler;
+    public function getUploadHandler(): UploadHandler;
 
-    public function withMaxFileSize(int $size_in_bytes) : FileUpload;
+    public function withMaxFileSize(int $size_in_bytes): FileUpload;
 
-    public function getMaxFileSize() : int;
+    public function getMaxFileSize(): int;
 
-    public function withMaxFiles(int $max_file_amount) : FileUpload;
+    public function withMaxFiles(int $max_file_amount): FileUpload;
 
-    public function getMaxFiles() : int;
+    public function getMaxFiles(): int;
 
     /**
      * @param string[] $mime_types
      */
-    public function withAcceptedMimeTypes(array $mime_types) : FileUpload;
+    public function withAcceptedMimeTypes(array $mime_types): FileUpload;
 
     /**
      * @return string[]
      */
-    public function getAcceptedMimeTypes() : array;
+    public function getAcceptedMimeTypes(): array;
 }

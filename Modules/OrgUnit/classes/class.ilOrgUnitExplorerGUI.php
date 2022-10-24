@@ -31,6 +31,9 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
     protected ?ilTree $tree = null;
     protected ilAccessHandler $access;
     private ilSetting $settings;
+    protected ILIAS\HTTP\Wrapper\RequestWrapper $http_post;
+    protected ILIAS\HTTP\Wrapper\RequestWrapper $http_query;
+    protected ILIAS\Refinery\Factory $refinery;
 
     /**
      * @param $a_expl_id
@@ -48,6 +51,9 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
         $this->tree->initLangCode();
         $this->access = $DIC->access();
         $this->settings = $DIC->settings();
+        $this->http_post = $DIC->http()->wrapper()->post();
+        $this->http_query= $DIC->http()->wrapper()->query();
+        $this->refinery = $DIC["refinery"];
     }
 
     /**
@@ -55,7 +61,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
      * @param object|array $a_node node array or object
      * @return string content of the node
      */
-    public function getNodeContent($a_node) : string
+    public function getNodeContent($a_node): string
     {
         $node = $this->getNodeArrayRepresentation($a_node);
 
@@ -69,7 +75,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
         return $node['title'];
     }
 
-    public function getRootNode() : array
+    public function getRootNode(): array
     {
         return $this->getTree()->getNodeData(ilObjOrgUnit::getRootOrgRefId());
     }
@@ -80,7 +86,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
      * Return custom icon of OrgUnit type if existing
      * @return string
      */
-    public function getNodeIcon($a_node) : string
+    public function getNodeIcon($a_node): string
     {
         $node = $this->getNodeArrayRepresentation($a_node);
 
@@ -100,10 +106,8 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
      * @param array|object $a_node
      * @throws ilCtrlException
      */
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
-        $node = $this->getNodeArrayRepresentation($a_node);
-
         $node = $this->getNodeArrayRepresentation($a_node);
 
         if ($this->select_postvar) {
@@ -124,12 +128,17 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
         return $link_target;
     }
 
-    protected function getLinkTarget() : string
+    protected function getLinkTarget(): string
     {
-        if ($this->ctrl->getCmdClass() === strtolower(ilObjOrgUnitGUI::class) && in_array($this->ctrl->getCmd(),
-                $this->stay_with_command, true)) {
-            return $this->ctrl->getLinkTargetByClass(array(ilAdministrationGUI::class, $this->ctrl->getCmdClass()),
-                $this->ctrl->getCmd());
+        if ($this->ctrl->getCmdClass() === strtolower(ilObjOrgUnitGUI::class) && in_array(
+            $this->ctrl->getCmd(),
+            $this->stay_with_command,
+            true
+        )) {
+            return $this->ctrl->getLinkTargetByClass(
+                array(ilAdministrationGUI::class, $this->ctrl->getCmdClass()),
+                $this->ctrl->getCmd()
+            );
         }
 
         return $this->ctrl->getLinkTargetByClass(array(ilAdministrationGUI::class, ilObjOrgUnitGUI::class), 'view');
@@ -138,7 +147,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
     /**
      * @throws ilCtrlException
      */
-    protected function getPluginLinkTarget() : string
+    protected function getPluginLinkTarget(): string
     {
         return $this->ctrl->getLinkTargetByClass(ilObjPluginDispatchGUI::class, 'forward');
     }
@@ -147,7 +156,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
      * @param object|array $a_node
      * @return bool
      */
-    public function isNodeClickable($a_node) : bool
+    public function isNodeClickable($a_node): bool
     {
         $node = $this->getNodeArrayRepresentation($a_node);
 
@@ -165,19 +174,45 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
      * @param $a_node
      * @return bool
      */
-    public function isNodeSelectable($a_node) : bool
+    public function isNodeSelectable($a_node): bool
     {
-        $current_node = filter_input(INPUT_GET, 'item_ref_id') ?? ilObjOrgUnit::getRootOrgRefId();
-        $node = $this->getNodeArrayRepresentation($a_node);
+        $r = $this->refinery;
+        if ($this->http_post->has("id")) {
+            // Node selected via multiselect in "manage".
+            $selected_nodes = $this->http_post->retrieve(
+                "id",
+                $r->kindlyTo()->listOf($r->kindlyTo()->int()),
+            );
+        } elseif ($this->http_query->has("item_ref_id")) {
+            // Node selected via "move"-action.
+            $selected_nodes = $this->http_query->retrieve(
+                "item_ref_id",
+                $r->kindlyTo()->listOf($r->kindlyTo()->int()),
+            );
+        } else {
+            // No node selected.
+            return true;
+        }
 
-        return !($node['child'] === $current_node || $this->tree->isGrandChild($current_node, $node['child']));
+        $node = $this->getNodeArrayRepresentation($a_node);
+        foreach ($selected_nodes as $sn) {
+            // Can't insert into itself.
+            if ($node["child"] == $sn) {
+                return false;
+            }
+            // Can't insert below itself.
+            if ($this->tree->isGrandChild($sn, $node["child"])) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
      * @param $a_node
      * @return array
      */
-    private function getNodeArrayRepresentation($a_node) : array
+    private function getNodeArrayRepresentation($a_node): array
     {
         if (is_object($a_node)) {
             return (array) $a_node;
@@ -186,13 +221,13 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
         return $a_node;
     }
 
-    public function getChildsOfNode($a_parent_node_id) : array
+    public function getChildsOfNode($a_parent_node_id): array
     {
         $children = parent::getChildsOfNode($a_parent_node_id);
         return $this->filterChildrenByPermission($children);
     }
 
-    protected function filterChildrenByPermission(array $children) : array
+    protected function filterChildrenByPermission(array $children): array
     {
         return array_filter(
             $children,

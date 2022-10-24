@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,37 +41,37 @@ class ilHtmlDomNodeIterator implements RecursiveIterator
         $this->nodeList = $root->childNodes;
     }
 
-    public function key() : int
+    public function key(): int
     {
         return $this->position;
     }
 
-    public function next() : void
+    public function next(): void
     {
         $this->position++;
     }
 
-    public function current() : DOMNode
+    public function current(): DOMNode
     {
         return $this->nodeList->item($this->position);
     }
 
-    public function valid() : bool
+    public function valid(): bool
     {
         return $this->position < $this->nodeList->length;
     }
 
-    public function rewind() : void
+    public function rewind(): void
     {
         $this->position = 0;
     }
 
-    public function hasChildren() : bool
+    public function hasChildren(): bool
     {
         return $this->current()->hasChildNodes();
     }
 
-    public function getChildren() : self
+    public function getChildren(): self
     {
         return new self($this->current());
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input\Container\Form;
 
 use ILIAS\UI\Component\Input\Container\Form as F;
@@ -33,7 +35,7 @@ class Factory implements F\Factory
     /**
      * @inheritdoc
      */
-    public function standard(string $post_url, array $inputs) : F\Standard
+    public function standard(string $post_url, array $inputs): F\Standard
     {
         return new Standard($this->field_factory, new Input\FormInputNameSource(), $post_url, $inputs);
     }

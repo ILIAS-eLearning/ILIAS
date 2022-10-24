@@ -15,12 +15,12 @@ interface ilCtrlTokenInterface
      * @param string $token
      * @return bool
      */
-    public function verifyWith(string $token) : bool;
+    public function verifyWith(string $token): bool;
 
     /**
      * Returns the token string of this instance.
      *
      * @return string
      */
-    public function getToken() : string;
+    public function getToken(): string;
 }

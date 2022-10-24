@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,15 +30,15 @@ use ILIAS\Survey\InternalService;
  */
 interface UIModifier
 {
-    public function setInternalService(InternalService $internal_service) : void;
-    public function getInternalService() : InternalService;
+    public function setInternalService(InternalService $internal_service): void;
+    public function getInternalService(): InternalService;
 
     /**
      * @return \ilFormPropertyGUI[]
      */
     public function getSurveySettingsGeneral(
         \ilObjSurvey $survey
-    ) : array;
+    ): array;
 
     /**
      * @return \ilFormPropertyGUI[]
@@ -44,7 +46,7 @@ interface UIModifier
     public function getSurveySettingsReminderTargets(
         \ilObjSurvey $survey,
         InternalGUIService $ui_service
-    ) : array;
+    ): array;
 
     /**
      * @return \ilFormPropertyGUI[]
@@ -52,34 +54,34 @@ interface UIModifier
     public function getSurveySettingsResults(
         \ilObjSurvey $survey,
         InternalGUIService $ui_service
-    ) : array;
+    ): array;
 
     public function setValuesFromForm(
         \ilObjSurvey $survey,
         \ilPropertyFormGUI $form
-    ) : void;
+    ): void;
 
     public function setResultsOverviewToolbar(
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
         int $user_id
-    ) : void;
+    ): void;
 
     public function setResultsDetailToolbar(
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
         int $user_id
-    ) : void;
+    ): void;
 
     public function setResultsCompetenceToolbar(
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
         int $user_id
-    ) : void;
+    ): void;
 
     public function getDetailPanels(
         array $participants,
         \ILIAS\Survey\Evaluation\EvaluationGUIRequest $request,
         \SurveyQuestionEvaluation $a_eval
-    ) : array;
+    ): array;
 }

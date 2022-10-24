@@ -1,4 +1,5 @@
 <?php
+
 require_once("libs/composer/vendor/autoload.php");
 
 use ILIAS\Refinery\Factory;
@@ -6,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class InitUIFrameworkTest extends TestCase
 {
-
     /**
      * @var \ILIAS\DI\Container
      */
@@ -15,7 +15,7 @@ class InitUIFrameworkTest extends TestCase
     /**
      * Several dependencies need to be wired up before the UI Framework can be initialised.
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->dic = new \ILIAS\DI\Container();
 
@@ -25,7 +25,7 @@ class InitUIFrameworkTest extends TestCase
         $this->dic["refinery"] = Mockery::mock("\ILIAS\Refinery\Factory");
     }
 
-    public function testUIFrameworkInitialization() : void
+    public function testUIFrameworkInitialization(): void
     {
         $this->assertInstanceOf("\ILIAS\DI\UIServices", $this->dic->ui());
         $this->assertFalse(isset($this->dic['ui.factory']));
@@ -41,7 +41,7 @@ class InitUIFrameworkTest extends TestCase
      * This checks only by example that the factory is loaded and ready to work.
      * A complete check of the factory is performed in the Test cases of tests/UI
      */
-    public function testByExampleThatFactoryIsLoaded() : void
+    public function testByExampleThatFactoryIsLoaded(): void
     {
         (new \InitUIFramework())->init($this->dic);
 
@@ -56,7 +56,7 @@ class InitUIFrameworkTest extends TestCase
      * A complete set of the rendering tests is performed in the Test cases of tests/UI
      * Note that some additional dependencies are needed for this to run.
      */
-    public function testByExampleThatRendererIsReadyToWork() : void
+    public function testByExampleThatRendererIsReadyToWork(): void
     {
         (new \InitUIFramework())->init($this->dic);
         $this->dic["tpl"]->shouldReceive("addJavaScript");

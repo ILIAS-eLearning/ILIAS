@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -49,13 +51,13 @@ class ilTableTemplatesTableGUI extends ilTable2GUI
         $lng = $DIC->language();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         ilAccordionGUI::addCss();
 
         $this->setTitle($lng->txt("sty_templates"));
         $this->style_obj = $a_style_obj;
         $this->temp_type = $a_temp_type;
-        
+
         $this->addColumn("", "", "1");	// checkbox
         $this->addColumn($this->lng->txt("sty_template_name"), "");
         $this->addColumn($this->lng->txt("sty_preview"), "");
@@ -73,12 +75,12 @@ class ilTableTemplatesTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
     }
 
-    public function getItems() : void
+    public function getItems(): void
     {
         $this->setData($this->style_obj->getTemplates($this->temp_type));
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -90,7 +92,7 @@ class ilTableTemplatesTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TID", $a_set["id"]);
         $this->tpl->setVariable("TEMPLATE_NAME", $a_set["name"]);
         $ilCtrl->setParameter($this->parent_obj, "t_id", $a_set["id"]);
-        
+
         if ($this->access_manager->checkWrite()) {
             $this->tpl->setVariable(
                 "LINK_EDIT_TEMPLATE",

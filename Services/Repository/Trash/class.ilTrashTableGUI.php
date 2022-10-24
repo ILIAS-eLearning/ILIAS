@@ -50,7 +50,7 @@ class ilTrashTableGUI extends ilTable2GUI
     /**
      * Init table
      */
-    public function init() : void
+    public function init(): void
     {
         $this->setTitle(
             $this->lng->txt('rep_trash_table_title') . ' "' .
@@ -89,7 +89,7 @@ class ilTrashTableGUI extends ilTable2GUI
         $this->initFilter();
     }
 
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $this->setDefaultFilterVisiblity(true);
 
@@ -128,7 +128,7 @@ class ilTrashTableGUI extends ilTable2GUI
         $this->current_filter['deleted'] = $deleted->getValue();
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $this->determineOffsetAndOrder();
 
@@ -169,7 +169,7 @@ class ilTrashTableGUI extends ilTable2GUI
         $this->setData($rows);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('ID', $a_set['id']);
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
@@ -206,7 +206,7 @@ class ilTrashTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_SUBS', (string) (int) $a_set['num_subs']);
     }
 
-    protected function prepareTypeFilterTypes() : array
+    protected function prepareTypeFilterTypes(): array
     {
         $trash = new ilTreeTrashQueries();
         $subs = $trash->getTrashedNodeTypesForContainer($this->ref_id);

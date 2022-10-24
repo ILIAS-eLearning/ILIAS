@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,7 +36,7 @@ class ilSamlMappedUserAttributeValueParser
         $this->userData = $userData;
     }
 
-    protected function getValueIndex() : int
+    protected function getValueIndex(): int
     {
         $index = 0;
 
@@ -48,7 +50,7 @@ class ilSamlMappedUserAttributeValueParser
         return max($index, 0);
     }
 
-    public function getAttributeKey() : string
+    public function getAttributeKey(): string
     {
         $attribute = '';
 
@@ -62,7 +64,7 @@ class ilSamlMappedUserAttributeValueParser
         return $attribute;
     }
 
-    public function parse() : string
+    public function parse(): string
     {
         $attributeKey = $this->getAttributeKey();
 

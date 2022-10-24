@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
     /**
      * @return array{login: string, firstname: string, lastname:string}
      */
-    public function current() : array
+    public function current(): array
     {
         return [
             'login' => $this->data['login'],
@@ -33,12 +35,12 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         ];
     }
 
-    public function key() : string
+    public function key(): string
     {
         return $this->data['login'];
     }
 
-    public function rewind() : void
+    public function rewind(): void
     {
         if ($this->res) {
             $this->db->free($this->res);
@@ -58,24 +60,22 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         $this->res = $this->db->query($query);
     }
 
-    protected function getSelectPart() : string
+    protected function getSelectPart(): string
     {
         $fields = [
             'login',
             sprintf(
-                "(CASE WHEN (profpref.value = %s OR profpref.value = %s) " .
-                "THEN firstname ELSE '' END) firstname",
+                '(CASE WHEN (firstname IS NOT NULL AND (profpref.value = %s OR profpref.value = %s)) THEN firstname ELSE \'\' END) firstname',
                 $this->db->quote('y', 'text'),
                 $this->db->quote('g', 'text')
             ),
             sprintf(
-                "(CASE WHEN (profpref.value = %s OR profpref.value = %s) " .
-                "THEN lastname ELSE '' END) lastname",
+                '(CASE WHEN (lastname IS NOT NULL AND (profpref.value = %s OR profpref.value = %s)) THEN lastname ELSE \'\' END) lastname',
                 $this->db->quote('y', 'text'),
                 $this->db->quote('g', 'text')
             ),
             sprintf(
-                "(CASE WHEN ((profpref.value = %s OR profpref.value = %s) " .
+                "(CASE WHEN (email IS NOT NULL AND (profpref.value = %s OR profpref.value = %s) " .
                 "AND pubemail.value = %s) THEN email ELSE '' END) email",
                 $this->db->quote('y', 'text'),
                 $this->db->quote('g', 'text'),
@@ -89,7 +89,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         return implode(', ', $fields);
     }
 
-    protected function getFromPart() : string
+    protected function getFromPart(): string
     {
         $joins = [];
 
@@ -106,7 +106,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         return 'usr_data ' . implode(' ', $joins);
     }
 
-    protected function getWherePart(string $search_query) : string
+    protected function getWherePart(string $search_query): string
     {
         $outer_conditions = [];
         $outer_conditions[] = 'usr_data.usr_id != ' . $this->db->quote(ANONYMOUS_USER_ID, 'integer');
@@ -163,12 +163,12 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         return implode(' AND ', $outer_conditions);
     }
 
-    protected function getOrderByPart() : string
+    protected function getOrderByPart(): string
     {
         return 'login ASC';
     }
 
-    protected function getQueryConditionByFieldAndValue(string $field, $a_str) : string
+    protected function getQueryConditionByFieldAndValue(string $field, $a_str): string
     {
         return $this->db->like($field, 'text', $a_str . '%');
     }
@@ -176,7 +176,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
     /**
      * @return string[]
      */
-    protected function getFields() : array
+    protected function getFields(): array
     {
         $available_fields = [];
         foreach (['firstname', 'lastname'] as $field) {

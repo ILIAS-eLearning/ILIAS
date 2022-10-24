@@ -48,12 +48,12 @@ class SkillProfileManager
     /**
      * @throws \ilSkillProfileNotFoundException
      */
-    public function getById(int $profile_id) : SkillProfile
+    public function getById(int $profile_id): SkillProfile
     {
         return $this->profile_repo->getById($profile_id);
     }
 
-    public function createProfile(SkillProfile $profile) : SkillProfile
+    public function createProfile(SkillProfile $profile): SkillProfile
     {
         // profile
         $new_profile = $this->profile_repo->createProfile($profile);
@@ -64,7 +64,7 @@ class SkillProfileManager
         return $new_profile;
     }
 
-    public function updateProfile(SkillProfile $profile) : SkillProfile
+    public function updateProfile(SkillProfile $profile): SkillProfile
     {
         // profile
         $updated_profile = $this->profile_repo->updateProfile($profile);
@@ -75,7 +75,7 @@ class SkillProfileManager
         return $updated_profile;
     }
 
-    public function delete(int $profile_id) : void
+    public function delete(int $profile_id): void
     {
         $this->deleteProfile($profile_id);
         $this->deleteProfileLevels($profile_id);
@@ -83,80 +83,80 @@ class SkillProfileManager
         $this->deleteProfileRoles($profile_id);
     }
 
-    protected function deleteProfile(int $profile_id) : void
+    protected function deleteProfile(int $profile_id): void
     {
         $this->profile_repo->deleteProfile($profile_id);
     }
 
-    protected function deleteProfileLevels(int $profile_id) : void
+    protected function deleteProfileLevels(int $profile_id): void
     {
         $this->profile_levels_repo->deleteProfileLevels($profile_id);
     }
 
-    protected function deleteProfileUsers(int $profile_id) : void
+    protected function deleteProfileUsers(int $profile_id): void
     {
         $this->profile_user_repo->deleteProfileUsers($profile_id);
     }
 
-    protected function deleteProfileRoles(int $profile_id) : void
+    protected function deleteProfileRoles(int $profile_id): void
     {
         $this->profile_role_repo->deleteProfileRoles($profile_id);
     }
 
-    public function deleteProfilesFromObject(int $ref_id) : void
+    public function deleteProfilesFromObject(int $ref_id): void
     {
         $this->profile_repo->deleteProfilesFromObject($ref_id);
     }
 
-    public function updateSkillOrder(int $profile_id, array $order) : void
+    public function updateSkillOrder(int $profile_id, array $order): void
     {
         asort($order);
 
         $this->profile_levels_repo->updateSkillOrder($profile_id, $order);
     }
 
-    public function fixSkillOrderNumbering(int $profile_id) : void
+    public function fixSkillOrderNumbering(int $profile_id): void
     {
         $this->profile_levels_repo->fixSkillOrderNumbering($profile_id);
     }
 
-    public function getMaxLevelOrderNr(int $profile_id) : int
+    public function getMaxLevelOrderNr(int $profile_id): int
     {
         $max = $this->profile_levels_repo->getMaxLevelOrderNr($profile_id);
         return $max;
     }
 
-    public function getProfilesForAllSkillTrees() : array
+    public function getProfilesForAllSkillTrees(): array
     {
         $profiles = $this->profile_repo->getProfilesForAllSkillTrees();
         return $profiles;
     }
 
-    public function getProfilesForSkillTree(int $skill_tree_id) : array
+    public function getProfilesForSkillTree(int $skill_tree_id): array
     {
         $profiles = $this->profile_repo->getProfilesForSkillTree($skill_tree_id);
         return $profiles;
     }
 
-    public function getAllGlobalProfiles() : array
+    public function getAllGlobalProfiles(): array
     {
         $profiles = $this->profile_repo->getAllGlobalProfiles();
         return $profiles;
     }
 
-    public function getLocalProfilesForObject(int $ref_id) : array
+    public function getLocalProfilesForObject(int $ref_id): array
     {
         $profiles = $this->profile_repo->getLocalProfilesForObject($ref_id);
         return $profiles;
     }
 
-    public function lookupTitle(int $profile_id) : string
+    public function lookupTitle(int $profile_id): string
     {
         $title = $this->profile_repo->lookup($profile_id, "title");
         return $title;
     }
 
-    public function lookupRefId(int $profile_id) : int
+    public function lookupRefId(int $profile_id): int
     {
         $ref_id = $this->profile_repo->lookup($profile_id, "ref_id");
         return $ref_id;
@@ -165,12 +165,12 @@ class SkillProfileManager
     /**
      * Update the old ref id with the new ref id after import
      */
-    public function updateRefIdAfterImport(int $profile_id, int $new_ref_id) : void
+    public function updateRefIdAfterImport(int $profile_id, int $new_ref_id): void
     {
         $this->profile_repo->updateRefIdAfterImport($profile_id, $new_ref_id);
     }
 
-    public function getTreeId(int $profile_id) : int
+    public function getTreeId(int $profile_id): int
     {
         $tree_id = $this->profile_repo->getTreeId($profile_id);
         return $tree_id;
@@ -183,7 +183,7 @@ class SkillProfileManager
     /**
      * Get all assignments (users and roles)
      */
-    public function getAssignments(int $profile_id) : array
+    public function getAssignments(int $profile_id): array
     {
         $assignments = [];
 
@@ -194,18 +194,18 @@ class SkillProfileManager
         return $assignments;
     }
 
-    public function getAssignedUsers(int $profile_id) : array
+    public function getAssignedUsers(int $profile_id): array
     {
         $users = $this->profile_user_repo->getAssignedUsers($profile_id);
         return $users;
     }
 
-    public function getAssignedUsersForRole(int $role_id) : array
+    public function getAssignedUsersForRole(int $role_id): array
     {
         return $this->rbac_review->assignedUsers($role_id);
     }
 
-    public function getAssignedUserIdsIncludingRoleAssignments(int $profile_id) : array
+    public function getAssignedUserIdsIncludingRoleAssignments(int $profile_id): array
     {
         $all = [];
         $users = $this->getAssignedUsers($profile_id);
@@ -226,17 +226,17 @@ class SkillProfileManager
         return $all;
     }
 
-    public function addUserToProfile(int $profile_id, int $user_id) : void
+    public function addUserToProfile(int $profile_id, int $user_id): void
     {
         $this->profile_user_repo->addUserToProfile($profile_id, $user_id);
     }
 
-    public function removeUserFromProfile(int $profile_id, int $user_id) : void
+    public function removeUserFromProfile(int $profile_id, int $user_id): void
     {
         $this->profile_user_repo->removeUserFromProfile($profile_id, $user_id);
     }
 
-    public function removeUserFromAllProfiles(int $user_id) : void
+    public function removeUserFromAllProfiles(int $user_id): void
     {
         $this->profile_user_repo->removeUserFromAllProfiles($user_id);
     }
@@ -244,7 +244,7 @@ class SkillProfileManager
     /**
      * @return array{id: int, title: string, description: string, image_id: string}[]
      */
-    public function getProfilesOfUser(int $user_id) : array
+    public function getProfilesOfUser(int $user_id): array
     {
         $all_profiles = [];
 
@@ -273,29 +273,29 @@ class SkillProfileManager
         return $all_profiles;
     }
 
-    public function countUsers(int $profile_id) : int
+    public function countUsers(int $profile_id): int
     {
         $count = $this->profile_user_repo->countUsers($profile_id);
         return $count;
     }
 
-    public function getAssignedRoles(int $profile_id) : array
+    public function getAssignedRoles(int $profile_id): array
     {
         $roles = $this->profile_role_repo->getAssignedRoles($profile_id);
         return $roles;
     }
 
-    public function addRoleToProfile(int $profile_id, int $role_id) : void
+    public function addRoleToProfile(int $profile_id, int $role_id): void
     {
         $this->profile_role_repo->addRoleToProfile($profile_id, $role_id);
     }
 
-    public function removeRoleFromProfile(int $profile_id, int $role_id) : void
+    public function removeRoleFromProfile(int $profile_id, int $role_id): void
     {
         $this->profile_role_repo->removeRoleFromProfile($profile_id, $role_id);
     }
 
-    public function removeRoleFromAllProfiles(int $role_id) : void
+    public function removeRoleFromAllProfiles(int $role_id): void
     {
         $this->profile_role_repo->removeRoleFromAllProfiles($role_id);
     }
@@ -304,7 +304,7 @@ class SkillProfileManager
      * Get global and local profiles of a role
      * @return array{id: int, title: string, description: string, image_id: string}[]
      */
-    public function getAllProfilesOfRole(int $role_id) : array
+    public function getAllProfilesOfRole(int $role_id): array
     {
         $profiles = $this->profile_role_repo->getAllProfilesOfRole($role_id);
         return $profiles;
@@ -313,19 +313,19 @@ class SkillProfileManager
     /**
      * @return array{id: int, title: string, description: string, image_id: string}[]
      */
-    public function getGlobalProfilesOfRole(int $role_id) : array
+    public function getGlobalProfilesOfRole(int $role_id): array
     {
         $profiles = $this->profile_role_repo->getGlobalProfilesOfRole($role_id);
         return $profiles;
     }
 
-    public function getLocalProfilesOfRole(int $role_id, int $ref_id) : array
+    public function getLocalProfilesOfRole(int $role_id, int $ref_id): array
     {
         $profiles = $this->profile_role_repo->getLocalProfilesOfRole($role_id, $ref_id);
         return $profiles;
     }
 
-    public function countRoles(int $profile_id) : int
+    public function countRoles(int $profile_id): int
     {
         $count = $this->profile_role_repo->countRoles($profile_id);
         return $count;

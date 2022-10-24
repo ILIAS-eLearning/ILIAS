@@ -42,7 +42,7 @@ class ilLearningHistoryEntryCollector
         ?int $to = null,
         ?int $user_id = null,
         ?array $classes = null
-    ) : array {
+    ): array {
         $lng = $this->service->language();
 
         $to = (is_null($to))

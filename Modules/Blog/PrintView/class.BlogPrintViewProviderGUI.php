@@ -54,7 +54,7 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         $this->selected_pages = $selected_pages;
     }
 
-    public function getTemplateInjectors() : array
+    public function getTemplateInjectors(): array
     {
         $resource_collector = new COPage\ResourcesCollector(
             \ilPageObjectGUI::OFFLINE,
@@ -69,7 +69,7 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         ];
     }
 
-    public function getPages() : array
+    public function getPages(): array
     {
         $print_pages = [];
 
@@ -96,7 +96,7 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         return $print_pages;
     }
 
-    public function getSelectionForm() : ?ilPropertyFormGUI
+    public function getSelectionForm(): ?ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

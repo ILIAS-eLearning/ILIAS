@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,6 +29,7 @@ use ILIAS\Refinery;
  */
 class ilFormPropertyGUI
 {
+    protected array $set_params = [];
     protected ?ilTable2GUI $parent_table = null;
     protected ?ilFormPropertyGUI $parent_gui = null;
     protected ilCtrl $ctrl;
@@ -86,150 +89,150 @@ class ilFormPropertyGUI
         return $this->$cmd();
     }
 
-    protected function setType(string $a_type) : void
+    protected function setType(string $a_type): void
     {
         $this->type = $a_type;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function setTitle(string $a_title) : void
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setPostVar(string $a_postvar) : void
+    public function setPostVar(string $a_postvar): void
     {
         $this->postvar = $a_postvar;
     }
 
-    public function getPostVar() : string
+    public function getPostVar(): string
     {
         return $this->postvar;
     }
 
-    public function getFieldId() : string
+    public function getFieldId(): string
     {
         $id = str_replace("[", "__", $this->getPostVar());
         $id = str_replace("]", "__", $id);
         return $id;
     }
 
-    public function setInfo(string $a_info) : void
+    public function setInfo(string $a_info): void
     {
         $this->info = $a_info;
     }
 
-    public function getInfo() : string
+    public function getInfo(): string
     {
         return $this->info;
     }
 
-    public function setAlert(string $a_alert) : void
+    public function setAlert(string $a_alert): void
     {
         $this->alert = $a_alert;
     }
 
-    public function getAlert() : string
+    public function getAlert(): string
     {
         return $this->alert;
     }
 
-    public function setRequired(bool $a_required) : void
+    public function setRequired(bool $a_required): void
     {
         $this->required = $a_required;
     }
 
-    public function getRequired() : bool
+    public function getRequired(): bool
     {
         return $this->required;
     }
-    
-    public function setDisabled(bool $a_disabled) : void
+
+    public function setDisabled(bool $a_disabled): void
     {
         $this->disabled = $a_disabled;
     }
 
-    public function getDisabled() : bool
+    public function getDisabled(): bool
     {
         return $this->disabled;
     }
-    
+
     /**
      * Check input, strip slashes etc. set alert, if input is not ok.
      */
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         return false;		// please overwrite
     }
 
-    public function setParentForm(ilPropertyFormGUI $a_parentform) : void
+    public function setParentForm(ilPropertyFormGUI $a_parentform): void
     {
         $this->parentform = $a_parentform;
     }
 
-    public function getParentForm() : ?ilPropertyFormGUI
+    public function getParentForm(): ?ilPropertyFormGUI
     {
         return $this->parentform;
     }
 
     // Set Parent GUI object.
-    public function setParent(ilFormPropertyGUI $a_val) : void
+    public function setParent(ilFormPropertyGUI $a_val): void
     {
         $this->parent_gui = $a_val;
     }
-    
-    public function getParent() : ?ilFormPropertyGUI
+
+    public function getParent(): ?ilFormPropertyGUI
     {
         return $this->parent_gui;
     }
 
-    public function getSubForm() : ?ilPropertyFormGUI
+    public function getSubForm(): ?ilPropertyFormGUI
     {
         return null;
     }
 
-    public function hideSubForm() : bool
+    public function hideSubForm(): bool
     {
         return false;
     }
 
     // Set hidden title (for screenreaders)
-    public function setHiddenTitle(string $a_val) : void
+    public function setHiddenTitle(string $a_val): void
     {
         $this->hidden_title = $a_val;
     }
-    
-    public function getHiddenTitle() : string
+
+    public function getHiddenTitle(): string
     {
         return $this->hidden_title;
     }
-    
+
     /**
      * Get item by post var
      */
-    public function getItemByPostVar(string $a_post_var) : ?ilFormPropertyGUI
+    public function getItemByPostVar(string $a_post_var): ?ilFormPropertyGUI
     {
         if ($this->getPostVar() == $a_post_var) {
             return $this;
         }
         return null;
     }
-    
-    public function serializeData() : string
+
+    public function serializeData(): string
     {
         return serialize($this->getValue());
     }
-    
-    public function unserializeData(string $a_data) : void
+
+    public function unserializeData(string $a_data): void
     {
         $data = unserialize($a_data);
 
@@ -244,7 +247,7 @@ class ilFormPropertyGUI
      * Set parent table
      * @param ilTable2GUI $a_val table object
      */
-    public function setParentTable($a_val) : void
+    public function setParentTable($a_val): void
     {
         $this->parent_table = $a_val;
     }
@@ -253,12 +256,12 @@ class ilFormPropertyGUI
      * Get parent table
      * @return ilTable2GUI table object
      */
-    public function getParentTable() : ?ilTable2GUI
+    public function getParentTable(): ?ilTable2GUI
     {
         return $this->parent_table;
     }
 
-    protected function checkParentFormTable() : void
+    protected function checkParentFormTable(): void
     {
         $parent = $this->getParentForm();
         $parent_table = $this->getParentTable();
@@ -270,13 +273,13 @@ class ilFormPropertyGUI
     /**
      * @throws Exception
      */
-    public function writeToSession() : void
+    public function writeToSession(): void
     {
         $this->checkParentFormTable();
         ilSession::set($this->getSessionKey(), $this->serializeData());
     }
 
-    protected function getSessionKey() : string
+    protected function getSessionKey(): string
     {
         $parent = $this->getParentForm();
         if (!is_object($parent)) {
@@ -288,7 +291,7 @@ class ilFormPropertyGUI
     /**
      * @throws Exception
      */
-    public function clearFromSession() : void
+    public function clearFromSession(): void
     {
         $this->checkParentFormTable();
         ilSession::clear($this->getSessionKey());
@@ -297,7 +300,7 @@ class ilFormPropertyGUI
     /**
      * @throws Exception
      */
-    public function readFromSession() : void
+    public function readFromSession(): void
     {
         $this->checkParentFormTable();
         if (ilSession::has($this->getSessionKey())) {
@@ -306,21 +309,21 @@ class ilFormPropertyGUI
             $this->unserializeData("");
         }
     }
-    
+
     public function getHiddenTag(
         string $a_post_var,
         string $a_value
-    ) : string {
+    ): string {
         return '<input type="hidden" name="' . $a_post_var . '" value="' . ilLegacyFormElementsUtil::prepareFormOutput(
             $a_value
         ) . '" />';
     }
-    
+
     public function setMulti(
         bool $a_multi,
         bool $a_sortable = false,
         bool $a_addremove = true
-    ) : void {
+    ): void {
         if (!$this instanceof ilMultiValuesItem) {
             throw new ilFormException(sprintf(
                 "%s not supported for form property type %s",
@@ -328,36 +331,36 @@ class ilFormPropertyGUI
                 get_class($this)
             ));
         }
-        
+
         $this->multi = $a_multi;
         $this->multi_sortable = $a_sortable;
         $this->multi_addremove = $a_addremove;
     }
 
-    public function getMulti() : bool
+    public function getMulti(): bool
     {
         return $this->multi;
     }
 
-    public function setMultiValues(array $a_values) : void
+    public function setMultiValues(array $a_values): void
     {
         $this->multi_values = array_unique($a_values);
     }
-    
-    public function getMultiValues() : array
+
+    public function getMultiValues(): array
     {
         return $this->multi_values;
     }
-    
+
     // Get HTML for multiple value icons
-    protected function getMultiIconsHTML() : string
+    protected function getMultiIconsHTML(): string
     {
         $lng = $this->lng;
-        
+
         $id = $this->getFieldId();
-        
+
         $tpl = new ilTemplate("tpl.multi_icons.html", true, true, "Services/Form");
-        
+
         $html = "";
         if ($this->multi_addremove) {
             $tpl->setCurrentBlock("addremove");
@@ -368,7 +371,7 @@ class ilFormPropertyGUI
             $tpl->setVariable("SRC_REMOVE", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
             $tpl->parseCurrentBlock();
         }
-        
+
         if ($this->multi_sortable) {
             $tpl->setCurrentBlock("sortable");
             $tpl->setVariable("ID", $id);
@@ -378,14 +381,14 @@ class ilFormPropertyGUI
             $tpl->setVariable("SRC_DOWN", ilGlyphGUI::get(ilGlyphGUI::DOWN));
             $tpl->parseCurrentBlock();
         }
-        
+
         return $tpl->get();
     }
-    
+
     /**
      * Get content that has to reside outside of the parent form tag, e.g. panels/layers
      */
-    public function getContentOutsideFormTag() : string
+    public function getContentOutsideFormTag(): string
     {
         return "";
     }
@@ -394,7 +397,7 @@ class ilFormPropertyGUI
      * Remove prohibited characters
      * see #19159
      */
-    public static function removeProhibitedCharacters(string $a_text) : string
+    public static function removeProhibitedCharacters(string $a_text): string
     {
         return str_replace("\x0B", "", $a_text);
     }
@@ -402,7 +405,7 @@ class ilFormPropertyGUI
     /**
      * Strip slashes with add space fallback, see https://www.ilias.de/mantis/view.php?id=19727
      */
-    public function stripSlashesAddSpaceFallback(string $a_str) : string
+    public function stripSlashesAddSpaceFallback(string $a_str): string
     {
         $str = ilUtil::stripSlashes($a_str);
         if ($str != $a_str) {
@@ -414,7 +417,7 @@ class ilFormPropertyGUI
     /**
      * Get label "for" attribute value for filter
      */
-    public function getTableFilterLabelFor() : string
+    public function getTableFilterLabelFor(): string
     {
         return $this->getFieldId();
     }
@@ -422,13 +425,13 @@ class ilFormPropertyGUI
     /**
      * Get label "for" attribute value for form
      */
-    public function getFormLabelFor() : string
+    public function getFormLabelFor(): string
     {
         return $this->getFieldId();
     }
 
     // get integer parameter kindly
-    protected function int($key) : int
+    protected function int($key): int
     {
         if (is_null($this->refinery)) {
             return 0;
@@ -438,7 +441,7 @@ class ilFormPropertyGUI
     }
 
     // get integer array kindly
-    protected function intArray($key) : array
+    protected function intArray($key): array
     {
         if (!$this->isRequestParamArray($key)) {
             return [];
@@ -463,7 +466,7 @@ class ilFormPropertyGUI
     }
 
     // get string parameter kindly
-    protected function str($key) : string
+    protected function str($key): string
     {
         if (is_null($this->refinery)) {
             return "";
@@ -484,7 +487,7 @@ class ilFormPropertyGUI
     }
 
     // get string array kindly
-    protected function strArray($key) : array
+    protected function strArray($key): array
     {
         if (!$this->isRequestParamArray($key)) {
             return [];
@@ -512,7 +515,7 @@ class ilFormPropertyGUI
     }
 
     // get array of arrays kindly
-    protected function arrayArray($key) : array
+    protected function arrayArray($key): array
     {
         if (!$this->isRequestParamArray($key)) {
             return [];
@@ -536,7 +539,7 @@ class ilFormPropertyGUI
         return (array) ($this->getRequestParam($key, $t) ?? []);
     }
 
-    protected function isRequestParamArray(string $key) : bool
+    protected function isRequestParamArray(string $key): bool
     {
         $no_transform = $this->refinery->identity();
         $w = $this->http->wrapper();
@@ -550,10 +553,23 @@ class ilFormPropertyGUI
     }
 
     /**
+     * This writes the request (aka post) values. Code that relies on
+     * this should be refactored as soon as possible.
+     * @deprecated
+     */
+    public function setRequestParam(string $key, $val): void
+    {
+        $this->set_params[$key] = $val;
+    }
+
+    /**
      * @return mixed|null
      */
     protected function getRequestParam(string $key, Refinery\Transformation $t)
     {
+        if (isset($this->set_params[$key])) {
+            return $this->set_params[$key];
+        }
         $w = $this->http->wrapper();
         if ($w->post()->has($key)) {
             return $w->post()->retrieve($key, $t);

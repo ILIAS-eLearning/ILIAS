@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
  */
 class ilExternalAuthUserUpdateAttributeMappingFilter extends FilterIterator
 {
-    public function accept() : bool
+    public function accept(): bool
     {
         /** @var $current ilExternalAuthUserAttributeMappingRule */
         $current = $this->current();

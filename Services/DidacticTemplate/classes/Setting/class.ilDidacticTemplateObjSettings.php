@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,7 +10,7 @@
  */
 class ilDidacticTemplateObjSettings
 {
-    public static function lookupTemplateId(int $a_ref_id) : int
+    public static function lookupTemplateId(int $a_ref_id): int
     {
         global $DIC;
 
@@ -24,7 +26,7 @@ class ilDidacticTemplateObjSettings
         return 0;
     }
 
-    public static function deleteByObjId(int $a_obj_id) : void
+    public static function deleteByObjId(int $a_obj_id): void
     {
         global $DIC;
 
@@ -35,7 +37,7 @@ class ilDidacticTemplateObjSettings
         $ilDB->manipulate($query);
     }
 
-    public static function deleteByTemplateId(int $a_tpl_id) : void
+    public static function deleteByTemplateId(int $a_tpl_id): void
     {
         global $DIC;
 
@@ -46,7 +48,7 @@ class ilDidacticTemplateObjSettings
         $ilDB->manipulate($query);
     }
 
-    public static function deleteByRefId(int $a_ref_id) : void
+    public static function deleteByRefId(int $a_ref_id): void
     {
         global $DIC;
 
@@ -57,7 +59,7 @@ class ilDidacticTemplateObjSettings
         $ilDB->manipulate($query);
     }
 
-    public static function assignTemplate(int $a_ref_id, int $a_obj_id, int $a_tpl_id) : void
+    public static function assignTemplate(int $a_ref_id, int $a_obj_id, int $a_tpl_id): void
     {
         global $DIC;
 
@@ -78,7 +80,7 @@ class ilDidacticTemplateObjSettings
      * @param int $a_tpl_id
      * @return array{ref_id: int, obj_id: int}[]
      */
-    public static function getAssignmentsByTemplateID(int $a_tpl_id) : array
+    public static function getAssignmentsByTemplateID(int $a_tpl_id): array
     {
         global $DIC;
 
@@ -100,7 +102,7 @@ class ilDidacticTemplateObjSettings
      * @param int[] $template_ids
      * @return array<int, int[]>
      */
-    public static function getAssignmentsForTemplates(array $template_ids) : array
+    public static function getAssignmentsForTemplates(array $template_ids): array
     {
         global $DIC;
 
@@ -122,7 +124,7 @@ class ilDidacticTemplateObjSettings
      * @param int $a_dest
      * @return bool
      */
-    public static function transferAutoGenerateStatus(int $a_src, int $a_dest) : bool
+    public static function transferAutoGenerateStatus(int $a_src, int $a_dest): bool
     {
         global $DIC;
 

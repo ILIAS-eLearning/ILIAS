@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -77,7 +79,7 @@ class ilCalendarAppointmentPresentationGUI
         $this->mode = self::MODE_LIST_ITEM;
     }
 
-    public function getListItem() : Item
+    public function getListItem(): Item
     {
         return $this->list_item;
     }
@@ -85,7 +87,7 @@ class ilCalendarAppointmentPresentationGUI
     /**
      * get singleton instance
      */
-    public static function _getInstance(ilDate $seed, array $a_app) : self
+    public static function _getInstance(ilDate $seed, array $a_app): self
     {
         if (!self::$instance instanceof self) {
             self::$instance = new self($seed, $a_app);
@@ -93,7 +95,7 @@ class ilCalendarAppointmentPresentationGUI
         return self::$instance;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("getHTML");
@@ -131,12 +133,12 @@ class ilCalendarAppointmentPresentationGUI
     /**
      * Get seed date
      */
-    public function getSeed() : ilDate
+    public function getSeed(): ilDate
     {
         return $this->seed;
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         if ($this->mode == self::MODE_MODAL) {
             return $this->getModalHTML();
@@ -147,7 +149,7 @@ class ilCalendarAppointmentPresentationGUI
         return "";
     }
 
-    public function getModalHTML() : string
+    public function getModalHTML(): string
     {
         $tpl = new ilTemplate('tpl.appointment_presentation.html', true, true, 'Services/Calendar');
 
@@ -182,7 +184,7 @@ class ilCalendarAppointmentPresentationGUI
     /**
      * Modify List item
      */
-    public function modifyListItem() : string
+    public function modifyListItem(): string
     {
         $li = $this->getListItem();
         $f = ilAppointmentPresentationFactory::getInstance($this->appointment, null, null, $li);
@@ -191,7 +193,7 @@ class ilCalendarAppointmentPresentationGUI
         return '';
     }
 
-    protected function getActivePlugins() : Iterator
+    protected function getActivePlugins(): Iterator
     {
         global $DIC;
 
@@ -199,7 +201,7 @@ class ilCalendarAppointmentPresentationGUI
         return $component_factory->getActivePluginsInSlot("capm");
     }
 
-    protected function getContentByPlugins($a_content, $a_toolbar) : array
+    protected function getContentByPlugins($a_content, $a_toolbar): array
     {
         $content = $a_content;
         $toolbar = $a_toolbar;

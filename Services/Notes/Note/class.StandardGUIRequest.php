@@ -38,62 +38,62 @@ class StandardGUIRequest
         );
     }
 
-    public function getRelatedObjId() : int
+    public function getRelatedObjId(): int
     {
         return $this->int("rel_obj");
     }
 
-    public function getNoteType() : int
+    public function getNoteType(): int
     {
         return $this->int("note_type");
     }
 
-    public function getNoteId() : int
+    public function getNoteId(): int
     {
         return $this->int("note_id");
     }
 
-    public function getNoteIds() : array
+    public function getNoteIds(): array
     {
         return $this->intArray("note");
     }
 
-    public function getNoteMess() : string
+    public function getNoteMess(): string
     {
         return $this->str("note_mess");
     }
 
-    public function getNoteText() : string
+    public function getNoteText(): string
     {
         return $this->str("note");
     }
 
-    public function getNoteSubject() : string
+    public function getNoteSubject(): string
     {
         return $this->str("sub_note");
     }
 
-    public function getNoteLabel() : string
+    public function getNoteLabel(): string
     {
         return $this->str("note_label");
     }
 
-    public function getOnly() : string
+    public function getOnly(): string
     {
         return $this->str("notes_only");
     }
 
-    public function getNewsId() : int
+    public function getNewsId(): int
     {
         return $this->int("news_id");
     }
 
-    public function getSortation() : string
+    public function getSortation(): string
     {
         return $this->str("sortation");
     }
 
-    public function isFilterCommand() : bool
+    public function isFilterCommand(): bool
     {
         return ($this->str("cmdFilter") !== "");
     }

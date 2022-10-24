@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +18,7 @@
  *********************************************************************/
 
 /** @noinspection PhpIncompatibleReturnTypeInspection */
+
 namespace ILIAS\GlobalScreen;
 
 use ILIAS\GlobalScreen\Collector\CollectorFactory;
@@ -56,7 +59,7 @@ class Services
      * @return MainMenuItemFactory
      * @see MainMenuItemFactory
      */
-    public function mainBar() : MainMenuItemFactory
+    public function mainBar(): MainMenuItemFactory
     {
         return $this->get(MainMenuItemFactory::class);
     }
@@ -64,7 +67,7 @@ class Services
     /**
      * @return MetaBarItemFactory
      */
-    public function metaBar() : MetaBarItemFactory
+    public function metaBar(): MetaBarItemFactory
     {
         return $this->get(MetaBarItemFactory::class);
     }
@@ -73,7 +76,7 @@ class Services
      * @return ToolServices
      * @see ToolServices
      */
-    public function tool() : ToolServices
+    public function tool(): ToolServices
     {
         return $this->get(ToolServices::class);
     }
@@ -81,7 +84,7 @@ class Services
     /**
      * @return LayoutServices
      */
-    public function layout() : LayoutServices
+    public function layout(): LayoutServices
     {
         return $this->getWithArgument(LayoutServices::class, $this->resource_version);
     }
@@ -89,7 +92,7 @@ class Services
     /**
      * @return NotificationServices
      */
-    public function notifications() : NotificationServices
+    public function notifications(): NotificationServices
     {
         return $this->get(NotificationServices::class);
     }
@@ -97,7 +100,7 @@ class Services
     /**
      * @return CollectorFactory
      */
-    public function collector() : CollectorFactory
+    public function collector(): CollectorFactory
     {
         return $this->getWithArgument(CollectorFactory::class, $this->provider_factory);
     }
@@ -106,7 +109,7 @@ class Services
      * @return IdentificationFactory
      * @see IdentificationFactory
      */
-    public function identification() : IdentificationFactory
+    public function identification(): IdentificationFactory
     {
         return $this->getWithArgument(IdentificationFactory::class, $this->provider_factory);
     }

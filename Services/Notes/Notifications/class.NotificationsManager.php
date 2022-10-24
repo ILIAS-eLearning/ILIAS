@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -49,7 +51,7 @@ class NotificationsManager
     public function sendNotifications(
         Note $note,
         bool $a_changed = false
-    ) : void {
+    ): void {
         $settings = $this->settings;
         $access = $this->access;
 
@@ -173,7 +175,7 @@ class NotificationsManager
         array $observer,
         string $action,
         Note $note
-    ) : void {
+    ): void {
         foreach ($observer as $item) {
             $context = $note->getContext();
             $param[] = $context->getObjId();

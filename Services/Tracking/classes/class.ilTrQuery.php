@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ class ilTrQuery
     public static function getObjectsStatusForUser(
         int $a_user_id,
         array $obj_refs
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -109,7 +111,7 @@ class ilTrQuery
         int $a_user_id,
         int $a_obj_id,
         array $a_objective_ids
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -153,7 +155,7 @@ class ilTrQuery
         int $a_user_id,
         int $a_parent_obj_id,
         array $a_sco_ids
-    ) : array {
+    ): array {
         self::refreshObjectsStatus(array($a_parent_obj_id), array($a_user_id));
 
         // import score from tracking data
@@ -221,7 +223,7 @@ class ilTrQuery
         int $a_user_id,
         int $a_parent_obj_id,
         array $a_item_ids
-    ) : array {
+    ): array {
         self::refreshObjectsStatus(array($a_parent_obj_id), array($a_user_id));
 
         switch (ilObject::_lookupType($a_parent_obj_id)) {
@@ -279,7 +281,7 @@ class ilTrQuery
         ?array $a_additional_fields = null,
         ?int $check_agreement = null,
         ?array $privacy_fields = null
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -336,7 +338,6 @@ class ilTrQuery
             $udf_order = $a_order_field;
             $a_order_field = null;
         }
-
         $result = self::executeQueries(
             $queries,
             $a_order_field,
@@ -375,7 +376,7 @@ class ilTrQuery
         ?int $a_check_agreement = null,
         ?array $a_privacy_fields = null,
         ?array $a_filters = null
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -494,7 +495,7 @@ class ilTrQuery
         ?array $a_filters = null,
         ?array $a_additional_fields = null,
         bool $use_collection = true
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -675,7 +676,7 @@ class ilTrQuery
     /**
      * Get sub-item object type for parent
      */
-    public static function getSubItemType(int $a_parent_obj_id) : string
+    public static function getSubItemType(int $a_parent_obj_id): string
     {
         switch (ilObject::_lookupType($a_parent_obj_id)) {
             case "lm":
@@ -693,7 +694,7 @@ class ilTrQuery
     protected static function getSessionData(
         int $a_user_id,
         array $obj_ids
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -745,7 +746,7 @@ class ilTrQuery
         ?array $a_filters = null,
         ?array $a_additional_fields = null,
         ?array $a_preselected_obj_ids = null
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -815,7 +816,7 @@ class ilTrQuery
         int $a_ref_id,
         array $fields,
         ?array $a_filters = null
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -907,7 +908,7 @@ class ilTrQuery
         string $field,
         string $base_query,
         ?string $alias = null
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -946,7 +947,7 @@ class ilTrQuery
      * @param int $a_ref_id
      * @return    array|null array or null if no users can bedetermined for object.
      */
-    public static function getParticipantsForObject(int $a_ref_id) : ?array
+    public static function getParticipantsForObject(int $a_ref_id): ?array
     {
         global $DIC;
 
@@ -1077,7 +1078,7 @@ class ilTrQuery
         array $where,
         array $a_filters = null,
         bool $a_aggregate = false
-    ) : string {
+    ): string {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -1278,13 +1279,13 @@ class ilTrQuery
 
                     case "spent_seconds":
                         if (!$a_aggregate) {
-                            if (isset($value["from"])) {
+                            if (isset($value["from"]) && $value["from"] > 0) {
                                 $where[] = "(read_event." . $id . "+read_event.childs_" . $id . ") >= " . $ilDB->quote(
                                     $value["from"],
                                     "integer"
                                 );
                             }
-                            if (isset($value["to"])) {
+                            if (isset($value["to"]) && $value["to"] > 0) {
                                 $where[] = "((read_event." . $id . "+read_event.childs_" . $id . ") <= " . $ilDB->quote(
                                     $value["to"],
                                     "integer"
@@ -1292,13 +1293,13 @@ class ilTrQuery
                                     " OR (read_event." . $id . "+read_event.childs_" . $id . ") IS NULL)";
                             }
                         } else {
-                            if (isset($value["from"])) {
+                            if (isset($value["from"]) && $value["from"] > 0) {
                                 $having[] = "ROUND(AVG(read_event." . $id . "+read_event.childs_" . $id . ")) >= " . $ilDB->quote(
                                     $value["from"],
                                     "integer"
                                 );
                             }
-                            if (isset($value["to"])) {
+                            if (isset($value["to"]) && $value["to"] > 0) {
                                 $having[] = "ROUND(AVG(read_event." . $id . "+read_event.childs_" . $id . ")) <= " . $ilDB->quote(
                                     $value["to"],
                                     "integer"
@@ -1330,7 +1331,7 @@ class ilTrQuery
         array &$a_fields,
         array $a_additional_fields = null,
         bool $a_aggregate = false
-    ) : array {
+    ): array {
         if ($a_additional_fields === null || !count($a_additional_fields)) {
             return [];
         }
@@ -1436,7 +1437,7 @@ class ilTrQuery
         bool $use_collection = true,
         bool $a_refresh_status = true,
         ?array $a_user_ids = null
-    ) : array {
+    ): array {
         $object_ids = array($a_parent_obj_id);
         $ref_ids = array($a_parent_obj_id => $a_parent_ref_id);
         $objectives_parent_id = $scorm = $subitems = false;
@@ -1514,7 +1515,7 @@ class ilTrQuery
         int $a_parent_ref_id,
         array &$a_object_ids,
         array &$a_ref_ids
-    ) : void {
+    ): void {
         global $DIC;
 
         $tree = $DIC['tree'];
@@ -1557,18 +1558,16 @@ class ilTrQuery
         string $a_order_dir = "",
         int $a_offset = 0,
         int $a_limit = 9999
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
-
         $cnt = 0;
         $subqueries = array();
         foreach ($queries as $item) {
             // ugly "having" hack because of summary view
-            ilLoggerFactory::getLogger('root')->dump($item);
-            $item['fields'] = str_replace("[[--HAVING", "HAVING", $item['fields']);
-            $item['fields'] = str_replace("HAVING--]]", "", $item['fields']);
+            $item['query'] = str_replace("[[--HAVING", "HAVING", $item['query']);
+            $item['query'] = str_replace("HAVING--]]", "", $item['query']);
 
             if (!isset($item["count"])) {
                 $count_field = $item["fields"];
@@ -1613,7 +1612,6 @@ class ilTrQuery
             $offset = $a_offset;
             $limit = $a_limit;
             $ilDB->setLimit($limit, $offset);
-
             $set = $ilDB->query($query);
             while ($rec = $ilDB->fetchAssoc($set)) {
                 $result[] = $rec;
@@ -1640,9 +1638,8 @@ class ilTrQuery
         ?array $a_additional_fields = null,
         ?array $a_privacy_fields = null,
         ?int $a_check_agreement = null
-    ) : array {
+    ): array {
         global $DIC;
-
         $ilDB = $DIC->database();
 
         $result = array("cnt" => 0, "set" => null);
@@ -1708,17 +1705,17 @@ class ilTrQuery
                 if ($raw["cnt"]) {
                     // convert to final structure
                     foreach ($raw["set"] as $row) {
-                        $result["set"][(int) $row["usr_id"]]["login"] = $row["login"];
-                        $result["set"][(int) $row["usr_id"]]["usr_id"] = (int) $row["usr_id"];
+                        $result["set"][(int) $row["usr_id"]]["login"] = ($row["login"] ?? '');
+                        $result["set"][(int) $row["usr_id"]]["usr_id"] = (int) ($row["usr_id"] ?? 0);
 
                         // #14953
-                        $result["set"][(int) $row["usr_id"]]["obj_" . $obj_id] = (int) $row["status"];
-                        $result["set"][(int) $row["usr_id"]]["obj_" . $obj_id . "_perc"] = (int) $row["percentage"];
+                        $result["set"][(int) $row["usr_id"]]["obj_" . $obj_id] = (int) ($row["status"] ?? 0);
+                        $result["set"][(int) $row["usr_id"]]["obj_" . $obj_id . "_perc"] = (int) ($row["percentage"] ?? 0);
                         if ($obj_id == $parent_obj_id) {
-                            $result["set"][(int) $row["usr_id"]]["status_changed"] = (int) $row["status_changed"];
-                            $result["set"][(int) $row["usr_id"]]["last_access"] = (int) $row["last_access"];
-                            $result["set"][(int) $row["usr_id"]]["spent_seconds"] = (int) $row["spent_seconds"];
-                            $result["set"][(int) $row["usr_id"]]["read_count"] = (int) $row["read_count"];
+                            $result["set"][(int) $row["usr_id"]]["status_changed"] = (int) ($row["status_changed"] ?? 0);
+                            $result["set"][(int) $row["usr_id"]]["last_access"] = (int) ($row["last_access"] ?? 0);
+                            $result["set"][(int) $row["usr_id"]]["spent_seconds"] = (int) ($row["spent_seconds"] ?? 0);
+                            $result["set"][(int) $row["usr_id"]]["read_count"] = (int) ($row["read_count"] ?? 0);
                         }
 
                         // @todo int cast?
@@ -1763,7 +1760,7 @@ class ilTrQuery
     public static function getUserObjectiveMatrix(
         int $a_parent_obj_id,
         array $a_users
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -1828,7 +1825,7 @@ class ilTrQuery
         array $a_ref_ids,
         string $a_year,
         ?string $a_month = null
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -1873,13 +1870,16 @@ class ilTrQuery
         $sql .= " GROUP BY obj_id," . $column;
         $set = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($set)) {
+            if (!isset($res[(int) $row["obj_id"]][$row[$column]]["users"])) {
+                $res[(int) $row["obj_id"]][$row[$column]]["users"] = 0;
+            }
             $res[(int) $row["obj_id"]][$row[$column]]["users"] += (int) $row["counter"];
         }
 
         return $res;
     }
 
-    public static function getObjectTypeStatistics() : array
+    public static function getObjectTypeStatistics(): array
     {
         global $DIC;
 
@@ -1939,7 +1939,7 @@ class ilTrQuery
         return $res;
     }
 
-    public static function getWorkspaceBlogs(?string $a_title = null) : array
+    public static function getWorkspaceBlogs(?string $a_title = null): array
     {
         global $DIC;
 
@@ -1969,7 +1969,7 @@ class ilTrQuery
         return $res;
     }
 
-    public static function getPortfolios(?string $a_title = null) : array
+    public static function getPortfolios(?string $a_title = null): array
     {
         global $DIC;
 
@@ -2001,7 +2001,7 @@ class ilTrQuery
         array $a_ref_ids,
         string $a_year,
         ?string $a_month = null
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -2029,7 +2029,7 @@ class ilTrQuery
         return $res;
     }
 
-    public static function getObjectStatisticsMonthlySummary() : array
+    public static function getObjectStatisticsMonthlySummary(): array
     {
         global $DIC;
 
@@ -2050,7 +2050,7 @@ class ilTrQuery
         return $res;
     }
 
-    public static function deleteObjectStatistics(array $a_months) : void
+    public static function deleteObjectStatistics(array $a_months): void
     {
         global $DIC;
 
@@ -2095,7 +2095,7 @@ class ilTrQuery
         ?int $a_root = null,
         ?array $a_hidden = null,
         ?array $a_preset_obj_ids = null
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -2167,7 +2167,7 @@ class ilTrQuery
     protected static function refreshObjectsStatus(
         array $a_obj_ids,
         ?array $a_users = null
-    ) : void {
+    ): void {
         foreach ($a_obj_ids as $obj_id) {
             ilLPStatus::checkStatusForObject($obj_id, $a_users);
         }
@@ -2176,7 +2176,7 @@ class ilTrQuery
     /**
      * Get last update info for object statistics
      */
-    public static function getObjectStatisticsLogInfo() : array
+    public static function getObjectStatisticsLogInfo(): array
     {
         global $DIC;
 
@@ -2193,7 +2193,7 @@ class ilTrQuery
         int $a_year,
         int $a_month = null,
         bool $a_group_by_day = false
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -2229,7 +2229,7 @@ class ilTrQuery
     public static function getObjectTypeStatisticsPerMonth(
         string $a_aggregation,
         ?string $a_year = null
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];

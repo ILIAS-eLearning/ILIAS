@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Services as HTTPService;
 
@@ -71,12 +73,12 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         $this->addCommandButton('updateLinks', $this->lng->txt('save'));
     }
 
-    public function setInvalidLinks(array $a_links) : void
+    public function setInvalidLinks(array $a_links): void
     {
         $this->invalid = $a_links;
     }
 
-    public function getInvalidLinks() : array
+    public function getInvalidLinks(): array
     {
         return $this->invalid;
     }
@@ -84,7 +86,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
     /**
      * @param int[] $a_link_ids
      */
-    public function parseSelectedLinks(array $a_link_ids) : void
+    public function parseSelectedLinks(array $a_link_ids): void
     {
         $rows = [];
 
@@ -109,7 +111,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         $this->setData($rows);
     }
 
-    public function updateFromPost() : void
+    public function updateFromPost(): void
     {
         $request_link_info = (array) (
             $this->http->request()
@@ -132,7 +134,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         $this->setData($rows);
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $rows = [];
 
@@ -166,7 +168,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         $this->setData($rows);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if (!stristr($a_set['target'], '|')) {
             $this->tpl->setCurrentBlock('external');

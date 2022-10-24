@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -31,7 +33,7 @@
 */
 class ilLuceneQueryInputGUI extends ilTextInputGUI
 {
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $ok = parent::checkInput();
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Exercise;
 
 /**
@@ -35,7 +37,7 @@ class InternalRepoService
         $this->submission_repo = new Submission\SubmissionDBRepository($db);
     }
 
-    public function assignment() : Assignment\RepoService
+    public function assignment(): Assignment\RepoService
     {
         return new Assignment\RepoService(
             $this->data,
@@ -43,7 +45,7 @@ class InternalRepoService
         );
     }
 
-    public function submission() : Submission\SubmissionRepositoryInterface
+    public function submission(): Submission\SubmissionRepositoryInterface
     {
         return $this->submission_repo;
     }

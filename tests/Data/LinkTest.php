@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\Data\Link;
 use PHPUnit\Framework\TestCase;
@@ -12,14 +14,14 @@ class DataLinkTest extends TestCase
     private string $label;
     private \ILIAS\Data\URI $url;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->f = new ILIAS\Data\Factory();
         $this->label = 'ILIAS Homepage';
         $this->url = $this->f->uri('https://www.ilias.de');
     }
-    
-    public function testFactory() : Link
+
+    public function testFactory(): Link
     {
         $link = $this->f->link($this->label, $this->url);
         $this->assertInstanceOf(Link::class, $link);
@@ -29,7 +31,7 @@ class DataLinkTest extends TestCase
     /**
      * @depends testFactory
      */
-    public function testValues(Link $link) : void
+    public function testValues(Link $link): void
     {
         $this->assertEquals(
             $this->label,

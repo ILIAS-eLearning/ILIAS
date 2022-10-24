@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
 use ILIAS\Refinery\Factory as Refinery;
@@ -26,7 +28,8 @@ use GuzzleHttp\Psr7\Response;
 /**
  * Class ilCtrl provides processing control methods. A global
  * instance is available through $DIC->ctrl() or $ilCtrl.
- * @author Thibeau Fuhrer <thf@studer.raimann.ch>
+ * @author       Thibeau Fuhrer <thf@studer.raimann.ch>
+ * @noinspection AutoloadingIssuesInspection
  */
 class ilCtrl implements ilCtrlInterface
 {
@@ -147,7 +150,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function callBaseClass(string $a_base_class = null) : void
+    public function callBaseClass(string $a_base_class = null): void
     {
         // prioritise the context's baseclass over the given one.
         $a_base_class = $this->context->getBaseClass() ?? $a_base_class;
@@ -199,10 +202,9 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function getHTML(object $a_gui_object, array $a_parameters = null) : string
+    public function getHTML(object $a_gui_object, array $a_parameters = null): string
     {
         $class_name = get_class($a_gui_object);
-
         // @TODO: remove this check once an interface for command classes exists.
         if (!method_exists($a_gui_object, 'getHTML')) {
             throw new ilCtrlException("$class_name doesn't implement getHTML().");
@@ -214,15 +216,19 @@ class ilCtrl implements ilCtrlInterface
             ->setCmdClass($class_name)
             ->setCmdMode(self::CMD_MODE_HTML);
 
-        return (null !== $a_parameters) ?
+        $html = (null !== $a_parameters) ?
             $a_gui_object->getHTML($a_parameters) :
             $a_gui_object->getHTML();
+
+        $this->context->popCmdClass();
+
+        return $html;
     }
 
     /**
      * @inheritDoc
      */
-    public function getCmd(string $fallback_command = null) : ?string
+    public function getCmd(string $fallback_command = null): ?string
     {
         // retrieve $_GET and $_POST parameters.
         $post_command = $this->getPostCommand();
@@ -269,7 +275,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function setCmd(?string $a_cmd) : void
+    public function setCmd(?string $a_cmd): void
     {
         if (!empty($a_cmd)) {
             $this->context->setCmd($a_cmd);
@@ -281,7 +287,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function getCmdClass() : ?string
+    public function getCmdClass(): ?string
     {
         return $this->context->getCmdClass() ?? '';
     }
@@ -289,7 +295,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function setCmdClass($a_cmd_class) : void
+    public function setCmdClass($a_cmd_class): void
     {
         if (!empty($a_cmd_class)) {
             $this->context->setCmdClass($a_cmd_class);
@@ -301,7 +307,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function getNextClass($a_gui_class = null) : ?string
+    public function getNextClass($a_gui_class = null): ?string
     {
         if (null === $a_gui_class && null === $this->exec_object) {
             return '';
@@ -325,7 +331,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function saveParameter(object $a_gui_obj, $a_parameter) : void
+    public function saveParameter(object $a_gui_obj, $a_parameter): void
     {
         $this->saveParameterByClass($this->getClassByObject($a_gui_obj), $a_parameter);
     }
@@ -333,7 +339,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function saveParameterByClass(string $a_class, $a_parameter) : void
+    public function saveParameterByClass(string $a_class, $a_parameter): void
     {
         if (!empty($a_parameter)) {
             if (is_array($a_parameter)) {
@@ -349,7 +355,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function setParameter(object $a_gui_obj, string $a_parameter, $a_value) : void
+    public function setParameter(object $a_gui_obj, string $a_parameter, $a_value): void
     {
         $this->setParameterByClass($this->getClassByObject($a_gui_obj), $a_parameter, $a_value);
     }
@@ -357,7 +363,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function setParameterByClass(string $a_class, string $a_parameter, $a_value) : void
+    public function setParameterByClass(string $a_class, string $a_parameter, $a_value): void
     {
         $this->structure->setTemporaryParameterByClass($a_class, $a_parameter, $a_value);
     }
@@ -365,7 +371,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function getParameterArray(object $a_gui_obj) : array
+    public function getParameterArray(object $a_gui_obj): array
     {
         return $this->getParameterArrayByClass($this->getClassByObject($a_gui_obj));
     }
@@ -373,7 +379,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function getParameterArrayByClass(string $a_class) : array
+    public function getParameterArrayByClass(string $a_class): array
     {
         if (null === $this->structure->getClassCidByName($a_class)) {
             throw new ilCtrlException("Cannot find provided class '$a_class' in the control structure.");
@@ -402,7 +408,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function clearParameters(object $a_gui_obj) : void
+    public function clearParameters(object $a_gui_obj): void
     {
         $this->clearParametersByClass($this->getClassByObject($a_gui_obj));
     }
@@ -410,7 +416,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function clearParametersByClass(string $a_class) : void
+    public function clearParametersByClass(string $a_class): void
     {
         // apparently permanent parameters should not be removable,
         // therefore the line below stays commented:
@@ -421,7 +427,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function clearParameterByClass(string $a_class, string $a_parameter) : void
+    public function clearParameterByClass(string $a_class, string $a_parameter): void
     {
         $this->structure->removeSingleParameterByClass($a_class, $a_parameter);
     }
@@ -435,7 +441,7 @@ class ilCtrl implements ilCtrlInterface
         string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
-    ) : string {
+    ): string {
         return $this->getLinkTargetByClass(
             $this->getClassByObject($a_gui_obj),
             $a_cmd,
@@ -454,7 +460,7 @@ class ilCtrl implements ilCtrlInterface
         string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
-    ) : string {
+    ): string {
         return $this->getTargetUrl(
             $a_class,
             $a_cmd,
@@ -473,7 +479,7 @@ class ilCtrl implements ilCtrlInterface
         string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
-    ) : string {
+    ): string {
         return $this->getFormActionByClass(
             $this->getClassByObject($a_gui_obj),
             $a_fallback_cmd,
@@ -492,7 +498,7 @@ class ilCtrl implements ilCtrlInterface
         string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
-    ) : string {
+    ): string {
         return $this->getTargetUrl(
             $a_class,
             $a_fallback_cmd,
@@ -511,7 +517,7 @@ class ilCtrl implements ilCtrlInterface
         string $a_cmd = null,
         string $a_anchor = null,
         bool $is_async = false
-    ) : void {
+    ): void {
         $this->redirectByClass(
             $this->getClassByObject($a_gui_obj),
             $a_cmd,
@@ -528,7 +534,7 @@ class ilCtrl implements ilCtrlInterface
         string $a_cmd = null,
         string $a_anchor = null,
         bool $is_async = false
-    ) : void {
+    ): void {
         $this->redirectToURL(
             $this->getLinkTargetByClass(
                 $a_class,
@@ -542,7 +548,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function redirectToURL(string $target_url) : void
+    public function redirectToURL(string $target_url): void
     {
         // prepend the ILIAS HTTP path if it wasn't already.
         if (defined("ILIAS_HTTP_PATH") &&
@@ -609,7 +615,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function setContextObject(int $obj_id, string $obj_type) : void
+    public function setContextObject(int $obj_id, string $obj_type): void
     {
         // cannot process object without object type.
         if (!empty($obj_type)) {
@@ -621,7 +627,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function getContextObjId() : ?int
+    public function getContextObjId(): ?int
     {
         return $this->context->getObjId();
     }
@@ -629,7 +635,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function getContextObjType() : ?string
+    public function getContextObjType(): ?string
     {
         return $this->context->getObjType();
     }
@@ -637,7 +643,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function getCallHistory() : array
+    public function getCallHistory(): array
     {
         return $this->stacktrace;
     }
@@ -645,7 +651,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function lookupClassPath(string $a_class) : string
+    public function lookupClassPath(string $a_class): string
     {
         $path = $this->structure->getRelativePathByName($a_class);
         if (null === $path) {
@@ -658,7 +664,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function getClassForClasspath(string $a_class_path) : string
+    public function getClassForClasspath(string $a_class_path): string
     {
         $path_info = pathinfo($a_class_path);
 
@@ -668,7 +674,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function setTargetScript(string $a_target_script) : void
+    public function setTargetScript(string $a_target_script): void
     {
         $this->context->setTargetScript($a_target_script);
     }
@@ -676,7 +682,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function isAsynch() : bool
+    public function isAsynch(): bool
     {
         return $this->context->isAsync();
     }
@@ -684,7 +690,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function setReturn(object $a_gui_obj, string $a_cmd = null) : void
+    public function setReturn(object $a_gui_obj, string $a_cmd = null): void
     {
         $this->setReturnByClass($this->getClassByObject($a_gui_obj), $a_cmd);
     }
@@ -692,7 +698,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function setReturnByClass(string $a_class, string $a_cmd = null) : void
+    public function setReturnByClass(string $a_class, string $a_cmd = null): void
     {
         $this->structure->setReturnTargetByClass(
             $a_class,
@@ -706,7 +712,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function returnToParent(object $a_gui_obj, string $a_anchor = null) : void
+    public function returnToParent(object $a_gui_obj, string $a_anchor = null): void
     {
         $class_name = $this->getClassByObject($a_gui_obj);
         $target_url = $this->getParentReturnByClass($class_name);
@@ -729,7 +735,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function getParentReturn(object $a_gui_obj) : ?string
+    public function getParentReturn(object $a_gui_obj): ?string
     {
         return $this->getParentReturnByClass($this->getClassByObject($a_gui_obj));
     }
@@ -737,7 +743,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function getParentReturnByClass(string $a_class) : ?string
+    public function getParentReturnByClass(string $a_class): ?string
     {
         $path = $this->path_factory->find($this->context, $a_class);
         if (null !== $path->getCidPath()) {
@@ -756,7 +762,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function getRedirectSource() : ?string
+    public function getRedirectSource(): ?string
     {
         return $this->context->getRedirectSource();
     }
@@ -764,7 +770,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function insertCtrlCalls($a_parent, $a_child, string $a_comp_prefix) : void
+    public function insertCtrlCalls($a_parent, $a_child, string $a_comp_prefix): void
     {
         throw new ilCtrlException(__METHOD__ . " is deprecated and must not be used.");
     }
@@ -772,7 +778,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function checkCurrentPathForClass(string $gui_class) : bool
+    public function checkCurrentPathForClass(string $gui_class): bool
     {
         $class_cid = $this->structure->getClassCidByName($gui_class);
         if (null === $class_cid) {
@@ -788,7 +794,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function getCurrentClassPath() : array
+    public function getCurrentClassPath(): array
     {
         if (null === $this->context->getPath()->getCidPath()) {
             return [];
@@ -808,7 +814,7 @@ class ilCtrl implements ilCtrlInterface
      * @param string $parameter_name
      * @return string|null
      */
-    private function getQueryParam(string $parameter_name) : ?string
+    private function getQueryParam(string $parameter_name): ?string
     {
         if ($this->get_parameters->has($parameter_name)) {
             return $this->get_parameters->retrieve(
@@ -823,12 +829,12 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @deprecated
      */
-    private function getTableCommand() : ?string
+    private function getTableCommand(): ?string
     {
         if ($this->post_parameters->has('table_top_cmd')) {
             return $this->post_parameters->retrieve(
                 'table_top_cmd',
-                $this->refinery->custom()->transformation(function ($item) : ?string {
+                $this->refinery->custom()->transformation(function ($item): ?string {
                     return is_array($item) ? key($item) : null;
                 })
             );
@@ -853,20 +859,20 @@ class ilCtrl implements ilCtrlInterface
      * Returns the current $_POST command.
      * @return string|null
      */
-    private function getPostCommand() : ?string
+    private function getPostCommand(): ?string
     {
         if ($this->post_parameters->has(self::PARAM_CMD)) {
             return $this->post_parameters->retrieve(
                 self::PARAM_CMD,
                 $this->refinery->custom()->transformation(
-                    static function ($value) {
+                    static function ($value): ?string {
                         if (!empty($value)) {
                             if (is_array($value)) {
                                 // this most likely only works by accident, but
                                 // the selected or clicked command button will
                                 // always be sent as first array entry. This
                                 // should definitely be done differently.
-                                return array_key_first($value);
+                                return (string) array_key_first($value);
                             }
 
                             return (string) $value;
@@ -900,7 +906,7 @@ class ilCtrl implements ilCtrlInterface
         bool $is_async = false,
         bool $is_escaped = false,
         bool $is_post = false
-    ) : ?string {
+    ): ?string {
         if (empty($a_class)) {
             throw new ilCtrlException(__METHOD__ . " was provided with an empty class or class-array.");
         }
@@ -1018,7 +1024,7 @@ class ilCtrl implements ilCtrlInterface
      * @param string $target_url
      * @return string
      */
-    private function modifyUrlWithPluginHooks(string $target_url) : string
+    private function modifyUrlWithPluginHooks(string $target_url): string
     {
         $ui_plugins = $this->component_factory->getActivePluginsInSlot("uihk");
         foreach ($ui_plugins as $plugin_instance) {
@@ -1052,7 +1058,7 @@ class ilCtrl implements ilCtrlInterface
      * @param string|null $cmd
      * @return bool
      */
-    private function isCmdSecure(bool $is_post, string $cmd_class, string $cmd = null) : bool
+    private function isCmdSecure(bool $is_post, string $cmd_class, string $cmd = null): bool
     {
         // if no command is specified, the command is
         // considered safe if it's not a POST command.
@@ -1098,7 +1104,7 @@ class ilCtrl implements ilCtrlInterface
         string $class_name,
         string $target_url,
         bool $is_escaped = false
-    ) : string {
+    ): string {
         $class_parameters = $this->getParameterArrayByClass($class_name);
         if (!empty($class_parameters)) {
             foreach ($class_parameters as $key => $value) {
@@ -1127,7 +1133,7 @@ class ilCtrl implements ilCtrlInterface
         string $parameter_name,
         $value,
         bool $is_escaped = false
-    ) : string {
+    ): string {
         // transform value into a string, since null will fail we can
         // (temporarily) use the null coalescing operator.
         $value = $this->refinery->kindlyTo()->string()->transform($value ?? '');
@@ -1163,7 +1169,7 @@ class ilCtrl implements ilCtrlInterface
      * @param string $class_name
      * @param string $cmd_mode
      */
-    private function populateCall(string $class_name, string $cmd_mode) : void
+    private function populateCall(string $class_name, string $cmd_mode): void
     {
         $obj_name = $this->structure->getObjNameByName($class_name);
 
@@ -1180,7 +1186,7 @@ class ilCtrl implements ilCtrlInterface
      * @param object|string $object
      * @return string
      */
-    private function getClassByObject($object) : string
+    private function getClassByObject($object): string
     {
         return (is_object($object)) ? get_class($object) : $object;
     }

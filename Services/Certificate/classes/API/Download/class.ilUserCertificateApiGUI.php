@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -61,7 +63,7 @@ class ilUserCertificateApiGUI
         $this->language->loadLanguageModule('cert');
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
 
@@ -75,7 +77,7 @@ class ilUserCertificateApiGUI
         }
     }
 
-    public function download() : void
+    public function download(): void
     {
         $userCertificateRepository = new ilUserCertificateRepository(null, $this->certificateLogger);
         $pdfGenerator = new ilPdfGenerator($userCertificateRepository, $this->certificateLogger);

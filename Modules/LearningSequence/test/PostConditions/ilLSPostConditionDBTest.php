@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 
 class ilLSPostConditionDBTest extends TestCase
@@ -25,19 +27,19 @@ class ilLSPostConditionDBTest extends TestCase
      */
     protected $db;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->db = $this->createMock(ilDBInterface::class);
     }
 
-    public function testCreateObject() : void
+    public function testCreateObject(): void
     {
         $obj = new ilLSPostConditionDB($this->db);
 
         $this->assertInstanceOf(ilLSPostConditionDB::class, $obj);
     }
 
-    public function testSelectWithEmptyArray() : void
+    public function testSelectWithEmptyArray(): void
     {
         $obj = new ilLSPostConditionDB($this->db);
 
@@ -47,7 +49,7 @@ class ilLSPostConditionDBTest extends TestCase
         $this->assertEmpty($result);
     }
 
-    public function testSelectWithNoDBResults() : void
+    public function testSelectWithNoDBResults(): void
     {
         $sql =
               "SELECT ref_id, condition_operator, value" . PHP_EOL
@@ -81,7 +83,7 @@ class ilLSPostConditionDBTest extends TestCase
         $this->assertNull($result[1]->getValue());
     }
 
-    public function testSelectWithDBResults() : void
+    public function testSelectWithDBResults(): void
     {
         $sql =
               "SELECT ref_id, condition_operator, value" . PHP_EOL
@@ -129,7 +131,7 @@ class ilLSPostConditionDBTest extends TestCase
         $this->assertEquals(12, $result[1]->getValue());
     }
 
-    public function testDelete() : void
+    public function testDelete(): void
     {
         $sql =
               "DELETE FROM post_conditions" . PHP_EOL

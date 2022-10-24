@@ -28,7 +28,7 @@ class ilMathTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->eval_math = new EvalMath();
     }
@@ -36,7 +36,7 @@ class ilMathTest extends TestCase
     /**
      * @dataProvider gcdData
      */
-    public function testGcd(string $a, string $b, string $result) : void
+    public function testGcd(string $a, string $b, string $result): void
     {
         $this->assertEquals($result, ilMath::getGreatestCommonDivisor($a, $b));
     }
@@ -44,7 +44,7 @@ class ilMathTest extends TestCase
     /**
      * @return array<int, array<string>>
      */
-    public function gcdData() : array
+    public function gcdData(): array
     {
         return [
             ['1254', '5298', '6'],

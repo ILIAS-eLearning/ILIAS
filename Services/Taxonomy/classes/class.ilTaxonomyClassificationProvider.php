@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Taxonomy classification provider
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -26,19 +26,19 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
     protected static array $valid_tax_map = [];
     protected int $incoming_id = 0;
 
-    public static function isActive(int $a_parent_ref_id, int $a_parent_obj_id, string $a_parent_obj_type) : bool
+    public static function isActive(int $a_parent_ref_id, int $a_parent_obj_id, string $a_parent_obj_type): bool
     {
         return (bool) self::getActiveTaxonomiesForParentRefId($a_parent_ref_id);
     }
 
-    protected function init() : void
+    protected function init(): void
     {
         $params = $this->request->getQueryParams();
         $body = $this->request->getParsedBody();
         $this->incoming_id = (int) ($body["tax_node"] ?? ($params["tax_node"] ?? null));
     }
 
-    public function render(array &$a_html, object $a_parent_gui) : void
+    public function render(array &$a_html, object $a_parent_gui): void
     {
         foreach (self::$valid_tax_map[$this->parent_ref_id] as $tax_id) {
             $tax_exp = new ilTaxonomyExplorerGUI($a_parent_gui, "", (int) $tax_id, "", "");
@@ -61,7 +61,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
         }
     }
 
-    public function importPostData(?array $a_saved = null) : array
+    public function importPostData(?array $a_saved = null): array
     {
         $incoming_id = $this->incoming_id;
         if ($incoming_id !== 0) {
@@ -84,12 +84,12 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
     /**
      * @inheritDoc
      */
-    public function setSelection(array $a_value) : void
+    public function setSelection(array $a_value): void
     {
         $this->selection = $a_value;
     }
 
-    protected static function getActiveTaxonomiesForParentRefId(int $a_parent_ref_id) : int
+    protected static function getActiveTaxonomiesForParentRefId(int $a_parent_ref_id): int
     {
         global $DIC;
 
@@ -144,7 +144,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
         return 0;
     }
 
-    public function getFilteredObjects() : array
+    public function getFilteredObjects(): array
     {
         $tax_obj_ids = array();
         $tax_map = array();

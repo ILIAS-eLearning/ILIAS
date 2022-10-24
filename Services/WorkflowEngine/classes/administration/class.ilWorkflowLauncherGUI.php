@@ -40,7 +40,7 @@ class ilWorkflowLauncherGUI
      * @param array $input_vars
      * @return ilPropertyFormGUI
      */
-    public function getForm(array $input_vars) : ilPropertyFormGUI
+    public function getForm(array $input_vars): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('input_variables_required'));
@@ -69,7 +69,7 @@ class ilWorkflowLauncherGUI
         return $form;
     }
 
-    public function getRepositoryObjectSelector(array $config) : ilSelectInputGUI
+    public function getRepositoryObjectSelector(array $config): ilSelectInputGUI
     {
         global $DIC;
         $tree = $DIC->repositoryTree();

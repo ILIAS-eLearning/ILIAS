@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
@@ -28,15 +30,15 @@ use ILIAS\UI\Component\Symbol\Icon\Custom;
  */
 class IconTest extends ILIAS_UI_TestBase
 {
-    const ICON_PATH = __DIR__ . '/../../../../../templates/default/images/';
-    const ICON_PATH_REL = './templates/default/images/';
+    public const ICON_PATH = __DIR__ . '/../../../../../templates/default/images/';
+    public const ICON_PATH_REL = './templates/default/images/';
 
-    private function getIconFactory() : I\Component\Symbol\Icon\Factory
+    private function getIconFactory(): I\Component\Symbol\Icon\Factory
     {
         return new I\Component\Symbol\Icon\Factory();
     }
 
-    public function testConstruction() : void
+    public function testConstruction(): void
     {
         $f = $this->getIconFactory();
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Symbol\\Icon\\Factory", $f);
@@ -48,7 +50,7 @@ class IconTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Symbol\\Icon\\Custom", $ci);
     }
 
-    public function testAttributes() : void
+    public function testAttributes(): void
     {
         $f = $this->getIconFactory();
 
@@ -64,7 +66,7 @@ class IconTest extends ILIAS_UI_TestBase
         $this->assertEquals('K', $ico->getAbbreviation());
     }
 
-    public function testSizeModification() : void
+    public function testSizeModification(): void
     {
         $f = $this->getIconFactory();
         $ico = $f->standard('course', 'Kurs');
@@ -79,7 +81,7 @@ class IconTest extends ILIAS_UI_TestBase
         $this->assertEquals('small', $ico->getSize());
     }
 
-    public function testSizeModificationWrongParam() : void
+    public function testSizeModificationWrongParam(): void
     {
         try {
             $f = $this->getIconFactory();
@@ -91,7 +93,7 @@ class IconTest extends ILIAS_UI_TestBase
         }
     }
 
-    public function testDisabledModification() : void
+    public function testDisabledModification(): void
     {
         $f = $this->getIconFactory();
         $ico = $f->standard('course', 'Kurs');
@@ -103,7 +105,7 @@ class IconTest extends ILIAS_UI_TestBase
         $this->assertEquals(true, $ico->isDisabled());
     }
 
-    public function testDisabledModificationWrongParam() : void
+    public function testDisabledModificationWrongParam(): void
     {
         $f = $this->getIconFactory();
         $ico = $f->standard('course', 'Kurs');
@@ -111,7 +113,7 @@ class IconTest extends ILIAS_UI_TestBase
         $ico->withDisabled('true');
     }
 
-    public function testCustomPath() : void
+    public function testCustomPath(): void
     {
         $f = $this->getIconFactory();
 
@@ -119,7 +121,7 @@ class IconTest extends ILIAS_UI_TestBase
         $this->assertEquals('/some/path/', $ico->getIconPath());
     }
 
-    public function testRenderingStandard() : Standard
+    public function testRenderingStandard(): Standard
     {
         $ico = $this->getIconFactory()->standard('crs', 'Course', 'medium');
         $html = $this->normalizeHTML($this->getDefaultRenderer()->render($ico));
@@ -132,7 +134,7 @@ class IconTest extends ILIAS_UI_TestBase
     /**
      * @depends testRenderingStandard
      */
-    public function testRenderingStandardDisabled(Standard $ico) : void
+    public function testRenderingStandardDisabled(Standard $ico): void
     {
         $ico = $ico->withDisabled(true);
         $html = $this->normalizeHTML($this->getDefaultRenderer()->render($ico));
@@ -144,17 +146,17 @@ class IconTest extends ILIAS_UI_TestBase
     /**
      * @depends testRenderingStandard
      */
-    public function testRenderingStandardAbbreviation(Standard $ico) : void
+    public function testRenderingStandardAbbreviation(Standard $ico): void
     {
         $ico = $ico->withAbbreviation('CRS');
         $html = $this->normalizeHTML($this->getDefaultRenderer()->render($ico));
         $expected = <<<imgtag
-<img class="icon crs medium" src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCgkgdmlld0JveD0iMCAwIDMyMCAzMjAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDMyMCAzMjA7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+DQoJLnN0MHtjbGlwLXBhdGg6dXJsKCNTVkdJRF8wMDAwMDA5NjA1OTgwMDU5MzMxMjc1Mzc1MDAwMDAxMjkxMzk3MDgwMzcyOTI5MzcyM18pO2ZpbGw6IzUyNjY4Qzt9DQoJLnN0MXtmaWxsOm5vbmU7fQ0KPC9zdHlsZT4NCjxnPg0KCTxkZWZzPg0KCQk8cmVjdCBpZD0iU1ZHSURfMV8iIHg9IjU1IiB5PSI0MCIgd2lkdGg9IjIxMCIgaGVpZ2h0PSIyMzcuNSIvPg0KCTwvZGVmcz4NCgk8Y2xpcFBhdGggaWQ9IlNWR0lEXzAwMDAwMTIxMjY3MDI1NDYyNDg4Nzc4MTMwMDAwMDA1MzE3MDExNzgwNTUwODMxNzU4XyI+DQoJCTx1c2UgeGxpbms6aHJlZj0iI1NWR0lEXzFfIiAgc3R5bGU9Im92ZXJmbG93OnZpc2libGU7Ii8+DQoJPC9jbGlwUGF0aD4NCgk8cGF0aCBzdHlsZT0iY2xpcC1wYXRoOnVybCgjU1ZHSURfMDAwMDAxMjEyNjcwMjU0NjI0ODg3NzgxMzAwMDAwMDUzMTcwMTE3ODA1NTA4MzE3NThfKTtmaWxsOiM1MjY2OEM7IiBkPSJNMjUwLDE2NUg3MFY1NWgxODBWMTY1DQoJCXogTTEzMiwxODBIMTg4YzAuMSwwLjIsMC4xLDAuNCwwLjIsMC42TDIwNCwyMTVoLTg4bDE1LjgtMzQuNEMxMzEuOSwxODAuNCwxMzIsMTgwLjIsMTMyLDE4MCBNMjY1LDE3MFY1MGMwLTUuNS00LjUtMTAtMTAtMTBINjUNCgkJYy01LjUsMC0xMCw0LjUtMTAsMTB2MTIwYzAsNS41LDQuNSwxMCwxMCwxMGg1MC42bC0zOS45LDg2LjljLTEuNywzLjgtMC4xLDguMiwzLjcsOS45YzEsMC41LDIuMSwwLjcsMy4xLDAuNw0KCQljMi44LDAsNS42LTEuNiw2LjgtNC40bDE3LjUtMzguMWgxMDYuM2wxNy41LDM4LjFjMS4zLDIuOCw0LDQuNCw2LjgsNC40YzEsMCwyLjEtMC4yLDMuMS0wLjdjMy44LTEuNyw1LjQtNi4yLDMuNy05LjlMMjA0LjQsMTgwDQoJCUgyNTVDMjYwLjUsMTgwLDI2NSwxNzUuNSwyNjUsMTcwIi8+DQo8L2c+DQo8cmVjdCBjbGFzcz0ic3QxIiB3aWR0aD0iMzIwIiBoZWlnaHQ9IjMyMCIvPg0KPHRleHQKICAgc3R5bGU9IgogICAgICBmb250LXN0eWxlOm5vcm1hbDsKICAgICAgZm9udC13ZWlnaHQ6bm9ybWFsOwogICAgICBmb250LXNpemU6MTRweDsKICAgICAgZm9udC1mYW1pbHk6c2Fucy1zZXJpZjsKICAgICAgbGV0dGVyLXNwYWNpbmc6MHB4OwogICAgICBmaWxsOiMwMDA7CiAgICAgIGZpbGwtb3BhY2l0eToxOwogICAgIgogICAgeD0iNTAlIgogICAgeT0iNTUlIgogICAgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIKICAgIHRleHQtYW5jaG9yPSJtaWRkbGUiCiAgPkNSUzwvdGV4dD48L3N2Zz4=" alt="Course" data-abbreviation="CRS"/>
+<img class="icon crs medium" src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCgkgdmlld0JveD0iMCAwIDMyMCAzMjAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDMyMCAzMjA7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+DQoJLnN0MHtjbGlwLXBhdGg6dXJsKCNTVkdJRF8wMDAwMDA4MDE3OTA3MDMwNjQ3MTMxMjU3MDAwMDAwNzg1OTYxOTkxMTQ1NzE1MjM5MV8pO2ZpbGw6IzRDNjU4Njt9DQoJLnN0MXtmaWxsOm5vbmU7fQ0KPC9zdHlsZT4NCjxnPg0KCTxnPg0KCQk8ZGVmcz4NCgkJCTxyZWN0IGlkPSJTVkdJRF8xXyIgeD0iNTUiIHk9IjQwIiB3aWR0aD0iMjEwIiBoZWlnaHQ9IjIzNy41Ii8+DQoJCTwvZGVmcz4NCgkJPGNsaXBQYXRoIGlkPSJTVkdJRF8wMDAwMDE2NzM2MjYwODc4ODY3MDYzMDMwMDAwMDAwODg4OTk5NTQwMjk4MTcwOTk1M18iPg0KCQkJPHVzZSB4bGluazpocmVmPSIjU1ZHSURfMV8iICBzdHlsZT0ib3ZlcmZsb3c6dmlzaWJsZTsiLz4NCgkJPC9jbGlwUGF0aD4NCgkJPHBhdGggc3R5bGU9ImNsaXAtcGF0aDp1cmwoI1NWR0lEXzAwMDAwMTY3MzYyNjA4Nzg4NjcwNjMwMzAwMDAwMDA4ODg5OTk1NDAyOTgxNzA5OTUzXyk7ZmlsbDojNEM2NTg2OyIgZD0iTTI1MCwxNjVINzBWNTVoMTgwDQoJCQlWMTY1eiBNMTMyLDE4MGg1NmMwLjEsMC4yLDAuMSwwLjQsMC4yLDAuNkwyMDQsMjE1aC04OGwxNS44LTM0LjRDMTMxLjksMTgwLjQsMTMyLDE4MC4yLDEzMiwxODAgTTI2NSwxNzBWNTBjMC01LjUtNC41LTEwLTEwLTEwDQoJCQlINjVjLTUuNSwwLTEwLDQuNS0xMCwxMHYxMjBjMCw1LjUsNC41LDEwLDEwLDEwaDUwLjZsLTM5LjksODYuOWMtMS43LDMuOC0wLjEsOC4yLDMuNyw5LjljMSwwLjUsMi4xLDAuNywzLjEsMC43DQoJCQljMi44LDAsNS42LTEuNiw2LjgtNC40bDE3LjUtMzguMWgxMDYuM2wxNy41LDM4LjFjMS4zLDIuOCw0LDQuNCw2LjgsNC40YzEsMCwyLjEtMC4yLDMuMS0wLjdjMy44LTEuNyw1LjQtNi4yLDMuNy05LjlMMjA0LjQsMTgwDQoJCQlIMjU1QzI2MC41LDE4MCwyNjUsMTc1LjUsMjY1LDE3MCIvPg0KCTwvZz4NCjwvZz4NCjxyZWN0IGNsYXNzPSJzdDEiIHdpZHRoPSIzMjAiIGhlaWdodD0iMzIwIi8+DQo8dGV4dAogICBzdHlsZT0iCiAgICAgIGZvbnQtc3R5bGU6bm9ybWFsOwogICAgICBmb250LXdlaWdodDpub3JtYWw7CiAgICAgIGZvbnQtc2l6ZToxNHB4OwogICAgICBmb250LWZhbWlseTpzYW5zLXNlcmlmOwogICAgICBsZXR0ZXItc3BhY2luZzowcHg7CiAgICAgIGZpbGw6IzAwMDsKICAgICAgZmlsbC1vcGFjaXR5OjE7CiAgICAiCiAgICB4PSI1MCUiCiAgICB5PSI1NSUiCiAgICBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIgogICAgdGV4dC1hbmNob3I9Im1pZGRsZSIKICA+Q1JTPC90ZXh0Pjwvc3ZnPg==" alt="Course" data-abbreviation="CRS"/>
 imgtag;
         $this->assertEquals(trim($expected), trim($html));
     }
 
-    public function testRenderingCustom() : Custom
+    public function testRenderingCustom(): Custom
     {
         $path = './templates/default/images/icon_fold.svg';
         $ico = $this->getIconFactory()->custom($path, 'Custom', 'medium');
@@ -164,7 +166,7 @@ imgtag;
         return $ico;
     }
 
-    public function testAllStandardIconsExist() : void
+    public function testAllStandardIconsExist(): void
     {
         $f = $this->getIconFactory();
         $default_icons_abr = $f->standard("nothing", "nothing")->getAllStandardHandles();
@@ -174,11 +176,11 @@ imgtag;
             $this->assertTrue(file_exists($path), "Missing Standard Icon: " . $path);
         }
     }
-    
+
     /**
      * @depends testRenderingStandard
      */
-    public function testRenderingStandardJSBindable($ico) : void
+    public function testRenderingStandardJSBindable($ico): void
     {
         $ico = $ico->withAdditionalOnLoadCode(function ($id) {
             return 'alert();';

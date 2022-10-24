@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ class InterestedUserFieldChangeListenerTest extends ilUserBaseTest
 {
     private InterestedUserFieldChangeListener $interestedUserFieldChangeListener;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         global $DIC;
 
@@ -43,7 +45,7 @@ class InterestedUserFieldChangeListenerTest extends ilUserBaseTest
         );
     }
 
-    public function testGetName() : void
+    public function testGetName(): void
     {
         $this->assertEquals(
             "Test name",
@@ -51,7 +53,7 @@ class InterestedUserFieldChangeListenerTest extends ilUserBaseTest
         );
     }
 
-    public function testGetFieldName() : void
+    public function testGetFieldName(): void
     {
         $this->assertEquals(
             "Test fieldName",
@@ -59,7 +61,7 @@ class InterestedUserFieldChangeListenerTest extends ilUserBaseTest
         );
     }
 
-    public function testAddGetAttribute() : void
+    public function testAddGetAttribute(): void
     {
         $interestedUserFieldAttribute = $this->interestedUserFieldChangeListener->addAttribute("ABCD");
 

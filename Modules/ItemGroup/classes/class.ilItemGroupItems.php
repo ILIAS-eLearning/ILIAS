@@ -56,57 +56,57 @@ class ilItemGroupItems
         }
     }
 
-    public function setItemGroupId(int $a_val) : void
+    public function setItemGroupId(int $a_val): void
     {
         $this->item_group_id = $a_val;
     }
-    
-    public function getItemGroupId() : int
+
+    public function getItemGroupId(): int
     {
         return $this->item_group_id;
     }
-    
-    public function setItemGroupRefId(int $a_val) : void
+
+    public function setItemGroupRefId(int $a_val): void
     {
         $this->item_group_ref_id = $a_val;
     }
-    
-    public function getItemGroupRefId() : int
+
+    public function getItemGroupRefId(): int
     {
         return $this->item_group_ref_id;
     }
-    
+
     /**
      * @param int[] $a_val items (array of ref ids)
      */
-    public function setItems(array $a_val) : void
+    public function setItems(array $a_val): void
     {
         $this->items = $a_val;
     }
 
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->items;
     }
 
-    public function addItem(int $a_item_ref_id) : void
+    public function addItem(int $a_item_ref_id): void
     {
         if (!in_array($a_item_ref_id, $this->items)) {
             $this->items[] = $a_item_ref_id;
         }
     }
-    
-    public function delete() : void
+
+    public function delete(): void
     {
         $query = "DELETE FROM item_group_item " .
             "WHERE item_group_id = " . $this->db->quote($this->getItemGroupId(), 'integer');
         $this->db->manipulate($query);
     }
 
-    public function update() : void
+    public function update(): void
     {
         $this->delete();
-        
+
         foreach ($this->items as $item) {
             $query = "INSERT INTO item_group_item (item_group_id,item_ref_id) " .
                 "VALUES( " .
@@ -117,7 +117,7 @@ class ilItemGroupItems
         }
     }
 
-    public function read() : void
+    public function read(): void
     {
         $this->items = array();
         $set = $this->db->query(
@@ -129,18 +129,18 @@ class ilItemGroupItems
         }
     }
 
-    public function getAssignableItems() : array
+    public function getAssignableItems(): array
     {
         $objDefinition = $this->obj_def;
-    
+
         if ($this->getItemGroupRefId() <= 0) {
             return array();
         }
-        
+
         $parent_node = $this->tree->getNodeData(
             $this->tree->getParentId($this->getItemGroupRefId())
         );
-        
+
         $materials = array();
         $nodes = $this->tree->getChilds($parent_node["child"]);
 
@@ -151,27 +151,27 @@ class ilItemGroupItems
                 in_array($node['type'], array('sess', 'itgr', 'rolf', 'adm'))) {
                 continue;
             }
-            
+
             // filter hidden files
             // see http://www.ilias.de/mantis/view.php?id=10269
             if ($node['type'] == "file" &&
                 ilObjFileAccess::_isFileHidden($node['title'])) {
                 continue;
             }
-                        
+
             if ($objDefinition->isInactivePlugin($node['type'])) {
                 continue;
             }
 
             $materials[] = $node;
         }
-        
+
         $materials = ilArrayUtil::sortArray($materials, "title", "asc");
-        
+
         return $materials;
     }
 
-    public function getValidItems() : array
+    public function getValidItems(): array
     {
         $items = $this->getItems();
         $ass_items = $this->getAssignableItems();
@@ -187,14 +187,14 @@ class ilItemGroupItems
     public function cloneItems(
         int $a_source_id,
         int $a_copy_id
-    ) : void {
+    ): void {
         $ilLog = $this->log;
-        
+
         $ilLog->write(__METHOD__ . ': Begin cloning item group materials ... -' . $a_source_id . '-');
 
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $cwo->getMappings();
-        
+
         $new_items = array();
         // check: is this a ref id!?
         $source_ig = new ilItemGroupItems($a_source_id);
@@ -210,8 +210,8 @@ class ilItemGroupItems
         $this->update();
         $ilLog->write(__METHOD__ . ': Finished cloning item group items ...');
     }
-    
-    public static function _getItemsOfContainer(int $a_ref_id) : array
+
+    public static function _getItemsOfContainer(int $a_ref_id): array
     {
         global $DIC;
 
@@ -225,7 +225,7 @@ class ilItemGroupItems
         }
         $query = "SELECT item_ref_id FROM item_group_item " .
             "WHERE " . $ilDB->in('item_group_id', $itgr_ids, false, 'integer');
-            
+
 
         $res = $ilDB->query($query);
         $items = [];

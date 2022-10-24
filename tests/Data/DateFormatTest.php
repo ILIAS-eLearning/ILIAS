@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,13 +25,13 @@ use PHPUnit\Framework\TestCase;
 
 class DateFormatTest extends TestCase
 {
-    public function setUp() : void
+    public function setUp(): void
     {
         $f = new ILIAS\Data\Factory();
         $this->df = $f->dateFormat();
     }
 
-    public function testDateFormatFactory() : void
+    public function testDateFormatFactory(): void
     {
         $this->assertInstanceOf(DateFormat\DateFormat::class, $this->df->standard());
         $this->assertInstanceOf(DateFormat\DateFormat::class, $this->df->germanShort());
@@ -37,7 +39,7 @@ class DateFormatTest extends TestCase
         $this->assertInstanceOf(DateFormat\FormatBuilder::class, $this->df->custom());
     }
 
-    public function testDateFormatBuilderAndGetters() : void
+    public function testDateFormatBuilderAndGetters(): void
     {
         $expect = [
             '.', ',', '-', '/', ' ', 'd', 'jS', 'l', 'D', 'W', 'm', 'F', 'M', 'Y', 'y'
@@ -65,13 +67,13 @@ class DateFormatTest extends TestCase
         );
     }
 
-    public function testInvalidTokens() : void
+    public function testInvalidTokens(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new DateFormat\DateFormat(['x', '2']);
     }
 
-    public function test_applyTo() : void
+    public function test_applyTo(): void
     {
         $dt = new DateTimeImmutable("1985-04-05");
         $format = $this->df->germanShort();

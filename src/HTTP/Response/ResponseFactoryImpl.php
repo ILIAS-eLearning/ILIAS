@@ -33,11 +33,10 @@ use Psr\Http\Message\ResponseInterface;
  */
 class ResponseFactoryImpl implements ResponseFactory
 {
-
     /**
      * @inheritdoc
      */
-    public function create() : ResponseInterface
+    public function create(): ResponseInterface
     {
         return new Response();
     }

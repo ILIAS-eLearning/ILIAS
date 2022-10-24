@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,10 +29,10 @@ class HasNumbers extends Constraint
     public function __construct(Data\Factory $data_factory, ilLanguage $lng)
     {
         parent::__construct(
-            static function (Data\Password $value) : bool {
+            static function (Data\Password $value): bool {
                 return (bool) preg_match('/[0-9]/', $value->toString());
             },
-            static function ($value) : string {
+            static function ($value): string {
                 return "Password must contain numbers.";
             },
             $data_factory,

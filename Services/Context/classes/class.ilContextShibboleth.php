@@ -23,57 +23,57 @@
  */
 class ilContextShibboleth implements ilContextTemplate
 {
-    public static function supportsRedirects() : bool
-    {
-        return true;
-    }
-    
-    public static function hasUser() : bool
-    {
-        return true;
-    }
-    
-    public static function usesHTTP() : bool
-    {
-        return true;
-    }
-    
-    public static function hasHTML() : bool
-    {
-        return true;
-    }
-    
-    public static function usesTemplate() : bool
-    {
-        return true;
-    }
-    
-    public static function initClient() : bool
-    {
-        return true;
-    }
-    
-    public static function doAuthentication() : bool
-    {
-        return true;
-    }
-    
-    public static function supportsPersistentSessions() : bool
+    public static function supportsRedirects(): bool
     {
         return true;
     }
 
-    public static function supportsPushMessages() : bool
+    public static function hasUser(): bool
+    {
+        return true;
+    }
+
+    public static function usesHTTP(): bool
+    {
+        return true;
+    }
+
+    public static function hasHTML(): bool
+    {
+        return true;
+    }
+
+    public static function usesTemplate(): bool
+    {
+        return true;
+    }
+
+    public static function initClient(): bool
+    {
+        return true;
+    }
+
+    public static function doAuthentication(): bool
+    {
+        return true;
+    }
+
+    public static function supportsPersistentSessions(): bool
+    {
+        return true;
+    }
+
+    public static function supportsPushMessages(): bool
     {
         return false;
     }
 
-    public static function isSessionMainContext() : bool
+    public static function isSessionMainContext(): bool
     {
         return false;
     }
 
-    public static function modifyHttpPath(string $httpPath) : string
+    public static function modifyHttpPath(string $httpPath): string
     {
         return $httpPath;
     }

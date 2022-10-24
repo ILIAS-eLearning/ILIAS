@@ -48,7 +48,7 @@ class ilDerivedTaskProviderMasterFactory
     public function __construct(ilTaskService $service, $provider_factories = null)
     {
         if (is_null($provider_factories)) {
-            $this->provider_factories = array_map(fn ($class) : ilDerivedTaskProviderFactory => new $class($service), $this->default_provider_factories);
+            $this->provider_factories = array_map(fn ($class): ilDerivedTaskProviderFactory => new $class($service), $this->default_provider_factories);
         } else {
             $this->provider_factories = $provider_factories;
         }
@@ -62,7 +62,7 @@ class ilDerivedTaskProviderMasterFactory
      * @param int $user_id get instances for user with user id
      * @return ilLearningHistoryProviderInterface[]
      */
-    public function getAllProviders(bool $active_only = false, int $user_id = null) : array
+    public function getAllProviders(bool $active_only = false, int $user_id = null): array
     {
         $providers = array();
 

@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use \Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Class ilRatingCategoryGUI. User interface class for rating categories.
@@ -27,7 +27,7 @@ class ilRatingCategoryGUI
 {
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilToolbarGUI $toolbar;
     protected int $parent_id; // [int]
     protected $export_callback; // [string|array]
@@ -59,13 +59,13 @@ class ilRatingCategoryGUI
         $this->parent_id = $a_parent_id;
         $this->export_callback = $a_export_callback;
         $this->export_subobj_title = $a_export_subobj_title;
-        
+
         $lng->loadLanguageModule("rating");
 
         $params = $this->request->getQueryParams();
         $body = $this->request->getParsedBody();
         $this->requested_cat_id = (int) ($body["cat_id"] ?? ($params["cat_id"] ?? 0));
-        
+
         if ($this->requested_cat_id) {
             $cat = new ilRatingCategory($this->requested_cat_id);
             if ($cat->getParentId() == $this->parent_id) {
@@ -73,14 +73,14 @@ class ilRatingCategoryGUI
             }
         }
     }
-    
+
     /**
      * execute command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd("listCategories");
 
@@ -91,35 +91,35 @@ class ilRatingCategoryGUI
         }
     }
 
-    protected function listCategories() : void
+    protected function listCategories(): void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-    
+
         $ilToolbar->addButton(
             $lng->txt("rating_add_category"),
             $ilCtrl->getLinkTarget($this, "add")
         );
-        
+
         $ilToolbar->addSeparator();
-        
+
         $ilToolbar->addButton(
             $lng->txt("export"),
             $ilCtrl->getLinkTarget($this, "export")
         );
-        
+
         $table = new ilRatingCategoryTableGUI($this, "listCategories", $this->parent_id);
         $tpl->setContent($table->getHTML());
     }
-    
-    
-    protected function initCategoryForm(int $a_id = null) : ilPropertyFormGUI
+
+
+    protected function initCategoryForm(int $a_id = null): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-                
+
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
         $form->setFormAction($ilCtrl->getFormAction($this, "save"));
@@ -144,81 +144,81 @@ class ilRatingCategoryGUI
             $cat = new ilRatingCategory($a_id);
             $ti->setValue($cat->getTitle());
             $ta->setValue($cat->getDescription());
-            
+
             $form->addCommandButton("update", $lng->txt("rating_category_update"));
         }
         $form->addCommandButton("listCategories", $lng->txt("cancel"));
 
         return $form;
     }
-    
-    protected function add(ilPropertyFormGUI $a_form = null) : void
+
+    protected function add(ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
-        
+
         if (!$a_form) {
             $a_form = $this->initCategoryForm();
         }
-        
+
         $tpl->setContent($a_form->getHTML());
     }
-    
-    protected function save() : void
+
+    protected function save(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
-        $form = $this->initCategoryForm("create");
+
+        $form = $this->initCategoryForm();
         if ($form->checkInput()) {
             $cat = new ilRatingCategory();
             $cat->setParentId($this->parent_id);
             $cat->setTitle($form->getInput("title"));
             $cat->setDescription($form->getInput("desc"));
             $cat->save();
-            
+
             $this->tpl->setOnScreenMessage('success', $lng->txt("rating_category_created"));
             $ilCtrl->redirect($this, "listCategories");
         }
-        
+
         $form->setValuesByPost();
         $this->add($form);
     }
-    
-    protected function edit(ilPropertyFormGUI $a_form = null) : void
+
+    protected function edit(ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
-                
+
         $ilCtrl->setParameter($this, "cat_id", $this->cat_id);
-        
+
         if (!$a_form) {
             $a_form = $this->initCategoryForm($this->cat_id);
         }
-        
+
         $tpl->setContent($a_form->getHTML());
     }
-    
-    protected function update() : void
+
+    protected function update(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         $form = $this->initCategoryForm($this->cat_id);
         if ($form->checkInput()) {
             $cat = new ilRatingCategory($this->cat_id);
             $cat->setTitle($form->getInput("title"));
             $cat->setDescription($form->getInput("desc"));
             $cat->update();
-            
+
             $this->tpl->setOnScreenMessage('success', $lng->txt("rating_category_updated"));
             $ilCtrl->redirect($this, "listCategories");
         }
-        
+
         $form->setValuesByPost();
         $this->add($form);
     }
-    
-    protected function updateOrder() : void
+
+    protected function updateOrder(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -226,7 +226,7 @@ class ilRatingCategoryGUI
         $body = $this->request->getParsedBody();
         $order = $body["pos"];
         asort($order);
-        
+
         $cnt = 0;
         foreach ($order as $id => $pos) {
             $cat = new ilRatingCategory($id);
@@ -236,22 +236,22 @@ class ilRatingCategoryGUI
                 $cat->update();
             }
         }
-        
+
         $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "listCategories");
     }
-    
-    protected function confirmDelete() : void
+
+    protected function confirmDelete(): void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         if (!$this->cat_id) {
             $this->listCategories();
             return;
         }
-        
+
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($lng->txt("rating_category_delete_sure") . "<br/>" .
             $lng->txt("info_delete_warning_no_trash"));
@@ -262,46 +262,46 @@ class ilRatingCategoryGUI
 
         $cat = new ilRatingCategory($this->cat_id);
         $cgui->addItem("cat_id", $this->cat_id, $cat->getTitle());
-        
+
         $tpl->setContent($cgui->getHTML());
     }
-    
-    protected function delete() : void
+
+    protected function delete(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         if ($this->cat_id) {
             ilRatingCategory::delete($this->cat_id);
             $this->tpl->setOnScreenMessage('success', $lng->txt("rating_category_deleted"), true);
         }
-        
+
         // fix order
         $cnt = 0;
         foreach (ilRatingCategory::getAllForObject($this->parent_id) as $item) {
             $cnt += 10;
-            
+
             $cat = new ilRatingCategory($item["id"]);
             $cat->setPosition($cnt);
             $cat->update();
         }
-        
+
         $ilCtrl->redirect($this, "listCategories");
     }
-    
-    protected function export() : void
+
+    protected function export(): void
     {
         $lng = $this->lng;
-    
+
         $excel = new ilExcel();
         $excel->addSheet($lng->txt("rating_categories"));
-        
+
         // restrict to currently active (probably not needed - see delete())
         $active = array();
         foreach (ilRatingCategory::getAllForObject($this->parent_id) as $item) {
             $active[$item["id"]] = $item["title"];
         }
-        
+
         // title row
         $row = 1;
         $excel->setCell($row, 0, $this->export_subobj_title . " (" . $lng->txt("id") . ")");
@@ -311,21 +311,21 @@ class ilRatingCategoryGUI
         $excel->setCell($row, 4, $lng->txt("rating_export_date"));
         $excel->setCell($row, 5, $lng->txt("rating_export_rating"));
         $excel->setBold("A1:F1");
-        
+
         // content rows
         foreach (ilRating::getExportData($this->parent_id, ilObject::_lookupType($this->parent_id), array_keys($active)) as $item) {
             // overall rating?
             if (!$item["sub_obj_id"]) {
                 continue;
             }
-            
+
             $row++;
-            
+
             $sub_obj_title = $item["sub_obj_type"];
             if ($this->export_callback) {
                 $sub_obj_title = call_user_func($this->export_callback, $item["sub_obj_id"], $item["sub_obj_type"]);
             }
-            
+
             $excel->setCell($row, 0, (int) $item["sub_obj_id"]);
             $excel->setCell($row, 1, $sub_obj_title);
             $excel->setCell($row, 2, (int) $item["category_id"]);
@@ -333,7 +333,7 @@ class ilRatingCategoryGUI
             $excel->setCell($row, 4, new ilDateTime($item["tstamp"], IL_CAL_UNIX));
             $excel->setCell($row, 5, $item["rating"]);
         }
-        
+
         $excel->sendToClient(ilObject::_lookupTitle($this->parent_id));
     }
 }

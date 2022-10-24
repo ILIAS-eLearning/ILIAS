@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Unit tests for assErrorTextTest
@@ -12,7 +27,7 @@ class assErrorTextTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         chdir(dirname(__FILE__));
         chdir('../../../');
@@ -35,7 +50,7 @@ class assErrorTextTest extends assBaseTestCase
         $this->setGlobalVariable('ilDB', $this->getDatabaseMock());
     }
 
-    public function test_instantiateObjectSimple() : void
+    public function test_instantiateObjectSimple(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
@@ -47,7 +62,7 @@ class assErrorTextTest extends assBaseTestCase
         $this->assertInstanceOf('assErrorText', $instance);
     }
 
-    public function test_getErrorsFromText() : void
+    public function test_getErrorsFromText(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
@@ -71,7 +86,7 @@ class assErrorTextTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_getErrorsFromText_noMatch() : void
+    public function test_getErrorsFromText_noMatch(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
@@ -92,7 +107,7 @@ class assErrorTextTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_getErrorsFromText_emptyArgShouldPullInternal() : void
+    public function test_getErrorsFromText_emptyArgShouldPullInternal(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
@@ -117,7 +132,7 @@ class assErrorTextTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setErrordata_newError() : void
+    public function test_setErrordata_newError(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
@@ -137,7 +152,7 @@ class assErrorTextTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setErrordata_oldErrordataPresent() : void
+    public function test_setErrordata_oldErrordataPresent(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';

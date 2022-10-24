@@ -42,7 +42,7 @@ class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
     /**
      * Execute command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -64,7 +64,7 @@ class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
     /**
      * Get tabs
      */
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $rbacsystem = $this->rbacsystem;
 
@@ -88,7 +88,7 @@ class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
     /**
      * List taxonomies of repository objects
      */
-    public function listRepository() : void
+    public function listRepository(): void
     {
         $this->tabs_gui->activateTab('settings');
         $tbl = new ilTaxonomyAdministrationRepositoryTableGUI($this, "listRepository", $this->object);

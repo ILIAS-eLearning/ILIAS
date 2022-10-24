@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ class ilFormatMail extends ilMail
         parent::__construct($a_user_id);
     }
 
-    public function formatReplyRecipientsForCC() : string
+    public function formatReplyRecipientsForCC(): string
     {
         global $DIC;
 
@@ -56,7 +58,7 @@ class ilFormatMail extends ilMail
         return $this->mail_data['rcp_cc'] = implode(', ', $newCC);
     }
 
-    public function formatReplyRecipient() : string
+    public function formatReplyRecipient(): string
     {
         if (empty($this->mail_data)) {
             return '';
@@ -71,14 +73,14 @@ class ilFormatMail extends ilMail
      * @param string $a_type
      * @return array
      */
-    public function appendSearchResult(array $a_names, string $a_type) : array
+    public function appendSearchResult(array $a_names, string $a_type): array
     {
         $name_str = implode(',', $a_names);
 
         $key = 'rcp_to';
         if ('cc' === $a_type) {
             $key = 'rcp_cc';
-        } elseif ('bcc' === $a_type) {
+        } elseif ('bc' === $a_type) {
             $key = 'rcp_bcc';
         }
 
@@ -96,7 +98,7 @@ class ilFormatMail extends ilMail
         return $this->mail_data;
     }
 
-    public function formatLinebreakMessage(string $message) : string
+    public function formatLinebreakMessage(string $message): string
     {
         $formatted = [];
 
@@ -113,14 +115,14 @@ class ilFormatMail extends ilMail
         return implode(chr(10), $formatted);
     }
 
-    public function appendSignature(string $message) : string
+    public function appendSignature(string $message): string
     {
         $message .= chr(13) . chr(10) . $this->mail_options->getSignature();
 
         return $message;
     }
 
-    public function prependSignature(string $message) : string
+    public function prependSignature(string $message): string
     {
         return $this->mail_options->getSignature() .
             chr(13) .
@@ -130,7 +132,7 @@ class ilFormatMail extends ilMail
             $message;
     }
 
-    public function formatReplyMessage(string $message) : string
+    public function formatReplyMessage(string $message): string
     {
         $bodylines = preg_split("/\r\n|\n|\r/", $message);
         foreach ($bodylines as $i => $iValue) {
@@ -140,12 +142,12 @@ class ilFormatMail extends ilMail
         return implode(chr(10), $bodylines);
     }
 
-    public function formatReplySubject(string $subject) : string
+    public function formatReplySubject(string $subject): string
     {
         return 'RE: ' . $subject;
     }
 
-    public function formatForwardSubject(string $subject) : string
+    public function formatForwardSubject(string $subject): string
     {
         return '[FWD: ' . $subject . ']';
     }

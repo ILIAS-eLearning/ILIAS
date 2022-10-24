@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,13 +24,13 @@
  */
 class ilTermsOfServiceDataGatewayFactoryTest extends ilTermsOfServiceBaseTest
 {
-    public function testInstanceCanBeCreated() : void
+    public function testInstanceCanBeCreated(): void
     {
         $factory = new ilTermsOfServiceDataGatewayFactory();
         $this->assertInstanceOf(ilTermsOfServiceDataGatewayFactory::class, $factory);
     }
 
-    public function testExceptionIsRaisedWhenGatewayIsRequestedWithMissingDependencies() : void
+    public function testExceptionIsRaisedWhenGatewayIsRequestedWithMissingDependencies(): void
     {
         $this->expectException(ilTermsOfServiceMissingDatabaseAdapterException::class);
 
@@ -36,7 +38,7 @@ class ilTermsOfServiceDataGatewayFactoryTest extends ilTermsOfServiceBaseTest
         $factory->getByName('PHP Unit');
     }
 
-    public function testExceptionIsRaisedWhenUnknownDataGatewayIsRequested() : void
+    public function testExceptionIsRaisedWhenUnknownDataGatewayIsRequested(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -45,7 +47,7 @@ class ilTermsOfServiceDataGatewayFactoryTest extends ilTermsOfServiceBaseTest
         $factory->getByName('PHP Unit');
     }
 
-    public function testAcceptanceDatabaseGatewayIsReturnedWhenRequestedByName() : void
+    public function testAcceptanceDatabaseGatewayIsReturnedWhenRequestedByName(): void
     {
         $factory = new ilTermsOfServiceDataGatewayFactory();
         $factory->setDatabaseAdapter($this->getMockBuilder(ilDBInterface::class)->getMock());
@@ -56,7 +58,7 @@ class ilTermsOfServiceDataGatewayFactoryTest extends ilTermsOfServiceBaseTest
         );
     }
 
-    public function testFactoryShouldReturnDatabaseAdapterWhenDatabaseAdapterIsSet() : void
+    public function testFactoryShouldReturnDatabaseAdapterWhenDatabaseAdapterIsSet(): void
     {
         $expected = $this->getMockBuilder(ilDBInterface::class)->getMock();
 

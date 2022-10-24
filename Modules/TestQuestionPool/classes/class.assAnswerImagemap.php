@@ -1,7 +1,21 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 /**
@@ -28,7 +42,7 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
      * @var double
      */
     protected $points_unchecked = 0.0;
-  
+
     /**
     * ASS_AnswerImagemap constructor
     *
@@ -54,8 +68,8 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
         $this->area = $area;
         $this->points_unchecked = $points_unchecked;
     }
-  
-  
+
+
     /**
     * Gets the coordinates of an image map
     *
@@ -63,7 +77,7 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
     * @access public
     * @see $coords
     */
-    public function getCoords() : string
+    public function getCoords(): string
     {
         $this->coords = preg_replace("/\s/", "", $this->coords);
         return $this->coords;
@@ -76,7 +90,7 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
     * @access public
     * @see $coords
     */
-    public function setCoords(string $coords = "") : void
+    public function setCoords(string $coords = ""): void
     {
         $coords = preg_replace("/\s/", "", $coords);
         $this->coords = $coords;
@@ -89,13 +103,13 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
     * @access public
     * @see $area
     */
-    public function getArea() : string
+    public function getArea(): string
     {
         return $this->area;
     }
 
 
-    public function setArea(string $area = "") : void
+    public function setArea(string $area = ""): void
     {
         $this->area = $area;
     }
@@ -120,7 +134,7 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
      *
      * @TODO Analyze usage and see if we can get rid of "magic nullification" here.
      */
-    public function setPointsUnchecked($points_unchecked) : void
+    public function setPointsUnchecked($points_unchecked): void
     {
         $new_points = str_replace(",", ".", $points_unchecked);
 

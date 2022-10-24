@@ -1,31 +1,47 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Setup;
 
 class ilNICKeyRegisteredObjective extends ilSetupObjective
 {
-    const MAX_REDIRECTS = 5;
-    const SOCKET_TIMEOUT = 5;
-    const ILIAS_NIC_SERVER = "https://nic.ilias.de/index.php";
+    public const MAX_REDIRECTS = 5;
+    public const SOCKET_TIMEOUT = 5;
+    public const ILIAS_NIC_SERVER = "https://nic.ilias.de/index.php";
 
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class);
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "The NIC key is registered at the ILIAS Open Source society";
     }
 
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
 
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         $http_config = $environment->getConfigFor("http");
         return [
@@ -35,7 +51,7 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
         ];
     }
 
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
         $settings = $factory->settingsFor("common");
@@ -52,10 +68,15 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
         $old_settings = $GLOBALS["ilSetting"] ?? null;
         $GLOBALS["ilSetting"] = $settings;
 
+        $old_DIC = $GLOBALS["DIC"];
+        $GLOBALS["DIC"] = new ILIAS\DI\Container();
+        $GLOBALS["DIC"]["ilSetting"] = $GLOBALS["ilSetting"];
+
         $url = $this->getURLStringForNIC($settings, $systemfolder_config, $http_config);
         $req = $this->getCurlConnection($url);
         $response = $req->exec();
         $req->parseResponse($response);
+
 
         if ($req->getInfo()["http_code"] != "200") {
             $settings->set("nic_enabled", "-1");
@@ -79,7 +100,9 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
         $settings->set("nic_enabled", "1");
         $settings->set("inst_id", $status[2]);
 
+        $GLOBALS["DIC"] = $old_DIC;
         $GLOBALS["ilSetting"] = $old_settings;
+
 
         return $environment;
     }
@@ -87,12 +110,12 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         return true;
     }
 
-    protected function getRegistrationProblem(array $nic_response_parts) : string
+    protected function getRegistrationProblem(array $nic_response_parts): string
     {
         $error_code = trim((string) ($nic_response_parts[1] ?? ''));
         $message = 'Unknown reason';
@@ -130,7 +153,7 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
         return 'Reason: ' . $message;
     }
 
-    protected function getURLStringForNIC($settings, \ilSystemFolderSetupConfig $systemfolder_config, \ilHttpSetupConfig $http_config) : string
+    protected function getURLStringForNIC($settings, \ilSystemFolderSetupConfig $systemfolder_config, \ilHttpSetupConfig $http_config): string
     {
         $inst_id = (string) $settings->get('inst_id', '0');
         $http_path = $http_config->getHttpPath();
@@ -151,7 +174,7 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
         return $url;
     }
 
-    protected function getCurlConnection(string $url) : \ilCurlConnection
+    protected function getCurlConnection(string $url): \ilCurlConnection
     {
         $req = new \ilCurlConnection($url);
         $req->init();

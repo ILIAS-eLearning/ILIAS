@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestSkillLevelThresholdsGUITest
@@ -10,7 +26,7 @@ class ilTestSkillLevelThresholdsGUITest extends ilTestBaseTestCase
 {
     private ilTestSkillLevelThresholdsGUI $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -23,18 +39,18 @@ class ilTestSkillLevelThresholdsGUITest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestSkillLevelThresholdsGUI::class, $this->testObj);
     }
 
-    public function testQuestionContainerId() : void
+    public function testQuestionContainerId(): void
     {
         $this->testObj->setQuestionContainerId(12);
         $this->assertEquals(12, $this->testObj->getQuestionContainerId());
     }
 
-    public function testQuestionAssignmentColumnsEnabled() : void
+    public function testQuestionAssignmentColumnsEnabled(): void
     {
         $this->testObj->setQuestionAssignmentColumnsEnabled(false);
         $this->assertFalse($this->testObj->areQuestionAssignmentColumnsEnabled());
@@ -43,7 +59,7 @@ class ilTestSkillLevelThresholdsGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->areQuestionAssignmentColumnsEnabled());
     }
 
-    public function testTestId() : void
+    public function testTestId(): void
     {
         $this->assertEquals(112, $this->testObj->getTestId());
     }

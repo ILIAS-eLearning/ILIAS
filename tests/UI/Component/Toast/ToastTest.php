@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
@@ -25,22 +27,22 @@ use ILIAS\UI\Implementation\Component\Toast\Toast;
 
 class ToastTest extends ILIAS_UI_TestBase
 {
-    public function getToastFactory() : \ILIAS\UI\Implementation\Component\Toast\Factory
+    public function getToastFactory(): \ILIAS\UI\Implementation\Component\Toast\Factory
     {
         return new ILIAS\UI\Implementation\Component\Toast\Factory(new ILIAS\UI\Implementation\Component\SignalGenerator());
     }
 
-    public function getIconFactory() : \ILIAS\UI\Implementation\Component\Symbol\Icon\Factory
+    public function getIconFactory(): \ILIAS\UI\Implementation\Component\Symbol\Icon\Factory
     {
         return new ILIAS\UI\Implementation\Component\Symbol\Icon\Factory();
     }
 
-    public function getLinkFactory() : \ILIAS\UI\Implementation\Component\Link\Factory
+    public function getLinkFactory(): \ILIAS\UI\Implementation\Component\Link\Factory
     {
         return new ILIAS\UI\Implementation\Component\Link\Factory();
     }
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $f = $this->getToastFactory();
 
@@ -53,7 +55,7 @@ class ToastTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider toast_provider
      */
-    public function test_toast(string $title, string $description, int $vanish_time, int $delay_time, string $action) : void
+    public function test_toast(string $title, string $description, int $vanish_time, int $delay_time, string $action): void
     {
         $toast = $this->getToastFactory()->standard($title, $this->getIconFactory()->standard('', ''))
                       ->withDescription($description)
@@ -77,7 +79,7 @@ class ToastTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider toast_provider
      */
-    public function test_toast_container(string $title, string $description, int $vanish_time) : void
+    public function test_toast_container(string $title, string $description, int $vanish_time): void
     {
         $container = $this->getToastFactory()->container()->withAdditionalToast(
             $this->getToastFactory()->standard('', $this->getIconFactory()->standard('', ''))
@@ -89,7 +91,7 @@ class ToastTest extends ILIAS_UI_TestBase
         $this->assertCount(0, $container->withoutToasts()->getToasts());
     }
 
-    public function toast_provider() : array
+    public function toast_provider(): array
     {
         return [
             ['title', 'description', 5000, 500, 'test.php'],

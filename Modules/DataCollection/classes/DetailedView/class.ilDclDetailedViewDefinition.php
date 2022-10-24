@@ -27,13 +27,13 @@
  */
 class ilDclDetailedViewDefinition extends ilPageObject
 {
-    const PARENT_TYPE = 'dclf';
+    public const PARENT_TYPE = 'dclf';
     protected int $table_id;
 
     /**
      * Get parent type
      */
-    public function getParentType() : string
+    public function getParentType(): string
     {
         return self::PARENT_TYPE;
     }
@@ -41,7 +41,7 @@ class ilDclDetailedViewDefinition extends ilPageObject
     /**
      * Get all placeholders for table id
      */
-    public function getAvailablePlaceholders() : array
+    public function getAvailablePlaceholders(): array
     {
         $all = array();
 
@@ -66,12 +66,12 @@ class ilDclDetailedViewDefinition extends ilPageObject
         return $all;
     }
 
-    public static function exists(int $id) : bool
+    public static function exists(int $id): bool
     {
         return parent::_exists(self::PARENT_TYPE, $id);
     }
 
-    public static function isActive(int $id) : bool
+    public static function isActive(int $id): bool
     {
         return parent::_lookupActive($id, self::PARENT_TYPE);
     }

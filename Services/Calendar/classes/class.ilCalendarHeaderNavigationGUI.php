@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -59,7 +61,7 @@ class ilCalendarHeaderNavigationGUI
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $today = new ilDateTime(time(), IL_CAL_UNIX, $this->user->getTimeZone());
         $tpl = new ilTemplate("tpl.navigation_header.html", true, true, "Services/Calendar");
@@ -146,7 +148,7 @@ class ilCalendarHeaderNavigationGUI
         return $tpl->get();
     }
 
-    protected function incrementDate(int $a_count) : void
+    protected function incrementDate(int $a_count): void
     {
         switch ($this->increment) {
             case ilDateTime::MONTH:

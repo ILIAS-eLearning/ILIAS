@@ -63,14 +63,14 @@ class GlossaryHtmlExport
             ->styleForRefId($glo->getRefId());
     }
 
-    protected function initDirectories() : void
+    protected function initDirectories(): void
     {
         // initialize temporary target directory
         ilFileUtils::delDir($this->target_dir);
         ilFileUtils::makeDir($this->target_dir);
     }
 
-    public function exportHTML() : string
+    public function exportHTML(): string
     {
         $this->initDirectories();
         $this->export_util->exportSystemStyle();
@@ -86,7 +86,7 @@ class GlossaryHtmlExport
         return $this->zipPackage();
     }
 
-    protected function zipPackage() : string
+    protected function zipPackage(): string
     {
         // zip it all
         $date = time();
@@ -97,7 +97,7 @@ class GlossaryHtmlExport
         return $zip_file;
     }
 
-    protected function getInitialisedTemplate() : \ilGlobalPageTemplate
+    protected function getInitialisedTemplate(): \ilGlobalPageTemplate
     {
         global $DIC;
 
@@ -116,7 +116,7 @@ class GlossaryHtmlExport
      * Init page
      * @throws \ilGlossaryException
      */
-    protected function initScreen(int $term_id) : \ilGlobalPageTemplate
+    protected function initScreen(int $term_id): \ilGlobalPageTemplate
     {
         $this->global_screen->layout()->meta()->reset();
 
@@ -149,7 +149,7 @@ class GlossaryHtmlExport
     /**
      * @throws \ilGlossaryException
      */
-    public function exportHTMLGlossaryTerms() : void
+    public function exportHTMLGlossaryTerms(): void
     {
         $tpl = $this->initScreen(0);
         $tpl->setTitle($this->glossary->getTitle());

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks;
 
 use ILIAS\BackgroundTasks\Types\Type;
@@ -28,23 +28,22 @@ use ILIAS\BackgroundTasks\Types\Type;
  */
 interface Value extends \Serializable
 {
-    
     /**
      * @return string Gets a hash for this Value. If two objects are the same the hash must be the
      *                same! if two objects are different you need to have as view collisions as
      *                possible.
      */
-    public function getHash() : string;
-    
-    public function equals(Value $other) : bool;
-    
-    public function getType() : Type;
-    
-    public function setParentTask(Task $parentTask) : void;
-    
-    public function getParentTask() : Task;
-    
-    public function hasParentTask() : bool;
-    
-    public function setValue($value) : void;
+    public function getHash(): string;
+
+    public function equals(Value $other): bool;
+
+    public function getType(): Type;
+
+    public function setParentTask(Task $parentTask): void;
+
+    public function getParentTask(): Task;
+
+    public function hasParentTask(): bool;
+
+    public function setValue($value): void;
 }

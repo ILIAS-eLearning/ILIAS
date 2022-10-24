@@ -27,7 +27,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
     /**
      * @return array<int, array{skill_node_id: int, title: string}>
      */
-    public static function getSelectedUserSkills(int $a_user_id) : array
+    public static function getSelectedUserSkills(int $a_user_id): array
     {
         global $DIC;
 
@@ -51,12 +51,12 @@ class ilPersonalSkill implements ilSkillUsageInfo
         return $pskills;
     }
 
-    public static function addPersonalSkill(int $a_user_id, int $a_skill_node_id) : void
+    public static function addPersonalSkill(int $a_user_id, int $a_skill_node_id): void
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $set = $ilDB->query(
             "SELECT * FROM skl_personal_skill " .
             " WHERE user_id = " . $ilDB->quote($a_user_id, "integer") .
@@ -71,12 +71,12 @@ class ilPersonalSkill implements ilSkillUsageInfo
         }
     }
 
-    public static function removeSkill(int $a_user_id, int $a_skill_node_id) : void
+    public static function removeSkill(int $a_user_id, int $a_skill_node_id): void
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $ilDB->manipulate(
             "DELETE FROM skl_personal_skill WHERE " .
             " user_id = " . $ilDB->quote($a_user_id, "integer") .
@@ -84,7 +84,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
         );
     }
 
-    public static function removeSkills(int $a_user_id) : void
+    public static function removeSkills(int $a_user_id): void
     {
         global $DIC;
 
@@ -96,11 +96,11 @@ class ilPersonalSkill implements ilSkillUsageInfo
         );
     }
 
-    
+
     //
     // Assigned materials
     //
-    
+
     /**
      * Assign material to skill level
      *
@@ -118,11 +118,11 @@ class ilPersonalSkill implements ilSkillUsageInfo
         int $a_basic_skill,
         int $a_level,
         int $a_wsp_id
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $set = $ilDB->query(
             "SELECT * FROM skl_assigned_material " .
             " WHERE user_id = " . $ilDB->quote($a_user_id, "integer") .
@@ -144,17 +144,17 @@ class ilPersonalSkill implements ilSkillUsageInfo
                 ")");
         }
     }
-    
+
     /**
      * Get assigned material (for a skill level and user)
      * @return array{user_id: int, top_skill_id: int, skill_id: int, level_id: int, wsp_id: int, tref_id: int}[]
      */
-    public static function getAssignedMaterial(int $a_user_id, int $a_tref_id, int $a_level) : array
+    public static function getAssignedMaterial(int $a_user_id, int $a_tref_id, int $a_level): array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $set = $ilDB->query(
             "SELECT * FROM skl_assigned_material " .
             " WHERE level_id = " . $ilDB->quote($a_level, "integer") .
@@ -173,16 +173,16 @@ class ilPersonalSkill implements ilSkillUsageInfo
         }
         return $mat;
     }
-    
+
     /**
      * Count assigned material (for a skill level and user)
      */
-    public static function countAssignedMaterial(int $a_user_id, int $a_tref_id, int $a_level) : int
+    public static function countAssignedMaterial(int $a_user_id, int $a_tref_id, int $a_level): int
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $set = $ilDB->query(
             "SELECT count(*) as cnt FROM skl_assigned_material " .
             " WHERE level_id = " . $ilDB->quote($a_level, "integer") .
@@ -193,12 +193,12 @@ class ilPersonalSkill implements ilSkillUsageInfo
         return (int) $rec["cnt"];
     }
 
-    public static function removeMaterial(int $a_user_id, int $a_tref_id, int $a_level_id, int $a_wsp_id) : void
+    public static function removeMaterial(int $a_user_id, int $a_tref_id, int $a_level_id, int $a_wsp_id): void
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $t = "DELETE FROM skl_assigned_material WHERE " .
             " user_id = " . $ilDB->quote($a_user_id, "integer") .
             " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .
@@ -208,7 +208,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
         $ilDB->manipulate($t);
     }
 
-    public static function removeMaterials(int $a_user_id) : void
+    public static function removeMaterials(int $a_user_id): void
     {
         global $DIC;
 
@@ -222,7 +222,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
     //
     // Self evaluation
     //
-    
+
     /**
      * @param int $a_user_id user id
      * @param int $a_top_skill the "selectable" top skill
@@ -236,7 +236,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
         int $a_tref_id,
         int $a_basic_skill,
         int $a_level
-    ) : void {
+    ): void {
         if ($a_level > 0) {
             ilBasicSkill::writeUserSkillLevelStatus(
                 $a_level,
@@ -264,7 +264,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
         int $a_top_skill,
         int $a_tref_id,
         int $a_basic_skill
-    ) : ?int {
+    ): ?int {
         $bs = new ilBasicSkill($a_basic_skill);
         return $bs->getLastLevelPerObject($a_tref_id, 0, $a_user_id, 1);
     }
@@ -281,7 +281,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
         int $a_top_skill,
         int $a_tref_id,
         int $a_basic_skill
-    ) : ?string {
+    ): ?string {
         $bs = new ilBasicSkill($a_basic_skill);
         return $bs->getLastUpdatePerObject($a_tref_id, 0, $a_user_id, 1);
     }
@@ -291,7 +291,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
      *
      * @return array<string, array<string, array{key: string}[]>>
      */
-    public static function getUsageInfo(array $a_cskill_ids) : array
+    public static function getUsageInfo(array $a_cskill_ids): array
     {
         global $DIC;
 

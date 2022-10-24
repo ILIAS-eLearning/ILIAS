@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assQuestionImport.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Class for essay question imports
@@ -18,7 +31,7 @@ class assTextQuestionImport extends assQuestionImport
      * @var assTextQuestion
      */
     public $object;
-    
+
     /**
     * Creates a question from a QTI file
     *
@@ -32,7 +45,7 @@ class assTextQuestionImport extends assQuestionImport
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping) : void
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, $import_mapping): array
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -111,13 +124,13 @@ class assTextQuestionImport extends assQuestionImport
         }
         $this->addGeneralMetadata($item);
         $this->object->setTitle($item->getTitle());
-        $this->object->setNrOfTries($item->getMaxattempts());
+        $this->object->setNrOfTries((int) $item->getMaxattempts());
         $this->object->setComment($item->getComment());
         $this->object->setAuthor($item->getAuthor());
         $this->object->setOwner($ilUser->getId());
         $this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
-        $this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+        $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $this->object->setPoints($maxpoints);
         $this->object->setMaxNumOfChars($maxchars);
         $this->object->setWordCounterEnabled((bool) $item->getMetadataEntry('wordcounter'));
@@ -125,20 +138,20 @@ class assTextQuestionImport extends assQuestionImport
         if (strlen($textrating)) {
             $this->object->setTextRating($textrating);
         }
-        $this->object->matchcondition = (strlen($item->getMetadataEntry('matchcondition'))) ? $item->getMetadataEntry('matchcondition') : 0;
-        
+        $this->object->setMatchcondition((strlen($item->getMetadataEntry('matchcondition'))) ? (int) $item->getMetadataEntry('matchcondition') : 0);
+
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php';
         $no_keywords_found = true;
-        
+
         $termscoring = $this->fetchTermScoring($item);
-        for ($i = 0; $i < count($termscoring); $i++) {
+        for ($i = 0, $iMax = count($termscoring); $i < $iMax; $i++) {
             $this->object->addAnswer($termscoring[$i]->getAnswertext(), $termscoring[$i]->getPoints());
             $no_keywords_found = false;
         }
         if (count($termscoring)) {
             $this->object->setKeywordRelation($item->getMetadataEntry('termrelation'));
         }
-        
+
         $keywords = $item->getMetadataEntry("keywords");
         if (strlen($keywords)) {
             #$this->object->setKeywords($keywords);
@@ -152,7 +165,7 @@ class assTextQuestionImport extends assQuestionImport
         if ($no_keywords_found) {
             $this->object->setKeywordRelation('non');
         }
-            
+
         // additional content editing mode information
         $this->object->setAdditionalContentEditingMode(
             $this->fetchAdditionalContentEditingModeInformation($item)
@@ -170,7 +183,7 @@ class assTextQuestionImport extends assQuestionImport
         }
         // handle the import of media objects in XHTML code
         $questiontext = $this->object->getQuestion();
-        
+
         $feedbacks = $this->getFeedbackAnswerSpecific($item);
 
         if (is_array(ilSession::get("import_mob_xhtml"))) {
@@ -182,10 +195,10 @@ class assTextQuestionImport extends assQuestionImport
                 } else {
                     $importfile = $this->getQplImportArchivDirectory() . '/' . $mob["uri"];
                 }
-                
+
                 global $DIC; /* @var ILIAS\DI\Container $DIC */
                 $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
-                
+
                 $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                 ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
                 $questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
@@ -200,7 +213,7 @@ class assTextQuestionImport extends assQuestionImport
         $this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc($questiontext, 1));
         foreach ($feedbacks as $ident => $material) {
             $index = $this->fetchIndexFromFeedbackIdent($ident);
-            
+
             $this->object->feedbackOBJ->importSpecificAnswerFeedback(
                 $this->object->getId(),
                 0,
@@ -218,23 +231,24 @@ class assTextQuestionImport extends assQuestionImport
         $this->object->saveToDb();
         if ($tst_id > 0) {
             $q_1_id = $this->object->getId();
-            $question_id = $this->object->duplicate(true, null, null, null, $tst_id);
+            $question_id = $this->object->duplicate(true, "", "", "", $tst_id);
             $tst_object->questions[$question_counter++] = $question_id;
             $import_mapping[$item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
         } else {
             $import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
         }
+        return $import_mapping;
     }
-    
-    protected function fetchTermScoring($item) : array
+
+    protected function fetchTermScoring($item): array
     {
         $termScoringString = $item->getMetadataEntry('termscoring');
-        
+
         if (!strlen($termScoringString)) {
             return array();
         }
 
-        $termScoring = unserialize($termScoringString);
+        $termScoring = @unserialize($termScoringString);
 
         if (is_array($termScoring)) {
             return $termScoring;
@@ -246,7 +260,7 @@ class assTextQuestionImport extends assQuestionImport
         if (is_array($termScoring)) {
             return $termScoring;
         }
-        
+
         return array();
     }
 }

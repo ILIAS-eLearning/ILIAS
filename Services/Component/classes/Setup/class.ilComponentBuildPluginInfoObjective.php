@@ -8,13 +8,13 @@ class ilComponentBuildPluginInfoObjective extends Setup\Artifact\BuildArtifactOb
     protected const PLUGIN_PHP = "plugin.php";
     protected const PLUGIN_CLASS_FILE = "classes/class.il%sPlugin.php";
 
-    public function getArtifactPath() : string
+    public function getArtifactPath(): string
     {
         return \ilArtifactComponentRepository::PLUGIN_DATA_PATH;
     }
 
 
-    public function build() : Setup\Artifact
+    public function build(): Setup\Artifact
     {
         $data = [];
         foreach (["Modules", "Services"] as $type) {
@@ -32,7 +32,7 @@ class ilComponentBuildPluginInfoObjective extends Setup\Artifact\BuildArtifactOb
         return new Setup\Artifact\ArrayArtifact($data);
     }
 
-    protected function addPlugin(array &$data, string $type, string $component, string $slot, string $plugin) : void
+    protected function addPlugin(array &$data, string $type, string $component, string $slot, string $plugin): void
     {
         $path = static::BASE_PATH . "$type/$component/$slot/$plugin/" . static::PLUGIN_PHP;
         $plugin_php = $this->readFile($path);
@@ -88,7 +88,7 @@ class ilComponentBuildPluginInfoObjective extends Setup\Artifact\BuildArtifactOb
     /**
      * @return string[]
      */
-    protected function scanDir(string $dir) : array
+    protected function scanDir(string $dir): array
     {
         if (!file_exists($dir)) {
             return [];
@@ -97,7 +97,7 @@ class ilComponentBuildPluginInfoObjective extends Setup\Artifact\BuildArtifactOb
         return array_values(array_diff($result, [".", ".."]));
     }
 
-    protected function readFile(string $path) : ?string
+    protected function readFile(string $path): ?string
     {
         if (!file_exists($path) || !is_file($path)) {
             return null;

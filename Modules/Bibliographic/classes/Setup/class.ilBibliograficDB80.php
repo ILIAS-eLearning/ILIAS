@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBibliograficDB80
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
@@ -27,12 +27,12 @@ class ilBibliograficDB80 implements ilDatabaseUpdateSteps
     /**
      * @inheritDoc
      */
-    public function prepare(ilDBInterface $db) : void
+    public function prepare(ilDBInterface $db): void
     {
         $this->database = $db;
     }
 
-    public function step_1() : void
+    public function step_1(): void
     {
         if ($this->database->tableColumnExists('il_bibl_field', 'object_id')) {
             $this->database->dropTableColumn('il_bibl_field', 'object_id');

@@ -1,7 +1,20 @@
 <?php
 
-require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacException.php';
-require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacFormAlertProvider.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class OperatorNotSupportedByExpression
@@ -43,7 +56,7 @@ class ilAssLacOperatorNotSupportedByExpression extends ilAssLacException impleme
     /**
      * @return string
      */
-    public function getExpression() : string
+    public function getExpression(): string
     {
         return $this->expression;
     }
@@ -51,7 +64,7 @@ class ilAssLacOperatorNotSupportedByExpression extends ilAssLacException impleme
     /**
      * @return string
      */
-    public function getOperator() : string
+    public function getOperator(): string
     {
         return $this->operator;
     }
@@ -60,7 +73,7 @@ class ilAssLacOperatorNotSupportedByExpression extends ilAssLacException impleme
      * @param ilLanguage $lng
      * @return string
      */
-    public function getFormAlert(ilLanguage $lng) : string
+    public function getFormAlert(ilLanguage $lng): string
     {
         return sprintf(
             $lng->txt("ass_lac_operator_not_supported_by_expression"),

@@ -32,7 +32,7 @@ class SystemStylesGlobalScreenToolProvider extends AbstractDynamicToolProvider
     /**
      * @inheritDoc
      */
-    public function isInterestedInContexts() : \ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection
+    public function isInterestedInContexts(): \ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection
     {
         return $this->context_collection->administration();
     }
@@ -42,7 +42,7 @@ class SystemStylesGlobalScreenToolProvider extends AbstractDynamicToolProvider
      */
     public function getToolsForContextStack(
         \ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts $called_contexts
-    ) : array {
+    ): array {
         $last_context = $called_contexts->getLast();
 
         if ($last_context) {
@@ -55,7 +55,7 @@ class SystemStylesGlobalScreenToolProvider extends AbstractDynamicToolProvider
         return [];
     }
 
-    protected function buildTreeAsTool() : Tool
+    protected function buildTreeAsTool(): Tool
     {
         $id_generator = function ($id) {
             return $this->identification_provider->contextAwareIdentifier($id);
@@ -74,7 +74,7 @@ class SystemStylesGlobalScreenToolProvider extends AbstractDynamicToolProvider
             ->withContent($this->dic->ui()->factory()->legacy($this->dic->ui()->renderer()->render($this->getUITree())));
     }
 
-    protected function getUITree() : Tree
+    protected function getUITree(): Tree
     {
         $entries = new Entries();
         $entries->addEntriesFromArray(include ilSystemStyleDocumentationGUI::DATA_PATH);

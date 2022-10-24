@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * This class represents a key value pair wizard property in a property form.
@@ -16,7 +29,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
     protected $allowMove = false;
     protected $terms = array();
     protected $definitions = array();
-    
+
     /**
     * Constructor
     *
@@ -28,7 +41,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         parent::__construct($a_title, $a_postvar);
     }
 
-    public function setValue($a_value) : void
+    public function setValue($a_value): void
     {
         $this->pairs = array();
         $this->terms = array();
@@ -55,7 +68,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_terms	Terms
     */
-    public function setTerms($a_terms) : void
+    public function setTerms($a_terms): void
     {
         $this->terms = $a_terms;
     }
@@ -65,7 +78,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_definitions	Definitions
     */
-    public function setDefinitions($a_definitions) : void
+    public function setDefinitions($a_definitions): void
     {
         $this->definitions = $a_definitions;
     }
@@ -75,7 +88,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_pairs	Pairs
     */
-    public function setPairs($a_pairs) : void
+    public function setPairs($a_pairs): void
     {
         $this->pairs = $a_pairs;
     }
@@ -85,7 +98,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
     *
     * @param	boolean	$a_allow_move Allow move
     */
-    public function setAllowMove($a_allow_move) : void
+    public function setAllowMove($a_allow_move): void
     {
         $this->allowMove = $a_allow_move;
     }
@@ -95,7 +108,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
     *
     * @return	boolean	Allow move
     */
-    public function getAllowMove() : bool
+    public function getAllowMove(): bool
     {
         return $this->allowMove;
     }
@@ -104,11 +117,11 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
     * Check input, strip slashes etc. set alert, if input is not ok.
     * @return	boolean		Input ok, true/false
     */
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         if (is_array($_POST[$this->getPostVar()])) {
             $foundvalues = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
         } else {
@@ -162,11 +175,11 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
     * Insert property html
     * @return	void	Size
     */
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         $tpl = new ilTemplate("tpl.prop_matchingpairinput.html", true, true, "Modules/TestQuestionPool");
         $i = 0;
 
@@ -219,7 +232,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
 
             $tpl->setCurrentBlock("row");
             $tpl->setVariable("ROW_NUMBER", $i);
-            
+
             $tpl->setVariable("ID", $this->getPostVar() . "[$i]");
             $tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
             $tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
@@ -232,7 +245,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
 
             $i++;
         }
-        
+
         $tpl->setCurrentBlock('term_ids');
         $ids = array();
         foreach ($this->terms as $term) {
@@ -241,7 +254,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         $tpl->setVariable("POST_VAR", $this->getPostVar());
         $tpl->setVariable("TERM_IDS", join(",", $ids));
         $tpl->parseCurrentBlock();
-        
+
         $tpl->setCurrentBlock('definition_ids');
         $ids = array();
         foreach ($this->definitions as $definition) {
@@ -250,7 +263,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         $tpl->setVariable("POST_VAR", $this->getPostVar());
         $tpl->setVariable("DEFINITION_IDS", join(",", $ids));
         $tpl->parseCurrentBlock();
-        
+
         $tpl->setVariable("ELEMENT_ID", $this->getPostVar());
         $tpl->setVariable("TEXT_POINTS", $lng->txt('points'));
         $tpl->setVariable("TEXT_DEFINITION", $lng->txt('definition'));
@@ -260,7 +273,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();
-        
+
         global $DIC;
         $tpl = $DIC['tpl'];
         $tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");

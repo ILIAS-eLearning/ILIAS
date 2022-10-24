@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ModulesCourse
@@ -30,13 +32,13 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
     public function __construct(int $a_container_id = 0)
     {
         global $DIC;
-    
+
         /** @noinspection PhpUndefinedMethodInspection */
         $this->logger = $DIC->logger()->crs();
         parent::__construct(ilFileSystemAbstractionStorage::STORAGE_DATA, true, $a_container_id);
     }
 
-    public static function _clone(int $a_source_id, int $a_target_id) : bool
+    public static function _clone(int $a_source_id, int $a_target_id): bool
     {
         $source = new ilFSStorageCourse($a_source_id);
         $target = new ilFSStorageCourse($a_target_id);
@@ -51,27 +53,27 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
         return true;
     }
 
-    public function initInfoDirectory() : void
+    public function initInfoDirectory(): void
     {
         ilFileUtils::makeDirParents($this->getInfoDirectory());
     }
 
-    public function getInfoDirectory() : string
+    public function getInfoDirectory(): string
     {
         return $this->getAbsolutePath() . '/' . self::INFO_DIR;
     }
 
-    public function initMemberExportDirectory() : void
+    public function initMemberExportDirectory(): void
     {
         ilFileUtils::makeDirParents($this->getMemberExportDirectory());
     }
 
-    public function getMemberExportDirectory() : string
+    public function getMemberExportDirectory(): string
     {
         return $this->getAbsolutePath() . '/' . self::MEMBER_EXPORT_DIR;
     }
 
-    public function addMemberExportFile($a_data, $a_rel_name) : bool
+    public function addMemberExportFile($a_data, $a_rel_name): bool
     {
         $this->initMemberExportDirectory();
         if (!$this->writeToFile($a_data, $this->getMemberExportDirectory() . '/' . $a_rel_name)) {
@@ -82,7 +84,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
         return true;
     }
 
-    public function getMemberExportFiles() : array
+    public function getMemberExportFiles(): array
     {
         if (!is_dir($this->getMemberExportDirectory())) {
             return array();
@@ -114,7 +116,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
         return $files;
     }
 
-    public function getMemberExportFile(string $a_name) : string
+    public function getMemberExportFile(string $a_name): string
     {
         $file_name = $this->getMemberExportDirectory() . '/' . $a_name;
 
@@ -123,8 +125,8 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
         }
         return '';
     }
-    
-    public function deleteMemberExportFile(string $a_export_name) : bool
+
+    public function deleteMemberExportFile(string $a_export_name): bool
     {
         return $this->deleteFile($this->getMemberExportDirectory() . '/' . $a_export_name);
     }
@@ -133,7 +135,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
      * Implementation of abstract method
      * @access protected
      */
-    protected function getPathPostfix() : string
+    protected function getPathPostfix(): string
     {
         return 'crs';
     }
@@ -142,7 +144,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
      * Implementation of abstract method
      * @access protected
      */
-    protected function getPathPrefix() : string
+    protected function getPathPrefix(): string
     {
         return 'ilCourse';
     }

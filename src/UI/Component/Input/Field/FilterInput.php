@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Input\Field;
 
 /**
@@ -33,5 +35,5 @@ interface FilterInput extends FormInput
     /**
      * Is this input complex and must be rendered in a Popover when using it in a Filter?
      */
-    public function isComplex() : bool;
+    public function isComplex(): bool;
 }

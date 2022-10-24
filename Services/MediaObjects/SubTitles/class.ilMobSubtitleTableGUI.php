@@ -37,22 +37,22 @@ class ilMobSubtitleTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($a_mob->getSrtFiles());
         $this->setTitle($lng->txt("mob_subtitle_files"));
-        
+
         $this->addColumn("", "", 1);
         $this->addColumn($this->lng->txt("mob_file"));
         $this->addColumn($this->lng->txt("mob_language"));
-        
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.srt_files_row.html", "Services/MediaObjects");
 
         $this->addMultiCommand("confirmSrtDeletion", $lng->txt("delete"));
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
 

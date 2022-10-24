@@ -15,7 +15,6 @@
  *
  ********************************************************************
  */
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilOrgUnitSimpleImport
@@ -31,8 +30,7 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter
         $xml = new SimpleXMLElement($a);
 
         if (!count($xml->OrgUnit)) {
-            $this->addError("no_orgunit", null, null);
-
+            $this->addError("no_orgunit", $xml->external_id, null);
             return;
         }
 
@@ -146,7 +144,7 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter
             $object->create();
             $object->createReference();
             $object->putInTree($parent_ref_id);
-            $object->setPermissions($ou_parent_id);
+            $object->setPermissions($parent_ref_id);
             $this->stats["created"]++;
         } else {
             $this->addError("no_valid_action_given", $ou_id, $action);
@@ -154,10 +152,10 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter
     }
 
     /**
-     * @param int $ou_id this is only needed for displaying the warning.
-     * @param int $external_id this is only needed for displaying the warning.
+     * @param string $ou_id this is only needed for displaying the warning.
+     * @param string $external_id this is only needed for displaying the warning.
      */
-    protected function moveObject(int $ref_id, int $parent_ref_id, int $ou_id, int $external_id)
+    protected function moveObject(int $ref_id, int $parent_ref_id, string $ou_id, string $external_id)
     {
         global $DIC;
         $tree = $DIC['tree'];

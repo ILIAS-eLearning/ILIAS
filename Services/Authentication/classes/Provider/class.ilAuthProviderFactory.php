@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@
 class ilAuthProviderFactory
 {
     private ilLogger $logger;
-    
+
     /**
      * Constructor
      */
@@ -34,11 +36,11 @@ class ilAuthProviderFactory
         global $DIC;
         $this->logger = $DIC->logger()->auth();
     }
-    
+
     /**
      * Get provider
      */
-    public function getProviders(ilAuthCredentials $credentials) : array
+    public function getProviders(ilAuthCredentials $credentials): array
     {
         // Fixed provider selection;
         if ($credentials->getAuthMode() !== '') {
@@ -47,10 +49,10 @@ class ilAuthProviderFactory
                 $this->getProviderByAuthMode($credentials, $credentials->getAuthMode())
             );
         }
-        
+
         $auth_determination = ilAuthModeDetermination::_getInstance();
         $sequence = $auth_determination->getAuthModeSequence($credentials->getUsername());
-        
+
         $providers = array();
         foreach ($sequence as $position => $authmode) {
             $provider = $this->getProviderByAuthMode($credentials, $authmode);
@@ -60,26 +62,26 @@ class ilAuthProviderFactory
         }
         return $providers;
     }
-    
+
     /**
      * Get provider by auth mode
      */
-    public function getProviderByAuthMode(ilAuthCredentials $credentials, $a_authmode) : ?ilAuthProviderInterface
+    public function getProviderByAuthMode(ilAuthCredentials $credentials, $a_authmode): ?ilAuthProviderInterface
     {
         switch ((int) $a_authmode) {
             case ilAuthUtils::AUTH_LDAP:
                 $ldap_info = explode('_', $a_authmode);
                 $this->logger->debug('Using ldap authentication with credentials ');
                 return new ilAuthProviderLDAP($credentials, (int) $ldap_info[1]);
-            
+
             case ilAuthUtils::AUTH_LOCAL:
                 $this->logger->debug('Using local database authentication');
                 return new ilAuthProviderDatabase($credentials);
-                
+
             case ilAuthUtils::AUTH_SOAP:
                 $this->logger->debug('Using SOAP authentication.');
                 return new ilAuthProviderSoap($credentials);
-                
+
             case ilAuthUtils::AUTH_APACHE:
                 $this->logger->debug('Using apache authentication.');
                 return new ilAuthProviderApache($credentials);
@@ -87,11 +89,11 @@ class ilAuthProviderFactory
             case ilAuthUtils::AUTH_CAS:
                 $this->logger->debug('Using CAS authentication');
                 return new ilAuthProviderCAS($credentials);
-                
+
             case ilAuthUtils::AUTH_SHIBBOLETH:
                 $this->logger->debug('Using shibboleth authentication.');
                 return new ilAuthProviderShibboleth($credentials);
-                
+
             case ilAuthUtils::AUTH_PROVIDER_LTI:
                 $this->logger->debug('Using lti provider authentication.');
                 return new ilAuthProviderLTI($credentials);

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
 * This class represents a tag list property in a property form.
@@ -30,7 +33,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
     protected $max_chars = 0;
     protected $allow_duplicates = false;
     protected $js_self_init = true;
-    
+
     protected $type_ahead = false;
     protected $type_ahead_ignore_case = true;
     protected $type_ahead_list = array();
@@ -41,15 +44,15 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param int $max_tags
      */
-    public function setMaxTags($max_tags) : void
+    public function setMaxTags($max_tags): void
     {
         $this->max_tags = $max_tags;
     }
-    
+
     /**
      * @param int $max_chars
      */
-    public function setMaxChars($max_chars) : void
+    public function setMaxChars($max_chars): void
     {
         $this->max_chars = $max_chars;
     }
@@ -57,7 +60,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param boolean $allow_duplicates
      */
-    public function setAllowDuplicates($allow_duplicates) : void
+    public function setAllowDuplicates($allow_duplicates): void
     {
         $this->allow_duplicates = $allow_duplicates;
     }
@@ -65,47 +68,47 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param boolean $js_self_init
      */
-    public function setJsSelfInit($js_self_init) : void
+    public function setJsSelfInit($js_self_init): void
     {
         $this->js_self_init = $js_self_init;
     }
-    
+
     /**
      * @param boolean $type_ahead
      */
-    public function setTypeAhead($type_ahead) : void
+    public function setTypeAhead($type_ahead): void
     {
         $this->type_ahead = $type_ahead;
     }
-    
+
     /**
      * @param boolean $type_ahead_ignore_case
      */
-    public function setTypeAheadIgnoreCase($type_ahead_ignore_case) : void
+    public function setTypeAheadIgnoreCase($type_ahead_ignore_case): void
     {
         $this->type_ahead_ignore_case = $type_ahead_ignore_case;
     }
-    
+
     /**
      * @param int $min_length
      */
-    public function setTypeAheadMinLength($min_length) : void
+    public function setTypeAheadMinLength($min_length): void
     {
         $this->type_ahead_min_length = $min_length;
     }
-    
+
     /**
      * @param int $limit
      */
-    public function setTypeAheadLimit($limit) : void
+    public function setTypeAheadLimit($limit): void
     {
         $this->type_ahead_limit = $limit;
     }
-    
+
     /**
      * @param boolean $highlight
      */
-    public function setTypeAheadHighlight($highlight) : void
+    public function setTypeAheadHighlight($highlight): void
     {
         $this->type_ahead_highlight = $highlight;
     }
@@ -113,7 +116,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param array $type_ahead_list
      */
-    public function setTypeAheadList($type_ahead_list) : void
+    public function setTypeAheadList($type_ahead_list): void
     {
         $this->type_ahead_list = $type_ahead_list;
     }
@@ -123,7 +126,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
      *
      * @param	array	$a_options	Options.
      */
-    public function setOptions($a_options) : void
+    public function setOptions($a_options): void
     {
         $this->options = $a_options;
     }
@@ -133,11 +136,11 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
      *
      * @return	array	Options. Array
      */
-    public function getOptions() : array
+    public function getOptions(): array
     {
         return $this->options ? $this->options : array();
     }
-    
+
     /**
     * Constructor
     *
@@ -157,13 +160,13 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
         $tpl->addJavaScript('./Services/Form/js/typeahead_0.11.1.js');
         $tpl->addCss('./Services/Form/css/bootstrap-tagsinput_2015_25_03.css');
     }
-    
+
     /**
     * Set value by array
     *
     * @param	array	$a_values	value array
     */
-    public function setValueByArray($a_values) : void
+    public function setValueByArray($a_values): void
     {
         $this->setOptions($a_values[$this->getPostVar()]);
         foreach ($this->getSubItems() as $item) {
@@ -175,7 +178,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
     * Check input, strip slashes etc. set alert, if input is not ok.
     * @return	boolean		Input ok, true/false
     */
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $lng = $this->lng;
 
@@ -203,7 +206,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
      * @param string    $a_mode
      * @return string
      */
-    public function render($a_mode = "") : string
+    public function render($a_mode = ""): string
     {
         if ($this->type_ahead) {
             $tpl = new ilTemplate("tpl.prop_tag_typeahead.html", true, true, "Services/Form");
@@ -221,18 +224,18 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
         $tpl->setVariable("MAXTAGS", $this->max_tags);
         $tpl->setVariable("MAXCHARS", $this->max_chars);
         $tpl->setVariable("ALLOW_DUPLICATES", $this->allow_duplicates);
-        
+
         foreach ($this->getOptions() as $option_value => $option_text) {
             $tpl->setCurrentBlock("prop_select_option");
             $tpl->setVariable("VAL_SELECT_OPTION", ilLegacyFormElementsUtil::prepareFormOutput($option_text));
             $tpl->setVariable("TXT_SELECT_OPTION", $option_text);
             $tpl->parseCurrentBlock();
         }
-        
+
         $tpl->setVariable("ID", $this->getFieldId());
-        
+
         $tpl->setVariable("POST_VAR", $this->getPostVar() . "[]");
-        
+
         if ($this->js_self_init) {
             $tpl->setCurrentBlock("initialize_on_page_load");
             $tpl->parseCurrentBlock();
@@ -244,7 +247,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param $a_tpl
      */
-    public function insert($a_tpl) : void
+    public function insert($a_tpl): void
     {
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $this->render());

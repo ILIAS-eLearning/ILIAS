@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Legacy;
 
 use ILIAS\UI\Component as C;
@@ -50,7 +52,7 @@ class Legacy implements C\Legacy\Legacy
     /**
      * @inheritdoc
      */
-    public function getContent() : string
+    public function getContent(): string
     {
         return $this->content;
     }
@@ -58,7 +60,7 @@ class Legacy implements C\Legacy\Legacy
     /**
      * @inheritdoc
      */
-    public function withCustomSignal(string $signal_name, string $js_code) : C\Legacy\Legacy
+    public function withCustomSignal(string $signal_name, string $js_code): C\Legacy\Legacy
     {
         $clone = clone $this;
         $clone->registerSignalAndCustomCode($signal_name, $js_code);
@@ -68,7 +70,7 @@ class Legacy implements C\Legacy\Legacy
     /**
      * @inheritdoc
      */
-    public function getCustomSignal(string $signal_name) : Signal
+    public function getCustomSignal(string $signal_name): Signal
     {
         if (!key_exists($signal_name, $this->signal_list)) {
             throw new InvalidArgumentException("Signal with name $signal_name is not registered");
@@ -89,7 +91,7 @@ class Legacy implements C\Legacy\Legacy
      *
      * @deprecated Should only be used to connect legacy components. Will be removed in the future. Use at your own risk
      */
-    public function getAllCustomSignals() : array
+    public function getAllCustomSignals(): array
     {
         return $this->signal_list;
     }
@@ -97,7 +99,7 @@ class Legacy implements C\Legacy\Legacy
     /**
      * Registers new signal with its JavaScript code in the signal list
      */
-    private function registerSignalAndCustomCode(string $signal_name, string $js_code) : void
+    private function registerSignalAndCustomCode(string $signal_name, string $js_code): void
     {
         $this->signal_list[$signal_name] = array(
             'signal' => $this->signal_generator->create(),

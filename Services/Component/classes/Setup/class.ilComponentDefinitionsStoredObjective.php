@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\DI;
@@ -19,7 +21,7 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class);
     }
@@ -27,7 +29,7 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Module- and Servicedefinitions are stored. Events are initialized.";
     }
@@ -35,7 +37,7 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
@@ -43,7 +45,7 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         return [
             new \ilDatabaseUpdatedObjective(),
@@ -57,7 +59,7 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $ilias_path = __DIR__ . "/../../../..";
 
@@ -82,32 +84,32 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilClientIniFile"] = $client_ini;
         $GLOBALS["DIC"]["ilBench"] = null;
         $GLOBALS["DIC"]["ilObjDataCache"] = null;
-        $GLOBALS["DIC"]["lng"] = new class() {
-            public function loadLanguageModule() : void
+        $GLOBALS["DIC"]["lng"] = new class () {
+            public function loadLanguageModule(): void
             {
             }
         };
-        $GLOBALS["DIC"]["ilLog"] = new class() {
-            public function write() : void
+        $GLOBALS["DIC"]["ilLog"] = new class () {
+            public function write(): void
             {
             }
-            public function debug() : void
+            public function debug(): void
             {
             }
         };
-        $GLOBALS["DIC"]["ilLoggerFactory"] = new class() {
+        $GLOBALS["DIC"]["ilLoggerFactory"] = new class () {
             public function getRootLogger()
             {
-                return new class() {
-                    public function write() : void
+                return new class () {
+                    public function write(): void
                     {
                     }
                 };
             }
             public function getLogger()
             {
-                return new class() {
-                    public function write() : void
+                return new class () {
+                    public function write(): void
                     {
                     }
                 };
@@ -149,7 +151,7 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         return true;
     }

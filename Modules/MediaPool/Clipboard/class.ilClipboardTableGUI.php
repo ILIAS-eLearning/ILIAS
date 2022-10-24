@@ -51,36 +51,36 @@ class ilClipboardTableGUI extends ilTable2GUI
             "Modules/MediaPool/Clipboard"
         );
         $this->getItems();
-        
+
         // title
         $this->setTitle($lng->txt("clipboard"));
 
         $this->setDefaultOrderField("title");
-        
+
         // action commands
         if ($this->parent_obj->mode === "getObject") {
             $this->addMultiCommand("insert", $this->parent_obj->getInsertButtonTitle());
         }
         $this->addMultiCommand("remove", $lng->txt("remove"));
-        
+
         $this->setSelectAllCheckbox("id");
     }
 
     /**
      * Get items from user clipboard
      */
-    public function getItems() : void
+    public function getItems(): void
     {
         $ilUser = $this->user;
-        
+
         $objs = $ilUser->getClipboardObjects("mob");
         $objs2 = $ilUser->getClipboardObjects("incl");
         $objs = array_merge($objs, $objs2);
 
         $this->setData($objs);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $ilCtrl = $this->ctrl;
 

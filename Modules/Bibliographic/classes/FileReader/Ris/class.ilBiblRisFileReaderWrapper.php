@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use LibRIS\RISReader;
 
 /**
@@ -24,11 +24,10 @@ use LibRIS\RISReader;
  */
 class ilBiblRisFileReaderWrapper
 {
-
     /**
      * @return mixed[]
      */
-    public function parseContent(string $content) : array
+    public function parseContent(string $content): array
     {
         $RISReader = new RISReader();
         $re = '/\n|\r/m';

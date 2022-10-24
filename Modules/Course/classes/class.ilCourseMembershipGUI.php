@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Member-tab content
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
@@ -26,7 +28,7 @@
  */
 class ilCourseMembershipGUI extends ilMembershipGUI
 {
-    protected function getMailMemberRoles() : ?ilAbstractMailMemberRoles
+    protected function getMailMemberRoles(): ?ilAbstractMailMemberRoles
     {
         return new ilMailMemberCourseRoles();
     }
@@ -36,7 +38,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
      * @param int[] $a_user_ids
      * @return int[]
      */
-    public function filterUserIdsByRbacOrPositionOfCurrentUser(array $a_user_ids) : array
+    public function filterUserIdsByRbacOrPositionOfCurrentUser(array $a_user_ids): array
     {
         return $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
             'manage_members',
@@ -49,7 +51,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
     /**
      * @inheritdoc
      */
-    protected function getMailContextOptions() : array
+    protected function getMailContextOptions(): array
     {
         return [
             ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
@@ -67,7 +69,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
      * Show deletion confirmation with linked courses.
      * @param int[] participants
      */
-    protected function showDeleteParticipantsConfirmationWithLinkedCourses(array $participants) : void
+    protected function showDeleteParticipantsConfirmationWithLinkedCourses(array $participants): void
     {
         $this->tpl->setOnScreenMessage('question', $this->lng->txt('crs_ref_delete_confirmation_info'));
 
@@ -83,7 +85,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    protected function deleteParticipantsWithLinkedCourses() : void
+    protected function deleteParticipantsWithLinkedCourses(): void
     {
         $participants = $this->initParticipantsFromPost();
 
@@ -96,7 +98,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         // members who have the course administrator role
         if (
             !$this->access->checkAccess('edit_permission', '', $this->getParentObject()->getRefId()) &&
-            !$this->getMembersObject()->isAdmin($GLOBALS['DIC']['ilUser']->getId())
+            !$this->getMembersObject()->isAdmin($this->user->getId())
         ) {
             foreach ($participants as $part) {
                 if ($this->getMembersObject()->isAdmin($part)) {
@@ -125,8 +127,10 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         if ($this->http->wrapper()->post()->has('refs')) {
             $refs = $this->http->wrapper()->post()->retrieve(
                 'refs',
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->dictOf(
+                        $this->refinery->kindlyTo()->int()
+                    )
                 )
             );
         }
@@ -149,8 +153,9 @@ class ilCourseMembershipGUI extends ilMembershipGUI
     /**
      * callback from repository search gui
      */
-    public function assignMembers(array $a_usr_ids, int $a_type) : bool
+    public function assignMembers(array $a_usr_ids, string $a_type): bool
     {
+        $a_type = (int) $a_type;
         if (!$this->checkRbacOrPositionAccessBool('manage_members', 'manage_members')) {
             $this->error->raiseError($this->lng->txt("msg_no_perm_read"), $this->error->FATAL);
         }
@@ -203,7 +208,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         return false;
     }
 
-    protected function initParticipantStatusFromPostFor(string $item_key) : array
+    protected function initParticipantStatusFromPostFor(string $item_key): array
     {
         if ($this->http->wrapper()->post()->has($item_key)) {
             return $this->http->wrapper()->post()->retrieve(
@@ -216,7 +221,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         return [];
     }
 
-    protected function updateParticipantsStatus() : void
+    protected function updateParticipantsStatus(): void
     {
         $visible_members = [];
         if ($this->http->wrapper()->post()->has('visible_member_ids')) {
@@ -269,7 +274,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         $this->ctrl->redirect($this, 'participants');
     }
 
-    protected function initParticipantTableGUI() : ilParticipantTableGUI
+    protected function initParticipantTableGUI(): ilParticipantTableGUI
     {
         $show_tracking =
             (ilObjUserTracking::_enabledLearningProgress() && ilObjUserTracking::_enabledUserRelatedData());
@@ -290,7 +295,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         );
     }
 
-    protected function initEditParticipantTableGUI(array $participants) : ilCourseEditParticipantsTableGUI
+    protected function initEditParticipantTableGUI(array $participants): ilCourseEditParticipantsTableGUI
     {
         /** @noinspection PhpParamsInspection */
         $table = new ilCourseEditParticipantsTableGUI($this, $this->getParentObject());
@@ -300,7 +305,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         return $table;
     }
 
-    protected function initParticipantTemplate() : void
+    protected function initParticipantTemplate(): void
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.crs_edit_members.html', 'Modules/Course');
     }
@@ -308,32 +313,32 @@ class ilCourseMembershipGUI extends ilMembershipGUI
     /**
      * @todo refactor delete
      */
-    public function getLocalTypeRole(bool $a_translation = false) : array
+    public function getLocalTypeRole(bool $a_translation = false): array
     {
         return $this->getParentObject()->getLocalCourseRoles($a_translation);
     }
 
-    protected function updateLPFromStatus(int $a_member_id, bool $a_passed) : void
+    protected function updateLPFromStatus(int $a_member_id, bool $a_passed): void
     {
         $this->getParentGUI()->updateLPFromStatus($a_member_id, $a_passed);
     }
 
-    protected function initWaitingList() : ilCourseWaitingList
+    protected function initWaitingList(): ilCourseWaitingList
     {
         return new ilCourseWaitingList($this->getParentObject()->getId());
     }
 
-    protected function getDefaultRole() : ?int
+    protected function getDefaultRole(): ?int
     {
         return $this->getParentGUI()->getObject()->getDefaultMemberRole();
     }
 
-    protected function deliverCertificate() : void
+    protected function deliverCertificate(): void
     {
         $this->getParentGUI()->deliverCertificateObject();
     }
 
-    protected function getPrintMemberData(array $a_members) : array
+    protected function getPrintMemberData(array $a_members): array
     {
         $this->lng->loadLanguageModule('trac');
 
@@ -439,7 +444,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         return ilArrayUtil::sortArray($print_member, 'name', $print_order, false, true);
     }
 
-    public function getAttendanceListUserData(int $user_id, array $filters = []) : array
+    public function getAttendanceListUserData(int $user_id, array $filters = []): array
     {
         if (is_array($this->member_data) && array_key_exists($user_id, $this->member_data)) {
             return $this->member_data[$user_id];

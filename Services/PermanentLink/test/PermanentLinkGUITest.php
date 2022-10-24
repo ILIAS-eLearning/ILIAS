@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
  */
 class PermanentLinkGUITest extends TestCase
 {
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -35,7 +35,7 @@ class PermanentLinkGUITest extends TestCase
         };
     }
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $dic = new ILIAS\DI\Container();
         $GLOBALS['DIC'] = $dic;
@@ -102,11 +102,11 @@ class PermanentLinkGUITest extends TestCase
         $this->setGlobalVariable('ilObjDataCache', $objectDataCache);
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    public function testProperties() : void
+    public function testProperties(): void
     {
         $pm = new ilPermanentLinkGUI(
             "wiki",

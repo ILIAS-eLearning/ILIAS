@@ -30,7 +30,6 @@ namespace ILIAS\Filesystem;
  */
 interface Visibility
 {
-
     /**
      * Public file visibility.
      * @since 5.3

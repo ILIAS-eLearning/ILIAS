@@ -41,5 +41,5 @@ interface Filesystem extends FileStreamAccess, FileAccess, DirectoryAccess
     /**
      * @return Finder
      */
-    public function finder() : Finder;
+    public function finder(): Finder;
 }

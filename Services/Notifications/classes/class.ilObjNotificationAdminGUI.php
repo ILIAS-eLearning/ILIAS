@@ -1,7 +1,8 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
- *
+declare(strict_types=1);
+
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +13,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Input\Container\Form\Form;
@@ -42,8 +43,8 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         $this->lng->loadLanguageModule('notification_adm');
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $this->prepareOutput();
 
@@ -66,7 +67,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    public function showGeneralSettings(?Form $form = null) : void
+    public function showGeneralSettings(?Form $form = null): void
     {
         if ($form === null) {
             $settings = new ilSetting('notifications');
@@ -90,7 +91,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    public function saveGeneralSettings() : void
+    public function saveGeneralSettings(): void
     {
         $settings = new ilSetting('notifications');
 
@@ -114,7 +115,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    protected function getForm(array $value = null) : Form
+    protected function getForm(array $value = null): Form
     {
         $enable_osd = $this->dic->ui()->factory()->input()->field()->optionalGroup(
             [

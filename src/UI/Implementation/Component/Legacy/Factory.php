@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Legacy;
 
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
@@ -32,7 +34,7 @@ class Factory implements \ILIAS\UI\Component\Legacy\Factory
     /**
      * @inheritdoc
      */
-    public function legacy(string $content) : \ILIAS\UI\Component\Legacy\Legacy
+    public function legacy(string $content): \ILIAS\UI\Component\Legacy\Legacy
     {
         return new Legacy($content, $this->signal_generator);
     }

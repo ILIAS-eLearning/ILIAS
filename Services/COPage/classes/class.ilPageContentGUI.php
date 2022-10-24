@@ -99,52 +99,52 @@ class ilPageContentGUI
         }
     }
 
-    public function setContentObject(ilPageContent $a_val) : void
+    public function setContentObject(ilPageContent $a_val): void
     {
         $this->content_obj = $a_val;
     }
-    
-    public function getContentObject() : ilPageContent
+
+    public function getContentObject(): ?ilPageContent
     {
         return $this->content_obj;
     }
-    
-    public function setPage(ilPageObject $a_val) : void
+
+    public function setPage(ilPageObject $a_val): void
     {
         $this->pg_obj = $a_val;
     }
-    
-    public function getPage() : ilPageObject
+
+    public function getPage(): ilPageObject
     {
         return $this->pg_obj;
     }
 
-    public function setPageConfig(ilPageConfig $a_val) : void
+    public function setPageConfig(ilPageConfig $a_val): void
     {
         $this->page_config = $a_val;
     }
 
-    public function getPageConfig() : ilPageConfig
+    public function getPageConfig(): ilPageConfig
     {
         return $this->page_config;
     }
 
-    public static function _getCommonBBButtons() : array
+    public static function _getCommonBBButtons(): array
     {
         return self::$common_bb_buttons;
     }
 
-    public function setStyleId(int $a_styleid) : void
+    public function setStyleId(int $a_styleid): void
     {
         $this->styleid = $a_styleid;
     }
 
-    public function getStyleId() : int
+    public function getStyleId(): int
     {
         return $this->styleid;
     }
 
-    public function getStyle() : ?ilObjStyleSheet
+    public function getStyle(): ?ilObjStyleSheet
     {
         if ((!is_object($this->style) || $this->getStyleId() != $this->style->getId()) && $this->getStyleId() > 0) {
             if (ilObject::_lookupType($this->getStyleId()) == "sty") {
@@ -153,12 +153,12 @@ class ilPageContentGUI
         }
         return $this->style;
     }
-    
+
     /**
      * Get characteristics of current style and call
      * setCharacteristics, if style is given
      */
-    public function getCharacteristicsOfCurrentStyle(array $a_type) : void
+    public function getCharacteristicsOfCurrentStyle(array $a_type): void
     {
         global $DIC;
         $service = $DIC->contentStyle()->internal();
@@ -200,17 +200,17 @@ class ilPageContentGUI
         }
     }
 
-    public function setCharacteristics(array $a_chars) : void
+    public function setCharacteristics(array $a_chars): void
     {
         $this->chars = $a_chars;
     }
 
-    public function getCharacteristics() : array
+    public function getCharacteristics(): array
     {
         return $this->chars ?? [];
     }
 
-    public function getHierId() : string
+    public function getHierId(): string
     {
         return $this->hier_id;
     }
@@ -218,13 +218,13 @@ class ilPageContentGUI
     /**
      * set hierarchical id in dom object
      */
-    public function setHierId(string $a_hier_id) : void
+    public function setHierId(string $a_hier_id): void
     {
         $this->hier_id = $a_hier_id;
     }
 
     // delete content element
-    public function delete() : void
+    public function delete(): void
     {
         $updated = $this->pg_obj->deleteContent($this->hier_id);
         if ($updated !== true) {
@@ -239,7 +239,7 @@ class ilPageContentGUI
      * move content element after another element
      * @throws ilCOPagePCEditException
      */
-    public function moveAfter() : void
+    public function moveAfter(): void
     {
         $target = $this->request->getStringArray("target");
         // check if a target is selected
@@ -298,7 +298,7 @@ class ilPageContentGUI
      * move content element before another element
      * @throws ilCOPagePCEditException
      */
-    public function moveBefore() : void
+    public function moveBefore(): void
     {
         $target = $this->request->getStringArray("target");
         // check if a target is selected
@@ -312,7 +312,7 @@ class ilPageContentGUI
         }
 
         $a_hid = explode(":", $target[0]);
-        
+
         // check if target is within source
         if ($this->hier_id == substr($a_hid[0], 0, strlen($this->hier_id))) {
             throw new ilCOPagePCEditException($this->lng->txt("cont_target_within_source"));
@@ -346,13 +346,13 @@ class ilPageContentGUI
         }
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
-    
-    
+
+
     /**
      * split page to new page at specified position
      * @throws ilCOPagePCEditException
      */
-    public function splitPage() : void
+    public function splitPage(): void
     {
         if ($this->pg_obj->getParentType() != "lm") {
             throw new ilCOPagePCEditException("Split method called for wrong parent type (" .
@@ -363,12 +363,12 @@ class ilPageContentGUI
                 $this->pg_obj->getParentType(),
                 $this->hier_id
             );
-                
+
             // jump to new page
             $this->ctrl->setParameterByClass("illmpageobjectgui", "obj_id", $lm_page->getId());
             $this->ctrl->redirectByClass("illmpageobjectgui", "edit");
         }
-        
+
         $this->ctrl->returnToParent($this, "jump" . ($this->hier_id - 1));
     }
 
@@ -376,7 +376,7 @@ class ilPageContentGUI
      * split page to next page at specified position
      * @throws ilCOPagePCEditException
      */
-    public function splitPageNext() : void
+    public function splitPageNext(): void
     {
         if ($this->pg_obj->getParentType() != "lm") {
             throw new ilCOPagePCEditException("Split method called for wrong parent type (" .
@@ -387,7 +387,7 @@ class ilPageContentGUI
                 $this->pg_obj->getParentType(),
                 $this->hier_id
             );
-            
+
             // jump to successor page
             if ($succ_id > 0) {
                 $this->ctrl->setParameterByClass("illmpageobjectgui", "obj_id", $succ_id);
@@ -397,7 +397,7 @@ class ilPageContentGUI
         $this->ctrl->returnToParent($this, "jump" . ($this->hier_id - 1));
     }
 
-    public function displayValidationError() : void
+    public function displayValidationError(): void
     {
         if (is_array($this->updated)) {
             $error_str = "<b>Error(s):</b><br>";
@@ -413,11 +413,11 @@ class ilPageContentGUI
                 $this->updated);
         }
     }
-    
+
     /**
      * cancel creating page content
      */
-    public function cancelCreate() : void
+    public function cancelCreate(): void
     {
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
@@ -425,7 +425,7 @@ class ilPageContentGUI
     /**
      * cancel update
      */
-    public function cancelUpdate() : void
+    public function cancelUpdate(): void
     {
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
@@ -433,7 +433,7 @@ class ilPageContentGUI
     /**
      * Cancel
      */
-    public function cancel() : void
+    public function cancel(): void
     {
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
@@ -442,10 +442,10 @@ class ilPageContentGUI
      * gui function
      * set enabled if is not enabled and vice versa
      */
-    public function deactivate() : void
+    public function deactivate(): void
     {
         $obj = &$this->content_obj;
-        
+
         if ($obj->isEnabled()) {
             $obj->disable();
         } else {
@@ -457,7 +457,7 @@ class ilPageContentGUI
     /**
      * Cut single element
      */
-    public function cut() : void
+    public function cut(): void
     {
         $updated = $this->pg_obj->cutContents(array($this->hier_id . ":" . $this->pc_id));
         if ($updated !== true) {
@@ -465,7 +465,7 @@ class ilPageContentGUI
         } else {
             $this->edit_repo->clearPageError();
         }
-    
+
         $this->log->debug("return to parent jump" . $this->hier_id);
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
@@ -473,7 +473,7 @@ class ilPageContentGUI
     /**
      * Copy single element
      */
-    public function copy() : void
+    public function copy(): void
     {
         $this->pg_obj->copyContents(array($this->hier_id . ":" . $this->pc_id));
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
@@ -483,7 +483,7 @@ class ilPageContentGUI
     /**
      * Get table templates
      */
-    public function getTemplateOptions(string $a_type = "") : array
+    public function getTemplateOptions(string $a_type = ""): array
     {
         $style = $this->getStyle();
 
@@ -498,7 +498,7 @@ class ilPageContentGUI
         return array();
     }
 
-    protected function redirectToParent(string $hier_id = "") : void
+    protected function redirectToParent(string $hier_id = ""): void
     {
         $ilCtrl = $this->ctrl;
         if ($hier_id == "") {
@@ -508,7 +508,7 @@ class ilPageContentGUI
         $ilCtrl->returnToParent($this, "add" . $pcid);
     }
 
-    protected function getParentReturn(string $hier_id = "") : string
+    protected function getParentReturn(string $hier_id = ""): string
     {
         if ($hier_id == "") {
             $hier_id = $this->hier_id;
@@ -518,7 +518,7 @@ class ilPageContentGUI
         return $ilCtrl->getParentReturn($this) . "#add" . $pcid;
     }
 
-    protected function updateAndReturn() : void
+    protected function updateAndReturn(): void
     {
         $up = $this->pg_obj->update();
         if ($up === true) {
@@ -529,12 +529,12 @@ class ilPageContentGUI
         $this->redirectToParent();
     }
 
-    protected function setCurrentTextLang(string $lang_key) : void
+    protected function setCurrentTextLang(string $lang_key): void
     {
         $this->edit_repo->setTextLang($this->requested_ref_id, $lang_key);
     }
 
-    protected function getCurrentTextLang() : string
+    protected function getCurrentTextLang(): string
     {
         return $this->edit_repo->getTextLang($this->requested_ref_id);
     }

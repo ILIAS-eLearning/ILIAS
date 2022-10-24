@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\DI\UIServices;
 use ILIAS\HTTP\GlobalHttpState;
@@ -45,7 +47,7 @@ class ilGroupAddToGroupActionGUI
         $this->ctrl->saveParameter($this, array("user_id", "modal_exists"));
     }
 
-    protected function initGroupRefIdFromQuery() : int
+    protected function initGroupRefIdFromQuery(): int
     {
         $ref_id = 0;
         if ($this->http->wrapper()->query()->has('grp_act_par_ref_id')) {
@@ -57,7 +59,7 @@ class ilGroupAddToGroupActionGUI
         return $ref_id;
     }
 
-    protected function initUserIdFromQuery() : int
+    protected function initUserIdFromQuery(): int
     {
         $user_id = 0;
         if ($this->http->wrapper()->query()->has('user_id')) {
@@ -69,7 +71,7 @@ class ilGroupAddToGroupActionGUI
         return $user_id;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
         $user = $this->user;
@@ -107,7 +109,7 @@ class ilGroupAddToGroupActionGUI
                 }
         }
     }
-    public function show() : void
+    public function show(): void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -136,15 +138,15 @@ class ilGroupAddToGroupActionGUI
         );
     }
 
-    public function sendResponse(string $a_content) : void
+    public function sendResponse(string $a_content): void
     {
         $lng = $this->lng;
 
         $modal_exists = false;
         if ($this->http->wrapper()->query()->has('modal_exists')) {
-            $modal_exists = $this->http->wrapper()->query()->retrieve(
-                'modal_exist',
-                $this->refinery->kindlyTo()->bool()
+            $modal_exists = (bool) $this->http->wrapper()->query()->retrieve(
+                'modal_exists',
+                $this->refinery->kindlyTo()->int()
             );
         }
         if ($modal_exists) {
@@ -165,7 +167,7 @@ class ilGroupAddToGroupActionGUI
     }
 
 
-    public function selectGroup() : void
+    public function selectGroup(): void
     {
         $tree = $this->tree;
 
@@ -181,7 +183,7 @@ class ilGroupAddToGroupActionGUI
         exit;
     }
 
-    public function confirmAddUser() : void
+    public function confirmAddUser(): void
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -222,7 +224,7 @@ class ilGroupAddToGroupActionGUI
         exit;
     }
 
-    public function addUser() : void
+    public function addUser(): void
     {
         $lng = $this->lng;
 
@@ -246,7 +248,7 @@ class ilGroupAddToGroupActionGUI
         exit;
     }
 
-    public function selectParent() : void
+    public function selectParent(): void
     {
         $tree = $this->tree;
         $lng = $this->lng;
@@ -264,7 +266,7 @@ class ilGroupAddToGroupActionGUI
         exit;
     }
 
-    public function createGroup($form = null) : void
+    public function createGroup($form = null): void
     {
         $lng = $this->lng;
 
@@ -282,7 +284,7 @@ class ilGroupAddToGroupActionGUI
     }
 
 
-    protected function getGroupCreationForm() : ilPropertyFormGUI
+    protected function getGroupCreationForm(): ilPropertyFormGUI
     {
         $lng = $this->lng;
 
@@ -297,7 +299,7 @@ class ilGroupAddToGroupActionGUI
         return $form;
     }
 
-    public function confirmCreateGroupAndAddUser() : void
+    public function confirmCreateGroupAndAddUser(): void
     {
         $lng = $this->lng;
 
@@ -337,7 +339,7 @@ class ilGroupAddToGroupActionGUI
         exit;
     }
 
-    public function createGroupAndAddUser() : void
+    public function createGroupAndAddUser(): void
     {
         $lng = $this->lng;
 
@@ -364,7 +366,7 @@ class ilGroupAddToGroupActionGUI
             $newObj->applyDidacticTemplate($dtpl);
         }
 
-        $group_gui->afterSave($newObj);
+        $group_gui->afterSave($newObj, false);
 
 
         $participants = ilParticipants::getInstanceByObjId($newObj->getId());

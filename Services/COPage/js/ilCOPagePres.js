@@ -27,6 +27,7 @@ il.COPagePres =
 		this.initMapAreas();
 		this.initAdvancedContent();
 		this.initAudioVideo();
+		this.initAccordions();
 	},
 	
 	//
@@ -42,6 +43,14 @@ il.COPagePres =
 		if (cookiePos > -1 && document.cookie.charAt(cookiePos + 11) == 1)
 		{
 			this.toggleToc();
+		}
+	},
+
+	initAccordions: function () {
+		if (typeof ilAccordionsInits !== "undefined") {
+			for (var i = 0; i < ilAccordionsInits.length; i++) {
+				il.Accordion.add(ilAccordionsInits[i]);
+			}
 		}
 	},
 
@@ -86,7 +95,7 @@ il.COPagePres =
 	 */
 	initInteractiveImages: function () {
 		// preload overlay images (necessary?)
-		
+		console.log("INIT Interactive Images!");
 		// add onmouseover event to all map areas
 		$("map.iim > area").mouseover(this.overBaseArea);
 		$("map.iim > area").mouseout(this.outBaseArea);
@@ -96,6 +105,63 @@ il.COPagePres =
 		$("a.ilc_marker_Marker").mouseout(this.outMarker);
 		$("a.ilc_marker_Marker").click(this.clickMarker);
 
+		// add areas
+		document.querySelectorAll("[data-copg-iim-data-type='area']").forEach(el => {
+			const d = el.dataset;
+			il.COPagePres.addIIMArea({
+				area_id: d.copgIimAreaId,
+				iim_id: d.copgIimId,
+				tr_nr: d.copgIimTrNr,
+				title: d.copgIimTitle
+			});
+		});
+
+		// add trigger for overlays/popups
+		document.querySelectorAll("[data-copg-iim-data-type='trigger']").forEach(el => {
+			const d = el.dataset;
+			il.COPagePres.addIIMTrigger({
+				iim_id: d.copgIimId,
+				type: d.copgIimType,
+				title: d.copgIimTitle,
+				ovx: d.copgIimOvx,
+				ovy: d.copgIimOvy,
+				markx: d.copgIimMarkx,
+				marky: d.copgIimMarky,
+				popup_nr: d.copgIimPopupNr,
+				nr: d.copgIimNr,
+				popx: d.copgIimPopx,
+				popy: d.copgIimPopy,
+				popwidth: d.copgIimPopwidth,
+				popheight: d.copgIimPopheight,
+				tr_id: d.copgIimTrId
+			});
+		});
+
+		// add markers
+		document.querySelectorAll("[data-copg-iim-data-type='marker']").forEach(el => {
+			const d = el.dataset;
+			il.COPagePres.addIIMMarker({
+				iim_id: d.copgIimId,
+				m_id: d.copgIimMId,
+				markx: d.copgIimMarkx,
+				marky: d.copgIimMarky,
+				tr_nr: d.copgIimTrNr,
+				tr_id: d.copgIimTrId,
+				edit_mode: d.copgIimEditMode
+			});
+		});
+
+		// add popups
+		document.querySelectorAll("[data-copg-iim-data-type='popup']").forEach(el => {
+			const d = el.dataset;
+			il.COPagePres.addIIMPopup({
+				iim_id: d.copgIimId,
+				pop_id: d.copgIimPopId,
+				div_id: d.copgIimDivId,
+				nr: d.copgIimNr,
+				title: d.copgIimTitle
+			});
+		});
 	},
 	
 	/**

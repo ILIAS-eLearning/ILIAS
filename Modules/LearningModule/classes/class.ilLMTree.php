@@ -39,7 +39,7 @@ class ilLMTree extends ilTree
 
     public static function getInstance(
         int $a_tree_id
-    ) : self {
+    ): self {
         if (isset(self::$instances[$a_tree_id])) {
             return self::$instances[$a_tree_id];
         }
@@ -49,17 +49,17 @@ class ilLMTree extends ilTree
         return $tree;
     }
 
-    public function isCacheUsed() : bool
+    public function isCacheUsed(): bool
     {
         return $this->use_cache;
     }
 
-    public function getLastActivePage() : int
+    public function getLastActivePage(): int
     {
         $ilDB = $this->db;
-        
+
         $ilDB->setLimit(1, 0);
-        
+
         $sql = "SELECT lm_data.obj_id" .
             " FROM lm_data" .
             " JOIN lm_tree ON (lm_tree.child = lm_data.obj_id)" .
@@ -76,7 +76,7 @@ class ilLMTree extends ilTree
     /**
      * Get complete tree
      */
-    public function getCompleteTree() : array
+    public function getCompleteTree(): array
     {
         if (is_null($this->complete_tree)) {
             $this->complete_tree = $this->getSubTree($this->getNodeData($this->readRootId()));

@@ -41,18 +41,18 @@ class ilHelpModuleTableGUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         $this->has_write_permission = $a_has_write_permission;
-        
+
         $this->setId("help_mods");
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->getHelpModules();
         $this->setTitle($lng->txt("help_modules"));
-        
+
         $this->addColumn("", "", "1");
         $this->addColumn($this->lng->txt("title"));
         $this->addColumn($this->lng->txt("help_imported_on"));
         $this->addColumn($this->lng->txt("actions"));
-        
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.help_module_row.html", "Services/Help");
 
@@ -60,13 +60,13 @@ class ilHelpModuleTableGUI extends ilTable2GUI
             $this->addMultiCommand("confirmHelpModulesDeletion", $lng->txt("delete"));
         }
     }
-    
-    public function getHelpModules() : void
+
+    public function getHelpModules(): void
     {
         $this->setData($this->parent_obj->getObject()->getHelpModules());
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilSetting = $this->settings;

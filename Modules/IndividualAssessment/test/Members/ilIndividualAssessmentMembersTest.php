@@ -1,28 +1,44 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class TestObj extends ilIndividualAssessmentMembers
 {
-    public function buildNewRecordOfUserWrapper(ilObjUser $user) : array
+    public function buildNewRecordOfUserWrapper(ilObjUser $user): array
     {
         return $this->buildNewRecordOfUser($user);
     }
 
-    public function initMemberRecords(array $arr) : void
+    public function initMemberRecords(array $arr): void
     {
         $this->member_records = $arr;
     }
 
-    public function getMemberRecords() : array
+    public function getMemberRecords(): array
     {
         return $this->member_records;
     }
 
-    protected function userExists(int $usr_id) : bool
+    protected function userExists(int $usr_id): bool
     {
         if ($usr_id === 22) {
             return false;
@@ -38,25 +54,25 @@ class ilIndividualAssessmentMembersTest extends TestCase
      */
     private $iass;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->iass = $this->createMock(ilObjIndividualAssessment::class);
     }
 
-    public function test_createObject() : void
+    public function test_createObject(): void
     {
         $obj = new ilIndividualAssessmentMembers($this->iass);
         $this->assertInstanceOf(ilIndividualAssessmentMembers::class, $obj);
     }
 
-    public function test_count() : void
+    public function test_count(): void
     {
         $obj = new TestObj($this->iass);
         $obj->initMemberRecords([1,2,3,4,5]);
         $this->assertEquals(5, $obj->count());
     }
 
-    public function test_current() : void
+    public function test_current(): void
     {
         $obj = new TestObj($this->iass);
         $obj->initMemberRecords([1,2,3,4,5]);
@@ -67,7 +83,7 @@ class ilIndividualAssessmentMembersTest extends TestCase
         $this->assertEquals(324, $obj->current());
     }
 
-    public function test_current_false() : void
+    public function test_current_false(): void
     {
         $obj = new TestObj($this->iass);
         $obj->initMemberRecords([1]);
@@ -75,7 +91,7 @@ class ilIndividualAssessmentMembersTest extends TestCase
         $this->assertFalse($obj->current());
     }
 
-    public function test_key() : void
+    public function test_key(): void
     {
         $obj = new TestObj($this->iass);
         $obj->initMemberRecords([1,2,3,4]);
@@ -84,14 +100,14 @@ class ilIndividualAssessmentMembersTest extends TestCase
         $this->assertEquals(1, $obj->key());
     }
 
-    public function test_key_null() : void
+    public function test_key_null(): void
     {
         $obj = new TestObj($this->iass);
         $obj->initMemberRecords([]);
         $this->assertNull($obj->key());
     }
 
-    public function test_key_string() : void
+    public function test_key_string(): void
     {
         $obj = new TestObj($this->iass);
         $obj->initMemberRecords(["test" => "foo", "bar" => "boo"]);
@@ -100,7 +116,7 @@ class ilIndividualAssessmentMembersTest extends TestCase
         $this->assertEquals("bar", $obj->key());
     }
 
-    public function test_next() : void
+    public function test_next(): void
     {
         $obj = new TestObj($this->iass);
         $obj->initMemberRecords([1,2,3,4,5]);
@@ -110,7 +126,7 @@ class ilIndividualAssessmentMembersTest extends TestCase
         $this->assertEquals(4, $obj->current());
     }
 
-    public function test_rewind() : void
+    public function test_rewind(): void
     {
         $obj = new TestObj($this->iass);
         $obj->initMemberRecords([1,2,3,4,5]);
@@ -122,14 +138,14 @@ class ilIndividualAssessmentMembersTest extends TestCase
         $this->assertEquals(1, $obj->current());
     }
 
-    public function test_valid() : void
+    public function test_valid(): void
     {
         $obj = new TestObj($this->iass);
         $obj->initMemberRecords([1,2,3,4,5]);
         $this->assertTrue($obj->valid());
     }
 
-    public function test_valid_false() : void
+    public function test_valid_false(): void
     {
         $obj = new TestObj($this->iass);
         $obj->initMemberRecords([1]);
@@ -138,7 +154,7 @@ class ilIndividualAssessmentMembersTest extends TestCase
         $this->assertFalse($obj->valid());
     }
 
-    public function test_recordOK_with_non_existing_user() : void
+    public function test_recordOK_with_non_existing_user(): void
     {
         $usr = $this->createMock(ilObjUser::class);
         $usr
@@ -168,7 +184,7 @@ class ilIndividualAssessmentMembersTest extends TestCase
         $this->assertFalse($obj->recordOK($record));
     }
 
-    public function test_recordOK_with_already_existing_user() : void
+    public function test_recordOK_with_already_existing_user(): void
     {
         $usr = $this->getRecordOKUserMock();
 
@@ -180,7 +196,7 @@ class ilIndividualAssessmentMembersTest extends TestCase
         $this->assertFalse($obj->recordOK($record));
     }
 
-    public function test_recordOK_with_wrong_lp_status() : void
+    public function test_recordOK_with_wrong_lp_status(): void
     {
         $usr = $this->getRecordOKUserMock();
 
@@ -192,7 +208,7 @@ class ilIndividualAssessmentMembersTest extends TestCase
         $this->assertFalse($obj->recordOK($record));
     }
 
-    public function test_recordOK() : void
+    public function test_recordOK(): void
     {
         $usr = $this->getRecordOKUserMock();
 
@@ -233,21 +249,21 @@ class ilIndividualAssessmentMembersTest extends TestCase
         return $usr;
     }
 
-    public function test_userAllreadyMemberByUsrId() : void
+    public function test_userAllreadyMemberByUsrId(): void
     {
         $obj = new TestObj($this->iass);
         $obj->initMemberRecords([22 => "is_set"]);
         $this->assertTrue($obj->userAllreadyMemberByUsrId(22));
     }
 
-    public function test_userAllreadyMemberByUsrId_false() : void
+    public function test_userAllreadyMemberByUsrId_false(): void
     {
         $obj = new TestObj($this->iass);
         $obj->initMemberRecords([23 => "is_set"]);
         $this->assertFalse($obj->userAllreadyMemberByUsrId(22));
     }
 
-    public function test_userAllreadyMember() : void
+    public function test_userAllreadyMember(): void
     {
         $usr = $this->createMock(ilObjUser::class);
         $usr
@@ -261,7 +277,7 @@ class ilIndividualAssessmentMembersTest extends TestCase
         $this->assertTrue($obj->userAllreadyMember($usr));
     }
 
-    public function test_userAllreadyMember_false() : void
+    public function test_userAllreadyMember_false(): void
     {
         $usr = $this->createMock(ilObjUser::class);
         $usr
@@ -275,7 +291,7 @@ class ilIndividualAssessmentMembersTest extends TestCase
         $this->assertFalse($obj->userAllreadyMember($usr));
     }
 
-    public function test_withAdditionalRecord() : void
+    public function test_withAdditionalRecord(): void
     {
         $usr = $this->getRecordOKUserMock();
 
@@ -309,7 +325,7 @@ class ilIndividualAssessmentMembersTest extends TestCase
         $this->assertNull($record[ilIndividualAssessmentMembers::FIELD_CHANGER_LASTNAME]);
     }
 
-    public function test_withAdditionalRecord_exceptio() : void
+    public function test_withAdditionalRecord_exceptio(): void
     {
         $obj = new TestObj($this->iass);
 
@@ -318,7 +334,7 @@ class ilIndividualAssessmentMembersTest extends TestCase
         $obj->withAdditionalRecord([ilIndividualAssessmentMembers::FIELD_USR_ID => 22]);
     }
 
-    public function test_withAdditionalUser() : void
+    public function test_withAdditionalUser(): void
     {
         $usr = $this->createMock(ilObjUser::class);
         $usr
@@ -353,7 +369,7 @@ class ilIndividualAssessmentMembersTest extends TestCase
         $this->assertTrue(isset($record[23]));
     }
 
-    public function test_withAdditionalUser_exception() : void
+    public function test_withAdditionalUser_exception(): void
     {
         $usr = $this->createMock(ilObjUser::class);
         $usr
@@ -370,7 +386,7 @@ class ilIndividualAssessmentMembersTest extends TestCase
         $obj->withAdditionalUser($usr);
     }
 
-    public function test_withoutPresentUser() : void
+    public function test_withoutPresentUser(): void
     {
         $usr = $this->createMock(ilObjUser::class);
         $usr
@@ -390,7 +406,7 @@ class ilIndividualAssessmentMembersTest extends TestCase
         $this->assertFalse(isset($record[23]));
     }
 
-    public function test_withoutPresentUser_without_existing_user() : void
+    public function test_withoutPresentUser_without_existing_user(): void
     {
         $usr = $this->createMock(ilObjUser::class);
         $usr
@@ -406,7 +422,7 @@ class ilIndividualAssessmentMembersTest extends TestCase
         $obj->withoutPresentUser($usr);
     }
 
-    public function test_withoutPresentUser_already_finalized() : void
+    public function test_withoutPresentUser_already_finalized(): void
     {
         $usr = $this->createMock(ilObjUser::class);
         $usr
@@ -423,7 +439,7 @@ class ilIndividualAssessmentMembersTest extends TestCase
         $obj->withoutPresentUser($usr);
     }
 
-    public function test_withOnlyUsersByIds() : void
+    public function test_withOnlyUsersByIds(): void
     {
         $keep_usr_ids = [18, 22];
 

@@ -30,46 +30,45 @@ use ILIAS\LTI\ToolProvider\Util;
 
 class Item
 {
-
     /**
      * Type for link content-item.
      */
-    const TYPE_LINK = 'link';
+    public const TYPE_LINK = 'link';
 
     /**
      * Type for LTI link content-item.
      */
-    const TYPE_LTI_LINK = 'ltiResourceLink';
+    public const TYPE_LTI_LINK = 'ltiResourceLink';
 
     /**
      * Type for LTI assignment content-item.
      */
-    const TYPE_LTI_ASSIGNMENT = 'ltiAssignment';
+    public const TYPE_LTI_ASSIGNMENT = 'ltiAssignment';
 
     /**
      * Type for file content-item.
      */
-    const TYPE_FILE = 'file';
+    public const TYPE_FILE = 'file';
 
     /**
      * Type for HTML content-item.
      */
-    const TYPE_HTML = 'html';
+    public const TYPE_HTML = 'html';
 
     /**
      * Type for image content-item.
      */
-    const TYPE_IMAGE = 'image';
+    public const TYPE_IMAGE = 'image';
 
     /**
      * Media type for LTI launch links.
      */
-    const LTI_LINK_MEDIA_TYPE = 'application/vnd.ims.lti.v1.ltilink';
+    public const LTI_LINK_MEDIA_TYPE = 'application/vnd.ims.lti.v1.ltilink';
 
     /**
      * Media type for LTI assignment links.
      */
-    const LTI_ASSIGNMENT_MEDIA_TYPE = 'application/vnd.ims.lti.v1.ltiassignment';
+    public const LTI_ASSIGNMENT_MEDIA_TYPE = 'application/vnd.ims.lti.v1.ltiassignment';
 
     /**
      * Type of content-item.
@@ -259,7 +258,7 @@ class Item
      * @param string $ltiVersion LTI version in use
      * @return string
      */
-    public static function toJson($items, string $ltiVersion = Util::LTI_VERSION1) : string
+    public static function toJson($items, string $ltiVersion = Util::LTI_VERSION1): string
     {
         if (!is_array($items)) {
             $items = array($items);
@@ -286,7 +285,7 @@ class Item
      * @param object $items A JSON object representing Content-Items
      * @return array Array of Item objects
      */
-    public static function fromJson(object $items) : array
+    public static function fromJson(object $items): array
     {
         $isJsonLd = isset($items->{'@graph'});
         if ($isJsonLd) {
@@ -311,7 +310,7 @@ class Item
      *
      * @return object
      */
-    protected function toJsonldObject() : object
+    protected function toJsonldObject(): object
     {
         $item = new \stdClass();
         if (!empty($this->id)) {
@@ -379,7 +378,7 @@ class Item
      *
      * @return object
      */
-    protected function toJsonObject() : object
+    protected function toJsonObject(): object
     {
         $item = new \stdClass();
         switch ($this->type) {

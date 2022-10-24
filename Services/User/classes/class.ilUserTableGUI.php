@@ -25,7 +25,7 @@ class ilUserTableGUI extends ilTable2GUI
 {
     public const MODE_USER_FOLDER = 1;
     public const MODE_LOCAL_USER = 2;
-    
+
     private ?int $mode = null;
     private int $user_folder_id = 0;
     protected \ILIAS\User\StandardGUIRequest $user_request;
@@ -48,13 +48,13 @@ class ilUserTableGUI extends ilTable2GUI
         $this->setMode($a_mode);
         $this->setId("user" . $this->getUserFolderId());
         $this->readUserDefinedFieldsDefinitions();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         //		$this->setTitle($this->lng->txt("users"));
-        
+
         $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("login"), "login");
-        
+
         foreach ($this->getSelectedColumns() as $c) {
             if ($this->isUdfColumn($c)) {
                 $f = $this->getUserDefinedField($c);
@@ -63,7 +63,7 @@ class ilUserTableGUI extends ilTable2GUI
                 $this->addColumn($this->lng->txt($c), $c);
             }
         }
-                
+
         if ($this->getMode() == self::MODE_LOCAL_USER) {
             $this->addColumn($this->lng->txt('context'), 'time_limit_owner');
             $this->addColumn($this->lng->txt('role_assignment'));
@@ -93,7 +93,7 @@ class ilUserTableGUI extends ilTable2GUI
 
         if ($this->getMode() == self::MODE_USER_FOLDER) {
             $this->setEnableAllCommand(true);
-            
+
             $cmds = $a_parent_obj->getUserMultiCommands();
             foreach ($cmds as $cmd => $caption) {
                 $this->addMultiCommand($cmd, $caption);
@@ -101,23 +101,23 @@ class ilUserTableGUI extends ilTable2GUI
         } else {
             $this->addMultiCommand("deleteUsers", $lng->txt("delete"));
         }
-        
+
         if ($a_load_items) {
             $this->getItems();
         }
     }
-    
-    protected function setMode(int $a_mode) : void
+
+    protected function setMode(int $a_mode): void
     {
         $this->mode = $a_mode;
     }
-    
-    protected function getMode() : int
+
+    protected function getMode(): int
     {
         return $this->mode;
     }
-    
-    protected function getUserFolderId() : int
+
+    protected function getUserFolderId(): int
     {
         return $this->user_folder_id;
     }
@@ -125,7 +125,7 @@ class ilUserTableGUI extends ilTable2GUI
     /**
      * Read user defined fields definitions
      */
-    public function readUserDefinedFieldsDefinitions() : void
+    public function readUserDefinedFieldsDefinitions(): void
     {
         $user_defined_fields = ilUserDefinedFields::_getInstance();
         foreach ($user_defined_fields->getDefinitions() as $field => $definition) {
@@ -142,12 +142,12 @@ class ilUserTableGUI extends ilTable2GUI
     /**
      * Get user defined field
      */
-    public function getUserDefinedField(string $a_key) : array // Missing array type.
+    public function getUserDefinedField(string $a_key): array // Missing array type.
     {
         return $this->udf_fields[$a_key] ?? array();
     }
 
-    public function isUdfColumn(string $a_key) : bool
+    public function isUdfColumn(string $a_key): bool
     {
         if (strpos($a_key, "udf_") === 0) {
             return true;
@@ -155,17 +155,17 @@ class ilUserTableGUI extends ilTable2GUI
         return false;
     }
 
-    public function getSelectableColumns() : array // Missing array type.
+    public function getSelectableColumns(): array // Missing array type.
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-        
+
         $up = new ilUserProfile();
         $up->skipGroup("preferences");
         $up->skipGroup("interests");
         $up->skipGroup("settings");
-        
+
         // default fields
         $cols = array();
 
@@ -178,14 +178,14 @@ class ilUserTableGUI extends ilTable2GUI
             "default" => true);
         if ($this->getMode() == self::MODE_USER_FOLDER) {
             $ufs = $up->getStandardFields();
-        
+
             $cols["access_until"] = array(
                 "txt" => $lng->txt("access_until"),
                 "default" => true);
             $cols["last_login"] = array(
                 "txt" => $lng->txt("last_login"),
                 "default" => true);
-            
+
             // #13967
             $cols["create_date"] = array(
                 "txt" => $lng->txt("create_date"));
@@ -196,7 +196,7 @@ class ilUserTableGUI extends ilTable2GUI
         } else {
             $ufs = $up->getLocalUserAdministrationFields();
         }
-        
+
         // email should be the 1st "optional" field (can be hidden)
         if (isset($ufs["email"])) {
             $cols["email"] = array(
@@ -227,7 +227,7 @@ class ilUserTableGUI extends ilTable2GUI
             "txt" => $lng->txt("auth_mode"),
             "default" => false);
 
-        
+
         // custom user fields
         if ($this->getMode() == self::MODE_USER_FOLDER) {
             foreach ($this->udf_fields as $k => $field) {
@@ -237,11 +237,11 @@ class ilUserTableGUI extends ilTable2GUI
 
         // fields that are always shown
         unset($cols["username"]);
-        
+
         return $cols;
     }
-    
-    public function getItems() : void
+
+    public function getItems(): void
     {
         global $DIC;
 
@@ -328,7 +328,7 @@ class ilUserTableGUI extends ilTable2GUI
                 $usr_data['set'][$k]['org_units'] = ilObjUser::lookupOrgUnitsRepresentation($user['usr_id']);
             }
 
-            
+
             $current_time = time();
             if ($user['active']) {
                 if ($user["time_limit_unlimited"]) {
@@ -352,12 +352,12 @@ class ilUserTableGUI extends ilTable2GUI
         $this->setData($usr_data["set"]);
     }
 
-    public function addFilterItemValue($filter, $value) : void // Missing parameter types.
+    public function addFilterItemValue($filter, $value): void // Missing parameter types.
     {
         $this->filter[$filter] = $value;
     }
-        
-    public function getUserIdsForFilter() : array // Missing array type.
+
+    public function getUserIdsForFilter(): array // Missing array type.
     {
         if ($this->getMode() == self::MODE_USER_FOLDER) {
             // All accessible users
@@ -374,7 +374,7 @@ class ilUserTableGUI extends ilTable2GUI
         if (!isset($this->filter['user_ids'])) {
             $this->filter['user_ids'] = null;
         }
-        
+
         $query = new ilUserQuery();
         $query->setOffset($this->getOffset());
         $query->setLimit($this->getLimit());
@@ -391,12 +391,12 @@ class ilUserTableGUI extends ilTable2GUI
         $query->setUserFolder($user_filter);
         $query->setUserFilter($this->filter['user_ids']);
         $query->setFirstLetterLastname($this->user_request->getLetter());
-        
+
         if ($this->getOrderField()) {
             $query->setOrderField(ilUtil::stripSlashes($this->getOrderField()));
             $query->setOrderDirection(ilUtil::stripSlashes($this->getOrderDirection()));
         }
-        
+
         $usr_data = $query->query();
         $user_ids = array();
 
@@ -408,8 +408,8 @@ class ilUserTableGUI extends ilTable2GUI
         }
         return $user_ids;
     }
-    
-    public function initFilter() : void
+
+    public function initFilter(): void
     {
         global $DIC;
 
@@ -417,17 +417,17 @@ class ilUserTableGUI extends ilTable2GUI
         $rbacreview = $DIC['rbacreview'];
         $ilUser = $DIC['ilUser'];
         $ilCtrl = $DIC['ilCtrl'];
-        
-        
+
+
         // Show context filter
         if ($this->getMode() == self::MODE_LOCAL_USER) {
             $parent_ids = ilLocalUser::_getFolderIds();
 
             if (count($parent_ids) > 1) {
                 $co = new ilSelectInputGUI($lng->txt('context'), 'time_limit_owner');
-        
+
                 $ref_id = $this->getUserFolderId();
-        
+
                 $opt[0] = $this->lng->txt('all_users');
                 $opt[$this->getUserFolderId()] = $lng->txt('users') . ' (' . ilObject::_lookupTitle(ilObject::_lookupObjId($this->getUserFolderId())) . ')';
 
@@ -439,7 +439,7 @@ class ilUserTableGUI extends ilTable2GUI
                         case USER_FOLDER_ID:
                             $opt[USER_FOLDER_ID] = $lng->txt('global_user');
                             break;
-                        
+
                         default:
                             $opt[$parent_id] = $lng->txt('users') . ' (' . ilObject::_lookupTitle(ilObject::_lookupObjId($parent_id)) . ')';
                             break;
@@ -451,7 +451,7 @@ class ilUserTableGUI extends ilTable2GUI
                 $this->filter['time_limit_owner'] = $co->getValue();
             }
         }
-        
+
         // User name, login, email filter
         $ul = new ilTextInputGUI($lng->txt("login") . "/" . $lng->txt("email") . "/" .
             $lng->txt("name"), "query");
@@ -479,13 +479,13 @@ class ilUserTableGUI extends ilTable2GUI
         $this->addFilterItem($si);
         $si->readFromSession();
         $this->filter["activation"] = $si->getValue();
-        
+
         // limited access
         $cb = new ilCheckboxInputGUI($this->lng->txt("user_limited_access"), "limited_access");
         $this->addFilterItem($cb);
         $cb->readFromSession();
         $this->filter["limited_access"] = $cb->getChecked();
-        
+
         // last login
         $di = new ilDateTimeInputGUI($this->lng->txt("user_last_login_before"), "last_login");
         $default_date = new ilDateTime(time(), IL_CAL_UNIX);
@@ -501,7 +501,7 @@ class ilUserTableGUI extends ilTable2GUI
             $this->addFilterItem($cb);
             $cb->readFromSession();
             $this->filter["no_courses"] = $cb->getChecked();
-            
+
             // no assigned groups
             $ng = new ilCheckboxInputGUI($this->lng->txt("user_no_groups"), "no_groups");
             $this->addFilterItem($ng);
@@ -517,7 +517,7 @@ class ilUserTableGUI extends ilTable2GUI
             $rs->readFromSession();
             $this->filter["course_group"] = $rs->getValue();
         }
-        
+
         // global roles
         $options = array(
             "" => $lng->txt("user_any"),
@@ -549,7 +549,7 @@ class ilUserTableGUI extends ilTable2GUI
         $this->addFilterItem($si);
         $si->readFromSession();
         $this->filter["authentication"] = $si->getValue();
-        
+
         // udf fields
         foreach ($this->udf_fields as $id => $f) {
             $this->addFilterItemByUdfType($id, $f["type"], true, $f["txt"], $f["options"]);
@@ -565,7 +565,7 @@ class ilUserTableGUI extends ilTable2GUI
         bool $a_optional = false,
         ?string $caption = null,
         array $a_options = array()
-    ) : ?ilFormPropertyGUI {
+    ): ?ilFormPropertyGUI {
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -603,7 +603,7 @@ class ilUserTableGUI extends ilTable2GUI
         return $item;
     }
 
-    protected function fillRow(array $a_set) : void // Missing array type.
+    protected function fillRow(array $a_set): void // Missing array type.
     {
         global $DIC;
 
@@ -640,11 +640,11 @@ class ilUserTableGUI extends ilTable2GUI
                         case "birthday":
                             $val = ilDatePresentation::formatDate(new ilDate($val, IL_CAL_DATE));
                             break;
-                        
+
                         case "gender":
                             $val = $lng->txt("gender_" . $a_set[$c]);
                             break;
-                        
+
                         case "create_date":
                         case "agree_date":
                         case "approve_date":
@@ -655,7 +655,7 @@ class ilUserTableGUI extends ilTable2GUI
                 }
                 $this->tpl->setVariable("VAL_UF", $val);
             }
-            
+
             $this->tpl->parseCurrentBlock();
         }
 
@@ -686,7 +686,7 @@ class ilUserTableGUI extends ilTable2GUI
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_set['time_limit_owner']))
             );
             $this->tpl->parseCurrentBlock();
-            
+
             $this->tpl->setCurrentBlock('roles');
             $ilCtrl->setParameter($this->getParentObject(), 'obj_id', $a_set['usr_id']);
             $this->tpl->setVariable('ROLE_LINK', $ilCtrl->getLinkTarget($this->getParentObject(), 'assignRoles'));

@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilLOmemberTestResultTableGUI
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -34,27 +36,27 @@ class ilLOMemberTestResultTableGUI extends ilTable2GUI
         $this->settings = ilLOSettings::getInstanceByObjId($a_parent_obj->getId());
     }
 
-    public function getParentContainer() : ilObject
+    public function getParentContainer(): ilObject
     {
         return $this->parent_container;
     }
 
-    public function getSettings() : ilLOSettings
+    public function getSettings(): ilLOSettings
     {
         return $this->settings;
     }
 
-    public function setUserId(int $a_id) : void
+    public function setUserId(int $a_id): void
     {
         $this->current_user = $a_id;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->current_user;
     }
 
-    public function init() : void
+    public function init(): void
     {
         $name = ilObjUser::_lookupName($this->getUserId());
 
@@ -78,7 +80,7 @@ class ilLOMemberTestResultTableGUI extends ilTable2GUI
         $this->disable('num_info');
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
         if ($this->getSettings()->worksWithInitialTest()) {
@@ -102,7 +104,7 @@ class ilLOMemberTestResultTableGUI extends ilTable2GUI
         }
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $objective_ids = ilCourseObjective::_getObjectiveIds($this->getParentContainer()->getId(), true);
         $tbl_data = [];
@@ -139,7 +141,7 @@ class ilLOMemberTestResultTableGUI extends ilTable2GUI
         $this->setData($tbl_data);
     }
 
-    protected function createTestResultLink(int $a_type, int $a_objective_id) : string
+    protected function createTestResultLink(int $a_type, int $a_objective_id): string
     {
         $assignments = ilLOTestAssignments::getInstance($this->getParentContainer()->getId());
 

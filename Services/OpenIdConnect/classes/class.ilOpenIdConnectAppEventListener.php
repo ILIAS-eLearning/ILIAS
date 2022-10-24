@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -21,7 +23,7 @@
  */
 class ilOpenIdConnectAppEventListener implements ilAppEventListener
 {
-    protected function handleLogoutFor(int $user_id) : void
+    protected function handleLogoutFor(int $user_id): void
     {
         $provider = new ilAuthProviderOpenIdConnect(new ilAuthFrontendCredentials());
         $provider->handleLogout();
@@ -30,7 +32,7 @@ class ilOpenIdConnectAppEventListener implements ilAppEventListener
     /**
      * @inheritDoc
      */
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         global $DIC;
         $DIC->logger()->auth()->debug($a_component . ' : ' . $a_event);

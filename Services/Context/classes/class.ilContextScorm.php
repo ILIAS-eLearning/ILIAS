@@ -23,57 +23,57 @@
  */
 class ilContextScorm implements ilContextTemplate
 {
-    public static function supportsRedirects() : bool
+    public static function supportsRedirects(): bool
     {
         return false;
     }
-    
-    public static function hasUser() : bool
+
+    public static function hasUser(): bool
     {
         return true;
     }
-    
-    public static function usesHTTP() : bool
+
+    public static function usesHTTP(): bool
     {
         return false;
     }
-    
-    public static function hasHTML() : bool
+
+    public static function hasHTML(): bool
     {
         return false;
     }
-    
-    public static function usesTemplate() : bool
+
+    public static function usesTemplate(): bool
     {
         return false;
     }
-    
-    public static function initClient() : bool
+
+    public static function initClient(): bool
     {
         return true;
     }
-    
-    public static function doAuthentication() : bool
+
+    public static function doAuthentication(): bool
     {
         return false;
     }
 
-    public static function supportsPersistentSessions() : bool
-    {
-        return false;
-    }
-    
-    public static function supportsPushMessages() : bool
+    public static function supportsPersistentSessions(): bool
     {
         return false;
     }
 
-    public static function isSessionMainContext() : bool
+    public static function supportsPushMessages(): bool
     {
         return false;
     }
 
-    public static function modifyHttpPath(string $httpPath) : string
+    public static function isSessionMainContext(): bool
+    {
+        return false;
+    }
+
+    public static function modifyHttpPath(string $httpPath): string
     {
         return $httpPath;
     }

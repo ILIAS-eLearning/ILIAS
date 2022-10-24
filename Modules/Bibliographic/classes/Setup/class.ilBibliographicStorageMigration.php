@@ -31,7 +31,7 @@ final class ilBibliographicStorageMigration implements Setup\Migration
     /**
      * @inheritDoc
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Migration of Bibliographies to the Resource Storage Service.";
     }
@@ -39,7 +39,7 @@ final class ilBibliographicStorageMigration implements Setup\Migration
     /**
      * @inheritDoc
      */
-    public function getDefaultAmountOfStepsPerRun() : int
+    public function getDefaultAmountOfStepsPerRun(): int
     {
         return 10000;
     }
@@ -47,7 +47,7 @@ final class ilBibliographicStorageMigration implements Setup\Migration
     /**
      * @inheritDoc
      */
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Environment $environment): array
     {
         return ilResourceStorageMigrationHelper::getPreconditions();
     }
@@ -55,7 +55,7 @@ final class ilBibliographicStorageMigration implements Setup\Migration
     /**
      * @inheritDoc
      */
-    public function prepare(Environment $environment) : void
+    public function prepare(Environment $environment): void
     {
         $this->helper = new ilResourceStorageMigrationHelper(
             new ilObjBibliographicStakeholder(),
@@ -66,7 +66,7 @@ final class ilBibliographicStorageMigration implements Setup\Migration
     /**
      * @inheritDoc
      */
-    public function step(Environment $environment) : void
+    public function step(Environment $environment): void
     {
         $r = $this->helper->getDatabase()->query("SELECT *  FROM il_bibl_data 
                     JOIN object_data ON object_data.obj_id = il_bibl_data.id
@@ -94,7 +94,7 @@ final class ilBibliographicStorageMigration implements Setup\Migration
     /**
      * @inheritDoc
      */
-    public function getRemainingAmountOfSteps() : int
+    public function getRemainingAmountOfSteps(): int
     {
         $r = $this->helper->getDatabase()->query("SELECT COUNT(*) AS amount FROM il_bibl_data WHERE rid IS NULL OR rid = ''");
         $d = $this->helper->getDatabase()->fetchObject($r);

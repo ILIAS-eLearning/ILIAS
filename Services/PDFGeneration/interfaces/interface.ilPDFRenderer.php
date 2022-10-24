@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ interface ilPDFRenderer
      * @param ilPDFGenerationJob $job
      * @return void
      */
-    public function generatePDF(string $service, string $purpose, array $config, ilPDFGenerationJob $job) : void;
+    public function generatePDF(string $service, string $purpose, array $config, ilPDFGenerationJob $job): void;
 
 
     /**
@@ -37,5 +39,5 @@ interface ilPDFRenderer
      * @param string $purpose
      * @return void
      */
-    public function prepareGenerationRequest(string $service, string $purpose) : void;
+    public function prepareGenerationRequest(string $service, string $purpose): void;
 }

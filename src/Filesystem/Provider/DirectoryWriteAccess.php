@@ -34,7 +34,6 @@ use ILIAS\Filesystem\Visibility;
  */
 interface DirectoryWriteAccess
 {
-
     /**
      * Create a new directory.
      *
@@ -52,7 +51,7 @@ interface DirectoryWriteAccess
      * @since 5.3
      * @version 1.0
      */
-    public function createDir(string $path, string $visibility = Visibility::PUBLIC_ACCESS) : void;
+    public function createDir(string $path, string $visibility = Visibility::PUBLIC_ACCESS): void;
 
 
     /**
@@ -73,7 +72,7 @@ interface DirectoryWriteAccess
      * @since 5.3
      * @version 1.0
      */
-    public function copyDir(string $source, string $destination) : void;
+    public function copyDir(string $source, string $destination): void;
 
     /**
      * Deletes a directory recursive.
@@ -87,5 +86,5 @@ interface DirectoryWriteAccess
      * @since 5.3
      * @version 1.0
      */
-    public function deleteDir(string $path) : void;
+    public function deleteDir(string $path): void;
 }

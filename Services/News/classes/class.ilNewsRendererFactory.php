@@ -25,7 +25,7 @@ class ilNewsRendererFactory
     /** @var array<string, ilNewsDefaultRendererGUI> */
     protected static array $renderer = [];
 
-    public static function getRenderer(string $a_context_obj_type) : ilNewsRendererGUI
+    public static function getRenderer(string $a_context_obj_type): ilNewsRendererGUI
     {
         global $DIC;
 

@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestPersonalDefaultSettingsTableGUI
@@ -34,14 +47,14 @@ class ilTestPersonalDefaultSettingsTableGUI extends ilTable2GUI
         $this->initColumns();
     }
 
-    private function initColumns() : void
+    private function initColumns(): void
     {
         $this->addColumn('', '', '1px', true);
         $this->addColumn($this->lng->txt('title'), 'name', '80%');
         $this->addColumn($this->lng->txt('date'), 'tstamp', '19%');
     }
 
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         parent::fillRow(array(
             'name' => $a_set['name'],
@@ -50,7 +63,7 @@ class ilTestPersonalDefaultSettingsTableGUI extends ilTable2GUI
         ));
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         return in_array($a_field, array(
             'tstamp'

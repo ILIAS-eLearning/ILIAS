@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Xml export of roles and role templates
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -44,27 +46,27 @@ class ilRoleXmlExport extends ilXmlWriter
      * Set roles
      * Format is: array(role_id => array(role_folder_id))
      */
-    public function setRoles(array $a_roles) : void
+    public function setRoles(array $a_roles): void
     {
         $this->roles = $a_roles;
     }
 
-    public function getRoles() : array
+    public function getRoles(): array
     {
         return $this->roles;
     }
 
-    public function addRole(int $a_role_id, int $a_rolf_id) : void
+    public function addRole(int $a_role_id, int $a_rolf_id): void
     {
         $this->roles[$a_role_id][] = $a_rolf_id;
     }
 
-    public function setMode(int $a_mode) : void
+    public function setMode(int $a_mode): void
     {
         $this->mode = $a_mode;
     }
 
-    public function getMode() : int
+    public function getMode(): int
     {
         return $this->mode;
     }
@@ -72,7 +74,7 @@ class ilRoleXmlExport extends ilXmlWriter
     /**
      * Write xml header
      */
-    public function writeHeader() : void
+    public function writeHeader(): void
     {
         $this->xmlSetDtdDef("<!DOCTYPE Roles PUBLIC \"-//ILIAS//DTD ILIAS Roles//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_role_definition_4_2.dtd\">");
         $this->xmlSetGenCmt("Role Definition");
@@ -82,7 +84,7 @@ class ilRoleXmlExport extends ilXmlWriter
     /**
      * Write xml presentation of chosen roles
      */
-    public function write() : void
+    public function write(): void
     {
         if ($this->getMode() != self::MODE_DTPL) {
             $this->xmlStartTag('roles');
@@ -102,7 +104,7 @@ class ilRoleXmlExport extends ilXmlWriter
     /**
      * Write xml presentation of one role
      */
-    private function writeRole(int $a_role_id, int $a_rolf) : void
+    private function writeRole(int $a_role_id, int $a_rolf): void
     {
         $attributes = array(
             'type' => ilObject::_lookupType($a_role_id),
@@ -128,7 +130,7 @@ class ilRoleXmlExport extends ilXmlWriter
     /**
      * Cache rbac operations
      */
-    private function initRbacOperations() : void
+    private function initRbacOperations(): void
     {
         foreach ($this->rbacreview->getOperations() as $operation) {
             $this->operations[$operation['ops_id']] = $operation['operation'];

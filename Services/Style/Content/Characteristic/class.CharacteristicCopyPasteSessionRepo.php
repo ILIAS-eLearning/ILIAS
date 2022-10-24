@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,18 +35,18 @@ class CharacteristicCopyPasteSessionRepo
     public function __construct(Session $session = null)
     {
         $this->session = ($session)
-            ?: new class() implements Session {
-                public function set(string $key, string $value) : void
+            ?: new class () implements Session {
+                public function set(string $key, string $value): void
                 {
                     ilSession::set($key, $value);
                 }
 
-                public function get(string $key) : string
+                public function get(string $key): string
                 {
                     return (string) ilSession::get($key);
                 }
 
-                public function clear(string $key) : void
+                public function clear(string $key): void
                 {
                     ilSession::clear($key);
                 }
@@ -54,14 +56,14 @@ class CharacteristicCopyPasteSessionRepo
     /**
      * Set characteristics
      */
-    public function set(int $style_id, string $style_type, array $characteristics) : void
+    public function set(int $style_id, string $style_type, array $characteristics): void
     {
         $style_cp = implode("::", $characteristics);
         $style_cp = $style_id . ":::" . $style_type . ":::" . $style_cp;
         $this->session->set(self::SESSION_KEY, $style_cp);
     }
 
-    public function getData() : stdClass
+    public function getData(): stdClass
     {
         $st_c = explode(":::", $this->getValue());
         $data = new stdClass();
@@ -71,12 +73,12 @@ class CharacteristicCopyPasteSessionRepo
         return $data;
     }
 
-    protected function getValue() : string
+    protected function getValue(): string
     {
         return $this->session->get(self::SESSION_KEY);
     }
 
-    public function hasEntries(string $style_type) : bool
+    public function hasEntries(string $style_type): bool
     {
         $val = $this->getValue();
         if ($val != "") {
@@ -88,7 +90,7 @@ class CharacteristicCopyPasteSessionRepo
         return false;
     }
 
-    public function clear() : void
+    public function clear(): void
     {
         $this->session->clear(self::SESSION_KEY);
     }

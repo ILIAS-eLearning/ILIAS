@@ -21,7 +21,7 @@ class ReadingTimeDBRepo
         $this->db = $DIC->database();
     }
 
-    public function isActivated(int $lm_id) : bool
+    public function isActivated(int $lm_id): bool
     {
         $db = $this->db;
         $set = $db->queryF(
@@ -36,7 +36,7 @@ class ReadingTimeDBRepo
         return false;
     }
 
-    public function activate(int $lm_id, bool $activated) : void
+    public function activate(int $lm_id, bool $activated): void
     {
         $db = $this->db;
         $db->update(

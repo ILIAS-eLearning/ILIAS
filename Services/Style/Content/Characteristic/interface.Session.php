@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,9 +27,9 @@ namespace ILIAS\Style\Content;
  */
 interface Session
 {
-    public function set(string $key, string $value) : void;
+    public function set(string $key, string $value): void;
 
-    public function get(string $key) : string;
+    public function get(string $key): string;
 
-    public function clear(string $key) : void;
+    public function clear(string $key): void;
 }

@@ -1,4 +1,6 @@
-<?php return [
+<?php
+
+return [
     '3dm' => ILIAS\FileUpload\MimeType::X_WORLD__X_3DMF,
     '3dmf' => ILIAS\FileUpload\MimeType::X_WORLD__X_3DMF,
     '3gp' => ILIAS\FileUpload\MimeType::VIDEO__3_GPP,

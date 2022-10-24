@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,12 +33,12 @@ class ClipboardSessionRepository
     {
     }
 
-    public function setCmd(string $cmd) : void
+    public function setCmd(string $cmd): void
     {
         \ilSession::set(self::KEY_BASE . "_cmd", $cmd);
     }
 
-    public function getCmd() : string
+    public function getCmd(): string
     {
         if (\ilSession::has(self::KEY_BASE . "_cmd")) {
             return \ilSession::get(self::KEY_BASE . "_cmd");
@@ -44,12 +46,12 @@ class ClipboardSessionRepository
         return "";
     }
 
-    public function setParent(int $parent) : void
+    public function setParent(int $parent): void
     {
         \ilSession::set(self::KEY_BASE . "_parent", $parent);
     }
 
-    public function getParent() : int
+    public function getParent(): int
     {
         if (\ilSession::has(self::KEY_BASE . "_parent")) {
             return (int) \ilSession::get(self::KEY_BASE . "_parent");
@@ -57,12 +59,12 @@ class ClipboardSessionRepository
         return 0;
     }
 
-    public function setRefIds(array $ref_ids) : void
+    public function setRefIds(array $ref_ids): void
     {
         \ilSession::set(self::KEY_BASE . "_ref_ids", $ref_ids);
     }
 
-    public function getRefIds() : array
+    public function getRefIds(): array
     {
         if (\ilSession::has(self::KEY_BASE . "_ref_ids")) {
             return \ilSession::get(self::KEY_BASE . "_ref_ids");
@@ -70,12 +72,12 @@ class ClipboardSessionRepository
         return [];
     }
 
-    public function hasEntries() : bool
+    public function hasEntries(): bool
     {
         return (count($this->getRefIds()) > 0 && $this->getCmd() !== "");
     }
 
-    public function clear() : void
+    public function clear(): void
     {
         \ilSession::clear(self::KEY_BASE . "_cmd");
         \ilSession::clear(self::KEY_BASE . "_parent");

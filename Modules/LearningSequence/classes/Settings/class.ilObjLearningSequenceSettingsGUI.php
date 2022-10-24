@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,23 +17,23 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 
 class ilObjLearningSequenceSettingsGUI
 {
-    const PROP_TITLE = 'title';
-    const PROP_DESC = 'desc';
-    const PROP_ONLINE = 'online';
-    const PROP_AVAIL_PERIOD = 'online_period';
-    const PROP_GALLERY = 'gallery';
+    public const PROP_TITLE = 'title';
+    public const PROP_DESC = 'desc';
+    public const PROP_ONLINE = 'online';
+    public const PROP_AVAIL_PERIOD = 'online_period';
+    public const PROP_GALLERY = 'gallery';
 
-    const CMD_EDIT = "settings";
-    const CMD_SAVE = "update";
-    const CMD_CANCEL = "cancel";
+    public const CMD_EDIT = "settings";
+    public const CMD_SAVE = "update";
+    public const CMD_CANCEL = "cancel";
 
-    const CMD_OLD_INTRO = "viewlegacyi";
-    const CMD_OLD_EXTRO = "viewlegacye";
+    public const CMD_OLD_INTRO = "viewlegacyi";
+    public const CMD_OLD_EXTRO = "viewlegacye";
 
     public function __construct(
         ilObjLearningSequence $obj,
@@ -61,7 +63,7 @@ class ilObjLearningSequenceSettingsGUI
         $this->toolbar = $toolbar;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd('settings');
 
@@ -75,7 +77,7 @@ class ilObjLearningSequenceSettingsGUI
             case self::CMD_OLD_EXTRO:
                 $content = $this->showLegacyPage($cmd);
                 break;
-            
+
             default:
                 throw new ilException("ilObjLearningSequenceSettingsGUI: Command not supported: $cmd");
 
@@ -83,7 +85,7 @@ class ilObjLearningSequenceSettingsGUI
         $this->tpl->setContent($content);
     }
 
-    protected function settings() : string
+    protected function settings(): string
     {
         $this->addLegacypagesToToolbar();
         $this->tpl->setOnScreenMessage("info", $this->lng->txt("lso_intropages_deprecationhint"));
@@ -94,14 +96,14 @@ class ilObjLearningSequenceSettingsGUI
         return $form->getHTML();
     }
 
-    protected function cancel() : void
+    protected function cancel(): void
     {
         $this->ctrl->returnToParent($this);
     }
 
 
     //TODO: remove in release 9
-    public function addLegacypagesToToolbar() : void
+    public function addLegacypagesToToolbar(): void
     {
         $this->toolbar->addButton(
             $this->lng->txt("lso_settings_old_intro"),
@@ -114,7 +116,7 @@ class ilObjLearningSequenceSettingsGUI
         );
     }
 
-    protected function showLegacyPage(string $cmd) : string
+    protected function showLegacyPage(string $cmd): string
     {
         $this->toolbar->addButton(
             $this->lng->txt('back'),
@@ -141,7 +143,7 @@ class ilObjLearningSequenceSettingsGUI
         return implode('<hr>', $out);
     }
 
-    protected function buildForm() : ilPropertyFormGUI
+    protected function buildForm(): ilPropertyFormGUI
     {
         $txt = fn ($id) => $this->lng->txt($id);
         $settings = $this->settings;
@@ -198,7 +200,7 @@ class ilObjLearningSequenceSettingsGUI
         return $form;
     }
 
-    protected function fillForm(ilPropertyFormGUI $form) : ilPropertyFormGUI
+    protected function fillForm(ilPropertyFormGUI $form): ilPropertyFormGUI
     {
         $settings = $this->settings;
         $activation = $this->activation;
@@ -212,7 +214,7 @@ class ilObjLearningSequenceSettingsGUI
         return $form;
     }
 
-    protected function addCommonFieldsToForm(ilPropertyFormGUI $form) : void
+    protected function addCommonFieldsToForm(ilPropertyFormGUI $form): void
     {
         $txt = fn ($id) => $this->lng->txt($id);
         $section_appearance = new ilFormSectionHeaderGUI();
@@ -225,7 +227,7 @@ class ilObjLearningSequenceSettingsGUI
         $form_service->addTileImage();
     }
 
-    protected function update() : ?string
+    protected function update(): ?string
     {
         $form = $this->buildForm();
         $this->addCommonFieldsToForm($form);

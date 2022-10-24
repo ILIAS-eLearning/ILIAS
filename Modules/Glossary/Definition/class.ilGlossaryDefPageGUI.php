@@ -25,28 +25,28 @@
  */
 class ilGlossaryDefPageGUI extends ilPageObjectGUI
 {
-    protected ilObjGlossary $glossary;
-    
+    protected ?ilObjGlossary $glossary = null;
+
     public function __construct(
         int $a_id = 0,
         int $a_old_nr = 0
     ) {
         parent::__construct("gdf", $a_id, $a_old_nr);
     }
-    
-    public function setGlossary(ilObjGlossary $a_val) : void
+
+    public function setGlossary(ilObjGlossary $a_val): void
     {
         $this->glossary = $a_val;
     }
-    
-    public function getGlossary() : ilObjGlossary
+
+    public function getGlossary(): ilObjGlossary
     {
         return $this->glossary;
     }
 
-    public function postOutputProcessing(string $a_output) : string
+    public function postOutputProcessing(string $a_output): string
     {
-        if ($this->getOutputMode() == "print") {
+        if ($this->getOutputMode() == "print" && !is_null($this->glossary)) {
             $term_id = ilGlossaryDefinition::_lookupTermId($this->getId());
             $mdgui = new ilObjectMetaDataGUI($this->glossary, "term", $term_id);
             $md = $mdgui->getKeyValueList();
@@ -58,7 +58,7 @@ class ilGlossaryDefPageGUI extends ilPageObjectGUI
         return $a_output;
     }
 
-    public function finishEditing() : void
+    public function finishEditing(): void
     {
         $this->ctrl->redirectByClass("ilObjGlossaryGUI", "listTerms");
     }

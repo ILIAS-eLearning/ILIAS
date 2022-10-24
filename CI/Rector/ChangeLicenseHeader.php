@@ -27,8 +27,8 @@ use Rector\NodeTypeResolver\Node\AttributeKey as AttributeKeys;
 
 final class ChangeLicenseHeader extends AbstractRector
 {
-    const EXISTING_LICENSE_PATTERN = '(copyright|Copyright|GPL-3\.0|GPLv3|LICENSE)';
-    const IGNORE_SUBPATHS = '(lib|vendor|data|Customizing)';
+    public const EXISTING_LICENSE_PATTERN = '(copyright|Copyright|GPL-3\.0|GPLv3|LICENSE)';
+    public const IGNORE_SUBPATHS = '(lib|vendor|data|Customizing)';
     private string $license_header_default = "/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -53,7 +53,8 @@ final class ChangeLicenseHeader extends AbstractRector
         Node\Stmt\Namespace_::class,
         Node\Name::class,
         Node\Stmt\Class_::class,
-        Node\Stmt\Expression::class
+        Node\Stmt\Expression::class,
+        Node\Stmt\Declare_::class
     ];
 
     public function __construct()
@@ -64,7 +65,7 @@ final class ChangeLicenseHeader extends AbstractRector
     /**
      * @return class-string[]
      */
-    public function getNodeTypes() : array
+    public function getNodeTypes(): array
     {
         return [
             Node\Stmt\Class_::class,
@@ -76,7 +77,7 @@ final class ChangeLicenseHeader extends AbstractRector
     /**
      * @param Node\Stmt\Global_ $node
      */
-    public function refactor(Node $node) : ?Node
+    public function refactor(Node $node): ?Node
     {
         if (preg_match(self::IGNORE_SUBPATHS, $this->file->getSmartFileInfo()->getPathname()) > 0) {
             return $node;
@@ -105,7 +106,7 @@ final class ChangeLicenseHeader extends AbstractRector
      * @param Node $node
      * @return Comment[]
      */
-    private function filterComments(Node $node, array $default = []) : array
+    private function filterComments(Node $node, array $default = []): array
     {
         foreach ($node->getComments() as $comment) {
             if (preg_match(self::EXISTING_LICENSE_PATTERN, $comment->getText()) > 0) {
@@ -116,13 +117,13 @@ final class ChangeLicenseHeader extends AbstractRector
         return $default;
     }
 
-    public function getRuleDefinition() : RuleDefinition
+    public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
             'Adds or replaces a license-header in each class-file',
             [
                 new CodeSample(
-                // code before
+                    // code before
                     '',
                     // code after
                     ''

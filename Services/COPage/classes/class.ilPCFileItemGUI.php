@@ -48,7 +48,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -65,10 +65,10 @@ class ilPCFileItemGUI extends ilPageContentGUI
     /**
      * insert new file item
      */
-    public function newFileItem() : bool
+    public function newFileItem(): bool
     {
         $lng = $this->lng;
-        
+
         if ($_FILES["file"]["name"] == "") {
             throw new ilCOPageFileHandlingException($lng->txt("upload_error_file_not_found"));
         }
@@ -102,7 +102,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
     /**
      * insert new list item after current one
      */
-    public function newItemAfter() : void
+    public function newItemAfter(): void
     {
         $ilTabs = $this->tabs;
 
@@ -120,21 +120,21 @@ class ilPCFileItemGUI extends ilPageContentGUI
             case "insertFromWorkspace":
                 $this->insertFromWorkspace("newItemAfter");
                 break;
-            
+
             case "insertFromRepository":
                 $this->insertFromRepository("newItemAfter");
                 break;
-                
+
             case "selectFile":
                 $this->insertNewItemAfter(
                     $this->request->getInt("file_ref_id")
                 );
                 break;
-                
+
             default:
                 $this->setTabs("newItemAfter");
                 $ilTabs->setSubTabActive("cont_new_file");
-        
+
                 $this->displayValidationError();
                 $form = $this->initAddFileForm(false);
                 $this->tpl->setContent($form->getHTML());
@@ -145,37 +145,37 @@ class ilPCFileItemGUI extends ilPageContentGUI
     /**
      * Init add file form
      */
-    public function initAddFileForm(bool $a_before = true) : ilPropertyFormGUI
+    public function initAddFileForm(bool $a_before = true): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
         $form = new ilPropertyFormGUI();
-        
+
         // file
         $fi = new ilFileInputGUI($lng->txt("file"), "file");
         $fi->setRequired(true);
         $form->addItem($fi);
-        
+
         if ($a_before) {
             $form->addCommandButton("insertNewItemBefore", $lng->txt("save"));
         } else {
             $form->addCommandButton("insertNewItemAfter", $lng->txt("save"));
         }
         $form->addCommandButton("cancelAddFile", $lng->txt("cancel"));
-        
+
         $form->setTitle($lng->txt("cont_insert_file_item"));
 
         $form->setFormAction($ilCtrl->getFormAction($this));
-     
+
         return $form;
     }
 
-    
+
     /**
      * Insert file from repository
      */
-    public function insertFromRepository(string $a_cmd) : void
+    public function insertFromRepository(string $a_cmd): void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
@@ -196,11 +196,11 @@ class ilPCFileItemGUI extends ilPageContentGUI
             $tpl->setContent($exp->getHTML());
         }
     }
-    
+
     /**
      * Insert file from personal workspace
      */
-    public function insertFromWorkspace(string $a_cmd = "insert") : void
+    public function insertFromWorkspace(string $a_cmd = "insert"): void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
@@ -208,7 +208,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 
         $this->setTabs($a_cmd);
         $ilTabs->setSubTabActive("cont_file_from_workspace");
-        
+
         $exp = new ilWorkspaceExplorerGUI($this->user->getId(), $this, $a_cmd, $this, $a_cmd, "fl_wsp_id");
         $ilCtrl->setParameter($this, "subCmd", "selectFile");
         $exp->setCustomLinkTarget($ilCtrl->getLinkTarget($this, $a_cmd));
@@ -224,7 +224,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
     /**
      * insert new file item after another item
      */
-    public function insertNewItemAfter(int $a_file_ref_id = 0) : void
+    public function insertNewItemAfter(int $a_file_ref_id = 0): void
     {
         $ilUser = $this->user;
 
@@ -235,7 +235,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
             // we need the object id for the instance
             $tree = new ilWorkspaceTree($ilUser->getId());
             $node = $tree->getNodeData($fl_wsp_id);
-            
+
             $this->file_object = new ilObjFile($node["obj_id"], false);
         } elseif ($a_file_ref_id == 0) {
             $res = $this->newFileItem();
@@ -253,14 +253,14 @@ class ilPCFileItemGUI extends ilPageContentGUI
                 $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
             }
         }
-        
+
         $this->newItemAfter();
     }
 
     /**
      * insert new list item before current one
      */
-    public function newItemBefore() : void
+    public function newItemBefore(): void
     {
         $ilTabs = $this->tabs;
 
@@ -278,21 +278,21 @@ class ilPCFileItemGUI extends ilPageContentGUI
             case "insertFromWorkspace":
                 $this->insertFromWorkspace("newItemBefore");
                 break;
-            
+
             case "insertFromRepository":
                 $this->insertFromRepository("newItemBefore");
                 break;
-                
+
             case "selectFile":
                 $this->insertNewItemBefore(
                     $this->request->getInt("file_ref_id")
                 );
                 break;
-                
+
             default:
                 $this->setTabs("newItemBefore");
                 $ilTabs->setSubTabActive("cont_new_file");
-        
+
                 $this->displayValidationError();
                 $form = $this->initAddFileForm(true);
                 $this->tpl->setContent($form->getHTML());
@@ -302,10 +302,10 @@ class ilPCFileItemGUI extends ilPageContentGUI
     /**
      * insert new list item before current one
      */
-    public function insertNewItemBefore(int $a_file_ref_id = 0) : void
+    public function insertNewItemBefore(int $a_file_ref_id = 0): void
     {
         $ilUser = $this->user;
-        
+
         $res = true;
 
         $fl_wsp_id = $this->request->getInt("fl_wsp_id");
@@ -313,7 +313,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
             // we need the object id for the instance
             $tree = new ilWorkspaceTree($ilUser->getId());
             $node = $tree->getNodeData($fl_wsp_id);
-            
+
             $this->file_object = new ilObjFile($node["obj_id"], false);
         } elseif ($a_file_ref_id == 0) {
             $res = $this->newFileItem();
@@ -338,7 +338,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
     /**
      * delete a list item
      */
-    public function deleteItem() : void
+    public function deleteItem(): void
     {
         $this->content_obj->deleteItem();
         $this->updateAndReturn();
@@ -347,7 +347,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
     /**
      * output tabs
      */
-    public function setTabs(string $a_cmd = "") : void
+    public function setTabs(string $a_cmd = ""): void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
@@ -359,7 +359,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
             "",
             ""
         );
-            
+
         if ($a_cmd != "") {
             $ilCtrl->setParameter($this, "subCmd", "insertNew");
             $ilTabs->addSubTabTarget(
@@ -367,7 +367,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
                 $ilCtrl->getLinkTarget($this, $a_cmd),
                 $a_cmd
             );
-    
+
             $ilCtrl->setParameter($this, "subCmd", "insertFromRepository");
             $ilTabs->addSubTabTarget(
                 "cont_file_from_repository",
@@ -375,7 +375,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
                 $a_cmd
             );
             $ilCtrl->setParameter($this, "subCmd", "");
-            
+
             if (!$ilSetting->get("disable_personal_workspace") &&
                 !$ilSetting->get("disable_wsp_files")) {
                 $ilCtrl->setParameter($this, "subCmd", "insertFromWorkspace");
@@ -392,7 +392,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
     /**
      * move list item down
      */
-    public function moveItemDown() : void
+    public function moveItemDown(): void
     {
         $this->content_obj->moveItemDown();
         $this->updateAndReturn();
@@ -401,7 +401,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
     /**
      * move list item up
      */
-    public function moveItemUp() : void
+    public function moveItemUp(): void
     {
         $this->content_obj->moveItemUp();
         $this->updateAndReturn();
@@ -410,7 +410,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
     /**
      * Cancel adding a file
      */
-    public function cancelAddFile() : void
+    public function cancelAddFile(): void
     {
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }

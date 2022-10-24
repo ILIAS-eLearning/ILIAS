@@ -46,7 +46,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
      *
      * @return string
      */
-    public static function _getImagePath(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname, string $a_img) : string
+    public static function _getImagePath(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname, string $a_img): string
     {
         global $DIC;
 
@@ -74,7 +74,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 
 
 
-    public static function _getIcon(string $a_type) : string
+    public static function _getIcon(string $a_type): string
     {
         global $DIC;
         $component_repository = $DIC["component.repository"];
@@ -86,8 +86,8 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
             "icon_" . $a_type . ".svg"
         );
     }
-    
-    public static function _getName(string $a_id) : string
+
+    public static function _getName(string $a_id): string
     {
         global $DIC;
         $component_repository = $DIC["component.repository"];
@@ -96,19 +96,19 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
         }
         return $component_repository->getPluginById($a_id)->getName();
     }
-    
-    protected function beforeActivation() : bool
+
+    protected function beforeActivation(): bool
     {
         $ilDB = $this->db;
-        
+
         // before activating, we ensure, that the type exists in the ILIAS
         // object database and that all permissions exist
         $type = $this->getId();
-        
+
         if (strpos($type, "x") !== 0) {
             throw new ilPluginException("Object plugin type must start with an x. Current type is " . $type . ".");
         }
-        
+
         // check whether type exists in object data, if not, create the type
         $set = $ilDB->query(
             "SELECT * FROM object_data " .
@@ -152,7 +152,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
                     ")");
             }
         }
-        
+
         // now add creation permission, if not existing
         $set = $ilDB->query(
             "SELECT * FROM rbac_operations " .
@@ -171,7 +171,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
                 $ilDB->quote("create", "text") .
                 ")");
         }
-        
+
         // assign creation operation to root, cat, crs, grp and fold
         $par_types = $this->getParentTypes();
         foreach ($par_types as $par_type) {
@@ -195,25 +195,25 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
                 }
             }
         }
-        
+
         return true;
     }
-    
-    protected function beforeUninstallCustom() : bool
+
+    protected function beforeUninstallCustom(): bool
     {
         // plugin-specific
         // false would indicate that anything went wrong
         return true;
     }
-    
-    abstract protected function uninstallCustom() : void;
-    
-    final protected function beforeUninstall() : bool
+
+    abstract protected function uninstallCustom(): void;
+
+    final protected function beforeUninstall(): bool
     {
         if ($this->beforeUninstallCustom()) {
             $rep_util = new ilRepUtil();
             $rep_util->deleteObjectType($this->getId());
-            
+
             // custom database tables may be needed by plugin repository object
             $this->uninstallCustom();
 
@@ -225,7 +225,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
     /**
      * @return string[]
      */
-    public function getParentTypes() : array
+    public function getParentTypes(): array
     {
         $par_types = ["root", "cat", "crs", "grp", "fold"];
         return $par_types;
@@ -234,7 +234,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
     /**
      * decides if this repository plugin can be copied
      */
-    public function allowCopy() : bool
+    public function allowCopy(): bool
     {
         return false;
     }
@@ -242,8 +242,14 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
     /**
      * Decide if this repository plugin uses OrgUnit Permissions
      */
-    public function useOrguPermissions() : bool
+    public function useOrguPermissions(): bool
     {
         return false;
+    }
+
+    public function getPrefix(): string
+    {
+        $lh = $this->getLanguageHandler();
+        return $lh->getPrefix();
     }
 }

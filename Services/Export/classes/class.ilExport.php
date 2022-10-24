@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -59,7 +61,7 @@ class ilExport
      * @return ilExportConfig $a_comp configuration object
      * @throws ilExportException thronw if no config exists
      */
-    public function getConfig(string $a_comp) : ilExportConfig
+    public function getConfig(string $a_comp): ilExportConfig
     {
         // if created, return existing config object
         if (isset($this->configs[$a_comp])) {
@@ -79,7 +81,7 @@ class ilExport
      * the export. Includes also information on last export file.
      * @return array<int, array<string, int|string>>
      */
-    public static function _getValidExportSubItems(int $a_ref_id) : array
+    public static function _getValidExportSubItems(int $a_ref_id): array
     {
         global $DIC;
 
@@ -107,7 +109,7 @@ class ilExport
      * @param string $a_type     export type ("xml", "html", ...), default "xml"
      * @param string $a_obj_type object type (optional, if not given, type is looked up)
      */
-    public static function _getLastExportFileDate(int $a_obj_id, string $a_type = "", string $a_obj_type = "") : int
+    public static function _getLastExportFileDate(int $a_obj_id, string $a_type = "", string $a_obj_type = ""): int
     {
         $files = ilExport::_getExportFiles($a_obj_id, $a_type, $a_obj_type);
         if (is_array($files)) {
@@ -128,7 +130,7 @@ class ilExport
         int $a_obj_id,
         string $a_type = "",
         string $a_obj_type = ""
-    ) : ?array {
+    ): ?array {
         $files = ilExport::_getExportFiles($a_obj_id, $a_type, $a_obj_type);
         if (is_array($files)) {
             $files = ilArrayUtil::sortArray($files, "timestamp", "desc");
@@ -150,7 +152,7 @@ class ilExport
         string $a_type = "xml",
         string $a_obj_type = "",
         string $a_entity = ""
-    ) : string {
+    ): string {
         global $DIC;
 
         $logger = $DIC->logger()->exp();
@@ -191,7 +193,7 @@ class ilExport
      * @param string       $a_obj_type
      * @return array
      */
-    public static function _getExportFiles(int $a_obj_id, $a_export_types = "", string $a_obj_type = "") : array
+    public static function _getExportFiles(int $a_obj_id, $a_export_types = "", string $a_obj_type = ""): array
     {
         if ($a_obj_type == "") {
             $a_obj_type = ilObject::_lookupType($a_obj_id);
@@ -250,7 +252,7 @@ class ilExport
         int $a_obj_id,
         string $a_export_type = "xml",
         string $a_obj_type = ""
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilErr = $DIC['ilErr'];
@@ -273,7 +275,7 @@ class ilExport
         int $a_obj_id,
         array $a_files,
         string $a_type = ""
-    ) : void {
+    ): void {
         global $DIC;
 
         $lng = $DIC->language();
@@ -327,7 +329,7 @@ class ilExport
         string $a_type,
         int $a_id,
         string $a_target_release = ""
-    ) : array {
+    ): array {
         $this->log->debug("export type: $a_type, id: $a_id, target_release: " . $a_target_release);
 
         // if no target release specified, use latest major release number
@@ -412,7 +414,7 @@ class ilExport
         string $a_title,
         string $a_export_dir,
         string $a_type_for_file = ""
-    ) : array {
+    ): array {
         global $DIC;
 
         $objDefinition = $DIC['objDefinition'];
@@ -488,7 +490,7 @@ class ilExport
         string $a_entity,
         string $a_target_release,
         array $a_id = null
-    ) : bool {
+    ): bool {
         $success = true;
         $this->log->debug("process exporter, comp: " . $a_comp . ", class: " . $a_class . ", entity: " . $a_entity .
             ", target release " . $a_target_release . ", id: " . print_r($a_id, true));
@@ -617,7 +619,7 @@ class ilExport
         return $success;
     }
 
-    protected static function createPathFromId(int $a_container_id, string $a_name) : string
+    protected static function createPathFromId(int $a_container_id, string $a_name): string
     {
         $max_exponent = 3;
         $factor = 100;

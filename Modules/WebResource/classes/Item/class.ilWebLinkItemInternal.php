@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,12 +24,12 @@
  */
 class ilWebLinkItemInternal extends ilWebLinkItem
 {
-    public function isInternal() : bool
+    public function isInternal(): bool
     {
         return true;
     }
 
-    public function getResolvedLink(bool $with_parameters = true) : string
+    public function getResolvedLink(bool $with_parameters = true): string
     {
         $parts = explode("|", $this->getTarget());
         $type = (string) ($parts[0] ?? '');

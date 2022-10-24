@@ -54,7 +54,7 @@ class ilSysStyleCatAssignmentTableGUI extends ilTable2GUI
         $this->addMultiCommand('deleteAssignments', $DIC->language()->txt('remove_assignment'));
     }
 
-    public function getStyleCatAssignments() : void
+    public function getStyleCatAssignments(): void
     {
         $this->setData(ilSystemStyleSettings::getSubStyleCategoryAssignments(
             $this->skin_id,
@@ -66,12 +66,12 @@ class ilSysStyleCatAssignmentTableGUI extends ilTable2GUI
     /**
      * Fill table row
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('REF_ID', $a_set['ref_id']);
         $this->tpl->setVariable(
             'CATEGORY',
-            ilObject::_lookupTitle(ilObject::_lookupObjId($a_set['ref_id']))
+            ilObject::_lookupTitle(ilObject::_lookupObjId((int)$a_set['ref_id']))
         );
     }
 }

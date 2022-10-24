@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\Objective;
@@ -32,7 +34,7 @@ trait ObjectiveHelper
         Objective $objective,
         Environment $environment,
         IOWrapper $io = null
-    ) : Environment {
+    ): Environment {
         $iterator = new ObjectiveIterator($environment, $objective);
         $current = null;
 

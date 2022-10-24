@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,16 +39,16 @@ class PrintViewProvider extends Export\AbstractPrintViewProvider
         $this->lng = $DIC->language();
     }
 
-    public function getTemplateInjectors() : array
+    public function getTemplateInjectors(): array
     {
         return [
-            static function (\ilGlobalTemplate $tpl) : void {
+            static function (\ilGlobalTemplate $tpl): void {
                 //$tpl add js/css
             }
         ];
     }
 
-    public function getSelectionForm() : ?ilPropertyFormGUI
+    public function getSelectionForm(): ?ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -61,7 +63,7 @@ class PrintViewProvider extends Export\AbstractPrintViewProvider
         return $form;
     }
 
-    public function getOnSubmitCode() : string
+    public function getOnSubmitCode(): string
     {
         return "event.preventDefault(); " .
             "window.setTimeout(() => { window.print();}, 500);";

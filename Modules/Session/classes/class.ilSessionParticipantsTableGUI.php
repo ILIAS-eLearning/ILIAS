@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -44,10 +46,10 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
         $this->rep_object = $a_parent_obj;
 
         $this->participants = ilParticipants::getInstance($this->getRepositoryObject()->getRefId());
-        
+
         $this->setId('session_part_' . $this->getRepositoryObject()->getId());
         parent::__construct($a_parent_gui, $a_parent_cmd);
-        
+
         $this->parent_ref_id = $this->tree->getParentId(
             $this->getRepositoryObject()->getRefId()
         );
@@ -61,42 +63,42 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
         }
     }
 
-    protected function getRepositoryObject() : ilObjSession
+    protected function getRepositoryObject(): ilObjSession
     {
         return $this->rep_object;
     }
 
-    protected function isRegistrationEnabled() : bool
+    protected function isRegistrationEnabled(): bool
     {
         return $this->getRepositoryObject()->enabledRegistration();
     }
 
-    protected function getParticipants() : ilParticipants
+    protected function getParticipants(): ilParticipants
     {
         return $this->participants;
     }
 
-    public function init() : void
+    public function init(): void
     {
         $this->lng->loadLanguageModule('sess');
         $this->lng->loadLanguageModule('crs');
         $this->lng->loadLanguageModule('trac');
         $this->lng->loadLanguageModule('mmbr');
-        
+
         $this->setFormName('participants');
-        
+
         $this->initFilter();
-        
+
 
         $this->setSelectAllCheckbox('participants', true);
         $this->setShowRowsSelector(true);
-        
+
         $this->enable('sort');
         $this->enable('header');
         $this->enable('numinfo');
         $this->enable('select_all');
-        
-        
+
+
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), $this->getParentCmd()));
 
         $this->setRowTemplate("tpl.sess_members_row.html", "Modules/Session");
@@ -104,13 +106,13 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
         $this->addColumn('', 'f', '1', true);
         $this->addColumn($this->lng->txt('name'), 'name', '20%');
         $this->addColumn($this->lng->txt('login'), 'login', '10%');
-        
+
         $all_cols = $this->getSelectableColumns();
         foreach ($this->getSelectedColumns() as $col) {
             $this->addColumn($all_cols[$col]['txt'], $col);
         }
-        
-        
+
+
         if ($this->isRegistrationEnabled()) {
             $this->addColumn($this->lng->txt('event_tbl_registered'), 'registered');
             $this->setDefaultOrderField('registered');
@@ -137,12 +139,12 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
         $this->addMultiCommand('sendMailToSelectedUsers', $this->lng->txt('mmbr_btn_mail_selected_users'));
         $this->lng->loadLanguageModule('user');
         $this->addMultiCommand('addToClipboard', $this->lng->txt('clipboard_add_btn'));
-        
-        
+
+
         $this->addCommandButton('updateMembers', $this->lng->txt('save'));
     }
-    
-    public function initFilter() : void
+
+    public function initFilter(): void
     {
         $login = $this->addFilterItemByMetaType(
             'login',
@@ -151,8 +153,8 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
             $this->lng->txt('name')
         );
         $this->current_filter['login'] = $login->getValue();
-        
-        
+
+
         if ($this->isColumnSelected('roles')) {
             $role = $this->addFilterItemByMetaType(
                 'roles',
@@ -166,7 +168,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
             $role->setOptions($options + $this->getParentLocalRoles());
             $this->current_filter['roles'] = $role->getValue();
         }
-        
+
         if ($this->getRepositoryObject()->enabledRegistration()) {
             $reg = $this->addFilterItemByMetaType(
                 'filter_registration',
@@ -185,17 +187,17 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
         $this->current_filter['filter_participated'] = $participated->getChecked();
     }
 
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         self::$all_columns['roles'] = array(
             'txt' => $this->lng->txt('objs_role'),
             'default' => true
         );
-        
+
         return self::$all_columns;
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $all_participants = [];
         $all_possible_participants = $this->collectParticipants();
@@ -212,10 +214,9 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
         $part = [];
         foreach ($all_participants as $counter => $participant) {
             $usr_data = $this->getParticipants()->getEventParticipants()->getUser((int) $participant['usr_id']);
-
             $tmp_data = [];
             $tmp_data['id'] = $participant['usr_id'];
-            
+
             $tmp_data['name'] = $participant['lastname'];
             $tmp_data['lastname'] = $participant['lastname'];
             $tmp_data['firstname'] = $participant['firstname'];
@@ -230,13 +231,12 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
             $notificationShown = false;
             if (true === $this->getRepositoryObject()->isRegistrationNotificationEnabled()) {
                 $notificationShown = true;
-
                 $notificationCheckboxEnabled = true;
                 if (ilSessionConstants::NOTIFICATION_INHERIT_OPTION === $this->getRepositoryObject()->getRegistrationNotificationOption()) {
                     $notificationCheckboxEnabled = false;
                 }
                 $tmp_data['notification_checkbox_enabled'] = $notificationCheckboxEnabled;
-                $tmp_data['notification_checked'] = $usr_data['notification_enabled'];
+                $tmp_data['notification_checked'] = $usr_data['notification_enabled'] ?? false;
             }
             $tmp_data['show_notification'] = $notificationShown;
 
@@ -250,18 +250,18 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
                 }
             }
             $tmp_data['roles'] = implode('<br />', $roles);
-            
+
             if ($this->matchesFilterCriteria($tmp_data)) {
                 $part[] = $tmp_data;
             }
         }
         $this->setData($part);
     }
-    
+
     /**
      * @return int[] array of parent course/group participants
      */
-    protected function collectParticipants() : array
+    protected function collectParticipants(): array
     {
         $part = ilParticipants::getInstance($this->member_ref_id);
         if (!$part instanceof ilParticipants) {
@@ -270,7 +270,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
         return $part->getParticipants();
     }
 
-    protected function matchesFilterCriteria(array $a_user_info) : bool
+    protected function matchesFilterCriteria(array $a_user_info): bool
     {
         foreach ($this->current_filter as $filter => $filter_value) {
             if (!$filter_value) {
@@ -282,27 +282,27 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
                         return false;
                     }
                     break;
-                    
+
                 case 'filter_participated':
                     if (!$a_user_info['participated']) {
                         return false;
                     }
                     break;
-                    
+
                 case 'filter_registration':
                     if (!$a_user_info['registered']) {
                         return false;
                     }
                     break;
             }
-            
-            
+
+
             $this->logger->info('Filter: ' . $filter . ' -> ' . $filter_value);
         }
         return true;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_POSTNAME', 'participants');
 
@@ -312,7 +312,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
             $this->tpl->setVariable('REG_CHECKED', $a_set['registered'] ? 'checked="checked"' : '');
             $this->tpl->parseCurrentBlock();
         }
-        
+
         foreach ($this->getSelectedColumns() as $field) {
             if ($field == 'roles') {
                 $this->tpl->setCurrentBlock('custom_fields');
@@ -346,7 +346,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
         }
     }
 
-    protected function getParentLocalRoles() : array
+    protected function getParentLocalRoles(): array
     {
         $part = null;
         $type = ilObject::_lookupType($this->member_ref_id, true);
@@ -356,17 +356,17 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
                 $part = ilParticipants::getInstance($this->member_ref_id);
                 // no break
             default:
-                
+
         }
         if (!$part instanceof ilParticipants) {
             return [];
         }
-        
+
         $review = $this->rbac->review();
-        
+
         $local_parent_roles = $review->getLocalRoles($this->member_ref_id);
         $this->logger->dump($local_parent_roles);
-        
+
         $local_roles_info = [];
         foreach ($local_parent_roles as $index => $role_id) {
             $local_roles_info[$role_id] = ilObjRole::_getTranslation(

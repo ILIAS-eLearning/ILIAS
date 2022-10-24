@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,17 +42,17 @@ class ilWebLinkList extends ilWebLinkBaseList
         parent::__construct($title, $description);
     }
 
-    public function getWebrId() : int
+    public function getWebrId(): int
     {
         return $this->webr_id;
     }
 
-    public function getCreateDate() : DateTimeImmutable
+    public function getCreateDate(): DateTimeImmutable
     {
         return $this->create_date;
     }
 
-    public function getLastUpdate() : DateTimeImmutable
+    public function getLastUpdate(): DateTimeImmutable
     {
         return $this->last_update;
     }

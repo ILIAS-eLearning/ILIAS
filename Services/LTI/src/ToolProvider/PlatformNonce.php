@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 namespace ILIAS\LTI\ToolProvider;
 
 /**
@@ -28,11 +27,10 @@ namespace ILIAS\LTI\ToolProvider;
  */
 class PlatformNonce
 {
-
     /**
      * Maximum age nonce values will be retained for (in minutes).
      */
-    const MAX_NONCE_AGE = 30;  // in minutes
+    public const MAX_NONCE_AGE = 30;  // in minutes
 
     /**
      * Maximum length which can be stored.
@@ -81,7 +79,7 @@ class PlatformNonce
      *
      * @return bool    True if the nonce value was successfully loaded
      */
-    public function load() : bool
+    public function load(): bool
     {
         return $this->platform->getDataConnector()->loadPlatformNonce($this);
     }
@@ -91,7 +89,7 @@ class PlatformNonce
      *
      * @return bool    True if the nonce value was successfully saved
      */
-    public function save() : bool
+    public function save(): bool
     {
         return $this->platform->getDataConnector()->savePlatformNonce($this);
     }
@@ -101,7 +99,7 @@ class PlatformNonce
      *
      * @return bool    True if the nonce value was successfully deleted
      */
-    public function delete() : bool
+    public function delete(): bool
     {
         return $this->platform->getDataConnector()->deletePlatformNonce($this);
     }
@@ -111,7 +109,7 @@ class PlatformNonce
      *
      * @return Platform  Platform for this nonce
      */
-    public function getPlatform() : ?Platform
+    public function getPlatform(): ?Platform
     {
         return $this->platform;
     }
@@ -121,7 +119,7 @@ class PlatformNonce
      *
      * @return string Outcome value
      */
-    public function getValue() : ?string
+    public function getValue(): ?string
     {
         return $this->value;
     }

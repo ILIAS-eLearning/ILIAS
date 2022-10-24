@@ -30,7 +30,7 @@ abstract class ilFilePreviewRenderer extends ilPreviewRenderer
      *
      * @return array An array containing the supported repository types.
      */
-    final public function getSupportedRepositoryTypes() : array
+    final public function getSupportedRepositoryTypes(): array
     {
         return ["file"];
     }
@@ -41,7 +41,7 @@ abstract class ilFilePreviewRenderer extends ilPreviewRenderer
      * @param ilPreview $preview The preview object to check.
      * @return bool true, if the renderer supports the specified preview object; otherwise, false.
      */
-    public function supports(\ilPreview $preview) : bool
+    public function supports(\ilPreview $preview): bool
     {
         // let parent check first
         if (!parent::supports($preview)) {
@@ -86,7 +86,7 @@ abstract class ilFilePreviewRenderer extends ilPreviewRenderer
      * @param string $filepath The path of the file to check.
      * @return string The specified file path if conform with exec(); otherwise, the path to a temporary copy of the file.
      */
-    public function prepareFileForExec(string $filepath) : string
+    public function prepareFileForExec(string $filepath): string
     {
         $filepath = ilFileUtils::getValidFilename($filepath);
 
@@ -111,5 +111,5 @@ abstract class ilFilePreviewRenderer extends ilPreviewRenderer
      *
      * @return array An array containing the supported file formats.
      */
-    abstract public function getSupportedFileFormats() : array;
+    abstract public function getSupportedFileFormats(): array;
 }

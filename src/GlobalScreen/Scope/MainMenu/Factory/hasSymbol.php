@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -27,31 +29,30 @@ use ILIAS\UI\Component\Symbol\Symbol;
  */
 interface hasSymbol extends isItem
 {
-
     /**
      * @param Symbol $symbol
      * @return hasSymbol
      */
-    public function withSymbol(Symbol $symbol) : hasSymbol;
+    public function withSymbol(Symbol $symbol): hasSymbol;
 
     /**
      * @return Symbol
      */
-    public function getSymbol() : Symbol;
+    public function getSymbol(): Symbol;
 
     /**
      * @return bool
      */
-    public function hasSymbol() : bool;
+    public function hasSymbol(): bool;
 
     /**
      * @param Closure $symbol_decorator
      * @return hasSymbol
      */
-    public function addSymbolDecorator(Closure $symbol_decorator) : hasSymbol;
+    public function addSymbolDecorator(Closure $symbol_decorator): hasSymbol;
 
     /**
      * @return Closure|null
      */
-    public function getSymbolDecorator() : ?Closure;
+    public function getSymbolDecorator(): ?Closure;
 }

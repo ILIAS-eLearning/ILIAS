@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Item;
 
 use ILIAS\UI\Component\Component;
@@ -37,12 +39,12 @@ interface Item extends Component
     /**
      * Create a new item with an attached description.
      */
-    public function withDescription(string $description) : Item;
+    public function withDescription(string $description): Item;
 
     /**
      * Get the description of the item.
      */
-    public function getDescription() : ?string;
+    public function getDescription(): ?string;
 
     /**
      * Get a new item with the given properties as key-value pairs.
@@ -50,11 +52,11 @@ interface Item extends Component
      * specific data set.
      * @param array<string,string|Shy|Icon> $properties Label => Content
      */
-    public function withProperties(array $properties) : Item;
+    public function withProperties(array $properties): Item;
 
     /**
      * Get the properties of the appointment.
      * @return array<string,string|Shy|Icon>		Title => Content
      */
-    public function getProperties() : array;
+    public function getProperties(): array;
 }

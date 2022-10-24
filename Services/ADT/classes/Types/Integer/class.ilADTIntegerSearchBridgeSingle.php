@@ -1,15 +1,17 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
-    protected function isValidADTDefinition(ilADTDefinition $a_adt_def) : bool
+    protected function isValidADTDefinition(ilADTDefinition $a_adt_def): bool
     {
         return ($a_adt_def instanceof ilADTIntegerDefinition);
     }
 
     // table2gui / filter
 
-    public function loadFilter() : void
+    public function loadFilter(): void
     {
         $value = $this->readFilter();
         if ($value !== null) {
@@ -19,7 +21,7 @@ class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     // form
 
-    public function addToForm() : void
+    public function addToForm(): void
     {
         $def = $this->getADT()->getCopyOfDefinition();
 
@@ -35,17 +37,17 @@ class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
         if ($max !== null) {
             $number->setMaxValue($max);
 
-            $length = strlen($max);
+            $length = strlen((string) $max);
             $number->setSize($length);
             $number->setMaxLength($length);
         }
 
-        $number->setValue($this->getADT()->getNumber());
+        $number->setValue((string) $this->getADT()->getNumber());
 
         $this->addToParentElement($number);
     }
 
-    public function importFromPost(array $a_post = null) : bool
+    public function importFromPost(array $a_post = null): bool
     {
         $post = $this->extractPostValues($a_post);
 
@@ -62,7 +64,7 @@ class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     // db
 
-    public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
+    public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []): string
     {
         if (!$this->isNull() && $this->isValid()) {
             return $a_element_id . " = " . $this->db->quote($this->getADT()->getNumber(), "integer");
@@ -70,7 +72,7 @@ class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
         return '';
     }
 
-    public function isInCondition(ilADT $a_adt) : bool
+    public function isInCondition(ilADT $a_adt): bool
     {
         assert($a_adt instanceof ilADTInteger);
 
@@ -79,7 +81,7 @@ class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     //  import/export
 
-    public function getSerializedValue() : string
+    public function getSerializedValue(): string
     {
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array($this->getADT()->getNumber()));
@@ -87,7 +89,7 @@ class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
         return '';
     }
 
-    public function setSerializedValue(string $a_value) : void
+    public function setSerializedValue(string $a_value): void
     {
         $a_value = unserialize($a_value);
         if (is_array($a_value)) {

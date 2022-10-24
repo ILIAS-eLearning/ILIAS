@@ -33,7 +33,7 @@ class ilBookingHelpAdapter
         $this->help = $help;
     }
 
-    public function setHelpId(string $a_id) : void
+    public function setHelpId(string $a_id): void
     {
         $ilHelp = $this->help;
 

@@ -57,7 +57,7 @@ final class Metadata
      *
      * @since 5.3
      */
-    public function getFilename() : string
+    public function getFilename(): string
     {
         return $this->filename;
     }
@@ -70,7 +70,7 @@ final class Metadata
      *
      * @since 5.3
      */
-    public function setFilename(string $filename) : self
+    public function setFilename(string $filename): self
     {
         $this->stringTypeCheck($filename, "filename");
 
@@ -87,7 +87,7 @@ final class Metadata
      *
      * @since 5.3
      */
-    public function getUploadSize() : int
+    public function getUploadSize(): int
     {
         return $this->uploadSize;
     }
@@ -99,7 +99,7 @@ final class Metadata
      *
      * @since 5.3
      */
-    public function getMimeType() : string
+    public function getMimeType(): string
     {
         return $this->mimeType;
     }
@@ -112,7 +112,7 @@ final class Metadata
      *
      * @since 5.3
      */
-    public function setMimeType(string $mimeType) : self
+    public function setMimeType(string $mimeType): self
     {
         $this->stringTypeCheck($mimeType, "mimeType");
 
@@ -128,7 +128,7 @@ final class Metadata
      *
      * @since 5.3
      */
-    public function additionalMetaData() : StringMap
+    public function additionalMetaData(): StringMap
     {
         return $this->additionalMetaData;
     }

@@ -27,7 +27,6 @@ namespace ILIAS\LTI\ToolProvider\Content;
  */
 class LtiAssignmentItem extends LtiLinkItem
 {
-
     /**
      * Class constructor.
      *

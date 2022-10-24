@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,7 +20,7 @@
 
 class ilObjPDFGeneration extends ilObject2
 {
-    protected function initType() : void
+    protected function initType(): void
     {
         $this->type = 'pdfg';
     }

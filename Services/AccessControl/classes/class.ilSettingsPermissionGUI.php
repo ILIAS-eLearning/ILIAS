@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * UI class for handling permissions that can be configured
  * having the write permission for an object
@@ -63,7 +65,7 @@ class ilSettingsPermissionGUI
     /**
      * Determine roles
      */
-    public function determineRoles() : array
+    public function determineRoles(): array
     {
         $roles = array();
         foreach ($this->base_roles as $k => $r) {
@@ -89,7 +91,7 @@ class ilSettingsPermissionGUI
     /**
      * Set role required permissions (this permissions are required for a role to be listed)
      */
-    public function setRoleRequiredPermissions(array $a_val) : void
+    public function setRoleRequiredPermissions(array $a_val): void
     {
         if (is_array($a_val)) {
             foreach ($a_val as $p) {
@@ -104,7 +106,7 @@ class ilSettingsPermissionGUI
      * Get role required permissions
      * @return array permissions required to be listed
      */
-    public function getRoleRequiredPermissions() : array
+    public function getRoleRequiredPermissions(): array
     {
         return $this->role_required_permissions;
     }
@@ -113,7 +115,7 @@ class ilSettingsPermissionGUI
      * Set role prohibited permissions (this permissions are prohibited for a role to be listed)
      * @param array $a_val permissions prohibited to be listed
      */
-    public function setRoleProhibitedPermissions(array $a_val) : void
+    public function setRoleProhibitedPermissions(array $a_val): void
     {
         if (is_array($a_val)) {
             foreach ($a_val as $p) {
@@ -128,7 +130,7 @@ class ilSettingsPermissionGUI
      * Get role prohibited permissions
      * @return array permissions prohibited to be listed
      */
-    public function getRoleProhibitedPermissions() : array
+    public function getRoleProhibitedPermissions(): array
     {
         return $this->role_prohibited_permissions;
     }
@@ -137,7 +139,7 @@ class ilSettingsPermissionGUI
      * Set permissions
      * @param array $a_val array of operations (string) that should be offered
      */
-    public function setPermissions(array $a_val) : void
+    public function setPermissions(array $a_val): void
     {
         if (is_array($a_val)) {
             foreach ($a_val as $p) {
@@ -152,7 +154,7 @@ class ilSettingsPermissionGUI
      * Get permissions
      * @return array array of operations (string) that should be offered
      */
-    public function getPermissions() : array
+    public function getPermissions(): array
     {
         return $this->permissions;
     }
@@ -160,7 +162,7 @@ class ilSettingsPermissionGUI
     /**
      * Execute command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd("showForm");
         if (in_array($cmd, array("showForm", "save"))) {
@@ -171,7 +173,7 @@ class ilSettingsPermissionGUI
     /**
      * Show form
      */
-    public function showForm() : void
+    public function showForm(): void
     {
         $form = $this->initPermissionForm();
         $this->tpl->setContent($form->getHTML());
@@ -180,7 +182,7 @@ class ilSettingsPermissionGUI
     /**
      * Init permission form
      */
-    public function initPermissionForm() : ilPropertyFormGUI
+    public function initPermissionForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $roles = $this->determineRoles();
@@ -222,7 +224,7 @@ class ilSettingsPermissionGUI
     /**
      * Save  form
      */
-    public function save() : void
+    public function save(): void
     {
         $form = $this->initPermissionForm();
         if ($form->checkInput()) {

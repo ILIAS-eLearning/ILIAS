@@ -27,11 +27,11 @@ interface ilTimelineItemInt
      * Render item
      * @return string html
      */
-    public function render() : string;
+    public function render(): string;
 
     /**
      * Get datetime
      * @return ilDateTime timestamp
      */
-    public function getDateTime() : ilDateTime;
+    public function getDateTime(): ilDateTime;
 }

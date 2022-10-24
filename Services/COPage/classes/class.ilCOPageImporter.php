@@ -28,7 +28,7 @@ class ilCOPageImporter extends ilXmlImporter
     // Names of active plugins with own importers for additional data
     protected array $importer_plugins = array();
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
         /** @var ilComponentRepository $component_repository */
@@ -51,13 +51,13 @@ class ilCOPageImporter extends ilXmlImporter
             }
         }
     }
-    
+
     public function importXmlRepresentation(
         string $a_entity,
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $this->log->debug("entity: " . $a_entity . ", id: " . $a_id);
 
         if ($a_entity == "pgtp") {
@@ -135,7 +135,7 @@ class ilCOPageImporter extends ilXmlImporter
 
     public function finalProcessing(
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $this->log->debug("start");
         $pages = $a_mapping->getMappingsOfEntity("Services/COPage", "pgl");
         $media_objects = $a_mapping->getMappingsOfEntity("Services/MediaObjects", "mob");
@@ -180,7 +180,7 @@ class ilCOPageImporter extends ilXmlImporter
      */
     protected function extractPluginProperties(
         ilPageObject $a_page
-    ) : void {
+    ): void {
         if (empty($this->importer_plugins)) {
             return;
         }
@@ -229,7 +229,7 @@ class ilCOPageImporter extends ilXmlImporter
      */
     public function replacePluginProperties(
         ilPageObject $a_page
-    ) : bool {
+    ): bool {
         if (empty($this->importer_plugins)) {
             return false;
         }

@@ -24,11 +24,11 @@ interface ilDesktopItemHandling
      * Add desktop item
      * @access public
      */
-    public function addToDeskObject() : void;
-    
+    public function addToDeskObject(): void;
+
     /**
      * Remove from desktop
      * @access public
      */
-    public function removeFromDeskObject() : void;
+    public function removeFromDeskObject(): void;
 }

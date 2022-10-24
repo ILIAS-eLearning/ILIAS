@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -89,7 +91,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
         $this->not_possible_image = "<img src='" . ilUtil::getImagePath("icon_not_ok.svg") . "' alt='not ok'>";
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("STATUS", $a_set['status_repr']);
 
@@ -135,7 +137,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
         }
     }
 
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         $cols = array();
 
@@ -148,14 +150,14 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
         return $cols;
     }
 
-    protected function fetchData() : array
+    protected function fetchData(): array
     {
         $prg_id = $this->assignment->getRootId();
         $prg = ilObjStudyProgramme::getInstanceByObjId($prg_id);
 
         $ass_id = $this->assignment->getId();
         $plan = array();
-        
+
         $prg->applyToSubTreeNodes(
             function ($node) use ($ass_id, &$plan) {
                 $progress = $this->sp_user_progress_db->getByIds($node->getId(), $ass_id);
@@ -202,7 +204,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
         return $plan;
     }
 
-    protected function getManualStatusSelect(string $progress_id, int $status) : string
+    protected function getManualStatusSelect(string $progress_id, int $status): string
     {
         $parent = $this->getParentObject();
         $options = [
@@ -217,7 +219,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
 
         $options = array_filter(
             $options,
-            static function ($o) use ($allowed, $parent) : bool {
+            static function ($o) use ($allowed, $parent): bool {
                 return in_array($o, $allowed) || $o === $parent::MANUAL_STATUS_NONE;
             },
             ARRAY_FILTER_USE_KEY
@@ -230,7 +232,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
         return $select->render();
     }
 
-    protected function getRequiredPointsInput(string $progress_id, int $status, string $points_required) : string
+    protected function getRequiredPointsInput(string $progress_id, int $status, string $points_required): string
     {
         if ($status !== ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
             return $points_required;
@@ -243,7 +245,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
         return $input->render();
     }
 
-    protected function getDeadlineInput(string $progress_id, $deadline) : string
+    protected function getDeadlineInput(string $progress_id, $deadline): string
     {
         $parent = $this->getParentObject();
         $gui = new ilDateTimeInputGUI("", $parent::POST_VAR_DEADLINE . "[$progress_id]");

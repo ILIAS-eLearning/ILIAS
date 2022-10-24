@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,8 +36,8 @@ class CronJobScheduleTest extends TestCase
         ?int $default_schedule_value,
         int $schedule_type,
         ?int $schedule_value
-    ) : ilCronJob {
-        $job_instance = new class($has_flexible_schedule, $default_schedule_type, $default_schedule_value, $schedule_type, $schedule_value) extends ilCronJob {
+    ): ilCronJob {
+        $job_instance = new class ($has_flexible_schedule, $default_schedule_type, $default_schedule_value, $schedule_type, $schedule_value) extends ilCronJob {
             private bool $has_flexible_schedule;
             private int $default_schedule_type;
             private ?int $default_schedule_value;
@@ -54,55 +56,55 @@ class CronJobScheduleTest extends TestCase
                 $this->default_schedule_value = $default_schedule_value;
             }
 
-            public function getId() : string
+            public function getId(): string
             {
                 return 'phpunit';
             }
 
-            public function getTitle() : string
+            public function getTitle(): string
             {
                 return 'phpunit';
             }
 
-            public function getDescription() : string
+            public function getDescription(): string
             {
                 return 'phpunit';
             }
 
-            public function hasAutoActivation() : bool
+            public function hasAutoActivation(): bool
             {
                 return false;
             }
 
-            public function hasFlexibleSchedule() : bool
+            public function hasFlexibleSchedule(): bool
             {
                 return $this->has_flexible_schedule;
             }
 
-            public function getDefaultScheduleType() : int
+            public function getDefaultScheduleType(): int
             {
                 return $this->default_schedule_type;
             }
 
-            public function getDefaultScheduleValue() : ?int
+            public function getDefaultScheduleValue(): ?int
             {
                 return $this->default_schedule_value;
             }
 
-            public function run() : ilCronJobResult
+            public function run(): ilCronJobResult
             {
                 return new ilCronJobResult();
             }
         };
 
-        $job_instance->setDateTimeProvider(function () : DateTimeImmutable {
+        $job_instance->setDateTimeProvider(function (): DateTimeImmutable {
             return $this->now;
         });
 
         return $job_instance;
     }
 
-    public function jobProvider() : array
+    public function jobProvider(): array
     {
         // Can't be moved to setUp(), because the data provider is executed before the tests are executed
         $this->now = new DateTimeImmutable('@' . time());
@@ -282,7 +284,7 @@ class CronJobScheduleTest extends TestCase
         int $schedule_type,
         ?int $schedule_value,
         bool $expected_result
-    ) : void {
+    ): void {
         $this->assertSame(
             $expected_result,
             $job_instance->isDue($last_run_datetime, $schedule_type, $schedule_value, $is_manual_run),

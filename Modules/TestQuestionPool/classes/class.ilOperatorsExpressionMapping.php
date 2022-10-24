@@ -1,6 +1,20 @@
 <?php
 
-require_once "./Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilOperatorsExpressionMapping
@@ -11,7 +25,6 @@ require_once "./Modules/TestQuestionPool/interfaces/interface.iQuestionCondition
  */
 abstract class ilOperatorsExpressionMapping
 {
-
     /**
      * @var array
      */
@@ -31,12 +44,12 @@ abstract class ilOperatorsExpressionMapping
      *
      * @return array
      */
-    public static function getOperatorsByExpression($expression) : array
+    public static function getOperatorsByExpression($expression): array
     {
         return self::$mappings[$expression];
     }
 
-    public static function getAll() : array
+    public static function getAll(): array
     {
         return self::$mappings;
     }

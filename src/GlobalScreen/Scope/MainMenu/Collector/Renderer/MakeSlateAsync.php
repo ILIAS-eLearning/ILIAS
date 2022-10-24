@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -33,7 +35,7 @@ trait MakeSlateAsync
      * @param supportsAsynchronousLoading $item
      * @return Slate
      */
-    protected function addAsyncLoadingCode(Slate $slate, supportsAsynchronousLoading $item) : Slate
+    protected function addAsyncLoadingCode(Slate $slate, supportsAsynchronousLoading $item): Slate
     {
         if ($item->supportsAsynchronousLoading() === false) {
             return $slate;

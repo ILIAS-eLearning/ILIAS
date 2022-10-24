@@ -30,7 +30,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
     /**
      * @param array|int $value
      */
-    public function parseValue($value) : ?array
+    public function parseValue($value): ?array
     {
         global $DIC;
         if ($value == -1) { //marked for deletion.
@@ -53,11 +53,17 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
             $file_obj->create();
 
             if ($has_save_confirmation) {
-                $ilfilehash = $this->http->wrapper()->query()->retrieve('ilfilehash',
-                    $this->refinery->kindlyTo()->string());
+                $ilfilehash = $this->http->wrapper()->query()->retrieve(
+                    'ilfilehash',
+                    $this->refinery->kindlyTo()->string()
+                );
 
-                $move_file = ilDclPropertyFormGUI::getTempFilename($ilfilehash,
-                    'field_' . $this->getField()->getId(), $file["name"], $file["type"]);
+                $move_file = ilDclPropertyFormGUI::getTempFilename(
+                    $ilfilehash,
+                    'field_' . $this->getField()->getId(),
+                    $file["name"],
+                    $file["type"]
+                );
 
                 $file_obj->appendStream(
                     ILIAS\Filesystem\Stream\Streams::ofResource(fopen($move_file, 'rb')),
@@ -86,7 +92,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
 
             $file_id = $file_obj->getId();
             $return = $file_id;
-            // handover for save-confirmation
+        // handover for save-confirmation
         } else {
             if (is_array($file) && isset($file['tmp_name']) && $file['tmp_name'] != "") {
                 $return = $file;
@@ -98,7 +104,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
         return $return;
     }
 
-    public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation) : void
+    public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation): void
     {
         if (is_array($this->getValue())) {
             foreach ($this->getValue() as $key => $value) {
@@ -112,7 +118,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
      * @param string|int $value
      * @param bool       $omit_parsing If true, does not parse the value and stores it in the given format
      */
-    public function setValue($value, bool $omit_parsing = false) : void
+    public function setValue($value, bool $omit_parsing = false): void
     {
         $this->loadValue();
 
@@ -135,7 +141,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
     /**
      * @param string $value
      */
-    public function parseExportValue($value) : ?string
+    public function parseExportValue($value): ?string
     {
         if (!ilObject2::_exists($value) || ilObject2::_lookupType($value) != "file") {
             return null;
@@ -156,7 +162,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
      * Returns sortable value for the specific field-types
      * @param int $value
      */
-    public function parseSortingValue($value, bool $link = true) : string
+    public function parseSortingValue($value, bool $link = true): string
     {
         if (!ilObject2::_exists($value) || ilObject2::_lookupType($value) != "file") {
             return '';
@@ -169,7 +175,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
     /**
      * @inheritDoc
      */
-    public function setValueFromForm(ilPropertyFormGUI $form) : void
+    public function setValueFromForm(ilPropertyFormGUI $form): void
     {
         $value = $form->getInput("field_" . $this->getField()->getId());
         if ($form->getItemByPostVar("field_" . $this->getField()->getId())->getDeletionFlag()) {
@@ -181,7 +187,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
     /**
      *
      */
-    public function afterClone() : void
+    public function afterClone(): void
     {
         $field = ilDclCache::getCloneOf($this->getField()->getId(), ilDclCache::TYPE_FIELD);
         $record = ilDclCache::getCloneOf($this->getRecord()->getId(), ilDclCache::TYPE_RECORD);

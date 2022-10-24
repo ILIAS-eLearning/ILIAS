@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,12 +43,12 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilT
     /**
      * Set use values as keys
      */
-    public function setUseValuesAsKeys(bool $a_val) : void
+    public function setUseValuesAsKeys(bool $a_val): void
     {
         $this->use_values_as_keys = $a_val;
     }
-    
-    public function getUseValuesAsKeys() : bool
+
+    public function getUseValuesAsKeys(): bool
     {
         return $this->use_values_as_keys;
     }
@@ -54,7 +56,7 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilT
     /**
      * @param ilCheckboxOption|ilCheckboxInputGUI $a_option
      */
-    public function addOption($a_option) : void
+    public function addOption($a_option): void
     {
         $this->options[] = $a_option;
     }
@@ -64,7 +66,7 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilT
      *
      * @param	array	$a_options	Options. Array ("value" => "option_text")
      */
-    public function setOptions(array $a_options) : void
+    public function setOptions(array $a_options): void
     {
         foreach ($a_options as $key => $label) {
             if (is_string($label)) {
@@ -76,22 +78,22 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilT
         }
     }
 
-    public function getOptions() : array
+    public function getOptions(): array
     {
         return $this->options;
     }
 
-    public function setValue(?array $a_value) : void
+    public function setValue(?array $a_value): void
     {
         $this->value = $a_value;
     }
 
-    public function getValue() : ?array
+    public function getValue(): ?array
     {
         return $this->value;
     }
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         $this->setValue($a_values[$this->getPostVar()] ?? null);
         foreach ($this->getOptions() as $option) {
@@ -101,7 +103,7 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilT
         }
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $lng = $this->lng;
 
@@ -123,19 +125,19 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilT
         return $ok;
     }
 
-    public function getInput() : array
+    public function getInput(): array
     {
         return $this->strArray($this->getPostVar());
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $this->render());
         $a_tpl->parseCurrentBlock();
     }
 
-    public function getItemByPostVar(string $a_post_var) : ?ilFormPropertyGUI
+    public function getItemByPostVar(string $a_post_var): ?ilFormPropertyGUI
     {
         if ($this->getPostVar() == $a_post_var) {
             return $this;
@@ -154,18 +156,18 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilT
 
         return null;
     }
-    
-    public function getTableFilterHTML() : string
+
+    public function getTableFilterHTML(): string
     {
         return $this->render();
     }
-    
-    public function getToolbarHTML() : string
+
+    public function getToolbarHTML(): string
     {
         return $this->render('toolbar');
     }
-    
-    protected function render($a_mode = '') : string
+
+    protected function render($a_mode = ''): string
     {
         $tpl = new ilTemplate("tpl.prop_checkbox_group.html", true, true, "Services/Form");
 
@@ -195,7 +197,7 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilT
             }
 
             $tpl->setCurrentBlock("prop_checkbox_option");
-            
+
             if (!$this->getUseValuesAsKeys()) {
                 $tpl->setVariable("POST_VAR", $this->getPostVar() . '[]');
                 $tpl->setVariable("VAL_CHECKBOX_OPTION", $option->getValue());
@@ -203,10 +205,10 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilT
                 $tpl->setVariable("POST_VAR", $this->getPostVar() . '[' . $option->getValue() . ']');
                 $tpl->setVariable("VAL_CHECKBOX_OPTION", "1");
             }
-            
+
             $tpl->setVariable("OP_ID", $this->getFieldId() . "_" . $option->getValue());
             $tpl->setVariable("FID", $this->getFieldId());
-            
+
             if ($this->getDisabled() or $option->getDisabled()) {
                 $tpl->setVariable('DISABLED', 'disabled="disabled" ');
             }
@@ -239,7 +241,7 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilT
         return $tpl->get();
     }
 
-    public function getSubInputItemsRecursive() : array
+    public function getSubInputItemsRecursive(): array
     {
         $subInputItems = parent::getSubInputItemsRecursive();
         foreach ($this->getOptions() as $option) {

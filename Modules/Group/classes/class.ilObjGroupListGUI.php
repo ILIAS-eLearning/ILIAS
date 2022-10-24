@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -46,7 +48,7 @@ class ilObjGroupListGUI extends ilObjectListGUI
     /**
      * @inheritDoc
     */
-    public function init() : void
+    public function init(): void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -68,7 +70,7 @@ class ilObjGroupListGUI extends ilObjectListGUI
     /**
      * @inheritDoc
     */
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         switch ($cmd) {
             // BEGIN WebDAV: Mount Webfolder.
@@ -96,7 +98,7 @@ class ilObjGroupListGUI extends ilObjectListGUI
     /**
      * @inheritDoc
     */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $props = parent::getProperties();
         $info = ilObjGroupAccess::lookupRegistrationInfo($this->obj_id);
@@ -146,7 +148,7 @@ class ilObjGroupListGUI extends ilObjectListGUI
     /**
      * @inheritDoc
      */
-    public function getCommandFrame(string $cmd) : string
+    public function getCommandFrame(string $cmd): string
     {
         // begin-patch fm
         return parent::getCommandFrame($cmd);
@@ -163,7 +165,7 @@ class ilObjGroupListGUI extends ilObjectListGUI
         int $ref_id,
         string $type,
         ?int $obj_id = null
-    ) : bool {
+    ): bool {
         if ($permission == 'grp_linked') {
             return
                 parent::checkCommandAccess('read', '', $ref_id, $type, $obj_id) ||

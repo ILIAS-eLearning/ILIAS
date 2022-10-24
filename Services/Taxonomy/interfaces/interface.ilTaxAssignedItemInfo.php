@@ -29,5 +29,5 @@ interface ilTaxAssignedItemInfo
      * @param int    $a_item_id   item id
      * @return string
      */
-    public function getTitle(string $a_comp_id, string $a_item_type, int $a_item_id) : string;
+    public function getTitle(string $a_comp_id, string $a_item_type, int $a_item_id): string;
 }

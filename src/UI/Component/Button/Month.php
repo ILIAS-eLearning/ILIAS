@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Button;
 
 use ILIAS\UI\Component\JavaScriptBindable;
@@ -30,5 +32,5 @@ interface Month extends Component, JavaScriptBindable
     /**
      * Get the default value of the button
      */
-    public function getDefault() : string;
+    public function getDefault(): string;
 }

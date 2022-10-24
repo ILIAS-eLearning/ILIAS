@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,14 +29,14 @@ class ByTryingTransformationTest extends TestCase
 
     private Refinery $refinery;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $df = new DataFactory();
         $lang = $this->getLanguage();
         $this->refinery = new Refinery($df, $lang);
     }
 
-    public function NullOrNumericDataProvider() : array
+    public function NullOrNumericDataProvider(): array
     {
         return [
             'empty string' => ['', null],
@@ -56,7 +58,7 @@ class ByTryingTransformationTest extends TestCase
      * @param mixed $value
      * @param mixed $expected
      */
-    public function testNullOrNumeric($value, $expected) : void
+    public function testNullOrNumeric($value, $expected): void
     {
         $transformation = $this->refinery->byTrying([
             $this->refinery->numeric()->isNumeric(),
@@ -71,7 +73,7 @@ class ByTryingTransformationTest extends TestCase
     }
 
 
-    public function NullOrNumericOrStringDataProvider() : array
+    public function NullOrNumericOrStringDataProvider(): array
     {
         return [
             'string' => ['str', 'str'],
@@ -88,7 +90,7 @@ class ByTryingTransformationTest extends TestCase
      * @param mixed $value
      * @param mixed $expected
      */
-    public function testNullOrNumericOrString($value, $expected) : void
+    public function testNullOrNumericOrString($value, $expected): void
     {
         $transformation = $this->refinery->byTrying([
             $this->refinery->kindlyTo()->null(),
@@ -103,7 +105,7 @@ class ByTryingTransformationTest extends TestCase
         $this->assertEquals($expected, $transformed);
     }
 
-    public function StringOrNullDataProvider() : array
+    public function StringOrNullDataProvider(): array
     {
         return [
             'string' => ['str', 'str'],
@@ -119,7 +121,7 @@ class ByTryingTransformationTest extends TestCase
      * @param mixed $value
      * @param mixed $expected
      */
-    public function testStringOrNull($value, $expected) : void
+    public function testStringOrNull($value, $expected): void
     {
         $transformation = $this->refinery->byTrying([
             $this->refinery->to()->string(),

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,7 +42,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
     *
     * this method should be overwritten by derived classes
     */
-    public function init() : void
+    public function init(): void
     {
         $this->copy_enabled = true;
         $this->delete_enabled = true;
@@ -55,7 +57,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
     /**
      * @inheritdoc
      */
-    public function initItem(int $ref_id, int $obj_id, string $type, string $title = "", string $description = "") : void
+    public function initItem(int $ref_id, int $obj_id, string $type, string $title = "", string $description = ""): void
     {
         // general commands array
         $this->commands = ilObjSAHSLearningModuleAccess::_getCommands($obj_id);
@@ -69,7 +71,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
      * be realised in the future.
      * @throws ilCtrlException
      */
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -77,12 +79,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
         switch ($cmd) {
             case "view":
                 $cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=" . $this->ref_id;
-
                 break;
-
-//            case "editContent":
-//                $cmd_link = "ilias.php?baseClass=ilSAHSEditGUI&amp;ref_id=" . $this->ref_id . "&amp;cmd=editContent";
-//                break;
 
             case "edit":
                 $cmd_link = "ilias.php?baseClass=ilSAHSEditGUI&amp;ref_id=" . $this->ref_id;
@@ -140,7 +137,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
     *						"property" (string) => property name
     *						"value" (string) => property value
     */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         global $DIC;
         $lng = $DIC->language();

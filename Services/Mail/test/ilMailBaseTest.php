@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ abstract class ilMailBaseTest extends TestCase
 {
     private ?Container $dic = null;
 
-    protected function brutallyTrimHTML(string $html) : string
+    protected function brutallyTrimHTML(string $html): string
     {
         $html = str_replace(["\n", "\r", "\t"], "", $html);
         $html = preg_replace('# {2,}#', " ", $html);
@@ -38,7 +40,7 @@ abstract class ilMailBaseTest extends TestCase
         return trim($html);
     }
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         if (!defined('ANONYMOUS_USER_ID')) {
             define('ANONYMOUS_USER_ID', 13);
@@ -53,7 +55,7 @@ abstract class ilMailBaseTest extends TestCase
         parent::setUp();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         global $DIC;
 
@@ -62,12 +64,12 @@ abstract class ilMailBaseTest extends TestCase
         parent::tearDown();
     }
 
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
         $GLOBALS[$name] = $value;
-        
+
 
         unset($DIC[$name]);
         $DIC[$name] = static function (Container $c) use ($name) {

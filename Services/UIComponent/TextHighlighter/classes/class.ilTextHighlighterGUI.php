@@ -29,7 +29,7 @@ class ilTextHighlighterGUI
         string $a_dom_node_id,
         string $a_text,
         ilGlobalTemplateInterface $a_tpl = null
-    ) : void {
+    ): void {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
@@ -38,7 +38,7 @@ class ilTextHighlighterGUI
         if (!trim($a_text)) {
             return;
         }
-        
+
         if ($a_tpl === null) {
             $a_tpl = $tpl;
         }

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,47 +35,47 @@ abstract class AbstractUIModifier implements UIModifier
     {
     }
 
-    public function setInternalService(InternalService $internal_service) : void
+    public function setInternalService(InternalService $internal_service): void
     {
         $this->service = $internal_service;
     }
 
-    public function getInternalService() : InternalService
+    public function getInternalService(): InternalService
     {
         return $this->service;
     }
 
     public function getSurveySettingsGeneral(
         \ilObjSurvey $survey
-    ) : array {
+    ): array {
         return [];
     }
 
     public function getSurveySettingsReminderTargets(
         \ilObjSurvey $survey,
         InternalGUIService $ui_service
-    ) : array {
+    ): array {
         return [];
     }
 
     public function getSurveySettingsResults(
         \ilObjSurvey $survey,
         InternalGUIService $ui_service
-    ) : array {
+    ): array {
         return [];
     }
 
     public function setValuesFromForm(
         \ilObjSurvey $survey,
         \ilPropertyFormGUI $form
-    ) : void {
+    ): void {
     }
 
     public function setResultsOverviewToolbar(
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
         int $user_id
-    ) : void {
+    ): void {
         $this->addApprSelectionToToolbar(
             $survey,
             $toolbar,
@@ -91,7 +93,7 @@ abstract class AbstractUIModifier implements UIModifier
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
         int $user_id
-    ) : void {
+    ): void {
         $this->addApprSelectionToToolbar(
             $survey,
             $toolbar,
@@ -104,7 +106,7 @@ abstract class AbstractUIModifier implements UIModifier
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
         int $user_id
-    ) : void {
+    ): void {
         $request = $this->service
             ->gui()
             ->evaluation($survey)
@@ -156,7 +158,7 @@ abstract class AbstractUIModifier implements UIModifier
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
         bool $details
-    ) : void {
+    ): void {
         $modal_id = "svy_ev_exp";
         $modal = $this->buildExportModal($modal_id, $details
             ? 'exportDetailData'
@@ -171,6 +173,11 @@ abstract class AbstractUIModifier implements UIModifier
 
         if ($details) {
             $pv = $this->service->gui()->print()->resultsDetails($survey->getRefId());
+            $this->service->gui()->ctrl()->setParameterByClass(
+                "ilSurveyEvaluationGUI",
+                "vw",
+                $this->service->gui()->evaluation($survey)->request()->getVW()
+            );
             $modal_elements = $pv->getModalElements(
                 $this->service->gui()->ctrl()->getLinkTargetByClass(
                     "ilSurveyEvaluationGUI",
@@ -203,7 +210,7 @@ abstract class AbstractUIModifier implements UIModifier
     protected function buildExportModal(
         string $a_id,
         string $a_cmd
-    ) : string {
+    ): string {
         $tpl = $this->service->gui()->mainTemplate();
         $lng = $this->service->gui()->lng();
         $ctrl = $this->service->gui()->ctrl();
@@ -248,7 +255,7 @@ abstract class AbstractUIModifier implements UIModifier
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
         int $user_id
-    ) : void {
+    ): void {
         $lng = $this->service->gui()->lng();
         $ctrl = $this->service->gui()->ctrl();
         $req = $this->service->gui()->evaluation($survey)->request();
@@ -298,7 +305,7 @@ abstract class AbstractUIModifier implements UIModifier
         array $participants,
         \ILIAS\Survey\Evaluation\EvaluationGUIRequest $request,
         \SurveyQuestionEvaluation $a_eval
-    ) : array {
+    ): array {
         $a_results = $a_eval->getResults();
         $panels = [];
         $ui_factory = $this->service->gui()->ui()->factory();
@@ -357,7 +364,7 @@ abstract class AbstractUIModifier implements UIModifier
         array $participants,
         \ILIAS\Survey\Evaluation\EvaluationGUIRequest $request,
         \SurveyQuestionEvaluation $a_eval
-    ) : string {
+    ): string {
         $a_results = $a_eval->getResults();
 
         $a_tpl = new \ilTemplate("tpl.svy_results_details_table.html", true, true, "Modules/Survey/Evaluation");
@@ -396,7 +403,7 @@ abstract class AbstractUIModifier implements UIModifier
     protected function getPanelChart(
         \ILIAS\Survey\Evaluation\EvaluationGUIRequest $request,
         \SurveyQuestionEvaluation $a_eval
-    ) : string {
+    ): string {
         $a_results = $a_eval->getResults();
 
         $a_tpl = new \ilTemplate("tpl.svy_results_details_chart.html", true, true, "Modules/Survey/Evaluation");
@@ -434,7 +441,7 @@ abstract class AbstractUIModifier implements UIModifier
         \ILIAS\Survey\Evaluation\EvaluationGUIRequest $request,
         \SurveyQuestionEvaluation $a_eval,
         \ilSurveyEvaluationResults $question_res
-    ) : string {
+    ): string {
         $a_results = $a_eval->getResults();
         $question = $question_res->getQuestion();
         $lng = $this->service->gui()->lng();
@@ -476,7 +483,7 @@ abstract class AbstractUIModifier implements UIModifier
     // see #31743
     protected function getPanelCard(
         \ilSurveyEvaluationResults $question_res
-    ) : \ILIAS\UI\Component\Card\Card {
+    ): \ILIAS\UI\Component\Card\Card {
         $ui_factory = $this->service->gui()->ui()->factory();
         $lng = $this->service->gui()->lng();
 

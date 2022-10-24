@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Table;
 
 use ILIAS\Data\Range;
@@ -34,5 +36,5 @@ interface DataRetrieval
         Order $order,
         array $visible_column_ids,
         array $additional_parameters
-    ) : Generator;
+    ): Generator;
 }

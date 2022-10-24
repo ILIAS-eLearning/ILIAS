@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Dropdown;
 
 use ILIAS\UI\Component as C;
@@ -56,7 +58,7 @@ abstract class Dropdown implements C\Dropdown\Dropdown
     /**
      * @inheritdoc
      */
-    public function getLabel() : ?string
+    public function getLabel(): ?string
     {
         return $this->label;
     }
@@ -64,7 +66,7 @@ abstract class Dropdown implements C\Dropdown\Dropdown
     /**
      * @inheritdoc
      */
-    public function getAriaLabel() : ?string
+    public function getAriaLabel(): ?string
     {
         return $this->aria_label;
     }
@@ -72,7 +74,7 @@ abstract class Dropdown implements C\Dropdown\Dropdown
     /**
      * @inheritdoc
      */
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->items;
     }
@@ -80,7 +82,7 @@ abstract class Dropdown implements C\Dropdown\Dropdown
     /**
      * @inheritdoc
      */
-    public function withLabel(string $label) : C\Dropdown\Dropdown
+    public function withLabel(string $label): C\Dropdown\Dropdown
     {
         $clone = clone $this;
         $clone->label = $label;
@@ -90,7 +92,7 @@ abstract class Dropdown implements C\Dropdown\Dropdown
     /**
      * @inheritdoc
      */
-    public function withAriaLabel(string $label) : C\Dropdown\Dropdown
+    public function withAriaLabel(string $label): C\Dropdown\Dropdown
     {
         $clone = clone $this;
         $clone->aria_label = $label;
@@ -100,7 +102,7 @@ abstract class Dropdown implements C\Dropdown\Dropdown
     /**
      * @inheritdoc
      */
-    public function withOnClick(Signal $signal) : C\Clickable
+    public function withOnClick(Signal $signal): C\Clickable
     {
         return $this->withTriggeredSignal($signal, 'click');
     }
@@ -108,7 +110,7 @@ abstract class Dropdown implements C\Dropdown\Dropdown
     /**
      * @inheritdoc
      */
-    public function appendOnClick(Signal $signal) : C\Clickable
+    public function appendOnClick(Signal $signal): C\Clickable
     {
         return $this->appendTriggeredSignal($signal, 'click');
     }
@@ -116,7 +118,7 @@ abstract class Dropdown implements C\Dropdown\Dropdown
     /**
      * @inheritdoc
      */
-    public function withOnHover(Signal $signal) : C\Hoverable
+    public function withOnHover(Signal $signal): C\Hoverable
     {
         return $this->withTriggeredSignal($signal, 'hover');
     }
@@ -124,7 +126,7 @@ abstract class Dropdown implements C\Dropdown\Dropdown
     /**
      * @inheritdoc
      */
-    public function appendOnHover(Signal $signal) : C\Hoverable
+    public function appendOnHover(Signal $signal): C\Hoverable
     {
         return $this->appendTriggeredSignal($signal, 'hover');
     }

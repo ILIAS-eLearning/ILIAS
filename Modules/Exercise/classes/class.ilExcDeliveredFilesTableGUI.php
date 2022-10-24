@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Delivered files table
  *
@@ -24,14 +24,14 @@
 class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 {
     protected ilExSubmission $submission;
-    
+
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
         ilExSubmission $a_submission
     ) {
         $this->submission = $a_submission;
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $ilCtrl = $this->ctrl;
@@ -43,26 +43,26 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
                 $this->submission->getAssignment()->getTitle()
         );
         $this->setLimit(9999);
-        
+
         $this->addColumn($this->lng->txt(""), "", "1", 1);
         $this->addColumn($this->lng->txt("filename"), "filetitle");
-        
+
         if ($this->submission->getAssignment()->getAssignmentType()->usesTeams() &&
             $this->submission->getAssignment()->getAssignmentType()->usesFileUpload()) {
             // #11957
             $this->lng->loadLanguageModule("file");
             $this->addColumn($this->lng->txt("file_uploaded_by"));
         }
-        
+
         $this->addColumn($this->lng->txt("date"), "timestamp14");
-        
+
         if ($this->submission->getAssignment()->getExtendedDeadline()) {
             $this->addColumn($this->lng->txt("exc_late_submission"), "late");
         }
-        
+
         $this->addColumn($this->lng->txt("action"));
         $this->setDefaultOrderField("filetitle");
-        
+
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.delivered_file_row.html", "Modules/Exercise");
@@ -77,16 +77,16 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
     /**
      * @throws ilDateTimeException
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $ilCtrl = $this->ctrl;
 
         $this->tpl->setVariable("FILE_ID", $a_set["returned_id"]);
         $this->tpl->setVariable("DELIVERED_FILE", $a_set["filetitle"]);
-                
+
         $date = new ilDateTime($a_set['timestamp14'], IL_CAL_TIMESTAMP);
         $this->tpl->setVariable("DELIVERED_DATE", ilDatePresentation::formatDate($date));
-        
+
         if ($this->submission->getAssignment()->getAssignmentType()->usesTeams() &&
             $this->submission->getAssignment()->getAssignmentType()->usesFileUpload()) {
             $this->tpl->setVariable(
@@ -94,13 +94,13 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
                 ilUserUtil::getNamePresentation($a_set["owner_id"])
             );
         }
-        
+
         if ($this->submission->getAssignment()->getExtendedDeadline()) {
             $this->tpl->setVariable("DELIVERED_LATE", ($a_set["late"])
                 ? '<span class="warning">' . $this->lng->txt("yes") . '</span>'
                 : $this->lng->txt("no"));
         }
-        
+
         // #16164 - download
         $ilCtrl->setParameter($this->getParentObject(), "delivered", $a_set["returned_id"]);
         $url = $ilCtrl->getLinkTarget($this->getParentObject(), "download");

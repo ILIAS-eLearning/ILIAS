@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,10 +40,10 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Constraint
         $this->document = $document;
 
         parent::__construct(
-            function (ilTermsOfServiceDocumentCriterionAssignment $value) : bool {
+            function (ilTermsOfServiceDocumentCriterionAssignment $value): bool {
                 return 0 === count($this->filterEqualValues($value));
             },
-            static function ($txt, $value) : string {
+            static function ($txt, $value): string {
                 return 'The passed assignment must be unique for the document!';
             },
             $dataFactory,
@@ -55,12 +57,12 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Constraint
      */
     protected function filterEqualValues(
         ilTermsOfServiceDocumentCriterionAssignment $value
-    ) : array {
+    ): array {
         $otherValues = $this->document->criteria();
 
         return array_filter(
             $otherValues,
-            function (ilTermsOfServiceDocumentCriterionAssignment $otherValue) use ($value) : bool {
+            function (ilTermsOfServiceDocumentCriterionAssignment $otherValue) use ($value): bool {
                 $idCurrent = $otherValue->getId();
                 $idNew = $value->getId();
 
@@ -88,7 +90,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Constraint
     protected function haveSameNature(
         ilTermsOfServiceDocumentCriterionAssignment $value,
         ilTermsOfServiceDocumentCriterionAssignment $otherValue
-    ) : bool {
+    ): bool {
         if ($value->getCriterionId() !== $otherValue->getCriterionId()) {
             return false;
         }

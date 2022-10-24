@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,23 +40,23 @@ class ilSessionDataSet extends ilDataSet
         $this->logger = $DIC->logger()->root();
     }
 
-    public function setTargetId(string $target_id) : void
+    public function setTargetId(string $target_id): void
     {
         $this->target_id = $target_id;
     }
 
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return ['7.0'];
         //return array("4.1.0", "5.0.0", "5.1.0", '5.4.0', '7.0');
     }
 
-    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "http://www.ilias.de/xml/Modules/Session/" . $a_entity;
     }
 
-    protected function getTypes(string $a_entity, string $a_version) : array
+    protected function getTypes(string $a_entity, string $a_version): array
     {
         if ($a_entity == "sess") {
             switch ($a_version) {
@@ -188,10 +190,10 @@ class ilSessionDataSet extends ilDataSet
         return [];
     }
 
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         $ilDB = $this->db;
-                
+
         if ($a_entity == "sess") {
             switch ($a_version) {
                 case "4.1.0":
@@ -273,7 +275,7 @@ class ilSessionDataSet extends ilDataSet
         }
     }
 
-    public function getXmlRecord(string $a_entity, string $a_version, array $a_set) : array
+    public function getXmlRecord(string $a_entity, string $a_version, array $a_set): array
     {
         if ($a_entity == "sess") {
             // convert server dates to utc
@@ -297,7 +299,7 @@ class ilSessionDataSet extends ilDataSet
         string $a_version,
         ?array $a_rec = null,
         ?array $a_ids = null
-    ) : array {
+    ): array {
         switch ($a_entity) {
             case "sess":
                 return array(
@@ -308,7 +310,7 @@ class ilSessionDataSet extends ilDataSet
         return [];
     }
 
-    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
+    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version): void
     {
         switch ($a_entity) {
             case "sess":
@@ -401,7 +403,7 @@ class ilSessionDataSet extends ilDataSet
     /**
      * @param int[] $a_obj_ids
      */
-    protected function readDidacticTemplateType(array $a_obj_ids) : void
+    protected function readDidacticTemplateType(array $a_obj_ids): void
     {
         $ref_ids = [];
         $counter = 0;
@@ -415,7 +417,7 @@ class ilSessionDataSet extends ilDataSet
         }
     }
 
-    protected function applyDidacticTemplate(ilObject $rep_object, int $tpl_id) : void
+    protected function applyDidacticTemplate(ilObject $rep_object, int $tpl_id): void
     {
         $this->logger->debug('Apply didactic template');
 

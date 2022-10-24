@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBiblTableQueryInfo
  *
@@ -31,36 +31,36 @@ class ilBiblTableQueryFilter implements ilBiblTableQueryFilterInterface
     protected string $operator = '=';
 
 
-    public function getFieldName() : string
+    public function getFieldName(): string
     {
         return $this->field_name;
     }
 
 
-    public function setFieldName(string $field_name) : void
+    public function setFieldName(string $field_name): void
     {
         $this->field_name = $field_name;
     }
 
-    
+
     public function getFieldValue()
     {
         return $this->field_value;
     }
-    
-    public function setFieldValue($field_value) : void
+
+    public function setFieldValue($field_value): void
     {
         assert(is_array($field_value) || is_string($field_value));
         $this->field_value = $field_value;
     }
 
-    public function getOperator() : string
+    public function getOperator(): string
     {
         return $this->operator;
     }
 
 
-    public function setOperator(string $operator) : void
+    public function setOperator(string $operator): void
     {
         $this->operator = $operator;
     }

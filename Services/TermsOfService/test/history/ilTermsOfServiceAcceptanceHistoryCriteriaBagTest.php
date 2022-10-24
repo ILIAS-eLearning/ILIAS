@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
  */
 class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends ilTermsOfServiceBaseTest
 {
-    public function testCriteriaCanBePassedAsArray() : ilTermsOfServiceAcceptanceHistoryCriteriaBag
+    public function testCriteriaCanBePassedAsArray(): ilTermsOfServiceAcceptanceHistoryCriteriaBag
     {
         $configCrit1 = $this->getMockBuilder(ilTermsOfServiceCriterionConfig::class)->getMock();
 
@@ -85,13 +87,13 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends ilTermsOfServiceB
     /**
      * @depends testCriteriaCanBePassedAsArray
      */
-    public function testCriteriaCanBePassedAsString(ilTermsOfServiceAcceptanceHistoryCriteriaBag $bag) : void
+    public function testCriteriaCanBePassedAsString(ilTermsOfServiceAcceptanceHistoryCriteriaBag $bag): void
     {
         $newBag = new ilTermsOfServiceAcceptanceHistoryCriteriaBag($bag->toJson());
         $this->assertSame($bag->toJson(), $newBag->toJson());
     }
 
-    public function testExceptionIsRaisedWhenAtLeastOneNonCriterionIsPassedInArrayOnCreation() : void
+    public function testExceptionIsRaisedWhenAtLeastOneNonCriterionIsPassedInArrayOnCreation(): void
     {
         $configCrit1 = $this->getMockBuilder(ilTermsOfServiceCriterionConfig::class)->getMock();
 
@@ -113,7 +115,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends ilTermsOfServiceB
         ]);
     }
 
-    public function invalidJsonDataProvider() : array
+    public function invalidJsonDataProvider(): array
     {
         $object = new stdClass();
         $object->not_expected = 'phpunit';
@@ -140,7 +142,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends ilTermsOfServiceB
     /**
      * @dataProvider invalidJsonDataProvider
      */
-    public function testExceptionIsRaisedWhenInvalidJsonDataIsPassedOnImport($mixedData) : void
+    public function testExceptionIsRaisedWhenInvalidJsonDataIsPassedOnImport($mixedData): void
     {
         $configCrit1 = $this->getMockBuilder(ilTermsOfServiceCriterionConfig::class)->getMock();
 
@@ -160,7 +162,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends ilTermsOfServiceB
         $bag->fromJson($mixedData);
     }
 
-    public function testExceptionIsRaisedWhenAtLeastOneInvalidElementIsPassedOnJsonStringImport() : void
+    public function testExceptionIsRaisedWhenAtLeastOneInvalidElementIsPassedOnJsonStringImport(): void
     {
         $configCrit1 = $this->getMockBuilder(ilTermsOfServiceCriterionConfig::class)->getMock();
 
@@ -180,7 +182,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends ilTermsOfServiceB
         $bag->fromJson('[{"invalid":"crit1","value":{"usr_language":"de"}},{"id":"crit2","value":{"usr_global_role":4}}]');
     }
 
-    public function testCriteriaImportFromJsonStringWorksAsExpected() : void
+    public function testCriteriaImportFromJsonStringWorksAsExpected(): void
     {
         $bag = new ilTermsOfServiceAcceptanceHistoryCriteriaBag();
         $bag->fromJson('[{"id":"crit1","value":{"usr_language":"de"}},{"id":"crit2","value":{"usr_global_role":4}}]');

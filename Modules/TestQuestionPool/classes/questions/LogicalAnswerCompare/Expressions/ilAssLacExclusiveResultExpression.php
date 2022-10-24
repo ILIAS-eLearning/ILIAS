@@ -1,7 +1,20 @@
 <?php
 
-include_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacAbstractExpression.php";
-include_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacSolutionExpressionInterface.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ExclusiveResultExpression for the expression *m,n,o,p*
@@ -37,7 +50,7 @@ class ilAssLacExclusiveResultExpression extends ilAssLacAbstractExpression imple
      */
     protected $exclusive;
 
-    protected function getPattern() : string
+    protected function getPattern(): string
     {
         return '/(\d+)/';
     }
@@ -49,7 +62,7 @@ class ilAssLacExclusiveResultExpression extends ilAssLacAbstractExpression imple
      *
      * @param array $matches
      */
-    protected function setMatches($matches) : void
+    protected function setMatches($matches): void
     {
         $this->exclusive = array();
 
@@ -61,7 +74,7 @@ class ilAssLacExclusiveResultExpression extends ilAssLacAbstractExpression imple
     /**
      * @return \int[]
      */
-    public function getExclusive() : array
+    public function getExclusive(): array
     {
         return $this->exclusive;
     }
@@ -70,7 +83,7 @@ class ilAssLacExclusiveResultExpression extends ilAssLacAbstractExpression imple
      * Get the value of this Expression
      * @return string
      */
-    public function getValue() : string
+    public function getValue(): string
     {
         return "*" . join(",", $this->exclusive) . "*";
     }
@@ -79,7 +92,7 @@ class ilAssLacExclusiveResultExpression extends ilAssLacAbstractExpression imple
      * Get a human readable description of the Composite element
      * @return string
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return join(",", $this->exclusive) . " beantwortet ";
     }
@@ -91,7 +104,7 @@ class ilAssLacExclusiveResultExpression extends ilAssLacAbstractExpression imple
      *
      * @return bool
      */
-    public function checkResult($result, $comperator, $index = null) : bool
+    public function checkResult($result, $comperator, $index = null): bool
     {
         $values = $result->getUserSolutionsByIdentifier("value");
         $exclusive = $this->getExclusive();

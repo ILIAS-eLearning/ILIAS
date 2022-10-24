@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -43,22 +45,22 @@ class ilCmiXapiHighscoreReport
     {
         $this->objId = $objId;
         $responseBody = json_decode($responseBody, true);
-        
+
         if (is_array($responseBody) && count($responseBody)) {
             $this->response = $responseBody;
         } else {
             $this->response = array();
         }
-        
+
         foreach (ilCmiXapiUser::getUsersForObject($objId) as $cmixUser) {
             $this->cmixUsersByIdent[$cmixUser->getUsrIdent()] = $cmixUser;
         }
     }
 
-    public function initTableData() : bool
+    public function initTableData(): bool
     {
         global $DIC;
-        
+
         $rows = [];
         $obj = ilObjCmiXapi::getInstance($this->objId, false);
 
@@ -105,7 +107,7 @@ class ilCmiXapiHighscoreReport
                 ];
             }
         }
-        usort($rows, fn ($a, $b) : int => $a['score'] != $b['score'] ? $a['score'] > $b['score'] ? -1 : 1 : 0);
+        usort($rows, fn ($a, $b): int => $a['score'] != $b['score'] ? $a['score'] > $b['score'] ? -1 : 1 : 0);
 
         $i = 0;
         $prevScore = null;
@@ -138,12 +140,12 @@ class ilCmiXapiHighscoreReport
         return true;
     }
 
-    private function identUser(int $userIdent) : bool
+    private function identUser(int $userIdent): bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-    
+
         $cmixUser = $this->cmixUsersByIdent[$userIdent];
-        
+
         if ($cmixUser->getUsrId() == $DIC->user()->getId()) {
             return true;
         }
@@ -154,10 +156,10 @@ class ilCmiXapiHighscoreReport
      * @param array $allDurations
      * @return string
      */
-    protected function fetchTotalDuration(array $allDurations) : string
+    protected function fetchTotalDuration(array $allDurations): string
     {
         $totalDuration = 0;
-        
+
         foreach ($allDurations as $duration) {
             $totalDuration += ilObjSCORM2004LearningModule::_ISODurationToCentisec($duration) / 100;
         }
@@ -168,7 +170,7 @@ class ilCmiXapiHighscoreReport
         return $hours . ":" . date('i:s', $totalDuration);
     }
 
-    private function formatRawTimestamp(string $rawTimestamp) : string
+    private function formatRawTimestamp(string $rawTimestamp): string
     {
         $dateTime = ilCmiXapiDateTime::fromXapiTimestamp($rawTimestamp);
         return ilDatePresentation::formatDate($dateTime);
@@ -177,17 +179,17 @@ class ilCmiXapiHighscoreReport
     /**
      * @return mixed[]
      */
-    public function getTableData() : array
+    public function getTableData(): array
     {
         return $this->tableData;
     }
 
-    public function getUserRank() : ?int
+    public function getUserRank(): ?int
     {
         return $this->userRank;
     }
 
-    public function getResponseDebug() : string
+    public function getResponseDebug(): string
     {
 //        foreach($this->response as $key => $item)
 //        {

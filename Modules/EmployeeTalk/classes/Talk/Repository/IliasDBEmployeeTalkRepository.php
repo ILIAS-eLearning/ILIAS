@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -110,7 +111,7 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
         return $managedUser;
     }
 
-    public function findByObjectId(int $objectId) : EmployeeTalk
+    public function findByObjectId(int $objectId): EmployeeTalk
     {
         $statement = $this->database->prepare('SELECT * FROM etal_data WHERE object_id=?;', ["integer"]);
         $statement = $statement->execute([$objectId]);
@@ -122,7 +123,7 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
         return $this->parseFromStdClass($result);
     }
 
-    public function create(EmployeeTalk $talk) : EmployeeTalk
+    public function create(EmployeeTalk $talk): EmployeeTalk
     {
         $this->database->insert('etal_data', [
             'object_id'             => ['int', $talk->getObjectId()],
@@ -139,7 +140,7 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
         return $talk;
     }
 
-    public function update(EmployeeTalk $talk) : EmployeeTalk
+    public function update(EmployeeTalk $talk): EmployeeTalk
     {
         $this->database->update('etal_data', [
             'series_id'             => ['text', $talk->getSeriesId()],
@@ -157,14 +158,14 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
         return $talk;
     }
 
-    public function delete(EmployeeTalk $talk) : void
+    public function delete(EmployeeTalk $talk): void
     {
         $statement = $this->database->prepareManip('DELETE FROM etal_data WHERE object_id=?;', ["integer"]);
         $statement->execute([$talk->getObjectId()]);
         $this->database->free($statement);
     }
 
-    public function findByEmployee(int $iliasUserId) : array
+    public function findByEmployee(int $iliasUserId): array
     {
         $statement = $this->database->prepare('SELECT * FROM etal_data WHERE employee=?;', ["integer"]);
         $statement = $statement->execute([$iliasUserId]);
@@ -179,7 +180,7 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
         return $talks;
     }
 
-    public function findBySeries(string $seriesId) : array
+    public function findBySeries(string $seriesId): array
     {
         $statement = $this->database->prepare('SELECT * FROM etal_data WHERE series_id=?;', ["text"]);
         $statement = $statement->execute([$seriesId]);

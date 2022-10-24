@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -67,7 +69,7 @@ class RecordTransformation implements Constraint
      * @inheritDoc
      * @return array<string, mixed>
      */
-    public function transform($from) : array
+    public function transform($from): array
     {
         $this->check($from);
 
@@ -85,7 +87,7 @@ class RecordTransformation implements Constraint
     /**
      * @inheritDoc
      */
-    public function getError() : string
+    public function getError(): string
     {
         return $this->error;
     }
@@ -105,7 +107,7 @@ class RecordTransformation implements Constraint
     /**
      * @inheritDoc
      */
-    public function accepts($value) : bool
+    public function accepts($value): bool
     {
         if (!$this->validateValueLength($value)) {
             return false;
@@ -126,7 +128,7 @@ class RecordTransformation implements Constraint
         return true;
     }
 
-    private function validateValueLength(array $values) : bool
+    private function validateValueLength(array $values): bool
     {
         $countOfValues = count($values);
         $countOfTransformations = count($this->transformations);
@@ -146,7 +148,7 @@ class RecordTransformation implements Constraint
     /**
      * @inheritDoc
      */
-    public function problemWith($value) : ?string
+    public function problemWith($value): ?string
     {
         if (!$this->accepts($value)) {
             return $this->getErrorMessage($value);
