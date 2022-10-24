@@ -28,18 +28,18 @@ abstract class ilSubItemListGUI
     protected static int $MAX_SUBITEMS = 5;
     protected static array $details = [];
 
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
 
-    protected string $cmd_class;
+    protected string $cmd_class = '';
 
-    protected ilTemplate $tpl;
+    protected ?ilTemplate $tpl = null;
     protected ?ilLuceneHighlighterResultParser $highlighter = null;
     protected array $subitem_ids = [];
     protected ?ilObjectListGUI $item_list_gui = null;
-    protected int $ref_id;
-    protected int $obj_id;
-    protected string $type;
+    protected int $ref_id = 0;
+    protected int $obj_id = 0;
+    protected string $type = '';
 
     public function __construct(string $cmd_class)
     {

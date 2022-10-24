@@ -298,18 +298,12 @@ class ilSearchGUI extends ilSearchBaseGUI
 
             $res = $auto->getList($query);
             $res_obj = json_decode($res);
-
-            ilLoggerFactory::getLogger('sea')->debug($res);
-
-
-            ilLoggerFactory::getLogger('sea')->dump($res_obj->items, ilLogLevel::DEBUG);
             if (is_array($res_obj->items)) {
                 echo json_encode($res_obj->items);
                 exit;
             }
         } else {
             $list = ilSearchAutoComplete::getList($query);
-            ilLoggerFactory::getLogger('sea')->dump(json_decode($list));
             echo $list;
             exit;
         }
