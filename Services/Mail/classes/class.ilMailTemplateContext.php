@@ -58,7 +58,7 @@ abstract class ilMailTemplateContext
     abstract public function getDescription(): string;
 
     /**
-     * @return array{mail_salutation: array{placeholder: string, label: string}, first_name: array{placeholder: string, label: string}, last_name: array{placeholder: string, label: string}, login: array{placeholder: string, label: string}, title: array{placeholder: string, label: string, supportsCondition: true}, firstname_last_name_superior: array{placeholder: string, label: string}, ilias_url: array{placeholder: string, label: string}, installation_name: array{placeholder: string, label: string}}
+     * @return array{mail_salutation: array{placeholder: string, label: string}, first_name: array{placeholder: string, label: string}, last_name: array{placeholder: string, label: string}, login: array{placeholder: string, label: string}, title: array{placeholder: string, label: string, supportsCondition: true}, firstname_lastname_superior: array{placeholder: string, label: string}, ilias_url: array{placeholder: string, label: string}, installation_name: array{placeholder: string, label: string}}
      */
     private function getGenericPlaceholders(): array
     {
@@ -84,7 +84,7 @@ abstract class ilMailTemplateContext
                 'label' => $this->getLanguage()->txt('mail_nacc_title'),
                 'supportsCondition' => true,
             ],
-            'firstname_last_name_superior' => [
+            'firstname_lastname_superior' => [
                 'placeholder' => 'FIRSTNAME_LASTNAME_SUPERIOR',
                 'label' => $this->getLanguage()->txt('mail_firstname_last_name_superior'),
             ],
@@ -170,7 +170,7 @@ abstract class ilMailTemplateContext
                 $resolved = $this->envHelper->getClientId();
                 break;
 
-            case 'firstname_last_name_superior' === $placeholder_id && $recipient !== null:
+            case 'firstname_lastname_superior' === $placeholder_id && $recipient !== null:
                 $ouUsers = $this->orgUnitUserService->getUsers([$recipient->getId()], true);
                 foreach ($ouUsers as $ouUser) {
                     $superiors = $ouUser->getSuperiors();
