@@ -40,7 +40,6 @@ class assAnswerMatchingTerm
 
     protected function createIdentifier(): int
     {
-        mt_srand((int) microtime() * 1000000);
         $id = random_int(1, 100000);
         return $id;
     }
