@@ -1,27 +1,22 @@
 <?php
 
 declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Class ilAdvancedSearchGUI
@@ -167,6 +162,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
     public function performSearch(): bool
     {
+        global $DIC;
         $this->initSearchType(self::TYPE_LOM);
         $page_number = $this->initPageNumberFromQuery();
         if (!$page_number and $this->search_mode != 'in_results') {
@@ -178,7 +174,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             $this->search_cache->setQuery(
                 $this->http->wrapper()->post()->retrieve(
                     'query',
-                    $this->refinery->kindlyTo()->string()
+                    $this->refinery->kindlyTo()->dictOf(
+                        $this->refinery->kindlyTo()->string()
+                    )
                 )
             );
         }
@@ -475,7 +473,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
     public function __performContentSearch(): ?ilSearchResult
     {
-        if (!$this->options['lom_content']) {
+        if (!($this->options['lom_content'] ?? null)) {
             return null;
         }
 
@@ -485,6 +483,14 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         #$query_parser->setCombination($this->options['content_ao']);
         $query_parser->setCombination(ilQueryParser::QP_COMBINATION_OR);
         $query_parser->parse();
+
+        if (!isset($this->options['type'])) {
+            if ($tit_res = $this->__performTitleSearch()) {
+                $res->mergeEntries($tit_res);
+            }
+
+            return $res;
+        }
 
         if ($this->options['type'] == 'all' or $this->options['type'] == 'lms') {
             // LM content search
@@ -522,7 +528,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
     public function __performTitleSearch(): ?ilSearchResult
     {
-        if (!$this->options['lom_content']) {
+        if (!($this->options['lom_content'] ?? null)) {
             return null;
         }
 
@@ -552,12 +558,15 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
     public function __performGeneralSearch(): ?ilSearchResult
     {
-        if (!$this->options['lom_coverage'] and !$this->options['lom_structure']) {
+        if (
+            !($this->options['lom_coverage'] ?? null) and
+            !($this->options['lom_structure'] ?? null)
+        ) {
             return null;
         }
 
 
-        if ($this->options['lom_coverage']) {
+        if (($this->options['lom_coverage'] ?? null)) {
             $query_parser = new ilQueryParser(ilUtil::stripSlashes($this->options['lom_coverage']));
             #$query_parser->setCombination($this->options['coverage_ao']);
             $query_parser->setCombination(ilQueryParser::QP_COMBINATION_OR);
@@ -577,7 +586,10 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     public function __performLifecycleSearch(): ?ilSearchResult
     {
         // Return if 'any'
-        if (!$this->options['lom_status'] and !$this->options['lom_version']) {
+        if (
+            !($this->options['lom_status'] ?? null) and
+            !($this->options['lom_version'] ?? null)
+        ) {
             return null;
         }
 
@@ -596,7 +608,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     }
     public function __performLanguageSearch(): ?ilSearchResult
     {
-        if (!$this->options['lom_language']) {
+        if (!($this->options['lom_language'] ?? null)) {
             return null;
         }
 
@@ -611,7 +623,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     }
     public function __performContributeSearch(): ?ilSearchResult
     {
-        if (!strlen($this->options['lom_role'])) {
+        if (!strlen($this->options['lom_role'] ?? '')) {
             return null;
         }
 
@@ -627,7 +639,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     public function __performEntitySearch(): ?ilSearchResult
     {
         // Return if 'any'
-        if (!$this->options['lom_role_entry']) {
+        if (!($this->options['lom_role_entry'] ?? null)) {
             return null;
         }
 
@@ -689,7 +701,10 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     }
     public function __performRightsSearch(): ?ilSearchResult
     {
-        if (!$this->options['lom_copyright'] and !$this->options['lom_costs']) {
+        if (
+            !($this->options['lom_copyright'] ?? null) and
+            !($this->options['lom_costs'] ?? null)
+        ) {
             return null;
         }
 
@@ -706,7 +721,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     public function __performClassificationSearch(): ?ilSearchResult
     {
         // Return if 'any'
-        if (!$this->options['lom_purpose']) {
+        if (!($this->options['lom_purpose'] ?? null)) {
             return null;
         }
 
@@ -723,7 +738,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     public function __performTaxonSearch(): ?ilSearchResult
     {
         // Return if 'any'
-        if (!$this->options['lom_taxon']) {
+        if (!($this->options['lom_taxon'] ?? null)) {
             return null;
         }
 
@@ -745,7 +760,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $this->initFormSearch();
 
         foreach (array_keys($this->options) as $key) {
-            if (substr($key, 0, 3) != 'adv') {
+            if (substr((string) $key, 0, 3) != 'adv') {
                 continue;
             }
 
@@ -781,7 +796,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     public function __performKeywordSearch(): ?ilSearchResult
     {
         // Return if 'any'
-        if (!$this->options['lom_keyword']) {
+        if (!($this->options['lom_keyword'] ?? null)) {
             return null;
         }
 
@@ -805,7 +820,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         if ($this->http->wrapper()->post()->has('query')) {
             $query = $this->http->wrapper()->post()->retrieve(
                 'query',
-                $this->refinery->kindlyTo()->string()
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->string()
+                )
             );
         }
 
@@ -936,7 +953,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         }
         $post_cmd = (array) ($this->http->request()->getParsedBody()['cmd'] ?? []);
         $post_query = (array) ($this->http->request()->getParsedBody()['query'] ?? []);
-        if ($post_cmd['performSearch']) {
+        if ($post_cmd['performSearch'] ?? null) {
             $this->search_cache->setQuery($post_query['lomContent'] ?? '');
             $this->search_cache->save();
         }

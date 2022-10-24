@@ -301,6 +301,10 @@ class ilSearchResult
     {
         $res = [];
         foreach ($this->getResults() as $result) {
+            if (!is_array($result)) {
+                continue;
+            }
+
             $res[$result['ref_id']] = $result['obj_id'];
         }
         return $res;
