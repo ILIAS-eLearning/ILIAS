@@ -55,7 +55,7 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
 
         $this->setDefaultOrderField("name");
         $this->setDefaultOrderDirection("asc");
-        $this->setSelectAllCheckbox("usr_id");
+        $this->setSelectAllCheckbox("usr_ids");
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.cont_member_skill_row.html", "Services/Container/Skills");
