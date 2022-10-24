@@ -114,7 +114,11 @@ class ilSearchGUI extends ilSearchBaseGUI
                 self::SEARCH_OR
         );
         $this->setString((string) ($post_search['string'] ?? ($session_search['string'] ?? '')));
-        $this->setDetails($new_search ? $post_search['details'] : ($session_search['details'] ?? []));
+        $this->setDetails(
+            $new_search ?
+                ($post_search['details'] ?? []) :
+                ($session_search['details'] ?? [])
+        );
     }
 
 
