@@ -1711,6 +1711,7 @@ assessment#:#tst_question_hints_ordering_clipboard_resetted#:#Die Sortierungszwi
 assessment#:#tst_question_hints_paste_after_success_msg#:#Der Lösungshinweis %s wurde nach dem Lösungshinweis %s erfolgreich eingefügt.
 assessment#:#tst_question_hints_paste_before_success_msg#:#Der Lösungshinweis %s wurde vor dem Lösungshinweis %s erfolgreich eingefügt.
 assessment#:#tst_question_hints_request_confirmation#:#Wollen Sie den %s. Lösungshinweis wirklich anfordern? Es wird/werden für diesen Lösungshinweis %s Punkt(e) abgezogen.
+assessment#:#tst_question_hints_request_confirmation_no_deduction#:#Für diesen Hinweis gibt es keinen Punktabzug.
 assessment#:#tst_question_hints_requested_hint_count_header#:#Angeforderte Lösungshinweise
 assessment#:#tst_question_hints_save_order_success_msg#:#Die Reihenfolge der Lösungshinweise wurde erfolgreich gespeichert.
 assessment#:#tst_question_hints_tab#:#Lösungshinweise

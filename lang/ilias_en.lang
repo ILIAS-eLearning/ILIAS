@@ -1711,6 +1711,7 @@ assessment#:#tst_question_hints_ordering_clipboard_resetted#:#The ordering clipb
 assessment#:#tst_question_hints_paste_after_success_msg#:#The hint %s has been pasted after hint %s successfully.
 assessment#:#tst_question_hints_paste_before_success_msg#:#The hint %s has been pasted before hint %s successfully.
 assessment#:#tst_question_hints_request_confirmation#:#Do you really want to request hint %s? For this hint %s point(s) will be deducted.
+assessment#:#tst_question_hints_request_confirmation_no_deduction#:#No points will be deducted for this hint.
 assessment#:#tst_question_hints_requested_hint_count_header#:#Requested Hints
 assessment#:#tst_question_hints_save_order_success_msg#:#The order of hint was saved successfully.
 assessment#:#tst_question_hints_tab#:#Hints
