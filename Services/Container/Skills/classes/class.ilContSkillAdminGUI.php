@@ -295,7 +295,7 @@ class ilContSkillAdminGUI
 
             foreach ($user_ids as $i) {
                 $name = ilUserUtil::getNamePresentation($i, false, false, "", true);
-                $cgui->addItem("usr_id[]", $i, $name);
+                $cgui->addItem("usr_ids[]", $i, $name);
             }
 
             $tpl->setContent($cgui->getHTML());

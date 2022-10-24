@@ -98,7 +98,7 @@ class ilObjLearningSequenceSettingsGUI
 
     protected function cancel(): void
     {
-        $this->ctrl->returnToParent($this);
+        $this->ctrl->redirectByClass(ilObjLearningSequenceGUI::class);
     }
 
 
