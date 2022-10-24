@@ -334,7 +334,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         $ilCtrl = $this->ctrl;
         
         $user_id = $this->getPageContentUserId($a_user_id);
-
         /*
         if($this->getOutputMode() == "offline")
         {
@@ -352,7 +351,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         // full circle: additional was set in the original public user profile call
         $pub_profile->setAdditional($this->getAdditional());
 
-        if ($a_type == "manual" && sizeof($a_fields)) {
+        if ($a_type == "manual" && is_array($a_fields) && count($a_fields) > 0) {
             $prefs = array();
             foreach ($a_fields as $field) {
                 $field = trim($field);
