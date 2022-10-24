@@ -17,11 +17,11 @@ The reach of the code MUST get less global and more specific the deeper we get i
 
 The Settings layer MUST only contains global variables that will be used throughout the whole system e.g. colors, fonts, font-sizes and the most important spacings.
 
-These variables SHOULD be the ones needed to quickly recolor and reshape ILIAS to create a new minimal, but clearly branded skin.
+These variables MUST be the ones needed to quickly recolor and reshape ILIAS to create a new minimal, but clearly branded skin.
 
 Variables on the settings layer that are directly tied to a single component MUST be essential to define the basic look of such a skin e.g. the height of the footer.
 
-Variables that aren't essential to creating the basic look belong to lower layers and SHOULD be defined based on values from the settings layer.
+Variables that aren't essential to creating the basic look MUST be placed on lower layers and SHOULD be defined based on values from the settings layer.
 
 Anything added to the settings layer MUSTN'T create CSS code on its own.
 
@@ -40,7 +40,7 @@ Non-Examples:
 
 ## Dependencies
 
-The Dependencies layer MUST contain files pulled in from other projects and/or modifications of such files. Dependencies and their modifications SHOULD only be added after careful consideration whether the benefits outweigh the risks.
+The Dependencies layer MUST contain files pulled in from other projects and/or modifications of such files. Dependencies and their modifications MUST only be added after careful consideration whether the benefits outweigh the risks.
 
 Only complete, unmodified dependencies MUST be added in the "unmodified" folder. They MAY be updated with new official releases of the dependency after careful testing.
 
@@ -154,13 +154,71 @@ Temporary code that affect very specific locations in the DOM or override some s
 
 `!important` MUST NOT be used outside of this layer and SHOULD not be used here either.
 
-# Class names
+# File names
 
-To be determined.
+Inside their layer files MUST be prefixed with an `_` underscore to mark them as a partial (this stops the compiler from compiling the file on its own).
 
-# Variable names
+Generally, files MUST be named like this: `_layer_descriptive-name.scss`
 
-To be determined.
+An exception is the Dependency layer: Files inside the "unmodified" folder MUST be kept in their original state. Files inside "modification" SHOULD copy file name and folder structure from the original package. They MAY include prefixes like "additions" or "modified" to indicate if they are meant to be included in addition to the original dependency or fully replace a file from the original.
+
+# Naming Conventions
+
+Many existing names do not follow this naming conventions, but future projects MUST use the following guidelines.
+
+## Classes
+
+Class names MUST follow BEMIT guidelines, like this:
+
+```markdown
+c-panel--dashboard__header--alert
+1 2    3            4       3
+```
+
+1 The prefix MUST indicate the ITCSS layer:
+
+* `il-` = Settings
+* `c-` = Components
+* `l-` = Layout
+* `t-` = Tools (extensible classes)
+
+2 BEMIT Block: Next, the name of the component or system MUST follow.
+
+3 BEMIT Modifier: Modifiers MAY be added to change the default look of blocks and elements according to a certain condition or context. Modifiers SHOULD NOT be visual descriptions like "--large", they SHOULD indicate a semantic concept or status.
+
+4 BEMIT Element: If the class is for a subordinate element, the name of the element MAY follow after two `__` underscores.
+
+# Variables, Mixins and Functions
+
+For now, variables MUST have a unique name and be treated as global as some approaches to create custom skins require this. The only exception are local variables (in a mixin or function) or variables hidden from being forwarded, which MAY have a generic non-unique name.
+
+Variable names MUST follow a pattern inspired by BEMIT guidelines like this:
+
+```markdown
+c-button__font-size
+```
+
+Long variable names SHOULD be avoided. However, here is an extreme example for all possible segments of a variable's name:
+
+```markdown
+c-button--primary--hover__caret--large__text-color
+1 2       3               4    3        5
+```
+
+1 The prefix MUST indicate the ITCSS layer:
+
+* `c-` = Components
+* `l-` = Layout
+* `t-` = Tools
+
+2 BEMIT Block: Next, the name of the component or system MUST follow.
+
+3 BEMIT Modifier: Modifiers MAY be added to change the default look of blocks and elements according to a certain condition or context. Modifiers SHOULD NOT be visual descriptions like "--large", they SHOULD indicate a semantic concept or status.
+
+4 BEMIT Element: If the variable is for a subordinate element, the name of the element MAY follow after two `__` underscores.
+
+5 The name MUST contain the specific attribute that the variable is for. This MUST indicate a specific CSS attribute or semantic group or concept.
+
 
 # SASS specific best practices
 
@@ -168,12 +226,14 @@ Files that are meant to only be compiled inside other files and never on their o
 
 You MUST include partials with @use. You MUST NOT use the deprecated @import.
 
-When including a file with @use you SHOULD utilize a namespace. You MAY define your own name for this.
+Components MUST expose their variables with @forward all the way up to the main delos.scss so that when including delos in a skin, variables can be overriden with `@use "../some-path/delos" with ( $il-main-color: green );`. This makes most variables globals, so these exposed variables MUST have a unique name. You MAY hide variables when forwarding a component with `@forward "some-component" hide $local-variable;` 
+
+When including a file with @use you SHOULD utilize a namespace. You MAY use the default on or define a custom namespace.
 
 When including a file with @use from a dependency you MUST use a namespace. This namespace SHOULD be the same everywhere e.g. the namespace for Bootstrap 3 is btstrp3.
 
 Division with a slash (e.g. "10px / 2") outside of calc() is deprecated and MUST NOT be used. You MUST use math.div() instead.
 
-# Functions
+## Functions
 
 Functions SHOULD throw an error if an incorrect input can be detected.
