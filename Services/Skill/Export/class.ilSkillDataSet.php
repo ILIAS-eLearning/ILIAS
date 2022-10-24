@@ -39,6 +39,7 @@ class ilSkillDataSet extends ilDataSet
 {
     public const MODE_SKILLS = "";
     public const MODE_PROFILES = "prof";
+    protected ilSkillTreeRepository $tree_repo;
 
     protected int $skill_tree_id = 0;
     protected int $skill_tree_root_id = 0;
@@ -70,6 +71,7 @@ class ilSkillDataSet extends ilDataSet
         $this->skill_manager = $DIC->skills()->internal()->manager();
         $this->skill_tree_factory = $DIC->skills()->internal()->factory()->tree();
         $this->skill_factory = $DIC->skills()->internal()->factory();
+        $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
     }
 
     public function setMode(string $a_val): void
@@ -282,7 +284,6 @@ class ilSkillDataSet extends ilDataSet
     public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         $ilDB = $this->db;
-        $skill_tree = $this->skill_tree_factory->getTreeById($this->getSkillTreeId());
 
         $this->data = [];
 
@@ -332,6 +333,7 @@ class ilSkillDataSet extends ilDataSet
                 case "7.0":
                 case "8.0":
                     foreach ($a_ids as $id) {
+                        $skill_tree = $this->tree_repo->getTreeForNodeId($id);
                         $sub = $skill_tree->getSubTree($skill_tree->getNodeData($id));
                         foreach ($sub as $s) {
                             $set = $ilDB->query(
@@ -370,6 +372,7 @@ class ilSkillDataSet extends ilDataSet
                 case "7.0":
                 case "8.0":
                     foreach ($a_ids as $id) {
+                        $skill_tree = $this->tree_repo->getTreeForNodeId($id);
                         $sub = $skill_tree->getSubTree($skill_tree->getNodeData($id));
                         foreach ($sub as $s) {
                             $top_node = ($s["child"] == $id)
@@ -517,9 +520,10 @@ class ilSkillDataSet extends ilDataSet
     ): array {
         $ilDB = $this->db;
 
+
         switch ($a_entity) {
             case "skmg":
-                $deps["skee"]["ids"][] = $this->getSkillTreeId();
+                $deps["skee"]["ids"] = $a_ids;
                 return $deps;
 
             case "skee":
@@ -533,11 +537,11 @@ class ilSkillDataSet extends ilDataSet
                     // determine top nodes of main tree to be exported and all referenced template nodes
                     $sel_nodes = $this->getSelectedNodes();
                     $exp_types = array("skll", "scat", "sctr", "sktr");
-                    if (!is_array($sel_nodes)) {
+                    if (!isset($sel_nodes) || count($sel_nodes) === 0) {
                         $childs = $skill_tree->getChildsByTypeFilter($skill_tree->readRootId(), $exp_types);
                         $skl_subtree_deps = [];
                         foreach ($childs as $c) {
-                            $skl_subtree_deps[] = $c["child"];
+                            $skl_subtree_deps[] = (int) $c["child"];
                         }
                     } else {
                         $skl_subtree_deps = [];
@@ -576,7 +580,6 @@ class ilSkillDataSet extends ilDataSet
                         $deps["skl_prof"]["ids"][] = $p_id;
                     }
                 }
-
                 return $deps;
 
             case "skl_subtree":
