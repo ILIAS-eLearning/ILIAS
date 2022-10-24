@@ -468,7 +468,8 @@ class ilObjFileGUI extends ilObject2GUI
         } else {
             $title = $this->object->checkFileExtension($filename, $title);
         }
-        $this->object->setTitle($title);
+
+        $this->object->handleChangedObjectTitle($title);
         $this->object->setDescription($form->getInput('description'));
         $this->object->setRating($form->getInput('rating'));
 

@@ -326,6 +326,13 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         throw new LogicException('cannot change action');
     }
 
+    public function handleChangedObjectTitle(string $new_title): void
+    {
+        $this->setTitle($new_title);
+        $this->implementation->handleChangedObjectTitle($new_title);
+    }
+
+
     protected function doCreate(bool $clone_mode = false): void
     {
         $this->createProperties(true);
