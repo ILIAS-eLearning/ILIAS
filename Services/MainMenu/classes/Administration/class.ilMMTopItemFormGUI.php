@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
@@ -13,7 +29,7 @@ use ILIAS\HTTP\Services;
 
 /**
  * Class ilMMTopItemFormGUI
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 class ilMMTopItemFormGUI
 {
@@ -126,8 +142,12 @@ class ilMMTopItemFormGUI
         if ($this->item_facade->supportsRoleBasedVisibility()) {
             $access = new ilObjMainMenuAccess();
             $value_role_based_visibility = null;
-            if ($this->item_facade->hasRoleBasedVisibility() && $this->item_facade->getGlobalRoleIDs()) {
-                $value_role_based_visibility[0] = $this->item_facade->getGlobalRoleIDs();
+            if ($this->item_facade->hasRoleBasedVisibility() && !empty($this->item_facade->getGlobalRoleIDs())) {
+                // remove deleted roles, see https://mantis.ilias.de/view.php?id=34936
+                $value_role_based_visibility[0] = array_intersect(
+                    $this->item_facade->getGlobalRoleIDs(),
+                    $access->getGlobalRoles()
+                );
             }
             $role_based_visibility = $f()->field()->optionalGroup(
                 [
