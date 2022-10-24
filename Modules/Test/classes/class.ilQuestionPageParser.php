@@ -19,7 +19,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @deprecated use COPage dependency to export/import COPages instead
  */
-class ilContObjParser extends ilMDSaxParser
+class ilQuestionPageParser extends ilMDSaxParser
 {
     /**
      * @var false

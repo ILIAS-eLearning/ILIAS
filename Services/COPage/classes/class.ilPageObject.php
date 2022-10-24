@@ -2402,8 +2402,8 @@ s     */
 
     /**
      * Updates page object with current xml content
-     * This function is currently (4.4.0 alpha) called by:
-     * - ilContObjParser (LM and Glossary import parser)
+     * This function is currently (8 beta) called by:
+     * - ilQuestionPageParser (Test and TestQuestionPool)
      * - ilSCORM13Package->dbImportSco (SCORM importer)
      * - assQuestion->copyPageOfQuestion
      */
