@@ -402,6 +402,12 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->action = $a_action;
     }
 
+    public function handleChangedObjectTitle(string $new_title)
+    {
+        $this->setTitle($new_title);
+        $this->implementation->handleChangedObjectTitle($new_title);
+    }
+
 
     // CRUD
 
