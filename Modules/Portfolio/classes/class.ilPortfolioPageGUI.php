@@ -352,7 +352,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         // full circle: additional was set in the original public user profile call
         $pub_profile->setAdditional($this->getAdditional());
 
-        if ($a_type == "manual" && sizeof($a_fields)) {
+        if ($a_type == "manual" && (is_array($a_fields) && $a_fields !== [])) {
             $prefs = array();
             foreach ($a_fields as $field) {
                 $field = trim($field);
