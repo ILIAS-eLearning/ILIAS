@@ -375,7 +375,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
             if ($item_filter_enabled) {
                 $filtered = array();
                 foreach (ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions() as $type => $data) {
-                    if ($post_filter_type[$type]) {
+                    if ($post_filter_type[$type] ?? false) {
                         $filtered[$type] = 1;
                     }
                 }
@@ -384,7 +384,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
                 // Mime filter
                 $mime = array();
                 foreach (ilSearchSettings::getInstance()->getEnabledLuceneMimeFilterDefinitions() as $type => $data) {
-                    if ($post_filter_type[$type]) {
+                    if ($post_filter_type[$type] ?? false) {
                         $mime[$type] = 1;
                     }
                 }
