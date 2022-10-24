@@ -360,7 +360,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->tabs_gui->activateTab(self::UI_TAB_ID_SETTINGS);
                 $this->setSettingsSubTabs(self::UI_TAB_ID_ICON);
 
-                require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
                 $gui = new ilObjectCustomIconConfigurationGUI($this->dic, $this, $this->object);
                 $this->ctrl->forwardCommand($gui);
                 break;
