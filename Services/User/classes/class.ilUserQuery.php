@@ -528,7 +528,7 @@ class ilUserQuery
             }
             foreach ($result as $idx => $item) {
                 if (isset($usr_multi[$item["usr_id"]])) {
-                    $result[$idx] = array_merge($item, $usr_multi[$item["usr_id"]]);
+                    $result[$idx] = array_merge($item, $usr_multi[(int) $item["usr_id"]]);
                 }
             }
         }
