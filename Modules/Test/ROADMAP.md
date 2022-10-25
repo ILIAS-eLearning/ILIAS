@@ -11,6 +11,7 @@ Priorities for the development of the Test & Assessment and the Test Question Po
 ## Others
 * Fixing access to Learning Status when access to test results is limited (see: [Mantis 25064](https://mantis.ilias.de/view.php?id=25064&nbn=9))
 * Restructuring Import/Export, removing dependency on ilContObjParser, and clarifying support of QTI
+* UI Forms: Length of text fields not shorter than answer text. (see: [Mantis 35243](https://mantis.ilias.de/view.php?id=35243#c87241))
 
 ## Open Warnings / Issues without Tickets
 These are open findings from the PHP8 Project which couldn't be solved in the scope of the project itself. They are documented here for transparency.
