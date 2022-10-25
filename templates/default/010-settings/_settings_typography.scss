@@ -25,8 +25,8 @@ $il-font-size-h1:    1.75rem;
 
 //** Unit-less `line-height` for use in components like buttons.
 $il-line-height-base:		1.428571429;
-$il-line-height-computed: t-rem-px.rem-to-pixel($il-font-size-base) * $il-line-height-base;
-$il-small-line-height-computed: $il-font-size-small * $il-line-height-base;
+$il-line-height-computed: math.round(t-rem-px.rem-to-pixel($il-font-size-base) * $il-line-height-base);
+$il-small-line-height-computed: math.round(t-rem-px.rem-to-pixel($il-font-size-small) * $il-line-height-base);
 $il-line-height-large:  1.33;
 $il-line-height-small: 1.5;
 
