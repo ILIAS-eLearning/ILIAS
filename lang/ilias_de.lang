@@ -7593,7 +7593,7 @@ crs#:#crs_objective_pretest#:#Nach Einstiegstest
 crs#:#crs_objective_qst_summary#:#Fragenübersicht
 crs#:#crs_objective_random_warn#:#Für diesen Test ist eine zufällige Anordnung der Fragen festgelegt, deshalb kann er nicht nicht für Lernziele verwendet werden.
 crs#:#crs_objective_result#:#Nach Abschlusstest
-crs#:#crs_objective_result_details#:#« Details anzeigen
+crs#:#crs_objective_result_details#:#« Ergebnisse anzeigen
 crs#:#crs_objective_result_summary_initial#:#Einstiegstest: %1$s (%2$s benötigt)
 crs#:#crs_objective_result_summary_qualifying#:#Abschlusstest: %1$s (%2$s benötigt)
 crs#:#crs_objective_saved_sorting#:#Die Reihenfolge wurde gespeichert.
