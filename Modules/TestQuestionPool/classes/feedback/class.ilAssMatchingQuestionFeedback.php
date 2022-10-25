@@ -49,8 +49,8 @@ class ilAssMatchingQuestionFeedback extends ilAssMultiOptionQuestionFeedback
     protected function buildAnswerOptionLabel(int $index, $answer): string
     {
         $caption = $ordinal = $index + 1;
-        $caption .= '. <br />"' . $answer->term->getText() . '" =&gt; ';
-        $caption .= '"' . $answer->definition->getText() . '"';
+        $caption .= '. <br />"' . $answer->getTerm()->getText() . '" =&gt; ';
+        $caption .= '"' . $answer->getDefinition()->getText() . '"';
         $caption .= '</i>';
 
         return $caption;

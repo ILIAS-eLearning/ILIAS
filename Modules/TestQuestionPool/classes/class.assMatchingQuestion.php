@@ -285,11 +285,11 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         if ($result->numRows() == 1) {
             $data = $ilDB->fetchAssoc($result);
-            $this->setId($question_id);
+            $this->setId((int)$question_id);
             $this->setObjId((int)$data["obj_fi"]);
             $this->setTitle((string) $data["title"]);
             $this->setComment((string) $data["description"]);
-            $this->setOriginalId($data["original_id"]);
+            $this->setOriginalId((int)$data["original_id"]);
             $this->setNrOfTries((int)$data['nr_of_tries']);
             $this->setAuthor($data["author"]);
             $this->setPoints((float)$data["points"]);
@@ -327,7 +327,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $this->terms = [];
         if ($result->numRows() > 0) {
             while ($data = $ilDB->fetchAssoc($result)) {
-                $term = $this->createMatchingTerm($data['term'], $data['picture'], (int)$data['ident']);
+                $term = $this->createMatchingTerm($data['term'] ?? '', $data['picture'] ?? '', (int)$data['ident']);
                 $this->terms[] = $term;
                 $termids[$data['term_id']] = $term;
             }
@@ -343,7 +343,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $this->definitions = array();
         if ($result->numRows() > 0) {
             while ($data = $ilDB->fetchAssoc($result)) {
-                $definition = $this->createMatchingDefinition($data['definition'], $data['picture'], (int)$data['ident']);
+                $definition = $this->createMatchingDefinition($data['definition'] ?? '', $data['picture'] ?? '', (int)$data['ident']);
                 array_push($this->definitions, $definition);
                 $definitionids[$data['def_id']] = $definition;
             }
@@ -362,16 +362,10 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                     $definitionids[$data['definition_fi']],
                     (float)$data['points']
                 );
-                /*                    new assAnswerMatchingPair(
-                                        $termids[$data['term_fi']],
-                                        $definitionids[$data['definition_fi']],
-                                        $data['points']
-                                    ));
-                */
                 array_push($this->matchingpairs, $pair);
             }
         }
-        parent::loadFromDb($question_id);
+        parent::loadFromDb((int)$question_id);
     }
 
 
@@ -872,7 +866,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param boolean $returndetails (deprecated !!)
      * @return integer/array $points/$details (array $details is deprecated !!)
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): int
+    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
     {
         if ($returndetails) {
             throw new ilTestException('return details not implemented for ' . __METHOD__);
@@ -1065,12 +1059,10 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     private function fetchSubmittedMatchingsFromPost(): array
     {
-        $matchings = array();
-
         $request = $this->dic->testQuestionPool()->internal()->request();
         $post = $request->getParsedBody();
-        //var_dump($post);
-        //die();
+
+        $matchings = array();
         if (array_key_exists('matching', $post)) {
             $postData = $post['matching'][$this->getId()];
             foreach ($this->getDefinitions() as $definition) {
@@ -1080,7 +1072,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                             if (!is_array($postData[$definition->getIdentifier()])) {
                                 $postData[$definition->getIdentifier()] = array();
                             }
-
                             $matchings[$definition->getIdentifier()][] = $term->getIdentifier();
                         }
                     }
@@ -1128,11 +1119,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      */
     public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $request = $DIC->http()->request;
-        var_dump($request);
-        die();
         $submittedMatchings = $this->fetchSubmittedMatchingsFromPost();
         $submittedMatchingsValid = $this->checkSubmittedMatchings($submittedMatchings);
 
