@@ -60,6 +60,8 @@ interface ilObjFileImplementationInterface
      */
     public function setFileSize($a_size);
 
+    public function handleChangedObjectTitle(string $new_title);
+
     public function getFileSize();
 
     /**

@@ -498,6 +498,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     
     protected function calculateReachedPointsForSolution($solution)
     {
+        $solution = html_entity_decode($solution);
         // Return min points when keyword relation is NON KEYWORDS
         if ($this->getKeywordRelation() == 'non') {
             return $this->getMinimumPoints();
@@ -587,7 +588,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             return $row["points"];
         }
 
-        return $this->calculateReachedPointsForSolution(html_entity_decode($row['value1']));
+        return $this->calculateReachedPointsForSolution($row['value1']);
     }
 
     /**
@@ -798,7 +799,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         }
 
         if (strlen($solutions[0]["value1"])) {
-            $worksheet->setCell($startrow + $i, 1, $solutions[0]["value1"]);
+            $worksheet->setCell($startrow + $i, 1, html_entity_decode($solutions[0]["value1"]));
         }
         $i++;
 

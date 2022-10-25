@@ -751,6 +751,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
     private function updateMediaItem($mob, &$mediaItem)
     {
         $purpose = $mediaItem->getPurpose();
+        $locationType = $mediaItem->getLocationType();
         $url_gui = $this->form_gui->getInput("url_" . $purpose);
         $file_gui = $this->form_gui->getInput("file_" . $purpose);
         if ($url_gui) {

@@ -17,9 +17,9 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
     const PARENT_DEFAULT_CMD = 'showManScoringParticipantsTable';
     const PARENT_APPLY_FILTER_CMD = 'applyManScoringParticipantsFilter';
     const PARENT_RESET_FILTER_CMD = 'resetManScoringParticipantsFilter';
-    
+
     const PARENT_EDIT_SCORING_CMD = 'showManScoringParticipantScreen';
-    
+
     /**
      * @global	ilCtrl		$ilCtrl
      * @global	ilLanguage	$lng
@@ -31,7 +31,7 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
         $this->setId('manScorePartTable');
 
         parent::__construct($parentObj, self::PARENT_DEFAULT_CMD);
-        
+
         $this->setFilterCommand(self::PARENT_APPLY_FILTER_CMD);
         $this->setResetCommand(self::PARENT_RESET_FILTER_CMD);
 
@@ -52,12 +52,12 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
 
         $this->initFilter();
     }
-    
+
     private function initColumns()
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         if ($this->parent_obj->object->getAnonymity()) {
             $this->addColumn($lng->txt("name"), 'lastname', '100%');
         } else {
@@ -65,10 +65,10 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
             $this->addColumn($lng->txt("firstname"), 'firstname', '');
             $this->addColumn($lng->txt("login"), 'login', '');
         }
-        
-        $this->addColumn('', '', '1%');
+
+        $this->addColumn($this->lng->txt('actions'), '', '1%');
     }
-    
+
     private function initOrdering()
     {
         $this->enable('sort');
@@ -76,14 +76,14 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
         $this->setDefaultOrderField("lastname");
         $this->setDefaultOrderDirection("asc");
     }
-    
+
     public function initFilter()
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         $this->setDisableFilterHiding(true);
-        
+
         include_once 'Services/Form/classes/class.ilSelectInputGUI.php';
         $participantStatus = new ilSelectInputGUI($lng->txt('tst_participant_status'), 'participant_status');
 
@@ -100,7 +100,7 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
         $this->addFilterItem($participantStatus);
 
         $participantStatus->readFromSession();
-        
+
         if (!$participantStatus->getValue()) {
             $participantStatus->setValue(ilTestScoringGUI::PART_FILTER_MANSCORING_NONE);
         }
@@ -114,30 +114,30 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
     public function fillRow($row)
     {
         //vd($row);
-        
+
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
 
         $ilCtrl->setParameter($this->parent_obj, 'active_id', $row['active_id']);
-    
+
         if (!$this->parent_obj->object->getAnonymity()) {
             $this->tpl->setCurrentBlock('personal');
             $this->tpl->setVariable("PARTICIPANT_FIRSTNAME", $row['firstname']);
             $this->tpl->setVariable("PARTICIPANT_LOGIN", $row['login']);
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->tpl->setVariable("PARTICIPANT_LASTNAME", $row['lastname']);
 
         $this->tpl->setVariable("HREF_SCORE_PARTICIPANT", $ilCtrl->getLinkTarget($this->parent_obj, self::PARENT_EDIT_SCORING_CMD));
         $this->tpl->setVariable("TXT_SCORE_PARTICIPANT", $lng->txt('tst_edit_scoring'));
     }
-    
+
     public function getInternalyOrderedDataValues()
     {
         $this->determineOffsetAndOrder();
-        
+
         return ilUtil::sortArray(
             $this->getData(),
             $this->getOrderField(),

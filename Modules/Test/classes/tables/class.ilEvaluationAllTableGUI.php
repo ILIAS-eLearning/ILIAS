@@ -101,7 +101,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
         }
         $this->addColumn($lng->txt("tst_answered_questions"), "answered", "");
         $this->addColumn($lng->txt("working_time"), "working_time", "");
-        $this->addColumn($lng->txt("detailed_evaluation"), "details", "");
+        $this->addColumn($lng->txt("detailed_evaluation"), "", "");
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setRowTemplate("tpl.table_evaluation_all.html", "Modules/Test");

@@ -103,16 +103,12 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
     protected function trimArrayRecursive(array $data)
     {
-        if (is_array($data)) {
-            foreach ($data as $k => $v) {
-                if (is_array($v)) {
-                    $data[$k] = $this->trimArrayRecursive($v);
-                } else {
-                    $data[$k] = trim($v);
-                }
+        foreach ($data as $k => $v) {
+            if (is_array($v)) {
+                $data[$k] = $this->trimArrayRecursive($v);
+            } else {
+                $data[$k] = trim($v);
             }
-        } else {
-            $data = trim($data);
         }
         return $data;
     }
@@ -157,7 +153,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $long_menu_text->setRows(10);
         $long_menu_text->setCols(80);
         if (!$this->object->getSelfAssessmentEditingMode()) {
-            if ($this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT) {
+            if ($this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE) {
                 include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
                 $long_menu_text->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
                 $long_menu_text->addPlugin("latex");
@@ -172,7 +168,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             $long_menu_text->setUseTagsForRteOnly(false);
         }
 
-        $long_menu_text->setValue($this->object->prepareTextareaOutput($this->object->getLongMenuTextValue()));
+        $long_menu_text->setValue($this->object->getLongMenuTextValue());
         $form->addItem($long_menu_text);
         
         $tpl = new ilTemplate("tpl.il_as_qpl_longmenu_question_gap_button_code.html", true, true, "Modules/TestQuestionPool");
@@ -424,7 +420,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
     public function getSpecificFeedbackOutput($userSolution)
     {
-        if (!$this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), 0, 0)) {
+        if (!$this->object->feedbackOBJ->specificAnswerFeedbackExists()) {
             return '';
         }
 
@@ -511,7 +507,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         foreach ($text_array as $key => $value) {
             $answer_is_correct = false;
             $user_value = '';
-            $return_value .= $value;
+            $return_value .= $this->object->prepareTextareaOutput($value, true);
             if ($key < sizeof($text_array) - 1) {
                 if ($correct_answers[$key][2] == assLongMenu::ANSWER_TYPE_TEXT_VAL) {
                     if (array_key_exists($key, $user_solution)) {

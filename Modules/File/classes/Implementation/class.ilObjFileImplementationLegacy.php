@@ -53,6 +53,11 @@ class ilObjFileImplementationLegacy extends ilObjFileImplementationAbstract impl
         return $this->file_storage->getAbsolutePath() . '/' . $version_subdir;
     }
 
+    public function handleChangedObjectTitle(string $new_title)
+    {
+        // noting to do here
+    }
+
     /**
      * @inheritDoc
      */

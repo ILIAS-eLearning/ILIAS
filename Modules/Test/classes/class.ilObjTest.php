@@ -7083,8 +7083,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $newObj->setTmpCopyWizardCopyId($a_copy_id);
         $this->cloneMetaData($newObj);
 
-        // #27082
-        $newObj->setOfflineStatus(true);
+        //copy online status if object is not the root copy object
+        $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+        if ($cp_options->isRootNode($this->getRefId())) {
+            $newObj->setOfflineStatus(true);
+        } else {
+            $newObj->setOfflineStatus($this->getOfflineStatus());
+        }
         $newObj->update();
 
         $newObj->setAnonymity($this->getAnonymity());

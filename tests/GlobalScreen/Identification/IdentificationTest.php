@@ -79,5 +79,6 @@ class IdentificationTest extends TestCase
     {
         $string = str_repeat("x", SerializerInterface::MAX_LENGTH - strlen(self::MOCKED_PROVIDER_CLASSNAME) - strlen(CoreSerializer::DIVIDER));
         $this->identification->core($this->provider_mock)->identifier($string);
+        $this->assertTrue(true);
     }
 }

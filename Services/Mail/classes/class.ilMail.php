@@ -833,6 +833,16 @@ class ilMail
 
             $canReadInternalMails = !$user->hasToAcceptTermsOfService() && $user->checkTimeLimit();
 
+            if ($this->isSystemMail() && !$canReadInternalMails) {
+                $this->logger->debug(sprintf(
+                    "Skipped recipient with id %s (Accepted User Agreement:%s|Expired Account:%s)",
+                    $usrId,
+                    var_export(!$user->hasToAcceptTermsOfService(), true),
+                    var_export(!$user->checkTimeLimit(), true)
+                ));
+                continue;
+            }
+
             $individualMessage = $message;
             if ($usePlaceholders) {
                 $individualMessage = $this->replacePlaceholders($message, $user->getId());

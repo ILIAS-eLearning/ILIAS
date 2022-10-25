@@ -905,6 +905,7 @@ assessment#:#log_wrong_test_password_entered#:#Teilnehmer hat falsches Testpassw
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_text#:#‘Long Menu’-Text
 assessment#:#mailnottype#:#Ein Versand findet auch beim Beenden einzelner Testdurchläufe statt
+assessment#:#mailnottype_desc#:#Der Besitzer des Tests wird auch dann benachrichtigt, wenn die Anzahl Durchläufe nicht beschränkt ist.
 assessment#:#maintenance#:#Wartung
 assessment#:#manscoring#:#Manuelle Bewertung
 assessment#:#manscoring_done#:#Bereits bewertete Teilnehmer
@@ -985,6 +986,7 @@ assessment#:#oq_btn_use_order_pictures#:#Verwende Antwort mit Bildern
 assessment#:#oq_btn_use_order_terms#:#Verwende Antwort mit Termen
 assessment#:#oq_header_ordering_elements#:#Anordnungs-Elemente
 assessment#:#or#:#oder
+assessment#:#order#:#Sortierung
 assessment#:#ordering_answer_sequence_info#:#Die hier definierte Reihenfolge der Antworten wird als korrekte Lösungsreihenfolge verwendet.
 assessment#:#ordertext#:#Anzuordnender Text
 assessment#:#ordertext_info#:#Bitte geben Sie den Text in der Reihenfolge ein, in der er horizontal angeordnet werden soll. Die einzelnen Bestandteile werden durch Leerzeichen getrennt. Wenn Sie eine abweichende Trennung benötigen, verwenden Sie bitte stattdessen den Trenner %s anstelle der Leerzeichen.
@@ -1306,10 +1308,10 @@ assessment#:#tst_activate_skill_service_desc#:#Erlaubt die Zuordnung von Fragen 
 assessment#:#tst_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Testtitel angezeigt. Der Test kann aber nicht gestartet werden. Der weitere Zugriff, auch auf bereits laufende Tests, wird zum Ende des Zeitraums unterbunden.
 assessment#:#tst_activation_online_info#:#Nur wenn der Test online geschaltet ist, können Benutzer am Test teilnehmen.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editor
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Unformatierter Text für Fragen und Antworten und ILIAS-Seiteneditor für Rückmeldungen und Lösungshinweise
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#Bietet keine Formatierung von Text in Fragen und Antworten, erlaubt aber Gestaltung der Rückmeldungen und Lösungshinweise mit ILIAS-Seiteneditor und Wiederverwendung bei Fragen in ILIAS-Lernmodulen.
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Rich-Text-Editor (TinyMCE) für das Editieren der Fragen, Antworten, Rückmeldungen und Lösungshinweisen
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Erlaubt formatierten Text für Fragen, Antworten, Rückmeldungen und Lösungshinweise. Rückmeldungen und Lösungshinweise werden aber beim Einbinden von Fragen in ILIAS-Lernmodule nicht übernommen.
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Rich-Text-Editor (TinyMCE) für das Editieren der Fragen, Antworten, Rückmeldungen und Lösungshinweisen
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Unformatierter Text für Fragen und Antworten und ILIAS-Seiteneditor für Rückmeldungen und Lösungshinweise
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#Sie haben den Test bestanden. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#tst_all_test_competences#:#Alle Test-Kompetenzen
 assessment#:#tst_all_user_data_deleted#:#Die Daten aller Testteilnehmer wurden gelöscht!
@@ -1722,6 +1724,7 @@ assessment#:#tst_question_hints_ordering_clipboard_resetted#:#Die Sortierungszwi
 assessment#:#tst_question_hints_paste_after_success_msg#:#Der Lösungshinweis %s wurde nach dem Lösungshinweis %s erfolgreich eingefügt.
 assessment#:#tst_question_hints_paste_before_success_msg#:#Der Lösungshinweis %s wurde vor dem Lösungshinweis %s erfolgreich eingefügt.
 assessment#:#tst_question_hints_request_confirmation#:#Wollen Sie den %s. Lösungshinweis wirklich anfordern? Es wird/werden für diesen Lösungshinweis %s Punkt(e) abgezogen.
+assessment#:#tst_question_hints_request_confirmation_no_deduction#:#Für diesen Hinweis gibt es keinen Punktabzug.
 assessment#:#tst_question_hints_requested_hint_count_header#:#Angeforderte Lösungshinweise
 assessment#:#tst_question_hints_save_order_success_msg#:#Die Reihenfolge der Lösungshinweise wurde erfolgreich gespeichert.
 assessment#:#tst_question_hints_tab#:#Lösungshinweise
@@ -10287,7 +10290,7 @@ lso#:#lso_header_delete_members#:#Sie möchten folgende Mitglieder aus der Lerns
 lso#:#lso_header_edit_members#:#Mitglieder bearbeiten
 lso#:#lso_mail_admission_new_bod#:#Sie sind in Lernsequenz "%s" als Mitglied aufgenommen worden.
 lso#:#lso_mail_admission_new_sub#:#Mitgliedschaft in Lernsequenz "%s"
-lso#:#lso_mail_dismiss_bod#:#hre Mitgliedschaft in Lernsequenz "%s" wurde beendet.
+lso#:#lso_mail_dismiss_bod#:#Ihre Mitgliedschaft in Lernsequenz "%s" wurde beendet.
 lso#:#lso_mail_dismiss_sub#:#Mitgliedschaft in Lernsequenz "%s" beendet
 lso#:#lso_mail_notification_reg_bod#:#%s hat einen Aufnahmeantrag für die Lernsequenz "%s" gestellt.
 lso#:#lso_mail_notification_reg_req_bod#:#%s hat einen Aufnahmeantrag für die Lernsequenz "%s" gestellt.

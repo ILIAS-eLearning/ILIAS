@@ -553,6 +553,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         // maxchars
         $maxchars = new ilNumberInputGUI($this->lng->txt("maxchars"), "maxchars");
         $maxchars->setSize(5);
+        $maxchars->setMinValue(1);
         if ($this->object->getMaxNumOfChars() > 0) {
             $maxchars->setValue($this->object->getMaxNumOfChars());
         }

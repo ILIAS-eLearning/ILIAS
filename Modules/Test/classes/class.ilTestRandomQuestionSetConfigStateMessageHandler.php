@@ -248,7 +248,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
             );
             
             $message .= sprintf(
-                $this->lng->txt('tst_msg_rand_quest_set_stage_pool_last_sync'),
+                ' ' . $this->lng->txt('tst_msg_rand_quest_set_stage_pool_last_sync'),
                 ilDatePresentation::formatDate($syncDate)
             );
             

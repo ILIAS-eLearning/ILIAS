@@ -156,8 +156,13 @@ class ilPCParagraph extends ilPageContent
         $this->node = $this->dom->create_element("PageContent");
 
         // this next line kicks out placeholders, if something is inserted
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id,
-            $from_placeholder);
+        $a_pg_obj->insertContent(
+            $this,
+            $a_hier_id,
+            IL_INSERT_AFTER,
+            $a_pc_id,
+            $from_placeholder
+        );
 
         $this->par_node = $this->dom->create_element("Paragraph");
         $this->par_node = $this->node->append_child($this->par_node);
@@ -293,11 +298,11 @@ class ilPCParagraph extends ilPageContent
         }
         $error = null;
         //try {
-            $temp_dom = domxml_open_mem(
-                '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $check . '</Paragraph>',
-                DOMXML_LOAD_PARSING,
-                $error
-            );
+        $temp_dom = domxml_open_mem(
+            '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $check . '</Paragraph>',
+            DOMXML_LOAD_PARSING,
+            $error
+        );
         //} catch (Exception $e) {
 
         //}
@@ -314,13 +319,14 @@ class ilPCParagraph extends ilPageContent
         $dom->recover = true;
         // try to fix
         for ($i = 0; $i < count($text); $i++) {
-            $dom->loadXML('<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $text[$i]["text"] . '</Paragraph>',
-                LIBXML_NOWARNING | LIBXML_NOERROR);
-            foreach($dom->childNodes as $node) {
+            $dom->loadXML(
+                '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $text[$i]["text"] . '</Paragraph>',
+                LIBXML_NOWARNING | LIBXML_NOERROR
+            );
+            foreach ($dom->childNodes as $node) {
                 if ($node->nodeName == "Paragraph") {
                     $inner = "";
-                    foreach ($node->childNodes as $child)
-                    {
+                    foreach ($node->childNodes as $child) {
                         $inner .= $dom->saveXML($child);
                     }
                     $text[$i]["text"] = $inner;
@@ -742,9 +748,11 @@ class ilPCParagraph extends ilPageContent
         $slash_chars = '/[]?';
 
         if ($ok) {
+            $replace_str = addcslashes($start_tag, $slash_chars);
+            $replace_str = str_replace("+", "\\+", $replace_str);
             // replace start tag
             $text = preg_replace(
-                '/' . addcslashes($start_tag, $slash_chars) . '/i',
+                '/' . $replace_str . '/i',
                 "<" . $xml_tag_name . $attrib_str . $short . ">",
                 $text,
                 1
@@ -1505,9 +1513,14 @@ class ilPCParagraph extends ilPageContent
      * @param
      * @return
      */
-    public function saveJS($a_pg_obj, $a_content, $a_char, $a_pc_id, $a_insert_at = "",
-        $from_placeholder = false)
-    {
+    public function saveJS(
+        $a_pg_obj,
+        $a_content,
+        $a_char,
+        $a_pc_id,
+        $a_insert_at = "",
+        $from_placeholder = false
+    ) {
         $ilUser = $this->user;
 
         $a_content = str_replace("<br>", "<br />", $a_content);

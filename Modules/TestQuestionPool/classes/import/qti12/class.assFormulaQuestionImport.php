@@ -67,6 +67,9 @@ class assFormulaQuestionImport extends assQuestionImport
                 } else {
                     $resObj = new assFormulaQuestionResult($result, $data["rangemin"], $data["rangemax"], $data["tolerance"], $unit, $data["formula"], $data["points"], $data["precision"], false, $data["rating"]["sign"], $data["rating"]["value"], $data["rating"]["unit"]);
                 }
+                if (array_key_exists('resulttype', $data)) {
+                    $resObj->setResultType($data["resulttype"]);
+                }
                 $this->object->addResult($resObj);
                 if (is_array($data["resultunits"])) {
                     foreach ($data["resultunits"] as $resu) {

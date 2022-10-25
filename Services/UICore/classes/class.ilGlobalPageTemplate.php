@@ -310,7 +310,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     public function setHeaderPageTitle($a_title)
     {
-        $this->legacy_content_template->setHeaderPageTitle($a_title);
+        PageContentProvider::setViewTitle($a_title);
     }
 
 

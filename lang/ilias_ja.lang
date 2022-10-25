@@ -1293,10 +1293,10 @@ assessment#:#tst_activate_skill_service_desc#:#新規タブ'能力'が表示さ�
 assessment#:#tst_activation_limited_visibility_info#:#表示期間前後にテストのタイトルのみが表示されます。受験者はテスト受験できません。
 assessment#:#tst_activation_online_info#:#オンラインの場合に受験者はテスト受験できます。
 assessment#:#tst_add_quest_cont_edit_mode#:#追加問題コンテンツのモード編集
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#ページオブジェクトエディタ付の追加コンテンツ編集
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#問題と回答に書式設定がありません。LaTexにもありません。ただし、ｄフィードバックとヒントはILIAS学習モジュールへ問題が埋め込まれ時に再利用できます。
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#追加問題コンテンツの初期モード編集
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#ヒント、フィードバック、回答、問題の書式設定を許可。ただし、フィードバックとヒントはILIAS学習モジュールへ問題が埋め込まれた時には再利用できません。
-assessment#:#tst_add_quest_cont_edit_mode_default#:#追加問題コンテンツの初期モード編集
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#ページオブジェクトエディタ付の追加コンテンツ編集
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#試験に合格です。試験は再開できません。
 assessment#:#tst_all_test_competences#:#全テスト能力
 assessment#:#tst_all_user_data_deleted#:#このテストの全ユーザデータは削除されました!
