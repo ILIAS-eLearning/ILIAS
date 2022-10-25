@@ -120,6 +120,18 @@ class ilFileSystemTableGUI extends ilTable2GUI
     {
         if ($this->filesystem->has($this->relative_cur_dir)) {
             $entries = [];
+            if ($this->cur_dir!=='') {
+                $entries['..'] = [
+                    'order_val' => -1,
+                    'order_id' => -1,
+                    'entry' => '..',
+                    'type' => 'dir',
+                    'subdir' => '',
+                    'size' => 0
+                ];
+            }
+
+
             foreach ($this->filesystem->listContents($this->relative_cur_dir) as $i => $content) {
                 $basename = basename($content->getPath());
                 $entries[$basename] = [
