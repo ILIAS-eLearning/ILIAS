@@ -707,7 +707,7 @@ class ilObjFileGUI extends ilObject2GUI
         // using getVersions function instead of ilHistory direct
         $uploader = $this->object->getVersions();
         $uploader = array_shift($uploader);
-        $uploader = $uploader["user_id"];
+        $uploader = $uploader["user_id"] ?? -1; // unknown uploader
         $info->addProperty($this->lng->txt("file_uploaded_by"), ilUserUtil::getNamePresentation($uploader));
 
         // download link added in repository
