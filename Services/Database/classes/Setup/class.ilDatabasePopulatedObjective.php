@@ -19,6 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\Setup;
+use ILIAS\Setup\CLI\ImportFileUnzippedFileObjective;
+use ILIAS\Setup\Objective\ObjectiveWithPreconditions;
 
 class ilDatabasePopulatedObjective extends \ilDatabaseObjective
 {
@@ -49,6 +51,12 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
      */
     public function getPreconditions(Setup\Environment $environment): array
     {
+        if ($environment->hasConfigFor(Setup\CLI\InstallCommand::IMPORT)) {
+            return [new ObjectiveWithPreconditions(
+                new \ilDatabaseExistsObjective($this->config),
+                new ImportFileUnzippedFileObjective($environment->getConfigFor(Setup\CLI\InstallCommand::IMPORT))
+            )];
+        }
         if ($environment->getResource(Setup\Environment::RESOURCE_DATABASE)) {
             return [];
         }
@@ -92,6 +100,10 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
      */
     public function isApplicable(Setup\Environment $environment): bool
     {
+        if ($environment->hasConfigFor(Setup\CLI\InstallCommand::IMPORT)) {
+            return true;
+        }
+
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
 
         return !$this->isDatabasePopulated($db);
