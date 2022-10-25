@@ -808,9 +808,7 @@ class ilObjFileGUI extends ilObject2GUI
         $ilAccess = $DIC['ilAccess'];
 
         if ($a_additional && substr($a_additional, -3) == "wsp") {
-            /** @noRector  */
-            include("ilias.php");
-            exit;
+            ilObjectGUI::_gotoSharedWorkspaceNode((int) $a_target);
         }
 
         // added support for direct download goto links
