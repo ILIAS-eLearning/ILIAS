@@ -131,6 +131,12 @@ class ilConditionHandler
         $this->validation = true;
     }
 
+    public static function resetCache() : void
+    {
+        self::$cond_for_target_cache = [];
+        self::$cond_target_rows = [];
+    }
+
     /**
      * is reference handling optional
      *
@@ -1149,6 +1155,8 @@ class ilConditionHandler
         $ilDB = $DIC['ilDB'];
 
         // Get all conditions
+
+        self::resetCache();
         $all = self::_getPersistedConditionsOfTarget($a_target_ref_id, $a_target_obj_id, $a_target_obj_type);
         $opt = self::getPersistedOptionalConditionsOfTarget($a_target_ref_id, $a_target_obj_id, $a_target_obj_type);
 
