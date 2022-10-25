@@ -166,67 +166,62 @@ An exception is the Dependency layer: Files inside the "unmodified" folder MUST 
 
 Many existing names do not follow this naming conventions, but future projects MUST use the following guidelines.
 
+## BEMIT basics
+
+Class, variable and function names MUST make use of BEMIT conventions.
+
+1 - Prefix: The names MUST start with a prefix inidcating the layer that they are from:
+
+* `il-` = Settings
+* `t-` = Tools (extensible classes)
+* `l-` = Layout
+* `c-` = Components
+
+2 - Block: Next, the name of the root of the component or system MUST follow e.g. `c-button, c-panel, l-spacing`
+
+3 - Element: If the attributes are applied to a sub-element of the root block, the name of the sub element MUST be attached with `__` two underscores `c-panel__header, c-button__caret`
+
+4 - Modifier: Specific conditions or contexts that modify an existing element or block MUST be attached with `--` two dashes directly after the block or element that causes the modified style. Modifiers SHOULD NOT be visual descriptions like "--large", they SHOULD indicate a semantic concept or status. Examples: `c-panel--alert__header, c-button--primary`
+
 ## Classes
 
-Class names MUST follow BEMIT guidelines, like this:
+This is an example for a class name following BEMIT guidelines:
 
 ```markdown
 c-panel--dashboard__header--alert
 1 2    3            4       3
 ```
 
-1 The prefix MUST indicate the ITCSS layer:
-
-* `il-` = Settings
-* `c-` = Components
-* `l-` = Layout
-* `t-` = Tools (extensible classes)
-
-2 BEMIT Block: Next, the name of the component or system MUST follow.
-
-3 BEMIT Modifier: Modifiers MAY be added to change the default look of blocks and elements according to a certain condition or context. Modifiers SHOULD NOT be visual descriptions like "--large", they SHOULD indicate a semantic concept or status.
-
-4 BEMIT Element: If the class is for a subordinate element, the name of the element MAY follow after two `__` underscores.
+1 ITCSS Prefix
+2 BEMIT Block
+3 BEMIT Modifier
+4 BEMIT Element
 
 # Variables, Mixins and Functions
 
 For now, variables MUST have a unique name and be treated as global as some approaches to create custom skins require this. The only exception are local variables (in a mixin or function) or variables hidden from being forwarded, which MAY have a generic non-unique name.
 
-Variable names MUST follow a pattern inspired by BEMIT guidelines like this:
-
-```markdown
-c-button__font-size
-```
-
 Long variable names SHOULD be avoided. However, here is an extreme example for all possible segments of a variable's name:
 
 ```markdown
-c-button--primary--hover__caret--large__text-color
-1 2       3               4    3        5
+c-button--primary--hover__glyph--expand__color
+1 2       3               4    3            5
 ```
 
-1 The prefix MUST indicate the ITCSS layer:
-
-* `c-` = Components
-* `l-` = Layout
-* `t-` = Tools
-
-2 BEMIT Block: Next, the name of the component or system MUST follow.
-
-3 BEMIT Modifier: Modifiers MAY be added to change the default look of blocks and elements according to a certain condition or context. Modifiers SHOULD NOT be visual descriptions like "--large", they SHOULD indicate a semantic concept or status.
-
-4 BEMIT Element: If the variable is for a subordinate element, the name of the element MAY follow after two `__` underscores.
-
+1 ITCSS Prefix
+2 BEMIT Block
+3 BEMIT Modifier
+4 BEMIT Element
 5 The name MUST contain the specific attribute that the variable is for. This MUST indicate a specific CSS attribute or semantic group or concept.
 
 
-# SASS specific best practices
+# SASS best practices
 
 Files that are meant to only be compiled inside other files and never on their own (which is almost all of them) MUST be marked as partials by adding "_" as a prefix. This stops the compiler from compiling the file in "watching" mode.
 
 You MUST include partials with @use. You MUST NOT use the deprecated @import.
 
-Components MUST expose their variables with @forward all the way up to the main delos.scss so that when including delos in a skin, variables can be overriden with `@use "../some-path/delos" with ( $il-main-color: green );`. This makes most variables globals, so these exposed variables MUST have a unique name. You MAY hide variables when forwarding a component with `@forward "some-component" hide $local-variable;` 
+Components MUST expose their variables with @forward all the way up to the main delos.scss so that when including delos in a skin, variables can be overriden by importing the entire delos skin like this `@use "../some-path/delos" with ( $il-main-color: green );`. This makes most variables public, so these exposed variables MUST have a unique name. You MAY hide variables when forwarding a component with `@forward "some-component" hide $local-variable;`
 
 When including a file with @use you SHOULD utilize a namespace. You MAY use the default on or define a custom namespace.
 
