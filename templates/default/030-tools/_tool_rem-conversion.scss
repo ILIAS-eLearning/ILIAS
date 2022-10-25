@@ -23,5 +23,5 @@ $il-pixel-to-rem: 0.0625;
     }
 }
 
-@debug "20px in rem is #{pixel-to-rem(20px)}";
-@debug "1rem in px is #{rem-to-pixel(1rem)}";
+// @debug "20px in rem is #{pixel-to-rem(20px)}";
+// @debug "1rem in px is #{rem-to-pixel(1rem)}";
