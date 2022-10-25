@@ -1,9 +1,9 @@
 @use "./_settings_color-palette.scss" as s-color;
 
 //** header
-$il-standard-page-logo-height: 45px;
-$il-standard-page-logo-width: 45px;
-$il-standard-page-header-height: 60px;
-$il-standard-page-header-bg-color: s-color.$il-main-bg;
+$il-standard-page-logo-height: 45px !default;
+$il-standard-page-logo-width: 45px !default;
+$il-standard-page-header-height: 60px !default;
+$il-standard-page-header-bg-color: s-color.$il-main-bg !default;
 
-$il-standard-page-header-page-title-color: s-color.$il-text-color;
+$il-standard-page-header-page-title-color: s-color.$il-text-color !default;

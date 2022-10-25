@@ -2,30 +2,14 @@
 //== Settings
 //
 
-// The linked files contains globally used variables set by ILIAS. Please do not overwrite bootstrap standard variables here.
-// Set an ILIAS variable here with an il- prefix and overwrite the bootstrap variable in the bootstrap variables file
-// with the il- variable set here.
+// The linked files contains globally used variables set by ILIAS.
+// Bootstrap variables MUST be overridden in the Dependency layer.
 
-@use "./_settings_color-palette.scss" as s-color;
-@forward "./_settings_color-palette.scss";
-
-@use "./_settings_typography.scss" as s-typo;
+@forward "./settings_color-palette";
 @forward "./settings_typography";
-
-@use "./_settings_borders.scss" as s-border;
-@forward "./_settings_borders.scss";
-
-@use "./_settings_button.scss" as s-btn;
-@forward "./_settings_button.scss";
-
-@use "./_settings_footer.scss" as s-footer;
-@forward "./_settings_footer.scss"; 
-
-@use "./_settings_header.scss" as s-header;
-@forward "./_settings_header.scss";
-
-@use "./_settings_layout.scss" as s-layout;
-@forward "./_settings_layout.scss";
-
-@use "./settings_media" as s-media;
+@forward "./settings_borders";
+@forward "./settings_button";
+@forward "./settings_footer"; 
+@forward "./settings_header";
+@forward "./settings_layout";
 @forward "./settings_media";

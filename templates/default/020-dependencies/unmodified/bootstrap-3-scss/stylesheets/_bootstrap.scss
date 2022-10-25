@@ -4,7 +4,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
-@debug "WARNING: You are importing Bootstrap 3 more than one time. This copy of bootstrap should not be loaded directly in ILIAS. You must use bootstrap-3-scss-modified instead!";
+@warn "You are importing Bootstrap 3 more than one time. This copy of bootstrap should not be loaded directly in ILIAS. You must use bootstrap-3-scss-modified instead!";
 
 // Core variables and mixins
 @import "bootstrap/variables";

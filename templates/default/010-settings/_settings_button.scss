@@ -5,18 +5,18 @@
 //
 
 //** Size of the font displayed inside a button
-$il-button-font-size: s-typo.$il-font-size-small;
+$il-button-font-size: s-typo.$il-font-size-small !default;
 
 //** Text color of the standard button (most button instances)
-$il-btn-standard-color: white;
+$il-btn-standard-color: white !default;
 //** Background color of the standard button (most button instances)
-$il-btn-standard-bg: s-color.$il-main-color;
+$il-btn-standard-bg: s-color.$il-main-color !default;
 //** Border color of the standard button (most button instances)
-$il-btn-standard-border: s-color.$il-main-color;
+$il-btn-standard-border: s-color.$il-main-color !default;
 
 //** Text color of the primary button (most important button on the screen)
-$il-btn-primary-color: white;
+$il-btn-primary-color: white !default;
 //** Background color of the primary button (most important button on the screen)
-$il-btn-primary-bg: darken(s-color.$il-secondary-color, 10%);
+$il-btn-primary-bg: darken(s-color.$il-secondary-color, 10%) !default;
 //** Border color of the primary button (most important button on the screen)
-$il-btn-primary-border: darken(s-color.$il-secondary-color, 10%);
+$il-btn-primary-border: darken(s-color.$il-secondary-color, 10%) !default;

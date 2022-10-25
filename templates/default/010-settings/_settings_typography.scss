@@ -5,35 +5,35 @@
 //##
 
 //** if left unchanged, you have to copy delos fonts folder to your skin folder. To use the delos fonts in your skin, please change this value (in custom less data or variables.scss of your custom skin) to "../../../../templates/default/fonts/"
-$il-web-font-path: "./fonts/";
-$il-font-family-sans-serif: 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+$il-web-font-path: "./fonts/" !default;
+$il-font-family-sans-serif: 'Open Sans', Verdana, Arial, Helvetica, sans-serif !default;
 
 //** Should only be used to indicate mainbar entries. Equivalent to 10px => 10*1/16=0.625rem.
-$il-font-size-xsmall:		0.625rem;
+$il-font-size-xsmall:		0.625rem !default;
 //** Used to indicate subordinate text, such as bylines in forms, subtabs, etc. Equivalent to 12px.
-$il-font-size-small:		0.75rem;
+$il-font-size-small:		0.75rem !default;
 //** Default font size. Also used for h5. Equivalent to 14px.
-$il-font-size-base:		  0.875rem;
+$il-font-size-base:		  0.875rem !default;
 //** Used to indicate h4. Equivalent to 16px.
-$il-font-size-large:		1rem;
+$il-font-size-large:		1rem !default;
 //** Used to indicate h3. Equivalent to 18px.
-$il-font-size-xlarge:    1.115rem;
+$il-font-size-xlarge:    1.115rem !default;
 //** Used to indicate h2. Equivalent to 24px.
-$il-font-size-xxlarge:    1.5rem;
+$il-font-size-xxlarge:    1.5rem !default;
 //** Used to indicate h1. Should only used one time per screen. Equivalent to 28px.
-$il-font-size-h1:    1.75rem;
+$il-font-size-h1:    1.75rem !default;
 
 //** Unit-less `line-height` for use in components like buttons.
-$il-line-height-base:		1.428571429;
-$il-line-height-computed: math.round(t-rem-px.rem-to-pixel($il-font-size-base) * $il-line-height-base);
-$il-small-line-height-computed: math.round(t-rem-px.rem-to-pixel($il-font-size-small) * $il-line-height-base);
-$il-line-height-large:  1.33;
-$il-line-height-small: 1.5;
+$il-line-height-base:		1.428571429 !default;
+$il-line-height-computed: math.round(t-rem-px.rem-to-pixel($il-font-size-base) * $il-line-height-base) !default;
+$il-small-line-height-computed: math.round(t-rem-px.rem-to-pixel($il-font-size-small) * $il-line-height-base) !default;
+$il-line-height-large:  1.33 !default;
+$il-line-height-small: 1.5 !default;
 
 
 //** Used to lighten text, e.g. workflow steps.
-$il-font-weight-light:    300;
+$il-font-weight-light:    300 !default;
 //** Default font weight.
-$il-font-weight-base:    400;
+$il-font-weight-base:    400 !default;
 //** Used to indicate headings.
-$il-font-weight-bold:    600;
+$il-font-weight-bold:    600 !default;

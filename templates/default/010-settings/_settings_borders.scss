@@ -1,9 +1,9 @@
 //** Base Border Color, e.g. applied to Meta Bar and Breadcrumbs in Default.
-$il-main-border-color: #dddddd;
+$il-main-border-color: #dddddd !default;
 //** Darker version of Base Border Color. Used as e.g. Text Inputs.
-$il-main-border-dark-color: #757575;
-$il-main-border: 1px solid $il-main-border-color;
+$il-main-border-dark-color: #757575 !default;
+$il-main-border: 1px solid $il-main-border-color !default;
 
-$il-border-radius-base: 0px;
-$il-border-radius-large: 0px;
-$il-border-radius-small: 0px;
+$il-border-radius-base: 0px !default;
+$il-border-radius-large: 0px !default;
+$il-border-radius-small: 0px !default;
