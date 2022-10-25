@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,8 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Setup\CLI;
 
+use MysqlIfsnopDumper;
 use ILIAS\Setup\AgentFinder;
 use ILIAS\Setup\ArrayEnvironment;
 use ILIAS\Setup\Environment;
@@ -41,6 +42,9 @@ class InstallCommand extends Command
     use HasAgent;
     use HasConfigReader;
     use ObjectiveHelper;
+
+    public const IMPORT = "import";
+    protected const TMP_DIR = "tmp_dir";
 
     protected static $defaultName = "install";
 
@@ -66,6 +70,7 @@ class InstallCommand extends Command
         $this->addArgument("config", InputArgument::OPTIONAL, "Configuration file for the installation");
         $this->addOption("config", null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, "Define fields in the configuration file that should be overwritten, e.g. \"a.b.c=foo\"", []);
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the installation.");
+        $this->addOption("import-file", "i", InputOption::VALUE_REQUIRED, "Path to zip file to import from.");
         $this->configureCommandForPlugins();
     }
 
@@ -82,9 +87,11 @@ class InstallCommand extends Command
         } else {
             list($objective, $environment, $io) = $this->prepareILIASInstallation($input, $output);
         }
-
         try {
             $this->achieveObjective($objective, $environment, $io);
+            if ($input->hasOption("import-file") && $input->getOption("import-file") != "") {
+                $io->inform("Please ensure that all ILIAS directories (webdir/datadir/Customizing) have the right owner after import process.");
+            }
             $io->success("Installation complete. Thanks and have fun!");
         } catch (NoConfirmationException $e) {
             $io->error("Aborting Installation, a necessary confirmation is missing:\n\n" . $e->getRequestedConfirmation());
@@ -98,6 +105,38 @@ class InstallCommand extends Command
         $io = new IOWrapper($input, $output);
         $io->printLicenseMessage();
         $io->title("Install ILIAS");
+
+        $environment = new ArrayEnvironment([
+            Environment::RESOURCE_ADMIN_INTERACTION => $io
+        ]);
+
+        if ($input->hasOption("import-file") && $input->getOption("import-file") != "") {
+            if ($input->getArgument("config") == "") {
+                throw new \InvalidArgumentException("Missing configuration file.");
+            }
+            $import_file = $input->getOption("import-file");
+            if (!is_file($import_file)) {
+                throw new \InvalidArgumentException("Can't find import file '$import_file'.");
+            }
+
+            if (pathinfo($import_file)["extension"] != "zip") {
+                throw new \InvalidArgumentException("Wrong file format for import file. 'zip' is expected.");
+            }
+
+            $tmp_dir = $this->createTempDir();
+            if (is_null($tmp_dir)) {
+                throw new \RuntimeException("Can't create temporary directory!");
+            }
+            $environment = $environment
+                ->withConfigFor(self::IMPORT, $input->getOption("import-file"))
+                ->withConfigFor(self::TMP_DIR, $tmp_dir)
+            ;
+            $dump_path = $tmp_dir . DIRECTORY_SEPARATOR . MysqlIfsnopDumper::FILE_NAME;
+            $input->setOption(
+                "config",
+                array_merge($input->getOption("config"), ["database.path_to_db_dump=$dump_path"])
+            );
+        }
 
         $agent = $this->getRelevantAgent($input);
 
@@ -116,9 +155,6 @@ class InstallCommand extends Command
             );
         }
 
-        $environment = new ArrayEnvironment([
-            Environment::RESOURCE_ADMIN_INTERACTION => $io
-        ]);
         $environment = $this->addAgentConfigsToEnvironment($agent, $config, $environment);
         // ATTENTION: This is bad because we strongly couple this generic command
         // to something very specific here. This can go away once we have got rid of
@@ -165,5 +201,14 @@ class InstallCommand extends Command
         }
 
         return [$objective, $environment, $io];
+    }
+
+    protected function createTempDir(): ?string
+    {
+        $path = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . mt_rand() . microtime(true);
+        if (mkdir($path)) {
+            return $path;
+        }
+        return null;
     }
 }
