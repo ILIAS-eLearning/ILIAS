@@ -1580,6 +1580,15 @@ class ilObjectGUI
         $ctrl->redirectByClass("ilRepositoryGUI", $cmd);
     }
 
+    public static function _gotoSharedWorkspaceNode(int $wsp_id): void
+    {
+        global $DIC;
+
+        $ctrl = $DIC->ctrl();
+        $ctrl->setParameterByClass(ilSharedResourceGUI::class, "wsp_id", $wsp_id);
+        $ctrl->redirectByClass(ilSharedResourceGUI::class, "");
+    }
+
     /**
      * Enables the file upload into this object by dropping files.
      */
