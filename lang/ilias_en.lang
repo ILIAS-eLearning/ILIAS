@@ -7582,7 +7582,7 @@ crs#:#crs_objective_pretest#:#After initial test
 crs#:#crs_objective_qst_summary#:#Overview Question Assignment
 crs#:#crs_objective_random_warn#:#You can not use random tests in combination with learning objectives.
 crs#:#crs_objective_result#:#After final test
-crs#:#crs_objective_result_details#:#« Show Details
+crs#:#crs_objective_result_details#:#« Show Results
 crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required)
 crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s required)
 crs#:#crs_objective_saved_sorting#:#Saved sorting.
