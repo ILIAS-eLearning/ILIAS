@@ -248,7 +248,7 @@ class ilForumExportGUI
                 $tpl->setVariable('POST', ilRTE::_replaceMediaObjectImageSrc($post->getMessage(), 1));
             }
         } else {
-            $tpl->setVariable('POST', "<span class=\"moderator\">" . nl2br($post->getCensorshipComment()) . "</span>");
+            $tpl->setVariable('POST', "<span class=\"moderator\">" . nl2br((string) $post->getCensorshipComment()) . "</span>");
         }
 
         $tpl->parseCurrentBlock('posts_row');
