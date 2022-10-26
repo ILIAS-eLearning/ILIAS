@@ -922,7 +922,7 @@ class ilContainer extends ilObject
                                 true
                             );
                         }
-                        $objects[$key]["description"] = $long_desc[$object["obj_id"]];
+                        $objects[$key]["description"] = $long_desc[$object["obj_id"]] ?? '';
                     }
                 }
             }
