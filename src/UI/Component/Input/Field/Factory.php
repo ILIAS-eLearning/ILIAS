@@ -685,6 +685,8 @@ interface Factory
      *      Color Picker will render an input-tag with type="color".
      *   effect: >
      *     As soon as the Color Picker is clicked, a pop-up window opens, which contains the individual options of the color selection.
+     * context:
+     *   - The Color Picker input is used in UI-forms.
      * rules:
      *   usage:
      *     1: The Color Picker should be used to select an individual color value.
@@ -698,5 +700,5 @@ interface Factory
      * @param string|null $byline
      * @return \ILIAS\UI\Component\Input\Field\ColorPicker
      * */
-    public function colorpicker(string $label, string $byline=null): ColorPicker;
+    public function colorPicker(string $label, string $byline=null): ColorPicker;
 }
