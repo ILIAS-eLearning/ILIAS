@@ -250,16 +250,16 @@ are printed bold**, all other fields might be omitted. A minimal example is
         "components" : "all",
         "memcached_nodes" : [
             {
-                "active" : "1",
+                "active" : true,
                 "host" : "example1.com",
-                "port" : "4711",
-                "weight" : "10"
+                "port" : 4711,
+                "weight" : 10
             },
             {
-                "active" : "0",
+                "active" : false,
                 "host" : "example2.com",
-                "port" : "4712",
-                "weight" : "20"
+                "port" : 4712,
+                "weight" : 90
             }
         ]
     },
