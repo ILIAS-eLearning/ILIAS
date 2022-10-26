@@ -240,11 +240,23 @@ class ilGlobalCache
     {
         switch ($service_type) {
             case self::TYPE_APC:
-                return \ilApc::class;
+                return ilApc::class;
             case self::TYPE_MEMCACHED:
-                return \ilMemcache::class;
+                return ilMemcache::class;
             default:
-                return \ilStaticCache::class;
+                return ilStaticCache::class;
+        }
+    }
+
+    public static function lookupServiceConfigName(int $service_type): string
+    {
+        switch ($service_type) {
+            case self::TYPE_APC:
+                return 'apc';
+            case self::TYPE_MEMCACHED:
+                return 'memcached';
+            default:
+                return 'static';
         }
     }
 
