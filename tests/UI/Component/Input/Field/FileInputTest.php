@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -133,6 +133,11 @@ class FileInputTest extends ILIAS_UI_TestBase
                 }
 
                 return null;
+            }
+
+            public function supportsChunkedUploads(): bool
+            {
+                return false;
             }
         };
     }
@@ -279,6 +284,9 @@ class FileInputTest extends ILIAS_UI_TestBase
                                 <div class="ui-input-file-metadata" style="display: none;">
                                     <input id="id_1" type="hidden" name="name_0[form_input_0][]" value="test_file_id_1" />
                                 </div>
+                                <div class="ui-input-file-input-progress-container">
+                                    <div class="ui-input-file-input-progress-indicator"></div>
+                                </div>
                             </div>
                         </div>
                         <div class="ui-input-file-input-dropzone">
@@ -347,6 +355,9 @@ class FileInputTest extends ILIAS_UI_TestBase
                                         </div>
                                     </div>
                                     <input id="id_2" type="hidden" name="name_0[form_input_2][]" value="file_id" />
+                                </div>
+                                <div class="ui-input-file-input-progress-container">
+                                    <div class="ui-input-file-input-progress-indicator"></div>
                                 </div>
                             </div>
                         </div>
@@ -422,6 +433,9 @@ class FileInputTest extends ILIAS_UI_TestBase
                                         </div>
                                     </div>
                                     <input id="id_2" type="hidden" name="name_0[form_input_2][]" value="test_file_id_1" />
+                                </div>
+                                <div class="ui-input-file-input-progress-container">
+                                    <div class="ui-input-file-input-progress-indicator"></div>
                                 </div>
                             </div>
                         </div>
