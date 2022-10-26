@@ -26,6 +26,7 @@ use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Component\Input\Field;
 use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 class ColorPickerInputTest extends ILIAS_UI_TestBase
 {
