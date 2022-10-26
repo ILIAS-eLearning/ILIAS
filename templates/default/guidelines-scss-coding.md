@@ -25,6 +25,8 @@ Variables that aren't essential to creating the basic look MUST be placed on low
 
 Anything added to the settings layer MUSTN'T create CSS code on its own.
 
+Variables on the Settings layer SHOULD be made public by adding `!default` to the definition and partial files SHOULD be added to the index with @follow, so they are public and can be overriden when the main delos.scss is loaded by a skin.
+
 You MAY include the entire Settings layer on lower levels. You SHOULD NOT need to include individual files from the settings layer on lower levels.
 
 There is a legacy folder that SHOULD be empty and the content needs to find a permanent place elsewhere.
@@ -56,6 +58,8 @@ This layer only SHOULD create a dependency's utility CSS code (and MUST do so se
 
 Lower layers MAY call the variables, functions and mixins of a dependency for their purposes and SHOULD include them with a namespace.
 
+A dependency MAY be called on with @forward inside the _index.scss to expose its public variables to a skin.
+
 Examples:
 * Bootstrap
 
@@ -64,9 +68,11 @@ Examples:
 The Tools layer MUST define mixins, silent extensible classes, functions, media queries and animations
 that are used in lower layers of the SCSS.
 
-Tools MAY be used in various other sections in the SCSS. They MUST provide uniform definitions for common concepts and problems, and thus foster visual homogenity in the system. They substantiate variables from the Settings into more concrete concepts.
+They MUST provide uniform definitions for common concepts and problems, and thus foster visual homogenity in the system. They substantiate variables from the Settings into more concrete concepts.
 
-Past layouts and HTML templates heavily rely on CSS utility classes like "ilCenter" or "smallred" for some formatting. In the future, these kinds of CSS utility classes are deprecated and SHOULD NOT be used except for yet ro be determined exceptions. These utility use cases SHOULD be covered by Tool functions and mixins that are being called on lower levels or extensions to silent Tool classes.
+Tools MAY be used in various other sections in the SCSS.
+
+Past layouts and HTML templates heavily rely on CSS utility classes like "ilCenter" or "smallred" for some formatting. In the future, these kinds of CSS utility classes are deprecated and SHOULD NOT be used except for yet to be determined exceptions. These utility use cases SHOULD be covered by Tool functions and mixins that are being called on lower levels or extensions to silent Tool classes.
 
 Tools MUST not generate CSS code before being used on lower levels.
 
@@ -80,9 +86,9 @@ Non-Examples:
 
 ## Normalize
 
-The Normalize layer contains styles that SHOULD normalize browser behaviour to a good default base state in all browsers.
+Only styles needed to normalize browser behaviour to a good default base state in all browsers SHOULD be defined on the Normalize layer.
 
-We MAY rely on dependencies e.g. for normalizing complex elements like input fields.
+We MAY rely on dependencies e.g. for normalizing complex elements like input fields. Therefor, large portions of normalizing styles MAY be located on the Dependency layer.
 
 Elements that are heavily styled and overwritten on lower layers anyway SHOULD NOT be normalized. Resetting paragraph margins only to overwrite them again on the Elements layer is not necessary.
 
@@ -134,7 +140,7 @@ The Component layer MUST contain CSS classes and local variables for each specif
 
 A component SHOULD be a UI component from the UI framework. Currently, we also have legacy Module and Service components as well as some some legacy code that has been grouped to form a component like unit, but both of these SHOULD dissolve into modern UI components in the future.
 
-Colors, sizes and fonts MUST reference global variables, functions, mixins and extensible classes from other layers.
+Colors, sizes and fonts SHOULD reference global variables, functions, mixins and extensible classes from other layers.
 
 A component MUST be independent from other components. It MAY mix and combine stuff from the upper layers to create classes that MUST be used in the html template of this specific component only.
 
@@ -154,21 +160,21 @@ Temporary code that affect very specific locations in the DOM or override some s
 
 `!important` MUST NOT be used outside of this layer and SHOULD not be used here either.
 
-# File names
-
-Inside their layer files MUST be prefixed with an `_` underscore to mark them as a partial (this stops the compiler from compiling the file on its own).
-
-Generally, files MUST be named like this: `_layer_descriptive-name.scss`
-
-An exception is the Dependency layer: Files inside the "unmodified" folder MUST be kept in their original state. Files inside "modification" SHOULD copy file name and folder structure from the original package. They MAY include prefixes like "additions" or "modified" to indicate if they are meant to be included in addition to the original dependency or fully replace a file from the original.
-
 # Naming Conventions
 
 Many existing names do not follow this naming conventions, but future projects MUST use the following guidelines.
 
+## File names
+
+Inside their layer files MUST be prefixed with an `_` underscore to mark them as a partial (this stops the compiler from compiling the file on its own).
+
+Generally, files MUST be named like this: `_layer_name-of-element-or-system.scss`
+
+An exception is the Dependency layer: Files inside the "unmodified" folder MUST be kept in their original state. Files inside "modification" SHOULD copy file name and folder structure from the original package. They MAY include prefixes like "additions" or "modified" to indicate if they are meant to be included in addition to the original dependency or fully replace a file from the original.
+
 ## BEMIT basics
 
-Class, variable and function names MUST make use of BEMIT conventions.
+Class, variable and function names MUST make use of [BEMIT conventions](https://csswizardry.com/2015/08/bemit-taking-the-bem-naming-convention-a-step-further/).
 
 1 - Prefix: The names MUST start with a prefix inidcating the layer that they are from:
 
@@ -179,9 +185,9 @@ Class, variable and function names MUST make use of BEMIT conventions.
 
 2 - Block: Next, the name of the root of the component or system MUST follow e.g. `c-button, c-panel, l-spacing`
 
-3 - Element: If the attributes are applied to a sub-element of the root block, the name of the sub element MUST be attached with `__` two underscores `c-panel__header, c-button__caret`
+3 - Element: If the attributes are applied to a sub-element of the root block, the name of the sub-element MUST be attached with `__` two underscores `c-panel__header, c-button__caret`
 
-4 - Modifier: Specific conditions or contexts that modify an existing element or block MUST be attached with `--` two dashes directly after the block or element that causes the modified style. Modifiers SHOULD NOT be visual descriptions like "--large", they SHOULD indicate a semantic concept or status. Examples: `c-panel--alert__header, c-button--primary`
+4 - Modifier: Specific conditions or contexts that modify an existing element or block MUST be attached with `--` two dashes directly after the block or element that causes the modified style. Modifiers SHOULD NOT be visual descriptions like `--large`, they SHOULD indicate a semantic concept or status. Examples: `c-panel--alert__header, c-button--primary`
 
 ## Classes
 
@@ -219,16 +225,13 @@ c-button--primary--hover__glyph--expand__color
 
 Files that are meant to only be compiled inside other files and never on their own (which is almost all of them) MUST be marked as partials by adding "_" as a prefix. This stops the compiler from compiling the file in "watching" mode.
 
-You MUST include partials with @use. You MUST NOT use the deprecated @import.
+You MUST include partials with @use or @forward. You MUST NOT use the deprecated @import.
+@forward SHOULD only be used for settings and dependencies made public to the skin. Consequently, when including delos.scss in a skin, variables MAY be overriden by importing the entire delos skin like this `@use "../some-path/delos" with ( $il-main-color: green );`. These exposed variables MUST have a unique name. You MAY hide variables when forwarding a component with `@forward "some-component" hide $local-variable;`.
 
-Components MUST expose their variables with @forward all the way up to the main delos.scss so that when including delos in a skin, variables can be overriden by importing the entire delos skin like this `@use "../some-path/delos" with ( $il-main-color: green );`. This makes most variables public, so these exposed variables MUST have a unique name. You MAY hide variables when forwarding a component with `@forward "some-component" hide $local-variable;`
-
-When including a file with @use you SHOULD utilize a namespace. You MAY use the default on or define a custom namespace.
+When including a file with @use you SHOULD utilize a namespace. You MAY use the one generated by default or define a custom namespace.
 
 When including a file with @use from a dependency you MUST use a namespace. This namespace SHOULD be the same everywhere e.g. the namespace for Bootstrap 3 is btstrp3.
 
-Division with a slash (e.g. "10px / 2") outside of calc() is deprecated and MUST NOT be used. You MUST use math.div() instead.
-
-## Functions
+Division with a slash (e.g. "10px / 2") outside of calc() is deprecated and MUST NOT be used. You MUST use math.div() instead or multiplication (e.g. $il-padding-small / 2 could be substituted with $il-padding-small * 0.5)
 
 Functions SHOULD throw an error if an incorrect input can be detected.
