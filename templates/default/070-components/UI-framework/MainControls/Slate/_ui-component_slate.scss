@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @use "../../../../010-settings/" as *;
 @use "../../../../010-settings/legacy-settings/legacy-settings_symbol" as *;
 @use "../../../../050-layout/basics/" as *;
@@ -142,13 +144,13 @@
 	&[data-depth-level="3"] {
 		.btn-bulky:not(:hover),
 		.link-bulky:not(:hover) {
-			background-color: rgba($il-slate-bulky-level2-bg-color, 15%/100.0%);
+			background-color: rgba($il-slate-bulky-level2-bg-color, math.div(15%, 100.0%));
 		}
 	}
 	&[data-depth-level="4"] {
 		.btn-bulky:not(:hover),
 		.link-bulky:not(:hover) {
-			background-color: rgba($il-slate-bulky-level2-bg-color, 10%/100.0%);
+			background-color: rgba($il-slate-bulky-level2-bg-color, math.div(10%, 100.0%));
 		}
 	}
 }

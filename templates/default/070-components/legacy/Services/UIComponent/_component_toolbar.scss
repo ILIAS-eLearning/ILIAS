@@ -59,7 +59,7 @@ $il-toolbar-border: 1px solid $il-main-border-color;
 		}
 		&.ilToolbarGroup {
 			.navbar-form, .navbar-text {
-				margin-left: ($il-toolbar-margin / 2);
+				margin-left: ($il-toolbar-margin * 0.5);
 				&:first-child {
 					margin-left: 0;
 				}

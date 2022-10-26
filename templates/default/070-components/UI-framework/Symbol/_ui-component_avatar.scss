@@ -8,7 +8,7 @@
 //== Avatar
 //
 //** Size for avatars: used in the header. e.g. standard (and recommended) is $il-icon-size-large
-$il-avatar-size-small: $il-avatar-size / 2;
+$il-avatar-size-small: $il-avatar-size * 0.5;
 $il-avatar-size-large: $il-avatar-size * 2;
 //** border-radius for image avatar
 $il-avatar-border-radius: 50%;
@@ -30,8 +30,8 @@ $il-avatar-letter-abbreviation-font-transform: inherit;
 $il-avatar-colors: $il-avatar-letter-color-variants;
 $il-avatar-inner-size: ($il-avatar-size - (2 * $il-avatar-border-size));
 
-$zoom-small: $il-avatar-size-small / $il-avatar-size;
-$zoom-large: $il-avatar-size-large / $il-avatar-size;
+$zoom-small: math.div($il-avatar-size-small, $il-avatar-size);
+$zoom-large: math.div($il-avatar-size-large, $il-avatar-size);
 
 .il-avatar {
 	height: $il-avatar-size;

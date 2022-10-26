@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @use "../../010-settings/" as *;
 @use "../../010-settings/legacy-settings/legacy-settings_symbol" as t-symbol;
 @use "../basics" as *;
@@ -5,7 +7,7 @@
 $il-standard-page-border-light-color: $il-main-border-color;
 
 $il-avatar-size: t-symbol.$il-icon-size-large;
-$il-avatar-inner-mobile-size: ($il-avatar-size / 2 );
+$il-avatar-inner-mobile-size: $il-avatar-size * 0.5;
 
 //** controls margin from the footer to the main content, increase/decrase depending on the content (default, space for 4 lines).
 $il-footer-margin-bottom: 2*$il-line-height-computed*2;
@@ -37,7 +39,7 @@ $il-mainbar-remove-tools-btn-height: 45px;
 // slates
 $il-slate-bulky-bg-color: $il-main-darker-bg;
 $il-slate-bulky-level2-bg-color: $il-main-dark-bg;
-$il-slate-bulky-bg-color-engaged: rgba($il-main-color, 30%/100.0%);
+$il-slate-bulky-bg-color-engaged: rgba($il-main-color, math.div(30%,100%));
 $il-slate-content-padding: $il-padding-base-horizontal;
 $il-slate-tree-padding: $il-padding-small-vertical 0;
 $il-slate-bulky-padding-vertical: $il-padding-xxxlarge-vertical;

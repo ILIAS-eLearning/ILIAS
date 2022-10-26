@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @use "../../010-settings/"as *;
 
 $il-chart-item-active-bg: $il-main-color;
@@ -15,7 +17,7 @@ $il-chart-progressmeter-bg-stroke-width: 6;
 //** Progress Meter Mini: background stroke width
 $il-chart-progressmeter-mini-bg-stroke-width: 5;
 //** Progress Meter: multi bar progress stroke width
-$il-chart-progressmeter-multi-stroke-width: ($il-chart-progressmeter-mini-bg-stroke-width / 3);
+$il-chart-progressmeter-multi-stroke-width: math.div($il-chart-progressmeter-mini-bg-stroke-width, 3);
 //** Progress Meter: single bar progress stroke width
 $il-chart-progressmeter-mono-stroke-width: ($il-chart-progressmeter-mini-bg-stroke-width - 1);
 //** Progress Meter: background color
