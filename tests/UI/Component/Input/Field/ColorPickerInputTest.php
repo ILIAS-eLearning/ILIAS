@@ -75,8 +75,8 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
             <input id="id_1" type="color" name="name_0" value=""/>
             <div class="help-block">byline</div>
             </div>
-            </div>'
-        );
+            </div>
+            ');
         $this->assertHTMLEquals($expected, $html);
     }
 
@@ -100,8 +100,8 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
             <input id="id_1" type="color" name="name_0" value=""/>
             <div class="help-block">byline</div>
             </div>
-            </div>'
-        );
+            </div>
+            ');
         $this->assertHTMLEquals($expected, $html);
     }
 
@@ -126,8 +126,8 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
             <input id="id_1" type="color" name="name_0" value=""/>
             <div class="help-block">byline</div>
             </div>
-            </div>'
-        );
+            </div>
+            ');
         $this->assertHTMLEquals($expected, $html);
     }
 
@@ -151,8 +151,8 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
             <input id="id_1" type="color" name="name_0" value="value_0"/>
             <div class="help-block">byline</div>
             </div>
-            </div>'
-        );
+            </div>
+            ');
         $this->assertHTMLEquals($expected, $html);
     }
 
