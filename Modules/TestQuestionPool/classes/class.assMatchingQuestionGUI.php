@@ -984,15 +984,15 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $feedback = '<table class="test_specific_feedback"><tbody>';
 
         foreach ($matches as $idx => $ans) {
-            if (!isset($userSolution[$ans->definition->getIdentifier()])) {
+            if (!isset($userSolution[$ans->getDefinition()->getIdentifier()])) {
                 continue;
             }
 
-            if (!is_array($userSolution[$ans->definition->getIdentifier()])) {
+            if (!is_array($userSolution[$ans->getDefinition()->getIdentifier()])) {
                 continue;
             }
 
-            if (!in_array($ans->term->getIdentifier(), $userSolution[$ans->definition->getIdentifier()])) {
+            if (!in_array($ans->getTerm()->getIdentifier(), $userSolution[$ans->getDefinition()->getIdentifier()])) {
                 continue;
             }
 
@@ -1001,8 +1001,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 0,
                 $idx
             );
-            $feedback .= '<tr><td>"' . $ans->definition->getText() . '"&nbsp;' . $this->lng->txt("matches") . '&nbsp;"';
-            $feedback .= $ans->term->getText() . '"</td><td>';
+            $feedback .= '<tr><td>"' . $ans->getDefinition()->getText() . '"&nbsp;' . $this->lng->txt("matches") . '&nbsp;"';
+            $feedback .= $ans->getTerm()->getText() . '"</td><td>';
             $feedback .= $fb . '</td> </tr>';
         }
 
