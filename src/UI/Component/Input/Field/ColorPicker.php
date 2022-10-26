@@ -20,7 +20,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Input\Field;
 
 /**
- * This describes color picker inputs
+ * @author Patrick Bechtold <patrick.bechtold@kroepelin-projekte.de>
  */
 interface ColorPicker extends FormInput
 {

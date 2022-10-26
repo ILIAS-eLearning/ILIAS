@@ -1,49 +1,74 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Component\Input\Field;
-
-use Closure;
-use ILIAS\Refinery\Constraint;
+declare(strict_types=1);
 
 /**
- * Class ColorPicker
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\UI\Implementation\Component\Input\Field;
+
+use ILIAS\Data\Factory as Datafactory;
+use ILIAS\UI\Component as C;
+use ILIAS\Refinery\Constraint;
+use ILIAS\Refinery\Factory as Refinery;
+use Closure;
+
+/**
+ * @author Patrick Bechtold <patrick.bechtold@kroepelin-projekte.de>
  */
-class ColorPicker extends Input implements \ILIAS\UI\Component\Input\Field\ColorPicker
+class ColorPicker extends Input implements C\Input\Field\ColorPicker
 {
     /**
-     * Get update code
+     * Input constructor.
      *
-     * This method has to return JS code that calls
-     * il.UI.filter.onFieldUpdate(event, '$id', string_value);
-     * - initially "onload" and
-     * - on every input change.
-     * It must pass a readable string representation of its value in parameter 'string_value'.
+     * @param DataFactory $data_factory
+     * @param Factory $refinery
+     * @param $label
+     * @param $byline
      */
-    public function getUpdateOnLoadCode(): Closure
+    public function __construct(Datafactory $datafactory, Refinery $refinery, string $label, string $byline)
     {
-        // TODO: Implement getUpdateOnLoadCode() method.
-        throw new \ILIAS\UI\NotImplementedException();
+        parent::__construct($datafactory,$refinery,$label,$byline);
+
+        $trafo = $this->refinery->to()->data('color');
+        $this->setAdditionalTransformation($trafo);
     }
 
     /**
-     * This may return a constraint that will be checked first if the field is
-     * required.
-     */
-    protected function getConstraintForRequirement(): ?Constraint
-    {
-        // TODO: Implement getConstraintForRequirement() method.
-        throw new \ILIAS\UI\NotImplementedException();
-    }
-
-    /**
-     * Check if the value is good to be displayed client side.
-     *
-     * @param mixed $value
+     * @inheritdoc
      */
     protected function isClientSideValueOk($value): bool
     {
-        // TODO: Implement isClientSideValueOk() method.
-        throw new \ILIAS\UI\NotImplementedException();
+        return is_string($value);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getConstraintForRequirement(): ?Constraint
+    {
+        return $this->refinery->string()->hasMinLength(4);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getUpdateOnLoadCode(): Closure
+    {
+        return static function () {
+        };
     }
 }

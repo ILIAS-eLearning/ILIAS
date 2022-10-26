@@ -126,6 +126,9 @@ class Renderer extends AbstractComponentRenderer
             case ($component instanceof F\Hidden):
                 return $this->renderHiddenField($component);
 
+            case ($component instanceof F\ColorPicker):
+                return $this->renderColorPickerField($component);
+
             default:
                 throw new LogicException("Cannot render '" . get_class($component) . "'");
         }
@@ -822,6 +825,7 @@ class Renderer extends AbstractComponentRenderer
             Component\Input\Field\File::class,
             Component\Input\Field\Url::class,
             Hidden::class,
+            Component\Input\Field\ColorPicker::class,
         ];
     }
 
@@ -945,5 +949,15 @@ class Renderer extends AbstractComponentRenderer
         }
 
         return $mime_type_string;
+    }
+
+    protected function renderColorPickerField(F\ColorPicker $component): string
+    {
+        $tpl = $this->getTemplate("tpl.colorpicker.html", true, true);
+        $this->applyName($component, $tpl);
+        $tpl->setVariable('VALUE', $component->getValue());
+        $id = $this->bindJSandApplyId($component, $tpl);
+
+        return $this->wrapInFormContext($component, $tpl->get());
     }
 }
