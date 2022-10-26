@@ -34,20 +34,21 @@ class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObje
         $settings = new ilGlobalCacheSettings();
         $settings->readFromIniFile($client_ini);
 
-        $service = ilGlobalCache::lookupServiceClassName($settings->getService());
+        $service_type = (int) $settings->getService();
+        $service = ilGlobalCache::lookupServiceConfigName($service_type);
         $storage->storeConfigText(
             "service",
             $service,
             "The backend that is used for the ILIAS cache."
         );
-        $storage->storeConfigText(
+        $storage->storeConfigBool(
             "active",
-            $settings->isActive() ? 'yes' : 'no',
+            (bool) $settings->isActive()
         );
 
         $servers = ilMemcacheServer::get();
         if (
-            $service === ilGlobalCache::lookupServiceClassName(ilGlobalCache::TYPE_MEMCACHED) &&
+            $service_type === ilGlobalCache::TYPE_MEMCACHED &&
             count($servers) > 0
         ) {
             $server_collection = [];
