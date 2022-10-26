@@ -53,7 +53,7 @@ class ilAssQuestionSkillAssignmentImportList implements Iterator
     /**
      * @return ilAssQuestionSkillAssignmentImport
      */
-    public function current(): ilAssQuestionSkillAssignmentImport
+    public function current()
     {
         return current($this->assignments);
     }
@@ -61,7 +61,7 @@ class ilAssQuestionSkillAssignmentImportList implements Iterator
     /**
      * @return ilAssQuestionSkillAssignmentImport
      */
-    public function next(): ilAssQuestionSkillAssignmentImport
+    public function next()
     {
         return next($this->assignments);
     }

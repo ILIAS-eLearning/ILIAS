@@ -207,7 +207,7 @@ class assSingleChoiceImport extends assQuestionImport
         $this->addGeneralMetadata($item);
         $this->object->setTitle($item->getTitle());
         $this->object->setNrOfTries((int) $item->getMaxattempts());
-        $this->object->setComment((int) $item->getComment());
+        $this->object->setComment($item->getComment());
         $this->object->setAuthor($item->getAuthor());
         $this->object->setOwner($ilUser->getId());
         $this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
