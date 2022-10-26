@@ -1296,7 +1296,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $tpl->setVariable('POST', ilRTE::_replaceMediaObjectImageSrc($node->getMessage(), 1));
             }
         } else {
-            $tpl->setVariable('POST', "<span class=\"moderator\">" . nl2br($node->getCensorshipComment()) . "</span>");
+            $tpl->setVariable('POST', "<span class=\"moderator\">" . nl2br((string) $node->getCensorshipComment()) . "</span>");
         }
 
         $tpl->parseCurrentBlock();
@@ -1992,6 +1992,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
     public function getCensorshipFormHTML(): string
     {
+        /** @var ilForum $frm */
         $frm = $this->object->Forum;
         $form_tpl = new ilTemplate('tpl.frm_censorship_post_form.html', true, true, 'Modules/Forum');
 
@@ -2008,7 +2009,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->ctrl->clearParameters($this);
         $form_tpl->setVariable('TXT_CENS_MESSAGE', $this->lng->txt('forums_the_post'));
         $form_tpl->setVariable('TXT_CENS_COMMENT', $this->lng->txt('forums_censor_comment') . ':');
-        $form_tpl->setVariable('CENS_MESSAGE', $frm->prepareText($this->objCurrentPost->getCensorshipComment(), 2));
+        $form_tpl->setVariable('CENS_MESSAGE', $frm->prepareText((string) $this->objCurrentPost->getCensorshipComment(), 2));
 
         if ($this->objCurrentPost->isCensored()) {
             $form_tpl->setVariable('TXT_CENS', $this->lng->txt('forums_info_censor2_post'));
