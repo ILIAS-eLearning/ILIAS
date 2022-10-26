@@ -40,7 +40,9 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
         $df = new Data\Factory();
         $language = $this->getLanguage();
         return new I\Input\Field\Factory(
-            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
+            $this->createMock(
+                \ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class
+            ),
             new SignalGenerator(),
             $df,
             new Refinery($df, $language),
@@ -64,16 +66,18 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
         $name = "name_0";
         $cp = $f->colorpicker($label, $byline)->withNameFrom($this->name_source);
         $r = $this->getDefaultRenderer();
+        $html = $this->brutallyTrimHTML($r->render($cp));
 
-        $expected = ""
-            . "<div class=\"form-group row\">"
-            . "<label class=\"control-label col-sm-3\">$label</label>"
-            . "<div class=\"col-sm-9\">"
-            . "<input id=\"il_ui_fw_63579167e4c913_47829604\" type=\"color\" name=\"$name\" value=\"\">"
-            . "<div class=\"help-block\">$byline</div>"
-            . "</div>"
-            . "</div>";
-        $this->assertHTMLEquals($expected, $r->render($cp));
+        $expected = $this->brutallyTrimHTML('
+            <div class="form-group row">
+            <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+            <div class="col-sm-8 col-md-9 col-lg-10">
+            <input id="id_1" type="color" name="name_0" value=""/>
+            <div class="help-block">byline</div>
+            </div>
+            </div>'
+        );
+        $this->assertHTMLEquals($expected, $html);
     }
 
     public function test_render_disabled(): void
@@ -82,19 +86,22 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
         $label = "label";
         $byline = "byline";
         $name = "name_0";
-        $cp = $f->colorpicker($label, $byline)->withNameFrom($this->name_source)->withDisabled(true);
+        $cp = $f->colorpicker($label, $byline)
+                ->withNameFrom($this->name_source)
+                ->withDisabled(true);
 
         $r = $this->getDefaultRenderer();
-        $html = $r->render($cp);
+        $html = $this->brutallyTrimHTML($r->render($cp));
 
-        $expected = ""
-            . "<div class=\"form-group row\">"
-            . "<label class=\"control-label col-sm-3\">$label</label>"
-            . "<div class=\"col-sm-9\">"
-            . "<input id=\"il_ui_fw_63579167e4c913_47829604\" type=\"color\" name=\"$name\" value=\"\">"
-            . "<div class=\"help-block\">$byline</div>"
-            . "</div>"
-            . "</div>";
+        $expected = $this->brutallyTrimHTML('
+            <div class="form-group row">
+            <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+            <div class="col-sm-8 col-md-9 col-lg-10">
+            <input id="id_1" type="color" name="name_0" value=""/>
+            <div class="help-block">byline</div>
+            </div>
+            </div>'
+        );
         $this->assertHTMLEquals($expected, $html);
     }
 
@@ -104,19 +111,23 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
         $label = "label";
         $byline = "byline";
         $name = "name_0";
-        $cp = $f->colorpicker($label, $byline)->withNameFrom($this->name_source)->withRequired(true);
+        $cp = $f->colorpicker($label, $byline)
+                ->withNameFrom($this->name_source)
+                ->withRequired(true);
 
         $r = $this->getDefaultRenderer();
-        $html = $r->render($cp);
+        $html = $this->brutallyTrimHTML($r->render($cp));
 
-        $expected = ""
-            . "<div class=\"form-group row\">"
-            . "<label class=\"control-label col-sm-3\">$label</label>"
-            . "<div class=\"col-sm-9\">"
-            . "<input id=\"il_ui_fw_63579167e4c913_47829604\" type=\"color\" name=\"$name\" value=\"\">"
-            . "<div class=\"help-block\">$byline</div>"
-            . "</div>"
-            . "</div>";
+        $expected = $this->brutallyTrimHTML('
+            <div class="form-group row">
+            <label class="control-label col-sm-4 col-md-3 col-lg-2">label
+            <span class="asterisk">*</span></label>
+            <div class="col-sm-8 col-md-9 col-lg-10">
+            <input id="id_1" type="color" name="name_0" value=""/>
+            <div class="help-block">byline</div>
+            </div>
+            </div>'
+        );
         $this->assertHTMLEquals($expected, $html);
     }
 
@@ -125,21 +136,23 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
         $f = $this->buildFactory();
         $label = "label";
         $byline = "byline";
-        $name = "name_0";
         $value = "value_0";
-        $cp = $f->colorpicker($label, $byline)->withValue($value)->withNameFrom($this->name_source);
+        $cp = $f->colorpicker($label, $byline)
+                ->withValue($value)
+                ->withNameFrom($this->name_source);
 
         $r = $this->getDefaultRenderer();
-        $html = $r->render($cp);
+        $html = $this->brutallyTrimHTML($r->render($cp));
 
-        $expected = ""
-            . "<div class=\"form-group row\">"
-            . "<label class=\"control-label col-sm-3\">$label</label>"
-            . "<div class=\"col-sm-9\">"
-            . "<input id=\"il_ui_fw_63579167e4c913_47829604\" type=\"color\" name=\"$name\" value=\"$value\">"
-            . "<div class=\"help-block\">$byline</div>"
-            . "</div>"
-            . "</div>";
+        $expected = $this->brutallyTrimHTML('
+            <div class="form-group row">
+            <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+            <div class="col-sm-8 col-md-9 col-lg-10">
+            <input id="id_1" type="color" name="name_0" value="value_0"/>
+            <div class="help-block">byline</div>
+            </div>
+            </div>'
+        );
         $this->assertHTMLEquals($expected, $html);
     }
 
@@ -149,7 +162,9 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
         $label = "label";
         $byline = "byline";
         $name = "name_0";
-        $cp = $f->colorpicker($label, $byline)->withNameFrom($this->name_source)->withRequired(true);
+        $cp = $f->colorpicker($label, $byline)
+                ->withNameFrom($this->name_source)
+                ->withRequired(true);
 
         $cp1 = $cp->withInput(new DefInputData([$name => "#FFF"]));
         $value1 = $cp1->getContent();
