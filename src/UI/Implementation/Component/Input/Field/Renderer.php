@@ -887,7 +887,9 @@ class Renderer extends AbstractComponentRenderer
                             {$input->getMaxFileSize()},
                             '{$this->prepareDropzoneJsMimeTypes($input->getAcceptedMimeTypes())}',
                             $is_disabled,
-                            $translations
+                            $translations,
+                            '{$input->getUploadHandler()->supportsChunkedUploads()}',
+                            {$input->getMaxFileSize()}
                         );
                     });
                 ";

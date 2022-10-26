@@ -121,6 +121,12 @@ abstract class FileTestBase extends ILIAS_UI_TestBase
             {
                 return null;
             }
+
+            public function supportsChunkedUploads(): bool
+            {
+                return false;
+            }
+
         };
     }
 

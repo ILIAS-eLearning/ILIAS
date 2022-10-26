@@ -1,5 +1,6 @@
 // File Input Style
 // @author Thibeau Fuhrer <thibeau@sr.solutions>
+// @author Fabian Schmid <fabian@sr.solutions>
 
 .ui-input-file-input-dropzone {
 	border: @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color;
@@ -24,7 +25,7 @@
 }
 
 .ui-input-file-input {
-	border: @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color;
+	border: @il-input-file-info-container-border-width @il-input-file-info-container-border-style @il-input-file-info-container-border-color;
 	margin-bottom: @il-margin-large-vertical;
 	padding: @il-padding-base;
 }
@@ -47,3 +48,28 @@
   }
 }
 
+.ui-input-file-input-progress-container {
+  height: @il-input-file-progress-height;
+  background-color: @il-input-file-progress-base-color;
+  margin-top: @il-padding-base-horizontal;
+  margin-bottom: -@il-padding-base-horizontal;
+  margin-left: -@il-padding-base-horizontal;
+  margin-right: -@il-padding-base-horizontal;
+
+  .ui-input-file-input-progress-indicator {
+    background-color: @il-input-file-progress-indicator-color;
+    float: left;
+    height: inherit;
+    width: 0%;
+    -webkit-transition: width 0.6s ease;
+    -o-transition: width 0.6s ease;
+    transition: width 0.6s ease;
+    &.success {
+      background-color: @il-success-color;
+    }
+    &.error {
+      background-color: @il-warning-color;
+    }
+  }
+
+}

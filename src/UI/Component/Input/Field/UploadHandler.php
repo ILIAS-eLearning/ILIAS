@@ -68,5 +68,15 @@ interface UploadHandler
      */
     public function getInfoForExistingFiles(array $file_ids): array;
 
+    /**
+     * @return null|FileInfoResult for the file with the given identifier or null if the file does not exist.
+     */
     public function getInfoResult(string $identifier): ?FileInfoResult;
+
+    /**
+     * @return bool if this uploadhandler chan handle Chunked Uploads.
+     * These come in multiple requests and must be combined to a single file. If your UploadHandler can handle
+     * Chunked Uploads, you can use a UI\Component\Input\Field\Upload\File with .
+     */
+    public function supportsChunkedUploads(): bool;
 }
