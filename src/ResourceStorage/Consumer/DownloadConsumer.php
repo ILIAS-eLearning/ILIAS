@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +13,10 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Consumer;
 
@@ -27,21 +28,25 @@ use ILIAS\HTTP\Response\ResponseHeader;
  */
 class DownloadConsumer extends BaseConsumer implements DeliveryConsumer
 {
+    private const NON_VALID_EXTENSION_MIME = 'text/plain';
+
     public function run(): void
     {
         global $DIC;
 
         $revision = $this->getRevision();
+        $filename_with_extension = $this->file_name ?? $revision->getInformation()->getTitle();
 
-        $file_name = $this->file_name_policy->prepareFileNameForConsumer($this->file_name ?? $revision->getInformation()->getTitle());
+        $file_name = $this->file_name_policy->prepareFileNameForConsumer($filename_with_extension);
         $mime_type = $revision->getInformation()->getMimeType();
         /** @noRector */
         $response = $DIC->http()->response();
-        if ($this->file_name_policy->isValidExtension($revision->getInformation()->getSuffix())) {
+        if ($this->file_name_policy->isValidExtension($filename_with_extension)) {
             $response = $response->withHeader(ResponseHeader::CONTENT_TYPE, $mime_type);
         } else {
-            $response = $response->withHeader(ResponseHeader::CONTENT_TYPE, 'application/octet-stream');
+            $response = $response->withHeader(ResponseHeader::CONTENT_TYPE, self::NON_VALID_EXTENSION_MIME);
         }
+
         $response = $response->withHeader(ResponseHeader::CONNECTION, 'close');
         $response = $response->withHeader(ResponseHeader::ACCEPT_RANGES, 'bytes');
         $response = $response->withHeader(
