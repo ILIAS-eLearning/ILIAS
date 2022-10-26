@@ -15,7 +15,7 @@ The reach of the code MUST get less global and more specific the deeper we get i
 
 ## Settings layer
 
-The Settings layer MUST only contains global variables that will be used throughout the whole system e.g. colors, fonts, font-sizes and the most important spacings.
+The Settings layer MUST only contain global variables that will be used throughout the whole system e.g. colors, fonts, font-sizes and the most important spacings.
 
 These variables MUST be the ones needed to quickly recolor and reshape ILIAS to create a new minimal, but clearly branded skin.
 
@@ -29,7 +29,7 @@ Variables on the Settings layer SHOULD be made public by adding `!default` to th
 
 You MAY include the entire Settings layer on lower levels. You SHOULD NOT need to include individual files from the settings layer on lower levels.
 
-There is a legacy folder that SHOULD be empty and the content needs to find a permanent place elsewhere.
+There is a legacy folder that SHOULD be empty and the contents SHOULD be refactored.
 
 Examples:
 * Main color palette
@@ -38,21 +38,21 @@ Examples:
 * Primary and default button colors (essential for minimal skin)
 
 Non-Examples:
-* The color of a disabled button is not essential for the basic look of a minimal skin and should be carefull set following accessibility best practices on lower layers
+* The color of a disabled button is not essential for the basic look of a minimal skin and should be carefull set following accessibility practices on a lower layer.
 
 ## Dependencies
 
 The Dependencies layer MUST contain files pulled in from other projects and/or modifications of such files. Dependencies and their modifications MUST only be added after careful consideration whether the benefits outweigh the risks.
 
-Only complete, unmodified dependencies MUST be added in the "unmodified" folder. They MAY be updated with new official releases of the dependency after careful testing.
+The "unmodified" folder MUST only contain unmodified dependencies (or unmodified parts of them). They MAY be updated with new official releases of the dependency after careful testing.
 
-You SHOULD keep modifications, additions or overrides to a minimum and make them through files in the "modification" folder mirroring the original structure of the unmodified dependency. In this case you MAY load a mix of unmodified and modified files. The "modification" folder MUSTN'T hold unmodified files.
+You SHOULD keep modifications, additions or overrides to a minimum and make them through files in the "modification" folder mirroring the original structure of the unmodified dependency. In this case you MAY load a mix of unmodified and modified files on the index file or make such a mixed configuration available for lower layers. The "modification" folder MUSTN'T hold unmodified files.
 
 Legagcy dependencies MAY be located in other places (e.g. "node_modules"). Modifications to those dependencies with regards to style code SHOULD be done inside the "modifications" folder of the ITCSS dependency layer.
 
 Instead of loading complete packages to our CSS as a framework you SHOULD only load selected parts of a dependency where needed using it as a library.
 
-When including dependency files in multiple components this MUST NOT lead to repeating CSS code (which can happen when including files with @use that use @import for loading its own partials). To avoid this you MAY separate variables from CSS classes in the "modification" folder and include only the variables on lower levels. In this case, extending to CSS classes of a dependency doesn't work on lower layer, as the component is unaware of the CSS classes.
+When including dependency files in multiple components this MUST NOT lead to repeating CSS code (which can happen when including files with @use that use @import for loading its own partials). To avoid this you MAY separate variables from CSS classes in the "modification" folder and include only the variables on lower levels. In this case, extending to CSS classes of a dependency doesn't work on lower layers, as the component is unaware of the CSS classes.
 
 This layer only SHOULD create a dependency's utility CSS code (and MUST do so selectively only for code that is actually needed).
 
@@ -103,15 +103,16 @@ Examples:
 
 The Layout layer MUST contain silent extensible classes, variables, functions and mixins that define the positioning and spacing of components relative to each other. Content from this layer MAY be used in the components.
 
-Whenever positioning and spacing needs to be coordinated between various components the code MUST be contained here. If a positioning or spacing can be defined in a component or solely be based on global variables, it MUST go into the Component layer instead.
+If the positioning or spacing for a component can be completely based on Settings or general Layout variables, it MUST be defined in the component itself instead of creating component-specific variables on the Layout layer. For example, a variable like $panel-margin is neither part of a general layout system, nor needed on the Component layer if the general $il-margin- variables are sufficient.
 
-You MUST not create utility CSS classes (like "ilFloatRight") like they are used in many legacy HTML templates unless for yet to be determined exceptions. You MAY create utility functions, mixins or silent classes to be used by semantic classes on lower layers instead.
+You MUST NOT create utility CSS classes (e.g. "ilFloatRight") like they are used in many legacy HTML templates unless for yet to be determined exceptions. You MAY create utility functions, mixins or silent classes to be used by semantic classes on lower layers instead.
 
 Consequently, Layout SHOULD not create CSS code unless called upon on lower layers.
 
-A specific page layout is a component and MUST not be on this layer. Only the general concepts, utilities and patterns to build this layout MUST be on this layer.
+A specific page layout is a component and MUST not be on this layer. Only the general concepts, utilities and patterns to build this MUST be on this layer.
 
 Examples:
+* General spacing variables
 * The spacing of Bulky Buttons and Bulky Links in Menues needs to be coordinated.
 * Close Button in Tool Slate and the Collapse Button in Slates should be on the same vertical line.
 * A future ILIAS grid or flexbox system that is independent from Bootstrap
@@ -125,7 +126,7 @@ The Elements layer MUST contain the basic styling of all unclassed HTML-elements
 
 This layer SHOULD use variables from the Settings extensively. It MUST cover the commonalities among components that allows them to use unclassed HTML-elements. Consequently, components SHOULD only add classes and specific styling on lower layers if strictly required.
 
-This layer SHOULD output CSS code for elements but MUST NOT output css code for classes.
+This layer MUST output CSS code for elements only but MUST NOT output css code for classes.
 
 This layer SHOULD NOT define variables, mixins and fuctions to be used on lower layers.
 
@@ -232,6 +233,6 @@ When including a file with @use you SHOULD utilize a namespace. You MAY use the 
 
 When including a file with @use from a dependency you MUST use a namespace. This namespace SHOULD be the same everywhere e.g. the namespace for Bootstrap 3 is btstrp3.
 
-Division with a slash (e.g. "10px / 2") outside of calc() is deprecated and MUST NOT be used. You MUST use math.div() instead or multiplication (e.g. $il-padding-small / 2 could be substituted with $il-padding-small * 0.5)
+Division with a slash (e.g. "10px / 2") outside of calc() is deprecated and MUST NOT be used. You MUST use math.div() instead or multiplication (e.g. "$il-padding-small / 2" could be substituted with "$il-padding-small * 0.5")
 
 Functions SHOULD throw an error if an incorrect input can be detected.
