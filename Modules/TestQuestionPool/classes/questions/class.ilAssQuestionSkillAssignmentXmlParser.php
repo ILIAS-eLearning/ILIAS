@@ -106,27 +106,27 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
         $this->curQuestionId = (int) $curQuestionId;
     }
 
-    public function getCurAssignment(): \ilAssQuestionSkillAssignmentImport
+    public function getCurAssignment(): ilAssQuestionSkillAssignmentImport
     {
         return $this->curAssignment;
     }
 
-    public function setCurAssignment(\ilAssQuestionSkillAssignmentImport $curAssignment): void
+    public function setCurAssignment(?ilAssQuestionSkillAssignmentImport $curAssignment): void
     {
         $this->curAssignment = $curAssignment;
     }
 
-    public function getAssignmentList(): \ilAssQuestionSkillAssignmentImportList
+    public function getAssignmentList(): ilAssQuestionSkillAssignmentImportList
     {
         return $this->assignmentList;
     }
 
-    public function getCurExpression(): \ilAssQuestionSolutionComparisonExpressionImport
+    public function getCurExpression(): ilAssQuestionSolutionComparisonExpressionImport
     {
         return $this->curExpression;
     }
 
-    public function setCurExpression(\ilAssQuestionSolutionComparisonExpressionImport $curExpression): void
+    public function setCurExpression(?ilAssQuestionSolutionComparisonExpressionImport $curExpression): void
     {
         $this->curExpression = $curExpression;
     }

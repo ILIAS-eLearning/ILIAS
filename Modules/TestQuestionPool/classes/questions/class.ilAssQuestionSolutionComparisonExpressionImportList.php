@@ -132,7 +132,7 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
     /**
      * @return ilAssQuestionSolutionComparisonExpressionImport
      */
-    public function next(): ilAssQuestionSolutionComparisonExpressionImport
+    public function next()
     {
         return next($this->expressions);
     }
