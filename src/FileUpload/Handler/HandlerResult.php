@@ -28,6 +28,7 @@ interface HandlerResult extends JsonSerializable
 {
     public const STATUS_OK = 1;
     public const STATUS_FAILED = 2;
+    public const STATUS_PARTIAL = 3;
 
 
     public function getStatus(): int;
