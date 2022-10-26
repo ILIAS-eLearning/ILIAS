@@ -11159,10 +11159,10 @@ mail#:#mail_roles#:#Users with the following local roles
 mail#:#mail_s#:#Mail(s)
 mail#:#mail_salutation_anonymous#:#Hello
 mail#:#mail_salutation_f#:#Dear Mrs.
-mail#:#mail_salutation_female#:#Output for placeholder [MAIL_SALUTATION], if salutation is 'Ms.'
-mail#:#mail_salutation_general#:#Output for placeholder [MAIL_SALUTATION], if no salutation is desired or specified
+mail#:#mail_salutation_female#:#Output for placeholder &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, if salutation is 'Ms.'
+mail#:#mail_salutation_general#:#Output for placeholder &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, if no salutation is desired or specified
 mail#:#mail_salutation_m#:#Dear Mr.
-mail#:#mail_salutation_male#:#Output for placeholder [MAIL_SALUTATION], if salutation is 'Mr.'
+mail#:#mail_salutation_male#:#Output for placeholder &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, if salutation is 'Mr.'
 mail#:#mail_salutation_n#:#Hello
 mail#:#mail_saved#:#The message has been saved
 mail#:#mail_second_email#:#Second E-Mail Address
@@ -11213,7 +11213,7 @@ mail#:#mail_system_usr_env_from_addr_info#:#If you leave this field empty, the s
 mail#:#mail_system_usr_from_addr#:#Sender E-Mail (From)
 mail#:#mail_system_usr_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client. The e-mail address of the user sending an e-mail via ILIAS will be automatically put in the 'Reply-To' header.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>
 mail#:#mail_system_usr_from_name#:#Sender Fullname (From)
-mail#:#mail_system_usr_from_name_info#:#You can use the placeholders [FULLNAME], [FIRSTNAME] and [LASTNAME]. These will then be replaced by the respective data of the e-mail initiator.
+mail#:#mail_system_usr_from_name_info#:#You can use the placeholders &lbrace;&lbrace;FULLNAME&rbrace;&rbrace;, &lbrace;&lbrace;FIRSTNAME&rbrace;&rbrace; and &lbrace;&lbrace;LASTNAME&rbrace;&rbrace;. These will then be replaced by the respective data of the e-mail initiator.
 mail#:#mail_tbl_head_attachments#:#Attachment
 mail#:#mail_template_client#:#Text Template
 mail#:#mail_template_client_info#:#Choose one of the available text templates and make use of it's placeholders. If you choose a text template, body and subject of this form (if defined in the text template) will be replaced.

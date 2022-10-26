@@ -9078,7 +9078,7 @@ exc#:#exc_rel_last_submission#:#Last Possible Submission###07 02 2020 new variab
 exc#:#exc_rel_last_submission_info#:#If this optional date is set, all user have to submit until this deadline is reached.###07 02 2020 new variable
 exc#:#exc_relative_date#:#Mensagem enviada
 exc#:#exc_relative_date_info#:#O mail foi movido
-exc#:#exc_rem_time_after_start#:#Saída para variável [MAIL_SALUTATION], se a forma de tratamento for 'Sra.'
+exc#:#exc_rem_time_after_start#:#Saída para variável &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, se a forma de tratamento for 'Sra.'
 exc#:#exc_reminder_cron_ok#:#Mover para:
 exc#:#exc_reminder_end#:#Os meus cursos
 exc#:#exc_reminder_feedback_setting#:#Os meus grupos
@@ -9101,7 +9101,7 @@ exc#:#exc_reminder_submit_subject#:#Olá
 exc#:#exc_reminders_cron#:#O mail foi movido para o lixo
 exc#:#exc_reminders_cron_info#:#Erro a mover mail
 exc#:#exc_save_all#:#Guardar tudo
-exc#:#exc_save_order#:#Saída para variável [MAIL_SALUTATION], se não pretender ou não especificar nenhuma forma de tratamento
+exc#:#exc_save_order#:#Saída para variável &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, se não pretender ou não especificar nenhuma forma de tratamento
 exc#:#exc_save_selected#:#Guardar selecionado
 exc#:#exc_saved_order#:#Ordem de apresentação guardada.
 exc#:#exc_schedule#:#Marcação
@@ -9120,7 +9120,7 @@ exc#:#exc_settings_feedback_file#:#Por ficheiro
 exc#:#exc_settings_feedback_file_info#:#Os tutores carregaram um ficheiro. O participante recebe uma notificação sobre isso e pode aceder ao ficheiro na vista geral de atribuições.
 exc#:#exc_settings_feedback_mail#:#Por correio
 exc#:#exc_settings_feedback_mail_info#:#Os tutores introduzem a sua avaliação num formulário do mail. A avaliação é enviada para os participantes.
-exc#:#exc_settings_feedback_text#:#Saída para variável [MAIL_SALUTATION], se a forma de tratamento for 'Sr.'
+exc#:#exc_settings_feedback_text#:#Saída para variável &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, se a forma de tratamento for 'Sr.'
 exc#:#exc_settings_feedback_text_info#:#Os tutores introduzem a sua avaliação num campo de texto. O participante recebe uma notificação sobre isso e o texto é apresentado na vista geral de atribuições.
 exc#:#exc_show_peer_review#:#Mostrar feedback de colegas
 exc#:#exc_show_submissions#:#Publicar submissões após prazo
