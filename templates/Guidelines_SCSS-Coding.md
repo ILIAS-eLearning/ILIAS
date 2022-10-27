@@ -1,3 +1,22 @@
+# General
+
+The ILIAS style code is written for the Sass pre-processor using the SCSS syntax.
+
+Sass is a CSS pre-processor, meaning that it extends the CSS language, adding features that allow variables, mixins, functions and many other techniques that allow you to make CSS that is more maintainable, themable and expendable (see:
+[sass-lang.com](http://sass-lang.com/)).
+
+* All new CSS-Styles of Modules or Services in ILIAS MUST be written in Sass.
+* You SHOULD consult [sass-lang.com/](https://sass-lang.com/documentation/) to make use of the advantages of Sass.
+* Delos.scss MUST only contain imports and no other Sass logic at all.
+* You MUST NOT use style attributes in HTML templates (style, align, border, cellpadding, cellspacing font, nowrap, valign, width, height).
+* HTML templates are only responsible for a well structured HTML document, which
+displays the bare content of the website and nothing else.
+* Sass/CSS is responsible for the design of the website. All Colors, but also
+font sizes, spaces, offsets and gaps must be defined by Sass/CSS. Also, the proportions of the basic layout.
+* You MUST NOT use `&nbsp;` to create space.
+
+Since ILIAS 5.0 Bootstrap 3 has been implemented classes, variables and mixins are available . With the Design Revision 5.1 the JF decided that Bootstrap SHOULD be used where possible, but many systems in Bootstrap will be replaced by our own logic in the future. In 2022 Bootstrap 3 has been updated to an unofficial Bootstrap 3 Sass port.
+
 # ITCSS structure
 
 Style code MUST be segmented into the following layers based on the [Inverted Triangle CSS (ITCSS)](https://www.xfive.co/blog/itcss-scalable-maintainable-css-architecture/) structure:
@@ -22,6 +41,8 @@ These variables MUST be the ones needed to quickly recolor and reshape ILIAS to 
 Variables on the settings layer that are directly tied to a single component MUST be essential to define the basic look of such a skin e.g. the height of the footer.
 
 Variables that aren't essential to creating the basic look MUST be placed on lower layers and SHOULD be defined based on values from the settings layer.
+
+The variables MUST be structured into separate files and logical sections.
 
 Anything added to the settings layer MUSTN'T create CSS code on its own.
 
@@ -161,6 +182,15 @@ Temporary code that affect very specific locations in the DOM or override some s
 
 `!important` MUST NOT be used outside of this layer and SHOULD not be used here either.
 
+# Colors
+
+* Outside of the Settings layer, all colors MUST be defined by using variables and you MUST NOT assign hex, rgb, hsl or other independent color values in lower layers. This means an attribute like `color: #564` is not allowed otside of Settings.
+* You MUST use functions (like `color: darken(@other-variable, 10%)`) to create new colors only on the Settings and Tool layers. You SHOULD create new color shades only if there is no other suitable option available yet.
+* In Settings, all new color values MUST be defined in the colors file.  Later those values can be reassigned to other variables, but the values  MUST NOT be changed anymore. E.g. `@il-modal-bg` can be defined outside the colors section,  but should be assigned directly to a variable from the colors section.  E.g. `il-modal-bg: @il-primary-container-bg`, and not `il-modal-bg: darken(@il-primary-container-bg, 15%)` or similar.
+* Shortforms MUST be used in less and CSS. E.g. `#efe`, instead of `#eeffee`.
+* Only use lowercase for color codes in less and CSS. E.g. `#efe`, instead of `#EFE`.
+* You SHOULD use the already existing extended color variants to generate colors for components displaying areas or labels that need to be differentiated by colors such as charts.
+
 # Naming Conventions
 
 Many existing names do not follow this naming conventions, but future projects MUST use the following guidelines.
@@ -221,7 +251,40 @@ c-button--primary--hover__glyph--expand__color
 4 BEMIT Element
 5 The name MUST contain the specific attribute that the variable is for. This MUST indicate a specific CSS attribute or semantic group or concept.
 
+# CSS Attributes
 
+* You SHOULD aim to write as little Sass as possible. You SHOULD use existing logic from Settings, Tools, Layout and Dependencies whenever possible.
+* If you need to add custom styling, you SHOULD use the following ordering for
+your attributes (see [Concentric
+CSS](https://rhodesmill.org/brandon/2011/concentric-css/)): Concentric
+CSS/Less Overview.
+
+```CSS
+#Concentric-CSS-Overview {
+        display: ;    /* Directions about where and how the box is placed */
+        position: ;
+        float: ;
+        clear: ;
+
+        visibility: ; /* Next: can the box be seen? */
+        opacity: ;
+        z-index: ;
+
+        margin: ;     /* Layers of the box model, from outside to inside */
+        outline: ;
+        border: ;
+        background: ; /* (padding and content BOTH get the background color) */
+        padding: ;
+
+        width: ;      /* Content dimensions and scrollbars */
+        height: ;
+        overflow: ;
+
+        color: ;      /* Textual content */
+        text: ;
+        font: ;
+}
+```
 # SASS best practices
 
 Files that are meant to only be compiled inside other files and never on their own (which is almost all of them) MUST be marked as partials by adding "_" as a prefix. This stops the compiler from compiling the file in "watching" mode.
@@ -236,3 +299,25 @@ When including a file with @use from a dependency you MUST use a namespace. This
 Division with a slash (e.g. "10px / 2") outside of calc() is deprecated and MUST NOT be used. You MUST use math.div() instead or multiplication (e.g. "$il-padding-small / 2" could be substituted with "$il-padding-small * 0.5")
 
 Functions SHOULD throw an error if an incorrect input can be detected.
+
+# Media
+
+* Media queries SHOULD directly be added into the Sass structure. `Delos_sm`
+files are deprecated and MUST NOT be created anymore.
+* We currently follow a desktop first approach on the Sass level. This means,
+that we handle all mobile cases as special cases and the desktop as the default.
+* You should use: `max-width: @il-grid-float-breakpoint-max` instead of `min-width: @grid-float-breakpoint (or min-width: @screen-sm-min)`. With `max-width`,  the mobile version is declared as the special case version (desktop first).
+
+## CSS Guideline
+
+CSS is obtained by using a sass compiler on delos.scss, e.g. like so:
+
+```
+sass templates/default/delos.scss templates/default/delos.css
+```
+
+Note that the output heavily depends on the used sass version. You MUST use a current version of Dart Sass.
+
+If you observe that there are changes appearing in your css output other than the ones to be expected, please first make sure, that you are using the latest Sass version. 
+
+If you have any questions about style code and how to contribute in the most optimal way, please contact the maintenance coordinators or ask in the CSS squad channel on the official ILIAS Discord server.
