@@ -3833,7 +3833,7 @@ class ilObjUser extends ilObject
     /**
      * get ids of all users that have been inactivated since at least the given period
      * @param int $period (in days)
-     * @return	int[] of user ids
+     * @return list<int> A list of user ids
      * @throws ilException
      */
     public static function _getUserIdsByInactivationPeriod(
@@ -3855,11 +3855,11 @@ class ilObjUser extends ilObject
 
         $query = "SELECT usr_id FROM usr_data WHERE $field < %s AND active = %s";
 
-        $res = $ilDB->queryF($query, array('timestamp', 'integer'), array($date, 0));
+        $res = $ilDB->queryF($query, ['timestamp', 'integer'], [$date, 0]);
 
-        $ids = array();
+        $ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $ids[] = $row->usr_id;
+            $ids[] = (int) $row->usr_id;
         }
 
         return $ids;
