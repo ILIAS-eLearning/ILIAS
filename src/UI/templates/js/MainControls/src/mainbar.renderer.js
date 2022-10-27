@@ -295,7 +295,9 @@ var renderer = function($) {
         },
         focusTopentry: function(top_entry_id) {
             var  triggerer = dom_references[top_entry_id];
-            document.getElementById(triggerer.triggerer).focus();
+            if (triggerer) {
+                document.getElementById(triggerer.triggerer).focus();
+            }
         },
 
         dispatchResizeNotification: function() {
