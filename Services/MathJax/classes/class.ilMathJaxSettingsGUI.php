@@ -111,7 +111,8 @@ class ilMathJaxSettingsGUI
                 $this->lng->txt('mathjax_script_url'),
                 implode('<br />', [
                     $this->lng->txt('mathjax_script_url_desc_line1'),
-                    $this->lng->txt('mathjax_script_url_desc_line2')
+                    $this->lng->txt('mathjax_script_url_desc_line2'),
+                    $this->lng->txt('mathjax_script_url_desc_line3'),
                 ])
             )->withRequired(true) // mantis #31645
                                            ->withValue($config->getClientScriptUrl()),
