@@ -34,7 +34,7 @@ class ilStaticCache extends ilGlobalCacheService
         return true;
     }
 
-    protected static array $cache = array();
+    protected static array $cache = [];
 
     public function exists(string $key): bool
     {
@@ -55,7 +55,7 @@ class ilStaticCache extends ilGlobalCacheService
      */
     public function get(string $key)
     {
-        return self::$cache[$this->getComponent()][$key];
+        return self::$cache[$this->getComponent()][$key] ?? null;
     }
 
     public function delete(string $key): bool
@@ -68,7 +68,7 @@ class ilStaticCache extends ilGlobalCacheService
     public function flush(bool $complete = false): bool
     {
         if ($complete) {
-            self::$cache = array();
+            self::$cache = [];
         } else {
             unset(self::$cache[$this->getComponent()]);
         }
