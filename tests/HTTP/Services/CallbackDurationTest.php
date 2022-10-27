@@ -51,7 +51,7 @@ class CallbackDurationTest extends TestCase
     public function testCallbackStretching(): void
     {
         $callback = $this->getTestCallbackWithLength(1);
-        $duration = new CallbackDuration(2);
+        $duration = new CallbackDuration(3);
 
         $start_time = microtime(true);
         $duration->stretch($callback);
