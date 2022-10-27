@@ -1806,7 +1806,7 @@ class ilObjStudyProgramme extends ilContainer
                 '',
                 $subject,
                 $body,
-                null
+                []
             );
         } catch (Exception $e) {
             $send = false;
