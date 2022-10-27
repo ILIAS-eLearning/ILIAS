@@ -2,6 +2,9 @@
 * Normalize
 */
 
-// most normalizing is done by bootstrap
-@use "./_normalize_print.scss";
+// Only styles needed to normalize browser behaviour to a good default base state go here.
+// Most normalizing is done by Bootstrap.
+// Elements that are heavily styled and overwritten on lower layers anyway SHOULD NOT be normalized.
+
+@use "./normalize_print";
 @use "./normalize_typography"

@@ -3,6 +3,7 @@
 //
 
 // The linked files contains globally used variables set by ILIAS.
+// These variables MUST be only the ones absolutely needed to quickly recolor and reshape ILIAS.
 // Bootstrap variables MUST be overridden in the Dependency layer.
 
 @forward "./settings_color-palette";

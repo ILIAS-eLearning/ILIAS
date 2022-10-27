@@ -2,6 +2,10 @@
 * Components
 */
 
+// MUST contain CSS classes and local variables for each specific, individual component.
+// SHOULD be an UI component
+// at the moment we also have legacy Module und Servics components as well as legacy code blocks grouped as a component
+
 /* UI Framework */
 
 @use "./UI-framework/Breadcrumbs/_ui-component_breadcrumbs.scss";

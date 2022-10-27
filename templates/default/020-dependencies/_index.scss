@@ -2,6 +2,9 @@
 * Dependencies
 */
 
+// MUST contain files pulled in from other projects and/or modifications of such files.
+// Dependencies and their modifications MUST only be added after careful consideration.
+
 @use "./modifications/bootstrap-3-scss/bootstrap-3-scss-modified";
 // You MUST NOT include bootstrap like this anywhere elese!
 // In components load bootstrap variables from botstrap-3-scss-modified-variables-mixins instead!

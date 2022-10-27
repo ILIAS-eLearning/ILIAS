@@ -1,21 +1,45 @@
 # General
 
-The ILIAS style code is written for the Sass pre-processor using the SCSS syntax.
+This section of the codebase defines the design and layout of ILIAS. All CSS code is build here. HTML templates can be found elsewhere (see section "HTML").
 
-Sass is a CSS pre-processor, meaning that it extends the CSS language, adding features that allow variables, mixins, functions and many other techniques that allow you to make CSS that is more maintainable, themable and expendable (see:
-[sass-lang.com](http://sass-lang.com/)).
+The following guidelines will help you to
+* find your way through the folder structure,
+* understand the different layers that keep our style code organized,
+* and learn what standards and best practices are expected.
 
-* All new CSS-Styles of Modules or Services in ILIAS MUST be written in Sass.
-* You SHOULD consult [sass-lang.com/](https://sass-lang.com/documentation/) to make use of the advantages of Sass.
-* Delos.scss MUST only contain imports and no other Sass logic at all.
-* You MUST NOT use style attributes in HTML templates (style, align, border, cellpadding, cellspacing font, nowrap, valign, width, height).
-* HTML templates are only responsible for a well structured HTML document, which
-displays the bare content of the website and nothing else.
-* Sass/CSS is responsible for the design of the website. All Colors, but also
-font sizes, spaces, offsets and gaps must be defined by Sass/CSS. Also, the proportions of the basic layout.
-* You MUST NOT use `&nbsp;` to create space.
+Code contributions to the ILIAS repository containing style code will be reviewed according to the rules and recommendations defined here.
 
-Since ILIAS 5.0 Bootstrap 3 has been implemented classes, variables and mixins are available . With the Design Revision 5.1 the JF decided that Bootstrap SHOULD be used where possible, but many systems in Bootstrap will be replaced by our own logic in the future. In 2022 Bootstrap 3 has been updated to an unofficial Bootstrap 3 Sass port.
+## SASS in SCSS syntax generates CSS
+
+Style code MUST be written in the SCSS syntax of the Sass pre-processer. The Sass pre-processor compiles the entry point delos.scss and all connected files to the one delos.css file which can then be rendered by the browser.
+
+Sass/CSS is responsible for the design of the website. All colors, font sizes, spacings, offsets, gaps, as well as the proportions of the basic layout MUST be defined by Sass/CSS.
+
+Sass extends the CSS language, adding features that allow variables, mixins, functions and many other techniques that allow you to make CSS that is more maintainable, themable and expendable (see: [sass-lang.com](http://sass-lang.com/)).
+
+You SHOULD consult the [official Sass Documentation](https://sass-lang.com/documentation/) to make use of the advantages of Sass.
+
+When contributing style code to the ILIAS repository, you MUST first compile the Sass code to CSS using a recent version of the Dart Sass. You MUST NOT make changes to the compiled delos.css manually.
+
+Delos.scss MUST only contain imports and no other Sass logic at all.
+
+## HTML
+
+HTML templates are only responsible for a well structured HTML document, which displays the bare content of the website and nothing else.
+
+They can be found in `src/UI/templates/default` for modern UI components or in `Modules/` and `Services/` for legacy components.
+
+You MUST NOT use style attributes like style, align, border, cellpadding, cellspacing font, nowrap, valign, width, height and similar in HTML templates.
+
+You MUST NOT use `&nbsp;` to create space.
+
+## Bootstrap
+
+Bootstrap 3 has been used since ILIAS 5.0 to solve many common web design challenges like normalizing, column layouts and input elements.
+
+At the moment, Bootstrap classes and mixins SHOULD be used where possible.
+
+In the future, many systems in Bootstrap 3 will be replaced by our native solutions specifically customized to the needs of ILIAS. In 2022, Bootstrap 3 has been updated to the [official Bootstrap 3 Sass port](https://github.com/twbs/bootstrap-sass).
 
 # ITCSS structure
 
@@ -46,7 +70,7 @@ The variables MUST be structured into separate files and logical sections.
 
 Anything added to the settings layer MUSTN'T create CSS code on its own.
 
-Variables on the Settings layer SHOULD be made public by adding `!default` to the definition and partial files SHOULD be added to the index with @follow, so they are public and can be overriden when the main delos.scss is loaded by a skin.
+Variables on the Settings layer SHOULD be made public by adding `!default` to the definition and partial files SHOULD be added to the index with @forward, so they are public and can be overriden when the main delos.scss is loaded by a skin.
 
 You MAY include the entire Settings layer on lower levels. You SHOULD NOT need to include individual files from the settings layer on lower levels.
 
@@ -122,7 +146,7 @@ Examples:
 
 ## Layout
 
-The Layout layer MUST contain silent extensible classes, variables, functions and mixins that define the positioning and spacing of components relative to each other. Content from this layer MAY be used in the components.
+The Layout layer MUST contain silent extensible classes, variables, functions and mixins that help define the positioning and spacing of components relative to each other. Content from this layer MAY be used in the components.
 
 If the positioning or spacing for a component can be completely based on Settings or general Layout variables, it MUST be defined in the component itself instead of creating component-specific variables on the Layout layer. For example, a variable like $panel-margin is neither part of a general layout system, nor needed on the Component layer if the general $il-margin- variables are sufficient.
 
@@ -147,7 +171,7 @@ The Elements layer MUST contain the basic styling of all unclassed HTML-elements
 
 This layer SHOULD use variables from the Settings extensively. It MUST cover the commonalities among components that allows them to use unclassed HTML-elements. Consequently, components SHOULD only add classes and specific styling on lower layers if strictly required.
 
-This layer MUST output CSS code for elements only but MUST NOT output css code for classes.
+This layer MUST output CSS code for elements only and MUST NOT output css code for classes.
 
 This layer SHOULD NOT define variables, mixins and fuctions to be used on lower layers.
 
