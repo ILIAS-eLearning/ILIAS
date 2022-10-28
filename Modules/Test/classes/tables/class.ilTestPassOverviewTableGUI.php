@@ -247,7 +247,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
             $actions[$this->getPassDetailsCommand()] = $this->lng->txt('tst_pass_details');
         }
 
-        if (!$isScoredPass && $this->getPassDeletionCommand()) {
+        if ( !is_null($isScoredPass) && !$isScoredPass && $this->getPassDeletionCommand()) {
             $actions[$this->getPassDeletionCommand()] = $this->lng->txt('delete');
         }
 
