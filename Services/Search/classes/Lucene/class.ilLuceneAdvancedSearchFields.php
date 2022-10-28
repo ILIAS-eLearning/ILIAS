@@ -307,13 +307,13 @@ class ilLuceneAdvancedSearchFields
                 $html = $this->getRangeSelect(
                     $this->lng->txt('from'),
                     (string) ilMDUtilSelect::_getInteractivityLevelSelect(
-                        $a_query['lom_level_start'],
+                        $a_query['lom_level_start'] ?? '',
                         'query[' . 'lom_level_start' . ']',
                         array(0 => $this->lng->txt('search_any'))
                     ),
                     $this->lng->txt('until'),
                     (string) ilMDUtilSelect::_getInteractivityLevelSelect(
-                        $a_query['lom_level_end'],
+                        $a_query['lom_level_end'] ?? '',
                         'query[' . 'lom_level_end' . ']',
                         array(0 => $this->lng->txt('search_any'))
                     )
@@ -332,7 +332,7 @@ class ilLuceneAdvancedSearchFields
                     ),
                     $this->lng->txt('until'),
                     (string) ilMDUtilSelect::_getSemanticDensitySelect(
-                        $a_query['lom_density_end'],
+                        $a_query['lom_density_end'] ?? '',
                         'query[' . 'lom_density_end' . ']',
                         array(0 => $this->lng->txt('search_any'))
                     )
@@ -343,7 +343,7 @@ class ilLuceneAdvancedSearchFields
 
             case 'lom_user_role':
                 $select = new ilSelectInputGUI($this->active_fields[$a_field_name], $a_post_name);
-                $select->setValue($a_query['lom_user_role']);
+                $select->setValue($a_query['lom_user_role'] ?? '');
                 $select->setOptions((array) ilMDUtilSelect::_getIntendedEndUserRoleSelect(
                     '',
                     $a_field_name,
@@ -354,7 +354,7 @@ class ilLuceneAdvancedSearchFields
 
             case 'lom_context':
                 $select = new ilSelectInputGUI($this->active_fields[$a_field_name], $a_post_name);
-                $select->setValue($a_query['lom_context']);
+                $select->setValue($a_query['lom_context'] ?? '');
                 $select->setOptions((array) ilMDUtilSelect::_getContextSelect(
                     '',
                     $a_field_name,
@@ -368,13 +368,13 @@ class ilLuceneAdvancedSearchFields
                 $html = $this->getRangeSelect(
                     $this->lng->txt('from'),
                     (string) ilMDUtilSelect::_getDifficultySelect(
-                        $a_query['lom_difficulty_start'],
+                        $a_query['lom_difficulty_start'] ?? '',
                         'query[' . 'lom_difficulty_start' . ']',
                         array(0 => $this->lng->txt('search_any'))
                     ),
                     $this->lng->txt('until'),
                     (string) ilMDUtilSelect::_getDifficultySelect(
-                        $a_query['lom_difficulty_end'],
+                        $a_query['lom_difficulty_end'] ?? '',
                         'query[' . 'lom_difficulty_end' . ']',
                         array(0 => $this->lng->txt('search_any'))
                     )
@@ -385,7 +385,7 @@ class ilLuceneAdvancedSearchFields
                 // Rights
             case 'lom_costs':
                 $select = new ilSelectInputGUI($this->active_fields[$a_field_name], $a_post_name);
-                $select->setValue($a_query['lom_costs']);
+                $select->setValue($a_query['lom_costs'] ?? '');
                 $select->setOptions((array) ilMDUtilSelect::_getCostsSelect(
                     '',
                     $a_field_name,
@@ -396,7 +396,7 @@ class ilLuceneAdvancedSearchFields
 
             case 'lom_copyright':
                 $select = new ilSelectInputGUI($this->active_fields[$a_field_name], $a_post_name);
-                $select->setValue($a_query['lom_copyright']);
+                $select->setValue($a_query['lom_copyright'] ?? '');
                 $select->setOptions((array) ilMDUtilSelect::_getCopyrightAndOtherRestrictionsSelect(
                     '',
                     $a_field_name,
@@ -410,7 +410,7 @@ class ilLuceneAdvancedSearchFields
                 // Classification
             case 'lom_purpose':
                 $select = new ilSelectInputGUI($this->active_fields[$a_field_name], $a_post_name);
-                $select->setValue($a_query['lom_purpose']);
+                $select->setValue($a_query['lom_purpose'] ?? '');
                 $select->setOptions((array) ilMDUtilSelect::_getPurposeSelect(
                     '',
                     $a_field_name,
@@ -422,7 +422,7 @@ class ilLuceneAdvancedSearchFields
             case 'lom_taxon':
                 $text = new ilTextInputGUI($this->active_fields[$a_field_name], $a_post_name);
                 $text->setSubmitFormOnEnter(true);
-                $text->setValue($a_query['lom_taxon']);
+                $text->setValue($a_query['lom_taxon'] ?? '');
                 $text->setSize(30);
                 $text->setMaxLength(255);
                 return $text;

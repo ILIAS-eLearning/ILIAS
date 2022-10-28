@@ -42,7 +42,6 @@ class ilSearchResult
     protected int $offset = 0;
 
     // OBJECT VARIABLES
-    protected ILIAS $ilias;
     protected ilAccess $ilAccess;
     protected ilDBInterface $db;
     protected ilTree $tree;
@@ -65,12 +64,9 @@ class ilSearchResult
         global $DIC;
 
         $this->ilAccess = $DIC->access();
-        $this->ilias = $DIC['ilias'];
         $this->db = $DIC->database();
         $this->tree = $DIC->repositoryTree();
         $this->user = $DIC->user();
-
-
 
         if ($a_user_id) {
             $this->user_id = $a_user_id;
@@ -158,8 +154,6 @@ class ilSearchResult
             if ($a_child_id and $a_child_id != $a_obj_id) {
                 $this->entries[$a_obj_id]['child'][$a_child_id] = $a_child_id;
             }
-
-            // UPDATE FOUND
             $counter = 0;
             foreach ($found as $position) {
                 if ($position) {
@@ -305,7 +299,7 @@ class ilSearchResult
                 continue;
             }
 
-            $res[$result['ref_id']] = $result['obj_id'];
+            $res[(int) $result['ref_id']] = (int) $result['obj_id'];
         }
         return $res;
     }

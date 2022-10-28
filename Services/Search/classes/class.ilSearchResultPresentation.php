@@ -247,6 +247,8 @@ class ilSearchResultPresentation
 
         $set = array();
         foreach ($this->getResults() as $c_ref_id => $obj_id) {
+            $c_ref_id = (int) $c_ref_id;
+            $obj_id = (int) $obj_id;
             foreach ($this->getAllReferences($c_ref_id) as $ref_id) {
                 if (!$this->tree->isInTree($ref_id)) {
                     continue;
