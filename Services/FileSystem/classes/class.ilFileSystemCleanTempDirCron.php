@@ -1,21 +1,24 @@
 <?php
 
-use ILIAS\Filesystem\DTO\Metadata;
-use ILIAS\DI\Container;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+use ILIAS\Filesystem\DTO\Metadata;
+use ILIAS\DI\Container;
+
 /**
  * Class ilFileSystemCleanTempDirCron
  *
@@ -80,12 +83,12 @@ class ilFileSystemCleanTempDirCron extends ilCronJob
 
     public function getDefaultScheduleType(): int
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return self::SCHEDULE_TYPE_IN_MINUTES;
     }
 
     public function getDefaultScheduleValue(): ?int
     {
-        return null;
+        return 0;
     }
 
     public function run(): ilCronJobResult
@@ -95,36 +98,60 @@ class ilFileSystemCleanTempDirCron extends ilCronJob
         $date = "until 10 day ago";
 
         // files are deleted before folders to prevent issues that would arise when trying to delete a (no longer existing) file in a deleted folder.
-        $files = $this->filesystem->finder()->in([""])->date($date)->files();
+        $files = $this->filesystem->finder()->in([""]);
+        $files = $files->files();
+        $files = $files->date($date);
+        $files = $files->getIterator();
+        $files->rewind();
         $deleted_files = [];
-        foreach ($files as $file_match) {
+        while ($files->valid()) {
             try {
+                $file_match = $files->current();
+                $path = $file_match->getPath();
                 if ($file_match->isFile()) {
-                    $this->filesystem->delete($file_match->getPath());
-                    $deleted_files[] = $file_match;
+                    $this->filesystem->delete($path);
+                    $deleted_files[] = $path;
                 }
+                $files->next();
             } catch (Throwable $t) {
-                $this->logger->error("Cron Job \"Clean temp directory\" could not delete " . $file_match->getPath()
-                    . "due to the following exception: " . $t->getMessage());
+                $this->logger->error(
+                    "Cron Job \"Clean temp directory\" could not delete " . $path
+                    . "due to the following exception: " . $t->getMessage()
+                );
+                $files->next();
             }
         }
 
         // the folders are sorted based on their path length to ensure that nested folders are deleted first
         // thereby preventing any issues due to deletion attempts on no longer existing folders.
-        $folders = $this->filesystem->finder()->in([""])->date($date)->directories()->sort(fn (
+        $folders = $this->filesystem->finder()->in([""]);
+        $folders = $folders->directories();
+        $folders = $folders->date($date);
+        $folders = $folders->sort(fn (
             Metadata $a,
             Metadata $b
-        ): int => strlen($a->getPath()) - strlen($b->getPath()))->reverseSorting();
+        ): int => strlen($a->getPath()) - strlen($b->getPath()));
+        $folders = $folders->reverseSorting();
+        $folders = $folders->getIterator();
+
         $deleted_folders = [];
-        foreach ($folders as $folder_match) {
+
+        $folders->rewind();
+        while ($folders->valid()) {
             try {
+                $folder_match = $folders->current();
+                $path = $folder_match->getPath();
                 if ($folder_match->isDir()) {
-                    $this->filesystem->deleteDir($folder_match->getPath());
-                    $deleted_folders[] = $folder_match;
+                    $this->filesystem->deleteDir($path);
+                    $deleted_folders[] = $path;
                 }
+                $folders->next();
             } catch (Throwable $t) {
-                $this->logger->error("Cron Job \"Clean temp directory\" could not delete " . $folder_match->getPath()
-                    . "due to the following exception: " . $t->getMessage());
+                $this->logger->error(
+                    "Cron Job \"Clean temp directory\" could not delete " . $path
+                    . "due to the following exception: " . $t->getMessage()
+                );
+                $folders->next();
             }
         }
 
