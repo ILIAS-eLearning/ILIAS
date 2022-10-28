@@ -348,11 +348,11 @@ class assMatchingQuestionImport extends assQuestionImport
         foreach ($this->object->getMatchingPairs() as $index => $pair) {
             /* @var assAnswerMatchingPair $pair */
 
-            if ($pair->term->identifier != $termId) {
+            if ($pair->getTerm()->getIdentifier() != $termId) {
                 continue;
             }
 
-            if ($pair->definition->identifier != $definitionId) {
+            if ($pair->getDefinition()->getIdentifier() != $definitionId) {
                 continue;
             }
 

@@ -291,17 +291,17 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
         $i = 0;
         foreach ($this->values as $value) {
             if (!$this->hideImages) {
-                if (strlen($value->picture)) {
-                    $imagename = $this->qstObject->getImagePathWeb() . $value->picture;
+                if (strlen($value->getPicture())) {
+                    $imagename = $this->qstObject->getImagePathWeb() . $value->getPicture();
                     if ($this->qstObject->getThumbSize()) {
-                        if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->picture)) {
-                            $imagename = $this->qstObject->getImagePathWeb() . $this->qstObject->getThumbPrefix() . $value->picture;
+                        if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getPicture())) {
+                            $imagename = $this->qstObject->getImagePathWeb() . $this->qstObject->getThumbPrefix() . $value->getPicture();
                         }
                     }
                     $tpl->setCurrentBlock('image');
                     $tpl->setVariable('SRC_IMAGE', $imagename);
-                    $tpl->setVariable('IMAGE_NAME', $value->picture);
-                    $tpl->setVariable('ALT_IMAGE', ilLegacyFormElementsUtil::prepareFormOutput($value->text));
+                    $tpl->setVariable('IMAGE_NAME', $value->getPicture());
+                    $tpl->setVariable('ALT_IMAGE', ilLegacyFormElementsUtil::prepareFormOutput($value->getText()));
                     $tpl->setVariable("TXT_DELETE_EXISTING", $lng->txt("delete_existing_file"));
                     $tpl->setVariable("IMAGE_ROW_NUMBER", $i);
                     $tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
@@ -318,7 +318,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 
             if (is_object($value)) {
                 $tpl->setCurrentBlock("prop_text_propval");
-                $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->text));
+                $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->getText()));
                 $tpl->parseCurrentBlock();
             }
             // this block does not exist in the template
@@ -344,7 +344,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
             $tpl->setCurrentBlock("row");
             $tpl->setVariable("POST_VAR", $this->getPostVar());
             $tpl->setVariable("ROW_NUMBER", $i + 1);
-            $tpl->setVariable("ROW_IDENTIFIER", $value->identifier);
+            $tpl->setVariable("ROW_IDENTIFIER", $value->getIdentifier());
             $tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
             $tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
             $tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
