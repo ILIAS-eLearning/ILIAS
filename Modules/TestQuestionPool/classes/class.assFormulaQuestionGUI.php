@@ -1,24 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-include_once "./Modules/TestQuestionPool/classes/class.assFormulaQuestion.php";
-include_once "./Modules/TestQuestionPool/classes/class.assFormulaQuestionResult.php";
-include_once "./Modules/TestQuestionPool/classes/class.assFormulaQuestionVariable.php";
-include_once "./Modules/TestQuestionPool/classes/class.assFormulaQuestionUnit.php";
-include_once "./Modules/TestQuestionPool/classes/class.assFormulaQuestionUnitCategory.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
-require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiAnswerScoringAdjustable.php';
-
 /**
- * Single choice question GUI representation
- * The assFormulaQuestionGUI class encapsulates the GUI representation
- * for single choice questions.
- * @author            Helmut Schottmüller <helmut.schottmueller@mac.com>
- * @version           $Id: class.assFormulaQuestionGUI.php 1235 2010-02-15 15:21:18Z hschottm $
- * @ingroup           ModulesTestQuestionPool
- * @ilCtrl_Calls assFormulaQuestionGUI: ilFormPropertyDispatchGUI
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 class assFormulaQuestionGUI extends assQuestionGUI
 {
     protected const HAS_SPECIAL_QUESTION_COMMANDS = true;
@@ -231,7 +227,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         $variables = $this->object->getVariables();
         $categorized_units = $this->object->getUnitrepository()->getCategorizedUnits();
         $result_units = $this->object->__get('resultunits');
-        
+
         $unit_options = array();
         $category_name = '';
         $new_category = false;
@@ -572,7 +568,20 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     array_push($found_results, $matches[1]);
                 }
             }
-            
+
+            $check = array_merge($found_vars, $found_results);
+            foreach ((array) $form->getItems() as $item) {
+                $postvar = $item->getPostVar();
+                if (preg_match("/_\\\$[r|v]\d+/", $postvar, $matches)) {
+                    $k = substr(array_shift($matches), 1);
+                    if(!in_array($k, $check)) {
+                        $form->removeItemByPostVar($postvar);
+                    }
+                }
+            }
+            $variables = array_filter($variables, fn($k,$v) => in_array($k, $check), ARRAY_FILTER_USE_BOTH);
+            $results = array_filter($results, fn($k,$v) => in_array($k, $check), ARRAY_FILTER_USE_BOTH);
+
             $form->setValuesByPost();
             $errors = !$form->checkInput();
 
