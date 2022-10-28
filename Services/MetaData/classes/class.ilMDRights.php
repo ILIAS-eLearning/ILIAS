@@ -49,7 +49,7 @@ class ilMDRights extends ilMDBase
 
         $obj_ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $obj_ids[] = $row->rbac_id;
+            $obj_ids[] = (int) $row->rbac_id;
         }
         return $obj_ids;
     }
