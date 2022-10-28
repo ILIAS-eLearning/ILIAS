@@ -50,8 +50,6 @@ class ilTestPasswordChecker
         $this->user = $user;
         $this->testOBJ = $testOBJ;
         $this->lng = $lng;
-
-        $this->initSession();
     }
 
     public function isPasswordProtectionPageRedirectRequired(): bool
@@ -103,13 +101,6 @@ class ilTestPasswordChecker
     protected function getUserEnteredPassword()
     {
         return ilSession::get($this->buildSessionKey());
-    }
-
-    protected function initSession()
-    {
-        if (ilSession::get($this->buildSessionKey()) !== null) {
-            ilSession::clear($this->buildSessionKey());
-        }
     }
 
     protected function buildSessionKey(): string
