@@ -579,8 +579,9 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     }
                 }
             }
-            $variables = array_filter($variables, fn($k,$v) => in_array($k, $check), ARRAY_FILTER_USE_BOTH);
-            $results = array_filter($results, fn($k,$v) => in_array($k, $check), ARRAY_FILTER_USE_BOTH);
+            $f = function($k,$v) use ($check) {return in_array($k, $check);};
+            $variables = array_filter($variables, $f, ARRAY_FILTER_USE_BOTH);
+            $results = array_filter($results, $f, ARRAY_FILTER_USE_BOTH);
 
             $form->setValuesByPost();
             $errors = !$form->checkInput();
