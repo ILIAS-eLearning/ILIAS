@@ -2482,7 +2482,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             ));
 
             // hey: prevPassSolutions - determine solution pass index and configure gui accordingly
-            $this->initTestQuestionConfig($questionGui->object);
+            $this->initTestQuestionConfig($question_gui->object);
             // hey.
 
             $this->cachedQuestionGuis[$question_id] = $question_gui;
