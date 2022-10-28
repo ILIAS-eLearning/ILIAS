@@ -577,7 +577,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 }
             }
 
-            //$form->setValuesByPost();
+
             foreach ($this->request->getParsedBody() as $key => $value) {
                 $item = $form->getItemByPostVar($key);
                 if ($item !== null) {
@@ -592,6 +592,20 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     }
                 }
             }
+
+            $check = array_merge($found_vars, $found_results);
+            foreach ((array) $form->getItems() as $item) {
+                $postvar = $item->getPostVar();
+                if (preg_match("/_\\\$[r|v]\d+/", $postvar, $matches)) {
+                    $k = substr(array_shift($matches), 1);
+                    if (!in_array($k, $check)) {
+                        $form->removeItemByPostVar($postvar);
+                    }
+                }
+            }
+            $variables = array_filter($variables, fn ($k, $v) => in_array($k, $check), ARRAY_FILTER_USE_BOTH);
+            $results = array_filter($results, fn ($k, $v) => in_array($k, $check), ARRAY_FILTER_USE_BOTH);
+
             $errors = !$form->checkInput();
 
             $custom_errors = false;
