@@ -182,7 +182,7 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
         } elseif (isset($this->http->request()->getParsedBody()['interruptive_items'][0])) {
             $identifier = $this->http->request()->getParsedBody()['interruptive_items'][0];
         } else {
-            $identifier = $this->http->request()->getQueryParams()[self::IDENTIFIER];
+            $identifier = $this->http->request()->getQueryParams()[self::IDENTIFIER] ?? null;
         }
 
         return ilADNNotification::findOrFail($identifier);
