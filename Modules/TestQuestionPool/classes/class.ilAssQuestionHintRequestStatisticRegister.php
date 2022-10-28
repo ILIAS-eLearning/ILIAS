@@ -51,9 +51,9 @@ class ilAssQuestionHintRequestStatisticRegister
      */
     public function getRequestByTestPassIndexAndQuestionId($passIndex, $qId)
     {
-        if (!isset($this->requestsByTestPassIndexAndQuestionId[$passIndex]) && !isset($this->requestsByTestPassIndexAndQuestionId[$passIndex][$qId])) {
-            return null;
+        if (isset($this->requestsByTestPassIndexAndQuestionId[$passIndex]) && isset($this->requestsByTestPassIndexAndQuestionId[$passIndex][$qId])) {
+            return $this->requestsByTestPassIndexAndQuestionId[$passIndex][$qId];
         }
-        return $this->requestsByTestPassIndexAndQuestionId[$passIndex][$qId];
+        return null;
     }
 }
