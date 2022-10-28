@@ -379,7 +379,7 @@ class ilTestServiceGUI
             if ((array_key_exists('workedthrough', $question_data) && $question_data["workedthrough"] == 1) ||
                 ($only_answered_questions == false)) {
                 $template = new ilTemplate("tpl.il_as_qpl_question_printview.html", true, true, "Modules/TestQuestionPool");
-                $question_id = $question_data["qid"];
+                $question_id = $question_data["qid"] ?? null;
                 if (is_numeric($question_id)) {
                     $maintemplate->setCurrentBlock("printview_question");
                     $question_gui = $this->object->createQuestionGUI("", $question_id);
