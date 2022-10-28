@@ -1121,7 +1121,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $passOverViewTableGUI->setResultPresentationEnabled(true);
         $passOverViewTableGUI->setPassDetailsCommand('outParticipantsPassDetails');
         $passOverViewTableGUI->init();
-        $passOverViewTableGUI->setData($this->getPassOverviewTableData($testSession, $testPassesSelector->getExistingPasses(), true, true));
+        $passOverViewTableGUI->setData($this->getPassOverviewTableData($testSession, $testPassesSelector->getExistingPasses(), true));
         $passOverViewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassOverviewHeaderLabel());
         $template->setVariable("PASS_OVERVIEW", $passOverViewTableGUI->getHTML());
 
