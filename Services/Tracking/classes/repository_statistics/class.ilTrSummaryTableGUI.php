@@ -44,7 +44,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         bool $a_print_mode = false
     ) {
         global $DIC;
-
         $this->objDefinition = $DIC['objDefinition'];
         $this->rbacsystem = $DIC->rbac()->system();
         $this->access = $DIC->access();
@@ -80,7 +79,12 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
         $labels = $this->getSelectableColumns();
         foreach ($this->getSelectedColumns() as $c) {
-            $this->addColumn($labels[$c]["txt"], $c);
+            // see bug #35119; these column list percentage lists and are not sortable
+            if (in_array($c, ["status", "mark", "language", "country", "gender", "city", "sel_country"])) {
+                $this->addColumn($labels[$c]["txt"]);
+            } else {
+                $this->addColumn($labels[$c]["txt"], $c);
+            }
         }
 
         if ($this->rbacsystem->checkAccess('write', $this->ref_id)) {
