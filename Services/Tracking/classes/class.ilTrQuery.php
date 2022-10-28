@@ -1911,16 +1911,18 @@ class ilTrQuery
         $set = $ilDB->query($sql);
         $res = array();
         while ($row = $ilDB->fetchAssoc($set)) {
-            $res[$row["type"]]["type"] = $row["type"];
+            $res[$row["type"]]["type"] = (string) $row["type"];
             $res[$row["type"]]["references"] = ($res[$row["type"]]["references"] ?? 0) + 1;
             $res[$row["type"]]["objects"][] = (int) $row["obj_id"];
             if ($row[$tree->getTreePk()] < 0) {
                 $res[$row["type"]]["deleted"] = ($res[$row["type"]]["deleted"] ?? 0) + 1;
+            } else {
+                $res[$row['type']]['deleted'] = 0;
             }
         }
 
         foreach ($res as $type => $values) {
-            $res[$type]["objects"] = sizeof(array_unique($values["objects"]));
+            $res[$type]["objects"] = count((array_unique($values["objects"] ?? [])));
         }
 
         // portfolios (not part of repository)
@@ -1935,7 +1937,6 @@ class ilTrQuery
             $res["blog"]["references"] = ($res["blog"]["references"] ?? 0) + 1;
             $res["blog"]["objects"] = ($res["blog"]["objects"] ?? 0) + 1;
         }
-
         return $res;
     }
 
