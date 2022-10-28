@@ -142,7 +142,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
 				FROM tst_active
 				LEFT JOIN usr_data
 				ON tst_active.user_fi = usr_data.usr_id
-				WHERE IFNULL(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass 
+				WHERE IFNULL(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass
 			";
         $result = $this->db->query($query);
         while ($row = $this->db->fetchAssoc($result)) {
@@ -185,7 +185,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
                     $this->log->info('Test (' . $test_id . ') has processing time (' . $this->test_ending_times[$test_id]['processing_time'] . ')');
                     $obj_id = $this->test_ending_times[$test_id]['obj_fi'];
                     $test_obj = new ilObjTest($obj_id, false);
-                    $startingTime = $test_obj->getStartingTimeOfUser($data['active_id'], $data['last_started_pass']);
+                    $startingTime = $test_obj->getStartingTimeOfUser($data['active_id']);
                     $max_processing_time = $test_obj->isMaxProcessingTimeReached($startingTime, $data['active_id']);
                     if ($max_processing_time) {
                         $this->log->info('Max Processing time reached for user id (' . $data['usr_id'] . ') so test with active id (' . $data['active_id'] . ') will be finished.');
