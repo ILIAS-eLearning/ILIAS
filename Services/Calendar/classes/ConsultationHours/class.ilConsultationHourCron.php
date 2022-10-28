@@ -1,7 +1,23 @@
 <?php
 
 declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 /**
  * Reminders for consultation hours
@@ -82,7 +98,7 @@ class ilConsultationHourCron extends ilCronJob
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $mail = new ilCalendarMailNotification();
-            $mail->setAppointmentId($row->entry_id);
+            $mail->setAppointmentId((int) $row->entry_id);
             $mail->setRecipients(array($row->user_id));
             $mail->setType(ilCalendarMailNotification::TYPE_BOOKING_REMINDER);
             $mail->send();
@@ -117,7 +133,7 @@ class ilConsultationHourCron extends ilCronJob
 
     public function saveCustomSettings(ilPropertyFormGUI $a_form): bool
     {
-        $this->setting->set('ch_reminder_days', $a_form->getInput('ch_reminder_days'));
+        $this->setting->set('ch_reminder_days', (string) $a_form->getInput('ch_reminder_days'));
         return true;
     }
 }
