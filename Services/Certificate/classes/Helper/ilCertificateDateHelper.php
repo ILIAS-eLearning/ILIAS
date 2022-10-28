@@ -31,6 +31,7 @@ class ilCertificateDateHelper
     public function formatDate($date, ?int $dateFormat = null): string
     {
         if (null === $dateFormat) {
+            require_once 'Services/Calendar/classes/class.ilDateTime.php'; // Required because of global contant IL_CAL_DATE
             $dateFormat = IL_CAL_DATETIME;
         }
 
@@ -53,6 +54,7 @@ class ilCertificateDateHelper
     public function formatDateTime($dateTime, ?int $dateFormat = null): string
     {
         if (null === $dateFormat) {
+            require_once 'Services/Calendar/classes/class.ilDateTime.php'; // Required because of global contant IL_CAL_DATE
             $dateFormat = IL_CAL_DATETIME;
         }
 
