@@ -367,9 +367,11 @@ class ilVirtualSkillTree
     protected function getPath(string $a, array $node_data): array
     {
         $path[] = $a;
-        while ($node_data[$a]["parent"] != 0) {
-            $a = $node_data[$a]["parent"];
-            $path[] = $a;
+        if (isset($node_data[$a]) && isset($node_data[$a]["parent"])) {
+            while ($node_data[$a]["parent"] != 0) {
+                $a = $node_data[$a]["parent"];
+                $path[] = $a;
+            }
         }
         return array_reverse($path);
     }
