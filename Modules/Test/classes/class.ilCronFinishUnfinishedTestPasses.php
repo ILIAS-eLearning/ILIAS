@@ -42,14 +42,14 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
     protected $unfinished_passes;
 
     protected $test_ids;
-    
+
     protected $test_ending_times;
-    
+
     /**
      * @var ilTestProcessLockerFactory
      */
     protected $processLockerFactory;
-    
+
     /**
      * Constructor
      */
@@ -64,7 +64,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         $ilObjDataCache = $DIC['ilObjDataCache'];
         $lng = $DIC['lng'];
         $ilDB = $DIC['ilDB'];
-        
+
         global $DIC; /* @var ILIAS\DI\Container $DIC */
 
         $this->log = ilLoggerFactory::getLogger('tst');
@@ -76,7 +76,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         $this->unfinished_passes = array();
         $this->test_ids = array();
         $this->test_ending_times = array();
-        
+
         require_once 'Modules/Test/classes/class.ilTestProcessLockerFactory.php';
         $this->processLockerFactory = new ilTestProcessLockerFactory(
             new ilSetting('assessment'),
@@ -135,7 +135,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         $this->log->info('start inf cronjob...');
 
         $result = new ilCronJobResult();
-        
+
         $this->gatherUsersWithUnfinishedPasses();
         if (count($this->unfinished_passes) > 0) {
             $this->log->info('found ' . count($this->unfinished_passes) . ' unfinished passes starting analyses.');
@@ -151,7 +151,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
 
         return $result;
     }
-    
+
     protected function gatherUsersWithUnfinishedPasses()
     {
         $query = "SELECT	tst_active.active_id,
@@ -169,7 +169,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
 				FROM tst_active
 				LEFT JOIN usr_data
 				ON tst_active.user_fi = usr_data.usr_id
-				WHERE IFNULL(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass 
+				WHERE IFNULL(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass
 			";
         $result = $this->db->query($query);
         while ($row = $this->db->fetchAssoc($result)) {
@@ -212,7 +212,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
                     $this->log->info('Test (' . $test_id . ') has processing time (' . $this->test_ending_times[$test_id]['processing_time'] . ')');
                     $obj_id = $this->test_ending_times[$test_id]['obj_fi'];
                     $test_obj = new ilObjTest($obj_id, false);
-                    $startingTime = $test_obj->getStartingTimeOfUser($data['active_id'], $data['last_started_pass']);
+                    $startingTime = $test_obj->getStartingTimeOfUser($data['active_id']);
                     $max_processing_time = $test_obj->isMaxProcessingTimeReached($startingTime, $data['active_id']);
                     if ($max_processing_time) {
                         $this->log->info('Max Processing time reached for user id (' . $data['usr_id'] . ') so test with active id (' . $data['active_id'] . ') will be finished.');
@@ -222,21 +222,21 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
                 } else {
                     $this->log->info('Test (' . $test_id . ') has no processing time.');
                 }
-                
+
                 if ($can_not_be_finished) {
                     $this->log->info('Test session with active id (' . $data['active_id'] . ') can not be finished by this cron job.');
                 }
             }
         }
     }
-    
+
     protected function finishPassForUser($active_id, $obj_id)
     {
         $processLocker = $this->processLockerFactory->withContextId((int) $active_id)->getLocker();
-        
+
         $pass_finisher = new ilTestPassFinishTasks($active_id, $obj_id);
         $pass_finisher->performFinishTasks($processLocker);
-        
+
         $this->log->info('Test session with active id (' . $active_id . ') and obj_id (' . $obj_id . ') is now finished.');
     }
 }
