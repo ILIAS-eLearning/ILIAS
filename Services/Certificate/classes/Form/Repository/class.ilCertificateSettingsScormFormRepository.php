@@ -80,8 +80,21 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
         $short_name->setValue(ilStr::subStr($this->object->getTitle(), 0, 30));
         $short_name->setSize(30);
 
+        $short_name_value = $this->setting->get(
+            'certificate_short_name_' . $this->object->getId(),
+            ''
+        );
+
         $infoText = $this->language->txt('certificate_short_name_description');
-        $short_name->setInfo($infoText);
+        if ($short_name_value !== '') {
+            $short_name->setInfo(str_replace(
+                '[SHORT_TITLE]',
+                $short_name_value,
+                $infoText
+            ));
+        } else {
+            $short_name->setInfo($infoText);
+        }
 
         $form->addItem($short_name);
 
