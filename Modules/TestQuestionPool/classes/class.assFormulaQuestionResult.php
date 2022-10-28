@@ -420,17 +420,15 @@ class assFormulaQuestionResult
         return $checkvalue && $checkunit && $check_fraction && $check_valid_chars;
     }
 
-    protected function isInTolerance($v1, $v2, $p): bool
+    protected function isInTolerance($user_answer, $expected, $tolerated_percentage): bool
     {
-        include_once "./Services/Math/classes/class.ilMath.php";
-        $v1 = ilMath::_mul($v1, 1, $this->getPrecision());
-        $b1 = ilMath::_sub($v2, abs(ilMath::_div(ilMath::_mul($p, $v2, 100), 100)), $this->getPrecision());
-        $b2 = ilMath::_add($v2, abs(ilMath::_div(ilMath::_mul($p, $v2, 100), 100)), $this->getPrecision());
-        if (($b1 <= $v1) && ($b2 >= $v1)) {
-            return true;
-        } else {
-            return false;
-        }
+        $user_answer = ilMath::_mul($user_answer, 1, $this->getPrecision());
+        $tolerance_abs = abs(ilMath::_div(ilMath::_mul($tolerated_percentage, $expected, 100), 100));
+        $lower_boundary = ilMath::_sub($expected, $tolerance_abs);
+        $upper_boundary = ilMath::_add($expected, $tolerance_abs);
+
+        return $lower_boundary <= $user_answer
+            && $user_answer <= $upper_boundary;
     }
 
     protected function checkSign($v1, $v2): bool
@@ -546,6 +544,7 @@ class assFormulaQuestionResult
             if ($this->checkSign($result, $value)) {
                 $points += ilMath::_mul($this->getPoints(), ilMath::_div($this->getRatingSign(), 100));
             }
+
             if ($this->isInTolerance(abs($value), abs($result), $this->getTolerance())) {
                 $points += ilMath::_mul($this->getPoints(), ilMath::_div($this->getRatingValue(), 100));
             }
@@ -903,7 +902,7 @@ class assFormulaQuestionResult
 
         $res = $ilDB->queryF(
             '
-			SELECT * FROM il_qpl_qst_fq_res_unit 
+			SELECT * FROM il_qpl_qst_fq_res_unit
 			WHERE question_fi = %s
 			ORDER BY result',
             array('integer'),
