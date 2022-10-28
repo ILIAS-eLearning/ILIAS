@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -24,22 +26,50 @@
 */
 class assAnswerMatchingPair
 {
-    // string|assAnswerMatchingDefinition  ?
-    public $term;
-    public $definition;
-    public float $points;
+    protected assAnswerMatchingTerm $term;
+    protected assAnswerMatchingDefinition $definition;
+    protected float $points;
 
-    /**
-    * assAnswerMatchingPair constructor
-    *
-    * @param string $text Definition text
-    * @param string $picture Definition picture
-    * @param integer $identifier Random number identifier
-    */
-    public function __construct($term = null, $definition = null, $points = 0.0)
-    {
+    public function __construct(
+        assAnswerMatchingTerm $term,
+        assAnswerMatchingDefinition $definition,
+        float $points = 0.0
+    ) {
         $this->term = $term;
         $this->definition = $definition;
-        $this->points = (float) $points;
+        $this->points = $points;
+    }
+
+    public function getTerm(): assAnswerMatchingTerm
+    {
+        return $this->term;
+    }
+    public function withTerm(assAnswerMatchingTerm $term): self
+    {
+        $clone = clone $this;
+        $clone->term = $term;
+        return $clone;
+    }
+
+    public function getDefinition(): assAnswerMatchingDefinition
+    {
+        return $this->definition;
+    }
+    public function withDefinition(assAnswerMatchingDefinition $definition): self
+    {
+        $clone = clone $this;
+        $clone->definition = $definition;
+        return $clone;
+    }
+
+    public function getPoints(): float
+    {
+        return $this->points;
+    }
+    public function withPoints(float $points): self
+    {
+        $clone = clone $this;
+        $clone->points = $points;
+        return $clone;
     }
 }

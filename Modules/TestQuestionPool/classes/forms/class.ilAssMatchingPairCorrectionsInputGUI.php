@@ -19,10 +19,10 @@
 /**
  * Class class.ilAssMatchingPairCorrectionsInputGUI
  *
- * @author    Björn Heyser <info@bjoernheyser.de>
- * @version    $Id$
+ * @author  Björn Heyser <info@bjoernheyser.de>
+ * @version $Id$
  *
- * @package    Modules/Test(QuestionPool)
+ * @package Modules/Test(QuestionPool)
  */
 class ilAssMatchingPairCorrectionsInputGUI extends ilMatchingPairWizardInputGUI
 {
@@ -36,7 +36,7 @@ class ilAssMatchingPairCorrectionsInputGUI extends ilMatchingPairWizardInputGUI
         if (is_array($a_value)) {
             if (is_array($a_value['points'])) {
                 foreach ($a_value['points'] as $idx => $term) {
-                    $this->pairs[$idx]->points = $a_value['points'][$idx];
+                    $this->pairs[$idx]->withPoints($a_value['points'][$idx]);
                 }
             }
         }
@@ -88,17 +88,17 @@ class ilAssMatchingPairCorrectionsInputGUI extends ilMatchingPairWizardInputGUI
             $tpl->setCurrentBlock("row");
 
             foreach ($this->terms as $term) {
-                if ($pair->term->identifier == $term->identifier) {
-                    $tpl->setVariable('TERM', $term->text);
+                if ($pair->getTerm()->getIdentifier() == $term->getIdentifier()) {
+                    $tpl->setVariable('TERM', $term->getText());
                 }
             }
             foreach ($this->definitions as $definition) {
-                if ($pair->definition->identifier == $definition->identifier) {
-                    $tpl->setVariable('DEFINITION', $definition->text);
+                if ($pair->getDefinition()->getIdentifier() == $definition->getText()) {
+                    $tpl->setVariable('DEFINITION', $definition->getText());
                 }
             }
 
-            $tpl->setVariable('POINTS_VALUE', $pair->points);
+            $tpl->setVariable('POINTS_VALUE', $pair->getPoints());
             $tpl->setVariable("ROW_NUMBER", $i);
 
             $tpl->setVariable("ID", $this->getPostVar() . "[$i]");
@@ -112,7 +112,7 @@ class ilAssMatchingPairCorrectionsInputGUI extends ilMatchingPairWizardInputGUI
         $tpl->setCurrentBlock('term_ids');
         $ids = array();
         foreach ($this->terms as $term) {
-            array_push($ids, $term->identifier);
+            array_push($ids, $term->getIdentifier());
         }
         $tpl->setVariable("POST_VAR", $this->getPostVar());
         $tpl->setVariable("TERM_IDS", join(",", $ids));
@@ -121,7 +121,7 @@ class ilAssMatchingPairCorrectionsInputGUI extends ilMatchingPairWizardInputGUI
         $tpl->setCurrentBlock('definition_ids');
         $ids = array();
         foreach ($this->definitions as $definition) {
-            array_push($ids, $definition->identifier);
+            array_push($ids, $definition->getIdentifier());
         }
         $tpl->setVariable("POST_VAR", $this->getPostVar());
         $tpl->setVariable("DEFINITION_IDS", join(",", $ids));
