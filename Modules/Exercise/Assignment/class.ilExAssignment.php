@@ -1598,7 +1598,7 @@ class ilExAssignment
                     $res[] = $row["id"];
                 }
             } elseif ($row['fb_date'] == self::FEEDBACK_DATE_CUSTOM) {
-                if (trim($row["fb_file"]) && $row['fb_date_custom'] <= time()) {
+                if (trim($row["fb_file"] ?? "") && ($row['fb_date_custom'] ?? 0) <= time()) {
                     $res[] = $row["id"];
                 }
             }
