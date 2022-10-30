@@ -887,7 +887,7 @@ class ilUserProfile
                     continue;
                 }
 
-                if (!$user_defined_data["f_" . $field]) {
+                if (!($user_defined_data["f_" . $field] ?? false)) {
                     ilLoggerFactory::getLogger('user')->info('Profile is incomplete due to missing required udf.');
                     return true;
                 }
