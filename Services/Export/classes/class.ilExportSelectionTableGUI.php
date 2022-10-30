@@ -134,11 +134,11 @@ class ilExportSelectionTableGUI extends ilTable2GUI
         if ($a_set['perm_export'] and $a_set['last_export']) {
             $this->tpl->setCurrentBlock('radio_export_e');
             $this->tpl->setVariable('TXT_EXPORT_E', $this->lng->txt('export_existing'));
-            $this->tpl->setVariable('NAME_EXPORT_E', 'cp_options[' . $a_set['ref_id'] . '][type]');
+            $this->tpl->setVariable('NAME_EXPORT_E', 'cp_options[' . ($a_set['ref_id'] ?? 0) . '][type]');
             $this->tpl->setVariable('VALUE_EXPORT_E', ilExportOptions::EXPORT_EXISTING);
             $this->tpl->setVariable(
                 'ID_EXPORT_E',
-                $a_set['depth'] . '_' . $a_set['type'] . '_' . $a_set['ref_id'] . '_export_e'
+                $a_set['depth'] . '_' . $a_set['type'] . '_' . ($a_set['ref_id'] ?? 0) . '_export_e'
             );
             $this->tpl->setVariable('EXPORT_E_CHECKED', 'checked="checked"');
             $this->tpl->parseCurrentBlock();
@@ -152,11 +152,11 @@ class ilExportSelectionTableGUI extends ilTable2GUI
         if ($a_set['perm_export'] and $a_set['export']) {
             $this->tpl->setCurrentBlock('radio_export');
             $this->tpl->setVariable('TXT_EXPORT', $this->lng->txt('export'));
-            $this->tpl->setVariable('NAME_EXPORT', 'cp_options[' . $a_set['ref_id'] . '][type]');
+            $this->tpl->setVariable('NAME_EXPORT', 'cp_options[' . ($a_set['ref_id'] ?? 0) . '][type]');
             $this->tpl->setVariable('VALUE_EXPORT', ilExportOptions::EXPORT_BUILD);
             $this->tpl->setVariable(
                 'ID_EXPORT',
-                $a_set['depth'] . '_' . $a_set['type'] . '_' . $a_set['ref_id'] . '_export'
+                $a_set['depth'] . '_' . $a_set['type'] . '_' . ($a_set['ref_id'] ?? 0) . '_export'
             );
             if ($selected == "EXPORT") {
                 $this->tpl->setVariable('EXPORT_CHECKED', 'checked="checked"');
@@ -171,9 +171,9 @@ class ilExportSelectionTableGUI extends ilTable2GUI
         // Omit
         $this->tpl->setCurrentBlock('omit_radio');
         $this->tpl->setVariable('TXT_OMIT', $this->lng->txt('omit'));
-        $this->tpl->setVariable('NAME_OMIT', 'cp_options[' . $a_set['ref_id'] . '][type]');
+        $this->tpl->setVariable('NAME_OMIT', 'cp_options[' . ($a_set['ref_id'] ?? 0) . '][type]');
         $this->tpl->setVariable('VALUE_OMIT', ilExportOptions::EXPORT_OMIT);
-        $this->tpl->setVariable('ID_OMIT', $a_set['depth'] . '_' . $a_set['type'] . '_' . $a_set['ref_id'] . '_omit');
+        $this->tpl->setVariable('ID_OMIT', $a_set['depth'] . '_' . $a_set['type'] . '_' . ($a_set['ref_id'] ?? 0) . '_omit');
         if ($selected == "OMIT") {
             $this->tpl->setVariable($selected . '_CHECKED', 'checked="checked"');
         }
