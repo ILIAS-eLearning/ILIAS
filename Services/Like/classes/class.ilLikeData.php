@@ -280,7 +280,7 @@ class ilLikeData
 
         $exp = array();
         foreach ($this->getExpressionTypes() as $k => $txt) {
-            if (is_array($this->data[$obj_id][$sub_obj_id][$sub_obj_type][$news_id][$k])) {
+            if (isset($this->data[$obj_id][$sub_obj_id][$sub_obj_type][$news_id][$k])) {
                 foreach ($this->data[$obj_id][$sub_obj_id][$sub_obj_type][$news_id][$k] as $user => $ts) {
                     $exp[] = array(
                         "expression" => $k,

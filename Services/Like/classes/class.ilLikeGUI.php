@@ -300,6 +300,8 @@ class ilLikeGUI
 
 
         $list_items = [];
+
+        $glyph_renderings = [];
         foreach ($this->data->getExpressionEntries(
             $this->obj_id,
             $this->obj_type,
@@ -315,9 +317,11 @@ class ilLikeGUI
             );
 
             $g = $this->getGlyphForConst($exp["expression"], true);
+            $placeholder = "###" . $exp["expression"] . "###";
+            $glyph_renderings[$placeholder] = $r->render($g);
 
             $list_items[] = $f->item()->standard($name)
-                ->withDescription($r->render($g) . " " .
+                ->withDescription($placeholder . " " .
                     ilDatePresentation::formatDate(new ilDateTime($exp["timestamp"], IL_CAL_DATETIME)))
                 ->withLeadImage($image);
         }
@@ -330,7 +334,11 @@ class ilLikeGUI
         //$header = $f->legacy("---");
 
         $modal = $f->modal()->roundtrip('', [$header, $std_list]);
-        echo $r->render($modal);
+        $html = $r->render($modal);
+        foreach ($glyph_renderings as $pl => $gl) {
+            $html = str_replace($pl, $gl, $html);
+        }
+        echo $html;
         exit;
     }
 
