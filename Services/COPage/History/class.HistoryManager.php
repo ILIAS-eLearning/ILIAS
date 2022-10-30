@@ -49,13 +49,13 @@ class HistoryManager
         $deleted = false;
 
         foreach ($this->history_repo->getMaxHistEntryPerPageOlderThanX($x_days) as $page) {
-            $max_deletable = $this->history_repo->getMaxDeletableNr($keep_entries, $page["parent_type"], $page["page_id"], $page["lang"]);
+            $max_deletable = $this->history_repo->getMaxDeletableNr($keep_entries, $page["parent_type"], (int) $page["page_id"], $page["lang"]);
             $delete_lower_than_nr = min($page["max_nr"], $max_deletable);
             if ($delete_lower_than_nr > 0) {
                 $this->deleteHistoryEntriesOlderEqualThanNr(
                     $delete_lower_than_nr,
                     $page["parent_type"],
-                    $page["page_id"],
+                    (int) $page["page_id"],
                     $page["lang"]
                 );
                 $deleted = true;
