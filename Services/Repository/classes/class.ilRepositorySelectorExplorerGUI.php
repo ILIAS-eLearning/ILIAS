@@ -126,7 +126,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
             $title = $lng->txt("repository");
         }
 
-        return $title;
+        return (string) $title;
     }
 
     public function getNodeIcon($a_node): string
