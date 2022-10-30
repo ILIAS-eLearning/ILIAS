@@ -81,7 +81,7 @@ class ilExportSelectionTableGUI extends ilTable2GUI
             $selected = "EXPORT_E";
         }
         if (is_array($this->post_data["cp_options"])) {
-            if (isset($this->post_data["cp_options"][$a_set['ref_id']]["type"])) {
+            if (isset($a_set['ref_id']) && isset($this->post_data["cp_options"][$a_set['ref_id']]["type"])) {
                 switch ($this->post_data["cp_options"][$a_set['ref_id']]["type"]) {
                     case "2":
                         $selected = "EXPORT";
@@ -112,7 +112,7 @@ class ilExportSelectionTableGUI extends ilTable2GUI
         }
         $this->tpl->setVariable(
             'TREE_IMG',
-            ilObject::_getIcon(ilObject::_lookupObjId((int) $a_set['ref_id']), "tiny", $a_set['type'])
+            ilObject::_getIcon(ilObject::_lookupObjId((int) ($a_set['ref_id'] ?? 0)), "tiny", $a_set['type'])
         );
         $this->tpl->setVariable('TREE_ALT_IMG', $this->lng->txt('obj_' . $a_set['type']));
         $this->tpl->setVariable('TREE_TITLE', $a_set['title']);
