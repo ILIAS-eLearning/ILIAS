@@ -2734,7 +2734,7 @@ class ilObjSurvey extends ilObject
                 }
             }
             if ($row["user_fi"] == 0 || $row["user_fi"] == ANONYMOUS_USER_ID) {
-                $code = $this->code_manager->getByUserKey($row["anonymous_id"]);
+                $code = $this->code_manager->getByUserKey((string) $row["anonymous_id"]);
                 if (!is_null($code) && $this->feature_config->usesAppraisees()) {
                     $userdata["firstname"] = $code->getFirstName();
                     $userdata["lastname"] = $code->getLastName();
