@@ -2445,16 +2445,16 @@ class ilObjSurvey extends ilObject
 
             if (is_numeric($recipient)) {
                 $lng = $ntf->getUserLanguage($recipient);
-                $ntf->sendMail(array($recipient), null);
+                $ntf->sendMail(array($recipient), false);
             } else {
                 $recipient = trim($recipient);
                 $user_ids = ilObjUser::getUserIdsByEmail($recipient);
                 if (empty($user_ids)) {
-                    $ntf->sendMail(array($recipient), null);
+                    $ntf->sendMail(array($recipient), false);
                 } else {
                     foreach ($user_ids as $user_id) {
                         $lng = $ntf->getUserLanguage($user_id);
-                        $ntf->sendMail(array($user_id), null);
+                        $ntf->sendMail(array($user_id), false);
                     }
                 }
             }
