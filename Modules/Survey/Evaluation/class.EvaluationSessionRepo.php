@@ -40,7 +40,7 @@ class EvaluationSessionRepo
 
     public function getAnonEvaluationAccess(): int
     {
-        return \ilSession::get(self::KEY_ANON_EVAL);
+        return (int) \ilSession::get(self::KEY_ANON_EVAL);
     }
 
     public function clearAnonEvaluationAccess(): void
