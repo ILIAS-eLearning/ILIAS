@@ -205,7 +205,7 @@ class ilTaxMDGUI
                 $ta->deleteAssignmentsOfItem($this->md_obj_id);
 
                 // set current assignment
-                if (is_array($body["md_tax_" . $tax_id])) {
+                if (isset($body["md_tax_" . $tax_id])) {
                     foreach ($body["md_tax_" . $tax_id] as $node_id) {
                         $ta->addAssignment($node_id, $this->md_obj_id);
                     }
