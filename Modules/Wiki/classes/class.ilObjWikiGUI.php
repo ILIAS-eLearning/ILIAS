@@ -1660,7 +1660,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $cont_exp = new Export\WikiHtmlExport($wiki);
 
         $format = explode("_", $this->edit_request->getFormat());
-        if ($format[1] === "comments") {
+        if (($format[1] ?? "") === "comments") {
             $cont_exp->setMode(Export\WikiHtmlExport::MODE_COMMENTS);
         }
 
