@@ -1013,11 +1013,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                 if (array_key_exists($objective_id, $lo_results)) {
                     $lo_result = $lo_results[$objective_id];
                     $tmp[$objective_id]["user_id"] = $lo_result["user_id"];
-                    $tmp[$objective_id]["result_perc"] = $lo_result["result_perc"];
-                    $tmp[$objective_id]["limit_perc"] = $lo_result["limit_perc"];
-                    $tmp[$objective_id]["status"] = $lo_result["status"];
-                    $tmp[$objective_id]["type"] = $lo_result["type"];
-                    $tmp[$objective_id]["initial"] = $lo_result["initial"];
+                    $tmp[$objective_id]["result_perc"] = $lo_result["result_perc"] ?? null;
+                    $tmp[$objective_id]["limit_perc"] = $lo_result["limit_perc"] ?? null;
+                    $tmp[$objective_id]["status"] = $lo_result["status"] ?? null;
+                    $tmp[$objective_id]["type"] = $lo_result["type"] ?? null;
+                    $tmp[$objective_id]["initial"] = $lo_result["initial"] ?? null;
                 }
             }
 
