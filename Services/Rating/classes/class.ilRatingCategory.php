@@ -24,11 +24,11 @@
 class ilRatingCategory
 {
     protected \ilDBInterface $db;
-    protected int $id; // sequence
-    protected int $parent_id; // parent object
-    protected string $title;
-    protected string $description;
-    protected int $pos; // order
+    protected int $id = 0; // sequence
+    protected int $parent_id = 0; // parent object
+    protected string $title = "";
+    protected string $description = "";
+    protected int $pos = 0; // order
 
 
     public function __construct(
