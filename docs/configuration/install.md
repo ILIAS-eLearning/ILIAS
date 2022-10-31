@@ -38,7 +38,6 @@
 1. [Upgrading Dependencies](#upgrading-dependencies)
    1. [PHP](#php)
    1. [DBMS](#dbms)
-   1. [ImageMagick](#imagemagick)
 1. [Connect and Contribute](#connect-and-contribute)
 
 <!-- /MarkdownTOC -->
@@ -72,17 +71,14 @@ For best results we recommend:
   * MySQL 5.7.x or MariaDB 10.2
   * PHP 8.1
   * Apache 2.4.x with `mod_php`
-  * ImageMagick 6.8+
-  * php-gd, php-xml, php-mysql, php-mbstring
+  * php-gd, php-xml, php-mysql, php-mbstring, php-imagick, php-zip
   * OpenJDK 11
-  * zip, unzip
   * Node.js: 14 (LTS)
   * git
   * composer v2
   * a contemporary browser supporting ES6, CSS3 and HTML 5
 
 Package names may vary depending on the Linux distribution.
-
 
 <a name="database-recommendations"></a>
 ## Database Recommendations
@@ -117,13 +113,10 @@ The ILIAS Testserver (https://test7.ilias.de) is currently configured as follows
 | MariaDB        | 10.0.38          |
 | PHP            | 8.1              |
 | Apache2        | 2.4.18           |
-| zip            | 3.0              |
-| unzip          | 6.00             |
 | JDK            | OpenJDK 8        |
 | Node.js        | 10.23.0          |
 | wkhtmltopdf    | 0.12.5           |
 | Ghostscript    | 9.26             |
-| Imagemagick    | 6.8.9-9 Q16      |
 | MathJax        | 2.7.9            |
 
 <a name="other-platforms"></a>
@@ -209,7 +202,7 @@ systemctl restart httpd.service
 ### PHP Installation and Configuration
 
 Refer to the to documentation of your installation to install either PHP 8.0 to
-PHP 8.1 including packages for gd, mysql, mbstring, curl, dom, zip and xml.
+PHP 8.1 including packages for imagick, gd, mysql, mbstring, curl, dom, zip and xml.
 
 To check if the installation was successfull create the file `/var/www/html/phpinfo.php`
 with the following contents:
@@ -328,17 +321,17 @@ after several days of using ILIAS in production.
 ### Install other Dependencies
 
 ```
-apt-get install zip unzip imagemagick openjdk-7-jdk
+apt-get install openjdk-7-jdk
 ```
 
 On Debian/Ubuntu execute:
 ```
-apt-get install zip unzip imagemagick openjdk-8-jdk
+apt-get install openjdk-8-jdk
 ```
 
 On RHEL/CentOS execute:
 ```
-yum install zip unzip libxslt ImageMagick java-1.8.0-openjdk
+yum install libxslt java-1.8.0-openjdk
 ```
 
 Restart the apache webserver after you installed dependencies!
@@ -446,9 +439,7 @@ configuration might look like this afterwards:
 		}
 	},
     "utilities" : {
-        "path_to_convert" : "/usr/bin/convert",
-        "path_to_zip" : "/usr/bin/zip",
-        "path_to_unzip" : "/usr/bin/unzip"
+        "path_to_convert" : "/usr/bin/convert"
     }
 }
 ```
@@ -760,14 +751,6 @@ We strongly recommend using MariaDB instead of MySQL due to performance, licensi
 | 4.0.x - 4.1.x | 5.0.x, 5.1.32 - 5.1.x               |                        |
 | 3.10.x        | 4.1.x, 5.0.x, 5.1.32 - 5.1.x        |                        |
 | 3.7.3 - 3.9.x | 4.0.x - 5.0.x                       |                        |
-
-<a name="imagemagick"></a>
-## ImageMagick
-
-| ILIAS Version   | ImageMagick Version                   |
-|-----------------|---------------------------------------|
-| 4.2.x - 5.2.x   | 6.8.9-9 or higher                     |
-| < 4.2.x         | No specific version requirements      |
 
 
 <a name="connect-and-contribute"></a>
