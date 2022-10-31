@@ -65,6 +65,18 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             ilTestPlayerLayoutProvider::TEST_PLAYER_KIOSK_MODE_ENABLED,
             $this->object->getKioskMode()
         );
+        $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_TITLE,
+            $this->object->getTitle()
+        );
+        $instance_name =  $DIC['ilSetting']->get('short_inst_name');
+        if (trim($instance_name) === '') {
+            $instance_name = 'ILIAS';
+        }
+        $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_SHORT_TITLE,
+            $instance_name
+        );
 
         $testSessionFactory = new ilTestSessionFactory($this->object);
         $this->testSession = $testSessionFactory->getSession($this->testrequest->raw('active_id'));
