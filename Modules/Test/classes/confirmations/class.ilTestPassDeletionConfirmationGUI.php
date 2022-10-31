@@ -38,6 +38,8 @@ class ilTestPassDeletionConfirmationGUI extends ilConfirmationGUI
         $this->lng = $lng;
 
         $this->setFormAction($this->ctrl->getFormAction($parentGUI));
+
+        parent::__construct();
     }
 
     public function build(int $activeId, int $pass, string $context): void

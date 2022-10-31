@@ -1962,7 +1962,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function showAnswerOptionalQuestionsConfirmation()
     {
-        require_once 'Modules/Test/classes/confirmations/class.ilTestAnswerOptionalQuestionsConfirmationGUI.php';
         $confirmation = new ilTestAnswerOptionalQuestionsConfirmationGUI($this->lng);
 
         $confirmation->setFormAction($this->ctrl->getFormAction($this));
