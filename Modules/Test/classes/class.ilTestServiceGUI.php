@@ -186,7 +186,7 @@ class ilTestServiceGUI
      * @param boolean $withResults $withResults tells the method to include all scoring data into the  returned row
      * @return array The array contains the date of the requested row
      */
-    public function getPassOverviewTableData(ilTestSession $testSession, array $passes, bool $withResults): array
+    public function getPassOverviewTableData($testSession, $passes, $withResults): array
     {
         $data = array();
 
