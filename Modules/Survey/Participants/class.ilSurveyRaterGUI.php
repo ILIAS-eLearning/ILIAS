@@ -452,6 +452,7 @@ class ilSurveyRaterGUI
                         $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
                     } else {
                         $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("svy_appraisses_cannot_be_raters"), true);
+                        $user_id = 0;
                     }
                 }
             }
