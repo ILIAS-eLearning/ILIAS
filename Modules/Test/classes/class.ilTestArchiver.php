@@ -283,7 +283,7 @@ class ilTestArchiver
         $this->ensureTestArchiveIsAvailable();
         $this->ensurePassDataDirectoryIsAvailable($active_fi, $pass);
         $new_path = $this->getPassDataDirectory($active_fi, $pass) . self::DIR_SEP
-            . self::TEST_RESULT_FILENAME . ($this->countFilesInDirectory($this->getPassDataDirectory($active_fi, $pass), self::TEST_RESULT_FILENAME))
+            . self::TEST_RESULT_FILENAME . '0'
             . self::TEST_RESULT_POSTFIX;
         copy($pdf_path, $new_path);
         $this->logArchivingProcess(date(self::LOG_DTSGROUP_FORMAT) . self::LOG_ADDITION_STRING . $new_path);
