@@ -179,9 +179,12 @@ class ilTestServiceGUI
     }
 
     /**
-     * @param ilTestSession $testSession
-     * @param $short
-     * @return array
+     * This method uses the data of a given test pass to create an evaluation for displaying into a table used in the ilTestEvaluationGUI
+     *
+     * @param ilTestSession $testSession the current test session
+     * @param array $passes An integer array of test runs
+     * @param boolean $withResults $withResults tells the method to include all scoring data into the  returned row
+     * @return array The array contains the date of the requested row
      */
     public function getPassOverviewTableData(ilTestSession $testSession, $passes, $withResults): array
     {
@@ -204,13 +207,15 @@ class ilTestServiceGUI
         );
 
         foreach ($passes as $pass) {
-            $row = array();
-
+            $row = [
+                'scored' => null,
+                'pass' => $pass,
+                'date' => ilObjTest::lookupLastTestPassAccess($testSession->getActiveId(), $pass)
+            ];
             $considerOptionalQuestions = true;
 
             if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
                 $testSequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($testSession->getActiveId(), $pass);
-
                 $testSequence->loadFromDb();
                 $testSequence->loadQuestions();
 
@@ -246,32 +251,20 @@ class ilTestServiceGUI
                 }
 
                 if (!$result_array['pass']['total_max_points']) {
-                    $percentage = 0;
+                    $row['percentage'] = 0;
                 } else {
-                    $percentage = ($result_array['pass']['total_reached_points'] / $result_array['pass']['total_max_points']) * 100;
+                    $row['percentage'] = ($result_array['pass']['total_reached_points'] / $result_array['pass']['total_max_points']) * 100;
                 }
-                $total_max = $result_array['pass']['total_max_points'];
-                $total_reached = $result_array['pass']['total_reached_points'];
-                $total_requested_hints = $result_array['pass']['total_requested_hints'];
-            }
 
-            if ($withResults) {
+                $row['max_points'] = $result_array['pass']['total_max_points'];
+                $row['reached_points'] = $result_array['pass']['total_reached_points'];
                 $row['scored'] = ($pass == $scoredPass);
-            }
-
-            $row['pass'] = $pass;
-            $row['date'] = ilObjTest::lookupLastTestPassAccess($testSession->getActiveId(), $pass);
-            if ($withResults) {
                 $row['num_workedthrough_questions'] = $result_array['pass']['num_workedthrough'];
                 $row['num_questions_total'] = $result_array['pass']['num_questions_total'];
 
                 if ($this->object->isOfferingQuestionHintsEnabled()) {
-                    $row['hints'] = $total_requested_hints;
+                    $row['hints'] = $result_array['pass']['total_requested_hints'];
                 }
-
-                $row['reached_points'] = $total_reached;
-                $row['max_points'] = $total_max;
-                $row['percentage'] = $percentage;
             }
 
             $data[] = $row;
