@@ -285,7 +285,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                 $resObj = $this->getResult($result);
                 $value = "";
                 $frac_helper = '';
-                $user_data[$result]['result_type'] = $resObj->getResultType();
+                $userdata[$result]['result_type'] = $resObj->getResultType();
                 $is_frac = false;
                 if (
                     $resObj->getResultType() == assFormulaQuestionResult::RESULT_FRAC ||
@@ -529,7 +529,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         // save variables
         $affectedRows = $ilDB->manipulateF(
             "
-		DELETE FROM il_qpl_qst_fq_var 
+		DELETE FROM il_qpl_qst_fq_var
 		WHERE question_fi = %s",
             array("integer"),
             array($this->getId())
