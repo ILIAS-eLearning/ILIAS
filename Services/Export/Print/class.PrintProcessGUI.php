@@ -130,6 +130,7 @@ class PrintProcessGUI
 
     public function renderPrintView(int $content_style_id = 0): string
     {
+        \iljQueryUtil::initjQuery();        // e.g. on survey print screens necessary
         $pages = $this->provider->getPages();
         $tpl = new \ilGlobalTemplate(
             "tpl.print_view.html",

@@ -439,9 +439,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
         if ($show_questiontext) {
             $this->outQuestionText($template);
         }
-        if ($question_title) {
-            $template->setVariable("QUESTION_TITLE", $this->object->getTitle());
-        }
+        $template->setVariable("QUESTION_TITLE", $this->getQuestionTitle($question_title));
         $template->parseCurrentBlock();
         return $template->get();
     }

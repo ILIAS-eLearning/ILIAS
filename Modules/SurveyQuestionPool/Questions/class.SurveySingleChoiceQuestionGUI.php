@@ -464,9 +464,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
                 }
                 break;
         }
-        if ($question_title) {
-            $template->setVariable("QUESTION_TITLE", $this->object->getTitle());
-        }
+        $template->setVariable("QUESTION_TITLE", $this->getQuestionTitle($question_title));
         $template->setCurrentBlock("question_data");
         if (strcmp($error_message, "") !== 0) {
             $template->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");

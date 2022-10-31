@@ -214,7 +214,6 @@ class ilSurveyEditorGUI
                 }
             }
         }
-
         $this->questionsSubtabs("questions");
 
         $hasDatasets = ilObjSurvey::_hasDatasets($this->object->getSurveyId());
@@ -238,8 +237,6 @@ class ilSurveyEditorGUI
             $ilToolbar->addStickyItem($button);
 
             if ($this->object->getPoolUsage()) {
-                $ilToolbar->addSeparator();
-
                 $cmd = ((int) $ilUser->getPref('svy_insert_type') === 1 ||
                     ($ilUser->getPref('svy_insert_type') ?? '') === '')
                     ? 'browseForQuestions'
@@ -257,6 +254,17 @@ class ilSurveyEditorGUI
             $button->setCaption("add_heading");
             $button->setUrl($this->ctrl->getLinkTarget($this, "addHeading"));
             $ilToolbar->addInputItem($button);
+
+            $ilToolbar->addSeparator();
+            $print_view = $this->print->list($this->object->getRefId());
+            $modal_elements = $print_view->getModalElements(
+                $this->ctrl->getLinkTarget(
+                    $this,
+                    "printListViewSelection"
+                )
+            );
+            $ilToolbar->addComponent($modal_elements->button);
+            $ilToolbar->addComponent($modal_elements->modal);
         }
         $mess = "";
         if ($hasDatasets) {
@@ -1187,6 +1195,18 @@ class ilSurveyEditorGUI
     public function printViewObject(): void
     {
         $print_view = $this->print->page($this->object->getRefId());
+        $print_view->sendPrintView();
+    }
+
+    public function printListViewSelectionObject(): void
+    {
+        $view = $this->print->list($this->object->getRefId());
+        $view->sendForm();
+    }
+
+    public function printListViewObject(): void
+    {
+        $print_view = $this->print->list($this->object->getRefId());
         $print_view->sendPrintView();
     }
 }

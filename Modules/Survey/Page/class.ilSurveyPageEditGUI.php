@@ -1242,7 +1242,7 @@ class ilSurveyPageEditGUI
             }
 
             if ($a_pages) {
-                $ilToolbar->addSeparator();
+//                $ilToolbar->addSeparator();
             }
         }
 
