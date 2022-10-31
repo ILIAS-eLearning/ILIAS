@@ -11930,6 +11930,7 @@ mob#:#mob_srt_not_allowed#:#Dateien vom Typ .srt können aktuell nicht hochgelad
 mob#:#mob_subtitle_file#:#Datei für Untertitel
 mob#:#mob_subtitle_files#:#Dateien für Untertitel
 mob#:#mob_subtitles#:#Untertitel
+mob#:#mob_type_not_supported#:#Der Mime-Type wird an dieser Stelle nicht unterstützt:
 mob#:#mob_upload_file#:#Datei hochladen
 mob#:#mob_upload_multi_srt#:#Hochladen als ZIP-Datei
 mob#:#mob_upload_multi_srt_howto#:#Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .srt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.srt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.srt".

@@ -11931,6 +11931,7 @@ mob#:#mob_srt_not_allowed#:#Files with a .srt suffix are currently not allowed t
 mob#:#mob_subtitle_file#:#Subtitle File
 mob#:#mob_subtitle_files#:#Subtitle Files
 mob#:#mob_subtitles#:#Subtitles
+mob#:#mob_type_not_supported#:#Mime type not supported:
 mob#:#mob_upload_file#:#Upload File
 mob#:#mob_upload_multi_srt#:#Upload as ZIP
 mob#:#mob_upload_multi_srt_howto#:#The .zip file should contain no subdirectory, all .srt files should be located on the top level. The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de".
