@@ -179,12 +179,14 @@ class ilTestServiceGUI
     }
 
     /**
-     * @param ilTestSession $testSession
-     * @param $passes
-     * @param $withResults
-     * @return array
+     * This method uses the data of a given test pass to create an evaluation for displaying into a table used in the ilTestEvaluationGUI
+     *
+     * @param ilTestSession $testSession the current test session
+     * @param array $passes An integer array of test runs
+     * @param boolean $withResults $withResults tells the method to include all scoring data into the  returned row
+     * @return array The array contains the date of the requested row
      */
-    public function getPassOverviewTableData(ilTestSession $testSession, $passes, $withResults): array
+    public function getPassOverviewTableData(ilTestSession $testSession, array $passes, bool $withResults): array
     {
         $data = array();
 
@@ -205,11 +207,11 @@ class ilTestServiceGUI
         );
 
         foreach ($passes as $pass) {
-            $row = array(
+            $row = [
                 'scored' => null,
                 'pass' => $pass,
                 'date' => ilObjTest::lookupLastTestPassAccess($testSession->getActiveId(), $pass)
-            );
+            ];
             $considerOptionalQuestions = true;
 
             if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
