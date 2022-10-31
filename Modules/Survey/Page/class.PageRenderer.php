@@ -24,6 +24,7 @@ namespace ILIAS\Survey\Page;
  */
 class PageRenderer
 {
+    protected int $question_title_mode;
     protected \ilCtrl $ctrl;
     protected \ilLanguage $lng;
     protected array $page_data;
@@ -39,7 +40,8 @@ class PageRenderer
         \ilObjSurvey $survey,
         array $page_data,
         array $working_data = [],
-        array $errors = []
+        array $errors = [],
+        int $question_title_mode = 1
     ) {
         global $DIC;
 
@@ -49,6 +51,7 @@ class PageRenderer
         $this->page_data = $page_data;
         $this->working_data = $working_data;
         $this->errors = $errors;
+        $this->question_title_mode = $question_title_mode;
     }
 
     public function render(): string
@@ -104,9 +107,11 @@ class PageRenderer
             // get show questiontext flag
             $show_questiontext = ($data["questionblock_show_questiontext"]) ? 1 : 0;
 
-            // get show title flag
-            $show_title = ($this->survey->getShowQuestionTitles() && !$data["compressed_first"]);
-
+            // question title mode
+            $question_title_mode = $this->question_title_mode;
+            if (!$this->survey->getShowQuestionTitles() || $data["compressed_first"]) {
+                $question_title_mode = 0;
+            }
             $working_data = $this->working_data[$data["question_id"]] ?? null;
             $error = $this->errors[$data["question_id"]] ?? "";
 
@@ -115,7 +120,7 @@ class PageRenderer
             // showQuestionTitle()
             $question_output = $question_gui->getWorkingForm(
                 $working_data,
-                $show_title,
+                $question_title_mode,
                 $show_questiontext,
                 $error,
                 $this->survey->getSurveyId(),

@@ -25,7 +25,7 @@ use ILIAS\Survey\Page\PageRenderer;
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class PagePrintViewProviderGUI extends Export\AbstractPrintViewProvider
+class ListPrintViewProviderGUI extends Export\AbstractPrintViewProvider
 {
     protected \ILIAS\Survey\Editing\EditingGUIRequest $request;
     protected \ilObjSurvey $survey;
@@ -68,29 +68,20 @@ class PagePrintViewProviderGUI extends Export\AbstractPrintViewProvider
 
         $form = new \ilPropertyFormGUI();
 
-        $radg = new \ilRadioGroupInputGUI($lng->txt("svy_selection"), "print_selection");
-        $radg->setValue("page");
-        $op1 = new \ilRadioOption($lng->txt("svy_current_page"), "page");
-        $radg->addOption($op1);
-        $op2 = new \ilRadioOption($lng->txt("svy_all_pages"), "all");
-        $radg->addOption($op2);
-
-        $form->addItem($radg);
-
         // include labels in print view
         if ($this->survey->getShowQuestionTitles()) {
             $cb = new \ilCheckboxInputGUI($lng->txt("svy_print_show_labels"), "include_labels");
             $form->addItem($cb);
         }
 
-        $form->addCommandButton("printView", $lng->txt("print_view"));
+        $form->addCommandButton("printListView", $lng->txt("print_view"));
 
-        $form->setTitle($lng->txt("svy_print_selection"));
-        $ilCtrl->setParameterByClass("ilSurveyEditorGUI", "pg", $this->request->getPage());
+        //$form->setTitle($lng->txt("svy_print_selection"));
+        //$ilCtrl->setParameterByClass("ilSurveyEditorGUI", "pg", $this->request->getPage());
         $form->setFormAction(
             $ilCtrl->getFormActionByClass(
                 "ilSurveyEditorGUI",
-                "printView"
+                "printListView"
             )
         );
 
@@ -103,13 +94,6 @@ class PagePrintViewProviderGUI extends Export\AbstractPrintViewProvider
 
 
         $pages = $this->survey->getSurveyPages();
-        if ($this->request->getPrintSelection() === "page") {
-            $pg = $this->request->getPage();
-            if ($pg === 0) {
-                $pg = 1;
-            }
-            $pages = [$pages[$pg - 1]];
-        }
 
         $question_title_mode = $this->request->getIncludeLables()
             ? 3
