@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -336,9 +336,9 @@ class ilUnitConfigurationRepository
         $result = $ilDB->queryF(
             "SELECT units.*, baseunits.unit baseunit_title, il_qpl_qst_fq_ucat.category
 			FROM il_qpl_qst_fq_unit units
-			INNER JOIN il_qpl_qst_fq_ucat ON il_qpl_qst_fq_ucat.category_id = units.category_fi  
+			INNER JOIN il_qpl_qst_fq_ucat ON il_qpl_qst_fq_ucat.category_id = units.category_fi
 			LEFT JOIN il_qpl_qst_fq_unit baseunits ON baseunits.unit_id = units.baseunit_fi
-			WHERE il_qpl_qst_fq_ucat.category_id = %s 
+			WHERE il_qpl_qst_fq_ucat.category_id = %s
 			ORDER BY units.sequence",
             ['integer'],
             [$category]
@@ -659,7 +659,7 @@ class ilUnitConfigurationRepository
 
         $res = $this->db->queryF("SELECT * FROM il_qpl_qst_fq_ucat WHERE question_fi = %s", ['integer'], [$from_consumer_id]);
         while ($row = $this->db->fetchAssoc($res)) {
-            $new_category_id = $this->copyCategory($row['category_id'], $to_consumer_id);
+            $new_category_id = $this->copyCategory((int) $row['category_id'], $to_consumer_id);
             $category_mapping[$row['category_id']] = $new_category_id;
         }
 
