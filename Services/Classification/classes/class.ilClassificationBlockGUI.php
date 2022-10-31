@@ -160,7 +160,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
         $ajax_content_url = $ilCtrl->getLinkTarget($this, "filterContainer", "", true, false);
 
         $tabs = new ilTabsGUI();
-        $tabs->setBackTarget($this->lng->txt("clsfct_back_to_cat"), (string) $ilCtrl->getParentReturn($this));
+        $tabs->setBackTarget($this->lng->txt("clsfct_back_to_cat"), $ilCtrl->getLinkTarget($this, "returnToParent"));
         $tabs->addTab("sel_objects", $this->lng->txt("clsfct_selected_objects"), "#");
         $tabs_html = $tabs->getHTML();
 
@@ -184,6 +184,12 @@ class ilClassificationBlockGUI extends ilBlockGUI
             //$this->tpl->setVariable("DATA", $btpl->get());
         }
         return $overall_html;
+    }
+
+    protected function returnToParent(): void
+    {
+        $this->repo->unsetAll();    // this resets, e.g. the taxonomy selection before showing the parent container
+        $this->ctrl->returnToParent($this);
     }
 
     protected function validate(): bool
