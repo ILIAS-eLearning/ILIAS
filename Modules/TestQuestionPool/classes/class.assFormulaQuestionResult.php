@@ -279,7 +279,8 @@ class assFormulaQuestionResult
         $math->suppress_errors = true;
         $result = $math->evaluate($formula); // baseunit-result!!
 
-        $resultWithRespectedUnit = ilMath::_round($result, $this->getPrecision());
+        $resultWithRespectedUnit = ilMath::_mul($result, 1, $this->getPrecision());
+
         if (is_object($this->getUnit())) {
             //there is a "fix" result_unit defined!
 
@@ -302,6 +303,8 @@ class assFormulaQuestionResult
             }
         }
 
+        $result = substr($result, 0, strlen($resultWithRespectedUnit));
+
         //	check for valid chars ("0-9",",|.|/","0-9","e|E","+|-","0-9")
         $has_valid_chars = preg_match("/^-?([0-9]*)(,|\\.|\\/){0,1}([0-9]*)([eE][\\+|-]([0-9])+)?$/", $value, $matches);
         if (!$has_valid_chars) {
@@ -312,6 +315,7 @@ class assFormulaQuestionResult
             (!isset($matches[1]) || !strlen($matches[1]) || !isset($matches[3]) || !strlen($matches[3]) || $matches[3] == 0)) {
             $check_valid_chars = false;
         }
+
         // result_type extension
         switch ($this->getResultType()) {
             case assFormulaQuestionResult::RESULT_DEC:
@@ -322,7 +326,8 @@ class assFormulaQuestionResult
                     $frac_value = $value;
                 }
 
-                $frac_value = ilMath::_round($frac_value, $this->getPrecision());
+                //$frac_value = ilMath::_round($frac_value, $this->getPrecision());
+                $frac_value = ilMath::_mul($frac_value, 1, $this->getPrecision());
 
                 if (substr_count($value, '/') >= 1) {
                     $check_fraction = false;
@@ -417,6 +422,7 @@ class assFormulaQuestionResult
                 }
             }
         }
+
         return $checkvalue && $checkunit && $check_fraction && $check_valid_chars;
     }
 
