@@ -66,7 +66,13 @@ class AccessManager
             "write",
             "",
             $this->ref_id
-        );
+        ) ||
+            $this->access->checkAccessOfUser(       // see #35369
+                $this->user_id,
+                "delete",
+                "",
+                $this->ref_id
+            );
     }
 
     /**
