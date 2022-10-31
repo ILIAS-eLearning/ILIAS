@@ -26,40 +26,10 @@ use ILIAS\HTTP\Response\ResponseHeader;
  * Class DownloadConsumer
  * @package ILIAS\ResourceStorage\Consumer
  */
-class DownloadConsumer extends BaseConsumer implements DeliveryConsumer
+class DownloadConsumer extends BaseHTTPResponseBasedConsumer implements DeliveryConsumer
 {
-    private const NON_VALID_EXTENSION_MIME = 'text/plain';
-
-    public function run(): void
+    protected function getDisposition(): string
     {
-        global $DIC;
-
-        $revision = $this->getRevision();
-        $filename_with_extension = $this->file_name ?? $revision->getInformation()->getTitle();
-
-        $file_name = $this->file_name_policy->prepareFileNameForConsumer($filename_with_extension);
-        $mime_type = $revision->getInformation()->getMimeType();
-        /** @noRector */
-        $response = $DIC->http()->response();
-        if ($this->file_name_policy->isValidExtension($filename_with_extension)) {
-            $response = $response->withHeader(ResponseHeader::CONTENT_TYPE, $mime_type);
-        } else {
-            $response = $response->withHeader(ResponseHeader::CONTENT_TYPE, self::NON_VALID_EXTENSION_MIME);
-        }
-
-        $response = $response->withHeader(ResponseHeader::CONNECTION, 'close');
-        $response = $response->withHeader(ResponseHeader::ACCEPT_RANGES, 'bytes');
-        $response = $response->withHeader(
-            ResponseHeader::CONTENT_DISPOSITION,
-            'attachment'
-            . '; filename="'
-            . $file_name
-            . '"'
-        );
-        $response = $response->withBody($this->storage_handler->getStream($revision));
-
-        $DIC->http()->saveResponse($response);
-        $DIC->http()->sendResponse();
-        $DIC->http()->close();
+        return 'attachment';
     }
 }

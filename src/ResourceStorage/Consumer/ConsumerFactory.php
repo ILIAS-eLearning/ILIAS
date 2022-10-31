@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +13,10 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Consumer;
 
@@ -32,6 +33,7 @@ class ConsumerFactory
 {
     private \ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory $storage_handler_factory;
     protected \ILIAS\ResourceStorage\Policy\FileNamePolicy $file_name_policy;
+    private \ILIAS\HTTP\Services $http;
 
     /**
      * ConsumerFactory constructor.
@@ -41,13 +43,16 @@ class ConsumerFactory
         StorageHandlerFactory $storage_handler_factory,
         FileNamePolicy $file_name_policy = null
     ) {
+        global $DIC;
         $this->storage_handler_factory = $storage_handler_factory;
         $this->file_name_policy = $file_name_policy ?? new NoneFileNamePolicy();
+        $this->http = $DIC->http();
     }
 
     public function download(StorableResource $resource): DownloadConsumer
     {
         return new DownloadConsumer(
+            $this->http,
             $resource,
             $this->storage_handler_factory->getHandlerForResource($resource),
             $this->file_name_policy
@@ -57,6 +62,7 @@ class ConsumerFactory
     public function inline(StorableResource $resource): InlineConsumer
     {
         return new InlineConsumer(
+            $this->http,
             $resource,
             $this->storage_handler_factory->getHandlerForResource($resource),
             $this->file_name_policy
