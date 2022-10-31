@@ -153,7 +153,7 @@ class ilMediaCreationGUI
             $suffixes = $this->getAllSuffixes();
         }
         if (in_array(self::TYPE_VIDEO, $this->accept_types, true)) {
-            $suffixes = array_merge($suffixes, $this->type_manager->getImageSuffixes());
+            $suffixes = array_merge($suffixes, $this->type_manager->getVideoSuffixes());
         }
         if (in_array(self::TYPE_AUDIO, $this->accept_types, true)) {
             $suffixes = array_merge($suffixes, $this->type_manager->getAudioMimeTypes());
@@ -167,16 +167,18 @@ class ilMediaCreationGUI
     /**
      * @return string[]
      */
-    protected function getMimeTypes(): array
+    protected function getMimeTypes($local_only = false): array
     {
         $mimes = [];
         if (in_array(self::TYPE_ALL, $this->accept_types)) {
             $mimes = $this->getAllMimeTypes();
         }
         if (in_array(self::TYPE_VIDEO, $this->accept_types)) {
-            $mimes[] = "video/vimeo";
-            $mimes[] = "video/youtube";
             $mimes[] = "video/mp4";
+            if (!$local_only) {
+                $mimes[] = "video/vimeo";
+                $mimes[] = "video/youtube";
+            }
         }
         if (in_array(self::TYPE_AUDIO, $this->accept_types)) {
             $mimes[] = "audio/mpeg";
@@ -276,7 +278,7 @@ class ilMediaCreationGUI
                     "mep_id",
                     "",
                     20,
-                    $this->getMimeTypes()
+                    $this->getMimeTypes(true)
                 );
             // ->meta()->text()->meta()->textarea()
         }
