@@ -285,8 +285,8 @@ EOT;
 	</span>
 
 	<div class="dropdown">
-		<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">pagination_label_x_of_y <span class="caret"></span></button>
-		<ul class="dropdown-menu">
+		<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_4" aria-haspopup="true" aria-expanded="false" aria-controls="id_4_menu" >pagination_label_x_of_y <span class="caret"></span></button>
+		<ul id="id_4_menu" class="dropdown-menu">
 			<li><button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=0" id="id_1">1</button></li>
 			<li><button class="btn btn-link" data-action="?pagination_offset=1" id="id_2">2</button></li>
 			<li><button class="btn btn-link" data-action="?pagination_offset=2" id="id_3">3</button></li>

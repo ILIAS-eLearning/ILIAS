@@ -76,7 +76,7 @@ class SortationTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $s = $f->sortation($this->options);
 
-        $html = $this->normalizeHTML($r->render($s));
+        $html = $this->brutallyTrimHTML($r->render($s));
         $this->assertEquals($this->getSortationExpectedHTML(true), $html);
     }
 
@@ -88,7 +88,7 @@ class SortationTest extends ILIAS_UI_TestBase
             return "";
         });
 
-        $html = $this->normalizeHTML($r->render($s));
+        $html = $this->brutallyTrimHTML($r->render($s));
         $this->assertEquals($this->getSortationExpectedHTML(true), $html);
     }
 
@@ -98,22 +98,26 @@ class SortationTest extends ILIAS_UI_TestBase
         $button1_id = "id_1";
         $button2_id = "id_2";
         $button3_id = "id_3";
+        $dropdown_id = "id_4";
 
         if ($with_id) {
             $id = "id=\"id_1\"";
             $button1_id = "id_2";
             $button2_id = "id_3";
             $button3_id = "id_4";
+            $dropdown_id = "id_5";
         }
 
+        $dropdown_menu_id = $dropdown_id."_menu";
+
         $expected = <<<EOT
-<div class="il-viewcontrol-sortation" $id><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="actions" aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button><ul class="dropdown-menu">
+<div class="il-viewcontrol-sortation" $id><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="$dropdown_id" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="$dropdown_menu_id" > <span class="caret"></span></button><ul id="$dropdown_menu_id" class="dropdown-menu">
 	<li><button class="btn btn-link" data-action="?sortation=internal_rating" id="$button1_id">Best</button></li>
 	<li><button class="btn btn-link" data-action="?sortation=date_desc" id="$button2_id">Most Recent</button></li>
 	<li><button class="btn btn-link" data-action="?sortation=date_asc" id="$button3_id">Oldest</button></li></ul></div>
 </div>
 EOT;
-        return $this->normalizeHTML($expected);
+        return $this->brutallyTrimHTML($expected);
     }
 
     public function getUIFactory(): NoUIFactory
