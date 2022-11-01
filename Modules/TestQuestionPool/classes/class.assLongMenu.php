@@ -661,7 +661,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
             $this->removeCurrentSolution($active_id, $pass, $authorized);
 
             foreach ($this->getSolutionSubmit() as $val1 => $val2) {
-                $value = ilUtil::stripSlashes($val2, false);
+                $value = ilUtil::stripSlashes(trim($val2), false);
                 if (strlen($value)) {
                     $this->saveCurrentSolution($active_id, $pass, $val1, $value, $authorized);
                     $entered_values++;
@@ -752,6 +752,11 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     protected function savePreviewData(ilAssQuestionPreviewSession $previewSession): void
     {
         $answer = $_POST['answer'] ?? null;
+        if (is_array($answer)) {
+            $answer = array_map(function ($value) {
+                return trim($value);
+            }, $answer);
+        }
         $previewSession->setParticipantsSolution($answer);
     }
 
