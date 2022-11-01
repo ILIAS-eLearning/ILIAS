@@ -42,6 +42,11 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     public const MODE_SINGLE_CHOICE = 0;
     public const MODE_MULTIPLE_CHOICE = 1;
 
+    public const AVAILABLE_SHAPES = [
+        'RECT' => 'rect',
+        'CIRCLE' => 'circle',
+        'POLY' => 'poly'];
+
     /** @var $answers array The possible answers of the imagemap question. */
     public $answers;
 
