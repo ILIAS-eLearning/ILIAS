@@ -419,7 +419,7 @@ class ilLanguage
             $post_change_lang_to = $DIC->http()->wrapper()->post()->retrieve(
                 'change_lang_to',
                 $DIC->refinery()->kindlyTo()->dictOf(
-                    $DIC->refinery()->kindlyTo()->float()
+                    $DIC->refinery()->kindlyTo()->string()
                 )
             );
         }
@@ -428,7 +428,7 @@ class ilLanguage
         // Added check for ilUser->getId > 0 because it is 0 when the language is changed and
         // the terms of service should be displayed
         if ($ilUser instanceof ilObjUser &&
-            ($ilUser->getId() && !$ilUser->isAnonymous())
+            (($ilUser->getId() && !$ilUser->isAnonymous()) || !$isset_get_lang)
         ) {
             ilSession::set("lang", $ilUser->getPref("language"));
         }
