@@ -190,6 +190,14 @@ class ilStr
         bool $a_keep_extension = false
     ): string {
         if (ilStr::strLen($a_str) > $a_len) {
+            /*
+             * When adding dots, the dots have to be included in the length such
+             * that the total length of the resulting string does not exceed
+             * the given maximum length (see BT 33865).
+             */
+            if ($a_dots) {
+                $a_len--;
+            }
             if ($a_next_blank) {
                 $len = ilStr::strPos($a_str, " ", $a_len);
             } else {
