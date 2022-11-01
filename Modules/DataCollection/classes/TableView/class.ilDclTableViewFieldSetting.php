@@ -503,6 +503,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         $this->setInFilter($orig->isInFilter());
         $this->setVisibleCreate($orig->isVisibleCreate());
         $this->setVisibleEdit($orig->isVisibleEdit());
+        $this->setVisible($orig->isVisibleInList());
         $this->setLockedCreate($orig->isLockedCreate());
         $this->setLockedEdit($orig->isLockedEdit());
         $this->setRequiredCreate($orig->isRequiredCreate());
