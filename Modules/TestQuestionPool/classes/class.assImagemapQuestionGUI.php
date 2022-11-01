@@ -238,17 +238,17 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     {
         $coords = "";
         switch ($_POST["shape"]) {
-            case "rect":
+            case assImagemapQuestion::AVAILABLE_SHAPES['RECT']:
                 $coords = join(",", $_POST['image']['mapcoords']);
                 ilUtil::sendSuccess($this->lng->txt('msg_rect_added'), true);
                 break;
-            case "circle":
+            case assImagemapQuestion::AVAILABLE_SHAPES['CIRCLE']:
                 if (preg_match("/(\d+)\s*,\s*(\d+)\s+(\d+)\s*,\s*(\d+)/", $_POST['image']['mapcoords'][0] . " " . $_POST['image']['mapcoords'][1], $matches)) {
                     $coords = "$matches[1],$matches[2]," . (int) sqrt((($matches[3] - $matches[1]) * ($matches[3] - $matches[1])) + (($matches[4] - $matches[2]) * ($matches[4] - $matches[2])));
                 }
                 ilUtil::sendSuccess($this->lng->txt('msg_circle_added'), true);
                 break;
-            case "poly":
+            case assImagemapQuestion::AVAILABLE_SHAPES['POLY']:
                 $coords = join(",", $_POST['image']['mapcoords']);
                 ilUtil::sendSuccess($this->lng->txt('msg_poly_added'), true);
                 break;
