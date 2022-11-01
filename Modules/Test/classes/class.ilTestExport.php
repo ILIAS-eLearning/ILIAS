@@ -581,6 +581,9 @@ abstract class ilTestExport
 
                         foreach ($questions as $question) {
                             $question_data = $data->getParticipant($active_id)->getPass($pass)->getAnsweredQuestionByQuestionId($question["id"]);
+                            if (is_null($question_data)) {
+                                $question_data = ['reached' => 0];
+                            }
                             $worksheet->setCell($row, $col, $question_data["reached"]);
                             if ($this->test_obj->isRandomTest()) {
                                 // random test requires question headers for every participant
@@ -1046,6 +1049,9 @@ abstract class ilTestExport
                             $questions = $this->orderQuestions($evaluated_questions);
                             foreach ($questions as $question) {
                                 $question_data = $data->getParticipant($active_id)->getPass($pass)->getAnsweredQuestionByQuestionId($question["id"]);
+                                if (is_null($question_data)) {
+                                    $question_data = ['reached' => 0];
+                                }
                                 array_push($datarow2, $question_data["reached"]);
                                 array_push($datarow, preg_replace("/<.*?>/", "", $data->getQuestionTitle($question["id"])));
                             }
