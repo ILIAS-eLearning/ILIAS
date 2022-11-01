@@ -189,7 +189,7 @@ class ilTestImporter extends ilXmlImporter
             $tax_ids = explode(":", $new_tax_ids);
 
             foreach ($tax_ids as $tid) {
-                ilObjTaxonomy::saveUsage($tid, $newTstObjId);
+                ilObjTaxonomy::saveUsage((int) $tid, (int) $newTstObjId);
             }
         }
 
