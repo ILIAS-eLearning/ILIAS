@@ -2735,7 +2735,7 @@
 
 		<!-- mp3 (mediaelement.js) -->
 		<xsl:when test = "$type='audio/mpeg' and (substring-before($data,'.mp3') != '' or substring-before($data,'.MP3') != '')">
-			<audio class="ilPageAudio" height="40" preload="meta">
+			<audio class="ilPageAudio" height="40" preload="metadata">
 				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
 				<xsl:if test="$width != ''">
 					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
