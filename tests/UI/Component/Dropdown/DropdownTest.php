@@ -96,10 +96,10 @@ class DropdownTest extends ILIAS_UI_TestBase
 
         $expected = <<<EOT
 			<div class="dropdown">
-				<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="actions" aria-haspopup="true" aria-expanded="false">
+				<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu">
 					<span class="caret"></span>
 				</button>
-				<ul class="dropdown-menu">
+				<ul id="id_3_menu" class="dropdown-menu">
 					<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
 					<li><hr  /></li>
 					<li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
@@ -124,8 +124,8 @@ EOT;
         $html = $r->render($c);
 
         $expected = <<<EOT
-			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">label <span class="caret"></span></button>
-				<ul class="dropdown-menu">
+			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu">label <span class="caret"></span></button>
+				<ul id="id_3_menu" class="dropdown-menu">
 					<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
 					<li><hr  /></li>
 					<li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
@@ -150,8 +150,8 @@ EOT;
         $html = $r->render($c);
 
         $expected = <<<EOT
-			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="actions" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
-				<ul class="dropdown-menu">
+			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_1" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_1_menu"><span class="caret"></span></button>
+				<ul id="id_1_menu" class="dropdown-menu">
 					<li><a href="http://www.ilias.de" target="_blank" rel="noopener">Link to ILIAS</a></li>
 				</ul>
 			</div>
@@ -174,8 +174,8 @@ EOT;
         $html = $r->render($c);
 
         $expected = <<<EOT
-			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="my_aria_label" aria-haspopup="true" aria-expanded="false">label <span class="caret"></span></button>
-				<ul class="dropdown-menu">
+			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="my_aria_label" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu">label <span class="caret"></span></button>
+				<ul id="id_3_menu" class="dropdown-menu">
 					<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
 					<li><hr  /></li>
 					<li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
