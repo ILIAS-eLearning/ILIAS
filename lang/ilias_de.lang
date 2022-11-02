@@ -13148,20 +13148,6 @@ rbac#:#chtr_moderate#:#Diskussion im Chatraum moderieren
 rbac#:#chtr_read#:#An Diskussion im Chatraum teilnehmen
 rbac#:#chtr_visible#:#Chatraum ist sichtbar
 rbac#:#chtr_write#:#Einstellungen des Chatraums bearbeiten und Benutzer sperren
-rbac#:#cld_delete#:#User can delete cloud object###29 07 2022 new variable
-rbac#:#cld_delete_files#:#Users can delete Files in the cloud object###29 07 2022 new variable
-rbac#:#cld_delete_folders#:#Users can delete Folders in the cloud object###29 07 2022 new variable
-rbac#:#cld_download#:#User can download files from the cloud object###29 07 2022 new variable
-rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor###29 07 2022 new variable
-rbac#:#cld_edit_permission#:#User can change permission settings###29 07 2022 new variable
-rbac#:#cld_files_visible#:#Files are visible in the cloud object###29 07 2022 new variable
-rbac#:#cld_folders_create#:#Folders may be created in the cloud object###29 07 2022 new variable
-rbac#:#cld_folders_visible#:#Folders are visible in the cloud object###29 07 2022 new variable
-rbac#:#cld_permission#:#User can change permission settings###29 07 2022 new variable
-rbac#:#cld_read#:#User can open a Cloud Object###29 07 2022 new variable
-rbac#:#cld_upload#:#User can upload files to the cloud object###29 07 2022 new variable
-rbac#:#cld_visible#:#Cloud Object is visible###29 07 2022 new variable
-rbac#:#cld_write#:#User can edit cloud object settings###29 07 2022 new variable
 rbac#:#cmis_edit_permissions#:#Rechteeinstellungen der Administration für xAPI/cmi5 ändern
 rbac#:#cmis_read#:#Lesezugriff auf Administration für xAPI/cmi5
 rbac#:#cmis_visible#:#Administration für xAPI/cmi5 ist sichtbar.
