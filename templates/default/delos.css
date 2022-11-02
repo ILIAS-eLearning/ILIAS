@@ -15116,7 +15116,9 @@ ul.ilWikiBlockListNoIndent {
 }
 li.ilWikiBlockItem {
   margin: 0;
-  padding: 0;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  font-size: 0.75rem;
 }
 /* see mantis #0027530 */
 #block_wikiside_0 .panel-body {
