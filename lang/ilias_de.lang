@@ -2052,7 +2052,7 @@ auth#:#auth_oidc_settings_section_user_sync#:#Einstellungen zur Benutzersynchron
 auth#:#auth_oidc_settings_session_duration#:#Dauer
 auth#:#auth_oidc_settings_title#:#OpenID Connect Authentifizierung konfigurieren
 auth#:#auth_oidc_settings_txt#:#Text
-auth#:#auth_oidc_settings_txt_val_info#:#Tragen Sie einen Text ein der auf der Anmeldeseite angezeigt werden soll. Der Text verlinkt automatisch auf das OpenId Connect Anmeldeskript.
+auth#:#auth_oidc_settings_txt_val_info#:#Tragen Sie einen Text ein, der auf der Anmeldeseite angezeigt werden soll. Der Text verlinkt automatisch auf das OpenID-Connect-Anmeldeskript.
 auth#:#auth_oidc_settings_user_attr#:#Attributname der Benutzerzugänge
 auth#:#auth_oidc_settings_user_sync#:#Automatische Synchronisierung
 auth#:#auth_oidc_settings_user_sync_info#:#Für Personen, die noch kein ILIAS-Konto besitzen, sich aber erfolgreich gegen Open ID Connect authentifiziert haben, wird automatisch ein neues ILIAS-Konto erzeugt.
