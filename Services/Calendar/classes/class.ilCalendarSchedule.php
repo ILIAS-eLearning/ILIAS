@@ -332,6 +332,9 @@ class ilCalendarSchedule
                 $this->logger->notice('filtering failed for ' . get_class($filter));
                 return null;
             }
+            if (is_null($res)) {    // see #35241
+                return null;
+            }
             $event = $res;
         }
         return $event;
