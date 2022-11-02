@@ -13127,20 +13127,6 @@ rbac#:#chtr_moderate#:#User can moderate discussion in chat room
 rbac#:#chtr_read#:#User can join and participate at chat room
 rbac#:#chtr_visible#:#Chat Room is visible
 rbac#:#chtr_write#:#User can edit settings of chat room and ban users
-rbac#:#cld_delete#:#User can delete cloud object
-rbac#:#cld_delete_files#:#Users can delete Files in the cloud object
-rbac#:#cld_delete_folders#:#Users can delete Folders in the cloud object
-rbac#:#cld_download#:#User can download files from the cloud object
-rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor
-rbac#:#cld_edit_permission#:#User can change permission settings
-rbac#:#cld_files_visible#:#Files are visible in the cloud object
-rbac#:#cld_folders_create#:#Folders may be created in the cloud object
-rbac#:#cld_folders_visible#:#Folders are visible in the cloud object
-rbac#:#cld_permission#:#User can change permission settings
-rbac#:#cld_read#:#User can open a Cloud Object
-rbac#:#cld_upload#:#User can upload files to the cloud object
-rbac#:#cld_visible#:#Cloud Object is visible
-rbac#:#cld_write#:#User can edit cloud object settings
 rbac#:#cmis_edit_permissions#:#User can change permission settings of xAPI/cmi5 administration.
 rbac#:#cmis_read#:#User has read access to xAPI/cmi5 administration.
 rbac#:#cmis_visible#:#Administration of xAPI/cmi5 is visible.
