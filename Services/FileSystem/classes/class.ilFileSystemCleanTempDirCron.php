@@ -73,22 +73,22 @@ class ilFileSystemCleanTempDirCron extends ilCronJob
 
     public function hasAutoActivation(): bool
     {
-        return true;
+        return false;
     }
 
     public function hasFlexibleSchedule(): bool
     {
-        return false;
+        return true;
     }
 
     public function getDefaultScheduleType(): int
     {
-        return self::SCHEDULE_TYPE_IN_MINUTES;
+        return self::SCHEDULE_TYPE_DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int
     {
-        return 0;
+        return 1;
     }
 
     public function run(): ilCronJobResult
