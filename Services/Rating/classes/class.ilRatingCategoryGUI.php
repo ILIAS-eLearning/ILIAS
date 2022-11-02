@@ -329,9 +329,9 @@ class ilRatingCategoryGUI
             $excel->setCell($row, 0, (int) $item["sub_obj_id"]);
             $excel->setCell($row, 1, $sub_obj_title);
             $excel->setCell($row, 2, (int) $item["category_id"]);
-            $excel->setCell($row, 3, $active[$item["category_id"]]);
-            $excel->setCell($row, 4, new ilDateTime($item["tstamp"], IL_CAL_UNIX));
-            $excel->setCell($row, 5, $item["rating"]);
+            $excel->setCell($row, 3, $active[$item["category_id"]] ?? "");
+            $excel->setCell($row, 4, new ilDateTime($item["tstamp"] ?? null, IL_CAL_UNIX));
+            $excel->setCell($row, 5, $item["rating"] ?? "");
         }
 
         $excel->sendToClient(ilObject::_lookupTitle($this->parent_id));
