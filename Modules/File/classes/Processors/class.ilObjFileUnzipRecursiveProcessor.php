@@ -37,10 +37,8 @@ class ilObjFileUnzipRecursiveProcessor extends ilObjFileAbstractZipProcessor
         $this->openZip($rid);
         $base_node = $this->gui_object->getParentId();
 
-        $multiple_root_entries = $this->hasMultipleRootEntriesInZip();
-
         // Create Base Container if needed
-        if ($this->create_base_container_for_multiple_root_entries && $multiple_root_entries) {
+        if ($this->create_base_container_for_multiple_root_entries && $this->hasMultipleRootEntriesInZip()) {
             $base_node = $this->createSurroundingContainer($rid);
         }
 
