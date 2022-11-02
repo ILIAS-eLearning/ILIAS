@@ -1251,16 +1251,25 @@ class ilUtil
     ): void {
         global $DIC;
 
+        $http = $DIC->http();
+        $cookie_jar = $http->cookieJar();
+
         $cookie_factory = new CookieFactoryImpl();
-        $defalut_cookie_time = time() - (365 * 24 * 60 * 60);
+        $cookie_expire = defined('IL_COOKIE_EXPIRE') ? (IL_COOKIE_EXPIRE === 0 ? null : (int) IL_COOKIE_EXPIRE) : null;
+
+        $expires = ($a_set_cookie_invalid ? time() - 10 : $cookie_expire);
 
         $cookie = $cookie_factory->create($a_cookie_name, $a_cookie_value)
-                                 ->withExpires($a_set_cookie_invalid ? 0 : $defalut_cookie_time)
+                                 ->withExpires($expires)
                                  ->withSecure(defined('IL_COOKIE_SECURE') ? IL_COOKIE_SECURE : false)
                                  ->withPath(defined('IL_COOKIE_PATH') ? IL_COOKIE_PATH : '')
                                  ->withDomain(defined('IL_COOKIE_DOMAIN') ? IL_COOKIE_DOMAIN : '')
                                  ->withHttpOnly(defined('IL_COOKIE_HTTPONLY') ? IL_COOKIE_HTTPONLY : false);
-        $DIC->http()->cookieJar()->with($cookie);
+
+
+        $jar = $cookie_jar->with($cookie);
+        $response = $jar->renderIntoResponseHeader($http->response());
+        $http->saveResponse($response);
     }
 
     /**
