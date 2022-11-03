@@ -653,19 +653,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             array("", "properties"),
             get_class($this)
         );
-        // if (ilLearningProgressAccess::checkAccess($this->object->getRefId()) || $rbacsystem->checkAccess("edit_permission", "", $this->object->getRefId())) {
-        // //if scorm && offline_mode activated
-        // if ($this->object->getSubType() == "scorm2004" || $this->object->getSubType() == "scorm") {
-        // if ($this->object->getOfflineMode() == true) {
-        // $this->tabs_gui->addTarget(
-        // "offline_mode_manager",
-        // $this->ctrl->getLinkTarget($this, "offlineModeManager"),
-        // "offlineModeManager",
-        // "ilobjscormlearningmodulegui"
-        // );
-        // }
-        // }
-        // }
+
         if (ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'learning_progress',
@@ -680,11 +668,15 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             if ($this->object->getSubType() === "scorm2004" || $this->object->getSubType() === "scorm") {
                 $privacy = ilPrivacySettings::getInstance();
                 if ($privacy->enabledSahsProtocolData()) {
+                    $scormClass = "ilobjscormlearningmodulegui";
+                    if ($this->object->getSubType() === "scorm2004") {
+                        $scormClass = "ilobjscorm2004learningmodulegui";
+                    }
+                    $this->ctrl->setParameterByClass($scormClass, "ref_id", $this->object->getRefId());
                     $this->tabs_gui->addTarget(
                         "cont_tracking_data",
-                        $this->ctrl->getLinkTarget($this, "showTrackingItems"),
-                        "showTrackingItems",
-                        get_class($this)
+                        $this->ctrl->getLinkTargetByClass(['ilsahseditgui',$scormClass], "showTrackingItems"),
+                        "showTrackingItems"
                     );
                 }
             }
