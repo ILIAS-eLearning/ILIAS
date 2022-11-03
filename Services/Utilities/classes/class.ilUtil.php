@@ -1255,9 +1255,18 @@ class ilUtil
         $cookie_jar = $http->cookieJar();
 
         $cookie_factory = new CookieFactoryImpl();
-        $cookie_expire = defined('IL_COOKIE_EXPIRE') ? (IL_COOKIE_EXPIRE === 0 ? null : (int) IL_COOKIE_EXPIRE) : null;
 
-        $expires = ($a_set_cookie_invalid ? time() - 10 : $cookie_expire);
+        $cookie_expire = null;
+        if (defined('IL_COOKIE_EXPIRE') && is_numeric(IL_COOKIE_EXPIRE) && IL_COOKIE_EXPIRE > 0) {
+            $cookie_expire = (int) IL_COOKIE_EXPIRE;
+        }
+
+        $expires = null;
+        if ($a_set_cookie_invalid) {
+            $expires = time() - 10;
+        } elseif ($cookie_expire > 0) {
+            $expires = time() + $cookie_expire;
+        }
 
         $cookie = $cookie_factory->create($a_cookie_name, $a_cookie_value)
                                  ->withExpires($expires)
