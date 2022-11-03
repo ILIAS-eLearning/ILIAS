@@ -24,6 +24,7 @@
 class ilPCSkillsGUI extends ilPageContentGUI
 {
     protected ilObjUser $user;
+    protected \ILIAS\Skill\Service\SkillPersonalService $skill_personal_service;
 
     public function __construct(
         ilPageObject $a_pg_obj,
@@ -37,6 +38,7 @@ class ilPCSkillsGUI extends ilPageContentGUI
         $this->ctrl = $DIC->ctrl();
         $this->user = $DIC->user();
         $this->lng = $DIC->language();
+        $this->skill_personal_service = $DIC->skills()->personal();
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
@@ -118,10 +120,10 @@ class ilPCSkillsGUI extends ilPageContentGUI
 
         $options = array();
 
-        $skills = ilPersonalSkill::getSelectedUserSkills($ilUser->getId());
+        $skills = $this->skill_personal_service->getSelectedUserSkills($ilUser->getId());
         if ($skills) {
             foreach ($skills as $skill) {
-                $options[$skill["skill_node_id"]] = $skill["title"];
+                $options[$skill->getSkillNodeId()] = $skill->getTitle();
             }
             asort($options);
         } else {

@@ -120,12 +120,12 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
         $completions = $this->profile_completion_manager->getFulfilledEntriesForUser($this->getUserId());
 
         foreach ($completions as $c) {
-            $this->ctrl->setParameterByClass("ilpersonalskillsgui", "profile_id", $c["profile_id"]);
+            $this->ctrl->setParameterByClass("ilpersonalskillsgui", "profile_id", $c->getProfileId());
             $p_link = $this->ui_fac->link()->standard(
-                $this->profile_manager->lookupTitle($c["profile_id"]),
+                $this->profile_manager->lookupTitle($c->getProfileId()),
                 $this->ctrl->getLinkTargetByClass("ilpersonalskillsgui", "listassignedprofile")
             );
-            $ts = new ilDateTime($c["date"], IL_CAL_DATETIME);
+            $ts = new ilDateTime($c->getDate(), IL_CAL_DATETIME);
             $text = str_replace(
                 "$3$",
                 $this->getEmphasizedTitle($this->ui_ren->render($p_link)),

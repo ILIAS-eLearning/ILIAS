@@ -34,6 +34,7 @@ class ilMStShowUserCompetencesGUI
     protected ilMyStaffAccess $access;
     private Container $dic;
     private \ilGlobalTemplateInterface $main_tpl;
+    protected \ILIAS\Skill\Service\SkillPersonalService $skill_personal_service;
 
     public function __construct(Container $dic)
     {
@@ -41,6 +42,7 @@ class ilMStShowUserCompetencesGUI
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->dic = $dic;
         $this->access = ilMyStaffAccess::getInstance();
+        $this->skill_personal_service = $DIC->skills()->personal();
 
         $this->usr_id = $this->dic->http()->request()->getQueryParams()['usr_id'];
         $this->dic->ctrl()->setParameter($this, 'usr_id', $this->usr_id);
@@ -98,10 +100,10 @@ class ilMStShowUserCompetencesGUI
     protected function showSkills(): void
     {
         $skills_gui = new ilPersonalSkillsGUI();
-        $skills = ilPersonalSkill::getSelectedUserSkills($this->usr_id);
+        $skills = $this->skill_personal_service->getSelectedUserSkills($this->usr_id);
         $html = '';
         foreach ($skills as $skill) {
-            $html .= $skills_gui->getSkillHTML($skill["skill_node_id"], $this->usr_id);
+            $html .= $skills_gui->getSkillHTML($skill->getSkillNodeId(), $this->usr_id);
         }
         $this->dic->ui()->mainTemplate()->setContent($html);
     }

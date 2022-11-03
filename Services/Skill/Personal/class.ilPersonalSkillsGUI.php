@@ -22,14 +22,13 @@ declare(strict_types=1);
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
-use ILIAS\Skill\Service\SkillTreeService;
-use ILIAS\Skill\Service\SkillPersonalGUIRequest;
+use ILIAS\Skill\Service;
 use ILIAS\ResourceStorage\Services as ResourceStorage;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component\Chart\Bar\BarConfig;
 use ILIAS\UI\Component\Chart\Bar\XAxis;
-use ILIAS\Skill\Profile\SkillProfileCompletionManager;
-use ILIAS\Skill\Profile\SkillProfileManager;
+use ILIAS\Skill\Profile;
+use ILIAS\Skill\Personal;
 
 /**
  * Personal skills GUI class
@@ -58,7 +57,6 @@ class ilPersonalSkillsGUI
      * @var array<int, array<int, int>>
      */
     protected array $gap_self_eval_levels = [];
-    protected bool $history_view = false;
 
     /**
      * @var int[]
@@ -100,12 +98,12 @@ class ilPersonalSkillsGUI
     protected int $profile_id = 0;
 
     /**
-     * @var array{base_skill_id: int, tref_id: int, level_id: int, order_nr: int}[]
+     * @var Profile\SkillProfileLevel[]
      */
     protected array $profile_levels = [];
 
     /**
-     * @var array{id: int, title: string, description: string, image_id: string}[]
+     * @var Profile\SkillProfile[]
      */
     protected array $user_profiles = [];
 
@@ -116,11 +114,15 @@ class ilPersonalSkillsGUI
     protected bool $use_materials = false;
     protected ilSkillManagementSettings $skmg_settings;
     protected ilPersonalSkillsFilterGUI $filter;
+    protected Service\SkillPersonalGUIRequest $personal_gui_request;
     protected ilSkillTreeRepository $tree_repo;
-    protected SkillTreeService $tree_service;
-    protected SkillProfileManager $profile_manager;
-    protected SkillProfileCompletionManager $profile_completion_manager;
-    protected SkillPersonalGUIRequest $personal_gui_request;
+    protected Service\SkillTreeService $tree_service;
+    protected Profile\SkillProfileManager $profile_manager;
+    protected Profile\SkillProfileCompletionManager $profile_completion_manager;
+    protected Personal\PersonalSkillManager $personal_manager;
+    protected Personal\AssignedMaterialManager $assigned_material_manager;
+    protected Personal\SelfEvaluationManager $self_evaluation_manager;
+    protected Service\SkillInternalFactoryService $factory_service;
     protected string $requested_list_mode = self::LIST_PROFILES;
     protected int $requested_node_id = 0;
     protected int $requested_profile_id = 0;
@@ -169,6 +171,10 @@ class ilPersonalSkillsGUI
         $this->tree_service = $DIC->skills()->tree();
         $this->profile_manager = $DIC->skills()->internal()->manager()->getProfileManager();
         $this->profile_completion_manager = $DIC->skills()->internal()->manager()->getProfileCompletionManager();
+        $this->personal_manager = $DIC->skills()->internal()->manager()->getPersonalSkillManager();
+        $this->assigned_material_manager = $DIC->skills()->internal()->manager()->getAssignedMaterialManager();
+        $this->self_evaluation_manager = $DIC->skills()->internal()->manager()->getSelfEvaluationManager();
+        $this->factory_service = $DIC->skills()->internal()->factory();
 
         $ilCtrl = $this->ctrl;
         $ilHelp = $this->help;
@@ -237,16 +243,6 @@ class ilPersonalSkillsGUI
         return $this->gap_self_eval_levels;
     }
 
-    public function setHistoryView(bool $a_val): void
-    {
-        $this->history_view = $a_val;
-    }
-
-    public function getHistoryView(): bool
-    {
-        return $this->history_view;
-    }
-
     public function getTriggerObjectsFilter(): array
     {
         return $this->trigger_objects_filter;
@@ -304,7 +300,7 @@ class ilPersonalSkillsGUI
             }
         }
 
-        if ($current_prof_id == 0 && !(is_array($this->obj_skills) && $this->obj_id > 0)) {
+        if ($current_prof_id == 0 && !(is_array($this->getObjectSkills()) && $this->getObjectId() > 0)) {
             $current_prof_id = $this->cont_profiles[0]["profile_id"];
         }
         $ilCtrl->setParameter($this, "profile_id", $current_prof_id);
@@ -397,6 +393,11 @@ class ilPersonalSkillsGUI
         $this->offline_mode = $a_file_path;
     }
 
+    public function getOfflineMode(): string
+    {
+        return $this->offline_mode;
+    }
+
     protected function render(): void
     {
         if ($this->requested_list_mode == self::LIST_SELECTED || !count($this->user_profiles) > 0) {
@@ -429,10 +430,10 @@ class ilPersonalSkillsGUI
         $filter_toolbar->setFormAction($ilCtrl->getFormAction($this));
         $this->getFilter()->addToToolbar($filter_toolbar, false);
 
-        $skills = ilPersonalSkill::getSelectedUserSkills($ilUser->getId());
+        $skills = $this->personal_manager->getSelectedUserSkills($ilUser->getId());
         $html = "";
         foreach ($skills as $s) {
-            $path = $this->tree_service->getSkillTreePath($s["skill_node_id"]);
+            $path = $this->tree_service->getSkillTreePath($s->getSkillNodeId());
 
             // check draft
             foreach ($path as $p) {
@@ -440,7 +441,7 @@ class ilPersonalSkillsGUI
                     continue(2);
                 }
             }
-            $html .= $this->getSkillHTML($s["skill_node_id"], 0, true);
+            $html .= $this->getSkillHTML($s->getSkillNodeId(), 0, true);
         }
 
         // list skills
@@ -495,7 +496,7 @@ class ilPersonalSkillsGUI
             "Services/Skill",
             "personal_skill_html",
             array("personal_skills_gui" => $this, "top_skill_id" => $a_top_skill_id, "user_id" => $a_user_id,
-                "edit" => $a_edit, "tref_id" => $a_tref_id)
+                  "edit" => $a_edit, "tref_id" => $a_tref_id)
         );
         $skill_html = "";
         if (!$uip->replaced()) {
@@ -620,7 +621,7 @@ class ilPersonalSkillsGUI
                 }
             }
 
-            if ($this->mode == "gap" && !$this->history_view) {
+            if ($this->mode == "gap") {
                 $panel_comps[] = $this->ui_fac->legacy($this->getActualGapItem($level_data, $bs["tref"]));
                 $panel_comps[] = $this->ui_fac->legacy($this->getSelfEvalGapItem($level_data, $bs["tref"]));
             } else {
@@ -765,10 +766,10 @@ class ilPersonalSkillsGUI
         $obj_id = $ws_tree->lookupObjectId($a_wsp_id);
         $caption = ilObject::_lookupTitle($obj_id);
 
-        if (!$this->offline_mode) {
+        if (!$this->getOfflineMode()) {
             $url = $ws_access->getGotoLink($a_wsp_id, $obj_id);
         } else {
-            $url = $this->offline_mode . "file_" . $obj_id . "/";
+            $url = $this->getOfflineMode() . "file_" . $obj_id . "/";
 
             // all possible material types for now
             switch (ilObject::_lookupType($obj_id)) {
@@ -818,7 +819,7 @@ class ilPersonalSkillsGUI
         $ilUser = $this->user;
         $lng = $this->lng;
 
-        ilPersonalSkill::addPersonalSkill($ilUser->getId(), $this->requested_node_id);
+        $this->personal_manager->addPersonalSkill($ilUser->getId(), $this->requested_node_id);
 
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_object_modified"));
         $ilCtrl->setParameter($this, "list_mode", self::LIST_SELECTED);
@@ -861,7 +862,7 @@ class ilPersonalSkillsGUI
 
         if (!empty($this->requested_skill_ids)) {
             foreach ($this->requested_skill_ids as $n_id) {
-                ilPersonalSkill::removeSkill($ilUser->getId(), $n_id);
+                $this->personal_manager->removePersonalSkill($ilUser->getId(), $n_id);
             }
         }
 
@@ -919,8 +920,8 @@ class ilPersonalSkillsGUI
         }
 
         $cur_basic_skill_id = ($this->requested_basic_skill_id > 0)
-                ? $this->requested_basic_skill_id
-                : key($options);
+            ? $this->requested_basic_skill_id
+            : key($options);
 
         $ilCtrl->setParameter($this, "basic_skill_id", $cur_basic_skill_id);
 
@@ -965,10 +966,10 @@ class ilPersonalSkillsGUI
         if (!$ilSetting->get("disable_personal_workspace")) {
             $url = 'ilias.php?baseClass=ilDashboardGUI&amp;cmd=jumpToWorkspace';
             $mbox = $ui->factory()->messageBox()->info($lng->txt("skmg_ass_materials_from_workspace"))
-                ->withLinks([$ui->factory()->link()->standard(
-                    $lng->txt("personal_resources"),
-                    $url
-                )]);
+                       ->withLinks([$ui->factory()->link()->standard(
+                           $lng->txt("personal_resources"),
+                           $url
+                       )]);
             $message = $ui->renderer()->render($mbox);
         }
 
@@ -1021,7 +1022,7 @@ class ilPersonalSkillsGUI
 
         if (!empty($this->requested_wsp_ids)) {
             foreach ($this->requested_wsp_ids as $w) {
-                ilPersonalSkill::assignMaterial(
+                $this->assigned_material_manager->assignMaterial(
                     $ilUser->getId(),
                     $this->requested_skill_id,
                     $this->requested_tref_id,
@@ -1048,7 +1049,7 @@ class ilPersonalSkillsGUI
         $lng = $this->lng;
 
 
-        ilPersonalSkill::removeMaterial(
+        $this->assigned_material_manager->removeAssignedMaterial(
             $ilUser->getId(),
             $this->requested_tref_id,
             $this->requested_level_id,
@@ -1105,8 +1106,8 @@ class ilPersonalSkillsGUI
         }
 
         $cur_basic_skill_id = ($this->requested_basic_skill_id > 0)
-                ? $this->requested_basic_skill_id
-                : key($options);
+            ? $this->requested_basic_skill_id
+            : key($options);
 
         $ilCtrl->setParameter($this, "basic_skill_id", $cur_basic_skill_id);
 
@@ -1139,7 +1140,7 @@ class ilPersonalSkillsGUI
         $ilUser = $this->user;
         $lng = $this->lng;
 
-        ilPersonalSkill::saveSelfEvaluation(
+        $this->self_evaluation_manager->saveSelfEvaluation(
             $ilUser->getId(),
             $this->requested_skill_id,
             $this->requested_tref_id,
@@ -1192,7 +1193,7 @@ class ilPersonalSkillsGUI
 
         //$profiles = ilSkillProfile::getProfilesOfUser($a_user_id);
 
-        if (count($this->cont_profiles) == 0 && $this->obj_skills == null) {
+        if (count($this->cont_profiles) == 0 && $this->getObjectSkills() == null) {
             return;
         }
 
@@ -1223,8 +1224,9 @@ class ilPersonalSkillsGUI
         $ilCtrl = $this->ctrl;
 
         $options = [];
-        if (is_array($this->obj_skills) && $this->obj_id > 0) {
-            $options[0] = $lng->txt("obj_" . ilObject::_lookupType($this->obj_id)) . ": " . ilObject::_lookupTitle($this->obj_id);
+        if (is_array($this->getObjectSkills()) && $this->getObjectId() > 0) {
+            $options[0] = $lng->txt("obj_" . ilObject::_lookupType($this->getObjectId()))
+                . ": " . ilObject::_lookupTitle($this->getObjectId());
         }
 
         foreach ($this->cont_profiles as $p) {
@@ -1268,7 +1270,7 @@ class ilPersonalSkillsGUI
 
 
         if ($a_skills == null) {
-            $a_skills = $this->obj_skills;
+            $a_skills = $this->getObjectSkills();
         }
 
 
@@ -1289,32 +1291,41 @@ class ilPersonalSkillsGUI
         }
 
         $skills = [];
+        $skills_as_obj = [];
         if ($this->getProfileId() > 0) {
-            $profile = $this->profile_manager->getById($this->getProfileId());
-            $this->profile_levels = $profile->getSkillLevels();
-
+            $this->profile_levels = $this->profile_manager->getSkillLevels($this->getProfileId());
+            $skills_as_obj = $this->profile_levels;
             foreach ($this->profile_levels as $l) {
                 $skills[] = array(
-                    "base_skill_id" => (int) $l["base_skill_id"],
-                    "tref_id" => (int) $l["tref_id"],
-                    "level_id" => (int) $l["level_id"]
+                    "base_skill_id" => $l->getBaseSkillId(),
+                    "tref_id" => $l->getTrefId(),
+                    "level_id" => $l->getLevelId()
                 );
             }
         } elseif (is_array($a_skills)) {
             $skills = $a_skills;
+            foreach ($a_skills as $s) {
+                $skills_as_obj[] = $this->factory_service->profile()->profileLevel(
+                    (int) ($s["profile_id"] ?? 0),
+                    (int) ($s["base_skill_id"] ?? 0),
+                    (int) ($s["tref_id"] ?? 0),
+                    (int) ($s["level_id"] ?? 0),
+                    (int) ($s["order_nr"] ?? 0)
+                );
+            }
         }
 
         // get actual levels for gap analysis
         $this->actual_levels = $this->profile_completion_manager->getActualMaxLevels(
             $user_id,
-            $skills,
+            $skills_as_obj,
             $this->gap_mode,
             $this->gap_mode_type,
             $this->gap_mode_obj_id
         );
         $this->next_level_fuls = $this->profile_completion_manager->getActualNextLevelFulfilments(
             $user_id,
-            $skills,
+            $skills_as_obj,
             $this->gap_mode,
             $this->gap_mode_type,
             $this->gap_mode_obj_id
@@ -1329,8 +1340,8 @@ class ilPersonalSkillsGUI
         $bc_skills = [];
         $html = "";
 
-        foreach ($skills as $s) {
-            $path = $this->tree_service->getSkillTreePath($s["base_skill_id"]);
+        foreach ($skills_as_obj as $s) {
+            $path = $this->tree_service->getSkillTreePath($s->getBaseSkillId());
 
             // check draft
             foreach ($path as $p) {
@@ -1339,7 +1350,7 @@ class ilPersonalSkillsGUI
                 }
             }
             $bc_skills[] = $s;
-            $html .= $this->getSkillHTML($s["base_skill_id"], $user_id, false, $s["tref_id"]);
+            $html .= $this->getSkillHTML($s->getBaseSkillId(), $user_id, false, $s->getTrefId());
         }
 
 
@@ -1359,7 +1370,7 @@ class ilPersonalSkillsGUI
     }
 
     /**
-     * @param array<int, array{base_skill_id: int, tref_id: int, title: int}> $skills
+     * @param Profile\SkillProfileLevel[] $skills
      */
     protected function getBarChartHTML(array $skills): string
     {
@@ -1389,7 +1400,7 @@ class ilPersonalSkillsGUI
         $tmp_labels = [];
         $all_chart_data = [];
         foreach ($skills as $l) {
-            $bs = new ilBasicSkill($l["base_skill_id"]);
+            $bs = new ilBasicSkill($l->getBaseSkillId());
             $levels = $bs->getLevelData();
             // filter out skills with no levels from chart
             if (empty($levels)) {
@@ -1405,7 +1416,7 @@ class ilPersonalSkillsGUI
                 $cnt++;
                 $labels[] = $lv["title"];
                 if ($this->getProfileId() > 0) {
-                    if ($l["level_id"] == $lv["id"]) {
+                    if ($l->getLevelId() == $lv["id"]) {
                         $points[$target_dim] = [$cnt - 0.01, $cnt + 0.01];
                         $tooltips[$target_dim] = $lv["title"];
                     } else {
@@ -1413,8 +1424,8 @@ class ilPersonalSkillsGUI
                         $tooltips[$target_dim] = $tooltips[$target_dim] ?? null;
                     }
                 }
-                if ($this->actual_levels[$l["base_skill_id"]][$l["tref_id"]] == $lv["id"]) {
-                    $perc = $this->next_level_fuls[$l["base_skill_id"]][$l["tref_id"]];
+                if ($this->actual_levels[$l->getBaseSkillId()][$l->getTrefId()] == $lv["id"]) {
+                    $perc = $this->next_level_fuls[$l->getBaseSkillId()][$l->getTrefId()];
                     $points[$eval_dim] = $cnt + $perc;
                     $tooltips[$eval_dim] = null;
                     if ($perc > 0) {
@@ -1446,8 +1457,8 @@ class ilPersonalSkillsGUI
             $tmp_labels = $labels;
 
             $all_chart_data[$chart_counter][$bar_counter]["item_title"] = ilBasicSkill::_lookupTitle(
-                $l["base_skill_id"],
-                $l["tref_id"]
+                $l->getBaseSkillId(),
+                $l->getTrefId()
             );
             $all_chart_data[$chart_counter][$bar_counter]["levels"] = $labels;
             $all_chart_data[$chart_counter][$bar_counter]["points"] = $points;
@@ -1548,7 +1559,7 @@ class ilPersonalSkillsGUI
         // only render, if materials given
         $got_mat = false;
         foreach ($a_levels as $v) {
-            $mat_cnt = ilPersonalSkill::countAssignedMaterial(
+            $mat_cnt = $this->assigned_material_manager->countAssignedMaterials(
                 $a_user_id,
                 $a_tref_id,
                 (int) $v["id"]
@@ -1564,13 +1575,13 @@ class ilPersonalSkillsGUI
         $tpl = new ilTemplate("tpl.skill_materials.html", true, true, "Services/Skill");
         foreach ($a_levels as $k => $v) {
             $got_mat = false;
-            foreach (ilPersonalSkill::getAssignedMaterial(
+            foreach ($this->assigned_material_manager->getAssignedMaterials(
                 $a_user_id,
                 $a_tref_id,
                 (int) $v["id"]
             ) as $item) {
                 $tpl->setCurrentBlock("material");
-                $mat_data = $this->getMaterialInfo($item["wsp_id"], $a_user_id);
+                $mat_data = $this->getMaterialInfo($item->getWorkspaceId(), $a_user_id);
                 $tpl->setVariable("HREF_LINK", $mat_data[1]);
                 $tpl->setVariable("TXT_LINK", $mat_data[0]);
                 $tpl->parseCurrentBlock();
@@ -1591,17 +1602,16 @@ class ilPersonalSkillsGUI
     {
         $lng = $this->lng;
 
-        $profile = $this->profile_manager->getById($a_profile_id);
-        $profile_levels = $profile->getSkillLevels();
+        $profile_levels = $this->profile_manager->getSkillLevels($a_profile_id);
 
         $a_activated_levels = [];
 
         foreach ($a_levels as $k => $v) {
             foreach ($profile_levels as $pl) {
-                if ($pl["level_id"] == $v["id"] &&
-                    $pl["base_skill_id"] == $v["skill_id"] &&
-                    $a_tref_id == $pl["tref_id"]) {
-                    $a_activated_levels[] = $pl["level_id"];
+                if ($pl->getLevelId() == $v["id"] &&
+                    $pl->getBaseSkillId() == $v["skill_id"] &&
+                    $a_tref_id == $pl->getTrefId()) {
+                    $a_activated_levels[] = $pl->getLevelId();
                 }
             }
         }
@@ -1711,14 +1721,14 @@ class ilPersonalSkillsGUI
         $tpl = new ilTemplate("tpl.skill_eval_item.html", true, true, "Services/Skill");
         $tpl->setVariable("SCALE_BAR", $this->getScaleBar($a_levels, $a_level_entry["level_id"]));
 
-        $type = ilSkillEval::TYPE_APPRAISAL;
+        $type = Personal\SkillEval::TYPE_APPRAISAL;
 
         if ($a_level_entry["self_eval"] == 1) {
-            $type = ilSkillEval::TYPE_SELF_EVAL;
+            $type = Personal\SkillEval::TYPE_SELF_EVAL;
         }
 
         if ($a_level_entry["trigger_obj_type"] == "tst") {
-            $type = ilSkillEval::TYPE_MEASUREMENT;
+            $type = Personal\SkillEval::TYPE_MEASUREMENT;
         }
 
         ilDatePresentation::setUseRelativeDates(false);
@@ -1863,7 +1873,7 @@ class ilPersonalSkillsGUI
         ilObjUser $user
     ): array {
         // get date of self evaluation
-        $se_date = ilPersonalSkill::getSelfEvaluationDate($user->getId(), $top_skill_id, $bs["tref"], $bs["id"]);
+        $se_date = $this->self_evaluation_manager->getSelfEvaluationDate($user->getId(), $top_skill_id, $bs["tref"], $bs["id"]);
         $se_rendered = $se_date == "";
 
         $filtered_entries = [];
@@ -2131,7 +2141,7 @@ class ilPersonalSkillsGUI
         $prof_items = [];
 
         foreach ($this->user_profiles as $p) {
-            $image_id = $p["image_id"];
+            $image_id = $p->getImageId();
             if ($image_id) {
                 $identification = $this->storage->manage()->find($image_id);
                 $src = $this->storage->consume()->src($identification);
@@ -2143,18 +2153,18 @@ class ilPersonalSkillsGUI
                 );
             }
 
-            $this->ctrl->setParameter($this, "profile_id", $p["id"]);
+            $this->ctrl->setParameter($this, "profile_id", $p->getId());
             $link = $this->ui_fac->link()->standard(
-                $p["title"],
+                $p->getTitle(),
                 $this->ctrl->getLinkTarget($this, "listassignedprofile")
             );
             $this->ctrl->setParameter($this, "profile_id", "");
 
-            $chart_value = $this->profile_completion_manager->getProfileProgress($this->user->getId(), $p["id"]);
+            $chart_value = $this->profile_completion_manager->getProfileProgress($this->user->getId(), $p->getId());
             $prof_item = $this->ui_fac->item()->standard($link)
-                ->withDescription($p["description"])
-                ->withLeadImage($image)
-                ->withProgress($this->ui_fac->chart()->progressMeter()->standard(100, $chart_value));
+                                      ->withDescription($p->getDescription())
+                                      ->withLeadImage($image)
+                                      ->withProgress($this->ui_fac->chart()->progressMeter()->standard(100, $chart_value));
 
             $prof_items[] = $prof_item;
         }
@@ -2190,16 +2200,8 @@ class ilPersonalSkillsGUI
 
         $skills = [];
         if ($this->getProfileId() > 0) {
-            $profile = $this->profile_manager->getById($this->getProfileId());
-            $this->profile_levels = $profile->getSkillLevels();
-
-            foreach ($this->profile_levels as $l) {
-                $skills[] = array(
-                    "base_skill_id" => (int) $l["base_skill_id"],
-                    "tref_id" => (int) $l["tref_id"],
-                    "level_id" => (int) $l["level_id"]
-                );
-            }
+            $this->profile_levels = $this->profile_manager->getSkillLevels($this->getProfileId());
+            $skills = $this->profile_levels;
         }
 
         $this->actual_levels = $this->profile_completion_manager->getActualMaxLevels(
@@ -2215,12 +2217,12 @@ class ilPersonalSkillsGUI
         $not_all_self_evaluated = false;
         foreach ($skills as $s) {
             if ($this->skmg_settings->getHideProfileBeforeSelfEval() &&
-                !ilBasicSkill::hasSelfEvaluated($this->user->getId(), $s["base_skill_id"], $s["tref_id"])) {
+                !ilBasicSkill::hasSelfEvaluated($this->user->getId(), $s->getBaseSkillId(), $s->getTrefId())) {
                 $not_all_self_evaluated = true;
             }
 
             // todo draft check
-            $html .= $this->getSkillHTML($s["base_skill_id"], 0, true, $s["tref_id"]);
+            $html .= $this->getSkillHTML($s->getBaseSkillId(), 0, true, $s->getTrefId());
         }
 
         if ($html != "") {

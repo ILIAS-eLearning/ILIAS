@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-use ILIAS\Skill\Service\SkillTreeService;
-
 /**
  * HTML export class for pages
  *
@@ -48,7 +46,8 @@ class ilCOPageHTMLExport
     protected ilObjUser $user;
     protected ilLogger $log;
     protected \ILIAS\GlobalScreen\Services $global_screen;
-    protected SkillTreeService $skill_tree_service;
+    protected \ILIAS\Skill\Service\SkillTreeService $skill_tree_service;
+    protected \ILIAS\Skill\Service\SkillPersonalService $skill_personal_service;
     protected \ILIAS\COPage\PageLinker $page_linker;
     protected int $ref_id;
 
@@ -63,6 +62,7 @@ class ilCOPageHTMLExport
         $this->user = $DIC->user();
         $this->global_screen = $DIC->globalScreen();
         $this->skill_tree_service = $DIC->skills()->tree();
+        $this->skill_personal_service = $DIC->skills()->personal();
         $this->page_linker = is_null($linker)
             ? new ilPageLinker("", true)
             : $linker;
@@ -343,10 +343,10 @@ class ilCOPageHTMLExport
                         $level_data = $skill->getLevelData();
                         foreach ($level_data as $k => $v) {
                             // get assigned materials from personal skill
-                            $mat = ilPersonalSkill::getAssignedMaterial($user_id, $bs["tref_id"], $v["id"]);
+                            $mat = $this->skill_personal_service->getAssignedMaterials($user_id, $bs["tref_id"], $v["id"]);
                             if (count($mat)) {
                                 foreach ($mat as $item) {
-                                    $wsp_id = $item["wsp_id"];
+                                    $wsp_id = $item->getWorkspaceId();
                                     $obj_id = $ws_tree->lookupObjectId($wsp_id);
 
                                     // all possible material types for now

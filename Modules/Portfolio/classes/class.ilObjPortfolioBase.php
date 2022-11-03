@@ -390,6 +390,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 
         $lng = $DIC->language();
         $ilUser = $DIC->user();
+        $skill_personal_service = $DIC->skills()->personal();
 
         $source_id = $a_source->getId();
         $target_id = $a_target->getId();
@@ -430,7 +431,7 @@ abstract class ilObjPortfolioBase extends ilObject2
         }
 
         // personal skills
-        $pskills = array_keys(ilPersonalSkill::getSelectedUserSkills($ilUser->getId()));
+        $pskills = array_keys($skill_personal_service->getSelectedUserSkills($ilUser->getId()));
 
         // copy pages
         $blog_count = 0;
@@ -533,7 +534,7 @@ abstract class ilObjPortfolioBase extends ilObject2
                             }
                             // new skill
                             elseif ($copy_all || in_array($skill_id, $a_recipe["skills"])) {
-                                ilPersonalSkill::addPersonalSkill($ilUser->getId(), $skill_id);
+                                $skill_personal_service->addPersonalSkill($ilUser->getId(), $skill_id);
 
                                 $node->setAttribute("User", $ilUser->getId());
                             }

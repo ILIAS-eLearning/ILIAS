@@ -443,7 +443,7 @@ class ilSkillDataSet extends ilDataSet
                         $profiles = $this->skill_manager->getProfileManager()->getLocalProfilesForObject($obj_ref_id);
                         $profile_ids = [];
                         foreach ($profiles as $p) {
-                            $profile_ids[] = $p["id"];
+                            $profile_ids[] = $p->getId();
                         }
                         $set = $ilDB->query(
                             "SELECT * FROM skl_profile " .
@@ -466,7 +466,7 @@ class ilSkillDataSet extends ilDataSet
                         $profiles = $this->skill_manager->getProfileManager()->getLocalProfilesForObject($obj_ref_id);
                         $profile_ids = [];
                         foreach ($profiles as $p) {
-                            $profile_ids[] = $p["id"];
+                            $profile_ids[] = $p->getId();
                         }
                         $set = $ilDB->query(
                             "SELECT * FROM skl_profile " .
@@ -716,7 +716,7 @@ class ilSkillDataSet extends ilDataSet
                 break;
 
             case "skl_prof":
-                $profile = $this->skill_factory->profile(
+                $profile = $this->skill_factory->profile()->profile(
                     0,
                     $a_rec["Title"],
                     $a_rec["Description"] ?? "",
@@ -728,7 +728,7 @@ class ilSkillDataSet extends ilDataSet
                 break;
 
             case "skl_local_prof":
-                $profile = $this->skill_factory->profile(
+                $profile = $this->skill_factory->profile()->profile(
                     0,
                     $a_rec["Title"],
                     $a_rec["Description"] ?? "",
@@ -746,7 +746,6 @@ class ilSkillDataSet extends ilDataSet
                     ? (int) $a_mapping->getMapping("Services/Skill", "skl_prof", $a_rec["ProfileId"])
                     : (int) $a_mapping->getMapping("Services/Skill", "skl_local_prof", $a_rec["ProfileId"]);
                 if ($profile_id > 0) {
-                    $prof = $this->skill_manager->getProfileManager()->getById($profile_id);
                     $level_id_data = ilBasicSkill::getLevelIdForImportId((int) $this->getCurrentInstallationId(), (int) $a_rec["LevelId"]);
                     $skill_data = ilBasicSkill::getCommonSkillIdForImportId((int) $this->getCurrentInstallationId(), (int) $a_rec["BaseSkillId"], (int) $a_rec["TrefId"]);
                     $level_id = $tref_id = $base_skill = 0;
@@ -763,9 +762,15 @@ class ilSkillDataSet extends ilDataSet
                         }
                     }
                     if ($level_id > 0) {
-                        $prof->addSkillLevel($base_skill, $tref_id, $level_id, (int) $a_rec["OrderNr"]);
+                        $level = $this->skill_factory->profile()->profileLevel(
+                            $profile_id,
+                            $base_skill,
+                            $tref_id,
+                            $level_id,
+                            (int) $a_rec["OrderNr"]
+                        );
+                        $this->skill_manager->getProfileManager()->addSkillLevel($level);
                     }
-                    $this->skill_manager->getProfileManager()->updateProfile($prof);
                 }
                 break;
         }

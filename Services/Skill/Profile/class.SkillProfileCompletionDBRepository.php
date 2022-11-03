@@ -21,6 +21,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Skill\Profile;
 
+use ILIAS\Skill\Service;
+
 /**
  * Repository for skill profile completion
  *
@@ -29,16 +31,21 @@ namespace ILIAS\Skill\Profile;
 class SkillProfileCompletionDBRepository
 {
     protected \ilDBInterface $db;
+    protected Service\SkillInternalFactoryService $factory_service;
 
-    public function __construct(\ilDBInterface $db = null)
-    {
+    public function __construct(
+        \ilDBInterface $db = null,
+        Service\SkillInternalFactoryService $factory_service = null
+    ) {
         global $DIC;
 
         $this->db = ($db) ?: $DIC->database();
+        $this->factory_service = ($factory_service) ?: $DIC->skills()->internal()->factory();
     }
 
     /**
      * Get profile completion entries for given user-profile-combination
+     * @return SkillProfileCompletion[]
      */
     public function getEntries(int $user_id, int $profile_id): array
     {
@@ -51,15 +58,24 @@ class SkillProfileCompletionDBRepository
         );
         $entries = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $entries[] = array(
-                "profile_id" => $rec["profile_id"],
-                "user_id" => $rec["user_id"],
-                "date" => $rec["date"],
-                "fulfilled" => $rec["fulfilled"]
-            );
+            $entries[] = $this->getFromRecord($rec);
         }
 
         return $entries;
+    }
+
+    protected function getFromRecord(array $rec): SkillProfileCompletion
+    {
+        $rec["profile_id"] = (int) $rec["profile_id"];
+        $rec["user_id"] = (int) $rec["user_id"];
+        $rec["fulfilled"] = (bool) $rec["fulfilled"];
+
+        return $this->factory_service->profile()->profileCompletion(
+            $rec["profile_id"],
+            $rec["user_id"],
+            $rec["date"],
+            $rec["fulfilled"]
+        );
     }
 
     /**
@@ -127,14 +143,12 @@ class SkillProfileCompletionDBRepository
     }
 
     /**
-     * Get all profile completion entries for a user
-     * @return array{profile_id: int, user_id: int, date: string, fulfilled: int}[]
+     * Get all fulfilled profile completion entries for a user
+     * @return SkillProfileCompletion[]
      */
     public function getFulfilledEntriesForUser(int $user_id): array
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
+        $ilDB = $this->db;
 
         $set = $ilDB->query(
             "SELECT * FROM skl_profile_completion " .
@@ -143,12 +157,7 @@ class SkillProfileCompletionDBRepository
         );
         $entries = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $entries[] = array(
-                "profile_id" => (int) $rec["profile_id"],
-                "user_id" => (int) $rec["user_id"],
-                "date" => $rec["date"],
-                "fulfilled" => (int) $rec["fulfilled"]
-            );
+            $entries[] = $this->getFromRecord($rec);
         }
 
         return $entries;
@@ -156,12 +165,11 @@ class SkillProfileCompletionDBRepository
 
     /**
      * Get all profile completion entries for a user
+     * @return SkillProfileCompletion[]
      */
     public function getAllEntriesForUser(int $user_id): array
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
+        $ilDB = $this->db;
 
         $set = $ilDB->query(
             "SELECT * FROM skl_profile_completion " .
@@ -169,12 +177,7 @@ class SkillProfileCompletionDBRepository
         );
         $entries = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $entries[] = array(
-                "profile_id" => $rec["profile_id"],
-                "user_id" => $rec["user_id"],
-                "date" => $rec["date"],
-                "fulfilled" => $rec["fulfilled"]
-            );
+            $entries[] = $this->getFromRecord($rec);
         }
 
         return $entries;
@@ -182,12 +185,11 @@ class SkillProfileCompletionDBRepository
 
     /**
      * Get all completion entries for a single profile
+     * @return SkillProfileCompletion[]
      */
     public function getAllEntriesForProfile(int $profile_id): array
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
+        $ilDB = $this->db;
 
         $set = $ilDB->query(
             "SELECT * FROM skl_profile_completion " .
@@ -195,12 +197,7 @@ class SkillProfileCompletionDBRepository
         );
         $entries = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $entries[] = array(
-                "profile_id" => $rec["profile_id"],
-                "user_id" => $rec["user_id"],
-                "date" => $rec["date"],
-                "fulfilled" => $rec["fulfilled"]
-            );
+            $entries[] = $this->getFromRecord($rec);
         }
 
         return $entries;

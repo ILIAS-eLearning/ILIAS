@@ -20,8 +20,8 @@ declare(strict_types=1);
  */
 
 use ILIAS\Skill\Service\SkillInternalFactoryService;
-use ILIAS\Skill\Profile\SkillProfile;
 use ILIAS\Skill\Profile\SkillProfileManager;
+use ILIAS\Skill\Personal\AssignedMaterialManager;
 
 /**
  * Skill usage
@@ -53,7 +53,7 @@ class ilSkillUsage implements ilSkillUsageInfo
     /**
      * @var ilSkillUsageInfo[]
      */
-    protected array $classes = [ilBasicSkill::class, ilPersonalSkill::class, SkillProfile::class,
+    protected array $classes = [ilBasicSkill::class, AssignedMaterialManager::class, SkillProfileManager::class,
                                 ilSkillResources::class, ilSkillUsage::class];
 
     protected ilSkillTreeRepository $tree_repo;
@@ -336,26 +336,29 @@ class ilSkillUsage implements ilSkillUsageInfo
      */
     public function getAssignedObjectsForSkillProfile(int $a_profile_id): array
     {
-        $profile = $this->profile_manager->getById($a_profile_id);
-        $skills = $profile->getSkillLevels();
+        $skills = $this->profile_manager->getSkillLevels($a_profile_id);
         $objects = [];
 
         // usages for skills within skill profile
         foreach ($skills as $skill) {
-            $obj_usages = self::getUsages($skill["base_skill_id"], $skill["tref_id"]);
+            $obj_usages = self::getUsages($skill->getBaseSkillId(), $skill->getTrefId());
             foreach ($obj_usages as $id) {
-                if (!in_array($id, $objects)) {
+                if (!in_array($id, $objects) && ilObject::_hasUntrashedReference($id)) {
                     $objects[] = $id;
                 }
             }
         }
 
         // courses and groups which are using skill profile
-        $roles = $this->profile_manager->getAssignedRoles($profile->getId());
+        $roles = $this->profile_manager->getRoleAssignments($a_profile_id);
         foreach ($roles as $role) {
-            if (($role["object_type"] == "crs" || $role["object_type"] == "grp")
-                && !in_array($role["object_id"], $objects)) {
-                $objects[] = $role["object_id"];
+            if (($role->getObjType() == "crs" || $role->getObjType() == "grp")
+                && !in_array($role->getObjId(), $objects)) {
+                $obj_ref_id = ilObject::_getAllReferences($role->getObjId());
+                $obj_ref_id = end($obj_ref_id);
+                if ($role->getId() === ilParticipants::getDefaultMemberRole($obj_ref_id)) {
+                    $objects[] = $role->getObjId();
+                }
             }
         }
 

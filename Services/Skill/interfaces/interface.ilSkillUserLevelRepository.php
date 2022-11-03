@@ -204,5 +204,5 @@ interface ilSkillUserLevelRepository
         int $a_object_id,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ): ?string;
+    ): string;
 }

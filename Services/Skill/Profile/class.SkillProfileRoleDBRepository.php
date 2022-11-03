@@ -21,19 +21,21 @@ declare(strict_types=1);
 
 namespace ILIAS\Skill\Profile;
 
+use ILIAS\Skill\Service;
+
 class SkillProfileRoleDBRepository
 {
     protected \ilDBInterface $db;
-    protected \ilLanguage $lng;
-    protected \ilRbacReview $review;
+    protected Service\SkillInternalFactoryService $factory_service;
 
-    public function __construct(\ilDBInterface $db = null)
-    {
+    public function __construct(
+        \ilDBInterface $db = null,
+        Service\SkillInternalFactoryService $factory_service = null
+    ) {
         global $DIC;
 
         $this->db = ($db) ?: $DIC->database();
-        $this->lng = $DIC->language();
-        $this->review = $DIC->rbac()->review();
+        $this->factory_service = ($factory_service) ?: $DIC->skills()->internal()->factory();
     }
 
     public function deleteProfileRoles(int $profile_id): void
@@ -46,11 +48,9 @@ class SkillProfileRoleDBRepository
         );
     }
 
-    public function getAssignedRoles(int $profile_id): array
+    public function get(int $profile_id): array
     {
         $ilDB = $this->db;
-        $lng = $this->lng;
-        $review = $this->review;
 
         $set = $ilDB->query(
             "SELECT * FROM skl_profile_role " .
@@ -58,30 +58,21 @@ class SkillProfileRoleDBRepository
         );
         $roles = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $rec["role_id"] = (int) $rec["role_id"];
-            $name = \ilObjRole::_getTranslation(\ilObjRole::_lookupTitle($rec["role_id"]));
-            $type = $lng->txt("role");
-            // get object of role
-            $obj_id = \ilObject::_lookupObjectId($review->getObjectReferenceOfRole($rec["role_id"]));
-            // get title of object if course or group
-            $obj_title = "";
-            $obj_type = "";
-            if (\ilObject::_lookupType($obj_id) == "crs" || \ilObject::_lookupType($obj_id) == "grp") {
-                $obj_title = \ilObject::_lookupTitle($obj_id);
-                $obj_type = \ilObject::_lookupType($obj_id);
-            }
-
-            $roles[] = [
-                "type" => $type,
-                "name" => $name,
-                "id" => $rec["role_id"],
-                "object_title" => $obj_title,
-                "object_type" => $obj_type,
-                "object_id" => $obj_id
-            ];
+            $roles[] = $rec;
         }
 
         return $roles;
+    }
+
+    public function getFromRecord(array $rec): SkillProfileRoleAssignment
+    {
+        return $this->factory_service->profile()->profileRoleAssignment(
+            $rec["name"],
+            $rec["id"],
+            $rec["object_title"],
+            $rec["object_type"],
+            $rec["object_id"]
+        );
     }
 
     public function addRoleToProfile(int $profile_id, int $role_id): void
@@ -118,61 +109,83 @@ class SkillProfileRoleDBRepository
         );
     }
 
+    /**
+     * @return SkillProfile[]
+     */
     public function getAllProfilesOfRole(int $role_id): array
     {
         $ilDB = $this->db;
 
         $profiles = [];
         $set = $ilDB->query(
-            "SELECT p.id, p.title, p.description, p.image_id FROM skl_profile_role r JOIN skl_profile p " .
-            " ON (r.profile_id = p.id) " .
+            "SELECT p.id, p.title, p.description, p.ref_id, p.skill_tree_id, p.image_id " .
+            " FROM skl_profile_role r JOIN skl_profile p ON (r.profile_id = p.id) " .
             " WHERE r.role_id = " . $ilDB->quote($role_id, "integer") .
             " ORDER BY p.title ASC"
         );
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $rec['id'] = (int) $rec['id'];
-            $profiles[] = $rec;
+            $profiles[] = $this->getProfileFromRecord($rec);
         }
         return $profiles;
     }
 
+    /**
+     * @return SkillProfile[]
+     */
     public function getGlobalProfilesOfRole(int $role_id): array
     {
         $ilDB = $this->db;
 
         $profiles = [];
         $set = $ilDB->query(
-            "SELECT p.id, p.title, p.description, p.image_id FROM skl_profile_role r JOIN skl_profile p " .
-            " ON (r.profile_id = p.id) " .
+            "SELECT p.id, p.title, p.description, p.ref_id, p.skill_tree_id, p.image_id " .
+            " FROM skl_profile_role r JOIN skl_profile p ON (r.profile_id = p.id) " .
             " WHERE r.role_id = " . $ilDB->quote($role_id, "integer") .
             " AND p.ref_id = 0" .
             " ORDER BY p.title ASC"
         );
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $rec['id'] = (int) $rec['id'];
-            $profiles[] = $rec;
+            $profiles[] = $this->getProfileFromRecord($rec);
         }
 
         return $profiles;
     }
 
+    /**
+     * @return SkillProfile[]
+     */
     public function getLocalProfilesOfRole(int $role_id, int $ref_id): array
     {
         $ilDB = $this->db;
 
         $profiles = [];
         $set = $ilDB->query(
-            "SELECT p.id, p.title, p.description, p.image_id FROM skl_profile_role r JOIN skl_profile p " .
-            " ON (r.profile_id = p.id) " .
+            "SELECT p.id, p.title, p.description, p.ref_id, p.skill_tree_id, p.image_id " .
+            " FROM skl_profile_role r JOIN skl_profile p ON (r.profile_id = p.id) " .
             " WHERE r.role_id = " . $ilDB->quote($role_id, "integer") .
             " AND p.ref_id = " . $ilDB->quote($ref_id, "integer") .
             " ORDER BY p.title ASC"
         );
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $rec['id'] = (int) $rec['id'];
-            $profiles[] = $rec;
+            $profiles[] = $this->getProfileFromRecord($rec);
         }
         return $profiles;
+    }
+
+    protected function getProfileFromRecord(array $rec): SkillProfile
+    {
+        $rec["id"] = (int) $rec["id"];
+        $rec["ref_id"] = (int) $rec["ref_id"];
+        $rec["skill_tree_id"] = (int) $rec["skill_tree_id"];
+
+        return $this->factory_service->profile()->profile(
+            $rec["id"],
+            $rec["title"],
+            $rec["description"],
+            $rec["skill_tree_id"],
+            $rec["image_id"],
+            $rec["ref_id"]
+        );
     }
 
     public function countRoles(int $profile_id): int
