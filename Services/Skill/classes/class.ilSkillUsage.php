@@ -95,6 +95,18 @@ class ilSkillUsage implements ilSkillUsageInfo
         }
     }
 
+    public static function removeUsagesFromObject(int $a_obj_id): void
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        $ilDB->manipulate(
+            $q = "DELETE FROM skl_usage WHERE " .
+                " obj_id = " . $ilDB->quote($a_obj_id, "integer")
+        );
+    }
+
     /**
      * @return int[]
      */
