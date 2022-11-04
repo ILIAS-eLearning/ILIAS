@@ -118,6 +118,15 @@ class ilPersonalSkillsFilterGUI
         ilSession::set("skmg_pf_to", $t);
     }
 
+    public function clear(): void
+    {
+        ilSession::clear("skmg_pf_type_of_formation");
+        ilSession::clear("skmg_pf_target_level");
+        ilSession::clear("skmg_pf_mat_res");
+        ilSession::clear("skmg_pf_from");
+        ilSession::clear("skmg_pf_to");
+    }
+
     public function isInRange(array $level_entry): bool
     {
         // from
