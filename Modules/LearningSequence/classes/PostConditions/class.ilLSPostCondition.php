@@ -84,7 +84,7 @@ class ilLSPostCondition
         return $this->value;
     }
 
-    public function withValue(int $string): ilLSPostCondition
+    public function withValue(string $value): ilLSPostCondition
     {
         $clone = clone $this;
         $clone->value = $value;
