@@ -86,6 +86,17 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
         return $this->value;
     }
 
+    public function unserializeData(string $a_data): void
+    {
+        $data = unserialize($a_data);
+
+        if ($data) {
+            $this->setValue((string) $data);
+        } else {
+            $this->setValue(null);
+        }
+    }
+
     public function setMaxLength(int $a_maxlength): void
     {
         $this->maxlength = $a_maxlength;
