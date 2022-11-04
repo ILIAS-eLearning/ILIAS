@@ -330,7 +330,7 @@ class ilVirtualSkillTree
 
         uasort($c_skill_ids, function ($a, $b) use ($node_data, $a_skill_id_key, $a_tref_id_key): int {
             // normalize to cskill strings
-            if (isset($a) && is_array($a)) {
+            if (is_array($a)) {
                 $cskilla = $a[$a_skill_id_key] . ":" . $a[$a_tref_id_key];
                 $cskillb = $b[$a_skill_id_key] . ":" . $b[$a_tref_id_key];
             } else {
@@ -343,14 +343,14 @@ class ilVirtualSkillTree
             $vidb = explode(":", $this->getVTreeIdForCSkillId($cskillb));
 
             $ua = $this->getFirstUncommonAncestors($vida[0], $vidb[0], $node_data);
-            if (isset($ua) && is_array($ua)) {
+            if (is_array($ua) && isset($node_data[$ua[0]]) && isset($node_data[$ua[1]])) {
                 return ($node_data[$ua[0]]["order_nr"] - $node_data[$ua[1]]["order_nr"]);
             }
             // if we did not find a first uncommon ancestor, we are in the same node in the
             // main tree, here, if we have tref ids, we let the template tree decide
             if ($vida[1] > 0 && $vidb[1] > 0) {
                 $ua = $this->getFirstUncommonAncestors($vida[1], $vidb[1], $node_data);
-                if (isset($ua) && is_array($ua)) {
+                if (is_array($ua) && isset($node_data[$ua[0]]) && isset($node_data[$ua[1]])) {
                     return ($node_data[$ua[0]]["order_nr"] - $node_data[$ua[1]]["order_nr"]);
                 }
             }
