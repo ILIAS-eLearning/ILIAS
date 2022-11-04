@@ -447,7 +447,8 @@ class ilContSkillAdminGUI
         }
 
         foreach ($selectable_profiles as $profile) {
-            $options[$profile["id"]] = $profile["title"];
+            $tree = $this->tree_service->getObjSkillTreeById($profile["skill_tree_id"]);
+            $options[$profile["id"]] = $tree->getTitle() . ": " . $profile["title"];
         }
 
         if ($this->skmg_settings->getLocalAssignmentOfProfiles()) {
