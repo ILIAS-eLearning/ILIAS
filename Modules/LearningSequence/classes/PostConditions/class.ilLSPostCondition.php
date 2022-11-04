@@ -27,15 +27,30 @@ declare(strict_types=1);
  */
 class ilLSPostCondition
 {
+    protected static $known_operators = [
+        "always",
+        "failed",
+        "finished",
+        "learning_progress",
+        "not_finished",
+        "passed"
+    ];
+
     protected int $ref_id;
     protected string $operator;
-    protected ?int $value;
+    protected ?string $value;
 
     public function __construct(
         int $ref_id,
         string $operator,
-        ?int $value = null
+        ?string $value = null
     ) {
+        if (!in_array($operator, self::$known_operators)) {
+            throw new \InvalidArgumentException(
+                "Unknown operator: $operator"
+            );
+        }
+
         $this->ref_id = $ref_id;
         $this->operator = $operator;
         $this->value = $value;
@@ -53,17 +68,23 @@ class ilLSPostCondition
 
     public function withConditionOperator(string $operator): ilLSPostCondition
     {
+        if (!in_array($operator, self::$known_operators)) {
+            throw new \InvalidArgumentException(
+                "Unknown operator: $operator"
+            );
+        }
+
         $clone = clone $this;
         $clone->operator = $operator;
         return $clone;
     }
 
-    public function getValue(): ?int
+    public function getValue(): ?string
     {
         return $this->value;
     }
 
-    public function withValue(int $value): ilLSPostCondition
+    public function withValue(int $string): ilLSPostCondition
     {
         $clone = clone $this;
         $clone->value = $value;
