@@ -91,7 +91,7 @@ class ilMailDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_6() : void
+    public function step_6(): void
     {
         if (!$this->db->tableColumnExists('mail_options', 'absence_status')) {
             $this->db->addTableColumn(
@@ -170,7 +170,7 @@ class ilMailDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_10(): void
+    public function step_11(): void
     {
         if (!$this->db->tableExists('mail_auto_responder')) {
             $this->db->createTable(
