@@ -1198,6 +1198,8 @@ class ilPersonalSkillsGUI
 
         $this->determineCurrentProfile();
         $this->showProfileSelectorToolbar();
+        // needed fix for profiles in gap view, because there is no filter shown (yet)
+        $this->getFilter()->clear();
 
         $html = $this->showInfoBox() . $this->getGapAnalysisHTML();
         $tpl->setContent($html);
