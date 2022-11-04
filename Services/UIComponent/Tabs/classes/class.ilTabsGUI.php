@@ -482,7 +482,7 @@ class ilTabsGUI
             }
 
             if ($a_get_sub_tabs) {
-                $tpl->setVariable("TXT_SUBTABS", $lng->txt("subtabs"));
+                $tpl->setVariable("TXT_SUBTABS", $this->getTabTextOfId($this->getActiveTab()).": ".$lng->txt("subtabs"));
             } else {
                 $tpl->setVariable("TXT_TABS", $lng->txt("tabs"));
 
@@ -518,6 +518,20 @@ class ilTabsGUI
         } else {
             return "";
         }
+    }
+
+    protected function getTabTextOfId(string $id): string
+    {
+        foreach ($this->target as $i => $target) {
+            if ($this->target[$i]['id'] == $id) {
+                if ($target["dir_text"]) {
+                    return $target["text"];
+                } else {
+                    return $this->lng->txt($target["text"]);
+                }
+            }
+        }
+        return "";
     }
 
     public function getActiveTab(): string
