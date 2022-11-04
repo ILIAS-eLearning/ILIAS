@@ -241,7 +241,7 @@ class ilGlobalCache
         return $types;
     }
 
-    public static function lookupServiceClassName(int $service_type): string
+    public static function lookupServiceClassName(int $service_type)
     {
         switch ($service_type) {
             case self::TYPE_APC:
