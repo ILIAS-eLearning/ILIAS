@@ -20,7 +20,7 @@
  * This is a utility class for the yui overlays.
  * this only works, if a parent has class="yui-skin-sam" attached.
  *
- * @deprecated 11
+ * @deprecated 10
  */
 class ilOverlayGUI
 {

@@ -20,7 +20,7 @@
  * User interface class for advanced drop-down selection lists
  *
  * @author Alexander Killing <killing@leifos.de>
- * @deprecated 10 Use KS Dropdowns instead
+ * @deprecated 9 Use KS Dropdowns instead
  */
 class ilAdvancedSelectionListGUI implements ilToolbarItem
 {

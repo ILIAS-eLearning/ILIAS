@@ -49,10 +49,10 @@ class ilPluginNamePlugin extends ilUserInterfaceHookPlugin {
 	}
 
 	/**
-	 * This method is used to promote a plugins own GlobalScreen provider. With such a provider, one can easily 
+	 * This method is used to promote a plugins own GlobalScreen provider. With such a provider, one can easily
 	 * extend parts of the Global Screen such as the Main Menu. Note that this method is available for all types
 	 * of plugins.
-	 * 
+	 *
 	 * @return AbstractStaticPluginMainMenuProvider
 	 */
 	public function promoteGlobalScreenProvider(): AbstractStaticPluginMainMenuProvider {
