@@ -4887,6 +4887,7 @@ common#:#obj_lso_duplicate#:#Lernsequenz kopieren
 common#:#obj_lsos#:#Lernsequenzen
 common#:#obj_lsos_desc#:#Allgemeine Einstellungen für Lernsequenzen
 common#:#obj_lti#:#LTI-Konsument
+common#:#obj_lti_duplicate#:#LTI-Konsument kopieren
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#obj_mail#:#Mail
