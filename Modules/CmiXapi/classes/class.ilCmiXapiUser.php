@@ -273,8 +273,13 @@ class ilCmiXapiUser
 
             case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_LOGIN:
 
-                return self::buildPseudoEmail($user->getLogin(), self::getIliasUuid());
+                if (!ilUtil::is_email($user->getLogin())) {
+                    return self::buildPseudoEmail($user->getLogin(), self::getIliasUuid());
+                } else {
+                    return $user->getLogin();
+                }
 
+                // no break
             case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT:
 
                 return self::buildPseudoEmail($user->getExternalAccount(), self::getIliasUuid());
