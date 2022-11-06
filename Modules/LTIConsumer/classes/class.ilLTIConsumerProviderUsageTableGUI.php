@@ -107,9 +107,9 @@ class ilLTIConsumerProviderUsageTableGUI extends ilTable2GUI
         $treeNodes = [];
         foreach ($tree as $node) {
             $node['title'] = (int) $node['parent'] === 0 ? $DIC->language()->txt('repository') : $node['title'];
-            $treeNodes[] = $trashed === true ? $node['title'] : '<a href="' . ilLink::_getLink($node['ref_id']) . '">' . $node['title'] . '</a>';
+            $treeNodes[] = $trashed === true ? $node['title'] : '<a href="' . ilLink::_getLink((int) $node['ref_id']) . '">' . $node['title'] . '</a>';
         }
-        $endnode = '<a href="' . ilLink::_getLink($refId) . '">' . $title . '</a>';
+        $endnode = '<a href="' . ilLink::_getLink((int) $refId) . '">' . $title . '</a>';
         if ($trashed === true) {
             $treeNodes[] = $title;
         }
