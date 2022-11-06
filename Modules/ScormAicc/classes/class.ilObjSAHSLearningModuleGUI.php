@@ -732,15 +732,22 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             $ilErr->raiseError($lng->txt('msg_no_perm_read'), $ilErr->FATAL);
         }
 
-        if ($ilAccess->checkAccess("visible", "", $id) || $ilAccess->checkAccess("read", "", $id)) {
-            ilObjectGUI::_gotoRepositoryNode($id, 'infoScreen');
+        if ($ilAccess->checkAccess("write", "", $id)) {
+            $DIC->ctrl()->setParameterByClass("ilSAHSEditGUI", "ref_id", (string) $id);
+            $DIC->ctrl()->redirectByClass("ilSAHSEditGUI", "infoScreen"); //cmd was "" in 7
         }
-        if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            $main_tpl->setOnScreenMessage('info', sprintf(
-                $lng->txt("msg_no_perm_read_item"),
-                ilObject::_lookupTitle(ilObject::_lookupObjId($id))
-            ), true);
-            ilObjectGUI::_gotoRepositoryRoot();
+
+        if ($ilAccess->checkAccess("visible", "", $id) || $ilAccess->checkAccess("read", "", $id)) {
+            $DIC->ctrl()->setParameterByClass("ilSAHSPresentationGUI", "ref_id", (string) $id);
+            $DIC->ctrl()->redirectByClass("ilSAHSPresentationGUI", "infoScreen");
+        } else {
+            if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
+                $main_tpl->setOnScreenMessage('info', sprintf(
+                    $lng->txt("msg_no_perm_read_item"),
+                    ilObject::_lookupTitle(ilObject::_lookupObjId($id))
+                ), true);
+                ilObjectGUI::_gotoRepositoryRoot();
+            }
         }
 
         $ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
