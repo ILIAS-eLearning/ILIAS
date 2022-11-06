@@ -201,7 +201,7 @@ class ilCmiXapiImporter extends ilXmlImporter
     private function updateNewObj()
     {
         global $DIC; /** @var \ILIAS\DI\Container $DIC */
-        $this->_cmixObj->setTitle($this->_moduleProperties['Title']." ".$DIC->language()->txt("copy_of_suffix"));
+        $this->_cmixObj->setTitle($this->_moduleProperties['Title'] . " " . $DIC->language()->txt("copy_of_suffix"));
         $this->_cmixObj->setDescription($this->_moduleProperties['Description']);
         $this->_cmixObj->update();
 
@@ -248,11 +248,11 @@ class ilCmiXapiImporter extends ilXmlImporter
         $this->_cmixObj->setTimestamp($this->_moduleProperties['Timestamp']);
         $this->_cmixObj->setDuration($this->_moduleProperties['Duration']);
         $this->_cmixObj->setNoSubstatements($this->_moduleProperties['NoSubstatements']);
-        $this->_cmixObj->setPublisherId((string)$this->_moduleProperties['PublisherId']);
+        $this->_cmixObj->setPublisherId((string) $this->_moduleProperties['PublisherId']);
 //        $this->_cmixObj->setAnonymousHomepage($this->_moduleProperties['AnonymousHomepage']);
-        $this->_cmixObj->setMoveOn((string)$this->_moduleProperties['MoveOn']);
-        $this->_cmixObj->setLaunchParameters((string)$this->_moduleProperties['LaunchParameters']);
-        $this->_cmixObj->setEntitlementKey((string)$this->_moduleProperties['EntitlementKey']);
+        $this->_cmixObj->setMoveOn((string) $this->_moduleProperties['MoveOn']);
+        $this->_cmixObj->setLaunchParameters((string) $this->_moduleProperties['LaunchParameters']);
+        $this->_cmixObj->setEntitlementKey((string) $this->_moduleProperties['EntitlementKey']);
         $this->_cmixObj->setSwitchToReviewEnabled($this->_moduleProperties['SwitchToReview']);
         $this->_cmixObj->save();
         $this->_cmixObj->updateMetaData();

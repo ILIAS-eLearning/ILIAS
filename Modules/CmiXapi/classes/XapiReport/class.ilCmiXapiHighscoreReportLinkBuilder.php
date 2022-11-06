@@ -27,12 +27,10 @@ class ilCmiXapiHighscoreReportLinkBuilder extends ilCmiXapiAbstractReportLinkBui
         
         $obj = $this->getObj();
         $id = null;
-        if ($obj instanceof ilObjLTIConsumer || $obj->getContentType() == ilObjCmiXapi::CONT_TYPE_GENERIC)
-        {
+        if ($obj instanceof ilObjLTIConsumer || $obj->getContentType() == ilObjCmiXapi::CONT_TYPE_GENERIC) {
             $id = '$statement.actor.mbox';
         }
-        if ($obj instanceof ilObjCmiXapi && $obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5 && !$obj->isMixedContentType())
-        {
+        if ($obj instanceof ilObjCmiXapi && $obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5 && !$obj->isMixedContentType()) {
             $id = '$statement.actor.account.name';
         }
         $pipeline[] = ['$group' => [
@@ -61,8 +59,7 @@ class ilCmiXapiHighscoreReportLinkBuilder extends ilCmiXapiAbstractReportLinkBui
         ];
         
         $obj = $this->getObj();
-        if ($obj instanceof ilObjLTIConsumer || ($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_GENERIC) || $obj->isMixedContentType())
-        {
+        if ($obj instanceof ilObjLTIConsumer || ($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_GENERIC) || $obj->isMixedContentType()) {
             $stage['$or'] = $this->getUsersStack();
         }
         
@@ -83,18 +80,13 @@ class ilCmiXapiHighscoreReportLinkBuilder extends ilCmiXapiAbstractReportLinkBui
     {
         $users = [];
         $obj = $this->getObj();
-        if ($obj instanceof ilObjCmiXapi && $obj->isMixedContentType())
-        {
-            foreach (ilCmiXapiUser::getUsersForObject($this->getObjId()) as $cmixUser) 
-            {
+        if ($obj instanceof ilObjCmiXapi && $obj->isMixedContentType()) {
+            foreach (ilCmiXapiUser::getUsersForObject($this->getObjId()) as $cmixUser) {
                 $users[] = ['statement.actor.mbox' => "mailto:{$cmixUser->getUsrIdent()}"];
                 $users[] = ['statement.actor.account.name' => "{$cmixUser->getUsrIdent()}"];
             }
-        }
-        else
-        {
-            foreach (ilCmiXapiUser::getUsersForObject($this->getObjId()) as $cmixUser) 
-            {
+        } else {
+            foreach (ilCmiXapiUser::getUsersForObject($this->getObjId()) as $cmixUser) {
                 $users[] = [
                     'statement.actor.mbox' => "mailto:{$cmixUser->getUsrIdent()}"
                 ];

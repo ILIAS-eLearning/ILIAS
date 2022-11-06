@@ -59,7 +59,8 @@ class ilCmiXapiDateTime extends ilDateTime
         return new self($dateTime->get(IL_CAL_UNIX), IL_CAL_UNIX);
     }
 
-    public static function dateIntervalToISO860Duration(\DateInterval $d) {
+    public static function dateIntervalToISO860Duration(\DateInterval $d)
+    {
         $duration = 'P';
         if (!empty($d->y)) {
             $duration .= "{$d->y}Y";

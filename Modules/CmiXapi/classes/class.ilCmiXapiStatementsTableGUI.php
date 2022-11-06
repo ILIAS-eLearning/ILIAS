@@ -117,12 +117,9 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
         
         if ($this->isMultiActorReport) {
             $actor = $data['actor'];
-            if (empty($actor))
-            {
+            if (empty($actor)) {
                 $this->tpl->setVariable('STMT_ACTOR', 'user_not_found');
-            }
-            else
-            {
+            } else {
                 $this->tpl->setVariable('STMT_ACTOR', $this->getUsername($data['actor']));
             }
         }
@@ -170,13 +167,10 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $ret = 'not found';
-        try
-        {
+        try {
             $userObj = ilObjectFactory::getInstanceByObjId($cmixUser->getUsrId());
             $ret = $userObj->getFullname();
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $ret = $DIC->language()->txt('deleted_user');
         }
         return $ret;

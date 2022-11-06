@@ -69,7 +69,7 @@ class ilCmiXapiVerbList
      */
     public function getVerbUri($verb)
     {
-        return 'http://adlnet.gov/expapi/verbs/'. $verb;
+        return 'http://adlnet.gov/expapi/verbs/' . $verb;
     }
 
     /**
@@ -122,7 +122,7 @@ class ilCmiXapiVerbList
      */
     public static function getVerbTranslation(ilLanguage $lng, $verb)
     {
-        $verbMatch = preg_match('/\/([^\/]+)$/',$verb,$matches);
+        $verbMatch = preg_match('/\/([^\/]+)$/', $verb, $matches);
         $shortVerb = $matches[1];
         $langVar = preg_replace('/http(s)?:\/\//', '', $verb);
         $langVar = str_replace('.', '', $langVar);
@@ -130,12 +130,9 @@ class ilCmiXapiVerbList
         $langVar = 'cmix_' . $langVar;
         $translatedVerb = $lng->txt($langVar);
         // check no translation found?
-        if (strpos($translatedVerb,'-cmix_') === 0)
-        {
+        if (strpos($translatedVerb, '-cmix_') === 0) {
             return $shortVerb;
-        }
-        else
-        {
+        } else {
             return $translatedVerb;
         }
     }
