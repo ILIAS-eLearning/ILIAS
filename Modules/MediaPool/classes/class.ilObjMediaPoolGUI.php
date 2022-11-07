@@ -140,8 +140,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $new_type = $this->mep_request->getNewType();
 
 
+
         if ($new_type !== "" && ($cmd !== "confirmRemove" && $cmd !== "copyToClipboard"
-            && $cmd !== "pasteFromClipboard")) {
+                && $cmd !== "pasteFromClipboard")) {
+            $this->tpl->setPermanentLink("mep", $this->ref_id);
             $this->setCreationMode(true);
         }
 
