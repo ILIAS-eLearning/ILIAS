@@ -161,7 +161,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 
         $values = [
             ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS => ["text", $member->LPStatus()],
-            ilIndividualAssessmentMembers::FIELD_EXAMINER_ID => ["integer", $member->examinerId()],
+            ilIndividualAssessmentMembers::FIELD_EXAMINER_ID => ["integer", $member->examinerId() ?? "NULL"],
             ilIndividualAssessmentMembers::FIELD_RECORD => ["text", $member->record()],
             ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE => ["text", $member->internalNote()],
             ilIndividualAssessmentMembers::FIELD_PLACE => ["text", $member->place()],
@@ -256,7 +256,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
                 "text",
                 $record[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS]
             ],
-           ilIndividualAssessmentMembers::FIELD_NOTIFY => [
+            ilIndividualAssessmentMembers::FIELD_NOTIFY => [
                 "integer",
                 $record[ilIndividualAssessmentMembers::FIELD_NOTIFY] ?? 0
             ],
