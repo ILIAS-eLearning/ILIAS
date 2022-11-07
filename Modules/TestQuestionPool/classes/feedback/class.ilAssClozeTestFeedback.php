@@ -798,7 +798,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
         return $this->getSpecificAnswerFeedbackTestPresentation($this->questionOBJ->getId(), $gapIndex, $answerIndex);
     }
 
-    public function determineAnswerIndexForAnswerValue(assClozeGap $gap, int $answerValue): int
+    public function determineAnswerIndexForAnswerValue(assClozeGap $gap, string $answerValue): int
     {
         switch ($gap->getType()) {
             case CLOZE_TEXT:
