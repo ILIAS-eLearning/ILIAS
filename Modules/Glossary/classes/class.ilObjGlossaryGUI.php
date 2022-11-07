@@ -322,6 +322,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $ta->setRows(2);
         $form->addItem($ta);
 
+        // didactic template
+        $form = $this->initDidacticTemplate($form);
+
         $form->addCommandButton("save", $this->lng->txt($new_type . "_add"));
         $form->addCommandButton("cancel", $this->lng->txt("cancel"));
 
@@ -357,6 +360,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
             $newObj->create();
 
             $this->putObjectInTree($newObj);
+
+            // apply didactic template?
+            $dtpl = $this->getDidacticTemplateVar("dtpl");
+            if ($dtpl) {
+                $newObj->applyDidacticTemplate($dtpl);
+            }
 
             // always send a message
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("glo_added"), true);
