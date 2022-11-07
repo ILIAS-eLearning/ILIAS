@@ -490,6 +490,9 @@ class ilPersonalSkillsGUI
             $filter_toolbar->addFormButton($this->lng->txt("skmg_refresh_view"), "applyFilter");
             $tpl->setVariable("FILTER", $filter_toolbar->getHTML());
             $html = $tpl->get() . $html;
+        } else {
+            $box = $this->ui_fac->messageBox()->info($lng->txt("skmg_no_skills_selected_info"));
+            $html = $this->ui_ren->render($box);
         }
 
         $main_tpl->setContent($html);
