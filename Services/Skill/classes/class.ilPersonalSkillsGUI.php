@@ -1901,6 +1901,13 @@ class ilPersonalSkillsGUI
                 }
             }
 
+            // note for self-evaluation
+            if ($this->skmg_settings->getHideProfileBeforeSelfEval() &&
+                !ilBasicSkill::hasSelfEvaluated($this->user->getId(), $a_base_skill, $a_tref_id)) {
+                $tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_skill_needs_self_eval"));
+                return $tpl->get();
+            }
+
             // suggested resources
             if ($too_low) {
                 $skill_res = new ilSkillResources($a_base_skill, $a_tref_id);
@@ -1983,6 +1990,7 @@ class ilPersonalSkillsGUI
     public function listAssignedProfile()
     {
         $ilCtrl = $this->ctrl;
+        $lng = $this->lng;
 
         $main_tpl = $this->tpl;
 
@@ -2015,7 +2023,13 @@ class ilPersonalSkillsGUI
 
         // render
         $html = "";
+        $not_all_self_evaluated = false;
         foreach ($skills as $s) {
+            if ($this->skmg_settings->getHideProfileBeforeSelfEval() &&
+                !ilBasicSkill::hasSelfEvaluated($this->user->getId(), $s["base_skill_id"], $s["tref_id"])) {
+                $not_all_self_evaluated = true;
+            }
+
             // todo draft check
             $html .= $this->getSkillHTML($s["base_skill_id"], 0, true, $s["tref_id"]);
         }
@@ -2026,6 +2040,11 @@ class ilPersonalSkillsGUI
             $tpl->setVariable("FILTER", $filter_toolbar->getHTML());
 
             $html = $tpl->get() . $html;
+        }
+
+        if ($not_all_self_evaluated) {
+            $box = $this->ui_fac->messageBox()->info($lng->txt("skmg_skill_needs_self_eval_box"));
+            $html = $this->ui_ren->render($box) . $html;
         }
 
         $main_tpl->setContent($html);
