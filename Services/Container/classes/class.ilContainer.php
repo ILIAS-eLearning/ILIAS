@@ -1107,7 +1107,7 @@ class ilContainer extends ilObject
         // using long descriptions?
         $short_desc = $ilSetting->get("rep_shorten_description");
         $short_desc_max_length = $ilSetting->get("rep_shorten_description_length");
-        if (!$short_desc || $short_desc_max_length != ilObject::DESC_LENGTH) {
+        if (!$short_desc || $short_desc_max_length > 0) {
             // using (part of) shortened description
             if ($short_desc && $short_desc_max_length && $short_desc_max_length < ilObject::DESC_LENGTH) {
                 foreach ($objects as $key => $object) {
@@ -1367,8 +1367,11 @@ class ilContainer extends ilObject
                 } else {        // advanced metadata search
                     $field = ilAdvancedMDFieldDefinition::getInstance($field_id);
 
-                    $field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(),
-                        true, false);
+                    $field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance(
+                        $field->getADTDefinition(),
+                        true,
+                        false
+                    );
                     $field_form->setElementId("query[" . $key . "]");
                     $field_form->validate();
 
