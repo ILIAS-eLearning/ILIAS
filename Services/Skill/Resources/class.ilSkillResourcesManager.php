@@ -41,6 +41,8 @@ class ilSkillResourcesManager
         $too_low = true;
 
         foreach ($a_levels as $k => $v) {
+            $v["id"] = (int) $v["id"];
+            $v["skill_id"] = (int) $v["skill_id"];
             foreach ($profile_levels as $pl) {
                 if ($pl["level_id"] == $v["id"] &&
                     $pl["base_skill_id"] == $v["skill_id"]) {
