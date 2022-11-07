@@ -688,7 +688,7 @@ class ilMailFolderGUI
             $from->setHtml($picture . ' ' . $linked_fullname);
         } elseif (!$sender || !$sender->getId()) {
             $from = new ilCustomInputGUI($this->lng->txt('from') . ':');
-            $from->setHtml($mailData['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')');
+            $from->setHtml(trim(($mailData['import_name'] ?? '') . ' (' . $this->lng->txt('user_deleted') . ')'));
         } else {
             $from = new ilCustomInputGUI($this->lng->txt('from') . ':');
             $from->setHtml(
@@ -708,7 +708,7 @@ class ilMailFolderGUI
 
         $to = new ilCustomInputGUI($this->lng->txt('mail_to') . ':');
         $to->setHtml(ilUtil::htmlencodePlainString(
-            $this->umail->formatNamesForOutput((string) $mailData['rcp_to']),
+            $this->umail->formatNamesForOutput($mailData['rcp_to'] ?? ''),
             false
         ));
         $form->addItem($to);
@@ -716,7 +716,7 @@ class ilMailFolderGUI
         if ($mailData['rcp_cc']) {
             $cc = new ilCustomInputGUI($this->lng->txt('cc') . ':');
             $cc->setHtml(ilUtil::htmlencodePlainString(
-                $this->umail->formatNamesForOutput((string) $mailData['rcp_cc']),
+                $this->umail->formatNamesForOutput($mailData['rcp_cc'] ?? ''),
                 false
             ));
             $form->addItem($cc);
@@ -725,14 +725,14 @@ class ilMailFolderGUI
         if ($mailData['rcp_bcc']) {
             $bcc = new ilCustomInputGUI($this->lng->txt('bc') . ':');
             $bcc->setHtml(ilUtil::htmlencodePlainString(
-                $this->umail->formatNamesForOutput((string) $mailData['rcp_bcc']),
+                $this->umail->formatNamesForOutput($mailData['rcp_bcc'] ?? ''),
                 false
             ));
             $form->addItem($bcc);
         }
 
         $subject = new ilCustomInputGUI($this->lng->txt('subject') . ':');
-        $subject->setHtml(ilUtil::htmlencodePlainString($mailData['m_subject'], true));
+        $subject->setHtml(ilUtil::htmlencodePlainString($mailData['m_subject'] ?? '', true));
         $form->addItem($subject);
 
         $date = new ilCustomInputGUI($this->lng->txt('date') . ':');
@@ -742,7 +742,7 @@ class ilMailFolderGUI
         $form->addItem($date);
 
         $message = new ilCustomInputGUI($this->lng->txt('message') . ':');
-        $message->setHtml(ilUtil::htmlencodePlainString($mailData['m_message'], true));
+        $message->setHtml(ilUtil::htmlencodePlainString($mailData['m_message'] ?? '', true));
         $form->addItem($message);
 
         if ($mailData['attachments']) {
