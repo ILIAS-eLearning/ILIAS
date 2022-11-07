@@ -315,7 +315,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                     $input = '<span class="ilc_qinput_TextInput solutionbox">' . ilLegacyFormElementsUtil::prepareFormOutput(
                         $value
                     ) . '</span>';
-                } elseif (is_array($userdata) && isset($userdata[$result])) {
+                } elseif (is_array($userdata) &&
+                    isset($userdata[$result]) &&
+                    isset($userdata[$result]["value"])) {
                     $input = $this->generateResultInputHtml($result, $userdata[$result]["value"]);
                 } else {
                     $input = $this->generateResultInputHTML($result, '');
