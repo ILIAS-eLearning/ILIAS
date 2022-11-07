@@ -5999,6 +5999,7 @@ cont#:#cont_skill_do_not_set#:#Do not set
 cont#:#cont_skill_members#:#Members
 cont#:#cont_skill_no_profile_selected#:#Please select a profile.
 cont#:#cont_skill_no_skill#:#No value (Reset)
+cont#:#cont_skill_no_skills_selected#:#No competences have been selected yet. Please add at least one competence first under "Competence Selection".
 cont#:#cont_skill_profile#:#Profile
 cont#:#cont_skill_profiles#:#Assigned Profiles of Members
 cont#:#cont_skill_publish#:#Publish

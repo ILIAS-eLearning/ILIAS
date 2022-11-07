@@ -5998,6 +5998,7 @@ cont#:#cont_skill_do_not_set#:#Nicht setzen
 cont#:#cont_skill_members#:#Mitglieder
 cont#:#cont_skill_no_profile_selected#:#Bitte wählen Sie ein Profil aus.
 cont#:#cont_skill_no_skill#:#Kein Wert (zurücksetzen)
+cont#:#cont_skill_no_skills_selected#:#Es wurden noch keine Kompetenzen ausgewählt. Bitte fügen Sie zunächst mindestens eine Kompetenz hinzu unter "Kompetenzauswahl".
 cont#:#cont_skill_profile#:#Profil
 cont#:#cont_skill_profiles#:#Profile der Mitglieder
 cont#:#cont_skill_publish#:#Veröffentlichung
