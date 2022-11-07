@@ -979,7 +979,7 @@ s     */
      * If no node is given, then the whole dom will be scanned
      * @param php4DOMNode|DOMNode|null $a_node
      */
-    public function handleDeleteContent($a_node = null): void
+    public function handleDeleteContent($a_node = null, $move_operation = false): void
     {
         if (!isset($a_node)) {
             $xpc = xpath_new_context($this->dom);
@@ -997,7 +997,7 @@ s     */
 
             /** @var DOMElement $node */
             if ($node->firstChild->nodeName == 'Plugged') {
-                ilPCPlugged::handleDeletedPluggedNode($this, $node->firstChild);
+                ilPCPlugged::handleDeletedPluggedNode($this, $node->firstChild, $move_operation);
             }
         }
     }
@@ -3027,10 +3027,14 @@ s     */
      * @throws ilDateTimeException
      * @throws ilWACException
      */
-    public function deleteContent(string $a_hid, bool $a_update = true, string $a_pcid = "")
-    {
+    public function deleteContent(
+        string $a_hid,
+        bool $a_update = true,
+        string $a_pcid = "",
+        bool $move_operation = false
+    ) {
         $curr_node = $this->getContentNode($a_hid, $a_pcid);
-        $this->handleDeleteContent($curr_node);
+        $this->handleDeleteContent($curr_node, $move_operation);
         $curr_node->unlink_node($curr_node);
         if ($a_update) {
             return $this->update();
@@ -3048,7 +3052,8 @@ s     */
     public function deleteContents(
         array $a_hids,
         bool $a_update = true,
-        bool $a_self_ass = false
+        bool $a_self_ass = false,
+        bool $move_operation = false
     ) {
         if (!is_array($a_hids)) {
             return true;
@@ -3084,7 +3089,12 @@ s     */
     public function cutContents(array $a_hids)
     {
         $this->copyContents($a_hids);
-        return $this->deleteContents($a_hids, true, $this->getPageConfig()->getEnableSelfAssessment());
+        return $this->deleteContents(
+            $a_hids,
+            true,
+            $this->getPageConfig()->getEnableSelfAssessment(),
+            true
+        );
     }
 
     /**
@@ -3235,6 +3245,7 @@ s     */
 
     /**
      * delete content object with hierarchical id >= $a_hid
+     * as part of a split page operation
      * @param string  $a_hid hierarchical id of content object
      * @param bool $a_update update page in db (note: update deletes all
      *                       hierarchical ids in DOM!)
@@ -3253,7 +3264,7 @@ s     */
             if (!is_int(strpos($hier_id, "_"))) {
                 if ($hier_id != "pg" && $hier_id >= $a_hid) {
                     $curr_node = $this->getContentNode($hier_id);
-                    $this->handleDeleteContent($curr_node);
+                    $this->handleDeleteContent($curr_node, true);
                     $curr_node->unlink_node($curr_node);
                 }
             }
@@ -3266,6 +3277,7 @@ s     */
 
     /**
      * delete content object with hierarchical id < $a_hid
+     * as part of the split page operation
      * @param string  $a_hid              hierarchical id of content object
      * @param bool $a_update           update page in db (note: update deletes all
      *                                    hierarchical ids in DOM!)
@@ -3284,7 +3296,7 @@ s     */
             if (!is_int(strpos($hier_id, "_"))) {
                 if ($hier_id != "pg" && $hier_id < $a_hid) {
                     $curr_node = $this->getContentNode($hier_id);
-                    $this->handleDeleteContent($curr_node);
+                    $this->handleDeleteContent($curr_node, true);
                     $curr_node->unlink_node($curr_node);
                 }
             }
@@ -3554,7 +3566,7 @@ s     */
         $clone_node = $source_node->clone_node(true);
 
         // delete source node
-        $this->deleteContent($a_source, false, $a_spcid);
+        $this->deleteContent($a_source, false, $a_spcid, true);
 
         // insert cloned node at target
         $content->setNode($clone_node);
@@ -3591,7 +3603,7 @@ s     */
         $clone_node = $source_node->clone_node(true);
 
         // delete source node
-        $this->deleteContent($a_source, false, $a_spcid);
+        $this->deleteContent($a_source, false, $a_spcid, true);
 
         // insert cloned node at target
         $content->setNode($clone_node);

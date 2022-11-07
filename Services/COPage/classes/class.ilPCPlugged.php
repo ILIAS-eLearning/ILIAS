@@ -244,7 +244,8 @@ class ilPCPlugged extends ilPageContent
      */
     public static function handleDeletedPluggedNode(
         ilPageObject $a_page,
-        DOMNode $a_node
+        DOMNode $a_node,
+        bool $move_operation = false
     ): void {
         global $DIC;
         $component_repository = $DIC['component.repository'];
@@ -266,7 +267,7 @@ class ilPCPlugged extends ilPageContent
             }
 
             // let the plugin delete additional content
-            $plugin_obj->onDelete($properties, $plugin_version);
+            $plugin_obj->onDelete($properties, $plugin_version, $move_operation);
         }
     }
 
