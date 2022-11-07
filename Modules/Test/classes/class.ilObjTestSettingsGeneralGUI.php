@@ -1243,7 +1243,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         );
         $ifbTriggerOpt->setInfo($this->lng->txt('tst_instant_feedback_trigger_forced_desc'));
         $instant_feedback_trigger->addOption($ifbTriggerOpt);
-        $instant_feedback_trigger->setValue((string) $this->testOBJ->isForceInstantFeedbackEnabled());
+        $instant_feedback_trigger->setValue($this->testOBJ->isForceInstantFeedbackEnabled() ? 1 : 0);
         $instant_feedback_enabled->addSubItem($instant_feedback_trigger);
 
         $answerFixation = new ilRadioGroupInputGUI(
