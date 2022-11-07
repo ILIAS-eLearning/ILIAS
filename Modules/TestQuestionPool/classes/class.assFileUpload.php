@@ -689,11 +689,30 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         $pass = $this->ensureCurrentTestPass($active_id, $pass);
         $test_id = $this->lookupTestId($active_id);
 
-        $uploadHandlingRequired = $this->isFileUploadAvailable() && $this->checkUpload();
+        $upload_handling_required = $this->isFileUploadAvailable() && $this->checkUpload();
+        $upload_file_data = [];
+
+        if ($upload_handling_required) {
+            if (!@file_exists($this->getFileUploadPath($test_id, $active_id))) {
+                ilFileUtils::makeDirParents($this->getFileUploadPath($test_id, $active_id));
+            }
+
+            $upload_file_data ['solution_file_versioning_upload_ts'] = time();
+            $filename_arr = pathinfo($_FILES["upload"]["name"]);
+            $extension = $filename_arr["extension"];
+            $new_file_name = "file_" . $active_id . "_" . $pass . "_" . $upload_file_data ['solution_file_versioning_upload_ts'] . "." . $extension;
+            $upload_file_data['new_file_name'] = ilFileUtils::getValidFilename($new_file_name);
+
+            ilFileUtils::moveUploadedFile(
+                $_FILES["upload"]["tmp_name"],
+                $_FILES["upload"]["name"],
+                $this->getFileUploadPath($test_id, $active_id) . $upload_file_data['new_file_name']
+            );
+        }
 
         $entered_values = false;
 
-        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $uploadHandlingRequired, $test_id, $active_id, $pass, $authorized) {
+        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $upload_handling_required, $upload_file_data, $test_id, $active_id, $pass, $authorized) {
             if ($authorized == false) {
                 $this->forceExistingIntermediateSolution($active_id, $pass, true);
             }
@@ -722,32 +741,16 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
                     }
                 }
 
-                if ($uploadHandlingRequired) {
-                    if (!@file_exists($this->getFileUploadPath($test_id, $active_id))) {
-                        ilFileUtils::makeDirParents($this->getFileUploadPath($test_id, $active_id));
-                    }
-
-                    $solutionFileVersioningUploadTS = time();
-                    $filename_arr = pathinfo($_FILES["upload"]["name"]);
-                    $extension = $filename_arr["extension"];
-                    $newfile = "file_" . $active_id . "_" . $pass . "_" . $solutionFileVersioningUploadTS . "." . $extension;
-
+                if ($upload_handling_required) {
                     $dispoFilename = ilFileUtils::getValidFilename($_FILES['upload']['name']);
-                    $newfile = ilFileUtils::getValidFilename($newfile);
-
-                    ilFileUtils::moveUploadedFile(
-                        $_FILES["upload"]["tmp_name"],
-                        $_FILES["upload"]["name"],
-                        $this->getFileUploadPath($test_id, $active_id) . $newfile
-                    );
 
                     $this->saveCurrentSolution(
                         $active_id,
                         $pass,
-                        $newfile,
+                        $upload_file_data['new_file_name'],
                         $dispoFilename,
                         false,
-                        $solutionFileVersioningUploadTS
+                        $upload_file_data ['solution_file_versioning_upload_ts']
                     );
 
                     $entered_values = true;
@@ -1120,11 +1123,11 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $query = "
-		SELECT tst_solutions.solution_id 
-		FROM tst_solutions, tst_active, qpl_questions 
-		WHERE tst_solutions.active_fi = tst_active.active_id 
-		AND tst_solutions.question_fi = qpl_questions.question_id 
-		AND tst_solutions.question_fi = %s AND tst_active.test_fi = %s 
+		SELECT tst_solutions.solution_id
+		FROM tst_solutions, tst_active, qpl_questions
+		WHERE tst_solutions.active_fi = tst_active.active_id
+		AND tst_solutions.question_fi = qpl_questions.question_id
+		AND tst_solutions.question_fi = %s AND tst_active.test_fi = %s
 		AND tst_solutions.value1 is not null";
         $result = $ilDB->queryF(
             $query,
