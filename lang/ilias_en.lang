@@ -14764,7 +14764,7 @@ skmg#:#skmg_new_sktr#:#New Competence Template Reference
 skmg#:#skmg_next_step#:#Next Step
 skmg#:#skmg_no_nodes_selectable#:#Currently there are no competences selectable.
 skmg#:#skmg_no_skills#:#No Competences
-skmg#:#skmg_no_skills_selected_info#:#You have not selected any competences yet. Click on the button "Add Competence" to select a competence and to see it here. You can add any number of competences.
+skmg#:#skmg_no_skills_selected_info#:#You have not selected or fulfilled any competences yet. Click on the "Add Competence"-button to select a competence. You can add any number of competences. If you fulfill competences by editing learning materials, they will be automatically listed here.
 skmg#:#skmg_no_trigger#:#No Trigger
 skmg#:#skmg_nr#:#Nr
 skmg#:#skmg_number#:#Number
