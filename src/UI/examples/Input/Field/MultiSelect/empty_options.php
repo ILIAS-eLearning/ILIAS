@@ -20,8 +20,12 @@ function empty_options()
     $form = $ui->input()->container()->form()->standard('#', ['empty' => $multi]);
 
     if ($request->getMethod() == "POST") {
-        $form = $form->withRequest($request);
-        $result = $form->getData();
+        try {
+            $form = $form->withRequest($request);
+            $result = $form->getData();
+        } catch (\InvalidArgumentException $e) {
+            $result = "No result. Probably, the other form was used.";
+        }
     } else {
         $result = "No result yet.";
     }

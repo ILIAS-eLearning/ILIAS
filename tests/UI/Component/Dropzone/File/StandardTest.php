@@ -38,7 +38,7 @@ class StandardTest extends FileTestBase
                                     <div class="il-standard-form-header clearfix">
                                         <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
                                     </div>
-                                    <div class="form-group row"><label for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2"></label>
+                                    <div class="form-group row"><label class="control-label col-sm-4 col-md-3 col-lg-2"></label>
                                         <div class="col-sm-8 col-md-9 col-lg-10">
                                             <div id="id_4" class="ui-input-file">
                                                 <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
@@ -80,7 +80,7 @@ class StandardTest extends FileTestBase
                                     <div class="il-standard-form-header clearfix">
                                         <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
                                     </div>
-                                    <div class="form-group row"><label for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2"></label>
+                                    <div class="form-group row"><label class="control-label col-sm-4 col-md-3 col-lg-2"></label>
                                         <div class="col-sm-8 col-md-9 col-lg-10">
                                             <div id="id_4" class="ui-input-file">
                                                 <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
@@ -124,7 +124,7 @@ class StandardTest extends FileTestBase
                                     <div class="il-standard-form-header clearfix">
                                         <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
                                     </div>
-                                    <div class="form-group row"><label for="id_5" class="control-label col-sm-4 col-md-3 col-lg-2"></label>
+                                    <div class="form-group row"><label class="control-label col-sm-4 col-md-3 col-lg-2"></label>
                                         <div class="col-sm-8 col-md-9 col-lg-10">
                                             <div id="id_5" class="ui-input-file">
                                                 <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
@@ -167,7 +167,7 @@ class StandardTest extends FileTestBase
                                     <div class="il-standard-form-header clearfix">
                                         <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
                                     </div>
-                                    <div class="form-group row"><label for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2"></label>
+                                    <div class="form-group row"><label class="control-label col-sm-4 col-md-3 col-lg-2"></label>
                                         <div class="col-sm-8 col-md-9 col-lg-10">
                                             <div id="id_4" class="ui-input-file">
                                                 <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
@@ -209,7 +209,7 @@ class StandardTest extends FileTestBase
                                     <div class="il-standard-form-header clearfix">
                                         <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
                                     </div>
-                                    <div class="form-group row"><label for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2"></label>
+                                    <div class="form-group row"><label class="control-label col-sm-4 col-md-3 col-lg-2"></label>
                                         <div class="col-sm-8 col-md-9 col-lg-10">
                                             <div id="id_4" class="ui-input-file">
                                                 <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>

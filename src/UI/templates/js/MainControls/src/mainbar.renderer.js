@@ -228,19 +228,26 @@ var renderer = function($) {
             }
         },
         render: function (model_state) {
-            var entry_ids = Object.keys(model_state.entries),
-                last_entry_id = entry_ids[entry_ids.length - 1],
+            var entry_ids = Object.keys(model_state.entries);
+
+            if (entry_ids.length == 0) {
+                return;
+            }
+
+            var last_entry_id = entry_ids[entry_ids.length - 1],
                 more_entry = model_state.entries[last_entry_id],
                 more_button = parts.triggerer.withHtmlId(dom_references[more_entry.id].triggerer),
                 more_slate = parts.slate.withHtmlId(dom_references[more_entry.id].slate);
                 //reset
                 btns = more_slate.getElement().find('.btn-bulky, .link-bulky');
-                for(var i = 0; i < btns.length; i = i + 1) {
-                    li = document.createElement('li');
-                    li.appendChild(btns[i]);
-                    li.setAttribute('role', 'none');
-                    $(li).insertBefore(more_button.getElement().parent());
-                }
+
+
+            for(var i = 0; i < btns.length; i = i + 1) {
+                li = document.createElement('li');
+                li.appendChild(btns[i]);
+                li.setAttribute('role', 'none');
+                $(li).insertBefore(more_button.getElement().parent());
+            }
 
             if(model_state.more_available) {
                 more_button.getElement().parent().show();
@@ -288,7 +295,9 @@ var renderer = function($) {
         },
         focusTopentry: function(top_entry_id) {
             var  triggerer = dom_references[top_entry_id];
-            document.getElementById(triggerer.triggerer).focus();
+            if (triggerer) {
+                document.getElementById(triggerer.triggerer).focus();
+            }
         },
 
         dispatchResizeNotification: function() {
