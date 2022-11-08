@@ -111,6 +111,10 @@ class ilObjExerciseGUI extends ilObjectGUI
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
         $this->prepareOutput();
+
+        if (!$this->getCreationMode() && isset($this->object)) {
+            $this->tpl->setPermanentLink("exc", $this->object->getRefId());
+        }
   
         //echo "-".$next_class."-".$cmd."-"; exit;
         switch ($next_class) {
