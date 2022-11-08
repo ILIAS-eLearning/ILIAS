@@ -135,13 +135,14 @@ class Renderer extends AbstractComponentRenderer
         FI\FormInput $component,
         string $input_html,
         string $id_pointing_to_input = '',
-        string $dependant_group_html = ''
+        string $dependant_group_html = '',
+        bool $bind_label_with_for = true
     ): string {
         $tpl = $this->getTemplate("tpl.context_form.html", true, true);
 
         $tpl->setVariable("INPUT", $input_html);
 
-        if ($id_pointing_to_input) {
+        if ($id_pointing_to_input && $bind_label_with_for) {
             $tpl->setCurrentBlock('for');
             $tpl->setVariable("ID", $id_pointing_to_input);
             $tpl->parseCurrentBlock();
@@ -377,7 +378,7 @@ class Renderer extends AbstractComponentRenderer
             $sig_reveal = $component->getRevealSignal();
             $sig_mask = $component->getMaskSignal();
             $component = $component->withAdditionalOnLoadCode(function ($id) use ($sig_reveal, $sig_mask) {
-                $container_id = $id."_container";
+                $container_id = $id . "_container";
                 return
                     "$(document).on('$sig_reveal', function() {
                         $('#$container_id').addClass('revealed');
@@ -399,7 +400,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('PASSWORD_MASK', $default_renderer->render($glyph_mask));
         }
         $id = $this->bindJSandApplyId($component, $tpl);
-        $tpl->setVariable('ID_CONTAINER', $id."_container");
+        $tpl->setVariable('ID_CONTAINER', $id . "_container");
         $this->applyValue($component, $tpl, $this->escapeSpecialChars());
         $this->maybeDisable($component, $tpl);
         return $this->wrapInFormContext($component, $tpl->get(), $id);
@@ -716,7 +717,9 @@ class Renderer extends AbstractComponentRenderer
         return $this->wrapInFormContext(
             $input,
             $template->get(),
-            $js_id
+            $js_id,
+            "",
+            false
         );
     }
 
