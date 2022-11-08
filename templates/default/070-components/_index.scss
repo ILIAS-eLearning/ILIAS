@@ -1,0 +1,125 @@
+/*
+* Components
+*/
+
+// MUST contain CSS classes and local variables for each specific, individual component.
+// SHOULD be an UI component
+// at the moment we also have legacy Module und Servics components as well as legacy code blocks grouped as a component
+
+/* UI Framework */
+
+@use "./UI-framework/Breadcrumbs/_ui-component_breadcrumbs.scss";
+@use "./UI-framework/Button/_ui-component_button.scss";
+@use "./UI-framework/Button/_ui-component_tag.scss";
+@use "./UI-framework/Button/_ui-component_toggle.scss";
+@use "./UI-framework/Card/_ui-component_card.scss";
+@use "./UI-framework/Chart/_ui-component_chart.scss";
+@use "./UI-framework/Counter/_ui-component_counter.scss";
+@use "./UI-framework/Deck/_ui-component_deck.scss";
+@use "./UI-framework/Divider/_ui-component_divider.scss";
+@use "./UI-framework/Dropdown/_ui-component_dropdown.scss";
+@use "./UI-framework/Dropzone/_ui-component_dropzone.scss";
+@use "./UI-framework/Input/_ui-component_input.scss";
+@use "./UI-framework/Item/_ui-component_item.scss";
+@use "./UI-framework/Layout/_ui-component_layout.scss";
+@use "./UI-framework/Link/_ui-component_link.scss";
+@use "./UI-framework/Listing/_ui-component_characteristic_value.scss";
+@use "./UI-framework/Listing/_ui-component_workflow.scss";
+@use "./UI-framework/MainControls/_ui-component_maincontrols.scss";
+@use "./UI-framework/Menu/_ui-component_menu.scss";
+@use "./UI-framework/MessageBox/_ui-component_messagebox.scss";
+@use "./UI-framework/Modal/_ui-component_modal.scss";
+@use "./UI-framework/Panel/_ui-component_panel.scss";
+@use "./UI-framework/Player/_ui-component_player.scss";
+@use "./UI-framework/Popover/_ui-component_popover.scss";
+@use "./UI-framework/Symbol/_ui-component_symbol.scss";
+@use "./UI-framework/Table/_ui-component_table.scss";
+@use "./UI-framework/Toast/_ui-component_toast.scss";
+@use "./UI-framework/Tree/_ui-component_tree.scss";
+@use "./UI-framework/ViewControl/_ui-component_viewcontrol.scss";
+
+/* Component parts from old delos.scss */
+
+@use "./legacy/_component_agreement.scss";
+@use "./legacy/_component_alert.scss";
+@use "./legacy/_component_bottom-center-area.scss";
+@use "./legacy/_component_headline.scss";
+@use "./legacy/_component_helpsidebar";
+@use "./legacy/_component_icon.scss";
+@use "./legacy/_component_LeftNavSpace.scss";
+@use "./legacy/_component_link.scss";
+@use "./legacy/_component_map.scss";
+@use "./legacy/_component_overlay.scss";
+@use "./legacy/_component_permalinks.scss";
+@use "./legacy/_component_rightPanel.scss";
+@use "./legacy/_component_delostable.scss"; 
+
+/* Legacy Modules & Services */
+
+@use "./legacy/Modules/_component_bibliographic.scss";
+@use "./legacy/Modules/_component_blog.scss";
+@use "./legacy/Modules/_component_bookingmanager.scss";
+@use "./legacy/Modules/_component_chatroom.scss";
+@use "./legacy/Modules/_component_course.scss";
+@use "./legacy/Modules/_component_datacollection.scss";
+@use "./legacy/Modules/_component_excercise.scss";
+@use "./legacy/Modules/_component_forum.scss";
+@use "./legacy/Modules/_component_learningmodule.scss";
+@use "./legacy/Modules/_component_learningsequence.scss";
+@use "./legacy/Modules/_component_lticonsumer.scss";
+@use "./legacy/Modules/_component_mediacast.scss";
+@use "./legacy/Modules/_component_mediapool.scss";
+@use "./legacy/Modules/_component_orgunit.scss";
+@use "./legacy/Modules/_component_poll.scss";
+@use "./legacy/Modules/_component_portfolio.scss";
+@use "./legacy/Modules/_component_scormaicc.scss";
+@use "./legacy/Modules/_component_survey.scss";
+@use "./legacy/Modules/_component_test.scss";
+@use "./legacy/Modules/_component_wiki.scss";
+@use "./legacy/Modules/_component_workspacefolder.scss";
+
+@use "./legacy/Services/_component_accesscontrol.scss";
+@use "./legacy/Services/_component_accordion.scss";
+@use "./legacy/Services/_component_awareness.scss";
+@use "./legacy/Services/_component_badge.scss";
+@use "./legacy/Services/_component_block.scss";
+@use "./legacy/Services/_component_bookmarks.scss";
+@use "./legacy/Services/_component_calendar.scss";
+@use "./legacy/Services/_component_chart.scss";
+@use "./legacy/Services/_component_container.scss";
+@use "./legacy/Services/_component_copage.scss";
+@use "./legacy/Services/_component_fileupload.scss";
+@use "./legacy/Services/_component_form.scss";
+@use "./legacy/Services/_component_help.scss";
+@use "./legacy/Services/_component_infoscreen.scss";
+@use "./legacy/Services/_component_init.scss";
+@use "./legacy/Services/_component_learninghistory.scss";
+@use "./legacy/Services/_component_like.scss";
+@use "./legacy/Services/_component_mail.scss";
+@use "./legacy/Services/_component_mediaobjects.scss";
+@use "./legacy/Services/_component_membership.scss";
+@use "./legacy/Services/_component_navigation.scss";
+@use "./legacy/Services/_component_news.scss";
+@use "./legacy/Services/_component_notes.scss";
+@use "./legacy/Services/_component_object.scss";
+@use "./legacy/Services/_component_onscreenchat.scss";
+@use "./legacy/Services/_component_preview.scss";
+@use "./legacy/Services/_component_rating.scss";
+@use "./legacy/Services/_component_search.scss";
+@use "./legacy/Services/_component_skill.scss";
+@use "./legacy/Services/_component_style.scss";
+@use "./legacy/Services/_component_table.scss";
+@use "./legacy/Services/_component_tags.scss";
+@use "./legacy/Services/_component_termsofservice.scss";
+@use "./legacy/Services/UIComponent/_component_advancedselectionlist.scss";
+@use "./legacy/Services/UIComponent/_component_checklist.scss";
+@use "./legacy/Services/UIComponent/_component_explorer2.scss";
+@use "./legacy/Services/UIComponent/_component_groupedlist.scss";
+@use "./legacy/Services/UIComponent/_component_lightbox.scss";
+@use "./legacy/Services/UIComponent/_component_modal.scss";
+@use "./legacy/Services/UIComponent/_component_progressbar.scss";
+@use "./legacy/Services/UIComponent/_component_tabs.scss";
+@use "./legacy/Services/UIComponent/_component_toolbar.scss";
+@use "./legacy/Services/UIComponent/_component_tooltip.scss";
+@use "./legacy/Services/_component_user.scss";
+@use "./legacy/Services/_component_webdav.scss";

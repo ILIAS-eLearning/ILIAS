@@ -1,0 +1,28 @@
+@use "../../../010-settings/" as *;
+
+/* Services/Navigation */
+
+form.ilNavHistoryForm {
+	padding: 0;
+	margin: 0 5px 0 0;
+	padding: 5px 5px 2px;
+	border: 0 none;
+	display: inline;
+	font-size: $il-font-size-xsmall;
+}
+
+input.ilNavHistorySubmit {
+	color: #2255a0;
+	padding: 0;
+	margin: 0;
+	border: 0 none;
+	cursor: pointer;
+	background-color: $il-main-darker-bg
+}
+
+select.ilNavHistorySelect {
+	border: 0 none;
+	padding: 0;
+	background-image: none;
+	text-decoration: none;
+}

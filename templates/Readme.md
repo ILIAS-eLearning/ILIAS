@@ -1,7 +1,7 @@
 # System Styles
 
 The templates folder of ILIAS contains the ILIAS System Styles. System Styles
-are defined by the set of icons, fonts, html templates and CSS/Less files that
+are defined by the set of icons, fonts, html templates and CSS/SCSS files that
 define the visual appearance of ILIAS. They differ from Content Styles, which
 enable to manipulate the classes defining the appearance of user generated
 content.
@@ -12,23 +12,25 @@ System Styles may be customized by creating custom System Styles. Custom styles 
 to be placed in the `./Customizing/global/skin` directory to be active. One may have
 multiple substyles which may be active for different branches of the repository.
 
+A GitHub Repo for a custom System Style based on the default Delos will be available
+soon.
+
 ### Tools
 
 To generate a customized System Style, first install the necessary tools to your
-server . These tools include nodejs and the node packet manager. After that you
-can install the less compiler using:
+server. These tools include nodejs and the node packet manager. After that you
+can install the sass compiler that is used to turn SCSS into CSS using:
 
 ```
-npm install -g less
+npm install -g sass
 ```
 
 or
 
-```
-apt-get install node-less
-```
+Download [Dart SASS from Github](https://github.com/sass/dart-sass/releases/) and add it to the machine's PATH.
+
 If you want to create system styles throught frontend, make sure, that your webserver
-has the permission to read and execute your newly installed less compiler.
+has the permission to read and execute your newly installed sass compiler.
 
 ### How-To 1 (Through Frontend)
 
@@ -48,7 +50,7 @@ lessc = "/usr/local/bin/lessc"
 2. Add a new System Style and activate it.
 3. Optional: Add a new Sub Style for the created System Style through the
 frontend
-4. Optional: Change the less variables for the new System Style through the
+4. Optional: Change the SCSS variables for the new System Style through the
 frontend
 5. Optional: Change the Icon colors of the new System Style through the frontend
 6. Optional: Manually add template files for the new System Style (see "Change
@@ -60,6 +62,9 @@ Layout" below)
 
 To create a new skin, first add a new subdirectory to directory
 `Customizing/global/skin`, e.g. `Customizing/global/skin/myskin`.
+
+In the future, we will provide a base System Style based on the
+default Delos that you can download from Github and place here.
 
 #### Step 2: Create template.xml File
 
@@ -102,14 +107,14 @@ have an unique Style Name and id. This is needed to identify the new skin in
 ILIAS' administration. Then copy the standard `delos.css` file to "your-id.css".
 Take care: the main CSS-File must reflect the id in its name (see above).
 
-#### Step 3: Less (Optional)
+#### Step 3: Sass (Optional)
 
-Note: It is usually a good idea to use less and less variables to create Custom
+Note: It is usually a good idea to use Sass and Sass variables to create Custom
 Styles. A good default is given by generating a first style through the
 frontend and then add the changes manually.
 
-If you copied delos.less compiling the standard delos.less file would fail due
-to path problems. In the file delos.less at about line 20 the base for some
+If you copied delos.scss compiling the standard delos.scss file would fail due
+to path problems. In the file delos.scss at about line 20 the base for some
 imports is set. Since the files were moved to the new location, this path must
 be fixed to make the imports work. prepending `../../` to the path works. At
 this point, compiling should run without errors, but some icons (like the search
@@ -118,13 +123,13 @@ button) can not be displayed. To fix this, edit `less/variables.less`.
 To test the settings, compile the less-file:
 
 ```
-lessc delos.less mystyle.css
+sass delos.scss mystyle.css
 ```
 
 or
 
 ```
-lessc --clean-css delos.less mystyle.css
+sass --style=compressed delos.scss mystyle.css
 ```
 
 for a minified CSS version.
@@ -172,20 +177,20 @@ skins:
 
 - [Standard Layout](https://test6.ilias.de/goto_test6_stys_21_LayoutPageStandardStandard_default_delos.html?), 
 template file: src/UI/templates/default/Layout/tpl.standardpage.html, the frame of the DOM for the complete ILIAS page. 
-Also checkout the according less variable under section Layout (UI Layout Page).
+Also checkout the according scss variable under section Layout (UI Layout Page).
 - [Meta Bar](https://test6.ilias.de/goto_test6_stys_21_MainControlsMetaBarMetaBar_default_delos.html?) 
 template file: src/UI/templates/default/MainControls/tpl.metabar.html, the Bar on the top holding Notification, Search User Avatar, etc.
-Also checkout the according metabar less variables.
+Also checkout the according metabar scss variables.
 - [Main Bar](https://test6.ilias.de/goto_test6_stys_21_MainControlsMainBarMainBar_default_delos.html?) 
 template directory: src/UI/templates/default/MainControls/tpl.mainbar.html, the Bar on the left holding triggers for opening the slates for
 accessing Repository, Dasbhoard etc. Content.
-Also checkout the according mainbar less variables.
+Also checkout the according mainbar scss variables.
 - [Slate](https://test6.ilias.de/goto_test6_stys_21_MainControlsSlateFactorySlate_default_delos.html?) 
 template directory: src/UI/templates/default/MainControls/Slate/tpl.slate.html, the Slates triggered by opening items of the Main Bar.
-Also checkout the according slate less variables.
+Also checkout the according slate scss variables.
 - [Breadcrumbs](https://test6.ilias.de/goto_test6_stys_21_BreadcrumbsBreadcrumbsBreadcrumbs_default_delos.html?)
 template directory: src/UI/templates/default/Breadcrumbs/tpl.breadcrumbs.html, Breadcrumbs working as locator on the top of the page.
-Also checkout the breadcrumb less variables.
+Also checkout the breadcrumb scss variables.
 
 * Startup Screens (Login, Registration, ...): `Services/Init/templates/default/tpl .startup_screen.html`
 
@@ -216,8 +221,8 @@ cd node
 ./configure
 make
 sudo make install
-Install Less + lessc
-sudo npm install -g less
+Install Sass
+sudo npm install -g sass
 ```
 
 Edit the File Applications/MAMP/Library/bin/envars.
@@ -259,23 +264,29 @@ Also, most importantly the following components have been introduced:
 
 - [Standard Layout](https://test6.ilias.de/goto_test6_stys_21_LayoutPageStandardStandard_default_delos.html?), 
 template directory: src/UI/templates/default/Layout, the frame of the DOM for the complete ILIAS page. 
-Also checkout the according less variable under section Layout (UI Layout Page).
+Also checkout the according scss variable under section Layout (UI Layout Page).
 - [Meta Bar](https://test6.ilias.de/goto_test6_stys_21_MainControlsMetaBarMetaBar_default_delos.html?) 
 template directory: src/UI/templates/default/MainControls, the Bar on the top holding Notification, Search User Avatar, etc.
-Also checkout the according metabar less variables.
+Also checkout the according metabar scss variables.
 - [Main Bar](https://test6.ilias.de/goto_test6_stys_21_MainControlsMainBarMainBar_default_delos.html?) 
 template directory: src/UI/templates/default/MainControls, the Bar on the left holding triggers for opening the slates for
 accessing Repository, Dasbhoard etc. Content.
-Also checkout the according mainbar less variables.
+Also checkout the according mainbar scss variables.
 - [Slate](https://test6.ilias.de/goto_test6_stys_21_MainControlsSlateFactorySlate_default_delos.html?) 
 template directory: src/UI/templates/default/MainControls/Slate, the Slates triggered by opening items of the Main Bar.
-Also checkout the according slate less variables.
+Also checkout the according slate scss variables.
 - [Breadcrumbs](https://test6.ilias.de/goto_test6_stys_21_BreadcrumbsBreadcrumbsBreadcrumbs_default_delos.html?)
 template directory: src/UI/templates/default/Breadcrumbs, Breadcrumbs working as locator on the top of the page.
-Also checkout the breadcrumb less variables.
+Also checkout the breadcrumb scss variables.
 
 See above section on information on how to customize those components.
 
+#### ILIAS 5.3
+
+The `icon-font-path` for glyphs has changed due to a move from the bootstrap
+library to the new location for external libraries. The new location is:
+`"../../../../libs/bower/bower_components/bootstrap/fonts/"`. If a 5.2 style is
+imported, the variable `icon-font-path` must be adapted accordingly.
 
 #### ILIAS 7
 
@@ -292,171 +303,6 @@ the override mechanism that fetches a custom style for just the T&A has been
 removed. Please use the standard skin setup described in this document to style
 the Test & Assessment like the rest of your custom skin.
 
-#### ILIAS 8
-The Main Background has been changed to white. Many style changes have been implemented.
-Maybe best start out with a fresh copy from Delos and move your changes over to this copy.
+## Coding Guidelines
 
-
-The Icons have completely changed. The outlined items are now the one and only default.
-For this reason, we changed the styling of the Icons in the mainbar, they are now inverted
-with filter: `brightness(5);`. You might to need to change your custom Mainbar Icons if you
-adapted them through the Main Menu.
-
-
-## Less Guideline
-
-Less is a CSS pre-processor, meaning that it extends the CSS language, adding
-features that allow variables, mixins, functions and many other techniques that
-allow you to make CSS that is more maintainable, themable and expendable (see:
-[less.org](http://lesscss.org/)).
-
-Since ILIAS 5.0 Bootstrap 3 is used. With the Design Revision 5.1 the JF decided
-that Bootstrap Concepts SHOULD be used where possible. One important element of
-Bootstrap 3 is the usage of less.
-
-### General
-
-* All new CSS-Styles of Modules or Services in ILIAS MUST be written in less.
-* You SHOULD consult [less.org](http://lesscss.org/) to make use of the
-advantages of less.
-* Delos.less MUST only contain imports and no other less logic at all.
-* You MUST NOT use style attributes in HTML templates (style, align, border,
-cellpadding, cellspacing font, nowrap, valign, width, height).
-* HTML templates are only responsible for a well structured HTML document, which
-displays the bare content of the website and nothing else.
-* Less/CSS is responsible for the beauty of the website. All Colors, but also
-font sizes, spaces, offsets and gaps must be defined by Less/CSS. Also, the
-proportions of the basic layout.
-* You MUST NOT use `&nbsp;` to create space.
-
-### Variables
-
-#### Naming
-
-* All less variables MUST be stored in the `variables.less` file.
-* Less variables MUST be named
-`il-component-they-are-primarely-used-in-descriptive-functionality-name`.
-Example: `il-modal-body-bg-color`. Note the `il-prefix`, distinguishing this
-variable from a bootstrap standard variable.
-* In the variables.less file, the variables MUST be structured into categories.
-* Variables and Sections MUST use the following template as structure:
-
-```
-//== Name of Category (e.g. Colors)
-//
-//## Description of Category
-
-//** Variable 1 Description
-@variable-1-name:   variable-1-value;
-//** Breadcrumb background color
-@variable-2-name:   variable-2-value;
-```
-
-#### Colors
-
-* All colors MUST be defined by using variables. In any less file other than
-variables `.less`  there are therefore only color assignments by directly using
-a variables allowed .  E.g. `color: darken(@other-variable, 10%)`, or `color:
-#564` is not allowed outside variables less.
-* In the `variables.less` file, all new color values MUST be defined in the
-"Colors" section.  Later those values can be reassigned to other variables, but
-the values  MUST NOT be changed anymore. E.g. `@il-modal-bg` can be defined
-outside the colors section,  but should be assigned directly to a variable from
-the colors section.  E.g. `il-modal-bg: @il-primary-container-bg`, and not
-`il-modal-bg: darken(@il-primary-container-bg, 15%)` or similar.
-* Shortforms MUST be used in less and CSS. E.g. `#efe`, instead of `#eeffee`.
-* Only use lowercase for color codes in less and CSS. E.g. `#efe`, instead of
-`#EFE`.
-* You SHOULD use the extended color variants (see variables.less) to generate
-colors for components displaying areas or labels that need to be differentiated
-by colors such as charts.
-* You MAY use the given less variables to generate own classes or you MAY use
-the classes given in colors.less. If generating own classes you MAY use
-colors.less as an example on how to use mixins in less to reduce the amount of
-code needed to generate such classes in less.
-
-#### Customize
-
-* Note that custom variables in a custom variables.less file have to be included
-after the `delos.less` file.
-* Also note that in delos, the ilias custom variables are included after all the
-bootstrap includes. This has to do with the way less assigns values from
-variables to less content by compiling the less to CSS. See
-[lessc](http://lesscss.org/features/#import-options/).
-
-### Classes
-
-* You SHOULD use Bootstrap classes if possible (see
-[getbootstrap.com](http://getbootstrap.com/) for a documentation of all
-bootstrap components, classes can be found in the code snippets).
-* If new less classes are needed they MUST be named according the following
-pattern: `il-component-descriptive-name`. Example: `il-modal-title` Note the
-`il-` prefix distinguishing this class from a standard bootstrap class.
-
-### Attributes
-
-* You SHOULD aim to write as little less as possible. Use existing bootstrap
-logic if possible.
-* If you need to add custom styling, you SHOULD use the following ordering for
-your attributes (see [Concentric
-CSS](https://rhodesmill.org/brandon/2011/concentric-css/)): Concentric
-CSS/Less Overview.
-
-```
-#Concentric-CSS-Overview {
-        display: ;    /* Directions about where and how the box is placed */
-        position: ;
-        float: ;
-        clear: ;
-
-        visibility: ; /* Next: can the box be seen? */
-        opacity: ;
-        z-index: ;
-
-        margin: ;     /* Layers of the box model, from outside to inside */
-        outline: ;
-        border: ;
-        background: ; /* (padding and content BOTH get the background color) */
-        padding: ;
-
-        width: ;      /* Content dimensions and scrollbars */
-        height: ;
-        overflow: ;
-
-        color: ;      /* Textual content */
-        text: ;
-        font: ;
-}
-```
-
-### Structure
-
-* The less variables file is placed in `templates/default/less/variables.less`
-* Less files for centralized UI-Components MUST be placed in
-`src/UI/templates/ComponentName/ComponentName.less`
-* Less files for existing UI for Modules or Services are stored in
-`templates/default/less/Modules/...` (or `templates/default/less/Services/...`).
-
-### Media
-
-* Media queries SHOULD directly be added into the less structure. `Delos_sm`
-files are deprecated and MUST NOT be created anymore.
-* We currently follow a desktop first approach on the less level. This means,
-that we handle all mobile cases as special cases and the desktop as the default.
-* You should use: `max-width: @grid-float-breakpoint-max` instead of `min-width:
-@grid-float-breakpoint (or min-width: @screen-sm-min)`. With `max-width`,  the
-mobile version is declared as the special case version (desktop first).
-
-## CSS Guideline
-
-CSS is optained by using a lessc compiler on delos.less, e.g. like so:
-
-```
-lessc templates/default/delos.less templates/default/delos.css
-```
-
-Note that the output heavily depends on the used lessc version. If you observe that 
-there are changed appearing in your css output other than the ones to be expected, 
-please first make sure, that you are using the latest lessc version. If so, please inform
-the current CSS maintainer [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html) and only push the changes
-caused by your changes in less.
+If you want to change and contribute ILIAS style code, please refer to the most recent [SCSS Coding Guidelines](./Guidelines_SCSS-Coding.md)

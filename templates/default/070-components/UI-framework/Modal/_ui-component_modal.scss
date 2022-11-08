@@ -1,0 +1,68 @@
+@use "../../../010-settings/"as *;
+@use "../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+
+@use "../../../050-layout/basics" as *;
+
+//== Modal
+//
+//## Variables that modify and minpulate the appearance of modals
+//** Controls the speed of the fade in/out of the modal
+$il-modal-transition-speed: 0.15s;
+
+.modal {
+	&.fade{
+		transition-property: opacity;
+		transition-duration: $il-modal-transition-speed;
+		transition-timing-function: linear;
+		transition-delay: 0s;
+
+		.modal-title{
+			font-size: $il-font-size-large;
+		}
+		.modal-dialog {
+			@include btstrp3.transition-transform(unquote("#{$il-modal-transition-speed} ease-out"));
+		}
+	}
+}
+
+.carousel {
+	.carousel-inner {
+		min-height: 400px;
+	}
+
+	.carousel-indicators li {
+		border-color: $il-main-border-color;
+		background-color: $il-main-color;
+
+		&.active {
+			background-color: $il-main-bg;
+		}
+	}
+
+	.carousel-control {
+		background: transparent;
+		color: $il-main-color;
+		text-shadow: 0px 0px 8px $il-main-bg;
+		opacity: 0.9;
+		&:hover, &:focus-visible {
+			position: absolute;
+			opacity: 1;
+			text-shadow: 0px 0px 10px $il-main-bg;
+		}
+	}
+}
+
+
+.il-modal-roundtrip {
+	//Override the grid system for forms in modals, see #33172
+	.il-standard-form {
+		.row {
+			.col-sm-4, .col-md-3, .col-lg-2 {
+				width: 33.33%;
+			}
+			.col-sm-8, .col-md-9, .col-lg-10 {
+				width: 66.67%
+			}
+		}
+	}
+}

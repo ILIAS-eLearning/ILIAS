@@ -1,0 +1,14 @@
+@use "../../010-settings/" as *;
+
+//** Size for icons: xsmall is used in the tree. e.g.
+$il-icon-size-xsmall: 15px;
+//** Size for icons: Small is used in the tree. e.g.
+$il-icon-size-small: 20px;
+//** Size for icons: Medium is used in the content-listing. e.g.
+$il-icon-size-medium: 35px;
+//** Size for icons: Large is used in the header. e.g.
+$il-icon-size-large: 45px;
+//** Path for standard icons in ILIAS
+$il-standard-icon-path: $il-background-images-path;
+
+$il-mainbar-trigger-icon-filter: brightness(3);

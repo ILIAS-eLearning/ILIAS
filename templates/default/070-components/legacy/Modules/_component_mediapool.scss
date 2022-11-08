@@ -1,0 +1,19 @@
+@use "../../../010-settings/" as *;
+
+/* Modules/MediaPool */
+
+#ilMepPreviewContent {
+	margin: 0;
+	width: 100%;
+	padding: 0;
+	border: 0;
+}
+
+.ilMediaPoolPagePreviewBody {
+	background-color: $il-main-dark-bg;
+	height: auto;
+}
+
+.ilMediaPoolPreviewThumbnail img {
+	max-width: 100px;
+}

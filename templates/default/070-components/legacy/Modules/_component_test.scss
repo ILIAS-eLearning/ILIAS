@@ -1,0 +1,107 @@
+@use "../../../010-settings/" as *;
+@use "../../../050-layout/basics" as *;
+@use "./_component_test_legacy.scss" as *;
+
+//== Test Assessment
+$il-test-shortlist-min-width: 200px;
+
+$il-test-padding-large-vertical: $il-padding-large-vertical;
+$il-test-padding-large-horizontal: $il-padding-large-horizontal;
+
+$il-test-margin-large-vertical: $il-padding-large-vertical;
+$il-test-margin-large-horizontal: $il-padding-large-horizontal;
+
+$il-test-working-time-font-size: $il-font-size-large;
+$il-test-working-time-font-weight: $il-font-weight-bold;
+
+// general layout
+#tst_output {
+    display: flex;
+	#taForm {
+		background: transparent;
+	}
+    // left column: list of questions
+    #tst_left {
+        width: 20%;
+        min-width: $il-test-shortlist-min-width;
+        margin-right: $il-test-margin-large-horizontal;
+        &:empty {
+            display: none; // handles show/hide shortlist from former ta_split.css
+            visibility: hidden;
+        }
+        @media screen and (max-width: $il-grid-float-breakpoint-max) {
+            margin-right: 0;
+            width: 100%;
+        }
+    }
+    #tst_right {
+        flex-grow: 1;
+        .ilc_Page {
+            background-color: $il-main-bg;
+            padding: $il-test-padding-large-vertical $il-test-padding-large-horizontal; // like a panel
+        }
+    }
+    @media screen and (max-width: $il-grid-float-breakpoint-max) {
+        flex-direction: column-reverse;
+    }
+}
+// break on medium screen sizes when slate is engaged
+@media screen and (max-width: $il-grid-float-breakpoint-max) {
+	.il-layout-page.with-mainbar-slates-engaged #tst_output {
+		flex-direction: column-reverse;
+		#tst_left {
+			margin-right: 0;
+            width: 100%;
+		}
+	}
+}
+
+// navigation previous and next buttons
+#tst_output .ilTstNavigation {
+    display: flex;
+    padding: $il-test-padding-large-vertical $il-test-padding-large-horizontal; // like a panel
+    justify-content: space-between;
+    background-color: $il-main-dark-bg;
+}
+
+// question list
+#tst_output #tst_left {
+    ul.shortlist {
+        list-style-type: none;
+        padding: 0;
+        li {
+            padding: 0 0 $il-test-margin-large-vertical (1.5 * $il-test-margin-large-horizontal);
+            background-repeat: no-repeat;
+            background-size: 10px;
+            background-position: 0px 5px;
+            &.unanswered {
+                background-image: url('images/answered_not.svg');
+            }
+            &.answered {
+                background-image: url('images/answered.svg');
+            }
+            &.active {
+                font-weight: $il-font-weight-bold;
+            }
+        }
+    }
+}
+
+// main page area elements
+#tst_output #tst_right {
+	.ilTstWorkingFormBlock_WorkingTime {
+        text-align: center;
+        clear: both;
+        .ilTstWorkingFormInfo_UserWorkingTime {
+            visibility: hidden;
+            display: none;
+        }
+        .ilTstWorkingFormInfo_ProcessTimeLeft {
+            font-size: $il-test-working-time-font-size;
+            font-weight: $il-test-working-time-font-weight;
+        }
+    }
+    h1.ilc_page_title_PageTitle {
+        margin-bottom: $il-test-padding-large-vertical;
+    }
+}

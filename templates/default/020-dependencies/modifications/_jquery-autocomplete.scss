@@ -1,0 +1,78 @@
+
+@use "../../010-settings/" as s;
+@use "../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp;
+@use "../../010-settings/legacy-settings/legacy-settings_menu" as t-menu;
+
+/* jquery ui autocomplete */
+.ui-menu {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: block;
+	float: left;
+	background-color: btstrp.$dropdown-bg;
+	border: 1px solid s.$il-main-border-color;
+	font-size: s.$il-font-size-small;
+    @include btstrp.box-shadow(2px 2px 4px #c0c0c0);
+	.ui-menu-item {
+		margin: 0;
+		padding: 0;
+		zoom: 1;
+		float: left;
+		clear: left;
+		width: 100%;
+		> * {
+			text-decoration: none;
+			display: block;
+			padding: 2px 4px;
+			line-height: 1.5;
+			color: btstrp.$dropdown-link-color;
+			background-color: t-menu.$dropdown-link-bg;
+			&:hover, &.ui-state-hover, &.ui-state-active {
+				background-color: btstrp.$dropdown-link-hover-bg;//$il-highlight-bg;
+				color: btstrp.$dropdown-link-color;
+			}
+		}
+		a {
+			color: btstrp.$dropdown-link-color;
+			&:hover {
+				color: btstrp.$dropdown-link-hover-color;
+			}
+		}
+	}
+	.ui-menu-category {
+		margin: 0;
+		padding: 2px;
+		zoom: 1;
+		float: left;
+		clear: left;
+		width: 100%;
+		font-weight: s.$il-font-weight-bold;
+	}
+	.ui-menu-more {
+		display: block;
+		zoom: 1;
+		color: #03a;
+		cursor: pointer;
+		float: left;
+		clear: left;
+		width: 100%;
+		span {
+			padding: 2px;
+		}
+		&:hover {
+			background-color: white;
+		}
+	}
+}
+
+.ui-autocomplete {
+	max-height: 400px;
+	overflow-y: auto;
+	/* prevent horizontal scrollbar */
+	overflow-x: hidden;
+
+	li.ui-menu-item {
+		cursor: pointer;
+	}
+}

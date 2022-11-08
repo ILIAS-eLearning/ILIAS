@@ -1,0 +1,16 @@
+@use "../../../010-settings/legacy-settings/legacy-settings_form" as *;
+@use "../../../050-layout/basics" as *;
+
+.ilInfoScreenSec:not(:first-child) .ilFormHeader {
+	margin: $il-standard-form-header-margin;
+	border-top: $il-standard-form-header-border;
+}
+
+.il_InfoScreenPropertyValue{
+	padding-top: calc($il-padding-base-vertical + 1px);
+	padding-bottom: calc($il-padding-base-vertical + 1px);
+
+	.ilProfile {
+		margin: 0;
+	}
+}

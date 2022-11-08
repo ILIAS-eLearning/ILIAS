@@ -1,0 +1,9 @@
+@use "../010-settings/" as *;
+
+img {
+	vertical-align: middle;
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+		/* height: auto; messes e.g. survey progress bar */
+		max-width: 100%;
+	}
+}

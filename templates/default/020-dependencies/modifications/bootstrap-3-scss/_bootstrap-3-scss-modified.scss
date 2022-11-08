@@ -1,0 +1,5 @@
+@import "./stylesheets/bootstrap";
+
+// This loads the the complete modified Bootstrap 3 used in ILIAS.
+// Only import this once on the dependency layer.
+// To use Bootstrap variables in scss instead refer to _bootstrap-3-scss-modified-variables-mixins

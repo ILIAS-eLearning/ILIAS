@@ -1,0 +1,199 @@
+@use "sass:math";
+@use "../../../../../010-settings" as *;
+@use "../../../../../010-settings/legacy-settings/legacy-settings_form" as *;
+@use "../../../../../010-settings/legacy-settings/legacy-settings_panel" as *;
+@use "../../../../../030-tools/tool_rem-conversion" as *;
+@use "../../../../../050-layout/basics" as *;
+@use "../../../../../050-layout/standardpage/" as *;
+
+/**
+Some bootstrap variables are not left by the default of bootstrap, but are overwritten by ILIAS less variales.
+Those are set here. If you need to overwrite a less variable of bootstrap, set a variable in the the variables.scss
+file of ILIAS with the il- prefix and use this variable to overwrite the boostrap variable here. If possible, do use
+the il- variable in your less code and not the boostrap variable in your less code.
+ */
+
+//== Colors
+//
+//## Gray and brand colors for use across Bootstrap.
+$brand-primary:         $il-main-color;
+$brand-success:         $il-success-color;
+$brand-info:            $il-info-color;
+$brand-warning:         $il-warning-color;
+$brand-danger:          $il-danger-color;
+
+//== Scaffolding
+//
+//## Settings for some of the most global styles.
+
+//** Background color for `<body>`.
+$body-bg:               $il-main-bg;
+//** Global text color on `<body>`.
+$text-color:            $il-text-color;
+
+//** Global textual link color.
+$link-color:            $il-link-color;
+//** Link hover color set via `darken()` function.
+$link-hover-color:      $il-link-hover-color;
+
+$font-family-sans-serif:  $il-font-family-sans-serif;
+
+$font-size-base:          $il-font-size-base;
+$font-size-large:         $il-font-size-large;
+$font-size-small:         $il-font-size-small;
+$font-size-xs:         	  $il-font-size-xsmall;
+
+$font-size-h1:            $il-font-size-h1;
+$font-size-h2:            $il-font-size-xxlarge;
+$font-size-h3:            $il-font-size-xlarge;
+$font-size-h4:            $il-font-size-large;
+$font-size-h5:            $il-font-size-base;
+$font-size-h6:            $il-font-size-base;
+
+//** Unit-less `line-height` for use in components like buttons.
+$line-height-base:        $il-line-height-base;
+//** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
+$line-height-computed:    $il-line-height-computed; // ~20px
+//** For larger font sizes, such as titles in panels.
+$line-height-large:         $il-line-height-large;
+//** For smaller font sizes
+$line-height-small:         $il-line-height-small;
+
+//== Base Padding and Border
+//
+//## Define common padding and border radius sizes and more. Values based on 14px text and 1.428 line-height (~20px to start).
+$padding-base-vertical:     $il-padding-base-vertical;
+$padding-base-horizontal:   $il-padding-base-horizontal;
+
+$padding-large-vertical:    $il-padding-large-vertical;
+$padding-large-horizontal:  $il-padding-large-horizontal;
+
+$padding-small-vertical:    $il-padding-small-vertical;
+$padding-small-horizontal:  $il-padding-small-horizontal;
+
+$padding-xs-vertical:       $il-padding-xs-vertical;
+$padding-xs-horizontal:     $il-padding-xs-horizontal;
+
+$border-radius-base:        $il-border-radius-base;
+$border-radius-large:       $il-border-radius-large;
+$border-radius-small:       $il-border-radius-small;
+
+$grid-float-breakpoint-max: $il-grid-float-breakpoint-max;
+
+$grid-gutter-width:         2*$il-padding-xlarge-horizontal;
+$navbar-padding-horizontal:        math.floor(math.div($grid-gutter-width, 2));
+$navbar-height: rem-to-pixel($il-standard-page-small-mainbar-height);
+// $navbar-padding-vertical:          calc(($navbar-height - $line-height-computed) / 2);
+
+//== Icons
+//
+//## Icons are used to represent (and quickly identify) objects.
+
+//** Path to the font of the glyphicons. Note that the path must be put in "".
+$il-icon-font-path: "./020-dependencies/unmodified/bootstrap-3-scss/fonts/";
+$icon-font-path: $il-icon-font-path;
+
+//== Navs
+//
+//##
+$nav-link-padding:          5px 10px;
+$nav-tabs-border-color:     $il-main-border-color;
+/* $nav-tabs-link-hover-border-color: $brand-primary; */
+$nav-tabs-active-link-hover-border-color: $il-main-border-color;
+
+$btn-default-color:             $il-link-color;
+$btn-default-border:            #d0d0d0;
+$btn-default-bg:                #fefefe;
+
+//== Breadcrumbs
+//** Breadcrumb background color
+$breadcrumb-bg:                 transparent;
+//** Breadcrumb text color
+$breadcrumb-color:               $il-link-color;
+//** Text color of current page in the breadcrumb
+$breadcrumb-active-color:        $il-link-hover-color;
+//** font-weight of breadcrumbs
+$breadcrumb-font-weight:        $il-font-weight-bold;
+//** Textual separator for between breadcrumb elements
+$breadcrumb-separator:          " \e606";
+
+//== Badges
+//
+//##
+$badge-bg:                    $il-warning-color;
+$badge-active-bg:             $il-warning-color;
+
+//== Input Fields
+//
+//## Variables used to style the ILIAS input fields (e.g. Text Inputs etc.)
+$input-border-radius: 0;
+$input-border-focus: lighten($il-main-color, 20%);
+$input-height-base: ceil($il-line-height-computed + $il-padding-base-vertical * 2 + 2);
+$input-height-small: ceil((rem-to-pixel($il-font-size-small) * $il-line-height-base) + $il-padding-small-vertical * 2 + 2);
+$input-height-large: (ceil(rem-to-pixel($il-font-size-large) * $line-height-large) + ($padding-large-vertical * 2) + 2) !default;
+
+
+$input-color-placeholder: $il-text-light-color;
+
+//== Tables
+//
+//## Customizes the `.table` component with basic values, each used across all table variations.
+
+//** Background color used for `.table-striped`.
+$table-bg-accent:               white;
+
+//== bootstrap date time picker (/Services/Calendar/)
+//
+//##
+$bs-datetimepicker-timepicker-font-size: $il-font-size-large;
+$bs-datetimepicker-active-bg: $il-btn-primary-bg;
+$bs-datetimepicker-active-color: $il-btn-primary-color;
+$bs-datetimepicker-border-radius: $il-border-radius-base;
+$bs-datetimepicker-btn-hover-bg: $il-highlight-bg;
+$bs-datetimepicker-disabled-color: $il-neutral-light-color;
+$bs-datetimepicker-alternate-color: $il-neutral-light-color;
+$bs-datetimepicker-secondary-border-color: $il-main-border-color;
+$bs-datetimepicker-secondary-border-color-rgba: rgba(0, 0, 0, 0.2);
+$bs-datetimepicker-primary-border-color: white;
+$bs-datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+
+//== Panels
+//
+//##
+
+$panel-bg:                    $il-main-bg;
+$panel-body-padding:          15px;
+$panel-heading-color:		  $il-panel-heading-color;
+$panel-heading-padding:       1.5*$padding-large-vertical $padding-large-horizontal;
+$panel-footer-padding:        $panel-heading-padding;
+$panel-border-radius:         $border-radius-base;
+
+//** Border color for elements within panels
+$panel-inner-border:          $il-main-border-color;
+$panel-footer-bg:             $il-main-dark-bg;
+
+$panel-default-text:          $il-text-color;
+$panel-default-border:        none;
+$panel-default-heading-bg:    $il-main-dark-bg;
+
+$panel-primary-text:          $il-text-color;
+$panel-primary-border:        none;
+$panel-primary-heading-bg:    $il-main-dark-bg;
+
+//== DropDowns
+//
+//##
+// Dropdowns
+$dropdown-bg: $il-main-bg;
+$dropdown-link-color: $il-text-color;
+$dropdown-link-hover-color: $il-text-hover-color;
+$dropdown-link-hover-bg: $il-highlight-bg;
+
+$navbar-height: $il-toolbar-height;
+
+//== Type
+//
+//##
+
+//** Text muted color
+$text-muted:                  $il-neutral-light-color;

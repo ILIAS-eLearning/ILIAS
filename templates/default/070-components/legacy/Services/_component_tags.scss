@@ -1,0 +1,64 @@
+@use "../../../010-settings/" as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_button" as *;
+@use "../../../050-layout/basics" as *;
+
+/* Services/Tags */
+
+.ilTagCloud {
+	font-size: $il-font-size-small;
+	padding: $il-padding-large-vertical 0;
+}
+.il-maincontrols-slate {
+	.ilTagCloud {
+		padding: $il-padding-large-vertical $il-padding-large-horizontal;
+  	}
+}
+.ilTag {
+	background-color: $il-btn-tag-bg;
+	/* background-color: lighten($brand-primary, 10%); */
+	color: $il-btn-tag-fg-relevance-veryhigh;
+	display: inline-block;
+	white-space: nowrap;
+	padding: 1px 5px;
+	margin: 2px 4px 2px 0;
+	border-radius: 3px;
+}
+
+a.ilTag:hover, a.ilTag:active {
+	text-decoration: none;
+	color: $il-btn-tag-fg-relevance-veryhigh;
+	background-color: darken($il-btn-tag-bg, 5%);
+}
+
+.ilTagRelVeryHigh {
+
+}
+.ilTagRelHigh {
+	background-color: $il-btn-tag-bg-relevance-high;
+	color: $il-btn-tag-fg-relevance-high;
+}
+.ilTagRelMiddle {
+	background-color: $il-btn-tag-bg-relevance-middle;
+	color: $il-btn-tag-fg-relevance-middle;
+}
+.ilTagRelLow {
+	background-color: $il-btn-tag-bg-relevance-low;
+	color: $il-btn-tag-fg-relevance-low;
+}
+.ilTagRelVeryLow {
+	background-color: $il-btn-tag-bg-relevance-verylow;
+	color: $il-btn-tag-fg-relevance-verylow;
+}
+
+.ilTag.ilHighlighted, .ilTag.ilHighlighted:hover {
+	background-color: $il-btn-tag-bg-highlighted;
+	color: $il-btn-tag-fg-highlighted;
+
+	&:hover{
+		background-color: darken($il-btn-tag-bg-highlighted, 5%);
+	}
+}
+
+#il_tags_modal textarea {
+	resize: vertical;
+}

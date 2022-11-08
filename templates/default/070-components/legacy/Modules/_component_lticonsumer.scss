@@ -1,0 +1,23 @@
+@use "../../../010-settings/" as *;
+
+/* BEGIN LTIConsumer */
+
+$lti-iframe-width: 100%;
+$lti-iframe-height: 500px;
+
+$lti-iframe-border-color: $il-main-border-dark-color;
+$lti-iframe-border-width: 2px;
+
+$lti-iframe-padding: 3px;
+
+#ltiLoadingAnimation {
+  padding-top: 50px;
+  text-align: center;
+}
+#ltiIframe {
+  border: solid $lti-iframe-border-color $lti-iframe-border-width !important;
+  padding: $lti-iframe-padding;
+  width: $lti-iframe-width;
+  height: $lti-iframe-height;
+}
+/* END LTIConsumer */

@@ -1,0 +1,122 @@
+@use "../../../010-settings/" as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_panel" as *;
+@use "../../../050-layout/basics" as *;
+
+/* Services/Notes */
+
+#notes_embedded_outer {
+    /* background-color: $il-main-bg; */
+}
+#notes_embedded_outer .il_ContainerItemCommands {
+    padding-top: 15px;
+}
+div.ilNotes {
+	background-color: $il-main-bg;
+	padding: 15px;
+}
+
+#ilRightPanel div.ilNotes {
+	background-color: $il-main-bg;
+}
+
+div.ilNotes .fullwidth_invisible {
+	background-color: transparent;
+	padding: 10px;
+}
+
+div.ilComment {
+	padding-left: 50px;
+}
+
+div.ilNotesUImage {
+	float: left;
+	margin-left: -50px;
+	img {
+		width: 40px;
+		height: 40px;
+	}
+}
+
+div.ilNoteText {
+	font-size: $il-font-size-small;
+	margin-top: 5px;
+}
+
+div.ilNotesHeader {
+	background-color: $il-main-dark-bg;
+	margin-bottom: 5px;
+	padding: $il-padding-base-vertical $il-padding-base-horizontal;
+	h3 {
+		img {
+			width: 40px;
+			height: 40px;
+		}
+	}
+}
+
+#il_center_col {
+	div.ilNotesHeader {
+		display: none;
+	}
+}
+
+#ilRightPanel div.ilNotesHeader {
+	padding: 5px;
+}
+
+h3.ilNotesHeader {
+	font-size: $il-font-size-large;
+	color: $il-text-color;
+	display: inline;
+}
+
+h4.ilNoteTitle {
+	font-size: $il-font-size-base;
+	margin: 0;
+	padding: 0;
+}
+
+td.ilNoteList {
+	padding: 10px 5px;
+	border-top: 1px solid $il-main-border-color;
+	vertical-align: top;
+}
+
+textarea#note {
+	height: 6em;
+}
+
+div.ilNoteInput {
+	padding-bottom: 10px;
+}
+
+.ilNotesCheckboxes  {
+	.ilComment {
+		padding-left: 80px;
+	}
+	.ilNoteList input[type="checkbox"] {
+		position: absolute;
+	}
+}
+
+[data-note-el='edit-form-area'] > button {
+	margin-bottom: $il-padding-xlarge-vertical;
+}
+
+.il-notes-section .panel {
+	.dropdown-menu {
+		right: 0;
+		left: inherit;
+	}
+}
+
+.il-notes-section .il-standard-form-header {
+	border-top: $il-panel-border;
+	.il-standard-form-cmd {
+		visibility: hidden;
+	}
+}
+
+.il-notes-section textarea {
+	height: 6em;
+}

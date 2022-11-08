@@ -1,0 +1,131 @@
+@use "../../010-settings/" as *;
+
+/* ---------------- headlines ------------------ */
+#il_mhead_t_focus {
+	//This is a violation of our color rules. We do this only for product placement reasons for the PM.
+	color: $il-neutral-color;
+	vertical-align: middle;
+	font-size: $il-font-size-h1;
+	font-weight: $il-font-weight-bold;
+    cursor: default;
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+        font-size: $il-font-size-xxlarge;
+    }
+    &[href] {
+        cursor: pointer;
+    }
+}
+
+h1.ilHeader {
+	padding: 10px 0 0;
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+        padding-top: 5px;
+    }
+}
+
+h2.ilHeader {
+	font-weight: $il-font-weight-bold;
+	padding: 0;
+	margin: 0;
+	display: inline;
+	font-size: $il-font-size-xlarge;
+	color: $il-neutral-color;
+}
+
+#headerimage {
+	width: 45px;
+	height: 45px;
+	margin-top: 3px;
+	margin-right: 10px;
+	float: left;
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+        width: 35px;
+		height: 35px;
+		margin-top: 2px;
+		margin-right: 7px;
+    }
+}
+
+div.ilHeadAction {
+	float: right;
+	margin: 8px 0 5px; /* bottom 5px blog fullscreen */
+}
+
+div.ilHeadAction .prop {
+	padding-right: 10px;
+}
+
+div.ilHeadAction a:hover {
+	text-decoration: none;
+}
+
+div.ilHeadAction ul.dropdown-menu button {
+	text-decoration: none;
+	border: none;
+	padding-left: 10px;
+}
+
+div.ilHeaderDesc {
+	font-size: $il-font-size-base;
+	padding: 0;
+	color: $il-text-color;
+}
+
+div.il_HeaderInner {
+	padding: 15px;
+	margin-bottom: 5px;
+	overflow: visible;
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+		color: $il-text-color;
+	}
+	&.media {
+		margin-top: 0;
+	}
+}
+
+.ilAccHeadingHidden, .ilAccHidden {
+	position: absolute;
+	left: -2000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+div.ilAccAnchor, div.ilAccAnchor:hover {
+	text-decoration: none;
+	color: inherit;
+}
+
+/* Fixed Frame Width */
+div.ilFrameFixedWidth, .ilFrameFixedWidth #mainscrolldiv {
+	/* max-width: 1370px; */
+	margin: 0 auto;
+}
+
+.ilFrameFixedWidth #mainscrolldiv {
+	margin: 0 auto;
+}
+
+div.ilFrameFixedWidthHeader {
+	margin: 0 auto;
+	padding: 0;
+}
+
+.ilFrameFixedWidthHeader div.ilHeaderBanner {
+	overflow: hidden;
+	padding: 0 15px;
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+		max-width: 100%;
+		height: 40px !important;
+		padding: 0;
+	}
+}
+
+div.ilHeaderBanner img.ilHeaderImg {
+	width: 100%;
+}
+
+.ilFrameFixedWidth div.ilHeaderDesc {
+	padding-left: 0;
+}

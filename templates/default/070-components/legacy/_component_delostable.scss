@@ -1,0 +1,231 @@
+@use "../../010-settings/" as *;
+
+
+div.ilTableOuter {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+		max-width: 100%;
+		overflow: auto;
+	}
+}
+
+.table-responsive .dropdown-menu {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+        position: relative;
+    }
+}
+
+/* -------------------- table formatting ------------------ */
+
+div.ilCommandRow {
+    text-align: right;
+    padding-right: 1%;
+    margin-bottom: 15px;
+}
+
+div.ilCommandRow.one_side_col {
+    padding-right: 22%;
+}
+
+div.ilAdminRow {
+   margin: 10px 15px 20px 15px;
+}
+
+table.std {
+   color: $il-text-color;
+   background-color: $il-main-dark-bg;
+   border-spacing: 0;
+   border-collapse: collapse;
+   border: 1px solid #9eadba;
+}
+
+
+.fullwidth_invisible {
+   color: $il-text-color;
+   background-color: $il-main-dark-bg;
+   width: 100%;
+   border-spacing: 0;
+}
+
+table.nobackground {
+   color: $il-text-color;
+   background-color: inherit;
+   border-spacing: 0;
+   padding: 3px;
+}
+
+
+.subitem {
+ clear: both;
+ margin: 0 -10px 0 0;
+ padding-top: 5px;
+ /* border-top: 1px dotted #c0c0c0; */
+}
+
+td.nobackground {
+   color: black;
+   background-color: inherit;
+   border-spacing: 0;
+   border: none;
+   padding: 3px;
+   vertical-align: top;
+}
+
+tr.tbltitle {
+   border-bottom: 1px solid #9eadba;
+}
+
+tr.std {
+   background-color: white;
+   color: $il-text-color;
+   padding: 3px;
+}
+
+th {
+   text-align: left;
+   vertical-align: bottom;
+   font-weight: $il-font-weight-base;
+}
+
+td.std, th.std {
+   padding: 4px 6px;
+   text-align: left;
+}
+
+.calstd .btn {
+   white-space: normal;
+}
+
+th.option, td.option {
+   background-color: $il-main-bg;
+   color: $il-text-color;
+   padding: 3px;
+   font-weight : $il-font-weight-bold;
+   vertical-align: top;
+   text-align: right;
+   border-top: 1px solid #9eadba;
+}
+
+td.sub_option {
+   background-color: white;
+   color: $il-text-color;
+   padding: 3px;
+   font-weight : $il-font-weight-bold;
+   vertical-align: top;
+   border-top: 1px solid #9eadba;
+}
+
+td.option_value {
+   background: none white;
+   color: $il-text-color;
+   padding: 3px;
+   vertical-align: top;
+   text-align: left;
+   border-top: 1px solid #9eadba;
+}
+
+td.option_value_center {
+   background: none white;
+   color: $il-text-color;
+   padding: 3px;
+   vertical-align: top;
+   text-align: center;
+   border-top: 1px solid #9eadba;
+}
+
+td.option_desc, p.option_desc {
+   background: none white;
+   color: $il-text-color;
+   padding: 3px;
+   font-style: italic;
+   font-weight: $il-font-weight-base;
+   vertical-align: top;
+   text-align: left;
+}
+
+td.boxed {
+   border: 1px solid black;
+}
+
+/*Link, Visited, Hover, Focus, Activ*/
+a.il_ContainerItemCommand2:link, a.il_ContainerItemCommand2:visited,
+a.il_ContainerItemCommand:link, a.il_ContainerItemCommand:visited {
+   font-size: $il-font-size-small;
+   text-decoration: none;
+   margin: 0 3px 0 0;
+   white-space: nowrap;
+   font-weight: $il-font-weight-base;
+}
+
+a.il_ContainerItemCommand2:hover,
+a.il_ContainerItemCommand:hover {
+   text-decoration: underline;
+}
+
+div.il_ContainerItemCommands2 {
+   text-align: right;
+   margin: 0 3px 3px;
+}
+
+div.il_ContainerItemCommands {
+   padding: 2px 0;
+}
+
+h3.il_ContainerItemTitle {
+   padding: 0;
+   margin: 0;
+   font-weight: $il-font-weight-base;
+   font-size: $il-font-size-base;
+   display: inline;
+}
+
+div.il_ContainerItemTitle {
+   float: left;
+   max-width: calc(unquote("100% - 40px"));
+   padding-bottom: 5px;
+}
+
+div.il_ItemProperties {
+   margin: 2px 0 5px;
+   text-align: left;
+   font-weight: $il-font-weight-base;
+   font-size: $il-font-size-small;
+}
+
+div.il_ItemNotice {
+   margin: 2px 0 5px;
+   text-align: left;
+   font-weight: $il-font-weight-base;
+   font-size: $il-font-size-small;
+   color: green;
+}
+
+a.il_ItemProperty:link, a.il_ItemProperty:visited {
+   text-decoration: none;
+   font-weight: $il-font-weight-base;
+}
+
+a.il_ItemProperty:hover {
+   color: black;
+}
+
+
+
+/* Table Links */
+/* --- description text ---*/
+div.il_Description, td.il_Description {
+   margin: 2px 0 5px;
+   font-size: $il-font-size-small;
+   font-weight: $il-font-weight-base;
+   text-align: left;
+}
+
+div.il_Description_no_margin, td.il_Description_no_margin {
+   font-size: $il-font-size-small;
+   font-style: italic;
+   text-align: left;
+}
+
+div.il_info {
+   font-size: $il-font-size-small;
+   text-align: left;
+}
