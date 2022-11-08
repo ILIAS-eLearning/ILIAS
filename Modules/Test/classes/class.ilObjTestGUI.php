@@ -166,7 +166,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         }
 
         $next_class = $this->ctrl->getNextClass($this);
-        $this->ctrl->setReturn($this, "infoScreen");
 
         // add entry to navigation history
         if (!$this->getCreationMode() &&
