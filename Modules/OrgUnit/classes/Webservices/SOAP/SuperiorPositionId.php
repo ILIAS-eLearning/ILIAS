@@ -28,7 +28,7 @@ class SuperiorPositionId extends Base
 {
     protected function run(array $params): int
     {
-        return ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_SUPERIOR);
+        return $this->positionRepo->getSingle(ilOrgUnitPosition::CORE_POSITION_SUPERIOR, 'core_identifier')->getId();
     }
 
     public function getName(): string

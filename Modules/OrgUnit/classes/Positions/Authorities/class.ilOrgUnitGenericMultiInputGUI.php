@@ -15,6 +15,8 @@
  *
  ********************************************************************
  */
+
+declare(strict_types=1);
 require_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
 
 /**
@@ -131,7 +133,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
                 $item->setDate(new \ilDate($value[$key]['date'], IL_CAL_DATE));
             } else {
                 if (array_key_exists($key, $value)) {
-                    $item->setValue($value[$key]);
+                    $item->setValue((string) $value[$key]);
                 }
             }
         }
@@ -165,18 +167,20 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
     {
         $internal_fields = array_keys($this->inputs);
         $key = $this->getPostVar();
-        $post = $this->raw($key) ?? [];
+        $post =  $this->raw($key);
 
-        foreach ($post as $authority) {
-            if (!(
-                array_key_exists(self::MULTI_FIELD_ID, $authority) &&
-                array_key_exists(self::MULTI_FIELD_OVER, $authority) &&
-                array_key_exists(self::MULTI_FIELD_SCOPE, $authority) &&
-                trim($authority[self::MULTI_FIELD_OVER]) !== '' &&
-                trim($authority[self::MULTI_FIELD_SCOPE]) !== ''
-            )) {
-                $this->setAlert($this->lng->txt("msg_input_is_required"));
-                return false;
+        if (is_array($post)) {
+            foreach ($post as $authority) {
+                if (!(
+                    array_key_exists(self::MULTI_FIELD_ID, $authority) &&
+                    array_key_exists(self::MULTI_FIELD_OVER, $authority) &&
+                    array_key_exists(self::MULTI_FIELD_SCOPE, $authority) &&
+                    trim($authority[self::MULTI_FIELD_OVER]) !== '' &&
+                    trim($authority[self::MULTI_FIELD_SCOPE]) !== ''
+                )) {
+                    $this->setAlert($this->lng->txt("msg_input_is_required"));
+                    return false;
+                }
             }
         }
 
@@ -207,7 +211,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
     }
 
 
-    public function render(int $iterator_id = 0, bool $clean_render = false): string
+    public function render(int|string $iterator_id = 0, bool $clean_render = false): string
     {
         $first_label = true;
         //		$tpl = new \ilTemplate("tpl.multi_line_input.html", true, true, 'Customizing/global/plugins/Services/Repository/RepositoryObject/LiveVoting');
@@ -253,7 +257,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
                 // Reset post var
                 $input->setPostVar($this->post_var_cache[$key]);
             }
-            $post_var = $this->createInputPostVar($iterator_id, $input);
+            $post_var = $this->createInputPostVar((string) $iterator_id, $input);
             $input->setPostVar($post_var);
             $before_render_hook = $this->getHook(self::HOOK_BEFORE_INPUT_RENDER);
             if ($before_render_hook !== false && !$clean_render) {

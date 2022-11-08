@@ -34,6 +34,7 @@ class ilObjOrgUnit extends ilContainer
     private ilAppEventHandler $ilAppEventHandler;
     private ilRbacReview $rbacreview;
     private ilRbacAdmin $rbacadmin;
+    protected ilOrgUnitPositionDBRepository $positionRepo;
 
     /**
      * Cache storing OrgUnit objects that have OrgUnit types with custom icons assigned
@@ -59,6 +60,16 @@ class ilObjOrgUnit extends ilContainer
         $this->rbacadmin = $DIC->rbac()->admin();
 
         parent::__construct($a_id, $a_call_by_reference);
+    }
+
+    private function getPositionRepo(): ilOrgUnitPositionDBRepository
+    {
+        if (!isset($this->positionRepo)) {
+            $dic = ilOrgUnitLocalDIC::dic();
+            $this->positionRepo = $dic["repo.Positions"];
+        }
+
+        return $this->positionRepo;
     }
 
     public function read(): void
@@ -228,7 +239,9 @@ class ilObjOrgUnit extends ilContainer
      */
     public function assignUsersToEmployeeRole(array $user_ids): void
     {
-        $position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+        $position_id = $this->getPositionRepo()
+            ->getSingle(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE, 'core_identifier')
+            ->getId();
 
         foreach ($user_ids as $user_id) {
             ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $this->getRefId());
@@ -249,7 +262,9 @@ class ilObjOrgUnit extends ilContainer
      */
     public function assignUsersToSuperiorRole(array $user_ids): void
     {
-        $position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_SUPERIOR);
+        $position_id = $this->getPositionRepo()
+            ->getSingle(ilOrgUnitPosition::CORE_POSITION_SUPERIOR, 'core_identifier')
+            ->getId();
 
         foreach ($user_ids as $user_id) {
             ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $this->getRefId());
@@ -266,7 +281,10 @@ class ilObjOrgUnit extends ilContainer
 
     public function deassignUserFromEmployeeRole(int $user_id): void
     {
-        $position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+        $position_id = $this->getPositionRepo()
+            ->getSingle(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE, 'core_identifier')
+            ->getId();
+
         ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $this->getRefId())->delete();
 
         $this->ilAppEventHandler->raise('Modules/OrgUnit', 'deassignUserFromEmployeeRole', array(
@@ -280,7 +298,10 @@ class ilObjOrgUnit extends ilContainer
 
     public function deassignUserFromSuperiorRole(int $user_id): void
     {
-        $position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_SUPERIOR);
+        $position_id = $this->getPositionRepo()
+            ->getSingle(ilOrgUnitPosition::CORE_POSITION_SUPERIOR, 'core_identifier')
+            ->getId();
+
         ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $this->getRefId())->delete();
 
         $this->ilAppEventHandler->raise('Modules/OrgUnit', 'deassignUserFromSuperiorRole', array(

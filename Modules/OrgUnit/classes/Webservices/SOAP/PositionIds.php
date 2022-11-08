@@ -28,7 +28,7 @@ class PositionIds extends Base
 {
     protected function run(array $params): array
     {
-        return ilOrgUnitPosition::getArray(null, 'id');
+        return $this->positionRepo->getArray(null, 'id');
     }
 
     public function getName(): string

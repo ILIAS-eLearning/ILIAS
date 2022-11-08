@@ -30,13 +30,14 @@ declare(strict_types=1);
 class ilPermissionGUI extends ilPermission2GUI
 {
     protected const CMD_PERM_POSITIONS = 'permPositions';
-    protected const CMD_SAVE_POSITIONS_PERMISSIONS = 'savePositionsPermissions';
+    public const CMD_SAVE_POSITIONS_PERMISSIONS = 'savePositionsPermissions';
 
     protected object $current_obj;
 
     protected ilRecommendedContentManager $recommended_content_manager;
     protected ilToolbarGUI $toolbar;
     protected \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
+    protected \ilOrgUnitPositionDBRepository $positionRepo;
 
     public function __construct(object $a_gui_obj)
     {
@@ -46,6 +47,16 @@ class ilPermissionGUI extends ilPermission2GUI
         $this->toolbar = $DIC->toolbar();
         parent::__construct($a_gui_obj);
         $this->recommended_content_manager = new ilRecommendedContentManager();
+    }
+
+    private function getPositionRepo(): \ilOrgUnitPositionDBRepository
+    {
+        if (!isset($this->positionRepo)) {
+            $dic = ilOrgUnitLocalDIC::dic();
+            $this->positionRepo = $dic["repo.Positions"];
+        }
+
+        return $this->positionRepo;
     }
 
     /**
@@ -798,7 +809,7 @@ class ilPermissionGUI extends ilPermission2GUI
     {
         $this->__initSubTabs(self::CMD_PERM_POSITIONS);
 
-        $positions = ilOrgUnitPosition::getArray(null, 'id');
+        $positions = $this->getPositionRepo()->getArray(null, 'id');
         $ref_id = $this->getCurrentObject()->getRefId();
 
         // handle local sets
@@ -820,11 +831,15 @@ class ilPermissionGUI extends ilPermission2GUI
         $position_perm_post = $this->wrapper->post()->has('position_perm')
             ? $this->wrapper->post()->retrieve(
                 'position_perm',
-                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int())
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->dictOf(
+                        $this->refinery->kindlyTo()->int()
+                    )
+                )
             )
             : [];
-        ;
-        if ($position_perm_post) {
+
+        if ($position_perm_post) { // TODO: saving an empty (enabled) set is not working, as the POST variable is empty for that set
             foreach ($position_perm_post as $position_id => $ops) {
                 if (!isset($local_post[$position_id])) {
                     continue;
