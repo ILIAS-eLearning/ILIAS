@@ -555,6 +555,7 @@ class ilDidacticTemplateSettingsGUI
         }
 
         $confirm = new ilConfirmationGUI();
+        $confirm->setHeaderText($this->lng->txt('didactic_confirm_delete_msg'));
         $confirm->setFormAction($this->ctrl->getFormAction($this));
         $confirm->setConfirm($this->lng->txt('delete'), 'deleteTemplates');
         $confirm->setCancel($this->lng->txt('cancel'), 'overview');
