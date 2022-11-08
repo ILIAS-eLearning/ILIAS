@@ -561,7 +561,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 
         $next_id = $ilDB->nextId('qpl_num_range');
         $ilDB->manipulateF(
-            "INSERT INTO qpl_num_range (range_id, question_fi, lowerlimit, upperlimit, points, aorder, tstamp) 
+            "INSERT INTO qpl_num_range (range_id, question_fi, lowerlimit, upperlimit, points, aorder, tstamp)
 							 VALUES (%s, %s, %s, %s, %s, %s, %s)",
             array( 'integer', 'integer', 'text', 'text', 'float', 'integer', 'integer' ),
             array( $next_id, $this->id, $this->getLowerLimit(), $this->getUpperLimit(
@@ -632,7 +632,9 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         $worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
 
         $worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
-        if (strlen($solutions[0]["value1"])) {
+        if (array_key_exists(0, $solutions) &&
+            array_key_exists('value1', $solutions[0]) &&
+            strlen($solutions[0]["value1"])) {
             $worksheet->setCell($startrow + $i, 1, $solutions[0]["value1"]);
         }
         $i++;
