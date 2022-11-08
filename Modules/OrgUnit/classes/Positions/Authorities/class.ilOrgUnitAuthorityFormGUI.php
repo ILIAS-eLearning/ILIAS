@@ -16,15 +16,16 @@
  ********************************************************************
  */
 
+declare(strict_types=1);
 use ILIAS\Modules\OrgUnit\ARHelper\BaseForm;
 
 /**
  * Class ilOrgUnitAuthorityFormGUI
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilOrgUnitAuthorityFormGUI extends BaseForm
+class ilOrgUnitAuthorityFormGUI extends BaseForm // TODO: still in use?
 {
-    protected ActiveRecord $object;
+    protected \ActiveRecord $object;
     private const F_TITLE = 'title';
     private const F_DESCRIPTION = 'description';
 
@@ -67,6 +68,7 @@ class ilOrgUnitAuthorityFormGUI extends BaseForm
 
         $this->object->setTitle($this->getInput(self::F_TITLE));
         $this->object->setDescription($this->getInput(self::F_DESCRIPTION));
+
 
         return true;
     }

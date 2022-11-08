@@ -23,12 +23,16 @@
 class ilOrgUnitPermissionTableGUI extends ilTable2GUI
 {
     private int $ref_id = 0;
+    protected \ilOrgUnitPositionDBRepository $positionRepo;
 
     public function __construct(object $a_parent_obj, string $a_parent_cmd, int $a_ref_id)
     {
         global $ilCtrl, $tpl;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
+
+        $dic = \ilOrgUnitLocalDIC::dic();
+        $this->positionRepo = $dic["repo.Positions"];
 
         $this->lng->loadLanguageModule('rbac');
         $this->lng->loadLanguageModule("orgu");
@@ -49,7 +53,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
         $this->setDisableFilterHiding(true);
         $this->setNoEntriesText($this->lng->txt('msg_no_roles_of_type'));
 
-        $this->addCommandButton(\ILIAS\Modules\OrgUnit\ARHelper\BaseCommands::CMD_UPDATE, $this->lng->txt('save'));
+        $this->addCommandButton(\ilPermissionGUI::CMD_SAVE_POSITIONS_PERMISSIONS, $this->lng->txt('save'));
     }
 
     public function getRefId(): int
@@ -120,7 +124,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
 
     public function collectData(): void
     {
-        $positions = ilOrgUnitPosition::get();
+        $positions = $this->positionRepo->getAllPositions();
 
         $this->initColumns($positions);
 

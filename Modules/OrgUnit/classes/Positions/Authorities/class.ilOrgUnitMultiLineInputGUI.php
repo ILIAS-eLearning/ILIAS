@@ -16,6 +16,8 @@
  ********************************************************************
  */
 
+declare(strict_types=1);
+
 /**
  * Class ilOrgUnitMultiLineInputGUI
  * @author Michael Herren <mh@studer-raimann.ch>

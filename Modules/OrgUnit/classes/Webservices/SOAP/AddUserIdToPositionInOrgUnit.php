@@ -36,7 +36,7 @@ class AddUserIdToPositionInOrgUnit extends Base
 
         if (!ilObjUser::_exists($user_id)) {
             $this->addError("user does not exist");
-        } elseif (!ilOrgUnitPosition::find($position_id) instanceof ilOrgUnitPosition) {
+        } elseif (!$this->positionRepo->getSingle($position_id, 'id') instanceof ilOrgUnitPosition) {
             $this->addError("Position does not exist");
         } elseif (ilObject2::_lookupType($orgu_ref_id, true) !== 'orgu') {
             $this->addError("OrgUnit does not exist");

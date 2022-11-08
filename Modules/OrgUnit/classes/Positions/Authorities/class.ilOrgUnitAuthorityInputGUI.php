@@ -16,16 +16,19 @@
  ********************************************************************
  */
 
+declare(strict_types=1);
+
 /**
  * Class ilOrgUnitAuthorityInputGUI
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiValuesItem
+class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiValuesItem // TODO: still in use?
 {
     /**
      * @var ilOrgUnitAuthority[]
      */
     protected $value;
+    private ilOrgUnitPositionDBRepository $positionRepo;
 
     /**
      * ilOrgUnitAuthorityInputGUI constructor.
@@ -35,15 +38,16 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
     public function __construct($a_title, $a_postvar)
     {
         parent::__construct($a_title, $a_postvar);
-        ilOrgUnitAuthority::replaceNameRenderer(function ($id) {
-            /**
-             * @var $a ilOrgUnitAuthority
-             */
-            $a = ilOrgUnitAuthority::find($id);
-            $data = array('id' => $id, 'over' => $a->getOver(), 'scope' => $a->getScope());
+    }
 
-            return json_encode($data);
-        });
+    private function getPositionRepo(): ilOrgUnitPositionDBRepository
+    {
+        if (!isset($this->positionRepo)) {
+            $dic = ilOrgUnitLocalDIC::dic();
+            $this->positionRepo = $dic["repo.Positions"];
+        }
+
+        return $this->positionRepo;
     }
 
     /**
@@ -122,7 +126,7 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
         $over_everyone = ilOrgUnitAuthority::OVER_EVERYONE;
         $title = $this->lang()->txt('over_' . $over_everyone);
         $over_html = "<option value='{$over_everyone}'>{$title}</option>";
-        foreach (ilOrgUnitPosition::getArray('id', 'title') as $id => $title) {
+        foreach ($this->getPositionRepo()->getArray('id', 'title') as $id => $title) {
             $over_html .= "<option value='{$id}'>{$title}</option>";
         }
         $tpl->setVariable("OVER_OPTIONS", $over_html);
@@ -131,12 +135,12 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
          */
         if ($this->getMultiValues()) {
             foreach ($this->getMultiValues() as $ilOrgUnitAuthority) {
-                //				$tpl->setVariable("OVER_OPTIONS", $over_html);
+                //				$tpl->setVariable("OVER_OPTIONS", $over_html);  // TODO: remove?
             }
         }
 
         if ($this->getRequired()) {
-            //			$tpl->setVariable("REQUIRED", "required=\"required\"");
+            //			$tpl->setVariable("REQUIRED", "required=\"required\""); // TODO: remove?
         }
 
         $tpl->touchBlock("inline_in_bl");
@@ -176,8 +180,20 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
          */
         $globalTpl = $GLOBALS['DIC'] ? $GLOBALS['DIC']['tpl'] : $GLOBALS['tpl'];
         $globalTpl->addJavascript("./Modules/OrgUnit/templates/default/authority.js");
+
         $config = json_encode(array());
-        $data = json_encode($this->getValue());
+
+        $authorities = $this->getValue();
+        $auth = [];
+        foreach ($authorities as $authority) {
+            $auth[] = [
+                'id' => $authority->getId(),
+                'over' => $authority->getOver(),
+                'scope' => $authority->getScope()
+            ];
+        }
+        $data = json_encode($auth);
+
         $globalTpl->addOnLoadCode("ilOrgUnitAuthorityInput.init({$config}, {$data});");
     }
 }

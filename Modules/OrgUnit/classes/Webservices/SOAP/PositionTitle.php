@@ -35,7 +35,7 @@ class PositionTitle extends Base
     {
         $position_id = $params[self::POSITION_ID];
 
-        $record = ilOrgUnitPosition::find($position_id);
+        $record = $this->positionRepo->getSingle($position_id, 'id');
         if ($record instanceof ilOrgUnitPosition) {
             return $record->getTitle();
         } else {

@@ -37,6 +37,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
     private ilToolbarGUI $toolbar;
     private ilAccessHandler $access;
     private ilLanguage $language;
+    private \ilOrgUnitPositionDBRepository $positionRepo;
 
     public function __construct()
     {
@@ -50,6 +51,9 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->toolbar = $DIC->toolbar();
         $this->access = $DIC->access();
         $this->language = $DIC->language();
+
+        $dic = \ilOrgUnitLocalDIC::dic();
+        $this->positionRepo = $dic["repo.Positions"];
     }
 
     public function executeCommand(): void
@@ -91,8 +95,8 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->activeSubTab(self::SUBTAB_ASSIGNMENTS);
 
         // Header
-        $types = ilOrgUnitPosition::getArray('id', 'title');
-        //$types = array();
+        $types = $this->positionRepo->getArray('id', 'title');
+
         $this->ctrl->setParameterByClass(ilRepositorySearchGUI::class, 'addusertype', 'staff');
         ilRepositorySearchGUI::fillAutoCompleteToolbar($this, $this->toolbar, array(
             'auto_complete_name' => $this->language->txt('user'),
@@ -102,7 +106,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
 
         // Tables
         $html = '';
-        foreach (ilOrgUnitPosition::getActiveForPosition($this->getParentRefId()) as $ilOrgUnitPosition) {
+        foreach ($this->positionRepo->getPositionsForOrgUnit($this->getParentRefId()) as $ilOrgUnitPosition) {
             $ilOrgUnitUserAssignmentTableGUI = new ilOrgUnitUserAssignmentTableGUI(
                 $this,
                 self::CMD_INDEX,
@@ -119,7 +123,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->activeSubTab(self::SUBTAB_ASSIGNMENTS_RECURSIVE);
         // Tables
         $html = '';
-        foreach (ilOrgUnitPosition::getActiveForPosition($this->getParentRefId()) as $ilOrgUnitPosition) {
+        foreach ($this->positionRepo->getPositionsForOrgUnit($this->getParentRefId()) as $ilOrgUnitPosition) {
             $ilOrgUnitRecursiveUserAssignmentTableGUI =
                 new ilOrgUnitRecursiveUserAssignmentTableGUI(
                     $this,
@@ -158,7 +162,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $usr_id = $params['usr_id'];
         $position_id = $params['position_id'];
 
-        $types = ilOrgUnitPosition::getArray('id', 'title');
+        $types = $this->positionRepo->getArray('id', 'title');
         $position_title = $types[$position_id];
 
         $confirmation->setHeaderText(sprintf($this->language->txt('msg_confirm_remove_user'), $position_title));
@@ -225,7 +229,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
 
         $position_id = isset($_POST['user_type']) ? $_POST['user_type'] : 0;
 
-        if (!$position_id && !$position = ilOrgUnitPosition::find($position_id)) {
+        if (!$position_id || !$this->positionRepo->getSingle($position_id, 'id')) {
             $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("user_not_found"), true);
             $this->ctrl->redirect($this, self::CMD_INDEX);
         }

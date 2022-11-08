@@ -81,7 +81,7 @@ class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
     {
         $this->tpl->setVariable('OBJ_TYPE', $this->context_string);
         $this->tpl->setVariable('PERM_PERM_ID', $a_set['operation_id']);
-        if ($this->ilOrgUnitPermission->isOperationIdSelected($a_set['operation_id'])) {
+        if ($this->ilOrgUnitPermission->isOperationIdSelected((int) $a_set['operation_id'])) {
             $this->tpl->setVariable('PERM_CHECKED', "checked=checked");
         }
         // $this->tpl->setVariable('PERM_DISABLED', "disabled=disabled");

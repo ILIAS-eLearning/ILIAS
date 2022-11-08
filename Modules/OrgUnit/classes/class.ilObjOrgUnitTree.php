@@ -40,6 +40,7 @@ class ilObjOrgUnitTree
     private ilDBInterface $db;
     private ilObjUser $ilUser;
     private \ilTree $tree;
+    protected ilOrgUnitPositionDBRepository $positionRepo;
 
     private function __construct()
     {
@@ -60,6 +61,16 @@ class ilObjOrgUnitTree
         return static::$instance;
     }
 
+    private function getPositionRepo(): ilOrgUnitPositionDBRepository
+    {
+        if (!isset($this->positionRepo)) {
+            $dic = ilOrgUnitLocalDIC::dic();
+            $this->positionRepo = $dic["repo.Positions"];
+        }
+
+        return $this->positionRepo;
+    }
+
     /**
      * @param int  $ref_id    the reference id of the organisational unit.
      * @param bool $recursive if true you get the ids of the subsequent orgunits employees too
@@ -72,7 +83,7 @@ class ilObjOrgUnitTree
             case false:
                 $arr_usr_ids = $this->getAssignements(
                     $ref_id,
-                    ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE)
+                    $this->getPositionRepo()->getSingle(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE, 'core_identifier')
                 );
                 break;
             case true:
@@ -105,7 +116,7 @@ class ilObjOrgUnitTree
         if ($recursive === false) {
             return $this->getAssignements(
                 $ref_id,
-                ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_SUPERIOR)
+                $this->getPositionRepo()->getSingle(ilOrgUnitPosition::CORE_POSITION_SUPERIOR, 'core_identifier')
             );
         }
 
@@ -113,7 +124,7 @@ class ilObjOrgUnitTree
         foreach ($this->getAllChildren($ref_id) as $ref_id_child) {
             $arr_usr_ids += $this->getAssignements(
                 $ref_id_child,
-                ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_SUPERIOR)
+                $this->getPositionRepo()->getSingle(ilOrgUnitPosition::CORE_POSITION_SUPERIOR, 'core_identifier')
             );
         }
         return $arr_usr_ids;

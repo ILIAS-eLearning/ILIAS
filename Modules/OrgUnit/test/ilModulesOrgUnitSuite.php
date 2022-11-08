@@ -30,6 +30,12 @@ class ilModulesOrgUnitSuite extends TestSuite
         require_once("./Modules/OrgUnit/test/ilModulesOrgUnitTest.php");
         $suite->addTestSuite("ilModulesOrgUnitTest");
 
+        require_once("./Modules/OrgUnit/test/ilModulesOrgUnitAuthorityTest.php");
+        $suite->addTestSuite("ilModulesOrgUnitAuthorityTest");
+
+        require_once("./Modules/OrgUnit/test/ilModulesOrgUnitPositionTest.php");
+        $suite->addTestSuite("ilModulesOrgUnitPositionTest");
+
         return $suite;
     }
 }
