@@ -1343,7 +1343,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                     $ext = 'JPEG';
                     break;
             }
-            ilShellUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbGeometry());
+            ilShellUtil::convertImage($filename, $thumbpath, $ext, (string) $this->getThumbGeometry());
         }
     }
 
