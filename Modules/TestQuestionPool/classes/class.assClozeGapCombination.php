@@ -116,7 +116,7 @@ class assClozeGapCombination
                             $gap_combinations['select'][$i][$k],
                             $j,
                             $gap_values[$i][$j][$k],
-                            $gap_combinations['points'][$i][$j],
+                            (float) $gap_combinations['points'][$i][$j], //Temporary cast solution demanded by @kergomard in https://github.com/ILIAS-eLearning/ILIAS/pull/5178#issuecomment-1301983937
                             $best_solution
                         )
                     );

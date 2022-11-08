@@ -58,6 +58,6 @@ class UIModifier extends Mode\AbstractUIModifier
         \ilObjSurvey $survey,
         \ilPropertyFormGUI $form
     ): void {
-        $survey->setSelfEvaluationResults($form->getInput("self_eval_res"));
+        $survey->setSelfEvaluationResults((int) $form->getInput("self_eval_res"));
     }
 }

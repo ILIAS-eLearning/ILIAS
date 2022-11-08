@@ -313,8 +313,8 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
             foreach (array_keys(
                 $this->getMonthsYear($this->filter["yearmonth"])
             ) as $num) {
-                $value = (int) $a_set["month_" . $num];
-                if ($this->filter["measure"] != "spent_seconds") {
+                $value = (int) ($a_set["month_" . $num] ?? 0);
+                if (($this->filter["measure"] ?? "") != "spent_seconds") {
                     $value = $this->anonymizeValue($value);
                 } else {
                     $value = $this->formatSeconds($value, true);
@@ -324,7 +324,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
             }
         }
 
-        if ($this->filter["measure"] == "spent_seconds") {
+        if (($this->filter["measure"] ?? "") == "spent_seconds") {
             $sum = $this->formatSeconds((int) ($a_set["total"] ?? 0), true);
         } else {
             $sum = $this->anonymizeValue((int) ($a_set["total"] ?? 0));

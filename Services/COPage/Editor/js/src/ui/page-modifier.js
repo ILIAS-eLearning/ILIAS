@@ -109,27 +109,6 @@ export default class PageModifier {
     }
   }
 
-  showToast(text) {
-    const OSDNotifier = OSDNotifications({
-      initialNotifications: [{
-        notification_osd_id: 123,
-        valid_until: 0,
-        visible_for: 3,
-        data: {
-          title: "",
-          link: false,
-          iconPath: false,
-          shortDescription: text,
-          handlerParams: {
-            osd: {
-              closable: false
-            }
-          }
-        }
-      }]
-    });
-  }
-
   showModal(title, content, button_txt, onclick) {
     const uiModel = this.pageUI.uiModel;
 

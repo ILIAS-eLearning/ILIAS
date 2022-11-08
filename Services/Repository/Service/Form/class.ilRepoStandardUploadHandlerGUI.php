@@ -69,14 +69,15 @@ class ilRepoStandardUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
                 foreach ($this->upload->getResults(
                 ) as $result) { // in this version, there will only be one upload at the time
                     $rh = $this->result_handler;
-                    $id = $rh($this->upload, $result);
+                    $result = $rh($this->upload, $result);
 
+                    /*
                     $result = new BasicHandlerResult(
                         $this->getFileIdentifierParameterName(),
                         BasicHandlerResult::STATUS_OK,
                         $id,
                         ''
-                    );
+                    );*/
                 }
             } catch (Exception $e) {
                 $result = new BasicHandlerResult(

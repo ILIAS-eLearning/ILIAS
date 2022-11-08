@@ -36,6 +36,8 @@ class ilTestAnswerOptionalQuestionsConfirmationGUI extends ilConfirmationGUI
 
         $this->cancelCmd = null;
         $this->confirmCmd = null;
+
+        parent::__construct();
     }
 
     public function getCancelCmd(): ?string

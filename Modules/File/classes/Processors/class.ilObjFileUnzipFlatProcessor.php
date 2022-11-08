@@ -29,12 +29,21 @@ class ilObjFileUnzipFlatProcessor extends ilObjFileAbstractZipProcessor
     {
         $this->openZip($rid);
 
-        foreach ($this->getZipFiles() as $file_path) {
+        $parent_id = $this->gui_object->getParentId();
+        // Create Base Container if needed
+        $files = iterator_to_array($this->getZipFiles());
+        $multiple_files = count($files) > 1;
+        if ($this->create_base_container_for_multiple_root_entries && $multiple_files) {
+            $parent_id = $this->createSurroundingContainer($rid);
+        }
+
+        foreach ($files as $file_path) {
             if (substr($file_path, -1) !== DIRECTORY_SEPARATOR) {
                 $rid = $this->storeZippedFile($file_path);
                 // $options is ignored, as flat-unzip stores the content directly
                 // within the provided parent object.
-                $this->createFileObj($rid, $this->gui_object->getParentId(), [], true);
+
+                $this->createFileObj($rid, $parent_id, [], true);
             }
         }
 

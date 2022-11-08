@@ -343,14 +343,14 @@ class ilVirtualSkillTree
             $vidb = explode(":", $this->getVTreeIdForCSkillId($cskillb));
 
             $ua = $this->getFirstUncommonAncestors($vida[0], $vidb[0], $node_data);
-            if (is_array($ua)) {
+            if (is_array($ua) && isset($node_data[$ua[0]]) && isset($node_data[$ua[1]])) {
                 return ($node_data[$ua[0]]["order_nr"] - $node_data[$ua[1]]["order_nr"]);
             }
             // if we did not find a first uncommon ancestor, we are in the same node in the
             // main tree, here, if we have tref ids, we let the template tree decide
             if ($vida[1] > 0 && $vidb[1] > 0) {
                 $ua = $this->getFirstUncommonAncestors($vida[1], $vidb[1], $node_data);
-                if (is_array($ua)) {
+                if (is_array($ua) && isset($node_data[$ua[0]]) && isset($node_data[$ua[1]])) {
                     return ($node_data[$ua[0]]["order_nr"] - $node_data[$ua[1]]["order_nr"]);
                 }
             }
@@ -367,9 +367,11 @@ class ilVirtualSkillTree
     protected function getPath(string $a, array $node_data): array
     {
         $path[] = $a;
-        while ($node_data[$a]["parent"] != 0) {
-            $a = $node_data[$a]["parent"];
-            $path[] = $a;
+        if (isset($node_data[$a]) && isset($node_data[$a]["parent"])) {
+            while ($node_data[$a]["parent"] != 0) {
+                $a = $node_data[$a]["parent"];
+                $path[] = $a;
+            }
         }
         return array_reverse($path);
     }

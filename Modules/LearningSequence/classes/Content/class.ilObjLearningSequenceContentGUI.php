@@ -91,7 +91,7 @@ class ilObjLearningSequenceContentGUI
 
         $data = $this->parent_gui->getObject()->getLSItems();
         // Sadly, ilTable2 only wants an array for fillRow, so we need to wrap this...
-        array_map(fn ($s) => [$s], $data);
+        $data = array_map(fn ($s) => [$s], $data);
         $this->renderTable($data);
     }
 
@@ -174,6 +174,7 @@ class ilObjLearningSequenceContentGUI
     protected function save(): void
     {
         $data = $this->parent_gui->getObject()->getLSItems();
+        $r = $this->refinery;
 
         $updated = [];
         foreach ($data as $lsitem) {
@@ -182,9 +183,9 @@ class ilObjLearningSequenceContentGUI
             $order = $this->getFieldName(self::FIELD_ORDER, $ref_id);
             $condition_type = $this->getFieldName(self::FIELD_POSTCONDITION_TYPE, $ref_id);
 
-            $condition_type = $this->post_wrapper->retrieve($condition_type, $this->refinery->kindlyTo()->string());
-            $online = $this->post_wrapper->retrieve($online, $this->refinery->kindlyTo()->bool());
-            $order = $this->post_wrapper->retrieve($order, $this->refinery->kindlyTo()->int());
+            $condition_type = $this->post_wrapper->retrieve($condition_type, $r->kindlyTo()->string());
+            $online = $this->post_wrapper->retrieve($online, $r->byTrying([$r->kindlyTo()->bool(), $r->always(true)]));
+            $order = $this->post_wrapper->retrieve($order, $r->kindlyTo()->int());
 
             $condition = $lsitem->getPostCondition()
                 ->withConditionOperator($condition_type);

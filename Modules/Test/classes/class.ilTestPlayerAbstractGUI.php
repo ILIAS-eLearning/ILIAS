@@ -1962,7 +1962,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function showAnswerOptionalQuestionsConfirmation()
     {
-        require_once 'Modules/Test/classes/confirmations/class.ilTestAnswerOptionalQuestionsConfirmationGUI.php';
         $confirmation = new ilTestAnswerOptionalQuestionsConfirmationGUI($this->lng);
 
         $confirmation->setFormAction($this->ctrl->getFormAction($this));
@@ -2183,33 +2182,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         return 'outQuestionSummary';
     }
 
-    // fau: testNav - populateIntermediateSolutionSaver is obsolete and can be deletd.
-    //	/**
-    //	 * @param assQuestionGUI $questionGui
-    //	 */
-    //	protected function populateIntermediateSolutionSaver(assQuestionGUI $questionGui)
-    //	{
-    //		$this->tpl->addJavaScript(ilUtil::getJSLocation("autosave.js", "Modules/Test"));
-//
-    //		$this->tpl->setVariable("AUTOSAVE_URL", $this->ctrl->getFormAction(
-    //			$this, ilTestPlayerCommands::AUTO_SAVE, "", true
-    //		));
-//
-    //		if( $questionGui->isAutosaveable() && $this->object->getAutosave() )
-    //		{
-    //			$formAction = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AUTO_SAVE, '', false, false);
-//
-    //			$this->tpl->touchBlock('autosave');
-    //			$this->tpl->setVariable("AUTOSAVEFORMACTION", $formAction);
-    //			$this->tpl->setVariable("AUTOSAVEINTERVAL", $this->object->getAutosaveIval());
-    //		}
-    //	}
-    // fau.
-
-    // fau: testNav - new function populateInstantResponseModal()
     protected function populateInstantResponseModal(assQuestionGUI $questionGui, $navUrl)
     {
-        $questionGui->setNavigationGUI(null);
         $questionGui->getQuestionHeaderBlockBuilder()->setQuestionAnswered(true);
 
         $answerFeedbackEnabled = $this->object->getSpecificAnswerFeedback();

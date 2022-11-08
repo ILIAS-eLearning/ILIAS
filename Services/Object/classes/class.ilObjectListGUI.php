@@ -2632,10 +2632,12 @@ class ilObjectListGUI
         if ($this->getCheckboxStatus()) {
             $this->tpl->setCurrentBlock("check");
             $this->tpl->setVariable("VAL_ID", $this->getCommandId());
+            $this->tpl->setVariable("CHECK_TITLE", $this->lng->txt("select")." ".$this->getTitle());
             $this->tpl->parseCurrentBlock();
             $cnt += 1;
         } elseif ($this->getDownloadCheckboxState() != self::DOWNLOAD_CHECKBOX_NONE) {
             $this->tpl->setCurrentBlock("check_download");
+            $this->tpl->setVariable("CHECK_DOWNLOAD_TITLE", $this->lng->txt("download")." ".$this->getTitle());
             if ($this->getDownloadCheckboxState() == self::DOWNLOAD_CHECKBOX_ENABLED) {
                 $this->tpl->setVariable("VAL_ID", $this->getCommandId());
             } else {

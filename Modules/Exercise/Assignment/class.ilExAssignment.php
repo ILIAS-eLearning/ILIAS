@@ -1598,7 +1598,7 @@ class ilExAssignment
                     $res[] = $row["id"];
                 }
             } elseif ($row['fb_date'] == self::FEEDBACK_DATE_CUSTOM) {
-                if (trim($row["fb_file"]) && $row['fb_date_custom'] <= time()) {
+                if (trim($row["fb_file"] ?? "") && ($row['fb_date_custom'] ?? 0) <= time()) {
                     $res[] = $row["id"];
                 }
             }
@@ -1825,7 +1825,7 @@ class ilExAssignment
     //
 
     public function setIndividualDeadline(
-        int $id,
+        string $id,
         ilDateTime $date
     ): void {
         $is_team = false;
@@ -1834,7 +1834,7 @@ class ilExAssignment
             $is_team = true;
         }
 
-        $idl = ilExcIndividualDeadline::getInstance($this->getId(), $id, $is_team);
+        $idl = ilExcIndividualDeadline::getInstance($this->getId(), (int) $id, $is_team);
         $idl->setIndividualDeadline($date->get(IL_CAL_UNIX));
         $idl->save();
     }

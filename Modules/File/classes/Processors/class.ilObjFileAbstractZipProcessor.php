@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
@@ -26,6 +42,15 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
     private int $id_type;
 
     /**
+     * @description Unzip on operating systems may behave differently when unzipping if there are only one or more root
+     * nodes in the zip. Currently, the behavior is the same as in ILIAS 7 and earlier, that in any case the zip
+     * structure is checked out directly at the current location in the magazine. If this value is set to true here,
+     * another category/folder will be placed around the files and folders of the zip when unpacking if more than one
+     * root-node is present. For example, macOS behaves in exactly this way.
+     */
+    protected bool $create_base_container_for_multiple_root_entries = false;
+
+    /**
      * @param ilTree|ilWorkspaceTree $tree
      */
     public function __construct(
@@ -39,6 +64,17 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
 
         $this->id_type = $gui_object->getIdType();
         $this->tree = $tree;
+    }
+
+    protected function createSurroundingContainer(ResourceIdentification $rid): int
+    {
+        // create one base container with the name of the zip itself, all other containers will be created inside this one
+        $zip_name = $this->storage->manage()->getCurrentRevision($rid)->getInformation()->getTitle();
+        $info = new SplFileInfo($zip_name);
+        $base_path = $info->getBasename("." . $info->getExtension());
+        $base_container = $this->createContainerObj($base_path, $this->gui_object->getParentId());
+
+        return (int) $base_container->getRefId();
     }
 
     /**
@@ -76,10 +112,10 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
     }
 
     /**
-     * Yields the file-paths of the currently open zip-archive.
+     * Yields all paths of the currently open zip-archive (without some macos stuff).
      * @return Generator|string[]
      */
-    protected function getZipFiles(): Generator
+    private function getZipPaths(): Generator
     {
         if (null === $this->archive) {
             throw new LogicException("cannot read content of unopened zip archive");
@@ -94,6 +130,73 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
             yield $path;
         }
     }
+
+    /**
+     * Yields the file-paths of the currently open zip-archive.
+     * @return Generator|string[]
+     */
+    protected function getZipFiles(): Generator
+    {
+        foreach ($this->getZipPaths() as $path) {
+            if (substr($path, -1) !== "/" && substr($path, -1) !== "\\") {
+                yield $path;
+            }
+        }
+    }
+
+    protected function hasMultipleRootEntriesInZip(): bool
+    {
+        $amount = 0;
+        foreach ($this->getZipDirectories() as $zip_directory) {
+            $dirname = dirname($zip_directory);
+            if ($dirname === '.') {
+                $amount++;
+            }
+            if ($amount > 1) {
+                return true;
+            }
+        }
+        foreach ($this->getZipFiles() as $zip_file) {
+            $dirname = dirname($zip_file);
+            if ($dirname === '.') {
+                $amount++;
+            }
+            if ($amount > 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Yields the directory-paths of the currently open zip-archive.
+     * This fixes the issue that win and mac zip archives have different directory structures.
+     * @return Generator|string[]
+     */
+    protected function getZipDirectories(): Generator
+    {
+        $directories = [];
+        foreach ($this->getZipPaths() as $path) {
+            if (substr($path, -1) === "/" || substr($path, -1) === "\\") {
+                $directories[] = $path;
+            }
+        }
+
+        $directories_with_parents = [];
+
+        foreach ($directories as $directory) {
+            $parent = dirname($directory) . '/';
+            if ($parent !== './' && !in_array($parent, $directories)) {
+                $directories_with_parents[] = $parent;
+            }
+            $directories_with_parents[] = $directory;
+        }
+
+        $directories_with_parents = array_unique($directories_with_parents);
+        sort($directories_with_parents);
+        yield from $directories_with_parents;
+    }
+
 
     /**
      * Creates an IRSS resource from the given filepath.

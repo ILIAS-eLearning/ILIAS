@@ -7,11 +7,11 @@ The Legacy-UIComponents-Service has been lingering and causing problems for user
 ## Further process
 * Presentation of the project to remove the UIComponents-Service at the Jour Fixe for big projects for ILIAS 9 in February 2022.
 * Appointment of a Project Manager through the Technical Board.
-* Collection of missing UI-Elements in UI-Service by responsible maintainers and Project Manager until September 30th 2022.
+* Collection of missing UI-Elements in UI-Service by responsible maintainers and Project Manager until April 30th 2023.
 * Organization by Project Manager of crowdfunding to finance the creation of the missing UI-Elements and to migrate Components.
-* Migration of Components relying on already deprecated UIComponents until Coding Complete for ILIAS 10.
-* Planing of implementation of missing UI-Elements by Project Manager. The implementation MUST be finalized by Feature Freeze for ILIAS 11.
-* Migration of Components away from UIComponents-Service until Coding Complete for ILIAS 11.
+* Migration of Components relying on already deprecated UIComponents until Coding Complete for ILIAS 9.
+* Planing of implementation of missing UI-Elements by Project Manager. The implementation MUST be finalized by Feature Freeze for ILIAS 10.
+* Migration of Components away from UIComponents-Service until Coding Complete for ILIAS 10.
 
 ## Rules and Guidelines
 * If a feature should be implemented in a component still relying on the UIComponents-Service, this reliance MUST be removed first.
@@ -19,13 +19,13 @@ The Legacy-UIComponents-Service has been lingering and causing problems for user
 
 ## Removal
 
-### ILIAS 10
+### ILIAS 9
 * Advanced Selection List
-* Buttons (except ilButtonBase as it is needed for the SplitButton to be removed with ILIAS 11)
+* Buttons (except ilButtonBase as it is needed for the SplitButton to be removed with ILIAS 10)
 * Character Selector
 * Checkbox List Overlay
 
-### ILIAS 11
+### ILIAS 10
 * Confirmation & Confirmation Table
 * Explorer & Explorer2
 * Glyph

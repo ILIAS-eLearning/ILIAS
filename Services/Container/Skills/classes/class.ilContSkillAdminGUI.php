@@ -159,6 +159,10 @@ class ilContSkillAdminGUI
 
     public function initCompetenceAssignmentForm(): ilPropertyFormGUI
     {
+        $tpl = $this->tpl;
+        $ctrl = $this->ctrl;
+        $lng = $this->lng;
+
         $form = new ilPropertyFormGUI();
 
         $mem_skills = new ilContainerMemberSkills($this->container_skills->getId(), $this->requested_usr_id);
@@ -169,6 +173,11 @@ class ilContSkillAdminGUI
         $ne = new ilNonEditableValueGUI($this->lng->txt("obj_user"), "");
         $ne->setValue($name["lastname"] . ", " . $name["firstname"] . " [" . $name["login"] . "]");
         $form->addItem($ne);
+
+        if (empty($this->container_skills->getOrderedSkills())) {
+            $tpl->setOnScreenMessage('info', $lng->txt("cont_skill_no_skills_selected"), true);
+            $ctrl->redirect($this, "listMembers");
+        }
 
         foreach ($this->container_skills->getOrderedSkills() as $sk) {
             $skill = new ilBasicSkill($sk["skill_id"]);
@@ -447,7 +456,8 @@ class ilContSkillAdminGUI
         }
 
         foreach ($selectable_profiles as $profile) {
-            $options[$profile["id"]] = $profile["title"];
+            $tree = $this->tree_service->getObjSkillTreeById($profile["skill_tree_id"]);
+            $options[$profile["id"]] = $tree->getTitle() . ": " . $profile["title"];
         }
 
         if ($this->skmg_settings->getLocalAssignmentOfProfiles()) {

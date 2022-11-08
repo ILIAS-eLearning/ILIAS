@@ -757,12 +757,10 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
             $template->parseCurrentBlock();
         }
 
-        if ($question_title) {
-            $template->setVariable(
-                "QUESTION_TITLE",
-                ilLegacyFormElementsUtil::prepareFormOutput($this->object->getTitle())
-            );
-        }
+        $template->setVariable(
+            "QUESTION_TITLE",
+            $this->getQuestionTitle($question_title)
+        );
         $template->setCurrentBlock("question_data_matrix");
         if (strcmp($error_message, "") !== 0) {
             $template->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");

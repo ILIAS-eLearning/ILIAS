@@ -52,7 +52,7 @@ class ilLSPostConditionDB
         $result = $this->db->query($query);
 
         while ($row = $this->db->fetchAssoc($result)) {
-            $data[$row['ref_id']] = [$row['condition_operator'], (int) $row['value']];
+            $data[$row['ref_id']] = [$row['condition_operator'], $row['value']];
         }
 
         $conditions = [];
@@ -93,7 +93,8 @@ class ilLSPostConditionDB
         foreach ($ls_post_conditions as $condition) {
             $values = [
                 "ref_id" => ["integer", $condition->getRefId()],
-                "condition_operator" => ["text", $condition->getConditionOperator()]
+                "condition_operator" => ["text", $condition->getConditionOperator()],
+                "value" => ["text", $condition->getValue()]
             ];
             $db->insert(static::TABLE_NAME, $values);
         }

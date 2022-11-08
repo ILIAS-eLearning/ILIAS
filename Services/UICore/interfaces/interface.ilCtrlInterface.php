@@ -1,12 +1,26 @@
 <?php
 
-/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilCtrl provides processing control methods. A global
  * instance is available through $DIC->ctrl() or $ilCtrl.
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
+ * @noinspection AutoloadingIssuesInspection
  */
 interface ilCtrlInterface
 {
@@ -89,8 +103,8 @@ interface ilCtrlInterface
     /**
      * Sets the current command.
      *
-     * @deprecated this method should not be used anymore, as all commands
-     *             should be passed as $_GET or $_POST parameters.
+     * @deprecated this method should not be used anymore and will be
+     *             removed with ILIAS 10.
      *
      * @param string|null $a_cmd
      */
@@ -106,8 +120,8 @@ interface ilCtrlInterface
     /**
      * Sets the command class that should be executed next.
      *
-     * @deprecated this method should not be used anymore, as all command
-     *             classes should be passed by $_GET or $_POST parameters.
+     * @deprecated this method should not be used anymore and will be
+     *             removed with ILIAS 10.
      *
      * @param object|string|null $a_cmd_class
      */

@@ -143,10 +143,12 @@ abstract class ilPageComponentPlugin extends ilPlugin
      * This function is called before the page content is deleted
      * @param array 	$a_properties		properties saved in the page (will be deleted afterwards)
      * @param string	$a_plugin_version	plugin version of the properties
+     * @param bool      $move_operation     true, if the delete is part of a move operation (cut for paste, move, ...)
      */
     public function onDelete(
         array $a_properties,
-        string $a_plugin_version
+        string $a_plugin_version,
+        bool $move_operation = false
     ): void {
     }
 }

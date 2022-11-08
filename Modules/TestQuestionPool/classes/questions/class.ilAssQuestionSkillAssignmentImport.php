@@ -189,7 +189,7 @@ class ilAssQuestionSkillAssignmentImport
      */
     public function getSkillPoints(): int
     {
-        return $this->skillPoints;
+        return $this->skillPoints ?? 0;
     }
 
     public function initImportSolutionComparisonExpressionList(): void

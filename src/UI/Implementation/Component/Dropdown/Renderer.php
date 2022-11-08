@@ -74,7 +74,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        $this->maybeRenderId($component, $tpl, "with_id", "ID");
+        $this->renderId($component, $tpl);
 
         return $tpl->get();
     }
@@ -89,18 +89,17 @@ class Renderer extends AbstractComponentRenderer
     }
 
 
-    protected function maybeRenderId(
+    protected function renderId(
         JavaScriptBindable $component,
-        Template $tpl,
-        string $block,
-        string $template_var
+        Template $tpl
     ): void {
         $id = $this->bindJavaScript($component);
-        if ($id !== null) {
-            $tpl->setCurrentBlock($block);
-            $tpl->setVariable($template_var, $id);
-            $tpl->parseCurrentBlock();
+        if ($id === null) {
+            $id = $this->createId();
         }
+        $tpl->setVariable("ID", $id);
+        $tpl->setVariable("ID_MENU", $id."_menu");
+
     }
 
     /**

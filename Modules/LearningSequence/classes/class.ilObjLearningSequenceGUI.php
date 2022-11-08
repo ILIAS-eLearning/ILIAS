@@ -772,7 +772,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
     protected function checkLPAccess(): bool
     {
-        if (ilObject::_lookupType($this->obj_id) !== "lso") {
+        if (ilObject::_lookupType($this->ref_id, true) !== "lso") {
             return false;
         }
 

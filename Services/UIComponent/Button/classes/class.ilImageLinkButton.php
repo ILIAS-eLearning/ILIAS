@@ -20,7 +20,7 @@
  * Image Link Button GUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @deprecated 10 Use KS Buttons instead
+ * @deprecated 9 Use KS Buttons instead
  */
 class ilImageLinkButton extends ilLinkButton
 {

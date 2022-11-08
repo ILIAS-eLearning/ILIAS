@@ -253,7 +253,7 @@ class ilADNNotificationUIFormGUI
                        ->withAdditionalTransformation(
                            $custom_trafo(function ($v) {
                                $limit_to_roles = ($v[0] ?? null) === self::F_LIMIT_TO_ROLES;
-                               $limited_to_role_ids = (array) $v[1][0] ?? [];
+                               $limited_to_role_ids = (array) ($v[1][0] ?? []);
                                $this->notification->setLimitToRoles($limit_to_roles);
                                $this->notification->setLimitedToRoleIds($limited_to_role_ids);
                            })

@@ -291,7 +291,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                 $resObj = $this->getResult($result);
                 $value = "";
                 $frac_helper = '';
-                $user_data[$result]['result_type'] = $resObj->getResultType();
+                $userdata[$result]['result_type'] = $resObj->getResultType();
                 $is_frac = false;
                 if (
                     $resObj->getResultType() == assFormulaQuestionResult::RESULT_FRAC ||
@@ -315,7 +315,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                     $input = '<span class="ilc_qinput_TextInput solutionbox">' . ilLegacyFormElementsUtil::prepareFormOutput(
                         $value
                     ) . '</span>';
-                } elseif (is_array($userdata) && isset($userdata[$result])) {
+                } elseif (is_array($userdata) &&
+                    isset($userdata[$result]) &&
+                    isset($userdata[$result]["value"])) {
                     $input = $this->generateResultInputHtml($result, $userdata[$result]["value"]);
                 } else {
                     $input = $this->generateResultInputHTML($result, '');
@@ -533,7 +535,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         // save variables
         $affectedRows = $ilDB->manipulateF(
             "
-		DELETE FROM il_qpl_qst_fq_var 
+		DELETE FROM il_qpl_qst_fq_var
 		WHERE question_fi = %s",
             array("integer"),
             array($this->getId())

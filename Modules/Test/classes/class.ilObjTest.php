@@ -2695,7 +2695,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function getPassWaiting(): string
     {
-        return $this->pass_waiting;
+        return $this->pass_waiting ?? '';
     }
 
     /**

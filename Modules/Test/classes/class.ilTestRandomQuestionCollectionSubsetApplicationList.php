@@ -108,13 +108,18 @@ class ilTestRandomQuestionCollectionSubsetApplicationList implements Iterator
         $this->getReservedQuestionCollection()->addQuestion($reservedQuestion);
     }
 
-    /* @return ilTestRandomQuestionCollectionSubsetApplication */
-    public function current(): ilTestRandomQuestionCollectionSubsetApplication
+    /**
+     * @return ilTestRandomQuestionCollectionSubsetApplication|false
+     */
+    public function current()
     {
         return current($this->collectionSubsetApplications);
     }
-    /* @return ilTestRandomQuestionCollectionSubsetApplication */
-    public function next(): ilTestRandomQuestionCollectionSubsetApplication
+
+    /**
+     * @return ilTestRandomQuestionCollectionSubsetApplication|false
+     */
+    public function next()
     {
         return next($this->collectionSubsetApplications);
     }
@@ -128,8 +133,10 @@ class ilTestRandomQuestionCollectionSubsetApplicationList implements Iterator
     {
         return key($this->collectionSubsetApplications) !== null;
     }
-    /* @return ilTestRandomQuestionCollectionSubsetApplication */
-    public function rewind(): ilTestRandomQuestionCollectionSubsetApplication
+    /**
+     * @return ilTestRandomQuestionCollectionSubsetApplication|false
+     */
+    public function rewind()
     {
         return reset($this->collectionSubsetApplications);
     }

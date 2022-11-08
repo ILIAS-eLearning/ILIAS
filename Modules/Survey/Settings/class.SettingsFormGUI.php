@@ -503,7 +503,7 @@ class SettingsFormGUI
         if ($feature_config->supportsTutorNotification()) {
             $num_inv = count($invitation_manager->getAllForSurvey($survey->getSurveyId()));
 
-            // notification
+            // notification, if "all participants" have finished the survey
             $tut = new \ilCheckboxInputGUI($lng->txt("survey_notification_tutor_setting"), "tut");
             $tut->setChecked($survey->getTutorNotificationStatus());
             $form->addItem($tut);
@@ -526,11 +526,13 @@ class SettingsFormGUI
             $tut_ids->setValue(array_shift($tut_logins));
             $tut->addSubItem($tut_ids);
 
+            // radio to define who are "all participants"
             $tut_grp = new \ilRadioGroupInputGUI($lng->txt("survey_notification_target_group"), "tut_grp");
             $tut_grp->setRequired(true);
             $tut_grp->setValue((string) $survey->getTutorNotificationTarget());
             $tut->addSubItem($tut_grp);
 
+            // (a) ... the member of the parent group or course
             $tut_grp_crs = new \ilRadioOption(
                 $lng->txt("survey_notification_target_group_parent_course"),
                 (string) \ilObjSurvey::NOTIFICATION_PARENT_COURSE
@@ -545,6 +547,7 @@ class SettingsFormGUI
             }
             $tut_grp->addOption($tut_grp_crs);
 
+            // (b) ... all invited users
             $tut_grp_inv = new \ilRadioOption(
                 $lng->txt("survey_notification_target_group_invited"),
                 (string) \ilObjSurvey::NOTIFICATION_INVITED_USERS
@@ -820,13 +823,14 @@ class SettingsFormGUI
             $survey->setReminderStatus(false);
         }
 
-        if (!$feature_config->supportsTutorNotification()) {
+        if ($feature_config->supportsTutorNotification()) {
+
             // "one mail after all participants finished"
             if ($form->getInput("tut")) {
                 $tut_ids = $this->getTutorIdsFromForm($form);
                 $survey->setTutorNotificationStatus(true);
                 $survey->setTutorNotificationRecipients($tut_ids); // see above
-                $survey->setTutorNotificationTarget($form->getInput("tut_grp"));
+                $survey->setTutorNotificationTarget((int) $form->getInput("tut_grp"));
             } else {
                 $survey->setTutorNotificationStatus(false);
             }

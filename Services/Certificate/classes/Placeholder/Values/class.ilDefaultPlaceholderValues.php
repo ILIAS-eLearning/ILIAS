@@ -18,6 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+require_once 'Services/Calendar/classes/class.ilDateTime.php'; // Required because of global contant IL_CAL_DATE
+
 /**
  * Collection of basic placeholder values that can be used
  * @author  Niels Theen <ntheen@databay.de>

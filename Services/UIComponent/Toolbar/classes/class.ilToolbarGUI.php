@@ -22,7 +22,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  *
- * @deprecated 11
+ * @deprecated 10
  */
 class ilToolbarGUI
 {

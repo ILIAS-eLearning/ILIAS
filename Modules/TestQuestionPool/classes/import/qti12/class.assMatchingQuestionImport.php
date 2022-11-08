@@ -245,7 +245,7 @@ class assMatchingQuestionImport extends assQuestionImport
                     $term = $terms[$ident];
                 }
             }
-            $this->object->addMatchingPair(new assAnswerMatchingTerm('', '', $term["ident"]), new assAnswerMatchingDefinition('', '', $definition["answerorder"]), $response['points']);
+            $this->object->addMatchingPair(new assAnswerMatchingTerm('', '', (float) $term["ident"]), new assAnswerMatchingDefinition('', '', (int) $definition["answerorder"]), (float) $response['points']);
         }
         // additional content editing mode information
         $this->object->setAdditionalContentEditingMode(
@@ -348,11 +348,11 @@ class assMatchingQuestionImport extends assQuestionImport
         foreach ($this->object->getMatchingPairs() as $index => $pair) {
             /* @var assAnswerMatchingPair $pair */
 
-            if ($pair->term->identifier != $termId) {
+            if ($pair->getTerm()->getIdentifier() != $termId) {
                 continue;
             }
 
-            if ($pair->definition->identifier != $definitionId) {
+            if ($pair->getDefinition()->getIdentifier() != $definitionId) {
                 continue;
             }
 

@@ -241,10 +241,10 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 				</button>
 				<div class="il-item-description">description</div>
 				<div class="dropdown">
-					<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="actions" aria-haspopup="true" aria-expanded="false">
+					<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_menu">
 						<span class="caret"></span>
 					</button>
-					<ul class="dropdown-menu">
+					<ul id="id_menu" class="dropdown-menu">
 						<li>
 							<button class="btn btn-link" data-action="https://www.ilias.de" id="id">ILIAS</button>
 						</li>

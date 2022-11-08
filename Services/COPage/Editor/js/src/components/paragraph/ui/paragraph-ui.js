@@ -558,53 +558,6 @@ export default class ParagraphUI {
     il.copg.editor.reInitUI();
   }
 
-  // default callback for successfull ajax request, reloads page content
-  pageReloadAjaxSuccess(o)
-  {
-    if(o.responseText !== undefined)
-    {
-      let edit_div = document.getElementById('il_EditPage');
-
-      if (typeof il == 'undefined'){
-        il = o.argument.il;
-      }
-      removeToolbar();
-      $("#ilPageEditTopActionBar").css("visibility", "");
-      $('#il_EditPage').replaceWith(o.responseText);
-      this.reInitUI();
-      il.IntLink.refresh();
-      if (o.argument.osd_text && o.argument.osd_text != "") {
-        OSDNotifier = OSDNotifications({
-          initialNotifications: [{
-            notification_osd_id: 123,
-            valid_until: 0,
-            visible_for: 3,
-            data: {
-              title: "",
-              link: false,
-              iconPath: false,
-              shortDescription: o.argument.osd_text,
-              handlerParams: {
-                osd: {
-                  closable: false
-                }
-              }
-            }
-          }]
-        });
-      }
-    }
-  }
-
-  insertJSAtPlaceholder(cmd_id)
-  {
-    /*
-    clickcmdid = cmd_id;
-    let pl = document.getElementById('CONTENT' + cmd_id);
-    pl.style.display = 'none';
-    doActionForm('cmd[exec]', 'command', 'insert_par', '', 'PageContent', '');*/
-  }
-
   ////
   //// Various stuff, needs to be reorganised
   ////

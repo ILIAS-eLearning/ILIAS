@@ -30,41 +30,37 @@ class ilObjFileUnzipRecursiveProcessor extends ilObjFileAbstractZipProcessor
      */
     private array $path_map = [];
 
+
+
     public function process(ResourceIdentification $rid, array $options = []): void
     {
         $this->openZip($rid);
+        $base_node = $this->gui_object->getParentId();
 
-        // Create Base Container
-        $zip_name = $this->storage->manage()->getCurrentRevision($rid)->getInformation()->getTitle();
-        $info = new SplFileInfo($zip_name);
-        $base_path = $info->getBasename("." . $info->getExtension());
+        // Create Base Container if needed
+        if ($this->create_base_container_for_multiple_root_entries && $this->hasMultipleRootEntriesInZip()) {
+            $base_node = $this->createSurroundingContainer($rid);
+        }
 
-        $base_container = $this->createContainerObj($base_path, $this->gui_object->getParentId());
-        $this->path_map[$base_path] = (int) $base_container->getRefId();
+        $this->path_map['./'] = $base_node;
 
-        $first_dir = null;
+        // Create Containers first to have proper path mapping after,
+        // differences between macOS and windows are already handled in getZipDirectories()
+        foreach ($this->getZipDirectories() as $directory) {
+            $dir_name = dirname($directory) . '/';
+            $parent_id_of_iteration = (int) ($this->path_map[$dir_name] ?? $base_node);
 
+            $obj = $this->createContainerObj(basename($directory), $parent_id_of_iteration);
+            $this->path_map[$directory] = (int) $obj->getRefId();
+        }
+
+
+        // Create Files
         foreach ($this->getZipFiles() as $file_path) {
-            $dir_name = dirname($file_path);
-            $parent_id_of_iteration = (int) ($this->path_map[$dir_name] ?? $this->gui_object->getParentId());
+            $dir_name = dirname($file_path) . '/';
+            $parent_id_of_iteration = (int) ($this->path_map[$dir_name] ?? $base_node);
 
-            if (DIRECTORY_SEPARATOR === substr($file_path, -1)) {
-                // only apply options for the first container object, which is
-                // used for the container that represents the zip itself.
-                if (null === $first_dir) {
-                    $obj = $this->createContainerObj(basename($file_path), $parent_id_of_iteration, $options);
-                    $first_dir = $file_path;
-                } else {
-                    $obj = $this->createContainerObj(basename($file_path), $parent_id_of_iteration);
-                }
-
-                // store the created container object id for possible sub-entries.
-                $id = ($this->isWorkspace()) ? $obj->getId() : $obj->getRefId();
-                $this->path_map[rtrim($file_path, DIRECTORY_SEPARATOR)] = $id;
-            } else {
-                $rid = $this->storeZippedFile($file_path);
-                $this->createFileObj($rid, $parent_id_of_iteration, [], true);
-            }
+            $this->createFileObj($this->storeZippedFile($file_path), $parent_id_of_iteration, [], true);
         }
 
         $this->closeZip();

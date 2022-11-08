@@ -71,5 +71,6 @@ class ilSkillObjDeletionHandler
                 }
             }
         }
+        ilSkillUsage::removeUsagesFromObject($this->obj_id);
     }
 }
