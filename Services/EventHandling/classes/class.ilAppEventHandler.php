@@ -47,7 +47,6 @@ declare(strict_types=1);
  */
 class ilAppEventHandler
 {
-    protected ilDBInterface $db;
     protected array $listener;
     protected ilLogger $logger;
     protected ilComponentRepository $component_repository;
@@ -57,7 +56,7 @@ class ilAppEventHandler
     {
         global $DIC;
 
-        $this->db = $DIC->database();
+        $this->event_handling_data = new ilArtifactEventHandlingData();
         $this->component_repository = $DIC["component.repository"];
         $this->component_factory = $DIC["component.factory"];
         $this->initListeners();
@@ -75,15 +74,12 @@ class ilAppEventHandler
             return;
         }
 
-        $ilDB = $this->db;
-
         $this->listener = array();
 
-        $sql = "SELECT * FROM il_event_handling" .
-            " WHERE type = " . $ilDB->quote("listen", "text");
-        $res = $ilDB->query($sql);
-        while ($row = $ilDB->fetchAssoc($res)) {
-            $this->listener[$row["id"]][] = $row["component"];
+        $listener_events = $this->event_handling_data->getEventsByType("listen");
+        foreach ($listener_events AS $event_key => $event_value)
+        {
+            $this->listener[$event_value["type_specification"]][] = $event_value["component"];
         }
 
         $ilGlobalCache->set('listeners', $this->listener);
