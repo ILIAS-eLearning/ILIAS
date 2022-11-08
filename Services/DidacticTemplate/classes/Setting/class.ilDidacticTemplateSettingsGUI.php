@@ -450,7 +450,6 @@ class ilDidacticTemplateSettingsGUI
         //activate
         $enable = new ilCheckboxInputGUI($this->lng->txt('active'), 'enable');
         $enable->setChecked($set->isEnabled());
-        $enable->setRequired(true);
         $form->addItem($enable);
 
         // object type
