@@ -128,7 +128,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
         $event_time_db = $record[ilIndividualAssessmentMembers::FIELD_EVENTTIME];
         if (!is_null($event_time_db)) {
             $event_time = new DateTimeImmutable();
-            $event_time = $event_time->setTimestamp($event_time_db);
+            $event_time = $event_time->setTimestamp((int) $event_time_db);
         }
         return new ilIndividualAssessmentUserGrading(
             $user_fullname,
