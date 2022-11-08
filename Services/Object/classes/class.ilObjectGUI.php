@@ -778,8 +778,7 @@ class ilObjectGUI
             $form->addItem($type);
 
             foreach ($options as $id => $data) {
-                $option = new ilRadioOption($data[0], $id, $data[1]);
-
+                $option = new ilRadioOption($data[0] ?? '', (string) $id, $data[1] ?? '');
                 if ($existing_exclusive && $id == 'dtpl_0') {
                     //set default disabled if an exclusive template exists
                     $option->setDisabled(true);
