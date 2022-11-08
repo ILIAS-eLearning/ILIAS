@@ -1216,11 +1216,16 @@ abstract class assQuestionGUI
             "text" => $this->lng->txt("solutionText")
         );
 
-        if ((strcmp($_POST["solutiontype"], "file") == 0) && (strcmp($solution_array["type"], "file") != 0)) {
+        if (!array_key_exists('type', $solution_array)) {
+            $solution_array['type'] = '';
+        }
+        if (strcmp($_POST["solutiontype"], "file") == 0 &&
+            strcmp($solution_array["type"], "file") != 0) {
             $solution_array = array(
                 "type" => "file"
             );
-        } elseif ((strcmp($_POST["solutiontype"], "text") == 0) && (strcmp($solution_array["type"], "text") != 0)) {
+        } elseif (strcmp($_POST["solutiontype"], "text") == 0 &&
+            strcmp($solution_array["type"], "text") != 0) {
             $oldsaveSuggestedSolutionOutputMode = $this->getRenderPurpose();
             $this->setRenderPurpose(self::RENDER_PURPOSE_INPUT_VALUE);
 
@@ -1247,13 +1252,15 @@ abstract class assQuestionGUI
             // suggested solution output
             $title = new ilSolutionTitleInputGUI($this->lng->txt("showSuggestedSolution"), "solutiontype");
             $template = new ilTemplate("tpl.il_as_qpl_suggested_solution_input_presentation.html", true, true, "Modules/TestQuestionPool");
-            if (strlen($solution_array["internal_link"])) {
+            if (array_key_exists("internal_link", $solution_array) &&
+                strlen($solution_array["internal_link"])) {
                 $href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
                 $template->setCurrentBlock("preview");
                 $template->setVariable("TEXT_SOLUTION", $this->lng->txt("suggested_solution"));
                 $template->setVariable("VALUE_SOLUTION", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("view") . "</a> ");
                 $template->parseCurrentBlock();
-            } elseif ((strcmp($solution_array["type"], "file") == 0) && (is_array($solution_array["value"]))) {
+            } elseif ((strcmp($solution_array["type"], "file") == 0) &&
+                array_key_exists('value', $solution_array) && is_array($solution_array["value"])) {
                 $href = $this->object->getSuggestedSolutionPathWeb() . $solution_array["value"]["name"];
                 $template->setCurrentBlock("preview");
                 $template->setVariable("TEXT_SOLUTION", $this->lng->txt("suggested_solution"));
@@ -1277,8 +1284,10 @@ abstract class assQuestionGUI
                 $file = new ilFileInputGUI($this->lng->txt("fileDownload"), "file");
                 $file->setRequired(true);
                 $file->enableFileNameSelection("filename");
-                //$file->setSuffixes(array("doc","xls","png","jpg","gif","pdf"));
-                if ($_FILES["file"]["tmp_name"] && $file->checkInput()) {
+
+                if (array_key_exists("file", $_FILES) &&
+                    array_key_exists("tmp_name", $_FILES["file"]) &&
+                    $_FILES["file"]["tmp_name"] && $file->checkInput()) {
                     if (!file_exists($this->object->getSuggestedSolutionPath())) {
                         ilFileUtils::makeDirParents($this->object->getSuggestedSolutionPath());
                     }
@@ -1292,15 +1301,16 @@ abstract class assQuestionGUI
                         ilFileUtils::renameExecutables($this->object->getSuggestedSolutionPath());
 
                         // remove an old file download
-                        if (is_array($solution_array["value"])) {
+                        if (array_key_exists('value', $solution_array) && is_array($solution_array["value"])) {
                             @unlink($this->object->getSuggestedSolutionPath() . $solution_array["value"]["name"]);
                         }
                         $file->setValue($_FILES["file"]["name"]);
                         $this->object->saveSuggestedSolution("file", "", 0, array("name" => $_FILES["file"]["name"], "type" => $_FILES["file"]["type"], "size" => $_FILES["file"]["size"], "filename" => $_POST["filename"]));
-                        $originalexists = $this->object->_questionExistsInPool($this->object->getOriginalId());
-                        if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
-                                    && (int) $this->request->raw('calling_consumer'))) && $originalexists
-                            && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
+
+                        if (($this->request->raw("calling_test") ||
+                            ($this->request->isset('calling_consumer') && (int) $this->request->raw('calling_consumer'))) &&
+                            $this->object->_questionExistsInPool($this->object->getOriginalId()) &&
+                            assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
                             $this->originalSyncForm("suggestedsolution");
                             return;
                         } else {
@@ -1312,7 +1322,7 @@ abstract class assQuestionGUI
                         $this->tpl->setOnScreenMessage('info', $res);
                     }
                 } else {
-                    if (is_array($solution_array["value"])) {
+                    if (array_key_exists('value', $solution_array) && is_array($solution_array["value"])) {
                         $file->setValue($solution_array["value"]["name"]);
                         $file->setFilename((strlen($solution_array["value"]["filename"])) ? $solution_array["value"]["filename"] : $solution_array["value"]["name"]);
                     }

@@ -852,7 +852,7 @@ abstract class assQuestion
         $this->getProcessLocker()->executeUserQuestionResultUpdateOperation(function () use ($ilDB, $active_id, $pass, $reached_points, $requestsStatisticData, $isAnswered, $existingSolutions) {
             $query = "
 			DELETE FROM		tst_test_result
-			
+
 			WHERE			active_fi = %s
 			AND				question_fi = %s
 			AND				pass = %s
@@ -1348,7 +1348,7 @@ abstract class assQuestion
 				SELECT *
 				FROM tst_solutions
 				WHERE active_fi = %s
-				AND question_fi = %s 
+				AND question_fi = %s
 		  		AND pass = %s
 				AND authorized = %s
 				ORDER BY solution_id
@@ -3042,7 +3042,9 @@ abstract class assQuestion
         $collected .= $this->feedbackOBJ->getAllSpecificAnswerFeedbackContents($this->getId());
 
         foreach ($this->suggested_solutions as $solution_array) {
-            $collected .= $solution_array["value"];
+            if (is_string(['value'])) {
+                $collected .= $solution_array["value"];
+            }
         }
         $questionHintList = ilAssQuestionHintList::getListByQuestionId($this->getId());
         foreach ($questionHintList as $questionHint) {
@@ -3479,9 +3481,9 @@ abstract class assQuestion
 
         $query = "
 			SELECT		count(active_fi) cnt
-			
+
 			FROM		tst_solutions
-			
+
 			WHERE		active_fi = %s
 			AND			question_fi = %s
 			AND			pass = %s
