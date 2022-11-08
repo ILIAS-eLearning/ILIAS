@@ -1240,12 +1240,12 @@ class ilPersonalSkillsGUI
         if (is_array($this->obj_skills) && $this->obj_id > 0) {
             $options[0] = $lng->txt("obj_" . ilObject::_lookupType($this->obj_id)) . ": " . ilObject::_lookupTitle($this->obj_id);
             foreach ($this->cont_profiles as $p) {
-                $options[$p["profile_id"]] = $lng->txt("skmg_profile") . ": " . $p["title"];
+                $options[$p["profile_id"]] = $p["title"];
             }
         }
         else {
             foreach ($this->user_profiles as $p) {
-                $options[$p["id"]] = $lng->txt("skmg_profile") . ": " . $p["title"];
+                $options[$p["id"]] = $p["title"];
             }
         }
 
