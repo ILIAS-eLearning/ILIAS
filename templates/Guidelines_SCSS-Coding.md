@@ -1,5 +1,8 @@
 # General
 
+*Please note, that you need to provide a Pull Request for all CSS related changes done in this folder. The CSS Coordinators
+will then review the PR and give you feedback and/or merge your canges.*
+
 This section of the codebase defines the design and layout of ILIAS. All CSS code is build here. HTML templates can be found elsewhere (see section "HTML").
 
 The following guidelines will help you to
