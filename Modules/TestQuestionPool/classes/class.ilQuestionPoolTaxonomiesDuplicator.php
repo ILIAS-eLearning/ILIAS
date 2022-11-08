@@ -111,20 +111,20 @@ class ilQuestionPoolTaxonomiesDuplicator
 
     private function duplicateTaxonomyFromPoolToTest($poolTaxonomyId): void
     {
-        $testTaxonomy = new ilObjTaxonomy();
-        $testTaxonomy->create();
-
         $poolTaxonomy = new ilObjTaxonomy($poolTaxonomyId);
-        $poolTaxonomy->cloneObject(0, $testTaxonomy->getId());
+        $testTaxonomy = $poolTaxonomy->cloneObject(0, 0, true);
 
-        $poolTaxonomy->getTree()->readRootId();
-        $testTaxonomy->getTree()->readRootId();
+        if($testTaxonomy instanceof ilObjTaxonomy) {
+            $poolTaxonomy->getTree()->readRootId();
+            $testTaxonomy->getTree()->readRootId();
 
-        $testTaxonomy->update();
+            $testTaxonomy->update();
 
-        ilObjTaxonomy::saveUsage($testTaxonomy->getId(), $this->getTargetObjId());
+            ilObjTaxonomy::saveUsage($testTaxonomy->getId(), $this->getTargetObjId());
 
-        $this->duplicatedTaxonomiesKeysMap->addDuplicatedTaxonomy($poolTaxonomy, $testTaxonomy);
+            $this->duplicatedTaxonomiesKeysMap->addDuplicatedTaxonomy($poolTaxonomy, $testTaxonomy);
+        }
+
     }
 
     private function transferAssignmentsFromOriginalToDuplicatedTaxonomy($originalTaxonomyId, $mappedTaxonomyId): void
