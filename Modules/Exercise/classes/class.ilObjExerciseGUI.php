@@ -112,6 +112,10 @@ class ilObjExerciseGUI extends ilObjectGUI
         /** @var ilObjExercise $exc */
         $exc = $this->object;
 
+        if (!$this->getCreationMode() && isset($this->object)) {
+            $this->tpl->setPermanentLink("exc", $this->object->getRefId());
+        }
+
         //echo "-".$next_class."-".$cmd."-"; exit;
         switch ($next_class) {
             case "ilinfoscreengui":
