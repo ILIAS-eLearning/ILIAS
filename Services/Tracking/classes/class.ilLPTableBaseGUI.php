@@ -104,11 +104,13 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 case "applyFilter":
                     $this->resetOffset();
                     $this->writeFilterToSession();
+                    $this->storeProperty("offset", "0");
                     break;
 
                 case "resetFilter":
                     $this->resetOffset();
                     $this->resetFilter();
+                    $this->storeProperty("offset", "0");
                     break;
 
                 case "hideSelected":
@@ -162,6 +164,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 default:
                     $this->determineOffsetAndOrder();
                     $this->storeNavParameter();
+                    $this->storeProperty("offset", (string) $this->getOffset());
                     break;
             }
 
