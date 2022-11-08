@@ -260,6 +260,23 @@ class ilContainer extends ilObject
         return $a_default_value ?? '';
     }
 
+    public static function _hasContainerSetting(
+        int $a_id,
+        string $a_keyword
+    ): string {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        $q = "SELECT value FROM container_settings WHERE " .
+            " id = " . $ilDB->quote($a_id, 'integer') . " AND " .
+            " keyword = " . $ilDB->quote($a_keyword, 'text');
+        $set = $ilDB->query($q);
+        $rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+
+        return (bool) $rec;
+    }
+
     public static function _writeContainerSetting(
         int $a_id,
         string $a_keyword,

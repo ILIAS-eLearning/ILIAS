@@ -101,6 +101,11 @@ class ilLearningModuleExporter extends ilXmlExporter
                 "entity" => "tile",
                 "ids" => $a_ids);
 
+            $deps[] = array(
+                "component" => "Services/Object",
+                "entity" => "service_settings",
+                "ids" => $a_ids);
+
             // help export
             foreach ($a_ids as $id) {
                 if (ilObjContentObject::isOnlineHelpModule($id, true)) {
@@ -167,24 +172,30 @@ class ilLearningModuleExporter extends ilXmlExporter
         string $a_entity
     ): array {
         return array(
+            "8.0" => array(
+                "namespace" => "https://www.ilias.de/Modules/LearningModule/lm/8",
+                "xsd_file" => "ilias_lm_8.xsd",
+                "uses_dataset" => true,
+                "min" => "8.0",
+                "max" => ""),
             "5.4.0" => array(
                 "namespace" => "https://www.ilias.de/Modules/LearningModule/lm/5_4",
                 "xsd_file" => "ilias_lm_5_4.xsd",
                 "uses_dataset" => true,
                 "min" => "5.4.0",
-                "max" => ""),
+                "max" => "7.99.99"),
             "5.1.0" => array(
                 "namespace" => "https://www.ilias.de/Modules/LearningModule/lm/5_1",
                 "xsd_file" => "ilias_lm_5_1.xsd",
                 "uses_dataset" => true,
                 "min" => "5.1.0",
-                "max" => ""),
+                "max" => "5.3.99"),
             "4.1.0" => array(
                 "namespace" => "https://www.ilias.de/Modules/LearningModule/lm/4_1",
                 "xsd_file" => "ilias_lm_4_1.xsd",
                 "uses_dataset" => false,
                 "min" => "4.1.0",
-                "max" => "")
+                "max" => "5.0.99")
         );
     }
 }
