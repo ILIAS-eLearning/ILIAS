@@ -44,8 +44,8 @@
 		"filp/whoops": "^2.1.13",
 		"monolog/monolog": "^2.3.5",
 		"technosophos/libris": "^2.0.2",
-		"ezyang/htmlpurifier": "4.14.0",
-		"phpmailer/phpmailer": "^6.5",
+		"ezyang/htmlpurifier": "^4.16",
+		"phpmailer/phpmailer": "^6.6",
 		"geshi/geshi": "^1.0.9.1",
 		"tecnickcom/tcpdf": "^6.3",
 		"pimple/pimple" : "^3.0",
@@ -197,10 +197,10 @@
 		},
 		"ezyang/htmlpurifier" : {
 			"source" : "http://repo.or.cz/htmlpurifier.git",
-			"used_version" : "v4.14.0",
+			"used_version" : "v4.16.0",
 			"wrapped_by" : "Services/Html",
 			"added_by" : "Michael Jansen <mjansen@databay.de>",
-			"last_update" : "2022-01-04",
+			"last_update" : "2022-11-08",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -210,7 +210,7 @@
 			"used_version" : "v6.5.0",
 			"wrapped_by" : "Services/Mail",
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
-			"last_update" : "2022-07-07",
+			"last_update" : "2022-11-08",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
