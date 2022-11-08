@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -44,6 +43,7 @@ class ilMembershipOverviewGUI implements ilCtrlBaseClassInterface
         $ctrl = $this->ctrl;
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd("show");
+        $this->main_tpl->setTitleIcon(ilUtil::getImagePath('icon_crgr.svg'));
         $this->main_tpl->setTitle($this->lng->txt("my_courses_groups"));
         switch ($next_class) {
             case "ilpdmembershipblockgui":
