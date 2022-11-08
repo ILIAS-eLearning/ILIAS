@@ -98,9 +98,6 @@ class ilIndividualAssessmentCommonSettingsGUI
         $section_appearance->setTitle($this->txt('cont_presentation'));
         $form->addItem($section_appearance);
         $form_service = $this->object_service->commonSettings()->legacyForm($form, $this->object);
-        $form_service->addTitleIconVisibility();
-        $form_service->addTopActionsVisibility();
-        $form_service->addIcon();
         $form_service->addTileImage();
     }
 
@@ -124,9 +121,6 @@ class ilIndividualAssessmentCommonSettingsGUI
         );
 
         $form_service = $this->object_service->commonSettings()->legacyForm($form, $this->object);
-        $form_service->saveTitleIconVisibility();
-        $form_service->saveTopActionsVisibility();
-        $form_service->saveIcon();
         $form_service->saveTileImage();
 
         $this->tpl->setOnScreenMessage("success", $this->lng->txt('iass_settings_saved'), true);
