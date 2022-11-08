@@ -473,8 +473,8 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         } else {
             $a_excel->setCell($a_row, 4, $a_set["percentage"] . "%");
         }
-        $a_excel->setCell($a_row, 5, $a_set["mark"]);
-        $a_excel->setCell($a_row, 6, $a_set["comment"]);
+        $a_excel->setCell($a_row, 5, (string) $a_set["mark"]);
+        $a_excel->setCell($a_row, 6, (string) $a_set["comment"]);
         $a_excel->setCell(
             $a_row,
             7,
@@ -520,8 +520,8 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         } else {
             $a_csv->addColumn(sprintf("%d%%", $a_set["percentage"]));
         }
-        $a_csv->addColumn($a_set["mark"]);
-        $a_csv->addColumn($a_set["comment"]);
+        $a_csv->addColumn((string) $a_set["mark"]);
+        $a_csv->addColumn((string) $a_set["comment"]);
         $a_csv->addColumn(ilLPObjSettings::_mode2Text($a_set["u_mode"]));
 
         $a_csv->addRow();
