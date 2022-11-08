@@ -21,6 +21,8 @@ declare(strict_types=1);
 /**
 * Custom repository search gui class for study programme to make it possible
 * to get a handle on users selected in the repository search gui.
+*
+* @ilCtrl_Calls ilStudyProgrammeRepositorySearchGUI: ilPropertyFormGUI
 */
 class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
 {
