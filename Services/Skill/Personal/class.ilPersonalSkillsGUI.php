@@ -1227,7 +1227,8 @@ class ilPersonalSkillsGUI
         }
 
         foreach ($this->cont_profiles as $p) {
-            $options[$p["profile_id"]] = $lng->txt("skmg_profile") . ": " . $p["title"];
+            $tree = $this->tree_service->getObjSkillTreeById((int) $p["skill_tree_id"]);
+            $options[$p["profile_id"]] = $tree->getTitle() . ": " . $p["title"];
         }
 
         asort($options);
