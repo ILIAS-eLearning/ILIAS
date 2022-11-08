@@ -203,6 +203,23 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
                         }
                         break;
 
+                    case "mep":
+                        $item["obj_type_txt"] = $this->lng->txt("mep_page_type_mep");
+                        $item["sub_txt"] = $this->lng->txt("mep_page_type_mep");
+                        $item["sub_title"] = ilMediaPoolItem::lookupTitle($usage["id"]);
+
+                        $mep_pools = ilMediaPoolItem::getPoolForItemId($usage["id"]);
+                        foreach ($mep_pools as $mep_id) {
+                            $ref_ids = ilObject::_getAllReferences($mep_id);
+                            $item["obj_title"] = ilObject::_lookupTitle($mep_id);
+                            foreach ($ref_ids as $rid) {
+                                $item["obj_link"] = ilLink::_getStaticLink($rid, "mep");
+                                break;
+                            }
+                            break;
+                        }
+                        break;
+
                     default:
                         include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
                         $oid = ilObjMediaObject::getParentObjectIdForUsage($a_set);
