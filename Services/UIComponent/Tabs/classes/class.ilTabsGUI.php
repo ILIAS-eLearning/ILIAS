@@ -483,6 +483,7 @@ class ilTabsGUI
                 $tpl->setVariable("TXT_SUBTABS", $this->getTabTextOfId($this->getActiveTab()).": ".$lng->txt("subtabs"));
             } else {
                 $tpl->setVariable("TXT_TABS", $lng->txt("tabs"));
+                $tpl->setVariable("LAST_TAB_LABEL", $lng->txt("show_more"));
 
                 // non tabbed links
                 foreach ($this->non_tabbed_link as $link) {
