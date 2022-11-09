@@ -1774,9 +1774,16 @@ class ilPersonalSkillsGUI
         }
 
         ilDatePresentation::setUseRelativeDates(false);
-        $title = ($a_level_entry["trigger_obj_id"] > 0)
-                ? $a_level_entry["trigger_title"]
-                : "";
+        $title = "";
+        if ($a_level_entry["trigger_obj_id"] > 0) {
+            if (ilObject::_exists($a_level_entry["trigger_ref_id"], true)) {
+                $title = ilObject::_lookupTitle($a_level_entry["trigger_obj_id"]);
+            } elseif (!empty($del_data = ilObjectDataDeletionLog::get($a_level_entry["trigger_obj_id"]))) {
+                $title = $del_data["title"];
+            } else {
+                $title = ($a_level_entry["trigger_title"]) ?? "";
+            }
+        }
 
         if ($a_level_entry["trigger_ref_id"] > 0
             && $ilAccess->checkAccess("read", "", $a_level_entry["trigger_ref_id"])) {
