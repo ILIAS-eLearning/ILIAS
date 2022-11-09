@@ -10615,7 +10615,7 @@ common#:#qpl_copy#:#Fragenpool für Tests kopieren
 mathjax#:#mathjax_enable_mathjax_info#:#Aktiviert die LaTeX-Unterstützung mit MathJax, um mathematische Formeln ausgeben zu können.
 mathjax#:#mathjax_enable_mathjax#:#MathJax aktivieren
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#Zum Beispiel: https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML oder eine URL zu Ihrer lokalen Installation. ILIAS 6 und 7 unterstützt MathJax 2.7, noch nicht MathJax 3.
+mathjax#:#mathjax_path_to_mathjax_desc#:#Zum Beispiel: https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe oder eine URL zu Ihrer lokalen Installation. ILIAS 6 und 7 unterstützt MathJax 2.7, noch nicht MathJax 3. Bitte beachten Sie das angehänge "Safe". Andernfalls wird ILIAS über MathJax-Code mit JavaScript anfällig für XSS-Angriffe.
 mathjax#:#mathjax_path_to_mathjax#:#URL zu MathJax
 mathjax#:#mathjax_settings#:#MathJax-Einstellungen
 mathjax#:#mathjax_limiter#:#Trennzeichen
