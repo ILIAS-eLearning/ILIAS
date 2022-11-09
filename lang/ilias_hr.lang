@@ -892,6 +892,7 @@ assessment#:#log_wrong_test_password_entered#:#Sudionik je unio pogrešnu lozink
 assessment#:#longmenu#:#Dugi izbornik
 assessment#:#longmenu_text#:#Tekst dugog izbornika
 assessment#:#mailnottype#:#Pošalji obavijest čak i ako korisnik završi pojedini prolaz testa
+assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
 assessment#:#maintenance#:#Održavanje
 assessment#:#manscoring#:#Ručno bodovanje
 assessment#:#manscoring_done#:#Sudionici koji su već bodovani
@@ -972,6 +973,7 @@ assessment#:#oq_btn_use_order_pictures#:#Koristi odgovor sa slikama
 assessment#:#oq_btn_use_order_terms#:#Koristi odgovor s pojmovima
 assessment#:#oq_header_ordering_elements#:#Elementi za raspoređivanje
 assessment#:#or#:#ili
+assessment#:#order#:#Order###09 11 2022 new variable
 assessment#:#ordering_answer_sequence_info#:#Slijed odgovora koji ovdje definirate uzet će se kao ispravan redoslijed rješenja.
 assessment#:#ordertext#:#Tekst za raspoređivanje
 assessment#:#ordertext_info#:#Unesite tekst koji treba rasporediti vodoravno. Tekst koji treba rasporediti bit će odvojen razmaknicama u tekstu. Ako trebate drugačiji odvajanje, za razdvajanje tekstualnih jedinica umjesto razmaknica možete koristiti separator%s.
@@ -1709,6 +1711,7 @@ assessment#:#tst_question_hints_ordering_clipboard_resetted#:#Međuspremnik za r
 assessment#:#tst_question_hints_paste_after_success_msg#:#Savjet %s je uspješno dodan iza savjeta %s.
 assessment#:#tst_question_hints_paste_before_success_msg#:#Savjet %s je uspješno dodan ispred savjeta %s.
 assessment#:#tst_question_hints_request_confirmation#:#Želite li zaista zatražiti savjet %s? Za taj savjet odbit će se %s bodova.
+assessment#:#tst_question_hints_request_confirmation_no_deduction#:#No points will be deducted for this hint.###09 11 2022 new variable
 assessment#:#tst_question_hints_requested_hint_count_header#:#Zatraženi savjeti za rješenje
 assessment#:#tst_question_hints_save_order_success_msg#:#Redoslijed savjet je uspješno spremljen.
 assessment#:#tst_question_hints_tab#:#Savjeti (hints)
@@ -5982,6 +5985,7 @@ cont#:#cont_skill_do_not_set#:#Ne postavljaj
 cont#:#cont_skill_members#:#Članovi
 cont#:#cont_skill_no_profile_selected#:#Please select a profile.###04 06 2021 new variable
 cont#:#cont_skill_no_skill#:#Nema vrijednosti (resetiraj)
+cont#:#cont_skill_no_skills_selected#:#No competences have been selected yet. Please add at least one competence first under "Competence Selection".###09 11 2022 new variable
 cont#:#cont_skill_profile#:#Profile###04 06 2021 new variable
 cont#:#cont_skill_profiles#:#Assigned Profiles of Members###04 06 2021 new variable
 cont#:#cont_skill_publish#:#Objavi
@@ -14563,6 +14567,7 @@ skmg#:#skmg_new_sktr#:#New Competence Template Reference
 skmg#:#skmg_next_step#:#Next Step
 skmg#:#skmg_no_nodes_selectable#:#Currently there are no competences selectable.
 skmg#:#skmg_no_skills#:#No Competences
+skmg#:#skmg_no_skills_selected_info#:#You have not selected or fulfilled any competences yet. Click on the "Add Competence"-button to select a competence. You can add any number of competences. If you fulfill competences by editing learning materials, they will be automatically listed here.###09 11 2022 new variable
 skmg#:#skmg_no_trigger#:#No Trigger
 skmg#:#skmg_nr#:#Nr
 skmg#:#skmg_number#:#Number
@@ -14605,6 +14610,8 @@ skmg#:#skmg_skill_levels#:#Competence Levels
 skmg#:#skmg_skill_management_deactivated#:#Competence Management is currently deactivated.
 skmg#:#skmg_skill_needs_impr_no_res#:#You need to improve this competence. Unfortunately there are currently no learning resources available providing learning material aligned to your target competence level.
 skmg#:#skmg_skill_needs_impr_res#:#You need to improve this competence. The following resources provide learning material aligned to your target competence level.
+skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your competence target.###09 11 2022 new variable
+skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.###09 11 2022 new variable
 skmg#:#skmg_skill_no_needs_impr#:#Your competence level is sufficient for the selected profile.
 skmg#:#skmg_skill_profiles#:#Profiles
 skmg#:#skmg_skill_template#:#Competence Template

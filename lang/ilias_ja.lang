@@ -892,6 +892,7 @@ assessment#:#log_wrong_test_password_entered#:#受講者は間違ったテスト
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_text#:#長いメニューテキスト
 assessment#:#mailnottype#:#ユーザがテスト終了しても通知を送る
+assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
 assessment#:#maintenance#:#メンテナンス
 assessment#:#manscoring#:#手動採点
 assessment#:#manscoring_done#:#採点済み受講者
@@ -972,6 +973,7 @@ assessment#:#oq_btn_use_order_pictures#:#解答図を使用する
 assessment#:#oq_btn_use_order_terms#:#解答用語を使用する
 assessment#:#oq_header_ordering_elements#:#要素順
 assessment#:#or#:#または
+assessment#:#order#:#Order###09 11 2022 new variable
 assessment#:#ordering_answer_sequence_info#:#ここで定義する解答順序は正解として使用されます。
 assessment#:#ordertext#:#整列するテキスト
 assessment#:#ordertext_info#:#水平方向にそろえるテキストを入力してください。整列するテキストはテキストの空白記号で区切られます。別の区切りが必要な場合は、%s の区切り記号を使用してテキストの単位を区切る事ができます。
@@ -1709,6 +1711,7 @@ assessment#:#tst_question_hints_ordering_clipboard_resetted#:#順番クリップ
 assessment#:#tst_question_hints_paste_after_success_msg#:#ヒント%sはヒント%sより後に正しく貼りつけられました。
 assessment#:#tst_question_hints_paste_before_success_msg#:#ヒント%sはヒント%sより前に正しく貼りつけられました。
 assessment#:#tst_question_hints_request_confirmation#:#ヒント%sを本当に要求しますか?　このヒント%sの点数は控除されます。
+assessment#:#tst_question_hints_request_confirmation_no_deduction#:#No points will be deducted for this hint.###09 11 2022 new variable
 assessment#:#tst_question_hints_requested_hint_count_header#:#リクエストのヒント
 assessment#:#tst_question_hints_save_order_success_msg#:#ヒントの順番が正しく保存されました。
 assessment#:#tst_question_hints_tab#:#ヒント
@@ -5982,6 +5985,7 @@ cont#:#cont_skill_do_not_set#:#セットしてはいけません
 cont#:#cont_skill_members#:#メンバー
 cont#:#cont_skill_no_profile_selected#:#プロファイルを選択してください。
 cont#:#cont_skill_no_skill#:#値がありません(リセット)
+cont#:#cont_skill_no_skills_selected#:#No competences have been selected yet. Please add at least one competence first under "Competence Selection".###09 11 2022 new variable
 cont#:#cont_skill_profile#:#プロファイル
 cont#:#cont_skill_profiles#:#メンバーの割当てプロファイル
 cont#:#cont_skill_publish#:#公開
@@ -14563,6 +14567,7 @@ skmg#:#skmg_new_sktr#:#新規能力テンプレートレファレンス
 skmg#:#skmg_next_step#:#次のステップ
 skmg#:#skmg_no_nodes_selectable#:#現在選択可能な能力がありません。
 skmg#:#skmg_no_skills#:#能力未記入
+skmg#:#skmg_no_skills_selected_info#:#You have not selected or fulfilled any competences yet. Click on the "Add Competence"-button to select a competence. You can add any number of competences. If you fulfill competences by editing learning materials, they will be automatically listed here.###09 11 2022 new variable
 skmg#:#skmg_no_trigger#:#トリガーがありません
 skmg#:#skmg_nr#:#Nr
 skmg#:#skmg_number#:#数字
@@ -14605,6 +14610,8 @@ skmg#:#skmg_skill_levels#:#能力レベル
 skmg#:#skmg_skill_management_deactivated#:#能力管理は現在動作していません。
 skmg#:#skmg_skill_needs_impr_no_res#:#この能力を向上する必要があります。目標としている能力レベルに沿うような提供された学習教材の現在学習リソースがありません。
 skmg#:#skmg_skill_needs_impr_res#:#この能力を向上する必要があります。次のリソースは目標の能力レベルに沿う学習教材を提供します。
+skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your competence target.###09 11 2022 new variable
+skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.###09 11 2022 new variable
 skmg#:#skmg_skill_no_needs_impr#:#能力レベルは選択したプロファイルに適合します。
 skmg#:#skmg_skill_profiles#:#プロファイル
 skmg#:#skmg_skill_template#:#能力テンプレート

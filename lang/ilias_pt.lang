@@ -892,6 +892,7 @@ assessment#:#log_wrong_test_password_entered#:#O participante introduziu uma pal
 assessment#:#longmenu#:#Menu comprido
 assessment#:#longmenu_text#:#Texto de menu comprido
 assessment#:#mailnottype#:#Enviar notificação mesmo que um utilizador termine uma tentativa de teste
+assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
 assessment#:#maintenance#:#Manutenção
 assessment#:#manscoring#:#Pontuação manual
 assessment#:#manscoring_done#:#Participantes pontuados
@@ -972,6 +973,7 @@ assessment#:#oq_btn_use_order_pictures#:#Usar fotografias de resposta
 assessment#:#oq_btn_use_order_terms#:#Usar termos de resposta
 assessment#:#oq_header_ordering_elements#:#Ordenação elementos
 assessment#:#or#:#ou
+assessment#:#order#:#Order###09 11 2022 new variable
 assessment#:#ordering_answer_sequence_info#:#A sequência de respostas que define aqui será assumida como a sequência de solução correta.
 assessment#:#ordertext#:#Ordenação texto
 assessment#:#ordertext_info#:#Introduza o texto que deve ser ordenado na horizontal. O texto de ordenação será separado pelos sinais de espaço em branco no texto. Se precisar de uma separação diferente, pode usar o separador %s para separar as suas unidades de texto.
@@ -1709,6 +1711,7 @@ assessment#:#tst_question_hints_ordering_clipboard_resetted#:#Repor duração pa
 assessment#:#tst_question_hints_paste_after_success_msg#:#A sugestão %s foi colada após a sugestão %s com sucesso.
 assessment#:#tst_question_hints_paste_before_success_msg#:#A sugestão %s foi colada antes da sugestão %s com sucesso.
 assessment#:#tst_question_hints_request_confirmation#:#Tem a certeza que quer pedir uma sugestão %s? Para esta sugestão será/serão deduzido(s) %s ponto(s).
+assessment#:#tst_question_hints_request_confirmation_no_deduction#:#No points will be deducted for this hint.###09 11 2022 new variable
 assessment#:#tst_question_hints_requested_hint_count_header#:#Sugestões pedidas
 assessment#:#tst_question_hints_save_order_success_msg#:#A ordem das sugestões foi guardada com sucesso.
 assessment#:#tst_question_hints_tab#:#Sugestões
@@ -5982,6 +5985,7 @@ cont#:#cont_skill_do_not_set#:#Não definir
 cont#:#cont_skill_members#:#Membros
 cont#:#cont_skill_no_profile_selected#:#Please select a profile.###30 04 2021 new variable
 cont#:#cont_skill_no_skill#:#Nenhum valor (repor)
+cont#:#cont_skill_no_skills_selected#:#No competences have been selected yet. Please add at least one competence first under "Competence Selection".###09 11 2022 new variable
 cont#:#cont_skill_profile#:#Profile###30 04 2021 new variable
 cont#:#cont_skill_profiles#:#Assigned Profiles of Members###30 04 2021 new variable
 cont#:#cont_skill_publish#:#Publicar
@@ -14563,6 +14567,7 @@ skmg#:#skmg_new_sktr#:#New Skill Template Reference
 skmg#:#skmg_next_step#:#Próximo passo
 skmg#:#skmg_no_nodes_selectable#:#Atualmente não há competências selecionáveis.
 skmg#:#skmg_no_skills#:#No Skills
+skmg#:#skmg_no_skills_selected_info#:#You have not selected or fulfilled any competences yet. Click on the "Add Competence"-button to select a competence. You can add any number of competences. If you fulfill competences by editing learning materials, they will be automatically listed here.###09 11 2022 new variable
 skmg#:#skmg_no_trigger#:#Nenhum acionador
 skmg#:#skmg_nr#:#N.º
 skmg#:#skmg_number#:#Número
@@ -14605,6 +14610,8 @@ skmg#:#skmg_skill_levels#:#Skill Levels
 skmg#:#skmg_skill_management_deactivated#:#Skill Management is currently deaktivated.
 skmg#:#skmg_skill_needs_impr_no_res#:#Tem de melhorar esta competência. Infelizmente não existem atualmente recursos de aprendizagem disponíveis que fornecem material de aprendizagem alinhado com o seu nível de competência pretendido.
 skmg#:#skmg_skill_needs_impr_res#:#Tem de melhorar esta competência. Os seguintes recursos fornecem material de aprendizagem alinhado com o seu nível de competência pretendido.
+skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your competence target.###09 11 2022 new variable
+skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.###09 11 2022 new variable
 skmg#:#skmg_skill_no_needs_impr#:#O seu nível de competência é suficiente para o perfil selecionado.
 skmg#:#skmg_skill_profiles#:#Perfis
 skmg#:#skmg_skill_template#:#Skill Template

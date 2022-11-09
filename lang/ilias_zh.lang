@@ -891,6 +891,7 @@ assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test pa
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#甚至当用户完成一个测试时也发送通知
+assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
 assessment#:#maintenance#:#Maintenance维护
 assessment#:#manscoring#:#Manual Scoring手动评分
 assessment#:#manscoring_done#:#Scored Participants评分参加者
@@ -971,6 +972,7 @@ assessment#:#oq_btn_use_order_pictures#:#Use answer pictures###22 01 2014 new va
 assessment#:#oq_btn_use_order_terms#:#Use answer terms###22 01 2014 new variable
 assessment#:#oq_header_ordering_elements#:#Ordering Elements###22 01 2014 new variable
 assessment#:#or#:#或
+assessment#:#order#:#Order###09 11 2022 new variable
 assessment#:#ordering_answer_sequence_info#:#您定义在这里的答案序列将被视为正确的方案序列。
 assessment#:#ordertext#:#文本排序
 assessment#:#ordertext_info#:#请输入水平排序的文本。这个排序文本将被空白标志分隔开。如果您需要一个不同的分隔方式，您可以使用分隔器 %s 去分隔您的文本单元。
@@ -1708,6 +1710,7 @@ assessment#:#tst_question_hints_ordering_clipboard_resetted#:#排序剪贴板已
 assessment#:#tst_question_hints_paste_after_success_msg#:#提示 %s 已被粘贴，在提示 %s 之前。
 assessment#:#tst_question_hints_paste_before_success_msg#:#提示 %s 已被粘贴，在提示 %s 成功之前。
 assessment#:#tst_question_hints_request_confirmation#:#您真的想请求提示 %s ？这个提示 %s 分数(point)已被扣除。
+assessment#:#tst_question_hints_request_confirmation_no_deduction#:#No points will be deducted for this hint.###09 11 2022 new variable
 assessment#:#tst_question_hints_requested_hint_count_header#:#请求提示
 assessment#:#tst_question_hints_save_order_success_msg#:#提示的顺序已保存成功。
 assessment#:#tst_question_hints_tab#:#提示
@@ -5981,6 +5984,7 @@ cont#:#cont_skill_do_not_set#:#Do not set###31 08 2017 new variable
 cont#:#cont_skill_members#:#Members###31 08 2017 new variable
 cont#:#cont_skill_no_profile_selected#:#Please select a profile.###30 04 2021 new variable
 cont#:#cont_skill_no_skill#:#No value (Reset)###31 08 2017 new variable
+cont#:#cont_skill_no_skills_selected#:#No competences have been selected yet. Please add at least one competence first under "Competence Selection".###09 11 2022 new variable
 cont#:#cont_skill_profile#:#Profile###30 04 2021 new variable
 cont#:#cont_skill_profiles#:#Assigned Profiles of Members###30 04 2021 new variable
 cont#:#cont_skill_publish#:#Publish###31 08 2017 new variable
@@ -14562,6 +14566,7 @@ skmg#:#skmg_new_sktr#:#新技能模板参考
 skmg#:#skmg_next_step#:#下一步
 skmg#:#skmg_no_nodes_selectable#:#Currently there are no competences selectable.###30 12 2013 new variable
 skmg#:#skmg_no_skills#:#没有技能
+skmg#:#skmg_no_skills_selected_info#:#You have not selected or fulfilled any competences yet. Click on the "Add Competence"-button to select a competence. You can add any number of competences. If you fulfill competences by editing learning materials, they will be automatically listed here.###09 11 2022 new variable
 skmg#:#skmg_no_trigger#:#没有触发器
 skmg#:#skmg_nr#:#Nr
 skmg#:#skmg_number#:#Number###30 12 2013 new variable
@@ -14604,6 +14609,8 @@ skmg#:#skmg_skill_levels#:#技能级别
 skmg#:#skmg_skill_management_deactivated#:#技能管理当前已停用。
 skmg#:#skmg_skill_needs_impr_no_res#:#You need to improve this competence. Unfortunately there are currently no learning resources available providing learning material aligned to your target competence level.###24 10 2013 new variable
 skmg#:#skmg_skill_needs_impr_res#:#You need to improve this competence. The following resources provide learning material aligned to your target competence level.###24 10 2013 new variable
+skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your competence target.###09 11 2022 new variable
+skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.###09 11 2022 new variable
 skmg#:#skmg_skill_no_needs_impr#:#Your competence level is sufficient for the selected profile.###24 10 2013 new variable
 skmg#:#skmg_skill_profiles#:#Profiles###24 10 2013 new variable
 skmg#:#skmg_skill_template#:#技能模板
