@@ -104,7 +104,7 @@ class ilObjForumAccess extends ilObjectAccess
     }
 
     /**
-     * @return array{num_posts: int, num_unread_posts: int, num_new_posts: int}
+     * @return array{num_posts: int, num_unread_posts: int}
      */
     public static function getStatisticsByRefId(int $ref_id): array
     {

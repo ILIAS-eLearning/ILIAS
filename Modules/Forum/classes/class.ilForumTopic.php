@@ -45,7 +45,6 @@ class ilForumTopic
     private string $orderDirection = 'DESC';
     protected static array $possibleOrderDirections = ['ASC', 'DESC'];
     private ilObjUser $user;
-    private int $num_new_posts = 0;
     private int $num_unread_posts = 0;
     private bool $user_notification_enabled = false;
 
