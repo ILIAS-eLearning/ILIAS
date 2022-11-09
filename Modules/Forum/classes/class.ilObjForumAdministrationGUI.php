@@ -116,7 +116,6 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         }
 
         $frma_set = new ilSetting('frma');
-        $frma_set->set('forum_overview', (string) $form->getInput('forum_overview'));
         $this->settings->set('file_upload_allowed_fora', (string) ((int) $form->getInput('file_upload_allowed_fora')));
         $this->settings->set('send_attachments_by_mail', (string) ((int) $form->getInput('send_attachments_by_mail')));
         $this->settings->set('enable_fora_statistics', (string) ((int) $form->getInput('fora_statistics')));
@@ -140,7 +139,6 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $frma_set = new ilSetting('frma');
 
         $form->setValuesByArray([
-            'forum_overview' => (string) $frma_set->get('forum_overview'),
             'fora_statistics' => (bool) $this->settings->get('enable_fora_statistics'),
             'anonymous_fora' => (bool) $this->settings->get('enable_anonymous_fora'),
             'forum_notification' => (int) $this->settings->get('forum_notification', '0') === 1,
@@ -160,18 +158,6 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'saveSettings'));
         $form->setTitle($this->lng->txt('settings'));
-
-        $frm_radio = new ilRadioGroupInputGUI($this->lng->txt('frm_displayed_infos'), 'forum_overview');
-        $frm_radio->addOption(new ilRadioOption(
-            $this->lng->txt('frm_all_postings_stats') . ', ' . $this->lng->txt('unread') . ', ' . $this->lng->txt('new'),
-            (string) ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS
-        ));
-        $frm_radio->addOption(new ilRadioOption(
-            $this->lng->txt('frm_all_postings_stats') . ', ' . $this->lng->txt('unread'),
-            (string) ilForumProperties::FORUM_OVERVIEW_NO_NEW_POSTS
-        ));
-        $frm_radio->setInfo($this->lng->txt('frm_disp_info_desc'));
-        $form->addItem($frm_radio);
 
         $check = new ilCheckboxInputGUI($this->lng->txt('enable_fora_statistics'), 'fora_statistics');
         $check->setInfo($this->lng->txt('enable_fora_statistics_desc'));

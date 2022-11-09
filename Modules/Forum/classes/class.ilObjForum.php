@@ -25,8 +25,6 @@ declare(strict_types=1);
  */
 class ilObjForum extends ilObject
 {
-    public const NEWS_NEW_CONSIDERATION_WEEKS = 8;
-
     public ilForum $Forum;
     /** @var array<int, int>  */
     private static array $obj_id_to_forum_id_cache = [];
@@ -50,13 +48,6 @@ class ilObjForum extends ilObject
         $this->logger = $DIC->logger()->root();
 
         $settings = $DIC->settings();
-        $weeks = self::NEWS_NEW_CONSIDERATION_WEEKS;
-        if ($settings->get('frm_store_new')) {
-            $weeks = (int) $settings->get('frm_store_new');
-        }
-        $new_deadline = time() - 60 * 60 * 24 * 7 * $weeks;
-        $settings->set('frm_new_deadline', (string) $new_deadline);
-
         $this->Forum = new ilForum();
     }
 
@@ -275,40 +266,6 @@ class ilObjForum extends ilObject
                 ]
             );
         }
-    }
-
-    public static function _updateOldAccess(int $a_usr_id): void
-    {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $ilDB->manipulateF(
-            'UPDATE frm_thread_access SET access_old = access_last WHERE usr_id = %s',
-            ['integer'],
-            [$a_usr_id]
-        );
-
-        $res = $ilDB->query(
-            'SELECT * FROM frm_thread_access WHERE usr_id = ' . $ilDB->quote($a_usr_id, 'integer')
-        );
-        while ($row = $ilDB->fetchAssoc($res)) {
-            $ilDB->manipulate(
-                "UPDATE frm_thread_access SET " .
-                " access_old_ts = " . $ilDB->quote(date('Y-m-d H:i:s', (int) $row["access_old"]), "timestamp") .
-                " WHERE usr_id = " . $ilDB->quote((int) $row["usr_id"], "integer") .
-                " AND obj_id = " . $ilDB->quote((int) $row["obj_id"], "integer") .
-                " AND thread_id = " . $ilDB->quote((int) $row["thread_id"], "integer")
-            );
-        }
-
-        $weeks = self::NEWS_NEW_CONSIDERATION_WEEKS;
-        if ($DIC->settings()->get('frm_store_new')) {
-            $weeks = (int) $DIC->settings()->get('frm_store_new');
-        }
-        $new_deadline = time() - 60 * 60 * 24 * 7 * $weeks;
-
-        $ilDB->manipulateF('DELETE FROM frm_thread_access WHERE access_last < %s', ['integer'], [$new_deadline]);
     }
 
     public static function _deleteUser(int $a_usr_id): void
@@ -856,11 +813,6 @@ class ilObjForum extends ilObject
             ) . ' OR frm_posts.pos_author_id = ' . $ilDB->quote($ilUser->getId(), 'integer') . ') ';
         }
 
-        $weeks = self::NEWS_NEW_CONSIDERATION_WEEKS;
-        if ($ilSetting->get('frm_store_new')) {
-            $weeks = (int) $ilSetting->get('frm_store_new');
-        }
-        $new_deadline = time() - 60 * 60 * 24 * 7 * $weeks;
 
         if (!$ilUser->isAnonymous()) {
             $query = "
@@ -886,32 +838,6 @@ class ilObjForum extends ilObject
 
             $types = ['integer', 'integer', 'integer'];
             $values = [$forumId, $ilUser->getId(), $forumId];
-
-            $forum_overview_setting = (int) ilSetting::_lookupValue('frma', 'forum_overview');
-            if ($forum_overview_setting === ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS) {
-                $news_types = ['integer', 'integer', 'integer', 'timestamp', 'integer'];
-                $news_values = [$ilUser->getId(), $ilUser->getId(), $forumId, $new_deadline, $ilUser->getId()];
-
-                $query .= " 
-				UNION ALL
-				
-				(SELECT COUNT(frm_posts.pos_pk) cnt
-				FROM frm_posts
-				INNER JOIN frm_posts_tree tree1
-					ON tree1.pos_fk = frm_posts.pos_pk
-					AND tree1.parent_pos != 0
-				LEFT JOIN frm_user_read ON (post_id = frm_posts.pos_pk AND frm_user_read.usr_id = %s)
-				LEFT JOIN frm_thread_access ON (frm_thread_access.thread_id = frm_posts.pos_thr_fk AND frm_thread_access.usr_id = %s)
-				WHERE frm_posts.pos_top_fk = %s
-				AND ( (frm_posts.pos_update > frm_thread_access.access_old_ts)
-						OR (frm_thread_access.access_old IS NULL AND frm_posts.pos_update > %s)
-					)
-				AND frm_posts.pos_author_id != %s 
-				AND frm_user_read.usr_id IS NULL $act_clause)";
-
-                $types = array_merge($types, $news_types);
-                $values = array_merge($values, $news_values);
-            }
 
             $mapping = array_keys($statistics);
             $res = $ilDB->queryF(
