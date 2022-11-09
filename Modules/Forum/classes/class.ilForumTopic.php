@@ -94,9 +94,6 @@ class ilForumTopic
         if (isset($data['num_unread_posts'])) {
             $this->setNumUnreadPosts((int) $data['num_unread_posts']);
         }
-        if (isset($data['num_new_posts'])) {
-            $this->setNumNewPosts((int) $data['num_new_posts']);
-        }
         if (isset($data['usr_notification_is_enabled'])) {
             $this->setUserNotificationEnabled((bool) $data['usr_notification_is_enabled']);
         }
@@ -1056,17 +1053,6 @@ class ilForumTopic
     public function getNumPosts(): int
     {
         return $this->num_posts;
-    }
-
-    public function setNumNewPosts(int $num_new_posts): ilForumTopic
-    {
-        $this->num_new_posts = $num_new_posts;
-        return $this;
-    }
-
-    public function getNumNewPosts(): int
-    {
-        return $this->num_new_posts;
     }
 
     public function setNumUnreadPosts(int $num_unread_posts): ilForumTopic

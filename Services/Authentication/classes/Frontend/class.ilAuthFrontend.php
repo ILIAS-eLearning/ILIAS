@@ -317,7 +317,6 @@ class ilAuthFrontend
         ilOnlineTracking::addUser($user->getId());
 
         // @todo move to event handling
-        ilObjForum::_updateOldAccess($user->getId());
 
         $security_settings = ilSecuritySettings::_getInstance();
 

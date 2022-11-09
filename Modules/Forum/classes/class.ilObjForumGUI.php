@@ -834,7 +834,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $ref_id,
                 $topicData,
                 $this->is_moderator,
-                (int) (new ilSetting('frma'))->get('forum_overview', (string) ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS)
+                ilForumProperties::FORUM_OVERVIEW_NO_NEW_POSTS
             );
             $tbl->init();
             $tbl->setMapper($frm)->fetchData();
@@ -4574,7 +4574,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 (int) $this->httpRequest->getQueryParams()['ref_id'],
                 $topicData,
                 $this->is_moderator,
-                (int) (new ilSetting('frma'))->get('forum_overview', (string) ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS)
+                ilForumProperties::FORUM_OVERVIEW_NO_NEW_POSTS
             );
             $tbl->setSelectedThread($threadToMerge);
             $tbl->setMapper($frm)->fetchData();

@@ -233,7 +233,6 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
         $num_posts = $thread->getNumPosts();
         $num_unread = $thread->getNumUnreadPosts();
-        $num_new = $thread->getNumNewPosts();
 
         $this->ctrl->setParameter($this->getParentObject(), 'page', 0);
         $subject = '<div><a href="' . $this->ctrl->getLinkTarget(
@@ -266,9 +265,6 @@ class ilForumTopicTableGUI extends ilTable2GUI
         if (!$this->user->isAnonymous()) {
             if ($num_unread > 0) {
                 $topicStats .= '<br /><span class="ilAlert ilWhiteSpaceNowrap">' . $this->lng->txt('unread') . ': ' . $num_unread . '</span>';
-            }
-            if ($num_new > 0 && $this->getOverviewSetting() === ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS) {
-                $topicStats .= '<br /><span class="ilAlert ilWhiteSpaceNowrap">' . $this->lng->txt('new') . ': ' . $num_new . '</span>';
             }
         }
 
