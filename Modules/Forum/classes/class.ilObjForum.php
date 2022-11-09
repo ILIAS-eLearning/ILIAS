@@ -30,7 +30,7 @@ class ilObjForum extends ilObject
     private static array $obj_id_to_forum_id_cache = [];
     /** @var array<int, int>  */
     private static array $ref_id_to_forum_id_cache = [];
-    /** @var array<int, array{num_posts: int, num_unread_posts: int, num_new_posts: int}>  */
+    /** @var array<int, array{num_posts: int, num_unread_posts: int}>  */
     private static array $forum_statistics_cache = [];
     /** @var array<int, array|null>  */
     private static array $forum_last_post_cache = [];
@@ -774,7 +774,7 @@ class ilObjForum extends ilObject
     }
 
     /**
-     * @return array{num_posts: int, num_unread_posts: int, num_new_posts: int}
+     * @return array{num_posts: int, num_unread_posts: int}
      */
     public static function lookupStatisticsByRefId(int $ref_id): array
     {
@@ -792,7 +792,6 @@ class ilObjForum extends ilObject
         $statistics = [
             'num_posts' => 0,
             'num_unread_posts' => 0,
-            'num_new_posts' => 0
         ];
 
         $forumId = self::lookupForumIdByRefId($ref_id);
@@ -877,7 +876,6 @@ class ilObjForum extends ilObject
             $statistics = [
                 'num_posts' => (int) $row['cnt'],
                 'num_unread_posts' => (int) $row['cnt'],
-                'num_new_posts' => (int) $row['cnt']
             ];
         }
 
