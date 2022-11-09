@@ -1152,15 +1152,14 @@ class ilSurveyEvaluationGUI
         // -> add gap analysis to profile
         $profiles = $this->skill_profile_service->getProfilesOfUser($appr_id);
         foreach ($profiles as $p) {
-            $prof = $this->skill_profile_service->getById($p["id"]);
-            $prof_levels = $prof->getSkillLevels();
+            $prof_levels = $this->skill_profile_service->getSkillLevels($p->getId());
             foreach ($prof_levels as $pl) {
-                if (isset($skills[$pl["base_skill_id"] . ":" . $pl["tref_id"]])) {
-                    $skills[$pl["base_skill_id"] . ":" . $pl["tref_id"]]["profiles"][] =
-                        $p["id"];
+                if (isset($skills[$pl->getBaseSkillId() . ":" . $pl->getTrefId()])) {
+                    $skills[$pl->getBaseSkillId() . ":" . $pl->getTrefId()]["profiles"][] =
+                        $p->getId();
 
-                    $eval_modes["gap_" . $p["id"]] =
-                        $lng->txt("svy_gap_analysis") . ": " . $prof->getTitle();
+                    $eval_modes["gap_" . $p->getId()] =
+                        $lng->txt("svy_gap_analysis") . ": " . $p->getTitle();
                 }
             }
         }

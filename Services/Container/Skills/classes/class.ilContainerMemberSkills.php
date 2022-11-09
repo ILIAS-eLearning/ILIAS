@@ -19,6 +19,7 @@
 
 use ILIAS\Skill\Service\SkillTreeService;
 use ILIAS\Skill\Service\SkillProfileService;
+use ILIAS\Skill\Service\SkillPersonalService;
 
 /**
  * Skills of a container
@@ -30,6 +31,7 @@ class ilContainerMemberSkills
     protected ilDBInterface $db;
     protected SkillTreeService $tree_service;
     protected SkillProfileService $profile_service;
+    protected SkillPersonalService $personal_service;
     protected array $skills = [];
     protected int $obj_id = 0;
     protected int $user_id = 0;
@@ -43,6 +45,7 @@ class ilContainerMemberSkills
         $this->db = $DIC->database();
         $this->tree_service = $DIC->skills()->tree();
         $this->profile_service = $DIC->skills()->profile();
+        $this->personal_service = $DIC->skills()->personal();
 
         $this->setObjId($a_obj_id);
         $this->setUserId($a_user_id);
@@ -176,9 +179,9 @@ class ilContainerMemberSkills
             );
 
             if ($sk[1] > 0) {
-                ilPersonalSkill::addPersonalSkill($this->getUserId(), $sk[1]);
+                $this->personal_service->addPersonalSkill($this->getUserId(), $sk[1]);
             } else {
-                ilPersonalSkill::addPersonalSkill($this->getUserId(), $sk[0]);
+                $this->personal_service->addPersonalSkill($this->getUserId(), $sk[0]);
             }
         }
 

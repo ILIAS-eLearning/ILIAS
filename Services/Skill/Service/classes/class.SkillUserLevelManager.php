@@ -32,18 +32,15 @@ class SkillUserLevelManager
     protected \ilSkillObjectAdapterInterface $obj_adapter;
 
     public function __construct(
-        ?\ilSkillLevelRepository $a_level_repo = null,
-        ?\ilSkillUserLevelRepository $a_user_level_repo = null,
-        ?\ilSkillObjectAdapterInterface $a_obj_adapter = null
+        \ilSkillLevelRepository $a_level_repo = null,
+        \ilSkillUserLevelRepository $a_user_level_repo = null,
+        \ilSkillObjectAdapterInterface $a_obj_adapter = null
     ) {
         global $DIC;
 
-        $this->level_repo = ($a_level_repo)
-            ?: $DIC->skills()->internal()->repo()->getLevelRepo();
-        $this->user_level_repo = ($a_user_level_repo)
-            ?: $DIC->skills()->internal()->repo()->getUserLevelRepo();
-        $this->obj_adapter = ($a_obj_adapter)
-            ?: new \ilSkillObjectAdapter();
+        $this->level_repo = ($a_level_repo) ?: $DIC->skills()->internal()->repo()->getLevelRepo();
+        $this->user_level_repo = ($a_user_level_repo) ?: $DIC->skills()->internal()->repo()->getUserLevelRepo();
+        $this->obj_adapter = ($a_obj_adapter) ?: new \ilSkillObjectAdapter();
     }
 
     public function writeSkillLevel(

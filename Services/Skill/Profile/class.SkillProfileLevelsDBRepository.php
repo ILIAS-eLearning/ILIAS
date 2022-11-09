@@ -21,18 +21,27 @@ declare(strict_types=1);
 
 namespace ILIAS\Skill\Profile;
 
+use ILIAS\Skill\Service;
+
 class SkillProfileLevelsDBRepository
 {
     protected \ilDBInterface $db;
+    protected Service\SkillInternalFactoryService $factory_service;
 
-    public function __construct(\ilDBInterface $db = null)
-    {
+    public function __construct(
+        \ilDBInterface $db = null,
+        Service\SkillInternalFactoryService $factory_service = null
+    ) {
         global $DIC;
 
         $this->db = ($db) ?: $DIC->database();
+        $this->factory_service = ($factory_service) ?: $DIC->skills()->internal()->factory();
     }
 
-    public function getProfileLevels(int $profile_id): array
+    /**
+     * @return SkillProfileLevel[]
+     */
+    public function get(int $profile_id): array
     {
         $ilDB = $this->db;
 
@@ -43,58 +52,59 @@ class SkillProfileLevelsDBRepository
 
         $levels = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $levels[] = [
-                "base_skill_id" => (int) $rec["base_skill_id"],
-                "tref_id" => (int) $rec["tref_id"],
-                "level_id" => (int) $rec["level_id"],
-                "order_nr" => (int) $rec["order_nr"]
-            ];
+            $levels[] = $this->getFromRecord($rec);
         }
 
         return $levels;
     }
 
-    public function createProfileLevels(int $profile_id, array $levels): void
+    protected function getFromRecord(array $rec): SkillProfileLevel
+    {
+        $rec["profile_id"] = (int) $rec["profile_id"];
+        $rec["base_skill_id"] = (int) $rec["base_skill_id"];
+        $rec["tref_id"] = (int) $rec["tref_id"];
+        $rec["level_id"] = (int) $rec["level_id"];
+        $rec["order_nr"] = (int) $rec["order_nr"];
+
+        return $this->factory_service->profile()->profileLevel(
+            $rec["profile_id"],
+            $rec["base_skill_id"],
+            $rec["tref_id"],
+            $rec["level_id"],
+            $rec["order_nr"]
+        );
+    }
+
+    public function create(SkillProfileLevel $skill_level_obj): void
     {
         $ilDB = $this->db;
 
-        foreach ($levels as $level) {
-            $ilDB->replace(
-                "skl_profile_level",
-                array("profile_id" => array("integer", $profile_id),
-                      "tref_id" => array("integer", (int) $level["tref_id"]),
-                      "base_skill_id" => array("integer", (int) $level["base_skill_id"])
-                ),
-                array("order_nr" => array("integer", (int) $level["order_nr"]),
-                      "level_id" => array("integer", (int) $level["level_id"])
-                )
-            );
-        }
+        $ilDB->replace(
+            "skl_profile_level",
+            array("profile_id" => array("integer", $skill_level_obj->getProfileId()),
+                  "tref_id" => array("integer", $skill_level_obj->getTrefId()),
+                  "base_skill_id" => array("integer", $skill_level_obj->getBaseSkillId())
+            ),
+            array("order_nr" => array("integer", $skill_level_obj->getOrderNr()),
+                  "level_id" => array("integer", $skill_level_obj->getLevelId())
+            )
+        );
     }
 
-    public function updateProfileLevels(int $profile_id, array $levels): void
+    public function delete(SkillProfileLevel $skill_level_obj): void
     {
         $ilDB = $this->db;
 
         $ilDB->manipulate(
             "DELETE FROM skl_profile_level WHERE " .
-            " profile_id = " . $ilDB->quote($profile_id, "integer")
+            " base_skill_id = " . $ilDB->quote($skill_level_obj->getBaseSkillId(), "integer") .
+            " AND tref_id = " . $ilDB->quote($skill_level_obj->getTrefId(), "integer") .
+            " AND level_id = " . $ilDB->quote($skill_level_obj->getLevelId(), "integer") .
+            " AND order_nr = " . $ilDB->quote($skill_level_obj->getOrderNr(), "integer")
         );
-        foreach ($levels as $level) {
-            $ilDB->replace(
-                "skl_profile_level",
-                array("profile_id" => array("integer", $profile_id),
-                      "tref_id" => array("integer", (int) $level["tref_id"]),
-                      "base_skill_id" => array("integer", (int) $level["base_skill_id"])
-                ),
-                array("order_nr" => array("integer", (int) $level["order_nr"]),
-                      "level_id" => array("integer", (int) $level["level_id"])
-                )
-            );
-        }
     }
 
-    public function deleteProfileLevels(int $profile_id): void
+    public function deleteAll(int $profile_id): void
     {
         $ilDB = $this->db;
 
@@ -144,7 +154,7 @@ class SkillProfileLevelsDBRepository
         }
     }
 
-    public function getMaxLevelOrderNr(int $profile_id): int
+    public function getMaxOrderNr(int $profile_id): int
     {
         $ilDB = $this->db;
 

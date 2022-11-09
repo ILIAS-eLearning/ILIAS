@@ -19,8 +19,8 @@ declare(strict_types=1);
  ********************************************************************
  */
 
-use ILIAS\Skill\Profile\SkillProfileCompletionManager;
-use ILIAS\Skill\Profile\SkillProfileManager;
+use ILIAS\Skill\Profile;
+use ILIAS\Skill\Personal;
 
 /**
  * Handles deletion of (user) objects
@@ -32,8 +32,10 @@ class ilSkillObjDeletionHandler
 {
     protected int $obj_id = 0;
     protected string $obj_type = "";
-    protected SkillProfileManager $profile_manager;
-    protected SkillProfileCompletionManager $profile_completion_manager;
+    protected Profile\SkillProfileManager $profile_manager;
+    protected Profile\SkillProfileCompletionManager $profile_completion_manager;
+    protected Personal\PersonalSkillManager $personal_manager;
+    protected Personal\AssignedMaterialManager $assigned_material_manager;
 
     public function __construct(int $obj_id, string $obj_type)
     {
@@ -43,13 +45,15 @@ class ilSkillObjDeletionHandler
         $this->obj_id = $obj_id;
         $this->profile_manager = $DIC->skills()->internal()->manager()->getProfileManager();
         $this->profile_completion_manager = $DIC->skills()->internal()->manager()->getProfileCompletionManager();
+        $this->personal_manager = $DIC->skills()->internal()->manager()->getPersonalSkillManager();
+        $this->assigned_material_manager = $DIC->skills()->internal()->manager()->getAssignedMaterialManager();
     }
 
     public function processDeletion(): void
     {
         if ($this->obj_type == "usr" && ilObject::_lookupType($this->obj_id) == "usr") {
-            ilPersonalSkill::removeSkills($this->obj_id);
-            ilPersonalSkill::removeMaterials($this->obj_id);
+            $this->personal_manager->removePersonalSkills($this->obj_id);
+            $this->assigned_material_manager->removeAssignedMaterials($this->obj_id);
             $this->profile_manager->removeUserFromAllProfiles($this->obj_id);
             $this->profile_completion_manager->deleteEntriesForUser($this->obj_id);
             ilBasicSkill::removeAllUserData($this->obj_id);

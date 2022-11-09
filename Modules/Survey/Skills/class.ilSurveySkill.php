@@ -31,6 +31,7 @@ class ilSurveySkill
     protected array $q_skill = array();
     protected ilLogger $log;
     protected \ILIAS\Skill\Service\SkillProfileService $skill_profile_service;
+    protected \ILIAS\Skill\Service\SkillPersonalService $skill_personal_service;
 
     public function __construct(ilObjSurvey $a_survey)
     {
@@ -41,6 +42,7 @@ class ilSurveySkill
         $this->read();
         $this->log = ilLoggerFactory::getLogger("svy");
         $this->skill_profile_service = $DIC->skills()->profile();
+        $this->skill_personal_service = $DIC->skills()->personal();
     }
 
     public function read(): void
@@ -379,9 +381,9 @@ class ilSurveySkill
                 );
 
                 if (($nl["tref_id"] ?? 0) > 0) {
-                    ilPersonalSkill::addPersonalSkill($user_id, (int) $nl["tref_id"]);
+                    $this->skill_personal_service->addPersonalSkill($user_id, (int) $nl["tref_id"]);
                 } else {
-                    ilPersonalSkill::addPersonalSkill($user_id, (int) $nl["base_skill_id"]);
+                    $this->skill_personal_service->addPersonalSkill($user_id, (int) $nl["base_skill_id"]);
                 }
             }
         }
@@ -415,9 +417,9 @@ class ilSurveySkill
                 );
 
                 if (($nl["tref_id"] ?? 0) > 0) {
-                    ilPersonalSkill::addPersonalSkill($appr_id, (int) $nl["tref_id"]);
+                    $this->skill_personal_service->addPersonalSkill($appr_id, (int) $nl["tref_id"]);
                 } else {
-                    ilPersonalSkill::addPersonalSkill($appr_id, (int) $nl["base_skill_id"]);
+                    $this->skill_personal_service->addPersonalSkill($appr_id, (int) $nl["base_skill_id"]);
                 }
             }
         }
@@ -446,9 +448,9 @@ class ilSurveySkill
                     );
 
                     if (($nl["tref_id"] ?? 0) > 0) {
-                        ilPersonalSkill::addPersonalSkill($user_id, (int) $nl["tref_id"]);
+                        $this->skill_personal_service->addPersonalSkill($user_id, (int) $nl["tref_id"]);
                     } else {
-                        ilPersonalSkill::addPersonalSkill($user_id, (int) $nl["base_skill_id"]);
+                        $this->skill_personal_service->addPersonalSkill($user_id, (int) $nl["base_skill_id"]);
                     }
                 }
             }

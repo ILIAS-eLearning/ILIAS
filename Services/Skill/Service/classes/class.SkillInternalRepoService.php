@@ -22,6 +22,7 @@ declare(strict_types=1);
 namespace ILIAS\Skill\Service;
 
 use ILIAS\Skill\Profile;
+use ILIAS\Skill\Personal;
 
 /**
  * Skill internal repo service
@@ -74,5 +75,15 @@ class SkillInternalRepoService
     public function getProfileCompletionRepo(): Profile\SkillProfileCompletionDBRepository
     {
         return new Profile\SkillProfileCompletionDBRepository();
+    }
+
+    public function getPersonalSkillRepo(): Personal\PersonalSkillDBRepository
+    {
+        return new Personal\PersonalSkillDBRepository($this->getTreeRepo());
+    }
+
+    public function getAssignedMaterialRepo(): Personal\AssignedMaterialDBRepository
+    {
+        return new Personal\AssignedMaterialDBRepository();
     }
 }

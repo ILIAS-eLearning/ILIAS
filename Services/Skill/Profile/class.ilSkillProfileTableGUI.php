@@ -81,14 +81,40 @@ class ilSkillProfileTableGUI extends ilTable2GUI
         //$this->addCommandButton("", $lng->txt(""));
     }
 
-    public function getProfiles(): array
+    protected function getProfiles(): array
     {
-        return $this->profile_manager->getProfilesForAllSkillTrees();
+        // convert profiles to array structure, because tables can only handle arrays
+        $profiles = $this->profile_manager->getProfilesForAllSkillTrees();
+        $profiles_array = [];
+        foreach ($profiles as $profile) {
+            $profiles_array[] = [
+                "id" => $profile->getId(),
+                "title" => $profile->getTitle(),
+                "description" => $profile->getDescription(),
+                "skill_tree_id" => $profile->getSkillTreeId(),
+                "image_id" => $profile->getImageId(),
+                "ref_id" => $profile->getRefId()
+            ];
+        }
+        return $profiles_array;
     }
 
-    public function getProfilesForSkillTree(int $a_skill_tree_id): array
+    protected function getProfilesForSkillTree(int $a_skill_tree_id): array
     {
-        return $this->profile_manager->getProfilesForSkillTree($a_skill_tree_id);
+        // convert profiles to array structure, because tables can only handle arrays
+        $profiles = $this->profile_manager->getProfilesForSkillTree($a_skill_tree_id);
+        $profiles_array = [];
+        foreach ($profiles as $profile) {
+            $profiles_array[] = [
+                "id" => $profile->getId(),
+                "title" => $profile->getTitle(),
+                "description" => $profile->getDescription(),
+                "skill_tree_id" => $profile->getSkillTreeId(),
+                "image_id" => $profile->getImageId(),
+                "ref_id" => $profile->getRefId()
+            ];
+        }
+        return $profiles_array;
     }
 
     protected function fillRow(array $a_set): void

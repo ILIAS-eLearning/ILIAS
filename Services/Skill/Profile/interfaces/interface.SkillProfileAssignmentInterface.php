@@ -19,14 +19,16 @@ declare(strict_types=1);
  ********************************************************************
  */
 
+namespace ILIAS\Skill\Profile;
+
 /**
- * ilSkillEval class
- *
- * @author Alex Killing <killing@gmx.de>
+ * @author famula@leifos.de
  */
-class ilSkillEval
+interface SkillProfileAssignmentInterface
 {
-    public const TYPE_APPRAISAL = 1;
-    public const TYPE_MEASUREMENT = 2;
-    public const TYPE_SELF_EVAL = 3;
+    public function getType(): string;
+
+    public function getName(): string;
+
+    public function getId(): int;
 }

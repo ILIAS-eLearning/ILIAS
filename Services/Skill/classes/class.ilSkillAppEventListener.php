@@ -34,6 +34,7 @@ class ilSkillAppEventListener implements ilAppEventListener
         global $DIC;
 
         $profile_completion_manager = $DIC->skills()->internal()->manager()->getProfileCompletionManager();
+        $personal_manager = $DIC->skills()->internal()->manager()->getPersonalSkillManager();
 
         switch ($a_component) {
             case 'Services/Tracking':
@@ -52,9 +53,9 @@ class ilSkillAppEventListener implements ilAppEventListener
                                     );
 
                                     if ($sk["tref_id"] > 0) {
-                                        ilPersonalSkill::addPersonalSkill($usr_id, $sk["tref_id"]);
+                                        $personal_manager->addPersonalSkill($usr_id, $sk["tref_id"]);
                                     } else {
-                                        ilPersonalSkill::addPersonalSkill($usr_id, $sk["base_skill_id"]);
+                                        $personal_manager->addPersonalSkill($usr_id, $sk["base_skill_id"]);
                                     }
                                 }
                             }

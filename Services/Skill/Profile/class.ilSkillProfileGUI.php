@@ -131,7 +131,7 @@ class ilSkillProfileGUI
         }
 
         if ($this->id > 0) {
-            $this->profile = $this->profile_manager->getById($this->id);
+            $this->profile = $this->profile_manager->getProfile($this->id);
             if ($this->skill_tree_id == 0) {
                 $this->skill_tree_id = $this->profile->getSkillTreeId();
             }
@@ -388,7 +388,7 @@ class ilSkillProfileGUI
                 $tpl->setContent($this->ui_ren->render($form));
                 return;
             }
-            $profile = $this->skill_factory->profile(
+            $profile = $this->skill_factory->profile()->profile(
                 0,
                 $result["section_basic"]["title"],
                 $result["section_basic"]["description"],
@@ -422,7 +422,7 @@ class ilSkillProfileGUI
                 $tpl->setContent($this->ui_ren->render($form));
                 return;
             }
-            $profile = $this->skill_factory->profile(
+            $profile = $this->skill_factory->profile()->profile(
                 0,
                 $result["section_basic"]["title"],
                 $result["section_basic"]["description"],
@@ -460,7 +460,7 @@ class ilSkillProfileGUI
                 $tpl->setContent($this->ui_ren->render($form));
                 return;
             }
-            $profile = $this->skill_factory->profile(
+            $profile = $this->skill_factory->profile()->profile(
                 $this->profile->getId(),
                 $result["section_basic"]["title"],
                 $result["section_basic"]["description"],
@@ -672,13 +672,14 @@ class ilSkillProfileGUI
 
         $parts = explode(":", $this->requested_cskill_id);
 
-        $this->profile->addSkillLevel(
+        $level = $this->skill_factory->profile()->profileLevel(
+            $this->profile->getId(),
             (int) $parts[0],
             (int) $parts[1],
             $this->requested_level_id,
             $this->profile_manager->getMaxLevelOrderNr($this->profile->getId()) + 10
         );
-        $this->profile_manager->updateProfile($this->profile);
+        $this->profile_manager->addSkillLevel($level);
 
         // profile completion check because of profile editing
         $this->checkProfileCompletionForAllAssignedUsers();
@@ -747,9 +748,15 @@ class ilSkillProfileGUI
         if (!empty($this->requested_level_ass_ids)) {
             foreach ($this->requested_level_ass_ids as $i) {
                 $id_arr = explode(":", $i);
-                $this->profile->removeSkillLevel((int) $id_arr[0], (int) $id_arr[1], (int) $id_arr[2], (int) $id_arr[3]);
+                $level = $this->skill_factory->profile()->profileLevel(
+                    $this->profile->getId(),
+                    (int) $id_arr[0],
+                    (int) $id_arr[1],
+                    (int) $id_arr[2],
+                    (int) $id_arr[3]
+                );
+                $this->profile_manager->removeSkillLevel($level);
             }
-            $this->profile_manager->updateProfile($this->profile);
             $this->profile_manager->fixSkillOrderNumbering($this->profile->getId());
         }
 

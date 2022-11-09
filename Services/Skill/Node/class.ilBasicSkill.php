@@ -546,7 +546,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         int $a_object_id,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ): ?int {
+    ): int {
         if ($a_user_id == 0) {
             $a_user_id = $this->user->getId();
         }
@@ -566,7 +566,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         int $a_object_id,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ): ?string {
+    ): string {
         if ($a_user_id == 0) {
             $a_user_id = $this->user->getId();
         }
