@@ -590,7 +590,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         // generate the question output
         $template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output.html", true, true, "Modules/TestQuestionPool");
 
-        if ($this->getQuestionActionCmd() && strlen($this->getTargetGuiClass())) {
+        if ($this->getQuestionActionCmd() && !is_null($this->getTargetGuiClass())) {
             $hrefArea = $this->ctrl->getLinkTargetByClass($this->getTargetGuiClass(), $this->getQuestionActionCmd());
         } else {
             $hrefArea = null;
