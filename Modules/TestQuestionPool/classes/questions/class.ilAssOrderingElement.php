@@ -154,7 +154,7 @@ class ilAssOrderingElement
     /**
      * @return integer $random_identifier
      */
-    public function getRandomIdentifier(): ?int
+    public function getRandomIdentifier(): string
     {
         return $this->random_identifier;
     }
@@ -232,9 +232,6 @@ class ilAssOrderingElement
         $this->content = $content;
     }
 
-    /**
-     * @return string
-     */
     public function getUploadImageFile(): ?string
     {
         return $this->uploadImageFile;
@@ -245,6 +242,9 @@ class ilAssOrderingElement
      */
     public function setUploadImageFile($uploadImageFile): void
     {
+        if (is_array($uploadImageFile)) {
+            $uploadImageFile = array_shift($uploadImageFile);
+        }
         $this->uploadImageFile = $uploadImageFile;
     }
 
@@ -261,6 +261,9 @@ class ilAssOrderingElement
      */
     public function setUploadImageName($uploadImageName): void
     {
+        if (is_array($uploadImageName)) {
+            $uploadImageName = array_shift($uploadImageName);
+        }
         $this->uploadImageName = $uploadImageName;
     }
 
