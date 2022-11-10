@@ -361,7 +361,7 @@ abstract class assQuestionGUI
         $this->targetGuiClass = $targetGuiClass;
     }
 
-    public function getTargetGuiClass(): string
+    public function getTargetGuiClass(): ?string
     {
         return $this->targetGuiClass;
     }
