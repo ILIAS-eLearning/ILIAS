@@ -295,7 +295,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 
     protected function fetchSubmittedFileUploadProperty($fileUpload, $property)
     {
-        if (!isset($fileUpload[$property]) || !strlen($fileUpload[$property])) {
+        if (!array_key_exists($property, $fileUpload)) {
             return null;
         }
 
