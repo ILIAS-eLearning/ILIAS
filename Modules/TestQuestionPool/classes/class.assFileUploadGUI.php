@@ -238,7 +238,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
             $files = ($show_manual_scoring) ? $this->object->getUploadedFilesForWeb($active_id, $pass) : $this->object->getUploadedFiles($active_id, $pass);
             include_once "./Modules/TestQuestionPool/classes/tables/class.assFileUploadFileTableGUI.php";
-            $table_gui = new assFileUploadFileTableGUI($this->getTargetGuiClass(), 'gotoquestion');
+            $table_gui = new assFileUploadFileTableGUI($this, 'gotoquestion');
             $table_gui->setTitle(
                 $this->lng->txt('already_delivered_files'),
                 'icon_file.svg',
