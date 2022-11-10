@@ -672,7 +672,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
                     break;
 
                 case "status":
-                    if ($value) {
+                    if (!is_null($value) && $value !== "") {
                         $result[$id] = $value;
                     }
                     break;

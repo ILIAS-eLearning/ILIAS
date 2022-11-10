@@ -181,7 +181,6 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
                 $check_agreement = $this->in_group;
             }
         }
-
         $tr_data = ilTrQuery::getUserDataForObject(
             $this->ref_id,
             ilUtil::stripSlashes($this->getOrderField()),
@@ -193,7 +192,6 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
             $check_agreement,
             $this->user_fields
         );
-
         if (count($tr_data["set"]) == 0 && $this->getOffset() > 0) {
             $this->resetOffset();
             $tr_data = ilTrQuery::getUserDataForObject(
