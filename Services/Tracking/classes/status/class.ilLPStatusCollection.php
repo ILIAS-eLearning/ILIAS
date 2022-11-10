@@ -128,7 +128,8 @@ class ilLPStatusCollection extends ilLPStatus
                     if ($isGrouping) {
                         // Iterated through all grouped items and count the number of fullfiled items
                         foreach ($tmp_users as $tmp_user_id) {
-                            ++$grouping_completed_users_num[$tmp_user_id];
+                            $grouping_completed_users_num[$tmp_user_id] =
+                                ($grouping_completed_users_num[$tmp_user_id] ?? 0) + 1;
                         }
                     } elseif (!$counter++) {
                         $users = $tmp_users;
