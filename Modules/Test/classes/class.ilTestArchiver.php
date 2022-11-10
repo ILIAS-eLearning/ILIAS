@@ -43,8 +43,7 @@ class ilTestArchiver
     public const PDF_BEST_SOLUTION_FILENAME = 'best_solution.pdf';
     public const TEST_MATERIALS_PATH_COMPONENT = 'materials';
 
-    public const TEST_RESULT_FILENAME = 'test_result_v';
-    public const TEST_RESULT_POSTFIX = '.pdf';
+    protected const TEST_RESULT_FILENAME = 'test_result.pdf';
 
     public const TEST_OVERVIEW_PDF_FILENAME = 'results_overview_html_v';
     public const TEST_OVERVIEW_PDF_POSTFIX = '.pdf';
@@ -297,9 +296,7 @@ class ilTestArchiver
     {
         $this->ensureTestArchiveIsAvailable();
         $this->ensurePassDataDirectoryIsAvailable($active_fi, $pass);
-        $new_path = $this->getPassDataDirectory($active_fi, $pass) . self::DIR_SEP
-            . self::TEST_RESULT_FILENAME . ($this->countFilesInDirectory($this->getPassDataDirectory($active_fi, $pass), self::TEST_RESULT_FILENAME))
-            . self::TEST_RESULT_POSTFIX;
+        $new_path = $this->getPassDataDirectory($active_fi, $pass) . self::DIR_SEP . self::TEST_RESULT_FILENAME;
         copy($pdf_path, $new_path);
         $this->logArchivingProcess(date(self::LOG_DTSGROUP_FORMAT) . self::LOG_ADDITION_STRING . $new_path);
     }
