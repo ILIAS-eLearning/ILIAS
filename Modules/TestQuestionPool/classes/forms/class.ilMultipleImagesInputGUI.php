@@ -387,7 +387,9 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
      */
     protected function valueHasContentImageSource($value): bool
     {
-        return isset($value['src']) && strlen($value['src']);
+        return is_array($value)
+            && array_key_exists('src', $value)
+            && strlen($value['src']);
     }
 
     /**
