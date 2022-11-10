@@ -421,7 +421,7 @@ class ilObjectLP
         ;
         $result = $this->db->query($sql);
         while ($row = $this->db->fetchAssoc($result)) {
-            if (in_array(ilObject::_lookupType($row["obj_id"]), array("crs", "grp", "fold"))) {
+            if (in_array(ilObject::_lookupType((int) $row["obj_id"]), array("crs", "grp", "fold"))) {
                 // remove from parent collection
                 $sql =
                     "DELETE FROM ut_lp_collections" . PHP_EOL
@@ -430,7 +430,7 @@ class ilObjectLP
                 ;
                 $this->db->manipulate($sql);
 
-                ilLPStatusWrapper::_refreshStatus($row["obj_id"]);
+                ilLPStatusWrapper::_refreshStatus((int) $row["obj_id"]);
             }
         }
     }
