@@ -53,7 +53,7 @@ class ilLPStatusSurveyFinished extends ilLPStatus
             " WHERE obj_fi = " . $ilDB->quote($a_obj_id)
         );
         $row = $ilDB->fetchAssoc($set);
-        return (int) $row["survey_id"];
+        return (int) ($row["survey_id"] ?? 0);
     }
 
     public static function getParticipants(
