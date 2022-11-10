@@ -1,6 +1,6 @@
 <?php
 
-class ilArtifactEventHandlingData implements ilEventHandlingData
+class ilArtifactEventHandlingData
 {
     public const EVENT_HANDLING_DATA_PATH = "Services/EventHandling/artifacts/event_handling_data.php";
 
@@ -11,50 +11,56 @@ class ilArtifactEventHandlingData implements ilEventHandlingData
         $this->event_handling_data = $this->readEventHandlingData();
     }
 
+    /**
+     * Read the event data stored in the artifact
+     * @return array
+     */
     protected function readEventHandlingData() : array
     {
         return require self::EVENT_HANDLING_DATA_PATH;
     }
 
+    /**
+     * Check if an event exists
+     */
     public function hasEvent(string $component, string $type, string $type_specification) : bool
     {
-        $has_event = false;
-        foreach ($this->event_handling_data AS $event_key => $event_values)
-        {
-            $same_component             = ($event_values["component"] == $component) ? true : false;
-            $same_type                  = ($event_values["type"] == $type) ? true : false;
-            $same_type_specification    = ($event_values["type_specification"] == $type_specification) ? true : false;
-            if($same_component && $same_type && $same_type_specification)
-            {
-                $has_event = true;
-            }
-        }
-        return $has_event;
+        return in_array(
+            [
+                "component"             => $component,
+                "type"                  => $type,
+                "type_specification"    => $type_specification
+            ],
+            $this->event_handling_data,
+            true
+        );
     }
 
+    /**
+     * Get the event with the given component, type and type specification
+     * @throws \InvalidArgumentException if event does not exist
+     */
     public function getEvent(string $component, string $type, string $type_specification) : array
     {
-        $event = NULL;
-        foreach ($this->event_handling_data AS $event_key => $event_values)
+        if($this->hasEvent($component, $type, $type_specification))
         {
-            $same_component             = ($event_values["component"] == $component) ? true : false;
-            $same_type                  = ($event_values["type"] == $type) ? true : false;
-            $same_type_specification    = ($event_values["type_specification"] == $type_specification) ? true : false;
-            if($same_component && $same_type && $same_type_specification)
-            {
-                $event = $event_values;
-            }
+            return [
+                "component"             => $component,
+                "type"                  => $type,
+                "type_specification"    => $type_specification
+            ];
         }
-        if($event == NULL)
-        {
-            throw new \InvalidArgumentException(
-                "There is no event with the component \"" . $component . "\", type \"" . $type
-                . "\" and type specification \"" . $type_specification . "\"."
-            );
-        }
-        return $event_values;
+
+        throw new \InvalidArgumentException(
+            "There is no event with the component \"" . $component . "\", type \"" . $type
+            . "\" and type specification \"" . $type_specification . "\"."
+        );
     }
 
+    /**
+     * Get all events of the given type
+     * @throws \InvalidArgumentException if no events of this type exist
+     */
     public function getEventsByType(string $type) : Iterator
     {
         foreach ($this->event_handling_data AS $event_key => $event_values)
@@ -64,20 +70,5 @@ class ilArtifactEventHandlingData implements ilEventHandlingData
                 yield $this->event_handling_data[$event_key];
             }
         }
-    }
-
-    public function getEventComponent(string $id) : string
-    {
-        return $this->event_handling_data[$id]["component"];
-    }
-
-    public function getEventType(string $id) : string
-    {
-        return $this->event_handling_data[$id]["type"];
-    }
-
-    public function getEventTypeSpecification(string $id) : string
-    {
-        return $this->event_handling_data[$id]["type_specification"];
     }
 }
