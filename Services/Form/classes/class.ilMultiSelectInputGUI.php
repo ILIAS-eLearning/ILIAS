@@ -84,11 +84,14 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
     }
 
     /**
-     * @param string[]
+     * @param mixed
      */
-    public function setValue(array $a_array): void
+    public function setValue($a_array): void
     {
-        $this->value = $a_array;
+        $this->value = [];
+        if (is_array($a_array)) {
+            $this->value = $a_array;
+        }
     }
 
     /**
