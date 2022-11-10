@@ -73,7 +73,7 @@ class ilAssOrderingElement
      * the correct position in the ordering sequence
      * @var integer $position
      */
-    protected ?int $position = null;
+    protected $position = null;
 
     /**
      * @var string $content
