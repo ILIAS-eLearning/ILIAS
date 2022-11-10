@@ -81,17 +81,6 @@ class ilEventHandlingDefinitionProcessor implements ilComponentDefinitionProcess
 
     public function hasDataEntryForEvent($event) : bool
     {
-        $has_entry = false;
-        foreach ($this->data AS $entry_key => $entry_values)
-        {
-            $same_component             = ($entry_values["component"] == $event["component"]) ? true : false;
-            $same_type                  = ($entry_values["type"] == $event["type"]) ? true : false;
-            $same_type_specification    = ($entry_values["type_specification"] == $event["type_specification"]) ? true : false;
-            if($same_component && $same_type && $same_type_specification)
-            {
-                $has_entry = true;
-            }
-        }
-        return $has_entry;
+        return in_array($event, $this->data, true);
     }
 }

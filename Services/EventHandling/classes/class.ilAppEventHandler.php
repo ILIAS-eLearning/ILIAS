@@ -47,10 +47,11 @@ declare(strict_types=1);
  */
 class ilAppEventHandler
 {
-    protected array $listener;
+    protected array $listener = [];
     protected ilLogger $logger;
     protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;
+    private ilArtifactEventHandlingData $event_handling_data;
 
     public function __construct()
     {
@@ -66,23 +67,11 @@ class ilAppEventHandler
 
     protected function initListeners(): void
     {
-        $ilGlobalCache = ilGlobalCache::getInstance(ilGlobalCache::COMP_EVENTS);
-        $cached_listeners = $ilGlobalCache->get('listeners');
-        if (is_array($cached_listeners)) {
-            $this->listener = $cached_listeners;
-
-            return;
-        }
-
-        $this->listener = array();
-
         $listener_events = $this->event_handling_data->getEventsByType("listen");
         foreach ($listener_events AS $event_key => $event_value)
         {
             $this->listener[$event_value["type_specification"]][] = $event_value["component"];
         }
-
-        $ilGlobalCache->set('listeners', $this->listener);
     }
 
     /**
