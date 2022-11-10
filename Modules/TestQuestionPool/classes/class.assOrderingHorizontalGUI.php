@@ -147,7 +147,8 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         if (($active_id > 0) && (!$show_correct_solution)) {
             $elements = [];
             $solutions = $this->object->getSolutionValues($active_id, $pass);
-            if (strlen($solutions[0]["value1"])) {
+
+            if (count($solutions) && strlen($solutions[0]["value1"])) {
                 $elements = explode("{::}", $solutions[0]["value1"]);
             }
 
