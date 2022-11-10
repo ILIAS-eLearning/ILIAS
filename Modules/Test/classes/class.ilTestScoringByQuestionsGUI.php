@@ -308,7 +308,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         if ($ajax && is_array($correction_feedback)) {
             $finalized_by_usr_id = $correction_feedback['finalized_by_usr_id'];
             if (! $finalized_by_usr_id) {
-                $finalized_by_usr_id = $DIC['ilUser']->getid();
+                $finalized_by_usr_id = $DIC['ilUser']->getId();
             }
             $correction_feedback['finalized_by'] = ilObjUser::_lookupFullname($finalized_by_usr_id);
             $correction_feedback['finalized_on_date'] = '';
