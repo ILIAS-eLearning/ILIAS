@@ -34,9 +34,9 @@ class ilAssOrderingElement
 
     /**
      * this identifier equals the database's row id
-     * @var integer
+     * @var integer $id
      */
-    public int $id;
+    public $id;
 
     /**
      * this identifier is generated randomly
@@ -44,8 +44,10 @@ class ilAssOrderingElement
      *
      * the main purpose is to have a key that does not make the solution
      * derivable and is therefore useable in the examines working form
+     *
+     * @var integer $random_identifier
      */
-    protected ?int $random_identifier = null;
+    protected $random_identifier = null;
 
     /**
      * this identifier is used to identify elements and is stored
@@ -56,24 +58,52 @@ class ilAssOrderingElement
      *
      * it is an integer sequence starting at 0 that increments
      * with every added element while obsolete numbers are not recycled
+     *
+     * @var integer $solution_identifier
      */
-    protected ?int $solution_identifier = null;
+    protected $solution_identifier = null;
 
     /**
      * the correct width of indentation for the element
+     * @var integer $indentation
      */
-    protected int $indentation = 0;
+    protected $indentation = 0;
 
     /**
      * the correct position in the ordering sequence
+     * @var integer $position
      */
     protected ?int $position = null;
-    protected ?string $content = null;
-    protected ?string $uploadImageName = null;
-    protected ?string $uploadImageFile = null;
-    protected bool $imageRemovalRequest = false;
-    protected ?string $imagePathWeb = null;
-    protected ?string $imagePathFs = null;
+
+    /**
+     * @var string $content
+     */
+    protected $content = null;
+
+    /**
+     * @var string $uploadImageName
+     */
+    protected $uploadImageName = null;
+
+    /**
+     * @var string $upploadImageFile
+     */
+    protected $uploadImageFile = null;
+
+    /**
+     * @var bool $imageRemovalRequest
+     */
+    protected $imageRemovalRequest = false;
+
+    /**
+     * @var string $imagePathWeb
+     */
+    protected $imagePathWeb = null;
+
+    /**
+     * @var string $imagePathFs
+     */
+    protected $imagePathFs = null;
     protected $imageThumbnailPrefix = null;
 
     /**
