@@ -1,5 +1,22 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Class represents an ordering element for assOrderingQuestion
@@ -19,7 +36,7 @@ class ilAssOrderingElement
      * this identifier equals the database's row id
      * @var integer
      */
-    public $id;
+    public int $id;
 
     /**
      * this identifier is generated randomly
@@ -27,10 +44,8 @@ class ilAssOrderingElement
      *
      * the main purpose is to have a key that does not make the solution
      * derivable and is therefore useable in the examines working form
-     *
-     * @var integer
      */
-    protected $random_identifier = null;
+    protected ?int $random_identifier = null;
 
     /**
      * this identifier is used to identify elements and is stored
@@ -41,58 +56,24 @@ class ilAssOrderingElement
      *
      * it is an integer sequence starting at 0 that increments
      * with every added element while obsolete numbers are not recycled
-     *
-     * @var integer
      */
-    protected $solution_identifier = null;
+    protected ?int $solution_identifier = null;
 
     /**
      * the correct width of indentation for the element
-     *
-     * @var integer
      */
-    protected $indentation = 0;
+    protected int $indentation = 0;
 
     /**
      * the correct position in the ordering sequence
-     *
-     * @var integer
      */
-    protected $position = null;
-
-    /**
-     * @var string
-     */
-    protected $content = null;
-
-    /**
-     * @var string
-     */
-    protected $uploadImageName = null;
-
-    /**
-     * @var string
-     */
-    protected $uploadImageFile = null;
-
-    /**
-     * @var bool
-     */
-    protected $imageRemovalRequest = null;
-
-    /**
-     * @var string
-     */
-    protected $imagePathWeb = null;
-
-    /**
-     * @var string
-     */
-    protected $imagePathFs = null;
-
-    /**
-     * @var null
-     */
+    protected ?int $position = null;
+    protected ?string $content = null;
+    protected ?string $uploadImageName = null;
+    protected ?string $uploadImageFile = null;
+    protected bool $imageRemovalRequest = false;
+    protected ?string $imagePathWeb = null;
+    protected ?string $imagePathFs = null;
     protected $imageThumbnailPrefix = null;
 
     /**
@@ -112,42 +93,27 @@ class ilAssOrderingElement
         $this->objectInstanceId = ++self::$objectInstanceCounter;
     }
 
-    /**
-     * @return ilAssOrderingElement
-     */
-    public function getClone()
+    public function getClone() : ilAssOrderingElement
     {
         return clone $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId($id)
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return integer $random_identifier
-     */
-    public function getRandomIdentifier() : string
+    public function getRandomIdentifier() : int
     {
         return $this->random_identifier;
     }
 
-    /**
-     * @param $random_identifier
-     */
-    public function setRandomIdentifier($random_identifier)
+    public function setRandomIdentifier(int $random_identifier) : void
     {
         $this->random_identifier = $random_identifier;
     }
@@ -379,7 +345,7 @@ class ilAssOrderingElement
 
     protected function thumbnailFileExists()
     {
-        if (!strlen($this->getContent())) {
+        if (!$this->getContent()) {
             return false;
         }
 
@@ -398,7 +364,7 @@ class ilAssOrderingElement
 
     protected function imageFileExists()
     {
-        if (!strlen($this->getContent())) {
+        if (!$this->getContent()) {
             return false;
         }
 
