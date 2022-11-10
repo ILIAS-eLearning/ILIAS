@@ -973,14 +973,13 @@ abstract class assQuestion
 
         $obligationsAnswered = (int) $row['obligations_answered'];
 
-        $percentage = (!$max) ? 0 : ($reached / $max) * 100.0;
+        $percentage = ($max <= 0.0 || $reached <= 0.0) ? 0 : ($reached / $max) * 100.0;
 
         $mark = ASS_MarkSchema::_getMatchingMarkFromActiveId($active_id, $percentage);
 
-        $isPassed = ($mark["passed"] ? 1 : 0);
-        $isFailed = (!$mark["passed"] ? 1 : 0);
+        $isPassed = isset($mark["passed"]) && $mark["passed"];
 
-        $userTestResultUpdateCallback = function () use ($ilDB, $active_id, $pass, $max, $reached, $isFailed, $isPassed, $obligationsAnswered, $row, $mark) {
+        $userTestResultUpdateCallback = function () use ($ilDB, $active_id, $pass, $max, $reached, $isPassed, $obligationsAnswered, $row, $mark) {
             $passedOnceBefore = 0;
             $query = "SELECT passed_once FROM tst_result_cache WHERE active_fi = %s";
             $res = $ilDB->queryF($query, array('integer'), array($active_id));
@@ -1004,11 +1003,11 @@ abstract class assQuestion
                 'pass' => array('integer', strlen($pass) ? $pass : 0),
                 'max_points' => array('float', strlen($max) ? $max : 0),
                 'reached_points' => array('float', strlen($reached) ? $reached : 0),
-                'mark_short' => array('text', strlen($mark["short_name"]) ? $mark["short_name"] : " "),
-                'mark_official' => array('text', strlen($mark["official_name"]) ? $mark["official_name"] : " "),
+                'mark_short' => array('text', strlen($mark["short_name"] ?? '') ? $mark["short_name"] : " "),
+                'mark_official' => array('text', strlen($mark["official_name"] ?? '') ? $mark["official_name"] : " "),
                 'passed_once' => array('integer', $passedOnce),
-                'passed' => array('integer', $isPassed),
-                'failed' => array('integer', $isFailed),
+                'passed' => array('integer', (int) $isPassed),
+                'failed' => array('integer', (int) !$isPassed),
                 'tstamp' => array('integer', time()),
                 'hint_count' => array('integer', $row['hint_count']),
                 'hint_points' => array('float', $row['hint_points']),
