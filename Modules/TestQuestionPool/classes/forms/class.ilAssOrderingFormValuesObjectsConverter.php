@@ -256,14 +256,18 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 
         $position = 0;
 
+        if (array_key_exists('content', $values)) {
+            $values = $values['content'];
+        }
         foreach ($values as $identifier => $value) {
             $element = new ilAssOrderingElement();
+
             $element->setRandomIdentifier($identifier);
 
             $element->setPosition($position++);
 
             if ($this->getContext() == self::CONTEXT_MAINTAIN_HIERARCHY) {
-                $element->setIndentation($value);
+                $element->setIndentation(0);
             } else {
                 $element->setContent($value);
             }
