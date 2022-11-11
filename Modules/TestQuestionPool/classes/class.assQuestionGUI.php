@@ -753,7 +753,6 @@ abstract class assQuestionGUI
 
                     $this->ctrl->setParameter($this, 'q_id', $new_id);
                     $this->ctrl->setParameter($this, 'calling_test', $this->request->raw("calling_test"));
-                    #$this->ctrl->setParameter($this, 'test_ref_id', false);
                 }
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 $this->ctrl->redirect($this, 'editQuestion');
