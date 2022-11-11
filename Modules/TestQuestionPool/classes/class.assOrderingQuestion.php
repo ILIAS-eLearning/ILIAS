@@ -350,7 +350,11 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
             foreach ($this->getOrderingElementList() as $element) {
                 $filename = $element->getContent();
-                //if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
+
+                if ($filename === '') {
+                    continue;
+                }
+
                 if (!copy($imagepath_original . $filename, $imagepath . $filename)) {
                     $ilLog->write("image could not be duplicated!!!!");
                     $ilLog->write($imagepath_original . $filename);
@@ -937,7 +941,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         );
 
         $ilDB->manipulateF(
-            "INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, ordering_type, thumb_geometry, element_height) 
+            "INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, ordering_type, thumb_geometry, element_height)
                             VALUES (%s, %s, %s, %s)",
             array( "integer", "text", "integer", "integer" ),
             array(
