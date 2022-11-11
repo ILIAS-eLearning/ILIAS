@@ -1144,7 +1144,8 @@ s     */
         bool $a_append_mobs = false,
         bool $a_append_bib = false,
         string $a_append_str = "",
-        bool $a_omit_pageobject_tag = false
+        bool $a_omit_pageobject_tag = false,
+        int $style_id = 0
     ): string {
         if ($a_incl_head) {
             //echo "\n<br>#".$this->encoding."#";
@@ -1161,7 +1162,7 @@ s     */
                     // deprecated
                     //					$bibs = $this->getBibliographyXML();
                 }
-                $trans = $this->getLanguageVariablesXML();
+                $trans = $this->getLanguageVariablesXML($style_id);
                 //echo htmlentities($this->dom->dump_node($this->node)); exit;
                 return "<dummy>" . $this->dom->dump_node($this->node) . $mobs . $bibs . $trans . $a_append_str . "</dummy>";
             } else {
@@ -1191,7 +1192,7 @@ s     */
     /**
      * Get language variables as XML
      */
-    public function getLanguageVariablesXML(): string
+    public function getLanguageVariablesXML(int $style_id = 0): string
     {
         $xml = "<LVs>";
         $lang_vars = array(
@@ -1243,10 +1244,34 @@ s     */
             }
         }
 
+        // workaround for #30561, should go to characteristic manager
+        $dummy_pc = new ilPCSectionGUI($this, null, "");
+        $dummy_pc->setStyleId($style_id);
+        foreach (["section", "table", "flist_li", "list_u", "list_o",
+                  "table", "table_cell"] as $type) {
+            $dummy_pc->getCharacteristicsOfCurrentStyle($type);
+            foreach ($dummy_pc->getCharacteristics() as $char => $txt) {
+                $xml .= "<LV name=\"char_" . $type . "_" . $char . "\" value=\"" . $txt . "\"/>";
+            }
+        }
+        $type = "media_cont";
+        $dummy_pc = new ilPCMediaObjectGUI($this, null, "");
+        $dummy_pc->setStyleId($style_id);
+        $dummy_pc->getCharacteristicsOfCurrentStyle($type);
+        foreach ($dummy_pc->getCharacteristics() as $char => $txt) {
+            $xml .= "<LV name=\"char_" . $type . "_" . $char . "\" value=\"" . $txt . "\"/>";
+        }
+        foreach (["text_block", "heading1", "heading2", "heading3"] as $type) {
+            $dummy_pc = new ilPCParagraphGUI($this, null, "");
+            $dummy_pc->setStyleId($style_id);
+            $dummy_pc->getCharacteristicsOfCurrentStyle($type);
+            foreach ($dummy_pc->getCharacteristics() as $char => $txt) {
+                $xml .= "<LV name=\"char_" . $type . "_" . $char . "\" value=\"" . $txt . "\"/>";
+            }
+        }
         foreach ($lang_vars as $lang_var) {
             $xml .= $this->getLangVarXML($lang_var);
         }
-
         $xml .= "</LVs>";
         return $xml;
     }
