@@ -1261,7 +1261,7 @@ abstract class assQuestionGUI
                 $template->parseCurrentBlock();
             } elseif ((strcmp($solution_array["type"], "file") == 0) &&
                 array_key_exists('value', $solution_array) && is_array($solution_array["value"])) {
-                $href = $this->object->getSuggestedSolutionPathWeb() . $solution_array["value"]["name"];
+                $href = $this->object->getSuggestedSolutionPathWeb() . ($solution_array["value"]["name"] ?? "");
                 $template->setCurrentBlock("preview");
                 $template->setVariable("TEXT_SOLUTION", $this->lng->txt("suggested_solution"));
                 $template->setVariable("VALUE_SOLUTION", " <a href=\"$href\" target=\"content\">" . ilLegacyFormElementsUtil::prepareFormOutput(
