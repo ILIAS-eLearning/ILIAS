@@ -98,6 +98,11 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         $this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_CSV));
     }
 
+    protected function isForwardingToFormDispatcher(): bool
+    {
+        return true;
+    }
+
     public function getSelectableColumns(): array
     {
         $columns = [];

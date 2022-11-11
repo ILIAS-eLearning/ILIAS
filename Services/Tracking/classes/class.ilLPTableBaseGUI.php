@@ -347,13 +347,18 @@ class ilLPTableBaseGUI extends ilTable2GUI
         return true;
     }
 
+    protected function isForwardingToFormDispatcher(): bool
+    {
+        return false;
+    }
+
     protected function initRepositoryFilter(array $filter): array
     {
         $repo = new ilRepositorySelector2InputGUI(
             $this->lng->txt('trac_filter_area'),
             'effective_from',
             false,
-            $this
+            ($this->isForwardingToFormDispatcher()) ? $this : null
         );
         $white_list = [];
         foreach ($this->objDefinition->getAllRepositoryTypes() as $type) {
