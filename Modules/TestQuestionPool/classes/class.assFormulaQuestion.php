@@ -415,7 +415,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                 if ($result_output) {
                     $template = new ilTemplate("tpl.il_as_qpl_formulaquestion_output_solution_result.html", true, true, 'Modules/TestQuestionPool');
 
-                    if (is_array($userdata) && array_key_exists($resObj->getResult(), $userdata)) {
+                    if (is_array($userdata) &&
+                        array_key_exists($resObj->getResult(), $userdata) &&
+                        array_key_exists('value', $userdata[$resObj->getResult()])) {
                         $found = $resObj->getResultInfo(
                             $this->getVariables(),
                             $this->getResults(),
