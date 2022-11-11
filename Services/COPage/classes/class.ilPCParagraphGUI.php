@@ -25,7 +25,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
     * Constructor
     * @access	public
     */
-    public function __construct($a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
+    public function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
     {
         global $DIC;
 
@@ -119,7 +119,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
 
         if ($a_style_id > 0 &&
             ilObject::_lookupType($a_style_id) == "sty") {
-            include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
             $style = new ilObjStyleSheet($a_style_id);
             $types = array("text_inline");
             foreach ($types as $t) {
