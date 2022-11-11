@@ -98,6 +98,16 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $this->setTabs();
 
         switch ($this->ctrl->getNextClass()) {
+            case "illpobjectstatisticstablegui":
+                $lp_table = new ilLPObjectStatisticsTableGUI(
+                    $this,
+                    "access",
+                    null
+                );
+                $lp_table->init();
+                $this->ctrl->forwardCommand($lp_table);
+                break;
+
             default:
                 $cmd = $this->__getDefaultCommand();
                 $this->$cmd();
