@@ -195,6 +195,11 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
         $this->filter = $this->initRepositoryFilter($this->filter);
     }
 
+    protected function isForwardingToFormDispatcher(): bool
+    {
+        return true;
+    }
+
     public function getItems(): void
     {
         $data = array();
