@@ -6574,17 +6574,17 @@ content#:#cont_list_outdent#:#Outdent List
 content#:#cont_list_properties#:#List Properties
 content#:#cont_lists#:#Lists
 content#:#cont_lk_chapter#:#Chapter
-content#:#cont_lk_chapter_new#:#Chapter (New Frame)
+content#:#cont_lk_chapter_new#:#Chapter in New Tab
 content#:#cont_lk_file#:#File/Document
-content#:#cont_lk_media_faq#:#Media (FAQ Frame)
+content#:#cont_lk_media_faq#:#Media in FAQ Tool
 content#:#cont_lk_media_inline#:#Media (Inline)
-content#:#cont_lk_media_media#:#Media (Media Frame)
-content#:#cont_lk_media_new#:#Media (New Frame)
+content#:#cont_lk_media_media#:#Media in Media Tool
+content#:#cont_lk_media_new#:#Media in New Tab
 content#:#cont_lk_page#:#Page
-content#:#cont_lk_page_faq#:#Page (FAQ Frame)
-content#:#cont_lk_page_new#:#Page (New Frame)
+content#:#cont_lk_page_faq#:#Page in FAQ Tool
+content#:#cont_lk_page_new#:#Page in New Tab
 content#:#cont_lk_term#:#Glossary Term
-content#:#cont_lk_term_new#:#Glossary Term (New Frame)
+content#:#cont_lk_term_new#:#Glossary Term in New Tab
 content#:#cont_lm_comments_desc#:#Allow users to share comments on every page of the learning module.
 content#:#cont_lm_default_layout#:#Default Layout of Learning Module
 content#:#cont_lm_mail_permanent_link#:#Click on the following link to access the learning module:
