@@ -28,25 +28,11 @@ class ilTestSkillLevelThresholdsGUI
 {
     public const CMD_SHOW_SKILL_THRESHOLDS = 'showSkillThresholds';
     public const CMD_SAVE_SKILL_THRESHOLDS = 'saveSkillThresholds';
-    /**
-     * @var ilCtrl
-     */
-    private $ctrl;
 
-    /**
-     * @var ilGlobalTemplateInterface
-     */
-    private $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    private $lng;
-
-    /**
-     * @var ilDBInterface
-     */
-    private $db;
+    private ilCtrl $ctrl;
+    private ilGlobalTemplateInterface $tpl;
+    private ilLanguage $lng;
+    private ilDBInterface $db;
 
     /**
      * @var int
@@ -134,7 +120,7 @@ class ilTestSkillLevelThresholdsGUI
                     $valid = false;
                 }
 
-                $elm->setValueByArray($_POST);
+                $elm->setValue($_POST[$elm->getPostVar()]);
             }
 
             if (!$valid) {
@@ -144,7 +130,9 @@ class ilTestSkillLevelThresholdsGUI
             }
 
             $threshold = array();
-            foreach ($_POST as $key => $value) {
+            foreach ($elements as $elm) {
+                $key = $elm->getPostVar();
+                $value = $_POST[$key];
                 $matches = null;
                 if (preg_match('/^threshold_(\d+?):(\d+?)_(\d+?)$/', $key, $matches) && is_array($matches)) {
                     $threshold[$matches[1] . ':' . $matches[2]][$matches[3]] = $value;
