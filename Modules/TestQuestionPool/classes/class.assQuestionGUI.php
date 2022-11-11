@@ -1241,7 +1241,7 @@ abstract class assQuestionGUI
         if ($save && strlen($_POST["solutiontext"])) {
             $solution_array["value"] = $_POST["solutiontext"];
         }
-        if (count($solution_array)) {
+        if (isset($solution_array['type']) && $solution_array['type'] !== "") {
             $form = new ilPropertyFormGUI();
             $form->setFormAction($this->ctrl->getFormAction($this));
             $form->setTitle($this->lng->txt("solution_hint"));
