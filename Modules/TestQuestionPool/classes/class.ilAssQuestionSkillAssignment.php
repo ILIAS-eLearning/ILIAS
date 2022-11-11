@@ -341,7 +341,7 @@ class ilAssQuestionSkillAssignment
         $this->skillTitle = $skillTitle;
     }
 
-    public function getSkillTitle(): string
+    public function getSkillTitle(): ?string
     {
         return $this->skillTitle;
     }
@@ -351,7 +351,7 @@ class ilAssQuestionSkillAssignment
         $this->skillPath = $skillPath;
     }
 
-    public function getSkillPath(): string
+    public function getSkillPath(): ?string
     {
         return $this->skillPath;
     }
