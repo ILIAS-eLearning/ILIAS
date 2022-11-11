@@ -22,7 +22,8 @@ declare(strict_types=0);
  * Class ilObjectStatisticsGUI
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version      $Id: class.ilLPListOfObjectsGUI.php 27489 2011-01-19 16:58:09Z jluetzen $
- * @ilCtrl_Calls ilLPObjectStatisticsGUI: ilLPObjectStatisticsTableGUI
+ * @ilCtrl_Calls ilLPObjectStatisticsGUI: ilLPObjectStatisticsTableGUI, ilLPObjectStatisticsDailyTableGUI
+ * @ilCtrl_Calls ilLPObjectStatisticsGUI: ilLPObjectStatisticsLPTableGUI
  * @package      ilias-tracking
  */
 class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
@@ -102,6 +103,26 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
                 $lp_table = new ilLPObjectStatisticsTableGUI(
                     $this,
                     "access",
+                    null
+                );
+                $lp_table->init();
+                $this->ctrl->forwardCommand($lp_table);
+                break;
+
+            case "illpobjectstatisticsdailytablegui":
+                $lp_table = new ilLPObjectStatisticsDailyTableGUI(
+                    $this,
+                    "daily",
+                    null
+                );
+                $lp_table->init();
+                $this->ctrl->forwardCommand($lp_table);
+                break;
+
+            case "illpobjectstatisticslptablegui":
+                $lp_table = new ilLPObjectStatisticsLPTableGUI(
+                    $this,
+                    "learningProgress",
                     null
                 );
                 $lp_table->init();
