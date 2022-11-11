@@ -126,42 +126,27 @@ class ilAssOrderingElement
         return $this->solution_identifier;
     }
 
-    /**
-     * @param int $solution_identifier
-     */
-    public function setSolutionIdentifier($solution_identifier): void
+    public function setSolutionIdentifier(int $solution_identifier): void
     {
         $this->solution_identifier = $solution_identifier;
     }
 
-    /**
-     * @param int $indentation
-     */
-    public function setIndentation($indentation): void
+    public function setIndentation(int $indentation): void
     {
         $this->indentation = $indentation;
     }
 
-    /**
-     * @return int
-     */
     public function getIndentation(): int
     {
         return $this->indentation;
     }
 
-    /**
-     * @return int
-     */
     public function getPosition(): ?int
     {
         return $this->position;
     }
 
-    /**
-     * @param int $position
-     */
-    public function setPosition($position): void
+    public function setPosition(int $position): void
     {
         $this->position = $position;
     }
@@ -423,10 +408,10 @@ class ilAssOrderingElement
                 self::EXPORT_IDENT_PROPERTY_SEPARATOR,
                 $ident
             );
-            $this->setRandomIdentifier($randomId);
-            $this->setSolutionIdentifier($solutionId);
-            $this->setPosition($pos);
-            $this->setIndentation($indent);
+            $this->setRandomIdentifier((int) $randomId);
+            $this->setSolutionIdentifier((int) $solutionId);
+            $this->setPosition((int) $pos);
+            $this->setIndentation((int) $indent);
         }
     }
 
