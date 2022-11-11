@@ -352,7 +352,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $repo = new ilRepositorySelector2InputGUI(
             $this->lng->txt('trac_filter_area'),
             'effective_from',
-            true
+            true,
+            $this
         );
         $white_list = [];
         foreach ($this->objDefinition->getAllRepositoryTypes() as $type) {
