@@ -1399,7 +1399,9 @@ class ilPageObjectGUI
                 false,
                 true,
                 true,
-                $link_xml . $template_xml . $this->getComponentPluginsXML()
+                $link_xml . $template_xml . $this->getComponentPluginsXML(),
+                false,
+                $this->getStyleId()
             );
         }
 
