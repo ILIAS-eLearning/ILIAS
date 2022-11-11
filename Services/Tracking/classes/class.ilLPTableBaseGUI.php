@@ -352,7 +352,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $repo = new ilRepositorySelector2InputGUI(
             $this->lng->txt('trac_filter_area'),
             'effective_from',
-            true,
+            false,
             $this
         );
         $white_list = [];
