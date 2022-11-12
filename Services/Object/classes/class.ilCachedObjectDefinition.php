@@ -48,7 +48,7 @@ class ilCachedObjectDefinition
 
         $sql =
             "SELECT id, class_name, component, location, checkbox, inherit, translate, devmode, allow_link," . PHP_EOL
-            . "allow_copy, rbac, system, sideblock, default_pos, grp, default_pres_pos, export, repository," . PHP_EOL
+            . "allow_copy, rbac, `system`, sideblock, default_pos, grp, default_pres_pos, `export`, repository," . PHP_EOL
             . "workspace, administration, amet, orgunit_permissions, lti_provider, offline_handling" . PHP_EOL
             . "FROM il_object_def" . PHP_EOL
         ;
@@ -69,8 +69,8 @@ class ilCachedObjectDefinition
 
         $sql =
             "SELECT DISTINCT(id) AS sid, parent, id, class_name, component, location, checkbox, inherit," . PHP_EOL
-            . "translate, devmode, allow_link, allow_copy, rbac, system, sideblock, default_pos, grp," . PHP_EOL
-            . "default_pres_pos, export, repository, workspace, administration, amet, orgunit_permissions," . PHP_EOL
+            . "translate, devmode, allow_link, allow_copy, rbac, `system`, sideblock, default_pos, grp," . PHP_EOL
+            . "default_pres_pos, `export`, repository, workspace, administration, amet, orgunit_permissions," . PHP_EOL
             . "lti_provider, offline_handling" . PHP_EOL
             . "FROM il_object_def, il_object_subobj" . PHP_EOL
             . "WHERE NOT (" . $db->quoteIdentifier('system') . " = 1)" . PHP_EOL
