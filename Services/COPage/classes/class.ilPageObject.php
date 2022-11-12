@@ -1249,7 +1249,7 @@ s     */
         $dummy_pc->setStyleId($style_id);
         foreach (["section", "table", "flist_li", "list_u", "list_o",
                   "table", "table_cell"] as $type) {
-            $dummy_pc->getCharacteristicsOfCurrentStyle($type);
+            $dummy_pc->getCharacteristicsOfCurrentStyle([$type]);
             foreach ($dummy_pc->getCharacteristics() as $char => $txt) {
                 $xml .= "<LV name=\"char_" . $type . "_" . $char . "\" value=\"" . $txt . "\"/>";
             }
@@ -1257,14 +1257,14 @@ s     */
         $type = "media_cont";
         $dummy_pc = new ilPCMediaObjectGUI($this, null, "");
         $dummy_pc->setStyleId($style_id);
-        $dummy_pc->getCharacteristicsOfCurrentStyle($type);
+        $dummy_pc->getCharacteristicsOfCurrentStyle([$type]);
         foreach ($dummy_pc->getCharacteristics() as $char => $txt) {
             $xml .= "<LV name=\"char_" . $type . "_" . $char . "\" value=\"" . $txt . "\"/>";
         }
         foreach (["text_block", "heading1", "heading2", "heading3"] as $type) {
             $dummy_pc = new ilPCParagraphGUI($this, null, "");
             $dummy_pc->setStyleId($style_id);
-            $dummy_pc->getCharacteristicsOfCurrentStyle($type);
+            $dummy_pc->getCharacteristicsOfCurrentStyle([$type]);
             foreach ($dummy_pc->getCharacteristics() as $char => $txt) {
                 $xml .= "<LV name=\"char_" . $type . "_" . $char . "\" value=\"" . $txt . "\"/>";
             }
