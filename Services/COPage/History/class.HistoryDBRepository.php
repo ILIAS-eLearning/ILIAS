@@ -114,7 +114,7 @@ class HistoryDBRepository
         $db = $this->db;
 
         $set = $db->queryF(
-            "SELECT old_nr FROM page_history " .
+            "SELECT nr FROM page_history " .
             " WHERE parent_type = %s  " .
             " AND page_id = %s  " .
             " AND lang = %s  " .
@@ -123,7 +123,7 @@ class HistoryDBRepository
             [$parent_type, $page_id, $lang, $delete_lower_than_nr]
         );
         while ($rec = $db->fetchAssoc($set)) {
-            yield (int) $rec["old_nr"];
+            yield (int) $rec["nr"];
         }
     }
 }
