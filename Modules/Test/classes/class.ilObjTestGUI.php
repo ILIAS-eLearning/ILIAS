@@ -2779,15 +2779,6 @@ class ilObjTestGUI extends ilObjectGUI
         $ilUser = $DIC['ilUser'];
         $ilToolbar = $DIC['ilToolbar'];
 
-        if ($_GET['createRandomSolutions']) {
-            global $DIC;
-            $ilCtrl = $DIC['ilCtrl'];
-            
-            $this->object->createRandomSolutions($_GET['createRandomSolutions']);
-            
-            $ilCtrl->redirect($this);
-        }
-
         if (!$ilAccess->checkAccess("visible", "", $this->ref_id) && !$ilAccess->checkAccess("read", "", $_GET["ref_id"])) {
             $this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->MESSAGE);
         }

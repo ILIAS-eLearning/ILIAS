@@ -5101,17 +5101,17 @@ content#:#cont_list_outdent#:#Liste ausrücken
 content#:#cont_list_properties#:#Listen-Eigenschaften
 content#:#cont_lists#:#Listen
 content#:#cont_lk_chapter#:#Kapitel
-content#:#cont_lk_chapter_new#:#Kapitel (Neuer Frame)
+content#:#cont_lk_chapter_new#:#Kapitel in neuem Tab
 content#:#cont_lk_file#:#Datei/Dokument
-content#:#cont_lk_media_faq#:#Medienobjekt (FAQ Frame)
+content#:#cont_lk_media_faq#:#Medienobjekt in FAQ Tool
 content#:#cont_lk_media_inline#:#Medienobjekt (Inline)
-content#:#cont_lk_media_media#:#Medienobjekt (Media Frame)
-content#:#cont_lk_media_new#:#Medienobjekt (Neuer Frame)
+content#:#cont_lk_media_media#:#Medienobjekt in Media Tool
+content#:#cont_lk_media_new#:#Medienobjekt in neuem Tab
 content#:#cont_lk_page#:#Seite
-content#:#cont_lk_page_faq#:#Seite (FAQ Frame)
-content#:#cont_lk_page_new#:#Seite (Neuer Frame)
+content#:#cont_lk_page_faq#:#Seite in FAQ Tool
+content#:#cont_lk_page_new#:#Seite in neuem Tab
 content#:#cont_lk_term#:#Glossarbegriff
-content#:#cont_lk_term_new#:#Glossarbegriff (Neuer Frame)
+content#:#cont_lk_term_new#:#Glossarbegriff in neuem Tab
 content#:#cont_lm_comments_desc#:#Erlaubt es Benutzern öffentliche Kommentare auf allen Lernmodulseiten hinzuzufügen.
 content#:#cont_lm_default_layout#:#Standardlayout des Lernmoduls
 content#:#cont_lm_menu#:#Menü
@@ -10615,7 +10615,7 @@ common#:#qpl_copy#:#Fragenpool für Tests kopieren
 mathjax#:#mathjax_enable_mathjax_info#:#Aktiviert die LaTeX-Unterstützung mit MathJax, um mathematische Formeln ausgeben zu können.
 mathjax#:#mathjax_enable_mathjax#:#MathJax aktivieren
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#Zum Beispiel: https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML oder eine URL zu Ihrer lokalen Installation. ILIAS 6 und 7 unterstützt MathJax 2.7, noch nicht MathJax 3.
+mathjax#:#mathjax_path_to_mathjax_desc#:#Zum Beispiel: https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe oder eine URL zu Ihrer lokalen Installation. ILIAS 6 und 7 unterstützt MathJax 2.7, noch nicht MathJax 3. Bitte beachten Sie das angehänge "Safe". Andernfalls wird ILIAS über MathJax-Code mit JavaScript anfällig für XSS-Angriffe.
 mathjax#:#mathjax_path_to_mathjax#:#URL zu MathJax
 mathjax#:#mathjax_settings#:#MathJax-Einstellungen
 mathjax#:#mathjax_limiter#:#Trennzeichen
@@ -15453,7 +15453,7 @@ common#:#mm_enrolments#:#Einschreibungen
 common#:#mm_communication#:#Kommunikation
 common#:#mm_contacts#:#Kontakte
 common#:#mm_mail#:#Mail
-common#:#mm_news#:#News
+common#:#mm_news#:#Neuigkeiten
 common#:#mm_notes#:#Notizen
 common#:#mm_comments#:#Kommentare
 common#:#mm_achievements#:#Lernerfolge
