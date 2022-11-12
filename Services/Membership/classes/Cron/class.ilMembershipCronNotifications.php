@@ -236,7 +236,7 @@ class ilMembershipCronNotifications extends ilCronJob
                 break;
 
             case "file":
-                if (!is_array($a_item["aggregation"]) ||
+                if (!isset($a_item["aggregation"]) ||
                     count($a_item["aggregation"]) === 1) {
                     $res = $this->lng->txt("obj_" . $item_obj_type) .
                         ' "' . $item_obj_title . '" - ' . $title;
