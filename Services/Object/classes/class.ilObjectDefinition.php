@@ -119,7 +119,7 @@ class ilObjectDefinition
 
         $sql =
             "SELECT id, class_name, component, location, checkbox, inherit, translate, devmode, allow_link," . PHP_EOL
-            . "allow_copy, rbac, system, sideblock, default_pos, grp, default_pres_pos, export, repository," . PHP_EOL
+            . "allow_copy, rbac, `system`, sideblock, default_pos, grp, default_pres_pos, `export`, repository," . PHP_EOL
             . "workspace, administration, amet, orgunit_permissions, lti_provider, offline_handling" . PHP_EOL
             . "FROM il_object_def" . PHP_EOL
         ;
@@ -702,7 +702,7 @@ class ilObjectDefinition
 
         $sql =
             "SELECT id, class_name, component, location, checkbox, inherit, translate, devmode, allow_link," . PHP_EOL
-            . "allow_copy, rbac, system, sideblock, default_pos, grp, default_pres_pos, export, repository," . PHP_EOL
+            . "allow_copy, rbac, `system`, sideblock, default_pos, grp, default_pres_pos, `export`, repository," . PHP_EOL
             . "workspace, administration, amet, orgunit_permissions, lti_provider, offline_handling" . PHP_EOL
             . "FROM il_object_def" . PHP_EOL
             . "WHERE component = %s" . PHP_EOL
