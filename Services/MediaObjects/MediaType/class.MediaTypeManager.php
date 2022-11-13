@@ -48,10 +48,11 @@ class MediaTypeManager
         string $mime
     ): bool {
         $lpath = pathinfo($location);
-        if ($lpath["extension"] == "mp3" && $mime == "audio/mpeg") {
+        $ext = $lpath["extension"] ?? "";
+        if ($ext === "mp3" && $mime === "audio/mpeg") {
             return true;
         }
-        if ($lpath["extension"] == "flv") {
+        if ($ext === "flv") {
             return true;
         }
         if (in_array($mime, array("video/mp4", "video/webm"))) {
@@ -83,7 +84,7 @@ class MediaTypeManager
     /**
      * @return string[]
      */
-    public function getVideoMimeTypes() : array
+    public function getVideoMimeTypes(): array
     {
         return [
             "video/vimeo",
@@ -95,7 +96,7 @@ class MediaTypeManager
     /**
      * @return string[]
      */
-    public function getVideoSuffixes() : array
+    public function getVideoSuffixes(): array
     {
         return [
             "mp4"
@@ -105,7 +106,7 @@ class MediaTypeManager
     /**
      * @return string[]
      */
-    public function getAudioMimeTypes() : array
+    public function getAudioMimeTypes(): array
     {
         return [
             "audio/mpeg"
@@ -115,7 +116,7 @@ class MediaTypeManager
     /**
      * @return string[]
      */
-    public function getAudioSuffixes() : array
+    public function getAudioSuffixes(): array
     {
         return [
             "mp3"
@@ -125,7 +126,7 @@ class MediaTypeManager
     /**
      * @return string[]
      */
-    public function getImageMimeTypes() : array
+    public function getImageMimeTypes(): array
     {
         return [
             "image/png",
@@ -137,11 +138,10 @@ class MediaTypeManager
     /**
      * @return string[]
      */
-    public function getImageSuffixes() : array
+    public function getImageSuffixes(): array
     {
         return [
             "jpeg", "jpg", "png"
         ];
     }
-
 }
