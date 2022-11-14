@@ -1343,20 +1343,22 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 
         foreach ($this->getResults() as $index => $a) {
             $key = "result_$index";
-            if (
-                $post->has($key)
-                ||
-               $post->has($key . "_unit")
-            ) {
-                $value =$post->retrieve(
+            if ($post->has($key)) {
+                $value = $post->retrieve(
                     $key,
                     $this->dic->refinery()->kindlyTo()->string()
                 );
 
                 $solutionSubmit[$key] = $value;
             }
+            if ($post->has($key . "_unit")) {
+                $value = $post->retrieve(
+                    $key . "_unit",
+                    $this->dic->refinery()->kindlyTo()->string()
+                );
+                $solutionSubmit[$key . "_unit"] = $value;
+            }
         }
-
         return $solutionSubmit;
     }
 
