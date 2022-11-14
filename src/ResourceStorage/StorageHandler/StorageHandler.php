@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +13,10 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\StorageHandler;
 
@@ -86,10 +87,11 @@ interface StorageHandler
 
     /**
      * This is the full path to a revision of a Resource, incl. the StorageLocation base path. This can be used
-     * to access the file itself. But getStream is musch easier for this.
+     * to access the file itself. But getStream is much easier for this.
      * @see getStream instead.
      */
     public function getRevisionPath(Revision $revision): string;
+
 
     /**
      * @return string "link" or "rename"

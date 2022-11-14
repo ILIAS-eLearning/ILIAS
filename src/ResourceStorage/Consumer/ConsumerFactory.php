@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\ResourceStorage\Consumer;
 
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
+use ILIAS\ResourceStorage\Flavour\Flavour;
+use ILIAS\ResourceStorage\Flavour\FlavourIdentification;
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
@@ -38,7 +40,7 @@ class ConsumerFactory
 
     /**
      * ConsumerFactory constructor.
-     * @param FileNamePolicy|null   $file_name_policy
+     * @param FileNamePolicy|null $file_name_policy
      */
     public function __construct(
         StorageHandlerFactory $storage_handler_factory,
@@ -90,9 +92,10 @@ class ConsumerFactory
         );
     }
 
-    public function src(StorableResource $resource): SrcConsumer
+    public function src(StorableResource $resource, SrcBuilder $src_builder): SrcConsumer
     {
         return new SrcConsumer(
+            $src_builder,
             $resource,
             $this->storage_handler_factory->getHandlerForResource($resource)
         );

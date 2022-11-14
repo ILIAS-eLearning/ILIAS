@@ -101,24 +101,16 @@ class ilStorageHandlerV1Migration implements Migration
         $GLOBALS["DIC"]["ilDB"] = $this->database;
         $GLOBALS["ilDB"] = $this->database;
 
-        $storage_handler_factory = new StorageHandlerFactory([
-            new MaxNestingFileSystemStorageHandler($filesystem, Location::STORAGE),
-            new FileSystemStorageHandler($filesystem, Location::STORAGE)
-        ]);
+        // Build Container
+        $init = new InitResourceStorage();
+        $container = new Container();
+        $container['ilDB'] = $this->database;
+        $container['filesystem.storage'] = $filesystem;
 
-        $this->resource_builder = new ResourceBuilder(
-            $storage_handler_factory,
-            new RevisionDBRepository($this->database),
-            new ResourceDBRepository($this->database),
-            new CollectionDBRepository($this->database),
-            new InformationDBRepository($this->database),
-            new StakeholderDBRepository($this->database),
-            new LockHandlerilDB($this->database),
-            new FileNamePolicyStack()
-        );
+        $this->resource_builder = $init->getResourceBuilder($container);
 
         $this->migrator = new Migrator(
-            $storage_handler_factory,
+            $container[InitResourceStorage::D_STORAGE_HANDLERS],
             $this->resource_builder,
             $this->database,
             $this->data_dir

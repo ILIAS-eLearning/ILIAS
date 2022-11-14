@@ -84,8 +84,9 @@ class ilFileObjectToStorageMigration implements Setup\Migration
             $DIC['ilBench'] = null;
 
             $legacy_files_dir = "{$data_dir}/{$client_id}/ilFile";
+            $client_data_dir = "{$data_dir}/{$client_id}";
             if (!defined("CLIENT_DATA_DIR")) {
-                define('CLIENT_DATA_DIR', "{$data_dir}/{$client_id}");
+                define('CLIENT_DATA_DIR', $client_data_dir);
             }
             if (!defined("CLIENT_ID")) {
                 define('CLIENT_ID', $client_id);
@@ -116,13 +117,14 @@ class ilFileObjectToStorageMigration implements Setup\Migration
 
             $this->helper = new ilFileObjectToStorageMigrationHelper($legacy_files_dir, $this->database);
 
-            $storageConfiguration = new LocalConfig("{$data_dir}/{$client_id}");
+            $storageConfiguration = new LocalConfig($client_data_dir);
             $f = new FlySystemFilesystemFactory();
 
             $this->runner = new ilFileObjectToStorageMigrationRunner(
                 $f->getLocal($storageConfiguration),
                 $this->database,
-                $legacy_files_dir . "/" . self::MIGRATION_LOG_CSV
+                $legacy_files_dir . "/" . self::MIGRATION_LOG_CSV,
+                $client_data_dir
             );
         }
     }

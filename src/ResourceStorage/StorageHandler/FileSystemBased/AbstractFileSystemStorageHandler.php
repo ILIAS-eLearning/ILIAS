@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +13,10 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\StorageHandler\FileSystemBased;
 
@@ -32,11 +33,10 @@ use ILIAS\ResourceStorage\Revision\FileStreamRevision;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
-use ILIAS\ResourceStorage\StorageHandler\PathGenerator\PathGenerator;
 
 /**
  * Class AbstractFileSystemStorageHandler
- * @author  Fabian Schmid <fs@studer-raimann.ch>
+ * @author  Fabian Schmid <fabian@sr.solutions>
  */
 abstract class AbstractFileSystemStorageHandler implements StorageHandler
 {

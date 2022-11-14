@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Collection;
 
@@ -34,7 +34,7 @@ use ILIAS\ResourceStorage\Identification\UniqueIDIdentificationGenerator;
  * Class CollectionBuilder
  *
  * @author Fabian Schmid <fabian@sr.solutions>
- * @internal
+ * @internal This class is not part of the public API and may be changed without notice. Do not use this class in your code.
  */
 class CollectionBuilder
 {

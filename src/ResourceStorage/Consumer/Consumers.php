@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +13,10 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Consumer;
 
@@ -35,6 +36,7 @@ class Consumers
     private \ILIAS\ResourceStorage\Consumer\ConsumerFactory $consumer_factory;
     private \ILIAS\ResourceStorage\Resource\ResourceBuilder $resource_builder;
     private CollectionBuilder $collection_builder;
+    private SrcBuilder $src_builder;
 
     /**
      * Consumers constructor.
@@ -42,11 +44,13 @@ class Consumers
     public function __construct(
         ConsumerFactory $cf,
         ResourceBuilder $r,
-        CollectionBuilder $c
+        CollectionBuilder $c,
+        ?SrcBuilder $src_builder = null
     ) {
         $this->consumer_factory = $cf;
         $this->resource_builder = $r;
         $this->collection_builder = $c;
+        $this->src_builder = $src_builder ?? new InlineSrcBuilder();
     }
 
     public function download(ResourceIdentification $identification): DownloadConsumer
@@ -66,7 +70,7 @@ class Consumers
 
     public function src(ResourceIdentification $identification): SrcConsumer
     {
-        return $this->consumer_factory->src($this->resource_builder->get($identification));
+        return $this->consumer_factory->src($this->resource_builder->get($identification), $this->src_builder);
     }
 
     public function downloadCollection(

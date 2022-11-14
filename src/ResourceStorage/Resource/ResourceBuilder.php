@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,36 +16,38 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\ResourceStorage\Resource;
 
-use Generator;
 use ILIAS\Filesystem\Stream\FileStream;
+use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\ResourceStorage\Consumer\FileStreamConsumer;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
-use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
-use ILIAS\ResourceStorage\Revision\FileStreamRevision;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
-use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
-use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
 use ILIAS\ResourceStorage\Lock\LockHandler;
-use ILIAS\ResourceStorage\Revision\Revision;
-use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
-use ILIAS\ResourceStorage\Consumer\FileStreamConsumer;
-use ILIAS\ResourceStorage\Revision\CloneRevision;
-use ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver;
-use ILIAS\ResourceStorage\Revision\FileRevision;
-use ILIAS\ResourceStorage\Resource\InfoResolver\ClonedRevisionInfoResolver;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
 use ILIAS\ResourceStorage\Policy\NoneFileNamePolicy;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\ResourceStorage\Preloader\SecureString;
+use ILIAS\ResourceStorage\Resource\InfoResolver\ClonedRevisionInfoResolver;
+use ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver;
+use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
+use ILIAS\ResourceStorage\Revision\CloneRevision;
+use ILIAS\ResourceStorage\Revision\FileRevision;
+use ILIAS\ResourceStorage\Revision\FileStreamRevision;
+use ILIAS\ResourceStorage\Revision\MultiStreamRevision;
+use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
+use ILIAS\ResourceStorage\Revision\Revision;
+use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
+use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
+use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 
 /**
  * Class ResourceBuilder
  * @author Fabian Schmid <fs@studer-raimann.ch>
- * @internal
+ * @internal This class is not part of the public API and may be changed without notice. Do not use this class in your code.
  */
 class ResourceBuilder
 {
@@ -118,6 +118,7 @@ class ResourceBuilder
 
         return $this->appendFromStream($resource, $stream, $info_resolver, $keep_original);
     }
+
 
     public function newBlank(): StorableResource
     {
@@ -246,6 +247,7 @@ class ResourceBuilder
         return $this->resource_repository->has($identification);
     }
 
+
     /**
      * @description after you have modified a resource, you can store it here
      * @throws \ILIAS\ResourceStorage\Policy\FileNamePolicyException
@@ -278,6 +280,7 @@ class ResourceBuilder
 
         $r->runAndUnlock();
     }
+
 
     /**
      * @description Clone anexisting resource with all it's revisions, stakeholders and information
@@ -352,6 +355,22 @@ class ResourceBuilder
         );
 
         return $this->resource_cache[$identification->serialize()];
+    }
+
+    public function extractStream(Revision $revision): FileStream
+    {
+        switch (true) {
+            case $revision instanceof UploadedFileRevision:
+                return Streams::ofResource(fopen($revision->getUpload()->getPath(), 'rb'));
+            case $revision instanceof CloneRevision:
+                return $revision->getRevisionToClone()->getStream();
+            case $revision instanceof FileRevision:
+                return $this->storage_handler_factory->getHandlerForResource(
+                    $this->get($revision->getIdentification())
+                )->getStream($revision);
+            default:
+                throw new \LogicException('This revision type is not supported');
+        }
     }
 
     /**

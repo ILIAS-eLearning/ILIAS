@@ -16,10 +16,12 @@
  *
  *********************************************************************/
 
+use ILIAS\DI\Container;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\Location;
 use ILIAS\ResourceStorage\Collection\CollectionBuilder;
 use ILIAS\ResourceStorage\Manager\Manager;
+use ILIAS\ResourceStorage\Repositories;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
 use ILIAS\ResourceStorage\Consumer\ConsumerFactory;
@@ -59,44 +61,38 @@ class ilFileObjectToStorageMigrationRunner
      * @param Filesystem    $file_system
      * @param ilDBInterface $database
      */
-    public function __construct(Filesystem $file_system, ilDBInterface $database, string $log_file_path)
-    {
+    public function __construct(
+        Filesystem $file_system,
+        ilDBInterface $database,
+        string $log_file_path,
+        string $storage_base_path
+    ) {
         $this->file_system = $file_system;
         $this->database = $database;
         $this->migration_log_handle = fopen($log_file_path, 'ab');
 
+        // Build Container
+        $init = new InitResourceStorage();
+        $container = new Container();
+        $container['ilDB'] = $this->database;
+        $init->init($container);
+
         $storage_handler = new MaxNestingFileSystemStorageHandler($this->file_system, Location::STORAGE, true);
         $storage_handler_factory = new StorageHandlerFactory([
             $storage_handler
-        ]);
+        ], $storage_base_path);
 
         $this->movement_implementation = $storage_handler->movementImplementation();
 
-        $revisionDBRepository = new RevisionDBRepository($database);
-        $resourceDBRepository = new ResourceDBRepository($database);
-        $informationDBRepository = new InformationDBRepository($database);
-        $stakeholderDBRepository = new StakeholderDBRepository($database);
-        $collectionDBRepository = new CollectionDBRepository($database);
-        $this->resource_builder  = new ResourceBuilder(
-            $storage_handler_factory,
-            $revisionDBRepository,
-            $resourceDBRepository,
-            $informationDBRepository,
-            $stakeholderDBRepository,
-            new LockHandlerilDB($database)
-        );
+        $this->resource_builder  = $init->getResourceBuilder($container);
+
         $this->collection_builder = new CollectionBuilder(
-            $collectionDBRepository
+            $container[InitResourceStorage::D_REPOSITORIES]->getCollectionRepository(),
         );
         $this->storage_manager = new Manager(
             $this->resource_builder,
             $this->collection_builder,
-            new StandardRepositoryPreloader(
-                $resourceDBRepository,
-                $revisionDBRepository,
-                $informationDBRepository,
-                $stakeholderDBRepository
-            )
+            $container[InitResourceStorage::D_REPOSITORY_PRELOADER]
         );
         $this->consumer_factory = new ConsumerFactory($storage_handler_factory);
         $this->stakeholder = new ilObjFileStakeholder();

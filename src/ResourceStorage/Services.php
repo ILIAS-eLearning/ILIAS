@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,13 +16,22 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\ResourceStorage;
 
 use ILIAS\ResourceStorage\Consumer\ConsumerFactory;
 use ILIAS\ResourceStorage\Consumer\Consumers;
+use ILIAS\ResourceStorage\Consumer\InlineSrcBuilder;
+use ILIAS\ResourceStorage\Consumer\SrcBuilder;
+use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamInfoFactory;
+use ILIAS\ResourceStorage\Flavour\FlavourBuilder;
+use ILIAS\ResourceStorage\Flavour\Flavours;
+use ILIAS\ResourceStorage\Flavour\Machine\Factory;
 use ILIAS\ResourceStorage\Identification\UniqueIDCollectionIdentificationGenerator;
 use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
 use ILIAS\ResourceStorage\Manager\Manager;
+use ILIAS\ResourceStorage\Resource\Repository\FlavourRepository;
 use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
@@ -58,44 +65,40 @@ class Services
      */
     public function __construct(
         StorageHandlerFactory $storage_handler_factory,
-        RevisionRepository $revision_repository,
-        ResourceRepository $resource_repository,
-        CollectionRepository $collection_repository,
-        InformationRepository $information_repository,
-        StakeholderRepository $stakeholder_repository,
+        Repositories $repositories,
         LockHandler $lock_handler,
         FileNamePolicy $file_name_policy,
+        SrcBuilder $src_builder = null,
         RepositoryPreloader $preloader = null
     ) {
+        $src_builder = $src_builder ?? new InlineSrcBuilder();
+        $stream_info_factory = new StreamInfoFactory(
+            $storage_handler_factory->getBaseDir()
+        );
         $file_name_policy_stack = new FileNamePolicyStack();
         $file_name_policy_stack->addPolicy($file_name_policy);
 
-        $b = new ResourceBuilder(
+        $resource_builder = new ResourceBuilder(
             $storage_handler_factory,
-            $revision_repository,
-            $resource_repository,
-            $information_repository,
-            $stakeholder_repository,
+            $repositories->getRevisionRepository(),
+            $repositories->getResourceRepository(),
+            $repositories->getInformationRepository(),
+            $repositories->getStakeholderRepository(),
             $lock_handler,
             $file_name_policy_stack
         );
 
-        $c = new CollectionBuilder(
-            $collection_repository,
+        $collection_builder = new CollectionBuilder(
+            $repositories->getCollectionRepository(),
             new UniqueIDCollectionIdentificationGenerator(),
             $lock_handler
         );
 
-        $this->preloader = $preloader ?? new StandardRepositoryPreloader(
-            $resource_repository,
-            $revision_repository,
-            $information_repository,
-            $stakeholder_repository
-        );
+        $this->preloader = $preloader ?? new StandardRepositoryPreloader($repositories);
 
         $this->manager = new Manager(
-            $b,
-            $c,
+            $resource_builder,
+            $collection_builder,
             $this->preloader
         );
         $this->consumers = new Consumers(
@@ -103,13 +106,14 @@ class Services
                 $storage_handler_factory,
                 $file_name_policy_stack
             ),
-            $b,
-            $c
+            $resource_builder,
+            $collection_builder,
+            $src_builder
         );
 
         $this->collections = new Collections(
-            $b,
-            $c,
+            $resource_builder,
+            $collection_builder,
             $this->preloader
         );
     }

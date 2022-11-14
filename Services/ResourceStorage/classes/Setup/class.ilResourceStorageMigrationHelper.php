@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\DI\Container;
 use ILIAS\ResourceStorage\Collection\CollectionBuilder;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
@@ -78,22 +79,16 @@ class ilResourceStorageMigrationHelper
         $this->stakeholder = $stakeholder;
         $this->client_data_dir = $client_data_dir;
         $this->database = $db;
-        $file_system_factory = new FlySystemFilesystemFactory();
-        $this->resource_builder = new ResourceBuilder(
-            new StorageHandlerFactory([
-                new MaxNestingFileSystemStorageHandler(
-                    $file_system_factory->getLocal(
-                        new LocalConfig($this->client_data_dir)
-                    ),
-                    Location::STORAGE
-                )
-            ]),
-            new RevisionDBRepository($db),
-            new ResourceDBRepository($db),
-            new InformationDBRepository($db),
-            new StakeholderDBRepository($db),
-            new LockHandlerilDB($this->database)
-        );
+
+        // Build Container
+        $init = new InitResourceStorage();
+        $container = new Container();
+        $container['ilDB'] = $db;
+        $storageConfiguration = new LocalConfig($client_data_dir);
+        $f = new FlySystemFilesystemFactory();
+        $container['filesystem.storage'] = $f->getLocal($storageConfiguration);
+
+        $this->resource_builder = $init->getResourceBuilder($container);
         $this->collection_builder = new CollectionBuilder(
             new CollectionDBRepository($db)
         );
