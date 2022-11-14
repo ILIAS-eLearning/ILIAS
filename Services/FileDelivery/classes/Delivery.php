@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,8 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\FileDelivery;
 
+use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\HTTP\Services;
 use ILIAS\FileDelivery\FileDeliveryTypes\DeliveryMethod;
 use ILIAS\FileDelivery\FileDeliveryTypes\FileDeliveryTypeFactory;
@@ -58,23 +59,29 @@ final class Delivery
     private static bool $DEBUG = false;
     private Services $http;
     private FileDeliveryTypeFactory $factory;
+    private ?FileStream $resource = null;
 
 
     /**
-     * @param string   $path_to_file
+     * @param string|FileStream   $path_to_file
      * @param Services $http
      */
-    public function __construct(string $path_to_file, Services $http)
+    public function __construct($input, Services $http)
     {
         $this->http = $http;
-        if ($path_to_file === self::DIRECT_PHP_OUTPUT) {
+        if ($input instanceof FileStream) {
+            $this->resource = $input;
+            $this->path_to_file = $input->getMetadata('uri');
+        } elseif ($input === self::DIRECT_PHP_OUTPUT) {
             $this->setPathToFile(self::DIRECT_PHP_OUTPUT);
         } else {
-            $this->setPathToFile($path_to_file);
-            $this->detemineDeliveryType();
-            $this->determineMimeType();
-            $this->determineDownloadFileName();
+            $this->setPathToFile($input);
         }
+
+        $this->detemineDeliveryType();
+        $this->determineMimeType();
+        $this->determineDownloadFileName();
+
         $this->setHasContext(\ilContext::getType() !== null);
         $this->factory = new FileDeliveryTypeFactory($http);
     }
@@ -112,7 +119,7 @@ final class Delivery
         $this->clearBuffer();
         $this->checkCache();
         $this->setGeneralHeaders();
-        $this->delivery()->prepare($this->getPathToFile());
+        $this->delivery()->prepare($this->getPathToFile(), $this->resource);
         $this->delivery()->deliver($this->getPathToFile(), $this->isDeleteFile());
         if ($this->isDeleteFile()) {
             $this->delivery()->handleFileDeletion($this->getPathToFile());
@@ -213,6 +220,10 @@ final class Delivery
         ) {
             $this->setDeliveryType(DeliveryMethod::XSENDFILE);
         }
+
+//        if (function_exists('apache_get_version') && strpos(apache_get_version(), '2.4.') !== false) {
+//            $this->setDeliveryType(DeliveryMethod::XSENDFILE);
+//        }
 
         if (is_file('./Services/FileDelivery/classes/override.php')) {
             $override_delivery_type = false;

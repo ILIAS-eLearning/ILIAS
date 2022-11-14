@@ -21,10 +21,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Skill\Service;
 
-use ILIAS\Skill\Access\SkillManagementAccess;
-use ILIAS\Skill\Access\SkillTreeAccess;
+use ILIAS\Skill\Access;
 use ILIAS\Skill\Tree;
 use ILIAS\Skill\Profile;
+use ILIAS\Skill\Personal;
 
 /**
  * Skill internal manager service
@@ -85,14 +85,14 @@ class SkillInternalManagerService
         );
     }
 
-    public function getTreeAccessManager(int $obj_ref_id): SkillTreeAccess
+    public function getTreeAccessManager(int $obj_ref_id): Access\SkillTreeAccess
     {
-        return new SkillTreeAccess($this->rbac_system, $obj_ref_id, $this->usr_id);
+        return new Access\SkillTreeAccess($this->rbac_system, $obj_ref_id, $this->usr_id);
     }
 
-    public function getManagementAccessManager(int $skmg_ref_id): SkillManagementAccess
+    public function getManagementAccessManager(int $skmg_ref_id): Access\SkillManagementAccess
     {
-        return new SkillManagementAccess($this->rbac_system, $skmg_ref_id, $this->usr_id);
+        return new Access\SkillManagementAccess($this->rbac_system, $skmg_ref_id, $this->usr_id);
     }
 
     public function getProfileManager(): Profile\SkillProfileManager
@@ -103,5 +103,20 @@ class SkillInternalManagerService
     public function getProfileCompletionManager(): Profile\SkillProfileCompletionManager
     {
         return new Profile\SkillProfileCompletionManager($this->getProfileManager());
+    }
+
+    public function getPersonalSkillManager(): Personal\PersonalSkillManager
+    {
+        return new Personal\PersonalSkillManager();
+    }
+
+    public function getAssignedMaterialManager(): Personal\AssignedMaterialManager
+    {
+        return new Personal\AssignedMaterialManager();
+    }
+
+    public function getSelfEvaluationManager(): Personal\SelfEvaluationManager
+    {
+        return new Personal\SelfEvaluationManager();
     }
 }

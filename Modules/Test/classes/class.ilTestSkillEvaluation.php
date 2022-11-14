@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\Skill\Service\SkillProfileService;
+use ILIAS\Skill\Service\SkillPersonalService;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -92,9 +93,15 @@ class ilTestSkillEvaluation
     private $numRequiredBookingsForSkillTriggering;
 
     private SkillProfileService $skill_profile_service;
+    private SkillPersonalService $skill_personal_service;
 
-    public function __construct(ilDBInterface $db, $testId, $refId, SkillProfileService $skill_profile_service = null)
-    {
+    public function __construct(
+        ilDBInterface $db,
+        $testId,
+        $refId,
+        SkillProfileService $skill_profile_service = null,
+        SkillPersonalService $skill_personal_service = null
+    ) {
         global $DIC;
 
         $this->db = $db;
@@ -108,6 +115,9 @@ class ilTestSkillEvaluation
         $this->skill_profile_service = ($skill_profile_service == null)
             ? $DIC->skills()->profile()
             : $skill_profile_service;
+        $this->skill_personal_service = ($skill_personal_service == null)
+            ? $DIC->skills()->personal()
+            : $skill_personal_service;
 
         $this->questions = array();
         $this->maxPointsByQuestion = array();
@@ -356,9 +366,9 @@ class ilTestSkillEvaluation
             $this->invokeSkillLevelTrigger($reachedSkillLevel['sklLevelId'], $reachedSkillLevel['sklTrefId']);
 
             if ($reachedSkillLevel['sklTrefId'] > 0) {
-                ilPersonalSkill::addPersonalSkill($this->getUserId(), $reachedSkillLevel['sklTrefId']);
+                $this->skill_personal_service->addPersonalSkill($this->getUserId(), $reachedSkillLevel['sklTrefId']);
             } else {
-                ilPersonalSkill::addPersonalSkill($this->getUserId(), $reachedSkillLevel['sklBaseId']);
+                $this->skill_personal_service->addPersonalSkill($this->getUserId(), $reachedSkillLevel['sklBaseId']);
             }
         }
         //write profile completion entries if fulfilment status has changed
@@ -433,15 +443,14 @@ class ilTestSkillEvaluation
         $usersProfiles = $this->skill_profile_service->getProfilesOfUser($this->getUserId());
 
         foreach ($usersProfiles as $profileData) {
-            $profile = $this->skill_profile_service->getById($profileData['id']);
-            $assignedSkillLevels = $profile->getSkillLevels();
+            $assignedSkillLevels = $this->skill_profile_service->getSkillLevels($profileData->getId());
 
             foreach ($assignedSkillLevels as $assignedSkillLevel) {
-                $skillBaseId = $assignedSkillLevel['base_skill_id'];
-                $skillTrefId = $assignedSkillLevel['tref_id'];
+                $skillBaseId = $assignedSkillLevel->getBaseSkillId();
+                $skillTrefId = $assignedSkillLevel->getTrefId();
 
                 if ($this->skillQuestionAssignmentList->isAssignedSkill($skillBaseId, $skillTrefId)) {
-                    $matchingSkillProfiles[$profileData['id']] = $profile->getTitle();
+                    $matchingSkillProfiles[$profileData->getId()] = $profileData->getTitle();
                 }
             }
         }
@@ -454,12 +463,12 @@ class ilTestSkillEvaluation
         $noProfileMatchingSkills = $this->skillQuestionAssignmentList->getUniqueAssignedSkills();
 
         foreach ($availableSkillProfiles as $skillProfileId => $skillProfileTitle) {
-            $profile = $this->skill_profile_service->getById($skillProfileId);
-            $assignedSkillLevels = $profile->getSkillLevels();
+            $profile = $this->skill_profile_service->getProfile($skillProfileId);
+            $assignedSkillLevels = $this->skill_profile_service->getSkillLevels($profile->getId());
 
             foreach ($assignedSkillLevels as $assignedSkillLevel) {
-                $skillBaseId = $assignedSkillLevel['base_skill_id'];
-                $skillTrefId = $assignedSkillLevel['tref_id'];
+                $skillBaseId = $assignedSkillLevel->getBaseSkillId();
+                $skillTrefId = $assignedSkillLevel->getTrefId();
 
                 if ($this->skillQuestionAssignmentList->isAssignedSkill($skillBaseId, $skillTrefId)) {
                     unset($noProfileMatchingSkills["{$skillBaseId}:{$skillTrefId}"]);

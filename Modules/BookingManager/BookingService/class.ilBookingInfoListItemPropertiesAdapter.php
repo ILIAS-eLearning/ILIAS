@@ -22,10 +22,10 @@
  */
 class ilBookingInfoListItemPropertiesAdapter
 {
-    protected ilBookingReservationDBRepository $repo;
+    protected \ILIAS\BookingManager\Reservations\ReservationDBRepository $repo;
 
     public function __construct(
-        ilBookingReservationDBRepository $repo = null
+        \ILIAS\BookingManager\Reservations\ReservationDBRepository $repo = null
     ) {
         $this->repo = $repo;
     }

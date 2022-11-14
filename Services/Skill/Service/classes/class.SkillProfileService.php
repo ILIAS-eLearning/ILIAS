@@ -41,34 +41,48 @@ class SkillProfileService
     /**
      * @throws \ilSkillProfileNotFoundException
      */
-    public function getById(int $profile_id): Profile\SkillProfile
+    public function getProfile(int $profile_id): Profile\SkillProfile
     {
-        return $this->profile_manager->getById($profile_id);
+        return $this->profile_manager->getProfile($profile_id);
     }
 
-    public function delete(int $profile_id): void
+    public function deleteProfile(int $profile_id): void
     {
         $this->profile_manager->delete($profile_id);
         $this->profile_completion_manager->deleteEntriesForProfile($profile_id);
     }
 
-    public function lookupTitle(int $profile_id): string
+    public function lookupProfileTitle(int $profile_id): string
     {
         $title = $this->profile_manager->lookupTitle($profile_id);
         return $title;
     }
 
-    public function lookupRefId(int $profile_id): int
+    public function lookupProfileRefId(int $profile_id): int
     {
         $ref_id = $this->profile_manager->lookupRefId($profile_id);
         return $ref_id;
     }
 
+    /**
+     * @return Profile\SkillProfileLevel[]
+     */
+    public function getSkillLevels(int $profile_id): array
+    {
+        return $this->profile_manager->getSkillLevels($profile_id);
+    }
+
+    /**
+     * @return Profile\SkillProfile[]
+     */
     public function getProfilesOfUser(int $user_id): array
     {
         return $this->profile_manager->getProfilesOfUser($user_id);
     }
 
+    /**
+     * @return Profile\SkillProfile[]
+     */
     public function getAllGlobalProfiles(): array
     {
         $profiles = $this->profile_manager->getAllGlobalProfiles();
@@ -83,7 +97,7 @@ class SkillProfileService
     /**
      * Update the old ref id with the new ref id after import
      */
-    public function updateRefIdAfterImport(int $profile_id, int $new_ref_id): void
+    public function updateProfileRefIdAfterImport(int $profile_id, int $new_ref_id): void
     {
         $this->profile_manager->updateRefIdAfterImport($profile_id, $new_ref_id);
     }

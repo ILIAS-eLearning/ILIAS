@@ -1,0 +1,14 @@
+/*
+* Elements
+*/
+
+// The Elements layer MUST contain the basic styling of all unclassed HTML-elements.
+// This layer MUST output CSS code for elements only and MUST NOT output css code for classes.
+
+@use "./_elements_html-body.scss";
+@use "./_elements_input.scss";
+@use "./_elements_lists.scss";
+@use "./_elements_media.scss";
+@use "./_elements_objects.scss";
+@use "./_elements_tables.scss";
+@use "./_elements_typography.scss";

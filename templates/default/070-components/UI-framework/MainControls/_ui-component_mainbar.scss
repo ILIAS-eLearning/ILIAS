@@ -1,0 +1,391 @@
+@use "../../../010-settings/"as *;
+@use "../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+@use "../../../030-tools/tool_focus-outline" as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_symbol" as *;
+@use "../../../050-layout/basics" as *;
+@use "../../../050-layout/standardpage/" as *;
+
+//== mainbar
+
+//Mixin for hovered, engaged or visible focus for triggers for slates, neede due to: #31811
+@mixin focus_hovered_engaged_slate_trigger {
+	background-color: $il-mainbar-btn-bg-color-engaged;
+	color: $il-mainbar-btn-bg-color;
+	.glyph{
+		color: $il-mainbar-btn-bg-color;
+	}
+	.icon {
+		filter: $il-mainbar-icon-filter;
+	}
+	.bulky-label {
+		color: $il-mainbar-btn-bg-color;
+	}
+}
+
+.il-maincontrols-mainbar,
+.il-maincontrols-metabar {
+	.btn-bulky,
+	.il-link.link-bulky {
+		font-size: $il-mainbar-btn-label-size;
+		line-height: $il-mainbar-btn-label-size * $il-line-height-large;
+		&:focus,
+		&:active {
+			box-shadow: none;
+		}
+		&:focus-visible,
+		&:active:focus-visible {
+			border: $il-focus-outline-inner;
+			outline: none;
+
+			&::after {
+				content: none;
+			}
+		}
+	}
+	.bulky-label {
+		white-space: normal;
+	    display: block;
+	}
+}
+
+.il-maincontrols-mainbar,
+.il-maincontrols-metabar {
+	.il-item-shy {
+		margin-bottom: $il-slate-content-spacing;
+		&:not(:hover) {
+			background: $il-main-dark-bg;
+		}
+	}
+}
+
+.il-maincontrols-mainbar,
+.il-maincontrols-metabar {
+	.btn,a {
+	  &:active {
+		  outline: 0;
+		  outline-offset: 0;
+	  }
+	}
+
+	> .il-metabar-slate-auxillary {
+		display: none;
+	}
+}
+
+// mainbar triggers
+.il-mainbar-triggers {
+	background: $il-mainbar-btn-bg-color;
+	display: flex;
+	position: relative;
+	width: $il-mainbar-btn-width;
+	z-index: 1;
+	.btn-bulky,
+	.il-link.link-bulky {
+		align-items: center;
+		background: $il-mainbar-btn-bg-color;
+		border: 0;
+		border-bottom: $il-mainbar-btn-border;
+		color: $il-mainbar-btn-bg-color-engaged;
+		display: inline-flex;
+		flex-flow: column wrap;
+		height: $il-mainbar-btn-height;
+		justify-content: center;
+		margin-bottom: 0;
+		padding: 0;
+		width: $il-mainbar-btn-height;
+		width: 100%;
+		.icon {
+			filter: $il-mainbar-trigger-icon-filter;
+			&.small {
+				width: $il-mainbar-trigger-icon-size;
+				height: $il-mainbar-trigger-icon-size;
+			}
+		}
+		//Note, for some reason, safari needs this in a seperate section, see:
+		&.engaged{
+			@include focus_hovered_engaged_slate_trigger;
+		}
+		&:focus-visible{
+			@include focus_hovered_engaged_slate_trigger;
+		}
+		&:hover {
+			transition: all .15s ease-in;
+			@include focus_hovered_engaged_slate_trigger;
+		}
+		.glyph{
+			color: $il-mainbar-btn-color;
+		}
+		.bulky-label {
+			color: $il-mainbar-btn-bg-color-engaged;
+			display: -webkit-box;
+			margin-top: $il-margin-large-vertical;
+			white-space: normal;
+			word-break: break-word;
+    		padding: 0 2px;
+			text-align: center;
+			overflow: hidden;
+			-webkit-line-clamp: 2;
+		    -webkit-box-orient: vertical;
+		}
+	}
+	&.engaged {
+		background: $il-maincontrols-mainbar-bg-color;
+	}
+	// no hover on mobile devices
+	@media (hover: none) {
+		.btn-bulky,
+		.il-link.link-bulky {
+			&:hover {
+				background-color: $il-mainbar-btn-bg-color;
+				color: $il-mainbar-btn-bg-color-engaged;
+				.icon {
+					filter: $il-mainbar-trigger-icon-filter;
+				}
+				.bulky-label {
+					color: $il-mainbar-btn-bg-color-engaged;
+				}
+			}
+			&.engaged {
+				background-color: $il-mainbar-btn-bg-color-engaged;
+				color: $il-mainbar-btn-bg-color;
+				.icon  {
+					filter: $il-mainbar-icon-filter;
+				}
+				.bulky-label {
+					color: $il-mainbar-btn-bg-color;
+				}
+			}
+		}
+	}
+}
+
+// mainbar entries
+.il-mainbar-entries {
+	min-width: 100%;
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+// mainbar slates
+.il-mainbar-slates {
+	@include shadow-right;
+	background: $il-mainbar-slates-bg-color;
+	display: none;
+	position: relative;
+	width: $il-standard-page-slate-width;
+
+	.bulky-label{
+		margin-top: auto;
+		margin-bottom: auto;
+	}
+
+}
+
+.il-mainbar-tools-button {
+	.btn-bulky,
+	.btn-bulky.engaged {
+		background-color: $il-mainbar-tools-btn-bg;
+		border: 0;
+		color: white;
+		padding: 0;
+		.icon  {
+			filter: $il-mainbar-trigger-icon-filter;
+		}
+	}
+	.btn-bulky.engaged {
+		background-color: $il-mainbar-tools-btn-bg-engaged;
+		color: $il-mainbar-btn-color-engaged;
+		.icon  {
+			filter: invert(30%);
+		}
+	}
+}
+
+.il-mainbar-tools-entries {
+	display: none;
+	&.engaged {
+		display: flex;
+		height: $il-mainbar-btn-height;
+		flex-shrink: 0;
+	}
+	.btn-bulky,.btn-bulky,
+	.il-link.link-bulky {
+		background-color: $il-mainbar-tools-tab-btn-bg-disengaged;
+		color: $il-mainbar-btn-color;
+		padding: 0;
+		.icon {
+			filter: $il-mainbar-trigger-icon-filter;
+		}
+		.bulky-label {
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+		&.engaged {
+			background-color: $il-mainbar-tools-tab-btn-bg-engaged;
+			border: 0;
+			color: $il-mainbar-btn-color-engaged;
+			.icon {
+				filter: invert(60%);
+			}
+		}
+	}
+	.il-mainbar-tool-trigger-item {
+		display: inline;
+		margin-right:$il-mainbar-tools-item-gap;
+		.hidden {
+			display: none;
+		}
+	}
+}
+
+.il-mainbar-tools-entries-bg {
+	background-color: $il-mainbar-tools-btn-bg-engaged;
+	display: flex;
+	height: $il-mainbar-btn-height;
+	width: 100%;
+
+	padding: 0;
+	margin: 0;
+}
+
+// remove tools
+.il-mainbar-remove-tool {
+	display: none;
+	.il-mainbar-tools-entries.engaged & {
+		/*display: block;*/
+		position: absolute;
+	    top: 0;
+	    right: 0;
+	}
+	.close {
+		color: $il-main-color;
+	    font-size: 2.8125rem;
+	    font-weight: $il-font-weight-light;
+		height: $il-mainbar-btn-height;
+		padding: 0 20px;
+		width: auto;
+	}
+}
+
+.il-mainbar-close-slates {
+	align-items: flex-end;
+	display: flex;
+	flex-shrink: 0;
+	height: $il-mainbar-close-slate-btn-height;
+	margin-top: auto;
+	.btn-bulky {
+		background-color: transparent;
+		border-top: $il-mainbar-btn-border;
+		display: flex;
+		flex-direction: row;
+		height: $il-mainbar-close-slate-btn-height;
+		justify-content: center;
+		align-items: center;
+		.bulky-label {
+			@include btstrp3.sr-only;
+		}
+		.glyph {
+			&:before {
+				content:" \e605";
+				display: block;
+				font-family: "il-icons"; // should be defined more general at .glyphicon
+				font-size: 1.5rem;
+			}
+			.glyphicon {
+				display: none;
+			}
+		}
+	}
+}
+
+.il-mainbar-slates > .il-maincontrols-slate.engaged {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	position: relative;
+ }
+ .il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content {
+	 >:first-child{
+		 z-index: 1;
+	 }
+	 height: 0px; // forcing scrollbars in slate content
+
+	 .panel-secondary {
+		 margin-bottom: 0;
+		 border: none;
+
+		 .panel-body {
+			 padding-bottom: 0;
+		 }
+	 }
+}
+
+/*
+**************************************************************
+       mobile Layout
+**************************************************************
+*/
+
+
+@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+	.il-mainbar-entries {
+	    display: flex;
+	    justify-content: space-evenly;
+	    width: 100%;
+	    flex-flow: row wrap;
+	}
+
+	.il-mainbar-tools-entries-bg {
+		// @include shadow-bottom();
+	}
+
+	.il-mainbar-triggers {
+	   background: $il-mainbar-btn-bg-color;
+	   display: flex;
+	   position: relative;
+	   width: 100%;
+	   z-index: 1;
+	   .btn-bulky,
+	   .il-link.link-bulky {
+	   	   flex-shrink: 0;
+		   border: 0;
+		   height: $il-mainbar-small-btn-height;
+		   width: $il-mainbar-small-btn-width;
+		   .icon.small {
+			   height: $il-icon-size-small;
+			   width: $il-icon-size-small;
+		   }
+	   }
+	}
+
+	.il-mainbar-tools-entries {
+		&.engaged {
+			height: $il-mainbar-small-btn-height;
+			.il-mainbar-remove-tool {
+				top: 0;
+				.close {
+					font-size: 2.5rem;
+					height: $il-mainbar-small-btn-height;
+				}
+			}
+		}
+	}
+}
+
+//Note: There should never be more than 4 Tools open at once.
+//However, in ILIAS 6, we have a context with 5 tools. This
+//Fixes this issue for exactly five tools by making each tab slightly
+//smaller. See: #26566
+@media only screen and (min-width: $il-grid-float-breakpoint-max) {
+	.il-mainbar-tool-trigger-item:nth-of-type(1):nth-last-of-type(5),
+	.il-mainbar-tool-trigger-item:nth-of-type(2):nth-last-of-type(4),
+	.il-mainbar-tool-trigger-item:nth-of-type(3):nth-last-of-type(3),
+	.il-mainbar-tool-trigger-item:nth-of-type(4):nth-last-of-type(2),
+	.il-mainbar-tool-trigger-item:nth-of-type(5):nth-last-of-type(1)
+	{
+		.btn-bulky{
+			width: 63px;
+		}
+	}
+}

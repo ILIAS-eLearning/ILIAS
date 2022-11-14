@@ -36,6 +36,9 @@ class ilBookCronNotification extends ilCronJob
         }
 
         $this->book_log = ilLoggerFactory::getLogger("book");
+        $this->repo = $DIC->bookingManager()
+            ->internal()
+            ->repo();
     }
 
     public function getId(): string
@@ -136,8 +139,7 @@ class ilBookCronNotification extends ilCronJob
 
 
             if ($to_ts > $from_ts) {
-                $f = new ilBookingReservationDBRepositoryFactory();
-                $repo = $f->getRepo();
+                $repo = $this->repo->reservation();
                 $res = $repo->getListByDate(true, null, [
                     "from" => $from_ts,
                     "to" => $to_ts

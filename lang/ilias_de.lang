@@ -1016,7 +1016,7 @@ assessment#:#qpl_assessment_total_of_right_answers#:#Gesamtprozentsatz der richt
 assessment#:#qpl_cancel_skill_assigns_update#:#Abbrechen
 assessment#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen entfernen wollen?
 assessment#:#qpl_copy_insert_clipboard#:#Die ausgewählten Fragen wurden in die Zwischenablage kopiert
-assessment#:#qpl_copy_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um diese in die Zwischenablage zu kopieren
+assessment#:#qpl_copy_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um diese in die Zwischenablage zu kopieren!
 assessment#:#qpl_delete_rbac_error#:#Sie haben keine Berechtigung, diese Frage zu entfernen!
 assessment#:#qpl_delete_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um den Löschvorgang auszuführen!
 assessment#:#qpl_export_excel#:#Microsoft Excel-Datei
@@ -1047,7 +1047,7 @@ assessment#:#qpl_lac_legend_header_quest_specific#:#Fragenspezifische Ausdrücke
 assessment#:#qpl_lac_legend_label_operators#:#Operatoren
 assessment#:#qpl_maxchars_info_numeric_question#:#Wenn Sie hier einen Wert eintragen, wird das Feld für die numerische Antwort mit der angegebenen Länge erzeugt, so dass es nicht möglich ist eine größere Anzahl an Zeichen einzugeben. Zu beachten ist dabei, dass das Dezimaltrennzeichen dabei mit gezählt wird.
 assessment#:#qpl_move_insert_clipboard#:#Die ausgewählten Fragen wurden zum Verschieben markiert
-assessment#:#qpl_move_select_none#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus
+assessment#:#qpl_move_select_none#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus!
 assessment#:#qpl_numeric_lower_needs_valid_lower_alert#:#Die untere Schranke muss ein gültiger numerischer Wert sein, der niedriger ist als die obere Schranke.
 assessment#:#qpl_numeric_upper_needs_valid_upper_alert#:#Die obere Schranke muss ein gültiger numerischer Wert sein, der größer ist als die untere Schranke.
 assessment#:#qpl_paste_error#:#Mindestens eine Frage konnte nicht in den Fragenpool eingefügt werden. Möglicher Grund: Sie haben versucht die Frage in den selben Fragenpool zu verschieben.
@@ -1194,8 +1194,8 @@ assessment#:#search_roles#:#nach Rollen
 assessment#:#search_term#:#Suchbegriff
 assessment#:#search_users#:#nach Benutzern
 assessment#:#select_gap#:#Auswahl-Lücke
-assessment#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
-assessment#:#select_one_user#:#Bitte wählen Sie mindestens einen Benutzer aus.
+assessment#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus!
+assessment#:#select_one_user#:#Bitte wählen Sie mindestens einen Benutzer aus!
 assessment#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition zum Verschieben der Fragen aus und klicken Sie auf eine der Einfügeschaltflächen!
 assessment#:#select_unit#:#--- Einheit auswählen ---
 assessment#:#selected_category#:#Ausgewählte Kategorie: %s
@@ -1376,7 +1376,7 @@ assessment#:#tst_defaults_defaults_of_test#:#der Einstellungen dieses Tests als 
 assessment#:#tst_defaults_enter_name#:#Bitte geben Sie einen Namen für die neuen Standardeinstellungen an!
 assessment#:#tst_defaults_not_defined#:#Sie haben noch keine Standardeinstellungen definiert.
 assessment#:#tst_delete_dyn_test_results_btn#:#Testergebnisse entfernen
-assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenstufe zum entfernen aus!
+assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenstufe zum Entfernen aus!
 assessment#:#tst_derive_new_pool#:#Neuen Fragenpool ableiten
 assessment#:#tst_derive_new_pools#:#Neue Fragenpools ableiten
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Diese Meldung in meiner aktuellen Sitzung nicht mehr anzeigen.
@@ -1587,7 +1587,7 @@ assessment#:#tst_nav_while_edit_modal_text#:#Was soll mit den Antworten dieser F
 assessment#:#tst_no_evaluation_data#:#Es liegen (noch) keine Benutzerdaten vor.
 assessment#:#tst_no_marks_defined#:#Es sind keine Noten definiert. Bitte erzeugen Sie wenigstens ein einfaches Notenschema!
 assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Bitte wählen Sie wenigstens eine Frage aus, die Sie in einen Fragenpool überführen möchten!
-assessment#:#tst_no_question_selected_for_removal#:#Bitte wählen Sie wenigstens eine Frage zum entfernen aus!
+assessment#:#tst_no_question_selected_for_removal#:#Bitte wählen Sie wenigstens eine Frage zum Entfernen aus!
 assessment#:#tst_no_scorable_qst_available#:#Keine manuell bewertbare Frage verfügbar
 assessment#:#tst_no_tries#:#keine
 assessment#:#tst_non_avail_pool_msg_status_lost#:#<b>Dieser Fragenpool steht nicht mehr zur Verfügung.</b><br />Eine Synchronisierung von Fragen aus diesem Pool ist nicht mehr möglich. Sie können aus den im Test bereits befindlichen Fragen einen neuen Fragenpool ableiten.
@@ -1814,19 +1814,19 @@ assessment#:#tst_save_manscoring_failed#:#Die manuelle Bewertung für Testdurchl
 assessment#:#tst_save_thresholds#:#Speichere Schwellenwerte
 assessment#:#tst_saved_manscoring_by_question_successfully#:#Die manuelle Bewertung der Frage %s für Testdurchlauf %s wurde erfolgreich gespeichert.
 assessment#:#tst_saved_manscoring_successfully#:#Die manuelle Bewertung für Testdurchlauf %s von %s wurde erfolgreich gespeichert.
-assessment#:#tst_score_cut_question#:#Ergebnis einer Frage kann nie weniger als 0 Punkte sein
+assessment#:#tst_score_cut_question#:#Das Ergebnis einer Frage kann nie weniger als 0 Punkte sein.
 assessment#:#tst_score_cut_question_desc#:#Bei der Vergabe negativer Punkte für einzelne Antwortoptionen können mit der falschen Beantwortung einer Frage Minuspunkte erzielt werden. Bei dieser Option werden die erreichten Minuspunkte pro Frage auf 0 Punkte gesetzt.
-assessment#:#tst_score_cut_test#:#Frage kann auch negatives Punkteergebnis haben
+assessment#:#tst_score_cut_test#:#Eine Frage kann auch ein negatives Punkteergebnis haben.
 assessment#:#tst_score_cut_test_desc#:#Es können pro Frage Minuspunkte erzielt werden. Die Punktestände aller Fragen werden aufsummiert und erst wenn diese Summe noch negativ ist, wird das Gesamtergebnis des Tests auf 0 Punkte gesetzt. Ganz oder teilweise falsch beantwortete Fragen fallen damit sehr stark ins Gewicht.
 assessment#:#tst_score_cutting#:#Negative Punkte
 assessment#:#tst_score_reporting#:#Ergebnisausgabe
 assessment#:#tst_score_reporting_date#:#Datum der Ergebnisausgabe
 assessment#:#tst_search_users#:#Teilnehmer suchen
-assessment#:#tst_select_questionpool#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die erstellte Frage ablegen
-assessment#:#tst_selected_user_data_deleted#:#Die Testdaten der ausgewählten Benutzer wurden erfolgreich gelöscht
+assessment#:#tst_select_questionpool#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die erstellte Frage ablegen!
+assessment#:#tst_selected_user_data_deleted#:#Die Testdaten der ausgewählten Benutzer wurden erfolgreich gelöscht.
 assessment#:#tst_sequence#:#Reihenfolge
-assessment#:#tst_sequence_fixed#:#Die Reihenfolge der Fragen muss eingehalten werden
-assessment#:#tst_sequence_postpone#:#Fragen können an das Ende eines Testdurchlaufs zurückgestellt werden
+assessment#:#tst_sequence_fixed#:#Die Reihenfolge der Fragen muss eingehalten werden.
+assessment#:#tst_sequence_postpone#:#Fragen können an das Ende eines Testdurchlaufs zurückgestellt werden.
 assessment#:#tst_sequence_properties#:#Durchführung: Funktionen für Teilnehmer
 assessment#:#tst_session_settings#:#Durchführung
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Der Test wurde offline gesetzt, da sich die Einstellung zur Auswahl der Testfragen geändert hat. Weisen Sie dem Test wieder Fragen zu. Anschließend können Sie den Test wieder online setzen.
@@ -2031,7 +2031,7 @@ auth#:#auth_oidc_settings_custom_session_duration#:#Sitzungsdauer
 auth#:#auth_oidc_settings_custom_session_duration_option#:#Eigene Sitzungsdauer
 auth#:#auth_oidc_settings_custom_session_duration_type#:#Einstellungen zur Sitzungsdauer
 auth#:#auth_oidc_settings_default_role#:#Rollenzuordnung
-auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS-Benutzer
+auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS-Benutzer aus!
 auth#:#auth_oidc_settings_img#:#Bild
 auth#:#auth_oidc_settings_img_file_info#:#Laden Sie ein Bild hoch das auf der Anmeldeseite angezeigt werden soll. Das Bild verlinkt automatisch auf das OpenId Connect Anmeldeskript.
 auth#:#auth_oidc_settings_invalid_scopes#:#Folgende Werte sind keine gültigen Scopes: %s
@@ -2274,7 +2274,7 @@ bibl#:#download_original_file#:#Original-Datei herunterladen
 bibl#:#field#:#Feld
 bibl#:#fields#:#Felder
 bibl#:#filter_deleted#:#Der Filter wurde gelöscht.
-bibl#:#filter_field_info#:#Bitte wählen Sie ein Feld aus für das Sie einen Filter hinzufügen möchten.
+bibl#:#filter_field_info#:#Bitte wählen Sie ein Feld aus, für das Sie einen Filter hinzufügen möchten.
 bibl#:#filter_form_title#:#Neuen Filter hinzufügen
 bibl#:#filter_type#:#Filter Typ
 bibl#:#filter_type_1#:#Textfeld
@@ -2455,11 +2455,16 @@ book#:#book_assign_participant#:#Teilnehmer zuweisen
 book#:#book_back_to_list#:#Zurück zur Liste
 book#:#book_bobj#:#Buchungsobjekt
 book#:#book_book#:#Buchen
+book#:#book_book_available#:#Verfügbare Termine buchen
+book#:#book_book_recurrence#:#Wiederholungen buchen
 book#:#book_booked_in#:#Gebucht in
 book#:#book_booking_information#:#Information
 book#:#book_booking_objects#:#Buchungsobjekte
 book#:#book_booking_reminders#:#Anstehende Reservierungen
 book#:#book_bookings_per_user#:#Buchungen je Benutzer
+book#:#book_bulk_confirmation#:#Bitte überprüfen Sie die angegebenen Werte.
+book#:#book_bulk_creation#:#Massenerstellung
+book#:#book_bulk_data#:#Objektdaten
 book#:#book_cal_entry#:#Buchung von:
 book#:#book_confirm_booking#:#Buchung vornehmen
 book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, dass Sie das folgende Objekt buchen wollen?
@@ -2469,6 +2474,7 @@ book#:#book_confirm_cancel#:#Sind Sie sicher, dass Sie die folgende Reservierung
 book#:#book_confirm_cancel_aggregation#:#Anzahl Stornierungen
 book#:#book_confirm_delete#:#Wollen Sie wirklich die nachfolgende Objekte löschen?
 book#:#book_copy#:#Buchungspool kopieren
+book#:#book_create_objects#:#Objekte erstellen
 book#:#book_deadline#:#Zeitspanne
 book#:#book_deadline_hours#:#Bis n Stunden vor Beginn des Zeitfensters
 book#:#book_deadline_info#:#Minimale Zeit zwischen Buchung und Buchungszeitraum
@@ -2485,12 +2491,16 @@ book#:#book_fromto#:#Datumsbereich
 book#:#book_hours#:#Stunden
 book#:#book_is_used#:#In Benutzung
 book#:#book_limit_objects_available#:#Sie können nicht %s Teilnehmer zu "%s" hinzufügen, weil nur %s Einträge verfügbar sind.
+book#:#book_list#:#Liste
 book#:#book_log#:#Reservierungen
+book#:#book_missing_availability#:#Es können leider nicht alle Termine gebucht werden.
+book#:#book_missing_items#:#Es fehlen $1.
 book#:#book_new#:#Neuen Buchungspool anlegen
 book#:#book_no_bookings_for_you#:#Es wurden keine Reservierungen für Sie durchgeführt.
 book#:#book_no_objects#:#Keine Zuweisung
 book#:#book_no_of_objects#:#Anzahl Objekte
 book#:#book_no_preferences_for_you#:#Sie haben keine Präferenzen abgespeichert.
+book#:#book_no_recurrence#:#nur diesen Termin buchen
 book#:#book_not#:#Nicht
 book#:#book_not_enough_preferences#:#Sie haben nicht genügend Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
 book#:#book_notification#:#Benachrichtigungen über Reservierungen
@@ -2498,8 +2508,10 @@ book#:#book_notification_info#:#Sendet eine Liste der Reservierungen des nächst
 book#:#book_nr_of_preferences#:#Anzahl
 book#:#book_nr_of_preferences_info#:#Anzahl an Präferenzen, die jeder Teilnehmer abgeben darf.
 book#:#book_nr_preferences#:#Präferenzen
+book#:#book_obj_select#:#Auswählen
 book#:#book_object_added#:#Ein Buchungsobjekt wurde hinzugefügt.
 book#:#book_object_deleted#:#Das Buchungsobjekt wurde gelöscht.
+book#:#book_object_selection#:#Objektauswahl
 book#:#book_object_updated#:#Das Buchungsobjekt wurde geändert.
 book#:#book_objects_available#:#Verfügbare Objekte: %s
 book#:#book_open#:#Buchungspool öffnen
@@ -2524,6 +2536,8 @@ book#:#book_preferences#:#Präferenzen
 book#:#book_preferences_saved#:#Die Präferenzen wurden gespeichert.
 book#:#book_public_log#:#Benutzer sehen alle Reservierungen
 book#:#book_public_log_info#:#Benutzer mit Leserecht können im Reiter „Reservierungen“ auch Reservierungen anderer Benutzer einsehen.
+book#:#book_recurrence#:#Wiederholung
+book#:#book_refresh#:#Aktualisieren
 book#:#book_rem_intro#:#Dies ist eine Übersicht über anstehende Reservierungen.
 book#:#book_rem_reason#:#Sie erhalten diese Mail, da Sie die Benachrichtigung der entsprechenden Buchungsobjekte aktiviert haben.
 book#:#book_reminder_day#:#Versenden
@@ -2561,8 +2575,11 @@ book#:#book_schedules#:#Zeitpläne
 book#:#book_select_pool#:#Pool auswählen
 book#:#book_set_cancel#:#Stornieren
 book#:#book_set_delete#:#Löschen
+book#:#book_title_description_nr#:#Titel; Beschreibung; Anzahl
+book#:#book_title_description_nr_info#:#Geben Sie bitte Titel, Beschreibung und Anzahl getrennt durch ein Semikolon oder TAB ein. Nutzen Sie einen Zeile
 book#:#book_too_many_preferences#:#Sie haben zu viele Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
 book#:#book_type_warning#:#Es sind momentan keine Buchungsobjekte vorhanden. Um den Pool nutzen zu können, müssen zuerst Buchungsobjekte angelegt werden.
+book#:#book_week#:#Wochenansicht
 book#:#book_your_bookings#:#Ihre Reservierungen
 book#:#book_your_preferences#:#Ihre Präferenzen
 book#:#book_your_reservations#:#Ihre Reservierungen
@@ -2930,7 +2947,7 @@ chatroom#:#lost_connection#:#Die Verbindung zum Chat-Server wurde unterbrochen.
 chatroom#:#main#:#Hauptraum
 chatroom#:#no_further_users#:#Keine weiteren Benutzer anwesend
 chatroom#:#no_messages#:#Es sind keine Nachrichten für den ausgewählten Zeitraum verfügbar.
-chatroom#:#no_username_given#:#Bitte wählen Sie einen Anmeldenamen
+chatroom#:#no_username_given#:#Bitte wählen Sie einen Anmeldenamen!
 chatroom#:#obj_chtr#:#Chatroom
 chatroom#:#osc_browser_noti_no_permission_error#:#Bitte entfernen Sie die ILIAS-Domain von der Liste der blockierten Websites in den Benachrichtigungs-Einstellungen Ihres Browsers oder Betriebssystems. Andernfalls kann ILIAS keine Browser-Benachrichtigungen zustellen.
 chatroom#:#osc_browser_noti_no_support_error#:#Browser-Benachrichtigungen werden mit Ihrem aktuellem Browser nicht unterstützt. Bitte stellen Sie sicher, dass Sie via HTTPS auf ILIAS zugreifen, und Ihr Browser als <a href="https://caniuse.com/#feat=notifications" target="_blank" rel="noopener noreferrer">unterstützter Browser</a> aufgelistet wird.
@@ -3455,7 +3472,7 @@ common#:#are_you_sure#:#Sind Sie sicher?
 common#:#ass_log_admin#:#Administration der Protokolldaten
 common#:#ass_log_count_datasets#:#Protokolleinträge
 common#:#ass_log_delete_entries#:#Protokolleinträge löschen
-common#:#ass_log_delete_no_selection#:#Bitte wählen Sie mindestens einen Test aus, dessen Protokolleinträge Sie löschen wollen
+common#:#ass_log_delete_no_selection#:#Bitte wählen Sie mindestens einen Test aus, dessen Protokolleinträge Sie löschen wollen!
 common#:#ass_log_deleted#:#Die Protokolleinträge für die ausgewählten Tests wurden gelöscht!
 common#:#ass_log_output#:#Ausgabe der Protokolldaten
 common#:#assessment_imap_line_color#:#Imagemap Linienfarbe
@@ -4573,7 +4590,7 @@ common#:#mm_favorites#:#Favoriten
 common#:#mm_learning_history#:#Lernverlauf
 common#:#mm_learning_progress#:#Lernfortschritt
 common#:#mm_mail#:#Mail
-common#:#mm_news#:#News
+common#:#mm_news#:#Neuigkeiten
 common#:#mm_notes#:#Notizen
 common#:#mm_organisation#:#Organisation
 common#:#mm_personal_and_shared_r#:#Persönliche und geteilte Ressourcen
@@ -4692,7 +4709,7 @@ common#:#msg_perm_adopted_from1#:#Rechteeinstellungen übernommen von
 common#:#msg_perm_adopted_from2#:#(Die Einstellungen wurden gespeichert!)
 common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstellungen von der aktuellen Rolle bzw. Rollenvorlage selbst zu übernehmen.
 common#:#msg_removed#:#Objekt(e) aus dem System entfernt
-common#:#msg_role_reserved_prefix#:#Das Präfix 'il_' ist reserviert für automatisch generierte Rollen. Bitte wählen Sie einen anderen Namen
+common#:#msg_role_reserved_prefix#:#Das Präfix 'il_' ist reserviert für automatisch generierte Rollen. Bitte wählen Sie einen anderen Namen!
 common#:#msg_roleassignment_changed#:#Rollenzuweisung geändert
 common#:#msg_sysrole_not_deletable#:#Die Systemrolle kann nicht gelöscht werden
 common#:#msg_sysrole_not_editable#:#Die Rechteeinstellungen der Systemrolle können nicht geändert werden. Die Systemrolle erlaubt den zugeordneten Benutzern uneingeschränkten Zugriff auf alle Objekte und Funktionen.
@@ -6383,7 +6400,7 @@ content#:#cont_end#:#Ende
 content#:#cont_enough_answers_correct#:#Richtig, aber nicht die bestmögliche Lösung!
 content#:#cont_enter_a_dir_name#:#Bitte geben Sie einen Verzeichnisnamen an.
 content#:#cont_enter_a_file#:#Bitte wählen Sie eine Datei aus.
-content#:#cont_error#:#Es ist leider ein Fehler aufgetreten
+content#:#cont_error#:#Es ist leider ein Fehler aufgetreten!
 content#:#cont_exp_id_used_multiple#:#Mehrfach genutzte Export-IDs
 content#:#cont_exp_ids_not_resp_format1#:#Export-IDs dürfen nur die folgenden Buchstaben nutzen.
 content#:#cont_exp_ids_not_resp_format2#:#Bitte überprüfen und korrigieren Sie Ihre Eingabe.
@@ -6556,17 +6573,17 @@ content#:#cont_list_outdent#:#Liste ausrücken
 content#:#cont_list_properties#:#Listen-Eigenschaften
 content#:#cont_lists#:#Listen
 content#:#cont_lk_chapter#:#Kapitel
-content#:#cont_lk_chapter_new#:#Kapitel (Neuer Frame)
+content#:#cont_lk_chapter_new#:#Kapitel in neuem Tab
 content#:#cont_lk_file#:#Datei/Dokument
-content#:#cont_lk_media_faq#:#Medienobjekt (FAQ Frame)
+content#:#cont_lk_media_faq#:#Medienobjekt in FAQ Tool
 content#:#cont_lk_media_inline#:#Medienobjekt (Inline)
-content#:#cont_lk_media_media#:#Medienobjekt (Media Frame)
-content#:#cont_lk_media_new#:#Medienobjekt (Neuer Frame)
+content#:#cont_lk_media_media#:#Medienobjekt in Media Tool
+content#:#cont_lk_media_new#:#Medienobjekt in neuem Tab
 content#:#cont_lk_page#:#Seite
-content#:#cont_lk_page_faq#:#Seite (FAQ Frame)
-content#:#cont_lk_page_new#:#Seite (Neuer Frame)
+content#:#cont_lk_page_faq#:#Seite in FAQ Tool
+content#:#cont_lk_page_new#:#Seite in neuem Tab
 content#:#cont_lk_term#:#Glossarbegriff
-content#:#cont_lk_term_new#:#Glossarbegriff (Neuer Frame)
+content#:#cont_lk_term_new#:#Glossarbegriff in neuem Tab
 content#:#cont_lm_comments_desc#:#Erlaubt es Benutzern öffentliche Kommentare auf allen Lernmodulseiten hinzuzufügen.
 content#:#cont_lm_default_layout#:#Standardlayout des Lernmoduls
 content#:#cont_lm_mail_permanent_link#:#Klicken Sie auf den folgenden Link um das Lernmodul aufzurufen:
@@ -7657,7 +7674,7 @@ crs#:#crs_reset_results#:#Ergebnisse zurücksetzen
 crs#:#crs_role_status#:#Rolle/Status
 crs#:#crs_search_users#:#Benutzer suchen
 crs#:#crs_select_archive_language#:#Bitte wählen Sie eine Sprache, in der das Archiv erstellt werden soll.
-crs#:#crs_select_one_archive#:#Bitte wählen Sie genau ein Archiv aus
+crs#:#crs_select_one_archive#:#Bitte wählen Sie genau ein Archiv aus!
 crs#:#crs_select_starter#:#Startobjekt auswählen
 crs#:#crs_selected_users#:#Ausgewählte Teilnehmer
 crs#:#crs_settings#:#Kurseinstellungen
@@ -10231,7 +10248,7 @@ ldap#:#ldap_server_bind_dn#:#DN des Benutzers
 ldap#:#ldap_server_bind_pass#:#Passwort
 ldap#:#ldap_server_binding#:#Verbindungsart
 ldap#:#ldap_server_name#:#Name der LDAP-Konfiguration
-ldap#:#ldap_server_name_info#:#Bitte wählen Sie einen Namen für diese Server-Konfiguration
+ldap#:#ldap_server_name_info#:#Bitte wählen Sie einen Namen für diese Server-Konfiguration!
 ldap#:#ldap_server_security_settings#:#Sicherheitseinstellungen
 ldap#:#ldap_server_short#:#Server URL:
 ldap#:#ldap_server_url_info#:#Die komplette URL für die Verbindung zum LDAP-Server. Z.B. "ldap://ldaps.ilias.de:636".
@@ -12948,7 +12965,7 @@ ps#:#ps_prevent_simultaneous_logins_info#:#Wenn dies aktiviert ist, werden gleic
 ps#:#ps_privacy_protection#:#Einstellungen zum Datenschutz
 ps#:#ps_profile_export#:#Schutz der Daten des Persönlichen Profils
 ps#:#ps_security_protection#:#Einstellungen zur Sicherheit
-ps#:#ps_select_one#:#Bitte wählen Sie eine Datei aus
+ps#:#ps_select_one#:#Bitte wählen Sie eine Datei aus.
 ps#:#ps_show_crs_access#:#Anzeige der letzten Zugriffszeit von Kursteilnehmern
 ps#:#ps_show_grp_access#:#Anzeige der letzten Zugriffszeit von Gruppenteilnehmern
 ps#:#ps_size#:#Dateigröße
@@ -14459,7 +14476,7 @@ search#:#search_all_words#:#Alle Begriffe <small>(<i>UND</i>)</small>
 search#:#search_any#:#-- Beliebig --
 search#:#search_any_word#:#Einen der Begriffe <small>(<i>ODER</i>)</small>
 search#:#search_area#:#Suchbereich
-search#:#search_area_info#:#Bitte wählen Sie einen Bereich aus innerhalb dessen die Suche starten soll.
+search#:#search_area_info#:#Bitte wählen Sie einen Bereich aus, innerhalb dem die Suche starten soll.
 search#:#search_auto_complete_length#:#Anzahl der Einträge in Auto-Complete-Liste
 search#:#search_cdate_filter#:#Suche nach Erstellungsdatum
 search#:#search_cdate_filter_info#:#Bei der Suche kann das Erstellungsdatum von Objekten berücksichtigt werden.
@@ -14754,7 +14771,7 @@ skmg#:#skmg_order#:#Reihenfolge
 skmg#:#skmg_order_nr#:#Nummer
 skmg#:#skmg_order_nr_info#:#Platziert die Kompetenz in der Liste der Kompetenzen.
 skmg#:#skmg_please_select_self_skill#:#Neue Selbsteinschätzung
-skmg#:#skmg_please_select_your_skill_levels#:#Bitte wählen Sie Ihre Fähigkeiten
+skmg#:#skmg_please_select_your_skill_levels#:#Bitte wählen Sie Ihre Fähigkeiten aus!
 skmg#:#skmg_previous_step#:#Voriger Schritt
 skmg#:#skmg_profile#:#Profil
 skmg#:#skmg_really_delete_levels#:#Sollen die folgenden Kompetenzstufen wirklich gelöscht werden?
@@ -14764,7 +14781,6 @@ skmg#:#skmg_recommended_learning_material_info#:#Wählen Sie genau einen der fol
 skmg#:#skmg_refresh_view#:#Ansicht aktualisieren
 skmg#:#skmg_remove_levels#:#Ausprägungen entfernen
 skmg#:#skmg_remove_skill#:#Kompetenz entfernen
-skmg#:#skmg_remove_skills#:#Kompetenz entfernen
 skmg#:#skmg_remove_trigger#:#Auslöser entfernen
 skmg#:#skmg_resources#:#Ressourcen
 skmg#:#skmg_save_order#:#Reihenfolge speichern
@@ -15411,7 +15427,7 @@ survey#:#err_minvalueganswers#:#Das Minium darf nicht größer als die maximale 
 survey#:#err_no_exact_answers#:#Bitte wählen Sie genau %s Antwort(en) aus.
 survey#:#err_no_max_answers#:#Bitte wählen Sie höchstens %s Antworten aus.
 survey#:#err_no_min_answers#:#Bitte wählen Sie mindestens %s Antwort(en) aus.
-survey#:#err_no_pool_name#:#Bitte geben Sie den Namen eines Fragenpools an
+survey#:#err_no_pool_name#:#Bitte geben Sie den Namen eines Fragenpools an.
 survey#:#error_retrieving_anonymous_survey#:#Das System konnte Ihre Umfragedaten unter dem Zugangsschlüssel %s nicht finden. Bitte überprüfen Sie den Zugangsschlüssel!
 survey#:#error_save_code#:#Werte wurden nicht korrekt gespeichert. <b>Die E-Mail '%s' ist nicht gültig.</b>. Vorname: '%s', Nachname: '%s'.<br>
 survey#:#evaluation#:#Statistik
@@ -15529,8 +15545,8 @@ survey#:#msg_message_inserted#:#Nachrichtentext eingefügt
 survey#:#msg_min_max_exact_answers#:#Bitte wählen Sie genau %s Antwort(en).
 survey#:#msg_min_max_nr_answers#:#Bitte wählen Sie mindestens %s und höchstens %s Antworten.
 survey#:#msg_min_nr_answers#:#Bitte wählen Sie mindestens %s Antwort(en).
-survey#:#msg_no_message_deleted#:#Bitte wählen Sie einen gespeicherten Nachrichtentext zum Löschen aus
-survey#:#msg_no_message_inserted#:#Bitte wählen Sie einen Nachrichtentext zum Einfügen aus
+survey#:#msg_no_message_deleted#:#Bitte wählen Sie einen gespeicherten Nachrichtentext zum Löschen aus.
+survey#:#msg_no_message_inserted#:#Bitte wählen Sie einen Nachrichtentext zum Einfügen aus.
 survey#:#new_survey_codes#:#neue Zugangsschlüssel für die Umfrage
 survey#:#no_phrase_selected#:#Sie haben keine Phrase ausgewählt.
 survey#:#no_question_selected_for_copy_to_pool#:#Bitte wählen Sie mindestens eine Frage aus, die nicht einem Fragenpool zugeordnet ist.
@@ -15624,11 +15640,11 @@ survey#:#send_to_unanswered#:#Personen, welche die Umfrage noch nicht beendet ha
 survey#:#show_questiontext#:#Fragentext anzeigen
 survey#:#show_questiontext_description#:#Wenn dieses Kontrollkästchen aktiviert ist, wird für jede Frage innerhalb des Fragenblocks der Fragentext angezeigt (Standard). Wenn dieses Kontrollkästchen nicht aktiviert ist, werden die Fragentexte nicht angezeigt und nur die Antworten angeboten. Dies kann sinnvoll sein, wenn Sie mehrere Fragen mit identischen Fragentexten in einem Fragenblock anbieten.
 survey#:#skipped#:#übersprungen
-survey#:#spl_copy_insert_clipboard#:#Die ausgewählten Fragen wurden in die Zwischenablage kopiert
-survey#:#spl_copy_select_none#:#Bitte wählen Sie mindestens eine Frage zum Kopieren aus
-survey#:#spl_move_insert_clipboard#:#Die ausgewählten Fragen wurden für zum Verschieben markiert
-survey#:#spl_move_same_pool#:#Sie können Fragen nicht innerhalb des gleichen Fragenpools verschieben
-survey#:#spl_move_select_none#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus
+survey#:#spl_copy_insert_clipboard#:#Die ausgewählten Fragen wurden in die Zwischenablage kopiert.
+survey#:#spl_copy_select_none#:#Bitte wählen Sie mindestens eine Frage zum Kopieren aus.
+survey#:#spl_move_insert_clipboard#:#Die ausgewählten Fragen wurden für zum Verschieben markiert.
+survey#:#spl_move_same_pool#:#Sie können Fragen nicht innerhalb des gleichen Fragenpools verschieben.
+survey#:#spl_move_select_none#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus.
 survey#:#spl_online_property#:#Online
 survey#:#spl_online_property_description#:#Wenn der Fragenpool nicht online ist, kann er nicht in Umfragen verwendet werden.
 survey#:#spl_paste_no_objects#:#Es sind keine Fragen in der Zwischenablage vorhanden. Bitte nutzen Sie hierfür die Kopieren- oder Verschieben-Schaltflächen.
@@ -15640,7 +15656,7 @@ survey#:#start_survey#:#Umfrage beginnen
 survey#:#sub_tab_dashboard#:#Dashboard
 survey#:#subtype#:#Untertyp
 survey#:#survey_360_add_external_rater#:#Externen Feedback-Geber hinzufügen
-survey#:#survey_360_add_self_appraisee#:#Fügen Sie sich selbst als Feedback-Nehmer hinzu
+survey#:#survey_360_add_self_appraisee#:#Fügen Sie sich selbst als Feedback-Nehmer hinzu.
 survey#:#survey_360_appraisee#:#Feedback-Nehmer
 survey#:#survey_360_appraisee_close_action#:#Umfrage für Feedback-Geber schließen
 survey#:#survey_360_appraisee_close_action_info#:#Damit erhalten Sie Zugriff zu den Statistiken.

@@ -26,6 +26,7 @@ use ILIAS\BookingManager;
  */
 class ilBookingGatewayGUI
 {
+    protected BookingManager\InternalDomainService $domain;
     protected BookingManager\StandardGUIRequest $book_request;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
@@ -62,6 +63,10 @@ class ilBookingGatewayGUI
                                   ->internal()
                                   ->gui()
                                   ->standardRequest();
+        $this->domain = $DIC
+            ->bookingManager()
+            ->internal()
+            ->domain();
 
         $this->lng->loadLanguageModule("book");
 
@@ -332,7 +337,8 @@ class ilBookingGatewayGUI
     protected function checkBookingPoolsForSchedules(array $ids): bool
     {
         foreach ($ids as $pool_ref_id) {
-            if (!ilBookingSchedule::hasExistingSchedules(ilObject::_lookupObjectId($pool_ref_id))) {
+            $schedule_manager = $this->domain->schedules(ilObject::_lookupObjectId($pool_ref_id));
+            if (!$schedule_manager->hasSchedules()) {
                 return false;
             }
         }

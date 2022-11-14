@@ -26,6 +26,7 @@ class ilObjBookingPool extends ilObject
     public const TYPE_FIX_SCHEDULE = 1;
     public const TYPE_NO_SCHEDULE = 2;
     public const TYPE_NO_SCHEDULE_PREFERENCES = 3;
+    protected \ILIAS\BookingManager\InternalDomainService $domain;
 
     protected bool $offline = true;
     protected bool $public_log = false;
@@ -48,6 +49,7 @@ class ilObjBookingPool extends ilObject
         $this->type = "book";
         $this->setScheduleType(self::TYPE_FIX_SCHEDULE);
         parent::__construct($a_id, $a_call_by_reference);
+        $this->domain = $DIC->bookingManager()->internal()->domain();
     }
 
     /**
@@ -206,6 +208,8 @@ class ilObjBookingPool extends ilObject
     {
         $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
 
+        $schedule_manager = $this->domain->schedules($this->getId());
+
         if ($new_obj !== null) {
             //copy online status if object is not the root copy object
             $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
@@ -225,9 +229,9 @@ class ilObjBookingPool extends ilObject
             $smap = null;
             if ($this->getScheduleType() === self::TYPE_FIX_SCHEDULE) {
                 // schedules
-                foreach (ilBookingSchedule::getList($this->getId()) as $item) {
-                    $schedule = new ilBookingSchedule($item["booking_schedule_id"]);
-                    $smap[$item["booking_schedule_id"]] = $schedule->doClone($new_obj->getId());
+                foreach ($schedule_manager->getScheduleList() as $schedule_id => $title) {
+                    $schedule = new ilBookingSchedule($schedule_id);
+                    $smap[$schedule_id] = $schedule->doClone($new_obj->getId());
                 }
             }
 

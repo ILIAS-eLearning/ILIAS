@@ -104,11 +104,13 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 case "applyFilter":
                     $this->resetOffset();
                     $this->writeFilterToSession();
+                    $this->storeProperty("offset", "0");
                     break;
 
                 case "resetFilter":
                     $this->resetOffset();
                     $this->resetFilter();
+                    $this->storeProperty("offset", "0");
                     break;
 
                 case "hideSelected":
@@ -162,6 +164,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 default:
                     $this->determineOffsetAndOrder();
                     $this->storeNavParameter();
+                    $this->storeProperty("offset", (string) $this->getOffset());
                     break;
             }
 
@@ -344,12 +347,18 @@ class ilLPTableBaseGUI extends ilTable2GUI
         return true;
     }
 
+    protected function isForwardingToFormDispatcher(): bool
+    {
+        return false;
+    }
+
     protected function initRepositoryFilter(array $filter): array
     {
         $repo = new ilRepositorySelector2InputGUI(
             $this->lng->txt('trac_filter_area'),
             'effective_from',
-            true
+            false,
+            ($this->isForwardingToFormDispatcher()) ? $this : null
         );
         $white_list = [];
         foreach ($this->objDefinition->getAllRepositoryTypes() as $type) {
@@ -669,7 +678,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
                     break;
 
                 case "status":
-                    if ($value) {
+                    if (!is_null($value) && $value !== "") {
                         $result[$id] = $value;
                     }
                     break;

@@ -22,6 +22,7 @@
  */
 class ilBookingInfoScreenAdapter
 {
+    protected \ILIAS\BookingManager\InternalRepoService $repo;
     protected ilInfoScreenGUI $info_screen_gui;
     protected ?int $context_obj_id;
     protected ilObjUseBookDBRepository $use_book_repo;
@@ -32,8 +33,9 @@ class ilBookingInfoScreenAdapter
         global $DIC;
         $this->info_screen_gui = $info_screen_gui;
         $this->context_obj_id = $this->info_screen_gui->getContextObjId();
-
         $this->use_book_repo = new ilObjUseBookDBRepository($DIC->database());
+        $this->repo = $DIC->bookingManager()->internal()
+            ->repo();
     }
 
     /**
@@ -56,8 +58,7 @@ class ilBookingInfoScreenAdapter
         $filter = ["context_obj_ids" => [$this->context_obj_id]];
         $filter['past'] = true;
         $filter['status'] = -ilBookingReservation::STATUS_CANCELLED;
-        $f = new ilBookingReservationDBRepositoryFactory();
-        $repo = $f->getRepo();
+        $repo = $this->repo->reservation();
         $list = $repo->getListByDate(true, null, $filter, $this->getPoolIds());
         $list = ilArrayUtil::sortArray($list, "slot", "asc", true);
         $list = ilArrayUtil::stableSortArray($list, "date", "asc", true);

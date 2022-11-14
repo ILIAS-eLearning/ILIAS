@@ -1,0 +1,173 @@
+@use "../../../010-settings/" as *;
+@use "../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+
+
+/* Modules/Chatroom */
+
+.ilValignBottom {
+	vertical-align: bottom;
+}
+
+#chat_actions {
+	white-space: nowrap;
+	margin-left: 10px;
+}
+
+#chat_messages {
+	height: 300px;
+	padding: 2px 2px 0 2px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	-ms-word-break: break-all;
+	word-break: break-all;
+	word-break: break-word;
+	-ms-hyphens: auto;
+	-moz-hyphens: auto;
+	-webkit-hyphens: auto;
+	hyphens: auto;
+	width: 100%;
+	background-color: $il-main-dark-bg;
+	position: relative;
+
+	.messageContainer {
+		min-height: 250px;
+	} 
+
+	.fader {
+		position: -webkit-sticky;
+		position: sticky;
+		bottom: 0;
+		width: 100%;
+		height: 50px;
+		background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0)), to(#fff));
+		background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #fff 100%);
+
+		.typing-info {
+			font-size: .6em;
+			position: absolute;
+			bottom: 0;
+			padding: 2px 5px;
+			text-align: left;
+			width: 100%;
+		}
+	}
+}
+
+#message-controls .msg-control {
+	label {
+		position: relative;
+		top: 5px;
+	}
+	display: inline-block;
+}
+@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+	#message-controls .msg-control {
+		display: block;
+	}
+}
+
+#chat_users {
+	overflow: auto;
+	height: 100%;
+	min-height: 300px;
+}
+
+#private_rooms {
+	z-index: 200;
+	display: none;
+}
+
+td.chatroom {
+	width: 200px;
+	height: auto;
+}
+
+.ilChatroomUser {
+	border-bottom: 1px solid #e9e9e9;
+
+	.media-body {
+		white-space: nowrap;
+	}
+
+	.media-body {
+		padding-top: 8px;
+	}
+
+	.media-body h4, .media-body p {
+		color: $il-text-light-color;
+		font-size: $il-font-size-small;
+		padding: 5px 3px 0 3px;
+		line-height: 1em;
+		margin: 0;
+	}
+
+	.media-body h4 {
+		padding-top: 0;
+		color: $il-text-light-color;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.dropdown-menu {
+		background-color: $il-main-dark-bg;
+		padding: 10px 0;
+		font-size: $il-font-size-small;
+	}
+
+	.dropdown-menu a {
+		color: $il-text-color;
+	}
+
+	.dropdown-menu a:hover {
+		color: $il-text-hover-color;
+	}
+
+	.arrow-down {
+		width: 0;
+		height: 0;
+		border-left: 11px solid transparent;
+		border-right: 11px solid transparent;
+		border-top: 11px solid white;
+		margin-top: -10px;
+		margin-left: 100px;
+	}
+
+	.media:hover {
+		background-color: $il-highlight-bg;
+	}
+
+	.dropdown-menu {
+		position: static;
+		float: none;
+		@include btstrp3.box-shadow(none);
+	}
+
+	.dropdown-backdrop {
+		position: static;
+	}
+
+	.media {
+		padding: 0;
+	}
+
+	.media-left img {
+		width: 30px;
+		height: 30px;
+	}
+
+	.media-body, .media-left, .media-right {
+		display: table-cell;
+		vertical-align: top;
+	}
+
+	.media-left {
+		padding-right: 10px;
+	}
+
+	.media {
+		padding: 10px;
+	}
+}

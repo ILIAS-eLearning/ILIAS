@@ -1,0 +1,55 @@
+@use "../../../010-settings/"as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_dropzone" as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_form" as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_button" as *;
+@use "../../../050-layout/basics"as *;
+
+// File Input Style
+// $author Thibeau Fuhrer <thibeau$sr.solutions>
+
+.ui-input-file-input-dropzone {
+	border: $il-dropzone-border-width $il-dropzone-border-style $il-dropzone-border-color;
+	padding: $il-padding-base-vertical $il-padding-base-horizontal;
+}
+
+.ui-input-file-input-dropzone button {
+	font-size: $il-font-size-base;
+	margin-left: $il-margin-base;
+}
+
+.ui-input-file-input-error-msg {
+	font-size: $il-font-size-base;
+	color: $il-danger-color;
+}
+
+.ui-input-file-input-dropzone button:disabled,
+.ui-input-file-input-dropzone button:disabled:hover {
+	color: $il-disabled-btn-bg;
+	border: none;
+	background: none;
+}
+
+.ui-input-file-input {
+	border: $il-dropzone-border-width $il-dropzone-border-style $il-dropzone-border-color;
+	margin-bottom: $il-margin-large-vertical;
+	padding: $il-padding-base;
+}
+
+.ui-input-file-input span {
+  font-size: $il-font-size-base;
+  &[data-action="collapse"], [data-file-action="expand"] {
+    margin: $il-margin-base 0;
+  }
+  &[data-action="remove"] .glyph {
+    margin-left: $il-margin-base;
+    float: right;
+  }
+  &[data-dz-name] {
+    margin-right: $il-margin-base;
+  }
+  &[data-dz-size] {
+    margin-right: $il-margin-base;
+    font-style: italic;
+  }
+}
+

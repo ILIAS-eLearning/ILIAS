@@ -21,23 +21,26 @@ declare(strict_types=1);
 
 namespace ILIAS\Skill\Profile;
 
+use ILIAS\Skill\Service;
+
 class SkillProfileUserDBRepository
 {
     protected \ilDBInterface $db;
-    protected \ilLanguage $lng;
+    protected Service\SkillInternalFactoryService $factory_service;
 
-    public function __construct(\ilDBInterface $db = null)
-    {
+    public function __construct(
+        \ilDBInterface $db = null,
+        Service\SkillInternalFactoryService $factory_service = null
+    ) {
         global $DIC;
 
         $this->db = ($db) ?: $DIC->database();
-        $this->lng = $DIC->language();
+        $this->factory_service = ($factory_service) ?: $DIC->skills()->internal()->factory();
     }
 
-    public function getAssignedUsers(int $profile_id): array
+    public function get(int $profile_id): array
     {
         $ilDB = $this->db;
-        $lng = $this->lng;
 
         $set = $ilDB->query(
             "SELECT * FROM skl_profile_user " .
@@ -45,17 +48,18 @@ class SkillProfileUserDBRepository
         );
         $users = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $rec["user_id"] = (int) $rec["user_id"];
-            $name = \ilUserUtil::getNamePresentation($rec["user_id"]);
-            $type = $lng->txt("user");
-            $users[] = [
-                "type" => $type,
-                "name" => $name,
-                "id" => $rec["user_id"],
-                "object_title" => ""
-            ];
+            $users[] = $rec;
         }
+
         return $users;
+    }
+
+    public function getFromRecord(array $rec): SkillProfileUserAssignment
+    {
+        return $this->factory_service->profile()->profileUserAssignment(
+            $rec["name"],
+            $rec["id"]
+        );
     }
 
     public function addUserToProfile(int $profile_id, int $user_id): void
@@ -102,23 +106,41 @@ class SkillProfileUserDBRepository
         );
     }
 
+    /**
+     * @return SkillProfile[]
+     */
     public function getProfilesOfUser(int $user_id): array
     {
         $ilDB = $this->db;
 
         $user_profiles = [];
         $set = $ilDB->query(
-            "SELECT p.id, p.title, p.description, p.image_id FROM skl_profile_user u JOIN skl_profile p " .
-            " ON (u.profile_id = p.id) " .
-            " WHERE user_id = " . $ilDB->quote($user_id, "integer") .
+            "SELECT p.id, p.title, p.description, p.ref_id, p.skill_tree_id, p.image_id " .
+            " FROM skl_profile_user u JOIN skl_profile p ON (u.profile_id = p.id) " .
+            " WHERE u.user_id = " . $ilDB->quote($user_id, "integer") .
             " ORDER BY p.title ASC"
         );
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $rec['id'] = (int) $rec['id'];
-            $user_profiles[] = $rec;
+            $user_profiles[] = $this->getProfileFromRecord($rec);
         }
 
         return $user_profiles;
+    }
+
+    protected function getProfileFromRecord(array $rec): SkillProfile
+    {
+        $rec["id"] = (int) $rec["id"];
+        $rec["ref_id"] = (int) $rec["ref_id"];
+        $rec["skill_tree_id"] = (int) $rec["skill_tree_id"];
+
+        return $this->factory_service->profile()->profile(
+            $rec["id"],
+            $rec["title"],
+            $rec["description"],
+            $rec["skill_tree_id"],
+            $rec["image_id"],
+            $rec["ref_id"]
+        );
     }
 
     public function countUsers(int $profile_id): int

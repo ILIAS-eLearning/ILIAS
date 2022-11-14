@@ -36,6 +36,9 @@ class ilSkillResourcesManager
         $this->res = new ilSkillResources($a_base_skill, $a_tref_id);
     }
 
+    /**
+     * @param \ILIAS\Skill\Profile\SkillProfileLevel[] $profile_levels
+     */
     public function isLevelTooLow(array $a_levels, array $profile_levels, array $actual_levels): bool
     {
         $too_low = true;
@@ -44,8 +47,8 @@ class ilSkillResourcesManager
             $v["id"] = (int) $v["id"];
             $v["skill_id"] = (int) $v["skill_id"];
             foreach ($profile_levels as $pl) {
-                if ($pl["level_id"] == $v["id"] &&
-                    $pl["base_skill_id"] == $v["skill_id"]) {
+                if ($pl->getLevelId() === $v["id"] &&
+                    $pl->getBaseSkillId() === $v["skill_id"]) {
                     $too_low = true;
                     $this->current_target_level = $v["id"];
                 }

@@ -1,0 +1,6 @@
+// Picks the color with the higher contrast provided from a dark and light option
+
+@function contrast-color($color, $dark, $light) {
+    $threshold: 55%;
+    @return if(lightness($color) < $threshold, $light, $dark);
+}

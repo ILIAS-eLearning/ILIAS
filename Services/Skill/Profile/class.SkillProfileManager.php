@@ -24,19 +24,20 @@ namespace ILIAS\Skill\Profile;
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-class SkillProfileManager
+class SkillProfileManager implements \ilSkillUsageInfo
 {
     protected SkillProfileDBRepository $profile_repo;
     protected SkillProfileLevelsDBRepository $profile_levels_repo;
     protected SkillProfileUserDBRepository $profile_user_repo;
     protected SkillProfileRoleDBRepository $profile_role_repo;
     protected \ilRbacReview $rbac_review;
+    protected \ilLanguage $lng;
 
     public function __construct(
-        ?\ILIAS\Skill\Profile\SkillProfileDBRepository $profile_repo = null,
-        ?\ILIAS\Skill\Profile\SkillProfileLevelsDBRepository $profile_levels_repo = null,
-        ?\ILIAS\Skill\Profile\SkillProfileUserDBRepository $profile_user_repo = null,
-        ?\ILIAS\Skill\Profile\SkillProfileRoleDBRepository $profile_role_repo = null
+        \ILIAS\Skill\Profile\SkillProfileDBRepository $profile_repo = null,
+        \ILIAS\Skill\Profile\SkillProfileLevelsDBRepository $profile_levels_repo = null,
+        \ILIAS\Skill\Profile\SkillProfileUserDBRepository $profile_user_repo = null,
+        \ILIAS\Skill\Profile\SkillProfileRoleDBRepository $profile_role_repo = null
     ) {
         global $DIC;
 
@@ -45,23 +46,21 @@ class SkillProfileManager
         $this->profile_user_repo = ($profile_user_repo) ?: $DIC->skills()->internal()->repo()->getProfileUserRepo();
         $this->profile_role_repo = ($profile_role_repo) ?: $DIC->skills()->internal()->repo()->getProfileRoleRepo();
         $this->rbac_review = $DIC->rbac()->review();
+        $this->lng = $DIC->language();
     }
 
     /**
      * @throws \ilSkillProfileNotFoundException
      */
-    public function getById(int $profile_id): SkillProfile
+    public function getProfile(int $profile_id): SkillProfile
     {
-        return $this->profile_repo->getById($profile_id);
+        return $this->profile_repo->get($profile_id);
     }
 
     public function createProfile(SkillProfile $profile): SkillProfile
     {
         // profile
         $new_profile = $this->profile_repo->createProfile($profile);
-
-        // profile levels
-        $this->profile_levels_repo->createProfileLevels($new_profile->getId(), $new_profile->getSkillLevels());
 
         return $new_profile;
     }
@@ -70,9 +69,6 @@ class SkillProfileManager
     {
         // profile
         $updated_profile = $this->profile_repo->updateProfile($profile);
-
-        // profile levels
-        $this->profile_levels_repo->updateProfileLevels($profile->getId(), $profile->getSkillLevels());
 
         return $updated_profile;
     }
@@ -92,7 +88,7 @@ class SkillProfileManager
 
     protected function deleteProfileLevels(int $profile_id): void
     {
-        $this->profile_levels_repo->deleteProfileLevels($profile_id);
+        $this->profile_levels_repo->deleteAll($profile_id);
     }
 
     protected function deleteProfileUsers(int $profile_id): void
@@ -110,6 +106,29 @@ class SkillProfileManager
         $this->profile_repo->deleteProfilesFromObject($ref_id);
     }
 
+    /**
+     * @return SkillProfileLevel[]
+     */
+    public function getSkillLevels(int $profile_id): array
+    {
+        $levels = $this->profile_levels_repo->get($profile_id);
+        usort($levels, static function (SkillProfileLevel $level_a, SkillProfileLevel $level_b): int {
+            return $level_a->getOrderNr() <=> $level_b->getOrderNr();
+        });
+
+        return $levels;
+    }
+
+    public function addSkillLevel(SkillProfileLevel $skill_level_obj): void
+    {
+        $this->profile_levels_repo->create($skill_level_obj);
+    }
+
+    public function removeSkillLevel(SkillProfileLevel $skill_level_obj): void
+    {
+        $this->profile_levels_repo->delete($skill_level_obj);
+    }
+
     public function updateSkillOrder(int $profile_id, array $order): void
     {
         asort($order);
@@ -124,28 +143,40 @@ class SkillProfileManager
 
     public function getMaxLevelOrderNr(int $profile_id): int
     {
-        $max = $this->profile_levels_repo->getMaxLevelOrderNr($profile_id);
+        $max = $this->profile_levels_repo->getMaxOrderNr($profile_id);
         return $max;
     }
 
+    /**
+     * @return SkillProfile[]
+     */
     public function getProfilesForAllSkillTrees(): array
     {
         $profiles = $this->profile_repo->getProfilesForAllSkillTrees();
         return $profiles;
     }
 
+    /**
+     * @return SkillProfile[]
+     */
     public function getProfilesForSkillTree(int $skill_tree_id): array
     {
         $profiles = $this->profile_repo->getProfilesForSkillTree($skill_tree_id);
         return $profiles;
     }
 
+    /**
+     * @return SkillProfile[]
+     */
     public function getAllGlobalProfiles(): array
     {
         $profiles = $this->profile_repo->getAllGlobalProfiles();
         return $profiles;
     }
 
+    /**
+     * @return SkillProfile[]
+     */
     public function getLocalProfilesForObject(int $ref_id): array
     {
         $profiles = $this->profile_repo->getLocalProfilesForObject($ref_id);
@@ -184,40 +215,67 @@ class SkillProfileManager
 
     /**
      * Get all assignments (users and roles)
+     * @return SkillProfileAssignmentInterface[]
      */
     public function getAssignments(int $profile_id): array
     {
         $assignments = [];
 
-        $users = $this->getAssignedUsers($profile_id);
-        $roles = $this->getAssignedRoles($profile_id);
+        $users = $this->getUserAssignments($profile_id);
+        $roles = $this->getRoleAssignments($profile_id);
         $assignments = array_merge($users, $roles);
 
         return $assignments;
     }
 
-    public function getAssignedUsers(int $profile_id): array
+    /**
+     * @return SkillProfileUserAssignment[]
+     */
+    public function getUserAssignments(int $profile_id): array
     {
-        $users = $this->profile_user_repo->getAssignedUsers($profile_id);
-        return $users;
+        $lng = $this->lng;
+
+        $users = $this->profile_user_repo->get($profile_id);
+        /** @var SkillProfileUserAssignment[] $users_as_obj */
+        $users_as_obj = [];
+        foreach ($users as $u) {
+            $u["user_id"] = (int) $u["user_id"];
+            $u["profile_id"] = (int) $u["profile_id"];
+            $name = \ilUserUtil::getNamePresentation($u["user_id"]);
+
+            $user_restructured = [
+                "name" => $name,
+                "id" => $u["user_id"]
+            ];
+
+            $users_as_obj[] = $this->profile_user_repo->getFromRecord($user_restructured);
+        }
+
+        return $users_as_obj;
     }
 
+    /**
+     * @return int[]
+     */
     public function getAssignedUsersForRole(int $role_id): array
     {
         return $this->rbac_review->assignedUsers($role_id);
     }
 
+    /**
+     * @return int[]
+     */
     public function getAssignedUserIdsIncludingRoleAssignments(int $profile_id): array
     {
         $all = [];
-        $users = $this->getAssignedUsers($profile_id);
+        $users = $this->getUserAssignments($profile_id);
         foreach ($users as $user) {
-            $all[] = $user["id"];
+            $all[] = $user->getId();
         }
 
-        $roles = $this->getAssignedRoles($profile_id);
+        $roles = $this->getRoleAssignments($profile_id);
         foreach ($roles as $role) {
-            $role_users = $this->rbac_review->assignedUsers($role["id"]);
+            $role_users = $this->rbac_review->assignedUsers($role->getId());
             foreach ($role_users as $user_id) {
                 if (!in_array($user_id, $all)) {
                     $all[] = $user_id;
@@ -244,7 +302,7 @@ class SkillProfileManager
     }
 
     /**
-     * @return array{id: int, title: string, description: string, image_id: string}[]
+     * @return SkillProfile[]
      */
     public function getProfilesOfUser(int $user_id): array
     {
@@ -264,11 +322,14 @@ class SkillProfileManager
         }
 
         // merge competence profiles and remove multiple occurrences
+
+        /** @var SkillProfile[] $all_profiles */
         $all_profiles = array_merge($user_profiles, $role_profiles);
+        /** @var SkillProfile[] $temp_profiles */
         $temp_profiles = [];
         foreach ($all_profiles as $v) {
-            if (!isset($temp_profiles[$v["id"]])) {
-                $temp_profiles[$v["id"]] = $v;
+            if (!isset($temp_profiles[$v->getId()])) {
+                $temp_profiles[$v->getId()] = $v;
             }
         }
         $all_profiles = array_values($temp_profiles);
@@ -281,10 +342,46 @@ class SkillProfileManager
         return $count;
     }
 
-    public function getAssignedRoles(int $profile_id): array
+    /**
+     * @return SkillProfileRoleAssignment[]
+     */
+    public function getRoleAssignments(int $profile_id, bool $with_objects_in_trash = false): array
     {
-        $roles = $this->profile_role_repo->getAssignedRoles($profile_id);
-        return $roles;
+        $lng = $this->lng;
+        $review = $this->rbac_review;
+
+        $roles = $this->profile_role_repo->get($profile_id);
+        /** @var SkillProfileRoleAssignment[] $roles_as_obj_without_trash */
+        $roles_as_obj_without_trash = [];
+        /** @var SkillProfileRoleAssignment[] $roles_as_obj_with_trash */
+        $roles_as_obj_with_trash = [];
+        foreach ($roles as $r) {
+            $r["role_id"] = (int) $r["role_id"];
+            $r["profile_id"] = (int) $r["profile_id"];
+            $name = \ilObjRole::_getTranslation(\ilObjRole::_lookupTitle($r["role_id"]));
+            // get object of role
+            $obj_id = \ilObject::_lookupObjectId($review->getObjectReferenceOfRole($r["role_id"]));
+            $obj_title = \ilObject::_lookupTitle($obj_id);
+            $obj_type = \ilObject::_lookupType($obj_id);
+
+            $role_restructured = [
+                "name" => $name,
+                "id" => $r["role_id"],
+                "object_title" => $obj_title,
+                "object_type" => $obj_type,
+                "object_id" => $obj_id
+            ];
+
+            if (!$with_objects_in_trash && \ilObject::_hasUntrashedReference($obj_id)) {
+                $roles_as_obj_without_trash[] = $this->profile_role_repo->getFromRecord($role_restructured);
+            }
+            $roles_as_obj_with_trash[] = $this->profile_role_repo->getFromRecord($role_restructured);
+        }
+
+        if ($with_objects_in_trash) {
+            return $roles_as_obj_with_trash;
+        }
+        return $roles_as_obj_without_trash;
     }
 
     public function addRoleToProfile(int $profile_id, int $role_id): void
@@ -304,7 +401,7 @@ class SkillProfileManager
 
     /**
      * Get global and local profiles of a role
-     * @return array{id: int, title: string, description: string, image_id: string}[]
+     * @return SkillProfile[]
      */
     public function getAllProfilesOfRole(int $role_id): array
     {
@@ -313,7 +410,7 @@ class SkillProfileManager
     }
 
     /**
-     * @return array{id: int, title: string, description: string, image_id: string}[]
+     * @return SkillProfile[]
      */
     public function getGlobalProfilesOfRole(int $role_id): array
     {
@@ -321,6 +418,9 @@ class SkillProfileManager
         return $profiles;
     }
 
+    /**
+     * @return SkillProfile[]
+     */
     public function getLocalProfilesOfRole(int $role_id, int $ref_id): array
     {
         $profiles = $this->profile_role_repo->getLocalProfilesOfRole($role_id, $ref_id);
@@ -331,5 +431,21 @@ class SkillProfileManager
     {
         $count = $this->profile_role_repo->countRoles($profile_id);
         return $count;
+    }
+
+    /**
+     * @param array{skill_id: int, tref_id: int}[] $a_cskill_ids
+     *
+     * @return array<string, array<string, array{key: string}[]>>
+     */
+    public static function getUsageInfo(array $a_cskill_ids): array
+    {
+        return \ilSkillUsage::getUsageInfoGeneric(
+            $a_cskill_ids,
+            \ilSkillUsage::PROFILE,
+            "skl_profile_level",
+            "profile_id",
+            "base_skill_id"
+        );
     }
 }

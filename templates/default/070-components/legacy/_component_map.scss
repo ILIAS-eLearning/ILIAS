@@ -1,0 +1,16 @@
+@use "../../010-settings/" as *;
+
+img.olTileImage {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+		// this fixes the open street map images, not the best place to
+		// to this. another option would be to not put the
+		// max-width behaviour above on every img...
+		max-width: none;
+	}
+}
+
+div.ilGoogleMap {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+        max-width: 100%;
+     }
+}

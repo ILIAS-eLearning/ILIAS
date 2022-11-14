@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -34,7 +36,7 @@ class ilAssOrderingElement
      * this identifier equals the database's row id
      * @var integer
      */
-    public $id;
+    public int $id;
 
     /**
      * this identifier is generated randomly
@@ -42,10 +44,8 @@ class ilAssOrderingElement
      *
      * the main purpose is to have a key that does not make the solution
      * derivable and is therefore useable in the examines working form
-     *
-     * @var integer
      */
-    protected $random_identifier = null;
+    protected ?int $random_identifier = null;
 
     /**
      * this identifier is used to identify elements and is stored
@@ -56,58 +56,24 @@ class ilAssOrderingElement
      *
      * it is an integer sequence starting at 0 that increments
      * with every added element while obsolete numbers are not recycled
-     *
-     * @var integer
      */
-    protected $solution_identifier = null;
+    protected ?int $solution_identifier = null;
 
     /**
      * the correct width of indentation for the element
-     *
-     * @var integer
      */
-    protected $indentation = 0;
+    protected int $indentation = 0;
 
     /**
      * the correct position in the ordering sequence
-     *
-     * @var integer
      */
-    protected $position = null;
-
-    /**
-     * @var string
-     */
-    protected $content = null;
-
-    /**
-     * @var string
-     */
-    protected $uploadImageName = null;
-
-    /**
-     * @var string
-     */
-    protected $uploadImageFile = null;
-
-    /**
-     * @var bool
-     */
-    protected $imageRemovalRequest = null;
-
-    /**
-     * @var string
-     */
-    protected $imagePathWeb = null;
-
-    /**
-     * @var string
-     */
-    protected $imagePathFs = null;
-
-    /**
-     * @var null
-     */
+    protected ?int $position = null;
+    protected ?string $content = null;
+    protected ?string $uploadImageName = null;
+    protected ?string $uploadImageFile = null;
+    protected bool $imageRemovalRequest = false;
+    protected ?string $imagePathWeb = null;
+    protected ?string $imagePathFs = null;
     protected $imageThumbnailPrefix = null;
 
     /**
@@ -127,42 +93,27 @@ class ilAssOrderingElement
         $this->objectInstanceId = ++self::$objectInstanceCounter;
     }
 
-    /**
-     * @return ilAssOrderingElement
-     */
     public function getClone(): ilAssOrderingElement
     {
         return clone $this;
     }
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId($id): void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return integer $random_identifier
-     */
-    public function getRandomIdentifier(): ?int
+    public function getRandomIdentifier(): int
     {
         return $this->random_identifier;
     }
 
-    /**
-     * @param $random_identifier
-     */
-    public function setRandomIdentifier($random_identifier): void
+    public function setRandomIdentifier(int $random_identifier): void
     {
         $this->random_identifier = $random_identifier;
     }
@@ -175,42 +126,27 @@ class ilAssOrderingElement
         return $this->solution_identifier;
     }
 
-    /**
-     * @param int $solution_identifier
-     */
-    public function setSolutionIdentifier($solution_identifier): void
+    public function setSolutionIdentifier(int $solution_identifier): void
     {
         $this->solution_identifier = $solution_identifier;
     }
 
-    /**
-     * @param int $indentation
-     */
-    public function setIndentation($indentation): void
+    public function setIndentation(int $indentation): void
     {
         $this->indentation = $indentation;
     }
 
-    /**
-     * @return int
-     */
     public function getIndentation(): int
     {
         return $this->indentation;
     }
 
-    /**
-     * @return int
-     */
     public function getPosition(): ?int
     {
         return $this->position;
     }
 
-    /**
-     * @param int $position
-     */
-    public function setPosition($position): void
+    public function setPosition(int $position): void
     {
         $this->position = $position;
     }
@@ -232,9 +168,6 @@ class ilAssOrderingElement
         $this->content = $content;
     }
 
-    /**
-     * @return string
-     */
     public function getUploadImageFile(): ?string
     {
         return $this->uploadImageFile;
@@ -245,6 +178,9 @@ class ilAssOrderingElement
      */
     public function setUploadImageFile($uploadImageFile): void
     {
+        if (is_array($uploadImageFile)) {
+            $uploadImageFile = array_shift($uploadImageFile);
+        }
         $this->uploadImageFile = $uploadImageFile;
     }
 
@@ -261,6 +197,9 @@ class ilAssOrderingElement
      */
     public function setUploadImageName($uploadImageName): void
     {
+        if (is_array($uploadImageName)) {
+            $uploadImageName = array_shift($uploadImageName);
+        }
         $this->uploadImageName = $uploadImageName;
     }
 
@@ -386,7 +325,7 @@ class ilAssOrderingElement
 
     protected function thumbnailFileExists(): bool
     {
-        if (!strlen($this->getContent())) {
+        if (!$this->getContent()) {
             return false;
         }
 
@@ -405,7 +344,7 @@ class ilAssOrderingElement
 
     protected function imageFileExists(): bool
     {
-        if (!strlen($this->getContent())) {
+        if (!$this->getContent()) {
             return false;
         }
 
@@ -469,10 +408,10 @@ class ilAssOrderingElement
                 self::EXPORT_IDENT_PROPERTY_SEPARATOR,
                 $ident
             );
-            $this->setRandomIdentifier($randomId);
-            $this->setSolutionIdentifier($solutionId);
-            $this->setPosition($pos);
-            $this->setIndentation($indent);
+            $this->setRandomIdentifier((int) $randomId);
+            $this->setSolutionIdentifier((int) $solutionId);
+            $this->setPosition((int) $pos);
+            $this->setIndentation((int) $indent);
         }
     }
 

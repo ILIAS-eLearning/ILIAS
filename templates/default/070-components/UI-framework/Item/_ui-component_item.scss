@@ -1,0 +1,252 @@
+@use "../../../010-settings/" as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_panel" as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_chart" as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_symbol" as *;
+@use "../../../030-tools/tool_rem-conversion" as *;
+@use "../../../050-layout/basics" as *;
+
+//== Item
+//
+//##
+$il-item-divider-padding: 10px 0 0 0;
+$il-item-divider-margin: 0 0 10px 0;
+$il-item-divider-border-bottom: dashed 0.5px $il-main-border-color;
+$il-item-description-padding: 10px 0 0 0;
+$il-item-audio-padding: $il-padding-large-vertical 0;
+$il-item-padding: $il-padding-xlarge-horizontal;
+$il-item-marker-border-left: 5px solid;
+$il-item-h5-margin: 4px 0px 2px 0px;
+$il-item-gap-base: 6px;
+$il-item-gap-large: 10px;
+$il-item-gap-small: 5px;
+$il-item-gap-xs: 1px;
+
+.il-std-item-container:not(:last-child) {
+	border-bottom: $il-main-border;
+}
+
+.il-item {
+	background-color: $il-main-bg;
+	position: relative;
+	padding: $il-item-padding;
+
+	.il-item-title {
+		font-size: $il-font-size-base;
+		display: inline-block;
+		.btn-link, a {
+			font-size: inherit;
+			line-height: $il-line-height-base;
+			
+			&:focus-visible {
+				display: block;
+			}
+		}
+	}
+
+	.il-item-divider {
+		clear: both;
+		padding: $il-item-divider-padding;
+		margin: $il-item-divider-margin;
+		border: 0 none;
+		background: none;
+		border-bottom: $il-item-divider-border-bottom;
+	}
+
+	.dropdown {
+		display: inline-block;
+		float: right;
+	}
+
+	.il-item-description {
+		padding: $il-item-description-padding;
+		font-size: $il-font-size-small;
+		clear: both;
+	}
+
+	.il-item-property-name {
+		font-size: $il-font-size-small;
+		color: $il-text-light-color;
+		overflow: hidden;
+	}
+
+	.il-item-property-value {
+		font-size: $il-font-size-small;
+		overflow: hidden;
+	}
+
+	.il-chart-progressmeter-box {
+		max-width: $il-chart-progressmeter-min-width;
+		margin-right: 0;
+		margin-left: auto;
+	}
+
+	.il-chart-progressmeter-viewbox {
+		@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+			padding-top: $il-padding-large-vertical;
+		}
+	}
+
+	.col-sm-9 > .row {
+		clear: both;
+	}
+
+	.row .row > .col-md-6 {
+		margin-bottom: 6px;
+	}
+
+	.il-item-audio {
+		padding: $il-item-audio-padding;
+	}
+
+}
+
+.il-item-marker {
+	border-left: $il-item-marker-border-left;
+}
+
+.il-item-group {
+	clear: both;
+	background-color: $il-main-dark-bg;
+
+	> h3 {
+		float:left;
+		color: $il-panel-heading-color;
+		font-size: $il-font-size-large;
+		font-weight: $il-font-weight-base;
+		padding: $il-panel-heading-padding;
+		margin: 0;
+	}
+
+	.dropdown {
+		float:right;
+	}
+}
+
+.il-item-group-items {
+	clear: both;
+}
+.il-item-notification-replacement-container:not(:first-child){
+	.il-notification-item{
+		margin-top: $il-margin-large-vertical;
+	}
+}
+
+.il-notification-item{
+	//To give some extra space in case for vertical scroll bar
+	padding-right: calc($il-item-padding + 3px);
+
+	.il-item-notification-title {
+		display: inline-block;
+		margin: 0;
+	}
+
+	.il-item-additional-content{
+		clear:both;
+	}
+
+	.row {
+		//To prevent horizontal scroll bar.
+		margin-right: 0px;
+	}
+
+	.dropdown{
+		margin-top: -(rem-to-pixel($il-font-size-base) + $il-margin-large-vertical);
+	}
+
+}
+
+.il-item-shy{
+	display: flex;
+	gap: $il-item-gap-large;
+
+	.content {
+		width: 100%;
+		display: grid;
+		grid-template-areas:
+			"title close"
+			"description description"
+			"divider divider"
+			"properties properties";
+		grid-auto-columns: auto $il-font-size-small;
+
+		.il-item-title {
+			grid-area: title;
+		}
+		.close {
+			grid-area: close;
+		}
+		.il-item-description {
+			grid-area: description;
+		}
+		.il-item-divider {
+			grid-area: divider;
+		}
+		.il-item-properties {
+			grid-area: properties;
+			display: grid;
+			grid-template-columns: auto 1fr;
+			gap: $il-item-gap-base;
+		}
+	}
+}
+
+@media only screen and (min-width: ($il-grid-float-breakpoint-max + 1px)) {
+
+	.panel-secondary .il-item {
+		padding: $il-padding-large-vertical $il-padding-xlarge-horizontal;
+		width: 100%;
+
+		.il-item-title {
+			word-break: break-word;
+		}
+
+		.il-item-description {
+			padding-top: 0;
+			word-break: break-word;
+		}
+
+		.col-sm-3 {
+			margin-top: $il-margin-base-vertical;
+			margin-left: 0;
+			width: 45px;
+			img {
+				width: 40px;
+			}
+		}
+
+		.col-sm-9{
+			width: calc(100% - 45px);
+		}
+		.col-md-6{
+			width: 100%;
+		}
+
+	}
+}
+
+/* otherwise dropdowns in items with icon do not work */
+.il-std-item .media .media-body, .il-std-item .media, .il-notification-item .media, .il-notification-item .media .media-body {
+	overflow: visible;
+}
+
+@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+	.il-item {
+		.il-item-divider {
+			padding: $il-item-divider-padding;
+			margin: 0;
+			border-bottom: 0;
+		}
+	}
+
+	.il-panel-listing-std-container{
+		.il-item .media-left{
+			min-width: calc($il-icon-size-small + 2 * $il-padding-xlarge-horizontal);
+		}
+	}
+
+	.panel-secondary .il-item  {
+		.media-body{
+			width: auto;
+		}
+	}
+}

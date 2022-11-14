@@ -2455,11 +2455,16 @@ book#:#book_assign_participant#:#Assign to Participant
 book#:#book_back_to_list#:#Back to List
 book#:#book_bobj#:#Booking Object
 book#:#book_book#:#Book
+book#:#book_book_available#:#Book Available Dates
+book#:#book_book_recurrence#:#Book multiple dates
 book#:#book_booked_in#:#Booked in
 book#:#book_booking_information#:#Information
 book#:#book_booking_objects#:#Booking Objects
 book#:#book_booking_reminders#:#Upcoming reservations
 book#:#book_bookings_per_user#:#Bookings per User
+book#:#book_bulk_confirmation#:#Please check, if all values are listed correctly.
+book#:#book_bulk_creation#:#Bulk Creation
+book#:#book_bulk_data#:#Object Data
 book#:#book_cal_entry#:#Booking of:
 book#:#book_confirm_booking#:#Confirm Booking
 book#:#book_confirm_booking_no_schedule#:#Are you sure you want to book the following object?
@@ -2469,6 +2474,7 @@ book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reser
 book#:#book_confirm_cancel_aggregation#:#Number of Cancellations
 book#:#book_confirm_delete#:#Do you really want to delete the following items?
 book#:#book_copy#:#Copy Booking Pool
+book#:#book_create_objects#:#Create Objects
 book#:#book_deadline#:#Deadline
 book#:#book_deadline_hours#:#X hours prior to booking period
 book#:#book_deadline_info#:#Minimum time between booking and booked period
@@ -2485,12 +2491,16 @@ book#:#book_fromto#:#Date Range
 book#:#book_hours#:#Hours
 book#:#book_is_used#:#Is Used
 book#:#book_limit_objects_available#:#You can not assign %s participants to "%s" because it has only %s items available.
+book#:#book_list#:#List
 book#:#book_log#:#Reservations
+book#:#book_missing_availability#:#It was not possible to book all items on all dates.
+book#:#book_missing_items#:#$1 missing item(s).
 book#:#book_new#:#New Booking Pool
 book#:#book_no_bookings_for_you#:#No reservations have been performed for you.
 book#:#book_no_objects#:#No Assignment
 book#:#book_no_of_objects#:#No. of Objects
 book#:#book_no_preferences_for_you#:#No preferences have been stored for you.
+book#:#book_no_recurrence#:#Book only this date
 book#:#book_not#:#Not
 book#:#book_not_enough_preferences#:#You selected not enough preferences. The preferences have not been saved.
 book#:#book_notification#:#Send Reservation Notifications
@@ -2498,8 +2508,10 @@ book#:#book_notification_info#:#Send a list of reservations of the next day to u
 book#:#book_nr_of_preferences#:#Number of Preferences
 book#:#book_nr_of_preferences_info#:#Number of preferences each participant can indicate.
 book#:#book_nr_preferences#:#Prefences
+book#:#book_obj_select#:#Select
 book#:#book_object_added#:#A booking object has been added.
 book#:#book_object_deleted#:#The booking object has been deleted.
+book#:#book_object_selection#:#Object Selection
 book#:#book_object_updated#:#The booking object has been updated.
 book#:#book_objects_available#:#Objects available %s
 book#:#book_open#:#Open Booking Pool
@@ -2524,6 +2536,8 @@ book#:#book_preferences#:#Preferences
 book#:#book_preferences_saved#:#The preferences have been saved.
 book#:#book_public_log#:#Public Reservations
 book#:#book_public_log_info#:#Users having the "read" permission only will also see reservations of other users.
+book#:#book_recurrence#:#Recurrence
+book#:#book_refresh#:#Refresh
 book#:#book_rem_intro#:#This is an overview of upcoming reservations:
 book#:#book_rem_reason#:#You are reciving these mails, because you are subscribed to notifications of the corresponding booking pools.
 book#:#book_reminder_day#:#Before Reservation
@@ -2562,8 +2576,11 @@ book#:#book_schedules#:#Schedules
 book#:#book_select_pool#:#Select Pool
 book#:#book_set_cancel#:#Cancel Reservation
 book#:#book_set_delete#:#Delete
+book#:#book_title_description_nr#:#Title; Description; Number of Objects
+book#:#book_title_description_nr_info#:#Enter title, description and number of objects separated by semicolon or TAB character. Use one line per object.
 book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.
 book#:#book_type_warning#:#Currently, there are no booking objects available. To use the booking pool you need to create booking objects.
+book#:#book_week#:#Week
 book#:#book_your_bookings#:#Your Reservations
 book#:#book_your_preferences#:#Your Preferences
 book#:#book_your_reservations#:#Your Reservations
@@ -6557,17 +6574,17 @@ content#:#cont_list_outdent#:#Outdent List
 content#:#cont_list_properties#:#List Properties
 content#:#cont_lists#:#Lists
 content#:#cont_lk_chapter#:#Chapter
-content#:#cont_lk_chapter_new#:#Chapter (New Frame)
+content#:#cont_lk_chapter_new#:#Chapter in New Tab
 content#:#cont_lk_file#:#File/Document
-content#:#cont_lk_media_faq#:#Media (FAQ Frame)
+content#:#cont_lk_media_faq#:#Media in FAQ Tool
 content#:#cont_lk_media_inline#:#Media (Inline)
-content#:#cont_lk_media_media#:#Media (Media Frame)
-content#:#cont_lk_media_new#:#Media (New Frame)
+content#:#cont_lk_media_media#:#Media in Media Tool
+content#:#cont_lk_media_new#:#Media in New Tab
 content#:#cont_lk_page#:#Page
-content#:#cont_lk_page_faq#:#Page (FAQ Frame)
-content#:#cont_lk_page_new#:#Page (New Frame)
+content#:#cont_lk_page_faq#:#Page in FAQ Tool
+content#:#cont_lk_page_new#:#Page in New Tab
 content#:#cont_lk_term#:#Glossary Term
-content#:#cont_lk_term_new#:#Glossary Term (New Frame)
+content#:#cont_lk_term_new#:#Glossary Term in New Tab
 content#:#cont_lm_comments_desc#:#Allow users to share comments on every page of the learning module.
 content#:#cont_lm_default_layout#:#Default Layout of Learning Module
 content#:#cont_lm_mail_permanent_link#:#Click on the following link to access the learning module:
@@ -14768,7 +14785,6 @@ skmg#:#skmg_recommended_learning_material_info#:#Select exactly one of the follo
 skmg#:#skmg_refresh_view#:#Refresh
 skmg#:#skmg_remove_levels#:#Remove Levels
 skmg#:#skmg_remove_skill#:#Remove Competence
-skmg#:#skmg_remove_skills#:#Remove Competences
 skmg#:#skmg_remove_trigger#:#Remove Trigger
 skmg#:#skmg_resources#:#Resources
 skmg#:#skmg_save_order#:#Save Order

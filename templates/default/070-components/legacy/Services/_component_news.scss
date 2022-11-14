@@ -1,0 +1,280 @@
+@use "../../../010-settings/" as *;
+@use "../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+@use "../../../010-settings/legacy-settings/legacy-settings_panel" as *;
+
+/* Services/News */
+
+td.il-news {
+	white-space:normal;
+	.il-news-locator {
+		margin: 2px 0px 4px 0px;
+	}
+	.ilIcon {
+		vertical-align:middle
+	}
+	.il-news-content {
+		clear:both;
+	}
+	.il-news-player {
+		margin-top: 15px;
+		max-width: 600px;
+	}
+	.il_BlockInfo {
+		text-align:right;
+	}
+}
+
+@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+	td.il-news {
+		white-space: normal !important;
+	}
+}
+
+span.ilNewsRssIcon {
+	background-color: $il-warning-color;
+	color: white;
+	min-width: 36px;
+	font-size: $il-font-size-xsmall;
+	text-align: center;
+	display: inline-block;
+	padding: 0 5px;
+	&:hover {
+		text-decoration: none;
+		background-color: darken($il-warning-color, 10%);
+	}
+}
+
+/* timeline, see http://codepen.io/jasondavis/pen/fDGdK */
+
+.ilTimeline {
+	list-style: none;
+	padding: 20px 0;
+	position: relative;
+	&:before {
+		top: 0;
+		bottom: 0;
+		position: absolute;
+		content: " ";
+		width: 3px;
+		background-color: $il-main-border-dark-color;
+		left: 50%;
+		margin-left: -1.5px;
+		@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+			left: 90%;
+		}
+	}
+	> li {
+		margin-bottom: 20px;
+		position: relative;
+		margin-right: 50%;
+		&:nth-child(even) {
+			margin-left: 50%;
+			margin-right: 0;
+			@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+				margin-left: 0;
+			}
+			> .ilTimelineBadge {
+				left: 0;
+				margin-left: -25px;
+				right: auto;
+				margin-right: 0;
+				@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+					right: auto;
+					left: 90%;
+				}
+			}
+		}
+		@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+			margin-right: 0;
+		}
+		&:before, &:after {
+			content: " ";
+			display: table;
+		}
+		&:after {
+			clear: both;
+		}
+		> .ilTimelinePanel {
+			width: 88%;
+			float: left;
+			padding: 20px;
+			position: relative;
+			background: $il-main-dark-bg;
+			border: $il-panel-border;
+			@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+				width: 80%;
+			}
+			&:after {
+				position: absolute;
+				top: 27px;
+				right: -14px;
+				display: inline-block;
+				border-top: 14px solid transparent;
+				border-left: 14px solid $il-main-border-color;
+				border-right: 0 solid $il-main-border-color;
+				border-bottom: 14px solid transparent;
+				content: " ";
+			}
+			.panel h2 {
+				display: none;
+			}
+		}
+		> .ilTimelineBadge {
+			color: white;
+			width: 50px;
+			height: 50px;
+			padding-top: 8px;
+			line-height: 1.2em;
+			font-size: $il-font-size-base;
+			text-align: center;
+			position: absolute;
+			top: 16px;
+			background-color: $il-neutral-light-color;
+			z-index: 100;
+			border-radius: 50%;
+			right: 0;
+			margin-right: -25px;
+			@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+				left: 90%;
+				right: auto;
+				margin-left: -25px;
+			}
+			> .ilTimelineDay {
+				font-size: $il-font-size-base;
+			}
+			> .ilTimelineMonth {
+				font-size: $il-font-size-xsmall;
+			}
+			> p {
+				padding: 0;
+				margin: 0;
+			}
+		}
+		&:nth-child(even) > .ilTimelinePanel {
+			float: right;
+			@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+				float: left;
+			}
+			&:before {
+				border-left-width: 0;
+				border-right-width: 15px;
+				left: -15px;
+				right: auto;
+				@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+					border-left-width: 15px;
+					border-right-width: 0;
+					right: auto;
+					right: -15px;
+				}
+			}
+			&:after {
+				border-left-width: 0;
+				border-right-width: 14px;
+				left: -14px;
+				right: auto;
+				@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+					border-left-width: 14px;
+					border-right-width: 0;
+					left: auto;
+					right: -14px;
+				}
+			}
+		}
+	}
+	.media-heading {
+		clear: right;
+		margin-top: 8px;
+	}
+	div.ilNotesHeader {
+		background-color: $il-main-dark-bg;
+	}
+}
+
+.ilNewsTimelineTruncatedText {
+	/*overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;*/
+}
+
+.ilNewsTimelineObjHead img {
+	width: 22px;
+	height: 22px;
+}
+
+.ilNewsTimelinePlayer {
+	position: relative;
+	z-index: 500;
+}
+
+.ilNewsTimelineUserImage {
+	float: left;
+	overflow: hidden;
+	width: 100px;
+
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+		width: 50px;
+	}
+}
+
+.ilNewsTimelineUserImage img {
+	width: 75px;
+	height: 75px;
+
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+		width: 40px;
+		height: 40px;
+	}
+}
+
+.ilNewsTimelineContentSection {
+	padding-left: 100px;
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+		padding-left: 50px;
+	}
+}
+
+.ilNewsTimelineEditInfo {
+	width: 90%;
+}
+
+.ilNewsTimelineMoreLoader {
+	text-align: center;
+}
+
+.ilNewsTimelineMoreLoader img {
+	width: 30px;
+	height: 30px;
+}
+
+/* https://github.com/JoanClaret/jquery-dynamic-max-height */
+.dynamic-height-wrap {
+	overflow: hidden;
+	position: relative;
+	@include btstrp3.transition(max-height 0.25s ease-in-out);
+	width: 100%;
+}
+
+/* Bottom gradient (optional, but recommended)*/
+.dynamic-height-active .dynamic-height-wrap:before {
+	background: linear-gradient(to bottom,  rgba(240,249,255,0) 0%,white 100%);
+	bottom: 0;
+	content: '';
+	height: 30px;
+	left: 0;
+	position: absolute;
+	right: 0;
+	z-index: 1;
+}
+
+.dynamic-height-active .dynamic-show-more {
+	display: inline-block;
+}
+
+.dynamic-show-more {
+	display: none;
+}
+
+.ilTimeline .ilNotes {
+	margin: 0 -20px -20px -20px;
+	padding: 10px 20px;
+}

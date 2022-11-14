@@ -166,8 +166,8 @@ class ilObjectDataSet extends ilDataSet
                             $settings[] = ilObjectServiceSettingsGUI::USE_NEWS;
                         }
                         foreach ($settings as $s) {
-                            $val = ilContainer::_lookupContainerSetting((int) $id, $s);
-                            if ($val) {
+                            if (ilContainer::_hasContainerSetting((int) $id, $s)) {
+                                $val = ilContainer::_lookupContainerSetting((int) $id, $s);
                                 $this->data[] = [
                                     "ObjId" => $id,
                                     "Setting" => $s,

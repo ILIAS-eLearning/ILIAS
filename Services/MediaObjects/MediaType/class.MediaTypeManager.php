@@ -48,10 +48,11 @@ class MediaTypeManager
         string $mime
     ): bool {
         $lpath = pathinfo($location);
-        if ($lpath["extension"] == "mp3" && $mime == "audio/mpeg") {
+        $ext = $lpath["extension"] ?? "";
+        if ($ext === "mp3" && $mime === "audio/mpeg") {
             return true;
         }
-        if ($lpath["extension"] == "flv") {
+        if ($ext === "flv") {
             return true;
         }
         if (in_array($mime, array("video/mp4", "video/webm"))) {

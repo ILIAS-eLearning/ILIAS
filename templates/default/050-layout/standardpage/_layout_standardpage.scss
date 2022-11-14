@@ -1,0 +1,82 @@
+@use "sass:math";
+
+@use "../../010-settings/" as *;
+@use "../../010-settings/legacy-settings/legacy-settings_symbol" as t-symbol;
+@use "../basics" as *;
+
+$il-standard-page-border-light-color: $il-main-border-color;
+
+$il-avatar-size: t-symbol.$il-icon-size-large;
+$il-avatar-inner-mobile-size: $il-avatar-size * 0.5;
+
+//** controls margin from the footer to the main content, increase/decrase depending on the content (default, space for 4 lines).
+$il-footer-margin-bottom: 2*$il-line-height-computed*2;
+$il-footer-padding: 10px 0 10px 5px;
+
+$il-standard-page-content-padding: 20px;
+$il-standard-page-slate-width: 329px;
+
+$il-mainbar-btn-height: 80px;
+$il-mainbar-btn-width: 80px;
+$il-maincontrols-mainbar-bg-color: $il-main-bg;
+$il-mainbar-btn-color: white;
+$il-mainbar-btn-bg-color: $il-neutral-color;
+$il-mainbar-btn-color-engaged: $il-neutral-color;
+$il-mainbar-btn-bg-color-engaged: $il-main-bg;
+$il-mainbar-tools-btn-bg: $il-warning-color;
+$il-mainbar-tools-btn-bg-engaged: lighten($il-main-color, 50%);
+$il-mainbar-tools-tab-btn-bg-engaged: white;
+$il-mainbar-tools-tab-btn-bg-disengaged: lighten($il-main-color, 15%);
+$il-mainbar-tools-bg: $il-main-dark-bg;
+$il-mainbar-tools-item-gap: 3px;
+$il-mainbar-icon-filter: invert(50%);
+$il-mainbar-slates-bg-color: $il-main-bg;
+$il-mainbar-btn-border: 1px solid $il-standard-page-border-light-color;
+$il-mainbar-btn-label-size: $il-font-size-xsmall;
+$il-mainbar-trigger-icon-size: 25px;
+$il-mainbar-remove-tools-btn-height: 45px;
+
+// slates
+$il-slate-bulky-bg-color: $il-main-darker-bg;
+$il-slate-bulky-level2-bg-color: $il-main-dark-bg;
+$il-slate-bulky-bg-color-engaged: rgba($il-main-color, math.div(30%,100%));
+$il-slate-content-padding: $il-padding-base-horizontal;
+$il-slate-tree-padding: $il-padding-small-vertical 0;
+$il-slate-bulky-padding-vertical: $il-padding-xxxlarge-vertical;
+$il-slate-bulky-padding: $il-slate-bulky-padding-vertical 40px $il-slate-bulky-padding-vertical $il-padding-base-horizontal;
+$il-slate-bulky-link-padding: $il-slate-bulky-padding-vertical $il-padding-base-horizontal $il-slate-bulky-padding-vertical $il-padding-base-horizontal;
+$il-slate-bulky-glyph-size: 1.0625rem;
+$il-slate-bulky-glyph-margin-right: $il-margin-small-horizontal;
+$il-slate-bulky-label-size: 0.9375rem;
+$il-slate-bulky-icon-size: 1.0625rem;
+$il-slate-content-spacing: 2px;
+$il-mainbar-close-slate-btn-height: 45px;
+$il-metabar-close-slate-btn-height: 30px;
+
+//** breadcrumbs
+$il-standard-page-breadcrumbs-height: 33px;
+$il-standard-page-breadcrumbs-seperator: " \e606";
+$il-standard-page-breadcrumbs-bg-color: $il-main-bg;
+$il-standard-page-breadcrumbs-color: $il-link-color;
+$il-standard-page-breadcrumbs-active-color: $il-link-hover-color;
+$il-standard-page-breadcrumbs-divider-color: $il-neutral-light-color;
+$il-standard-page-breadcrumbs-font-weight: $il-font-weight-bold;
+
+//** Shadows
+$il-standard-page-shadow-color: rgba(0, 0, 0, .1);
+$il-mainbar-shadow-right: 1px 3px 4px $il-standard-page-shadow-color;
+$il-mainbar-shadow-top: 0 0 4px $il-standard-page-shadow-color;
+$il-standard-page-header-shadow-bottom: 0 1px 2px $il-standard-page-shadow-color;
+
+// mixins
+@mixin shadow-right {
+	box-shadow: $il-mainbar-shadow-right;
+}
+
+@mixin shadow-bottom {
+	box-shadow: $il-standard-page-header-shadow-bottom;
+}
+
+@mixin shadow-top {
+	box-shadow: $il-mainbar-shadow-top;
+}

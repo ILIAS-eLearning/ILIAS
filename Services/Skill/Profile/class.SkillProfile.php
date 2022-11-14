@@ -26,7 +26,7 @@ namespace ILIAS\Skill\Profile;
  *
  * @author Alex Killing <alex.killing@gmx.de>
  */
-class SkillProfile implements \ilSkillUsageInfo
+class SkillProfile
 {
     protected int $id = 0;
     protected string $title = "";
@@ -34,12 +34,6 @@ class SkillProfile implements \ilSkillUsageInfo
     protected int $skill_tree_id = 0;
     protected string $image_id = "";
     protected int $ref_id = 0;
-    /**
-     * @var array{base_skill_id: int, tref_id: int, level_id: int, order_nr: int}[]
-     */
-    protected array $skill_level = [];
-
-    protected SkillProfileLevelsDBRepository $profile_levels_repo;
 
     public function __construct(
         int $id,
@@ -57,20 +51,6 @@ class SkillProfile implements \ilSkillUsageInfo
         $this->skill_tree_id = $skill_tree_id;
         $this->image_id = $image_id;
         $this->ref_id = $ref_id;
-
-        $this->profile_levels_repo = $DIC->skills()->internal()->repo()->getProfileLevelsRepo();
-
-        if ($this->getId() > 0) {
-            $levels = $this->profile_levels_repo->getProfileLevels($this->getId());
-            foreach ($levels as $level) {
-                $this->addSkillLevel(
-                    $level["base_skill_id"],
-                    $level["tref_id"],
-                    $level["level_id"],
-                    $level["order_nr"]
-                );
-            }
-        }
     }
 
     public function getId(): int
@@ -88,9 +68,9 @@ class SkillProfile implements \ilSkillUsageInfo
         return $this->description;
     }
 
-    public function getRefId(): int
+    public function getSkillTreeId(): int
     {
-        return $this->ref_id;
+        return $this->skill_tree_id;
     }
 
     public function getImageId(): string
@@ -98,58 +78,8 @@ class SkillProfile implements \ilSkillUsageInfo
         return $this->image_id;
     }
 
-    public function getSkillTreeId(): int
+    public function getRefId(): int
     {
-        return $this->skill_tree_id;
-    }
-
-    public function addSkillLevel(int $base_skill_id, int $tref_id, int $level_id, int $order_nr): void
-    {
-        $this->skill_level[] = array(
-            "base_skill_id" => $base_skill_id,
-            "tref_id" => $tref_id,
-            "level_id" => $level_id,
-            "order_nr" => $order_nr
-        );
-    }
-
-    public function removeSkillLevel(int $base_skill_id, int $tref_id, int $level_id, int $order_nr): void
-    {
-        foreach ($this->skill_level as $k => $sl) {
-            if ((int) $sl["base_skill_id"] == $base_skill_id &&
-                (int) $sl["tref_id"] == $tref_id &&
-                (int) $sl["level_id"] == $level_id &&
-                (int) $sl["order_nr"] == $order_nr) {
-                unset($this->skill_level[$k]);
-            }
-        }
-    }
-
-    /**
-     * @return array{base_skill_id: int, tref_id: int, level_id: int, order_nr: int}[]
-     */
-    public function getSkillLevels(): array
-    {
-        usort($this->skill_level, static function (array $level_a, array $level_b): int {
-            return $level_a['order_nr'] <=> $level_b['order_nr'];
-        });
-
-        return $this->skill_level;
-    }
-
-    /**
-     * @param array{skill_id: int, tref_id: int}[] $a_cskill_ids
-     *
-     * @return array<string, array<string, array{key: string}[]>>
-     */
-    public static function getUsageInfo(array $a_cskill_ids): array
-    {
-        return \ilSkillUsage::getUsageInfoGeneric(
-            $a_cskill_ids,
-            \ilSkillUsage::PROFILE,
-            "skl_profile_level",
-            "profile_id",
-            "base_skill_id"
-        );
+        return $this->ref_id;
     }
 }

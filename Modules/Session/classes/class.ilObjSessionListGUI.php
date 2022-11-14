@@ -184,7 +184,7 @@ class ilObjSessionListGUI extends ilObjectListGUI
 
         // booking information
         $repo = ilObjSessionAccess::getBookingInfoRepo();
-        if ($repo instanceof ilBookingReservationDBRepository) {
+        if ($repo instanceof \ILIAS\BookingManager\Reservations\ReservationDBRepository) {
             $book_info = new ilBookingInfoListItemPropertiesAdapter($repo);
             $props = $book_info->appendProperties($this->obj_id, $props);
         }

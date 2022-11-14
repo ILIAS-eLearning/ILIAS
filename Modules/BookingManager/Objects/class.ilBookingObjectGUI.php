@@ -18,10 +18,15 @@
 
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilBookingObjectGUI: ilPropertyFormGUI, ilBookingProcessGUI
+ * @ilCtrl_Calls ilBookingObjectGUI: ilPropertyFormGUI, ilBookingProcessWithScheduleGUI, ilBookingProcessWithoutScheduleGUI
+ * @ilCtrl_Calls ilBookingObjectGUI: ilBookBulkCreationGUI
  */
 class ilBookingObjectGUI
 {
+    protected \ILIAS\BookingManager\Schedule\ScheduleManager $schedule_manager;
+    protected ilBookBulkCreationGUI $bulk_creation_gui;
+    protected ilObjBookingPool $pool;
+    protected \ILIAS\BookingManager\InternalGUIService $gui;
     protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
@@ -64,11 +69,21 @@ class ilBookingObjectGUI
         $this->obj_data_cache = $DIC["ilObjDataCache"];
         $this->user = $DIC->user();
 
-        $this->book_request = $DIC->bookingManager()
-                                  ->internal()
-                                  ->gui()
-                                  ->standardRequest();
+        /** @var ilObjBookingPool $pool */
+        $pool = $a_parent_obj->getObject();
+        $this->pool = $pool;
 
+        $this->book_request = $DIC
+            ->bookingManager()
+            ->internal()
+            ->gui()
+            ->standardRequest();
+        $this->gui = $DIC->bookingManager()->internal()->gui();
+        $this->schedule_manager = $DIC
+            ->bookingManager()
+            ->internal()
+            ->domain()
+            ->schedules($this->pool->getId());
 
         $this->seed = $seed;
         $this->sseed = $sseed;
@@ -76,6 +91,9 @@ class ilBookingObjectGUI
         $this->context_obj_id = $context_obj_id;
 
         $this->pool_gui = $a_parent_obj;
+        $this->bulk_creation_gui = $this->gui->objects()
+            ->ilBookBulkCreationGUI($this->pool);
+
         $this->pool_has_schedule =
             ($a_parent_obj->getObject()->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE);
         $this->pool_uses_preferences =
@@ -148,7 +166,7 @@ class ilBookingObjectGUI
                 $this->ctrl->forwardCommand($form);
                 break;
 
-            case "ilbookingprocessgui":
+            case "ilbookingprocesswithschedulegui":
                 if (!$this->pool_uses_preferences) {
                     $ilCtrl->setReturn($this, "render");
                 } else {
@@ -156,15 +174,34 @@ class ilBookingObjectGUI
                 }
                 /** @var ilObjBookingPool $pool */
                 $pool = $this->pool_gui->getObject();
-                $process_gui = new ilBookingProcessGUI(
+                $process_gui = $this->gui->process()->ilBookingProcessWithScheduleGUI(
                     $pool,
                     $this->object_id,
-                    $this->help,
-                    $this->seed,
-                    $this->sseed,
+                    $this->context_obj_id,
+                    $this->seed ?? $this->sseed
+                );
+                $this->ctrl->forwardCommand($process_gui);
+                break;
+
+            case "ilbookingprocesswithoutschedulegui":
+                if (!$this->pool_uses_preferences) {
+                    $ilCtrl->setReturn($this, "render");
+                } else {
+                    $ilCtrl->setReturn($this, "returnToPreferences");
+                }
+                /** @var ilObjBookingPool $pool */
+                $pool = $this->pool_gui->getObject();
+                $process_gui = $this->gui->process()->ilBookingProcessWithoutScheduleGUI(
+                    $pool,
+                    $this->object_id,
                     $this->context_obj_id
                 );
                 $this->ctrl->forwardCommand($process_gui);
+                break;
+
+            case strtolower(ilBookBulkCreationGUI::class):
+                $this->ctrl->setReturn($this, "");
+                $this->ctrl->forwardCommand($this->bulk_creation_gui);
                 break;
 
             default:
@@ -202,6 +239,20 @@ class ilBookingObjectGUI
         if ($this->isManagementActivated() && $ilAccess->checkAccess('write', '', $this->getPoolRefId())) {
             $bar = new ilToolbarGUI();
             $bar->addButton($lng->txt('book_add_object'), $ilCtrl->getLinkTarget($this, 'create'));
+
+            // bulk creation
+            $this->bulk_creation_gui->modifyToolbar($bar);
+
+            if ($this->hasPoolSchedule()) {
+                $bar->addSeparator();
+                $list_link = $this->ctrl->getLinkTarget($this, "");
+                $week_link = $this->ctrl->getLinkTargetByClass("ilBookingProcessWithScheduleGUI", "week");
+                $mode_control = $this->gui->ui()->factory()->viewControl()->mode([
+                   $this->lng->txt("book_list") => $list_link,
+                   $this->lng->txt("book_week") => $week_link
+                ], $this->lng->txt("book_view"));
+                $bar->addComponent($mode_control);
+            }
             $bar = $bar->getHTML();
         }
 
@@ -319,8 +370,8 @@ class ilBookingObjectGUI
 
         if ($this->hasPoolSchedule()) {
             $options = array();
-            foreach (ilBookingSchedule::getList($ilObjDataCache->lookupObjId($this->getPoolRefId())) as $schedule) {
-                $options[$schedule["booking_schedule_id"]] = $schedule["title"];
+            foreach ($this->schedule_manager->getScheduleList() as $schedule_id => $schedule_title) {
+                $options[$schedule_id] = $schedule_title;
             }
             $schedule = new ilSelectInputGUI($lng->txt("book_schedule"), "schedule");
             $schedule->setRequired(true);

@@ -1,0 +1,10 @@
+@use "../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+
+
+.ilLeftNavSpace {
+	/* padding: 0 20px 0 310px; */
+	margin-left: 315px !important;
+	@media (max-width: btstrp3.$screen-lg-min) {
+		margin-left: 0 !important;
+	}
+}

@@ -24,6 +24,8 @@ use ILIAS\BookingManager\Reservation\ReservationTableSessionRepository;
  */
 class ilBookingReservationsTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\BookingManager\Schedule\ScheduleManager $schedule_manager;
+    protected \ILIAS\BookingManager\Reservations\ReservationDBRepository $reservation_repo;
     protected ReservationTableSessionRepository $table_repo;
     protected ilObjUser $user;
     protected ilAccessHandler $access;
@@ -62,6 +64,15 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         $lng = $DIC->language();
         $ilUser = $DIC->user();
         $this->tree = $DIC->repositoryTree();
+        $this->reservation_repo = $DIC->bookingManager()
+            ->internal()
+            ->repo()
+            ->reservation();
+        $this->schedule_manager = $DIC
+            ->bookingManager()
+            ->internal()
+            ->domain()
+            ->schedules($a_pool_id);
 
         $this->context_obj_ids = $context_obj_ids;
         $this->pool_id = $a_pool_id;
@@ -313,8 +324,8 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                     $options = array("" => $this->lng->txt('book_all'));
 
                     // schedule to slot
-                    foreach (ilBookingSchedule::getList($this->pool_id) as $def) {
-                        $schedule = new ilBookingSchedule($def["booking_schedule_id"]);
+                    foreach ($this->schedule_manager->getScheduleList() as $id => $title) {
+                        $schedule = new ilBookingSchedule($id);
                         foreach ($schedule->getDefinition() as $day => $slots) {
                             $day_caption = ilCalendarUtil::_numericDayToString((int) $map[$day], false);
 
@@ -451,8 +462,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             $filter["user_id"] = $ilUser->getId();
         }
 
-        $f = new ilBookingReservationDBRepositoryFactory();
-        $repo = $f->getRepo();
+        $repo = $this->reservation_repo;
         $data = $repo->getListByDate($this->has_schedule, $ids, $filter);
 
         if ($this->advmd) {

@@ -28,22 +28,26 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 {
     protected ?Closure $title_modifier = null;
 
+    /**
+     * @param object|null $forwarder object that forwards to ilFormPropertyDispatchGUI, usually a form object
+     *                               but might be a table as well, e.g. if inputs are used in filter
+     */
     public function __construct(
         string $a_title,
         string $a_postvar,
         bool $a_multi = false,
-        ?ilPropertyFormGUI $form = null
+        ?object $forwarder = null
     ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->multi_nodes = $a_multi;
         $this->postvar = $a_postvar;
-        $form_class = (is_null($form))
+        $forwarder_class = (is_null($forwarder))
             ? ilPropertyFormGUI::class
-            : get_class($form);
+            : get_class($forwarder);
         $this->explorer_gui = new ilRepositorySelectorExplorerGUI(
-            [$form_class, ilFormPropertyDispatchGUI::class, ilRepositorySelector2InputGUI::class],
+            [$forwarder_class, ilFormPropertyDispatchGUI::class, ilRepositorySelector2InputGUI::class],
             $this->getExplHandleCmd(),
             $this,
             "selectRepositoryItem",

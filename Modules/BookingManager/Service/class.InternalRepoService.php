@@ -21,6 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\BookingManager;
 
 use ILIAS\BookingManager\Reservation\ReservationTableSessionRepository;
+use ILIAS\BookingManager\Objects\ObjectsDBRepository;
+use ILIAS\BookingManager\Reservations\ReservationDBRepository;
+use ILIAS\BookingManager\BookingProcess\SelectedObjectsDBRepository;
+use ILIAS\BookingManager\Schedule\SchedulesDBRepository;
 
 /**
  * Repository internal repo service
@@ -65,4 +69,39 @@ class InternalRepoService
     {
         return new ReservationTableSessionRepository();
     }
+
+    public function objects() : ObjectsDBRepository
+    {
+        return new ObjectsDBRepository(
+            $this->db
+        );
+    }
+
+    public function schedules() : SchedulesDBRepository
+    {
+        return new SchedulesDBRepository(
+            $this->db
+        );
+    }
+
+    public function reservation() : ReservationDBRepository
+    {
+        return new ReservationDBRepository($this->db);
+    }
+
+    /**
+     * Get repo with reservation information preloaded for context obj ids
+     * @param int[] $context_obj_ids
+     */
+    public function reservationWithContextObjCache(
+        array $context_obj_ids
+    ) : ReservationDBRepository {
+        return new ReservationDBRepository($this->db, $context_obj_ids);
+    }
+
+    public function objectSelection() : SelectedObjectsDBRepository
+    {
+        return new SelectedObjectsDBRepository($this->db);
+    }
+
 }
