@@ -84,14 +84,19 @@ class FormAdapterGUI
         self::initJavascript();
     }
 
-    public static function getOnLoadCode() : string
+    public static function getOnLoadCode(): string
     {
         return "il.repository.ui.init()";
     }
 
-    public static function initJavascript() : void
+    public static function initJavascript(): void
     {
         global $DIC;
+
+        if (!isset($DIC["ui.factory"])) {
+            return;
+        }
+
         $f = $DIC->ui()->factory();
         $r = $DIC->ui()->renderer();
         if (!self::$initialised) {
@@ -107,7 +112,7 @@ class FormAdapterGUI
         }
     }
 
-    public function asyncModal() : self
+    public function asyncModal(): self
     {
         $this->async_mode = self::ASYNC_MODAL;
         return $this;
@@ -150,7 +155,7 @@ class FormAdapterGUI
         return $this;
     }
 
-    public function required() : self
+    public function required(): self
     {
         if ($field = $this->getLastField()) {
             $field = $field->withRequired(true);
@@ -180,7 +185,7 @@ class FormAdapterGUI
         ?int $value = null,
         ?int $min_value = null,
         ?int $max_value = null
-    ) : self {
+    ): self {
         $trans = [];
         if (!is_null($min_value)) {
             $trans[] = $this->refinery->int()->isGreaterThanOrEqual($min_value);
@@ -204,7 +209,7 @@ class FormAdapterGUI
         string $title,
         string $description = "",
         ?\ilDate $value = null
-    ) : self {
+    ): self {
         $field = $this->ui->factory()->input()->field()->dateTime($title, $description);
 
         switch ((int) $this->user->getDateFormat()) {
@@ -269,7 +274,7 @@ class FormAdapterGUI
         string $title,
         string $description = "",
         ?string $value = null
-    ) : self {
+    ): self {
         $field = $this->ui->factory()->input()->field()->radio($title, $description);
         if (!is_null($value)) {
             $field = $field->withOption($value, "");    // dummy to prevent exception, will be overwritten by radioOption
@@ -282,7 +287,7 @@ class FormAdapterGUI
         return $this;
     }
 
-    public function radioOption(string $value, string $title, string $description = "") : self
+    public function radioOption(string $value, string $title, string $description = ""): self
     {
         if ($field = $this->getLastField()) {
             $field = $field->withOption($value, $title, $description);
@@ -296,7 +301,7 @@ class FormAdapterGUI
         string $title,
         string $description = "",
         ?string $value = null
-    ) : self {
+    ): self {
         $this->current_switch = [
             "key" => $key,
             "title" => $title,
@@ -307,7 +312,7 @@ class FormAdapterGUI
         return $this;
     }
 
-    public function group(string $key, string $title, string $description = "") : self
+    public function group(string $key, string $title, string $description = ""): self
     {
         $this->endCurrentGroup();
         $this->current_group = [
@@ -319,7 +324,7 @@ class FormAdapterGUI
         return $this;
     }
 
-    protected function endCurrentGroup() : void
+    protected function endCurrentGroup(): void
     {
         if (!is_null($this->current_group)) {
             if (!is_null($this->current_switch)) {
@@ -333,7 +338,7 @@ class FormAdapterGUI
         $this->current_group = null;
     }
 
-    public function end() : self
+    public function end(): self
     {
         $this->endCurrentGroup();
         if (!is_null($this->current_switch)) {
@@ -430,7 +435,7 @@ class FormAdapterGUI
         $this->form = null;
     }
 
-    protected function getFieldForKey(string $key) : FormInput
+    protected function getFieldForKey(string $key): FormInput
     {
         if (!isset($this->fields[$key])) {
             throw new \ilException("Unknown Key: " . $key);
@@ -438,12 +443,12 @@ class FormAdapterGUI
         return $this->fields[$key];
     }
 
-    protected function getLastField() : ?FormInput
+    protected function getLastField(): ?FormInput
     {
         return $this->fields[$this->last_key] ?? null;
     }
 
-    protected function replaceLastField(FormInput $field) : void
+    protected function replaceLastField(FormInput $field): void
     {
         if ($this->last_key !== "") {
             $this->fields[$this->last_key] = $field;
@@ -484,12 +489,12 @@ class FormAdapterGUI
         return $this->form;
     }
 
-    public function getSubmitCaption() : string
+    public function getSubmitCaption(): string
     {
         return $this->getForm()->getSubmitCaption() ?? $this->lng->txt("save");
     }
 
-    protected function _getData() : void
+    protected function _getData(): void
     {
         if (is_null($this->raw_data)) {
             $request = $this->http->request();
@@ -498,7 +503,7 @@ class FormAdapterGUI
         }
     }
 
-    public function isValid() : bool
+    public function isValid(): bool
     {
         $this->_getData();
         return !(is_null($this->raw_data));
@@ -524,7 +529,7 @@ class FormAdapterGUI
         }
 
         $field = $this->getFieldForKey($key);
-        
+
         if ($field instanceof \ILIAS\UI\Component\Input\Field\DateTime) {
             /** @var \ILIAS\UI\Component\Input\Field\DateTime $field */
             $value = $this->getDateTimeData($value, $field->getUseTime());

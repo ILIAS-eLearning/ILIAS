@@ -2455,11 +2455,16 @@ book#:#book_assign_participant#:#Teilnehmer zuweisen
 book#:#book_back_to_list#:#Zurück zur Liste
 book#:#book_bobj#:#Buchungsobjekt
 book#:#book_book#:#Buchen
+book#:#book_book_available#:#Verfügbare Termine buchen
+book#:#book_book_recurrence#:#Wiederholungen buchen
 book#:#book_booked_in#:#Gebucht in
 book#:#book_booking_information#:#Information
 book#:#book_booking_objects#:#Buchungsobjekte
 book#:#book_booking_reminders#:#Anstehende Reservierungen
 book#:#book_bookings_per_user#:#Buchungen je Benutzer
+book#:#book_bulk_confirmation#:#Bitte überprüfen Sie die angegebenen Werte.
+book#:#book_bulk_creation#:#Massenerstellung
+book#:#book_bulk_data#:#Objektdaten
 book#:#book_cal_entry#:#Buchung von:
 book#:#book_confirm_booking#:#Buchung vornehmen
 book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, dass Sie das folgende Objekt buchen wollen?
@@ -2469,6 +2474,7 @@ book#:#book_confirm_cancel#:#Sind Sie sicher, dass Sie die folgende Reservierung
 book#:#book_confirm_cancel_aggregation#:#Anzahl Stornierungen
 book#:#book_confirm_delete#:#Wollen Sie wirklich die nachfolgende Objekte löschen?
 book#:#book_copy#:#Buchungspool kopieren
+book#:#book_create_objects#:#Objekte erstellen
 book#:#book_deadline#:#Zeitspanne
 book#:#book_deadline_hours#:#Bis n Stunden vor Beginn des Zeitfensters
 book#:#book_deadline_info#:#Minimale Zeit zwischen Buchung und Buchungszeitraum
@@ -2485,12 +2491,16 @@ book#:#book_fromto#:#Datumsbereich
 book#:#book_hours#:#Stunden
 book#:#book_is_used#:#In Benutzung
 book#:#book_limit_objects_available#:#Sie können nicht %s Teilnehmer zu "%s" hinzufügen, weil nur %s Einträge verfügbar sind.
+book#:#book_list#:#Liste
 book#:#book_log#:#Reservierungen
+book#:#book_missing_availability#:#Es können leider nicht alle Termine gebucht werden.
+book#:#book_missing_items#:#Es fehlen $1.
 book#:#book_new#:#Neuen Buchungspool anlegen
 book#:#book_no_bookings_for_you#:#Es wurden keine Reservierungen für Sie durchgeführt.
 book#:#book_no_objects#:#Keine Zuweisung
 book#:#book_no_of_objects#:#Anzahl Objekte
 book#:#book_no_preferences_for_you#:#Sie haben keine Präferenzen abgespeichert.
+book#:#book_no_recurrence#:#nur diesen Termin buchen
 book#:#book_not#:#Nicht
 book#:#book_not_enough_preferences#:#Sie haben nicht genügend Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
 book#:#book_notification#:#Benachrichtigungen über Reservierungen
@@ -2498,8 +2508,10 @@ book#:#book_notification_info#:#Sendet eine Liste der Reservierungen des nächst
 book#:#book_nr_of_preferences#:#Anzahl
 book#:#book_nr_of_preferences_info#:#Anzahl an Präferenzen, die jeder Teilnehmer abgeben darf.
 book#:#book_nr_preferences#:#Präferenzen
+book#:#book_obj_select#:#Auswählen
 book#:#book_object_added#:#Ein Buchungsobjekt wurde hinzugefügt.
 book#:#book_object_deleted#:#Das Buchungsobjekt wurde gelöscht.
+book#:#book_object_selection#:#Objektauswahl
 book#:#book_object_updated#:#Das Buchungsobjekt wurde geändert.
 book#:#book_objects_available#:#Verfügbare Objekte: %s
 book#:#book_open#:#Buchungspool öffnen
@@ -2524,6 +2536,8 @@ book#:#book_preferences#:#Präferenzen
 book#:#book_preferences_saved#:#Die Präferenzen wurden gespeichert.
 book#:#book_public_log#:#Benutzer sehen alle Reservierungen
 book#:#book_public_log_info#:#Benutzer mit Leserecht können im Reiter „Reservierungen“ auch Reservierungen anderer Benutzer einsehen.
+book#:#book_recurrence#:#Wiederholung
+book#:#book_refresh#:#Aktualisieren
 book#:#book_rem_intro#:#Dies ist eine Übersicht über anstehende Reservierungen.
 book#:#book_rem_reason#:#Sie erhalten diese Mail, da Sie die Benachrichtigung der entsprechenden Buchungsobjekte aktiviert haben.
 book#:#book_reminder_day#:#Versenden
@@ -2561,8 +2575,11 @@ book#:#book_schedules#:#Zeitpläne
 book#:#book_select_pool#:#Pool auswählen
 book#:#book_set_cancel#:#Stornieren
 book#:#book_set_delete#:#Löschen
+book#:#book_title_description_nr#:#Titel; Beschreibung; Anzahl
+book#:#book_title_description_nr_info#:#Geben Sie bitte Titel, Beschreibung und Anzahl getrennt durch ein Semikolon oder TAB ein. Nutzen Sie einen Zeile
 book#:#book_too_many_preferences#:#Sie haben zu viele Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
 book#:#book_type_warning#:#Es sind momentan keine Buchungsobjekte vorhanden. Um den Pool nutzen zu können, müssen zuerst Buchungsobjekte angelegt werden.
+book#:#book_week#:#Wochenansicht
 book#:#book_your_bookings#:#Ihre Reservierungen
 book#:#book_your_preferences#:#Ihre Präferenzen
 book#:#book_your_reservations#:#Ihre Reservierungen
@@ -16932,20 +16949,3 @@ wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
-book#:#book_no_recurrence#:#nur diesen Termin buchen
-book#:#book_book_recurrence#:#Wiederholungen buchen
-book#:#book_recurrence#:#Wiederholung
-book#:#book_missing_availability#:#Es können leider nicht alle Termine gebucht werden.
-book#:#book_missing_items#:#Es fehlen $1.
-book#:#book_book_available#:#Verfügbare Termine buchen
-book#:#book_list#:#Liste
-book#:#book_week#:#Wochenansicht
-book#:#book_object_selection#:#Objektauswahl
-book#:#book_obj_select#:#Auswählen
-book#:#book_refresh#:#Aktualisieren
-book#:#book_bulk_creation#:#Massenerstellung
-book#:#book_create_objects#:#Objekte erstellen
-book#:#book_bulk_data#:#Objektdaten
-book#:#book_title_description_nr#:#Titel; Beschreibung; Anzahl
-book#:#book_title_description_nr_info#:#Geben Sie bitte Titel, Beschreibung und Anzahl getrennt durch ein Semikolon oder TAB ein. Nutzen Sie einen Zeile
-book#:#book_bulk_confirmation#:#Bitte überprüfen Sie die angegebenen Werte.
