@@ -131,25 +131,15 @@ EOT;
     }
 }
 
-class InterruptiveItemMock implements C\Modal\InterruptiveItem
+class InterruptiveItemMock implements C\Modal\InterruptiveItem\InterruptiveItem
 {
     public function getId(): string
     {
         return '1';
     }
 
-    public function getTitle(): string
+    public function getCanonicalName(): string
     {
-        return 'title';
-    }
-
-    public function getDescription(): string
-    {
-        return 'description';
-    }
-
-    public function getIcon(): C\Image\Image
-    {
-        return new I\Component\Image\Image(C\Image\Image::STANDARD, '', '');
+        return 'InterruptiveItem';
     }
 }

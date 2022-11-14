@@ -2,6 +2,22 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\UI\examples\Modal\Interruptive;
 
 function show_modal_on_button_click_async_rendered()
@@ -23,7 +39,7 @@ function show_modal_on_button_click_async_rendered()
     if ($request_wrapper->has('item')) {
         $id = $request_wrapper->retrieve('item', $refinery->kindlyTo()->string());
         $item = $items[$id];
-        $affected_item = $factory->modal()->interruptiveItem($id, $item);
+        $affected_item = $factory->modal()->interruptiveItem()->standard($id, $item);
         $modal = $factory->modal()->interruptive('Delete Items', $message, $form_action)
             ->withAffectedItems([$affected_item]);
         echo $renderer->render($modal);

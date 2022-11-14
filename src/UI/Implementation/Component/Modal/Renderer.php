@@ -131,12 +131,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setCurrentBlock('with_items');
             foreach ($modal->getAffectedItems() as $item) {
                 $tpl->setCurrentBlock('item');
-                $icon = ($item->getIcon()) ? $default_renderer->render($item->getIcon()) : '';
-                $desc = ($item->getDescription()) ? '<br>' . $item->getDescription() : '';
-                $tpl->setVariable('ITEM_ICON', $icon);
-                $tpl->setVariable('ITEM_ID', $item->getId());
-                $tpl->setVariable('ITEM_TITLE', $item->getTitle());
-                $tpl->setVariable('ITEM_DESCRIPTION', $desc);
+                $tpl->setVariable('ITEM', $default_renderer->render($item));
                 $tpl->parseCurrentBlock();
             }
         }

@@ -9141,6 +9141,11 @@ div.alert ul > li:before {
 .il-modal-roundtrip .il-standard-form .row .col-lg-10 {
   width: 66.67%;
 }
+.il-modal-interruptive .il-interruptive-item .item-value {
+  font-style: italic;
+  color: #6f6f6f;
+  padding-left: 6px;
+}
 .il-tree {
   list-style-type: none;
   padding: 0 3px 0 calc(3px + 4px);
@@ -11204,7 +11209,7 @@ footer {
   grid-template-areas: "icon title close" "none description description" "none actions actions";
   grid-template-columns: 20px 1fr 20px;
   grid-gap: 9px;
-  box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 3px 9px 9px 0 rgb(0 0 0);
   transform: translateX(150%);
   transition: all 0.25s ease-in-out;
 }

@@ -23,6 +23,8 @@ namespace ILIAS\UI\Implementation\Component\Modal;
 use ILIAS\UI\Component\Modal as M;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Implementation\Component\Modal\InterruptiveItem\Factory as ItemFactory;
+use ILIAS\LTI\ToolProvider\Content\Item;
 
 /**
  * Implementation of factory for modals
@@ -50,12 +52,8 @@ class Factory implements M\Factory
      * @inheritdoc
      */
     public function interruptiveItem(
-        string $id,
-        string $title,
-        Image $icon = null,
-        string $description = ''
-    ): M\InterruptiveItem {
-        return new InterruptiveItem($id, $title, $icon, $description);
+    ): M\InterruptiveItem\Factory {
+        return new ItemFactory();
     }
 
     /**

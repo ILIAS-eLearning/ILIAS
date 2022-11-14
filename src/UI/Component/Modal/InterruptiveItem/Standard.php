@@ -18,34 +18,29 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\UI\Component\Modal;
+namespace ILIAS\UI\Component\Modal\InterruptiveItem;
 
 use ILIAS\UI\Component\Image\Image;
 
 /**
  * Interface InterruptiveItem
  *
- * Represents an item to be displayed inside an interruptive modal
+ * Represents an object to be displayed inside an interruptive modal
  */
-interface InterruptiveItem
+interface Standard extends InterruptiveItem
 {
     /**
-     * Return an ID of the item
-     */
-    public function getId(): string;
-
-    /**
-     * Get the title of the item
+     * Get the title of the object
      */
     public function getTitle(): string;
 
     /**
-     * Get the description of a title
+     * Get the description of the object
      */
     public function getDescription(): string;
 
     /**
-     * Get the icon of the item
+     * Get the icon of the object
      */
     public function getIcon(): ?Image;
 }

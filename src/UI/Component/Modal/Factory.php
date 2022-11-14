@@ -22,6 +22,7 @@ namespace ILIAS\UI\Component\Modal;
 
 use ILIAS\UI\Component;
 use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Modal\InterruptiveItem;
 
 /**
  * Interface Factory
@@ -73,34 +74,15 @@ interface Factory
      *   purpose: >
      *     Interruptive items are displayed in an Interruptive modal and represent the object(s) being affected
      *     by the critical action, e.g. deleting.
-     *   composition:
-     *     An Interruptive item is composed of an Id, title, description and an icon.
+     *
      * rules:
      *   usage:
      *     1: >
-     *       An interruptive item MUST have an ID and title.
-     *     2: >
-     *       An interruptive item SHOULD have an icon representing the affected object.
-     *     3: >
-     *       An interruptive item MAY have a description which helps to further identify the object.
-     *       If an Interruptive modal displays multiple items having the the same title,
-     *       the description MUST be used in order to distinct these objects from each other.
-     *     4: >
-     *       If an interruptive item represents an ILIAS object, e.g. a course, then the Id, title, description
-     *       and icon of the item MUST correspond to the Id, title, description and icon from the ILIAS object.
+     *       An interruptive item MUST have an ID.
      * ---
-     * @param string $id
-     * @param string $title
-     * @param Image $icon
-     * @param string $description
-     * @return \ILIAS\UI\Component\Modal\InterruptiveItem
+     * @return \ILIAS\UI\Component\Modal\InterruptiveItem\Factory
      */
-    public function interruptiveItem(
-        string $id,
-        string $title,
-        Image $icon = null,
-        string $description = ''
-    ): InterruptiveItem;
+    public function interruptiveItem(): InterruptiveItem\Factory;
 
 
     /**
