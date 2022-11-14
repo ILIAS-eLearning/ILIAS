@@ -215,7 +215,7 @@ class ilMembershipCronNotifications extends ilCronJob
 
         $content = ilNewsItem::determineNewsContent(
             $a_item["context_obj_type"],
-            $a_item["content"],
+            (string) $a_item["content"],
             (bool) (int) $a_item["content_text_is_lang_var"]
         );
 
