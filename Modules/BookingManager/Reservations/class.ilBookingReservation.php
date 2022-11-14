@@ -35,7 +35,7 @@ class ilBookingReservation
     protected int $group_id = 0;
     protected int $assigner_id = 0;
     protected int $context_obj_id = 0;
-    protected ilBookingReservationDBRepository $repo;
+    protected \ILIAS\BookingManager\Reservations\ReservationDBRepository $repo;
 
     public function __construct(
         int $a_id = null
@@ -45,9 +45,10 @@ class ilBookingReservation
         $this->db = $DIC->database();
         $this->id = (int) $a_id;
 
-        $f = new ilBookingReservationDBRepositoryFactory();
-        $this->repo = $f->getRepo();
-
+        $this->repo = $DIC->bookingManager()
+                    ->internal()
+                    ->repo()
+                    ->reservation();
         $this->read();
     }
 
@@ -236,11 +237,12 @@ class ilBookingReservation
         int $a_to,
         bool $a_return_single = true,
         bool $a_return_counter = false
-    ): array {
+    ) : array {
+        global $DIC;
+
         $nr_map = ilBookingObject::getNrOfItemsForObjects($a_ids);
 
-        $f = new ilBookingReservationDBRepositoryFactory();
-        $repo = $f->getRepo();
+        $repo = $DIC->bookingManager()->internal()->repo()->reservation();
 
         $blocked = $counter = array();
         foreach ($repo->getNumberOfReservations($a_ids, $a_from, $a_to) as $row) {
@@ -295,7 +297,9 @@ class ilBookingReservation
         ilBookingSchedule $a_schedule,
         int $a_from,
         int $a_to
-    ): bool {
+    ) : bool {
+        global $DIC;
+
         if (!$a_from) {
             $a_from = time();
         }
@@ -308,8 +312,7 @@ class ilBookingReservation
         }
 
         // all nr of reservations in period that are not over yet (to >= now)
-        $f = new ilBookingReservationDBRepositoryFactory();
-        $repo = $f->getRepo();
+        $repo = $DIC->bookingManager()->internal()->repo()->reservation();
         $res = $repo->getNumberOfReservations([$a_obj_id], $a_from, $a_to, true);
         $booked_in_period = (int) ($res[$a_obj_id]["cnt"] ?? 0);
 
@@ -365,8 +368,10 @@ class ilBookingReservation
     ): int {
         global $DIC;
         $ilDB = $DIC->database();
+        $object_manager = $DIC->bookingManager()->internal()->domain()
+            ->objects($a_pool_id);
 
-        $booking_pool_objects = ilBookingObject::getObjectsForPool($a_pool_id);
+        $booking_pool_objects = $object_manager->getObjectIds();
 
         $query = "SELECT count(user_id) total" .
             " FROM booking_reservation" .

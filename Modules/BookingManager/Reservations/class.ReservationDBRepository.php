@@ -16,22 +16,20 @@
  *
  *********************************************************************/
 
+namespace ILIAS\BookingManager\Reservations;
+
 /**
  * Repo class for reservations
  * Acts on tables booking_reservation (rw), booking_reservation_group (rw) and booking_object (r)
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilBookingReservationDBRepository
+class ReservationDBRepository
 {
-    protected ilDBInterface $db;
+    protected \ilDBInterface $db;
     protected ?array $preloaded_by_context_list = null;
 
-    /**
-     * Do not call this constructor directly,
-     * use ilBookingReservationDBRepositoryFactory instead
-     */
     public function __construct(
-        ilDBInterface $db,
+        \ilDBInterface $db,
         ?array $preload_context_obj_ids = null
     ) {
         if (is_array($preload_context_obj_ids)) {
@@ -152,7 +150,7 @@ class ilBookingReservationDBRepository
             ' FROM booking_reservation' .
             ' WHERE ' . $ilDB->in('object_id', $ids, '', 'integer') . $date .
             ' AND (status IS NULL OR status <> ' . $ilDB->quote(
-                ilBookingReservation::STATUS_CANCELLED,
+                \ilBookingReservation::STATUS_CANCELLED,
                 'integer'
             ) . ')' .
             ' AND date_from <= ' . $to . ' AND date_to >= ' . $from .
@@ -252,7 +250,7 @@ class ilBookingReservationDBRepository
             }
 
             if (!isset($res[$idx])) {
-                $uname = ilObjUser::_lookupName($user_id);
+                $uname = \ilObjUser::_lookupName($user_id);
 
                 $res[$idx] = array(
                     "object_id" => $obj_id
@@ -271,7 +269,7 @@ class ilBookingReservationDBRepository
                         date("H:i", $row["date_to"] + 1);
                     $res[$idx]["week"] = date("W", $row["date_from"]);
                     $res[$idx]["weekday"] = date("w", $row["date_from"]);
-                    $res[$idx]["can_be_cancelled"] = ($row["status"] != ilBookingReservation::STATUS_CANCELLED &&
+                    $res[$idx]["can_be_cancelled"] = ($row["status"] != \ilBookingReservation::STATUS_CANCELLED &&
                         $row["date_from"] > time());
                     $res[$idx]["_sortdate"] = $row["date_from"];
 
@@ -280,7 +278,7 @@ class ilBookingReservationDBRepository
                 } else {
                     $res[$idx]["booking_reservation_id"] = $row["booking_reservation_id"];
                     $res[$idx]["status"] = $row["status"];
-                    $res[$idx]["can_be_cancelled"] = ($row["status"] != ilBookingReservation::STATUS_CANCELLED);
+                    $res[$idx]["can_be_cancelled"] = ($row["status"] != \ilBookingReservation::STATUS_CANCELLED);
                 }
             } else {
                 $res[$idx]["counter"]++;
@@ -303,25 +301,23 @@ class ilBookingReservationDBRepository
     ): void {
         $filter = ["context_obj_ids" => ($context_obj_ids)];
         $filter['past'] = true;
-        $filter['status'] = -ilBookingReservation::STATUS_CANCELLED;
-        $f = new ilBookingReservationDBRepositoryFactory();
-        $repo = $f->getRepo();
-        $list = $repo->getListByDate(true, null, $filter);
-        $list = ilArrayUtil::sortArray($list, "slot", "asc", true);
-        $list = ilArrayUtil::stableSortArray($list, "date", "asc", true);
-        $list = ilArrayUtil::stableSortArray($list, "object_id", "asc", true);
-        $this->preloaded_by_context_list = ilArrayUtil::stableSortArray($list, "pool_id", "asc", true);
+        $filter['status'] = -\ilBookingReservation::STATUS_CANCELLED;
+        $list = $this->getListByDate(true, null, $filter);
+        $list = \ilArrayUtil::sortArray($list, "slot", "asc", true);
+        $list = \ilArrayUtil::stableSortArray($list, "date", "asc", true);
+        $list = \ilArrayUtil::stableSortArray($list, "object_id", "asc", true);
+        $this->preloaded_by_context_list = \ilArrayUtil::stableSortArray($list, "pool_id", "asc", true);
     }
 
     /**
      * Get context object properties info
-     * @throws ilBookingReservationException
+     * @throws \ilBookingReservationException
      */
     public function getCachedContextObjBookingInfo(
         int $context_obj_id
     ): array {
         if (!is_array($this->preloaded_by_context_list)) {
-            throw new ilBookingReservationException("Repo not initilialized.");
+            throw new \ilBookingReservationException("Repo not initilialized.");
         }
         return array_filter($this->preloaded_by_context_list, static function ($row) use ($context_obj_id) {
             return ($row["context_obj_id"] == $context_obj_id);

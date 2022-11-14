@@ -16932,3 +16932,20 @@ wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
+book#:#book_no_recurrence#:#nur diesen Termin buchen
+book#:#book_book_recurrence#:#Wiederholungen buchen
+book#:#book_recurrence#:#Wiederholung
+book#:#book_missing_availability#:#Es können leider nicht alle Termine gebucht werden.
+book#:#book_missing_items#:#Es fehlen $1.
+book#:#book_book_available#:#Verfügbare Termine buchen
+book#:#book_list#:#Liste
+book#:#book_week#:#Wochenansicht
+book#:#book_object_selection#:#Objektauswahl
+book#:#book_obj_select#:#Auswählen
+book#:#book_refresh#:#Aktualisieren
+book#:#book_bulk_creation#:#Massenerstellung
+book#:#book_create_objects#:#Objekte erstellen
+book#:#book_bulk_data#:#Objektdaten
+book#:#book_title_description_nr#:#Titel; Beschreibung; Anzahl
+book#:#book_title_description_nr_info#:#Geben Sie bitte Titel, Beschreibung und Anzahl getrennt durch ein Semikolon oder TAB ein. Nutzen Sie einen Zeile
+book#:#book_bulk_confirmation#:#Bitte überprüfen Sie die angegebenen Werte.

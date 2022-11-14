@@ -22,6 +22,7 @@
  */
 class ilBookingAssignObjectsTableGUI extends ilTable2GUI
 {
+    protected string $process_class;
     protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
     protected ilAccessHandler $access;
     protected ilObjUser $user;
@@ -53,6 +54,12 @@ class ilBookingAssignObjectsTableGUI extends ilTable2GUI
 
         $this->pool_id = $a_pool_id;
         $this->pool = new ilObjBookingPool($this->pool_id, false);
+
+        $this->process_class = $DIC->bookingManager()
+            ->internal()
+            ->gui()
+            ->process()
+            ->getProcessClassForPool($this->pool);
 
         $user_name = "";
         if ($this->book_request->getBookedUser() > 0) {
@@ -105,7 +112,7 @@ class ilBookingAssignObjectsTableGUI extends ilTable2GUI
                     'title' => $item['title'],
                     'description' => $item['description'],
                     'nr_items' => ilBookingReservation::numAvailableFromObjectNoSchedule($item['booking_object_id']) . '/' . $item['nr_items'],
-                    'url_assign' => $this->ctrl->getLinkTargetByClass(["ilbookingobjectgui", "ilbookingprocessgui"], 'book')
+                    'url_assign' => $this->ctrl->getLinkTargetByClass(["ilbookingobjectgui", $this->process_class], 'book')
                 );
                 $this->ctrl->setParameterByClass('ilbookingobjectgui', 'bkusr', '');
                 $this->ctrl->setParameterByClass('ilbookingobjectgui', 'object_id', '');

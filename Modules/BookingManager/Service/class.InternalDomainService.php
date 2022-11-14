@@ -22,6 +22,9 @@ namespace ILIAS\BookingManager;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICDomainServices;
+use ILIAS\BookingManager\BookingProcess\BookingProcessManager;
+use ILIAS\BookingManager\Objects\ObjectsManager;
+use ILIAS\BookingManager\Schedule\ScheduleManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -30,6 +33,14 @@ class InternalDomainService
 {
     use GlobalDICDomainServices;
 
+    /**
+     * @var ObjectsManager[]
+     */
+    protected static array $object_manager = [];
+    /**
+     * @var ScheduleManager[]
+     */
+    protected static array $schedule_manager = [];
     protected InternalRepoService $repo_service;
     protected InternalDataService $data_service;
 
@@ -62,4 +73,68 @@ class InternalDomainService
             $this->repo_service->preferenceBasedBooking()
         );
     }
+
+    public function process() : BookingProcessManager
+    {
+        return new BookingProcessManager(
+            $this->data_service,
+            $this->repo_service,
+            $this
+        );
+    }
+
+    public function objects(int $pool_id) : ObjectsManager
+    {
+        if (!isset(self::$object_manager[$pool_id])) {
+            self::$object_manager[$pool_id] = new ObjectsManager(
+                $this->data_service,
+                $this->repo_service,
+                $this,
+                $pool_id
+            );
+        }
+        return self::$object_manager[$pool_id];
+    }
+
+    public function schedules(int $pool_id) : ScheduleManager
+    {
+        if (!isset(self::$schedule_manager[$pool_id])) {
+            self::$schedule_manager[$pool_id] = new ScheduleManager(
+                $this->data_service,
+                $this->repo_service,
+                $this,
+                $pool_id
+            );
+        }
+        return self::$schedule_manager[$pool_id];
+    }
+
+    public function reservations() : Reservations\ReservationManager
+    {
+        return new Reservations\ReservationManager(
+            $this->data_service,
+            $this->repo_service,
+            $this
+        );
+    }
+
+    public function participants() : Participants\ParticipantsManager
+    {
+        return new Participants\ParticipantsManager(
+            $this->data_service,
+            $this->repo_service,
+            $this
+        );
+    }
+
+    public function objectSelection(int $pool_id) : BookingProcess\ObjectSelectionManager
+    {
+        return new BookingProcess\ObjectSelectionManager(
+            $this->data_service,
+            $this->repo_service,
+            $this,
+            $pool_id
+        );
+    }
+
 }

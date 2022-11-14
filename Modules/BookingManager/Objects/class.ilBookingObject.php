@@ -383,7 +383,7 @@ class ilBookingObject
 
         $objects = array();
         while ($row = $ilDB->fetchAssoc($set)) {
-            $objects[] = $row['booking_object_id'];
+            $objects[] = (int) $row['booking_object_id'];
         }
 
         return $objects;

@@ -126,7 +126,16 @@ class StandardGUIRequest
 
     public function getDates(): array
     {
-        return $this->strArray("date");
+        $dates = $this->strArray("date");
+        if (count($dates) === 0 && $this->str("date") !== "") {
+            return [$this->str("date")];
+        }
+        return $dates;
+    }
+
+    public function getDate(): string
+    {
+        return $this->str("date");
     }
 
     public function getRece(): string
@@ -153,4 +162,59 @@ class StandardGUIRequest
     {
         return $this->int("rsv_id_" . $id);
     }
+
+    public function getReplaceSignal() : string
+    {
+        return $this->str("replaceSignal");
+    }
+
+    public function getReturnCmd() : string
+    {
+        return $this->str("returnCmd");
+    }
+
+    public function getSlot() : string
+    {
+        return $this->str("slot");
+    }
+
+    public function getSlotFrom() : int
+    {
+        $slot = $this->getSlot();
+        $parts = explode("_", $slot);
+        return (int) $parts[0];
+    }
+
+    public function getSlotTo() : int
+    {
+        $slot = $this->getSlot();
+        $parts = explode("_", $slot);
+        return (int) ($parts[1] ?? 0);
+    }
+
+    public function getRecurrence() : string
+    {
+        return $this->str("recurrence");
+    }
+
+    public function getNr() : int
+    {
+        return $this->int("nr");
+    }
+
+    public function getUntil() : int
+    {
+        return $this->int("until");
+    }
+
+    public function getObjectIds() : array
+    {
+        return $this->intArray("object_id");
+    }
+
+    public function getBulkCreationData() : string
+    {
+        return $this->str("data");
+    }
+
 }

@@ -25,6 +25,9 @@ use ILIAS\HTTP;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\GlobalScreen;
 use ILIAS\Repository\Form\FormAdapterGUI;
+use ILIAS\Repository\Modal\ModalAdapterGUI;
+use Slim\Http\Stream;
+use ILIAS\Filesystem\Stream\Streams;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -36,6 +39,7 @@ trait GlobalDICGUIServices
     protected function initGUIServices(\ILIAS\DI\Container $DIC): void
     {
         $this->DIC = $DIC;
+        FormAdapterGUI::initJavascript();
     }
 
     public function ui(): UIServices
@@ -104,5 +108,26 @@ trait GlobalDICGUIServices
             $class_path,
             $cmd
         );
+    }
+
+    public function modal(
+        $title = ""
+    ) : ModalAdapterGUI {
+        return new ModalAdapterGUI(
+            $title
+        );
+    }
+
+    /**
+     * @throws \ILIAS\HTTP\Response\Sender\ResponseSendingException
+     */
+    public function send(string $output) : void
+    {
+        $http = $this->http();
+        $http->saveResponse($http->response()->withBody(
+            Streams::ofString($output)
+        ));
+        $http->sendResponse();
+        $http->close();
     }
 }

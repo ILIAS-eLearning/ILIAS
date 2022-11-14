@@ -26,6 +26,7 @@
  */
 class ilObjBookingPoolGUI extends ilObjectGUI
 {
+    protected \ILIAS\BookingManager\InternalDomainService $domain;
     protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
     protected \ILIAS\BookingManager\InternalService $service;
     protected ilTabsGUI $tabs;
@@ -58,6 +59,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
                                   ->internal()
                                   ->gui()
                                   ->standardRequest();
+        $this->domain = $DIC->bookingManager()->internal()->domain();
 
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->lng->loadLanguageModule("book");
@@ -299,9 +301,11 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
     public function showNoScheduleMessage(): void
     {
+        $schedule_manager = $this->domain->schedules($this->object->getId());
+
         // if we have no schedules yet - show info
         if ($this->object->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE &&
-            !count(ilBookingSchedule::getList($this->object->getId()))) {
+            !$schedule_manager->hasSchedules()) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("book_schedule_warning_edit"));
         }
     }

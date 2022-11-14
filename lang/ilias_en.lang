@@ -16936,3 +16936,20 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Certificate: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Folder
+book#:#book_no_recurrence#:#Book only this date
+book#:#book_book_recurrence#:#Book multiple dates
+book#:#book_recurrence#:#Recurrence
+book#:#book_missing_availability#:#It was not possible to book all items on all dates.
+book#:#book_missing_items#:#$1 missing item(s).
+book#:#book_book_available#:#Book Available Dates
+book#:#book_list#:#List
+book#:#book_week#:#Week
+book#:#book_object_selection#:#Object Selection
+book#:#book_obj_select#:#Select
+book#:#book_refresh#:#Refresh
+book#:#book_bulk_creation#:#Bulk Creation
+book#:#book_create_objects#:#Create Objects
+book#:#book_bulk_data#:#Object Data
+book#:#book_title_description_nr#:#Title; Description; Number of Objects
+book#:#book_title_description_nr_info#:#Enter title, description and number of objects separated by semicolon or TAB character. Use one line per object.
+book#:#book_bulk_confirmation#:#Please check, if all values are listed correctly.
