@@ -32,10 +32,10 @@ class ReservationDBRepository
         \ilDBInterface $db,
         ?array $preload_context_obj_ids = null
     ) {
+        $this->db = $db;
         if (is_array($preload_context_obj_ids)) {
             $this->preloadByContextIds($preload_context_obj_ids);
         }
-        $this->db = $db;
     }
 
     /**
