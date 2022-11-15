@@ -1624,7 +1624,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function setIntroduction(string $introduction): void
     {
-        $this->introduction = $introduction;
+        $this->introduction = $this->getHtmlQuestionContentPurifier()->purify($introduction);
     }
 
     public function setFinalStatement(string $a_statement): void
@@ -11472,5 +11472,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 ));
             }
         }
+    }
+
+    /**
+     * @return ilHtmlPurifierInterface|ilAssHtmlUserSolutionPurifier
+     */
+    protected function getHtmlQuestionContentPurifier(): ilHtmlPurifierInterface
+    {
+        return ilHtmlPurifierFactory::getInstanceByType('qpl_usersolution');
     }
 }

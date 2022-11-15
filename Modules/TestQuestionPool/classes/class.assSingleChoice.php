@@ -431,6 +431,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         $order = 0,
         $answerimage = ""
     ): void {
+        $answertext = $this->getHtmlQuestionContentPurifier()->purify($answertext);
         if (array_key_exists($order, $this->answers)) {
             // insert answer
             $answer = new ASS_AnswerBinaryStateImage($answertext, $points, $order, 1, -1);

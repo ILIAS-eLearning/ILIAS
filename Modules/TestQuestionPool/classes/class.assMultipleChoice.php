@@ -446,7 +446,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $order = 0,
         $answerimage = ""
     ): void {
-        include_once "./Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php";
+        $answertext = $this->getHtmlQuestionContentPurifier()->purify($answertext);
         if (array_key_exists($order, $this->answers)) {
             // insert answer
             $answer = new ASS_AnswerMultipleResponseImage($answertext, $points, $order, -1, 0);
@@ -1223,15 +1223,15 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $query = "
 			SELECT		SUM(qpl_a_mc.points) points_for_checked_answers,
 						test_question_id
-			
+
 			FROM		tst_test_question
-			
+
 			INNER JOIN	qpl_a_mc
 			ON			qpl_a_mc.question_fi = tst_test_question.question_fi
-			
+
 			WHERE		tst_test_question.question_fi = %s
 			AND			tst_test_question.obligatory = 1
-			
+
 			GROUP BY	test_question_id
 		";
 
@@ -1273,7 +1273,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
                 $value = $post->retrieve("multiple_choice_result_$index", $this->dic->refinery()->kindlyTo()->string());
                 if (is_numeric($value)) {
                     $solutionSubmit[] = $value;
-
                 }
             }
         }

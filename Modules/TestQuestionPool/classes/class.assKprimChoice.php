@@ -172,7 +172,16 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
     public function setAnswers($answers): void
     {
-        $this->answers = $answers;
+        if (is_null($answers)) {
+            return;
+        }
+        $clean_answer_text = function (ilAssKprimChoiceAnswer $answer) {
+            $answer->setAnswertext(
+                $this->getHtmlQuestionContentPurifier()->purify($answer->getAnswertext())
+            );
+            return $answer;
+        };
+        $this->answers = array_map($clean_answer_text, $answers);
     }
 
     public function getAnswers(): array
@@ -193,6 +202,9 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
     public function addAnswer(ilAssKprimChoiceAnswer $answer): void
     {
+        $answer->setAnswertext(
+            $this->getHtmlQuestionContentPurifier()->purify($answer->getAnswertext())
+        );
         $this->answers[] = $answer;
     }
 
@@ -684,7 +696,6 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                 );
                 if (is_numeric($value)) {
                     $solutionSubmit[] = $value;
-
                 }
             }
         }
