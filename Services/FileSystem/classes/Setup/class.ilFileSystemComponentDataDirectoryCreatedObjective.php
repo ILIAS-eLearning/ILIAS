@@ -1,20 +1,23 @@
 <?php
 
-use ILIAS\Setup;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+use ILIAS\Setup;
+
 class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective\DirectoryCreatedObjective implements Setup\Objective
 {
     public const DATADIR = 1;
@@ -41,10 +44,14 @@ class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective
         return hash("sha256", self::class . "::" . $this->component_dir . $this->base_location);
     }
 
-    protected function buildPath(Setup\Environment $environment): string
+    protected function buildPath(Setup\Environment $environment): ?string
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
+
+        if ($ini === null || $client_id === null) {
+            return null;
+        }
 
         if ($this->base_location === self::DATADIR) {
             $data_dir = $ini->readVariable('clients', 'datadir');
@@ -90,7 +97,10 @@ class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective
      */
     public function isApplicable(Setup\Environment $environment): bool
     {
-        $this->path = $this->buildPath($environment);
+        if (($path = $this->buildPath($environment)) === null) {
+            return false;
+        }
+        $this->path = $path;
         return parent::isApplicable($environment);
     }
 }
