@@ -16275,7 +16275,7 @@ trac#:#trac_in_progress#:#In Bearbeitung
 trac#:#trac_info_edited#:#Wenn Sie der Meinung sind, dass Sie alle Inhalte bearbeitet haben, können Sie hier den Status Ihres Lernfortschrittes ändern.
 trac#:#trac_last_access#:#Letzter Zugriff
 trac#:#trac_last_aggregation#:#Stand
-trac#:#trac_last_maxed_out_sessions#:#Letze Vollast
+trac#:#trac_last_maxed_out_sessions#:#Letzte Volllast
 trac#:#trac_learning_progress#:#Lernfortschritt
 trac#:#trac_learning_progress_of#:#Lernfortschritt von %s
 trac#:#trac_learning_progress_settings_info#:#Erweiterte Daten aktivieren
