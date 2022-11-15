@@ -13,6 +13,7 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilImportantPagesTableGUI extends ilTable2GUI
 {
+    protected ilWikiPageTemplate $templates;
     /**
      * @var ilAccessHandler
      */
@@ -33,6 +34,8 @@ class ilImportantPagesTableGUI extends ilTable2GUI
         $lng = $DIC->language();
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
+
+        $this->templates = new ilWikiPageTemplate($a_parent_obj->object->getId());
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $data = array("page_id" => 0) +
@@ -89,6 +92,13 @@ class ilImportantPagesTableGUI extends ilTable2GUI
                     true
                 )
             );
+
+            if ($this->templates->isPageTemplate((int) $a_set["page_id"])) {
+                $this->tpl->setVariable(
+                    "PURPOSE",
+                    $lng->txt("wiki_page_template")
+                );
+            }
         } else {
             $this->tpl->setVariable(
                 "PAGE_TITLE",

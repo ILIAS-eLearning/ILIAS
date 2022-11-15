@@ -892,6 +892,7 @@ assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test pa
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#Kullanıcı testi bitirip geçtiği vakit bilgilendirme mesajı gönder
+assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
 assessment#:#maintenance#:#Bakım
 assessment#:#manscoring#:#Manuel Puanlama
 assessment#:#manscoring_done#:#Puanlanan Katılımcılar
@@ -972,6 +973,7 @@ assessment#:#oq_btn_use_order_pictures#:#Use answer pictures###22 01 2014 new va
 assessment#:#oq_btn_use_order_terms#:#Use answer terms###22 01 2014 new variable
 assessment#:#oq_header_ordering_elements#:#Ordering Elements###22 01 2014 new variable
 assessment#:#or#:#veya
+assessment#:#order#:#Order###09 11 2022 new variable
 assessment#:#ordering_answer_sequence_info#:#Burada tanımladığınız cevap sırası doğru çözüm sırası olarak alınacak
 assessment#:#ordertext#:#Metin Sıralama
 assessment#:#ordertext_info#:#Yatay sıralanabilen metni giriniz. Sıralama metni, metin içinde boşluk(whitespace) ile ayrılacaktır.. Eğer farklı bir ayraç kullanmak isterseniz, text birimlerini ayırmak için %s ayracını kullanabilirsiniz.
@@ -1709,6 +1711,7 @@ assessment#:#tst_question_hints_ordering_clipboard_resetted#:#sipariş panoya re
 assessment#:#tst_question_hints_paste_after_success_msg#:#ipucu% s ipucu% s başarıyla sonra yapıştırılır edilmiştir.
 assessment#:#tst_question_hints_paste_before_success_msg#:#ipucu% s ipucu% s önce başarıyla yapıştırılan edilmiştir.
 assessment#:#tst_question_hints_request_confirmation#:#gerçekten ipucu% s istemek istiyor musunuz? Bu ipucu% s noktası (ler) düşülecektir.
+assessment#:#tst_question_hints_request_confirmation_no_deduction#:#No points will be deducted for this hint.###09 11 2022 new variable
 assessment#:#tst_question_hints_requested_hint_count_header#:#İstenen İpuçları
 assessment#:#tst_question_hints_save_order_success_msg#:#Ipucu Siparişiniz başarıyla kaydedildi.
 assessment#:#tst_question_hints_tab#:#İpuçları
@@ -5982,6 +5985,7 @@ cont#:#cont_skill_do_not_set#:#Do not set###31 08 2017 new variable
 cont#:#cont_skill_members#:#Members###31 08 2017 new variable
 cont#:#cont_skill_no_profile_selected#:#Please select a profile.###30 04 2021 new variable
 cont#:#cont_skill_no_skill#:#No value (Reset)###31 08 2017 new variable
+cont#:#cont_skill_no_skills_selected#:#No competences have been selected yet. Please add at least one competence first under "Competence Selection".###09 11 2022 new variable
 cont#:#cont_skill_profile#:#Profile###30 04 2021 new variable
 cont#:#cont_skill_profiles#:#Assigned Profiles of Members###30 04 2021 new variable
 cont#:#cont_skill_publish#:#Publish###31 08 2017 new variable
@@ -14563,6 +14567,7 @@ skmg#:#skmg_new_sktr#:#Yeni Yetkinlik Şablon Referans
 skmg#:#skmg_next_step#:#Sonraki Adım
 skmg#:#skmg_no_nodes_selectable#:#Currently there are no competences selectable.###30 12 2013 new variable
 skmg#:#skmg_no_skills#:#Yetkinlik Yok
+skmg#:#skmg_no_skills_selected_info#:#You have not selected or fulfilled any competences yet. Click on the "Add Competence"-button to select a competence. You can add any number of competences. If you fulfill competences by editing learning materials, they will be automatically listed here.###09 11 2022 new variable
 skmg#:#skmg_no_trigger#:#Tetikleme Yok
 skmg#:#skmg_nr#:#sayılı
 skmg#:#skmg_number#:#Number###30 12 2013 new variable
@@ -14605,6 +14610,8 @@ skmg#:#skmg_skill_levels#:#Yetkinlik Seviyeleri
 skmg#:#skmg_skill_management_deactivated#:#Yetenek Yönetimi Pasif Durumda
 skmg#:#skmg_skill_needs_impr_no_res#:#You need to improve this competence. Unfortunately there are currently no learning resources available providing learning material aligned to your target competence level.###24 10 2013 new variable
 skmg#:#skmg_skill_needs_impr_res#:#You need to improve this competence. The following resources provide learning material aligned to your target competence level.###24 10 2013 new variable
+skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your competence target.###09 11 2022 new variable
+skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.###09 11 2022 new variable
 skmg#:#skmg_skill_no_needs_impr#:#Your competence level is sufficient for the selected profile.###24 10 2013 new variable
 skmg#:#skmg_skill_profiles#:#Profiles###24 10 2013 new variable
 skmg#:#skmg_skill_template#:#Yetkinlik Şablon

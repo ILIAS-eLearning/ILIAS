@@ -3289,10 +3289,16 @@ class ilObjUser extends ilObject
         while ($obj = $ilDB->fetchAssoc($objs)) {
             if ($obj["type"] == "mob") {
                 $obj["title"] = ilObject::_lookupTitle($obj["item_id"]);
+                if (ilObject::_lookupType((int) $obj["item_id"]) !== "mob") {
+                    continue;
+                }
             }
             if ($obj["type"] == "incl") {
                 include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
                 $obj["title"] = ilMediaPoolPage::lookupTitle($obj["item_id"]);
+                if (!ilPageObject::_exists("mep", (int) $obj["item_id"], "-")) {
+                    continue;
+                }
             }
             $objects[] = array("id" => $obj["item_id"],
                 "type" => $obj["type"], "title" => $obj["title"],
@@ -5521,7 +5527,7 @@ class ilObjUser extends ilObject
             "SELECT * FROM usr_pref " .
                 " WHERE keyword = " . $ilDB->quote("public_profile", "text") .
                 " AND " . $ilDB->in("usr_id", $a_user_ids, false, "integer")
-            );
+        );
         $r = array(
             "global" => array(),
             "local" => array(),

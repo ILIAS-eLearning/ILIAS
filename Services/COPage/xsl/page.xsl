@@ -890,11 +890,17 @@
 <!-- Paragraph -->
 <xsl:template match="Paragraph">
 	<xsl:param name="par_counter" select="-1" />
-	<xsl:comment>ParStart</xsl:comment>	
+	<xsl:comment>ParStart</xsl:comment>
 	<xsl:choose>
 		<xsl:when test="@Characteristic = 'Headline1'">
+			<xsl:variable name="char_name">
+				<xsl:call-template name="CharacteristicName">
+					<xsl:with-param name="pctype">headline1</xsl:with-param>
+					<xsl:with-param name="characteristic"><xsl:value-of select="@Characteristic"/></xsl:with-param>
+				</xsl:call-template>
+			</xsl:variable>
 		<!-- Label -->
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> <xsl:value-of select="$char_name"/></xsl:with-param></xsl:call-template>
 		<xsl:comment>ilPageTocH1<xsl:number count="Paragraph" level="any"/></xsl:comment>
 		<h1><xsl:attribute name="id">ilPageTocA1<xsl:number count="Paragraph" level="any"/></xsl:attribute>
 			<xsl:call-template name="ShowParagraph"/>
@@ -902,8 +908,14 @@
 		</h1>
 		</xsl:when>
 		<xsl:when test="@Characteristic = 'Headline2'">
-		<!-- Label -->
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
+			<xsl:variable name="char_name">
+				<xsl:call-template name="CharacteristicName">
+					<xsl:with-param name="pctype">heading2</xsl:with-param>
+					<xsl:with-param name="characteristic"><xsl:value-of select="@Characteristic"/></xsl:with-param>
+				</xsl:call-template>
+			</xsl:variable>
+			<!-- Label -->
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> <xsl:value-of select="$char_name"/></xsl:with-param></xsl:call-template>
 		<xsl:comment>ilPageTocH2<xsl:number count="Paragraph" level="any"/></xsl:comment>
 		<h2><xsl:attribute name="id">ilPageTocA2<xsl:number count="Paragraph" level="any"/></xsl:attribute>
 			<xsl:call-template name="ShowParagraph"/>
@@ -911,8 +923,14 @@
 		</h2>
 		</xsl:when>
 		<xsl:when test="@Characteristic = 'Headline3'">
+			<xsl:variable name="char_name">
+				<xsl:call-template name="CharacteristicName">
+					<xsl:with-param name="pctype">heading3</xsl:with-param>
+					<xsl:with-param name="characteristic"><xsl:value-of select="@Characteristic"/></xsl:with-param>
+				</xsl:call-template>
+			</xsl:variable>
 		<!-- Label -->
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> <xsl:value-of select="$char_name"/></xsl:with-param></xsl:call-template>
 		<xsl:comment>ilPageTocH3<xsl:number count="Paragraph" level="any"/></xsl:comment>
 		<h3><xsl:attribute name="id">ilPageTocA3<xsl:number count="Paragraph" level="any"/></xsl:attribute>
 			<xsl:call-template name="ShowParagraph"/>
@@ -920,8 +938,14 @@
 		</h3>
 		</xsl:when>
 		<xsl:when test="not (@Characteristic) or @Characteristic != 'Code'">
+			<xsl:variable name="char_name">
+				<xsl:call-template name="CharacteristicName">
+					<xsl:with-param name="pctype">text_block</xsl:with-param>
+					<xsl:with-param name="characteristic"><xsl:value-of select="@Characteristic"/></xsl:with-param>
+				</xsl:call-template>
+			</xsl:variable>
 		<!-- Label -->
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/>  (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/>  <xsl:value-of select="$char_name"/></xsl:with-param></xsl:call-template>
 		<div>
 			<xsl:call-template name="ShowParagraph"/>
 			<xsl:comment>Break</xsl:comment>
@@ -3145,10 +3169,33 @@
 	</script>
 </xsl:template>
 
+<!-- CharacteristicName -->
+<xsl:template name="CharacteristicName">
+	<xsl:param name="pctype"/>
+	<xsl:param name="characteristic"/>
+	<xsl:variable name="key">char_<xsl:value-of select="$pctype"/>_<xsl:value-of select="$characteristic"/></xsl:variable>
+	<xsl:if test="$characteristic">
+		<xsl:choose>
+			<xsl:when test="//LVs/LV[@name=$key]/@value">
+				(<xsl:value-of select="//LVs/LV[@name=$key]/@value"/>)
+			</xsl:when>
+			<xsl:otherwise>
+				(<xsl:value-of select="$characteristic"/>)
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:if>
+</xsl:template>
+
 <!-- Section -->
 	<xsl:template match="Section">
+		<xsl:variable name="char_name">
+			<xsl:call-template name="CharacteristicName">
+				<xsl:with-param name="pctype">section</xsl:with-param>
+				<xsl:with-param name="characteristic"><xsl:value-of select="@Characteristic"/></xsl:with-param>
+			</xsl:call-template>
+		</xsl:variable>
 		<!-- Label -->
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_sec']/@value"/> <xsl:if test="@Characteristic"> (<xsl:value-of select="@Characteristic"/>)</xsl:if></xsl:with-param></xsl:call-template>
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_sec']/@value"/> <xsl:value-of select="$char_name"/></xsl:with-param></xsl:call-template>
 		<xsl:if test="($mode = 'edit') or ((not(@ActiveFrom) or (@ActiveFrom &lt; $current_ts)) and (not(@ActiveTo) or (@ActiveTo &gt; $current_ts)))">
 			<xsl:if test="@PermissionRefId">
 				{{{{{Section;Access;PermissionRefId;<xsl:value-of select="@PermissionRefId"/>;Permission;<xsl:value-of select="@Permission"/>;<xsl:number count="Section" level="any" />}}}}}

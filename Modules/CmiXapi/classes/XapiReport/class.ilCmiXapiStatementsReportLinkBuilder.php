@@ -83,21 +83,18 @@ class ilCmiXapiStatementsReportLinkBuilder extends ilCmiXapiAbstractReportLinkBu
         $obj = $this->getObj();
         $activityId = array();
 
-        if ($cmi5_extensions_query == true && $obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5 && !$obj->isMixedContentType())
-        {
+        if ($cmi5_extensions_query == true && $obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5 && !$obj->isMixedContentType()) {
             // https://github.com/AICC/CMI-5_Spec_Current/blob/quartz/cmi5_spec.md#963-extensions
             $activityId['statement.context.extensions.https://ilias&46;de/cmi5/activityid'] = $obj->getActivityId();
-        }
-        else
-        {
+        } else {
             // for case-insensive: '$regex' => '(?i)^' . preg_quote($this->filter->getActivityId()) . ''
             $activityQuery = [
                 '$regex' => '^' . preg_quote($this->filter->getActivityId()) . ''
             ];
             $activityId['$or'] = [];
             // ToDo : restriction to exact activityId?
-            // query existing activityId in grouping? we have not enough control over acticityId in xapi statements  
-            // another way put the obj_id into a generated registration, but we are not sure that content will put this into statement context 
+            // query existing activityId in grouping? we have not enough control over acticityId in xapi statements
+            // another way put the obj_id into a generated registration, but we are not sure that content will put this into statement context
             // $activityId['$or'][] = ['statement.object.id' => "{$this->filter->getActivityId()}"];
             $activityId['$or'][] = ['statement.object.id' => $activityQuery];
             $activityId['$or'][] = ['statement.context.contextActivities.parent.id' => $activityQuery];
@@ -107,61 +104,46 @@ class ilCmiXapiStatementsReportLinkBuilder extends ilCmiXapiAbstractReportLinkBu
         $actor = array();
         
         // mixed
-        if ($obj instanceof ilObjCmiXapi && $obj->isMixedContentType())
-        {
-            if ($this->filter->getActor())
-            {
+        if ($obj instanceof ilObjCmiXapi && $obj->isMixedContentType()) {
+            if ($this->filter->getActor()) {
                 // could be registration query but so what...
-                foreach (ilCmiXapiUser::getUserIdents($this->getObjId(), $this->filter->getActor()->getUsrId()) as $usrIdent)
-                {
+                foreach (ilCmiXapiUser::getUserIdents($this->getObjId(), $this->filter->getActor()->getUsrId()) as $usrIdent) {
                     $actor['$or'][] = ['statement.actor.mbox' => "mailto:{$usrIdent}"]; // older statements
-                    $actor['$or'][] = ['statement.actor.account.name' => "{$usrIdent}"];   
+                    $actor['$or'][] = ['statement.actor.account.name' => "{$usrIdent}"];
                 }
                 // not launched yet?
-                if (count($actor) == 0)
-                {
+                if (count($actor) == 0) {
                     $actor['$or'][] = ['statement.actor.mbox' => "mailto:{$this->filter->getActor()->getUsrIdent()}"]; // older statements
                     $actor['$or'][] = ['statement.actor.account.name' => "{$this->filter->getActor()->getUsrIdent()}"];
                 }
-            }
-            else
-            {
+            } else {
                 $actor['$or'] = [];
                 foreach (ilCmiXapiUser::getUsersForObject($this->getObjId()) as $cmixUser) {
                     $actor['$or'][] = ['statement.actor.mbox' => "mailto:{$cmixUser->getUsrIdent()}"];
                     $actor['$or'][] = ['statement.actor.account.name' => "{$cmixUser->getUsrIdent()}"];
                 }
             }
-        }
-        elseif ($obj instanceof ilObjCmiXapi && $obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5)
-        {
-            if ($this->filter->getActor())
-            {
+        } elseif ($obj instanceof ilObjCmiXapi && $obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
+            if ($this->filter->getActor()) {
                 $cmixUser = $this->filter->getActor();
                 $actor['statement.context.registration'] = $cmixUser->getRegistration();
             }
-        }
-        else
-        {
-            if ($this->filter->getActor())
-            {
-                foreach (ilCmiXapiUser::getUserIdents($this->getObjId(), $this->filter->getActor()->getUsrId()) as $usrIdent)
-                {
-                    $actor['$or'][] = ['statement.actor.mbox' => "mailto:{$usrIdent}"];   
+        } else {
+            if ($this->filter->getActor()) {
+                foreach (ilCmiXapiUser::getUserIdents($this->getObjId(), $this->filter->getActor()->getUsrId()) as $usrIdent) {
+                    $actor['$or'][] = ['statement.actor.mbox' => "mailto:{$usrIdent}"];
                 }
                 // not launched yet?
-                if (count($actor) == 0)
-                {
+                if (count($actor) == 0) {
                     $actor['statement.actor.mbox'] = $this->filter->getActor()->getUsrIdent();
                 }
             }
             /**
-             * i don't think this will work with user >~ 100 
-             * this will blow up the GET request 
+             * i don't think this will work with user >~ 100
+             * this will blow up the GET request
              * GET Queries are sometimes limited to an amount of characters
              */
-            else
-            {
+            else {
                 $actor['$or'] = [];
                 foreach (ilCmiXapiUser::getUsersForObject($this->getObjId()) as $cmixUser) {
                     $actor['$or'][] = ['statement.actor.mbox' => "mailto:{$cmixUser->getUsrIdent()}"];
@@ -189,13 +171,11 @@ class ilCmiXapiStatementsReportLinkBuilder extends ilCmiXapiAbstractReportLinkBu
                 $actor = 'statement.actor.name';
             } else {
                 if ($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
-                    if ($obj->getPublisherId() == '') // old
-                    {
+                    if ($obj->getPublisherId() == '') { // old
                         $actor = 'statement.actor.mbox';
                     } else {
                         $actor = 'statement.actor.account.name';
                     }
-
                 } else {
                     $actor = 'statement.actor.mbox';
                 }

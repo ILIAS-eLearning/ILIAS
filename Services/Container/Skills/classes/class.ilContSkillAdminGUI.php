@@ -186,6 +186,10 @@ class ilContSkillAdminGUI
      */
     public function initCompetenceAssignmentForm()
     {
+        $tpl = $this->tpl;
+        $ctrl = $this->ctrl;
+        $lng = $this->lng;
+
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
 
@@ -198,6 +202,11 @@ class ilContSkillAdminGUI
         $ne = new ilNonEditableValueGUI($this->lng->txt("obj_user"), "");
         $ne->setValue($name["lastname"] . ", " . $name["firstname"] . " [" . $name["login"] . "]");
         $form->addItem($ne);
+
+        if (empty($this->container_skills->getOrderedSkills())) {
+            $tpl->setOnScreenMessage('info', $lng->txt("cont_skill_no_skills_selected"), true);
+            $ctrl->redirect($this, "listMembers");
+        }
 
         foreach ($this->container_skills->getOrderedSkills() as $sk) {
             $skill = new ilBasicSkill($sk["skill_id"]);

@@ -76,15 +76,12 @@ class ilXapiStatementEvaluation
     public function getCmixUser($xapiStatement)
     {
         $cmixUser = null;
-        if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5)
-        {
+        if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
             $cmixUser = ilCmiXapiUser::getInstanceByObjectIdAndUsrIdent(
                 $this->object->getId(),
                 $xapiStatement->actor->account->name
             );
-        }
-        else
-        {
+        } else {
             $cmixUser = ilCmiXapiUser::getInstanceByObjectIdAndUsrIdent(
                 $this->object->getId(),
                 str_replace('mailto:', '', $xapiStatement->actor->mbox)
@@ -96,15 +93,12 @@ class ilXapiStatementEvaluation
     public function evaluateStatement($xapiStatement, $usrId)
     {
         global $DIC;
-        $xapiVerb = $this->getXapiVerb($xapiStatement);      
+        $xapiVerb = $this->getXapiVerb($xapiStatement);
         
-        if ($this->isValidXapiStatement($xapiStatement))
-        {
+        if ($this->isValidXapiStatement($xapiStatement)) {
             // result status and if exists scaled score
-            if ($this->hasResultStatusRelevantXapiVerb($xapiVerb))
-            {
-                if (!$this->isValidObject($xapiStatement))
-                {
+            if ($this->hasResultStatusRelevantXapiVerb($xapiVerb)) {
+                if (!$this->isValidObject($xapiStatement)) {
                     return;
                 }
                 $userResult = $this->getUserResult($usrId);
@@ -126,10 +120,8 @@ class ilXapiStatementEvaluation
                 $userResult->save();
 
                 // only cmi5
-                if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) 
-                {
-                    if (($xapiVerb == ilCmiXapiVerbList::COMPLETED || $xapiVerb == ilCmiXapiVerbList::PASSED) && $this->isLpModeInterestedInResultStatus($newResultStatus,false)) 
-                    {
+                if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
+                    if (($xapiVerb == ilCmiXapiVerbList::COMPLETED || $xapiVerb == ilCmiXapiVerbList::PASSED) && $this->isLpModeInterestedInResultStatus($newResultStatus, false)) {
                         // it is possible to check against authToken usrId!
                         $cmixUser = $this->getCmixUser($xapiStatement);
                         $cmixUser->setSatisfied(true);
@@ -139,12 +131,10 @@ class ilXapiStatementEvaluation
                 }
             }
             // result progress (i think only cmi5 relevant)
-            if ($this->hasResultProgressRelevantXapiVerb($xapiVerb))
-            {
+            if ($this->hasResultProgressRelevantXapiVerb($xapiVerb)) {
                 $userResult = $this->getUserResult($usrId);
                 $progressedScore = $this->getProgressedScore($xapiStatement);
-                if ($progressedScore !== false && (float) $progressedScore > 0)
-                {
+                if ($progressedScore !== false && (float) $progressedScore > 0) {
                     $userResult->setScore((float) ($progressedScore / 100));
                     $userResult->save();
                 }
@@ -170,12 +160,11 @@ class ilXapiStatementEvaluation
     }
 
     /**
-     * 
+     *
      */
     protected function isValidObject($xapiStatement)
     {
-        if ($xapiStatement->object->id != $this->object->getActivityId())
-        {
+        if ($xapiStatement->object->id != $this->object->getActivityId()) {
             $this->log->debug($xapiStatement->object->id . " != " . $this->object->getActivityId());
             return false;
         }
@@ -223,7 +212,7 @@ class ilXapiStatementEvaluation
         }
         
         return true;
-    } 
+    }
 
     protected function getXapiScore($xapiStatement)
     {
@@ -279,7 +268,7 @@ class ilXapiStatementEvaluation
         return true;
     }
     
-    protected function isLpModeInterestedInResultStatus($resultStatus, $deactivated=true)
+    protected function isLpModeInterestedInResultStatus($resultStatus, $deactivated = true)
     {
         if ($this->lpMode == ilLPObjSettings::LP_MODE_DEACTIVATED) {
             return $deactivated;
@@ -318,7 +307,7 @@ class ilXapiStatementEvaluation
     
     protected function doesNewResultStatusDominateOldOne($oldResultStatus, $newResultStatus)
     {
-        if ($oldResultStatus == '' ) {
+        if ($oldResultStatus == '') {
             return true;
         }
         
@@ -373,7 +362,7 @@ class ilXapiStatementEvaluation
         $satisfiedStatementParams = [];
         $satisfiedStatementParams['statementId'] = $satisfiedStatement['id'];
         $defaultStatementsUrl = $defaultLrs . "/statements";
-        $defaultSatisfiedStatementUrl = $defaultStatementsUrl . '?' .  ilCmiXapiAbstractRequest::buildQuery($satisfiedStatementParams);
+        $defaultSatisfiedStatementUrl = $defaultStatementsUrl . '?' . ilCmiXapiAbstractRequest::buildQuery($satisfiedStatementParams);
         
         $client = new GuzzleHttp\Client();
         $req_opts = array(
@@ -390,14 +379,11 @@ class ilXapiStatementEvaluation
         );
         $promises = array();
         $promises['defaultSatisfiedStatement'] = $client->sendAsync($defaultSatisfiedStatementRequest, $req_opts);
-        try
-        {
+        try {
             $responses = GuzzleHttp\Promise\settle($promises)->wait();
             $body = '';
-            ilCmiXapiAbstractRequest::checkResponse($responses['defaultSatisfiedStatement'],$body,[204]);
-        }
-        catch(Exception $e)
-        {
+            ilCmiXapiAbstractRequest::checkResponse($responses['defaultSatisfiedStatement'], $body, [204]);
+        } catch (Exception $e) {
             $this->log->error('error:' . $e->getMessage());
         }
     }

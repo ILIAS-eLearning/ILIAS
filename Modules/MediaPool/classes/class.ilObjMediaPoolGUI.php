@@ -136,6 +136,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         }
 
         if (!$this->getCreationMode()) {
+            $this->tpl->setPermanentLink("mep", $this->ref_id);
             $tree = $this->object->getTree();
             if ($_GET["mepitem_id"] == "") {
                 $_GET["mepitem_id"] = $tree->getRootId();

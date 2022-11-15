@@ -906,6 +906,7 @@ assessment#:#log_wrong_test_password_entered#:#A résztvevő rossz jelszót adot
 assessment#:#longmenu#:#Étlap
 assessment#:#longmenu_text#:#'Étlap'-szöveg
 assessment#:#mailnottype#:#Akkor is küldjön értesítést, amikor egy felhasználó a teszt egy lépését fejezi be.
+assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
 assessment#:#maintenance#:#Karbantartás
 assessment#:#manscoring#:#Manuális pontozás
 assessment#:#manscoring_done#:#Pontozott résztvevők
@@ -986,6 +987,7 @@ assessment#:#oq_btn_use_order_pictures#:#Rendezze a képeket
 assessment#:#oq_btn_use_order_terms#:#Rendezze a kifejezéseket
 assessment#:#oq_header_ordering_elements#:#Elemek rendezése
 assessment#:#or#:#vagy
+assessment#:#order#:#Order###09 11 2022 new variable
 assessment#:#ordering_answer_sequence_info#:#Az itt megadott válaszsorozat a helyes megoldások sorozataként kerül felhasználásra.
 assessment#:#ordertext#:#Sorrendbe rakó szöveg
 assessment#:#ordertext_info#:#Adja meg a vízszintesen sorba rakandó szöveget. A rendezendő szövegegységek nem látható (fehér) karakterekkel lesznek elválasztva. Ha más elválasztójelre van szüksége, használhatja a %s elválasztójelet szövegegységeinek elkülönítésére.
@@ -1723,6 +1725,7 @@ assessment#:#tst_question_hints_ordering_clipboard_resetted#:#A vágólaprendez�
 assessment#:#tst_question_hints_paste_after_success_msg#:#%s segítséget sikeresen beszúrta %s segítség mögé.
 assessment#:#tst_question_hints_paste_before_success_msg#:#%s segítséget sikeresen beszúrta %s segítség elé.
 assessment#:#tst_question_hints_request_confirmation#:#Biztos, hogy megtekinti a(z) %s segítséget? Ez %s pont levonással jár!
+assessment#:#tst_question_hints_request_confirmation_no_deduction#:#No points will be deducted for this hint.###09 11 2022 new variable
 assessment#:#tst_question_hints_requested_hint_count_header#:#Kért segítségek
 assessment#:#tst_question_hints_save_order_success_msg#:#A segítségek sorrendjét sikeresen mentette.
 assessment#:#tst_question_hints_tab#:#Segítségek
@@ -5996,6 +5999,7 @@ cont#:#cont_skill_do_not_set#:#Nem állít be
 cont#:#cont_skill_members#:#Tagok
 cont#:#cont_skill_no_profile_selected#:#Kérem, válasszon egy profilt.
 cont#:#cont_skill_no_skill#:#Nincs érték (reszet)
+cont#:#cont_skill_no_skills_selected#:#No competences have been selected yet. Please add at least one competence first under "Competence Selection".###09 11 2022 new variable
 cont#:#cont_skill_profile#:#Profil
 cont#:#cont_skill_profiles#:#Tagok profiljai
 cont#:#cont_skill_publish#:#Közzététel
@@ -14577,6 +14581,7 @@ skmg#:#skmg_new_sktr#:#Új kompetenciasablon-hivatkozás
 skmg#:#skmg_next_step#:#Következő lépés
 skmg#:#skmg_no_nodes_selectable#:#Jelenleg nincsenek választható kompetenciák.
 skmg#:#skmg_no_skills#:#Nincsenek kompetenciák
+skmg#:#skmg_no_skills_selected_info#:#You have not selected or fulfilled any competences yet. Click on the "Add Competence"-button to select a competence. You can add any number of competences. If you fulfill competences by editing learning materials, they will be automatically listed here.###09 11 2022 new variable
 skmg#:#skmg_no_trigger#:#Nincs trigger
 skmg#:#skmg_nr#:#Sorszám
 skmg#:#skmg_number#:#Szám
@@ -14619,6 +14624,8 @@ skmg#:#skmg_skill_levels#:#Kompetenciaszintek
 skmg#:#skmg_skill_management_deactivated#:#A kompetenciamenedzsment jelenleg ki van kapcsolva.
 skmg#:#skmg_skill_needs_impr_no_res#:#Szükséges fejlesztenie ezt a kompetenciát. Sajnos jelenleg nincs olyan erőforrás, melyet tananyagként segítene a kívánt kompetenciaszint eléréséhez.
 skmg#:#skmg_skill_needs_impr_res#:#Szükséges fejlesztenie ezt a kompetenciát. Az alábbi erőforrások biztosítanak tananyagot a kívánt kompetenciaszint eléréséhez.
+skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your competence target.###09 11 2022 new variable
+skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.###09 11 2022 new variable
 skmg#:#skmg_skill_no_needs_impr#:#A kompetencia szintje elegendő a kiválasztott profilhoz.
 skmg#:#skmg_skill_profiles#:#Kompetenciaprofilok
 skmg#:#skmg_skill_template#:#Kompetenciasablon

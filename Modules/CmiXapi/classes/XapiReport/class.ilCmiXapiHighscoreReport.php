@@ -70,13 +70,11 @@ class ilCmiXapiHighscoreReport
         
         $rows = [];
 
-        if ($this->obj instanceof ilObjCmiXapi && $this->obj->isMixedContentType())
-        {
+        if ($this->obj instanceof ilObjCmiXapi && $this->obj->isMixedContentType()) {
             foreach ($this->response as $item) {
                 $userIdent = str_replace('mailto:', '', $item['mbox']);
-                if (empty($userIdent))
-                {
-                    $userIdent =  $item['account'];
+                if (empty($userIdent)) {
+                    $userIdent = $item['account'];
                 }
                 $cmixUser = $this->cmixUsersByIdent[$userIdent];
                 $rows[] = [
@@ -88,9 +86,7 @@ class ilCmiXapiHighscoreReport
                     'ilias_user_id' => $cmixUser->getUsrId()
                 ];
             }
-        }
-        elseif ($this->obj instanceof ilObjCmiXapi && $this->obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5)
-        {
+        } elseif ($this->obj instanceof ilObjCmiXapi && $this->obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
             foreach ($this->response as $item) {
                 $userIdent = $item['account'];
                 $cmixUser = $this->cmixUsersByIdent[$userIdent];
@@ -103,9 +99,7 @@ class ilCmiXapiHighscoreReport
                     'ilias_user_id' => $cmixUser->getUsrId()
                 ];
             }
-        }
-        else
-        {
+        } else {
             foreach ($this->response as $item) {
                 $userIdent = str_replace('mailto:', '', $item['mbox']);
                 $cmixUser = $this->cmixUsersByIdent[$userIdent];

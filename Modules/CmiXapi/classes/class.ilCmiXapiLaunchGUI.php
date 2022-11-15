@@ -63,7 +63,7 @@ class ilCmiXapiLaunchGUI
         if ($this->object->getSourceType() == ilObjCmiXapi::SRC_TYPE_REMOTE) {
             $launchLink = $this->object->getLaunchUrl();
         } elseif ($this->object->getSourceType() == ilObjCmiXapi::SRC_TYPE_LOCAL) {
-            if (preg_match("/^(https?:\/\/)/",$this->object->getLaunchUrl()) == 1) {
+            if (preg_match("/^(https?:\/\/)/", $this->object->getLaunchUrl()) == 1) {
                 $launchLink = $this->object->getLaunchUrl();
             } else {
                 $launchLink = implode('/', [
@@ -109,18 +109,14 @@ class ilCmiXapiLaunchGUI
         $params['activity_id'] = urlencode($this->object->getActivityId());
         $params['activityId'] = urlencode($this->object->getActivityId());
         $params['actor'] = urlencode(json_encode($this->object->getStatementActor($this->cmixUser)));
-        if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5)
-        {
+        if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
             $registration = $this->cmixUser->getRegistration();
             // for old CMI5 Content after switch commit but before cmi5 bugfix
-            if ($registration == '') 
-            {
+            if ($registration == '') {
                 $registration = ilCmiXapiUser::generateRegistration($this->object, $DIC->user());
             }
             $params['registration'] = $registration;
-        }
-        else
-        {
+        } else {
             $params['registration'] = urlencode(ilCmiXapiUser::generateRegistration($this->object, $DIC->user()));
         }
         return $params;
@@ -183,20 +179,19 @@ class ilCmiXapiLaunchGUI
         $doLpUpdate = false;
         
         // if (!ilCmiXapiUser::exists($this->object->getId(), $DIC->user()->getId())) {
-            // $doLpUpdate = true;
+        // $doLpUpdate = true;
         // }
         
         $this->cmixUser = new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId(), $this->object->getPrivacyIdent());
         $user_ident = $this->cmixUser->getUsrIdent();
         if ($user_ident == '' || $user_ident == null) {
-			$user_ident = ilCmiXapiUser::getIdent($this->object->getPrivacyIdent(), $DIC->user());
+            $user_ident = ilCmiXapiUser::getIdent($this->object->getPrivacyIdent(), $DIC->user());
             $this->cmixUser->setUsrIdent($user_ident);
 
-            if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5)
-            {
+            if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
                 $this->cmixUser->setRegistration(ilCmiXapiUser::generateCMI5Registration($this->object->getId(), $DIC->user()->getId()));
             }
-			$this->cmixUser->save();
+            $this->cmixUser->save();
             ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
         }
         // if ($doLpUpdate) {
@@ -204,7 +199,7 @@ class ilCmiXapiLaunchGUI
         // }
     }
 
-    protected function getCmi5LearnerPreferences() 
+    protected function getCmi5LearnerPreferences()
     {
         global $DIC;
         $language = $DIC->user()->getLanguage();
@@ -239,8 +234,7 @@ class ilCmiXapiLaunchGUI
         
         $registration = $this->cmixUser->getRegistration();
         // for old CMI5 Content after switch commit but before cmi5 bugfix
-        if ($registration == '') 
-        {
+        if ($registration == '') {
             $registration = ilCmiXapiUser::generateRegistration($this->object, $DIC->user());
         }
         
@@ -280,8 +274,7 @@ class ilCmiXapiLaunchGUI
             $tokenObject = ilCmiXapiAuthToken::getInstanceByToken($token);
             $lastStatement = $this->object->getLastStatement($oldSession);
             // should never be 'terminated', because terminated statement is sniffed from proxy -> token delete
-            if ($lastStatement[0]['statement']['verb']['id'] != ilCmiXapiVerbList::getInstance()->getVerbUri('terminated'))
-            {
+            if ($lastStatement[0]['statement']['verb']['id'] != ilCmiXapiVerbList::getInstance()->getVerbUri('terminated')) {
                 $abandoned = true;
                 $start = new DateTime($oldSessionLaunchedTimestamp);
                 $end = new DateTime($lastStatement[0]['statement']['timestamp']);
@@ -292,7 +285,7 @@ class ilCmiXapiLaunchGUI
         // satisfied on launch?
         // see: https://github.com/AICC/CMI-5_Spec_Current/blob/quartz/cmi5_spec.md#moveon
         // https://aicc.github.io/CMI-5_Spec_Current/samples/
-        // Session that includes the absolute minimum data, and is associated with a NotApplicable Move On criteria 
+        // Session that includes the absolute minimum data, and is associated with a NotApplicable Move On criteria
         // which results in immediate satisfaction of the course upon registration creation. Includes Satisfied Statement.
         $satisfied = false;
         $lpMode = $this->object->getLPMode();
@@ -313,25 +306,25 @@ class ilCmiXapiLaunchGUI
         $defaultStatementsUrl = $defaultLrs . "/statements";
         
         // launchedStatement
-        $launchData = json_encode($this->object->getLaunchData($this->cmixUser,$lang));
+        $launchData = json_encode($this->object->getLaunchData($this->cmixUser, $lang));
         $launchedStatement = $this->object->getLaunchedStatement($this->cmixUser);
         $launchedStatementParams = [];
         $launchedStatementParams['statementId'] = $launchedStatement['id'];
-        $defaultLaunchedStatementUrl = $defaultStatementsUrl . '?' .  ilCmiXapiAbstractRequest::buildQuery($launchedStatementParams);
+        $defaultLaunchedStatementUrl = $defaultStatementsUrl . '?' . ilCmiXapiAbstractRequest::buildQuery($launchedStatementParams);
         
         // abandonedStatement
         if ($abandoned) {
             $abandonedStatement = $this->object->getAbandonedStatement($oldSession, $duration, $this->cmixUser);
             $abandonedStatementParams = [];
             $abandonedStatementParams['statementId'] = $abandonedStatement['id'];
-            $defaultAbandonedStatementUrl = $defaultStatementsUrl . '?' .  ilCmiXapiAbstractRequest::buildQuery($abandonedStatementParams);
+            $defaultAbandonedStatementUrl = $defaultStatementsUrl . '?' . ilCmiXapiAbstractRequest::buildQuery($abandonedStatementParams);
         }
         // abandonedStatement
         if ($satisfied) {
             $satisfiedStatement = $this->object->getSatisfiedStatement($this->cmixUser);
             $satisfiedStatementParams = [];
             $satisfiedStatementParams['statementId'] = $satisfiedStatement['id'];
-            $defaultSatisfiedStatementUrl = $defaultStatementsUrl . '?' .  ilCmiXapiAbstractRequest::buildQuery($satisfiedStatementParams);
+            $defaultSatisfiedStatementUrl = $defaultStatementsUrl . '?' . ilCmiXapiAbstractRequest::buildQuery($satisfiedStatementParams);
         }
         $client = new GuzzleHttp\Client();
         $req_opts = array(
@@ -383,27 +376,24 @@ class ilCmiXapiLaunchGUI
         if ($satisfied) {
             $promises['defaultSatisfiedStatement'] = $client->sendAsync($defaultSatisfiedStatementRequest, $req_opts);
         }
-        try
-        {
+        try {
             $responses = GuzzleHttp\Promise\settle($promises)->wait();
             $body = '';
             foreach ($responses as $response) {
-                ilCmiXapiAbstractRequest::checkResponse($response,$body,[204]);
+                ilCmiXapiAbstractRequest::checkResponse($response, $body, [204]);
             }
-        }
-        catch(Exception $e)
-        {
+        } catch (Exception $e) {
             $this->log()->error('error:' . $e->getMessage());
         }
         return array('cmi5_session' => $cmi5_session, 'token' => $token);
     }
     
-    private function log() {
+    private function log()
+    {
         global $log;
         if ($this->plugin) {
             return $log;
-        }
-        else {
+        } else {
             return \ilLoggerFactory::getLogger('cmix');
         }
     }

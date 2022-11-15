@@ -892,6 +892,7 @@ assessment#:#log_wrong_test_password_entered#:#Účastník zadal nesprávné hes
 assessment#:#longmenu#:#Dlouhé menu
 assessment#:#longmenu_text#:#Text dlouhého menu
 assessment#:#mailnottype#:#Zaslat oznámení vždy, když uživatel ukončil průchod testem
+assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
 assessment#:#maintenance#:#Údržba
 assessment#:#manscoring#:#Manuální hodnocení
 assessment#:#manscoring_done#:#Vyhodnocení účastníci
@@ -972,6 +973,7 @@ assessment#:#oq_btn_use_order_pictures#:#Použít obrázky odpovědi
 assessment#:#oq_btn_use_order_terms#:#Použít výrazy odpovědi
 assessment#:#oq_header_ordering_elements#:#Prvky uspořádání
 assessment#:#or#:#nebo
+assessment#:#order#:#Order###09 11 2022 new variable
 assessment#:#ordering_answer_sequence_info#:#Sekvence odpovědi Vámi zde definovaná bude považována za sekvenci správného řešení.
 assessment#:#ordertext#:#Řazení textu
 assessment#:#ordertext_info#:#Vložte prosím text, který má být řazen horizontálně. Řazený text bude oddělen pomocí značek mezer v textu. Pokud potřebujete jiné oddělení, můžete použít separátor %s k oddělení Vašich textových jednotek.
@@ -1709,6 +1711,7 @@ assessment#:#tst_question_hints_ordering_clipboard_resetted#:#Pořadí schránky
 assessment#:#tst_question_hints_paste_after_success_msg#:#Nápověda %s byla vložena za nápovědu %s úspěšně.
 assessment#:#tst_question_hints_paste_before_success_msg#:#Nápověda %s byla vložena před nápovědu %s úspěšně.
 assessment#:#tst_question_hints_request_confirmation#:#Skutečně požadujete nápovědu %s? Za tuto nápovědu Vám bude strženo %s bodů.
+assessment#:#tst_question_hints_request_confirmation_no_deduction#:#No points will be deducted for this hint.###09 11 2022 new variable
 assessment#:#tst_question_hints_requested_hint_count_header#:#Vyžádané nápovědy
 assessment#:#tst_question_hints_save_order_success_msg#:#Pořadí nápověd bylo uloženo úspěšně
 assessment#:#tst_question_hints_tab#:#Nápovědy
@@ -5982,6 +5985,7 @@ cont#:#cont_skill_do_not_set#:#Nenastaveno
 cont#:#cont_skill_members#:#Členové
 cont#:#cont_skill_no_profile_selected#:#Please select a profile.###30 04 2021 new variable
 cont#:#cont_skill_no_skill#:#Žádná hodnota (obnovit)
+cont#:#cont_skill_no_skills_selected#:#No competences have been selected yet. Please add at least one competence first under "Competence Selection".###09 11 2022 new variable
 cont#:#cont_skill_profile#:#Profile###30 04 2021 new variable
 cont#:#cont_skill_profiles#:#Assigned Profiles of Members###30 04 2021 new variable
 cont#:#cont_skill_publish#:#Publikovat
@@ -14563,6 +14567,7 @@ skmg#:#skmg_new_sktr#:#Nová reference šablony způsobilosti
 skmg#:#skmg_next_step#:#Další krok
 skmg#:#skmg_no_nodes_selectable#:#V současné době nejsou žádné volitelné způsobilosti.
 skmg#:#skmg_no_skills#:#Žádné způsobilosti
+skmg#:#skmg_no_skills_selected_info#:#You have not selected or fulfilled any competences yet. Click on the "Add Competence"-button to select a competence. You can add any number of competences. If you fulfill competences by editing learning materials, they will be automatically listed here.###09 11 2022 new variable
 skmg#:#skmg_no_trigger#:#Žádný spouštěč
 skmg#:#skmg_nr#:#Čís.
 skmg#:#skmg_number#:#Číslo
@@ -14605,6 +14610,8 @@ skmg#:#skmg_skill_levels#:#Úroveň dovedností
 skmg#:#skmg_skill_management_deactivated#:#Management způsobilosti je právě deaktivován.
 skmg#:#skmg_skill_needs_impr_no_res#:#Je třeba, abyste tuto způsobilost zlepšili. Bohužel v současné době nejsou k dispozici žádné výukové zdroje, které by poskytovaly výukový materiál v souladu s cílovou úrovní způsobilosti.
 skmg#:#skmg_skill_needs_impr_res#:#Je třeba, abyste tuto způsobilost zlepšili. Následující zdroje obsahují výukový materiál, který je přiřazen vaší cílové úrovni způsobilosti.
+skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your competence target.###09 11 2022 new variable
+skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.###09 11 2022 new variable
 skmg#:#skmg_skill_no_needs_impr#:#Vaše úroveň způsobilosti je pro vybraný profil dostatečná.
 skmg#:#skmg_skill_profiles#:#Profily
 skmg#:#skmg_skill_template#:#Šablona způsobilosti

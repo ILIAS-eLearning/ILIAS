@@ -490,6 +490,9 @@ class ilPersonalSkillsGUI
             $filter_toolbar->addFormButton($this->lng->txt("skmg_refresh_view"), "applyFilter");
             $tpl->setVariable("FILTER", $filter_toolbar->getHTML());
             $html = $tpl->get() . $html;
+        } else {
+            $box = $this->ui_fac->messageBox()->info($lng->txt("skmg_no_skills_selected_info"));
+            $html = $this->ui_ren->render($box);
         }
 
         $main_tpl->setContent($html);
@@ -1204,6 +1207,8 @@ class ilPersonalSkillsGUI
 
         $this->determineCurrentProfile();
         $this->showProfileSelectorToolbar();
+        // needed fix for profiles in gap view, because there is no filter shown (yet)
+        $this->getFilter()->clear();
 
         $html = $this->showInfoBox() . $this->getGapAnalysisHTML();
         $tpl->setContent($html);
@@ -1235,12 +1240,12 @@ class ilPersonalSkillsGUI
         if (is_array($this->obj_skills) && $this->obj_id > 0) {
             $options[0] = $lng->txt("obj_" . ilObject::_lookupType($this->obj_id)) . ": " . ilObject::_lookupTitle($this->obj_id);
             foreach ($this->cont_profiles as $p) {
-                $options[$p["profile_id"]] = $lng->txt("skmg_profile") . ": " . $p["title"];
+                $options[$p["profile_id"]] = $p["title"];
             }
         }
         else {
             foreach ($this->user_profiles as $p) {
-                $options[$p["id"]] = $lng->txt("skmg_profile") . ": " . $p["title"];
+                $options[$p["id"]] = $p["title"];
             }
         }
 
@@ -1769,9 +1774,16 @@ class ilPersonalSkillsGUI
         }
 
         ilDatePresentation::setUseRelativeDates(false);
-        $title = ($a_level_entry["trigger_obj_id"] > 0)
-                ? $a_level_entry["trigger_title"]
-                : "";
+        $title = "";
+        if ($a_level_entry["trigger_obj_id"] > 0) {
+            if (ilObject::_exists($a_level_entry["trigger_ref_id"], true)) {
+                $title = ilObject::_lookupTitle($a_level_entry["trigger_obj_id"]);
+            } elseif (!empty($del_data = ilObjectDataDeletionLog::get($a_level_entry["trigger_obj_id"]))) {
+                $title = $del_data["title"];
+            } else {
+                $title = ($a_level_entry["trigger_title"]) ?? "";
+            }
+        }
 
         if ($a_level_entry["trigger_ref_id"] > 0
             && $ilAccess->checkAccess("read", "", $a_level_entry["trigger_ref_id"])) {
@@ -1899,6 +1911,13 @@ class ilPersonalSkillsGUI
                 }
             }
 
+            // note for self-evaluation
+            if ($this->skmg_settings->getHideProfileBeforeSelfEval() &&
+                !ilBasicSkill::hasSelfEvaluated($this->user->getId(), $a_base_skill, $a_tref_id)) {
+                $tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_skill_needs_self_eval"));
+                return $tpl->get();
+            }
+
             // suggested resources
             if ($too_low) {
                 $skill_res = new ilSkillResources($a_base_skill, $a_tref_id);
@@ -1981,6 +2000,7 @@ class ilPersonalSkillsGUI
     public function listAssignedProfile()
     {
         $ilCtrl = $this->ctrl;
+        $lng = $this->lng;
 
         $main_tpl = $this->tpl;
 
@@ -2013,7 +2033,13 @@ class ilPersonalSkillsGUI
 
         // render
         $html = "";
+        $not_all_self_evaluated = false;
         foreach ($skills as $s) {
+            if ($this->skmg_settings->getHideProfileBeforeSelfEval() &&
+                !ilBasicSkill::hasSelfEvaluated($this->user->getId(), $s["base_skill_id"], $s["tref_id"])) {
+                $not_all_self_evaluated = true;
+            }
+
             // todo draft check
             $html .= $this->getSkillHTML($s["base_skill_id"], 0, true, $s["tref_id"]);
         }
@@ -2024,6 +2050,11 @@ class ilPersonalSkillsGUI
             $tpl->setVariable("FILTER", $filter_toolbar->getHTML());
 
             $html = $tpl->get() . $html;
+        }
+
+        if ($not_all_self_evaluated) {
+            $box = $this->ui_fac->messageBox()->info($lng->txt("skmg_skill_needs_self_eval_box"));
+            $html = $this->ui_ren->render($box) . $html;
         }
 
         $main_tpl->setContent($html);

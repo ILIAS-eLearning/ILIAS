@@ -176,10 +176,9 @@ class ilCmiXapiStatementsGUI
                 $table->resetOffset();
                 return;
             }
-        }
-        else {
+        } else {
             $usrId = $DIC->user()->getId();
-            if (!ilCmiXapiUser::getUsersForObject($this->object->getId(),$usrId)) {
+            if (!ilCmiXapiUser::getUsersForObject($this->object->getId(), $usrId)) {
                 $table->setData(array());
                 $table->setMaxCount(0);
                 $table->resetOffset();
@@ -214,7 +213,7 @@ class ilCmiXapiStatementsGUI
         return $table;
     }
 
-	//dynamic verbs
+    //dynamic verbs
     public function getVerbs()
     {
         global $DIC;
@@ -257,16 +256,13 @@ class ilCmiXapiStatementsGUI
         );
         $promises = array();
         $promises['defaultVerbs'] = $client->sendAsync($defaultVerbsRequest, $req_opts);
-        try
-        {
+        try {
             $responses = GuzzleHttp\Promise\settle($promises)->wait();
             $body = '';
             //$DIC->logger()->root()->log(var_export($responses['defaultVerbs'],TRUE));
-            ilCmiXapiAbstractRequest::checkResponse($responses['defaultVerbs'],$body,[200]);
-            return json_decode($body,JSON_OBJECT_AS_ARRAY);
-        }
-        catch(Exception $e)
-        {
+            ilCmiXapiAbstractRequest::checkResponse($responses['defaultVerbs'], $body, [200]);
+            return json_decode($body, JSON_OBJECT_AS_ARRAY);
+        } catch (Exception $e) {
             $this->log()->error('error:' . $e->getMessage());
             return null;
         }
@@ -285,13 +281,10 @@ class ilCmiXapiStatementsGUI
         
         $activityId = array();
 
-        if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5 && !$this->object->isMixedContentType())
-        {
+        if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5 && !$this->object->isMixedContentType()) {
             // https://github.com/AICC/CMI-5_Spec_Current/blob/quartz/cmi5_spec.md#963-extensions
             $activityId['statement.context.extensions.https://ilias&46;de/cmi5/activityid'] = $this->object->getActivityId();
-        }
-        else
-        {
+        } else {
             $activityQuery = [
                 '$regex' => '^' . preg_quote($this->object->getActivityId()) . ''
             ];
@@ -307,7 +300,7 @@ class ilCmiXapiStatementsGUI
 
         // project distinct verbs
         $group = array('_id' => '$statement.verb.id');
-        // $project = array('statement.verb.id' => 1);   
+        // $project = array('statement.verb.id' => 1);
         // project distinct verbs
         
         $pipeline[] = array('$match' => $match);

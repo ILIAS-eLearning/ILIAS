@@ -12,9 +12,8 @@
  *
  * @package     Module/CmiXapi
  */
-class ilCmiXapiAuthToken 
+class ilCmiXapiAuthToken
 {
-
     const DB_TABLE_NAME = 'cmix_token';
 
     const OPENSSL_ENCRYPTION_METHOD = 'aes128';
@@ -248,7 +247,7 @@ class ilCmiXapiAuthToken
             )
         );
         // 'cmi5_session' defaults always to '' by inserting
-        // 'returned_for_cmi5_session' defaults always to '' by inserting 
+        // 'returned_for_cmi5_session' defaults always to '' by inserting
     }
     
     public static function deleteTokenByObjIdAndUsrId($objId, $usrId)
@@ -277,7 +276,7 @@ class ilCmiXapiAuthToken
         $ilDB->manipulateF($query, array('integer', 'integer', 'integer'), array($objId, $refId, $usrId));
     }
     
-    public function delete() 
+    public function delete()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $ilDB = $DIC->database();
@@ -396,8 +395,8 @@ class ilCmiXapiAuthToken
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $ilDB = $DIC->database();
         
-		$query = "SELECT * FROM " . self::DB_TABLE_NAME . " WHERE obj_id = %s AND usr_id = %s";
-		
+        $query = "SELECT * FROM " . self::DB_TABLE_NAME . " WHERE obj_id = %s AND usr_id = %s";
+        
         if ($checkValid) {
             $query .= " AND valid_until > CURRENT_TIMESTAMP";
         }
@@ -436,8 +435,8 @@ class ilCmiXapiAuthToken
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $ilDB = $DIC->database();
         
-		$query = "SELECT * FROM " . self::DB_TABLE_NAME . " WHERE obj_id = %s AND ref_id = %s AND usr_id = %s";
-		
+        $query = "SELECT * FROM " . self::DB_TABLE_NAME . " WHERE obj_id = %s AND ref_id = %s AND usr_id = %s";
+        
         if ($checkValid) {
             $query .= " AND valid_until > CURRENT_TIMESTAMP";
         }
@@ -483,22 +482,19 @@ class ilCmiXapiAuthToken
     
     public static function getCmi5SessionByUsrIdAndObjIdAndRefId(int $usrId, int $objId, $refId = null)
     {
-        global $DIC; 
+        global $DIC;
         $ilDB = $DIC->database();
         if (empty($refId)) {
             $query = "SELECT cmi5_session FROM " . self::DB_TABLE_NAME . " WHERE usr_id = %s AND obj_id = %s";
-            $result = $ilDB->queryF($query, array('integer', 'integer'), array($usrId, $objId));    
-        }
-        else
-        {
+            $result = $ilDB->queryF($query, array('integer', 'integer'), array($usrId, $objId));
+        } else {
             $query = "SELECT cmi5_session FROM " . self::DB_TABLE_NAME . " WHERE usr_id = %s AND obj_id = %s AND ref_id = %s";
             $result = $ilDB->queryF($query, array('integer', 'integer', 'integer'), array($usrId, $objId, $refId));
         }
         
         $row = $ilDB->fetchAssoc($result);
         
-        if ($row && $row['cmi5_session'] != '') 
-        {
+        if ($row && $row['cmi5_session'] != '') {
             return $row['cmi5_session'];
         }
         throw new ilCmiXapiException('no valid cmi5_session found for: ' . $objId . '/' . $usrId);

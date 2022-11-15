@@ -334,6 +334,12 @@ class ilWikiPage extends ilPageObject
             $this->getId()
         );
 
+        // delete important page
+        $wiki = new ilObjWiki($this->getWikiId(), false);
+        if ($wiki->isImportantPage($this->getId())) {
+            $wiki->removeImportantPage($this->getId());
+        }
+
         // delete internal links information to this page
         include_once("./Services/Link/classes/class.ilInternalLink.php");
         ilInternalLink::_deleteAllLinksToTarget("wpg", $this->getId());

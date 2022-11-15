@@ -1684,14 +1684,16 @@ class ilPageObjectGUI
                 $par = $this->obj->getParagraphForPCID($this->abstract_pcid);
                 $content = "<dummy><PageObject><PageContent><Paragraph Characteristic='" . $par->getCharacteristic() . "'>" .
                     $par->getText() . $link_xml .
-                    "</Paragraph></PageContent></PageObject>".$this->obj->getMultimediaXML()."</dummy>";
+                    "</Paragraph></PageContent></PageObject>" . $this->obj->getMultimediaXML() . "</dummy>";
             }
         } else {
             $content = $this->obj->getXMLFromDom(
                 false,
                 true,
                 true,
-                $link_xml . $this->getQuestionXML() . $template_xml . $this->getComponentPluginsXML()
+                $link_xml . $this->getQuestionXML() . $template_xml . $this->getComponentPluginsXML(),
+                false,
+                $this->getStyleId()
             );
         }
 

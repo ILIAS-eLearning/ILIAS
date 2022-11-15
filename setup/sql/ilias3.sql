@@ -20353,7 +20353,7 @@ INSERT INTO `settings` VALUES ('lucene_adv_search','lom_structure','0');
 INSERT INTO `settings` VALUES ('lucene_adv_search','lom_taxon','0');
 INSERT INTO `settings` VALUES ('lucene_adv_search','lom_user_role','0');
 INSERT INTO `settings` VALUES ('lucene_adv_search','lom_version','0');
-INSERT INTO `settings` VALUES ('MathJax','path_to_mathjax','https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML');
+INSERT INTO `settings` VALUES ('MathJax','path_to_mathjax','https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe');
 INSERT INTO `settings` VALUES ('mobs','file_manager_always','');
 INSERT INTO `settings` VALUES ('mobs','mep_activate_pages','1');
 INSERT INTO `settings` VALUES ('mobs','restricted_file_types','');
@@ -20412,7 +20412,7 @@ INSERT INTO `settings` VALUES ('common','soap_connect_timeout','0');
 INSERT INTO `settings` VALUES ('common','rpc_server_host','');
 INSERT INTO `settings` VALUES ('common','rpc_server_port','0');
 INSERT INTO `settings` VALUES ('common','inst_id','0');
-INSERT INTO `settings` VALUES ('common','db_hotfixes_7','91');
+INSERT INTO `settings` VALUES ('common','db_hotfixes_7','92');
 INSERT INTO `settings` VALUES ('adve','autosave','30');
 INSERT INTO `settings` VALUES ('common','rep_favourites','1');
 
@@ -25024,4 +25024,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2022-09-26 15:46:01
+-- Dump completed on 2022-11-09 16:20:16

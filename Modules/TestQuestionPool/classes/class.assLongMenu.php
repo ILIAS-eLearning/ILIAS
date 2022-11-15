@@ -26,7 +26,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 
     /** @var array */
     private $correct_answers = [];
-    
+
     /** @var array */
     private $answers = [];
 
@@ -45,7 +45,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         $this->ilDB = $DIC->database();
         $this->identical_scoring = 1;
     }
-    
+
     /**
      * @return mixed
      */
@@ -61,7 +61,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         $this->answerType = $answerType;
     }
-    
+
     /**
      * @return mixed
      */
@@ -85,7 +85,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         return "qpl_a_lome";
     }
-    
+
     private function buildFileName($gap_id)
     {
         try {
@@ -104,7 +104,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         return $this->long_menu_text;
     }
-        
+
     public function setAnswers($answers)
     {
         $this->answers = $answers;
@@ -130,7 +130,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         $this->json_structure = $json_structure;
     }
-    
+
     public function setSpecificFeedbackSetting($specificFeedbackSetting)
     {
         $this->specificFeedbackSetting = $specificFeedbackSetting;
@@ -150,7 +150,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         return $this->minAutoComplete ? $this->minAutoComplete  : self::MIN_LENGTH_AUTOCOMPLETE;
     }
-    
+
     public function isComplete()
     {
         if (strlen($this->title)
@@ -164,7 +164,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         }
         return false;
     }
-    
+
     public function saveToDb($original_id = "")
     {
         $this->saveQuestionDataToDb($original_id);
@@ -202,7 +202,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         if (sizeof($correct_answers) != sizeof($points)) {
             return false;
         }
-        
+
         foreach ($points as $row) {
             if ($row <= 0) {
                 return false;
@@ -244,7 +244,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         }
         return $sum;
     }
-    
+
     public function saveAdditionalQuestionDataToDb()
     {
         // save additional data
@@ -299,7 +299,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         }
         $this->setPoints($points);
     }
-    
+
     private function createFileFromArray()
     {
         $array = $this->getAnswers();
@@ -321,11 +321,11 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     private function createArrayFromFile()
     {
         $files = glob($this->buildFolderName() . '*.txt');
-        
+
         if ($files === false) {
             $files = array();
         }
-        
+
         $answers = array();
 
         foreach ($files as $file) {
@@ -340,12 +340,12 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         $this->setAnswers($answers);
         return $answers;
     }
-    
+
     private function clearFolder($let_folder_exists = true)
     {
         ilUtil::delDir($this->buildFolderName(), $let_folder_exists);
     }
-    
+
     private function assertDirExists()
     {
         $folder_name = $this->buildFolderName();
@@ -361,7 +361,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
             throw new ilException('Cannot create export directory');
         }
     }
-    
+
     public function loadFromDb($question_id)
     {
         $result = $this->ilDB->queryF(
@@ -390,13 +390,13 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
             if (isset($data['feedback_setting'])) {
                 $this->setSpecificFeedbackSetting((int) $data['feedback_setting']);
             }
-            
+
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
                 $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
             }
-            
+
             try {
                 $this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
             } catch (ilTestQuestionPoolException $e) {
@@ -415,7 +415,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
             array('integer'),
             array($question_id)
         );
-        
+
         $correct_answers = array();
         while ($data = $this->ilDB->fetchAssoc($res)) {
             $correct_answers[$data['gap_number']][0][$data['position']] = rtrim($data['answer_text']);
@@ -458,7 +458,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         }
         return $correct_answers;
     }
-    
+
     private function getPointsForGap($question_id, $gap_id)
     {
         $points = 0;
@@ -473,25 +473,25 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         return $points;
     }
 
-    
+
     public function getAnswersObject()
     {
         return json_encode($this->createArrayFromFile());
     }
-    
+
     public function getCorrectAnswersAsJson()
     {
         $this->loadCorrectAnswerData($this->getId());
         return $this->getJsonStructure();
     }
-    
+
     public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
             return;
         }
-        
+
         // duplicate the question in database
         $this_id = $this->getId();
         $thisObjId = $this->getObjId();
@@ -521,7 +521,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         } else {
             $clone->saveToDb();
         }
-        
+
         $clone->copyPageOfQuestion($this_id);
         $clone->copyXHTMLMediaObjectsOfQuestion($this_id);
         $clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
@@ -546,7 +546,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
             $clone->setTitle($title);
         }
         $clone->saveToDb();
-        
+
         $clone->copyPageOfQuestion($original_id);
         $clone->copyXHTMLMediaObjectsOfQuestion($original_id);
 
@@ -585,7 +585,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 
         return $clone->id;
     }
-    
+
 
     /**
      * Returns the points, a learner has reached answering the question.
@@ -640,7 +640,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         }
         return $points;
     }
-    
+
     /**
      * Saves the learners input of the question to the database.
      *
@@ -655,14 +655,14 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
             include_once "./Modules/Test/classes/class.ilObjTest.php";
             $pass = ilObjTest::_getPass($active_id);
         }
-        
+
         $entered_values = 0;
 
         $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $active_id, $pass, $authorized) {
             $this->removeCurrentSolution($active_id, $pass, $authorized);
 
             foreach ($this->getSolutionSubmit() as $val1 => $val2) {
-                $value = ilUtil::stripSlashes($val2, false);
+                $value = ilUtil::stripSlashes(trim($val2), false);
                 if (strlen($value)) {
                     $this->saveCurrentSolution($active_id, $pass, $val1, $value, $authorized);
                     $entered_values++;
@@ -736,23 +736,25 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         $solutionSubmit = array();
         $answer = ilUtil::stripSlashesRecursive($_POST['answer']);
-        
+
         foreach ($answer as $key => $value) {
             $solutionSubmit[$key] = $value;
         }
 
         return $solutionSubmit;
     }
-    
+
     protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
     {
         if (array_key_exists('answer', $_POST)) {
-            $previewSession->setParticipantsSolution($_POST['answer']);
+            $previewSession->setParticipantsSolution(array_map(function ($value) {
+                return trim($value);
+            }, $_POST['answer']));
         } else {
             $previewSession->setParticipantsSolution(null);
         }
     }
-    
+
     /**
      * Returns the question type of the question
      *
@@ -816,7 +818,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 
         return $startrow + $i + 1;
     }
-    
+
     /**
      * Get the user solution for a question by active_id and the test pass
      *
@@ -849,7 +851,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         return $this->createArrayFromFile();
     }
-    
+
     public function isShuffleAnswersEnabled()
     {
         return false;
@@ -869,7 +871,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         parent::delete($original_id);
         $this->clearFolder(false);
     }
-    
+
     /**
      * @param ilAssSelfAssessmentMigrator $migrator
      */
@@ -877,7 +879,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         $this->setLongMenuTextValue($migrator->migrateToLmContent($this->getLongMenuTextValue()));
     }
-    
+
     /**
      * Returns a JSON representation of the question
      */
@@ -897,7 +899,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
             'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
             'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
         );
-        
+
         $mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
         $result['answers'] = $this->getAnswers();
         $result['correct_answers'] = $this->getCorrectAnswers();

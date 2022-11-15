@@ -260,30 +260,25 @@ class assFormulaQuestionResult
         $math = new EvalMath();
         $math->suppress_errors = true;
         $result = $math->evaluate($formula); // baseunit-result!!
+        $resultWithRespectedUnit = $result;
 
-        $resultWithRespectedUnit = ilMath::_round($result, $this->getPrecision());
         if (is_object($this->getUnit())) {
             //there is a "fix" result_unit defined!
 
             // if expected resultunit != baseunit convert to "fix" result_unit
             if ($this->getUnit()->getBaseUnit() != -1) {
-                $resultWithRespectedUnit = ilMath::_div($result, $this->getUnit()->getFactor(), $this->getPrecision());
-            } else {
-                //if resultunit == baseunit calculate to get correct precision
-                $resultWithRespectedUnit = ilMath::_mul($result, 1, $this->getPrecision());
+                $resultWithRespectedUnit = ilMath::_div($result, $this->getUnit()->getFactor());
             }
         } elseif ($this->getUnit() == null && $unit != null) {
             // there is no "fix" result_unit defined, but the user has selected a unit ...
             // so .... there are "available resultunits" in multi-selectbox selected
             // -> check if selected user-unit is baseunit
-            if ($unit->getFactor() == 1 && strlen(trim($unit->getFactor())) == 1) {
+            if ($unit->getFactor() != 1 && strlen(trim($unit->getFactor())) != 1) {
                 // result is already calculated to baseunit.... -> get correct precision..
-                $resultWithRespectedUnit = ilMath::_mul($result, 1, $this->getPrecision());
-            } else {
-                $resultWithRespectedUnit = ilMath::_div($result, $unit->getFactor(), $this->getPrecision());
+                $resultWithRespectedUnit = ilMath::_div($result, $unit->getFactor());
             }
         }
-        
+
         //	check for valid chars ("0-9",",|.|/","0-9","e|E","+|-","0-9")
         $has_valid_chars = preg_match("/^-?([0-9]*)(,|\\.|\\/){0,1}([0-9]*)([eE][\\+|-]([0-9])+)?$/", $value, $matches);
         if (!$has_valid_chars) {
@@ -294,6 +289,7 @@ class assFormulaQuestionResult
             (!isset($matches[1]) || !strlen($matches[1]) || !isset($matches[3]) || !strlen($matches[3]) || $matches[3] == 0)) {
             $check_valid_chars = false;
         }
+
         // result_type extension
         switch ($this->getResultType()) {
             case assFormulaQuestionResult::RESULT_DEC:
@@ -303,8 +299,6 @@ class assFormulaQuestionResult
                 } else {
                     $frac_value = $value;
                 }
-
-                $frac_value = ilMath::_round($frac_value, $this->getPrecision());
 
                 if (substr_count($value, '/') >= 1) {
                     $check_fraction = false;
@@ -317,7 +311,8 @@ class assFormulaQuestionResult
             case assFormulaQuestionResult::RESULT_CO_FRAC:
                 $exp_val = explode('/', $value);
                 if (count($exp_val) == 1) {
-                    $frac_value = ilMath::_div($exp_val[0], 1, $this->getPrecision());
+                    $frac_value = ilMath::_div($exp_val[0], 1);
+                  
                     if (ilMath::_equals($frac_value, $resultWithRespectedUnit, $this->getPrecision())) {
                         $check_fraction = true;
                     } else {
@@ -325,7 +320,7 @@ class assFormulaQuestionResult
                     }
                 } else {
                     try {
-                        $frac_value = ilMath::_div($exp_val[0], $exp_val[1], $this->getPrecision());
+                        $frac_value = ilMath::_div($exp_val[0], $exp_val[1]);
                     } catch (ilMathDivisionByZeroException $ex) {
                         if ($result) {
                             return false;
@@ -358,7 +353,7 @@ class assFormulaQuestionResult
                 } elseif (substr_count($value, '/') == 1) {
                     $exp_val = explode('/', $value);
                     try {
-                         $frac_value = ilMath::_div($exp_val[0], $exp_val[1], $this->getPrecision());
+                         $frac_value = ilMath::_div($exp_val[0], $exp_val[1]);
                     } catch (ilMathDivisionByZeroException $ex) {
                         if ($result) {
                             return false;
@@ -369,7 +364,7 @@ class assFormulaQuestionResult
                 } else {
                     $frac_value = $value;
                 }
-                $frac_value = ilMath::_round($frac_value, $this->getPrecision());
+
                 $check_fraction = true;
             break;
         }
@@ -379,6 +374,9 @@ class assFormulaQuestionResult
                 $value = ilMath::_mul($frac_value, $unit->getFactor(), 100);
             }
         }
+
+        $frac_value = ilMath::_round($frac_value, $this->getPrecision());
+        $resultWithRespectedUnit = ilMath::_round($resultWithRespectedUnit, $this->getPrecision());
 
         $checkvalue = false;
         if (isset($frac_value)) {
@@ -402,17 +400,15 @@ class assFormulaQuestionResult
         return $checkvalue && $checkunit && $check_fraction && $check_valid_chars;
     }
 
-    protected function isInTolerance($v1, $v2, $p)
+    protected function isInTolerance($user_answer, $expected, $tolerated_percentage)
     {
-        include_once "./Services/Math/classes/class.ilMath.php";
-        $v1 = ilMath::_mul($v1, 1, $this->getPrecision());
-        $b1 = ilMath::_sub($v2, abs(ilMath::_div(ilMath::_mul($p, $v2, 100), 100)), $this->getPrecision());
-        $b2 = ilMath::_add($v2, abs(ilMath::_div(ilMath::_mul($p, $v2, 100), 100)), $this->getPrecision());
-        if (($b1 <= $v1) && ($b2 >= $v1)) {
-            return true;
-        } else {
-            return false;
-        }
+        $user_answer = ilMath::_mul($user_answer, 1, $this->getPrecision());
+        $tolerance_abs = abs(ilMath::_div(ilMath::_mul($tolerated_percentage, $expected, 100), 100));
+        $lower_boundary = ilMath::_sub($expected, $tolerance_abs);
+        $upper_boundary = ilMath::_add($expected, $tolerance_abs);
+
+        return $lower_boundary <= $user_answer 
+            && $user_answer <= $upper_boundary;
     }
 
     protected function checkSign($v1, $v2)
@@ -528,6 +524,7 @@ class assFormulaQuestionResult
             if ($this->checkSign($result, $value)) {
                 $points += ilMath::_mul($this->getPoints(), ilMath::_div($this->getRatingSign(), 100));
             }
+
             if ($this->isInTolerance(abs($value), abs($result), $this->getTolerance())) {
                 $points += ilMath::_mul($this->getPoints(), ilMath::_div($this->getRatingValue(), 100));
             }

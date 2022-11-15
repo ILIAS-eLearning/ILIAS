@@ -732,10 +732,10 @@ class ilObjCmiXapiGUI extends ilObject2GUI
             
             /**
              * beware: ilCmiXapiUser::exists($this->object->getId(),$DIC->user()->getId());
-             * this is not a valid query because if you switched privacyIdent mode before you will get 
+             * this is not a valid query because if you switched privacyIdent mode before you will get
              * an existing user without launched data like proxySuccess
              */
-            $cmiUserExists = ilCmiXapiUser::exists($this->object->getId(),$DIC->user()->getId(),$this->object->getPrivacyIdent());
+            $cmiUserExists = ilCmiXapiUser::exists($this->object->getId(), $DIC->user()->getId(), $this->object->getPrivacyIdent());
 
             if ($cmiUserExists) {
                 $cmixUser = new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId(), $this->object->getPrivacyIdent());

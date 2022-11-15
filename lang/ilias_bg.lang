@@ -892,6 +892,7 @@ assessment#:#log_wrong_test_password_entered#:#Участникът е въве�
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_text#:#Дълъг текст на менюто
 assessment#:#mailnottype#:#Изпращане на известие, дори когато потребителят завърши теста
+assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
 assessment#:#maintenance#:#Поддръжка###22 06 2022 new variable
 assessment#:#manscoring#:#Мануално точкуване
 assessment#:#manscoring_done#:#Оценени участници
@@ -972,6 +973,7 @@ assessment#:#oq_btn_use_order_pictures#:#Използвайте картинки
 assessment#:#oq_btn_use_order_terms#:#Използвайте термините за отговор
 assessment#:#oq_header_ordering_elements#:#Елементи за подреждане
 assessment#:#or#:#или###22 06 2022 new variable
+assessment#:#order#:#Order###09 11 2022 new variable
 assessment#:#ordering_answer_sequence_info#:#Последователността на отговорите, която сте определили тук, ще бъде приета за правилната последователност на решенията.
 assessment#:#ordertext#:#Организиращ текст
 assessment#:#ordertext_info#:#Въведете текста, който трябва да бъде подреден хоризонтално. Текстът за нареждане ще бъде отделен от белите знаци в текста. Ако се нуждаете от различно разделяне, можете да използвате разделителя %s, за да разделите текстовите единици.
@@ -1709,6 +1711,7 @@ assessment#:#tst_question_hints_ordering_clipboard_resetted#:#Клипбордъ
 assessment#:#tst_question_hints_paste_after_success_msg#:#Намекът %s е вмъкнат успешно след намек %s.
 assessment#:#tst_question_hints_paste_before_success_msg#:#Намекът %s е вмъкнат успешно преди намека %s.
 assessment#:#tst_question_hints_request_confirmation#:# Наистина ли искате да поискате подсказка %s? За този намек ще бъде отнета %s точка(и).
+assessment#:#tst_question_hints_request_confirmation_no_deduction#:#No points will be deducted for this hint.###09 11 2022 new variable
 assessment#:#tst_question_hints_requested_hint_count_header#:#Поискани подсказки
 assessment#:#tst_question_hints_save_order_success_msg#:#Поредността на подсказката е запазена успешно.
 assessment#:#tst_question_hints_tab#:#Насоки
@@ -5982,6 +5985,7 @@ cont#:#cont_skill_do_not_set#:#Не задавайте
 cont#:#cont_skill_members#:#Членове
 cont#:#cont_skill_no_profile_selected#:#Моля, изберете профил.###22 06 2022 new variable
 cont#:#cont_skill_no_skill#:#Няма стойност (нулиране)
+cont#:#cont_skill_no_skills_selected#:#No competences have been selected yet. Please add at least one competence first under "Competence Selection".###09 11 2022 new variable
 cont#:#cont_skill_profile#:#Профил###22 06 2022 new variable
 cont#:#cont_skill_profiles#:#Присвоени профили на членовете###22 06 2022 new variable
 cont#:#cont_skill_publish#:#Publish
@@ -14563,6 +14567,7 @@ skmg#:#skmg_new_sktr#:#Справка за шаблона на новото ум
 skmg#:#skmg_next_step#:#Следваща стъпка
 skmg#:#skmg_no_nodes_selectable#:#Понастоящем няма избираеми компетенции.
 skmg#:#skmg_no_skills#:#Няма умения
+skmg#:#skmg_no_skills_selected_info#:#You have not selected or fulfilled any competences yet. Click on the "Add Competence"-button to select a competence. You can add any number of competences. If you fulfill competences by editing learning materials, they will be automatically listed here.###09 11 2022 new variable
 skmg#:#skmg_no_trigger#:#No Trigger
 skmg#:#skmg_nr#:#Nr
 skmg#:#skmg_number#:#Number
@@ -14605,6 +14610,8 @@ skmg#:#skmg_skill_levels#:#Нива на умения
 skmg#:#skmg_skill_management_deactivated#:#Управлението на уменията в момента е деактивирано.
 skmg#:#skmg_skill_needs_impr_no_res#:# Трябва да подобрите тази компетентност. За съжаление в момента няма налични учебни ресурси, които да предоставят учебни материали, съответстващи на целевото ви ниво на компетентност.
 skmg#:#skmg_skill_needs_impr_res#:#Трябва да подобрите тази компетентност. Следните ресурси предоставят учебни материали, съобразени с целевото ви ниво на компетентност.
+skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your competence target.###09 11 2022 new variable
+skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.###09 11 2022 new variable
 skmg#:#skmg_skill_no_needs_impr#:#Равнището ви на компетентност е достатъчно за избрания профил.
 skmg#:#skmg_skill_profiles#:#Profiles
 skmg#:#skmg_skill_template#:#Шаблон на уменията

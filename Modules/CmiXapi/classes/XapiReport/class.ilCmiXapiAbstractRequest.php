@@ -55,10 +55,9 @@ abstract class ilCmiXapiAbstractRequest
             $promises = array();
             $promises['default'] = $client->sendAsync($request, $req_opts);
             $responses = GuzzleHttp\Promise\settle($promises)->wait();
-            self::checkResponse($responses['default'],$body);
+            self::checkResponse($responses['default'], $body);
             return $body;
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             ilObjCmiXapi::log()->error($e->getMessage());
             throw new Exception("LRS Connection Problems");
         }
@@ -66,27 +65,19 @@ abstract class ilCmiXapiAbstractRequest
 
     public static function checkResponse($response, &$body, $allowedStatus = [200, 204])
     {
-        if ($response['state'] == 'fulfilled')
-        {
+        if ($response['state'] == 'fulfilled') {
             $status = $response['value']->getStatusCode();
-            if (in_array($status,$allowedStatus))
-            {
+            if (in_array($status, $allowedStatus)) {
                 $body = $response['value']->getBody();
                 return true;
-            }
-            else
-            {
+            } else {
                 ilObjCmiXapi::log()->error("LRS error: " . $response['value']->getBody());
                 return false;
             }
-        }
-        else {
-            try
-            {
+        } else {
+            try {
                 ilObjCmiXapi::log()->error("Connection error: " . $response['reason']->getMessage());
-            }
-            catch(Exception $e)
-            {
+            } catch (Exception $e) {
                 ilObjCmiXapi::log()->error('error:' . $e->getMessage());
             }
             return false;

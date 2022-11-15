@@ -134,6 +134,15 @@ class PageQueryActionHandler implements Server\QueryActionHandler
             \ilUtil::getStyleSheetLocation() . ", " .
             "./Services/COPage/css/tiny_extra.css";
         $config->text_formats = \ilPCParagraphGUI::_getTextCharacteristics($this->page_gui->getStyleId());
+        $config->text_block_formats = [];
+        foreach (["text_block", "heading1", "heading2", "heading3"] as $type) {
+            $dummy_pc = new \ilPCParagraphGUI($this->page_gui->getPageObject(), null, "");
+            $dummy_pc->setStyleId($this->page_gui->getStyleId());
+            $dummy_pc->getCharacteristicsOfCurrentStyle($type);
+            foreach ($dummy_pc->getCharacteristics() as $char => $txt) {
+                $config->text_block_formats[$char] = $txt;
+            }
+        }
         $config->editPlaceholders = $this->page_gui->getPageConfig()->getEnablePCType("PlaceHolder");
 
         return $config;

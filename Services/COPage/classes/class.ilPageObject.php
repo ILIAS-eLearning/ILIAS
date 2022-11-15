@@ -1298,7 +1298,8 @@ abstract class ilPageObject
         $a_append_mobs = false,
         $a_append_bib = false,
         $a_append_str = "",
-        $a_omit_pageobject_tag = false
+        $a_omit_pageobject_tag = false,
+        $style_id = 0
     ) {
         if ($a_incl_head) {
             //echo "\n<br>#".$this->encoding."#";
@@ -1315,7 +1316,7 @@ abstract class ilPageObject
                     // deprecated
 //					$bibs = $this->getBibliographyXML();
                 }
-                $trans = $this->getLanguageVariablesXML();
+                $trans = $this->getLanguageVariablesXML($style_id);
                 //echo htmlentities($this->dom->dump_node($this->node)); exit;
                 return "<dummy>" . $this->dom->dump_node($this->node) . $mobs . $bibs . $trans . $a_append_str . "</dummy>";
             } else {
@@ -1346,7 +1347,7 @@ abstract class ilPageObject
     /**
      * Get language variables as XML
      */
-    public function getLanguageVariablesXML()
+    public function getLanguageVariablesXML($style_id = 0)
     {
         $xml = "<LVs>";
         $lang_vars = array(
@@ -1399,10 +1400,34 @@ abstract class ilPageObject
             }
         }
 
+        // workaround for #30561, should go to characteristic manager
+        $dummy_pc = new ilPCSectionGUI($this, null, "");
+        $dummy_pc->setStyleId($style_id);
+        foreach (["section", "table", "flist_li", "list_u", "list_o",
+                  "table", "table_cell"] as $type) {
+            $dummy_pc->getCharacteristicsOfCurrentStyle($type);
+            foreach ($dummy_pc->getCharacteristics() as $char => $txt) {
+                $xml .= "<LV name=\"char_" . $type . "_" . $char . "\" value=\"" . $txt . "\"/>";
+            }
+        }
+        $type = "media_cont";
+        $dummy_pc = new ilPCMediaObjectGUI($this, null, "");
+        $dummy_pc->setStyleId($style_id);
+        $dummy_pc->getCharacteristicsOfCurrentStyle($type);
+        foreach ($dummy_pc->getCharacteristics() as $char => $txt) {
+            $xml .= "<LV name=\"char_" . $type . "_" . $char . "\" value=\"" . $txt . "\"/>";
+        }
+        foreach (["text_block", "heading1", "heading2", "heading3"] as $type) {
+            $dummy_pc = new ilPCParagraphGUI($this, null, "");
+            $dummy_pc->setStyleId($style_id);
+            $dummy_pc->getCharacteristicsOfCurrentStyle($type);
+            foreach ($dummy_pc->getCharacteristics() as $char => $txt) {
+                $xml .= "<LV name=\"char_" . $type . "_" . $char . "\" value=\"" . $txt . "\"/>";
+            }
+        }
         foreach ($lang_vars as $lang_var) {
             $this->appendLangVarXML($xml, $lang_var);
         }
-
         $xml .= "</LVs>";
         return $xml;
     }
@@ -2468,10 +2493,12 @@ abstract class ilPageObject
             // get parameters
             $par = [];
             if (substr($href, strlen($href) - 5) === ".html") {
-                $parts = explode("_",
+                $parts = explode(
+                    "_",
                     basename(
                         substr($url["path"], 0, strlen($url["path"]) - 5)
-                    ));
+                    )
+                );
                 if (array_shift($parts) !== "goto") {
                     continue;
                 }
@@ -2493,7 +2520,7 @@ abstract class ilPageObject
             $ref_id = 0;
             if (is_int(strpos($href, "ilias.php"))) {
                 $ref_id = (int) $par["ref_id"];
-            } else if ($par["target"] !== "") {
+            } elseif ($par["target"] !== "") {
                 $t = explode("_", $par["target"]);
                 if ($objDefinition->isRBACObject($t[0])) {
                     $ref_id = (int) $t[1];
@@ -2702,7 +2729,7 @@ abstract class ilPageObject
         $this->log->debug("checking duplicate ids");
         if ($this->hasDuplicatePCIds()) {
             $errors[0] = $this->lng->txt("cont_could_not_save_duplicate_pc_ids") .
-                " (" . implode(", ", $this->getDuplicatePCIds()). ")";
+                " (" . implode(", ", $this->getDuplicatePCIds()) . ")";
         }
 
         if (!empty($errors)) {

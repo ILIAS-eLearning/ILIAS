@@ -200,6 +200,7 @@ export default class ParagraphUI {
     this.uiModel.config.text_formats.forEach(f =>
       wrapper.addTextFormat(f)
     );
+    wrapper.setTextBlockFormats(this.uiModel.config.text_block_formats);
 
     il.Util.addOnLoad(function () {
       $(window).resize(() => {
@@ -417,10 +418,12 @@ export default class ParagraphUI {
     this.log("setParagraphClass");
     this.log(i);
     const fc = document.querySelector(".ilTinyParagraphClassSelector .dropdown button");
+    const ddbtn = document.querySelector(
+      ".ilTinyParagraphClassSelector button[data-copg-ed-par-class='" + i + "']");
     this.log(fc);
     if (fc) {
       this.log("SETTin DROP DOWN BUTTON: " + i)
-      fc.firstChild.textContent = i + " ";
+      fc.firstChild.textContent = ddbtn.textContent + " ";
     }
     this.tinyWrapper.setParagraphClass(i);
   }
