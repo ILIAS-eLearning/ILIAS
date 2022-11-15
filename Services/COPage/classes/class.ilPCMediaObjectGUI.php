@@ -69,7 +69,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $pc_id = $request->getPCId();
         if ($pc_id != "" && $a_hier_id == "") {
             $hier_ids = $a_pg_obj->getHierIdsForPCIds([$pc_id]);
-            $a_hier_id = $hier_ids[$pc_id];
+            $a_hier_id = $hier_ids[$pc_id] ?? "";
             $ilCtrl->setParameter($this, "hier_id", $a_hier_id);
         }
 
