@@ -17,6 +17,8 @@
  *********************************************************************/
 
 use ILIAS\UI\Component\Symbol\Avatar\Avatar;
+use ILIAS\Data\DateFormat\DateFormat;
+use ILIAS\Data\DateFormat\Factory as DateFormatFactory;
 
 /**
  * User class
@@ -1012,6 +1014,21 @@ class ilObjUser extends ilObject
         } else {
             $settings = ilCalendarSettings::_getInstance();
             return $settings->getDefaultDateFormat();
+        }
+    }
+
+    public function getDataDateFormat(DateFormatFactory $factory): DateFormat
+    {
+        switch ($this->getDateFormat()) {
+            case ilCalendarSettings::DATE_FORMAT_DMY:
+                return $factory->germanShort();
+
+            case ilCalendarSettings::DATE_FORMAT_MDY:
+                return $factory->americanShort();
+
+            case ilCalendarSettings::DATE_FORMAT_YMD:
+            default:
+                return $factory->standard();
         }
     }
 

@@ -36,6 +36,7 @@ class DateFormatTest extends TestCase
         $this->assertInstanceOf(DateFormat\DateFormat::class, $this->df->standard());
         $this->assertInstanceOf(DateFormat\DateFormat::class, $this->df->germanShort());
         $this->assertInstanceOf(DateFormat\DateFormat::class, $this->df->germanLong());
+        $this->assertInstanceOf(DateFormat\DateFormat::class, $this->df->americanShort());
         $this->assertInstanceOf(DateFormat\FormatBuilder::class, $this->df->custom());
     }
 

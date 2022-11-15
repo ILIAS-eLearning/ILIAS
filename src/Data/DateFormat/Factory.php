@@ -63,19 +63,4 @@ class Factory
     {
         return $this->builder->month()->slash()->day()->slash()->year()->get();
     }
-
-    public function fromUser(\ilObjUser $user): DateFormat
-    {
-        switch ($user->getDateFormat()) {
-            case \ilCalendarSettings::DATE_FORMAT_DMY:
-                return $this->germanShort();
-
-            case \ilCalendarSettings::DATE_FORMAT_MDY:
-                return $this->americanShort();
-
-            case \ilCalendarSettings::DATE_FORMAT_YMD:
-            default:
-                return $this->standard();
-        }
-    }
 }
