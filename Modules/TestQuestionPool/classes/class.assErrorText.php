@@ -123,7 +123,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
             array( "integer" ),
             array( $this->getId() )
         );
-        
+
         $ilDB->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, errortext, textsize, points_wrong) VALUES (%s, %s, %s, %s)",
             array("integer", "text", "float", "float"),
@@ -169,13 +169,13 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
             $this->setTextSize($data["textsize"]);
             $this->setPointsWrong($data["points_wrong"]);
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
-            
+
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
                 $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
             }
-            
+
             try {
                 $this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
             } catch (ilTestQuestionPoolException $e) {
@@ -209,16 +209,16 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         // duplicate the question in database
         $this_id = $this->getId();
         $thisObjId = $this->getObjId();
-        
+
         $clone = $this;
         include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
-        
+
         if ((int) $testObjId > 0) {
             $clone->setObjId($testObjId);
         }
-        
+
         if ($title) {
             $clone->setTitle($title);
         }
@@ -254,10 +254,10 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
             return;
         }
         // duplicate the question in database
-        
+
         $thisId = $this->getId();
         $thisObjId = $this->getObjId();
-        
+
         $clone = $this;
         include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
         $original_id = assQuestion::_getOriginalId($this->id);
@@ -422,7 +422,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         } else {
             $selection = array();
         }
-        
+
         $previewSession->setParticipantsSolution($selection);
     }
 
@@ -647,7 +647,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                         $errorcounter++;
                     }
                 }
-                
+
                 if ($in_passage && !$passage_end) {
                     $items_in_passage[$idx] = $item;
                     $items[$idx] = '';
@@ -663,7 +663,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                             $this->isTokenSelected($counter, $selections) ?
                             "ilc_qetitem_ErrorTextSelected" : "ilc_qetitem_ErrorTextItem"
                         );
-                        
+
                         $errorobject = $this->errordata[$errorcounter];
                         if (is_object($errorobject)) {
                             $item = strlen($errorobject->text_correct) ? $errorobject->text_correct : '&nbsp;';
@@ -673,7 +673,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                         $counter++;
                         continue;
                     }
-                    
+
                     $group_selected = true;
                     if ($graphicalOutput) {
                         $start_idx = $passage_start_idx;
@@ -682,7 +682,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                                 $group_selected = false;
                                 break;
                             }
-                            
+
                             ++$start_idx;
                         }
                         if ($group_selected) {
@@ -713,17 +713,17 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                             $img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.svg") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
                         }
                     }
-                    
+
                     $item_stack[] = $this->getErrorTokenHtml($item, $class, $use_link_tags) . $img;
                     $item_stack = trim(implode(" ", $item_stack));
                     $item_stack = strlen($item_stack) ? $item_stack : '&nbsp;';
-                    
+
                     if ($graphicalOutput) {
                         $items[$idx] = '<span class="selGroup">' . $item_stack . '</span>';
                     } else {
                         $items[$idx] = $item_stack;
                     }
-                    
+
                     $counter++;
                     continue;
                 }
@@ -747,10 +747,10 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
             }
             $textarray[$textidx] = '<p>' . implode(" ", $items) . '</p>';
         }
-        
+
         return implode("\n", $textarray);
     }
-    
+
     protected function isTokenSelected($counter, array $selection)
     {
         foreach ($selection as $data) {
@@ -762,7 +762,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                 return true;
             }
         }
-        
+
         return false;
     }
 
@@ -858,7 +858,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                             $passages[$cur_pidx]['score'] = $errorobject->points;
                             $passages[$cur_pidx]['isError'] = true;
                         }
-                        
+
                         $errorcounter++;
                     }
 
@@ -887,9 +887,9 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         }
 
         ksort($selections);
-        
+
         $selections = array_values($selections);
-        
+
         return $selections;
     }
 
@@ -1010,7 +1010,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     */
     public function setErrorText($a_value)
     {
-        $this->errortext = $a_value;
+        $this->errortext = $this->getHtmlQuestionContentPurifier()->purify($a_value);
     }
 
     /**
@@ -1137,7 +1137,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
             foreach ($items as $idx => $item) {
                 if (substr($item, 0, 1) == "#") {
                     $item = substr($item, 1);
-                    
+
                     // #14115 - add position to correct answer
                     foreach ($result["correct_answers"] as $aidx => $answer) {
                         if ($answer["answertext_wrong"] == $item && !$answer["pos"]) {
@@ -1162,7 +1162,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
         $mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
         $result['mobs'] = $mobs;
-        
+
         return json_encode($result);
     }
 
@@ -1240,7 +1240,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     public function getAvailableAnswerOptions($index = null)
     {
         $error_text_array = explode(' ', $this->errortext);
-        
+
         if ($index !== null) {
             if (array_key_exists($index, $error_text_array)) {
                 return $error_text_array[$index];
@@ -1261,7 +1261,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         if ($useLinkTags) {
             return '<a class="' . $class . '" href="#">' . ($item == '&nbsp;' ? $item : ilUtil::prepareFormOutput($item)) . '</a>';
         }
-        
+
         return '<span class="' . $class . '">' . ($item == '&nbsp;' ? $item : ilUtil::prepareFormOutput($item)) . '</span>';
     }
 }

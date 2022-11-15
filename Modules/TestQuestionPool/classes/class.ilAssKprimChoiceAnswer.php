@@ -11,17 +11,17 @@
 class ilAssKprimChoiceAnswer
 {
     private $position;
-    
+
     private $answertext;
-    
+
     private $imageFile;
 
     private $imageFsDir;
 
     private $imageWebDir;
-    
+
     private $thumbPrefix;
-    
+
     private $correctness;
 
     public function setPosition($position)
