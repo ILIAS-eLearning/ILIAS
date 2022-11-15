@@ -683,8 +683,6 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     {
         $isSingleline = $this->getEditAnswersSingleLine();
 
-        // Choices
-        include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php";
         $choices = new ilSingleChoiceWizardInputGUI($this->lng->txt("answers"), "choice");
         $choices->setRequired(true);
         $choices->setQuestionObject($this->object);
