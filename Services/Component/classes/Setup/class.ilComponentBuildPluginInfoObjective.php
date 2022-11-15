@@ -34,22 +34,22 @@ class ilComponentBuildPluginInfoObjective extends Setup\Artifact\BuildArtifactOb
 
     protected function addPlugin(array &$data, string $type, string $component, string $slot, string $plugin): void
     {
-        $path = static::BASE_PATH . "$type/$component/$slot/$plugin/" . static::PLUGIN_PHP;
-        $plugin_php = $this->readFile($path);
-        if (is_null($plugin_php)) {
+        $plugin_path = $this->buildPluginPath($type, $component, $slot, $plugin);
+        $plugin_php = $plugin_path . static::PLUGIN_PHP;
+        if (!$this->fileExists($plugin_php)) {
             throw new \RuntimeException(
-                "Cannot read plugin.php of $type/$component/$slot/$plugin at $path."
+                "Cannot read $plugin_php."
             );
         }
 
-        $path = static::BASE_PATH . "$type/$component/$slot/$plugin/" . sprintf(static::PLUGIN_CLASS_FILE, $plugin);
-        if (is_null($this->readFile($path))) {
+        $plugin_class = $plugin_path . sprintf(static::PLUGIN_CLASS_FILE, $plugin);
+        if (!$this->fileExists($plugin_class)) {
             throw new \RuntimeException(
-                "Cannot read plugin class file of $type/$component/$slot/$plugin at $path."
+                "Cannot read $plugin_class."
             );
         }
 
-        eval("?>" . $plugin_php);
+        require_once($plugin_php);
         if (!isset($id)) {
             throw new \InvalidArgumentException("$path does not define \$id");
         }
@@ -97,11 +97,13 @@ class ilComponentBuildPluginInfoObjective extends Setup\Artifact\BuildArtifactOb
         return array_values(array_diff($result, [".", ".."]));
     }
 
-    protected function readFile(string $path): ?string
+    protected function fileExists(string $path): bool
     {
-        if (!file_exists($path) || !is_file($path)) {
-            return null;
-        }
-        return file_get_contents($path);
+        return file_exists($path) && is_file($path);
+    }
+
+    protected function buildPluginPath(string $type, string $component, string $slot, string $plugin): string
+    {
+        return static::BASE_PATH . "$type/$component/$slot/$plugin/";
     }
 }
