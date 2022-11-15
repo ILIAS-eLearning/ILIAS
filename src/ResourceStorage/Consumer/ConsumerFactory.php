@@ -20,13 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Consumer;
 
-use ILIAS\ResourceStorage\Collection\ResourceCollection;
-use ILIAS\ResourceStorage\Flavour\Flavour;
-use ILIAS\ResourceStorage\Flavour\FlavourIdentification;
-use ILIAS\ResourceStorage\Resource\StorableResource;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
+use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
 use ILIAS\ResourceStorage\Policy\NoneFileNamePolicy;
+use ILIAS\ResourceStorage\Resource\StorableResource;
 
 /**
  * Class ConsumerFactory
@@ -34,20 +31,23 @@ use ILIAS\ResourceStorage\Policy\NoneFileNamePolicy;
  */
 class ConsumerFactory
 {
-    private \ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory $storage_handler_factory;
     protected \ILIAS\ResourceStorage\Policy\FileNamePolicy $file_name_policy;
+    /**
+     * @readonly
+     */
     private \ILIAS\HTTP\Services $http;
+    private StreamAccess $stream_access;
 
     /**
      * ConsumerFactory constructor.
      * @param FileNamePolicy|null $file_name_policy
      */
     public function __construct(
-        StorageHandlerFactory $storage_handler_factory,
+        StreamAccess $stream_access,
         FileNamePolicy $file_name_policy = null
     ) {
+        $this->stream_access = $stream_access;
         global $DIC;
-        $this->storage_handler_factory = $storage_handler_factory;
         $this->file_name_policy = $file_name_policy ?? new NoneFileNamePolicy();
         $this->http = $DIC->http();
     }
@@ -57,7 +57,7 @@ class ConsumerFactory
         return new DownloadConsumer(
             $this->http,
             $resource,
-            $this->storage_handler_factory->getHandlerForResource($resource),
+            $this->stream_access,
             $this->file_name_policy
         );
     }
@@ -67,7 +67,7 @@ class ConsumerFactory
         return new InlineConsumer(
             $this->http,
             $resource,
-            $this->storage_handler_factory->getHandlerForResource($resource),
+            $this->stream_access,
             $this->file_name_policy
         );
     }
@@ -76,7 +76,7 @@ class ConsumerFactory
     {
         return new FileStreamConsumer(
             $resource,
-            $this->storage_handler_factory->getHandlerForResource($resource)
+            $this->stream_access
         );
     }
 
@@ -87,7 +87,7 @@ class ConsumerFactory
     {
         return new AbsolutePathConsumer(
             $resource,
-            $this->storage_handler_factory->getHandlerForResource($resource),
+            $this->stream_access,
             $this->file_name_policy
         );
     }
@@ -97,7 +97,7 @@ class ConsumerFactory
         return new SrcConsumer(
             $src_builder,
             $resource,
-            $this->storage_handler_factory->getHandlerForResource($resource)
+            $this->stream_access
         );
     }
 
@@ -107,7 +107,7 @@ class ConsumerFactory
     ): DownloadMultipleConsumer {
         return new DownloadMultipleConsumer(
             $resources,
-            $this->storage_handler_factory,
+            $this->stream_access,
             $this->file_name_policy,
             $zip_filename ?? 'Download.zip'
         );

@@ -20,18 +20,17 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Manager;
 
+use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\ResourceStorage\Collection\CollectionBuilder;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\ResourceStorage\Resource\ResourceBuilder;
-use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
-use ILIAS\ResourceStorage\Revision\Revision;
-use ILIAS\ResourceStorage\Resource\StorableResource;
-use ILIAS\Filesystem\Stream\FileStream;
-use ILIAS\ResourceStorage\Resource\InfoResolver\UploadInfoResolver;
-use ILIAS\ResourceStorage\Resource\InfoResolver\StreamInfoResolver;
 use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
-use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
+use ILIAS\ResourceStorage\Resource\InfoResolver\StreamInfoResolver;
+use ILIAS\ResourceStorage\Resource\InfoResolver\UploadInfoResolver;
+use ILIAS\ResourceStorage\Resource\ResourceBuilder;
+use ILIAS\ResourceStorage\Resource\StorableResource;
+use ILIAS\ResourceStorage\Revision\Revision;
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 /**
  * Class StorageManager
@@ -39,21 +38,21 @@ use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
  */
 class Manager
 {
-    protected \ILIAS\ResourceStorage\Resource\ResourceBuilder $resource_builder;
-    protected \ILIAS\ResourceStorage\Preloader\RepositoryPreloader $preloader;
+    protected ResourceBuilder $resource_builder;
     protected CollectionBuilder $collection_builder;
+    protected RepositoryPreloader $preloader;
 
     /**
      * Manager constructor.
      */
     public function __construct(
-        ResourceBuilder $b,
-        CollectionBuilder $c,
-        RepositoryPreloader $l
+        ResourceBuilder $resource_builder,
+        CollectionBuilder $collection_builder,
+        RepositoryPreloader $preloader
     ) {
-        $this->resource_builder = $b;
-        $this->collection_builder = $c;
-        $this->preloader = $l;
+        $this->resource_builder = $resource_builder;
+        $this->collection_builder = $collection_builder;
+        $this->preloader = $preloader;
     }
 
     public function upload(
@@ -123,6 +122,7 @@ class Manager
         return $this->resource_builder->get($i);
     }
 
+
     public function remove(ResourceIdentification $identification, ResourceStakeholder $stakeholder): void
     {
         $this->resource_builder->remove($this->resource_builder->get($identification), $stakeholder);
@@ -148,7 +148,9 @@ class Manager
     ): Revision {
         if ($result->isOK()) {
             if (!$this->resource_builder->has($identification)) {
-                throw new \LogicException("Resource not found, can't append new version in: " . $identification->serialize());
+                throw new \LogicException(
+                    "Resource not found, can't append new version in: " . $identification->serialize()
+                );
             }
             $resource = $this->resource_builder->get($identification);
             $info_resolver = new UploadInfoResolver(
@@ -180,7 +182,9 @@ class Manager
     ): Revision {
         if ($result->isOK()) {
             if (!$this->resource_builder->has($identification)) {
-                throw new \LogicException("Resource not found, can't append new version in: " . $identification->serialize());
+                throw new \LogicException(
+                    "Resource not found, can't append new version in: " . $identification->serialize()
+                );
             }
             $resource = $this->resource_builder->get($identification);
             $info_resolver = new UploadInfoResolver(
@@ -210,7 +214,9 @@ class Manager
         string $revision_title = null
     ): Revision {
         if (!$this->resource_builder->has($identification)) {
-            throw new \LogicException("Resource not found, can't append new version in: " . $identification->serialize());
+            throw new \LogicException(
+                "Resource not found, can't append new version in: " . $identification->serialize()
+            );
         }
 
         $resource = $this->resource_builder->get($identification);
@@ -241,7 +247,9 @@ class Manager
         string $revision_title = null
     ): Revision {
         if (!$this->resource_builder->has($identification)) {
-            throw new \LogicException("Resource not found, can't append new version in: " . $identification->serialize());
+            throw new \LogicException(
+                "Resource not found, can't append new version in: " . $identification->serialize()
+            );
         }
 
         $resource = $this->resource_builder->get($identification);

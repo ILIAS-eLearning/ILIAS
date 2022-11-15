@@ -121,7 +121,7 @@ class ilResourceStorageDB80 implements ilDatabaseUpdateSteps
                 'rid',
                 $attributes
             );
-        } catch (Throwable $t) {
+        } catch (Throwable $exception) {
         }
     }
 

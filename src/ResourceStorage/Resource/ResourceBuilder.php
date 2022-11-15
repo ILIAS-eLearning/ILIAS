@@ -23,24 +23,20 @@ namespace ILIAS\ResourceStorage\Resource;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\DTO\UploadResult;
-use ILIAS\ResourceStorage\Consumer\FileStreamConsumer;
+use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
 use ILIAS\ResourceStorage\Lock\LockHandler;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
 use ILIAS\ResourceStorage\Policy\NoneFileNamePolicy;
 use ILIAS\ResourceStorage\Preloader\SecureString;
+use ILIAS\ResourceStorage\Repositories;
 use ILIAS\ResourceStorage\Resource\InfoResolver\ClonedRevisionInfoResolver;
 use ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver;
-use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
 use ILIAS\ResourceStorage\Revision\CloneRevision;
 use ILIAS\ResourceStorage\Revision\FileRevision;
 use ILIAS\ResourceStorage\Revision\FileStreamRevision;
-use ILIAS\ResourceStorage\Revision\MultiStreamRevision;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
-use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 
@@ -53,12 +49,22 @@ class ResourceBuilder
 {
     use SecureString;
 
+    /**
+     * @readonly
+     */
     private \ILIAS\ResourceStorage\Information\Repository\InformationRepository $information_repository;
+    /**
+     * @readonly
+     */
     private \ILIAS\ResourceStorage\Resource\Repository\ResourceRepository $resource_repository;
+    /**
+     * @readonly
+     */
     private \ILIAS\ResourceStorage\Revision\Repository\RevisionRepository $revision_repository;
-    private \ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory $storage_handler_factory;
+    /**
+     * @readonly
+     */
     private \ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository $stakeholder_repository;
-    private \ILIAS\ResourceStorage\Lock\LockHandler $lock_handler;
 
     /**
      * @var StorableResource[]
@@ -66,6 +72,9 @@ class ResourceBuilder
     protected array $resource_cache = [];
     protected \ILIAS\ResourceStorage\Policy\FileNamePolicy $file_name_policy;
     protected \ILIAS\ResourceStorage\StorageHandler\StorageHandler $primary_storage_handler;
+    private StorageHandlerFactory $storage_handler_factory;
+    private LockHandler $lock_handler;
+    private StreamAccess $stream_access;
 
     /**
      * ResourceBuilder constructor.
@@ -73,20 +82,19 @@ class ResourceBuilder
      */
     public function __construct(
         StorageHandlerFactory $storage_handler_factory,
-        RevisionRepository $revision_repository,
-        ResourceRepository $resource_repository,
-        InformationRepository $information_repository,
-        StakeholderRepository $stakeholder_repository,
+        Repositories $repositories,
         LockHandler $lock_handler,
+        StreamAccess $stream_access,
         FileNamePolicy $file_name_policy = null
     ) {
         $this->storage_handler_factory = $storage_handler_factory;
-        $this->primary_storage_handler = $storage_handler_factory->getPrimary();
-        $this->revision_repository = $revision_repository;
-        $this->resource_repository = $resource_repository;
-        $this->information_repository = $information_repository;
-        $this->stakeholder_repository = $stakeholder_repository;
         $this->lock_handler = $lock_handler;
+        $this->stream_access = $stream_access;
+        $this->primary_storage_handler = $storage_handler_factory->getPrimary();
+        $this->revision_repository = $repositories->getRevisionRepository();
+        $this->resource_repository = $repositories->getResourceRepository();
+        $this->information_repository = $repositories->getInformationRepository();
+        $this->stakeholder_repository = $repositories->getStakeholderRepository();
         $this->file_name_policy = $file_name_policy ?? new NoneFileNamePolicy();
     }
 
@@ -263,7 +271,7 @@ class ResourceBuilder
                 $this->resource_repository->getNamesForLocking(),
                 $this->revision_repository->getNamesForLocking(),
                 $this->information_repository->getNamesForLocking(),
-                $this->stakeholder_repository->getNamesForLocking(),
+                $this->stakeholder_repository->getNamesForLocking()
             ),
             function () use ($resource): void {
                 $this->resource_repository->store($resource);
@@ -302,13 +310,15 @@ class ResourceBuilder
                 $existing_revision
             );
 
-            $stream = new FileStreamConsumer(
-                $resource,
-                $this->storage_handler_factory->getHandlerForResource($resource)
-            );
-            $stream->setRevisionNumber($existing_revision->getVersionNumber());
 
-            $cloned_revision = new FileStreamRevision($new_resource->getIdentification(), $stream->getStream(), true);
+            $existing_revision = $this->stream_access->populateRevision($existing_revision);
+
+            $cloned_revision = new FileStreamRevision(
+                $new_resource->getIdentification(),
+                $existing_revision->maybeGetToken()->resolveStream(),
+                true
+            );
+
             $this->populateRevisionInfo($cloned_revision, $info_resolver);
             $cloned_revision->setVersionNumber($existing_revision->getVersionNumber());
 
@@ -365,9 +375,16 @@ class ResourceBuilder
             case $revision instanceof CloneRevision:
                 return $revision->getRevisionToClone()->getStream();
             case $revision instanceof FileRevision:
-                return $this->storage_handler_factory->getHandlerForResource(
-                    $this->get($revision->getIdentification())
-                )->getStream($revision);
+                if ($revision->getStorageID() !== '') {
+                    return $this->storage_handler_factory->getHandlerForRevision(
+                        $revision
+                    )->getStream($revision);
+                } else {
+                    return $this->storage_handler_factory->getHandlerForResource(
+                        $this->get($revision->getIdentification())
+                    )->getStream($revision);
+                }
+                // no break
             default:
                 throw new \LogicException('This revision type is not supported');
         }
@@ -383,14 +400,14 @@ class ResourceBuilder
         $sucessful = true;
         if ($stakeholder instanceof ResourceStakeholder) {
             $this->stakeholder_repository->deregister($resource->getIdentification(), $stakeholder);
-            $sucessful = $sucessful && $stakeholder->resourceHasBeenDeleted($resource->getIdentification());
+            $sucessful = $stakeholder->resourceHasBeenDeleted($resource->getIdentification());
             $resource->removeStakeholder($stakeholder);
-            if (count($resource->getStakeholders()) > 0) {
+            if ($resource->getStakeholders() !== []) {
                 return $sucessful;
             }
         }
         foreach ($resource->getStakeholders() as $s) {
-            $sucessful = $sucessful && $s->resourceHasBeenDeleted($resource->getIdentification());
+            $sucessful = $s->resourceHasBeenDeleted($resource->getIdentification()) && $sucessful;
         }
 
         foreach ($resource->getAllRevisions() as $revision) {
@@ -416,7 +433,7 @@ class ResourceBuilder
     {
         try {
             $this->storage_handler_factory->getHandlerForResource($resource)->deleteRevision($revision);
-        } catch (\Throwable $t) {
+        } catch (\Throwable $exception) {
         }
 
         $this->information_repository->delete($revision->getInformation(), $revision);
@@ -430,7 +447,7 @@ class ResourceBuilder
     public function getAll(): \Iterator
     {
         /**
-         * @var $resource StorableResource
+         * @var StorableResource $resource
          */
         foreach ($this->resource_repository->getAll() as $resource) {
             yield $this->populateNakedResourceWithRevisionsAndStakeholders($resource);
@@ -442,9 +459,11 @@ class ResourceBuilder
         $revisions = $this->revision_repository->get($resource);
         $resource->setRevisions($revisions);
 
-        foreach ($resource->getAllRevisions() as $revision) {
+        foreach ($revisions->getAll() as $i => $revision) {
             $information = $this->information_repository->get($revision);
             $revision->setInformation($information);
+            $revision->setStorageID($resource->getStorageID());
+            // $revisions->replaceSingleRevision($this->stream_access->populateRevision($revision)); // currently we do not need populating the stream every time, we will do that in consumers only
         }
 
         foreach ($this->stakeholder_repository->getStakeholders($resource->getIdentification()) as $s) {

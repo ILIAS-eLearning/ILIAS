@@ -22,8 +22,6 @@ namespace ILIAS\ResourceStorage;
 
 use ILIAS\ResourceStorage\Collection\Repository\CollectionRepository;
 use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
-use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
-use ILIAS\ResourceStorage\Resource\Repository\FlavourRepository;
 use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
 use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
@@ -35,13 +33,24 @@ use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
  */
 class Repositories
 {
+    private RevisionRepository $revision_repository;
+    private ResourceRepository $resource_repository;
+    private CollectionRepository $collection_repository;
+    private InformationRepository $information_repository;
+    private StakeholderRepository $stakeholder_repository;
+
     public function __construct(
-        private RevisionRepository $revision_repository,
-        private ResourceRepository $resource_repository,
-        private CollectionRepository $collection_repository,
-        private InformationRepository $information_repository,
-        private StakeholderRepository $stakeholder_repository
+        RevisionRepository $revision_repository,
+        ResourceRepository $resource_repository,
+        CollectionRepository $collection_repository,
+        InformationRepository $information_repository,
+        StakeholderRepository $stakeholder_repository
     ) {
+        $this->revision_repository = $revision_repository;
+        $this->resource_repository = $resource_repository;
+        $this->collection_repository = $collection_repository;
+        $this->information_repository = $information_repository;
+        $this->stakeholder_repository = $stakeholder_repository;
     }
 
     public function getRevisionRepository(): RevisionRepository

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,9 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\ResourceStorage\Collection\Sorter;
 
-use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
@@ -33,7 +32,7 @@ class BySize extends AbstractBaseSorter implements CollectionSorter
 {
     protected function sortResourceIdentification(array $identifications): array
     {
-        usort($identifications, function (ResourceIdentification $a, ResourceIdentification $b) {
+        usort($identifications, function (ResourceIdentification $a, ResourceIdentification $b): int {
             $a_size = $this->resource_builder->get($a)->getCurrentRevision()->getInformation()->getSize();
             $b_size = $this->resource_builder->get($b)->getCurrentRevision()->getInformation()->getSize();
             return $a_size - $b_size;

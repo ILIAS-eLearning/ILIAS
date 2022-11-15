@@ -20,36 +20,29 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Consumer;
 
-use ILIAS\ResourceStorage\Flavour\Flavour;
-use ILIAS\ResourceStorage\Flavour\Streams\FlavourStream;
 use ILIAS\ResourceStorage\Revision\Revision;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
+ * @internal This is an internal service, do not use it in your code.
  */
 class InlineSrcBuilder implements SrcBuilder
 {
-    public function getResourceURL(
+    public function getRevisionURL(
         Revision $revision,
-        StorageHandler $handler,
         bool $signed = true
     ): string {
-        $stream = $handler->getStream($revision);
-        $base64 = base64_encode($stream->getContents());
-        $mime = $revision->getInformation()->getMimeType();
-
-        return "data:$mime;base64,$base64";
-    }
-
-    public function getFlavourURLs(Flavour $flavour, bool $signed = true): \Generator
-    {
-        /** @var $stream \ILIAS\ResourceStorage\Flavour\Streams\FlavourStream */
-        foreach ($flavour->getStreams() as $stream) {
+        if ($signed) {
+            throw new \RuntimeException('InlineSrcBuilder does not support signed URLs');
+        }
+        $token = $revision->maybeGetToken();
+        if ($token !== null) {
+            $stream = $token->resolveStream();
             $base64 = base64_encode((string)$stream);
             $mime = $stream->getMimeType();
 
-            yield "data:$mime;base64,$base64";
+            return "data:$mime;base64,$base64";
         }
+        return '';
     }
 }

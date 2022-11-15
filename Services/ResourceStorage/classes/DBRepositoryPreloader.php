@@ -21,12 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\ResourceStorage\Preloader;
 
 use ILIAS\ResourceStorage\Repositories;
-use ILIAS\ResourceStorage\Resource\Repository\FlavourMachineRepository;
-use ILIAS\ResourceStorage\Resource\Repository\FlavourRepository;
-use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
-use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
-use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
 
 /**
  * Class DBRepositoryPreloader
@@ -35,17 +29,14 @@ use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
  */
 class DBRepositoryPreloader extends StandardRepositoryPreloader implements RepositoryPreloader
 {
-    protected \ilDBInterface $db;
-
     /**
      * @var mixed[]
      */
     protected array $preloaded = [];
+    protected \ilDBInterface $db;
 
-    public function __construct(
-        \ilDBInterface $db,
-        Repositories $repositories,
-    ) {
+    public function __construct(\ilDBInterface $db, Repositories $repositories)
+    {
         $this->db = $db;
         parent::__construct($repositories);
     }
@@ -53,7 +44,7 @@ class DBRepositoryPreloader extends StandardRepositoryPreloader implements Repos
     public function preload(array $identification_strings): void
     {
         $requested = array_diff($identification_strings, $this->preloaded);
-        if (count($requested) === 0) {
+        if ($requested === []) {
             return;
         }
         $r = $this->db->query(

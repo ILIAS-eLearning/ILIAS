@@ -18,26 +18,26 @@
 
 namespace ILIAS\ResourceStorage;
 
-/** @noRector  */
+/** @noRector */
 require_once('AbstractBaseTest.php');
-/** @noRector  */
+/** @noRector */
 require_once('DummyIDGenerator.php');
 
-use ILIAS\ResourceStorage\Resource\InfoResolver\UploadInfoResolver;
-use ILIAS\ResourceStorage\Resource\StorableFileResource;
-use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
-use ILIAS\ResourceStorage\Revision\Revision;
-use ILIAS\ResourceStorage\Information\Information;
-use Psr\Http\Message\UploadedFileInterface;
-use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
-use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
-use ILIAS\ResourceStorage\Resource\ResourceBuilder;
-use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
-use ILIAS\ResourceStorage\Lock\LockHandler;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\ResourceStorage\Collection\Repository\CollectionRepository;
+use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
+use ILIAS\ResourceStorage\Information\Information;
+use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
+use ILIAS\ResourceStorage\Lock\LockHandler;
+use ILIAS\ResourceStorage\Resource\InfoResolver\UploadInfoResolver;
+use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
+use ILIAS\ResourceStorage\Resource\StorableFileResource;
+use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
+use ILIAS\ResourceStorage\Revision\Revision;
+use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
+use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
+use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
+use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
+use Psr\Http\Message\UploadedFileInterface;
 
 /**
  * Class AbstractBaseResourceBuilderTest
@@ -90,6 +90,11 @@ abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
      * @var StorageHandlerFactory|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $storage_handler_factory;
+    /**
+     * @var StreamAccess|\PHPUnit\Framework\MockObject\MockObject|StreamAccess&\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $stream_access;
+    protected Repositories $repositories;
 
     protected function setUp(): void
     {
@@ -102,7 +107,15 @@ abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
         $this->collection_repository = $this->createMock(CollectionRepository::class);
         $this->information_repository = $this->createMock(InformationRepository::class);
         $this->stakeholder_repository = $this->createMock(StakeholderRepository::class);
+        $this->repositories = new Repositories(
+            $this->revision_repository,
+            $this->resource_repository,
+            $this->collection_repository,
+            $this->information_repository,
+            $this->stakeholder_repository
+        );
         $this->locking = $this->createMock(LockHandler::class);
+        $this->stream_access = $this->createMock(StreamAccess::class);
         $this->information = $this->createMock(Information::class);
         $this->revision = $this->createMock(Revision::class);
     }
@@ -135,19 +148,19 @@ abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
         // MOCKS
         $blank_resource = new StorableFileResource($identification);
         $this->resource_repository->expects($this->once())
-                                  ->method('blank')
-                                  ->willReturn($blank_resource);
+            ->method('blank')
+            ->willReturn($blank_resource);
 
         $blank_revision = new UploadedFileRevision($blank_resource->getIdentification(), $upload_result);
         $blank_revision->setVersionNumber($info_resolver->getNextVersionNumber());
         $this->revision_repository->expects($this->once())
-                                  ->method('blankFromUpload')
-                                  ->with(
-                                      $info_resolver,
-                                      $blank_resource,
-                                      $upload_result
-                                  )
-                                  ->willReturn($blank_revision);
+            ->method('blankFromUpload')
+            ->with(
+                $info_resolver,
+                $blank_resource,
+                $upload_result
+            )
+            ->willReturn($blank_revision);
         return array($upload_result, $info_resolver, $identification);
     }
 }

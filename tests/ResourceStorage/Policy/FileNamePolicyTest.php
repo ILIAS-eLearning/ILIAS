@@ -19,8 +19,8 @@
 namespace ILIAS\ResourceStorage\Policy;
 
 use ILIAS\MainMenu\Tests\DummyIDGenerator;
-use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTest;
+use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 
 /**
  * Class FileNamePolicyTest
@@ -33,11 +33,9 @@ class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
         $policy = $this->getFileNamePolicy($denied_ending);
         return new ResourceBuilder(
             $this->storage_handler_factory,
-            $this->revision_repository,
-            $this->resource_repository,
-            $this->information_repository,
-            $this->stakeholder_repository,
+            $this->repositories,
             $this->locking,
+            $this->stream_access,
             $policy
         );
     }
@@ -84,7 +82,7 @@ class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
         $expected_file_name = 'info.' . $denied_ending;
 
         // MOCK
-        list($upload_result, $info_resolver, $identification) = $this->mockResourceAndRevision(
+        [$upload_result, $info_resolver, $identification] = $this->mockResourceAndRevision(
             $expected_file_name,
             "",
             0,
@@ -111,7 +109,7 @@ class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
         $expected_file_name = 'info.pdf';
 
         // MOCK
-        list($upload_result, $info_resolver, $identification) = $this->mockResourceAndRevision(
+        [$upload_result, $info_resolver, $identification] = $this->mockResourceAndRevision(
             $expected_file_name,
             "",
             0,

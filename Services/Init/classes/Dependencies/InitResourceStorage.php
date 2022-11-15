@@ -18,20 +18,17 @@
 
 use ILIAS\DI\Container;
 use ILIAS\FileUpload\Location;
-use ILIAS\ResourceStorage\Artifacts;
-use ILIAS\ResourceStorage\Consumer\InlineSrcBuilder;
 use ILIAS\ResourceStorage\Consumer\SrcBuilder;
+use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
 use ILIAS\ResourceStorage\Information\Repository\InformationDBRepository;
 use ILIAS\ResourceStorage\Lock\LockHandler;
 use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
-use ILIAS\ResourceStorage\Policy\FileNamePolicyStack;
 use ILIAS\ResourceStorage\Policy\NoneFileNamePolicy;
 use ILIAS\ResourceStorage\Preloader\DBRepositoryPreloader;
 use ILIAS\ResourceStorage\Repositories;
 use ILIAS\ResourceStorage\Resource\Repository\CollectionDBRepository;
 use ILIAS\ResourceStorage\Resource\Repository\ResourceDBRepository;
-use ILIAS\ResourceStorage\Resource\Repository\FlavourDBRepository;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository;
@@ -52,6 +49,7 @@ class InitResourceStorage
     public const D_SOURCE_BUILDER = self::D_SERVICE . '.source_builder';
     public const D_LOCK_HANDLER = self::D_SERVICE . '.lock_handler';
     public const D_FILENAME_POLICY = self::D_SERVICE . '.filename_policy';
+    public const D_STREAM_ACCESS = self::D_SERVICE . '.stream_access';
 
     /**
      * @internal Do not use this in your code. This is only for the DIC to load the Resource Storage
@@ -61,14 +59,9 @@ class InitResourceStorage
     {
         self::init($c);
         $c[self::D_BUILDER] = function (Container $c): ResourceBuilder {
-            /** @var Repositories $repositories */
-            $repositories = $c[self::D_REPOSITORIES];
             return new ResourceBuilder(
                 $c[self::D_STORAGE_HANDLERS],
-                $repositories->getRevisionRepository(),
-                $repositories->getResourceRepository(),
-                $repositories->getInformationRepository(),
-                $repositories->getStakeholderRepository(),
+                $c[self::D_REPOSITORIES],
                 $c[self::D_LOCK_HANDLER],
                 $c[self::D_FILENAME_POLICY],
             );
@@ -78,6 +71,9 @@ class InitResourceStorage
 
     public function init(\ILIAS\DI\Container $c): void
     {
+        $base_dir = $this->buildBasePath();
+
+        // DB Repositories
         $c[self::D_REPOSITORIES] = static function (Container $c): Repositories {
             return new Repositories(
                 new RevisionDBRepository($c->database()),
@@ -87,25 +83,34 @@ class InitResourceStorage
                 new StakeholderDBRepository($c->database())
             );
         };
-        $c[self::D_STORAGE_HANDLERS] = static function (Container $c): StorageHandlerFactory {
-            $base_dir = defined('CLIENT_DATA_DIR') ? CLIENT_DATA_DIR : $c['filesystem.base_dir'];
-            return new StorageHandlerFactory([
-                new MaxNestingFileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE),
-                new FileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE)
-            ], $base_dir);
-        };
+
+        // Repository Preloader
         $c[self::D_REPOSITORY_PRELOADER] = static function (Container $c) {
             return new DBRepositoryPreloader(
                 $c->database(),
                 $c[self::D_REPOSITORIES]
             );
         };
-        $c[self::D_SOURCE_BUILDER] = static function (Container $c): ?SrcBuilder {
-            return null;
-        };
+
+        // Lock Handler
         $c[self::D_LOCK_HANDLER] = static function (Container $c): LockHandler {
             return new LockHandlerilDB($c->database());
         };
+
+        // Storage Handlers
+        $c[self::D_STORAGE_HANDLERS] = static function (Container $c) use ($base_dir): StorageHandlerFactory {
+            return new StorageHandlerFactory([
+                new MaxNestingFileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE),
+                new FileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE)
+            ], $base_dir);
+        };
+
+        // Source Builder for Consumers
+        $c[self::D_SOURCE_BUILDER] = static function (Container $c): ?SrcBuilder {
+            return null;
+        };
+
+        // Filename Policy for Consumers
         $c[self::D_FILENAME_POLICY] = static function (Container $c): FileNamePolicy {
             if ($c->isDependencyAvailable('settings') && $c->isDependencyAvailable('clientIni')) {
                 return new ilFileServicesPolicy($c->fileServiceSettings());
@@ -113,15 +118,34 @@ class InitResourceStorage
             return new NoneFileNamePolicy();
         };
 
+        // Stream Access for Consumers and internal Usage
+        $c[self::D_STREAM_ACCESS] = static function (Container $c) use ($base_dir): StreamAccess {
+            return new StreamAccess(
+                $base_dir,
+                $c[self::D_STORAGE_HANDLERS]
+            );
+        };
+
+        //
+        // IRSS
+        //
         $c[self::D_SERVICE] = static function (Container $c): \ILIAS\ResourceStorage\Services {
             return new \ILIAS\ResourceStorage\Services(
                 $c[self::D_STORAGE_HANDLERS],
                 $c[self::D_REPOSITORIES],
                 $c[self::D_LOCK_HANDLER],
                 $c[self::D_FILENAME_POLICY],
+                $c[self::D_STREAM_ACCESS],
                 $c[self::D_SOURCE_BUILDER],
-                $c[self::D_REPOSITORY_PRELOADER]
+                $c[self::D_REPOSITORY_PRELOADER],
             );
         };
+    }
+
+    protected function buildBasePath(): string
+    {
+        return (defined('ILIAS_DATA_DIR') && defined('CLIENT_ID'))
+            ? rtrim(ILIAS_DATA_DIR, "/") . "/" . CLIENT_ID
+            : '-';
     }
 }

@@ -20,28 +20,18 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Consumer\StreamAccess;
 
-use ILIAS\Filesystem\Stream\FileStream;
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  * @internal
  */
-class StreamInfo
+class UnlockKey
 {
-    public function __construct(
-        private FileStream $stream,
-        private string $access_key
-    ) {
+    public function __serialize(): array
+    {
+        return [];
     }
 
-    public function getStream(): FileStream
+    public function __unserialize(array $data): void
     {
-        return $this->stream;
-    }
-
-    public function getAccessKey(): string
-    {
-        return $this->access_key;
     }
 }

@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\ResourceStorage\StorageHandler;
 
 use ILIAS\ResourceStorage\Resource\StorableResource;
+use ILIAS\ResourceStorage\Revision\Revision;
 
 /**
  * Class StorageHandlerFactory
@@ -34,13 +35,15 @@ class StorageHandlerFactory
      */
     protected array $handlers = [];
     protected ?\ILIAS\ResourceStorage\StorageHandler\StorageHandler $primary = null;
+    private string $base_dir;
 
     /**
      * StorageHandlerFactory constructor.
      * @param StorageHandler[] $handlers
      */
-    public function __construct(array $handlers, private string $base_dir)
+    public function __construct(array $handlers, string $base_dir)
     {
+        $this->base_dir = $base_dir;
         foreach ($handlers as $handler) {
             $this->handlers[$handler->getID()] = $handler;
             if ($handler->isPrimary()) {
@@ -63,6 +66,11 @@ class StorageHandlerFactory
     public function getHandlerForResource(StorableResource $resource): StorageHandler
     {
         return $this->getHandlerForStorageId($resource->getStorageID());
+    }
+
+    public function getHandlerForRevision(Revision $revision): StorageHandler
+    {
+        return $this->getHandlerForStorageId($revision->getStorageID());
     }
 
     public function getHandlerForStorageId(string $storage_id): StorageHandler

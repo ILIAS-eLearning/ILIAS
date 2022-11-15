@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +13,10 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Revision;
 
@@ -27,15 +28,15 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  */
 class RevisionCollection
 {
+    private ResourceIdentification $identification;
     /**
      * @var FileRevision[]
      */
     private array $revisions = [];
-    private \ILIAS\ResourceStorage\Identification\ResourceIdentification $identification;
 
     /**
      * RevisionCollection constructor.
-     * @param FileRevision[]         $revisions
+     * @param FileRevision[] $revisions
      */
     public function __construct(ResourceIdentification $identification, array $revisions = [])
     {
@@ -46,14 +47,18 @@ class RevisionCollection
     public function add(Revision $revision): void
     {
         if ($this->identification->serialize() !== $revision->getIdentification()->serialize()) {
-            throw new NonMatchingIdentificationException("Can't add Revision since it's not the same ResourceIdentification");
+            throw new NonMatchingIdentificationException(
+                "Can't add Revision since it's not the same ResourceIdentification"
+            );
         }
         foreach ($this->revisions as $r) {
             if ($r->getVersionNumber() === $revision->getVersionNumber()) {
-                throw new RevisionExistsException(sprintf(
-                    "Can't add already existing version number: %s",
-                    $revision->getVersionNumber()
-                ));
+                throw new RevisionExistsException(
+                    sprintf(
+                        "Can't add already existing version number: %s",
+                        $revision->getVersionNumber()
+                    )
+                );
             }
         }
         $this->revisions[$revision->getVersionNumber()] = $revision;
@@ -108,7 +113,7 @@ class RevisionCollection
 
     public function getMax(): int
     {
-        if (count($this->revisions) === 0) {
+        if ($this->revisions === []) {
             return 0;
         }
         return max(array_keys($this->revisions));

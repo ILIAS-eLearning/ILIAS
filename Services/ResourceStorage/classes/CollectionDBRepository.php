@@ -18,12 +18,10 @@
 
 namespace ILIAS\ResourceStorage\Resource\Repository;
 
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\ResourceStorage\Resource\StorableFileResource;
-use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Collection\Repository\CollectionRepository;
-use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * Class CollectionDBRepository
@@ -37,7 +35,6 @@ class CollectionDBRepository implements CollectionRepository
     public const COLLECTION_ASSIGNMENT_TABLE_NAME = 'il_resource_rca';
     public const R_IDENTIFICATION = 'rid';
     public const C_IDENTIFICATION = 'rcid';
-
     protected \ilDBInterface $db;
 
     public function __construct(\ilDBInterface $db)
@@ -110,9 +107,10 @@ class CollectionDBRepository implements CollectionRepository
         $owner_id = $collection->getOwner();
         $title = $collection->getTitle();
 
-        $resource_identification_strings = array_map(function (ResourceIdentification $i): string {
-            return $i->serialize();
-        }, $resource_identifications);
+        $resource_identification_strings = array_map(
+            fn (ResourceIdentification $i): string => $i->serialize(),
+            $resource_identifications
+        );
 
         $q = "DELETE FROM " . self::COLLECTION_ASSIGNMENT_TABLE_NAME . " WHERE " . self::C_IDENTIFICATION . " = %s AND "
             . $this->db->in(self::R_IDENTIFICATION, $resource_identification_strings, true, 'text');

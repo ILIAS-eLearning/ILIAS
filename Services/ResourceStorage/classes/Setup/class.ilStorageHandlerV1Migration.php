@@ -16,26 +16,14 @@
  *
  *********************************************************************/
 
+use ILIAS\DI\Container;
+use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
+use ILIAS\Filesystem\Provider\FlySystem\FlySystemFilesystemFactory;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\StorageHandler\Migrator;
 use ILIAS\Setup\CLI\IOWrapper;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Migration;
-use ILIAS\ResourceStorage\StorageHandler\Migrator;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
-use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
-use ILIAS\Filesystem\Provider\FlySystem\FlySystemFilesystemFactory;
-use ILIAS\FileUpload\Location;
-use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\FileSystemStorageHandler;
-use ILIAS\ResourceStorage\Policy\FileNamePolicyStack;
-use ILIAS\ResourceStorage\Resource\ResourceBuilder;
-use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\MaxNestingFileSystemStorageHandler;
-use ILIAS\DI\Container;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
-use ILIAS\ResourceStorage\Resource\Repository\ResourceDBRepository;
-use ILIAS\ResourceStorage\Information\Repository\InformationDBRepository;
-use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository;
-use ILIAS\ResourceStorage\Resource\Repository\CollectionDBRepository;
 
 /**
  * Class ilStorageHandlerV1Migration
@@ -57,7 +45,7 @@ class ilStorageHandlerV1Migration implements Migration
 
     public function getLabel(): string
     {
-        return 'ilStorageHandlerV1Migration';
+        return \ilStorageHandlerV1Migration::class;
     }
 
     public function getDefaultAmountOfStepsPerRun(): int
@@ -132,7 +120,9 @@ class ilStorageHandlerV1Migration implements Migration
             $resource = $this->resource_builder->get(new ResourceIdentification($d->identification));
             if (!$this->migrator->migrate($resource, $this->to)) {
                 $i = $resource->getIdentification()->serialize();
-                $io->text('Resource ' . $i . ' not migrated, file not found. All Stakeholder have been informed about the deletion.');
+                $io->text(
+                    'Resource ' . $i . ' not migrated, file not found. All Stakeholder have been informed about the deletion.'
+                );
             }
         }
     }
@@ -146,6 +136,6 @@ class ilStorageHandlerV1Migration implements Migration
         );
         $d = $this->database->fetchObject($r);
 
-        return (int) ($d->old_storage ?? 0);
+        return (int)($d->old_storage ?? 0);
     }
 }

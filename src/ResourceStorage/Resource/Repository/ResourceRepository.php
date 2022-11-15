@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,16 +13,19 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Resource\Repository;
 
 use Generator;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\ResourceStorage\Resource\ResourceNotFoundException;
-use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Lock\LockingRepository;
 use ILIAS\ResourceStorage\Preloader\PreloadableRepository;
+use ILIAS\ResourceStorage\Resource\ResourceNotFoundException;
+use ILIAS\ResourceStorage\Resource\StorableResource;
 
 /**
  * Interface ResourceRepository

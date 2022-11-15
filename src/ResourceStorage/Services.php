@@ -20,32 +20,24 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage;
 
+use ILIAS\ResourceStorage\Collection\CollectionBuilder;
+use ILIAS\ResourceStorage\Collection\Collections;
 use ILIAS\ResourceStorage\Consumer\ConsumerFactory;
 use ILIAS\ResourceStorage\Consumer\Consumers;
 use ILIAS\ResourceStorage\Consumer\InlineSrcBuilder;
 use ILIAS\ResourceStorage\Consumer\SrcBuilder;
-use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamInfoFactory;
-use ILIAS\ResourceStorage\Flavour\FlavourBuilder;
-use ILIAS\ResourceStorage\Flavour\Flavours;
-use ILIAS\ResourceStorage\Flavour\Machine\Factory;
+use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
+use ILIAS\ResourceStorage\Consumer\StreamAccess\TokenFactory;
 use ILIAS\ResourceStorage\Identification\UniqueIDCollectionIdentificationGenerator;
-use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
-use ILIAS\ResourceStorage\Manager\Manager;
-use ILIAS\ResourceStorage\Resource\Repository\FlavourRepository;
-use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
-use ILIAS\ResourceStorage\Resource\ResourceBuilder;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
-use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
 use ILIAS\ResourceStorage\Lock\LockHandler;
+use ILIAS\ResourceStorage\Manager\Manager;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
 use ILIAS\ResourceStorage\Policy\FileNamePolicyStack;
 use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
 use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
-use ILIAS\ResourceStorage\Collection\Repository\CollectionRepository;
-use ILIAS\ResourceStorage\Collection\Collections;
-use ILIAS\ResourceStorage\Collection\CollectionBuilder;
+use ILIAS\ResourceStorage\Resource\ResourceBuilder;
+use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
+use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 
 /**
  * Class Services
@@ -68,34 +60,29 @@ class Services
         Repositories $repositories,
         LockHandler $lock_handler,
         FileNamePolicy $file_name_policy,
+        StreamAccess $stream_access,
         SrcBuilder $src_builder = null,
         RepositoryPreloader $preloader = null
     ) {
-        $src_builder = $src_builder ?? new InlineSrcBuilder();
-        $stream_info_factory = new StreamInfoFactory(
+        $src_builder ??= new InlineSrcBuilder();
+        $stream_info_factory = new TokenFactory(
             $storage_handler_factory->getBaseDir()
         );
         $file_name_policy_stack = new FileNamePolicyStack();
         $file_name_policy_stack->addPolicy($file_name_policy);
-
         $resource_builder = new ResourceBuilder(
             $storage_handler_factory,
-            $repositories->getRevisionRepository(),
-            $repositories->getResourceRepository(),
-            $repositories->getInformationRepository(),
-            $repositories->getStakeholderRepository(),
+            $repositories,
             $lock_handler,
+            $stream_access,
             $file_name_policy_stack
         );
-
         $collection_builder = new CollectionBuilder(
             $repositories->getCollectionRepository(),
             new UniqueIDCollectionIdentificationGenerator(),
             $lock_handler
         );
-
         $this->preloader = $preloader ?? new StandardRepositoryPreloader($repositories);
-
         $this->manager = new Manager(
             $resource_builder,
             $collection_builder,
@@ -103,14 +90,13 @@ class Services
         );
         $this->consumers = new Consumers(
             new ConsumerFactory(
-                $storage_handler_factory,
+                $stream_access,
                 $file_name_policy_stack
             ),
             $resource_builder,
             $collection_builder,
             $src_builder
         );
-
         $this->collections = new Collections(
             $resource_builder,
             $collection_builder,

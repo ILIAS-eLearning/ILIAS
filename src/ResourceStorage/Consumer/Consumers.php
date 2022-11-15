@@ -24,7 +24,6 @@ use ILIAS\ResourceStorage\Collection\CollectionBuilder;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
-use ILIAS\ResourceStorage\Resource\StorableResource;
 
 /**
  * Class Consumers
@@ -33,23 +32,23 @@ use ILIAS\ResourceStorage\Resource\StorableResource;
  */
 class Consumers
 {
-    private \ILIAS\ResourceStorage\Consumer\ConsumerFactory $consumer_factory;
-    private \ILIAS\ResourceStorage\Resource\ResourceBuilder $resource_builder;
+    private ConsumerFactory $consumer_factory;
+    private ResourceBuilder $resource_builder;
     private CollectionBuilder $collection_builder;
-    private SrcBuilder $src_builder;
+    private ?SrcBuilder $src_builder = null;
 
     /**
      * Consumers constructor.
      */
     public function __construct(
-        ConsumerFactory $cf,
-        ResourceBuilder $r,
-        CollectionBuilder $c,
+        ConsumerFactory $consumer_factory,
+        ResourceBuilder $resource_builder,
+        CollectionBuilder $collection_builder,
         ?SrcBuilder $src_builder = null
     ) {
-        $this->consumer_factory = $cf;
-        $this->resource_builder = $r;
-        $this->collection_builder = $c;
+        $this->consumer_factory = $consumer_factory;
+        $this->resource_builder = $resource_builder;
+        $this->collection_builder = $collection_builder;
         $this->src_builder = $src_builder ?? new InlineSrcBuilder();
     }
 

@@ -19,9 +19,7 @@
 namespace ILIAS\ResourceStorage\Resource;
 
 use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTest;
-use ILIAS\ResourceStorage\AbstractBaseTest;
 use ILIAS\ResourceStorage\Collection\CollectionBuilder;
-use ILIAS\ResourceStorage\Collection\Collections;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\ResourceStorage\Collection\Sorter\Sorter;
 use ILIAS\ResourceStorage\DummyIDGenerator;
@@ -29,10 +27,7 @@ use ILIAS\ResourceStorage\Identification\CollectionIdentificationGenerator;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Information\FileInformation;
-use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
-use ILIAS\ResourceStorage\Revision\NullRevision;
 use ILIAS\ResourceStorage\Revision\Revision;
-use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class CollectionSortingTest
@@ -118,19 +113,14 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTest
             );
     }
 
-    private function setUpRevisionExpectations(
-        FileInformation $one,
-        FileInformation $two,
-        FileInformation $three,
-    ): void {
+    private function setUpRevisionExpectations(FileInformation $one, FileInformation $two, FileInformation $three): void
+    {
         $this->revision_one->expects($this->atLeastOnce())
             ->method('getInformation')
             ->willReturn($one);
-
         $this->revision_two->expects($this->atLeastOnce())
             ->method('getInformation')
             ->willReturn($two);
-
         $this->revision_three->expects($this->atLeastOnce())
             ->method('getInformation')
             ->willReturn($three);
@@ -199,7 +189,7 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTest
         $this->setUpRevisionExpectations(
             (new FileInformation())->setCreationDate(new \DateTimeImmutable('2020-01-01')),
             (new FileInformation())->setCreationDate(new \DateTimeImmutable('2020-02-02')),
-            (new FileInformation())->setCreationDate(new \DateTimeImmutable('2020-03-03')),
+            (new FileInformation())->setCreationDate(new \DateTimeImmutable('2020-03-03'))
         );
         $sorted_collection = $this->sorter->byCreationDate();
         $this->assertEquals(
@@ -218,7 +208,7 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTest
         $this->setUpRevisionExpectations(
             (new FileInformation())->setCreationDate(new \DateTimeImmutable('2020-01-01')),
             (new FileInformation())->setCreationDate(new \DateTimeImmutable('2020-02-02')),
-            (new FileInformation())->setCreationDate(new \DateTimeImmutable('2020-03-03')),
+            (new FileInformation())->setCreationDate(new \DateTimeImmutable('2020-03-03'))
         );
         $sorted_collection = $this->sorter->asc()->byCreationDate();
         $this->assertEquals(
@@ -237,7 +227,7 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTest
         $this->setUpRevisionExpectations(
             (new FileInformation())->setCreationDate(new \DateTimeImmutable('2020-01-01')),
             (new FileInformation())->setCreationDate(new \DateTimeImmutable('2020-02-02')),
-            (new FileInformation())->setCreationDate(new \DateTimeImmutable('2020-03-03')),
+            (new FileInformation())->setCreationDate(new \DateTimeImmutable('2020-03-03'))
         );
         $sorted_collection = $this->sorter->desc()->byCreationDate();
         $this->assertEquals(
@@ -256,7 +246,7 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTest
         $this->setUpRevisionExpectations(
             (new FileInformation())->setTitle('1_one.jpg'),
             (new FileInformation())->setTitle('2_two.jpg'),
-            (new FileInformation())->setTitle('3_three.jpg'),
+            (new FileInformation())->setTitle('3_three.jpg')
         );
         $sorted_collection = $this->sorter->byTitle();
         $this->assertEquals(
@@ -275,7 +265,7 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTest
         $this->setUpRevisionExpectations(
             (new FileInformation())->setTitle('1_one.jpg'),
             (new FileInformation())->setTitle('2_two.jpg'),
-            (new FileInformation())->setTitle('3_three.jpg'),
+            (new FileInformation())->setTitle('3_three.jpg')
         );
         $sorted_collection = $this->sorter->asc()->byTitle();
         $this->assertEquals(
@@ -294,7 +284,7 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTest
         $this->setUpRevisionExpectations(
             (new FileInformation())->setTitle('1_one.jpg'),
             (new FileInformation())->setTitle('2_two.jpg'),
-            (new FileInformation())->setTitle('3_three.jpg'),
+            (new FileInformation())->setTitle('3_three.jpg')
         );
         $sorted_collection = $this->sorter->desc()->byTitle();
         $this->assertEquals(
@@ -309,8 +299,9 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTest
 
     private function getFlatOrder(ResourceCollection $collection): array
     {
-        return array_map(function (ResourceIdentification $rid): string {
-            return $rid->serialize();
-        }, $collection->getResourceIdentifications());
+        return array_map(
+            fn (ResourceIdentification $rid): string => $rid->serialize(),
+            $collection->getResourceIdentifications()
+        );
     }
 }

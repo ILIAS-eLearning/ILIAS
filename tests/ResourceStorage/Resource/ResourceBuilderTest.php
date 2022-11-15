@@ -37,15 +37,13 @@ class ResourceBuilderTest extends AbstractBaseResourceBuilderTest
 
         $resource_builder = new ResourceBuilder(
             $this->storage_handler_factory,
-            $this->revision_repository,
-            $this->resource_repository,
-            $this->information_repository,
-            $this->stakeholder_repository,
-            $this->locking
+            $this->repositories,
+            $this->locking,
+            $this->stream_access
         );
 
         // MOCK
-        list($upload_result, $info_resolver, $identification) = $this->mockResourceAndRevision(
+        [$upload_result, $info_resolver, $identification] = $this->mockResourceAndRevision(
             $expected_file_name,
             $expected_mime_type,
             $expected_size,
