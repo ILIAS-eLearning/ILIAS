@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -79,13 +79,14 @@ abstract class ilUnitConfigurationGUI
 
     public function executeCommand(): void
     {
-        $this->ctrl->saveParameter($this, 'category_id');
-
         $cmd = $this->ctrl->getCmd($this->getDefaultCommand());
-        $nextClass = $this->ctrl->getNextClass($this);
-        switch ($nextClass) {
+        $this->checkPermissions($cmd);
+        switch ($cmd) {
+            case 'confirmImportGlobalCategories':
+                $category_ids = $this->request->raw('category_ids');
+                $this->$cmd($category_ids);
+                break;
             default:
-                $this->checkPermissions($cmd);
                 $this->$cmd();
                 break;
         }
@@ -121,6 +122,7 @@ abstract class ilUnitConfigurationGUI
             return;
         }
 
+        $this->ctrl->setParameter($this, 'category_id', $this->request->int('category_id'));
         $confirmation = new ilConfirmationGUI();
         $confirmation->setFormAction($this->ctrl->getFormAction($this, 'deleteUnits'));
         $confirmation->setConfirm($this->lng->txt('confirm'), 'deleteUnits');
@@ -425,6 +427,7 @@ abstract class ilUnitConfigurationGUI
         $factor->setDisabled($unit_in_use);
         $this->unit_form->addItem($factor);
 
+        $this->ctrl->setParameterByClass(get_class($this), 'category_id', $this->request->int('category_id'));
         if (null === $unit) {
             $this->unit_form->setTitle($this->lng->txt('new_unit'));
             $this->unit_form->setFormAction($this->ctrl->getFormAction($this, 'addUnit'));
@@ -443,6 +446,7 @@ abstract class ilUnitConfigurationGUI
                 $unit->getDisplayString()
             ));
         }
+        $this->ctrl->clearParameterByClass(get_class($this), 'category_id');
 
         $this->unit_form->addCommandButton('showUnitsOfCategory', $this->lng->txt('cancel'));
         return $this->unit_form;
@@ -465,10 +469,12 @@ abstract class ilUnitConfigurationGUI
             $this->ctrl->getLinkTarget($this, $this->getUnitCategoryOverviewCommand())
         );
         if ($this->isCRUDContext()) {
+            $this->ctrl->setParameterByClass(get_class($this), 'category_id', $category->getId());
             $ilToolbar->addButton(
                 $this->lng->txt('un_add_unit'),
                 $this->ctrl->getLinkTarget($this, 'showUnitCreationForm')
             );
+            $this->ctrl->clearParameterByClass(get_class($this), 'category_id');
         }
         $table = new ilUnitTableGUI($this, 'showUnitsOfCategory', $category);
         $units = $this->repository->loadUnitsForCategory($category->getId());
