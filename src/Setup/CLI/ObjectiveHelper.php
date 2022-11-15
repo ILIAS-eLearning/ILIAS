@@ -66,7 +66,7 @@ trait ObjectiveHelper
                     $message = $e->getMessage();
                     $io->failedLastObjective();
                     if ($io->isVerbose()) {
-                        $message .= "\n" . debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+                        $message .= "\n\n" . $e->getTraceAsString();
                     }
                     $io->error($message);
                 }
