@@ -1,7 +1,22 @@
 <?php
 
 declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Description of ilDidacticTemplateBlockRoleAction
@@ -107,13 +122,13 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 
         // Delete template permissions
         $this->admin->deleteSubtreeTemplates($source->getRefId(), $a_role_id);
-
-        $this->admin->assignRoleToFolder(
-            $a_role_id,
-            $source->getRefId(),
-            $assign
-        );
-
+        if ($a_role_id !== SYSTEM_ROLE_ID) {
+            $this->admin->assignRoleToFolder(
+                $a_role_id,
+                $source->getRefId(),
+                $assign
+            );
+        }
         return true;
     }
 
