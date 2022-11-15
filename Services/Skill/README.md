@@ -1,10 +1,84 @@
 # Skill aka Competence Service
 
-This README is work in progress.
-
 # API
 
-WIP
+The Skill Service can be used by the public interface through `$DIC->skills()`. Currently, the following Services are offered:
+
+## Personal Service
+
+The Personal Service offers methods to work with things that are under the control of a user. Currently, these are personally selected competences and personally assigned materials from the personal resources.
+
+```
+$personal_service = $DIC->skills()->personal();
+
+$skills = $personal_service->getSelectedUserSkills($user_id);
+$personal_service->addPersonalSkill($user_id, $skill_node_id);
+
+$materials = $personal_service->getAssignedMaterials($user_id, $tref_id, $level_id);
+```
+
+## Profile Service
+
+The Profile Service offers methods to work with the competence profiles, profile assignments and profile completions.
+
+```
+$profile_service = $DIC->skills()->profile();
+
+$profiles = $profile_service->getAllGlobalProfiles();
+$profile = $profile_service->getProfile($profile_id);
+$title = $profile_service->lookupProfileTitle($profile_id);
+$ref_id = $profile_service->lookupProfileRefId($profile_id);
+$profile_service->deleteProfile($profile_id)
+$profile_service->updateProfileRefIdAfterImport($profile_id, $new_ref_id);
+
+$profile_levels = $profile_service->getSkillLevels($profile_id);
+
+$user_profiles = $profile_service->getProfilesOfUser($user_id);
+$profile_service->addRoleToProfile($profile_id, $role_id);
+
+$profile_service->writeCompletionEntryForAllProfiles($user_id);
+```
+
+## Tree Service
+
+The Tree Service offers methods to work with the (global) competence trees or the (global) virtual competence trees.
+
+```
+$tree_service = $DIC->skills()->tree();
+
+$global_tree = $tree_service->getGlobalSkillTree();
+$tree = $tree_service->getSkillTreeById($tree_id);
+$tree = $tree_service->getSkillTreeForNodeId($node_id);
+
+$global_virtual_tree = $tree_service->getGlobalVirtualSkillTree();
+$virtual_tree = $tree_service->getVirtualSkillTreeById($tree_id);
+$virtual_tree = $tree_service->getVirtualSkillTreeForNodeId($node_id);
+
+$path = $tree_service->getSkillTreePath($base_skill_id, $tref_id);
+
+$tree_object = $tree_service->getObjSkillTreeById($tree_id);
+$tree_objects = $tree_service->getObjSkillTrees();
+```
+
+## UI Service
+
+Not implemented yet!
+
+```
+$ui_service = $DIC->skills()->ui();
+```
+
+## User Service
+
+Not implemented yet!
+
+```
+$user_service = $DIC->skills()->user();
+```
+
+## Internal Service
+
+Please note that the Internal Service (```$DIC->skills()->internal()```) is, as its name implies, for internal usage within the Skill Service only. Please do not use it in other components!
 
 # General Documentation
 
