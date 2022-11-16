@@ -165,10 +165,10 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
         $data = array();
         foreach ($db_data as $item) {
             $obj_id = $item['obj_id'];
-            if ($filters['title'] && stripos(ilObject::_lookupTitle($obj_id), $filters['title']) === false) {
+            if ($filters['title'] ?? false  && stripos(ilObject::_lookupTitle($obj_id), $filters['title'] ?? '') === false) {
                 continue;
             }
-            if ($filters['object'] && ilObject::_lookupType($obj_id) !== $filters['object']) {
+            if ($filters['object'] ?? false && ilObject::_lookupType($obj_id) !== $filters['object'] ?? '') {
                 continue;
             }
             $data[] = array(
