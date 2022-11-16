@@ -64,21 +64,6 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
             $this->addItem($incoming_mail_gui);
         }
 
-        $ta = new ilTextAreaInputGUI($this->lng->txt('signature'), 'signature');
-        $ta->setRows(10);
-        $ta->setCols(60);
-        $this->addItem($ta);
-
-        if ($this->settings->get('mail_notification', '0')) {
-            $cb = new ilCheckboxInputGUI(
-                $this->lng->txt('cron_mail_notification'),
-                'cronjob_notification'
-            );
-            $cb->setInfo($this->lng->txt('mail_cronjob_notification_info'));
-            $cb->setValue('1');
-            $this->addItem($cb);
-        }
-
         $absence = new ilCheckboxInputGUI($this->lng->txt('mail_absence_status'), 'absence_status');
         $absence->setInfo($this->lng->txt('mail_absence_status_info'));
         $absence->setValue("1");
