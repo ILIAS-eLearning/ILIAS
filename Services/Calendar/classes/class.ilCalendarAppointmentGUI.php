@@ -1046,7 +1046,7 @@ class ilCalendarAppointmentGUI
     {
         $this->notification->setRecipients(array());
         $map = [];
-        foreach ($form->getInput('notu') as $rcp) {
+        foreach ((array) $form->getInput('notu') as $rcp) {
             $rcp = trim($rcp);
             $usr_id = (int) ilObjUser::_loginExists($rcp);
             if ($rcp === '') {
