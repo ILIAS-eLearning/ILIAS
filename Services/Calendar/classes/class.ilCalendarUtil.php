@@ -481,37 +481,28 @@ class ilCalendarUtil
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        $format = '';
-        switch ($ilUser->getDateFormat()) {
-            case ilCalendarSettings::DATE_FORMAT_DMY:
-                $format = "DD.MM.YYYY";
-                break;
+        $factory = new ILIAS\Data\Factory();
 
-            case ilCalendarSettings::DATE_FORMAT_YMD:
-                $format = "YYYY-MM-DD";
-                break;
+        $format = (string) $ilUser->getDateFormat($factory->dateFormat());
 
-            case ilCalendarSettings::DATE_FORMAT_MDY:
-                $format = "MM/DD/YYYY";
-                break;
-        }
         if ($a_add_time) {
             $format .= " " . (($ilUser->getTimeFormat() == ilCalendarSettings::TIME_FORMAT_24)
-                    ? "HH:mm"
-                    : "hh:mma");
+                    ? "H:i"
+                    : "h:ia");
             if ($a_add_time == 2) {
-                $format .= ":ss";
+                $format .= ":s";
             }
         }
 
         // translate datepicker format to PHP format
-        if ($a_for_parsing) {
-            $format = str_replace("DD", "d", $format);
-            $format = str_replace("MM", "m", $format);
-            $format = str_replace("mm", "i", $format);
-            $format = str_replace("YYYY", "Y", $format);
-            $format = str_replace("HH", "H", $format);
-            $format = str_replace("hh", "h", $format);
+        if (!$a_for_parsing) {
+            $format = str_replace("d", "DD", $format);
+            $format = str_replace("m", "MM", $format);
+            $format = str_replace("i", "mm", $format);
+            $format = str_replace("Y", "YYYY", $format);
+            $format = str_replace("H", "HH", $format);
+            $format = str_replace("h", "hh", $format);
+            $format = str_replace("s", "ss", $format);
         }
 
         return $format;

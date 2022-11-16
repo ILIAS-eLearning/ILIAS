@@ -1007,19 +1007,14 @@ class ilObjUser extends ilObject
         }
     }
 
-    public function getDateFormat(): string
+    public function getDateFormat(DateFormatFactory $factory): DateFormat
     {
-        if ($format = $this->getPref('date_format')) {
-            return $format;
-        } else {
+        if (!($format = $this->getPref('date_format'))) {
             $settings = ilCalendarSettings::_getInstance();
-            return $settings->getDefaultDateFormat();
+            $format = $settings->getDefaultDateFormat();
         }
-    }
 
-    public function getDataDateFormat(DateFormatFactory $factory): DateFormat
-    {
-        switch ($this->getDateFormat()) {
+        switch ($format) {
             case ilCalendarSettings::DATE_FORMAT_DMY:
                 return $factory->germanShort();
 
