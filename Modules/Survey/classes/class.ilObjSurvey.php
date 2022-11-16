@@ -1684,7 +1684,7 @@ class ilObjSurvey extends ilObject
     */
     public function moveQuestions($move_questions, $target_index, $insert_mode)
     {
-        $this->svy_log->debug("move_questions: " . print_r($move_questions, true).
+        $this->svy_log->debug("move_questions: " . print_r($move_questions, true) .
             ", target_index: " . $target_index . ", insert_mode: " . $insert_mode);
         $array_pos = array_search($target_index, $this->questions);
         if ($insert_mode == 0) {
@@ -5941,8 +5941,7 @@ class ilObjSurvey extends ilObject
         // use mail template
         if ($this->getReminderTemplate() &&
             array_key_exists($this->getReminderTemplate(), $this->getReminderMailTemplates())) {
-            /** @var \ilMailTemplateService $templateService */
-            $templateService = $DIC['mail.texttemplates.service'];
+            $templateService = $DIC->mail()->textTemplates();
             $tmpl = $templateService->loadTemplateForId((int) $this->getReminderTemplate());
 
             $tmpl_params = array(
@@ -6072,8 +6071,7 @@ class ilObjSurvey extends ilObject
 
         $res = array();
 
-        /** @var \ilMailTemplateService $templateService */
-        $templateService = $DIC['mail.texttemplates.service'];
+        $templateService = $DIC->mail()->textTemplates();
         foreach ($templateService->loadTemplatesForContextId((string) ilSurveyMailTemplateReminderContext::ID) as $tmpl) {
             $res[$tmpl->getTplId()] = $tmpl->getTitle();
             if (null !== $defaultTemplateId && $tmpl->isDefault()) {

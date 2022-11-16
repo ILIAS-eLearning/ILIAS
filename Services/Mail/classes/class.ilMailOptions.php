@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Data\Factory as DataFactory;
+
 /**
  * Class ilMailOptions
  * this class handles user mails
@@ -45,6 +47,19 @@ class ilMailOptions
     protected $firstEmailAddress = '';
     /** @var string */
     protected $secondEmailAddress = '';
+
+    public const ABSENCE_STATUS_PRESENT = false;
+    public const ABSENCE_STATUS_ABSENT = true;
+    /** @var bool $absence_status */
+    protected $absence_status = self::ABSENCE_STATUS_PRESENT;
+    /** @var int $absent_from */
+    protected $absent_from = 0;
+    /** @var int $absent_until */
+    protected $absent_until = 0;
+    /** @var string $absence_auto_responder_body */
+    protected $absence_auto_responder_body = '';
+    /** @var string $absence_auto_responder_subject */
+    protected $absence_auto_responder_subject = '';
 
     /**
      * @param int $usrId
@@ -104,14 +119,21 @@ class ilMailOptions
 
     protected function read() : void
     {
-        $query = implode(' ', [
-            'SELECT mail_options.cronjob_notification,',
-            'mail_options.signature, mail_options.linebreak, mail_options.incoming_type,',
-            'mail_options.mail_address_option, usr_data.email, usr_data.second_email',
-            'FROM mail_options',
-            'LEFT JOIN usr_data ON mail_options.user_id = usr_data.usr_id',
-            'WHERE mail_options.user_id = %s',
-        ]);
+        $query = 'SELECT mail_options.cronjob_notification,
+					mail_options.signature,
+					
+					mail_options.incoming_type,
+					mail_options.mail_address_option,
+					mail_options.absence_status,
+					mail_options.absent_from,
+					mail_options.absent_until,
+					mail_options.absence_ar_subject,
+					mail_options.absence_ar_body,
+					usr_data.email,
+					usr_data.second_email
+			 FROM mail_options 
+			 LEFT JOIN usr_data ON mail_options.user_id = usr_data.usr_id
+			 WHERE mail_options.user_id = %s';
         $res = $this->db->queryF(
             $query,
             ['integer'],
@@ -124,6 +146,12 @@ class ilMailOptions
             $this->linebreak = (int) $row->linebreak;
             $this->incomingType = (int) $row->incoming_type;
             $this->emailAddressMode = (int) $row->mail_address_option;
+
+            $this->setAbsenceStatus((bool) $row->absence_status);
+            $this->setAbsentFrom((int) $row->absent_from);
+            $this->setAbsentUntil((int) $row->absent_until);
+            $this->setAbsenceAutoresponderSubject($row->absence_ar_subject ?? '');
+            $this->setAbsenceAutoresponderBody($row->absence_ar_body ?? '');
 
             if (false === filter_var(
                 $this->incomingType,
@@ -162,6 +190,12 @@ class ilMailOptions
         } else {
             $data['cronjob_notification'] = ['integer', (int) self::lookupNotificationSetting($this->usrId)];
         }
+
+        $data['absence_status'] = ['integer', (int) $this->getAbsenceStatus()];
+        $data['absent_from'] = ['integer', $this->getAbsentFrom()];
+        $data['absent_until'] = ['integer', $this->getAbsentUntil()];
+        $data['absence_ar_subject'] = ['text', $this->getAbsenceAutoresponderSubject()];
+        $data['absence_ar_body'] = ['clob', $this->getAbsenceAutoresponderBody()];
 
         return $this->db->replace(
             $this->table_mail_options,
@@ -252,6 +286,11 @@ class ilMailOptions
         $this->emailAddressMode = $emailAddressMode;
     }
 
+    public function getUsrId() : int
+    {
+        return $this->usrId;
+    }
+
     /**
      * @param int $usrId
      * @return int
@@ -307,5 +346,65 @@ class ilMailOptions
         }
 
         return $emailAddresses;
+    }
+
+    public function setAbsenceAutoresponderBody(string $absence_auto_responder_body) : void
+    {
+        $this->absence_auto_responder_body = $absence_auto_responder_body;
+    }
+
+    public function getAbsenceAutoresponderBody() : string
+    {
+        return $this->absence_auto_responder_body;
+    }
+
+    public function setAbsenceStatus(bool $absence_status) : void
+    {
+        $this->absence_status = $absence_status;
+    }
+
+    public function getAbsenceStatus() : bool
+    {
+        return $this->absence_status;
+    }
+
+    public function setAbsentFrom(int $absent_from) : void
+    {
+        $this->absent_from = $absent_from;
+    }
+
+    public function getAbsentFrom() : int
+    {
+        return $this->absent_from;
+    }
+
+    public function setAbsentUntil(int $absent_until) : void
+    {
+        $this->absent_until = $absent_until;
+    }
+
+    public function getAbsentUntil() : int
+    {
+        return $this->absent_until;
+    }
+
+    public function setAbsenceAutoresponderSubject(string $absence_auto_responder_subject) : void
+    {
+        $this->absence_auto_responder_subject = $absence_auto_responder_subject;
+    }
+
+    public function getAbsenceAutoresponderSubject() : string
+    {
+        return $this->absence_auto_responder_subject;
+    }
+
+    public function isAbsent() : bool
+    {
+        return
+            $this->getAbsenceStatus() &&
+            $this->getAbsentFrom() &&
+            $this->getAbsentUntil() &&
+            $this->getAbsentFrom() <= (new DateTimeImmutable('NOW', new DateTimeZone('UTC')))->getTimestamp() &&
+            $this->getAbsentUntil() >= (new DateTimeImmutable('NOW', new DateTimeZone('UTC')))->getTimestamp();
     }
 }

@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
+use ILIAS\Mail\Autoresponder\AutoresponderService;
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
@@ -75,6 +76,9 @@ class ilMail
     /** @var callable|null */
     protected $usrIdByLoginCallable = null;
 
+    /** @var AutoresponderService $auto_responder_service */
+    protected $auto_responder_service;
+
     /** @var int */
     protected $maxRecipientCharacterLength = 998;
 
@@ -109,6 +113,7 @@ class ilMail
         ilMailbox $mailBox = null,
         ilMailMimeSenderFactory $senderFactory = null,
         callable $usrIdByLoginCallable = null,
+        AutoresponderService $auto_responder_service = null,
         int $mailAdminNodeRefId = null
     ) {
         global $DIC;
@@ -141,7 +146,7 @@ class ilMail
             $mailBox = new ilMailbox($a_user_id);
         }
         if ($senderFactory === null) {
-            $senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
+            $senderFactory = $DIC->mail()->mime()->senderFactory();
         }
         if ($usrIdByLoginCallable === null) {
             $usrIdByLoginCallable = function (string $login) {
@@ -161,6 +166,7 @@ class ilMail
         $this->mailbox = $mailBox;
         $this->senderFactory = $senderFactory;
         $this->usrIdByLoginCallable = $usrIdByLoginCallable;
+        $this->auto_responder_service = $auto_responder_service ?? $DIC->mail()->autoresponder();
 
         $this->mail_obj_ref_id = $mailAdminNodeRefId;
         if (null === $this->mail_obj_ref_id) {
@@ -171,6 +177,11 @@ class ilMail
         $this->table_mail = 'mail';
         $this->table_mail_saved = 'mail_saved';
         $this->setSaveInSentbox(false);
+    }
+
+    public function autoresponder() : AutoresponderService
+    {
+        return $this->auto_responder_service;
     }
 
     /**
@@ -743,6 +754,7 @@ class ilMail
         int $sentMailId,
         bool $usePlaceholders = false
     ) : bool {
+        $this->auto_responder_service->emptyAutoresponderData();
         if ($usePlaceholders) {
             $toUsrIds = $this->getUserIds([$to]);
             $this->logger->debug(sprintf(
@@ -798,6 +810,8 @@ class ilMail
                 false
             );
         }
+        $this->auto_responder_service->disableAutoresponder();
+        $this->auto_responder_service->handleAutoresponderMails($this->user_id);
 
         return true;
     }
@@ -905,6 +919,14 @@ class ilMail
                 $individualMessage,
                 $user->getId(),
                 0
+            );
+
+            $mail_receiver_options = $this->getMailOptionsByUserId($this->user_id);
+
+            $this->auto_responder_service->enqueueAutoresponderIfEnabled(
+                $mailOptions->getUsrId(),
+                $mailOptions,
+                $mail_receiver_options
             );
 
             if (count($attachments) > 0) {
@@ -1278,7 +1300,12 @@ class ilMail
             (bool) $a_use_placeholders,
             (bool) $this->getSaveInSentbox(),
             (string) $this->contextId,
-            (string) serialize($this->contextParameters)
+            serialize(array_merge(
+                $this->contextParameters,
+                [
+                    'auto_responder' => $this->auto_responder_service->isAutoresponderEnabled()
+                ]
+            ))
         ]);
         $interaction = $taskFactory->createTask(ilMailDeliveryJobUserInteraction::class, [
             $task,
@@ -1600,7 +1627,7 @@ class ilMail
             $lang->txt('mail_auto_generated_info'),
             $DIC->settings()->get('inst_name', 'ILIAS ' . ((int) ILIAS_VERSION_NUMERIC)),
             ilUtil::_getHttpPath()
-            ) . "\n\n";
+        ) . "\n\n";
     }
 
     /**
@@ -1608,8 +1635,8 @@ class ilMail
      */
     public static function _getIliasMailerName() : string
     {
-        /** @var ilMailMimeSenderFactory $senderFactory */
-        $senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
+        global $DIC;
+        $senderFactory = $DIC->mail()->mime()->senderFactory();
 
         return $senderFactory->system()->getFromName();
     }

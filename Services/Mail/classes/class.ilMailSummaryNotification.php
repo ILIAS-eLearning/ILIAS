@@ -71,8 +71,8 @@ class ilMailSummaryNotification extends ilMailNotification
             $users[$user_id][] = $row;
         }
 
-        /** @var ilMailMimeSenderFactory $senderFactory */
-        $senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
+        global $DIC;
+        $senderFactory = $DIC->mail()->mime()->senderFactory();
         $sender = $senderFactory->system();
 
         foreach ($users as $user_id => $mail_data) {

@@ -239,7 +239,7 @@ class ilPersonalSettingsGUI
             
             // new password
             $ipass = new ilPasswordInputGUI($lng->txt("desired_password"), "new_password");
-            if($pw_info_set === false) {
+            if ($pw_info_set === false) {
                 $ipass->setInfo(ilUtil::getPasswordRequirementsInfo());
             }
             $ipass->setRequired(true);
@@ -959,8 +959,7 @@ class ilPersonalSettingsGUI
         // send notification
         $user_email = $ilUser->getEmail();
         $admin_mail = $ilSetting->get("user_delete_own_account_email");
-        /** @var ilMailMimeSenderFactory $senderFactory */
-        $senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
+        $senderFactory = $DIC->mail()->mime()->senderFactory();
 
         $mmail = new ilMimeMail();
         $mmail->From($senderFactory->system());

@@ -58,7 +58,7 @@ class ilMailFormGUI
         global $DIC;
 
         if (null === $templateService) {
-            $templateService = $DIC['mail.texttemplates.service'];
+            $templateService = $DIC->mail()->textTemplates();
         }
         $this->templateService = $templateService;
 
@@ -167,6 +167,8 @@ class ilMailFormGUI
 
         $mailer->setSaveInSentbox(true);
 
+        $mailer->autoresponder()->enableAutoresponder();
+
         if ($errors = $mailer->enqueue(
             ilUtil::securePlainString($_POST['rcp_to']),
             ilUtil::securePlainString($_POST['rcp_cc']),
@@ -180,6 +182,8 @@ class ilMailFormGUI
             $_POST['attachments'] = $files;
             $this->showSubmissionErrors($errors);
         } else {
+            $mailer->autoresponder()->disableAutoresponder();
+
             $mailer->savePostData($this->user->getId(), array(), "", "", "", "", "", "", "", "");
 
             $this->ctrl->setParameterByClass('ilmailgui', 'type', 'message_sent');
@@ -191,6 +195,7 @@ class ilMailFormGUI
                 $this->ctrl->redirectByClass('ilmailgui');
             }
         }
+        $mailer->autoresponder()->disableAutoresponder();
 
         $this->showForm();
     }
@@ -270,7 +275,7 @@ class ilMailFormGUI
                 ilUtil::securePlainString($_POST["m_email"] ?? ''),
                 ilUtil::securePlainString($_POST["m_subject"] ?? ''),
                 ilUtil::securePlainString($_POST["m_message"] ?? ''),
-                (bool) ($_POST['use_placeholders']  ?? false),
+                (bool) ($_POST['use_placeholders'] ?? false),
                 ilMailFormCall::getContextId(),
                 ilMailFormCall::getContextParameters()
             );
@@ -700,7 +705,7 @@ class ilMailFormGUI
                         if (!isset($mailData['template_id']) && $template->isDefault()) {
                             $template_chb->setValue($template->getTplId());
                             $form_gui->getItemByPostVar('m_subject')->setValue($template->getSubject());
-                            $mailData["m_message"] = $template->getMessage()  . $this->umail->appendSignature();
+                            $mailData["m_message"] = $template->getMessage() . $this->umail->appendSignature();
                         }
                     }
                     if (isset($mailData['template_id'])) {

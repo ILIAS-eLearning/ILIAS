@@ -331,6 +331,11 @@ class Container extends \Pimple\Container
         return $this['resource_storage'];
     }
 
+    public function mail() : \ILIAS\Mail\Service\MailService
+    {
+        return new \ILIAS\Mail\Service\MailService($this);
+    }
+
 
     /**
      * Note: Only use isDependencyAvailable if strictly required. The need for this,

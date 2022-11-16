@@ -668,22 +668,6 @@ class ilInitialisation
     /**
      * @param \ILIAS\DI\Container $c
      */
-    protected static function initMail(\ILIAS\DI\Container $c)
-    {
-        $c["mail.mime.transport.factory"] = function (\ILIAS\DI\Container $c) {
-            return new \ilMailMimeTransportFactory($c->settings(), $c->event());
-        };
-        $c["mail.mime.sender.factory"] = function (\ILIAS\DI\Container $c) {
-            return new \ilMailMimeSenderFactory($c->settings());
-        };
-        $c["mail.texttemplates.service"] = function (\ILIAS\DI\Container $c) {
-            return new \ilMailTemplateService(new \ilMailTemplateRepository($c->database()));
-        };
-    }
-
-    /**
-     * @param \ILIAS\DI\Container $c
-     */
     protected static function initCustomObjectIcons(\ILIAS\DI\Container $c)
     {
         $c["object.customicons.factory"] = function ($c) {
@@ -1279,7 +1263,6 @@ class ilInitialisation
 
         self::initSettings();
         self::setSessionHandler();
-        self::initMail($GLOBALS['DIC']);
         self::initAvatar($GLOBALS['DIC']);
         self::initCustomObjectIcons($GLOBALS['DIC']);
         self::initTermsOfService($GLOBALS['DIC']);

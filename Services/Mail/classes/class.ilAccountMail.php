@@ -259,9 +259,8 @@ class ilAccountMail
             $mail_subject = $this->replacePlaceholders($amail['subject'], $user, $amail, $lang);
             $mail_body = $this->replacePlaceholders($amail['body'], $user, $amail, $lang);
         }
-
-        /** @var ilMailMimeSenderFactory $senderFactory */
-        $senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
+        global $DIC;
+        $senderFactory = $DIC->mail()->mime()->senderFactory();
 
         // send the mail
         include_once 'Services/Mail/classes/class.ilMimeMail.php';

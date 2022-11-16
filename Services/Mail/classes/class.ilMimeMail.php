@@ -66,7 +66,7 @@ class ilMimeMail
         $this->settings = $DIC->settings();
 
         if (!(self::getDefaultTransport() instanceof ilMailMimeTransport)) {
-            $factory = $DIC["mail.mime.transport.factory"];
+            $factory = $DIC->mail()->mime()->transportFactory();
             self::setDefaultTransport($factory->getTransport());
         }
 

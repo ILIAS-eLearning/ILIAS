@@ -2,6 +2,9 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Mail\Autoresponder\AutoresponderServiceImpl;
+use ILIAS\Mail\Autoresponder\AutoresponderService;
+
 /**
  * Class ilMailMimeTest
  * @author Michael Jansen <mjansen@databay.de>
@@ -135,6 +138,7 @@ class ilMailTest extends ilMailBaseTest
             function (string $login) use ($loginToIdMap) {
                 return $loginToIdMap[$login] ?? 0;
             },
+            $this->createMock(AutoresponderService::class),
             4711
         );
 

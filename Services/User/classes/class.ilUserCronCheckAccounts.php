@@ -83,8 +83,7 @@ class ilUserCronCheckAccounts extends ilCronJob
 
         $res = $ilDB->query($query);
 
-        /** @var ilMailMimeSenderFactory $senderFactory */
-        $senderFactory = $GLOBALS['DIC']["mail.mime.sender.factory"];
+        $senderFactory = $DIC->mail()->mime()->senderFactory();
         $sender = $senderFactory->system();
 
         while ($row = $ilDB->fetchObject($res)) {
