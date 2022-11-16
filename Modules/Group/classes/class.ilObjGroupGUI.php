@@ -1289,7 +1289,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
                     $info->addProperty(
                         $this->lng->txt('mem_free_places'),
-                        (string) $reg_info['reg_info_free_places']
+                        (string) ($reg_info['reg_info_free_places'] ?? '0')
                     );
                 }
             }
