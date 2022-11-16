@@ -141,7 +141,7 @@ To measure the statistics you can use:
 - Nr of Tests: phpunit: `./libs/composer/vendor/phpunit/phpunit/phpunit --list-tests <Path to Component Test Suite File>`
 - Nr of LoCs changed in last 365 days: `git diff --shortstat HEAD $(git log --since=365.days --oneline Services/WebDAV/ | tail -1 | cut -f 1 -d " ")^ <Path to Component>`
 - Nr of Commits in last 365 days: `git log --since=365.days --oneline <Path to Component> | wc -l`
-- To check the general code quality: `./CI/PHPStan/run_checks.sh <Path to Component`.
+- To check the general code quality: `./CI/PHPStan/run_checks.sh <Path to Component>`.
 
 #### If the file already exists:
 - Please update the sections 'Maintenance' and 'Statistics'.
