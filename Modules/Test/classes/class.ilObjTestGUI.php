@@ -2508,6 +2508,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("tst_defaults_apply_select_one"));
 
             $this->defaultsObject();
+            return;
         }
 
         // do not apply if user datasets exist
@@ -2515,6 +2516,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("tst_defaults_apply_not_possible"));
 
             $this->defaultsObject();
+            return;
         }
 
         $defaults = $this->object->getTestDefaults($_POST["chb_defaults"][0]);
