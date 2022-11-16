@@ -8454,7 +8454,7 @@ dcl#:#dcl_last_update_description#:#The date the entry was last edited.
 dcl#:#dcl_learning_progress#:#Show the learning progress of the linked module of the viewer
 dcl#:#dcl_legend_placeholders#:#Placeholders
 dcl#:#dcl_length#:#Length
-dcl#:#dcl_length_info#:#(for more than 200 characters, use the additional option Text Area)
+dcl#:#dcl_length_info#:#Number of characters a user can enter (maximum 4000). For more than 200 characters, use the additional option Text Area.
 dcl#:#dcl_limit_end#:#End
 dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limited#:#Limited Add / Edit / Delete Period

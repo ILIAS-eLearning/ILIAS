@@ -8453,7 +8453,7 @@ dcl#:#dcl_last_update_description#:#Das Datum, an dem dieser Eintrag zuletzt ge�
 dcl#:#dcl_learning_progress#:#Lernfortschritt anzeigen
 dcl#:#dcl_legend_placeholders#:#Platzhalter
 dcl#:#dcl_length#:#Länge
-dcl#:#dcl_length_info#:#Maximale Anzahl von Zeichen, die ein Benutzer eingeben kann. Bei mehr als 200 Zeichen aktivieren Sie zusätzlich die Option "Mehrzeiliges Texteingabefeld".
+dcl#:#dcl_length_info#:#Anzahl von Zeichen, die ein Benutzer eingeben kann (Maximal 4000). Bei mehr als 200 Zeichen aktivieren Sie zusätzlich die Option "Mehrzeiliges Texteingabefeld".
 dcl#:#dcl_limit_end#:#Ende
 dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limited#:#Zeitlich begrenzte Bearbeitung
