@@ -393,14 +393,14 @@ class ilMDEditorGUI
             "SEL_TLT",
             ilLegacyFormElementsUtil::makeTimeSelect(
                 'tlt',
-                !$tlt[4],
-                $tlt[2],
-                $tlt[3],
-                $tlt[4],
+                !($tlt[4] ?? false),
+                $tlt[2] ?? 0,
+                $tlt[3] ?? 0,
+                $tlt[4] ?? 0,
                 false
             )
         );
-        $tpl->setVariable("TLT_HINT", $tlt[4] ? '(hh:mm:ss)' : '(hh:mm)');
+        $tpl->setVariable("TLT_HINT", ($tlt[4] ?? null) ? '(hh:mm:ss)' : '(hh:mm)');
 
         if (!$valid) {
             $tpl->setCurrentBlock("tlt_not_valid");
