@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent;
 
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\Css;
@@ -28,8 +29,8 @@ use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\JsCollection;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\OnLoadCode;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\OnLoadCodeCollection;
 use ILIAS\UI\Component\Layout\Page\Standard;
-use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaData\MetaDataCollection;
-use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaData\MetaDatum;
+use ILIAS\Data\Meta\Html\OpenGraph;
+use ILIAS\Data\Meta\Html;
 
 /**
  * Class MetaContent
@@ -44,7 +45,11 @@ class MetaContent
     private OnLoadCodeCollection $on_load_code;
     private JsCollection $js;
     private CssCollection $css;
-    protected MetaDataCollection $meta_data;
+    private ?OpenGraph\TagCollection $og_meta_data;
+    /**
+     * @var Html\Tag[]
+     */
+    private array $meta_data;
     private string $base_url = "";
     private string $text_direction;
     protected string $resource_version;
@@ -56,7 +61,8 @@ class MetaContent
         $this->js = new JsCollection($resource_version);
         $this->on_load_code = new OnLoadCodeCollection($resource_version);
         $this->inline_css = new InlineCssCollection($resource_version);
-        $this->meta_data = new MetaDataCollection();
+        $this->og_meta_data = null;
+        $this->meta_data = [];
     }
 
     /**
@@ -68,7 +74,8 @@ class MetaContent
         $this->js = new JsCollection($this->resource_version);
         $this->on_load_code = new OnLoadCodeCollection($this->resource_version);
         $this->inline_css = new InlineCssCollection($this->resource_version);
-        $this->meta_data = new MetaDataCollection();
+        $this->og_meta_data = null;
+        $this->meta_data = [];
     }
 
     public function addCss(string $path, string $media = self::MEDIA_SCREEN): void
@@ -91,9 +98,29 @@ class MetaContent
         $this->on_load_code->addItem(new OnLoadCode($content, $this->resource_version, $batch));
     }
 
-    public function addMetaDatum(string $key, string $value): void
+    public function addOpenGraphMetaDatum(OpenGraph\TagCollection $og_meta_data): void
     {
-        $this->meta_data->add(new MetaDatum($key, $value));
+        $this->og_meta_data = $og_meta_data;
+    }
+
+    public function addMetaDatum(Html\Tag $meta_data): void
+    {
+        if ($meta_data instanceof OpenGraph\TagCollection || $meta_data instanceof OpenGraph\Tag) {
+            throw new \LogicException(
+                sprintf(
+                    'Please use %s::addOpenGraphMetaDatum to add open-graph metadata.',
+                    self::class
+                )
+            );
+        }
+
+        // keep user-defined keys unique, there should be no case where
+        // multiple of the same keys are required.
+        if ($meta_data instanceof Html\UserDefined) {
+            $this->meta_data[$meta_data->getKey()] = $meta_data;
+        } else {
+            $this->meta_data[] = $meta_data;
+        }
     }
 
     public function getInlineCss(): InlineCssCollection
@@ -116,7 +143,15 @@ class MetaContent
         return $this->css;
     }
 
-    public function getMetaData(): MetaDataCollection
+    public function getOpenGraphMetaData(): ?OpenGraph\TagCollection
+    {
+        return $this->og_meta_data;
+    }
+
+    /**
+     * @return Html\Tag[]
+     */
+    public function getMetaData(): array
     {
         return $this->meta_data;
     }

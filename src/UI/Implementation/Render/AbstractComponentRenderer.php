@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Render;
 
+use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Triggerer;
@@ -44,6 +45,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
     private static array $component_storage = [];
     private \ILIAS\Refinery\Factory $refinery;
     private ImagePathResolver $image_path_resolver;
+    private DataFactory $data_factory;
 
 
     final public function __construct(
@@ -52,7 +54,8 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
         ilLanguage $lng,
         JavaScriptBinding $js_binding,
         \ILIAS\Refinery\Factory $refinery,
-        ImagePathResolver $image_path_resolver
+        ImagePathResolver $image_path_resolver,
+        DataFactory $data_factory
     ) {
         $this->ui_factory = $ui_factory;
         $this->tpl_factory = $tpl_factory;
@@ -60,6 +63,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
         $this->js_binding = $js_binding;
         $this->refinery = $refinery;
         $this->image_path_resolver = $image_path_resolver;
+        $this->data_factory = $data_factory;
     }
 
     /**
@@ -78,6 +82,11 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
     final protected function getUIFactory(): Factory
     {
         return $this->ui_factory;
+    }
+
+    final protected function getDataFactory(): DataFactory
+    {
+        return $this->data_factory;
     }
 
     final protected function getRefinery(): \ILIAS\Refinery\Factory

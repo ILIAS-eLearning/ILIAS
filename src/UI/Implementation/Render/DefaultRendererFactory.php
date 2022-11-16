@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,8 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Render;
 
+use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Factory as RootFactory;
@@ -33,6 +34,7 @@ class DefaultRendererFactory implements RendererFactory
     protected JavaScriptBinding $js_binding;
     protected Refinery $refinery;
     protected ImagePathResolver $image_path_resolver;
+    protected DataFactory $data_factory;
 
     public function __construct(
         RootFactory $ui_factory,
@@ -40,7 +42,8 @@ class DefaultRendererFactory implements RendererFactory
         ilLanguage $lng,
         JavaScriptBinding $js_binding,
         Refinery $refinery,
-        ImagePathResolver $image_path_resolver
+        ImagePathResolver $image_path_resolver,
+        DataFactory $data_factory
     ) {
         $this->ui_factory = $ui_factory;
         $this->tpl_factory = $tpl_factory;
@@ -48,6 +51,7 @@ class DefaultRendererFactory implements RendererFactory
         $this->js_binding = $js_binding;
         $this->refinery = $refinery;
         $this->image_path_resolver = $image_path_resolver;
+        $this->data_factory = $data_factory;
     }
 
     /**
@@ -62,7 +66,8 @@ class DefaultRendererFactory implements RendererFactory
             $this->lng,
             $this->js_binding,
             $this->refinery,
-            $this->image_path_resolver
+            $this->image_path_resolver,
+            $this->data_factory
         );
     }
 

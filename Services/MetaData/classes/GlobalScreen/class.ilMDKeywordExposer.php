@@ -1,5 +1,22 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
+
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
@@ -33,7 +50,9 @@ class ilMDKeywordExposer extends AbstractModificationProvider
                 $delimiter = ilMDSettings::_getInstance()->getDelimiter() ?? ",";
 
                 if (count($keywords) > 0) {
-                    $this->globalScreen()->layout()->meta()->addMetaDatum('keywords', implode($delimiter, $keywords));
+                    $this->globalScreen()->layout()->meta()->addMetaDatum(
+                        $this->data->htmlMetadata()->userDefined('keywords', implode($delimiter, $keywords))
+                    );
                 }
                 // Languages
                 $languages = [];
@@ -42,7 +61,9 @@ class ilMDKeywordExposer extends AbstractModificationProvider
                     $languages[] = $language->getLanguageCode();
                 }
                 if (count($languages) > 0) {
-                    $this->globalScreen()->layout()->meta()->addMetaDatum('languages', implode($delimiter, $languages));
+                    $this->globalScreen()->layout()->meta()->addMetaDatum(
+                        $this->data->htmlMetadata()->userDefined('languages', implode($delimiter, $languages))
+                    );
                 }
             }
 
@@ -51,7 +72,9 @@ class ilMDKeywordExposer extends AbstractModificationProvider
                 $copy_right_id = ilMDCopyrightSelectionEntry::_extractEntryId($rights->getDescription());
                 if ($copy_right_id > 0) {
                     $entry = new ilMDCopyrightSelectionEntry($copy_right_id);
-                    $this->globalScreen()->layout()->meta()->addMetaDatum('copyright', $entry->getTitle());
+                    $this->globalScreen()->layout()->meta()->addMetaDatum(
+                        $this->data->htmlMetadata()->userDefined('copyright', $entry->getTitle())
+                    );
                 }
             }
         }

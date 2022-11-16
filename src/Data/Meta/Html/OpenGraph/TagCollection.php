@@ -17,36 +17,13 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Data\Meta\Html;
+namespace ILIAS\Data\Meta\Html\OpenGraph;
 
-use Generator;
+use ILIAS\Data\Meta\Html\TagCollection as HTMLTagCollection;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-class UserDefined extends Tag
+class TagCollection extends HTMLTagCollection
 {
-    public function __construct(
-        protected string $key,
-        protected string $value
-    ) {
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function toHtml(): string
-    {
-        return "<meta name=\"$this->key\" content=\"$this->value\" />";
-    }
-
-    public function getKey(): string
-    {
-        return $this->key;
-    }
-
-    public function getValue(): string
-    {
-        return $this->value;
-    }
 }

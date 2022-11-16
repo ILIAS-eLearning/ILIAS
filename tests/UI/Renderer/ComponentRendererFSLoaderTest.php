@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/TestComponent.php");
 
@@ -50,6 +50,7 @@ class ComponentRendererFSLoaderTest extends TestCase
             ->getMock();
         $image_path_resolver = $this->getMockBuilder(ILIAS\UI\Implementation\Render\ImagePathResolver::class)
                 ->getMock();
+        $data_factory = $this->getMockBuilder(ILIAS\Data\Factory::class)->getMock();
 
         $default_renderer_factory = new I\Render\DefaultRendererFactory(
             $ui_factory,
@@ -57,7 +58,8 @@ class ComponentRendererFSLoaderTest extends TestCase
             $lng,
             $js_binding,
             $refinery_mock,
-            $image_path_resolver
+            $image_path_resolver,
+            $data_factory
         );
         $this->glyph_renderer = $this->createMock(I\Render\RendererFactory::class);
         $this->icon_renderer = $this->createMock(I\Render\RendererFactory::class);

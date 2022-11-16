@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Layout\Page;
 
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
@@ -32,6 +32,7 @@ use ILIAS\UI\Component\Toast\Container;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Component;
+use ILIAS\Data\Meta\Html;
 
 class Standard implements Page\Standard
 {
@@ -58,6 +59,9 @@ class Standard implements Page\Standard
     private bool $ui_demo = false;
     protected array $system_infos = [];
     protected string $text_direction = "ltr";
+    /**
+     * @var Html\Tag[]
+     */
     protected array $meta_data = [];
 
     public function __construct(
@@ -315,13 +319,16 @@ class Standard implements Page\Standard
         return $clone;
     }
 
-    public function withAdditionalMetaDatum(string $key, string $value): Page\Standard
+    public function withAdditionalMetaDatum(Html\Tag $tag): Page\Standard
     {
         $clone = clone $this;
-        $clone->meta_data[$key] = $value;
+        $clone->meta_data[] = $tag;
         return $clone;
     }
 
+    /**
+     * @return Html\Tag[]
+     */
     public function getMetaData(): array
     {
         return $this->meta_data;
