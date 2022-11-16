@@ -31,6 +31,8 @@ final class AutoresponderServiceImpl implements AutoresponderService
     private $auto_responder_status;
     /** @var AutoresponderRepository $auto_responder_repository */
     private $auto_responder_repository;
+    /** @var UtcClock $clock */
+    private $clock;
     /** @var callable $mail_action */
     private $mail_action;
     /** @var DateInterval $idle_time_interval */
@@ -43,11 +45,13 @@ final class AutoresponderServiceImpl implements AutoresponderService
         int $global_idle_time_interval,
         bool $initial_auto_responder_status,
         AutoresponderRepository $auto_responder_repository,
+        UtcClock $clock,
         ?callable $mail_action = null
     ) {
         $this->auto_responder_status = $initial_auto_responder_status;
         $this->auto_responder_repository = $auto_responder_repository;
         $this->mail_action = $mail_action;
+        $this->clock = $clock;
 
         $this->idle_time_interval = new DateInterval('P' . $global_idle_time_interval . 'D');
     }
@@ -86,7 +90,7 @@ final class AutoresponderServiceImpl implements AutoresponderService
                 $auto_responder = new AutoresponderDto(
                     $auto_responder_sender_usr_id,
                     $auto_responder_receiver_usr_id,
-                    $this->normalizeDateTimezone(new DateTimeImmutable('NOW', new DateTimeZone('UTC')))
+                    $this->normalizeDateTimezone($this->clock->now())
                          ->sub($this->idle_time_interval)
                          ->modify('-1 second')
                 );
@@ -94,7 +98,7 @@ final class AutoresponderServiceImpl implements AutoresponderService
 
             if ($this->shouldSendAutoresponder($auto_responder)) {
                 $auto_responder = $auto_responder->withSentTime(
-                    $this->normalizeDateTimezone(new DateTimeImmutable('NOW', new DateTimeZone('UTC')))
+                    $this->normalizeDateTimezone($this->clock->now())
                 );
 
                 if ($this->mail_action !== null) {
@@ -129,7 +133,7 @@ final class AutoresponderServiceImpl implements AutoresponderService
             ->normalizeDateTimezone($auto_responder->getSentTime())
             ->add($this->idle_time_interval);
 
-        $now = $this->normalizeDateTimezone(new DateTimeImmutable('NOW', new DateTimeZone('UTC')));
+        $now = $this->normalizeDateTimezone($this->clock->now());
 
         // Don't compare the objects because of microseconds
         return $last_send_time_with_added_interval->format('Y-m-d H:i:s') <= $now->format('Y-m-d H:i:s');

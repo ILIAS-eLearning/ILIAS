@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Mail\Autoresponder\UtcClock;
+
 /**
  * Class ilMailOptionsTest
  * @author Niels Theen <ntheen@databay.de>
@@ -93,7 +95,10 @@ class ilMailOptionsTest extends ilMailBaseTest
         ])->getMock();
         $this->setGlobalVariable('ilSetting', $settings);
 
-        $mailOptions = new ilMailOptions(1, null);
+        $clockService = $this->getMockBuilder(UtcClock::class)->getMock();
+        $clockService->method('now')->willReturn((new DateTimeImmutable())->setTimestamp(100));
+
+        $mailOptions = new ilMailOptions(1, null, $clockService);
         $this->assertEquals($mailOptions->isAbsent(), $result);
     }
 

@@ -22,6 +22,7 @@ use ILIAS\Mail\Autoresponder\AutoresponderService;
 use ILIAS\Mail\Autoresponder\AutoresponderServiceImpl;
 use ILIAS\Mail\Autoresponder\AutoresponderDto;
 use ILIAS\Mail\Autoresponder\AutoresponderRepository;
+use ILIAS\Mail\Autoresponder\UtcClock;
 
 class ilMailAutoresponderServiceTest extends ilMailBaseTest
 {
@@ -37,6 +38,8 @@ class ilMailAutoresponderServiceTest extends ilMailBaseTest
         int $interval,
         bool $expects_active_auto_responder
     ) : void {
+        $clock = $this->createMock(UtcClock::class);
+        $clock->method('now')->willReturn($faked_now);
         $repository = $this->createMock(AutoresponderRepository::class);
 
         if ($last_auto_responder_time === null) {
@@ -84,7 +87,8 @@ class ilMailAutoresponderServiceTest extends ilMailBaseTest
 
         $auto_responder_service = $this->createService(
             $interval,
-            $repository
+            $repository,
+            $clock
         );
 
         $auto_responder_service->enqueueAutoresponderIfEnabled(self::MAIL_SENDER_USER_ID, $mail_receiver_options, $mail_options);
@@ -94,12 +98,14 @@ class ilMailAutoresponderServiceTest extends ilMailBaseTest
 
     private function createService(
         int $global_idle_time_interval,
-        AutoresponderRepository $auto_responder_repository
+        AutoresponderRepository $auto_responder_repository,
+        UtcClock $clock
     ) : AutoresponderService {
         return new AutoresponderServiceImpl(
             $global_idle_time_interval,
             true,
             $auto_responder_repository,
+            $clock,
             static function (
                 int $sender_id,
                 ilMailOptions $receiver_mail_options,

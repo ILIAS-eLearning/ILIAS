@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Mail\Autoresponder\UtcClock;
 
 /**
  * Class ilMailOptions
@@ -60,12 +61,14 @@ class ilMailOptions
     protected $absence_auto_responder_body = '';
     /** @var string $absence_auto_responder_subject */
     protected $absence_auto_responder_subject = '';
+    /** @var UtcClock $clock */
+    protected $clock;
 
     /**
      * @param int $usrId
      * @param ilMailTransportSettings|null $mailTransportSettings
      */
-    public function __construct(int $usrId, ilMailTransportSettings $mailTransportSettings = null)
+    public function __construct(int $usrId, ilMailTransportSettings $mailTransportSettings = null, UtcClock $clock = null)
     {
         global $DIC;
 
@@ -78,7 +81,7 @@ class ilMailOptions
             $mailTransportSettings = new ilMailTransportSettings($this);
         }
         $this->mailTransportSettings = $mailTransportSettings;
-
+        $this->clock = $clock ?? new UtcClock();
         $this->read();
     }
 
@@ -404,7 +407,7 @@ class ilMailOptions
             $this->getAbsenceStatus() &&
             $this->getAbsentFrom() &&
             $this->getAbsentUntil() &&
-            $this->getAbsentFrom() <= (new DateTimeImmutable('NOW', new DateTimeZone('UTC')))->getTimestamp() &&
-            $this->getAbsentUntil() >= (new DateTimeImmutable('NOW', new DateTimeZone('UTC')))->getTimestamp();
+            $this->getAbsentFrom() <= $this->clock->now()->getTimestamp() &&
+            $this->getAbsentUntil() >= $this->clock->now()->getTimestamp();
     }
 }

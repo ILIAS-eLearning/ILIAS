@@ -27,6 +27,7 @@ use ilMailTemplateService;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Mail\Autoresponder\AutoresponderDatabaseRepository;
 use ilMailTemplateRepository;
+use ILIAS\Mail\Autoresponder\UtcClock;
 
 class MailService
 {
@@ -56,7 +57,8 @@ class MailService
                 (string) AutoresponderService::AUTO_RESPONDER_DEFAULT_IDLE_TIME
             ),
             false,
-            new AutoresponderDatabaseRepository($this->dic->database())
+            new AutoresponderDatabaseRepository($this->dic->database()),
+            new UtcClock()
         );
     }
 
