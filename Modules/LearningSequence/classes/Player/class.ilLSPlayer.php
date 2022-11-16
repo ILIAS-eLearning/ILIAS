@@ -133,16 +133,6 @@ class ilLSPlayer
             $state = $this->ls_items->getStateFor($next_item, $view);
         }
 
-        //get position
-        list($item_position, $item) = $this->findItemByRefId($items, $next_item->getRefId());
-
-        //have the view build controls
-        $control_builder = $this->control_builder;
-        $view->buildControls($state, $control_builder);
-
-        //amend controls not set by the view
-        $control_builder = $this->buildDefaultControls($control_builder, $item, $item_position, $items);
-
         //content
         $obj_title = $next_item->getTitle();
         $icon = $this->ui_factory->symbol()->icon()->standard(
@@ -158,6 +148,18 @@ class ilLSPlayer
             $content
         );
         $content = [$panel];
+
+        $items = $this->ls_items->getItems(); //reload items after renderComponentView content
+
+        //get position
+        list($item_position, $item) = $this->findItemByRefId($items, $next_item->getRefId());
+
+        //have the view build controls
+        $control_builder = $this->control_builder;
+        $view->buildControls($state, $control_builder);
+
+        //amend controls not set by the view
+        $control_builder = $this->buildDefaultControls($control_builder, $item, $item_position, $items);
 
         $rendered_body = $this->page_renderer->render(
             $control_builder,

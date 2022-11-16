@@ -317,12 +317,12 @@ class ilMembershipCronNotifications extends ilCronJob
         // gather news ref ids and news parent ref ids
         foreach ($a_objects as $parent_ref_id => $news) {
             foreach ($news as $item) {
-                $news_map[$item["id"]] = $item["ref_id"];
+                $news_map[$item["id"]] = (int) ($item["ref_id"] ?? 0);
                 $parent_map[$item["id"]][$parent_ref_id] = $parent_ref_id;
 
                 if ($item["aggregation"] ?? false) {
                     foreach ($item["aggregation"] as $subitem) {
-                        $news_map[$subitem["id"]] = $subitem["ref_id"];
+                        $news_map[$subitem["id"]] = (int) ($subitem["ref_id"] ?? 0);
                         $parent_map[$subitem["id"]][$parent_ref_id] = $parent_ref_id;
                     }
                 }
@@ -331,12 +331,12 @@ class ilMembershipCronNotifications extends ilCronJob
         // if news has multiple parents find "lowest" parent in path
         foreach ($parent_map as $news_id => $parents) {
             if (count($parents) > 1 && $news_map[$news_id] > 0) {
-                $path = $this->tree->getPathId($news_map[$news_id]);
+                $path = $this->tree->getPathId((int) $news_map[$news_id]);
                 $lookup = array_flip($path);
 
                 $level = 0;
                 foreach ($parents as $parent_ref_id) {
-                    $level = max($level, $lookup[$parent_ref_id]);
+                    $level = max($level, (int) $lookup[$parent_ref_id]);
                 }
 
                 $parsed_map[$news_id] = $path[$level];

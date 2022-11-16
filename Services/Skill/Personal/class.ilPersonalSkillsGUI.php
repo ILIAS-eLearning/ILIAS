@@ -1967,7 +1967,9 @@ class ilPersonalSkillsGUI
             $tpl->setVariable("BYLINE", $this->lng->txt("skmg_self_evaluation_byline"));
             $tpl->parseCurrentBlock();
         } else {
-            $tpl->setVariable("HEADING", $this->lng->txt("skmg_skill_profile_comparison"));
+            if ($this->getProfileId() > 0) {
+                $tpl->setVariable("HEADING", $this->lng->txt("skmg_skill_profile_comparison"));
+            }
         }
 
         return $tpl->get();
