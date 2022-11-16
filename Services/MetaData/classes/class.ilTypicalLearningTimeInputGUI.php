@@ -2,7 +2,21 @@
 
 declare(strict_types=1);
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * This class represents a typical learning time property in a property form.
@@ -12,11 +26,11 @@ declare(strict_types=1);
  */
 class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
 {
-    protected const POST_NAME_MONTH = 'mo';
-    protected const POST_NAME_DAY = 'd';
-    protected const POST_NAME_HOUR = 'h';
-    protected const POST_NAME_MINUTE = 'm';
-    protected const POST_NAME_SECOND = 's';
+    public const POST_NAME_MONTH = 'mo';
+    public const POST_NAME_DAY = 'd';
+    public const POST_NAME_HOUR = 'h';
+    public const POST_NAME_MINUTE = 'm';
+    public const POST_NAME_SECOND = 's';
 
     protected array $value;
     protected bool $valid = true;
