@@ -39,17 +39,22 @@ final class AutoresponderDatabaseRepository implements AutoresponderRepository
 
     public function findBySenderId(int $sender_id): AutoresponderArrayCollection
     {
-        $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE sender_id = " . $this->db->quote($sender_id, ilDBConstants::T_INTEGER);
+        $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE sender_id = " . $this->db->quote(
+            $sender_id,
+            ilDBConstants::T_INTEGER
+        );
 
         $result = $this->db->query($query);
 
         $auto_responder_results = new AutoresponderArrayCollection();
         while ($row = $this->db->fetchAssoc($result)) {
-            $auto_responder_results->add(new AutoresponderDto(
-                (int) $row['sender_id'],
-                (int) $row['receiver_id'],
-                new DateTimeImmutable($row['sent_time'], new DateTimeZone('UTC'))
-            ));
+            $auto_responder_results->add(
+                new AutoresponderDto(
+                    (int) $row['sender_id'],
+                    (int) $row['receiver_id'],
+                    new DateTimeImmutable($row['sent_time'], new DateTimeZone('UTC'))
+                )
+            );
         }
 
         return $auto_responder_results;
@@ -66,11 +71,13 @@ final class AutoresponderDatabaseRepository implements AutoresponderRepository
 
         $auto_responder_results = new AutoresponderArrayCollection();
         while ($row = $this->db->fetchAssoc($result)) {
-            $auto_responder_results->add(new AutoresponderDto(
-                (int) $row['sender_id'],
-                (int) $row['receiver_id'],
-                new DateTimeImmutable($row['sent_time'], new DateTimeZone('UTC'))
-            ));
+            $auto_responder_results->add(
+                new AutoresponderDto(
+                    (int) $row['sender_id'],
+                    (int) $row['receiver_id'],
+                    new DateTimeImmutable($row['sent_time'], new DateTimeZone('UTC'))
+                )
+            );
         }
 
         return $auto_responder_results;
@@ -102,7 +109,9 @@ final class AutoresponderDatabaseRepository implements AutoresponderRepository
 
     public function store(AutoresponderDto $auto_responder): void
     {
-        $timestamp_sent_time = $auto_responder->getSentTime()->setTimezone(new DateTimeZone('UTC'))->format('Y-m-d H:i:s');
+        $timestamp_sent_time = $auto_responder->getSentTime()->setTimezone(new DateTimeZone('UTC'))->format(
+            'Y-m-d H:i:s'
+        );
         $this->db->replace(
             self::TABLE_NAME,
             [
@@ -117,18 +126,22 @@ final class AutoresponderDatabaseRepository implements AutoresponderRepository
 
     public function delete(AutoresponderDto $auto_responder): void
     {
-        $this->db->manipulate('DELETE FROM ' . self::TABLE_NAME . ' WHERE sender_id = ' . $this->db->quote(
-            $auto_responder->getSenderId(),
-            ilDBConstants::T_INTEGER
-        ) . ' AND receiver_id = ' . $this->db->quote($auto_responder->getReceiverId(), ilDBConstants::T_INTEGER));
+        $this->db->manipulate(
+            'DELETE FROM ' . self::TABLE_NAME . ' WHERE sender_id = ' . $this->db->quote(
+                $auto_responder->getSenderId(),
+                ilDBConstants::T_INTEGER
+            ) . ' AND receiver_id = ' . $this->db->quote($auto_responder->getReceiverId(), ilDBConstants::T_INTEGER)
+        );
     }
 
     public function deleteBySenderId(int $sender_id): void
     {
-        $this->db->manipulate('DELETE FROM ' . self::TABLE_NAME . ' WHERE sender_id = ' . $this->db->quote(
-            $sender_id,
-            ilDBConstants::T_INTEGER
-        ));
+        $this->db->manipulate(
+            'DELETE FROM ' . self::TABLE_NAME . ' WHERE sender_id = ' . $this->db->quote(
+                $sender_id,
+                ilDBConstants::T_INTEGER
+            )
+        );
     }
 
     public function exists(int $sender_id, int $receiver_id): bool

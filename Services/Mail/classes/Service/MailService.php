@@ -24,7 +24,6 @@ use ILIAS\DI\Container;
 use ILIAS\Mail\Autoresponder\AutoresponderServiceImpl;
 use ILIAS\Mail\Autoresponder\AutoresponderService;
 use ilMailTemplateService;
-use ilObjUser;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Mail\Autoresponder\AutoresponderDatabaseRepository;
 use ilMailTemplateRepository;
@@ -51,7 +50,10 @@ class MailService
     public function autoresponder(): AutoresponderService
     {
         return new AutoresponderServiceImpl(
-            (int) $this->dic->settings()->get('mail_auto_responder_idle_time', (string) AutoresponderService::AUTO_RESPONDER_DEFAULT_IDLE_TIME),
+            (int) $this->dic->settings()->get(
+                'mail_auto_responder_idle_time',
+                (string) AutoresponderService::AUTO_RESPONDER_DEFAULT_IDLE_TIME
+            ),
             false,
             new AutoresponderDatabaseRepository($this->dic->database()),
             (new DataFactory())->clock()->utc()

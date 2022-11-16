@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Mail\Autoresponder;
 
 use DateInterval;
-use ilFormatMail;
 use ilMailOptions;
 use ILIAS\Data\Clock\ClockInterface;
 use DateTimeZone;
@@ -54,24 +53,6 @@ final class AutoresponderServiceImpl implements AutoresponderService
         $this->idle_time_interval = new DateInterval('P' . $global_idle_time_interval . 'D');
     }
 
-    private function normalizeDateTimezone(DateTimeImmutable $date_time): DateTimeImmutable
-    {
-        return $date_time->setTimezone(new DateTimeZone('UTC'));
-    }
-
-    private function shouldSendAutoresponder(AutoresponderDto $auto_responder): bool
-    {
-        // Normalize timezones
-        $last_send_time_with_added_interval = $this
-            ->normalizeDateTimezone($auto_responder->getSentTime())
-            ->add($this->idle_time_interval);
-
-        $now = $this->normalizeDateTimezone($this->clock->now());
-
-        // Don't compare the objects because of microseconds
-        return $last_send_time_with_added_interval->format('Y-m-d H:i:s') <= $now->format('Y-m-d H:i:s');
-    }
-
     public function isAutoresponderEnabled(): bool
     {
         return $this->auto_responder_status;
@@ -94,7 +75,10 @@ final class AutoresponderServiceImpl implements AutoresponderService
         }
 
         foreach ($this->auto_responder_data as $auto_responder_sender_usr_id => $mail_options) {
-            if ($this->auto_responder_repository->exists($auto_responder_sender_usr_id, $auto_responder_receiver_usr_id)) {
+            if ($this->auto_responder_repository->exists(
+                $auto_responder_sender_usr_id,
+                $auto_responder_receiver_usr_id
+            )) {
                 $auto_responder = $this->auto_responder_repository->findBySenderIdAndReceiverId(
                     $auto_responder_sender_usr_id,
                     $auto_responder_receiver_usr_id
@@ -132,8 +116,29 @@ final class AutoresponderServiceImpl implements AutoresponderService
         }
     }
 
-    public function enqueueAutoresponderIfEnabled(int $sender_id, ilMailOptions $mail_receiver_options, ilMailOptions $mail_sender_options): void
+    private function normalizeDateTimezone(DateTimeImmutable $date_time): DateTimeImmutable
     {
+        return $date_time->setTimezone(new DateTimeZone('UTC'));
+    }
+
+    private function shouldSendAutoresponder(AutoresponderDto $auto_responder): bool
+    {
+        // Normalize timezones
+        $last_send_time_with_added_interval = $this
+            ->normalizeDateTimezone($auto_responder->getSentTime())
+            ->add($this->idle_time_interval);
+
+        $now = $this->normalizeDateTimezone($this->clock->now());
+
+        // Don't compare the objects because of microseconds
+        return $last_send_time_with_added_interval->format('Y-m-d H:i:s') <= $now->format('Y-m-d H:i:s');
+    }
+
+    public function enqueueAutoresponderIfEnabled(
+        int $sender_id,
+        ilMailOptions $mail_receiver_options,
+        ilMailOptions $mail_sender_options
+    ): void {
         if ($this->auto_responder_status && $mail_receiver_options->isAbsent()) {
             $this->auto_responder_data[$sender_id] = $mail_receiver_options;
         }
