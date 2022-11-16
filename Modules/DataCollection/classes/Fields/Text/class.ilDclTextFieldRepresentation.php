@@ -49,7 +49,6 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
             $input = new ilTextAreaInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
             //varchar(4000) in Database
             $input->setMaxNumOfChars(4000);
-            //$input->setInfo($this->lng->txt("dcl_max_text_length") . ": " . $input->getMaxNumOfChars());
         }
 
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_LENGTH)) {
