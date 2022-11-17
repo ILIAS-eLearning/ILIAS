@@ -21,20 +21,28 @@ declare(strict_types=1);
 namespace ILIAS\ResourceStorage\Consumer;
 
 use ILIAS\ResourceStorage\Flavour\Flavour;
-use ILIAS\ResourceStorage\Revision\Revision;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-interface SrcBuilder
+class FlavourURLs
 {
-    /**
-     * @throw \RuntimeException if signing is not possible or failed, but was requested with $signed = true
-     */
-    public function getRevisionURL(Revision $revision, bool $signed = true): string;
+    private SrcBuilder $src_builder;
+    private Flavour $flavour;
 
-    /**
-     * @throw \RuntimeException if signing is not possible or failed, but was requested with $signed = true
-     */
-    public function getFlavourURLs(Flavour $flavour, bool $signed = true): \Generator;
+    public function __construct(SrcBuilder $src_builder, Flavour $flavour)
+    {
+        $this->src_builder = $src_builder;
+        $this->flavour = $flavour;
+    }
+
+    public function getURLs(bool $signed = false): \Generator
+    {
+        yield from $this->src_builder->getFlavourURLs($this->flavour, $signed);
+    }
+
+    public function getURLsAsArray(bool $signed = false): array
+    {
+        return iterator_to_array($this->getURLs($signed));
+    }
 }

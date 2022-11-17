@@ -18,6 +18,7 @@
 
 use ILIAS\DI\Container;
 use ILIAS\FileUpload\Location;
+use ILIAS\ResourceStorage\Artifacts;
 use ILIAS\ResourceStorage\Consumer\SrcBuilder;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
 use ILIAS\ResourceStorage\Information\Repository\InformationDBRepository;
@@ -28,6 +29,7 @@ use ILIAS\ResourceStorage\Policy\NoneFileNamePolicy;
 use ILIAS\ResourceStorage\Preloader\DBRepositoryPreloader;
 use ILIAS\ResourceStorage\Repositories;
 use ILIAS\ResourceStorage\Resource\Repository\CollectionDBRepository;
+use ILIAS\ResourceStorage\Resource\Repository\FlavourDBRepository;
 use ILIAS\ResourceStorage\Resource\Repository\ResourceDBRepository;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
@@ -50,6 +52,7 @@ class InitResourceStorage
     public const D_LOCK_HANDLER = self::D_SERVICE . '.lock_handler';
     public const D_FILENAME_POLICY = self::D_SERVICE . '.filename_policy';
     public const D_STREAM_ACCESS = self::D_SERVICE . '.stream_access';
+    public const D_ARTIFACTS = self::D_SERVICE . '.artifacts';
 
     /**
      * @internal Do not use this in your code. This is only for the DIC to load the Resource Storage
@@ -80,7 +83,8 @@ class InitResourceStorage
                 new ResourceDBRepository($c->database()),
                 new CollectionDBRepository($c->database()),
                 new InformationDBRepository($c->database()),
-                new StakeholderDBRepository($c->database())
+                new StakeholderDBRepository($c->database()),
+                new FlavourDBRepository($c->database()),
             );
         };
 
@@ -118,6 +122,17 @@ class InitResourceStorage
             return new NoneFileNamePolicy();
         };
 
+        // Artifacts
+        $c[self::D_ARTIFACTS] = static function (Container $c): Artifacts {
+            $flavour_data = is_readable(ilResourceStorageFlavourArtifact::PATH) ?
+                include_once ilResourceStorageFlavourArtifact::PATH
+                : [];
+            return new Artifacts(
+                $flavour_data['machines'] ?? [],
+                $flavour_data['definitions'] ?? []
+            );
+        };
+
         // Stream Access for Consumers and internal Usage
         $c[self::D_STREAM_ACCESS] = static function (Container $c) use ($base_dir): StreamAccess {
             return new StreamAccess(
@@ -133,6 +148,7 @@ class InitResourceStorage
             return new \ILIAS\ResourceStorage\Services(
                 $c[self::D_STORAGE_HANDLERS],
                 $c[self::D_REPOSITORIES],
+                $c[self::D_ARTIFACTS],
                 $c[self::D_LOCK_HANDLER],
                 $c[self::D_FILENAME_POLICY],
                 $c[self::D_STREAM_ACCESS],
