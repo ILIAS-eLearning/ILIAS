@@ -18,23 +18,29 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\ResourceStorage\Consumer;
+namespace ILIAS\ResourceStorage\Flavour\Definition;
 
-use ILIAS\ResourceStorage\Flavour\Flavour;
-use ILIAS\ResourceStorage\Revision\Revision;
+use ILIAS\ResourceStorage\Flavour\Engine\GDEngine;
+use ILIAS\ResourceStorage\Flavour\Engine\ImagickEngine;
+use ILIAS\ResourceStorage\Flavour\Engine\NoEngine;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-interface SrcBuilder
+class DefaultEngines
 {
-    /**
-     * @throw \RuntimeException if signing is not possible or failed, but was requested with $signed = true
-     */
-    public function getRevisionURL(Revision $revision, bool $signed = true): string;
+    private array $engines = [
+        NoEngine::class,
+        GDEngine::class,
+        ImagickEngine::class
+    ];
 
-    /**
-     * @throw \RuntimeException if signing is not possible or failed, but was requested with $signed = true
-     */
-    public function getFlavourURLs(Flavour $flavour, bool $signed = true): \Generator;
+    public function __construct()
+    {
+    }
+
+    public function get(): array
+    {
+        return $this->engines;
+    }
 }

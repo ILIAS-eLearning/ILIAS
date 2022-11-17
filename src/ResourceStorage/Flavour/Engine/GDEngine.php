@@ -18,23 +18,36 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\ResourceStorage\Consumer;
-
-use ILIAS\ResourceStorage\Flavour\Flavour;
-use ILIAS\ResourceStorage\Revision\Revision;
+namespace ILIAS\ResourceStorage\Flavour\Engine;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-interface SrcBuilder
+class GDEngine implements Engine
 {
-    /**
-     * @throw \RuntimeException if signing is not possible or failed, but was requested with $signed = true
-     */
-    public function getRevisionURL(Revision $revision, bool $signed = true): string;
+    protected array $supported = [
+        'jpg',
+        'jpeg',
+        'png',
+        'gif',
+        'bmp',
+        'tiff',
+        'tif',
+        'webp'
+    ];
 
-    /**
-     * @throw \RuntimeException if signing is not possible or failed, but was requested with $signed = true
-     */
-    public function getFlavourURLs(Flavour $flavour, bool $signed = true): \Generator;
+    public function __construct()
+    {
+    }
+
+
+    public function supports(string $suffix): bool
+    {
+        return in_array(strtolower($suffix), $this->supported);
+    }
+
+    public function isRunning(): bool
+    {
+        return extension_loaded('gd');
+    }
 }

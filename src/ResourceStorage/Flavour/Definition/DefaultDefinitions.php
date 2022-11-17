@@ -18,23 +18,27 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\ResourceStorage\Consumer;
-
-use ILIAS\ResourceStorage\Flavour\Flavour;
-use ILIAS\ResourceStorage\Revision\Revision;
+namespace ILIAS\ResourceStorage\Flavour\Definition;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-interface SrcBuilder
+class DefaultDefinitions
 {
-    /**
-     * @throw \RuntimeException if signing is not possible or failed, but was requested with $signed = true
-     */
-    public function getRevisionURL(Revision $revision, bool $signed = true): string;
+    private array $definitions;
 
-    /**
-     * @throw \RuntimeException if signing is not possible or failed, but was requested with $signed = true
-     */
-    public function getFlavourURLs(Flavour $flavour, bool $signed = true): \Generator;
+    public function __construct()
+    {
+        $this->definitions = [
+            PagesToExtract::FOREVER_ID => PagesToExtract::class,
+            CropToSquare::FOREVER_ID => CropToSquare::class,
+            FitToSquare::FOREVER_ID => FitToSquare::class,
+            ToGreyScale::FOREVER_ID => ToGreyScale::class,
+        ];
+    }
+
+    public function get(): array
+    {
+        return $this->definitions;
+    }
 }

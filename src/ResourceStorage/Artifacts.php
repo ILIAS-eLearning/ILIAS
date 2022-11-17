@@ -18,23 +18,31 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\ResourceStorage\Consumer;
-
-use ILIAS\ResourceStorage\Flavour\Flavour;
-use ILIAS\ResourceStorage\Revision\Revision;
+namespace ILIAS\ResourceStorage;
 
 /**
+ * Class Artifacts
+ * @internal
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-interface SrcBuilder
+class Artifacts
 {
-    /**
-     * @throw \RuntimeException if signing is not possible or failed, but was requested with $signed = true
-     */
-    public function getRevisionURL(Revision $revision, bool $signed = true): string;
+    private array $flavour_machines;
+    private array $flavour_definitions;
 
-    /**
-     * @throw \RuntimeException if signing is not possible or failed, but was requested with $signed = true
-     */
-    public function getFlavourURLs(Flavour $flavour, bool $signed = true): \Generator;
+    public function __construct(array $flavour_machines, array $flavour_definitions)
+    {
+        $this->flavour_machines = $flavour_machines;
+        $this->flavour_definitions = $flavour_definitions;
+    }
+
+    public function getFlavourMachines(): array
+    {
+        return $this->flavour_machines;
+    }
+
+    public function getFlavourDefinitions(): array
+    {
+        return $this->flavour_definitions;
+    }
 }

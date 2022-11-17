@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,23 +17,26 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\ResourceStorage\Consumer;
+namespace ILIAS\ResourceStorage\Flavour\Machine;
 
-use ILIAS\ResourceStorage\Flavour\Flavour;
-use ILIAS\ResourceStorage\Revision\Revision;
+use ILIAS\Filesystem\Stream\FileStream;
+use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-interface SrcBuilder
+class NonStoreableResult extends Result
 {
-    /**
-     * @throw \RuntimeException if signing is not possible or failed, but was requested with $signed = true
-     */
-    public function getRevisionURL(Revision $revision, bool $signed = true): string;
+    protected FlavourDefinition $definition;
+    protected FileStream $stream;
 
-    /**
-     * @throw \RuntimeException if signing is not possible or failed, but was requested with $signed = true
-     */
-    public function getFlavourURLs(Flavour $flavour, bool $signed = true): \Generator;
+    public function __construct(
+        FlavourDefinition $definition,
+        FileStream $stream,
+        int $index = 0
+    ) {
+        $this->definition = $definition;
+        $this->stream = $stream;
+        parent::__construct($definition, $stream, $index, false);
+    }
 }

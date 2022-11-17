@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,23 +17,28 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\ResourceStorage\Consumer;
-
-use ILIAS\ResourceStorage\Flavour\Flavour;
-use ILIAS\ResourceStorage\Revision\Revision;
+namespace ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-interface SrcBuilder
+class DefaultMachines
 {
-    /**
-     * @throw \RuntimeException if signing is not possible or failed, but was requested with $signed = true
-     */
-    public function getRevisionURL(Revision $revision, bool $signed = true): string;
+    private array $machines = [];
 
-    /**
-     * @throw \RuntimeException if signing is not possible or failed, but was requested with $signed = true
-     */
-    public function getFlavourURLs(Flavour $flavour, bool $signed = true): \Generator;
+    public function __construct()
+    {
+        $this->machines = [
+            MakeGreyScale::ID => MakeGreyScale::class,
+            CropSquare::ID => CropSquare::class,
+            FitSquare::ID => FitSquare::class,
+            ExtractPages::ID => ExtractPages::class,
+        ];
+    }
+
+
+    public function get(): array
+    {
+        return $this->machines;
+    }
 }
