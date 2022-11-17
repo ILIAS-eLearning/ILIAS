@@ -20,6 +20,7 @@ use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Class ResourceBuilderTest
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -27,9 +28,13 @@ use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
 class RevisionRepositoryTest extends AbstractBaseTest
 {
     /**
+     * @var \ILIAS\ResourceStorage\Resource\StorableFileResource|mixed
+     */
+    public $resource;
+    /**
      * @var \PHPUnit\Framework\MockObject\MockObject|InfoResolver
      */
-    private $info_resolver;
+    private \PHPUnit\Framework\MockObject\MockObject $info_resolver;
 
     protected function setUp(): void
     {
@@ -63,7 +68,7 @@ class RevisionRepositoryTest extends AbstractBaseTest
     public function testStream(): void
     {
         $stream = $this->getDummyStream();
-        $i = rand();
+        $i = random_int(0, mt_getrandmax());
 
         $this->info_resolver->expects($this->once())
                             ->method('getNextVersionNumber')

@@ -20,6 +20,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Interface StakeholderDBRepository
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -60,7 +61,9 @@ class StakeholderDBRepository implements StakeholderRepository
             throw new \InvalidArgumentException('stakeholder ids MUST be shorter or equal to than 64 characters');
         }
         if (strlen($stakeholder_class_name) > 250) {
-            throw new \InvalidArgumentException('stakeholder classnames MUST be shorter or equal to than 250 characters');
+            throw new \InvalidArgumentException(
+                'stakeholder classnames MUST be shorter or equal to than 250 characters'
+            );
         }
 
         $r = $this->db->queryF(
@@ -155,6 +158,7 @@ class StakeholderDBRepository implements StakeholderRepository
 
     public function populateFromArray(array $data): void
     {
+        $stakeholders = [];
         $class_name = $data['class_name'];
         $stakeholder = new $class_name();
         $stakeholders[] = $stakeholder;

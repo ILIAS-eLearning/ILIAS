@@ -222,32 +222,7 @@ class ilInitialisation
     protected static function initResourceStorage(): void
     {
         global $DIC;
-
-        $DIC['resource_storage'] = static function (Container $c): \ILIAS\ResourceStorage\Services {
-            $revision_repository = new RevisionDBRepository($c->database());
-            $resource_repository = new ResourceDBRepository($c->database());
-            $information_repository = new InformationDBRepository($c->database());
-            $stakeholder_repository = new StakeholderDBRepository($c->database());
-            return new \ILIAS\ResourceStorage\Services(
-                new StorageHandlerFactory([
-                    new MaxNestingFileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE),
-                    new FileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE)
-                ]),
-                $revision_repository,
-                $resource_repository,
-                $information_repository,
-                $stakeholder_repository,
-                new LockHandlerilDB($c->database()),
-                new ilFileServicesPolicy($c->fileServiceSettings()),
-                new DBRepositoryPreloader(
-                    $c->database(),
-                    $resource_repository,
-                    $revision_repository,
-                    $information_repository,
-                    $stakeholder_repository
-                )
-            );
-        };
+        (new InitResourceStorage())->init($DIC);
     }
 
     /**
@@ -506,7 +481,7 @@ class ilInitialisation
 
         $ini_file = "/client.ini.php";
         if (defined('CLIENT_WEB_DIR')) {
-            $ini_file = CLIENT_WEB_DIR.$ini_file;
+            $ini_file = CLIENT_WEB_DIR . $ini_file;
         } else {
             $ini_file = "./" . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/client.ini.php";
         }

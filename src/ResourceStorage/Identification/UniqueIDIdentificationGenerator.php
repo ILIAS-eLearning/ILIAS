@@ -15,6 +15,7 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
 
 namespace ILIAS\ResourceStorage\Identification;
@@ -43,6 +44,7 @@ class UniqueIDIdentificationGenerator implements IdentificationGenerator
      */
     public function getUniqueResourceIdentification(): ResourceIdentification
     {
+        $unique_id = null;
         try {
             $unique_id = $this->factory->uuid4AsString();
         } catch (\Exception $e) {

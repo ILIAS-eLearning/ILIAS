@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,11 +13,15 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Manager;
 
 use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\ResourceStorage\Collection\CollectionBuilder;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
@@ -29,7 +31,6 @@ use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\ResourceStorage\Resource\InfoResolver\UploadInfoResolver;
 use ILIAS\ResourceStorage\Resource\InfoResolver\StreamInfoResolver;
 use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
-use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
 
 /**
  * Class StorageManager
@@ -39,15 +40,18 @@ class Manager
 {
     protected \ILIAS\ResourceStorage\Resource\ResourceBuilder $resource_builder;
     protected \ILIAS\ResourceStorage\Preloader\RepositoryPreloader $preloader;
+    protected CollectionBuilder $collection_builder;
 
     /**
      * Manager constructor.
      */
     public function __construct(
         ResourceBuilder $b,
+        CollectionBuilder $c,
         RepositoryPreloader $l
     ) {
         $this->resource_builder = $b;
+        $this->collection_builder = $c;
         $this->preloader = $l;
     }
 
@@ -121,6 +125,9 @@ class Manager
     public function remove(ResourceIdentification $identification, ResourceStakeholder $stakeholder): void
     {
         $this->resource_builder->remove($this->resource_builder->get($identification), $stakeholder);
+        if (!$this->resource_builder->has($identification)) {
+            $this->collection_builder->notififyResourceDeletion($identification);
+        }
     }
 
     public function clone(ResourceIdentification $identification): ResourceIdentification
@@ -140,7 +147,9 @@ class Manager
     ): Revision {
         if ($result->isOK()) {
             if (!$this->resource_builder->has($identification)) {
-                throw new \LogicException("Resource not found, can't append new version in: " . $identification->serialize());
+                throw new \LogicException(
+                    "Resource not found, can't append new version in: " . $identification->serialize()
+                );
             }
             $resource = $this->resource_builder->get($identification);
             $info_resolver = new UploadInfoResolver(
@@ -172,7 +181,9 @@ class Manager
     ): Revision {
         if ($result->isOK()) {
             if (!$this->resource_builder->has($identification)) {
-                throw new \LogicException("Resource not found, can't append new version in: " . $identification->serialize());
+                throw new \LogicException(
+                    "Resource not found, can't append new version in: " . $identification->serialize()
+                );
             }
             $resource = $this->resource_builder->get($identification);
             $info_resolver = new UploadInfoResolver(
@@ -202,7 +213,9 @@ class Manager
         string $revision_title = null
     ): Revision {
         if (!$this->resource_builder->has($identification)) {
-            throw new \LogicException("Resource not found, can't append new version in: " . $identification->serialize());
+            throw new \LogicException(
+                "Resource not found, can't append new version in: " . $identification->serialize()
+            );
         }
 
         $resource = $this->resource_builder->get($identification);
@@ -233,7 +246,9 @@ class Manager
         string $revision_title = null
     ): Revision {
         if (!$this->resource_builder->has($identification)) {
-            throw new \LogicException("Resource not found, can't append new version in: " . $identification->serialize());
+            throw new \LogicException(
+                "Resource not found, can't append new version in: " . $identification->serialize()
+            );
         }
 
         $resource = $this->resource_builder->get($identification);

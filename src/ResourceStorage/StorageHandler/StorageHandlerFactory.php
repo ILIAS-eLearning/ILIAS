@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +13,10 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\StorageHandler;
 
@@ -33,13 +34,15 @@ class StorageHandlerFactory
      */
     protected array $handlers = [];
     protected ?\ILIAS\ResourceStorage\StorageHandler\StorageHandler $primary = null;
+    private string $base_dir;
 
     /**
      * StorageHandlerFactory constructor.
      * @param StorageHandler[] $handlers
      */
-    public function __construct(array $handlers)
+    public function __construct(array $handlers, string $base_dir)
     {
+        $this->base_dir = $base_dir;
         foreach ($handlers as $handler) {
             $this->handlers[$handler->getID()] = $handler;
             if ($handler->isPrimary()) {
@@ -52,6 +55,11 @@ class StorageHandlerFactory
         if ($this->primary === null) {
             throw new \LogicException("One primary StorageHandler must exist");
         }
+    }
+
+    public function getBaseDir(): string
+    {
+        return $this->base_dir;
     }
 
     public function getHandlerForResource(StorableResource $resource): StorageHandler

@@ -35,7 +35,9 @@ trait GetRevisionTrait
             if ($this->resource->hasSpecificRevision($this->revision_number)) {
                 $revision = $this->resource->getSpecificRevision($this->revision_number);
             } else {
-                throw new OutOfBoundsException("there is no version $this->revision_number of resource {$this->resource->getIdentification()->serialize()}");
+                throw new OutOfBoundsException(
+                    "there is no version $this->revision_number of resource {$this->resource->getIdentification()->serialize()}"
+                );
             }
         } else {
             $revision = $this->resource->getCurrentRevision();

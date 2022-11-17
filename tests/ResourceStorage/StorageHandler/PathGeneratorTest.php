@@ -22,6 +22,7 @@ use ILIAS\ResourceStorage\StorageHandler\PathGenerator\MaxNestingPathGenerator;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Class PathGeneratorTest
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -48,7 +49,7 @@ class PathGeneratorTest extends AbstractBaseTest
         $path = $path_generator->getPathFor($identification);
         $this->assertGreaterThanOrEqual(strlen($identification->serialize()), strlen($path));
         foreach ($this->prohibited as $value) {
-            $this->assertFalse(strpos($path, $value));
+            $this->assertFalse(strpos($path, (string) $value));
         }
 
         $new_identification = $path_generator->getIdentificationFor($path);
@@ -64,7 +65,7 @@ class PathGeneratorTest extends AbstractBaseTest
         $path = $path_generator->getPathFor($identification);
 
         foreach ($this->prohibited as $value) {
-            $this->assertFalse(strpos($path, $value));
+            $this->assertFalse(strpos($path, (string) $value));
         }
 
         $new_identification = $path_generator->getIdentificationFor($path);

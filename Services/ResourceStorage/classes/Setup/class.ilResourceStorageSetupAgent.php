@@ -22,6 +22,7 @@ use ILIAS\Setup\ObjectiveCollection;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Class ilResourceStorageSetupAgent
  * @author Fabian Schmid <fs@studer-raimann.ch>
