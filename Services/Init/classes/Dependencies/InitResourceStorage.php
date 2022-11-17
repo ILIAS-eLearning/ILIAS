@@ -111,7 +111,7 @@ class InitResourceStorage
 
         // Source Builder for Consumers
         $c[self::D_SOURCE_BUILDER] = static function (Container $c): ?SrcBuilder {
-            return null;
+            return new ilWACSrcBuilder();
         };
 
         // Filename Policy for Consumers
