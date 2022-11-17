@@ -56,6 +56,7 @@ class ilAssLongmenuCorrectionsInputGUI extends ilAnswerWizardInputGUI
     {
         $closeButton = ilJsLinkButton::getInstance();
         $closeButton->setCaption('close');
+        $closeButton->setTarget('');
         $closeButton->setOnClick("$('#modal_{$this->getPostVar()}').modal('hide');");
 
         $modal = ilModalGUI::getInstance();
