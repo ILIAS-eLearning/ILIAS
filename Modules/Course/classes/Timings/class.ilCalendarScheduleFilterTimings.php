@@ -150,7 +150,6 @@ class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
             $course_ref_id = end($ref_ids);
             $course_timing_mode = ilObjCourse::lookupTimingMode($course_obj_id);
             if (!$this->enabledCourseTimings($course_ref_id)) {
-                ilLoggerFactory::getLogger('cal')->debug('Timings disabled for course: ');
                 continue;
             }
             $active = ilObjectActivation::getTimingsItems($course_ref_id);

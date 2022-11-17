@@ -29,9 +29,6 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
         // event description
         $this->addEventDescription($a_app);
 
-        // event location
-        $this->addEventLocation($a_app);
-
         //Contained in:
         $this->addContainerInfo($this->getObjIdForAppointment());
 
