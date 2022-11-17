@@ -421,7 +421,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             include_once "./Modules/TestQuestionPool/classes/class.assAnswerImagemap.php";
             if ($result->numRows() > 0) {
                 while ($data = $ilDB->fetchAssoc($result)) {
-                    $image_map_question = new ASS_AnswerImagemap($data["answertext"], $data["points"], $data["aorder"]);
+                    $image_map_question = new ASS_AnswerImagemap($data["answertext"] ?? '', $data["points"], $data["aorder"]);
                     $image_map_question->setCoords($data["coords"]);
                     $image_map_question->setArea($data["area"]);
                     $image_map_question->setPointsUnchecked($data['points_unchecked']);
