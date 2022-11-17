@@ -379,6 +379,7 @@ class ilCalendarPresentationGUI
         $ctrl->setParameterByClass("ilcalendarappointmentgui", "seed", $this->seed->get(IL_CAL_DATE, ''));
         $ctrl->setParameterByClass("ilcalendarappointmentgui", "app_id", "");
         $ctrl->setParameterByClass("ilcalendarappointmentgui", "dt", "");
+        $ctrl->setParameterByClass("ilcalendarappointmentgui", "idate", (new ilDate(time(), IL_CAL_UNIX))->get(IL_CAL_DATE));
 
         $extra_button_added = false;
         // add appointment
