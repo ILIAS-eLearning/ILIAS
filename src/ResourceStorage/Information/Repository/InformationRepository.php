@@ -33,12 +33,9 @@ interface InformationRepository extends LockingRepository, PreloadableRepository
 {
     public function blank(): Information;
 
-
     public function store(Information $information, Revision $revision): void;
 
-
     public function get(Revision $revision): Information;
-
 
     public function delete(Information $information, Revision $revision): void;
 }

@@ -19,6 +19,7 @@ use ILIAS\ResourceStorage\Resource\StorableResource;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Class ResourceDBRepository
  * @author Fabian Schmid <fs@studer-raimann.ch>

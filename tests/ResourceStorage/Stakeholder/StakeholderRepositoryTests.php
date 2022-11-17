@@ -20,6 +20,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Class StakeholderRepositoryTests
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -57,17 +58,19 @@ class StakeholderRepositoryTests extends AbstractBaseTest
         $this->stakeholder_repository->register($this->identification, $stakeholder);
     }
 
-    protected function getResourceStakeholder(?string $stakeholder_id = null, ?string $stakeholder_classname = null): \ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder
-    {
+    protected function getResourceStakeholder(
+        ?string $stakeholder_id = null,
+        ?string $stakeholder_classname = null
+    ): \ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder {
         return new class ($stakeholder_id, $stakeholder_classname) implements ResourceStakeholder {
             /**
              * @var string|mixed
              */
-            protected $stakeholder_id = 'the_ludicrous_long_identification_string_of_a_resource_stakeholder';
+            protected string $stakeholder_id = 'the_ludicrous_long_identification_string_of_a_resource_stakeholder';
             /**
              * @var string|mixed
              */
-            protected $stakeholder_classname = 'This\Is\A\Very\Long\Class\Name\Which\Can\Not\Be\Handled\As\A\Propper\Stakeholder\In\The\ILIAS\Resource\Storage\Service';
+            protected string $stakeholder_classname = 'This\Is\A\Very\Long\Class\Name\Which\Can\Not\Be\Handled\As\A\Propper\Stakeholder\In\The\ILIAS\Resource\Storage\Service';
 
             public function __construct(?string $stakeholder_id = null, ?string $stakeholder_classname = null)
             {

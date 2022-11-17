@@ -21,6 +21,7 @@ use ILIAS\ResourceStorage\Revision\Revision;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Interface InformationDBRepository
  * @author Fabian Schmid <fs@studer-raimann.ch>

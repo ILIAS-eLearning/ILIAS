@@ -42,12 +42,13 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
         FileStream $stream,
         int $next_version_number,
         int $revision_owner_id,
-        string $revision_title
+        string $revision_title,
+        ?string $file_name = null
     ) {
         parent::__construct($next_version_number, $revision_owner_id, $revision_title);
         $this->file_stream = $stream;
         $this->path = $stream->getMetadata('uri');
-        $this->initFileName();
+        $this->initFileName($file_name);
         $this->suffix = pathinfo($this->file_name, PATHINFO_EXTENSION);
         $this->initSize();
         $this->initMimeType();
@@ -61,7 +62,7 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
             $this->mime_type = mime_content_type($this->path);
             return;
         }
-        /** @noRector  */
+        /** @noRector */
         if (class_exists('finfo')) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
             //We only need the first few bytes to determine the mime-type this helps to reduce RAM-Usage
@@ -84,7 +85,7 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
         } catch (\Throwable $t) {
             $mb_strlen_exists = function_exists('mb_strlen');
             //We only read one MB at a time as this radically reduces RAM-Usage
-            while ($content = $this->file_stream->read(1048576)) {
+            while ($content = $this->file_stream->read(1_048_576)) {
                 if ($mb_strlen_exists) {
                     $this->size += mb_strlen($content, '8bit');
                 } else {
@@ -101,11 +102,17 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
     protected function initCreationDate(): void
     {
         $filectime = file_exists($this->path) ? filectime($this->path) : false;
-        $this->creation_date = $filectime ? (new \DateTimeImmutable())->setTimestamp($filectime) : new \DateTimeImmutable();
+        $this->creation_date = $filectime ? (new \DateTimeImmutable())->setTimestamp(
+            $filectime
+        ) : new \DateTimeImmutable();
     }
 
-    protected function initFileName(): void
+    protected function initFileName(?string $file_name = null): void
     {
+        if ($file_name !== null) {
+            $this->file_name = $file_name;
+            return;
+        }
         $this->file_name = basename($this->path);
         if ($this->file_name === 'memory' || $this->file_name === 'input') { // in case the stream is ofString or of php://input
             $this->file_name = $this->getRevisionTitle();

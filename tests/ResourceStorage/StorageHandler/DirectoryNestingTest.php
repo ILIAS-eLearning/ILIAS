@@ -21,6 +21,7 @@ use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\FileSystemStorageHandle
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Class DirectoryNestingTest
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -30,8 +31,8 @@ class DirectoryNestingTest extends AbstractBaseTest
     private const NESTING_256 = 256; // 16^2
     private const NESTING_4096 = 4096; // 16^3
     private const NESTING_65536 = 65536; // 16^4
-    private const NESTING_4294967296 = 4294967296; // 16^8
-    private const NESTING_281474976710656 = 281474976710656; // 16^12
+    private const NESTING_4294967296 = 4_294_967_296; // 16^8
+    private const NESTING_281474976710656 = 281_474_976_710_656; // 16^12
 
     private const MAX_NESTING = self::NESTING_65536;
     private const MIN_NESTING = self::NESTING_256;

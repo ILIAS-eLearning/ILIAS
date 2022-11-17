@@ -1,24 +1,27 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\ResourceStorage\Policy;
 
 use ILIAS\MainMenu\Tests\DummyIDGenerator;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTest;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class FileNamePolicyTest
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -81,7 +84,7 @@ class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
         $expected_file_name = 'info.' . $denied_ending;
 
         // MOCK
-        list($upload_result, $info_resolver, $identification) = $this->mockResourceAndRevision(
+        [$upload_result, $info_resolver, $identification] = $this->mockResourceAndRevision(
             $expected_file_name,
             "",
             0,
@@ -108,7 +111,7 @@ class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
         $expected_file_name = 'info.pdf';
 
         // MOCK
-        list($upload_result, $info_resolver, $identification) = $this->mockResourceAndRevision(
+        [$upload_result, $info_resolver, $identification] = $this->mockResourceAndRevision(
             $expected_file_name,
             "",
             0,

@@ -54,10 +54,14 @@ class Migrator
     public function migrate(StorableResource $resource, string $to_handler_id): bool
     {
         $existing_handler = $this->handler_factory->getHandlerForResource($resource);
-        $existing_path = $this->filesystem_base_path . '/' . $existing_handler->getFullContainerPath($resource->getIdentification());
+        $existing_path = $this->filesystem_base_path . '/' . $existing_handler->getFullContainerPath(
+            $resource->getIdentification()
+        );
 
         $new_handler = $this->handler_factory->getHandlerForStorageId($to_handler_id);
-        $destination_path = $this->filesystem_base_path . '/' . $new_handler->getFullContainerPath($resource->getIdentification());
+        $destination_path = $this->filesystem_base_path . '/' . $new_handler->getFullContainerPath(
+            $resource->getIdentification()
+        );
 
         if (!file_exists($existing_path)) {
             // File is not existing, we MUST delete the resource

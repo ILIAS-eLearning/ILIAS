@@ -35,7 +35,7 @@ class RevisionCollection
 
     /**
      * RevisionCollection constructor.
-     * @param FileRevision[]         $revisions
+     * @param FileRevision[] $revisions
      */
     public function __construct(ResourceIdentification $identification, array $revisions = [])
     {
@@ -46,14 +46,18 @@ class RevisionCollection
     public function add(Revision $revision): void
     {
         if ($this->identification->serialize() !== $revision->getIdentification()->serialize()) {
-            throw new NonMatchingIdentificationException("Can't add Revision since it's not the same ResourceIdentification");
+            throw new NonMatchingIdentificationException(
+                "Can't add Revision since it's not the same ResourceIdentification"
+            );
         }
         foreach ($this->revisions as $r) {
             if ($r->getVersionNumber() === $revision->getVersionNumber()) {
-                throw new RevisionExistsException(sprintf(
-                    "Can't add already existing version number: %s",
-                    $revision->getVersionNumber()
-                ));
+                throw new RevisionExistsException(
+                    sprintf(
+                        "Can't add already existing version number: %s",
+                        $revision->getVersionNumber()
+                    )
+                );
             }
         }
         $this->revisions[$revision->getVersionNumber()] = $revision;
@@ -108,7 +112,7 @@ class RevisionCollection
 
     public function getMax(): int
     {
-        if (count($this->revisions) === 0) {
+        if ($this->revisions === []) {
             return 0;
         }
         return max(array_keys($this->revisions));

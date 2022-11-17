@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +13,10 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Stakeholder;
 
@@ -75,7 +76,9 @@ abstract class AbstractResourceStakeholder implements ResourceStakeholder
 
         preg_match($re, str_replace("\\", "/", $reflector->getFileName()), $matches);
 
-        $this->provider_name_cache = isset($matches[1]) ? is_string($matches[1]) ? $matches[1] : self::class : self::class;
+        $this->provider_name_cache = isset($matches[1]) ? is_string(
+            $matches[1]
+        ) ? $matches[1] : self::class : self::class;
 
         return $this->provider_name_cache;
     }

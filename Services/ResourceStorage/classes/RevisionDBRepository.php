@@ -29,6 +29,7 @@ use ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Class RevisionDBRepository
  * @author Fabian Schmid <fs@studer-raimann.ch>

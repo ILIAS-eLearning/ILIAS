@@ -2,18 +2,16 @@
 
 namespace ILIAS\ResourceStorage;
 
-/** @noRector  */
+/** @noRector */
 require_once('DummyIDGenerator.php');
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\ResourceStorage\Identification\IdentificationGenerator;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Collection\EntryLockingStringMap;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Revision\FileRevision;
 
 /******************************************************************************
@@ -29,6 +27,7 @@ use ILIAS\ResourceStorage\Revision\FileRevision;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Class ResourceBuilderTest
  * @author Fabian Schmid <fs@studer-raimann.ch>

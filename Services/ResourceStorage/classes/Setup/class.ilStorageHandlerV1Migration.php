@@ -1,38 +1,30 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\Setup\CLI\IOWrapper;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Migration;
 use ILIAS\ResourceStorage\StorageHandler\Migrator;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
 use ILIAS\Filesystem\Provider\FlySystem\FlySystemFilesystemFactory;
-use ILIAS\FileUpload\Location;
-use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\FileSystemStorageHandler;
-use ILIAS\ResourceStorage\Policy\FileNamePolicyStack;
-use ILIAS\ResourceStorage\Resource\ResourceBuilder;
-use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\MaxNestingFileSystemStorageHandler;
 use ILIAS\DI\Container;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
-use ILIAS\ResourceStorage\Resource\Repository\ResourceDBRepository;
-use ILIAS\ResourceStorage\Information\Repository\InformationDBRepository;
-use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class ilStorageHandlerV1Migration
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -97,23 +89,16 @@ class ilStorageHandlerV1Migration implements Migration
         $GLOBALS["DIC"]["ilDB"] = $this->database;
         $GLOBALS["ilDB"] = $this->database;
 
-        $storage_handler_factory = new StorageHandlerFactory([
-            new MaxNestingFileSystemStorageHandler($filesystem, Location::STORAGE),
-            new FileSystemStorageHandler($filesystem, Location::STORAGE)
-        ]);
+        // Build Container
+        $init = new InitResourceStorage();
+        $container = new Container();
+        $container['ilDB'] = $this->database;
+        $container['filesystem.storage'] = $filesystem;
 
-        $this->resource_builder = new ResourceBuilder(
-            $storage_handler_factory,
-            new RevisionDBRepository($this->database),
-            new ResourceDBRepository($this->database),
-            new InformationDBRepository($this->database),
-            new StakeholderDBRepository($this->database),
-            new LockHandlerilDB($this->database),
-            new FileNamePolicyStack()
-        );
+        $this->resource_builder = $init->getResourceBuilder($container);
 
         $this->migrator = new Migrator(
-            $storage_handler_factory,
+            $container[InitResourceStorage::D_STORAGE_HANDLERS],
             $this->resource_builder,
             $this->database,
             $this->data_dir
@@ -135,7 +120,9 @@ class ilStorageHandlerV1Migration implements Migration
             $resource = $this->resource_builder->get(new ResourceIdentification($d->identification));
             if (!$this->migrator->migrate($resource, $this->to)) {
                 $i = $resource->getIdentification()->serialize();
-                $io->text('Resource ' . $i . ' not migrated, file not found. All Stakeholder have been informed about the deletion.');
+                $io->text(
+                    'Resource ' . $i . ' not migrated, file not found. All Stakeholder have been informed about the deletion.'
+                );
             }
         }
     }

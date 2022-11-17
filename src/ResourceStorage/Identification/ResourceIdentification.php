@@ -19,52 +19,13 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Identification;
 
-use Serializable;
-
 /**
- * Interface Identification
+ * Class ResourceIdentification
  *
  * @internal
  *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
-class ResourceIdentification implements Serializable
+class ResourceIdentification extends AbstractIdentification
 {
-    private string $unique_id;
-
-
-    /**
-     * ResourceIdentification constructor.
-     */
-    public function __construct(string $unique_id)
-    {
-        $this->unique_id = $unique_id;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function serialize(): string
-    {
-        return $this->unique_id;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function unserialize($serialized): void
-    {
-        $this->unique_id = $serialized;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function __toString(): string
-    {
-        return $this->serialize();
-    }
 }

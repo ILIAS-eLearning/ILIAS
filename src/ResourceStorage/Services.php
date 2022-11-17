@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,25 +13,34 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage;
 
 use ILIAS\ResourceStorage\Consumer\ConsumerFactory;
 use ILIAS\ResourceStorage\Consumer\Consumers;
-use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
+use ILIAS\ResourceStorage\Consumer\InlineSrcBuilder;
+use ILIAS\ResourceStorage\Consumer\SrcBuilder;
+use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamInfoFactory;
+use ILIAS\ResourceStorage\Flavour\FlavourBuilder;
+use ILIAS\ResourceStorage\Flavour\Flavours;
+use ILIAS\ResourceStorage\Flavour\Machine\Factory;
+use ILIAS\ResourceStorage\Identification\UniqueIDCollectionIdentificationGenerator;
 use ILIAS\ResourceStorage\Manager\Manager;
-use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
+use ILIAS\ResourceStorage\Resource\Repository\FlavourRepository;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
-use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
 use ILIAS\ResourceStorage\Lock\LockHandler;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
 use ILIAS\ResourceStorage\Policy\FileNamePolicyStack;
 use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
 use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
+use ILIAS\ResourceStorage\Collection\Collections;
+use ILIAS\ResourceStorage\Collection\CollectionBuilder;
 
 /**
  * Class Services
@@ -44,49 +51,65 @@ class Services
 {
     protected \ILIAS\ResourceStorage\Manager\Manager $manager;
     protected \ILIAS\ResourceStorage\Consumer\Consumers $consumers;
+    protected \ILIAS\ResourceStorage\Collection\Collections $collections;
     protected \ILIAS\ResourceStorage\Preloader\RepositoryPreloader $preloader;
-
 
     /**
      * Services constructor.
-     * @param StorageHandler        $storage_handler_factory
+     * @param StorageHandler $storage_handler_factory
      */
     public function __construct(
         StorageHandlerFactory $storage_handler_factory,
-        RevisionRepository $revision_repository,
-        ResourceRepository $resource_repository,
-        InformationRepository $information_repository,
-        StakeholderRepository $stakeholder_repository,
+        Repositories $repositories,
         LockHandler $lock_handler,
         FileNamePolicy $file_name_policy,
+        SrcBuilder $src_builder = null,
         RepositoryPreloader $preloader = null
     ) {
+        $src_builder ??= new InlineSrcBuilder();
+        $stream_info_factory = new StreamInfoFactory(
+            $storage_handler_factory->getBaseDir()
+        );
         $file_name_policy_stack = new FileNamePolicyStack();
         $file_name_policy_stack->addPolicy($file_name_policy);
 
-        $b = new ResourceBuilder(
+        $resource_builder = new ResourceBuilder(
             $storage_handler_factory,
-            $revision_repository,
-            $resource_repository,
-            $information_repository,
-            $stakeholder_repository,
+            $repositories->getRevisionRepository(),
+            $repositories->getResourceRepository(),
+            $repositories->getInformationRepository(),
+            $repositories->getStakeholderRepository(),
             $lock_handler,
             $file_name_policy_stack
         );
-        $this->preloader = $preloader ?? new StandardRepositoryPreloader(
-            $resource_repository,
-            $revision_repository,
-            $information_repository,
-            $stakeholder_repository
+
+        $collection_builder = new CollectionBuilder(
+            $repositories->getCollectionRepository(),
+            new UniqueIDCollectionIdentificationGenerator(),
+            $lock_handler
         );
 
-        $this->manager = new Manager($b, $this->preloader);
+        $this->preloader = $preloader ?? new StandardRepositoryPreloader($repositories);
+
+        $this->manager = new Manager(
+            $resource_builder,
+            $collection_builder,
+            $this->preloader
+        );
         $this->consumers = new Consumers(
             new ConsumerFactory(
                 $storage_handler_factory,
                 $file_name_policy_stack
             ),
-            $b
+            $resource_builder,
+            $collection_builder,
+            $src_builder
+        );
+
+        $this->collections = new Collections(
+            $resource_builder,
+            $collection_builder,
+            $this->preloader
         );
     }
 
@@ -98,6 +121,11 @@ class Services
     public function consume(): Consumers
     {
         return $this->consumers;
+    }
+
+    public function collection(): Collections
+    {
+        return $this->collections;
     }
 
     public function preload(array $identification_strings): void

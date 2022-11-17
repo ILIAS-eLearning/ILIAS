@@ -24,7 +24,6 @@ use ILIAS\HTTP\Response\ResponseHeader;
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
-use GuzzleHttp\Psr7\MimeType;
 
 /**
  * Class BaseHTTPResponseBasedConsumer

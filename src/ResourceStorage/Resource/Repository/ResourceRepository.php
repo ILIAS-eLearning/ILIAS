@@ -35,24 +35,19 @@ interface ResourceRepository extends LockingRepository, PreloadableRepository
 {
     public function blank(ResourceIdentification $identification): StorableResource;
 
-
     /**
      * @throws ResourceNotFoundException
      */
     public function get(ResourceIdentification $identification): StorableResource;
 
-
     public function has(ResourceIdentification $identification): bool;
 
-
     public function store(StorableResource $resource): void;
-
 
     /**
      * @return Generator returning StorableResource instances
      */
     public function getAll(): Generator;
-
 
     public function delete(StorableResource $resource): void;
 }
