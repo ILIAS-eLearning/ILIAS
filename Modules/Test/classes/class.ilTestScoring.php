@@ -217,7 +217,8 @@ class ilTestScoring
 
     public function addRecalculatedPassByActive($activeId, $pass)
     {
-        if (!is_array($this->recalculatedPasses[$activeId])) {
+        if (!array_key_exists($activeId, $this->recalculatedPasses) ||
+            !is_array($this->recalculatedPasses[$activeId])) {
             $this->recalculatedPasses[$activeId] = array();
         }
 
@@ -258,11 +259,11 @@ class ilTestScoring
         $query = "
 			SELECT COUNT(*) num_manual_scorings
 			FROM tst_test_result tres
-			
+
 			INNER JOIN tst_active tact
 			ON tact.active_id = tres.active_fi
 			AND tact.test_fi = %s
-			
+
 			WHERE tres.manual = 1
 		";
 
