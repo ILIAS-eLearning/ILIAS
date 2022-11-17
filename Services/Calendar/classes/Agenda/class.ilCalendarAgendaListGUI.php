@@ -205,8 +205,6 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
             $cat_id = ilCalendarCategoryAssignments::_lookupCategory($e["event"]->getEntryId());
             $cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
 
-            $properties = array();
-
             /*TODO:
              * All this code related with the ctrl and shy button can be centralized in
              * ilCalendarViewGUI refactoring the method getAppointmentShyButton or
@@ -245,7 +243,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
             $li = $this->ui_factory->item()->standard($shy)
                                    ->withDescription("" . nl2br(strip_tags($e["event"]->getDescription())))
                                    ->withLeadText($lead_text)
-                                   ->withProperties($properties)
+                                   ->withProperties([])
                                    ->withColor($df->color('#' . $cat_info["color"]));
 
             if ($li_edited_by_plugin = $this->getPluginAgendaItem($li, $e['event'])) {
@@ -253,10 +251,13 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
             }
 
             // add type specific actions/properties
-            $app_gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate(
-                $this->seed->get(IL_CAL_DATE),
-                IL_CAL_DATE
-            ), $e);
+            $app_gui = ilCalendarAppointmentPresentationGUI::_getInstance(
+                new ilDate(
+                    $this->seed->get(IL_CAL_DATE),
+                    IL_CAL_DATE
+                ),
+                $e
+            );
             $app_gui->setListItemMode($li);
             $this->ctrl->getHTML($app_gui);
             $items[] = $app_gui->getListItem();
@@ -282,7 +283,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         #21479 Set seed if the view does not contain any event.
         $this->ctrl->setParameter($this, 'seed', $this->seed->get(IL_CAL_DATE));
 
-        $items = array();
+        $items = [];
         $this->ctrl->setParameter($this, "cal_agenda_per", self::PERIOD_DAY);
         $items[] = $this->ui_factory->button()->shy(
             $images[1] . "1 " . $this->lng->txt("day"),
