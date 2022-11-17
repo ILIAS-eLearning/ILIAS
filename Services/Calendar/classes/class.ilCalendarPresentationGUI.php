@@ -166,6 +166,7 @@ class ilCalendarPresentationGUI
                 }
                 $visibility->showSelected($v);
                 $visibility->save();
+                $this->ctrl->setParameterByClass(ilCalendarMonthGUI::class, 'category_id', $info['cat_id']);
                 $this->ctrl->setParameterByClass(\ilCalendarMonthGUI::class, 'seed', $this->seed);
                 $this->ctrl->redirectToURL(
                     $this->ctrl->getLinkTargetByClass(\ilCalendarMonthGUI::class, '')
