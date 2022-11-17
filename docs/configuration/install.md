@@ -96,7 +96,6 @@ We RECOMMEND to use MariaDB with the following settings:
   * InnoDB storage engine (default)
   * Character Set: `utf8`
   * Collation: `utf8_general_ci`
-  * `query_cache_size` > 16M
   * `join_buffer_size` > 128.0K
   * `table_open_cache` > 400
   * `innodb_buffer_pool_size` > 2G (depending on DB size)
