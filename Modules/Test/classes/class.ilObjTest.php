@@ -764,11 +764,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $ilDB = $DIC['ilDB'];
 
         if ($this->getTestId() > 0) {
-            $this->setECTSFX(preg_replace('/,/', '.', $this->getECTSFX()));
-            if (!preg_match('/\d+/', $this->getECTSFX())) {
-                $this->setECTSFX(null);
-            }
-
             $grades = $this->getECTSGrades();
             $ilDB->manipulateF(
                 "UPDATE tst_tests
