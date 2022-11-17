@@ -97,7 +97,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 
     public function setLongMenuTextValue($long_menu_text = "")
     {
-        $this->long_menu_text = $long_menu_text;
+        $this->long_menu_text = $this->getHtmlQuestionContentPurifier()->purify($long_menu_text);
     }
 
     public function getLongMenuTextValue()
