@@ -217,7 +217,7 @@ class ilTestScoring
 
     public function addRecalculatedPassByActive($activeId, $pass)
     {
-        if (!is_array($this->recalculatedPasses[$activeId])) {
+        if (!isset($this->recalculatedPasses[$activeId]) || !is_array($this->recalculatedPasses[$activeId])) {
             $this->recalculatedPasses[$activeId] = array();
         }
 
