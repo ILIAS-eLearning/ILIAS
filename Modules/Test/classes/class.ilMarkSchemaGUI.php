@@ -143,6 +143,8 @@ class ilMarkSchemaGUI
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_delete_missing_mark'));
         }
 
+        $this->object->getMarkSchema()->saveToDb($this->object->getTestId());
+
         $this->showMarkSchema();
     }
 
