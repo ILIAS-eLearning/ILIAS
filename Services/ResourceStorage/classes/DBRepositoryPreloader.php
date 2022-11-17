@@ -21,8 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\ResourceStorage\Preloader;
 
 use ILIAS\ResourceStorage\Repositories;
-use ILIAS\ResourceStorage\Resource\Repository\FlavourMachineRepository;
-use ILIAS\ResourceStorage\Resource\Repository\FlavourRepository;
 
 /**
  * Class DBRepositoryPreloader
@@ -31,12 +29,11 @@ use ILIAS\ResourceStorage\Resource\Repository\FlavourRepository;
  */
 class DBRepositoryPreloader extends StandardRepositoryPreloader implements RepositoryPreloader
 {
-    protected \ilDBInterface $db;
-
     /**
      * @var mixed[]
      */
     protected array $preloaded = [];
+    protected \ilDBInterface $db;
 
     public function __construct(\ilDBInterface $db, Repositories $repositories)
     {

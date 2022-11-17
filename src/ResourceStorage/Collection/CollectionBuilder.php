@@ -21,16 +21,15 @@ declare(strict_types=1);
 namespace ILIAS\ResourceStorage\Collection;
 
 use ILIAS\ResourceStorage\Identification\CollectionIdentificationGenerator;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Identification\UniqueIDCollectionIdentificationGenerator;
-use ILIAS\ResourceStorage\Lock\LockHandler;
-use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Preloader\SecureString;
 
 /**
  * Class CollectionBuilder
  *
- * @author   Fabian Schmid <fabian@sr.solutions>
+ * @author Fabian Schmid <fabian@sr.solutions>
  * @internal This class is not part of the public API and may be changed without notice. Do not use this class in your code.
  */
 class CollectionBuilder
@@ -38,22 +37,19 @@ class CollectionBuilder
     use SecureString;
 
     private const NO_SPECIFIC_OWNER = -1;
+    private Repository\CollectionRepository $collection_repository;
+    private ?CollectionIdentificationGenerator $id_generator = null;
+    private ?\ILIAS\ResourceStorage\Lock\LockHandler $lock_handler = null;
 
-    private \ILIAS\ResourceStorage\Collection\Repository\CollectionRepository $collection_repository;
-    private CollectionIdentificationGenerator $id_generator;
-    private ?LockHandler $lock_handler = null;
 
-    /**
-     * @param Repository\CollectionRepository $collection_repository
-     */
     public function __construct(
         Repository\CollectionRepository $collection_repository,
         ?CollectionIdentificationGenerator $id_generator = null,
-        ?LockHandler $lock_handler = null
+        ?\ILIAS\ResourceStorage\Lock\LockHandler $lock_handler = null
     ) {
         $this->collection_repository = $collection_repository;
-        $this->id_generator = $id_generator ?? new UniqueIDCollectionIdentificationGenerator();
         $this->lock_handler = $lock_handler;
+        $this->id_generator = $id_generator ?? new UniqueIDCollectionIdentificationGenerator();
     }
 
     public function has(ResourceCollectionIdentification $identification): bool

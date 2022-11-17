@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\ResourceStorage\StorageHandler;
 
 use ILIAS\ResourceStorage\Resource\StorableResource;
+use ILIAS\ResourceStorage\Revision\Revision;
 
 /**
  * Class StorageHandlerFactory
@@ -65,6 +66,11 @@ class StorageHandlerFactory
     public function getHandlerForResource(StorableResource $resource): StorageHandler
     {
         return $this->getHandlerForStorageId($resource->getStorageID());
+    }
+
+    public function getHandlerForRevision(Revision $revision): StorageHandler
+    {
+        return $this->getHandlerForStorageId($revision->getStorageID());
     }
 
     public function getHandlerForStorageId(string $storage_id): StorageHandler

@@ -28,7 +28,7 @@ use ILIAS\ResourceStorage\Information\Information;
  * Class CloneRevision
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class CloneRevision implements Revision
+class CloneRevision extends BaseRevision implements Revision
 {
     protected bool $available = true;
     protected \ILIAS\ResourceStorage\Identification\ResourceIdentification $identification;
@@ -36,24 +36,17 @@ class CloneRevision implements Revision
     protected ?\ILIAS\ResourceStorage\Information\Information $information = null;
     protected int $owner_id = 0;
     protected string $title = '';
-    protected \ILIAS\ResourceStorage\Revision\FileRevision $revision_to_clone;
+    protected FileRevision $revision_to_clone;
 
     /**
      * Revision constructor.
      */
     public function __construct(ResourceIdentification $identification, FileRevision $revision_to_clone)
     {
-        $this->identification = $identification;
         $this->revision_to_clone = $revision_to_clone;
+        parent::__construct($identification);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIdentification(): ResourceIdentification
-    {
-        return $this->identification;
-    }
 
     public function setVersionNumber(int $version_number): void
     {

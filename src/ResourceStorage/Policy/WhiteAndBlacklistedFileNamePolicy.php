@@ -13,6 +13,7 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
 
 namespace ILIAS\ResourceStorage\Policy;
@@ -35,6 +36,8 @@ abstract class WhiteAndBlacklistedFileNamePolicy implements FileNamePolicy
 
     /**
      * WhiteAndBlacklistedFileNamePolicy constructor.
+     * @param string[] $blacklisted
+     * @param string[] $whitelisted
      */
     public function __construct(array $blacklisted = [], array $whitelisted = [])
     {

@@ -16,14 +16,14 @@
  *
  *********************************************************************/
 
-use ILIAS\Setup\CLI\IOWrapper;
-use ILIAS\Setup\Environment;
-use ILIAS\Setup\Migration;
-use ILIAS\ResourceStorage\StorageHandler\Migrator;
+use ILIAS\DI\Container;
 use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
 use ILIAS\Filesystem\Provider\FlySystem\FlySystemFilesystemFactory;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\DI\Container;
+use ILIAS\ResourceStorage\StorageHandler\Migrator;
+use ILIAS\Setup\CLI\IOWrapper;
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\Migration;
 
 /**
  * Class ilStorageHandlerV1Migration
@@ -45,7 +45,7 @@ class ilStorageHandlerV1Migration implements Migration
 
     public function getLabel(): string
     {
-        return 'ilStorageHandlerV1Migration';
+        return \ilStorageHandlerV1Migration::class;
     }
 
     public function getDefaultAmountOfStepsPerRun(): int
@@ -136,6 +136,6 @@ class ilStorageHandlerV1Migration implements Migration
         );
         $d = $this->database->fetchObject($r);
 
-        return (int) ($d->old_storage ?? 0);
+        return (int)($d->old_storage ?? 0);
     }
 }

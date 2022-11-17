@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,12 +13,14 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Revision;
 
 use DateTimeImmutable;
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Information\FileInformation;
 use ILIAS\ResourceStorage\Information\Information;
 
@@ -28,26 +28,8 @@ use ILIAS\ResourceStorage\Information\Information;
  * Class NullRevision
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class NullRevision implements Revision
+class NullRevision extends BaseRevision implements Revision
 {
-    private \ILIAS\ResourceStorage\Identification\ResourceIdentification $identification;
-
-    /**
-     * NullRevision constructor.
-     */
-    public function __construct(ResourceIdentification $identification)
-    {
-        $this->identification = $identification;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getIdentification(): ResourceIdentification
-    {
-        return $this->identification;
-    }
-
     /**
      * @inheritDoc
      */

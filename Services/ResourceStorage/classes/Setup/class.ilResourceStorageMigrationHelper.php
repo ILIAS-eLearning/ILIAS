@@ -17,18 +17,18 @@
  *********************************************************************/
 
 use ILIAS\DI\Container;
+use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
+use ILIAS\Filesystem\Provider\FlySystem\FlySystemFilesystemFactory;
+use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Collection\CollectionBuilder;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
-use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
-use ILIAS\ResourceStorage\Resource\ResourceBuilder;
-use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
-use ILIAS\Filesystem\Provider\FlySystem\FlySystemFilesystemFactory;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Resource\InfoResolver\StreamInfoResolver;
-use ILIAS\Setup\Environment;
 use ILIAS\ResourceStorage\Resource\Repository\CollectionDBRepository;
+use ILIAS\ResourceStorage\Resource\ResourceBuilder;
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
+use ILIAS\Setup\Environment;
 
 /**
  * Class ilResourceStorageMigrationHelper
@@ -36,21 +36,22 @@ use ILIAS\ResourceStorage\Resource\Repository\CollectionDBRepository;
  */
 class ilResourceStorageMigrationHelper
 {
-    protected ResourceStakeholder $stakeholder;
     protected string $client_data_dir;
     protected ilDBInterface $database;
     protected ResourceBuilder $resource_builder;
     protected CollectionBuilder $collection_builder;
+    protected ResourceStakeholder $stakeholder;
 
     /**
      * ilResourceStorageMigrationHelper constructor.
-     * @param string        $client_data_dir
+     * @param string $client_data_dir
      * @param ilDBInterface $database
      */
     public function __construct(
         ResourceStakeholder $stakeholder,
         Environment $environment
     ) {
+        $this->stakeholder = $stakeholder;
         /** @noinspection PhpFieldAssignmentTypeMismatchInspection */
         $db = $environment->getResource(Environment::RESOURCE_DATABASE);
         $ilias_ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
@@ -66,8 +67,6 @@ class ilResourceStorageMigrationHelper
         if (!defined("CLIENT_ID")) {
             define("CLIENT_ID", $client_id);
         }
-
-        $this->stakeholder = $stakeholder;
         $this->client_data_dir = $client_data_dir;
         $this->database = $db;
 

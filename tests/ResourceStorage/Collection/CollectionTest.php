@@ -62,16 +62,14 @@ class CollectionTest extends AbstractBaseResourceBuilderTest
         );
 
         $this->preloader = $this->getMockBuilder(RepositoryPreloader::class)
-                                ->disableOriginalConstructor()
-                                ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->resource_builder = new ResourceBuilder(
             $this->storage_handler_factory,
-            $this->revision_repository,
-            $this->resource_repository,
-            $this->information_repository,
-            $this->stakeholder_repository,
-            $this->locking
+            $this->repositories,
+            $this->locking,
+            $this->stream_access
         );
 
         $this->collections = new Collections(
@@ -80,6 +78,7 @@ class CollectionTest extends AbstractBaseResourceBuilderTest
             $this->preloader
         );
     }
+
 
     public function testCreateCollection(): void
     {
@@ -215,6 +214,7 @@ class CollectionTest extends AbstractBaseResourceBuilderTest
         $this->assertFalse($collection->isIn($rid_two));
         $this->assertEquals(0, $collection->count());
     }
+
 
     protected function arrayAsGenerator(array $array): \Generator
     {

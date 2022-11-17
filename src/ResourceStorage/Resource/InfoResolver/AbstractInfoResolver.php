@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +13,10 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Resource\InfoResolver;
 
@@ -26,9 +27,9 @@ namespace ILIAS\ResourceStorage\Resource\InfoResolver;
  */
 abstract class AbstractInfoResolver implements InfoResolver
 {
-    protected int $revision_owner_id = 0;
-    protected string $revision_title = '';
-    protected int $next_version_number = 0;
+    protected int $next_version_number;
+    protected int $revision_owner_id;
+    protected string $revision_title;
 
     /**
      * AbstractInfoResolver constructor.

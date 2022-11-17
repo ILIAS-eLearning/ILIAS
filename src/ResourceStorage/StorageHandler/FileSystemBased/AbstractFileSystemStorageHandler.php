@@ -42,17 +42,17 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
 {
     protected const DATA = 'data';
     protected \ILIAS\ResourceStorage\StorageHandler\PathGenerator\PathGenerator $path_generator;
-    protected \ILIAS\Filesystem\Filesystem $fs;
     protected \ILIAS\ResourceStorage\Identification\IdentificationGenerator $id;
-    protected int $location;
     protected bool $links_possible = false;
+    protected Filesystem $fs;
+    protected int $location = Location::STORAGE;
 
     public function __construct(
-        Filesystem $filesystem,
+        Filesystem $fs,
         int $location = Location::STORAGE,
         bool $determine_linking_possible = false
     ) {
-        $this->fs = $filesystem;
+        $this->fs = $fs;
         $this->location = $location;
         $this->id = new UniqueIDIdentificationGenerator();
         if ($determine_linking_possible) {
@@ -69,11 +69,11 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
         $cleaner = function () use ($original_filename, $linked_filename): void {
             try {
                 $this->fs->delete($original_filename);
-            } catch (\Throwable $t) {
+            } catch (\Throwable $exception) {
             }
             try {
                 $this->fs->delete($linked_filename);
-            } catch (\Throwable $t) {
+            } catch (\Throwable $exception) {
             }
         };
 
@@ -101,7 +101,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
                 return true;
             }
             $cleaner();
-        } catch (\Throwable $t) {
+        } catch (\Throwable $exception) {
             return false;
         }
         return false;
@@ -174,7 +174,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
                 }
                 $revision->getStream()->close();
             }
-        } catch (\Throwable $t) {
+        } catch (\Throwable $exception) {
             return false;
         }
 
@@ -187,7 +187,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
         try {
             $this->fs->writeStream($this->getRevisionPath($revision) . '/' . self::DATA, $stream);
             $stream->close();
-        } catch (\Throwable $t) {
+        } catch (\Throwable $exception) {
             return false;
         }
 
@@ -201,7 +201,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
     {
         try {
             $this->fs->deleteDir($this->getRevisionPath($revision));
-        } catch (\Throwable $t) {
+        } catch (\Throwable $exception) {
         }
     }
 
@@ -212,11 +212,11 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
     {
         try {
             $this->fs->deleteDir($this->getFullContainerPath($resource->getIdentification()));
-        } catch (\Throwable $t) {
+        } catch (\Throwable $exception) {
         }
         try {
             $this->cleanUpContainer($resource);
-        } catch (\Throwable $t) {
+        } catch (\Throwable $exception) {
         }
     }
 

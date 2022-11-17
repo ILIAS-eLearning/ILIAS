@@ -16,8 +16,8 @@
  *
  *********************************************************************/
 
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\DI\Container;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * Class ilResourceStorageInfoGUI

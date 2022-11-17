@@ -21,9 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\ResourceStorage\Consumer;
 
 use ILIAS\HTTP\Response\ResponseHeader;
-use ILIAS\ResourceStorage\Resource\StorableResource;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
+use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
+use ILIAS\ResourceStorage\Resource\StorableResource;
 
 /**
  * Class BaseHTTPResponseBasedConsumer
@@ -31,18 +31,18 @@ use ILIAS\ResourceStorage\Policy\FileNamePolicy;
  */
 abstract class BaseHTTPResponseBasedConsumer extends BaseConsumer implements DeliveryConsumer
 {
-    private \ILIAS\HTTP\Services $http;
     // This should be 'application/octet-stream', but Firefox determines the content type from the file content, then.
     private const NON_VALID_EXTENSION_MIME = \ILIAS\FileUpload\MimeType::TEXT__PLAIN;
+    private \ILIAS\HTTP\Services $http;
 
     public function __construct(
         \ILIAS\HTTP\Services $http,
         StorableResource $resource,
-        StorageHandler $storage_handler,
+        StreamAccess $stream_access,
         FileNamePolicy $file_name_policy
     ) {
         $this->http = $http;
-        parent::__construct($resource, $storage_handler, $file_name_policy);
+        parent::__construct($resource, $stream_access, $file_name_policy);
     }
 
     abstract protected function getDisposition(): string;
@@ -72,7 +72,9 @@ abstract class BaseHTTPResponseBasedConsumer extends BaseConsumer implements Del
             . $file_name_for_consumer
             . '"'
         );
-        $response = $response->withBody($this->storage_handler->getStream($revision));
+        $revision = $this->stream_access->populateRevision($revision);
+
+        $response = $response->withBody($revision->maybeGetToken()->resolveStream());
 
         $this->http->saveResponse($response);
         $this->http->sendResponse();

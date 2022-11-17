@@ -18,10 +18,10 @@
 
 namespace ILIAS\ResourceStorage\Resource\Repository;
 
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Collection\Repository\CollectionRepository;
-use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * Class CollectionDBRepository
@@ -35,7 +35,6 @@ class CollectionDBRepository implements CollectionRepository
     public const COLLECTION_ASSIGNMENT_TABLE_NAME = 'il_resource_rca';
     public const R_IDENTIFICATION = 'rid';
     public const C_IDENTIFICATION = 'rcid';
-
     protected \ilDBInterface $db;
 
     public function __construct(\ilDBInterface $db)
@@ -68,11 +67,12 @@ class CollectionDBRepository implements CollectionRepository
         $q = "SELECT owner, title FROM " . self::COLLECTION_TABLE_NAME . " WHERE " . self::C_IDENTIFICATION . " = %s";
         $r = $this->db->queryF($q, ['text'], [$identification->serialize()]);
         $d = $this->db->fetchObject($r);
-        $owner_id = (int) ($d->owner ?? ResourceCollection::NO_SPECIFIC_OWNER);
-        $title = (string) ($d->title ?? '');
+        $owner_id = (int)($d->owner ?? ResourceCollection::NO_SPECIFIC_OWNER);
+        $title = (string)($d->title ?? '');
 
         return $this->blank($identification, $owner_id, $title);
     }
+
 
     public function has(ResourceCollectionIdentification $identification): bool
     {
@@ -90,7 +90,7 @@ class CollectionDBRepository implements CollectionRepository
         $q = "SELECT " . self::R_IDENTIFICATION . " FROM " . self::COLLECTION_ASSIGNMENT_TABLE_NAME . " WHERE " . self::C_IDENTIFICATION . " = %s ORDER BY position ASC";
         $r = $this->db->queryF($q, ['text'], [$identification->serialize()]);
         while ($d = $this->db->fetchAssoc($r)) {
-            yield (string) $d[self::R_IDENTIFICATION];
+            yield (string)$d[self::R_IDENTIFICATION];
         }
     }
 
@@ -107,9 +107,10 @@ class CollectionDBRepository implements CollectionRepository
         $owner_id = $collection->getOwner();
         $title = $collection->getTitle();
 
-        $resource_identification_strings = array_map(function (ResourceIdentification $i): string {
-            return $i->serialize();
-        }, $resource_identifications);
+        $resource_identification_strings = array_map(
+            fn (ResourceIdentification $i): string => $i->serialize(),
+            $resource_identifications
+        );
 
         $q = "DELETE FROM " . self::COLLECTION_ASSIGNMENT_TABLE_NAME . " WHERE " . self::C_IDENTIFICATION . " = %s AND "
             . $this->db->in(self::R_IDENTIFICATION, $resource_identification_strings, true, 'text');
@@ -123,7 +124,7 @@ class CollectionDBRepository implements CollectionRepository
             $this->db->insert(self::COLLECTION_ASSIGNMENT_TABLE_NAME, [
                 self::C_IDENTIFICATION => ['text', $identification->serialize()],
                 self::R_IDENTIFICATION => ['text', $resource_identification_string],
-                'position' => ['integer', (int) $position + 1],
+                'position' => ['integer', (int)$position + 1],
             ]);
         }
         foreach ($resource_identification_strings as $position => $resource_identification_string) {
@@ -132,7 +133,7 @@ class CollectionDBRepository implements CollectionRepository
                 [
                     self::C_IDENTIFICATION => ['text', $identification->serialize()],
                     self::R_IDENTIFICATION => ['text', $resource_identification_string],
-                    'position' => ['integer', (int) $position + 1],
+                    'position' => ['integer', (int)$position + 1],
                 ],
                 [
                     self::C_IDENTIFICATION => ['text', $identification->serialize()],
@@ -186,6 +187,7 @@ class CollectionDBRepository implements CollectionRepository
             [$identification->serialize()]
         );
     }
+
 
     public function preload(array $identification_strings): void
     {

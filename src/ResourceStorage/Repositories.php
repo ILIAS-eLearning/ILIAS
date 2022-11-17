@@ -22,7 +22,6 @@ namespace ILIAS\ResourceStorage;
 
 use ILIAS\ResourceStorage\Collection\Repository\CollectionRepository;
 use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
-use ILIAS\ResourceStorage\Resource\Repository\FlavourRepository;
 use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
 use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
