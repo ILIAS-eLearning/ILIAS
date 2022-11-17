@@ -58,7 +58,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
             case "ilcalendarappointmentpresentationgui":
                 $this->ctrl->setReturn($this, "");
                 $this->logger->debug("-ExecCommand - representation of ilDate: this->seed->get(IL_CAL_DATE) = " . $this->seed->get(IL_CAL_DATE));
-                $gui = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $this->getCurrentApp());
+                $gui = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, (array) $this->getCurrentApp());
                 $this->ctrl->forwardCommand($gui);
                 break;
             case 'ilcalendarappointmentgui':
