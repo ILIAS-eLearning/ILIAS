@@ -94,10 +94,13 @@ class ilMarkSchemaGUI
                     $passed = "1";
                 }
 
+                //replace , with . for float values
+                $value = str_replace(',', '.', $value);
+
                 $this->object->getMarkSchema()->addMarkStep(
                     ilUtil::stripSlashes($postdata["mark_short_$matches[1]"]),
                     ilUtil::stripSlashes($postdata["mark_official_$matches[1]"]),
-                    ilUtil::stripSlashes($postdata["mark_percentage_$matches[1]"]),
+                    str_replace(',', '.', ilUtil::stripSlashes($postdata["mark_percentage_$matches[1]"])),
                     ilUtil::stripSlashes($passed)
                 );
             }
