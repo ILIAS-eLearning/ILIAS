@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,13 +13,16 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Resource\InfoResolver;
 
-use ILIAS\FileUpload\MimeType;
-use ILIAS\Filesystem\Stream\FileStream;
 use DateTimeImmutable;
+use ILIAS\Filesystem\Stream\FileStream;
+use ILIAS\FileUpload\MimeType;
 
 /**
  * Class StreamInfoResolver
@@ -30,24 +31,24 @@ use DateTimeImmutable;
  */
 class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
 {
-    protected \ILIAS\Filesystem\Stream\FileStream $file_stream;
     protected string $path;
     protected ?string $file_name = null;
     protected string $suffix;
     protected string $mime_type;
     protected ?\DateTimeImmutable $creation_date = null;
     protected int $size = 0;
+    protected FileStream $file_stream;
 
     public function __construct(
-        FileStream $stream,
+        FileStream $file_stream,
         int $next_version_number,
         int $revision_owner_id,
         string $revision_title,
         ?string $file_name = null
     ) {
+        $this->file_stream = $file_stream;
         parent::__construct($next_version_number, $revision_owner_id, $revision_title);
-        $this->file_stream = $stream;
-        $this->path = $stream->getMetadata('uri');
+        $this->path = $file_stream->getMetadata('uri');
         $this->initFileName($file_name);
         $this->suffix = pathinfo($this->file_name, PATHINFO_EXTENSION);
         $this->initSize();
@@ -82,7 +83,7 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
         $this->size = 0;
         try {
             $this->size = $this->file_stream->getSize();
-        } catch (\Throwable $t) {
+        } catch (\Throwable $exception) {
             $mb_strlen_exists = function_exists('mb_strlen');
             //We only read one MB at a time as this radically reduces RAM-Usage
             while ($content = $this->file_stream->read(1_048_576)) {

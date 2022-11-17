@@ -35,27 +35,27 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
  */
 class Collections
 {
-    private \ILIAS\ResourceStorage\Resource\ResourceBuilder $resource_builder;
-    private CollectionBuilder $collection_builder;
-    private \ILIAS\ResourceStorage\Preloader\RepositoryPreloader $preloader;
     private array $cache = [];
+    private ResourceBuilder $resource_builder;
+    private CollectionBuilder $collection_builder;
+    private RepositoryPreloader $preloader;
 
     /**
      * Consumers constructor.
      */
     public function __construct(
-        ResourceBuilder $r,
-        CollectionBuilder $c,
+        ResourceBuilder $resource_builder,
+        CollectionBuilder $collection_builder,
         RepositoryPreloader $preloader
     ) {
-        $this->resource_builder = $r;
-        $this->collection_builder = $c;
+        $this->resource_builder = $resource_builder;
+        $this->collection_builder = $collection_builder;
         $this->preloader = $preloader;
     }
 
     /**
      * @param string|null $collection_identification an existing collection identification or null for a new
-     * @param int|null    $owner                     if this colletion is owned by a users, you must prvide it's owner ID
+     * @param int|null $owner if this colletion is owned by a users, you must prvide it's owner ID
      */
     public function id(
         ?string $collection_identification = null,

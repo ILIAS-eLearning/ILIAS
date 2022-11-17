@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,9 +16,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\ResourceStorage\Identification;
+declare(strict_types=1);
 
-use ILIAS\Data\UUID\Factory;
+namespace ILIAS\ResourceStorage\Identification;
 
 /**
  * Class UniqueIDCollectionIdentificationGenerator
@@ -29,15 +27,7 @@ use ILIAS\Data\UUID\Factory;
  */
 class UniqueIDCollectionIdentificationGenerator implements CollectionIdentificationGenerator
 {
-    protected \ILIAS\Data\UUID\Factory $factory;
-
-    /**
-     * UniqueIDIdentificationGenerator constructor.
-     */
-    public function __construct()
-    {
-        $this->factory = new Factory();
-    }
+    use UUIDStringTrait;
 
     public function getUniqueResourceCollectionIdentification(): ResourceCollectionIdentification
     {

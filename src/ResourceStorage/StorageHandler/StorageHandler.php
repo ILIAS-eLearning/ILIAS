@@ -92,6 +92,7 @@ interface StorageHandler
      */
     public function getRevisionPath(Revision $revision): string;
 
+
     /**
      * @return string "link" or "rename"
      */

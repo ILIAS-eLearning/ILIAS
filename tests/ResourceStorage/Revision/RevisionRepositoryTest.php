@@ -1,25 +1,27 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\ResourceStorage\Revision;
 
 use ILIAS\ResourceStorage\AbstractBaseTest;
 use ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver;
 use ILIAS\ResourceStorage\Resource\StorableFileResource;
 use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
-
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 
 /**
  * Class ResourceBuilderTest
@@ -32,7 +34,7 @@ class RevisionRepositoryTest extends AbstractBaseTest
      */
     public $resource;
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|InfoResolver
+     * @var \PHPUnit\Framework\MockObject\MockObject|\ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver
      */
     private \PHPUnit\Framework\MockObject\MockObject $info_resolver;
 
@@ -52,8 +54,8 @@ class RevisionRepositoryTest extends AbstractBaseTest
         );
 
         $this->info_resolver->expects($this->once())
-                            ->method('getNextVersionNumber')
-                            ->willReturn(100);
+            ->method('getNextVersionNumber')
+            ->willReturn(100);
 
         $ar_revision_repo = new RevisionDBRepository($this->db_mock);
         $revision = $ar_revision_repo->blankFromUpload(
@@ -71,8 +73,8 @@ class RevisionRepositoryTest extends AbstractBaseTest
         $i = random_int(0, mt_getrandmax());
 
         $this->info_resolver->expects($this->once())
-                            ->method('getNextVersionNumber')
-                            ->willReturn($i);
+            ->method('getNextVersionNumber')
+            ->willReturn($i);
 
         $ar_revision_repo = new RevisionDBRepository($this->db_mock);
         $revision = $ar_revision_repo->blankFromStream(
@@ -92,8 +94,8 @@ class RevisionRepositoryTest extends AbstractBaseTest
 
         $i = 50;
         $this->info_resolver->expects($this->once())
-                            ->method('getNextVersionNumber')
-                            ->willReturn($i);
+            ->method('getNextVersionNumber')
+            ->willReturn($i);
 
         $ar_revision_repo = new RevisionDBRepository($this->db_mock);
         $revision = $ar_revision_repo->blankFromClone(

@@ -13,6 +13,7 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
 
 namespace ILIAS\ResourceStorage\Consumer;

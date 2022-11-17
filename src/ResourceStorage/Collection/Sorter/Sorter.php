@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Collection\Sorter;
 
@@ -36,10 +36,10 @@ class Sorter
     protected const SORT_DESC = SORT_DESC;
 
     protected int $sort_direction = self::SORT_ASC;
-    protected ResourceBuilder $resource_builder;
-    protected ResourceCollection $collection;
     private bool $sort_and_save = false;
+    protected ResourceBuilder $resource_builder;
     protected CollectionBuilder $collection_builder;
+    protected ResourceCollection $collection;
 
     public function __construct(
         ResourceBuilder $resource_builder,
@@ -69,6 +69,7 @@ class Sorter
         return $this;
     }
 
+
     public function byTitle(): ResourceCollection
     {
         return $this->custom(new ByTitle($this->resource_builder, $this->sort_direction));
@@ -78,6 +79,7 @@ class Sorter
     {
         return $this->custom(new BySize($this->resource_builder, $this->sort_direction));
     }
+
 
     public function byCreationDate(): ResourceCollection
     {

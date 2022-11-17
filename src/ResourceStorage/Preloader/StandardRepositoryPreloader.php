@@ -21,8 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\ResourceStorage\Preloader;
 
 use ILIAS\ResourceStorage\Repositories;
-use ILIAS\ResourceStorage\Resource\Repository\FlavourMachineRepository;
-use ILIAS\ResourceStorage\Resource\Repository\FlavourRepository;
 
 /**
  * Class StandardRepositoryPreloader

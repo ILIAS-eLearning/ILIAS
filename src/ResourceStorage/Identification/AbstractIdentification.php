@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Identification;
 
@@ -38,10 +38,12 @@ abstract class AbstractIdentification implements Serializable
         $this->unique_id = $unique_id;
     }
 
+
     final public function serialize(): string
     {
         return $this->unique_id;
     }
+
 
     final public function unserialize($serialized): void
     {
@@ -62,6 +64,7 @@ abstract class AbstractIdentification implements Serializable
     {
         $this->unique_id = $data['unique_id'];
     }
+
 
     final public function __toString(): string
     {

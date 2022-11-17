@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,12 +13,15 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\StorageHandler;
 
-use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
+use ILIAS\ResourceStorage\Resource\StorableResource;
 
 /**
  * Class Migrator
@@ -29,12 +30,11 @@ use ILIAS\ResourceStorage\Resource\ResourceBuilder;
  */
 class Migrator
 {
-    private \ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory $handler_factory;
+    protected bool $clean_up = true;
+    private StorageHandlerFactory $handler_factory;
+    protected ResourceBuilder $resource_builder;
     private \ilDBInterface $database;
     protected string $filesystem_base_path;
-
-    protected bool $clean_up = true;
-    protected \ILIAS\ResourceStorage\Resource\ResourceBuilder $resource_builder;
 
     /**
      * Migrator constructor.

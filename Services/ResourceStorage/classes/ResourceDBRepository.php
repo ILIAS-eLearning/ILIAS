@@ -1,24 +1,26 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\ResourceStorage\Resource\Repository;
 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Resource\StorableFileResource;
 use ILIAS\ResourceStorage\Resource\StorableResource;
-
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 
 /**
  * Class ResourceDBRepository
@@ -30,12 +32,11 @@ class ResourceDBRepository implements ResourceRepository
     public const TABLE_NAME = 'il_resource';
     public const IDENTIFICATION = 'rid';
 
-    protected \ilDBInterface $db;
-
     /**
      * @var \ILIAS\ResourceStorage\Resource\StorableResource[]
      */
     protected array $cache = [];
+    protected \ilDBInterface $db;
 
     public function __construct(\ilDBInterface $db)
     {
@@ -90,7 +91,7 @@ class ResourceDBRepository implements ResourceRepository
         $q = "SELECT " . self::IDENTIFICATION . " FROM " . self::TABLE_NAME . " WHERE " . self::IDENTIFICATION . " = %s";
         $r = $this->db->queryF($q, ['text'], [$identification->serialize()]);
 
-        return (bool) $r->numRows() > 0;
+        return (bool)$r->numRows() > 0;
     }
 
     /**

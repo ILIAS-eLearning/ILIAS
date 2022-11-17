@@ -89,46 +89,41 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTest
 
         // EXPECTATIONS
         $this->resource_one->expects($this->atLeastOnce())
-                           ->method('getCurrentRevision')
-                           ->willReturn($this->revision_one);
+            ->method('getCurrentRevision')
+            ->willReturn($this->revision_one);
 
         $this->resource_two->expects($this->atLeastOnce())
-                           ->method('getCurrentRevision')
-                           ->willReturn($this->revision_two);
+            ->method('getCurrentRevision')
+            ->willReturn($this->revision_two);
 
         $this->resource_three->expects($this->atLeastOnce())
-                             ->method('getCurrentRevision')
-                             ->willReturn($this->revision_three);
+            ->method('getCurrentRevision')
+            ->willReturn($this->revision_three);
 
         $this->resource_builder->expects($this->atLeastOnce())
-                               ->method('get')
-                               ->withConsecutive(
-                                   [$this->rid_one],
-                                   [$this->rid_two],
-                                   [$this->rid_two],
-                                   [$this->rid_three]
-                               )
-                               ->will(
-                                   $this->onConsecutiveCalls(
-                                       $this->resource_one,
-                                       $this->resource_two,
-                                       $this->resource_two,
-                                       $this->resource_three
-                                   )
-                               );
+            ->method('get')
+            ->withConsecutive([$this->rid_one], [$this->rid_two], [$this->rid_two], [$this->rid_three])
+            ->will(
+                $this->onConsecutiveCalls(
+                    $this->resource_one,
+                    $this->resource_two,
+                    $this->resource_two,
+                    $this->resource_three
+                )
+            );
     }
 
     private function setUpRevisionExpectations(FileInformation $one, FileInformation $two, FileInformation $three): void
     {
         $this->revision_one->expects($this->atLeastOnce())
-                           ->method('getInformation')
-                           ->willReturn($one);
+            ->method('getInformation')
+            ->willReturn($one);
         $this->revision_two->expects($this->atLeastOnce())
-                           ->method('getInformation')
-                           ->willReturn($two);
+            ->method('getInformation')
+            ->willReturn($two);
         $this->revision_three->expects($this->atLeastOnce())
-                             ->method('getInformation')
-                             ->willReturn($three);
+            ->method('getInformation')
+            ->willReturn($three);
     }
 
     public function testBySizeDescSorting(): void
@@ -304,8 +299,9 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTest
 
     private function getFlatOrder(ResourceCollection $collection): array
     {
-        return array_map(function (ResourceIdentification $rid): string {
-            return $rid->serialize();
-        }, $collection->getResourceIdentifications());
+        return array_map(
+            fn (ResourceIdentification $rid): string => $rid->serialize(),
+            $collection->getResourceIdentifications()
+        );
     }
 }

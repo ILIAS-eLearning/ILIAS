@@ -1,32 +1,34 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\ResourceStorage;
 
 /** @noRector */
 require_once('DummyIDGenerator.php');
 
-use PHPUnit\Framework\TestCase;
-use ILIAS\FileUpload\DTO\UploadResult;
-use ILIAS\FileUpload\Collection\EntryLockingStringMap;
-use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\FileUpload\Collection\EntryLockingStringMap;
+use ILIAS\FileUpload\DTO\ProcessingStatus;
+use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Revision\FileRevision;
-
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class ResourceBuilderTest
