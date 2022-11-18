@@ -17,6 +17,9 @@
  *********************************************************************/
 
 use ILIAS\UI\Component\Symbol\Avatar\Avatar;
+use ILIAS\Data\DateFormat\DateFormat;
+use ILIAS\Data\DateFormat\Factory as DateFormatFactory;
+use ILIAS\Data\Factory as DataFactory;
 
 /**
  * User class
@@ -108,6 +111,8 @@ class ilObjUser extends ilObject
     protected string $first_login = "";	// timestamp
     protected bool $profile_incomplete = false;
 
+    protected DateFormatFactory $date_format_factory;
+
     public function __construct(
         int $a_user_id = 0,
         bool $a_call_by_reference = false
@@ -133,6 +138,7 @@ class ilObjUser extends ilObject
         }
 
         $this->app_event_handler = $DIC['ilAppEventHandler'];
+        $this->date_format_factory = (new DataFactory())->dateFormat();
     }
 
     /**
@@ -1005,13 +1011,23 @@ class ilObjUser extends ilObject
         }
     }
 
-    public function getDateFormat(): string
+    public function getDateFormat(): DateFormat
     {
-        if ($format = $this->getPref('date_format')) {
-            return $format;
-        } else {
+        if (!($format = $this->getPref('date_format'))) {
             $settings = ilCalendarSettings::_getInstance();
-            return $settings->getDefaultDateFormat();
+            $format = $settings->getDefaultDateFormat();
+        }
+
+        switch ($format) {
+            case ilCalendarSettings::DATE_FORMAT_DMY:
+                return $this->date_format_factory->germanShort();
+
+            case ilCalendarSettings::DATE_FORMAT_MDY:
+                return $this->date_format_factory->americanShort();
+
+            case ilCalendarSettings::DATE_FORMAT_YMD:
+            default:
+                return $this->date_format_factory->standard();
         }
     }
 

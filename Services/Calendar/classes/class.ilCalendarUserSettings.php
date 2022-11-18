@@ -1,6 +1,24 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
+
+use ILIAS\Data\DateFormat\DateFormat;
 
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -196,7 +214,9 @@ class ilCalendarUserSettings
             $this->user->getPref('export_tz_type') :
             $this->export_tz_type
         );
-        $this->date_format = (int) $this->user->getDateFormat();
+        $this->date_format = $this->translateDateFormatToId(
+            $this->user->getDateFormat()
+        );
         $this->time_format = (int) $this->user->getTimeFormat();
         if (($weekstart = $this->user->getPref('weekstart')) === false) {
             $weekstart = $this->settings->getDefaultWeekStart();
@@ -222,5 +242,23 @@ class ilCalendarUserSettings
                 (bool) $this->user->getPref('show_weeks') :
                 $this->settings->getShowWeeks()
         );
+    }
+
+    /**
+     * @todo use the data DateFormat throughout to avoid this translation
+     */
+    protected function translateDateFormatToId(DateFormat $format): int
+    {
+        switch ((string) $format) {
+            case 'd.m.Y':
+                return ilCalendarSettings::DATE_FORMAT_DMY;
+
+            case 'm/d/Y':
+                return ilCalendarSettings::DATE_FORMAT_MDY;
+
+            case 'Y-m-d':
+            default:
+                return ilCalendarSettings::DATE_FORMAT_YMD;
+        }
     }
 }

@@ -1,25 +1,20 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2007 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilCalendarUtil
@@ -481,37 +476,27 @@ class ilCalendarUtil
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        $format = '';
-        switch ($ilUser->getDateFormat()) {
-            case ilCalendarSettings::DATE_FORMAT_DMY:
-                $format = "DD.MM.YYYY";
-                break;
 
-            case ilCalendarSettings::DATE_FORMAT_YMD:
-                $format = "YYYY-MM-DD";
-                break;
+        $format = (string) $ilUser->getDateFormat();
 
-            case ilCalendarSettings::DATE_FORMAT_MDY:
-                $format = "MM/DD/YYYY";
-                break;
-        }
         if ($a_add_time) {
             $format .= " " . (($ilUser->getTimeFormat() == ilCalendarSettings::TIME_FORMAT_24)
-                    ? "HH:mm"
-                    : "hh:mma");
+                    ? "H:i"
+                    : "h:ia");
             if ($a_add_time == 2) {
-                $format .= ":ss";
+                $format .= ":s";
             }
         }
 
         // translate datepicker format to PHP format
-        if ($a_for_parsing) {
-            $format = str_replace("DD", "d", $format);
-            $format = str_replace("MM", "m", $format);
-            $format = str_replace("mm", "i", $format);
-            $format = str_replace("YYYY", "Y", $format);
-            $format = str_replace("HH", "H", $format);
-            $format = str_replace("hh", "h", $format);
+        if (!$a_for_parsing) {
+            $format = str_replace("d", "DD", $format);
+            $format = str_replace("m", "MM", $format);
+            $format = str_replace("i", "mm", $format);
+            $format = str_replace("Y", "YYYY", $format);
+            $format = str_replace("H", "HH", $format);
+            $format = str_replace("h", "hh", $format);
+            $format = str_replace("s", "ss", $format);
         }
 
         return $format;
