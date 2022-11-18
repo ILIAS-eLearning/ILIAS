@@ -674,7 +674,7 @@ class ilCalendarAppointmentGUI
         }
 
         $this->ctrl->saveParameter($this, array('seed', 'app_id', 'dt', 'idate'));
-        if ($this->getRecurrenceExclusionFromQuery()) {
+        if ($a_edit_single_app) {
             $this->ctrl->setParameter($this, 'rexl', 1);
 
             // Calculate new appointment time
