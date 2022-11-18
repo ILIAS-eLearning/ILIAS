@@ -277,9 +277,7 @@ class ilCalendarCategoryGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->returnToParent($this);
         }
-
         $category = new ilCalendarCategory($this->category_id);
-
         try {
             $this->doSynchronisation($category);
         } catch (Exception $e) {
