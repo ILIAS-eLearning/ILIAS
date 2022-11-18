@@ -48,7 +48,10 @@ class ilVirusScannerSophos extends ilVirusScanner
 
         // Call of scan_file from Sophie (www.vanja.com/tools/sophie)
         // sophie must run as a process
-        $cmd = $this->scanCommand . " " . $a_filepath . " 2>&1";
+        $a_filepath = realpath($a_filepath);
+        $cmd = ilUtil::escapeShellCmd($this->scanCommand);
+        $args = ilUtil::escapeShellArg(" " . $a_filepath . " ");
+        $cmd = $cmd .  " " . $args . " 2>&1";
         exec($cmd, $out, $ret);
         $this->scanResult = implode("\n", $out);
 
@@ -128,6 +131,7 @@ class ilVirusScannerSophos extends ilVirusScanner
         // -eec: Use extended error codes
         // -archive: sweep inside archives
 
+        $a_filepath = realpath($a_filepath);
         $cmd = $this->cleanCommand . " -di -nc -ss -eec -archive " . $a_filepath . " 2>&1";
         exec($cmd, $out, $ret);
         $this->cleanResult = implode("\n", $out) . " [" . $ret . "]";
