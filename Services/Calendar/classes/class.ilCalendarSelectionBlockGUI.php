@@ -2,7 +2,22 @@
 
 declare(strict_types=1);
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HttpServices;
@@ -186,7 +201,6 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
             $tmp_arr['title'] = (string) $category['title'];
             $tmp_arr['type'] = (string) $category['type'];
             $tmp_arr['source_ref_id'] = (int) ($category['source_ref_id'] ?? 0);
-
             $tmp_arr['default_selected'] = true;
             if ($this->category_id) {
                 if ($this->category_id == $category['cat_id']) {
@@ -329,6 +343,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
             if (!$a_set['hidden'] && $a_set['default_selected']) {
                 $a_tpl->setVariable('VAL_CHECKED', 'checked="checked"');
             }
+            $a_tpl->setVariable('VAL_DISABLED', 'disabled="disabled"');
         } elseif ($a_set["obj_id"] == $this->obj_id) {
             // if calendar is shown and repo object id (course group given)
             $a_tpl->setVariable('VAL_CHECKED', 'checked="checked"');

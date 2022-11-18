@@ -405,8 +405,7 @@ class ilCalendarCategoryGUI
             $old_selection = $cat_visibility->getHidden();
         }
 
-        $new_selection = array();
-
+        $new_selection = [];
         // put all entries from the old selection into the new one
         // that are not presented on the screen
         foreach ($old_selection as $cat_id) {
@@ -414,7 +413,6 @@ class ilCalendarCategoryGUI
                 $new_selection[] = $cat_id;
             }
         }
-
         foreach ($shown_cat_ids as $shown_cat_id) {
             $shown_cat_id = (int) $shown_cat_id;
             if ($this->obj_id > 0) {
@@ -433,7 +431,6 @@ class ilCalendarCategoryGUI
         } else {
             $cat_visibility->hideSelected($new_selection);
         }
-
         $cat_visibility->save();
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
