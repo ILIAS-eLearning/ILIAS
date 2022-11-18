@@ -581,4 +581,35 @@ class ilObjLearningSequence extends ilContainer
             \ilLPStatus::LP_STATUS_COMPLETED_NUM
         ];
     }
+
+    public function handleChildCloning($a_target_id, $a_copy_id)
+    {
+        $this->cloneLsItem($a_target_id, $a_copy_id);
+    }
+
+    private function cloneLsItem($a_target_id, $a_copy_id)
+    {
+        $items = $this->getLSItems();
+        $ls_item = array();
+        foreach ($items as $item) {
+            if($item->getRefId() == $a_target_id) {
+                $post_condition = new ilLSPostCondition(
+                    (int) $a_copy_id,
+                    $item->getPostCondition()->getConditionOperator(),
+                    $item->getPostCondition()->getValue()
+                );
+                $ls_item[] = new LSItem($item->getType(),
+                    $item->getTitle(),
+                    $item->getDescription(),
+                    $item->getIconPath(),
+                    $item->isOnline(),
+                    $item->getOrderNumber(),
+                    $post_condition,
+                    (int) $a_copy_id
+                );
+                break;
+            }
+        }
+        $this->storeLSItems($ls_item);
+    }
 }

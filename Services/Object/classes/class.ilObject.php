@@ -1900,6 +1900,17 @@ class ilObject
             'cloned_from_object' => $this,
         ));
 
+        $tree = $DIC->repositoryTree();
+
+        $parent_nd = $tree->getParentNodeData($this->getRefId());
+
+        include_once './Services/Object/classes/class.ilObjectFactory.php';
+        $factory = new ilObjectFactory();
+        $parentObj = $factory->getInstanceByRefId($parent_nd['ref_id'], false);
+        if ($parentObj) {
+            $parentObj->handleChildCloning($this->getRefId(), $new_obj->getRefId());
+        }
+
         return $new_obj;
     }
     
@@ -2319,5 +2330,15 @@ class ilObject
     public function getPossibleSubObjects($a_filter = true)
     {
         return $this->objDefinition->getSubObjects($this->type, $a_filter);
+    }
+
+    /**
+     * @param $a_target_id
+     * @param $a_copy_id
+     * @return void
+     */
+    public function handleChildCloning($a_target_id, $a_copy_id)
+    {
+        // Kann ggf. überschrieben werden.
     }
 } // END class.ilObject
