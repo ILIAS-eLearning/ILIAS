@@ -185,7 +185,7 @@ class ilCalendarExport
             return;
         }
         $test_date = $app->getStart()->get(IL_CAL_FKT_DATE, 'Ymd');
-        if (!strlen($test_date)) {
+        if ($test_date === null || $test_date === '') {
             return;
         }
 
