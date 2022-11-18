@@ -853,7 +853,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if (ilFileUtils::moveUploadedFile($upload_file, $target_filename, $target_filepath)) {
             $thumb_path = $this->getImagePath() . $this->getThumbPrefix() . $target_filename;
             if ($this->getThumbGeometry()) {
-                ilShellUtil::convertImage($target_filepath, $thumb_path, "JPEG", $this->getThumbGeometry());
+                ilShellUtil::convertImage($target_filepath, $thumb_path, "JPEG", (string)$this->getThumbGeometry());
             }
             return $target_filename;
         }
@@ -1138,7 +1138,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                     $ext = 'JPEG';
                     break;
             }
-            ilShellUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbGeometry());
+            ilShellUtil::convertImage($filename, $thumbpath, $ext, (string)$this->getThumbGeometry());
         }
     }
 
