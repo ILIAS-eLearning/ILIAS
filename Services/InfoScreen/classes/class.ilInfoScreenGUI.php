@@ -29,6 +29,8 @@ use ILIAS\InfoScreen\StandardGUIRequest;
  */
 class ilInfoScreenGUI
 {
+    protected \ILIAS\DI\UIServices $ui;
+    protected ?\ILIAS\UI\Component\MessageBox\MessageBox $mbox = null;
     protected ilTabsGUI $tabs_gui;
     protected ilRbacSystem $rbacsystem;
     protected ilGlobalPageTemplate $tpl;
@@ -85,6 +87,7 @@ class ilInfoScreenGUI
         $this->form_action = "";
         $this->top_formbuttons = array();
         $this->hiddenelements = array();
+        $this->ui = $DIC->ui();
         $this->request = new StandardGUIRequest(
             $DIC->http(),
             $DIC->refinery()
@@ -138,6 +141,17 @@ class ilInfoScreenGUI
                 break;
         }
     }
+
+    public function setMessageBox(ILIAS\UI\Component\MessageBox\MessageBox $a_val): void
+    {
+        $this->mbox = $a_val;
+    }
+
+    public function getMessageBox(): ILIAS\UI\Component\MessageBox\MessageBox
+    {
+        return $this->mbox;
+    }
+
 
     public function setTableClass(string $a_val): void
     {
@@ -837,6 +851,10 @@ class ilInfoScreenGUI
                 $tpl->setCurrentBlock("row");
                 $tpl->parseCurrentBlock();
             }
+        }
+
+        if (!is_null($this->mbox)) {
+            $tpl->setVariable("MBOX", $this->ui->renderer()->render([$this->mbox]));
         }
 
         return $tpl->get();
