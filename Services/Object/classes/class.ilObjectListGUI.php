@@ -1360,7 +1360,7 @@ class ilObjectListGUI
                     $tags_url = ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $redraw_js);
 
                     // list object tags
-                    if (is_array(self::$tags[$note_obj_id])) {
+                    if (isset(self::$tags[$note_obj_id])) {
                         $tags_tmp = array();
                         foreach (self::$tags[$note_obj_id] as $tag => $is_tag_owner) {
                             if ($is_tag_owner) {
@@ -2636,12 +2636,12 @@ class ilObjectListGUI
         if ($this->getCheckboxStatus()) {
             $this->tpl->setCurrentBlock("check");
             $this->tpl->setVariable("VAL_ID", $this->getCommandId());
-            $this->tpl->setVariable("CHECK_TITLE", $this->lng->txt("select")." ".$this->getTitle());
+            $this->tpl->setVariable("CHECK_TITLE", $this->lng->txt("select") . " " . $this->getTitle());
             $this->tpl->parseCurrentBlock();
             $cnt += 1;
         } elseif ($this->getDownloadCheckboxState() != self::DOWNLOAD_CHECKBOX_NONE) {
             $this->tpl->setCurrentBlock("check_download");
-            $this->tpl->setVariable("CHECK_DOWNLOAD_TITLE", $this->lng->txt("download")." ".$this->getTitle());
+            $this->tpl->setVariable("CHECK_DOWNLOAD_TITLE", $this->lng->txt("download") . " " . $this->getTitle());
             if ($this->getDownloadCheckboxState() == self::DOWNLOAD_CHECKBOX_ENABLED) {
                 $this->tpl->setVariable("VAL_ID", $this->getCommandId());
             } else {
