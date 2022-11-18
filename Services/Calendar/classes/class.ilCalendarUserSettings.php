@@ -19,8 +19,6 @@
 declare(strict_types=1);
 
 use ILIAS\Data\DateFormat\DateFormat;
-use ILIAS\Data\DateFormat\Factory as DateFormatFactory;
-use ILIAS\Data\Factory as DataFactory;
 
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -37,7 +35,6 @@ class ilCalendarUserSettings
     public static array $instances = array();
 
     protected ilObjUser $user;
-    protected DateFormatFactory $date_format_factory;
     protected ilCalendarSettings $settings;
 
     private int $calendar_selection_type = 1;
@@ -56,7 +53,6 @@ class ilCalendarUserSettings
         global $DIC;
 
         $this->user = $DIC->user();
-        $this->date_format_factory = (new DataFactory())->dateFormat();
 
         if ($this->user->getId() !== $a_user_id) {
             $user = ilObjectFactory::getInstanceByObjId($a_user_id, false);
@@ -219,7 +215,7 @@ class ilCalendarUserSettings
             $this->export_tz_type
         );
         $this->date_format = $this->translateDateFormatToId(
-            $this->user->getDateFormat($this->date_format_factory)
+            $this->user->getDateFormat()
         );
         $this->time_format = (int) $this->user->getTimeFormat();
         if (($weekstart = $this->user->getPref('weekstart')) === false) {

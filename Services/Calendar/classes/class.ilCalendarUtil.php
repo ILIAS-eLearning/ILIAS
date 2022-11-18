@@ -476,9 +476,8 @@ class ilCalendarUtil
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        $factory = new ILIAS\Data\Factory();
 
-        $format = (string) $ilUser->getDateFormat($factory->dateFormat());
+        $format = (string) $ilUser->getDateFormat();
 
         if ($a_add_time) {
             $format .= " " . (($ilUser->getTimeFormat() == ilCalendarSettings::TIME_FORMAT_24)

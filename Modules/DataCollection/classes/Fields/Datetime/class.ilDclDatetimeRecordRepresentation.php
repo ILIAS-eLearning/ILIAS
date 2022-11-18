@@ -36,25 +36,10 @@ class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation
             return $this->lng->txt('no_date');
         }
 
-        return $this->formatDate($value, $ilUser->getDateFormat());
-    }
-
-    /**
-     * @return bool|string
-     */
-    protected function formatDate(string $value, string $format)
-    {
-        $timestamp = strtotime($value);
-        switch ($format) {
-            case ilCalendarSettings::DATE_FORMAT_DMY:
-                return date("d.m.Y", $timestamp);
-            case ilCalendarSettings::DATE_FORMAT_YMD:
-                return date("Y-m-d", $timestamp);
-            case ilCalendarSettings::DATE_FORMAT_MDY:
-                return date("m/d/Y", $timestamp);
-        }
-
-        return $this->lng->txt('no_date');
+        return date(
+            (string) $ilUser->getDateFormat(),
+            strtotime($value)
+        );
     }
 
     /**
