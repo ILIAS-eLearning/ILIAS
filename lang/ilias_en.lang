@@ -14042,9 +14042,11 @@ rep#:#rep_added_rec_content#:#Recommended content has been added.
 rep#:#rep_added_to_favourites#:#The item has been added to your favourites.
 rep#:#rep_allowed_types#:#Allowed Types
 rep#:#rep_breadcr_crs#:#Breadcrumb starts with course
+rep#:#rep_breadcr_crs_config#:#Configuration
 rep#:#rep_breadcr_crs_overwrite#:#Setting is changeable on course level
 rep#:#rep_breadcr_crs_overwrite_not#:#Setting is not changeable on course level
 rep#:#rep_configure#:#Configure
+rep#:#rep_crs_default_shortened#:#Default: Breadcrumbs Shortened
 rep#:#rep_custom_icons#:#Custom Icons
 rep#:#rep_default#:#Default
 rep#:#rep_dependencies#:#Dependencies
