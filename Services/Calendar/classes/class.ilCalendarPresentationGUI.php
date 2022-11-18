@@ -585,7 +585,7 @@ class ilCalendarPresentationGUI
 
         $this->tabs_gui->clearTargets();
         if ($this->getRepositoryMode()) {
-            if ($this->http->wrapper()->query()->has('back_tp_pd')) {
+            if ($this->http->wrapper()->query()->has('backpd')) {
                 $this->tabs_gui->setBack2Target(
                     $this->lng->txt('back_to_pd'),
                     $this->ctrl->getLinkTargetByClass(ilDashboardGUI::class, 'jumpToCalendar')
@@ -766,7 +766,7 @@ class ilCalendarPresentationGUI
 
         $cats = ilCalendarCategories::_getInstance($this->user->getId());
         foreach ($cats->getCategoriesInfo() as $cat_id => $info) {
-            if ($info['remote']) {
+            if ($info['remote'] ?? false) {
                 // Check for execution
                 $category = new ilCalendarCategory($cat_id);
 
