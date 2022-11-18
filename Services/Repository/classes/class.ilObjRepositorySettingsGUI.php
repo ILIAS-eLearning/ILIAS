@@ -193,11 +193,11 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $cb->setChecked((int) $ilSetting->get("rep_breadcr_crs"));
         $form->addItem($cb);
 
-        $radg = new ilRadioGroupInputGUI($this->lng->txt("rep_breadcr_crs"), "rep_breadcr_crs_overwrite");
+        $radg = new ilRadioGroupInputGUI($this->lng->txt("rep_breadcr_crs_config"), "rep_breadcr_crs_overwrite");
         $radg->setValue((int) $ilSetting->get("rep_breadcr_crs_overwrite"));
 
         $op0 = new ilRadioOption($this->lng->txt("rep_breadcr_crs_overwrite"), 1);
-        $cb0 = new ilCheckboxInputGUI($this->lng->txt("rep_default"), "rep_breadcr_crs_default");
+        $cb0 = new ilCheckboxInputGUI($this->lng->txt("rep_crs_default_shortened"), "rep_breadcr_crs_default");
         $cb0->setChecked((int) $ilSetting->get("rep_breadcr_crs_default"));
         $op0->addSubItem($cb0);
         $radg->addOption($op0);
