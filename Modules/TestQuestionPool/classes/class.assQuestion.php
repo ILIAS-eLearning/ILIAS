@@ -1924,12 +1924,17 @@ abstract class assQuestion
 
         while ($row = $this->db->fetchAssoc($result)) {
             $value = $row["value"];
+
             try {
                 $unserializedValue = unserialize($value, ['allowed_classes' => false]);
                 if (is_array($unserializedValue)) {
                     $value = $unserializedValue;
                 }
             } catch (Exception $ex) {
+            }
+
+            if (is_string($value)) {
+                $value = ilRTE::_replaceMediaObjectImageSrc($value, 1);
             }
 
             $suggestedSolutions[$row["subquestion_index"]] = [
