@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\ResourceStorage\Flavours;
+namespace ILIAS\ResourceStorage\Consumer;
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\AbstractBaseTest;
