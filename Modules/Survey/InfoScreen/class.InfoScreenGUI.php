@@ -33,6 +33,7 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class InfoScreenGUI
 {
+    protected \ILIAS\DI\UIServices $ui;
     protected \ilObjSurvey $survey;
     protected \ilObjUser $user;
     protected \ilToolbarGUI $toolbar;
@@ -61,6 +62,7 @@ class InfoScreenGUI
         $this->user = $user;
         $this->toolbar = $toolbar;
         $this->survey_gui = $survey_gui;
+        $this->ui = $DIC->ui();
         /** @var \ilObjSurvey $survey */
         $survey = $survey_gui->getObject();
         $this->survey = $survey;
@@ -135,7 +137,7 @@ class InfoScreenGUI
             $toolbar->addButtonInstance($button);
         }
 
-        $this->displayNotStartableReasons();
+        $this->displayNotStartableReasons($info);
 
         if ($status_manager->mustEnterCode($anonymous_code)) {
             $info->setFormAction($this->ctrl->getFormAction($this->survey_gui, "infoScreen"));
@@ -361,9 +363,11 @@ class InfoScreenGUI
         }
     }
 
-    protected function displayNotStartableReasons(): void
+    protected function displayNotStartableReasons(\ilInfoScreenGUI $info): void
     {
         $survey = $this->survey;
+
+        $links = [];
 
         if (!$this->access_manager->canStartSurvey() &&
             $this->access_manager->canEditSettings()) {
@@ -387,9 +391,15 @@ class InfoScreenGUI
             }
 
             if (count($messages) > 0) {
-                $messages[] = "<a href=\"" . $this->ctrl->getLinkTarget($this->survey_gui, "properties") . "\">&raquo; " .
-                    $this->lng->txt("survey_edit_settings") . "</a>";
-                $this->main_tpl->setOnScreenMessage('info', implode("<br />", $messages));
+                $links[] = $this->ui->factory()->link()->standard(
+                    $this->lng->txt("survey_edit_settings"),
+                    $this->ctrl->getLinkTarget($this->survey_gui, "properties")
+                );
+                $mbox = $this->ui->factory()->messageBox()->info(implode("<br />", $messages));
+                if (count($links) > 0) {
+                    $mbox = $mbox->withLinks($links);
+                }
+                $info->setMessageBox($mbox);
             }
         }
     }
