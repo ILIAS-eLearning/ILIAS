@@ -92,9 +92,7 @@ class ilCalendarUserSettingsGUI
             $this->user_settings->setTimeFormat((int) $form->getInput('time_format'));
             $this->user_settings->setDayStart((int) $form->getInput('dst'));
             $this->user_settings->setDayEnd((int) $form->getInput('den'));
-            if ($this->settings->getShowWeeks()) {
-                $this->user_settings->setShowWeeks((bool) $form->getInput('show_weeks'));
-            }
+            $this->user_settings->setShowWeeks((bool) $form->getInput('show_weeks'));
             $this->user_settings->save();
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, "show");

@@ -218,7 +218,7 @@ class ilCalendarUserSettings
                 $this->settings->getDefaultDayEnd()
         );
         $this->setShowWeeks(
-            $this->user->getPref('show_weeks') ?
+            $this->user->getPref('show_weeks') !== null ?
                 (bool) $this->user->getPref('show_weeks') :
                 $this->settings->getShowWeeks()
         );
