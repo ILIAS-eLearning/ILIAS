@@ -216,9 +216,11 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
             $this->ctrl->setParameter($this, 'dt', $e['dstart']);
             $this->ctrl->setParameter($this, 'seed', $this->seed->get(IL_CAL_DATE));
 
+
             $url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
             $this->ctrl->setParameter($this, "app_id", $this->initAppointmentIdFromQuery());
             $this->ctrl->setParameter($this, "dt", $this->initInitialDateTimeFromQuery());
+            $this->ctrl->setParameter($this, "idate", (new ilDate(time(), IL_CAL_UNIX))->get(IL_CAL_DATE));
 
             $modal_title = '';
             if ($this->http->wrapper()->query()->has('modal_title')) {
