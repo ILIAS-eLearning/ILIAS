@@ -45,6 +45,8 @@ class ilMMTopItemFormGUI
 
     private ilMMItemFacadeInterface $item_facade;
 
+    private ilObjMainMenuAccess $access;
+
     protected ilLanguage $lng;
 
     protected ilCtrl $ctrl;
@@ -79,6 +81,7 @@ class ilMMTopItemFormGUI
         $this->ui_re = $ui_re;
         $this->lng = $lng;
         $this->item_facade = $item;
+        $this->access = new ilObjMainMenuAccess();
         if (!$this->item_facade->isEmpty()) {
             $this->ctrl->saveParameterByClass(ilMMTopItemGUI::class, ilMMAbstractItemGUI::IDENTIFIER);
         }
@@ -140,20 +143,21 @@ class ilMMTopItemFormGUI
 
         // ROLE BASED VISIBILITY
         if ($this->item_facade->supportsRoleBasedVisibility()) {
-            $access = new ilObjMainMenuAccess();
             $value_role_based_visibility = null;
-            if ($this->item_facade->hasRoleBasedVisibility() && !empty($this->item_facade->getGlobalRoleIDs())) {
+            $global_roles = $this->access->getGlobalRoles();
+            $global_role_ids = $this->item_facade->getGlobalRoleIDs();
+            if ($this->item_facade->hasRoleBasedVisibility() && !empty($global_role_ids)) {
                 // remove deleted roles, see https://mantis.ilias.de/view.php?id=34936
                 $value_role_based_visibility[0] = array_intersect(
-                    $this->item_facade->getGlobalRoleIDs(),
-                    $access->getGlobalRoles()
+                    $global_role_ids,
+                    array_keys($global_roles)
                 );
             }
             $role_based_visibility = $f()->field()->optionalGroup(
                 [
                     $f()->field()->multiSelect(
                         $txt('sub_global_roles'),
-                        $access->getGlobalRoles()
+                        $global_roles
                     )->withRequired(true)
                 ],
                 $txt('sub_role_based_visibility'),
