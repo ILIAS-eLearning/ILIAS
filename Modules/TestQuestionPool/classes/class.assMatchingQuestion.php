@@ -1048,7 +1048,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             } else {
                 // create thumbnail file
                 $thumbpath = $imagepath . $this->getThumbPrefix() . $savename;
-                ilShellUtil::convertImage($imagepath . $savename, $thumbpath, "JPEG", $this->getThumbGeometry());
+                ilShellUtil::convertImage($imagepath . $savename, $thumbpath, "JPEG", (string)$this->getThumbGeometry());
             }
             if ($result && (strcmp($image_filename, $previous_filename) != 0) && (strlen($previous_filename))) {
                 $this->deleteImagefile($previous_filename);
