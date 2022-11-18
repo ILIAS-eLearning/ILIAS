@@ -336,7 +336,7 @@ class ilMembershipCronNotifications extends ilCronJob
 
                 $level = 0;
                 foreach ($parents as $parent_ref_id) {
-                    $level = max($level, (int) $lookup[$parent_ref_id]);
+                    $level = max($level, (int) ($lookup[$parent_ref_id] ?? 0));
                 }
 
                 $parsed_map[$news_id] = $path[$level];
