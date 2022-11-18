@@ -1754,12 +1754,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function getECTSFX(): ?float
     {
-        return (strlen($this->ects_fx)) ? $this->ects_fx : null;
+        return $this->ects_fx;
     }
 
     public function setECTSFX($a_ects_fx): void
     {
-        $this->ects_fx = $a_ects_fx;
+        $this->ects_fx = (float) str_replace(",", ".", $a_ects_fx);
     }
 
     public function getECTSGrades(): array
