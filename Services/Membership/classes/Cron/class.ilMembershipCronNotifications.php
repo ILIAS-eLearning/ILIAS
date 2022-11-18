@@ -200,7 +200,7 @@ class ilMembershipCronNotifications extends ilCronJob
         if (!$a_is_sub) {
             $title = ilNewsItem::determineNewsTitle(
                 $a_item["context_obj_type"],
-                $a_item["title"],
+                (string) $a_item["title"],
                 (bool) (int) $a_item["content_is_lang_var"],
                 (int) ($a_item["agg_ref_id"] ?? 0),
                 $a_item["aggregation"] ?? []
@@ -208,7 +208,7 @@ class ilMembershipCronNotifications extends ilCronJob
         } else {
             $title = ilNewsItem::determineNewsTitle(
                 $a_item["context_obj_type"],
-                $a_item["title"],
+                (string) $a_item["title"],
                 (bool) (int) $a_item["content_is_lang_var"]
             );
         }
