@@ -1588,6 +1588,7 @@ class ilSCORM13PlayerGUI
     {
         global $DIC;
         $filename = ilUtil::stripSlashes($DIC->http()->wrapper()->query()->retrieve('logFile', $DIC->refinery()->kindlyTo()->string()));
+        $filename = str_replace('/', '', $filename);
         //Header
         header("Expires: 0");
         header("Cache-Control: private");
