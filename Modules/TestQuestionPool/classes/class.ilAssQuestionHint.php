@@ -187,7 +187,9 @@ class ilAssQuestionHint
      */
     public function setText($text): void
     {
-        $this->text = $this->getHtmlQuestionContentPurifier()->purify($text);
+        if ($text !== null) {
+            $this->text = $this->getHtmlQuestionContentPurifier()->purify($text);
+        }
     }
 
     /**
