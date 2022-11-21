@@ -45,6 +45,7 @@ class ilVirusScannerICapClient extends ilVirusScanner
         $return_string = '';
         if (file_exists($a_filepath)) {
             if (is_readable($a_filepath)) {
+                $a_filepath     = realpath($a_filepath);
                 $arguments      = $this->buildScanCommandArguments($a_filepath) . " 2>&1";
                 $cmd            = ilUtil::escapeShellCmd($this->scanCommand);
                 $args           = ilUtil::escapeShellArg($arguments);
