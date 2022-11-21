@@ -2141,7 +2141,7 @@ class ilPersonalSkillsGUI
                 $image = $this->ui_fac->image()->responsive($src->getSrc(), $this->lng->txt("skmg_custom_image_alt"));
             } else {
                 $image = $this->ui_fac->image()->responsive(
-                    "src/UI/examples/Image/HeaderIconLarge.svg",
+                    "./templates/default/images/logo/ilias_logo_72x72.png",
                     "ILIAS"
                 );
             }
