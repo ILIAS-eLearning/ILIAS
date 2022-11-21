@@ -6998,12 +6998,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             if ($count > 0) {
                 switch ($filter) {
                     case 1: // only active users
-                        if ($participant->active) {
+                        if ($participant['active']) {
                             $filtered_participants[$active_id] = $participant;
                         }
                         break;
                     case 2: // only inactive users
-                        if (!$participant->active) {
+                        if (!$participant['active']) {
                             $filtered_participants[$active_id] = $participant;
                         }
                         break;
@@ -7011,36 +7011,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                         $filtered_participants[$active_id] = $participant;
                         break;
                     case 4:
-                        // already scored participants
-                        //$found = 0;
-                        //while ($row = $ilDB->fetchAssoc($result))
-                        //{
-                        //	if ($row["manual"]) $found++;
-                        //}
-                        //if ($found == $count)
-                        //{
-                        //$filtered_participants[$active_id] = $participant;
-                        //}
-                        //else
-                        //{
                         if ($this->testManScoringDoneHelper->isDone((int) $active_id)) {
                             $filtered_participants[$active_id] = $participant;
                         }
-                        //}
                         break;
                     case 5:
-                        // unscored participants
-                        //$found = 0;
-                        //while ($row = $ilDB->fetchAssoc($result))
-                        //{
-                        //	if ($row["manual"]) $found++;
-                        //}
-                        //if ($found == 0)
-                        //{
                         if (!$this->testManScoringDoneHelper->isDone((int) $active_id)) {
                             $filtered_participants[$active_id] = $participant;
                         }
-                        //}
                         break;
                     case 6:
                         // partially scored participants
