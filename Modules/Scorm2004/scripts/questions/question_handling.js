@@ -15,6 +15,7 @@ ilias.questions.txt = {
 	all_answers_correct: "Correct!",
 	enough_answers_correct: 'Correct, but not the best solution!',
 	nr_of_tries_exceeded: "Number of tries exceeded.",
+	correct_answers_separator: "or",
 	correct_answers_shown: "Correct solution see above.",
 	correct_answers_also: "Also correct are:",
 	correct_answer_also: "Also correct is:",
@@ -1177,9 +1178,11 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 					correct_solution = '';
 					for (var j=0;j<questions[a_id].correct_answers[i][0].length;j++)
 					{
-						correct_solution += questions[a_id].correct_answers[i][0][j] + ' or ';
+						if (correct_solution.length > 0) {
+							correct_solution += ' ' + ilias.questions.txt.correct_answers_separator + ' ';
+						}
+						correct_solution += questions[a_id].correct_answers[i][0][j];
 					}
-					correct_solution = correct_solution.substring(0, correct_solution.length - 4);
 					if(questions[a_id].correct_answers[i][2] == 1)
 					{
 						a_node.find("[name='answer[" + i + "]']").val(correct_solution);
