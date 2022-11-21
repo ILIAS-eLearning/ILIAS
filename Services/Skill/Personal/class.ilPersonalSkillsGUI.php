@@ -1230,9 +1230,9 @@ class ilPersonalSkillsGUI
         foreach ($this->cont_profiles as $p) {
             $tree = $this->tree_service->getObjSkillTreeById((int) $p["skill_tree_id"]);
             $cont_options[$p["profile_id"]] = $tree->getTitle() . ": " . $p["title"];
-            asort($cont_options);
         }
 
+        asort($cont_options);
         $options = $options + $cont_options;
 
         $si = new ilSelectInputGUI($lng->txt("skmg_profile"), "profile_id");
