@@ -151,7 +151,7 @@ class ilObjLearningSequenceLearnerGUI
             list($label, $link, $primary) = $entry;
             $sub_button = ilLinkButton::getInstance();
             $sub_button->setPrimary($primary);
-            $sub_button->setCaption($label);
+            $sub_button->setCaption($label, false);
             $sub_button->setUrl($link);
             $this->toolbar->addButtonInstance($sub_button);
         }
