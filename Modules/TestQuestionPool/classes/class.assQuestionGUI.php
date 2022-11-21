@@ -1240,7 +1240,7 @@ abstract class assQuestionGUI
         if ($save && strlen($_POST["solutiontext"])) {
             $solution_array["value"] = $_POST["solutiontext"];
         }
-        if (count($solution_array)) {
+        if (isset($solution_array['type']) && $solution_array['type'] !== "") {
             $form = new ilPropertyFormGUI();
             $form->setFormAction($this->ctrl->getFormAction($this));
             $form->setTitle($this->lng->txt("solution_hint"));
@@ -1260,7 +1260,7 @@ abstract class assQuestionGUI
                 $template->parseCurrentBlock();
             } elseif ((strcmp($solution_array["type"], "file") == 0) &&
                 array_key_exists('value', $solution_array) && is_array($solution_array["value"])) {
-                $href = $this->object->getSuggestedSolutionPathWeb() . $solution_array["value"]["name"];
+                $href = $this->object->getSuggestedSolutionPathWeb() . ($solution_array["value"]["name"] ?? "");
                 $template->setCurrentBlock("preview");
                 $template->setVariable("TEXT_SOLUTION", $this->lng->txt("suggested_solution"));
                 $template->setVariable("VALUE_SOLUTION", " <a href=\"$href\" target=\"content\">" . ilLegacyFormElementsUtil::prepareFormOutput(

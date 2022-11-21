@@ -1915,22 +1915,36 @@ abstract class assQuestion
         }
 
         $result = $this->db->queryF(
-            "SELECT * FROM qpl_sol_sug WHERE question_fi = %s",
-            array('integer'),
-            array($this->getId())
-        );
-        $this->suggested_solutions = array();
-        if ($this->db->numRows($result) > 0) {
-            while ($row = $this->db->fetchAssoc($result)) {
-                $value = (is_array(unserialize($row["value"], ['allowed_classes' => false]))) ? unserialize($row["value"], ['allowed_classes' => false]) : ilRTE::_replaceMediaObjectImageSrc($row["value"], 1);
-                $this->suggested_solutions[$row["subquestion_index"]] = array(
-                    "type" => $row["type"],
-                    "value" => $value,
-                    "internal_link" => $row["internal_link"],
-                    "import_id" => $row["import_id"]
-                );
+            "SELECT internal_link, import_id, subquestion_index, type, value" .
+            " FROM qpl_sol_sug WHERE question_fi = %s",
+            ["integer"], [$this->getId()]);
+
+        $suggestedSolutions = [];
+
+        while ($row = $this->db->fetchAssoc($result)) {
+            $value = $row["value"];
+
+            try {
+                $unserializedValue = unserialize($value, ['allowed_classes' => false]);
+                if (is_array($unserializedValue)) {
+                    $value = $unserializedValue;
+                }
+            } catch (Exception $ex) {
             }
+
+            if (is_string($value)) {
+                $value = ilRTE::_replaceMediaObjectImageSrc($value, 1);
+            }
+
+            $suggestedSolutions[$row["subquestion_index"]] = [
+                "type" => $row["type"],
+                "value" => $value,
+                "internal_link" => $row["internal_link"],
+                "import_id" => $row["import_id"]
+            ];
         }
+        $this->suggested_solutions = $suggestedSolutions;
+
     }
 
     /**
