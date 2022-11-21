@@ -124,7 +124,7 @@ class ilMailOptions
     {
         $query = 'SELECT mail_options.cronjob_notification,
 					mail_options.signature,
-					
+					mail_options.linebreak,
 					mail_options.incoming_type,
 					mail_options.mail_address_option,
 					mail_options.absence_status,
