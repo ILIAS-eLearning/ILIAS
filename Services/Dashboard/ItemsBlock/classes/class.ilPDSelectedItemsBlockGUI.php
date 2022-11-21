@@ -578,8 +578,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
             }
         }
 
-
-        return $renderer->render($subs);
+        if (count($subs) > 0) {
+            return $renderer->render($subs);
+        } else {
+            return $this->getNoItemFoundContent();
+        }
     }
 
     protected function renderManageList(array $grouped_items): string
