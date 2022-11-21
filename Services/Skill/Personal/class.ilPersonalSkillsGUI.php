@@ -1438,7 +1438,7 @@ class ilPersonalSkillsGUI
                     $tooltips[$eval_dim] = $tooltips[$eval_dim] ?? null;
                 }
                 if ($incl_self_eval) {
-                    if (($self_vals[$l["base_skill_id"]][$l["tref_id"]] ?? 0) == $lv["id"]) {
+                    if (($self_vals[$l->getBaseSkillId()][$l->getTrefId()] ?? 0) == $lv["id"]) {
                         $points[$self_eval_dim] = $cnt;
                         $tooltips[$self_eval_dim] = null;
                     } else {
