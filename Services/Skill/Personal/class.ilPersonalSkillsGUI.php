@@ -57,6 +57,7 @@ class ilPersonalSkillsGUI
      * @var array<int, array<int, int>>
      */
     protected array $gap_self_eval_levels = [];
+    protected bool $history_view = false;
 
     /**
      * @var int[]
@@ -241,6 +242,16 @@ class ilPersonalSkillsGUI
     public function getGapAnalysisSelfEvalLevels(): array
     {
         return $this->gap_self_eval_levels;
+    }
+
+    public function setHistoryView(bool $a_val): void
+    {
+        $this->history_view = $a_val;
+    }
+
+    public function getHistoryView(): bool
+    {
+        return $this->history_view;
     }
 
     public function getTriggerObjectsFilter(): array
@@ -621,7 +632,7 @@ class ilPersonalSkillsGUI
                 }
             }
 
-            if ($this->mode == "gap") {
+            if ($this->mode == "gap" && !$this->history_view) {
                 $panel_comps[] = $this->ui_fac->legacy($this->getActualGapItem($level_data, $bs["tref"]));
                 $panel_comps[] = $this->ui_fac->legacy($this->getSelfEvalGapItem($level_data, $bs["tref"]));
             } else {
