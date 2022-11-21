@@ -6886,7 +6886,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
     * Returns a list of all participants in a test
     *
-    * @return array The user id's of the participants
+    * @return array The data of the participants
     * @access public
     */
     public function &getTestParticipants(): array
@@ -6960,7 +6960,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
         $scoring = ilObjAssessmentFolder::_getManualScoring();
         if (count($scoring) == 0) {
             return array();
@@ -6994,12 +6993,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             if ($count > 0) {
                 switch ($filter) {
                     case 1: // only active users
-                        if ($participant->active) {
+                        if ($participant['active']) {
                             $filtered_participants[$active_id] = $participant;
                         }
                         break;
                     case 2: // only inactive users
-                        if (!$participant->active) {
+                        if (!$participant['active']) {
                             $filtered_participants[$active_id] = $participant;
                         }
                         break;
@@ -7007,40 +7006,18 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                         $filtered_participants[$active_id] = $participant;
                         break;
                     case 4:
-                        // already scored participants
-                        //$found = 0;
-                        //while ($row = $ilDB->fetchAssoc($result))
-                        //{
-                        //	if ($row["manual"]) $found++;
-                        //}
-                        //if ($found == $count)
-                        //{
-                            //$filtered_participants[$active_id] = $participant;
-                        //}
-                        //else
-                        //{
-                            $assessmentSetting = new ilSetting("assessment");
-                            $manscoring_done = $assessmentSetting->get("manscoring_done_" . $active_id);
-                            if ($manscoring_done) {
-                                $filtered_participants[$active_id] = $participant;
-                            }
-                        //}
+                        $assessmentSetting = new ilSetting("assessment");
+                        $manscoring_done = $assessmentSetting->get("manscoring_done_" . $active_id);
+                        if ($manscoring_done) {
+                            $filtered_participants[$active_id] = $participant;
+                        }
                         break;
                     case 5:
-                        // unscored participants
-                        //$found = 0;
-                        //while ($row = $ilDB->fetchAssoc($result))
-                        //{
-                        //	if ($row["manual"]) $found++;
-                        //}
-                        //if ($found == 0)
-                        //{
-                            $assessmentSetting = new ilSetting("assessment");
-                            $manscoring_done = $assessmentSetting->get("manscoring_done_" . $active_id);
-                            if (!$manscoring_done) {
-                                $filtered_participants[$active_id] = $participant;
-                            }
-                        //}
+                        $assessmentSetting = new ilSetting("assessment");
+                        $manscoring_done = $assessmentSetting->get("manscoring_done_" . $active_id);
+                        if (!$manscoring_done) {
+                            $filtered_participants[$active_id] = $participant;
+                        }
                         break;
                     case 6:
                         // partially scored participants
