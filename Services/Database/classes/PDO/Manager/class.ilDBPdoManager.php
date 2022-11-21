@@ -471,4 +471,51 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
 
         return (bool) $this->pdo->exec("DROP TABLE $name");
     }
+
+
+    public function addForeignKey(string $foreign_key_name, string $field_name, string $table_name, string $reference_field_name, string $reference_table, ?string $on_update = null, ?string $on_delete = null): bool {
+        $table = $this->db_instance->quoteIdentifier($table_name, true);
+        $reference_table = $this->db_instance->quoteIdentifier($reference_table, true);
+        $name = $this->db_instance->quoteIdentifier($field_name, true);
+        $reference_field_name = $this->db_instance->quoteIdentifier($reference_field_name, true);
+        $update = '';
+        if($on_update) {
+            $update = "ON UPDATE $on_update";
+        }
+        $delete = '';
+        if($on_delete) {
+            $delete = "ON DELETE $on_delete";
+        }
+        $query = "ALTER TABLE 
+                    $table ADD CONSTRAINT 
+                    $foreign_key_name FOREIGN KEY ($name) 
+                    REFERENCES $reference_table($reference_field_name)
+                    $update
+                    $delete
+                    ";
+
+        return (bool) $this->pdo->exec($query);
+    }
+
+    public function dropForeignKey(string $foreign_key_name, string $table_name): bool {
+        $table = $this->db_instance->quoteIdentifier($table_name, true);
+        $name = $this->db_instance->quoteIdentifier($foreign_key_name, true);
+        $query = "ALTER TABLE $table DROP FOREIGN KEY $name;";
+
+        return (bool) $this->pdo->exec($query);
+    }
+
+    public function foreignKeyExists(string $foreign_key_name, string $table_name): bool {
+        $query = "SELECT * FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE CONSTRAINT_TYPE='FOREIGN KEY';";
+        $result_set = $this->db_instance->query($query);
+        $foreign_keys = [];
+        while ($foreign_data = $this->db_instance->fetchAssoc($result_set)) {
+            $foreign_keys[] = $foreign_data;
+            if($foreign_data['CONSTRAINT_NAME'] === $foreign_key_name) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
