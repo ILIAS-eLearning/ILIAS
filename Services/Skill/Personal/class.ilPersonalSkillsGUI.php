@@ -1224,6 +1224,7 @@ class ilPersonalSkillsGUI
         $ilCtrl = $this->ctrl;
 
         $options = [];
+        $cont_options = [];
         if (is_array($this->getObjectSkills()) && $this->getObjectId() > 0) {
             $options[0] = $lng->txt("obj_" . ilObject::_lookupType($this->getObjectId()))
                 . ": " . ilObject::_lookupTitle($this->getObjectId());
@@ -1231,10 +1232,11 @@ class ilPersonalSkillsGUI
 
         foreach ($this->cont_profiles as $p) {
             $tree = $this->tree_service->getObjSkillTreeById((int) $p["skill_tree_id"]);
-            $options[$p["profile_id"]] = $tree->getTitle() . ": " . $p["title"];
+            $cont_options[$p["profile_id"]] = $tree->getTitle() . ": " . $p["title"];
+            asort($cont_options);
         }
 
-        asort($options);
+        $options = $options + $cont_options;
 
         $si = new ilSelectInputGUI($lng->txt("skmg_profile"), "profile_id");
         $si->setOptions($options);
