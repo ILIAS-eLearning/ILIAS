@@ -539,7 +539,7 @@ var model = function() {
                 last_entry_id = entry_ids[entry_ids.length - 1],
                 more = state.entries[last_entry_id];
 
-            if(state.any_tools_visible()) {
+            if(state.any_tools_visible() && max_buttons > 0) {
                 max_buttons--;
             }
             //get length of top-level entries (w/o) more-button
@@ -907,9 +907,9 @@ var renderer = function($) {
                 more_slate = parts.slate.withHtmlId(dom_references[more_entry.id].slate),
                 root_entries = il.UI.maincontrols.mainbar.model.getTopLevelEntries(),
                 root_entries_length = root_entries.length - 1,
-                max_buttons = more.calcAmountOfButtons() - 1; //room for the more-button
-
-            if(model_state.any_tools_visible()) { max_buttons--;}
+                max_buttons = more.calcAmountOfButtons();
+            if(max_buttons > 0) { max_buttons--; } //room for the more-button
+            if(model_state.any_tools_visible() && max_buttons > 0) { max_buttons--;}
             for(i = max_buttons; i < root_entries_length; i++) {
                 btn = parts.triggerer.withHtmlId(dom_references[root_entries[i].id].triggerer);
                 list = btn.getElement().parent();
