@@ -138,6 +138,7 @@ class ilVirusScannerClamAV extends ilVirusScanner
         chmod($a_filepath, $perm);
 
         // Call of antivir command
+        $a_filepath = realpath($a_filepath);
         $arguments = $this->buildScanCommandArguments($a_filepath) . " 2>&1";
         $cmd = ilUtil::escapeShellCmd($this->scanCommand);
         $args = ilUtil::escapeShellArg($arguments);
