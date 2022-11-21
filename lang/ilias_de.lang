@@ -1629,6 +1629,7 @@ assessment#:#tst_pass_details#:#Detaillierte Ergebnisse
 assessment#:#tst_pass_details_header_lo_initial#:#Einstiegsergebnisse zu den Lernzielen<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifizierende Ergebnisse zu den Lernzielen<br />%s - %s
 assessment#:#tst_pass_details_overview_table_title#:#Detaillierte Testergebnisse für Testdurchlauf %s
+assessment#:#tst_pass_finished#:#Testdurchlauf wurde beendet
 assessment#:#tst_pass_finished_on#:#Testdurchlauf beendet am
 assessment#:#tst_pass_last_pass#:#Letzten Testdurchlauf bewerten
 assessment#:#tst_pass_last_pass_desc#:#Es wird immer der letzte Testdurchlauf eines Teilnehmers bewertet.
