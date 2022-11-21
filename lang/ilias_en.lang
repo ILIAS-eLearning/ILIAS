@@ -7797,9 +7797,11 @@ crs#:#crs_view_timing#:#Timings View
 crs#:#crs_view_timing_absolute#:#Absolute Dates
 crs#:#crs_view_timing_relative#:#Relative Dates
 crs#:#crs_view_timings#:#Timings View Type
+crs#:#crs_visibility#:#Visibility
 crs#:#crs_visibility_limitless#:#Unlimited
 crs#:#crs_visibility_until#:#Limited Availability Period
 crs#:#crs_visibility_until_info#:#The course will be visible to it's members in a specific period of time.
+crs#:#crs_visibility_unvisible#:#The course is not visible.
 crs#:#crs_wait_info#:#If the maximum number of users is exceeded, new registrations will be placed on a waiting list.
 crs#:#crs_waiting_list#:#Waiting List
 crs#:#crs_waiting_list_autofill#:#With Auto-Fill
