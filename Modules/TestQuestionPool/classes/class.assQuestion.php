@@ -2974,8 +2974,8 @@ abstract class assQuestion
     public function setQuestion(string $question = ""): void
     {
         $this->question = $question;
-        if ($this->question !== '') {
-            $this->getHtmlQuestionContentPurifier()->purify($question);
+        if ($question !== '') {
+            $this->question = $this->getHtmlQuestionContentPurifier()->purify($question);
         }
     }
 
