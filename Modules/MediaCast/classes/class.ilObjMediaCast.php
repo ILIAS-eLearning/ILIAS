@@ -517,7 +517,11 @@ class ilObjMediaCast extends ilObject
 
         // see ilLPListOfSettingsGUI assign
         $collection = $lp->getCollectionInstance();
-        if ($collection && $collection->hasSelectableItems()) {
+        if (
+            $collection &&
+            $collection->hasSelectableItems() &&
+            $this->getNewItemsInLearningProgress()
+        ) {
             $collection->activateEntries([$mob_id]);
             $lp->resetCaches();
             ilLPStatusWrapper::_refreshStatus($this->getId());
