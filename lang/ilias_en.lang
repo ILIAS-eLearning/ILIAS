@@ -1634,6 +1634,7 @@ assessment#:#tst_pass_details#:#Detailed Results
 assessment#:#tst_pass_details_header_lo_initial#:#Initial Test Results for the Learning Objectives<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifying Test Results for the Learning Objectives<br />%s - %s
 assessment#:#tst_pass_details_overview_table_title#:#Detailed Overview for Pass %s
+assessment#:#tst_pass_finished#:#Test pass finished
 assessment#:#tst_pass_finished_on#:#Test pass finished on
 assessment#:#tst_pass_last_pass#:#Score the Last Pass
 assessment#:#tst_pass_last_pass_desc#:#The last pass of a participant will be scored.
