@@ -264,7 +264,7 @@ class ilCertificateTemplateImportAction
 
         $this->templateRepository->save($template);
 
-        $this->utilHelper->delDir($importPath);
+        $this->filesystem->deleteDir($importPath);
 
         return true;
     }
