@@ -1580,6 +1580,7 @@ class ilSCORM13PlayerGUI
     public function downloadLog()
     {
         $filename = $_GET['logFile'];
+        $filename = str_replace('/', '', $filename);
         //Header
         header("Expires: 0");
         header("Cache-Control: private");
