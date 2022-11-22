@@ -587,14 +587,14 @@ class ilObjLearningSequence extends ilContainer
         $this->cloneLsItem($a_target_id, $a_copy_id);
     }
 
-    private function cloneLsItem($a_target_id, $a_copy_id)
+    private function cloneLsItem($a_child_ref_id, $a_clone_ref_id)
     {
         $items = $this->getLSItems();
         $ls_item = array();
         foreach ($items as $item) {
-            if($item->getRefId() == $a_target_id) {
+            if($item->getRefId() == $a_child_ref_id) {
                 $post_condition = new ilLSPostCondition(
-                    (int) $a_copy_id,
+                    (int) $a_clone_ref_id,
                     $item->getPostCondition()->getConditionOperator(),
                     $item->getPostCondition()->getValue()
                 );
@@ -605,7 +605,7 @@ class ilObjLearningSequence extends ilContainer
                     $item->isOnline(),
                     $item->getOrderNumber(),
                     $post_condition,
-                    (int) $a_copy_id
+                    (int) $a_clone_ref_id
                 );
                 break;
             }

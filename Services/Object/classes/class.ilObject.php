@@ -2337,7 +2337,7 @@ class ilObject
      * @param $a_copy_id
      * @return void
      */
-    public function handleChildCloning($a_target_id, $a_copy_id)
+    public function handleChildCloning($a_child_ref_id, $a_clone_ref_id)
     {
         // Kann ggf. überschrieben werden.
     }
