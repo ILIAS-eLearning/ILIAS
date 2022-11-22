@@ -1,29 +1,33 @@
+@use "sass:math";
+@use "../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as *;
+@use "../050-layout/basics/" as *;
+
+//
 // Boottsrap 5: _variables.scss
+//
 
 $enable-grid-classes: true !default;
 $enable-cssgrid: false !default;
 
-$grid-columns: 12 !default;
-$grid-gutter-width: 1.5rem !default;
 $grid-row-columns: 6 !default;
 
+// redefining Bootstrap 5 breakpoints with Bootstrap 3 breakpoints
 $grid-breakpoints: (
     xs: 0,
-    sm: 576px,
-    md: 768px,
-    lg: 992px,
-    xl: 1200px,
+    sm: $screen-xs,
+    md: $screen-sm,
+    lg: $screen-md,
+    xl: $screen-lg,
     xxl: 1400px) !default;
 
 // scss-docs-start spacer-variables-maps
-$spacer: 1rem !default;
 $spacers: (
     0: 0,
-    1: $spacer * .25,
-    2: $spacer * .5,
-    3: $spacer,
-    4: $spacer * 1.5,
-    5: $spacer * 3,
+    1: $il-padding-base-horizontal,
+    2: $il-padding-large-horizontal,
+    3: $il-padding-xlarge-horizontal,
+    4: $il-padding-xxlarge-horizontal,
+    5: $il-padding-xxxlarge-horizontal,
     ) !default;
 // scss-docs-end spacer-variables-maps
 
@@ -32,66 +36,25 @@ $spacers: (
 $variable-prefix: bs- !default; // Deprecated in v5.2.0 for the shorter `$prefix`
 $prefix: $variable-prefix !default;
 
+//
 // Bootstrap 5: _functions.scss
-
-@function divide($dividend, $divisor, $precision: 10) {
-    $sign: if($dividend > 0 and $divisor > 0 or $dividend < 0 and $divisor < 0, 1, -1
-);
-$dividend: abs($dividend);
-$divisor: abs($divisor);
-
-@if $dividend ==0 {
-    @return 0;
+//
+// Bootstrap 5 uses a custom function for division to maintain compatibility with other Sass variants.
+// Since ILIAS is strictly using Dart Sass, we can just use the build in math function instead.
+@function divide($dividend, $divisor) {
+    $result: math.div($dividend, $divisor);
+    @return $result;
 }
 
-@if $divisor ==0 {
-    @error "Cannot divide by 0";
-}
-
-$remainder: $dividend;
-$result: 0;
-$factor: 10;
-
-@while ($remainder > 0 and $precision >=0) {
-    $quotient: 0;
-
-    @while ($remainder >=$divisor) {
-        $remainder: $remainder - $divisor;
-        $quotient: $quotient +1;
-    }
-
-    $result: $result * 10 + $quotient;
-    $factor: $factor * .1;
-    $remainder: $remainder * 10;
-    $precision: $precision - 1;
-
-    @if ($precision < 0 and $remainder >=$divisor * 5) {
-        $result: $result +1;
-    }
-}
-
-$result: $result * $factor * $sign;
-$dividend-unit: unit($dividend);
-$divisor-unit: unit($divisor);
-$unit-map: (
-    "px": 1px,
-    "rem": 1rem,
-    "em": 1em,
-    "%": 1%
-);
-
-@if ($dividend-unit !=$divisor-unit and map-has-key($unit-map, $dividend-unit)) {
-    $result: $result * map-get($unit-map, $dividend-unit);
-}
-
-@return $result;
-}
-
+//
 // Bootstrap 5: _maps.scss
+//
 
 $gutters: $spacers !default;
 
+//
 // Bootstrap 5: _breakpoints.scss
+//
 
 // Breakpoint viewport sizes and media queries.
 //
@@ -169,76 +132,9 @@ $gutters: $spacers !default;
     }
 }
 
-// Media of at most the maximum breakpoint width. No query for the largest breakpoint.
-// Makes the @content apply to the given breakpoint and narrower.
-@mixin media-breakpoint-down($name, $breakpoints: $grid-breakpoints) {
-    $max: breakpoint-max($name, $breakpoints);
-
-    @if $max {
-        @media (max-width: $max) {
-            @content;
-        }
-    }
-
-    @else {
-        @content;
-    }
-}
-
-// Media that spans multiple breakpoint widths.
-// Makes the @content apply between the min and max breakpoints
-@mixin media-breakpoint-between($lower, $upper, $breakpoints: $grid-breakpoints) {
-    $min: breakpoint-min($lower, $breakpoints);
-    $max: breakpoint-max($upper, $breakpoints);
-
-    @if $min !=null and $max !=null {
-        @media (min-width: $min) and (max-width: $max) {
-            @content;
-        }
-    }
-
-    @else if $max ==null {
-        @include media-breakpoint-up($lower, $breakpoints) {
-            @content;
-        }
-    }
-
-    @else if $min ==null {
-        @include media-breakpoint-down($upper, $breakpoints) {
-            @content;
-        }
-    }
-}
-
-// Media between the breakpoint's minimum and maximum widths.
-// No minimum for the smallest breakpoint, and no maximum for the largest one.
-// Makes the @content apply only to the given breakpoint, not viewports any wider or narrower.
-@mixin media-breakpoint-only($name, $breakpoints: $grid-breakpoints) {
-    $min: breakpoint-min($name, $breakpoints);
-    $next: breakpoint-next($name, $breakpoints);
-    $max: breakpoint-max($next, $breakpoints);
-
-    @if $min !=null and $max !=null {
-        @media (min-width: $min) and (max-width: $max) {
-            @content;
-        }
-    }
-
-    @else if $max ==null {
-        @include media-breakpoint-up($name, $breakpoints) {
-            @content;
-        }
-    }
-
-    @else if $min ==null {
-        @include media-breakpoint-down($next, $breakpoints) {
-            @content;
-        }
-    }
-}
-
-
+//
 // Bootstrap 5: mixins/_grid.scss
+//
 
 // Grid system
 //
@@ -399,7 +295,9 @@ $gutters: $spacers !default;
     }
 }
 
+//
 // Bootstrap 5: _grid.scss
+//
 
 // Row
 //
