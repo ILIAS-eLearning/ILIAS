@@ -1,7 +1,7 @@
 <div class="movable_prototype">
 	<!-- BEGIN inline_in_bl -->
 	<div class="form-inline">
-	<!-- END inline_in_bl -->	
+	<!-- END inline_in_bl -->
 		<select class="form-control" multiple id="{ID}" name="{POST_VAR}" {DISABLED}>
 		<!-- BEGIN prop_select_option -->
 		<option value="{VAL_SELECT_OPTION}">{TXT_SELECT_OPTION}</option>
@@ -13,10 +13,10 @@
 </div>
 
 <script>
-	var ilBootstrapTaggingOnLoad  = (function () 
+	var ilBootstrapTaggingOnLoad  = (function ()
 	{
 		'use strict';
-		var pub 				= {}, 
+		var pub 				= {},
 			pri 				= {};
 		pub.ids	 				= [];
 		pub.terms 				= {TERMS};
@@ -27,12 +27,12 @@
 		pub.appendId = function(id)
 		{
 			var pos = $.inArray(id, pub.ids);
-			if (pos === -1) 
+			if (pos === -1)
 			{
 				pub.ids.push(id);
 				console.log(pub.terms);
 			}
-			
+
 		};
 
 		pub.appendTerms = function(id, terms)
@@ -104,7 +104,7 @@
 					}
 				});
 			})
-			
+
 		};
 
 		pri.substringMatcher = function(strings, key) {
@@ -124,7 +124,7 @@
 				callback(matches);
 			};
 		};
-		
+
 		pri.preventFormSubmissionOnEnterInTypeahead = function()
 		{
 			$(document).ready(function() {
@@ -136,17 +136,9 @@
 				});
 			});
 		};
-		
+
 		return pub;
 	}());
 </script>
-<!-- BEGIN initialize_on_page_load -->
-<script>
-window.setTimeout(function() {
-	ilBootstrapTaggingOnLoad.appendId('#{ID}');
-	ilBootstrapTaggingOnLoad.Init();
-}, 0);
-</script>
-<!-- END initialize_on_page_load -->
 
 
