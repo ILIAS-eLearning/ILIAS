@@ -156,6 +156,8 @@ class ilUserProfileInfoSettingsGUI
         $ti = new ilNumberInputGUI($lng->txt("days"), "days_repeat");
         $ti->setMaxLength(4);
         $ti->setSize(4);
+        $ti->setRequired(true);
+        $ti->setMinValue(1);
         $ti->setValue($prompt_settings->getDays());
         $op3->addSubItem($ti);
 
@@ -205,8 +207,8 @@ class ilUserProfileInfoSettingsGUI
                 $prompt_text[$l] = $form->getInput("user_profile_prompt_text_" . $l);
             }
             $this->user_prompt->data()->saveSettings($this->user_prompt->settings(
-                $form->getInput("prompt_mode"),
-                $days,
+                (int) $form->getInput("prompt_mode"),
+                (int) $days,
                 $info_text,
                 $prompt_text
             ));
