@@ -472,21 +472,31 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         return (bool) $this->pdo->exec("DROP TABLE $name");
     }
 
-
-    public function addForeignKey(string $foreign_key_name, string $field_name, string $table_name, string $reference_field_name, string $reference_table, ?string $on_update = null, ?string $on_delete = null): bool {
-        $table = $this->db_instance->quoteIdentifier($table_name, true);
-        $reference_table = $this->db_instance->quoteIdentifier($reference_table, true);
-        $name = $this->db_instance->quoteIdentifier($field_name, true);
-        $reference_field_name = $this->db_instance->quoteIdentifier($reference_field_name, true);
-        $update = '';
-        if($on_update) {
-            $update = "ON UPDATE $on_update";
-        }
-        $delete = '';
-        if($on_delete) {
-            $delete = "ON DELETE $on_delete";
-        }
-        $query = "ALTER TABLE 
+    /**
+     * @throws ilException
+     */
+    public function addForeignKey(
+        string $foreign_key_name,
+        string $field_name,
+        string $table_name,
+        string $reference_field_name,
+        string $reference_table,
+        ?string $on_update = null,
+        ?string $on_delete = null): bool {
+        if($this->isValidForeignKeyConstraint($on_update) && $this->isValidForeignKeyConstraint($on_delete)) {
+            $table = $this->db_instance->quoteIdentifier($table_name, true);
+            $reference_table = $this->db_instance->quoteIdentifier($reference_table, true);
+            $name = $this->db_instance->quoteIdentifier($field_name, true);
+            $reference_field_name = $this->db_instance->quoteIdentifier($reference_field_name, true);
+            $update = '';
+            if($on_update) {
+                $update = "ON UPDATE $on_update";
+            }
+            $delete = '';
+            if($on_delete) {
+                $delete = "ON DELETE $on_delete";
+            }
+            $query = "ALTER TABLE 
                     $table ADD CONSTRAINT 
                     $foreign_key_name FOREIGN KEY ($name) 
                     REFERENCES $reference_table($reference_field_name)
@@ -494,7 +504,9 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
                     $delete
                     ";
 
-        return (bool) $this->pdo->exec($query);
+            return (bool) $this->pdo->exec($query);
+        }
+        throw new ilException('The given constraint is invalid.');
     }
 
     public function dropForeignKey(string $foreign_key_name, string $table_name): bool {
@@ -514,6 +526,20 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
             if($foreign_data['CONSTRAINT_NAME'] === $foreign_key_name) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    public function isValidForeignKeyConstraint(string $value) : bool {
+        if(in_array($value ,
+            [ilForeignKeyConstraints::CASCADE,
+             ilForeignKeyConstraints::RESTRICT,
+             ilForeignKeyConstraints::SET_NULL,
+             ilForeignKeyConstraints::NO_ACTION,
+             ilForeignKeyConstraints::SET_DEFAULT,
+             null
+            ])) {
+            return true;
         }
         return false;
     }
