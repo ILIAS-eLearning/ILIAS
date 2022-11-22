@@ -540,7 +540,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
      */
     public function exportQuestionForAllParticipants()
     {
-        $this->getQuestionResultForTestUsers($this->testrequest->raw("qid"), $this->object->getTestId());
+        $question_id = $this->testrequest->raw("qid");
+        $question_content = $this->getQuestionResultForTestUsers($question_id, $this->object->getTestId());
+        $question_title = assQuestion::instantiateQuestion($question_id)->getTitle();
+        $page = $this->prepareContentForPrint($question_title, $question_content);
+        $this->sendPage($page);
     }
 
     /**
@@ -1526,7 +1530,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                         'qid' => $question_id,
                         'question_title' => $question_title,
                         'number_of_answers' => $answered,
-                        'output' => "<a href=\"" . $this->ctrl->getLinkTarget($this, "exportQuestionForAllParticipants") . "\">" . $this->lng->txt("print") . "</a>",
+                        'output' => "<a target='_blank' href=\"" . $this->ctrl->getLinkTarget($this, "exportQuestionForAllParticipants") . "\">" . $this->lng->txt("print") . "</a>",
                         'file_uploads' => $download
                     )
                 );
@@ -1986,5 +1990,46 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     public function getObject(): ?ilObjTest
     {
         return $this->object;
+    }
+
+    protected function prepareContentForPrint(string $question_title, string $question_content): string
+    {
+        $tpl = new ilGlobalTemplate(
+            "tpl.question_statistics_print_view.html",
+            true,
+            true,
+            "Modules/Test"
+        );
+
+        $tpl->addCss(\ilUtil::getStyleSheetLocation("filesystem"));
+        $tpl->addCss(\ilObjStyleSheet::getContentPrintStyle());
+        $tpl->addCss(\ilObjStyleSheet::getSyntaxStylePath());
+        $tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
+
+        ilMathJax::getInstance()->includeMathJax($tpl);
+
+        foreach ($this->gs->layout()->meta()->getJs()->getItemsInOrderOfDelivery() as $js) {
+            $path = explode("?", $js->getContent());
+            $file = $path[0];
+            $tpl->addJavaScript($file, $js->addVersionNumber());
+        }
+        foreach ($this->gs->layout()->meta()->getOnLoadCode()->getItemsInOrderOfDelivery() as $code) {
+            $tpl->addOnLoadCode($code->getContent());
+        }
+
+        $tpl->addOnLoadCode("il.Util.print();");
+
+        $tpl->setVariable("QUESTION_TITLE", $question_title);
+        $tpl->setVariable("QUESTION_CONTENT", $question_content);
+        return $tpl->printToString();
+    }
+
+    protected function sendPage(string $page)
+    {
+        $this->http->saveResponse($this->http->response()->withBody(
+            Streams::ofString($page)
+        ));
+        $this->http->sendResponse();
+        $this->http->close();
     }
 }

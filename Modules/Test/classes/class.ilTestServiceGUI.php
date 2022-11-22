@@ -875,7 +875,9 @@ class ilTestServiceGUI
         }
 
         $invited_user = array_pop($this->object->getInvitedUsers($user_id));
-        if (strlen($invited_user["clientip"])) {
+        if (is_array($invited_user) &&
+            array_key_exists("clientip", $invited_user) &&
+            strlen($invited_user["clientip"])) {
             $template->setCurrentBlock("user_clientip");
             $template->setVariable("TXT_CLIENT_IP", $this->lng->txt("client_ip"));
             $template->parseCurrentBlock();
@@ -894,18 +896,8 @@ class ilTestServiceGUI
         return $template->get();
     }
 
-    /**
-     * Creates a HTML representation for the results of a given question in a test
-     *
-     * @param integer $question_id The original id of the question
-     * @param integer $test_id The test id
-     */
-    public function getQuestionResultForTestUsers($question_id, $test_id)
+    public function getQuestionResultForTestUsers(int $question_id, int $test_id): string
     {
-        // prepare generation before contents are processed (for mathjax)
-        ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
-
-        // REQUIRED, since we call this object regardless of the loop
         $question_gui = $this->object->createQuestionGUI("", $question_id);
 
         $this->object->setAccessFilteredParticipantList(
@@ -937,9 +929,7 @@ class ilTestServiceGUI
                 }
             }
         }
-
-        require_once './Modules/Test/classes/class.ilTestPDFGenerator.php';
-        ilTestPDFGenerator::generatePDF($output, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $question_gui->object->getTitleFilenameCompliant(), PDF_USER_RESULT);
+        return $output;
     }
 
     /**
