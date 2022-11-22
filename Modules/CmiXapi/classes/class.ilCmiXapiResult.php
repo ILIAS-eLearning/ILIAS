@@ -159,10 +159,10 @@ class ilCmiXapiResult
         $this->setId($this->database->nextId('cmix_results'));
 
         $this->database->insert('cmix_results', array(
-            'id' => array('intger', $this->getId()),
-            'obj_id' => array('intger', $this->getObjId()),
-            'usr_id' => array('intger', $this->getUsrId()),
-            'version' => array('intger', $this->getVersion()),
+            'id' => array('integer', $this->getId()),
+            'obj_id' => array('integer', $this->getObjId()),
+            'usr_id' => array('integer', $this->getUsrId()),
+            'version' => array('integer', $this->getVersion()),
             'score' => array('float', $this->getScore()),
             'status' => array('text', $this->getStatus()),
             'last_update' => array('timestamp', ilCmiXapiAuthToken::selectCurrentTimestamp())
@@ -171,13 +171,13 @@ class ilCmiXapiResult
 
     protected function assignFromDbRow(array $row): void
     {
-        $this->setId($row['id']);
-        $this->setObjId($row['obj_id']);
-        $this->setUsrId($row['usr_id']);
-        $this->setVersion($row['version']);
-        $this->setScore($row['score']);
-        $this->setStatus($row['status']);
-        $this->setLastUpdate($row['last_update']);
+        $this->setId((int) $row['id']);
+        $this->setObjId((int) $row['obj_id']);
+        $this->setUsrId((int) $row['usr_id']);
+        $this->setVersion((int) $row['version']);
+        $this->setScore((float) $row['score']);
+        $this->setStatus((string) $row['status']);
+        $this->setLastUpdate((string) $row['last_update']);
     }
 
     /**
