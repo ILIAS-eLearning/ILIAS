@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,7 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-
+declare(strict_types=1);
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Component as C;
@@ -96,8 +94,6 @@ class ScoreSettingsTest extends ILIAS_UI_TestBase
         $this->assertFalse($s->withShowSolutionSuggested(false)->getShowSolutionSuggested());
         $this->assertTrue($s->withShowSolutionListComparison(true)->getShowSolutionListComparison());
         $this->assertFalse($s->withShowSolutionListComparison(false)->getShowSolutionListComparison());
-        $this->assertTrue($s->withExportSettingsSingleChoiceShort(true)->getExportSettingsSingleChoiceShort());
-        $this->assertFalse($s->withExportSettingsSingleChoiceShort(false)->getExportSettingsSingleChoiceShort());
         $this->assertTrue($s->withShowPassDetails(true)->getShowPassDetails());
         $tax_ids = [1,3,5,17];
         $this->assertEquals($tax_ids, $s->withTaxonomyFilterIds($tax_ids)->getTaxonomyFilterIds());
@@ -434,15 +430,9 @@ EOT;
     </div>
 
     <div class="form-group row">
-        <label for="id_13" class="control-label col-sm-4 col-md-3 col-lg-2">tst_exp_sc_short</label><div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_13" value="checked" name="" class="form-control form-control-sm" /><div class="help-block">tst_exp_sc_short_desc</div>
-        </div>
-    </div>
-
-    <div class="form-group row">
         <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_tax_filters</label>
         <div class="col-sm-8 col-md-9 col-lg-10">
-            <ul class="il-input-multiselect" id="id_14">
+            <ul class="il-input-multiselect" id="id_13">
                 <li>
                     <input type="checkbox" name="[]" value="0" /><span>1</span>
                 </li>
@@ -600,7 +590,6 @@ EOT;
         $this->assertIsBool($t->getShowSolutionListOwnAnswers());
         $this->assertIsBool($t->isPassDeletionAllowed());
         $this->assertIsInt($t->getExportSettings());
-        $this->assertIsBool($t->getExportSettingsSingleChoiceShort());
         $this->assertIsBool($t->getHighscoreEnabled());
         $this->assertIsBool($t->getHighscoreAnon());
         $this->assertIsBool($t->getHighscoreAchievedTS());

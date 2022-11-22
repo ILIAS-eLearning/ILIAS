@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Input;
@@ -33,8 +32,6 @@ class ilObjTestSettingsResultDetails extends TestSettings
     public const RESULTPRES_BIT_SOLUTION_SUGGESTED = 64;
     public const RESULTPRES_BIT_SOLUTION_LISTCOMPARE = 128;
     public const RESULTPRES_BIT_SOLUTION_LISTOWNANSWERS = 256;
-
-    public const EXPORT_BIT_SINGLECHOICE_SHORT = 1;
 
     protected bool $print_bs_with_res = true;
     protected bool $examid_in_test_res = true;
@@ -132,10 +129,6 @@ class ilObjTestSettingsResultDetails extends TestSettings
                 $lng->txt('examid_in_test_res'),
                 $lng->txt('examid_in_test_res_desc')
             )->withValue($this->getShowExamIdInTestResults()),
-            'exp_sc_short' => $f->checkbox(
-                $lng->txt('tst_exp_sc_short'),
-                $lng->txt('tst_exp_sc_short_desc')
-            )->withValue($this->getExportSettingsSingleChoiceShort()),
             'result_tax_filters' => $taxonomy_ids
                 ->withValue($this->getTaxonomyFilterIds())
         ];
@@ -157,7 +150,6 @@ class ilObjTestSettingsResultDetails extends TestSettings
                             ->withShowSolutionAnswersOnly($v['solution_hide_page'])
                             ->withShowSolutionSignature($v['solution_signature'])
                             ->withShowExamIdInTestResults($v["examid_in_test_res"])
-                            ->withExportSettingsSingleChoiceShort($v["exp_sc_short"])
                             ->withTaxonomyFilterIds($v["result_tax_filters"] ?? []);
                     }
                 )
@@ -339,14 +331,6 @@ class ilObjTestSettingsResultDetails extends TestSettings
         }
         $clone->exportsettings = $v;
         return $clone;
-    }
-    public function getExportSettingsSingleChoiceShort(): bool
-    {
-        return $this->compareExportSetting(self::EXPORT_BIT_SINGLECHOICE_SHORT);
-    }
-    public function withExportSettingsSingleChoiceShort(bool $flag): self
-    {
-        return $this->modifyExportSetting(self::EXPORT_BIT_SINGLECHOICE_SHORT, $flag);
     }
 
     public function getTaxonomyFilterIds(): array
