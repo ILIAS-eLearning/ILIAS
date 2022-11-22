@@ -41,7 +41,6 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource
      */
     protected $error = null;
 
-
     /**
      * @param array $inputs
      */
@@ -116,6 +115,16 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource
         $this->error = $error;
     }
 
+    public function getRequired()
+    {
+        $required = false;
+        foreach ($this->getInputs() as $input) {
+            if ($input->isRequired()) {
+                $required = true;
+            }
+        }
+        return $required;
+    }
 
     /**
      * @inheritdoc

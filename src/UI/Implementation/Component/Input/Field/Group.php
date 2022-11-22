@@ -75,6 +75,17 @@ class Group extends Input implements C\Input\Field\Group
         return $clone;
     }
 
+    public function isRequired()
+    {
+        $required = false;
+        foreach ($this->getInputs() as $input) {
+            if ($input->isRequired()) {
+                $required = true;
+            }
+        }
+        return $required;
+    }
+
     public function withOnUpdate(Signal $signal)
     {
         $clone = parent::withOnUpdate($signal);
