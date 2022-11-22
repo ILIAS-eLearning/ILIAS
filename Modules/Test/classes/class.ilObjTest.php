@@ -5416,9 +5416,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function getImagePathWeb()
     {
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
-        $webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/" . $this->getId() . "/images/";
-        return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+        $relative_path = "/assessment/" . $this->getId() . "/images/";
+        return ilUtil::getDataWebPath($relative_path);
     }
 
     /**

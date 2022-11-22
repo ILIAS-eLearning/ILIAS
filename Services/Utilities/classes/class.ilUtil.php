@@ -175,6 +175,18 @@ class ilUtil
         return $htmlpath;
     }
 
+    public static function getDataWebPath(string $relative_path = '') : string
+    {
+        $webdir = implode('/', [
+            ILIAS_HTTP_PATH,
+            ILIAS_WEB_DIR,
+            CLIENT_ID,
+            $relative_path
+        ]);
+        $parts = array_filter(explode('/', $webdir), function($p) {return trim($p) != '' && trim($p) != '.';});
+        return array_shift($parts) . '//' . implode('/', $parts) . '/';
+    }
+
     /**
     * get full style sheet file name (path inclusive) of current user
     *
