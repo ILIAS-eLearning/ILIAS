@@ -134,6 +134,12 @@ class FileInputTest extends ILIAS_UI_TestBase
 
                 return null;
             }
+
+            public function supportsChunkedUploads(): bool
+            {
+                return false;
+            }
+
         };
     }
 
@@ -279,6 +285,9 @@ class FileInputTest extends ILIAS_UI_TestBase
                                 <div class="ui-input-file-metadata" style="display: none;">
                                     <input id="id_1" type="hidden" name="name_0[form_input_0][]" value="test_file_id_1" />
                                 </div>
+                                <div class="ui-input-file-input-progress-container">
+                                    <div class="ui-input-file-input-progress-indicator"></div>
+                                </div>
                             </div>
                         </div>
                         <div class="ui-input-file-input-dropzone">
@@ -347,6 +356,9 @@ class FileInputTest extends ILIAS_UI_TestBase
                                         </div>
                                     </div>
                                     <input id="id_2" type="hidden" name="name_0[form_input_2][]" value="file_id" />
+                                </div>
+                                <div class="ui-input-file-input-progress-container">
+                                    <div class="ui-input-file-input-progress-indicator"></div>
                                 </div>
                             </div>
                         </div>
@@ -422,6 +434,9 @@ class FileInputTest extends ILIAS_UI_TestBase
                                         </div>
                                     </div>
                                     <input id="id_2" type="hidden" name="name_0[form_input_2][]" value="test_file_id_1" />
+                                </div>
+                                <div class="ui-input-file-input-progress-container">
+                                    <div class="ui-input-file-input-progress-indicator"></div>
                                 </div>
                             </div>
                         </div>
