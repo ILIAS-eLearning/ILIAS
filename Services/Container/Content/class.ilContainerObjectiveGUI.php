@@ -731,7 +731,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                     $item['ref_id'],
                     $item['obj_id'],
                     $item['title'],
-                    $item['description']
+                    $item['description'] ?? ''
                 );
 
                 // #13381 - use materials order
