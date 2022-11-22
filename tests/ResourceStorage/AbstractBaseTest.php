@@ -32,7 +32,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class ResourceBuilderTest
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 abstract class AbstractBaseTest extends TestCase
 {

@@ -31,7 +31,7 @@ use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
 
 /**
  * Class FileResourceHandler
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  * @internal
  */
 interface StorageHandler

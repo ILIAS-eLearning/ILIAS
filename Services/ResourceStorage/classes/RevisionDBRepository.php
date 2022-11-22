@@ -34,7 +34,7 @@ use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
 
 /**
  * Class RevisionDBRepository
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  * @internal
  */
 class RevisionDBRepository implements RevisionRepository

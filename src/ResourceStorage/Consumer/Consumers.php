@@ -27,7 +27,7 @@ use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 
 /**
  * Class Consumers
- * @author  Fabian Schmid <fs@studer-raimann.ch>
+ * @author  Fabian Schmid <fabian@sr.solutions.ch>
  * @package ILIAS\ResourceStorage\Consumer
  */
 class Consumers

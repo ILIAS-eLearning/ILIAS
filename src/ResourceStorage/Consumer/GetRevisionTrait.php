@@ -23,7 +23,7 @@ use OutOfBoundsException;
 
 /**
  * Trait GetRevisionTrait
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 trait GetRevisionTrait
 {

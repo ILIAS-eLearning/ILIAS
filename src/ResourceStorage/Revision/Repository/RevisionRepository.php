@@ -33,7 +33,7 @@ use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
 
 /**
  * Class RevisionARRepository
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  * @internal
  */
 interface RevisionRepository extends LockingRepository, PreloadableRepository

@@ -34,7 +34,7 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 /**
  * Class StorageManager
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class Manager
 {

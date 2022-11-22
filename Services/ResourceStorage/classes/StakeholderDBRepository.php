@@ -25,7 +25,7 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 /**
  * Interface StakeholderDBRepository
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  * @internal
  */
 class StakeholderDBRepository implements StakeholderRepository

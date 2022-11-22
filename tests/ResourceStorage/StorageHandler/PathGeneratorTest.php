@@ -27,7 +27,7 @@ use ILIAS\ResourceStorage\StorageHandler\PathGenerator\UUIDBasedPathGenerator;
 
 /**
  * Class PathGeneratorTest
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class PathGeneratorTest extends AbstractBaseTest
 {

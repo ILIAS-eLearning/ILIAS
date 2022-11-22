@@ -24,7 +24,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * Interface ResourceStakeholder
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 interface ResourceStakeholder
 {

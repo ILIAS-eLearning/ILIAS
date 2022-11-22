@@ -25,7 +25,7 @@ use ILIAS\ResourceStorage\Revision\Revision;
 
 /**
  * Class StorageHandlerFactory
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class StorageHandlerFactory
 {

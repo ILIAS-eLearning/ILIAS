@@ -22,7 +22,7 @@ use ILIAS\Filesystem\Stream\FileStream;
 
 /**
  * Interface StreamConsumer
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 interface StreamConsumer
 {

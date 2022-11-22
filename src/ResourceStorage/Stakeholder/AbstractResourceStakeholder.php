@@ -24,7 +24,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * Class AbstractResourceStakeholder
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 abstract class AbstractResourceStakeholder implements ResourceStakeholder
 {

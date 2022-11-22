@@ -27,7 +27,7 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 
 /**
  * Class FileSystemStorageHandler
- * @author     Fabian Schmid <fs@studer-raimann.ch>
+ * @author     Fabian Schmid <fabian@sr.solutions.ch>
  * @deprecated Use MaxNestingFileSystemStorageHandler instead
  */
 class FileSystemStorageHandler extends AbstractFileSystemStorageHandler

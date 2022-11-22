@@ -27,7 +27,7 @@ use ILIAS\Setup\ObjectiveCollection;
 
 /**
  * Class ilResourceStorageSetupAgent
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class ilResourceStorageSetupAgent implements Agent
 {

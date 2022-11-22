@@ -42,7 +42,7 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 /**
  * Class Services
  * @public
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class Services
 {
@@ -53,7 +53,6 @@ class Services
 
     /**
      * Services constructor.
-     * @param StorageHandler $storage_handler_factory
      */
     public function __construct(
         StorageHandlerFactory $storage_handler_factory,
@@ -65,9 +64,6 @@ class Services
         RepositoryPreloader $preloader = null
     ) {
         $src_builder ??= new InlineSrcBuilder();
-        $stream_info_factory = new TokenFactory(
-            $storage_handler_factory->getBaseDir()
-        );
         $file_name_policy_stack = new FileNamePolicyStack();
         $file_name_policy_stack->addPolicy($file_name_policy);
         $resource_builder = new ResourceBuilder(

@@ -24,7 +24,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * Class UUIDBasedPathGenerator
- * @author     Fabian Schmid <fs@studer-raimann.ch>
+ * @author     Fabian Schmid <fabian@sr.solutions.ch>
  * @depracated Only used in FileSystemStorageHandler which is deprecated as well
  * @internal
  */

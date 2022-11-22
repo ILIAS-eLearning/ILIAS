@@ -26,7 +26,7 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 
 /**
  * Class DirectoryNestingTest
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class DirectoryNestingTest extends AbstractBaseTest
 {

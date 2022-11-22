@@ -21,7 +21,7 @@ namespace ILIAS\ResourceStorage\Policy;
 /**
  * Class WhiteAndBlacklistedFileNamePolicy
  *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 abstract class WhiteAndBlacklistedFileNamePolicy implements FileNamePolicy
 {

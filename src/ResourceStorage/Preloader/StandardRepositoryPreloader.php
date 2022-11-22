@@ -24,7 +24,7 @@ use ILIAS\ResourceStorage\Repositories;
 
 /**
  * Class StandardRepositoryPreloader
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class StandardRepositoryPreloader implements RepositoryPreloader
 {

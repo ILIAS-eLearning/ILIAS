@@ -41,7 +41,7 @@ use Psr\Http\Message\UploadedFileInterface;
 
 /**
  * Class AbstractBaseResourceBuilderTest
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
 {
@@ -161,6 +161,6 @@ abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
                 $upload_result
             )
             ->willReturn($blank_revision);
-        return array($upload_result, $info_resolver, $identification);
+        return [$upload_result, $info_resolver, $identification];
     }
 }

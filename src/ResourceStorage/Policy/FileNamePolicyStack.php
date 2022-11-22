@@ -20,7 +20,7 @@ namespace ILIAS\ResourceStorage\Policy;
 
 /**
  * Class FileNamePolicyStack
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  * @internal
  */
 class FileNamePolicyStack implements FileNamePolicy

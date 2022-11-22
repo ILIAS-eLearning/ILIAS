@@ -20,7 +20,7 @@ namespace ILIAS\ResourceStorage\Policy;
 
 /**
  * Class FileNamePolicyException
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class FileNamePolicyException extends \ilException
 {

@@ -24,7 +24,7 @@ use ILIAS\ResourceStorage\Resource\StorableResource;
 
 /**
  * Class ResourceDBRepository
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  * @internal
  */
 class ResourceDBRepository implements ResourceRepository
