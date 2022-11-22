@@ -38,7 +38,7 @@ class ilCmiXapiDateTime extends ilDateTime
     public function toXapiTimestamp(): string
     {
         $phpDateTime = new DateTime();
-        $phpDateTime->setTimestamp($this->get(IL_CAL_UNIX));
+        $phpDateTime->setTimestamp((int) $this->get(IL_CAL_UNIX));
 
         return $phpDateTime->format(self::RFC3336_EXTENDED_FIXED_USING_u_INSTEAD_OF_v);
     }

@@ -269,12 +269,12 @@ class ilCmiXapiSettingsGUI
                 $form->addItem($sectionHeader);
                 $bypassProxy = new ilRadioGroupInputGUI($this->language->txt('conf_bypass_proxy'), 'bypass_proxy');
                 $bypassProxy->setInfo($this->language->txt('conf_bypass_proxy_info'));
-                $bypassProxy->setValue((string) $this->object->isBypassProxyEnabled());
                 $opt1 = new ilRadioOption($this->language->txt('conf_bypass_proxy_disabled'), "0");
                 $bypassProxy->addOption($opt1);
                 $opt2 = new ilRadioOption($this->language->txt('conf_bypass_proxy_enabled'), "1");
                 $bypassProxy->addOption($opt2);
-                $bypassProxy->setValue((string) ((int) $this->object->getLrsType()->isBypassProxyEnabled()));
+                $bypassProxy->setValue((string) ((int) $this->object->isBypassProxyEnabled()));
+                //$bypassProxy->setValue((string) ((int) $this->object->getLrsType()->isBypassProxyEnabled()));
                 $form->addItem($bypassProxy);
                 if ($this->object->getLrsType()->isBypassProxyEnabled()) {
                     $bypassProxy->setDisabled(true);

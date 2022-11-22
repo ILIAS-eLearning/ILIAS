@@ -31,13 +31,13 @@ class ilCmiXapiStatementsReportFilter
 {
     protected string $activityId;
 
-    protected int $limit;
+    protected int $limit = 0;
 
-    protected int $offset;
+    protected int $offset = 0;
 
-    protected string $orderField;
+    protected string $orderField = "";
 
-    protected string $orderDirection;
+    protected string $orderDirection = "";
 
     protected ?ilCmiXapiUser $actor = null;
 
