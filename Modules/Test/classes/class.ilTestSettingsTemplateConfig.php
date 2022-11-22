@@ -512,12 +512,6 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
             true
         );
 
-        $this->addSetting(
-            "exp_sc_short",
-            ilSettingsTemplateConfig::BOOL,
-            $this->lng->txt("tst_exp_sc_short"),
-            true
-        );
     }
 
     private function addResultMiscOptionsProperties()

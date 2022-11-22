@@ -3423,8 +3423,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             'solution_printview' => 'setShowSolutionPrintview',
             'solution_signature' => 'withShowSolutionSignature',
             'examid_in_test_res' => 'withShowExamIdInTestResults',
-            'exp_sc_short' => 'withExportSettingsSingleChoiceShort',
-
 
             // result gamification properties
             'highscore_enabled' => 'withHighscoreEnabled',
@@ -3481,7 +3479,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 case 'solution_printview':
                 case 'solution_signature':
                 case 'examid_in_test_res':
-                case 'exp_sc_short':
                     $settings = $settings->withResultDetailsSettings(
                         $settings->getResultDetailsSettings()->$setter(
                             (bool) $templateData[$field]['value']

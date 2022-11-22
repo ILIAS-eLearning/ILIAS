@@ -9801,22 +9801,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         }
     }
 
-    public function getExportSettingsSingleChoiceShort(): bool
-    {
-        return $this->getScoreSettings()->getResultDetailsSettings()->getExportSettingsSingleChoiceShort();
-    }
-
-    public function setExportSettingsSingleChoiceShort($a_settings)
-    {
-        if ($a_settings) {
-            $this->exportsettings = $this->exportsettings | 1;
-        } else {
-            if ($this->getExportSettingsSingleChoiceShort()) {
-                $this->exportsettings = $this->exportsettings ^ 1;
-            }
-        }
-    }
-
     public function getEnabledViewMode()
     {
         return $this->enabled_view_mode;
