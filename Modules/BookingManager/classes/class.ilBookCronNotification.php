@@ -218,10 +218,13 @@ class ilBookCronNotification extends ilCronJob
                         $txt .= "- " . $r["title"] . " (" . $r["counter"] . "), " . $r["user_name"] . ", " .
                             ilDatePresentation::formatDate(new ilDate($r["date"], IL_CAL_DATE)) . ", " .
                             $r["slot"] . "\n";
+                        if ($r["message"] != "") {
+                            $txt .= "  " . $lng->txt("book_message") .
+                                ": " . $r["message"];
+                        }
                     }
                 }
             }
-
             $ntf->setLangModules(array("book"));
             $ntf->setSubjectLangId("book_booking_reminders");
             $ntf->setIntroductionLangId("book_rem_intro");

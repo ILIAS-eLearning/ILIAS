@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,6 +25,7 @@ use ILIAS\Filesystem\Stream\Streams;
  */
 class ModalAdapterGUI
 {
+    protected string $cancel_label;
     protected ?\ILIAS\Repository\Form\FormAdapterGUI $form = null;
     protected \ILIAS\Refinery\Factory $refinery;
     protected string $title = "";
@@ -36,7 +39,8 @@ class ModalAdapterGUI
      * @param string|array $class_path
      */
     public function __construct(
-        $title = ""
+        $title = "",
+        $cancel_label = ""
     ) {
         global $DIC;
         $this->ui = $DIC->ui();
@@ -44,12 +48,13 @@ class ModalAdapterGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->title = $title;
+        $this->cancel_label = $cancel_label;
     }
 
     /**
      * @throws \ILIAS\HTTP\Response\Sender\ResponseSendingException
      */
-    protected function _send(string $output) : void
+    protected function _send(string $output): void
     {
         $this->http->saveResponse($this->http->response()->withBody(
             Streams::ofString($output)
@@ -58,19 +63,26 @@ class ModalAdapterGUI
         $this->http->close();
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function legacy(string $content) : self
+    public function legacy(string $content): self
     {
         $this->ui_content = [$this->ui->factory()->legacy($content)];
         $this->form = null;
         return $this;
     }
 
-    public function button(string $text, string $url, bool $replace_modal = true) : self
+    public function content(array $components): self
+    {
+        $this->ui_content = $components;
+        $this->form = null;
+        return $this;
+    }
+
+    public function button(string $text, string $url, bool $replace_modal = true): self
     {
         $target = $replace_modal
             ? "#"
@@ -91,7 +103,7 @@ class ModalAdapterGUI
         return $this;
     }
 
-    public function form(\ILIAS\Repository\Form\FormAdapterGUI $form) : self
+    public function form(\ILIAS\Repository\Form\FormAdapterGUI $form): self
     {
         if ($this->ctrl->isAsynch()) {
             $this->form = $form->asyncModal();
@@ -110,25 +122,32 @@ class ModalAdapterGUI
         return $this;
     }
 
-    /**
-     * @throws \ILIAS\HTTP\Response\Sender\ResponseSendingException
-     */
-    public function send() : void
+    protected function getModalWithContent(): Modal\RoundTrip
     {
         $modal = [];
         if (!is_null($this->form)) {
             $this->ui_content = [$this->ui->factory()->legacy($this->form->render())];
         }
-        if (!is_null($this->ui_content)) {
-            $modal = $this->ui->factory()->modal()->roundtrip($this->getTitle(), $this->ui_content);
-            if (count($this->action_buttons) > 0) {
-                $modal = $modal->withActionButtons($this->action_buttons);
-            }
+        $modal = $this->ui->factory()->modal()->roundtrip($this->getTitle(), $this->ui_content);
+        if (count($this->action_buttons) > 0) {
+            $modal = $modal->withActionButtons($this->action_buttons);
         }
+        if ($this->cancel_label !== "") {
+            $modal = $modal->withCancelButtonLabel($this->cancel_label);
+        }
+        return $modal;
+    }
+
+    /**
+     * @throws \ILIAS\HTTP\Response\Sender\ResponseSendingException
+     */
+    public function send(): void
+    {
+        $modal = $this->getModalWithContent();
         $this->_send($this->ui->renderer()->renderAsync($modal));
     }
 
-    public function renderAsyncTriggerButton(string $button_title, string $url, $shy = true) : string
+    public function renderAsyncTriggerButton(string $button_title, string $url, $shy = true): string
     {
         $ui = $this->ui;
         $components = $this->getAsyncTriggerButtonComponents(
@@ -139,20 +158,35 @@ class ModalAdapterGUI
         return $ui->renderer()->render($components);
     }
 
-    public function getAsyncTriggerButtonComponents(string $button_title, string $url, $shy = true) : array
+    public function getAsyncTriggerButtonComponents(string $button_title, string $url, $shy = true): array
     {
         $ui = $this->ui;
         $modal = $ui->factory()->modal()->roundtrip("", $ui->factory()->legacy(""));
         $url .= '&replaceSignal=' . $modal->getReplaceSignal()->getId();
         $modal = $modal->withAsyncRenderUrl($url);
         if ($shy) {
-            $button = $ui->factory()->button()->shy($this->title, "#")
+            $button = $ui->factory()->button()->shy($button_title, "#")
                          ->withOnClick($modal->getShowSignal());
         } else {
-            $button = $ui->factory()->button()->standard($this->title, "#")
+            $button = $ui->factory()->button()->standard($button_title, "#")
                          ->withOnClick($modal->getShowSignal());
         }
-        return [$button, $modal];
+        return ["button" => $button, "modal" => $modal];
+    }
+
+    public function getTriggerButtonComponents(string $button_title, $shy = true): array
+    {
+        $ui = $this->ui;
+
+        $modal = $this->getModalWithContent();
+        if ($shy) {
+            $button = $ui->factory()->button()->shy($button_title, "#")
+                         ->withOnClick($modal->getShowSignal());
+        } else {
+            $button = $ui->factory()->button()->standard($button_title, "#")
+                         ->withOnClick($modal->getShowSignal());
+        }
+        return ["button" => $button, "modal" => $modal];
     }
 
 }

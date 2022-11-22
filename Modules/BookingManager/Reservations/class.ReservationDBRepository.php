@@ -62,13 +62,14 @@ class ReservationDBRepository
         int $from,
         int $to,
         int $status,
-        int $group_id
+        int $group_id,
+        string $message = ""
     ): int {
         $ilDB = $this->db;
 
         $id = $ilDB->nextId('booking_reservation');
         $ilDB->manipulate('INSERT INTO booking_reservation' .
-            ' (booking_reservation_id,user_id,assigner_id,object_id,context_obj_id,date_from,date_to,status,group_id)' .
+            ' (booking_reservation_id,user_id,assigner_id,object_id,context_obj_id,date_from,date_to,status,group_id,message)' .
             ' VALUES (' . $ilDB->quote($id, 'integer') .
             ',' . $ilDB->quote($user_id, 'integer') .
             ',' . $ilDB->quote($assigner_id, 'integer') .
@@ -77,7 +78,8 @@ class ReservationDBRepository
             ',' . $ilDB->quote($from, 'integer') .
             ',' . $ilDB->quote($to, 'integer') .
             ',' . $ilDB->quote($status, 'integer') .
-            ',' . $ilDB->quote($group_id, 'integer') . ')');
+            ',' . $ilDB->quote($group_id, 'integer') .
+            ',' . $ilDB->quote($message, 'text') . ')');
         return $id;
     }
 
@@ -93,7 +95,8 @@ class ReservationDBRepository
         int $from,
         int $to,
         int $status,
-        int $group_id
+        int $group_id,
+        string $message = ""
     ): int {
         $ilDB = $this->db;
         return $ilDB->manipulate('UPDATE booking_reservation' .
@@ -105,6 +108,7 @@ class ReservationDBRepository
             ', status = ' . $ilDB->quote($status, 'integer') .
             ', group_id = ' . $ilDB->quote($group_id, 'integer') .
             ', context_obj_id = ' . $ilDB->quote($context_obj_id, 'integer') .
+            ', message = ' . $ilDB->quote($message, 'text') .
             ' WHERE booking_reservation_id = ' . $ilDB->quote($id, 'integer'));
     }
 
@@ -258,6 +262,7 @@ class ReservationDBRepository
                 ,"pool_id" => $row["pool_id"]
                 ,"context_obj_id" => (int) $row["context_obj_id"]
                 ,"user_id" => $user_id
+                ,"message" => (string) $row["message"]
                 ,"counter" => 1
                 ,"user_name" => $uname["lastname"] . ", " . $uname["firstname"] // #17862
                 );

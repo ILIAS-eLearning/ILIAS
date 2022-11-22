@@ -88,4 +88,30 @@ class ilBookingManagerDBUpdateSteps implements \ilDatabaseUpdateSteps
             ]);
         }
     }
+
+    public function step_6() : void
+    {
+        $db = $this->db;
+        if (!$db->tableColumnExists("booking_settings", "messages")) {
+            $db->addTableColumn("booking_settings", "messages", [
+                "type" => "integer",
+                "notnull" => true,
+                "length" => 4,
+                "default" => 0
+            ]);
+        }
+    }
+
+    public function step_7() : void
+    {
+        $db = $this->db;
+        if (!$db->tableColumnExists("booking_reservation", "message")) {
+            $db->addTableColumn("booking_reservation", "message", [
+                "type" => "text",
+                "notnull" => true,
+                "length" => 4000,
+                "default" => ""
+            ]);
+        }
+    }
 }

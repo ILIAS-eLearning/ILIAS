@@ -105,7 +105,8 @@ class BookingProcessManager
         int $to,
         int $recurrence,
         int $nr,
-        ?\ilDateTime $until
+        ?\ilDateTime $until,
+        string $message = ""
     ) : array {
         $reservation_repo = $this->repo->reservation();
 
@@ -137,7 +138,8 @@ class BookingProcessManager
                     $context_obj_id,
                     $check_slot_from,
                     $check_slot_to,
-                    $group_id
+                    $group_id,
+                    $message
                 );
                 $success = $obj_id;
             }
@@ -158,7 +160,8 @@ class BookingProcessManager
         int $context_obj_id = 0,
         int $a_from = null,
         int $a_to = null,
-        int $a_group_id = null
+        int $a_group_id = null,
+        string $message = ""
     ) : int {
         $lng = $this->domain->lng();
 
@@ -175,6 +178,7 @@ class BookingProcessManager
         $reservation->setTo((int) $a_to);
         $reservation->setGroupId((int) $a_group_id);
         $reservation->setContextObjId($context_obj_id);
+        $reservation->setMessage($message);
         $reservation->save();
 
         // create calendar entry
