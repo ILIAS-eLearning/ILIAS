@@ -210,7 +210,6 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
         $this->getQuestionTemplate();
 
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $this->editForm = $form;
 
@@ -311,8 +310,6 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
         $results = $this->object->getResults();
         if (count($results)) {
-            require_once 'Services/Form/classes/class.ilMultiSelectInputGUI.php';
-
             uasort($results, function (assFormulaQuestionResult $r1, assFormulaQuestionResult $r2) {
                 $num_r1 = (int) substr($r1->getResult(), 2);
                 $num_r2 = (int) substr($r2->getResult(), 2);
@@ -782,15 +779,10 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     }
 
                     $this->ctrl->setParameter($this, 'q_id', $new_id);
-                    $this->ctrl->setParameter($this, 'calling_test', $_GET['calling_test']);
-                    #$this->ctrl->setParameter($this, 'test_ref_id', false);
+                    $this->ctrl->setParameter($this, 'calling_test', $this->request->raw("calling_test"));
                 }
-                ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-                if ($_REQUEST['test_express_mode']) {
-                    ilUtil::redirect(ilTestExpressPage::getReturnToPageLink($q_id));
-                } else {
-                    ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $_GET["calling_test"]);
-                }
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
+                $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
             } else {
                 if ($this->object->getId() != $old_id) {
                     $this->callNewIdListeners($this->object->getId());
@@ -802,7 +794,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 } else {
                     ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
                 }
-                $this->ctrl->redirectByClass("ilobjquestionpoolgui", "questions");
+                $this->ctrl->redirectByClass("ilAssQuestionPreviewGUI", "questions");
             }
         } else {
             $ilUser->setPref("tst_lastquestiontype", $this->object->getQuestionType());
