@@ -1412,8 +1412,6 @@ assessment#:#tst_eval_total_passed#:#Total passed tests
 assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tests
 assessment#:#tst_eval_total_passed_average_time#:#Average processing time of all passed tests
 assessment#:#tst_eval_total_persons#:#Total number of participants who started the test
-assessment#:#tst_exp_sc_short#:#Item Analysis Export for Pure Single Choice Tests
-assessment#:#tst_exp_sc_short_desc#:#In the ‘Statistics’-tab an additional export option is offered. It generates a spreadsheet for item analysis outside of ILIAS. This option only works for tests purely composed of Single Choice Questions.
 assessment#:#tst_extratime_added#:#The working time of the participant has been increased by %s minutes.
 assessment#:#tst_extratime_info#:#If you want to add the working time multiple times for the same participant, please insert the total amount of time you want to add.
 assessment#:#tst_extratime_notavailable#:#Extra time can be added only for tests with one pass and a maximum processing time.
