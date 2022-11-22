@@ -312,7 +312,7 @@ class shibConfig
      */
     public function getEmail()
     {
-        return $this->email;
+        return explode(';', $this->email)[0];
     }
 
 

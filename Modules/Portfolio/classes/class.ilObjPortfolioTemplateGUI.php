@@ -82,6 +82,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
             
             case "ilcommonactiondispatchergui":
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+                $this->prepareOutput();
                 $this->ctrl->forwardCommand($gui);
                 break;
             

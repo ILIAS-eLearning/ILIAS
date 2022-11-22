@@ -149,8 +149,10 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
         );
 
         while ($row = $this->db->fetchAssoc($res)) {
-            $feedbackContent = ilRTE::_replaceMediaObjectImageSrc($this->questionOBJ->getHtmlQuestionContentPurifier()->purify($row['feedback']), 1);
-            break;
+            if (array_key_exists('feedback ', $row) && $feedbackContent !== null) {
+                $feedbackContent = ilRTE::_replaceMediaObjectImageSrc($this->questionOBJ->getHtmlQuestionContentPurifier()->purify($row['feedback']), 1);
+                break;
+            }
         }
 
         return $feedbackContent;

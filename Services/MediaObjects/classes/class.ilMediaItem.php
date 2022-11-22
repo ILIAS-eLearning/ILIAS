@@ -861,8 +861,9 @@ class ilMediaItem
                 $med_file = $this->getDirectory() . "/" . $this->getLocation();
 
                 if (is_file($med_file)) {
-                    ilUtil::convertImage($med_file, $thumb_file, $format, "80");
-                    ilUtil::convertImage($med_file, $thumb_file_small, $format, "40");
+                    $mob = new ilObjMediaObject($this->getMobId());
+                    $mob->makeThumbnail($this->getLocation(), $this->getPurpose() . "." . $format, $format, "80");
+                    $mob->makeThumbnail($this->getLocation(), $this->getPurpose() . "_small." . $format, $format, "40");
                 }
             }
             if ($a_size == "small") {

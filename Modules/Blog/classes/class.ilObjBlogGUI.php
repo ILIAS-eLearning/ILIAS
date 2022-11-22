@@ -787,6 +787,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             case "ilcommonactiondispatchergui":
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $gui->enableCommentsSettings(false);
+                $this->prepareOutput();
                 $this->ctrl->forwardCommand($gui);
                 break;
             
