@@ -393,9 +393,32 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         array $a_set
     ): void {
         $a_excel->setCell($a_row, 0, ilObject::_lookupTitle($a_set["obj_id"]));
-        $a_excel->setCell($a_row, 1, $a_set["obj_id"]);
 
-        $col = 1;
+        $col = 0;
+
+        // optional columns
+        if ($this->isColumnSelected('obj_id')) {
+            $a_excel->setCell($a_row, ++$col, (string) $a_set['obj_id']);
+        }
+        if ($this->isColumnSelected('reference_ids')) {
+            $a_excel->setCell($a_row, ++$col, implode(', ', $a_set['reference_ids']));
+        }
+        if ($this->isColumnSelected('paths')) {
+            $paths = [];
+            foreach ($a_set['reference_ids'] as $reference_id) {
+                $path_gui = new ilPathGUI();
+                $path_gui->enableTextOnly(true);
+                $path_gui->enableHideLeaf(false);
+                $path_gui->setUseImages(false);
+                $paths[] = $path_gui->getPath(ROOT_FOLDER_ID, $reference_id);
+            }
+            /*
+             * The strings returned by the PathGUI have a linebreak at the end,
+             * which has to be removed or it messes up how the paths are displayed in excel.
+             */
+            $a_excel->setCell($a_row, ++$col, substr(implode(', ', $paths), 0, -1));
+        }
+
         for ($loop = 0; $loop < 24; $loop += 2) {
             $value = (int) ($a_set["hour" . $loop] ?? 0);
             if ($this->filter["measure"] != "spent_seconds") {
@@ -408,9 +431,9 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         if ($this->filter["measure"] == "spent_seconds") {
             // keep seconds
             // $sum = $this->formatSeconds((int)$a_set["sum"]);
-            $sum = (int) $a_set["sum"];
+            $sum = (int) ($a_set["sum"] ?? 0);
         } else {
-            $sum = $this->anonymizeValue((int) $a_set["sum"]);
+            $sum = $this->anonymizeValue((int) ($a_set["sum"] ?? 0));
         }
         $a_excel->setCell($a_row, ++$col, $sum);
     }
@@ -422,7 +445,29 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
     protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
     {
         $a_csv->addColumn(ilObject::_lookupTitle($a_set["obj_id"]));
-        $a_csv->addColumn($a_set["obj_id"]);
+
+        // optional columns
+        if ($this->isColumnSelected('obj_id')) {
+            $a_csv->addColumn($a_set["obj_id"]);
+        }
+        if ($this->isColumnSelected('reference_ids')) {
+            $a_csv->addColumn(implode(', ', $a_set['reference_ids']));
+        }
+        if ($this->isColumnSelected('paths')) {
+            $paths = [];
+            foreach ($a_set['reference_ids'] as $reference_id) {
+                $path_gui = new ilPathGUI();
+                $path_gui->enableTextOnly(true);
+                $path_gui->enableHideLeaf(false);
+                $path_gui->setUseImages(false);
+                $paths[] = $path_gui->getPath(ROOT_FOLDER_ID, $reference_id);
+            }
+            /*
+            * The strings returned by the PathGUI have a linebreak at the end,
+            * which has to be removed or it messes up how the paths are displayed in excel.
+            */
+            $a_csv->addColumn(substr(implode(', ', $paths), 0, -1));
+        }
 
         for ($loop = 0; $loop < 24; $loop += 2) {
             $value = (int) ($a_set["hour" . $loop] ?? 0);
@@ -436,9 +481,9 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         if ($this->filter["measure"] == "spent_seconds") {
             // keep seconds
             // $sum = $this->formatSeconds((int)$a_set["sum"]);
-            $sum = (int) $a_set["sum"];
+            $sum = (int) ($a_set["sum"] ?? 0);
         } else {
-            $sum = $this->anonymizeValue((int) $a_set["sum"]);
+            $sum = $this->anonymizeValue((int) ($a_set["sum"] ?? 0));
         }
         $a_csv->addColumn($sum);
 
