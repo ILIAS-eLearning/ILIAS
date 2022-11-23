@@ -812,7 +812,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 } else {
                     $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 }
-                $this->ctrl->redirectByClass("ilAssQuestionPreviewGUI", "questions");
+                $this->ctrl->redirectByClass("ilAssQuestionPreviewGUI", ilAssQuestionPreviewGUI::CMD_SHOW);
             }
         } else {
             $ilUser->setPref("tst_lastquestiontype", $this->object->getQuestionType());
