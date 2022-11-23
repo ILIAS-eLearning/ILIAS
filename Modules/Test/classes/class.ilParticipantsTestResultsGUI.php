@@ -283,7 +283,8 @@ class ilParticipantsTestResultsGUI
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
 
-        if (!is_array($_POST["chbUser"]) || count($_POST["chbUser"]) == 0) {
+        $users = $this->testrequest->raw('chbUser');
+        if (!is_array($users) || count($users) === 0) {
             $this->main_tpl->setOnScreenMessage('info', $DIC->language()->txt("select_one_user"), true);
             $DIC->ctrl()->redirect($this);
         }
@@ -302,7 +303,7 @@ class ilParticipantsTestResultsGUI
         $participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
         $participantData->setParticipantAccessFilter($accessFilter);
 
-        $participantData->setActiveIdsFilter((array) $_POST["chbUser"]);
+        $participantData->setActiveIdsFilter((array) $users);
 
         $participantData->load($this->getTestObj()->getTestId());
 
@@ -356,7 +357,8 @@ class ilParticipantsTestResultsGUI
      */
     protected function showDetailedResultsCmd()
     {
-        if (is_array($_POST) && count($_POST)) {
+        $users = $this->testrequest->raw('chbUser');
+        if (is_array($users) && count($users) > 0) {
             ilSession::set('show_user_results', $_POST["chbUser"]);
         }
         $this->showUserResults($show_pass_details = true, $show_answers = true, $show_reached_points = true);
@@ -367,7 +369,8 @@ class ilParticipantsTestResultsGUI
      */
     protected function showUserAnswersCmd()
     {
-        if (is_array($_POST) && count($_POST)) {
+        $users = $this->testrequest->raw('chbUser');
+        if (is_array($users) && count($users) > 0) {
             ilSession::set('show_user_results', $_POST["chbUser"]);
         }
         $this->showUserResults($show_pass_details = false, $show_answers = true);
@@ -378,7 +381,8 @@ class ilParticipantsTestResultsGUI
      */
     protected function showPassOverviewCmd()
     {
-        if (is_array($_POST) && count($_POST)) {
+        $users = $this->testrequest->raw('chbUser');
+        if (is_array($users) && count($users) > 0) {
             ilSession::set('show_user_results', $_POST["chbUser"]);
         }
         $this->showUserResults($show_pass_details = true, $show_answers = false);
