@@ -265,7 +265,7 @@ $ilDB->dropIndex("my_table", "id_flag");
 To add a foreign key, use the `addForeignKey($foreign_key_name, $field_name, $table_name, $reference_field_name, $reference_table, $on_update = null, $on_delete = null)` method of `$ilDB`.
 
 ```php
-$ilDB->addForeignKey('fk_usr_obj_id', 'usr_id', 'usr_data', 'obj_id', 'object_data');
+$ilDB->addForeignKey('foreign_key', 'my_value', 'my_table', 'other_value', 'other_table');
 ```
 
 The `addForeignKey` method also takes an `ilForeignKeyConstraints` for the `on_update` and `on_delete` arguments. But if you don't need these they can also set to `null`. If you want to use a constraint you have to choose one of the following:
@@ -277,13 +277,13 @@ CASCADE, RESTRICT, SET_NULL, NO_ACTION, SET_DEFAULT
 Before you add a new foreign key, you should always check if this key already exists. This is done by the `foreignKeyExists` method.
 
 ```php
-$ilDB->foreignKeyExists($foreign_key_name, $table_name);
+$ilDB->foreignKeyExists('foreign_key', 'my_table');
 ```
 
 To drop a foreign key, use function `dropForeignKey("foreign_key_name", "table_name")`.
 
 ```php
-$ilDB->dropForeignKey('fk_usr_obj_id', 'usr_data');
+$ilDB->dropForeignKey('foreign_key', 'my_table');
 ```
 Before you call this method you should also check if the foreign key exists, see `foreignKeyExists`.
 
