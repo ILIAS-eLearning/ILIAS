@@ -559,6 +559,19 @@ class ilTrQuery
                 }
 
                 $result["set"][$idx]["ref_id"] = $objects["ref_ids"][(int) $item["obj_id"]];
+
+                // BT 35475: set titles of referenced objects correctly
+                if (
+                    $item['title'] == '' &&
+                    ($item['type'] == 'catr' ||
+                    $item['type'] == 'crsr' ||
+                    $item['type'] == 'grpr')
+                ) {
+                    $result['set'][$idx]['title'] =
+                        ilContainerReference::_lookupTargetTitle(
+                            (int) $item["obj_id"]
+                        );
+                }
             }
 
             // scos data (:TODO: will not be part of offset/limit)
