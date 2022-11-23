@@ -261,6 +261,33 @@ To drop an index use `dropIndex($a_table, $a_name = "indx")`.
 $ilDB->dropIndex("my_table", "id_flag");
 ```
 
+## Foreign Keys
+To add a foreign key, use the `addForeignKey($foreign_key_name, $field_name, $table_name, $reference_field_name, $reference_table, $on_update = null, $on_delete = null)` method of `$ilDB`.
+
+```php
+$ilDB->addForeignKey('fk_usr_obj_id', 'usr_id', 'usr_data', 'obj_id', 'object_data');
+```
+
+The `addForeignKey` method also takes an `ilForeignKeyConstraints` for the `on_update` and `on_delete` arguments. But if you don't need these they can also set to `null`. If you want to use a constraint you have to choose one of the following:
+
+```php
+CASCADE, RESTRICT, SET_NULL, NO_ACTION, SET_DEFAULT
+```
+
+Before you add a new foreign key, you should always check if this key already exists. This is done by the `foreignKeyExists` method.
+
+```php
+$ilDB->foreignKeyExists($foreign_key_name, $table_name);
+```
+
+To drop a foreign key, use function `dropForeignKey("foreign_key_name", "table_name")`.
+
+```php
+$ilDB->dropForeignKey('fk_usr_obj_id', 'usr_data');
+```
+Before you call this method you should also check if the foreign key exists, see `foreignKeyExists`.
+
+
 ## Sequences / Auto Increments
 To get rid of the MySQL specific auto_increment for unique ID's, ilDBInterface offeres sequences.
 A sequence is special database table which is created automatically by ilDBInterface which increments a sequence field in the database and uses it to create unique values. In ILIAS the name of a sequence should be the same as the corresponding database table.
