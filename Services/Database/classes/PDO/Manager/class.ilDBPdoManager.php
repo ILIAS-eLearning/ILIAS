@@ -530,15 +530,10 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         return false;
     }
 
-    public function isValidForeignKeyConstraint(string $value) : bool {
-        if(in_array($value ,
-            [ilForeignKeyConstraints::CASCADE,
-             ilForeignKeyConstraints::RESTRICT,
-             ilForeignKeyConstraints::SET_NULL,
-             ilForeignKeyConstraints::NO_ACTION,
-             ilForeignKeyConstraints::SET_DEFAULT,
-             null
-            ])) {
+    public function isValidForeignKeyConstraint(?string $value) : bool {
+        $reflection = new ReflectionClass(ilForeignKeyConstraints::class);
+        $constraints = array_merge($reflection->getConstants());
+        if(in_array($value, $constraints) || $value === null) {
             return true;
         }
         return false;
