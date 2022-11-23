@@ -1368,7 +1368,8 @@ abstract class assQuestionGUI
                             $this->object->saveSuggestedSolution("text", "", 0, $solution_array["value"]);
                             break;
                     }
-                    $originalexists = $this->object->_questionExistsInPool($this->object->getOriginalId());
+                    $originalexists = !is_null($this->object->getOriginalId()) &&
+                        $this->object->_questionExistsInPool($this->object->getOriginalId());
                     if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                                 && (int) $this->request->raw('calling_consumer'))) && $originalexists
                         && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
