@@ -216,7 +216,6 @@ abstract class assQuestionGUI
 
                 switch ($cmd) {
                     case 'suggestedsolution':
-                    case 'showSuggestedSolution':
                     case 'saveSuggestedSolution':
                     case 'saveContentsSuggestedSolution':
                     case 'deleteSuggestedSolution':
@@ -628,6 +627,7 @@ abstract class assQuestionGUI
         $original_id = $this->object->getOriginalId();
         if ($original_id) {
             $this->object->syncWithOriginal();
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         }
         if (strlen($this->request->raw("return_to"))) {
             $this->ctrl->redirect($this, $this->request->raw("return_to"));
@@ -655,6 +655,8 @@ abstract class assQuestionGUI
 
     public function cancelSync(): void
     {
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
+        
         if (strlen($this->request->raw("return_to"))) {
             $this->ctrl->redirect($this, $this->request->raw("return_to"));
         }
@@ -1220,7 +1222,9 @@ abstract class assQuestionGUI
         $ilUser = $this->ilUser;
         $ilAccess = $this->access;
 
-        $save = (is_array($_POST["cmd"]) && array_key_exists("suggestedsolution", $_POST["cmd"])) ? true : false;
+        $save = (is_array($_POST["cmd"]) &&
+            array_key_exists("suggestedsolution", $_POST["cmd"]) &&
+            $_POST["cmd"]['suggestedsolution'] === 'Save') ? true : false;
 
         if ($save && $_POST["deleteSuggestedSolution"] == 1) {
             $this->object->deleteSuggestedSolutions();
@@ -1380,7 +1384,7 @@ abstract class assQuestionGUI
                 $form->addItem($question);
             }
             if ($ilAccess->checkAccess("write", "", $this->request->getRefId())) {
-                $form->addCommandButton('showSuggestedSolution', $this->lng->txt('cancel'));
+                $form->addCommandButton('suggestedsolution', $this->lng->txt('cancel'));
                 $form->addCommandButton('suggestedsolution', $this->lng->txt('save'));
             }
 
