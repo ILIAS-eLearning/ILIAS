@@ -2329,25 +2329,9 @@ abstract class assQuestion
         }
 
         $this->beforeSyncWithOriginal($this->getOriginalId(), $this->getId(), $originalObjId, $this->getObjId());
-
-        // Now we become the original
-        $this->setId($this->getOriginalId());
-        $this->setOriginalId(null);
-        $this->setObjId($originalObjId);
-
-        $this->saveToDb();
-
-        $this->deletePageOfQuestion($this->getOriginalId());
-        $this->createPageObject();
-        $this->copyPageOfQuestion($this->getId());
-
-        $this->setId($this->getId());
-        $this->setOriginalId($this->getOriginalId());
-        $this->setObjId($this->getObjId());
-
-        $this->syncSuggestedSolutions($this->getOriginalId(), $this->getId());
+        $this->syncSuggestedSolutions($this->getId(), $this->getOriginalId());
         $this->syncXHTMLMediaObjectsOfQuestion();
-        $this->afterSyncWithOriginal($this->getOriginalId(), $this->getId(), $originalObjId, $this->getObjId());
+        $this->afterSyncWithOriginal($this->getId(), $this->getOriginalId(), $this->getObjId(), $originalObjId);
         $this->syncHints();
     }
 

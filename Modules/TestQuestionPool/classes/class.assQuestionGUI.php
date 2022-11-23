@@ -733,11 +733,8 @@ abstract class assQuestionGUI
             $ilUser->setPref("tst_lastquestiontype", $this->object->getQuestionType());
             $ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
             $this->object->saveToDb();
-            if ($this->object->getOriginalId() == null) {
-                $originalexists = false;
-            } else {
-                $originalexists = $this->object->_questionExistsInPool($this->object->getOriginalId());
-            }
+            $originalexists = !is_null($this->object->getOriginalId()) &&
+                $this->object->_questionExistsInPool($this->object->getOriginalId());
 
             if (($this->request->raw("calling_test") ||
                     ($this->request->isset('calling_consumer')
@@ -835,11 +832,8 @@ abstract class assQuestionGUI
             $ilUser->setPref("tst_lastquestiontype", $this->object->getQuestionType());
             $ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
             $this->object->saveToDb();
-            if ($this->object->getOriginalId() == null) {
-                $originalexists = false;
-            } else {
-                $originalexists = $this->object->_questionExistsInPool($this->object->getOriginalId());
-            }
+            $originalexists = !is_null($this->object->getOriginalId()) &&
+                $this->object->_questionExistsInPool($this->object->getOriginalId());
             if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                         && (int) $this->request->raw('calling_consumer')))
                 && $originalexists && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
@@ -1342,7 +1336,8 @@ abstract class assQuestionGUI
 
                         $this->getSuggestedSolutionsRepo()->update([$solution]);
 
-                        $originalexists = $this->object->getOriginalId() && $this->object->_questionExistsInPool($this->object->getOriginalId());
+                        $originalexists = $this->object->getOriginalId() &&
+                            $this->object->_questionExistsInPool($this->object->getOriginalId());
                         if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                                     && (int) $this->request->raw('calling_consumer'))) && $originalexists
                             && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
@@ -1394,13 +1389,13 @@ abstract class assQuestionGUI
                     if ($solution->isOfTypeFile()) {
                         $solution = $solution->withTitle($_POST["filename"]);
                     }
+
                     if (!$solution->isOfTypeLink()) {
                         $this->getSuggestedSolutionsRepo()->update([$solution]);
                     }
 
-                    //$originalexists = $this->object->_questionExistsInPool($this->object->original_id);
-                    $originalexists = false; //TODO: re-enable check?
-
+                    $originalexists = !is_null($this->object->getOriginalId()) &&
+                        $this->object->_questionExistsInPool($this->object->getOriginalId());
                     if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                                 && (int) $this->request->raw('calling_consumer'))) && $originalexists
                         && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
