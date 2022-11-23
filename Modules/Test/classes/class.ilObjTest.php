@@ -260,6 +260,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     #endregion
 
     protected ilDBInterface $db;
+    protected ?ilObjTestScoreSettings $score_settings = null;
+    protected ?ScoreSettingsRepository $score_settings_repo = null;
 
     /**
      * Constructor
@@ -10995,16 +10997,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         }
     }
 
-<<<<<<< HEAD
     /**
      * @return ilHtmlPurifierInterface|ilAssHtmlUserSolutionPurifier
      */
     protected function getHtmlQuestionContentPurifier(): ilHtmlPurifierInterface
     {
         return ilHtmlPurifierFactory::getInstanceByType('qpl_usersolution');
-=======
-    protected ?ilObjTestScoreSettings $score_settings = null;
-    protected ?ScoreSettingsRepository $score_settings_repo = null;
+    }
+
     public function getScoreSettings(): ilObjTestScoreSettings
     {
         if (!$this->score_settings) {
@@ -11020,6 +11020,5 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $this->score_settings_repo = new ilObjTestScoreSettingsDatabaseRepository($this->db);
         }
         return $this->score_settings_repo;
->>>>>>> 4f95b82746 (TA: Repo for ScoreSettings, UI Form, tests)
     }
 }
