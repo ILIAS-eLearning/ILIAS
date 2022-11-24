@@ -154,6 +154,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
         if ($position->isCorePosition()) {
             $this->cancel();
         }
+        $position->afterObjectLoad();
         self::initAuthoritiesRenderer();
         $this->language->loadLanguageModule('orgu');
         $position_string = $this->language->txt("position") . ": ";
@@ -195,6 +196,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
             $this->assign();
         }
         $position = $this->getPositionFromRequest();
+        $position->afterObjectLoad();
         $position->deleteWithAllDependencies();
         $this->main_tpl->setOnScreenMessage('success', $this->language->txt('msg_deleted'), true);
         $this->ctrl->redirect($this, self::CMD_INDEX);
@@ -216,6 +218,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $lang->loadLanguageModule('orgu');
         $lang_keys = array(
             'in',
+            'over',
             'scope_' . ilOrgUnitAuthority::SCOPE_SAME_ORGU,
             'scope_' . ilOrgUnitAuthority::SCOPE_SUBSEQUENT_ORGUS,
             'over_' . ilOrgUnitAuthority::OVER_EVERYONE,
