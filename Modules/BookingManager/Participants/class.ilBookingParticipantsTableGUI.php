@@ -131,7 +131,7 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
         } elseif ($filter_object == -1) {
             $data = ilBookingParticipant::getList($this->pool_id, $filter);
             $data = array_filter($data, static function ($item) {
-                return $item["obj_count"] == 0;
+                return ($item["obj_count"] ?? 0) == 0;
             });
         } else {
             $data = ilBookingParticipant::getList($this->pool_id, $filter);
@@ -153,10 +153,12 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
+        $obj_count = (int) ($a_set['obj_count'] ?? 0);
+
         // determin actions form data
         // action assign only if user did not booked all objects.
         $actions = [];
-        if ($a_set['obj_count'] < ilBookingObject::getNumberOfObjectsForPool($this->pool_id)) {
+        if ($obj_count < ilBookingObject::getNumberOfObjectsForPool($this->pool_id)) {
             $ctrl->setParameterByClass('ilbookingparticipantgui', 'bkusr', $a_set['user_id']);
             $actions[] = array(
                 'text' => $lng->txt("book_assign_object"),
@@ -166,7 +168,7 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
         }
 
         $bp = new ilObjBookingPool($this->pool_id, false);
-        if ($a_set['obj_count'] == 1 && $bp->getScheduleType() === ilObjBookingPool::TYPE_NO_SCHEDULE) {
+        if ($obj_count === 1 && $bp->getScheduleType() === ilObjBookingPool::TYPE_NO_SCHEDULE) {
             $ctrl->setParameterByClass('ilbookingreservationsgui', 'bkusr', $a_set['user_id']);
             $ctrl->setParameterByClass('ilbookingreservationsgui', 'object_id', $a_set['object_ids'][0]);
             $ctrl->setParameterByClass('ilbookingreservationsgui', 'part_view', ilBookingParticipantGUI::PARTICIPANT_VIEW);
@@ -179,7 +181,7 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
             $ctrl->setParameterByClass('ilbookingreservationsgui', 'bkusr', '');
             $ctrl->setParameterByClass('ilbookingreservationsgui', 'object_id', '');
             $ctrl->setParameterByClass('ilbookingreservationsgui', 'part_view', '');
-        } elseif ($a_set['obj_count'] > 1 || $bp->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE) {
+        } elseif ($obj_count > 1 || $bp->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE) {
             $ctrl->setParameterByClass('ilbookingreservationsgui', 'user_id', $a_set['user_id']);
             $actions[] = array(
                 'text' => $lng->txt("book_deassign"),
