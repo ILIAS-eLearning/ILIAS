@@ -89,6 +89,14 @@ class ilVirusScannerClamAV extends ilVirusScanner
     {
         return $this->scanCommand . ' ' . self::ADD_SCAN_PARAMS . ' ' . $file;
     }
+    /**
+     * @return string $scanCommand
+     */
+    protected function buildScanCommandArguments($file = '-') // default means piping
+    {
+        return ' ' . self::ADD_SCAN_PARAMS . ' ' . $file;
+    }
+
 
     protected function hasDetections(string $detectionReport): int
     {
@@ -104,8 +112,11 @@ class ilVirusScannerClamAV extends ilVirusScanner
         chmod($file_path, $perm);
 
         // Call of antivir command
-        $cmd = $this->buildScanCommand($file_path) . " 2>&1";
-        exec($cmd, $out, $ret);
+        $a_filepath = realpath($file_path);
+        $arguments = $this->buildScanCommandArguments($a_filepath) . " 2>&1";
+        $cmd = ilShellUtil::escapeShellCmd($this->scanCommand);
+        $args = ilShellUtil::escapeShellArg($arguments);
+        $out = ilShellUtil::execQuoted($cmd, $args);
         $this->scanResult = implode("\n", $out);
 
         // sophie could be called
