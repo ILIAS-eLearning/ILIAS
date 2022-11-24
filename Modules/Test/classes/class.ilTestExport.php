@@ -800,18 +800,16 @@ abstract class ilTestExport
             $participantcount = count($data->getParticipants());
             $allusersheet = false;
             $pages = 0;
-            $i = 0;
             foreach ($data->getParticipants() as $active_id => $userdata) {
-                $i++;
-
-                $username = (!is_null($userdata) && $userdata->getLogin())
-                    ? $userdata->getLogin()
+                $username = (!is_null($userdata) && $userdata->getName())
+                    ? $userdata->getName()
                     : "ID $active_id";
+                $username = substr($username, 0, 26);
                 if (array_key_exists($username, $usernames)) {
                     $usernames[$username]++;
-                    $username .= " ($i)";
+                    $username .= " ($usernames[$username])";
                 } else {
-                    $usernames[$username] = 1;
+                    $usernames[$username] = 0;
                 }
 
                 if ($participantcount > 250) {
