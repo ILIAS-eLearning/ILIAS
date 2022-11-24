@@ -66,6 +66,7 @@ class ilFavouritesListGUI
             $ctrl->setParameterByClass("ilPDSelectedItemsBlockGUI", "col_side", "center");
             $ctrl->setParameterByClass("ilPDSelectedItemsBlockGUI", "block_type", "pditems");
 
+            // see PR discussion at https://github.com/ILIAS-eLearning/ILIAS/pull/5247/files
             $config_item = $f->item()->standard(
                 $f->link()->standard(
                     $this->lng->txt("rep_configure"),
