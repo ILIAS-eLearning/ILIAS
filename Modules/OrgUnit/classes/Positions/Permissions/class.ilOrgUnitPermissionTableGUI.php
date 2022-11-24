@@ -49,7 +49,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
         $this->setDisableFilterHiding(true);
         $this->setNoEntriesText($this->lng->txt('msg_no_roles_of_type'));
 
-        $this->addCommandButton(\ILIAS\Modules\OrgUnit\ARHelper\BaseCommands::CMD_UPDATE, $this->lng->txt('save'));
+        $this->addCommandButton(\ilPermissionGUI::CMD_SAVE_POSITIONS_PERMISSIONS, $this->lng->txt('save'));
     }
 
     public function getRefId(): int
