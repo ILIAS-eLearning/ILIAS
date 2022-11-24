@@ -1003,7 +1003,7 @@ class ilObjectListGUI
         foreach ($this->commands as $command) {
             $permission = $command["permission"];
             $cmd = $command["cmd"];
-            $lang_var = $command["lang_var"];
+            $lang_var = $command["lang_var"] ?? "";
             $txt = "";
             $info_object = null;
             $cmd_link = '';
