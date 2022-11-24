@@ -383,6 +383,7 @@ class ilParticipantsTestResultsGUI
         $this->tabs->clearSubTabs();
 
         $show_user_results = ilSession::get("show_user_results");
+        ilSession::clear("show_user_results");
 
         if (!is_array($show_user_results) || count($show_user_results) == 0) {
             $this->main_tpl->setOnScreenMessage('info', $this->lang->txt("select_one_user"), true);

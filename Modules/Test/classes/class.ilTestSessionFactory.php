@@ -65,7 +65,10 @@ class ilTestSessionFactory
      */
     public function getSession($activeId = null)
     {
-        if ($activeId === null || $this->testSession === array() || $this->testSession[$activeId] === null) {
+        if ($activeId === null ||
+            $this->testSession === array() ||
+            !array_key_exists($activeId, $this->testSession) ||
+            $this->testSession[$activeId] === null) {
             $testSession = $this->getNewTestSessionObject();
 
             $testSession->setRefId($this->testOBJ->getRefId());
