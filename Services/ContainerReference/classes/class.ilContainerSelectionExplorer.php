@@ -75,7 +75,7 @@ class ilContainerSelectionExplorer extends ilExplorer
     {
         $ilAccess = $this->access;
 
-        return $ilAccess->checkAccess('visible', '', $a_ref_id);
+        return $ilAccess->checkAccess('visible', '', (int)$a_ref_id);
     }
 
     public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option): void
@@ -88,6 +88,6 @@ class ilContainerSelectionExplorer extends ilExplorer
         $tpl->setVariable("OBJ_TITLE", $lng->txt("repository"));
         $tpl->parseCurrentBlock();
 
-        $this->output[] = $tpl->get();// TODO PHP8-REVIEW `$this->output` is a string, so this operator (`[]`) is not supported
+        $this->output .= $tpl->get();
     }
 }
