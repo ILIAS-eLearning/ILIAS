@@ -76,6 +76,25 @@ class ilCmiXapiVerbList
         return 'http://adlnet.gov/expapi/verbs/' . $verb;
     }
 
+    public function getDynamicSelectOptions($verbs): array
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+        $options = array(
+            '' => $DIC->language()->txt('cmix_all_verbs')
+        );
+
+        foreach ($verbs as $verb) {
+            $verb = $verb['_id'];
+            $options[urlencode($verb)] = self::getVerbTranslation(
+                $DIC->language(),
+                $verb
+            );
+        }
+
+        return $options;
+    }
+
     /**
      * @return array<string, mixed>
      */
