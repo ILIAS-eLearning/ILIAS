@@ -149,7 +149,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
 
     public function setValueByArray(array $a_values): void
     {
-        $data = $a_values[$this->getPostVar()];
+        $data = $a_values[$this->getPostVar()] ?? [];
         if ($this->getMulti()) {
             $this->line_values = $data;
         } else {
@@ -165,10 +165,10 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
     {
         $internal_fields = array_keys($this->inputs);
         $key = $this->getPostVar();
-        $post =  $this->raw($key);
+        $post = $this->raw($key) ?? [];
 
         foreach ($post as $authority) {
-            if (! (
+            if (!(
                 array_key_exists(self::MULTI_FIELD_ID, $authority) &&
                 array_key_exists(self::MULTI_FIELD_OVER, $authority) &&
                 array_key_exists(self::MULTI_FIELD_SCOPE, $authority) &&
