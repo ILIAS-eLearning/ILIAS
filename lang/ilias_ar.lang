@@ -1634,6 +1634,7 @@ assessment#:#tst_pass_details#:#Pass Details
 assessment#:#tst_pass_details_header_lo_initial#:#Initial Test Results for the Learning Objectives<br />%s - %s###30 08 2015 new variable
 assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifying Test Results for the Learning Objectives<br />%s - %s###30 08 2015 new variable
 assessment#:#tst_pass_details_overview_table_title#:#Detailed Overview for Pass %s###26 09 2014 new variable
+assessment#:#tst_pass_finished#:#Test pass finished###24 11 2022 new variable
 assessment#:#tst_pass_finished_on#:#Test pass finished on###08 10 2015 new variable
 assessment#:#tst_pass_last_pass#:#Score the Last Pass
 assessment#:#tst_pass_last_pass_desc#:#The last pass of a participant will be scored.###27 01 2015 new variable
@@ -3384,6 +3385,7 @@ common#:#HH#:#HH:MM
 common#:#absolute_path#:#مسار النظام
 common#:#accept_usr_agreement#:#قبول اتفاقية المستخدم؟
 common#:#accept_usr_agreement_btn#:#Accept###30 04 2021 new variable
+common#:#accept_usr_agreement_intro#:#There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.###24 11 2022 new variable
 common#:#access#:#وصول
 common#:#accessFree#:#ازالة الوصول المحدود
 common#:#accessRestrict#:#وضع الوصول المحدود
@@ -5800,6 +5802,7 @@ common#:#usr_account_inactive#:#حساب غير مفعل
 common#:#usr_active_only#:#المستخدمون النشطون فقط
 common#:#usr_add#:#اضافة مستخدم
 common#:#usr_agreement#:#اتفاقية المستخدم
+common#:#usr_agreement_footer_intro#:#You have declared your consent to these terms of service.###24 11 2022 new variable
 common#:#usr_edit#:#تعديل مستخدم
 common#:#usr_filter_coursemember#:#عضو الدورة
 common#:#usr_filter_groupmember#:#عضو المجموعة
@@ -7787,9 +7790,11 @@ crs#:#crs_view_timing#:#Timings View
 crs#:#crs_view_timing_absolute#:#Absolute Dates###07 02 2020 new variable
 crs#:#crs_view_timing_relative#:#Relative Dates###07 02 2020 new variable
 crs#:#crs_view_timings#:#Timings View Type###07 02 2020 new variable
+crs#:#crs_visibility#:#Visibility###24 11 2022 new variable
 crs#:#crs_visibility_limitless#:#Unlimited
 crs#:#crs_visibility_until#:#Temporarily Available
 crs#:#crs_visibility_until_info#:#The course will be visible to it's members in a specific period of time.###23 12 2015 new variable
+crs#:#crs_visibility_unvisible#:#The course is not visible.###24 11 2022 new variable
 crs#:#crs_wait_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.
 crs#:#crs_waiting_list#:#Waiting List
 crs#:#crs_waiting_list_autofill#:#With Auto-Fill###30 08 2015 new variable
@@ -13851,9 +13856,11 @@ rep#:#rep_add_to_favourites#:#Add to Favourites###07 02 2020 new variable
 rep#:#rep_added_rec_content#:#Recommended content has been added.###07 02 2020 new variable
 rep#:#rep_added_to_favourites#:#The item has been added to your favourites.###07 02 2020 new variable
 rep#:#rep_breadcr_crs#:#Breadcrumb starts with course###10 11 2018 new variable
+rep#:#rep_breadcr_crs_config#:#Configuration###24 11 2022 new variable
 rep#:#rep_breadcr_crs_overwrite#:#Setting is changeable on course level###10 11 2018 new variable
 rep#:#rep_breadcr_crs_overwrite_not#:#Setting is not changeable on course level###10 11 2018 new variable
 rep#:#rep_configure#:#Configure###07 02 2020 new variable
+rep#:#rep_crs_default_shortened#:#Default: Breadcrumbs Shortened###24 11 2022 new variable
 rep#:#rep_custom_icons#:#Custom Icons###24 10 2013 new variable
 rep#:#rep_default#:#Default###10 11 2018 new variable
 rep#:#rep_dependencies#:#Dependencies

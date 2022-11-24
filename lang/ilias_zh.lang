@@ -1633,6 +1633,7 @@ assessment#:#tst_pass_details#:#展示细节
 assessment#:#tst_pass_details_header_lo_initial#:#Initial Test Results for the Learning Objectives<br />%s - %s###30 08 2015 new variable
 assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifying Test Results for the Learning Objectives<br />%s - %s###30 08 2015 new variable
 assessment#:#tst_pass_details_overview_table_title#:#Detailed Overview for Pass %s###26 09 2014 new variable
+assessment#:#tst_pass_finished#:#Test pass finished###24 11 2022 new variable
 assessment#:#tst_pass_finished_on#:#Test pass finished on###08 10 2015 new variable
 assessment#:#tst_pass_last_pass#:#最后一个通过考试的用户的得分
 assessment#:#tst_pass_last_pass_desc#:#The last pass of a participant will be scored.###27 01 2015 new variable
@@ -3383,6 +3384,7 @@ common#:#HH#:#HH:MM
 common#:#absolute_path#:#绝对路径
 common#:#accept_usr_agreement#:#接受用户协议？
 common#:#accept_usr_agreement_btn#:#Accept###30 04 2021 new variable
+common#:#accept_usr_agreement_intro#:#There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.###24 11 2022 new variable
 common#:#access#:#访问
 common#:#accessFree#:#解除访问限制
 common#:#accessRestrict#:#设置访问限制
@@ -5799,6 +5801,7 @@ common#:#usr_account_inactive#:#非活跃账号
 common#:#usr_active_only#:#仅活跃用户
 common#:#usr_add#:#增加用户
 common#:#usr_agreement#:#用户协议
+common#:#usr_agreement_footer_intro#:#You have declared your consent to these terms of service.###24 11 2022 new variable
 common#:#usr_edit#:#编辑用户
 common#:#usr_filter_coursemember#:#课程的成员
 common#:#usr_filter_groupmember#:#组成员
@@ -7786,9 +7789,11 @@ crs#:#crs_view_timing#:#定时视图
 crs#:#crs_view_timing_absolute#:#Absolute Dates###07 02 2020 new variable
 crs#:#crs_view_timing_relative#:#Relative Dates###07 02 2020 new variable
 crs#:#crs_view_timings#:#Timings View Type###07 02 2020 new variable
+crs#:#crs_visibility#:#Visibility###24 11 2022 new variable
 crs#:#crs_visibility_limitless#:#可见(无限制)
 crs#:#crs_visibility_until#:#可见 (从 ... 直到)
 crs#:#crs_visibility_until_info#:#The course will be visible to it's members in a specific period of time.###23 12 2015 new variable
+crs#:#crs_visibility_unvisible#:#The course is not visible.###24 11 2022 new variable
 crs#:#crs_wait_info#:#如果已启用，并且已超过最大用户数，新的注册将被放置在一个等待名单中。
 crs#:#crs_waiting_list#:#等待名单
 crs#:#crs_waiting_list_autofill#:#With Auto-Fill###30 08 2015 new variable
@@ -13850,9 +13855,11 @@ rep#:#rep_add_to_favourites#:#Add to Favourites###07 02 2020 new variable
 rep#:#rep_added_rec_content#:#Recommended content has been added.###07 02 2020 new variable
 rep#:#rep_added_to_favourites#:#The item has been added to your favourites.###07 02 2020 new variable
 rep#:#rep_breadcr_crs#:#Breadcrumb starts with course###10 11 2018 new variable
+rep#:#rep_breadcr_crs_config#:#Configuration###24 11 2022 new variable
 rep#:#rep_breadcr_crs_overwrite#:#Setting is changeable on course level###10 11 2018 new variable
 rep#:#rep_breadcr_crs_overwrite_not#:#Setting is not changeable on course level###10 11 2018 new variable
 rep#:#rep_configure#:#Configure###07 02 2020 new variable
+rep#:#rep_crs_default_shortened#:#Default: Breadcrumbs Shortened###24 11 2022 new variable
 rep#:#rep_custom_icons#:#Custom Icons###24 10 2013 new variable
 rep#:#rep_default#:#Default###10 11 2018 new variable
 rep#:#rep_dependencies#:#依赖关系

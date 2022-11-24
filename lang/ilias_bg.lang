@@ -1634,6 +1634,7 @@ assessment#:#tst_pass_details#:#Покажете подробности
 assessment#:#tst_pass_details_header_lo_initial#:#Инициални резултати от теста за целите на обучението<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Квалификационни резултати от теста за целите на обучението<br />%s - %s
 assessment#:#tst_pass_details_overview_table_title#:#Подробен преглед за Pass %s
+assessment#:#tst_pass_finished#:#Test pass finished###24 11 2022 new variable
 assessment#:#tst_pass_finished_on#:#Преминаването на теста завърши на
 assessment#:#tst_pass_last_pass#:#Оценка на последния пропуск на даден потребител
 assessment#:#tst_pass_last_pass_desc#:#Оценява се последният пас на участника.
@@ -3384,6 +3385,7 @@ common#:#HH#:#ЧЧ:ММ###22 06 2022 new variable
 common#:#absolute_path#:#Абсолютен път до файл
 common#:#accept_usr_agreement#:#Приемате ли потребителското споразумение?
 common#:#accept_usr_agreement_btn#:#Приемане###22 06 2022 new variable
+common#:#accept_usr_agreement_intro#:#There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.###24 11 2022 new variable
 common#:#access#:#Достъп
 common#:#accessFree#:#Отстраняване на ограничения достъп
 common#:#accessRestrict#:#Задаване на ограничен достъп
@@ -5800,6 +5802,7 @@ common#:#usr_account_inactive#:#Неактивна сметка
 common#:#usr_active_only#:#Само активни потребители
 common#:#usr_add#:#Добавяне на потребител
 common#:#usr_agreement#:#Потребителско споразумение
+common#:#usr_agreement_footer_intro#:#You have declared your consent to these terms of service.###24 11 2022 new variable
 common#:#usr_edit#:#Редактиране на потребител
 common#:#usr_filter_coursemember#:#Член на курса
 common#:#usr_filter_groupmember#:#Член на групата
@@ -7787,9 +7790,11 @@ crs#:#crs_view_timing#:#Преглед на времето
 crs#:#crs_view_timing_absolute#:#Абсолютни дати
 crs#:#crs_view_timing_relative#:#Релативни дати
 crs#:#crs_view_timings#:#Timings Вид на изгледа
+crs#:#crs_visibility#:#Visibility###24 11 2022 new variable
 crs#:#crs_visibility_limitless#:#Неограничен
 crs#:#crs_visibility_until#:#Временна наличност
 crs#:#crs_visibility_until_info#:#Курсът ще бъде видим за членовете му за определен период от време.
+crs#:#crs_visibility_unvisible#:#The course is not visible.###24 11 2022 new variable
 crs#:#crs_wait_info#:#Ако е разрешено и максималният брой потребители е надхвърлен, новите регистрации ще бъдат поставени в списък на чакащите.
 crs#:#crs_waiting_list#:#Списък на чакащите
 crs#:#crs_waiting_list_autofill#:#С автоматично попълване
@@ -13851,9 +13856,11 @@ rep#:#rep_add_to_favourites#:#Прибавяне към любими
 rep#:#rep_added_rec_content#:#Препоръчаното съдържание е добавено.
 rep#:#rep_added_to_favourites#:#Обектът е добавен към любимите ви.
 rep#:#rep_breadcr_crs#:#Дробката започва с курс
+rep#:#rep_breadcr_crs_config#:#Configuration###24 11 2022 new variable
 rep#:#rep_breadcr_crs_overwrite#:#Настройката може да се променя на ниво курс
 rep#:#rep_breadcr_crs_overwrite_not#:#Настройката не може да се променя на ниво курс
 rep#:#rep_configure#:#Конфигуриране
+rep#:#rep_crs_default_shortened#:#Default: Breadcrumbs Shortened###24 11 2022 new variable
 rep#:#rep_custom_icons#:#Икони по избор
 rep#:#rep_default#:#По подразбиране
 rep#:#rep_dependencies#:#Зависимости
