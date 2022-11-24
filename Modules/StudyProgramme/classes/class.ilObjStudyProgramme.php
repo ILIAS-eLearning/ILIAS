@@ -35,17 +35,17 @@ class ilObjStudyProgramme extends ilContainer
     protected ?array $children = null;
 
     /**
-     * @var ilObjCourseReference[] | null
+     * @var ilStudyProgrammeLeaf[] | null
      */
     protected ?array $lp_children = null;
 
     protected ilStudyProgrammeTypeDBRepository $type_repository;
-    protected ilStudyProgrammeAssignmentDBRepository $assignment_repository;
-    protected ilStudyProgrammeProgressDBRepository $progress_repository;
+    protected ilPRGAssignmentDBRepository $assignment_repository;
     protected ilStudyProgrammeAutoCategoryDBRepository $auto_categories_repository;
     protected ilStudyProgrammeAutoMembershipsDBRepository $auto_memberships_repository;
     protected ilStudyProgrammeMembershipSourceReaderFactory $membersourcereader_factory;
     protected ilStudyProgrammeEvents $events;
+    protected ilStudyProgrammeSettingsDBRepository $settings_repository;
 
     // GLOBALS from ILIAS
 
@@ -61,7 +61,6 @@ class ilObjStudyProgramme extends ilContainer
 
     protected Filesystem $webdir;
     protected ilObjUser $ilUser;
-    protected ilStudyProgrammeSettingsDBRepository $settings_repository;
     protected ?ilObjectFactoryWrapper $object_factory = null;
     protected ilObjectCustomIconFactory $custom_icon_factory;
     protected ilLogger $logger;
@@ -81,9 +80,7 @@ class ilObjStudyProgramme extends ilContainer
         $this->membersourcereader_factory = $dic['model.AutoMemberships.ilStudyProgrammeMembershipSourceReaderFactory'];
 
         $this->settings_repository = $dic['model.Settings.ilStudyProgrammeSettingsRepository'];
-        $this->assignment_repository = $dic['model.Assignment.ilStudyProgrammeAssignmentRepository'];
-        $this->progress_repository = $dic['model.Progress.ilStudyProgrammeProgressRepository'];
-
+        $this->assignment_repository = $dic['repo.assignment'];
         $this->events = $dic['ilStudyProgrammeEvents'];
 
         parent::__construct($id, $call_by_reference);
@@ -168,11 +165,7 @@ class ilObjStudyProgramme extends ilContainer
         return self::$study_programme_cache->getInstanceByRefId((int) $ref_id);
     }
 
-    protected function getProgressRepository(): ilStudyProgrammeProgressRepository
-    {
-        return $this->progress_repository;
-    }
-    protected function getAssignmentRepository(): ilStudyProgrammeAssignmentRepository
+    protected function getAssignmentRepository(): PRGAssignmentRepository
     {
         return $this->assignment_repository;
     }
@@ -234,12 +227,7 @@ class ilObjStudyProgramme extends ilContainer
      */
     protected function deleteAssignmentsAndProgresses(): void
     {
-        $assignment_repository = $this->getAssignmentRepository();
-        $assignment_repository->deleteAllAssignmentsForProgrammeId($this->getId());
-        $orphan_condition_field = $assignment_repository->getTableAndFieldOfAssignmentIds();
-        $progress_repository = $this->getProgressRepository();
-        $progress_repository->deleteProgressesFor($this->getId());
-        $progress_repository->deleteAllOrphanedProgresses(...$orphan_condition_field);
+        $this->assignment_repository->deleteAllAssignmentsForProgrammeId($this->getId());
     }
 
     /**
@@ -247,7 +235,7 @@ class ilObjStudyProgramme extends ilContainer
      */
     public function create(): int
     {
-        $id = parent::create();
+        $id = (int) parent::create();
         $this->getSettingsRepository()->createFor($id);
         return $id;
     }
@@ -648,7 +636,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Get the leafs the study programme contains.
      *
-     * @return ilObjCourseReference[]
+     * @return ilStudyProgrammeLeaf[]
      * @throws ilStudyProgrammeTreeException when this object is not in tree.
      */
     public function getLPChildren(): array
@@ -753,7 +741,7 @@ class ilObjStudyProgramme extends ilContainer
                 is_null(ilObject::_lookupDeletedDate((int) $ref['ref_id']))
             ) {
                 $crs_id = (int) ilContainerReference::_lookupTargetId((int) $ref["obj_id"]);
-                if (ilLPStatus::_hasUserCompleted($crs_id, $a_user_id)) {
+                if (ilObject::_exists($crs_id) && ilLPStatus::_hasUserCompleted($crs_id, $a_user_id)) {
                     $containing_prg = self::getInstanceByRefId((int) $ref["parent"]);
                     if ($containing_prg->isActive()) {
                         $completed_crss[] = [
@@ -929,6 +917,12 @@ class ilObjStudyProgramme extends ilContainer
     // USER ASSIGNMENTS
     ////////////////////////////////////
 
+    protected function getMessageCollection(string $topic): ilPRGMessageCollection
+    {
+        $msgs = new ilPRGMessageCollection();
+        return $msgs->withNewTopic($topic);
+    }
+
     /**
      * Assign a user to this node at the study program.
      *
@@ -939,7 +933,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @throws ilException
      */
-    public function assignUser(int $usr_id, int $acting_usr_id = null): ilStudyProgrammeAssignment
+    public function assignUser(int $usr_id, int $acting_usr_id = null, $raise_event = true): ilPRGAssignment
     {
         $this->members_cache = null;
 
@@ -954,18 +948,20 @@ class ilObjStudyProgramme extends ilContainer
             $acting_usr_id = $this->getLoggedInUserId();
         }
 
+        $err_collection = $this->getMessageCollection('add_user');
         $ass = $this->assignment_repository->createFor($this->getId(), $usr_id, $acting_usr_id);
+        $ass = $ass
+            ->initAssignmentDates()
+            ->updatePlanFromRepository(
+                $this->getSettingsRepository(),
+                $acting_usr_id,
+                $err_collection
+            );
+        $this->assignment_repository->store($ass);
 
-        $this->applyToSubTreeNodes(
-            function (ilObjStudyProgramme $node) use ($ass, $acting_usr_id) {
-                $progress = $node->createProgressForAssignment($ass, $acting_usr_id);
-                $progress = $node->resetProgressToSettings($progress, $acting_usr_id);
-                $this->getProgressRepository()->update($progress);
-            },
-            true
-        );
-
-        $this->events->userAssigned($ass);
+        if ($raise_event) {
+            $this->events->userAssigned($ass);
+        }
         return $ass;
     }
 
@@ -976,7 +972,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @throws ilException
      */
-    public function removeAssignment(ilStudyProgrammeAssignment $assignment): ilObjStudyProgramme
+    public function removeAssignment(ilPRGAssignment $assignment): ilObjStudyProgramme
     {
         $this->members_cache = null;
         if ($assignment->getRootId() !== $this->getId()) {
@@ -989,7 +985,7 @@ class ilObjStudyProgramme extends ilContainer
 
         $this->assignment_repository->delete($assignment);
 
-        $affected_node_ids = $this->progress_repository->deleteForAssignmentId($assignment->getId());
+        $affected_node_ids = array_map(fn ($pgs) => $pgs->getNodeId(), $assignment->getProgresses());
         foreach ($affected_node_ids as $node_obj_id) {
             $this->refreshLPStatus($assignment->getUserId(), $node_obj_id);
         }
@@ -1017,44 +1013,35 @@ class ilObjStudyProgramme extends ilContainer
 
     /**
      * Get the assignments of user at this program or any node above. The assignments
-     * are ordered by last_change, where the most recently changed assignments is the
+     * are ordered by last_change, where the most recently changed assignment is the
      * first one.
      *
-     * @return ilStudyProgrammeAssignment[]
+     * @return ilPRGAssignment[]
      */
     public function getAssignmentsOf(int $user_id): array
     {
-        $prg_ids = $this->getIdsFromNodesOnPathFromRootToHere();
-        $assignments = [];
-        foreach ($prg_ids as $prg_id) {
-            $assignments = array_merge(
-                $assignments,
-                $this->assignment_repository->getByUsrIdAndPrgId($user_id, $prg_id)
-            );
-        }
-        usort($assignments, static function ($a_one, $a_other) {
+        $assignments = $this->assignment_repository->getAllForNodeIsContained(
+            $this->getId(),
+            [$a_user_id]
+        );
+
+        usort($assignments, function ($a_one, $a_other) {
             return strcmp(
                 $a_one->getLastChange()->format('Y-m-d'),
                 $a_other->getLastChange()->format('Y-m-d')
             );
         });
-        $assignment_repository = $this->assignment_repository;
-        return array_map(static function ($ass) use ($assignment_repository) {
-            return $assignment_repository->getInstanceByModel($ass);
-        }, array_values($assignments)); // use array values since we want keys 0...
+        return $assignments;
     }
 
     /**
-     * Get all assignments to this program or any node above.
-     *
-     * @return ilStudyProgrammeAssignment[]
+     * @return ilPRGAssignment[]
      */
     public function getAssignments(): array
     {
-        $assignment_repository = $this->assignment_repository;
-        return array_map(static function ($ass) use ($assignment_repository) {
-            return $assignment_repository->getInstanceByModel($ass);
-        }, array_values($this->getAssignmentsRaw())); // use array values since we want keys 0...
+        return array_filter(
+            $this->assignment_repository->getAllForNodeIsContained($this->getId())
+        );
     }
 
     /**
@@ -1064,11 +1051,12 @@ class ilObjStudyProgramme extends ilContainer
     public function getMembers(): array
     {
         $usr_ids = [];
-        foreach ($this->getProgresses() as $progress) {
-            $usr_ids[] = $progress->getUserId();
+        foreach ($this->getAssignments() as $assignment) {
+            $usr_ids[] = $assignment->getUserId();
         }
         return array_unique($usr_ids);
     }
+
     /**
      * get usr_ids with assignment on this node
      */
@@ -1096,11 +1084,11 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Get assignments of user to this program-node only.
      *
-     * @return ilStudyProgrammeAssignment[]
+     * @return ilPRGAssignment[]
      */
     public function getAssignmentsOfSingleProgramForUser(int $usr_id): array
     {
-        return $this->assignment_repository->getByUsrIdAndPrgId($usr_id, $this->getId());
+        return $this->assignment_repository->getAllForSpecificNode($this->getId(), [$usr_id]);
     }
 
     /**
@@ -1115,16 +1103,6 @@ class ilObjStudyProgramme extends ilContainer
     ////////////////////////////////////
     // USER PROGRESS
     ////////////////////////////////////
-
-    /**
-     * Create a progress on this programme for the given assignment.
-     */
-    public function createProgressForAssignment(
-        ilStudyProgrammeAssignment $ass,
-        int $acting_user = null
-    ): ilStudyProgrammeProgress {
-        return $this->progress_repository->createFor($this->getSettings(), $ass, $acting_user);
-    }
 
     /**
      * Get the progresses the user has on this node.
@@ -1147,139 +1125,45 @@ class ilObjStudyProgramme extends ilContainer
      * Use this after the structure of the programme was modified,
      * i.e.: there was a node added below this one.
      */
-    public function addMissingProgresses(): void
+    public function addMissingProgresses(): void //TODO: still need to add missing progresses explicitely ?
     {
         $logger = $this->getLogger();
-        $progress_repository = $this->getProgressRepository();
-        $assignment_repository = $this->getAssignmentRepository();
-        $settings_repository = $this->getSettingsRepository();
+        $assignments = $this->getAssignments();
 
-        $assignment_ids_here = array_unique(
-            array_map(
-                static function ($progress) {
-                    return $progress->getAssignmentId();
-                },
-                $progress_repository->getByPrgId($this->getId())
-            )
+        $this->applyToSubTreeNodes(
+            function (ilObjStudyProgramme $node) use (&$assignments, $logger) { //note and keep the reference.
+                foreach ($assignments as &$ass) { //note and keep the reference.
+                    if (!$ass->getProgressForNode($node->getId())) {
+                        $progress = (new ilPRGProgress((int) $node->getId()))
+                            ->withStatus(ilPRGProgress::STATUS_NOT_RELEVANT);
+                        $ass = $ass->withProgress($progress);
+                        $logger->log('Added progress for assingnment ' . $ass->getId() . ' at node ' . $node->getId());
+                    }
+                }
+            },
+            true
         );
 
-        $nodes_below = $this->getChildren(true); //include references
-        foreach ($assignment_ids_here as $ass_id) {
-            foreach ($nodes_below as $node) {
-                $node_id = $node->getId();
-                if (!$progress_repository->getByPrgIdAndAssignmentId($node_id, $ass_id)) {
-                    $new_progress = $progress_repository->createFor(
-                        $settings_repository->get($node_id),
-                        $assignment_repository->get($ass_id),
-                        null //acting user
-                    );
-                    $progress_repository->update(
-                        $new_progress->withStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
-                    );
-
-                    $logger->log("Added progress for assingnment $ass_id at node $node_id.");
-                }
-                $node->addMissingProgresses();
-            }
+        foreach ($assignments as $ass) {
+            $this->assignment_repository->store($ass);
         }
     }
 
-    /**
-     * Get all progresses on this node.
-     *
-     * @return ilStudyProgrammeProgress[]
-     */
-    public function getProgresses(): array
-    {
-        return $this->progress_repository->getByPrgId($this->getId());
-    }
+
 
     /**
-     * Are there any users that have progress on this programme?
-     */
-    public function hasProgresses(): bool
-    {
-        return count($this->getProgresses()) > 0;
-    }
-
-    /**
-     * Are there any users that have relevant progress on this programme?
+     * Are there any users that have a relevant progress on this programme?
      */
     public function hasRelevantProgresses(): bool
     {
-        foreach ($this->getProgresses() as $progress) {
-            if ($progress->isRelevant()) {
-                return true;
-            }
-        }
-        return false;
+        $assignments = $this->getAssignments();
+        $relevant = array_filter(
+            $assignments,
+            fn ($ass) => $ass->getProgressForNode($this->getId())->isRelevant()
+        );
+        return count($relevant) > 0;
     }
 
-    /**
-     * Get the ids of all users that have relevant progress at this programme.
-     *
-     * @return int[]
-     */
-    public function getIdsOfUsersWithRelevantProgress(): array
-    {
-        $returns = array();
-        foreach ($this->getProgresses() as $progress) {
-            if ($progress->isRelevant()) {
-                $returns[] = $progress->getUserId();
-            }
-        }
-        return array_unique($returns);
-    }
-
-    /**
-     * Get the ids of all users that have completed this programme.
-     *
-     * @return int[]
-     */
-    public function getIdsOfUsersWithCompletedProgress(): array
-    {
-        $returns = array();
-        foreach ($this->getProgresses() as $progress) {
-            if ($progress->isSuccessful() && !$progress->isSuccessfulExpired()) {
-                $returns[] = $progress->getUserId();
-            }
-        }
-        return array_unique($returns);
-    }
-
-    /**
-     * Get the ids of all users that have failed this programme.
-     *
-     * @return int[]
-     */
-    public function getIdsOfUsersWithFailedProgress(): array
-    {
-        $returns = array();
-        foreach ($this->getProgresses() as $progress) {
-            if ($progress->isFailed() || $progress->isSuccessfulExpired()) {
-                $returns[] = $progress->getUserId();
-            }
-        }
-        return array_unique(array_diff($returns, $this->getIdsOfUsersWithCompletedProgress()));
-    }
-
-
-    /**
-     * Get the ids of all users that have not completed this programme but
-     * have relevant progress on it.
-     *
-     * @return int[]
-     */
-    public function getIdsOfUsersWithNotCompletedAndRelevantProgress(): array
-    {
-        $returns = array();
-        foreach ($this->getProgresses() as $progress) {
-            if ($progress->isRelevant() && !$progress->isSuccessful()) {
-                $returns[] = $progress->getUserId();
-            }
-        }
-        return array_unique($returns);
-    }
 
 
     ////////////////////////////////////
@@ -1531,26 +1415,24 @@ class ilObjStudyProgramme extends ilContainer
     public static function removeMemberFromProgrammes(string $src_type, int $src_id, int $usr_id): void
     {
         $now = new DateTimeImmutable();
+        $assignment_repository = ilStudyProgrammeDIC::dic()['repo.assignment'];
         foreach (self::getProgrammesMonitoringMemberSource($src_type, $src_id) as $prg) {
-            foreach ($prg->getProgressesOf($usr_id) as $progress) {
-                if ($progress->getStatus() !== ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
+            $assignments = $prg->getAssignmentsOfSingleProgramForUser($usr_id);
+            $next_membership_source = $prg->getApplicableMembershipSourceForUser($usr_id, $src_id);
+
+            foreach ($assignments as $assignment) {
+                if (!$assignment->getRootProgress()->isInProgress()) {
                     continue;
                 }
-                $assignments = $prg->getAssignmentsOfSingleProgramForUser($usr_id);
-                $next_membership_source = $prg->getApplicableMembershipSourceForUser($usr_id, $src_type);
 
-                foreach ($assignments as $assignment) {
-                    if (!is_null($next_membership_source) && $next_membership_source->isEnabled()) {
-                        $new_src_type = $next_membership_source->getSourceType();
-                        $assigned_by = ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING[$new_src_type];
-                        $assignment = $assignment->withLastChange($assigned_by, $now);
-                        $prg->assignment_repository->update($assignment);
-                        break;
-                    }
-
-                    $assignment_repository = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
-                    $user_assignment = $assignment_repository->getInstanceByModel($assignment);
-                    $prg->removeAssignment($user_assignment);
+                if (!is_null($next_membership_source) && $next_membership_source->isEnabled()) {
+                    $new_src_type = $next_membership_source->getSourceType();
+                    $assigned_by = ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING[$new_src_type];
+                    $assignment = $assignment->withLastChange($assigned_by, $now);
+                    $assignment_repository->store($assignment);
+                    break;
+                } else {
+                    $assignment_repository->delete($assignment);
                 }
             }
         }
@@ -1558,12 +1440,14 @@ class ilObjStudyProgramme extends ilContainer
 
     public function getApplicableMembershipSourceForUser(
         int $usr_id,
-        string $exclude_type
+        ?int $exclude_id
     ): ?ilStudyProgrammeAutoMembershipSource {
         foreach ($this->getAutomaticMembershipSources() as $ams) {
-            $src_type = $ams->getSourceType();
-            if ($src_type !== $exclude_type) {
-                $source_members = $this->getMembersOfMembershipSource($src_type, $ams->getSourceId());
+            $src_id = $ams->getSourceId();
+            if ($src_id !== $exclude_id
+                && $ams->isEnabled()
+            ) {
+                $source_members = $this->getMembersOfMembershipSource($ams->getSourceType(), $src_id);
                 if (in_array($usr_id, $source_members)) {
                     return $ams;
                 }
@@ -1586,44 +1470,6 @@ class ilObjStudyProgramme extends ilContainer
             $parent->updateLastChange();
         }
         $this->update();
-    }
-
-    /**
-     * Get the ids from the nodes in the path leading from the root node of this
-     * program to this node, including the id of this node.
-     *
-     * @return int[]
-     */
-    protected function getIdsFromNodesOnPathFromRootToHere(bool $include_references = false): array
-    {
-        $prg_ids = array_map(static function ($par) {
-            return $par->getId();
-        }, $this->getParents($include_references));
-        $prg_ids[] = $this->getId();
-        return $prg_ids;
-    }
-
-    /**
-     * Get model objects for the assignments on this programm.
-     *
-     * @return ilStudyProgrammeAssignment[]
-     */
-    protected function getAssignmentsRaw(): array
-    {
-        $assignments = [];
-        foreach ($this->getIdsFromNodesOnPathFromRootToHere(true) as $prg_id) {
-            $assignments = array_merge($this->assignment_repository->getByPrgId($prg_id), $assignments);
-        }
-        usort(
-            $assignments,
-            static function (ilStudyProgrammeAssignment $one, ilStudyProgrammeAssignment $other) {
-                return strcmp(
-                    $one->getLastChange()->format('Y-m-d'),
-                    $other->getLastChange()->format('Y-m-d')
-                );
-            }
-        );
-        return $assignments;
     }
 
     /**
@@ -1670,16 +1516,23 @@ class ilObjStudyProgramme extends ilContainer
         if ($prg->getLPMode() !== ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
             return;
         }
+        $prg->succeed($user_id, $obj_id);
+    }
 
-        $now = new DateTimeImmutable();
-        foreach ($prg->getProgressesOf($user_id) as $progress) {
-            $progress_deadline = $progress->getDeadline();
-            if (
-                (is_null($progress_deadline) || $progress_deadline >= $now)
-                && $progress->getStatus() === ilStudyProgrammeProgress::STATUS_IN_PROGRESS
-            ) {
-                $prg->succeed($progress->getId(), $obj_id);
-            }
+    public function succeed(int $usr_id, int $triggering_obj_id): void
+    {
+        $progress_node_id = $this->getId();
+        $user_assignments = $this->assignment_repository
+            ->getAllForNodeIsContained($progress_node_id, [$usr_id]);
+
+        foreach ($user_assignments as $ass) {
+            $ass = $ass->succeed(
+                $this->getSettingsRepository(),
+                $progress_node_id,
+                $triggering_obj_id
+            );
+            $this->assignment_repository->store($ass);
+            $this->refreshLPStatus($ass->getUserId());
         }
     }
 
@@ -1954,56 +1807,6 @@ class ilObjStudyProgramme extends ilContainer
         }
     }
 
-    /**
-     * @return array <obj_id, ref_id>
-     */
-    public function getIdsOfSuccessfulChildren(int $ass_id): array
-    {
-        $children = $this->getChildren(true);
-
-        $ids = array();
-
-        foreach ($children as $child) {
-            $prgrs = $child->getProgressForAssignment($ass_id);
-            if (!$prgrs->isSuccessful()) {
-                continue;
-            }
-            $ids[] = [$child->getId(), $child->getRefId()];
-        }
-        if (count($ids) > 0) {
-            return $ids;
-        }
-
-        //courses:
-        $children = $this->getTree()->getChildsByType($this->getRefId(), "crsr");
-        $usr_id = $this->getAssignmentRepository()->get($ass_id)->getUserId();
-        foreach ($children as $child) {
-            if (ilObject::_exists($child['ref_id'], true) &&
-                is_null(ilObject::_lookupDeletedDate($child['ref_id']))
-            ) {
-                continue;
-            }
-            $crs_id = ilContainerReference::_lookupTargetId($child["obj_id"]);
-
-            if (ilLPStatus::_hasUserCompleted($crs_id, $usr_id)) {
-                $ref_id = ilContainerReference::_lookupTargetRefId($child["obj_id"]);
-                $ids[] = [$crs_id, $ref_id];
-            }
-        }
-        return $ids;
-    }
-
-    public function getNamesOfCompletedOrAccreditedChildren(int $ass_id): array
-    {
-        return array_map(
-            static function ($entry) {
-                [$obj_id, $ref_id] = $entry;
-                return ilObject::_lookupTitle($obj_id);
-            },
-            $this->getIdsOfSuccessfulChildren($ass_id)
-        );
-    }
-
     protected function getLoggedInUserId(): int
     {
         return $this->ilUser->getId();
@@ -2013,17 +1816,6 @@ class ilObjStudyProgramme extends ilContainer
     {
         return new DateTimeImmutable();
     }
-
-    protected function getAssignmentForProgress(ilStudyProgrammeProgress $progress): ilStudyProgrammeAssignment
-    {
-        return $this->assignment_repository->get($progress->getAssignmentId());
-    }
-
-    protected function getProgrammeSettingsForProgress(ilStudyProgrammeProgress $progress): ilStudyProgrammeSettings
-    {
-        return $this->settings_repository->get($progress->getNodeId());
-    }
-
 
     protected function getObjIdsOfChildren(int $node_obj_id): array
     {
@@ -2047,81 +1839,6 @@ class ilObjStudyProgramme extends ilContainer
         return array_merge($prg_ids, $prg_ref_ids);
     }
 
-    /**
-     * @return ilStudyProgrammeProgress[]
-     */
-    public function getChildrenProgress($progress): array
-    {
-        $children = $this->getObjIdsOfChildren($progress->getNodeId());
-        $ass_id = $progress->getAssignmentId();
-
-        $ret = [];
-        foreach ($children as $child_obj_id) {
-            $progress = $this->getProgressRepository()->getByPrgIdAndAssignmentId($child_obj_id, $ass_id);
-            $ret[] = $this->getProgressRepository()->getByPrgIdAndAssignmentId($child_obj_id, $ass_id);
-        }
-
-        return $ret;
-    }
-
-    public function getParentProgress(ilStudyProgrammeProgress $progress): ?ilStudyProgrammeProgress
-    {
-        $assignment_id = $progress->getAssignmentId();
-
-        $prg_ref_id = self::getRefIdFor($progress->getNodeId());
-        $parent_node = $this->tree->getParentNodeData($prg_ref_id);
-        $parent_prg_obj_id = (int) $parent_node["obj_id"];
-
-        $parent_progress = $this->progress_repository->getByPrgIdAndAssignmentId(
-            $parent_prg_obj_id,
-            $assignment_id
-        );
-
-        if (!$parent_progress) {
-            //maybe by reference?
-            foreach (ilContainerReference::_lookupSourceIds($progress->getNodeId()) as $obj_id_referencing) {
-                foreach (ilObject::_getAllReferences($obj_id_referencing) as $ref_id_referencing) {
-                    $parent_node = $this->tree->getParentNodeData($ref_id_referencing);
-                    $parent_prg_obj_id = (int) $parent_node["obj_id"];
-
-                    $parent_progress = $this->progress_repository->getByPrgIdAndAssignmentId(
-                        $parent_prg_obj_id,
-                        $assignment_id
-                    );
-                    if ($parent_progress) {
-                        return $parent_progress;
-                    }
-                }
-            }
-        }
-
-        return $parent_progress; //...which is null here
-    }
-
-
-    public function getPossiblePointsOfRelevantChildren(ilStudyProgrammeProgress $progress): int
-    {
-        $sum = 0;
-        foreach ($this->getChildrenProgress($progress) as $child_progress) {
-            if (!is_null($child_progress) && $child_progress->isRelevant()) {
-                $sum += $child_progress->getAmountOfPoints();
-            }
-        }
-        return $sum;
-    }
-
-    public function getAchievedPointsOfChildren(ilStudyProgrammeProgress $progress): int
-    {
-        $sum = 0;
-        $children = $this->getChildrenProgress($progress);
-        foreach ($children as $child_progress) {
-            if (!is_null($child_progress) && $child_progress->isSuccessful()) {
-                $sum += $child_progress->getAmountOfPoints();
-            }
-        }
-        return $sum;
-    }
-
     protected function refreshLPStatus(int $usr_id, int $node_obj_id = null): void
     {
         if (is_null($node_obj_id)) {
@@ -2130,493 +1847,162 @@ class ilObjStudyProgramme extends ilContainer
         ilLPStatusWrapper::_updateStatus($node_obj_id, $usr_id);
     }
 
-    protected function updateParentProgress(ilStudyProgrammeProgress $progress): ilStudyProgrammeProgress
-    {
-        $parent_progress = $this->getParentProgress($progress);
-        if (is_null($parent_progress)) {
-            return $progress;
-        }
-        $parent_progress = $this->recalculateProgressStatus($parent_progress);
-        $this->getProgressRepository()->update($parent_progress);
-        return $this->updateParentProgress($parent_progress); //recurse
-    }
-
-    protected function recalculateProgressStatus(ilStudyProgrammeProgress $progress): ilStudyProgrammeProgress
-    {
-        if (!$progress->isRelevant()) {
-            return $progress;
-        }
-        $node_settings = $this->getSettingsRepository()->get($progress->getNodeId());
-        $completion_mode = $node_settings->getLPMode();
-
-        if ($completion_mode === ilStudyProgrammeSettings::MODE_UNDEFINED) {
-            return $progress;
-        }
-
-        $required_points = $progress->getAmountOfPoints();
-
-        $achieved_points = 0;
-        if ($completion_mode === ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
-            $node_ref = self::getRefIdFor($progress->getNodeId());
-            $children = $this->tree->getChildsByType($node_ref, "crsr");
-            foreach ($children as $child) {
-                if (ilObject::_exists($child['ref_id'], true) &&
-                    is_null(ilObject::_lookupDeletedDate($child['ref_id']))
-                ) {
-                    $crs_id = ilContainerReference::_lookupTargetId($child["obj_id"]);
-                    if (ilLPStatus::_hasUserCompleted($crs_id, $progress->getUserId())) {
-                        $achieved_points = $progress->getAmountOfPoints();
-                        break;
-                    }
-                }
-            }
-        }
-
-        if ($completion_mode === ilStudyProgrammeSettings::MODE_POINTS) {
-            $achieved_points = $this->getAchievedPointsOfChildren($progress);
-        }
-
-        $progress = $progress->withCurrentAmountOfPoints($achieved_points);
-        $successful = ($achieved_points >= $required_points);
-
-        if ($successful && !$progress->isSuccessful()) {
-            $progress = $progress
-                ->withStatus(ilStudyProgrammeProgress::STATUS_COMPLETED)
-                ->withCompletion(null, new DateTimeImmutable());
-
-            // there was a status change, so:
-            $this->events->userSuccessful($progress);
-        }
-
-        if (!$successful && $progress->isSuccessful()) {
-            $progress = $progress
-                ->withStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS)
-                ->withCompletion()
-                ->withValidityOfQualification();
-        }
-
-        return $progress;
-    }
-
-    protected function applyProgressDeadline(
-        ilStudyProgrammeProgress $progress,
-        int $acting_usr_id = null
-    ): ilStudyProgrammeProgress {
-        $today = $this->getNow();
-        $format = ilStudyProgrammeProgress::DATE_FORMAT;
-        $deadline = $progress->getDeadline();
-
-        if (is_null($acting_usr_id)) {
-            $acting_usr_id = $this->getLoggedInUserId();
-        }
-
-        switch ($progress->getStatus()) {
-
-            case ilStudyProgrammeProgress::STATUS_IN_PROGRESS:
-                if (!is_null($deadline)
-                    && $deadline->format($format) < $today->format($format)
-                ) {
-                    $progress = $progress->markFailed($this->getNow(), $acting_usr_id);
-                }
-                break;
-
-            case ilStudyProgrammeProgress::STATUS_FAILED:
-                if (is_null($deadline)
-                    || $deadline->format($format) >= $today->format($format)
-                ) {
-                    $progress = $progress->markNotFailed($this->getNow(), $acting_usr_id);
-                }
-                break;
-        }
-
-        return $progress;
-    }
-
     public function markAccredited(
-        int $progress_id,
+        int $assignment_id,
         int $acting_usr_id,
         ilPRGMessageCollection $err_collection
     ): void {
-        $progress = $this->getProgressRepository()->get($progress_id);
-        $new_status = $progress::STATUS_ACCREDITED;
+        $progress_node_id = $this->getId();
+        $assignment = $this->assignment_repository->get($assignment_id)
+            ->markAccredited(
+                $this->getSettingsRepository(),
+                $this->events,
+                $progress_node_id,
+                $acting_usr_id,
+                $err_collection
+            );
 
-        if (!$progress->isRelevant()) {
-            $err_collection->add(false, 'will_not_modify_irrelevant_progress', $this->getProgressIdString($progress));
-            return;
-        }
-        if ($progress->getStatus() === $new_status) {
-            $err_collection->add(false, 'status_unchanged', $this->getProgressIdString($progress));
-            return;
-        }
-        if (!$progress->isTransitionAllowedTo($new_status)) {
-            $err_collection->add(false, 'status_transition_not_allowed', $this->getProgressIdString($progress));
-            return;
-        }
-
-        $progress = $progress
-            ->markAccredited($this->getNow(), $acting_usr_id)
-            ->withCurrentAmountOfPoints($progress->getAmountOfPoints());
-
-        if (!$progress->getValidityOfQualification()) {
-            $progress = $this->updateProgressValidityFromSettings($progress);
-        }
-
-        $this->events->userSuccessful($progress);
-
-        $this->getProgressRepository()->update($progress);
-        $this->refreshLPStatus($progress->getUserId());
-        $this->updateParentProgress($progress);
-        $err_collection->add(true, 'status_changed', $this->getProgressIdString($progress));
+        $this->assignment_repository->store($assignment);
+        $this->refreshLPStatus($assignment->getUserId());
     }
 
     public function unmarkAccredited(
-        int $progress_id,
+        int $assignment_id,
         int $acting_usr_id,
         ilPRGMessageCollection $err_collection
     ): void {
-        $progress = $this->getProgressRepository()->get($progress_id);
-        $new_status = $progress::STATUS_IN_PROGRESS;
+        $progress_node_id = $this->getId();
+        $assignment = $this->assignment_repository->get($assignment_id)
+            ->unmarkAccredited(
+                $this->getSettingsRepository(),
+                $progress_node_id,
+                $acting_usr_id,
+                $err_collection
+            );
 
-        if (!$progress->isRelevant()) {
-            $err_collection->add(false, 'will_not_modify_irrelevant_progress', $this->getProgressIdString($progress));
-            return;
-        }
-        if ($progress->getStatus() === $new_status) {
-            $err_collection->add(false, 'status_unchanged', $this->getProgressIdString($progress));
-            return;
-        }
-        if (!$progress->isTransitionAllowedTo($new_status)
-            //special case: completion may not be revoked manually (but might be as a calculation-result of underlying progresses)
-            || $progress->getStatus() === $progress::STATUS_COMPLETED
-        ) {
-            $err_collection->add(false, 'status_transition_not_allowed', $this->getProgressIdString($progress));
-            return;
-        }
-
-        $progress = $progress
-            ->unmarkAccredited($this->getNow(), $acting_usr_id);
-
-        $achieved_points = $this->getAchievedPointsOfChildren($progress);
-        $progress = $progress->withCurrentAmountOfPoints($achieved_points);
-
-        $progress = $this->applyProgressDeadline($progress);
-
-        $this->getProgressRepository()->update($progress);
-        $this->refreshLPStatus($progress->getUserId());
-        $this->updateParentProgress($progress);
-        $err_collection->add(true, 'status_changed', $this->getProgressIdString($progress));
-    }
-
-    public function markFailed(int $progress_id, int $acting_usr_id): void
-    {
-        $progress = $this->getProgressRepository()->get($progress_id);
-        if (!$progress->isRelevant()) {
-            return;
-        }
-        $progress = $progress->markFailed($this->getNow(), $acting_usr_id);
-
-        $this->getProgressRepository()->update($progress);
-        $this->refreshLPStatus($progress->getUserId());
-        $this->updateParentProgress($progress);
-    }
-
-    public function markNotFailed(int $progress_id, int $acting_usr_id): void
-    {
-        $progress = $this->getProgressRepository()->get($progress_id);
-
-        if (!$progress->isRelevant()) {
-            return;
-        }
-
-        $progress = $progress->markNotFailed($this->getNow(), $acting_usr_id);
-        $this->getProgressRepository()->update($progress);
-        $this->refreshLPStatus($progress->getUserId());
-        $this->updateParentProgress($progress);
+        $this->assignment_repository->store($assignment);
+        $this->refreshLPStatus($assignment->getUserId());
     }
 
     public function markNotRelevant(
-        int $progress_id,
+        int $assignment_id,
         int $acting_usr_id,
         ilPRGMessageCollection $err_collection
     ): void {
-        $progress = $this->getProgressRepository()->get($progress_id);
-        if (!$progress->isRelevant()) {
-            $err_collection->add(false, 'will_not_modify_irrelevant_progress', $this->getProgressIdString($progress));
-            return;
-        }
-        if (is_null($this->getParentProgress($progress))) {
-            $err_collection->add(false, 'will_not_set_top_progress_to_irrelevant', $this->getProgressIdString($progress));
-            return;
-        }
-        if ($progress->getStatus() === ilStudyProgrammeProgress::STATUS_COMPLETED) {
-            $err_collection->add(false, 'will_not_set_completed_progress_to_irrelevant_', $this->getProgressIdString($progress));
-            return;
-        }
+        $progress_node_id = $this->getId();
+        $assignment = $this->assignment_repository->get($assignment_id)
+            ->markNotRelevant(
+                $this->getSettingsRepository(),
+                $progress_node_id,
+                $acting_usr_id,
+                $err_collection
+            );
 
-        $progress = $progress
-            ->markNotRelevant($this->getNow(), $acting_usr_id);
-
-        $this->getProgressRepository()->update($progress);
-        $this->refreshLPStatus($progress->getUserId());
-        $this->updateParentProgress($progress);
-        $err_collection->add(true, 'set_to_irrelevant', $this->getProgressIdString($progress));
+        $this->assignment_repository->store($assignment);
+        $this->refreshLPStatus($assignment->getUserId());
     }
 
     public function markRelevant(
-        int $progress_id,
+        int $assignment_id,
         int $acting_usr_id,
         ilPRGMessageCollection $err_collection
     ): void {
-        $progress = $this->getProgressRepository()->get($progress_id);
-        if ($progress->isRelevant()) {
-            $err_collection->add(false, 'will_not_modify_relevant_progress', $this->getProgressIdString($progress));
-            return;
-        }
+        $progress_node_id = $this->getId();
+        $assignment = $this->assignment_repository->get($assignment_id)
+            ->markRelevant(
+                $this->getSettingsRepository(),
+                $progress_node_id,
+                $acting_usr_id,
+                $err_collection
+            );
 
-        $progress = $progress
-            ->markRelevant($this->getNow(), $acting_usr_id);
-
-        $progress = $this->recalculateProgressStatus($progress);
-
-        $this->getProgressRepository()->update($progress);
-        $this->refreshLPStatus($progress->getUserId());
-        $this->updateParentProgress($progress);
-        $err_collection->add(true, 'set_to_relevant', $this->getProgressIdString($progress));
+        $this->assignment_repository->store($assignment);
+        $this->refreshLPStatus($assignment->getUserId());
     }
 
-    public function invalidate(int $progress_id): void
-    {
-        $progress = $this->getProgressRepository()->get($progress_id)
-            ->invalidate();
-
-        $this->getProgressRepository()->update($progress);
-        $this->refreshLPStatus($progress->getUserId());
-        $this->updateParentProgress($progress);
-    }
-
-    public function succeed(int $progress_id, int $triggering_obj_id): void
-    {
-        $progress = $this->getProgressRepository()->get($progress_id)
-            ->succeed($this->getNow(), $triggering_obj_id);
-
-        $achieved_points = $progress->getAmountOfPoints();
-        $progress = $progress->withCurrentAmountOfPoints($achieved_points);
-        $progress = $this->updateProgressValidityFromSettings($progress);
-
-        $this->getProgressRepository()->update($progress);
-
-        $this->refreshLPStatus($progress->getUserId());
-        $this->updateParentProgress($progress);
-    }
 
     public function changeProgressDeadline(
-        int $progress_id,
+        int $assignment_id,
         int $acting_usr_id,
         ilPRGMessageCollection $err_collection,
         ?DateTimeImmutable $deadline
     ): void {
-        $progress = $this->getProgressRepository()->get($progress_id);
-
-        if (!$progress->isRelevant()) {
-            $err_collection->add(false, 'will_not_modify_irrelevant_progress', $this->getProgressIdString($progress));
-            return;
-        }
-        if ($progress->isSuccessful()) {
-            $err_collection->add(
-                false,
-                'will_not_modify_deadline_on_successful_progress',
-                $this->getProgressIdString($progress)
+        $progress_node_id = $this->getId();
+        $assignment = $this->assignment_repository->get($assignment_id)
+            ->changeProgressDeadline(
+                $this->getSettingsRepository(),
+                $progress_node_id,
+                $acting_usr_id,
+                $err_collection,
+                $deadline
             );
-            return;
-        }
 
-        $progress = $progress
-            ->withDeadline($deadline)
-            ->withLastChange($acting_usr_id, $this->getNow())
-            ->withIndividualModifications(true);
-
-        $progress = $this->applyProgressDeadline($progress, $acting_usr_id);
-
-        $this->getProgressRepository()->update($progress);
-        $this->refreshLPStatus($progress->getUserId());
-        $this->updateParentProgress($progress);
-        $err_collection->add(true, 'deadline_updated', $this->getProgressIdString($progress));
+        $this->assignment_repository->store($assignment);
+        $this->refreshLPStatus($assignment->getUserId());
     }
 
     public function changeProgressValidityDate(
-        int $progress_id,
+        int $assignment_id,
         int $acting_usr_id,
         ilPRGMessageCollection $err_collection,
         ?DateTimeImmutable $validity
     ): void {
-        $progress = $this->getProgressRepository()->get($progress_id);
-
-        if (!$progress->isRelevant()) {
-            $err_collection->add(false, 'will_not_modify_irrelevant_progress', $this->getProgressIdString($progress));
-            return;
-        }
-        if (!$progress->isSuccessful()) {
-            $err_collection->add(
-                false,
-                'will_not_modify_validity_on_non_successful_progress',
-                $this->getProgressIdString($progress)
+        $progress_node_id = $this->getId();
+        $assignment = $this->assignment_repository->get($assignment_id)
+            ->changeProgressValidityDate(
+                $this->getSettingsRepository(),
+                $progress_node_id,
+                $acting_usr_id,
+                $err_collection,
+                $validity
             );
-            return;
-        }
 
-        $progress = $progress
-            ->withValidityOfQualification($validity)
-            ->withLastChange($acting_usr_id, $this->getNow())
-            ->withIndividualModifications(true);
-
-        $this->getProgressRepository()->update($progress);
-        $err_collection->add(true, 'validity_updated', $this->getProgressIdString($progress));
-
-        //update LearningProgress, but this does not affect upper progresses
-        $this->refreshLPStatus($progress->getUserId());
+        $this->assignment_repository->store($assignment);
+        $this->refreshLPStatus($assignment->getUserId());
     }
 
     public function changeAmountOfPoints(
-        int $progress_id,
+        int $assignment_id,
         int $acting_usr_id,
         ilPRGMessageCollection $err_collection,
-        ?int $points
+        int $points
     ): void {
-        $progress = $this->getProgressRepository()->get($progress_id);
+        $progress_node_id = $this->getId();
+        $assignment = $this->assignment_repository->get($assignment_id)
+            ->changeAmountOfPoints(
+                $this->getSettingsRepository(),
+                $progress_node_id,
+                $acting_usr_id,
+                $err_collection,
+                $points
+            );
 
-        if (!$progress->isRelevant()) {
-            $err_collection->add(false, 'will_not_modify_irrelevant_progress', $this->getProgressIdString($progress));
-            return;
-        }
-        if ($progress->isSuccessful()) {
-            $err_collection->add(false, 'will_not_modify_successful_progress', $this->getProgressIdString($progress));
-            return;
-        }
-
-        $progress = $progress
-            ->withAmountOfPoints($points)
-            ->withLastChange($acting_usr_id, $this->getNow())
-            ->withIndividualModifications(true);
-
-        $progress = $this->recalculateProgressStatus($progress);
-
-        $this->getProgressRepository()->update($progress);
-        $err_collection->add(true, 'required_points_updated', $this->getProgressIdString($progress));
-        $this->refreshLPStatus($progress->getUserId());
-        $this->updateParentProgress($progress);
+        $this->assignment_repository->store($assignment);
+        $this->refreshLPStatus($assignment->getUserId());
     }
 
     public function updatePlanFromRepository(
-        int $progress_id,
+        int $assignment_id,
         int $acting_usr_id,
         ilPRGMessageCollection $err_collection = null
     ): void {
-        $progress = $this->getProgressRepository()->get($progress_id);
-        $assignment_id = $progress->getAssignmentId();
-        $progresses = $this->getProgressRepository()->getByAssignmentId($assignment_id);
+        $assignment = $this->assignment_repository->get($assignment_id)
+            ->updatePlanFromRepository(
+                $this->getSettingsRepository(),
+                $acting_usr_id,
+                $err_collection
+            );
 
-        $leafs = [];
-        foreach ($progresses as $progress) {
-            // get node for progress; settings are pulled from the node, which might not be "this"
-            $node = $this->getPrgInstanceByObjId($progress->getNodeId());
-            $progress = $node->updateProgressRelevanceFromSettings($progress);
-            $progress = $node->resetProgressToSettings($progress, $acting_usr_id);
-            $this->getProgressRepository()->update($progress);
-
-            if (!$node->hasChildren(true)) {
-                $leafs[] = [$node, $progress];
-            }
-        }
-
-        foreach ($leafs as $leaf) {
-            [$node, $progress] = $leaf;
-            $progress = $this->recalculateProgressStatus($progress);
-            $progress = $this->applyProgressDeadline($progress);
-            $this->getProgressRepository()->update($progress);
-            $this->refreshLPStatus($progress->getUserId(), (int) $node->getId());
-            $this->updateParentProgress($progress);
-        }
+        $this->assignment_repository->store($assignment);
+        $this->refreshLPStatus($assignment->getUserId());
     }
 
-    protected function resetProgressToSettings(
-        ilStudyProgrammeProgress $progress,
-        int $acting_usr_id
-    ): ilStudyProgrammeProgress {
-        if ($progress->isRelevant()) {
-            $progress = $this->updateProgressValidityFromSettings($progress);
-            $progress = $this->updateProgressDeadlineFromSettings($progress);
-        } else {
-            $progress = $progress
-                ->withValidityOfQualification()
-                ->withDeadline();
-        }
-
-        $progress = $progress->withAmountOfPoints($this->getPoints());
-        $progress = $progress
-            ->withLastChange($acting_usr_id, $this->getNow())
-            ->withIndividualModifications(false);
-
-        return $progress;
-    }
-
-    protected function updateProgressRelevanceFromSettings(ilStudyProgrammeProgress $progress): ilStudyProgrammeProgress
+    public function canBeCompleted(ilPRGProgress $progress): bool
     {
-        if ($this->isActive() && !$progress->isRelevant()) {
-            $progress = $progress->withStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS);
-        }
-        if (!$this->isActive() && $progress->isInProgress()) {
-            $progress = $progress->withStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT);
-        }
-
-        return $progress;
-    }
-
-    protected function updateProgressValidityFromSettings(ilStudyProgrammeProgress $progress): ilStudyProgrammeProgress
-    {
-        $cdate = $progress->getCompletionDate();
-        if (!$cdate
-            || $progress->isSuccessful() === false
-        ) {
-            return $progress;
-        }
-
-        $settings = $this->getSettings()->getValidityOfQualificationSettings();
-        $period = $settings->getQualificationPeriod();
-        $date = $settings->getQualificationDate();
-
-        if ($date) {
-            $date = $date;
-        }
-
-        if ($period) {
-            $date = $cdate->add(new DateInterval('P' . $period . 'D'));
-        }
-
-        return $progress->withValidityOfQualification($date);
-    }
-
-    protected function updateProgressDeadlineFromSettings(ilStudyProgrammeProgress $progress): ilStudyProgrammeProgress
-    {
-        $settings = $this->getSettings()->getDeadlineSettings();
-        $period = $settings->getDeadlinePeriod();
-        $date = $settings->getDeadlineDate();
-        if ($date) {
-            $date = $date;
-        }
-
-        if ($period) {
-            $date = $progress->getAssignmentDate();
-            $date = $date->add(new DateInterval('P' . $period . 'D'));
-        }
-        return $progress->withDeadline($date);
-    }
-
-    public function canBeCompleted(ilStudyProgrammeProgress $progress): bool
-    {
-        if ($this->getLPMode() === ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
+        if ($this->getLPMode() == ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
             return true;
         }
-        $possible_points = $this->getPossiblePointsOfRelevantChildren($progress);
+        $possible_points = $progress->getPossiblePointsOfRelevantChildren();
         return $possible_points >= $progress->getAmountOfPoints();
     }
 
@@ -2627,32 +2013,32 @@ class ilObjStudyProgramme extends ilContainer
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("prg");
-
-        if ($status === ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
+        if ($status === ilPRGProgress::STATUS_IN_PROGRESS) {
             return $lng->txt("prg_status_in_progress");
         }
-        if ($status === ilStudyProgrammeProgress::STATUS_COMPLETED) {
+        if ($status === ilPRGProgress::STATUS_COMPLETED) {
             return $lng->txt("prg_status_completed");
         }
-        if ($status === ilStudyProgrammeProgress::STATUS_ACCREDITED) {
+        if ($status === ilPRGProgress::STATUS_ACCREDITED) {
             return $lng->txt("prg_status_accredited");
         }
-        if ($status === ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
+        if ($status === ilPRGProgress::STATUS_NOT_RELEVANT) {
             return $lng->txt("prg_status_not_relevant");
         }
-        if ($status === ilStudyProgrammeProgress::STATUS_FAILED) {
+        if ($status === ilPRGProgress::STATUS_FAILED) {
             return $lng->txt("prg_status_failed");
         }
         throw new ilException("Unknown status: '$status'");
     }
 
-    protected function getProgressIdString(ilStudyProgrammeProgress $progress): string
+    protected function getProgressIdString(ilPRGAssignment $assignment, ilPRGProgress $progress): string
     {
-        $username = ilObjUser::_lookupFullname($progress->getUserId());
+        $username = ilObjUser::_lookupFullname($assignment->getUserId());
         return sprintf(
-            '%s, progress-id %s',
+            '%s, progress-id (%s/%s)',
             $username,
-            $progress->getId()
+            $assignment->getId(),
+            $progress->getNodeId()
         );
     }
 }

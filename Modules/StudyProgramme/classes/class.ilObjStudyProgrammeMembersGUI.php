@@ -43,6 +43,7 @@ class ilObjStudyProgrammeMembersGUI
 
     public const F_ALL_PROGRESS_IDS = 'all_progress_ids';
     public const F_SELECTED_PROGRESS_IDS = 'prgs_ids';
+    public const F_SELECTED_USER_IDS = 'usrids';
 
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrl $ctrl;
@@ -50,8 +51,7 @@ class ilObjStudyProgrammeMembersGUI
     protected ilLanguage $lng;
     protected ilObjUser $user;
     protected ilTabsGUI $tabs;
-    protected ilStudyProgrammeProgressRepository $sp_user_progress_db;
-    protected ilStudyProgrammeAssignmentRepository $sp_user_assignment_db;
+    protected ilPRGAssignmentDBRepository $assignment_db;
     protected ilStudyProgrammeRepositorySearchGUI $repository_search_gui;
     protected ilObjStudyProgrammeIndividualPlanGUI $individual_plan_gui;
     protected ilPRGMessagePrinter $messages;
@@ -59,14 +59,8 @@ class ilObjStudyProgrammeMembersGUI
     protected ilConfirmationGUI $confirmation_gui;
     protected ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
     protected ILIAS\Refinery\Factory $refinery;
-
-    /**
-     * @var ilStudyProgrammeProgress[]
-     */
-    protected array $progress_objects;
     protected ?ilObjStudyProgramme $object;
     protected ?ilPRGPermissionsHelper $permissions;
-
     protected ilObjectGUI $parent_gui;
     protected int $ref_id;
 
@@ -77,8 +71,7 @@ class ilObjStudyProgrammeMembersGUI
         ilLanguage $lng,
         ilObjUser $user,
         ilTabsGUI $tabs,
-        ilStudyProgrammeProgressRepository $sp_user_progress_db,
-        ilStudyProgrammeAssignmentRepository $sp_user_assignment_db,
+        ilPRGAssignmentDBRepository $assignment_db,
         ilStudyProgrammeRepositorySearchGUI $repository_search_gui,
         ilObjStudyProgrammeIndividualPlanGUI $individual_plan_gui,
         ilPRGMessagePrinter $messages,
@@ -93,8 +86,7 @@ class ilObjStudyProgrammeMembersGUI
         $this->lng = $lng;
         $this->user = $user;
         $this->tabs = $tabs;
-        $this->sp_user_progress_db = $sp_user_progress_db;
-        $this->sp_user_assignment_db = $sp_user_assignment_db;
+        $this->assignment_db = $assignment_db;
         $this->repository_search_gui = $repository_search_gui;
         $this->individual_plan_gui = $individual_plan_gui;
         $this->messages = $messages;
@@ -102,12 +94,11 @@ class ilObjStudyProgrammeMembersGUI
         $this->confirmation_gui = $confirmation_gui;
         $this->http_wrapper = $http_wrapper;
         $this->refinery = $refinery;
-
-        $this->progress_objects = array();
         $this->object = null;
         $this->permissions = null;
 
         $lng->loadLanguageModule("prg");
+        $this->toolbar->setPreventDoubleSubmission(true);
     }
 
     public function setParentGUI(ilObjectGUI $a_parent_gui): void
@@ -203,6 +194,13 @@ class ilObjStudyProgrammeMembersGUI
                     case "confirmedRemoveUsers":
                         $this->confirmedRemoveUsers();
                         break;
+                    case "confirmedUpdateFromCurrentPlan":
+                        $this->confirmedUpdateFromCurrentPlan();
+                        break;
+                    case "mailUserMulti":
+                        $this->mailToSelectedUsers();
+                        break;
+
                     default:
                         throw new ilException("ilObjStudyProgrammeMembersGUI: Command not supported: $cmd");
                 }
@@ -221,25 +219,69 @@ class ilObjStudyProgrammeMembersGUI
 
     protected function getAssignmentsById(): array
     {
-        $assignments = $this->object->getAssignments();
-
-        return array_filter($assignments, function (ilStudyProgrammeAssignment $assignment): bool {
-            return $assignment->getRootId() === $this->object->getId();
-        });
+        return $this->assignment_db->getAllForSpecificNode($this->object->getId());
     }
 
     protected function getMembersTableGUI(): ilStudyProgrammeMembersTableGUI
     {
         $prg_id = ilObject::_lookupObjId($this->ref_id);
-        return new ilStudyProgrammeMembersTableGUI(
+        $dic = ilStudyProgrammeDIC::specificDicFor($this->object);
+        $table = new ilStudyProgrammeMembersTableGUI(
             $prg_id,
             $this->ref_id,
             $this,
-            $this->sp_user_progress_db,
             $this->permissions,
             $this->data_factory,
-            "view"
+            $dic['ilStudyProgrammeUserTable'],
+            $dic['filter.assignment'],
+            $this->user,
+            "view",
+            ""
         );
+        return $table;
+    }
+
+    /**
+     * @return int[]
+     */
+    protected function getPostPrgsIds(): array
+    {
+        if ($_POST['select_cmd_all']) {
+            $pgs_ids = $_POST[self::F_ALL_PROGRESS_IDS];
+            $pgs_ids = explode(',', $pgs_ids);
+        } else {
+            $pgs_ids = $_POST[self::F_SELECTED_PROGRESS_IDS];
+        }
+        if ($pgs_ids === null) {
+            $this->showInfoMessage("no_user_selected");
+            $this->ctrl->redirect($this, "view");
+        }
+
+        $r = [];
+        foreach ($pgs_ids as $pgs_id) {
+            $r[] = PRGProgressId::createFromString($pgs_id);
+        }
+        return $r;
+    }
+
+    protected function getGetPrgsIds(): array
+    {
+        $prgrs_ids = $_GET['prgrs_ids'];
+        $ids = [];
+        if (!is_null($prgrs_ids)) {
+            foreach (explode(',', $prgrs_ids) as $id) {
+                $ids[] = PRGProgressId::createFromString($id);
+            };
+        }
+        return $ids;
+    }
+
+    protected function getPrgrsId(): PRGProgressId
+    {
+        if (!$_GET["prgrs_id"]) {
+            throw new ilException("Expected 'prgrs_id'");
+        }
+        return PRGProgressId::createFromString($_GET["prgrs_id"]);
     }
 
     /**
@@ -431,53 +473,6 @@ class ilObjStudyProgrammeMembersGUI
         return $assignments;
     }
 
-    /**
-     * @return int[]
-     */
-    protected function getPostPrgsIds(): array
-    {
-        if ($this->http_wrapper->post()->has('select_cmd_all')) {
-            $prgrs_ids = $this->http_wrapper->post()->retrieve(
-                self::F_ALL_PROGRESS_IDS,
-                $this->refinery->in()->series([
-                    $this->refinery->kindlyTo()->string(),
-                    $this->refinery->string()->splitString(","),
-                    $this->refinery->container()->mapValues($this->refinery->kindlyTo()->int())
-                ])
-            );
-        } else {
-            $prgrs_ids = $this->http_wrapper->post()->retrieve(
-                self::F_SELECTED_PROGRESS_IDS,
-                $this->refinery->in()->series([
-                    $this->refinery->container()->mapValues($this->refinery->kindlyTo()->int())
-                ])
-            );
-        }
-
-        if ($prgrs_ids === null) {
-            $this->showInfoMessage("no_user_selected");
-            $this->ctrl->redirect($this, "view");
-        }
-
-        return $prgrs_ids;
-    }
-
-    protected function getGetPrgsIds(): array
-    {
-        // TODO: simplify the progress data, merge 'prgrs_ids' and 'prgrs_id'
-        $prgrs_ids = $this->http_wrapper->query()->retrieve("prgrs_ids", $this->refinery->kindlyTo()->string());
-        if (is_null($prgrs_ids)) {
-            return array();
-        }
-        return explode(',', $prgrs_ids);
-    }
-
-    protected function getPrgrsId(): int
-    {
-        // TODO: simplify the progress data, merge 'prgrs_ids' and 'prgrs_id'
-        return $this->http_wrapper->query()->retrieve("prgrs_id", $this->refinery->kindlyTo()->int());
-    }
-
     protected function markAccredited(): void
     {
         $prgrs_id = $this->getPrgrsId();
@@ -491,22 +486,21 @@ class ilObjStudyProgrammeMembersGUI
     {
         $prgrs_ids = $this->getPostPrgsIds();
         $msgs = $this->getMessageCollection('msg_mark_accredited');
-        foreach ($prgrs_ids as $prgrs_id) {
+        foreach ($prgrs_ids as $key => $prgrs_id) {
             $this->markAccreditedByProgressId($prgrs_id, $msgs);
         }
         $this->showMessages($msgs);
         $this->ctrl->redirect($this, "view");
     }
 
-    protected function markAccreditedByProgressId(int $prgrs_id, ilPRGMessageCollection $msgs): void
+    protected function markAccreditedByProgressId(PRGProgressId $prgrs_id, ilPRGMessageCollection $msgs): void
     {
-        $prgrs = $this->getProgressObject($prgrs_id);
-        $usr_id = $prgrs->getUserId();
-        if (!$this->mayCurrentUserEditProgress($prgrs_id)) {
+        $usr_id = $prgrs_id->getUsrId();
+        if (!$this->mayCurrentUserEditProgressForUser($usr_id)) {
             $msgs->add(false, 'No permission to edit progress of user', (string) $prgrs_id);
         } else {
             $programme = $this->getStudyProgramme();
-            $programme->markAccredited($prgrs_id, $this->user->getId(), $msgs);
+            $programme->markAccredited($prgrs_id->getAssignmentId(), $this->user->getId(), $msgs);
         }
     }
 
@@ -523,22 +517,21 @@ class ilObjStudyProgrammeMembersGUI
     {
         $prgrs_ids = $this->getPostPrgsIds();
         $msgs = $this->getMessageCollection('msg_unmark_accredited');
-        foreach ($prgrs_ids as $prgrs_id) {
+        foreach ($prgrs_ids as $key => $prgrs_id) {
             $this->unmarkAccreditedByProgressId($prgrs_id, $msgs);
         }
         $this->showMessages($msgs);
         $this->ctrl->redirect($this, "view");
     }
 
-    protected function unmarkAccreditedByProgressId(int $prgrs_id, ilPRGMessageCollection $msgs): void
+    protected function unmarkAccreditedByProgressId(PRGProgressId $prgrs_id, ilPRGMessageCollection $msgs): void
     {
-        $prgrs = $this->getProgressObject($prgrs_id);
-        $usr_id = $prgrs->getUserId();
-        if (!$this->mayCurrentUserEditProgress($prgrs_id)) {
+        $usr_id = $prgrs_id->getUsrId();
+        if (!$this->mayCurrentUserEditProgressForUser($usr_id)) {
             $msgs->add(false, 'No permission to edit progress of user', (string) $prgrs_id);
         } else {
             $programme = $this->getStudyProgramme();
-            $programme->unmarkAccredited($prgrs_id, $this->user->getId(), $msgs);
+            $programme->unmarkAccredited($prgrs_id->getAssignmentId(), $this->user->getId(), $msgs);
         }
     }
 
@@ -547,11 +540,11 @@ class ilObjStudyProgrammeMembersGUI
         $prgrs_ids = $this->getPostPrgsIds();
         $msgs = $this->getMessageCollection('msg_mark_relevant');
         $programme = $this->getStudyProgramme();
-        foreach ($prgrs_ids as $prgrs_id) {
-            if (!$this->mayCurrentUserEditProgress($prgrs_id)) {
+        foreach ($prgrs_ids as $key => $prgrs_id) {
+            if (!$this->mayCurrentUserEditProgressForUser($prgrs_id->getUsrId())) {
                 $msgs->add(false, 'No permission to edit progress of user', (string) $prgrs_id);
             } else {
-                $programme->markRelevant($prgrs_id, $this->user->getId(), $msgs);
+                $programme->markRelevant($prgrs_id->getAssignmentId(), $this->user->getId(), $msgs);
             }
         }
         $this->showMessages($msgs);
@@ -563,29 +556,49 @@ class ilObjStudyProgrammeMembersGUI
         $prgrs_ids = $this->getPostPrgsIds();
         $msgs = $this->getMessageCollection('msg_mark_not_relevant');
         $programme = $this->getStudyProgramme();
-        foreach ($prgrs_ids as $prgrs_id) {
-            if (!$this->mayCurrentUserEditProgress($prgrs_id)) {
+        foreach ($prgrs_ids as $key => $prgrs_id) {
+            if (!$this->mayCurrentUserEditProgressForUser($prgrs_id->getUsrId())) {
                 $msgs->add(false, 'No permission to edit progress of user', (string) $prgrs_id);
             } else {
-                $programme->markNotRelevant($prgrs_id, $this->user->getId(), $msgs);
+                $programme->markNotRelevant($prgrs_id->getAssignmentId(), $this->user->getId(), $msgs);
             }
         }
         $this->showMessages($msgs);
         $this->ctrl->redirect($this, "view");
     }
 
-    public function updateFromCurrentPlanMulti(): void
+    public function updateFromCurrentPlanMulti(): string
     {
-        $prgrs_ids = $this->getPostPrgsIds();
+        $this->confirmation_gui->setFormAction($this->ctrl->getFormAction($this, 'confirmUpdateFromCurrentPlan'));
+        $this->confirmation_gui->setHeaderText($this->lng->txt('header_update_current_plan'));
+        $this->confirmation_gui->setConfirm($this->lng->txt('confirm'), 'confirmedUpdateFromCurrentPlan');
+        $this->confirmation_gui->setCancel($this->lng->txt('cancel'), 'view');
+
+        foreach ($this->getPostPrgsIds() as $progress_id) {
+            $user_name = ilObjUser::_lookupFullname($progress_id->getUsrId());
+            $this->confirmation_gui->addItem(
+                self::F_SELECTED_PROGRESS_IDS . '[]',
+                (string)$progress_id,
+                $user_name
+            );
+        }
+        return $this->confirmation_gui->getHTML();
+    }
+
+    public function confirmedUpdateFromCurrentPlan()
+    {
+        $pgs_ids = $this->getPostPrgsIds();
         $msgs = $this->getMessageCollection('msg_update_from_settings');
-        foreach ($prgrs_ids as $prgrs_id) {
-            if (!$this->mayCurrentUserEditProgress($prgrs_id)) {
-                $msgs->add(false, 'no_permission_to_update_plan_of_user', (string) $prgrs_id);
+        foreach ($pgs_ids as $idx => $pgs_id) {
+            if (!$this->mayCurrentUserEditProgressForUser($pgs_id->getUsrId())) {
+                $msgs->add(false, 'no_permission_to_update_plan_of_user', (string) $pgs_id);
                 continue;
+            } else {
+                $msgs->add(true, '', (string) $pgs_id);
             }
 
             $this->object->updatePlanFromRepository(
-                $prgrs_id,
+                $pgs_id->getAssignmentId(),
                 $this->user->getId(),
                 $msgs
             );
@@ -636,29 +649,8 @@ class ilObjStudyProgrammeMembersGUI
 
     protected function removeUserMulti(): string
     {
-        $prgrs_ids = $this->getPostPrgsIds();
-        return $this->confirmRemoveUsers($prgrs_ids);
-    }
-
-    protected function confirmedRemoveUsers(): void
-    {
-        $prgrs_ids = $this->getPostPrgsIds();
-        $not_removed = array();
-        foreach ($prgrs_ids as $prgrs_id) {
-            try {
-                $this->remove($prgrs_id);
-            } catch (ilException $e) {
-                $not_removed[] = $prgrs_id;
-            }
-        }
-        if (count($not_removed) === count($prgrs_ids)) {
-            $this->showInfoMessage("remove_users_not_possible");
-        } elseif (count($not_removed) > 0) {
-            $this->showSuccessMessage("remove_users_partial_success");
-        } else {
-            $this->showSuccessMessage("remove_users_success");
-        }
-        $this->ctrl->redirect($this, "view");
+        $pgs_ids = $this->getPostPrgsIds();
+        return $this->confirmRemoveUsers($pgs_ids);
     }
 
     protected function confirmRemoveUsers(array $progress_ids): string
@@ -669,28 +661,44 @@ class ilObjStudyProgrammeMembersGUI
         $this->confirmation_gui->setCancel($this->lng->txt('cancel'), 'view');
 
         foreach ($progress_ids as $progress_id) {
-            $progress = $this->getProgressObject($progress_id);
-            $user = ilObjUser::_lookupFullname($progress->getUserId());
-            $name = $user . ' (' . $progress->getId() . ')';
-
+            $user_name = ilObjUser::_lookupFullname($progress_id->getUsrId());
             $this->confirmation_gui->addItem(
                 self::F_SELECTED_PROGRESS_IDS . '[]',
-                (string) $progress_id,
-                $name
+                (string)$progress_id,
+                $user_name
             );
         }
         return $this->confirmation_gui->getHTML();
     }
 
+    protected function confirmedRemoveUsers(): void
+    {
+        $pgs_ids = $this->getPostPrgsIds();
+        $not_removed = array();
+        foreach ($pgs_ids as $idx => $pgs_id) {
+            try {
+                $this->removeAssignment($pgs_id);
+            } catch (ilException $e) {
+                $not_removed[] = $pgs_id;
+            }
+        }
+        if (count($not_removed) === count($pgs_ids)) {
+            $this->showInfoMessage("remove_users_not_possible");
+        } elseif (count($not_removed) > 0) {
+            $this->showSuccessMessage("remove_users_partial_success");
+        } else {
+            $this->showSuccessMessage("remove_users_success");
+        }
+        $this->ctrl->redirect($this, "view");
+    }
+
     /**
      * Remove user
      */
-    protected function remove(int $prgrs_id): void
+    protected function removeAssignment(PRGProgressId $pgs_id): void
     {
-        $prgrs = $this->getProgressObject($prgrs_id);
-
         if (!in_array(
-            $prgrs->getUserId(),
+            $pgs_id->getUsrId(),
             $this->permissions->getUserIdsSusceptibleTo(ilOrgUnitOperation::OP_MANAGE_MEMBERS)
         )) {
             throw new ilStudyProgrammePositionBasedAccessViolationException(
@@ -698,26 +706,13 @@ class ilObjStudyProgrammeMembersGUI
             );
         }
 
-        $ass = $this->sp_user_assignment_db->get($prgrs->getAssignmentId());
+        $ass = $this->assignment_db->get($pgs_id->getAssignmentId());
         $prg_ref_id = ilObjStudyProgramme::getRefIdFor($ass->getRootId());
         if ($prg_ref_id !== $this->ref_id) {
             throw new ilException("Can only remove users from the node they where assigned to.");
         }
         $prg = ilObjStudyProgramme::getInstanceByRefId($prg_ref_id);
         $prg->removeAssignment($ass);
-    }
-
-    /**
-     * Get progress object for prgrs id
-     */
-    protected function getProgressObject(int $prgrs_id): ilStudyProgrammeProgress
-    {
-        if (!array_key_exists($prgrs_id, $this->progress_objects)) {
-            $this->progress_objects[$prgrs_id] = $this->sp_user_progress_db->get(
-                $prgrs_id
-            );
-        }
-        return $this->progress_objects[$prgrs_id];
     }
 
     /**
@@ -779,7 +774,7 @@ class ilObjStudyProgrammeMembersGUI
     /**
      * Get the link target for an action on user progress.
      */
-    public function getLinkTargetForAction(string $action, int $prgrs_id, int $ass_id): string
+    public function getLinkTargetForAction(string $action, string $prgrs_id, int $ass_id): string
     {
         switch ($action) {
             case self::ACTION_MARK_ACCREDITED:
@@ -803,10 +798,10 @@ class ilObjStudyProgrammeMembersGUI
         return $link;
     }
 
-    protected function mayCurrentUserEditProgress(int $progress_id): bool
+    protected function mayCurrentUserEditProgressForUser(int $usr_id): bool
     {
         return in_array(
-            $this->getProgressObject($progress_id)->getUserId(),
+            $usr_id,
             $this->permissions->getUserIdsSusceptibleTo(ilOrgUnitOperation::OP_EDIT_INDIVIDUAL_PLAN)
         );
     }
@@ -819,5 +814,16 @@ class ilObjStudyProgrammeMembersGUI
     protected function showMessages(ilPRGMessageCollection $msg): void
     {
         $this->messages->showMessages($msg);
+    }
+
+    protected function mailToSelectedUsers(): void
+    {
+        $prgrs_ids = $this->getPostPrgsIds();
+        $usr_ids = array_unique(array_map(fn ($pgs_id) => $pgs_id->getUsrId(), $prgrs_ids));
+        $usr_ids = base64_encode(json_encode($usr_ids));
+        $class = 'ilStudyProgrammeMailMemberSearchGUI';
+        $cmd = 'showSelectableUsers';
+        $this->ctrl->setParameterByClass($class, self::F_SELECTED_USER_IDS, $usr_ids);
+        $this->ctrl->redirectByClass($class, $cmd);
     }
 }

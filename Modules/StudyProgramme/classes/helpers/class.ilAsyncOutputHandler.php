@@ -18,6 +18,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\HTTP\Response\ResponseHeader;
+
 /**
  * Class ilAsyncOutputHandler
  * Handles the output for async-requests. The class allows to generate the basic structure of a bootstrap-modal (for modal-content)

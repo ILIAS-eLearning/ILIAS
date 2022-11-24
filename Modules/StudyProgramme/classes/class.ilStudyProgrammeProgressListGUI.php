@@ -34,14 +34,14 @@ class ilStudyProgrammeProgressListGUI
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
     protected ilAccess $access;
-    protected ilStudyProgrammeProgress $progress;
+    protected ilPRGProgress $progress;
     protected ?ilGlobalTemplateInterface $tpl;
     protected ?string $html;
     protected bool $show_info_message;
     protected string $visible_on_pd_mode;
     protected bool $only_relevant = false;
 
-    public function __construct(ilStudyProgrammeProgress $a_progress)
+    public function __construct(ilPRGProgress $a_progress)
     {
         global $DIC;
         $this->lng = $DIC['lng'];
@@ -74,7 +74,7 @@ class ilStudyProgrammeProgressListGUI
         if ($title_and_icon_target) {
             $tpl->setCurrentBlock("linked_icon");
             $tpl->setVariable("SRC_ICON", $this->getIconPath($programme->getId()));
-            $tpl->setVariable("ALT_ICON", $this->getAltIcon());
+            $tpl->setVariable("ALT_ICON", $this->getAltIcon($programme->getId()));
             $tpl->setVariable("ICON_HREF", $title_and_icon_target);
             $tpl->parseCurrentBlock();
 
@@ -85,7 +85,7 @@ class ilStudyProgrammeProgressListGUI
         } else {
             $tpl->setCurrentBlock("not_linked_icon");
             $tpl->setVariable("SRC_ICON", $this->getIconPath($programme->getId()));
-            $tpl->setVariable("ALT_ICON", $this->getAltIcon());
+            $tpl->setVariable("ALT_ICON", $this->getAltIcon($programme->getId()));
             $tpl->parseCurrentBlock();
 
             $tpl->setCurrentBlock("not_linked_title");
@@ -124,7 +124,7 @@ class ilStudyProgrammeProgressListGUI
         return $this->lng->txt("icon") . " " . $this->lng->txt("obj_prg");
     }
 
-    protected function getTitleAndIconTarget(ilStudyProgrammeProgress $progress): ?string
+    protected function getTitleAndIconTarget(ilPRGProgress $progress): ?string
     {
         $this->ctrl->setParameterByClass("ilDashboardGUI", "prg_progress_id", $progress->getId());
         $this->ctrl->setParameterByClass("ilDashboardGUI", "expand", 1);
@@ -134,13 +134,12 @@ class ilStudyProgrammeProgressListGUI
         return $link;
     }
 
-    protected function buildProgressBar(ilStudyProgrammeProgress $progress): string
+    protected function buildProgressBar(ilPRGProgress $progress): string
     {
         $tooltip_id = "prg_" . $progress->getId();
         $required_amount_of_points = $progress->getAmountOfPoints();
 
-        $programme = ilObjStudyProgramme::getInstanceByObjId($progress->getNodeId());
-        $maximum_possible_amount_of_points = $programme->getPossiblePointsOfRelevantChildren($progress);
+        $maximum_possible_amount_of_points = $progress->getPossiblePointsOfRelevantChildren();
 
         $current_amount_of_points = $progress->getCurrentAmountOfPoints();
         $current_percent = 0;
@@ -169,8 +168,8 @@ class ilStudyProgrammeProgressListGUI
         }
 
         return ilContainerObjectiveGUI::renderProgressBar(
-            $current_percent,
-            $required_percent,
+            (int)$current_percent,
+            (int)$required_percent,
             $css_class,
             $progress_status,
             null,
@@ -179,7 +178,7 @@ class ilStudyProgrammeProgressListGUI
         );
     }
 
-    protected function buildToolTip(ilStudyProgrammeProgress $progress): string
+    protected function buildToolTip(ilPRGProgress $progress): string
     {
         return sprintf(
             $this->lng->txt("prg_progress_info"),
@@ -188,7 +187,7 @@ class ilStudyProgrammeProgressListGUI
         );
     }
 
-    protected function buildProgressStatus(ilStudyProgrammeProgress $progress): string
+    protected function buildProgressStatus(ilPRGProgress $progress): string
     {
         $lang_val = "prg_progress_status";
         $max_points = $progress->getAmountOfPoints();
@@ -199,7 +198,7 @@ class ilStudyProgrammeProgressListGUI
         }
 
         if ($programme->hasChildren()) {
-            $max_points = $programme->getPossiblePointsOfRelevantChildren($progress);
+            $max_points = $progress->getPossiblePointsOfRelevantChildren($progress);
         }
 
         return sprintf(
