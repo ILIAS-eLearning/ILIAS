@@ -5805,6 +5805,7 @@ common#:#usr_account_inactive#:#Inactive Account
 common#:#usr_active_only#:#Active Users only
 common#:#usr_add#:#Add User
 common#:#usr_agreement#:#Terms of Service
+common#:#usr_agreement_footer_intro#:#You have declared your consent to these terms of service.
 common#:#usr_edit#:#Edit User
 common#:#usr_field_change_components_listening#:#There is at least one component which is interested in the changed configuration. Would you like to confirm the changes with the consequences the component(s) announced below?
 common#:#usr_filter_coursemember#:#Member of course
