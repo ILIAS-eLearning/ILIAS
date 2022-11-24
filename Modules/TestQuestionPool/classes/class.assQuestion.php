@@ -994,30 +994,31 @@ abstract class assQuestion
             array($active_id, $pass)
         );
 
-        $row = $ilDB->fetchAssoc($result);
+        $test_pass_result_row = $ilDB->fetchAssoc($result);
 
-        $max = (float) $row['maxpoints'];
-        $reached = (float) $row['points'];
-
-        $obligationsAnswered = (int) $row['obligations_answered'];
-
+        if (!is_array($test_pass_result_row)) {
+            $test_pass_result_row = [];
+        }
+        $max = (float) ($test_pass_result_row['maxpoints'] ?? 0);
+        $reached = (float) ($test_pass_result_row['points'] ?? 0);
         $percentage = ($max <= 0.0 || $reached <= 0.0) ? 0 : ($reached / $max) * 100.0;
 
-        $mark = ASS_MarkSchema::_getMatchingMarkFromActiveId($active_id, $percentage);
+        $obligationsAnswered = (int) ($test_pass_result_row['obligations_answered'] ?? 1);
 
+        $mark = ASS_MarkSchema::_getMatchingMarkFromActiveId($active_id, $percentage);
         $isPassed = isset($mark["passed"]) && $mark["passed"];
 
-        $userTestResultUpdateCallback = function () use ($ilDB, $active_id, $pass, $max, $reached, $isPassed, $obligationsAnswered, $row, $mark) {
+        $hint_count = $test_pass_result_row['hint_count'] ?? 0;
+        $hint_points = $test_pass_result['hint_points'] ?? 0.0;
+
+        $userTestResultUpdateCallback = function () use ($ilDB, $active_id, $pass, $max, $reached, $isPassed, $obligationsAnswered, $hint_count, $hint_points, $mark) {
             $passedOnceBefore = 0;
             $query = "SELECT passed_once FROM tst_result_cache WHERE active_fi = %s";
             $res = $ilDB->queryF($query, array('integer'), array($active_id));
-            while ($row = $ilDB->fetchAssoc($res)) {
-                $passedOnceBefore = (int) $row['passed_once'];
+            while ($passed_once_result_row = $ilDB->fetchAssoc($res)) {
+                $passedOnceBefore = (int) $passed_once_result_row['passed_once'];
             }
-            if ($row == null) {
-                $row['hint_count'] = 0;
-                $row['hint_points'] = 0.0;
-            }
+
             $passedOnce = (int) ($isPassed || $passedOnceBefore);
 
             $ilDB->manipulateF(
@@ -1037,8 +1038,8 @@ abstract class assQuestion
                 'passed' => array('integer', (int) $isPassed),
                 'failed' => array('integer', (int) !$isPassed),
                 'tstamp' => array('integer', time()),
-                'hint_count' => array('integer', $row['hint_count']),
-                'hint_points' => array('float', $row['hint_points']),
+                'hint_count' => array('integer', $hint_count),
+                'hint_points' => array('float', $hint_points),
                 'obligations_answered' => array('integer', $obligationsAnswered)
             ));
         };
@@ -1917,7 +1918,9 @@ abstract class assQuestion
         $result = $this->db->queryF(
             "SELECT internal_link, import_id, subquestion_index, type, value" .
             " FROM qpl_sol_sug WHERE question_fi = %s",
-            ["integer"], [$this->getId()]);
+            ["integer"],
+            [$this->getId()]
+        );
 
         $suggestedSolutions = [];
 
@@ -1944,7 +1947,6 @@ abstract class assQuestion
             ];
         }
         $this->suggested_solutions = $suggestedSolutions;
-
     }
 
     /**
