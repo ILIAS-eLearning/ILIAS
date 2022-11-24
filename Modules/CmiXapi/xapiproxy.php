@@ -74,7 +74,10 @@ declare(strict_types=1);
         chdir("../../");
     }
     require_once("Services/Init/classes/class.ilInitialisation.php");
-    DataService::initIlias($client);
+    //instead of DataService
+    \ilContext::init(\ilContext::CONTEXT_SCORM);
+    \ilInitialisation::initILIAS();
+//    DataService::initIlias($client);
     $dic = $GLOBALS['DIC'];
 
     $xapiproxy = new XapiProxy($client, $token, $plugin);

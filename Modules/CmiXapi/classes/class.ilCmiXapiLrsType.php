@@ -547,7 +547,7 @@ class ilCmiXapiLrsType
 
     public function getLrsEndpointStatementsAggregationLink(): string
     {
-        return dirname($this->getLrsEndpoint()) . '/api/' . self::ENDPOINT_AGGREGATE_SUFFIX;
+        return dirname($this->getLrsEndpoint(), 2) . '/api/' . self::ENDPOINT_AGGREGATE_SUFFIX;
     }
 
     public function getBasicAuth(): string

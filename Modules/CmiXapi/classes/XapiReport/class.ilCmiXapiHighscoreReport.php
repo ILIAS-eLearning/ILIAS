@@ -167,7 +167,7 @@ class ilCmiXapiHighscoreReport
         $hours = (string) floor($totalDuration / 3600);
         $hours = strlen($hours) < 2 ? "0" . $hours : $hours;
 
-        return $hours . ":" . date('i:s', $totalDuration);
+        return $hours . ":" . date('i:s', (int) round($totalDuration));
     }
 
     private function formatRawTimestamp(string $rawTimestamp): string

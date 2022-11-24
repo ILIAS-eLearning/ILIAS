@@ -83,6 +83,7 @@ class XapiProxyRequest
     private function handlePostPutStatementsRequest(\Psr\Http\Message\RequestInterface $request): void
     {
         $body = $request->getBody()->getContents();
+        $fakePostBody = null;
         if (empty($body)) {
             $this->xapiproxy->log()->warning($this->msg("empty body in handlePostPutRequest"));
             $this->handleProxy($request);

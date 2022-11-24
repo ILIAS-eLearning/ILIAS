@@ -128,9 +128,7 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set): void
     {
         $r = $this->dic->ui()->renderer();
-
-        $a_set['rowkey'] = md5(serialize($a_set));
-
+        $a_set['rowkey'] = md5(serialize($a_set['statement']));
         $rawDataModal = $this->getRawDataModal($a_set);
         $actionsList = $this->getActionsList($rawDataModal, $a_set);
 
