@@ -3397,8 +3397,9 @@ cntr#:#sorting_new_items_position#:#Position for New Objects
 cntr#:#tab_back_to_repository#:#Back to Repository
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Absolute Path
-common#:#accept_usr_agreement#:#Accept terms of service?
-common#:#accept_usr_agreement_btn#:#Accept
+common#:#accept_usr_agreement#:#Accept Terms of Service?
+common#:#accept_usr_agreement_btn#:#There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.
+common#:#accept_usr_agreement_intro#:#Accept
 common#:#access#:#Access
 common#:#accessFree#:#Remove 'Valid Until' Date
 common#:#accessRestrict#:#Set 'Valid Until' Date
