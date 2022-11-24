@@ -3251,6 +3251,8 @@ cmix#:#terminated_label#:#Statements mit dem Verb 'terminated'
 cmix#:#timestamp_info#:#Der timestamp kennzeichnet den Zeitpunkt einer durch das Statement gekennzeichneten Aktion. Der timestamp wird durch diese Option auf den Standardwert 01.01.1970 (1970-01-01T00:00:00.000Z) gesetzt. Bitte beachten Sie, dass ein Learning Record Store gegebenenfalls selbstständig einen Wert für das Speicherdatum (stored) setzt, der mit dem timestamp nahezu identisch sein kann.
 cmix#:#timestamp_label#:#Zeitstempel 'timestamp'
 cmix#:#title_info#:#Geben Sie dem Objekt einen Titel.
+cmix#:#toplist_top_n_results#:#Bestenliste
+cmix#:#toplist_your_result#:#Eigener Rang
 cmix#:#type_cmi5#:#cmi5 Lernmodul
 cmix#:#type_generic#:#xAPI Standardobjekt
 cmix#:#use_fetch#:#Autorisierung durch Fetch-URL
