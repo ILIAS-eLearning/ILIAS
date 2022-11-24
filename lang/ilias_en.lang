@@ -5815,6 +5815,7 @@ common#:#usr_account_inactive#:#Inactive Account
 common#:#usr_active_only#:#Active Users only
 common#:#usr_add#:#Add User
 common#:#usr_agreement#:#Terms of Service
+common#:#usr_agreement_footer_intro#:#You have declared your consent to these terms of service.
 common#:#usr_edit#:#Edit User
 common#:#usr_filter_coursemember#:#Member of course
 common#:#usr_filter_groupmember#:#Member of group
