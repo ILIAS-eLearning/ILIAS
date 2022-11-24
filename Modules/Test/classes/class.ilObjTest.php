@@ -2064,6 +2064,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function setIntroduction($introduction = "")
     {
+        if (is_null($introduction)) {
+            $introduction = '';
+        }
         $this->introduction = $this->getHtmlQuestionContentPurifier()->purify($introduction);
     }
 
@@ -2077,6 +2080,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function setFinalStatement($a_statement = "")
     {
+        if (is_null($a_statement)) {
+            $a_statement = '';
+        }
         $this->_finalstatement = $this->getHtmlQuestionContentPurifier()->purify($a_statement);
     }
 
