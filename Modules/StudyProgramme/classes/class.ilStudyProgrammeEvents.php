@@ -22,15 +22,12 @@ class ilStudyProgrammeEvents
 {
     private const COMPONENT = "Modules/StudyProgramme";
 
-    public ilAppEventHandler $app_event_handler;
-    protected ilStudyProgrammeAssignmentRepository $assignment_repo;
+    protected ilAppEventHandler $app_event_handler;
 
     public function __construct(
-        ilAppEventHandler $app_event_handler,
-        ilStudyProgrammeAssignmentRepository $assignment_repo
+        ilAppEventHandler $app_event_handler
     ) {
         $this->app_event_handler = $app_event_handler;
-        $this->assignment_repo = $assignment_repo;
     }
 
     public function raise(string $event, array $parameter): void
@@ -38,7 +35,7 @@ class ilStudyProgrammeEvents
         $this->app_event_handler->raise(self::COMPONENT, $event, $parameter);
     }
 
-    public function userAssigned(ilStudyProgrammeAssignment $assignment): void
+    public function userAssigned(ilPRGAssignment $assignment): void
     {
         $this->raise(
             "userAssigned",
@@ -50,18 +47,23 @@ class ilStudyProgrammeEvents
         );
     }
 
-    public function userReAssigned(ilStudyProgrammeAssignment $a_assignment): void
+    public function userReAssigned(ilPRGAssignment $assignment): void
     {
         $this->raise(
             "userReAssigned",
             [
-                "root_prg_ref_id" => ilObjStudyProgramme::getRefIdFor($a_assignment->getRootId()),
-                "usr_id" => $a_assignment->getUserId()
+                "root_prg_ref_id" => $this->getRefIdFor($assignment->getRootId()),
+                "usr_id" => $assignment->getUserId()
             ]
         );
     }
+    protected function getRefIdFor(int $obj_id): int
+    {
+        return ilObjStudyProgramme::getRefIdFor($obj_id);
+    }
 
-    public function userDeassigned(ilStudyProgrammeAssignment $a_assignment): void
+
+    public function userDeassigned(ilPRGAssignment $a_assignment): void
     {
         $this->raise(
             "userDeassigned",
@@ -73,39 +75,41 @@ class ilStudyProgrammeEvents
         );
     }
 
-    public function userSuccessful(ilStudyProgrammeProgress $a_progress): void
+    /**
+     * @throws ilException
+     */
+    public function userSuccessful(ilPRGAssignment $assignment, int $pgs_node_id): void
     {
-        $ass = $this->assignment_repo->get($a_progress->getAssignmentId());
         $this->raise(
             "userSuccessful",
             [
-                "root_prg_id" => $ass->getRootId(),
-                "prg_id" => $a_progress->getNodeId(),
-                "usr_id" => $ass->getUserId(),
-                "ass_id" => $ass->getId()
+                "root_prg_id" => $assignment->getRootId(),
+                "prg_id" => $pgs_node_id,
+                "usr_id" => $assignment->getUserId(),
+                "ass_id" => $assignment->getId()
             ]
         );
     }
 
-    public function informUserByMailToRestart(ilStudyProgrammeProgress $progress): void
+    public function informUserByMailToRestart(ilPRGAssignment $assignment): void
     {
         $this->raise(
             'informUserToRestart',
             [
-                "usr_id" => $progress->getUserId(),
-                "progress_id" => $progress->getId(),
-                "ass_id" => $progress->getAssignmentId()
+                "usr_id" => (int) $assignment->getUserId(),
+                "progress_id" => (int) $assignment->getRootId(),
+                "ass_id" => (int) $assignment->getId()
             ]
         );
     }
 
-    public function userRiskyToFail(ilStudyProgrammeProgress $progress): void
+    public function userRiskyToFail(ilPRGAssignment $assignment): void
     {
         $this->raise(
             "userRiskyToFail",
             [
-                "progress_id" => $progress->getId(),
-                "usr_id" => $progress->getUserId()
+                "progress_id" => $assignment->getRootId(),
+                "usr_id" => $assignment->getUserId()
             ]
         );
     }

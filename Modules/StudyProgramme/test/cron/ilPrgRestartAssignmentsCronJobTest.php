@@ -21,16 +21,19 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class ilPrgUserNotRestartedCronJobMock extends ilPrgUserNotRestartedCronJob
+class ilPrgRestartAssignmentsCronJobMock extends ilPrgRestartAssignmentsCronJob
 {
     public array $logs = [];
+    protected ilObjStudyProgramme $prg;
 
     public function __construct(
         ilPRGAssignmentDBRepository $repo,
-        ilPrgCronJobAdapter $adapter
+        ilPrgCronJobAdapter $adapter,
+        ilObjStudyProgramme $prg
     ) {
         $this->assignment_repo = $repo;
         $this->adapter = $adapter;
+        $this->prg = $prg;
     }
     protected function getNow(): DateTimeImmutable
     {
@@ -41,11 +44,15 @@ class ilPrgUserNotRestartedCronJobMock extends ilPrgUserNotRestartedCronJob
     {
         $this->logs[] = $msg;
     }
+    protected function getStudyProgramme(int $prg_obj_id): ilObjStudyProgramme
+    {
+        return $this->prg;
+    }
 }
 
-class ilStudyProgrammeCronAboutToExpireTest extends TestCase
+class ilPrgRestartAssignmentsCronJobTest extends TestCase
 {
-    protected ilPrgUserNotRestartedCronJobMock $job;
+    protected ilPrgRestartAssignmentsCronJobMock $job;
     protected ilStudyProgrammeSettingsDBRepository $settings_repo;
     protected ilPRGAssignmentDBRepository $assignment_repo;
     protected ProgrammeEventsMock $events;
@@ -53,26 +60,32 @@ class ilStudyProgrammeCronAboutToExpireTest extends TestCase
     protected function setUp(): void
     {
         $this->events = new ProgrammeEventsMock();
+
         $this->settings_repo = $this->getMockBuilder(ilStudyProgrammeSettingsDBRepository::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['getProgrammeIdsWithMailsForExpiringValidity'])
+            ->onlyMethods(['getProgrammeIdsWithReassignmentForExpiringValidity'])
             ->getMock();
 
-        $this->adapter = $this->getMockBuilder(ilPrgNotRestarted::class)
+        $this->adapter = $this->getMockBuilder(ilPrgRestart::class)
             ->setConstructorArgs([$this->settings_repo, $this->events])
             ->getMock();
 
-        $this->real_adapter = new ilPrgNotRestarted($this->settings_repo, $this->events);
+        $this->real_adapter = new ilPrgRestart($this->settings_repo, $this->events);
 
         $this->assignment_repo = $this->getMockBuilder(ilPRGAssignmentDBRepository::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['getAboutToExpire', 'storeExpiryInfoSentFor'])
+            ->onlyMethods(['getAboutToExpire', 'store'])
             ->getMock();
 
-        $this->job = new ilPrgUserNotRestartedCronJobMock($this->assignment_repo, $this->adapter);
+        $this->prg = $this->getMockBuilder(ilObjStudyProgramme::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getApplicableMembershipSourceForUser', 'getSettings', 'assignUser', 'getRefIdFor'])
+            ->getMock();
+
+        $this->job = new ilPrgRestartAssignmentsCronJobMock($this->assignment_repo, $this->adapter, $this->prg);
     }
 
-    public function testAboutToExpireForNoRelevantProgrammes(): void
+    public function testRestartAssignmentsForNoRelevantProgrammes(): void
     {
         $this->adapter
             ->expects($this->once())
@@ -83,21 +96,22 @@ class ilStudyProgrammeCronAboutToExpireTest extends TestCase
             ->method('getAboutToExpire');
         $this->assignment_repo
             ->expects($this->never())
-            ->method('storeExpiryInfoSentFor');
+            ->method('store');
         $this->adapter
             ->expects($this->never())
             ->method('actOnSingleAssignment');
         $this->job->run();
     }
 
-    public function testAboutToExpireForRelevantProgrammes(): void
+    public function testRestartAssignmentsForRelevantProgrammes(): void
     {
         $pgs1 = (new ilPRGProgress(11, ilPRGProgress::STATUS_COMPLETED));
         $ass1 = (new ilPRGAssignment(42, 7))
-            ->withProgressTree($pgs1);
+            ->withProgressTree($pgs1)
+            ->withManuallyAssigned(false);//will not be restarted
         $ass2 = (new ilPRGAssignment(43, 8))
-            ->withProgressTree($pgs1);
-
+            ->withProgressTree($pgs1)
+            ->withManuallyAssigned(true);
         $this->adapter
             ->expects($this->once())
             ->method('getRelevantProgrammeIds')
@@ -110,25 +124,61 @@ class ilStudyProgrammeCronAboutToExpireTest extends TestCase
             ->willReturn([$ass1, $ass2]);
 
         $this->assignment_repo
+            ->expects($this->exactly(1))
+            ->method('store');
+
+        $validity_settings = $this->getMockBuilder(ilStudyProgrammeValidityOfAchievedQualificationSettings::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getRestartRecheck'])
+            ->getMock();
+
+        $validity_settings
             ->expects($this->exactly(2))
-            ->method('storeExpiryInfoSentFor');
+            ->method('getRestartRecheck')
+            ->willReturn(true);
+
+        $settings = $this->getMockBuilder(ilStudyProgrammeSettings::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getValidityOfQualificationSettings'])
+            ->getMock();
+        $settings
+            ->expects($this->exactly(2))
+            ->method('getValidityOfQualificationSettings')
+            ->willReturn($validity_settings);
+
+        $this->prg
+            ->expects($this->exactly(2))
+            ->method('getSettings')
+            ->willReturn($settings);
+
+        $this->prg
+            ->expects($this->exactly(1))
+            ->method('getApplicableMembershipSourceForUser')
+            ->willReturn(null);
+
+        $this->prg
+            ->expects($this->exactly(1))
+            ->method('assignUser')
+            ->willReturn($ass1);
+
 
         $this->adapter
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(1))
             ->method('actOnSingleAssignment');
 
         $this->job->run();
     }
 
-    public function testAboutToExpireEvents(): void
+    public function testRestartAssignmentsEvents(): void
     {
         $pgs1 = (new ilPRGProgress(11, ilPRGProgress::STATUS_COMPLETED));
         $ass1 = (new ilPRGAssignment(42, 7))->withProgressTree($pgs1);
-        $ass2 = (new ilPRGAssignment(43, 8))->withProgressTree($pgs1);
+        $ass2 = (new ilPRGAssignment(43, 8))->withProgressTree($pgs1)
+         ->withManuallyAssigned(true);
 
         $this->settings_repo
             ->expects($this->once())
-            ->method('getProgrammeIdsWithMailsForExpiringValidity')
+            ->method('getProgrammeIdsWithReassignmentForExpiringValidity')
             ->willReturn([
                 42=>3,
                 43=>3
@@ -138,14 +188,18 @@ class ilStudyProgrammeCronAboutToExpireTest extends TestCase
             ->expects($this->once())
             ->method('getAboutToExpire')
             ->willReturn([$ass1, $ass2]);
+        $this->prg
+            ->expects($this->exactly(2))
+            ->method('assignUser')
+            ->will($this->onConsecutiveCalls($ass1, $ass2));
 
-        $job = new ilPrgUserNotRestartedCronJobMock($this->assignment_repo, $this->real_adapter);
+        $job = new ilPrgRestartAssignmentsCronJobMock($this->assignment_repo, $this->real_adapter, $this->prg);
         $job->run();
 
         $this->assertEquals(2, count($job->logs));
         $expected_events = [
-            ['informUserToRestart', ["usr_id" => 7, "ass_id" => 42, 'progress_id' => 11]],
-            ['informUserToRestart', ["usr_id" => 8, "ass_id" => 43, 'progress_id' => 11]],
+            ['userReAssigned', ["usr_id" => 7, "root_prg_ref_id" => 666]],
+            ['userReAssigned', ["usr_id" => 8, "root_prg_ref_id" => 666]],
         ];
         $this->assertEquals($expected_events, $this->events->raised);
     }

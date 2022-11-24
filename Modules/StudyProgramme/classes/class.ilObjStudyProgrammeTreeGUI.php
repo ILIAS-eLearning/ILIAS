@@ -349,7 +349,7 @@ class ilObjStudyProgrammeTreeGUI
     {
         $parent_id = null;
         if ($this->http_wrapper->query()->has("ref_id")) {
-            $this->http_wrapper->query()->retrieve("ref_id", $this->refinery->kindlyTo()->int());
+            $parent_id = $this->http_wrapper->query()->retrieve("ref_id", $this->refinery->kindlyTo()->int());
         }
         $this->checkAccessOrFail('create', $parent_id);
 

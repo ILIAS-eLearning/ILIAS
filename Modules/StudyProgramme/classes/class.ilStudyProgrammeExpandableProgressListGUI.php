@@ -30,7 +30,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
     protected bool $js_added = false;
     protected bool $css_added = false;
 
-    public function __construct(ilStudyProgrammeProgress $progress)
+    public function __construct(ilPRGProgress $progress)
     {
         parent::__construct($progress);
 
@@ -115,10 +115,9 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
     {
         // Make shouldShowSubProgress and newSubItem protected again afterwards, do
         // the same in the derived class ilStudyProgrammeIndividualPlanProgressListGUI.
-        $programme = ilObjStudyProgramme::getInstanceByObjId($this->progress->getNodeId());
-        $child_progresses = $programme->getChildrenProgress($this->progress);
+        $child_progresses = $this->progress->getSubnodes();
 
-        return implode("\n", array_map(function (ilStudyProgrammeProgress $progress) {
+        return implode("\n", array_map(function (ilPRGProgress $progress) {
             if (!$this->shouldShowSubProgress($progress)) {
                 return "";
             }
@@ -128,7 +127,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
         }, $child_progresses));
     }
 
-    protected function shouldShowSubProgress(ilStudyProgrammeProgress $progress): bool
+    protected function shouldShowSubProgress(ilPRGProgress $progress): bool
     {
         if ($progress->isRelevant()) {
             $prg = ilObjStudyProgramme::getInstanceByObjId($progress->getNodeId());
@@ -144,7 +143,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
         return false;
     }
 
-    protected function newSubItem(ilStudyProgrammeProgress $progress): ilStudyProgrammeExpandableProgressListGUI
+    protected function newSubItem(ilPRGProgress $progress): ilStudyProgrammeExpandableProgressListGUI
     {
         return new ilStudyProgrammeExpandableProgressListGUI($progress);
     }
@@ -239,7 +238,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
         return ilUtil::getImagePath("tree_col.svg");
     }
 
-    protected function getTitleAndIconTarget(ilStudyProgrammeProgress $progress): ?string
+    protected function getTitleAndIconTarget(ilPRGProgress $progress): ?string
     {
         return null;
     }

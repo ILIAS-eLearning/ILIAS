@@ -27,11 +27,13 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
     protected ?int $qualification_period;
     protected ?DateTimeImmutable $qualification_date;
     protected ?int $restart_period;
+    protected $restart_recheck;
 
     public function __construct(
         ?int $qualification_period,
         ?DateTimeImmutable $qualification_date,
-        ?int $restart_period
+        ?int $restart_period,
+        bool $restart_recheck
     ) {
         if (!is_null($qualification_period) && 0 > $qualification_period) {
             throw new InvalidArgumentException(
@@ -48,6 +50,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
         $this->qualification_period = $qualification_period;
         $this->qualification_date = $qualification_date;
         $this->restart_period = $restart_period;
+        $this->restart_recheck = $restart_recheck;
     }
 
     public function getQualificationPeriod(): ?int
@@ -136,12 +139,11 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
         $grp4 = $input->group([], $lng->txt('prg_no_restart'));
         $grp5 = $input->group(
             [
-                'vq_restart_period' => $input->numeric(
-                    '',
-                    $lng->txt('restart_period_desc')
-                )
-                ->withAdditionalTransformation($refinery->int()->isGreaterThanOrEqual(1))
-                ->withValue($this->getRestartPeriod())
+                'vq_restart_period' => $input->numeric($lng->txt('restart_period_label'), $lng->txt('restart_period_desc'))
+                    ->withAdditionalTransformation($refinery->int()->isGreaterThanOrEqual(0))
+                    ->withValue($this->getRestartPeriod() !== null ? $this->getRestartPeriod() : null),
+                'vq_restart_recheck' => $input->checkbox($lng->txt('restart_recheck_label'), $lng->txt('restart_recheck_desc'))
+                    ->withValue($this->getRestartRecheck())
             ],
             $lng->txt('restart_period')
         );
@@ -173,7 +175,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
         }
 
         $restart_value = 'opt_no_restart';
-        if (!is_null($this->getRestartPeriod()) && $this->getRestartPeriod() > 0) {
+        if (!is_null($this->getRestartPeriod()) && $this->getRestartPeriod() >= 0) {
             $restart_value = 'opt_restart_period';
         }
 
@@ -194,7 +196,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
             }
 
             if (isset($vals['validity_qualification'][1]['vq_date'])) {
-                $vq_date = $vals['validity_qualification'][1]['vq_date'];
+                $vq_date = new DateTime($vals['validity_qualification'][1]['vq_date']);
             }
 
             if (
@@ -207,8 +209,21 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
             return new ilStudyProgrammeValidityOfAchievedQualificationSettings(
                 $vq_period,
                 $vq_date,
-                $restart
+                $restart,
+                (bool) $vals['restart'][1]['vq_restart_recheck']
             );
         }));
+    }
+
+    public function getRestartRecheck(): bool
+    {
+        return $this->restart_recheck;
+    }
+
+    public function withRestartRecheck(bool $restart_recheck): ilStudyProgrammeValidityOfAchievedQualificationSettings
+    {
+        $clone = clone $this;
+        $clone->restart_recheck = $restart_recheck;
+        return $clone;
     }
 }

@@ -35,7 +35,8 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
         $obj = new ilStudyProgrammeValidityOfAchievedQualificationSettings(
             self::VALID_QUALIFICATION_PERIOD_1,
             new DateTimeImmutable(self::VALID_QUALIFICATION_DATE),
-            self::VALID_RESTART_PERIOD_1
+            self::VALID_RESTART_PERIOD_1,
+            true
         );
 
         $this->assertEquals(self::VALID_QUALIFICATION_PERIOD_1, $obj->getQualificationPeriod());
@@ -52,7 +53,8 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
             new ilStudyProgrammeValidityOfAchievedQualificationSettings(
                 self::INVALID_QUALIFICATION_PERIOD,
                 new DateTimeImmutable(self::VALID_QUALIFICATION_DATE),
-                self::VALID_RESTART_PERIOD_1
+                self::VALID_RESTART_PERIOD_1,
+                true
             );
             $this->fail();
         } catch (InvalidArgumentException $e) {
@@ -66,7 +68,8 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
             new ilStudyProgrammeValidityOfAchievedQualificationSettings(
                 self::VALID_QUALIFICATION_PERIOD_1,
                 new DateTimeImmutable(self::VALID_QUALIFICATION_DATE),
-                self::INVALID_RESTART_PERIOD
+                self::INVALID_RESTART_PERIOD,
+                true
             );
             $this->fail();
         } catch (InvalidArgumentException $e) {
@@ -79,7 +82,8 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
         $obj = new ilStudyProgrammeValidityOfAchievedQualificationSettings(
             self::VALID_QUALIFICATION_PERIOD_1,
             new DateTimeImmutable(self::VALID_QUALIFICATION_DATE),
-            self::VALID_RESTART_PERIOD_1
+            self::VALID_RESTART_PERIOD_1,
+            true
         );
 
         $new = $obj->withQualificationPeriod(self::VALID_QUALIFICATION_PERIOD_2);
@@ -93,7 +97,8 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
         $obj = new ilStudyProgrammeValidityOfAchievedQualificationSettings(
             self::VALID_QUALIFICATION_PERIOD_1,
             new DateTimeImmutable(self::VALID_QUALIFICATION_DATE),
-            self::VALID_RESTART_PERIOD_1
+            self::VALID_RESTART_PERIOD_1,
+            true
         );
 
         try {
@@ -109,7 +114,8 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
         $obj = new ilStudyProgrammeValidityOfAchievedQualificationSettings(
             self::VALID_QUALIFICATION_PERIOD_1,
             new DateTimeImmutable(self::VALID_QUALIFICATION_DATE),
-            self::VALID_RESTART_PERIOD_1
+            self::VALID_RESTART_PERIOD_1,
+            true
         );
 
         $new = $obj->withRestartPeriod(self::VALID_RESTART_PERIOD_2);
@@ -123,7 +129,8 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
         $obj = new ilStudyProgrammeValidityOfAchievedQualificationSettings(
             self::VALID_QUALIFICATION_PERIOD_1,
             new DateTimeImmutable(self::VALID_QUALIFICATION_DATE),
-            self::VALID_RESTART_PERIOD_1
+            self::VALID_RESTART_PERIOD_1,
+            true
         );
 
         try {
@@ -151,7 +158,8 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
         $obj = new ilStudyProgrammeValidityOfAchievedQualificationSettings(
             self::VALID_QUALIFICATION_PERIOD_1,
             new DateTimeImmutable(self::VALID_QUALIFICATION_DATE),
-            self::VALID_RESTART_PERIOD_1
+            self::VALID_RESTART_PERIOD_1,
+            true
         );
 
         $lng->expects($this->atLeastOnce())
@@ -163,7 +171,10 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
                 ['validity_qualification_date_desc'],
                 ['validity_qualification_date'],
                 ['prg_no_restart'],
+                ['restart_period_label'],
                 ['restart_period_desc'],
+                ['restart_recheck_label'],
+                ['restart_recheck_desc'],
                 ['restart_period'],
                 ['prg_validity_of_qualification']
             )
@@ -174,7 +185,10 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
                 'validity_qualification_date_desc',
                 'validity_qualification_date',
                 'prg_no_restart',
+                'restart_period_label',
                 'restart_period_desc',
+                'restart_recheck_label',
+                'restart_recheck_desc',
                 'restart_period',
                 'prg_validity_of_qualification'
             ))
@@ -195,5 +209,18 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
         $restart_field = $field->getInputs()['restart']->getValue()[1]['vq_restart_period'];
 
         $this->assertEquals(self::VALID_RESTART_PERIOD_1, $restart_field);
+    }
+
+    public function testWithRestartRecheck(): void
+    {
+        $obj = new ilStudyProgrammeValidityOfAchievedQualificationSettings(
+            self::VALID_QUALIFICATION_PERIOD_1,
+            new DateTimeImmutable(self::VALID_QUALIFICATION_DATE),
+            self::VALID_RESTART_PERIOD_1,
+            true
+        );
+
+        $this->assertTrue($obj->getRestartRecheck());
+        $this->assertFalse($obj->withRestartRecheck(false)->getRestartRecheck());
     }
 }
