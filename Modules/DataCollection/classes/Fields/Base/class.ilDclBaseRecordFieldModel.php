@@ -266,7 +266,7 @@ class ilDclBaseRecordFieldModel
 
 
     /**
-     * Function to parse incoming data from form input value $value. returns the string/number/etc. to store in the database.
+     * Function to parse incoming data from form input value $value. returns the string/number/etc. to export.
      *
      * @param mixed $value
      *

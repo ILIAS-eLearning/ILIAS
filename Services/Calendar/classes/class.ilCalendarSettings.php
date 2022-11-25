@@ -669,10 +669,11 @@ class ilCalendarSettings
 
     /**
      * returns the date format string corresponding to the int constant date format value
-     * @param $dateFormat
+     * @param int $dateFormat
      * @return string
      */
-    public static function getDateFormatString($dateFormat) {
+    public static function getDateFormatString(int $dateFormat): string
+    {
         switch ($dateFormat) {
             case ilCalendarSettings::DATE_FORMAT_DMY:
                 $formatString = 'd.m.Y';

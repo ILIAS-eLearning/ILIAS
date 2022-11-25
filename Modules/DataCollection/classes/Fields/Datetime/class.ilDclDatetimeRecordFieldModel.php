@@ -32,7 +32,7 @@ class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
 
 
     /**
-     * Function to parse incoming data from form input value $value. returns the string/number/etc. to store in the export file.
+     * Function to parse incoming data from form input value $value. returns the string/number/etc. to export.
      *
      * @param mixed $value
      *
@@ -40,10 +40,8 @@ class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     public function parseExportValue($value)
     {
-        global $DIC;
-        $ilUser = $DIC->user();
         $datetime = date_create($value);
-        $user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
+        $user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
         $dateFormat = ilCalendarSettings::getDateFormatString($user_settings->getDateFormat());
         return $datetime->format($dateFormat);
     }
