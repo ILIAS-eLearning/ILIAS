@@ -2333,8 +2333,8 @@ class ilObject
     }
 
     /**
-     * @param $a_target_id
-     * @param $a_copy_id
+     * @param $a_child_ref_id
+     * @param $a_clone_ref_id
      * @return void
      */
     public function handleChildCloning($a_child_ref_id, $a_clone_ref_id)
