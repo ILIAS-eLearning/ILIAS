@@ -77,13 +77,12 @@ class Group extends Input implements C\Input\Field\Group
 
     public function isRequired()
     {
-        $required = false;
         foreach ($this->getInputs() as $input) {
             if ($input->isRequired()) {
-                $required = true;
+                return true;
             }
         }
-        return $required;
+        return false;
     }
 
     public function withOnUpdate(Signal $signal)
