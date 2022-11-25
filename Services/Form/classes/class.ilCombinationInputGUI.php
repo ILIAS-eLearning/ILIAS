@@ -129,6 +129,8 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
             foreach ($a_value as $id => $value) {
                 if (isset($this->items[$id])) {
                     if (method_exists($this->items[$id], "setValue")) {
+                        // BT 35708: numeric inputs in table filters do not take floats as values
+                        $value = is_float($value) ? (string) $value : $value;
                         $this->items[$id]->setValue($value);
                     }
                     // datetime

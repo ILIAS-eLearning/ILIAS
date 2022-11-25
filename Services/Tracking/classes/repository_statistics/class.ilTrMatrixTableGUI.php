@@ -708,7 +708,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                     case "status_changed":
                     */
                 default:
-                    $val = $this->parseValue($c, $a_set[$c], "user");
+                    $val = $this->parseValue($c, $a_set[$c] ?? '', "user");
                     $a_excel->setCell($a_row, $cnt, $val);
                     break;
             }
@@ -791,7 +791,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                     case "status_changed":
                     */
                 default:
-                    $val = $this->parseValue($c, $a_set[$c], "user");
+                    $val = $this->parseValue($c, $a_set[$c] ?? '', "user");
                     $a_csv->addColumn($val);
                     break;
             }

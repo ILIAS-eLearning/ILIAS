@@ -90,7 +90,8 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
     {
         $data = unserialize($a_data);
 
-        if ($data) {
+        // BT 35716: table filters with numeric input fields should accept 0
+        if ($data || $data === 0 || $data === 0. || $data === '0') {
             $this->setValue((string) $data);
         } else {
             $this->setValue(null);
