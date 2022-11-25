@@ -1311,13 +1311,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $tpl->parseCurrentBlock();
 
             if ($this->object->isShowExamIdInTestResultsEnabled()) {
-                $tpl->setCurrentBlock('exam_id');
                 $tpl->setVariable('EXAM_ID', ilObjTest::lookupExamId(
                     $testSession->getActiveId(),
                     $pass
                 ));
                 $tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
-                $tpl->parseCurrentBlock();
             }
         }
 
