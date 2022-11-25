@@ -12,6 +12,17 @@
  */
 class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
 {
+    protected string $date_format;
+
+    public function __construct(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field)
+    {
+        parent::__construct($record, $field);
+        $this->date_format = ilCalendarSettings::getDateFormatString(
+            ilCalendarUserSettings::_getInstanceByUserId($this->user->getId())->getDateFormat()
+        );
+
+    }
+
     public function parseValue($value)
     {
         return $value;
@@ -40,10 +51,7 @@ class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     public function parseExportValue($value)
     {
-        $datetime = date_create($value);
-        $user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
-        $dateFormat = ilCalendarSettings::getDateFormatString($user_settings->getDateFormat());
-        return $datetime->format($dateFormat);
+        return date_create($value)->format($this->date_format);
     }
 
 
