@@ -1261,7 +1261,7 @@ class ilTrQuery
 
                     case "read_count":
                         if (!$a_aggregate) {
-                            if (isset($value["from"])) {
+                            if (isset($value["from"]) && $value["from"] > 0) {
                                 $where[] = "(read_event." . $id . "+read_event.childs_" . $id . ") >= " . $ilDB->quote(
                                     $value["from"],
                                     "integer"
@@ -1275,14 +1275,14 @@ class ilTrQuery
                                     " OR (read_event." . $id . "+read_event.childs_" . $id . ") IS NULL)";
                             }
                         } else {
-                            if (isset($value["from"])) {
-                                $having[] = "SUM(read_event." . $id . "+read_event.childs_" . $id . ") >= " . $ilDB->quote(
+                            if (isset($value["from"]) && $value["from"] > 0) {
+                                $having[] = "IFNULL(SUM(read_event." . $id . "+read_event.childs_" . $id . "),0) >= " . $ilDB->quote(
                                     $value["from"],
                                     "integer"
                                 );
                             }
                             if (isset($value["to"])) {
-                                $having[] = "SUM(read_event." . $id . "+read_event.childs_" . $id . ") <= " . $ilDB->quote(
+                                $having[] = "IFNULL(SUM(read_event." . $id . "+read_event.childs_" . $id . "),0) <= " . $ilDB->quote(
                                     $value["to"],
                                     "integer"
                                 );
@@ -1334,7 +1334,7 @@ class ilTrQuery
         }
         if (sizeof($having)) {
             // ugly "having" hack because of summary view
-            $sql .= " [[--HAVING " . implode(" AND ", $having) . "HAVING--]]";
+            $sql .= " [[--HAVING " . implode(" AND ", $having) . " HAVING--]]";
         }
 
         return $sql;
