@@ -175,7 +175,7 @@ declare(strict_types=1);
                     } else {
                         if (!is_array($this->specificAllowedStatements) || (is_array($this->specificAllowedStatements) && in_array($verb, $this->specificAllowedStatements))) {
                             $this->log()->debug($this->msg("statement is allowed - " . $verb));
-                            array_push($up, $obj[$i]);
+                            $up[] = $singleObj;
                         }
                     }
                 }
@@ -290,11 +290,11 @@ declare(strict_types=1);
 
         private function isSubStatementCheck(object $obj): bool
         {
-            if (
-                isset($obj->context) &&
-                isset($obj->context->contextActivities) &&
-                is_array($obj->context->contextActivities->parent)
-            ) {
+            $object = \ilObjectFactory::getInstanceByObjId($this->authToken->getObjId()); // get ActivityId in Constructor for better performance, is also used in handleEvaluationStatement
+            $objActivityId = $object->getActivityId();
+            $statementActivityId = $obj->object->id;
+            if ($statementActivityId != $objActivityId) {
+                $this->log()->debug($this->msg("statement object id " . $statementActivityId . " != activityId " . $objActivityId));
                 $this->log()->debug($this->msg("is Substatement"));
                 return true;
             } else {

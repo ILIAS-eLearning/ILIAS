@@ -56,7 +56,13 @@ declare(strict_types=1);
             }
         }
 
-        public function handleResponse(Request $request, Response $response, ?string $fakePostBody = null): void
+        /**
+         * @param Request     $request
+         * @param Response    $response
+         * @param string|array|null $fakePostBody
+         * @return void
+         */
+        public function handleResponse(Request $request, Response $response, $fakePostBody = null): void
         {
             // check transfer encoding bug
             if ($fakePostBody !== null) {
@@ -81,7 +87,11 @@ declare(strict_types=1);
             }
         }
 
-        public function fakeResponseBlocked(?string $post = null): void
+        /**
+         * @param string|array|null $post
+         * @return void
+         */
+        public function fakeResponseBlocked($post = null): void
         {
             $this->xapiproxy->log()->debug($this->msg("fakeResponseFromBlockedRequest"));
             if ($post === null) {
