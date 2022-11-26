@@ -85,8 +85,7 @@ class ilCmiXapiAccess
         if ($this->object->isStatementsReportEnabled()) {
             return true;
         }
-
-        return $this->hasOutcomesAccess();
+        return false;
     }
 
     public function hasHighscoreAccess(): bool
@@ -94,8 +93,7 @@ class ilCmiXapiAccess
         if ($this->object->getHighscoreEnabled()) {
             return true;
         }
-
-        return $this->hasOutcomesAccess();
+        return false;
     }
 
     public static function getInstance(ilObjCmiXapi $object): \ilCmiXapiAccess
