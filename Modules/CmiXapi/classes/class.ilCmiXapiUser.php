@@ -556,7 +556,7 @@ class ilCmiXapiUser
 
     public static function getUUID(int $length = 32): string
     {
-        $multiplier = floor($length / 8) * 2;
+        $multiplier = (int) floor($length / 8) * 2;
         $uid = str_shuffle(str_repeat(uniqid(), $multiplier));
 
         try {

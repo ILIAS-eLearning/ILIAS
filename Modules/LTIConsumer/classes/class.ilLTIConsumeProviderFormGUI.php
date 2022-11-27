@@ -258,6 +258,13 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $item->addOption($op);
 
         $op = new ilRadioOption(
+            $lng->txt('conf_privacy_ident_il_uuid_random'),
+            (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_RANDOM
+        );
+        $op->setInfo($lng->txt('conf_privacy_ident_il_uuid_random_info'));
+        $item->addOption($op);
+
+        $op = new ilRadioOption(
             $lng->txt('conf_privacy_ident_real_email'),
             (string) ilLTIConsumeProvider::PRIVACY_IDENT_REAL_EMAIL
         );
@@ -637,6 +644,13 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
             (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_SHA256URL
         );
         $op->setInfo($lng->txt('conf_privacy_ident_il_uuid_sha256url_info'));
+        $item->addOption($op);
+
+        $op = new ilRadioOption(
+            $lng->txt('conf_privacy_ident_il_uuid_random'),
+            (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_RANDOM
+        );
+        $op->setInfo($lng->txt('conf_privacy_ident_il_uuid_random_info'));
         $item->addOption($op);
 
         $op = new ilRadioOption(
