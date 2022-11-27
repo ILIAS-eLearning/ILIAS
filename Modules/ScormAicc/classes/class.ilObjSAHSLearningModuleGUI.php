@@ -581,6 +581,14 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $baseClass = $refId = $DIC->http()->wrapper()->query()->retrieve('baseClass', $DIC->refinery()->kindlyTo()->string());
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
         $this->tpl->setTitle($this->object->getTitle());
+        $this->tpl->setDescription($this->object->getDescription());
+        if ($this->object && $this->object->getOfflineStatus()) {
+            $this->tpl->setAlertProperties(array(
+                array("alert" => true,
+                      "property" => $this->lng->txt("status"),
+                      "value" => $this->lng->txt("offline"))
+            ));
+        }
         if (strtolower($baseClass) === "ilsahseditgui" || strtolower($baseClass) === "ilrepositorygui") {
             $this->getTabs();
         }
@@ -624,15 +632,16 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
         // file system gui tabs
         // properties
-        $ilCtrl->setParameterByClass("ilfilesystemgui", "resetoffset", 1);
-        $this->tabs_gui->addTarget(
-            "cont_list_files",
-            $this->ctrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"),
-            "",
-            "ilfilesystemgui"
-        );
-        $ilCtrl->setParameterByClass("ilfilesystemgui", "resetoffset", "");
-
+        if ($rbacsystem->checkAccess("write", "", $this->object->getRefId())) {
+            $ilCtrl->setParameterByClass("ilfilesystemgui", "resetoffset", 1);
+            $this->tabs_gui->addTarget(
+                "cont_list_files",
+                $this->ctrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"),
+                "",
+                "ilfilesystemgui"
+            );
+            $ilCtrl->setParameterByClass("ilfilesystemgui", "resetoffset", "");
+        }
         // info screen
         $force_active = ($this->ctrl->getNextClass() === "ilinfoscreengui")
             ? true
@@ -654,17 +663,31 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             get_class($this)
         );
 
-        if (ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
+//        if (ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
+//            $this->tabs_gui->addTarget(
+//                'learning_progress',
+//                $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'), ''),
+//                '',
+//                array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui')
+//            );
+//        }
+
+        // tracking data
+        if ($rbacsystem->checkAccess("read_learning_progress", "", $this->object->getRefId()) || $rbacsystem->checkAccess("edit_learning_progress", "", $this->object->getRefId())) {
+            $ar_rights = [];
+            if ($rbacsystem->checkAccess("read_learning_progress", "", $this->object->getRefId())) {
+                $ar_rights = ['illplistofobjectsgui'];
+            }
+            if ($rbacsystem->checkAccess("edit_learning_progress", "", $this->object->getRefId())) {
+                $ar_rights[] = 'illplistofsettingsgui';
+            }
             $this->tabs_gui->addTarget(
                 'learning_progress',
                 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'), ''),
                 '',
-                array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui')
+                $ar_rights
             );
-        }
 
-        // tracking data
-        if ($rbacsystem->checkAccess("read_learning_progress", "", $this->object->getRefId()) || $rbacsystem->checkAccess("edit_learning_progress", "", $this->object->getRefId())) {
             if ($this->object->getSubType() === "scorm2004" || $this->object->getSubType() === "scorm") {
                 $privacy = ilPrivacySettings::getInstance();
                 if ($privacy->enabledSahsProtocolData()) {
@@ -681,18 +704,20 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 }
             }
         }
-        $mdgui = new ilObjectMetaDataGUI($this->object);
-        $mdtab = $mdgui->getTab();
-        if ($mdtab) {
-            $this->tabs_gui->addTarget(
-                "meta_data",
-                $mdtab,
-                "",
-                "ilmdeditorgui"
-            );
-        }
 
-        // export
+        if ($rbacsystem->checkAccess("write", "", $this->object->getRefId())) {
+            $mdgui = new ilObjectMetaDataGUI($this->object);
+            $mdtab = $mdgui->getTab();
+            if ($mdtab) {
+                $this->tabs_gui->addTarget(
+                    "meta_data",
+                    $mdtab,
+                    "",
+                    "ilmdeditorgui"
+                );
+            }
+        }
+        // export - Jour Fixe Date for Decission not to allow for Users with Right Wirite?
         if ($rbacsystem->checkAccess("edit", "", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "export",
@@ -703,7 +728,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         }
 
         // perm
-        if ($rbacsystem->checkAccess('edit', "", $this->object->getRefId())) {
+        if ($rbacsystem->checkAccess('edit_permission', "", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
