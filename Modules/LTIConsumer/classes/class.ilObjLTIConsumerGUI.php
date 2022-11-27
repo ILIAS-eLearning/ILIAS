@@ -33,6 +33,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerXapiStatementsGUI
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerScoringGUI
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerContentGUI
+ * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerGradeSynchronizationGUI
  */
 class ilObjLTIConsumerGUI extends ilObject2GUI
 {
@@ -44,6 +45,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     public const TAB_ID_SETTINGS = 'tab_settings';
     public const TAB_ID_STATEMENTS = 'tab_statements';
     public const TAB_ID_SCORING = 'tab_scoring';
+    public const TAB_ID_GRADE_SYNCHRONIZATION = 'tab_grade_synchronization';
     public const TAB_ID_METADATA = 'tab_metadata';
     public const TAB_ID_LEARNING_PROGRESS = 'learning_progress';
     public const TAB_ID_PERMISSIONS = 'perm_settings';
@@ -785,6 +787,15 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
                 break;
 
+            case strtolower(ilLTIConsumerGradeSynchronizationGUI::class):
+
+                $DIC->tabs()->activateTab(self::TAB_ID_GRADE_SYNCHRONIZATION);
+
+                $gui = new ilLTIConsumerGradeSynchronizationGUI($obj);
+                $DIC->ctrl()->forwardCommand($gui);
+
+                break;
+
             case strtolower(ilLTIConsumerContentGUI::class):
 
                 $DIC->tabs()->activateTab(self::TAB_ID_CONTENT);
@@ -874,11 +885,19 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         }
 
         if ($this->ltiAccess->hasHighscoreAccess()) {
-            $DIC->language()->loadLanguageModule('lti');
+            //$DIC->language()->loadLanguageModule('lti');
             $DIC->tabs()->addTab(
                 self::TAB_ID_SCORING,
                 $DIC->language()->txt(self::TAB_ID_SCORING),
                 $DIC->ctrl()->getLinkTargetByClass(ilLTIConsumerScoringGUI::class)
+            );
+        }
+
+        if ($this->object->getProvider()->isGradeSynchronization()) {
+            $DIC->tabs()->addTab(
+                self::TAB_ID_GRADE_SYNCHRONIZATION,
+                $DIC->language()->txt(self::TAB_ID_GRADE_SYNCHRONIZATION),
+                $DIC->ctrl()->getLinkTargetByClass(ilLTIConsumerGradeSynchronizationGUI::class)
             );
         }
 

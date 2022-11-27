@@ -174,6 +174,11 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $lti13->addSubItem($contentItem);
 
         //grade sync
+        $gradeSynchronization = new ilCheckboxInputGUI($lng->txt('lti_con_grade_synchronization'), 'grade_synchronization');
+        $gradeSynchronization->setInfo($lng->txt('lti_con_grade_synchronization_info'));
+        $gradeSynchronization->setValue('1');
+        $gradeSynchronization->setChecked($this->provider->isGradeSynchronization());
+        $lti13->addSubItem($gradeSynchronization);
 
         if ($this->provider->getId() > 0) {
             $Lti13Info = new ilTextAreaInputGUI($lng->txt('lti13_hints'), 'lti13_hints');
@@ -565,6 +570,11 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $lti13->addSubItem($contentItem);
 
         //grade sync
+        $gradeSynchronization = new ilCheckboxInputGUI($lng->txt('lti_con_grade_synchronization'), 'grade_synchronization');
+        $gradeSynchronization->setInfo($lng->txt('lti_con_grade_synchronization_info'));
+        $gradeSynchronization->setValue('1');
+        $gradeSynchronization->setChecked($this->provider->isGradeSynchronization());
+        $lti13->addSubItem($gradeSynchronization);
 
         $Lti13Info = new ilTextAreaInputGUI($lng->txt('lti13_hints'), 'lti13_hints');
         $Lti13Info->setRows(6);
@@ -884,6 +894,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
             if ($provider->isContentItem()) {
                 $provider->setContentItemUrl($this->getInput('content_item_url'));
             }
+            $provider->setGradeSynchronization((bool) $this->getInput('grade_synchronization'));
         }
         $provider->setPrivacyIdent((int) $this->getInput('privacy_ident'));
         $provider->setInstructorSendEmail((bool) $this->getInput('instructor_email'));

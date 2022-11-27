@@ -10492,6 +10492,9 @@ lti#:#field_provider_xml_info#:#Unterstützt werden XML-Dateien für Tool Consum
 lti#:#form_import_provider#:#Globalen Provider bzw. globales Tool importieren
 lti#:#gbl_roles_to_users#:#LTI-Nutzern zugeordnete globale Rolle
 lti#:#global_provider_subtab#:#Globale Provider bzw. Tools für alle Anwender
+lti#:#grade_activityProgress_completed#:#vollständig bearbeitet
+lti#:#grade_activityProgress_passed#:#bestanden
+lti#:#grade_all_verbs#:#alle Statusangaben
 lti#:#highscore_achieved_ts#:#Datum
 lti#:#highscore_achieved_ts_description#:#Eine Spalte mit dem Datum wird in die Platzierungen aufgenommen.
 lti#:#highscore_all_tables#:#Eigener Rang und Bestenliste
@@ -10543,6 +10546,8 @@ lti#:#lti_at_least_one_prov_has_usages#:#Mindestens ein Provider bzw. Tool konnt
 lti#:#lti_auth_failed_invalid_key#:#Authentifizierung nicht möglich. Es wurde kein gültiger Consumer-Key übermittelt.
 lti#:#lti_con_content_item#:#Unterstützung für Deep Linking
 lti#:#lti_con_content_item_url#:#Inhalts-URL
+lti#:#lti_con_grade_synchronization#:#Erweiterte Benotungsdienste
+lti#:#lti_con_grade_synchronization_info#:#Das LTI-Tool muss 'Assignment and Grade Services' anbieten.
 lti#:#lti_con_initiate_login_url#:#Initiate Login URL
 lti#:#lti_con_key_type#:#Typ des öffentlichen Schlüssels
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
@@ -10690,10 +10695,18 @@ lti#:#subtab_certificate#:#Zertifikat
 lti#:#subtab_object_settings#:#Objekteinstellungen
 lti#:#subtab_provider_settings#:#Einstellungen für Provider bzw. Tool
 lti#:#tab_content#:#Inhalt
+lti#:#tab_grade_synchronization#:#Erweiterte Benotungsdienste
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Platzierungen
 lti#:#tab_settings#:#Einstellungen
 lti#:#tab_statements#:#Lernerfahrungen
+lti#:#tbl_grade_activityProgress#:#Auswahl Status
+lti#:#tbl_grade_activityProgress_select#:#Status
+lti#:#tbl_grade_actor#:#Benutzer
+lti#:#tbl_grade_date#:#Datum
+lti#:#tbl_grade_object#:#Objekt
+lti#:#tbl_grade_period#:#Zeitraum
+lti#:#tbl_grade_score#:#Punkte
 lti#:#tbl_lti_prov_all_categories#:#Alle Kategorien
 lti#:#tbl_lti_prov_availability#:#Verfügbarkeit
 lti#:#tbl_lti_prov_category#:#Kategorie

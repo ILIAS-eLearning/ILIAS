@@ -19,15 +19,14 @@ declare(strict_types=1);
  *********************************************************************/
 
 /**
- * Class ilLTIConsumerXapiStatementsGUI
+ * Class ilLTIConsumerGradeSynchronizationGUI
  *
  * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
- * @author      Björn Heyser <info@bjoernheyser.de>
  * @author      Stefan Schneider <info@eqsoft.de>
  *
  * @package     Module/LTIConsumer
  */
-class ilLTIConsumerXapiStatementsGUI
+class ilLTIConsumerGradeSynchronizationGUI
 {
     /**
      * @var ilObjLTIConsumer
@@ -52,14 +51,14 @@ class ilLTIConsumerXapiStatementsGUI
     }
 
     /**
-     * @throws ilCmiXapiException
+     * @throws ilLtiConsumerException
      */
-    public function executeCommand(): void
+    public function executeCommand(): bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-        if (!$this->access->hasStatementsAccess()) {
-            throw new ilCmiXapiException('access denied!');
+        if (!$this->object->getProvider()->isGradeSynchronization()) {
+            throw new ilLtiConsumerException('access denied!');
         }
 
         switch ($DIC->ctrl()->getNextClass($this)) {
@@ -67,6 +66,7 @@ class ilLTIConsumerXapiStatementsGUI
                 $cmd = $DIC->ctrl()->getCmd('show') . 'Cmd';
                 $this->{$cmd}();
         }
+        return true;
     }
 
     protected function resetFilterCmd(): void
@@ -92,9 +92,9 @@ class ilLTIConsumerXapiStatementsGUI
         $table = $this->buildTableGUI();
 
         try {
-            $statementsFilter = new ilCmiXapiStatementsReportFilter();
+            $statementsFilter = new ilLTIConsumerGradeSynchronizationFilter();
 
-            $statementsFilter->setActivityId($this->object->getActivityId());
+            $statementsFilter->setActivityId($this->object->getProvider()->getContentItemUrl());
 
             $this->initLimitingAndOrdering($statementsFilter, $table);
             $this->initActorFilter($statementsFilter, $table);
@@ -111,7 +111,7 @@ class ilLTIConsumerXapiStatementsGUI
         $DIC->ui()->mainTemplate()->setContent($table->getHTML());
     }
 
-    protected function initLimitingAndOrdering(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table): void
+    protected function initLimitingAndOrdering(ilLTIConsumerGradeSynchronizationFilter $filter, ilLTIConsumerGradeSynchronizationTableGUI $table): void
     {
         $table->determineOffsetAndOrder();
 
@@ -122,11 +122,11 @@ class ilLTIConsumerXapiStatementsGUI
         $filter->setOrderDirection($table->getOrderDirection());
     }
 
-    protected function initActorFilter(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table): void
+    protected function initActorFilter(ilLTIConsumerGradeSynchronizationFilter $filter, ilLTIConsumerGradeSynchronizationTableGUI $table): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-        if ($this->access->hasOutcomesAccess()) {
+        if ($this->object->getProvider()->isGradeSynchronization()) {
             $actor = $table->getFilterItemByPostVar('actor')->getValue();
 
             if (strlen($actor)) {
@@ -145,16 +145,18 @@ class ilLTIConsumerXapiStatementsGUI
         }
     }
 
-    protected function initVerbFilter(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table): void
+    protected function initVerbFilter(ilLTIConsumerGradeSynchronizationFilter $filter, ilLTIConsumerGradeSynchronizationTableGUI $table): void
     {
         $verb = urldecode($table->getFilterItemByPostVar('verb')->getValue());
 
-        if (ilCmiXapiVerbList::getInstance()->isValidVerb($verb)) {
+        $verbsallowed = ['completed', 'passed'];
+
+        if (in_array($verb, $verbsallowed)) {
             $filter->setVerb($verb);
         }
     }
 
-    protected function initPeriodFilter(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table): void
+    protected function initPeriodFilter(ilLTIConsumerGradeSynchronizationFilter $filter, ilLTIConsumerGradeSynchronizationTableGUI $table): void
     {
         $period = $table->getFilterItemByPostVar('period');
 
@@ -189,40 +191,17 @@ class ilLTIConsumerXapiStatementsGUI
         exit();
     }
 
-    protected function initTableData(ilCmiXapiStatementsTableGUI $table, ilCmiXapiStatementsReportFilter $filter): void
+    protected function initTableData(ilLTIConsumerGradeSynchronizationTableGUI $table, ilLTIConsumerGradeSynchronizationFilter $filter): void
     {
-        $aggregateEndPointUrl = str_replace(
-            'data/xAPI',
-            'api/statements/aggregate',
-            $this->object->getProvider()->getXapiLaunchUrl() // should be named endpoint not launch url
-        );
-
-        $linkBuilder = new ilCmiXapiStatementsReportLinkBuilder(
-            $this->object->getId(),
-            $aggregateEndPointUrl,
-            $filter
-        );
-
-        $basicAuth = ilCmiXapiLrsType::buildBasicAuth(
-            $this->object->getProvider()->getXapiLaunchKey(),
-            $this->object->getProvider()->getXapiLaunchSecret()
-        );
-
-        $request = new ilCmiXapiStatementsReportRequest(
-            $basicAuth,
-            $linkBuilder
-        );
-
-        $statementsReport = $request->queryReport($this->object->getId());
-        $table->setData($statementsReport->getTableData());
-        $table->setMaxCount($statementsReport->getMaxCount());
+//        $table->setData($statementsReport->getTableData());
+//        $table->setMaxCount($statementsReport->getMaxCount());
     }
 
-    protected function buildTableGUI(): ilCmiXapiStatementsTableGUI
+    protected function buildTableGUI(): ilLTIConsumerGradeSynchronizationTableGUI
     {
         $isMultiActorReport = $this->access->hasOutcomesAccess();
 
-        $table = new ilCmiXapiStatementsTableGUI($this, 'show', $isMultiActorReport);
+        $table = new ilLTIConsumerGradeSynchronizationTableGUI($this, 'show', $isMultiActorReport);
         $table->setFilterCommand('applyFilter');
         $table->setResetCommand('resetFilter');
         return $table;
