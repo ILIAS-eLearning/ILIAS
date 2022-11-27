@@ -31,44 +31,44 @@ declare(strict_types=1);
 */
 class ilObjSAHSLearningModule extends ilObject
 {
-    private string $api_func_prefix;
-    private string $credit_mode;
-    private string $lesson_mode;
-    private int $style_id;
-    private string $auto_review;
-    private int $max_attempt;
-    private int $module_version;
-    private int $assigned_glossary;
-    private bool $session;
-    private bool $no_menu;
-    private bool $hide_navig;
-    private bool $ie_force_render;
-    private bool $fourth_edition;
-    private bool $interactions;
-    private bool $objectives;
-    private bool $comments;
-    private bool $time_from_lms;
-    private bool $check_values;
-    private bool $debug;
-    private bool $auto_continue;
-    private bool $auto_last_visited;
-    private bool $auto_suspend;
-    private int $open_mode;
-    private int $width;
-    private int $height;
+    private string $api_func_prefix = 'LMS';
+    private string $credit_mode = 'credit';
+    private string $lesson_mode ='normal';
+    private int $style_id = 0;
+    private string $auto_review = 'n';
+    private int $max_attempt = 0;
+    private int $module_version = 1;
+    private int $assigned_glossary = 0;
+    private bool $session = false;
+    private bool $no_menu = false;
+    private bool $hide_navig = false;
+    private bool $ie_force_render = false;
+    private bool $fourth_edition = false;
+    private bool $interactions = true;
+    private bool $objectives = true;
+    private bool $comments = true;
+    private bool $time_from_lms = false;
+    private bool $check_values = true;
+    private bool $debug = false;
+    private bool $auto_continue = false;
+    private bool $auto_last_visited = true;
+    private bool $auto_suspend = false;
+    private int $open_mode = 0;
+    private int $width = 950;
+    private int $height = 650;
     private ?int $mastery_score = null;
-    private int $id_setting;
-    private int $name_setting;
-    private string $sub_type;
+    private int $id_setting = 0;
+    private int $name_setting = 0;
+    private string $sub_type = 'scorm';
     protected bool $sequencing = false;
 
     protected string $localization = "";
 
     protected string $mastery_score_values = "";
 
-    protected int $tries;
+    protected int $tries = 0;
 
-    protected string $api_adapter;
+    protected string $api_adapter = 'API';
 
     /**
     * Constructor
@@ -1281,12 +1281,6 @@ class ilObjSAHSLearningModule extends ilObject
         return $new_obj;
     }
 
-//    public function zipLmForOfflineMode()
-//    {
-//        $lmDir = ilUtil::getWebspaceDir("filesystem") . "/lm_data/lm_" . $this->getId();
-//        $zipFile = ilUtil::getDataDir() . "/lm_data/lm_" . $this->getId();
-//        return ilUtil::zip($lmDir, $zipFile, true);
-//    }
 
     /**
      * Get cmi.core.student_id / cmi.learner_id for API
