@@ -1416,12 +1416,12 @@ abstract class assQuestion
             array($active_id, $pass)
         );
 
-        $row = $ilDB->fetchAssoc($result);
+        $row_result = $ilDB->fetchAssoc($result);
 
-        $max = $row['maxpoints'];
-        $reached = $row['points'];
+        $max = $row_result['maxpoints'];
+        $reached = $row_result['points'];
 
-        $obligationsAnswered = (int) $row['obligations_answered'];
+        $obligationsAnswered = (int) $row_result['obligations_answered'];
 
         include_once "./Modules/Test/classes/class.assMarkSchema.php";
 
@@ -1432,7 +1432,7 @@ abstract class assQuestion
         $isPassed = ($mark["passed"] ? 1 : 0);
         $isFailed = (!$mark["passed"] ? 1 : 0);
 
-        $userTestResultUpdateCallback = function () use ($ilDB, $active_id, $pass, $max, $reached, $isFailed, $isPassed, $obligationsAnswered, $row, $mark) {
+        $userTestResultUpdateCallback = function () use ($ilDB, $active_id, $pass, $max, $reached, $isFailed, $isPassed, $obligationsAnswered, $row_result, $mark) {
             $passedOnceBefore = 0;
             $query = "SELECT passed_once FROM tst_result_cache WHERE active_fi = %s";
             $res = $ilDB->queryF($query, array('integer'), array($active_id));
@@ -1459,8 +1459,8 @@ abstract class assQuestion
                 'passed' => array('integer', $isPassed),
                 'failed' => array('integer', $isFailed),
                 'tstamp' => array('integer', time()),
-                'hint_count' => array('integer', $row['hint_count']),
-                'hint_points' => array('float', $row['hint_points']),
+                'hint_count' => array('integer', $row_result['hint_count']),
+                'hint_points' => array('float', $row_result['hint_points']),
                 'obligations_answered' => array('integer', $obligationsAnswered)
             ));
         };
