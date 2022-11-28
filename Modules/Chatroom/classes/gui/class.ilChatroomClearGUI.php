@@ -35,12 +35,11 @@ class ilChatroomClearGUI extends ilChatroomGUIHandler
         $this->exitIfNoRoomExists($room);
 
         $chat_user = new ilChatroomUser($this->ilUser, $room);
-        $subRoomId = $this->getRequestValue('sub', $this->refinery->kindlyTo()->int());
 
-        $room->clearMessages($subRoomId);
+        $room->clearMessages();
 
         $connector = $this->gui->getConnector();
-        $response = $connector->sendClearMessages($room->getRoomId(), $subRoomId, $chat_user->getUserId());
+        $response = $connector->sendClearMessages($room->getRoomId(), $chat_user->getUserId());
 
         $this->sendResponse($response);
     }

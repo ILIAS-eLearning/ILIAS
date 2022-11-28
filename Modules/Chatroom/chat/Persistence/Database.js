@@ -28,30 +28,10 @@ var Database = function Database(config) {
 		_pool.getConnection(callback);
 	};
 
-	this.closePrivateRoom = function(roomId){
-		var time = parseInt(Date.getTimestamp()/1000);
-
-		_pool.query('UPDATE chatroom_prooms SET closed = ? WHERE proom_id = ?',
-			[time, roomId],
-			handleError
-		);
-	};
-
 	this.disconnectAllUsers = function(callback) {
 
 		callback = callback || function callback(){};
 		var time = parseInt(Date.getTimestamp()/1000);
-		// Disconnect from private rooms
-		_pool.query('UPDATE chatroom_psessions SET disconnected = ?',
-			[time],
-			handleError
-		);
-
-		_pool.query('UPDATE chatroom_prooms SET closed = ? WHERE closed = 0',
-			[time],
-			handleError
-		);
-
 		function onDisconnect(err){
 			if(err) {
 				throw err;
@@ -138,18 +118,8 @@ var Database = function Database(config) {
 		);
 	};
 
-	this.disconnectUser = function(subscriber, roomIds, subRoomIds) {
+	this.disconnectUser = function(subscriber, roomIds) {
 		var time = parseInt(Date.getTimestamp()/1000);
-
-		// Disconnect from private rooms
-		if(subRoomIds.length > 0 )
-		{
-			_pool.query(
-				'UPDATE chatroom_psessions SET disconnected = ? WHERE user_id = ? AND proom_id IN (?)',
-				[time, subscriber.getId(), subRoomIds],
-				handleError
-			);
-		}
 
 		// Write chat_session
 
@@ -251,7 +221,6 @@ var Database = function Database(config) {
 				room_id: message.roomId,
 				message: JSON.stringify(message),
 				timestamp: message.timestamp, // Eventuell hier durch 1000 teilen für PHP. Timestamp in JSON dann für JS benutzen
-				sub_room: message.subRoomId
 			}, handleError);
 		};
 
@@ -503,14 +472,6 @@ var Database = function Database(config) {
 	this.loadScopes = function(onResult, onEnd) {
 		_onQueryEvents(
 			_pool.query('SELECT room_id FROM chatroom_settings'),
-			onResult,
-			onEnd
-		);
-	};
-
-	this.loadSubScopes = function(onResult, onEnd) {
-		_onQueryEvents(
-			_pool.query('SELECT proom_id, parent_id, title, owner FROM chatroom_prooms roomtable WHERE closed = 0 OR closed IS NULL'),
 			onResult,
 			onEnd
 		);

@@ -60,18 +60,6 @@ abstract class ilChatroomAbstractTest extends TestCase
     }
 
     /**
-     * @return ilChatroom&MockObject
-     */
-    protected function createIlChatroomMock(): ilChatroom
-    {
-        $this->ilChatroomMock = $this->getMockBuilder(ilChatroom::class)->disableOriginalConstructor()->onlyMethods(
-            ['isOwnerOfPrivateRoom', 'clearMessages']
-        )->getMock();
-
-        return $this->ilChatroomMock;
-    }
-
-    /**
      * @return ilChatroomUser&MockObject
      */
     protected function createIlChatroomUserMock(): ilChatroomUser
