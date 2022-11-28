@@ -2830,7 +2830,6 @@ chatroom#:#chat_broadcast_typing_no#:#Typing will not be broadcasted to other ch
 chatroom#:#chat_broadcast_typing_yes#:#Typing will be broadcasted to other chat participants
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> left the chat room ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> has entered chat room +++
-chatroom#:#chat_create_private_room_button#:#Create Private Room
 chatroom#:#chat_deletion_disabled#:#Disabled
 chatroom#:#chat_deletion_interval#:#Interval
 chatroom#:#chat_deletion_interval_info#:#If chosen, messages in the repository chat and On-Screen-Chat conversations will be deleted after the defined threshold.
@@ -2899,7 +2898,6 @@ chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Are you sure you want to leave the 
 chatroom#:#chat_osc_user#:#User
 chatroom#:#chat_osc_user_left_grp_conv#:#User '%s' has left the group conversation.
 chatroom#:#chat_osc_write_a_msg#:#Write a Message ...
-chatroom#:#chat_select_room#:#Select Chat Room
 chatroom#:#chat_settings#:#Chat Settings
 chatroom#:#chat_settings_functions_header#:#Chat Room Functions
 chatroom#:#chat_show_auto_messages#:#Show Status Messages
@@ -2935,7 +2933,6 @@ chatroom#:#clear_room_history_question#:#Do you really want to delete all messag
 chatroom#:#client_chatserver_connection#:#Client to Server Connection
 chatroom#:#client_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for Client to Server connection.
 chatroom#:#connection_url_info#:#Please insert an URL for the Server connection.
-chatroom#:#create_private_room_text#:#Private room name
 chatroom#:#custom_username#:#Custom Username
 chatroom#:#delete_private_room#:#Delete Private Room
 chatroom#:#delete_private_room_question#:#Confirm delete private room?
@@ -2956,10 +2953,9 @@ chatroom#:#history_byday_title#:#Show Conversation per Day
 chatroom#:#history_bysession_title#:#Show Conversation per Session
 chatroom#:#history_cleared#:#The message history was deleted by a moderator.
 chatroom#:#history_title_general#:#Conversation in Chat Room "%s"
-chatroom#:#history_title_private_room#:#Conversation in Private Room "%s"
 chatroom#:#ilias_chatserver_connection#:#ILIAS to Server Connection
 chatroom#:#ilias_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for ILIAS to Server connection.
-chatroom#:#invite_to_private_room#:#Invite to Current Room
+chatroom#:#invite_to_private_room#:#Invite to Chat Room
 chatroom#:#invite_username#:#Username
 chatroom#:#key#:#Key
 chatroom#:#kick_question#:#Do you really want to kick the user from current room?
@@ -2986,8 +2982,6 @@ chatroom#:#private_room_closed#:#The chat room <b>#title#</b> has been closed.
 chatroom#:#private_room_entered#:#Welcome to the private room <b>#title#</b>.
 chatroom#:#private_room_entered_user#:#The user <b>#username#</b> has entered the private room <b>#title#</b>.
 chatroom#:#private_room_left#:#The user <b>#user#</b> has left the private room <b>#title#</b>.
-chatroom#:#private_rooms_enabled#:#Allow Private Rooms
-chatroom#:#private_rooms_enabled_info#:#If activated, users can create private rooms. Only invited users have access to this rooms.
 chatroom#:#public_chat_created#:#The public chat room has been added to the repository.
 chatroom#:#scope#:#Room/Private Room
 chatroom#:#select_custom_username#:#Select Custom Username
@@ -3674,8 +3668,6 @@ common#:#chapter#:#Chapter
 common#:#characters#:#characters
 common#:#chat_enter_public_room#:#Public Chat Room
 common#:#chat_enter_public_room_tooltip#:#Enter public chat room
-common#:#chat_invite_public_room#:#Public Chat Room
-common#:#chat_invite_public_room_tooltip#:#Invite to public chat room
 common#:#chat_users_active#:#Active users
 common#:#check#:#Check
 common#:#check_all#:#Check all
@@ -10744,14 +10736,10 @@ ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object
 ltiv#:#ltiv_create_info#:#Select a completed LTI consumer object to generate a certificate for it
 mail#:#back_to_folder#:#Back to Folder
 mail#:#bc#:#BCC
-mail#:#chat_users_have_been_invited#:#The following users have been invited:
-mail#:#chat_users_without_login#:#The following users don't have an ILIAS account and can't be invited to a chat room:
-mail#:#chat_users_without_permission#:#The following users don't have access to the selected chat room:
 mail#:#current_folder#:#Current Folder: %s
 mail#:#deleteTemplate#:#Delete
 mail#:#first_email_missing_info#:#Selection not possible because no e-mail address has been entered
 mail#:#forward#:#Forward
-mail#:#goto_invitation_chat#:#Open Chat Room
 mail#:#invite_to_chat#:#Invite to Chat
 mail#:#link_check_affected_links#:#Affected Links
 mail#:#link_check_introduction#:#the following weblinks are invalid:
@@ -10840,7 +10828,6 @@ mail#:#mail_incoming_mail#:#Incoming Mail
 mail#:#mail_incoming_smtp#:#Forward to E-mail Address:
 mail#:#mail_insert_folder_name#:#Please insert a folder name
 mail#:#mail_insert_query#:#Please insert a query
-mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
 mail#:#mail_is_read#:#gelesen
 mail#:#mail_is_unread#:#ungelesen
 mail#:#mail_list_members#:#List members

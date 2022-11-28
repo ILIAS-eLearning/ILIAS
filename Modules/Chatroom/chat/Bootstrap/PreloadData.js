@@ -10,13 +10,7 @@ module.exports = function PreloadData(namespace, callback) {
 
 	function loadScopes(callback) {
 		namespace.getDatabase().loadScopes(function onScopeFetched(row) {
-			RoomHandler.createRoom(namespace, row.room_id, 0, "Main", null);
-		}, callback);
-	}
-
-	function loadSubScopes(callback) {
-		namespace.getDatabase().loadSubScopes(function onSubScopeFetched(row){
-			RoomHandler.createRoom(namespace, row.parent_id, row.proom_id, row.title, row.owner);
+			RoomHandler.createRoom(namespace, row.room_id, "Main", null);
 		}, callback);
 	}
 
@@ -33,7 +27,6 @@ module.exports = function PreloadData(namespace, callback) {
 	async.series(
 		[
 			loadScopes,
-			loadSubScopes
 		],
 		onDataPreloadingDone
 	);

@@ -153,10 +153,6 @@ class ilChatroomFormFactory
         $cb->addSubItem($txt);
         $form->addItem($cb);
 
-        $cb = new ilCheckboxInputGUI($this->lng->txt('private_rooms_enabled'), 'private_rooms_enabled');
-        $cb->setInfo($this->lng->txt('private_rooms_enabled_info'));
-        $form->addItem($cb);
-
         return $form;
     }
 
