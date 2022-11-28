@@ -137,25 +137,26 @@ class ilVirusScannerClamAV extends ilVirusScanner
 
         // Call of antivir command
         $a_filepath = realpath($a_filepath);
-        $arguments = $this->buildScanCommandArguments($a_filepath) . " 2>&1";
-        $cmd = ilUtil::escapeShellCmd($this->scanCommand);
-        $args = ilUtil::escapeShellArg($arguments);
-        $out = ilUtil::execQuoted($cmd, $args);
-        $this->scanResult = implode("\n", $out);
+        if(file_exists($a_filepath)) {
+            $args = ilUtil::escapeShellArg($a_filepath);
+            $arguments = $this->buildScanCommandArguments($args) . " 2>&1";
+            $cmd = ilUtil::escapeShellCmd($this->scanCommand);
+            $out = ilUtil::execQuoted($cmd, $arguments);
+            $this->scanResult = implode("\n", $out);
 
-        // sophie could be called
-        if ($this->hasDetections($this->scanResult)) {
-            $this->scanFileIsInfected = true;
-            $this->logScanResult();
-            return $this->scanResult;
-        } else {
-            $this->scanFileIsInfected = false;
-            return "";
+            // sophie could be called
+            if ($this->hasDetections($this->scanResult)) {
+                $this->scanFileIsInfected = true;
+                $this->logScanResult();
+                return $this->scanResult;
+            } else {
+                $this->scanFileIsInfected = false;
+                return "";
+            }
         }
 
-        // antivir has failed (todo)
         $this->log->write("ERROR (Virus Scanner failed): "
             . $this->scanResult
-            . "; COMMAMD=" . $cmd);
+            . "; Path=" . $a_filepath);
     }
 }
