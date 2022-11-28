@@ -111,22 +111,28 @@ class ilVirusScannerClamAV extends ilVirusScanner
         $perm = fileperms($file_path) | 0640;
         chmod($file_path, $perm);
 
-        // Call of antivir command
         $a_filepath = realpath($file_path);
-        $arguments = $this->buildScanCommandArguments($a_filepath) . " 2>&1";
-        $cmd = ilShellUtil::escapeShellCmd($this->scanCommand);
-        $args = ilShellUtil::escapeShellArg($arguments);
-        $out = ilShellUtil::execQuoted($cmd, $args);
-        $this->scanResult = implode("\n", $out);
+        if(file_exists($file_path)) {
+            $args = ilShellUtil::escapeShellArg($file_path);
+            $arguments = $this->buildScanCommandArguments($args) . " 2>&1";
+            $cmd = ilShellUtil::escapeShellCmd($this->scanCommand);
+            $out = ilShellUtil::execQuoted($cmd, $arguments);
+            $this->scanResult = implode("\n", $out);
 
-        // sophie could be called
-        if ($this->hasDetections($this->scanResult)) {
-            $this->scanFileIsInfected = true;
-            $this->logScanResult();
-            return $this->scanResult;
+            if ($this->hasDetections($this->scanResult)) {
+                $this->scanFileIsInfected = true;
+                $this->logScanResult();
+                return $this->scanResult;
+            } else {
+                $this->scanFileIsInfected = false;
+                return "";
+            }
         }
 
-        $this->scanFileIsInfected = false;
-        return "";
+        $return_error = "ERROR (Virus Scanner failed): "
+            . $this->scanResult
+            . "; Path=" . $a_filepath;
+        $this->log->write($return_error);
+        return $return_error;
     }
 }
