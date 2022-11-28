@@ -24,6 +24,7 @@ use ILIAS\Refinery\In;
 use ILIAS\Refinery\To;
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ilLanguage;
+use ILIAS\Refinery\Parser\Group as Parser;
 
 class Factory
 {
@@ -174,5 +175,10 @@ class Factory
     public function always($value): Transformation
     {
         return new ConstantTransformation($value);
+    }
+
+    public function parser(): Parser
+    {
+        return new Parser($this);
     }
 }
