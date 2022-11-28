@@ -191,7 +191,7 @@ To measure the statistics you can use:
     - [ ] There are no usages of undeclared class properties
     - [ ] There is no dead/unreachable code
     - [ ] There are no accesses to methods that are potentially missing (e.g. when Union Types or Magic Functions are used)
-    - [ ] All parameters and return values are either typed or their expected type is declared in a DocBlock, but not both
+    - [ ] All parameters and return values are either typed or their expected type is declared in a DocBlock. No parameter or return value is typed and has a DocBlock aswell, unless the DocBlock specifies the types contained in an array or an iterator.
     - [ ] No methods are called on nullable objects without checking
 
 ## Qualitative Review for [ilias_version]
