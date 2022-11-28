@@ -986,9 +986,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         if ($this->testrequest->isset('show_best_solutions')) {
             ilSession::set('tst_results_show_best_solutions', true);
         } elseif ($this->testrequest->isset('hide_best_solutions')) {
-            ilSession::set('tst_results_show_best_solutions', true);
-        } elseif (ilSession::get('tst_results_show_best_solutions') !== null) {
             ilSession::set('tst_results_show_best_solutions', false);
+        } elseif (ilSession::get('tst_results_show_best_solutions') !== null) {
+            ilSession::clear('tst_results_show_best_solutions');
         }
 
         if (ilSession::get('tst_results_show_best_solutions')) {
