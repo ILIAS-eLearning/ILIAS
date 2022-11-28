@@ -40,13 +40,13 @@ class ilVirusScannerICapClient extends ilVirusScanner
     public function scanFile(string $file_path, string $org_name = ""): string
     {
         $return_string = '';
-        $file_path     = realpath($file_path);
         if (file_exists($file_path)) {
             if (is_readable($file_path)) {
-                $arguments      = $this->buildScanCommandArguments($file_path) . " 2>&1";
+                $file_path     = realpath($file_path);
+                $args           = ilShellUtil::escapeShellArg($file_path);
+                $arguments      = $this->buildScanCommandArguments($args) . " 2>&1";
                 $cmd            = ilShellUtil::escapeShellCmd($this->scanCommand);
-                $args           = ilShellUtil::escapeShellArg($arguments);
-                $out            = ilShellUtil::execQuoted($cmd, $args);
+                $out            = ilShellUtil::execQuoted($cmd, $arguments);
                 $timeout        = preg_grep('/failed\/timedout.*/', $out);
                 $virus_detected = preg_grep('/' . self::HEADER_INFECTION_FOUND . '.*/', $out);
                 if (is_array($virus_detected) && count($virus_detected) > 0) {
@@ -59,11 +59,11 @@ class ilVirusScannerICapClient extends ilVirusScanner
                 }
                 $this->scanResult = implode("\n", $out);
             } else {
-                $return_string = sprintf('File "%s" not readable.', $a_filepath);
+                $return_string = sprintf('File "%s" not readable.', $file_path);
                 $this->log->info($return_string);
             }
         } else {
-            $return_string = sprintf('File "%s" not found.', $a_filepath);
+            $return_string = sprintf('File "%s" not found.', $file_path);
             $this->log->info($return_string);
         }
 
