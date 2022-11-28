@@ -105,10 +105,13 @@ class ilADTLocalizedTextSearchBridgeSingle extends ilADTTextSearchBridgeSingle
 
     public function isInCondition(ilADT $a_adt): bool
     {
-        assert($a_adt instanceof ilADTText);
-
+        assert($a_adt instanceof ilADTLocalizedText);
         // :TODO: search mode (see above)
-        return $this->getADT()->equals($a_adt);
+        $key = $this->lng->getLangKey();
+        return !strcmp(
+            $this->getADT()->getTextForLanguage($key),
+            $a_adt->getTextForLanguage($key)
+        );
     }
 
     //  import/export

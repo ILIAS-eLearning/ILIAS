@@ -512,7 +512,15 @@ class ilObjectMetaDataGUI
         return !(is_array($this->record_filter) && !in_array($record_id, $this->record_filter));
     }
 
-    public function getBlockHTML(array $commands = null, $callback = null): string
+    /**
+     * Takes as an optional second input an array consisting of the object
+     * that the method that should be called back to belongs to, and
+     * a string with the name of the method.
+     * @param array|null                         $commands
+     * @param null|array{0: ilObject, 1: string} $callback
+     * @return string
+     */
+    public function getBlockHTML(?array $commands = null, ?array $callback = null): string
     {
         $html = "";
 

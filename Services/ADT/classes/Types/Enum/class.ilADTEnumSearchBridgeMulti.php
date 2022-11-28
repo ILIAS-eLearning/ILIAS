@@ -93,6 +93,10 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
             }
         } else {
             $this->getADT()->setSelections();
+            // BT 35593: multi enum filter should reset when nothing is selected
+            if (array_key_exists($this->getElementId(), $this->table_filter_fields)) {
+                $this->writeFilter();
+            }
         }
         return true;
     }

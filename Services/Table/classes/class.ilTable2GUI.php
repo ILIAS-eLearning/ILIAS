@@ -1245,7 +1245,7 @@ class ilTable2GUI extends ilTableGUI
         if ($this->getOrderDirection() != "") {
             $this->storeProperty("direction", $this->getOrderDirection());
         }
-        if ($this->getOffset() > 0) {
+        if ($this->getOffset() >= 0) {
             $this->storeProperty("offset", (string) $this->getOffset());
         }
     }
