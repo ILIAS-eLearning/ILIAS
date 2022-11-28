@@ -311,7 +311,7 @@ class ilParticipantsTestResultsGUI
             );
         }
 
-        $this->main_tpl->mainTemplate()->setContent($cgui->getHTML());
+        $this->main_tpl->setContent($cgui->getHTML());
     }
 
     /**
