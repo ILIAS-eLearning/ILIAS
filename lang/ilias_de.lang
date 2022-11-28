@@ -3398,6 +3398,7 @@ common#:#HH#:#SS:MM
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Nutzungsvereinbarung akzeptieren?
 common#:#accept_usr_agreement_btn#:#Zustimmen
+common#:#accept_usr_agreement_intro#:#Es liegen neue Nutzungsbedingungen vor. Sie müssen sie akzeptieren, bevor Sie mit der Nutzung von ILIAS fortfahren können. Lesen Sie das folgende Dokument sorgfältig durch und geben Sie unten auf der Seite Ihre Zustimmung oder Ablehnung.
 common#:#access#:#Zugriff
 common#:#accessFree#:#Befristung des Zugriffs aufheben
 common#:#accessRestrict#:#Zugriff befristen
@@ -7802,9 +7803,11 @@ crs#:#crs_view_timing#:#Lernplanungsansicht
 crs#:#crs_view_timing_absolute#:#Absolutes Datum
 crs#:#crs_view_timing_relative#:#Relatives Datum
 crs#:#crs_view_timings#:#Lernplanungstyp
+crs#:#crs_visibility#:#Sichtbarkeit
 crs#:#crs_visibility_limitless#:#Unbegrenzt – wenn online geschaltet
 crs#:#crs_visibility_until#:#Zeitlich begrenzte Verfügbarkeit
 crs#:#crs_visibility_until_info#:#Der Kurs wird seinen Mitgliedern nur für einen bestimmten Zeitraum angezeigt.
+crs#:#crs_visibility_unvisible#:#Der Kurs ist nicht sichtbar.
 crs#:#crs_wait_info#:#Ist die maximale Mitgliederanzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
 crs#:#crs_waiting_list#:#Warteliste
 crs#:#crs_waiting_list_autofill#:#Mit automatischem Aufrücken

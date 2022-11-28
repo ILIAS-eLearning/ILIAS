@@ -1648,6 +1648,7 @@ assessment#:#tst_pass_details#:#Részletes eredmények
 assessment#:#tst_pass_details_header_lo_initial#:#A Tanulási célkitűzések Belépő tesztjének eredményei<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#A Tanulási célkitűzések Záró tesztjének eredményei<br />%s - %s
 assessment#:#tst_pass_details_overview_table_title#:#%s. tesztkitöltés válaszainak részletes áttekintése
+assessment#:#tst_pass_finished#:#Test pass finished###24 11 2022 new variable
 assessment#:#tst_pass_finished_on#:#Tesztkitöltés befejezésének időpontja
 assessment#:#tst_pass_last_pass#:#Utolsó kitöltés pontszáma számít
 assessment#:#tst_pass_last_pass_desc#:#Minden résztvevőnél a legutolsó tesztkitöltését vesszük figyelembe.
@@ -3398,6 +3399,7 @@ common#:#HH#:#ÓÓ:PP
 common#:#absolute_path#:#Abszolút elérési út
 common#:#accept_usr_agreement#:#A Szolgáltatási feltételekben leírtakat tudomásul veszem, és azt elfogadom.
 common#:#accept_usr_agreement_btn#:#Elfogadás
+common#:#accept_usr_agreement_intro#:#There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.###24 11 2022 new variable
 common#:#access#:#Hozzáférés
 common#:#accessFree#:#'Érvényes eddig' dátum eltávolítása
 common#:#accessRestrict#:#'Érvényes eddig' dátum beállítása
@@ -5814,6 +5816,7 @@ common#:#usr_account_inactive#:#Interaktív számla
 common#:#usr_active_only#:#Csak aktív felhasználók
 common#:#usr_add#:#Felhasználó létrehozása
 common#:#usr_agreement#:#Szolgáltatási feltételek
+common#:#usr_agreement_footer_intro#:#You have declared your consent to these terms of service.###24 11 2022 new variable
 common#:#usr_edit#:#Felhasználó módosítása
 common#:#usr_filter_coursemember#:#Kurzus tagja
 common#:#usr_filter_groupmember#:#Csoport tagja
@@ -7801,9 +7804,11 @@ crs#:#crs_view_timing#:#Időzítésnézet
 crs#:#crs_view_timing_absolute#:#Abszolút dátumok
 crs#:#crs_view_timing_relative#:#Relatív dátumok
 crs#:#crs_view_timings#:#Időzítés típusa
+crs#:#crs_visibility#:#Visibility###24 11 2022 new variable
 crs#:#crs_visibility_limitless#:#Korlátlan
 crs#:#crs_visibility_until#:#Elérhetőség időbeni korlátozása
 crs#:#crs_visibility_until_info#:#A kurzus egy meghatározott ideig marad látható tagjai számára.
+crs#:#crs_visibility_unvisible#:#The course is not visible.###24 11 2022 new variable
 crs#:#crs_wait_info#:#Ha be van kapcsolva, és a kurzushoz rendelhető maximális felhasználói létszám betelt, az új regisztrálók várólistára kerülnek be.
 crs#:#crs_waiting_list#:#Várólista
 crs#:#crs_waiting_list_autofill#:#Automatikus feltöltéssel
@@ -13865,9 +13870,11 @@ rep#:#rep_add_to_favourites#:#Hozzáadás a kedvencekhez
 rep#:#rep_added_rec_content#:#Az ajánlott tartalmat sikeresen hozzáadta.
 rep#:#rep_added_to_favourites#:#Az objektumot felvette a kedvencei közé.
 rep#:#rep_breadcr_crs#:#A navigációs sor a kurzustól indul
+rep#:#rep_breadcr_crs_config#:#Configuration###24 11 2022 new variable
 rep#:#rep_breadcr_crs_overwrite#:#A beállítás kurzusszinten módosítható
 rep#:#rep_breadcr_crs_overwrite_not#:#A beállítás nem módosítható kurzusszinten
 rep#:#rep_configure#:#Beállítások
+rep#:#rep_crs_default_shortened#:#Default: Breadcrumbs Shortened###24 11 2022 new variable
 rep#:#rep_custom_icons#:#Egyéni ikonok
 rep#:#rep_default#:#Alapértelmezett
 rep#:#rep_dependencies#:#Függőségek

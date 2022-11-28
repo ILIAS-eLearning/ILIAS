@@ -1648,6 +1648,7 @@ assessment#:#tst_pass_details#:#Mostra i dettagli
 assessment#:#tst_pass_details_header_lo_initial#:#Risultati dei test iniziali per gli obiettivi di apprendimento %s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Risultati dei test qualificativi per gli obiettivi di apprendimento %s - %s
 assessment#:#tst_pass_details_overview_table_title#:#Risultati dettagliati del test per l'esecuzione del test %s
+assessment#:#tst_pass_finished#:#Test pass finished###24 11 2022 new variable
 assessment#:#tst_pass_finished_on#:#Testo superato finito il
 assessment#:#tst_pass_last_pass#:#Punteggio dell'ultimo tentativo dell'utente
 assessment#:#tst_pass_last_pass_desc#:#Verrà segnato l’ultimo passaggio di un partecipante.
@@ -3398,6 +3399,7 @@ common#:#HH#:#HH:MM
 common#:#absolute_path#:#Percorso assoluto
 common#:#accept_usr_agreement#:#Accetti le condizioni utente?
 common#:#accept_usr_agreement_btn#:#Accettare
+common#:#accept_usr_agreement_intro#:#There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.###24 11 2022 new variable
 common#:#access#:#Accesso
 common#:#accessFree#:#Rimuovi accesso limitato
 common#:#accessRestrict#:#Imposta accesso limitato
@@ -5814,6 +5816,7 @@ common#:#usr_account_inactive#:#Disattiva account
 common#:#usr_active_only#:#Utenti attivi
 common#:#usr_add#:#Aggiungi utente
 common#:#usr_agreement#:#Termini e Condizioni
+common#:#usr_agreement_footer_intro#:#You have declared your consent to these terms of service.###24 11 2022 new variable
 common#:#usr_edit#:#Modifica utente
 common#:#usr_filter_coursemember#:#Membro del corso
 common#:#usr_filter_groupmember#:#Membro del gruppo
@@ -7801,9 +7804,11 @@ crs#:#crs_view_timing#:#Visualizzazione temporizzazioni
 crs#:#crs_view_timing_absolute#:#Data assoluta
 crs#:#crs_view_timing_relative#:#Data relativa
 crs#:#crs_view_timings#:#Tipo di visualizzazione degli orari
+crs#:#crs_visibility#:#Visibility###24 11 2022 new variable
 crs#:#crs_visibility_limitless#:#Visibile (senza limiti)
 crs#:#crs_visibility_until#:#Visibile (da ... a ...)
 crs#:#crs_visibility_until_info#:#Il corso sarà visibile ai suoi membri in un determinato periodo di tempo.
+crs#:#crs_visibility_unvisible#:#The course is not visible.###24 11 2022 new variable
 crs#:#crs_wait_info#:#Se viene superato il numero massimo di utenti, le nuove registrazioni verranno inserite in una lista di attesa.
 crs#:#crs_waiting_list#:#Lista di attesa
 crs#:#crs_waiting_list_autofill#:#Con riempimento automatico
@@ -13865,9 +13870,11 @@ rep#:#rep_add_to_favourites#:#Aggiungi ai preferiti
 rep#:#rep_added_rec_content#:#Il contenuto raccomandato è stato aggiunto.
 rep#:#rep_added_to_favourites#:#L'articolo è stato aggiunto ai tuoi preferiti.
 rep#:#rep_breadcr_crs#:#Breadcrumb inizia con corso
+rep#:#rep_breadcr_crs_config#:#Configuration###24 11 2022 new variable
 rep#:#rep_breadcr_crs_overwrite#:#L'impostazione è modificabile a livello di corso
 rep#:#rep_breadcr_crs_overwrite_not#:#L'impostazione non è modificabile a livello di corso
 rep#:#rep_configure#:#Configura
+rep#:#rep_crs_default_shortened#:#Default: Breadcrumbs Shortened###24 11 2022 new variable
 rep#:#rep_custom_icons#:#Icone personalizzate
 rep#:#rep_default#:#Predefinito
 rep#:#rep_dependencies#:#Dipendenze

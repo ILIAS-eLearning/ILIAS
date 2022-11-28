@@ -1634,6 +1634,7 @@ assessment#:#tst_pass_details#:#試験詳細
 assessment#:#tst_pass_details_header_lo_initial#:#学習目標に対する最初のテスト結果<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#学習目標に対する資格テスト結果<br />%s - %s
 assessment#:#tst_pass_details_overview_table_title#:#テスト%sの詳細全体像
+assessment#:#tst_pass_finished#:#Test pass finished###24 11 2022 new variable
 assessment#:#tst_pass_finished_on#:#テスト受験終了日
 assessment#:#tst_pass_last_pass#:#最終試験成績
 assessment#:#tst_pass_last_pass_desc#:#受験者の最終合格が採点されます。
@@ -3384,6 +3385,7 @@ common#:#HH#:#HH:MM
 common#:#absolute_path#:#絶対Path
 common#:#accept_usr_agreement#:#使用許諾書を承諾しますか?
 common#:#accept_usr_agreement_btn#:#承諾
+common#:#accept_usr_agreement_intro#:#There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.###24 11 2022 new variable
 common#:#access#:#アクセス
 common#:#accessFree#:#アクセス制限を解除
 common#:#accessRestrict#:#アクセス制限を設定
@@ -5800,6 +5802,7 @@ common#:#usr_account_inactive#:#アクティブ化されていないアカウン
 common#:#usr_active_only#:#アクティブユーザのみ
 common#:#usr_add#:#ユーザを追加
 common#:#usr_agreement#:#使用許諾書
+common#:#usr_agreement_footer_intro#:#You have declared your consent to these terms of service.###24 11 2022 new variable
 common#:#usr_edit#:#ユーザを編集
 common#:#usr_filter_coursemember#:#コースメンバー
 common#:#usr_filter_groupmember#:#グループメンバー
@@ -7787,9 +7790,11 @@ crs#:#crs_view_timing#:#タイミングビュー
 crs#:#crs_view_timing_absolute#:#絶対日付
 crs#:#crs_view_timing_relative#:#総体日付
 crs#:#crs_view_timings#:#期間表示タイプ
+crs#:#crs_visibility#:#Visibility###24 11 2022 new variable
 crs#:#crs_visibility_limitless#:#期限なし
 crs#:#crs_visibility_until#:#利用期間限定
 crs#:#crs_visibility_until_info#:#コースは一定の期間そのメンバーへ表示されます。
+crs#:#crs_visibility_unvisible#:#The course is not visible.###24 11 2022 new variable
 crs#:#crs_wait_info#:#有効にしてユーザ最大数を超えると、新しい登録が待ちリストに載せられます。
 crs#:#crs_waiting_list#:#待ちリスト
 crs#:#crs_waiting_list_autofill#:#自動-挿入あり
@@ -13851,9 +13856,11 @@ rep#:#rep_add_to_favourites#:#お気に入りへ追加
 rep#:#rep_added_rec_content#:#推奨コンテンツが追加されました。
 rep#:#rep_added_to_favourites#:#アイテムがお気に入りへ追加されました。
 rep#:#rep_breadcr_crs#:#コースのパンくずステータス
+rep#:#rep_breadcr_crs_config#:#Configuration###24 11 2022 new variable
 rep#:#rep_breadcr_crs_overwrite#:#設定はコースレベル上で変更可能です
 rep#:#rep_breadcr_crs_overwrite_not#:#設定はコースレベル上で変更不可です
 rep#:#rep_configure#:#構成
+rep#:#rep_crs_default_shortened#:#Default: Breadcrumbs Shortened###24 11 2022 new variable
 rep#:#rep_custom_icons#:#カスタムアイコン
 rep#:#rep_default#:#Default
 rep#:#rep_dependencies#:#依存性

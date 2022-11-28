@@ -1634,6 +1634,7 @@ assessment#:#tst_pass_details#:#Detaljni rezultati
 assessment#:#tst_pass_details_header_lo_initial#:#Početni rezultati testa za ciljeve učenja<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Kvalifikacijski rezultati testa za ciljeve učenja<br />%s - %s
 assessment#:#tst_pass_details_overview_table_title#:#Detaljan pregled rezultata testa za prolaz %s
+assessment#:#tst_pass_finished#:#Test pass finished###24 11 2022 new variable
 assessment#:#tst_pass_finished_on#:#Prolaz testa završen dana
 assessment#:#tst_pass_last_pass#:#Ocijeni posljednji prolaz testa
 assessment#:#tst_pass_last_pass_desc#:#Ocjenjuje se uvijek posljednji prolaza testa sudionika.
@@ -3384,6 +3385,7 @@ common#:#HH#:#HH: MM
 common#:#absolute_path#:#Apsolutni put
 common#:#accept_usr_agreement#:#Prihvatiti uvjete usluge?
 common#:#accept_usr_agreement_btn#:#Accept###04 06 2021 new variable
+common#:#accept_usr_agreement_intro#:#There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.###24 11 2022 new variable
 common#:#access#:#Pristup
 common#:#accessFree#:#Uklonite datum 'Važi do'
 common#:#accessRestrict#:#Postavite datum 'Važi do'
@@ -5800,6 +5802,7 @@ common#:#usr_account_inactive#:#Neaktivan račun
 common#:#usr_active_only#:#Samo aktivni korisnici
 common#:#usr_add#:#Dodaj korisnika
 common#:#usr_agreement#:#Uvjeti pružanja usluge
+common#:#usr_agreement_footer_intro#:#You have declared your consent to these terms of service.###24 11 2022 new variable
 common#:#usr_edit#:#Uredi korisnika
 common#:#usr_filter_coursemember#:#Član tečaja
 common#:#usr_filter_groupmember#:#Član grupe
@@ -7787,9 +7790,11 @@ crs#:#crs_view_timing#:#Prikaz vremenskog plana
 crs#:#crs_view_timing_absolute#:#Apsolutni datumi
 crs#:#crs_view_timing_relative#:#Relativni datumi
 crs#:#crs_view_timings#:#Vrsta prikaza vremenskog plana
+crs#:#crs_visibility#:#Visibility###24 11 2022 new variable
 crs#:#crs_visibility_limitless#:#Neograničen
 crs#:#crs_visibility_until#:#Ograničeno razdoblje dostupnosti
 crs#:#crs_visibility_until_info#:#Tečaj će svojim članovima biti vidljiv u određenom vremenskom razdoblju.
+crs#:#crs_visibility_unvisible#:#The course is not visible.###24 11 2022 new variable
 crs#:#crs_wait_info#:#Ako se premaši maksimalan broj korisnika, nove registracije stavit će se na listu čekanja.
 crs#:#crs_waiting_list#:#Lista čekanja
 crs#:#crs_waiting_list_autofill#:#Automatsko popunjavanje
@@ -13851,9 +13856,11 @@ rep#:#rep_add_to_favourites#:#Add to Favourites###04 06 2021 new variable
 rep#:#rep_added_rec_content#:#Recommended content has been added.###04 06 2021 new variable
 rep#:#rep_added_to_favourites#:#The item has been added to your favourites.###04 06 2021 new variable
 rep#:#rep_breadcr_crs#:#Breadcrumb starts with course
+rep#:#rep_breadcr_crs_config#:#Configuration###24 11 2022 new variable
 rep#:#rep_breadcr_crs_overwrite#:#Setting is changeable on course level
 rep#:#rep_breadcr_crs_overwrite_not#:#Setting is not changeable on course level
 rep#:#rep_configure#:#Configure###04 06 2021 new variable
+rep#:#rep_crs_default_shortened#:#Default: Breadcrumbs Shortened###24 11 2022 new variable
 rep#:#rep_custom_icons#:#Custom Icons
 rep#:#rep_default#:#Default
 rep#:#rep_dependencies#:#Dependencies

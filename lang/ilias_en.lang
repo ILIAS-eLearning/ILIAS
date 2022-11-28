@@ -3397,8 +3397,9 @@ cntr#:#sorting_new_items_position#:#Position for New Objects
 cntr#:#tab_back_to_repository#:#Back to Repository
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Absolute Path
-common#:#accept_usr_agreement#:#Accept terms of service?
+common#:#accept_usr_agreement#:#Accept Terms of Service?
 common#:#accept_usr_agreement_btn#:#Accept
+common#:#accept_usr_agreement_intro#:#There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.
 common#:#access#:#Access
 common#:#accessFree#:#Remove 'Valid Until' Date
 common#:#accessRestrict#:#Set 'Valid Until' Date
@@ -7803,9 +7804,11 @@ crs#:#crs_view_timing#:#Timings View
 crs#:#crs_view_timing_absolute#:#Absolute Dates
 crs#:#crs_view_timing_relative#:#Relative Dates
 crs#:#crs_view_timings#:#Timings View Type
+crs#:#crs_visibility#:#Visibility
 crs#:#crs_visibility_limitless#:#Unlimited
 crs#:#crs_visibility_until#:#Limited Availability Period
 crs#:#crs_visibility_until_info#:#The course will be visible to it's members in a specific period of time.
+crs#:#crs_visibility_unvisible#:#The course is not visible.
 crs#:#crs_wait_info#:#If the maximum number of users is exceeded, new registrations will be placed on a waiting list.
 crs#:#crs_waiting_list#:#Waiting List
 crs#:#crs_waiting_list_autofill#:#With Auto-Fill

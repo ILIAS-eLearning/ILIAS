@@ -1634,6 +1634,7 @@ assessment#:#tst_pass_details#:#Pergunta(s) inserida(s)!
 assessment#:#tst_pass_details_header_lo_initial#:#Resultados de teste iniciais para os objetivos de aprendizagem<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Resultados de teste que se qualificam para os objetivos de aprendizagem<br />%s - %s
 assessment#:#tst_pass_details_overview_table_title#:#Vista geral detalhada para tentativa %s
+assessment#:#tst_pass_finished#:#Test pass finished###24 11 2022 new variable
 assessment#:#tst_pass_finished_on#:#Tentativa de teste concluída a
 assessment#:#tst_pass_last_pass#:#Pergunta(s) removida(s)!
 assessment#:#tst_pass_last_pass_desc#:#Será pontuada a última tentativa de um participante.
@@ -3384,6 +3385,7 @@ common#:#HH#:#HH:MM
 common#:#absolute_path#:#Caminho absoluto
 common#:#accept_usr_agreement#:#Copiar
 common#:#accept_usr_agreement_btn#:#Accept###30 04 2021 new variable
+common#:#accept_usr_agreement_intro#:#There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.###24 11 2022 new variable
 common#:#access#:#Contar
 common#:#accessFree#:#País (entrada de texto livre
 common#:#accessRestrict#:#Curso
@@ -5800,6 +5802,7 @@ common#:#usr_account_inactive#:#Conta inativa
 common#:#usr_active_only#:#Apenas utilizadores ativos
 common#:#usr_add#:#Reduz problemas com a apresentação de módulos de aprendizagem SCORM mais antigos que foram otimizados para o Internet Explorer. Se o modo de compatibilidade estiver desligado em versões mais recentes do Internet Explorer, esta definição não é eficaz.
 common#:#usr_agreement#:#Forçar Internet Explorer para processar novamente
+common#:#usr_agreement_footer_intro#:#You have declared your consent to these terms of service.###24 11 2022 new variable
 common#:#usr_edit#:#Os módulos de aprendizagem com muitos enquadramentos ou iFrames serão apresentados corretamente depois de processar o conteúdo mais uma vez.
 common#:#usr_filter_coursemember#:#Membro do curso
 common#:#usr_filter_groupmember#:#Membro do grupo
@@ -7787,9 +7790,11 @@ crs#:#crs_view_timing#:#Vista das temporizações
 crs#:#crs_view_timing_absolute#:#Abrir numa nova janela
 crs#:#crs_view_timing_relative#:#Criar nova versão de ficheiro. As versões anteriores não serão modificadas.
 crs#:#crs_view_timings#:#Define o número máximo de web feeds externos que os utilizadores podem adicionar ao seu computador pessoal. Os feeds existentes não são apagados, se a opção estiver definida para um valor inferior. ‘0‘ desativa completamente a função.
+crs#:#crs_visibility#:#Visibility###24 11 2022 new variable
 crs#:#crs_visibility_limitless#:#Todas as versões de ficheiro anteriores serão apagadas.
 crs#:#crs_visibility_until#:#Se estiver ativada, a cota do disco do magazine será verificada para cada utilizador e serão enviados, opcionalmente, e-mails aos administradores e utilizadores.
 crs#:#crs_visibility_until_info#:#O curso fica visível aos seus membros num determinado período de tempo.
+crs#:#crs_visibility_unvisible#:#The course is not visible.###24 11 2022 new variable
 crs#:#crs_wait_info#:#Introduza o tamanho máximo do ficheiro permitido para ficheiros descarregados em mebibyte.
 crs#:#crs_waiting_list#:#Lista de espera
 crs#:#crs_waiting_list_autofill#:#Com autopreenchimento
@@ -13851,9 +13856,11 @@ rep#:#rep_add_to_favourites#:#Add to Favourites###07 02 2020 new variable
 rep#:#rep_added_rec_content#:#Recommended content has been added.###07 02 2020 new variable
 rep#:#rep_added_to_favourites#:#The item has been added to your favourites.###07 02 2020 new variable
 rep#:#rep_breadcr_crs#:#Breadcrumb iniciar o curso
+rep#:#rep_breadcr_crs_config#:#Configuration###24 11 2022 new variable
 rep#:#rep_breadcr_crs_overwrite#:#Definição é alterável ao nível do curso
 rep#:#rep_breadcr_crs_overwrite_not#:#Definição não é alterável ao nível do curso
 rep#:#rep_configure#:#Configure###07 02 2020 new variable
+rep#:#rep_crs_default_shortened#:#Default: Breadcrumbs Shortened###24 11 2022 new variable
 rep#:#rep_custom_icons#:#Ícones personalizados
 rep#:#rep_default#:#Predefinição
 rep#:#rep_dependencies#:#Dependências
