@@ -291,8 +291,8 @@ class ilSystemStyleSkinContainerTest extends TestCase
             }
         }
 
-        //Only perform this test, if an unzip path has been found.
-        if (PATH_TO_UNZIP != "") {
+        //Only perform this test, if an unzip and zip path has been found.
+        if (PATH_TO_UNZIP !== "" && PATH_TO_ZIP !== "") {
             $container = ilSystemStyleSkinContainer::generateFromId($this->skin->getId(), null, $this->system_style_config);
             $skin = $container->getSkin();
 
