@@ -117,13 +117,13 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         if (!$this->checkInput()) {
             return false;
         }
-        $sent_operation_ids = $this->getInput(self::F_OPERATIONS);
+        $sent_operation_ids = ($this->getInput(self::F_OPERATIONS) != '') ? $this->getInput(self::F_OPERATIONS) : [];
         foreach ($this->ilOrgUnitPermissions as $ilOrgUnitPermission) {
             $operations = [];
             $context = $ilOrgUnitPermission->getContext()->getContext();
             foreach ($ilOrgUnitPermission->getPossibleOperations() as $operation) {
                 $id = $operation->getOperationId();
-                if ($sent_operation_ids[$context][$id]) {
+                if (isset($sent_operation_ids[$context][$id])) {
                     $operations[] = ilOrgUnitOperation::find($id);
                 }
             }
