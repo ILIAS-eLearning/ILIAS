@@ -1003,7 +1003,7 @@ class ilMDEditorGUI
 
 
         // Language
-        if (is_array($post['gen_language'])) {
+        if (is_array($post['gen_language'] ?? null)) {
             foreach ($post['gen_language'] as $id => $data) {
                 if ($id > 0) {
                     $md_lan = $this->md_section->getLanguage($id);
@@ -1017,7 +1017,7 @@ class ilMDEditorGUI
             }
         }
         // Description
-        if (is_array($post['gen_description'])) {
+        if (is_array($post['gen_description'] ?? null)) {
             foreach ($post['gen_description'] as $id => $data) {
                 $md_des = $this->md_section->getDescription($id);
                 $md_des->setDescription(ilUtil::stripSlashes($data['description']));
@@ -1027,7 +1027,7 @@ class ilMDEditorGUI
         }
 
         // Keyword
-        if (is_array($post["keywords"]["value"])) {
+        if (is_array($post["keywords"]["value"] ?? null)) {
             $new_keywords = array();
             foreach ($post["keywords"]["value"] as $lang => $keywords) {
                 $language = $post["keyword"]["language"][$lang];
@@ -1044,7 +1044,7 @@ class ilMDEditorGUI
                 $lang = $md_key->getKeywordLanguageCode();
 
                 // entered keyword already exists
-                if (is_array($new_keywords[$lang]) &&
+                if (is_array($new_keywords[$lang] ?? '') &&
                     in_array($md_key->getKeyword(), $new_keywords[$lang], true)) {
                     unset($new_keywords[$lang][array_search($md_key->getKeyword(), $new_keywords[$lang], true)]);
                 } else {  // existing keyword has not been entered again -> delete
@@ -1067,12 +1067,12 @@ class ilMDEditorGUI
         $this->callListeners('General');
 
         // Copyright
-        if ($post['copyright_id'] or $post['rights_copyright']) {
+        if (($post['copyright_id'] ?? null) or ($post['rights_copyright'] ?? null)) {
             if (!is_object($this->md_section = $this->md_obj->getRights())) {
                 $this->md_section = $this->md_obj->addRights();
                 $this->md_section->save();
             }
-            if ($post['copyright_id']) {
+            if ($post['copyright_id'] ?? null) {
                 $this->md_section->setCopyrightAndOtherRestrictions("Yes");
                 $this->md_section->setDescription('il_copyright_entry__' . IL_INST_ID . '__' . (int) $post['copyright_id']);
             } else {
@@ -1089,18 +1089,19 @@ class ilMDEditorGUI
 
         //Educational...
         // Typical Learning Time
-        if ($post['tlt']['mo'] or $post['tlt']['d'] or
-            $post["tlt"]['h'] or $post['tlt']['m'] or $post['tlt']['s']) {
+        if (($post['tlt']['mo'] ?? null) or ($post['tlt']['d'] ?? null) or
+            ($post["tlt"]['h'] ?? null) or ($post['tlt']['m'] ?? null) or
+            ($post['tlt']['s'] ?? null)) {
             if (!is_object($this->md_section = $this->md_obj->getEducational())) {
                 $this->md_section = $this->md_obj->addEducational();
                 $this->md_section->save();
             }
             $this->md_section->setPhysicalTypicalLearningTime(
-                (int) $post['tlt']['mo'],
-                (int) $post['tlt']['d'],
-                (int) $post['tlt']['h'],
-                (int) $post['tlt']['m'],
-                (int) $post['tlt']['s']
+                (int) ($post['tlt']['mo'] ?? 0),
+                (int) ($post['tlt']['d'] ?? 0),
+                (int) ($post['tlt']['h'] ?? 0),
+                (int) ($post['tlt']['m'] ?? 0),
+                (int) ($post['tlt']['s'] ?? 0)
             );
             $this->md_section->update();
         } elseif (is_object($this->md_section = $this->md_obj->getEducational())) {
@@ -1165,7 +1166,7 @@ class ilMDEditorGUI
         }
 
         // InstructionalDesigner
-        if ($post["life_designers"] != "") {
+        if (($post["life_designers"] ?? null) != "") {
             if (!is_object($this->md_section = $this->md_obj->getLifecycle())) {
                 $this->md_section = $this->md_obj->addLifecycle();
                 $this->md_section->save();
@@ -1220,7 +1221,7 @@ class ilMDEditorGUI
         }
 
         // Point of Contact
-        if ($post["life_poc"] != "") {
+        if (($post["life_poc"] ?? null) != "") {
             if (!is_object($this->md_section = $this->md_obj->getLifecycle())) {
                 $this->md_section = $this->md_obj->addLifecycle();
                 $this->md_section->save();
@@ -1275,9 +1276,9 @@ class ilMDEditorGUI
         }
 
         $this->md_section = $this->md_obj->getLifecycle();
-        $this->md_section->setVersionLanguage(new ilMDLanguageItem($post['lif_language']));
-        $this->md_section->setVersion(ilUtil::stripSlashes($post['lif_version']));
-        $this->md_section->setStatus($post['lif_status']);
+        $this->md_section->setVersionLanguage(new ilMDLanguageItem($post['lif_language'] ?? ''));
+        $this->md_section->setVersion(ilUtil::stripSlashes($post['lif_version'] ?? ''));
+        $this->md_section->setStatus($post['lif_status'] ?? '');
         $this->md_section->update();
 
         $this->callListeners('Lifecycle');

@@ -2974,7 +2974,7 @@ class ilPageObjectGUI
         $ac->setInternalLinkDefault("Media_Media", 0);
         $ac->setInternalLinkFilterTypes(array("PageObject_FAQ", "GlossaryItem", "Media_Media", "Media_FAQ"));
         $val = $this->obj->getInitialOpenedContent();
-        if ($val["id"] != "" && $val["type"] != "") {
+        if (($val["id"] ?? '') != "" && ($val["type"] ?? '') != "") {
             $ac->setValue($val["type"] . "|" . $val["id"] . "|" . $val["target"]);
         }
 
@@ -2992,7 +2992,7 @@ class ilPageObjectGUI
     {
         $this->obj->saveInitialOpenedContent(
             $this->request->getString("opened_content_ajax_type"),
-            $this->request->getString("opened_content_ajax_id"),
+            $this->request->getInt("opened_content_ajax_id"),
             $this->request->getString("opened_content_ajax_target")
         );
 

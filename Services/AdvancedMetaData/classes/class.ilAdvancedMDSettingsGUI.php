@@ -216,11 +216,27 @@ class ilAdvancedMDSettingsGUI
             return $this->http->wrapper()->post()->retrieve(
                 'position',
                 $this->refinery->kindlyTo()->dictOf(
-                    $this->refinery->kindlyTo()->float()
+                    $this->refinery->byTrying([
+                        $this->refinery->kindlyTo()->float(),
+                        $this->refinery->always(0)
+                    ])
                 )
             );
         }
         return [];
+    }
+
+    protected function getTableOffsetFromPost(): int
+    {
+        // BT 35518: hacky solution for getting the table offset
+        if ($this->http->wrapper()->post()->has(ilAdvancedMDRecordTableGUI::ID . '_table_nav')) {
+            $nav = $this->http->wrapper()->post()->retrieve(
+                ilAdvancedMDRecordTableGUI::ID . '_table_nav',
+                $this->refinery->kindlyTo()->string()
+            );
+            return (int) explode(':', $nav)[2];
+        }
+        return 0;
     }
 
     /**
@@ -704,7 +720,7 @@ class ilAdvancedMDSettingsGUI
         asort($positions, SORT_NUMERIC);
 
         $sorted_positions = [];
-        $i = 1;
+        $i = 1 + $this->getTableOffsetFromPost();
         foreach ($positions as $record_id => $pos) {
             $sorted_positions[(int) $record_id] = $i++;
         }
@@ -715,6 +731,11 @@ class ilAdvancedMDSettingsGUI
             ilAdvancedMDRecord::deleteObjRecSelection($this->obj_id);
         }
         foreach ($this->getParsedRecordObjects() as $item) {
+            // BT 35518: this is kind of a hacky solution to skip items not in the table due to pagination
+            if (!array_key_exists($item['id'], $sorted_positions)) {
+                continue;
+            }
+
             $perm = $this->getPermissions()->hasPermissions(
                 ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
                 (string) $item['id'],
@@ -763,7 +784,9 @@ class ilAdvancedMDSettingsGUI
                     $record_obj->setActive(isset($post_active[$record_obj->getRecordId()]));
                 }
 
-                $record_obj->setGlobalPosition((int) $sorted_positions[$record_obj->getRecordId()]);
+                if (isset($sorted_positions[$record_obj->getRecordId()])) {
+                    $record_obj->setGlobalPosition((int) $sorted_positions[$record_obj->getRecordId()]);
+                }
                 $record_obj->update();
             } elseif ($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_TOGGLE_ACTIVATION]) {
                 // global, optional record
@@ -780,11 +803,17 @@ class ilAdvancedMDSettingsGUI
 
             // save local sorting
             if ($this->context == self::CONTEXT_OBJECT) {
-                global $DIC;
+                if (isset($sorted_positions[$item['id']])) {
+                    global $DIC;
 
-                $local_position = new \ilAdvancedMDRecordObjectOrdering($item['id'], $this->obj_id, $DIC->database());
-                $local_position->setPosition((int) $sorted_positions[$item['id']]);
-                $local_position->save();
+                    $local_position = new \ilAdvancedMDRecordObjectOrdering(
+                        $item['id'],
+                        $this->obj_id,
+                        $DIC->database()
+                    );
+                    $local_position->setPosition((int) $sorted_positions[$item['id']]);
+                    $local_position->save();
+                }
             }
         }
 
