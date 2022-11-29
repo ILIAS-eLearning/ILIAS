@@ -951,12 +951,22 @@ class ilObjStudyProgramme extends ilContainer
         $err_collection = $this->getMessageCollection('add_user');
         $ass = $this->assignment_repository->createFor($this->getId(), $usr_id, $acting_usr_id);
         $ass = $ass
-            ->initAssignmentDates()
+            ->initAssignmentDates();
+        //with updatePlanFromRepository,
+        //all successful courses are acknowledged; this is not actually wanted, here;(
+        /*
+        $ass = $ass
             ->updatePlanFromRepository(
                 $this->getSettingsRepository(),
                 $acting_usr_id,
                 $err_collection
             );
+        */
+        $ass = $ass->resetProgresses(
+            $this->getSettingsRepository(),
+            $acting_usr_id
+        );
+
         $this->assignment_repository->store($ass);
 
         if ($raise_event) {
@@ -1519,11 +1529,15 @@ class ilObjStudyProgramme extends ilContainer
         $prg->succeed($user_id, $obj_id);
     }
 
-    public function succeed(int $usr_id, int $triggering_obj_id): void
+    public function succeed(int $usr_id, int $triggering_obj_id, ilPRGAssignment $ass = null): void
     {
         $progress_node_id = $this->getId();
-        $user_assignments = $this->assignment_repository
-            ->getAllForNodeIsContained($progress_node_id, [$usr_id]);
+        if (is_null($ass)) {
+            $user_assignments = $this->assignment_repository
+                ->getAllForNodeIsContained($progress_node_id, [$usr_id]);
+        } else {
+            $user_assignments = [$ass];
+        }
 
         foreach ($user_assignments as $ass) {
             $ass = $ass->succeed(
