@@ -128,7 +128,7 @@ In the future, many systems in Bootstrap 3 will be replaced by our native soluti
 * If Bootstrap offers applicable classes and mixins, they SHOULD be used where possible.
 * If a variable, mixin or function is defined inside the Bootstrap dependency layer, but also has an equivalent on one of the ILIAS ITCSS layers, you MUST use or extend to the ILIAS version instead.
 * To avoid repeating CSS code, you MUST import only the variables and mixins of Bootstrap 3 on lower layers like so `@use "../some-relative-path/020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
-` and MUST use the namespace `btstrp3`.
+` and SHOULD use the namespace `btstrp3`.
 * You MAY customize, refactor and modernize parts of Bootstrap 3 and turn them into our own native code on the appropriate layer. In this case, you MUST point all formerly dependent components to the new code and remove the import of the now redundant Bootstrap 3 partial.
 * You SHOULD NOT pull in Bootstrap 3 code into our components without reducing, optimizing and modernizing it.
 
@@ -141,9 +141,9 @@ In the future, many systems in Bootstrap 3 will be replaced by our native soluti
 ## Tools
 
 General mixins, silent extensible classes, functions, media queries and animations
-that are used in lower layers of the SCSS find their place on the Tools layer.
+that are used in multiple locations on lower layers find their place on the Tools layer.
 
-They provide uniform definitions for common concepts and problems, and thus foster visual homogenity in the system. They substantiate variables from the Settings into more concrete concepts.
+They provide uniform definitions for common concepts, patterns and problems, and thus foster visual homogenity in the system. They substantiate variables from the Settings into more concrete concepts.
 
 Past layouts and HTML templates heavily rely on CSS utility classes like "ilCenter" or "smallred" for some formatting. These kinds of CSS utility classes are now deprecated.
 
@@ -164,14 +164,14 @@ Past layouts and HTML templates heavily rely on CSS utility classes like "ilCent
 
 ## Normalize
 
-Styles needed to normalize browser behaviour to a good default base state in all browsers is defined on the Normalize layer.
+Styles needed to unify browser behaviour to a good default base state in all browsers are defined on the Normalize layer.
 
 Currently, we rely on dependencies e.g. for normalizing complex elements like input fields. Therefor, large portions of normalizing styles may be located on the Dependency layer.
 
 ### Guidelines
 
 * This layer MAY create CSS code to create a consistent baseline across all browsers.
-* Elements that are heavily styled and overwritten on lower layers anyway SHOULD NOT be normalized. Resetting paragraph margins only to overwrite them again on the Elements layer is not necessary.
+* Elements that are heavily styled and overwritten on lower layers anyway SHOULD NOT be normalized. Resetting paragraph margins here and then overriding them again completely on the Elements layer is not necessary.
 
 ### Examples
 
@@ -185,10 +185,10 @@ Silent extensible classes, variables, functions and mixins that help define the 
 
 ### Guidelines
 
-* **General patterns and concepts for spacing and layout** MUST be placed on the settings layer as silent classes, variables, functions and mixins.
-* You **MUST NOT create utility CSS classes** (e.g. "ilFloatRight") like they are used in many legacy HTML templates unless for yet to be determined exceptions.
+* **General patterns and concepts for spacing and layout** MUST be placed on the Layout layer as silent classes, variables, functions and mixins.
+* You **SHOULD NOT create utility CSS classes** (e.g. "ilFloatRight") like they are used in many legacy HTML templates.
 * You MAY create utility functions, mixins or silent classes to be used by semantic classes on lower layers instead.
-* Consequently, Layout **SHOULD NOT create CSS code** unless called upon on lower layers.
+* Layout **SHOULD NOT create CSS code** unless called upon on lower layers.
 * If the positioning or spacing for a component can be completely based on Settings or general Layout variables, it MUST be defined in the component itself instead of creating component-specific variables on the Layout layer. For example, a variable like $panel-margin is neither part of a general layout system, nor needed on the Component layer if the general $il-margin- variables are sufficient.
 * A specific page layout is a component and not a general concept or utility and therefor MUST not be on this layer.
 
@@ -203,12 +203,12 @@ Silent extensible classes, variables, functions and mixins that help define the 
 
 ## Elements
 
-The basic styling of all unclassed HTML-elements has to be placed in the Elements layer. It covers the commonalities among components and provides.
+The basic styling of all unclassed HTML-elements has to be placed in the Elements layer. It covers the commonalities among components and provides consistent baseline styling of typgraphy, forms, images, embeds and other HTML elements.
 
 ### Guidelines
 * This layer **MUST output CSS code for unclassed HTML elements only** and MUST NOT output css code for classes.
 * This layer SHOULD use variables from the Settings extensively.
-* Components SHOULD only add classes and specific styling on lower layers if strictly required.
+* Components SHOULD only add classes and specific styling to HTML elements on lower layers if a variation from the baseline look is required.
 * This layer SHOULD NOT define variables, mixins and fuctions to be used on lower layers.
 
 ### Examples
@@ -218,7 +218,7 @@ The basic styling of all unclassed HTML-elements has to be placed in the Element
 
 ## Components
 
-CSS classes and local variables for each specific, individual component are contained on the component layer.
+CSS classes and local variables for each specific, individual component are contained on the Component layer.
 
 A component should be a UI component from the UI framework. Currently, we also have legacy Module and Service components as well as some some legacy code that has been grouped to form a component like unit, but both of these should dissolve into modern UI components in the future.
 
@@ -232,7 +232,7 @@ A component should be a UI component from the UI framework. Currently, we also h
 * Build a class for the panel to set background color, border and font-style based on mixins from Tools and global variables from Settings.
 
 ### Non-Examples:
-* Define font-families or sizes for some components. This is supposed to be done in the Settings layer.
+* Define font-families or sizes in px for a component. This is supposed to be done on higher layers.
 
 ## Hacks and Tweaks
 
@@ -247,9 +247,10 @@ Every bit of code that is contained here should be considered a smell that is wo
 
 # Colors
 
-* Outside of the Settings layer, all colors MUST be defined by using variables and you MUST NOT assign hex, rgb, hsl or other independent color values in lower layers. This means an attribute like `color: #564` is not allowed otside of Settings.
-* You MUST use functions (like `color: darken(@other-variable, 10%)`) to create new colors only on the Settings and Tool layers. You SHOULD create new color shades only if there is no other suitable option available yet.
-* Colors can be reassigned to other variables, but the values  MUST NOT be changed anymore. E.g. `@il-modal-bg` can be defined outside the colors section,  but should be assigned directly to a variable from the colors section.  E.g. `il-modal-bg: @il-primary-container-bg`, and not `il-modal-bg: darken(@il-primary-container-bg, 15%)` or similar.
+* Outside of the Settings layer, all colors MUST be defined by using variables and you MUST NOT assign hex, rgb, hsl or other independent color values in lower layers. This means an attribute like `color: #564` is not allowed outside of Settings.
+* You MAY use functions (like `color: darken(@other-variable, 10%)`) to create new colors only on the Settings and Tool layers and SHOULD NOT use such functions on lower layers.
+* You SHOULD create new color shades only if there is no other suitable option available yet.
+* Colors can be reassigned to other variables, but the values  MUST NOT be changed anymore. E.g. `@il-modal-bg` can be defined outside the Settings and Tools,  but should be assigned directly to a variable from Settings ad Tools.  E.g. `il-modal-bg: @il-primary-container-bg`, and not `il-modal-bg: darken(@il-primary-container-bg, 15%)` or similar.
 * Shortforms MUST be used in Sass and CSS. E.g. `#efe`, instead of `#eeffee`.
 * Only use lowercase for color codes in Sass and CSS. E.g. `#efe`, instead of `#EFE`.
 * You SHOULD use the already existing extended color variants to generate colors for components displaying areas or labels that need to be differentiated by colors such as charts.
@@ -258,10 +259,10 @@ Every bit of code that is contained here should be considered a smell that is wo
 * Font sizes **MUST be defined using the unit rem**, so accessibility options of the browser can easily scale all text in ILIAS.
 * You SHOULD use the font size variables from the settings layer.
 
-# Spacings and units
+# Sizes, spacings and units
 
-* When defining margins, padding, widths and heights you SHOULD use variables from the Settings, Tools or Layout layer whenever possible
-* For margin and paddings you SHOULD use the unit px.
+* When defining margins, paddings, widths and heights you SHOULD use variables from the Settings, Tools or Layout layer whenever possible.
+* For margins and paddings you SHOULD use the unit px, so users relying on the accessibility options of their browser can scale text separately from the design.
 * For widths and heights you SHOULD use (in order from highly to least recommended) flexbox and grid systems from Layouts or Dependencies, the units %, vw or vh, px.
 
 # Media Queries
@@ -272,7 +273,7 @@ Every bit of code that is contained here should be considered a smell that is wo
 
 # Naming Conventions
 
-Many existing names do not follow this naming conventions, but future projects MUST use the following guidelines.
+Many existing names do not follow these naming conventions, but future projects MUST use the following guidelines.
 
 ## File names
 
@@ -290,18 +291,25 @@ Class, variable and function names must make use of [BEMIT conventions](https://
 
 In the future, names MUST be constructed from the following parts:
 
-1 - The ITCSS layer SHOULD be indicated by a prefix
+### 1 - The ITCSS layer
+* SHOULD be indicated by a prefix
 
-* `il-` = Settings
-* `t-` = Tools (extensible classes)
-* `l-` = Layout
-* `c-` = Components
+    * `il-` = Settings
+    * `t-` = Tools (extensible classes)
+    * `l-` = Layout
+    * `c-` = Components
 
-2 - Block: Next, the name of the root of the component, tool or system SHOULD follow e.g. `c-button, c-panel, l-spacing`
+### 2 - Block
+* Next, the name of the root of the component, tool or system SHOULD follow e.g. `c-button, c-panel, l-spacing`
 
-3 - Element: If the attributes are applied to sub-elements of a root block, the name of the sub-element MUST be attached with `__` two underscores `c-panel__header, c-button__caret`
+### 3 - Element
+* If the attributes are applied to sub-elements of a root block, the name of the sub-element MUST be attached with `__` two underscores `c-button__caret`.
+* You SHOULD NOT indicate a chain of many sub-elements, if a shortened version is sufficiently clear (just `c-panel__header` instead of `c-panel__wrapper__panel-body__header`)
 
-4 - Modifier: Specific conditions or contexts that modify an existing element or block MUST be attached with `--` two dashes directly after the block or element that causes the modified style. Modifiers SHOULD NOT be visual descriptions like `--large`, they SHOULD indicate a semantic concept or status. Examples: `c-panel--alert__header, c-button--primary`
+### 4 - Modifier
+
+* Specific conditions or contexts that modify an existing element or block MUST be attached with `--` two dashes directly after the block or element that causes the modified style.
+* Modifiers SHOULD NOT be visual descriptions like `--large`, they SHOULD indicate a semantic concept or status. Examples: `c-panel--alert__header, c-button--primary`
 
 ## Classes
 
@@ -320,7 +328,7 @@ c-panel--dashboard__header--alert
 # Variables, Mixins and Functions
 
 * For now, variables MUST have a unique name and be treated as global as some approaches to create custom skins require this.
-* The only exception are local variables, which MAY have a non-unique name (e.g. omitting the layer and block prefix).
+* The only exception are strictly local variables, which MAY have a non-unique name (e.g. omitting the layer and block prefix).
 * Long variable names SHOULD be avoided. However, here is an extreme example for all possible segments of a variable's name:
 
 ```markdown
@@ -338,11 +346,10 @@ c-button--primary--hover__glyph--expand__color
 
 # CSS Attributes
 
-* You SHOULD aim to write as little Sass as possible. You SHOULD use existing logic from Settings, Tools, Layout and Dependencies whenever possible.
-* If you need to add custom styling, you SHOULD use the following ordering for
-your attributes (see [Concentric
-CSS](https://rhodesmill.org/brandon/2011/concentric-css/)): Concentric
-CSS/Less Overview.
+* You SHOULD aim to write as little Sass as possible.
+* You SHOULD use existing logic from Settings, Tools, Layout and Dependencies whenever possible.
+* If you need to add custom styling, you SHOULD use the following ordering for your attributes (see [Concentric
+CSS](https://rhodesmill.org/brandon/2011/concentric-css/)):
 
 ```CSS
 #Concentric-CSS-Overview {
@@ -373,7 +380,7 @@ CSS/Less Overview.
 # SASS best practices
 
 ## Importing files
-Keep in mind that paths in CSS are relative to the compiled CSS file at root level. Paths in Sass @use, @forward or @import (deprecated) are relative to the Sass file.
+Keep in mind that paths in CSS are relative to the compiled CSS file at templates/default/. Paths in Sass @use, @forward or @import (deprecated) are relative to the Sass file.
 * You MUST include partials with @use and/or @forward.
 * You MUST NOT use the deprecated @import.
 * When including a file with @use you SHOULD utilize a namespace. You MAY use the one generated by default or define a custom namespace.
@@ -401,6 +408,6 @@ sass templates/default/delos.scss templates/default/delos.css
 
 Note that the output heavily depends on the used sass version. You MUST use the latest release version of Dart Sass: https://github.com/sass/dart-sass/releases
 
-If you observe that there are changes appearing in your css output other than the ones to be expected, please first make sure, that you are using the latest Sass version. 
+If you observe that there are changes appearing in your css output other than the ones to be expected, please first make sure that you are using the latest Sass version. 
 
-If you have any questions about style code and how to contribute in the most optimal way, please contact the maintenance coordinators or ask in the CSS squad channel on the official ILIAS Discord server.
+If you have any questions about style code and how to contribute in the most optimal way, please contact the maintenance coordinators or ask in the CSS Squad channel on the official ILIAS Discord server.
