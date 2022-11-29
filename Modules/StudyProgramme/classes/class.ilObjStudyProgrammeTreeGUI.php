@@ -410,10 +410,10 @@ class ilObjStudyProgrammeTreeGUI
         $cgui = new ilConfirmationGUI();
 
         $msg = $this->lng->txt("info_delete_sure");
-
         if (!$this->ilSetting->get('enable_trash')) {
             $msg .= "<br/>" . $this->lng->txt("info_delete_warning_no_trash");
         }
+        $cgui->setHeaderText($msg);
         $cgui->setFormAction($this->ctrl->getFormAction($this, 'confirmedDelete', '', true));
         $cgui->setCancel($this->lng->txt("cancel"), "cancelDelete");
         $cgui->setConfirm($this->lng->txt("confirm"), "confirmedDelete");
@@ -426,14 +426,14 @@ class ilObjStudyProgrammeTreeGUI
 
         $cgui->addItem(
             "id[]",
-            $element_ref_id,
+            (string)$element_ref_id,
             $title,
             ilObject::_getIcon($obj_id, "small", $type),
             $alt
         );
         $cgui->addHiddenItem(
             'item_ref_id',
-            $this->http_wrapper->query()->retrieve("item_ref_id", $this->refinery->kindlyTo()->int())
+            $this->http_wrapper->query()->retrieve("item_ref_id", $this->refinery->kindlyTo()->string())
         );
 
         $content = $cgui->getHTML();
@@ -456,7 +456,7 @@ class ilObjStudyProgrammeTreeGUI
         if (
             (!$this->http_wrapper->post()->has("id") || !$this->http_wrapper->post()->has("item_ref_id")) &&
             is_array($this->http_wrapper->post()->retrieve(
-                "id",
+                "id[]",
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             ))
         ) {
@@ -498,7 +498,7 @@ class ilObjStudyProgrammeTreeGUI
                 $not_parent_of_current &&
                 $this->checkAccess('delete', $obj->getRefId())
             ) {
-                ilRepUtil::deleteObjects(0, $id);
+                ilRepUtil::deleteObjects(0, [$id]);
 
                 // deletes the tree-open-node-session storage
                 if (isset($children_of_node)) {
