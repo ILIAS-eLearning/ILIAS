@@ -328,7 +328,7 @@ c-panel--dashboard__header--alert
 # Variables, Mixins and Functions
 
 * For now, variables MUST have a unique name and be treated as global as some approaches to create custom skins require this.
-* The only exception are strictly local variables, which MAY have a non-unique name (e.g. omitting the layer and block prefix).
+* The only exception are strictly local variables inside functions and mixins, which MAY have a non-unique name (e.g. omitting the layer and block prefix).
 * Long variable names SHOULD be avoided. However, here is an extreme example for all possible segments of a variable's name:
 
 ```markdown
