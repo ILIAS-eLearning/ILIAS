@@ -9,7 +9,7 @@ modules of ILIAS.
 * **Product Management**: [Matthias Kunkel]
 * **Technical Board**: [Timon Amstutz], [Michael Jansen], [Richard Klees], [Fabian Schmid], [Stephan Winiker]
 * **Testcase Management**: [Fabian Kruse]
-* **Documentation**: N.A.
+* **Documentation**: [Ann-Christin Gruber]
 * **Online Help**: [Alexandra Tödt]
 
 # Maintainers
