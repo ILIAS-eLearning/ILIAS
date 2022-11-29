@@ -119,7 +119,7 @@ Adding dependencies requires careful consideration whether the benefits outweigh
 * Lower layers MAY call the variables, functions and mixins of a dependency for their purposes and SHOULD include them with a namespace.
 * A dependency SHOULD NOT be called on with @forward inside the _index.scss to expose its public variables to a skin.
 
-#### Bootstrap
+#### Bootstrap 3
 
 Bootstrap 3 has been used since ILIAS 5.0 to solve many common web design challenges like normalizing, column layouts and input elements.
 
@@ -127,7 +127,9 @@ In the future, many systems in Bootstrap 3 will be replaced by our native soluti
 
 * If Bootstrap offers applicable classes and mixins, they SHOULD be used where possible.
 * If a variable, mixin or function is defined inside the Bootstrap dependency layer, but also has an equivalent on one of the ILIAS ITCSS layers, you MUST use or extend to the ILIAS version instead.
-* You MAY customize, refactor and modernize parts of Bootstrap 3 and turn them into our own native code on the appropriate layer. In this case, you MUST point all formerly dependent components to the new code and remove the import of the redundant now Bootstrap 3 partial.
+* To avoid repeating CSS code, you MUST import only the variables and mixins of Bootstrap 3 on lower layers like so `@use "../some-relative-path/020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+` and MUST use the namespace `btstrp3`.
+* You MAY customize, refactor and modernize parts of Bootstrap 3 and turn them into our own native code on the appropriate layer. In this case, you MUST point all formerly dependent components to the new code and remove the import of the now redundant Bootstrap 3 partial.
 * You SHOULD NOT pull in Bootstrap 3 code into our components without reducing, optimizing and modernizing it.
 
 #### Legacy
