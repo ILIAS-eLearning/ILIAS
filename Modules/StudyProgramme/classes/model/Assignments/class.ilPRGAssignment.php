@@ -213,7 +213,7 @@ class ilPRGAssignment
         return $clone;
     }
 
-    public function getProgressScuccessNotification(): \Closure
+    public function getProgressSuccessNotification(): \Closure
     {
         return $this->progress_success_event_handling;
     }

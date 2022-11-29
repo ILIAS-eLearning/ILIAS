@@ -400,23 +400,24 @@ class ilObjStudyProgrammeMembersGUI
         $users = $this->getAddableUsers($users);
         $assignments = $this->_addUsers($users);
 
-        $completed_programmes = $this->http_wrapper->post()->retrieve(
-            "courses",
-            $this->refinery->kindlyTo()->dictOf(
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
-            )
-        );
+        $completed_programmes = null;
+        if ($this->http_wrapper->post()->has('courses')) {
+            $completed_programmes = $this->http_wrapper->post()->retrieve(
+                "courses",
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+                )
+            );
+        }
 
         if (is_array($completed_programmes)) {
             foreach ($completed_programmes as $user_id => $prg_ref_ids) {
-                $ass_id = $assignments[$user_id]->getId();
+                $ass = $assignments[$user_id];
                 foreach ($prg_ref_ids as $ids) {
                     [$prg_ref_id, $crs_id, $crsr_id] = explode(";", $ids);
                     $prg = $this->getStudyProgramme((int) $prg_ref_id);
-
                     if ($prg->isActive()) {
-                        $progress = $prg->getProgressForAssignment((int) $ass_id);
-                        $prg->succeed($progress->getId(), (int) $crsr_id);
+                        $prg->succeed($user_id, (int)$crsr_id, $ass);
                     }
                 }
             }
