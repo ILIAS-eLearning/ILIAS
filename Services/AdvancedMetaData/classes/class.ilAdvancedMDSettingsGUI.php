@@ -229,9 +229,9 @@ class ilAdvancedMDSettingsGUI
     protected function getTableOffsetFromPost(): int
     {
         // BT 35518: hacky solution for getting the table offset
-        if ($this->http->wrapper()->post()->has('adv_md_records_tbl_table_nav')) {
+        if ($this->http->wrapper()->post()->has(ilAdvancedMDRecordTableGUI::ID . '_table_nav')) {
             $nav = $this->http->wrapper()->post()->retrieve(
-                'adv_md_records_tbl_table_nav',
+                ilAdvancedMDRecordTableGUI::ID . '_table_nav',
                 $this->refinery->kindlyTo()->string()
             );
             return (int) explode(':', $nav)[2];

@@ -24,6 +24,8 @@ declare(strict_types=1);
  */
 class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 {
+    public const ID = 'adv_md_records_tbl';
+
     protected ilAdvancedMDPermissionHelper $permissions;
     protected string $in_object_type_context = "";  // repo object type, if settings are not global
 
@@ -36,7 +38,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
         $this->permissions = $a_permissions;
         $this->in_object_type_context = $a_in_object_type_context;
 
-        $this->setId('adv_md_records_tbl');
+        $this->setId(self::ID);
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->addColumn('', '', '1');
         $this->addColumn($this->lng->txt('md_adv_col_presentation_ordering'), 'position');

@@ -125,8 +125,8 @@ class ilADTLocalizedTextSearchBridgeSingle extends ilADTTextSearchBridgeSingle
         // :TODO: search mode (see above)
         $key = $this->lng->getLangKey();
         return !strcmp(
-            $this->getADT()->getTextForLanguage($key),
-            $a_adt->getTextForLanguage($key)
+            trim($this->getADT()->getTextForLanguage($key)),
+            trim($a_adt->getTextForLanguage($key))
         );
     }
 
