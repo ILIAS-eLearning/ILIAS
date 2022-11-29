@@ -62,7 +62,9 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
             $this->writeQuestionGenericPostData();
             $this->writeQuestionSpecificPostData(new ilPropertyFormGUI());
-            $this->writeAnswerSpecificPostData(new ilPropertyFormGUI());
+            if ($this->validateUploadSubforms() || !$hasErrors) {
+                $this->writeAnswerSpecificPostData(new ilPropertyFormGUI());
+            }
             $this->saveTaxonomyAssignments();
             return 0;
         }
@@ -204,7 +206,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function addterms(): void
     {
-        $this->writePostData();
+        $this->writePostData(true);
         $position = key($_POST["cmd"]["addterms"]);
         $this->object->insertTerm($position + 1);
         $this->editQuestion();
@@ -212,7 +214,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function removeterms(): void
     {
-        $this->writePostData();
+        $this->writePostData(true);
         $position = key($_POST["cmd"]["removeterms"]);
         $this->object->deleteTerm($position);
         $this->editQuestion();
@@ -220,7 +222,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function adddefinitions(): void
     {
-        $this->writePostData();
+        $this->writePostData(true);
         $position = key($_POST["cmd"]["adddefinitions"]);
         $this->object->insertDefinition($position + 1);
         $this->editQuestion();
@@ -228,7 +230,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function removedefinitions(): void
     {
-        $this->writePostData();
+        $this->writePostData(true);
         $position = key($_POST["cmd"]["removedefinitions"]);
         $this->object->deleteDefinition($position);
         $this->editQuestion();
@@ -236,7 +238,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function addpairs(): void
     {
-        $this->writePostData();
+        $this->writePostData(true);
         $position = key($_POST["cmd"]["addpairs"]);
         $this->object->insertMatchingPair($position + 1);
         $this->editQuestion();
@@ -244,7 +246,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function removepairs(): void
     {
-        $this->writePostData();
+        $this->writePostData(true);
         $position = key($_POST["cmd"]["removepairs"]);
         $this->object->deleteMatchingPair($position);
         $this->editQuestion();
