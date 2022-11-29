@@ -73,7 +73,7 @@ trait ilPRGAssignmentActions
 
     protected function notifyProgressScuccess(ilPRGProgress $pgs): void
     {
-        $eventnote = $this->getProgressScuccessNotification();
+        $eventnote = $this->getProgressSuccessNotification();
         $eventnote($this, $pgs->getNodeId());
     }
 
@@ -282,6 +282,21 @@ trait ilPRGAssignmentActions
         $zipper = $this->getZipper($this->getRootId());
         $zipper = $zipper->modifyAll(
             fn ($pgs) => $pgs->withAssignmentDate($this->getNow())
+        );
+        return $this->withProgressTree($zipper->getRoot());
+    }
+    public function resetProgresses(
+        ilStudyProgrammeSettingsRepository $settings_repo,
+        int $acting_usr_id
+    ): self {
+        $zipper = $this->getZipper($this->getRootId());
+        $zipper = $zipper->modifyAll(
+            function ($pgs) use ($acting_usr_id, $settings_repo): ilPRGProgress {
+                $pgs = $this->updateProgressRelevanceFromSettings($settings_repo, $pgs);
+                $pgs = $this->resetProgressToSettings($settings_repo, $pgs, $acting_usr_id);
+                //$pgs = $pgs->withStatus(ilPRGProgress::STATUS_IN_PROGRESS)
+                return $pgs;
+            }
         );
         return $this->withProgressTree($zipper->getRoot());
     }
