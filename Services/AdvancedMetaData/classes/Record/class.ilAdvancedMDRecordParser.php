@@ -337,7 +337,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
 
             case self::MODE_INSERT:
                 // set local context
-                if (is_array($this->context)) {
+                if (isset($this->context) && is_array($this->context)) {
                     $this->getCurrentRecord()->setParentObject($this->context["obj_id"]);
                     $this->getCurrentRecord()->setAssignedObjectTypes(array(
                         array(

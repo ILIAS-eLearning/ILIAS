@@ -25,12 +25,14 @@ declare(strict_types=1);
  */
 class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
 {
+    public const COMPARISON_NONE = 0;
     public const COMPARISON_ASCENDING = 1;
     public const COMPARISON_DESCENDING = 2;
 
     protected array $items = array();
     protected array $labels = [];
-    protected int $comparison_mode = 1;
+    // BT 35500: default should be no comparison
+    protected int $comparison_mode = self::COMPARISON_NONE;
 
     public function __construct(
         string $a_title = "",
@@ -194,7 +196,7 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
                 }
             }
 
-            if ($this->comparison_mode) {
+            if ($this->comparison_mode !== self::COMPARISON_NONE) {
                 $prev = null;
                 foreach ($this->items as $obj) {
                     $value = $obj->getPostValueForComparison();
