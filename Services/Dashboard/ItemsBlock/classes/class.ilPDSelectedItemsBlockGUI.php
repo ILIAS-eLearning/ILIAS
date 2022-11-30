@@ -135,7 +135,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         $this->viewSettings->parse();
 
         $this->blockView = ilPDSelectedItemsBlockViewGUI::bySettings($this->viewSettings);
-        $this->list_factory = new ilPDSelectedItemsBlockListGUIFactory($this, $this->blockView);
 
         $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
     }
