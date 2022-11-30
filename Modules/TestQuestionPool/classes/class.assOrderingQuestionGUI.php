@@ -172,7 +172,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $this->object->setPoints((int)$this->request->raw("points"));
 
-        $use_nested = (bool) (int)$this->request->raw(self::F_USE_NESTED);
+        $use_nested = $this->request->raw(self::F_USE_NESTED) === "1";
         $this->object->setNestingType($use_nested);
     }
 
@@ -182,7 +182,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $list = $form->getItemByPostVar(assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR)
             ->getElementList($this->object->getId());
 
-        $use_nested = (bool) (int)$this->request->raw(self::F_USE_NESTED);
+        $use_nested = $this->request->raw(self::F_USE_NESTED) === "1";
 
         if ($use_nested) {
             $existing_list = $this->object->getOrderingElementList();
