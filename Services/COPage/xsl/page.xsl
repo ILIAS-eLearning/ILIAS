@@ -88,6 +88,7 @@
 <xsl:param name="page_perma_link"/>
 <xsl:param name="activated_protection"/>
 <xsl:param name="protection_text"/>
+<xsl:param name="acc_save_url"/>
 
 <xsl:template match="PageObject">
 	<xsl:if test="$mode != 'edit'">
@@ -3572,7 +3573,7 @@
 							height: null,
 							orientation: 'vertical',
 							behaviour: '<xsl:value-of select = "$beh"/>',
-							save_url: '',
+							save_url: '<xsl:value-of select = "$acc_save_url"/>',
 							active_head_class: '<xsl:value-of select="$aheadclass"/>',
 							int_id: '',
 							multi: false
