@@ -260,13 +260,13 @@ class ilObject
 
             // write log entry
             $ilLog->write($message);
-                
+
             // raise error
             include_once("./Services/Object/exceptions/class.ilObjectTypeMismatchException.php");
             throw new ilObjectTypeMismatchException($message);
             return;
         }
-        
+
         $this->type = $obj["type"];
         $this->title = $obj["title"];
         // BEGIN WebDAV: WebDAV needs to access the untranslated title of an object
@@ -277,9 +277,9 @@ class ilObject
         $this->create_date = $obj["create_date"];
         $this->last_update = $obj["last_update"];
         $this->import_id = $obj["import_id"];
-        
+
         $this->setOfflineStatus($obj['offline']);
-        
+
         if ($objDefinition->isRBACObject($this->getType())) {
             // Read long description
             $query = "SELECT * FROM object_description WHERE obj_id = " . $ilDB->quote($this->id, 'integer');
@@ -371,7 +371,7 @@ class ilObject
     {
         $this->type = $a_type;
     }
-    
+
     /**
      * get presentation title
      * Normally same as title
@@ -385,7 +385,7 @@ class ilObject
     {
         return $this->getTitle();
     }
-    
+
 
     /**
     * get object title
@@ -430,7 +430,7 @@ class ilObject
     */
     public function getDescription()
     {
-        return $this->desc;
+        return $this->desc ?? '';
     }
 
     /**
@@ -668,7 +668,7 @@ class ilObject
 
         $this->title = ilUtil::shortenText($this->getTitle(), $this->max_title, $this->add_dots);
         $this->desc = ilUtil::shortenText($this->getDescription(), $this->max_desc, $this->add_dots);
-        
+
         // determine owner
         if ($this->getOwner() > 0) {
             $owner = $this->getOwner();
@@ -694,7 +694,7 @@ class ilObject
 
         $ilDB->manipulate($q);
 
-        
+
         // Save long form of description if is rbac object
         if ($objDefinition->isRBACObject($this->getType())) {
             $values = array(
@@ -702,11 +702,11 @@ class ilObject
                 'description' => array('clob', $this->getLongDescription()));
             $ilDB->insert('object_description', $values);
         }
-        
+
         if ($objDefinition->isOrgUnitPermissionType($this->type)) {
             ilOrgUnitGlobalSettings::getInstance()->saveDefaultPositionActivationStatus($this->id);
         }
-        
+
         // the line ($this->read();) messes up meta data handling: meta data,
         // that is not saved at this time, gets lost, so we query for the dates alone
         //$this->read();
@@ -841,7 +841,7 @@ class ilObject
 
             default:
         }
-        
+
         return true;
     }
 
@@ -914,7 +914,7 @@ class ilObject
     public function updateOwner()
     {
         $ilDB = $this->db;
-        
+
         $q = "UPDATE object_data " .
             "SET " .
             "owner = " . $ilDB->quote($this->getOwner(), "integer") . ", " .
@@ -943,7 +943,7 @@ class ilObject
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $ilDB->setLimit(1, 0);
         $q = "SELECT * FROM object_data WHERE import_id = " . $ilDB->quote($a_import_id, "text") .
             " ORDER BY create_date DESC";
@@ -969,7 +969,7 @@ class ilObject
 
         $query = "SELECT * FROM object_reference WHERE obj_id = " .
             $ilDB->quote($a_id, 'integer');
-            
+
         $res = $ilDB->query($query);
         $ref = array();
         while ($obj_rec = $ilDB->fetchAssoc($res)) {
@@ -994,7 +994,7 @@ class ilObject
         //echo "<br>LOOKING-$a_id-:$tit";
         return $tit;
     }
-    
+
     /**
      * Lookup offline status using objectDataCache
      *
@@ -1010,7 +1010,7 @@ class ilObject
     }
 
 
-    
+
     /**
     * lookup object owner
     *
@@ -1031,21 +1031,21 @@ class ilObject
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $query = (!$partialmatch)
             ? "SELECT obj_id FROM object_data WHERE title = " . $ilDB->quote($title, "text")
             : "SELECT obj_id FROM object_data WHERE " . $ilDB->like("title", "text", '%' . $title . '%');
         if ($type != '') {
             $query .= " AND type = " . $ilDB->quote($type, "text");
         }
-        
+
         $result = $ilDB->query($query);
-        
+
         $object_ids = array();
         while ($row = $ilDB->fetchAssoc($result)) {
             $object_ids[] = $row['obj_id'];
         }
-        
+
         return is_array($object_ids) ? $object_ids : array();
     }
 
@@ -1073,7 +1073,7 @@ class ilObject
         global $DIC;
 
         $ilObjDataCache = $DIC["ilObjDataCache"];
-        
+
         if ($a_as_string) {
             return ilDatePresentation::formatDate(new ilDateTime($ilObjDataCache->lookupLastUpdate($a_id), IL_CAL_DATETIME));
         } else {
@@ -1091,7 +1091,7 @@ class ilObject
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         if (!is_array($a_objs)) {
             $a_objs = array($a_objs);
         }
@@ -1099,7 +1099,7 @@ class ilObject
         $set = $ilDB->query("SELECT max(last_update) as last_update FROM object_data " .
             "WHERE " . $ilDB->in("obj_id", $a_objs, false, "integer") . " ");
         $rec = $ilDB->fetchAssoc($set);
-        
+
         return ($rec["last_update"]);
     }
 
@@ -1111,7 +1111,7 @@ class ilObject
 
         return (int) $ilObjDataCache->lookupObjId($a_id);
     }
-    
+
     /**
      * @param $a_ref_id
      * @param int $a_deleted_by
@@ -1127,7 +1127,7 @@ class ilObject
             "WHERE ref_id = " . $ilDB->quote($a_ref_id, 'integer');
         $res = $ilDB->manipulate($query);
     }
-    
+
     /**
      * Set deleted date
      * @param int[] $a_ref_ids
@@ -1162,7 +1162,7 @@ class ilObject
             " WHERE ref_id = " . $ilDB->quote($a_ref_id, 'integer');
         $ilDB->manipulate($query);
     }
-    
+
     /**
     * only called in ilObjectGUI::insertSavedNodes
     */
@@ -1171,7 +1171,7 @@ class ilObject
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $query = "SELECT deleted FROM object_reference" .
             " WHERE ref_id = " . $ilDB->quote($a_ref_id, "integer");
         $set = $ilDB->query($query);
@@ -1373,7 +1373,7 @@ class ilObject
         $ilAppEventHandler = $this->app_event_handler;
 
         $tree->insertNode($this->getRefId(), $a_parent_ref);
-        
+
         // write log entry
         $ilLog->write("ilObject::putInTree(), parent_ref: $a_parent_ref, ref_id: " .
             $this->getRefId() . ", obj_id: " . $this->getId() . ", type: " .
@@ -1402,7 +1402,7 @@ class ilObject
         $this->setParentRolePermissions($a_parent_ref);
         $this->initDefaultRoles();
     }
-    
+
     /**
      * Initialize the permissions of parent roles (local roles of categories, global roles...)
      * This method is overwritten in e.g courses, groups for building permission intersections with non_member  templates.
@@ -1413,7 +1413,7 @@ class ilObject
 
         $rbacadmin = $DIC["rbacadmin"];
         $rbacreview = $DIC["rbacreview"];
-        
+
         $parent_roles = $rbacreview->getParentRoleIds($a_parent_ref);
         foreach ((array) $parent_roles as $parent_role) {
             $operations = $rbacreview->getOperationsOfRole(
@@ -1468,7 +1468,7 @@ class ilObject
     {
         $ilDB = $this->db;
         $ilErr = $this->error;
-        
+
         if (!isset($this->id)) {
             $message = "ilObject::countReferences(): No obj_id given!";
             $ilErr->raiseError($message, $ilErr->WARNING);
@@ -1515,10 +1515,10 @@ class ilObject
             if ($this->type != $db_type) {
                 $message = "ilObject::delete(): Type mismatch. Object with obj_id: " . $this->id . " " .
                     "was instantiated by type '" . $this->type . "'. DB type is: " . $db_type;
-                    
+
                 // write log entry
                 $ilLog->write($message);
-                    
+
                 // raise error
                 $ilErr->raiseError("ilObject::delete(): Type mismatch. (" . $this->type . "/" . $this->id . ")", $ilErr->WARNING);
             }
@@ -1538,11 +1538,11 @@ class ilObject
             // write log entry
             $ilLog->write("ilObject::delete(), deleted object, obj_id: " . $this->getId() . ", type: " .
                 $this->getType() . ", title: " . $this->getTitle());
-            
+
             // keep log of core object data
             include_once "Services/Object/classes/class.ilObjectDataDeletionLog.php";
             ilObjectDataDeletionLog::add($this);
-            
+
             // remove news
             include_once("./Services/News/classes/class.ilNewsItem.php");
             $news_item = new ilNewsItem();
@@ -1564,7 +1564,7 @@ class ilObject
                 }
             }
             */
-                        
+
             // BEGIN WebDAV: Delete WebDAV properties
             $query = "DELETE FROM dav_property " .
                 "WHERE obj_id = " . $ilDB->quote($this->getId(), 'integer');
@@ -1573,10 +1573,10 @@ class ilObject
 
             include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
             ilECSImport::_deleteByObjId($this->getId());
-            
+
             include_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");
             ilAdvancedMDValues::_deleteByObjId($this->getId());
-            
+
             include_once("Services/Tracking/classes/class.ilLPObjSettings.php");
             ilLPObjSettings::_deleteByObjId($this->getId());
 
@@ -1599,7 +1599,7 @@ class ilObject
             $query = "DELETE FROM object_reference " .
                 "WHERE ref_id = " . $ilDB->quote($this->getRefId(), 'integer');
             $res = $ilDB->manipulate($query);
-            
+
             // write log entry
             $ilLog->write("ilObject::delete(), reference deleted, ref_id: " . $this->getRefId() .
                 ", obj_id: " . $this->getId() . ", type: " .
@@ -1640,7 +1640,7 @@ class ilObject
     {
         return array();
     }
-    
+
 
     /**
      * Apply template
@@ -1676,7 +1676,7 @@ class ilObject
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         if ($a_reference) {
             $q = "SELECT * FROM object_data " .
                  "LEFT JOIN object_reference ON object_reference.obj_id=object_data.obj_id " .
@@ -1688,18 +1688,18 @@ class ilObject
         if ($a_type) {
             $q .= " AND object_data.type = " . $ilDB->quote($a_type, "text");
         }
-        
+
         $r = $ilDB->query($q);
 
         return $ilDB->numRows($r) ? true : false;
     }
-        
+
     // toggle subscription interface
     public function setRegisterMode($a_bool)
     {
         $this->register = (bool) $a_bool;
     }
-    
+
     // check register status of current user
     // abstract method; overwrite in object type class
     public function isUserRegistered($a_user_id = 0)
@@ -1730,19 +1730,19 @@ class ilObject
         global $DIC;
 
         $ilDB = $DIC->database();
-                
+
         $order = " ORDER BY title";
 
         // where clause
         if ($a_obj_type) {
             $where_clause = "WHERE type = " .
                 $ilDB->quote($a_obj_type, "text");
-                
+
             if ($a_owner != "") {
                 $where_clause .= " AND owner = " . $ilDB->quote($a_owner, "integer");
             }
         }
-    
+
         $q = "SELECT * FROM object_data " . $where_clause . $order;
         $r = $ilDB->query($q);
 
@@ -1753,10 +1753,10 @@ class ilObject
                 $arr[$row["obj_id"]] = $row;
             }
         }
-    
+
         return $arr;
     }
-    
+
     /**
      * Prepare copy wizard object selection
      *
@@ -1776,7 +1776,7 @@ class ilObject
         $ilDB = $DIC->database();
         $lng = $DIC->language();
         $objDefinition = $DIC["objDefinition"];
-        
+
         $query = "SELECT obj_data.title obj_title,path_data.title path_title,child FROM tree " .
             "JOIN object_reference obj_ref ON child = obj_ref.ref_id " .
             "JOIN object_data obj_data ON obj_ref.obj_id = obj_data.obj_id " .
@@ -1785,7 +1785,7 @@ class ilObject
             "WHERE " . $ilDB->in("child", $a_ref_ids, false, "integer") . " " .
             "ORDER BY obj_data.title ";
         $res = $ilDB->query($query);
-        
+
         if (!$objDefinition->isPlugin($new_type)) {
             $options[0] = $lng->txt('obj_' . $new_type . '_select');
         } else {
@@ -1797,15 +1797,15 @@ class ilObject
             if (strlen($title = $row->obj_title) > 40) {
                 $title = substr($title, 0, 40) . '...';
             }
-            
+
             if ($show_path) {
                 if (strlen($path = $row->path_title) > 40) {
                     $path = substr($path, 0, 40) . '...';
                 }
-                
+
                 $title .= ' (' . $lng->txt('path') . ': ' . $path . ')';
             }
-            
+
             $options[$row->child] = $title;
         }
         return $options ? $options : array();
@@ -1832,13 +1832,13 @@ class ilObject
         /**
          * @var $ilAppEventHandler ilAppEventHandler
          */
-        
+
         $location = $objDefinition->getLocation($this->getType());
         $class_name = ('ilObj' . $objDefinition->getClassName($this->getType()));
-        
+
         include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
         $options = ilCopyWizardOptions::_getInstance($a_copy_id);
-        
+
         if (!$options->isTreeCopyDisabled() && !$a_omit_tree) {
             $title = $this->appendCopyInfo($a_target_id, $a_copy_id);
         } else {
@@ -1875,7 +1875,7 @@ class ilObject
         } else {
             ilLoggerFactory::getLogger('obj')->debug('Tree copy is disabled');
         }
-        
+
         include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
         ilAdvancedMDValues::_cloneValues($this->getId(), $new_obj->getId());
 
@@ -1902,7 +1902,7 @@ class ilObject
 
         return $new_obj;
     }
-    
+
     /**
      * Prepend Copy info if object with same name exists in that container
      *
@@ -1913,14 +1913,14 @@ class ilObject
     public function appendCopyInfo($a_target_id, $a_copy_id)
     {
         $tree = $this->tree;
-        
+
         include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
         $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
         if (!$cp_options->isRootNode($this->getRefId())) {
             return $this->getTitle();
         }
         $nodes = $tree->getChilds($a_target_id);
-        
+
         $title_unique = false;
         require_once 'Modules/File/classes/class.ilObjFileAccess.php';
         $numberOfCopy = 1;
@@ -1941,7 +1941,7 @@ class ilObject
         }
         return $title;
     }
-    
+
     /**
      * Clone object dependencies
      *
@@ -1958,7 +1958,7 @@ class ilObject
     {
         include_once './Services/Conditions/classes/class.ilConditionHandler.php' ;
         ilConditionHandler::cloneDependencies($this->getRefId(), $a_target_id, $a_copy_id);
-        
+
         include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
         $tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId($this->getRefId());
         if ($tpl_id) {
@@ -1971,7 +1971,7 @@ class ilObject
         }
         return true;
     }
-    
+
     /**
      * Copy meta data
      *
@@ -2100,9 +2100,9 @@ class ilObject
         if ($a_depth == 0) {
             $deps["dep"] = array();
         }
-        
+
         $deps["del_ids"][$a_obj_id] = $a_obj_id;
-        
+
         if (!$objDefinition->isPluginTypeName($a_type)) {
             $class_name = "ilObj" . $objDefinition->getClassName($a_type);
             $location = $objDefinition->getLocation($a_type);
@@ -2113,13 +2113,13 @@ class ilObject
                     $deps["dep"][$id][$a_obj_id][] = $message;
                 }
             }
-            
+
             // get deletion dependency of childs
             foreach ($tree->getChilds($a_ref_id) as $c) {
                 ilObject::collectDeletionDependencies($deps, $c["child"], $c["obj_id"], $c["type"], $a_depth + 1);
             }
         }
-        
+
         // delete all dependencies to objects that will be deleted, too
         if ($a_depth == 0) {
             foreach ($deps["del_ids"] as $obj_id) {
@@ -2128,7 +2128,7 @@ class ilObject
             $deps = $deps["dep"];
         }
     }
-    
+
     /**
      * Get deletion dependencies
      *
@@ -2137,7 +2137,7 @@ class ilObject
     {
         return false;
     }
-    
+
     /**
      * Get long description data
      *
@@ -2149,7 +2149,7 @@ class ilObject
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $res = $ilDB->query("SELECT * FROM object_description" .
             " WHERE " . $ilDB->in("obj_id", $a_obj_ids, "", "integer"));
         $all = array();
@@ -2158,7 +2158,7 @@ class ilObject
         }
         return $all;
     }
-    
+
     /**
      * Get all ids of objects user owns
      *
@@ -2171,16 +2171,16 @@ class ilObject
 
         $ilDB = $DIC->database();
         $objDefinition = $DIC["objDefinition"];
-                
+
         $all = array();
-        
+
         // restrict to repository
         $types = array_keys($objDefinition->getSubObjectsRecursively("root"));
-            
+
         $sql = "SELECT od.obj_id,od.type,od.title FROM object_data od" .
             " JOIN object_reference oref ON(oref.obj_id = od.obj_id)" .
             " JOIN tree ON (tree.child = oref.ref_id)";
-        
+
         if ($a_user_id) {
             $sql .= " WHERE od.owner = " . $ilDB->quote($a_user_id, "integer");
         } else {
@@ -2189,18 +2189,18 @@ class ilObject
                 " OR od.owner IS NULL OR ud.login IS NULL)" .
                 " AND od.owner <> " . $ilDB->quote(-1, "integer");
         }
-        
+
         $sql .= " AND " . $ilDB->in("od.type", $types, "", "text") .
             " AND tree.tree > " . $ilDB->quote(0, "integer"); // #12485
-            
+
         $res = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($res)) {
             $all[$row["type"]][$row["obj_id"]] = $row["title"];
         }
-                
+
         return $all;
     }
-    
+
     /**
      * Try to fix missing object titles
      *
@@ -2212,11 +2212,11 @@ class ilObject
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         if (!in_array($a_type, array("catr", "crsr", "sess", "grpr", "prgr"))) {
             return;
         }
-        
+
         // any missing titles?
         $missing_obj_ids = array();
         foreach ($a_obj_title_map as $obj_id => $title) {
@@ -2224,11 +2224,11 @@ class ilObject
                 $missing_obj_ids[] = $obj_id;
             }
         }
-        
+
         if (!sizeof($missing_obj_ids)) {
             return;
         }
-        
+
         switch ($a_type) {
             case "grpr":
             case "catr":
@@ -2241,7 +2241,7 @@ class ilObject
                     $a_obj_title_map[$row["obj_id"]] = $row["title"];
                 }
                 break;
-                
+
             case "sess":
                 include_once "Modules/Session/classes/class.ilObjSession.php";
                 foreach ($missing_obj_ids as $obj_id) {
@@ -2251,7 +2251,7 @@ class ilObject
                 break;
         }
     }
-    
+
     /**
      * Lookup creation date
      *
@@ -2263,13 +2263,13 @@ class ilObject
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $set = $ilDB->query("SELECT create_date FROM object_data " .
             " WHERE obj_id = " . $ilDB->quote($a_id, "integer"));
         $rec = $ilDB->fetchAssoc($set);
         return $rec["create_date"];
     }
-        
+
     /**
      * Check if auto rating is active for parent group/course
      *
@@ -2282,7 +2282,7 @@ class ilObject
         global $DIC;
 
         $tree = $DIC->repositoryTree();
-        
+
         if (!$a_ref_id ||
             !in_array($a_type, array("file", "lm", "wiki"))) {
             return false;
@@ -2295,7 +2295,7 @@ class ilObject
         }
         if ($parent_ref_id) {
             include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
-            
+
             // get auto rate setting
             $parent_obj_id = ilObject::_lookupObjId($parent_ref_id);
             return ilContainer::_lookupContainerSetting(
