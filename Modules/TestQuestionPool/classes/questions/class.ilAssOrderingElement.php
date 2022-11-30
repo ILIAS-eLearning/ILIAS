@@ -458,7 +458,7 @@ class ilAssOrderingElement
                 self::EXPORT_IDENT_PROPERTY_SEPARATOR,
                 $ident
             );
-            $this->setRandomIdentifier($randomId);
+            $this->setRandomIdentifier((int) $randomId);
             $this->setSolutionIdentifier($solutionId);
             $this->setPosition($pos);
             $this->setIndentation($indent);
