@@ -3561,7 +3561,7 @@
 					</xsl:choose>
 				</xsl:variable>
 				<script type="text/javascript">
-					if (typeof variable === 'undefined') {
+					if (typeof ilAccordionsInits === 'undefined') {
 						var ilAccordionsInits = [];
 					}
 					ilAccordionsInits.push({
