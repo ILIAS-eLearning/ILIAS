@@ -457,7 +457,11 @@ class ilObject
     */
     public function getLongDescription()
     {
-        return strlen($this->long_desc) ? $this->long_desc : $this->desc;
+        if (strlen($this->long_desc)) {
+            return $this->long_desc;
+        }
+
+        return $this->getDescription();
     }
 
     /**
