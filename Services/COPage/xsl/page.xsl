@@ -86,6 +86,7 @@
 <xsl:param name="enable_html_mob"/>
 <xsl:param name="enable_href"/>
 <xsl:param name="page_perma_link"/>
+<xsl:param name="acc_save_url"/>
 
 <xsl:template match="PageObject">
 	<xsl:if test="$mode != 'edit'">
@@ -3540,7 +3541,7 @@
 							height: null,
 							orientation: 'vertical',
 							behaviour: '<xsl:value-of select = "$beh"/>',
-							save_url: '',
+							save_url: '<xsl:value-of select = "$acc_save_url"/>',
 							active_head_class: '<xsl:value-of select="$aheadclass"/>',
 							int_id: '',
 							multi: false
