@@ -42,7 +42,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
     protected array $disabled_buttons = array();
     protected bool $usePurifier = false;
     protected ?ilHtmlPurifierInterface $Purifier = null;
-    protected ?string $root_block_element = "";
+    protected ?string $root_block_element = null;
 
     protected array $rte_tag_set = array(
         "mini" => array("strong", "em", "u", "ol", "li", "ul", "blockquote", "a", "p", "span", "br"), // #13286/#17981
@@ -456,13 +456,13 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
         return $this->Purifier;
     }
 
-    public function setRTERootBlockElement(string $a_root_block_element): self
+    public function setRTERootBlockElement(?string $a_root_block_element): self
     {
         $this->root_block_element = $a_root_block_element;
         return $this;
     }
 
-    public function getRTERootBlockElement(): string
+    public function getRTERootBlockElement(): ?string
     {
         return $this->root_block_element;
     }
