@@ -116,6 +116,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         $this->allow_moving = false;
 
         $this->initViewSettings();
+        $this->list_factory = new ilPDSelectedItemsBlockListGUIFactory($this, $this->blockView);
 
         if ($this->viewSettings->isTilePresentation()) {
             $this->setPresentation(self::PRES_MAIN_LEG);
