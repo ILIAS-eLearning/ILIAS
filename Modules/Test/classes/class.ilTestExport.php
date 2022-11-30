@@ -473,7 +473,7 @@ abstract class ilTestExport
             $col = 0;
 
             // each participant gets an own row for question column headers
-            if ($this->test_obj->isRandomTest() && $firstwritten) {
+            if ($this->test_obj->isRandomTest() && $firstrowwritten) {
                 $row++;
             }
 
@@ -800,16 +800,16 @@ abstract class ilTestExport
             $participantcount = count($data->getParticipants());
             $allusersheet = false;
             $pages = 0;
-            $i = 0;
             foreach ($data->getParticipants() as $active_id => $userdata) {
-                $i++;
-
-                $username = (!is_null($userdata) && $userdata->getName()) ? $userdata->getName() : "ID $active_id";
+                $username = (!is_null($userdata) && $userdata->getName())
+                    ? $userdata->getName()
+                    : "ID $active_id";
+                $username = substr($username, 0, 26);
                 if (array_key_exists($username, $usernames)) {
                     $usernames[$username]++;
-                    $username .= " ($i)";
+                    $username .= " ($usernames[$username])";
                 } else {
-                    $usernames[$username] = 1;
+                    $usernames[$username] = 0;
                 }
 
                 if ($participantcount > 250) {
@@ -1091,7 +1091,7 @@ abstract class ilTestExport
         usort(
             $questions,
             function ($a, $b) use ($key) {
-                if ($a[$key] > $b[$key]) {
+                if (isset($a[$key], $b[$key]) && $a[$key] > $b[$key]) {
                     return 1;
                 }
                 return -1;
