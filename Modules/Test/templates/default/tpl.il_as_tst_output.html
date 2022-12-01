@@ -92,45 +92,7 @@
 					jsswitch.style.display = "block";
 				}
 			</script>
-			<!-- END jsswitch -->
-			<script type="text/javascript" charset="utf-8">
-
-					// fau: testNav - moved saving on time reached to ilTestPlayerQuestionEditControl.js .
-
-					function saveTextarea(editor)
-					{
-						let form = document.forms['taForm'];
-						let input = document.createElement('input');
-						input.type = 'hidden';
-						input.name = 'cmd[submitSolution]';
-						input.value = 'save';
-
-						form.appendChild(input);
-						form.submit();
-					}
-
-					(function($){ $(document).ready( function()
-					{
-						//return;
-						$('#taForm').on('keyup keydown keypress', function(event) {
-							if( event.which == 13  && $(event.target).prop("tagName").toLowerCase() == "a" ) {
-								return;
-							}
-							if (event.which == 13) {
-								if ($(event.target).prop("tagName").toLowerCase() != "textarea" &&
-									(
-										$(event.target).prop("tagName").toLowerCase() != "input"
-											||
-											$(event.target).prop("type") != "submit"
-										)) {
-									event.preventDefault();
-								}
-							}
-						});
-					}
-					); })(jQuery);
-
-			</script>
+            <!-- END jsswitch -->
 		</form>
 	</div>
 </div>
