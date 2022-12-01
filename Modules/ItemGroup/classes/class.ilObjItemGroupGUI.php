@@ -90,7 +90,8 @@ class ilObjItemGroupGUI extends ilObject2GUI
                 $this->prepareOutput();
                 $this->setSettingsSubTabs("settings_trans");
                 $transgui = new ilObjectTranslationGUI($this);
-                $transgui->setTitleDescrOnlyMode(false);
+                $transgui->setEnableFallbackLanguage(false);
+                $transgui->supportContentTranslation(false);
                 $transgui->hideDescription(true);
                 $this->ctrl->forwardCommand($transgui);
                 break;
