@@ -731,32 +731,18 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         switch ($this->testrequest->raw("export_type")) {
             case "excel_scored_test_run":
-                $expFactory->getExporter('results')->exportToExcel(
-                    $deliver = true,
-                    $filterby,
-                    $filtertext,
-                    $passedonly,
-                    true
-                );
+                $exporter = new ilExcelTestExport($this->object, $filterby, $filtertext, true, $passedonly, $deliver = true);
+                $exporter->export($this->object);
                 break;
 
             case "csv":
-                $expFactory->getExporter('results')->exportToCSV(
-                    $deliver = true,
-                    $filterby,
-                    $filtertext,
-                    $passedonly
-                );
+                $exporter = new ilCSVTestExport($this->object, $filterby, $filtertext, true, $passedonly, $deliver = true);
+                $exporter->export($this->object);
                 break;
 
             case "excel_all_test_runs":
-                $expFactory->getExporter('results')->exportToExcel(
-                    $deliver = true,
-                    $filterby,
-                    $filtertext,
-                    $passedonly,
-                    false
-                );
+                $exporter = new ilCSVTestExport($this->object, $filterby, $filtertext, false, $passedonly, $deliver = true);
+                $exporter->export($this->object);
                 break;
             case "certificate":
                 if ($passedonly) {
@@ -777,10 +763,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         switch ($_POST["export_type"]) {
             case "excel":
-                $exportObj->exportToExcel($deliver = true);
+                $exporter = new ilExcelTestExport($this->object, '', '', true, false, $deliver = true);
+                $exporter->export($this->object);
                 break;
             case "csv":
-                $exportObj->exportToCSV($deliver = true);
+                $exporter = new ilCSVTestExport($this->object, '', '', true, false, $deliver = true);
+                $exporter->export($this->object);
                 break;
         }
     }

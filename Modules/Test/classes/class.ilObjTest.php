@@ -9480,10 +9480,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $participantList = new ilTestParticipantList($this);
         $participantList->initializeFromDbRows($this->getTestParticipants());
 
-        $expFactory = new ilTestExportFactory($this);
-        $exportObj = $expFactory->getExporter('results');
-        $exportObj->setForcedAccessFilteredParticipantList($participantList);
-        $file = $exportObj->exportToExcel($deliver = false, 'active_id', $active_id, $passedonly = false);
+        $exporter = new ilExcelTestExport($this, 'active_id', $active_id, true, $passedonly = false, $deliver = false);
+        $file = $exporter->export($this);
         $fd = new ilFileDataMail(ANONYMOUS_USER_ID);
         $fd->copyAttachmentFile($file, "result_" . $active_id . ".xlsx");
         $file_names[] = "result_" . $active_id . ".xlsx";
