@@ -308,7 +308,8 @@ If the constraint is met, show the question.
   * active_fi: survey run -> svy_finished
   * question_fi: question -> svy_question (does not point to svy_svy_qst)
   * value: scale value of corresponding "variable" - 1 (!)
-    (metric question answers have the entered value stored, no "-1" !)
+    * metric question answers have the entered value stored, no "-1" !
+    * metric questions allow to enter floats like 2.5
   * textanswer: Text answer
   * rowvalue: Matrix question row, starting with 0
   
