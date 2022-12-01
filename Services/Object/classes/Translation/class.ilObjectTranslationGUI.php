@@ -47,6 +47,7 @@ class ilObjectTranslationGUI
     protected ilObjectTranslation $obj_trans;
 
     protected bool $title_descr_only = true;
+    protected bool $hide_description = false;
     protected bool $fallback_lang_mode = true;
 
     public function __construct($obj_gui)
@@ -66,6 +67,11 @@ class ilObjectTranslationGUI
         $this->obj = $obj_gui->getObject();
 
         $this->obj_trans = ilObjectTranslation::getInstance($this->obj->getId());
+    }
+
+    public function hideDescription(bool $hide): void
+    {
+        $this->hide_description = $hide;
     }
 
     private function getTableValuesByObjects(): array
@@ -210,7 +216,7 @@ class ilObjectTranslationGUI
         $table = new ilObjectTranslation2TableGUI(
             $this,
             self::CMD_LIST_TRANSLATIONS,
-            true,
+            !$this->hide_description,
             "Translation",
             $this->obj_trans->getMasterLanguage(),
             $this->fallback_lang_mode,
@@ -310,13 +316,13 @@ class ilObjectTranslationGUI
             }
             if ($languages[$k] === $obj_store_lang) {
                 $this->obj->setTitle(ilUtil::stripSlashes($v));
-                $this->obj->setDescription(ilUtil::stripSlashes($descriptions[$k]));
+                $this->obj->setDescription(ilUtil::stripSlashes($descriptions[$k] ?? ""));
             }
 
             $this->obj_trans->addLanguage(
                 ilUtil::stripSlashes($languages[$k]),
                 ilUtil::stripSlashes($v),
-                ilUtil::stripSlashes($descriptions[$k]),
+                ilUtil::stripSlashes($descriptions[$k] ?? ""),
                 $is_default
             );
         }
