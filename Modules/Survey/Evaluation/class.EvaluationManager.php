@@ -69,9 +69,18 @@ class EvaluationManager
     {
         $survey = $this->survey;
         $access = $this->access;
+
+        switch ($survey->getMode()) {
+            case \ilObjSurvey::MODE_360:
+                return ($access->canEditSettings() ||
+                    $survey->get360Results() === \ilObjSurvey::RESULTS_360_ALL);
+        }
+        return false;
+
+        /*
         return ($access->canEditSettings() ||
             $survey->get360Results() === \ilObjSurvey::RESULTS_360_ALL ||
-            $survey->getSelfEvaluationResults() === \ilObjSurvey::RESULTS_SELF_EVAL_ALL);
+            $survey->getSelfEvaluationResults() === \ilObjSurvey::RESULTS_SELF_EVAL_ALL);*/
     }
 
     /**
@@ -99,8 +108,8 @@ class EvaluationManager
                     $appraisee_ids[] = (int) \ilObjUser::_lookupId($item['login']);
                 }
             }
-        } elseif ($feature_config->usesAppraisees() ||
-            $survey->getMode() === \ilObjSurvey::MODE_SELF_EVAL) {
+        } elseif ($feature_config->usesAppraisees() /*||
+            $survey->getMode() === \ilObjSurvey::MODE_SELF_EVAL*/) {
             $appraisee_ids[] = $user_id;
         }
         return $appraisee_ids;

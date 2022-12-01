@@ -87,10 +87,13 @@ class ilSurveyExecutionGUI
         $this->log = ilLoggerFactory::getLogger("svy");
 
         $domain_service = $DIC->survey()->internal();
+        $appraisee_id = ($a_object->getMode() === ilObjSurvey::MODE_SELF_EVAL)
+            ? $this->user->getId()
+            : $this->requested_appr_id;
         $this->run_manager = $domain_service->domain()->execution()->run(
             $a_object,
             $this->user->getId(),
-            $this->requested_appr_id
+            $appraisee_id
         );
         $this->participant_manager = $domain_service->domain()->participants()->status(
             $a_object,
