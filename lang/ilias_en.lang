@@ -578,9 +578,9 @@ assessment#:#assessment_scoring_adjust#:#Enable corrections
 assessment#:#assessment_scoring_adjust_desc#:#Enables the corrections feature to allow modifications to questions in a test.
 assessment#:#autocomplete_error#:#Your autocomplete number is to large, you have answers which have less characters, so they would never be displayed.
 assessment#:#autoparticipants_subtab#:#Participants
-assessment#:#autosave#:#Automatic saving
+assessment#:#autosave#:#Automatic Saving
 assessment#:#autosave_failed#:#Autosave failed!
-assessment#:#autosave_info#:#The answers of the participants to the last opened question are automatically saved by ILIAS. These automatically saved answers are <b>not</b> considered to be answers authorised by the participant. Therefore, they are not taken into account by ILIAS during the automated evaluation. Automatically saved answers must always be evaluated manually! They are also not displayed in the result view of the respective test taker. The automatic saving of answers is only intended for emergencies, e.g. if the browser window is closed by mistake!
+assessment#:#autosave_info#:#The answers of the participants to the last opened question are automatically saved by ILIAS. These automatically saved answers are <b>not</b> considered to be answers that have been authorised by the participant. Therefore, they are not taken into account by ILIAS during the automated evaluation. Automatically saved answers must always be evaluated manually! They are also not displayed in a participant’s ‘Results’ tab. The automatic saving of answers is only intended for emergencies, e.g. if the browser window is closed by mistake!
 assessment#:#autosave_ival#:#Interval
 assessment#:#autosave_success#:#Autosave successful...
 assessment#:#autosavecontent#:#Autosave Content
@@ -595,7 +595,7 @@ assessment#:#button_request_question_hint#:#Request Hint
 assessment#:#button_show_requested_question_hints#:#Show Requested Hints
 assessment#:#by#:#by
 assessment#:#cancel_test#:#Suspend the Test
-assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.
+assessment#:#cannot_edit_marks#:#The test has already been completed by some participants. You can only change the marks if an ’Access to Test Results’ date has been set and that date is in the future i.e. it has not yet been reached.
 assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!
 assessment#:#cannot_execute_test#:#You do not possess sufficient permissions to run the test!
 assessment#:#cannot_export_archive#:#Archive-Export cannot be created.
@@ -650,15 +650,15 @@ assessment#:#definition_image#:#Definition Image
 assessment#:#definition_text#:#Definition Text
 assessment#:#definitions#:#Definitions
 assessment#:#deleteSuggestedSolution#:#Remove this content for recapitulation
-assessment#:#delete_all_user_data#:#Delete Test Data of all Users
-assessment#:#delete_all_user_data_confirmation#:#Do you really want to delete the test data of all users in this test?
+assessment#:#delete_all_user_data#:#Delete Test Data of all Participants
+assessment#:#delete_all_user_data_confirmation#:#Are you sure you want to delete the test data of all of the participants of this test?
 assessment#:#delete_image_header#:#Remove image
 assessment#:#delete_image_question#:#Do you really want to remove the image?
 assessment#:#delete_user_data#:#Remove Test Data of Selected Users
 assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
-assessment#:#detail_ending_time_reached#:#The time allotted for this test is now over. The test had not been available since %s hours.
-assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!
-assessment#:#detail_starting_time_not_reached#:#You have not reached the start time of the test. The test will be available on %s hours.
+assessment#:#detail_ending_time_reached#:#The maximum time available for completing this test has expired. This test has not been available since %s .
+assessment#:#detail_max_processing_time_reached#:#You have exceeded the maximum time available for completing this test! You are no longer allowed to continue with the test.
+assessment#:#detail_starting_time_not_reached#:#You cannot start the test yet. The test will be available from %s onwards.
 assessment#:#detailed_evaluation#:#Detailed Evaluation
 assessment#:#detailed_evaluation_for#:#Detailed Evaluation for %s
 assessment#:#detailed_evaluation_missing_active_id#:#You must call the ‘Detailed Evaluation’ for a selected participant!
@@ -692,7 +692,7 @@ assessment#:#edit_test_questions#:#List View
 assessment#:#element_height#:#Minimum Height
 assessment#:#element_height_info#:#This is the minimum height in pixels for term and definition/picture items during the test output.
 assessment#:#enable_examview#:#Overview of Answers Given
-assessment#:#enable_examview_desc#:#Participants are presented with all questions and the answers they provided in an overview prior to submitting the test.
+assessment#:#enable_examview_desc#:#When they click on ‘Finish the Test’, participants are presented with an overview of the test’s questions and the answers they provided to those questions. From this overview, they are still able to click on ‘Back’ in order to return to the test and make changes to their answers as long as answers have not been locked (see ‘Answer Lock’ above).
 assessment#:#end_tag#:#End Tag
 assessment#:#enlarge#:#Enlarge
 assessment#:#enter_anonymous_code#:#Enter access code to continue your already started test:
@@ -733,12 +733,12 @@ assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted un
 assessment#:#eval_all_users#:#Evaluation for All Users
 assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.
 assessment#:#evaluated_users#:#Evaluated Users
-assessment#:#exam_id#:#Testpass ID:
-assessment#:#exam_id_label#:#Exam Id
-assessment#:#examid_in_test_pass#:#Display Test Pass ID
-assessment#:#examid_in_test_pass_desc#:#A test pass ID is displayed in the test. A new ID is generated for every test pass.
-assessment#:#examid_in_test_res#:#ILIAS Test Pass ID
-assessment#:#examid_in_test_res_desc#:#The ILIAS test pass ID will be included in the test results.
+assessment#:#exam_id#:#Test ID:
+assessment#:#exam_id_label#:#Test ID
+assessment#:#examid_in_test_pass#:#Display Test ID
+assessment#:#examid_in_test_pass_desc#:#A Test ID is displayed in the test. A new, unique ID is generated for every test attempt.
+assessment#:#examid_in_test_res#:#Display ILIAS Test ID
+assessment#:#examid_in_test_res_desc#:#The ILIAS Test ID will be included in the test results.
 assessment#:#exp_eval_data#:#Export evaluation data as
 assessment#:#exp_file_created#:#Export file created.
 assessment#:#exp_type_certificate#:#Certificate (PDF)
@@ -759,7 +759,7 @@ assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/sel
 assessment#:#feedback_complete_solution#:#Correct solution
 assessment#:#feedback_correct_kprim#:#Show answer specific feedback for all correct answers (Correct answers are those, for that the positive option is to be chosen/selected).
 assessment#:#feedback_correct_sc_mc#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).
-assessment#:#feedback_generic#:#Common Solution Feedback
+assessment#:#feedback_generic#:#Correct/Incorrect Answer Feedback
 assessment#:#feedback_incomplete_solution#:#At least one answer is not correct
 assessment#:#feedback_setting#:#Mode of answer specific feedback.
 assessment#:#fileDownload#:#File download
@@ -771,18 +771,18 @@ assessment#:#filter_all_questionpools#:#All Question Pools
 assessment#:#filter_show_question_types#:#Show Question Types
 assessment#:#filter_show_questionpools#:#Show Question Pools
 assessment#:#final_statement#:#Concluding Remarks
-assessment#:#final_statement_show_desc#:#Shows concluding remarks after the test  was submitted.
+assessment#:#final_statement_show_desc#:#Show concluding remarks after the test has been submitted (there is no option to return to the test from this page).
 assessment#:#finalized_by#:#Completed by
 assessment#:#finalized_evaluation#:#Scoring completed
 assessment#:#finalized_on#:#Completed at
 assessment#:#finish_all_user_passes#:#Finish all Test Passes
-assessment#:#finish_pass_for_all_users#:#Are you sure you want to finish the test passes for all Users?
+assessment#:#finish_pass_for_all_users#:#Are you sure you want to finish the test passes for all users?
 assessment#:#finish_pass_for_all_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.
 assessment#:#finish_pass_for_user_confirmation#:#Are you sure you want to finish this test pass for the participant "%s"?
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).
-assessment#:#finish_test#:#Finish the Test
-assessment#:#finish_unfinished_passes#:#Finish Open Passes
-assessment#:#finish_unfinished_passes_desc#:#Passes which have a finishing time or a duration limit configured will be closed by this cron job.
+assessment#:#finish_test#:#Finish Test
+assessment#:#finish_unfinished_passes#:#Finish Uncompleted Attempts
+assessment#:#finish_unfinished_passes_desc#:#Test attempts which have a set finishing time or a time limit will be closed by this cron job.
 assessment#:#fixed_participants_hint#:#This test is only accessible for the manually added participants listed below. You can disable this setting by deactivating the checkbox ‘Manually Selected Participants’ in the test settings.
 assessment#:#fixedparticipants_subtab#:#Manually Selected Participants
 assessment#:#flashfile#:#Flash File
@@ -803,9 +803,9 @@ assessment#:#grading_obligations_answered_listentry#:#Answered
 assessment#:#grading_obligations_answered_msg#:#You filled out all compulsory questions.
 assessment#:#grading_obligations_listlabel#:#Compulsory Questions
 assessment#:#grading_obligations_missing_listentry#:#Open
-assessment#:#grading_obligations_missing_msg#:#You didn‘t filled out all compulsory questions.
-assessment#:#grading_status_failed_msg#:#Sorry, you <b>failed</b> the test.
-assessment#:#grading_status_passed_msg#:#Congratulations, you <b>passed</b> the test.
+assessment#:#grading_obligations_missing_msg#:#You didn‘t complete all compulsory questions.
+assessment#:#grading_status_failed_msg#:#Sorry, you have <b>failed</b> the test.
+assessment#:#grading_status_passed_msg#:#Congratulations, you have <b>passed</b> the test.
 assessment#:#height#:#Height
 assessment#:#identical_scoring#:#Identical Scoring
 assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurrence of the same solution will be scored.
@@ -822,9 +822,9 @@ assessment#:#intprecision#:#Divisible By
 assessment#:#intprecision_info#:#‘Divisible by’ affects only the creation of variables, if the value for the precision is 0. In this case, you define for ‘Divisible by’ an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, ‘Divisible by’ is a mandatory field and must contain a positive integer. The default value is 1 for any integers.
 assessment#:#javaapplet#:#Java Applet
 assessment#:#kiosk#:#Exam View
-assessment#:#kiosk_description#:#Exam view runs test in kiosk mode. This hides the browser bar and navigation and all other screen elements that are not part of the test. Participants are prevented from opening an other website.<br />Effectively preventing participants from opening other websites during tests additinally requires deploying a suitable browser enviroment (e.g. Safe Exam Browser).
+assessment#:#kiosk_description#:#Runs tests in kiosk mode. This hides the browser bar, navigation and all other screen elements that are not part of the test. Participants are prevented from opening other websites.<br />Effectively preventing participants from opening other websites during tests additionally requires the deployment of a suitable browser (e.g. Safe Exam Browser).
 assessment#:#kiosk_options#:#Exam View Options
-assessment#:#kiosk_options_desc#:#Information is displayed at the top section of the screen.
+assessment#:#kiosk_options_desc#:#Information is displayed in the header section of the screen.
 assessment#:#kiosk_show_participant#:#Show Name of Participant
 assessment#:#kiosk_show_title#:#Show Test Title
 assessment#:#kprim_answers_info#:#The multiple choice question type ‘four times decision right/wrong’ (Type K’, also known as Kprim) gives four answers or additions to a question or an incomplete statement. A decision about the correctness is to be done on all four answers/additions. The maximum points are granted only, if all decisions are correct.
@@ -891,19 +891,19 @@ assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.
 assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_text#:#Long Menu Text
-assessment#:#mailnottype#:#Send notification even if a user finishes a test pass
+assessment#:#mailnottype#:#Send a notification every time a test attempt is completed.
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.
 assessment#:#maintenance#:#Maintenance
 assessment#:#manscoring#:#Manual Scoring
 assessment#:#manscoring_done#:#Scored Participants
-assessment#:#manscoring_hint#:#You have added at least one question which may require manual scoring. To avoid that participants get already access to the test results before you finished manual scoring, please define a suitable date for the access to the test results.
+assessment#:#manscoring_hint#:#You have added at least one question which may require manual scoring. To avoid participants getting access to the test results before you have finished manual scoring, please set a suitable date before which the results cannot be accessed.
 assessment#:#manscoring_none#:#Unscored Participants
 assessment#:#manscoring_not_allowed#:#The Manual Scoring wasn‘t activated for a question type. You are not allowed to use this tab.
 assessment#:#manscoring_questions_not_found#:#This test pass does not contain question types which can be scored manually.
 assessment#:#manscoring_results_pass#:#Manual Scored Questions for Pass %s
 assessment#:#manual_editing#:#Manual Editing
-assessment#:#mark_schema#:#Mark Schema
-assessment#:#mark_schema_invalid#:#The mark schema does not validate. Please create a correct schema.
+assessment#:#mark_schema#:#Grading System
+assessment#:#mark_schema_invalid#:#The grading system that you have tried to create contains errors. Please make sure that the values in the ‘Minimum Score Required (in %]’ column are correct.
 assessment#:#mark_tst_ects#:#Your ECTS grade is "[markects]" (European Credit Transfer System)
 assessment#:#matches#:#matches
 assessment#:#matching_pairs#:#Matching Pairs
@@ -919,7 +919,7 @@ assessment#:#maximum_points#:#Maximum Available Points
 assessment#:#maxsize#:#Maximum file upload size
 assessment#:#maxsize_info#:#Enter the maximum size in bytes that should be allowed for file uploads. If you leave this field empty, the maximum size of this installation will be chosen instead.
 assessment#:#min_auto_complete#:#Autocomplete
-assessment#:#min_percentage_ne_0#:#You must define a minimum percentage of 0 percent! The mark schema wasn’t saved.
+assessment#:#min_percentage_ne_0#:#One of your grade categories needs to start at the ‘Minimum Score Required (in %)’ level of 0%  Your grading system hasn’t been saved.
 assessment#:#misc#:#Misc Options
 assessment#:#msg_circle_added#:#Circle added
 assessment#:#msg_deleted_export_files#:#Export file(s) removed
@@ -932,7 +932,7 @@ assessment#:#new_category#:#New Unit Category
 assessment#:#new_unit#:#New Unit
 assessment#:#next_question#:#Next
 assessment#:#next_question_rows#:#Questions %d - %d of %d »
-assessment#:#no_passed_mark#:#You must set at least one mark to PASSED! The mark schema was not saved.
+assessment#:#no_passed_mark#:#At least one grade has to be a passing grade. For a grade to be a passing grade, it needs to have the appropriate box in the ‘Passed’ column checked.
 assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!
 assessment#:#no_questions_available#:#There are no questions available!
 assessment#:#no_result_type#:#No Restrictions
@@ -983,8 +983,8 @@ assessment#:#output_mode#:#Output Mode
 assessment#:#parseQuestion#:#Parse Question
 assessment#:#part_received_a_of_b_points#:#The participant received %s of %s possible points
 assessment#:#participants#:#Participants
-assessment#:#participants_invitation#:#Manually Selected Participants
-assessment#:#participants_invitation_description#:#This test can only be accessed by users you have manually added in tab ‘Dashboard’.
+assessment#:#participants_invitation#:#Select Participants Manually
+assessment#:#participants_invitation_description#:#This test can only be accessed by users you have manually added in the ‘Dashboard’ tab of the test.
 assessment#:#participants_results_subtab#:#All Participants
 assessment#:#pass#:#Pass
 assessment#:#pass_finished#:#%s pass
@@ -1078,7 +1078,7 @@ assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Existing taxonomies 
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomy Filter as Navigation Tree
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#When a taxonomy is selected, it well be presented as navigation tree instead of a table filter item.
 assessment#:#qpl_settings_general_form_property_online#:#Online
-assessment#:#qpl_settings_general_form_property_online_description#:#Only online question pools could be used in tests.
+assessment#:#qpl_settings_general_form_property_online_description#:#Only question pools that are online can be used in tests.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Use No Navigation Tree Filter
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Show Taxonomies
 assessment#:#qpl_settings_subtab_general#:#General Settings
@@ -1103,7 +1103,7 @@ assessment#:#qst_lifecycle_final#:#Final
 assessment#:#qst_lifecycle_outdated#:#Outdated
 assessment#:#qst_lifecycle_rejected#:#Rejected
 assessment#:#qst_lifecycle_review#:#To be Reviewed
-assessment#:#qst_lifecycle_sharable#:#Sharable
+assessment#:#qst_lifecycle_sharable#:#Shareable
 assessment#:#qst_nested_nested_answers_off#:#No indents, just order
 assessment#:#qst_nested_nested_answers_on#:#Use indents in anwers
 assessment#:#qst_nr_of_tries#:#Number of Tries
@@ -1117,7 +1117,7 @@ assessment#:#question_id_short#:#ID
 assessment#:#question_instances_title#:#This question is used in the following tests
 assessment#:#question_is_part_of_running_test#:#Question is part of a running test and may not be edited.
 assessment#:#question_marking#:#Flagging Questions
-assessment#:#question_marking_description#:#Participants get the option to flag a test question for some purpose. The flags are shown in ‘List of Questions’, provided that it is activated.
+assessment#:#question_marking_description#:#Participants are given the option to flag test questions for themselves. The flags are shown in the ‘List of Questions’, if that feature it has been activated.
 assessment#:#question_not_answered#:#The question was not answered
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
 assessment#:#question_summary#:#Dashboard
@@ -1150,9 +1150,9 @@ assessment#:#rectangle_click_tl_corner#:#Please click on the top left corner of 
 assessment#:#redirectAfterSave#:#The maximum working time has been reached and your last question has been saved automatically. In a few seconds you will be redirected...
 assessment#:#redirect_after_finishing_rule#:#Redirect
 assessment#:#redirect_after_finishing_tst#:#Redirect
-assessment#:#redirect_after_finishing_tst_desc#:#After completion of test each participant is automatically redirected to a defined webpage. This is only valid if the participants have no access to their test results.
-assessment#:#redirect_always#:#always to defined webpage
-assessment#:#redirect_in_kiosk_mode#:#only when exam view is activated
+assessment#:#redirect_after_finishing_tst_desc#:#After completing the test, each participant is automatically redirected to a specific webpage of your choosing. This will only happen if participants do not have direct access to their test results. When entering the address of an external webpage, use the complete URL (including ‘https://’). When redirecting to an Object in ILIAS, use the permalink that can be found in the footer of the Object in question.
+assessment#:#redirect_always#:#always to the webpage specified below
+assessment#:#redirect_in_kiosk_mode#:#only when ‘Exam View’ is activated
 assessment#:#redirection_url#:#URL of webpage
 assessment#:#region#:#Region
 assessment#:#remove_as_participant#:#Remove as Fixed Participant
@@ -1218,10 +1218,10 @@ assessment#:#show_examview_pdf#:#PDF Download
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
 assessment#:#show_user_answers#:#Show User’s Marked Answers
 assessment#:#showinfo#:#Show all Test Properties
-assessment#:#showinfo_desc#:#Users will be presented with a complete list of test properties on tab ‘Info’, i.e. information on scoring and reporting.
+assessment#:#showinfo_desc#:#Users will be presented with a complete list of test properties in the ‘Info’ tab, i.e. information on scoring and reporting.
 assessment#:#shuffle_answers#:#Shuffle Answers
 assessment#:#sign_submission#:#Digitally Sign Test Submissions
-assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be requested to digitally sign their submissions.
+assessment#:#sign_submission_info#:#Enable the use of external signature plugins that can be used to require participants to digitally sign their submissions.
 assessment#:#skip_question#:#Do not Answer and Next
 assessment#:#solutionText#:#Text
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurrence of the following keywords:
@@ -1252,10 +1252,10 @@ assessment#:#test_move_page#:#Move Question
 assessment#:#test_next_question#:#Next Question
 assessment#:#test_prev_question#:#Previous Question
 assessment#:#test_question_set_type#:#Selection of Test Questions
-assessment#:#test_question_set_type_fixed#:#Use of a fixed set of questions
-assessment#:#test_question_set_type_fixed_info#:#All participants get the same questions.<br>You can create questions directly in the test as well as reuse questions from a question pool. If you create new questions you can decide to save them in a question pool.
-assessment#:#test_question_set_type_random#:#Use of a random set of questions
-assessment#:#test_question_set_type_random_info#:#Every participant will see an individually generated set of questions. The questions are randomly selected from one or more question pools.
+assessment#:#test_question_set_type_fixed#:#Fixed Questions
+assessment#:#test_question_set_type_fixed_info#:#All test participants see the same questions.<br>You can create questions directly in the test as well as use questions from a Question Pool. If you create new questions, you can decide to save them in a Question Pool.
+assessment#:#test_question_set_type_random#:#Random Questions
+assessment#:#test_question_set_type_random_info#:#Each test participant will see an individually generated set of questions. The questions are drawn from one or more Question Pools.
 assessment#:#test_results#:#Summary Test Results
 assessment#:#test_scoring#:#Scoring Options
 assessment#:#test_template_reset#:#The template has been removed.
@@ -1272,7 +1272,7 @@ assessment#:#textsize_info#:#Enter the text size of the ordering text in percent
 assessment#:#thumb_geometry#:#Thumbnail Geometry
 assessment#:#thumb_geometry_info#:#The image thumbnails will be created with a maximum values of height and width given, aspect ratio preserved.
 assessment#:#thumb_size#:#Thumbnail Size
-assessment#:#thumb_size_info#:#If you enter a thumbnail size, a thumbnail of this size will be generated for uploaded images. Without a thumbnail size, the original image size will be used.
+assessment#:#thumb_size_info#:#If you enter a thumbnail size, a thumbnail of this size will be generated for uploaded images. If you do not enter a thumbnail size, the original image size will be used.
 assessment#:#thumb_size_unit_pixel#:#Pixel
 assessment#:#time_format#:#HH MM SS
 assessment#:#timing#:#Extra Time
