@@ -260,7 +260,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
             $element->setPosition($position++);
 
             if ($this->getContext() == self::CONTEXT_MAINTAIN_HIERARCHY) {
-                $element->setIndentation(0);
+                $element->setIndentation($value);
             } else {
                 $element->setContent($value);
             }
