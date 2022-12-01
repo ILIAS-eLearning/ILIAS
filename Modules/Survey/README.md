@@ -281,7 +281,7 @@ If the constraint is met, show the question.
   * anonymous_id: this is the survey key, aka code, (NOT the field anonymous_id) from table svy_anonymous
   * state: 1 finished, 0 otherwise
   * lastpage:
-  * appr_id:
+  * appr_id: If a survey supports appraisees, this is the user ID of the appraisee. For self evaluations this is the user id of the current user.
 * table svy_times (Access times to survey pages during a run. Back and forward navigation lead to multiple entries per run for a page)
   * finished_fi: survey run -> svy_finished
   * first_question: first question id of page/block -> svy_question (does not seem to point to svy_svy_qst)
