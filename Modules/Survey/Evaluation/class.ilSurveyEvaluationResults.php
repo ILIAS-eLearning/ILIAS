@@ -187,8 +187,12 @@ class ilSurveyEvaluationResults
         return $this->answers ?? [];
     }
 
+    /**
+     * @param mixed $a_value
+     * @return string
+     */
     public function getScaleText(
-        int $a_value
+        $a_value
     ): string {
         if (!count($this->variables)) {
             return $a_value;
