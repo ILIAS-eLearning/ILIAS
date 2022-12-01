@@ -110,10 +110,25 @@ class ilObjItemGroup extends ilObject2
 
     protected function doCreate(bool $clone_mode = false): void
     {
+        global $DIC;
+
         if ($this->getId()) {
             $this->item_data_ar->setId($this->getId());
             $this->item_data_ar->create();
         }
+
+        $lng = $DIC->language();
+
+        // add default translation
+        $obj_trans = ilObjectTranslation::getInstance($this->getId());
+        $obj_trans->addLanguage(
+            $lng->getDefaultLanguage(),
+            $this->getTitle(),
+            $this->getDescription(),
+            true,
+            true
+        );
+        $obj_trans->save();
     }
 
     protected function doUpdate(): void
@@ -138,6 +153,10 @@ class ilObjItemGroup extends ilObject2
         $new_obj->setListPresentation($this->getListPresentation());
         $new_obj->setTileSize($this->getTileSize());
         $new_obj->update();
+
+        // translations
+        $ot = ilObjectTranslation::getInstance($this->getId());
+        $ot->copy($new_obj->getId());
     }
 
     public function cloneDependencies(int $a_target_id, int $a_copy_id): bool
