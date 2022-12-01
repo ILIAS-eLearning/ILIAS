@@ -140,7 +140,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
         $grp5 = $input->group(
             [
                 'vq_restart_period' => $input->numeric($lng->txt('restart_period_label'), $lng->txt('restart_period_desc'))
-                    ->withAdditionalTransformation($refinery->int()->isGreaterThanOrEqual(0))
+                    ->withAdditionalTransformation($refinery->int()->isGreaterThan(0))
                     ->withValue($this->getRestartPeriod() !== null ? $this->getRestartPeriod() : null),
                 'vq_restart_recheck' => $input->checkbox($lng->txt('restart_recheck_label'), $lng->txt('restart_recheck_desc'))
                     ->withValue($this->getRestartRecheck())
@@ -175,7 +175,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
         }
 
         $restart_value = 'opt_no_restart';
-        if (!is_null($this->getRestartPeriod()) && $this->getRestartPeriod() >= 0) {
+        if (!is_null($this->getRestartPeriod()) && $this->getRestartPeriod() > 0) {
             $restart_value = 'opt_restart_period';
         }
 
@@ -190,6 +190,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
             $vq_period = null;
             $vq_date = null;
             $restart = null;
+            $restart_recheck = false;
 
             if (isset($vals['validity_qualification'][1]['vq_period'])) {
                 $vq_period = (int) $vals['validity_qualification'][1]['vq_period'];
@@ -204,13 +205,14 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
                 !is_null($vals['restart'][1]['vq_restart_period'])
             ) {
                 $restart = (int) $vals['restart'][1]['vq_restart_period'];
+                $restart_recheck = (bool) $vals['restart'][1]['vq_restart_recheck'];
             }
 
             return new ilStudyProgrammeValidityOfAchievedQualificationSettings(
                 $vq_period,
                 $vq_date,
                 $restart,
-                (bool) $vals['restart'][1]['vq_restart_recheck']
+                $restart_recheck
             );
         }));
     }
