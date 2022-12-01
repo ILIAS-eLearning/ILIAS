@@ -1224,7 +1224,7 @@ class ilSurveyEvaluationGUI
                 $sskill = new ilSurveySkill($survey);
                 $self_levels = array();
                 foreach ($sskill->determineSkillLevelsForAppraisee($appr_id, true) as $sl) {
-                    $self_levels[$sl["base_skill_id"]][$sl["tref_id"]] = $sl["new_level_id"];
+                    $self_levels[$sl["base_skill_id"]][$sl["tref_id"]] = $sl["new_level_id"] ?? 0;
                 }
                 $pskills_gui->setGapAnalysisSelfEvalLevels($self_levels);
             }
