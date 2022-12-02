@@ -3058,9 +3058,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $this->ctrl->setParameter($this, 'mark_read', '1');
                 $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
 
-                $mark_thr_read_button = ilLinkButton::getInstance();
-                $mark_thr_read_button->setCaption('forums_mark_read');
-                $mark_thr_read_button->setUrl($this->ctrl->getLinkTarget($this, 'viewThread'));
+                $mark_thr_read_button = $this->uiFactory->button()->standard(
+                    $this->lng->txt('forums_mark_read'),
+                    $this->ctrl->getLinkTarget($this, 'viewThread')
+                );
 
                 $bottom_toolbar_split_button_items[] = $mark_thr_read_button;
 
@@ -3074,9 +3075,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $this->objCurrentTopic->getForumId()
             );
 
-            $print_thr_button = ilLinkButton::getInstance();
-            $print_thr_button->setCaption('forums_print_thread');
-            $print_thr_button->setUrl($this->ctrl->getLinkTargetByClass(ilForumExportGUI::class, 'printThread'));
+            $print_thr_button = $this->uiFactory->button()->standard(
+                $this->lng->txt('forums_print_thread'),
+                $this->ctrl->getLinkTargetByClass(ilForumExportGUI::class)
+            );
 
             $bottom_toolbar_split_button_items[] = $print_thr_button;
 
@@ -3098,9 +3100,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 !$this->objCurrentTopic->isClosed() &&
                 $this->access->checkAccess('add_reply', '', $ref_id)
             ) {
-                $reply_button = ilLinkButton::getInstance();
-                $reply_button->setPrimary(true);
-                $reply_button->setCaption('add_new_answer');
+                $reply_button = $this->uiFactory->button()->primary(
+                    $this->lng->txt('add_new_answer'),
+                    $this->ctrl->getLinkTarget($this, 'createTopLevelPost', 'frm_page_bottom')
+                );
+
                 $this->ctrl->setParameter($this, 'action', 'showreply');
                 $this->ctrl->setParameter($this, 'pos_pk', $firstNodeInThread->getId());
                 $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
@@ -3114,9 +3118,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     'orderby',
                     $this->getOrderByParam()
                 );
-
-                $reply_button->setUrl($this->ctrl->getLinkTarget($this, 'createTopLevelPost', 'frm_page_bottom'));
-
                 $this->ctrl->clearParameters($this);
                 array_unshift($bottom_toolbar_split_button_items, $reply_button);
             }
@@ -3288,20 +3289,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
 
         if ($bottom_toolbar_split_button_items !== []) {
-            $bottom_split_button = ilSplitButtonGUI::getInstance();
-            $i = 0;
             foreach ($bottom_toolbar_split_button_items as $item) {
-                if ($i === 0) {
-                    $bottom_split_button->setDefaultButton($item);
-                } else {
-                    $bottom_split_button->addMenuItem(new ilButtonToSplitButtonMenuItemAdapter($item));
-                }
-
-                ++$i;
+                $this->toolbar->addText($this->uiRenderer->render($item));
+                $bottom_toolbar->addText($this->uiRenderer->render($item));
             }
-            $bottom_toolbar->addStickyItem($bottom_split_button);
-            $this->toolbar->addStickyItem($bottom_split_button);
-            $bottom_toolbar->addSeparator();
         }
 
         $to_top_button = ilLinkButton::getInstance();
@@ -5471,11 +5462,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     $this->ctrl->clearParameters($this);
                 }
                 if (!$node->isCensored()) {
-                    $this->ctrl->setParameterByClass(ilForumExportGUI::class, 'print_post', $node->getId());
                     $this->ctrl->setParameterByClass(ilForumExportGUI::class, 'top_pk', $node->getForumId());
                     $this->ctrl->setParameterByClass(ilForumExportGUI::class, 'thr_pk', $node->getThreadId());
 
-                    $actions['print'] = $this->ctrl->getLinkTargetByClass(ilForumExportGUI::class, 'printPost');
 
                     $this->ctrl->clearParameters($this);
                 }
@@ -5560,16 +5549,15 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $tpl->setCurrentBlock('posts_row');
         if ($actions !== [] && !$this->objCurrentTopic->isClosed()) {
-            $action_button = ilSplitButtonGUI::getInstance();
-
+            $items = [];
             $i = 0;
             foreach ($actions as $lng_id => $url) {
                 if ($i === 0) {
-                    $sb_item = ilLinkButton::getInstance();
-                    $sb_item->setCaption($lng_id);
-                    $sb_item->setUrl($url);
+                    $action_button = $this->uiFactory->button()->primary(
+                        $this->lng->txt($lng_id),
+                        $url
+                    );
 
-                    $action_button->setDefaultButton($sb_item);
                     ++$i;
                 } else {
                     if ('frm_revoke_censorship' === $lng_id || 'frm_censorship' === $lng_id) {
@@ -5605,10 +5593,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
                         $this->modalActionsContainer[] = $modal;
 
-                        $action_button->addMenuItem(new ilUiLinkToSplitButtonMenuItemAdapter(
-                            $sb_item,
-                            $this->uiRenderer
-                        ));
+
                         continue;
                     } elseif ('delete' === $lng_id) {
                         $modal = $this->uiFactory->modal()->interruptive(
@@ -5627,21 +5612,16 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
                         $this->modalActionsContainer[] = $modal;
 
-                        $action_button->addMenuItem(
-                            new ilUiLinkToSplitButtonMenuItemAdapter($deleteAction, $this->uiRenderer)
-                        );
+
                         continue;
                     }
 
-                    $sb_item = ilLinkButton::getInstance();
-                    $sb_item->setCaption($lng_id);
-                    $sb_item->setUrl($url);
-
-                    $action_button->addMenuItem(new ilButtonToSplitButtonMenuItemAdapter($sb_item));
+                    $items[] = $this->uiFactory->button()->shy($this->lng->txt($lng_id), $url);
                 }
-            }
 
-            $tpl->setVariable('COMMANDS', $action_button->render());
+                $action_menu = $this->uiFactory->dropdown()->standard($items);
+            }
+            $tpl->setVariable('COMMANDS', $this->uiRenderer->render([$action_button, $action_menu]));
         }
     }
 
