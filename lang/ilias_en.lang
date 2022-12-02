@@ -1291,9 +1291,9 @@ assessment#:#toplist_col_wtime#:#Working Time
 assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please make a note of this code so that you can continue the test later.
 assessment#:#tst_activate_skill_service#:#Competence Service
-assessment#:#tst_activate_skill_service_desc#:#Supports the assignment of questions to competences and the definition of thresholds for reaching a specific competence level.
+assessment#:#tst_activate_skill_service_desc#:#Before and after the period during which the test is available,  the test's title will be displayed, but participants won’t be able to take the test. Access, including to tests already in progress, will be prevented once the period of availability has ended.
 assessment#:#tst_activation_limited_visibility_info#:#Before and after the indicated period it is only the test's title that will be displayed. The participants cannot take the test. Further access, including to tests already in progress, will be prevented at the end of the period.
-assessment#:#tst_activation_online_info#:#If online, participants can take the test.
+assessment#:#tst_activation_online_info#:#Participants can take the test if it is ‘Online’.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editor
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Use plain text for questions and answers and ILIAS page editor for feedback and hints
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module.
@@ -1301,36 +1301,36 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Use Rich-Text-Editor (TinyMCE) f
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module.
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.
 assessment#:#tst_all_test_competences#:#All Test Competence
-assessment#:#tst_all_user_data_deleted#:#All user data of this test has been removed!
+assessment#:#tst_all_user_data_deleted#:#All user data for this test has been removed!
 assessment#:#tst_allowed_users#:#Limit Number of Concurrent Participants
-assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If more users than maximally allowed try to access ILIAS will prevent them from starting the test.
+assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If the maximum number of users taking the test at the same time has been reached, ILIAS will prevent additional users from starting the test.
 assessment#:#tst_allowed_users_max#:#Max. Number of Participants
-assessment#:#tst_allowed_users_time_gap#:#Idle Time for Active Users
-assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test for the indicated amount of time will be categorized as ‚inactive‘ and removed from the test.
-assessment#:#tst_already_submitted#:#Test has already been finish and submitted.
+assessment#:#tst_allowed_users_time_gap#:#Max. Idle Time Permitted for Active Participants
+assessment#:#tst_allowed_users_time_gap_desc#:#Participants who have not clicked on anything in the test for the indicated amount of time, will be categorised as ‘inactive’ and removed from the test.
+assessment#:#tst_already_submitted#:#The test has already been completed and submitted.
 assessment#:#tst_analysis#:#Analysis
 assessment#:#tst_anonymity#:#Privacy
-assessment#:#tst_anonymity_anonymous_test#:#Results without Names / Anonymous Test
-assessment#:#tst_anonymity_no_anonymization#:#Results with Names
+assessment#:#tst_anonymity_anonymous_test#:#Results Without Names / Anonymous Test
+assessment#:#tst_anonymity_no_anonymization#:#Results With Names
 assessment#:#tst_answer_aggr_answer_header#:#Answer
 assessment#:#tst_answer_aggr_frequency_header#:#Frequency
 assessment#:#tst_answer_details#:#Answer Details
-assessment#:#tst_answer_fixation_handling#:#Participant Answers
-assessment#:#tst_answer_fixation_none#:#Do not Lock Participants Answers during Test Passes
-assessment#:#tst_answer_fixation_none_desc#:#As long as a test pass was not finished, participants can change their answers at any time.
-assessment#:#tst_answer_fixation_on_followup_question#:#Lock Answers with the Presentation of Follow-Up Questions
-assessment#:#tst_answer_fixation_on_followup_question_desc#:#Showing the follow-up question will lock participant answers for the previous question, participants cannot change these answers any longer.
-assessment#:#tst_answer_fixation_on_instant_feedback#:#Lock Answers with the Presentation of Feedback
-assessment#:#tst_answer_fixation_on_instant_feedback_desc#:#After the feedback for a question is shown participant answers are locked, participants cannot change these answers any longer.
-assessment#:#tst_answer_fixation_on_instantfb_or_followupqst#:#Lock Answers with the Presentation of Feedback or Follow-Up Questions
-assessment#:#tst_answer_fixation_on_instantfb_or_followupqst_desc#:#Participant Answers for a question will be locked either with the presentation of the questions's feedback or when the follow-up question is shown.
+assessment#:#tst_answer_fixation_handling#:#Answer Lock
+assessment#:#tst_answer_fixation_none#:#Do Not Lock Answers
+assessment#:#tst_answer_fixation_none_desc#:#As long as a participant has not finished a test attempt (i.e. by clicking on ‘Finish the Test’), they can change their answers at any time.
+assessment#:#tst_answer_fixation_on_followup_question#:#Lock Answers After Moving to Next Question
+assessment#:#tst_answer_fixation_on_followup_question_desc#:#As soon as the next question in the test has been revealed, a participant’s answers to the previous question are locked and can no longer be changed.
+assessment#:#tst_answer_fixation_on_instant_feedback#:#Lock Answers After Feedback Received
+assessment#:#tst_answer_fixation_on_instant_feedback_desc#:#After the feedback to a question has been shown, a participant’s answers are locked and they can no longer change their answers.
+assessment#:#tst_answer_fixation_on_instantfb_or_followupqst#:#Lock Answers After Feedback or Moving to Next Question
+assessment#:#tst_answer_fixation_on_instantfb_or_followupqst_desc#:#A participant’s answers to a question will be locked as soon as the question's feedback is shown or when the next question in the test has been revealed.
 assessment#:#tst_answer_status_answered#:#Answered###fau: testNav
 assessment#:#tst_answer_status_editing#:# (editing)###fau: testNav
 assessment#:#tst_answer_status_not_answered#:#Not answered###fau: testNav
 assessment#:#tst_answered_questions#:#Answered Questions
 assessment#:#tst_answered_questions_of_total#:#%s of %s
 assessment#:#tst_answered_questions_test#:#Questions answered in this test
-assessment#:#tst_attached_xls_file#:#You find the test result for this participant in the attached Excel file.
+assessment#:#tst_attached_xls_file#:#You can find the test results for this participant in the attached Excel file.
 assessment#:#tst_attempt#:#Attempt
 assessment#:#tst_back_to_pass_details#:#Back to Pass Details
 assessment#:#tst_back_to_question_list#:#Back to Question List
