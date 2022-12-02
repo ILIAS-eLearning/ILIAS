@@ -53,7 +53,9 @@ class ilUserSetupAgent implements Setup\Agent
 
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new ilDatabaseUpdateStepsExecutedObjective(
+            new ilUserDB90()
+        );
     }
 
     public function getBuildArtifactObjective(): Setup\Objective
@@ -68,6 +70,8 @@ class ilUserSetupAgent implements Setup\Agent
 
     public function getMigrations(): array
     {
-        return [];
+        return [
+            new ilUserProfilePictureMigration()
+        ];
     }
 }
