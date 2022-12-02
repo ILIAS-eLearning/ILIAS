@@ -40,12 +40,15 @@ class ilUserAvatarResolver
     protected ilDBInterface $db;
     protected Factory $ui;
     protected bool $letter_avatars_activated;
+    private \ILIAS\ResourceStorage\Services $irss;
+    private ?\ILIAS\ResourceStorage\Identification\ResourceIdentification $rid = null;
 
     public function __construct(int $user_id)
     {
         global $DIC;
 
         $this->db = $DIC->database();
+        $this->irss = $DIC->resourceStorage();
         $this->ui = $DIC->ui()->factory();
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
@@ -56,6 +59,16 @@ class ilUserAvatarResolver
 
     private function init(): void
     {
+        $rid = $this->db->queryF(
+            'SELECT rid FROM usr_data WHERE usr_id = %s',
+            ['integer'],
+            [$this->user_id]
+        );
+        $rid = $this->db->fetchAssoc($rid)['rid'] ?? null;
+        if ($rid) {
+            $this->rid = $this->irss->manage()->find($rid);
+        }
+
         $in = $this->db->in('usr_pref.keyword', array('public_upload', 'public_profile'), false, 'text');
         $res = $this->db->queryF(
             "
@@ -81,15 +94,18 @@ class ilUserAvatarResolver
             }
         }
 
-        // Uploaded file
-        $webspace_dir = '';
-        if (defined('ILIAS_MODULE')) {
-            $webspace_dir = ('.' . $webspace_dir);
+        if ($this->rid !== null) {
+            $this->uploaded_file = $this->irss->consume()->src($this->rid)->getSrc();
+        } else {
+            // Legacy Uploaded file - can be removed in ILIAS 10
+            $webspace_dir = '';
+            if (defined('ILIAS_MODULE')) {
+                $webspace_dir = ('.' . $webspace_dir);
+            }
+            $webspace_dir .= ('./' . ltrim(ilFileUtils::getWebspaceDir(), "./"));
+            $image_dir = $webspace_dir . '/usr_images';
+            $this->uploaded_file = $image_dir . '/usr_' . $this->user_id . '.jpg';
         }
-        $webspace_dir .= ('./' . ltrim(ilFileUtils::getWebspaceDir(), "./"));
-
-        $image_dir = $webspace_dir . '/usr_images';
-        $this->uploaded_file = $image_dir . '/usr_' . $this->user_id . '.jpg';
 
         if ($this->has_public_profile) {
             $this->abbreviation = ilStr::subStr($this->firstname, 0, 1) . ilStr::subStr($this->lastname, 0, 1);
@@ -100,7 +116,8 @@ class ilUserAvatarResolver
 
     private function useUploadedFile(): bool
     {
-        return (($this->has_public_upload && $this->has_public_profile) || $this->force_image) && is_file($this->uploaded_file);
+        return ($this->has_public_upload && $this->has_public_profile && is_file($this->uploaded_file))
+            || ($this->has_public_upload && $this->has_public_profile && $this->rid !== null);
     }
 
     /**
