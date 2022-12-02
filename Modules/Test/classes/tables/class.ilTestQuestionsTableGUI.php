@@ -244,7 +244,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         $actions->addItem(
             $this->lng->txt('preview'),
             '',
-            $this->getPreviewLink($data)
+            $this->getPreviewLink($a_set)
         );
 
         $actions->addItem(
@@ -296,14 +296,18 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 
     protected function buildQuestionTitleLink(array $rowData): string
     {
-
-
         return '<a href="' . $this->getPreviewLink($rowData) . '">' . $rowData["title"] . '</a>';
     }
 
-    protected function getPreviewLink(array $rowData) : string
+    protected function getPreviewLink(array $rowData): string
     {
         $target_class = get_class($this->getParentObject());
+        $this->ctrl->setParameterByClass(
+            $target_class,
+            'ref_id',
+            current(ilObject::_getAllReferences($rowData['obj_fi']))
+        );
+
         $this->ctrl->setParameterByClass(
             $target_class,
             'eqpl',
@@ -335,12 +339,12 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         $this->ctrl->setParameterByClass($target_class, 'eqpl', '');
         $this->ctrl->setParameterByClass($target_class, 'eqid', '');
         $this->ctrl->setParameterByClass($target_class, 'q_id', '');
-$this->ctrl->setParameterByClass($target_class, 'calling_test', '');
+        $this->ctrl->setParameterByClass($target_class, 'calling_test', '');
 
         return $question_href;
     }
 
-    protected function getEditLink(array $rowData, string $target_class, string $cmd) : string
+    protected function getEditLink(array $rowData, string $target_class, string $cmd): string
     {
         $this->ctrl->setParameterByClass(
             $target_class,
