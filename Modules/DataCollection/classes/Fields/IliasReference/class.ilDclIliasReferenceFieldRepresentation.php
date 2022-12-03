@@ -23,7 +23,7 @@
  */
 class ilDclIliasReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilRepositorySelector2InputGUI
+    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilRepositorySelector2InputGUI
     {
         $input = new ilRepositorySelector2InputGUI(
             $this->getField()->getTitle(),

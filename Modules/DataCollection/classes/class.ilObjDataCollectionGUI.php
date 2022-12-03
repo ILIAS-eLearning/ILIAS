@@ -84,6 +84,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
         $this->dclEndPoint->saveParameterTableId($this);
         $this->ctrl->saveParameter($this, "table_id");
+        $this->ctrl->setParameter($this, "table_id", $this->table_id);
     }
 
     private function setTableId(int $objectOrRefId = 0): void
@@ -223,7 +224,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 $this->prepareOutput();
                 $this->tabs->activateTab("id_records");
 
-                $tableview_id = 1;
                 if ($this->http->wrapper()->query()->has('tableview_id')) {
                     $tableview_id = $this->http->wrapper()->query()->retrieve(
                         'tableview_id',
@@ -235,6 +235,11 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                         'tableview_id',
                         $this->refinery->kindlyTo()->int()
                     );
+                }
+
+                if (!isset($tableview_id)) {
+                    $tableview_id = ilDclCache::getTableCache($this->table_id)
+                                                    ->getFirstTableViewId($this->getRefId());
                 }
 
                 $this->ctrl->setParameterByClass(ilDclRecordListGUI::class, 'tableview_id', $tableview_id);
@@ -342,8 +347,11 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 'tableview_id',
                 $this->refinery->kindlyTo()->int()
             );
-        } else {
-            $tableview_id = 0;
+        }
+
+        if (!isset($tableview_id)) {
+            $tableview_id = ilDclCache::getTableCache($this->table_id)
+                                            ->getFirstTableViewId($this->getRefId());
         }
 
         $this->ctrl->setParameterByClass('ilDclRecordListGUI', 'tableview_id', $tableview_id);
@@ -446,12 +454,16 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
         // read permission
         if ($this->dclAccess->hasReadPermission($refId) === true) {
-            $tableview_id = 1;
             if ($this->http->wrapper()->query()->has('tableview_id')) {
                 $tableview_id = $this->http->wrapper()->query()->retrieve(
                     'tableview_id',
                     $this->refinery->kindlyTo()->int()
                 );
+            }
+
+            if (!isset($tableview_id)) {
+                $tableview_id = ilDclCache::getTableCache($this->table_id)
+                                                ->getFirstTableViewId($this->getRefId());
             }
 
             // list records

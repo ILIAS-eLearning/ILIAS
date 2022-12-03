@@ -34,7 +34,7 @@ class ilDclRecordEditGUI
     public const REDIRECT_DETAIL = 2;
 
     protected ?int $tableview_id = null;
-    protected int $record_id = 0;
+    protected ?int $record_id = null;
     protected int $table_id = 1;
     protected ilDclTable $table;
     protected ilObjDataCollectionGUI $parent_obj;
@@ -502,14 +502,15 @@ class ilDclRecordEditGUI
 
         $valid = $this->form->checkInput();
 
+        $create_mode = ($this->record_id == null);
+        $date_obj = new ilDateTime(time(), IL_CAL_UNIX);
+
         $record_obj = ilDclCache::getRecordCache($this->record_id);
         $unchanged_obj = $record_obj;
-        $date_obj = new ilDateTime(time(), IL_CAL_UNIX);
         $record_obj->setTableId($this->table_id);
         $record_obj->setLastUpdate($date_obj);
         $record_obj->setLastEditBy($this->user->getId());
 
-        $create_mode = !isset($this->record_id);
 
         if (ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->getRefId()) || $create_mode) {
             $all_fields = $this->table->getRecordFields();
@@ -529,183 +530,6 @@ class ilDclRecordEditGUI
         }
 
         if (!$valid) {
-            $this->sendFailure($this->lng->txt('form_input_not_valid'));
-
-            return;
-        }
-
-        if ($valid) {
-            if ($create_mode) {
-                if (!(ilObjDataCollectionAccess::hasPermissionToAddRecord(
-                    $this->parent_obj->getRefId(),
-                    $this->table_id
-                ))) {
-                    $this->accessDenied();
-
-                    return;
-                }
-
-                // when save_confirmation is enabled, not yet confirmed and we have not an async-request => prepare for displaying confirmation
-                if ($this->table->getSaveConfirmation() && $this->form->getInput('save_confirmed') == null && !$this->ctrl->isAsynch()) {
-                    // temporary store fileuploads (reuse code from ilPropertyFormGUI)
-                    $hash = $this->http->wrapper()->post()->retrieve(
-                        'ilfilehash',
-                        $this->refinery->kindlyTo()->string()
-                    );
-                    foreach ($_FILES as $field => $data) {
-                        if (is_array($data["tmp_name"])) {
-                            foreach ($data["tmp_name"] as $idx => $upload) {
-                                if (is_array($upload)) {
-                                    foreach ($upload as $idx2 => $file) {
-                                        if ($file && is_uploaded_file($file)) {
-                                            $file_name = $data["name"][$idx][$idx2];
-                                            $file_type = $data["type"][$idx][$idx2];
-                                            $this->form->keepTempFileUpload(
-                                                $hash,
-                                                $field,
-                                                $file,
-                                                $file_name,
-                                                $file_type,
-                                                $idx,
-                                                $idx2
-                                            );
-                                        }
-                                    }
-                                } else {
-                                    if ($upload && is_uploaded_file($upload)) {
-                                        $file_name = $data["name"][$idx];
-                                        $file_type = $data["type"][$idx];
-                                        $this->form->keepTempFileUpload(
-                                            $hash,
-                                            $field,
-                                            $upload,
-                                            $file_name,
-                                            $file_type,
-                                            $idx
-                                        );
-                                    }
-                                }
-                            }
-                        } else {
-                            $this->form->keepTempFileUpload(
-                                $hash,
-                                $field,
-                                $data["tmp_name"],
-                                $data["name"],
-                                $data["type"]
-                            );
-                        }
-                    }
-
-                    //edit values, they are valid we already checked them above
-                    foreach ($all_fields as $field) {
-                        $record_obj->setRecordFieldValueFromForm($field->getId(), $this->form);
-                    }
-
-                    $this->saveConfirmation($record_obj, $hash);
-
-                    return;
-                }
-
-                $record_obj->setOwner($this->user->getId());
-                $record_obj->setCreateDate($date_obj);
-                $record_obj->setTableId($this->table_id);
-                $record_obj->doCreate();
-
-                $this->record_id = $record_obj->getId();
-                $create_mode = true;
-            } else {
-                if (!$record_obj->hasPermissionToEdit($this->parent_obj->getRefId())) {
-                    $this->accessDenied();
-
-                    return;
-                }
-            }
-
-            //edit values, they are valid we already checked them above
-            foreach ($all_fields as $field) {
-                $field_setting = $field->getViewSetting($this->tableview_id);
-
-                if ($field_setting->isVisibleInForm($create_mode) &&
-                    (!$field_setting->isLocked($create_mode) || ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->getRefId()))) {
-                    // set all visible fields
-                    $record_obj->setRecordFieldValueFromForm($field->getId(), $this->form);
-                } elseif ($create_mode) {
-                    // set default values when creating
-                    $default_value = ilDclTableViewBaseDefaultValue::findSingle(
-                        $field_setting->getFieldObject()->getDatatypeId(),
-                        $field_setting->getId()
-                    );
-                    if ($default_value !== null) {
-                        $record_obj->setRecordFieldValue($field->getId(), $default_value->getValue());
-                    }
-                }
-            }
-
-            // Do we need to set a new owner for this record?
-            if (!$create_mode && $this->tableview->getFieldSetting('owner')->isVisibleEdit()) {
-                if ($this->http->wrapper()->post()->has('field_owner')) {
-                    $field_owner = $this->http->wrapper()->post()->retrieve(
-                        'field_owner',
-                        $this->refinery->kindlyTo()->int()
-                    );
-                    $owner_id = ilObjUser::_lookupId($field_owner);
-                    if (!$owner_id) {
-                        $this->sendFailure($this->lng->txt('user_not_known'));
-
-                        return;
-                    }
-                    $record_obj->setOwner($owner_id);
-                }
-            }
-
-            $dispatchEvent = "update";
-
-            $dispatchEventData = array(
-                'dcl' => $this->parent_obj->getDataCollectionObject(),
-                'table_id' => $this->table_id,
-                'record_id' => $record_obj->getId(),
-                'record' => $record_obj,
-            );
-
-            if ($create_mode) {
-                $dispatchEvent = "create";
-                ilObjDataCollection::sendNotification("new_record", $this->table_id, $record_obj->getId());
-            } else {
-                $dispatchEventData['prev_record'] = $unchanged_obj;
-            }
-
-            $record_obj->doUpdate($create_mode);
-
-            $ilAppEventHandler->raise(
-                'Modules/DataCollection',
-                $dispatchEvent . 'Record',
-                $dispatchEventData
-            );
-
-            $this->ctrl->setParameter($this, "table_id", $this->table_id);
-            $this->ctrl->setParameter($this, "tableview_id", $this->tableview_id);
-            $this->ctrl->setParameter($this, "record_id", $this->record_id);
-
-            if (!$this->ctrl->isAsynch()) {
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-            }
-
-            $this->checkAndPerformRedirect();
-            if ($this->ctrl->isAsynch()) {
-                // If ajax request, return the form in edit mode again
-                $this->record_id = $record_obj->getId();
-                $this->initForm();
-                $this->setFormValues();
-                echo ilUtil::getSystemMessageHTML(
-                    $this->lng->txt('msg_obj_modified'),
-                    'success'
-                ) . $this->form->getHTML();
-                exit();
-            } else {
-                $this->ctrl->redirectByClass("ildclrecordlistgui", "listRecords");
-            }
-        } else {
             // Form not valid...
             //TODO: URL title flushes on invalid form
             $this->form->setValuesByPost();
@@ -715,6 +539,179 @@ class ilDclRecordEditGUI
             } else {
                 $this->tpl->setContent($this->getLanguageJsKeys() . $this->form->getHTML());
             }
+            $this->sendFailure($this->lng->txt('form_input_not_valid'));
+
+            return;
+        }
+
+        if ($create_mode) {
+            if (!(ilObjDataCollectionAccess::hasPermissionToAddRecord(
+                $this->parent_obj->getRefId(),
+                $this->table_id
+            ))) {
+                $this->accessDenied();
+
+                return;
+            }
+
+            // when save_confirmation is enabled, not yet confirmed and we have not an async-request => prepare for displaying confirmation
+            if ($this->table->getSaveConfirmation() && $this->form->getInput('save_confirmed') == null && !$this->ctrl->isAsynch()) {
+                // temporary store fileuploads (reuse code from ilPropertyFormGUI)
+                $hash = $this->http->wrapper()->post()->retrieve(
+                    'ilfilehash',
+                    $this->refinery->kindlyTo()->string()
+                );
+                foreach ($_FILES as $field => $data) {
+                    if (is_array($data["tmp_name"])) {
+                        foreach ($data["tmp_name"] as $idx => $upload) {
+                            if (is_array($upload)) {
+                                foreach ($upload as $idx2 => $file) {
+                                    if ($file && is_uploaded_file($file)) {
+                                        $file_name = $data["name"][$idx][$idx2];
+                                        $file_type = $data["type"][$idx][$idx2];
+                                        $this->form->keepTempFileUpload(
+                                            $hash,
+                                            $field,
+                                            $file,
+                                            $file_name,
+                                            $file_type,
+                                            $idx,
+                                            $idx2
+                                        );
+                                    }
+                                }
+                            } else {
+                                if ($upload && is_uploaded_file($upload)) {
+                                    $file_name = $data["name"][$idx];
+                                    $file_type = $data["type"][$idx];
+                                    $this->form->keepTempFileUpload(
+                                        $hash,
+                                        $field,
+                                        $upload,
+                                        $file_name,
+                                        $file_type,
+                                        $idx
+                                    );
+                                }
+                            }
+                        }
+                    } else {
+                        $this->form->keepTempFileUpload(
+                            $hash,
+                            $field,
+                            $data["tmp_name"],
+                            $data["name"],
+                            $data["type"]
+                        );
+                    }
+                }
+
+                //edit values, they are valid we already checked them above
+                foreach ($all_fields as $field) {
+                    $record_obj->setRecordFieldValueFromForm($field->getId(), $this->form);
+                }
+
+                $this->saveConfirmation($record_obj, $hash);
+
+                return;
+            }
+
+            $record_obj->setOwner($this->user->getId());
+            $record_obj->setCreateDate($date_obj);
+            $record_obj->setTableId($this->table_id);
+            $record_obj->doCreate();
+
+            $this->record_id = $record_obj->getId();
+        } else {
+            if (!$record_obj->hasPermissionToEdit($this->parent_obj->getRefId())) {
+                $this->accessDenied();
+
+                return;
+            }
+        }
+
+        //edit values, they are valid we already checked them above
+        foreach ($all_fields as $field) {
+            $field_setting = $field->getViewSetting($this->tableview_id);
+
+            if ($field_setting->isVisibleInForm($create_mode) &&
+                    (!$field_setting->isLocked($create_mode) || ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->getRefId()))) {
+                // set all visible fields
+                $record_obj->setRecordFieldValueFromForm($field->getId(), $this->form);
+            } elseif ($create_mode) {
+                // set default values when creating
+                $default_value = ilDclTableViewBaseDefaultValue::findSingle(
+                    $field_setting->getFieldObject()->getDatatypeId(),
+                    $field_setting->getId()
+                );
+                if ($default_value !== null) {
+                    $record_obj->setRecordFieldValue($field->getId(), $default_value->getValue());
+                }
+            }
+        }
+
+        // Do we need to set a new owner for this record?
+        if (!$create_mode && $this->tableview->getFieldSetting('owner')->isVisibleEdit()) {
+            if ($this->http->wrapper()->post()->has('field_owner')) {
+                $field_owner = $this->http->wrapper()->post()->retrieve(
+                    'field_owner',
+                    $this->refinery->kindlyTo()->string()
+                );
+                $owner_id = ilObjUser::_lookupId($field_owner);
+                if (!$owner_id) {
+                    $this->sendFailure($this->lng->txt('user_not_known'));
+
+                    return;
+                }
+                $record_obj->setOwner($owner_id);
+            }
+        }
+
+        $dispatchEvent = "update";
+
+        $dispatchEventData = array(
+                'dcl' => $this->parent_obj->getDataCollectionObject(),
+                'table_id' => $this->table_id,
+                'record_id' => $record_obj->getId(),
+                'record' => $record_obj,
+            );
+
+        if ($create_mode) {
+            $dispatchEvent = "create";
+            ilObjDataCollection::sendNotification("new_record", $this->table_id, $record_obj->getId());
+        } else {
+            $dispatchEventData['prev_record'] = $unchanged_obj;
+        }
+
+        $record_obj->doUpdate($create_mode);
+
+        $ilAppEventHandler->raise(
+            'Modules/DataCollection',
+            $dispatchEvent . 'Record',
+            $dispatchEventData
+        );
+
+        $this->ctrl->setParameter($this, "table_id", $this->table_id);
+        $this->ctrl->setParameter($this, "tableview_id", $this->tableview_id);
+        $this->ctrl->setParameter($this, "record_id", $this->record_id);
+
+        if (!$this->ctrl->isAsynch()) {
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
+        }
+
+        $this->checkAndPerformRedirect();
+        if ($this->ctrl->isAsynch()) {
+            // If ajax request, return the form in edit mode again
+            $this->record_id = $record_obj->getId();
+            $this->initForm();
+            $this->setFormValues();
+            echo ilUtil::getSystemMessageHTML(
+                $this->lng->txt('msg_obj_modified'),
+                'success'
+            ) . $this->form->getHTML();
+            exit();
+        } else {
+            $this->ctrl->redirectByClass("ildclrecordlistgui", "listRecords");
         }
     }
 
@@ -766,7 +763,7 @@ class ilDclRecordEditGUI
             $this->tpl->setOnScreenMessage('failure', $message, $keep);
 
             // Fill locked fields on edit mode - otherwise they are empty (workaround)
-            if (isset($this->record_id)) {
+            if (isset($this->record_id) && $this->record_id) {
                 $record_obj = ilDclCache::getRecordCache($this->record_id);
                 if ($record_obj->getId()) {
                     //Get Table Field Definitions
