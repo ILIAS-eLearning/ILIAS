@@ -31,13 +31,19 @@ class ilDclBooleanRecordRepresentation extends ilDclBaseRecordRepresentation
         $value = $this->getRecordField()->getValue();
         switch ($value) {
             case 0:
-                $im = ilUtil::getImagePath('icon_not_ok_monochrome.svg', "/Modules/DataCollection");
+                $icon = $this->factory->symbol()->icon()->custom(
+                    ilUtil::getImagePath('icon_not_ok_monochrome.svg'),
+                    $this->lng->txt("no")
+                );
                 break;
             case 1:
-                $im = ilUtil::getImagePath('icon_ok_monochrome.svg', "/Modules/DataCollection");
+                $icon = $this->factory->symbol()->icon()->custom(
+                    ilUtil::getImagePath('icon_ok_monochrome.svg'),
+                    $this->lng->txt("yes")
+                );
                 break;
         }
 
-        return "<img src='" . $im . "'>";
+        return $this->renderer->render($icon);
     }
 }
