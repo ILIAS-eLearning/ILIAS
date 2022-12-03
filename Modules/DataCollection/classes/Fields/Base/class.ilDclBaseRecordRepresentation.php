@@ -29,6 +29,8 @@ class ilDclBaseRecordRepresentation
     protected ilCtrl $ctrl;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
+    protected \ILIAS\UI\Renderer $renderer;
+    protected \ILIAS\UI\Factory $factory;
 
     public function __construct(ilDclBaseRecordFieldModel $record_field)
     {
@@ -42,6 +44,8 @@ class ilDclBaseRecordRepresentation
         $this->ctrl = $ilCtrl;
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
 
         $this->record_field = $record_field;
     }
