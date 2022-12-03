@@ -472,7 +472,7 @@ class ilDclTableView extends ActiveRecord
      * @param bool $create_default_settings
      * @return ilDclTableView|ActiveRecord
      */
-    public static function createOrGetStandardView(int $table_id, bool $create_default_settings = true): ActiveRecord
+    public static function createOrGetSatndardView(int $table_id, bool $create_default_settings = true): ActiveRecord
     {
         if ($standardview = self::where(array('table_id' => $table_id))->orderBy('tableview_order')->first()) {
             return $standardview;

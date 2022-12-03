@@ -25,7 +25,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
 {
     public const REFERENCE_SEPARATOR = " -> ";
 
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilSelectInputGUI
+    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilSelectInputGUI
     {
         if (!$this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
             $input = new ilSelectInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());

@@ -83,6 +83,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         }
 
         $this->dclEndPoint->saveParameterTableId($this);
+        #$this->ctrl->setParameter($this, "table_id", $this->table_id);
     }
 
     private function setTableId(int $objectOrRefId = 0): void
@@ -454,6 +455,11 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                     'tableview_id',
                     $this->refinery->kindlyTo()->int()
                 );
+            }
+
+            if (!isset($tableview_id)) {
+                $tableview_id = ilDclCache::getTableCache($this->table_id)
+                                                ->getFirstTableViewId($this->getRefId());
             }
 
             // list records
