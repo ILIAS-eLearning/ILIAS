@@ -197,7 +197,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
             }
 
             if (isset($vals['validity_qualification'][1]['vq_date'])) {
-                $vq_date = new DateTime($vals['validity_qualification'][1]['vq_date']);
+                $vq_date = $vals['validity_qualification'][1]['vq_date'];
             }
 
             if (
