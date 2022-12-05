@@ -1478,4 +1478,14 @@ class ilContainer extends ilObject
 
         return $obj_ids;
     }
+
+    /**
+     * @param $a_child_ref_id
+     * @param $a_clone_ref_id
+     * @return void
+     */
+    public function handleChildCloning($a_child_ref_id, $a_clone_ref_id)
+    {
+        // Kann ggf. überschrieben werden.
+    }
 } // END class ilContainer
