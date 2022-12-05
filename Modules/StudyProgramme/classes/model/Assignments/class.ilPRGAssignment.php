@@ -206,7 +206,7 @@ class ilPRGAssignment
         ));
     }
 
-    public function withProgressScuccessNotification(\Closure $progress_success_event_handling): self
+    public function withProgressSuccessNotification(\Closure $progress_success_event_handling): self
     {
         $clone = clone $this;
         $clone->progress_success_event_handling = $progress_success_event_handling;

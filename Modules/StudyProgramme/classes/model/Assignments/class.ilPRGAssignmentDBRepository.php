@@ -471,7 +471,7 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
             (int) $row[self::ASSIGNMENT_FIELD_USR_ID]
         );
 
-        $ass = $ass->withProgressScuccessNotification(
+        $ass = $ass->withProgressSuccessNotification(
             fn (ilPRGAssignment $ass, int $pgs_id) => $this->events->userSuccessful($ass, $pgs_id)
         );
         $ass = $ass
