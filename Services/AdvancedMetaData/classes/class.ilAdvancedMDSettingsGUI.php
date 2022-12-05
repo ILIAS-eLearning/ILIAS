@@ -1965,16 +1965,17 @@ class ilAdvancedMDSettingsGUI
         }
 
         $scopes = $form->getInput('scope');
-        if (is_array($scopes)) {
+        $scopes_selection = $form->getInput('scope_containers_sel');
+        if ($scopes && is_array($scopes_selection)) {
             $this->record->enableScope(true);
             $this->record->setScopes(
                 array_map(
-                    function ($scope_ref_id) {
+                    function (string $scope_ref_id) {
                         $scope = new ilAdvancedMDRecordScope();
-                        $scope->setRefId($scope_ref_id);
+                        $scope->setRefId((int) $scope_ref_id);
                         return $scope;
                     },
-                    $scopes
+                    $scopes_selection
                 )
             );
         } else {
@@ -2149,7 +2150,9 @@ class ilAdvancedMDSettingsGUI
                 }
             }
 
-            $res[] = $tmp_arr;
+            if ($assigned ?? true) {
+                $res[] = $tmp_arr;
+            }
         }
         return $res;
     }
