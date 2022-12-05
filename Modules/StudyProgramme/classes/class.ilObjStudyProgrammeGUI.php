@@ -403,7 +403,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
             $this->tpl->setOnScreenMessage("failure", $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this);
         }
-
         $form = $this->initAdvancedSettingsForm();
         $gui = new ilAdvancedMDRecordGUI(
             ilAdvancedMDRecordGUI::MODE_EDITOR,
@@ -413,8 +412,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
             $this->object->getSettings()->getTypeSettings()->getTypeId()
         );
         $gui->setPropertyForm($form);
-        $form->checkInput();
         $gui->parse();
+        $form->checkInput();
+
         if ($gui->importEditFormPostValues()) {
             $gui->writeEditForm();
             $this->tpl->setOnScreenMessage("success", $this->lng->txt('settings_saved'), true);
