@@ -24,13 +24,13 @@ class PRGProgressId
 
     protected int $ass_id;
     protected int $usr_id;
-    protected int $node_id;
+    protected int $node_obj_id;
 
-    public function __construct(int $ass_id, int $usr_id, int $node_id)
+    public function __construct(int $ass_id, int $usr_id, int $node_obj_id)
     {
         $this->ass_id = $ass_id;
         $this->usr_id = $usr_id;
-        $this->node_id = $node_id;
+        $this->node_obj_id = $node_obj_id;
     }
 
     public static function createFromString(string $id): self
@@ -51,11 +51,11 @@ class PRGProgressId
 
     public function getNodeId(): int
     {
-        return $this->node_id;
+        return $this->node_obj_id;
     }
 
     public function __toString(): string
     {
-        return implode(self::DELIMITER, [$this->ass_id, $this->usr_id, $this->node_id]);
+        return implode(self::DELIMITER, [$this->ass_id, $this->usr_id, $this->node_obj_id]);
     }
 }
