@@ -53,12 +53,12 @@ class ilStudyProgrammeUserTableRow
     protected string $expiry_date;
     protected string $validity;
 
-    public function __construct(int $ass_id, int $usr_id, int $pgs_id, bool $is_root_progress)
+    public function __construct(int $ass_id, int $usr_id, int $node_obj_id, bool $is_root_progress)
     {
-        $this->id = new PRGProgressId($ass_id, $usr_id, $pgs_id);
+        $this->id = new PRGProgressId($ass_id, $usr_id, $node_obj_id);
         $this->ass_id = $ass_id;
         $this->usr_id = $usr_id;
-        $this->pgs_id = $pgs_id;
+        $this->node_id = $node_obj_id;
         $this->is_root_progress = $is_root_progress;
     }
 
@@ -74,9 +74,9 @@ class ilStudyProgrammeUserTableRow
     {
         return $this->usr_id;
     }
-    public function getProgressId(): int
+    public function getNodeId(): int
     {
-        return $this->pgs_id;
+        return $this->node_id;
     }
     public function isRootProgress(): bool
     {
@@ -328,6 +328,7 @@ class ilStudyProgrammeUserTableRow
     public function toArray(): array
     {
         return [
+            'prgrs_id' => (string)$this->getId(),
             'name' => $this->getName(),
             'active_raw' => $this->isUserActiveRaw(),
             'active' => $this->getUserActive(),
