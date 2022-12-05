@@ -578,8 +578,6 @@ class ilAdvancedMDSettingsGUI
         }
 
         $c_gui = new ilConfirmationGUI();
-
-        // set confirm/cancel commands
         $c_gui->setFormAction($this->ctrl->getFormAction($this, "deleteFiles"));
         $c_gui->setHeaderText($this->lng->txt("md_adv_delete_files_sure"));
         $c_gui->setCancel($this->lng->txt("cancel"), "showFiles");
@@ -595,8 +593,8 @@ class ilAdvancedMDSettingsGUI
             $info = $file_data[$file_id];
             $c_gui->addItem(
                 "file_id[]",
-                $file_id,
-                is_array($info['name']) ? implode(',', $info['name']) : 'No Records'
+                (string) $file_id,
+                is_array($info['name'] ?? false) ? implode(',', $info['name']) : 'No Records'
             );
         }
         $this->tpl->setContent($c_gui->getHTML());
