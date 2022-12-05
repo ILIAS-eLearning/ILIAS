@@ -3075,12 +3075,14 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $this->objCurrentTopic->getForumId()
             );
 
-            $print_thr_button = $this->uiFactory->button()->standard(
-                $this->lng->txt('forums_print_thread'),
-                $this->ctrl->getLinkTargetByClass(ilForumExportGUI::class)
-            );
+            if ($this->settings->get('forum_enable_print', '0')) {
+                $print_thr_button = $this->uiFactory->button()->standard(
+                    $this->lng->txt('forums_print_thread'),
+                    $this->ctrl->getLinkTargetByClass(ilForumExportGUI::class)
+                );
+                $bottom_toolbar_split_button_items[] = $print_thr_button;
+            }
 
-            $bottom_toolbar_split_button_items[] = $print_thr_button;
 
             $this->ctrl->clearParametersByClass(ilForumExportGUI::class);
 
@@ -5553,7 +5555,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $i = 0;
             foreach ($actions as $lng_id => $url) {
                 if ($i === 0) {
-                    $action_button = $this->uiFactory->button()->primary(
+                    $action_button = $this->uiFactory->button()->standard(
                         $this->lng->txt($lng_id),
                         $url
                     );
@@ -5587,7 +5589,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                             $this->lng->txt($lng_id),
                             $content
                         )->withActionButtons([$submitBtn]);
-                        $sb_item = $this->uiFactory->button()->shy($this->lng->txt($lng_id), '#')->withOnClick(
+                        $items[] = $this->uiFactory->button()->shy($this->lng->txt($lng_id), '#')->withOnClick(
                             $modal->getShowSignal()
                         );
 
@@ -5606,7 +5608,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                             $this->lng->txt(str_contains($url, 'deletePostingDraft') ? 'deletePostingDraft' : 'deletePosting')
                         );
 
-                        $deleteAction = $this->uiFactory->button()->shy($this->lng->txt($lng_id), '#')->withOnClick(
+                        $items[] = $this->uiFactory->button()->shy($this->lng->txt($lng_id), '#')->withOnClick(
                             $modal->getShowSignal()
                         );
 
@@ -5618,9 +5620,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
                     $items[] = $this->uiFactory->button()->shy($this->lng->txt($lng_id), $url);
                 }
-
-                $action_menu = $this->uiFactory->dropdown()->standard($items);
             }
+            $action_menu = $this->uiFactory->dropdown()->standard($items);
             $tpl->setVariable('COMMANDS', $this->uiRenderer->render([$action_button, $action_menu]));
         }
     }
