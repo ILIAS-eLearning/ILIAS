@@ -105,7 +105,7 @@ class ilPrgUserRiskyToFailCronJob extends ilCronJob
             //otherwise, db will have to collect individually:
             //get_all_nodes($due) --> get_assignment_containing($node)
 
-            $pgs = $ass->getRootProgress();
+            $pgs = $ass->getProgressTree();
             $this->log(
                 sprintf(
                     'PRG, RiskyToFail: user %s at progress %s (prg obj_id %s)',

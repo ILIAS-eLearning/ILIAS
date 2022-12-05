@@ -101,7 +101,7 @@ class ilPrgUserNotRestartedCronJob extends ilCronJob
             return $result;
         }
         foreach ($assignments as $ass) {
-            $pgs = $ass->getRootProgress();
+            $pgs = $ass->getProgressTree();
             $this->log(
                 sprintf(
                     'PRG, UserNotRestarted: user %s\'s qualification is about to expire at assignment %s (prg obj_id %s)',

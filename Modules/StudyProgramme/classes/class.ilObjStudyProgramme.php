@@ -865,15 +865,7 @@ class ilObjStudyProgramme extends ilContainer
      */
     public function canBeRemoved(): bool
     {
-        foreach ($this->getProgresses() as $progress) {
-            if ($progress->getStatus() !== ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
-                return false;
-            }
-            if ($progress->getLastChangeBy() !== null) {
-                return false;
-            }
-        }
-        return true;
+        return ! $this->hasRelevantProgresses();
     }
 
     /**
@@ -947,13 +939,13 @@ class ilObjStudyProgramme extends ilContainer
             $acting_usr_id = $this->getLoggedInUserId();
         }
 
-        $err_collection = $this->getMessageCollection('add_user');
         $ass = $this->assignment_repository->createFor($this->getId(), $usr_id, $acting_usr_id);
         $ass = $ass
             ->initAssignmentDates();
         //with updatePlanFromRepository,
         //all successful courses are acknowledged; this is not actually wanted, here;(
         /*
+        $err_collection = $this->getMessageCollection('add_user');
         $ass = $ass
             ->updatePlanFromRepository(
                 $this->getSettingsRepository(),
@@ -1031,7 +1023,7 @@ class ilObjStudyProgramme extends ilContainer
     {
         $assignments = $this->assignment_repository->getAllForNodeIsContained(
             $this->getId(),
-            [$a_user_id]
+            [$user_id]
         );
 
         usort($assignments, function ($a_one, $a_other) {
@@ -1048,9 +1040,7 @@ class ilObjStudyProgramme extends ilContainer
      */
     public function getAssignments(): array
     {
-        return array_filter(
-            $this->assignment_repository->getAllForNodeIsContained($this->getId())
-        );
+        return $this->assignment_repository->getAllForNodeIsContained($this->getId());
     }
 
     /**
@@ -1146,7 +1136,7 @@ class ilObjStudyProgramme extends ilContainer
                         $progress = (new ilPRGProgress((int) $node->getId()))
                             ->withStatus(ilPRGProgress::STATUS_NOT_RELEVANT);
                         $ass = $ass->withProgress($progress);
-                        $logger->log('Added progress for assingnment ' . $ass->getId() . ' at node ' . $node->getId());
+                        $logger->log('Added progress for assignment ' . $ass->getId() . ' at node ' . $node->getId());
                     }
                 }
             },
