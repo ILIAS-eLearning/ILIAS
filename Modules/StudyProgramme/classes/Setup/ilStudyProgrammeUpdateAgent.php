@@ -29,7 +29,7 @@ class ilStudyProgrammeUpdateAgent extends Setup\Agent\NullAgent
         $update_progresses = new ilDatabaseUpdateStepsExecutedObjective(
             new ilStudyProgrammeProgressTableUpdateSteps()
         );
-        $update_assignemts = new ilDatabaseUpdateStepsExecutedObjective(
+        $update_assignments = new ilDatabaseUpdateStepsExecutedObjective(
             new ilStudyProgrammeAssignmentTableUpdateSteps()
         );
         $update_settings = new ilDatabaseUpdateStepsExecutedObjective(
@@ -40,7 +40,7 @@ class ilStudyProgrammeUpdateAgent extends Setup\Agent\NullAgent
             'Database is updated for Module/Studyprogramme',
             false,
             $update_progresses,
-            $update_assignemts,
+            $update_assignments,
             $update_settings
         );
     }
