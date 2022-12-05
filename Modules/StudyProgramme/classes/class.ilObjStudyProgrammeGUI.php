@@ -113,7 +113,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         if ($cmd == "" || $cmd === null) {
             $cmd = "view";
         }
-
         $this->addToNavigationHistory();
 
         parent::prepareOutput();
@@ -230,6 +229,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $output_gui = $guiFactory->create($this->object);
                 $this->ctrl->forwardCommand($output_gui);
                 break;
+
             case false:
                 $this->getSubTabs($cmd);
                 switch ($cmd) {
@@ -272,6 +272,15 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                     case 'deliverCertificate':
                     case 'addToDesk':
                     case 'removeFromDesk':
+
+                    case 'cut':
+                    case 'paste':
+                    case 'clear':
+                    case 'render':
+                    case 'performPasteIntoMultipleObjects':
+                    case 'cancelMoveLink':
+                    case 'keepObjectsInClipboard':
+
                         $cmd .= "Object";
                         $this->$cmd();
                         break;
