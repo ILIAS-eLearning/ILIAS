@@ -2211,22 +2211,26 @@ abstract class assQuestion
     protected function duplicateSuggestedSolutionFiles(int $parent_id, int $question_id): void
     {
         foreach ($this->suggested_solutions as $index => $solution) {
-            if (strcmp($solution["type"], "file") == 0) {
-                $filepath = $this->getSuggestedSolutionPath();
-                $filepath_original = str_replace(
-                    "/{$this->obj_id}/{$this->id}/solution",
-                    "/$parent_id/$question_id/solution",
-                    $filepath
-                );
-                if (!file_exists($filepath)) {
-                    ilFileUtils::makeDirParents($filepath);
-                }
-                $filename = $solution["value"]["name"];
-                if (strlen($filename)) {
-                    if (!copy($filepath_original . $filename, $filepath . $filename)) {
-                        $this->ilLog->root()->error("File could not be duplicated!!!!");
-                        $this->ilLog->root()->error("object: " . print_r($this, true));
-                    }
+            if (!is_array($solution) ||
+                !array_key_exists("type", $solution) ||
+                strcmp($solution["type"], "file") !== 0) {
+                continue;
+            }
+
+            $filepath = $this->getSuggestedSolutionPath();
+            $filepath_original = str_replace(
+                "/{$this->obj_id}/{$this->id}/solution",
+                "/$parent_id/$question_id/solution",
+                $filepath
+            );
+            if (!file_exists($filepath)) {
+                ilFileUtils::makeDirParents($filepath);
+            }
+            $filename = $solution["value"]["name"];
+            if (strlen($filename)) {
+                if (!copy($filepath_original . $filename, $filepath . $filename)) {
+                    $this->ilLog->root()->error("File could not be duplicated!!!!");
+                    $this->ilLog->root()->error("object: " . print_r($this, true));
                 }
             }
         }
@@ -2284,18 +2288,23 @@ abstract class assQuestion
         ilInternalLink::_deleteAllLinksOfSource("qst", $id);
         foreach ($this->suggested_solutions as $index => $solution) {
             $next_id = $this->db->nextId('qpl_sol_sug');
-            /** @var ilDBInterface $ilDB */
+
+            $value = $solution['value'] ?? '';
+            if (is_array($value)) {
+                $value = serialize($value);
+            }
+
             $this->db->insert(
                 'qpl_sol_sug',
                 array(
-                   'suggested_solution_id' => array( 'integer', 	$next_id ),
-                   'question_fi' => array( 'integer', 	$id ),
-                   'type' => array( 'text', 		$solution['type'] ),
-                   'value' => array( 'clob', 		ilRTE::_replaceMediaObjectImageSrc((is_array($solution['value'])) ? serialize($solution[ 'value' ]) : $solution['value'], 0) ),
-                   'internal_link' => array( 'text', 		$solution['internal_link'] ),
-                   'import_id' => array( 'text',		null ),
-                   'subquestion_index' => array( 'integer', 	$index ),
-                   'tstamp' => array( 'integer',	time() ),
+                   'suggested_solution_id' => array('integer', 	$next_id),
+                   'question_fi' => array('integer', 	$id ),
+                   'type' => array('text', $solution['type'] ?? ''),
+                   'value' => array('clob', ilRTE::_replaceMediaObjectImageSrc($value)),
+                   'internal_link' => array( 'text', $solution['internal_link'] ?? ''),
+                   'import_id' => array('text', null),
+                   'subquestion_index' => array('integer', $index),
+                   'tstamp' => array('integer', time()),
                 )
             );
             if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
