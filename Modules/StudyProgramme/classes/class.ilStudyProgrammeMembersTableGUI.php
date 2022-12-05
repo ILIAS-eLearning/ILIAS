@@ -147,6 +147,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         usort($list, static function (ilStudyProgrammeUserTableRow $a, ilStudyProgrammeUserTableRow $b) use ($aspect): int {
             $a = $a->toArray();
             $b = $b->toArray();
+
             if (is_numeric($a[$aspect])) {
                 return $a[$aspect] <=> $b[$aspect];
             }

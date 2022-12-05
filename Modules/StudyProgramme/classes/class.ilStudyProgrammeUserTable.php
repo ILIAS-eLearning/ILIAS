@@ -134,7 +134,6 @@ class ilStudyProgrammeUserTable
         int $limit = null,
         int $offset = null
     ): array {
-
         //TODO: limit, offset
         $data = $this->assignment_repo->getAllForNodeIsContained($prg_id, $valid_user_ids, $custom_filters);
         $row = array_map(fn ($r) => $this->toRow($r, $prg_id), $data);

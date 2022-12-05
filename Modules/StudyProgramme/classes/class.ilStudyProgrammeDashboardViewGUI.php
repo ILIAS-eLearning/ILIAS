@@ -83,7 +83,7 @@ class ilStudyProgrammeDashboardViewGUI
             }
 
             $current_prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
-            $progress = $assignment->getRootProgress();
+            $progress = $assignment->getProgressTree();
             [$minimum_percents, $current_percents] = $this->calculatePercent(
                 $current_prg,
                 $progress->getCurrentAmountOfPoints()
