@@ -161,10 +161,6 @@ class ilPRGAssignment
     {
         return $this->progress;
     }
-    public function getRootProgress(): ilPRGProgress
-    {
-        return $this->progress;
-    }
 
     public function getRootId(): int
     {
