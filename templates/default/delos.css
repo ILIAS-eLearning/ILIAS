@@ -21444,7 +21444,7 @@ a.ilMediaLightboxClose:hover {
 }
 
 .ilTabsContentOuter {
-  padding: 0;
+  padding: 0 12px;
 }
 
 /* Sub Tabs */
