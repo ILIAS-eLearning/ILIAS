@@ -9572,7 +9572,6 @@ input[type=checkbox]:focus:focus-visible {
   }
   .panel-secondary .il-item .il-item-title {
     word-break: break-word;
-    padding: 3px;
   }
   .panel-secondary .il-item .il-item-description {
     padding-top: 0;
@@ -11031,9 +11030,6 @@ the il- variable in your less code and not the boostrap variable in your less co
 .il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content .panel-secondary {
   margin-bottom: 0;
   border: none;
-}
-.il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content .panel-secondary .panel-body {
-  padding-bottom: 0;
 }
 
 /*
