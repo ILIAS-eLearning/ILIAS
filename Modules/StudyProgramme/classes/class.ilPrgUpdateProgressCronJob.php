@@ -89,11 +89,10 @@ class ilPrgUpdateProgressCronJob extends ilCronJob
         $now = new DateTimeImmutable();
 
         foreach ($this->assignment_repo->getPassedDeadline($now) as $assignment) {
-            $assignment = $assignment->markProgressesFailed(
+            $assignment = $assignment->markProgressesFailedForExpiredDeadline(
                 $this->settings_repo,
                 $this->lp_status_wrapper,
-                $this->acting_user_id,
-                $now
+                $this->acting_user_id
             );
             $this->assignment_repo->store($assignment);
         }

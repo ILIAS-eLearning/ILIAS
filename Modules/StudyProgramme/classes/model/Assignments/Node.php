@@ -45,6 +45,9 @@ class Node
         return $this;
     }
 
+    /**
+     * this is only used internally - do not use apart from constructing the tree!
+     */
     public function withContainer(Node $node): self
     {
         $this->container = $node;

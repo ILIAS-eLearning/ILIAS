@@ -101,10 +101,6 @@ class ilPrgUserRiskyToFailCronJob extends ilCronJob
         }
 
         foreach ($assignments as $ass) {
-            //TODO: mails should change in order to list all nodes that have any relevant deadline (in the future);
-            //otherwise, db will have to collect individually:
-            //get_all_nodes($due) --> get_assignment_containing($node)
-
             $pgs = $ass->getProgressTree();
             $this->log(
                 sprintf(

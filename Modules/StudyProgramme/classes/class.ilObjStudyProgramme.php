@@ -1420,7 +1420,7 @@ class ilObjStudyProgramme extends ilContainer
             $next_membership_source = $prg->getApplicableMembershipSourceForUser($usr_id, $src_id);
 
             foreach ($assignments as $assignment) {
-                if (!$assignment->getRootProgress()->isInProgress()) {
+                if (!$assignment->getProgressTree()->isInProgress()) {
                     continue;
                 }
 
