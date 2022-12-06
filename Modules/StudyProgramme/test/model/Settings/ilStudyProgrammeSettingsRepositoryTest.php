@@ -1,5 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 /**
  * @group needsInstalledILIAS
  */
@@ -40,7 +58,7 @@ class ilStudyProgrammeSettingsRepositoryTest extends \PHPUnit\Framework\TestCase
     /**
      * @depends test_init
      */
-    public function test_create($repo)
+    public function testPRGRepoCreate($repo)
     {
         $set = $repo->createFor(-1);
         $this->assertEquals($set->getSubtypeId(), ilStudyProgrammeSettings::DEFAULT_SUBTYPE);
@@ -57,7 +75,7 @@ class ilStudyProgrammeSettingsRepositoryTest extends \PHPUnit\Framework\TestCase
     /**
      * @depends test_create
      */
-    public function test_edit_and_update()
+    public function testPRGRepoEditAndUpdate()
     {
         $repo = new ilStudyProgrammeSettingsDBRepository(
             $this->db,
@@ -137,10 +155,10 @@ class ilStudyProgrammeSettingsRepositoryTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @depends test_edit_and_update
-     * @expectedException \LogicException
      */
-    public function test_delete()
+    public function testPRGRepoDelete()
     {
+        $this->expectException(\LogicException::class);
         $repo = new ilStudyProgrammeSettingsDBRepository(
             $this->db,
             $this->tps

@@ -2,6 +2,22 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 
 use ILIAS\StudyProgramme\Assignment\Node;
@@ -97,7 +113,7 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
             ->invalidate();
     }
 
-    public function testPRGProgressStatusActions(): void
+    public function testPRGProgressStatusActionsMarkAccredited(): void
     {
         $usr = 6;
         $now = new DateTimeImmutable();
@@ -113,6 +129,14 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
             $pgs->getLastChange()->format(ilPRGProgress::DATE_TIME_FORMAT)
         );
         $this->assertEquals(ilPRGProgress::STATUS_ACCREDITED, $pgs->getStatus());
+    }
+
+    public function testPRGProgressStatusActionsUnmarkAccredited(): void
+    {
+        $usr = 6;
+        $now = new DateTimeImmutable();
+        $pgs = (new ilPRGProgress(123))
+            ->withStatus(ilPRGProgress::STATUS_IN_PROGRESS);
 
         $pgs = $pgs->unmarkAccredited($now, $usr);
         $this->assertNull($pgs->getCompletionDate());
@@ -124,6 +148,14 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
             $pgs->getLastChange()->format(ilPRGProgress::DATE_TIME_FORMAT)
         );
         $this->assertEquals(ilPRGProgress::STATUS_IN_PROGRESS, $pgs->getStatus());
+    }
+
+    public function testPRGProgressStatusActionsMarkFailed(): void
+    {
+        $usr = 6;
+        $now = new DateTimeImmutable();
+        $pgs = (new ilPRGProgress(123))
+            ->withStatus(ilPRGProgress::STATUS_IN_PROGRESS);
 
         $pgs = $pgs->markFailed($now, $usr);
         $this->assertNull($pgs->getCompletionDate());
@@ -134,6 +166,14 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
             $pgs->getLastChange()->format(ilPRGProgress::DATE_TIME_FORMAT)
         );
         $this->assertEquals(ilPRGProgress::STATUS_FAILED, $pgs->getStatus());
+    }
+
+    public function testPRGProgressStatusActionsMarkNotFailed(): void
+    {
+        $usr = 6;
+        $now = new DateTimeImmutable();
+        $pgs = (new ilPRGProgress(123))
+            ->withStatus(ilPRGProgress::STATUS_IN_PROGRESS);
 
         $pgs = $pgs->markNotFailed($now, $usr);
         $this->assertNull($pgs->getCompletionDate());
@@ -144,6 +184,14 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
             $pgs->getLastChange()->format(ilPRGProgress::DATE_TIME_FORMAT)
         );
         $this->assertEquals(ilPRGProgress::STATUS_IN_PROGRESS, $pgs->getStatus());
+    }
+
+    public function testPRGProgressStatusActionsSucceed(): void
+    {
+        $usr = 6;
+        $now = new DateTimeImmutable();
+        $pgs = (new ilPRGProgress(123))
+            ->withStatus(ilPRGProgress::STATUS_IN_PROGRESS);
 
         $pgs = $pgs->succeed($now, $usr);
         $this->assertEquals($now, $pgs->getCompletionDate());
@@ -154,6 +202,14 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
             $pgs->getLastChange()->format(ilPRGProgress::DATE_TIME_FORMAT)
         );
         $this->assertEquals(ilPRGProgress::STATUS_COMPLETED, $pgs->getStatus());
+    }
+
+    public function testPRGProgressStatusActionsMarkRelevant(): void
+    {
+        $usr = 6;
+        $now = new DateTimeImmutable();
+        $pgs = (new ilPRGProgress(123))
+            ->withStatus(ilPRGProgress::STATUS_IN_PROGRESS);
 
         $pgs = $pgs->markRelevant($now, $usr);
         $this->assertNull($pgs->getCompletionBy());
@@ -164,6 +220,14 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
         );
         $this->assertEquals(ilPRGProgress::STATUS_IN_PROGRESS, $pgs->getStatus());
         $this->assertTrue($pgs->hasIndividualModifications());
+    }
+
+    public function testPRGProgressStatusActionsMarkNotRelevant(): void
+    {
+        $usr = 6;
+        $now = new DateTimeImmutable();
+        $pgs = (new ilPRGProgress(123))
+            ->withStatus(ilPRGProgress::STATUS_IN_PROGRESS);
 
         $pgs = $pgs->markNotRelevant($now, $usr);
         $this->assertNull($pgs->getCompletionBy());

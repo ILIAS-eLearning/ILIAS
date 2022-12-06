@@ -84,10 +84,9 @@ declare(strict_types=1);
      public function run(): ilCronJobResult
      {
          $result = new ilCronJobResult();
-         $now = new \DateTimeImmutable();
          foreach ($this->assignment_repo->getExpiredAndNotInvalidated() as $assignment) {
              try {
-                 $assignment = $assignment->invalidate($this->settings_repo, $now);
+                 $assignment = $assignment->invalidate($this->settings_repo);
                  $this->assignment_repo->store($assignment);
              } catch (ilException $e) {
                  $this->log->write('an error occured: ' . $e->getMessage());
