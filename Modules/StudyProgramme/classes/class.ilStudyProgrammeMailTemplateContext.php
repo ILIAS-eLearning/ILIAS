@@ -263,10 +263,12 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
 
     protected function getNewestProgressForUser(ilObjStudyProgramme $obj, int $user_id): ilStudyProgrammeProgress
     {
-        $progress = $obj->getProgressesOf($user_id);
+        $progresses = [];
+        $assignments = $obj->getAssignmentsOfSingleProgramForUser($user_id);
+        $progresses[] = $assignments->getProgressForNode($obj->getId());
 
-        $successfully_progress = array_filter($progress, static function (ilStudyProgrammeProgress $a): bool {
-            return $a->isSuccessful() || $a->isSuccessfulExpired() || $a->isAccredited();
+        $successfully_progress = array_filter($progresses, static function (ilStudyProgrammeProgress $pgs): bool {
+            return $pgs->isSuccessful();
         });
 
         if (count($successfully_progress) === 0) {

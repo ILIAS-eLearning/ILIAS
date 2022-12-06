@@ -1103,22 +1103,6 @@ class ilObjStudyProgramme extends ilContainer
     ////////////////////////////////////
     // USER PROGRESS
     ////////////////////////////////////
-
-    /**
-     * Get the progresses the user has on this node.
-     *
-     * @return ilStudyProgrammeProgress[]
-     */
-    public function getProgressesOf(int $user_id): array
-    {
-        return $this->progress_repository->getByPrgIdAndUserId($this->getId(), $user_id);
-    }
-
-    public function getProgressForAssignment(int $assignment_id): ?ilStudyProgrammeProgress
-    {
-        return $this->getProgressRepository()->getByPrgIdAndAssignmentId($this->getId(), $assignment_id);
-    }
-
     /**
      * Add missing progress records for all assignments of this programm.
      *
