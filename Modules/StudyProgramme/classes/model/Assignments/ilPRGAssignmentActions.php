@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 use ILIAS\StudyProgramme\Assignment\Zipper;
 
+/**
+ * This trait is for (physical) separation of code only;
+ * it is actually just part of an ilPRGAssignment and MUST not be used anywhere else.
+ */
 trait ilPRGAssignmentActions
 {
     protected function getProgressIdString(int $node_id): string
@@ -505,15 +509,15 @@ trait ilPRGAssignmentActions
     }
 
 
-    public function markProgressesFailed(
+    public function markProgressesFailedForExpiredDeadline(
         ilStudyProgrammeSettingsRepository $settings_repo,
         ilLPStatusWrapper $LPStatusWrapper,
-        int $acting_usr_id,
-        \DateTimeImmutable $deadline
+        int $acting_usr_id
     ): self {
         $zipper = $this->getZipper($this->getRootId());
         $touched = [];
 
+        $deadline = $this->getNow();
         $zipper = $zipper->modifyAll(
             function ($pgs) use ($acting_usr_id, $deadline, $LPStatusWrapper, &$touched): ilPRGProgress {
                 if (is_null($pgs->getDeadline())
@@ -633,11 +637,11 @@ trait ilPRGAssignmentActions
 
 
     public function invalidate(
-        ilStudyProgrammeSettingsRepository $settings_repo,
-        DateTimeImmutable $now
+        ilStudyProgrammeSettingsRepository $settings_repo
     ): self {
         $zipper = $this->getZipper($this->getRootId());
         $touched = [];
+        $now = $this->getNow();
 
         $zipper = $zipper->modifyAll(
             function ($pgs) use ($now, &$touched): ilPRGProgress {
