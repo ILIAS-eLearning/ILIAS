@@ -126,6 +126,18 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         );
         $this->setMaxCount($count);
 
+
+        $progress_ids = array_map(
+            function ($row) {
+                return (string) $row->getId();
+            },
+            $members_list
+        );
+        $this->addHiddenInput(
+            $parent_obj::F_ALL_PROGRESS_IDS,
+            implode(',', $progress_ids)
+        );
+
         $this->setData(
             $this->postOrder(
                 $members_list,
@@ -397,12 +409,6 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             $f[$item->getFieldId()] = $this->getFilterValue($item);
         }
         return $f;
-    }
-
-    //TODO: remove? is missing?
-    protected function isPermissionControlledByOrguPosition()
-    {
-        return $this->prg->getPositionSettingsIsActiveForPrg();
     }
 
     /**
