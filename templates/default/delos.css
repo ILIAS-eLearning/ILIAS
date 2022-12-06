@@ -9515,6 +9515,11 @@ input[type=checkbox]:focus:focus-visible {
 .il-item-group-items {
   clear: both;
 }
+.il-item-group-items > ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
 .il-item-notification-replacement-container:not(:first-child) .il-notification-item {
   margin-top: 6px;
