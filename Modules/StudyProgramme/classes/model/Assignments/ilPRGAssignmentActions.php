@@ -491,9 +491,8 @@ trait ilPRGAssignmentActions
                 $deadline = $pgs->getDeadline();
                 $format = ilPRGProgress::DATE_FORMAT;
                 $now = $this->getNow();
-                if (is_null($deadline) ||
-                    ($deadline->format($format) >= $now->format($format)
-                    && $pgs->isInProgress())
+                if ($pgs->isInProgress() &&
+                    (is_null($deadline) || $deadline->format($format) >= $now->format($format))
                 ) {
                     $pgs = $pgs->succeed($now, $triggering_obj_id)
                         ->withCurrentAmountOfPoints($pgs->getAmountOfPoints());
