@@ -150,7 +150,7 @@ $il-item-gap-xs: 1px;
 	}
 
 	.dropdown{
-		margin-top: -(rem-to-pixel($il-font-size-base) + $il-margin-large-vertical);
+		margin-top: -($il-line-height-computed);
 	}
 
 }
