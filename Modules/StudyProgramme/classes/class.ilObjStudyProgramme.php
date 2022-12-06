@@ -679,9 +679,8 @@ class ilObjStudyProgramme extends ilContainer
     }
 
     /**
-     * Get the amount of leafs, the study programme contains.
-     *
-     * Throws when this object is not in tree.
+     * Get the amount of leafs the study programme contains.
+     * @throws when this object is not in tree.
      */
     public function getAmountOfLPChildren(): int
     {
