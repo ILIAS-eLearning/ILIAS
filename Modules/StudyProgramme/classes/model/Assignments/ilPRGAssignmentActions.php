@@ -421,6 +421,7 @@ trait ilPRGAssignmentActions
                     $err_collection->add(false, 'will_not_modify_irrelevant_progress', $this->getProgressIdString($pgs->getNodeId()));
                     return $pgs;
                 }
+
                 $new_status = ilPRGProgress::STATUS_IN_PROGRESS;
                 if ($pgs->getStatus() === $new_status) {
                     $err_collection->add(false, 'status_unchanged', $this->getProgressIdString($pgs->getNodeId()));
@@ -437,9 +438,14 @@ trait ilPRGAssignmentActions
                 $pgs = $pgs
                     ->unmarkAccredited($this->getNow(), $acting_usr_id)
                     ->withCurrentAmountOfPoints($pgs->getAchievedPointsOfChildren());
-                $pgs = $this->applyProgressDeadline($settings_repo, $pgs, $acting_usr_id);
 
-                $err_collection->add(true, 'status_changed', $this->getProgressIdString($pgs->getNodeId()));
+                $old_status = $pgs->getStatus();
+                $pgs = $this->applyProgressDeadline($settings_repo, $pgs, $acting_usr_id);
+                if ($pgs->getStatus() !== $old_status) {
+                    $err_collection->add(false, 'status_changed_due_to_deadline', $this->getProgressIdString($pgs->getNodeId()));
+                } else {
+                    $err_collection->add(true, 'status_changed', $this->getProgressIdString($pgs->getNodeId()));
+                }
                 return $pgs;
             }
         );
