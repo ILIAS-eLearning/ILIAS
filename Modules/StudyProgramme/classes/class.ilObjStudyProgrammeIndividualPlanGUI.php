@@ -168,12 +168,9 @@ class ilObjStudyProgrammeIndividualPlanGUI
                 "may not access individual plan of user"
             );
         }
-
-        $prg = $this->parent_gui->getStudyProgramme();
-        $progress = $prg->getProgressForAssignment($ass->getId());
         $msgs = $this->messages->getMessageCollection('msg_update_individual_plan');
         $this->object->updatePlanFromRepository(
-            $progress->getId(),
+            $ass->getId(),
             $this->user->getId(),
             $msgs
         );

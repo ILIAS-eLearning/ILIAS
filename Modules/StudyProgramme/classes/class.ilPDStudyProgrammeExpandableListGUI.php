@@ -38,7 +38,7 @@ class ilPDStudyProgrammeExpandableListGUI extends ilPDStudyProgrammeSimpleListGU
         ilStudyProgrammeAssignment $assignment
     ): ilStudyProgrammeExpandableProgressListGUI {
         $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
-        $progress = $prg->getProgressForAssignment($assignment->getId());
+        $progress = $assignment->getProgressTree();
         $progress_gui = new ilStudyProgrammeExpandableProgressListGUI($progress);
         $progress_gui->setOnlyRelevant(true);
         return $progress_gui;

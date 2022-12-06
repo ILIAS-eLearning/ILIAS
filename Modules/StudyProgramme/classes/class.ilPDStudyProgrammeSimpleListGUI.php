@@ -212,8 +212,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
     protected function new_ilStudyProgrammeAssignmentListGUI(
         ilStudyProgrammeAssignment $assignment
     ): ilStudyProgrammeProgressListGUI {
-        $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
-        $progress = $prg->getProgressForAssignment($assignment->getId());
+        $progress = $assignment->getProgressTree();
         $progress_gui = new ilStudyProgrammeProgressListGUI($progress);
         $progress_gui->setOnlyRelevant(true);
         return $progress_gui;
