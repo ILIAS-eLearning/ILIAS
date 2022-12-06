@@ -12784,6 +12784,7 @@ prg#:#sp_certificate_progress_expires_at#:#Ablaufdatum der Qualifikation
 prg#:#sp_certificate_title#:#Titel des Programms
 prg#:#sp_certificate_type#:#Typ des Programms
 prg#:#status_changed#:#Status aktualisiert
+prg#:#status_changed_due_to_deadline#:#Status wurde aufgrund des Bearbeitungszeitraums angepasst.
 prg#:#status_transition_not_allowed#:#Neuer Status nicht anwendbar
 prg#:#status_unchanged#:#Status unverändert
 prg#:#update_deadline#:#Stichtag erfolgreich aktualisiert.

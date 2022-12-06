@@ -12781,6 +12781,7 @@ prg#:#sp_certificate_progress_expires_at#:#Date of expiry of qualification
 prg#:#sp_certificate_title#:#Title of the Study Programme
 prg#:#sp_certificate_type#:#Type of the Study Programme
 prg#:#status_changed#:#Updated status
+prg#:#status_changed_due_to_deadline#:#Status changed according to deadline.
 prg#:#status_transition_not_allowed#:#Status change not allowed
 prg#:#status_unchanged#:#Status unchanged
 prg#:#update_deadline#:#Successfully update deadline.
