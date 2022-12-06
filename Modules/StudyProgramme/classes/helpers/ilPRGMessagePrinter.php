@@ -66,7 +66,7 @@ class ilPRGMessagePrinter
             )
             . '<ul>' . implode('', $errmsg) . '</ul>';
 
-            $this->tpl->setOnScreenMessage("success", $out, true);
+            $this->tpl->setOnScreenMessage("failure", $out, true);
         }
     }
 }
