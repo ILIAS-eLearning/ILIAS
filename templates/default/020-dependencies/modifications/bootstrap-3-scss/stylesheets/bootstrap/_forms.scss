@@ -1,6 +1,7 @@
 @use "sass:math";
 @use "../../../../../010-settings/" as *;
 @use "../../../../../030-tools/tool_rem-conversion" as *;
+@use "../../../../../050-layout/layout_grid" as l-grid;
 //
 // Forms
 // --------------------------------------------------
@@ -594,7 +595,7 @@ input[type="checkbox"] {
 
   // Make form groups behave like rows
   .form-group {
-    @include make-row();
+    @include l-grid.make-row();
   }
 
   // Reset spacing and right align labels, but scope to media queries so that
