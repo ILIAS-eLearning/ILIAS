@@ -167,9 +167,6 @@ trait ilPRGAssignmentActions
         $period = $settings->getQualificationPeriod();
         $date = $settings->getQualificationDate();
 
-        if ($date) {
-            $date = DateTimeImmutable::createFromMutable($date);
-        }
         if ($period) {
             $date = $cdate->add(new DateInterval('P' . $period . 'D'));
         }
