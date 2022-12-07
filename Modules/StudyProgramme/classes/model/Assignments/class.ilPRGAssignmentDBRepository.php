@@ -445,7 +445,7 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
                     yield $ass;
                 }
                 $this->progresses = $this->prebuildProgressesForAssingment((int) $row[self::ASSIGNMENT_FIELD_ID]);
-                $ass = $this->assignmentByRow($row); //amend all progresses based on tree (TODO: including settings)!
+                $ass = $this->assignmentByRow($row); //amend all progresses based on tree
             }
         }
 
@@ -507,9 +507,12 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
     {
         $children = array_filter(
             $this->tree->getChilds($this->getRefIdFor($node_obj_id)),
-            fn ($c) => $c['type'] == 'prg',
+            fn ($c) => in_array($c['type'], ['prg', 'prgr']),
         );
-        $children = array_map(fn ($c) => (int) $c['obj_id'], $children);
+        $children = array_map(
+            fn ($c) => $c['type'] === 'prg' ? (int) $c['obj_id'] : ilContainerReference::_lookupTargetId((int) $c['obj_id']),
+            $children
+        );
 
         $pgss = [];
         foreach ($children as $child_obj_id) {

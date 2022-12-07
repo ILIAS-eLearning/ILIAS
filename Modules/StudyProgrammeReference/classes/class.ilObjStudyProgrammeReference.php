@@ -57,6 +57,7 @@ class ilObjStudyProgrammeReference extends ilContainerReference
     public function getReferencedObject(): ilObjStudyProgramme
     {
         if (is_null($this->referenced_object)) {
+            $this->read();
             $this->referenced_object = ilObjStudyProgramme::getInstanceByRefId($this->target_ref_id);
         }
         return $this->referenced_object;

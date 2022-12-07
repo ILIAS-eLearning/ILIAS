@@ -104,6 +104,11 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
     public function get(int $obj_id): ilStudyProgrammeSettings
     {
         if (!array_key_exists($obj_id, self::$cache)) {
+            $type = ilObject::_lookupType($obj_id);
+            if ($type === 'prgr') {
+                $prg_reference = new ilObjStudyProgrammeReference($obj_id, false);
+                $obj_id = $prg_reference->getReferencedObject()->getId();
+            }
             self::$cache[$obj_id] = $this->loadDB($obj_id);
         }
         return self::$cache[$obj_id];
