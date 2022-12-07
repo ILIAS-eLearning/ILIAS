@@ -247,11 +247,12 @@ class ilExcelTestExport extends ilTestExportAbstract
                 $i++;
 
                 $username = (!is_null($userdata) && $userdata->getName()) ? $userdata->getName() : "ID $active_id";
-                if (array_key_exists($username, $usernames)) {
-                    $usernames[$username]++;
-                    $username .= " ($i)";
+                $username_to_lower = strtolower($username);
+                if (array_key_exists($username_to_lower, $usernames)) {
+                    $usernames[$username_to_lower]++;
+                    $username .= " (" . $usernames[$username_to_lower] . ")";
                 } else {
-                    $usernames[$username] = 1;
+                    $usernames[$username_to_lower] = 0;
                 }
 
                 if ($participantcount > 250) {
