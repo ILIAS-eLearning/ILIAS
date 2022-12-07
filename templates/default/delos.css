@@ -9515,6 +9515,11 @@ input[type=checkbox]:focus:focus-visible {
 .il-item-group-items {
   clear: both;
 }
+.il-item-group-items > ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
 .il-item-notification-replacement-container:not(:first-child) .il-notification-item {
   margin-top: 6px;
@@ -9568,7 +9573,6 @@ input[type=checkbox]:focus:focus-visible {
 
 @media only screen and (min-width: 769px) {
   .panel-secondary .il-item {
-    padding: 6px 15px;
     width: 100%;
   }
   .panel-secondary .il-item .il-item-title {
@@ -9577,6 +9581,10 @@ input[type=checkbox]:focus:focus-visible {
   .panel-secondary .il-item .il-item-description {
     padding-top: 0;
     word-break: break-word;
+  }
+  .panel-secondary .il-item .il-item-divider {
+    padding: 6px 0 0 0;
+    margin: 0 0 6px 0;
   }
   .panel-secondary .il-item .col-sm-3 {
     margin-top: 3px;
@@ -11028,9 +11036,6 @@ the il- variable in your less code and not the boostrap variable in your less co
   margin-bottom: 0;
   border: none;
 }
-.il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content .panel-secondary .panel-body {
-  padding-bottom: 0;
-}
 
 /*
 **************************************************************
@@ -11570,7 +11575,10 @@ div.alert ul > li:before {
   padding: 6px 15px;
 }
 .panel-secondary .panel-body .il-item-group:first-child {
-  margin: -15px -15px 0 -15px;
+  margin-top: -15px;
+}
+.panel-secondary .panel-body .il-item-group:last-child {
+  margin-bottom: -15px;
 }
 .panel-secondary .panel-body .il-item-group .il-item {
   padding-left: 15px;
@@ -12848,20 +12856,16 @@ div#bot_center_area_drag:hover {
 }
 
 /* ---------------- headlines ------------------ */
-#il_mhead_t_focus {
+h1.il-page-content-header {
   color: #2c2c2c;
   vertical-align: middle;
   font-size: 1.75rem;
   font-weight: 600;
-  cursor: default;
 }
 @media only screen and (max-width: 768px) {
-  #il_mhead_t_focus {
+  h1.il-page-content-header {
     font-size: 1.5rem;
   }
-}
-#il_mhead_t_focus[href] {
-  cursor: pointer;
 }
 
 h1.ilHeader {
@@ -14120,7 +14124,7 @@ li.ilFrmPostRow {
 }
 li.ilFrmPostRow.tblrowmarked {
   background-color: white;
-  border-left: 6px solid #e2e8ef;
+  border-left: 6px solid #B54F00;
 }
 li.ilFrmPostRow div.ilForm {
   width: 100%;
@@ -14173,10 +14177,11 @@ li.ilFrmPostRow div.ilForm div.ilFormOption {
     padding-left: 300px;
   }
 }
-li.ilFrmPostCensorshipAdvice {
+.ilFrmPostCensorshipAdvice {
   margin: 0;
   padding: 0;
   font-weight: 600;
+  color: #B54F00;
 }
 
 .ilFrmPostAttachmentsContainer {
@@ -15104,14 +15109,6 @@ div.textbox {
   padding-left: 20px;
   background: none;
   cursor: default;
-}
-
-.clearfix:after {
-  content: ".";
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden;
 }
 
 div.odd {
@@ -19312,6 +19309,13 @@ div.ilTableNav {
   padding: 0 15px;
   font-size: 0.625rem;
   text-align: right;
+  line-height: 20px;
+}
+div.ilTableNav .ilValignMiddle span, div.ilTableNav .ilValignMiddle a, div.ilTableNav .ilValignMiddle label {
+  vertical-align: middle;
+}
+div.ilTableNav .ilValignMiddle label {
+  margin-bottom: 0;
 }
 div.ilTableNav table {
   width: 100%;
@@ -19411,9 +19415,10 @@ legend.ilTableFilter {
   font-weight: 400;
   text-align: right;
 }
-legend.ilTableFilter > a {
+legend.ilTableFilter > a.btn {
   margin-right: -15px;
   margin-top: -12px;
+  vertical-align: middle;
 }
 
 fieldset.ilTableFilter {

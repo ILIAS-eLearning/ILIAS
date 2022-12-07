@@ -124,6 +124,12 @@ $il-item-gap-xs: 1px;
 
 .il-item-group-items {
 	clear: both;
+
+	> ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
 }
 .il-item-notification-replacement-container:not(:first-child){
 	.il-notification-item{
@@ -150,7 +156,7 @@ $il-item-gap-xs: 1px;
 	}
 
 	.dropdown{
-		margin-top: -(rem-to-pixel($il-font-size-base) + $il-margin-large-vertical);
+		margin-top: -($il-line-height-computed);
 	}
 
 }
@@ -193,7 +199,6 @@ $il-item-gap-xs: 1px;
 @media only screen and (min-width: ($il-grid-float-breakpoint-max + 1px)) {
 
 	.panel-secondary .il-item {
-		padding: $il-padding-large-vertical $il-padding-xlarge-horizontal;
 		width: 100%;
 
 		.il-item-title {
@@ -203,6 +208,11 @@ $il-item-gap-xs: 1px;
 		.il-item-description {
 			padding-top: 0;
 			word-break: break-word;
+		}
+
+		.il-item-divider {
+			padding: $il-padding-large-vertical 0 0 0;
+			margin: 0 0 $il-margin-large-vertical 0;
 		}
 
 		.col-sm-3 {

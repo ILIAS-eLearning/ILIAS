@@ -2107,23 +2107,26 @@ abstract class assQuestion
     protected function duplicateSuggestedSolutionFiles(int $parent_id, int $question_id): void
     {
         foreach ($this->suggested_solutions as $index => $solution) {
-            if ($solution->isOfTypeFile()) {
-                $filepath = $this->getSuggestedSolutionPath();
-                $filepath_original = str_replace(
-                    "/{$this->obj_id}/{$this->id}/solution",
-                    "/$parent_id/$question_id/solution",
-                    $filepath
-                );
-                if (!file_exists($filepath)) {
-                    ilFileUtils::makeDirParents($filepath);
-                }
-                $filename = $solution->getFilename();
-                if (strlen($filename)) {
-                    if (!copy($filepath_original . $filename, $filepath . $filename)) {
-                        $this->ilLog->root()->error("File could not be duplicated!!!!");
-                        $this->ilLog->root()->error("object: " . print_r($this, true));
-                    }
-                }
+            if (!is_array($solution) ||
+                !array_key_exists("type", $solution) ||
+                strcmp($solution["type"], "file") !== 0) {
+                continue;
+            }
+
+            $filepath = $this->getSuggestedSolutionPath();
+            $filepath_original = str_replace(
+                "/{$this->obj_id}/{$this->id}/solution",
+                "/$parent_id/$question_id/solution",
+                $filepath
+            );
+            if (!file_exists($filepath)) {
+                ilFileUtils::makeDirParents($filepath);
+            }
+            $filename = $solution->getFilename();
+            if (strlen($filename) &&
+                !copy($filepath_original . $filename, $filepath . $filename)) {
+                $this->ilLog->root()->error("File could not be duplicated!!!!");
+                $this->ilLog->root()->error("object: " . print_r($this, true));
             }
         }
     }
@@ -2168,7 +2171,6 @@ abstract class assQuestion
             }
         }
     }
-
 
     public function _resolveInternalLink(string $internal_link): string
     {
