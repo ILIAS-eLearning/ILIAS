@@ -112,6 +112,8 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
         if ($this->filter['object']) {
             $filter['object'] = $this->filter['object'];
         }
+        global $DIC;
+        $DIC->logger()->root()->dump($filter);
         return $filter;
     }
 
@@ -165,10 +167,16 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
         $data = array();
         foreach ($db_data as $item) {
             $obj_id = $item['obj_id'];
-            if ($filters['title'] ?? false  && stripos(ilObject::_lookupTitle($obj_id), $filters['title'] ?? '') === false) {
+            if (
+                ($filters['title'] ?? false)  &&
+                stripos(ilObject::_lookupTitle($obj_id), $filters['title'] ?? '') === false
+            ) {
                 continue;
             }
-            if ($filters['object'] ?? false && ilObject::_lookupType($obj_id) !== $filters['object'] ?? '') {
+            if (
+                ($filters['object'] ?? false) &&
+                ilObject::_lookupType($obj_id) !== ($filters['object'] ?? '')
+            ) {
                 continue;
             }
             $data[] = array(
