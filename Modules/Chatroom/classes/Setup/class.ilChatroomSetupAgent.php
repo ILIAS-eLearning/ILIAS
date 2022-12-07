@@ -244,7 +244,7 @@ class ilChatroomSetupAgent implements Setup\Agent
 
         // null would be valid here, because our user might just not have passed
         // one during update.
-        if ($config !== null && $config instanceof Setup\NullConfig) {
+        if ($config !== null && !($config instanceof Setup\NullConfig)) {
             $objectives[] = new ilChatroomServerConfigStoredObjective($config);
         }
 
