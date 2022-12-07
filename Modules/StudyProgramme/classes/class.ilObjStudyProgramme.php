@@ -490,7 +490,7 @@ class ilObjStudyProgramme extends ilContainer
                 array_unique(
                     array_map(
                         static function ($data) {
-                            return $data['child'];
+                            return (int)$data['child'];
                         },
                         array_filter($ref_child_ref_ids, static function ($data) {
                             return $data["deleted"] === null;
@@ -1108,31 +1108,13 @@ class ilObjStudyProgramme extends ilContainer
      * Use this after the structure of the programme was modified,
      * i.e.: there was a node added below this one.
      */
-    public function addMissingProgresses(): void //TODO: still need to add missing progresses explicitely ?
+    public function addMissingProgresses(): void
     {
-        $logger = $this->getLogger();
         $assignments = $this->getAssignments();
-
-        $this->applyToSubTreeNodes(
-            function (ilObjStudyProgramme $node) use (&$assignments, $logger) { //note and keep the reference.
-                foreach ($assignments as &$ass) { //note and keep the reference.
-                    if (!$ass->getProgressForNode($node->getId())) {
-                        $progress = (new ilPRGProgress((int) $node->getId()))
-                            ->withStatus(ilPRGProgress::STATUS_NOT_RELEVANT);
-                        $ass = $ass->withProgress($progress);
-                        $logger->log('Added progress for assignment ' . $ass->getId() . ' at node ' . $node->getId());
-                    }
-                }
-            },
-            true
-        );
-
         foreach ($assignments as $ass) {
             $this->assignment_repository->store($ass);
         }
     }
-
-
 
     /**
      * Are there any users that have a relevant progress on this programme?
