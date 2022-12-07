@@ -73,7 +73,7 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
             $this->getADT()->setUrl($post);
         } else {
             $this->writeFilter();
-            $this->getADT()->setUrl($post);
+            $this->getADT()->setUrl(null);
         }
         return true;
     }
