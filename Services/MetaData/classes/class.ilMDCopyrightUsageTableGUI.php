@@ -112,8 +112,6 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
         if ($this->filter['object']) {
             $filter['object'] = $this->filter['object'];
         }
-        global $DIC;
-        $DIC->logger()->root()->dump($filter);
         return $filter;
     }
 
