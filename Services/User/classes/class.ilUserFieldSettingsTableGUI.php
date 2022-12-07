@@ -133,7 +133,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
 
 
                 if ($this->confirm_change == 1) {	// confirm value
-                    $checked = $req_checked[$prop . "_" . $field];
+                    $checked = $req_checked[$prop . "_" . $field] ?? false;
                 }
                 if (isset($a_set[$prop . "_fix_value"])) {	// fix values overwrite everything
                     $checked = $a_set[$prop . "_fix_value"];
