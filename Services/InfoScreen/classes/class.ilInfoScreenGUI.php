@@ -392,6 +392,8 @@ class ilInfoScreenGUI
         $copyright = "";
         if (is_object($rights = $md->getRights())) {
             $copyright = ilMDUtils::_parseCopyright($rights->getDescription());
+        } else {
+            $copyright = ilMDUtils::_getDefaultCopyright();
         }
 
         // learning time
