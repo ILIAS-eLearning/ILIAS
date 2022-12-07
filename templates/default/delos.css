@@ -10438,6 +10438,14 @@ footer {
   background-color: rgba(249, 249, 249, 0.1);
 }
 
+.il-maincontrols-slate-content > ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+.il-maincontrols-slate-content > ul li {
+  padding: 0;
+}
 .il-maincontrols-slate-content p, .il-maincontrols-slate-content h1, .il-maincontrols-slate-content h2, .il-maincontrols-slate-content h3, .il-maincontrols-slate-content li {
   padding: 9px 18px;
 }
