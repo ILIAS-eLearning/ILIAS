@@ -58,23 +58,11 @@ class ilObjStudyProgrammeReferenceAccess extends ilContainerReferenceAccess
                 $target_ref_id = ilContainerReference::_lookupTargetRefId($a_obj_id);
                 $prg = ilObjStudyProgramme::getInstanceByRefId($target_ref_id);
                 $target_id = $prg->getId();
-                $progress_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'];
                 $parent = $tree->getParentNodeData($a_ref_id);
                 if ($parent["type"] === "prg" && !$parent["deleted"]) {
                     $parent = ilObjStudyProgramme::getInstanceByRefId($parent["ref_id"]);
-                    foreach ($parent->getProgresses() as $parent_progress
-                    ) {
-                        $progress = $progress_db->getByPrgIdAndAssignmentId(
-                            $target_id,
-                            $parent_progress->getAssignmentId()
-                        );
-
-                        if (!$progress) {
-                            continue;
-                        }
-                        if ($progress->isRelevant()) {
-                            return false;
-                        }
+                    if (! $parent->canBeRemoved()) {
+                        return false;
                     }
                 }
 
