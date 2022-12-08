@@ -57,10 +57,16 @@ class ilPRGAssignmentFilter
                         . ')';
                     break;
                 case 'invalidated':
-                    if ((int) $value == ilStudyProgrammeUserTable::VALIDITY_OPTION_VALID ||
-                        (int) $value == ilStudyProgrammeUserTable::VALIDITY_OPTION_INVALID) {
-                        $value = ((int) $value === ilStudyProgrammeUserTable::VALIDITY_OPTION_VALID) ? 0 : 1;
-                        $conditions[] = ilPRGAssignmentDBRepository::PROGRESS_FIELD_INVALIDATED . '=' . $value;
+                    if ((int) $value == ilStudyProgrammeUserTable::VALIDITY_OPTION_INVALID) {
+                        $conditions[] = ilPRGAssignmentDBRepository::PROGRESS_FIELD_INVALIDATED . ' = 1';
+                    }
+                    if ((int) $value == ilStudyProgrammeUserTable::VALIDITY_OPTION_VALID) {
+                        $conditions[] = ilPRGAssignmentDBRepository::PROGRESS_FIELD_INVALIDATED . ' = 0';
+                        $conditions[] = '(' 
+                            . ilPRGAssignmentDBRepository::PROGRESS_FIELD_STATUS . '=' . ilPRGProgress::STATUS_COMPLETED
+                            . ' OR '
+                            . ilPRGAssignmentDBRepository::PROGRESS_FIELD_STATUS . '=' . ilPRGProgress::STATUS_ACCREDITED
+                        .')';
                     }
                     break;
 
