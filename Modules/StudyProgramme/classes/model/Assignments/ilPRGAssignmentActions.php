@@ -171,7 +171,7 @@ trait ilPRGAssignmentActions
             $date = $cdate->add(new DateInterval('P' . $period . 'D'));
         }
 
-        $validity = $date->format(ilPRGProgress::DATE_FORMAT) >= $this->getNow()->format(ilPRGProgress::DATE_FORMAT);
+        $validity = is_null($date) || $date->format(ilPRGProgress::DATE_FORMAT) >= $this->getNow()->format(ilPRGProgress::DATE_FORMAT);
         return $progress->withValidityOfQualification($date)
             ->withInvalidated(!$validity);
     }
@@ -592,7 +592,7 @@ trait ilPRGAssignmentActions
                     return $pgs;
                 }
 
-                $validity = $validity_date->format(ilPRGProgress::DATE_FORMAT) >= $this->getNow()->format(ilPRGProgress::DATE_FORMAT);
+                $validity = is_null($validity_date) || $validity_date->format(ilPRGProgress::DATE_FORMAT) >= $this->getNow()->format(ilPRGProgress::DATE_FORMAT);
                 $pgs = $pgs->withValidityOfQualification($validity_date)
                     ->withLastChange($acting_usr_id, $this->getNow())
                     ->withIndividualModifications(true)
