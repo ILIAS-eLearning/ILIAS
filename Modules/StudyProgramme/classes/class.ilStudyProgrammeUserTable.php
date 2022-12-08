@@ -199,7 +199,7 @@ class ilStudyProgrammeUserTable
             ->withExpiryDate(
                 $show_lp && $pgs->getValidityOfQualification() ? $pgs->getValidityOfQualification()->format($pgs::DATE_FORMAT) : ''
             )
-            ->withValidity($show_lp ? $this->validToRepresent(!$pgs->isInvalidated()) : '')
+            ->withValidity($show_lp ? $this->validToRepresent($pgs) : '')
         ;
         return $row;
     }
@@ -255,12 +255,13 @@ class ilStudyProgrammeUserTable
     {
         return ($value) ? $this->lng->txt("yes") : $this->lng->txt("no");
     }
-    public function validToRepresent(?bool $value): string
+
+    public function validToRepresent(ilPRGProgress $pgs): string
     {
-        if (is_null($value)) {
+        if (!$pgs->isSuccessful()) {
             return '-';
         }
-        return ($value) ? $this->lng->txt("prg_still_valid") : $this->lng->txt("prg_not_valid");
+        return $pgs->isInvalidated() ? $this->lng->txt("prg_not_valid") : $this->lng->txt("prg_still_valid");
     }
 
     public function activeToRepresent(bool $value): string
