@@ -540,7 +540,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         }
 
         foreach ($refIds as $ref_id) {
-            $this->favourites->remove($this->user->getId(), $ref_id);
+            $this->favourites->remove($this->user->getId(), (int) $ref_id);
         }
 
         // #12909
