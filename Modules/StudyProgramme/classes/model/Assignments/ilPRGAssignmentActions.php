@@ -578,10 +578,10 @@ trait ilPRGAssignmentActions
         int $node_id,
         int $acting_usr_id,
         ilPRGMessageCollection $err_collection,
-        ?DateTimeImmutable $validity
+        ?DateTimeImmutable $validity_date
     ): self {
         $zipper = $this->getZipper($node_id)->modifyFocus(
-            function ($pgs) use ($err_collection, $acting_usr_id, $settings_repo, $validity): ilPRGProgress {
+            function ($pgs) use ($err_collection, $acting_usr_id, $settings_repo, $validity_date): ilPRGProgress {
                 if (!$pgs->isRelevant()) {
                     $err_collection->add(false, 'will_not_modify_irrelevant_progress', $this->getProgressIdString($pgs->getNodeId()));
                     return $pgs;
@@ -591,9 +591,11 @@ trait ilPRGAssignmentActions
                     return $pgs;
                 }
 
-                $pgs = $pgs->withValidityOfQualification($validity)
+                $validity = $validity_date->format(ilPRGProgress::DATE_FORMAT) >= $this->getNow()->format(ilPRGProgress::DATE_FORMAT);
+                $pgs = $pgs->withValidityOfQualification($validity_date)
                     ->withLastChange($acting_usr_id, $this->getNow())
-                    ->withIndividualModifications(true);
+                    ->withIndividualModifications(true)
+                    ->withInvalidated(!$validity);
 
                 $err_collection->add(true, 'validity_updated', $this->getProgressIdString($pgs->getNodeId()));
                 return $pgs;

@@ -173,8 +173,6 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
                 ['prg_no_restart'],
                 ['restart_period_label'],
                 ['restart_period_desc'],
-                ['restart_recheck_label'],
-                ['restart_recheck_desc'],
                 ['restart_period'],
                 ['prg_validity_of_qualification']
             )
@@ -187,8 +185,6 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
                 'prg_no_restart',
                 'restart_period_label',
                 'restart_period_desc',
-                'restart_recheck_label',
-                'restart_recheck_desc',
                 'restart_period',
                 'prg_validity_of_qualification'
             ))
