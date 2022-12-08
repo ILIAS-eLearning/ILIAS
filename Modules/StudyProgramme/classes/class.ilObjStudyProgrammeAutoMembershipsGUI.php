@@ -151,7 +151,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         }
 
         $selected_src_type = $this->request_wrapper->retrieve(self::F_SOURCE_TYPE, $this->refinery->kindlyTo()->string());
-        $selected_src = $this->request_wrapper->retrieve(self::F_SOURCE_ID, $this->refinery->kindlyTo()->int());
+        $selected_src = $this->request_wrapper->retrieve(self::F_SOURCE_ID, $this->refinery->kindlyTo()->string());
 
         $form = $this->getSelectionForm(
             $selected_src_type,
@@ -601,7 +601,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         }
 
         $hi = new ilHiddenInputGUI(self::F_ORIGINAL_SOURCE_TYPE);
-        $hi->setValue($source_type);
+        $hi->setValue($source_type ?? '');
         $form->addItem($hi);
 
         $hi = new ilHiddenInputGUI(self::F_ORIGINAL_SOURCE_ID);
