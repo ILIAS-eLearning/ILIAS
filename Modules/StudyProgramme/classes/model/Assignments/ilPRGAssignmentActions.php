@@ -171,7 +171,9 @@ trait ilPRGAssignmentActions
             $date = $cdate->add(new DateInterval('P' . $period . 'D'));
         }
 
-        return $progress->withValidityOfQualification($date);
+        $validity = $date->format(ilPRGProgress::DATE_FORMAT) >= $this->getNow()->format(ilPRGProgress::DATE_FORMAT);
+        return $progress->withValidityOfQualification($date)
+            ->withInvalidated(!$validity);
     }
 
     protected function updateProgressDeadlineFromSettings(
