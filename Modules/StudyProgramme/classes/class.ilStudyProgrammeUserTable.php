@@ -194,7 +194,7 @@ class ilStudyProgrammeUserTable
                 )
             )
             ->withDeadline(
-                $show_lp && $pgs->getDeadline() ? $pgs->getDeadline()->format($pgs::DATE_FORMAT) : ''
+                $show_lp && $pgs->getDeadline() && !$pgs->isSuccessful() ? $pgs->getDeadline()->format($pgs::DATE_FORMAT) : ''
             )
             ->withExpiryDate(
                 $show_lp && $pgs->getValidityOfQualification() ? $pgs->getValidityOfQualification()->format($pgs::DATE_FORMAT) : ''
