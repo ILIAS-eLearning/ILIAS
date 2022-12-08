@@ -343,14 +343,19 @@ class ilPRGProgress extends Node
             $msg = $this->vq_date->format(self::DATE_FORMAT) . ' > ' . date(self::DATE_FORMAT);
             throw new ilException("may not invalidate non-expired progress ($msg)");
         }
-        $clone = clone $this;
-        $clone->invalidated = true;
-        return $clone;
+        return $this->withInvalidated(true);
     }
 
     public function isInvalidated(): bool
     {
         return $this->invalidated;
+    }
+
+    public function withInvalidated(bool $invalidated): self
+    {
+        $clone = clone $this;
+        $clone->invalidated = $invalidated;
+        return $clone;
     }
 
     public function markAccredited(\DateTimeImmutable $date, int $acting_usr_id): self
