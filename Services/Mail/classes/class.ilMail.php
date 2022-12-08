@@ -558,13 +558,12 @@ class ilMail
             } else {
                 $context = new ilMailTemplateGenericContext();
             }
-
             $user = $usrId > 0 ? $this->getUserInstanceById($usrId) : null;
 
             $processor = new ilMailTemplatePlaceholderResolver($context, $message);
             $message = $processor->resolve($user, $this->contextParameters, $replaceEmptyPlaceholders);
         } catch (Exception $e) {
-            $this->logger->error(__METHOD__ . ' has been called with invalid context.');
+            $this->logger->error(__METHOD__ . ' has been called with invalid context. ' . $e->getMessage());
         }
 
         return $message;
