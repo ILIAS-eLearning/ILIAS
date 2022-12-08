@@ -182,10 +182,10 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
             return '';
         }
 
-        $obj_id = ilObject::_lookupObjectId($context_parameters['ref_id']);
+        $obj_id = ilObject::_lookupObjectId((int)$context_parameters['ref_id']);
 
         /** @var ilObjStudyProgramme $obj */
-        $obj = ilObjectFactory::getInstanceByRefId($context_parameters['ref_id']);
+        $obj = ilObjectFactory::getInstanceByRefId((int)$context_parameters['ref_id']);
 
         $progress = $this->getNewestProgressForUser($obj, $recipient->getId());
 
@@ -203,7 +203,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
                 }
                 break;
             case self::LINK:
-                $string = ilLink::_getLink($context_parameters['ref_id'], 'prg');
+                $string = ilLink::_getLink((int)$context_parameters['ref_id'], 'prg');
                 break;
             case self::ORG_UNIT:
                 $string = ilObjUser::lookupOrgUnitsRepresentation($recipient->getId());
@@ -255,27 +255,28 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
                 $string = $this->date2String($progress->getValidityOfQualification());
                 break;
             default:
+                throw new \Exception("cannot resolve placeholder: " . $placeholder_id);
                 $string = '';
         }
 
         return $string;
     }
 
-    protected function getNewestProgressForUser(ilObjStudyProgramme $obj, int $user_id): ilStudyProgrammeProgress
+    protected function getNewestProgressForUser(ilObjStudyProgramme $obj, int $user_id): ilPRGProgress
     {
         $progresses = [];
         $assignments = $obj->getAssignmentsOfSingleProgramForUser($user_id);
-        $progresses[] = $assignments->getProgressForNode($obj->getId());
+        $progresses = array_map(fn ($ass) => $ass->getProgressForNode($obj->getId()), $assignments);
 
-        $successfully_progress = array_filter($progresses, static function (ilStudyProgrammeProgress $pgs): bool {
+        $successfully_progress = array_filter($progresses, static function (ilPRGProgress $pgs): bool {
             return $pgs->isSuccessful();
         });
 
         if (count($successfully_progress) === 0) {
-            return $progress[0];
+            return $progresses[0];
         }
 
-        usort($successfully_progress, static function (ilStudyProgrammeProgress $a, ilStudyProgrammeProgress $b): int {
+        usort($successfully_progress, static function (ilPRGProgress $a, ilPRGProgress $b): int {
             if ($a->getCompletionDate() > $b->getCompletionDate()) {
                 return -1;
             } elseif ($a->getCompletionDate() < $b->getCompletionDate()) {
@@ -290,19 +291,19 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
 
     protected function statusToRepr(int $status, string $lang): string
     {
-        if ($status === ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
+        if ($status === ilPRGProgress::STATUS_IN_PROGRESS) {
             return $this->lng->txtlng('prg', 'prg_status_in_progress', $lang);
         }
-        if ($status === ilStudyProgrammeProgress::STATUS_COMPLETED) {
+        if ($status === ilPRGProgress::STATUS_COMPLETED) {
             return $this->lng->txtlng('prg', 'prg_status_completed', $lang);
         }
-        if ($status === ilStudyProgrammeProgress::STATUS_ACCREDITED) {
+        if ($status === ilPRGProgress::STATUS_ACCREDITED) {
             return $this->lng->txtlng('prg', 'prg_status_accredited', $lang);
         }
-        if ($status === ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
+        if ($status === ilPRGProgress::STATUS_NOT_RELEVANT) {
             return $this->lng->txtlng('prg', 'prg_status_not_relevant', $lang);
         }
-        if ($status === ilStudyProgrammeProgress::STATUS_FAILED) {
+        if ($status === ilPRGProgress::STATUS_FAILED) {
             return $this->lng->txtlng('prg', 'prg_status_failed', $lang);
         }
 
