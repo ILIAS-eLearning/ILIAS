@@ -2456,8 +2456,6 @@ book#:#book_back_to_list#:#Back to List
 book#:#book_bobj#:#Booking Object
 book#:#book_book#:#Book
 book#:#book_book_available#:#Book Available Dates
-book#:#book_book_available#:#Book Available Dates
-book#:#book_book_recurrence#:#Book multiple dates
 book#:#book_book_recurrence#:#Book multiple dates
 book#:#book_booked_in#:#Booked in
 book#:#book_booking#:#Booking
@@ -2466,21 +2464,16 @@ book#:#book_booking_objects#:#Booking Objects
 book#:#book_booking_reminders#:#Upcoming reservations
 book#:#book_bookings_per_user#:#Bookings per User
 book#:#book_bulk_confirmation#:#Please check, if all values are listed correctly.
-book#:#book_bulk_confirmation#:#Please check, if all values are listed correctly.
 book#:#book_bulk_creation#:#Bulk Creation
-book#:#book_bulk_creation#:#Bulk Creation
-book#:#book_bulk_data#:#Object Data
 book#:#book_bulk_data#:#Object Data
 book#:#book_cal_entry#:#Booking of:
 book#:#book_confirm_booking#:#Confirm Booking
 book#:#book_confirm_booking_no_schedule#:#Are you sure you want to book the following object?
 book#:#book_confirm_booking_schedule_number_of_objects#:#Booking Confirmation
-book#:#book_confirm_booking_schedule_number_of_objects_info#:#Please state the numbers of objects to book.
 book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reservations?
 book#:#book_confirm_cancel_aggregation#:#Number of Cancellations
 book#:#book_confirm_delete#:#Do you really want to delete the following items?
 book#:#book_copy#:#Copy Booking Pool
-book#:#book_create_objects#:#Create Objects
 book#:#book_create_objects#:#Create Objects
 book#:#book_deadline#:#Deadline
 book#:#book_deadline_hours#:#X hours prior to booking period
@@ -2499,22 +2492,18 @@ book#:#book_hours#:#Hours
 book#:#book_is_used#:#Is Used
 book#:#book_limit_objects_available#:#You can not assign %s participants to "%s" because it has only %s items available.
 book#:#book_list#:#List
-book#:#book_list#:#List
 book#:#book_log#:#Reservations
 book#:#book_message#:#Message
 book#:#book_message_info#:#You may enter a message for the booking organisator here.
 book#:#book_messages#:#Messages
 book#:#book_messages_info#:#Users may add a message when booking an object.
 book#:#book_missing_availability#:#It was not possible to book all items on all dates.
-book#:#book_missing_availability#:#It was not possible to book all items on all dates.
-book#:#book_missing_items#:#$1 missing item(s).
 book#:#book_missing_items#:#$1 missing item(s).
 book#:#book_new#:#New Booking Pool
 book#:#book_no_bookings_for_you#:#No reservations have been performed for you.
 book#:#book_no_objects#:#No Assignment
 book#:#book_no_of_objects#:#No. of Objects
 book#:#book_no_preferences_for_you#:#No preferences have been stored for you.
-book#:#book_no_recurrence#:#Book only this date
 book#:#book_no_recurrence#:#Book only this date
 book#:#book_not#:#Not
 book#:#book_not_enough_preferences#:#You selected not enough preferences. The preferences have not been saved.
@@ -2524,10 +2513,8 @@ book#:#book_nr_of_preferences#:#Number of Preferences
 book#:#book_nr_of_preferences_info#:#Number of preferences each participant can indicate.
 book#:#book_nr_preferences#:#Prefences
 book#:#book_obj_select#:#Select
-book#:#book_obj_select#:#Select
 book#:#book_object_added#:#A booking object has been added.
 book#:#book_object_deleted#:#The booking object has been deleted.
-book#:#book_object_selection#:#Object Selection
 book#:#book_object_selection#:#Object Selection
 book#:#book_object_updated#:#The booking object has been updated.
 book#:#book_objects_available#:#Objects available %s
@@ -2554,8 +2541,6 @@ book#:#book_preferences_saved#:#The preferences have been saved.
 book#:#book_public_log#:#Public Reservations
 book#:#book_public_log_info#:#Users having the "read" permission only will also see reservations of other users.
 book#:#book_recurrence#:#Recurrence
-book#:#book_recurrence#:#Recurrence
-book#:#book_refresh#:#Refresh
 book#:#book_refresh#:#Refresh
 book#:#book_rem_intro#:#This is an overview of upcoming reservations:
 book#:#book_rem_reason#:#You are reciving these mails, because you are subscribed to notifications of the corresponding booking pools.
@@ -2597,12 +2582,9 @@ book#:#book_set_cancel#:#Cancel Reservation
 book#:#book_set_delete#:#Delete
 book#:#book_show_message#:#Show Message
 book#:#book_title_description_nr#:#Title; Description; Number of Objects
-book#:#book_title_description_nr#:#Title; Description; Number of Objects
-book#:#book_title_description_nr_info#:#Enter title, description and number of objects separated by semicolon or TAB character. Use one line per object.
 book#:#book_title_description_nr_info#:#Enter title, description and number of objects separated by semicolon or TAB character. Use one line per object.
 book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.
 book#:#book_type_warning#:#Currently, there are no booking objects available. To use the booking pool you need to create booking objects.
-book#:#book_week#:#Week
 book#:#book_week#:#Week
 book#:#book_your_bookings#:#Your Reservations
 book#:#book_your_preferences#:#Your Preferences
