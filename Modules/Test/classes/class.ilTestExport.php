@@ -210,13 +210,13 @@ abstract class ilTestExport
         $expLog->write(date("[y-m-d H:i:s] ") . "Start Export Of Results");
 
         $exporter = new ilCSVTestExport($this->test_obj, '', '', true, false, $deliver = false);
-        $data = $exporter->export($this->test_obj);
+        $data = $exporter->export();
         $file = fopen($this->export_dir . "/" . $this->filename, "w");
         fwrite($file, $data);
         fclose($file);
 
         $exporter = new ilExcelTestExport($this->test_obj, '', '', true, false, $deliver = false);
-        $excelfile = $exporter->export($this->test_obj);
+        $excelfile = $exporter->export();
         @copy($excelfile, $this->export_dir . "/" . str_replace($this->getExtension(), "xlsx", $this->filename));
         @unlink($excelfile);
         // end

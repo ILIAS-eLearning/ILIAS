@@ -45,7 +45,7 @@ abstract class ilTestExportAbstract
         $this->deliver = $deliver;
     }
 
-    abstract public function export(ilObjTest $test_obj): string;
+    abstract public function export(): string;
 
     public function getDatarows(ilObjTest $test_obj): array
     {

@@ -19,19 +19,32 @@ declare(strict_types=1);
  *********************************************************************/
 class ilExcelTestExport extends ilTestExportAbstract
 {
-    public function export(ilObjTest $test_obj): string
+    protected ilAssExcelFormatHelper $worksheet;
+
+    public function __construct(
+        ilObjTest $test_obj,
+        string $filterby = '',
+        string $filtertext = '',
+        bool $bestonly = false,
+        bool $passedonly = false,
+        bool $deliver = false
+    ) {
+        $this->worksheet = new ilAssExcelFormatHelper();
+        parent::__construct($test_obj, $filterby, $filtertext, $bestonly, $passedonly, $deliver);
+    }
+
+    public function resultsPage(): void
     {
-        $worksheet = new ilAssExcelFormatHelper();
-        $worksheet->addSheet($this->lng->txt('tst_results'));
+        $this->worksheet->addSheet($this->lng->txt('tst_results'));
 
         $row = 1;
-        $header_row = $this->getHeaderRow($this->lng, $test_obj);
+        $header_row = $this->getHeaderRow($this->lng, $this->test_obj);
         foreach ($header_row as $col => $value) {
-            $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col) . $row, $value);
+            $this->worksheet->setFormattedExcelTitle($this->worksheet->getColumnCoord($col) . $row, $value);
         }
-        $worksheet->setBold('A' . $row . ':' . $worksheet->getColumnCoord(count($header_row) + 1) . $row);
+        $this->worksheet->setBold('A' . $row . ':' . $this->worksheet->getColumnCoord(count($header_row) + 1) . $row);
 
-        $datarows = $this->getDatarows($test_obj);
+        $datarows = $this->getDatarows($this->test_obj);
         foreach ($datarows as $row => $data) {
             if ($row % 2 === 0) {
                 for ($col = 0, $colMax = count($header_row); $col < $colMax; $col++) {
@@ -39,24 +52,26 @@ class ilExcelTestExport extends ilTestExportAbstract
                 }
                 foreach ($data as $col => $value) {
                     if ($value !== "") {
-                        $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col) . $row + 1, $value);
+                        $this->worksheet->setFormattedExcelTitle($this->worksheet->getColumnCoord($col) . $row + 1, $value);
                     }
                 }
             } else {
                 foreach ($data as $col => $value) {
-                    $worksheet->setCellByCoordinates($worksheet->getColumnCoord($col) . $row + 1, $value);
+                    $this->worksheet->setCellByCoordinates($this->worksheet->getColumnCoord($col) . $row + 1, $value);
                 }
             }
         }
+    }
 
+    public function allUsersPage(): void
+    {
         $data = $this->test_obj->getCompleteEvaluationData(true, $this->filterby, $this->filtertext);
         $additionalFields = $this->test_obj->getEvaluationAdditionalFields();
 
-        if ($test_obj->getExportSettingsSingleChoiceShort() && !$test_obj->isRandomTest(
-        ) && $test_obj->hasSingleChoiceQuestions()) {
+        if ($this->test_obj->getExportSettingsSingleChoiceShort() && !$this->test_obj->isRandomTest() && $this->test_obj->hasSingleChoiceQuestions()) {
             // special tab for single choice tests
-            $titles = $test_obj->getQuestionTitlesAndIndexes();
-            $positions = array();
+            $titles = $this->test_obj->getQuestionTitlesAndIndexes();
+            $positions = [];
             $pos = 0;
             $row = 1;
             foreach ($titles as $id => $title) {
@@ -64,37 +79,46 @@ class ilExcelTestExport extends ilTestExportAbstract
                 $pos++;
             }
 
-            $usernames = array();
+            $usernames = [];
             $participantcount = count($data->getParticipants());
             $allusersheet = false;
             $pages = 0;
 
-            $worksheet->addSheet($this->lng->txt('eval_all_users'));
+            $this->worksheet->addSheet($this->lng->txt('eval_all_users'));
 
             $col = 0;
-            $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('name'));
-            $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('login'));
+            $this->worksheet->setFormattedExcelTitle(
+                $this->worksheet->getColumnCoord($col++) . $row,
+                $this->lng->txt('name')
+            );
+            $this->worksheet->setFormattedExcelTitle(
+                $this->worksheet->getColumnCoord($col++) . $row,
+                $this->lng->txt('login')
+            );
             if (count($additionalFields)) {
                 foreach ($additionalFields as $fieldname) {
                     if (strcmp($fieldname, "matriculation") === 0) {
-                        $worksheet->setFormattedExcelTitle(
-                            $worksheet->getColumnCoord($col++) . $row,
+                        $this->worksheet->setFormattedExcelTitle(
+                            $this->worksheet->getColumnCoord($col++) . $row,
                             $this->lng->txt('matriculation')
                         );
                     }
                     if (strcmp($fieldname, "exam_id") === 0) {
-                        $worksheet->setFormattedExcelTitle(
-                            $worksheet->getColumnCoord($col++) . $row,
+                        $this->worksheet->setFormattedExcelTitle(
+                            $this->worksheet->getColumnCoord($col++) . $row,
                             $this->lng->txt('exam_id_label')
                         );
                     }
                 }
             }
-            $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('test'));
+            $this->worksheet->setFormattedExcelTitle(
+                $this->worksheet->getColumnCoord($col++) . $row,
+                $this->lng->txt('test')
+            );
             foreach ($titles as $title) {
-                $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $title);
+                $this->worksheet->setFormattedExcelTitle($this->worksheet->getColumnCoord($col++) . $row, $title);
             }
-            $worksheet->setBold('A' . $row . ':' . $worksheet->getColumnCoord($col - 1) . $row);
+            $this->worksheet->setBold('A' . $row . ':' . $this->worksheet->getColumnCoord($col - 1) . $row);
 
             $row++;
             foreach ($data->getParticipants() as $active_id => $userdata) {
@@ -106,28 +130,28 @@ class ilExcelTestExport extends ilTestExportAbstract
                     $usernames[$username] = 1;
                 }
                 $col = 0;
-                $worksheet->setCell($row, $col++, $username);
-                $worksheet->setCell($row, $col++, $userdata->getLogin());
+                $this->worksheet->setCell($row, $col++, $username);
+                $this->worksheet->setCell($row, $col++, $userdata->getLogin());
                 if (count($additionalFields)) {
                     $userfields = ilObjUser::_lookupFields($userdata->getUserID());
                     foreach ($additionalFields as $fieldname) {
                         if (strcmp($fieldname, "matriculation") === 0) {
                             if ($userfields[$fieldname] !== '') {
-                                $worksheet->setCell($row, $col++, $userfields[$fieldname]);
+                                $this->worksheet->setCell($row, $col++, $userfields[$fieldname]);
                             } else {
                                 $col++;
                             }
                         }
                         if (strcmp($fieldname, "exam_id") === 0) {
                             if ($userfields[$fieldname] !== '') {
-                                $worksheet->setCell($row, $col++, $userdata->getExamIdFromScoredPass());
+                                $this->worksheet->setCell($row, $col++, $userdata->getExamIdFromScoredPass());
                             } else {
                                 $col++;
                             }
                         }
                     }
                 }
-                $worksheet->setCell($row, $col++, $test_obj->getTitle());
+                $this->worksheet->setCell($row, $col++, $this->test_obj->getTitle());
                 $pass = $userdata->getScoredPass();
                 if (is_object($userdata) && is_array($userdata->getQuestions($pass))) {
                     foreach ($userdata->getQuestions($pass) as $question) {
@@ -144,47 +168,77 @@ class ilExcelTestExport extends ilTestExportAbstract
                                     $selectedanswer = $answer->getAnswertext();
                                 }
                             }
-                            $worksheet->setCell($row, $col + $pos, $selectedanswer);
+                            $this->worksheet->setCell($row, $col + $pos, $selectedanswer);
                         }
                     }
                 }
                 $row++;
             }
+        }
+    }
 
-            if ($test_obj->isSingleChoiceTestWithoutShuffle()) {
+    public function export(): string
+    {
+        $this->resultsPage();
+        $this->allUsersPage();
+        $this->userPages();
+        if ($this->deliver) {
+            $testname = $this->test_obj->getTitle();
+            $testname .= '_results';
+            $testname = ilFileUtils::getASCIIFilename(preg_replace("/\s/", "_", $testname)) . '.xlsx';
+            $this->worksheet->sendToClient($testname);
+        }
+        $excelfile = ilFileUtils::ilTempnam();
+        $this->worksheet->writeToFile($excelfile);
+        return $excelfile . '.xlsx';
+    }
+
+    public function userPages(): void
+    {
+        $data = $this->test_obj->getCompleteEvaluationData(true, $this->filterby, $this->filtertext);
+        $additionalFields = $this->test_obj->getEvaluationAdditionalFields();
+        $positions = [];
+        $pos = 0;
+        $titles = $this->test_obj->getQuestionTitlesAndIndexes();
+        foreach ($titles as $id => $title) {
+            $positions[$id] = $pos;
+            $pos++;
+        }
+        if ($this->test_obj->getExportSettingsSingleChoiceShort() && !$this->test_obj->isRandomTest() && $this->test_obj->hasSingleChoiceQuestions()) {
+            if ($this->test_obj->isSingleChoiceTestWithoutShuffle()) {
                 // special tab for single choice tests without shuffle option
                 $pos = 0;
                 $row = 1;
-                $usernames = array();
+                $usernames = [];
                 $allusersheet = false;
                 $pages = 0;
 
-                $worksheet->addSheet($this->lng->txt('eval_all_users') . ' (2)');
+                $this->worksheet->addSheet($this->lng->txt('eval_all_users') . ' (2)');
 
                 $col = 0;
-                $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('name'));
-                $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('login'));
+                $this->worksheet->setFormattedExcelTitle($this->worksheet->getColumnCoord($col++) . $row, $this->lng->txt('name'));
+                $this->worksheet->setFormattedExcelTitle($this->worksheet->getColumnCoord($col++) . $row, $this->lng->txt('login'));
                 if (count($additionalFields)) {
                     foreach ($additionalFields as $fieldname) {
                         if (strcmp($fieldname, "matriculation") === 0) {
-                            $worksheet->setFormattedExcelTitle(
-                                $worksheet->getColumnCoord($col++) . $row,
+                            $this->worksheet->setFormattedExcelTitle(
+                                $this->worksheet->getColumnCoord($col++) . $row,
                                 $this->lng->txt('matriculation')
                             );
                         }
                         if (strcmp($fieldname, "exam_id") === 0) {
-                            $worksheet->setFormattedExcelTitle(
-                                $worksheet->getColumnCoord($col++) . $row,
+                            $this->worksheet->setFormattedExcelTitle(
+                                $this->worksheet->getColumnCoord($col++) . $row,
                                 $this->lng->txt('exam_id_label')
                             );
                         }
                     }
                 }
-                $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('test'));
+                $this->worksheet->setFormattedExcelTitle($this->worksheet->getColumnCoord($col++) . $row, $this->lng->txt('test'));
                 foreach ($titles as $title) {
-                    $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $title);
+                    $this->worksheet->setFormattedExcelTitle($this->worksheet->getColumnCoord($col++) . $row, $title);
                 }
-                $worksheet->setBold('A' . $row . ':' . $worksheet->getColumnCoord($col - 1) . $row);
+                $this->worksheet->setBold('A' . $row . ':' . $this->worksheet->getColumnCoord($col - 1) . $row);
 
                 $row++;
                 foreach ($data->getParticipants() as $active_id => $userdata) {
@@ -196,28 +250,28 @@ class ilExcelTestExport extends ilTestExportAbstract
                         $usernames[$username] = 1;
                     }
                     $col = 0;
-                    $worksheet->setCell($row, $col++, $username);
-                    $worksheet->setCell($row, $col++, $userdata->getLogin());
+                    $this->worksheet->setCell($row, $col++, $username);
+                    $this->worksheet->setCell($row, $col++, $userdata->getLogin());
                     if (count($additionalFields)) {
                         $userfields = ilObjUser::_lookupFields($userdata->getUserId());
                         foreach ($additionalFields as $fieldname) {
                             if (strcmp($fieldname, "matriculation") === 0) {
                                 if ($userfields[$fieldname] !== '') {
-                                    $worksheet->setCell($row, $col++, $userfields[$fieldname]);
+                                    $this->worksheet->setCell($row, $col++, $userfields[$fieldname]);
                                 } else {
                                     $col++;
                                 }
                             }
                             if (strcmp($fieldname, "exam_id") === 0) {
                                 if ($userfields[$fieldname] !== '') {
-                                    $worksheet->setCell($row, $col++, $userdata->getExamIdFromScoredPass());
+                                    $this->worksheet->setCell($row, $col++, $userdata->getExamIdFromScoredPass());
                                 } else {
                                     $col++;
                                 }
                             }
                         }
                     }
-                    $worksheet->setCell($row, $col++, $test_obj->getTitle());
+                    $this->worksheet->setCell($row, $col++, $this->test_obj->getTitle());
                     $pass = $userdata->getScoredPass();
                     if (is_object($userdata) && is_array($userdata->getQuestions($pass))) {
                         foreach ($userdata->getQuestions($pass) as $question) {
@@ -229,7 +283,7 @@ class ilExcelTestExport extends ilTestExportAbstract
                                 $solution = $objQuestion->getSolutionValues($active_id, $pass);
                                 $pos = $positions[$question["aid"]];
                                 $selectedanswer = chr(65 + $solution[0]["value1"]);
-                                $worksheet->setCell($row, $col + $pos, $selectedanswer);
+                                $this->worksheet->setCell($row, $col + $pos, $selectedanswer);
                             }
                         }
                     }
@@ -238,7 +292,7 @@ class ilExcelTestExport extends ilTestExportAbstract
             }
         } else {
             // test participant result export
-            $usernames = array();
+            $usernames = [];
             $participantcount = count($data->getParticipants());
             $allusersheet = false;
             $pages = 0;
@@ -257,7 +311,7 @@ class ilExcelTestExport extends ilTestExportAbstract
 
                 if ($participantcount > 250) {
                     if (!$allusersheet || ($pages - 1) < floor($row / 64000)) {
-                        $worksheet->addSheet(
+                        $this->worksheet->addSheet(
                             $this->lng->txt("eval_all_users") . (($pages > 0) ? " (" . ($pages + 1) . ")" : "")
                         );
                         $allusersheet = true;
@@ -265,7 +319,7 @@ class ilExcelTestExport extends ilTestExportAbstract
                         $pages++;
                     }
                 } else {
-                    $resultsheet = $worksheet->addSheet($username);
+                    $resultsheet = $this->worksheet->addSheet($username);
                 }
                 if ($this->bestonly) {
                     $passes = [$userdata->getScoredPassObject()];
@@ -283,22 +337,22 @@ class ilExcelTestExport extends ilTestExportAbstract
                     ) .
                         (!$this->bestonly && $userdata->getScoredPass() === $passCount ? " " .
                         $this->lng->txt("exp_best_pass") .
-                        " (" . ($test_obj->getPassScoring() ? $this->lng->txt(
+                        " (" . ($this->test_obj->getPassScoring() ? $this->lng->txt(
                             'tst_pass_scoring_best'
                         ) : $this->lng->txt('tst_pass_scoring_last')) . ")" : "");
-                    $worksheet->setCell(
+                    $this->worksheet->setCell(
                         $row,
                         $col,
                         $title
                     );
-                    $worksheet->setBold($worksheet->getColumnCoord($col) . $row);
+                    $this->worksheet->setBold($this->worksheet->getColumnCoord($col) . $row);
                     $row += 2;
                     if (is_object($userdata) && is_array($userdata->getQuestions($passCount))) {
                         foreach ($userdata->getQuestions($passCount) as $question) {
                             require_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
                             $question = assQuestion::instantiateQuestion((int) $question["id"]);
                             if (is_object($question)) {
-                                $row = $question->setExportDetailsXLS($worksheet, $row, $col, $active_id, $passCount);
+                                $row = $question->setExportDetailsXLS($this->worksheet, $row, $col, $active_id, $passCount);
                             }
                         }
                     }
@@ -306,15 +360,5 @@ class ilExcelTestExport extends ilTestExportAbstract
                 }
             }
         }
-
-        if ($this->deliver) {
-            $testname = $test_obj->getTitle();
-            $testname .= '_results';
-            $testname = ilFileUtils::getASCIIFilename(preg_replace("/\s/", "_", $testname)) . '.xlsx';
-            $worksheet->sendToClient($testname);
-        }
-        $excelfile = ilFileUtils::ilTempnam();
-        $worksheet->writeToFile($excelfile);
-        return $excelfile . '.xlsx';
     }
 }

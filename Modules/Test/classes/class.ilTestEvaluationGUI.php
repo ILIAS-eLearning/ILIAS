@@ -732,17 +732,17 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         switch ($this->testrequest->raw("export_type")) {
             case "excel_scored_test_run":
                 $exporter = new ilExcelTestExport($this->object, $filterby, $filtertext, true, $passedonly, $deliver = true);
-                $exporter->export($this->object);
+                $exporter->export();
                 break;
 
             case "csv":
                 $exporter = new ilCSVTestExport($this->object, $filterby, $filtertext, true, $passedonly, $deliver = true);
-                $exporter->export($this->object);
+                $exporter->export();
                 break;
 
             case "excel_all_test_runs":
                 $exporter = new ilCSVTestExport($this->object, $filterby, $filtertext, false, $passedonly, $deliver = true);
-                $exporter->export($this->object);
+                $exporter->export();
                 break;
             case "certificate":
                 if ($passedonly) {
@@ -764,11 +764,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         switch ($_POST["export_type"]) {
             case "excel":
                 $exporter = new ilExcelTestExport($this->object, '', '', true, false, $deliver = true);
-                $exporter->export($this->object);
+                $exporter->export();
                 break;
             case "csv":
                 $exporter = new ilCSVTestExport($this->object, '', '', true, false, $deliver = true);
-                $exporter->export($this->object);
+                $exporter->export();
                 break;
         }
     }

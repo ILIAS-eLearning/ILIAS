@@ -23,13 +23,13 @@ declare(strict_types=1);
  */
 class ilCSVTestExport extends ilTestExportAbstract
 {
-    public function export($test_obj): string
+    public function export(): string
     {
-        $rows = $this->getDatarows($test_obj);
+        $rows = $this->getDatarows($this->test_obj);
         $separator = ";";
         $csv = "";
         foreach ($rows as $evalrow) {
-            $csvrow = $test_obj->processCSVRow($evalrow, true, $separator);
+            $csvrow = $this->test_obj->processCSVRow($evalrow, true, $separator);
             $csv .= implode($separator, $csvrow) . "\n";
         }
 
