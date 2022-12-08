@@ -74,6 +74,10 @@ interface Factory
      *   purpose: >
      *     Interruptive items are displayed in an Interruptive modal and represent the object(s) being affected
      *     by the critical action, e.g. deleting.
+     *   composition: >
+     *     In a single interruptive modal, only one type of interruptive modal SHOULD be used. If there are
+     *     interruptive items of multiple types in an interruptive modal, they MUST be rendered grouped
+     *     by type.
      *
      * rules:
      *   usage:

@@ -33,10 +33,13 @@ class Renderer extends AbstractComponentRenderer
         RendererInterface $default_renderer
     ): string {
         $this->checkComponent($component);
-        $tpl = $this->getTemplate('tpl.interruptiveItem.html', true, true);
 
         if ($component instanceof ItemInterface\Standard) {
-            $tpl->setCurrentBlock('standard_item');
+            $tpl = $this->getTemplate(
+                'tpl.standardInterruptiveItem.html',
+                true,
+                true
+            );
             $icon = ($component->getIcon()) ?
                 $default_renderer->render($component->getIcon()) : '';
             $desc = ($component->getDescription()) ?
@@ -45,12 +48,14 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('ITEM_ID', $component->getId());
             $tpl->setVariable('ITEM_TITLE', $component->getTitle());
             $tpl->setVariable('ITEM_DESCRIPTION', $desc);
-            $tpl->parseCurrentBlock();
         } elseif ($component instanceof ItemInterface\KeyValue) {
-            $tpl->setCurrentBlock('standard_item');
+            $tpl = $this->getTemplate(
+                'tpl.keyValueInterruptiveItem.html',
+                true,
+                true
+            );
             $tpl->setVariable('ITEM_KEY', $component->getKey());
             $tpl->setVariable('ITEM_VALUE', $component->getValue());
-            $tpl->parseCurrentBlock();
         } else {
             return '';
         }

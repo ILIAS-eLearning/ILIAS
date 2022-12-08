@@ -22,7 +22,6 @@ namespace ILIAS\UI\Component\Modal\InterruptiveItem;
 
 use ILIAS\UI\Component;
 use ILIAS\UI\Component\Image\Image;
-use Firebase\JWT\Key;
 
 /**
  * Interface Factory
@@ -41,7 +40,7 @@ interface Factory
      * rules:
      *   usage:
      *     1: >
-     *       A standard interruptive item MUST have an ID and title.
+     *       A standard interruptive item MUST have a title.
      *     2: >
      *       A standard interruptive item SHOULD have an icon representing the affected object.
      *     3: >
@@ -68,19 +67,27 @@ interface Factory
     /**
      * ---
      * description:
-     *   purpose: >
-     *     Key-Value Interruptive items represent objects that are better identified by a
-     *     key-value pair.
+     *   purpose:
+     *     Key-Value Interruptive items represent objects that can be identified, either in
+     *     general or in context, by a characteristic value, or for which a characteristic value
+     *     paired to the object's name or title helps distinguish it from other objects.
      *   composition:
      *     A Key-Value Interruptive item is composed of an Id and a Key-Value pair.
+     *   rivals:
+     *     Standard Interruptive Item:
+     *       Standard Interruptive items should be used over Key-Value items when the characteristic
+     *       value is potentially verbose (e.g. a description or byline). For items representing
+     *       ILIAS objects, standard items MUST be used.
      * rules:
      *   usage:
      *     1: >
-     *       A key-value interruptive item MUST have an ID and a key.
+     *       A key-value interruptive item MUST have a key and a value.
      *     2: >
-     *       A key-value interruptive item SHOULD have a value which helps to further identify the object.
-     *       If an Interruptive modal displays multiple key-value items having the the same key,
+     *       If an Interruptive modal displays multiple key-value items having the same key,
      *       the value MUST be used in order to distinguish these objects from each other.
+     *   accessibility:
+     *     1: >
+     *        Key-Value pairs MUST be rendered as descriptive listings.
      * ---
      * @param string $id
      * @param string $key

@@ -11473,7 +11473,18 @@ div.alert ul > li:before {
   width: 66.67%;
 }
 
-.il-modal-interruptive .il-interruptive-item .item-value {
+.il-modal-interruptive .il-modal-interruptive-items {
+  margin-bottom: 15px;
+}
+.il-modal-interruptive .il-modal-interruptive-items .key-value-interruptive-item .item-key {
+  float: left;
+  clear: left;
+  font-weight: initial;
+}
+.il-modal-interruptive .il-modal-interruptive-items .key-value-interruptive-item .item-value {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-style: italic;
   color: #6f6f6f;
   padding-left: 6px;

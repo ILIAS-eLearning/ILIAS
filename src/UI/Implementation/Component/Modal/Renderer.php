@@ -127,14 +127,33 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('TITLE', $modal->getTitle());
         $tpl->setVariable('MESSAGE', $modal->getMessage());
         $tpl->setVariable('CLOSE_LABEL', $this->txt('close'));
-        if (count($modal->getAffectedItems())) {
-            $tpl->setCurrentBlock('with_items');
-            foreach ($modal->getAffectedItems() as $item) {
-                $tpl->setCurrentBlock('item');
-                $tpl->setVariable('ITEM', $default_renderer->render($item));
+
+        $standard_items = array_filter(
+            $modal->getAffectedItems(),
+            fn ($i) => $i instanceof Component\Modal\InterruptiveItem\Standard
+        );
+        if (count($standard_items)) {
+            $tpl->setCurrentBlock('with_standard_items');
+            foreach ($standard_items as $item) {
+                $tpl->setCurrentBlock('standard_item');
+                $tpl->setVariable('STANDARD_ITEM', $default_renderer->render($item));
                 $tpl->parseCurrentBlock();
             }
         }
+
+        $key_value_items = array_filter(
+            $modal->getAffectedItems(),
+            fn ($i) => $i instanceof Component\Modal\InterruptiveItem\KeyValue
+        );
+        if (count($key_value_items)) {
+            $tpl->setCurrentBlock('with_key_value_items');
+            foreach ($key_value_items as $item) {
+                $tpl->setCurrentBlock('key_value_item');
+                $tpl->setVariable('KEY_VALUE_ITEM', $default_renderer->render($item));
+                $tpl->parseCurrentBlock();
+            }
+        }
+
         $tpl->setVariable('ACTION_BUTTON_LABEL', $this->txt($modal->getActionButtonLabel()));
         $tpl->setVariable('ACTION_BUTTON', $modal->getActionButtonLabel());
         $tpl->setVariable('CANCEL_BUTTON_LABEL', $this->txt($modal->getCancelButtonLabel()));

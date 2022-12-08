@@ -68,11 +68,22 @@ $il-modal-transition-speed: 0.15s;
 }
 
 .il-modal-interruptive {
-	.il-interruptive-item {
-		.item-value {
-			font-style: italic;
-			color: $il-text-light-color;
-			padding-left: $il-padding-small-horizontal;
+	.il-modal-interruptive-items {
+			margin-bottom: $il-margin-xxxlarge-vertical;
+		.key-value-interruptive-item {
+			.item-key {
+				float: left;
+				clear: left;
+				font-weight: initial;
+			}
+			.item-value {
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				font-style: italic;
+				color: $il-text-light-color;
+				padding-left: $il-padding-small-horizontal;
+			}
 		}
 	}
 }

@@ -2,22 +2,6 @@
 
 declare(strict_types=1);
 
-/**
- * This file is part of ILIAS, a powerful learning management system
- * published by ILIAS open source e-Learning e.V.
- *
- * ILIAS is licensed with the GPL-3.0,
- * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with the
- * source code, too.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
-
 namespace ILIAS\UI\examples\Modal\Interruptive;
 
 function show_modal_on_button_click()
@@ -39,6 +23,7 @@ function show_modal_on_button_click()
             $factory->modal()->interruptiveItem()->standard('10', 'Course 1', $icon, 'Some description text'),
             $factory->modal()->interruptiveItem()->keyValue('20', 'Item Key', 'item value'),
             $factory->modal()->interruptiveItem()->standard('30', 'Course 3', $icon, 'Last but not least, a description'),
+            $factory->modal()->interruptiveItem()->keyValue('50', 'Second Item Key', 'another item value'),
         ));
     $button = $factory->button()->standard('Show Modal', '')
         ->withOnClick($modal->getShowSignal());

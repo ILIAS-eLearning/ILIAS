@@ -10,16 +10,24 @@
 					<div class="alert alert-warning il-modal-interruptive-message" role="alert">
 						{MESSAGE}
 					</div>
-					<!-- BEGIN with_items -->
+					<!-- BEGIN with_standard_items -->
 					<div class="il-modal-interruptive-items">
 						<table>
-							<!-- BEGIN item -->
-							{ITEM}
-							<!-- END item -->
+							<!-- BEGIN standard_item -->
+							{STANDARD_ITEM}
+							<!-- END standard_item -->
 						</table>
-						{ITEMS}
 					</div>
-					<!-- END with_items -->
+					<!-- END with_standard_items -->
+					<!-- BEGIN with_key_value_items -->
+					<div class="il-modal-interruptive-items">
+						<dl>
+							<!-- BEGIN key_value_item -->
+							{KEY_VALUE_ITEM}
+							<!-- END key_value_item -->
+						</dl>
+					</div>
+					<!-- END with_key_value_items -->
 				</div>
 				<div class="modal-footer">
 					<input type="submit" class="btn btn-primary" value="{ACTION_BUTTON_LABEL}" name="cmd[{ACTION_BUTTON}]">
