@@ -579,12 +579,8 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
                     \DateTimeImmutable::createFromFormat(ilPRGProgress::DATE_TIME_FORMAT, $row[self::PROGRESS_FIELD_VQ_DATE]) :
                     null
             )
-            ->withIndividualModifications((bool) $row[self::PROGRESS_FIELD_IS_INDIVIDUAL]);
-
-
-        if ((int) $row[self::PROGRESS_FIELD_INVALIDATED] === 1) {
-            $pgs = $pgs->invalidate();
-        }
+            ->withIndividualModifications((bool) $row[self::PROGRESS_FIELD_IS_INDIVIDUAL])
+            ->withInvalidated((bool) $row[self::PROGRESS_FIELD_INVALIDATED]);
 
         return $pgs;
     }
