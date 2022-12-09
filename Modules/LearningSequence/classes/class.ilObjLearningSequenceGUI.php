@@ -286,7 +286,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                 $this->manage_members($cmd);
                 break;
             case 'illearningprogressgui':
-                $this->learningProgress($cmd);
+                $this->learningProgress();
                 break;
             case 'ilexportgui':
                 $this->export();
@@ -568,7 +568,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $this->ctrl->forwardCommand($ms_gui);
     }
 
-    protected function learningProgress(string $cmd = self::CMD_LP): void
+    protected function learningProgress(): void
     {
         $this->tabs->setTabActive(self::TAB_LP);
 
@@ -584,11 +584,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             $for_user
         );
 
-        if ($cmd === self::CMD_LP) {
-            $cmd = '';
-        }
-
-        $this->ctrl->setCmd($cmd);
         $this->ctrl->forwardCommand($lp_gui);
     }
 
@@ -703,7 +698,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             $this->tabs->addTab(
                 self::TAB_LP,
                 $this->lng->txt(self::TAB_LP),
-                $this->getLinkTarget(self::CMD_LP)
+                $this->ctrl->getLinkTargetByClass('ilLearningProgressGUI', '')
             );
         }
 
