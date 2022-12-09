@@ -54,8 +54,6 @@ class ilStudyProgrammeUserTable
     protected ilLanguage $lng;
     protected ilPRGPermissionsHelper $permissions;
     protected ilObjUser $user;
-    protected ILIAS\UI\Factory $ui_factory;
-    protected ILIAS\UI\Renderer $ui_renderer;
     protected array $user_ids_viewer_may_read_learning_progress_of;
     protected ilPRGAssignmentDBRepository $assignment_repo;
 
@@ -65,9 +63,7 @@ class ilStudyProgrammeUserTable
         ilPRGAssignmentDBRepository $assignment_repo,
         ilLanguage $lng,
         ilPRGPermissionsHelper $permissions,
-        ilObjUser $user,
-        ILIAS\UI\Factory $ui_factory,
-        ILIAS\UI\Renderer $ui_renderer
+        ilObjUser $user
     ) {
         $this->db = $db;
         $this->export_fields_info = $export_fields_info;
@@ -75,8 +71,6 @@ class ilStudyProgrammeUserTable
         $this->lng = $lng;
         $this->permissions = $permissions;
         $this->user = $user;
-        $this->ui_factory = $ui_factory;
-        $this->ui_renderer = $ui_renderer;
         $this->user_ids_viewer_may_read_learning_progress_of = $this->permissions->getUserIdsSusceptibleTo(
             ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS
         );
@@ -181,6 +175,9 @@ class ilStudyProgrammeUserTable
             ->withCompletionBy(
                 $show_lp && $pgs->getCompletionBy() ? $this::lookupTitle($pgs->getCompletionBy()) : ''
             )
+            ->withCompletionByObjId(
+                $show_lp && $pgs->getCompletionBy() ? $pgs->getCompletionBy() : null
+            )
             ->withPointsReachable((string) $pgs->getPossiblePointsOfRelevantChildren())
             ->withPointsRequired((string) $pgs->getAmountOfPoints())
             ->withPointsCurrent($show_lp ? (string) $pgs->getCurrentAmountOfPoints() : '')
@@ -204,25 +201,6 @@ class ilStudyProgrammeUserTable
         return $row;
     }
 
-    /*  TODO: re-implement getCompletionLink
-       protected function getCompletionLink(int $target_obj_id, int $target_ref_id) : string
-       {
-           $link = '?';
-           if (ilObject::_exists($target_ref_id, true) &&
-               is_null(ilObject::_lookupDeletedDate($target_ref_id))
-           ) {
-               $title = ilObject::_lookupTitle($target_obj_id);
-               $url = ilLink::_getStaticLink($target_ref_id, "crs");
-               $link = $this->ui_renderer->render($this->ui_factory->link()->standard($title, $url));
-           } else {
-               $del_data = ilObjectDataDeletionLog::get($target_obj_id);
-               if ($del_data) {
-                   $link = $del_data['title'];
-               }
-           }
-           return $link;
-       }
-    */
     protected function getUserDateFormat(): string
     {
         return ilCalendarUtil::getUserDateFormat(false, true);

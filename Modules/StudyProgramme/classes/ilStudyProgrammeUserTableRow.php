@@ -41,6 +41,7 @@ class ilStudyProgrammeUserTableRow
     protected string $gender;
     protected string $status;
     protected string $completion_date;
+    protected ?int $completion_by_obj_id;
     protected string $completion_by;
     protected string $points_reachable;
     protected string $points_required;
@@ -216,6 +217,18 @@ class ilStudyProgrammeUserTableRow
     public function getCompletionBy(): string
     {
         return $this->completion_by;
+    }
+
+    public function withCompletionByObjId(?int $obj_id): self
+    {
+        $clone = clone $this;
+        $clone->completion_by_obj_id = $obj_id;
+        return $clone;
+    }
+
+    public function getCompletionByObjId(): ?int
+    {
+        return $this->completion_by_obj_id;
     }
 
     public function withPointsReachable(string $points_reachable): self
