@@ -34,8 +34,7 @@ class ilAssLacUnableToParseCondition extends ilAssLacException implements ilAssL
 
 
     /**
-     * @param string $expression
-     * @param int    $question_index
+     * @param string $condition
      */
     public function __construct($condition)
     {
