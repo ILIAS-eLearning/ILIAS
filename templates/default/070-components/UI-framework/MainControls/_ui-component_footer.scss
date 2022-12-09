@@ -51,13 +51,10 @@ footer{
 	.il-footer-permanent-url {
 		margin-right: $il-margin-xs-horizontal;
 
-		label {
-			margin-right: $il-margin-xs-horizontal;
-
-			color: $il-main-color;
-			&:hover{
-				text-decoration: underline;
-			}
+		.il-clipboard-overlay {
+			position: absolute;
+			background: $il-main-bg;
+			color: $il-success-color;
 		}
 	}
 

@@ -10425,12 +10425,10 @@ footer {
 .il-maincontrols-footer .il-footer-permanent-url {
   margin-right: 3px;
 }
-.il-maincontrols-footer .il-footer-permanent-url label {
-  margin-right: 3px;
-  color: #4c6586;
-}
-.il-maincontrols-footer .il-footer-permanent-url label:hover {
-  text-decoration: underline;
+.il-maincontrols-footer .il-footer-permanent-url .il-clipboard-overlay {
+  position: absolute;
+  background: white;
+  color: #6ea03c;
 }
 .il-maincontrols-footer .il-footer-text {
   margin-right: 3px;

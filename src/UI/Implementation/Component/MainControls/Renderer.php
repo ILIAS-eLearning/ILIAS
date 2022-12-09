@@ -443,7 +443,7 @@ class Renderer extends AbstractComponentRenderer
             $button = $this->getUIFactory()
                            ->button()
                            ->shy($this->txt('copy_perma_link'), $url)
-                           ->withAdditionalOnLoadCode($this->permanentJS($url));
+                           ->withAdditionalOnLoadCode($this->permanentJS($url, $this->txt('copied_perma_link')));
             $tpl->setVariable('PERMANENT', $default_renderer->render($button));
         }
         return $tpl->get();
@@ -459,6 +459,7 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('./src/UI/templates/js/MainControls/metabar.js');
         $registry->register('./src/GlobalScreen/Client/dist/GS.js');
         $registry->register('./src/UI/templates/js/MainControls/system_info.js');
+        $registry->register('./src/UI/templates/js/MainControls/src/footer.js');
     }
 
     /**
@@ -475,19 +476,12 @@ class Renderer extends AbstractComponentRenderer
         );
     }
 
-    private function permanentJS(string $url): Closure
+    private function permanentJS(string $url, string $text): Closure
     {
         $url = json_encode($url);
-        return static function (string $id) use ($url): string {
-            return "document.getElementById('$id').addEventListener('click', function(event){
-                    if (window.navigator.clipboard) {
-                        window.navigator.clipboard.writeText($url);
-                        event.stopImmediatePropagation();
-                        return false;
-                    } else {
-                        console.warn('Cannot copy link to clipboard. Please note that the clipboard is only available in secure contexts (HTTPS). See https://developer.mozilla.org/en-US/docs/Web/API/Clipboard for more information.');
-                    }
-                });";
+        $text = json_encode($text);
+        return static function (string $id) use ($url, $text): string {
+            return "copyOnClick(document.getElementById('$id'), $text, $url);";
         };
     }
 }

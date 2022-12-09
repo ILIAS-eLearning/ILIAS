@@ -3745,6 +3745,7 @@ common#:#copy_n_of_suffix#:#- Kopie (%1$s)
 common#:#copy_of#:#Kopie von
 common#:#copy_of_suffix#:#- Kopie
 common#:#copy_perma_link#:#Link zu dieser Seite kopieren
+common#:#copied_perma_link#:#Kopiert
 common#:#copy_selected_items#:#Kopieren
 common#:#count#:#Anzahl
 common#:#country#:#Land
