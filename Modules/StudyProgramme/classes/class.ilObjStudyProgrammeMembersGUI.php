@@ -232,6 +232,8 @@ class ilObjStudyProgrammeMembersGUI
             $this,
             $this->permissions,
             $this->data_factory,
+            $dic['ui.factory'],
+            $dic['ui.renderer'],
             $dic['ilStudyProgrammeUserTable'],
             $dic['filter.assignment'],
             $this->user,
