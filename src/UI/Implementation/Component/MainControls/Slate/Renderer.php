@@ -71,13 +71,12 @@ class Renderer extends AbstractComponentRenderer
                                 "
                         );
                 }
-                $contents[] = $triggerer;
+                $contents[] = [$triggerer, $entry];
+            } elseif ($component instanceof ISlate\Drilldown) {
+                $contents[] = $entry->withPersistenceId($component->getMainBarTreePosition());
+            } else {
+                $contents[] = $entry;
             }
-
-            if ($component instanceof ISlate\Drilldown) {
-                $entry = $entry->withPersistenceId($component->getMainBarTreePosition());
-            }
-            $contents[] = $entry;
         }
 
 
@@ -91,7 +90,18 @@ class Renderer extends AbstractComponentRenderer
     ): string {
         $tpl = $this->getTemplate("Slate/tpl.slate.html", true, true);
 
-        $tpl->setVariable('CONTENTS', $default_renderer->render($contents));
+        foreach ($contents as $content) {
+            $content_html = $default_renderer->render($content);
+            if ($content instanceof Component\Button\Button || $content instanceof Component\Link\Link || is_array($content)) {
+                $tpl->setCurrentBlock("list_content_component");
+                $tpl->setVariable("LIST_COMPONENT_CONTENT", $content_html);
+            } else {
+                $tpl->setCurrentBlock("none_list_content_component");
+                $tpl->setVariable("NONE_LIST_COMPONENT_CONTENT", $content_html);
+            }
+            $tpl->parseCurrentBlock();
+        }
+
 
         $aria_role = $component->getAriaRole();
         if ($aria_role != null) {

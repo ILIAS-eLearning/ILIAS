@@ -183,6 +183,8 @@ class ilParticipantsTestResultsGUI
      */
     protected function showParticipantsCmd()
     {
+        ilSession::clear("show_user_results");
+
         if ($this->getQuestionSetConfig()->areDepenciesBroken()) {
             $this->main_tpl->setOnScreenMessage('failure', $this->getQuestionSetConfig()->getDepenciesBrokenMessage($this->lang));
         } elseif ($this->getQuestionSetConfig()->areDepenciesInVulnerableState()) {
@@ -343,7 +345,7 @@ class ilParticipantsTestResultsGUI
     {
         $users = $this->testrequest->raw('chbUser');
         if (is_array($users) && count($users) > 0) {
-            ilSession::set('show_user_results', $_POST["chbUser"]);
+            ilSession::set('show_user_results', $users);
         }
         $this->showUserResults($show_pass_details = true, $show_answers = true, $show_reached_points = true);
     }
@@ -355,7 +357,7 @@ class ilParticipantsTestResultsGUI
     {
         $users = $this->testrequest->raw('chbUser');
         if (is_array($users) && count($users) > 0) {
-            ilSession::set('show_user_results', $_POST["chbUser"]);
+            ilSession::set('show_user_results', $users);
         }
         $this->showUserResults($show_pass_details = false, $show_answers = true);
     }
@@ -367,7 +369,7 @@ class ilParticipantsTestResultsGUI
     {
         $users = $this->testrequest->raw('chbUser');
         if (is_array($users) && count($users) > 0) {
-            ilSession::set('show_user_results', $_POST["chbUser"]);
+            ilSession::set('show_user_results', $users);
         }
         $this->showUserResults($show_pass_details = true, $show_answers = false);
     }
@@ -383,7 +385,6 @@ class ilParticipantsTestResultsGUI
         $this->tabs->clearSubTabs();
 
         $show_user_results = ilSession::get("show_user_results");
-        ilSession::clear("show_user_results");
 
         if (!is_array($show_user_results) || count($show_user_results) == 0) {
             $this->main_tpl->setOnScreenMessage('info', $this->lang->txt("select_one_user"), true);

@@ -20,3 +20,12 @@ $il-btn-primary-color: white !default;
 $il-btn-primary-bg: darken(s-color.$il-secondary-color, 10%) !default;
 //** Border color of the primary button (most important button on the screen)
 $il-btn-primary-border: darken(s-color.$il-secondary-color, 10%) !default;
+
+//** Colors of inactive buttons
+$il-disabled-btn-color: darken(s-color.$il-text-color, 20%) !default;
+$il-disabled-btn-bg: #b0b0b0 !default;
+$il-disabled-btn-border: #b0b0b0 !default;
+
+//** Tag Colors
+$il-btn-tag-bg: #75deea !default;
+$il-btn-tag-bg-highlighted: s-color.$il-warning-color !default;

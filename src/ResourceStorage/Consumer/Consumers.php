@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\ResourceStorage\Consumer;
 
 use ILIAS\ResourceStorage\Collection\CollectionBuilder;
+use ILIAS\ResourceStorage\Flavour\Flavour;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
@@ -98,5 +99,10 @@ class Consumers
             $resources,
             $zip_filename
         );
+    }
+
+    public function flavourUrls(Flavour $flavour): FlavourURLs
+    {
+        return $this->consumer_factory->flavourUrl($flavour, $this->src_builder);
     }
 }

@@ -4,8 +4,8 @@ var TargetMessage = require('../Model/Messages/TargetMessage');
 var AccessHandler = require('../Handler/AccessHandler');
 var HTMLEscape = require('../Helper/HTMLEscape');
 
-module.exports = function (data, roomId, subRoomId) {
-	var serverRoomId = Container.createServerRoomId(roomId, subRoomId);
+module.exports = function (data, roomId) {
+	var serverRoomId = Container.createServerRoomId(roomId);
 	var namespace = Container.getNamespace(this.nsp.name);
 
 	function messageCallbackFactory(message) {
@@ -27,7 +27,7 @@ module.exports = function (data, roomId, subRoomId) {
 	var message = {};
 
 	if (data.target !== undefined) {
-		message = TargetMessage.create(data.content, roomId, subRoomId, subscriber, data.format, data.target);
+		message = TargetMessage.create(data.content, roomId, subscriber, data.format, data.target);
 
 		if (message.target.public) {
 			namespace.getIO().in(serverRoomId).emit('message', message);
@@ -41,7 +41,7 @@ module.exports = function (data, roomId, subRoomId) {
 			target.getSocketIds().forEach(emitMessageCallback);
 		}
 	} else {
-		message = TextMessage.create(data.content, roomId, subRoomId, subscriber, data.format);
+		message = TextMessage.create(data.content, roomId, subscriber, data.format);
 		this.nsp.in(serverRoomId).emit('message', message);
 	}
 

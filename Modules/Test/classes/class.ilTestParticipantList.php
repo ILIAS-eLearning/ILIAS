@@ -23,13 +23,14 @@
  * @version    $Id$
  *
  * @package    Modules/Test
+ * @implements Iterator<ilTestParticipant>
  */
 class ilTestParticipantList implements Iterator
 {
     /**
      * @var ilTestParticipant[]
      */
-    protected $participants = array();
+    protected array $participants = [];
 
     /**
      * @var ilObjTest
@@ -169,15 +170,15 @@ class ilTestParticipantList implements Iterator
         return $accessFilteredList;
     }
 
-    public function current()
+    public function current(): ilTestParticipant
     {
         return current($this->participants);
     }
-    public function next()
+    public function next(): void
     {
-        return next($this->participants);
+        next($this->participants);
     }
-    public function key()
+    public function key(): int
     {
         return key($this->participants);
     }
@@ -185,9 +186,9 @@ class ilTestParticipantList implements Iterator
     {
         return key($this->participants) !== null;
     }
-    public function rewind()
+    public function rewind(): void
     {
-        return reset($this->participants);
+        reset($this->participants);
     }
 
     /**

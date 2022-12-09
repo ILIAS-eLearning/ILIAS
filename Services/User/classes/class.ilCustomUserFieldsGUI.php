@@ -388,6 +388,12 @@ class ilCustomUserFieldsGUI
                 $valid = false;
             }
 
+            if ($access['required'] && $access['visible'] && !$access['changeable']) {
+                $this->confirm_change = true;
+                $form->getItemByPostVar("access")->setAlert($lng->txt('udf_required_and_visible_requires_changeable'));
+                $valid = false;
+            }
+
             if (!$this->field_id && $user_field_definitions->nameExists($form->getInput("name"))) {
                 $form->getItemByPostVar("name")->setAlert($lng->txt('udf_name_already_exists'));
                 $valid = false;
@@ -708,15 +714,30 @@ class ilCustomUserFieldsGUI
             }
         }
 
+        $valid = true;
+
         foreach ($a_fields as $field_id => $definition) {
             if (isset($checked['required_' . $field_id]) && (int) $checked['required_' . $field_id] &&
                 (!isset($checked['visib_reg_' . $field_id]) || !(int) $checked['visib_reg_' . $field_id])) {
                 $this->confirm_change = true;
 
                 $this->main_tpl->setOnScreenMessage('failure', $lng->txt('invalid_visible_required_options_selected'));
-                $this->listUserDefinedFields();
-                return;
+                $valid = false;
             }
+
+            if (isset($checked['required_' . $field_id]) && (int) $checked['required_' . $field_id] &&
+                isset($checked['visible_' . $field_id]) && (int) $checked['visible_' . $field_id] &&
+                (!isset($checked['changeable_' . $field_id]) || !(int) $checked['changeable_' . $field_id])) {
+                $this->confirm_change = true;
+
+                $this->main_tpl->setOnScreenMessage('failure', $lng->txt('udf_required_and_visible_requires_changeable'));
+                $valid = false;
+            }
+        }
+
+        if (!$valid) {
+            $this->listUserDefinedFields();
+            return;
         }
 
         foreach ($a_fields as $field_id => $definition) {

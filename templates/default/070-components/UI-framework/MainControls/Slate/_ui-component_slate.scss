@@ -156,6 +156,14 @@
 }
 
 .il-maincontrols-slate-content {
+	> ul {
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+		li {
+			padding: 0;
+		}
+	}
 	p, h1, h2, h3, li {
 		padding: $il-slate-content-padding $il-slate-content-padding*2;
 	}

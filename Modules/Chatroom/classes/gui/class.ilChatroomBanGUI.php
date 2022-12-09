@@ -128,10 +128,9 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         $this->exitIfNoRoomExists($room);
 
         $userToBan = $this->getRequestValue('user', $this->refinery->kindlyTo()->int());
-        $subRoomId = $this->getRequestValue('sub', $this->refinery->kindlyTo()->int());
 
         $connector = $this->gui->getConnector();
-        $response = $connector->sendBan($room->getRoomId(), $subRoomId, $userToBan);
+        $response = $connector->sendBan($room->getRoomId(), $userToBan);
 
         if ($this->isSuccessful($response)) {
             $room->banUser($userToBan, $this->user->getId());

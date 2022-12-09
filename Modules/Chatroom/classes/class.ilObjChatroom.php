@@ -185,7 +185,7 @@ class ilObjChatroom extends ilObject
         $settings = ilChatroomAdmin::getDefaultConfiguration()->getServerSettings();
         $connector = new ilChatroomServerConnector($settings);
 
-        $connector->sendCreatePrivateRoom($room->getRoomId(), 0, $newObj->getOwner(), $newObj->getTitle());
+        $connector->sendCreatePrivateRoom($room->getRoomId(), $newObj->getOwner(), $newObj->getTitle());
 
         return $newObj;
     }
@@ -212,42 +212,6 @@ class ilObjChatroom extends ilObject
 
         $this->db->manipulateF(
             'DELETE FROM chatroom_sessions WHERE chatroom_sessions.room_id IN (SELECT chatroom_settings.room_id FROM chatroom_settings WHERE chatroom_settings.object_id = %s)',
-            ['integer'],
-            [$this->getId()]
-        );
-
-        $this->db->manipulateF(
-            '
-			DELETE FROM chatroom_proomaccess
-			WHERE chatroom_proomaccess.proom_id IN (
-				SELECT chatroom_prooms.proom_id
-				FROM chatroom_prooms WHERE chatroom_prooms.parent_id IN (
-					SELECT chatroom_settings.room_id
-					FROM chatroom_settings
-					WHERE chatroom_settings.object_id = %s
-				)
-			)',
-            ['integer'],
-            [$this->getId()]
-        );
-
-        $this->db->manipulateF(
-            '
-			DELETE FROM chatroom_psessions
-			WHERE chatroom_psessions.proom_id IN (
-				SELECT chatroom_prooms.proom_id
-				FROM chatroom_prooms WHERE chatroom_prooms.parent_id IN (
-					SELECT chatroom_settings.room_id
-					FROM chatroom_settings
-					WHERE chatroom_settings.object_id = %s
-				)
-			)',
-            ['integer'],
-            [$this->getId()]
-        );
-
-        $this->db->manipulateF(
-            'DELETE FROM chatroom_prooms WHERE chatroom_prooms.parent_id IN (SELECT chatroom_settings.room_id FROM chatroom_settings WHERE chatroom_settings.object_id = %s)',
             ['integer'],
             [$this->getId()]
         );

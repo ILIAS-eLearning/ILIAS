@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Consumer;
 
+use ILIAS\ResourceStorage\Flavour\Flavour;
 use ILIAS\ResourceStorage\Revision\Revision;
 
 /**
@@ -31,4 +32,9 @@ interface SrcBuilder
      * @throw \RuntimeException if signing is not possible or failed, but was requested with $signed = true
      */
     public function getRevisionURL(Revision $revision, bool $signed = true): string;
+
+    /**
+     * @throw \RuntimeException if signing is not possible or failed, but was requested with $signed = true
+     */
+    public function getFlavourURLs(Flavour $flavour, bool $signed = true): \Generator;
 }

@@ -89,6 +89,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 
         foreach (ilAdvancedMDRecord::_getAssignableObjectTypes(true) as $obj_type) {
             $value = 0;
+            $do_disable = false;
 
             // workaround for hiding portfolio pages in portfolios, since they only get
             // data from portfolio templates
@@ -107,7 +108,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
                     if (!$a_set["local"] && $a_set["readonly"]) {
                         // globally mandatory options should be disabled locally
                         if ($value === 1) {
-                            $disabled = true;
+                            $do_disable = true;
                             break;
                         }
 
@@ -159,7 +160,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
                     0,
                     "",
                     array("style" => "min-width:125px"),
-                    $disabled
+                    $disabled || $do_disable
                 );
                 $this->tpl->setVariable('VAL_OBJ_TYPE_STATUS', $select);
                 $this->tpl->parseCurrentBlock();

@@ -83,7 +83,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         }
 
         $this->dclEndPoint->saveParameterTableId($this);
-        $this->ctrl->saveParameter($this, "table_id");
     }
 
     private function setTableId(int $objectOrRefId = 0): void
@@ -102,11 +101,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     public function getObjectId(): int
     {
         return $this->obj_id;
-    }
-
-    public function getRefId(): int
-    {
-        return $this->ref_id;
     }
 
     private function addJavaScript(): void
@@ -155,7 +149,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         // Navigation History
         $link = $this->ctrl->getLinkTarget($this, "render");
 
-        if ($this->object != null) {
+        if ($this->getObject() !== null) {
             $ilNavigationHistory->addItem($this->object->getRefId(), $link, "dcl");
         }
 
@@ -176,7 +170,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
-        if (!$this->getCreationMode() and $next_class != "ilinfoscreengui" and $cmd != 'infoScreen' and !$this->checkPermissionBool("read")) {
+        if (!$this->getCreationMode() && $next_class != "ilinfoscreengui" && $cmd != 'infoScreen' && !$this->checkPermissionBool("read")) {
             $DIC->ui()->mainTemplate()->loadStandardTemplate();
             $DIC->ui()->mainTemplate()->setContent("Permission Denied.");
 
@@ -223,7 +217,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 $this->prepareOutput();
                 $this->tabs->activateTab("id_records");
 
-                $tableview_id = 1;
+                $tableview_id = null;
                 if ($this->http->wrapper()->query()->has('tableview_id')) {
                     $tableview_id = $this->http->wrapper()->query()->retrieve(
                         'tableview_id',
@@ -236,8 +230,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                         $this->refinery->kindlyTo()->int()
                     );
                 }
-
-                $this->ctrl->setParameterByClass(ilDclRecordListGUI::class, 'tableview_id', $tableview_id);
+                if (null !== $tableview_id) {
+                    $this->ctrl->setParameterByClass(ilDclRecordListGUI::class, 'tableview_id', $tableview_id);
+                }
                 $recordlist_gui = new ilDclRecordListGUI($this, $this->table_id);
                 $this->ctrl->forwardCommand($recordlist_gui);
                 break;
@@ -342,11 +337,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 'tableview_id',
                 $this->refinery->kindlyTo()->int()
             );
-        } else {
-            $tableview_id = 0;
+            $this->ctrl->setParameterByClass('ilDclRecordListGUI', 'tableview_id', $tableview_id);
         }
-
-        $this->ctrl->setParameterByClass('ilDclRecordListGUI', 'tableview_id', $tableview_id);
         $this->ctrl->redirectByClass("ildclrecordlistgui", "show");
     }
 
@@ -394,7 +386,11 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $dclAccess = $dclConfig->getDataCollectionAccess();
 
         $targetParts = explode("_", $a_target);
-        [$refId, $viewId, $recordId] = $targetParts;
+        if (count($targetParts) === 2) {
+            [$refId, $viewId] = $targetParts;
+        } else {
+            [$refId, $viewId, $recordId] = $targetParts;
+        }
 
         //redirect if no permission given
         if ($dclAccess->hasVisibleOrReadPermission($refId) === false) {
@@ -411,7 +407,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         if ($dclAccess->hasReadPermission($refId) === true) {
             $ilCtrl->setParameterByClass("ilRepositoryGUI", self::GET_REF_ID, $refId);
             $ilCtrl->setParameterByClass("ilRepositoryGUI", self::GET_VIEW_ID, $viewId);
-            $ilCtrl->setParameterByClass("ilRepositoryGUI", self::GET_DCL_GTR, $recordId);
+            if (isset($recordId)) {
+                $ilCtrl->setParameterByClass("ilRepositoryGUI", self::GET_DCL_GTR, $recordId);
+            }
             $ilCtrl->redirectByClass("ilRepositoryGUI", "listRecords");
         }
 
@@ -446,7 +444,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
         // read permission
         if ($this->dclAccess->hasReadPermission($refId) === true) {
-            $tableview_id = 1;
+            $tableview_id = null;
             if ($this->http->wrapper()->query()->has('tableview_id')) {
                 $tableview_id = $this->http->wrapper()->query()->retrieve(
                     'tableview_id',
@@ -564,13 +562,13 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         return new ilObjDataCollection($this->ref_id, true);
     }
 
-    protected function getEditFormCustomValues(array &$values): void
+    protected function getEditFormCustomValues(array &$a_values): void
     {
-        $values["is_online"] = $this->object->getOnline();
-        $values["rating"] = $this->object->getRating();
-        $values["public_notes"] = $this->object->getPublicNotes();
-        $values["approval"] = $this->object->getApproval();
-        $values["notification"] = $this->object->getNotification();
+        $a_values["is_online"] = $this->object->getOnline();
+        $a_values["rating"] = $this->object->getRating();
+        $a_values["public_notes"] = $this->object->getPublicNotes();
+        $a_values["approval"] = $this->object->getApproval();
+        $a_values["notification"] = $this->object->getNotification();
     }
 
     protected function updateCustom(ilPropertyFormGUI $form): void
@@ -592,8 +590,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $lng = $DIC['lng'];
         $table = ilDclCache::getTableCache($this->object->getFirstVisibleTableId());
         $tables = $this->object->getTables();
-        if (count($tables) == 1 and count($table->getRecordFields()) == 0 and count($table->getRecords()) == 0
-            and $this->object->getOnline()
+        if (count($tables) === 1 && count($table->getRecordFields()) === 0 && count($table->getRecords()) === 0
+            && $this->object->getOnline()
         ) {
             $this->tpl->setOnScreenMessage('info', $lng->txt("dcl_no_content_warning"), true);
         }

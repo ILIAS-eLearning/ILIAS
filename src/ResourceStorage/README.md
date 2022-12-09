@@ -317,6 +317,96 @@ $range_generator = $collection_services->rangeAsGenerator($collection, 10, 200);
 $range_array = $collection_services->rangeAsArray($collection, 10, 200);
 ```
 
+# Resource Flavours
+
+Flavours are derivatives of resources that can be created, managed and used alongside the original resource. A simple
+example are different resolutions of images: If a person uploads e.g. a profile picture with 20MB size, the IRSS can
+generate several flavours from it, e.g. a 500x500px flavour in an adapted quality, which can be used for the
+representation in a member gallery, without the full resolution with 20MB having to be loaded and displayed in the
+browser.
+Similar approaches exist in ILIAS in many places, but always the components themselves must ensure that the desired "
+derivatives" are available, stored and can be retrieved. With the Flavours the IRSS offers this centrally.
+
+## Structure of Flavours
+
+For the creation of Flavours technically 3 things are needed:
+
+- Definition
+- Machine
+- Engine
+
+`Definition`: The consoments of the flavours use in most cases a definition, which kind of flavour they would like to
+get from the IRSS. For many cases the IRSS already offers possible definitions that can be configured. One definition is
+for example "A preview image with max. 500x500px".
+
+`Machine`: A machine can process such a definition and create the desired flavors. For a definition, there must always
+be a machine that can process this definition. For the definitions provided by the IRSS there are also corresponding
+machines.
+
+`Engine`: A machine sometimes needs an engine to be able to create the desired flavours. Such engines are e.g. packages
+like `Imagick` or `GD`. Some machines also get along with a simple `NoEngin`.
+
+## How to use Flavours
+
+Let's take the example of file objects: Already in older versions of ILIAS preview files could be created for file
+objects, different file types were supported. In the case of PDFs, for example, the first 5 pages are generated as a
+preview image.
+
+The file object can now request this process from the IRSS via a definition. The IRSS knows two methods for the creation
+or retrieval of flavors:
+
+```php
+global $DIC;
+$irss = $DIC->resourceStorage();
+
+$irss->flavours()->ensure(...);
+$irss->flavours()->get(...);
+```
+
+`ensure` can be used to trigger the creation of the flavours, e.g. after an upload of a new file. `get` creates them as
+well, but you also get the result directly and can display the flavors.
+
+With the following setup we generate max. 10 thumbnails for a resource. The IRSS takes all file types and generates up
+to 10 thumbnails, if the file type of the resource is supported by the `Engine`. So in case of PDF you get 10
+thumbnails, in case of JPG only one. Other file types do not result in any preview image.
+
+```php
+global $DIC;
+$irss = $DIC->resourceStorage();
+
+// the ResourceIdentification we want to get the flavours for
+$rid = $irss->manage()->find('53ed29e0-7c13-49f0-a077-bcb5f87fa50c');
+
+$definition = new PagesToExtract(
+    true, // persistent, Flavours are stored in FileSystem, otherwise it's in-memory
+    280, // max size (w/h) of the preview image
+    10 // max number of pages to extract
+);
+
+$flavour = $irss->flavours()->get($rid, $definition);
+```
+
+The result is a `Flavour` object. These contain some meta data about the flavour and with `getTokens` you can access alls `Tokens` for StreamAccess (see below). Normally, you would now want displayable URLs for these FlavourStreams.
+The `Consumer` service of the IRSS supports this accordingly (which uses those `Tokens` inside):
+
+```php
+$flavour = $irss->flavours()->get($rid, $definition);
+$urls_of_flavour_streams = $irss->consume()->flavourUrls($flavour);
+
+// create UI Images for each flavour stream 
+$images = array_map(function (string $url): Image {
+    return $this->ui->factory()->image()->standard($url, 'Flavour');
+}, $urls_of_flavour_streams);
+```
+
+The `flavourUrls` consumer already supports the `WebAccessChecker` and the URLS are signed accordingly.
+
+## Tokens for StreamAccess
+
+The `Flavour` object contains a list of `Tokens` for the `StreamAccess` service. These tokens can be used to access the Stream of a Flavour or of a Revision, but you hopefully won't ever need to do this directly. The `Consumer` service of the IRSS supports this accordingly (which uses those `Tokens` inside). Tokens are a mechanism to manage write (and later read) access to streams from the IRSS. In a first step, the WebAccessChecker also uses these tokens to know which revision or flavor exactly should be delivered.
+
+As I said, if you are a consumer of the IRSS, you use the Consumers approach anyway.
+
 # Other (involved) Services
 
 - UploadService, see [here](../FileUpload/README.md)

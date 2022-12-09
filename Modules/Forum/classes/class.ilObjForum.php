@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilObjForum
@@ -529,9 +529,6 @@ class ilObjForum extends ilObject
             $originalPageObject->delete();
         }
 
-        $tmp_file_obj = new ilFileDataForum($this->getId());
-        $tmp_file_obj->delete();
-
         $this->Forum->setMDB2WhereCondition('top_frm_fk = %s ', ['integer'], [$this->getId()]);
 
         $topData = $this->Forum->getOneTopic();
@@ -543,6 +540,20 @@ class ilObjForum extends ilObject
         foreach ($threads['items'] as $thread) {
             $thread_ids_to_delete[$thread->getId()] = $thread->getId();
         }
+
+        // Get All posting IDs
+        $posting_ids = [];
+        $res = $this->db->query(
+            'SELECT pos_pk FROM frm_posts WHERE  '
+            . $this->db->in('pos_thr_fk', $thread_ids_to_delete)
+        );
+
+        while ($row = $res->fetchObject()) {
+            $posting_ids[] = (int)$row->pos_pk;
+        }
+
+        $tmp_file_obj = new ilFileDataForum($this->getId());
+        $tmp_file_obj->delete($posting_ids);
 
         $this->db->manipulate('DELETE FROM frm_posts_tree WHERE ' . $this->db->in(
             'thr_fk',

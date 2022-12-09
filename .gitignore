@@ -57,3 +57,4 @@ phpstan-baseline.neon
 
 # File Delivery
 override.php
+Services/ResourceStorage/artifacts/flavour_data.php

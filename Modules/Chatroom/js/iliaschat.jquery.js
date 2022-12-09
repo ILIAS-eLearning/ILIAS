@@ -5,8 +5,6 @@
 
 	let room,
 		initial,
-		currentRoom,
-		subRoomId,
 		_scope,
 		personalUserInfo,
 		redirectUrl,
@@ -25,7 +23,7 @@
 				if (document.selection) {
 					//For browsers like Internet Explorer
 					this.focus();
-					sel = document.selection.createRange();
+					const sel = document.selection.createRange();
 					sel.text = value;
 					this.focus();
 				} else if (this.selectionStart || this.selectionStart == '0') {
@@ -43,7 +41,7 @@
 					this.value += value;
 					this.focus();
 				}
-			})
+			});
 		}
 	});
 
@@ -309,15 +307,6 @@
 		};
 
 		/**
-		 * @param {boolean} privateRoomsEnabled
-		 */
-		this.showHeadline = function (privateRoomsEnabled) {
-			if (!privateRoomsEnabled) {
-				$('#chat_head_line').hide();
-			}
-		};
-
-		/**
 		 * @param {number} interval
 		 */
 		this.resizeChatWindowInInterval = function (interval) {
@@ -332,16 +321,15 @@
 					_prevSize = {width: body.width(), height: body.height()};
 				}
 			}, interval);
-		}
+		};
 
 		this.initChatMessageArea = function (state) {
 			_$anchor.ilChatMessageArea(state);
 		};
 
-		this.addChatMessageArea = function (subRoomId, title, owner) {
-			_$anchor.ilChatMessageArea('addScope', subRoomId, {
+		this.addChatMessageArea = function (title, owner) {
+			_$anchor.ilChatMessageArea('addScope', {
 				title: title,
-				id: subRoomId,
 				owner: owner
 			});
 		};
@@ -350,8 +338,8 @@
 			_$anchor.ilChatMessageArea('show', scope);
 		};
 
-		this.addMessage = function (subRoomId, messageObject) {
-			_$anchor.ilChatMessageArea('addMessage', subRoomId, messageObject);
+		this.addMessage = function (messageObject) {
+			_$anchor.ilChatMessageArea('addMessage', messageObject);
 		};
 
 	this.addTypingInfo = function(messageObject, text) {
@@ -367,34 +355,29 @@
 	const UserManager = function UserManager() {
 
 		/**
-		 * Stores all users by each room.
+		 * Stores all users for this room.
 		 *
-		 * @type {{}}
+		 * @type {Array}
 		 * @private
 		 */
-		let _usersByRoom = {};
+		let _usersByRoom = [];
 
 		/**
 		 * Adds a user to the delivered room.
 		 *
 		 * @param {JSON} userdata
-		 * @param {string} roomId
 		 * @returns {boolean}
 		 */
-		this.add = function (userdata, roomId) {
-			if (!_usersByRoom['room_' + roomId]) {
-				_usersByRoom['room_' + roomId] = [];
-			}
-
-			for (let i in _usersByRoom['room_' + roomId]) {
-				const current = _usersByRoom['room_' + roomId][i];
+		this.add = function (userdata) {
+			for (let i in _usersByRoom) {
+				const current = _usersByRoom[i];
 				if (current.id == userdata.id) {
-					_usersByRoom['room_' + roomId][i].label = userdata.label;
+					_usersByRoom[i].label = userdata.label;
 					return false;
 				}
 			}
 
-			_usersByRoom['room_' + roomId].push(userdata);
+			_usersByRoom.push(userdata);
 
 			return true;
 		};
@@ -403,27 +386,23 @@
 		 * Remove a delivered user from the delivered room.
 		 *
 		 * @param {number} userId
-		 * @param {string} roomId
 		 */
-		this.remove = function (userId, roomId) {
-			if (_usersByRoom['room_' + roomId]) {
-				for (let i in _usersByRoom['room_' + roomId]) {
-					const user = _usersByRoom['room_' + roomId][i];
-					if (user.id == userId) {
-						delete _usersByRoom['room_' + roomId][i];
-					}
+		this.remove = function (userId) {
+			for (let i in _usersByRoom) {
+				const user = _usersByRoom[i];
+				if (user.id == userId) {
+					delete _usersByRoom[i];
 				}
 			}
 		};
 
 		/**
-		 * Get all users in a delivered room.
+		 * Get all users of this room.
 		 *
-		 * @param {string} roomId
 		 * @returns {Array}
 		 */
-		this.getUsersInRoom = function (roomId) {
-			return _usersByRoom['room_' + roomId] || [];
+	        this.getUsersInRoom = function () {
+			return _usersByRoom;
 		};
 
 		/**
@@ -431,91 +410,9 @@
 		 *
 		 * @param {string} roomId
 		 */
-		this.clear = function (roomId) {
-			_usersByRoom['room_' + roomId] = [];
+		this.clear = function () {
+			_usersByRoom = [];
 		};
-	};
-
-	/**
-	 * @TODO Check where this class is used. All actions aren't implemented yer. Maybe this class can be removed
-	 *
-	 * PrivateRooms
-	 *
-	 * @param {string} selector
-	 * @param {Translation} _translation
-	 * @param {ILIASConnector} _connector
-	 * @constructor
-	 */
-	const PrivateRooms = function PrivateRooms(selector, _translation, _connector) {
-
-		let _$anchor = $(selector);
-
-		/**
-		 * Initialize ilChatList with private room actions for jQuery-Object selected by
-		 * the selector
-		 */
-		this.init = function () {
-			_$anchor.ilChatList([
-				_addEnterAction(),
-				_addLeaveAction(),
-				_addDeleteAction()
-			]);
-		};
-
-		this.addRoom = function (id, label, owner) {
-			_$anchor.ilChatList('add', {
-				id: id,
-				label: label,
-				owner: owner,
-				type: 'room'
-			});
-		};
-
-		/**
-		 * @returns {{label: string, callback: callback}}
-		 * @private
-		 */
-		function _addEnterAction() {
-			return {
-				label: _translation.translate('enter'),
-				callback: function () {
-					alert('PrivateRooms._addEnterAction');
-					//@TODO ILIASConnector.enterPrivateRoom
-					//_connector.enterPrivateRoom(this.id);
-				}
-			};
-		}
-
-		/**
-		 * @returns {{label: string, callback: callback}}
-		 * @private
-		 */
-		function _addLeaveAction() {
-			return {
-				label: _translation.translate('leave'),
-				callback: function () {
-					alert('PrivateRooms._addLeaveAction');
-					//@TODO ILIASConnector.leavePrivateRoom
-					/*_connector.leavePrivateRoom(this.id);*/
-				}
-			};
-		}
-
-		/**
-		 * @returns {{label: string, callback: callback, permission: string[]}}
-		 * @private
-		 */
-		function _addDeleteAction() {
-			return {
-				label: _translation.translate('delete_private_room'),
-				callback: function () {
-					alert('PrivateRooms._addDeleteAction');
-					//@TODO ILIASConnector.deletePrivateRoom
-					//_connector.deletePrivateRoom(this.id)
-				},
-				permission: ['moderator', 'owner']
-			};
-		}
 	};
 
 	/**
@@ -539,10 +436,10 @@
 			actions.push(_addAddressAction());
 			actions.push(_addWhisperAction());
 
-			if (personalUserInfo.moderator == true || (subRoomId > 0 && (room = $('#private_rooms').ilChatList('getDataById', subRoomId)).owner == personalUserInfo.id)) {
+			if (personalUserInfo.moderator == true) {
 				actions.push(_addKickAction());
 			}
-			if (personalUserInfo.moderator == true || (subRoomId > 0 && (room = $('#private_rooms').ilChatList('getDataById', subRoomId)).owner == personalUserInfo.id)) {
+			if (personalUserInfo.moderator == true) {
 				actions.push(_addBanAction());
 			}
 			_$anchor.ilChatUserList(actions);
@@ -589,7 +486,7 @@
 				label: _translator.translate('kick'),
 				callback: function () {
 					if (confirm(_translator.translate('kick_question'))) {
-						_connector.kick(this.id, subRoomId);
+						_connector.kick(this.id);
 					}
 				},
 				permission: ['moderator', 'owner']
@@ -607,7 +504,7 @@
 				label: _translator.translate('ban'),
 				callback: function () {
 					if (confirm(_translator.translate('ban_question'))) {
-						_connector.ban(this.id, subRoomId);
+						_connector.ban(this.id);
 					}
 				},
 				permission: ['moderator']
@@ -621,10 +518,9 @@
 	 * @param {string} selector
 	 * @param {Translation} _translation
 	 * @param {ILIASConnector} _connector
-	 * @param {number} _privateRoomsEnabled
 	 * @oaram {UserManager} userManager
 	 */
-	const ChatActions = function ChatActions(selector, _translation, _connector, _privateRoomsEnabled, userManager) {
+	const ChatActions = function (selector, _translation, _connector, userManager) {
 
 		let _$anchor = $(selector), _menuEntries = [];
 
@@ -634,21 +530,14 @@
 		 * Setup ChatActions
 		 */
 		this.init = function () {
-
 			_$anchor.click(function (e) {
 				e.preventDefault();
 				e.stopPropagation();
 				_resetEntries();
 
 				$(this).removeClass('chat_new_events');
-
-				_addLeaveSubRoomAction(); // Done, just permission checks
-				_addDeleteSubRoomAction(); // Done, just permission checks
-				_addCreateSubRoomAction(); // Done, just permission checks
 				_addInviteSubRoomAction();
 				_addClearHistoryAction();
-				_addSeparator(); // Done
-				_addEnterRoomActions(); // Done, just permission checks
 
 				$(this).ilChatMenu('show', _menuEntries, true);
 			});
@@ -664,136 +553,6 @@
 		}
 
 		/**
-		 * Adds a separator to the chat action menu
-		 *
-		 * @private
-		 */
-		function _addSeparator() {
-			if (_privateRoomsEnabled) {
-				_menuEntries.push({separator: true});
-			}
-		}
-
-		/**
-		 * Adds a leave sub room action.
-		 *
-		 * @TODO Check if user is in a subroom
-		 *
-		 * @private
-		 */
-		function _addLeaveSubRoomAction() {
-			if (subRoomId) {
-				_menuEntries.push({
-					label: _translation.translate('leave'),
-					callback: function () {
-						_connector.leavePrivateRoom(subRoomId);
-					}
-				});
-			}
-		}
-
-		/**
-		 * Adds a delete room action.
-		 *
-		 * @TODO Check if user is in a subroom and has permission to delete a subroom
-		 *
-		 * @private
-		 */
-		function _addDeleteSubRoomAction() {
-			if (subRoomId > 0 && ((room = $('#private_rooms').ilChatList('getDataById', subRoomId)).owner == personalUserInfo.id || personalUserInfo.moderator == true)) {
-				_menuEntries.push({
-					label: _translation.translate('delete_private_room'),
-					callback: function () {
-						if (confirm(_translation.translate('delete_private_room_question'))) {
-							_connector.deletePrivateRoom(subRoomId);
-						}
-					},
-					permission: ['moderator', 'owner']
-				});
-			}
-		}
-
-		/**
-		 * Adds a create sub room action. On click it opens an input dialog to enter the sub room name.
-		 *
-		 * @TODO Check if privatRooms are enabled.
-		 *
-		 * @private
-		 */
-		function _addCreateSubRoomAction() {
-			if (_privateRoomsEnabled) {
-				_menuEntries.push({
-					label: _translation.translate('create_private_room'),
-					callback: function () {
-						$('#create_private_room_dialog').ilChatDialog({
-							title: _translation.translate('create_private_room'),
-							positiveAction: function () {
-								const name = $('#new_room_name').val();
-								if (name.trim() == '') {
-									alert(_translation.translate('empty_name'));
-									return false;
-								}
-
-								_connector.createPrivateRoom(name);
-							}
-						});
-					}
-				});
-			}
-		}
-
-		/**
-		 * Adds for each private room an enter private room action.
-		 *
-		 * @TODO Check if privateRooms are enabled
-		 *
-		 * @private
-		 */
-		function _addEnterRoomActions() {
-			if (_privateRoomsEnabled) {
-				const rooms = $('#private_rooms').ilChatList('getAll');
-
-				rooms.sort(function (a, b) {
-					if (a.id == 0) {
-						return -1;
-					} else if (b.id == 0) {
-						return 1;
-					}
-					return a.label < b.label ? -1 : 1;
-				});
-
-				$.each(rooms, function () {
-					const room = this,
-						classes = ['room_' + room.id];
-
-					if (currentRoom == room.id) {
-						classes.push('in_room');
-					}
-					if (room.new_events) {
-						classes.push('chat_new_events');
-					}
-
-					_menuEntries.push({
-						label: this.label,
-						icon: 'templates/default/images/' + (!room.id ? 'icon_chtr.svg' : 'icon_chtr.svg'),
-						addClass: classes.join(' '),
-						callback: function () {
-							room.new_events = false;
-							if (currentRoom == room.id) {
-								return;
-							} else if (room.id == 0 && currentRoom != 0) {
-								_connector.leavePrivateRoom(currentRoom);
-								currentRoom = 0;
-								return;
-							}
-							_connector.enterPrivateRoom(room.id);
-						}
-					});
-				});
-			}
-		}
-
-		/**
 		 * Adds an action to invite a user to a sub room.
 		 * Invitation can be done by user id or user login name.
 		 * Users are able to invite users subscribed to the main room or search for existing users in ILIAS.
@@ -803,72 +562,70 @@
 		 * @private
 		 */
 		function _addInviteSubRoomAction() {
-			if (!subRoomId || (subRoomId && ((room = $('#private_rooms').ilChatList('getDataById', subRoomId)).owner == personalUserInfo.id) || personalUserInfo.moderator == true)) {
-				_menuEntries.push(
-					{
-						label: _translation.translate('invite_users'),
-						callback: function () {
-							$('#invite_users_container').ilChatDialog({
-								title: _translation.translate('invite_users'),
-								close: function () {
-									$('#invite_user_text_wrapper').val('');
-								},
-								positiveAction: function () {
-								},
-								disabled_buttons: ['ok']
-							});
+		    _menuEntries.push(
+			{
+			    label: _translation.translate('invite_users'),
+			    callback: function () {
+				$('#invite_users_container').ilChatDialog({
+				    title: _translation.translate('invite_users'),
+				    close: function () {
+					$('#invite_user_text_wrapper').val('');
+				    },
+				    positiveAction: function () {
+				    },
+				    disabled_buttons: ['ok']
+				});
 
-							$('#invite_users_global').click(function () {
-								$('#invite_users_available').children().remove();
-								$('#invite_user_text_wrapper').show();
+				$('#invite_users_global').click(function () {
+				    $('#invite_users_available').children().remove();
+				    $('#invite_user_text_wrapper').show();
 
-								$('#invite_user_text').keyup(function () {
-									if ($(this).val().length > 2) {
-										$.get(
-											posturl.replace(/postMessage/, 'inviteUsersToPrivateRoom-getUserList') + '&q=' + $('#invite_user_text').val(),
-											function (response) {
-												$('#invite_users_available').children().remove();
-												$(response.items).each(function () {
-													const usersInRoom = userManager.getUsersInRoom(currentRoom);
-													if (!isIdInArray(this.id, usersInRoom)) {
-														_addUserForInvitation(this.value, 'byLogin', this.value);
-													}
-												});
-											},
-											'json'
-										);
-									} else {
-										$('#invite_users_available').children().remove();
-									}
-								});
-							});
-
-							$('#invite_users_in_room').click(function () {
-								const availableUsers = $('#invite_users_available');
-								$(availableUsers).children().remove();
-								$('#invite_user_text_wrapper').hide();
-
-								// load all User connected to main room.
-								const chatUsers = userManager.getUsersInRoom(0),
-									usersInRoom = userManager.getUsersInRoom(currentRoom);
-
-								$(chatUsers).each(function () {
-									if (!isIdInArray(this.id, usersInRoom)) {
-										_addUserForInvitation(this.id, 'byId', this.label)
-									}
-								});
-
-								if ($(availableUsers).children().length == 0) {
-									$('#invite_users_in_room').remove();
-									$('#radioText').remove();
-									$('#invite_users_global').prop('checked', 'checked').click();
-								}
-							}).click();
-						}
+				    $('#invite_user_text').keyup(function () {
+					if ($(this).val().length > 2) {
+					    $.get(
+						posturl.replace(/postMessage/, 'inviteUsersToPrivateRoom-getUserList') + '&q=' + $('#invite_user_text').val(),
+						function (response) {
+						    $('#invite_users_available').children().remove();
+						    $(response.items).each(function () {
+							const usersInRoom = userManager.getUsersInRoom();
+							if (!isIdInArray(this.id, usersInRoom)) {
+							    _addUserForInvitation(this.value, 'byLogin', this.value);
+							}
+						    });
+						},
+						'json'
+					    );
+					} else {
+					    $('#invite_users_available').children().remove();
 					}
-				);
+				    });
+				});
+
+				$('#invite_users_in_room').click(function () {
+				    const availableUsers = $('#invite_users_available');
+				    $(availableUsers).children().remove();
+				    $('#invite_user_text_wrapper').hide();
+
+				    // load all User connected to main room.
+				    const chatUsers = userManager.getUsersInRoom(),
+					  usersInRoom = userManager.getUsersInRoom();
+
+				    $(chatUsers).each(function () {
+					if (!isIdInArray(this.id, usersInRoom)) {
+					    _addUserForInvitation(this.id, 'byId', this.label);
+					}
+				    });
+
+				    if ($(availableUsers).children().length == 0) {
+					$('#invite_users_in_room').remove();
+					$('#radioText').remove();
+					$('#invite_users_global').prop('checked', 'checked').click();
+				    }
+				}).click();
+			    }
 			}
-			return room;
+		    );
+		    return room;
 		}
 
 		/**
@@ -884,7 +641,7 @@
 					label: _translation.translate('clear_room_history'),
 					callback: function () {
 						if (confirm(_translation.translate('clear_room_history_question'))) {
-							_connector.clear(currentRoom);
+							_connector.clear();
 						}
 					}
 				});
@@ -906,7 +663,7 @@
 				.click(function (e) {
 					e.preventDefault();
 					e.stopPropagation();
-					_connector.inviteToPrivateRoom(subRoomId, userValue, invitationType);
+					_connector.inviteToPrivateRoom(userValue, invitationType);
 				});
 			const line = $('<li></li>')
 				.addClass('invite_user_line_id')
@@ -1073,41 +830,9 @@ const ChatTypingBroadcasterFactory = (function () {
  * @constructor
  */
 var ILIASResponseHandler = function ILIASResponseHandler() {
-
-		/**
-		 * Handles the response of a createPrivateRoom request.
-		 * It adds the created room to the private_rooms list and initiates a enterPrivateRoom request to switch to the
-		 * recently created room.
-		 *
-		 * @param {{subRoomId: number, title: string, owner: number}} response
-		 *
-		 * @TODO Possible unused
-		 */
-		this.createPrivateRoom = function (response) {
-			logger.logILIASResponse('createPrivateRoom');
-			return !_validate(response);
-		};
-
-		/**
-		 * Handles the response of a enterPrivateRoom request.
-		 * It changes the currentRoom and shows the related ilChatMessageArea
-		 *
-		 * @param {{}} response
-		 */
-		this.enterPrivateRoom = function (response) {
-			logger.logILIASResponse('enterPrivateRoom');
-			if (!_validate(response)) {
-				return
-			}
-
-			currentRoom = response.subRoomId;
-			$('#chat_messages').ilChatMessageArea('show', currentRoom);
-			serverConnector.enterRoom(_scope, currentRoom); //@TODO Remove the static roomNumber, maybe extract this to another position.
-		};
-
 		/**
 		 * Handles the response of a leavePrivateRoom request.
-		 * It changes the currentRoom to main room and shows the related ilChatMessageArea
+		 * Shows the related ilChatMessageArea
 		 *
 		 * @param {{}} response
 		 */
@@ -1116,9 +841,7 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 				return;
 			}
 
-			currentRoom = 0; //@todo Duplicated currentRoom and subRoomId
-			subRoomId = 0;	// @TODO Duplicated subRoomId and currentRoom
-			$('#chat_messages').ilChatMessageArea('show', 0);
+			$('#chat_messages').ilChatMessageArea('show');
 		};
 
 		/**
@@ -1172,7 +895,7 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 	 * @param {ILIASResponseHandler} responseHandler
 	 * @constructor
 	 */
-	const ILIASConnector = function ILIASConnector(_postUrl, responseHandler) {
+	const ILIASConnector = function (_postUrl, responseHandler) {
 
 		let _self = this;
 
@@ -1188,47 +911,11 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		};
 
 		/**
-		 * Sends a request to ILIAS to create a new private room.
-		 *
-		 * @param {string} name
-		 */
-		this.createPrivateRoom = function (name) {
-			logger.logILIASRequest('createPrivateRoom');
-			_sendRequest('privateRoom-create', {title: name}, function (response) {
-				const valid = responseHandler.default(response);
-				if (valid) {
-					_self.enterPrivateRoom(response.subRoomId);
-				}
-			});
-		};
-
-		/**
-		 * Sends a request to ILIAS to enter a private room.
-		 *
-		 * @param {string} subRoomId
-		 */
-		this.enterPrivateRoom = function (subRoomId) {
-			logger.logILIASRequest('enterPrivateRoom');
-			_sendRequest('privateRoom-enter', {sub: subRoomId}, responseHandler.enterPrivateRoom);
-		};
-
-		/**
 		 * Sends a request to ILIAS to leave a private room.
-		 *
-		 * @param {string} roomId
 		 */
-		this.leavePrivateRoom = function (roomId) {
+		this.leavePrivateRoom = function () {
 			logger.logILIASRequest('leavePrivateRoom');
-			_sendRequest('privateRoom-leave', {sub: roomId}, responseHandler.leavePrivateRoom);
-		};
-
-		/**
-		 * Sends a request to ILIAS to delete a private room.
-		 *
-		 * @param {string} roomId
-		 */
-		this.deletePrivateRoom = function (roomId) {
-			_sendRequest('privateRoom-delete', {sub: roomId}, responseHandler.default)
+			_sendRequest('privateRoom-leave', {}, responseHandler.leavePrivateRoom);
 		};
 
 		/**
@@ -1237,34 +924,29 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		 *    1. byId
 		 *    2. byLogin
 		 *
-		 * @param {number} subRoomId
 		 * @param {string} userValue
 		 * @param {string} invitationType
 		 */
-		this.inviteToPrivateRoom = function (subRoomId, userValue, invitationType) {
+		this.inviteToPrivateRoom = function (userValue, invitationType) {
 			_sendRequest('inviteUsersToPrivateRoom-' + invitationType, {
-				sub: subRoomId,
 				user: userValue
 			}, responseHandler.inviteToPrivateRoom);
 		};
 
 		/**
 		 * Sends a request to ILIAS to clear the chat history
-		 *
-		 * @param subRoomId
 		 */
-		this.clear = function (subRoomId) {
-			_sendRequest('clear', {sub: subRoomId}, responseHandler.default);
+		this.clear = function () {
+			_sendRequest('clear', {}, responseHandler.default);
 		};
 
 		/**
 		 * Sends a request to ILIAS to kick a user from a specific room. The room can either be a private or the main room.
 		 *
 		 * @param {number} userId
-		 * @param {number} subRoomId
 		 */
-		this.kick = function (userId, subRoomId) {
-			_sendRequest('kick', {user: userId, sub: subRoomId}, responseHandler.default);
+		this.kick = function (userId) {
+			_sendRequest('kick', {user: userId}, responseHandler.default);
 		};
 
 		/**
@@ -1273,7 +955,7 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		 * @param {number} userId
 		 */
 		this.ban = function (userId) {
-			_sendRequest('ban-active', {user: userId, sub: subRoomId}, responseHandler.default);
+			_sendRequest('ban-active', {user: userId}, responseHandler.default);
 		};
 
 		/**
@@ -1339,9 +1021,6 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		});
 		_socket.on('user_invited', _onUserInvited);
 		_socket.on('private_room_entered', _onPrivateRoomEntered);
-		_socket.on('private_room_left', _onPrivateRoomLeft);
-		_socket.on('private_room_created', _onPrivateRoomCreated);
-		_socket.on('private_room_deleted', _onPrivateRoomDeleted);
 		_socket.on('connected', _onConnected);
 		_socket.on('userjustkicked', _onUserKicked);
 		_socket.on('userjustbanned', _onUserBanned);
@@ -1368,11 +1047,10 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		 * Sends enter room to server
 		 *
 		 * @param {number} roomId
-		 * @param {number} subRoomId
 		 */
-		this.enterRoom = function (roomId, subRoomId) {
+		this.enterRoom = function (roomId) {
 			logger.logServerRequest('enterRoom');
-			_socket.emit('enterRoom', roomId, subRoomId);
+			_socket.emit('enterRoom', roomId);
 		};
 
 		/**
@@ -1384,14 +1062,14 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 			});
 		};
 
-	this.userStartedTyping = function(roomId, subRoomId) {
+	this.userStartedTyping = function(roomId) {
 		logger.logServerRequest('userStartedTyping');
-		_socket.emit('userStartedTyping', roomId, subRoomId);
+		_socket.emit('userStartedTyping', roomId);
 	}
 
-	this.userStoppedTyping = function(roomId, subRoomId) {
+	this.userStoppedTyping = function(roomId) {
 		logger.logServerRequest('userStoppedTyping');
-		_socket.emit('userStoppedTyping', roomId, subRoomId);
+		_socket.emit('userStoppedTyping', roomId);
 	}
 
 	/**
@@ -1402,7 +1080,6 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 	 *	timestamp: number,
 	 *	content: string,
 	 *	roomId: number,
-	 *	subRoomId: number,
 	 *	from: {id: number, name: string},
 	 *	format: {style: string, color: string, family: string, size: string}
 	 * }} messageObject
@@ -1410,10 +1087,7 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 	 * @private
 	 */
 	function _onMessage(messageObject) {
-
-			$('#private_rooms').ilChatList('setNewEvents', messageObject.subRoomId, subRoomId != messageObject.subRoomId);
-
-			gui.addMessage(messageObject.subRoomId, messageObject);
+			gui.addMessage(messageObject);
 		}
 
 		/**
@@ -1424,7 +1098,6 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		 *	timestamp: number,
 		 *	content: string,
 		 *	roomId: number,
-		 *	subRoomId: number,
 		 *	title: string
 		 *	owner: number
 		 * }} messageObject
@@ -1432,14 +1105,7 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		 * @private
 		 */
 		function _onUserInvited(messageObject) {
-			gui.addChatMessageArea(messageObject.subRoomId, messageObject.title, messageObject.owner);
-
-			$('#private_rooms').ilChatList('add', {
-				id: messageObject.subRoomId,
-				label: messageObject.title,
-				type: 'room',
-				owner: messageObject.owner
-			});
+			gui.addChatMessageArea(messageObject.title, messageObject.owner);
 		}
 
 		/**
@@ -1450,7 +1116,6 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		 *	timestamp: number,
 		 *	content: string,
 		 *	roomId: number,
-		 *	subRoomId: number,
 		 *	title: string,
 		 *	owner: number,
 		 *	subscriber: {id: number, username: string},
@@ -1461,79 +1126,6 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		 */
 		function _onPrivateRoomEntered(messageObject) {
 			logger.logServerResponse('onPrivateRoomEntered');
-
-			if (messageObject.subscriber.id == user.id && currentRoom != messageObject.subRoomId) {
-				currentRoom = messageObject.subRoomId;
-				gui.showChatMessageArea(currentRoom);
-			}
-		}
-
-		/**
-		 * @private
-		 */
-		function _onPrivateRoomLeft(messageObject) {
-			if (messageObject.sub && messageObject.sub == subRoomId) {
-				$('#chat_users').find('.user_' + messageObject.user).hide();
-			}
-			userManager.remove(messageObject.user, messageObject.sub);
-			if ($('.online_user:visible').length == 0) {
-				$('.no_users').show();
-			} else {
-				$('.no_users').hide();
-			}
-		}
-
-
-		/**
-		 * Creates a private room for chat
-		 *
-		 *@param {{
-		 *	type:string,
-		 *	timestamp: number,
-		 *	content: string,
-		 *	roomId: number,
-		 *	subRoomId: number,
-		 *	title: string
-		 *	ownerId: number
-		 *	title: string
-		 * }} messageObject
-		 * @private
-		 */
-		function _onPrivateRoomCreated(messageObject) {
-			logger.logServerResponse('private_room_created');
-
-			$('#chat_messages').ilChatMessageArea('addScope', messageObject.subRoomId, messageObject);
-			$('#private_rooms').ilChatList('add', {
-				id: messageObject.subRoomId,
-				label: messageObject.title,
-				type: 'room',
-				owner: messageObject.ownerId
-			});
-		}
-
-		/**
-		 * Deltes a private room from chat
-		 *
-		 * @param {{
-		 *	type:string,
-		 *	timestamp: number,
-		 *	content: string,
-		 *	roomId: number,
-		 *	subRoomId: number,
-		 *	title: string
-		 *	owner: number
-		 * }} messageObject
-		 *
-		 * @private
-		 */
-		function _onPrivateRoomDeleted(messageObject) {
-			$('#private_rooms').ilChatList('removeById', messageObject.subRoomId);
-			$('#chat_actions').find('span.room_' + messageObject.subRoomId).closest('li').remove();
-
-			if (messageObject.subRoomId == currentRoom) {
-				currentRoom = 0;
-				gui.showChatMessageArea(currentRoom);
-			}
 		}
 
 		function _onConnected(messageObject) {
@@ -1549,12 +1141,9 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 					};
 					$('#chat_users').ilChatUserList('add', data);
 
-					userManager.add(data, 0);
-					if (subRoomId) {
-						$('.user_' + this.id).hide();
-					}
+					userManager.add(data);
 
-					$('#chat_messages').ilChatMessageArea('addMessage', 0, {
+					$('#chat_messages').ilChatMessageArea('addMessage', {
 						login: data.label,
 						timestamp: messageObject.timestamp,
 						type: 'connected'
@@ -1571,7 +1160,6 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		 *	timestamp: number,
 		 *	content: string,
 		 *	roomId: number,
-		 *	subRoomId: number,
 		 * }} messageObject
 		 *
 		 * @private
@@ -1579,16 +1167,12 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		function _onUserKicked(messageObject) {
 			logger.logServerResponse('onUserKicked');
 
-			userManager.remove(user.id, messageObject.subRoomId);
+			userManager.remove(user.id);
 
 			// If user is kicked from sub room, redirect to main room
-			if (messageObject.subRoomId > 0) {
-				currentRoom = 0;
-				gui.showChatMessageArea(0);
-			} else {
-				$('#chat_users').ilChatUserList('removeById', user.id);
-				window.location.href = redirectUrl + "&msg=kicked";
-			}
+
+			$('#chat_users').ilChatUserList('removeById', user.id);
+			window.location.href = redirectUrl + "&msg=kicked";
 		}
 
 		/**
@@ -1599,7 +1183,6 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		 *	timestamp: number,
 		 *	content: string,
 		 *	roomId: number,
-		 *	subRoomId: number,
 		 * }} messageObject
 		 *
 		 * @private
@@ -1620,13 +1203,12 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		 *	timestamp: number,
 		 *	content: string,
 		 *	roomId: number,
-		 *	subRoomId: number,
 		 * }} messageObject
 		 *
 		 * @private
 		 */
 		function _onClear(messageObject) {
-			$('#chat_messages').ilChatMessageArea('clearMessages', messageObject.subRoomId);
+			$('#chat_messages').ilChatMessageArea('clearMessages');
 		}
 
 		/**
@@ -1637,7 +1219,6 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		 *	timestamp: number,
 		 *	content: string,
 		 *	roomId: number,
-		 *	subRoomId: number,
 		 *	data: {}
 		 * }} messageObject
 		 *
@@ -1645,22 +1226,18 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		 */
 		function _onNotice(messageObject) {
 			messageObject.content = translation.translate(messageObject.content, messageObject.data);
-			if (messageObject.subRoomId == -1) {
-				messageObject.subRoomId = subRoomId;
-			}
 
-			gui.addMessage(messageObject.subRoomId, messageObject);
+			gui.addMessage(messageObject);
 		}
 
 		/**
-		 * Updates the list of users for the delivered subRoomId
+		 * Updates the list of users.
 		 *
 		 * @param {{
 		 *	type:string,
 		 *	timestamp: number,
 		 *	content: string,
 		 *	roomId: number,
-		 *	subRoomId: number,
 		 * 	users: {}
 		 * }} messageObject
 		 *
@@ -1671,49 +1248,39 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 
 			logger.logServerResponse("onUserlist");
 
-			userManager.clear(messageObject.subRoomId);
-
-			if (messageObject.subRoomId == currentRoom) {
-				$('#chat_users').ilChatUserList('clear');
-			}
+			userManager.clear();
 
 			let loader = new ProfileImageLoader($.map(users, function (val) {
 				return val.id;
 			}), function () {
-				for (let key in users) {
-					if (users.hasOwnProperty(key)) {
-						let chatUser = {
-							id: users[key].id,
-							label: users[key].username,
-							type: 'user',
-							hide: users[key].id == user.id,
-							image: loader.getProfileImage(users[key].id)
-						};
+                            Object.values(users).forEach(function(otherUser){
+                                const chatUser = {
+				    id: otherUser.id,
+				    label: otherUser.username,
+				    type: 'user',
+				    hide: otherUser.id == user.id,
+				    image: loader.getProfileImage(otherUser.id)
+				};
 
-						userManager.add(chatUser, messageObject.subRoomId);
+				userManager.add(chatUser);
 
-						if (messageObject.subRoomId == currentRoom) {
-							$('#chat_users').ilChatUserList('add', chatUser, chatUser.id, {hide: chatUser.hide});
-						}
+				$('#chat_users').ilChatUserList('add', chatUser, chatUser.id, {hide: chatUser.hide});
 
-						if (chatUser.id != user.id) {
-							$('.user_' + chatUser.id).show();
-						} else {
-							$('.user_' + chatUser.id).hide();
-						}
-					}
+				if (chatUser.id != user.id) {
+				    $('.user_' + chatUser.id).show();
+				} else {
+				    $('.user_' + chatUser.id).hide();
 				}
+                            });
 
-				// remove old users
-				const  currentUsersInRoom = userManager.getUsersInRoom(messageObject.subRoomId);
+			    // remove old users
+			    const  currentUsersInRoom = userManager.getUsersInRoom();
 
 				for (let key in currentUsersInRoom) {
 					const userId = currentUsersInRoom[key].id;
 					if (!isIdInArray(userId, users)) {
-						userManager.remove(userId, messageObject.subRoomId);
-						if (messageObject.subRoomId == currentRoom) {
-							$('#chat_users').ilChatUserList('removeById', userId);
-						}
+						userManager.remove(userId);
+					    $('#chat_users').ilChatUserList('removeById', userId);
 					}
 				}
 
@@ -1729,7 +1296,7 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		logger.logServerResponse("onUserStartedTyping");
 
 		const subscriber = JSON.parse(message.subscriber),
-			scope = message.roomId + '_' + message.subRoomId,
+			scope = message.roomId + '_0',
 			generator = ChatTypingUsersTextGeneratorFactory.getInstance(scope);
 
 		generator.addTypingSubscriber(subscriber.id, subscriber.username);
@@ -1743,7 +1310,7 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		logger.logServerResponse("onUserStoppedTyping");
 
 		const subscriber = JSON.parse(message.subscriber),
-			scope = message.roomId + '_' + message.subRoomId,
+			scope = message.roomId + '_0',
 			generator = ChatTypingUsersTextGeneratorFactory.getInstance(scope);
 
 		generator.removeTypingSubscriber(subscriber.id, subscriber.username);
@@ -1783,15 +1350,15 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 				return;
 			}
 
-			const room_id = _scope, sub_room_id = currentRoom;
+			const room_id = _scope;
 
 			const broadcaster = ChatTypingBroadcasterFactory.getInstance(
-				room_id + '_' + sub_room_id,
+				room_id + '_0',
 				function() {
-					serverConnector.userStartedTyping(room_id, sub_room_id);
+					serverConnector.userStartedTyping(room_id);
 				},
 				function() {
-					serverConnector.userStoppedTyping(room_id, sub_room_id);
+					serverConnector.userStoppedTyping(room_id);
 				}
 			);
 
@@ -1831,22 +1398,22 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 			$textInput.val('');
 
 			if (personalUserInfo.broadcast_typing === true) {
-				const room_id = _scope, sub_room_id = currentRoom;
+				const room_id = _scope;
 
 				const broadcaster = ChatTypingBroadcasterFactory.getInstance(
-					room_id + '_' + sub_room_id,
+					room_id + '_0',
 					function() {
-						serverConnector.userStartedTyping(room_id, sub_room_id);
+						serverConnector.userStartedTyping(room_id);
 					},
 					function() {
-						serverConnector.userStoppedTyping(room_id, sub_room_id);
+						serverConnector.userStoppedTyping(room_id);
 					}
 				);
 
 				broadcaster.release();
 			}
 
-			_socket.emit('message', message, scope, currentRoom);
+			_socket.emit('message', message, scope);
 			$textInput.focus();
 		}
 	}
@@ -1899,11 +1466,10 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		const gui = new GUI(translation);
 		const userManager = new UserManager();
 		iliasConnector = new ILIASConnector(posturl, new ILIASResponseHandler());
-		const privateRooms = new PrivateRooms('#private_rooms', translation, iliasConnector);
 		const chatUsers = new ChatUsers('#chat_users', translation, iliasConnector);
 
 		serverConnector = new ServerConnector(baseurl + '/' + instance, _scope, personalUserInfo, userManager, gui, initial.subdirectory);
-		chatActions = new ChatActions('#chat_actions', translation, iliasConnector, initial.private_rooms_enabled, userManager);
+		chatActions = new ChatActions('#chat_actions', translation, iliasConnector, userManager);
 
 		//Setup Heartbeat to refresh the Session
 		iliasConnector.heartbeatInterval(120 * 1000);
@@ -1922,21 +1488,16 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		// Insert Chatheader into HTML next to AKTION-Button
 		gui.renderHeaderAndActionButton();
 		// When private rooms are disabled, dont show chat header
-		gui.showHeadline(initial.private_rooms_enabled);
 		// Resizes Chatwindow every 500 miliseconds
 		gui.resizeChatWindowInInterval(500);
 		// Initialize ChatMessageArea();
 		gui.initChatMessageArea(initial.state);
-		gui.addChatMessageArea(0, translation.translate('main'), 0);
+		gui.addChatMessageArea(translation.translate('main'), 0);
 		gui.showChatMessageArea(0);
 
 
 		// Initialize Chatlist user actions
 		chatUsers.init();
-		// Initialize Chatlist private rooms actions
-		privateRooms.init();
-		privateRooms.addRoom(0, translation.translate('main'), 0);
-
 		// Initialize Chat Aktions Button
 		chatActions.init();
 
@@ -1950,8 +1511,7 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		$('#enter_main').click(function (e) {
 			e.preventDefault();
 			e.stopPropagation();
-			currentRoom = 0;
-			$('#chat_messages').ilChatMessageArea('show', 0);
+			$('#chat_messages').ilChatMessageArea('show');
 			$('#chat_users').find('.online_user').not('.hidden_entry').show();
 		});
 
@@ -1968,7 +1528,6 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 			});
 
 			$('#chat_users').css('display', 'block');
-			$('#private_rooms_wrapper').css('display', 'none');
 		});
 		$('#tab_users').click();
 
@@ -1984,36 +1543,9 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 					image: loader.getProfileImage(this.id)
 				};
 				$('#chat_users').ilChatUserList('add', tmp, {hide: true});
-				userManager.add(tmp, 0);
+				userManager.add(tmp);
 			});
 		});
-
-		// Add initial private rooms to Chatlist
-		$(initial.private_rooms).each(function () {
-			$('#private_rooms').ilChatList('add', {
-				id: this.proom_id,
-				label: this.title,
-				type: 'room',
-				owner: this.owner
-			});
-			gui.addChatMessageArea(this.proom_id, this.title, this.owner);
-			$('#chat_messages').ilChatMessageArea('addScope', this.proom_id, this);
-		});
-
-		// Show private room enter message
-		if (initial.enter_room) {
-			$('#chat_messages').ilChatMessageArea('show', initial.enter_room, posturl);
-			$(initial.messages).each(function () {
-				const data = $('#private_rooms').ilChatList('getDataById', this.sub);
-
-				if (this.sub == initial.enter_room && this.entersub == 1 && data) {
-					$('#chat_messages').ilChatMessageArea('addMessage', initial.enter_room, {
-						type: this.type,
-						message: translation.translate('private_room_entered', {title: data.label})
-					});
-				}
-			});
-		}
 
 		// Show initial messages
 		$(initial.messages).each(function () {
@@ -2025,9 +1557,9 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 				if (message.content == 'connect' && message.data.id == personalUserInfo.id) {
 					message.content = 'welcome_to_chat';
 				}
-				message.content = translation.translate(message.content, message.data)
+				message.content = translation.translate(message.content, message.data);
 			}
-			$('#chat_messages').ilChatMessageArea('addMessage', message.subRoomId || 0, message);
+			$('#chat_messages').ilChatMessageArea('addMessage', message);
 		});
 
 		// Build more options
@@ -2038,32 +1570,19 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 					continue;
 				res.push(i + '=' + encodeURIComponent(messageOptions[i]));
 			}
-			if (subRoomId)
-				res.push('sub=' + subRoomId);
 			return res.join('&');
 		}
 
 		// Handle incomming Message
 		function handleMessage(message) {
-			messageObject = (typeof message == 'object') ? message : $.getAsObject(message);
+			const messageObject = (typeof message == 'object') ? message : $.getAsObject(message);
 
 			//@TODO Debug anders realisieren
 			if (typeof DEBUG != 'undefined' && DEBUG) {
-				$('#chat_messages').ilChatMessageArea('addMessage', 0, {
+				$('#chat_messages').ilChatMessageArea('addMessage', {
 					type: 'notice',
 					message: messageObject.type
 				});
-			}
-
-			//@todo was passiert hier?
-			if ((!messageObject.sub && subRoomId) || (subRoomId && subRoomId != messageObject.sub)) {
-				$('#chat_actions').addClass('chat_new_events');
-				const id = typeof messageObject == 'undefined' ? 0 : messageObject.sub,
-					data = $('#private_rooms').ilChatList('getDataById', id);
-
-				if (data) {
-					data.new_events = true;
-				}
 			}
 		}
 	}
@@ -2076,7 +1595,6 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 				$(".dropdown-menu.menu").hide();
 			});
 
-			currentRoom = 0;
 			_scope = scope;
 			room = scope;
 			initial = initialConfig;
@@ -2093,24 +1611,10 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 			$("#" + appDomElementId).chat(baseurl, instance);
 		},
 		leavePrivateRoom: function () {
-			iliasConnector.leavePrivateRoom(currentRoom);
-			currentRoom = 0;
+			iliasConnector.leavePrivateRoom();
 		},
 		getSmileys: function () {
 			return smileys;
-		},
-		setCurrentRoom: function(roomId) {
-			currentRoom = roomId;
-		},
-		getCurrentRoom: function() {
-			return currentRoom;
-		},
-
-		setSubRoomId: function(roomId) {
-			subRoomId = roomId;
-		},
-		getSubRoomId: function() {
-			return subRoomId;
 		},
 		getUserInfo: function() {
 			return personalUserInfo;

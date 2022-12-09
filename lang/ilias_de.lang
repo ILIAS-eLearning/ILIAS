@@ -1247,7 +1247,7 @@ assessment#:#test_next_question#:#Nächste Frage
 assessment#:#test_prev_question#:#Vorherige Frage
 assessment#:#test_question_set_type#:#Auswahl der Testfragen
 assessment#:#test_question_set_type_fixed#:#Fest definierte Fragenauswahl
-assessment#:#test_question_set_type_fixed_info#:#Allen Teilnehmenden werden die gleichen Fragen gestellt.<br>Sie können sowohl bereits vorhandene Fragen aus Fragenpools wiederverwenden als auch neue Fragen direkt im Test erstellen. Sie können auch neu erstellte Fragen zur Wiederverwendung in einem Fragenpool abspeichern.
+assessment#:#test_question_set_type_fixed_info#:#Allen Teilnehmenden werden die gleichen Fragen gestellt.<br>Sie können sowohl bereits vorhandene Fragen aus Fragenpools wiederverwenden, als auch neue Fragen direkt im Test erstellen. Sie können auch neu erstellte Fragen zur Wiederverwendung in einem Fragenpool abspeichern.
 assessment#:#test_question_set_type_random#:#Zufällige Fragenauswahl
 assessment#:#test_question_set_type_random_info#:#Jedem Teilnehmenden werden unterschiedliche Fragen gestellt. Die Auswahl der Fragen erfolgt zufällig aus einem oder mehreren Fragenpools.
 assessment#:#test_results#:#Bekanntgabe des Testergebnisses
@@ -2456,8 +2456,6 @@ book#:#book_back_to_list#:#Zurück zur Liste
 book#:#book_bobj#:#Buchungsobjekt
 book#:#book_book#:#Buchen
 book#:#book_book_available#:#Verfügbare Termine buchen
-book#:#book_book_available#:#Verfügbare Termine buchen
-book#:#book_book_recurrence#:#Wiederholungen buchen
 book#:#book_book_recurrence#:#Wiederholungen buchen
 book#:#book_booked_in#:#Gebucht in
 book#:#book_booking#:#Buchung
@@ -2466,10 +2464,7 @@ book#:#book_booking_objects#:#Buchungsobjekte
 book#:#book_booking_reminders#:#Anstehende Reservierungen
 book#:#book_bookings_per_user#:#Buchungen je Benutzer
 book#:#book_bulk_confirmation#:#Bitte überprüfen Sie die angegebenen Werte.
-book#:#book_bulk_confirmation#:#Bitte überprüfen Sie die angegebenen Werte.
 book#:#book_bulk_creation#:#Massenerstellung
-book#:#book_bulk_creation#:#Massenerstellung
-book#:#book_bulk_data#:#Objektdaten
 book#:#book_bulk_data#:#Objektdaten
 book#:#book_cal_entry#:#Buchung von:
 book#:#book_confirm_booking#:#Buchung vornehmen
@@ -2480,7 +2475,6 @@ book#:#book_confirm_cancel#:#Sind Sie sicher, dass Sie die folgende Reservierung
 book#:#book_confirm_cancel_aggregation#:#Anzahl Stornierungen
 book#:#book_confirm_delete#:#Wollen Sie wirklich die nachfolgende Objekte löschen?
 book#:#book_copy#:#Buchungspool kopieren
-book#:#book_create_objects#:#Objekte erstellen
 book#:#book_create_objects#:#Objekte erstellen
 book#:#book_deadline#:#Zeitspanne
 book#:#book_deadline_hours#:#Bis n Stunden vor Beginn des Zeitfensters
@@ -2499,22 +2493,18 @@ book#:#book_hours#:#Stunden
 book#:#book_is_used#:#In Benutzung
 book#:#book_limit_objects_available#:#Sie können nicht %s Teilnehmer zu "%s" hinzufügen, weil nur %s Einträge verfügbar sind.
 book#:#book_list#:#Liste
-book#:#book_list#:#Liste
 book#:#book_log#:#Reservierungen
 book#:#book_message#:#Mitteilung
 book#:#book_message_info#:#Sie können hier eine Mitteilung an den Organisator des Buchungspools eingeben.
 book#:#book_messages#:#Mitteilungen
 book#:#book_messages_info#:#Buchende können einer Reservierung eine Mitteilung mitgeben.
 book#:#book_missing_availability#:#Es können leider nicht alle Termine gebucht werden.
-book#:#book_missing_availability#:#Es können leider nicht alle Termine gebucht werden.
-book#:#book_missing_items#:#Es fehlen $1.
 book#:#book_missing_items#:#Es fehlen $1.
 book#:#book_new#:#Neuen Buchungspool anlegen
 book#:#book_no_bookings_for_you#:#Es wurden keine Reservierungen für Sie durchgeführt.
 book#:#book_no_objects#:#Keine Zuweisung
 book#:#book_no_of_objects#:#Anzahl Objekte
 book#:#book_no_preferences_for_you#:#Sie haben keine Präferenzen abgespeichert.
-book#:#book_no_recurrence#:#nur diesen Termin buchen
 book#:#book_no_recurrence#:#nur diesen Termin buchen
 book#:#book_not#:#Nicht
 book#:#book_not_enough_preferences#:#Sie haben nicht genügend Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
@@ -2524,10 +2514,8 @@ book#:#book_nr_of_preferences#:#Anzahl
 book#:#book_nr_of_preferences_info#:#Anzahl an Präferenzen, die jeder Teilnehmer abgeben darf.
 book#:#book_nr_preferences#:#Präferenzen
 book#:#book_obj_select#:#Auswählen
-book#:#book_obj_select#:#Auswählen
 book#:#book_object_added#:#Ein Buchungsobjekt wurde hinzugefügt.
 book#:#book_object_deleted#:#Das Buchungsobjekt wurde gelöscht.
-book#:#book_object_selection#:#Objektauswahl
 book#:#book_object_selection#:#Objektauswahl
 book#:#book_object_updated#:#Das Buchungsobjekt wurde geändert.
 book#:#book_objects_available#:#Verfügbare Objekte: %s
@@ -2554,8 +2542,6 @@ book#:#book_preferences_saved#:#Die Präferenzen wurden gespeichert.
 book#:#book_public_log#:#Benutzer sehen alle Reservierungen
 book#:#book_public_log_info#:#Benutzer mit Leserecht können im Reiter „Reservierungen“ auch Reservierungen anderer Benutzer einsehen.
 book#:#book_recurrence#:#Wiederholung
-book#:#book_recurrence#:#Wiederholung
-book#:#book_refresh#:#Aktualisieren
 book#:#book_refresh#:#Aktualisieren
 book#:#book_rem_intro#:#Dies ist eine Übersicht über anstehende Reservierungen.
 book#:#book_rem_reason#:#Sie erhalten diese Mail, da Sie die Benachrichtigung der entsprechenden Buchungsobjekte aktiviert haben.
@@ -2596,12 +2582,9 @@ book#:#book_set_cancel#:#Stornieren
 book#:#book_set_delete#:#Löschen
 book#:#book_show_message#:#Mitteilung anzeigen
 book#:#book_title_description_nr#:#Titel; Beschreibung; Anzahl
-book#:#book_title_description_nr#:#Titel; Beschreibung; Anzahl
-book#:#book_title_description_nr_info#:#Geben Sie bitte Titel, Beschreibung und Anzahl getrennt durch ein Semikolon oder TAB ein. Nutzen Sie einen Zeile
 book#:#book_title_description_nr_info#:#Geben Sie bitte Titel, Beschreibung und Anzahl getrennt durch ein Semikolon oder TAB ein. Nutzen Sie einen Zeile
 book#:#book_too_many_preferences#:#Sie haben zu viele Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
 book#:#book_type_warning#:#Es sind momentan keine Buchungsobjekte vorhanden. Um den Pool nutzen zu können, müssen zuerst Buchungsobjekte angelegt werden.
-book#:#book_week#:#Wochenansicht
 book#:#book_week#:#Wochenansicht
 book#:#book_your_bookings#:#Ihre Reservierungen
 book#:#book_your_preferences#:#Ihre Präferenzen
@@ -2829,7 +2812,6 @@ chatroom#:#chat_broadcast_typing_no#:#Anderen das Tippen von Nachrichten nicht a
 chatroom#:#chat_broadcast_typing_yes#:#Tippen von Nachrichten den Anwesenden anzeigen
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> hat den Chatraum verlassen ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> hat den Chatraum betreten +++
-chatroom#:#chat_create_private_room_button#:#Séparée anlegen
 chatroom#:#chat_deletion_disabled#:#Deaktiviert
 chatroom#:#chat_deletion_interval#:#Intervall
 chatroom#:#chat_deletion_interval_info#:#Falls gewählt, werden Nachrichten im Magazin-Chat und im On-Screen-Chat gelöscht, sofern sie älter als der hier definierte Schwellenwert sind.
@@ -2898,7 +2880,6 @@ chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Sind Sie sicher, dass Sie den Grupp
 chatroom#:#chat_osc_user#:#Benutzer
 chatroom#:#chat_osc_user_left_grp_conv#:#Der Benutzer '%s' hat den Gruppenchat verlassen.
 chatroom#:#chat_osc_write_a_msg#:#Eine Nachricht verfassen …
-chatroom#:#chat_select_room#:#Chatraum auswählen
 chatroom#:#chat_settings#:#Chat-Einstellungen
 chatroom#:#chat_settings_functions_header#:#Funktionen des Chats
 chatroom#:#chat_show_auto_messages#:#Automatische Meldungen anzeigen
@@ -2934,7 +2915,6 @@ chatroom#:#clear_room_history_question#:#Wollen Sie wirklich alle Nachrichten de
 chatroom#:#client_chatserver_connection#:#Verbindung Client zum Server
 chatroom#:#client_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, einen alternative URL für die Verbindung zwischen Client und Server zu definieren.
 chatroom#:#connection_url_info#:#Tragen Sie hier einen URL ein, über welchen der Server zu erreichen ist.
-chatroom#:#create_private_room_text#:#Name des Séparées
 chatroom#:#custom_username#:#Eigener Chat-Name
 chatroom#:#delete_private_room#:#Séparée löschen
 chatroom#:#delete_private_room_question#:#Separée wirklich löschen?
@@ -2955,10 +2935,9 @@ chatroom#:#history_byday_title#:#Zeitraum auswählen
 chatroom#:#history_bysession_title#:#Sitzung auswählen
 chatroom#:#history_cleared#:#Der Nachrichtenverlauf wurde durch die Moderation gelöscht.###Modified as part of gender mainstreaming activities for ILIAS 8
 chatroom#:#history_title_general#:#Unterhaltungen im Chatraum "%s"
-chatroom#:#history_title_private_room#:#Unterhaltungen im Séparée "%s"
 chatroom#:#ilias_chatserver_connection#:#Verbindung ILIAS zum Server
 chatroom#:#ilias_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, einen alternative URL für die Verbindung zwischen ILIAS und Server zu definieren.
-chatroom#:#invite_to_private_room#:#In aktuellen Raum einladen
+chatroom#:#invite_to_private_room#:#In Chatraum einladen
 chatroom#:#invite_username#:#Anmeldename
 chatroom#:#key#:#Schlüssel
 chatroom#:#kick_question#:#Wollen Sie den Benutzer wirklich aus dem aktuellen Chatraum rauswerfen?
@@ -2985,8 +2964,6 @@ chatroom#:#private_room_closed#:#Der Raum <b>#title#</b> wurde geschlossen.
 chatroom#:#private_room_entered#:#Willkommen im Séparée <b>#title#</b>.
 chatroom#:#private_room_entered_user#:#Der Benutzer <b>#username#</b> hat das Separée <b>#title#</b> betreten.
 chatroom#:#private_room_left#:#Der Benutzer <b>#user#</b> hat das Separée <b>#title#</b> verlassen.
-chatroom#:#private_rooms_enabled#:#Séparées aktivieren
-chatroom#:#private_rooms_enabled_info#:#Wenn aktiviert, können Benutzer Séparées anlegen, zu denen nur eingeladene Benutzer zutritt haben.
 chatroom#:#public_chat_created#:#Es wurde ein neuer öffentlicher Chatraum im Magazin angelegt.
 chatroom#:#scope#:#Raum/Séparée
 chatroom#:#select_custom_username#:#Angezeigter Name im Chat
@@ -3673,8 +3650,6 @@ common#:#chapter#:#Kapitel
 common#:#characters#:#Zeichen
 common#:#chat_enter_public_room#:#Öffentl. Chat
 common#:#chat_enter_public_room_tooltip#:#In den öffentlichen Chatraum eintreten.
-common#:#chat_invite_public_room#:#Öffentlicher Chatraum
-common#:#chat_invite_public_room_tooltip#:#In den öffentlichen Chatraum einladen.
 common#:#chat_users_active#:#Aktive Benutzer
 common#:#check#:#Prüfen
 common#:#check_all#:#Alle auswählen
@@ -5739,6 +5714,7 @@ common#:#udf_delete_sure#:#Sind Sie sicher, dass Sie diese Feld und alle zugehö
 common#:#udf_duplicate_entries#:#Die Werte müssen eindeutig sein.
 common#:#udf_field_deleted#:#Das Feld wurde gelöscht.
 common#:#udf_name_already_exists#:#Ein Feld mit diesem Namen existiert bereits. Bitte wählen Sie einen anderen Feldnamen.
+common#:#udf_required_and_visible_requires_changeable#:#Wenn die Einstellungen "Erforderliche Angabe" und "Sichtbar in den persönlichen Daten" aktiviert sind, muss auch "Kann durch Benutzer selbst im Profil geändert werden" aktiviert sein
 common#:#udf_required_requires_visib_reg#:#Die Einstellung "Erforderliche Angabe" erfordert die Einstellung "Sichtbar im Registrierungsformular"
 common#:#udf_type_date#:#Datum
 common#:#udf_type_datetime#:#Datum und Uhrzeit
@@ -10743,14 +10719,10 @@ ltiv#:#ltiv_create#:#Zertifikat für LTI-Konsument-Objekt erstellen
 ltiv#:#ltiv_create_info#:#Wählen Sie ein abgeschlossenes LTI-Konsument-Objekt aus, um ein Zertifikat dafür zu generieren.
 mail#:#back_to_folder#:#Zurück zum Ordner
 mail#:#bc#:#BCC
-mail#:#chat_users_have_been_invited#:#Die Benutzer wurden eingeladen:
-mail#:#chat_users_without_login#:#Die folgenden Benutzer haben kein ILIAS-Konto und können nicht eingeladen werden:
-mail#:#chat_users_without_permission#:#Die folgenden Benutzer haben keinen Zugriff zum ausgewählten Raum:
 mail#:#current_folder#:#Aktueller Ordner: %s
 mail#:#deleteTemplate#:#Löschen
 mail#:#first_email_missing_info#:#Auswahl nicht möglich, da keine E-Mail-Adresse eingetragen wurde
 mail#:#forward#:#Weiterleiten
-mail#:#goto_invitation_chat#:#Chatraum öffnen
 mail#:#invite_to_chat#:#in Chat einladen
 mail#:#link_check_affected_links#:#Betroffene Links
 mail#:#link_check_introduction#:#die folgenden Externen Links sind ungültig:
@@ -10839,7 +10811,6 @@ mail#:#mail_incoming_mail#:#Maileingang
 mail#:#mail_incoming_smtp#:#An eingetragene E-Mail-Adresse weiterleiten
 mail#:#mail_insert_folder_name#:#Bitte geben Sie einen Ordnernamen ein
 mail#:#mail_insert_query#:#Bitte geben Sie einen Suchbegriff ein
-mail#:#mail_invite_users_to_chat#:#Benutzer in Chat einladen
 mail#:#mail_is_read#:#gelesen
 mail#:#mail_is_unread#:#ungelesen
 mail#:#mail_list_members#:#Mitglieder auflisten

@@ -30,7 +30,6 @@ class ilChatroomXMLParser extends ilSaxParser
     protected bool $in_messages = false;
     protected ?string $import_install_id = null;
     protected ?int $exportRoomId = 0;
-    protected ?int $exportSubRoomId = 0;
     protected ?int $owner = 0;
     protected ?int $closed = 0;
     protected ?int $public = 0;
@@ -40,7 +39,6 @@ class ilChatroomXMLParser extends ilSaxParser
     /** @var int[]  */
     protected array $userIds = [];
     /** @var array<int, int>  */
-    protected array $subRoomIdMapping = [];
 
     public function __construct(ilObjChatroom $chat, string $a_xml_data)
     {
@@ -85,10 +83,6 @@ class ilChatroomXMLParser extends ilSaxParser
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         switch ($a_name) {
-            case 'SubRooms':
-                $this->in_sub_rooms = true;
-                break;
-
             case 'Messages':
                 $this->in_messages = true;
                 break;
@@ -132,10 +126,6 @@ class ilChatroomXMLParser extends ilSaxParser
                 $this->room->setSetting('restrict_history', (int) $this->cdata);
                 break;
 
-            case 'PrivateRoomsEnabled':
-                $this->room->setSetting('private_rooms_enabled', (int) $this->cdata);
-                break;
-
             case 'DisplayPastMessages':
                 $this->room->setSetting('display_past_msgs', (int) $this->cdata);
                 break;
@@ -146,10 +136,6 @@ class ilChatroomXMLParser extends ilSaxParser
 
             case 'RoomId':
                 $this->exportRoomId = (int) $this->cdata;
-                break;
-
-            case 'SubRoomId':
-                $this->exportSubRoomId = (int) $this->cdata;
                 break;
 
             case 'Owner':
@@ -171,39 +157,6 @@ class ilChatroomXMLParser extends ilSaxParser
             case 'PrivilegedUserId':
                 $this->userIds[] = (int) $this->cdata;
                 break;
-
-            case 'SubRoom':
-                if ($this->exportRoomId > 0 && $this->isSameInstallation()) {
-                    $user = new ilObjUser();
-                    $user->setId((int) $this->owner);
-
-                    $chat_user = new ilChatroomUser($user, $this->room);
-                    $subRoomId = $this->room->addPrivateRoom(
-                        $this->title,
-                        $chat_user,
-                        [
-                            'public' => (bool) $this->public,
-                            'created' => (int) $this->timestamp,
-                            'closed' => (bool) $this->closed
-                        ]
-                    );
-
-                    foreach ($this->userIds as $userId) {
-                        $this->room->inviteUserToPrivateRoom($userId, $subRoomId);
-                    }
-
-                    $this->subRoomIdMapping[$this->exportSubRoomId] = $subRoomId;
-                }
-
-                $this->exportSubRoomId = 0;
-                $this->title = '';
-                $this->owner = 0;
-                $this->closed = 0;
-                $this->public = 0;
-                $this->timestamp = 0;
-                $this->userIds = [];
-                break;
-
             case 'SubRooms':
                 $this->in_sub_rooms = false;
                 break;
@@ -213,23 +166,6 @@ class ilChatroomXMLParser extends ilSaxParser
                 break;
 
             case 'Message':
-                if ($this->isSameInstallation()) {
-                    $message = json_decode($this->message, true, 512, JSON_THROW_ON_ERROR);
-                    if (
-                        is_array($message) &&
-                        (0 === $this->exportSubRoomId || array_key_exists($this->exportSubRoomId, $this->subRoomIdMapping))
-                    ) {
-                        $message['roomId'] = $this->room->getRoomId();
-                        $message['subRoomId'] = $this->exportSubRoomId ? $this->subRoomIdMapping[$this->exportSubRoomId] : 0;
-                        $message['sub'] = $message['subRoomId'];
-                        $message['timestamp'] = $this->timestamp;
-
-                        $this->room->addHistoryEntry($message);
-                    }
-                }
-
-                $this->timestamp = 0;
-                $this->exportSubRoomId = 0;
                 break;
 
             case 'Messages':

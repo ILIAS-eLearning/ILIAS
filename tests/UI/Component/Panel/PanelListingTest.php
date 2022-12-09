@@ -109,24 +109,36 @@ class PanelListingTest extends ILIAS_UI_TestBase
 
         $expected = <<<EOT
 <div class="panel il-panel-listing-std-container clearfix">
-	<h2>title</h2>
-	<div class="il-item-group">
-		<h3>Subtitle 1</h3>
-		<div class="il-item-group-items">
-			<div class="il-std-item-container"><div class="il-item il-std-item ">	
-                <div class="il-item-title">title1</div>
-			</div></div><div class="il-std-item-container"><div class="il-item il-std-item ">
-                <div class="il-item-title">title2</div>
-			</div></div>
-		</div>
-	</div><div class="il-item-group">
-		<h3>Subtitle 2</h3>
-	<div class="il-item-group-items">
-	<div class="il-std-item-container"><div class="il-item il-std-item ">
-            <div class="il-item-title">title3</div>
-		</div></div>
-	</div>
-</div>
+  <h2>title</h2>
+  <div class="il-item-group">
+    <h3>Subtitle 1</h3>
+    <div class="il-item-group-items">
+        <ul>
+              <li class="il-std-item-container">
+                <div class="il-item il-std-item ">
+                  <div class="il-item-title">title1</div>
+                </div>
+              </li>
+              <li class="il-std-item-container">
+                <div class="il-item il-std-item ">
+                  <div class="il-item-title">title2</div>
+                </div>
+              </li>
+      </ul>
+    </div>
+  </div>
+  <div class="il-item-group">
+    <h3>Subtitle 2</h3>
+    <div class="il-item-group-items">
+      <ul>
+            <li class="il-std-item-container">
+                <div class="il-item il-std-item ">
+                  <div class="il-item-title">title3</div>
+                </div>
+            </li>
+      </ul>
+    </div>
+  </div>
 </div>
 EOT;
         $this->assertHTMLEquals(

@@ -128,130 +128,108 @@ class ilChatroomServerConnector
 
     /**
      * @param int $scope
-     * @param int $subScope
      * @param int $user
      * @param string $title
      * @return string|false
      */
-    public function sendCreatePrivateRoom(int $scope, int $subScope, int $user, string $title)
+    public function sendCreatePrivateRoom(int $scope, int $user, string $title)
     {
         return $this->file_get_contents(
             $this->settings->getURL('CreatePrivateRoom', (string) $scope) .
-            '/' . $subScope . '/' . $user . '/' . rawurlencode($title)
+            '/' . $user . '/' . rawurlencode($title)
         );
     }
 
     /**
      * @param int $scope
-     * @param int $subScope
-     * @param int $user
-     * @return string|false
-     */
-    public function sendDeletePrivateRoom(int $scope, int $subScope, int $user)
-    {
-        return $this->file_get_contents(
-            $this->settings->getURL('DeletePrivateRoom', (string) $scope) . '/' . $subScope . '/' . $user
-        );
-    }
-
-    /**
-     * @param int $scope
-     * @param int $subScope
      * @param int $user
      * @return string|false
      * @deprecated Please use sendEnterPrivateRoom instead
      */
-    public function enterPrivateRoom(int $scope, int $subScope, int $user)
+    public function enterPrivateRoom(int $scope, int $user)
     {
-        return $this->sendEnterPrivateRoom($scope, $subScope, $user);
+        return $this->sendEnterPrivateRoom($scope, $user);
     }
 
     /**
      * @param int $scope
-     * @param int $subScope
      * @param int $user
      * @return string|false
      */
-    public function sendEnterPrivateRoom(int $scope, int $subScope, int $user)
+    public function sendEnterPrivateRoom(int $scope, int $user)
     {
         return $this->file_get_contents(
-            $this->settings->getURL('EnterPrivateRoom', (string) $scope) . '/' . $subScope . '/' . $user
+            $this->settings->getURL('EnterPrivateRoom', (string) $scope) . '/' . $user
         );
     }
 
     /**
      * @param int $scope
-     * @param int $subScope
      * @param int $user
      * @return string|false
      */
-    public function sendClearMessages(int $scope, int $subScope, int $user)
+    public function sendClearMessages(int $scope, int $user)
     {
         return $this->file_get_contents(
-            $this->settings->getURL('ClearMessages', (string) $scope) . '/' . $subScope . '/' . $user
+            $this->settings->getURL('ClearMessages', (string) $scope) . '/' . $user
         );
     }
 
     /**
      * @param int $scope
-     * @param int $subScope
      * @param int $user
      * @return string|false
      */
-    public function leavePrivateRoom(int $scope, int $subScope, int $user)
+    public function leavePrivateRoom(int $scope, int $user)
     {
-        return $this->sendLeavePrivateRoom($scope, $subScope, $user);
+        return $this->sendLeavePrivateRoom($scope, $user);
     }
 
     /**
      * @param int $scope
-     * @param int $subScope
      * @param int $user
      * @return string|false
      */
-    public function sendLeavePrivateRoom(int $scope, int $subScope, int $user)
+    public function sendLeavePrivateRoom(int $scope, int $user)
     {
         return $this->file_get_contents(
-            $this->settings->getURL('LeavePrivateRoom', (string) $scope) . '/' . $subScope . '/' . $user
+            $this->settings->getURL('LeavePrivateRoom', (string) $scope) . '/' . $user
         );
     }
 
     /**
      * @param int $scope
-     * @param int $subScope
      * @param int $user
      * @return string|false
      */
-    public function sendKick(int $scope, int $subScope, int $user)
+    public function sendKick(int $scope, int $user)
     {
-        return $this->kick($scope, $subScope, $user);
+        return $this->kick($scope, $user);
     }
 
     /**
      * Returns kick URL
      * Creates kick URL using given $scope and $query and returns it.
      * @param int $scope
-     * @param int $subScope
      * @param int $user
      * @return string|false
      */
-    public function kick(int $scope, int $subScope, int $user)
+    public function kick(int $scope, int $user)
     {
         return $this->file_get_contents(
-            $this->settings->getURL('Kick', (string) $scope) . '/' . $subScope . '/' . $user
+            $this->settings->getURL('Kick', (string) $scope) . '/' . $user
         );
     }
 
     /**
      * @param int $scope
-     * @param int $subScope
      * @param int $user
      * @return string|false
      */
-    public function sendBan(int $scope, int $subScope, int $user)
+    public function sendBan(int $scope, int $user)
     {
         return $this->file_get_contents(
-            $this->settings->getURL('Ban', (string) $scope) . '/' . $subScope . '/' . $user
+            $this->settings->getURL('Ban', (string) $scope) . '/' . $user
         );
     }
 
@@ -262,16 +240,15 @@ class ilChatroomServerConnector
 
     /**
      * @param int $scope
-     * @param int $subScope
      * @param int $user
      * @param int $invited_id
      * @return string|false
      */
-    public function sendInviteToPrivateRoom(int $scope, int $subScope, int $user, int $invited_id)
+    public function sendInviteToPrivateRoom(int $scope, int $user, int $invited_id)
     {
         return $this->file_get_contents(
             $this->settings->getURL('InvitePrivateRoom', (string) $scope) .
-            '/' . $subScope . '/' . $user . '/' . $invited_id
+            '/' . $user . '/' . $invited_id
         );
     }
 

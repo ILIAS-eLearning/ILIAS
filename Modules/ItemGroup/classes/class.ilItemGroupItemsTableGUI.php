@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\ItemGroup\InternalGUIService;
+
 /**
  * Item group items table
  *
@@ -23,17 +25,20 @@
  */
 class ilItemGroupItemsTableGUI extends ilTable2GUI
 {
+    protected InternalGUIService $gui;
     protected array $items;
     protected ilItemGroupItems $item_group_items;
     protected ilTree $tree;
     protected ilObjectDefinition $obj_def;
 
     public function __construct(
+        InternalGUIService $gui,
         ilObjItemGroupGUI $a_parent_obj,
         string $a_parent_cmd
     ) {
         global $DIC;
 
+        $this->gui = $gui;
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $tree = $DIC->repositoryTree();
@@ -81,6 +86,8 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
+        $f = $this->gui->ui()->factory();
+        $r = $this->gui->ui()->renderer();
 
         $this->tpl->setVariable("ITEM_REF_ID", $a_set["child"]);
         $this->tpl->setVariable("TITLE", $a_set["title"]);
@@ -95,14 +102,18 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
         ));
 
         if (in_array($a_set["child"], $this->items)) {
-            $this->tpl->setVariable("IMG_ASSIGNED", ilUtil::img(
-                ilUtil::getImagePath("icon_ok.svg")
-            ));
+            $i = $f->symbol()->icon()->custom(
+                ilUtil::getImagePath("icon_ok.svg"),
+                $this->lng->txt("yes")
+            );
+            $this->tpl->setVariable("IMG_ASSIGNED", $r->render($i));
             $this->tpl->setVariable("CHECKED", "checked='checked'");
         } else {
-            $this->tpl->setVariable("IMG_ASSIGNED", ilUtil::img(
-                ilUtil::getImagePath("icon_not_ok.svg")
-            ));
+            $i = $f->symbol()->icon()->custom(
+                ilUtil::getImagePath("icon_not_ok.svg"),
+                $this->lng->txt("no")
+            );
+            $this->tpl->setVariable("IMG_ASSIGNED", $r->render($i));
         }
     }
 }

@@ -35,6 +35,8 @@ $il-text-color: #161616 !default;
 $il-text-hover-color: darken($il-text-color, 10%) !default;
 //** Used e.g. for Bylines in Forms. Used to be $il-light-text-color. For accessibility reasons, the $il-text-color should only be used on the $il-main-bg.
 $il-text-light-color: lighten($il-text-color, 35%) !default;
+//** Text color in inverted designs
+$il-text-color-invert: $il-main-bg !default;
 
 //** Used to be $link-color
 $il-link-color: $il-main-color !default;

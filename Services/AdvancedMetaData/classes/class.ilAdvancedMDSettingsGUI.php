@@ -577,8 +577,6 @@ class ilAdvancedMDSettingsGUI
         }
 
         $c_gui = new ilConfirmationGUI();
-
-        // set confirm/cancel commands
         $c_gui->setFormAction($this->ctrl->getFormAction($this, "deleteFiles"));
         $c_gui->setHeaderText($this->lng->txt("md_adv_delete_files_sure"));
         $c_gui->setCancel($this->lng->txt("cancel"), "showFiles");
@@ -594,8 +592,8 @@ class ilAdvancedMDSettingsGUI
             $info = $file_data[$file_id];
             $c_gui->addItem(
                 "file_id[]",
-                $file_id,
-                is_array($info['name']) ? implode(',', $info['name']) : 'No Records'
+                (string) $file_id,
+                is_array($info['name'] ?? false) ? implode(',', $info['name']) : 'No Records'
             );
         }
         $this->tpl->setContent($c_gui->getHTML());
@@ -1965,16 +1963,17 @@ class ilAdvancedMDSettingsGUI
         }
 
         $scopes = $form->getInput('scope');
-        if (is_array($scopes)) {
+        $scopes_selection = $form->getInput('scope_containers_sel');
+        if ($scopes && is_array($scopes_selection)) {
             $this->record->enableScope(true);
             $this->record->setScopes(
                 array_map(
-                    function ($scope_ref_id) {
+                    function (string $scope_ref_id) {
                         $scope = new ilAdvancedMDRecordScope();
-                        $scope->setRefId($scope_ref_id);
+                        $scope->setRefId((int) $scope_ref_id);
                         return $scope;
                     },
-                    $scopes
+                    $scopes_selection
                 )
             );
         } else {
@@ -2149,7 +2148,9 @@ class ilAdvancedMDSettingsGUI
                 }
             }
 
-            $res[] = $tmp_arr;
+            if ($assigned ?? true) {
+                $res[] = $tmp_arr;
+            }
         }
         return $res;
     }
