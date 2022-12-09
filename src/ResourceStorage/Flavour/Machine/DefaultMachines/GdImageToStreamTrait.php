@@ -45,6 +45,14 @@ trait GdImageToStreamTrait
 
     protected function from(FileStream $stream): ?\GdImage
     {
-        return imagecreatefromstring($stream->getContents()) ?: null;
+        if ($stream->getSize() > ini_get('memory_limit')) {
+            // return null; // we could stop here if the memorsy-limit is reached, but we must convert things like 1000M to bytes then
+        }
+
+        try {
+            return imagecreatefromstring((string)$stream);
+        } catch (\Throwable $t) {
+            return null;
+        }
     }
 }

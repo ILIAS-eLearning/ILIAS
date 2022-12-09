@@ -29,6 +29,12 @@ class ToGreyScale implements \ILIAS\ResourceStorage\Flavour\Definition\FlavourDe
 {
     public const FOREVER_ID = '0afbf77b53955882c43b6673251261583f3d52ed5e980b6ea6c869c065991406';
 
+    public function __construct(
+        protected bool $persist = false,
+        protected int $quality = 75
+    ) {
+    }
+
     public function getFlavourMachineId(): string
     {
         return GreyScaleMachine::ID;
@@ -50,9 +56,13 @@ class ToGreyScale implements \ILIAS\ResourceStorage\Flavour\Definition\FlavourDe
         return null;
     }
 
+    public function getQuality(): int
+    {
+        return $this->quality;
+    }
 
     public function persist(): bool
     {
-        return false;
+        return $this->persist;
     }
 }

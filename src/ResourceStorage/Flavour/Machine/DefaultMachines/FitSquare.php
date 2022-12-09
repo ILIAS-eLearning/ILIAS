@@ -82,15 +82,24 @@ class FitSquare extends AbstractMachine implements FlavourMachine
 
         $new_height = (int)floor($cur_height * $ratio);
         $new_width = (int)floor($cur_width * $ratio);
-        $resized = imagescale($image, $new_width, $new_height);
+        $resized = imagescale(
+            $image,
+            $new_width,
+            $new_height,
+            IMG_BICUBIC
+        );
         imagedestroy($image);
-        // TODO REMOVE Filters
-        imagefilter($resized, IMG_FILTER_EDGEDETECT, 50, true);
-        imagefilter($resized, IMG_FILTER_NEGATE, 50, true);
-        imagefilter($resized, IMG_FILTER_CONTRAST, -100);
 
-        $stream = $this->to($resized);
+        $stream = $this->to(
+            $resized,
+            $for_definition->getQuality(),
+        );
 
-        yield new Result($for_definition, $stream, 0, true);
+        yield new Result(
+            $for_definition,
+            $stream,
+            0,
+            $for_definition->persist()
+        );
     }
 }

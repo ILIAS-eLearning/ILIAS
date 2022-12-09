@@ -28,12 +28,12 @@ use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\FitSquare;
 class FitToSquare implements FlavourDefinition
 {
     public const FOREVER_ID = '5cd8cb02a6382208da39cc142cbf993f42995452bb6c8d9897a2e227fb238c62';
-    protected int $max_size = 500;
-    protected int $quality = 50;
 
-    public function __construct(int $max_size = null)
-    {
-        $this->max_size = $max_size ?? $this->max_size;
+    public function __construct(
+        protected bool $persist = false,
+        protected int $max_size = 512,
+        protected int $quality = 75
+    ) {
     }
 
     public function getId(): string
@@ -64,12 +64,12 @@ class FitToSquare implements FlavourDefinition
 
     public function getVariantName(): ?string
     {
-        return $this->max_size . 'x' . $this->max_size;
+        return $this->max_size . '_' . $this->quality;
     }
 
 
     public function persist(): bool
     {
-        return false;
+        return $this->persist;
     }
 }
