@@ -731,18 +731,25 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         switch ($this->testrequest->raw("export_type")) {
             case "excel_scored_test_run":
-                $exporter = new ilExcelTestExport($this->object, $filterby, $filtertext, true, $passedonly, $deliver = true);
-                $exporter->export();
+                (new ilExcelTestExport($this->object, $filterby, $filtertext, $passedonly, true))
+                    ->withResultsPage()
+                    ->withAllUsersPage()
+                    ->withUserPages()
+                    ->deliver($this->object->getTitle() . '_results');
                 break;
 
             case "csv":
-                $exporter = new ilCSVTestExport($this->object, $filterby, $filtertext, true, $passedonly, $deliver = true);
-                $exporter->export();
+                (new ilCSVTestExport($this->object, $filterby, $filtertext, $passedonly))
+                    ->withAllResults()
+                    ->deliver($this->object->getTitle() . '_results');
                 break;
 
             case "excel_all_test_runs":
-                $exporter = new ilCSVTestExport($this->object, $filterby, $filtertext, false, $passedonly, $deliver = true);
-                $exporter->export();
+                (new ilExcelTestExport($this->object, $filterby, $filtertext, $passedonly, false))
+                ->withResultsPage()
+                ->withAllUsersPage()
+                ->withUserPages()
+                ->deliver($this->object->getTitle() . '_results');
                 break;
             case "certificate":
                 if ($passedonly) {
@@ -763,12 +770,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         switch ($_POST["export_type"]) {
             case "excel":
-                $exporter = new ilExcelTestExport($this->object, '', '', true, false, $deliver = true);
-                $exporter->export();
+                (new ilExcelTestExport($this->object, '', '', false, true))
+                    ->withAggregatedResultsPage()
+                    ->deliver($this->object->getTitle() . '_aggregated');
                 break;
             case "csv":
-                $exporter = new ilCSVTestExport($this->object, '', '', true, false, $deliver = true);
-                $exporter->export();
+                (new ilCSVTestExport($this->object, '', '', false))
+                    ->withAggregatedResults()
+                    ->deliver($this->object->getTitle() . '_aggregated');
                 break;
         }
     }

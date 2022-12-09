@@ -18,12 +18,16 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use JetBrains\PhpStorm\NoReturn;
+
 /**
  * @author Fabian Helfer <fhelfer@databay.de>
  */
 class ilCSVTestExport extends ilTestExportAbstract
 {
-    public function export(): string
+    protected string $content;
+
+    public function withAllResults(): self
     {
         $rows = $this->getDatarows($this->test_obj);
         $separator = ";";
@@ -32,12 +36,61 @@ class ilCSVTestExport extends ilTestExportAbstract
             $csvrow = $this->test_obj->processCSVRow($evalrow, true, $separator);
             $csv .= implode($separator, $csvrow) . "\n";
         }
+        $this->content = $csv;
+        return $this;
+    }
 
-        if ($this->deliver) {
-            ilUtil::deliverData($csv, ilFileUtils::getASCIIFilename($this->test_obj->getTitle() . "_results.csv"));
-            exit;
+    public function withAggregatedResults(): self
+    {
+        $data = $this->test_obj->getAggregatedResultsData();
+        $rows = [];
+        $rows[] = [
+            $this->lng->txt("result"),
+            $this->lng->txt("value")
+        ];
+        foreach ($data["overview"] as $key => $value) {
+            $rows[] = [
+                $key,
+                $value
+            ];
         }
+        $rows[] = [
+            $this->lng->txt("question_id"),
+            $this->lng->txt("question_title"),
+            $this->lng->txt("average_reached_points"),
+            $this->lng->txt("points"),
+            $this->lng->txt("percentage"),
+            $this->lng->txt("number_of_answers")
+        ];
+        foreach ($data["questions"] as $key => $value) {
+            $rows[] = [
+                $key,
+                $value[0],
+                $value[4],
+                $value[5],
+                $value[6],
+                $value[3]
+            ];
+        }
+        $csv = "";
+        $separator = ";";
+        foreach ($rows as $evalrow) {
+            $csvrow = &$this->test_obj->processCSVRow($evalrow, true, $separator);
+            $csv .= implode($separator, $csvrow) . "\n";
+        }
+        $this->content = $csv;
+        return $this;
+    }
 
-        return $csv;
+    #[NoReturn]
+    public function deliver(string $title): void
+    {
+        ilUtil::deliverData($this->content, ilFileUtils::getASCIIFilename($title . ".csv"));
+        exit;
+    }
+
+    public function getContent(): string
+    {
+        return $this->content;
     }
 }

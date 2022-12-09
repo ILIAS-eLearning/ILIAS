@@ -209,132 +209,21 @@ abstract class ilTestExport
         $expLog->setLogFormat("");
         $expLog->write(date("[y-m-d H:i:s] ") . "Start Export Of Results");
 
-        $exporter = new ilCSVTestExport($this->test_obj, '', '', true, false, $deliver = false);
-        $data = $exporter->export();
-        $file = fopen($this->export_dir . "/" . $this->filename, "w");
+        $data = (new ilCSVTestExport($this->test_obj, '', '', false))->withAllResults()->getContent();
+        $file = fopen($this->export_dir . "/" . $this->filename, "wb");
         fwrite($file, $data);
         fclose($file);
 
-        $exporter = new ilExcelTestExport($this->test_obj, '', '', true, false, $deliver = false);
-        $excelfile = $exporter->export();
-        @copy($excelfile, $this->export_dir . "/" . str_replace($this->getExtension(), "xlsx", $this->filename));
-        @unlink($excelfile);
+        $worksheet = (new ilExcelTestExport($this->test_obj, '', '', true, false))
+            ->withResultsPage()
+            ->withAllUsersPage()
+            ->withUserPages()
+            ->getContent();
+        $worksheet->writeToFile($this->export_dir . "/" . str_replace($this->getExtension(), "xlsx", $this->filename));
         // end
         $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export of Results");
 
         return $this->export_dir . "/" . $this->filename;
-    }
-
-    /**
-     * Exports the aggregated results to the Microsoft Excel file format
-     * @param boolean $deliver TRUE to directly deliver the file, FALSE to return the binary data
-     */
-    protected function aggregatedResultsToExcel($deliver = true): string
-    {
-        $data = $this->test_obj->getAggregatedResultsData();
-
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssExcelFormatHelper.php';
-        $worksheet = new ilAssExcelFormatHelper();
-        $worksheet->addSheet($this->lng->txt('tst_results_aggregated'));
-
-        $row = 1;
-        $col = 0;
-        $worksheet->setCell($row, $col++, $this->lng->txt('result'));
-        $worksheet->setCell($row, $col++, $this->lng->txt('value'));
-
-        $worksheet->setBold('A' . $row . ':' . $worksheet->getColumnCoord($col - 1) . $row);
-
-        $row++;
-        foreach ($data['overview'] as $key => $value) {
-            $col = 0;
-            $worksheet->setCell($row, $col++, $key);
-            $worksheet->setCell($row, $col++, $value);
-            $row++;
-        }
-
-        $row++;
-        $col = 0;
-
-        $worksheet->setCell($row, $col++, $this->lng->txt('question_id'));
-        $worksheet->setCell($row, $col++, $this->lng->txt('question_title'));
-        $worksheet->setCell($row, $col++, $this->lng->txt('average_reached_points'));
-        $worksheet->setCell($row, $col++, $this->lng->txt('points'));
-        $worksheet->setCell($row, $col++, $this->lng->txt('percentage'));
-        $worksheet->setCell($row, $col++, $this->lng->txt('number_of_answers'));
-
-        $worksheet->setBold('A' . $row . ':' . $worksheet->getColumnCoord($col - 1) . $row);
-
-        $row++;
-        foreach ($data['questions'] as $key => $value) {
-            $col = 0;
-            $worksheet->setCell($row, $col++, $key);
-            $worksheet->setCell($row, $col++, $value[0]);
-            $worksheet->setCell($row, $col++, $value[4]);
-            $worksheet->setCell($row, $col++, $value[5]);
-            $worksheet->setCell($row, $col++, $value[6]);
-            $worksheet->setCell($row, $col++, $value[3]);
-            $row++;
-        }
-
-        if ($deliver) {
-            $worksheet->sendToClient(
-                ilFileUtils::getASCIIFilename(preg_replace("/\s/", '_', $this->test_obj->getTitle() . '_aggregated')) . '.xlsx'
-            );
-        }
-        $excelfile = ilFileUtils::ilTempnam();
-        $worksheet->writeToFile($excelfile);
-        return $excelfile . '.xlsx';
-    }
-
-    /**
-    * Exports the aggregated results to CSV
-    *
-    * @param boolean $deliver TRUE to directly deliver the file, FALSE to return the data
-    */
-    protected function aggregatedResultsToCSV($deliver = true)
-    {
-        $data = $this->test_obj->getAggregatedResultsData();
-        $rows = array();
-        array_push($rows, array(
-            $this->lng->txt("result"),
-            $this->lng->txt("value")
-        ));
-        foreach ($data["overview"] as $key => $value) {
-            array_push($rows, array(
-                $key,
-                $value
-            ));
-        }
-        array_push($rows, array(
-            $this->lng->txt("question_id"),
-            $this->lng->txt("question_title"),
-            $this->lng->txt("average_reached_points"),
-            $this->lng->txt("points"),
-            $this->lng->txt("percentage"),
-            $this->lng->txt("number_of_answers")
-        ));
-        foreach ($data["questions"] as $key => $value) {
-            array_push($rows, array(
-                $key,
-                $value[0],
-                $value[4],
-                $value[5],
-                $value[6],
-                $value[3]
-            ));
-        }
-        $csv = "";
-        $separator = ";";
-        foreach ($rows as $evalrow) {
-            $csvrow = &$this->test_obj->processCSVRow($evalrow, true, $separator);
-            $csv .= join($separator, $csvrow) . "\n";
-        }
-        if ($deliver) {
-            ilUtil::deliverData($csv, ilFileUtils::getASCIIFilename($this->test_obj->getTitle() . "_aggregated.csv"));
-            exit;
-        } else {
-            return $csv;
-        }
     }
 
     abstract protected function initXmlExport();
@@ -383,7 +272,7 @@ abstract class ilTestExport
         $expLog->write(date("[y-m-d H:i:s] ") . "Start Export");
 
         // write qti file
-        $qti_file = fopen($this->export_dir . "/" . $this->subdir . "/" . $this->qti_filename, "w");
+        $qti_file = fopen($this->export_dir . "/" . $this->subdir . "/" . $this->qti_filename, "wb");
         fwrite($qti_file, $this->getQtiXml());
         fclose($qti_file);
 

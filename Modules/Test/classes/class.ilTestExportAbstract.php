@@ -17,35 +17,34 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+/**
+ * @author Fabian Helfer <fhelfer@databay.de>
+ */
 abstract class ilTestExportAbstract
 {
     protected ilObjTest $test_obj;
     protected ilLanguage $lng;
     protected string $filterby;
     protected string $filtertext;
-    protected bool $bestonly;
     protected bool $passedonly;
-    protected bool $deliver;
 
     public function __construct(
         ilObjTest $test_obj,
         string $filterby = '',
         string $filtertext = '',
-        bool $bestonly = false,
-        bool $passedonly = false,
-        bool $deliver = false
+        bool $passedonly = false
     ) {
         global $DIC;
         $this->lng = $DIC->language();
         $this->test_obj = $test_obj;
         $this->filterby = $filterby;
         $this->filtertext = $filtertext;
-        $this->bestonly = $bestonly;
         $this->passedonly = $passedonly;
-        $this->deliver = $deliver;
     }
 
-    abstract public function export(): string;
+    abstract public function deliver(string $title): void;
+    abstract public function getContent();
 
     public function getDatarows(ilObjTest $test_obj): array
     {

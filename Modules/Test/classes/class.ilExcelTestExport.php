@@ -17,23 +17,28 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+/**
+ * @author Fabian Helfer <fhelfer@databay.de>
+ */
 class ilExcelTestExport extends ilTestExportAbstract
 {
+    private bool $bestonly;
     protected ilAssExcelFormatHelper $worksheet;
 
     public function __construct(
         ilObjTest $test_obj,
         string $filterby = '',
         string $filtertext = '',
-        bool $bestonly = false,
         bool $passedonly = false,
-        bool $deliver = false
+        bool $bestonly = true,
     ) {
+        $this->bestonly = $bestonly;
         $this->worksheet = new ilAssExcelFormatHelper();
-        parent::__construct($test_obj, $filterby, $filtertext, $bestonly, $passedonly, $deliver);
+        parent::__construct($test_obj, $filterby, $filtertext, $passedonly);
     }
 
-    public function resultsPage(): void
+    public function withResultsPage(): self
     {
         $this->worksheet->addSheet($this->lng->txt('tst_results'));
 
@@ -61,9 +66,11 @@ class ilExcelTestExport extends ilTestExportAbstract
                 }
             }
         }
+
+        return $this;
     }
 
-    public function allUsersPage(): void
+    public function withAllUsersPage(): self
     {
         $data = $this->test_obj->getCompleteEvaluationData(true, $this->filterby, $this->filtertext);
         $additionalFields = $this->test_obj->getEvaluationAdditionalFields();
@@ -175,25 +182,15 @@ class ilExcelTestExport extends ilTestExportAbstract
                 $row++;
             }
         }
+        return $this;
     }
 
-    public function export(): string
+    public function getContent(): ilAssExcelFormatHelper
     {
-        $this->resultsPage();
-        $this->allUsersPage();
-        $this->userPages();
-        if ($this->deliver) {
-            $testname = $this->test_obj->getTitle();
-            $testname .= '_results';
-            $testname = ilFileUtils::getASCIIFilename(preg_replace("/\s/", "_", $testname)) . '.xlsx';
-            $this->worksheet->sendToClient($testname);
-        }
-        $excelfile = ilFileUtils::ilTempnam();
-        $this->worksheet->writeToFile($excelfile);
-        return $excelfile . '.xlsx';
+        return $this->worksheet;
     }
 
-    public function userPages(): void
+    public function withUserPages(): self
     {
         $data = $this->test_obj->getCompleteEvaluationData(true, $this->filterby, $this->filtertext);
         $additionalFields = $this->test_obj->getEvaluationAdditionalFields();
@@ -204,14 +201,15 @@ class ilExcelTestExport extends ilTestExportAbstract
             $positions[$id] = $pos;
             $pos++;
         }
+        $row = 1;
+        $pos = 0;
+        $usernames = [];
+        $allusersheet = false;
+        $pages = 0;
+
         if ($this->test_obj->getExportSettingsSingleChoiceShort() && !$this->test_obj->isRandomTest() && $this->test_obj->hasSingleChoiceQuestions()) {
             if ($this->test_obj->isSingleChoiceTestWithoutShuffle()) {
                 // special tab for single choice tests without shuffle option
-                $pos = 0;
-                $row = 1;
-                $usernames = [];
-                $allusersheet = false;
-                $pages = 0;
 
                 $this->worksheet->addSheet($this->lng->txt('eval_all_users') . ' (2)');
 
@@ -276,7 +274,7 @@ class ilExcelTestExport extends ilTestExportAbstract
                     if (is_object($userdata) && is_array($userdata->getQuestions($pass))) {
                         foreach ($userdata->getQuestions($pass) as $question) {
                             $objQuestion = ilObjTest::_instanciateQuestion($question["aid"]);
-                            if (is_object($objQuestion) && strcmp(
+                            if ($objQuestion && is_object($objQuestion) && strcmp(
                                 $objQuestion->getQuestionType(),
                                 'assSingleChoice'
                             ) === 0) {
@@ -292,14 +290,8 @@ class ilExcelTestExport extends ilTestExportAbstract
             }
         } else {
             // test participant result export
-            $usernames = [];
             $participantcount = count($data->getParticipants());
-            $allusersheet = false;
-            $pages = 0;
-            $i = 0;
             foreach ($data->getParticipants() as $active_id => $userdata) {
-                $i++;
-
                 $username = (!is_null($userdata) && $userdata->getName()) ? $userdata->getName() : "ID $active_id";
                 $username_to_lower = strtolower($username);
                 if (array_key_exists($username_to_lower, $usernames)) {
@@ -360,5 +352,64 @@ class ilExcelTestExport extends ilTestExportAbstract
                 }
             }
         }
+
+        return $this;
+    }
+
+    public function withAggregatedResultsPage(): self
+    {
+        $data = $this->test_obj->getAggregatedResultsData();
+
+        $this->worksheet->addSheet($this->lng->txt('tst_results_aggregated'));
+
+        $row = 1;
+        $col = 0;
+        $this->worksheet->setCell($row, $col++, $this->lng->txt('result'));
+        $this->worksheet->setCell($row, $col++, $this->lng->txt('value'));
+
+        $this->worksheet->setBold('A' . $row . ':' . $this->worksheet->getColumnCoord($col - 1) . $row);
+
+        $row++;
+        foreach ($data['overview'] as $key => $value) {
+            $col = 0;
+            $this->worksheet->setCell($row, $col++, $key);
+            $this->worksheet->setCell($row, $col++, $value);
+            $row++;
+        }
+
+        $row++;
+        $col = 0;
+
+        $this->worksheet->setCell($row, $col++, $this->lng->txt('question_id'));
+        $this->worksheet->setCell($row, $col++, $this->lng->txt('question_title'));
+        $this->worksheet->setCell($row, $col++, $this->lng->txt('average_reached_points'));
+        $this->worksheet->setCell($row, $col++, $this->lng->txt('points'));
+        $this->worksheet->setCell($row, $col++, $this->lng->txt('percentage'));
+        $this->worksheet->setCell($row, $col++, $this->lng->txt('number_of_answers'));
+
+        $this->worksheet->setBold('A' . $row . ':' . $this->worksheet->getColumnCoord($col - 1) . $row);
+
+        $row++;
+        foreach ($data['questions'] as $key => $value) {
+            $col = 0;
+            $this->worksheet->setCell($row, $col++, $key);
+            $this->worksheet->setCell($row, $col++, $value[0]);
+            $this->worksheet->setCell($row, $col++, $value[4]);
+            $this->worksheet->setCell($row, $col++, $value[5]);
+            $this->worksheet->setCell($row, $col++, $value[6]);
+            $this->worksheet->setCell($row, $col++, $value[3]);
+            $row++;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     */
+    public function deliver(string $title): void
+    {
+        $testname = ilFileUtils::getASCIIFilename(preg_replace("/\s/", "_", $title)) . '.xlsx';
+        $this->worksheet->sendToClient($testname);
     }
 }
