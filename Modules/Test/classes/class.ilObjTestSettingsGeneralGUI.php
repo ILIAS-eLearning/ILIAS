@@ -1003,10 +1003,10 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $duration->setShowMinutes(true);
 
         $pw_time_array = explode(':', $this->testOBJ->getPassWaiting());
-        $duration->setMonths($pw_time_array[0]);
-        $duration->setDays($pw_time_array[1]);
-        $duration->setHours($pw_time_array[2]);
-        $duration->setMinutes($pw_time_array[3]);
+        $duration->setMonths((int) $pw_time_array[0]);
+        $duration->setDays((int) $pw_time_array[1]);
+        $duration->setHours((int) $pw_time_array[2]);
+        $duration->setMinutes((int) $pw_time_array[3]);
         $duration->setRequired(false);
         $pass_waiting_enabled->addSubItem($duration);
 
