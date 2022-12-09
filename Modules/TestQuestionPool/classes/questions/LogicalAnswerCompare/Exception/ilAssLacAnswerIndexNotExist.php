@@ -41,7 +41,7 @@ class ilAssLacAnswerIndexNotExist extends ilAssLacException implements ilAssLacF
      * @param int $question_index
      * @param int $answer_index
      */
-    public function __construct($question_index, $answer_index)
+    public function __construct(int $question_index, int $answer_index)
     {
         $this->question_index = $question_index;
         $this->answer_index = $answer_index;

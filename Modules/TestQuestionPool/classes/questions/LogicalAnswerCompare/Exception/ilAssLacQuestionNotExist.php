@@ -35,7 +35,7 @@ class ilAssLacQuestionNotExist extends ilAssLacException implements ilAssLacForm
     /**
      * @param int $question_index
      */
-    public function __construct($question_index)
+    public function __construct(int $question_index)
     {
         $this->question_index = $question_index;
 

@@ -35,7 +35,7 @@ class ilAssLacUnsupportedExpression extends ilAssLacException implements ilAssLa
     /**
      * @param string $expression
      */
-    public function __construct($expression)
+    public function __construct(string $expression)
     {
         $this->expression = $expression;
 

@@ -35,7 +35,7 @@ class ilAssLacUnsupportedOperation extends ilAssLacException implements ilAssLac
     /**
      * @param string $operator
      */
-    public function __construct($operator)
+    public function __construct(string $operator)
     {
         $this->operator = $operator;
 

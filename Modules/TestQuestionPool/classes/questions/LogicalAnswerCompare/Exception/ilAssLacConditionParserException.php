@@ -34,7 +34,7 @@ class ilAssLacConditionParserException extends ilAssLacException implements ilAs
     /**
      * @param int $column
      */
-    public function __construct($column)
+    public function __construct(int $column)
     {
         $this->column = $column;
 

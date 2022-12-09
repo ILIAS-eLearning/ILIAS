@@ -41,7 +41,7 @@ class ilAssLacOperatorNotSupportedByExpression extends ilAssLacException impleme
      * @param string $expression
      * @param string $operator
      */
-    public function __construct($expression, $operator)
+    public function __construct(string $expression, string $operator)
     {
         $this->expression = $expression;
         $this->operator = $operator;

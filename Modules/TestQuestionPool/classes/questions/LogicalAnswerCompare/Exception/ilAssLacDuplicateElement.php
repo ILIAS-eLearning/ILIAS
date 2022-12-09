@@ -35,7 +35,7 @@ class ilAssLacDuplicateElement extends ilAssLacException implements ilAssLacForm
     /**
      * @param string $element
      */
-    public function __construct($element)
+    public function __construct(string $element)
     {
         $this->element = $element;
 

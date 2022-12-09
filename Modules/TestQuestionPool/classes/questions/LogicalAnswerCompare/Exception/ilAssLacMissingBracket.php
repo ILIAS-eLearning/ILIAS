@@ -35,7 +35,7 @@ class ilAssLacMissingBracket extends ilAssLacException implements ilAssLacFormAl
     /**
      * @param string $bracket
      */
-    public function __construct($bracket)
+    public function __construct(string $bracket)
     {
         $this->bracket = $bracket;
 

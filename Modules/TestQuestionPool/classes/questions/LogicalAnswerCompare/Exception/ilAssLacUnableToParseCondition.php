@@ -36,7 +36,7 @@ class ilAssLacUnableToParseCondition extends ilAssLacException implements ilAssL
     /**
      * @param string $condition
      */
-    public function __construct($condition)
+    public function __construct(string $condition)
     {
         $this->condition = $condition;
 
