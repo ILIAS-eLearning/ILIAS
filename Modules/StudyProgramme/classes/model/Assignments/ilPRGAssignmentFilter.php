@@ -62,11 +62,11 @@ class ilPRGAssignmentFilter
                     }
                     if ((int) $value == ilStudyProgrammeUserTable::VALIDITY_OPTION_VALID) {
                         $conditions[] = ilPRGAssignmentDBRepository::PROGRESS_FIELD_INVALIDATED . ' = 0';
-                        $conditions[] = '(' 
+                        $conditions[] = '('
                             . ilPRGAssignmentDBRepository::PROGRESS_FIELD_STATUS . '=' . ilPRGProgress::STATUS_COMPLETED
                             . ' OR '
                             . ilPRGAssignmentDBRepository::PROGRESS_FIELD_STATUS . '=' . ilPRGProgress::STATUS_ACCREDITED
-                        .')';
+                        . ')';
                     }
                     break;
 
@@ -122,6 +122,7 @@ class ilPRGAssignmentFilter
                 }
                 if ($type === ilTable2GUI::FILTER_DATE_RANGE
                     && $this->values[$id]['from'] == []
+                    && $this->values[$id]['to'] == []
                 ) {
                     continue;
                 }
