@@ -1202,7 +1202,6 @@ assessment#:#showSuggestedSolution#:#Soluzione proposta
 assessment#:#show_answer_overview#:#Mostra panoramica risposte
 assessment#:#show_detailed_results#:#Mostra i risultati dettagliati del test (svolgimento del test valutato)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.
-assessment#:#show_examview_pdf#:#Shows exam view in an automatically downloaded PDF.
 assessment#:#show_pass_overview#:#Mostra il sommario dei voti
 assessment#:#show_user_answers#:#Mostra le risposte valutate degli utenti
 assessment#:#showinfo#:#Mostra la Information Page completa

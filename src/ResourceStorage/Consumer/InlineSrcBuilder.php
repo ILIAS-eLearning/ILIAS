@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Consumer;
 
+use ILIAS\ResourceStorage\Flavour\Flavour;
 use ILIAS\ResourceStorage\Revision\Revision;
 
 /**
@@ -44,5 +45,20 @@ class InlineSrcBuilder implements SrcBuilder
             return "data:$mime;base64,$base64";
         }
         return '';
+    }
+
+    public function getFlavourURLs(
+        Flavour $flavour,
+        bool $signed = true
+    ): \Generator {
+        if ($signed) {
+            throw new \RuntimeException('InlineSrcBuilder does not support signed URLs');
+        }
+        foreach ($flavour->getAccessTokens() as $token) {
+            $stream = $token->resolveStream();
+            $mime = $stream->getMimeType();
+            $base64 = base64_encode((string)$stream);
+            yield "data:$mime;base64,$base64";
+        }
     }
 }

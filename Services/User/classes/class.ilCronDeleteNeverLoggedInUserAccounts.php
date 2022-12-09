@@ -221,7 +221,10 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
 
         $this->roleIdWhiteliste = implode(',', $this->http->wrapper()->post()->retrieve(
             'role_whitelist',
-            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
         ));
 
         try {

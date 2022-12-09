@@ -18,6 +18,7 @@ or contribute a fix via [Pull Request](../../docs/development/contributing.md#pu
     - The **Calendar** service stores information on (personal) appointments and consultation hours of tutors.
     - The **Competence** service stores information on competence evaluations and assessments.
     - The **Notes/Comments** service stores data on comments attached to portfolio or blog pages.
+    - The **Mail/Contacts** service implements a user search for finding users to share portfolios with.
 
 ## General Information
 
@@ -33,7 +34,7 @@ The main purpose of portfolios is to present information about its creator to ot
 
 **Portfolio**
 
-- The author of a portfolio controls its content and how it is shared to others. This is done in the **Share** tab of a portfolio. Portfolios can be presented to single users, all members of a group, all members of a course, all registered users or even externally to the web (see global configuration).
+- The author of a portfolio controls its content and how it is shared with others. This is done in the **Share** tab of a portfolio. Portfolios can be presented with single users, all members of a group, all members of a course, all registered users or even externally to the web (see global configuration).
 - The portfolio settings allow to activate public comments service. These comments are attached to portfolio pages.
 
 ## Data being stored
@@ -56,6 +57,8 @@ Beside the personal information that the author puts directly into portfolio or 
 If activated public comments will be listed under each portfolio page.
 
 All data of the portfolio (incl. comments) is visible to all users that are defined in the "Share" tab of the portfolio (see Configuration above).
+
+The sharing screens allow to search for other users, the presentation of users, their account/login names, first and last names are controlled by the Mail/Contacts components. Usually first and last name are not presented, if the user has the personal profile deactivated.
 
 ## Data being deleted
 

@@ -298,7 +298,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         $table = ilDclCache::getTableCache($table_id);
 
         // is tableview in table and is table in datacollection
-        if (($tableview->getTableId() != $table_id)
+        if (($tableview->getTableId() !== $table_id)
             || !self::isTableInDataCollection($table, $ref_id)
         ) {
             return false;

@@ -131,7 +131,7 @@ div.il_ExplorerItemDescription {
 	background: #e8eff7;
 	border: 1px solid #aecff7;
 	color: $il-text-hover-color;
-	border-radius: 2px;
+	border-radius: $il-border-radius-secondary-small;
 }
 
 #vakata-contextmenu.jstree-context li.jstree-contextmenu-disabled a,

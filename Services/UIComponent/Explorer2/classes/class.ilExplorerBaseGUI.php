@@ -544,7 +544,9 @@ abstract class ilExplorerBaseGUI
             if (is_object($this->parent_obj)) {
                 $url = $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd, "", true);
             } else {
-                $url = $ilCtrl->getLinkTargetByClass($this->parent_obj, $this->parent_cmd, "", true);
+                if (!is_null($this->parent_obj)) {
+                    $url = $ilCtrl->getLinkTargetByClass($this->parent_obj, $this->parent_cmd, "", true);
+                }
             }
         }
 

@@ -9,6 +9,9 @@ class ilDclTableViewTableGUI extends ilTable2GUI
 {
     protected ilDclTable $table;
 
+    protected \ILIAS\UI\Renderer $renderer;
+    protected \ILIAS\UI\Factory $factory;
+
     /**
      * ilDclTableViewTableGUI constructor.
      * @param object     $a_parent_obj //object|ilDclTableViewGUI
@@ -20,6 +23,10 @@ class ilDclTableViewTableGUI extends ilTable2GUI
         global $DIC;
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
+
+        $this->factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->parent_obj = $a_parent_obj;
@@ -208,16 +215,12 @@ class ilDclTableViewTableGUI extends ilTable2GUI
         $this->ctrl->setParameterByClass('ilDclTableViewEditGUI', 'tableview_id', $a_set->getId());
         $this->tpl->setVariable("TITLE_LINK", $this->ctrl->getLinkTargetByClass('ilDclTableViewEditGUI'));
         $this->tpl->setVariable("DESCRIPTION", $a_set->getDescription());
-        $this->tpl->setVariable(
-            "DCL_CONFIG",
-            $a_set->validateConfigCompletion() ? ilUtil::getImagePath(
-                'icon_ok_monochrome.svg',
-                "/Modules/DataCollection"
-            ) : ilUtil::getImagePath(
-                'icon_not_ok_monochrome.svg',
-                "/Modules/DataCollection"
-            )
-        );
+
+        $icon = $this->factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_not_ok_monochrome.svg'), $this->lng->txt("yes"));
+        if ($a_set->validateConfigCompletion()) {
+            $icon = $this->factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_ok_monochrome.svg'), $this->lng->txt("no"));
+        }
+        $this->tpl->setVariable("ICON_CONFIG", $this->renderer->render($icon));
         $this->tpl->setVariable('ACTIONS', $this->buildAction($a_set->getId()));
     }
 

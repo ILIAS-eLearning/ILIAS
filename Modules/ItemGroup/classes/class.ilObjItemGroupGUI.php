@@ -27,6 +27,7 @@ use ILIAS\ItemGroup\StandardGUIRequest;
  */
 class ilObjItemGroupGUI extends ilObject2GUI
 {
+    protected \ILIAS\ItemGroup\InternalGUIService $gui;
     protected StandardGUIRequest $ig_request;
     protected ilTabsGUI $tabs;
     protected ilHelpGUI $help;
@@ -47,9 +48,8 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $this->locator = $DIC["ilLocator"];
         $this->tree = $DIC->repositoryTree();
         $this->help = $DIC["ilHelp"];
-        $this->ig_request = $DIC->itemGroup()
-            ->internal()
-            ->gui()
+        $this->gui = $DIC->itemGroup()->internal()->gui();
+        $this->ig_request = $this->gui
             ->standardRequest();
     }
 
@@ -90,7 +90,9 @@ class ilObjItemGroupGUI extends ilObject2GUI
                 $this->prepareOutput();
                 $this->setSettingsSubTabs("settings_trans");
                 $transgui = new ilObjectTranslationGUI($this);
-                $transgui->setTitleDescrOnlyMode(false);
+                $transgui->setEnableFallbackLanguage(false);
+                $transgui->supportContentTranslation(false);
+                $transgui->hideDescription(true);
                 $this->ctrl->forwardCommand($transgui);
                 break;
 
@@ -200,7 +202,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $gui->setAfterCreationCallback($this->object->getRefId());
         $gui->render();
 
-        $tab = new ilItemGroupItemsTableGUI($this, "listMaterials");
+        $tab = new ilItemGroupItemsTableGUI($this->gui, $this, "listMaterials");
         $tpl->setContent($tab->getHTML());
     }
 

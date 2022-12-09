@@ -78,8 +78,8 @@ var AppContainer = function AppContainer() {
 		return namespace;
 	};
 
-	this.createServerRoomId = function(roomId, subRoomId) {
-		return roomId + '_' + subRoomId;
+	this.createServerRoomId = function(roomId) {
+		return roomId + '_0';
 	};
 	this.splitServerRoomId = function(roomId) {
 		return roomId.split('_');

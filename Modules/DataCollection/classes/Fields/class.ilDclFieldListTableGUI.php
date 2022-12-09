@@ -33,11 +33,18 @@ class ilDclFieldListTableGUI extends ilTable2GUI
 
     protected ilDclTable $table;
 
+    protected \ILIAS\UI\Renderer $renderer;
+    protected \ILIAS\UI\Factory $factory;
+
+
     public function __construct(ilDclFieldListGUI $a_parent_obj, string $a_parent_cmd, int $table_id)
     {
         global $DIC;
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
+
+        $this->factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -253,13 +260,13 @@ class ilDclFieldListTableGUI extends ilTable2GUI
         if (!$a_set->isStandardField()) {
             switch ($a_set->isUnique()) {
                 case 0:
-                    $uniq = ilUtil::getImagePath('icon_not_ok_monochrome.svg', "/Modules/DataCollection");
+                    $icon = $this->factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_not_ok_monochrome.svg'), $this->lng->txt("yes"));
                     break;
                 case 1:
-                    $uniq = ilUtil::getImagePath('icon_ok_monochrome.svg', "/Modules/DataCollection");
+                    $icon = $this->factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_ok_monochrome.svg'), $this->lng->txt("no"));
                     break;
             }
-            $this->tpl->setVariable('UNIQUE', $uniq);
+            $this->tpl->setVariable('ICON_UNIQUE', $this->renderer->render($icon));
         } else {
             $this->tpl->setVariable('NO_UNIQUE', '');
         }

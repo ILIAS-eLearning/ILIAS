@@ -1202,7 +1202,6 @@ assessment#:#showSuggestedSolution#:#Тип
 assessment#:#show_answer_overview#:#Show Answer Overview
 assessment#:#show_detailed_results#:#Показать подробные результаты пользователя (Отмеченные как пройденные)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.
-assessment#:#show_examview_pdf#:#Shows exam view in an automatically downloaded PDF.
 assessment#:#show_pass_overview#:#Показать обзор отмеченных верных ответов
 assessment#:#show_user_answers#:#Показать отмеченные пользователем ответы
 assessment#:#showinfo#:#Показать полную информационную странцу

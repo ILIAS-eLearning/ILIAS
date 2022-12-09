@@ -428,7 +428,7 @@ class ilForumTopic
         $query = '
 			SELECT 			is_author_moderator, pos_author_id, pos_pk, fpt_date, rgt, pos_top_fk, pos_thr_fk, 
 							pos_display_user_id, pos_usr_alias, pos_subject,
-							pos_status, pos_message, pos_date, pos_update,
+							pos_status, pos_message, pos_date, pos_update, rcid,
 							update_user, pos_cens, pos_cens_com, notify,
 							import_name, fpt_pk, parent_pos, lft, depth,
 							(CASE
