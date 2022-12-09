@@ -8297,31 +8297,31 @@ button .minimize, button .close {
   display: inline-block;
   white-space: nowrap;
   padding: 1px 3px;
-  margin: 2px 4px 2px 0;
+  margin: 3px 6px 3px 0;
   border-radius: 3px;
 }
 .btn-tag.btn-tag-inactive {
   cursor: default !important;
 }
 .btn-tag.btn-tag-relevance-verylow {
+  color: #161616;
   background-color: #b0b0b0;
-  color: contrast(#b0b0b0);
 }
 .btn-tag.btn-tag-relevance-low {
+  color: #161616;
   background-color: #a5b8ba;
-  color: contrast(#a5b8ba);
 }
 .btn-tag.btn-tag-relevance-middle {
+  color: #161616;
   background-color: #95c5ca;
-  color: contrast(#95c5ca);
 }
 .btn-tag.btn-tag-relevance-high {
+  color: #161616;
   background-color: #85d1da;
-  color: contrast(#85d1da);
 }
 .btn-tag.btn-tag-relevance-veryhigh {
+  color: #161616;
   background-color: #75deea;
-  color: contrast(#75deea);
 }
 
 .il-toggle-button {
@@ -19591,38 +19591,38 @@ td > img[src$="icon_custom.svg"] {
 .ilTag {
   background-color: #75deea;
   /* background-color: lighten($brand-primary, 10%); */
-  color: contrast(#75deea);
+  color: #161616;
   display: inline-block;
   white-space: nowrap;
   padding: 1px 5px;
-  margin: 2px 4px 2px 0;
+  margin: 3px 6px 3px 0;
   border-radius: 3px;
 }
 
 a.ilTag:hover, a.ilTag:active {
   text-decoration: none;
-  color: contrast(#75deea);
-  background-color: #5fd9e7;
+  color: #161616;
+  background-color: #75deea;
 }
 
 .ilTagRelHigh {
   background-color: #85d1da;
-  color: contrast(#85d1da);
+  color: #161616;
 }
 
 .ilTagRelMiddle {
   background-color: #95c5ca;
-  color: contrast(#95c5ca);
+  color: #161616;
 }
 
 .ilTagRelLow {
   background-color: #a5b8ba;
-  color: contrast(#a5b8ba);
+  color: #161616;
 }
 
 .ilTagRelVeryLow {
   background-color: #b0b0b0;
-  color: contrast(#b0b0b0);
+  color: #161616;
 }
 
 .ilTag.ilHighlighted, .ilTag.ilHighlighted:hover {
@@ -19939,7 +19939,7 @@ div.il_ExplorerItemDescription {
   background: #e8eff7;
   border: 1px solid #aecff7;
   color: black;
-  border-radius: 2px;
+  border-radius: 3px;
 }
 
 #vakata-contextmenu.jstree-context li.jstree-contextmenu-disabled a,
