@@ -45,6 +45,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     protected ilStudyProgrammeUserTable $prg_user_table;
     protected ilObjUser $user;
     protected ilPRGAssignmentFilter $custom_filter;
+    protected ILIAS\UI\Factory $ui_factory;
+    protected ILIAS\UI\Renderer $ui_renderer;
 
     public function __construct(
         int $prg_obj_id,
@@ -52,6 +54,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         ilObjStudyProgrammeMembersGUI $parent_obj,
         ilPRGPermissionsHelper $permissions,
         Data\Factory $data_factory,
+        ILIAS\UI\Factory $ui_factory,
+        ILIAS\UI\Renderer $ui_renderer,
         ilStudyProgrammeUserTable $prg_user_table,
         ilPRGAssignmentFilter $custom_filter,
         ilObjUser $user,
@@ -65,6 +69,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         parent::__construct($parent_obj, $parent_cmd, $template_context);
 
         $this->data_factory = $data_factory;
+        $this->ui_factory = $ui_factory;
+        $this->ui_renderer = $ui_renderer;
         $this->permissions = $permissions;
         $this->may_edit_anything = $this->permissions->mayAnyOf([ilOrgUnitOperation::OP_EDIT_INDIVIDUAL_PLAN, ilOrgUnitOperation::OP_MANAGE_MEMBERS]);
         $this->user = $user;
@@ -227,7 +233,14 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                     $this->tpl->setVariable("COMPLETION_DATE", $row->getCompletionDate());
                     break;
                 case "prg_completion_by":
-                    $this->tpl->setVariable("COMPLETION_BY", $row->getCompletionBy());
+
+                    $completion_by = $row->getCompletionBy();
+                    if ($completion_by_obj_id = $row->getCompletionByObjId()) {
+                        if (ilObject::_lookupType($completion_by_obj_id) === 'crsr') {
+                            $completion_by = $this->getCompletionLink($completion_by_obj_id, $completion_by);
+                        }
+                    }
+                    $this->tpl->setVariable("COMPLETION_BY", $completion_by);
                     break;
                 case "prg_custom_plan":
                     $this->tpl->setVariable("CUSTOM_PLAN", $row->getCustomPlan());
@@ -447,5 +460,19 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         $valid_user_ids = $this->permissions->getUserIdsSusceptibleTo(ilOrgUnitOperation::OP_VIEW_MEMBERS);
         array_unshift($valid_user_ids, $this->user->getId());
         return $valid_user_ids;
+    }
+
+    protected function getCompletionLink(int $reference_obj_id, string $title): string
+    {
+        $link = $title;
+        $target_obj_id = ilContainerReference::_lookupTargetId($reference_obj_id);
+        $ref_ids = ilObject::_getAllReferences($target_obj_id);
+        foreach ($ref_ids as $ref_id) {
+            if (!ilObject::_isInTrash($ref_id)) {
+                $url = ilLink::_getStaticLink($ref_id, "crs");
+                $link = $this->ui_renderer->render($this->ui_factory->link()->standard($title, $url));
+            }
+        }
+        return $link;
     }
 }

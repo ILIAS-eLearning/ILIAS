@@ -52,9 +52,7 @@ class ilStudyProgrammeDIC
                 $dic['repo.assignment'],
                 $DIC['lng'],
                 $dic['permissionhelper'],
-                $DIC['ilUser'],
-                $DIC['ui.factory'],
-                $DIC['ui.renderer']
+                $DIC['ilUser']
             );
         };
 
@@ -85,6 +83,8 @@ class ilStudyProgrammeDIC
                 $dic['ilAppEventHandler']
             );
         };
+        $dic['ui.factory'] = static fn ($dic) => $DIC['ui.factory'];
+        $dic['ui.renderer'] = static fn ($dic) => $DIC['ui.renderer'];
 
         return $dic;
     }
