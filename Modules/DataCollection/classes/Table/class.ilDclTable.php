@@ -123,7 +123,9 @@ class ilDclTable
         $this->setLimitStart($rec["limit_start"]);
         $this->setLimitEnd($rec["limit_end"]);
         $this->setIsVisible($rec["is_visible"]);
-        $this->setDescription($rec['description']);
+        if (null !== $rec['description']) {
+            $this->setDescription($rec['description']);
+        }
         $this->setDefaultSortField($rec['default_sort_field_id']);
         $this->setDefaultSortFieldOrder($rec['default_sort_field_order']);
         $this->setPublicCommentsEnabled($rec['public_comments']);
