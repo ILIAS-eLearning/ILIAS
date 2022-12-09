@@ -81,7 +81,7 @@ class ilAssLacConditionParser
      * @see CompositeBuilder::create()
      * @return array
      */
-    public function parse($condition): array
+    public function parse(string $condition): array
     {
         $this->condition = $condition;
         $this->checkBrackets();
