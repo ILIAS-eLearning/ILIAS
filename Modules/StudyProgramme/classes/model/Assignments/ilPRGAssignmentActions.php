@@ -64,15 +64,15 @@ trait ilPRGAssignmentActions
         return $children;
     }
 
-    protected function hasCompletedCourseChild(ilPRGProgress $pgs): bool
+    protected function hasCompletedCourseChild(ilPRGProgress $pgs): ?int
     {
         foreach ($this->getCourseReferencesInNode($pgs->getNodeId()) as $child) {
             $crs_id = ilContainerReference::_lookupTargetId((int)$child["obj_id"]);
             if (ilLPStatus::_hasUserCompleted($crs_id, $this->getUserId())) {
-                return true;
+                return (int)$child["obj_id"];
             }
         }
-        return false;
+        return null;
     }
 
     protected function notifyProgressScuccess(ilPRGProgress $pgs): void
@@ -91,14 +91,14 @@ trait ilPRGAssignmentActions
         }
         $node_settings = $settings_repo->get($progress->getNodeId());
         $completion_mode = $node_settings->getLPMode();
-
+        $completing_crs_id = null;
         switch ($completion_mode) {
             case ilStudyProgrammeSettings::MODE_UNDEFINED:
                 return $progress;
                 break;
             case ilStudyProgrammeSettings::MODE_LP_COMPLETED:
                 $achieved_points = 0;
-                if ($this->hasCompletedCourseChild($progress)) {
+                if ($completing_crs_id = $this->hasCompletedCourseChild($progress)) {
                     $achieved_points = $progress->getAmountOfPoints();
                 }
                 break;
@@ -114,7 +114,7 @@ trait ilPRGAssignmentActions
         if ($successful && !$progress->isSuccessful()) {
             $progress = $progress
                 ->withStatus(ilPRGProgress::STATUS_COMPLETED)
-                ->withCompletion(null, $this->getNow());
+                ->withCompletion($completing_crs_id, $this->getNow());
 
             // there was a status change, so:
             $this->notifyProgressScuccess($progress);
