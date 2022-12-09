@@ -257,7 +257,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     protected bool $enable_examview;
     protected bool $show_examview_html;
-    protected bool $show_examview_pdf;
     protected bool $enable_archiving;
 
     private int $redirection_mode = 0;
@@ -385,7 +384,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         $this->enable_examview = false;
         $this->show_examview_html = false;
-        $this->show_examview_pdf = false;
         $this->enable_archiving = false;
 
         $this->template_id = '';
@@ -752,11 +750,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $ilDB = $DIC['ilDB'];
 
         if ($this->getTestId() > 0) {
-            $this->setECTSFX(preg_replace('/,/', '.', $this->getECTSFX()));
-            if (!preg_match('/\d+/', $this->getECTSFX())) {
-                $this->setECTSFX(null);
-            }
-
             $grades = $this->getECTSGrades();
             $ilDB->manipulateF(
                 "UPDATE tst_tests
@@ -916,7 +909,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 'pass_deletion_allowed' => array('integer', (int) $this->isPassDeletionAllowed()),
                 'enable_examview' => array('integer', (int) $this->getEnableExamview()),
                 'show_examview_html' => array('integer', (int) $this->getShowExamviewHtml()),
-                'show_examview_pdf' => array('integer', (int) $this->getShowExamviewPdf()),
                 'redirection_mode' => array('integer', $this->getRedirectionMode()),
                 'redirection_url' => array('text', (string) $this->getRedirectionUrl()),
                 'enable_archiving' => array('integer', (int) $this->getEnableArchiving()),
@@ -1033,7 +1025,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     'pass_deletion_allowed' => array('integer', (int) $this->isPassDeletionAllowed()),
                     'enable_examview' => array('integer', (int) $this->getEnableExamview()),
                     'show_examview_html' => array('integer', (int) $this->getShowExamviewHtml()),
-                    'show_examview_pdf' => array('integer', (int) $this->getShowExamviewPdf()),
                     'redirection_mode' => array('integer', $this->getRedirectionMode()),
                     'redirection_url' => array('text', (string) $this->getRedirectionUrl()),
                     'enable_archiving' => array('integer', (int) $this->getEnableArchiving()),
@@ -1498,7 +1489,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $this->setPassDeletionAllowed($data->pass_deletion_allowed);
             $this->setEnableExamview((bool) $data->enable_examview);
             $this->setShowExamviewHtml((bool) $data->show_examview_html);
-            $this->setShowExamviewPdf((bool) $data->show_examview_pdf);
             $this->setEnableArchiving((bool) $data->enable_archiving);
             $this->setShowExamIdInTestPassEnabled((bool) $data->examid_in_test_pass);
             $this->setShowExamIdInTestResultsEnabled((bool) $data->examid_in_test_res);
@@ -1738,12 +1728,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function getECTSFX(): ?float
     {
-        return (strlen($this->ects_fx)) ? $this->ects_fx : null;
+        return $this->ects_fx;
     }
 
     public function setECTSFX($a_ects_fx): void
     {
-        $this->ects_fx = $a_ects_fx;
+        $this->ects_fx = (float) str_replace(",", ".", $a_ects_fx);
     }
 
     public function getECTSGrades(): array
@@ -5296,9 +5286,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 case 'show_examview_html':
                     $this->setShowExamviewHtml($metadata['entry']);
                     break;
-                case 'show_examview_pdf':
-                    $this->setShowExamviewPdf($metadata['entry']);
-                    break;
                 case 'redirection_mode':
                     $this->setRedirectionMode($metadata['entry']);
                     break;
@@ -5737,12 +5724,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "show_examview_html");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $this->getShowExamviewHtml());
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
-        // show_examview_pdf
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "show_examview_pdf");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->getShowExamviewPdf());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         // enable_archiving
@@ -6474,7 +6455,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $newObj->setShowExamIdInTestResultsEnabled($this->isShowExamIdInTestResultsEnabled());
         $newObj->setEnableExamView($this->getEnableExamview());
         $newObj->setShowExamViewHtml($this->getShowExamviewHtml());
-        $newObj->setShowExamViewPdf($this->getShowExamviewPdf());
         $newObj->setEnableArchiving($this->getEnableArchiving());
         $newObj->setSignSubmission($this->getSignSubmission());
         $newObj->setCharSelectorAvailability($this->getCharSelectorAvailability());
@@ -8947,7 +8927,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             'pass_deletion_allowed' => (int) $this->isPassDeletionAllowed(),
             'enable_examview' => $this->getEnableExamview(),
             'show_examview_html' => $this->getShowExamviewHtml(),
-            'show_examview_pdf' => $this->getShowExamviewPdf(),
             'char_selector_availability' => $this->getCharSelectorAvailability(),
             'char_selector_definition' => $this->getCharSelectorDefinition(),
             'skill_service' => (int) $this->isSkillServiceEnabled(),
@@ -9095,7 +9074,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         }
         $this->setEnableExamview($testsettings['enable_examview']);
         $this->setShowExamviewHtml($testsettings['show_examview_html']);
-        $this->setShowExamviewPdf($testsettings['show_examview_pdf']);
         $this->setEnableArchiving($testsettings['enable_archiving']);
         $this->setSignSubmission($testsettings['sign_submission']);
         $this->setCharSelectorAvailability($testsettings['char_selector_availability']);
@@ -10627,22 +10605,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function getShowExamviewHtml(): bool
     {
         return $this->show_examview_html;
-    }
-
-    /**
-     * @param boolean $show_examview_pdf
-     */
-    public function setShowExamviewPdf($show_examview_pdf): void
-    {
-        $this->show_examview_pdf = $show_examview_pdf;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function getShowExamviewPdf(): bool
-    {
-        return $this->show_examview_pdf;
     }
 
     /**

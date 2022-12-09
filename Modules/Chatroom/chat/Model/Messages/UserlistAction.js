@@ -9,12 +9,11 @@ var UserlistAction = function UserlistAction() {};
 
 /**
  * @param {number} roomId
- * @param {number} subRoomId
  * @param {{}} users
- * @returns {{type: string, timestamp: number, content: string, roomId: number, subRoomId: number, users: {}}}
+ * @returns {{type: string, timestamp: number, content: string, roomId: number, users: {}}}
  */
-UserlistAction.prototype.create = function(roomId, subRoomId, users) {
-	var message = Message.create('userlist', 'userlist', roomId, subRoomId);
+UserlistAction.prototype.create = function(roomId, users) {
+	var message = Message.create('userlist', 'userlist', roomId);
 
 	message.users = users;
 

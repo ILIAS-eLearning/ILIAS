@@ -9,7 +9,7 @@ modules of ILIAS.
 * **Product Management**: [Matthias Kunkel]
 * **Technical Board**: [Timon Amstutz], [Michael Jansen], [Richard Klees], [Fabian Schmid], [Stephan Winiker]
 * **Testcase Management**: [Fabian Kruse]
-* **Documentation**: N.A.
+* **Documentation**: [Ann-Christin Gruber]
 * **Online Help**: [Alexandra Tödt]
 
 # Maintainers
@@ -733,6 +733,16 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 
 [//]: # (END NotesAndComments)
 
+[//]: # (BEGIN ObjectService)
+
+* **Object Service**
+	* 1st Maintainer: [fawinike](https://docu.ilias.de/goto_docu_usr_44474.html)
+	* 2nd Maintainer: N.A.
+	* Testcases: N.A.
+	* Tester: N.A.
+
+[//]: # (END ObjectService)
+
 [//]: # (BEGIN OnlineHelp)
 
 * **Online Help**
@@ -827,7 +837,8 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 [//]: # (BEGIN RBAC)
 
 * **RBAC**
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * 1st Maintainer: [fawinike](https://docu.ilias.de/goto_docu_usr_44474.html)
+	* Until ILIAS 8: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
@@ -1033,7 +1044,8 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 [//]: # (BEGIN UserService)
 
 * **User Service**
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+	* 1st Maintainer: [fawinike](https://docu.ilias.de/goto_docu_usr_44474.html)
+	* Until ILIAS 8: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* 2nd Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [elena](https://docu.ilias.de/goto_docu_usr_49160.html)
@@ -1150,8 +1162,7 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 
 [//]: # (END xAPIAndcmi5)
 
-Components in
-the [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md):
+Components in the [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md):
 
 [//]: # (BEGIN DataCollection)
 

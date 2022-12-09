@@ -112,13 +112,13 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
         $cnt = 1;
         $title = ilObjWiki::_lookupStartPage(ilObject::_lookupObjId($this->requested_ref_id));
         if (!$this->export) {
-            $list->addListNode("<p class='small'><a href='" .
+            $list->addListNode("<a href='" .
                 $ilCtrl->getLinkTargetByClass("ilobjwikigui", "gotoStartPage")
-                . "'>" . $title . "</a></p>", 1, 0);
+                . "'>" . $title . "</a>", 1, 0);
         } else {
-            $list->addListNode("<p class='small'><a href='" .
+            $list->addListNode("<a href='" .
                 "index.html" .
-                "'>" . $title . "</a></p>", 1, 0);
+                "'>" . $title . "</a>", 1, 0);
         }
         $cpar[0] = 1;
 
@@ -127,13 +127,13 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
             $cnt++;
             $title = ilWikiPage::lookupTitle($p["page_id"]);
             if (!$this->export) {
-                $list->addListNode("<p class='small'><a href='" .
+                $list->addListNode("<a href='" .
                     ilObjWikiGUI::getGotoLink($this->requested_ref_id, (string) $title)
-                    . "'>" . $title . "</a></p>", $cnt, (int) ($cpar[$p["indent"] - 1] ?? 0));
+                    . "'>" . $title . "</a>", $cnt, (int) ($cpar[$p["indent"] - 1] ?? 0));
             } else {
-                $list->addListNode("<p class='small'><a href='" .
+                $list->addListNode("<a href='" .
                     "wpg_" . $p["page_id"] . ".html" .
-                    "'>" . $title . "</a></p>", $cnt, (int) ($cpar[$p["indent"] - 1] ?? 0));
+                    "'>" . $title . "</a>", $cnt, (int) ($cpar[$p["indent"] - 1] ?? 0));
             }
             $cpar[$p["indent"]] = $cnt;
         }

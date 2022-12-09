@@ -51,7 +51,7 @@ class ilResultsByQuestionTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set): void
     {
         if ($a_set['number_of_answers'] > 0) {
-            $this->tpl->setVariable("PDF_EXPORT", $a_set['output']);
+            $this->tpl->setVariable("PRINT_ANSWERS", $a_set['output']);
         }
 
         $this->tpl->setVariable("QUESTION_ID", $a_set['qid']);

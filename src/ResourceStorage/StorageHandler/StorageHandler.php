@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\ResourceStorage\StorageHandler;
 
 use ILIAS\Filesystem\Stream\FileStream;
+use ILIAS\ResourceStorage\Flavour\Flavour;
+use ILIAS\ResourceStorage\Flavour\StorableFlavourDecorator;
 use ILIAS\ResourceStorage\Identification\IdentificationGenerator;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Resource\StorableResource;
@@ -47,11 +49,29 @@ interface StorageHandler
 
     public function has(ResourceIdentification $identification): bool;
 
+    // STREAMS
+
     public function getStream(Revision $revision): FileStream;
 
     public function storeUpload(UploadedFileRevision $revision): bool;
 
     public function storeStream(FileStreamRevision $revision): bool;
+
+
+    // FLAVOURS
+
+    public function hasFlavour(Revision $revision, Flavour $flavour): bool;
+
+    public function storeFlavour(Revision $revision, StorableFlavourDecorator $storabel_flavour): bool;
+
+    public function deleteFlavour(Revision $revision, Flavour $flavour): bool;
+
+    public function getFlavourStreams(Revision $revision, Flavour $flavour): \Generator;
+
+
+    public function getFlavourPath(Revision $revision, Flavour $flavour): string;
+
+    // REVISIONS
 
     public function cloneRevision(CloneRevision $revision): bool;
 

@@ -339,11 +339,15 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
         $a_tpl->setCurrentBlock("item");
 
         $a_tpl->setVariable('VAL_ID', $a_set['id']);
-        if ($this->obj_id == 0) {
+        if ($this->obj_id === 0 && $this->category_id === 0) {
             if (!$a_set['hidden'] && $a_set['default_selected']) {
                 $a_tpl->setVariable('VAL_CHECKED', 'checked="checked"');
             }
-            $a_tpl->setVariable('VAL_DISABLED', 'disabled="disabled"');
+        } elseif ($this->obj_id === 0 && $this->category_id > 0) {
+            if (!$a_set['hidden'] && $a_set['default_selected']) {
+                $a_tpl->setVariable('VAL_CHECKED', 'checked="checked"');
+            }
+            $a_tpl->setVariable('VAL_DISABLED', 'disabled');
         } elseif ($a_set["obj_id"] == $this->obj_id) {
             // if calendar is shown and repo object id (course group given)
             $a_tpl->setVariable('VAL_CHECKED', 'checked="checked"');

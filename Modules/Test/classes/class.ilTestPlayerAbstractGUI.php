@@ -592,7 +592,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     public function autosaveCmd()
     {
         $result = "";
-        if (is_array($_POST) && count($_POST) > 0) {
+        if (is_countable($_POST) && count($_POST) > 0) {
             if (!$this->canSaveResult() || $this->isParticipantsAnswerFixed($this->getCurrentQuestionId())) {
                 $result = '-IGNORE-';
             } else {
@@ -1843,6 +1843,24 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function initTestPageTemplate()
     {
+        $onload_js = <<<JS
+            let key_event = (event) => {
+                if( event.key === 13  && event.target.tagName.toLowerCase() === "a" ) {
+                    return;
+                }
+                if (event.key === 13 &&
+                    event.target.tagName.toLowerCase() !== "textarea" &&
+                    (event.target.tagName.toLowerCase() !== "input" || event.target.type.toLowerCase() !== "submit")) {
+                    event.preventDefault();
+                }
+            };
+
+            let form = document.getElementById('taForm');
+            form.onkeyup = key_event;
+            form.onkeydown = key_event;
+            form.onkeypress = key_event;
+            JS;
+        $this->tpl->addOnLoadCode($onload_js);
         $this->tpl->addBlockFile(
             $this->getContentBlockName(),
             'adm_content',

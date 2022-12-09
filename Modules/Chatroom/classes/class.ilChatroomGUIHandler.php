@@ -186,36 +186,6 @@ abstract class ilChatroomGUIHandler
         $this->http->close();
     }
 
-    /**
-     * Check if user can moderate a chatroom. If false it send a json decoded response with success = false
-     * @param ilChatroom $room
-     * @param int $subRoom
-     * @param ilChatroomUser $chatUser
-     */
-    protected function exitIfNoRoomModeratePermission(ilChatroom $room, int $subRoom, ilChatroomUser $chatUser): void
-    {
-        if (!$this->canModerate($room, $subRoom, $chatUser->getUserId())) {
-            $this->sendResponse([
-                'success' => false,
-                'reason' => 'not owner of private room',
-            ]);
-        }
-    }
-
-    protected function canModerate(ilChatroom $room, int $subRoom, int $usrId): bool
-    {
-        return (
-            $this->isMainRoom($subRoom) ||
-            $room->isOwnerOfPrivateRoom($usrId, $subRoom) ||
-            $this->hasPermission('moderate')
-        );
-    }
-
-    protected function isMainRoom(int $subRoomId): bool
-    {
-        return $subRoomId === 0;
-    }
-
     public function hasPermission(string $permission): bool
     {
         return ilChatroom::checkUserPermissions($permission, $this->gui->getRefId());

@@ -325,27 +325,30 @@ EOT;
 
         $expected_html = <<<EOT
 <div class="panel panel-secondary panel-flex">
-<div class="panel-body">
-<div class="il-item-group">\n
-    <h3>Subtitle 1</h3>\n
-<div class="il-item-group-items">\n
-<div class="il-std-item-container">
-<div class="il-item il-std-item ">
-<div class="il-item-title">title1</div>
-</div></div>\n
-<div class="il-std-item-container">
-<div class="il-item il-std-item ">
-<div class="il-item-title">title2</div>
+  <div class="panel-body">
+    <div class="il-item-group">
+      <h3>Subtitle 1</h3>
+      <div class="il-item-group-items">
+        <ul>
+            <li class="il-std-item-container">
+              <div class="il-item il-std-item ">
+                <div class="il-item-title">title1</div>
+              </div>
+            </li>
+            <li class="il-std-item-container">
+              <div class="il-item il-std-item ">
+                <div class="il-item-title">title2</div>
+              </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
-</div>\n
-</div>\n
-</div>
-</div>
-</div>\n
 EOT;
         $this->assertHTMLEquals(
-            $this->cleanHTML($expected_html),
-            $this->cleanHTML($html)
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($html)
         );
     }
 

@@ -326,9 +326,9 @@ class ilMDGeneral extends ilMDBase
                 $this->setObjType((string) $row->obj_type);
                 $this->setStructure((string) $row->general_structure);
                 $this->setTitle((string) $row->title);
-                $this->setTitleLanguage(new ilMDLanguageItem($row->title_language));
+                $this->setTitleLanguage(new ilMDLanguageItem($row->title_language ?? ''));
                 $this->setCoverage((string) $row->coverage);
-                $this->setCoverageLanguage(new ilMDLanguageItem($row->coverage_language));
+                $this->setCoverageLanguage(new ilMDLanguageItem($row->coverage_language ?? ''));
             }
         }
         return true;

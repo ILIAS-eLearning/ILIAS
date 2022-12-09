@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Consumer\StreamAccess;
 
+use ILIAS\Filesystem\Stream\FileStream;
+use ILIAS\ResourceStorage\Flavour\Flavour;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 
@@ -50,5 +52,16 @@ class StreamAccess
         $token = $this->factory->lease($stream);
 
         return $revision->withToken($token);
+    }
+
+    public function populateFlavour(
+        Flavour $flavour,
+        FileStream $file_stream,
+        int $index
+    ): Flavour {
+        return $flavour->addAccessToken(
+            $index,
+            $this->factory->lease($file_stream, true)
+        );
     }
 }

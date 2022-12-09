@@ -37,7 +37,7 @@ class ilChatroomCreateGUI extends ilChatroomGUIHandler
             $room = ilChatroom::byObjectId($roomObj->getId());
 
             $connector = $this->gui->getConnector();
-            $response = $connector->sendCreatePrivateRoom($room->getRoomId(), 0, $roomObj->getOwner(), $roomObj->getTitle());
+            $response = $connector->sendCreatePrivateRoom($room->getRoomId(), $roomObj->getOwner(), $roomObj->getTitle());
 
             $this->ilCtrl->setParameter($this->gui, 'ref_id', $this->gui->getRefId());
             $this->ilCtrl->redirect($this->gui, 'settings-general');

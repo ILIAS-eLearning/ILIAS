@@ -7,6 +7,7 @@
 $il-posting-left-border-width: $il-padding-small-horizontal;
 $il-posting-by-moderator-bg: $il-extended-color-1;
 $il-posting-needs-moderation-bg: $il-extended-color-6;
+$il-posting-censored-bg: $il-warning-color;
 
 a.postread, a.postread:visited {
 	font-weight: $il-font-weight-base;
@@ -122,7 +123,7 @@ li.ilFrmPostRow {
 
 	&.tblrowmarked{
 		background-color: $il-main-bg;
-		border-left: $il-posting-left-border-width solid $il-highlight-bg;
+		border-left: $il-posting-left-border-width solid $il-posting-censored-bg;
 	}
 
 	div.ilForm {
@@ -180,10 +181,11 @@ li.ilFrmPostRow {
 	}
 }
 
-li.ilFrmPostCensorshipAdvice {
+.ilFrmPostCensorshipAdvice {
 	margin: 0;
 	padding: 0;
 	font-weight: $il-font-weight-bold;
+	color: $il-posting-censored-bg;
 }
 
 .ilFrmPostAttachmentsContainer {

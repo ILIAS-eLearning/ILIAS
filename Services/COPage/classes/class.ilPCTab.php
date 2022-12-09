@@ -23,8 +23,12 @@
  */
 class ilPCTab extends ilPageContent
 {
+    protected int $user_id = 0;
+
     public function init(): void
     {
+        global $DIC;
+        $this->user_id = $DIC->user()->getId();
         $this->setType("tabstab");
     }
 
@@ -69,5 +73,38 @@ class ilPCTab extends ilPageContent
         $tab_copy = $tab->clone_node(true);
         $tab_copy = $prev->insert_before($tab_copy, $prev);
         $tab->unlink($tab);
+    }
+
+    /**
+     * Modify page content after xsl
+     */
+    public function modifyPageContentPostXsl(
+        string $a_output,
+        string $a_mode,
+        bool $a_abstract_only = false
+    ): string {
+
+        // get opened accordions
+        $storage = new ilAccordionPropertiesStorageGUI();
+        $opened = $storage->getPropertyForIdStartsWith("ilc_accordion_" .
+            $this->getPage()->getId() . "_", $this->user_id, "opened");
+
+        $script = "<script>";
+        foreach ($opened as $id => $open) {
+            $script .= <<<EOT
+        if (typeof ilAccordionsInits !== 'undefined') {
+            for (var i = 0; i < ilAccordionsInits.length; i++) {
+                if (ilAccordionsInits[i].id === '$id') {
+                    ilAccordionsInits[i].initial_opened = '$open';
+                }
+            }
+        }
+EOT;
+        }
+        $script.= "</script>";
+
+
+
+        return $a_output . $script;
     }
 }

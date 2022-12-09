@@ -1204,7 +1204,6 @@ assessment#:#showSuggestedSolution#:#Solución sugerida
 assessment#:#show_answer_overview#:#Mostrar resumen de respuesta
 assessment#:#show_detailed_results#:#Mostrar datos detallados del usuario (Marked Pass)
 assessment#:#show_examview_html#:#Mostrar vista del examen del test en la página de entrega.
-assessment#:#show_examview_pdf#:#Muestra la vista del examen automáticamente en un PDF descargable.
 assessment#:#show_pass_overview#:#Mostrar resumen de la ejecución seleccionada
 assessment#:#show_user_answers#:#Mostrar las respuestas marcadas del usuario
 assessment#:#showinfo#:#Mostrar propiedades del Test

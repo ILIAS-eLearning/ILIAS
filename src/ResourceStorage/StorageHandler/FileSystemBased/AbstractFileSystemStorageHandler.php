@@ -24,6 +24,8 @@ use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\FileUpload\Location;
+use ILIAS\ResourceStorage\Flavour\Flavour;
+use ILIAS\ResourceStorage\Flavour\StorableFlavourDecorator;
 use ILIAS\ResourceStorage\Identification\IdentificationGenerator;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Identification\UniqueIDIdentificationGenerator;
@@ -41,6 +43,7 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 abstract class AbstractFileSystemStorageHandler implements StorageHandler
 {
     protected const DATA = 'data';
+    public const FLAVOUR_PATH_PREFIX = 'fl';
     protected \ILIAS\ResourceStorage\StorageHandler\PathGenerator\PathGenerator $path_generator;
     protected \ILIAS\ResourceStorage\Identification\IdentificationGenerator $id;
     protected bool $links_possible = false;
@@ -128,6 +131,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
         return $this->fs->readStream($this->getRevisionPath($revision) . '/' . self::DATA);
     }
 
+
     public function storeUpload(UploadedFileRevision $revision): bool
     {
         global $DIC;
@@ -205,6 +209,51 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
         }
     }
 
+    public function hasFlavour(Revision $revision, Flavour $flavour): bool
+    {
+        return $this->fs->has($this->getFlavourPath($revision, $flavour));
+    }
+
+
+    public function storeFlavour(Revision $revision, StorableFlavourDecorator $storabel_flavour): bool
+    {
+        $flavour = $storabel_flavour->getFlavour();
+        $path = $this->getFlavourPath($revision, $flavour);
+        if ($this->fs->has($path)) {
+            $this->fs->deleteDir($path); // we remove old files of this flavour.
+        }
+
+        foreach ($storabel_flavour->getStreams() as $index => $stream) {
+            $index_path = $path . '/' . self::DATA . '_' . $index; // flavour streams are just written with an index name
+            $this->fs->writeStream($index_path, $stream);
+        }
+
+        return true;
+    }
+
+    public function deleteFlavour(Revision $revision, Flavour $flavour): bool
+    {
+        $path = $this->getFlavourPath($revision, $flavour);
+        if ($this->fs->has($path)) {
+            $this->fs->deleteDir($path);
+            return true;
+        }
+        return false;
+    }
+
+
+    public function getFlavourStreams(Revision $revision, Flavour $flavour): \Generator
+    {
+        $path = $this->getFlavourPath($revision, $flavour);
+        if (!$this->hasFlavour($revision, $flavour)) {
+            return;
+        }
+        foreach ($this->fs->finder()->in([$path])->files()->sortByName()->getIterator() as $item) {
+            yield $this->fs->readStream($item->getPath());
+        }
+    }
+
+
     /**
      * @inheritDoc
      */
@@ -237,6 +286,13 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
     public function getBasePath(ResourceIdentification $identification): string
     {
         return $this->getFullContainerPath($identification);
+    }
+
+    public function getFlavourPath(Revision $revision, Flavour $flavour): string
+    {
+        return $this->getRevisionPath($revision)
+            . '/' . self::FLAVOUR_PATH_PREFIX
+            . '/' . $flavour->getPersistingName();
     }
 
     public function getRevisionPath(Revision $revision): string

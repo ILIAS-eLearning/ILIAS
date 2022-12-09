@@ -47,7 +47,9 @@ class ilObjectTranslationGUI
     protected ilObjectTranslation $obj_trans;
 
     protected bool $title_descr_only = true;
+    protected bool $hide_description = false;
     protected bool $fallback_lang_mode = true;
+    protected bool $support_content_translation = true;
 
     public function __construct($obj_gui)
     {
@@ -66,6 +68,16 @@ class ilObjectTranslationGUI
         $this->obj = $obj_gui->getObject();
 
         $this->obj_trans = ilObjectTranslation::getInstance($this->obj->getId());
+    }
+
+    public function hideDescription(bool $hide): void
+    {
+        $this->hide_description = $hide;
+    }
+
+    public function supportContentTranslation(bool $content_translation): void
+    {
+        $this->support_content_translation = $content_translation;
     }
 
     private function getTableValuesByObjects(): array
@@ -123,6 +135,13 @@ class ilObjectTranslationGUI
         return $vals;
     }
 
+    /**
+     * Some objects like learning modules do not support to translate only the title
+     * and the description. If they acticate multilinguasm, they translate always
+     * title, description AND content. They have to call setTitleDescrOnlyMode(false)
+     * to indicate this. Other contexts, e.g. categories allow to only translate
+     * title and description and activate the content multilinguasm separately.
+     */
     public function setTitleDescrOnlyMode(bool $val): void
     {
         $this->title_descr_only = $val;
@@ -179,38 +198,40 @@ class ilObjectTranslationGUI
             );
         }
 
-        if ($this->getTitleDescrOnlyMode()) {
-            if (!$this->obj_trans->getContentActivated()) {
-                $this->tpl->setOnScreenMessage('info', $this->lng->txt("obj_multilang_title_descr_only"));
-                $this->toolbar->addButton(
-                    $this->lng->txt("obj_activate_content_lang"),
-                    $this->ctrl->getLinkTarget($this, "activateContentMultilinguality")
-                );
+        if ($this->support_content_translation) {
+            if ($this->getTitleDescrOnlyMode()) {
+                if (!$this->obj_trans->getContentActivated()) {
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt("obj_multilang_title_descr_only"));
+                    $this->toolbar->addButton(
+                        $this->lng->txt("obj_activate_content_lang"),
+                        $this->ctrl->getLinkTarget($this, "activateContentMultilinguality")
+                    );
+                } else {
+                    $this->toolbar->addButton(
+                        $this->lng->txt("obj_deactivate_content_lang"),
+                        $this->ctrl->getLinkTarget($this, "confirmDeactivateContentMultiLang")
+                    );
+                }
             } else {
-                $this->toolbar->addButton(
-                    $this->lng->txt("obj_deactivate_content_lang"),
-                    $this->ctrl->getLinkTarget($this, "confirmDeactivateContentMultiLang")
-                );
-            }
-        } else {
-            if ($this->obj_trans->getContentActivated()) {
-                $this->toolbar->addButton(
-                    $this->lng->txt("obj_deactivate_multilang"),
-                    $this->ctrl->getLinkTarget($this, "confirmDeactivateContentMultiLang")
-                );
-            } else {
-                $this->toolbar->addButton(
-                    $this->lng->txt("obj_activate_multilang"),
-                    $this->ctrl->getLinkTarget($this, "activateContentMultilinguality")
-                );
-                return;
+                if ($this->obj_trans->getContentActivated()) {
+                    $this->toolbar->addButton(
+                        $this->lng->txt("obj_deactivate_multilang"),
+                        $this->ctrl->getLinkTarget($this, "confirmDeactivateContentMultiLang")
+                    );
+                } else {
+                    $this->toolbar->addButton(
+                        $this->lng->txt("obj_activate_multilang"),
+                        $this->ctrl->getLinkTarget($this, "activateContentMultilinguality")
+                    );
+                    return;
+                }
             }
         }
 
         $table = new ilObjectTranslation2TableGUI(
             $this,
             self::CMD_LIST_TRANSLATIONS,
-            true,
+            !$this->hide_description,
             "Translation",
             $this->obj_trans->getMasterLanguage(),
             $this->fallback_lang_mode,
@@ -310,13 +331,13 @@ class ilObjectTranslationGUI
             }
             if ($languages[$k] === $obj_store_lang) {
                 $this->obj->setTitle(ilUtil::stripSlashes($v));
-                $this->obj->setDescription(ilUtil::stripSlashes($descriptions[$k]));
+                $this->obj->setDescription(ilUtil::stripSlashes($descriptions[$k] ?? ""));
             }
 
             $this->obj_trans->addLanguage(
                 ilUtil::stripSlashes($languages[$k]),
                 ilUtil::stripSlashes($v),
-                ilUtil::stripSlashes($descriptions[$k]),
+                ilUtil::stripSlashes($descriptions[$k] ?? ""),
                 $is_default
             );
         }

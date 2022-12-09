@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\ResourceStorage\Preloader;
 
 use ILIAS\ResourceStorage\Repositories;
+use ILIAS\ResourceStorage\Resource\Repository\FlavourRepository;
 
 /**
  * Class StandardRepositoryPreloader
@@ -32,6 +33,7 @@ class StandardRepositoryPreloader implements RepositoryPreloader
     protected \ILIAS\ResourceStorage\Revision\Repository\RevisionRepository $revision_repository;
     protected \ILIAS\ResourceStorage\Information\Repository\InformationRepository $information_repository;
     protected \ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository $stakeholder_repository;
+    protected FlavourRepository $flavour_repository;
 
     public function __construct(Repositories $repositories)
     {
@@ -39,6 +41,7 @@ class StandardRepositoryPreloader implements RepositoryPreloader
         $this->revision_repository = $repositories->getRevisionRepository();
         $this->information_repository = $repositories->getInformationRepository();
         $this->stakeholder_repository = $repositories->getStakeholderRepository();
+        $this->flavour_repository = $repositories->getFlavourRepository();
     }
 
     public function preload(array $identification_strings): void
@@ -47,5 +50,6 @@ class StandardRepositoryPreloader implements RepositoryPreloader
         $this->revision_repository->preload($identification_strings);
         $this->information_repository->preload($identification_strings);
         $this->stakeholder_repository->preload($identification_strings);
+        $this->flavour_repository->preload($identification_strings);
     }
 }

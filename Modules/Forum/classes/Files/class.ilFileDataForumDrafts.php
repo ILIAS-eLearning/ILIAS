@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Filesystem\Stream\Streams;
+
 /**
  * This class handles all operations on files for the drafts of a forum object.
  * @author    Nadia Matuschek <nmatuschek@databay.de>
@@ -29,12 +31,13 @@ class ilFileDataForumDrafts extends ilFileData
     private ilLanguage $lng;
     private ilErrorHandling $error;
     private ilGlobalTemplateInterface $main_tpl;
+    private \ILIAS\ResourceStorage\Services $irss;
 
     public function __construct(private int $obj_id, private int $draft_id)
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
-
+        $this->irss = $DIC->resourceStorage();
         $this->lng = $DIC->language();
         $this->error = $DIC['ilErr'];
 
@@ -126,14 +129,41 @@ class ilFileDataForumDrafts extends ilFileData
 
     public function moveFilesOfDraft(string $forum_path, int $new_post_id): bool
     {
-        foreach ($this->getFilesOfPost() as $file) {
-            copy(
-                $file['path'],
-                $forum_path . '/' . $this->obj_id . '_' . $new_post_id . '_' . $file['name']
-            );
-        }
+        // This will get a lot easier once we have a ResourceCollection for the draft files as well.
+        // You can use $this->irss->collection()->clone() then.
+        // For now we must know the files of a posting are already in IRSS by passing back
+        // ilFileDataForumRCImplementation::FORUM_PATH_RCID as the Forum path.
+        if ($forum_path === ilFileDataForumRCImplementation::FORUM_PATH_RCID) {
+            $post = new ilForumPost($new_post_id);
+            if ($post->getRCID() === ilForumPost::NO_RCID || empty($post->getRCID())) {
+                $rcid = $this->irss->collection()->id();
+                $post->setRCID($rcid->serialize());
+                $post->update();
+            } else {
+                $rcid = $this->irss->collection()->id($post->getRCID());
+            }
+            $collection = $this->irss->collection()->get($rcid);
+            $stakeholder = new ilForumPostingFileStakeholder();
+            foreach ($this->getFilesOfPost() as $file) {
+                $rid = $this->irss->manage()->stream(
+                    Streams::ofResource(fopen($file['path'], 'rb')),
+                    $stakeholder,
+                    md5($file['name'])
+                );
+                $collection->add($rid);
+            }
+            $this->irss->collection()->store($collection);
+            return true;
+        } else {
+            foreach ($this->getFilesOfPost() as $file) {
+                copy(
+                    $file['path'],
+                    $forum_path . '/' . $this->obj_id . '_' . $new_post_id . '_' . $file['name']
+                );
+            }
 
-        return true;
+            return true;
+        }
     }
 
     public function delete(): bool

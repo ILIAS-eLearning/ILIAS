@@ -221,6 +221,14 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                         $title = $sess->getPresentationTitle();
                     }
 
+                    // BT 35475: set titles of referenced objects correctly
+                    if (
+                        $title == '' &&
+                        ($type == 'catr' || $type == 'crsr' || $type == 'grpr')
+                    ) {
+                        $title = ilContainerReference::_lookupTargetTitle((int) $obj_id);
+                    }
+
                     // #16453
                     $relpath = null;
                     $path = new ilPathGUI();
@@ -700,7 +708,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                     case "status_changed":
                     */
                 default:
-                    $val = $this->parseValue($c, $a_set[$c], "user");
+                    $val = $this->parseValue($c, $a_set[$c] ?? '', "user");
                     $a_excel->setCell($a_row, $cnt, $val);
                     break;
             }
@@ -783,7 +791,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                     case "status_changed":
                     */
                 default:
-                    $val = $this->parseValue($c, $a_set[$c], "user");
+                    $val = $this->parseValue($c, $a_set[$c] ?? '', "user");
                     $a_csv->addColumn($val);
                     break;
             }
