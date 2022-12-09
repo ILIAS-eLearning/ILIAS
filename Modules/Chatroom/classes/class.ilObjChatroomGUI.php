@@ -330,7 +330,6 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
             'object_id' => $objId,
             'autogen_usernames' => 'Autogen #',
             'display_past_msgs' => 20,
-            'private_rooms_enabled' => 0
         ]);
 
         $rbac_log_roles = $this->rbac_review->getParentRoleIds($newObj->getRefId());
@@ -340,5 +339,18 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
         $this->object = $newObj;
 
         return $newObj;
+    }
+
+    /**
+     * @param ilObjChatroom $new_object
+     * @return void
+     */
+    protected function afterImport(ilObject $new_object): void
+    {
+        $room = ilChatroom::byObjectId($new_object->getId());
+        $connector = $this->getConnector();
+        $response = $connector->sendCreatePrivateRoom($room->getRoomId(), $new_object->getOwner(), $new_object->getTitle());
+
+        parent::afterImport($new_object);
     }
 }

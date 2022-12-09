@@ -252,7 +252,7 @@ class ilUserTableGUI extends ilTable2GUI
             // All accessible users
             $user_filter = ilLocalUser::_getFolderIds(true);
         } else {
-            if ($this->filter['time_limit_owner']) {
+            if ($this->filter['time_limit_owner'] ?? null) {
                 $user_filter = array($this->filter['time_limit_owner']);
             } else {
                 // All accessible users
@@ -301,20 +301,20 @@ class ilUserTableGUI extends ilTable2GUI
         }
         $query->setOffset($this->getOffset());
         $query->setLimit($this->getLimit());
-        $query->setTextFilter($this->filter['query']);
-        $query->setActionFilter($this->filter['activation']);
-        $query->setLastLogin($this->filter['last_login']);
-        $query->setLimitedAccessFilter($this->filter['limited_access']);
-        $query->setNoCourseFilter($this->filter['no_courses']);
-        $query->setNoGroupFilter($this->filter['no_groups']);
-        $query->setCourseGroupFilter($this->filter['course_group']);
-        $query->setRoleFilter((int) $this->filter['global_role']);
+        $query->setTextFilter($this->filter['query'] ?? '');
+        $query->setActionFilter($this->filter['activation'] ?? '');
+        $query->setLastLogin($this->filter['last_login'] ?? null);
+        $query->setLimitedAccessFilter($this->filter['limited_access'] ?? false);
+        $query->setNoCourseFilter($this->filter['no_courses'] ?? false);
+        $query->setNoGroupFilter($this->filter['no_groups'] ?? false);
+        $query->setCourseGroupFilter($this->filter['course_group'] ?? 0);
+        $query->setRoleFilter((int) ($this->filter['global_role'] ?? 0));
         $query->setAdditionalFields($additional_fields);
         $query->setUserFolder($user_filter);
         $query->setUserFilter($this->filter['user_ids'] ?? []);
         $query->setUdfFilter($udf_filter);
         $query->setFirstLetterLastname($this->user_request->getLetter());
-        $query->setAuthenticationFilter($this->filter['authentication']);
+        $query->setAuthenticationFilter($this->filter['authentication'] ?? '');
         $usr_data = $query->query();
 
         if (count($usr_data["set"]) == 0 && $this->getOffset() > 0) {

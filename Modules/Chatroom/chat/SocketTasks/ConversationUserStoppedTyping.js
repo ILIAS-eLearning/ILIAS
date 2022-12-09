@@ -9,7 +9,7 @@ module.exports = function(conversationId, userId) {
         if (conversation !== null && conversation.isParticipant(participant)) {
             Container.getLogger().debug('User %s stopped typing in conversation "%s"', userId, conversationId);
 
-            participants = conversation.getParticipants();
+            const participants = conversation.getParticipants();
             for (let key in participants) {
                 if (participants.hasOwnProperty(key)) {
                     if (participants[key].getId() != participant.getId()) {

@@ -57,15 +57,21 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
-        parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
-
-        // country names
-        $this->lng->loadLanguageModule("meta");
         $this->anonymized = !ilObjUserTracking::_enabledUserRelatedData();
         if (!$this->anonymized && isset($this->obj_id) && $this->obj_id > 0) {
             $olp = ilObjectLP::getInstance($this->obj_id);
             $this->anonymized = $olp->isAnonymized();
         }
+
+        /*
+         * BT 35453: parent constructor needs to be called after $this->anonymized
+         * is set, in order for getSelectableUserColumns to also properly return
+         * user defined fields (e.g. firstname, lastname, and other user data).
+         */
+        parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
+
+        // country names
+        $this->lng->loadLanguageModule("meta");
     }
 
     protected function initItemIdFromPost(): array
@@ -1170,7 +1176,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 }
             }
         }
-
         return array($cols, $privacy_fields);
     }
 

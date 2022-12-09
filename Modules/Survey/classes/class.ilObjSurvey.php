@@ -2343,7 +2343,7 @@ class ilObjSurvey extends ilObject
                 $rater_id = $run->getUserId();
             } else {
                 foreach ($raters as $id => $rater) {
-                    if ($rater["code"] === $run->getCode()) {
+                    if (($rater["code"] ?? "") === $run->getCode()) {
                         $rater_id = $id;
                     }
                 }

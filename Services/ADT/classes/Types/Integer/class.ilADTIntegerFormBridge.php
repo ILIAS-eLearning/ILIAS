@@ -58,7 +58,11 @@ class ilADTIntegerFormBridge extends ilADTFormBridge
     public function importFromPost(): void
     {
         // ilPropertyFormGUI::checkInput() is pre-requisite
-        $this->getADT()->setNumber((int) $this->getForm()->getInput($this->getElementId()));
+        $input = $this->getForm()->getInput($this->getElementId());
+        if (isset($input)) {
+            $input = (int) $input;
+        }
+        $this->getADT()->setNumber($input);
         $field = $this->getForm()->getItemByPostVar($this->getElementId());
         $field->setValue((string) $this->getADT()->getNumber());
     }

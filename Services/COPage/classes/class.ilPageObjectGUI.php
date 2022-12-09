@@ -1497,6 +1497,8 @@ class ilPageObjectGUI
                          'img_row' => $row_path,
                          'img_cell' => $cell_path,
                          'img_item' => $item_path,
+                         'acc_save_url' => "./ilias.php?baseClass=ilaccordionpropertiesstoragegui&cmd=setOpenedTab" .
+                             "&user_id=" . $this->user->getId(),
                          'append_footnotes' => $append_footnotes,
                          'compare_mode' => $this->getCompareMode() ? "y" : "n",
                          'enable_split_new' => $enable_split_new,
@@ -2974,7 +2976,7 @@ class ilPageObjectGUI
         $ac->setInternalLinkDefault("Media_Media", 0);
         $ac->setInternalLinkFilterTypes(array("PageObject_FAQ", "GlossaryItem", "Media_Media", "Media_FAQ"));
         $val = $this->obj->getInitialOpenedContent();
-        if ($val["id"] != "" && $val["type"] != "") {
+        if (($val["id"] ?? '') != "" && ($val["type"] ?? '') != "") {
             $ac->setValue($val["type"] . "|" . $val["id"] . "|" . $val["target"]);
         }
 
@@ -2992,7 +2994,7 @@ class ilPageObjectGUI
     {
         $this->obj->saveInitialOpenedContent(
             $this->request->getString("opened_content_ajax_type"),
-            $this->request->getString("opened_content_ajax_id"),
+            $this->request->getInt("opened_content_ajax_id"),
             $this->request->getString("opened_content_ajax_target")
         );
 

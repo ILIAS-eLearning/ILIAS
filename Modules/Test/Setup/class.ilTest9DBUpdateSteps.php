@@ -17,7 +17,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-class ilTest8DBUpdateSteps implements ilDatabaseUpdateSteps
+
+class ilTest9DBUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;
 
@@ -28,7 +29,7 @@ class ilTest8DBUpdateSteps implements ilDatabaseUpdateSteps
 
     public function step_1(): void
     {
-        $this->db->dropTableColumn('tst_tests', 'mc_scoring');
+        $this->db->dropTableColumn('tst_tests', 'show_examview_pdf');
     }
 
     public function step_2(): void

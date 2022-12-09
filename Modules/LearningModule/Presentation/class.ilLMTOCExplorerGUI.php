@@ -392,7 +392,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
         $this->renderLSTocNode($toc, null);
     }
 
-    protected function renderLSTocNode(\LSTOCBuilder $toc, ?int $current_node = null): void
+    protected function renderLSTocNode(\LSTOCBuilder $toc, ?array $current_node = null): void
     {
         $root = false;
         if ($current_node == 0) {

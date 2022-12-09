@@ -1202,7 +1202,6 @@ assessment#:#showSuggestedSolution#:#Tipo
 assessment#:#show_answer_overview#:#Mostrar vista geral de respostas
 assessment#:#show_detailed_results#:#Mostrar resultados detalhados do utilizador (tentativa marcada)
 assessment#:#show_examview_html#:#No ecrã
-assessment#:#show_examview_pdf#:#Download de PDF
 assessment#:#show_pass_overview#:#Mostrar vista geral de tentativas marcadas
 assessment#:#show_user_answers#:#Mostrar respostas marcadas do utilizador
 assessment#:#showinfo#:#Mostrar todas as propriedades de teste

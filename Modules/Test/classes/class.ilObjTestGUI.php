@@ -2263,57 +2263,30 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
-        $ilias = $DIC['ilias'];
         if (!$ilAccess->checkAccess("write", "", $this->ref_id)) {
             // allow only write access
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("cannot_edit_test"), true);
             $this->ctrl->redirect($this, "infoScreen");
         }
 
-        $isPdfDeliveryRequest = $DIC->test()->internal()->request()->isset('pdf') &&
-            $DIC->test()->internal()->request()->raw('pdf');
-
         $this->getTabsManager()->getQuestionsSubTabs();
         $template = new ilTemplate("tpl.il_as_tst_print_test_confirm.html", true, true, "Modules/Test");
 
-        if (!$isPdfDeliveryRequest) { // #15243
-            $this->ctrl->setParameter($this, "pdf", "1");
-            $template->setCurrentBlock("pdf_export");
-            $template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "print"));
-            $this->ctrl->setParameter($this, "pdf", "");
-            $template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
-            $template->parseCurrentBlock();
-
-            $template->setCurrentBlock("navigation_buttons");
-            $template->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
-            $template->parseCurrentBlock();
-        }
-        // prepare generation before contents are processed (for mathjax)
-        else {
-            ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_PRINT_VIEW_QUESTIONS);
-        }
+        $template->setCurrentBlock("navigation_buttons");
+        $template->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
+        $template->parseCurrentBlock();
 
         $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
         $print_date = mktime(date("H"), date("i"), date("s"), date("m"), date("d"), date("Y"));
         $max_points = 0;
         $counter = 1;
         $questionHeaderBlockBuilder = new ilTestQuestionHeaderBlockBuilder($this->lng);
         $questionHeaderBlockBuilder->setHeaderMode($this->object->getTitleOutput());
 
-        if ($isPdfDeliveryRequest) {
-            ilWACSignedPath::setTokenMaxLifetimeInSeconds(60);
-        }
-
         foreach ($this->object->questions as $question) {
             $template->setCurrentBlock("question");
             $question_gui = $this->object->createQuestionGUI("", $question);
-
-            if ($isPdfDeliveryRequest) {
-                $question_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PRINT_PDF);
-            }
 
             $questionHeaderBlockBuilder->setQuestionTitle($question_gui->object->getTitle());
             $questionHeaderBlockBuilder->setQuestionPoints($question_gui->object->getMaximumPoints());
@@ -2344,11 +2317,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         );
         $template->setVariable("VALUE_MAXIMUM_POINTS", ilLegacyFormElementsUtil::prepareFormOutput($max_points));
 
-        if ($isPdfDeliveryRequest) {
-            ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_PRINT_VIEW_QUESTIONS);
-        } else {
-            $this->tpl->setVariable("PRINT_CONTENT", $template->get());
-        }
+        $this->tpl->setVariable("PRINT_CONTENT", $template->get());
     }
 
     /**
@@ -2373,20 +2342,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 
-        $isPdfDeliveryRequest = $DIC->test()->internal()->request()->isset('pdf') &&
-            $DIC->test()->internal()->request()->raw('pdf');
-
         $max_points = 0;
         $counter = 1;
         $questionHeaderBlockBuilder = new ilTestQuestionHeaderBlockBuilder($this->lng);
         $questionHeaderBlockBuilder->setHeaderMode($this->object->getTitleOutput());
-
-        if ($isPdfDeliveryRequest) {
-            ilWACSignedPath::setTokenMaxLifetimeInSeconds(60);
-
-            // prepare generation before contents are processed (for mathjax)
-            ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_PRINT_VIEW_QUESTIONS);
-        }
 
         foreach ($this->object->questions as $question) {
             $template->setCurrentBlock("question");
@@ -2423,23 +2382,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         );
         $template->setVariable("VALUE_MAXIMUM_POINTS", ilLegacyFormElementsUtil::prepareFormOutput($max_points));
 
-        if ($isPdfDeliveryRequest) {
-            ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_PRINT_VIEW_QUESTIONS);
-        } else {
-            $this->ctrl->setParameter($this, "pdf", "1");
-            $template->setCurrentBlock("pdf_export");
-            $template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "review"));
-            $this->ctrl->setParameter($this, "pdf", "");
-            $template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
-            $template->parseCurrentBlock();
+        $template->setCurrentBlock("navigation_buttons");
+        $template->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
+        $template->parseCurrentBlock();
 
-            $template->setCurrentBlock("navigation_buttons");
-            $template->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
-            $template->parseCurrentBlock();
-
-
-            $this->tpl->setVariable("PRINT_CONTENT", $template->get());
-        }
+        $this->tpl->setVariable("PRINT_CONTENT", $template->get());
     }
 
     /**

@@ -29,11 +29,16 @@ class ilParticipantsTestResultsGUITest extends ilTestBaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        global $DIC;
-        $DIC['tpl'] = $this->getMockBuilder(ilGlobalTemplateInterface::class)->getMock();
-        $DIC['logger'] = $this->getMockBuilder(\ILIAS\DI\LoggingServices::class)->disableOriginalConstructor()->getMock();
-        $DIC['http'] = $this->getMockBuilder(\ILIAS\HTTP\Services::class)->disableOriginalConstructor()->getMock();
-        $DIC['refinery'] = $this->getMockBuilder(ILIAS\Refinery\Factory::class)->disableOriginalConstructor()->getMock();
+
+        $this->addGlobal_tpl();
+        $this->addGlobal_ilLoggerFactory();
+        $this->addGlobal_http();
+        $this->addGlobal_refinery();
+        $this->addGlobal_ilCtrl();
+        $this->addGlobal_lng();
+        $this->addGlobal_ilDB();
+        $this->addGlobal_ilTabs();
+        $this->addGlobal_ilToolbar();
         $this->testObj = new ilParticipantsTestResultsGUI();
     }
 

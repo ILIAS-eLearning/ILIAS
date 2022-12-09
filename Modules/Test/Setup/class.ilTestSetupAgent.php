@@ -30,37 +30,37 @@ class ilTestSetupAgent extends NullAgent
 {
     use Setup\Agent\HasNoNamedObjective;
 
-    public function getUpdateObjective(ILIAS\Setup\Config $config = null) : Objective
+    public function getUpdateObjective(ILIAS\Setup\Config $config = null): Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(new ilTest8DBUpdateSteps());
+        return new ilDatabaseUpdateStepsExecutedObjective(new ilTest9DBUpdateSteps());
     }
 
-    public function getStatusObjective(Metrics\Storage $storage) : Objective
+    public function getStatusObjective(Metrics\Storage $storage): Objective
     {
-        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilTest8DBUpdateSteps());
+        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilTest9DBUpdateSteps());
     }
 
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return false;
     }
 
-    public function getArrayToConfigTransformation() : Transformation
+    public function getArrayToConfigTransformation(): Transformation
     {
         throw new \LogicException("Agent has no config.");
     }
 
-    public function getInstallObjective(Config $config = null) : Objective
+    public function getInstallObjective(Config $config = null): Objective
     {
         return new Setup\Objective\NullObjective();
     }
 
-    public function getBuildArtifactObjective() : Objective
+    public function getBuildArtifactObjective(): Objective
     {
         return new Setup\Objective\NullObjective();
     }
 
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [
             new ilManScoringSettingsToOwnDbTableMigration()

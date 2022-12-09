@@ -207,6 +207,11 @@ class ilTestBaseTestCase extends TestCase
         $this->setGlobalVariable("ilErr", $this->createMock(ilErrorHandling::class));
     }
 
+    protected function addGlobal_GlobalScreenService(): void
+    {
+        $this->setGlobalVariable("global_screen", $this->createMock(ILIAS\GlobalScreen\Services::class));
+    }
+
     protected function addGlobal_ilAppEventHandler(): void
     {
         $this->setGlobalVariable("ilAppEventHandler", $this->createMock(ilAppEventHandler::class));

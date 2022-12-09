@@ -151,4 +151,28 @@ class ilAccordionPropertiesStorageGUI implements ilCtrlBaseClassInterface
         }
         return $acc[$a_table_id][$a_user_id][$a_property] ?? "";
     }
+
+
+    public function getPropertyForIdStartsWith(
+        string $id_starts_with,
+        int $user_id,
+        string $property
+    ): array {
+        $ret = [];
+        switch ($this->properties[$property]["storage"]) {
+            case "session":
+                if (ilSession::has("accordion")) {
+                    $acc = ilSession::get("accordion");
+                    foreach ($acc as $id => $user_values) {
+                        if (substr($id, 0, strlen($id_starts_with)) === $id_starts_with) {
+                            if (isset($user_values[$user_id][$property])) {
+                                $ret[$id] = $user_values[$user_id][$property];
+                            }
+                        }
+                    }
+                }
+                break;
+        }
+        return $ret;
+    }
 }

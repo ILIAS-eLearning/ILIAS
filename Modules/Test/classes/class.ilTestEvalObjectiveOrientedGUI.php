@@ -75,15 +75,7 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
             }
         }
 
-        // prepare generation before contents are processed (for mathjax)
-        if ($this->isPdfDeliveryRequest()) {
-            ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
-        }
-
         $toolbar = $this->buildUserTestResultsToolbarGUI();
-        $this->ctrl->setParameter($this, 'pdf', '1');
-        $toolbar->setPdfExportLinkTarget($this->ctrl->getLinkTarget($this, 'showVirtualPass'));
-        $this->ctrl->setParameter($this, 'pdf', '');
         $toolbar->build();
 
         $virtualSequence = $this->service->buildVirtualSequence($testSession);
