@@ -168,6 +168,9 @@ class ilAssLacConditionParser
      * 		<td>type</td><td>"group", "expression", "operator"</td><td>The type of the node - Group is used to introduce the next tree depth</td>
      * </tr>
      * <tr>
+     * 		<td>negated</td><td>boolean</td><td>Whether this condition is logically inverted or not</td>
+     * </tr>
+     * <tr>
      * 		<td>value</td><td>mixed</td><td>Contains an extracted expression or operation from a condition</td>
      * </tr>
      * <tr>
