@@ -540,7 +540,7 @@ class ilTestEvaluationUserData
         $this->user_id = $a_usr_id;
     }
 
-    public function getUserID(): int
+    public function getUserID(): ?int
     {
         return $this->user_id;
     }
