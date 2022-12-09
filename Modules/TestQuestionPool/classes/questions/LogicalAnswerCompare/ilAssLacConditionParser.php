@@ -84,6 +84,7 @@ class ilAssLacConditionParser
     public function parse($condition): array
     {
         $this->condition = $condition;
+        $this->index = 0;
         $this->checkBrackets();
         $this->fetchExpressions();
         $this->fetchOperators();
