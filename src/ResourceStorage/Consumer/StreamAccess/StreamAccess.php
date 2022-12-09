@@ -46,10 +46,15 @@ class StreamAccess
         $this->factory = new TokenFactory($storage_base_path);
     }
 
+    public function getTokenFactory(): TokenFactory
+    {
+        return $this->factory;
+    }
+
     public function populateRevision(Revision $revision): Revision
     {
         $stream = $this->storage_handler_factory->getHandlerForRevision($revision)->getStream($revision);
-        $token = $this->factory->lease($stream);
+        $token = $this->factory->lease($stream, $revision->getIdentification());
 
         return $revision->withToken($token);
     }
@@ -61,7 +66,7 @@ class StreamAccess
     ): Flavour {
         return $flavour->addAccessToken(
             $index,
-            $this->factory->lease($file_stream, true)
+            $this->factory->lease($file_stream, $flavour->getResourceId(), true)
         );
     }
 }

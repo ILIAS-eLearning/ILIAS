@@ -40,6 +40,8 @@ interface ResourceStakeholder
      */
     public function getFullyQualifiedClassName(): string;
 
+    public function canBeAccessedByCurrentUser(ResourceIdentification $identification): bool;
+
     public function isResourceInUse(ResourceIdentification $identification): bool;
 
     /**
