@@ -38,6 +38,10 @@ abstract class assQuestionGUI
     public const FORM_ENCODING_URLENCODE = 'application/x-www-form-urlencoded';
     public const FORM_ENCODING_MULTIPART = 'multipart/form-data';
 
+    protected const SUGGESTED_SOLUTION_COMMANDS_CANCEL = 'cancelSuggestedSolution';
+    protected const SUGGESTED_SOLUTION_COMMANDS_SAVE = 'saveSuggestedSolution';
+    protected const SUGGESTED_SOLUTION_COMMANDS_DEFAULT = 'suggestedsolution';
+
     protected const HAS_SPECIAL_QUESTION_COMMANDS = false;
 
     public const SESSION_PREVIEW_DATA_BASE_INDEX = 'ilAssQuestionPreviewAnswers';
@@ -211,12 +215,13 @@ abstract class assQuestionGUI
                 $this->ctrl->forwardCommand($form_prop_dispatch);
                 break;
 
-            default:
-                $cmd = $this->ctrl->getCmd('editQuestion');
-
                 switch ($cmd) {
-                    case 'suggestedsolution':
-                    case 'saveSuggestedSolution':
+                    case self::SUGGESTED_SOLUTION_COMMANDS_CANCEL:
+                    case self::SUGGESTED_SOLUTION_COMMANDS_SAVE:
+                    case self::SUGGESTED_SOLUTION_COMMANDS_DEFAULT:
+                        $this->suggestedsolution();
+                        break;
+                    case 'saveSuggestedSolutionType':
                     case 'saveContentsSuggestedSolution':
                     case 'deleteSuggestedSolution':
                     case 'linkChilds':
@@ -656,7 +661,7 @@ abstract class assQuestionGUI
     public function cancelSync(): void
     {
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-        
+
         if (strlen($this->request->raw("return_to"))) {
             $this->ctrl->redirect($this, $this->request->raw("return_to"));
         }
@@ -1223,8 +1228,7 @@ abstract class assQuestionGUI
         $ilAccess = $this->access;
 
         $save = (is_array($_POST["cmd"]) &&
-            array_key_exists("suggestedsolution", $_POST["cmd"]) &&
-            $_POST["cmd"]['suggestedsolution'] === 'Save') ? true : false;
+            array_key_exists("saveSuggestedSolution", $_POST["cmd"])) ? true : false;
 
         if ($save && $_POST["deleteSuggestedSolution"] == 1) {
             $this->object->deleteSuggestedSolutions();
@@ -1384,8 +1388,8 @@ abstract class assQuestionGUI
                 $form->addItem($question);
             }
             if ($ilAccess->checkAccess("write", "", $this->request->getRefId())) {
-                $form->addCommandButton('suggestedsolution', $this->lng->txt('cancel'));
-                $form->addCommandButton('suggestedsolution', $this->lng->txt('save'));
+                $form->addCommandButton('cancelSuggestedSolution', $this->lng->txt('cancel'));
+                $form->addCommandButton('saveSuggestedSolution', $this->lng->txt('save'));
             }
 
             if ($save) {
@@ -1415,7 +1419,7 @@ abstract class assQuestionGUI
             $output = $form->getHTML();
         }
 
-        $savechange = $this->ctrl->getCmd() === "saveSuggestedSolution";
+        $savechange = $this->ctrl->getCmd() === "saveSuggestedSolutionType";
 
         $changeoutput = "";
         if ($ilAccess->checkAccess("write", "", $this->request->getRefId())) {
@@ -1438,7 +1442,7 @@ abstract class assQuestionGUI
             $solutiontype->setRequired(true);
             $formchange->addItem($solutiontype);
 
-            $formchange->addCommandButton("saveSuggestedSolution", $this->lng->txt("select"));
+            $formchange->addCommandButton("saveSuggestedSolutionType", $this->lng->txt("select"));
 
             if ($savechange) {
                 $formchange->checkInput();
@@ -1484,7 +1488,7 @@ abstract class assQuestionGUI
         $this->tpl->setVariable("ADM_CONTENT", $template->get());
     }
 
-    public function saveSuggestedSolution(): void
+    public function saveSuggestedSolutionType(): void
     {
         global $DIC;
         $tree = $DIC['tree'];
