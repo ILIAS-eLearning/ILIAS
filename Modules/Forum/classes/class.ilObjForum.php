@@ -844,7 +844,7 @@ class ilObjForum extends ilObject
                 $types,
                 $values
             );
-            for ($i = 0; $i <= 2; $i++) {
+            for ($i = 0; $i < 2; $i++) {
                 $row = $ilDB->fetchAssoc($res);
 
                 $statistics[$mapping[$i]] = (int) ((is_array($row) ? $row['cnt'] : 0));
