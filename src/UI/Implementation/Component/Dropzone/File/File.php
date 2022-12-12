@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
@@ -46,6 +46,7 @@ abstract class File implements FileInterface
     use Triggerer;
     public const FILE_INPUT_KEY = 'files';
     protected const JAVASCRIPT_EVENT = 'drop';
+    private bool $chunked_upload = false;
 
     /**
      * @var Transformation[]
@@ -72,6 +73,7 @@ abstract class File implements FileInterface
         $this->input_factory = $input_factory;
         $this->language = $language;
         $this->upload_handler = $upload_handler;
+        $this->chunked_upload = $upload_handler->supportsChunkedUploads();
         $this->post_url = $post_url;
         $this->metadata_input = $metadata_input;
     }
@@ -193,6 +195,13 @@ abstract class File implements FileInterface
 
         return $form->getError();
     }
+
+    public function hasChunkedUpload(): bool
+    {
+        return $this->chunked_upload;
+    }
+
+
 
     // ==========================================
     // END IMPLEMENTATION OF Form

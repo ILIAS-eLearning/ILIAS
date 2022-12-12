@@ -33,6 +33,9 @@ il.UI.Input = il.UI.Input || {};
 			expand_glyph: '[data-action="expand"] .glyph',
 			collapse_glyph: '[data-action="collapse"] .glyph',
 			form_submit_buttons: '.il-standard-form-cmd > button',
+
+			progress_container: '.ui-input-file-input-progress-container',
+			progress_indicator: '.ui-input-file-input-progress-indicator',
 		};
 
 		/**
@@ -107,7 +110,9 @@ il.UI.Input = il.UI.Input || {};
 			max_file_size,
 			mime_types,
 			is_disabled,
-			translations
+			translations,
+			chunked_upload,
+			chunk_size
 		) {
 			if (typeof dropzones[input_id] !== 'undefined') {
 				console.error(`Error: tried to register input '${input_id}' as file input twice.`);
@@ -144,6 +149,9 @@ il.UI.Input = il.UI.Input || {};
 					file_identifier: file_identifier,
 					removal_url: removal_url,
 					input_id: input_id,
+					chunking: chunked_upload,
+					chunkSize: chunk_size,
+					forceChunking: chunked_upload,
 
 					// override default rendering function.
 					addedfile: file => {
@@ -194,6 +202,30 @@ il.UI.Input = il.UI.Input || {};
 			dropzone.on('success', setResourceStorageIdHook);
 			dropzone.on('error', function () {
 				return false;
+			});
+			dropzone.on('uploadprogress', function (file, progress, bytesSent) {
+				let file_id_input = $(`#${file.input_id}`);
+				let file_preview = file_id_input.closest(SELECTOR.file_list_entry);
+
+				if (file_preview) {
+					let progressContainer = file_preview.find(SELECTOR.progress_container);
+					let progressIndicator = file_preview.find(SELECTOR.progress_indicator);
+					let number = Math.round(progress);
+
+					if (number === 100 && bytesSent < file.size) {
+						// return;
+					}
+					if (progressContainer && progressIndicator) {
+						progressContainer.css('display', 'block');
+						if (!file.hasOwnProperty('progress_storage') || number > file.progress_storage) {
+							progressIndicator.css('width', number + '%');
+						}
+						if (number === 100) {
+							progressIndicator.addClass('success');
+						}
+					}
+					file.progress_storage = number;
+				}
 			});
 		}
 
@@ -643,6 +675,7 @@ il.UI.Input = il.UI.Input || {};
 		 */
 		let displayErrorMessage = function (message, container) {
 			container.find(SELECTOR.error_message).html(message);
+			container.find(SELECTOR.progress_indicator).addClass('error');
 		}
 
 		/**
