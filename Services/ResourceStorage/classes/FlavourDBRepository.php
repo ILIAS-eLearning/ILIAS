@@ -46,7 +46,7 @@ class FlavourDBRepository implements FlavourRepository
 
     public function has(ResourceIdentification $rid, int $revision, FlavourDefinition $definition): bool
     {
-        return $this->buildResult($rid, $revision, $definition)->numRows() > 0;
+        return $this->buildResult($rid, $revision, $definition, false)->numRows() > 0;
     }
 
     public function store(Flavour $flavour): void
@@ -58,7 +58,7 @@ class FlavourDBRepository implements FlavourRepository
                     self::F_RESOURCE_ID => ['text', $flavour->getResourceId()->serialize()],
                     self::F_REVISION => ['integer', $flavour->getRevision()],
                     self::F_DEFINITION => ['text', $flavour->getDefinition()->getId()],
-                    self::F_VARIANT => ['text', $flavour->getDefinition()->getVariantName()]
+                    self::F_VARIANT => ['text', $flavour->getDefinition()->getVariantName() ?? '']
                 ]
             );
         }
@@ -104,10 +104,11 @@ class FlavourDBRepository implements FlavourRepository
     private function buildResult(
         ResourceIdentification $rid,
         int $revision,
-        FlavourDefinition $definition
+        FlavourDefinition $definition,
+        bool $use_cache = true
     ): \ilDBStatement {
         $rcache = $rid->serialize() . $definition->getId() . $definition->getVariantName();
-        if (isset($this->results_cache[$rcache])) {
+        if ($use_cache && isset($this->results_cache[$rcache])) {
             return $this->results_cache[$rcache];
         }
 
@@ -116,8 +117,18 @@ class FlavourDBRepository implements FlavourRepository
             . " WHERE " . self::F_RESOURCE_ID . " = %s AND "
             . self::F_REVISION . " = %s AND "
             . self::F_DEFINITION . " = %s AND (" . self::F_VARIANT . " = %s OR " . self::F_VARIANT . " IS NULL)",
-            ['text', 'integer', 'text', 'text'],
-            [$rid->serialize(), $revision, $definition->getId(), $definition->getVariantName()]
+            [
+                'text',
+                'integer',
+                'text',
+                'text'
+            ],
+            [
+                $rid->serialize(),
+                $revision,
+                $definition->getId(),
+                $definition->getVariantName() ?? ''
+            ]
         );
         return $this->results_cache[$rcache] = $r;
     }

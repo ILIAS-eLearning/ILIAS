@@ -210,6 +210,9 @@ class FlavourBuilder
 
     private function checkDefinition(FlavourDefinition $definition): void
     {
+        if ($definition->getVariantName() === null) {
+            return;
+        }
         if (strlen($definition->getVariantName()) > self::VARIANT_NAME_MAX_LENGTH) {
             throw new \InvalidArgumentException("FlavourDefinition variant name too long");
         }
