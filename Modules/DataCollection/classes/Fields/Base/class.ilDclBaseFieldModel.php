@@ -297,8 +297,12 @@ class ilDclBaseFieldModel
         $rec = $ilDB->fetchAssoc($set);
 
         $this->setTableId($rec["table_id"]);
-        $this->setTitle($rec["title"]);
-        $this->setDescription($rec["description"]);
+        if (null !== $rec["title"]) {
+            $this->setTitle($rec["title"]);
+        }
+        if (null !== $rec["description"]) {
+            $this->setDescription($rec["description"]);
+        }
         $this->setDatatypeId($rec["datatype_id"]);
         $this->setUnique($rec["is_unique"]);
         $this->loadProperties();
