@@ -112,12 +112,16 @@ class ilDclTable
         $rec = $ilDB->fetchAssoc($set);
 
         $this->setObjId($rec["obj_id"]);
-        $this->setTitle($rec["title"]);
+        if (null !== $rec["title"]) {
+            $this->setTitle($rec["title"]);
+        }
         $this->setAddPerm($rec["add_perm"]);
         $this->setEditPerm($rec["edit_perm"]);
         $this->setDeletePerm($rec["delete_perm"]);
         $this->setEditByOwner($rec["edit_by_owner"]);
-        $this->setExportEnabled($rec["export_enabled"]);
+        if (null !== $rec["export_enabled"]) {
+            $this->setExportEnabled((bool) $rec["export_enabled"]);
+        }
         $this->setImportEnabled($rec["import_enabled"]);
         $this->setLimited($rec["limited"]);
         $this->setLimitStart($rec["limit_start"]);
@@ -132,7 +136,9 @@ class ilDclTable
         $this->setViewOwnRecordsPerm($rec['view_own_records_perm']);
         $this->setDeleteByOwner($rec['delete_by_owner']);
         $this->setSaveConfirmation($rec['save_confirmation']);
-        $this->setOrder($rec['table_order']);
+        if (null !== $rec['table_order']) {
+            $this->setOrder($rec['table_order']);
+        }
     }
 
     /**
