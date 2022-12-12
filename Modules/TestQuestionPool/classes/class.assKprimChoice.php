@@ -458,7 +458,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
      * @param integer $active_id
      * @param integer $pass
      * @param boolean $returndetails (deprecated !!)
-     * @return integer/array $points/$details (array $details is deprecated !!)
+     * @return float/array $points/$details (array $details is deprecated !!)
      */
     public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false)
     {
