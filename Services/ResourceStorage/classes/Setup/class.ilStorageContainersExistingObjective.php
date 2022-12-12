@@ -24,11 +24,11 @@ use ILIAS\Setup\Objective;
 
 /**
  * Class ilStorageContainersExistingObjective
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class ilStorageContainersExistingObjective extends Objective\DirectoryCreatedObjective
 {
-    protected string $base_dir;
+    protected string $base_dir = StorageHandlerFactory::BASE_DIRECTORY;
 
     /**
      * @var string[]
@@ -41,7 +41,6 @@ class ilStorageContainersExistingObjective extends Objective\DirectoryCreatedObj
     {
         parent::__construct(StorageHandlerFactory::BASE_DIRECTORY);
         $this->storage_handler_ids = $storage_handler_ids ?? $this->storage_handler_ids;
-        $this->base_dir = StorageHandlerFactory::BASE_DIRECTORY;
     }
 
     protected function buildStorageBasePath(Setup\Environment $environment): string

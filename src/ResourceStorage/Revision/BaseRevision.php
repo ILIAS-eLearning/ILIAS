@@ -25,7 +25,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * Class NullRevision
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 abstract class BaseRevision implements Revision
 {

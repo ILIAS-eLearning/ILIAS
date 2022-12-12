@@ -1,0 +1,6 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" id="irss">
+    <web_access_checker>
+        <secure_path path="rs" checking-class="ilWACSignedResourceStorage" in-sec-folder='1'/>
+    </web_access_checker>
+</service>

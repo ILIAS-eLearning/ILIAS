@@ -23,7 +23,7 @@ namespace ILIAS\ResourceStorage\Preloader;
 /**
  * Interface PreloadableRepository
  * @internal
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 interface PreloadableRepository
 {

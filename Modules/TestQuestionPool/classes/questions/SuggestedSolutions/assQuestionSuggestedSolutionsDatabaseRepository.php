@@ -141,9 +141,11 @@ class assQuestionSuggestedSolutionsDatabaseRepository
             throw new \LogicException('do not sync with same question');
         }
         $this->deleteForQuestion($target_question_id);
+        $suggested_solutions = [];
         foreach ($this->selectFor($source_question_id) as $solution) {
-            $this->update($solution->withQuestionId($target_question_id));
+            $suggested_solutions[] = $solution->withQuestionId($target_question_id);
         }
+        $this->update($suggested_solutions);
     }
 
     protected function buildSuggestedSolution(

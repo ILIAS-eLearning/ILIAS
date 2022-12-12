@@ -1003,7 +1003,7 @@ class ilObjectListGUI
         foreach ($this->commands as $command) {
             $permission = $command["permission"];
             $cmd = $command["cmd"];
-            $lang_var = $command["lang_var"];
+            $lang_var = $command["lang_var"] ?? "";
             $txt = "";
             $info_object = null;
             $cmd_link = '';
@@ -1984,7 +1984,12 @@ class ilObjectListGUI
         }
 
         $this->current_selection_list = new ilAdvancedSelectionListGUI();
-        $this->current_selection_list->setAriaListTitle(sprintf($this->lng->txt('actions_for'), $this->getTitle()));
+        $this->current_selection_list->setAriaListTitle(
+            sprintf(
+                $this->lng->txt('actions_for'),
+                htmlspecialchars(addslashes($this->getTitle()))
+            )
+        );
         $this->current_selection_list->setAsynch($use_async && !$get_async_commands);
         $this->current_selection_list->setAsynchUrl($async_url);
         if ($header_actions) {
@@ -3121,7 +3126,7 @@ class ilObjectListGUI
             ->standard($actions)
             ->withAriaLabel(sprintf(
                 $this->lng->txt('actions_for'),
-                $title
+                htmlspecialchars(addslashes($title))
             ));
 
         $def_command = $this->getDefaultCommand();
@@ -3242,7 +3247,7 @@ class ilObjectListGUI
         $dropdown = $ui->factory()->dropdown()->standard($actions)
                        ->withAriaLabel(sprintf(
                            $this->lng->txt('actions_for'),
-                           $title
+                           htmlspecialchars(addslashes($title))
                        ));
 
         $img = $this->object_service->commonSettings()->tileImage()->getByObjId($obj_id);

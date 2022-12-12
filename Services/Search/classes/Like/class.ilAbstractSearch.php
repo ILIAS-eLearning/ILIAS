@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -126,6 +127,9 @@ abstract class ilAbstractSearch
         $counter = 0;
         $locate = '';
         foreach ($this->query_parser->getQuotedWords() as $word) {
+            $word = str_replace('\%', '%', $word);
+            $word = str_replace('\_', '_', $word);
+
             $locate .= ',';
             $locate .= $this->db->locate($this->db->quote($word, 'text'), $complete_str);
             $locate .= (' found' . $counter++);

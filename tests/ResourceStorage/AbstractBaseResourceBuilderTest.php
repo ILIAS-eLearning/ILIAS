@@ -29,6 +29,7 @@ use ILIAS\ResourceStorage\Information\Information;
 use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
 use ILIAS\ResourceStorage\Lock\LockHandler;
 use ILIAS\ResourceStorage\Resource\InfoResolver\UploadInfoResolver;
+use ILIAS\ResourceStorage\Resource\Repository\FlavourRepository;
 use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
 use ILIAS\ResourceStorage\Resource\StorableFileResource;
 use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
@@ -41,10 +42,11 @@ use Psr\Http\Message\UploadedFileInterface;
 
 /**
  * Class AbstractBaseResourceBuilderTest
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
 {
+    public $flavour_repository;
     /**
      * @var Revision|\PHPUnit\Framework\MockObject\MockObject
      */
@@ -107,12 +109,14 @@ abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
         $this->collection_repository = $this->createMock(CollectionRepository::class);
         $this->information_repository = $this->createMock(InformationRepository::class);
         $this->stakeholder_repository = $this->createMock(StakeholderRepository::class);
+        $this->flavour_repository = $this->createMock(FlavourRepository::class);
         $this->repositories = new Repositories(
             $this->revision_repository,
             $this->resource_repository,
             $this->collection_repository,
             $this->information_repository,
-            $this->stakeholder_repository
+            $this->stakeholder_repository,
+            $this->flavour_repository
         );
         $this->locking = $this->createMock(LockHandler::class);
         $this->stream_access = $this->createMock(StreamAccess::class);
@@ -161,6 +165,6 @@ abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
                 $upload_result
             )
             ->willReturn($blank_revision);
-        return array($upload_result, $info_resolver, $identification);
+        return [$upload_result, $info_resolver, $identification];
     }
 }

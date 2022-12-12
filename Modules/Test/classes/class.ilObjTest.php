@@ -257,7 +257,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     protected bool $enable_examview;
     protected bool $show_examview_html;
-    protected bool $show_examview_pdf;
     protected bool $enable_archiving;
 
     private int $redirection_mode = 0;
@@ -311,8 +310,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->testManScoringDoneHelper = new TestManScoringDoneHelper();
 
         $lng->loadLanguageModule("assessment");
-        // Defaults:
-        include_once "./Modules/Test/classes/class.assMarkSchema.php";
         $this->mark_schema = new ASS_MarkSchema();
         $this->mark_schema->createSimpleSchema(
             $lng->txt("failed_short"),
@@ -387,7 +384,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         $this->enable_examview = false;
         $this->show_examview_html = false;
-        $this->show_examview_pdf = false;
         $this->enable_archiving = false;
 
         $this->template_id = '';
@@ -417,7 +413,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function getTitleFilenameCompliant(): string
     {
-        require_once 'Services/Utilities/classes/class.ilUtil.php';
         return ilFileUtils::getASCIIFilename($this->getTitle());
     }
 
@@ -469,10 +464,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         //put here your module specific stuff
         $this->deleteTest();
 
-        require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
         $qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->getId());
         $qsaImportFails->deleteRegisteredImportFails();
-        require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdImportFails.php';
         $sltImportFails = new ilTestSkillLevelThresholdImportFails($this->getId());
         $sltImportFails->deleteRegisteredImportFails();
 
@@ -487,7 +480,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $component_repository = $DIC['component.repository'];
         $lng = $DIC['lng'];
 
-        require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
         $participantData = new ilTestParticipantData($ilDB, $lng);
         $participantData->load($this->getTestId());
         $this->removeTestResults($participantData);
@@ -507,15 +499,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $this);
         $testQuestionSetConfigFactory->getQuestionSetConfig()->removeQuestionSetRelatedData();
 
-        // delete export files
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
         $tst_data_dir = ilFileUtils::getDataDir() . "/tst_data";
         $directory = $tst_data_dir . "/tst_" . $this->getId();
         if (is_dir($directory)) {
-            include_once "./Services/Utilities/classes/class.ilUtil.php";
             ilFileUtils::delDir($directory);
         }
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         $mobs = ilObjMediaObject::_getMobsOfObject("tst:html", $this->getId());
         // remaining usages are not in text anymore -> delete them
         // and media objects (note: delete method of ilObjMediaObject
@@ -537,7 +525,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function createExportDirectory(): void
     {
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
         $tst_data_dir = ilFileUtils::getDataDir() . "/tst_data";
         ilFileUtils::makeDir($tst_data_dir);
         if (!is_writable($tst_data_dir)) {
@@ -631,7 +618,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     {
         global $DIC;
         $ilias = $DIC['ilias'];
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
         $tst_data_dir = ilFileUtils::getDataDir() . "/tst_data";
         ilFileUtils::makeDir($tst_data_dir);
 
@@ -764,11 +750,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $ilDB = $DIC['ilDB'];
 
         if ($this->getTestId() > 0) {
-            $this->setECTSFX(preg_replace('/,/', '.', $this->getECTSFX()));
-            if (!preg_match('/\d+/', $this->getECTSFX())) {
-                $this->setECTSFX(null);
-            }
-
             $grades = $this->getECTSGrades();
             $ilDB->manipulateF(
                 "UPDATE tst_tests
@@ -820,7 +801,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function cleanupMediaobjectUsage(): void
     {
-        include_once("./Services/RTE/classes/class.ilRTE.php");
         $completecontent = "";
         foreach ($this->getAllRTEContent() as $content) {
             $completecontent .= $content;
@@ -929,7 +909,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 'pass_deletion_allowed' => array('integer', (int) $this->isPassDeletionAllowed()),
                 'enable_examview' => array('integer', (int) $this->getEnableExamview()),
                 'show_examview_html' => array('integer', (int) $this->getShowExamviewHtml()),
-                'show_examview_pdf' => array('integer', (int) $this->getShowExamviewPdf()),
                 'redirection_mode' => array('integer', $this->getRedirectionMode()),
                 'redirection_url' => array('text', (string) $this->getRedirectionUrl()),
                 'enable_archiving' => array('integer', (int) $this->getEnableArchiving()),
@@ -1046,7 +1025,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     'pass_deletion_allowed' => array('integer', (int) $this->isPassDeletionAllowed()),
                     'enable_examview' => array('integer', (int) $this->getEnableExamview()),
                     'show_examview_html' => array('integer', (int) $this->getShowExamviewHtml()),
-                    'show_examview_pdf' => array('integer', (int) $this->getShowExamviewPdf()),
                     'redirection_mode' => array('integer', $this->getRedirectionMode()),
                     'redirection_url' => array('text', (string) $this->getRedirectionUrl()),
                     'enable_archiving' => array('integer', (int) $this->getEnableArchiving()),
@@ -1140,8 +1118,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             }
         }
 
-        // news item creation/update/deletion
-        include_once 'Services/News/classes/class.ilNewsItem.php';
         if (!$this->getOldOnlineStatus() && !$this->getOfflineStatus()) {
             global $DIC;
             $ilUser = $DIC['ilUser'];
@@ -1169,7 +1145,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         // moved activation to ilObjectActivation
         if ($this->ref_id) {
-            include_once "./Services/Object/classes/class.ilObjectActivation.php";
             ilObjectActivation::getItem($this->ref_id);
 
             $item = new ilObjectActivation();
@@ -1200,7 +1175,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $ilDB = $DIC['ilDB'];
 
         $oldquestions = array();
-        include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
         if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
             $result = $ilDB->queryF(
                 "SELECT question_fi FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
@@ -1244,7 +1218,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 'tstamp' => array('integer', time())
             ));
         }
-        include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
         if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
             $result = $ilDB->queryF(
                 "SELECT question_fi FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
@@ -1331,7 +1304,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $available = "";
         // get a list of all available questionpools
         if (($questionpool == 0) && (!is_array($qpls))) {
-            include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
             $available_pools = array_keys(ilObjQuestionPool::_getAvailableQuestionpools($use_object_id = true, $equal_points = false, $could_be_offline = false, $showPath = false, $with_questioncount = false, "read", ilObject::_lookupOwner($this->getId())));
             if (count($available_pools)) {
                 $available = " AND " . $ilDB->in('obj_fi', $available_pools, false, 'integer');
@@ -1437,7 +1409,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 $this->saveAuthorToMetadata($data->author);
             }
             $this->setAuthor($data->author);
-            include_once("./Services/RTE/classes/class.ilRTE.php");
             $this->setIntroductionEnabled($data->intro_enabled);
             $this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc((string) $data->introduction, 1));
             $this->setShowInfo($data->showinfo);
@@ -1518,7 +1489,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $this->setPassDeletionAllowed($data->pass_deletion_allowed);
             $this->setEnableExamview((bool) $data->enable_examview);
             $this->setShowExamviewHtml((bool) $data->show_examview_html);
-            $this->setShowExamviewPdf((bool) $data->show_examview_pdf);
             $this->setEnableArchiving((bool) $data->enable_archiving);
             $this->setShowExamIdInTestPassEnabled((bool) $data->examid_in_test_pass);
             $this->setShowExamIdInTestResultsEnabled((bool) $data->examid_in_test_res);
@@ -1540,7 +1510,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         // moved activation to ilObjectActivation
         if (isset($this->ref_id)) {
-            include_once "./Services/Object/classes/class.ilObjectActivation.php";
             $activation = ilObjectActivation::getItem($this->ref_id);
             switch ($activation["timing_type"]) {
                 case ilObjectActivation::TIMINGS_ACTIVATION:
@@ -1759,12 +1728,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function getECTSFX(): ?float
     {
-        return (strlen($this->ects_fx)) ? $this->ects_fx : null;
+        return $this->ects_fx;
     }
 
     public function setECTSFX($a_ects_fx): void
     {
-        $this->ects_fx = $a_ects_fx;
+        $this->ects_fx = (float) str_replace(",", ".", $a_ects_fx);
     }
 
     public function getECTSGrades(): array
@@ -2791,7 +2760,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
 
-        require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
         $participantData = new ilTestParticipantData($ilDB, $lng);
         $participantData->setUserIdsFilter($userIds);
         $participantData->load($this->getTestId());
@@ -2807,7 +2775,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         if (count($participantData->getUserIds())) {
             /* @var ilTestLP $testLP */
-            require_once 'Services/Object/classes/class.ilObjectLP.php';
             $testLP = ilObjectLP::getInstance($this->getId());
             $testLP->setTestObject($this);
             $testLP->resetLPDataForUserIds($participantData->getUserIds(), false);
@@ -2820,11 +2787,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function removeTestResultsByUserIds($userIds)
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $lng = $DIC['lng'];
+        $ilDB = $this->db;
+        $lng = $this->lng;
 
-        require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
         $participantData = new ilTestParticipantData($ilDB, $lng);
         $participantData->setUserIdsFilter($userIds);
         $participantData->load($this->getTestId());
@@ -2843,8 +2808,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function removeTestResultsByActiveIds($activeIds)
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $this->db;
 
         $IN_activeIds = $ilDB->in('active_fi', $activeIds, false, 'integer');
 
@@ -2865,8 +2829,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $ilDB->manipulate("DELETE FROM tst_seq_qst_checked WHERE $IN_activeIds");
         }
 
-        include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-
         foreach ($activeIds as $active_id) {
             // remove file uploads
             if (@is_dir(CLIENT_WEB_DIR . "/assessment/tst_" . $this->getTestId() . "/$active_id")) {
@@ -2878,7 +2840,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             }
         }
 
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
         ilAssQuestionHintTracking::deleteRequestsByActiveIds($activeIds);
     }
 
@@ -2930,7 +2891,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 array('integer','integer'),
                 array($data->sequence - 1, $data->test_question_id)
             );
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 $this->logAction($this->lng->txtlng("assessment", "log_question_position_changed", ilObjAssessmentFolder::_getLogLanguage()) . ": " . ($data->sequence) . " => " . ($data->sequence - 1), $question_id);
             }
@@ -2977,7 +2937,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 array('integer','integer'),
                 array($data->sequence + 1, $data->test_question_id)
             );
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 $this->logAction($this->lng->txtlng("assessment", "log_question_position_changed", ilObjAssessmentFolder::_getLogLanguage()) . ": " . ($data->sequence) . " => " . ($data->sequence + 1), $question_id);
             }
@@ -3518,8 +3477,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         }
 
         $numWorkedThrough = count($arrResults);
-
-        require_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 
         $IN_question_ids = $ilDB->in('qpl_questions.question_id', $sequence, false, 'integer');
 
@@ -4200,9 +4157,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function buildStatisticsAccessFilteredParticipantList(): ilTestParticipantList
     {
-        require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
-        require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
-
         $list = new ilTestParticipantList($this);
         $list->initializeFromDbRows($this->getTestParticipants());
 
@@ -4219,10 +4173,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         global $DIC;
 
         $ilDB = $DIC->database();
-
-        include_once "./Modules/Test/classes/class.ilTestEvaluationPassData.php";
-        include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
-        include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
 
         $data = new ilTestEvaluationData($this);
 
@@ -4314,7 +4264,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             } elseif ($this->isDynamicTest()) {
                 $lastPass = $data->getParticipant($active_id)->getLastPass();
                 for ($testpass = 0; $testpass <= $lastPass; $testpass++) {
-                    require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
                     $dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig(
                         $DIC->repositoryTree(),
                         $DIC->database(),
@@ -4323,7 +4272,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     );
                     $dynamicQuestionSetConfig->loadFromDb();
 
-                    require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
                     $testSequenceFactory = new ilTestSequenceFactory($DIC->database(), $DIC->language(), $DIC['component.repository'], $this);
                     $testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($active_id, $testpass);
 
@@ -4555,9 +4503,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function &getCompleteEvaluationData($withStatistics = true, $filterby = "", $filtertext = ""): ilTestEvaluationData
     {
-        include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
-        include_once "./Modules/Test/classes/class.ilTestEvaluationPassData.php";
-        include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
         $data = $this->getUnfilteredEvaluationData();
         if ($withStatistics) {
             $data->calculateStatistics();
@@ -4784,7 +4729,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function getAvailableQuestionpools($use_object_id = false, $equal_points = false, $could_be_offline = false, $show_path = false, $with_questioncount = false, $permission = "read"): array
     {
-        include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
         return ilObjQuestionPool::_getAvailableQuestionpools($use_object_id, $equal_points, $could_be_offline, $show_path, $with_questioncount, $permission);
     }
 
@@ -4829,7 +4773,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function getImagePathWeb()
     {
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
         $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/" . $this->getId() . "/images/";
         return str_replace(
             ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
@@ -4856,7 +4799,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             return null;
         }
 
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         assQuestion::_includeClass($question_type, 1);
 
         $question_type_gui = $question_type . 'GUI';
@@ -4875,11 +4817,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $question->object->feedbackOBJ = new $feedbackObjectClassname($question->object, $ilCtrl, $ilDB, $lng);
 
             $assSettings = new ilSetting('assessment');
-            require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLockerFactory.php';
             $processLockerFactory = new ilAssQuestionProcessLockerFactory($assSettings, $ilDB);
             $processLockerFactory->setQuestionId($question->object->getId());
             $processLockerFactory->setUserId($ilUser->getId());
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             $processLockerFactory->setAssessmentLogEnabled(ilObjAssessmentFolder::_enabledAssessmentLogging());
             $question->object->setProcessLocker($processLockerFactory->getLocker());
         }
@@ -4992,7 +4932,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $ilUser = $DIC['ilUser'];
         $ilDB = $DIC['ilDB'];
 
-        include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
         $available_pools = array_keys(ilObjQuestionPool::_getAvailableQuestionpools($use_object_id = true, $equal_points = false, $could_be_offline = false, $showPath = false, $with_questioncount = false));
         $available = "";
         if (count($available_pools)) {
@@ -5347,9 +5286,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 case 'show_examview_html':
                     $this->setShowExamviewHtml($metadata['entry']);
                     break;
-                case 'show_examview_pdf':
-                    $this->setShowExamviewPdf($metadata['entry']);
-                    break;
                 case 'redirection_mode':
                     $this->setRedirectionMode($metadata['entry']);
                     break;
@@ -5431,9 +5367,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         }
         // handle the import of media objects in XHTML code
         if (is_array(ilSession::get("import_mob_xhtml"))) {
-            include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-            include_once "./Services/RTE/classes/class.ilRTE.php";
-            include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
             foreach (ilSession::get("import_mob_xhtml") as $mob) {
                 $importfile = ilObjTest::_getImportDirectory() . '/' . ilSession::get('tst_import_subdir') . '/' . $mob["uri"];
                 if (file_exists($importfile)) {
@@ -5458,7 +5391,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function toXML(): string
     {
-        include_once("./Services/Xml/classes/class.ilXmlWriter.php");
         $a_xml_writer = new ilXmlWriter();
         // set xml header
         $a_xml_writer->xmlHeader();
@@ -5794,12 +5726,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $a_xml_writer->xmlElement("fieldentry", null, (int) $this->getShowExamviewHtml());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // show_examview_pdf
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "show_examview_pdf");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->getShowExamviewPdf());
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
         // enable_archiving
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "enable_archiving");
@@ -6043,7 +5969,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function exportXMLMetaData(&$a_xml_writer)
     {
-        include_once "./Services/MetaData/classes/class.ilMD2XML.php";
         $md2xml = new ilMD2XML($this->getId(), 0, $this->getType());
         $md2xml->setExportMode(true);
         $md2xml->startExport();
@@ -6058,7 +5983,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function modifyExportIdentifier($a_tag, $a_param, $a_value)
     {
         if ($a_tag == "Identifier" && $a_param == "Entry") {
-            include_once "./Services/Utilities/classes/class.ilUtil.php";
             $a_value = ilUtil::insertInstIntoID($a_value);
         }
 
@@ -6077,8 +6001,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         global $DIC;
         $ilBench = $DIC['ilBench'];
 
-        include_once "./Modules/LearningModule/classes/class.ilLMPageObject.php";
-
         foreach ($this->questions as $question_id) {
             $ilBench->start("ContentObjectExport", "exportPageObject");
             $expLog->write(date("[y-m-d H:i:s] ") . "Page Object " . $question_id);
@@ -6089,12 +6011,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
             // export xml to writer object
             $ilBench->start("ContentObjectExport", "exportPageObject_XML");
-            include_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php";
             $page_object = new ilAssQuestionPage($question_id);
             $page_object->buildDom();
             $page_object->insertInstIntoIDs($a_inst);
             $mob_ids = $page_object->collectMediaObjects(false);
-            require_once 'Services/COPage/classes/class.ilPCFileList.php';
             $file_ids = ilPCFileList::collectFileItems($page_object, $page_object->getDomDoc());
             $xml = $page_object->getXMLFromDom(false, false, false, "", true);
             $xml = str_replace("&", "&amp;", $xml);
@@ -6132,8 +6052,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
     {
-        include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-
         foreach ($this->mob_ids as $mob_id) {
             $expLog->write(date("[y-m-d H:i:s] ") . "Media Object " . $mob_id);
             if (ilObjMediaObject::_exists($mob_id)) {
@@ -6151,8 +6069,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function exportFileItems($a_target_dir, &$expLog)
     {
-        include_once "./Modules/File/classes/class.ilObjFile.php";
-
         foreach ($this->file_ids as $file_id) {
             $expLog->write(date("[y-m-d H:i:s] ") . "File Item " . $file_id);
             $file_obj = new ilObjFile($file_id, false);
@@ -6199,7 +6115,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public static function _getECTSGrade($points_passed, $reached_points, $max_points, $a, $b, $c, $d, $e, $fx): string
     {
-        include_once "./Modules/Test/classes/class.ilStatistics.php";
         // calculate the median
         $passed_statistics = new ilStatistics();
         $passed_statistics->setData($points_passed);
@@ -6276,7 +6191,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $component_repository = $DIC['component.repository'];
         $tree = $DIC['tree'];
 
-        require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
         $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $this);
         $this->saveCompleteStatus($testQuestionSetConfigFactory->getQuestionSetConfig());
 
@@ -6368,7 +6282,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function getAuthor(): string
     {
         $author = array();
-        include_once "./Services/MetaData/classes/class.ilMD.php";
         $md = new ilMD($this->getId(), 0, $this->getType());
         $md_life = $md->getLifecycle();
         if ($md_life) {
@@ -6397,7 +6310,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public static function _lookupAuthor($obj_id): string
     {
         $author = array();
-        include_once "./Services/MetaData/classes/class.ilMD.php";
         $md = new ilMD($obj_id, 0, "tst");
         $md_life = $md->getLifecycle();
         if ($md_life) {
@@ -6543,7 +6455,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $newObj->setShowExamIdInTestResultsEnabled($this->isShowExamIdInTestResultsEnabled());
         $newObj->setEnableExamView($this->getEnableExamview());
         $newObj->setShowExamViewHtml($this->getShowExamviewHtml());
-        $newObj->setShowExamViewPdf($this->getShowExamviewPdf());
         $newObj->setEnableArchiving($this->getEnableArchiving());
         $newObj->setSignSubmission($this->getSignSubmission());
         $newObj->setCharSelectorAvailability($this->getCharSelectorAvailability());
@@ -6660,10 +6571,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         $original_id = "";
         if (strcmp($question_id, "") != 0) {
-            include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
             $original_id = assQuestion::_getOriginalId($question_id);
         }
-        include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
         ilObjAssessmentFolder::_addLog($ilUser->getId(), $this->getId(), $logtext, $question_id, $original_id, true, $this->getRefId());
     }
 
@@ -6755,7 +6664,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $res = "";
         if (($active_id) && ($question_id)) {
             if (is_null($pass)) {
-                include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
                 $pass = assQuestion::_getSolutionMaxPass($question_id, $active_id);
             }
             $result = $ilDB->queryF(
@@ -6803,7 +6711,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function getInvitedParticipantList(): ilTestParticipantList
     {
-        require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
         $participantList = new ilTestParticipantList($this);
         $participantList->initializeFromDbRows($this->getInvitedUsers());
 
@@ -6815,7 +6722,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function getActiveParticipantList(): ilTestParticipantList
     {
-        require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
         $participantList = new ilTestParticipantList($this);
         $participantList->initializeFromDbRows($this->getTestParticipants());
 
@@ -7107,10 +7013,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function inviteGroup($group_id)
     {
-        include_once "./Modules/Group/classes/class.ilObjGroup.php";
         $group = new ilObjGroup($group_id);
         $members = $group->getGroupMemberIds();
-        include_once './Services/User/classes/class.ilObjUser.php';
         foreach ($members as $user_id) {
             $this->inviteUser($user_id, ilObjUser::_lookupClientIP($user_id));
         }
@@ -7127,7 +7031,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         global $DIC;
         $rbacreview = $DIC['rbacreview'];
         $members = $rbacreview->assignedUsers($role_id);
-        include_once './Services/User/classes/class.ilObjUser.php';
         foreach ($members as $user_id) {
             $this->inviteUser($user_id, ilObjUser::_lookupClientIP($user_id));
         }
@@ -7544,7 +7447,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $lng = $DIC['lng'];
             $component_repository = $DIC['component.repository'];
 
-            require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
             $testSessionFactory = new ilTestSessionFactory($this);
             $testSession = $testSessionFactory->getSession($active_id);
 
@@ -7563,7 +7465,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         if ($this->isRandomTest()) {
             $this->loadQuestions($active_id, $pass);
         }
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $workedthrough = 0;
         foreach ($this->questions as $value) {
             if (assQuestion::_isWorkedThrough($active_id, $value, $pass)) {
@@ -7676,9 +7577,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 }
             }
         }
-        global $DIC;
-        require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
-        $testPassesSelector = new ilTestPassesSelector($DIC['ilDB'], $this);
+
+        $testPassesSelector = new ilTestPassesSelector($this->db, $this);
         $testPassesSelector->setActiveId($active_id);
         $testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
 
@@ -7721,10 +7621,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function canShowTestResults(ilTestSession $testSession): bool
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
-        $passSelector = new ilTestPassesSelector($DIC->database(), $this);
+        $passSelector = new ilTestPassesSelector($this->db, $this);
 
         $passSelector->setActiveId($testSession->getActiveId());
         $passSelector->setLastFinishedPass($testSession->getLastFinishedPass());
@@ -7734,10 +7631,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function hasAnyTestResult(ilTestSession $testSession): bool
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
-        $passSelector = new ilTestPassesSelector($DIC->database(), $this);
+        $passSelector = new ilTestPassesSelector($this->db, $this);
 
         $passSelector->setActiveId($testSession->getActiveId());
         $passSelector->setLastFinishedPass($testSession->getLastFinishedPass());
@@ -7754,8 +7648,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function getStartingTimeOfUser($active_id, $pass = null)
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $this->db;
 
         if ($active_id < 1) {
             return false;
@@ -8503,7 +8396,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			";
             $result = $ilDB->queryF($query, array('integer', 'integer'), array($time_border, $this->getTestId()));
             if ($result->numRows() >= $nr_of_users) {
-                include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
                 if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                     $this->logAction($this->lng->txtlng("assessment", "log_could_not_enter_test_due_to_simultaneous_users", ilObjAssessmentFolder::_getLogLanguage()));
                 }
@@ -8612,9 +8504,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function addQTIMaterial(&$a_xml_writer, $a_material)
     {
-        include_once "./Services/RTE/classes/class.ilRTE.php";
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-
         $a_xml_writer->xmlStartTag("material");
         $attrs = array(
             "texttype" => "text/plain"
@@ -8652,8 +8541,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         if ($txt_output == null) {
             $txt_output = '';
         }
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
-
         return ilLegacyFormElementsUtil::prepareTextareaOutput(
             $txt_output,
             $prepare_for_latex_output,
@@ -8869,7 +8756,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         if ($this->getAnonymity() && !$overwrite_anonymity) {
             return $this->lng->txt("anonymous") . $suffix;
         } else {
-            include_once './Services/User/classes/class.ilObjUser.php';
             $uname = ilObjUser::_lookupName($user_id);
             if (strlen($uname["firstname"] . $uname["lastname"]) == 0) {
                 $uname["firstname"] = $this->lng->txt("deleted_user");
@@ -9041,7 +8927,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             'pass_deletion_allowed' => (int) $this->isPassDeletionAllowed(),
             'enable_examview' => $this->getEnableExamview(),
             'show_examview_html' => $this->getShowExamviewHtml(),
-            'show_examview_pdf' => $this->getShowExamviewPdf(),
             'char_selector_availability' => $this->getCharSelectorAvailability(),
             'char_selector_definition' => $this->getCharSelectorDefinition(),
             'skill_service' => (int) $this->isSkillServiceEnabled(),
@@ -9109,7 +8994,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function applyDefaults($test_defaults): bool
     {
         $testsettings = unserialize($test_defaults["defaults"]);
-        include_once "./Modules/Test/classes/class.assMarkSchema.php";
         $this->mark_schema = unserialize($test_defaults["marks"]);
 
         $this->setTitleOutput($testsettings["TitleOutput"]);
@@ -9190,7 +9074,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         }
         $this->setEnableExamview($testsettings['enable_examview']);
         $this->setShowExamviewHtml($testsettings['show_examview_html']);
-        $this->setShowExamviewPdf($testsettings['show_examview_pdf']);
         $this->setEnableArchiving($testsettings['enable_archiving']);
         $this->setSignSubmission($testsettings['sign_submission']);
         $this->setCharSelectorAvailability($testsettings['char_selector_availability']);
@@ -9317,13 +9200,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         global $DIC;
         $ilLog = $DIC['ilLog'];
 
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
         $fo_file = ilFileUtils::ilTempnam() . ".fo";
         $fp = fopen($fo_file, "w");
         fwrite($fp, $fo);
         fclose($fp);
 
-        include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
         try {
             $pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($fo);
             $filename = (strlen($title)) ? $title : $this->getTitle();
@@ -9540,7 +9421,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function &createTestSequence($active_id, $pass, $shuffle)
     {
-        include_once "./Modules/Test/classes/class.ilTestSequence.php";
         $this->testSequence = new ilTestSequence($active_id, $pass, $this->isRandomTest());
     }
 
@@ -9797,7 +9677,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function getXMLZip(): string
     {
-        require_once 'Modules/Test/classes/class.ilTestExportFactory.php';
         $expFactory = new ilTestExportFactory($this);
         $test_exp = $expFactory->getExporter('xml');
         return $test_exp->buildExportFile();
@@ -9815,8 +9694,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function sendSimpleNotification($active_id)
     {
-        include_once "./Modules/Test/classes/class.ilTestMailNotification.php";
-
         $mail = new ilTestMailNotification();
         $owner_id = $this->getOwner();
         $usr_data = $this->userLookupFullName(ilObjTest::_getUserIdFromActiveId($active_id));
@@ -9830,16 +9707,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function getEvaluationAdditionalFields(): array
     {
-        include_once "./Modules/Test/classes/class.ilObjTestGUI.php";
-        include_once "./Modules/Test/classes/tables/class.ilEvaluationAllTableGUI.php";
         $table_gui = new ilEvaluationAllTableGUI(new ilObjTestGUI($this->getRefId()), 'outEvaluation', $this->getAnonymity());
         return $table_gui->getSelectedColumns();
     }
 
     public function sendAdvancedNotification($active_id)
     {
-        include_once "./Modules/Test/classes/class.ilTestMailNotification.php";
-
         $mail = new ilTestMailNotification();
         $owner_id = $this->getOwner();
         $usr_data = $this->userLookupFullName(ilObjTest::_getUserIdFromActiveId($active_id));
@@ -9847,12 +9720,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $participantList = new ilTestParticipantList($this);
         $participantList->initializeFromDbRows($this->getTestParticipants());
 
-        require_once 'Modules/Test/classes/class.ilTestExportFactory.php';
         $expFactory = new ilTestExportFactory($this);
         $exportObj = $expFactory->getExporter('results');
         $exportObj->setForcedAccessFilteredParticipantList($participantList);
         $file = $exportObj->exportToExcel($deliver = false, 'active_id', $active_id, $passedonly = false);
-        include_once "./Services/Mail/classes/class.ilFileDataMail.php";
         $fd = new ilFileDataMail(ANONYMOUS_USER_ID);
         $fd->copyAttachmentFile($file, "result_" . $active_id . ".xls");
         $file_names[] = "result_" . $active_id . ".xls";
@@ -9884,8 +9755,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         );
 
         if (!$result->numRows()) {
-            include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-
             assQuestion::_updateTestResultCache($active_id);
 
             $query = "
@@ -10602,8 +10471,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public static function isQuestionObligationPossible($questionId): bool
     {
-        require_once('Modules/TestQuestionPool/classes/class.assQuestion.php');
-
         $classConcreteQuestion = assQuestion::_getQuestionType($questionId);
 
         assQuestion::_includeClass($classConcreteQuestion, 0);
@@ -10741,22 +10608,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     }
 
     /**
-     * @param boolean $show_examview_pdf
-     */
-    public function setShowExamviewPdf($show_examview_pdf): void
-    {
-        $this->show_examview_pdf = $show_examview_pdf;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function getShowExamviewPdf(): bool
-    {
-        return $this->show_examview_pdf;
-    }
-
-    /**
      * @param boolean $enable_examview
      */
     public function setEnableExamview($enable_examview): void
@@ -10853,10 +10704,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function addExtraTime($active_id, $minutes)
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
-        $participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
+        $participantData = new ilTestParticipantData($this->db, $this->lng);
 
         $participantData->setParticipantAccessFilter(
             ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getRefId())
@@ -10869,33 +10717,32 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $participantData->load($this->getTestId());
 
         foreach ($participantData->getActiveIds() as $active_fi) {
-            $result = $DIC->database()->queryF(
+            $result = $this->db->queryF(
                 "SELECT active_fi FROM tst_addtime WHERE active_fi = %s",
                 array('integer'),
                 array($active_fi)
             );
 
             if ($result->numRows() > 0) {
-                $DIC->database()->manipulateF(
+                $this->db->manipulateF(
                     "DELETE FROM tst_addtime WHERE active_fi = %s",
                     array('integer'),
                     array($active_fi)
                 );
             }
 
-            $DIC->database()->manipulateF(
+            $this->db->manipulateF(
                 "UPDATE tst_active SET tries = %s, submitted = %s, submittimestamp = %s WHERE active_id = %s",
                 array('integer','integer','timestamp','integer'),
                 array(0, 0, null, $active_fi)
             );
 
-            $DIC->database()->manipulateF(
+            $this->db->manipulateF(
                 "INSERT INTO tst_addtime (active_fi, additionaltime, tstamp) VALUES (%s, %s, %s)",
                 array('integer','integer','integer'),
                 array($active_fi, $minutes, time())
             );
 
-            require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 $this->logAction(sprintf($this->lng->txtlng("assessment", "log_added_extratime", ilObjAssessmentFolder::_getLogLanguage()), $minutes, $active_id));
             }
@@ -11159,7 +11006,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function recalculateScores($preserve_manscoring = false)
     {
-        require_once 'class.ilTestScoring.php';
         $scoring = new ilTestScoring($this);
         $scoring->setPreserveManualScores($preserve_manscoring);
         $scoring->recalculateSolutions();

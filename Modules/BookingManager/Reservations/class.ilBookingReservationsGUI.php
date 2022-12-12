@@ -151,9 +151,8 @@ class ilBookingReservationsGUI
             $this,
             'log',
             $this->ref_id,
-            $this->pool->getId(),
+            $this->pool,
             $show_all,
-            ($this->pool->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE),
             $filter,
             $reservation_id,
             $context_filter

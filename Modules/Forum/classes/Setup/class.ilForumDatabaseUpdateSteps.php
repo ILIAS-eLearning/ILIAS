@@ -47,4 +47,20 @@ class ilForumDatabaseUpdateSteps implements ilDatabaseUpdateSteps
     {
         $this->db->manipulateF("UPDATE object_data SET offline = %s WHERE type = %s", ['integer', 'text'], [0, 'frm']);
     }
+
+    public function step_3(): void
+    {
+        if (!$this->db->tableColumnExists('frm_posts', 'rcid')) {
+            $this->db->addTableColumn(
+                'frm_posts',
+                'rcid',
+                [
+                    'type' => 'text',
+                    'notnull' => false,
+                    'length' => 64,
+                    'default' => ''
+                ]
+            );
+        }
+    }
 }

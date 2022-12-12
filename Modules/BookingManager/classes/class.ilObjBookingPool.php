@@ -37,6 +37,7 @@ class ilObjBookingPool extends ilObject
     protected int $reminder_day = 1;
     protected int $pref_deadline = 0;
     protected int $preference_nr = 0;
+    protected bool $messages = false;
 
 
     public function __construct(
@@ -66,7 +67,8 @@ class ilObjBookingPool extends ilObject
             "reminder_day" => array("integer", $this->getReminderDay()),
             "rsv_filter_period" => array("integer", $this->getReservationFilterPeriod()),
             "preference_nr" => array("integer", $this->getPreferenceNumber()),
-            "pref_deadline" => array("integer", $this->getPreferenceDeadline())
+            "pref_deadline" => array("integer", $this->getPreferenceDeadline()),
+            "messages" => array("integer", $this->usesMessages())
         );
     }
 
@@ -124,6 +126,7 @@ class ilObjBookingPool extends ilObject
             $this->setReservationFilterPeriod($row['rsv_filter_period']);
             $this->setPreferenceNumber($row['preference_nr']);
             $this->setPreferenceDeadline($row['pref_deadline']);
+            $this->setMessages((bool) (int) $row['messages']);
         }
     }
 
@@ -225,6 +228,7 @@ class ilObjBookingPool extends ilObject
             $new_obj->setReminderDay($this->getReminderDay());
             $new_obj->setPreferenceNumber($this->getPreferenceNumber());
             $new_obj->setPreferenceDeadline($this->getPreferenceDeadline());
+            $new_obj->setMessages($this->usesMessages());
 
             $smap = null;
             if ($this->getScheduleType() === self::TYPE_FIX_SCHEDULE) {
@@ -257,6 +261,17 @@ class ilObjBookingPool extends ilObject
     public function isOffline(): bool
     {
         return $this->offline;
+    }
+
+    public function setMessages(
+        bool $a_value = true
+    ): void {
+        $this->messages = $a_value;
+    }
+
+    public function usesMessages(): bool
+    {
+        return $this->messages;
     }
 
     /**

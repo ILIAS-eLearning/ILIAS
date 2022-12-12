@@ -27,7 +27,7 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 /**
  * Class StorableFileResource
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class StorableFileResource implements StorableResource
 {

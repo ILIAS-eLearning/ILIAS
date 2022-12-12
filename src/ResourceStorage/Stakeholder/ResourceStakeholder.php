@@ -24,7 +24,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * Interface ResourceStakeholder
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 interface ResourceStakeholder
 {
@@ -39,6 +39,8 @@ interface ResourceStakeholder
      * @return string not longer than 250 characters
      */
     public function getFullyQualifiedClassName(): string;
+
+    public function canBeAccessedByCurrentUser(ResourceIdentification $identification): bool;
 
     public function isResourceInUse(ResourceIdentification $identification): bool;
 

@@ -966,30 +966,31 @@ abstract class assQuestion
             array($active_id, $pass)
         );
 
-        $row = $ilDB->fetchAssoc($result);
+        $test_pass_result_row = $ilDB->fetchAssoc($result);
 
-        $max = (float) $row['maxpoints'];
-        $reached = (float) $row['points'];
-
-        $obligationsAnswered = (int) $row['obligations_answered'];
-
+        if (!is_array($test_pass_result_row)) {
+            $test_pass_result_row = [];
+        }
+        $max = (float) ($test_pass_result_row['maxpoints'] ?? 0);
+        $reached = (float) ($test_pass_result_row['points'] ?? 0);
         $percentage = ($max <= 0.0 || $reached <= 0.0) ? 0 : ($reached / $max) * 100.0;
 
-        $mark = ASS_MarkSchema::_getMatchingMarkFromActiveId($active_id, $percentage);
+        $obligationsAnswered = (int) ($test_pass_result_row['obligations_answered'] ?? 1);
 
+        $mark = ASS_MarkSchema::_getMatchingMarkFromActiveId($active_id, $percentage);
         $isPassed = isset($mark["passed"]) && $mark["passed"];
 
-        $userTestResultUpdateCallback = function () use ($ilDB, $active_id, $pass, $max, $reached, $isPassed, $obligationsAnswered, $row, $mark) {
+        $hint_count = $test_pass_result_row['hint_count'] ?? 0;
+        $hint_points = $test_pass_result['hint_points'] ?? 0.0;
+
+        $userTestResultUpdateCallback = function () use ($ilDB, $active_id, $pass, $max, $reached, $isPassed, $obligationsAnswered, $hint_count, $hint_points, $mark) {
             $passedOnceBefore = 0;
             $query = "SELECT passed_once FROM tst_result_cache WHERE active_fi = %s";
             $res = $ilDB->queryF($query, array('integer'), array($active_id));
-            while ($row = $ilDB->fetchAssoc($res)) {
-                $passedOnceBefore = (int) $row['passed_once'];
+            while ($passed_once_result_row = $ilDB->fetchAssoc($res)) {
+                $passedOnceBefore = (int) $passed_once_result_row['passed_once'];
             }
-            if ($row == null) {
-                $row['hint_count'] = 0;
-                $row['hint_points'] = 0.0;
-            }
+
             $passedOnce = (int) ($isPassed || $passedOnceBefore);
 
             $ilDB->manipulateF(
@@ -1009,8 +1010,8 @@ abstract class assQuestion
                 'passed' => array('integer', (int) $isPassed),
                 'failed' => array('integer', (int) !$isPassed),
                 'tstamp' => array('integer', time()),
-                'hint_count' => array('integer', $row['hint_count']),
-                'hint_points' => array('float', $row['hint_points']),
+                'hint_count' => array('integer', $hint_count),
+                'hint_points' => array('float', $hint_points),
                 'obligations_answered' => array('integer', $obligationsAnswered)
             ));
         };
@@ -2106,23 +2107,26 @@ abstract class assQuestion
     protected function duplicateSuggestedSolutionFiles(int $parent_id, int $question_id): void
     {
         foreach ($this->suggested_solutions as $index => $solution) {
-            if ($solution->isOfTypeFile()) {
-                $filepath = $this->getSuggestedSolutionPath();
-                $filepath_original = str_replace(
-                    "/{$this->obj_id}/{$this->id}/solution",
-                    "/$parent_id/$question_id/solution",
-                    $filepath
-                );
-                if (!file_exists($filepath)) {
-                    ilFileUtils::makeDirParents($filepath);
-                }
-                $filename = $solution->getFilename();
-                if (strlen($filename)) {
-                    if (!copy($filepath_original . $filename, $filepath . $filename)) {
-                        $this->ilLog->root()->error("File could not be duplicated!!!!");
-                        $this->ilLog->root()->error("object: " . print_r($this, true));
-                    }
-                }
+            if (!is_array($solution) ||
+                !array_key_exists("type", $solution) ||
+                strcmp($solution["type"], "file") !== 0) {
+                continue;
+            }
+
+            $filepath = $this->getSuggestedSolutionPath();
+            $filepath_original = str_replace(
+                "/{$this->obj_id}/{$this->id}/solution",
+                "/$parent_id/$question_id/solution",
+                $filepath
+            );
+            if (!file_exists($filepath)) {
+                ilFileUtils::makeDirParents($filepath);
+            }
+            $filename = $solution->getFilename();
+            if (strlen($filename) &&
+                !copy($filepath_original . $filename, $filepath . $filename)) {
+                $this->ilLog->root()->error("File could not be duplicated!!!!");
+                $this->ilLog->root()->error("object: " . print_r($this, true));
             }
         }
     }
@@ -2167,7 +2171,6 @@ abstract class assQuestion
             }
         }
     }
-
 
     public function _resolveInternalLink(string $internal_link): string
     {
@@ -2329,25 +2332,9 @@ abstract class assQuestion
         }
 
         $this->beforeSyncWithOriginal($this->getOriginalId(), $this->getId(), $originalObjId, $this->getObjId());
-
-        // Now we become the original
-        $this->setId($this->getOriginalId());
-        $this->setOriginalId(null);
-        $this->setObjId($originalObjId);
-
-        $this->saveToDb();
-
-        $this->deletePageOfQuestion($this->getOriginalId());
-        $this->createPageObject();
-        $this->copyPageOfQuestion($this->getId());
-
-        $this->setId($this->getId());
-        $this->setOriginalId($this->getOriginalId());
-        $this->setObjId($this->getObjId());
-
-        $this->syncSuggestedSolutions($this->getOriginalId(), $this->getId());
+        $this->syncSuggestedSolutions($this->getId(), $this->getOriginalId());
         $this->syncXHTMLMediaObjectsOfQuestion();
-        $this->afterSyncWithOriginal($this->getOriginalId(), $this->getId(), $originalObjId, $this->getObjId());
+        $this->afterSyncWithOriginal($this->getId(), $this->getOriginalId(), $this->getObjId(), $originalObjId);
         $this->syncHints();
     }
 
@@ -3512,7 +3499,7 @@ abstract class assQuestion
     }
 
     // fau: testNav - add timestamp as parameter to saveCurrentSolution
-    public function saveCurrentSolution(int $active_id, int $pass, $value1, $value2, bool $authorized = true, int $tstamp = 0): int
+    public function saveCurrentSolution(int $active_id, int $pass, $value1, $value2, bool $authorized = true, $tstamp = 0): int
     {
         $next_id = $this->db->nextId("tst_solutions");
 
@@ -3523,7 +3510,7 @@ abstract class assQuestion
             "value1" => array("clob", $value1),
             "value2" => array("clob", $value2),
             "pass" => array("integer", $pass),
-            "tstamp" => array("integer", ($tstamp > 0) ? $tstamp : time()),
+            "tstamp" => array("integer", ((int)$tstamp > 0) ? (int)$tstamp : time()),
             'authorized' => array('integer', (int) $authorized)
         );
 

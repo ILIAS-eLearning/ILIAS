@@ -1209,7 +1209,6 @@ assessment#:#showSuggestedSolution#:#Art
 assessment#:#show_answer_overview#:#Antwortübersicht zeigen
 assessment#:#show_detailed_results#:#Detaillierte Testergebnisse (bewerteter Testdurchlauf)
 assessment#:#show_examview_html#:#Am Bildschirm
-assessment#:#show_examview_pdf#:#PDF-Download
 assessment#:#show_pass_overview#:#Ergebnisübersicht (bewerteter Testdurchlauf)
 assessment#:#show_user_answers#:#Antworten (bewerteter Testdurchlauf)
 assessment#:#showinfo#:#Testeigenschaften anzeigen
@@ -1248,7 +1247,7 @@ assessment#:#test_next_question#:#Nächste Frage
 assessment#:#test_prev_question#:#Vorherige Frage
 assessment#:#test_question_set_type#:#Auswahl der Testfragen
 assessment#:#test_question_set_type_fixed#:#Fest definierte Fragenauswahl
-assessment#:#test_question_set_type_fixed_info#:#Allen Teilnehmenden werden die gleichen Fragen gestellt.<br>Sie können sowohl bereits vorhandene Fragen aus Fragenpools wiederverwenden als auch neue Fragen direkt im Test erstellen. Sie können auch neu erstellte Fragen zur Wiederverwendung in einem Fragenpool abspeichern.
+assessment#:#test_question_set_type_fixed_info#:#Allen Teilnehmenden werden die gleichen Fragen gestellt.<br>Sie können sowohl bereits vorhandene Fragen aus Fragenpools wiederverwenden, als auch neue Fragen direkt im Test erstellen. Sie können auch neu erstellte Fragen zur Wiederverwendung in einem Fragenpool abspeichern.
 assessment#:#test_question_set_type_random#:#Zufällige Fragenauswahl
 assessment#:#test_question_set_type_random_info#:#Jedem Teilnehmenden werden unterschiedliche Fragen gestellt. Die Auswahl der Fragen erfolgt zufällig aus einem oder mehreren Fragenpools.
 assessment#:#test_results#:#Bekanntgabe des Testergebnisses
@@ -1629,6 +1628,7 @@ assessment#:#tst_pass_details#:#Detaillierte Ergebnisse
 assessment#:#tst_pass_details_header_lo_initial#:#Einstiegsergebnisse zu den Lernzielen<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifizierende Ergebnisse zu den Lernzielen<br />%s - %s
 assessment#:#tst_pass_details_overview_table_title#:#Detaillierte Testergebnisse für Testdurchlauf %s
+assessment#:#tst_pass_finished#:#Testdurchlauf wurde beendet
 assessment#:#tst_pass_finished_on#:#Testdurchlauf beendet am
 assessment#:#tst_pass_last_pass#:#Letzten Testdurchlauf bewerten
 assessment#:#tst_pass_last_pass_desc#:#Es wird immer der letzte Testdurchlauf eines Teilnehmers bewertet.
@@ -1650,6 +1650,7 @@ assessment#:#tst_password_entered_wrong_password#:#Sie können den Test nicht st
 assessment#:#tst_password_form#:#Eingabe Testpasswort
 assessment#:#tst_password_introduction#:#Dieser Test kann nur mit einem Testpasswort gestartet bzw. fortgeführt werden. Bitte tragen Sie das Passwort hier ein.
 assessment#:#tst_percent_solved#:#Prozent gelöst
+assessment#:#tst_player_answer_saved_and_locked#:#Antwort wird gespeichert und gesperrt. Dadurch kann die Antwort nicht mehr geändert werden.
 assessment#:#tst_please_select_target_for_pool_derives#:#Bitte wählen Sie einen Zielcontainer aus.
 assessment#:#tst_position#:#Frage %s von %s
 assessment#:#tst_position_without_total#:#Frage %s
@@ -2458,6 +2459,7 @@ book#:#book_book#:#Buchen
 book#:#book_book_available#:#Verfügbare Termine buchen
 book#:#book_book_recurrence#:#Wiederholungen buchen
 book#:#book_booked_in#:#Gebucht in
+book#:#book_booking#:#Buchung
 book#:#book_booking_information#:#Information
 book#:#book_booking_objects#:#Buchungsobjekte
 book#:#book_booking_reminders#:#Anstehende Reservierungen
@@ -2493,6 +2495,10 @@ book#:#book_is_used#:#In Benutzung
 book#:#book_limit_objects_available#:#Sie können nicht %s Teilnehmer zu "%s" hinzufügen, weil nur %s Einträge verfügbar sind.
 book#:#book_list#:#Liste
 book#:#book_log#:#Reservierungen
+book#:#book_message#:#Mitteilung
+book#:#book_message_info#:#Sie können hier eine Mitteilung an den Organisator des Buchungspools eingeben.
+book#:#book_messages#:#Mitteilungen
+book#:#book_messages_info#:#Buchende können einer Reservierung eine Mitteilung mitgeben.
 book#:#book_missing_availability#:#Es können leider nicht alle Termine gebucht werden.
 book#:#book_missing_items#:#Es fehlen $1.
 book#:#book_new#:#Neuen Buchungspool anlegen
@@ -2575,6 +2581,7 @@ book#:#book_schedules#:#Zeitpläne
 book#:#book_select_pool#:#Pool auswählen
 book#:#book_set_cancel#:#Stornieren
 book#:#book_set_delete#:#Löschen
+book#:#book_show_message#:#Mitteilung anzeigen
 book#:#book_title_description_nr#:#Titel; Beschreibung; Anzahl
 book#:#book_title_description_nr_info#:#Geben Sie bitte Titel, Beschreibung und Anzahl getrennt durch ein Semikolon oder TAB ein. Nutzen Sie einen Zeile
 book#:#book_too_many_preferences#:#Sie haben zu viele Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
@@ -2806,7 +2813,6 @@ chatroom#:#chat_broadcast_typing_no#:#Anderen das Tippen von Nachrichten nicht a
 chatroom#:#chat_broadcast_typing_yes#:#Tippen von Nachrichten den Anwesenden anzeigen
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> hat den Chatraum verlassen ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> hat den Chatraum betreten +++
-chatroom#:#chat_create_private_room_button#:#Séparée anlegen
 chatroom#:#chat_deletion_disabled#:#Deaktiviert
 chatroom#:#chat_deletion_interval#:#Intervall
 chatroom#:#chat_deletion_interval_info#:#Falls gewählt, werden Nachrichten im Magazin-Chat und im On-Screen-Chat gelöscht, sofern sie älter als der hier definierte Schwellenwert sind.
@@ -2875,7 +2881,6 @@ chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Sind Sie sicher, dass Sie den Grupp
 chatroom#:#chat_osc_user#:#Benutzer
 chatroom#:#chat_osc_user_left_grp_conv#:#Der Benutzer '%s' hat den Gruppenchat verlassen.
 chatroom#:#chat_osc_write_a_msg#:#Eine Nachricht verfassen …
-chatroom#:#chat_select_room#:#Chatraum auswählen
 chatroom#:#chat_settings#:#Chat-Einstellungen
 chatroom#:#chat_settings_functions_header#:#Funktionen des Chats
 chatroom#:#chat_show_auto_messages#:#Automatische Meldungen anzeigen
@@ -2911,7 +2916,6 @@ chatroom#:#clear_room_history_question#:#Wollen Sie wirklich alle Nachrichten de
 chatroom#:#client_chatserver_connection#:#Verbindung Client zum Server
 chatroom#:#client_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, einen alternative URL für die Verbindung zwischen Client und Server zu definieren.
 chatroom#:#connection_url_info#:#Tragen Sie hier einen URL ein, über welchen der Server zu erreichen ist.
-chatroom#:#create_private_room_text#:#Name des Séparées
 chatroom#:#custom_username#:#Eigener Chat-Name
 chatroom#:#delete_private_room#:#Séparée löschen
 chatroom#:#delete_private_room_question#:#Separée wirklich löschen?
@@ -2932,10 +2936,9 @@ chatroom#:#history_byday_title#:#Zeitraum auswählen
 chatroom#:#history_bysession_title#:#Sitzung auswählen
 chatroom#:#history_cleared#:#Der Nachrichtenverlauf wurde durch die Moderation gelöscht.###Modified as part of gender mainstreaming activities for ILIAS 8
 chatroom#:#history_title_general#:#Unterhaltungen im Chatraum "%s"
-chatroom#:#history_title_private_room#:#Unterhaltungen im Séparée "%s"
 chatroom#:#ilias_chatserver_connection#:#Verbindung ILIAS zum Server
 chatroom#:#ilias_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, einen alternative URL für die Verbindung zwischen ILIAS und Server zu definieren.
-chatroom#:#invite_to_private_room#:#In aktuellen Raum einladen
+chatroom#:#invite_to_private_room#:#In Chatraum einladen
 chatroom#:#invite_username#:#Anmeldename
 chatroom#:#key#:#Schlüssel
 chatroom#:#kick_question#:#Wollen Sie den Benutzer wirklich aus dem aktuellen Chatraum rauswerfen?
@@ -2962,8 +2965,6 @@ chatroom#:#private_room_closed#:#Der Raum <b>#title#</b> wurde geschlossen.
 chatroom#:#private_room_entered#:#Willkommen im Séparée <b>#title#</b>.
 chatroom#:#private_room_entered_user#:#Der Benutzer <b>#username#</b> hat das Separée <b>#title#</b> betreten.
 chatroom#:#private_room_left#:#Der Benutzer <b>#user#</b> hat das Separée <b>#title#</b> verlassen.
-chatroom#:#private_rooms_enabled#:#Séparées aktivieren
-chatroom#:#private_rooms_enabled_info#:#Wenn aktiviert, können Benutzer Séparées anlegen, zu denen nur eingeladene Benutzer zutritt haben.
 chatroom#:#public_chat_created#:#Es wurde ein neuer öffentlicher Chatraum im Magazin angelegt.
 chatroom#:#scope#:#Raum/Séparée
 chatroom#:#select_custom_username#:#Angezeigter Name im Chat
@@ -3380,6 +3381,7 @@ common#:#HH#:#SS:MM
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Nutzungsvereinbarung akzeptieren?
 common#:#accept_usr_agreement_btn#:#Zustimmen
+common#:#accept_usr_agreement_intro#:#Es liegen neue Nutzungsbedingungen vor. Sie müssen sie akzeptieren, bevor Sie mit der Nutzung von ILIAS fortfahren können. Lesen Sie das folgende Dokument sorgfältig durch und geben Sie unten auf der Seite Ihre Zustimmung oder Ablehnung.
 common#:#access#:#Zugriff
 common#:#accessFree#:#Befristung des Zugriffs aufheben
 common#:#accessRestrict#:#Zugriff befristen
@@ -3649,8 +3651,6 @@ common#:#chapter#:#Kapitel
 common#:#characters#:#Zeichen
 common#:#chat_enter_public_room#:#Öffentl. Chat
 common#:#chat_enter_public_room_tooltip#:#In den öffentlichen Chatraum eintreten.
-common#:#chat_invite_public_room#:#Öffentlicher Chatraum
-common#:#chat_invite_public_room_tooltip#:#In den öffentlichen Chatraum einladen.
 common#:#chat_users_active#:#Aktive Benutzer
 common#:#check#:#Prüfen
 common#:#check_all#:#Alle auswählen
@@ -5715,6 +5715,7 @@ common#:#udf_delete_sure#:#Sind Sie sicher, dass Sie diese Feld und alle zugehö
 common#:#udf_duplicate_entries#:#Die Werte müssen eindeutig sein.
 common#:#udf_field_deleted#:#Das Feld wurde gelöscht.
 common#:#udf_name_already_exists#:#Ein Feld mit diesem Namen existiert bereits. Bitte wählen Sie einen anderen Feldnamen.
+common#:#udf_required_and_visible_requires_changeable#:#Wenn die Einstellungen "Erforderliche Angabe" und "Sichtbar in den persönlichen Daten" aktiviert sind, muss auch "Kann durch Benutzer selbst im Profil geändert werden" aktiviert sein
 common#:#udf_required_requires_visib_reg#:#Die Einstellung "Erforderliche Angabe" erfordert die Einstellung "Sichtbar im Registrierungsformular"
 common#:#udf_type_date#:#Datum
 common#:#udf_type_datetime#:#Datum und Uhrzeit
@@ -5808,6 +5809,7 @@ common#:#usr_account_inactive#:#Inaktiver Benutzer
 common#:#usr_active_only#:#Nur aktive Benutzer
 common#:#usr_add#:#Neuer Benutzer
 common#:#usr_agreement#:#Nutzungsvereinbarung
+common#:#usr_agreement_footer_intro#:#Zu dieser Nutzungsvereinbarung haben Sie ihr Einverständnis erklärt.
 common#:#usr_edit#:#Benutzer bearbeiten
 common#:#usr_field_change_components_listening#:#Es gibt mindestens eine Komponente, die sich für die getätigten Änderungen interessiert. Möchten Sie die Änderungen samt der von den Komponenten beschriebenen Konsequenzen final durchführen?
 common#:#usr_filter_coursemember#:#Mitglied eines Kurses
@@ -7808,9 +7810,11 @@ crs#:#crs_view_timing#:#Lernplanungsansicht
 crs#:#crs_view_timing_absolute#:#Absolutes Datum
 crs#:#crs_view_timing_relative#:#Relatives Datum
 crs#:#crs_view_timings#:#Lernplanungstyp
+crs#:#crs_visibility#:#Sichtbarkeit
 crs#:#crs_visibility_limitless#:#Unbegrenzt – wenn online geschaltet
 crs#:#crs_visibility_until#:#Zeitlich begrenzte Verfügbarkeit
 crs#:#crs_visibility_until_info#:#Der Kurs wird seinen Mitgliedern nur für einen bestimmten Zeitraum angezeigt.
+crs#:#crs_visibility_unvisible#:#Der Kurs ist nicht sichtbar.
 crs#:#crs_wait_info#:#Ist die maximale Mitgliederanzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
 crs#:#crs_waiting_list#:#Warteliste
 crs#:#crs_waiting_list_autofill#:#Mit automatischem Aufrücken
@@ -9334,6 +9338,7 @@ exc#:#exc_team_log#:#Team Log
 exc#:#exc_team_log_add_file#:#Datei %s hinzugefügt.
 exc#:#exc_team_log_add_member#:#Mitglied %s hinzugefügt.
 exc#:#exc_team_log_create_team#:#Team erstellt.
+exc#:#exc_team_log_remove_file#:#Datei %s entfernt.
 exc#:#exc_team_log_remove_member#:#Mitglied %s entfernt.
 exc#:#exc_team_management_tutor#:#Team-Management durch Tutoren
 exc#:#exc_team_management_tutor_info#:#Bei Aktivierung dieser Option können Teilnehmer ihre Teams nicht selbst organisieren.
@@ -10715,14 +10720,10 @@ ltiv#:#ltiv_create#:#Zertifikat für LTI-Konsument-Objekt erstellen
 ltiv#:#ltiv_create_info#:#Wählen Sie ein abgeschlossenes LTI-Konsument-Objekt aus, um ein Zertifikat dafür zu generieren.
 mail#:#back_to_folder#:#Zurück zum Ordner
 mail#:#bc#:#BCC
-mail#:#chat_users_have_been_invited#:#Die Benutzer wurden eingeladen:
-mail#:#chat_users_without_login#:#Die folgenden Benutzer haben kein ILIAS-Konto und können nicht eingeladen werden:
-mail#:#chat_users_without_permission#:#Die folgenden Benutzer haben keinen Zugriff zum ausgewählten Raum:
 mail#:#current_folder#:#Aktueller Ordner: %s
 mail#:#deleteTemplate#:#Löschen
 mail#:#first_email_missing_info#:#Auswahl nicht möglich, da keine E-Mail-Adresse eingetragen wurde
 mail#:#forward#:#Weiterleiten
-mail#:#goto_invitation_chat#:#Chatraum öffnen
 mail#:#invite_to_chat#:#in Chat einladen
 mail#:#link_check_affected_links#:#Betroffene Links
 mail#:#link_check_introduction#:#die folgenden Externen Links sind ungültig:
@@ -10811,7 +10812,6 @@ mail#:#mail_incoming_mail#:#Maileingang
 mail#:#mail_incoming_smtp#:#An eingetragene E-Mail-Adresse weiterleiten
 mail#:#mail_insert_folder_name#:#Bitte geben Sie einen Ordnernamen ein
 mail#:#mail_insert_query#:#Bitte geben Sie einen Suchbegriff ein
-mail#:#mail_invite_users_to_chat#:#Benutzer in Chat einladen
 mail#:#mail_is_read#:#gelesen
 mail#:#mail_is_unread#:#ungelesen
 mail#:#mail_list_members#:#Mitglieder auflisten
@@ -16950,4 +16950,3 @@ wsp#:#wsp_type_ltiv#:#Zertifikat: LTI-Konsument
 wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
-wsp#:#wsp_type_wfld#:#Ordner

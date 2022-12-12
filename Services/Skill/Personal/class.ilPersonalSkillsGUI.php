@@ -57,6 +57,7 @@ class ilPersonalSkillsGUI
      * @var array<int, array<int, int>>
      */
     protected array $gap_self_eval_levels = [];
+    protected bool $history_view = false;
 
     /**
      * @var int[]
@@ -241,6 +242,16 @@ class ilPersonalSkillsGUI
     public function getGapAnalysisSelfEvalLevels(): array
     {
         return $this->gap_self_eval_levels;
+    }
+
+    public function setHistoryView(bool $a_val): void
+    {
+        $this->history_view = $a_val;
+    }
+
+    public function getHistoryView(): bool
+    {
+        return $this->history_view;
     }
 
     public function getTriggerObjectsFilter(): array
@@ -621,7 +632,7 @@ class ilPersonalSkillsGUI
                 }
             }
 
-            if ($this->mode == "gap") {
+            if ($this->mode == "gap" && !$this->history_view) {
                 $panel_comps[] = $this->ui_fac->legacy($this->getActualGapItem($level_data, $bs["tref"]));
                 $panel_comps[] = $this->ui_fac->legacy($this->getSelfEvalGapItem($level_data, $bs["tref"]));
             } else {
@@ -1224,6 +1235,7 @@ class ilPersonalSkillsGUI
         $ilCtrl = $this->ctrl;
 
         $options = [];
+        $cont_options = [];
         if (is_array($this->getObjectSkills()) && $this->getObjectId() > 0) {
             $options[0] = $lng->txt("obj_" . ilObject::_lookupType($this->getObjectId()))
                 . ": " . ilObject::_lookupTitle($this->getObjectId());
@@ -1231,10 +1243,11 @@ class ilPersonalSkillsGUI
 
         foreach ($this->cont_profiles as $p) {
             $tree = $this->tree_service->getObjSkillTreeById((int) $p["skill_tree_id"]);
-            $options[$p["profile_id"]] = $tree->getTitle() . ": " . $p["title"];
+            $cont_options[$p["profile_id"]] = $tree->getTitle() . ": " . $p["title"];
         }
 
-        asort($options);
+        asort($cont_options);
+        $options = $options + $cont_options;
 
         $si = new ilSelectInputGUI($lng->txt("skmg_profile"), "profile_id");
         $si->setOptions($options);
@@ -1436,7 +1449,7 @@ class ilPersonalSkillsGUI
                     $tooltips[$eval_dim] = $tooltips[$eval_dim] ?? null;
                 }
                 if ($incl_self_eval) {
-                    if (($self_vals[$l["base_skill_id"]][$l["tref_id"]] ?? 0) == $lv["id"]) {
+                    if (($self_vals[$l->getBaseSkillId()][$l->getTrefId()] ?? 0) == $lv["id"]) {
                         $points[$self_eval_dim] = $cnt;
                         $tooltips[$self_eval_dim] = null;
                     } else {
@@ -2150,7 +2163,7 @@ class ilPersonalSkillsGUI
                 $image = $this->ui_fac->image()->responsive($src->getSrc(), $this->lng->txt("skmg_custom_image_alt"));
             } else {
                 $image = $this->ui_fac->image()->responsive(
-                    "src/UI/examples/Image/HeaderIconLarge.svg",
+                    "./templates/default/images/logo/ilias_logo_72x72.png",
                     "ILIAS"
                 );
             }

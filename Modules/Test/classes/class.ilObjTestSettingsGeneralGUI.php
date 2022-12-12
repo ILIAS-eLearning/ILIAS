@@ -970,10 +970,10 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $duration->setShowMinutes(true);
 
         $pw_time_array = explode(':', $this->testOBJ->getPassWaiting());
-        $duration->setMonths($pw_time_array[0]);
-        $duration->setDays($pw_time_array[1]);
-        $duration->setHours($pw_time_array[2]);
-        $duration->setMinutes($pw_time_array[3]);
+        $duration->setMonths((int) $pw_time_array[0]);
+        $duration->setDays((int) $pw_time_array[1]);
+        $duration->setHours((int) $pw_time_array[2]);
+        $duration->setMinutes((int) $pw_time_array[3]);
         $duration->setRequired(false);
         $pass_waiting_enabled->addSubItem($duration);
 
@@ -1444,11 +1444,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $enable_examview->setValue(1);
         $enable_examview->setChecked($this->testOBJ->getEnableExamview());
         $enable_examview->setInfo($this->lng->txt("enable_examview_desc"));
-        $show_examview_pdf = new ilCheckboxInputGUI('', 'show_examview_pdf');
-        $show_examview_pdf->setValue(1);
-        $show_examview_pdf->setChecked($this->testOBJ->getShowExamviewPdf());
-        $show_examview_pdf->setOptionTitle($this->lng->txt("show_examview_pdf"));
-        $enable_examview->addSubItem($show_examview_pdf);
         $form->addItem($enable_examview);
 
         // show final statement
@@ -1522,7 +1517,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
     {
         if ($this->formPropertyExists($form, 'enable_examview')) {
             $this->testOBJ->setEnableExamview($form->getItemByPostVar('enable_examview')->getChecked());
-            $this->testOBJ->setShowExamviewPdf($form->getItemByPostVar('show_examview_pdf')->getChecked());
         }
 
         $this->testOBJ->setShowFinalStatement($form->getItemByPostVar('showfinalstatement')->getChecked());

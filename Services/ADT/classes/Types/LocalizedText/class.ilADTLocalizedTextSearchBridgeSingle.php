@@ -2,6 +2,22 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 class ilADTLocalizedTextSearchBridgeSingle extends ilADTTextSearchBridgeSingle
 {
     protected function isValidADTDefinition(ilADTDefinition $a_adt_def): bool
@@ -105,10 +121,13 @@ class ilADTLocalizedTextSearchBridgeSingle extends ilADTTextSearchBridgeSingle
 
     public function isInCondition(ilADT $a_adt): bool
     {
-        assert($a_adt instanceof ilADTText);
-
+        assert($a_adt instanceof ilADTLocalizedText);
         // :TODO: search mode (see above)
-        return $this->getADT()->equals($a_adt);
+        $key = $this->lng->getLangKey();
+        return !strcmp(
+            trim($this->getADT()->getTextForLanguage($key)),
+            trim($a_adt->getTextForLanguage($key))
+        );
     }
 
     //  import/export

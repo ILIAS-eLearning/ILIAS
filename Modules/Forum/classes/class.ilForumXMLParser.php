@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilForumXMLParser extends ilSaxParser
 {
@@ -579,19 +579,10 @@ class ilForumXMLParser extends ilSaxParser
             case 'Attachment':
                 $filedata = new ilFileDataForum($this->forum->getId(), $this->lastHandledPostId);
 
-                $importPath = $this->contentArray['content'];
-
-                if ($importPath !== '') {
-                    $importPath = $this->getImportDirectory() . '/' . $importPath;
-
-                    $newFilename = preg_replace(
-                        "/^\d+_\d+(_.*)/ms",
-                        $this->forum->getId() . "_" . $this->lastHandledPostId . "$1",
-                        basename($importPath)
-                    );
-                    $path = $filedata->getForumPath();
-                    $newPath = $path . '/' . $newFilename;
-                    @copy($importPath, $newPath);
+                $import_path = $this->contentArray['content'];
+                if ($import_path !== '') {
+                    $import_path = $this->getImportDirectory() . '/' . $import_path;
+                    $filedata->importPath($import_path, (int)$this->lastHandledPostId);
                 }
                 break;
         }

@@ -53,6 +53,11 @@ class StandardGUIRequest
         return $this->int("object_id");
     }
 
+    public function getMessage(): string
+    {
+        return $this->str("message");
+    }
+
     public function getUserId(): int
     {
         return $this->int("user_id");

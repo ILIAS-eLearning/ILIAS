@@ -26,7 +26,7 @@ use ILIAS\ResourceStorage\Information\Information;
 
 /**
  * Class NullRevision
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class NullRevision extends BaseRevision implements Revision
 {

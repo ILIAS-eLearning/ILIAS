@@ -28,6 +28,9 @@ use ILIAS\ResourceStorage\Consumer\InlineSrcBuilder;
 use ILIAS\ResourceStorage\Consumer\SrcBuilder;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\TokenFactory;
+use ILIAS\ResourceStorage\Flavour\FlavourBuilder;
+use ILIAS\ResourceStorage\Flavour\Flavours;
+use ILIAS\ResourceStorage\Flavour\Machine\Factory;
 use ILIAS\ResourceStorage\Identification\UniqueIDCollectionIdentificationGenerator;
 use ILIAS\ResourceStorage\Lock\LockHandler;
 use ILIAS\ResourceStorage\Manager\Manager;
@@ -42,22 +45,23 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 /**
  * Class Services
  * @public
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class Services
 {
     protected \ILIAS\ResourceStorage\Manager\Manager $manager;
     protected \ILIAS\ResourceStorage\Consumer\Consumers $consumers;
     protected \ILIAS\ResourceStorage\Collection\Collections $collections;
+    protected \ILIAS\ResourceStorage\Flavour\Flavours $flavours;
     protected \ILIAS\ResourceStorage\Preloader\RepositoryPreloader $preloader;
 
     /**
      * Services constructor.
-     * @param StorageHandler $storage_handler_factory
      */
     public function __construct(
         StorageHandlerFactory $storage_handler_factory,
         Repositories $repositories,
+        Artifacts $artifacts,
         LockHandler $lock_handler,
         FileNamePolicy $file_name_policy,
         StreamAccess $stream_access,
@@ -65,9 +69,6 @@ class Services
         RepositoryPreloader $preloader = null
     ) {
         $src_builder ??= new InlineSrcBuilder();
-        $stream_info_factory = new TokenFactory(
-            $storage_handler_factory->getBaseDir()
-        );
         $file_name_policy_stack = new FileNamePolicyStack();
         $file_name_policy_stack->addPolicy($file_name_policy);
         $resource_builder = new ResourceBuilder(
@@ -102,6 +103,24 @@ class Services
             $collection_builder,
             $this->preloader
         );
+
+        $machine_factory = new Factory(
+            new \ILIAS\ResourceStorage\Flavour\Engine\Factory(),
+            $artifacts->getFlavourMachines()
+        );
+
+        $flavour_builder = new FlavourBuilder(
+            $repositories->getFlavourRepository(),
+            $machine_factory,
+            $resource_builder,
+            $storage_handler_factory,
+            $stream_access
+        );
+
+        $this->flavours = new Flavours(
+            $flavour_builder,
+            $resource_builder
+        );
     }
 
     public function manage(): Manager
@@ -117,6 +136,11 @@ class Services
     public function collection(): Collections
     {
         return $this->collections;
+    }
+
+    public function flavours(): Flavours
+    {
+        return $this->flavours;
     }
 
     public function preload(array $identification_strings): void

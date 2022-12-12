@@ -26,7 +26,7 @@ use ILIAS\ResourceStorage\Revision\Revision;
 
 /**
  * Interface InformationDBRepository
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  * @internal
  */
 class InformationDBRepository implements InformationRepository

@@ -142,7 +142,7 @@ class ilSkinFactoryTest extends ilSystemStyleBaseFSTest
         }
 
         //Only perform this test, if an unzip path has been found.
-        if (PATH_TO_UNZIP != '') {
+        if (PATH_TO_UNZIP != '' && PATH_TO_ZIP != "") {
             $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
             $skin = $container->getSkin();
 

@@ -251,7 +251,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             ilObjUserTracking::EXTENDED_DATA_READ_COUNT
         )) {
             $item = $this->addFilterItemByMetaType(
-                "read_count",
+                "read_count_sum",
                 ilTable2GUI::FILTER_NUMBER_RANGE,
                 true,
                 "&#8721; " . $this->lng->txt("trac_read_count")
@@ -324,9 +324,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             }
 
             $item = $this->addFilterItemByMetaType(
-                "trac_status_changed",
+                "status_changed_max",
                 ilTable2GUI::FILTER_DATE_RANGE,
-                true
+                true,
+                $this->lng->txt("trac_status_changed")
             );
             $this->filter["status_changed"] = $item->getDate();
         }
@@ -404,16 +405,18 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS
         )) {
             $item = $this->addFilterItemByMetaType(
-                "trac_first_access",
+                "first_access_min",
                 ilTable2GUI::FILTER_DATETIME_RANGE,
-                true
+                true,
+                $this->lng->txt("trac_first_access")
             );
             $this->filter["first_access"] = $item->getDate();
 
             $item = $this->addFilterItemByMetaType(
-                "trac_last_access",
+                "last_access_max",
                 ilTable2GUI::FILTER_DATETIME_RANGE,
-                true
+                true,
+                $this->lng->txt("trac_last_access")
             );
             $this->filter["last_access"] = $item->getDate();
         }
@@ -829,7 +832,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                         break;
                     }
 
-                    // no break
+                // no break
                 default:
                     $value = $this->parseValue($c, $a_set[$c], $a_set["type"]);
                     $this->tpl->setVariable(strtoupper($c), $value);

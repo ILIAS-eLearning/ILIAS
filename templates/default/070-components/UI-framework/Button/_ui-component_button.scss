@@ -1,23 +1,73 @@
 @use "../../../010-settings/"as *;
 @use "../../../010-settings/legacy-settings/legacy-settings_form" as *;
 @use "../../../030-tools/tool_focus-outline" as *;
-@use "../../../010-settings/legacy-settings/legacy-settings_button" as *;
 @use "../../../050-layout/basics"as *;
 @use "../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
 
-
 //== Buttons
 
-//** some variables can be found on settings layer
+//** Colors of engaged buttons
+$il-engaged-btn-color: $il-text-color;
+$il-engaged-btn-bg: white;
+
+//** many variables can be found on settings layer
+
+// Base styles
+// --------------------------------------------------
 
 .btn {
-	font-size: $il-button-font-size;
-	@include il-focus();
+  display: inline-block;
+  margin-bottom: 0; // For input.btn
+  font-size: $il-button-font-size;
+  font-weight: btstrp3.$btn-font-weight;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+  border: 1px solid transparent;
+  @include btstrp3.button-size($il-padding-base-vertical, $il-padding-base-horizontal, $il-font-size-base, $il-line-height-base, btstrp3.$btn-border-radius-base);
+  @include btstrp3.user-select(none);
+  @include il-focus();
 
-  &:active {
+  &,
+  &:active,
+  &.active {
+    &:focus,
+    &.focus {
+      @include tab-focus;
+    }
+  }
+
+  &:hover,
+  &:focus,
+  &.focus {
+    color: $il-btn-standard-color;
+    text-decoration: none;
+  }
+
+  &:active,
+  &.active {
+    background-image: none;
     outline: 0;
-    -webkit-box-shadow: none;
-    box-shadow: none;
+  }
+
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    cursor: btstrp3.$cursor-disabled;
+    @include btstrp3.opacity(.65);
+    @include btstrp3.box-shadow(none);
+  }
+
+  // [converter] extracted a& to a.btn
+}
+
+a.btn {
+  &.disabled,
+  fieldset[disabled] & {
+    pointer-events: none; // Future-proof disabling of clicks on `<a>` elements
   }
 }
 
@@ -42,6 +92,64 @@ input.btn{
 .btn-primary {
   @include btstrp3.button-variant($il-btn-primary-color, $il-btn-primary-bg, $il-btn-primary-border);
 }
+
+// ILIAS doesn't use btn-success, btn-info, btn-warning, btn-danger
+
+// Link buttons
+// -------------------------
+
+// Make a button look and behave like a link
+.btn-link {
+  font-weight: 400;
+  color: $il-link-color;
+  border-radius: 0;
+
+  &,
+  &:active,
+  &.active,
+  &[disabled],
+  fieldset[disabled] & {
+    background-color: transparent;
+    @include btstrp3.box-shadow(none);
+  }
+  &,
+  &:hover,
+  &:focus,
+  &:active {
+    border-color: transparent;
+  }
+  &:hover,
+  &:focus {
+    color: $il-link-hover-color;
+    text-decoration: btstrp3.$link-hover-decoration;
+    background-color: transparent;
+  }
+  &[disabled],
+  fieldset[disabled] & {
+    &:hover,
+    &:focus {
+      color: btstrp3.$btn-link-disabled-color;
+      text-decoration: none;
+    }
+  }
+}
+
+
+// Button Sizes
+// --------------------------------------------------
+
+.btn-lg {
+  // line-height: ensure even-numbered height of button next to large input
+  @include btstrp3.button-size($il-padding-large-vertical, $il-padding-large-horizontal, $il-font-size-large, $il-line-height-large, btstrp3.$btn-border-radius-large);
+}
+.btn-sm {
+  // line-height: ensure proper height of button next to small input
+  @include btstrp3.button-size($il-padding-small-vertical, $il-padding-small-horizontal, $il-font-size-small, $il-line-height-small, btstrp3.$btn-border-radius-small);
+}
+.btn-xs {
+  @include btstrp3.button-size($il-padding-xs-vertical, $il-padding-xs-horizontal, $il-font-size-small, $il-line-height-small, btstrp3.$btn-border-radius-small);
+}
+
 
 .btn, .btn.btn-tag{
   &[disabled],

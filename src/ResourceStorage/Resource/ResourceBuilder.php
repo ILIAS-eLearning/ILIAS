@@ -42,7 +42,7 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 
 /**
  * Class ResourceBuilder
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  * @internal This class is not part of the public API and may be changed without notice. Do not use this class in your code.
  */
 class ResourceBuilder

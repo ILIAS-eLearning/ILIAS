@@ -25,7 +25,7 @@ use ilException;
 /**
  * Class ResourceNotFoundException
  *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class ResourceNotFoundException extends ilException
 {

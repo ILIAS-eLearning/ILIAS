@@ -102,26 +102,30 @@ trait GlobalDICGUIServices
      */
     public function form(
         $class_path,
-        string $cmd
+        string $cmd,
+        string $submit_caption = ""
     ): FormAdapterGUI {
         return new FormAdapterGUI(
             $class_path,
-            $cmd
+            $cmd,
+            $submit_caption
         );
     }
 
     public function modal(
-        $title = ""
-    ) : ModalAdapterGUI {
+        string $title = "",
+        string $cancel_label = ""
+    ): ModalAdapterGUI {
         return new ModalAdapterGUI(
-            $title
+            $title,
+            $cancel_label
         );
     }
 
     /**
      * @throws \ILIAS\HTTP\Response\Sender\ResponseSendingException
      */
-    public function send(string $output) : void
+    public function send(string $output): void
     {
         $http = $this->http();
         $http->saveResponse($http->response()->withBody(

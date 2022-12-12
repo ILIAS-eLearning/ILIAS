@@ -20,7 +20,7 @@ namespace ILIAS\ResourceStorage\Policy;
 
 /**
  * Interface FileNamePolicy
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 interface FileNamePolicy
 {

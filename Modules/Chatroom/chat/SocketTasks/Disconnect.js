@@ -21,49 +21,36 @@ module.exports = function()
 		if(namespace.hasSubscriber(subscriberId)) {
 			var rooms = namespace.getRooms();
 
-			var subRoomIds = [];
 			var roomIds = [];
-			for(var index in rooms) {
-				if(rooms.hasOwnProperty(index)){
-					var room = rooms[index];
-
-					if(room.hasSubscriber(subscriberId)) {
-						room.subscriberLeft(subscriberId);
-						room.removeSubscriber(subscriberId);
-						var splitIds = Container.splitServerRoomId(room.getId());
-
-						if(roomIds.indexOf(splitIds[0]) < 0)
-						{
-							roomIds.push(splitIds[0]);
-						}
-
-						if(parseInt(splitIds[1], 10) !== 0) {
-							subRoomIds.push(splitIds[1]);
-
-							if(!room.hasSubscribers()) {
-								namespace.getDatabase().closePrivateRoom(splitIds[1]);
-								Container.getLogger().info('Private room %s of namespace %s has been closed', room.getId(), namespace.getName());
-							}
-						}
-
-						var userListAction = UserlistAction.create(splitIds[0], splitIds[1], room.getJoinedSubscribers());
-						var notice = Notice.create('disconnected', splitIds[0], splitIds[1], {username: subscriber.getName()});
-
-						namespace.getDatabase().addHistory(notice);
-
-						Container.getLogger().info('Disconnected %s from %s of namespace %s', subscriberId, room.getId(), namespace.getName());
-						Container.getLogger().info('Updated user list for room %s of namespace %s', room.getId(), namespace.getName());
-
-						namespace.getIO().in(room.getId()).emit('userlist', userListAction);
-						namespace.getIO().in(room.getId()).emit('notice', notice);
-					}
+			Object.values(rooms).forEach(function(room){
+				if(!room.hasSubscriber(subscriberId)) {
+					return;
 				}
-			}
+				room.subscriberLeft(subscriberId);
+				room.removeSubscriber(subscriberId);
+				var splitIds = Container.splitServerRoomId(room.getId());
+
+				if(roomIds.indexOf(splitIds[0]) < 0)
+				{
+					roomIds.push(splitIds[0]);
+				}
+
+				var userListAction = UserlistAction.create(splitIds[0], room.getJoinedSubscribers());
+				var notice = Notice.create('disconnected', splitIds[0], {username: subscriber.getName()});
+
+				namespace.getDatabase().addHistory(notice);
+
+				Container.getLogger().info('Disconnected %s from %s of namespace %s', subscriberId, room.getId(), namespace.getName());
+				Container.getLogger().info('Updated user list for room %s of namespace %s', room.getId(), namespace.getName());
+
+				namespace.getIO().in(room.getId()).emit('userlist', userListAction);
+				namespace.getIO().in(room.getId()).emit('notice', notice);
+			});
 			if(subscriber.getSocketIds().length <= 0)
 			{
 				namespace.removeSubscriber(subscriberId);
 			}
-			namespace.getDatabase().disconnectUser(subscriber, roomIds, subRoomIds);
+			namespace.getDatabase().disconnectUser(subscriber, roomIds);
 
 		}
 

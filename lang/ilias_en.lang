@@ -573,9 +573,9 @@ assessment#:#assessment_scoring_adjust#:#Enable corrections
 assessment#:#assessment_scoring_adjust_desc#:#Enables the corrections feature to allow modifications to questions in a test.
 assessment#:#autocomplete_error#:#Your autocomplete number is to large, you have answers which have less characters, so they would never be displayed.
 assessment#:#autoparticipants_subtab#:#Participants
-assessment#:#autosave#:#Automatic saving
+assessment#:#autosave#:#Automatic Saving
 assessment#:#autosave_failed#:#Autosave failed!
-assessment#:#autosave_info#:#The answers of the participants to the last opened question are automatically saved by ILIAS. These automatically saved answers are <b>not</b> considered to be answers authorised by the participant. Therefore, they are not taken into account by ILIAS during the automated evaluation. Automatically saved answers must always be evaluated manually! They are also not displayed in the result view of the respective test taker. The automatic saving of answers is only intended for emergencies, e.g. if the browser window is closed by mistake!
+assessment#:#autosave_info#:#The answers of the participants to the last opened question are automatically saved by ILIAS. These automatically saved answers are <b>not</b> considered to be answers that have been authorised by the participant. Therefore, they are not taken into account by ILIAS during the automated evaluation. Automatically saved answers must always be evaluated manually! They are also not displayed in a participant’s ‘Results’ tab. The automatic saving of answers is only intended for emergencies, e.g. if the browser window is closed by mistake!
 assessment#:#autosave_ival#:#Interval
 assessment#:#autosave_success#:#Autosave successful...
 assessment#:#autosavecontent#:#Autosave Content
@@ -590,7 +590,7 @@ assessment#:#button_request_question_hint#:#Request Hint
 assessment#:#button_show_requested_question_hints#:#Show Requested Hints
 assessment#:#by#:#by
 assessment#:#cancel_test#:#Suspend the Test
-assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.
+assessment#:#cannot_edit_marks#:#The test has already been completed by some participants. You can only change the marks if an ’Access to Test Results’ date has been set and that date is in the future i.e. it has not yet been reached.
 assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!
 assessment#:#cannot_execute_test#:#You do not possess sufficient permissions to run the test!
 assessment#:#cannot_export_archive#:#Archive-Export cannot be created.
@@ -645,15 +645,15 @@ assessment#:#definition_image#:#Definition Image
 assessment#:#definition_text#:#Definition Text
 assessment#:#definitions#:#Definitions
 assessment#:#deleteSuggestedSolution#:#Remove this content for recapitulation
-assessment#:#delete_all_user_data#:#Delete Test Data of all Users
-assessment#:#delete_all_user_data_confirmation#:#Do you really want to delete the test data of all users in this test?
+assessment#:#delete_all_user_data#:#Delete Test Data of all Participants
+assessment#:#delete_all_user_data_confirmation#:#Are you sure you want to delete the test data of all of the participants of this test?
 assessment#:#delete_image_header#:#Remove image
 assessment#:#delete_image_question#:#Do you really want to remove the image?
 assessment#:#delete_user_data#:#Remove Test Data of Selected Users
 assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
-assessment#:#detail_ending_time_reached#:#The time allotted for this test is now over. The test had not been available since %s hours.
-assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!
-assessment#:#detail_starting_time_not_reached#:#You have not reached the start time of the test. The test will be available on %s hours.
+assessment#:#detail_ending_time_reached#:#The maximum time available for completing this test has expired. This test has not been available since %s .
+assessment#:#detail_max_processing_time_reached#:#You have exceeded the maximum time available for completing this test! You are no longer allowed to continue with the test.
+assessment#:#detail_starting_time_not_reached#:#You cannot start the test yet. The test will be available from %s onwards.
 assessment#:#detailed_evaluation#:#Detailed Evaluation
 assessment#:#detailed_evaluation_for#:#Detailed Evaluation for %s
 assessment#:#detailed_evaluation_missing_active_id#:#You must call the ‘Detailed Evaluation’ for a selected participant!
@@ -687,7 +687,7 @@ assessment#:#edit_test_questions#:#List View
 assessment#:#element_height#:#Minimum Height
 assessment#:#element_height_info#:#This is the minimum height in pixels for term and definition/picture items during the test output.
 assessment#:#enable_examview#:#Overview of Answers Given
-assessment#:#enable_examview_desc#:#Participants are presented with all questions and the answers they provided in an overview prior to submitting the test.
+assessment#:#enable_examview_desc#:#When they click on ‘Finish the Test’, participants are presented with an overview of the test’s questions and the answers they provided to those questions. From this overview, they are still able to click on ‘Back’ in order to return to the test and make changes to their answers as long as answers have not been locked (see ‘Answer Lock’ above).
 assessment#:#end_tag#:#End Tag
 assessment#:#enlarge#:#Enlarge
 assessment#:#enter_anonymous_code#:#Enter access code to continue your already started test:
@@ -728,12 +728,12 @@ assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted un
 assessment#:#eval_all_users#:#Evaluation for All Users
 assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.
 assessment#:#evaluated_users#:#Evaluated Users
-assessment#:#exam_id#:#Testpass ID:
-assessment#:#exam_id_label#:#Exam Id
-assessment#:#examid_in_test_pass#:#Display Test Pass ID
-assessment#:#examid_in_test_pass_desc#:#A test pass ID is displayed in the test. A new ID is generated for every test pass.
-assessment#:#examid_in_test_res#:#ILIAS Test Pass ID
-assessment#:#examid_in_test_res_desc#:#The ILIAS test pass ID will be included in the test results.
+assessment#:#exam_id#:#Test ID:
+assessment#:#exam_id_label#:#Test ID
+assessment#:#examid_in_test_pass#:#Display Test ID
+assessment#:#examid_in_test_pass_desc#:#A Test ID is displayed in the test. A new, unique ID is generated for every test attempt.
+assessment#:#examid_in_test_res#:#Display ILIAS Test ID
+assessment#:#examid_in_test_res_desc#:#The ILIAS Test ID will be included in the test results.
 assessment#:#exp_eval_data#:#Export evaluation data as
 assessment#:#exp_file_created#:#Export file created.
 assessment#:#exp_type_certificate#:#Certificate (PDF)
@@ -754,7 +754,7 @@ assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/sel
 assessment#:#feedback_complete_solution#:#Correct solution
 assessment#:#feedback_correct_kprim#:#Show answer specific feedback for all correct answers (Correct answers are those, for that the positive option is to be chosen/selected).
 assessment#:#feedback_correct_sc_mc#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).
-assessment#:#feedback_generic#:#Common Solution Feedback
+assessment#:#feedback_generic#:#Correct/Incorrect Answer Feedback
 assessment#:#feedback_incomplete_solution#:#At least one answer is not correct
 assessment#:#feedback_setting#:#Mode of answer specific feedback.
 assessment#:#fileDownload#:#File download
@@ -766,18 +766,18 @@ assessment#:#filter_all_questionpools#:#All Question Pools
 assessment#:#filter_show_question_types#:#Show Question Types
 assessment#:#filter_show_questionpools#:#Show Question Pools
 assessment#:#final_statement#:#Concluding Remarks
-assessment#:#final_statement_show_desc#:#Shows concluding remarks after the test  was submitted.
+assessment#:#final_statement_show_desc#:#Show concluding remarks after the test has been submitted (there is no option to return to the test from this page).
 assessment#:#finalized_by#:#Completed by
 assessment#:#finalized_evaluation#:#Scoring completed
 assessment#:#finalized_on#:#Completed at
 assessment#:#finish_all_user_passes#:#Finish all Test Passes
-assessment#:#finish_pass_for_all_users#:#Are you sure you want to finish the test passes for all Users?
+assessment#:#finish_pass_for_all_users#:#Are you sure you want to finish the test passes for all users?
 assessment#:#finish_pass_for_all_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.
 assessment#:#finish_pass_for_user_confirmation#:#Are you sure you want to finish this test pass for the participant "%s"?
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).
-assessment#:#finish_test#:#Finish the Test
-assessment#:#finish_unfinished_passes#:#Finish Open Passes
-assessment#:#finish_unfinished_passes_desc#:#Passes which have a finishing time or a duration limit configured will be closed by this cron job.
+assessment#:#finish_test#:#Finish Test
+assessment#:#finish_unfinished_passes#:#Finish Uncompleted Attempts
+assessment#:#finish_unfinished_passes_desc#:#Test attempts which have a set finishing time or a time limit will be closed by this cron job.
 assessment#:#fixed_participants_hint#:#This test is only accessible for the manually added participants listed below. You can disable this setting by deactivating the checkbox ‘Manually Selected Participants’ in the test settings.
 assessment#:#fixedparticipants_subtab#:#Manually Selected Participants
 assessment#:#flashfile#:#Flash File
@@ -798,9 +798,9 @@ assessment#:#grading_obligations_answered_listentry#:#Answered
 assessment#:#grading_obligations_answered_msg#:#You filled out all compulsory questions.
 assessment#:#grading_obligations_listlabel#:#Compulsory Questions
 assessment#:#grading_obligations_missing_listentry#:#Open
-assessment#:#grading_obligations_missing_msg#:#You didn‘t filled out all compulsory questions.
-assessment#:#grading_status_failed_msg#:#Sorry, you <b>failed</b> the test.
-assessment#:#grading_status_passed_msg#:#Congratulations, you <b>passed</b> the test.
+assessment#:#grading_obligations_missing_msg#:#You didn‘t complete all compulsory questions.
+assessment#:#grading_status_failed_msg#:#Sorry, you have <b>failed</b> the test.
+assessment#:#grading_status_passed_msg#:#Congratulations, you have <b>passed</b> the test.
 assessment#:#height#:#Height
 assessment#:#identical_scoring#:#Identical Scoring
 assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurrence of the same solution will be scored.
@@ -817,9 +817,9 @@ assessment#:#intprecision#:#Divisible By
 assessment#:#intprecision_info#:#‘Divisible by’ affects only the creation of variables, if the value for the precision is 0. In this case, you define for ‘Divisible by’ an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, ‘Divisible by’ is a mandatory field and must contain a positive integer. The default value is 1 for any integers.
 assessment#:#javaapplet#:#Java Applet
 assessment#:#kiosk#:#Exam View
-assessment#:#kiosk_description#:#Exam view runs test in kiosk mode. This hides the browser bar and navigation and all other screen elements that are not part of the test. Participants are prevented from opening an other website.<br />Effectively preventing participants from opening other websites during tests additinally requires deploying a suitable browser enviroment (e.g. Safe Exam Browser).
+assessment#:#kiosk_description#:#Runs tests in kiosk mode. This hides the browser bar, navigation and all other screen elements that are not part of the test. Participants are prevented from opening other websites.<br />Effectively preventing participants from opening other websites during tests additionally requires the deployment of a suitable browser (e.g. Safe Exam Browser).
 assessment#:#kiosk_options#:#Exam View Options
-assessment#:#kiosk_options_desc#:#Information is displayed at the top section of the screen.
+assessment#:#kiosk_options_desc#:#Information is displayed in the header section of the screen.
 assessment#:#kiosk_show_participant#:#Show Name of Participant
 assessment#:#kiosk_show_title#:#Show Test Title
 assessment#:#kprim_answers_info#:#The multiple choice question type ‘four times decision right/wrong’ (Type K’, also known as Kprim) gives four answers or additions to a question or an incomplete statement. A decision about the correctness is to be done on all four answers/additions. The maximum points are granted only, if all decisions are correct.
@@ -886,19 +886,19 @@ assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.
 assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_text#:#Long Menu Text
-assessment#:#mailnottype#:#Send notification even if a user finishes a test pass
+assessment#:#mailnottype#:#Send a notification every time a test attempt is completed.
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.
 assessment#:#maintenance#:#Maintenance
 assessment#:#manscoring#:#Manual Scoring
 assessment#:#manscoring_done#:#Scored Participants
-assessment#:#manscoring_hint#:#You have added at least one question which may require manual scoring. To avoid that participants get already access to the test results before you finished manual scoring, please define a suitable date for the access to the test results.
+assessment#:#manscoring_hint#:#You have added at least one question which may require manual scoring. To avoid participants getting access to the test results before you have finished manual scoring, please set a suitable date before which the results cannot be accessed.
 assessment#:#manscoring_none#:#Unscored Participants
 assessment#:#manscoring_not_allowed#:#The Manual Scoring wasn‘t activated for a question type. You are not allowed to use this tab.
 assessment#:#manscoring_questions_not_found#:#This test pass does not contain question types which can be scored manually.
 assessment#:#manscoring_results_pass#:#Manual Scored Questions for Pass %s
 assessment#:#manual_editing#:#Manual Editing
-assessment#:#mark_schema#:#Mark Schema
-assessment#:#mark_schema_invalid#:#The mark schema does not validate. Please create a correct schema.
+assessment#:#mark_schema#:#Grading System
+assessment#:#mark_schema_invalid#:#The grading system that you have tried to create contains errors. Please make sure that the values in the ‘Minimum Score Required (in %]’ column are correct.
 assessment#:#mark_tst_ects#:#Your ECTS grade is "[markects]" (European Credit Transfer System)
 assessment#:#matches#:#matches
 assessment#:#matching_pairs#:#Matching Pairs
@@ -914,7 +914,7 @@ assessment#:#maximum_points#:#Maximum Available Points
 assessment#:#maxsize#:#Maximum file upload size
 assessment#:#maxsize_info#:#Enter the maximum size in bytes that should be allowed for file uploads. If you leave this field empty, the maximum size of this installation will be chosen instead.
 assessment#:#min_auto_complete#:#Autocomplete
-assessment#:#min_percentage_ne_0#:#You must define a minimum percentage of 0 percent! The mark schema wasn’t saved.
+assessment#:#min_percentage_ne_0#:#One of your grade categories needs to start at the ‘Minimum Score Required (in %)’ level of 0%  Your grading system hasn’t been saved.
 assessment#:#misc#:#Misc Options
 assessment#:#msg_circle_added#:#Circle added
 assessment#:#msg_deleted_export_files#:#Export file(s) removed
@@ -927,7 +927,7 @@ assessment#:#new_category#:#New Unit Category
 assessment#:#new_unit#:#New Unit
 assessment#:#next_question#:#Next
 assessment#:#next_question_rows#:#Questions %d - %d of %d »
-assessment#:#no_passed_mark#:#You must set at least one mark to PASSED! The mark schema was not saved.
+assessment#:#no_passed_mark#:#At least one grade has to be a passing grade. For a grade to be a passing grade, it needs to have the appropriate box in the ‘Passed’ column checked.
 assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!
 assessment#:#no_questions_available#:#There are no questions available!
 assessment#:#no_result_type#:#No Restrictions
@@ -978,8 +978,8 @@ assessment#:#output_mode#:#Output Mode
 assessment#:#parseQuestion#:#Parse Question
 assessment#:#part_received_a_of_b_points#:#The participant received %s of %s possible points
 assessment#:#participants#:#Participants
-assessment#:#participants_invitation#:#Manually Selected Participants
-assessment#:#participants_invitation_description#:#This test can only be accessed by users you have manually added in tab ‘Dashboard’.
+assessment#:#participants_invitation#:#Select Participants Manually
+assessment#:#participants_invitation_description#:#This test can only be accessed by users you have manually added in the ‘Dashboard’ tab of the test.
 assessment#:#participants_results_subtab#:#All Participants
 assessment#:#pass#:#Pass
 assessment#:#pass_finished#:#%s pass
@@ -1073,7 +1073,7 @@ assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Existing taxonomies 
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomy Filter as Navigation Tree
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#When a taxonomy is selected, it well be presented as navigation tree instead of a table filter item.
 assessment#:#qpl_settings_general_form_property_online#:#Online
-assessment#:#qpl_settings_general_form_property_online_description#:#Only online question pools could be used in tests.
+assessment#:#qpl_settings_general_form_property_online_description#:#Only question pools that are online can be used in tests.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Use No Navigation Tree Filter
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Show Taxonomies
 assessment#:#qpl_settings_subtab_general#:#General Settings
@@ -1098,7 +1098,7 @@ assessment#:#qst_lifecycle_final#:#Final
 assessment#:#qst_lifecycle_outdated#:#Outdated
 assessment#:#qst_lifecycle_rejected#:#Rejected
 assessment#:#qst_lifecycle_review#:#To be Reviewed
-assessment#:#qst_lifecycle_sharable#:#Sharable
+assessment#:#qst_lifecycle_sharable#:#Shareable
 assessment#:#qst_nested_nested_answers_off#:#No indents, just order
 assessment#:#qst_nested_nested_answers_on#:#Use indents in anwers
 assessment#:#qst_nr_of_tries#:#Number of Tries
@@ -1112,7 +1112,7 @@ assessment#:#question_id_short#:#ID
 assessment#:#question_instances_title#:#This question is used in the following tests
 assessment#:#question_is_part_of_running_test#:#Question is part of a running test and may not be edited.
 assessment#:#question_marking#:#Flagging Questions
-assessment#:#question_marking_description#:#Participants get the option to flag a test question for some purpose. The flags are shown in ‘List of Questions’, provided that it is activated.
+assessment#:#question_marking_description#:#Participants are given the option to flag test questions for themselves. The flags are shown in the ‘List of Questions’, if that feature it has been activated.
 assessment#:#question_not_answered#:#The question was not answered
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
 assessment#:#question_summary#:#Dashboard
@@ -1145,9 +1145,9 @@ assessment#:#rectangle_click_tl_corner#:#Please click on the top left corner of 
 assessment#:#redirectAfterSave#:#The maximum working time has been reached and your last question has been saved automatically. In a few seconds you will be redirected...
 assessment#:#redirect_after_finishing_rule#:#Redirect
 assessment#:#redirect_after_finishing_tst#:#Redirect
-assessment#:#redirect_after_finishing_tst_desc#:#After completion of test each participant is automatically redirected to a defined webpage. This is only valid if the participants have no access to their test results.
-assessment#:#redirect_always#:#always to defined webpage
-assessment#:#redirect_in_kiosk_mode#:#only when exam view is activated
+assessment#:#redirect_after_finishing_tst_desc#:#After completing the test, each participant is automatically redirected to a specific webpage of your choosing. This will only happen if participants do not have direct access to their test results. When entering the address of an external webpage, use the complete URL (including ‘https://’). When redirecting to an Object in ILIAS, use the permalink that can be found in the footer of the Object in question.
+assessment#:#redirect_always#:#always to the webpage specified below
+assessment#:#redirect_in_kiosk_mode#:#only when ‘Exam View’ is activated
 assessment#:#redirection_url#:#URL of webpage
 assessment#:#region#:#Region
 assessment#:#remove_as_participant#:#Remove as Fixed Participant
@@ -1209,14 +1209,13 @@ assessment#:#showSuggestedSolution#:#Type
 assessment#:#show_answer_overview#:#Show Answer Overview
 assessment#:#show_detailed_results#:#Show User’s Detailed Results (Marked Pass)
 assessment#:#show_examview_html#:#On screen
-assessment#:#show_examview_pdf#:#PDF Download
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
 assessment#:#show_user_answers#:#Show User’s Marked Answers
 assessment#:#showinfo#:#Show all Test Properties
-assessment#:#showinfo_desc#:#Users will be presented with a complete list of test properties on tab ‘Info’, i.e. information on scoring and reporting.
+assessment#:#showinfo_desc#:#Users will be presented with a complete list of test properties in the ‘Info’ tab, i.e. information on scoring and reporting.
 assessment#:#shuffle_answers#:#Shuffle Answers
 assessment#:#sign_submission#:#Digitally Sign Test Submissions
-assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be requested to digitally sign their submissions.
+assessment#:#sign_submission_info#:#Enable the use of external signature plugins that can be used to require participants to digitally sign their submissions.
 assessment#:#skip_question#:#Do not Answer and Next
 assessment#:#solutionText#:#Text
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurrence of the following keywords:
@@ -1247,10 +1246,10 @@ assessment#:#test_move_page#:#Move Question
 assessment#:#test_next_question#:#Next Question
 assessment#:#test_prev_question#:#Previous Question
 assessment#:#test_question_set_type#:#Selection of Test Questions
-assessment#:#test_question_set_type_fixed#:#Use of a fixed set of questions
-assessment#:#test_question_set_type_fixed_info#:#All participants get the same questions.<br>You can create questions directly in the test as well as reuse questions from a question pool. If you create new questions you can decide to save them in a question pool.
-assessment#:#test_question_set_type_random#:#Use of a random set of questions
-assessment#:#test_question_set_type_random_info#:#Every participant will see an individually generated set of questions. The questions are randomly selected from one or more question pools.
+assessment#:#test_question_set_type_fixed#:#Fixed Questions
+assessment#:#test_question_set_type_fixed_info#:#All test participants see the same questions.<br>You can create questions directly in the test as well as use questions from a Question Pool. If you create new questions, you can decide to save them in a Question Pool.
+assessment#:#test_question_set_type_random#:#Random Questions
+assessment#:#test_question_set_type_random_info#:#Each test participant will see an individually generated set of questions. The questions are drawn from one or more Question Pools.
 assessment#:#test_results#:#Summary Test Results
 assessment#:#test_scoring#:#Scoring Options
 assessment#:#test_template_reset#:#The template has been removed.
@@ -1267,7 +1266,7 @@ assessment#:#textsize_info#:#Enter the text size of the ordering text in percent
 assessment#:#thumb_geometry#:#Thumbnail Geometry
 assessment#:#thumb_geometry_info#:#The image thumbnails will be created with a maximum values of height and width given, aspect ratio preserved.
 assessment#:#thumb_size#:#Thumbnail Size
-assessment#:#thumb_size_info#:#If you enter a thumbnail size, a thumbnail of this size will be generated for uploaded images. Without a thumbnail size, the original image size will be used.
+assessment#:#thumb_size_info#:#If you enter a thumbnail size, a thumbnail of this size will be generated for uploaded images. If you do not enter a thumbnail size, the original image size will be used.
 assessment#:#thumb_size_unit_pixel#:#Pixel
 assessment#:#time_format#:#HH MM SS
 assessment#:#timing#:#Extra Time
@@ -1286,9 +1285,9 @@ assessment#:#toplist_col_wtime#:#Working Time
 assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please make a note of this code so that you can continue the test later.
 assessment#:#tst_activate_skill_service#:#Competence Service
-assessment#:#tst_activate_skill_service_desc#:#Supports the assignment of questions to competences and the definition of thresholds for reaching a specific competence level.
+assessment#:#tst_activate_skill_service_desc#:#Before and after the period during which the test is available,  the test's title will be displayed, but participants won’t be able to take the test. Access, including to tests already in progress, will be prevented once the period of availability has ended.
 assessment#:#tst_activation_limited_visibility_info#:#Before and after the indicated period it is only the test's title that will be displayed. The participants cannot take the test. Further access, including to tests already in progress, will be prevented at the end of the period.
-assessment#:#tst_activation_online_info#:#If online, participants can take the test.
+assessment#:#tst_activation_online_info#:#Participants can take the test if it is ‘Online’.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editor
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Use plain text for questions and answers and ILIAS page editor for feedback and hints
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module.
@@ -1296,36 +1295,36 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Use Rich-Text-Editor (TinyMCE) f
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module.
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.
 assessment#:#tst_all_test_competences#:#All Test Competence
-assessment#:#tst_all_user_data_deleted#:#All user data of this test has been removed!
+assessment#:#tst_all_user_data_deleted#:#All user data for this test has been removed!
 assessment#:#tst_allowed_users#:#Limit Number of Concurrent Participants
-assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If more users than maximally allowed try to access ILIAS will prevent them from starting the test.
+assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If the maximum number of users taking the test at the same time has been reached, ILIAS will prevent additional users from starting the test.
 assessment#:#tst_allowed_users_max#:#Max. Number of Participants
-assessment#:#tst_allowed_users_time_gap#:#Idle Time for Active Users
-assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test for the indicated amount of time will be categorized as ‚inactive‘ and removed from the test.
-assessment#:#tst_already_submitted#:#Test has already been finish and submitted.
+assessment#:#tst_allowed_users_time_gap#:#Max. Idle Time Permitted for Active Participants
+assessment#:#tst_allowed_users_time_gap_desc#:#Participants who have not clicked on anything in the test for the indicated amount of time, will be categorised as ‘inactive’ and removed from the test.
+assessment#:#tst_already_submitted#:#The test has already been completed and submitted.
 assessment#:#tst_analysis#:#Analysis
 assessment#:#tst_anonymity#:#Privacy
-assessment#:#tst_anonymity_anonymous_test#:#Results without Names / Anonymous Test
-assessment#:#tst_anonymity_no_anonymization#:#Results with Names
+assessment#:#tst_anonymity_anonymous_test#:#Results Without Names / Anonymous Test
+assessment#:#tst_anonymity_no_anonymization#:#Results With Names
 assessment#:#tst_answer_aggr_answer_header#:#Answer
 assessment#:#tst_answer_aggr_frequency_header#:#Frequency
 assessment#:#tst_answer_details#:#Answer Details
-assessment#:#tst_answer_fixation_handling#:#Participant Answers
-assessment#:#tst_answer_fixation_none#:#Do not Lock Participants Answers during Test Passes
-assessment#:#tst_answer_fixation_none_desc#:#As long as a test pass was not finished, participants can change their answers at any time.
-assessment#:#tst_answer_fixation_on_followup_question#:#Lock Answers with the Presentation of Follow-Up Questions
-assessment#:#tst_answer_fixation_on_followup_question_desc#:#Showing the follow-up question will lock participant answers for the previous question, participants cannot change these answers any longer.
-assessment#:#tst_answer_fixation_on_instant_feedback#:#Lock Answers with the Presentation of Feedback
-assessment#:#tst_answer_fixation_on_instant_feedback_desc#:#After the feedback for a question is shown participant answers are locked, participants cannot change these answers any longer.
-assessment#:#tst_answer_fixation_on_instantfb_or_followupqst#:#Lock Answers with the Presentation of Feedback or Follow-Up Questions
-assessment#:#tst_answer_fixation_on_instantfb_or_followupqst_desc#:#Participant Answers for a question will be locked either with the presentation of the questions's feedback or when the follow-up question is shown.
+assessment#:#tst_answer_fixation_handling#:#Answer Lock
+assessment#:#tst_answer_fixation_none#:#Do Not Lock Answers
+assessment#:#tst_answer_fixation_none_desc#:#As long as a participant has not finished a test attempt (i.e. by clicking on ‘Finish the Test’), they can change their answers at any time.
+assessment#:#tst_answer_fixation_on_followup_question#:#Lock Answers After Moving to Next Question
+assessment#:#tst_answer_fixation_on_followup_question_desc#:#As soon as the next question in the test has been revealed, a participant’s answers to the previous question are locked and can no longer be changed.
+assessment#:#tst_answer_fixation_on_instant_feedback#:#Lock Answers After Feedback Received
+assessment#:#tst_answer_fixation_on_instant_feedback_desc#:#After the feedback to a question has been shown, a participant’s answers are locked and they can no longer change their answers.
+assessment#:#tst_answer_fixation_on_instantfb_or_followupqst#:#Lock Answers After Feedback or Moving to Next Question
+assessment#:#tst_answer_fixation_on_instantfb_or_followupqst_desc#:#A participant’s answers to a question will be locked as soon as the question's feedback is shown or when the next question in the test has been revealed.
 assessment#:#tst_answer_status_answered#:#Answered###fau: testNav
 assessment#:#tst_answer_status_editing#:# (editing)###fau: testNav
 assessment#:#tst_answer_status_not_answered#:#Not answered###fau: testNav
 assessment#:#tst_answered_questions#:#Answered Questions
 assessment#:#tst_answered_questions_of_total#:#%s of %s
 assessment#:#tst_answered_questions_test#:#Questions answered in this test
-assessment#:#tst_attached_xls_file#:#You find the test result for this participant in the attached Excel file.
+assessment#:#tst_attached_xls_file#:#You can find the test results for this participant in the attached Excel file.
 assessment#:#tst_attempt#:#Attempt
 assessment#:#tst_back_to_pass_details#:#Back to Pass Details
 assessment#:#tst_back_to_question_list#:#Back to Question List
@@ -1629,6 +1628,7 @@ assessment#:#tst_pass_details#:#Detailed Results
 assessment#:#tst_pass_details_header_lo_initial#:#Initial Test Results for the Learning Objectives<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifying Test Results for the Learning Objectives<br />%s - %s
 assessment#:#tst_pass_details_overview_table_title#:#Detailed Overview for Pass %s
+assessment#:#tst_pass_finished#:#Test pass finished
 assessment#:#tst_pass_finished_on#:#Test pass finished on
 assessment#:#tst_pass_last_pass#:#Score the Last Pass
 assessment#:#tst_pass_last_pass_desc#:#The last pass of a participant will be scored.
@@ -1650,6 +1650,7 @@ assessment#:#tst_password_entered_wrong_password#:#You cannot start the test bec
 assessment#:#tst_password_form#:#Enter Test Password
 assessment#:#tst_password_introduction#:#This test can only be accessed with a test password. Please enter the test password to start the test.
 assessment#:#tst_percent_solved#:#Percent Solved
+assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed
 assessment#:#tst_please_select_target_for_pool_derives#:#Please select a target conatainer.
 assessment#:#tst_position#:#Question %s of %s
 assessment#:#tst_position_without_total#:#Question %s
@@ -2458,6 +2459,7 @@ book#:#book_book#:#Book
 book#:#book_book_available#:#Book Available Dates
 book#:#book_book_recurrence#:#Book multiple dates
 book#:#book_booked_in#:#Booked in
+book#:#book_booking#:#Booking
 book#:#book_booking_information#:#Information
 book#:#book_booking_objects#:#Booking Objects
 book#:#book_booking_reminders#:#Upcoming reservations
@@ -2469,7 +2471,6 @@ book#:#book_cal_entry#:#Booking of:
 book#:#book_confirm_booking#:#Confirm Booking
 book#:#book_confirm_booking_no_schedule#:#Are you sure you want to book the following object?
 book#:#book_confirm_booking_schedule_number_of_objects#:#Booking Confirmation
-book#:#book_confirm_booking_schedule_number_of_objects_info#:#Please state the numbers of objects to book.
 book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reservations?
 book#:#book_confirm_cancel_aggregation#:#Number of Cancellations
 book#:#book_confirm_delete#:#Do you really want to delete the following items?
@@ -2493,6 +2494,10 @@ book#:#book_is_used#:#Is Used
 book#:#book_limit_objects_available#:#You can not assign %s participants to "%s" because it has only %s items available.
 book#:#book_list#:#List
 book#:#book_log#:#Reservations
+book#:#book_message#:#Message
+book#:#book_message_info#:#You may enter a message for the booking organisator here.
+book#:#book_messages#:#Messages
+book#:#book_messages_info#:#Users may add a message when booking an object.
 book#:#book_missing_availability#:#It was not possible to book all items on all dates.
 book#:#book_missing_items#:#$1 missing item(s).
 book#:#book_new#:#New Booking Pool
@@ -2576,6 +2581,7 @@ book#:#book_schedules#:#Schedules
 book#:#book_select_pool#:#Select Pool
 book#:#book_set_cancel#:#Cancel Reservation
 book#:#book_set_delete#:#Delete
+book#:#book_show_message#:#Show Message
 book#:#book_title_description_nr#:#Title; Description; Number of Objects
 book#:#book_title_description_nr_info#:#Enter title, description and number of objects separated by semicolon or TAB character. Use one line per object.
 book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.
@@ -2807,7 +2813,6 @@ chatroom#:#chat_broadcast_typing_no#:#Typing will not be broadcasted to other ch
 chatroom#:#chat_broadcast_typing_yes#:#Typing will be broadcasted to other chat participants
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> left the chat room ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> has entered chat room +++
-chatroom#:#chat_create_private_room_button#:#Create Private Room
 chatroom#:#chat_deletion_disabled#:#Disabled
 chatroom#:#chat_deletion_interval#:#Interval
 chatroom#:#chat_deletion_interval_info#:#If chosen, messages in the repository chat and On-Screen-Chat conversations will be deleted after the defined threshold.
@@ -2876,7 +2881,6 @@ chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Are you sure you want to leave the 
 chatroom#:#chat_osc_user#:#User
 chatroom#:#chat_osc_user_left_grp_conv#:#User '%s' has left the group conversation.
 chatroom#:#chat_osc_write_a_msg#:#Write a Message ...
-chatroom#:#chat_select_room#:#Select Chat Room
 chatroom#:#chat_settings#:#Chat Settings
 chatroom#:#chat_settings_functions_header#:#Chat Room Functions
 chatroom#:#chat_show_auto_messages#:#Show Status Messages
@@ -2912,7 +2916,6 @@ chatroom#:#clear_room_history_question#:#Do you really want to delete all messag
 chatroom#:#client_chatserver_connection#:#Client to Server Connection
 chatroom#:#client_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for Client to Server connection.
 chatroom#:#connection_url_info#:#Please insert an URL for the Server connection.
-chatroom#:#create_private_room_text#:#Private room name
 chatroom#:#custom_username#:#Custom Username
 chatroom#:#delete_private_room#:#Delete Private Room
 chatroom#:#delete_private_room_question#:#Confirm delete private room?
@@ -2933,10 +2936,9 @@ chatroom#:#history_byday_title#:#Show Conversation per Day
 chatroom#:#history_bysession_title#:#Show Conversation per Session
 chatroom#:#history_cleared#:#The message history was deleted by a moderator.
 chatroom#:#history_title_general#:#Conversation in Chat Room "%s"
-chatroom#:#history_title_private_room#:#Conversation in Private Room "%s"
 chatroom#:#ilias_chatserver_connection#:#ILIAS to Server Connection
 chatroom#:#ilias_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for ILIAS to Server connection.
-chatroom#:#invite_to_private_room#:#Invite to Current Room
+chatroom#:#invite_to_private_room#:#Invite to Chat Room
 chatroom#:#invite_username#:#Username
 chatroom#:#key#:#Key
 chatroom#:#kick_question#:#Do you really want to kick the user from current room?
@@ -2963,8 +2965,6 @@ chatroom#:#private_room_closed#:#The chat room <b>#title#</b> has been closed.
 chatroom#:#private_room_entered#:#Welcome to the private room <b>#title#</b>.
 chatroom#:#private_room_entered_user#:#The user <b>#username#</b> has entered the private room <b>#title#</b>.
 chatroom#:#private_room_left#:#The user <b>#user#</b> has left the private room <b>#title#</b>.
-chatroom#:#private_rooms_enabled#:#Allow Private Rooms
-chatroom#:#private_rooms_enabled_info#:#If activated, users can create private rooms. Only invited users have access to this rooms.
 chatroom#:#public_chat_created#:#The public chat room has been added to the repository.
 chatroom#:#scope#:#Room/Private Room
 chatroom#:#select_custom_username#:#Select Custom Username
@@ -3381,6 +3381,7 @@ common#:#HH#:#HH:MM
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept Terms of Service?
 common#:#accept_usr_agreement_btn#:#Accept
+common#:#accept_usr_agreement_intro#:#There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.
 common#:#access#:#Access
 common#:#accessFree#:#Remove 'Valid Until' Date
 common#:#accessRestrict#:#Set 'Valid Until' Date
@@ -3650,8 +3651,6 @@ common#:#chapter#:#Chapter
 common#:#characters#:#characters
 common#:#chat_enter_public_room#:#Public Chat Room
 common#:#chat_enter_public_room_tooltip#:#Enter public chat room
-common#:#chat_invite_public_room#:#Public Chat Room
-common#:#chat_invite_public_room_tooltip#:#Invite to public chat room
 common#:#chat_users_active#:#Active users
 common#:#check#:#Check
 common#:#check_all#:#Check all
@@ -5716,7 +5715,8 @@ common#:#udf_delete_sure#:#Are you sure you want to delete this field and all as
 common#:#udf_duplicate_entries#:#The values have to be unique.
 common#:#udf_field_deleted#:#Deleted field.
 common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.
-common#:#udf_required_requires_visib_reg#:#When field is set to ‘required’, it must be set to ‘visible in registration’
+common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data‘, it must also be ‘Changeable in Profile’
+common#:#udf_required_requires_visib_reg#:#When a field is ‘Required’, it must also be ‘Visible in Registration’
 common#:#udf_type_date#:#Date
 common#:#udf_type_datetime#:#Date and Time
 common#:#udf_type_select#:#Selection List (Single Choice)
@@ -5809,6 +5809,7 @@ common#:#usr_account_inactive#:#Inactive Account
 common#:#usr_active_only#:#Active Users only
 common#:#usr_add#:#Add User
 common#:#usr_agreement#:#Terms of Service
+common#:#usr_agreement_footer_intro#:#You have declared your consent to these terms of service.
 common#:#usr_edit#:#Edit User
 common#:#usr_field_change_components_listening#:#There is at least one component which is interested in the changed configuration. Would you like to confirm the changes with the consequences the component(s) announced below?
 common#:#usr_filter_coursemember#:#Member of course
@@ -7809,9 +7810,11 @@ crs#:#crs_view_timing#:#Timings View
 crs#:#crs_view_timing_absolute#:#Absolute Dates
 crs#:#crs_view_timing_relative#:#Relative Dates
 crs#:#crs_view_timings#:#Timings View Type
+crs#:#crs_visibility#:#Visibility
 crs#:#crs_visibility_limitless#:#Unlimited
 crs#:#crs_visibility_until#:#Limited Availability Period
 crs#:#crs_visibility_until_info#:#The course will be visible to it's members in a specific period of time.
+crs#:#crs_visibility_unvisible#:#The course is not visible.
 crs#:#crs_wait_info#:#If the maximum number of users is exceeded, new registrations will be placed on a waiting list.
 crs#:#crs_waiting_list#:#Waiting List
 crs#:#crs_waiting_list_autofill#:#With Auto-Fill
@@ -9335,6 +9338,7 @@ exc#:#exc_team_log#:#Team Log
 exc#:#exc_team_log_add_file#:#Added file %s.
 exc#:#exc_team_log_add_member#:#Added member %s.
 exc#:#exc_team_log_create_team#:#Team created.
+exc#:#exc_team_log_remove_file#:#Removed file %s.
 exc#:#exc_team_log_remove_member#:#Removed member %s.
 exc#:#exc_team_management_tutor#:#Team Management by Tutors
 exc#:#exc_team_management_tutor_info#:#If activated participants cannot organize teams themselves.
@@ -10716,14 +10720,10 @@ ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object
 ltiv#:#ltiv_create_info#:#Select a completed LTI consumer object to generate a certificate for it
 mail#:#back_to_folder#:#Back to Folder
 mail#:#bc#:#BCC
-mail#:#chat_users_have_been_invited#:#The following users have been invited:
-mail#:#chat_users_without_login#:#The following users don't have an ILIAS account and can't be invited to a chat room:
-mail#:#chat_users_without_permission#:#The following users don't have access to the selected chat room:
 mail#:#current_folder#:#Current Folder: %s
 mail#:#deleteTemplate#:#Delete
 mail#:#first_email_missing_info#:#Selection not possible because no e-mail address has been entered
 mail#:#forward#:#Forward
-mail#:#goto_invitation_chat#:#Open Chat Room
 mail#:#invite_to_chat#:#Invite to Chat
 mail#:#link_check_affected_links#:#Affected Links
 mail#:#link_check_introduction#:#the following weblinks are invalid:
@@ -10812,7 +10812,6 @@ mail#:#mail_incoming_mail#:#Incoming Mail
 mail#:#mail_incoming_smtp#:#Forward to E-mail Address:
 mail#:#mail_insert_folder_name#:#Please insert a folder name
 mail#:#mail_insert_query#:#Please insert a query
-mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
 mail#:#mail_is_read#:#gelesen
 mail#:#mail_is_unread#:#ungelesen
 mail#:#mail_list_members#:#List members
@@ -16954,4 +16953,3 @@ wsp#:#wsp_type_ltiv#:#Certificate: LTI Consumer
 wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Certificate: Test
 wsp#:#wsp_type_webr#:#Weblink
-wsp#:#wsp_type_wfld#:#Folder

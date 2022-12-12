@@ -292,8 +292,9 @@ il.Accordion = {
 				}
 			});
 
-			if (typeof a.save_url != "undefined" && a.save_url != "") {
-				il.Util.sendAjaxGetRequestToUrl(a.save_url + "&act=clear&tab_nr=", {}, {}, null);
+			const save_url = il.Accordion.getSaveUrl(a);
+			if (save_url != "") {
+				il.Util.sendAjaxGetRequestToUrl(save_url + "&act=clear&tab_nr=", {}, {}, null);
 			}
 		}
 		return false;
@@ -319,12 +320,13 @@ il.Accordion = {
 			$(a.clicked_acc).addClass("ilAccHideContent");
 			a.last_opened_acc = null;
 			a.animating = false;
-			if (typeof a.save_url != "undefined" && a.save_url != "") {
+			const save_url = il.Accordion.getSaveUrl(a);
+			if (save_url != "") {
 				act = (a.multi)
 					? "&act=rem"
 					: "&act=clear";
 				tab_nr = il.Accordion.getTabNr(a.clicked_acc);
-				il.Util.sendAjaxGetRequestToUrl(a.save_url + act + "&tab_nr=" + tab_nr, {}, {}, null);
+				il.Util.sendAjaxGetRequestToUrl(save_url + act + "&tab_nr=" + tab_nr, {}, {}, null);
 			}
 		});
 	},
@@ -375,14 +377,27 @@ il.Accordion = {
 	},
 
 	saveAllAsOpenedTabs: function(a, id) {
-		if (typeof a.save_url != "undefined" && a.save_url != "") {
+		const save_url = il.Accordion.getSaveUrl(a);
+		if (save_url !== "") {
 			tab_nr = il.Accordion.getAllNr(id);
-			il.Util.sendAjaxGetRequestToUrl(a.save_url + "&act=set&tab_nr=" + tab_nr, {}, {}, null);
+			il.Util.sendAjaxGetRequestToUrl(save_url + "&act=set&tab_nr=" + tab_nr, {}, {}, null);
 		}
 	},
 
+	getSaveUrl(a) {
+		if (typeof a.save_url != "undefined" && a.save_url != "") {
+			let save_url = a.save_url;
+			if (!save_url.includes("accordion_id=")) {
+				save_url = save_url + "&accordion_id=" + a.id;
+			}
+			return save_url;
+		}
+		return "";
+	},
+
 	saveOpenedTabs: function(a, id) {
-		if (typeof a.save_url != "undefined" && a.save_url != "")
+		const save_url = il.Accordion.getSaveUrl(a);
+		if (save_url != "")
 		{
 			if (a.multi) {
 				tab_nr = il.Accordion.getAllOpenedNr(id);
@@ -390,7 +405,7 @@ il.Accordion = {
 				tab_nr = il.Accordion.getTabNr(a.last_opened_acc);
 			}
 			act = "&act=set";
-			il.Util.sendAjaxGetRequestToUrl(a.save_url + act + "&tab_nr=" + tab_nr, {}, {}, null);
+			il.Util.sendAjaxGetRequestToUrl(save_url + act + "&tab_nr=" + tab_nr, {}, {}, null);
 		}
 	},
 

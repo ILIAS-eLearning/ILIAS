@@ -27,7 +27,7 @@ use ILIAS\ResourceStorage\Information\FileInformation;
 /**
  * Class UploadedFileRevision
  *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class UploadedFileRevision extends FileRevision implements Revision
 {

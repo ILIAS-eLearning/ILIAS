@@ -1,8 +1,8 @@
 /**
  * This class represents a room in the chatserver.
- * The id consists of the main room id and the sub room id:
+ * The id consists of the main room id and 0:
  *
- * @example roomId_subRoomId
+ * @example roomId_0
  *
  * @param {string} id
  * @constructor
@@ -151,7 +151,7 @@ var Room = function Room(id)
 				jsonSubscribers[key] = {
 					id: _subscribers[key].getId(),
 					username: _subscribers[key].getName()
-				}
+				};
 			}
 		}
 		return jsonSubscribers;

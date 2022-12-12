@@ -18,7 +18,7 @@
 
 /**
  * Class ilResourceStorageDB80
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class ilResourceStorageDB80 implements ilDatabaseUpdateSteps
 {

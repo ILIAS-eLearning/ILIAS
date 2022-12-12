@@ -24,7 +24,7 @@ use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 
 /**
  * Class FileNamePolicyTest
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
 {

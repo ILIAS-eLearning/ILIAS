@@ -1,7 +1,7 @@
 @use "sass:math";
 @use "../../../010-settings/" as *;
 @use "../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
-@use "../../../010-settings/legacy-settings/legacy-settings_panel" as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_panel" as ls;
 @use "../../../050-layout/basics" as *;
 @use "../../../050-layout/standardpage/" as *;
 
@@ -10,23 +10,33 @@
 //##
 
 //Valid for all panels (if not overridden)
-.panel{
-	border: $il-panel-border;
-	border-radius: $il-panel-border-radius;
-	-webkit-box-shadow: $il-panel-shadow;
-	box-shadow: $il-panel-shadow;
+.panel {
+	margin-bottom: $il-line-height-computed;
+	border: ls.$il-panel-border;
+	border-radius: ls.$il-panel-border-radius;
+	-webkit-box-shadow: ls.$il-panel-shadow;
+	box-shadow: ls.$il-panel-shadow;
 
-	.panel-heading.ilHeader, .panel-heading.ilBlockHeader {
-		background-color: $il-main-dark-bg;
-
-		margin: 0;
-		padding: $il-panel-heading-padding;
-
+	.panel-heading {
+		padding: ls.$il-panel-heading-padding;
+		border-bottom: 1px solid transparent;
 		border: none;
-		@include btstrp3.box-shadow(none);
+		@include btstrp3.border-top-radius((ls.$il-panel-border-radius - 1));
+	
+		>.dropdown .dropdown-toggle {
+			color: $il-btn-standard-color;
+		}
+	}
+
+	.panel-heading.ilHeader,
+	.panel-heading.ilBlockHeader {
+		background-color: $il-main-dark-bg;
+		margin: 0;
+		border: none;
+
 		h2, h2.ilHeader {
 			margin: 0;
-			color: $il-panel-heading-color;
+			color: ls.$il-panel-heading-color;
 			font-size: $il-font-size-xlarge;
 			line-height: $il-line-height-large;
 			font-weight: $il-font-weight-bold;
@@ -34,23 +44,23 @@
 
 		h4, h4.ilBlockHeader {
 			margin: 0;
-			color: $il-panel-heading-color;
+			color: ls.$il-panel-heading-color;
 			font-size: $il-font-size-base;
-		}
-
-		.dropdown {
-			> button.dropdown-toggle {
-				color: $il-btn-standard-color;
-
-			}
 		}
 	}
 
 	.panel-body {
 		padding: $il-padding-xxxlarge-vertical $il-padding-xlarge-horizontal;
 		background-color: $il-main-bg;
-
+		@include btstrp3.clearfix;
 	}
+}
+
+.panel-footer {
+	padding: btstrp3.$panel-footer-padding;
+	background-color: btstrp3.$panel-footer-bg;
+	border-top: 1px solid btstrp3.$panel-inner-border;
+	@include btstrp3.border-bottom-radius((ls.$il-panel-border-radius - 1));
 }
 
 //Special assignments for Panels using Flex layouts (Standard, Secondary, Report and Sub)
@@ -105,8 +115,8 @@
 
 //Secondary Panel
 .panel-secondary{
-	-webkit-box-shadow: $il-panel-shadow;
-    box-shadow: $il-panel-shadow;
+	-webkit-box-shadow: ls.$il-panel-shadow;
+	box-shadow: ls.$il-panel-shadow;
 	.panel-heading.ilHeader{
 		h2.ilHeader {
 			font-size: $il-font-size-large;
@@ -128,7 +138,11 @@
 			}
 
 			&:first-child{
-				margin: (-$il-margin-xxxlarge-vertical) (-$il-margin-xlarge-horizontal) 0 (-$il-margin-xlarge-horizontal);
+				margin-top: -$il-margin-xxxlarge-vertical;
+			}
+
+			&:last-child{
+				margin-bottom: -$il-margin-xxxlarge-vertical;
 			}
 
 			.il-item{
@@ -145,7 +159,7 @@
 		display: block;
 		padding: $il-padding-large-vertical 0;
 		font-size: $il-font-size-base;
-		color: $il-panel-heading-color;
+		color: ls.$il-panel-heading-color;
 		margin: 0;
 	}
 
@@ -168,7 +182,7 @@
 
 	&:first-child{
 		.panel-heading{
-			padding: $il-panel-heading-padding;
+			padding: ls.$il-panel-heading-padding;
 		}
 	}
 }
@@ -193,11 +207,11 @@
 	margin-bottom: $il-standard-page-content-padding;
 
 	> h2 {
-		color: $il-panel-heading-color;
+		color: ls.$il-panel-heading-color;
 		font-size: $il-font-size-xlarge;
 		font-weight: $il-font-weight-bold;
 		float: left;
-		padding: $il-panel-heading-padding;
+		padding: ls.$il-panel-heading-padding;
 		margin: 0;
 		line-height: $il-line-height-large;
 	}
@@ -206,7 +220,7 @@
 		float: right;
 	}
 	> .dropdown {
-		padding: $il-panel-heading-padding;
+		padding: ls.$il-panel-heading-padding;
 
 		&:not(:last-child){
 			padding-bottom: $il-padding-small-vertical;

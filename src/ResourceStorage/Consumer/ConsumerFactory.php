@@ -21,13 +21,14 @@ declare(strict_types=1);
 namespace ILIAS\ResourceStorage\Consumer;
 
 use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
+use ILIAS\ResourceStorage\Flavour\Flavour;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
 use ILIAS\ResourceStorage\Policy\NoneFileNamePolicy;
 use ILIAS\ResourceStorage\Resource\StorableResource;
 
 /**
  * Class ConsumerFactory
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class ConsumerFactory
 {
@@ -98,6 +99,14 @@ class ConsumerFactory
             $src_builder,
             $resource,
             $this->stream_access
+        );
+    }
+
+    public function flavourUrl(Flavour $flavour, SrcBuilder $src_builder): FlavourURLs
+    {
+        return new FlavourURLs(
+            $src_builder,
+            $flavour
         );
     }
 

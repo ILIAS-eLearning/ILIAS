@@ -22,7 +22,7 @@ use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTest;
 
 /**
  * Class ResourceBuilderTest
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class ResourceBuilderTest extends AbstractBaseResourceBuilderTest
 {

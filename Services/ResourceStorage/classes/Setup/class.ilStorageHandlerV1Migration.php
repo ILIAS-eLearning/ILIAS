@@ -27,7 +27,7 @@ use ILIAS\Setup\Migration;
 
 /**
  * Class ilStorageHandlerV1Migration
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class ilStorageHandlerV1Migration implements Migration
 {

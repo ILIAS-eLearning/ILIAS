@@ -24,7 +24,7 @@ use DateTimeImmutable;
 
 /**
  * Class Information
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class FileInformation implements Information
 {
