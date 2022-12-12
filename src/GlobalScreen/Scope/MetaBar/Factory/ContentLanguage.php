@@ -20,13 +20,21 @@ declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 
-/**
- * Interface hasTitle
- * @author Fabian Schmid <fs@studer-raimann.ch>
- */
-interface hasTitle extends isItem
-{
-    public function withTitle(string $title): hasTitle;
+use ILIAS\Data\LanguageTag;
 
-    public function getTitle(): string;
+trait ContentLanguage
+{
+    protected ?LanguageTag $content_language = null;
+
+    public function withContentLanguage(LanguageTag $content_language): self
+    {
+        $clone = clone $this;
+        $clone->content_language = $content_language;
+        return $clone;
+    }
+
+    public function getContentLanguage(): ?LanguageTag
+    {
+        return $this->content_language;
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -37,10 +38,20 @@ class LinkItemRenderer extends AbstractMetaBarItemRenderer
         /**
          * @var $item LinkItem
          */
-        return $this->ui->factory()->link()->bulky(
+        $link = $this->ui->factory()->link()->bulky(
             $this->getStandardSymbol($item),
             $item->getTitle(),
             $this->getURI($item->getAction())
         );
+
+        if (null !== $item->getContentLanguage()) {
+            $link = $link->withContentLanguage($item->getContentLanguage());
+        }
+
+        if (null !== $item->getLanguageForTargetedResource()) {
+            $link = $link->withLanguageOfReferencedContent($item->getLanguageForTargetedResource());
+        }
+
+        return $link;
     }
 }

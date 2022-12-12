@@ -54,6 +54,12 @@ class Renderer extends AbstractComponentRenderer
         if ($component->getOpenInNewViewport()) {
             $tpl->touchBlock("open_in_new_viewport");
         }
+        if (null !== $component->getContentLanguage()) {
+            $tpl->setVariable("CONTENT_LANGUAGE", $component->getContentLanguage());
+        }
+        if (null !== $component->getLanguageOfReferencedResource()) {
+            $tpl->setVariable("HREF_LANGUAGE", $component->getLanguageOfReferencedResource());
+        }
         $tpl->setVariable("LABEL", $label);
         $tpl->setVariable("HREF", $action);
         return $tpl;

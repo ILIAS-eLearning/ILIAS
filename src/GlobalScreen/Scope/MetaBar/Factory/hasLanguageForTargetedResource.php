@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,13 +18,11 @@ declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 
-/**
- * Interface hasTitle
- * @author Fabian Schmid <fs@studer-raimann.ch>
- */
-interface hasTitle extends isItem
-{
-    public function withTitle(string $title): hasTitle;
+use ILIAS\Data\LanguageTag;
 
-    public function getTitle(): string;
+interface hasLanguageForTargetedResource
+{
+    public function withLanguageForTargetedResource(LanguageTag $content_language);
+
+    public function getLanguageForTargetedResource(): ?LanguageTag;
 }
