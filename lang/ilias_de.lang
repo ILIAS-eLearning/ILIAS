@@ -9705,6 +9705,8 @@ forum#:#frm_censorship_revoked#:#Die Zensur für den Beitrag wurde aufgehoben.
 forum#:#frm_copy#:#Forum kopieren
 forum#:#frm_default_view#:#Standardansicht
 forum#:#frm_edit_title#:#Titel bearbeiten
+forum#:#frm_enable_print_option#:#Druckoption aktivieren
+forum#:#frm_enable_print_option_desc#:#Wenn diese Funktion deaktiviert ist, kann niemand die Druckoption im Forum auswählen.
 forum#:#frm_mark_as_read#:#Als gelesen markieren
 forum#:#frm_mark_as_unread#:#Als ungelesen markieren
 forum#:#frm_max_notification_age#:#Schwellenwert für Benachrichtigungen
