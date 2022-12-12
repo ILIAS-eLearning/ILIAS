@@ -42,15 +42,9 @@ use ILIAS\DI\LoggingServices;
  */
 class ilTestEvaluationGUI extends ilTestServiceGUI
 {
-    /**
-     * @var ilTestAccess
-     */
-    protected $testAccess;
-
-    /**
-     * @var ilTestProcessLockerFactory
-     */
-    protected $processLockerFactory;
+    protected ilTestAccess $testAccess;
+    protected ilTestProcessLockerFactory $processLockerFactory;
+    protected ilObjUser $current_user;
 
     protected ilToolbarGUI $toolbar;
     protected ilErrorHandling $error;
@@ -77,6 +71,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $this->logger = $DIC->logger();
         $this->http = $DIC->http();
         $this->gs = $DIC->globalScreen();
+        $this->current_user = $DIC['ilUser'];
 
         $this->processLockerFactory = new ilTestProcessLockerFactory(
             new ilSetting('assessment'),
@@ -100,7 +95,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $next_class = $this->ctrl->getNextClass($this);
         $this->ctrl->saveParameter($this, "sequence");
         $this->ctrl->saveParameter($this, "active_id");
-        $cmd = $this->getCommand($cmd);
+
         switch ($next_class) {
             case 'iltestpassdetailsoverviewtablegui':
                 $tableGUI = new ilTestPassDetailsOverviewTableGUI($this->ctrl, $this, 'outUserPassDetails');
@@ -911,7 +906,16 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $result_array = $this->getFilteredTestResult($active_id, $pass, false, !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired());
 
-        $overviewTableGUI = $this->getPassDetailsOverviewTableGUI($result_array, $active_id, $pass, $this, "outParticipantsPassDetails", '', true, $objectivesList);
+        $overviewTableGUI = $this->getPassDetailsOverviewTableGUI(
+            $result_array,
+            $active_id,
+            $pass,
+            $this,
+            "outParticipantsPassDetails",
+            '',
+            true,
+            $objectivesList
+        );
         $overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
         $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, false);
         $user_id = $this->object->_getUserIdFromActiveId($active_id);
@@ -1118,8 +1122,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     public function outUserPassDetails()
     {
         $ilTabs = $this->tabs;
-        $ilUser = $this->user;
         $ilObjDataCache = $this->objCache;
+        $ilUser = $this->current_user;
 
         $ilTabs->clearSubTabs();
         $ilTabs->setBackTarget($this->lng->txt('tst_results_back_overview'), $this->ctrl->getLinkTarget($this));
@@ -1172,7 +1176,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         if ($this->object->getShowSolutionDetails()) {
             $command_solution_details = "outCorrectSolution";
         }
-        $questionAnchorNav = $this->object->canShowSolutionPrintview();
+
+        //$questionAnchorNav = $this->object->canShowSolutionPrintview();
+        $questionAnchorNav =
+            $this->object->getShowSolutionListOwnAnswers() &&
+            $this->object->getShowSolutionDetails() ;
 
         $tpl = new ilTemplate('tpl.il_as_tst_pass_details_overview_participants.html', true, true, "Modules/Test");
 
@@ -1192,13 +1200,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $tpl->parseCurrentBlock();
 
         if ($this->object->isShowExamIdInTestResultsEnabled()) {
-            $tpl->setCurrentBlock('exam_id');
-            $tpl->setVariable('EXAM_ID', ilObjTest::lookupExamId(
-                $testSession->getActiveId(),
-                $pass
-            ));
-            $tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
-            $tpl->parseCurrentBlock();
+            if ($this->object->isShowExamIdInTestResultsEnabled()) {
+                $tpl->setVariable('EXAM_ID', ilObjTest::lookupExamId(
+                    $testSession->getActiveId(),
+                    $pass
+                ));
+                $tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
+            }
         }
 
         if (!$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() &&
@@ -1228,7 +1236,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $tpl->setVariable("TOTAL_RESULT", $result);
         $tpl->parseCurrentBlock();
 
-        if ($this->object->canShowSolutionPrintview()) {
+        if ($this->object->getShowSolutionListOwnAnswers()) {
             $list_of_answers = $this->getPassListOfAnswers(
                 $result_array,
                 $active_id,
@@ -1271,7 +1279,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     public function outUserResultsOverview()
     {
-        $ilUser = $this->user;
+        $ilUser = $this->current_user;
         $ilObjDataCache = $this->objCache;
 
         $testSession = $this->testSessionFactory->getSession();
@@ -1364,7 +1372,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     public function outUserListOfAnswerPasses()
     {
-        $ilUser = $this->user;
+        $ilUser = $this->current_user;
         $ilObjDataCache = $this->objCache;
 
         if (!$this->object->getShowSolutionPrintview()) {
@@ -1552,7 +1560,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     public function outCertificate()
     {
-        $user = $this->user;
+        $user = $this->current_user;
         $database = $this->db;
         $logger = $this->logger;
 

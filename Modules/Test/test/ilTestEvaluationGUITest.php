@@ -45,6 +45,7 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
         $this->addGlobal_http();
         $this->addGlobal_ilErr();
         $this->addGlobal_GlobalScreenService();
+        $this->addGlobal_ilUser();
 
         $this->testObj = new ilTestEvaluationGUI($this->createMock(ilObjTest::class));
     }
