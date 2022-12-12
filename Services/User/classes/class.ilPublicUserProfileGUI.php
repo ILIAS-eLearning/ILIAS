@@ -398,7 +398,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
 
         if (!is_file($check_file)) {
             $imagefile = $check_file =
-                ilObjUser::_getPersonalPicturePath($user->getId(), "small", false, true);
+                ilObjUser::_getPersonalPicturePath($user->getId(), "big", false, true);
         } else {
             if ($this->offline) {
                 $imagefile = basename($imagefile);

@@ -23,7 +23,7 @@ use ILIAS\Setup\Objective;
 use ILIAS\UI;
 
 /**
- * @author Nils Haagen <nils.haagen@concepts-and-training.de>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 class ilUserProfilePictureMigration implements Setup\Migration
 {
