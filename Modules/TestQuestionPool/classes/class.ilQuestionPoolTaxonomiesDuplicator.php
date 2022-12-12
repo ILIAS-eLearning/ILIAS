@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -112,19 +114,25 @@ class ilQuestionPoolTaxonomiesDuplicator
     private function duplicateTaxonomyFromPoolToTest($poolTaxonomyId): void
     {
         $poolTaxonomy = new ilObjTaxonomy($poolTaxonomyId);
-        $testTaxonomy = $poolTaxonomy->cloneObject(0, 0, true);
+        $testTaxonomy = new ilObjTaxonomy();
+        $testTaxonomy->create();
+        $testTaxonomy->setTitle($poolTaxonomy->getTitle());
+        $testTaxonomy->setDescription($poolTaxonomy->getDescription());
+        $testTaxonomy->setSortingMode($poolTaxonomy->getSortingMode());
 
-        if($testTaxonomy instanceof ilObjTaxonomy) {
-            $poolTaxonomy->getTree()->readRootId();
-            $testTaxonomy->getTree()->readRootId();
+        $this->node_mapping = array();
 
-            $testTaxonomy->update();
+        $poolTaxonomy->cloneNodes(
+            $testTaxonomy,
+            $testTaxonomy->getTree()->readRootId(),
+            $poolTaxonomy->getTree()->readRootId()
+        );
 
-            ilObjTaxonomy::saveUsage($testTaxonomy->getId(), $this->getTargetObjId());
+        $testTaxonomy->update();
 
-            $this->duplicatedTaxonomiesKeysMap->addDuplicatedTaxonomy($poolTaxonomy, $testTaxonomy);
-        }
+        ilObjTaxonomy::saveUsage($testTaxonomy->getId(), $this->getTargetObjId());
 
+        $this->duplicatedTaxonomiesKeysMap->addDuplicatedTaxonomy($poolTaxonomy, $testTaxonomy);
     }
 
     private function transferAssignmentsFromOriginalToDuplicatedTaxonomy($originalTaxonomyId, $mappedTaxonomyId): void
