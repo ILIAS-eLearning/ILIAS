@@ -21,14 +21,12 @@ namespace ILIAS\ResourceStorage\Flavours;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\AbstractBaseTest;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
-use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamInfoFactory;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\Token;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\TokenStream;
 use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
 use ILIAS\ResourceStorage\Flavour\Flavour;
 use ILIAS\ResourceStorage\Flavour\FlavourBuilder;
 use ILIAS\ResourceStorage\Flavour\Machine\Factory;
-use ILIAS\ResourceStorage\Flavour\Streams\FlavourStream;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Information\FileInformation;
 use ILIAS\ResourceStorage\Resource\Repository\FlavourRepository;
@@ -83,7 +81,7 @@ class FlavourTest extends AbstractBaseTest
 
         // Length OK
         $flavour_definition = $this->createMock(FlavourDefinition::class);
-        $flavour_definition->expects($this->once())
+        $flavour_definition->expects($this->exactly(2))
             ->method('getVariantName')
             ->willReturn(str_repeat('a', 768));
 
@@ -95,7 +93,7 @@ class FlavourTest extends AbstractBaseTest
 
         // Too long
         $flavour_definition = $this->createMock(FlavourDefinition::class);
-        $flavour_definition->expects($this->once())
+        $flavour_definition->expects($this->exactly(2))
             ->method('getVariantName')
             ->willReturn(str_repeat('a', 769));
 
