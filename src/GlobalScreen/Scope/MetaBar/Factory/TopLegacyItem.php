@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -28,8 +29,10 @@ use ILIAS\UI\Component\Symbol\Symbol;
  * Class TopLegacyItem
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class TopLegacyItem extends AbstractBaseItem implements isItem, hasSymbol, hasTitle
+class TopLegacyItem extends AbstractBaseItem implements isItem, hasSymbol, hasTitle, hasContentLanguage
 {
+    use ContentLanguage;
+
     protected ?Symbol $symbol = null;
     protected string $title = "";
     protected ?Legacy $content = null;
