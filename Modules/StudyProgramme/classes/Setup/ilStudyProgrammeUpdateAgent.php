@@ -35,13 +35,17 @@ class ilStudyProgrammeUpdateAgent extends Setup\Agent\NullAgent
         $update_settings = new ilDatabaseUpdateStepsExecutedObjective(
             new ilStudyProgrammeSettingsTableUpdateSteps()
         );
+        $update_auto_category = new ilDatabaseUpdateStepsExecutedObjective(
+            new ilStudyProgrammeAutoCategoryTableUpdateSteps()
+        );
 
         return new Setup\ObjectiveCollection(
             'Database is updated for Module/Studyprogramme',
             false,
             $update_progresses,
             $update_assignments,
-            $update_settings
+            $update_settings,
+            $update_auto_category
         );
     }
 
@@ -52,7 +56,8 @@ class ilStudyProgrammeUpdateAgent extends Setup\Agent\NullAgent
             true,
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeProgressTableUpdateSteps()),
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeAssignmentTableUpdateSteps()),
-            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeSettingsTableUpdateSteps())
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeSettingsTableUpdateSteps()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeAutoCategoryTableUpdateSteps())
         );
     }
 }
