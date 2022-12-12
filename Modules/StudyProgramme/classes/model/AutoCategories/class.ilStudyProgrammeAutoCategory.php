@@ -27,7 +27,6 @@ class ilStudyProgrammeAutoCategory
 {
     protected int $prg_obj_id;
     protected int $category_ref_id;
-    protected string $title;
     protected int $last_edited_usr_id;
     protected DateTimeImmutable $last_edited;
 
