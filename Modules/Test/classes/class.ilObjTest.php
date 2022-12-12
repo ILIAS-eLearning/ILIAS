@@ -272,6 +272,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function __construct($a_id = 0, bool $a_call_by_reference = true)
     {
         global $DIC;
+        $this->db = $DIC['ilDB'];
         $ilUser = $DIC['ilUser'];
         $lng = $DIC['lng'];
         $this->type = "tst";
@@ -366,8 +367,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->testFinalBroken = false;
 
         $this->tmpCopyWizardCopyId = null;
-
-        $this->db = $DIC['ilDB'];
 
         parent::__construct($a_id, $a_call_by_reference);
     }

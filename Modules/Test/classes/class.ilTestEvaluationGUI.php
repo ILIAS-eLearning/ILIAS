@@ -37,15 +37,9 @@
  */
 class ilTestEvaluationGUI extends ilTestServiceGUI
 {
-    /**
-     * @var ilTestAccess
-     */
-    protected $testAccess;
-
-    /**
-     * @var ilTestProcessLockerFactory
-     */
-    protected $processLockerFactory;
+    protected ilTestAccess $testAccess;
+    protected ilTestProcessLockerFactory $processLockerFactory;
+    protected ilObjUser $current_user;
 
     /**
      * ilTestEvaluationGUI constructor
@@ -59,12 +53,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     {
         parent::__construct($a_object);
 
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        $this->dic = $DIC;
+        global $DIC;
+        $this->current_user = $DIC['ilUser'];
 
         $this->processLockerFactory = new ilTestProcessLockerFactory(
             new ilSetting('assessment'),
-            $this->dic->database()
+            $this->db
         );
     }
 
@@ -1224,7 +1218,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     {
         $ilTabs = $this->tabs;
         $ilObjDataCache = $this->objCache;
-        $ilUser = $this->dic['ilUser'];
+        $ilUser = $this->current_user;
 
         $ilTabs->clearSubTabs();
         $ilTabs->setBackTarget($this->lng->txt('tst_results_back_overview'), $this->ctrl->getLinkTarget($this));
@@ -1549,7 +1543,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $template->setVariable("TEXT_RESULTS", $this->lng->txt("tst_passes"));
 
-        $testPassesSelector = new ilTestPassesSelector($this->dic['ilDB'], $this->object);
+        $testPassesSelector = new ilTestPassesSelector($this->db, $this->object);
         $testPassesSelector->setActiveId($testSession->getActiveId());
         $testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
 
