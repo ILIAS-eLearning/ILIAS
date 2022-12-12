@@ -353,7 +353,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->redirection_mode = 0;
         $this->redirection_url = null;
         $this->show_exam_id_in_test_pass_enabled = false;
-        //$this->show_exam_id_in_test_results_enabled = false;
         $this->sign_submission = false;
         $this->char_selector_availability = 0;
         $this->char_selector_definition = null;
@@ -6385,7 +6384,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $score_settings->withTestId($newObj->getTestId())
         );
 
-        include_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
         $obj_settings = new ilLPObjSettings($this->getId());
         $obj_settings->cloneSettings($newObj->getId());
 
@@ -8016,23 +8014,20 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->results_presentation = $a_results_presentation;
     }
 
-    /**
-    * Sets if the pass details should be shown when a test is not finished
-    *
-    * @param boolean $a_details TRUE if the pass details should be shown, FALSE otherwise
-    * @access public
-    * @deprecated
-    */
-    public function setShowPassDetails($a_details = 1)
+    public function getShowSolutionListOwnAnswers($user_id = null): bool
     {
-        if ($a_details) {
-            $this->results_presentation = $this->results_presentation | 1;
-        } else {
-            if ($this->getShowPassDetails()) {
-                $this->results_presentation = $this->results_presentation ^ 1;
-            }
-        }
+        return $this->getScoreSettings()->getResultDetailsSettings()->getShowSolutionListOwnAnswers();
     }
+
+    /**
+     * -------------------------------------------------------------------------
+     * Those setters are @deprecated!
+     * They modify $results_presentation based on some parameter and fall back to
+     * repo-settings when called without.
+     * Calls are a.o. in class.ilObjTestGUI.php and here during import;
+     * I left it in place to not to break too many things now, but they should go.
+     * Soon.
+     **/
 
     /**
     * Sets if the the solution details should be presented to the user or not
@@ -8051,14 +8046,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             }
         }
     }
-
-    public function getShowSolutionListOwnAnswers($user_id = null): bool
-    {
-        return $this->getScoreSettings()->getResultDetailsSettings()->getShowSolutionListOwnAnswers();
-    }
-
-
-    //--------------------------------
 
     /**
     * Sets if the the solution printview should be presented to the user or not
@@ -8079,93 +8066,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     }
 
     /**
-    * Sets if the the feedback should be presented to the user in the solution or not
-    *
-    * @param boolean $a_feedback TRUE if the feedback should be presented in the solution, FALSE otherwise
-    * @access public
-    * @deprecated
-    */
-    public function setShowSolutionFeedback($a_feedback = true)
-    {
-        if ($a_feedback) {
-            $this->results_presentation = $this->results_presentation | 8;
-        } else {
-            if ($this->getShowSolutionFeedback()) {
-                $this->results_presentation = $this->results_presentation ^ 8;
-            }
-        }
-    }
-
-    /**
-    * Set to true, if the full solution (including the ILIAS content pages) should be shown in the solution output
-    *
-    * @param boolean $a_full TRUE if the full solution should be shown in the solution output, FALSE otherwise
-    * @access public
-    * @deprecated
-    */
-    public function setShowSolutionAnswersOnly($a_full = true)
-    {
-        if ($a_full) {
-            $this->results_presentation = $this->results_presentation | 16;
-        } else {
-            if ($this->getShowSolutionAnswersOnly()) {
-                $this->results_presentation = $this->results_presentation ^ 16;
-            }
-        }
-    }
-
-    /**
-    * Set to TRUE, if the signature field should be shown in the solution
-    *
-    * @param boolean $a_signature TRUE if the signature field should be shown, FALSE otherwise
-    * @access public
-    * @deprecated
-    */
-    public function setShowSolutionSignature($a_signature = false)
-    {
-        if ($a_signature) {
-            $this->results_presentation = $this->results_presentation | 32;
-        } else {
-            if ($this->getShowSolutionSignature()) {
-                $this->results_presentation = $this->results_presentation ^ 32;
-            }
-        }
-    }
-
-    /**
-    * Set to TRUE, if the suggested solution should be shown in the solution
-    *
-    * @param boolean $a_solution TRUE if the suggested solution should be shown, FALSE otherwise
-    * @access public
-    * @deprecated
-    */
-    public function setShowSolutionSuggested($a_solution = false)
-    {
-        if ($a_solution) {
-            $this->results_presentation = $this->results_presentation | 64;
-        } else {
-            if ($this->getShowSolutionSuggested()) {
-                $this->results_presentation = $this->results_presentation ^ 64;
-            }
-        }
-    }
-
-    /**
-     * Set to TRUE, if the list of answers should be shown prior to finish the test
-     *
-     * @param boolean $a_comparison TRUE if the list of answers should be shown prior to finish the test, FALSE otherwise
-     * @deprecated
+     * -------------------------------------------------------------------------
      */
-    public function setShowSolutionListComparison($a_comparison = false)
-    {
-        if ($a_comparison) {
-            $this->results_presentation = $this->results_presentation | 128;
-        } else {
-            if ($this->getShowSolutionListComparison()) {
-                $this->results_presentation = $this->results_presentation ^ 128;
-            }
-        }
-    }
+
 
     /**
      * @deprecated: use ilTestParticipantData instead
@@ -10272,14 +10175,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function isPassDeletionAllowed(): bool
     {
         return $this->getScoreSettings()->getResultSummarySettings()->getPassDeletionAllowed();
-    }
-
-    /**
-     * @deprecated ?
-     */
-    public function setPassDeletionAllowed($passDeletionAllowed): void
-    {
-        $this->passDeletionAllowed = (bool) $passDeletionAllowed;
     }
 
     #region Examview / PDF Examview
