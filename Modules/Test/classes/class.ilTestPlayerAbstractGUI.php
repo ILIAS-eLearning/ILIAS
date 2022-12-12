@@ -1197,7 +1197,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         $this->tpl->setVariable(
             'LOCKSTATE_INFOBOX',
-            $renderer->render($f->messageBox()->info($this->lng->txt("tst_player_answer_saved")))
+            $renderer->render($f->messageBox()->info($this->lng->txt("tst_player_answer_saved_and_locked")))
         );
         $this->tpl->parseCurrentBlock();
 
