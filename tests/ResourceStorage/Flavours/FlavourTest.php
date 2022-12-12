@@ -121,7 +121,7 @@ class FlavourTest extends AbstractBaseTest
 
         // Expectations
         $flavour_definition = $this->createMock(FlavourDefinition::class);
-        $flavour_definition->expects($this->exactly(2))
+        $flavour_definition->expects($this->exactly(4))
             ->method('getVariantName')
             ->willReturn('short');
 
