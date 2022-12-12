@@ -9705,6 +9705,8 @@ forum#:#frm_censorship_revoked#:#The censorship has been successfully revoked.
 forum#:#frm_copy#:#Copy Forum
 forum#:#frm_default_view#:#Default View
 forum#:#frm_edit_title#:#Edit Title
+forum#:#frm_enable_print_option#:#Enable print option
+forum#:#frm_enable_print_option_desc#:#If disabled, nobody is able to select the print option in Forum.
 forum#:#frm_mark_as_read#:#Mark as read
 forum#:#frm_mark_as_unread#:#Mark as unread
 forum#:#frm_max_notification_age#:#Max. Notification Age
