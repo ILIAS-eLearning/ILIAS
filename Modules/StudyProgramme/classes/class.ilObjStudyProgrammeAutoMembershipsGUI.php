@@ -33,6 +33,7 @@ use ILIAS\UI\Component\Link;
  * @author: Nils Haagen  <nils.haagen@concepts-and-training.de>
  *
  * @ilCtrl_Calls ilObjStudyProgrammeAutoMembershipsGUI: ilPropertyFormGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeAutoMembershipsGUI: ilFormPropertyDispatchGUI
  */
 class ilObjStudyProgrammeAutoMembershipsGUI
 {
@@ -146,7 +147,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         if ($this->request_wrapper->has(self::F_ORIGINAL_SOURCE_ID)) {
             $current_src_id = $this->request_wrapper->retrieve(
                 self::F_ORIGINAL_SOURCE_ID,
-                $this->refinery->to()->int()
+                $this->refinery->to()->string()
             );
         }
 
@@ -434,15 +435,17 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             function ($id) use ($form_id, $link, $signal_id, $f_selected_type, $f_selected_id) {
                 return
                     "$('#$id').click(function() { 
+
                         var checked = $(\"input[name='$f_selected_type']:checked\"). val();
                         if(checked == 'orgu' || typeof(checked) == \"undefined\") {
-                            $('#$form_id').submit();
+                            console.log('$(\'#$form_id\').submit()');
+                            document.getElementById('$form_id').submit();
                             return false;
                         }
 
                         var i_value = $(\"input[name='$f_selected_id\" + checked + \"']\"). val();
                         if(i_value == '' || typeof(i_value) == \"undefined\") {
-                            $('#$form_id').submit();
+                            document.getElementById('$form_id').submit();
                             return false;
                         }
 
@@ -462,27 +465,14 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             }
         );
 
-
-        /*
-            el = document.getElementById('f_st_orgu');
-            el.addEventListener('change', (event) => document.getElementById('il_ui_fw_639354916f72f9_04252685').innerHTML = 'dd')
-        */
-        $selector_js = <<<SELJS
-
-SELJS;
-
-
         $modal = $modal->withActionButtons([$submit])
             ->withAdditionalOnLoadCode(
-                function ($id) use ($form, $selector_js) {
+                function ($id) use ($form) {
                     $selector_post_var = self::F_SOURCE_ID . ilStudyProgrammeAutoMembershipSource::TYPE_ORGU;
                     $js = $form->getItemByPostVar($selector_post_var)->getOnloadCode();
-                    $js[] = $selector_js;
                     return implode(';', $js);
                 }
             );
-
-
 
         echo $this->ui_renderer->renderAsync($modal);
         exit;
@@ -591,7 +581,7 @@ SELJS;
         string $selected_source_type,
         string $selected_source,
         string $source_type = null,
-        int $source_id = null
+        string $source_id = null
     ): ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "save"));
@@ -744,7 +734,7 @@ SELJS;
             case ilStudyProgrammeAutoMembershipSource::TYPE_ORGU:
                 $hops = array_map(
                     static function (array $c): string {
-                        return ilObject::_lookupTitle($c["obj_id"]);
+                        return ilObject::_lookupTitle((int)$c["obj_id"]);
                     },
                     $this->tree->getPathFull($src_id)
                 );
