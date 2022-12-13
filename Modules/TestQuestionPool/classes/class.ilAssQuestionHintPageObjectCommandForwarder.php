@@ -216,6 +216,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
     protected function getPageObjectGUI($pageObjectType, $pageObjectId)
     {
         include_once("./Modules/TestQuestionPool/classes/class.ilAssHintPageGUI.php");
+        $this->ensurePageObjectExists('qht', $pageObjectId);
         $pageObjectGUI = new ilAssHintPageGUI($pageObjectId);
         $pageObjectGUI->obj->addUpdateListener(
             $this->questionOBJ,
