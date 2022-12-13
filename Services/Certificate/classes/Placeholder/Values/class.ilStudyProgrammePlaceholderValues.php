@@ -80,8 +80,12 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
         $object = $this->objectHelper->getInstanceByObjId($objId);
 
         $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValues($userId, $objId);
+
+        $progresses = [];
+        $assignments = $object->getAssignmentsOfSingleProgramForUser($userId);
+        $progresses = array_map(fn ($ass) => $ass->getProgressForNode($object->getId()), $assignments);
         $latest_progress = array_reduce(
-            $object->getProgressesOf($userId),
+            $progresses,
             static function ($one, $other) {
                 if ($one !== null && $one->isSuccessful() && $other !== null && $other->isSuccessful()) {
                     return
