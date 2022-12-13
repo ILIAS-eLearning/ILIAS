@@ -440,8 +440,7 @@ class ilTestServiceGUI
                             $template->setVariable('SOLUTION_OUTPUT', $compare_template->get());
                         } else {
                             $graphical_output = true;
-                            $show_correct_solution = true;
-                            $result_output = $question_gui->getSolutionOutput($active_id, $pass, $graphical_output, false, $show_question_only, $showFeedback, $show_correct_solution);
+                            $result_output = $question_gui->getSolutionOutput($active_id, $pass, $graphical_output, false, $show_question_only, $showFeedback);
                             $template->setVariable('SOLUTION_OUTPUT', $result_output);
                         }
 
