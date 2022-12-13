@@ -33,18 +33,19 @@ abstract class ilTestExportAbstract
         ilObjTest $test_obj,
         string $filterby = '',
         string $filtertext = '',
-        bool $passedonly = false
+        bool $passedonly = false,
+        ilLanguage $lng = null
     ) {
         global $DIC;
-        $this->lng = $DIC->language();
         $this->test_obj = $test_obj;
         $this->filterby = $filterby;
         $this->filtertext = $filtertext;
         $this->passedonly = $passedonly;
+        $this->lng = $lng ?? $DIC->language();
     }
 
     abstract public function deliver(string $title): void;
-    abstract public function getContent();
+    abstract public function getContent(): ilAssExcelFormatHelper|string;
 
     public function getDatarows(ilObjTest $test_obj): array
     {

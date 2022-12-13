@@ -32,10 +32,11 @@ class ilExcelTestExport extends ilTestExportAbstract
         string $filtertext = '',
         bool $passedonly = false,
         bool $bestonly = true,
+        ilLanguage $lng = null
     ) {
         $this->bestonly = $bestonly;
         $this->worksheet = new ilAssExcelFormatHelper();
-        parent::__construct($test_obj, $filterby, $filtertext, $passedonly);
+        parent::__construct($test_obj, $filterby, $filtertext, $passedonly, $lng);
     }
 
     public function withResultsPage(): self

@@ -18,8 +18,6 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use JetBrains\PhpStorm\NoReturn;
-
 /**
  * @author Fabian Helfer <fhelfer@databay.de>
  */
@@ -82,7 +80,7 @@ class ilCSVTestExport extends ilTestExportAbstract
         return $this;
     }
 
-    #[NoReturn]
+
     public function deliver(string $title): void
     {
         ilUtil::deliverData($this->content, ilFileUtils::getASCIIFilename($title . ".csv"));
