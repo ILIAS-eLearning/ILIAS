@@ -1012,6 +1012,9 @@ class ilTrQuery
 
         // begin-patch ouf
         if ($members_read) {
+            // BT 35452: failsafe against invalid users without an entry in usr_data
+            $members = self::filterOutUsersWithoutData($members);
+
             return $GLOBALS['DIC']->access(
             )->filterUserIdsByRbacOrPositionOfCurrentUser(
                 'read_learning_progress',
@@ -1077,6 +1080,9 @@ class ilTrQuery
             return $a_users;
         }
 
+        // BT 35452: failsafe against invalid users without an entry in usr_data
+        $a_users = self::filterOutUsersWithoutData($a_users);
+
         // begin-patch ouf
         return $GLOBALS['DIC']->access(
         )->filterUserIdsByRbacOrPositionOfCurrentUser(
@@ -1085,6 +1091,27 @@ class ilTrQuery
             $a_ref_id,
             $a_users
         );
+    }
+
+    /**
+     * @param int[] $user_ids
+     * @return int[]
+     */
+    protected static function filterOutUsersWithoutData(array $user_ids): array
+    {
+        $res = [];
+        foreach ($user_ids as $user_id) {
+            if (ilObjUser::userExists([$user_id])) {
+                $res[] = $user_id;
+                continue;
+            }
+            global $DIC;
+            $DIC->logger()->trac()->info(
+                'Excluded user with id ' . $user_id .
+                ' from participants, because they do not have an entry in usr_data.'
+            );
+        }
+        return $res;
     }
 
     protected static function buildFilters(
