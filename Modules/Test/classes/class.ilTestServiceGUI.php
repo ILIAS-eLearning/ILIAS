@@ -1066,10 +1066,6 @@ class ilTestServiceGUI
             return true;
         }
 
-        if ($this->object->areObligationsEnabled()) {
-            return true;
-        }
-
         return false;
     }
 

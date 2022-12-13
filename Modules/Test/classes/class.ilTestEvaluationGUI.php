@@ -1483,10 +1483,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $gradingMessageBuilder = $this->getGradingMessageBuilder($active_id);
             $gradingMessageBuilder->buildMessage();
             $gradingMessageBuilder->sendMessage();
-
-            #$template->setCurrentBlock('grading_message');
-            #$template->setVariable('GRADING_MESSAGE', );
-            #$template->parseCurrentBlock();
         }
 
         $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, true);

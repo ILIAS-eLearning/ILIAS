@@ -51,6 +51,11 @@ class ilTestGradingMessageBuilder
     private $container;
 
     /**
+     * @var string[] $messageText
+     */
+    private array $messageText = [];
+
+    /**
      * @param ilLanguage $lng
      * @param ilObjTest $testOBJ
      */
