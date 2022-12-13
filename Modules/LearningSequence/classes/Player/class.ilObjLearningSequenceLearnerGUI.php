@@ -193,7 +193,7 @@ class ilObjLearningSequenceLearnerGUI
                     $contents[] = $this->ui_factory->image()->responsive($img, '');
                 }
             } else {
-                $contents[] = $this->ui_factory->legacy($this->intro);
+                $contents[] = $this->ui_factory->legacy($this->extro);
             }
         }
         return $contents;
