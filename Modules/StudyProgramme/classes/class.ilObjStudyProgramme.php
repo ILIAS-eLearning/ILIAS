@@ -356,18 +356,20 @@ class ilObjStudyProgramme extends ilContainer
         $this->clearLPChildrenCache();
         $this->clearChildrenCache();
 
-        if ($this->getAmountOfLPChildren() > 0) {
-            $this->settings_repository->update(
-                $this->getSettings()->setLPMode(ilStudyProgrammeSettings::MODE_LP_COMPLETED)
-            );
-        } elseif ($this->getAmountOfChildren(true) > 0) {
-            $this->settings_repository->update(
-                $this->getSettings()->setLPMode(ilStudyProgrammeSettings::MODE_POINTS)
-            );
-        } else {
-            $this->settings_repository->update(
-                $this->getSettings()->setLPMode(ilStudyProgrammeSettings::MODE_UNDEFINED)
-            );
+        if ($this->tree->isInTree($this->getRefId())) {
+            if ($this->getAmountOfLPChildren() > 0) {
+                $this->settings_repository->update(
+                    $this->getSettings()->setLPMode(ilStudyProgrammeSettings::MODE_LP_COMPLETED)
+                );
+            } elseif ($this->getAmountOfChildren(true) > 0) {
+                $this->settings_repository->update(
+                    $this->getSettings()->setLPMode(ilStudyProgrammeSettings::MODE_POINTS)
+                );
+            } else {
+                $this->settings_repository->update(
+                    $this->getSettings()->setLPMode(ilStudyProgrammeSettings::MODE_UNDEFINED)
+                );
+            }
         }
     }
 
@@ -1479,7 +1481,7 @@ class ilObjStudyProgramme extends ilContainer
         global $DIC; // TODO: replace this by a settable static for testing purpose?
         $tree = $DIC['tree'];
         $node_data = $tree->getParentNodeData($ref_id);
-        if ($node_data["type"] !== "prg") {
+        if (count($node_data) === 0 || $node_data["type"] !== "prg") {
             return;
         }
         self::initStudyProgrammeCache();
