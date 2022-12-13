@@ -575,6 +575,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $xml_file = ilObjQuestionPool::_getImportDirectory() . '/' . $subdir . '/' . $subdir . ".xml";
             $qti_file = ilObjQuestionPool::_getImportDirectory() . '/' . $subdir . '/' . str_replace("qpl", "qti", $subdir) . ".xml";
         }
+        if (!file_exists($qti_file)) {
+            ilFileUtils::delDir($basedir);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('cannot_find_xml'), true);
+            $this->ctrl->redirect($this, 'create');
+            return false;
+        }
         $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_VERIFY_QTI, 0, "");
         $qtiParser->startParsing();
         $founditems = &$qtiParser->getFoundItems();
