@@ -270,6 +270,10 @@ class ilStudyProgrammeUserTable
                 return ilContainerReference::_lookupTitle($obj_id);
 
         }
+
+        if ($del = ilObjectDataDeletionLog::get($obj_id)) {
+            return sprintf('(%s)', $del['title']);
+        }
         throw new Exception("Error Processing Request:" . $obj_id, 1);
     }
 }
