@@ -69,19 +69,23 @@ class CropSquare extends AbstractMachine implements FlavourMachine
         }
 
         $stream_path = $stream->getMetadata('uri');
-        [$width, $height] = getimagesize($stream_path);
+        if ($stream_path === 'php://memory') {
+            [$width, $height] = getimagesizefromstring((string)$stream);
+        } else {
+            [$width, $height] = getimagesize($stream_path);
+        }
 
         if ($width > $height) {
             $y = 0;
-            $x = ($width - $height) / 2;
-            $smallest_side = $height;
+            $x = (int) (($width - $height) / 2);
+            $smallest_side = (int) $height;
         } else {
             $x = 0;
-            $y = ($height - $width) / 2;
-            $smallest_side = $width;
+            $y = (int) (($height - $width) / 2);
+            $smallest_side = (int) $width;
         }
 
-        $size = $for_definition->getMaxSize();
+        $size = (int) $for_definition->getMaxSize();
 
         $thumb = imagecreatetruecolor($size, $size);
         imagecopyresampled(
@@ -97,15 +101,16 @@ class CropSquare extends AbstractMachine implements FlavourMachine
             $smallest_side
         );
 
+
         imagedestroy($image);
 
-        $stream = $this->to($thumb);
+        $stream = $this->to($thumb, $for_definition->getQuality());
 
         yield new Result(
             $for_definition,
             $stream,
             0,
-            true
+            $for_definition->persist()
         );
     }
 }

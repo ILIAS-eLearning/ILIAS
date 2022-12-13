@@ -28,7 +28,7 @@ use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\ExtractPages;
 class PagesToExtract implements FlavourDefinition
 {
     public const FOREVER_ID = 'cbcb933538e2dfe9460d7a225f7b543b556ee580f41bd4f06cf16a4ca8dd8c8c';
-    private const QUALITY = 20;
+    private const QUALITY = 75;
     protected bool $persist;
     protected int $max_size = 500;
     protected int $max_pages = 5;
@@ -83,7 +83,6 @@ class PagesToExtract implements FlavourDefinition
     {
         return $this->max_size . 'x' . $this->max_size . ($this->fill ? '_fill' : '');
     }
-
 
     public function persist(): bool
     {

@@ -35,8 +35,6 @@ class MakeGreyScale extends AbstractMachine implements \ILIAS\ResourceStorage\Fl
     use GdImageToStreamTrait;
 
     public const ID = 'greyscale';
-    public const QUALITY = 70;
-
 
     public function getId(): string
     {
@@ -58,12 +56,18 @@ class MakeGreyScale extends AbstractMachine implements \ILIAS\ResourceStorage\Fl
         FileStream $stream,
         FlavourDefinition $for_definition
     ): \Generator {
+        /** @var ToGreyScale $for_definition */
         $image = $this->from($stream);
         if (!is_resource($image) && !$image instanceof \GdImage) {
             return;
         }
         imagefilter($image, IMG_FILTER_GRAYSCALE, 50, true);
 
-        yield new Result($for_definition, $this->to($image, self::QUALITY), 0, true);
+        yield new Result(
+            $for_definition,
+            $this->to($image, $for_definition->getQuality()),
+            0,
+            $for_definition->persist()
+        );
     }
 }

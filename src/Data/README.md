@@ -26,6 +26,7 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 * [Dataset](#dataset)
 * [HTML Metadata](#htmlmetadata)
 * [OpenGraph Metadata](#opengraphmetadata)
+* [LanguageTag](#languagetag)
 
 Other examples for data types that could (and maybe should) be added here:
 
@@ -655,3 +656,18 @@ function itIsTrueThat(bool $truth) {
 
 ?>
 ```
+
+## LanguageTag
+
+This represents a RFC 5646 compliant language tag.
+To create a language tag:
+
+```php
+(new \ILIAS\Data\Factory())->languageTag('de');
+```
+
+If the given string is no valid tag an exception is thrown.
+
+The language tag can have several different forms, which are represented with the classes: `Standard`, `Irregular`, `Regular` and `Privateuse`.
+
+The specific meaning of the different language tags can be found in the [RFC](https://www.ietf.org/rfc/bcp/bcp47.txt).

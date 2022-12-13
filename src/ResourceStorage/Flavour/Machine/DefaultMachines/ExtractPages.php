@@ -34,11 +34,9 @@ use ILIAS\ResourceStorage\Information\FileInformation;
  */
 class ExtractPages extends AbstractMachine implements FlavourMachine
 {
-    use GdImageToStreamTrait;
-
     public const ID = 'extract_pages';
     public const PREVIEW_IMAGE_FORMAT = 'jpg';
-
+    private bool $use_thumbnail_implementation = true;
 
     public function getId(): string
     {
@@ -80,25 +78,32 @@ class ExtractPages extends AbstractMachine implements FlavourMachine
             return;
         }
 
+        $original_with = $img->getImageWidth();
+        $original_height = $img->getImageHeight();
+
 
         $img->setBackgroundColor('white');
         $img->mergeImageLayers(\Imagick::LAYERMETHOD_FLATTEN);
         $img->resetIterator();
 
-        $use_thumbnail = true;
         $max_size = $for_definition->getMaxSize();
 
         for ($x = 0; ($x < $for_definition->getMaxPages() && $x < $img->getNumberImages()); $x++) {
             $img->setIteratorIndex($x);
             $img->setImageAlphaChannel(\Imagick::ALPHACHANNEL_REMOVE);
             $img->setImageFormat(self::PREVIEW_IMAGE_FORMAT);
-            if ($use_thumbnail) {
+            if ($this->use_thumbnail_implementation) {
                 $yield = $img->thumbnailImage($max_size, $max_size, true, $for_definition->isFill());
             } else {
                 $img->setImageCompression(\Imagick::COMPRESSION_JPEG);
                 $img->setImageCompressionQuality($for_definition->getQuality());
                 $img->stripImage();
-                $img->scaleImage($max_size, 0);
+
+                if ($original_with > $original_height) {
+                    $img->scaleImage($max_size, 0);
+                } else {
+                    $img->scaleImage(0, $max_size);
+                }
                 $yield = true;
             }
 

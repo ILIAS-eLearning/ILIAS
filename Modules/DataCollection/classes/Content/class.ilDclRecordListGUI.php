@@ -81,7 +81,7 @@ class ilDclRecordListGUI
         $this->refinery = $DIC->refinery();
 
         $this->table_id = $table_id;
-        if ($this->table_id == null) {
+        if ($this->table_id === null) {
             $this->table_id = filter_input(INPUT_GET, self::GET_TABLE_ID);
         }
 
@@ -103,8 +103,8 @@ class ilDclRecordListGUI
         $this->mode = self::MODE_VIEW;
 
         if ($this->http->wrapper()->query()->has(self::GET_MODE)) {
-            $mode = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
-            if (in_array($mode, self::$available_modes)) {
+            $mode = $this->http->wrapper()->query()->retrieve(self::GET_MODE, $this->refinery->kindlyTo()->int());
+            if (in_array($mode, self::$available_modes, true)) {
                 $this->mode = $mode;
             }
         }

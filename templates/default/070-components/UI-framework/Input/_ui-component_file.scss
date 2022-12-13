@@ -1,7 +1,7 @@
 @use "../../../010-settings/"as *;
 @use "../../../010-settings/legacy-settings/legacy-settings_dropzone" as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_ui-input-file" as *;
 @use "../../../010-settings/legacy-settings/legacy-settings_form" as *;
-@use "../../../010-settings/legacy-settings/legacy-settings_button" as *;
 @use "../../../050-layout/basics"as *;
 
 // File Input Style
@@ -30,26 +30,52 @@
 }
 
 .ui-input-file-input {
-	border: $il-dropzone-border-width $il-dropzone-border-style $il-dropzone-border-color;
+	border: $il-input-file-info-container-border-width $il-input-file-info-container-border-style $il-input-file-info-container-border-color;
 	margin-bottom: $il-margin-large-vertical;
 	padding: $il-padding-base;
 }
 
 .ui-input-file-input span {
-  font-size: $il-font-size-base;
-  &[data-action="collapse"], [data-file-action="expand"] {
-    margin: $il-margin-base 0;
-  }
-  &[data-action="remove"] .glyph {
-    margin-left: $il-margin-base;
-    float: right;
-  }
-  &[data-dz-name] {
-    margin-right: $il-margin-base;
-  }
-  &[data-dz-size] {
-    margin-right: $il-margin-base;
-    font-style: italic;
-  }
+	font-size: $il-font-size-base;
+	&[data-action="collapse"], [data-file-action="expand"] {
+		margin: $il-margin-base 0;
+	}
+	&[data-action="remove"] .glyph {
+		margin-left: $il-margin-base;
+		float: right;
+	}
+	&[data-dz-name] {
+		margin-right: $il-margin-base;
+	}
+	&[data-dz-size] {
+		margin-right: $il-margin-base;
+		font-style: italic;
+	}
+}
+
+.ui-input-file-input-progress-container {
+	height: $il-input-file-progress-height;
+	background-color: $il-input-file-progress-base-color;
+	margin-top: $il-padding-base-horizontal;
+	margin-bottom: -$il-padding-base-horizontal;
+	margin-left: -$il-padding-base-horizontal;
+	margin-right: -$il-padding-base-horizontal;
+
+	.ui-input-file-input-progress-indicator {
+		background-color: $il-input-file-progress-indicator-color;
+		float: left;
+		height: inherit;
+		width: 0%;
+		-webkit-transition: width 0.6s ease;
+		-o-transition: width 0.6s ease;
+		transition: width 0.6s ease;
+		&.success {
+			background-color: $il-success-color;
+		}
+		&.error {
+			background-color: $il-warning-color;
+		}
+	}
+
 }
 

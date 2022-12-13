@@ -46,6 +46,12 @@ abstract class AbstractResourceStakeholder implements ResourceStakeholder
         return false;
     }
 
+    public function canBeAccessedByCurrentUser(ResourceIdentification $identification): bool
+    {
+        return true;
+    }
+
+
     /**
      * @inheritDoc
      */

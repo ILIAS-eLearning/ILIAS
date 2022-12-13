@@ -209,15 +209,7 @@ class ilTestToplistGUI
      */
     protected function isTopTenRankingTableRequired(): bool
     {
-        if ($this->object->getHighscoreMode() == ilObjTest::HIGHSCORE_SHOW_TOP_TABLE) {
-            return true;
-        }
-
-        if ($this->object->getHighscoreMode() == ilObjTest::HIGHSCORE_SHOW_ALL_TABLES) {
-            return true;
-        }
-
-        return false;
+        return $this->object->getHighscoreTopTable();
     }
 
     /**
@@ -225,14 +217,6 @@ class ilTestToplistGUI
      */
     protected function isOwnRankingTableRequired(): bool
     {
-        if ($this->object->getHighscoreMode() == ilObjTest::HIGHSCORE_SHOW_OWN_TABLE) {
-            return true;
-        }
-
-        if ($this->object->getHighscoreMode() == ilObjTest::HIGHSCORE_SHOW_ALL_TABLES) {
-            return true;
-        }
-
-        return false;
+        return $this->object->getHighscoreOwnTable();
     }
 }

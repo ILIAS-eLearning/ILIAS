@@ -656,7 +656,7 @@ class ilTestTabsManager
             // statistics tab
             $this->tabs->addTarget(
                 self::TAB_ID_STATISTICS,
-                $DIC->ctrl()->getLinkTargetByClass("iltestevaluationgui", "outEvaluation"),
+                $DIC->ctrl()->getLinkTargetByClass([ilRepositoryGUI::class, ilObjTestGUI::class, ilTestEvaluationGUI::class], "outEvaluation"),
                 array(
                     "statistics", "outEvaluation", "exportEvaluation", "detailedEvaluation", "eval_a", "evalUserDetail",
                     "passDetails", "outStatisticsResultsOverview", "statisticsPassDetails", "singleResults"
