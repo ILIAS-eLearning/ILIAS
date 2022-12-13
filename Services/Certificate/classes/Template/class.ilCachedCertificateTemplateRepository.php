@@ -25,7 +25,7 @@ declare(strict_types=1);
  */
 class ilCachedCertificateTemplateRepository implements ilCertificateTemplateRepository
 {
-    /** @var array<int, ilCertificateTemplate[]> */
+    /** @var array<string, ilCertificateTemplate[]> */
     protected static array $crs_certificates_without_lp = [];
 
     private ilCertificateTemplateRepository $wrapped;
@@ -81,9 +81,10 @@ class ilCachedCertificateTemplateRepository implements ilCertificateTemplateRepo
     }
 
     public function fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress(
-        bool $isGlobalLpEnabled
+        bool $isGlobalLpEnabled,
+        ?int $forRefId = null
     ): array {
-        $cache_key = (int) $isGlobalLpEnabled;
+        $cache_key = (int) $isGlobalLpEnabled . '_' . (int) $forRefId;
 
         if (!array_key_exists($cache_key, self::$crs_certificates_without_lp)) {
             self::$crs_certificates_without_lp[$cache_key] =
@@ -91,6 +92,7 @@ class ilCachedCertificateTemplateRepository implements ilCertificateTemplateRepo
                     $isGlobalLpEnabled
                 );
         }
+
         return self::$crs_certificates_without_lp[$cache_key];
     }
 
