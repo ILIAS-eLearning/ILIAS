@@ -195,7 +195,10 @@ class ilQTIParser extends ilSaxParser
         parent::__construct($a_xml_file);
 
         $this->qpl_id = $a_qpl_id;
-        $this->lng = &$lng;
+        $this->lng = $lng;
+        if (is_array($a_import_idents)) {
+            $this->import_idents = &$a_import_idents;
+        }
         $this->depth = new SplObjectStorage();
     }
 

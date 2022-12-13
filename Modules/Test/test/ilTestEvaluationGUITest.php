@@ -39,6 +39,7 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilComponentRepository();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilObjDataCache();
+        $this->addGlobal_ilUser();
 
         $this->testObj = new ilTestEvaluationGUI($this->createMock(ilObjTest::class));
     }

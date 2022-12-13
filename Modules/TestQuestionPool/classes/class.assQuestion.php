@@ -2719,7 +2719,7 @@ abstract class assQuestion
      */
     abstract public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false);
 
-    public function deductHintPointsFromReachedPoints(ilAssQuestionPreviewSession $previewSession, $reachedPoints): ?int
+    public function deductHintPointsFromReachedPoints(ilAssQuestionPreviewSession $previewSession, $reachedPoints): ?float
     {
         global $DIC;
 
@@ -3710,7 +3710,7 @@ abstract class assQuestion
     }
 
     // fau: testNav - add timestamp as parameter to saveCurrentSolution
-    public function saveCurrentSolution(int $active_id, int $pass, $value1, $value2, bool $authorized = true, int $tstamp = 0): int
+    public function saveCurrentSolution(int $active_id, int $pass, $value1, $value2, bool $authorized = true, $tstamp = 0): int
     {
         $next_id = $this->db->nextId("tst_solutions");
 
@@ -3721,7 +3721,7 @@ abstract class assQuestion
             "value1" => array("clob", $value1),
             "value2" => array("clob", $value2),
             "pass" => array("integer", $pass),
-            "tstamp" => array("integer", ($tstamp > 0) ? $tstamp : time()),
+            "tstamp" => array("integer", ((int)$tstamp > 0) ? (int)$tstamp : time()),
             'authorized' => array('integer', (int) $authorized)
         );
 
