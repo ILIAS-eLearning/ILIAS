@@ -175,6 +175,17 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         $chk_prop->setInfo($lng->txt('enable_preview_info'));
         $form->addItem($chk_prop);
 
+        // show amount of downloads
+        $lng->loadLanguageModule(ilObjFile::OBJECT_TYPE);
+        $chk_prop_show_downloads = new ilCheckboxInputGUI(
+            $lng->txt(ilObjFileAccessSettings::SETTING_SHOW_AMOUNT_OF_DOWNLOADS),
+            ilObjFileAccessSettings::SETTING_SHOW_AMOUNT_OF_DOWNLOADS
+        );
+        $chk_prop_show_downloads->setValue('1');
+        $chk_prop_show_downloads->setChecked($this->object->shouldShowAmountOfDownloads());
+        $chk_prop_show_downloads->setInfo($lng->txt(ilObjFileAccessSettings::SETTING_SHOW_AMOUNT_OF_DOWNLOADS . '_info'));
+        $form->addItem($chk_prop_show_downloads);
+
         // max preview images
         $num_prop = new ilNumberInputGUI($lng->txt("max_previews_per_object"), "max_previews_per_object");
         $num_prop->setDecimals(0);
@@ -240,7 +251,10 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
                 ilUtil::stripSlashes($post['download_with_uploaded_filename'] ?? '')
             );
             $this->object->setInlineFileExtensions(
-                ilUtil::stripSlashes($post['inline_file_extensions'] ?? '')
+                ilUtil::stripSlashes($post[ilObjFileAccessSettings::SETTING_INLINE_FILE_EXTENSIONS] ?? '')
+            );
+            $this->object->setShowAmountOfDownloads(
+                (bool) ($post[ilObjFileAccessSettings::SETTING_SHOW_AMOUNT_OF_DOWNLOADS] ?? false)
             );
             $this->object->update();
             $this->folderSettings->set("bgtask_download_limit", (int) $post["bg_limit"]);

@@ -4040,6 +4040,10 @@ common#:#feedback#:#Feedback
 common#:#field_name#:#Feldname
 common#:#field_type#:#Feldtyp
 common#:#file#:#Datei
+common#:#file#:#amount_of_downloads#:#Downloads
+common#:#file#:#amount_of_downloads_since#:#%d seit %s
+common#:#file#:#show_amount_of_downloads#:#Anzahl Downloads anzeigen
+common#:#file#:#show_amount_of_downloads_info#:#Wenn aktiv, wird die Anzahl Downloads auf der Info-Seite eines File-Objektes angezeigt.
 common#:#file_add#:#Datei hochladen
 common#:#file_add_and_metadata#:#Datei hochladen und Metadaten editieren
 common#:#file_added#:#Datei hochgeladen
