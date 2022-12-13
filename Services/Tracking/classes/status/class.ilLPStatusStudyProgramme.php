@@ -68,7 +68,10 @@ class ilLPStatusStudyProgramme extends ilLPStatus
         return ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
     }
 
-    protected static function getAssignmentsLPMatrix(int $prg_obj_id): array
+    /**
+     * @param ilPRGAssignment[] $assignments
+     */
+    protected static function getAssignmentsLPMatrix(array $assignments, int $prg_obj_id): array
     {
         $matrix = [
             ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => [],
@@ -87,7 +90,7 @@ class ilLPStatusStudyProgramme extends ilLPStatus
         }
         foreach ($user_centric as $usr_id => $assignments) {
             $status = self::getStatusForAssignments($assignments, $prg_obj_id);
-            $matrix[$status][] = $user_id;
+            $matrix[$status][] = $usr_id;
         }
 
         return $matrix;

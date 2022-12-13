@@ -1129,6 +1129,13 @@ class ilObjStudyProgramme extends ilContainer
         return count($relevant) > 0;
     }
 
+    public function getIdsOfUsersWithRelevantProgress(): array
+    {
+        return array_map(
+            fn ($ass) => $ass->getUserId(),
+            $this->getAssignments()
+        );
+    }
 
 
     ////////////////////////////////////
