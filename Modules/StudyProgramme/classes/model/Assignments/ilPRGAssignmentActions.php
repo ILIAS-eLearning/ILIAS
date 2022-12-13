@@ -120,7 +120,9 @@ trait ilPRGAssignmentActions
             $this->notifyProgressScuccess($progress);
         }
 
-        if (!$successful && $progress->isSuccessful()) {
+        if (!$successful && $progress->isSuccessful()
+            && $progress->getStatus() !== ilPRGProgress::STATUS_ACCREDITED
+        ) {
             $progress = $progress
                 ->withStatus(ilPRGProgress::STATUS_IN_PROGRESS)
                 ->withCompletion(null, null)
