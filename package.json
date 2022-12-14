@@ -1,6 +1,6 @@
 {
   "name": "ilias",
-  "version": "7.0.0",
+  "version": "8.0.0",
   "description": "ILIAS open source e-Learning",
   "browser": "js/index.js",
   "directories": {
@@ -242,5 +242,19 @@
       "purpose": "UI Bar Charts",
       "last-update-for-ilias": "8.0.0"
     }
+  },
+  "@babel/register": {
+    "introduction-date": "2022-12-14",
+    "approved-by": "Jour Fixe",
+    "developer": "tfuhrer",
+    "purpose": "Replacement for the unmaintained ESM module bundler used by mocha.js for js unit tests.",
+    "last-update-for-ilias": "7.0.0"
+  },
+  "@babel/preset-env": {
+    "introduction-date": "2022-12-14",
+    "approved-by": "Jour Fixe",
+    "developer": "tfuhrer",
+    "purpose": "Preset environment for @babel which is used by the @babel/register package to run js unit tests.",
+    "last-update-for-ilias": "7.0.0"
   }
 }
