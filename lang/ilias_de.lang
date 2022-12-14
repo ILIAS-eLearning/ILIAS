@@ -3979,7 +3979,6 @@ common#:#error_empty_file_or_folder#:#Die Datei ist entweder 0 Byte gross oder e
 common#:#error_extraction_failed#:#Das Entpacken des Archivs und dessen Ordnerstruktur ist fehlgeschlagen. Wahrscheinlich verfügen Sie nicht über die Rechte um Ordner oder Kategorien in diesem Objekt zu erstellen.
 common#:#error_parser#:#Fehler beim Starten des Parsers.
 common#:#error_upload_was_zero_bytes#:#Das Hochladen ist fehlgeschlagen, da dies entweder ein Ordner ist, die Datei 0 Byte gross ist, die max. Uploadgröße überschreitet oder die Datei inzwischen gelöscht oder umbenannt wurde.
-common#:#etal_talks#:#Gespräche
 common#:#event_ass_materials_prop#:#Materialien zur Sitzung
 common#:#event_assign_files#:#Dateien zuordnen
 common#:#exc#:#Übung
@@ -4845,7 +4844,6 @@ common#:#obj_dshs#:#Dashboard
 common#:#obj_dshs_desc#:#Dashboard administrieren
 common#:#obj_ecss#:#ECS
 common#:#obj_ecss_desc#:#Enthält globale Einstellungen für den E-Learning Community Server
-common#:#obj_etal#:#Mitarbeiter-Gespräch
 common#:#obj_exc#:#Übung
 common#:#obj_exc_duplicate#:#Übung kopieren
 common#:#obj_excv#:#Übungszertifikat
@@ -5075,7 +5073,6 @@ common#:#objs_copa#:#Inhaltsseiten
 common#:#objs_crs#:#Kurse
 common#:#objs_crsr#:#Kurslinks
 common#:#objs_dcl#:#Datensammlungen
-common#:#objs_etal#:#Mitarbeiter-Gespräche
 common#:#objs_exc#:#Übungen
 common#:#objs_file#:#Dateien
 common#:#objs_fold#:#Ordner
@@ -5656,8 +5653,6 @@ common#:#tagging_my_tags#:#Meine Tags
 common#:#tags#:#Tags
 common#:#take_over_structure#:#Ordnerstruktur des Archivs übernehmen
 common#:#take_over_structure_info#:#Wenn aktiviert, werden Verzeichnisse im Archiv als Kategorien oder Ordner übernommen.
-common#:#tals_etal#:#Gespräch
-common#:#talt_etal#:#Gespräch
 common#:#target#:#Ziel
 common#:#tax#:#Taxonomie
 common#:#tax_add#:#Taxonomie anlegen
@@ -8937,41 +8932,6 @@ ecs#:#ecs_wiki_export_enabled#:#Freigeben
 ecs#:#ecs_wiki_export_obj_settings#:#Einstellungen für Wikifreigaben
 error#:#error_back_to_repository#:#Zurück zum Magazin
 error#:#error_sry_error#:#Es ist leider ein Fehler aufgetreten.
-etal#:#appointments#:#Sitzungen
-etal#:#cal_type_tals#:#Gespräche
-etal#:#change_date_of_series#:#Gesprächsserie anpassen
-etal#:#change_date_of_talk#:#Gesprächsdatum anpassen
-etal#:#date_of_talk#:#Start Datum
-etal#:#etal_add#:#Hinzufügen
-etal#:#etal_add_new_item#:#Neues Gespräch hinzufügen
-etal#:#etal_date_appointment_edit#:#Gesprächsdatum
-etal#:#etal_date_series_edit#:#Gesprächsserie
-etal#:#etal_edit#:#Allgemein
-etal#:#etal_new#:#Neues Gespräch
-etal#:#etal_open#:#Gespräch öffnen
-etal#:#etal_status_all#:#Alle
-etal#:#etal_status_completed#:#Abgeschlossen
-etal#:#etal_status_pending#:#Ausstehend
-etal#:#etal_unknown_username#:#Unbekannter Benutzer
-etal#:#lock_edititng_for_others#:#Bearbeitung für andere sperren
-etal#:#meta_adv_records#:#Metadaten
-etal#:#mm_org_etal#:#Gespräch
-etal#:#mm_talk_template#:#Gesprächsvorlagen
-etal#:#notification_talks_created#:#Sie wurden von %s zu einem Gespräch eingeladen.
-etal#:#notification_talks_date_details#:#Termindetails
-etal#:#notification_talks_date_list_header#:#Daten
-etal#:#notification_talks_removed#:#Folgende Termine mit %s wurden abgesagt.
-etal#:#notification_talks_subject#:#Termineinladung
-etal#:#notification_talks_talk_title#:#Titel: %s
-etal#:#notification_talks_updated#:#Folgende Gesprächstermine mit %s wurden angepasst.
-etal#:#talk_serial#:#Talk Serial
-etal#:#tals_add#:#Gespräche hinzufügen
-etal#:#tals_new#:#Neue Gesprächsserie
-etal#:#talt_activation_online_info#:#Markieren Sie die Vorlage als aktiv, damit diese für Mitarbeiter zur Verfügung steht.
-etal#:#talt_add#:#Erstellen
-etal#:#talt_edit#:#Allgemein
-etal#:#talt_etal#:#Mitarbeiter-Gespräch
-etal#:#talt_new#:#Neue Gesprächsvorlage
 exc#:#exc_add_assignment#:#Übungseinheit hinzufügen
 exc#:#exc_add_criteria#:#Kriterium hinzufügen
 exc#:#exc_add_criteria_catalogue#:#Katalog hinzufügen

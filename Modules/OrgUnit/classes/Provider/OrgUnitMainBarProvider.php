@@ -24,7 +24,6 @@ use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ilObjOrgUnit;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\DI\Container;
-use ilObjTalkTemplateAdministration;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 
 /**
@@ -35,14 +34,12 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
 {
     private IdentificationInterface $organisationIdentifier;
     private IdentificationInterface $orgUnitIdentifier;
-    private IdentificationInterface $employeeTalkTemplateIdentifier;
 
     public function __construct(Container $dic)
     {
         parent::__construct($dic);
         $this->organisationIdentifier = $this->if->identifier('mm_adm_org');
         $this->orgUnitIdentifier = $this->if->identifier('mm_adm_org_orgu');
-        $this->employeeTalkTemplateIdentifier = $this->if->identifier('mm_adm_org_etal');
     }
 
     public function getStaticTopItems(): array
@@ -56,7 +53,6 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
     public function getStaticSubItems(): array
     {
         $this->dic->language()->loadLanguageModule('mst');
-        $this->dic->language()->loadLanguageModule('etal');
 
         $items = [];
         $access_helper = BasicAccessCheckClosuresSingleton::getInstance();
@@ -84,27 +80,6 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
                                           })
                                       );
 
-        $title = $this->dic->language()->txt("mm_talk_template", "");
-        $action = "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . ilObjTalkTemplateAdministration::getRootRefId() . "&cmd=jump";
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('etal', $title);
-        $linkEmployeeTalkTemplates = $this->mainmenu->link($this->employeeTalkTemplateIdentifier)
-                                                    ->withAlwaysAvailable(true)
-                                                    ->withAction($action)
-                                                    ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('item_must_be_always_active')}"))
-                                                    ->withParent($this->organisationIdentifier)
-                                                    ->withTitle($title)
-                                                    ->withSymbol($icon)
-                                                    ->withPosition(20)
-                                                    ->withVisibilityCallable(
-                                                        $access_helper->hasAdministrationAccess(function (): bool {
-                                                            return $this->dic->access()->checkAccess(
-                                                                'read',
-                                                                '',
-                                                                ilObjOrgUnit::getRootOrgRefId()
-                                                            );
-                                                        })
-                                                    );
-
         $title = $this->dic->language()->txt("mm_organisation");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('org', $title);
         $items[] = $this->mainmenu->linkList($this->organisationIdentifier)
@@ -114,7 +89,7 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
                                   ->withTitle($title)
                                   ->withSymbol($icon)
                                   ->withPosition(70)
-                                  ->withLinks([$linkOrgUnit, $linkEmployeeTalkTemplates])
+                                  ->withLinks([$linkOrgUnit])
                                   ->withVisibilityCallable(
                                       $access_helper->hasAdministrationAccess(function (): bool {
                                           return $this->dic->access()->checkAccess(

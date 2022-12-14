@@ -1,5 +1,20 @@
 <?php
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 declare(strict_types=1);
 
 namespace ILIAS\MainMenu\Provider;
@@ -8,8 +23,6 @@ use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
-use ILIAS\MyStaff\ilMyStaffAccess;
-use ILIAS\MyStaff\ilMyStaffCachedAccessDecorator;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TopParentItemDrilldownRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
@@ -27,8 +40,6 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
     private BasicAccessCheckClosures $basic_access_helper;
 
     private IdentificationInterface $administration_identification;
-
-    private IdentificationInterface $organisation_identification;
 
     private IdentificationInterface $communication_identification;
 
@@ -64,7 +75,6 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $this->personal_workspace_identification = $this->if->identifier('personal_workspace');
         $this->achievements_identification = $this->if->identifier('achievements');
         $this->communication_identification = $this->if->identifier('communication');
-        $this->organisation_identification = $this->if->identifier('organisation');
         $this->administration_identification = $this->if->identifier('administration');
     }
 
@@ -132,28 +142,6 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             ->withTitle($title)
             ->withPosition(50);
 
-        $title = $f("mm_organisation");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("icon_orga.svg"), $title);
-
-        $organisation = $this->mainmenu->topParentItem($this->getOrganisationIdentification())
-            ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn(function (): bool {
-                return (new ilMyStaffCachedAccessDecorator(
-                    $this->dic,
-                    ilMyStaffAccess::getInstance()
-                ))->hasCurrentUserAccessToMyStaff();
-            }))
-            ->withSymbol($icon)
-            ->withTitle($title)
-            ->withPosition(60)
-            ->withAvailableCallable(
-                function (): bool {
-                    return (new ilMyStaffCachedAccessDecorator(
-                        $this->dic,
-                        ilMyStaffAccess::getInstance()
-                    ))->hasCurrentUserAccessToMyStaff();
-                }
-            );
-
         $title = $f("mm_administration");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("adm", $title);
 
@@ -177,7 +165,6 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             $personal_workspace,
             $achievements,
             $communication,
-            $organisation,
             $administration
         ];
     }
@@ -207,15 +194,6 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
     public function getAdministrationIdentification(): IdentificationInterface
     {
         return $this->administration_identification;
-    }
-
-
-    /**
-     * @return IdentificationInterface
-     */
-    public function getOrganisationIdentification(): IdentificationInterface
-    {
-        return $this->organisation_identification;
     }
 
 

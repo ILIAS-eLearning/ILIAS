@@ -22,14 +22,12 @@
  * @ilCtrl_Calls ilDashboardGUI: ilMailSearchGUI, ilContactGUI
  * @ilCtrl_Calls ilDashboardGUI: ilPersonalWorkspaceGUI, ilPersonalSettingsGUI
  * @ilCtrl_Calls ilDashboardGUI: ilPortfolioRepositoryGUI, ilObjChatroomGUI
- * @ilCtrl_Calls ilDashboardGUI: ilMyStaffGUI
  * @ilCtrl_Calls ilDashboardGUI: ilGroupUserActionsGUI, ilAchievementsGUI
  * @ilCtrl_Calls ilDashboardGUI: ilPDSelectedItemsBlockGUI, ilPDMembershipBlockGUI, ilPDMailBlockGUI, ilDashboardRecommendedContentGUI, ilStudyProgrammeDashboardViewGUI
  *
  */
 class ilDashboardGUI implements ilCtrlBaseClassInterface
 {
-    public const CMD_JUMP_TO_MY_STAFF = "jumpToMyStaff";
     public const DISENGAGE_MAINBAR = "dash_mb_disengage";
 
     protected ilCtrl $ctrl;
@@ -208,11 +206,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->forwardCommand($achievegui);
                 break;
 
-            case strtolower(ilMyStaffGUI::class):
-                $this->getStandardTemplates();
-                $mstgui = new ilMyStaffGUI();
-                $this->ctrl->forwardCommand($mstgui);
-                break;
             case 'ilgroupuseractionsgui':
                 $this->getStandardTemplates();
                 $this->setTabs();
@@ -468,11 +461,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         }
 
         $this->ctrl->redirectByClass("ilpersonalworkspacegui", $cmd);
-    }
-
-    protected function jumpToMyStaff(): void
-    {
-        $this->ctrl->redirectByClass(ilMyStaffGUI::class);
     }
 
     public function jumpToBadges(): void

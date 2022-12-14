@@ -72,17 +72,6 @@ class ilOrgUnitGlobalSettingsGUI
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'saveSettings'));
 
-        // My Staff
-        $section = new ilFormSectionHeaderGUI();
-        $section->setTitle($this->lng->txt('orgu_enable_my_staff'));
-        $form->addItem($section);
-
-        $item = new ilCheckboxInputGUI($this->lng->txt("orgu_enable_my_staff"), "enable_my_staff");
-        $item->setInfo($this->lng->txt("orgu_enable_my_staff_info"));
-        $item->setValue("1");
-        $item->setChecked(($DIC->settings()->get("enable_my_staff") ? true : false));
-        $form->addItem($item);
-
         // Positions in Modules
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt('orgu_global_set_positions'));
@@ -97,7 +86,7 @@ class ilOrgUnitGlobalSettingsGUI
             if ($objDefinition->isPlugin($object_type)) {
                 $label = ilObjectPlugin::lookupTxtById($object_type, 'objs_' . $object_type);
             } else {
-                $is_multi = !$objDefinition->isSystemObject($object_type) && $object_type != ilOrgUnitOperationContext::CONTEXT_ETAL;
+                $is_multi = !$objDefinition->isSystemObject($object_type);
                 $lang_prefix = $is_multi ? 'objs_' : 'obj_';
                 $label = $this->lng->txt($lang_prefix . $object_type);
             }
@@ -161,9 +150,6 @@ class ilOrgUnitGlobalSettingsGUI
                     . '_changeable'));
                 $obj_setting->update();
             }
-
-            // MyStaff
-            $DIC->settings()->set("enable_my_staff", (int) ($_POST["enable_my_staff"] ? 1 : 0));
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'settings');

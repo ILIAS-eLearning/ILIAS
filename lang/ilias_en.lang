@@ -3973,7 +3973,6 @@ common#:#error_empty_file_or_folder#:#The file size is 0 bytes or it is a folder
 common#:#error_extraction_failed#:#The extraction of the archive and its directories failed. Probably because you don’t have the permission to create folders or categories within this object.
 common#:#error_parser#:#Error starting the parser.
 common#:#error_upload_was_zero_bytes#:#The upload failed as this is a folder, the file size is 0 bytes or exceeded the max. upload size or the file was renamed meanwhile.
-common#:#etal_talks#:#Talks
 common#:#event_ass_materials_prop#:#Session Materials
 common#:#event_assign_files#:#File Assignment
 common#:#exc#:#Exercise
@@ -4839,7 +4838,6 @@ common#:#obj_dshs#:#Dashboard
 common#:#obj_dshs_desc#:#Dashboard settings
 common#:#obj_ecss#:#ECS
 common#:#obj_ecss_desc#:#General ECS Settings
-common#:#obj_etal#:#Employee Talk
 common#:#obj_exc#:#Exercise
 common#:#obj_exc_duplicate#:#Copy Exercise
 common#:#obj_excv#:#Exercise Certificate
@@ -5069,7 +5067,6 @@ common#:#objs_copa#:#Content Pages
 common#:#objs_crs#:#Courses
 common#:#objs_crsr#:#Course Link
 common#:#objs_dcl#:#Data Collections
-common#:#objs_etal#:#Employee Talks
 common#:#objs_exc#:#Exercises
 common#:#objs_file#:#Files
 common#:#objs_fold#:#Folders
@@ -5650,8 +5647,6 @@ common#:#tagging_my_tags#:#My Tags
 common#:#tags#:#Tags
 common#:#take_over_structure#:#Adopt Structure
 common#:#take_over_structure_info#:#If activated, directories in the zip file will be mapped to categories or, if used in groups or courses, to folders.
-common#:#tals_etal#:#Talk
-common#:#talt_etal#:#Talk
 common#:#target#:#Target
 common#:#tax#:#Taxonomy
 common#:#tax_add#:#Add Taxonomy
@@ -8931,41 +8926,6 @@ ecs#:#ecs_wiki_export_enabled#:#Release this Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Wiki Release Settings
 error#:#error_back_to_repository#:#Back to Repository
 error#:#error_sry_error#:#Sorry, an error occurred.
-etal#:#appointments#:#Appointments
-etal#:#cal_type_tals#:#Talks
-etal#:#change_date_of_series#:#Change date of talk series
-etal#:#change_date_of_talk#:#Change date of talk
-etal#:#date_of_talk#:#Start Date
-etal#:#etal_add#:#Add Talk
-etal#:#etal_add_new_item#:#Add new Talk
-etal#:#etal_date_appointment_edit#:#Date of Talk
-etal#:#etal_date_series_edit#:#Date of Talk Series
-etal#:#etal_edit#:#General
-etal#:#etal_new#:#New Talk
-etal#:#etal_open#:#Open Employee Talk
-etal#:#etal_status_all#:#All
-etal#:#etal_status_completed#:#Completed
-etal#:#etal_status_pending#:#Pending
-etal#:#etal_unknown_username#:#Unknown User
-etal#:#lock_edititng_for_others#:#Lock editing for others
-etal#:#meta_adv_records#:#Metadata
-etal#:#mm_org_etal#:#Talks
-etal#:#mm_talk_template#:#Talk Templates
-etal#:#notification_talks_created#:#You have been invited by %s to the following employee talks.
-etal#:#notification_talks_date_details#:#Appointment details
-etal#:#notification_talks_date_list_header#:#Dates
-etal#:#notification_talks_removed#:#The following appointments have been canceled by %s.
-etal#:#notification_talks_subject#:#Invitation
-etal#:#notification_talks_talk_title#:#Titel: %s
-etal#:#notification_talks_updated#:#The following talk appointments have been changed by %s.
-etal#:#talk_serial#:#Talk Serial
-etal#:#tals_add#:#Add Talks
-etal#:#tals_new#:#New Talks
-etal#:#talt_activation_online_info#:#Set the talk template online to make it visible and available for employees. If not, only administrators will have access to it.
-etal#:#talt_add#:#Add Template
-etal#:#talt_edit#:#General
-etal#:#talt_etal#:#Employee Talk
-etal#:#talt_new#:#New Talk Template
 exc#:#exc_add_assignment#:#Add Assignment
 exc#:#exc_add_criteria#:#Add Criteria
 exc#:#exc_add_criteria_catalogue#:#Add Catalogue

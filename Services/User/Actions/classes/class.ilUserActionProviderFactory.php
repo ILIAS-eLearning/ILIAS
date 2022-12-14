@@ -46,10 +46,6 @@ class ilUserActionProviderFactory
         array(
             "component" => "Modules/Group/UserActions",
             "class" => "ilGroupUserActionProvider"
-        ),
-        array(
-            "component" => "Modules/EmployeeTalk",
-            "class" => "EmployeeTalkUserActionProvider"
         )
     );
 

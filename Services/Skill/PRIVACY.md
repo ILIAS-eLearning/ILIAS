@@ -45,8 +45,7 @@ of these components**.
 - **Users may publish their personal competence achievements** in **portfolios**.
   The portfolio service controls the access to the portfolios including the competence
   data.
-- The **staff (MyStaff) service** presents competence achievement data for superiors,
-  too.
+
 
 ## Data being deleted
 

@@ -47,9 +47,6 @@ class ilCalendarAppointmentBaseFactory
                     case "exc":
                         return "Exercise";
 
-                    case "etal":
-                        return "EmployeeTalk";
-
                     default:
                         return "";
                 }

@@ -18,8 +18,6 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\Modules\EmployeeTalk\TalkSeries\Repository\IliasDBEmployeeTalkSeriesRepository;
-
 /**
  * class for calendar categories
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -546,14 +544,6 @@ class ilCalendarCategories
         if (!$a_container_only) {
             $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, ['crs']));
             $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, ['grp']));
-
-            $repository = new IliasDBEmployeeTalkSeriesRepository($this->user, $this->db);
-            $talks = $repository->findByOwnerAndEmployee();
-            $talkIds = array_map(function (ilObjEmployeeTalkSeries $item) {
-                return $item->getId();
-            }, $talks);
-
-            $this->readSelectedCategories($talkIds, 0, false);
         }
     }
 

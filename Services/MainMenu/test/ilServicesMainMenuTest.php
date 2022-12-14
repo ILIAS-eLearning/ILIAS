@@ -148,8 +148,8 @@ class ilServicesMainMenuTest extends TestCase
             $items
         );
 
-        $this->assertEquals(7, count($items)); // this contains Dashboard as well
-        $this->assertEquals(7, count($item_identifications));
+        $this->assertEquals(6, count($items)); // this contains Dashboard as well
+        $this->assertEquals(6, count($item_identifications));
 
         $repo = $standard_top_items->getRepositoryIdentification();
         $this->assertTrue(in_array($repo, $item_identifications));
@@ -161,9 +161,6 @@ class ilServicesMainMenuTest extends TestCase
         $this->assertTrue(in_array($achievments, $item_identifications));
 
         $communication = $standard_top_items->getCommunicationIdentification();
-        $this->assertTrue(in_array($communication, $item_identifications));
-
-        $organisation = $standard_top_items->getOrganisationIdentification();
         $this->assertTrue(in_array($communication, $item_identifications));
 
         $personal = $standard_top_items->getPersonalWorkspaceIdentification();
