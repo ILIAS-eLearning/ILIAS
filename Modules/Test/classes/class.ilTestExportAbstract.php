@@ -23,6 +23,9 @@ declare(strict_types=1);
  */
 abstract class ilTestExportAbstract
 {
+    protected ilTestEvaluationData $complete_data;
+    protected array $aggregated_data;
+    protected array $additionalFields;
     protected ilObjTest $test_obj;
     protected ilLanguage $lng;
     protected string $filterby;
@@ -31,17 +34,20 @@ abstract class ilTestExportAbstract
 
     public function __construct(
         ilObjTest $test_obj,
-        string $filterby = '',
+        string $filter_key_participants = ilTestEvaluationData::FILTER_BY_NONE,
         string $filtertext = '',
         bool $passedonly = false,
         ilLanguage $lng = null
     ) {
         global $DIC;
         $this->test_obj = $test_obj;
-        $this->filterby = $filterby;
+        $this->filterby = $filter_key_participants;
         $this->filtertext = $filtertext;
         $this->passedonly = $passedonly;
         $this->lng = $lng ?? $DIC->language();
+        $this->complete_data = $this->test_obj->getCompleteEvaluationData(true, $this->filterby, $this->filtertext);
+        $this->aggregated_data = $this->test_obj->getAggregatedResultsData();
+        $this->additionalFields = $this->test_obj->getEvaluationAdditionalFields();
     }
 
     abstract public function deliver(string $title): void;
@@ -53,27 +59,25 @@ abstract class ilTestExportAbstract
             $test_obj->buildStatisticsAccessFilteredParticipantList()
         );
 
-        $data = $test_obj->getCompleteEvaluationData(true, $this->filterby, $this->filtertext);
         $headerrow = $this->getHeaderRow($this->lng, $test_obj);
         $counter = 1;
         $rows = [];
-        foreach ($data->getParticipants() as $active_id => $userdata) {
+        foreach ($this->complete_data->getParticipants() as $active_id => $userdata) {
             $datarow = $headerrow;
             $remove = false;
-            if ($this->passedonly && !$data->getParticipant($active_id)->getPassed()) {
+            if ($this->passedonly && !$this->complete_data->getParticipant($active_id)->getPassed()) {
                 continue;
             }
             $datarow2 = [];
             if ($test_obj->getAnonymity()) {
                 $datarow2[] = $counter;
             } else {
-                $datarow2[] = $data->getParticipant($active_id)->getName();
-                $datarow2[] = $data->getParticipant($active_id)->getLogin();
+                $datarow2[] = $this->complete_data->getParticipant($active_id)->getName();
+                $datarow2[] = $this->complete_data->getParticipant($active_id)->getLogin();
             }
-            $additionalFields = $test_obj->getEvaluationAdditionalFields();
-            if (count($additionalFields)) {
+            if (count($this->additionalFields)) {
                 $userfields = ilObjUser::_lookupFields($userdata->getUserID());
-                foreach ($additionalFields as $fieldname) {
+                foreach ($this->additionalFields as $fieldname) {
                     if (strcmp($fieldname, "gender") === 0) {
                         $datarow2[] = $userfields[$fieldname] !== '' ? $this->lng->txt(
                             'gender_' . $userfields[$fieldname]
@@ -85,25 +89,25 @@ abstract class ilTestExportAbstract
                     }
                 }
             }
-            $datarow2[] = $data->getParticipant($active_id)->getReached();
-            $datarow2[] = $data->getParticipant($active_id)->getMaxpoints();
-            $datarow2[] = $data->getParticipant($active_id)->getMark();
+            $datarow2[] = $this->complete_data->getParticipant($active_id)->getReached();
+            $datarow2[] = $this->complete_data->getParticipant($active_id)->getMaxpoints();
+            $datarow2[] = $this->complete_data->getParticipant($active_id)->getMark();
             if ($test_obj->getECTSOutput()) {
-                $datarow2[] = $data->getParticipant($active_id)->getECTSMark();
+                $datarow2[] = $this->complete_data->getParticipant($active_id)->getECTSMark();
             }
-            $datarow2[] = $data->getParticipant($active_id)->getQuestionsWorkedThrough();
-            $datarow2[] = $data->getParticipant($active_id)->getNumberOfQuestions();
-            $datarow2[] = $data->getParticipant($active_id)->getQuestionsWorkedThroughInPercent() / 100.0;
-            $time = $data->getParticipant($active_id)->getTimeOfWork();
+            $datarow2[] = $this->complete_data->getParticipant($active_id)->getQuestionsWorkedThrough();
+            $datarow2[] = $this->complete_data->getParticipant($active_id)->getNumberOfQuestions();
+            $datarow2[] = $this->complete_data->getParticipant($active_id)->getQuestionsWorkedThroughInPercent() / 100.0;
+            $time = $this->complete_data->getParticipant($active_id)->getTimeOfWork();
             $time_seconds = $time;
             $time_hours = floor($time_seconds / 3600);
             $time_seconds -= $time_hours * 3600;
             $time_minutes = floor($time_seconds / 60);
             $time_seconds -= $time_minutes * 60;
             $datarow2[] = sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds);
-            $time = $data->getParticipant($active_id)->getQuestionsWorkedThrough() ? $data->getParticipant(
+            $time = $this->complete_data->getParticipant($active_id)->getQuestionsWorkedThrough() ? $this->complete_data->getParticipant(
                 $active_id
-            )->getTimeOfWork() / $data->getParticipant($active_id)->getQuestionsWorkedThrough() : 0;
+            )->getTimeOfWork() / $this->complete_data->getParticipant($active_id)->getQuestionsWorkedThrough() : 0;
             $time_seconds = $time;
             $time_hours = floor($time_seconds / 3600);
             $time_seconds -= $time_hours * 3600;
@@ -111,8 +115,8 @@ abstract class ilTestExportAbstract
             $time_seconds -= $time_minutes * 60;
             $datarow2[] = sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds);
 
-            $fv = $data->getParticipant($active_id)->getFirstVisit();
-            $lv = $data->getParticipant($active_id)->getLastVisit();
+            $fv = $this->complete_data->getParticipant($active_id)->getFirstVisit();
+            $lv = $this->complete_data->getParticipant($active_id)->getLastVisit();
             foreach ([$fv, $lv] as $ts) {
                 if ($ts) {
                     $visit = ilDatePresentation::formatDate(new ilDateTime($ts, IL_CAL_UNIX));
@@ -122,8 +126,8 @@ abstract class ilTestExportAbstract
                 }
             }
 
-            $median = $data->getStatistics()->getStatistics()->median();
-            $pct = $data->getParticipant($active_id)->getMaxpoints() ? $median / $data->getParticipant(
+            $median = $this->complete_data->getStatistics()->getStatistics()->median();
+            $pct = $this->complete_data->getParticipant($active_id)->getMaxpoints() ? $median / $this->complete_data->getParticipant(
                 $active_id
             )->getMaxpoints() * 100.0 : 0;
             $mark = $test_obj->mark_schema->getMatchingMark($pct);
@@ -132,21 +136,21 @@ abstract class ilTestExportAbstract
                 $mark_short_name = $mark->getShortName();
             }
             $datarow2[] = $mark_short_name;
-            $datarow2[] = $data->getStatistics()->getStatistics()->rank(
-                $data->getParticipant($active_id)->getReached()
+            $datarow2[] = $this->complete_data->getStatistics()->getStatistics()->rank(
+                $this->complete_data->getParticipant($active_id)->getReached()
             );
-            $datarow2[] = $data->getStatistics()->getStatistics()->rank_median();
-            $datarow2[] = $data->getStatistics()->getStatistics()->count();
+            $datarow2[] = $this->complete_data->getStatistics()->getStatistics()->rank_median();
+            $datarow2[] = $this->complete_data->getStatistics()->getStatistics()->count();
             $datarow2[] = $median;
 
-            $datarow2[] = $data->getParticipant($active_id)->getPassCount();
-            $datarow2[] = $data->getParticipant($active_id)->getFinishedPasses();
+            $datarow2[] = $this->complete_data->getParticipant($active_id)->getPassCount();
+            $datarow2[] = $this->complete_data->getParticipant($active_id)->getFinishedPasses();
             if ($test_obj->getPassScoring() === SCORE_BEST_PASS) {
-                $datarow2[] = $data->getParticipant($active_id)->getBestPass() + 1;
+                $datarow2[] = $this->complete_data->getParticipant($active_id)->getBestPass() + 1;
             } else {
-                $datarow2[] = $data->getParticipant($active_id)->getLastPass() + 1;
+                $datarow2[] = $this->complete_data->getParticipant($active_id)->getLastPass() + 1;
             }
-            for ($pass = 0; $pass <= $data->getParticipant($active_id)->getLastPass(); $pass++) {
+            for ($pass = 0; $pass <= $this->complete_data->getParticipant($active_id)->getLastPass(); $pass++) {
                 $finishdate = ilObjTest::lookupPassResultsUpdateTimestamp($active_id, $pass);
                 if ($finishdate > 0) {
                     if ($pass > 0) {
@@ -157,19 +161,19 @@ abstract class ilTestExportAbstract
                         $datarow[] = "";
                     }
                     $datarow2[] = $pass + 1;
-                    if (is_object($data->getParticipant($active_id)) && is_array(
-                        $evaluated_questions = $data->getParticipant($active_id)->getQuestions($pass)
+                    if (is_object($this->complete_data->getParticipant($active_id)) && is_array(
+                        $evaluated_questions = $this->complete_data->getParticipant($active_id)->getQuestions($pass)
                     )) {
                         $questions = $this->orderQuestions($evaluated_questions);
                         foreach ($questions as $question) {
-                            $question_data = $data->getParticipant($active_id)->getPass(
+                            $question_data = $this->complete_data->getParticipant($active_id)->getPass(
                                 $pass
                             )->getAnsweredQuestionByQuestionId($question["id"]);
                             if (is_null($question_data)) {
                                 $question_data = ['reached' => 0];
                             }
                             $datarow2[] = $question_data["reached"];
-                            $datarow[] = preg_replace("/<.*?>/", "", $data->getQuestionTitle($question["id"]));
+                            $datarow[] = preg_replace("/<.*?>/", "", $this->complete_data->getQuestionTitle($question["id"]));
                         }
                     }
                     if ($test_obj->isRandomTest() ||
@@ -195,9 +199,8 @@ abstract class ilTestExportAbstract
             $datarow[] = $lng->txt("name");
             $datarow[] = $lng->txt("login");
         }
-        $additionalFields = $test_obj->getEvaluationAdditionalFields();
-        if (count($additionalFields)) {
-            foreach ($additionalFields as $fieldname) {
+        if (count($this->additionalFields)) {
+            foreach ($this->additionalFields as $fieldname) {
                 if (strcmp($fieldname, "exam_id") === 0) {
                     $datarow[] = $lng->txt('exam_id_label');
                     continue;

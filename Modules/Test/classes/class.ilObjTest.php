@@ -9480,9 +9480,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $participantList = new ilTestParticipantList($this);
         $participantList->initializeFromDbRows($this->getTestParticipants());
 
-        $worksheet = (new ilExcelTestExport($this, 'active_id', $active_id, $passedonly = false, true))
+        $worksheet = (new ilExcelTestExport($this, ilTestEvaluationData::FILTER_BY_ACTIVE_ID, $active_id, $passedonly = false, true))
             ->withResultsPage()
             ->withAllUsersPage()
+            ->withAllUsersPage2()
             ->withUserPages()
             ->getContent();
         $file = ilFileUtils::ilTempnam();

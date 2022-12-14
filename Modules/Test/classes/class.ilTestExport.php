@@ -209,14 +209,15 @@ abstract class ilTestExport
         $expLog->setLogFormat("");
         $expLog->write(date("[y-m-d H:i:s] ") . "Start Export Of Results");
 
-        $data = (new ilCSVTestExport($this->test_obj, '', '', false))->withAllResults()->getContent();
+        $data = (new ilCSVTestExport($this->test_obj, ilTestEvaluationData::FILTER_BY_NONE, '', false))->withAllResults()->getContent();
         $file = fopen($this->export_dir . "/" . $this->filename, "wb");
         fwrite($file, $data);
         fclose($file);
 
-        $worksheet = (new ilExcelTestExport($this->test_obj, '', '', true, false))
+        $worksheet = (new ilExcelTestExport($this->test_obj, ilTestEvaluationData::FILTER_BY_NONE, '', true, false))
             ->withResultsPage()
             ->withAllUsersPage()
+            ->withAllUsersPage2()
             ->withUserPages()
             ->getContent();
         $worksheet->writeToFile($this->export_dir . "/" . str_replace($this->getExtension(), "xlsx", $this->filename));

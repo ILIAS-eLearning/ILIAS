@@ -710,7 +710,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     public function exportEvaluation()
     {
-        $filterby = "";
+        $filterby = ilTestEvaluationData::FILTER_BY_NONE;
         if ($this->testrequest->isset("g_filterby")) {
             $filterby = $this->testrequest->raw("g_filterby");
         }
@@ -734,6 +734,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 (new ilExcelTestExport($this->object, $filterby, $filtertext, $passedonly, true))
                     ->withResultsPage()
                     ->withAllUsersPage()
+                    ->withAllUsersPage2()
                     ->withUserPages()
                     ->deliver($this->object->getTitle() . '_results');
                 break;
@@ -746,10 +747,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
             case "excel_all_test_runs":
                 (new ilExcelTestExport($this->object, $filterby, $filtertext, $passedonly, false))
-                ->withResultsPage()
-                ->withAllUsersPage()
-                ->withUserPages()
-                ->deliver($this->object->getTitle() . '_results');
+                    ->withResultsPage()
+                    ->withAllUsersPage()
+                    ->withAllUsersPage2()
+                    ->withUserPages()
+                    ->deliver($this->object->getTitle() . '_results');
                 break;
             case "certificate":
                 if ($passedonly) {
@@ -770,12 +772,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         switch ($_POST["export_type"]) {
             case "excel":
-                (new ilExcelTestExport($this->object, '', '', false, true))
+                (new ilExcelTestExport($this->object, ilTestEvaluationData::FILTER_BY_NONE, '', false, true))
                     ->withAggregatedResultsPage()
                     ->deliver($this->object->getTitle() . '_aggregated');
                 break;
             case "csv":
-                (new ilCSVTestExport($this->object, '', '', false))
+                (new ilCSVTestExport($this->object, ilTestEvaluationData::FILTER_BY_NONE, '', false))
                     ->withAggregatedResults()
                     ->deliver($this->object->getTitle() . '_aggregated');
                 break;
