@@ -3290,13 +3290,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $threadContentTemplate->parseCurrentBlock();
         }
 
-        if ($bottom_toolbar_split_button_items !== []) {
-            foreach ($bottom_toolbar_split_button_items as $item) {
-                $this->toolbar->addText($this->uiRenderer->render($item));
-                $bottom_toolbar->addText($this->uiRenderer->render($item));
-            }
-        }
-
         $to_top_button = ilLinkButton::getInstance();
         $to_top_button->setCaption('top_of_page');
         $to_top_button->setUrl('#frm_page_top');
@@ -3305,9 +3298,17 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $threadContentTemplate->setVariable('TOOLBAR_BOTTOM', $bottom_toolbar->getHTML());
         }
 
-        $this->renderViewModeControl($this->selectedSorting);
-        if ($this->selectedSorting !== ilForumProperties::VIEW_TREE) {
-            $this->renderSortationControl($this->selectedSorting);
+        if ($bottom_toolbar_split_button_items !== []) {
+            foreach ($bottom_toolbar_split_button_items as $key => $item) {
+                $this->toolbar->addComponent($item);
+                $bottom_toolbar->addComponent($item);
+                if ($key === 0) {
+                    $this->renderViewModeControl($this->selectedSorting);
+                    if ($this->selectedSorting !== ilForumProperties::VIEW_TREE) {
+                        $this->renderSortationControl($this->selectedSorting);
+                    }
+                }
+            }
         }
 
         $this->tpl->setPermanentLink(
