@@ -139,6 +139,14 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
                     elseif (method_exists($this->items[$id], "setDate")) {
                         $this->items[$id]->setDate($value);
                     }
+                    // duration
+                    elseif (method_exists($this->items[$id], "setMonths")) {
+                        $this->items[$id]->setMonths((int) ($value['MM'] ?? 0));
+                        $this->items[$id]->setDays((int) ($value['dd'] ?? 0));
+                        $this->items[$id]->setHours((int) ($value['hh'] ?? 0));
+                        $this->items[$id]->setMinutes((int) ($value['mm'] ?? 0));
+                        $this->items[$id]->setSeconds((int) ($value['ss'] ?? 0));
+                    }
                 }
             }
         } elseif ($a_value === null) {
@@ -172,6 +180,10 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
             // datetime
             elseif (method_exists($obj, "setDate")) {
                 $result[$id] = $obj->getDate();
+            }
+            // duration
+            elseif (method_exists($obj, 'getValueAsArray')) {
+                $result[$id] = $obj->getValueAsArray();
             }
         }
         return $result;
