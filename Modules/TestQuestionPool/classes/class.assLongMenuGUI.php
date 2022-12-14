@@ -525,13 +525,11 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             $tpl->setVariable('DISABLED', 'disabled');
             $tpl->setVariable('JS_IGNORE', '_ignore');
             if ($graphical) {
+                $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK);
                 if ($ok) {
-                    $tpl->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
-                    $tpl->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
-                } else {
-                    $tpl->setVariable("ICON_OK", ilUtil::getImagePath("icon_not_ok.svg"));
-                    $tpl->setVariable("TEXT_OK", $this->lng->txt("answer_is_wrong"));
+                    $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_OK);
                 }
+                $tpl->setVariable("ICON_OK", $correctness_icon);
             }
         }
         $tpl->setVariable('VALUE', $value);
@@ -554,13 +552,11 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
                 $tpl->setVariable('SOLUTION', $user_value);
             }
             if ($graphical) {
+                $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK);
                 if ($ok) {
-                    $tpl->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
-                    $tpl->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
-                } else {
-                    $tpl->setVariable("ICON_OK", ilUtil::getImagePath("icon_not_ok.svg"));
-                    $tpl->setVariable("TEXT_OK", $this->lng->txt("answer_is_wrong"));
+                    $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_OK);
                 }
+                $tpl->setVariable("ICON_OK", $correctness_icon);
             }
             $tpl->parseCurrentBlock();
         } else {

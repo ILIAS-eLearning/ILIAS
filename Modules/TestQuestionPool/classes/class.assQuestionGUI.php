@@ -40,6 +40,10 @@ abstract class assQuestionGUI
         'suggestedsolution'
         ];
 
+    public const CORRECTNESS_NOT_OK = 0;
+    public const CORRECTNESS_MOSTLY_OK = 1;
+    public const CORRECTNESS_OK = 2;
+
     protected const HAS_SPECIAL_QUESTION_COMMANDS = false;
 
     public const SESSION_PREVIEW_DATA_BASE_INDEX = 'ilAssQuestionPreviewAnswers';
@@ -1987,6 +1991,33 @@ abstract class assQuestionGUI
 
     public function saveCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
+    }
+
+
+    protected function generateCorrectnessIconsForCorrectness(int $correctness): string
+    {
+        switch ($correctness) {
+            case self::CORRECTNESS_NOT_OK:
+                $icon_name = 'icon_not_ok.svg';
+                $label = $this->lng->txt("answer_is_wrong");
+                break;
+            case self::CORRECTNESS_MOSTLY_OK:
+                $icon_name = 'icon_ok.svg';
+                $label = $this->lng->txt("answer_is_not_correct_but_positive");
+                break;
+            case self::CORRECTNESS_OK:
+                $icon_name = 'icon_ok.svg';
+                $label = $this->lng->txt("answer_is_right");
+                break;
+            default:
+                return '';
+        }
+        $path = ilUtil::getImagePath($icon_name);
+        $icon = $this->ui->factory()->symbol()->icon()->custom(
+            $path,
+            $label
+        );
+        return $this->ui->renderer()->render($icon);
     }
 
     /**

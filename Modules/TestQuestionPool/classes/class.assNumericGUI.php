@@ -200,18 +200,14 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
                     } else {
                         $reached_points = $this->object->calculateReachedPoints($active_id, $pass);
                     }
-                    // output of ok/not ok icons for user entered solutions
+
+                    $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK);
                     if ($reached_points == $this->object->getMaximumPoints()) {
-                        $template->setCurrentBlock("icon_ok");
-                        $template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
-                        $template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
-                        $template->parseCurrentBlock();
-                    } else {
-                        $template->setCurrentBlock("icon_ok");
-                        $template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
-                        $template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
-                        $template->parseCurrentBlock();
+                        $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_OK);
                     }
+                    $template->setCurrentBlock("icon_ok");
+                    $template->setVariable("ICON_OK", $correctness_icon);
+                    $template->parseCurrentBlock();
                 }
             }
             foreach ($solutions as $solution) {

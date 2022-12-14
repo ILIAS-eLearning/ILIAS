@@ -261,28 +261,21 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     }
                     if ($checked) {
                         if ($answer->getPointsChecked() > $answer->getPointsUnchecked()) {
-                            $ok = true;
+                            $ok = self::CORRECTNESS_OK;
                         } else {
-                            $ok = false;
+                            $ok = self::CORRECTNESS_NOT_OK;
                         }
                     } else {
                         if ($answer->getPointsChecked() > $answer->getPointsUnchecked()) {
-                            $ok = false;
+                            $ok = self::CORRECTNESS_NOT_OK;
                         } else {
-                            $ok = true;
+                            $ok = self::CORRECTNESS_OK;
                         }
                     }
-                    if ($ok) {
-                        $template->setCurrentBlock("icon_ok");
-                        $template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
-                        $template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
-                        $template->parseCurrentBlock();
-                    } else {
-                        $template->setCurrentBlock("icon_ok");
-                        $template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
-                        $template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
-                        $template->parseCurrentBlock();
-                    }
+                    $icon = $this->generateCorrectnessIconsForCorrectness($ok);
+                    $template->setCurrentBlock("icon_ok");
+                    $template->setVariable("ICON_OK", $icon);
+                    $template->parseCurrentBlock();
                 }
             }
             if (strlen($answer->getImage())) {
