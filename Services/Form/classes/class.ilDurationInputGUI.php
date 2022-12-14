@@ -373,4 +373,18 @@ class ilDurationInputGUI extends ilFormPropertyGUI
         }
         return $value;
     }
+
+    /**
+     * @return array{MM: int, dd: int, hh: int, mm: int, ss: int}
+     */
+    public function getValueAsArray(): array
+    {
+        return [
+            'MM' => $this->getMonths(),
+            'dd' => $this->getDays(),
+            'hh' => $this->getHours(),
+            'mm' => $this->getMinutes(),
+            'ss' => $this->getSeconds()
+        ];
+    }
 }
