@@ -833,7 +833,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             $worksheet->setStringEscaping(false);
         }
 
-        if (strlen($solutions[0]["value1"])) {
+        if (array_key_exists(0, $solutions) && strlen($solutions[0]["value1"])) {
             $worksheet->setCell($startrow + $i, 1, html_entity_decode($solutions[0]["value1"]));
         }
         $i++;
@@ -1003,7 +1003,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             while ($row = $ilDB->fetchAssoc($result)) {
                 $next_id = $ilDB->nextId('qpl_a_essay');
                 $affectedRows = $ilDB->manipulateF(
-                    "INSERT INTO qpl_a_essay (answer_id, question_fi, answertext, points) 
+                    "INSERT INTO qpl_a_essay (answer_id, question_fi, answertext, points)
 					 VALUES (%s, %s, %s, %s)",
                     array('integer','integer','text','float'),
                     array($next_id, $this->getId(), $row["answertext"], $row["points"])
@@ -1110,7 +1110,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $cntresult = $this->db->query(
             '
             SELECT count(solution_id) cnt
-            FROM tst_solutions 
+            FROM tst_solutions
             WHERE active_fi = ' . $this->db->quote($active_id, 'int') . '
             AND question_fi = ' . $this->db->quote($this->getId(), 'int') . '
             AND authorized = ' . $this->db->quote(0, 'int')
@@ -1120,7 +1120,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             $tresult = $this->db->query(
                 '
             SELECT value1
-            FROM tst_solutions 
+            FROM tst_solutions
             WHERE active_fi = ' . $this->db->quote($active_id, 'int') . '
             AND question_fi = ' . $this->db->quote($this->getId(), 'int') . '
             AND authorized = ' . $this->db->quote(0, 'int')
