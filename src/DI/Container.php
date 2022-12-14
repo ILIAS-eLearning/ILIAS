@@ -21,6 +21,7 @@ namespace ILIAS\DI;
 use ILIAS\BackgroundTasks\BackgroundTaskServices;
 use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\Filesystem\Util\Archive\LegacyArchives;
+use ILIAS\Cache\Services;
 use ILIAS\Repository;
 use ILIAS\Skill\Service\SkillService;
 
@@ -40,6 +41,11 @@ class Container extends \Pimple\Container
     public function database(): \ilDBInterface
     {
         return $this["ilDB"];
+    }
+
+    public function globalCache(): Services
+    {
+        return $this["global_cache"];
     }
 
     /**
