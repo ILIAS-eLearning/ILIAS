@@ -27,6 +27,7 @@ use PHPUnit\Framework\TestCase;
 final class RootFolderTest extends TestCase
 {
     private const ALLOWED_ROOT_FOLDER_FILES = [
+        '.babelrc.json',
         '.eslintrc.json',
         '.gitignore',
         '.htaccess',
