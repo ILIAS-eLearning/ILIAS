@@ -44,3 +44,6 @@ in terms of points or relevance. This is not a static flag but a result of query
 * The query whether there are relevant progresses (canBeRemoved) should go into the repo and 
   target progresses(-count) directly.
 
+# ilPRGAssignmentDBRepository
+ilStudyProgrammeAppEventListener::onServiceUserDeleteUser reads assignments 
+only to delete them. Delete immediadetely.

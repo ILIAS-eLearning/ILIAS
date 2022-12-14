@@ -33,7 +33,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         'prg_assign_date' => 'assign_date',
         'prg_assigned_by' => 'assigned_by',
         'prg_deadline' => 'deadline',
-        'prg_expiry_date' => 'expiry_date'
+        'prg_expiry_date' => 'expiry_date',
+        'pgs_id' => 'prgrs_id'
     ];
 
     protected Data\Factory $data_factory;

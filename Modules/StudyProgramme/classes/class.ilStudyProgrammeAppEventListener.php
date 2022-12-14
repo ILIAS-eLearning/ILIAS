@@ -162,13 +162,11 @@ class ilStudyProgrammeAppEventListener
 
     private static function onServiceUserDeleteUser(array $parameter): void
     {
-        $assignments = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB']
-            ->getInstancesOfUser((int) $parameter["usr_id"])
-        ;
+        $repo = ilStudyProgrammeDIC::dic()['repo.assignment'];
+        $assignments = $repo->getForUser((int) $parameter["usr_id"]);
 
         foreach ($assignments as $ass) {
-            $prg = ilObjStudyProgramme::getInstanceByObjId($ass->getRootId());
-            $prg->removeAssignment($ass);
+            $repo->delete($ass);
         }
     }
 
