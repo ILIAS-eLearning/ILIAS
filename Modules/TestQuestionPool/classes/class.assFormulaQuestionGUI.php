@@ -907,7 +907,11 @@ class assFormulaQuestionGUI extends assQuestionGUI
         }
 
         $template = new ilTemplate("tpl.il_as_qpl_formulaquestion_output_solution.html", true, true, 'Modules/TestQuestionPool');
-        $questiontext = $this->object->substituteVariables($user_solution, $graphicalOutput, true, $result_output);
+        $correctness_icons = [
+            'correct' => $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_OK),
+            'not_correct' => $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK)
+        ];
+        $questiontext = $this->object->substituteVariables($user_solution, $graphicalOutput, true, $result_output, $correctness_icons);
 
         $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
         $questionoutput = $template->get();

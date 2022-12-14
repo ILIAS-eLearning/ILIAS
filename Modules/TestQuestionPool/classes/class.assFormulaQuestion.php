@@ -260,14 +260,11 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
     }
 
     /**
-     * @param array $userdata
-     * @param bool $graphicalOutput
-     * @param bool $forsolution
-     * @param bool $result_output
-     * @param ilAssQuestionPreviewSession|null $previewSession
+     * @param int[] $selections
+     * @param string[] $correctness_icons
      * @return bool|mixed|string
      */
-    public function substituteVariables(array $userdata, $graphicalOutput = false, $forsolution = false, $result_output = false)
+    public function substituteVariables(array $userdata, bool $graphicalOutput = false, bool $forsolution = false, bool $result_output = false, array $correctness_icons = [])
     {
         if ((count($this->results) == 0) && (count($this->variables) == 0)) {
             return false;
@@ -402,17 +399,14 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 
                     $template = new ilTemplate("tpl.il_as_qpl_formulaquestion_output_solution_image.html", true, true, 'Modules/TestQuestionPool');
 
+                    $correctness_icon = $correctness_icons['not_correct'];
                     if ($resObj->isCorrect($this->getVariables(), $this->getResults(), $user_value, $resunit)) {
-                        $template->setCurrentBlock("icon_ok");
-                        $template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
-                        $template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
-                        $template->parseCurrentBlock();
-                    } else {
-                        $template->setCurrentBlock("icon_not_ok");
-                        $template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
-                        $template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
-                        $template->parseCurrentBlock();
+                        $correctness_icon = $correctness_icons['correct'];
                     }
+                    $template->setCurrentBlock("icon_ok");
+                    $template->setVariable("ICON_OK", $correctness_icon);
+                    $template->parseCurrentBlock();
+
                     $checkSign = $template->get();
                 }
                 $resultOutput = "";

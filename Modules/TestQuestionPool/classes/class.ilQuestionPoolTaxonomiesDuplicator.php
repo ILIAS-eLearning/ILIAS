@@ -124,8 +124,8 @@ class ilQuestionPoolTaxonomiesDuplicator
 
         $poolTaxonomy->cloneNodes(
             $testTaxonomy,
-            $testTaxonomy->getTree()->readRootId(),
-            $poolTaxonomy->getTree()->readRootId()
+            (string) $testTaxonomy->getTree()->readRootId(),
+            (string) $poolTaxonomy->getTree()->readRootId()
         );
 
         $testTaxonomy->update();

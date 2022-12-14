@@ -300,7 +300,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         $prevIndent = 0;
 
         foreach ($values as $counter => $value) {
-            $identifier = $keys[$counter];
+            $identifier = str_replace(assOrderingQuestionGUI::F_NESTED_IDENTIFIER_PREFIX, '', $keys[$counter]);
 
             if ($this->isNestingEnabled()) {
                 $curIndent = $this->getCurrentIndentation($values, $counter);
