@@ -28,7 +28,7 @@ abstract class ilTestExportAbstract
     protected array $additionalFields;
     protected ilObjTest $test_obj;
     protected ilLanguage $lng;
-    protected string $filterby;
+    protected string $filter_key_participants;
     protected string $filtertext;
     protected bool $passedonly;
 
@@ -41,11 +41,11 @@ abstract class ilTestExportAbstract
     ) {
         global $DIC;
         $this->test_obj = $test_obj;
-        $this->filterby = $filter_key_participants;
+        $this->filter_key_participants = $filter_key_participants;
         $this->filtertext = $filtertext;
         $this->passedonly = $passedonly;
         $this->lng = $lng ?? $DIC->language();
-        $this->complete_data = $this->test_obj->getCompleteEvaluationData(true, $this->filterby, $this->filtertext);
+        $this->complete_data = $this->test_obj->getCompleteEvaluationData(true, $this->filter_key_participants, $this->filtertext);
         $this->aggregated_data = $this->test_obj->getAggregatedResultsData();
         $this->additionalFields = $this->test_obj->getEvaluationAdditionalFields();
     }
