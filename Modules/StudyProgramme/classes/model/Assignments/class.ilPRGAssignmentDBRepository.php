@@ -585,10 +585,34 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
         return $pgs;
     }
 
+
+    /**
+     * @deprecated; fix ilObjUser::lookupOrgUnitsRepresentation
+     */
+    protected function interimOrguLookup(int $usr_id): string
+    {
+        $orgu_repo = OrgUnit\Positions\UserAssignment\ilOrgUnitUserAssignmentRepository::getInstance();
+        $orgus = array_values($orgu_repo->findAllUserAssingmentsByUserIds([$usr_id]));
+        if ($orgus) {
+            $orgu_ref_ids =  array_map(
+                fn ($orgu_assignment) => $orgu_assignment->getOrguId(),
+                $orgus[0]
+            );
+            $orgus = array_map(
+                fn ($orgu_ref_id) => ilObject::_lookupTitle(ilObject::_lookupObjId($orgu_ref_id)),
+                $orgu_ref_ids
+            );
+        }
+        return implode(', ', $orgus);
+    }
+
     protected function buildUserInformation(array $row): ilPRGUserInformation
     {
         $udf_data = new ilUserDefinedData((int) $row[self::ASSIGNMENT_FIELD_USR_ID]);
         $orgu_repr = ilObjUser::lookupOrgUnitsRepresentation((int) $row[self::ASSIGNMENT_FIELD_USR_ID]);
+
+        $orgu_repr = $this->interimOrguLookup((int) $row[self::ASSIGNMENT_FIELD_USR_ID]);
+
         return new ilPRGUserInformation(
             $udf_data,
             $orgu_repr,
