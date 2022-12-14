@@ -2555,7 +2555,7 @@ abstract class assQuestion
      * @param integer $active_id
      * @param integer $pass
      */
-    final public function adjustReachedPointsByScoringOptions($points, $active_id, $pass = null): int
+    final public function adjustReachedPointsByScoringOptions($points, $active_id, $pass = null): float
     {
         $count_system = ilObjTest::_getCountSystem($active_id);
         if ($count_system == 1) {
