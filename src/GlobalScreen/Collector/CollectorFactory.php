@@ -26,6 +26,7 @@ use ILIAS\GlobalScreen\Scope\Layout\Collector\MainLayoutCollector;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\MetaBarMainCollector;
 use ILIAS\GlobalScreen\Scope\Notification\Collector\MainNotificationCollector;
+use ILIAS\GlobalScreen\Scope\Toast\Collector\ToastCollector;
 use ILIAS\GlobalScreen\Scope\Tool\Collector\MainToolCollector;
 use ILIAS\GlobalScreen\SingletonTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
@@ -99,5 +100,10 @@ class CollectorFactory
     public function notifications(): MainNotificationCollector
     {
         return $this->getWithArgument(MainNotificationCollector::class, $this->provider_factory->getNotificationsProvider());
+    }
+
+    public function toasts(): ToastCollector
+    {
+        return $this->getWithArgument(ToastCollector::class, $this->provider_factory->getToastsProvider());
     }
 }
