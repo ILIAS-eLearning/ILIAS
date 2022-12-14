@@ -470,7 +470,9 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 
         $solutionvalue = "";
         $solutions = $this->getSolutionValues($active_id, $pass);
-        $solutionvalue = str_replace("{::}", " ", $solutions[0]["value1"]);
+        if (array_key_exists(0, $solutions)) {
+            $solutionvalue = str_replace("{::}", " ", $solutions[0]["value1"]);
+        }
         $i = 1;
         $worksheet->setCell($startrow + $i, 0, $solutionvalue);
         $i++;
