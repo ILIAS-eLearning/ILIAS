@@ -404,7 +404,7 @@ class ilTestServiceGUI
                         $show_best_solution = $this->isContextResultPresentation() && $show_solutions;
                         $show_graphical_output = $this->isContextResultPresentation();
 
-                        if ($show_best_solutions) {
+                        if ($show_best_solution) {
                             $compare_template = new ilTemplate('tpl.il_as_tst_answers_compare.html', true, true, 'Modules/Test');
                             $compare_template->setVariable("HEADER_PARTICIPANT", $this->lng->txt('tst_header_participant'));
                             $compare_template->setVariable("HEADER_SOLUTION", $this->lng->txt('tst_header_solution'));
