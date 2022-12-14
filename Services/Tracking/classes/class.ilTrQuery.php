@@ -1099,6 +1099,10 @@ class ilTrQuery
      */
     protected static function filterOutUsersWithoutData(array $user_ids): array
     {
+        if (ilObjUser::userExists($user_ids)) {
+            return $user_ids;
+        }
+
         $res = [];
         foreach ($user_ids as $user_id) {
             if (ilObjUser::userExists([$user_id])) {
