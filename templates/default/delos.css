@@ -14046,6 +14046,7 @@ a.il_ItemProperty:link, a.il_ItemProperty:visited {
 
 a.il_ItemProperty:hover {
   color: black;
+  text-decoration: underline;
 }
 
 /* Table Links */
