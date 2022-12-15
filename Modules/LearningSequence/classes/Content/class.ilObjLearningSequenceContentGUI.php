@@ -184,7 +184,7 @@ class ilObjLearningSequenceContentGUI
             $condition_type = $this->getFieldName(self::FIELD_POSTCONDITION_TYPE, $ref_id);
 
             $condition_type = $this->post_wrapper->retrieve($condition_type, $r->kindlyTo()->string());
-            $online = $this->post_wrapper->retrieve($online, $r->byTrying([$r->kindlyTo()->bool(), $r->always(true)]));
+            $online = $this->post_wrapper->retrieve($online, $r->byTrying([$r->kindlyTo()->bool(), $r->always(false)]));
             $order = $this->post_wrapper->retrieve($order, $r->kindlyTo()->int());
 
             $condition = $lsitem->getPostCondition()
