@@ -198,8 +198,8 @@ class ilPrgRestartAssignmentsCronJobTest extends TestCase
 
         $this->assertEquals(2, count($job->logs));
         $expected_events = [
-            ['userReAssigned', ["usr_id" => 7, "root_prg_ref_id" => 666]],
-            ['userReAssigned', ["usr_id" => 8, "root_prg_ref_id" => 666]],
+            ['userReAssigned', ["ass_id" => 42]],
+            ['userReAssigned', ["ass_id" => 43]],
         ];
         $this->assertEquals($expected_events, $this->events->raised);
     }

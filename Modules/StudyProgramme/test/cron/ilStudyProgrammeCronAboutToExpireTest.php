@@ -144,8 +144,8 @@ class ilStudyProgrammeCronAboutToExpireTest extends TestCase
 
         $this->assertEquals(2, count($job->logs));
         $expected_events = [
-            ['informUserToRestart', ["usr_id" => 7, "ass_id" => 42, 'progress_id' => 11]],
-            ['informUserToRestart', ["usr_id" => 8, "ass_id" => 43, 'progress_id' => 11]],
+            ['informUserToRestart', ["ass_id" => 42]],
+            ['informUserToRestart', ["ass_id" => 43]],
         ];
         $this->assertEquals($expected_events, $this->events->raised);
     }

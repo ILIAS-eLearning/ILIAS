@@ -52,8 +52,7 @@ class ilStudyProgrammeEvents
         $this->raise(
             "userReAssigned",
             [
-                "root_prg_ref_id" => $this->getRefIdFor($assignment->getRootId()),
-                "usr_id" => $assignment->getUserId()
+                "ass_id" => $assignment->getId()
             ]
         );
     }
@@ -96,8 +95,6 @@ class ilStudyProgrammeEvents
         $this->raise(
             'informUserToRestart',
             [
-                "usr_id" => (int) $assignment->getUserId(),
-                "progress_id" => (int) $assignment->getRootId(),
                 "ass_id" => (int) $assignment->getId()
             ]
         );
@@ -108,8 +105,7 @@ class ilStudyProgrammeEvents
         $this->raise(
             "userRiskyToFail",
             [
-                "progress_id" => $assignment->getRootId(),
-                "usr_id" => $assignment->getUserId()
+                "ass_id" => (int) $assignment->getId()
             ]
         );
     }

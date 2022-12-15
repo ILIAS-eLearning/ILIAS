@@ -620,7 +620,9 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
             (string) $row['lastname'],
             (string) $row['login'],
             (bool) $row['active'],
-            (string) $row['email']
+            (string) $row['email'],
+            (string) $row['gender'],
+            (string) $row['title']
         );
     }
 
