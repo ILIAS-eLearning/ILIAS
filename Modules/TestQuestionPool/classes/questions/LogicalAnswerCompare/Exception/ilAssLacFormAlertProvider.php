@@ -24,5 +24,10 @@
  */
 interface ilAssLacFormAlertProvider
 {
+    /**
+     * Obtain a human-readable message to be displayed in a form alert. If the
+     * alert is raised as a result of an error, the message should explain what
+     * went wrong.
+     */
     public function getFormAlert(ilLanguage $lng);
 }
