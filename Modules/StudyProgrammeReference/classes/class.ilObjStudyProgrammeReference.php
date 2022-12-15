@@ -41,7 +41,7 @@ class ilObjStudyProgrammeReference extends ilContainerReference
 
         if (ilObject::_lookupType($a_parent_ref, true) == "prg") {
             $par = ilObjStudyProgramme::getInstanceByRefId($a_parent_ref);
-            $par->nodeInserted($this->getReferencedObject());
+            $par->nodeInserted($this);
         }
     }
 
