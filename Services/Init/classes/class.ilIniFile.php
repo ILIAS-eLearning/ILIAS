@@ -101,12 +101,22 @@ class ilIniFile
      */
     public function parse(): bool
     {
-        //use php4 function parse_ini_file
-        $this->GROUPS = parse_ini_file($this->INI_FILE_NAME, true);
-        if (!$this->GROUPS) {
-            $this->error("file_not_accessible");
+        try {
+            $ini_file_readable= is_readable($this->INI_FILE_NAME);
+            if (!$ini_file_readable) {
+                $this->error("file_not_accessible");
+                return false;
+            }
+            $this->GROUPS = parse_ini_file($this->INI_FILE_NAME, true);
+            if (!$this->GROUPS) {
+                $this->error("error_parseing_inifile");
+                return false;
+            }
+        } catch (Exception $e) {
+            $this->error($e->getMessage());
             return false;
         }
+
 
         //set current group
         $temp = array_keys($this->GROUPS);
