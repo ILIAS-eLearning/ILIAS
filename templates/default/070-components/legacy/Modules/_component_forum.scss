@@ -246,3 +246,11 @@ li.ilPostingNeedsActivation {
 .ilForumDraftHistoryEntry {
 	padding: 5px;
 }
+
+.ilForumInlineCommandContainer {
+	display: flex;
+}
+
+.ilForumInlineCommandContainer > div {
+	margin-left: 10px;
+}
