@@ -51,7 +51,9 @@ class ilStudyProgrammeAssignmentActionsTest extends \PHPUnit\Framework\TestCase
             'lasttname',
             'login',
             true,
-            'f.lastname@example.com'
+            'f.lastname@example.com',
+            'f',
+            'Prof. Dr.',
         );
 
         $this->ass = (new ilPRGAssignment(42, 7))
