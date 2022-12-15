@@ -28,7 +28,9 @@ class ilPRGUserInformation
         'lastname',
         'login',
         'active',
-        'email'
+        'email',
+        'gender',
+        'title',
     ];
 
     protected ilUserDefinedData $udf;
@@ -38,6 +40,8 @@ class ilPRGUserInformation
     protected bool $active;
     protected string $login;
     protected string $email;
+    protected string $gender;
+    protected string $title;
 
     public function __construct(
         ilUserDefinedData $udf,
@@ -46,7 +50,9 @@ class ilPRGUserInformation
         string $lastname,
         string $login,
         bool $active,
-        string $email
+        string $email,
+        string $gender,
+        string $title
     ) {
         $this->udf = $udf;
         $this->orgu_repr = $orgu_repr;
@@ -55,6 +61,8 @@ class ilPRGUserInformation
         $this->active = $active;
         $this->login = $login;
         $this->email = $email;
+        $this->gender = $gender;
+        $this->title = $title;
     }
 
     public function getFirstname(): string
@@ -93,5 +101,13 @@ class ilPRGUserInformation
     public function getFullname(): string
     {
         return $this->lastname . ', ' . $this->firstname;
+    }
+    public function getGender(): string
+    {
+        return $this->gender;
+    }
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 }

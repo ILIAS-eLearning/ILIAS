@@ -301,6 +301,7 @@ class ilStudyProgrammeDIC
             );
         $dic['Log'] = static fn ($dic) =>
             ilLoggerFactory::getLogger('prg');
+
         $dic['current_user'] = static fn ($dic) =>
             $DIC['ilUser'];
 
@@ -312,24 +313,28 @@ class ilStudyProgrammeDIC
                 $dic['ilStudyProgrammeEvents']
             );
 
-        $dic['cron.riskyToFail'] = function ($dic) {
-            return new ilPrgRiskyToFail(
+        $dic['cron.riskyToFail'] = static fn ($dic) =>
+            new ilPrgRiskyToFail(
                 $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
                 $dic['ilStudyProgrammeEvents']
             );
-        };
-        $dic['cron.notRestarted'] = function ($dic) {
-            return new ilPrgNotRestarted(
+        $dic['cron.notRestarted'] = static fn ($dic) =>
+            new ilPrgNotRestarted(
                 $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
                 $dic['ilStudyProgrammeEvents']
             );
-        };
-        $dic['cron.restart'] = function ($dic) {
-            return new ilPrgRestart(
+        $dic['cron.restart'] = static fn ($dic) =>
+            new ilPrgRestart(
                 $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
                 $dic['ilStudyProgrammeEvents']
             );
-        };
+        $dic['mail'] = static fn ($dic) =>
+            new ilPRGMail(
+                $dic['Log'],
+                $DIC['lng'],
+                $dic['repo.assignment']
+            );
+
         return $dic;
     }
 }
