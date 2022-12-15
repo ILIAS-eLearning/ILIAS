@@ -1,7 +1,22 @@
 <?php
 
 declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * INIFile Parser
@@ -73,7 +88,8 @@ class ilIniFile
         if (!file_exists($this->INI_FILE_NAME)) {
             $this->error("file_does_not_exist");
             return false;
-        } elseif ($this->parse() == false) {
+        }
+        if (!$this->parse()) {
             //parse the file
             return false;
         }
@@ -86,19 +102,12 @@ class ilIniFile
     public function parse(): bool
     {
         //use php4 function parse_ini_file
-        $this->GROUPS = @parse_ini_file($this->INI_FILE_NAME, true);
-
-        //check if groups are filled
-        if ($this->GROUPS == false) {
-            // second try
-            $this->fixIniFile();
-
-            $this->GROUPS = @parse_ini_file($this->INI_FILE_NAME, true);
-            if ($this->GROUPS == false) {
-                $this->error("file_not_accessible");
-                return false;
-            }
+        $this->GROUPS = parse_ini_file($this->INI_FILE_NAME, true);
+        if (!$this->GROUPS) {
+            $this->error("file_not_accessible");
+            return false;
         }
+
         //set current group
         $temp = array_keys($this->GROUPS);
         $this->CURRENT_GROUP = $temp[count($temp) - 1];
@@ -106,51 +115,11 @@ class ilIniFile
     }
 
     /**
-     * Fix ini file (make it compatible for PHP 5.3)
-     */
-    public function fixIniFile(): void
-    {
-        // first read content
-        $lines = array();
-        $fp = @fopen($this->INI_FILE_NAME, "r");
-        $starttag = '';
-        while (!feof($fp)) {
-            $l = fgets($fp, 4096);
-            $skip = false;
-            if ((substr($l, 0, 2) == "/*" && $starttag) ||
-                substr($l, 0, 5) == "*/ ?>") {
-                $skip = true;
-            }
-            $starttag = false;
-            if (substr($l, 0, 5) == "<?php") {
-                $l = "; <?php exit; ?>";
-                $starttag = true;
-            }
-            if (!$skip) {
-                $l = str_replace("\n", "", $l);
-                $l = str_replace("\r", "", $l);
-                $lines[] = $l;
-            }
-        }
-        fclose($fp);
-
-        // now write it back
-        $fp = @fopen($this->INI_FILE_NAME, "w");
-
-        if (!empty($fp)) {
-            foreach ($lines as $l) {
-                fwrite($fp, $l . "\r\n");
-            }
-        }
-        fclose($fp);
-    }
-
-    /**
      * save ini-file-data to filesystem
      */
     public function write(): bool
     {
-        $fp = @fopen($this->INI_FILE_NAME, "w");
+        $fp = fopen($this->INI_FILE_NAME, "wb");
 
         if (empty($fp)) {
             $this->error("Cannot create file $this->INI_FILE_NAME");
@@ -166,7 +135,7 @@ class ilIniFile
         for ($i = 0; $i < $group_cnt; $i++) {
             $group_name = $groups[$i];
             //prevent empty line at beginning of ini-file
-            if ($i == 0) {
+            if ($i === 0) {
                 $res = sprintf("[%s]\r\n", $group_name);
             } else {
                 $res = sprintf("\r\n[%s]\r\n", $group_name);
@@ -200,7 +169,7 @@ class ilIniFile
         for ($i = 0; $i < $group_cnt; $i++) {
             $group_name = $groups[$i];
             //prevent empty line at beginning of ini-file
-            if ($i == 0) {
+            if ($i === 0) {
                 $content = sprintf("[%s]\n", $group_name);
             } else {
                 $content .= sprintf("\n[%s]\n", $group_name);
