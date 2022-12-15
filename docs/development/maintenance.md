@@ -733,6 +733,16 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 
 [//]: # (END NotesAndComments)
 
+[//]: # (BEGIN Notifications)
+
+* **Notifications**
+	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+	* 2nd Maintainer: [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
+	* Testcases: N.A.
+	* Tester: N.A.
+
+[//]: # (END Notifications)
+
 [//]: # (BEGIN ObjectService)
 
 * **Object Service**
