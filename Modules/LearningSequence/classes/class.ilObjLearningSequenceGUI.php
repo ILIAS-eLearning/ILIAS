@@ -145,8 +145,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             self::forwardByClass(
                 ilRepositoryGUI::class,
                 [ilObjLearningSequenceGUI::class],
-                $params,
-                self::CMD_VIEW
+                $params
             );
         }
 
@@ -350,7 +349,12 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
             case false:
                 if ($cmd === '') {
-                    $cmd = self::CMD_VIEW;
+                    if ($this->checkAccess("write")) {
+                        $cmd = self::CMD_CONTENT;
+                    }
+                    else {
+                        $cmd = self::CMD_VIEW;
+                    }
                 }
 
                 switch ($cmd) {
