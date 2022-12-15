@@ -45,5 +45,6 @@ in terms of points or relevance. This is not a static flag but a result of query
   target progresses(-count) directly.
 
 # ilPRGAssignmentDBRepository
-ilStudyProgrammeAppEventListener::onServiceUserDeleteUser reads assignments 
-only to delete them. Delete immediadetely.
+* ilStudyProgrammeAppEventListener::onServiceUserDeleteUser reads assignments 
+  only to delete them. Delete immediadetely.
+* remove interimOrguLookup as soon as ilObjUser::lookupOrgUnitsRepresentation is working correctly

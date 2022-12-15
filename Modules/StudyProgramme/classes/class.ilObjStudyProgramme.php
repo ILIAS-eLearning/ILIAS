@@ -796,11 +796,17 @@ class ilObjStudyProgramme extends ilContainer
      * Clears child cache and adds progress for new node.
      * called by ilObjStudyProgrammeReference::putInTree, e.g.
      *
+     * @param ilObjStudyProgrammeReference|ilObjStudyProgramme $prg
      * @throws ilStudyProgrammeTreeException
      * @throws ilException
      */
-    public function nodeInserted(ilObjStudyProgramme $a_prg): void
+    public function nodeInserted($prg): void
     {
+        if (! $prg instanceof ilObjStudyProgrammeReference &&
+           ! $prg instanceof ilObjStudyProgramme
+        ) {
+            throw new ilStudyProgrammeTreeException("Wrong type of node: " . get_class($prg));
+        }
         if ($this->getLPMode() === ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
             throw new ilStudyProgrammeTreeException("Program already contains leafs.");
         }
