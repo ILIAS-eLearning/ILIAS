@@ -279,8 +279,12 @@ class ilDclCache
         $field = ilDclFieldFactory::getFieldModelInstanceByClass(new ilDclBaseFieldModel($rec['id']));
         $field->setId($rec["id"]);
         $field->setTableId($rec["table_id"]);
-        $field->setTitle($rec["title"]);
-        $field->setDescription($rec["description"]);
+        if (null !== $rec["title"]) {
+            $field->setTitle($rec["title"]);
+        }
+        if (null !== $rec["description"]) {
+            $field->setDescription($rec["description"]);
+        }
         $field->setDatatypeId($rec["datatype_id"]);
         $field->setUnique($rec["is_unique"]);
         $fields_cache[$rec["id"]] = $field;
