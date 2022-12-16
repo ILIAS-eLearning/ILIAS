@@ -9,4 +9,7 @@
 		<pluginslot id="evhk" name="EventHook" />
 	</pluginslots>
 	<logging />
+	<events>
+		<event type="listen" id="Services/EventHandling" />
+	</events>
 </service>

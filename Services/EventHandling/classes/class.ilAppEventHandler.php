@@ -1,19 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Global event handler
@@ -53,7 +56,7 @@ class ilAppEventHandler
     protected ilComponentFactory $component_factory;
     private ilArtifactEventHandlingData $event_handling_data;
 
-    public function __construct()
+    public function __construct(?ilLogger $logger = null)
     {
         global $DIC;
 
@@ -62,14 +65,13 @@ class ilAppEventHandler
         $this->component_factory = $DIC["component.factory"];
         $this->initListeners();
 
-        $this->logger = \ilLoggerFactory::getLogger('evnt');
+        $this->logger = $logger ?? \ilLoggerFactory::getLogger('evnt');
     }
 
     protected function initListeners(): void
     {
         $listener_events = $this->event_handling_data->getEventsByType("listen");
-        foreach ($listener_events AS $event_key => $event_value)
-        {
+        foreach ($listener_events as $event_key => $event_value) {
             $this->listener[$event_value["type_specification"]][] = $event_value["component"];
         }
     }
