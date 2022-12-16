@@ -543,23 +543,25 @@ constructor and by all methods to change the datastructure, be it setters or
 mutators. The integrity needs to be enforced by the datatype itself to make invalid
 data unexpressable.
 
+### Refinery
 
-### Transformation
+The [Refinery-library](../../src/Refinery) defines two basic abstractions to be used
+for processing input securely:
 
-The [Transformation-library](../../src/Refinery/Transformation) declares properties of
-`Transformation`s which are understood as structural conversions between different
-shapes and types of data that do not perform side effects. It further aims at
-providing common `Transformations` to be reused throughout the system. The library
-thus is the tool to transform primitive input data into semantically richer
-structures in a declarative way.
+* A **[`Transformation`](../../src/Refinery/Transformation.php)** is a structural
+  conversion between different shapes and types of data. It does not cause 
+  side effects. `Transformation`s can be combined to create complex `Transformation`s
+  from simpler ones. The [Refinery](../../Refinery) aims to provide common
+  `Transformation`s and combinators so that they can be reused throughout the system.
+  It thus is the tool to transform primitive input data into semantically richer
+  structures in a declarative way.
+* A **[`Constraint`](../../src/Refinery/Constraint.php)** is a check on some data in
+  conjunction with a builder for a human-readable error-message. Like `Transformation`s,
+  `Constraint`s can be combined. The [Refinery](../../Refinery) offers a collection
+   of readymade `Constraint`s and combinators.
 
-Currently it only provides three prefactored transformations and one transformation
-that allows a user to define a closure that performs the desired task. To become
-part of a good API we certainly will need to add more transformations that can be
-reused by consumers and showcase the benefits of a declarative approach to input
-security.
 
-Like the [Data-library](../../src/Data), the [Transformation-library](../../src/Refinery/Transformation)
+Like the [Data-library](../../src/Data), the [Refinery-library](../../src/Refinery)
 deals with structural constraints on the data and not policies. It will need to
 be backed by semantically rich data types that protect their integrity properly to
 become effective in securing input processing. If the transformations only work on
@@ -569,34 +571,10 @@ be a tool to quickly and easily derive meaningful data from primitive input but
 will also require additions to the [Data-library](../../src/Data) and the components
 that use their own data structures.
 
-
-### Validation
-
-The [Validation-library](../../src/Validation) provides an abstraction for
-`Constraints` on data, where a `Constraint` is a check in conjunction with a
-builder for a human readable error-message. Like the [Transformation-library](../../src/Refinery/Transformation)
-the [Validation-library](../../src/Validation) also attempts to provide a set of
-standard constraints and facilities to compose complex constraints from simpler
-ones.
-
-Currently the library provides 14 prefactored constraints and one constraint
-that allows to create custom constraints via closures. Here we certainly
-require additions to the currently available constraints as well as a better
-internal structure that e.g. groups the constraints by the type they are acting
-upon.
-
-Other then the two aforementioned libraries, the [Validation-library](../../src/Validation)
-mostly will deal with constraints derived from policies on the input data. It
-thus will certainly need backup from those two libraries regarding the structures
-it operates upon. Like the `Transformations` the `Constraints` offer the possibility
-to declaratively define these constraints and thus make them understandable and
-readable. To fully unfold this potential the general use of custom constraints
-needs to be minimal.
-
-This also offers a perspective how other policy enforcing components in the system
-may come into play here: Like the [Validation-library](../../src/Validation) itself
-they may offer sets of constraints regarding the policies they are enforcing.
-
+The [Refinery-library](../../src/Refinery) also offers a perspective on how other
+components that enforce policies in the system may come into play here: They may
+offer sets of `Transformation`s and `Constraint`s that enforce policies of the
+system in question.
 
 ### ilUtil::stripSlashes and ilInitialisation::recusivelyRemoveUnsafeCharacters
 
