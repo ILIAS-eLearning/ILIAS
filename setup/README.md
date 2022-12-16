@@ -34,6 +34,9 @@ the path to the `setup.php` when the command is called from somewhere else.
 You most probably want to execute the setup with the user that also executes your
 webserver to avoid problems with filesystem permissions. The installation creates
 directories and files that the webserver will need to read and sometimes even modify.
+If you need to run setup as another user, please make sure that the user that executes
+the webserver has the necessary filesystem permissions (e.g. by using chown), to 
+avoid some errors which may be difficult to troubleshoot.
 
 The setup will ask you to confirm some assumptions during the setup process, where
 you will have to type `yes` (or `no`, of course). These checks can be overwritten
