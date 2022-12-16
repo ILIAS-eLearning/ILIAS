@@ -55,7 +55,9 @@ class ilUseRootConfirmed implements Setup\Objective
         $message =
             "You seem to be using root or your user just can't be determined. You should\n" .
             "be running this setup with the same user the webserver uses. If this is not\n" .
-            "the case there might be problems accessing files via the web later...\n";
+            "the case there might be problems accessing files via the web later...\n".
+            "If you still proceed, carefully check file access rights in the data-directories\n".
+            "after finishing the setup.\n";
 
         if (!$admin_interaction->confirmOrDeny($message)) {
             throw new Setup\NoConfirmationException($message);
