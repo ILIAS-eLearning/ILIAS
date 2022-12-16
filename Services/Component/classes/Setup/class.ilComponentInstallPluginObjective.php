@@ -95,7 +95,7 @@ class ilComponentInstallPluginObjective implements Setup\Objective
         }
 
         $ORIG_DIC = $this->initEnvironment($environment, $component_repository);
-        $plugin = $component_repository->getPlugin($info->getId());
+        $plugin = $component_factory->getPlugin($info->getId());
         $plugin->install();
         $GLOBALS["DIC"] = $ORIG_DIC;
 
