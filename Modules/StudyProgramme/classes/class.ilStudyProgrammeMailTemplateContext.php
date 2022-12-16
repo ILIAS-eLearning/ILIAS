@@ -182,24 +182,23 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
             return '';
         }
 
-        $obj_id = ilObject::_lookupObjectId((int)$context_parameters['ref_id']);
-
         /** @var ilObjStudyProgramme $obj */
-        $obj = ilObjectFactory::getInstanceByRefId((int)$context_parameters['ref_id']);
-
-        $progress = $this->getNewestProgressForUser($obj, $recipient->getId());
+        $prg = ilObjectFactory::getInstanceByRefId((int)$context_parameters['ref_id']);
+        $assignments = $prg->getAssignmentsOfSingleProgramForUser($recipient->getId());
+        $latest = $this->getLatestAssignment($assignments);
+        $latest_successful = $this->getLatestSuccessfulAssignment($assignments);
 
         switch ($placeholder_id) {
             case self::TITLE:
-                $string = ilObject::_lookupTitle($obj_id);
+                $string = $prg->getTitle();
                 break;
             case self::DESCRIPTION:
-                $string = ilObject::_lookupDescription($obj_id);
+                $string = $prg->getDescription();
                 break;
             case self::TYPE:
                 $string = '';
-                if (!is_null($obj->getSubType())) {
-                    $string = $obj->getSubType()->getTitle();
+                if (!is_null($prg->getSubType())) {
+                    $string = $prg->getSubType()->getTitle();
                 }
                 break;
             case self::LINK:
@@ -209,14 +208,14 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
                 $string = ilObjUser::lookupOrgUnitsRepresentation($recipient->getId());
                 break;
             case self::STATUS:
-                $string = $this->statusToRepr($progress->getStatus(), $recipient->getLanguage());
+                $string = $this->statusToRepr($latest->getProgressTree()->getStatus(), $recipient->getLanguage());
                 break;
             case self::COMPLETION_DATE:
-                $string = $this->date2String($progress->getCompletionDate());
+                $string = $this->date2String($latest->getProgressTree()->getCompletionDate());
                 break;
             case self::COMPLETED_BY:
                 $string = '';
-                $id = $progress->getCompletionBy();
+                $id = $latest->getProgressTree()->getCompletionBy();
                 if (!is_null($id) && ilObject::_exists($id)) {
                     $obj = ilObjectFactory::getInstanceByObjId($id);
                     if ($obj->getType() === 'usr') {
@@ -232,27 +231,27 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
                 }
                 break;
             case self::POINTS_REQUIRED:
-                $string = (string) $progress->getAmountOfPoints();
+                $string = (string) $latest->getProgressTree()->getAmountOfPoints();
                 break;
             case self::POINTS_CURRENT:
-                $string = (string) $progress->getCurrentAmountOfPoints();
+                $string = (string) $latest->getProgressTree()->getCurrentAmountOfPoints();
                 break;
             case self::DEADLINE:
-                $string = $this->date2String($progress->getDeadline());
+                $string = $this->date2String($latest->getProgressTree()->getDeadline());
                 break;
             case self::VALIDITY:
-                $now = new DateTimeImmutable();
-
                 $string = '-';
-                if (!is_null($progress->hasValidQualification($now))) {
-                    $string = $this->lng->txtlng('prg', 'prg_not_valid', $recipient->getLanguage());
-                    if ($progress->hasValidQualification($now)) {
-                        $string = $this->lng->txtlng('prg', 'prg_still_valid', $recipient->getLanguage());
-                    }
+                if ($latest_successful) {
+                    $langvar = $latest_successful->getProgressTree()->isInvalidated() ? 'prg_not_valid' : 'prg_still_valid';
+                    $string = $this->lng->txtlng('prg', $langvar, $recipient->getLanguage());
                 }
                 break;
+
             case self::EXPIRE_DATE:
-                $string = $this->date2String($progress->getValidityOfQualification());
+                $string = '-';
+                if ($latest_successful) {
+                    $string = $this->date2String($latest_successful->getProgressTree()->getValidityOfQualification());
+                }
                 break;
             default:
                 throw new \Exception("cannot resolve placeholder: " . $placeholder_id);
@@ -262,32 +261,47 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
         return $string;
     }
 
-    protected function getNewestProgressForUser(ilObjStudyProgramme $obj, int $user_id): ilPRGProgress
+    protected function getLatestAssignment(array $assignments): ilPRGAssignment
     {
-        $progresses = [];
-        $assignments = $obj->getAssignmentsOfSingleProgramForUser($user_id);
-        $progresses = array_map(fn ($ass) => $ass->getProgressForNode($obj->getId()), $assignments);
-
-        $successfully_progress = array_filter($progresses, static function (ilPRGProgress $pgs): bool {
-            return $pgs->isSuccessful();
-        });
-
-        if (count($successfully_progress) === 0) {
-            return $progresses[0];
-        }
-
-        usort($successfully_progress, static function (ilPRGProgress $a, ilPRGProgress $b): int {
-            if ($a->getCompletionDate() > $b->getCompletionDate()) {
+        usort($assignments, static function (ilPRGAssignment $a, ilPRGAssignment $b): int {
+            $a_dat =$a->getProgressTree()->getAssignmentDate();
+            $b_dat =$b->getProgressTree()->getAssignmentDate();
+            if ($a_dat > $b_dat) {
                 return -1;
-            } elseif ($a->getCompletionDate() < $b->getCompletionDate()) {
+            } elseif ($a_dat < $b_dat) {
                 return 1;
             } else {
                 return 0;
             }
         });
-
-        return array_shift($successfully_progress);
+        return array_shift($assignments);
     }
+
+    protected function getLatestSuccessfulAssignment(array $assignments): ?ilPRGAssignment
+    {
+        $successful = array_filter(
+            $assignments,
+            fn ($ass) => $ass->getProgressTree()->isSuccessful()
+        );
+        if (count($successful) === 0) {
+            return null;
+        }
+
+        usort($successful, static function (ilPRGAssignment $a, ilPRGAssignment $b): int {
+            $a_dat =$a->getProgressTree()->getCompletionDate();
+            $b_dat =$b->getProgressTree()->getCompletionDate();
+            if ($a_dat > $b_dat) {
+                return -1;
+            } elseif ($a_dat < $b_dat) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+        return array_shift($successful);
+    }
+
+
 
     protected function statusToRepr(int $status, string $lang): string
     {
