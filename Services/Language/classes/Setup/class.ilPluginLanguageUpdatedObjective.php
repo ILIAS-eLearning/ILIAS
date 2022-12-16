@@ -74,7 +74,7 @@ class ilPluginLanguageUpdatedObjective implements Setup\Objective
     public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
-        [$ORIG_DIC, $ORIG_ilDB] = $this->initEnvironment($environment);
+        [$ORIG_DIC, $ORIG_ilDB] = $this->initEnvironment($environment, $component_repository);
 
         $plugin = $component_repository->getPluginByName($this->plugin_name);
         $language_handler = new ilPluginLanguage($plugin);
@@ -96,7 +96,7 @@ class ilPluginLanguageUpdatedObjective implements Setup\Objective
         return $component_repository->getPluginByName($this->plugin_name)->supportsCLISetup();
     }
 
-    protected function initEnvironment(Setup\Environment $environment): array
+    protected function initEnvironment(Setup\Environment $environment, \ilComponentRepository $component_repository): array
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
@@ -222,6 +222,7 @@ class ilPluginLanguageUpdatedObjective implements Setup\Objective
         };
         $GLOBALS["DIC"]["ilObjDataCache"] = new ilObjectDataCache();
         $GLOBALS["DIC"]["ilSetting"] = new ilSetting();
+        $GLOBALS["DIC"]["component.repository"] = $component_repository;
         $GLOBALS["DIC"]["objDefinition"] = new ilObjectDefinition();
         $GLOBALS["DIC"]["rbacadmin"] = new class () extends ilRbacAdmin {
             public function __construct()
