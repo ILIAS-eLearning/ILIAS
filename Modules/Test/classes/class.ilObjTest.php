@@ -8857,7 +8857,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 $settings->getResultDetailsSettings()
                 ->withPrintBestSolutionWithResult((bool) $testsettings['PrintBsWithRes'])
                 ->withShowExamIdInTestResults($exam_id_in_results)
-                ->withResultFilterTaxIds((array) $testsettings['result_tax_filters'])
+                ->withTaxonomyFilterIds((array) $testsettings['result_tax_filters'])
             )
             ->withGamificationSettings(
                 $settings->getGamificationSettings()
