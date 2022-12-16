@@ -63,6 +63,7 @@ class InitResourceStorage
                 $c[self::D_STORAGE_HANDLERS],
                 $c[self::D_REPOSITORIES],
                 $c[self::D_LOCK_HANDLER],
+                $c[self::D_STREAM_ACCESS],
                 $c[self::D_FILENAME_POLICY],
             );
         };
