@@ -93,7 +93,7 @@ class DirectoryCreatedObjective implements Setup\Objective
      */
     public function achieve(Setup\Environment $environment): Setup\Environment
     {
-        mkdir($this->path, $this->permissions);
+        @mkdir($this->path, $this->permissions);
 
         if (!is_dir($this->path)) {
             throw new Setup\UnachievableException(
