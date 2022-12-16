@@ -308,8 +308,12 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
     {
         $this->logger->info(sprintf('START - Fetch all active certificate templates for object type: "%s"', $type));
 
-        $sql = 'SELECT * FROM il_cert_template WHERE obj_type = ' . $this->database->quote($type, 'text') . '
-AND currently_active = 1';
+        $sql = '
+            SELECT il_cert_template.* FROM il_cert_template
+            INNER JOIN object_data od ON od.obj_id =  il_cert_template.obj_id
+            WHERE obj_type = ' . $this->database->quote($type, 'text') . '
+            AND currently_active = 1
+        ';
         $query = $this->database->query($sql);
 
         $result = array();

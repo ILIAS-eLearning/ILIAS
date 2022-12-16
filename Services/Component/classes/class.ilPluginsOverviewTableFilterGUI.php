@@ -36,8 +36,12 @@ class ilPluginsOverviewTableFilterGUI
             return $DIC->language()->txt($id);
         };
 
-        $all_slots = ilPluginSlot::getAllSlots();
-        array_walk($all_slots, static function (array $d) use (&$slots, &$components, &$slot_ids) {
+        $slots = [];
+        $components = [];
+        $slot_ids = [];
+
+        $available_slots = ilPluginSlot::getAvailableSlots();
+        array_walk($available_slots, static function (array $d) use (&$slots, &$components, &$slot_ids) {
             $slots[$d['slot_name']]                                        = $d['slot_name'];
             $slot_ids[$d['slot_id']]                                       = $d['slot_id'];
             $components[$d['component_type'] . '/' . $d['component_name']] = $d['component_type'] . '/' . $d['component_name'];

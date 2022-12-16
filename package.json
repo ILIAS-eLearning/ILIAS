@@ -35,18 +35,19 @@
     "webui-popover": "^1.2.18"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.20.2",
+    "@babel/register": "^7.18.9",
     "@rollup/plugin-commonjs": "^13.0.0",
     "@rollup/plugin-node-resolve": "^8.1.0",
     "chai": "^4.2.0",
-    "esm": "^3.2.25",
     "less": "^4.1.1",
-    "mocha": "^8.0.1",
+    "mocha": "^10.1.0",
     "patch-package": "^6.4.7",
     "rollup": "^2.18.0",
     "rollup-plugin-terser": "^6.1.0"
   },
   "scripts": {
-    "test": "mocha --require esm",
+    "test": "mocha --require @babel/register",
     "postinstall": "patch-package"
   },
   "repository": {
@@ -243,5 +244,19 @@
       "last-update-for-ilias": "7.10.0",
       "note": "see notes in docs/developement/js"
     }
+  },
+  "@babel/register": {
+    "introduction-date": "2022-12-14",
+    "approved-by": "Jour Fixe",
+    "developer": "tfuhrer",
+    "purpose": "Replacement for the unmaintained ESM module bundler used by mocha.js for js unit tests.",
+    "last-update-for-ilias": "7.0.0"
+  },
+  "@babel/preset-env": {
+    "introduction-date": "2022-12-14",
+    "approved-by": "Jour Fixe",
+    "developer": "tfuhrer",
+    "purpose": "Preset environment for @babel which is used by the @babel/register package to run js unit tests.",
+    "last-update-for-ilias": "7.0.0"
   }
 }
