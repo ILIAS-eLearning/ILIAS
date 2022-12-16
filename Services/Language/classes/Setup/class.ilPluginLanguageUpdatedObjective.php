@@ -115,7 +115,7 @@ class ilPluginLanguageUpdatedObjective implements Setup\Objective
         $GLOBALS["ilDB"] = $db;
         $GLOBALS["DIC"]["ilIliasIniFile"] = $ini;
         $GLOBALS["DIC"]["ilClientIniFile"] = $client_ini;
-        $GLOBALS["DIC"]["ilLogger"] = new class () extends ilLogger {
+        $GLOBALS["DIC"]["ilLog"] = new class () extends ilLogger {
             public function __construct()
             {
             }
@@ -166,45 +166,23 @@ class ilPluginLanguageUpdatedObjective implements Setup\Objective
             {
             }
         };
-        $GLOBALS["DIC"]["ilLog"] = new class () extends ilLog {
-            public function __construct()
-            {
-            }
-            public function write(string $a_msg, $a_log_level = ilLogLevel::INFO): void
-            {
-            }
-            public function info($msg): void
-            {
-            }
-            public function warning($msg): void
-            {
-            }
-            public function error($msg): void
-            {
-            }
-            public function debug($msg, $a = []): void
-            {
-            }
-            public function dump($a_var, ?int $a_log_level = ilLogLevel::INFO): void
-            {
-            }
-        };
         $GLOBALS["DIC"]["ilLoggerFactory"] = new class () extends ilLoggerFactory {
             public function __construct()
             {
             }
             public static function getRootLogger(): ilLogger
             {
-                return $GLOBALS["DIC"]["ilLogger"];
+                return $GLOBALS["DIC"]["ilLog"];
             }
             public static function getLogger(string $a_component_id): ilLogger
             {
-                return $GLOBALS["DIC"]["ilLogger"];
+                return $GLOBALS["DIC"]["ilLog"];
             }
         };
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
         $GLOBALS["DIC"]["ilBench"] = null;
         $GLOBALS["DIC"]["lng"] = new ilLanguage('en');
+        $GLOBALS["DIC"]["lng"]->lang_user = "en";
         $GLOBALS["DIC"]["ilias"] = null;
         $GLOBALS["DIC"]["ilErr"] = null;
         $GLOBALS["DIC"]["tree"] = new class () extends ilTree {
