@@ -21,52 +21,36 @@ declare(strict_types=1);
 class ilStudyProgrammeDashboardViewGUI
 {
     protected ilLanguage $lng;
-    protected ilObjUser $user;
     protected ilAccessHandler $access;
     protected ilSetting $setting;
     protected ILIAS\UI\Factory $factory;
     protected ILIAS\UI\Renderer $renderer;
     protected ilCtrl $ctrl;
-    protected ilLogger $log;
+    protected ilStudyProgrammeUserTable $usr_table;
+    protected int $usr_id;
 
     protected ?string $visible_on_pd_mode = null;
-    protected ?ilPRGAssignmentDBRepository $assignment_repository = null;
+
 
     public function __construct(
         ilLanguage $lng,
-        ilObjUser $user,
         ilAccess $access,
         ilSetting $setting,
         ILIAS\UI\Factory $factory,
         ILIAS\UI\Renderer $renderer,
         ilCtrl $ctrl,
-        ilLogger $log
+        ilStudyProgrammeUserTable $user_table,
+        int $usr_id,
     ) {
         $this->lng = $lng;
         $this->lng->loadLanguageModule('prg');
-        $this->user = $user;
         $this->access = $access;
         $this->setting = $setting;
-        $this->log = $log;
         $this->factory = $factory;
         $this->renderer = $renderer;
         $this->ctrl = $ctrl;
-    }
-
-    protected function getAssignmentRepository(): ilPRGAssignmentDBRepository
-    {
-        if (!$this->assignment_repository) {
-            $this->assignment_repository = ilStudyProgrammeDIC::dic()['repo.assignment'];
-        }
-        return $this->assignment_repository;
-    }
-
-    /**
-     * @return ilPRGAssignment[]
-     */
-    protected function getUsersAssignments(): array
-    {
-        return $this->getAssignmentRepository()->getDashboardInstancesforUser($this->user->getId());
+        $this->user_table = $user_table;
+        $this->usr_id = $usr_id;
     }
 
     /**
@@ -74,47 +58,50 @@ class ilStudyProgrammeDashboardViewGUI
      */
     public function getHTML(): string
     {
-        $items = [];
-        $now = new DateTimeImmutable();
-        foreach ($this->getUsersAssignments() as $assignment) {
-            $properties = [];
-            if (!$this->isReadable($assignment)) {
+        //array ilStudyProgrammeUserTableRow[]
+        $this->user_table->disablePermissionCheck(true);
+        $rows = $this->user_table->fetchSingleUserRootAssignments($this->usr_id);
+        foreach ($rows as $row) {
+            $prg = ilObjStudyProgramme::getInstanceByObjId($row->getNodeId());
+            if (! $this->isReadable($prg)) {
                 continue;
             }
+            $properties = [];
 
-            $current_prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
-            $progress = $assignment->getProgressTree();
-            [$minimum_percents, $current_percents] = $this->calculatePercent(
-                $current_prg,
-                $progress->getCurrentAmountOfPoints()
-            );
+            /*
+                        $progress = $assignment->getProgressTree();
+                        [$minimum_percents, $current_percents] = $this->calculatePercent(
+                            $current_prg,
+                            $progress->getCurrentAmountOfPoints()
+                        );
+            */
+            $properties[] = [$this->txt('prg_dash_label_status') => $row->getStatus()];
 
-            $current_status = $progress->getStatus();
-            $deadline = $progress->getDeadline();
-            $restart_date = $assignment->getRestartDate();
 
-            $properties[] = $this->fillMinimumCompletion($minimum_percents);
-            $properties[] = $this->fillCurrentCompletion($current_percents);
-            $properties[] = $this->fillStatus((string) $current_status);
 
-            if ($progress->isSuccessful()) {
-                $properties[] = $this->fillRestartFrom($restart_date);
+            //$properties[] = $this->fillMinimumCompletion($minimum_percents);
+            //$properties[] = $this->fillCurrentCompletion($current_percents);
 
-                $valid = $progress->hasValidQualification($now);
-                $validation_expiry_date = $progress->getValidityOfQualification();
-                $properties[] = $this->fillValidation($valid, $validation_expiry_date);
+            if (in_array($row->getStatusRaw(), [ilPRGProgress::STATUS_COMPLETED, ilPRGProgress::STATUS_ACCREDITED])) {
+                //$restart_date = $assignment->getRestartDate();
+                //$properties[] = $this->fillRestartFrom($restart_date);
+
+
+                $validity = $row->getValidity();
+                if (true || $row->getExpiryDate()) {
+                    $validity .= ' (' . $row->getExpiryDate() . ')';
+                }
+                $properties[] = [$this->txt('prg_dash_label_valid') => $validity];
+            } else {
+                $properties[] = [$this->txt('prg_dash_label_finish_until') =>$row->getDeadline()];
             }
-            if ($progress->isInProgress()) {
-                $properties[] = $this->fillFinishUntil($deadline);
-            }
 
-            $items[] = $this->buildItem($current_prg, $properties);
+            $items[] = $this->buildItem($prg, $properties);
         }
 
         if (count($items) === 0) {
-            return "";
+            return '';
         }
-
         $group[] = $this->factory->item()->group("", $items);
         $panel = $this->factory->panel()->listing()->standard($this->lng->txt("dash_studyprogramme"), $group);
 
@@ -150,10 +137,6 @@ class ilStudyProgrammeDashboardViewGUI
         return [$this->txt('prg_dash_label_gain') => $title];
     }
 
-    protected function fillStatus(string $status): array
-    {
-        return [$this->txt('prg_dash_label_status') => $this->txt('prg_status_' . $status)];
-    }
 
     protected function fillFinishUntil(DateTimeImmutable $value = null): array
     {
@@ -195,31 +178,12 @@ class ilStudyProgrammeDashboardViewGUI
         return $this->visible_on_pd_mode;
     }
 
-    /**
-     * @throws ilException
-     */
-    protected function hasPermission(
-        ilPRGAssignment $assignment,
-        string $permission
-    ): bool {
-        try {
-            $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
-        } catch (ilException $e) {
-            return false;
-        }
-        return $this->access->checkAccess($permission, "", $prg->getRefId(), "prg", $prg->getId());
-    }
-
-    /**
-     * @throws ilException
-     */
-    protected function isReadable(ilPRGAssignment $assignment): bool
+    protected function isReadable(ilObjStudyProgramme $prg): bool
     {
         if ($this->getVisibleOnPDMode() === ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_ALLWAYS) {
             return true;
         }
-
-        return $this->hasPermission($assignment, "read");
+        return $this->access->checkAccess('read', "", $prg->getRefId(), "prg", $prg->getId());
     }
 
     protected function txt(string $code): string
