@@ -48,12 +48,10 @@ class ilStudyProgrammeUserTable
         ['prg_validity', 'prg_validity', true, true, true]
     ];
 
-    protected int $prg_obj_id;
     protected ilDBInterface $db;
     protected ilExportFieldsInfo $export_fields_info;
     protected ilLanguage $lng;
     protected ilPRGPermissionsHelper $permissions;
-    protected ilObjUser $user;
     protected array $user_ids_viewer_may_read_learning_progress_of;
     protected ilPRGAssignmentDBRepository $assignment_repo;
 
@@ -62,15 +60,13 @@ class ilStudyProgrammeUserTable
         ilExportFieldsInfo $export_fields_info,
         ilPRGAssignmentDBRepository $assignment_repo,
         ilLanguage $lng,
-        ilPRGPermissionsHelper $permissions,
-        ilObjUser $user
+        ilPRGPermissionsHelper $permissions
     ) {
         $this->db = $db;
         $this->export_fields_info = $export_fields_info;
         $this->assignment_repo = $assignment_repo;
         $this->lng = $lng;
         $this->permissions = $permissions;
-        $this->user = $user;
         $this->user_ids_viewer_may_read_learning_progress_of = $this->permissions->getUserIdsSusceptibleTo(
             ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS
         );
@@ -129,9 +125,17 @@ class ilStudyProgrammeUserTable
         int $offset = null
     ): array {
         $data = $this->assignment_repo->getAllForNodeIsContained($prg_id, $valid_user_ids, $custom_filters);
-        $row = array_map(fn ($r) => $this->toRow($r, $prg_id), $data);
+        $row = array_map(fn ($ass) => $this->toRow($ass, $prg_id), $data);
         return $row;
     }
+
+    public function fetchSingleUserRootAssignments(int $usr_id): array
+    {
+        $data = $this->assignment_repo->getForUser($usr_id);
+        $row = array_map(fn ($ass) => $this->toRow($ass, $ass->getRootId()), $data);
+        return $row;
+    }
+
 
     protected $skip_perm_check_on_user = false;
     public function disablePermissionCheck($flag = false): void
