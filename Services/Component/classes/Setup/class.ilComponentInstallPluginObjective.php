@@ -113,7 +113,7 @@ class ilComponentInstallPluginObjective implements Setup\Objective
         return !$plugin->isInstalled();
     }
 
-    protected function initEnvironment(Setup\Environment $environment, \ilComponentRepository $component_repository): ILIAS\DI\Container
+    protected function initEnvironment(Setup\Environment $environment, \ilComponentRepository $component_repository)
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $plugin_admin = $environment->getResource(Setup\Environment::RESOURCE_PLUGIN_ADMIN);
