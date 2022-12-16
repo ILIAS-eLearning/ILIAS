@@ -52,7 +52,7 @@ class ilPRGPermissionsHelper
 
     protected ilAccess $access;
     protected ilOrgUnitPositionAccess $orgu_access;
-    protected ilObjStudyProgramme $programme;
+    protected int $prg_ref_id;
     protected array $cache = [];
 
     /**
@@ -63,11 +63,11 @@ class ilPRGPermissionsHelper
     public function __construct(
         ilAccess $access,
         ilOrgUnitPositionAccess $orgu_access,
-        ilObjStudyProgramme $programme
+        int $prg_ref_id
     ) {
         $this->access = $access;
         $this->orgu_access = $orgu_access;
-        $this->programme = $programme;
+        $this->prg_ref_id = $prg_ref_id;
     }
 
     public function may(string $operation): bool
@@ -171,13 +171,14 @@ class ilPRGPermissionsHelper
     protected function getAllAssignedUserIds(): array
     {
         if (!isset($this->cache[self::ROLEPERM_MANAGE_MEMBERS])) {
-            $this->cache[self::ROLEPERM_MANAGE_MEMBERS] = array_unique($this->programme->getMembers());
+            $prg = ilObjStudyProgramme::getInstanceByRefId($this->getProgrammeRefId());
+            $this->cache[self::ROLEPERM_MANAGE_MEMBERS] = array_unique($prg->getMembers());
         }
         return $this->cache[self::ROLEPERM_MANAGE_MEMBERS];
     }
 
     protected function getProgrammeRefId(): int
     {
-        return $this->programme->getRefId();
+        return $this->prg_ref_id;
     }
 }

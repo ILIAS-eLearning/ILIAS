@@ -41,7 +41,7 @@ class ilStudyProgrammeDIC
             return new ilPRGPermissionsHelper(
                 $DIC['ilAccess'],
                 new ilOrgUnitPositionAccess($DIC['ilAccess']),
-                $prg
+                (int)$prg->getRefid()
             );
         };
 
@@ -51,8 +51,7 @@ class ilStudyProgrammeDIC
                 ilExportFieldsInfo::_getInstanceByType('prg'),
                 $dic['repo.assignment'],
                 $DIC['lng'],
-                $dic['permissionhelper'],
-                $DIC['ilUser']
+                $dic['permissionhelper']
             );
         };
 
@@ -281,16 +280,35 @@ class ilStudyProgrammeDIC
                 $dic['DataFactory'],
                 $dic['PRGMessages']
             );
+
+        $dic['permissionhelper'] = static function ($dic) use ($DIC) {
+            return new ilPRGPermissionsHelper(
+                $DIC['ilAccess'],
+                new ilOrgUnitPositionAccess($DIC['ilAccess']),
+                -1
+            );
+        };
+
+        $dic['ilStudyProgrammeUserTable'] = function ($dic) use ($DIC) {
+            return new ilStudyProgrammeUserTable(
+                $DIC['ilDB'],
+                ilExportFieldsInfo::_getInstanceByType('prg'),
+                $dic['repo.assignment'],
+                $DIC['lng'],
+                $dic['permissionhelper']
+            );
+        };
+
         $dic['ilStudyProgrammeDashboardViewGUI'] = static fn ($dic) =>
             new ilStudyProgrammeDashboardViewGUI(
                 $DIC['lng'],
-                $DIC['ilUser'],
                 $DIC['ilAccess'],
                 $DIC['ilSetting'],
                 $DIC['ui.factory'],
                 $DIC['ui.renderer'],
                 $DIC['ilCtrl'],
-                $dic['Log']
+                $dic['ilStudyProgrammeUserTable'],
+                $DIC['ilUser']->getId(),
             );
         $dic['ilStudyProgrammeCommonSettingsGUI'] = static fn ($dic) =>
             new ilStudyProgrammeCommonSettingsGUI(
