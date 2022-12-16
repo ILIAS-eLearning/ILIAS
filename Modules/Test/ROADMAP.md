@@ -27,6 +27,15 @@ Among other challenges, we are planning to use the given developing budget from 
 
 Depending on development ressources, funding and approval, some new features are conceivable in 2023 (e.g. option for a failing attempt).
 
+
+## Others
+* Fixing access to Learning Status when access to test results is limited (see: [Mantis 25064](https://mantis.ilias.de/view.php?id=25064&nbn=9))
+* Restructuring Import/Export, removing dependency on ilContObjParser, and clarifying support of QTI
+* UI Forms: Length of text fields not shorter than answer text. (see: [Mantis 35243](https://mantis.ilias.de/view.php?id=35243#c87241))
+* Grading: Use of Short Form / Offical Form. Conceptual changes only with the introduction of new UI forms. (see [Mantis](https://mantis.ilias.de/view.php?id=31209#c83984))
+* Streamlining of trimming and removal of white spaces in answer-options (see: [Mantis 35091](https://mantis.ilias.de/view.php?id=35091))
+
+
 ## Open Warnings / Issues without Tickets
 These are open findings from the PHP8 Project which couldn't be solved in the scope of the project itself. They are documented here for transparency.
 Remarks on the individual items are marked with "@PHP8-CR"
