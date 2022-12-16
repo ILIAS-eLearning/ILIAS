@@ -94,7 +94,7 @@ class ilComponentInstallPluginObjective implements Setup\Objective
             );
         }
 
-        $ORIG_DIC = $this->initEnvironment($environment);
+        $ORIG_DIC = $this->initEnvironment($environment, $component_repository);
         $plugin = $component_repository->getPlugin($info->getId());
         $plugin->install();
         $GLOBALS["DIC"] = $ORIG_DIC;
@@ -113,7 +113,7 @@ class ilComponentInstallPluginObjective implements Setup\Objective
         return !$plugin->isInstalled();
     }
 
-    protected function initEnvironment(Setup\Environment $environment): ILIAS\DI\Container
+    protected function initEnvironment(Setup\Environment $environment, \ilComponentRepository $component_repository): ILIAS\DI\Container
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $plugin_admin = $environment->getResource(Setup\Environment::RESOURCE_PLUGIN_ADMIN);
@@ -175,6 +175,7 @@ class ilComponentInstallPluginObjective implements Setup\Objective
         $GLOBALS["DIC"]["tree"] = null;
         $GLOBALS["DIC"]["ilAppEventHandler"] = null;
         $GLOBALS["DIC"]["ilSetting"] = new ilSetting();
+        $GLOBALS["DIC"]["component.repository"] = $component_repository;
         $GLOBALS["DIC"]["objDefinition"] = new ilObjectDefinition();
         $GLOBALS["DIC"]["ilUser"] = new class () extends ilObjUser {
             public array $prefs = [];
