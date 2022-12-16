@@ -151,7 +151,7 @@ class ilObjLearningSequenceLearnerGUI
             list($label, $link, $primary) = $entry;
             $sub_button = ilLinkButton::getInstance();
             $sub_button->setPrimary($primary);
-            $sub_button->setCaption($label);
+            $sub_button->setCaption($label, false);
             $sub_button->setUrl($link);
             $this->toolbar->addButtonInstance($sub_button);
         }
@@ -193,7 +193,7 @@ class ilObjLearningSequenceLearnerGUI
                     $contents[] = $this->ui_factory->image()->responsive($img, '');
                 }
             } else {
-                $contents[] = $this->ui_factory->legacy($this->intro);
+                $contents[] = $this->ui_factory->legacy($this->extro);
             }
         }
         return $contents;

@@ -64,4 +64,12 @@ class ilObjLearningSequenceListGUI extends ilObjectListGUI
 
         return $props;
     }
+
+    public function createDefaultCommand(array $command): array
+    {
+        return [
+            "link" => ilLink::_getStaticLink($this->ref_id, $this->type, true),
+            "frame" => "_top"
+        ];
+    }
 }
