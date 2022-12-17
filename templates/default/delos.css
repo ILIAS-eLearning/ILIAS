@@ -17313,12 +17313,7 @@ div#ilContRepIntro img {
 }
 
 .ilContObjectiveObjectListItem {
-  background-color: #f9f9f9;
-}
-
-.ilContObjectiveIntro {
-  background-color: #f9f9f9;
-  padding: 1px 15px;
+  background-color: white;
 }
 
 .ilContObjectivesViewTestItem {
