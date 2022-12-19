@@ -570,7 +570,7 @@ class ilDclBaseFieldModel
     /**
      * @param mixed $value
      */
-    protected function normalizeValue($value): ?string
+    protected function normalizeValue($value)
     {
         if (is_string($value)) {
             $value = trim(preg_replace("/\\s+/uism", " ", $value));
