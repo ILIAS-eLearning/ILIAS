@@ -80,6 +80,11 @@ class ilLSPlayer
     {
         //init state and current item
         $items = $this->ls_items->getItems();
+
+        if (count($items) === 0) {
+            return null;
+        }
+
         $current_item = $this->getCurrentItem($items);
 
         while ($current_item->getAvailability() !== Step::AVAILABLE) {
