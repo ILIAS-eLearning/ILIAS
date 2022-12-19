@@ -76,7 +76,7 @@ class ilDclBaseRecordModel
                 $this->getLastUpdate()->get(IL_CAL_DATETIME),
             ),
             "owner" => array(
-                "text",
+                "integer",
                 $this->getOwner(),
             ),
             "last_edit_by" => array(
@@ -184,7 +184,7 @@ class ilDclBaseRecordModel
         $this->id = $a_id;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

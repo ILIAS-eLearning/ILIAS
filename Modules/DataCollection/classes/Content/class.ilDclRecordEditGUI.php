@@ -511,7 +511,6 @@ class ilDclRecordEditGUI
         $record_obj->setLastUpdate($date_obj);
         $record_obj->setLastEditBy($this->user->getId());
 
-
         if (ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->getRefId()) || $create_mode) {
             $all_fields = $this->table->getRecordFields();
         } else {
