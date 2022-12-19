@@ -24,15 +24,24 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Encapsulation of GUI
  */
-class mockSPRGDashGUI extends ilStudyProgrammeDashboardViewGUI
+class mockUserTable extends ilStudyProgrammeUserTable
 {
     public function __construct()
     {
+        $this->lng = new class () extends ilLanguage {
+            public function __construct()
+            {
+            }
+            public function txt(string $a_topic, string $a_default_lang_fallback_mod = ''): string
+            {
+                return $a_topic;
+            }
+        };
     }
 
-    public function mockCalculatePercent(ilObjStudyProgramme $prg, int $current_points): array
+    public function mockCalculatePercent(ilObjStudyProgramme $prg, ilPRGAssignment $ass): array
     {
-        return $this->calculatePercent($prg, $current_points);
+        return $this->calculatePercent($prg, $ass);
     }
 }
 
@@ -41,7 +50,7 @@ class mockSPRGDashGUI extends ilStudyProgrammeDashboardViewGUI
  */
 class ilStudyProgrammeDashGUITest extends TestCase
 {
-    private mockSPRGDashGUI $gui;
+    private mockUserTable $user_table;
     /**
      * @var ilObjStudyProgramme|mixed|MockObject
      */
@@ -49,13 +58,11 @@ class ilStudyProgrammeDashGUITest extends TestCase
 
     protected function setUp(): void
     {
-        $this->gui = new mockSPRGDashGUI();
+        $this->user_table = new mockUserTable();
         $this->prg = $this->getMockBuilder(ilObjStudyProgramme::class)
             ->disableOriginalConstructor()
             ->onlyMethods([
-                'hasLPChildren',
-                'getAllPrgChildren',
-                'getPoints'
+                'hasLPChildren'
             ])
             ->getMock();
     }
@@ -80,14 +87,17 @@ class ilStudyProgrammeDashGUITest extends TestCase
     {
         $this->prg->method('hasLPChildren')
             ->willReturn(false);
-        $this->prg->method('getAllPrgChildren')
-            ->willReturn([]);
+
+        $pgs1 = (new ilPRGProgress(1, ilPRGProgress::STATUS_COMPLETED))
+            ->withAmountOfPoints(100);
+        $ass = (new ilPRGAssignment(42, 7))->withProgressTree($pgs1);
+
 
         [$minimum_percents, $current_percents]
-            = $this->gui->mockCalculatePercent($this->prg, $current_user_points);
+            = $this->user_table->mockCalculatePercent($this->prg, $ass);
 
-        $this->assertEquals(0, $minimum_percents);
-        $this->assertEquals(0, $current_percents);
+        $this->assertEquals('0 percentage', $minimum_percents);
+        $this->assertEquals('0 percentage', $current_percents);
     }
 
     /**
@@ -98,15 +108,21 @@ class ilStudyProgrammeDashGUITest extends TestCase
         $this->prg->method('hasLPChildren')
             ->willReturn(true);
 
-        [$minimum_percents, $current_percents]
-            = $this->gui->mockCalculatePercent($this->prg, $current_user_points);
+        $pgs1 = (new ilPRGProgress(1, ilPRGProgress::STATUS_COMPLETED))
+            ->withAmountOfPoints(100)
+            ->withCurrentAmountOfPoints($current_user_points);
+        $ass = (new ilPRGAssignment(42, 7))->withProgressTree($pgs1);
 
-        $this->assertEquals(100, $minimum_percents);
+        [$minimum_percents, $current_percents]
+            = $this->user_table->mockCalculatePercent($this->prg, $ass);
+
+        $this->assertEquals('100 percentage', $minimum_percents);
+
         if ($current_user_points == 0) {
-            $this->assertEquals(0, $current_percents);
+            $this->assertEquals('0 percentage', $current_percents);
         }
         if ($current_user_points > 0) {
-            $this->assertEquals(100, $current_percents);
+            $this->assertEquals('100 percentage', $current_percents);
         }
     }
 
@@ -119,27 +135,32 @@ class ilStudyProgrammeDashGUITest extends TestCase
             ->disableOriginalConstructor()
             ->onlyMethods(['getPoints'])
             ->getMock();
-
-        $node1 = clone $node;
-        $node1->method('getPoints')->willReturn(100);
-        $node2 = clone $node;
-        $node2->method('getPoints')->willReturn(50);
-        $node3 = clone $node;
-        $node3->method('getPoints')->willReturn(5);
-        $node4 = clone $node;
-        $node4->method('getPoints')->willReturn(5);
-
         $this->prg->method('hasLPChildren')
             ->willReturn(false);
-        $this->prg->method('getAllPrgChildren')
-            ->willReturn([$node1, $node2, $node3, $node4]);
 
-        $this->prg->method('getPoints')->willReturn(60);
+        $status = ilPRGProgress::STATUS_COMPLETED;
+        $pgs11 = (new ilPRGProgress(11, $status))->withAmountOfPoints(100);
+        $pgs12 = (new ilPRGProgress(12, $status))->withAmountOfPoints(50);
+        $pgs13 = (new ilPRGProgress(13, $status))->withAmountOfPoints(5);
+        $pgs14 = (new ilPRGProgress(14, $status))->withAmountOfPoints(5);
+        $pgs1 = (new ilPRGProgress(1, $status))
+            ->setSubnodes([$pgs11, $pgs12, $pgs13, $pgs14])
+            ->withAmountOfPoints(60)
+            ->withCurrentAmountOfPoints($current_user_points);
+        $ass = (new ilPRGAssignment(42, 7))->withProgressTree($pgs1);
+
+
+        $this->assertEquals(160, $pgs1->getPossiblePointsOfRelevantChildren());
+        $this->assertEquals($current_user_points, $pgs1->getCurrentAmountOfPoints());
 
         [$minimum_percents, $current_percents]
-            = $this->gui->mockCalculatePercent($this->prg, $current_user_points);
+            = $this->user_table->mockCalculatePercent($this->prg, $ass);
 
-        $this->assertEquals(37.5, $minimum_percents); //37.5 = (160 max points /  60 root-prg points) * 100
-        $this->assertEquals($expected, $current_percents);
+
+        //37.5 = (160 max points /  60 root-prg points) * 100
+        $this->assertEquals('37.5 percentage', $minimum_percents);
+
+
+        $this->assertEquals((string) $expected . ' percentage', $current_percents);
     }
 }
