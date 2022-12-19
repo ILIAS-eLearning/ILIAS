@@ -121,9 +121,13 @@ class ilObjLearningSequenceContentGUI
      */
     protected function confirmDelete(): void
     {
+        $r = $this->refinery;
         $ref_ids = $this->post_wrapper->retrieve(
             "id",
-            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            $r->byTrying([
+                $r->kindlyTo()->listOf($r->kindlyTo()->int()),
+                $r->always([])
+            ])
         );
 
         if (!$ref_ids || count($ref_ids) < 1) {
