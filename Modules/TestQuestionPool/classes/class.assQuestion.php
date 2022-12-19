@@ -3051,7 +3051,7 @@ abstract class assQuestion
                         'qht_hint_id' => array('integer', $next_id),
                         'qht_question_fi' => array('integer', $this->original_id),
                         'qht_hint_index' => array('integer', $row["qht_hint_index"]),
-                        'qht_hint_points' => array('integer', $row["qht_hint_points"]),
+                        'qht_hint_points' => array('float', $row["qht_hint_points"]),
                         'qht_hint_text' => array('text', $row["qht_hint_text"]),
                     )
                 );
