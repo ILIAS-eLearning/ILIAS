@@ -321,6 +321,7 @@ class ilPRGProgress extends Node
         }
         return $sum;
     }
+
     public function getPossiblePointsOfRelevantChildren(): int
     {
         $sum = 0;
@@ -332,7 +333,6 @@ class ilPRGProgress extends Node
         }
         return $sum;
     }
-
 
     public function invalidate(): self
     {
