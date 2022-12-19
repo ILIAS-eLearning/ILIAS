@@ -162,6 +162,8 @@ class ilStudyProgrammeUserTable
 
         $show_lp = $this->includeLearningProgress($ass->getUserId());
 
+        $prg = ilObjStudyProgramme::getInstanceByObjId($ass->getRootId());
+        list($min_percent, $cur_percent) = $this->calculatePercent($prg, $ass);
         $row = $row
             ->withUserActiveRaw($ass->getUserInformation()->isActive())
             ->withUserActive($this->activeToRepresent($ass->getUserInformation()->isActive()))
@@ -174,7 +176,7 @@ class ilStudyProgrammeUserTable
             ->withStatus($show_lp ? $this->statusToRepresent($pgs->getStatus()) : '')
             ->withStatusRaw($pgs->getStatus())
             ->withCompletionDate(
-                $show_lp && $pgs->getCompletionDate() ? $pgs->getCompletionDate()->format($pgs::DATE_TIME_FORMAT) : ''
+                $show_lp && $pgs->getCompletionDate() ? $pgs->getCompletionDate()->format($this->getUserDateFormat()) : ''
             )
             ->withCompletionBy(
                 $show_lp && $pgs->getCompletionBy() ? $this::lookupTitle($pgs->getCompletionBy()) : ''
@@ -187,7 +189,7 @@ class ilStudyProgrammeUserTable
             ->withPointsCurrent($show_lp ? (string) $pgs->getCurrentAmountOfPoints() : '')
             ->withCustomPlan($this->boolToRepresent($pgs->hasIndividualModifications()))
             ->withBelongsTo($this::lookupTitle($ass->getRootId()))
-            ->withAssignmentDate($pgs->getAssignmentDate()->format($pgs::DATE_TIME_FORMAT))
+            ->withAssignmentDate($pgs->getAssignmentDate()->format($this->getUserDateFormat()))
             ->withAssignmentBy(
                 $this->assignmentSourceToRepresent(
                     $ass->isManuallyAssigned(),
@@ -195,19 +197,23 @@ class ilStudyProgrammeUserTable
                 )
             )
             ->withDeadline(
-                $show_lp && $pgs->getDeadline() && !$pgs->isSuccessful() ? $pgs->getDeadline()->format($pgs::DATE_FORMAT) : ''
+                $show_lp && $pgs->getDeadline() && !$pgs->isSuccessful() ? $pgs->getDeadline()->format($this->getUserDateFormat()) : ''
             )
             ->withExpiryDate(
-                $show_lp && $pgs->getValidityOfQualification() ? $pgs->getValidityOfQualification()->format($pgs::DATE_FORMAT) : ''
+                $show_lp && $pgs->getValidityOfQualification() ? $pgs->getValidityOfQualification()->format($this->getUserDateFormat()) : ''
             )
             ->withValidity($show_lp ? $this->validToRepresent($pgs) : '')
+            ->withRestartDate($ass->getRestartDate() ? $ass->getRestartDate()->format($this->getUserDateFormat()) : '')
+            ->withMinimumRequiredPercent($min_percent)
+            ->withCurrentPercent($cur_percent)
+
         ;
         return $row;
     }
 
     protected function getUserDateFormat(): string
     {
-        return ilCalendarUtil::getUserDateFormat(false, true);
+        return ilCalendarUtil::getUserDateFormat(0, true);
     }
 
     /**
@@ -278,5 +284,31 @@ class ilStudyProgrammeUserTable
             return sprintf('(%s)', $del['title']);
         }
         throw new Exception("Error Processing Request:" . $obj_id, 1);
+    }
+
+    protected function calculatePercent(ilObjStudyProgramme $prg, ilPRGAssignment $ass): array
+    {
+        $minimum_percents = 0;
+        $current_percents = 0;
+        $current_points = $ass->getProgressTree()->getCurrentAmountOfPoints();
+
+        if ($prg->hasLPChildren()) {
+            $minimum_percents = 100;
+            if ($current_points > 0) {
+                $current_percents = 100;
+            }
+        } else {
+            $max_points = $ass->getProgressTree()->getPossiblePointsOfRelevantChildren();
+            $needed = $ass->getProgressTree()->getAmountOfPoints();
+            if ($max_points > 0) {
+                $minimum_percents = round((100 * $needed / $max_points), 2);
+                $current_percents = round((100 * $current_points / $max_points), 2);
+            }
+        }
+
+        return [
+            $minimum_percents . ' ' . $this->lng->txt('percentage'),
+            $current_percents . ' ' . $this->lng->txt('percentage')
+        ];
     }
 }

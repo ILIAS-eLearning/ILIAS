@@ -53,6 +53,9 @@ class ilStudyProgrammeUserTableRow
     protected string $deadline;
     protected string $expiry_date;
     protected string $validity;
+    protected string $restart_date;
+    protected string $minimum_percent;
+    protected string $current_percent;
 
     public function __construct(int $ass_id, int $usr_id, int $node_obj_id, bool $is_root_progress)
     {
@@ -337,6 +340,40 @@ class ilStudyProgrammeUserTableRow
     {
         return $this->validity;
     }
+
+    public function withRestartDate(string $restart_date): self
+    {
+        $clone = clone $this;
+        $clone->restart_date = $restart_date;
+        return $clone;
+    }
+    public function getRestartDate(): string
+    {
+        return $this->restart_date;
+    }
+
+    public function withMinimumRequiredPercent(string $minimum_percent): self
+    {
+        $clone = clone $this;
+        $clone->minimum_percent = $minimum_percent;
+        return $clone;
+    }
+    public function getMinimumRequiredPercent(): string
+    {
+        return $this->minimum_percent;
+    }
+
+    public function withCurrentPercent(string $current_percent): self
+    {
+        $clone = clone $this;
+        $clone->current_percent = $current_percent;
+        return $clone;
+    }
+    public function getCurrentPercent(): string
+    {
+        return $this->current_percent;
+    }
+
 
     public function toArray(): array
     {
