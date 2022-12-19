@@ -43,6 +43,7 @@ class ilLSLaunchlinksBuilder
     protected int $usr_id;
     protected $first_access;
     protected ilLearningSequenceRoles $roles;
+    protected ilLSLearnerItemsQueries $ls_items;
 
     public function __construct(
         ilLanguage $language,
@@ -52,7 +53,8 @@ class ilLSLaunchlinksBuilder
         int $lso_ref_id,
         int $usr_id,
         $first_access,
-        ilLearningSequenceRoles $roles
+        ilLearningSequenceRoles $roles,
+        ilLSLearnerItemsQueries $ls_items
     ) {
         $this->lng = $language;
         $this->access = $access;
@@ -63,6 +65,7 @@ class ilLSLaunchlinksBuilder
         $this->usr_id = $usr_id;
         $this->first_access = $first_access;
         $this->roles = $roles;
+        $this->ls_items = $ls_items;
     }
 
     protected function mayJoin(): bool
@@ -102,15 +105,17 @@ class ilLSLaunchlinksBuilder
         $links = [];
 
         if (!$this->isMember() && $this->mayJoin()) {
-            $links[] = [
+            if (!$this->ls_items->hasItems()) {
+                return [];
+            }
+            return [[
                 $this->lng->txt("lso_player_start"),
                 $this->getLink(self::CMD_START),
                 true
-            ];
-            return $links;
+            ]];
         }
 
-        if (!$this->hasCompleted()) {
+        if (!$this->hasCompleted() && $this->ls_items->hasItems()) {
             $label = "lso_player_resume";
             if ($this->first_access === -1) {
                 $label = "lso_player_start";
@@ -121,11 +126,13 @@ class ilLSLaunchlinksBuilder
                 true
             ];
         } else {
-            $links[] = [
-                $this->lng->txt("lso_player_review"),
-                $this->getLink(self::CMD_VIEW),
-                true
-            ];
+            if ($this->ls_items->hasItems()) {
+                $links[] = [
+                    $this->lng->txt("lso_player_review"),
+                    $this->getLink(self::CMD_VIEW),
+                    true
+                ];
+            }
 
             if ($cmd === self::CMD_STANDARD) {
                 $links[] = [

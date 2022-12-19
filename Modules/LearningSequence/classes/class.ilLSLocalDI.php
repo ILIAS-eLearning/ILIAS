@@ -225,7 +225,8 @@ class ilLSLocalDI extends Container
                 $c["obj.ref_id"],
                 $c["usr.id"],
                 $first_access,
-                $c["roles"]
+                $c["roles"],
+                $c["learneritems"]
             );
         };
 
