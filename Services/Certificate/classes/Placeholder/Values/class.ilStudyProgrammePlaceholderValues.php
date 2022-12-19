@@ -83,28 +83,11 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
 
         $progresses = [];
         $assignments = $object->getAssignmentsOfSingleProgramForUser($userId);
-        $progresses = array_map(fn ($ass) => $ass->getProgressForNode($object->getId()), $assignments);
-        $latest_progress = array_reduce(
-            $progresses,
-            static function ($one, $other) {
-                if ($one !== null && $one->isSuccessful() && $other !== null && $other->isSuccessful()) {
-                    return
-                        $one->getCompletionDate()->format('Y-m-d H:i:s') > $other->getCompletionDate()->format('Y-m-d H:i:s') ?
-                            $one :
-                            $other;
-                }
-                if ($one !== null && $one->isSuccessful()) {
-                    return $one;
-                }
-                if ($other !== null && $other->isSuccessful()) {
-                    return $other;
-                }
-                return null;
-            }
-        );
-
-        if (!$latest_progress) {
-            throw new ilInvalidCertificateException('PRG: no valid progress for user ' . $userId . ' while generating certificate');
+        $latest = $this->getLatestAssignment($assignments);
+        $latest_successful = $this->getLatestSuccessfulAssignment($assignments);
+        $latest_progress = null;
+        if ($latest_successful) {
+            $latest_progress = $latest_successful->getProgressTree();
         }
 
         $type = $object->getSubType();
@@ -113,12 +96,11 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
         $placeholders['PRG_TYPE'] = ilLegacyFormElementsUtil::prepareFormOutput($type ? $type->getTitle() : '');
         $placeholders['PRG_POINTS'] = ilLegacyFormElementsUtil::prepareFormOutput((string) $object->getPoints());
         $placeholders['PRG_COMPLETION_DATE'] = ilLegacyFormElementsUtil::prepareFormOutput(
-            $latest_progress->getCompletionDate() instanceof DateTimeImmutable ? $latest_progress->getCompletionDate(
-            )->format('d.m.Y') : ''
+            $latest_progress ? $latest_progress->getCompletionDate()->format('d.m.Y') : ''
         );
         $placeholders['PRG_EXPIRES_AT'] = ilLegacyFormElementsUtil::prepareFormOutput(
-            $latest_progress->getValidityOfQualification(
-            ) instanceof DateTimeImmutable ? $latest_progress->getValidityOfQualification()->format('d.m.Y') : ''
+            $latest_progress && $latest_progress->getValidityOfQualification() ?
+                $latest_progress->getValidityOfQualification()->format('d.m.Y') : ''
         );
         return $placeholders;
     }
@@ -145,5 +127,45 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
         $placeholders['PRG_COMPLETION_DATE'] = $today;
         $placeholders['PRG_EXPIRES_AT'] = $today;
         return $placeholders;
+    }
+
+    protected function getLatestAssignment(array $assignments): ilPRGAssignment
+    {
+        usort($assignments, static function (ilPRGAssignment $a, ilPRGAssignment $b): int {
+            $a_dat =$a->getProgressTree()->getAssignmentDate();
+            $b_dat =$b->getProgressTree()->getAssignmentDate();
+            if ($a_dat > $b_dat) {
+                return -1;
+            } elseif ($a_dat < $b_dat) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+        return array_shift($assignments);
+    }
+
+    protected function getLatestSuccessfulAssignment(array $assignments): ?ilPRGAssignment
+    {
+        $successful = array_filter(
+            $assignments,
+            fn ($ass) => $ass->getProgressTree()->isSuccessful()
+        );
+        if (count($successful) === 0) {
+            return null;
+        }
+
+        usort($successful, static function (ilPRGAssignment $a, ilPRGAssignment $b): int {
+            $a_dat =$a->getProgressTree()->getCompletionDate();
+            $b_dat =$b->getProgressTree()->getCompletionDate();
+            if ($a_dat > $b_dat) {
+                return -1;
+            } elseif ($a_dat < $b_dat) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+        return array_shift($successful);
     }
 }
