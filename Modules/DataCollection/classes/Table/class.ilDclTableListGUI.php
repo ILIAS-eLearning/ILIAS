@@ -188,14 +188,18 @@ class ilDclTableListGUI
 
     protected function save(): void
     {
-        $comments = $this->http->wrapper()->post()->retrieve(
-            'comments',
-            $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
-        );
-        $visible = $this->http->wrapper()->post()->retrieve(
-            'visible',
-            $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
-        );
+        if ($this->http->wrapper()->post()->has("comments")) {
+            $comments = $this->http->wrapper()->post()->retrieve(
+                'comments',
+                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
+            );
+        }
+        if ($this->http->wrapper()->post()->has("visible")) {
+            $visible = $this->http->wrapper()->post()->retrieve(
+                'visible',
+                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
+            );
+        }
         $orders = $this->http->wrapper()->post()->retrieve(
             'order',
             $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())

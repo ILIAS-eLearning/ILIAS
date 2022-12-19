@@ -71,7 +71,9 @@ class ilDclBaseRecordRepresentation
         $input_field = $form->getItemByPostVar('field_' . $this->getRecordField()->getField()->getId());
         if ($input_field) {
             $value = $this->getFormInput();
-            $input_field->setValueByArray(array("field_" . $this->getRecordField()->getField()->getId() => $value));
+            if (!is_null($value)) {
+                $input_field->setValueByArray(array("field_" . $this->getRecordField()->getField()->getId() => $value));
+            }
         }
     }
 
