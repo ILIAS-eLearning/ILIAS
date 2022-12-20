@@ -202,7 +202,8 @@ abstract class assQuestionGUI
                 $form_prop_dispatch->setItem($form->getItemByPostVar(ilUtil::stripSlashes($this->request->raw('postvar'))));
                 $this->ctrl->forwardCommand($form_prop_dispatch);
                 break;
-
+            default:
+                $cmd = $this->ctrl->getCmd('editQuestion');
                 switch ($cmd) {
                     case self::SUGGESTED_SOLUTION_COMMANDS_CANCEL:
                     case self::SUGGESTED_SOLUTION_COMMANDS_SAVE:

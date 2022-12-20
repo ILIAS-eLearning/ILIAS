@@ -53,7 +53,7 @@ class ilAssQuestionHintRequestStatisticData
      * @access public
      * @return float $requestsPoints
      */
-    public function getRequestsPoints(): ?int
+    public function getRequestsPoints(): ?float
     {
         return $this->requestsPoints;
     }
