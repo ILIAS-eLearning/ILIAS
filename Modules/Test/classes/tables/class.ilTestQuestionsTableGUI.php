@@ -26,7 +26,7 @@
 */
 class ilTestQuestionsTableGUI extends ilTable2GUI
 {
-    private const CLASS_PATH_FOR_EDIT_LINKS = [ilRepositoryGUI::class, ilObjQuestionPoolGUI::class];
+    private const CLASS_PATH_FOR_QUESTION_EDIT_LINKS = [ilRepositoryGUI::class, ilObjQuestionPoolGUI::class];
 
     /**
      * @var bool
@@ -250,14 +250,14 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         $actions->addItem(
             $this->lng->txt('statistics'),
             '',
-            $this->getEditLink($a_set, 'ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_STATISTICS)
+            $this->getQuestionEditLink($a_set, 'ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_STATISTICS)
         );
 
         if ($this->isQuestionManagingEnabled()) {
-            $editHref = $this->getEditLink($a_set, $a_set['type_tag'] . 'GUI', 'editQuestion');
+            $editHref = $this->getQuestionEditLink($a_set, $a_set['type_tag'] . 'GUI', 'editQuestion');
             $actions->addItem($this->lng->txt('edit_question'), '', $editHref);
 
-            $editPageHref = $this->getEditLink($a_set, 'ilAssQuestionPageGUI', 'edit');
+            $editPageHref = $this->getQuestionEditLink($a_set, 'ilAssQuestionPageGUI', 'edit');
             $actions->addItem($this->lng->txt('edit_page'), '', $editPageHref);
 
             $moveHref = $this->getEditLink($a_set, get_class($this->getParentObject()), 'moveQuestions');
@@ -269,10 +269,10 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             $deleteHref = $this->getEditLink($a_set, get_class($this->getParentObject()), 'removeQuestions');
             $actions->addItem($this->lng->txt('delete'), '', $deleteHref);
 
-            $feedbackHref = $this->getEditLink($a_set, 'ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
+            $feedbackHref = $this->getQuestionEditLink($a_set, 'ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
             $actions->addItem($this->lng->txt('tst_feedback'), '', $feedbackHref);
 
-            $hintsHref = $this->getEditLink($a_set, 'ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
+            $hintsHref = $this->getQuestionEditLink($a_set, 'ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
             $actions->addItem($this->lng->txt('tst_question_hints_tab'), '', $hintsHref);
         }
         $this->tpl->setVariable('ROW_ACTIONS', $actions->getHTML());
@@ -344,8 +344,17 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         return $question_href;
     }
 
-    protected function getEditLink(array $rowData, string $target_class, string $cmd): string
+    protected function getQuestionEditLink(array $rowData, string $target_class, string $cmd, array $target_class_path = []): string
     {
+        $target_class_path = array_merge(self::CLASS_PATH_FOR_QUESTION_EDIT_LINKS, [$target_class]);
+        return $this->getEditLink($rowData, $target_class, $cmd, $target_class_path);
+    }
+
+    protected function getEditLink(array $rowData, string $target_class, string $cmd, array $target_class_path = []): string
+    {
+        if ($target_class_path === []) {
+            $target_class_path = $target_class;
+        }
         $this->ctrl->setParameterByClass(
             $target_class,
             'ref_id',
@@ -363,10 +372,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             $_GET['ref_id']
         );
 
-        $link = $this->ctrl->getLinkTargetByClass(array_merge(
-            self::CLASS_PATH_FOR_EDIT_LINKS,
-            [$target_class]
-        ), $cmd);
+        $link = $this->ctrl->getLinkTargetByClass($target_class_path, $cmd);
 
         $this->ctrl->setParameterByClass($target_class, 'ref_id', '');
         $this->ctrl->setParameterByClass($target_class, 'q_id', '');
