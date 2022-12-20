@@ -344,11 +344,21 @@ class ilOpenIdConnectSettingsGUI
             }
         }
 
-        $invalid_scopes = $this->settings->validateScopes((string) $form->getInput('provider'), (array) $scopes);
-        if (!empty($invalid_scopes)) {
+        try {
+            $invalid_scopes = $this->settings->validateScopes((string) $form->getInput('provider'), (array) $scopes);
+            if (!empty($invalid_scopes)) {
+                $this->mainTemplate->setOnScreenMessage(
+                    'failure',
+                    sprintf($this->lng->txt('auth_oidc_settings_invalid_scopes'), implode(",", $invalid_scopes))
+                );
+                $form->setValuesByPost();
+                $this->settings($form);
+                return;
+            }
+        } catch (ilCurlConnectionException $e) {
             $this->mainTemplate->setOnScreenMessage(
                 'failure',
-                sprintf($this->lng->txt('auth_oidc_settings_invalid_scopes'), implode(",", $invalid_scopes))
+                $e->getMessage()
             );
             $form->setValuesByPost();
             $this->settings($form);
