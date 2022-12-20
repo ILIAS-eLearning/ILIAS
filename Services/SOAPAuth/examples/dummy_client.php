@@ -39,6 +39,7 @@ echo '<form>' .
 echo "<br /><br />----------------------------------------------<br /><br /> Calling Server...";
 
 // initialize soap client
+require_once './webservice/soap/lib/nusoap.php';
 $client = new nusoap_client($server);
 if ($err = $client->getError()) {
     echo '<h2>Constructor error</h2><pre>' . $err . '</pre>';
