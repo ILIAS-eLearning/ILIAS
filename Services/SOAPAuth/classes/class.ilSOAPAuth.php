@@ -46,6 +46,7 @@ class ilSOAPAuth
             $uri .= "/" . $server_uri;
         }
 
+        require_once './webservice/soap/lib/nusoap.php';
         $soap_client = new nusoap_client($uri);
         if ($err = $soap_client->getError()) {
             return "SOAP Authentication Initialisation Error: " . $err;
