@@ -62,9 +62,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
             $this->writeQuestionGenericPostData();
             $this->writeQuestionSpecificPostData(new ilPropertyFormGUI());
-            if ($this->validateUploadSubforms() || !$hasErrors) {
-                $this->writeAnswerSpecificPostData(new ilPropertyFormGUI());
-            }
+            $this->writeAnswerSpecificPostData(new ilPropertyFormGUI());
             $this->saveTaxonomyAssignments();
             return 0;
         }
