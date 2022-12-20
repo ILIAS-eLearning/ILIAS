@@ -37,7 +37,7 @@ abstract class ilMailNotification
     protected array $recipients = [];
     protected int $ref_id;
     protected int $obj_id = 0;
-    protected string $obj_type;
+    protected string $obj_type = '';
     protected array $additional_info = [];
     protected bool $is_in_wsp;
     protected ilWorkspaceTree $wsp_tree;
