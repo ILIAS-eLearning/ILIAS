@@ -126,7 +126,7 @@ class ilObjBookingPool extends ilObject
             $this->setReservationFilterPeriod($row['rsv_filter_period']);
             $this->setPreferenceNumber($row['preference_nr']);
             $this->setPreferenceDeadline($row['pref_deadline']);
-            $this->setMessages((bool) (int) $row['messages']);
+            $this->setMessages((bool) ((int) ($row['messages'] ?? 0)));
         }
     }
 
