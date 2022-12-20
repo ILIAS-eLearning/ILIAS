@@ -632,8 +632,18 @@ class ilLDAPQuery
                 throw new ilLDAPQueryException('LDAP: unknown binding type in: ' . __METHOD__);
         }
 
-        if (!ldap_bind($this->lh, $user, $pass)) {
-            throw new ilLDAPQueryException('LDAP: Cannot bind as ' . $user . ' with message: ' . ldap_err2str(ldap_errno($this->lh)) . ' Trying fallback...', ldap_errno($this->lh));
+        try {
+            set_error_handler(static function (int $severity, string $message, string $file, int $line): void {
+                throw new ErrorException($message, $severity, $severity, $file, $line);
+            });
+
+            if (!ldap_bind($this->lh, $user, $pass)) {
+                throw new ilLDAPQueryException('LDAP: Cannot bind as ' . $user . ' with message: ' . ldap_err2str(ldap_errno($this->lh)) . ' Trying fallback...', ldap_errno($this->lh));
+            }
+        } catch (Throwable $e) {
+            throw new ilLDAPQueryException('LDAP: Cannot bind as ' . $user . ' with message: ' . $e->getMessage());
+        } finally {
+            restore_error_handler();
         }
 
         $this->logger->debug('Bind successful.');
