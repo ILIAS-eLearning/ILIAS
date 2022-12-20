@@ -23,8 +23,6 @@ il.Util.addOnLoad(
         });
 
         $("#ilMMSearchMenu input[type='radio']").change(function () {
-            $("#main_menu_search").focus();
-
             /* close current search */
             $("#main_menu_search").autocomplete("close");
 
