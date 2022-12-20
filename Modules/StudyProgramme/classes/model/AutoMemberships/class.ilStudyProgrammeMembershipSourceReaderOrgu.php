@@ -24,17 +24,18 @@ declare(strict_types=1);
 class ilStudyProgrammeMembershipSourceReaderOrgu implements ilStudyProgrammeMembershipSourceReader
 {
     protected ilObjOrgUnitTree $orgu_tree;
-    protected ilOrgUnitUserAssignment $orgu_assignment;
     protected int $src_id;
+    protected ilOrgUnitUserAssignmentDBRepository $assignmentRepo;
 
     public function __construct(
         ilObjOrgUnitTree $orgu_tree,
-        ilOrgUnitUserAssignment $orgu_assignment,
         int $src_id
     ) {
         $this->orgu_tree = $orgu_tree;
-        $this->orgu_assignment = $orgu_assignment;
         $this->src_id = $src_id;
+
+        $dic = ilOrgUnitLocalDIC::dic();
+        $this->assignmentRepo = $dic["repo.UserAssignments"];
     }
 
     /**
@@ -42,13 +43,6 @@ class ilStudyProgrammeMembershipSourceReaderOrgu implements ilStudyProgrammeMemb
      */
     public function getMemberIds(): array
     {
-        $assignees = $this->orgu_assignment::where(
-            ['orgu_id' => $this->src_id]
-        )->getArray('id', 'user_id');
-
-        return array_map(
-            'intval',
-            array_values($assignees)
-        );
+        return $this->assignmentRepo->getUsersByOrgUnits([$this->src_id]);
     }
 }
