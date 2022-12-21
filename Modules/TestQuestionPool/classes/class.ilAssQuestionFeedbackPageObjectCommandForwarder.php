@@ -57,8 +57,6 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
      */
     public function forward(): void
     {
-        //$this->ensurePageObjectExists($_GET['feedback_type'], $_GET['feedback_id']);
-
         $pageObjectGUI = $this->getPageObjectGUI($this->request->raw('feedback_type'), $this->request->raw('feedback_id'));
         $pageObjectGUI->setEnabledTabs(true);
 
@@ -80,9 +78,7 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
      */
     public function ensurePageObjectExists($pageObjectType, $pageObjectId): void
     {
-        include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssQuestionFeedback.php");
         if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK) {
-            include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssGenFeedbackPage.php");
             if (!ilAssGenFeedbackPage::_exists($pageObjectType, $pageObjectId)) {
                 $pageObject = new ilAssGenFeedbackPage();
                 $pageObject->setParentId($this->questionOBJ->getId());
@@ -91,7 +87,6 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
             }
         }
         if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK) {
-            include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPage.php");
             if (!ilAssSpecFeedbackPage::_exists($pageObjectType, $pageObjectId)) {
                 $pageObject = new ilAssSpecFeedbackPage();
                 $pageObject->setParentId($this->questionOBJ->getId());
