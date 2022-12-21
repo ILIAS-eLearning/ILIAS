@@ -49,6 +49,7 @@ class ilAssQuestionPreviewGUI
     public const FEEDBACK_FOCUS_ANCHOR = 'focus';
 
     private ilCtrlInterface $ctrl;
+    private ilRbacSystem $rbac_system;
     private ilTabsGUI $tabs;
     private ilGlobalTemplateInterface $tpl;
     private ilLanguage $lng;
@@ -61,22 +62,29 @@ class ilAssQuestionPreviewGUI
     private ?ilAssQuestionPreviewHintTracking $hintTracking = null;
     private RandomGroup $randomGroup;
 
+    private int $parent_ref_id;
+
     public function __construct(
         ilCtrl $ctrl,
+        ilRbacSystem $rbac_system,
         ilTabsGUI $tabs,
         ilGlobalTemplateInterface $tpl,
         ilLanguage $lng,
         ilDBInterface $db,
         ilObjUser $user,
-        RandomGroup $randomGroup
+        RandomGroup $randomGroup,
+        int $parent_ref_id
     ) {
         $this->ctrl = $ctrl;
+        $this->rbac_system = $rbac_system;
         $this->tabs = $tabs;
         $this->tpl = $tpl;
         $this->lng = $lng;
         $this->db = $db;
         $this->user = $user;
         $this->randomGroup = $randomGroup;
+
+        $this->parent_ref_id = $parent_ref_id;
     }
 
     public function initQuestion($questionId, $parentObjId): void
@@ -199,8 +207,8 @@ class ilAssQuestionPreviewGUI
 
     public function executeCommand(): void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        $ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
+        global $DIC;
+        $ilHelp = $DIC['ilHelp'];
         $ilHelp->setScreenIdComponent('qpl');
 
         $this->tabs->setTabActive(self::TAB_ID_QUESTION);
@@ -212,31 +220,22 @@ class ilAssQuestionPreviewGUI
         switch ($nextClass) {
             case 'ilassquestionhintrequestgui':
                 $gui = new ilAssQuestionHintRequestGUI($this, self::CMD_SHOW, $this->questionGUI, $this->hintTracking);
-
                 $this->ctrl->forwardCommand($gui);
-
                 break;
-
             case 'ilassspecfeedbackpagegui':
             case 'ilassgenfeedbackpagegui':
                 $forwarder = new ilAssQuestionFeedbackPageObjectCommandForwarder($this->questionOBJ, $this->ctrl, $this->tabs, $this->lng);
                 $forwarder->forward();
                 break;
-
             case 'ilnotegui':
-
                 $notesGUI = new ilNoteGUI($this->questionOBJ->getObjId(), $this->questionOBJ->getId(), 'quest');
                 $notesGUI->enablePublicNotes(true);
                 $notesGUI->enablePublicNotesDeletion(true);
                 $notesPanelHTML = $this->ctrl->forwardCommand($notesGUI);
                 $this->showCmd($notesPanelHTML);
                 break;
-
-
             default:
-
                 $cmd = $this->ctrl->getCmd(self::CMD_SHOW) . 'Cmd';
-
                 $this->$cmd();
         }
     }
@@ -251,28 +250,23 @@ class ilAssQuestionPreviewGUI
 
     protected function isCommentingRequired(): bool
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
         if ($this->previewSettings->isTestRefId()) {
             return false;
         }
 
-        return $DIC->rbac()->system()->checkAccess(
+        return $this->rbac_system->checkAccess(
             'write',
-            $DIC->testQuestionPool()->internal()->request()->getRefId()
+            $this->parent_ref_id
         );
     }
 
     private function showCmd($notesPanelHTML = ''): void
     {
         $tpl = new ilTemplate('tpl.qpl_question_preview.html', true, true, 'Modules/TestQuestionPool');
-
         $tpl->setVariable('PREVIEW_FORMACTION', $this->buildPreviewFormAction());
 
         $this->populatePreviewToolbar($tpl);
-
         $this->populateQuestionOutput($tpl);
-
         $this->handleInstantResponseRendering($tpl);
 
         if ($this->isCommentingRequired()) {

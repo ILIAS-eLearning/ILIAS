@@ -652,7 +652,17 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
                 $this->ctrl->saveParameter($this, "q_id");
 
-                $gui = new ilAssQuestionPreviewGUI($this->ctrl, $this->tabs_gui, $this->tpl, $this->lng, $ilDB, $ilUser, $randomGroup);
+                $gui = new ilAssQuestionPreviewGUI(
+                    $this->ctrl,
+                    $this->rbac_system,
+                    $this->tabs_gui,
+                    $this->tpl,
+                    $this->lng,
+                    $ilDB,
+                    $ilUser,
+                    $randomGroup,
+                    $this->ref_id
+                );
 
                 $gui->initQuestion($this->fetchAuthoringQuestionIdParameter(), $this->object->getId());
                 $gui->initPreviewSettings($this->object->getRefId());
