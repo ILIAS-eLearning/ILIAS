@@ -4920,7 +4920,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         $this->saveToDb();
         $score_settings = $this->getScoreSettings();
-
+        $scoring_settings = $score_settings->getScoringSettings();
+        $gamification_settings = $score_settings->getGamificationSettings();
+        $result_summary_settings = $score_settings->getResultSummarySettings();
+        $result_details_settings = $score_settings->getResultDetailsSettings();
         foreach ($assessment->qtimetadata as $metadata) {
             switch ($metadata["label"]) {
                 case "test_type":
@@ -4952,7 +4955,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     $this->setShowSolutionDetails((int) $metadata["entry"]);
                     break;
                 case "print_bs_with_res":
-                    $score_settings = $score_settings->withPrintBestSolutionWithResult((bool)$metadata["entry"]);
+                    $result_details_settings = $result_details_settings->withPrintBestSolutionWithResult((bool)$metadata["entry"]);
                     break;
                 case "author":
                     $this->setAuthor($metadata["entry"]);
@@ -4983,43 +4986,43 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     break;
 
                 case "highscore_enabled":
-                    $score_settings = $score_settings->withHighscoreEnabled((bool)$metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreEnabled((bool)$metadata["entry"]);
                     break;
 
                 case "highscore_anon":
-                    $score_settings = $score_settings->withHighscoreAnon((bool)$metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreAnon((bool)$metadata["entry"]);
                     break;
 
                 case "highscore_achieved_ts":
-                    $score_settings = $score_settings->withHighscoreAchievedTS((bool)$metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreAchievedTS((bool)$metadata["entry"]);
                     break;
 
                 case "highscore_score":
-                    $score_settings = $score_settings->withHighscoreScore((bool)$metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreScore((bool)$metadata["entry"]);
                     break;
 
                 case "highscore_percentage":
-                    $score_settings = $score_settings->withHighscorePercentage((bool)$metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscorePercentage((bool)$metadata["entry"]);
                     break;
 
                 case "highscore_hints":
-                    $score_settings = $score_settings->withHighscoreHints((bool)$metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreHints((bool)$metadata["entry"]);
                     break;
 
                 case "highscore_wtime":
-                    $score_settings = $score_settings->withHighscoreWTime((bool)$metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreWTime((bool)$metadata["entry"]);
                     break;
 
                 case "highscore_own_table":
-                    $score_settings = $score_settings->withHighscoreOwnTable((bool)$metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreOwnTable((bool)$metadata["entry"]);
                     break;
 
                 case "highscore_top_table":
-                    $score_settings = $score_settings->withHighscoreTopTable((bool)$metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreTopTable((bool)$metadata["entry"]);
                     break;
 
                 case "highscore_top_num":
-                    $score_settings = $score_settings->withHighscoreTopNum((int)$metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreTopNum((int)$metadata["entry"]);
                     break;
 
                 case "hide_previous_results":
@@ -5089,7 +5092,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     $this->setShuffleQuestions($metadata["entry"]);
                     break;
                 case "count_system":
-                    $score_settings = $score_settings->withCountSystem((int)$metadata["entry"]);
+                    $scoring_settings = $scoring_settings->withCountSystem((int)$metadata["entry"]);
                     break;
                 case "mailnotification":
                     $this->setMailNotification($metadata["entry"]);
@@ -5098,10 +5101,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     $this->setMailNotificationType($metadata["entry"]);
                     break;
                 case "exportsettings":
-                    $score_settings = $score_settings->withExportSettings((int)$metadata["entry"]);
+                    $result_details_settings = $result_details_settings->withExportSettings((int)$metadata["entry"]);
                     break;
                 case "score_cutting":
-                    $score_settings = $score_settings->withScoreCutting((int)$metadata["entry"]);
+                    $scoring_settings = $scoring_settings->withScoreCutting((int)$metadata["entry"]);
                     break;
                 case "password":
                     $this->setPassword($metadata["entry"]);
@@ -5115,10 +5118,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     $this->setAllowedUsersTimeGap($metadata["entry"]);
                     break;
                 case "pass_scoring":
-                    $score_settings = $score_settings->withPassScoring((int)$metadata["entry"]);
+                    $scoring_settings = $scoring_settings->withPassScoring((int)$metadata["entry"]);
                     break;
                 case 'pass_deletion_allowed':
-                    $score_settings = $score_settings->withPassDeletionAllowed((bool)$metadata["entry"]);
+                    $result_summary_settings = $result_summary_settings->withPassDeletionAllowed((bool)$metadata["entry"]);
                     break;
                 case "show_summary":
                     $this->setListOfQuestionsSettings($metadata["entry"]);
@@ -5172,7 +5175,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     break;
                 case 'show_exam_id':
                 case 'examid_in_test_res':
-                    $score_settings = $score_settings->withShowExamIdInTestResults((bool)$metadata["entry"]);
+                    $result_details_settings = $result_details_settings->withShowExamIdInTestResults((bool)$metadata["entry"]);
                     break;
                 case 'enable_archiving':
                     $this->setEnableArchiving($metadata['entry']);
@@ -5191,13 +5194,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     break;
                 case 'result_tax_filters':
                     $tax_ids = strlen($metadata['entry']) ? unserialize($metadata['entry']) : [];
-                    $score_settings = $score_settings->withTaxonomyFilterIds($tax_ids);
+                    $result_details_settings = $result_details_settings->withTaxonomyFilterIds($tax_ids);
                     break;
                 case 'show_grading_status':
-                    $score_settings = $score_settings->withShowGradingStatusEnabled((bool)$metadata["entry"]);
+                    $result_summary_settings = $result_summary_settings->withShowGradingStatusEnabled((bool)$metadata["entry"]);
                     break;
                 case 'show_grading_mark':
-                    $score_settings = $score_settings->withShowGradingMarkEnabled((bool)$metadata["entry"]);
+                    $result_summary_settings = $result_summary_settings->withShowGradingMarkEnabled((bool)$metadata["entry"]);
                     break;
                 case 'activation_limited':
                     $this->setActivationLimited($metadata['entry']);
@@ -5257,6 +5260,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             }
             $this->saveToDb();
 
+            $score_settings = $score_settings
+                ->withGamificationSettings($gamification_settings)
+                ->withScoringSettings($scoring_settings)
+                ->withResultDetailsSettings($result_details_settings)
+                ->withResultSummarySettings($result_summary_settings);
             $this->getScoreSettingsRepository()->store($score_settings);
         }
     }
