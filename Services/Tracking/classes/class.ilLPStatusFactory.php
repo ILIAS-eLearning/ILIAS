@@ -13,7 +13,7 @@ declare(strict_types=0);
  */
 class ilLPStatusFactory
 {
-    private static self $instance;
+    private static ?self $instance = null;
     private static array $class_by_obj_id = array();
 
     private ilLogger $logger;
