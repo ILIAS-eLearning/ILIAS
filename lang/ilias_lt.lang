@@ -1656,6 +1656,7 @@ assessment#:#tst_password_entered_wrong_password#:#Jūs negalite pradėti testo,
 assessment#:#tst_password_form#:#Enter Test Password###26 09 2014 new variable
 assessment#:#tst_password_introduction#:#Testas prieinamas tik su slaptažodžiu. Norėdami pradėti testą, įveskite slaptažodį.
 assessment#:#tst_percent_solved#:#Procentų atsakyta
+assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Please select a target conatainer.###25 10 2016 new variable
 assessment#:#tst_position#:#Klausimas %s iš %s
 assessment#:#tst_position_without_total#:#Question %s###23 12 2015 new variable
@@ -9280,6 +9281,7 @@ exc#:#exc_team_log#:#Team Log###28 08 2012 new variable
 exc#:#exc_team_log_add_file#:#Added file %s.###28 08 2012 new variable
 exc#:#exc_team_log_add_member#:#Added member %s.###28 08 2012 new variable
 exc#:#exc_team_log_create_team#:#Team created.###28 08 2012 new variable
+exc#:#exc_team_log_remove_file#:#Removed file %s.###21 12 2022 new variable
 exc#:#exc_team_log_remove_member#:#Removed member %s.###28 08 2012 new variable
 exc#:#exc_team_management_tutor#:#Team Management by Tutors###30 08 2015 new variable
 exc#:#exc_team_management_tutor_info#:#If activated participants cannot organize teams themselves.###30 08 2015 new variable

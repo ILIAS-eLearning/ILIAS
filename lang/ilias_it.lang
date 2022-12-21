@@ -1670,6 +1670,7 @@ assessment#:#tst_password_entered_wrong_password#:#Non puoi iniziare il test per
 assessment#:#tst_password_form#:#Password di accesso del test
 assessment#:#tst_password_introduction#:#Questo test può essere fatto solo dopo l'inserimento di una password. Inseriscila qui per favore.
 assessment#:#tst_percent_solved#:#Percentuale risolta
+assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Selezionare un contenitore di destinazione.
 assessment#:#tst_position#:#Domanda %s di %s
 assessment#:#tst_position_without_total#:#Domanda %s
@@ -9294,6 +9295,7 @@ exc#:#exc_team_log#:#Log di squadra
 exc#:#exc_team_log_add_file#:#Aggiunto file %s.
 exc#:#exc_team_log_add_member#:#Aggiunto membro %s.
 exc#:#exc_team_log_create_team#:#Team creato.
+exc#:#exc_team_log_remove_file#:#Removed file %s.###21 12 2022 new variable
 exc#:#exc_team_log_remove_member#:#Eliminato membro %s.
 exc#:#exc_team_management_tutor#:#Gestione della squadra tramite tutor
 exc#:#exc_team_management_tutor_info#:#Se attivati, i partecipanti non possono organizzare autonomamente le squadre.

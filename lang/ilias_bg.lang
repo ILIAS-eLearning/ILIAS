@@ -1656,6 +1656,7 @@ assessment#:#tst_password_entered_wrong_password#:#Не можете да ста
 assessment#:#tst_password_form#:#Въвеждане на парола за тест
 assessment#:#tst_password_introduction#:# Достъпът до този тест е възможен само с парола за тест. Моля, въведете паролата за теста, за да започнете теста
 assessment#:#tst_percent_solved#:#Процент решени
+assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Моля, изберете целеви контейнер.
 assessment#:#tst_position#:#Въпрос %s от %s
 assessment#:#tst_position_without_total#:#Въпрос %s
@@ -9280,6 +9281,7 @@ exc#:#exc_team_log#:#Дневник на отбора
 exc#:#exc_team_log_add_file#:#Прибавен файл %s.
 exc#:#exc_team_log_add_member#:#Прибавен член %s.
 exc#:#exc_team_log_create_team#:#Създаден отбор.
+exc#:#exc_team_log_remove_file#:#Removed file %s.###21 12 2022 new variable
 exc#:#exc_team_log_remove_member#:#Премахна члена %s.
 exc#:#exc_team_management_tutor#:#Управление на екипа от преподаватели
 exc#:#exc_team_management_tutor_info#:#Ако активираните участници не могат сами да организират екипи.

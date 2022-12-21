@@ -1656,6 +1656,7 @@ assessment#:#tst_password_entered_wrong_password#:#Вы не можете нач
 assessment#:#tst_password_form#:#Enter Test Password###26 09 2014 new variable
 assessment#:#tst_password_introduction#:#Этот тест доступен только по паролю. Пожалуйста введите пароль, чтобы начать тест
 assessment#:#tst_percent_solved#:#Процент выполнения
+assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Please select a target conatainer.###25 10 2016 new variable
 assessment#:#tst_position#:#Вопрос %s из %s
 assessment#:#tst_position_without_total#:#Question %s###23 12 2015 new variable
@@ -9280,6 +9281,7 @@ exc#:#exc_team_log#:#Журнал команды
 exc#:#exc_team_log_add_file#:#Added file %s.
 exc#:#exc_team_log_add_member#:#Added member %s.
 exc#:#exc_team_log_create_team#:#Team created.
+exc#:#exc_team_log_remove_file#:#Removed file %s.###21 12 2022 new variable
 exc#:#exc_team_log_remove_member#:#Removed member %s.
 exc#:#exc_team_management_tutor#:#Team Management by Tutors###30 08 2015 new variable
 exc#:#exc_team_management_tutor_info#:#If activated participants cannot organize teams themselves.###30 08 2015 new variable

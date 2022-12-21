@@ -1656,6 +1656,7 @@ assessment#:#tst_password_entered_wrong_password#:#Vous ne pouvez pas commencer 
 assessment#:#tst_password_form#:#Entrer le mot de passe du test
 assessment#:#tst_password_introduction#:#L'accès à ce test requiert la saisie d'un mot de passe. Veuillez saisir ce mot de passe pour commencer le test
 assessment#:#tst_percent_solved#:#Pourcentage de Réussite
+assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Veuillez sélectionner un conteneur cible.
 assessment#:#tst_position#:#Question %s sur %s
 assessment#:#tst_position_without_total#:#Question %s
@@ -9280,6 +9281,7 @@ exc#:#exc_team_log#:#Historique de l'Equipe
 exc#:#exc_team_log_add_file#:#Le fichier %s a été ajouté.
 exc#:#exc_team_log_add_member#:#L'équipier %s été ajouté.
 exc#:#exc_team_log_create_team#:#L'équipe a été créée.
+exc#:#exc_team_log_remove_file#:#Removed file %s.###21 12 2022 new variable
 exc#:#exc_team_log_remove_member#:#L'équipier %s a été retiré.
 exc#:#exc_team_management_tutor#:#Gestion d’équipes par les tuteurs
 exc#:#exc_team_management_tutor_info#:#Si cette option est activée, les participants ne peuvent pas organiser les équipes eux-mêmes.

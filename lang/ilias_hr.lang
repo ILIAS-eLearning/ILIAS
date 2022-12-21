@@ -1656,6 +1656,7 @@ assessment#:#tst_password_entered_wrong_password#:#Ne možete pokrenuti test jer
 assessment#:#tst_password_form#:#Unesi lozinku za test
 assessment#:#tst_password_introduction#:#Ovom se testu može pristupiti samo s lozinkom za test. Unesite lozinku za test kako biste ga pokrenuli.
 assessment#:#tst_percent_solved#:#Posto riješeno
+assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Molimo odaberite ciljni kontejner.
 assessment#:#tst_position#:#Pitanje %s od %s
 assessment#:#tst_position_without_total#:#Pitanje %s
@@ -9280,6 +9281,7 @@ exc#:#exc_team_log#:#Dnevnik tima
 exc#:#exc_team_log_add_file#:#Dodana datoteka %s.
 exc#:#exc_team_log_add_member#:#Dodan član %s.
 exc#:#exc_team_log_create_team#:#Tim stvoren.
+exc#:#exc_team_log_remove_file#:#Removed file %s.###21 12 2022 new variable
 exc#:#exc_team_log_remove_member#:#Uklonjeni član %s.
 exc#:#exc_team_management_tutor#:#Upravljanje timom od strane mentora
 exc#:#exc_team_management_tutor_info#:#Ako aktivirani sudionici ne mogu sami organizirati timove.

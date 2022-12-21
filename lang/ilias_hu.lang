@@ -1670,6 +1670,7 @@ assessment#:#tst_password_entered_wrong_password#:#Nem kezdheti meg a tesztet, m
 assessment#:#tst_password_form#:#Adja meg a tesztjelszót
 assessment#:#tst_password_introduction#:#Ez a teszt csak tesztjelszóval érhető el. Adja meg a teszthez tartozó jelszót a teszt elkezdéséhez!
 assessment#:#tst_percent_solved#:#Elért százalék
+assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Válassza ki a cél tárolót.
 assessment#:#tst_position#:#%s / %s kérdés
 assessment#:#tst_position_without_total#:#%s. kérdés
@@ -9294,6 +9295,7 @@ exc#:#exc_team_log#:#Csapatlog
 exc#:#exc_team_log_add_file#:#Felvett fájl: %s.
 exc#:#exc_team_log_add_member#:#Felvett tag: %s.
 exc#:#exc_team_log_create_team#:#Sikeresen létrehozott egy csapatot.
+exc#:#exc_team_log_remove_file#:#Removed file %s.###21 12 2022 new variable
 exc#:#exc_team_log_remove_member#:#Eltávolított tag: %s.
 exc#:#exc_team_management_tutor#:#Tutorok kezelik a csapatokat
 exc#:#exc_team_management_tutor_info#:#Ha be van kapcsolva, a résztvevők nem oszthatják saját magukat csoportokba.

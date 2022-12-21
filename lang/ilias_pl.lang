@@ -1656,6 +1656,7 @@ assessment#:#tst_password_entered_wrong_password#:#Nie możesz rozpocząć testu
 assessment#:#tst_password_form#:#Wprowadzenie hasła testu
 assessment#:#tst_password_introduction#:#Ten test jest zabezpieczony hasłem. Podaj hasło przed rozpoczęciem testu.
 assessment#:#tst_percent_solved#:#Procent rozwiązanych
+assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Wybierz docelowy kontener.
 assessment#:#tst_position#:#Pytanie %s z %s
 assessment#:#tst_position_without_total#:#Pytanie %s
@@ -9280,6 +9281,7 @@ exc#:#exc_team_log#:#Log zespołu
 exc#:#exc_team_log_add_file#:#Dodano plik %s.
 exc#:#exc_team_log_add_member#:#Dodano członka %s.
 exc#:#exc_team_log_create_team#:#Utworzono zespół.
+exc#:#exc_team_log_remove_file#:#Removed file %s.###21 12 2022 new variable
 exc#:#exc_team_log_remove_member#:#Usunięto członka %s.
 exc#:#exc_team_management_tutor#:#Zarządzanie zespołem za pośrednictwem opiekunów
 exc#:#exc_team_management_tutor_info#:#Jeśli ta opcja jest aktywna, członkowie nie mogą samodzielnie zajmować się organizacją swoich zespołów.

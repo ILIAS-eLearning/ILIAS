@@ -1656,6 +1656,7 @@ assessment#:#tst_password_entered_wrong_password#:#入力したパスワード�
 assessment#:#tst_password_form#:#テストパスワードを入力
 assessment#:#tst_password_introduction#:#テストのパスワードがないとテストにはアクセスできません。テストを開始するためにテストのパスワードを入力してください。
 assessment#:#tst_percent_solved#:#正解率
+assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#目標のコンテナを選択してください。
 assessment#:#tst_position#:#問題 %s の%s
 assessment#:#tst_position_without_total#:#問題 %s
@@ -9280,6 +9281,7 @@ exc#:#exc_team_log#:#チームログ
 exc#:#exc_team_log_add_file#:#ファイル%sを追加しました。
 exc#:#exc_team_log_add_member#:#メンバ%sを追加しました。
 exc#:#exc_team_log_create_team#:#チームを作成しました。
+exc#:#exc_team_log_remove_file#:#Removed file %s.###21 12 2022 new variable
 exc#:#exc_team_log_remove_member#:#メンバ%sを削除しました。
 exc#:#exc_team_management_tutor#:#指導教員によるチーム管理
 exc#:#exc_team_management_tutor_info#:#有効にすると受験者は自分でチーム組織化できなくなります。

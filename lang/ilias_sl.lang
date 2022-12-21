@@ -1670,6 +1670,7 @@ assessment#:#tst_password_entered_wrong_password#:#Testa ne morete izvesti, ker 
 assessment#:#tst_password_form#:#Vnos gesla za test
 assessment#:#tst_password_introduction#:#Obdelavo tega testa lahko začnete oz. jo nadaljujete samo z geslom Tukaj vnesite geslo za test.
 assessment#:#tst_percent_solved#:#Odstotek rešitev
+assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Izberite ciljno shrambo.
 assessment#:#tst_position#:#Vprašanje %s od %s
 assessment#:#tst_position_without_total#:#Vprašanje %s
@@ -9294,6 +9295,7 @@ exc#:#exc_team_log#:#Dnevnik ekipe
 exc#:#exc_team_log_add_file#:#Datoteka %s je dodana.
 exc#:#exc_team_log_add_member#:#Član %s je dodan.
 exc#:#exc_team_log_create_team#:#Ekipa je ustvarjena.
+exc#:#exc_team_log_remove_file#:#Removed file %s.###21 12 2022 new variable
 exc#:#exc_team_log_remove_member#:#Član %s je odstranjen.
 exc#:#exc_team_management_tutor#:#Upravljanje ekipe s strani mentorjev
 exc#:#exc_team_management_tutor_info#:#Če je aktivirana ta možnost, udeleženci ne morejo sami oblikovati ekip.
