@@ -31,21 +31,21 @@ class ilDBIntegrity
 
     /**
      * Example:
-     * $violations = $this->check(new Definition([
-     *     new Association(new Field('mail', 'folder_id'), new Field('mail', 'folder_id')
+     * $violations = $this->check(new ilDBDefinition([
+     *     new ilDBAssociation(new ilDBField('mail', 'folder_id'), new ilDBField('mail', 'folder_id')
      * ])))->violations();
      *
      * Mail example:
-     * $mailId = new Field('mail', 'mail_id');
-     * $mailObjDataId = new Field('mail_obj_data', 'obj_id');
+     * $mailId = new ilDBField('mail', 'mail_id');
+     * $mailObjDataId = new ilDBField('mail_obj_data', 'obj_id');
      *
      * $defintions = [
-     *     new Definition([new Association(new Field('mail', 'folder_id'), $mailObjDataId)]),
-     *     new Definition([new Association(new Field('mail_attachment', 'mail_id'), $mailId)]),
-     *     new Definition([new Association(new Field('mail_cron_orphaned', 'mail_id'), $mailId)]),
-     *     new Definition([new Association(new Field('mail_cron_orphaned', 'folder_id'), $mailObjDataId)]),
-     *     new Definition([new Association(new Field('mail_tree', 'child'), $mailObjDataId)]),
-     *     new Definition([new Association(new Field('mail_tree', 'parent'), new Field('mail_tree', 'child', 'parent'))], new Ignore(null, '0')),
+     *     new ilDBDefinition([new ilDBAssociation(new ilDBField('mail', 'folder_id'), $mailObjDataId)]),
+     *     new ilDBDefinition([new ilDBAssociation(new ilDBField('mail_attachment', 'mail_id'), $mailId)]),
+     *     new ilDBDefinition([new ilDBAssociation(new ilDBField('mail_cron_orphaned', 'mail_id'), $mailId)]),
+     *     new ilDBDefinition([new ilDBAssociation(new ilDBField('mail_cron_orphaned', 'folder_id'), $mailObjDataId)]),
+     *     new ilDBDefinition([new ilDBAssociation(new ilDBField('mail_tree', 'child'), $mailObjDataId)]),
+     *     new ilDBDefinition([new ilDBAssociation(new ilDBField('mail_tree', 'parent'), new ilDBField('mail_tree', 'child', 'parent'))], new ilDBIgnore(null, '0')),
      * ];
      * $results = array_map([$this, 'check'], $defintions);
      */
