@@ -458,7 +458,7 @@ class ilObjLanguageExt extends ilObjLanguage
             ));
             $row = $ilDB->fetchAssoc($set);
 
-            $arr = unserialize($row["lang_array"], ["allowed_classes" => false]);
+            $arr = isset($row["lang_array"]) ? unserialize($row["lang_array"], ["allowed_classes" => false]) : "";
             if (is_array($arr)) {
                 $entries = array_merge($arr, $entries);
             }
