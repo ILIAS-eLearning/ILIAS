@@ -164,7 +164,6 @@ class ilTestResultHeaderLabelBuilder
 
     private function initTestType()
     {
-        require_once 'Modules/Course/classes/Objectives/class.ilLOSettings.php';
         $loSettings = ilLOSettings::getInstanceByObjId($this->getObjectiveOrientedContainerId());
 
         if ($loSettings->getInitialTest() == $this->getTestRefId()) {
@@ -176,7 +175,6 @@ class ilTestResultHeaderLabelBuilder
 
     private function initObjectives()
     {
-        require_once 'Modules/Course/classes/Objectives/class.ilLOTestRun.php';
         $loRuns = ilLOTestRun::getRun($this->getObjectiveOrientedContainerId(), $this->getUserId(), $this->getTestObjId());
 
         $this->objectives = array();
@@ -322,7 +320,6 @@ class ilTestResultHeaderLabelBuilder
 
     private function getObjectiveTitle(ilLOTestRun $loRun)
     {
-        require_once 'Modules/Course/classes/class.ilCourseObjective.php';
         return ilCourseObjective::lookupObjectiveTitle($loRun->getObjectiveId());
     }
 
