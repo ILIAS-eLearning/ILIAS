@@ -44,7 +44,7 @@ class ilDBIntegrity
      * ];
      * $results = array_map([$this, 'check'], $defintions);
      */
-    public function check(ilDBDefinition $definition) : ilDBResult
+    public function check(ilDBDefinition $definition): ilDBResult
     {
         $on = [];
         $where = [];

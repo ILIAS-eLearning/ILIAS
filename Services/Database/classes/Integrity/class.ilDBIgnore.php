@@ -26,7 +26,7 @@ class ilDBIgnore
 
     public function __construct(?string ...$values_to_ignore)
     {
-        $this->values_to_ignore = array_map(static function (?string $valueToIgnore) : string {
+        $this->values_to_ignore = array_map(static function (?string $valueToIgnore): string {
             return null === $valueToIgnore ? 'IS NOT NULL' : '!= ' . $valueToIgnore;
         }, $values_to_ignore);
     }
@@ -34,7 +34,7 @@ class ilDBIgnore
     /**
      * @return string[]
      */
-    public function values() : array
+    public function values(): array
     {
         return $this->values_to_ignore;
     }

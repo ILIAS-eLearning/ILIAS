@@ -24,7 +24,7 @@ class ilDBResult
     ) {
     }
 
-    public function violations() : int
+    public function violations(): int
     {
         return $this->violations;
     }
