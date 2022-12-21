@@ -1512,4 +1512,9 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
     public function foreignKeyExists(string $foreign_key_name, string $table_name): bool {
         return $this->manager->foreignKeyExists($foreign_key_name, $table_name);
     }
+
+    public function buildIntegrityAnalyser(): \ILIAS\Services\Database\Integrity\Integrity
+    {
+        return new ILIAS\Services\Database\Integrity\Integrity($this);
+    }
 }
