@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\Database\Integrity;
 
-class Field
+class ilDBField
 {
     private string $table_name;
     private string $field_name;

@@ -22,23 +22,23 @@ namespace ILIAS\Services\Database\Integrity;
 
 use InvalidArgumentException;
 
-class Definition
+class ilDBDefinition
 {
     /**
-     * @var Association[]
+     * @var ilDBAssociation[]
      */
     private array $associations;
-    private Ignore $ignore;
+    private ilDBIgnore $ignore;
 
-    public function __construct(array $associations, ?Ignore $ignore = null)
+    public function __construct(array $associations, ?ilDBIgnore $ignore = null)
     {
         $this->associations = $associations;
-        $this->ignore = null === $ignore ? new Ignore() : $ignore;
+        $this->ignore = null === $ignore ? new ilDBIgnore() : $ignore;
         $this->validate();
     }
 
     /**
-     * @return Association[]
+     * @return ilDBAssociation[]
      */
     public function associations(): array
     {
