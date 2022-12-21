@@ -521,7 +521,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         $query = "SELECT * FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE CONSTRAINT_TYPE='FOREIGN KEY';";
         $result_set = $this->db_instance->query($query);
         while ($foreign_data = $this->db_instance->fetchAssoc($result_set)) {
-            if($foreign_data['CONSTRAINT_NAME'] === $foreign_key_name) {
+            if(array_key_exists('CONSTRAINT_NAME', $foreign_data) && $foreign_data['CONSTRAINT_NAME'] === $foreign_key_name) {
                 return true;
             }
         }
