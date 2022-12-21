@@ -264,7 +264,7 @@ class ilWorkflowEngineDefinitionsGUI
      */
     public function startListening()
     {
-        $identifier = basename(current($this->service->internal()->request()->getProcessId()));
+        $identifier = basename($this->service->internal()->request()->getProcessId());
 
         require_once ilObjWorkflowEngine::getRepositoryDir() . $identifier . '.php';
         $class = substr($identifier, 4);
@@ -324,9 +324,9 @@ class ilWorkflowEngineDefinitionsGUI
 
     public function stopListening(): void
     {
-        $process_id = ilUtil::stripSlashes(current($this->service->internal()->request()->getProcessId()));
+        $process_id = ilUtil::stripSlashes($this->service->internal()->request()->getProcessId());
 
-        ilWorkflowDbHelper::deleteStartEventData($process_id);
+        ilWorkflowDbHelper::deleteStartEventData((int) $process_id);
 
         $this->main_tpl->setOnScreenMessage('success', $this->parent_gui->lng->txt('wfe_stopped_listening'), true);
         ilUtil::redirect(
@@ -351,7 +351,7 @@ class ilWorkflowEngineDefinitionsGUI
             );
         }
 
-        $identifier = basename(current($this->service->internal()->request()->getProcessId()));
+        $identifier = basename($this->service->internal()->request()->getProcessId());
 
         require_once ilObjWorkflowEngine::getRepositoryDir() . $identifier . '.php';
         $class = substr($identifier, 4);

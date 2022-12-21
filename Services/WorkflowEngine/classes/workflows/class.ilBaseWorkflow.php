@@ -24,7 +24,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      * Holds a list of references to all external detectors of all nodes attached to the workflow.
      * @var ilExternalDetector[] $detectors Array of ilDetector
      */
-    protected array $detectors;
+    protected array $detectors = [];
 
     /**
      * Holds a reference to the start node of the workflow.
