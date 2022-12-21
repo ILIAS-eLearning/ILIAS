@@ -191,7 +191,7 @@ class ilTestService
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
-        $component_repository = $DIC['component_repository'];
+        $component_repository = $DIC['component.repository'];
 
         $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $component_repository, $this->object);
 
