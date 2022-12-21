@@ -296,7 +296,7 @@ interface ilDBInterface
 
     public function cast(string $a_field_name, string $a_dest_type): string;
 
-    public function addForeignKey(string $foreign_key_name, string $field_name, string $table_name, string $reference_field_name, string $reference_table, ?string $on_update = null, ?string $on_delete = null): bool;
+    public function addForeignKey(string $foreign_key_name, array $field_names, string $table_name, array $reference_field_names, string $reference_table, ?string $on_update = null, ?string $on_delete = null): bool;
 
     public function dropForeignKey(string $foreign_key_name, string $table_name): bool;
 
