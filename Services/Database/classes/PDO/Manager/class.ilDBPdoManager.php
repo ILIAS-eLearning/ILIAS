@@ -483,7 +483,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         string $reference_table,
         ?string $on_update = null,
         ?string $on_delete = null
-    ) : bool {
+    ): bool {
         if ($this->isValidForeignKeyConstraint($on_update) && $this->isValidForeignKeyConstraint($on_delete)) {
             $table = $this->db_instance->quoteIdentifier($table_name, true);
             $reference_table = $this->db_instance->quoteIdentifier($reference_table, true);
@@ -510,7 +510,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         throw new ilException('The given constraint is invalid.');
     }
 
-    public function dropForeignKey(string $foreign_key_name, string $table_name) : bool
+    public function dropForeignKey(string $foreign_key_name, string $table_name): bool
     {
         $table = $this->db_instance->quoteIdentifier($table_name, true);
         $name = $this->db_instance->quoteIdentifier($foreign_key_name, true);
@@ -519,20 +519,22 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         return (bool) $this->pdo->exec($query);
     }
 
-    public function foreignKeyExists(string $foreign_key_name, string $table_name) : bool
+    public function foreignKeyExists(string $foreign_key_name, string $table_name): bool
     {
         $query = "SELECT * FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE CONSTRAINT_TYPE='FOREIGN KEY';";
         $result_set = $this->db_instance->query($query);
         while ($foreign_data = $this->db_instance->fetchAssoc($result_set)) {
-            if (array_key_exists('CONSTRAINT_NAME',
-                    $foreign_data) && $foreign_data['CONSTRAINT_NAME'] === $foreign_key_name) {
+            if (array_key_exists(
+                'CONSTRAINT_NAME',
+                $foreign_data
+            ) && $foreign_data['CONSTRAINT_NAME'] === $foreign_key_name) {
                 return true;
             }
         }
         return false;
     }
 
-    public function isValidForeignKeyConstraint(?string $value) : bool
+    public function isValidForeignKeyConstraint(?string $value): bool
     {
         $reflection = new ReflectionClass(ilForeignKeyConstraints::class);
         $constraints = array_merge($reflection->getConstants());
@@ -541,5 +543,4 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         }
         return false;
     }
-
 }

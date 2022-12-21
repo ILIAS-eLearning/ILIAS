@@ -28,12 +28,12 @@ class ilDBAssociation
         $this->reference_field = $reference_field;
     }
 
-    public function field() : ilDBField
+    public function field(): ilDBField
     {
         return $this->field;
     }
 
-    public function referenceField() : ilDBField
+    public function referenceField(): ilDBField
     {
         return $this->reference_field;
     }

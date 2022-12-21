@@ -34,7 +34,7 @@ class ilDBDefinition
         $this->validate();
     }
 
-    private function validate() : void
+    private function validate(): void
     {
         if (count($this->associations) === 0) {
             throw new InvalidArgumentException('Associations must not be empty.');
@@ -51,7 +51,7 @@ class ilDBDefinition
         }
     }
 
-    public function tableName() : string
+    public function tableName(): string
     {
         return $this->associations[0]->field()->tableName();
     }
@@ -59,7 +59,7 @@ class ilDBDefinition
     /**
      * @return ilDBAssociation[]
      */
-    public function associations() : array
+    public function associations(): array
     {
         return $this->associations;
     }
@@ -67,12 +67,12 @@ class ilDBDefinition
     /**
      * @return string[]
      */
-    public function ignoreValues() : array
+    public function ignoreValues(): array
     {
         return $this->ignore->values();
     }
 
-    public function referenceTableName() : string
+    public function referenceTableName(): string
     {
         return $this->associations[0]->referenceField()->tableName();
     }

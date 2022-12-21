@@ -38,22 +38,22 @@ class ilDBField
         }
     }
 
-    public function tableName() : string
+    public function tableName(): string
     {
         return $this->converted_table_name;
     }
 
-    public function fieldName() : string
+    public function fieldName(): string
     {
         return $this->table_name . '.' . $this->field_name;
     }
 
-    public function rawFieldName() : string
+    public function rawFieldName(): string
     {
         return $this->field_name;
     }
 
-    public function rawTableName() : string
+    public function rawTableName(): string
     {
         return $this->original_table_name;
     }
