@@ -20,23 +20,23 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\Database\Integrity;
 
-class Association
+class ilDBAssociation
 {
-    private Field $field;
-    private Field $reference_field;
+    private ilDBField $field;
+    private ilDBField $reference_field;
 
-    public function __construct(Field $field, Field $reference_field)
+    public function __construct(ilDBField $field, ilDBField $reference_field)
     {
         $this->field = $field;
         $this->reference_field = $reference_field;
     }
 
-    public function field(): Field
+    public function field(): ilDBField
     {
         return $this->field;
     }
 
-    public function referenceField(): Field
+    public function referenceField(): ilDBField
     {
         return $this->reference_field;
     }

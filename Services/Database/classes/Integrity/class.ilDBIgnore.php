@@ -20,15 +20,25 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\Database\Integrity;
 
-class Result
+class ilDBIgnore
 {
-    public function __construct(
-        private int $violations
-    ) {
+    /**
+     * @var string[]
+     */
+    private array $values_to_ignore;
+
+    public function __construct(?string ...$values_to_ignore)
+    {
+        $this->values_to_ignore = array_map(static function (?string $valueToIgnore): string {
+            return null === $valueToIgnore ? 'IS NOT NULL' : '!= ' . $valueToIgnore;
+        }, $values_to_ignore);
     }
 
-    public function violations(): int
+    /**
+     * @return string[]
+     */
+    public function values(): array
     {
-        return $this->violations;
+        return $this->values_to_ignore;
     }
 }

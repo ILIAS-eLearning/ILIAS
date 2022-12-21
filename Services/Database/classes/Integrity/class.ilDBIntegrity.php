@@ -22,7 +22,7 @@ namespace ILIAS\Services\Database\Integrity;
 
 use ilDBInterface;
 
-class Integrity
+class ilDBIntegrity
 {
     public function __construct(
         private ilDBInterface $database
@@ -49,7 +49,7 @@ class Integrity
      * ];
      * $results = array_map([$this, 'check'], $defintions);
      */
-    public function check(Definition $definition): Result
+    public function check(ilDBDefinition $definition): ilDBResult
     {
         $on = [];
         $where = [];
@@ -72,6 +72,6 @@ class Integrity
 
         $result = $this->database->fetchAssoc($result);
 
-        return new Result((int) $result['violations']);
+        return new ilDBResult((int) $result['violations']);
     }
 }
