@@ -477,9 +477,9 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
      */
     public function addForeignKey(
         string $foreign_key_name,
-        string $field_name,
+        array $field_names,
         string $table_name,
-        string $reference_field_name,
+        array $reference_field_names,
         string $reference_table,
         ?string $on_update = null,
         ?string $on_delete = null
@@ -487,8 +487,11 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         if ($this->isValidForeignKeyConstraint($on_update) && $this->isValidForeignKeyConstraint($on_delete)) {
             $table = $this->db_instance->quoteIdentifier($table_name, true);
             $reference_table = $this->db_instance->quoteIdentifier($reference_table, true);
-            $name = $this->db_instance->quoteIdentifier($field_name, true);
-            $reference_field_name = $this->db_instance->quoteIdentifier($reference_field_name, true);
+            $field_names = implode(",", $field_names);
+            $field_names = $this->db_instance->quoteIdentifier($field_names, true);
+            $reference_field_names = implode(",", $reference_field_names);
+            $reference_field_names = $this->db_instance->quoteIdentifier($reference_field_names, true);
+            $foreign_key_name = $this->db_instance->quoteIdentifier($foreign_key_name, true);
             $update = '';
             if ($on_update) {
                 $update = "ON UPDATE $on_update";
@@ -499,8 +502,8 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
             }
             $query = "ALTER TABLE 
                     $table ADD CONSTRAINT 
-                    $foreign_key_name FOREIGN KEY ($name) 
-                    REFERENCES $reference_table($reference_field_name)
+                    $foreign_key_name FOREIGN KEY ($field_names) 
+                    REFERENCES $reference_table ($reference_field_names)
                     $update
                     $delete
                     ";
