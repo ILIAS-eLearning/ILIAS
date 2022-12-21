@@ -29,9 +29,9 @@ abstract class ilBaseWorkflow implements ilWorkflow
     /**
      * Holds a reference to the start node of the workflow.
      *
-     * @var ilNode $start_node Node, which is to be activated to start the workflow.
+     * @var null|ilNode $start_node Node, which is to be activated to start the workflow.
      */
-    protected ilNode $start_node;
+    protected ?ilNode $start_node = null;
 
     /**
      * Holds the activation state of the workflow.
