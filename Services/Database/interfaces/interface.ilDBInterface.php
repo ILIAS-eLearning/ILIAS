@@ -299,4 +299,6 @@ interface ilDBInterface
     public function dropForeignKey(string $foreign_key_name, string $table_name): bool;
 
     public function foreignKeyExists(string $foreign_key_name, string $table_name): bool;
+
+    public function buildIntegrityAnalyser(): \ILIAS\Services\Database\Integrity\Integrity;
 }
