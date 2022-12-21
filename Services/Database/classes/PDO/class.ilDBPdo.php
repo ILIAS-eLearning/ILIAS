@@ -17,6 +17,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\Services\Database\Integrity\ilDBIntegrity;
+
 /**
  * Class pdoDB
  * @author Oskar Truffer <ot@studer-raimann.ch>
@@ -1513,8 +1515,8 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return $this->manager->foreignKeyExists($foreign_key_name, $table_name);
     }
 
-    public function buildIntegrityAnalyser(): \ILIAS\Services\Database\Integrity\Integrity
+    public function buildIntegrityAnalyser(): ilDBIntegrity
     {
-        return new ILIAS\Services\Database\Integrity\Integrity($this);
+        return new ILIAS\Services\Database\Integrity\ilDBIntegrity($this);
     }
 }

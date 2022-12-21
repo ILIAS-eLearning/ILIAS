@@ -18,6 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\Services\Database\Integrity\ilDBIntegrity;
+
 /**
  * Interface ilDBInterface
  * @author Oskar Truffer <ot@studer-raimann.ch>
@@ -300,5 +302,5 @@ interface ilDBInterface
 
     public function foreignKeyExists(string $foreign_key_name, string $table_name): bool;
 
-    public function buildIntegrityAnalyser(): \ILIAS\Services\Database\Integrity\Integrity;
+    public function buildIntegrityAnalyser(): ilDBIntegrity;
 }
