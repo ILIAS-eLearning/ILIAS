@@ -822,7 +822,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                     break;
                 case CLOZE_SELECT:
                     $gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_select.html", true, true, "Modules/TestQuestionPool");
-                    foreach ($gap->getItems($gap->getShuffler()) as $item) {
+                    foreach ($gap->getItems($this->object->getShuffler(), $gap_index) as $item) {
                         $gaptemplate->setCurrentBlock("select_gap_option");
                         $gaptemplate->setVariable("SELECT_GAP_VALUE", $item->getOrder());
                         $gaptemplate->setVariable("SELECT_GAP_TEXT", ilUtil::prepareFormOutput($item->getAnswerText()));
@@ -1224,7 +1224,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                     break;
                 case CLOZE_SELECT:
                     $gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_select.html", true, true, "Modules/TestQuestionPool");
-                    foreach ($gap->getItems($gap->getShuffler()) as $item) {
+                    foreach ($gap->getItems($this->object->getShuffler(), $gap_index) as $item) {
                         $gaptemplate->setCurrentBlock("select_gap_option");
                         $gaptemplate->setVariable("SELECT_GAP_VALUE", $item->getOrder());
                         $gaptemplate->setVariable("SELECT_GAP_TEXT", ilUtil::prepareFormOutput($item->getAnswerText()));
@@ -1351,12 +1351,12 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
         $html = '<div>';
         $i = 0;
-        foreach ($this->object->getGaps() as $gap) {
+        foreach ($this->object->getGaps() as $gap_index => $gap) {
             if ($gap->type == CLOZE_SELECT) {
                 $html .= '<p>Gap ' . ($i + 1) . ' - SELECT</p>';
                 $html .= '<ul>';
                 $j = 0;
-                foreach ($gap->getItems($this->object->getShuffler()) as $gap_item) {
+                foreach ($gap->getItems($this->object->getShuffler(), $gap_index) as $gap_item) {
                     $aggregate = $aggregation[$i];
                     $html .= '<li>' . $gap_item->getAnswerText() . ' - ' . ($aggregate[$j] ? $aggregate[$j] : 0) . '</li>';
                     $j++;
@@ -1392,7 +1392,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                 $html .= '<p>Gap ' . ($i + 1) . ' - NUMERIC</p>';
                 $html .= '<ul>';
                 $j = 0;
-                foreach ($gap->getItems($this->object->getShuffler()) as $gap_item) {
+                foreach ($gap->getItems($this->object->getShuffler(), $gap_index) as $gap_item) {
                     $aggregate = (array) $aggregation[$i];
                     foreach ($aggregate as $answer => $count) {
                         $html .= '<li>' . $answer . ' - ' . $count . '</li>';
