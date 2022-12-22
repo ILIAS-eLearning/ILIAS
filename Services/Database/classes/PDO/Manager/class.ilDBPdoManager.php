@@ -473,6 +473,14 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
     }
 
     /**
+     * @param string        $foreign_key_name
+     * @param array<string> $field_names
+     * @param string        $table_name
+     * @param array<string> $reference_field_names
+     * @param string        $reference_table
+     * @param string|null   $on_update
+     * @param string|null   $on_delete
+     * @return bool
      * @throws ilException
      */
     public function addForeignKey(

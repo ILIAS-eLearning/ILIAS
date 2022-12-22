@@ -1503,6 +1503,17 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return $this->manager->getQueryUtils()->cast($a_field_name, $a_dest_type);
     }
 
+    /**
+     * @param string        $foreign_key_name
+     * @param array<string> $field_names
+     * @param string        $table_name
+     * @param array<string> $reference_field_names
+     * @param string        $reference_table
+     * @param string|null   $on_update
+     * @param string|null   $on_delete
+     * @return bool
+     * @throws ilException
+     */
     public function addForeignKey(string $foreign_key_name, array $field_names, string $table_name, array $reference_field_names, string $reference_table, ?string $on_update = null, ?string $on_delete = null): bool {
        return $this->manager->addForeignKey($foreign_key_name, $field_names, $table_name, $reference_field_names, $reference_table, $on_update, $on_delete);
     }
