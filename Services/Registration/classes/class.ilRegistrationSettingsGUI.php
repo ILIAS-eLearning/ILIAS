@@ -518,6 +518,8 @@ class ilRegistrationSettingsGUI
             $role_access->addOption($op_absolute);
             $role_access->addOption($op_relative);
             $role_access->setValue($this->access_limitations_obj->getMode($role['id']));
+
+            $role_access->setValue('unlimited');
             $form->addItem($role_access);
         }
 
@@ -578,9 +580,16 @@ class ilRegistrationSettingsGUI
 
         $this->access_limitations_obj->resetAccessLimitations();
         foreach (ilObjRole::_lookupRegisterAllowed() as $role) {
-            $this->access_limitations_obj->setMode($form->getInput("role_access_" . $role['id']), $role['id']);
-            $this->access_limitations_obj->setAbsolute($form->getInput("absolute_date_" . $role['id']), $role['id']);
-            $this->access_limitations_obj->setRelative($form->getInput("duration_" . $role['id']), $role['id']);
+            $mode = $form->getInput('role_access_' . $role['id']);
+            $this->access_limitations_obj->setMode($mode, $role['id']);
+
+            if ($mode === 'absolute') {
+                $this->access_limitations_obj->setAbsolute($form->getInput('absolute_date_' . $role['id']), $role['id']);
+            }
+
+            if ($mode === 'relative') {
+                $this->access_limitations_obj->setRelative($form->getInput('duration_' . $role['id']), $role['id']);
+            }
         }
 
         if ($err = $this->access_limitations_obj->validate()) {
