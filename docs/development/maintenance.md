@@ -1177,7 +1177,7 @@ Components in the [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/b
 [//]: # (BEGIN DataCollection)
 
 * **Data Collection**
-	* Coordinators: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+	* Coordinators: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html) & [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
 	* Testcases: [mstuder](https://docu.ilias.de/goto_docu_usr_8473.html)
 	* Tester: [mona.schliebs](https://docu.ilias.de/goto_docu_usr_60222.html)
 
@@ -1195,7 +1195,7 @@ Components in the [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/b
 [//]: # (BEGIN LoginAuthAndRegistration)
 
 * **Login, Auth & Registration**
-	* Coordinators: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+	* Coordinators: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html) & [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [vimotion](https://docu.ilias.de/goto_docu_usr_25105.html)
 	  , [ILIAS_LM](https://docu.ilias.de/goto_docu_usr_14109.html) (OpenID)
