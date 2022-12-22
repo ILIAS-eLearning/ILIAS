@@ -713,7 +713,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
                 if (strlen($file_temp_name)) {
                     // check suffix
-                    $suffix = strtolower(array_pop(explode(".", $file_org_name)));
+                    $tmp = explode(".", $file_org_name);
+                    $suffix = strtolower(array_pop($tmp));
                     if (in_array($suffix, array( "jpg", "jpeg", "png", "gif" ))) {
                         // upload image
                         $filename = $this->object->buildHashedImageFilename($file_org_name);
@@ -722,12 +723,14 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                         }
                     }
                 }
+                $tmp = $_POST['choice']['answer_id'][$index];
                 $this->object->addAnswer(
                     $answertext,
                     $_POST['choice']['points'][$index],
                     $_POST['choice']['points_unchecked'][$index],
                     $index,
-                    $picturefile
+                    $picturefile,
+                    $_POST['choice']['answer_id'][$index]
                 );
             }
         } else {
@@ -737,7 +740,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     $answertext,
                     $_POST['choice']['points'][$index],
                     $_POST['choice']['points_unchecked'][$index],
-                    $index
+                    $index,
+                    $_POST['choice']['answer_id'][$index]
                 );
             }
         }
