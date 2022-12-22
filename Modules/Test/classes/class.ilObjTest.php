@@ -1693,7 +1693,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function setScoreReporting($score_reporting = 0): void
     {
-        $this->score_reporting = $score_reporting;
+        $this->score_reporting = (int) $score_reporting;
     }
 
     /**
@@ -5086,7 +5086,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     $this->setFixedParticipants($metadata["entry"]);
                     break;
                 case "score_reporting":
-                    $this->setScoreReporting($metadata["entry"]);
+                    $this->setScoreReporting((int) $metadata["entry"]);
                     break;
                 case "shuffle_questions":
                     $this->setShuffleQuestions($metadata["entry"]);
