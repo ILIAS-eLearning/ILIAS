@@ -11774,6 +11774,7 @@ the il- variable in your less code and not the boostrap variable in your less co
   }
 }
 footer {
+  text-align: left;
   background-color: white;
   padding: 10px 0 10px 5px;
   border-top: 1px solid #dddddd;
@@ -11825,7 +11826,7 @@ footer {
   text-decoration: underline;
 }
 .il-maincontrols-footer .il-footer-text {
-  margin-right: 3px;
+  margin: 3px 3px 6px 0px;
 }
 
 .il-mode-info {

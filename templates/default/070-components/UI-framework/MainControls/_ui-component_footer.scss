@@ -5,6 +5,7 @@
 //== Footer
 
 footer{
+	text-align: left;
 	background-color: $il-footer-bg-color;
 	padding: $il-footer-padding;
 	border-top: 1px solid $il-main-border-color;
@@ -62,6 +63,6 @@ footer{
 	}
 
 	.il-footer-text {
-		margin-right: $il-margin-xs-horizontal;
+		margin: $il-margin-small-vertical $il-margin-xs-horizontal $il-margin-large-vertical 0px;
 	}
 }
