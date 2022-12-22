@@ -399,7 +399,7 @@ class ilCourseObjectiveResult
         $reached_points = 0;
         foreach ($objective_data['questions'] as $question_id) {
             $max_points += $question_points[$question_id]['max_points'];
-            $reached_points += $question_points[$question_id]['reached_points'];
+            $reached_points += $question_points[$question_id]['reached_points'] ?? 0;
         }
         if (!$max_points) {
             return false;
