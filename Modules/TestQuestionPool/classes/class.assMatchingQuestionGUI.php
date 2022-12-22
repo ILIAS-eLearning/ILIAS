@@ -678,7 +678,9 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         switch ($this->object->getShuffleMode()) {
             case 1:
                 $terms = $this->object->getShuffler()->transform($terms);
-                $definitions = $this->object->getShuffler()->transform($definitions);
+                $definitions = $this->object->getShuffler()->transform(
+                    $this->object->getShuffler()->transform($definitions)
+                );
                 break;
             case 2:
                 $terms = $this->object->getShuffler()->transform($terms);
@@ -866,7 +868,9 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 if (count($solutions)) {
                     $definitions = $this->sortDefinitionsBySolution($solutions, $definitions);
                 } else {
-                    $definitions = $this->object->getShuffler()->transform($definitions);
+                    $definitions = $this->object->getShuffler()->transform(
+                        $this->object->getShuffler()->transform($definitions)
+                    );
                 }
                 break;
             case 2:
