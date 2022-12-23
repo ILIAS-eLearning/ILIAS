@@ -512,6 +512,9 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
             $template->parseCurrentBlock();
         }
         $questiontext = $this->object->getQuestion();
+        if ($showInlineFeedback && $this->hasInlineFeedback()) {
+            $questiontext .= $this->buildFocusAnchorHtml();
+        }
         $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
 
         $template->setVariable("INSTRUCTIONTEXT", $this->object->getInstructionTextTranslation(
@@ -664,6 +667,9 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
         if ($show_question_text == true) {
             $questiontext = $this->object->getQuestion();
+            if ($show_feedback && $this->hasInlineFeedback()) {
+                $questiontext .= $this->buildFocusAnchorHtml();
+            }
             $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
 
             $template->setVariable("INSTRUCTIONTEXT", $this->object->getInstructionTextTranslation(
@@ -701,10 +707,6 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         $solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
         $solutionoutput = $solutiontemplate->get();
-
-        if ($show_feedback && $this->hasInlineFeedback()) {
-            $solutionoutput = $this->buildFocusAnchorHtml() . $solutionoutput;
-        }
 
         if (!$show_question_only) {
             // get page object output

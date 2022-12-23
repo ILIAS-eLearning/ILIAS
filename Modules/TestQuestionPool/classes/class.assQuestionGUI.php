@@ -533,10 +533,6 @@ abstract class assQuestionGUI
         }
 
         if (strlen($html)) {
-            if ($inlineFeedbackEnabled && $this->hasInlineFeedback()) {
-                $html = $this->buildFocusAnchorHtml() . $html;
-            }
-
             $page_gui->setQuestionHTML(array($this->object->getId() => $html));
         }
 

@@ -394,10 +394,6 @@ class ilAssQuestionPreviewGUI
         $questionHtml = $this->questionGUI->getPreview(true, $this->isShowSpecificQuestionFeedbackRequired());
         $this->questionGUI->magicAfterTestOutput();
 
-        if ($this->isShowSpecificQuestionFeedbackRequired() && $this->questionGUI->hasInlineFeedback()) {
-            $questionHtml = $this->questionGUI->buildFocusAnchorHtml() . $questionHtml;
-        }
-
         $questionHtml .= $this->getQuestionNavigationHtml();
 
         $pageGUI->setQuestionHTML(array($this->questionOBJ->getId() => $questionHtml));

@@ -335,6 +335,9 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $template->parseCurrentBlock();
         }
         $questiontext = $this->object->getQuestion();
+        if ($show_feedback && $this->hasInlineFeedback()) {
+            $questiontext .= $this->buildFocusAnchorHtml();
+        }
         if ($show_question_text == true) {
             $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
         }
@@ -352,10 +355,6 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
         $solutionoutput = $solutiontemplate->get();
-
-        if ($show_feedback && $this->hasInlineFeedback()) {
-            $solutionoutput = $this->buildFocusAnchorHtml() . $solutionoutput;
-        }
 
         if (!$show_question_only) {
             // get page object output
@@ -422,6 +421,9 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $template->parseCurrentBlock();
         }
         $questiontext = $this->object->getQuestion();
+        if ($showInlineFeedback && $this->hasInlineFeedback()) {
+            $questiontext .= $this->buildFocusAnchorHtml();
+        }
         $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
         $questionoutput = $template->get();
         if (!$show_question_only) {
