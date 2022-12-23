@@ -79,7 +79,7 @@ final class ChangeLicenseHeader extends AbstractRector
      */
     public function refactor(Node $node): ?Node
     {
-        if (preg_match(self::IGNORE_SUBPATHS, $this->file->getSmartFileInfo()->getPathname()) > 0) {
+        if (preg_match(self::IGNORE_SUBPATHS, $this->file->getFilePath()) > 0) {
             return $node;
         }
         $node->setAttribute('comments', $this->filterComments($node));
