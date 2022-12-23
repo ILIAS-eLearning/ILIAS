@@ -226,7 +226,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             case "ildclrecordeditgui":
                 $this->prepareOutput();
                 $this->tabs->activateTab(self::TAB_CONTENT);
-                $recordedit_gui = new ilDclRecordEditGUI($this);
+                $recordedit_gui = new ilDclRecordEditGUI($this, $this->table_id, $this->getTableViewId());
                 $this->ctrl->forwardCommand($recordedit_gui);
                 break;
 

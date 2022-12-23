@@ -51,7 +51,7 @@ class ilDclRecordEditGUI
     /**
      * @param ilObjDataCollectionGUI $parent_obj
      */
-    public function __construct(ilObjDataCollectionGUI $parent_obj)
+    public function __construct(ilObjDataCollectionGUI $parent_obj, int $table_id, int $tableview_id)
     {
         global $DIC;
 
@@ -65,6 +65,8 @@ class ilDclRecordEditGUI
         $this->parent_obj = $parent_obj;
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->tableview_id = $tableview_id;
+        $this->table_id = $table_id;
 
         if ($this->http->wrapper()->query()->has('record_id')) {
             $this->record_id = $this->http->wrapper()->query()->retrieve(
@@ -77,29 +79,6 @@ class ilDclRecordEditGUI
                 'record_id',
                 $this->refinery->kindlyTo()->int()
             );
-        }
-        if ($this->http->wrapper()->query()->has('table_id')) {
-            $this->table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
-        }
-        if ($this->http->wrapper()->post()->has('table_id')) {
-            $this->table_id = $this->http->wrapper()->post()->retrieve('table_id', $this->refinery->kindlyTo()->int());
-        }
-        if ($this->http->wrapper()->query()->has('tableview_id')) {
-            $this->tableview_id = $this->http->wrapper()->query()->retrieve(
-                'tableview_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        if ($this->http->wrapper()->post()->has('tableview_id')) {
-            $this->tableview_id = $this->http->wrapper()->post()->retrieve(
-                'tableview_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-
-        if (!$this->tableview_id) {
-            $this->tableview_id = ilDclCache::getTableCache($this->table_id)
-                                            ->getFirstTableViewId($this->parent_obj->getRefId());
         }
         $this->tableview = ilDclTableView::findOrGetInstance($this->tableview_id);
     }
@@ -116,7 +95,7 @@ class ilDclRecordEditGUI
     {
         $hasMode = $this->http->wrapper()->query()->has('mode');
         if ($hasMode) {
-            $mode = $this->http->wrapper()->query()->retrieve('mode', $this->refinery->kindlyTo()->int());
+            $mode = $this->http->wrapper()->query()->retrieve('mode', $this->refinery->kindlyTo()->string());
 
             $this->ctrl->saveParameter($this, 'mode');
             $this->ctrl->setParameterByClass("ildclrecordlistgui", "mode", $mode);
