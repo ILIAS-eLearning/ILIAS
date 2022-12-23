@@ -33,4 +33,23 @@ class ilDataCollectionDBUpdateSteps implements \ilDatabaseUpdateSteps
         $this->db->modifyTableColumn("il_dcl_tableview", "description", [ 'notnull' => true,
               'default' => '']);
     }
+
+    public function step_2(): void
+    {
+        $this->db->manipulate("UPDATE il_dcl_tview_set " .
+            "SET in_filter=0 " .
+            "WHERE in_filter is null");
+        $this->db->manipulate("UPDATE il_dcl_tview_set " .
+            "SET visible=0 " .
+            "WHERE visible is null");
+        $this->db->manipulate("UPDATE il_dcl_tview_set " .
+            "SET filter_changeable=0 " .
+            "WHERE filter_changeable is null");
+        $this->db->modifyTableColumn("il_dcl_tview_set", "in_filter", [ 'notnull' => true,
+                                                                          'default' => 0]);
+        $this->db->modifyTableColumn("il_dcl_tview_set", "visible", [ 'notnull' => true,
+                                                                        'default' => 0]);
+        $this->db->modifyTableColumn("il_dcl_tview_set", "filter_changeable", [ 'notnull' => true,
+                                                                      'default' => 0]);
+    }
 }
