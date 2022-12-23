@@ -42,10 +42,13 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     public const GET_DCL_GTR = "dcl_gtr";
     public const GET_REF_ID = "ref_id";
     public const GET_VIEW_ID = "tableview_id";
+
     public const TAB_EDIT_DCL = 'settings';
     public const TAB_LIST_TABLES = 'dcl_tables';
     public const TAB_EXPORT = 'export';
     public const TAB_LIST_PERMISSIONS = 'perm_settings';
+    public const TAB_INFO = 'info_short';
+    public const TAB_CONTENT = 'content';
 
     public ?ilObject $object = null;
 
@@ -180,7 +183,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         switch ($next_class) {
             case "ilinfoscreengui":
                 $this->prepareOutput();
-                $this->tabs->activateTab("id_info");
+                $this->tabs->activateTab(self::TAB_INFO);
                 $this->infoScreenForward();
                 break;
 
@@ -193,7 +196,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
             case "ilpermissiongui":
                 $this->prepareOutput();
-                $this->tabs->activateTab("id_permissions");
+                $this->tabs->activateTab(self::TAB_LIST_PERMISSIONS);
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -207,7 +210,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
             case "ildcltablelistgui":
                 $this->prepareOutput();
-                $this->tabs->activateTab("id_tables");
+                $this->tabs->activateTab(self::TAB_LIST_TABLES);
                 $tablelist_gui = new ilDclTableListGUI($this);
                 $this->ctrl->forwardCommand($tablelist_gui);
                 break;
@@ -215,7 +218,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             case "ildclrecordlistgui":
                 $this->addHeaderAction();
                 $this->prepareOutput();
-                $this->tabs->activateTab("id_records");
+                $this->tabs->activateTab(self::TAB_CONTENT);
 
                 $tableview_id = null;
                 if ($this->http->wrapper()->query()->has('tableview_id')) {
@@ -239,14 +242,14 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
             case "ildclrecordeditgui":
                 $this->prepareOutput();
-                $this->tabs->activateTab("id_records");
+                $this->tabs->activateTab(self::TAB_CONTENT);
                 $recordedit_gui = new ilDclRecordEditGUI($this);
                 $this->ctrl->forwardCommand($recordedit_gui);
                 break;
 
             case "ilobjfilegui":
                 $this->prepareOutput();
-                $this->tabs->activateTab("id_records");
+                $this->tabs->activateTab(self::TAB_CONTENT);
                 $file_gui = new ilObjFile($this->getRefId());
                 $this->ctrl->forwardCommand($file_gui);
                 break;
@@ -285,7 +288,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 break;
             case "ildclexportgui":
                 $this->prepareOutput();
-                $DIC->tabs()->setTabActive("export");
+                $DIC->tabs()->setTabActive(self::TAB_EXPORT);
                 $exp_gui = new ilDclExportGUI($this);
                 $table_id = filter_input(INPUT_GET, 'table_id', FILTER_VALIDATE_INT);
                 $exporter = new ilDclContentExporter($this->object->getRefId(), $table_id);
@@ -347,7 +350,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
      */
     public function infoScreenForward(): void
     {
-        $this->tabs->activateTab('info_short');
+        $this->tabs->activateTab(self::TAB_INFO);
 
         if (!$this->checkPermissionBool('visible')) {
             $this->checkPermission('read');
@@ -436,12 +439,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     {
         $refId = $this->object->getRefId();
 
-        // visible permission
-        if ($this->dclAccess->hasVisibleOrReadPermission($refId) === true) {
-            // info screen
-            $this->addTab("info_short", $this->dclEndPoint->getInfoScreenLink());
-        }
-
         // read permission
         if ($this->dclAccess->hasReadPermission($refId) === true) {
             $tableview_id = null;
@@ -453,7 +450,13 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             }
 
             // list records
-            $this->addTab('content', $this->dclEndPoint->getListRecordsLink($tableview_id));
+            $this->addTab(self::TAB_CONTENT, $this->dclEndPoint->getListRecordsLink($tableview_id));
+        }
+
+        // visible permission
+        if ($this->dclAccess->hasVisibleOrReadPermission($refId) === true) {
+            // info screen
+            $this->addTab(self::TAB_INFO, $this->dclEndPoint->getInfoScreenLink());
         }
 
         // write permission
