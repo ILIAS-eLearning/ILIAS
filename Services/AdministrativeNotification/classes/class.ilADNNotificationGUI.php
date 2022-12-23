@@ -169,7 +169,7 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
         $notification = $this->getNotificationFromRequest();
 
         $notification->resetForAllUsers();
-        $this->tpl->setOnScreenMessage('info', $this->lng->txt('msg_success_reset'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_success_reset'), true);
         $this->cancel();
     }
 
