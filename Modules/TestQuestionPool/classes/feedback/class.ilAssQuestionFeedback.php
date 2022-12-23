@@ -372,7 +372,23 @@ abstract class ilAssQuestionFeedback
      */
     public function isSpecificAnswerFeedbackAvailable($questionId)
     {
-        return (bool) strlen($this->getAllSpecificAnswerFeedbackContents($questionId));
+        $res = $this->db->queryF(
+            "SELECT answer FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
+            ['integer'],
+            [$questionId]
+        );
+
+        $allFeedbackContents = '';
+
+        while ($row = $this->db->fetchAssoc($res)) {
+            $allFeedbackContents .= $this->getSpecificAnswerFeedbackExportPresentation(
+                $this->questionOBJ->getId(),
+                0,
+                $row['answer']
+            );
+        }
+
+        return (bool) strlen(trim(strip_tags($allFeedbackContents)));
     }
 
     /**
