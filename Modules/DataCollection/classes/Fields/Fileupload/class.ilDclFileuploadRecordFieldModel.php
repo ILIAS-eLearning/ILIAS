@@ -28,9 +28,9 @@ use ILIAS\FileUpload\MimeType;
 class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
 {
     /**
-     * @param array|int $value
+     * @param null|array|int $value
      */
-    public function parseValue($value): ?array
+    public function parseValue($value)
     {
         global $DIC;
         if ($value == -1) { //marked for deletion.
@@ -48,7 +48,6 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
             $file_obj->setType("file");
             $file_obj->setTitle($file["name"]);
             $file_obj->setFileName($file["name"]);
-            $file_obj->setFileType(MimeType::getMimeType("", $file["name"], $file["type"]));
             $file_obj->setMode(ilObjFile::MODE_OBJECT);
             $file_obj->create();
 

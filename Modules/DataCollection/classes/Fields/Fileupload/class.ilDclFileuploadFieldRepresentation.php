@@ -34,7 +34,7 @@ class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation
         return $input;
     }
 
-    protected function requiredWorkaroundForInputField(ilFileInputGUI $input, int $record_id): void
+    protected function requiredWorkaroundForInputField(ilFileInputGUI $input, ?int $record_id): void
     {
         if ($record_id) {
             $record = ilDclCache::getRecordCache($record_id);
