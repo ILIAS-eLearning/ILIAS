@@ -38,7 +38,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     protected array $object_data;
     protected array $numeric_fields = array();
     protected array $filter = array();
-    protected int $mode;
+    protected string $mode;
     protected int $userId;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
@@ -48,7 +48,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         string $a_parent_cmd,
         ilDclTable $table,
         int $tableview_id,
-        int $mode = ilDclRecordListGUI::MODE_VIEW
+        string $mode = ilDclRecordListGUI::MODE_VIEW
     ) {
         global $DIC;
         $this->ctrl = $DIC->ctrl();
