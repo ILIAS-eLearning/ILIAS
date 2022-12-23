@@ -72,8 +72,8 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
         if (in_array($med->getSuffix(), array('jpg', 'jpeg', 'png', 'gif'))) {
             // Image
             $dir = ilObjMediaObject::_getDirectory($mob->getId());
-            $width = (int) $field->getProperty(ilDclBaseFieldModel::PROP_WIDTH);
-            $height = (int) $field->getProperty(ilDclBaseFieldModel::PROP_HEIGHT);
+            $width = $field->getProperty(ilDclBaseFieldModel::PROP_WIDTH);
+            $height = $field->getProperty(ilDclBaseFieldModel::PROP_HEIGHT);
 
             $html = ilUtil::img(ilWACSignedPath::signFile($dir . "/" . $med->getLocation()), '', $width, $height);
 
