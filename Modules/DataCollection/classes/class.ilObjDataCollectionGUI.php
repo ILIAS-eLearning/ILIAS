@@ -159,13 +159,13 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $hasDclGtr = $this->http->wrapper()->query()->has(self::GET_DCL_GTR);
         // Direct-Link Resource, redirect to viewgui
         if ($hasDclGtr) {
-            $viewId = $this->http->wrapper()->query()->retrieve(self::GET_VIEW_ID, $this->refinery->kindlyTo()->int());
+            $table_view_id = $this->getTableViewId();
             $record_id = $this->http->wrapper()->query()->retrieve(
                 self::GET_DCL_GTR,
                 $this->refinery->kindlyTo()->int()
             );
 
-            $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'tableview_id', $viewId);
+            $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'tableview_id', $table_view_id);
             $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'record_id', $record_id);
             $this->ctrl->redirectByClass(ilDclDetailedViewGUI::class, 'renderRecord');
         }
@@ -219,24 +219,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 $this->addHeaderAction();
                 $this->prepareOutput();
                 $this->tabs->activateTab(self::TAB_CONTENT);
-
-                $tableview_id = null;
-                if ($this->http->wrapper()->query()->has('tableview_id')) {
-                    $tableview_id = $this->http->wrapper()->query()->retrieve(
-                        'tableview_id',
-                        $this->refinery->kindlyTo()->int()
-                    );
-                }
-                if ($this->http->wrapper()->post()->has('tableview_id')) {
-                    $tableview_id = $this->http->wrapper()->post()->retrieve(
-                        'tableview_id',
-                        $this->refinery->kindlyTo()->int()
-                    );
-                }
-                if (null !== $tableview_id) {
-                    $this->ctrl->setParameterByClass(ilDclRecordListGUI::class, 'tableview_id', $tableview_id);
-                }
-                $recordlist_gui = new ilDclRecordListGUI($this, $this->table_id);
+                $recordlist_gui = new ilDclRecordListGUI($this, $this->table_id, $this->getTableViewId());
                 $this->ctrl->forwardCommand($recordlist_gui);
                 break;
 
@@ -316,6 +299,28 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                         parent::executeCommand();
                 }
         }
+    }
+
+    protected function getTableViewId(): int
+    {
+        $tableview_id = null;
+        if ($this->http->wrapper()->query()->has('tableview_id')) {
+            $tableview_id = $this->http->wrapper()->query()->retrieve(
+                'tableview_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if ($this->http->wrapper()->post()->has('tableview_id')) {
+            $tableview_id = $this->http->wrapper()->post()->retrieve(
+                'tableview_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if (!$tableview_id) {
+            $table_obj = ilDclCache::getTableCache($this->table_id);
+            $tableview_id = $table_obj->getFirstTableViewId($this->getRefId());
+        }
+        return $tableview_id;
     }
 
     /**
