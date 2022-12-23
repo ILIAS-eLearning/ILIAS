@@ -67,14 +67,10 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-    /**
-     * Returns supported file-extensions
-     * @return array|string
-     */
-    public function getSupportedExtensions()
+    public function getSupportedExtensions(): array
     {
         if (!$this->hasProperty(ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES)) {
-            return "*";
+            return [];
         }
 
         $file_types = $this->getProperty(ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES);
