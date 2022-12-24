@@ -113,7 +113,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
      * @return bool
      * @throws ilDclInputException
      */
-    protected function checkValidityOfURLField($value, int $record_id): bool
+    protected function checkValidityOfURLField($value, ?int $record_id): bool
     {
         // TODO: value should always be an array with url fields, can we remove the check & json_decode?
         if (!is_array($value)) {
@@ -140,7 +140,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
 
                 if ($record_value == $value
                     && ($record->getId() != $record_id
-                        || $record_id == 0)
+                        || !$record_id)
                 ) {
                     throw new ilDclInputException(ilDclInputException::UNIQUE_EXCEPTION);
                 }
