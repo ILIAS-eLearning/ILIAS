@@ -52,4 +52,13 @@ class ilDataCollectionDBUpdateSteps implements \ilDatabaseUpdateSteps
         $this->db->modifyTableColumn("il_dcl_tview_set", "filter_changeable", [ 'notnull' => true,
                                                                       'default' => 0]);
     }
+
+    public function step_3(): void
+    {
+        $this->db->manipulate("UPDATE il_dcl_tfield_set " .
+            "SET exportable=0 " .
+            "WHERE exportable is null");
+        $this->db->modifyTableColumn("il_dcl_tfield_set", "exportable", [ 'notnull' => true,
+                                                                        'default' => 0]);
+    }
 }
