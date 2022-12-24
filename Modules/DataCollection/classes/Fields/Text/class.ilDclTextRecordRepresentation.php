@@ -35,11 +35,11 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
         $field = $this->getField();
         if ($field->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
             if (is_array($value)) {
-                $link = $value['link'];
+                $link = (string)$value['link'];
                 $link_value = $value['title'] ?: $this->shortenLink($link);
             } else {
-                $link = $value;
-                $link_value = $this->shortenLink($value);
+                $link = (string)$value;
+                $link_value = $this->shortenLink($link);
             }
 
             if (substr($link, 0, 3) === 'www') {
