@@ -450,21 +450,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
         // read permission
         if ($this->dclAccess->hasReadPermission($refId) === true) {
-            $tableview_id = null;
-            if ($this->http->wrapper()->query()->has('tableview_id')) {
-                $tableview_id = $this->http->wrapper()->query()->retrieve(
-                    'tableview_id',
-                    $this->refinery->kindlyTo()->int()
-                );
-            }
-
-            if (!isset($tableview_id)) {
-                $tableview_id = ilDclCache::getTableCache($this->table_id)
-                                                ->getFirstTableViewId($this->getRefId());
-            }
-
             // list records
-            $this->addTab(self::TAB_CONTENT, $this->dclEndPoint->getListRecordsLink($tableview_id));
+            $this->addTab(self::TAB_CONTENT, $this->dclEndPoint->getListRecordsLink($this->getTableViewId()));
         }
 
         // visible permission
@@ -567,14 +554,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
     final public function listRecords(): void
     {
-        $tableview_id = null;
-        if ($this->http->wrapper()->query()->has('tableview_id')) {
-            $tableview_id = $this->http->wrapper()->query()->retrieve(
-                'tableview_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        $listRecordsLink = $this->dclEndPoint->getListRecordsLink($tableview_id);
+        $listRecordsLink = $this->dclEndPoint->getListRecordsLink($this->getTableViewId());
         $this->dclEndPoint->redirect($listRecordsLink);
     }
 
