@@ -113,9 +113,9 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
     }
 
     /**
-     * @param int|string $value
+     * @param int|string|array $value
      */
-    public function parseValue($value): string
+    public function parseValue($value)
     {
         if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_TEXTAREA)
             && !$this->getField()->getProperty(ilDclBaseFieldModel::PROP_URL)
