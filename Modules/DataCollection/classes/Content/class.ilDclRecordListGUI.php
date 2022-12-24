@@ -623,4 +623,14 @@ class ilDclRecordListGUI
             $this->tableview_id
         );
     }
+
+    public function getTableId(): int
+    {
+        return $this->table_id;
+    }
+
+    public function getTableviewId(): int
+    {
+        return $this->tableview_id;
+    }
 }

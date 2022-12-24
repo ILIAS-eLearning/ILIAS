@@ -705,21 +705,21 @@ class ilDclRecordEditGUI
         $hasRedirect = $this->http->wrapper()->query()->has('redirect');
 
         if ($force_redirect || ($hasRedirect && !$this->ctrl->isAsynch())) {
-            $redirect = $this->http->wrapper()->query()->retrieve('redirect', $this->refinery->kindlyTo()->int());
-
-            switch ($redirect) {
-                case self::REDIRECT_DETAIL:
-                    $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'record_id', $this->record_id);
-                    $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'table_id', $this->table_id);
-                    $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'tableview_id', $this->tableview_id);
-                    $this->ctrl->redirectByClass("ilDclDetailedViewGUI", "renderRecord");
-                    break;
-                case self::REDIRECT_RECORD_LIST:
-                    $this->ctrl->redirectByClass("ildclrecordlistgui", "listRecords");
-                    break;
-                default:
-                    $this->ctrl->redirectByClass("ildclrecordlistgui", "listRecords");
+            if ($hasRedirect) {
+                $redirect = $this->http->wrapper()->query()->retrieve('redirect', $this->refinery->kindlyTo()->int());
+                switch ($redirect) {
+                    case self::REDIRECT_DETAIL:
+                        $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'record_id', $this->record_id);
+                        $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'table_id', $this->table_id);
+                        $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'tableview_id', $this->tableview_id);
+                        $this->ctrl->redirectByClass("ilDclDetailedViewGUI", "renderRecord");
+                        break;
+                    case self::REDIRECT_RECORD_LIST:
+                        $this->ctrl->redirectByClass("ildclrecordlistgui", "listRecords");
+                        break;
+                }
             }
+            $this->ctrl->redirectByClass("ildclrecordlistgui", "listRecords");
         }
     }
 

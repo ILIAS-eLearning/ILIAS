@@ -410,14 +410,14 @@ class ilDclBaseRecordModel
     /**
      * @param int|string $field_id
      */
-    public function getRecordFieldHTML($field_id, array $options = array()): string
+    public function getRecordFieldHTML($field_id, array $options = []): string
     {
         $this->loadRecordFields();
         if (ilDclStandardField::_isStandardField($field_id)) {
             $html = $this->getStandardFieldHTML($field_id, $options);
         } else {
             if (is_object($this->recordfields[$field_id])) {
-                $html = $this->recordfields[$field_id]->getRecordRepresentation()->getHTML();
+                $html = $this->recordfields[$field_id]->getRecordRepresentation()->getHTML(true, $options);
             } else {
                 $html = '';
             }

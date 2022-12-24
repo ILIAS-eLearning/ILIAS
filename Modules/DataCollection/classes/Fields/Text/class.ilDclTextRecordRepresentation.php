@@ -9,11 +9,19 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
 {
     public const LINK_MAX_LENGTH = 40;
 
-    public function getHTML(bool $link = true): string
+    public function getHTML(bool $link = true, array $options = []): string
     {
         $value = $this->getRecordField()->getValue();
 
-        $tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
+
+        if (is_array($options) && array_key_exists("tableview_id", $options)) {
+            $tableview_id = $options["tableview_id"];
+        } else {
+            $tableview_id = $this->http->wrapper()->query()->retrieve(
+                'tableview_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
 
         //Property URL
         $field = $this->getField();

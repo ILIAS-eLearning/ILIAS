@@ -162,7 +162,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
 
             foreach ($this->tableview->getVisibleFields() as $field) {
                 $title = $field->getTitle();
-                $record_data[$title] = $record->getRecordFieldHTML($field->getId());
+                $record_data[$title] = $record->getRecordFieldHTML($field->getId(), ['tableview_id' => $this->tableview->getId()]);
 
                 // Additional column filled in ::fillRow() method, showing the learning progress
                 if ($field->getProperty(ilDclBaseFieldModel::PROP_LEARNING_PROGRESS)) {
