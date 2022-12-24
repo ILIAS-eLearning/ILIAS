@@ -628,8 +628,10 @@ class ilDclBaseFieldModel
                 $value = null;
             }
 
-            $fieldprop_obj->setValue($value);
-            $fieldprop_obj->create();
+            if ($value) {
+                $fieldprop_obj->setValue($value);
+                $fieldprop_obj->create();
+            }
         }
     }
 

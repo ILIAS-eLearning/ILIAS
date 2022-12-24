@@ -197,7 +197,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
         }
 
         $file_old = new ilObjFile($record_field->getValue(), false);
-        $file_new = $file_old->cloneObject(null, null, true);
+        $file_new = $file_old->cloneObject(0, 0, true);
 
         $this->setValue($file_new->getId(), true);
         $this->doUpdate();
