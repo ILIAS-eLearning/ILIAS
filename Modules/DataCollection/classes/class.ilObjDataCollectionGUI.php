@@ -394,7 +394,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $dclAccess = $dclConfig->getDataCollectionAccess();
 
         $targetParts = explode("_", $a_target);
-        if (count($targetParts) === 2) {
+        if (count($targetParts) === 1) {
+            [$refId] = $targetParts;
+        } elseif (count($targetParts) === 2) {
             [$refId, $viewId] = $targetParts;
         } else {
             [$refId, $viewId, $recordId] = $targetParts;
@@ -414,7 +416,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         //load record list
         if ($dclAccess->hasReadPermission($refId) === true) {
             $ilCtrl->setParameterByClass("ilRepositoryGUI", self::GET_REF_ID, $refId);
-            $ilCtrl->setParameterByClass("ilRepositoryGUI", self::GET_VIEW_ID, $viewId);
+            if (isset($viewId)) {
+                $ilCtrl->setParameterByClass("ilRepositoryGUI", self::GET_VIEW_ID, $viewId);
+            }
             if (isset($recordId)) {
                 $ilCtrl->setParameterByClass("ilRepositoryGUI", self::GET_DCL_GTR, $recordId);
             }
@@ -446,16 +450,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
         // read permission
         if ($this->dclAccess->hasReadPermission($refId) === true) {
-            $tableview_id = null;
-            if ($this->http->wrapper()->query()->has('tableview_id')) {
-                $tableview_id = $this->http->wrapper()->query()->retrieve(
-                    'tableview_id',
-                    $this->refinery->kindlyTo()->int()
-                );
-            }
-
             // list records
-            $this->addTab(self::TAB_CONTENT, $this->dclEndPoint->getListRecordsLink($tableview_id));
+            $this->addTab(self::TAB_CONTENT, $this->dclEndPoint->getListRecordsLink($this->getTableViewId()));
         }
 
         // visible permission
@@ -558,10 +554,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
     final public function listRecords(): void
     {
-        $tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
-
-        $viewId = $tableview_id;
-        $listRecordsLink = $this->dclEndPoint->getListRecordsLink($viewId);
+        $listRecordsLink = $this->dclEndPoint->getListRecordsLink($this->getTableViewId());
         $this->dclEndPoint->redirect($listRecordsLink);
     }
 

@@ -246,8 +246,8 @@ class ilDclTableListGUI
                 ilDclCache::getTableCache($table_id)->doDelete();
             }
         }
-
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tables_deleted'), true);
+        $this->ctrl->clearParameterByClass("ilobjdatacollectiongui", "table_id");
         $this->ctrl->redirect($this, 'listTables');
     }
 
