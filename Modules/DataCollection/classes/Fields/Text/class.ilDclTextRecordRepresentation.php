@@ -29,14 +29,17 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
     {
         $value = $this->getRecordField()->getValue();
 
-
+        $tableview_id = 1;
+        //This should be avoided in future, tableview_id should be properly injected and not needing to be fetched get
         if (is_array($options) && array_key_exists("tableview_id", $options)) {
             $tableview_id = $options["tableview_id"];
         } else {
-            $tableview_id = $this->http->wrapper()->query()->retrieve(
-                'tableview_id',
-                $this->refinery->kindlyTo()->int()
-            );
+            if ($this->http->wrapper()->query()->has('tableview_id', $this->refinery->kindlyTo()->int())) {
+                $tableview_id = $this->http->wrapper()->query()->retrieve(
+                    'tableview_id',
+                    $this->refinery->kindlyTo()->int()
+                );
+            }
         }
 
         //Property URL
