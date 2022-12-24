@@ -23,7 +23,7 @@
  */
 class ilDclRatingRecordRepresentation extends ilDclBaseRecordRepresentation
 {
-    public function getHTML(bool $link = true): string
+    public function getHTML(bool $link = true, array $options = []): string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

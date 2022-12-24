@@ -26,7 +26,7 @@ abstract class ilDclSelectionRecordRepresentation extends ilDclBaseRecordReprese
     public const PROP_SELECTION_TYPE = '';
     public const PROP_SELECTION_OPTIONS = '';
 
-    public function getHTML(bool $link = true): string
+    public function getHTML(bool $link = true, array $options = []): string
     {
         $record_field_value = $this->getRecordField()->getValue();
         $values = ilDclSelectionOption::getValues($this->getField()->getId(), $record_field_value);
