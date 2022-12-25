@@ -63,12 +63,13 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         string $file,
         bool $flag1,
         bool $flag2,
-        bool $in_module = false,
-        string $vars = "DEFAULT",
+        string $in_module = "",
+        string $vars = ilGlobalTemplateInterface::DEFAULT_BLOCK,
         bool $plugin = false,
         bool $a_use_cache = true
     ) {
         $this->setBodyClass("std");
+
         $this->template = new ilTemplate($file, $flag1, $flag2, $in_module, $vars, $plugin, $a_use_cache);
     }
 

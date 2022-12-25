@@ -59,7 +59,7 @@ class ilDclDetailedViewGUI
     /**
      * @param ilObjDataCollectionGUI $a_dcl_object
      */
-    public function __construct(ilObjDataCollectionGUI $a_dcl_object)
+    public function __construct(ilObjDataCollectionGUI $a_dcl_object, int $tableview_id)
     {
         global $DIC;
         $this->init(ilDataCollectionOutboundsAdapter::new());
@@ -113,6 +113,8 @@ class ilDclDetailedViewGUI
         $ilCtrl->setParameterByClass("ilnotegui", "record_id", $this->record_id);
         $ilCtrl->setParameterByClass("ilnotegui", "rep_id", $repId);
 
+        $this->tableview_id = $tableview_id;
+
         if ($this->http->wrapper()->query()->has('disable_paging')
             && $this->http->wrapper()->query()->retrieve('disable_paging', $this->refinery->kindlyTo()->bool())) {
             $this->is_enabled_paging = false;
@@ -132,29 +134,7 @@ class ilDclDetailedViewGUI
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
-
-        if ($this->http->wrapper()->query()->has('tableview_id')) {
-            $this->tableview_id = $this->http->wrapper()->query()->retrieve(
-                'tableview_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        } else {
-            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
-            $this->tableview_id = $this->table->getFirstTableViewId($ref_id);
-        }
         $ilCtrl->setParameter($this, 'tableview_id', $this->tableview_id);
-
-        if ($this->http->wrapper()->query()->has('back_tableview_id')) {
-            $ilCtrl->setParameter(
-                $this->dcl_gui_object,
-                'tableview_id',
-                $this->http->wrapper()->query()->retrieve('back_tableview_id', $this->refinery->kindlyTo()->int())
-            );
-        } else {
-            $ilCtrl->setParameter($this->dcl_gui_object, 'tableview_id', $this->tableview_id);
-            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
-            $this->tableview_id = $this->table->getFirstTableViewId($ref_id);
-        }
 
         if (!$this->checkAccess()) {
             $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
@@ -458,7 +438,7 @@ class ilDclDetailedViewGUI
     {
         // We need the default sorting etc. to dertermine on which position we currently are, thus we instantiate the table gui.
         $list = new ilDclRecordListTableGUI(
-            new ilDclRecordListGUI($this->dcl_gui_object, $this->table->getId()),
+            new ilDclRecordListGUI($this->dcl_gui_object, $this->table->getId(), $this->tableview_id),
             "listRecords",
             $this->table,
             $this->tableview_id

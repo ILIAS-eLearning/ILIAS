@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclTextFieldRepresentation
@@ -28,19 +27,6 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
     public function getHTML(bool $link = true, array $options = []): string
     {
         $value = $this->getRecordField()->getValue();
-
-        $tableview_id = 1;
-        //This should be avoided in future, tableview_id should be properly injected and not needing to be fetched get
-        if (is_array($options) && array_key_exists("tableview_id", $options)) {
-            $tableview_id = $options["tableview_id"];
-        } else {
-            if ($this->http->wrapper()->query()->has('tableview_id', $this->refinery->kindlyTo()->int())) {
-                $tableview_id = $this->http->wrapper()->query()->retrieve(
-                    'tableview_id',
-                    $this->refinery->kindlyTo()->int()
-                );
-            }
-        }
 
         //Property URL
         $field = $this->getField();
@@ -70,14 +56,16 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
                 $link,
                 ENT_QUOTES
             ) . "'>" . htmlspecialchars($link_value, ENT_QUOTES) . "</a>";
-        } elseif ($field->hasProperty(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT) && $link && ilDclDetailedViewDefinition::isActive($tableview_id)) {
+        } elseif ($field->hasProperty(
+            ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT
+        ) && $link && ilDclDetailedViewDefinition::isActive($this->getTableViewId())) {
             $this->ctrl->clearParametersByClass("ilDclDetailedViewGUI");
             $this->ctrl->setParameterByClass(
                 'ilDclDetailedViewGUI',
                 'record_id',
                 $this->getRecordField()->getRecord()->getId()
             );
-            $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'tableview_id', $tableview_id);
+            $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'tableview_id', $this->getTableViewId());
             $html = '<a href="' . $this->ctrl->getLinkTargetByClass(
                 "ilDclDetailedViewGUI",
                 'renderRecord'

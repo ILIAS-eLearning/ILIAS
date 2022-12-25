@@ -550,9 +550,9 @@ class ilDclBaseRecordModel
             case 'last_edit_by':
                 return ilUserUtil::getNamePresentation($this->getLastEditBy());
             case 'last_update':
-                return ilDatePresentation::formatDate(new ilDateTime($this->getLastUpdate(), IL_CAL_DATETIME));
+                return ilDatePresentation::formatDate($this->getLastUpdate());
             case 'create_date':
-                return ilDatePresentation::formatDate(new ilDateTime($this->getCreateDate(), IL_CAL_DATETIME));
+                return ilDatePresentation::formatDate($this->getCreateDate());
             case 'comments':
                 $nComments = $this->getNrOfComments();
 

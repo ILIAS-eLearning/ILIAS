@@ -250,7 +250,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
             case "ildcldetailedviewgui":
                 $this->prepareOutput();
-                $recordview_gui = new ilDclDetailedViewGUI($this);
+                $recordview_gui = new ilDclDetailedViewGUI($this, $this->getTableViewId());
                 $this->ctrl->forwardCommand($recordview_gui);
                 $this->tabs->clearTargets();
                 $this->tabs->setBackTarget(
@@ -264,7 +264,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
             case 'ilnotegui':
                 $this->prepareOutput();
-                $recordviewGui = new ilDclDetailedViewGUI($this);
+                $recordviewGui = new ilDclDetailedViewGUI($this, $this->getTableViewId());
                 $this->ctrl->forwardCommand($recordviewGui);
                 $this->tabs->clearTargets();
                 $this->tabs->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, ""));
