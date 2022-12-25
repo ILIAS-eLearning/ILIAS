@@ -152,16 +152,18 @@ class ilDclFieldListGUI
             $val += 10;
         }
 
-        foreach ($fields as $field) {
-            $exportable = false;
-            if ($this->http->wrapper()->post()->has('exportable')) {
-                $exportable = $this->http->wrapper()->post()->retrieve(
-                    'exportable',
-                    $this->refinery->kindlyTo()->bool()
-                );
-            }
+        $exportable = [];
+        if ($this->http->wrapper()->post()->has("exportable")) {
+            $exportable = $this->http->wrapper()->post()->retrieve(
+                "exportable",
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->string()
+                )
+            );
+        }
 
-            $field->setExportable($exportable && $exportable[$field->getId()] === "on");
+        foreach ($fields as $field) {
+            $field->setExportable(array_key_exists($field->getId(), $exportable) && $exportable[$field->getId()] === "on");
             $field->setOrder($order[$field->getId()]);
             $field->doUpdate();
         }
