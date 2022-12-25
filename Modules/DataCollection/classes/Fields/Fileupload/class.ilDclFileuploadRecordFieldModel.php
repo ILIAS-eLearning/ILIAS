@@ -142,7 +142,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     public function parseExportValue($value): ?string
     {
-        if (!ilObject2::_exists($value) || ilObject2::_lookupType($value) != "file") {
+        if (!$value || !ilObject2::_exists($value) || ilObject2::_lookupType($value) != "file") {
             return null;
         }
 

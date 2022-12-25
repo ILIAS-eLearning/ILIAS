@@ -1237,9 +1237,9 @@ class ilDclTable
     public function getPartialRecords(
         string $sort,
         string $direction,
-        int $limit,
+        ?int $limit,
         int $offset,
-        array $filter = array()
+        array $filter = []
     ): array {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1248,7 +1248,7 @@ class ilDclTable
          */
         $ilUser = $DIC['ilUser'];
 
-        $sort_field = ($sort) ? $this->getFieldByTitle($sort) : $this->getField('id');
+        $sort_field = $this->getFieldByTitle($sort);
         $direction = strtolower($direction);
         $direction = (in_array($direction, array('desc', 'asc'))) ? $direction : 'asc';
 
@@ -1311,7 +1311,7 @@ class ilDclTable
         }
 
         $set = $ilDB->query($sql);
-        $total_record_ids = array();
+        $total_record_ids = [];
 
         $ref = filter_input(INPUT_GET, 'ref_id');
         $is_allowed_to_view = (ilObjDataCollectionAccess::hasWriteAccess($ref) || ilObjDataCollectionAccess::hasEditAccess($ref));
