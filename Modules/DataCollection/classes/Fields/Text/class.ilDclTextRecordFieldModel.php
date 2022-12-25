@@ -86,7 +86,10 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-    public function getExportValue(): string
+    /**
+     * @return array|float|int|mixed|string|null
+     */
+    public function getExportValue()
     {
         $value = $this->getValue();
 
