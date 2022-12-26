@@ -82,8 +82,11 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
 
             return $value['link'] ?? '';
         } else {
-            return $value;
+            if ($value) {
+                return $value;
+            }
         }
+        return '';
     }
 
     /**
@@ -101,7 +104,13 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-    public function getValueFromExcel(ilExcel $excel, int $row, int $col): string
+    /**
+     * @param ilExcel $excel
+     * @param int     $row
+     * @param int     $col
+     * @return array|int|string
+     */
+    public function getValueFromExcel(ilExcel $excel, int $row, int $col)
     {
         $value = parent::getValueFromExcel($excel, $row, $col);
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
@@ -109,10 +118,13 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
             if ($excel->getCell(1, $col + 1) == $this->getField()->getTitle() . '_title') {
                 $title = $excel->getCell($row, $col + 1);
             }
-            $value = array('link' => $value, 'title' => $title);
+            $value = ['link' => $value, 'title' => $title];
         }
 
-        return $value;
+        if ($value) {
+            return $value;
+        }
+        return "";
     }
 
     /**

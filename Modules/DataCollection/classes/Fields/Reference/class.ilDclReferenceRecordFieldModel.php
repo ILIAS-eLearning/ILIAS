@@ -50,7 +50,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         if ($value) {
             if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
                 if (!is_array($value)) {
-                    $value = array($value);
+                    $value = [$value];
                 }
                 foreach ($value as $val) {
                     if ($val) {
@@ -85,8 +85,6 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     public function getValueFromExcel(ilExcel $excel, int $row, int $col)
     {
-        global $DIC;
-        $lng = $DIC['lng'];
         $value = parent::getValueFromExcel($excel, $row, $col);
         $old = $value;
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
@@ -98,10 +96,10 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         }
 
         if (!$has_value && $old) {
-            $warning = "(" . $row . ", " . ilDataCollectionImporter::getExcelCharForInteger($col + 1) . ") " . $lng->txt("dcl_no_such_reference") . " "
+            $warning = "(" . $row . ", " . ilDataCollectionImporter::getExcelCharForInteger($col + 1) . ") " . $this->lng->txt("dcl_no_such_reference") . " "
                 . $old;
 
-            return array('warning' => $warning);
+            return ['warning' => $warning];
         }
 
         return $value;
@@ -141,7 +139,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         return $slicedReferences;
     }
 
-    public function getReferenceFromValue(int $value): int
+    public function getReferenceFromValue($value): int
     {
         $field = ilDclCache::getFieldCache($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
         $table = ilDclCache::getTableCache($field->getTableId());
