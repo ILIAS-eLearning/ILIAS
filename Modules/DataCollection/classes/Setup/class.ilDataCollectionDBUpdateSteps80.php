@@ -61,4 +61,9 @@ class ilDataCollectionDBUpdateSteps implements \ilDatabaseUpdateSteps
         $this->db->modifyTableColumn("il_dcl_tfield_set", "exportable", [ 'notnull' => true,
                                                                         'default' => 0]);
     }
+
+    public function step_4(): void
+    {
+        $this->db->modifyTableColumn("il_dcl_stloc3_value", "value", [ 'notnull' => false]);
+    }
 }

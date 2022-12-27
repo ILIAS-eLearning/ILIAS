@@ -30,9 +30,6 @@ class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     public function parseValue($value): string
     {
-        if (!$value) {
-            $value = (new ilDateTime(time(), IL_CAL_UNIX))->get(IL_CAL_DATETIME);
-        }
         return (string)$value;
     }
 
