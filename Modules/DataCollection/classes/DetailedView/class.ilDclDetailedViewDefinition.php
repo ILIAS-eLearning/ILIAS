@@ -73,6 +73,9 @@ class ilDclDetailedViewDefinition extends ilPageObject
 
     public static function isActive(int $id): bool
     {
+        if (!parent::_exists(self::PARENT_TYPE, $id)) {
+            return false;
+        }
         return parent::_lookupActive($id, self::PARENT_TYPE);
     }
 }
