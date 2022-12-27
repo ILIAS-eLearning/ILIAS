@@ -231,7 +231,7 @@ class ilDclBaseRecordFieldModel
 
     public function getFormulaValue(): string
     {
-        return $this->getExportValue();
+        return (string)$this->getExportValue();
     }
 
     /**

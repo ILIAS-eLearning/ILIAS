@@ -31,6 +31,7 @@ class ilDclBaseRecordRepresentation
     protected ILIAS\Refinery\Factory $refinery;
     protected \ILIAS\UI\Renderer $renderer;
     protected \ILIAS\UI\Factory $factory;
+    protected ilObjUser $user;
 
     public function __construct(ilDclBaseRecordFieldModel $record_field)
     {
@@ -46,6 +47,7 @@ class ilDclBaseRecordRepresentation
         $this->refinery = $DIC->refinery();
         $this->factory = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();
+        $this->user = $DIC->user();
 
         $this->record_field = $record_field;
     }
