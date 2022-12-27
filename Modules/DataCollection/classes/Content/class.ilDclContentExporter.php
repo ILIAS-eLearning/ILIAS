@@ -198,7 +198,7 @@ class ilDclContentExporter
             $this->main_tpl->setOnScreenMessage('info', sprintf(
                 $this->lng->txt('dcl_no_export_fields_available'),
                 $ilCtrl->getLinkTargetByClass(
-                    array('ilDclTableListGUI', 'ilDclTableEditGUI', 'ilDclFieldListGUI'),
+                    ['ilDclTableListGUI', 'ilDclFieldListGUI'],
                     'listFields'
                 )
             ));
