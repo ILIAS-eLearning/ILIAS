@@ -29,7 +29,7 @@ class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation
     public function getHTML(bool $link = true, array $options = []): string
     {
         $value = $this->getRecordField()->getValue();
-        if ($value == '0000-00-00 00:00:00' or !$value) {
+        if ($value == '0000-00-00 00:00:00' || !$value) {
             return $this->lng->txt('no_date');
         }
 

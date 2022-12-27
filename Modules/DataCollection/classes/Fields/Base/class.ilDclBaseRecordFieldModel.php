@@ -116,11 +116,6 @@ class ilDclBaseRecordFieldModel
 
             $next_id = $this->db->nextId("il_dcl_stloc" . $storage_location . "_value");
 
-            // This is a workaround to ensure that date values in stloc3 are never stored as NULL, which is not allowed
-            if ($storage_location == 3 && (is_null($this->value) || empty($this->value))) {
-                $this->value = '0000-00-00 00:00:00';
-            }
-
             $value = $this->serializeData($this->value);
 
             if ($this->getId() == 0) {
