@@ -28,15 +28,12 @@ class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation
      */
     public function getHTML(bool $link = true, array $options = []): string
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-
         $value = $this->getRecordField()->getValue();
         if ($value == '0000-00-00 00:00:00' or !$value) {
             return $this->lng->txt('no_date');
         }
 
-        return $this->formatDate($value, $ilUser->getDateFormat());
+        return $this->formatDate($value, $this->user->getDateFormat());
     }
 
     /**
