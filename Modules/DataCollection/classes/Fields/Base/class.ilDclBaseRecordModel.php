@@ -416,7 +416,7 @@ class ilDclBaseRecordModel
         if (ilDclStandardField::_isStandardField($field_id)) {
             $html = $this->getStandardFieldHTML($field_id, $options);
         } else {
-            if (is_object($this->recordfields[$field_id])) {
+            if (array_key_exists($field_id, $this->recordfields) && is_object($this->recordfields[$field_id])) {
                 $html = $this->recordfields[$field_id]->getRecordRepresentation()->getHTML(true, $options);
             } else {
                 $html = '';

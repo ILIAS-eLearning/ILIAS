@@ -87,8 +87,9 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
         }
         $this->ctrl->clearParametersByClass(ilDclDetailedViewGUI::class);
         $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, "record_id", $ref_record->getId());
-        $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, "tableview_id", $this->getTableViewId());
-        $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, "back_tableview_id", $this->getTableViewId());
+        $table_obj = ilDclCache::getTableCache($ref_record->getTableId());
+        $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+        $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, "tableview_id", $table_obj->getFirstTableViewId($ref_id));
         $html = $this->factory->link()->standard($link_name, $this->ctrl->getLinkTargetByClass(
             ilDclDetailedViewGUI::class,
             "renderRecord"
