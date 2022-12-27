@@ -282,7 +282,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 break;
 
             case strtolower(ilDclPropertyFormGUI::class):
-                $recordedit_gui = new ilDclRecordEditGUI($this);
+                $recordedit_gui = new ilDclRecordEditGUI($this, $this->table_id, $this->getTableViewId());
                 $recordedit_gui->getRecord();
                 $recordedit_gui->initForm();
                 $form = $recordedit_gui->getForm();
