@@ -34,7 +34,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
      * @param string     $a_parent_cmd
      * @param ilDclTable $table
      */
-    public function __construct(object $a_parent_obj, $a_parent_cmd, ilDclTable $table)
+    public function __construct(object $a_parent_obj, $a_parent_cmd, ilDclTable $table, int $ref_id)
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -69,7 +69,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $this->setData($this->table->getTableViews());
         } elseif ($this->parent_obj instanceof ilDclDetailedViewGUI) {
             $this->setRowTemplate('tpl.detailview_list_row.html', 'Modules/DataCollection');
-            $this->setData($this->table->getVisibleTableViews($this->parent_obj->parent_obj->ref_id, true));
+            $this->setData($this->table->getVisibleTableViews($ref_id, true));
         }
 
         $this->addColumn($lng->txt('title'), '', 'auto');
@@ -228,8 +228,8 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $this->tpl->setVariable("ORDER_VALUE", $a_set->getOrder());
         }
         $this->tpl->setVariable("TITLE", $a_set->getTitle());
-        $this->ctrl->setParameterByClass('ilDclTableViewEditGUI', 'tableview_id', $a_set->getId());
-        $this->tpl->setVariable("TITLE_LINK", $this->ctrl->getLinkTargetByClass('ilDclTableViewEditGUI'));
+        $this->ctrl->setParameterByClass('ildcltablevieweditgui', 'tableview_id', $a_set->getId());
+        $this->tpl->setVariable("TITLE_LINK", $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui'));
         $this->tpl->setVariable("DESCRIPTION", $a_set->getDescription());
 
         $icon = $this->factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_not_ok_monochrome.svg'), $this->lng->txt("yes"));

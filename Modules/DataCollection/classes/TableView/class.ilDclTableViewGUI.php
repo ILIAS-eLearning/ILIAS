@@ -125,7 +125,7 @@ class ilDclTableViewGUI
         $button->setCaption('change');
         $this->toolbar->addButtonInstance($button);
 
-        $table_gui = new ilDclTableViewTableGUI($this, 'show', $this->table);
+        $table_gui = new ilDclTableViewTableGUI($this, 'show', $this->table, $this->getParentObj()->getRefId());
         $this->tpl->setContent($table_gui->getHTML());
     }
 

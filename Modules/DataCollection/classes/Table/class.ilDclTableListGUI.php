@@ -72,6 +72,11 @@ class ilDclTableListGUI
         return $this->parent_obj->getObjectId();
     }
 
+    public function getRefId(): int
+    {
+        return $this->parent_obj->getRefId();
+    }
+
     /**
      * execute command
      */
