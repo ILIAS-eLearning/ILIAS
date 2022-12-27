@@ -203,9 +203,8 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
     public function saveTable(): void
     {
         $f = new ilDclDefaultValueFactory();
-
-        // TODO: php8_review: get rid of $_POST (dw, 02.06.2022)
-        foreach ($_POST as $key => $value) {
+        $raw_values = $this->http->request()->getParsedBody();
+        foreach ($raw_values as $key => $value) {
             if (strpos($key, "default_") === 0) {
                 $parts = explode("_", $key);
                 $id = $parts[1];
