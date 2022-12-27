@@ -169,7 +169,7 @@ class ilDclCache
         $fid = $field->getId();
         $rid = $record->getId();
         if (!isset(self::$record_field_cache[$rid])) {
-            self::$record_field_cache[$rid] = array();
+            self::$record_field_cache[$rid] = [];
             self::$record_field_cache[$rid][$fid] = ilDclFieldFactory::getRecordFieldInstance($field, $record);
         } elseif (!isset(self::$record_field_cache[$rid][$fid])) {
             self::$record_field_cache[$rid][$fid] = ilDclFieldFactory::getRecordFieldInstance($field, $record);

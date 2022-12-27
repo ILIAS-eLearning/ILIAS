@@ -56,7 +56,7 @@ class ilDclFieldProperty extends ActiveRecord
      * @db_fieldtype        text
      * @db_length           128
      */
-    protected string $value;
+    protected $value;
 
     /**
      * ilDclFieldProperty constructor.

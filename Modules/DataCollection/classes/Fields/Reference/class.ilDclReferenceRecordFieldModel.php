@@ -165,11 +165,18 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
 
         if ($field_clone && $record_clone) {
             $record_field_clone = ilDclCache::getRecordFieldCache($record_clone, $field_clone);
-            $clone_reference = $record_field_clone->getValue();
-            $reference_record = ilDclCache::getCloneOf($clone_reference, ilDclCache::TYPE_RECORD);
-            if ($reference_record) {
-                $this->setValue($reference_record->getId()); // reference fields store the id of the reference's record as their value
-                $this->doUpdate();
+            $clone_references = $record_field_clone->getValue();
+            if ($clone_references) {
+                if (!is_array($clone_references)) {
+                    $clone_references = [$clone_references];
+                }
+                foreach ($clone_references as $clone_reference) {
+                    $reference_record = ilDclCache::getCloneOf($clone_reference, ilDclCache::TYPE_RECORD);
+                    if ($reference_record) {
+                        $this->setValue($reference_record->getId()); // reference fields store the id of the reference's record as their value
+                        $this->doUpdate();
+                    }
+                }
             }
         }
     }
