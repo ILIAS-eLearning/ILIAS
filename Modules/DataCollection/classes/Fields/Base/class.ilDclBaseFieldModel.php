@@ -68,8 +68,13 @@ class ilDclBaseFieldModel
     public const EDIT_VIEW = 2;
     public const EXPORTABLE_VIEW = 4;
 
+    protected ilDBInterface $db;
+
     public function __construct(int $a_id = 0)
     {
+        global $DIC;
+        $this->db = $DIC->database();
+
         if ($a_id != 0) {
             $this->id = $a_id;
             $this->doRead();
@@ -288,23 +293,23 @@ class ilDclBaseFieldModel
 
     public function doRead(): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         //THEN 1 ELSE 0 END AS has_options FROM il_dcl_field f WHERE id = ".$ilDB->quote($this->getId(),"integer");
-        $query = "SELECT * FROM il_dcl_field WHERE id = " . $ilDB->quote($this->getId(), "integer");
-        $set = $ilDB->query($query);
-        $rec = $ilDB->fetchAssoc($set);
+        $query = "SELECT * FROM il_dcl_field WHERE id = " . $this->db->quote($this->getId(), "integer");
+        $set = $this->db->query($query);
+        $rec = $this->db->fetchAssoc($set);
 
-        $this->setTableId($rec["table_id"]);
-        if (null !== $rec["title"]) {
-            $this->setTitle($rec["title"]);
+        if($rec) {
+            $this->setTableId($rec["table_id"]);
+            if (null !== $rec["title"]) {
+                $this->setTitle($rec["title"]);
+            }
+            if (null !== $rec["description"]) {
+                $this->setDescription($rec["description"]);
+            }
+            $this->setDatatypeId($rec["datatype_id"]);
+            $this->setUnique($rec["is_unique"]);
         }
-        if (null !== $rec["description"]) {
-            $this->setDescription($rec["description"]);
-        }
-        $this->setDatatypeId($rec["datatype_id"]);
-        $this->setUnique($rec["is_unique"]);
+
         $this->loadProperties();
         $this->loadTableFieldSetting();
     }
