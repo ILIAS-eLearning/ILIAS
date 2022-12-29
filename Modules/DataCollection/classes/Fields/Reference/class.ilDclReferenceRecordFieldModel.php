@@ -56,10 +56,8 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
                     if ($val) {
                         $ref_rec = ilDclCache::getRecordCache($val);
                         $ref_record_field = $ref_rec->getRecordField($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
-                        if ($ref_record_field) {
-                            $exp_value = $ref_record_field->getExportValue();
-                            $names[] = is_array($exp_value) ? array_shift($exp_value) : $exp_value;
-                        }
+                        $exp_value = $ref_record_field->getExportValue();
+                        $names[] = is_array($exp_value) ? array_shift($exp_value) : $exp_value;
                     }
                 }
 
@@ -67,11 +65,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
             } else {
                 $ref_rec = ilDclCache::getRecordCache($this->getValue());
                 $ref_record_field = $ref_rec->getRecordField($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
-
-                $exp_value = "";
-                if ($ref_record_field) {
-                    $exp_value = $ref_record_field->getExportValue();
-                }
+                $exp_value = $ref_record_field->getExportValue();
 
                 return (is_array($exp_value) ? array_shift($exp_value) : $exp_value);
             }
@@ -80,9 +74,6 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-    /**
-     * @return int|int[]|string|string[]
-     */
     public function getValueFromExcel(ilExcel $excel, int $row, int $col)
     {
         $value = parent::getValueFromExcel($excel, $row, $col);
@@ -115,7 +106,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
     {
         $delimiter = strpos($stringValues, '; ') ? '; ' : ', ';
         $slicedStrings = explode($delimiter, $stringValues);
-        $slicedReferences = array();
+        $slicedReferences = [];
         $resolved = 0;
         for ($i = 0; $i < count($slicedStrings); $i++) {
             //try to find a reference since the last resolved value separated by a comma.

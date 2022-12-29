@@ -128,10 +128,8 @@ class ilDclRecordEditGUI
             echo $this->form->getHTML();
             exit();
         } else {
-            $this->tpl->setContent(
-                $this->getLanguageJsKeys()
-                . $this->form->getHTML()
-            );
+            $this->loadLanguageJsKeys();
+            $this->tpl->setContent($this->form->getHTML());
         }
     }
 
@@ -148,10 +146,8 @@ class ilDclRecordEditGUI
             echo $this->form->getHTML();
             exit();
         } else {
-            $this->tpl->setContent(
-                $this->getLanguageJsKeys()
-                . $this->form->getHTML()
-            );
+            $this->loadLanguageJsKeys();
+            $this->tpl->setContent($this->form->getHTML());
         }
     }
 
@@ -515,7 +511,8 @@ class ilDclRecordEditGUI
                 echo $this->form->getHTML();
                 exit();
             } else {
-                $this->tpl->setContent($this->getLanguageJsKeys() . $this->form->getHTML());
+                $this->loadLanguageJsKeys();
+                $this->tpl->setContent($this->form->getHTML());
             }
             $this->sendFailure($this->lng->txt('form_input_not_valid'));
 
@@ -758,7 +755,8 @@ class ilDclRecordEditGUI
                 }
             }
 
-            $this->tpl->setContent($this->getLanguageJsKeys() . $this->form->getHTML());
+            $this->loadLanguageJsKeys();
+            $this->tpl->setContent($this->form->getHTML());
         }
     }
 
@@ -809,9 +807,10 @@ class ilDclRecordEditGUI
         exit;
     }
 
-    protected function getLanguageJsKeys(): string
+    protected function loadLanguageJsKeys()
     {
-        return "<script>ilDataCollection.strings.add_value='" . $this->lng->txt('add_value') . "';</script>";
+        $txt = $this->lng->txt('add_value');
+        $this->tpl->addOnLoadCode("ilDataCollection.strings.add_value='$txt';");
     }
 
     /**

@@ -294,7 +294,7 @@ class ilDclBaseFieldModel
         $set = $this->db->query($query);
         $rec = $this->db->fetchAssoc($set);
 
-        if($rec) {
+        if ($rec) {
             $this->setTableId($rec["table_id"]);
             if (null !== $rec["title"]) {
                 $this->setTitle($rec["title"]);

@@ -114,17 +114,38 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         // # see  https://mantis.ilias.de/view.php?id=26463
         $this->dclUi->addJavaScriptFile("./Services/UIComponent/Modal/js/Modal.js");
         $this->dclUi->addJavaScriptFile("Modules/DataCollection/js/datacollection.js");
-        $this->dclUi->addOnLoadJavaScriptCode(
-            "ilDataCollection.setEditUrl('" . $this->dclEndPoint->getEditDclLink($this) . "');"
+        $edit_class_arary = ['ilrepositorygui', 'ilobjdatacollectiongui', 'ildclrecordeditgui'];
+        $this->tpl->addOnLoadCode(
+            "ilDataCollection.setEditUrl('" . $this->ctrl->getLinkTargetByClass(
+                $edit_class_arary,
+                'edit',
+                '',
+                true
+            ) . "');"
         );
-        $this->dclUi->addOnLoadJavaScriptCode(
-            "ilDataCollection.setCreateUrl('" . $this->dclEndPoint->getCreateDclLink($this) . "');"
+        $this->tpl->addOnLoadCode(
+            "ilDataCollection.setCreateUrl('" . $this->ctrl->getLinkTargetByClass(
+                $edit_class_arary,
+                'create',
+                '',
+                true
+            ) . "');"
         );
-        $this->dclUi->addOnLoadJavaScriptCode(
-            "ilDataCollection.setSaveUrl('" . $this->dclEndPoint->getSaveDclEndpoint($this) . "');"
+        $this->tpl->addOnLoadCode(
+            "ilDataCollection.setSaveUrl('" . $this->ctrl->getLinkTargetByClass(
+                $edit_class_arary,
+                'save',
+                '',
+                true
+            ) . "');"
         );
-        $this->dclUi->addOnLoadJavaScriptCode(
-            "ilDataCollection.setDataUrl('" . $this->dclEndPoint->getQueryRecordDataEndpoint() . "' );"
+        $this->tpl->addOnLoadCode(
+            "ilDataCollection.setDataUrl('" . $this->ctrl->getLinkTargetByClass(
+                $edit_class_arary,
+                'getRecordData',
+                '',
+                true
+            ) . "');"
         );
     }
 
