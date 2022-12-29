@@ -415,7 +415,7 @@ class ilDclBaseFieldModel
     {
         $tablefield_setting = ilDclTableFieldSetting::getInstance($this->getTableId(), $this->getId());
         $tablefield_setting->setExportable($this->exportable);
-        $tablefield_setting->setFieldOrder($this->order);
+        $tablefield_setting->setFieldOrder($this->getOrder());
         $tablefield_setting->store();
     }
 
