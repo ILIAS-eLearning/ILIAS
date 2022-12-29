@@ -430,7 +430,7 @@ class ilDataCollectionDataSet extends ilDataSet
                             default:
                                 $value = $a_rec['value'];
                                 if ($a_entity == 'il_dcl_stloc3_value' && (is_null($value) || empty($value))) {
-                                    $value = '0000-00-00 00:00:00';
+                                    $value = null;
                                 }
                         }
                         $record_field->setValue($value, true);
@@ -448,7 +448,9 @@ class ilDataCollectionDataSet extends ilDataSet
     public function beforeFinishImport(ilImportMapping $a_mapping): void
     {
         foreach ($this->import_temp_new_mob_ids as $new_mob_id) {
-            ilObjMediaObject::_saveUsage($new_mob_id, "dcl:html", $a_mapping->getTargetId());
+            if ($new_mob_id) {
+                ilObjMediaObject::_saveUsage($new_mob_id, "dcl:html", $a_mapping->getTargetId());
+            }
         }
         foreach ($this->import_temp_refs as $record_field_id => $old_record_id) {
             $new_record_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_record', $old_record_id);
@@ -461,6 +463,7 @@ class ilDataCollectionDataSet extends ilDataSet
         foreach ($this->import_temp_refs_props as $field_prop_id => $old_field_id) {
             $new_field_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_field', $old_field_id);
             $value = ($new_field_id) ? (int) $new_field_id : 0;
+
             $field_prop = new ilDclFieldProperty($field_prop_id);
             $field_prop->setValue($value);
             $field_prop->update();
@@ -701,11 +704,15 @@ class ilDataCollectionDataSet extends ilDataSet
 
                 while ($rec = $this->db->fetchObject($set)) {
                     $stloc = $this->record_field_ids_2_storage[$rec->record_field_id];
-                    $value = "value{$stloc}";
+                    $value = null;
+                    if ($stloc != 0) {
+                        $value = "value{$stloc}";
+                        $value = $rec->{$value};
+                    }
                     // Save reocrd field id. Internal ID is not used currently
                     $this->caches["il_dcl_stloc{$stloc}_value"][$rec->record_field_id] = array(
                         'record_field_id' => $rec->record_field_id,
-                        'value' => $rec->{$value},
+                        'value' => $value,
                     );
                 }
 
