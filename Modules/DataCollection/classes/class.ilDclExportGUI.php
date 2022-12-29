@@ -33,7 +33,10 @@ class ilDclExportGUI extends ilExportGUI
      */
     public function createExportFile(): void
     {
-        $format = $this->http->wrapper()->post()->retrieve('format', $this->refinery->kindlyTo()->string());
+        $format = "";
+        if ($this->http->wrapper()->post()->has('format')) {
+            $format = $this->http->wrapper()->post()->retrieve('format', $this->refinery->kindlyTo()->string());
+        }
         if ($format === 'xlsx') {
             $this->checkForExportableFields();
         }

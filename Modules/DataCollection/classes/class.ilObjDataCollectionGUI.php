@@ -291,15 +291,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 $this->tabs->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, ""));
                 break;
             case "ildclexportgui":
-                $this->prepareOutput();
-                $DIC->tabs()->setTabActive(self::TAB_EXPORT);
-                $exp_gui = new ilDclExportGUI($this);
-                $table_id = filter_input(INPUT_GET, 'table_id', FILTER_VALIDATE_INT);
-                $exporter = new ilDclContentExporter($this->object->getRefId(), $table_id);
-                $exp_gui->addFormat("xlsx", $this->lng->txt('dlc_xls_async_export'), $exporter, 'exportAsync');
-                $exp_gui->addFormat("xml");
-
-                $this->ctrl->forwardCommand($exp_gui);
+                $this->handleExport();
                 break;
 
             case strtolower(ilDclPropertyFormGUI::class):
@@ -316,9 +308,27 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                         $this->prepareOutput();
                         $this->editObject();
                         break;
+                    case 'export':
+                        $this->handleExport(true);
+                        break;
                     default:
                         parent::executeCommand();
                 }
+        }
+    }
+
+    protected function handleExport(bool $do_default = false)
+    {
+        $this->prepareOutput();
+        $this->tabs->setTabActive(self::TAB_EXPORT);
+        $exp_gui = new ilDclExportGUI($this);
+        $exporter = new ilDclContentExporter($this->object->getRefId(), $this->table_id);
+        $exp_gui->addFormat("xlsx", $this->lng->txt('dlc_xls_async_export'), $exporter, 'exportAsync');
+        $exp_gui->addFormat("xml");
+        if ($do_default) {
+            $exp_gui->listExportFiles();
+        } else {
+            $this->ctrl->forwardCommand($exp_gui);
         }
     }
 
