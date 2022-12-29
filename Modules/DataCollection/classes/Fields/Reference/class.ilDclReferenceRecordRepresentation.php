@@ -33,7 +33,7 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
         }
 
         if (!is_array($value)) {
-            $value = array($value);
+            $value = [$value];
         }
 
         $html = "";

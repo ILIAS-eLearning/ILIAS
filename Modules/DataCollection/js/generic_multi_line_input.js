@@ -10,8 +10,6 @@ il.DataCollection = il.DataCollection || {};
           unique_values: false
         }, options);
 
-        console.log(options);
-        console.log(options.limit);
         var element_config = element_config;
         var element = this;
         var limit = options.limit;

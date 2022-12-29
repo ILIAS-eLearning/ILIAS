@@ -45,7 +45,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
         $fieldref = $this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE);
 
         $reffield = ilDclCache::getFieldCache($fieldref);
-        $options = array();
+        $options = [];
         if (!$this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
             $options[""] = $this->lng->txt('dcl_please_select');
         }
@@ -70,7 +70,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
                     $value = $record->getRecordFieldValue($fieldref);
                     if ($record->getRecordField($fieldref)->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
                         if (!is_array($value)) {
-                            $value = array('title' => '', 'link' => $value);
+                            $value = ['title' => '', 'link' => $value];
                         }
                         $value = $value['title'] ?: $value['link'];
                     }
@@ -93,7 +93,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
             }
             // the option 'please select' messes with the order, therefore we reset it
             unset($options[""]);
-            $options = array("" => $this->lng->txt('dcl_please_select')) + $options;
+            $options = ["" => $this->lng->txt('dcl_please_select')] + $options;
         }
 
         $input->setOptions($options);
@@ -123,15 +123,15 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
         $ref_field_id = $this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE);
         $ref_field = ilDclCache::getFieldCache($ref_field_id);
         $ref_table = ilDclCache::getTableCache($ref_field->getTableId());
-        $options = array();
+        $options = [];
         foreach ($ref_table->getRecords() as $record) {
             $options[$record->getId()] = $record->getRecordFieldPlainText($ref_field_id);
         }
         // Sort by values ASC
         asort($options);
-        $options = array('' => $this->lng->txt('dcl_all_entries'))
+        $options = ['' => $this->lng->txt('dcl_all_entries')]
             + $options
-            + array('none' => $this->lng->txt('dcl_no_entry'));
+            + ['none' => $this->lng->txt('dcl_no_entry')];
         $input->setOptions($options);
 
         $this->setupFilterInputField($input);
@@ -164,7 +164,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 
-        $options = array();
+        $options = [];
         // Get Tables
         $tables = $dcl->getTables();
         foreach ($tables as $table) {
