@@ -351,7 +351,7 @@ class ilDataCollectionDataSet extends ilDataSet
                     // For field references, we need to get the new field id of the referenced field
                     // If the field_id does not yet exist (e.g. referenced table not yet created), store temp info and fix before finishing import
                     $value = $a_rec['value'];
-                    $refs = array(ilDclBaseFieldModel::PROP_REFERENCE, ilDclBaseFieldModel::PROP_N_REFERENCE);
+                    $refs = [ilDclBaseFieldModel::PROP_REFERENCE, ilDclBaseFieldModel::PROP_N_REFERENCE];
 
                     if (in_array($prop->getName(), $refs)) {
                         $new_field_id = $a_mapping->getMapping(
@@ -460,9 +460,9 @@ class ilDataCollectionDataSet extends ilDataSet
             $record_field->setValue($value, true);
             $record_field->doUpdate();
         }
-        foreach ($this->import_temp_refs_props as $field_prop_id => $old_field_id) {
-            $new_field_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_field', $old_field_id);
-            $value = ($new_field_id) ? (int) $new_field_id : 0;
+        foreach ($this->import_temp_refs_props as $field_prop_id => $prop_value) {
+            $new_field_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_field', $prop_value);
+            $value = ($new_field_id) ? (int) $new_field_id : $prop_value;
 
             $field_prop = new ilDclFieldProperty($field_prop_id);
             $field_prop->setValue($value);
