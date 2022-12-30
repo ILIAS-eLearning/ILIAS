@@ -108,6 +108,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
     private function addJavaScript(): void
     {
+        global $DIC;
+        $DIC->notes()->gui()->initJavascript();
         ilYuiUtil::initConnection();
         ilOverlayGUI::initJavascript();
         $this->dclUi->addJavaScriptFile('Modules/DataCollection/js/ilDataCollection.js');
