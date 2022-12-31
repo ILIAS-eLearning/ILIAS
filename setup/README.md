@@ -200,7 +200,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
     "database" : {
         "type" : "innodb",
         "host" : "192.168.47.11",
-        "port" : "3306",
+        "port" : 3306,
         "database" : "db_test7",
         "user" : "test7_homer",
         "password" : "homers-secret",
