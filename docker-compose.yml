@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www/ilias:delegated
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:delegated
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - php
+    networks:
+      - app-network
+  php:
+    build: ./docker/php/
+    restart: unless-stopped
+    environment:
+      APP_ENV: dev
+      DATABASE_URL: mysql://ilias_user:my_password@mysql:3306/ilias?serverVersion=5.7
+    volumes:
+      - ./:/var/www/ilias:delegated
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+  mysql:
+    image: mysql:8.0.21
+    #build: ./docker/database/
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-authentication-plugin=mysql_native_password']
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: my_password
+      MYSQL_PASSWORD: my_password
+      MYSQL_DATABASE: ilias
+      MYSQL_USER: ilias_user
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./dbdata:/var/lib/mysql/:delegated
+      - ./docker/database/mysqld.cnf:/etc/mysql/my.cnf:delegated
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local
