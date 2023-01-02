@@ -447,7 +447,7 @@ class ilUserImportParser extends ilSaxParser
 
                 // if we have an object id, store it
                 $this->user_id = -1;
-                if (!is_null($a_attribs["Id"]) && $this->getUserMappingMode() == IL_USER_MAPPING_ID) {
+                if (isset($a_attribs["Id"]) && $this->getUserMappingMode() == IL_USER_MAPPING_ID) {
                     if (is_numeric($a_attribs["Id"])) {
                         $this->user_id = $a_attribs["Id"];
                     } elseif ($id = ilUtil::__extractId($a_attribs["Id"], IL_INST_ID) > 0) {
@@ -465,7 +465,7 @@ class ilUserImportParser extends ilSaxParser
                 );
 
                 $this->userObj->setLanguage($a_attribs["Language"] ?? '');
-                $this->userObj->setImportId($a_attribs["Id"]);
+                $this->userObj->setImportId($a_attribs["Id"] ?? '');
                 $this->action = (is_null($a_attribs["Action"])) ? "Insert" : $a_attribs["Action"];
                 $this->currPassword = null;
                 $this->currPasswordType = null;

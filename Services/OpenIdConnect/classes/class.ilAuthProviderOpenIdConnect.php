@@ -154,7 +154,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
                 return $status;
             }
             $sync->setExternalAccount($ext_account);
-            $sync->setInternalAccount($int_account);
+            $sync->setInternalAccount((string) $int_account);
             $sync->updateUser();
 
             $user_id = $sync->getUserId();
