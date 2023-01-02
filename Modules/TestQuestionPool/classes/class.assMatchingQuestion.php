@@ -1451,7 +1451,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     /**
      * @param $found_values
-     * @return int
+     * @return float
      */
     protected function calculateReachedPointsForSolution($found_values): float
     {

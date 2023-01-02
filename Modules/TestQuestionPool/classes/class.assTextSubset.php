@@ -867,7 +867,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
      * @param $enteredTexts
      * @return int
      */
-    protected function calculateReachedPointsForSolution($enteredTexts): int
+    protected function calculateReachedPointsForSolution($enteredTexts): float
     {
         $enteredTexts ??= [];
         $available_answers = $this->getAvailableAnswers();
