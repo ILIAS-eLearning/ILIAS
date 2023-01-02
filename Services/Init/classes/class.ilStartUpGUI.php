@@ -296,6 +296,14 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         // check expired session and send message
         if ($this->authSession->isExpired()) {
             $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('auth_err_expired'));
+        } elseif ($this->http->wrapper()->query()->has('reg_confirmation_msg')) {
+            $this->lng->loadLanguageModule('registration');
+            $this->mainTemplate->setOnScreenMessage(
+                'failure',
+                $this->lng->txt(
+                    $this->http->wrapper()->query()->retrieve('reg_confirmation_msg', $this->refinery->kindlyTo()->string())
+                )
+            );
         }
         if ($page_editor_html !== '') {
             $tpl->setVariable('LPE', $page_editor_html);
