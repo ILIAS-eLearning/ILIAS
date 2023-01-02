@@ -760,6 +760,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         }
 
         $add_cols["user_name"] = $this->lng->txt("user");
+        $add_cols["login"] = $this->lng->txt("login");
 
         // user columns
         foreach ($this->getSelectedColumns() as $col) {

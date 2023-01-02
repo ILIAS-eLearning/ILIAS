@@ -265,6 +265,7 @@ class ReservationDBRepository
                 ,"message" => (string) $row["message"]
                 ,"counter" => 1
                 ,"user_name" => $uname["lastname"] . ", " . $uname["firstname"] // #17862
+                ,"login" => $uname["login"]
                 );
 
                 if ($a_has_schedule) {
