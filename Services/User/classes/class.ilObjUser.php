@@ -3759,8 +3759,11 @@ class ilObjUser extends ilObject
             $oRegSettigs = new ilRegistrationSettings();
 
             if ($oRegSettigs->getRegistrationHashLifetime() != 0 &&
-               time() - $oRegSettigs->getRegistrationHashLifetime() > strtotime($row['create_date'])) {
-                throw new ilRegConfirmationLinkExpiredException('reg_confirmation_hash_life_time_expired', $row['usr_id']);
+                time() - $oRegSettigs->getRegistrationHashLifetime() > strtotime($row['create_date'])) {
+                throw new ilRegConfirmationLinkExpiredException(
+                    'reg_confirmation_hash_life_time_expired',
+                    (int) $row['usr_id']
+                );
             }
 
             $ilDB->manipulateF(
