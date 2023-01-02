@@ -1286,6 +1286,9 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      */
     protected function calculateReachedPointsForSolution($found_values, $active_id = 0): float
     {
+        if ($found_values == null) {
+            $found_values = [];
+        }
         $points = 0;
         foreach ($this->answers as $key => $answer) {
             if (in_array($key, $found_values)) {

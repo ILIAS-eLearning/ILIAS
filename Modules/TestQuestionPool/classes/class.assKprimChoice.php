@@ -705,7 +705,9 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     protected function calculateReachedPointsForSolution($found_values, $active_id = 0)
     {
         $numCorrect = 0;
-
+        if ($found_values == null) {
+            $found_values = [];
+        }
         foreach ($this->getAnswers() as $key => $answer) {
             if (!isset($found_values[$answer->getPosition()])) {
                 continue;

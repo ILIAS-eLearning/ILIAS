@@ -983,6 +983,9 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
      */
     protected function calculateReachedPointsForSolution($found_values): float
     {
+        if ($found_values == null) {
+            $found_values = [];
+        }
         $points = 0;
         if (count($found_values) > 0) {
             foreach ($this->answers as $key => $answer) {

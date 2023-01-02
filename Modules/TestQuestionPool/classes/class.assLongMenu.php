@@ -627,6 +627,9 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 
     protected function calculateReachedPointsForSolution($found_values, $active_id = 0)
     {
+        if ($found_values == null) {
+            $found_values = [];
+        }
         $points = 0.0;
         $solution_values_text = array();
         foreach ($found_values as $key => $answer) {
