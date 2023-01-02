@@ -57,7 +57,20 @@ class ilMailOptionsTest extends ilMailBaseTest
         ])->getMock();
         $this->setGlobalVariable('ilSetting', $settings);
 
-        $mailOptions = new ilMailOptions($userId);
+        $mailOptions = new class ($userId) extends ilMailOptions {
+            public function read(): void
+            {
+                parent::read();
+            }
+        };
+
+        $this->assertSame('', $mailOptions->getSignature());
+        $this->assertSame(ilMailOptions::INCOMING_LOCAL, $mailOptions->getIncomingType());
+        $this->assertSame(ilMailOptions::DEFAULT_LINE_BREAK, $mailOptions->getLinebreak());
+        $this->assertSame(false, $mailOptions->isCronJobNotificationEnabled());
+
+        $mailOptions->read();
+
         $this->assertSame($object->signature, $mailOptions->getSignature());
         $this->assertSame($object->incoming_type, $mailOptions->getIncomingType());
         $this->assertSame($object->linebreak, $mailOptions->getLinebreak());
