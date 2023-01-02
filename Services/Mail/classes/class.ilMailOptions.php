@@ -42,7 +42,7 @@ class ilMailOptions
     protected bool $isCronJobNotificationEnabled = false;
     protected int $incomingType = self::INCOMING_LOCAL;
     protected int $emailAddressMode = self::FIRST_EMAIL;
-    private ilMailTransportSettings $mailTransportSettings;
+    protected ilMailTransportSettings $mailTransportSettings;
     protected string $firstEmailAddress = '';
     protected string $secondEmailAddress = '';
 
@@ -54,7 +54,23 @@ class ilMailOptions
         $this->settings = $DIC->settings();
         $this->mailTransportSettings = $mailTransportSettings ?? new ilMailTransportSettings($this);
 
-        $this->read();
+        $this->incomingType = self::INCOMING_LOCAL;
+        if ($this->settings->get('mail_incoming_mail', '') !== '') {
+            $this->incomingType = (int) $this->settings->get('mail_incoming_mail');
+        }
+
+        $this->emailAddressMode = self::FIRST_EMAIL;
+        if ($this->settings->get('mail_address_option', '') !== '') {
+            $this->emailAddressMode = (int) $this->settings->get('mail_address_option');
+        }
+
+        $this->linebreak = self::DEFAULT_LINE_BREAK;
+        $this->isCronJobNotificationEnabled = false;
+        $this->signature = '';
+
+        if ($this->settings->get('show_mail_settings') === '1') {
+            $this->read();
+        }
     }
 
     /**
@@ -150,7 +166,7 @@ class ilMailOptions
         if ($this->settings->get('mail_notification', '0')) {
             $data['cronjob_notification'] = ['integer', (int) $this->isCronJobNotificationEnabled()];
         } else {
-            $data['cronjob_notification'] = ['integer', self::lookupNotificationSetting($this->usrId)];
+            $data['cronjob_notification'] = ['integer', $this->lookupNotificationSetting($this->usrId)];
         }
 
         return $this->db->replace(
