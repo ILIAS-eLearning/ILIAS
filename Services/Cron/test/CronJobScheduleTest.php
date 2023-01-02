@@ -269,12 +269,6 @@ class CronJobScheduleTest extends TestCase
     }
 
     /**
-     * @param ilCronJob $job_instance
-     * @param bool $is_manual_run
-     * @param int|null $last_run_timestamp
-     * @param int $schedule_type
-     * @param int|null $schedule_value
-     * @param bool $expected_result
      * @dataProvider jobProvider
      */
     public function testSchedule(
@@ -283,12 +277,98 @@ class CronJobScheduleTest extends TestCase
         ?DateTimeImmutable $last_run_datetime,
         int $schedule_type,
         ?int $schedule_value,
-        bool $expected_result
+        bool $should_be_due
     ): void {
         $this->assertSame(
-            $expected_result,
+            $should_be_due,
             $job_instance->isDue($last_run_datetime, $schedule_type, $schedule_value, $is_manual_run),
             'Last run: ' . ($last_run_datetime ? $last_run_datetime->format(DATE_ATOM) : 'never')
+        );
+    }
+
+    public function weeklyScheduleProvider(): Generator
+    {
+        yield 'Different Week' => [
+            $this->getJob(true, ilCronJob::SCHEDULE_TYPE_WEEKLY, null, ilCronJob::SCHEDULE_TYPE_WEEKLY, null),
+            function (): DateTimeImmutable {
+                $this->now = new DateTimeImmutable('@1672570104'); // Sun Jan 01 2023 10:48:24 GMT+0000 (year: 2023 / week: 52)
+
+                return $this->now->modify('-1 week'); // Sun Dec 25 2022 10:48:24 GMT+0000 (year: 2022 / week: 51)
+            },
+            true
+        ];
+
+        yield 'Same Week and Year, but different Month: December (now) and January (Last run)' => [
+            $this->getJob(true, ilCronJob::SCHEDULE_TYPE_WEEKLY, null, ilCronJob::SCHEDULE_TYPE_WEEKLY, null),
+            function (): DateTimeImmutable {
+                $this->now = new DateTimeImmutable('@1703669703'); // Wed Dec 27 2023 09:35:03 GMT+0000 (year: 2023 / week: 52 / month: 12)
+
+                return new DateTimeImmutable('@1672570104'); // Sun Jan 01 2023 10:48:24 GMT+0000 (year: 2023 / week: 52 / month: 1)
+            },
+            true
+        ];
+
+        yield 'Same Week and Year and same Month: January' => [
+            $this->getJob(true, ilCronJob::SCHEDULE_TYPE_WEEKLY, null, ilCronJob::SCHEDULE_TYPE_WEEKLY, null),
+            function (): DateTimeImmutable {
+                $this->now = new DateTimeImmutable('@1704188103'); // Tue Jan 02 2024 09:35:03 GMT+0000 (year: 2024 / week: 1 / month: 1)
+
+                return $this->now->modify('-1 day'); // Mon Jan 01 2024 09:35:03 GMT+0000 (year: 2024 / week: 1 / month: 1)
+            },
+            false
+        ];
+
+        yield 'Same Week (52nd), but Year Difference > 1' => [
+            $this->getJob(true, ilCronJob::SCHEDULE_TYPE_WEEKLY, null, ilCronJob::SCHEDULE_TYPE_WEEKLY, null),
+            function (): DateTimeImmutable {
+                $this->now = new DateTimeImmutable('@1672570104'); // Sun Jan 01 2023 10:48:24 GMT+0000 (year: 2023 / week: 52)
+
+                return $this->now->modify('tuesday this week')->modify('-1 year'); // Mon Dec 27 2021 10:48:24 GMT+0000 (year: 2021 / week: 52)
+            },
+            true
+        ];
+
+        yield 'Same Week (52nd) in different Years, but Turn of the Year' => [
+            $this->getJob(true, ilCronJob::SCHEDULE_TYPE_WEEKLY, null, ilCronJob::SCHEDULE_TYPE_WEEKLY, null),
+            function (): DateTimeImmutable {
+                $this->now = new DateTimeImmutable('@1672570104'); // Sun Jan 01 2023 10:48:24 GMT+0000 (year: 2023 / week: 52 / month: 1)
+
+                return $this->now->modify('monday this week'); // Mon Dec 26 2022 10:48:24 GMT+0000 (year: 2022 / week: 52 / month: 12)
+            },
+            false
+        ];
+
+        yield 'Same Week (52nd) in different Years, but not Turn of the Year' => [
+            $this->getJob(true, ilCronJob::SCHEDULE_TYPE_WEEKLY, null, ilCronJob::SCHEDULE_TYPE_WEEKLY, null),
+            function (): DateTimeImmutable {
+                $this->now = new DateTimeImmutable('@1703669703'); // Wed Dec 27 2023 09:35:03 GMT+0000 (year: 2023 / week: 52 / month: 12)
+
+                return new DateTimeImmutable('@1672012800'); // Mon Dec 26 2022 00:00:00 GMT+0000 (year: 2022 / week: 52 / month: 12)
+            },
+            true
+        ];
+    }
+
+    /**
+     * @dataProvider weeklyScheduleProvider
+     * @param callable(): DateTimeImmutable $last_run_datetime_provider
+     */
+    public function testWeeklySchedules(
+        ilCronJob $job_instance,
+        callable $last_run_datetime_provider,
+        bool $should_be_due
+    ): void {
+        $last_run_datetime = $last_run_datetime_provider();
+
+        $this->assertSame(
+            $should_be_due,
+            $job_instance->isDue(
+                $last_run_datetime,
+                $job_instance->getScheduleType(),
+                $job_instance->getScheduleValue(),
+                false
+            ),
+            'Last run: ' . $last_run_datetime->format(DATE_ATOM)
         );
     }
 }
