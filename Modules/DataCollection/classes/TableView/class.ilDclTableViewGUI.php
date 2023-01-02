@@ -145,15 +145,17 @@ class ilDclTableViewGUI
     public function confirmDeleteTableviews(): void
     {
         //at least one view must exist
-
         $tableviews = [];
         $has_dcl_tableview_ids = $this->http->wrapper()->post()->has('dcl_tableview_ids');
-        if ($has_dcl_tableview_ids) {
-            $tableviews = $this->http->wrapper()->post()->retrieve(
-                'dcl_tableview_ids',
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-            );
+        if (!$has_dcl_tableview_ids) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_delete_views_no_selection'), true);
+            $this->ctrl->redirect($this, 'show');
         }
+
+        $tableviews = $this->http->wrapper()->post()->retrieve(
+            'dcl_tableview_ids',
+            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+        );
         $this->checkViewsLeft(count($tableviews));
 
         $this->tabs->clearSubTabs();
