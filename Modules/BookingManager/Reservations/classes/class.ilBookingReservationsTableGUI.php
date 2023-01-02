@@ -174,6 +174,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
         if ($ilUser->getId() != ANONYMOUS_USER_ID) {
             $this->addMultiCommand('rsvConfirmCancel', $lng->txt('book_set_cancel'));
+            $this->addMultiCommand('rsvConfirmDelete', $lng->txt('delete'));
             $this->setSelectAllCheckbox('mrsv');
         }
         
