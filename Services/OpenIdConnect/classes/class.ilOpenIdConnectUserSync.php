@@ -50,7 +50,7 @@ class ilOpenIdConnectUserSync
     public function setInternalAccount(string $int_account): void
     {
         $this->int_account = $int_account;
-        $this->usr_id = ilObjUser::_lookupId($this->int_account);
+        $this->usr_id = (int) ilObjUser::_lookupId($this->int_account);
     }
 
     public function getUserId(): int
