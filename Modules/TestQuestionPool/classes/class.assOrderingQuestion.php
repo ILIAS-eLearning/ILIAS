@@ -1370,7 +1370,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param $nested_solution
      * @return int
      */
-    protected function calculateReachedPointsForSolution(ilAssOrderingElementList $solutionOrderingElementList): int
+    protected function calculateReachedPointsForSolution(ilAssOrderingElementList $solutionOrderingElementList): float
     {
         $reachedPoints = $this->getPoints();
 

@@ -797,9 +797,9 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 
     /**
      * @param $value
-     * @return int
+     * @return float
      */
-    protected function calculateReachedPointsForSolution($value): int
+    protected function calculateReachedPointsForSolution($value): float
     {
         $value = $this->splitAndTrimOrderElementText($value ?? "", $this->answer_separator);
         $value = join($this->answer_separator, $value);
