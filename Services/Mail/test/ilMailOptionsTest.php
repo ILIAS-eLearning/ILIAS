@@ -17,9 +17,9 @@ class ilMailOptionsTest extends ilMailBaseTest
         $userId = 1;
 
         $database = $this->getMockBuilder(ilDBInterface::class)
-            ->getMock();
+                         ->getMock();
         $queryMock = $this->getMockBuilder(ilDBStatement::class)
-            ->getMock();
+                          ->getMock();
 
         $object = $this->getMockBuilder(stdClass::class)->getMock();
         $object->cronjob_notification = false;
@@ -29,7 +29,6 @@ class ilMailOptionsTest extends ilMailBaseTest
         $object->mail_address_option = 0;
         $object->email = 'test@test.com';
         $object->second_email = 'ilias@ilias.com';
-
 
         $database->expects($this->once())->method('fetchObject')->willReturn($object);
         $database->expects($this->once())->method('queryF')->willReturn($queryMock);
@@ -43,7 +42,18 @@ class ilMailOptionsTest extends ilMailBaseTest
         ])->getMock();
         $this->setGlobalVariable('ilSetting', $settings);
 
-        $mailOptions = new ilMailOptions($userId);
+        $mailOptions = new class($userId) extends ilMailOptions {
+            public function read() : void
+            {
+                parent::read();
+            }
+        };
+
+        $this->assertEquals('', $mailOptions->getSignature());
+        $this->assertEquals(ilMailOptions::INCOMING_LOCAL, $mailOptions->getIncomingType());
+        $this->assertEquals(ilMailOptions::DEFAULT_LINE_BREAK, $mailOptions->getLinebreak());
+        $this->assertEquals(false, $mailOptions->isCronJobNotificationEnabled());
+        $mailOptions->read();
         $this->assertEquals($object->signature, $mailOptions->getSignature());
         $this->assertEquals($object->incoming_type, $mailOptions->getIncomingType());
         $this->assertEquals($object->linebreak, $mailOptions->getLinebreak());
