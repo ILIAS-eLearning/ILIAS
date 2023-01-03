@@ -30,19 +30,15 @@ class ilDclBaseRecordRepresentation
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
     protected \ILIAS\UI\Renderer $renderer;
-    protected \ILIAS\UI\Factory $factory;
     protected ilObjUser $user;
 
     public function __construct(ilDclBaseRecordFieldModel $record_field)
     {
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-        $ilCtrl = $DIC['ilCtrl'];
 
-        $this->lng = $lng;
-        $this->access = $ilAccess;
-        $this->ctrl = $ilCtrl;
+        $this->lng = $DIC->language();
+        $this->access = $DIC->access();
+        $this->ctrl = $DIC->ctrl();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->factory = $DIC->ui()->factory();
