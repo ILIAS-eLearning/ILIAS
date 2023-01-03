@@ -54,7 +54,7 @@ class ilWorkflowArmerGUI
         $form->setFormAction($this->form_action);
 
         $process_id_input = new ilHiddenInputGUI('process_id');
-        $process_id_input->setValue(stripslashes(current($this->service->internal()->request()->getProcessId())));
+        $process_id_input->setValue(stripslashes($this->service->internal()->request()->getProcessId()));
         $form->addItem($process_id_input);
 
         $event = $event_definition[0];
