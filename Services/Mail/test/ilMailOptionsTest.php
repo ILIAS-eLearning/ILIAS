@@ -65,7 +65,6 @@ class ilMailOptionsTest extends ilMailBaseTest
 
         $this->assertSame('', $mailOptions->getSignature());
         $this->assertSame(ilMailOptions::INCOMING_LOCAL, $mailOptions->getIncomingType());
-        $this->assertSame(ilMailOptions::DEFAULT_LINE_BREAK, $mailOptions->getLinebreak());
         $this->assertSame(false, $mailOptions->isCronJobNotificationEnabled());
 
         $mailOptions->read();
