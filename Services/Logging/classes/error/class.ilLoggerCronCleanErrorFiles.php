@@ -70,8 +70,10 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob
             return $result;
         }
 
-        $offset = $this->settings->get('clear_older_then');
-        if (!$offset) {
+        $offset = $this->settings->get('clear_older_then', '');
+        if ($offset) {
+            $offset = (int) $offset;
+        } else {
             $offset = self::DEFAULT_VALUE_OLDER_THAN;
         }
 
@@ -93,7 +95,7 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob
 
     protected function readLogDir(string $path): array
     {
-        $ret = array();
+        $ret = [];
 
         $folder = dir($path);
         while ($file_name = $folder->read()) {
@@ -113,10 +115,11 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob
 
     public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
     {
-        $offset = $this->settings->get('clear_older_then');
+        $offset = $this->settings->get('clear_older_then', '');
         if (!$offset) {
-            $offset = self::DEFAULT_VALUE_OLDER_THAN;
+            $offset = (string) self::DEFAULT_VALUE_OLDER_THAN;
         }
+
         $clear_older_then = new ilNumberInputGUI($this->lng->txt('frm_clear_older_then'), 'clear_older_then');
         $clear_older_then->allowDecimals(false);
         $clear_older_then->setMinValue(1, true);
@@ -128,7 +131,13 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob
 
     public function saveCustomSettings(ilPropertyFormGUI $a_form): bool
     {
-        $this->settings->set('clear_older_then', $a_form->getInput('clear_older_then'));
+        $threshold = $a_form->getInput('clear_older_then');
+        if ((string) $threshold === '') {
+            $this->settings->delete('clear_older_then');
+        } else {
+            $this->settings->set('clear_older_then', (string) ((int) $a_form->getInput('clear_older_then')));
+        }
+
         return true;
     }
 }
