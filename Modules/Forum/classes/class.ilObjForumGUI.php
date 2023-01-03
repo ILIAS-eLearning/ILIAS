@@ -3074,10 +3074,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $this->objCurrentTopic->getForumId()
             );
 
-            if ($this->settings->get('forum_enable_print', '0')) {
+            if ($numberOfPostings > 0 && $this->settings->get('forum_enable_print', '0')) {
                 $print_thr_button = $this->uiFactory->button()->standard(
                     $this->lng->txt('forums_print_thread'),
-                    $this->ctrl->getLinkTargetByClass(ilForumExportGUI::class)
+                    $this->ctrl->getLinkTargetByClass(ilForumExportGUI::class, 'printThread')
                 );
                 $bottom_toolbar_split_button_items[] = $print_thr_button;
             }
@@ -3100,18 +3100,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 !$this->objCurrentTopic->isClosed() &&
                 $this->access->checkAccess('add_reply', '', $ref_id)
             ) {
-                if ($numberOfPostings > 0) {
-                    $reply_button = $this->uiFactory->button()->standard(
-                        $this->lng->txt('add_new_answer'),
-                        $this->ctrl->getLinkTarget($this, 'createTopLevelPost', 'frm_page_bottom')
-                    );
-                } else {
-                    $reply_button = $this->uiFactory->button()->primary(
-                        $this->lng->txt('add_new_answer'),
-                        $this->ctrl->getLinkTarget($this, 'createTopLevelPost', 'frm_page_bottom')
-                    );
-                }
-
                 $this->ctrl->setParameter($this, 'action', 'showreply');
                 $this->ctrl->setParameter($this, 'pos_pk', $firstNodeInThread->getId());
                 $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
@@ -3125,6 +3113,17 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     'orderby',
                     $this->getOrderByParam()
                 );
+                if ($numberOfPostings > 0) {
+                    $reply_button = $this->uiFactory->button()->standard(
+                        $this->lng->txt('add_new_answer'),
+                        $this->ctrl->getLinkTarget($this, 'createTopLevelPost', 'frm_page_bottom')
+                    );
+                } else {
+                    $reply_button = $this->uiFactory->button()->primary(
+                        $this->lng->txt('add_new_answer'),
+                        $this->ctrl->getLinkTarget($this, 'createTopLevelPost', 'frm_page_bottom')
+                    );
+                }
                 $this->ctrl->clearParameters($this);
                 array_unshift($bottom_toolbar_split_button_items, $reply_button);
             }
@@ -5594,8 +5593,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     );
 
                     $this->modalActionsContainer[] = $modal;
-
-
                     continue;
                 }
 
