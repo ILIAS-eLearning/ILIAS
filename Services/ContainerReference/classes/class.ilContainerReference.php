@@ -188,7 +188,11 @@ class ilContainerReference extends ilObject
         }
         if ($this->getTargetId()) {// might be null...
             $ref_ids = ilObject::_getAllReferences($this->getTargetId());
-            $this->setTargetRefId(current($ref_ids));
+            $ref_id = current($ref_ids); // might be null in deletion cases, see #35150
+
+            if ($ref_id) {
+                $this->setTargetRefId($ref_id);
+            }
 
             if ($this->getTitleType() === self::TITLE_TYPE_REUSE) {
                 $this->title = ilObject::_lookupTitle($this->getTargetId());
