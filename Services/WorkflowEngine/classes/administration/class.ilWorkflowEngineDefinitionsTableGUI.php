@@ -168,7 +168,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
         }
 
         $instances_filter = $this->getFilterItemByPostVar('instances');
-        if ($row['instances']['active'] == 0 && $instances_filter->getChecked()) {
+        if (isset($row['instances']) && $row['instances']['active'] == 0 && $instances_filter->getChecked()) {
             return true;
         }
 
@@ -202,9 +202,9 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 
         if (in_array('instances', $selected_columns, true)) {
             $this->tpl->setVariable('TXT_INSTANCES_TOTAL', $this->lng->txt('total'));
-            $this->tpl->setVariable('VAL_INSTANCES_TOTAL', 0 + $a_set['instances']['total']);
+            $this->tpl->setVariable('VAL_INSTANCES_TOTAL', 0 + ($a_set['instances']['total'] ?? 0));
             $this->tpl->setVariable('TXT_INSTANCES_ACTIVE', $this->lng->txt('active'));
-            $this->tpl->setVariable('VAL_INSTANCES_ACTIVE', 0 + $a_set['instances']['active']);
+            $this->tpl->setVariable('VAL_INSTANCES_ACTIVE', 0 + ($a_set['instances']['active'] ?? 0));
         }
 
         if ($this->rbac->checkAccess(
@@ -221,7 +221,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
                 $this->ilCtrl->getLinkTarget($this->parent_obj, 'definitions.start')
             );
 
-            if (0 + $a_set['instances']['active'] === 0) {
+            if (0 + ($a_set['instances']['active'] ?? 0) === 0) {
                 $action->addItem(
                     $this->lng->txt('delete_definition'),
                     'delete',
@@ -233,7 +233,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
             /** @var class-string $class */
             $class = substr($a_set['id'], 4);
             /** @noinspection PhpUndefinedFieldInspection (defined in ilWorkflowScaffold.php / generated code */
-            if ($class::$startEventRequired) {
+            if (class_exists($class) && $class::$startEventRequired) {
                 $action->addItem(
                     $this->lng->txt('start_listening'),
                     'startlistening',

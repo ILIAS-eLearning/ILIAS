@@ -47,9 +47,8 @@ class ilWorkflowEngineMailNotification extends ilMailNotification
         $this->body_text = $body_text;
     }
 
-    public function send(int $rcp): void
+    public function send(string $rcp): void
     {
-        $this->initLanguage($rcp);
         $this->initMail();
 
         $this->setSubject($this->subject_text);
