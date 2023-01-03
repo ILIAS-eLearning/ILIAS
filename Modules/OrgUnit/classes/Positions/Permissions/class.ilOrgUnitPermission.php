@@ -79,6 +79,12 @@ class ilOrgUnitPermission extends ActiveRecord
     protected bool $protected = false;
     protected bool $newly_created = false;
 
+    public function __construct($primary_key = 0)
+    {
+        parent::__construct($primary_key);
+        $this->afterObjectLoad();
+    }
+
     public function update(): void
     {
         if ($this->isProtected()) {
