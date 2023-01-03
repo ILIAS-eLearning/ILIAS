@@ -8407,10 +8407,13 @@ dcl#:#dcl_default_sort_field#:#Default sort field
 dcl#:#dcl_default_sort_field_desc#:#The table will be sorted by this field by default.
 dcl#:#dcl_default_sort_field_order#:#Default sort field order
 dcl#:#dcl_delete_fields#:#Delete fields
+dcl#:#dcl_delete_fields_no_selection#:#Please select at least one field to delete
 dcl#:#dcl_delete_perm#:#User can delete entries
 dcl#:#dcl_delete_records#:#Delete Entries
 dcl#:#dcl_delete_tables#:#Delete Tables
+dcl#:#dcl_delete_tables_no_selection#:#Please select at least one table to delete
 dcl#:#dcl_delete_views#:#Delete Views
+dcl#:#dcl_delete_views_no_selection#:#Please select at least one view to delete
 dcl#:#dcl_deleted_records#:#Successfully deleted %s Entries
 dcl#:#dcl_desc#:#Descending Order (DESC)
 dcl#:#dcl_description#:#Field Description
