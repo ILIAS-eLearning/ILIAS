@@ -130,7 +130,7 @@ class ilOrgUnitPathStorage extends ActiveRecord
 
     public static function writePathByRefId(string $ref_id): void
     {
-        $original_ref_id = $ref_id;
+        $original_ref_id = (int) $ref_id;
         $names = self::getAllOrguNames();
         $root_ref_id = ilObjOrgUnit::getRootOrgRefId();
         $tree = ilObjOrgUnitTree::_getInstance();
@@ -140,7 +140,7 @@ class ilOrgUnitPathStorage extends ActiveRecord
         }
         while ($ref_id != $root_ref_id && $ref_id) {
             $ref_id = $tree->getParent($ref_id);
-            if ($ref_id != $root_ref_id && $names[$ref_id]) {
+            if ($ref_id != $root_ref_id && isset($names[$ref_id]) && $names[$ref_id]) {
                 $path[] = $names[$ref_id];
             }
         }
@@ -157,7 +157,7 @@ class ilOrgUnitPathStorage extends ActiveRecord
             $expression = implode(self::GLUE_SIMPLE, $path);
         }
         /**
-         * @var $ilOrgUnitPathStorage ilOrgUnitPathStorage
+         * @var ilOrgUnitPathStorage $ilOrgUnitPathStorage
          */
         $ilOrgUnitPathStorage = self::findOrGetInstance($original_ref_id);
         $ilOrgUnitPathStorage->setRefId($original_ref_id);
