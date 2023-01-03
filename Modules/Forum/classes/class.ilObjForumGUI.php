@@ -5394,11 +5394,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                         'orderby',
                         $this->getOrderByParam()
                     );
-                    $actions['activate_post'] = $this->ctrl->getLinkTarget(
+                    $primary_action = $this->ctrl->getLinkTarget(
                         $this,
                         'askForPostActivation',
                         (string) $node->getId()
                     );
+                    $primary_action_language_id = 'activate_post';
                     $this->ctrl->clearParameters($this);
                 }
                 if (
@@ -5414,11 +5415,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                         $this->getOrderByParam()
                     );
                     $this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
-                    $actions['reply_to_postings'] = $this->ctrl->getLinkTarget(
+                    $primary_action = $this->ctrl->getLinkTarget(
                         $this,
                         'viewThread',
                         'reply_' . $node->getId()
                     );
+                    $primary_action_language_id = 'reply_to_postings';
                     $this->ctrl->clearParameters($this);
                 }
                 if (
@@ -5517,7 +5519,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 'orderby',
                 $this->getOrderByParam()
             );
-            $actions['publish'] = $this->ctrl->getLinkTarget($this, 'publishSelectedDraft', (string) $node->getId());
+            $primary_action = $this->ctrl->getLinkTarget($this, 'publishSelectedDraft', (string) $node->getId());
+            $primary_action_language_id = 'publish';
             $this->ctrl->clearParameters($this);
 
             $this->ctrl->setParameter($this, 'action', 'editdraft');
@@ -5553,77 +5556,77 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $tpl->setCurrentBlock('posts_row');
         if ($actions !== [] && !$this->objCurrentTopic->isClosed()) {
             $items = [];
-            $i = 0;
             foreach ($actions as $lng_id => $url) {
-                if ($i === 0) {
-                    $action_button = $this->uiFactory->button()->standard(
-                        $this->lng->txt($lng_id),
-                        $url
-                    );
+                if ('frm_revoke_censorship' === $lng_id || 'frm_censorship' === $lng_id) {
+                    $modalTemplate = new ilTemplate("tpl.forums_censor_modal.html", true, true, 'Modules/Forum');
+                    $formID = str_replace('.', '_', uniqid('form', true));
+                    $modalTemplate->setVariable('FORM_ID', $formID);
 
-                    ++$i;
-                } else {
-                    if ('frm_revoke_censorship' === $lng_id || 'frm_censorship' === $lng_id) {
-                        $modalTemplate = new ilTemplate("tpl.forums_censor_modal.html", true, true, 'Modules/Forum');
-                        $formID = str_replace('.', '_', uniqid('form', true));
-                        $modalTemplate->setVariable('FORM_ID', $formID);
-
-                        if ($node->isCensored()) {
-                            $modalTemplate->setVariable('BODY', $this->lng->txt('forums_info_censor2_post'));
-                        } else {
-                            $modalTemplate->setVariable('BODY', $this->lng->txt('forums_info_censor_post'));
-                            $modalTemplate->touchBlock('message');
-                        }
-
-                        $modalTemplate->setVariable('FORM_ACTION', $url);
-
-                        $content = $this->uiFactory->legacy($modalTemplate->get());
-                        $submitBtn = $this->uiFactory->button()->primary(
-                            $this->lng->txt('submit'),
-                            '#'
-                        )->withOnLoadCode(
-                            static function (string $id) use ($formID): string {
-                                return "$('#$id').click(function() { $('#$formID').submit(); return false; });";
-                            }
-                        );
-                        $modal = $this->uiFactory->modal()->roundtrip(
-                            $this->lng->txt($lng_id),
-                            $content
-                        )->withActionButtons([$submitBtn]);
-                        $items[] = $this->uiFactory->button()->shy($this->lng->txt($lng_id), '#')->withOnClick(
-                            $modal->getShowSignal()
-                        );
-
-                        $this->modalActionsContainer[] = $modal;
-
-
-                        continue;
-                    } elseif ('delete' === $lng_id) {
-                        $modal = $this->uiFactory->modal()->interruptive(
-                            $this->lng->txt($lng_id),
-                            str_contains($url, 'deletePostingDraft') ?
-                                $this->lng->txt('forums_info_delete_draft') :
-                                $this->lng->txt('forums_info_delete_post'),
-                            $url
-                        )->withActionButtonLabel(
-                            $this->lng->txt(str_contains($url, 'deletePostingDraft') ? 'deletePostingDraft' : 'deletePosting')
-                        );
-
-                        $items[] = $this->uiFactory->button()->shy($this->lng->txt($lng_id), '#')->withOnClick(
-                            $modal->getShowSignal()
-                        );
-
-                        $this->modalActionsContainer[] = $modal;
-
-
-                        continue;
+                    if ($node->isCensored()) {
+                        $modalTemplate->setVariable('BODY', $this->lng->txt('forums_info_censor2_post'));
+                    } else {
+                        $modalTemplate->setVariable('BODY', $this->lng->txt('forums_info_censor_post'));
+                        $modalTemplate->touchBlock('message');
                     }
 
-                    $items[] = $this->uiFactory->button()->shy($this->lng->txt($lng_id), $url);
+                    $modalTemplate->setVariable('FORM_ACTION', $url);
+
+                    $content = $this->uiFactory->legacy($modalTemplate->get());
+                    $submitBtn = $this->uiFactory->button()->primary(
+                        $this->lng->txt('submit'),
+                        '#'
+                    )->withOnLoadCode(
+                        static function (string $id) use ($formID): string {
+                            return "$('#$id').click(function() { $('#$formID').submit(); return false; });";
+                        }
+                    );
+                    $modal = $this->uiFactory->modal()->roundtrip(
+                        $this->lng->txt($lng_id),
+                        $content
+                    )->withActionButtons([$submitBtn]);
+                    $items[] = $this->uiFactory->button()->shy($this->lng->txt($lng_id), '#')->withOnClick(
+                        $modal->getShowSignal()
+                    );
+
+                    $this->modalActionsContainer[] = $modal;
+
+
+                    continue;
                 }
+
+                if ('delete' === $lng_id) {
+                    $modal = $this->uiFactory->modal()->interruptive(
+                        $this->lng->txt($lng_id),
+                        str_contains($url, 'deletePostingDraft') ?
+                            $this->lng->txt('forums_info_delete_draft') :
+                            $this->lng->txt('forums_info_delete_post'),
+                        $url
+                    )->withActionButtonLabel(
+                        $this->lng->txt(str_contains($url, 'deletePostingDraft') ? 'deletePostingDraft' : 'deletePosting')
+                    );
+
+                    $items[] = $this->uiFactory->button()->shy($this->lng->txt($lng_id), '#')->withOnClick(
+                        $modal->getShowSignal()
+                    );
+
+                    $this->modalActionsContainer[] = $modal;
+
+
+                    continue;
+                }
+
+                $items[] = $this->uiFactory->button()->shy($this->lng->txt($lng_id), $url);
             }
             $action_menu = $this->uiFactory->dropdown()->standard($items);
-            $tpl->setVariable('COMMANDS', $this->uiRenderer->render([$action_button, $action_menu]));
+            $render_content = [$action_menu];
+            if (isset($primary_action)) {
+                $action_button = $this->uiFactory->button()->standard(
+                    $this->lng->txt($primary_action_language_id),
+                    $primary_action
+                );
+                array_unshift($render_content, $action_button);
+            }
+            $tpl->setVariable('COMMANDS', $this->uiRenderer->render($render_content));
         }
     }
 
