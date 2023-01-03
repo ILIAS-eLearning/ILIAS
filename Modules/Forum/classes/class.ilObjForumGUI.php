@@ -3102,10 +3102,17 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 !$this->objCurrentTopic->isClosed() &&
                 $this->access->checkAccess('add_reply', '', $ref_id)
             ) {
-                $reply_button = $this->uiFactory->button()->primary(
-                    $this->lng->txt('add_new_answer'),
-                    $this->ctrl->getLinkTarget($this, 'createTopLevelPost', 'frm_page_bottom')
-                );
+                if ($numberOfPostings > 0) {
+                    $reply_button = $this->uiFactory->button()->standard(
+                        $this->lng->txt('add_new_answer'),
+                        $this->ctrl->getLinkTarget($this, 'createTopLevelPost', 'frm_page_bottom')
+                    );
+                } else {
+                    $reply_button = $this->uiFactory->button()->primary(
+                        $this->lng->txt('add_new_answer'),
+                        $this->ctrl->getLinkTarget($this, 'createTopLevelPost', 'frm_page_bottom')
+                    );
+                }
 
                 $this->ctrl->setParameter($this, 'action', 'showreply');
                 $this->ctrl->setParameter($this, 'pos_pk', $firstNodeInThread->getId());
@@ -3302,7 +3309,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             foreach ($bottom_toolbar_split_button_items as $key => $item) {
                 $this->toolbar->addComponent($item);
                 $bottom_toolbar->addComponent($item);
-                if ($key === 0) {
+                if ($key === 0 && $numberOfPostings > 0) {
                     $this->renderViewModeControl($this->selectedSorting);
                     if ($this->selectedSorting !== ilForumProperties::VIEW_TREE) {
                         $this->renderSortationControl($this->selectedSorting);
