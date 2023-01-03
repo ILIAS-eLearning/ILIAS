@@ -79,20 +79,6 @@ class ilMailOptions
      */
     public function createMailOptionsEntry(): void
     {
-        $this->incomingType = self::INCOMING_LOCAL;
-        if ($this->settings->get('mail_incoming_mail', '') !== '') {
-            $this->incomingType = (int) $this->settings->get('mail_incoming_mail');
-        }
-
-        $this->emailAddressMode = self::FIRST_EMAIL;
-        if ($this->settings->get('mail_address_option', '') !== '') {
-            $this->emailAddressMode = (int) $this->settings->get('mail_address_option');
-        }
-
-        $this->linebreak = self::DEFAULT_LINE_BREAK;
-        $this->isCronJobNotificationEnabled = false;
-        $this->signature = '';
-
         $this->db->replace(
             $this->table_mail_options,
             [
