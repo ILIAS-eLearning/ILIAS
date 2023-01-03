@@ -86,7 +86,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             if ($field->hasNumericSorting()) {
                 $this->numeric_fields[] = $title;
             }
-
             $this->addColumn($title, $sort_field);
 
             if ($field->hasProperty(ilDclBaseFieldModel::PROP_LEARNING_PROGRESS)) {
@@ -154,9 +153,9 @@ class ilDclRecordListTableGUI extends ilTable2GUI
      */
     private function buildData(): void
     {
-        $data = array();
+        $data = [];
         foreach ($this->object_data as $record) {
-            $record_data = array();
+            $record_data = [];
             $record_data["_front"] = null;
             $record_data['_record'] = $record;
 
