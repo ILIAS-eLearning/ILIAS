@@ -8414,10 +8414,13 @@ dcl#:#dcl_default_sort_field#:#Sortierung
 dcl#:#dcl_default_sort_field_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.
 dcl#:#dcl_default_sort_field_order#:#Sortierrichtung
 dcl#:#dcl_delete_fields#:#Felder löschen
+dcl#:#dcl_delete_fields_no_selection#:#Zum Löschen muss mindestens ein Feld ausgewählt werden
 dcl#:#dcl_delete_perm#:#Einträge löschen
 dcl#:#dcl_delete_records#:#Datensätze löschen
 dcl#:#dcl_delete_tables#:#Tabellen löschen
+dcl#:#dcl_delete_tables_no_selection#:#Zum Löschen muss mindestens eine Tabelle ausgewählt werden
 dcl#:#dcl_delete_views#:#Ansichten löschen
+dcl#:#dcl_delete_views_no_selection#:#Zum Löschen muss mindestens eine Ansicht ausgewählt werden
 dcl#:#dcl_deleted_records#:#Es wurden %s Datensätze gelöscht
 dcl#:#dcl_desc#:#Absteigende Reihenfolge (DESC)
 dcl#:#dcl_description#:#Beschreibung
