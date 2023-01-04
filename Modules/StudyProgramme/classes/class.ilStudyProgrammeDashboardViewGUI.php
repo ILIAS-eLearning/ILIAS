@@ -63,9 +63,18 @@ class ilStudyProgrammeDashboardViewGUI
             if (! $this->isReadable($prg)) {
                 continue;
             }
+
+            $min = $row->getPointsRequired();
+            $max = $row->getPointsReachable();
+            $cur = $row->getPointsCurrent();
+            $required_string = $min;
+            if ((float)$max < (float)$min) {
+                $required_string .= ' ' . $this->txt('prg_dash_label_unreachable') . ' (' . $max . ')';
+            }
+
             $properties = [
-                [$this->txt('prg_dash_label_minimum') => $row->getMinimumRequiredPercent()],
-                [$this->txt('prg_dash_label_gain') => $row->getCurrentPercent()],
+                [$this->txt('prg_dash_label_minimum') => $required_string],
+                [$this->txt('prg_dash_label_gain') => $cur],
                 [$this->txt('prg_dash_label_status') => $row->getStatus()],
             ];
 
