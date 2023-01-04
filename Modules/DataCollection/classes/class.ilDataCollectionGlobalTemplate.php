@@ -776,17 +776,22 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         global $DIC;
 
         $ilLocator = $DIC["ilLocator"];
+        $ilPluginAdmin = $DIC["ilPluginAdmin"];
 
         $html = "";
-        $uip = new ilUIHookProcessor(
-            "Services/Locator",
-            "main_locator",
-            array("locator_gui" => $ilLocator)
-        );
-        if (!$uip->replaced()) {
+
+        if (is_object($ilPluginAdmin)) {
+            include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
+            $html = $ilLocator->getHTML();
+            $uip = new ilUIHookProcessor(
+                "Services/Locator",
+                "main_locator",
+                ["locator_gui" => $ilLocator, "html" => $html]
+            );
+            $html = $uip->getHTML($html);
+        } else {
             $html = $ilLocator->getHTML();
         }
-        $html = $uip->getHTML($html);
         $this->setVariable("LOCATOR", $html);
     }
 
