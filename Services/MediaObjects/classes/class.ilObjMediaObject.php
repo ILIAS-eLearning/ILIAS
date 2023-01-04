@@ -1055,10 +1055,10 @@ class ilObjMediaObject extends ilObject
                     case "qpl":
                         // Question Pool *Question* Text (Test)
                         $qinfo = assQuestion::_getQuestionInfo($id);
-                        if ($qinfo["original_id"] > 0) {
+                        if (isset($qinfo["original_id"]) && $qinfo["original_id"] > 0) {
                             $obj_id = ilObjTest::_lookupTestObjIdForQuestionId($id);	// usage in test
                         } else {
-                            $obj_id = (int) $qinfo["obj_fi"];		// usage in pool
+                            $obj_id = (int) ($qinfo["obj_fi"] ?? 0);		// usage in pool
                         }
                         break;
 
