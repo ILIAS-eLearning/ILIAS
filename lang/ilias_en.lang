@@ -13979,6 +13979,7 @@ registration#:#reg_confirmation_hash_life_time#:#Valid for
 registration#:#reg_confirmation_hash_life_time_expired#:#This confirmation link is no longer valid. Please re-register and click on the link in the new confirmation e-mail within a few minutes of receipt.
 registration#:#reg_confirmation_hash_life_time_info#:#Enter for how long (in seconds ) the confirmation link should be valid. The recommended value is 1800 seconds.
 registration#:#reg_confirmation_hash_not_found#:#No user account could be matched to this confirmation link.
+registration#:#reg_confirmation_hash_not_passed#:#The confirmation link is incomplete.
 registration#:#reg_confirmation_link_successful#:#You have successfully registered your account with ILIAS. To activate your account, please click on the link in the confirmation e-mail that you will receive shortly. The confirmation link is only valid for a certain period of time, so to avoid having to re-register, we recommend that you click on the link within the next few minutes. <br /> You will be redirected to the <a href="%s" title="login screen">login screen</a> in 20 seconds.
 registration#:#reg_default#:#Default
 registration#:#reg_deleted_assignment#:#Deleted assignment(s).
