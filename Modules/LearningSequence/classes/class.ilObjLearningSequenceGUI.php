@@ -496,10 +496,10 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     {
         $this->recordLearningSequenceRead();
         $this->tabs->clearSubTabs();
-        if (
-            $this->checkAccess("read") ||
-            $this->checkAccess("write")
-        ) {
+        if ($this->checkAccess("write")) {
+            $this->manageContent(self::CMD_CONTENT);
+            return;
+        } else if ($this->checkAccess("read")) {
             $this->learnerView(self::CMD_LEARNER_VIEW);
             return;
         } else {
