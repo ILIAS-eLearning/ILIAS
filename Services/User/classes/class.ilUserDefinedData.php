@@ -197,7 +197,7 @@ class ilUserDefinedData
                     'UserDefinedField',
                     array('Id' => $definition['il_id'],
                                           'Name' => $definition['field_name']),
-                    (string) $this->user_data['f_' . (int) $definition['field_id']]
+                    (string) ($this->user_data['f_' . (int) $definition['field_id']] ?? '')
                 );
             }
         }
