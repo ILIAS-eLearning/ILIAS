@@ -24,7 +24,7 @@ class ilUserDefinedFieldSearch extends ilAbstractSearch
             $where;
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->search_result->addEntry($row->usr_id, 'usr', $this->__prepareFound($row));
+            $this->search_result->addEntry((int) $row->usr_id, 'usr', $this->__prepareFound($row));
         }
         return $this->search_result;
     }
