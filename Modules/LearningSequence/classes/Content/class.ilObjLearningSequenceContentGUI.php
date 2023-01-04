@@ -137,7 +137,7 @@ class ilObjLearningSequenceContentGUI
 
         foreach ($ref_ids as $ref_id) {
             $obj = ilObjectFactory::getInstanceByRefId($ref_id);
-            $this->confirmation_gui->addItem("id[]", $ref_id, $obj->getTitle());
+            $this->confirmation_gui->addItem("id[]", (string) $ref_id, $obj->getTitle());
         }
 
         $this->confirmation_gui->setFormAction($this->ctrl->getFormAction($this));
