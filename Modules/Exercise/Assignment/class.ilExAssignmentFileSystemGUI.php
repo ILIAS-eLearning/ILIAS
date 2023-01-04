@@ -27,9 +27,7 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
     protected string $requested_old_name;
     protected string $requested_new_name;
     protected array $requested_order;
-    /**
-     * @var string[]
-     */
+    /** @var list<string> */
     protected array $requested_file;
 
     public function __construct(string $main_absolute_directory)
@@ -42,7 +40,7 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
         $this->requested_old_name = $request->getOldName();
         $this->requested_new_name = $request->getNewName();
         $this->requested_order = $request->getOrder();
-        $this->requested_file = $request->getFiles();
+        $this->requested_file = $request->getInstructionFilesToDelete();
         $this->ctrl = $DIC->ctrl();
         parent::__construct($main_absolute_directory);
     }
