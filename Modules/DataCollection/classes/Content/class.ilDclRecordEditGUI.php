@@ -323,9 +323,7 @@ class ilDclRecordEditGUI
                     }
                 }
                 $this->form->addItem($item);
-
             }
-
         }
 
         $this->tpl->addInlineCss($inline_css);
@@ -380,7 +378,8 @@ class ilDclRecordEditGUI
             //Get Table Field Definitions
             $allFields = $this->table->getFields();
             foreach ($allFields as $field) {
-                if ($field->getViewSetting($this->tableview_id)->isVisibleEdit()) {
+                if ($field->getDatatypeId() !== ilDclDatatype::INPUTFORMAT_NONE &&
+                    $field->getViewSetting($this->tableview_id)->isVisibleEdit()) {
                     $record_obj->fillRecordFieldFormInput($field->getId(), $this->form);
                 }
             }
@@ -594,7 +593,7 @@ class ilDclRecordEditGUI
             foreach ($all_fields as $field) {
                 $field_setting = $field->getViewSetting($this->tableview_id);
 
-                if ($field_setting->isVisibleInForm($create_mode) && 
+                if ($field_setting->isVisibleInForm($create_mode) &&
                     (!$field_setting->isLocked($create_mode) || ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id))) {
                     // set all visible fields
                     $record_obj->setRecordFieldValueFromForm($field->getId(), $this->form);
