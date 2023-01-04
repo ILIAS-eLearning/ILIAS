@@ -1007,7 +1007,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $rtpl->setCurrentBlock("homelink");
             $rtpl->setVariable(
                 "CLIENT_ID",
-                "?client_id=" . $_COOKIE["ilClientId"] . "&lang=" . $this->lng->getLangKey()
+                "?client_id=" . CLIENT_ID . "&lang=" . $this->lng->getLangKey()
             );
             $rtpl->setVariable("TXT_HOME", $this->lng->txt("home"));
             $rtpl->parseCurrentBlock();
@@ -1792,7 +1792,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $soap_client->call(
                 'deleteExpiredDualOptInUserObjects',
                 [
-                    $_COOKIE[session_name()] . '::' . $_COOKIE['ilClientId'],
+                    $_COOKIE[session_name()] . '::' . CLIENT_ID,
                     $exception->getCode() // user id
                 ]
             );
@@ -1832,7 +1832,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $view_title = $lng->txt('login_to_ilias');
         if ($a_show_back) {
             // #13400
-            $param = 'client_id=' . $_COOKIE['ilClientId'] . '&lang=' . $lng->getLangKey();
+            $param = 'client_id=' . CLIENT_ID . '&lang=' . $lng->getLangKey();
 
             $tpl->setCurrentBlock('link_item_bl');
             $tpl->setVariable('LINK_TXT', $view_title);
