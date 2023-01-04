@@ -172,6 +172,8 @@ class ilStudyProgrammeChangeDeadlineGUI
                 ""
             )
         ];
+
+        return $return;
     }
 
     protected function changeDeadline(): void
@@ -193,19 +195,18 @@ class ilStudyProgrammeChangeDeadlineGUI
             $deadline_type = $deadline_data[0];
             $deadline = null;
             if ($deadline_type === ilObjStudyProgrammeSettingsGUI::OPT_DEADLINE_DATE) {
-                $deadline = DateTimeImmutable::createFromFormat(
-                    'd.m.Y',
-                    array_shift($deadline_data[1])
-                );
+                $deadline = array_shift($deadline_data[1]);
 
                 if (!$deadline) {
                     $this->tpl->setOnScreenMessage("failure", $this->lng->txt('error_updating_deadline'), true);
+                    $this->ctrl->setParameter($this, 'prgrs_ids', implode(',', $this->getProgressIds()));
                     $this->ctrl->redirectByClass(self::class, self::CMD_SHOW_DEADLINE_CONFIG);
                 }
             }
 
             foreach ($this->getProgressIds() as $progress_id) {
-                $programme->changeProgressDeadline($progress_id, $acting_usr_id, $msg_collection, $deadline);
+                $assignment_id = $progress_id->getAssignmentId();
+                $programme->changeProgressDeadline($assignment_id, $acting_usr_id, $msg_collection, $deadline);
             }
 
             $this->messages->showMessages($msg_collection);
@@ -213,6 +214,7 @@ class ilStudyProgrammeChangeDeadlineGUI
         }
 
         $this->tpl->setOnScreenMessage("failure", $this->lng->txt('error_updating_deadline'), true);
+        $this->ctrl->setParameter($this, 'prgrs_ids', implode(',', $this->getProgressIds()));
         $this->ctrl->redirectByClass(self::class, self::CMD_SHOW_DEADLINE_CONFIG);
     }
 
@@ -233,7 +235,7 @@ class ilStudyProgrammeChangeDeadlineGUI
 
     public function setProgressIds(array $progress_ids): void
     {
-        $this->progress_ids = array_map('intval', $progress_ids);
+        $this->progress_ids = $progress_ids;
     }
 
     protected function getRefId(): ?int

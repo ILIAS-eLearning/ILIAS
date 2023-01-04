@@ -113,13 +113,22 @@ class assClozeGap
      * @param Transformation $shuffler
      * @return assAnswerCloze[] The list of items
      */
-    public function getItems(Transformation $shuffler): array
+    public function getItems(Transformation $shuffler, ?int $gap_index = null): array
     {
-        if ($this->getShuffle()) {
+        if (!$this->getShuffle()) {
+            return $this->items;
+        }
+
+        if ($gap_index === null) {
             return $shuffler->transform($this->items);
         }
 
-        return $this->items;
+        $items = $this->items;
+        for ($i = -2; $i < $gap_index; $i++) {
+            $items = $shuffler->transform($items);
+        }
+
+        return $items;
     }
 
     /**
@@ -438,19 +447,5 @@ class assClozeGap
         }
 
         return false;
-    }
-
-    public function setShuffler()
-    {
-        global $DIC;
-        $this->shuffler = $DIC->refinery()->random()->shuffleArray(new ILIAS\Refinery\Random\Seed\RandomSeed());
-    }
-
-    public function getShuffler(): Transformation
-    {
-        if ($this->shuffler == null) {
-            $this->setShuffler();
-        }
-        return $this->shuffler;
     }
 }

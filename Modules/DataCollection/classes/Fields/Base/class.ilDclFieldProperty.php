@@ -41,7 +41,7 @@ class ilDclFieldProperty extends ActiveRecord
      * @db_fieldtype        integer
      * @db_length           8
      */
-    protected int $field_id;
+    protected int $field_id = 0;
     /**
      * @var string
      * @db_has_field        true
@@ -49,14 +49,14 @@ class ilDclFieldProperty extends ActiveRecord
      * @db_fieldtype        text
      * @db_length           128
      */
-    protected string $name;
+    protected string $name = "";
     /**
      * @var string
      * @db_has_field        true
      * @db_fieldtype        text
      * @db_length           128
      */
-    protected string $value;
+    protected $value;
 
     /**
      * ilDclFieldProperty constructor.
@@ -147,7 +147,7 @@ class ilDclFieldProperty extends ActiveRecord
             $value = json_encode($value);
         }
 
-        return $value;
+        return (string)$value;
     }
 
     /**

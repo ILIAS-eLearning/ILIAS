@@ -161,6 +161,9 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
         if ($ilUser->getId() !== ANONYMOUS_USER_ID) {
             $this->addMultiCommand('rsvConfirmCancel', $lng->txt('book_set_cancel'));
+            if ($this->access->checkAccess('write', '', $this->ref_id)) {
+                $this->addMultiCommand('rsvConfirmDelete', $lng->txt('delete'));
+            }
             $this->setSelectAllCheckbox('mrsv');
         }
 
@@ -707,6 +710,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         }
 
         $add_cols["user_name"] = $this->lng->txt("user");
+        $add_cols["login"] = $this->lng->txt("login");
 
         // user columns
         foreach ($this->getSelectedColumns() as $col) {

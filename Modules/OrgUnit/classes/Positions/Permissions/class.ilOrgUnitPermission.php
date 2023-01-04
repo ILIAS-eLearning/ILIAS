@@ -178,7 +178,7 @@ class ilOrgUnitPermission extends ActiveRecord
         return $this->selected_operation_ids;
     }
 
-    public function isOperationIdSelected(string $operation_id): bool
+    public function isOperationIdSelected(int $operation_id): bool
     {
         return in_array($operation_id, $this->selected_operation_ids);
     }

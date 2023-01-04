@@ -25,9 +25,13 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
     /**
      * Outputs html of a certain field
      */
-    public function getHTML(bool $link = true): string
+    public function getHTML(bool $link = true, array $options = []): string
     {
         $value = $this->getRecordField()->getValue();
+
+        if (is_null($value)) {
+            return "";
+        }
 
         // the file is only temporary uploaded. Still need to be confirmed before stored
         $has_ilfilehash = $this->http->wrapper()->post()->has('ilfilehash');
@@ -50,23 +54,29 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
         $mob = new ilObjMediaObject($value);
         $med = $mob->getMediaItem('Standard');
 
-        if (!$med || $med->getLocation() == null) {
+        if (!$med || $med->getLocation() === "") {
             return "";
         }
 
         $field = $this->getRecordField()->getField();
 
         $is_linked_field = $field->getProperty(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT);
-        $tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
-        $has_view = ilDclDetailedViewDefinition::isActive($tableview_id);
+        $has_view = false;
+        if ($this->http->wrapper()->query()->has("tableview_id")) {
+            $tableview_id = $this->http->wrapper()->query()->retrieve(
+                'tableview_id',
+                $this->refinery->kindlyTo()->int()
+            );
+            $has_view = ilDclDetailedViewDefinition::isActive($tableview_id);
+        }
 
-        if (in_array($med->getSuffix(), array('jpg', 'jpeg', 'png', 'gif'))) {
+        $components = [];
+
+        if (in_array($med->getSuffix(), ['jpg', 'jpeg', 'png', 'gif'])) {
             // Image
             $dir = ilObjMediaObject::_getDirectory($mob->getId());
-            $width = (int) $field->getProperty(ilDclBaseFieldModel::PROP_WIDTH);
-            $height = (int) $field->getProperty(ilDclBaseFieldModel::PROP_HEIGHT);
 
-            $html = ilUtil::img(ilWACSignedPath::signFile($dir . "/" . $med->getLocation()), '', $width, $height);
+            $image = $this->factory->image()->responsive(ilWACSignedPath::signFile($dir . "/" . $med->getLocation()), "");
 
             if ($is_linked_field && $has_view && $link) {
                 $this->ctrl->setParameterByClass(
@@ -74,20 +84,16 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
                     'record_id',
                     $this->getRecordField()->getRecord()->getId()
                 );
-                $html = '<a href="' . $this->ctrl->getLinkTargetByClass(
-                    "ilDclDetailedViewGUI",
-                    'renderRecord'
-                ) . '">' . $html . '</a>';
+                $image = $image->withAction($this->ctrl->getLinkTargetByClass("ilDclDetailedViewGUI", 'renderRecord'));
             }
+            $components[] = $image;
         } else {
-            // Video/Audio
-            $mpl = new ilMediaPlayerGUI($med->getId(), '');
-            $mpl->setFile(ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation());
-            $mpl->setMimeType($med->getFormat());
-            $mpl->setDisplayWidth((int) $field->getProperty(ilDclBaseFieldModel::PROP_WIDTH) . 'px');
-            $mpl->setDisplayHeight((int) $field->getProperty(ilDclBaseFieldModel::PROP_HEIGHT) . 'px');
-            $mpl->setVideoPreviewPic($mob->getVideoPreviewPic());
-            $html = $mpl->getPreviewHtml();
+            $location = ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation();
+            if (in_array($med->getSuffix(), ['mp3'])) {
+                $components[] = $this->factory->player()->audio($location);
+            } else {
+                $components[] = $this->factory->player()->video($location);
+            }
 
             if ($is_linked_field && $has_view) {
                 $this->ctrl->setParameterByClass(
@@ -95,14 +101,27 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
                     'record_id',
                     $this->getRecordField()->getRecord()->getId()
                 );
-                $html = $html . '<a href="' . $this->ctrl->getLinkTargetByClass(
-                    "ilDclDetailedViewGUI",
-                    'renderRecord'
-                ) . '">' . $this->lng->txt('details') . '</a>';
+                $components[] = $this->factory->link()->standard(
+                    $this->lng->txt('details'),
+                    $this->ctrl->getLinkTargetByClass(
+                        "ilDclDetailedViewGUI",
+                        'renderRecord'
+                    )
+                );
             }
         }
 
-        return $html;
+        $width = "200px";
+        $height = "auto";
+        if ($field->getProperty(ilDclBaseFieldModel::PROP_WIDTH) > 0) {
+            $width = $field->getProperty(ilDclBaseFieldModel::PROP_WIDTH)."px";
+        }
+        if ($field->getProperty(ilDclBaseFieldModel::PROP_HEIGHT) > 0) {
+            $height = $field->getProperty(ilDclBaseFieldModel::PROP_HEIGHT)."px";
+        }
+        $content = $this->renderer->render($components);
+        $fixed_size_div = "<div style='width:$width; height:$height;'>$content</div>";
+        return $fixed_size_div;
     }
 
     /**
@@ -112,6 +131,9 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
      */
     public function parseFormInput($value)
     {
+        if (is_null($value)) {
+            return "";
+        }
         if (is_array($value)) {
             return $value;
         }

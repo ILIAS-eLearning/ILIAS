@@ -905,7 +905,7 @@ JS;
                     break;
                 case CLOZE_SELECT:
                     $gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_select.html", true, true, "Modules/TestQuestionPool");
-                    foreach ($gap->getItems($gap->getShuffler()) as $item) {
+                    foreach ($gap->getItems($this->object->getShuffler(), $gap_index) as $item) {
                         $gaptemplate->setCurrentBlock("select_gap_option");
                         $gaptemplate->setVariable("SELECT_GAP_VALUE", $item->getOrder());
                         $gaptemplate->setVariable(
@@ -1034,29 +1034,23 @@ JS;
                             $points_array = $this->object->calculateCombinationResult($custom_user_solution);
                             $max_combination_points = $assClozeGapCombinationObject->getMaxPointsForCombination($this->object->getId(), $combination_id);
                             if ($points_array[0] == $max_combination_points) {
-                                $gaptemplate->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
-                                $gaptemplate->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+                                $gaptemplate->setVariable("ICON_OK", $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_OK));
                             } elseif ($points_array[0] > 0) {
-                                $gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.svg"));
-                                $gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_not_correct_but_positive"));
+                                $gaptemplate->setVariable("ICON_OK", $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_MOSTLY_OK));
                             } else {
-                                $gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
-                                $gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+                                $gaptemplate->setVariable("ICON_OK", $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK));
                             }
                         } else {
                             if (array_key_exists('best', $check) && $check["best"]) {
                                 $gaptemplate->setCurrentBlock("icon_ok");
-                                $gaptemplate->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
-                                $gaptemplate->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+                                $gaptemplate->setVariable("ICON_OK", $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_OK));
                                 $gaptemplate->parseCurrentBlock();
                             } else {
-                                $gaptemplate->setCurrentBlock("icon_not_ok");
+                                $gaptemplate->setCurrentBlock("icon_ok");
                                 if (array_key_exists('positive', $check) && $check["positive"]) {
-                                    $gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.svg"));
-                                    $gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_not_correct_but_positive"));
+                                    $gaptemplate->setVariable("ICON_OK", $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_MOSTLY_OK));
                                 } else {
-                                    $gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
-                                    $gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+                                    $gaptemplate->setVariable("ICON_OK", $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK));
                                 }
                                 $gaptemplate->parseCurrentBlock();
                             }
@@ -1064,17 +1058,14 @@ JS;
                     } else {
                         if (array_key_exists('best', $check) && $check["best"]) {
                             $gaptemplate->setCurrentBlock("icon_ok");
-                            $gaptemplate->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
-                            $gaptemplate->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+                            $gaptemplate->setVariable("ICON_OK", $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_OK));
                             $gaptemplate->parseCurrentBlock();
                         } else {
-                            $gaptemplate->setCurrentBlock("icon_not_ok");
+                            $gaptemplate->setCurrentBlock("icon_ok");
                             if (array_key_exists('positive', $check) && $check["positive"]) {
-                                $gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.svg"));
-                                $gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_not_correct_but_positive"));
+                                $gaptemplate->setVariable("ICON_OK", $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_MOSTLY_OK));
                             } else {
-                                $gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
-                                $gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+                                $gaptemplate->setVariable("ICON_OK", $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK));
                             }
                             $gaptemplate->parseCurrentBlock();
                         }
@@ -1283,7 +1274,7 @@ JS;
                     break;
                 case CLOZE_SELECT:
                     $gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_select.html", true, true, "Modules/TestQuestionPool");
-                    foreach ($gap->getItems($gap->getShuffler()) as $item) {
+                    foreach ($gap->getItems($this->object->getShuffler(), $gap_index) as $item) {
                         $gaptemplate->setCurrentBlock("select_gap_option");
                         $gaptemplate->setVariable("SELECT_GAP_VALUE", $item->getOrder());
                         $gaptemplate->setVariable(
@@ -1413,12 +1404,12 @@ JS;
 
         $html = '<div>';
         $i = 0;
-        foreach ($this->object->getGaps() as $gap) {
+        foreach ($this->object->getGaps() as $gap_index => $gap) {
             if ($gap->type == CLOZE_SELECT) {
                 $html .= '<p>Gap ' . ($i + 1) . ' - SELECT</p>';
                 $html .= '<ul>';
                 $j = 0;
-                foreach ($gap->getItems($this->object->getShuffler()) as $gap_item) {
+                foreach ($gap->getItems($this->object->getShuffler(), $gap_index) as $gap_item) {
                     $aggregate = $aggregation[$i];
                     $html .= '<li>' . $gap_item->getAnswerText() . ' - ' . ($aggregate[$j] ? $aggregate[$j] : 0) . '</li>';
                     $j++;
@@ -1454,7 +1445,7 @@ JS;
                 $html .= '<p>Gap ' . ($i + 1) . ' - NUMERIC</p>';
                 $html .= '<ul>';
                 $j = 0;
-                foreach ($gap->getItems($this->object->getShuffler()) as $gap_item) {
+                foreach ($gap->getItems($this->object->getShuffler(), $gap_index) as $gap_item) {
                     $aggregate = (array) $aggregation[$i];
                     foreach ($aggregate as $answer => $count) {
                         $html .= '<li>' . $answer . ' - ' . $count . '</li>';

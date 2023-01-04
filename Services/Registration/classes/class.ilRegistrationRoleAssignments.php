@@ -54,7 +54,7 @@ class ilRegistrationRoleAssignments
                 if (!ilObject::_lookupType($assignment['role'])) {
                     continue;
                 }
-                return (int) $assignment['role'];
+                return $assignment['role'];
             }
         }
         // return default
@@ -134,8 +134,8 @@ class ilRegistrationRoleAssignments
 
         $this->assignments = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->assignments[$row->assignment_id]['id'] = $row->assignment_id;
-            $this->assignments[$row->assignment_id]['role'] = $row->role;
+            $this->assignments[$row->assignment_id]['id'] = (int) $row->assignment_id;
+            $this->assignments[$row->assignment_id]['role'] = (int) $row->role;
             $this->assignments[$row->assignment_id]['domain'] = $row->domain;
         }
         $this->default_role = (int) $this->settings->get('reg_default_role', '0');

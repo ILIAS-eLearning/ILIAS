@@ -194,6 +194,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
         if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
             $this->showBasicSettingsObject();
+            return;
         }
         $this->showServerInfoObject();
     }

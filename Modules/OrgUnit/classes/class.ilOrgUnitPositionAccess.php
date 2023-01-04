@@ -129,6 +129,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
                 continue;
             }
 
+            $position->afterObjectLoad();
             foreach ($position->getAuthorities() as $authority) {
                 switch ($authority->getOver()) {
                     case ilOrgUnitAuthority::OVER_EVERYONE:
@@ -152,15 +153,16 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
                             case ilOrgUnitAuthority::SCOPE_SAME_ORGU:
                                 $allowed = $this->ua->getUserIdsOfUsersOrgUnitsInPosition(
                                     $user_id,
-                                    $position->getId(),
-                                    $authority->getOver()
+                                    $authority->getPositionId(),
+                                    $authority->getOver(),
+                                    false
                                 );
                                 $allowed_user_ids = array_merge($allowed_user_ids, $allowed);
                                 break;
                             case ilOrgUnitAuthority::SCOPE_SUBSEQUENT_ORGUS:
                                 $allowed = $this->ua->getUserIdsOfUsersOrgUnitsInPosition(
                                     $user_id,
-                                    $position->getId(),
+                                    $authority->getPositionId(),
                                     $authority->getOver(),
                                     true
                                 );

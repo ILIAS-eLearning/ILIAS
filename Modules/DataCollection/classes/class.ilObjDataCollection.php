@@ -137,7 +137,7 @@ class ilObjDataCollection extends ilObject2
         $http = $DIC->http();
         $refinery = $DIC->refinery();
 
-        $ref_id = $http->wrapper()->query()->retrieve('table_id', $refinery->kindlyTo()->int());
+        $ref_id = $http->wrapper()->query()->retrieve('ref_id', $refinery->kindlyTo()->int());
 
         // If coming from trash, never send notifications and don't load dcl Object
         if ($ref_id === SYSTEM_FOLDER_ID) {
@@ -158,7 +158,7 @@ class ilObjDataCollection extends ilObject2
             $obj_dcl->getId(),
             true
         );
-        if (!sizeof($users)) {
+        if (!count($users)) {
             return;
         }
 
@@ -251,11 +251,9 @@ class ilObjDataCollection extends ilObject2
         $ilDB->setLimit(1);
         $only_visible = ilObjDataCollectionAccess::hasWriteAccess($this->ref_id) ? '' : ' AND is_visible = 1 ';
         $result = $ilDB->query(
-            'SELECT id 
-									FROM il_dcl_table 
-									WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') .
-            $only_visible . '
-									ORDER BY -table_order DESC '
+            'SELECT id FROM il_dcl_table
+                    WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') .
+                    $only_visible . ' ORDER BY -table_order DESC'
         ); //"-table_order DESC" is ASC with NULL last
 
         // if there's no visible table, fetch first one not visible
@@ -263,10 +261,8 @@ class ilObjDataCollection extends ilObject2
         if (!$result->numRows() && $only_visible) {
             $ilDB->setLimit(1);
             $result = $ilDB->query(
-                'SELECT id 
-									FROM il_dcl_table 
-									WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') . '
-									ORDER BY -table_order DESC '
+                'SELECT id FROM il_dcl_table
+                        WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') . ' ORDER BY -table_order DESC '
             );
         }
 

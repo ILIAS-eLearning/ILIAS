@@ -1593,7 +1593,7 @@ class ilObjUserGUI extends ilObjectGUI
         if ($settings == null) {
             $settings = $ilSetting->getAll();
         }
-        return (bool) $settings['usr_settings_changeable_lua_' . $a_field];
+        return (bool) ($settings['usr_settings_changeable_lua_' . $a_field] ?? false);
     }
 
     /**

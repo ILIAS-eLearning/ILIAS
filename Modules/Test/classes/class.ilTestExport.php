@@ -803,11 +803,12 @@ abstract class ilTestExport
                     ? $userdata->getName()
                     : "ID $active_id";
                 $username = substr($username, 0, 26);
-                if (array_key_exists($username, $usernames)) {
-                    $usernames[$username]++;
-                    $username .= " ($usernames[$username])";
+                $username_to_lower = strtolower($username);
+                if (array_key_exists($username_to_lower, $usernames)) {
+                    $usernames[$username_to_lower]++;
+                    $username .= " (" . $usernames[$username_to_lower] . ")";
                 } else {
-                    $usernames[$username] = 0;
+                    $usernames[$username_to_lower] = 0;
                 }
 
                 if ($participantcount > 250) {

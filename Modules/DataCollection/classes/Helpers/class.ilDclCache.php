@@ -152,10 +152,10 @@ class ilDclCache
         return $fields_cache[$field_id];
     }
 
-    public static function getRecordCache(int $record_id = 0): ilDclBaseRecordModel
+    public static function getRecordCache(?int $record_id): ilDclBaseRecordModel
     {
         $records_cache = &self::$records_cache;
-        if (!isset($records_cache[$record_id])) {
+        if (!$record_id || !isset($records_cache[$record_id])) {
             $records_cache[$record_id] = ilDclFieldFactory::getRecordModelInstance($record_id);
         }
 
@@ -169,7 +169,7 @@ class ilDclCache
         $fid = $field->getId();
         $rid = $record->getId();
         if (!isset(self::$record_field_cache[$rid])) {
-            self::$record_field_cache[$rid] = array();
+            self::$record_field_cache[$rid] = [];
             self::$record_field_cache[$rid][$fid] = ilDclFieldFactory::getRecordFieldInstance($field, $record);
         } elseif (!isset(self::$record_field_cache[$rid][$fid])) {
             self::$record_field_cache[$rid][$fid] = ilDclFieldFactory::getRecordFieldInstance($field, $record);
@@ -279,8 +279,12 @@ class ilDclCache
         $field = ilDclFieldFactory::getFieldModelInstanceByClass(new ilDclBaseFieldModel($rec['id']));
         $field->setId($rec["id"]);
         $field->setTableId($rec["table_id"]);
-        $field->setTitle($rec["title"]);
-        $field->setDescription($rec["description"]);
+        if (null !== $rec["title"]) {
+            $field->setTitle($rec["title"]);
+        }
+        if (null !== $rec["description"]) {
+            $field->setDescription($rec["description"]);
+        }
         $field->setDatatypeId($rec["datatype_id"]);
         $field->setUnique($rec["is_unique"]);
         $fields_cache[$rec["id"]] = $field;

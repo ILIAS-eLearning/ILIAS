@@ -35,7 +35,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
     protected string $template_dir = '';
     protected array $post_var_cache = [];
     protected bool $show_label = false;
-    protected int $limit = 0;
+    protected int $limit = 999999;
     protected bool $allow_empty_fields = false;
 
     public function getLimit(): int
@@ -43,9 +43,6 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         return $this->limit;
     }
 
-    /**
-     * set a limit of possible lines, 0 = no limit
-     */
     public function setLimit(int $limit): void
     {
         $this->limit = $limit;
@@ -99,7 +96,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         return false;
     }
 
-    public function addInput(ilFormPropertyGUI $input, array $options = array())
+    public function addInput(ilFormPropertyGUI $input, array $options = [])
     {
         $input->setRequired(!$this->allow_empty_fields);
         $this->inputs[$input->getPostVar()] = $input;
@@ -137,22 +134,23 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
     /**
      * Set Value.
      */
-    public function setValue(array $a_value): void
+    public function setValue(array $value): void
     {
+        $this->value = $value;
+
         foreach ($this->inputs as $key => $item) {
-            if ($item instanceof ilCheckboxInputGUI) {
-                $item->setChecked((bool) $a_value[$key]);
-            } else {
-                if ($item instanceof ilDateTimeInputGUI) {
-                    $item->setDate(new ilDate($a_value[$key], IL_CAL_DATE));
+            if (array_key_exists($key, $value)) {
+                if ($item instanceof ilCheckboxInputGUI) {
+                    $item->setChecked((bool) $value[$key]);
                 } else {
-                    if (method_exists($item, 'setValue')) {
-                        $item->setValue($a_value[$key]);
+                    if ($item instanceof ilDateTimeInputGUI) {
+                        $item->setDate(new ilDate($value[$key], IL_CAL_DATE));
+                    } else {
+                        $item->setValue($value[$key]);
                     }
                 }
             }
         }
-        $this->value = $a_value;
     }
 
     /**
@@ -160,7 +158,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
      */
     public function getValue(): array
     {
-        $out = array();
+        $out = [];
         foreach ($this->inputs as $key => $item) {
             $out[$key] = $item->getValue();
         }
@@ -173,7 +171,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
      */
     public function setValueByArray(array $a_values): void
     {
-        $data = $a_values[$this->getPostVar() ?? null];
+        $data = $a_values[$this->getPostVar()] ?? [];
         if ($this->getMulti()) {
             $this->line_values = $data;
         } else {
@@ -191,8 +189,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
 
         $valid = true;
 
-        $value = $this->getValue();
-
+        $value = $this->arrayArray($this->getPostVar());
         // escape data
         $out_array = array();
         foreach ($value as $item_num => $item) {
@@ -206,16 +203,6 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
 
         if ($this->getRequired() && !trim(implode("", $this->getValue()))) {
             $valid = false;
-        }
-
-        // validate
-        foreach ($this->inputs as $input_key => $inputs) {
-            foreach ($out_array as $subitem) {
-                $this->setValue($subitem[$inputs->getPostVar()]);
-                if (!$inputs->checkInput()) {
-                    $valid = false;
-                }
-            }
         }
 
         if (!$valid) {
@@ -343,9 +330,6 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
      */
     public function insert(ilTemplate $a_tpl): void
     {
-        global $DIC;
-        $tpl = $DIC['tpl'];
-
         $output = "";
 
         $output .= $this->render(0, true);
@@ -364,14 +348,13 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
 
         if ($this->getMulti()) {
             $output = '<div id="' . $this->getFieldId() . '" class="multi_line_input">' . $output . '</div>';
-            $tpl->addJavascript('Modules/DataCollection/js/generic_multi_line_input.js');
-            $output .= '<script type="text/javascript">$("#' . $this->getFieldId() . '").multi_line_input('
-                . json_encode($this->input_options) . ', '
-                . json_encode(array('limit' => $this->limit,
-                                    'sortable' => $this->multi_sortable,
-                                    'locale' => $DIC->language()->getLangKey()
-                ))
-                . ')</script>';
+            $this->global_tpl->addJavaScript('Modules/DataCollection/js/generic_multi_line_input.js');
+            $id = $this->getFieldId();
+            $element_config = json_encode($this->input_options);
+            $options = json_encode(['limit' => $this->limit,
+                                        'sortable' => $this->multi_sortable,
+                                        'locale' => $this->lng->getLangKey()]);
+            $this->global_tpl->addOnLoadCode("il.DataCollection.genericMultiLineInit('$id',$element_config,$options);");
         }
 
         $a_tpl->setCurrentBlock("prop_generic");

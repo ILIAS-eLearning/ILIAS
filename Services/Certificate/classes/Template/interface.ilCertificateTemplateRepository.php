@@ -62,7 +62,8 @@ interface ilCertificateTemplateRepository
      * @return ilCertificateTemplate[]
      */
     public function fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress(
-        bool $isGlobalLpEnabled
+        bool $isGlobalLpEnabled,
+        ?int $forRefId = null
     ): array;
 
     /**

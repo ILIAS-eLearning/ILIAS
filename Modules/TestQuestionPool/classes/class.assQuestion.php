@@ -2211,22 +2211,26 @@ abstract class assQuestion
     protected function duplicateSuggestedSolutionFiles(int $parent_id, int $question_id): void
     {
         foreach ($this->suggested_solutions as $index => $solution) {
-            if (strcmp($solution["type"], "file") == 0) {
-                $filepath = $this->getSuggestedSolutionPath();
-                $filepath_original = str_replace(
-                    "/{$this->obj_id}/{$this->id}/solution",
-                    "/$parent_id/$question_id/solution",
-                    $filepath
-                );
-                if (!file_exists($filepath)) {
-                    ilFileUtils::makeDirParents($filepath);
-                }
-                $filename = $solution["value"]["name"];
-                if (strlen($filename)) {
-                    if (!copy($filepath_original . $filename, $filepath . $filename)) {
-                        $this->ilLog->root()->error("File could not be duplicated!!!!");
-                        $this->ilLog->root()->error("object: " . print_r($this, true));
-                    }
+            if (!is_array($solution) ||
+                !array_key_exists("type", $solution) ||
+                strcmp($solution["type"], "file") !== 0) {
+                continue;
+            }
+
+            $filepath = $this->getSuggestedSolutionPath();
+            $filepath_original = str_replace(
+                "/{$this->obj_id}/{$this->id}/solution",
+                "/$parent_id/$question_id/solution",
+                $filepath
+            );
+            if (!file_exists($filepath)) {
+                ilFileUtils::makeDirParents($filepath);
+            }
+            $filename = $solution["value"]["name"];
+            if (strlen($filename)) {
+                if (!copy($filepath_original . $filename, $filepath . $filename)) {
+                    $this->ilLog->root()->error("File could not be duplicated!!!!");
+                    $this->ilLog->root()->error("object: " . print_r($this, true));
                 }
             }
         }
@@ -2284,18 +2288,23 @@ abstract class assQuestion
         ilInternalLink::_deleteAllLinksOfSource("qst", $id);
         foreach ($this->suggested_solutions as $index => $solution) {
             $next_id = $this->db->nextId('qpl_sol_sug');
-            /** @var ilDBInterface $ilDB */
+
+            $value = $solution['value'] ?? '';
+            if (is_array($value)) {
+                $value = serialize($value);
+            }
+
             $this->db->insert(
                 'qpl_sol_sug',
                 array(
-                   'suggested_solution_id' => array( 'integer', 	$next_id ),
-                   'question_fi' => array( 'integer', 	$id ),
-                   'type' => array( 'text', 		$solution['type'] ),
-                   'value' => array( 'clob', 		ilRTE::_replaceMediaObjectImageSrc((is_array($solution['value'])) ? serialize($solution[ 'value' ]) : $solution['value'], 0) ),
-                   'internal_link' => array( 'text', 		$solution['internal_link'] ),
-                   'import_id' => array( 'text',		null ),
-                   'subquestion_index' => array( 'integer', 	$index ),
-                   'tstamp' => array( 'integer',	time() ),
+                   'suggested_solution_id' => array('integer', 	$next_id),
+                   'question_fi' => array('integer', 	$id ),
+                   'type' => array('text', $solution['type'] ?? ''),
+                   'value' => array('clob', ilRTE::_replaceMediaObjectImageSrc($value)),
+                   'internal_link' => array( 'text', $solution['internal_link'] ?? ''),
+                   'import_id' => array('text', null),
+                   'subquestion_index' => array('integer', $index),
+                   'tstamp' => array('integer', time()),
                 )
             );
             if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
@@ -2710,7 +2719,7 @@ abstract class assQuestion
      */
     abstract public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false);
 
-    public function deductHintPointsFromReachedPoints(ilAssQuestionPreviewSession $previewSession, $reachedPoints): ?int
+    public function deductHintPointsFromReachedPoints(ilAssQuestionPreviewSession $previewSession, $reachedPoints): ?float
     {
         global $DIC;
 
@@ -2752,7 +2761,7 @@ abstract class assQuestion
      * @param integer $active_id
      * @param integer $pass
      */
-    final public function adjustReachedPointsByScoringOptions($points, $active_id, $pass = null): int
+    final public function adjustReachedPointsByScoringOptions($points, $active_id, $pass = null): float
     {
         $count_system = ilObjTest::_getCountSystem($active_id);
         if ($count_system == 1) {
@@ -3042,7 +3051,7 @@ abstract class assQuestion
                         'qht_hint_id' => array('integer', $next_id),
                         'qht_question_fi' => array('integer', $this->original_id),
                         'qht_hint_index' => array('integer', $row["qht_hint_index"]),
-                        'qht_hint_points' => array('integer', $row["qht_hint_points"]),
+                        'qht_hint_points' => array('float', $row["qht_hint_points"]),
                         'qht_hint_text' => array('text', $row["qht_hint_text"]),
                     )
                 );
@@ -3701,7 +3710,7 @@ abstract class assQuestion
     }
 
     // fau: testNav - add timestamp as parameter to saveCurrentSolution
-    public function saveCurrentSolution(int $active_id, int $pass, $value1, $value2, bool $authorized = true, int $tstamp = 0): int
+    public function saveCurrentSolution(int $active_id, int $pass, $value1, $value2, bool $authorized = true, $tstamp = 0): int
     {
         $next_id = $this->db->nextId("tst_solutions");
 
@@ -3712,7 +3721,7 @@ abstract class assQuestion
             "value1" => array("clob", $value1),
             "value2" => array("clob", $value2),
             "pass" => array("integer", $pass),
-            "tstamp" => array("integer", ($tstamp > 0) ? $tstamp : time()),
+            "tstamp" => array("integer", ((int)$tstamp > 0) ? (int)$tstamp : time()),
             'authorized' => array('integer', (int) $authorized)
         );
 

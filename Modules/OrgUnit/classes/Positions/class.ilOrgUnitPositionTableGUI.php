@@ -66,6 +66,7 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI
          * @var $obj ilOrgUnitPosition
          */
         $obj = ilOrgUnitPosition::find($a_set["id"]);
+        $obj->afterObjectLoad();
 
         $this->tpl->setVariable('TITLE', $obj->getTitle());
         $this->tpl->setVariable('DESCRIPTION', $obj->getDescription());

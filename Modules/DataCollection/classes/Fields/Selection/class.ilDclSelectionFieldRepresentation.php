@@ -65,7 +65,7 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
     /**
      * @return ilMultiSelectInputGUI|ilRadioGroupInputGUI|ilSelectInputGUI
      */
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilFormPropertyGUI
+    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilFormPropertyGUI
     {
         /** @var ilDclSelectionOption[] $options */
         $options = ilDclSelectionOption::getAllForField($this->getField()->getId());

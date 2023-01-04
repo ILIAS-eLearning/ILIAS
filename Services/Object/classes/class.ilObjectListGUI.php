@@ -1986,7 +1986,12 @@ class ilObjectListGUI
         }
 
         $this->current_selection_list = new ilAdvancedSelectionListGUI();
-        $this->current_selection_list->setAriaListTitle(sprintf($this->lng->txt('actions_for'), $this->getTitle()));
+        $this->current_selection_list->setAriaListTitle(
+            sprintf(
+                $this->lng->txt('actions_for'),
+                htmlspecialchars(addslashes($this->getTitle()))
+            )
+        );
         $this->current_selection_list->setAsynch($use_async && !$get_async_commands);
         $this->current_selection_list->setAsynchUrl($async_url);
         if ($header_actions) {
@@ -3126,7 +3131,7 @@ class ilObjectListGUI
             ->standard($actions)
             ->withAriaLabel(sprintf(
                 $this->lng->txt('actions_for'),
-                $title
+                htmlspecialchars(addslashes($title))
             ));
 
         $def_command = $this->getDefaultCommand();
@@ -3249,18 +3254,10 @@ class ilObjectListGUI
         $dropdown = $ui->factory()->dropdown()->standard($actions)
                        ->withAriaLabel(sprintf(
                            $this->lng->txt('actions_for'),
-                           $title
+                           htmlspecialchars(addslashes($title))
                        ));
 
-        $img = $this->object_service->commonSettings()->tileImage()->getByObjId($obj_id);
-        if ($img->exists()) {
-            $path = $img->getFullPath();
-        } else {
-            $path = ilUtil::getImagePath('cont_tile/cont_tile_default_' . $type . '.svg');
-            if (!is_file($path)) {
-                $path = ilUtil::getImagePath('cont_tile/cont_tile_default.svg');
-            }
-        }
+        $path = $this->getTileImagePath();
 
         // workaround for #26205
         // we should get rid of _top links completely and gifure our how
@@ -3397,6 +3394,20 @@ class ilObjectListGUI
     public function checkInfoPageOnAsynchronousRendering(): bool
     {
         return false;
+    }
+
+    protected function getTileImagePath(): string
+    {
+        $img = $this->object_service->commonSettings()->tileImage()->getByObjId($this->obj_id);
+        if ($img->exists()) {
+            $path = $img->getFullPath();
+        } else {
+            $path = ilUtil::getImagePath('cont_tile/cont_tile_default_' . $this->type . '.svg');
+            if (!is_file($path)) {
+                $path = ilUtil::getImagePath('cont_tile/cont_tile_default.svg');
+            }
+        }
+        return $path;
     }
 
     /**

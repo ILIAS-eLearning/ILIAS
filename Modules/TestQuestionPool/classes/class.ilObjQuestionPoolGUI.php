@@ -18,6 +18,8 @@
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
+use ILIAS\Refinery\Random\Group as RandomGroup;
+
 /**
  * Class ilObjQuestionPoolGUI
  *
@@ -26,7 +28,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  *
  * @version		$Id$
  *
- * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionPageGUI, ilQuestionBrowserTableGUI, ilToolbarGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionPageGUI, ilQuestionBrowserTableGUI, ilToolbarGUI, ilObjTestGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assOrderingQuestionGUI, assImagemapQuestionGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assNumericGUI, assTextSubsetGUI, assSingleChoiceGUI, ilPropertyFormGUI
@@ -194,7 +196,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 }
 
                 $this->ctrl->saveParameter($this, "q_id");
-                $gui = new ilAssQuestionPreviewGUI($this->ctrl, $this->tabs_gui, $this->tpl, $this->lng, $ilDB, $ilUser, $randomGroup);
+                $gui = new ilAssQuestionPreviewGUI(
+                    $this->ctrl,
+                    $this->rbac_system,
+                    $this->tabs_gui,
+                    $this->tpl,
+                    $this->lng,
+                    $ilDB,
+                    $ilUser,
+                    $randomGroup,
+                    $this->ref_id
+                );
 
                 $gui->initQuestion((int) $this->qplrequest->raw('q_id'), $this->object->getId());
                 $gui->initPreviewSettings($this->object->getRefId());
@@ -574,6 +586,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             ilObjQuestionPool::_setImportDirectory($basedir);
             $xml_file = ilObjQuestionPool::_getImportDirectory() . '/' . $subdir . '/' . $subdir . ".xml";
             $qti_file = ilObjQuestionPool::_getImportDirectory() . '/' . $subdir . '/' . str_replace("qpl", "qti", $subdir) . ".xml";
+        }
+        if (!file_exists($qti_file)) {
+            ilFileUtils::delDir($basedir);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('cannot_find_xml'), true);
+            $this->ctrl->redirect($this, 'create');
+            return false;
         }
         $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_VERIFY_QTI, 0, "");
         $qtiParser->startParsing();
@@ -1345,12 +1363,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         $p_gui = new ilAssQuestionPreviewGUI(
             $this->ctrl,
+            $this->rbac_system,
             $this->tabs_gui,
             $this->tpl,
             $this->lng,
             $DIC->database(),
             $DIC->user(),
-            new ILIAS\Refinery\Random\Group()
+            new RandomGroup(),
+            $this->ref_id
         );
         $this->ctrl->redirectByClass(get_class($p_gui), "show");
     }

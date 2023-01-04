@@ -25,7 +25,7 @@ trait ProgressRepoMockNIFT
     {
     }
 
-    public function getByIds(int $prg_id, int $assignment_id): ilStudyProgrammeProgress
+    public function getByIds(int $prg_id, int $assignment_id): ilPRGProgress
     {
         throw new Exception("Not implemented for testing", 1);
     }
@@ -53,18 +53,22 @@ trait ProgressRepoMockNIFT
     {
         throw new Exception("Not implemented for testing", 1);
     }
+    public function getLatestAssignedProgress(int $prg_id, int $usr_id): ?\ilPRGProgress
+    {
+        throw new Exception("Not implemented for testing", 1);
+    }
     public function getPassedDeadline(): array
     {
         throw new Exception("Not implemented for testing", 1);
     }
-    public function delete(ilStudyProgrammeProgress $progress): void
+    public function delete(ilPRGProgress $progress)
     {
         throw new Exception("Not implemented for testing", 1);
     }
     public function createFor(
         ilStudyProgrammeSettings $prg,
         ilStudyProgrammeAssignment $ass
-    ): ilStudyProgrammeProgress {
+    ): ilPRGProgress {
         throw new Exception("Not implemented for testing", 1);
     }
 }
@@ -74,13 +78,34 @@ trait AssignmentRepoMockNIFT
     public function __construct()
     {
     }
-
-    public function createFor(int $prg_id, int $usr_id, int $assigning_usr_id): ilStudyProgrammeAssignment
+    public function createFor(int $prg_obj_id, int $usr_id, int $assigning_usr_id): ilPRGAssignment
     {
         throw new Exception("Not implemented for testing", 1);
     }
-    public function getByUsrId(int $usr_id): array
+    public function getForUser(int $usr_id): array
     {
+        throw new Exception("Not implemented for testing", 1);
+    }
+    public function getAllForNodeIsContained(int $prg_obj_id, ?array $user_filter = null, ?ilPRGAssignmentFilter $custom_filters = null): array
+    {
+        throw new Exception("Not implemented for testing", 1);
+    }
+    public function getAllForSpecificNode(int $prg_obj_id, array $user_filter = null): array
+    {
+        throw new Exception("Not implemented for testing", 1);
+    }
+    public function getPassedDeadline(\DateTimeImmutable $deadline): array
+    {
+        throw new Exception("Not implemented for testing", 1);
+    }
+    public function getDashboardInstancesforUser(int $usr_id): array
+    {
+        throw new Exception("Not implemented for testing", 1);
+    }
+    public function getAboutToExpire(
+        array $programmes_and_due,
+        bool $discard_formerly_notified = true
+    ): array {
         throw new Exception("Not implemented for testing", 1);
     }
     public function getByPrgId(int $prg_id): array
@@ -95,7 +120,15 @@ trait AssignmentRepoMockNIFT
     {
         throw new Exception("Not implemented for testing", 1);
     }
-    public function delete(ilStudyProgrammeAssignment $assignment): void
+    public function delete(ilPRGAssignment $assignment): void
+    {
+        throw new Exception("Not implemented for testing", 1);
+    }
+    public function deleteAllAssignmentsForProgrammeId(int $prg_obj_id): void
+    {
+        throw new Exception("Not implemented for testing", 1);
+    }
+    public function getExpiredAndNotInvalidated(): array
     {
         throw new Exception("Not implemented for testing", 1);
     }
@@ -125,51 +158,18 @@ trait SettingsRepoMockNIFT
     }
 }
 
-
-class ProgressRepoMock implements ilStudyProgrammeProgressRepository
-{
-    use ProgressRepoMockNIFT;
-    /** @var array<int, ilStudyProgrammeProgress> */
-    public array $progresses = [];
-
-    public function get(int $id): ilStudyProgrammeProgress
-    {
-        return $this->progresses[$id];
-    }
-
-    public function update(ilStudyProgrammeProgress $progress): void
-    {
-        $this->progresses[$progress->getNodeId()] = $progress;
-    }
-
-    public function getByPrgIdAndAssignmentId(int $prg_id, int $assignment_id)
-    {
-        return $this->progresses[$prg_id];
-    }
-
-    public function getByAssignmentId(int $assignment_id): array
-    {
-        $ret = [];
-        foreach ($this->progresses as $progress_id => $progress) {
-            if ($progress->getAssignmentId() === $assignment_id) {
-                $ret[] = $progress;
-            }
-        }
-        return $ret;
-    }
-}
-
-class AssignmentRepoMock implements ilStudyProgrammeAssignmentRepository
+class AssignmentRepoMock implements PRGAssignmentRepository
 {
     use AssignmentRepoMockNIFT;
     /** @var array<int, ilStudyProgrammeAssignment> */
     public array $assignments = [];
 
-    public function get(int $id): ?ilStudyProgrammeAssignment
+    public function get(int $id): ilPRGAssignment
     {
         return $this->assignments[$id];
     }
-    public function update(ilStudyProgrammeAssignment $assignment): void
+
+    public function store(ilPRGAssignment $assignment): void
     {
         $this->assignments[$assignment->getId()] = $assignment;
     }
@@ -197,33 +197,26 @@ class SettingsMock extends ilStudyProgrammeSettings
     public function __construct(int $id)
     {
         $this->obj_id = $id;
+        $this->validity_of_qualification_settings =
+            new ilStudyProgrammeValidityOfAchievedQualificationSettings(
+                null,
+                null,
+                null,
+                false
+            );
     }
 }
 
 class PrgMock extends ilObjStudyProgramme
 {
-    protected ProgressRepoMock $progress_repo;
-    protected AssignmentRepoMock $assignment_repo;
-    protected SettingsRepoMock $settings_repo;
-    public array $mock_tree;
-
     public function __construct(
         int $id,
-        ProgressRepoMock $progress_repo,
-        AssignmentRepoMock $assignment_repo,
-        SettingsRepoMock $settings_repo,
-        array &$mock_tree
+        $env
     ) {
         $this->id = $id;
-        $this->progress_repo = $progress_repo;
-        $this->assignment_repo = $assignment_repo;
-        $this->settings_repo = $settings_repo;
-        $this->mock_tree = &$mock_tree;
-        $this->events = new class () extends ilStudyProgrammeEvents {
-            public function __construct()
-            {
-            }
-            public function userSuccessful(ilStudyProgrammeProgress $a_progress): void
+        $this->env = $env;
+        $this->events = new class () {
+            public function userSuccessful(ilPRGProgress $a_progress): void
             {
             }
         };
@@ -242,78 +235,83 @@ class PrgMock extends ilObjStudyProgramme
         return 9;
     }
 
-    protected function getProgressIdString(ilStudyProgrammeProgress $progress): string
+
+    protected function getProgressIdString(ilPRGAssignment $assignment, ilPRGProgress $progress): string
     {
         return (string) $progress->getId();
     }
 
-    protected function getProgressRepository(): ilStudyProgrammeProgressRepository
+    protected function getAssignmentRepository(): ilPRGAssignmentDBRepository
     {
-        return $this->progress_repo;
-    }
-    protected function getAssignmentRepository(): ilStudyProgrammeAssignmentRepository
-    {
-        return $this->assignment_repo;
+        return $this->env->assignment_repo;
     }
     protected function getSettingsRepository(): ilStudyProgrammeSettingsRepository
     {
-        return $this->settings_repo;
+        return $this->env->settings_repo;
     }
 
     protected function refreshLPStatus(int $usr_id, int $node_obj_id = null): void
     {
     }
 
-    public function getParentProgress(ilStudyProgrammeProgress $progress): ?ilStudyProgrammeProgress
+
+    public function getParentProgress(ilPRGAssignment $assignment, int $child_progress_node_id): ?ilPRGProgress
     {
-        $parent_id = $this->mock_tree[$progress->getNodeId()]['parent'];
+        $parent_id = $this->env->mock_tree[$progress->getNodeId()]['parent'];
         if (is_null($parent_id)) {
             return null;
         }
         return $this->getProgressRepository()->get($parent_id);
     }
 
-    public function getChildrenProgress($progress): array
+    public function getChildrenProgress(ilPRGAssignment $assignment, int $progress_node_id): array
     {
         $progresses = [];
-        foreach ($this->mock_tree[$progress->getNodeId()]['children'] as $child_id) {
+        foreach ($this->env->mock_tree[$progress->getNodeId()]['children'] as $child_id) {
             $progresses[] = $this->getProgressRepository()->get($child_id);
         }
         return $progresses;
     }
 
-    public function testUpdateParentProgress(ilStudyProgrammeProgress $progress): ilStudyProgrammeProgress
+    public function testUpdateParentProgress(ilPRGProgress $progress): ilPRGProgress
     {
         return $this->updateParentProgress($progress);
     }
 
-    public function testApplyProgressDeadline(ilStudyProgrammeProgress $progress): ilStudyProgrammeProgress
+    public function testApplyProgressDeadline(ilPRGProgress $progress): ilPRGProgress
     {
         return $this->applyProgressDeadline($progress);
     }
 
-    public function hasChildren(bool $include_references = false): bool
-    {
-        return $this->id < 12;
-    }
-
     protected function getPrgInstanceByObjId(int $obj_id): ilObjStudyProgramme
     {
-        return $this->mock_tree[$obj_id]['prg'];
+        return $this->tree[$obj_id]['prg'];
+    }
+
+    public function hasChildren(bool $include_references = false): bool
+    {
+        if ($this->id < 12) {
+            return true;
+        }
+        return false;
     }
 }
 
 class ProgrammeEventsMock extends ilStudyProgrammeEvents
 {
-    public array $raised;// TODO PHP8-REVIEW Maybe the shape of the array can be expressed by PHPDoc comments
+    public array $raised = [];// TODO PHP8-REVIEW Maybe the shape of the array can be expressed by PHPDoc comments
 
     public function __construct()
     {
-        $this->raised = [];
     }
 
     public function raise($event, $parameter): void// TODO PHP8-REVIEW The type hints are missing
     {
         $this->raised[] = [$event, $parameter];
+    }
+
+    protected function getRefIdFor(int $obj_id): int
+    {
+        return 666;
     }
 }

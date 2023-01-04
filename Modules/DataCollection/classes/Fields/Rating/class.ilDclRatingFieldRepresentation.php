@@ -23,7 +23,7 @@
  */
 class ilDclRatingFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilTextInputGUI
+    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilTextInputGUI
     {
         $input = new ilTextInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         $input->setValue($this->lng->txt("dcl_editable_in_table_gui"));

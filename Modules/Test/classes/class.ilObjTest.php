@@ -37,10 +37,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public const QUESTION_SET_TYPE_RANDOM = 'RANDOM_QUEST_SET';
     private const QUESTION_SET_TYPE_DYNAMIC = 'DYNAMIC_QUEST_SET';
 
-    public const HIGHSCORE_SHOW_OWN_TABLE = 1;
-    public const HIGHSCORE_SHOW_TOP_TABLE = 2;
-    public const HIGHSCORE_SHOW_ALL_TABLES = 3;
-
     private string $questionSetType = self::QUESTION_SET_TYPE_FIXED;
     private bool $skillServiceEnabled = false;
     private array $resultFilterTaxIds = array();
@@ -113,28 +109,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     protected array $ects_grades = array();
 
     protected $enabled_view_mode;
-    protected $_highscore_enabled;
-    protected $_highscore_anon;
-    protected $_highscore_achieved_ts;
-    protected $_highscore_score;
-    protected $_highscore_percentage;
-    protected $_highscore_hints;
-    protected $_highscore_wtime;
-    protected $_highscore_own_table;
-    protected $_highscore_top_table;
-    protected $_highscore_top_num;
-
-    public int $count_system;
-    public int $mc_scoring;
-    public int $pass_scoring;
     public bool $shuffle_questions;
-
-    /**
-     * Contains the presentation settings for the test results
-     *
-     * @var bool|int|null
-     */
-    public $results_presentation;
 
     /**
      * Determines wheather or not a question summary is shown to the users
@@ -142,13 +117,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      * @var bool|int
      */
     public $show_summary;
-
-    /**
-     * Determines if the score of every question should be cut at 0 points or the score of the complete test
-     *
-     * @var bool|int
-     */
-    public $score_cutting;
 
     /**
      * bool?
@@ -291,6 +259,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     protected $pass_waiting = "00:000:00:00:00";
     #endregion
 
+    protected ilDBInterface $db;
+    protected ?ilObjTestScoreSettings $score_settings = null;
+    protected ?ScoreSettingsRepository $score_settings_repo = null;
+
     /**
      * Constructor
      *
@@ -300,6 +272,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function __construct($a_id = 0, bool $a_call_by_reference = true)
     {
         global $DIC;
+        $this->db = $DIC['ilDB'];
         $ilUser = $DIC['ilUser'];
         $lng = $DIC['lng'];
         $this->type = "tst";
@@ -318,6 +291,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             1
         );
 
+        $this->score_settings = null;
         $this->test_id = -1;
         $this->author = $ilUser->fullname;
         $this->introductionEnabled = false;
@@ -341,11 +315,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->ects_fx = null;
         $this->shuffle_questions = false;
         $this->mailnottype = 0;
-        $this->exportsettings = 0;
         $this->show_summary = 8;
-        $this->count_system = COUNT_PARTIAL_SOLUTIONS;
-        $this->score_cutting = SCORE_CUT_QUESTION;
-        $this->pass_scoring = SCORE_LAST_PASS;
         $this->answer_feedback = 0;
         $this->password = "";
         $this->allowedUsers = "";
@@ -359,10 +329,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->show_cancel = 0;
         $this->show_marker = 0;
         $this->fixed_participants = 0;
-        $this->setShowPassDetails(true);
-        $this->setShowSolutionDetails(true);
-        $this->setShowSolutionAnswersOnly(false);
-        $this->setShowSolutionSignature(false);
         $this->testSession = false;
         $this->testSequence = false;
         $this->mailnotification = 0;
@@ -387,7 +353,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->redirection_mode = 0;
         $this->redirection_url = null;
         $this->show_exam_id_in_test_pass_enabled = false;
-        $this->show_exam_id_in_test_results_enabled = false;
         $this->sign_submission = false;
         $this->char_selector_availability = 0;
         $this->char_selector_definition = null;
@@ -856,7 +821,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 'processing_time' => array('text', $this->getProcessingTime()),
                 'enable_processing_time' => array('text', $this->getEnableProcessingTime()),
                 'reset_processing_time' => array('integer', $this->getResetProcessingTime()),
-                'reporting_date' => array('text', $this->getReportingDate()),
                 'starting_time_enabled' => array('integer', $this->isStartingTimeEnabled()),
                 'starting_time' => array('integer', $this->getStartingTime()),
                 'ending_time_enabled' => array('integer', $this->isEndingTimeEnabled()),
@@ -869,11 +833,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 'ects_d' => array('float', strlen($this->ects_grades["D"]) ? $this->ects_grades["D"] : 10),
                 'ects_e' => array('float', strlen($this->ects_grades["E"]) ? $this->ects_grades["E"] : 0),
                 'ects_fx' => array('float', $this->getECTSFX()),
-                'count_system' => array('text', $this->getCountSystem()),
-                'score_cutting' => array('text', $this->getScoreCutting()),
-                'pass_scoring' => array('text', $this->getPassScoring()),
                 'shuffle_questions' => array('text', $this->getShuffleQuestions()),
-                'results_presentation' => array('integer', $this->getResultsPresentation()),
                 'show_summary' => array('integer', $this->getListOfQuestionsSettings()),
                 'password_enabled' => array('integer', (int) $this->isPasswordEnabled()),
                 'password' => array('text', $this->getPassword()),
@@ -881,29 +841,16 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 'allowedusers' => array('integer', $this->getAllowedUsers()),
                 'alloweduserstimegap' => array('integer', $this->getAllowedUsersTimeGap()),
                 'mailnottype' => array('integer', $this->getMailNotificationType()),
-                'exportsettings' => array('integer', $this->getExportSettings()),
                 'mailnotification' => array('integer', $this->getMailNotification()),
                 'created' => array('integer', time()),
                 'tstamp' => array('integer', time()),
                 'enabled_view_mode' => array('text', $this->getEnabledViewMode()),
                 'template_id' => array('integer', $this->getTemplate()),
-                'print_bs_with_res' => array('integer', (int) $this->isBestSolutionPrintedWithResult()),
                 'obligations_enabled' => array('integer', (int) $this->areObligationsEnabled()),
                 'offer_question_hints' => array('integer', (int) $this->isOfferingQuestionHintsEnabled()),
-                'highscore_enabled' => array('integer', (int) $this->getHighscoreEnabled()),
-                'highscore_anon' => array('integer', (int) $this->getHighscoreAnon()),
-                'highscore_achieved_ts' => array('integer', (int) $this->getHighscoreAchievedTS()),
-                'highscore_score' => array('integer', (int) $this->getHighscoreScore()),
-                'highscore_percentage' => array('integer', (int) $this->getHighscorePercentage()),
-                'highscore_hints' => array('integer', (int) $this->getHighscoreHints()),
-                'highscore_wtime' => array('integer', (int) $this->getHighscoreWTime()),
-                'highscore_own_table' => array('integer', (int) $this->getHighscoreOwnTable()),
-                'highscore_top_table' => array('integer', (int) $this->getHighscoreTopTable()),
-                'highscore_top_num' => array('integer', $this->getHighscoreTopNum()),
                 'specific_feedback' => array('integer', $this->getSpecificAnswerFeedback()),
                 'autosave' => array('integer', (int) $this->getAutosave()),
                 'autosave_ival' => array('integer', $this->getAutosaveIval()),
-                'pass_deletion_allowed' => array('integer', (int) $this->isPassDeletionAllowed()),
                 'enable_examview' => array('integer', (int) $this->getEnableExamview()),
                 'show_examview_html' => array('integer', (int) $this->getShowExamviewHtml()),
                 'show_examview_pdf' => array('integer', (int) $this->getShowExamviewPdf()),
@@ -911,15 +858,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 'redirection_url' => array('text', (string) $this->getRedirectionUrl()),
                 'enable_archiving' => array('integer', (int) $this->getEnableArchiving()),
                 'examid_in_test_pass' => array('integer', (int) $this->isShowExamIdInTestPassEnabled()),
-                'examid_in_test_res' => array('integer', (int) $this->isShowExamIdInTestResultsEnabled()),
                 'sign_submission' => array('integer', (int) $this->getSignSubmission()),
                 'question_set_type' => array('text', $this->getQuestionSetType()),
                 'char_selector_availability' => array('integer', $this->getCharSelectorAvailability()),
                 'char_selector_definition' => array('text', (string) $this->getCharSelectorDefinition()),
                 'skill_service' => array('integer', (int) $this->isSkillServiceEnabled()),
                 'result_tax_filters' => array('text', serialize($this->getResultFilterTaxIds())),
-                'show_grading_status' => array('integer', (int) $this->isShowGradingStatusEnabled()),
-                'show_grading_mark' => array('integer', (int) $this->isShowGradingMarkEnabled()),
                 'follow_qst_answer_fixation' => array('integer', (int) $this->isFollowupQuestionAnswerFixationEnabled()),
                 'inst_fb_answer_fixation' => array('integer', (int) $this->isInstantFeedbackAnswerFixationEnabled()),
                 'force_inst_fb' => array('integer', (int) $this->isForceInstantFeedbackEnabled()),
@@ -974,7 +918,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     'processing_time' => array('text', $this->getProcessingTime()),
                     'enable_processing_time' => array('text', $this->getEnableProcessingTime()),
                     'reset_processing_time' => array('integer', $this->getResetProcessingTime()),
-                    'reporting_date' => array('text', $this->getReportingDate()),
                     'starting_time_enabled' => array('integer', $this->isStartingTimeEnabled()),
                     'starting_time' => array('integer', $this->getStartingTime()),
                     'ending_time_enabled' => array('integer', $this->isEndingTimeEnabled()),
@@ -987,11 +930,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     'ects_d' => array('float', strlen($this->ects_grades["D"]) ? $this->ects_grades["D"] : null),
                     'ects_e' => array('float', strlen($this->ects_grades["E"]) ? $this->ects_grades["E"] : null),
                     'ects_fx' => array('float', $this->getECTSFX()),
-                    'count_system' => array('text', $this->getCountSystem()),
-                    'score_cutting' => array('text', $this->getScoreCutting()),
-                    'pass_scoring' => array('text', $this->getPassScoring()),
                     'shuffle_questions' => array('text', $this->getShuffleQuestions()),
-                    'results_presentation' => array('integer', $this->getResultsPresentation()),
                     'show_summary' => array('integer', $this->getListOfQuestionsSettings()),
                     'password_enabled' => array('integer', (int) $this->isPasswordEnabled()),
                     'password' => array('text', $this->getPassword()),
@@ -1004,23 +943,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     'tstamp' => array('integer', time()),
                     'enabled_view_mode' => array('text', $this->getEnabledViewMode()),
                     'template_id' => array('integer', $this->getTemplate()),
-                    'print_bs_with_res' => array('integer', (int) $this->isBestSolutionPrintedWithResult()),
                     'obligations_enabled' => array('integer', (int) $this->areObligationsEnabled()),
                     'offer_question_hints' => array('integer', (int) $this->isOfferingQuestionHintsEnabled()),
-                    'highscore_enabled' => array('integer', (int) $this->getHighscoreEnabled()),
-                    'highscore_anon' => array('integer', (int) $this->getHighscoreAnon()),
-                    'highscore_achieved_ts' => array('integer', (int) $this->getHighscoreAchievedTS()),
-                    'highscore_score' => array('integer', (int) $this->getHighscoreScore()),
-                    'highscore_percentage' => array('integer', (int) $this->getHighscorePercentage()),
-                    'highscore_hints' => array('integer', (int) $this->getHighscoreHints()),
-                    'highscore_wtime' => array('integer', (int) $this->getHighscoreWTime()),
-                    'highscore_own_table' => array('integer', (int) $this->getHighscoreOwnTable()),
-                    'highscore_top_table' => array('integer', (int) $this->getHighscoreTopTable()),
-                    'highscore_top_num' => array('integer', $this->getHighscoreTopNum()),
                     'specific_feedback' => array('integer', $this->getSpecificAnswerFeedback()),
                     'autosave' => array('integer', (int) $this->getAutosave()),
                     'autosave_ival' => array('integer', $this->getAutosaveIval()),
-                    'pass_deletion_allowed' => array('integer', (int) $this->isPassDeletionAllowed()),
                     'enable_examview' => array('integer', (int) $this->getEnableExamview()),
                     'show_examview_html' => array('integer', (int) $this->getShowExamviewHtml()),
                     'show_examview_pdf' => array('integer', (int) $this->getShowExamviewPdf()),
@@ -1028,7 +955,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     'redirection_url' => array('text', (string) $this->getRedirectionUrl()),
                     'enable_archiving' => array('integer', (int) $this->getEnableArchiving()),
                     'examid_in_test_pass' => array('integer', (int) $this->isShowExamIdInTestPassEnabled()),
-                    'examid_in_test_res' => array('integer', (int) $this->isShowExamIdInTestResultsEnabled()),
                     'sign_submission' => array('integer', (int) $this->getSignSubmission()),
                     'question_set_type' => array('text', $this->getQuestionSetType()),
                     'char_selector_availability' => array('integer', $this->getCharSelectorAvailability()),
@@ -1455,49 +1381,31 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $this->setECTSFX($data->ects_fx);
             $this->mark_schema->flush();
             $this->mark_schema->loadFromDb($this->getTestId());
-            $this->setCountSystem($data->count_system);
             $this->setMailNotification($data->mailnotification);
             $this->setMailNotificationType($data->mailnottype);
-            $this->setExportSettings($data->exportsettings);
-            $this->setScoreCutting($data->score_cutting);
             $this->setPasswordEnabled($data->password_enabled);
             $this->setPassword($data->password);
             $this->setLimitUsersEnabled($data->limit_users_enabled);
             $this->setAllowedUsers($data->allowedusers);
             $this->setAllowedUsersTimeGap($data->alloweduserstimegap);
-            $this->setPassScoring($data->pass_scoring);
             $this->setObligationsEnabled($data->obligations_enabled);
             $this->setOfferingQuestionHintsEnabled($data->offer_question_hints);
             $this->setEnabledViewMode($data->enabled_view_mode);
             $this->setTemplate($data->template_id);
-            $this->setPrintBestSolutionWithResult((bool) $data->print_bs_with_res);
-            $this->setHighscoreEnabled((bool) $data->highscore_enabled);
-            $this->setHighscoreAnon((bool) $data->highscore_anon);
-            $this->setHighscoreAchievedTS((bool) $data->highscore_achieved_ts);
-            $this->setHighscoreScore((bool) $data->highscore_score);
-            $this->setHighscorePercentage((bool) $data->highscore_percentage);
-            $this->setHighscoreHints((bool) $data->highscore_hints);
-            $this->setHighscoreWTime((bool) $data->highscore_wtime);
-            $this->setHighscoreOwnTable((bool) $data->highscore_own_table);
-            $this->setHighscoreTopTable((bool) $data->highscore_top_table);
-            $this->setHighscoreTopNum((int) $data->highscore_top_num);
             $this->setOldOnlineStatus(!$this->getOfflineStatus());
             $this->setSpecificAnswerFeedback((int) $data->specific_feedback);
             $this->setAutosave((bool) $data->autosave);
             $this->setAutosaveIval((int) $data->autosave_ival);
-            $this->setPassDeletionAllowed($data->pass_deletion_allowed);
             $this->setEnableExamview((bool) $data->enable_examview);
             $this->setShowExamviewHtml((bool) $data->show_examview_html);
             $this->setShowExamviewPdf((bool) $data->show_examview_pdf);
             $this->setEnableArchiving((bool) $data->enable_archiving);
             $this->setShowExamIdInTestPassEnabled((bool) $data->examid_in_test_pass);
-            $this->setShowExamIdInTestResultsEnabled((bool) $data->examid_in_test_res);
             $this->setSignSubmission((bool) $data->sign_submission);
             $this->setQuestionSetType($data->question_set_type);
             $this->setCharSelectorAvailability((int) $data->char_selector_availability);
             $this->setCharSelectorDefinition($data->char_selector_definition);
             $this->setSkillServiceEnabled((bool) $data->skill_service);
-            $this->setResultFilterTaxIds(strlen($data->result_tax_filters) ? unserialize($data->result_tax_filters) : array());
             $this->setShowGradingStatusEnabled((bool) $data->show_grading_status);
             $this->setShowGradingMarkEnabled((bool) $data->show_grading_mark);
             $this->setFollowupQuestionAnswerFixationEnabled((bool) $data->follow_qst_answer_fixation);
@@ -1781,10 +1689,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      *
      * @param int|string $score_reporting The score reporting
      * @see $score_reporting
+     * @deprecated
      */
     public function setScoreReporting($score_reporting = 0): void
     {
-        $this->score_reporting = $score_reporting;
+        $this->score_reporting = (int) $score_reporting;
     }
 
     /**
@@ -1959,7 +1868,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function getCountSystem(): int
     {
-        return ($this->count_system) ? $this->count_system : 0;
+        return $this->getScoreSettings()->getScoringSettings()->getCountSystem();
     }
 
     /**
@@ -1992,9 +1901,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     * @access public
     * @see $score_cutting
     */
-    public function getScoreCutting()
+    public function getScoreCutting(): int
     {
-        return ($this->score_cutting) ? $this->score_cutting : 0;
+        return $this->getScoreSettings()->getScoringSettings()->getScoreCutting();
     }
 
     /**
@@ -2006,7 +1915,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function getPassScoring(): int
     {
-        return ($this->pass_scoring) ? $this->pass_scoring : 0;
+        return $this->getScoreSettings()->getScoringSettings()->getPassScoring();
     }
 
     /**
@@ -2064,7 +1973,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function getReportingDate(): ?string
     {
-        return (strlen($this->reporting_date)) ? $this->reporting_date : null;
+        $date = $this->getScoreSettings()->getResultSummarySettings()->getReportingDate();
+        if ($date) {
+            $date = $date->format('YmdHis'); //legacy-reasons ;(
+        }
+        return $date;
     }
 
     /**
@@ -2584,18 +2497,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     }
 
     /**
-    * Sets the count system for the calculation of points
-    *
-    * @param integer $a_count_system The count system for the calculation of points.
-    * @access public
-    * @see $count_system
-    */
-    public function setCountSystem($a_count_system = COUNT_PARTIAL_SOLUTIONS)
-    {
-        $this->count_system = $a_count_system;
-    }
-
-    /**
      * @return boolean
      */
     public function isPasswordEnabled(): ?bool
@@ -2626,37 +2527,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function setPassword($a_password = null): void
     {
         $this->password = $a_password;
-    }
-
-    /**
-    * Sets the type of score cutting
-    *
-    * @param integer $a_score_cutting The type of score cutting. 0 for cut questions, 1 for cut tests
-    * @access public
-    * @see $score_cutting
-    */
-    public function setScoreCutting($a_score_cutting = SCORE_CUT_QUESTION): void
-    {
-        $this->score_cutting = $a_score_cutting;
-    }
-
-    /**
-    * Sets the pass scoring
-    *
-    * @param integer $a_pass_scoring The pass scoring type
-    * @access public
-    * @see $pass_scoring
-    */
-    public function setPassScoring($a_pass_scoring = SCORE_LAST_PASS)
-    {
-        switch ($a_pass_scoring) {
-            case SCORE_BEST_PASS:
-                $this->pass_scoring = SCORE_BEST_PASS;
-                break;
-            default:
-                $this->pass_scoring = SCORE_LAST_PASS;
-                break;
-        }
     }
 
     /**
@@ -3988,7 +3858,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $result = $ilDB->queryF(
-            "SELECT tst_active.active_id, usr_data.firstname, usr_data.lastname, usr_data.title FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
+            "SELECT tst_active.user_fi, tst_active.active_id, usr_data.firstname, usr_data.lastname, usr_data.title FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
             array('integer'),
             array($this->getTestId())
         );
@@ -4025,7 +3895,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $result = $ilDB->queryF(
-            "SELECT tst_active.active_id, usr_data.login, usr_data.firstname, usr_data.lastname, usr_data.title FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
+            "SELECT tst_active.user_fi, tst_active.active_id, usr_data.login, usr_data.firstname, usr_data.lastname, usr_data.title FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
             array('integer'),
             array($this->getTestId())
         );
@@ -5048,6 +4918,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->setPasswordEnabled(false);
         $this->setLimitUsersEnabled(false);
 
+        $this->saveToDb();
+        $score_settings = $this->getScoreSettings();
+        $scoring_settings = $score_settings->getScoringSettings();
+        $gamification_settings = $score_settings->getGamificationSettings();
+        $result_summary_settings = $score_settings->getResultSummarySettings();
+        $result_details_settings = $score_settings->getResultDetailsSettings();
         foreach ($assessment->qtimetadata as $metadata) {
             switch ($metadata["label"]) {
                 case "test_type":
@@ -5079,7 +4955,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     $this->setShowSolutionDetails((int) $metadata["entry"]);
                     break;
                 case "print_bs_with_res":
-                    $this->setPrintBestSolutionWithResult((int) $metadata["entry"]);
+                    $result_details_settings = $result_details_settings->withPrintBestSolutionWithResult((bool)$metadata["entry"]);
                     break;
                 case "author":
                     $this->setAuthor($metadata["entry"]);
@@ -5110,43 +4986,43 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     break;
 
                 case "highscore_enabled":
-                    $this->setHighscoreEnabled($metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreEnabled((bool)$metadata["entry"]);
                     break;
 
                 case "highscore_anon":
-                    $this->setHighscoreAnon($metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreAnon((bool)$metadata["entry"]);
                     break;
 
                 case "highscore_achieved_ts":
-                    $this->setHighscoreAchievedTS($metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreAchievedTS((bool)$metadata["entry"]);
                     break;
 
                 case "highscore_score":
-                    $this->setHighscoreScore($metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreScore((bool)$metadata["entry"]);
                     break;
 
                 case "highscore_percentage":
-                    $this->setHighscorePercentage($metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscorePercentage((bool)$metadata["entry"]);
                     break;
 
                 case "highscore_hints":
-                    $this->setHighscoreHints($metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreHints((bool)$metadata["entry"]);
                     break;
 
                 case "highscore_wtime":
-                    $this->setHighscoreWTime($metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreWTime((bool)$metadata["entry"]);
                     break;
 
                 case "highscore_own_table":
-                    $this->setHighscoreOwnTable($metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreOwnTable((bool)$metadata["entry"]);
                     break;
 
                 case "highscore_top_table":
-                    $this->setHighscoreTopTable($metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreTopTable((bool)$metadata["entry"]);
                     break;
 
                 case "highscore_top_num":
-                    $this->setHighscoreTopNum($metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreTopNum((int)$metadata["entry"]);
                     break;
 
                 case "hide_previous_results":
@@ -5210,13 +5086,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     $this->setFixedParticipants($metadata["entry"]);
                     break;
                 case "score_reporting":
-                    $this->setScoreReporting($metadata["entry"]);
+                    $this->setScoreReporting((int) $metadata["entry"]);
                     break;
                 case "shuffle_questions":
                     $this->setShuffleQuestions($metadata["entry"]);
                     break;
                 case "count_system":
-                    $this->setCountSystem($metadata["entry"]);
+                    $scoring_settings = $scoring_settings->withCountSystem((int)$metadata["entry"]);
                     break;
                 case "mailnotification":
                     $this->setMailNotification($metadata["entry"]);
@@ -5225,10 +5101,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     $this->setMailNotificationType($metadata["entry"]);
                     break;
                 case "exportsettings":
-                    $this->setExportSettings($metadata['entry']);
+                    $result_details_settings = $result_details_settings->withExportSettings((int)$metadata["entry"]);
                     break;
                 case "score_cutting":
-                    $this->setScoreCutting($metadata["entry"]);
+                    $scoring_settings = $scoring_settings->withScoreCutting((int)$metadata["entry"]);
                     break;
                 case "password":
                     $this->setPassword($metadata["entry"]);
@@ -5242,10 +5118,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     $this->setAllowedUsersTimeGap($metadata["entry"]);
                     break;
                 case "pass_scoring":
-                    $this->setPassScoring($metadata["entry"]);
+                    $scoring_settings = $scoring_settings->withPassScoring((int)$metadata["entry"]);
                     break;
                 case 'pass_deletion_allowed':
-                    $this->setPassDeletionAllowed((int) $metadata['entry']);
+                    $result_summary_settings = $result_summary_settings->withPassDeletionAllowed((bool)$metadata["entry"]);
                     break;
                 case "show_summary":
                     $this->setListOfQuestionsSettings($metadata["entry"]);
@@ -5299,7 +5175,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     break;
                 case 'show_exam_id':
                 case 'examid_in_test_res':
-                    $this->setShowExamIdInTestResultsEnabled($metadata['entry']);
+                    $result_details_settings = $result_details_settings->withShowExamIdInTestResults((bool)$metadata["entry"]);
                     break;
                 case 'enable_archiving':
                     $this->setEnableArchiving($metadata['entry']);
@@ -5317,13 +5193,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     $this->setSkillServiceEnabled((bool) $metadata['entry']);
                     break;
                 case 'result_tax_filters':
-                    $this->setResultFilterTaxIds(strlen($metadata['entry']) ? unserialize($metadata['entry']) : array());
+                    $tax_ids = strlen($metadata['entry']) ? unserialize($metadata['entry']) : [];
+                    $result_details_settings = $result_details_settings->withTaxonomyFilterIds($tax_ids);
                     break;
                 case 'show_grading_status':
-                    $this->setShowGradingStatusEnabled((bool) $metadata['entry']);
+                    $result_summary_settings = $result_summary_settings->withShowGradingStatusEnabled((bool)$metadata["entry"]);
                     break;
                 case 'show_grading_mark':
-                    $this->setShowGradingMarkEnabled((bool) $metadata['entry']);
+                    $result_summary_settings = $result_summary_settings->withShowGradingMarkEnabled((bool)$metadata["entry"]);
                     break;
                 case 'activation_limited':
                     $this->setActivationLimited($metadata['entry']);
@@ -5382,6 +5259,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 }
             }
             $this->saveToDb();
+
+            $score_settings = $score_settings
+                ->withGamificationSettings($gamification_settings)
+                ->withScoringSettings($scoring_settings)
+                ->withResultDetailsSettings($result_details_settings)
+                ->withResultSummarySettings($result_summary_settings);
+            $this->getScoreSettingsRepository()->store($score_settings);
         }
     }
 
@@ -6412,7 +6296,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $newObj->setLimitUsersEnabled($this->isLimitUsersEnabled());
         $newObj->setAllowedUsers($this->getAllowedUsers());
         $newObj->setAllowedUsersTimeGap($this->getAllowedUsersTimeGap());
-        $newObj->setCountSystem($this->getCountSystem());
         $newObj->setECTSFX($this->getECTSFX());
         $newObj->setECTSGrades($this->getECTSGrades());
         $newObj->setECTSOutput($this->getECTSOutput());
@@ -6434,16 +6317,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $newObj->setMailNotificationType($this->getMailNotificationType());
         $newObj->setNrOfTries($this->getNrOfTries());
         $newObj->setBlockPassesAfterPassedEnabled($this->isBlockPassesAfterPassedEnabled());
-        $newObj->setPassScoring($this->getPassScoring());
         $newObj->setPasswordEnabled($this->isPasswordEnabled());
         $newObj->setPassword($this->getPassword());
         $newObj->setProcessingTime($this->getProcessingTime());
         $newObj->setQuestionSetType($this->getQuestionSetType());
         $newObj->setReportingDate($this->getReportingDate());
         $newObj->setResetProcessingTime($this->getResetProcessingTime());
-        $newObj->setResultsPresentation($this->getResultsPresentation());
-        $newObj->setScoreCutting($this->getScoreCutting());
-        $newObj->setScoreReporting($this->getScoreReporting());
         $newObj->setShowGradingStatusEnabled($this->isShowGradingStatusEnabled());
         $newObj->setShowGradingMarkEnabled($this->isShowGradingMarkEnabled());
         $newObj->setSequenceSettings($this->getSequenceSettings());
@@ -6459,9 +6338,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $newObj->mark_schema = clone $this->mark_schema;
         $newObj->setEnabledViewMode($this->getEnabledViewMode());
         $newObj->setTemplate($this->getTemplate());
-        $newObj->setPrintBestSolutionWithResult($this->isBestSolutionPrintedWithResult());
         $newObj->setShowExamIdInTestPassEnabled($this->isShowExamIdInTestPassEnabled());
-        $newObj->setShowExamIdInTestResultsEnabled($this->isShowExamIdInTestResultsEnabled());
         $newObj->setEnableExamView($this->getEnableExamview());
         $newObj->setShowExamViewHtml($this->getShowExamviewHtml());
         $newObj->setShowExamViewPdf($this->getShowExamviewPdf());
@@ -6470,8 +6347,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $newObj->setCharSelectorAvailability($this->getCharSelectorAvailability());
         $newObj->setCharSelectorDefinition($this->getCharSelectorDefinition());
         $newObj->setSkillServiceEnabled($this->isSkillServiceEnabled());
-        $newObj->setResultFilterTaxIds($this->getResultFilterTaxIds());
-        $newObj->setPassDeletionAllowed($this->isPassDeletionAllowed());
         $newObj->setFollowupQuestionAnswerFixationEnabled($this->isFollowupQuestionAnswerFixationEnabled());
         $newObj->setInstantFeedbackAnswerFixationEnabled($this->isInstantFeedbackAnswerFixationEnabled());
         $newObj->setForceInstantFeedbackEnabled($this->isForceInstantFeedbackEnabled());
@@ -6511,6 +6386,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         $newObj->saveToDb();
         $newObj->updateMetaData();// #14467
+
+        $score_settings = $this->getScoreSettingsRepository()->getForObjFi($this->getId());
+        $this->getScoreSettingsRepository()->store(
+            $score_settings->withTestId($newObj->getTestId())
+        );
 
         $obj_settings = new ilLPObjSettings($this->getId());
         $obj_settings->cloneSettings($newObj->getId());
@@ -8019,9 +7899,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     /**
     * Returns TRUE if the list of questions should be presented with the question descriptions
-    *
-    * @return boolean TRUE if the list of questions is shown with the question descriptions, FALSE otherwise
-    * @access public
     */
     public function getListOfQuestionsDescription(): bool
     {
@@ -8063,105 +7940,65 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     /**
     * Returns if the pass details should be shown when a test is not finished
-    *
-    * @return boolean TRUE if the pass details should be shown, FALSE otherwise
-    * @access public
     */
     public function getShowPassDetails(): bool
     {
-        if (($this->results_presentation & 1) > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->getScoreSettings()->getResultDetailsSettings()->getShowPassDetails();
     }
 
     /**
     * Returns if the solution details should be presented to the user or not
-    *
-    * @return boolean TRUE if the solution details should be presented, FALSE otherwise
-    * @access public
     */
     public function getShowSolutionDetails(): bool
     {
-        if (($this->results_presentation & 2) > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->getScoreSettings()->getResultDetailsSettings()->getShowSolutionDetails();
     }
 
     /**
     * Returns if the solution printview should be presented to the user or not
-    *
-    * @return boolean TRUE if the solution printview should be presented, FALSE otherwise
-    * @access public
     */
     public function getShowSolutionPrintview(): bool
     {
-        if (($this->results_presentation & 4) > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->getScoreSettings()->getResultDetailsSettings()->getShowSolutionPrintview();
+    }
+    /**
+     * @deprecated
+     */
+    public function canShowSolutionPrintview($user_id = null): bool
+    {
+        return $this->getShowSolutionPrintview();
     }
 
     /**
     * Returns if the feedback should be presented to the solution or not
-    *
-    * @return boolean TRUE if the feedback should be presented in the solution, FALSE otherwise
-    * @access public
     */
     public function getShowSolutionFeedback(): bool
     {
-        if (($this->results_presentation & 8) > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->getScoreSettings()->getResultDetailsSettings()->getShowSolutionFeedback();
     }
 
     /**
     * Returns if the full solution (including ILIAS content) should be presented to the solution or not
-    *
-    * @return boolean TRUE if the full solution should be presented in the solution output, FALSE otherwise
-    * @access public
     */
     public function getShowSolutionAnswersOnly(): bool
     {
-        if (($this->results_presentation & 16) > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->getScoreSettings()->getResultDetailsSettings()->getShowSolutionAnswersOnly();
     }
 
     /**
     * Returns if the signature field should be shown in the test results
-    *
-    * @return boolean TRUE if the signature field should be shown, FALSE otherwise
-    * @access public
     */
     public function getShowSolutionSignature(): bool
     {
-        if (($this->results_presentation & 32) > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->getScoreSettings()->getResultDetailsSettings()->getShowSolutionSignature();
     }
 
     /**
     * @return boolean TRUE if the suggested solutions should be shown, FALSE otherwise
-    * @access public
     */
     public function getShowSolutionSuggested(): bool
     {
-        if (($this->results_presentation & 64) > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->getScoreSettings()->getResultDetailsSettings()->getShowSolutionSuggested();
     }
 
     /**
@@ -8170,11 +8007,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function getShowSolutionListComparison(): bool
     {
-        if (($this->results_presentation & 128) > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->getScoreSettings()->getResultDetailsSettings()->getShowSolutionListComparison();
     }
 
     /**
@@ -8182,36 +8015,34 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     *
     * @param integer $a_results_presentation The combined results presentation value
     * @access public
+    * @deprecated
     */
     public function setResultsPresentation($a_results_presentation = 3)
     {
         $this->results_presentation = $a_results_presentation;
     }
 
-    /**
-    * Sets if the pass details should be shown when a test is not finished
-    *
-    * Sets if the pass details should be shown when a test is not finished
-    *
-    * @param boolean $a_details TRUE if the pass details should be shown, FALSE otherwise
-    * @access public
-    */
-    public function setShowPassDetails($a_details = 1)
+    public function getShowSolutionListOwnAnswers($user_id = null): bool
     {
-        if ($a_details) {
-            $this->results_presentation = $this->results_presentation | 1;
-        } else {
-            if ($this->getShowPassDetails()) {
-                $this->results_presentation = $this->results_presentation ^ 1;
-            }
-        }
+        return $this->getScoreSettings()->getResultDetailsSettings()->getShowSolutionListOwnAnswers();
     }
+
+    /**
+     * -------------------------------------------------------------------------
+     * Those setters are @deprecated!
+     * They modify $results_presentation based on some parameter and fall back to
+     * repo-settings when called without.
+     * Calls are a.o. in class.ilObjTestGUI.php and here during import;
+     * I left it in place to not to break too many things now, but they should go.
+     * Soon.
+     **/
 
     /**
     * Sets if the the solution details should be presented to the user or not
     *
     * @param integer $a_details 1 if the solution details should be presented, 0 otherwise
     * @access public
+    * @deprecated
     */
     public function setShowSolutionDetails($a_details = 1)
     {
@@ -8225,21 +8056,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     }
 
     /**
-    * Calculates if a user may see the solution printview of his/her test results
-    *
-    * @return boolean TRUE if the user may see the printview, FALSE otherwise
-    * @access public
-    */
-    public function canShowSolutionPrintview($user_id = null): bool
-    {
-        return $this->getShowSolutionPrintview();
-    }
-
-    /**
     * Sets if the the solution printview should be presented to the user or not
     *
     * @param boolean $a_details TRUE if the solution printview should be presented, FALSE otherwise
     * @access public
+    * @deprecated
     */
     public function setShowSolutionPrintview($a_printview = 1)
     {
@@ -8253,88 +8074,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     }
 
     /**
-    * Sets if the the feedback should be presented to the user in the solution or not
-    *
-    * @param boolean $a_feedback TRUE if the feedback should be presented in the solution, FALSE otherwise
-    * @access public
-    */
-    public function setShowSolutionFeedback($a_feedback = true)
-    {
-        if ($a_feedback) {
-            $this->results_presentation = $this->results_presentation | 8;
-        } else {
-            if ($this->getShowSolutionFeedback()) {
-                $this->results_presentation = $this->results_presentation ^ 8;
-            }
-        }
-    }
-
-    /**
-    * Set to true, if the full solution (including the ILIAS content pages) should be shown in the solution output
-    *
-    * @param boolean $a_full TRUE if the full solution should be shown in the solution output, FALSE otherwise
-    * @access public
-    */
-    public function setShowSolutionAnswersOnly($a_full = true)
-    {
-        if ($a_full) {
-            $this->results_presentation = $this->results_presentation | 16;
-        } else {
-            if ($this->getShowSolutionAnswersOnly()) {
-                $this->results_presentation = $this->results_presentation ^ 16;
-            }
-        }
-    }
-
-    /**
-    * Set to TRUE, if the signature field should be shown in the solution
-    *
-    * @param boolean $a_signature TRUE if the signature field should be shown, FALSE otherwise
-    * @access public
-    */
-    public function setShowSolutionSignature($a_signature = false)
-    {
-        if ($a_signature) {
-            $this->results_presentation = $this->results_presentation | 32;
-        } else {
-            if ($this->getShowSolutionSignature()) {
-                $this->results_presentation = $this->results_presentation ^ 32;
-            }
-        }
-    }
-
-    /**
-    * Set to TRUE, if the suggested solution should be shown in the solution
-    *
-    * @param boolean $a_solution TRUE if the suggested solution should be shown, FALSE otherwise
-    * @access public
-    */
-    public function setShowSolutionSuggested($a_solution = false)
-    {
-        if ($a_solution) {
-            $this->results_presentation = $this->results_presentation | 64;
-        } else {
-            if ($this->getShowSolutionSuggested()) {
-                $this->results_presentation = $this->results_presentation ^ 64;
-            }
-        }
-    }
-
-    /**
-     * Set to TRUE, if the list of answers should be shown prior to finish the test
-     *
-     * @param boolean $a_comparison TRUE if the list of answers should be shown prior to finish the test, FALSE otherwise
+     * -------------------------------------------------------------------------
      */
-    public function setShowSolutionListComparison($a_comparison = false)
-    {
-        if ($a_comparison) {
-            $this->results_presentation = $this->results_presentation | 128;
-        } else {
-            if ($this->getShowSolutionListComparison()) {
-                $this->results_presentation = $this->results_presentation ^ 128;
-            }
-        }
-    }
+
 
     /**
      * @deprecated: use ilTestParticipantData instead
@@ -9012,7 +8754,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->mark_schema = unserialize($test_defaults["marks"]);
 
         $this->setTitleOutput($testsettings["TitleOutput"]);
-        $this->setPassScoring($testsettings["PassScoring"]);
         $this->setIntroductionEnabled($testsettings["IntroEnabled"]);
         $this->setIntroduction($testsettings["Introduction"] ?? '');
         $this->setFinalStatement($testsettings["FinalStatement"] ?? '');
@@ -9022,9 +8763,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->setShowFinalStatement($testsettings["ShowFinalStatement"]);
         $this->setSequenceSettings($testsettings["SequenceSettings"]);
         $this->setScoreReporting($testsettings["ScoreReporting"]);
-        $this->setScoreCutting($testsettings['ScoreCutting']);
         $this->setSpecificAnswerFeedback($testsettings['SpecificAnswerFeedback']);
-        $this->setPrintBestSolutionWithResult((bool) $testsettings['PrintBsWithRes']);
         $this->setInstantFeedbackSolution($testsettings["InstantFeedbackSolution"]);
         $this->setAnswerFeedback($testsettings["AnswerFeedback"]);
         $this->setAnswerFeedbackPoints($testsettings["AnswerFeedbackPoints"]);
@@ -9059,34 +8798,20 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         } elseif (isset($testsettings["questionSetType"])) {
             $this->setQuestionSetType($testsettings["questionSetType"]);
         }
-        $this->setCountSystem($testsettings["CountSystem"]);
+
         $this->setMailNotification($testsettings["mailnotification"]);
         $this->setMailNotificationType($testsettings["mailnottype"]);
         $this->setExportSettings($testsettings['exportsettings']);
         $this->setListOfQuestionsSettings($testsettings["ListOfQuestionsSettings"]);
         $this->setObligationsEnabled($testsettings["obligations_enabled"]);
         $this->setOfferingQuestionHintsEnabled($testsettings["offer_question_hints"]);
-        $this->setHighscoreEnabled($testsettings['highscore_enabled']);
-        $this->setHighscoreAnon($testsettings['highscore_anon']);
-        $this->setHighscoreAchievedTS($testsettings['highscore_achieved_ts']);
-        $this->setHighscoreScore($testsettings['highscore_score']);
-        $this->setHighscorePercentage($testsettings['highscore_percentage']);
-        $this->setHighscoreHints($testsettings['highscore_hints']);
-        $this->setHighscoreWTime($testsettings['highscore_wtime']);
-        $this->setHighscoreOwnTable($testsettings['highscore_own_table']);
-        $this->setHighscoreTopTable($testsettings['highscore_top_table']);
-        $this->setHighscoreTopNum($testsettings['highscore_top_num']);
-        $this->setPassDeletionAllowed($testsettings['pass_deletion_allowed']);
+
         if (isset($testsettings['examid_in_kiosk'])) {
             $this->setShowExamIdInTestPassEnabled($testsettings['examid_in_kiosk']);
         } else {
             $this->setShowExamIdInTestPassEnabled($testsettings['examid_in_test_pass']);
         }
-        if (isset($testsettings['show_exam_id'])) {
-            $this->setShowExamIdInTestResultsEnabled($testsettings['show_exam_id']);
-        } else {
-            $this->setShowExamIdInTestResultsEnabled($testsettings['examid_in_test_res']);
-        }
+
         $this->setEnableExamview($testsettings['enable_examview']);
         $this->setShowExamviewHtml($testsettings['show_examview_html']);
         $this->setShowExamviewPdf($testsettings['show_examview_pdf']);
@@ -9095,19 +8820,15 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->setCharSelectorAvailability($testsettings['char_selector_availability']);
         $this->setCharSelectorDefinition($testsettings['char_selector_definition']);
         $this->setSkillServiceEnabled((bool) $testsettings['skill_service']);
-        $this->setResultFilterTaxIds((array) $testsettings['result_tax_filters']);
         $this->setShowGradingStatusEnabled((bool) $testsettings['show_grading_status']);
         $this->setShowGradingMarkEnabled((bool) $testsettings['show_grading_mark']);
-
         $this->setFollowupQuestionAnswerFixationEnabled($testsettings['follow_qst_answer_fixation']);
         $this->setInstantFeedbackAnswerFixationEnabled($testsettings['inst_fb_answer_fixation']);
         $this->setForceInstantFeedbackEnabled($testsettings['force_inst_fb']);
         $this->setRedirectionMode($testsettings['redirection_mode']);
         $this->setRedirectionUrl($testsettings['redirection_url']);
-
         $this->setAutosave($testsettings['autosave']);
         $this->setAutosaveIval($testsettings['autosave_ival']);
-        $this->setShowExamIdInTestResultsEnabled((int) $testsettings['examid_in_test_res']);
         $this->setPasswordEnabled($testsettings['password_enabled']);
         $this->setPassword($testsettings['password']);
         $this->setFixedParticipants($testsettings['fixed_participants']);
@@ -9121,6 +8842,46 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->setActivationVisibility($testsettings['activation_visibility']);
         $this->setPassWaiting($testsettings['pass_waiting']);
 
+        $settings = $this->getScoreSettings();
+        $exam_id_in_results = false;
+        if (array_key_exists('show_exam_id', $testsettings)) {
+            $exam_id_in_results = (bool) $testsettings['show_exam_id'];
+        } elseif (array_key_exists('examid_in_test_res', $testsettings)) {
+            $exam_id_in_results = (bool) $testsettings['examid_in_test_res'];
+        }
+
+        $settings = $settings
+            ->withScoringSettings(
+                $settings->getScoringSettings()
+                ->withPassScoring((bool)$testsettings["PassScoring"])
+                ->withScoreCutting((bool)$testsettings['ScoreCutting'])
+                ->withCountSystem((bool)$testsettings["CountSystem"])
+            )
+            ->withResultSummarySettings(
+                $settings->getResultSummarySettings()
+                ->withPassDeletionAllowed($testsettings['pass_deletion_allowed'])
+            )
+            ->withResultDetailsSettings(
+                $settings->getResultDetailsSettings()
+                ->withPrintBestSolutionWithResult((bool) $testsettings['PrintBsWithRes'])
+                ->withShowExamIdInTestResults($exam_id_in_results)
+                ->withTaxonomyFilterIds((array) $testsettings['result_tax_filters'])
+            )
+            ->withGamificationSettings(
+                $settings->getGamificationSettings()
+                ->withHighscoreEnabled($testsettings['highscore_enabled'])
+                ->withHighscoreAnon($testsettings['highscore_anon'])
+                ->withHighscoreAchievedTS($testsettings['highscore_achieved_ts'])
+                ->withHighscoreScore($testsettings['highscore_score'])
+                ->withHighscorePercentage($testsettings['highscore_percentage'])
+                ->withHighscoreHints($testsettings['highscore_hints'])
+                ->withHighscoreWTime($testsettings['highscore_wtime'])
+                ->withHighscoreOwnTable($testsettings['highscore_own_table'])
+                ->withHighscoreTopTable($testsettings['highscore_top_table'])
+                ->withHighscoreTopNum($testsettings['highscore_top_num'])
+            )
+        ;
+        $this->getScoreSettingsRepository()->store($settings);
         $this->saveToDb();
 
         return true;
@@ -9811,11 +9572,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function getExportSettings(): int
     {
-        if ($this->exportsettings) {
-            return $this->exportsettings;
-        } else {
-            return 0;
-        }
+        return $this->getScoreSettings()->getResultDetailsSettings()->getExportSettings();
     }
 
     public function setExportSettings($a_settings)
@@ -9829,11 +9586,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function getExportSettingsSingleChoiceShort(): bool
     {
-        if (($this->exportsettings & 1) > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->getScoreSettings()->getResultDetailsSettings()->getExportSettingsSingleChoiceShort();
     }
 
     public function setExportSettingsSingleChoiceShort($a_settings)
@@ -9952,26 +9705,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $this->setSpecificAnswerFeedback(0);
             $this->setAnswerFeedbackPoints(0);
             $this->setInstantFeedbackSolution(0);
-        }
-    }
-
-    public function setResultsPresentationOptionsByArray($options)
-    {
-        $setter = array(
-                'pass_details' => 'setShowPassDetails',
-                'solution_details' => 'setShowSolutionDetails',
-                'solution_printview' => 'setShowSolutionPrintview',
-                'solution_feedback' => 'setShowSolutionFeedback',
-                'solution_answers_only' => 'setShowSolutionAnswersOnly',
-                'solution_signature' => 'setShowSolutionSignature',
-                'solution_suggested' => 'setShowSolutionSuggested',
-                );
-        foreach ($setter as $key => $method) {
-            if (in_array($key, $options)) {
-                $this->$method(1);
-            } else {
-                $this->$method(0);
-            }
         }
     }
 
@@ -10143,14 +9876,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->oldOnlineStatus = $oldOnlineStatus;
     }
 
-    public function setPrintBestSolutionWithResult($status)
-    {
-        $this->print_best_solution_with_result = (bool) $status;
-    }
-
     public function isBestSolutionPrintedWithResult(): bool
     {
-        return $this->print_best_solution_with_result;
+        return $this->getScoreSettings()->getResultDetailsSettings()->getPrintBestSolutionWithResult();
     }
 
     /**
@@ -10194,32 +9922,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     }
 
     /* GET/SET for highscore feature */
-
-    /**
-     * Sets if the highscore feature should be enabled.
-     *
-     * @param bool $a_enabled
-     */
-    public function setHighscoreEnabled($a_enabled)
+    public function getHighscoreEnabled(): bool
     {
-        $this->_highscore_enabled = (bool) $a_enabled;
-    }
-
-    public function getHighscoreEnabled(): ?bool
-    {
-        return $this->_highscore_enabled;
-    }
-
-    /**
-     * Sets if the highscores should be anonymized.
-     *
-     * Note: This setting will be overriden, if the test is globally anonymized.
-     *
-     * @param bool $a_anon
-     */
-    public function setHighscoreAnon($a_anon)
-    {
-        $this->_highscore_anon = (bool) $a_anon;
+        return $this->getScoreSettings()->getGamificationSettings()->getHighscoreEnabled();
     }
 
     /**
@@ -10231,9 +9936,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      *
      * @return bool True, if setting is to anonymize highscores.
      */
-    public function getHighscoreAnon(): ?bool
+    public function getHighscoreAnon(): bool
     {
-        return $this->_highscore_anon;
+        return $this->getScoreSettings()->getGamificationSettings()->getHighscoreAnon();
     }
 
     /**
@@ -10244,196 +9949,79 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      *
      * @return boolean True, if output is anonymized.
      */
-    public function isHighscoreAnon(): ?bool
+    public function isHighscoreAnon(): bool
     {
-        if ($this->getAnonymity() == 1) {
-            return true;
-        } else {
-            return $this->getHighscoreAnon();
-        }
-    }
-
-    /**
-     * Sets if the date and time of the scores achievement should be displayed.
-     */
-    public function setHighscoreAchievedTS($a_achieved_ts): void
-    {
-        $this->_highscore_achieved_ts = (bool) $a_achieved_ts;
+        return $this->getAnonymity() == 1 || $this->getHighscoreAnon();
     }
 
     /**
      * Returns if date and time of the scores achievement should be displayed.
      */
-    public function getHighscoreAchievedTS(): ?bool
+    public function getHighscoreAchievedTS(): bool
     {
-        return $this->_highscore_achieved_ts;
-    }
-
-    /**
-     * Sets if the actual score should be displayed.
-     *
-     * @param bool $a_score
-     */
-    public function setHighscoreScore($a_score): void
-    {
-        $this->_highscore_score = (bool) $a_score;
+        return $this->getScoreSettings()->getGamificationSettings()->getHighscoreAchievedTS();
     }
 
     /**
      * Gets if the score column should be shown.
      */
-    public function getHighscoreScore(): ?bool
+    public function getHighscoreScore(): bool
     {
-        return $this->_highscore_score;
-    }
-
-    /**
-     * Sets if the percentages of the scores pass should be shown.
-     */
-    public function setHighscorePercentage($a_percentage): void
-    {
-        $this->_highscore_percentage = (bool) $a_percentage;
+        return $this->getScoreSettings()->getGamificationSettings()->getHighscoreScore();
     }
 
     /**
      * Gets if the percentage column should be shown.
      */
-    public function getHighscorePercentage(): ?bool
+    public function getHighscorePercentage(): bool
     {
-        return $this->_highscore_percentage;
-    }
-
-    /**
-     * Sets if the number of requested hints should be shown.
-     */
-    public function setHighscoreHints($a_hints): void
-    {
-        $this->_highscore_hints = (bool) $a_hints;
+        return $this->getScoreSettings()->getGamificationSettings()->getHighscorePercentage();
     }
 
     /**
      * Gets, if the column with the number of requested hints should be shown.
      */
-    public function getHighscoreHints(): ?bool
+    public function getHighscoreHints(): bool
     {
-        return $this->_highscore_hints;
-    }
-
-    /**
-     * Sets if the workingtime of the scores should be shown.
-     */
-    public function setHighscoreWTime($a_wtime): void
-    {
-        $this->_highscore_wtime = (bool) $a_wtime;
+        return $this->getScoreSettings()->getGamificationSettings()->getHighscoreHints();
     }
 
     /**
      * Gets if the column with the workingtime should be shown.
      */
-    public function getHighscoreWTime(): ?bool
+    public function getHighscoreWTime(): bool
     {
-        return $this->_highscore_wtime;
-    }
-
-    /**
-     * Sets if the table with the own ranking should be shown.
-     */
-    public function setHighscoreOwnTable($a_own_table): void
-    {
-        $this->_highscore_own_table = (bool) $a_own_table;
+        return $this->getScoreSettings()->getGamificationSettings()->getHighscoreWTime();
     }
 
     /**
      * Gets if the own rankings table should be shown.
      */
-    public function getHighscoreOwnTable(): ?bool
+    public function getHighscoreOwnTable(): bool
     {
-        return $this->_highscore_own_table;
-    }
-
-    /**
-     * Sets if the top-rankings table should be shown.
-     */
-    public function setHighscoreTopTable($a_top_table): void
-    {
-        $this->_highscore_top_table = (bool) $a_top_table;
+        return $this->getScoreSettings()->getGamificationSettings()->getHighscoreOwnTable();
     }
 
     /**
      * Gets, if the top-rankings table should be shown.
      */
-    public function getHighscoreTopTable(): ?bool
+    public function getHighscoreTopTable(): bool
     {
-        return $this->_highscore_top_table;
-    }
-
-    /**
-     * Sets the number of entries which are to be shown in the top-rankings
-     * table.
-     */
-    public function setHighscoreTopNum($a_top_num): void
-    {
-        $this->_highscore_top_num = (int) $a_top_num;
+        return $this->getScoreSettings()->getGamificationSettings()->getHighscoreTopTable();
     }
 
     /**
      * Gets the number of entries which are to be shown in the top-rankings table.
-     * Default: 10 entries
-     *
-     * @param integer $a_retval Optional return value if nothing is set, defaults to 10.
-     *
      * @return integer Number of entries to be shown in the top-rankings table.
      */
-    public function getHighscoreTopNum($a_retval = 10): int
+    public function getHighscoreTopNum(int $a_retval = 10): int
     {
-        $retval = $a_retval;
-        if ($this->_highscore_top_num != 0) {
-            $retval = $this->_highscore_top_num;
-        }
-
-        return $retval;
+        return $this->getScoreSettings()->getGamificationSettings()->getHighscoreTopNum();
     }
 
     public function getHighscoreMode(): int
     {
-        switch (true) {
-            case $this->getHighscoreOwnTable() && $this->getHighscoreTopTable():
-                return self::HIGHSCORE_SHOW_ALL_TABLES;
-                break;
-
-            case $this->getHighscoreTopTable():
-                return self::HIGHSCORE_SHOW_TOP_TABLE;
-                break;
-
-            case $this->getHighscoreOwnTable():
-            default:
-                return self::HIGHSCORE_SHOW_OWN_TABLE;
-                break;
-        }
-    }
-
-    /**
-     * @param $mode int
-     */
-    public function setHighscoreMode($mode)
-    {
-        switch ($mode) {
-            case self::HIGHSCORE_SHOW_ALL_TABLES:
-                $this->setHighscoreTopTable(1);
-                $this->setHighscoreOwnTable(1);
-                break;
-
-            case self::HIGHSCORE_SHOW_TOP_TABLE:
-                $this->setHighscoreTopTable(1);
-                $this->setHighscoreOwnTable(0);
-                break;
-
-            case self::HIGHSCORE_SHOW_OWN_TABLE:
-            default:
-                $this->setHighscoreTopTable(0);
-                $this->setHighscoreOwnTable(1);
-                break;
-        }
+        return $this->getScoreSettings()->getGamificationSettings()->getHighScoreMode();
     }
     /* End GET/SET for highscore feature*/
 
@@ -10592,18 +10180,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return $this->autosave_ival;
     }
 
-    /**
-     * getter for the test setting passDeletionAllowed
-     * @return bool|null
-     */
-    public function isPassDeletionAllowed(): ?bool
+    public function isPassDeletionAllowed(): bool
     {
-        return $this->passDeletionAllowed;
-    }
-
-    public function setPassDeletionAllowed($passDeletionAllowed): void
-    {
-        $this->passDeletionAllowed = (bool) $passDeletionAllowed;
+        return $this->getScoreSettings()->getResultSummarySettings()->getPassDeletionAllowed();
     }
 
     #region Examview / PDF Examview
@@ -10866,19 +10445,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     }
 
     /**
-     * @param boolean $show_exam_id
-     */
-    public function setShowExamIdInTestResultsEnabled($show_exam_id_in_test_results_enabled)
-    {
-        $this->show_exam_id_in_test_results_enabled = $show_exam_id_in_test_results_enabled;
-    }
-
-    /**
      * @return boolean
      */
     public function isShowExamIdInTestResultsEnabled(): bool
     {
-        return $this->show_exam_id_in_test_results_enabled;
+        return $this->getScoreSettings()->getResultDetailsSettings()->getShowExamIdInTestResults();
     }
 
     /**
@@ -11077,14 +10648,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return $this->skillServiceEnabled;
     }
 
-    public function setResultFilterTaxIds($resultFilterTaxIds)
-    {
-        $this->resultFilterTaxIds = $resultFilterTaxIds;
-    }
-
     public function getResultFilterTaxIds(): array
     {
-        return $this->resultFilterTaxIds;
+        if ($this->getTestId() != -1) {
+            return $this->getScoreSettings()->getResultDetailsSettings()->getTaxonomyFilterIds();
+        }
+        return [];
     }
 
     public function isSkillServiceToBeConsidered(): bool
@@ -11336,5 +10905,22 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     protected function getHtmlQuestionContentPurifier(): ilHtmlPurifierInterface
     {
         return ilHtmlPurifierFactory::getInstanceByType('qpl_usersolution');
+    }
+
+    public function getScoreSettings(): ilObjTestScoreSettings
+    {
+        if (!$this->score_settings) {
+            $this->score_settings = $this->getScoreSettingsRepository()
+                ->getFor($this->getTestId());
+        }
+        return $this->score_settings;
+    }
+
+    public function getScoreSettingsRepository(): ScoreSettingsRepository
+    {
+        if (!$this->score_settings_repo) {
+            $this->score_settings_repo = new ilObjTestScoreSettingsDatabaseRepository($this->db);
+        }
+        return $this->score_settings_repo;
     }
 }

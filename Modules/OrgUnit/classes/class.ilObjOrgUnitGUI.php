@@ -747,12 +747,11 @@ class ilObjOrgUnitGUI extends ilContainerGUI
      */
     public function performPaste(): void
     {
-        if (!in_array($_SESSION["clipboard"]['cmd'], array('cut'))) {
+        if ($this->clipboard->getCmd() != 'cut') {
             $message = __METHOD__ . ": cmd was not 'cut' ; may be a hack attempt!";
             $this->ilias->raiseError($message, $this->ilias->error_obj->WARNING);
-        }
-        if ($_SESSION["clipboard"]['cmd'] == 'cut') {
-            if (isset($_GET['ref_id']) && (int) $_GET['ref_id']) {
+        } else {
+            if ($this->clipboard->hasEntries()) {
                 $this->pasteObject();
             }
         }

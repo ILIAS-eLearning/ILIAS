@@ -1290,7 +1290,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $this->fetchSolutionSubmit($_POST);
     }
 
-    protected function calculateReachedPointsForSolution(ilAssOrderingElementList $solutionOrderingElementList): int
+    protected function calculateReachedPointsForSolution(ilAssOrderingElementList $solutionOrderingElementList): float
     {
         $reachedPoints = $this->getPoints();
 

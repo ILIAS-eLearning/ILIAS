@@ -24,8 +24,7 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseForm;
  */
 class ilOrgUnitPositionFormGUI extends BaseForm
 {
-    //public const F_AUTHORITIES = "authorities";
-    public const F_AUTHORITIES = "empty";
+    public const F_AUTHORITIES = "authorities";
     protected ActiveRecord $object;
     public const F_TITLE = 'title';
     public const F_DESCRIPTION = 'description';
@@ -91,7 +90,13 @@ class ilOrgUnitPositionFormGUI extends BaseForm
         $this->object->setTitle($this->getInput(self::F_TITLE));
         $this->object->setDescription($this->getInput(self::F_DESCRIPTION));
 
-        $authorities = (array) $this->getInput(self::F_AUTHORITIES);
+        $authorities = $this->getInput(self::F_AUTHORITIES);
+
+        if (!is_array($authorities)) {
+            $this->object->setAuthorities([]);
+            $this->object->storeAuthorities();
+            return true;
+        }
 
         $ilOrgUnitAuthorities = [];
         foreach ($authorities as $authority) {
@@ -108,7 +113,6 @@ class ilOrgUnitPositionFormGUI extends BaseForm
             $ilOrgUnitAuthority->setOver($authority["over"]);
             $ilOrgUnitAuthorities[] = $ilOrgUnitAuthority;
         }
-
         $this->object->setAuthorities($ilOrgUnitAuthorities);
         $this->object->storeAuthorities();
         return true;

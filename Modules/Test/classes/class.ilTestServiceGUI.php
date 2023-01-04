@@ -208,7 +208,7 @@ class ilTestServiceGUI
 
         foreach ($passes as $pass) {
             $row = [
-                'scored' => null,
+                'scored' => false,
                 'pass' => $pass,
                 'date' => ilObjTest::lookupLastTestPassAccess($testSession->getActiveId(), $pass)
             ];
@@ -362,8 +362,18 @@ class ilTestServiceGUI
      * @return string HTML code of the list of answers
      * @access public
      */
-    public function getPassListOfAnswers(&$result_array, $active_id, $pass, $show_solutions = false, $only_answered_questions = false, $show_question_only = false, $show_reached_points = false, $anchorNav = false, ilTestQuestionRelatedObjectivesList $objectivesList = null, ilTestResultHeaderLabelBuilder $testResultHeaderLabelBuilder = null): string
-    {
+    public function getPassListOfAnswers(
+        &$result_array,
+        $active_id,
+        $pass,
+        $show_solutions = false,
+        $only_answered_questions = false,
+        $show_question_only = false,
+        $show_reached_points = false,
+        $anchorNav = false,
+        ilTestQuestionRelatedObjectivesList $objectivesList = null,
+        ilTestResultHeaderLabelBuilder $testResultHeaderLabelBuilder = null
+    ): string {
         $maintemplate = new ilTemplate("tpl.il_as_tst_list_of_answers.html", true, true, "Modules/Test");
 
         $counter = 1;
@@ -415,21 +425,22 @@ class ilTestServiceGUI
 
                         $show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? true : false;
 
-                        $showFeedback = $this->isContextResultPresentation() && $this->object->getShowSolutionFeedback();
-                        $show_solutions = $this->isContextResultPresentation() && $show_solutions;
+                        $show_feedback = $this->isContextResultPresentation() && $this->object->getShowSolutionFeedback();
+                        $show_best_solution = $this->isContextResultPresentation() && $show_solutions;
+                        $show_graphical_output = $this->isContextResultPresentation();
 
-                        if ($show_solutions) {
+                        if ($show_best_solution) {
                             $compare_template = new ilTemplate('tpl.il_as_tst_answers_compare.html', true, true, 'Modules/Test');
                             $compare_template->setVariable("HEADER_PARTICIPANT", $this->lng->txt('tst_header_participant'));
                             $compare_template->setVariable("HEADER_SOLUTION", $this->lng->txt('tst_header_solution'));
-                            $result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, false, $show_question_only, $showFeedback);
+                            $result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_graphical_output, false, $show_question_only, $show_feedback);
                             $best_output = $question_gui->getSolutionOutput($active_id, $pass, false, false, $show_question_only, false, true);
 
                             $compare_template->setVariable('PARTICIPANT', $result_output);
                             $compare_template->setVariable('SOLUTION', $best_output);
                             $template->setVariable('SOLUTION_OUTPUT', $compare_template->get());
                         } else {
-                            $result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, false, $show_question_only, $showFeedback);
+                            $result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_graphical_output, false, $show_question_only, $show_feedback);
                             $template->setVariable('SOLUTION_OUTPUT', $result_output);
                         }
 
@@ -497,11 +508,7 @@ class ilTestServiceGUI
      */
     public function getPassListOfAnswersWithScoring(&$result_array, $active_id, $pass, $show_solutions = false): string
     {
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-
         $maintemplate = new ilTemplate("tpl.il_as_tst_list_of_answers.html", true, true, "Modules/Test");
-
-        include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
         $scoring = ilObjAssessmentFolder::_getManualScoring();
 
         $counter = 1;
@@ -575,8 +582,17 @@ class ilTestServiceGUI
         return $maintemplate->get();
     }
 
-    protected function getPassDetailsOverviewTableGUI($result_array, $active_id, $pass, $targetGUI, $targetCMD, $questionDetailsCMD, $questionAnchorNav, ilTestQuestionRelatedObjectivesList $objectivesList = null, $multipleObjectivesInvolved = true): ilTestPassDetailsOverviewTableGUI
-    {
+    protected function getPassDetailsOverviewTableGUI(
+        $result_array,
+        $active_id,
+        $pass,
+        $targetGUI,
+        $targetCMD,
+        $questionDetailsCMD,
+        $questionAnchorNav,
+        ilTestQuestionRelatedObjectivesList $objectivesList = null,
+        $multipleObjectivesInvolved = true
+    ): ilTestPassDetailsOverviewTableGUI {
         $this->ctrl->setParameter($targetGUI, 'active_id', $active_id);
         $this->ctrl->setParameter($targetGUI, 'pass', $pass);
 
@@ -867,7 +883,16 @@ class ilTestServiceGUI
             }
 
             if ($show_pass_details) {
-                $overviewTableGUI = $this->getPassDetailsOverviewTableGUI($result_array, $active_id, $pass, $targetGUI, "getResultsOfUserOutput", '', $show_answers, $objectivesList);
+                $overviewTableGUI = $this->getPassDetailsOverviewTableGUI(
+                    $result_array,
+                    $active_id,
+                    $pass,
+                    $targetGUI,
+                    "getResultsOfUserOutput",
+                    '',
+                    $show_answers,
+                    $objectivesList
+                );
                 $overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
                 $template->setVariable("PASS_DETAILS", $overviewTableGUI->getHTML());
             }
@@ -1022,7 +1047,6 @@ class ilTestServiceGUI
             $targetGUI->object = $targetGUI->getTestObj();
         }
 
-        require_once 'Modules/Test/classes/tables/class.ilTestPassDetailsOverviewTableGUI.php';
         $tableGUI = new ilTestPassDetailsOverviewTableGUI($this->ctrl, $targetGUI, $targetCMD);
         $tableGUI->setIsPdfGenerationRequest($this->isPdfDeliveryRequest());
         return $tableGUI;
@@ -1039,10 +1063,6 @@ class ilTestServiceGUI
         }
 
         if ($this->object->isShowGradingMarkEnabled()) {
-            return true;
-        }
-
-        if ($this->object->areObligationsEnabled()) {
             return true;
         }
 

@@ -2623,7 +2623,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $valid = true;
         foreach ($profile_fields as $field) {
             if (($checked["required_" . $field] ?? false) &&
-                !(int) $checked['visib_reg_' . $field]
+                !(int) ($checked['visib_reg_' . $field] ?? null)
             ) {
                 $valid = false;
                 break;

@@ -63,12 +63,13 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         string $file,
         bool $flag1,
         bool $flag2,
-        bool $in_module = false,
-        string $vars = "DEFAULT",
+        string $in_module = "",
+        string $vars = ilGlobalTemplateInterface::DEFAULT_BLOCK,
         bool $plugin = false,
         bool $a_use_cache = true
     ) {
         $this->setBodyClass("std");
+
         $this->template = new ilTemplate($file, $flag1, $flag2, $in_module, $vars, $plugin, $a_use_cache);
     }
 
@@ -775,17 +776,22 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         global $DIC;
 
         $ilLocator = $DIC["ilLocator"];
+        $ilPluginAdmin = $DIC["ilPluginAdmin"];
 
         $html = "";
-        $uip = new ilUIHookProcessor(
-            "Services/Locator",
-            "main_locator",
-            array("locator_gui" => $ilLocator)
-        );
-        if (!$uip->replaced()) {
+
+        if (is_object($ilPluginAdmin)) {
+            include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
+            $html = $ilLocator->getHTML();
+            $uip = new ilUIHookProcessor(
+                "Services/Locator",
+                "main_locator",
+                ["locator_gui" => $ilLocator, "html" => $html]
+            );
+            $html = $uip->getHTML($html);
+        } else {
             $html = $ilLocator->getHTML();
         }
-        $html = $uip->getHTML($html);
         $this->setVariable("LOCATOR", $html);
     }
 

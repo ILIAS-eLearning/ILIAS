@@ -112,25 +112,33 @@ class ilDclTable
         $rec = $ilDB->fetchAssoc($set);
 
         $this->setObjId($rec["obj_id"]);
-        $this->setTitle($rec["title"]);
+        if (null !== $rec["title"]) {
+            $this->setTitle($rec["title"]);
+        }
         $this->setAddPerm($rec["add_perm"]);
         $this->setEditPerm($rec["edit_perm"]);
         $this->setDeletePerm($rec["delete_perm"]);
         $this->setEditByOwner($rec["edit_by_owner"]);
-        $this->setExportEnabled($rec["export_enabled"]);
+        if (null !== $rec["export_enabled"]) {
+            $this->setExportEnabled((bool) $rec["export_enabled"]);
+        }
         $this->setImportEnabled($rec["import_enabled"]);
         $this->setLimited($rec["limited"]);
         $this->setLimitStart($rec["limit_start"]);
         $this->setLimitEnd($rec["limit_end"]);
         $this->setIsVisible($rec["is_visible"]);
-        $this->setDescription($rec['description']);
+        if (null !== $rec['description']) {
+            $this->setDescription($rec['description']);
+        }
         $this->setDefaultSortField($rec['default_sort_field_id']);
         $this->setDefaultSortFieldOrder($rec['default_sort_field_order']);
         $this->setPublicCommentsEnabled($rec['public_comments']);
         $this->setViewOwnRecordsPerm($rec['view_own_records_perm']);
         $this->setDeleteByOwner($rec['delete_by_owner']);
         $this->setSaveConfirmation($rec['save_confirmation']);
-        $this->setOrder($rec['table_order']);
+        if (null !== $rec['table_order']) {
+            $this->setOrder($rec['table_order']);
+        }
     }
 
     /**
@@ -820,7 +828,7 @@ class ilDclTable
     /**
      * Get a field by title
      */
-    public function getFieldByTitle(string $title): ilDclBaseFieldModel
+    public function getFieldByTitle(string $title): ?ilDclBaseFieldModel
     {
         $return = null;
         foreach ($this->getFields() as $field) {
@@ -1229,9 +1237,9 @@ class ilDclTable
     public function getPartialRecords(
         string $sort,
         string $direction,
-        int $limit,
+        ?int $limit,
         int $offset,
-        array $filter = array()
+        array $filter = []
     ): array {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1240,7 +1248,7 @@ class ilDclTable
          */
         $ilUser = $DIC['ilUser'];
 
-        $sort_field = ($sort) ? $this->getFieldByTitle($sort) : $this->getField('id');
+        $sort_field = $this->getFieldByTitle($sort);
         $direction = strtolower($direction);
         $direction = (in_array($direction, array('desc', 'asc'))) ? $direction : 'asc';
 
@@ -1303,7 +1311,7 @@ class ilDclTable
         }
 
         $set = $ilDB->query($sql);
-        $total_record_ids = array();
+        $total_record_ids = [];
 
         $ref = filter_input(INPUT_GET, 'ref_id');
         $is_allowed_to_view = (ilObjDataCollectionAccess::hasWriteAccess($ref) || ilObjDataCollectionAccess::hasEditAccess($ref));

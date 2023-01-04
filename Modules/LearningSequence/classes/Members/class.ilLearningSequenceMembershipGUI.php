@@ -91,7 +91,8 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 
     protected function getDefaultCommand(): string
     {
-        return $this->request_wrapper->retrieve("back_cmd", $this->refinery->kindlyTo()->string());
+        $r = $this->refinery;
+        return $this->request_wrapper->retrieve("back_cmd", $r->byTrying([$r->kindlyTo()->string(), $r->always("members")]));
     }
 
     /**

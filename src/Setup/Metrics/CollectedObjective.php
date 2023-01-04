@@ -63,7 +63,7 @@ abstract class CollectedObjective implements Setup\Objective
 
     public function getLabel(): string
     {
-        return "Collect metrics.";
+        return "Collect metrics: " . get_class($this);
     }
 
     public function isNotable(): bool

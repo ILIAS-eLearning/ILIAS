@@ -38,7 +38,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     protected array $object_data;
     protected array $numeric_fields = array();
     protected array $filter = array();
-    protected int $mode;
+    protected string $mode;
     protected int $userId;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
@@ -48,7 +48,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         string $a_parent_cmd,
         ilDclTable $table,
         int $tableview_id,
-        int $mode = ilDclRecordListGUI::MODE_VIEW
+        string $mode = ilDclRecordListGUI::MODE_VIEW
     ) {
         global $DIC;
         $this->ctrl = $DIC->ctrl();
@@ -86,7 +86,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             if ($field->hasNumericSorting()) {
                 $this->numeric_fields[] = $title;
             }
-
             $this->addColumn($title, $sort_field);
 
             if ($field->hasProperty(ilDclBaseFieldModel::PROP_LEARNING_PROGRESS)) {
@@ -154,15 +153,15 @@ class ilDclRecordListTableGUI extends ilTable2GUI
      */
     private function buildData(): void
     {
-        $data = array();
+        $data = [];
         foreach ($this->object_data as $record) {
-            $record_data = array();
+            $record_data = [];
             $record_data["_front"] = null;
             $record_data['_record'] = $record;
 
             foreach ($this->tableview->getVisibleFields() as $field) {
                 $title = $field->getTitle();
-                $record_data[$title] = $record->getRecordFieldHTML($field->getId());
+                $record_data[$title] = $record->getRecordFieldHTML($field->getId(), ['tableview_id' => $this->tableview->getId()]);
 
                 // Additional column filled in ::fillRow() method, showing the learning progress
                 if ($field->getProperty(ilDclBaseFieldModel::PROP_LEARNING_PROGRESS)) {

@@ -26,7 +26,7 @@ class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation
     /**
      * Outputs html of a certain field
      */
-    public function getHTML(bool $link = true): string
+    public function getHTML(bool $link = true, array $options = []): string
     {
         $value = $this->getRecordField()->getValue();
 
@@ -46,7 +46,7 @@ class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation
                 "sendFile"
             ) . '">' . $value['name'] . '</a>';
         } else {
-            if (!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "file") {
+            if (!ilObject2::_exists((int)$value) || ilObject2::_lookupType($value, false) != "file") {
                 return "";
             }
         }
@@ -109,7 +109,7 @@ class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation
             return $value;
         }
 
-        if (!ilObject2::_exists($value) || ilObject2::_lookupType($value) != "file") {
+        if (!ilObject2::_exists((int)$value) || ilObject2::_lookupType($value) != "file") {
             return "";
         }
 

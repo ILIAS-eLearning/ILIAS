@@ -1,6 +1,4 @@
 <?php
-
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +13,10 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ********************************************************************
+ */
+
+declare(strict_types=1);
 
 /**
  * New PermissionGUI (extends from old ilPermission2GUI)
@@ -30,7 +31,7 @@ declare(strict_types=1);
 class ilPermissionGUI extends ilPermission2GUI
 {
     protected const CMD_PERM_POSITIONS = 'permPositions';
-    protected const CMD_SAVE_POSITIONS_PERMISSIONS = 'savePositionsPermissions';
+    public const CMD_SAVE_POSITIONS_PERMISSIONS = 'savePositionsPermissions';
 
     protected object $current_obj;
 
@@ -812,16 +813,20 @@ class ilPermissionGUI extends ilPermission2GUI
 
         foreach ($positions as $position_id) {
             if (isset($local_post[$position_id])) {
-                ilOrgUnitPermissionQueries::findOrCreateSetForRefId($ref_id, $position_id);
+                ilOrgUnitPermissionQueries::findOrCreateSetForRefId($ref_id, (int) $position_id);
             } else {
-                ilOrgUnitPermissionQueries::removeLocalSetForRefId($ref_id, $position_id);
+                ilOrgUnitPermissionQueries::removeLocalSetForRefId($ref_id, (int) $position_id);
             }
         }
 
         $position_perm_post = $this->wrapper->post()->has('position_perm')
             ? $this->wrapper->post()->retrieve(
                 'position_perm',
-                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int())
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->dictOf(
+                        $this->refinery->kindlyTo()->int()
+                    )
+                )
             )
             : [];
         ;
@@ -830,7 +835,7 @@ class ilPermissionGUI extends ilPermission2GUI
                 if (!isset($local_post[$position_id])) {
                     continue;
                 }
-                $ilOrgUnitPermission = ilOrgUnitPermissionQueries::getSetForRefId($ref_id, $position_id);
+                $ilOrgUnitPermission = ilOrgUnitPermissionQueries::getSetForRefId($ref_id, (int) $position_id);
                 $new_ops = [];
                 foreach ($ops as $op_id => $op) {
                     $new_ops[] = ilOrgUnitOperationQueries::findById($op_id);

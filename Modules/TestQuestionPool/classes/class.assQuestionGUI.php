@@ -34,6 +34,16 @@ abstract class assQuestionGUI
     public const FORM_ENCODING_URLENCODE = 'application/x-www-form-urlencoded';
     public const FORM_ENCODING_MULTIPART = 'multipart/form-data';
 
+    protected const SUGGESTED_SOLUTION_COMMANDS = [
+        'cancelSuggestedSolution',
+        'saveSuggestedSolution',
+        'suggestedsolution'
+        ];
+
+    public const CORRECTNESS_NOT_OK = 0;
+    public const CORRECTNESS_MOSTLY_OK = 1;
+    public const CORRECTNESS_OK = 2;
+
     protected const HAS_SPECIAL_QUESTION_COMMANDS = false;
 
     public const SESSION_PREVIEW_DATA_BASE_INDEX = 'ilAssQuestionPreviewAnswers';
@@ -144,18 +154,6 @@ abstract class assQuestionGUI
 
     public function addHeaderAction(): void
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-/*
-        $DIC->ui()->mainTemplate()->setVariable(
-            "HEAD_ACTION",
-            $this->getHeaderAction()
-        );
-
-        $this->notes_gui->initJavascript();
-
-        $redrawActionsUrl = $this->ctrl->getLinkTarget($this, 'redrawHeaderAction', '', true);
-        $this->ui->mainTemplate()->addOnLoadCode("il.Object.setRedrawAHUrl('$redrawActionsUrl');");
-*/
     }
 
     public function redrawHeaderAction(): void
@@ -209,6 +207,10 @@ abstract class assQuestionGUI
 
             default:
                 $cmd = $this->ctrl->getCmd('editQuestion');
+                if (in_array($cmd, self::SUGGESTED_SOLUTION_COMMANDS)) {
+                    $this->suggestedsolution();
+                    return;
+                }
                 if (method_exists($this, $cmd)) {
                     $this->$cmd();
                     return;
@@ -531,10 +533,6 @@ abstract class assQuestionGUI
         }
 
         if (strlen($html)) {
-            if ($inlineFeedbackEnabled && $this->hasInlineFeedback()) {
-                $html = $this->buildFocusAnchorHtml() . $html;
-            }
-
             $page_gui->setQuestionHTML(array($this->object->getId() => $html));
         }
 
@@ -651,7 +649,6 @@ abstract class assQuestionGUI
                 }
                 ilUtil::redirect(ilLink::_getLink($ref_id));
             }
-            $_GET["ref_id"] = $this->request->raw("calling_test");
 
             if ($this->request->raw('test_express_mode')) {
                 ilUtil::redirect(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
@@ -1200,8 +1197,7 @@ abstract class assQuestionGUI
         $ilAccess = $this->access;
 
         $save = (is_array($_POST["cmd"]) &&
-            array_key_exists("suggestedsolution", $_POST["cmd"]) &&
-            $_POST["cmd"]['suggestedsolution'] === 'Save') ? true : false;
+            array_key_exists("saveSuggestedSolution", $_POST["cmd"])) ? true : false;
 
         if ($save && $_POST["deleteSuggestedSolution"] == 1) {
             $this->object->deleteSuggestedSolutions();
@@ -1354,8 +1350,8 @@ abstract class assQuestionGUI
                 $form->addItem($question);
             }
             if ($ilAccess->checkAccess("write", "", $this->request->getRefId())) {
-                $form->addCommandButton('suggestedsolution', $this->lng->txt('cancel'));
-                $form->addCommandButton('suggestedsolution', $this->lng->txt('save'));
+                $form->addCommandButton('cancelSuggestedSolution', $this->lng->txt('cancel'));
+                $form->addCommandButton('saveSuggestedSolution', $this->lng->txt('save'));
             }
 
             if ($save) {
@@ -1390,7 +1386,7 @@ abstract class assQuestionGUI
             $output = $form->getHTML();
         }
 
-        $savechange = (strcmp($this->ctrl->getCmd(), "saveSuggestedSolution") == 0) ? true : false;
+        $savechange = (strcmp($this->ctrl->getCmd(), "saveSuggestedSolutionType") == 0) ? true : false;
 
         $changeoutput = "";
         if ($ilAccess->checkAccess("write", "", $this->request->getRefId())) {
@@ -1411,7 +1407,7 @@ abstract class assQuestionGUI
             $solutiontype->setRequired(true);
             $formchange->addItem($solutiontype);
 
-            $formchange->addCommandButton("saveSuggestedSolution", $this->lng->txt("select"));
+            $formchange->addCommandButton("saveSuggestedSolutionType", $this->lng->txt("select"));
 
             if ($savechange) {
                 $formchange->checkInput();
@@ -1457,7 +1453,7 @@ abstract class assQuestionGUI
         $this->tpl->setVariable("ADM_CONTENT", $template->get());
     }
 
-    public function saveSuggestedSolution(): void
+    public function saveSuggestedSolutionType(): void
     {
         global $DIC;
         $tree = $DIC['tree'];
@@ -1990,6 +1986,33 @@ abstract class assQuestionGUI
 
     public function saveCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
+    }
+
+
+    protected function generateCorrectnessIconsForCorrectness(int $correctness): string
+    {
+        switch ($correctness) {
+            case self::CORRECTNESS_NOT_OK:
+                $icon_name = 'icon_not_ok.svg';
+                $label = $this->lng->txt("answer_is_wrong");
+                break;
+            case self::CORRECTNESS_MOSTLY_OK:
+                $icon_name = 'icon_ok.svg';
+                $label = $this->lng->txt("answer_is_not_correct_but_positive");
+                break;
+            case self::CORRECTNESS_OK:
+                $icon_name = 'icon_ok.svg';
+                $label = $this->lng->txt("answer_is_right");
+                break;
+            default:
+                return '';
+        }
+        $path = ilUtil::getImagePath($icon_name);
+        $icon = $this->ui->factory()->symbol()->icon()->custom(
+            $path,
+            $label
+        );
+        return $this->ui->renderer()->render($icon);
     }
 
     /**

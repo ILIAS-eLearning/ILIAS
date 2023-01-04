@@ -1626,16 +1626,19 @@ class ilTable2GUI extends ilTableGUI
             $this->tpl->parseCurrentBlock();
 
             // (keep) filter hidden?
-            if (!$this->isFilterVisible()) {
-                if (!$this->getDisableFilterHiding()) {
-                    $id = $this->getId();
-                    $this->main_tpl->addOnLoadCode("
-                        ilTableHideFilter['atfil_$id'] = true;
-                        ilTableHideFilter['tfil_$id'] = true;
-                        ilTableHideFilter['dtfil_$id'] = true;
-                    ");
-                }
+            if (!$this->isFilterVisible() && !$this->getDisableFilterHiding()) {
+                $id = $this->getId();
+                $this->main_tpl->addOnLoadCode("
+                    ilTableHideFilter['atfil_$id'] = true;
+                    ilTableHideFilter['tfil_$id'] = true;
+                    ilTableHideFilter['dtfil_$id'] = true;
+                ");
             }
+            /*
+             * BT 35757: filter has to be initialized after it has a chance to get hidden,
+             * moving this here from ServiceTable.js to avoid timing weirdness with onLoadCode.
+             */
+            $this->main_tpl->addOnLoadCode("ilInitTableFilters()");
         }
     }
 

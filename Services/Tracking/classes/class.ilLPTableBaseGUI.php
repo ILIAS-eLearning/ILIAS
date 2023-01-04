@@ -318,9 +318,9 @@ class ilLPTableBaseGUI extends ilTable2GUI
         }
 
         if (!$this->filter["area"]) {
-            $res->filter(ROOT_FOLDER_ID, false);
+            $res->filter(ROOT_FOLDER_ID, true);
         } else {
-            $res->filter($this->filter["area"], false);
+            $res->filter($this->filter["area"], true);
         }
 
         $objects = array();
@@ -898,7 +898,11 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $timing_cache = ilTimingCache::getInstanceByRefId($a_ref_id);
         if ($timing_cache->isWarningRequired($a_user_id)) {
             $timings = ilTimingCache::_getTimings($a_ref_id);
-            if ($timings['item']['changeable'] && $timings['user'][$a_user_id]['end']) {
+            if (
+                $timings['item']['changeable'] &&
+                ($timings['user'][$a_user_id] ?? false) &&
+                $timings['user'][$a_user_id]['end']
+            ) {
                 $end = $timings['user'][$a_user_id]['end'];
             } elseif ($timings['item']['suggestion_end']) {
                 $end = $timings['item']['suggestion_end'];

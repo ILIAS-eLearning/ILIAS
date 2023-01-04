@@ -8594,7 +8594,7 @@ input[type="checkbox"]:focus:focus-visible {
   }
 }
 .il-filter.disabled .il-filter-inputs-active span {
-  color: #b0b0b0;
+  color: #6f6f6f;
 }
 .il-filter-add-list ul {
   list-style: none;
@@ -10298,7 +10298,7 @@ footer {
 .il-mainbar-tools-entries .btn-bulky,
 .il-mainbar-tools-entries .btn-bulky,
 .il-mainbar-tools-entries .il-link.link-bulky {
-  background-color: #708bae;
+  background-color: #4c6586;
   color: white;
   padding: 0;
 }
@@ -10464,6 +10464,7 @@ footer {
   padding: 10px 0 10px 5px;
   border-top: 1px solid #dddddd;
   height: 45px;
+  text-align: left;
 }
 .il-maincontrols-footer {
   color: #161616;
@@ -10511,7 +10512,7 @@ footer {
   text-decoration: underline;
 }
 .il-maincontrols-footer .il-footer-text {
-  margin-right: 3px;
+  margin: 3px 3px 6px 0px;
 }
 .il-mode-info {
   border-top: 3px solid #B54F00;
@@ -12743,6 +12744,7 @@ a.il_ItemProperty:visited {
 }
 a.il_ItemProperty:hover {
   color: black;
+  text-decoration: underline;
 }
 span.il_ItemAlertProperty {
   color: #B54F00;
@@ -16589,11 +16591,7 @@ div#ilContRepIntro img {
   float: left;
 }
 .ilContObjectiveObjectListItem {
-  background-color: #f9f9f9;
-}
-.ilContObjectiveIntro {
-  background-color: #f9f9f9;
-  padding: 1px 15px;
+  background-color: white;
 }
 .ilContObjectivesViewTestItem {
   background-color: #f9f9f9;
@@ -17283,11 +17281,10 @@ div.ilRatingOverlay {
 .ilExcAssignmentHead img {
   display: block;
   float: left;
-  margin-top: 4px;
+  margin: 0 9px 0 3px;
 }
 .ilExcAssignmentHead .ilAssignmentHeader {
   padding: 0;
-  margin: 1px 0 0 25px;
   font-size: 1rem;
 }
 .ilExcAssignmentHead,

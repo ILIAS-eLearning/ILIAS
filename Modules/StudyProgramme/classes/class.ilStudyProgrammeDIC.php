@@ -45,6 +45,47 @@ class ilStudyProgrammeDIC
             );
         };
 
+        $dic['ilStudyProgrammeUserTable'] = function ($dic) use ($DIC) {
+            return new ilStudyProgrammeUserTable(
+                $DIC['ilDB'],
+                ilExportFieldsInfo::_getInstanceByType('prg'),
+                $dic['repo.assignment'],
+                $DIC['lng'],
+                $dic['permissionhelper'],
+                $DIC['ilUser'],
+                $DIC['ui.factory'],
+                $DIC['ui.renderer']
+            );
+        };
+
+        $dic['model.Settings.ilStudyProgrammeSettingsRepository'] = function ($dic) use ($DIC) {
+            return new ilStudyProgrammeSettingsDBRepository(
+                $DIC['ilDB']
+            );
+        };
+        $dic['repo.assignment'] = function ($dic) use ($DIC) {
+            return new ilPRGAssignmentDBRepository(
+                $DIC['ilDB'],
+                $DIC['tree'],
+                $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
+                $dic['ilStudyProgrammeEvents']
+            );
+        };
+        $dic['filter.assignment'] = function ($dic) use ($DIC): ilPRGAssignmentFilter {
+            return new ilPRGAssignmentFilter(
+                $DIC['lng']
+            );
+        };
+        $dic['ilAppEventHandler'] = function ($dic) use ($DIC) {
+            return $DIC->offsetExists('ilAppEventHandler') ?
+                $DIC['ilAppEventHandler'] : new \ilAppEventHandler();
+        };
+        $dic['ilStudyProgrammeEvents'] = function ($dic) {
+            return new ilStudyProgrammeEvents(
+                $dic['ilAppEventHandler']
+            );
+        };
+
         return $dic;
     }
 
@@ -58,17 +99,12 @@ class ilStudyProgrammeDIC
             $DIC->offsetExists('ilAppEventHandler') ? $DIC['ilAppEventHandler'] : new ilAppEventHandler();
         $dic['ilStudyProgrammeEvents'] = static fn ($dic) =>
             new ilStudyProgrammeEvents(
-                $dic['ilAppEventHandler'],
-                $dic['model.Assignment.ilStudyProgrammeAssignmentRepository']
+                $dic['ilAppEventHandler']
             );
         $dic['model.Settings.ilStudyProgrammeSettingsRepository'] = static fn ($dic) =>
             new ilStudyProgrammeSettingsDBRepository(
                 $DIC['ilDB']
             );
-        $dic['model.Progress.ilStudyProgrammeProgressRepository'] = static fn ($dic) =>
-            new ilStudyProgrammeProgressDBRepository($DIC['ilDB']);
-        $dic['model.Assignment.ilStudyProgrammeAssignmentRepository'] = static fn ($dic) =>
-            new ilStudyProgrammeAssignmentDBRepository($DIC['ilDB'], $DIC['tree']);
         $dic['model.AutoMemberships.ilStudyProgrammeAutoMembershipsRepository'] = static fn ($dic) =>
             new ilStudyProgrammeAutoMembershipsDBRepository(
                 $DIC['ilDB'],
@@ -119,8 +155,7 @@ class ilStudyProgrammeDIC
                 $DIC['lng'],
                 $DIC['ilUser'],
                 $DIC['ilTabs'],
-                $dic['ilStudyProgrammeUserProgressDB'],
-                $dic['ilStudyProgrammeUserAssignmentDB'],
+                $dic['repo.assignment'],
                 $dic['ilStudyProgrammeRepositorySearchGUI'],
                 $dic['ilObjStudyProgrammeIndividualPlanGUI'],
                 $dic['PRGMessages'],
@@ -185,8 +220,7 @@ class ilStudyProgrammeDIC
                 $DIC['ilCtrl'],
                 $DIC['lng'],
                 $DIC['ilUser'],
-                $dic['ilStudyProgrammeUserProgressDB'],
-                $dic['ilStudyProgrammeUserAssignmentDB'],
+                $dic['repo.assignment'],
                 $dic['PRGMessages'],
                 $DIC->http()->wrapper(),
                 $DIC->refinery()
@@ -208,10 +242,6 @@ class ilStudyProgrammeDIC
             );
         $dic['DataFactory'] = static fn ($dic) =>
             new \ILIAS\Data\Factory();
-        $dic['ilStudyProgrammeUserProgressDB'] = static fn ($dic) =>
-            $dic['model.Progress.ilStudyProgrammeProgressRepository'];
-        $dic['ilStudyProgrammeUserAssignmentDB'] = static fn ($dic) =>
-            $dic['model.Assignment.ilStudyProgrammeAssignmentRepository'];
         $dic['ilOrgUnitObjectTypePositionSetting'] = static fn ($dic) =>
             new ilOrgUnitObjectTypePositionSetting('prg');
         $dic['ilStudyProgrammeMailMemberSearchGUI'] = static fn ($dic) =>
@@ -274,6 +304,32 @@ class ilStudyProgrammeDIC
         $dic['current_user'] = static fn ($dic) =>
             $DIC['ilUser'];
 
+        $dic['repo.assignment'] =  static fn ($dic) =>
+            new ilPRGAssignmentDBRepository(
+                $DIC['ilDB'],
+                $DIC['tree'],
+                $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
+                $dic['ilStudyProgrammeEvents']
+            );
+
+        $dic['cron.riskyToFail'] = function ($dic) {
+            return new ilPrgRiskyToFail(
+                $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
+                $dic['ilStudyProgrammeEvents']
+            );
+        };
+        $dic['cron.notRestarted'] = function ($dic) {
+            return new ilPrgNotRestarted(
+                $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
+                $dic['ilStudyProgrammeEvents']
+            );
+        };
+        $dic['cron.restart'] = function ($dic) {
+            return new ilPrgRestart(
+                $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
+                $dic['ilStudyProgrammeEvents']
+            );
+        };
         return $dic;
     }
 }

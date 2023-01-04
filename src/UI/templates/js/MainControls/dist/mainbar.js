@@ -910,6 +910,10 @@ var renderer = function($) {
                 max_buttons = more.calcAmountOfButtons() - 1; //room for the more-button
 
             if(model_state.any_tools_visible()) { max_buttons--;}
+            // Pathological case: there even is no space for one button.
+            // We pretend there still is room...
+            if(max_buttons < 0) { max_buttons = 0; }
+
             for(i = max_buttons; i < root_entries_length; i++) {
                 btn = parts.triggerer.withHtmlId(dom_references[root_entries[i].id].triggerer);
                 list = btn.getElement().parent();

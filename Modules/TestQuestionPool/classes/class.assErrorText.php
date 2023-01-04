@@ -601,7 +601,11 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         ksort($this->errordata);
     }
 
-    public function createErrorTextOutput($selections = null, $graphicalOutput = false, $correct_solution = false, $use_link_tags = true): string
+    /**
+     * @param int[] $selections
+     * @param string[] $correctness_icons
+     */
+    public function createErrorTextOutput($selections = null, bool $graphicalOutput = false, bool $correct_solution = false, bool $use_link_tags = true, array $correctness_icons = []): string
     {
         $counter = 0;
         $errorcounter = 0;
@@ -713,11 +717,8 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                         "ilc_qetitem_ErrorTextSelected" : "ilc_qetitem_ErrorTextItem"
                     );
                     if ($graphicalOutput) {
-                        if ($group_selected) {
-                            $img = ' <img src="' . ilUtil::getImagePath("icon_ok.svg") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
-                        } else {
-                            $img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.svg") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
-                        }
+                        $correctness = $group_selected ? 'correct' : 'not_correct';
+                        $img = $correctness_icons[$correctness];
                     }
 
                     $item_stack[] = $this->getErrorTokenHtml($item, $class, $use_link_tags) . $img;
@@ -736,15 +737,12 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
                 // Errors markes with #, group errors (()) are handled above
                 $class = 'ilc_qetitem_ErrorTextItem';
-                $img = '';
                 if ($this->isTokenSelected($counter, $selections)) {
                     $class = "ilc_qetitem_ErrorTextSelected";
                     if ($graphicalOutput) {
-                        if ($this->getPointsForSelectedPositions(array($counter)) > 0) {
-                            $img = ' <img src="' . ilUtil::getImagePath("icon_ok.svg") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
-                        } else {
-                            $img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.svg") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
-                        }
+                        $correctness = $this->getPointsForSelectedPositions(array($counter)) > 0 ?
+                            'correct' : 'not_correct';
+                        $img = $correctness_icons[$correctness];
                     }
                 }
 

@@ -118,7 +118,7 @@ class ilDclContentExporter
     /**
      * Fill Excel meta-data
      */
-    protected function fillMetaExcel(string $table, ilExcel $worksheet, int $row): void
+    protected function fillMetaExcel(ilDclTable $table, ilExcel $worksheet, int $row): void
     {
     }
 
@@ -155,7 +155,7 @@ class ilDclContentExporter
             foreach ($this->tables as $table) {
                 ilDclCache::resetCache();
 
-                $list = $table->getPartialRecords(null, null, null, 0, $this->filter);
+                $list = $table->getPartialRecords('id', 'asc', null, 0, $this->filter);
                 $data_available = $data_available || ($list['total'] > 0);
                 $fields_available = $fields_available || (count($table->getExportableFields()) > 0);
                 if ($list['total'] > 0 && count($table->getExportableFields()) > 0) {
@@ -198,7 +198,7 @@ class ilDclContentExporter
             $this->main_tpl->setOnScreenMessage('info', sprintf(
                 $this->lng->txt('dcl_no_export_fields_available'),
                 $ilCtrl->getLinkTargetByClass(
-                    array('ilDclTableListGUI', 'ilDclTableEditGUI', 'ilDclFieldListGUI'),
+                    ['ilDclTableListGUI', 'ilDclFieldListGUI'],
                     'listFields'
                 )
             ));

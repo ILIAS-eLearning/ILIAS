@@ -137,7 +137,7 @@ class ilOrgUnitUserAssignmentQueries
      */
     public function getUserIdsOfUsersOrgUnitsInPosition(
         int $user_id,
-        array $users_position_id,
+        int $users_position_id,
         int $position_id,
         bool $recursive = false
     ): array {

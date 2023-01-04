@@ -1,6 +1,5 @@
 
 // Hide all on load
-il.Util.addOnLoad(ilInitTableFilters)
 var ilTableHideFilter = new Object();
 
 /** 
