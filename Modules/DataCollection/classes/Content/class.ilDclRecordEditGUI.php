@@ -341,7 +341,8 @@ class ilDclRecordEditGUI
             //Get Table Field Definitions
             $allFields = $this->table->getFields();
             foreach ($allFields as $field) {
-                if ($field->getViewSetting($this->tableview_id)->isVisibleEdit()) {
+                if ($field->getDatatypeId() !== ilDclDatatype::INPUTFORMAT_NONE &&
+                    $field->getViewSetting($this->tableview_id)->isVisibleEdit()) {
                     $record_obj->fillRecordFieldFormInput($field->getId(), $this->form);
                 }
             }
