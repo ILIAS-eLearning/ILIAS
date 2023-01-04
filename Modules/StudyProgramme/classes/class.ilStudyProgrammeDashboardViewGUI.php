@@ -40,7 +40,7 @@ class ilStudyProgrammeDashboardViewGUI
         ILIAS\UI\Renderer $renderer,
         ilCtrl $ctrl,
         ilStudyProgrammeUserTable $user_table,
-        int $usr_id,
+        int $usr_id
     ) {
         $this->lng = $lng;
         $this->lng->loadLanguageModule('prg');
