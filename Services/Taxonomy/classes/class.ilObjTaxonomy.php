@@ -120,8 +120,8 @@ class ilObjTaxonomy extends ilObject2
     // clone nodes of taxonomy
     public function cloneNodes(
         ilObjTaxonomy $a_new_obj,
-        string $a_target_parent,
-        string $a_source_parent
+        int $a_target_parent,
+        int $a_source_parent
     ): void {
         // get all childs
         $nodes = $this->getTree()->getChilds($a_source_parent);
