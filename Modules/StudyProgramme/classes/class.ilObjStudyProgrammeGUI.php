@@ -701,7 +701,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
 
         if (!$this->getCreationMode() && $this->checkAccess(ilPRGPermissionsHelper::ROLEPERM_READ)) {
             $ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
-            $link = ilLink::_getLink($ref_id, "iass");
+            $link = ilLink::_getLink($ref_id, "prg");
             $ilNavigationHistory->addItem($ref_id, $link, 'prg');
         }
     }
