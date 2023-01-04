@@ -32,8 +32,7 @@ use ILIAS\UI\Component\Link;
  *
  * @author: Nils Haagen  <nils.haagen@concepts-and-training.de>
  *
- * @ilCtrl_Calls ilObjStudyProgrammeAutoMembershipsGUI: ilPropertyFormGUI
- * @ilCtrl_Calls ilObjStudyProgrammeAutoMembershipsGUI: ilFormPropertyDispatchGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeAutoMembershipsGUI: ilPropertyFormGUI, ilFormPropertyDispatchGUI
  */
 class ilObjStudyProgrammeAutoMembershipsGUI
 {
