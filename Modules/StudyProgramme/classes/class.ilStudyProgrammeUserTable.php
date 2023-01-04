@@ -162,8 +162,12 @@ class ilStudyProgrammeUserTable
 
         $show_lp = $this->includeLearningProgress($ass->getUserId());
 
-        $prg = ilObjStudyProgramme::getInstanceByObjId($ass->getRootId());
-        list($min_percent, $cur_percent) = $this->calculatePercent($prg, $ass);
+        $prg_node = ilObjStudyProgramme::getInstanceByObjId($node_id);
+        $points_reachable = (string) $pgs->getPossiblePointsOfRelevantChildren();
+        if ($prg_node->getLPMode() ===  ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
+            $points_reachable = (string) $pgs->getAmountOfPoints();
+        }
+
         $row = $row
             ->withUserActiveRaw($ass->getUserInformation()->isActive())
             ->withUserActive($this->activeToRepresent($ass->getUserInformation()->isActive()))
@@ -184,7 +188,7 @@ class ilStudyProgrammeUserTable
             ->withCompletionByObjId(
                 $show_lp && $pgs->getCompletionBy() ? $pgs->getCompletionBy() : null
             )
-            ->withPointsReachable((string) $pgs->getPossiblePointsOfRelevantChildren())
+            ->withPointsReachable($points_reachable)
             ->withPointsRequired((string) $pgs->getAmountOfPoints())
             ->withPointsCurrent($show_lp ? (string) $pgs->getCurrentAmountOfPoints() : '')
             ->withCustomPlan($this->boolToRepresent($pgs->hasIndividualModifications()))
@@ -204,9 +208,6 @@ class ilStudyProgrammeUserTable
             )
             ->withValidity($show_lp ? $this->validToRepresent($pgs) : '')
             ->withRestartDate($ass->getRestartDate() ? $ass->getRestartDate()->format($this->getUserDateFormat()) : '')
-            ->withMinimumRequiredPercent($min_percent)
-            ->withCurrentPercent($cur_percent)
-
         ;
         return $row;
     }
@@ -284,31 +285,5 @@ class ilStudyProgrammeUserTable
             return sprintf('(%s)', $del['title']);
         }
         throw new Exception("Error Processing Request:" . $obj_id, 1);
-    }
-
-    protected function calculatePercent(ilObjStudyProgramme $prg, ilPRGAssignment $ass): array
-    {
-        $minimum_percents = 0;
-        $current_percents = 0;
-        $current_points = $ass->getProgressTree()->getCurrentAmountOfPoints();
-
-        if ($prg->hasLPChildren()) {
-            $minimum_percents = 100;
-            if ($current_points > 0) {
-                $current_percents = 100;
-            }
-        } else {
-            $max_points = $ass->getProgressTree()->getPossiblePointsOfRelevantChildren();
-            $needed = $ass->getProgressTree()->getAmountOfPoints();
-            if ($max_points > 0) {
-                $minimum_percents = round((100 * $needed / $max_points), 2);
-                $current_percents = round((100 * $current_points / $max_points), 2);
-            }
-        }
-
-        return [
-            $minimum_percents . ' ' . $this->lng->txt('percentage'),
-            $current_percents . ' ' . $this->lng->txt('percentage')
-        ];
     }
 }
