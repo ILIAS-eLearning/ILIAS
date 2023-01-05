@@ -202,7 +202,9 @@ class ilAssLacConditionParser
             // current character:
             $a = $this->condition[$this->index];
 
-            if (trim($a) != "" && in_array($a, $expected)) {
+            if (trim($a) == "") {
+                $this->spaces++;
+            } elseif (in_array($a, $expected)) {
                 if ($a == ')') {
                     return $group;
                 } elseif ($a == 'n') {
@@ -220,10 +222,8 @@ class ilAssLacConditionParser
                 } elseif ($a == "!") {
                     $negation = true;
                 }
-            } elseif (trim($a) != "") {
-                throw new ilAssLacConditionParserException($this->index - $this->spaces + 1);
             } else {
-                $this->spaces++;
+                throw new ilAssLacConditionParserException($this->index - $this->spaces + 1);
             }
 
             $this->index++;
