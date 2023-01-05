@@ -83,7 +83,7 @@ class ilAssLacCompositeBuilder
     }
 
     /**
-     * Manufacure an expression from the delivered node and the index. If an expression already exist in the node for<br />
+     * Manufacture an expression from the delivered node and the index. If an expression already exists in the node<br />
      * for the delivered index, this function will return the existing expression
      *
      * @param array $node

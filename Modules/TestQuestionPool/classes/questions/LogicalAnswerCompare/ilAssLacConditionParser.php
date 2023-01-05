@@ -121,8 +121,8 @@ class ilAssLacConditionParser
 
     /**
      * Canonicalize the condition into a more general form. <br />
-     * It replaces all expression with "n" and all orperators with "o" <br />
-     * so that the result of an condition after canonicalization could be:<br />
+     * It replaces all expression with "n" and all operators with "o" <br />
+     * so that the result of a condition after canonicalization could be:<br />
      * <br />
      * (n o n) o (n o n) o n
      */
@@ -184,7 +184,7 @@ class ilAssLacConditionParser
      * <tr>
      *     <td>nodes</td>
      *     <td>array</td>
-     *     <td>Contains an node array</td>
+     *     <td>Contains a node array</td>
      * </tr>
      * </table>
      *
