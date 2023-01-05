@@ -265,6 +265,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         URLBuilder $url_builder,
         array $post = null
     ) : Component {
+        $this->initLMService($state->getValueFor("current_page"));
         $this->ctrl->setParameterByClass("illmpresentationgui", 'ref_id', $this->lm->getRefId());
         $content = $this->uiRenderer->render($this->messages);
         $content .= $this->ctrl->getHTML($this->lm_pres, ["cmd" => "layout"], ["illmpresentationgui"]);

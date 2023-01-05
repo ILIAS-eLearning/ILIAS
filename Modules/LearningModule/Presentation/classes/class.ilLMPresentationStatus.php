@@ -38,7 +38,8 @@ class ilLMPresentationStatus
         string $requested_search_string = "",
         string $offline,
         bool $export_all_languages,
-        string $export_format
+        string $export_format,
+        bool $embed_mode = false
     ) {
         $this->lm = $lm;
         $this->ot = ilObjectTranslation::getInstance($lm->getId());
@@ -51,6 +52,7 @@ class ilLMPresentationStatus
         $this->offline = $offline;
         $this->export_all_languages = $export_all_languages;
         $this->export_format = $export_format;
+        $this->embed_mode = $embed_mode;
         $this->init();
     }
 
@@ -132,6 +134,11 @@ class ilLMPresentationStatus
         return $this->offline;
     }
 
+    public function getEmbedMode() : bool
+    {
+        return $this->embed_mode;
+    }
+
     /**
      * @return bool
      */
@@ -194,5 +201,4 @@ class ilLMPresentationStatus
         }
         return false;               // zero or one page -> false
     }
-
 }
