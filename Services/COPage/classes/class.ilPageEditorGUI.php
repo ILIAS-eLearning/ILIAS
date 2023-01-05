@@ -225,7 +225,7 @@ class ilPageEditorGUI
         }
         $this->log->debug("step PH: next class: " . $next_class);
 
-        if ($com[0] == "insert" || $com[0] == "create") {
+        if (!is_null($com) && ($com[0] == "insert" || $com[0] == "create")) {
             // Step CM (creation mode handling)
             $cmd = $com[0];
             $ctype = $com[1] ?? "";				// note ctype holds type if cmdclass is empty, but also subcommands if not (e.g. applyFilter in ilpcmediaobjectgui)

@@ -142,7 +142,7 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
                             $item["sub_title"] = ilLMObject::_lookupTitle($page_obj->getId());
                             $ref_id = $this->getFirstWritableRefId($lm_obj->getId());
                             if ($ref_id > 0) {
-                                $item["obj_link"] = ilLink::_getStaticLink($page_obj->getId() . "_" . $ref_id, "pg");
+                                $item["obj_link"] = ilLink::_getStaticLink(null, "pg", "", $page_obj->getId() . "_" . $ref_id);
                             }
                         }
                         break;
