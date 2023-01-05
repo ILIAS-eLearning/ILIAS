@@ -82,7 +82,8 @@ class ilLMPresentationService
             $this->request->getSearchString(),
             $offline,
             $export_all_languages,
-            $export_format
+            $export_format,
+            $embed_mode
         );
 
         $this->navigation_status = new ilLMNavigationStatus(
