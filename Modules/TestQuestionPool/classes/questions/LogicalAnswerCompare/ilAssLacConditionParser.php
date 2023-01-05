@@ -120,9 +120,9 @@ class ilAssLacConditionParser
     }
 
     /**
-     * Cannonicalize the condition into a more general form. <br />
+     * Canonicalize the condition into a more general form. <br />
      * It replaces all expression with "n" and all orperators with "o" <br />
-     * so that the result of an condition after cannonicalization could be:<br />
+     * so that the result of an condition after canonicalization could be:<br />
      * <br />
      * (n o n) o (n o n) o n
      */
