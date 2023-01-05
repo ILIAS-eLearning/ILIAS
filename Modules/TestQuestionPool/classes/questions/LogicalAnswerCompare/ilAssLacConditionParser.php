@@ -162,19 +162,29 @@ class ilAssLacConditionParser
      * <br />
      * <table>
      * <tr>
-     * 		<th>Key</th><th>Values</th><th>Description</th>
+     *     <th>Key</th><th>Values</th><th>Description</th>
      * </tr>
      * <tr>
-     * 		<td>type</td><td>"group", "expression", "operator"</td><td>The type of the node - Group is used to introduce the next tree depth</td>
+     *     <td>type</td>
+     *     <td>"group", "expression", "operator"</td>
+     *     <td>The type of the node - Group is used to introduce the next tree
+     *     depth</td>
      * </tr>
      * <tr>
-     * 		<td>negated</td><td>boolean</td><td>Whether this condition is logically inverted or not</td>
+     *     <td>negated</td>
+     *     <td>boolean</td>
+     *     <td>Whether this condition is logically inverted or not</td>
      * </tr>
      * <tr>
-     * 		<td>value</td><td>mixed</td><td>Contains an extracted expression or operation from a condition</td>
+     *     <td>value</td>
+     *     <td>mixed</td>
+     *     <td>Contains an extracted expression or operation from a
+     *     condition</td>
      * </tr>
      * <tr>
-     * 		<td>nodes</td><td>array</td><td>Contains an node array</td>
+     *     <td>nodes</td>
+     *     <td>array</td>
+     *     <td>Contains an node array</td>
      * </tr>
      * </table>
      *
