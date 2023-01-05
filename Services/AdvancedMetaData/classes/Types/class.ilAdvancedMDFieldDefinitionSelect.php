@@ -1,7 +1,22 @@
 <?php
 
 declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * AMD field type select
@@ -186,7 +201,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
     {
         // #15719
         $recipes = $a_form->getInput("conf_det");
-        if (is_array($recipes[$this->getFieldId()])) {
+        if (is_array($recipes[$this->getFieldId()] ?? null)) {
             $recipes = $recipes[$this->getFieldId()];
             $sum = $a_form->getInput("conf_det_act");
             $sum = $sum[$this->getFieldId()];
@@ -381,9 +396,18 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                 $single = new ilRadioOption($lng->txt("md_adv_confirm_definition_select_option_single"), "sgl");
                 $details->addOption($single);
                 foreach ($items as $item) {
-                    $obj_id = $item[0];
-                    $sub_type = $item[1];
-                    $sub_id = $item[2];
+                    $obj_id = (int) $item[0];
+                    $sub_type = (string) $item[1];
+                    $sub_id = (int) $item[2];
+
+                    /*
+                     * media objects are saved in adv_md_values with obj_id=0, and their actual obj_id
+                     * as sub_id.
+                     */
+                    if ($sub_type === 'mob') {
+                        $obj_id = $sub_id;
+                        $sub_id = 0;
+                    }
 
                     $item_id = $obj_id . "_" . $sub_type . "_" . $sub_id;
 
