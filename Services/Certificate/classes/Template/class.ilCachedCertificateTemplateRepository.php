@@ -89,7 +89,8 @@ class ilCachedCertificateTemplateRepository implements ilCertificateTemplateRepo
         if (!array_key_exists($cache_key, self::$crs_certificates_without_lp)) {
             self::$crs_certificates_without_lp[$cache_key] =
                 $this->wrapped->fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress(
-                    $isGlobalLpEnabled
+                    $isGlobalLpEnabled,
+                    $forRefId
                 );
         }
 
