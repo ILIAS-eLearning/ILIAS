@@ -12521,6 +12521,7 @@ poll#:#poll_voting_period_full_info#:#Abstimmung von %s bis %s
 poll#:#poll_voting_period_info#:#Ende der Abstimmung: %s
 poll#:#poll_voting_period_limited#:#Zeitlich begrenzte Stimmperiode
 prg#:#access_ctr_by_orgu_position#:#Berechtigungen anhand Positionen in Organisationseinheiten
+prg#:#active_only#:#nur aktive
 prg#:#add_automembership_source#:#Automatismus hinzufügen
 prg#:#add_category#:#Kategorie hinzufügen
 prg#:#assignment_date#:#Beitrittsdatum
@@ -12542,8 +12543,11 @@ prg#:#edit_participants#:#Zuweisungen bearbeiten
 prg#:#error_updating_deadline#:#Ein Fehler ist während der Aktualisierung von 'Stichtag' aufgetreten.
 prg#:#error_updating_expire_date#:#Ein Fehler ist während der Aktualisierung von 'Ablauf Qualifikation' aufgetreten.
 prg#:#form_msg_file_wrong_file_type#:#Falscher Dateityp.
+prg#:#header_update_current_plan#:#Wollen Sie die individuellen Einstellungen der ausgewählten Zuweisungen wirklich zurücksetzen?
+prg#:#inactive_only#:#nur inaktive
 prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>die Gültigkeit ihrer Qualifikation am Studienprogramm '%s' läuft bald ab. Bitte melden Sie sich erneut an.
 prg#:#info_to_re_assign_mail_subject#:#Erinnerung zur erneuten Teilnahme am Studienprogramm
+prg#:#invalidated#:#Gültigkeit
 prg#:#label_crs#:#Kursname
 prg#:#label_grp#:#Gruppenname
 prg#:#label_role#:#Rollenname
@@ -12610,13 +12614,13 @@ prg#:#prg_create_new_leaf#:#Neuen Kurslink hinzufügen.
 prg#:#prg_create_new_node#:#Neues Studienprogramm hinzufügen
 prg#:#prg_cron_job_configuration#:#Automatische Mails
 prg#:#prg_custom_plan#:#Individueller Plan
-prg#:#prg_dash_label_finish_until#:#Zu erledigen bis
-prg#:#prg_dash_label_gain#:#Aktueller Stand
-prg#:#prg_dash_label_minimum#:#Minimales Ziel
-prg#:#prg_dash_label_restart_from#:#Neubeginn ab
-prg#:#prg_dash_label_status#:#Status
+prg#:#prg_dash_label_finish_until#:#Zu erledigen bis:
+prg#:#prg_dash_label_gain#:#Aktueller Stand:
+prg#:#prg_dash_label_minimum#:#Minimales Ziel:
+prg#:#prg_dash_label_restart_from#:#Neubeginn ab:
+prg#:#prg_dash_label_status#:#Status:
 prg#:#prg_dash_label_unreachable#:#- Ziel kann nicht erreicht werden
-prg#:#prg_dash_label_valid#:#Gültigkeit
+prg#:#prg_dash_label_valid#:#Gültigkeit:
 prg#:#prg_deadline#:#Stichtag
 prg#:#prg_deadline_date#:#Bearbeitungszeitraum endet an festem Stichtag
 prg#:#prg_deadline_date_desc#:#Das Programm muss bis zu einem Stichtag abgeschlossen werden.
@@ -12641,6 +12645,7 @@ prg#:#prg_mail_context_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und
 prg#:#prg_mail_context_title#:#Studienprogramm: Mail an Mitglieder
 prg#:#prg_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Inhalt des Studienprogramms zuzugreifen:
 prg#:#prg_manage#:#Verwalten
+prg#:#prg_manage_members#:#Zuweisungen eines Studienprogramms bearbeiten
 prg#:#prg_manage_members_short#:#Zuweisungen verwalten
 prg#:#prg_manual_status#:#Manueller Status
 prg#:#prg_mark_accredited#:#akkreditieren
@@ -12713,6 +12718,7 @@ prg#:#prg_status_byline#:#Verwenden Sie den Status, um zu steuern, ob dieses Pro
 prg#:#prg_status_completed#:#Abgeschlossen
 prg#:#prg_status_draft#:#Entwurf
 prg#:#prg_status_failed#:#nicht bestanden
+prg#:#prg_status_hide_irrelevant#:#Irrelevante ausblenden
 prg#:#prg_status_in_progress#:#In Bearbeitung
 prg#:#prg_status_not_relevant#:#Nicht relevant
 prg#:#prg_status_outdated#:#Abgelaufen
@@ -12756,6 +12762,7 @@ prg#:#prg_validity_of_qualification_limit#:#Ablauf der Gültigkeit
 prg#:#prg_validity_of_qualification_restart#:#Wiederaufnahme
 prg#:#prg_view#:#Anzeigen
 prg#:#prgr_may_not_create_circular_reference#:#Das Verlinken dieses Programms ist hierher nicht möglich, da das beinhaltende Programm darin erhalten ist.
+prg#:#qualification_prg_finalization_error#:#Ein Abschluss des Qualifizierungsprogramms ist für den/die zugewiesene*n Benutzer*in bei den jetzigen Einstellungen nicht möglich.
 prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>Sie wurden erneut dem Studienprogramm '%s' als Teilnehmer zugeordnet.
 prg#:#re_assigned_mail_subject#:#Erneute Teilnahme am Studienprogramm
 prg#:#restart_information#:#Wiederaufnahme (in Tagen) vor Ablauf der Qualifikation
@@ -12788,11 +12795,13 @@ prg#:#status_unchanged#:#Status unverändert
 prg#:#update_deadline#:#Stichtag erfolgreich aktualisiert.
 prg#:#update_expire_date#:#Ablauf Qualifikation wurde erfolgreich aktualisiert.
 prg#:#updated_from_settings#:#Aus Einstellungen aktualisiert
+prg#:#usr_active#:#Benutzer
 prg#:#validity_qualification_date#:#Ablauf der Qualifikation zu einem Stichtag
 prg#:#validity_qualification_date_desc#:#Datum des Ablaufs der Qualifikation
 prg#:#validity_qualification_period#:#Ablauf der Qualifikation - individuell
 prg#:#validity_qualification_period_desc#:#Tage nach erfolgreicher Teilnahme
 prg#:#validity_updated#:#Gültigkeit aktualisiert
+prg#:#vq_date#:#Ablaufdatum
 prg#:#vq_date_info#:#Ablauf der Qualifikation zu einem Stichtag
 prg#:#vq_information#:#Gültigkeit einer erreichten Qualifikation
 prg#:#vq_period_info#:#Die Qualifikation ist nur eine begrenzte Anzahl Tage gültig

@@ -12515,6 +12515,7 @@ poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
 poll#:#poll_voting_period_info#:#Deadline for Voting: %s
 poll#:#poll_voting_period_limited#:#Limited Voting Period
 prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions
+prg#:#active_only#:#active users only
 prg#:#add_automembership_source#:#Add Source
 prg#:#add_category#:#Add Category
 prg#:#assignment_date#:#Assignment Date
@@ -12530,14 +12531,18 @@ prg#:#confirm_to_remove_selected_assignments#:#Do you really want to remove the 
 prg#:#content_automation#:#Content Automation
 prg#:#content_automation_title#:#Automatically add and remove Courses from these categories
 prg#:#could_not_add_users_no_permissons#:#Could not assign %d Users due to lacking permissions.
+prg#:#crs_affiliation_to_prg#:#Affiliation to study programmes
 prg#:#deadline_information#:#Information regarding processing period
 prg#:#deadline_updated#:#Updated deadline
 prg#:#edit_participants#:#Edit Members
 prg#:#error_updating_deadline#:#Error during updating deadline.
 prg#:#error_updating_expire_date#:#Error during updating expire date.
 prg#:#form_msg_file_wrong_file_type#:#Wrong file type.
+prg#:#header_update_current_plan#:#Do you really want to reset all individual settings for the selected assignments?
+prg#:#inactive_only#:#inactive users only
 prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>The validity of your participation in the study programm '%' will soon expire. Please sign in again.
 prg#:#info_to_re_assign_mail_subject#:#Reminder of renewed participation in the study programm
+prg#:#invalidated#:#validity
 prg#:#label_crs#:#Course Name
 prg#:#label_grp#:#Group Name
 prg#:#label_role#:#Role Name
@@ -12573,6 +12578,7 @@ prg#:#msg_update_individual_plan#:#Successfully updated individual plan (%)
 prg#:#msg_update_individual_plan_failed#:#Update  of individual plan failed
 prg#:#no_srctype_or_id#:#Id and type may not be empty.
 prg#:#not_a_valid_cat_id#:#%s is not a valid ref-id of a category.
+prg#:#obj_prg_select#:#-- Please select a study programme --
 prg#:#orgu#:#Organisational Unit
 prg#:#percentage#:#%
 prg#:#prg_access_by_orgu#:#Access Control by Organisation Unit Positions
@@ -12600,17 +12606,18 @@ prg#:#prg_changed_by#:#Changed by
 prg#:#prg_completion_by#:#Completion by
 prg#:#prg_completion_date#:#Completion date
 prg#:#prg_confirm_delete#:#Delete
+prg#:#prg_copy_threads_info#:#Please decide which Study Programme elements are to be copied, linked or omitted.
 prg#:#prg_create_new_leaf#:#Create new leaf
 prg#:#prg_create_new_node#:#Create new node
 prg#:#prg_cron_job_configuration#:#Configuration automatic Mails
 prg#:#prg_custom_plan#:#Custom Plan
-prg#:#prg_dash_label_finish_until#:#Finish until
-prg#:#prg_dash_label_gain#:#Current Completion
-prg#:#prg_dash_label_minimum#:#Minimum Completion
-prg#:#prg_dash_label_restart_from#:#Restart from
-prg#:#prg_dash_label_status#:#Status
+prg#:#prg_dash_label_finish_until#:#Finish until:
+prg#:#prg_dash_label_gain#:#Current Completion:
+prg#:#prg_dash_label_minimum#:#Minimum Completion:
+prg#:#prg_dash_label_restart_from#:#Restart from:
+prg#:#prg_dash_label_status#:#Status:
 prg#:#prg_dash_label_unreachable#:#- cannot be achieved
-prg#:#prg_dash_label_valid#:#Valid
+prg#:#prg_dash_label_valid#:#Valid:
 prg#:#prg_deadline#:#Deadline
 prg#:#prg_deadline_date#:#Processing time expires at fixed date
 prg#:#prg_deadline_date_desc#:#the programme must be finished until a given date.
@@ -12635,6 +12642,7 @@ prg#:#prg_mail_context_info#:#For the participant e-mails on the member and lear
 prg#:#prg_mail_context_title#:#Study Programme: Mail to Members
 prg#:#prg_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the study programm:
 prg#:#prg_manage#:#Manage
+prg#:#prg_manage_members#:#Manage Enrolments of Study Programme
 prg#:#prg_manage_members_short#:#Manage Assignments
 prg#:#prg_manual_status#:#Manual Status
 prg#:#prg_mark_accredited#:#Mark Accredited
@@ -12707,12 +12715,13 @@ prg#:#prg_status_byline#:#Use the status to control if this programme is assigne
 prg#:#prg_status_completed#:#Completed
 prg#:#prg_status_draft#:#Draft
 prg#:#prg_status_failed#:#failed
+prg#:#prg_status_hide_irrelevant#:#hide irrelevant
 prg#:#prg_status_in_progress#:#In Progress
 prg#:#prg_status_not_relevant#:#Not Relevant
 prg#:#prg_status_outdated#:#Outdated
 prg#:#prg_still_valid#:#valid
 prg#:#prg_subtype_add#:#Add new subtype
-prg#:#prg_subtypes#:#Types
+prg#:#prg_subtypes#:#Subtypes
 prg#:#prg_title#:#Title
 prg#:#prg_type#:#Study Programme Type
 prg#:#prg_type_add#:#Study Programme Type
@@ -12782,11 +12791,13 @@ prg#:#status_unchanged#:#Status unchanged
 prg#:#update_deadline#:#Successfully update deadline.
 prg#:#update_expire_date#:#Successfully update expire date.
 prg#:#updated_from_settings#:#Updated from settings
+prg#:#usr_active#:#User
 prg#:#validity_qualification_date#:#Qualification expires at fixed date
 prg#:#validity_qualification_date_desc#:#expiry date
 prg#:#validity_qualification_period#:#Qualification expires individually
 prg#:#validity_qualification_period_desc#:#days after completion
 prg#:#validity_updated#:#Updated validity
+prg#:#vq_date#:#Expiration
 prg#:#vq_date_info#:#Qualification expires at fixed date
 prg#:#vq_information#:#Information regarding validity of achived qualification
 prg#:#vq_period_info#:#Days until qualification will expire after achivement
