@@ -30,6 +30,7 @@ class ilStudyProgrammeDashboardViewGUI
     protected int $usr_id;
 
     protected ?string $visible_on_pd_mode = null;
+    protected ilStudyProgrammeUserTable $user_table;
 
 
     public function __construct(
@@ -58,6 +59,7 @@ class ilStudyProgrammeDashboardViewGUI
         //array ilStudyProgrammeUserTableRow[]
         $this->user_table->disablePermissionCheck(true);
         $rows = $this->user_table->fetchSingleUserRootAssignments($this->usr_id);
+        $items = [];
         foreach ($rows as $row) {
             $prg = ilObjStudyProgramme::getInstanceByObjId($row->getNodeId());
             if (! $this->isReadable($prg)) {
