@@ -49,7 +49,7 @@ class ilObjCourseReferenceAccess extends ilContainerReferenceAccess
                 include_once './Modules/CourseReference/classes/class.ilObjCourseReference.php';
                 $target_ref_id = ilObjCourseReference::_lookupTargetRefId($obj_id);
 
-                if (!$DIC->access()->checkAccessOfUser($user_id, $permission, $cmd, $target_ref_id)) {
+                if (!$target_ref_id || !$DIC->access()->checkAccessOfUser($user_id, $permission, $cmd, $target_ref_id)) {
                     return false;
                 }
                 break;
