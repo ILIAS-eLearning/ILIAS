@@ -80,6 +80,7 @@ class ilExerciseManagementGUI
     protected array $requested_status;                     // key might be ass_ids or user_ids!
     protected array $requested_tutor_notices;                     // key might be ass_ids or user_ids!
     protected array $requested_group_members;                     // "grpt"
+    /** @var array<int, list<string>> */
     protected array $requested_files;                     // "file"
     protected string $requested_filter_status;
     protected string $requested_filter_feedback;
