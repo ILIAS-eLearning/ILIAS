@@ -230,7 +230,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         URLBuilder $url_builder,
         array $post = null
     ): Component {
-        $this->initLMService($this->current_page_id);
+        $this->initLMService((int) $state->getValueFor("current_page"));
         $this->ctrl->setParameterByClass("illmpresentationgui", 'ref_id', $this->lm->getRefId());
         $content = $this->uiRenderer->render($this->messages);
         // @todo Check non-existence of third parameter (existed in ILIAS 7)
