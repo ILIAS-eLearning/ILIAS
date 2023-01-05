@@ -157,8 +157,8 @@ class ilAssLacConditionParser
 
     /**
      * Creates an array representing all Nodes in a condition based on the fetched expressions and operators.<br />
-     * The array has a tree representation which depth is dependent to the bracketing in the condition<br />
-     * The array contains of four main keys to identify the elements:<br />
+     * The array has a tree representation; its depth corresponds to the bracketing in the condition.<br />
+     * The array contains four main keys to identify the elements:<br />
      * <br />
      * <table>
      * <tr>
