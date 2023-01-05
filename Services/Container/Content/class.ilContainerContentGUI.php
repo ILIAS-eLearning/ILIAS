@@ -278,6 +278,13 @@ abstract class ilContainerContentGUI
             $this->container_gui,
             $this->getViewMode()
         );
+
+        // all event items are included per session rendering
+        // and should return true for hasItem
+        $event_items = ilEventItems::_getItemsOfContainer($this->container_obj->getRefId());
+        foreach ($event_items as $ev) {
+            $this->renderer->addItemId($ev);
+        }
     }
 
     /**
