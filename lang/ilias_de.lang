@@ -29,6 +29,9 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+<<<<<<< HEAD
+=======
+>>>>>>> ff19c1f1a3 (fixed type issues)
 acc#:#acc_add_document_btn_label#:#Dokument hinzufügen
 acc#:#acc_crit_type_usr_language#:#Benutzersprache
 acc#:#acc_criterion_assignment_must_be_unique_insert#:#Sie können das Vorlagekriterium mit der entsprechenden Konfiguration nicht zuweisen. Es existiert bereits eine identische Zuweisung.
@@ -16963,3 +16966,5 @@ wsp#:#wsp_type_ltiv#:#Zertifikat: LTI-Konsument
 wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
+wsp#:#wsp_type_webr#:#Weblink
+wsp#:#wsp_type_wfld#:#Ordner
