@@ -199,26 +199,28 @@ class ilAssLacConditionParser
         $negation = false;
 
         while ($this->index < strlen($this->condition)) {
+            // current character:
             $a = $this->condition[$this->index];
-            if (trim($this->condition[$this->index]) != "" && in_array($this->condition[$this->index], $expected)) {
-                if ($this->condition[$this->index] == ')') {
+
+            if (trim($a) != "" && in_array($a, $expected)) {
+                if ($a == ')') {
                     return $group;
-                } elseif ($this->condition[$this->index] == 'n') {
+                } elseif ($a == 'n') {
                     $group[] = array('type' => 'expression', 'value' => array_shift($this->expressions));
                     $expected = array("o", ")");
-                } elseif ($this->condition[$this->index] == 'o') {
+                } elseif ($a == 'o') {
                     $group[] = array('type' => 'operator', 'value' => array_shift($this->operators));
                     $expected = array("n", "(", "!");
-                } elseif ($this->condition[$this->index] == '(') {
+                } elseif ($a == '(') {
                     $this->index++;
                     $elements = $this->createNodeArray();
                     $group[] = array('type' => "group", "negated" => $negation, 'nodes' => $elements);
                     $negation = false;
                     $expected = array("o",")");
-                } elseif ($this->condition[$this->index] == "!") {
+                } elseif ($a == "!") {
                     $negation = true;
                 }
-            } elseif (trim($this->condition[$this->index]) != "") {
+            } elseif (trim($a) != "") {
                 throw new ilAssLacConditionParserException($this->index - $this->spaces + 1);
             } else {
                 $this->spaces++;
