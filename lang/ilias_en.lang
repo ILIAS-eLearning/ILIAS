@@ -12622,7 +12622,7 @@ prg#:#prg_dash_label_gain#:#Current Completion
 prg#:#prg_dash_label_minimum#:#Minimum Completion
 prg#:#prg_dash_label_restart_from#:#Restart from
 prg#:#prg_dash_label_status#:#Status
-prg#:#prg_dash_label_unreachable#:#Cannot be achieved
+prg#:#prg_dash_label_unreachable#:#- cannot be achieved
 prg#:#prg_dash_label_valid#:#Valid
 prg#:#prg_deadline#:#Deadline
 prg#:#prg_deadline_date#:#Processing time expires at fixed date
