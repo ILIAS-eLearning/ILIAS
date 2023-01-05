@@ -12628,6 +12628,7 @@ prg#:#prg_mark_relevant_multi_success#:#Ausgewählte Benutzer als relevant marki
 prg#:#prg_more_objects_without_read_permission#:#Das Studienprogramm beinhaltet weitere Elemente, die Sie aufgrund von fehlenden Rechten nicht einsehen dürfen.
 prg#:#prg_multi_change_deadline#:#Stichtag anpassen
 prg#:#prg_multi_change_expire_date#:#Ablauf der Qualifikation anpassen
+prg#:#prg_multi_mail_user#:#Mail versenden
 prg#:#prg_multi_mark_accredited#:#Akkreditieren
 prg#:#prg_multi_mark_relevant#:#Als relevant markieren
 prg#:#prg_multi_remove_user#:#Benutzer entfernen
