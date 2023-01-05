@@ -249,12 +249,25 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         bool $may_be_edited,
         bool $amend = false
     ): ILIAS\UI\Component\Input\Container\Form\Form {
+        switch ($this->user->getDateFormat()) {
+            case ilCalendarSettings::DATE_FORMAT_DMY:
+                $date_format = $this->data_factory->dateFormat()->germanShort();
+                break;
+            case ilCalendarSettings::DATE_FORMAT_MDY:
+                $date_format = $this->data_factory->dateFormat()->custom()->month()->slash()->day()->slash()->year()->get();
+                break;
+            case ilCalendarSettings::DATE_FORMAT_YMD:
+            default:
+                $date_format = $this->data_factory->dateFormat()->standard();
+        }
+
         $section = $this->getMember()->getGrading()->toFormInput(
             $this->input_factory->field(),
             $this->data_factory,
             $this->lng,
             $this->refinery_factory,
             $this,
+            $date_format,
             $this->getPossibleLPStates(),
             $may_be_edited,
             $this->getObject()->getSettings()->isEventTimePlaceRequired(),

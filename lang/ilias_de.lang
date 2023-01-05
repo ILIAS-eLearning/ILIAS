@@ -10008,9 +10008,9 @@ iass#:#iass_download#:#Download
 iass#:#iass_edit#:#Einstellungen
 iass#:#iass_edit_info#:#Einstellungen Kontakt
 iass#:#iass_edit_record#:#Prüfungsdaten
-iass#:#iass_event_time#:#Datum der Prüfung
-iass#:#iass_event_time_place_required#:#Pflichtangabe Datum und Ort
-iass#:#iass_event_time_place_required_info#:#Ort und Datum der Prüfung müssen eingetragen werden.
+iass#:#iass_event_time#:#Zeitpunkt der Prüfung
+iass#:#iass_event_time_place_required#:#Pflichtangabe Zeitpunkt und Ort
+iass#:#iass_event_time_place_required_info#:#Zeitpunkt und Ort der Prüfung müssen eingetragen werden.
 iass#:#iass_file#:#Datei
 iass#:#iass_file_dropzone#:#Ziehen Sie ihre Datei hierhin
 iass#:#iass_file_required#:#Pflichtangabe Prüfungsblatt
