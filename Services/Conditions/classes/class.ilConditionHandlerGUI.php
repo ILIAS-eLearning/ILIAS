@@ -368,7 +368,7 @@ class ilConditionHandlerGUI
                     ilConditionHandler::saveNumberOfRequiredTriggers(
                         $this->getTargetRefId(),
                         $this->getTargetId(),
-                        $num_req
+                        (int) $num_req
                     );
                     break;
             }
