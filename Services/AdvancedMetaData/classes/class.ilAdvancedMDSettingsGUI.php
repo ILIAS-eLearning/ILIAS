@@ -1539,6 +1539,15 @@ class ilAdvancedMDSettingsGUI
                 $t = $type["obj_type"] . ":" . $type["sub_type"];
                 $this->lng->loadLanguageModule($type["obj_type"]);
 
+                /*
+                 * BT 35914: workaround for hiding portfolio pages in portfolios,
+                 * since they only get data from portfolio templates
+                 */
+                if ($type["obj_type"] == "prtf" && $type["sub_type"] == "pfpg") {
+                    continue;
+                }
+
+
                 $type_options = $options;
                 switch ($type["obj_type"]) {
                     case "orgu":
@@ -1978,6 +1987,7 @@ class ilAdvancedMDSettingsGUI
             );
         } else {
             $this->record->enableScope(false);
+            $this->record->setScopes([]);
         }
         return $this->record;
     }
@@ -2125,8 +2135,9 @@ class ilAdvancedMDSettingsGUI
                 $tmp_arr["readonly"] = !(bool) $parent_id;
                 $tmp_arr["local"] = $parent_id;
 
-                // local records are never optional
-                $assigned = $optional = false;
+                // local records are never optional (or unassigned)
+                $assigned = (bool) $parent_id;
+                $optional = false;
                 foreach ($tmp_arr['obj_types'] as $idx => $item) {
                     if ($item["obj_type"] == $this->obj_type &&
                         in_array($item["sub_type"], $sub_type)) {
