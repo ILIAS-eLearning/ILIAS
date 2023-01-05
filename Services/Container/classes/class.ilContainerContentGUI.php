@@ -326,6 +326,13 @@ abstract class ilContainerContentGUI
             $this->container_gui,
             $this->getViewMode()
         );
+
+        // all event items are included per session rendering
+        // and should return true for hasItem
+        $event_items = ilEventItems::_getItemsOfContainer($this->container_obj->getRefId());
+        foreach ($event_items as $ev) {
+            $this->renderer->addItemId($ev);
+        }
     }
     
     /**
@@ -921,7 +928,7 @@ abstract class ilContainerContentGUI
         $items = ilObjectActivation::getItemsByItemGroup($a_itgr['ref_id']);
 
         // get all valid ids (this is filtered)
-        $all_ids = array_map(function($i) {
+        $all_ids = array_map(function ($i) {
             return $i["child"];
         }, $this->items["_all"]);
 
@@ -938,7 +945,7 @@ abstract class ilContainerContentGUI
             }
             return;
         }
-        
+
         $item_list_gui = $this->getItemGUI($a_itgr);
         $item_list_gui->enableNotes(false);
         $item_list_gui->enableTags(false);
@@ -957,8 +964,11 @@ abstract class ilContainerContentGUI
         include_once("./Modules/ItemGroup/classes/class.ilItemGroupBehaviour.php");
         $beh = ilObjItemGroup::lookupBehaviour($a_itgr["obj_id"]);
         include_once("./Services/Container/classes/class.ilContainerBlockPropertiesStorageGUI.php");
-        $stored_val = ilContainerBlockPropertiesStorageGUI::getProperty("itgr_" . $a_itgr["ref_id"], $ilUser->getId(),
-            "opened");
+        $stored_val = ilContainerBlockPropertiesStorageGUI::getProperty(
+            "itgr_" . $a_itgr["ref_id"],
+            $ilUser->getId(),
+            "opened"
+        );
         if ($stored_val !== false && $beh != ilItemGroupBehaviour::ALWAYS_OPEN) {
             $beh = ($stored_val == "1")
                 ? ilItemGroupBehaviour::EXPANDABLE_OPEN
