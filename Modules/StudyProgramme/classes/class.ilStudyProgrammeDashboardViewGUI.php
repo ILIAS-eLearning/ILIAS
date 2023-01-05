@@ -26,11 +26,9 @@ class ilStudyProgrammeDashboardViewGUI
     protected ILIAS\UI\Factory $factory;
     protected ILIAS\UI\Renderer $renderer;
     protected ilCtrl $ctrl;
-    protected int $usr_id;
-
-    protected ?string $visible_on_pd_mode = null;
     protected ilStudyProgrammeUserTable $user_table;
-
+    protected int $usr_id;
+    protected ?string $visible_on_pd_mode = null;
 
     public function __construct(
         ilLanguage $lng,
@@ -80,7 +78,6 @@ class ilStudyProgrammeDashboardViewGUI
             ];
 
             if (in_array($row->getStatusRaw(), [ilPRGProgress::STATUS_COMPLETED, ilPRGProgress::STATUS_ACCREDITED])) {
-                //$properties[] = [$this->txt('prg_dash_label_restart_from') => $row->getRestartDate()];
                 $validity = $row->getExpiryDate() ? $row->getExpiryDate() : $row->getValidity();
                 $properties[] = [$this->txt('prg_dash_label_valid') => $validity];
             } else {
