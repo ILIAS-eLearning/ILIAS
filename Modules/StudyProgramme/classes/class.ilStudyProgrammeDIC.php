@@ -308,7 +308,7 @@ class ilStudyProgrammeDIC
                 $DIC['ui.renderer'],
                 $DIC['ilCtrl'],
                 $dic['ilStudyProgrammeUserTable'],
-                $DIC['ilUser']->getId(),
+                $DIC['ilUser']->getId()
             );
         $dic['ilStudyProgrammeCommonSettingsGUI'] = static fn ($dic) =>
             new ilStudyProgrammeCommonSettingsGUI(
