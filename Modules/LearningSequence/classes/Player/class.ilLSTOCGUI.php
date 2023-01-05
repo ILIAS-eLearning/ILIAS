@@ -167,6 +167,6 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
      */
     public function isNodeHighlighted($a_node): bool
     {
-        return $a_node['current'];
+        return $a_node['current'] ?? false;
     }
 }
