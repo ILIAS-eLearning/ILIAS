@@ -168,7 +168,9 @@ class ilAssLacConditionParser
      *     <td>type</td>
      *     <td>"group", "expression", "operator"</td>
      *     <td>The type of the node - Group is used to introduce the next tree
-     *     depth</td>
+     *     depth. The type of the outermost structure returned when calling this
+     *     function from the outside is always group; that group contains the
+     *     parsed expression.</td>
      * </tr>
      * <tr>
      *     <td>negated</td>
