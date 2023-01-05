@@ -135,6 +135,7 @@ class ilIndividualAssessmentUserGrading
         ilLanguage $lng,
         Refinery $refinery,
         AbstractCtrlAwareUploadHandler $file_handler,
+        \ILIAS\Data\DateFormat\DateFormat $date_format,
         array $grading_options,
         bool $may_be_edited = true,
         bool $place_required = false,
@@ -185,6 +186,8 @@ class ilIndividualAssessmentUserGrading
 
         $event_time = $input
             ->dateTime($lng->txt('iass_event_time'))
+            ->withUseTime(true)
+            ->withFormat($date_format)
             ->withRequired($place_required)
             ->withDisabled(!$may_be_edited)
         ;
