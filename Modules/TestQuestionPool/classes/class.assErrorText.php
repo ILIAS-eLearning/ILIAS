@@ -177,7 +177,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
             $this->setPoints($data["points"]);
             $this->setOwner($data["owner"]);
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
-            $this->setErrorText($data["errortext"]);
+            $this->setErrorText((string) $data["errortext"]);
             $this->setTextSize($data["textsize"]);
             $this->setPointsWrong($data["points_wrong"]);
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
@@ -201,7 +201,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         );
         if ($result->numRows() > 0) {
             while ($data = $ilDB->fetchAssoc($result)) {
-                array_push($this->errordata, new assAnswerErrorText($data["text_wrong"], $data["text_correct"], $data["points"]));
+                array_push($this->errordata, new assAnswerErrorText((string) $data["text_wrong"], (string) $data["text_correct"], (float) $data["points"]));
             }
         }
 
