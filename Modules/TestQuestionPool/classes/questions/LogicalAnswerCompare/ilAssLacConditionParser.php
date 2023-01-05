@@ -218,8 +218,8 @@ class ilAssLacConditionParser
                     $elements = $this->createNodeArray();
                     $group[] = array('type' => "group", "negated" => $negation, 'nodes' => $elements);
                     $negation = false;
-                    $expected = array("o",")");
-                } elseif ($a == "!") {
+                    $expected = array("o", ")");
+                } elseif ($a == '!') {
                     $negation = true;
                 }
             } else {
