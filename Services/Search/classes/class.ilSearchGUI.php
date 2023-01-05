@@ -58,50 +58,59 @@ class ilSearchGUI extends ilSearchBaseGUI
         $post_search = (array) ($this->http->request()->getParsedBody()['search'] ?? []);
         $post_filter_type = (array) ($this->http->request()->getParsedBody()['filter_type'] ?? []);
         $post_cmd = (array) ($this->http->request()->getParsedBody()['cmd'] ?? []);
+        $new_search = (bool) ($post_cmd['performSearch'] ?? false);
 
         // put form values into "old" post variables
         $this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_STANDARD);
-        $this->form->checkInput();
 
-        $new_search = (bool) ($post_cmd['performSearch'] ?? false);
+        if ($new_search) {
+            // Only call `checkInput` if this is a new POST request, otherwise a `failure` will be shown (red message)
+            $this->form->checkInput();
+        }
+
         $enabled_types = ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions();
         foreach ($enabled_types as $type => $pval) {
             if (isset($post_filter_type[$type]) && $post_filter_type[$type] == 1) {
                 $post_search["details"][$type] = $post_filter_type[$type];
             }
         }
-        $post_term = '';
-        if ($this->http->wrapper()->post()->has('term')) {
-            $post_term = $this->http->wrapper()->post()->retrieve(
-                'term',
-                $this->refinery->kindlyTo()->string()
-            );
+
+        $post_term = $this->http->wrapper()->post()->retrieve(
+            'term',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always(null)
+            ])
+        );
+        $post_combination = $this->http->wrapper()->post()->retrieve(
+            'combination',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always(null)
+            ])
+        );
+        $post_type = $this->http->wrapper()->post()->retrieve(
+            'type',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->int(),
+                $this->refinery->always(null)
+            ])
+        );
+        $post_area = $this->http->wrapper()->post()->retrieve(
+            'area',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->int(),
+                $this->refinery->always(null)
+            ])
+        );
+
+        if ($new_search) {
+            ilSession::set('search_root', $post_area);
         }
-        $post_combination = '';
-        if ($this->http->wrapper()->post()->has('combination')) {
-            $post_combination = $this->http->wrapper()->post()->retrieve(
-                'combination',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
-        $post_type = 0;
-        if ($this->http->wrapper()->post()->has('type')) {
-            $post_type = $this->http->wrapper()->post()->retrieve(
-                'type',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        $post_area = 0;
-        if ($this->http->wrapper()->post()->has('area')) {
-            $post_area = $this->http->wrapper()->post()->retrieve(
-                'area',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
+
         $post_search["string"] = $post_term;
         $post_search["combination"] = $post_combination;
         $post_search["type"] = $post_type;
-        ilSession::set('search_root', (string) $post_area);
 
         $this->root_node = (int) (ilSession::get('search_root') ?? ROOT_FOLDER_ID);
 
@@ -119,6 +128,12 @@ class ilSearchGUI extends ilSearchBaseGUI
                 ($post_search['details'] ?? []) :
                 ($session_search['details'] ?? [])
         );
+
+        if ($new_search) {
+            $this->getSearchCache()->setQuery(ilUtil::stripSlashes($post_term));
+            $this->getSearchCache()->setCreationFilter($this->loadCreationFilter());
+            $this->getSearchCache()->save();
+        }
     }
 
 
@@ -163,7 +178,7 @@ class ilSearchGUI extends ilSearchBaseGUI
     */
     public function setType(int $a_type): void
     {
-        $session_search = ilSession::get('saerch');
+        $session_search = ilSession::get('search');
         $session_search['type'] = $this->type = $a_type;
         ilSession::set('search', $session_search);
     }
