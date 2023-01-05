@@ -12619,7 +12619,7 @@ prg#:#prg_dash_label_gain#:#Aktueller Stand
 prg#:#prg_dash_label_minimum#:#Minimales Ziel
 prg#:#prg_dash_label_restart_from#:#Neubeginn ab
 prg#:#prg_dash_label_status#:#Status
-prg#:#prg_dash_label_unreachable#:#Ziel kann nicht erreicht werden
+prg#:#prg_dash_label_unreachable#:#- Ziel kann nicht erreicht werden
 prg#:#prg_dash_label_valid#:#Gültigkeit
 prg#:#prg_deadline#:#Stichtag
 prg#:#prg_deadline_date#:#Bearbeitungszeitraum endet an festem Stichtag
