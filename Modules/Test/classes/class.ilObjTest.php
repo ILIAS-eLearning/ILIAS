@@ -9485,8 +9485,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $exportObj->setForcedAccessFilteredParticipantList($participantList);
         $file = $exportObj->exportToExcel($deliver = false, 'active_id', $active_id, $passedonly = false);
         $fd = new ilFileDataMail(ANONYMOUS_USER_ID);
-        $fd->copyAttachmentFile($file, "result_" . $active_id . ".xls");
-        $file_names[] = "result_" . $active_id . ".xls";
+        $fd->copyAttachmentFile($file, "result_" . $active_id . ".xlsx");
+        $file_names[] = "result_" . $active_id . ".xlsx";
 
         $mail->sendAdvancedNotification($owner_id, $this->getTitle(), $usr_data, $file_names);
 
