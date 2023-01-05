@@ -260,10 +260,10 @@ class ilStudyProgrammeUserTable
 
     public function assignmentSourceToRepresent(bool $manually, int $assignment_src): string
     {
-        if ($manually) {
+        $srcs = array_flip(ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING);
+        if ($manually || ! in_array($assignment_src, $srcs)) {
             return $this::lookupTitle($assignment_src);
         }
-        $srcs = array_flip(ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING);
         return implode(' ', [
             $this->lng->txt('prg_autoassignment'),
             $this->lng->txt($srcs[$assignment_src])
@@ -284,6 +284,6 @@ class ilStudyProgrammeUserTable
         if ($del = ilObjectDataDeletionLog::get($obj_id)) {
             return sprintf('(%s)', $del['title']);
         }
-        throw new Exception("Error Processing Request:" . $obj_id, 1);
+        return 'object id ' .$obj_id;
     }
 }
