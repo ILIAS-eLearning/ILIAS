@@ -511,7 +511,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         }
         $this->group_obj->setPassword($this->group_data['password'] ?? '');
         $this->group_obj->enableMembershipLimitation((bool) ($this->group_data['max_members_enabled'] ?? false));
-        $this->group_obj->setMaxMembers($this->group_data['max_members'] ?: 0);
+        $this->group_obj->setMaxMembers((int) ($this->group_data['max_members'] ?? 0));
         $this->group_obj->enableWaitingList((bool) ($this->group_data['waiting_list_enabled'] ?? false));
 
         $this->group_obj->setWaitingListAutoFill((bool) ($this->group_data['auto_wait'] ?? false));
