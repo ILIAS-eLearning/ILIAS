@@ -180,5 +180,6 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         if ($reference_record) {
             return (string) $reference_record->getId();
         }
+        return null;
     }
 }
