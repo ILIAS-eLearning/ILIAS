@@ -1021,7 +1021,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         $deletename = $filename;
         $result = @unlink($this->getImagePath() . $deletename);
-        $result = $result & @unlink($this->getImagePath() . $this->getThumbPrefix() . $deletename);
+        $result = $result && @unlink($this->getImagePath() . $this->getThumbPrefix() . $deletename);
         return $result;
     }
 

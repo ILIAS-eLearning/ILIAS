@@ -249,6 +249,6 @@ class ilAssLacConditionParser
         $next_bracket = strpos($this->condition, "(", $index + 1);
         $next_expression = strpos($this->condition, "n", $index + 1);
 
-        return $next_bracket !== false & $next_bracket < $next_expression;
+        return $next_bracket !== false && $next_bracket < $next_expression;
     }
 }
