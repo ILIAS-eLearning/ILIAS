@@ -21,7 +21,7 @@ class ilObjUserGUI extends ilObjectGUI
 
     /** @var ILIAS\UI\Renderer */
     protected $uiRenderer;
-    
+
     public $ilCtrl;
 
     /**
@@ -88,7 +88,7 @@ class ilObjUserGUI extends ilObjectGUI
         $this->ctrl->setParameterByClass("ilobjuserfoldergui", "letter", $_GET["letter"]);
         $this->ctrl->setContext($this->object->getId(), 'usr');
         $lng->loadLanguageModule('user');
-        
+
         // for gender selection. don't change this
         // maybe deprecated
         $this->gender = array(
@@ -181,7 +181,7 @@ class ilObjUserGUI extends ilObjectGUI
         $ilHelp = $DIC['ilHelp'];
 
         $this->tabs_gui->clearTargets();
-        
+
         $ilHelp->setScreenIdComponent("usr");
 
         if ($_GET["search"]) {
@@ -409,10 +409,10 @@ class ilObjUserGUI extends ilObjectGUI
             !$ilAccess->checkAccess('cat_administrate_users', "", $this->usrf_ref_id)) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
         }
-    
+
         $this->initCreate();
         $this->initForm("create");
-        
+
         // Manipulate form so ignore required fields are no more required. This has to be done before ilPropertyFormGUI::checkInput() is called.
         $profileMaybeIncomplete = false;
         if ($this->form_gui->getInput('ignore_rf', false)) {
@@ -424,7 +424,7 @@ class ilObjUserGUI extends ilObjectGUI
 
             // checks passed. save user
             $userObj = $this->loadValuesFromForm();
-    
+
             $userObj->setPasswd($this->form_gui->getInput('passwd'), IL_PASSWD_PLAIN);
             $userObj->setTitle($userObj->getFullname());
             $userObj->setDescription($userObj->getEmail());
@@ -438,7 +438,7 @@ class ilObjUserGUI extends ilObjectGUI
             $userObj->setUserDefinedData($udf);
 
             $userObj->create();
-            
+
             include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
             if (ilAuthUtils::_isExternalAccountEnabled()) {
                 $userObj->setExternalAccount($_POST["ext_account"]);
@@ -459,7 +459,7 @@ class ilObjUserGUI extends ilObjectGUI
             if ($this->isSettingChangeable('skin_style')) {
                 //set user skin and style
                 $sknst = explode(":", $_POST["skin_style"]);
-    
+
                 if ($userObj->getPref("style") != $sknst[1] ||
                     $userObj->getPref("skin") != $sknst[0]) {
                     $userObj->setPref("skin", $sknst[0]);
@@ -496,11 +496,11 @@ class ilObjUserGUI extends ilObjectGUI
             $ilUser->writePrefs();
 
             $this->object = $userObj;
-            
+
             if ($this->isSettingChangeable('upload')) {
                 $this->uploadUserPictureObject();
             }
-            
+
             if ($profileMaybeIncomplete) {
                 include_once 'Services/User/classes/class.ilUserProfile.php';
                 if (ilUserProfile::isProfileIncomplete($this->object)) {
@@ -596,7 +596,7 @@ class ilObjUserGUI extends ilObjectGUI
         $this->showAcceptedTermsOfService();
         $this->tpl->setContent($this->form_gui->getHTML());
     }
-    
+
     /**
      * @param object $a_mode [optional]
      * @return object ilObjUser
@@ -607,33 +607,33 @@ class ilObjUserGUI extends ilObjectGUI
 
         $ilSetting = $DIC['ilSetting'];
         $ilUser = $DIC['ilUser'];
-        
+
         switch ($a_mode) {
             case 'create':
                 $user = new ilObjUser();
                 break;
-            
+
             case 'update':
                 $user = $this->object;
                 break;
         }
-        
+
         $from = $this->form_gui->getItemByPostVar('time_limit_from')->getDate();
         $user->setTimeLimitFrom($from
             ? $from->get(IL_CAL_UNIX)
             : null);
-        
+
         $until = $this->form_gui->getItemByPostVar('time_limit_until')->getDate();
         $user->setTimeLimitUntil($until
             ? $until->get(IL_CAL_UNIX)
             : null);
-        
+
         $user->setTimeLimitUnlimited($this->form_gui->getInput('time_limit_unlimited'));
-        
+
         if ($a_mode == 'create') {
             $user->setTimeLimitOwner($this->usrf_ref_id);
         }
-        
+
         // Birthday
         if ($this->isSettingChangeable('birthday')) {
             $bd = $this->form_gui->getItemByPostVar('birthday');
@@ -642,16 +642,16 @@ class ilObjUserGUI extends ilObjectGUI
                 ? $bd->get(IL_CAL_DATE)
                 : null);
         }
-        
+
         // Login
         $user->setLogin($this->form_gui->getInput('login'));
-        
-        
+
+
         // Gender
         if ($this->isSettingChangeable('gender')) {
             $user->setGender($this->form_gui->getInput('gender'));
         }
-        
+
         // Title
         if ($this->isSettingChangeable('title')) {
             $user->setUTitle($this->form_gui->getInput('title'));
@@ -666,12 +666,12 @@ class ilObjUserGUI extends ilObjectGUI
             $user->setLastname($this->form_gui->getInput('lastname'));
         }
         $user->setFullname();
-        
+
         // Institution
         if ($this->isSettingChangeable('institution')) {
             $user->setInstitution($this->form_gui->getInput('institution'));
         }
-        
+
         // Department
         if ($this->isSettingChangeable('department')) {
             $user->setDepartment($this->form_gui->getInput('department'));
@@ -732,12 +732,12 @@ class ilObjUserGUI extends ilObjectGUI
         if ($this->isSettingChangeable('referral_comment')) {
             $user->setComment($this->form_gui->getInput('referral_comment'));
         }
-        
+
         // interests
         $user->setGeneralInterests($this->form_gui->getInput('interests_general'));
         $user->setOfferingHelp($this->form_gui->getInput('interests_help_offered'));
         $user->setLookingForHelp($this->form_gui->getInput('interests_help_looking'));
-        
+
         // ClientIP
         $user->setClientIP($this->form_gui->getInput('client_ip'));
 
@@ -745,7 +745,7 @@ class ilObjUserGUI extends ilObjectGUI
         $user->setLatitude($this->form_gui->getInput('latitude'));
         $user->setLongitude($this->form_gui->getInput('longitude'));
         $user->setLocationZoom($this->form_gui->getInput('loc_zoom'));
-        
+
         // External account
         $user->setAuthMode($this->form_gui->getInput('auth_mode'));
         $user->setExternalAccount($this->form_gui->getInput('ext_account'));
@@ -753,10 +753,10 @@ class ilObjUserGUI extends ilObjectGUI
         if ((int) $user->getActive() != (int) $this->form_gui->getInput('active')) {
             $user->setActive($this->form_gui->getInput('active'), $ilUser->getId());
         }
-        
+
         return $user;
     }
-    
+
 
     /**
     * Update user
@@ -769,7 +769,7 @@ class ilObjUserGUI extends ilObjectGUI
         $rbacsystem = $DIC->rbac()->system();
         $ilUser = $DIC->user();
         $access = $DIC->access();
-        
+
         // User folder && access granted by rbac or by org unit positions
         if ($this->usrf_ref_id == USER_FOLDER_ID &&
             (
@@ -797,18 +797,18 @@ class ilObjUserGUI extends ilObjectGUI
             }
         }
         $this->initForm("edit");
-        
+
         // we do not want to store this dates, they are only printed out
         unset($_POST['approve_date']);
         $_POST['agree_date'] = $this->object->getAgreeDate();
         unset($_POST['last_login']);
-        
+
         // Manipulate form so ignore required fields are no more required. This has to be done before ilPropertyFormGUI::checkInput() is called.
         $profileMaybeIncomplete = false;
         if ($this->form_gui->getInput('ignore_rf', false)) {
             $profileMaybeIncomplete = $this->handleIgnoredRequiredFields();
         }
-        
+
         if ($this->form_gui->checkInput()) {
             // @todo: external account; time limit
             // if not allowed or empty -> do no change password
@@ -816,7 +816,7 @@ class ilObjUserGUI extends ilObjectGUI
                 && trim($_POST['passwd']) != "") {
                 $this->object->setPasswd($_POST['passwd'], IL_PASSWD_PLAIN);
             }
-                        
+
             /*
              * reset counter for failed logins
              * if $_POST['active'] is set to 1
@@ -824,7 +824,7 @@ class ilObjUserGUI extends ilObjectGUI
             if ($_POST['active'] == 1) {
                 ilObjUser::_resetLoginAttempts($this->object->getId());
             }
-            
+
             #$this->object->assignData($_POST);
             $this->loadValuesFromForm('update');
 
@@ -835,7 +835,7 @@ class ilObjUserGUI extends ilObjectGUI
                 }
             }
             $this->object->setUserDefinedData($udf);
-            
+
             try {
                 $this->object->updateLogin($_POST['login']);
             } catch (ilUserException $e) {
@@ -843,10 +843,10 @@ class ilObjUserGUI extends ilObjectGUI
                 $this->form_gui->setValuesByPost();
                 return $tpl->setContent($this->form_gui->getHtml());
             }
-            
+
             $this->object->setTitle($this->object->getFullname());
             $this->object->setDescription($this->object->getEmail());
-            
+
             if ($this->isSettingChangeable('language')) {
                 $this->object->setLanguage($this->form_gui->getInput('language'));
             }
@@ -854,7 +854,7 @@ class ilObjUserGUI extends ilObjectGUI
             if ($this->isSettingChangeable('skin_style')) {
                 //set user skin and style
                 $sknst = explode(":", $_POST["skin_style"]);
-    
+
                 if ($this->object->getPref("style") != $sknst[1] ||
                     $this->object->getPref("skin") != $sknst[0]) {
                     $this->object->setPref("skin", $sknst[0]);
@@ -881,7 +881,7 @@ class ilObjUserGUI extends ilObjectGUI
             // set a timestamp for last_password_change
             // this ts is needed by ilSecuritySettings
             $this->object->setLastPasswordChangeTS(time());
-            
+
             global $DIC;
 
             $ilSetting = $DIC['ilSetting'];
@@ -891,10 +891,10 @@ class ilObjUserGUI extends ilObjectGUI
 
             // #10054 - profile may have been completed, check below is only for incomplete
             $this->object->setProfileIncomplete(false);
-            
+
             $this->update = $this->object->update();
-                        
-                
+
+
             // If the current user is editing its own user account,
             // we update his preferences.
             if ($ilUser->getId() == $this->object->getId()) {
@@ -905,12 +905,12 @@ class ilObjUserGUI extends ilObjectGUI
 
             $mail_message = $this->__sendProfileMail();
             $msg = $this->lng->txt('saved_successfully') . $mail_message;
-            
+
             // same personal image
             if ($this->isSettingChangeable('upload')) {
                 $this->uploadUserPictureObject();
             }
-                        
+
             if ($profileMaybeIncomplete) {
                 include_once 'Services/User/classes/class.ilUserProfile.php';
                 if (ilUserProfile::isProfileIncomplete($this->object)) {
@@ -918,7 +918,7 @@ class ilObjUserGUI extends ilObjectGUI
                     $this->object->update();
                 }
             }
-                        
+
             // feedback
             ilUtil::sendSuccess($msg, true);
 
@@ -966,7 +966,7 @@ class ilObjUserGUI extends ilObjectGUI
              : null;
         $data["active"] = $this->object->getActive();
         $data["time_limit_unlimited"] = $this->object->getTimeLimitUnlimited();
-        
+
         $data["time_limit_from"] = $this->object->getTimeLimitFrom()
             ? new ilDateTime($this->object->getTimeLimitFrom(), IL_CAL_UNIX)
             : null;
@@ -997,7 +997,7 @@ class ilObjUserGUI extends ilObjectGUI
         $data["second_email"] = $this->object->getSecondEmail();
         $data["hobby"] = $this->object->getHobby();
         $data["referral_comment"] = $this->object->getComment();
-        
+
         // interests
         $data["interests_general"] = $this->object->getGeneralInterests();
         $data["interests_help_offered"] = $this->object->getOfferingHelp();
@@ -1087,7 +1087,7 @@ class ilObjUserGUI extends ilObjectGUI
             $id->setValue($this->object->getId());
             $this->form_gui->addItem($id);
         }
-        
+
         // login
         $lo = new ilUserLoginInputGUI($lng->txt("login"), "login");
         $lo->setRequired(true);
@@ -1095,7 +1095,7 @@ class ilObjUserGUI extends ilObjectGUI
             $lo->setCurrentUserId($this->object->getId());
             try {
                 include_once 'Services/Calendar/classes/class.ilDate.php';
- 
+
                 $last_history_entry = ilObjUser::_getLastHistoryDataByUserId($this->object->getId());
                 $lo->setInfo(
                     sprintf(
@@ -1107,7 +1107,7 @@ class ilObjUserGUI extends ilObjectGUI
             } catch (ilUserException $e) {
             }
         }
-        
+
         $this->form_gui->addItem($lo);
 
         // passwords
@@ -1158,7 +1158,7 @@ class ilObjUserGUI extends ilObjectGUI
 
         // access	@todo: get fields right (names change)
         $lng->loadLanguageModule('crs');
-        
+
         // access
         $radg = new ilRadioGroupInputGUI($lng->txt("time_limit"), "time_limit_unlimited");
         $radg->setValue(1);
@@ -1166,7 +1166,7 @@ class ilObjUserGUI extends ilObjectGUI
         $radg->addOption($op1);
         $op2 = new ilRadioOption($lng->txt("user_access_limited"), 0);
         $radg->addOption($op2);
-        
+
         //		$ac = new ilCheckboxInputGUI($lng->txt("time_limit"), "time_limit_unlimited");
         //		$ac->setChecked(true);
         //		$ac->setOptionTitle($lng->txt("crs_unlimited"));
@@ -1267,7 +1267,7 @@ class ilObjUserGUI extends ilObjectGUI
             array("phone_home", 30, 30),
             array("phone_mobile", 30, 30),
             array("fax", 30, 30));
-            
+
         $counter = 0;
         foreach ($fields as $field) {
             if (!$counter++ and $this->isSettingChangeable($field[0])) {
@@ -1309,11 +1309,11 @@ class ilObjUserGUI extends ilObjectGUI
                 $settings["require_email"]);
             $this->form_gui->addItem($em);
         }
-        
+
         // second email
         if ($this->isSettingChangeable('second_email')) {
             $em = new ilEMailInputGUI($lng->txt("second_email"), "second_email");
-            
+
             $this->form_gui->addItem($em);
         }
 
@@ -1336,14 +1336,14 @@ class ilObjUserGUI extends ilObjectGUI
                 $settings["require_referral_comment"]);
             $this->form_gui->addItem($rc);
         }
-        
-        
+
+
         // interests
-        
+
         $sh = new ilFormSectionHeaderGUI();
         $sh->setTitle($lng->txt("interests"));
         $this->form_gui->addItem($sh);
-        
+
         $multi_fields = array("interests_general", "interests_help_offered", "interests_help_looking");
         foreach ($multi_fields as $multi_field) {
             if ($this->isSettingChangeable($multi_field)) {
@@ -1357,8 +1357,8 @@ class ilObjUserGUI extends ilObjectGUI
                 $this->form_gui->addItem($ti);
             }
         }
-        
-        
+
+
         // other information
         if ($this->isSettingChangeable('user_profile_other')) {
             $sec_oi = new ilFormSectionHeaderGUI();
@@ -1387,13 +1387,13 @@ class ilObjUserGUI extends ilObjectGUI
         // additional user defined fields
         include_once './Services/User/classes/class.ilUserDefinedFields.php';
         $user_defined_fields = ilUserDefinedFields::_getInstance();
-        
+
         if ($this->usrf_ref_id == USER_FOLDER_ID) {
             $all_defs = $user_defined_fields->getDefinitions();
         } else {
             $all_defs = $user_defined_fields->getChangeableLocalUserAdministrationDefinitions();
         }
-        
+
         foreach ($all_defs as $field_id => $definition) {
             include_once './Services/User/classes/class.ilCustomUserFieldsHelper.php';
             $f_property = ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition($definition, true);
@@ -1491,7 +1491,7 @@ class ilObjUserGUI extends ilObjectGUI
             $hpp->setOptions($options);
             $hpp->setValue($ilSetting->get("hits_per_page"));
             $this->form_gui->addItem($hpp);
-    
+
             // users online
             /*$uo = new ilSelectInputGUI($lng->txt("users_online"),
                 'show_users_online');
@@ -1550,7 +1550,7 @@ class ilObjUserGUI extends ilObjectGUI
             $cb->setValue(1);
             $this->form_gui->addItem($cb);
         }
-        
+
         // Options
         if ($this->isSettingChangeable('send_mail')) {
             $sec_op = new ilFormSectionHeaderGUI();
@@ -1564,7 +1564,7 @@ class ilObjUserGUI extends ilObjectGUI
         $se->setValue('y');
         $se->setChecked(($ilUser->getPref('send_info_mails') == 'y'));
         $this->form_gui->addItem($se);
-        
+
         // ignore required fields
         $irf = new ilCheckboxInputGUI($lng->txt('ignore_required_fields'), 'ignore_rf');
         $irf->setInfo($lng->txt('ignore_required_fields_info'));
@@ -1582,7 +1582,7 @@ class ilObjUserGUI extends ilObjectGUI
         }
         $this->form_gui->addCommandButton("cancel", $lng->txt("cancel"));
     }
-    
+
     /**
      * Check if setting is visible
      * This is the case when called from user folder.
@@ -1594,18 +1594,18 @@ class ilObjUserGUI extends ilObjectGUI
     protected function isSettingChangeable($a_field)
     {
         // TODO: Allow mixed field parameter to support checks against an array of field names.
-        
+
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
         static $settings = null;
-        
-        
-        
+
+
+
         if ($this->usrf_ref_id == USER_FOLDER_ID) {
             return true;
         }
-        
+
         if ($settings == null) {
             $settings = $ilSetting->getAll();
         }
@@ -1683,7 +1683,7 @@ class ilObjUserGUI extends ilObjectGUI
             $thumb_file = ilUtil::escapeShellArg($thumb_file);
             $xthumb_file = ilUtil::escapeShellArg($xthumb_file);
             $xxthumb_file = ilUtil::escapeShellArg($xxthumb_file);
-            
+
             if (ilUtil::isConvertVersionAtLeast("6.3.8-3")) {
                 ilUtil::execConvert($uploaded_file . "[0] -geometry 200x200^ -gravity center -extent 200x200 -quality 100 JPEG:" . $show_file);
                 ilUtil::execConvert($uploaded_file . "[0] -geometry 100x100^ -gravity center -extent 100x100 -quality 100 JPEG:" . $thumb_file);
@@ -1811,7 +1811,7 @@ class ilObjUserGUI extends ilObjectGUI
         $ilUser = $DIC['ilUser'];
         $ilTabs = $DIC['ilTabs'];
         $access = $DIC->access();
-        
+
         $ilTabs->activateTab("role_assignment");
 
         if (!$rbacsystem->checkAccess("edit_roleassignment", $this->usrf_ref_id) &&
@@ -1842,12 +1842,8 @@ class ilObjUserGUI extends ilObjectGUI
         include_once("./Services/User/classes/class.ilRoleAssignmentTableGUI.php");
         $tab = new ilRoleAssignmentTableGUI($this, "roleassignment");
 
-
-        if (true) {
-            $tab->parse((int) $this->object->getId());
-            $this->tpl->setVariable("ROLES_TABLE", $tab->getHTML());
-            return;
-        }
+        $tab->parse($this->object->getId());
+        $this->tpl->setVariable("ROLES_TABLE", $tab->getHTML());
     }
 
     /**
@@ -1861,7 +1857,7 @@ class ilObjUserGUI extends ilObjectGUI
         $table_gui->resetOffset();                // sets record offest to 0 (first page)
         $this->roleassignmentObject();
     }
-    
+
     /**
     * Reset filter
     */
@@ -1873,7 +1869,7 @@ class ilObjUserGUI extends ilObjectGUI
         $table_gui->resetFilter();                // clears filter
         $this->roleassignmentObject();
     }
-    
+
     public function __getDateSelect($a_type, $a_varname, $a_selected)
     {
         switch ($a_type) {
@@ -2070,7 +2066,7 @@ class ilObjUserGUI extends ilObjectGUI
 
         return "<br/>" . $this->lng->txt("mail_sent");
     }
-    
+
     /**
      * Goto user profile screen
      */
@@ -2080,7 +2076,7 @@ class ilObjUserGUI extends ilObjectGUI
 
         $ilUser = $DIC['ilUser'];
         $ilCtrl = $DIC['ilCtrl'];
-                
+
         // #10888
         if ($a_target == md5("usrdelown")) {
             if ($ilUser->getId() != ANONYMOUS_USER_ID &&
@@ -2090,7 +2086,7 @@ class ilObjUserGUI extends ilObjectGUI
             }
             exit("This account is not flagged for deletion."); // #12160
         }
-        
+
         // badges
         if (substr($a_target, -4) == "_bdg") {
             $_GET["baseClass"] = "ilDashboardGUI";
@@ -2150,41 +2146,41 @@ class ilObjUserGUI extends ilObjectGUI
     protected function handleIgnoredRequiredFields()
     {
         $profileMaybeIncomplete = false;
-        
+
         require_once 'Services/User/classes/class.ilUserProfile.php';
-        
+
         foreach (ilUserProfile::getIgnorableRequiredSettings() as $fieldName) {
             $elm = $this->form_gui->getItemByPostVar($fieldName);
-            
+
             if (!$elm) {
                 continue;
             }
-            
+
             if ($elm->getRequired()) {
                 $profileMaybeIncomplete = true;
-                
+
                 // Flag as optional
                 $elm->setRequired(false);
             }
         }
-        
+
         include_once 'Services/User/classes/class.ilUserDefinedFields.php';
         $user_defined_fields = ilUserDefinedFields::_getInstance();
         foreach ($user_defined_fields->getDefinitions() as $field_id => $definition) {
             $elm = $this->form_gui->getItemByPostVar('udf_' . $definition['field_id']);
-            
+
             if (!$elm) {
                 continue;
             }
-            
+
             if ($elm->getRequired() && $definition['changeable'] && $definition['required'] && $definition['visible']) {
                 $profileMaybeIncomplete = true;
-                
+
                 // Flag as optional
                 $elm->setRequired(false);
             }
         }
-        
+
         return $profileMaybeIncomplete;
     }
 
