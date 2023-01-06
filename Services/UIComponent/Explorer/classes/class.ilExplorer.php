@@ -1048,13 +1048,11 @@ class ilExplorer
         if (!is_array(ilSession::get($this->expand_variable))) {
             ilSession::set($this->expand_variable, [$this->getRoot()]);
         }
-        // IF $_GET["expand"] is positive => expand this node
         if ($a_node_id > 0 && !in_array($a_node_id, ilSession::get($this->expand_variable))) {
             $exp = ilSession::get($this->expand_variable);
             $exp[] = $a_node_id;
             ilSession::set($this->expand_variable, $exp);
         }
-        // IF $_GET["expand"] is negative => compress this node
         if ($a_node_id < 0) {
             $key = array_keys(ilSession::get($this->expand_variable), -(int) $a_node_id);
             $exp = ilSession::get($this->expand_variable);

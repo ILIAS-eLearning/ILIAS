@@ -69,7 +69,6 @@ class StandardGUIRequest
     /** @return int [] */
     public function getSelectedIds(): array
     {
-        // initially these came per $_GET["item_ref_id"] or $_POST["id"];
         if ($this->int("item_ref_id") > 0) {
             $ids = [$this->int("item_ref_id")];
         } else {
