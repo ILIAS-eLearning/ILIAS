@@ -216,7 +216,7 @@ class ilIndividualAssessmentMembersTableGUI
         }
 
         return array_merge(
-            [$this->txt("grading") . ":" => $this->getEntryForStatus($record->LPStatus())],
+            $record->LPStatus() ? [$this->txt("grading") . ":" => $this->getEntryForStatus($record->LPStatus())] : [],
             $this->getImportantInfos($record, false),
             $this->getLocationInfos(
                 $record->finalized(),
