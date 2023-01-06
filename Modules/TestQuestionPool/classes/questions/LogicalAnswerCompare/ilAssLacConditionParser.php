@@ -278,7 +278,7 @@ class ilAssLacConditionParser
     /**
      * @param int $index
      */
-    protected function surroundNegationExpression($index): void
+    protected function surroundNegationExpression(int $index): void
     {
         $start = strpos($this->condition, "n", $index + 1);
         $end = false;
@@ -297,7 +297,7 @@ class ilAssLacConditionParser
      *
      * @return boolean
      */
-    protected function isNegationSurroundedByBrackets($index)
+    protected function isNegationSurroundedByBrackets(int $index)
     {
         $next_bracket = strpos($this->condition, "(", $index + 1);
         $next_expression = strpos($this->condition, "n", $index + 1);
