@@ -52,7 +52,6 @@ class ilOrgUnitPermissionQueries
 
         $template_set->setProtected(!$editable);
         $template_set->afterObjectLoad();
-
         return $template_set;
     }
 

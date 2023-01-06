@@ -1760,7 +1760,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 "-",
                 $value
             );
-            $role_assignment[$keys[0]] = $keys[1];
+            if (count($keys) === 2) {
+                $role_assignment[$keys[0]] = $keys[1];
+            }
         }
 
         $importParser = new ilUserImportParser(
