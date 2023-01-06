@@ -93,11 +93,6 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
     /** @param int[] $user_ids */
     public function filterUserIdsByPositionOfCurrentUser(string $pos_perm, int $ref_id, array $user_ids): array
     {
-        // If context is not activated, return same array of $user_ids
-        if (!$this->set->getObjectPositionSettingsByType($this->getTypeForRefId($ref_id))->isActive()) {
-            return $user_ids;
-        }
-
         $current_user_id = $this->getCurrentUsersId();
 
         return $this->filterUserIdsByPositionOfUser($current_user_id, $pos_perm, $ref_id, $user_ids);
@@ -111,15 +106,10 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         int $ref_id,
         array $user_ids
     ): array {
-        // If context is not activated, return same array of $user_ids
-        if (!$this->set->getObjectPositionSettingsByType($this->getTypeForRefId($ref_id))->isActive()) {
-            return $user_ids;
-        }
-
         // $all_available_users = $this->ua->getUserIdsOfOrgUnit()
         $operation = ilOrgUnitOperationQueries::findByOperationString($pos_perm, $this->getTypeForRefId($ref_id));
         if (!$operation) {
-            return $user_ids;
+            return [];
         }
 
         $allowed_user_ids = [];
@@ -181,7 +171,6 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 
     public function checkPositionAccess(string $pos_perm, int $ref_id): bool
     {
-        // If context is not activated, return same array of $user_ids
         if (!$this->isPositionActiveForRefId($ref_id)) {
             return false;
         }
@@ -205,7 +194,6 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 
     public function hasCurrentUserAnyPositionAccess(int $ref_id): bool
     {
-        // If context is not activated, return same array of $user_ids
         if (!$this->isPositionActiveForRefId($ref_id)) {
             return false;
         }
@@ -230,7 +218,6 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
             return true;
         }
 
-        // If context is not activated, return same array of $user_ids
         if (!$this->isPositionActiveForRefId($ref_id)) {
             return false;
         }
@@ -249,10 +236,6 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 
         // If RBAC allows, just return true
         if ($this->access->checkAccess($rbac_perm, '', $ref_id)) {
-            return $user_ids;
-        }
-        // If context is not activated, return same array of $user_ids
-        if (!$this->isPositionActiveForRefId($ref_id)) {
             return $user_ids;
         }
 
