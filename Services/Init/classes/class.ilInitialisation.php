@@ -1094,9 +1094,7 @@ class ilInitialisation
      */
     protected static function handleDevMode(): void
     {
-        if ((defined(SHOWNOTICES) && SHOWNOTICES) || version_compare(PHP_VERSION, '8.0', '>=')) {
-            error_reporting(-1);
-        }
+        error_reporting(-1);
     }
 
     protected static bool $already_initialized = false;
