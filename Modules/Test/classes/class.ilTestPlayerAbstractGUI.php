@@ -1875,8 +1875,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function populateKioskHead()
     {
-        ilUtil::sendInfo(); // ???
-
         $head = $this->getKioskHead();
 
         if (strlen($head)) {
