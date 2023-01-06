@@ -140,26 +140,31 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemAbstractionStorage i
      */
     public function deleteCurrentFile(): void
     {
-        $this->deleteFile($this->getFilePath());
+        $filepath = $this->getFilePath();
+        if ($filepath) {
+            $this->deleteFile($filepath);
+        }
     }
 
     /**
      * Get the path of file
      */
-    public function getFilePath(): string
+    public function getFilePath(): ?string
     {
+        $filename = $this->getFileName();
+        if ($filename === null) {
+            return null;
+        }
         return $this->getAbsolutePath() . "/" . $this->getFileName();
     }
 
     /**
      * Get the name of the file
-     *
-     * @return string
      */
-    public function getFileName()
+    public function getFileName(): ?string
     {
         $files = $this->readDir();
-        return $files[0];
+        return $files[0] ?? null;
     }
 
     /**

@@ -76,24 +76,17 @@ class ilIndividualAssessmentMembersTableGUI
             function (
                 PresentationRow $row,
                 ilIndividualAssessmentMember $record,
-                Factory $ui_factory,
+                Factory $ui,
                 $environment
             ) {
-                $headline = $this->getHeadline($record);
-                $subheadline = $this->getSubheadline($record);
-                $important_infos = $this->importantInfos($record);
-                $further_fields = $this->getFurtherFields($record);
-                $content = $this->getContent($record);
-                $action = $this->getAction($record, $ui_factory);
-
                 return $row
-                    ->withHeadline($headline)
-                    ->withSubheadline($subheadline)
-                    ->withImportantFields($important_infos)
-                    ->withContent($ui_factory->listing()->descriptive($content))
+                    ->withHeadline($this->getHeadline($record))
+                    ->withSubheadline($this->getSubheadline($record))
+                    ->withImportantFields($this->getImportantInfos($record))
+                    ->withContent($ui->listing()->descriptive($this->getContent($record)))
                     ->withFurtherFieldsHeadline($this->txt("iass_further_field_headline"))
-                    ->withFurtherFields($further_fields)
-                    ->withAction($action);
+                    ->withFurtherFields($this->getFurtherFields($record))
+                    ->withAction($this->getAction($record, $ui));
             }
         );
 
@@ -127,11 +120,13 @@ class ilIndividualAssessmentMembersTableGUI
      *
      * @return string[]
      */
-    protected function importantInfos(ilIndividualAssessmentMember $record): array
+    protected function getImportantInfos(ilIndividualAssessmentMember $record, bool $finalized_only = true): array
     {
-        $finalized = $record->finalized();
-
-        if ((!$this->userMayViewGrades() && !$this->userMayEditGrades()) || !$finalized) {
+        if (
+            (!$this->userMayViewGrades() && !$this->userMayEditGrades())
+            ||
+            (!$record->finalized() && $finalized_only)
+        ) {
             return [];
         }
 
@@ -221,7 +216,8 @@ class ilIndividualAssessmentMembersTableGUI
         }
 
         return array_merge(
-            $this->importantInfos($record),
+            [$this->txt("grading") . ":" => $this->getEntryForStatus($record->LPStatus())],
+            $this->getImportantInfos($record, false),
             $this->getLocationInfos(
                 $record->finalized(),
                 $record->id(),
@@ -294,14 +290,13 @@ class ilIndividualAssessmentMembersTableGUI
      */
     protected function getGradedInformation(?DateTimeImmutable $event_time): array
     {
-        $event_time_str = "";
-        if (!is_null($event_time)) {
-            $dt = new ilDate($event_time->format("Y-m-d"), IL_CAL_DATE);
-            $event_time_str = ilDatePresentation::formatDate($dt);
+        if (is_null($event_time)) {
+            return [];
         }
-        return array(
-            $this->txt("iass_event_time") . ": " => $event_time_str
-        );
+
+        $dt = new ilDate($event_time->format("Y-m-d"), IL_CAL_DATE);
+        $event_time_str = ilDatePresentation::formatDate($dt);
+        return [$this->txt("iass_event_time") . ": " => $event_time_str];
     }
 
     /**
@@ -349,16 +344,14 @@ class ilIndividualAssessmentMembersTableGUI
         int $examiner_id = null
     ): array {
         if (!$this->viewLocation($finalized, $usr_id, $examiner_id)) {
-            return array();
+            return [];
         }
 
         if ($location === "" || is_null($location)) {
-            $location = $this->txt("none");
+            return [];
         }
 
-        return array(
-            $this->txt("iass_location") . ": " => $location
-        );
+        return [$this->txt("iass_location") . ": " => $location];
     }
 
     /**
@@ -368,9 +361,11 @@ class ilIndividualAssessmentMembersTableGUI
      */
     protected function getRecordNote(string $record_note): array
     {
-        return array(
-            $this->txt("iass_record") => $record_note
-        );
+        if (is_null($record_note)) {
+            return [];
+        }
+
+        return [$this->txt("iass_record") => $record_note];
     }
 
     /**
@@ -381,12 +376,10 @@ class ilIndividualAssessmentMembersTableGUI
     protected function getInternalRecordNote(string $internal_note = null): array
     {
         if (is_null($internal_note)) {
-            $internal_note = "";
+            return [];
         }
 
-        return array(
-            $this->txt("iass_internal_note") => $internal_note
-        );
+        return [$this->txt("iass_internal_note") => $internal_note];
     }
 
     /**
