@@ -1824,10 +1824,8 @@ class ilObjUserGUI extends ilObjectGUI
         // init table
         $tab = new ilRoleAssignmentTableGUI($this, "roleassignment");
 
-        if (true) {
-            $tab->parse($this->object->getId());
-            $this->tpl->setVariable("ROLES_TABLE", $tab->getHTML());
-        }
+        $tab->parse($this->object->getId());
+        $this->tpl->setVariable("ROLES_TABLE", $tab->getHTML());
     }
 
     /**
