@@ -130,8 +130,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
         $this->cs = $DIC->contentStyle();
 
-        // note: using $DIC->http()->request()->getQueryParams() here will
-        // fail, since the goto magic currently relies on setting $_GET
         $this->initByRequest($query_params, $embed_mode);
 
         // check, if learning module is online
