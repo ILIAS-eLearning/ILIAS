@@ -571,8 +571,10 @@ class ilTable2GUI extends ilTableGUI
             case self::FILTER_NUMBER_RANGE:
                 $item = new ilCombinationInputGUI($caption, $id);
                 $combi_item = new ilNumberInputGUI("", $id . "_from");
+                $combi_item->setSize(5);
                 $item->addCombinationItem("from", $combi_item, $lng->txt("from"));
                 $combi_item = new ilNumberInputGUI("", $id . "_to");
+                $combi_item->setSize(5);
                 $item->addCombinationItem("to", $combi_item, $lng->txt("to"));
                 $item->setComparisonMode(ilCombinationInputGUI::COMPARISON_ASCENDING);
                 //$item->setMaxLength(7);
