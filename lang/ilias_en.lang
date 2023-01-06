@@ -11256,7 +11256,9 @@ meta#:#md_adv_record_lng_table_lng#:#Language
 meta#:#md_adv_records#:#Data Sets
 meta#:#md_adv_records_exported#:#New export file(s) successfully created.
 meta#:#md_adv_scope#:#Scope
+meta#:#md_adv_scope_info#:#Usage of this custom metadata set will be limited to selected parts of the repository.
 meta#:#md_adv_scope_list_header#:#Limited to:
+meta#:#md_adv_scope_objects#:#Data Set Effective From
 meta#:#md_adv_searchable#:#Searchable
 meta#:#md_adv_select_one_file#:#Please select only one file.
 meta#:#md_adv_show#:#Show
