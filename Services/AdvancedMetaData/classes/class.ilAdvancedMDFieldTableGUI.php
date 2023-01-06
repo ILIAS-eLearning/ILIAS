@@ -60,6 +60,12 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.edit_fields_row.html", "Services/AdvancedMetaData");
         $this->setDefaultOrderField("position");
+        /*
+         * BT 35830: disable pagination to prevent that and similar issues due to
+         * this object being a sort of table/form hybrid. There should rarely be more
+         * than 10 rows anyways, and the fix is only temporary until the switch to KS.
+         */
+        $this->setLimit(9999);
     }
 
     public function numericOrdering(string $a_field): bool

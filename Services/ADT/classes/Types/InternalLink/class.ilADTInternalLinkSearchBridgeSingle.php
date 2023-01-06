@@ -2,7 +2,21 @@
 
 declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * external link search bridge
@@ -28,6 +42,9 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
     {
         $title = new ilTextInputGUI($this->getTitle(), $this->getElementId());
         $title->setSize(255);
+
+        $title->setValue((string) $this->getADT()->getTargetRefId());
+
         $this->addToParentElement($title);
     }
 
@@ -37,7 +54,7 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
     public function loadFilter(): void
     {
         $value = $this->readFilter();
-        if ($value !== null) {
+        if (is_numeric($value)) {
             $this->getADT()->setTargetRefId((int) $value);
         }
     }
@@ -47,10 +64,17 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
         $post = $this->extractPostValues($a_post);
 
         if ($post && $this->shouldBeImportedFromPost($post)) {
-            $item = $this->getForm()->getItemByPostVar($this->getElementId());
-            $item->setValue($post);
-            $this->getADT()->setTargetRefId($post);
+            if ($this->getForm() instanceof ilPropertyFormGUI) {
+                $item = $this->getForm()->getItemByPostVar($this->getElementId());
+                $item->setValue($post);
+            } elseif (array_key_exists($this->getElementId(), $this->table_filter_fields)) {
+                $this->table_filter_fields[$this->getElementId()]->setValue($post);
+                $this->writeFilter($post);
+            }
+
+            $this->getADT()->setTargetRefId(is_numeric($post) ? (int) $post : null);
         } else {
+            $this->writeFilter();
             $this->getADT()->setTargetRefId(null);
         }
         return true;
