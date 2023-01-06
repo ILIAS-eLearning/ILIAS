@@ -8,6 +8,11 @@ Business Rules
 
 - The starting point process will be triggered, if a user session starts at the login. If the user browser throught the public area before, ILIAS will keep the users at the reference ID location in the repository. JF decision: https://mantis.ilias.de/view.php?id=30710
 
+## Personal Profile
+
+Camera Input for Profile Picture
+
+- There are some known issues in various iOS mobile version that unfortunately show inconsistent behaviour. See 
 
 ## Change Listeners for global User Field Attributes
 
