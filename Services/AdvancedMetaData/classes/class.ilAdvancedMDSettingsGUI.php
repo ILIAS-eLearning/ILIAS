@@ -1497,11 +1497,12 @@ class ilAdvancedMDSettingsGUI
         if (!$this->obj_type) {
             // scope
             $scope = new ilCheckboxInputGUI($this->lng->txt('md_adv_scope'), 'scope');
+            $scope->setInfo($this->lng->txt('md_adv_scope_info'));
             $scope->setChecked($this->record->enabledScope());
             $scope->setValue("1");
             $this->form->addItem($scope);
             $subitems = new ilRepositorySelector2InputGUI(
-                $this->lng->txt("objects"),
+                $this->lng->txt('md_adv_scope_objects'),
                 "scope_containers",
                 true,
                 $this->form
