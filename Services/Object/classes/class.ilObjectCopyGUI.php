@@ -136,7 +136,7 @@ class ilObjectCopyGUI
             ilLoggerFactory::getLogger('obj')->debug('Multiple sources: ' . implode('_', $this->getSources()));
         }
         if ($this->retriever->has('source_id')) {
-            $this->setSource(array($this->retriever->getMaybeInt('source_id')));
+            $this->setSource([$this->retriever->getMaybeInt('source_id')]);
             $this->ctrl->setParameter($this, 'source_ids', implode('_', $this->getSources()));
             ilLoggerFactory::getLogger('obj')->debug('source_id is set: ' . implode('_', $this->getSources()));
         }
@@ -234,14 +234,12 @@ class ilObjectCopyGUI
     protected function initTargetSelection(): void
     {
         $this->ctrl->setParameter($this, 'selectMode', self::TARGET_SELECTION);
-        // empty session on init
-        $_SESSION['paste_copy_repexpand'] = array();
 
         // copy opened nodes from repository explorer
-        $_SESSION['paste_copy_repexpand'] = $_SESSION['repexpand'] ?? [];
+        $node_ids = is_array(ilSession::get('repexpand')) ? ilSession::get('repexpand') : [];
 
         // begin-patch mc
-        $this->setTargets(array());
+        $this->setTargets([]);
         // cognos-blu-patch: end
 
         // open current position
@@ -249,12 +247,14 @@ class ilObjectCopyGUI
             if ($source_id) {
                 $path = $this->tree->getPathId($source_id);
                 foreach ($path as $node_id) {
-                    if (!in_array($node_id, $_SESSION['paste_copy_repexpand'])) {
-                        $_SESSION['paste_copy_repexpand'][] = $node_id;
+                    if (!in_array($node_id, $node_ids)) {
+                        $node_ids[] = $node_id;
                     }
                 }
             }
         }
+
+        ilSession::set('paste_copy_repexpand', $node_ids);
 
         $this->ctrl->setReturnByClass(get_class($this->parent_obj), '');
         $this->showTargetSelectionTree();
@@ -262,11 +262,8 @@ class ilObjectCopyGUI
 
     protected function initSourceSelection(): void
     {
-        // empty session on init
-        $_SESSION['paste_copy_repexpand'] = array();
-
         // copy opened nodes from repository explorer
-        $_SESSION['paste_copy_repexpand'] = is_array($_SESSION['repexpand']) ? $_SESSION['repexpand'] : array();
+        $node_ids = is_array(ilSession::get('repexpand')) ? ilSession::get('repexpand') : [];
 
         $this->setTabs(self::TAB_GROUP_SC_SELECTION, self::TAB_SELECTION_SOURCE_TREE);
 
@@ -275,12 +272,15 @@ class ilObjectCopyGUI
         foreach ($this->getTargets() as $target_ref_id) {
             $path = $this->tree->getPathId($target_ref_id);
             foreach ($path as $node_id) {
-                if (!in_array($node_id, $_SESSION['paste_copy_repexpand'])) {
-                    $_SESSION['paste_copy_repexpand'][] = $node_id;
+                if (!in_array($node_id, $node_ids)) {
+                    $node_ids[] = $node_id;
                 }
             }
         }
         // end-patch multi copy
+
+        ilSession::set('paste_copy_repexpand', $node_ids);
+
         $this->ctrl->setReturnByClass(get_class($this->parent_obj), '');
         $this->showSourceSelectionTree();
     }
@@ -320,7 +320,7 @@ class ilObjectCopyGUI
         }
 
         $exp = new ilRepositorySelectorExplorerGUI($this, "showTargetSelectionTree");
-        $exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold", "lso", "prg"));
+        $exp->setTypeWhiteList(["root", "cat", "grp", "crs", "fold", "lso", "prg"]);
         $exp->setSelectMode("target", true);
         if ($exp->handleCommand()) {
             return;
@@ -382,7 +382,7 @@ class ilObjectCopyGUI
         $exp->setCheckedItems($this->getSources());
 
         // Filter to container
-        foreach (array('cat','root','fold') as $container) {
+        foreach (['cat', 'root', 'fold'] as $container) {
             $exp->removeFormItemForType($container);
         }
 
@@ -453,7 +453,7 @@ class ilObjectCopyGUI
         if (count($this->getSources()) == 1 && $this->obj_definition->isContainer($this->getType())) {
             // check, if object should be copied into itself
             // begin-patch mc
-            $is_child = array();
+            $is_child = [];
             foreach ($this->getTargets() as $target_ref_id) {
                 if ($this->tree->isGrandChild($this->getFirstSource(), (int) $target_ref_id)) {
                     $is_child[] = ilObject::_lookupTitle(ilObject::_lookupObjId($this->getFirstSource()));
@@ -588,7 +588,7 @@ class ilObjectCopyGUI
     {
         if ($this->post_wrapper->has('tit')) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('wizard_search_list'));
-            $_SESSION['source_query'] = $this->post_wrapper->retrieve("tit", $this->refinery->kindlyTo()->string());
+            ilSession::set('source_query', $this->post_wrapper->retrieve("tit", $this->refinery->kindlyTo()->string()));
         }
 
         $this->initFormSearch();
@@ -1003,7 +1003,7 @@ class ilObjectCopyGUI
      */
     protected function unsetSession(): void
     {
-        unset($_SESSION['source_query']);
-        $this->setSource(array());
+        ilSession::clear('source_query');
+        $this->setSource([]);
     }
 }
