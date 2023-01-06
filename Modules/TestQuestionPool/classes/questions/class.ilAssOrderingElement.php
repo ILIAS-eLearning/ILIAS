@@ -108,7 +108,7 @@ class ilAssOrderingElement
         $this->id = $id;
     }
 
-    public function getRandomIdentifier(): int
+    public function getRandomIdentifier(): ?int
     {
         return $this->random_identifier;
     }
