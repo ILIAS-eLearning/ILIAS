@@ -78,6 +78,7 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
     private function initFormElements(): void
     {
         foreach ($this->ilOrgUnitPermissions as $ilOrgUnitPermission) {
+            $ilOrgUnitPermission->afterObjectLoad();
             if ($ilOrgUnitPermission->getContext() !== null) {
                 $header = new ilFormSectionHeaderGUI();
                 $context = $ilOrgUnitPermission->getContext()->getContext();
@@ -101,6 +102,7 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
     {
         $operations = array();
         foreach ($this->ilOrgUnitPermissions as $ilOrgUnitPermission) {
+            $ilOrgUnitPermission->afterObjectLoad();
             if ($ilOrgUnitPermission->getContext() !== null) {
                 $context = $ilOrgUnitPermission->getContext()->getContext();
                 foreach ($ilOrgUnitPermission->getPossibleOperations() as $operation) {
@@ -120,14 +122,17 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         $sent_operation_ids = ($this->getInput(self::F_OPERATIONS) != '') ? $this->getInput(self::F_OPERATIONS) : [];
         foreach ($this->ilOrgUnitPermissions as $ilOrgUnitPermission) {
             $operations = [];
-            $context = $ilOrgUnitPermission->getContext()->getContext();
-            foreach ($ilOrgUnitPermission->getPossibleOperations() as $operation) {
-                $id = $operation->getOperationId();
-                if (isset($sent_operation_ids[$context][$id])) {
-                    $operations[] = ilOrgUnitOperation::find($id);
+            $ilOrgUnitPermission->afterObjectLoad();
+            if ($ilOrgUnitPermission->getContext()) {
+                $context = $ilOrgUnitPermission->getContext()->getContext();
+                foreach ($ilOrgUnitPermission->getPossibleOperations() as $operation) {
+                    $id = $operation->getOperationId();
+                    if (isset($sent_operation_ids[$context][$id])) {
+                        $operations[] = ilOrgUnitOperation::find($id);
+                    }
                 }
+                $ilOrgUnitPermission->setOperations($operations);
             }
-            $ilOrgUnitPermission->setOperations($operations);
         }
 
         return true;

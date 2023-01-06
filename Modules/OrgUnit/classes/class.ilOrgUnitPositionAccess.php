@@ -125,6 +125,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         $allowed_user_ids = [];
         foreach ($this->ua->getPositionsOfUserId($user_id) as $position) {
             $permissions = ilOrgUnitPermissionQueries::getSetForRefId($ref_id, $position->getId());
+            $permissions->afterObjectLoad();
             if (!$permissions->isOperationIdSelected($operation->getOperationId())) {
                 continue;
             }
@@ -173,7 +174,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
                 }
             }
         }
-
+        $allowed_user_ids[] = $this->user->getId();
         return array_intersect($user_ids, $allowed_user_ids);
     }
 
