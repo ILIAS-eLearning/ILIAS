@@ -2847,8 +2847,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
             [self::class],
             "settings"
         ));
-        $confirmDialog->addButton($this->lng->txt("confirm"), "confirmUsrFieldChangeListeners");
-        $confirmDialog->addButton($this->lng->txt("cancel"), "settings");
+        $confirmDialog->setConfirm($this->lng->txt("confirm"), "confirmUsrFieldChangeListeners");
+        $confirmDialog->setCancel($this->lng->txt("cancel"), "settings");
 
         $tpl = new ilTemplate(
             "tpl.usr_field_change_listener_confirm.html",
