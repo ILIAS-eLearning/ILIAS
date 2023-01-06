@@ -1125,7 +1125,7 @@ class ilUserImportParser extends ilSaxParser
 
                             //set role entries
                             foreach ($this->roles as $role_id => $role) {
-                                if ($this->role_assign[$role_id]) {
+                                if (isset($this->role_assign[$role_id]) && $this->role_assign[$role_id]) {
                                     $this->assignToRole($this->userObj, $this->role_assign[$role_id]);
                                 }
                             }
@@ -1922,14 +1922,14 @@ class ilUserImportParser extends ilSaxParser
                 if (strtotime($this->cdata) === false && !is_numeric($this->cdata)) {
                     $this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"), "TimeLimitFrom", $this->cdata));
                 }
-                $this->userObj->setTimeLimitFrom($this->cdata);
+                $this->userObj->setTimeLimitFrom((int) $this->cdata);
                 break;
             case "TimeLimitUntil":
                 // Accept datetime or Unix timestamp
                 if (strtotime($this->cdata) === false && !is_numeric($this->cdata)) {
                     $this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"), "TimeLimitUntil", $this->cdata));
                 }
-                $this->userObj->setTimeLimitUntil($this->cdata);
+                $this->userObj->setTimeLimitUntil((int) $this->cdata);
                 break;
             case "TimeLimitMessage":
                 switch (strtolower($this->cdata)) {
