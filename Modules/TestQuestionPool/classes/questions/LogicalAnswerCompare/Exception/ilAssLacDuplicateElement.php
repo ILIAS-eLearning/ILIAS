@@ -33,7 +33,7 @@ class ilAssLacDuplicateElement extends ilAssLacException implements ilAssLacForm
     protected $element;
 
     /**
-     * @param string $bracket
+     * @param string $element
      */
     public function __construct($element)
     {
