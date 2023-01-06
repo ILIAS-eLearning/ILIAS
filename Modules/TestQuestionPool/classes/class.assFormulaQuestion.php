@@ -325,7 +325,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                     if ($forsolution) {
                         if (is_array($userdata)) {
                             foreach ($this->getResultUnits($resObj) as $unit) {
-                                if ($userdata[$result]["unit"] == $unit->getId()) {
+                                if (isset($userdata[$result]["unit"]) && $userdata[$result]["unit"] == $unit->getId()) {
                                     $units = $unit->getUnit();
                                 }
                             }
