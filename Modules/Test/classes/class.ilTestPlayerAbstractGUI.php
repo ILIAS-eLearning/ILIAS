@@ -1871,8 +1871,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function populateKioskHead()
     {
-        $this->tpl->setOnScreenMessage('info', ''); // ???
-
         $head = $this->getKioskHead();
 
         if (strlen($head)) {
