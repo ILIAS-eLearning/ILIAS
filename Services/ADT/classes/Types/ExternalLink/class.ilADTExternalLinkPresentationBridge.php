@@ -2,7 +2,21 @@
 
 declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * external link presentation bridge
@@ -30,15 +44,24 @@ class ilADTExternalLinkPresentationBridge extends ilADTPresentationBridge
         if ($this->getADT()->isNull()) {
             return '';
         }
+
+        $presentation_value = $this->getADT()->getUrl();
+        $presentation_clickable = ilUtil::makeClickable($presentation_value);
+
         if (!strlen($this->getADT()->getTitle())) {
-            $presentation_value = $this->getADT()->getUrl();
-            $presentation_clickable = ilUtil::makeClickable($presentation_value);
             return $this->decorate($presentation_clickable);
         }
 
-        return $this->decorate(
-            '<a target="_blank" href="' . $this->getADT()->getUrl() . '">' . $this->getADT()->getTitle() . '</a>'
+        /*
+         * BT 35874: Until the refinery (or some other service) can provide
+         * links with titles, we have to do some surgery here.
+         */
+        $presentation_clickable = preg_replace(
+            '/>.*<\/a>/',
+            '>' . $this->getADT()->getTitle() . '</a>',
+            $presentation_clickable
         );
+        return $this->decorate($presentation_clickable);
     }
 
     /**
