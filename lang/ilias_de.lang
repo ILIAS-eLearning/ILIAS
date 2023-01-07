@@ -567,7 +567,6 @@ assessment#:#ass_lac_missing_bracket#:#Klammer "%s" fehlt in Bedingung
 assessment#:#ass_lac_operator_not_supported#:#Operator "%s" wird nicht unterstützt
 assessment#:#ass_lac_operator_not_supported_by_expression#:#Operator „%s“ und Ausdruck „%s“ passen nicht zusammen
 assessment#:#ass_lac_question_not_exist#:#Frage Q%d existiert nicht
-assessment#:#ass_lac_question_not_reachable#:#Frage Q%d ist von diesem Knoten nicht erreichbar
 assessment#:#ass_lac_show_legend_btn#:#Zeige Legende
 assessment#:#ass_lac_unable_to_parse_condition#:#Der Ausdruck "%s" kann nicht validiert werden.
 assessment#:#ass_lac_validation_error#:#Es sind Fehler bei der Validierung der Bedingung(en) aufgetreten!

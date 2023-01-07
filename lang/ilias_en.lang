@@ -567,7 +567,6 @@ assessment#:#ass_lac_missing_bracket#:#bracket "%s" missing in condition
 assessment#:#ass_lac_operator_not_supported#:#operator "%s" is not supported
 assessment#:#ass_lac_operator_not_supported_by_expression#:#operator "%s" and expression "%s" are incompatible
 assessment#:#ass_lac_question_not_exist#:#question Q%d does not exist
-assessment#:#ass_lac_question_not_reachable#:#question Q%d is not reachable from this node
 assessment#:#ass_lac_show_legend_btn#:#Show Legend
 assessment#:#ass_lac_unable_to_parse_condition#:#The condition "%s" can not be validated.
 assessment#:#ass_lac_validation_error#:#Errors occured while validating the conditional expression(s)!
