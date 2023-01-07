@@ -28,27 +28,27 @@
 class ilAssLacDuplicateElement extends ilAssLacException implements ilAssLacFormAlertProvider
 {
     /**
-     * @var string
+     * @var int
      */
-    protected $element;
+    protected int $element;
 
     /**
-     * @param string $element
+     * @param int $element
      */
-    public function __construct(string $element)
+    public function __construct(int $element)
     {
         $this->element = $element;
 
         parent::__construct(sprintf(
-            'Duplicate key "%s" in condition',
+            'Duplicate key "%d" in condition',
             $this->getElement()
         ));
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getElement(): string
+    public function getElement(): int
     {
         return $this->element;
     }
