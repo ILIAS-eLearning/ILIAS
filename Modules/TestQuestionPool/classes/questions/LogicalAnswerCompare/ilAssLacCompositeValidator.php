@@ -182,12 +182,12 @@ class ilAssLacCompositeValidator
 
     /**
      * @param iQuestionCondition $question
-     * @param int $question_index
+     * @param ?int $question_index
      * @param int $answer_index
      *
      * @throws ilAssLacAnswerIndexNotExist
      */
-    private function checkIfAnswerIndexOfQuestionExists($question, $question_index, $answer_index): void
+    private function checkIfAnswerIndexOfQuestionExists($question, ?int $question_index, $answer_index): void
     {
         $answer_options = $question->getAvailableAnswerOptions($answer_index);
         if ($answer_options == null) {
