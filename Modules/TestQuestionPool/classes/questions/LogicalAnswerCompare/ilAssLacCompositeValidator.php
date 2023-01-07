@@ -113,7 +113,7 @@ class ilAssLacCompositeValidator
                 $this->isResultOfAnswerExpression($question_expression) &&
                 !($question instanceof assFormulaQuestion)
             ) {
-                throw new ilAssLacExpressionNotSupportedByQuestion($answer_expression->getValue(), $question_index . "[" . ($answer_index + 1) . "]");
+                throw new ilAssLacExpressionNotSupportedByQuestion($answer_expression->getValue(), $question_index, $answer_index + 1);
             }
         } elseif (
             ($composite->nodes[0] instanceof ilAssLacAbstractOperation &&

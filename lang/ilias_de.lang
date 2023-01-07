@@ -559,7 +559,9 @@ assessment#:#ass_lac_duplicate_element#:#doppelter Index %d im Vergleichsausdruc
 assessment#:#ass_lac_expression#:#Ausdruck
 assessment#:#ass_lac_expression_not_supported#:#Ausdruck "%s" wird nicht unterstützt
 assessment#:#ass_lac_expression_not_supported_by_cur_question#:#Ausdruck "%s" wird von aktueller Frage nicht unterstützt
+assessment#:#ass_lac_expression_not_supported_by_cur_question_with_answer_idx#:#Ausdruck "%s" wird von aktueller Frage nicht unterstützt (Antwort-Index %d)
 assessment#:#ass_lac_expression_not_supported_by_question#:#Ausdruck "%s" wird von Frage Q%d nicht unterstützt
+assessment#:#ass_lac_expression_not_supported_by_question_with_answer_idx#:#Ausdruck "%s" wird von Frage Q%d nicht unterstützt (Antwort-Index %d)
 assessment#:#ass_lac_invalid_statement#:#Ausdruck an Position %d ist ungültig
 assessment#:#ass_lac_missing_bracket#:#Klammer "%s" fehlt in Bedingung
 assessment#:#ass_lac_operator_not_supported#:#Operator "%s" wird nicht unterstützt

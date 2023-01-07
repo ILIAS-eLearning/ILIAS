@@ -38,25 +38,48 @@ class ilAssLacExpressionNotSupportedByQuestion extends ilAssLacException impleme
     protected ?int $question_index;
 
     /**
+     * @var ?int
+     */
+    protected ?int $answer_index;
+
+    /**
      * @param string $expression
      * @param ?int    $question_index
      */
-    public function __construct(string $expression, ?int $question_index)
+    public function __construct(string $expression, ?int $question_index, ?int $answer_index = null)
     {
         $this->expression = $expression;
         $this->question_index = $question_index;
+        $this->answer_index = $answer_index;
 
         if ($this->getQuestionIndex() === null) {
-            $msg = sprintf(
-                'The expression "%s" is not supported by the current question',
-                $this->getExpression()
-            );
+            if ($this->getAnswerIndex() === null) {
+                $msg = sprintf(
+                    'The expression "%s" is not supported by the current question',
+                    $this->getExpression()
+                );
+            } else {
+                $msg = sprintf(
+                    'The expression "%s" is not supported by the current question (answer index %d)',
+                    $this->getExpression(),
+                    $this->getAnswerIndex()
+                );
+            }
         } else {
-            $msg = sprintf(
-                'The expression "%s" is not supported by the question with index "Q%d"',
-                $this->getExpression(),
-                $this->getQuestionIndex()
-            );
+            if ($this->getAnswerIndex() === null) {
+                $msg = sprintf(
+                    'The expression "%s" is not supported by the question with index "Q%d"',
+                    $this->getExpression(),
+                    $this->getQuestionIndex()
+                );
+            } else {
+                $msg = sprintf(
+                    'The expression "%s" is not supported by the question with index "Q%d" (answer index %d)',
+                    $this->getExpression(),
+                    $this->getQuestionIndex(),
+                    $this->getAnswerIndex()
+                );
+            }
         }
 
         parent::__construct($msg);
@@ -68,6 +91,14 @@ class ilAssLacExpressionNotSupportedByQuestion extends ilAssLacException impleme
     public function getQuestionIndex(): ?int
     {
         return $this->question_index;
+    }
+
+    /**
+     * @return ?int
+     */
+    public function getAnswerIndex(): ?int
+    {
+        return $this->answer_index;
     }
 
     /**
@@ -85,16 +116,33 @@ class ilAssLacExpressionNotSupportedByQuestion extends ilAssLacException impleme
     public function getFormAlert(ilLanguage $lng): string
     {
         if ($this->getQuestionIndex() === null) {
-            return sprintf(
-                $lng->txt("ass_lac_expression_not_supported_by_cur_question"),
-                $this->getExpression()
-            );
+            if ($this->getAnswerIndex() === null) {
+                return sprintf(
+                    $lng->txt("ass_lac_expression_not_supported_by_cur_question"),
+                    $this->getExpression()
+                );
+            } else {
+                return sprintf(
+                    $lng->txt("ass_lac_expression_not_supported_by_cur_question_with_answer_idx"),
+                    $this->getExpression(),
+                    $this->getAnswerIndex()
+                );
+            }
         }
 
-        return sprintf(
-            $lng->txt("ass_lac_expression_not_supported_by_question"),
-            $this->getQuestionIndex(),
-            $this->getExpression()
-        );
+        if ($this->getAnswerIndex() === null) {
+            return sprintf(
+                $lng->txt("ass_lac_expression_not_supported_by_question"),
+                $this->getQuestionIndex(),
+                $this->getExpression()
+            );
+        } else {
+            return sprintf(
+                $lng->txt("ass_lac_expression_not_supported_by_question_with_answer_idx"),
+                $this->getQuestionIndex(),
+                $this->getExpression(),
+                $this->getAnswerIndex()
+            );
+        }
     }
 }

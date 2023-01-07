@@ -559,7 +559,9 @@ assessment#:#ass_lac_duplicate_element#:#duplicate index %d in comparison expres
 assessment#:#ass_lac_expression#:#Expression
 assessment#:#ass_lac_expression_not_supported#:#expression "%s" is not supported
 assessment#:#ass_lac_expression_not_supported_by_cur_question#:#expression "%s" not supported by current question
+assessment#:#ass_lac_expression_not_supported_by_cur_question_with_answer_idx#:#expression "%s" not supported by current question (answer index %d)
 assessment#:#ass_lac_expression_not_supported_by_question#:#expression "%s" not supported by question Q%d
+assessment#:#ass_lac_expression_not_supported_by_question_with_answer_idx#:#expression "%s" not supported by question Q%d (answer index %d)
 assessment#:#ass_lac_invalid_statement#:#expression at position %d is invalid
 assessment#:#ass_lac_missing_bracket#:#bracket "%s" missing in condition
 assessment#:#ass_lac_operator_not_supported#:#operator "%s" is not supported
