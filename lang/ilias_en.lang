@@ -549,7 +549,23 @@ assessment#:#ass_create_question#:#Create Question
 assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip
 assessment#:#ass_imap_map_file_not_readable#:#The uploaded image map could not be read.
 assessment#:#ass_imap_no_map_found#:#Could not find any form in the uploaded image map.
+assessment#:#ass_lac_answer_index_not_exist#:#question Q%d does not have answer with index %d
+assessment#:#ass_lac_answer_index_not_exist_cur_qst#:#current question does not have answer with index %d
+assessment#:#ass_lac_answer_value_not_exists#:#value "%s" does not exist for answer with index %d of question Q%d
+assessment#:#ass_lac_answer_value_not_exists_cur_qst#:#value "%s" does not exist for answer with index %d of current question
+assessment#:#ass_lac_answer_value_not_exists_cur_qst_one_answer#:#value "%s" does not exist for current question
+assessment#:#ass_lac_answer_value_not_exists_one_answer#:#value "%s" does not exist for question Q%d
+assessment#:#ass_lac_duplicate_element#:#duplicate index %d in comparison expression
 assessment#:#ass_lac_expression#:#Expression
+assessment#:#ass_lac_expression_not_supported#:#expression "%s" is not supported
+assessment#:#ass_lac_expression_not_supported_by_cur_question#:#expression "%s" not supported by current question
+assessment#:#ass_lac_expression_not_supported_by_question#:#expression "%s" not supported by question Q%d
+assessment#:#ass_lac_invalid_statement#:#expression at position %d is invalid
+assessment#:#ass_lac_missing_bracket#:#bracket "%s" missing in condition
+assessment#:#ass_lac_operator_not_supported#:#operator "%s" is not supported
+assessment#:#ass_lac_operator_not_supported_by_expression#:#operator "%s" and expression "%s" are incompatible
+assessment#:#ass_lac_question_not_exist#:#question Q%d does not exist
+assessment#:#ass_lac_question_not_reachable#:#question Q%d is not reachable from this node
 assessment#:#ass_lac_show_legend_btn#:#Show Legend
 assessment#:#ass_lac_unable_to_parse_condition#:#The condition "%s" can not be validated.
 assessment#:#ass_lac_validation_error#:#Errors occured while validating the conditional expression(s)!
