@@ -231,11 +231,11 @@ class ilAssLacCompositeValidator
     /**
      * @param array $expressions
      * @param ilAssLacExpressionInterface $answer_expression
-     * @param int $question_index
+     * @param ?int $question_index
      *
      * @throws ilAssLacExpressionNotSupportedByQuestion
      */
-    private function checkAnswerExpressionExist($expressions, $answer_expression, $question_index): void
+    private function checkAnswerExpressionExist($expressions, $answer_expression, ?int $question_index): void
     {
         if (!in_array($answer_expression::$identifier, $expressions)) {
             throw new ilAssLacExpressionNotSupportedByQuestion($answer_expression->getValue(), $question_index);

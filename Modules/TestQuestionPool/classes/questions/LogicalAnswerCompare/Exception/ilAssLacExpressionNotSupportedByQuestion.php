@@ -33,15 +33,15 @@ class ilAssLacExpressionNotSupportedByQuestion extends ilAssLacException impleme
     protected $expression;
 
     /**
-     * @var int
+     * @var ?int
      */
-    protected $question_index;
+    protected ?int $question_index;
 
     /**
      * @param string $expression
-     * @param int    $question_index
+     * @param ?int    $question_index
      */
-    public function __construct(string $expression, int $question_index)
+    public function __construct(string $expression, ?int $question_index)
     {
         $this->expression = $expression;
         $this->question_index = $question_index;
@@ -63,9 +63,9 @@ class ilAssLacExpressionNotSupportedByQuestion extends ilAssLacException impleme
     }
 
     /**
-     * @return int
+     * @return ?int
      */
-    public function getQuestionIndex(): int
+    public function getQuestionIndex(): ?int
     {
         return $this->question_index;
     }
