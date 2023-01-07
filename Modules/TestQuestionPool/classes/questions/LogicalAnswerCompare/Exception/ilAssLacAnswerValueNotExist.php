@@ -60,19 +60,19 @@ class ilAssLacAnswerValueNotExist extends ilAssLacException implements ilAssLacF
             );
         } elseif ($this->getQuestionIndex() === null) {
             $msg = sprintf(
-                'The value "%s" does not exist for the answer with index "%s" of the current question',
+                'The value "%s" does not exist for the answer with index "%d" of the current question',
                 $value,
                 $this->getAnswerIndex()
             );
         } elseif ($this->getAnswerIndex() === null) {
             $msg = sprintf(
-                'The value "%s" does not exist for the question Q%s',
+                'The value "%s" does not exist for the question Q%d',
                 $value,
                 $this->getQuestionIndex()
             );
         } else {
             $msg = sprintf(
-                'The value "%s" does not exist for the question Q%s[%s]',
+                'The value "%s" does not exist for the question Q%d[%d]',
                 $value,
                 $this->getQuestionIndex(),
                 $this->getAnswerIndex()

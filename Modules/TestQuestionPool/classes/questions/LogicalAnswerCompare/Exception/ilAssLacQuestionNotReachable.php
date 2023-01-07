@@ -40,7 +40,7 @@ class ilAssLacQuestionNotReachable extends ilAssLacException implements ilAssLac
         $this->question_index = $question_index;
 
         parent::__construct(sprintf(
-            'The Question with index "Q%s" is not reachable from this node',
+            'The Question with index "Q%d" is not reachable from this node',
             $this->getQuestionIndex()
         ));
     }

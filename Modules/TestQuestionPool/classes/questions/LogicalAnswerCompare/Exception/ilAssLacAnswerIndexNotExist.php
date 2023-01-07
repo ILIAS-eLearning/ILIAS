@@ -48,12 +48,12 @@ class ilAssLacAnswerIndexNotExist extends ilAssLacException implements ilAssLacF
 
         if ($this->getQuestionIndex() === null) {
             $msg = sprintf(
-                'The Current Question does not have an answer with the index "%s"',
+                'The Current Question does not have an answer with the index "%d"',
                 $this->getAnswerIndex()
             );
         } else {
             $msg = sprintf(
-                'The Question with index "Q%s" does not have an answer with the index "%s" ',
+                'The Question with index "Q%d" does not have an answer with the index "%d" ',
                 $this->getQuestionIndex(),
                 $this->getAnswerIndex()
             );

@@ -40,7 +40,7 @@ class ilAssLacQuestionNotExist extends ilAssLacException implements ilAssLacForm
         $this->question_index = $question_index;
 
         parent::__construct(sprintf(
-            'The Question with index "Q%s" does not exist',
+            'The Question with index "Q%d" does not exist',
             $this->getQuestionIndex()
         ));
     }

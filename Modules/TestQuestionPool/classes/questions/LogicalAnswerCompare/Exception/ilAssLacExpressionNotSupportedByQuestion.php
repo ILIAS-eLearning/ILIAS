@@ -53,7 +53,7 @@ class ilAssLacExpressionNotSupportedByQuestion extends ilAssLacException impleme
             );
         } else {
             $msg = sprintf(
-                'The expression "%s" is not supported by the question with index "Q%s"',
+                'The expression "%s" is not supported by the question with index "Q%d"',
                 $this->getExpression(),
                 $this->getQuestionIndex()
             );

@@ -39,7 +39,7 @@ class ilAssLacConditionParserException extends ilAssLacException implements ilAs
         $this->column = $column;
 
         parent::__construct(sprintf(
-            'The expression at position "%s" is not valid',
+            'The expression at position "%d" is not valid',
             $this->getColumn()
         ));
     }
