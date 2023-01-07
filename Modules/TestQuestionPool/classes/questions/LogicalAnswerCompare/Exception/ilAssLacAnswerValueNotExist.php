@@ -17,7 +17,7 @@
  *********************************************************************/
 
 /**
- * Class ilAssLacQuestionNotReachable
+ * Class AnswerValueNotExist
  * @package
  *
  * Date: 25.03.13

@@ -17,7 +17,7 @@
  *********************************************************************/
 
 /**
- * Class ilAssLacAnswerIndexNotExist
+ * Class MissingBracket
  * @package
  *
  * Date: 25.03.13
