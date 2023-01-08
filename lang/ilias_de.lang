@@ -10538,13 +10538,16 @@ lti#:#launched#:#Die Ressource wurde bereits gestartet.
 lti#:#learning_progress_options#:#Optionen für den Lernfortschritt
 lti#:#lm_only_one_download_per_type#:#Es kann nur eine Datei je Typ (XML, HTML, SCORM) zum Download bereitgestellt werden.
 lti#:#lti13_hints#:#Wenn das Tool ohne dynamische Registrierung angelegt wurde, müssen nachfolgende Daten für die Ablauffähigkeit beim Tool eingetragen werden.
+lti#:#lti_13_authentication_url#:#URL für die Authentifizierungsanfrage
 lti#:#lti_13_client_id#:#Client-ID
 lti#:#lti_13_deployment_id#:#Deployment-ID
+lti#:#lti_13_keyset_url#:#URL für den öffentlichen Schlüsselsatz
 lti#:#lti_13_platform_id#:#Plattform-ID
 lti#:#lti_13_step1#:#Schritt 1
 lti#:#lti_13_step1_info#:#Tragen Sie bei der initierenden Plattform (Consumer) die folgende Adresse für Launch URL, Initiate Login URL, Redirection URI und Registration URL ein:
 lti#:#lti_13_step2#:#Schritt 2
 lti#:#lti_13_step2_info#:#Von der initierenden Plattform (Consumer) erhalten Sie Angaben, die Sie in den folgenden Feldern eintragen müssen. Nach dem Speichern stehen die LTI 1.3-Funktionalitäten zur Verfügung.
+lti#:#lti_13_token_url#:#URL für den Zugriffstoken
 lti#:#lti_action_accept_provider_as_global#:#Provider bzw. Tool global für alle Benutzer übernehmen.
 lti#:#lti_action_accept_providers_as_global#:#Provider bzw. Tool als globalen Provider bzw. globales Tool übernehmen
 lti#:#lti_action_delete_providers#:#Provider bzw. Tool löschen

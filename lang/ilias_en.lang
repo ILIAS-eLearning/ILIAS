@@ -10539,13 +10539,16 @@ lti#:#launched#:#Resource was already launched.
 lti#:#learning_progress_options#:#Options for Learning Progress
 lti#:#lm_only_one_download_per_type#:#Only one file per type (XML, HTML, SCORM) can be released publicly.
 lti#:#lti13_hints#:#Hints
+lti#:#lti_13_authentication_url#:#Authentication Request URL
 lti#:#lti_13_client_id#:#Client-ID
 lti#:#lti_13_deployment_id#:#Deployment-ID
+lti#:#lti_13_keyset_url#:#Public Keyset URL
 lti#:#lti_13_platform_id#:#Platform-ID
 lti#:#lti_13_step1#:#Step 1
 lti#:#lti_13_step1_info#:#For the initiating platform (consumer), enter the following address for Launch URL, Initiate Login URL, Redirection URI, and Registration URL:
 lti#:#lti_13_step2#:#Step 2
 lti#:#lti_13_step2_info#:#You will receive information from the initiating platform (Consumer), which you must enter in the following fields. After saving, the LTI 1.3 functionalities are available.
+lti#:#lti_13_token_url#:#Access Token URL
 lti#:#lti_action_accept_provider_as_global#:#Accept Provider as Global Provider for all Users
 lti#:#lti_action_accept_providers_as_global#:#Accept Providers as Global
 lti#:#lti_action_delete_providers#:#Delete Providers
