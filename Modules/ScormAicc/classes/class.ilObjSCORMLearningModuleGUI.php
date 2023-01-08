@@ -658,12 +658,18 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
         $reports = array('exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives','exportSelectedRaw');//,'tracInteractionItem','tracInteractionUser','tracInteractionUserAnswers'
         $scoSelected = "all";
+        if ($this->dic->http()->wrapper()->query()->has('scoSelected')) {
+            $scoSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->query()->retrieve('scoSelected', $this->dic->refinery()->kindlyTo()->string()));
+        }
         if ($this->dic->http()->wrapper()->post()->has('scoSelected')) {
             $scoSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('scoSelected', $this->dic->refinery()->kindlyTo()->string()));
         }
         $this->ctrl->setParameter($this, 'scoSelected', $scoSelected);
 
         $report = "choose";
+        if ($this->dic->http()->wrapper()->query()->has('report')) {
+            $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->query()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
+        }
         if ($this->dic->http()->wrapper()->post()->has('report')) {
             $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
         }
@@ -708,12 +714,18 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             $reports = array('exportSelectedSuccess','exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives','exportSelectedRaw');
 
             $userSelected = "all";
+            if ($this->dic->http()->wrapper()->query()->has('userSelected')) {
+                $userSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->query()->retrieve('userSelected', $this->dic->refinery()->kindlyTo()->string()));
+            }
             if ($this->dic->http()->wrapper()->post()->has('userSelected')) {
                 $userSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('userSelected', $this->dic->refinery()->kindlyTo()->string()));
             }
             $this->ctrl->setParameter($this, 'userSelected', $userSelected);
 
             $report = "choose";
+            if ($this->dic->http()->wrapper()->query()->has('report')) {
+                $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->query()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
+            }
             if ($this->dic->http()->wrapper()->post()->has('report')) {
                 $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
             }
