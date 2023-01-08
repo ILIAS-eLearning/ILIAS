@@ -215,8 +215,18 @@ class ilAssLacConditionParser
      *     <td>Contains a node array</td>
      * </tr>
      * </table>
+     * <p>
+     * This function should only be called if bracket nesting in the input
+     * condition is known to be valid. In other cases, its output may be
+     * different than described above.
      *
      * @return array
+     *     If called from the outside and if bracket nesting in the input is
+     *     correct, a structure in form of an array with certain keys, as
+     *     explained above.
+     *     <p>
+     *     If called recursively during parsing, a plain node array to be put
+     *     into ['nodes'] of an array as described above.
      */
     protected function createNodeArray(): array
     {
