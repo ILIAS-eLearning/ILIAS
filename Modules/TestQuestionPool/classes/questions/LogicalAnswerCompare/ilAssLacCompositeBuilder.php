@@ -43,15 +43,29 @@ class ilAssLacCompositeBuilder
     }
 
     /**
-     * @param array $nodes
+     * Creates a composite tree structure from a nodes tree.
+     * <p>
+     * May fail on malformed input, e.g. because not all operators could be
+     * handled. So ensure only to call this function with well-formed input data
+     * or be prepared to handle type exceptions.
      *
-     * @return array
+     * @param array $nodes  an array structure of parsed nodes as returned by
+     *         ilAssLacConditionParser#createNodeArray(), with type 'group'.
+     *
+     * @return ilAssLacAbstractComposite
+     *
+     * @throws ilAssLacCompositeBuilderException in some cases of invalid input.
+     *
+     * @see ilAssLacConditionParser#createNodeArray() for details on the
+     * expected input structure.
      */
-    public function create($nodes): array
+    public function create(array $nodes): ilAssLacAbstractComposite
     {
         if ($nodes['type'] == 'group') {
             foreach ($nodes['nodes'] as $key => $child) {
-                $nodes['nodes'][$key] = $this->create($child);
+                if ($child['type'] == 'group') {
+                    $nodes['nodes'][$key] = $this->create($child);
+                }
             }
 
             foreach ($this->operators as $next_operator) {
@@ -79,7 +93,8 @@ class ilAssLacCompositeBuilder
             }
             return $nodes['nodes'][0];
         }
-        return $nodes;
+        throw new ilAssLacCompositeBuilderException(
+            'need node structure with type group as input');
     }
 
     /**
