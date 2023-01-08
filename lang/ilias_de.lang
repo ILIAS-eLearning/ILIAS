@@ -571,6 +571,7 @@ assessment#:#ass_lac_question_not_reachable#:#Frage Q%d ist von diesem Knoten ni
 assessment#:#ass_lac_show_legend_btn#:#Zeige Legende
 assessment#:#ass_lac_unable_to_parse_condition#:#Der Ausdruck "%s" kann nicht validiert werden.
 assessment#:#ass_lac_validation_error#:#Es sind Fehler bei der Validierung der Bedingung(en) aufgetreten!
+assessment#:#ass_lac_wrong_bracket_order#:#falsche Klammerung an Position %d
 assessment#:#ass_location#:#Ort
 assessment#:#ass_mc_sel_lim_exhausted_hint#:#Bitte wählen Sie nicht mehr als %s von %s Antworten!
 assessment#:#ass_mc_sel_lim_hint#:#Bitte wählen Sie maximal %s der %s Antworten!

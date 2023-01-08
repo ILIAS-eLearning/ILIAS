@@ -144,14 +144,40 @@ class ilAssLacConditionParser
 
     protected function checkBrackets(): void
     {
-        $num_brackets_open = substr_count($this->condition, "(");
-        $num_brackets_close = substr_count($this->condition, ")");
+        $level = 0;
+        for ($i = 0; $i < strlen($this->condition); $i++) {
+            switch ($this->condition[$i]) {
+                case '(':
+                    $level++;
+                    break;
+                case ')':
+                    $level--;
+                    if ($level < 0) {
+                        // An opening bracket is missing _before_ the current
+                        // position, but not necessarily in the entire
+                        // expression: it is possible that just the order of
+                        // brackets is wrong, like in "R>=%75%)(".
 
-        if ($num_brackets_open > $num_brackets_close) {
-            throw new ilAssLacMissingBracket(")");
+                        $num_open = substr_count($this->condition, "(", $i);
+                        $num_close = substr_count($this->condition, ")", $i);
+
+                        if ($num_open < $num_close) {
+                            throw new ilAssLacMissingBracket("(");
+                        // Could check for missing closing brackets here as
+                        // well, but this is unnecessary: just report the first
+                        // problem.
+                        //} else if ($num_open > $num_close) {
+                        //    throw new ilAssLacMissingBracket(")");
+                        } else {
+                            throw new ilAssLacBracketOrder($i + 1);
+                                    // start counting offset with 1, for humans
+                        }
+                    }
+                    break;
+            }
         }
-        if ($num_brackets_open < $num_brackets_close) {
-            throw new ilAssLacMissingBracket("(");
+        if ($level > 0) {
+            throw new ilAssLacMissingBracket(")");
         }
     }
 

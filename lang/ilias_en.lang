@@ -571,6 +571,7 @@ assessment#:#ass_lac_question_not_reachable#:#question Q%d is not reachable from
 assessment#:#ass_lac_show_legend_btn#:#Show Legend
 assessment#:#ass_lac_unable_to_parse_condition#:#The condition "%s" can not be validated.
 assessment#:#ass_lac_validation_error#:#Errors occured while validating the conditional expression(s)!
+assessment#:#ass_lac_wrong_bracket_order#:#wrong order of brackets at position %d
 assessment#:#ass_location#:#Location
 assessment#:#ass_mc_sel_lim_exhausted_hint#:#Please do not select more than %s of %s answers!
 assessment#:#ass_mc_sel_lim_hint#:#Please select at most %s of the %s answers!
