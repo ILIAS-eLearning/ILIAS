@@ -86,7 +86,7 @@ class ilLTIConsumerProviderUsageTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
 
         // ICON
-        if ($a_set['icon']) {
+        if (isset($a_set['icon'])) {
             $this->tpl->setVariable('ICON_SRC', $a_set['icon']);
             $this->tpl->setVariable('ICON_ALT', basename($a_set['icon']));
         } else {
