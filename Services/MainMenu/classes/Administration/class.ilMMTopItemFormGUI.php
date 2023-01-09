@@ -121,7 +121,7 @@ class ilMMTopItemFormGUI
 
         // TYPE
         if (($this->item_facade->isEmpty() || $this->item_facade->isCustom())) {
-            $type_groups = $this->getTypeGroups($f);
+            $type_groups = $this->getTypeGroups($f, $this->item_facade->isEmpty());
             $type = $f()->field()->switchableGroup(
                 $type_groups,
                 $txt('topitem_type'),
@@ -237,10 +237,10 @@ class ilMMTopItemFormGUI
      * @param Closure $f
      * @return array
      */
-    private function getTypeGroups(Closure $f): array
+    private function getTypeGroups(Closure $f, bool $new): array
     {
         $type_groups = [];
-        $type_informations = $this->repository->getPossibleTopItemTypesWithInformation();
+        $type_informations = $this->repository->getPossibleTopItemTypesWithInformation($new);
         foreach ($type_informations as $classname => $information) {
             if ($this->item_facade->isEmpty()
                 || (!$this->item_facade->isEmpty() && $classname === $this->item_facade->getType() && $this->item_facade->isCustom())
