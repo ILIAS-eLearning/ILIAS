@@ -623,8 +623,11 @@ class ilExAssignmentEditorGUI
                 $a_form->getItemByPostVar("fb_file")->setRequired(false); // #15467
             }
         }
-        
+
+        var_dump($_FILES);
         $valid = $a_form->checkInput();
+        var_dump($_FILES);
+        exit;
         
         if ($protected_peer_review_groups) {
             // checkInput() will add alert to disabled fields
