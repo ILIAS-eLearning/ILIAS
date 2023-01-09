@@ -393,6 +393,14 @@ interface ilCtrlInterface
     public function lookupClassPath(string $a_class): string;
 
     /**
+     * This method was introduced due to composer being case-sensitive
+     * when autoloading classes. In some cases, the command class needs
+     * to be dynamically instantiated, for which one should use the
+     * name with proper capitalization.
+     */
+    public function lookupOriginalClassName(string $a_class): ?string;
+
+    /**
      * Returns the effective classname for a given path.
      *
      * @deprecated if you know the classpath you most likely called
