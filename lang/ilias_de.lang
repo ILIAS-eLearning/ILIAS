@@ -10074,6 +10074,7 @@ iass#:#iass_usr_view#:#Prüfungsdaten
 iass#:#il_iass_member#:#Teilnehmer
 iass#:#il_iass_members#:#Teilnehmer
 iass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Objekt ist deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
+iass#:#save_amend#:#Geänderte Prüfungsdaten speichern
 impr#:#impr_page_type_impr#:#Impressum
 init#:#init_error_authentication_fail#:#Authentifizierung fehlgeschlagen.
 init#:#init_error_maintenance#:#Der Server ist aufgrund von Wartungsarbeiten aktuell nicht verf&uuml;gbar. Wir bitten um Verst&auml;ndnis. Versuchen Sie es sp&auml;ter noch einmal.
