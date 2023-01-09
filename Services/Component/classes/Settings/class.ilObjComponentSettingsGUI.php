@@ -168,7 +168,10 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
     protected function refreshLanguages(): void
     {
         try {
-            $this->getPlugin()->getLanguageHandler()->updateLanguages();
+            $plugin_name = $this->request_wrapper->retrieve(self::P_PLUGIN_NAME, $this->refinery->kindlyTo()->string());
+            $plugin = $this->component_repository->getPluginByName($plugin_name);
+            $language_handler = new ilPluginLanguage($plugin);
+            $language_handler->updateLanguages();
             $this->tpl->setOnScreenMessage("success", $this->lng->txt("cmps_refresh_lng"), true);
         } catch (Exception $e) {
             $this->tpl->setOnScreenMessage("failure", $e->getMessage(), true);
