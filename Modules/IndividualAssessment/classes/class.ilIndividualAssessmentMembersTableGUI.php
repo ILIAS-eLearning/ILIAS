@@ -60,7 +60,12 @@ class ilIndividualAssessmentMembersTableGUI
      */
     public function setData(array $data): void
     {
-        $this->data = $data;
+        $this->data = array_filter(
+            $data,
+            fn ($record) =>
+                 $this->iass_access->mayGradeUserById($record->id())
+                 && $this->iass_access->mayViewUserById($record->id())
+        );
     }
 
     /**
