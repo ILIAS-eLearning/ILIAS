@@ -733,8 +733,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             case "excel_scored_test_run":
                 (new ilExcelTestExport($this->object, $filterby, $filtertext, $passedonly, true))
                     ->withResultsPage()
-                    ->withAllUsersPage()
-                    ->withAllUsersPage2()
+                    ->withAllUsersPages()
                     ->withUserPages()
                     ->deliver($this->object->getTitle() . '_results');
                 break;
@@ -748,8 +747,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             case "excel_all_test_runs":
                 (new ilExcelTestExport($this->object, $filterby, $filtertext, $passedonly, false))
                     ->withResultsPage()
-                    ->withAllUsersPage()
-                    ->withAllUsersPage2()
+                    ->withAllUsersPages()
                     ->withUserPages()
                     ->deliver($this->object->getTitle() . '_results');
                 break;

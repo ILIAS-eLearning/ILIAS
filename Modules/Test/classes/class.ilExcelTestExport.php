@@ -74,125 +74,133 @@ class ilExcelTestExport extends ilTestExportAbstract
         return $this;
     }
 
-    public function withAllUsersPage(): self
+    public function withAllUsersPages(): self
     {
         if ($this->test_obj->getExportSettingsSingleChoiceShort() && !$this->test_obj->isRandomTest(
         ) && $this->test_obj->hasSingleChoiceQuestions()) {
-            // special tab for single choice tests
-            $titles = $this->test_obj->getQuestionTitlesAndIndexes();
-            $positions = [];
-            $pos = 0;
-            $row = 1;
-            foreach ($titles as $id => $title) {
-                $positions[$id] = $pos;
-                $pos++;
-            }
-
-            $usernames = [];
-            $participantcount = count($this->complete_data->getParticipants());
-            $allusersheet = false;
-            $pages = 0;
-
-            $this->worksheet->addSheet($this->lng->txt('eval_all_users'));
-
-            $col = 0;
-            $this->worksheet->setFormattedExcelTitle(
-                $this->worksheet->getColumnCoord($col++) . $row,
-                $this->lng->txt('name')
-            );
-            $this->worksheet->setFormattedExcelTitle(
-                $this->worksheet->getColumnCoord($col++) . $row,
-                $this->lng->txt('login')
-            );
-            if (count($this->additionalFields)) {
-                foreach ($this->additionalFields as $fieldname) {
-                    if (strcmp($fieldname, "matriculation") === 0) {
-                        $this->worksheet->setFormattedExcelTitle(
-                            $this->worksheet->getColumnCoord($col++) . $row,
-                            $this->lng->txt('matriculation')
-                        );
-                    }
-                    if (strcmp($fieldname, "exam_id") === 0) {
-                        $this->worksheet->setFormattedExcelTitle(
-                            $this->worksheet->getColumnCoord($col++) . $row,
-                            $this->lng->txt('exam_id_label')
-                        );
-                    }
-                }
-            }
-            $this->worksheet->setFormattedExcelTitle(
-                $this->worksheet->getColumnCoord($col++) . $row,
-                $this->lng->txt('test')
-            );
-            foreach ($titles as $title) {
-                $this->worksheet->setFormattedExcelTitle($this->worksheet->getColumnCoord($col++) . $row, $title);
-            }
-            $this->worksheet->setBold('A' . $row . ':' . $this->worksheet->getColumnCoord($col - 1) . $row);
-
-            $row++;
-            foreach ($this->complete_data->getParticipants() as $active_id => $userdata) {
-                $username = (!is_null($userdata) && $userdata->getName()) ? $userdata->getName() : "ID $active_id";
-                if (array_key_exists($username, $usernames)) {
-                    $usernames[$username]++;
-                    $username .= " ($usernames[$username])";
-                } else {
-                    $usernames[$username] = 1;
-                }
-                $col = 0;
-                $this->worksheet->setCell($row, $col++, $username);
-                $this->worksheet->setCell($row, $col++, $userdata->getLogin());
-                if (count($this->additionalFields)) {
-                    $userfields = ilObjUser::_lookupFields($userdata->getUserID());
-                    foreach ($this->additionalFields as $fieldname) {
-                        if (strcmp($fieldname, "matriculation") === 0) {
-                            if ($userfields[$fieldname] !== '') {
-                                $this->worksheet->setCell($row, $col++, $userfields[$fieldname]);
-                            } else {
-                                $col++;
-                            }
-                        }
-                        if (strcmp($fieldname, "exam_id") === 0) {
-                            if ($userfields[$fieldname] !== '') {
-                                $this->worksheet->setCell($row, $col++, $userdata->getExamIdFromScoredPass());
-                            } else {
-                                $col++;
-                            }
-                        }
-                    }
-                }
-                $this->worksheet->setCell($row, $col++, $this->test_obj->getTitle());
-                $pass = $userdata->getScoredPass();
-                if (is_object($userdata) && is_array($userdata->getQuestions($pass))) {
-                    foreach ($userdata->getQuestions($pass) as $question) {
-                        $objQuestion = assQuestion::_instantiateQuestion($question["id"]);
-                        if (is_object($objQuestion) && strcmp(
-                            $objQuestion->getQuestionType(),
-                            'assSingleChoice'
-                        ) === 0) {
-                            $solution = $objQuestion->getSolutionValues($active_id, $pass);
-                            $pos = $positions[$question["id"]];
-                            $selectedanswer = "x";
-                            foreach ($objQuestion->getAnswers() as $id => $answer) {
-                                if ($solution[0]["value1"] !== '' && $id === $solution[0]["value1"]) {
-                                    $selectedanswer = $answer->getAnswertext();
-                                }
-                            }
-                            $this->worksheet->setCell($row, $col + $pos, $selectedanswer);
-                        }
-                    }
-                }
-                $row++;
+            $this->withAllUsersPageSingleChoice();
+            if ($this->test_obj->isSingleChoiceTestWithoutShuffle()) {
+                $this->withAllUsersPageSingleChoiceWithoutShuffle();
             }
         }
         return $this;
     }
+
+    private function withAllUsersPageSingleChoice(): void
+    {
+        $titles = $this->test_obj->getQuestionTitlesAndIndexes();
+        $positions = [];
+        $pos = 0;
+        $row = 1;
+        foreach ($titles as $id => $title) {
+            $positions[$id] = $pos;
+            $pos++;
+        }
+
+        $usernames = [];
+        $participantcount = count($this->complete_data->getParticipants());
+        $allusersheet = false;
+        $pages = 0;
+
+        $this->worksheet->addSheet($this->lng->txt('eval_all_users'));
+
+        $col = 0;
+        $this->worksheet->setFormattedExcelTitle(
+            $this->worksheet->getColumnCoord($col++) . $row,
+            $this->lng->txt('name')
+        );
+        $this->worksheet->setFormattedExcelTitle(
+            $this->worksheet->getColumnCoord($col++) . $row,
+            $this->lng->txt('login')
+        );
+        if (count($this->additionalFields)) {
+            foreach ($this->additionalFields as $fieldname) {
+                if (strcmp($fieldname, "matriculation") === 0) {
+                    $this->worksheet->setFormattedExcelTitle(
+                        $this->worksheet->getColumnCoord($col++) . $row,
+                        $this->lng->txt('matriculation')
+                    );
+                }
+                if (strcmp($fieldname, "exam_id") === 0) {
+                    $this->worksheet->setFormattedExcelTitle(
+                        $this->worksheet->getColumnCoord($col++) . $row,
+                        $this->lng->txt('exam_id_label')
+                    );
+                }
+            }
+        }
+        $this->worksheet->setFormattedExcelTitle(
+            $this->worksheet->getColumnCoord($col++) . $row,
+            $this->lng->txt('test')
+        );
+        foreach ($titles as $title) {
+            $this->worksheet->setFormattedExcelTitle($this->worksheet->getColumnCoord($col++) . $row, $title);
+        }
+        $this->worksheet->setBold('A' . $row . ':' . $this->worksheet->getColumnCoord($col - 1) . $row);
+
+        $row++;
+        foreach ($this->complete_data->getParticipants() as $active_id => $userdata) {
+            $username = (!is_null($userdata) && $userdata->getName()) ? $userdata->getName() : "ID $active_id";
+            if (array_key_exists($username, $usernames)) {
+                $usernames[$username]++;
+                $username .= " ($usernames[$username])";
+            } else {
+                $usernames[$username] = 1;
+            }
+            $col = 0;
+            $this->worksheet->setCell($row, $col++, $username);
+            $this->worksheet->setCell($row, $col++, $userdata->getLogin());
+            if (count($this->additionalFields)) {
+                $userfields = ilObjUser::_lookupFields($userdata->getUserID());
+                foreach ($this->additionalFields as $fieldname) {
+                    if (strcmp($fieldname, "matriculation") === 0) {
+                        if ($userfields[$fieldname] !== '') {
+                            $this->worksheet->setCell($row, $col++, $userfields[$fieldname]);
+                        } else {
+                            $col++;
+                        }
+                    }
+                    if (strcmp($fieldname, "exam_id") === 0) {
+                        if ($userfields[$fieldname] !== '') {
+                            $this->worksheet->setCell($row, $col++, $userdata->getExamIdFromScoredPass());
+                        } else {
+                            $col++;
+                        }
+                    }
+                }
+            }
+            $this->worksheet->setCell($row, $col++, $this->test_obj->getTitle());
+            $pass = $userdata->getScoredPass();
+            if (is_object($userdata) && is_array($userdata->getQuestions($pass))) {
+                foreach ($userdata->getQuestions($pass) as $question) {
+                    $objQuestion = assQuestion::_instantiateQuestion($question["id"]);
+                    if (is_object($objQuestion) && strcmp(
+                        $objQuestion->getQuestionType(),
+                        'assSingleChoice'
+                    ) === 0) {
+                        $solution = $objQuestion->getSolutionValues($active_id, $pass);
+                        $pos = $positions[$question["id"]];
+                        $selectedanswer = "x";
+                        foreach ($objQuestion->getAnswers() as $id => $answer) {
+                            if ($solution[0]["value1"] !== '' && $id === $solution[0]["value1"]) {
+                                $selectedanswer = $answer->getAnswertext();
+                            }
+                        }
+                        $this->worksheet->setCell($row, $col + $pos, $selectedanswer);
+                    }
+                }
+            }
+            $row++;
+        }
+    }
+
 
     public function getContent(): ilAssExcelFormatHelper
     {
         return $this->worksheet;
     }
 
-    public function withAllUsersPage2(): self
+    private function withAllUsersPageSingleChoiceWithoutShuffle(): void
     {
         $positions = [];
         $pos = 0;
@@ -205,100 +213,93 @@ class ilExcelTestExport extends ilTestExportAbstract
         $pos = 0;
         $usernames = [];
 
-        if ($this->test_obj->getExportSettingsSingleChoiceShort() && !$this->test_obj->isRandomTest(
-        ) && $this->test_obj->hasSingleChoiceQuestions()) {
-            if ($this->test_obj->isSingleChoiceTestWithoutShuffle()) {
-                // special tab for single choice tests without shuffle option
 
-                $this->worksheet->addSheet($this->lng->txt('eval_all_users') . ' (2)');
 
-                $col = 0;
-                $this->worksheet->setFormattedExcelTitle(
-                    $this->worksheet->getColumnCoord($col++) . $row,
-                    $this->lng->txt('name')
-                );
-                $this->worksheet->setFormattedExcelTitle(
-                    $this->worksheet->getColumnCoord($col++) . $row,
-                    $this->lng->txt('login')
-                );
-                if (count($this->additionalFields)) {
-                    foreach ($this->additionalFields as $fieldname) {
-                        if (strcmp($fieldname, "matriculation") === 0) {
-                            $this->worksheet->setFormattedExcelTitle(
-                                $this->worksheet->getColumnCoord($col++) . $row,
-                                $this->lng->txt('matriculation')
-                            );
-                        }
-                        if (strcmp($fieldname, "exam_id") === 0) {
-                            $this->worksheet->setFormattedExcelTitle(
-                                $this->worksheet->getColumnCoord($col++) . $row,
-                                $this->lng->txt('exam_id_label')
-                            );
-                        }
-                    }
+        $this->worksheet->addSheet($this->lng->txt('eval_all_users') . ' (2)');
+
+        $col = 0;
+        $this->worksheet->setFormattedExcelTitle(
+            $this->worksheet->getColumnCoord($col++) . $row,
+            $this->lng->txt('name')
+        );
+        $this->worksheet->setFormattedExcelTitle(
+            $this->worksheet->getColumnCoord($col++) . $row,
+            $this->lng->txt('login')
+        );
+        if (count($this->additionalFields)) {
+            foreach ($this->additionalFields as $fieldname) {
+                if (strcmp($fieldname, "matriculation") === 0) {
+                    $this->worksheet->setFormattedExcelTitle(
+                        $this->worksheet->getColumnCoord($col++) . $row,
+                        $this->lng->txt('matriculation')
+                    );
                 }
-                $this->worksheet->setFormattedExcelTitle(
-                    $this->worksheet->getColumnCoord($col++) . $row,
-                    $this->lng->txt('test')
-                );
-                foreach ($titles as $title) {
-                    $this->worksheet->setFormattedExcelTitle($this->worksheet->getColumnCoord($col++) . $row, $title);
-                }
-                $this->worksheet->setBold('A' . $row . ':' . $this->worksheet->getColumnCoord($col - 1) . $row);
-
-                $row++;
-                foreach ($this->complete_data->getParticipants() as $active_id => $userdata) {
-                    $username = (!is_null($userdata) && $userdata->getName()) ? $userdata->getName() : "ID $active_id";
-                    if (array_key_exists($username, $usernames)) {
-                        $usernames[$username]++;
-                        $username .= " ($usernames[$username])";
-                    } else {
-                        $usernames[$username] = 1;
-                    }
-                    $col = 0;
-                    $this->worksheet->setCell($row, $col++, $username);
-                    $this->worksheet->setCell($row, $col++, $userdata->getLogin());
-                    if (count($this->additionalFields)) {
-                        $userfields = ilObjUser::_lookupFields($userdata->getUserId());
-                        foreach ($this->additionalFields as $fieldname) {
-                            if (strcmp($fieldname, "matriculation") === 0) {
-                                if ($userfields[$fieldname] !== '') {
-                                    $this->worksheet->setCell($row, $col++, $userfields[$fieldname]);
-                                } else {
-                                    $col++;
-                                }
-                            }
-                            if (strcmp($fieldname, "exam_id") === 0) {
-                                if ($userfields[$fieldname] !== '') {
-                                    $this->worksheet->setCell($row, $col++, $userdata->getExamIdFromScoredPass());
-                                } else {
-                                    $col++;
-                                }
-                            }
-                        }
-                    }
-                    $this->worksheet->setCell($row, $col++, $this->test_obj->getTitle());
-                    $pass = $userdata->getScoredPass();
-                    if (is_object($userdata) && is_array($userdata->getQuestions($pass))) {
-                        foreach ($userdata->getQuestions($pass) as $question) {
-                            $objQuestion = ilObjTest::_instanciateQuestion($question["aid"]);
-                            if ($objQuestion && is_object($objQuestion) && strcmp(
-                                $objQuestion->getQuestionType(),
-                                'assSingleChoice'
-                            ) === 0) {
-                                $solution = $objQuestion->getSolutionValues($active_id, $pass);
-                                $pos = $positions[$question["aid"]];
-                                $selectedanswer = chr(65 + $solution[0]["value1"]);
-                                $this->worksheet->setCell($row, $col + $pos, $selectedanswer);
-                            }
-                        }
-                    }
-                    $row++;
+                if (strcmp($fieldname, "exam_id") === 0) {
+                    $this->worksheet->setFormattedExcelTitle(
+                        $this->worksheet->getColumnCoord($col++) . $row,
+                        $this->lng->txt('exam_id_label')
+                    );
                 }
             }
         }
+        $this->worksheet->setFormattedExcelTitle(
+            $this->worksheet->getColumnCoord($col++) . $row,
+            $this->lng->txt('test')
+        );
+        foreach ($titles as $title) {
+            $this->worksheet->setFormattedExcelTitle($this->worksheet->getColumnCoord($col++) . $row, $title);
+        }
+        $this->worksheet->setBold('A' . $row . ':' . $this->worksheet->getColumnCoord($col - 1) . $row);
 
-        return $this;
+        $row++;
+        foreach ($this->complete_data->getParticipants() as $active_id => $userdata) {
+            $username = (!is_null($userdata) && $userdata->getName()) ? $userdata->getName() : "ID $active_id";
+            if (array_key_exists($username, $usernames)) {
+                $usernames[$username]++;
+                $username .= " ($usernames[$username])";
+            } else {
+                $usernames[$username] = 1;
+            }
+            $col = 0;
+            $this->worksheet->setCell($row, $col++, $username);
+            $this->worksheet->setCell($row, $col++, $userdata->getLogin());
+            if (count($this->additionalFields)) {
+                $userfields = ilObjUser::_lookupFields($userdata->getUserId());
+                foreach ($this->additionalFields as $fieldname) {
+                    if (strcmp($fieldname, "matriculation") === 0) {
+                        if ($userfields[$fieldname] !== '') {
+                            $this->worksheet->setCell($row, $col++, $userfields[$fieldname]);
+                        } else {
+                            $col++;
+                        }
+                    }
+                    if (strcmp($fieldname, "exam_id") === 0) {
+                        if ($userfields[$fieldname] !== '') {
+                            $this->worksheet->setCell($row, $col++, $userdata->getExamIdFromScoredPass());
+                        } else {
+                            $col++;
+                        }
+                    }
+                }
+            }
+            $this->worksheet->setCell($row, $col++, $this->test_obj->getTitle());
+            $pass = $userdata->getScoredPass();
+            if (is_object($userdata) && is_array($userdata->getQuestions($pass))) {
+                foreach ($userdata->getQuestions($pass) as $question) {
+                    $objQuestion = ilObjTest::_instanciateQuestion($question["aid"]);
+                    if ($objQuestion && is_object($objQuestion) && strcmp(
+                        $objQuestion->getQuestionType(),
+                        'assSingleChoice'
+                    ) === 0) {
+                        $solution = $objQuestion->getSolutionValues($active_id, $pass);
+                        $pos = $positions[$question["aid"]];
+                        $selectedanswer = chr(65 + $solution[0]["value1"]);
+                        $this->worksheet->setCell($row, $col + $pos, $selectedanswer);
+                    }
+                }
+            }
+            $row++;
+        }
     }
 
     public function withUserPages(): self
@@ -359,7 +360,6 @@ class ilExcelTestExport extends ilTestExportAbstract
                 $row += 2;
                 if (is_object($userdata) && is_array($userdata->getQuestions($passCount))) {
                     foreach ($userdata->getQuestions($passCount) as $question) {
-                        require_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
                         $question = assQuestion::instantiateQuestion((int) $question["id"]);
                         if (is_object($question)) {
                             $row = $question->setExportDetailsXLS($this->worksheet, $row, $col, $active_id, $passCount);
