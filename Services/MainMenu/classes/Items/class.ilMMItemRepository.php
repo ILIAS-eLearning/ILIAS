@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
@@ -229,11 +229,11 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
     /**
      * @return \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation[]
      */
-    public function getPossibleTopItemTypesWithInformation(): array
+    public function getPossibleTopItemTypesWithInformation(bool $new): array
     {
         $types = [];
         foreach ($this->main_collector->getTypeInformationCollection()->getAll() as $information) {
-            if ($information->isTop()) {
+            if (!$new || $information->isTop()) {
                 $types[$information->getType()] = $information;
             }
         }
