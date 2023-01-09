@@ -15,14 +15,12 @@ These are open findings from the PHP8 Project which couldn't be solved in the sc
 Remarks on the individual items are marked with "@PHP8-CR"
 ### Test
 * \ilTestPlayerAbstractGUI::autosaveCmd / This looks like another issue in the autosaving. Left for review/analysis by TechSquad
-* \ilTestSkillEvaluation::determineReachedSkillPointsWithSolutionCompare / Incompatible type. Left for review/analysis by TechSquad
 * \ilAssLacCompositeValidator::validateSubTree / Incompatible type. Left for review/analysis by TechSquad
 ### TestQuestionPool
 * \ilObjQuestionPoolGUI::exportQuestionObject / Void result used. Left for review/analysis by TechSquad
 * \assMatchingQuestionGUI::writeAnswerSpecificPostData / Incompatible type. Left for review/analysis by TechSquad
 * \assMatchingQuestionGUI::populateAnswerSpecificFormPart / Incompatible type. Left for review/analysis by TechSquad
 * \assMatchingQuestionImport::fromXML / Incompatible type. Left for review/analysis by TechSquad
-* \ilAssQuestionSkillAssignmentsGUI::validateSolutionCompareExpression / Incompatible type. Left for review/analysis by TechSquad
 * \ilTestSkillEvaluation::determineReachedSkillPointsWithSolutionCompare / Incompatible type. Left for review/analysis by TechSquad
 * \ilAssLacCompositeValidator::validateSubTree / Incompatible type. Left for review/analysis by TechSquad
 * \assOrderingHorizontalGUI::saveFeedback / Undefined method. Left for review/analysis by TechSquad
