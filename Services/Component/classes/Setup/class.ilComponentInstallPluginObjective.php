@@ -97,6 +97,7 @@ class ilComponentInstallPluginObjective implements Setup\Objective
         $ORIG_DIC = $this->initEnvironment($environment, $component_repository);
         $plugin = $component_factory->getPlugin($info->getId());
         $plugin->install();
+        $plugin->update();
         $GLOBALS["DIC"] = $ORIG_DIC;
 
         return $environment;
@@ -169,6 +170,7 @@ class ilComponentInstallPluginObjective implements Setup\Objective
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
         $GLOBALS["DIC"]["ilBench"] = null;
         $GLOBALS["DIC"]["lng"] = new ilLanguage('en');
+        $GLOBALS["DIC"]["lng"]->lang_user = 'en';
         $GLOBALS["DIC"]["ilPluginAdmin"] = $plugin_admin;
         $GLOBALS["DIC"]["ilias"] = null;
         $GLOBALS["DIC"]["ilErr"] = null;
@@ -185,10 +187,11 @@ class ilComponentInstallPluginObjective implements Setup\Objective
                 $this->prefs["language"] = "en";
             }
         };
-
-        if (!defined('DEBUG')) {
-            define('DEBUG', false);
-        }
+        $GLOBALS["DIC"]["tree"] = new class () extends ilTree {
+            public function __construct()
+            {
+            }
+        };
 
         if (!defined('SYSTEM_ROLE_ID')) {
             define('SYSTEM_ROLE_ID', '2');
