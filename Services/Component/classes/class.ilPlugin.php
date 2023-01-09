@@ -332,7 +332,7 @@ abstract class ilPlugin
     // Language Handling
     // ------------------------------------------
 
-    protected function getLanguageHandler(): ilPluginLanguage
+    public function getLanguageHandler(): ilPluginLanguage
     {
         if ($this->language_handler === null) {
             $this->language_handler = $this->buildLanguageHandler();
