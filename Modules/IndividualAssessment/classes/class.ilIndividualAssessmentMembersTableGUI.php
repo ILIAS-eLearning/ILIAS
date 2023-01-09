@@ -308,7 +308,7 @@ class ilIndividualAssessmentMembersTableGUI
             return [];
         }
 
-        $dt = new ilDate($event_time->format("Y-m-d"), IL_CAL_DATE);
+        $dt = new ilDateTime($event_time->format("Y-m-d H:m"), IL_CAL_DATE);
         $event_time_str = ilDatePresentation::formatDate($dt);
         return [$this->txt("iass_event_time") . ": " => $event_time_str];
     }
