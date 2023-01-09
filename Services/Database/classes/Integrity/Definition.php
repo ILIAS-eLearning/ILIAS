@@ -5,38 +5,41 @@ declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
 
 namespace ILIAS\Services\Database\Integrity;
 
 use InvalidArgumentException;
 
-class ilDBDefinition
+class Definition
 {
     /**
-     * @var ilDBAssociation[]
+     * @var Association[]
      */
     private array $associations;
-    private ilDBIgnore $ignore;
+    private Ignore $ignore;
 
-    public function __construct(array $associations, ?ilDBIgnore $ignore = null)
+    public function __construct(array $associations, ?Ignore $ignore = null)
     {
         $this->associations = $associations;
-        $this->ignore = null === $ignore ? new ilDBIgnore() : $ignore;
+        $this->ignore = null === $ignore ? new Ignore() : $ignore;
         $this->validate();
     }
 
     private function validate(): void
     {
-        if (count($this->associations) === 0) {
+        if ($this->associations === []) {
             throw new InvalidArgumentException('Associations must not be empty.');
         }
 
@@ -57,7 +60,7 @@ class ilDBDefinition
     }
 
     /**
-     * @return ilDBAssociation[]
+     * @return Association[]
      */
     public function associations(): array
     {

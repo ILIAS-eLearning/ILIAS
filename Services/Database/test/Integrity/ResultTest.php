@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,11 +17,23 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-class ilForeignKeyConstraints
+
+namespace ILIAS\Tests\Services\Database\Integrity;
+
+use PHPUnit\Framework\TestCase;
+use ILIAS\Services\Database\Integrity\Result;
+
+class ResultTest extends TestCase
 {
-    const CASCADE = 'CASCADE';
-    const RESTRICT = 'RESTRICT';
-    const SET_NULL = 'SET NULL';
-    const NO_ACTION = 'NO ACTION';
-    const SET_DEFAULT = 'SET DEFAULT';
+    public function testConstruct(): void
+    {
+        $result = new Result(0);
+        $this->assertInstanceOf(Result::class, $result);
+    }
+
+    public function testViolations(): void
+    {
+        $result = new Result(9);
+        $this->assertEquals(9, $result->violations());
+    }
 }

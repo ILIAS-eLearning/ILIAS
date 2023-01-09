@@ -18,7 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\Services\Database\Integrity\ilDBIntegrity;
+use ILIAS\Services\Database\Integrity\Integrity;
+use ILIAS\Services\Database\PDO\FieldDefinition\ForeignKeyConstraints;
 
 /**
  * Interface ilDBInterface
@@ -297,20 +298,22 @@ interface ilDBInterface
     public function cast(string $a_field_name, string $a_dest_type): string;
 
     /**
-     * @param string      $foreign_key_name
-     * @param array<string> $field_names
-     * @param string      $table_name
-     * @param array<string> $reference_field_names
-     * @param string      $reference_table
-     * @param string|null $on_update
-     * @param string|null $on_delete
-     * @return bool
+     * @param string[] $field_names
+     * @param string[] $reference_field_names
      */
-    public function addForeignKey(string $foreign_key_name, array $field_names, string $table_name, array $reference_field_names, string $reference_table, ?string $on_update = null, ?string $on_delete = null): bool;
+    public function addForeignKey(
+        string $foreign_key_name,
+        array $field_names,
+        string $table_name,
+        array $reference_field_names,
+        string $reference_table,
+        ?ForeignKeyConstraints $on_update = null,
+        ?ForeignKeyConstraints $on_delete = null
+    ): bool;
 
     public function dropForeignKey(string $foreign_key_name, string $table_name): bool;
 
     public function foreignKeyExists(string $foreign_key_name, string $table_name): bool;
 
-    public function buildIntegrityAnalyser(): ilDBIntegrity;
+    public function buildIntegrityAnalyser(): Integrity;
 }
