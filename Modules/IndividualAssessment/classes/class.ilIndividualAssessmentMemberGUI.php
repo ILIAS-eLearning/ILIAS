@@ -192,6 +192,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 
         $this->setToolbar();
         $form = $this->buildForm($this->getFormActionForCommand(self::CMD_SAVE_AMEND), true, true);
+        $form->withSubmitCaption($this->lng->txt("save_amend"));
         $this->tpl->setContent($this->renderer->render($form));
     }
 

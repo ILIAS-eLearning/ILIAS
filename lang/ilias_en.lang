@@ -10064,6 +10064,7 @@ iass#:#iass_usr_view#:#Participant Record
 iass#:#il_iass_member#:#Participant
 iass#:#il_iass_members#:#Participants
 iass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalised.
+iass#:#save_amend#:#Save Amended Record
 impr#:#impr_page_type_impr#:#Imprint
 init#:#init_error_authentication_fail#:#Authentication failed.
 init#:#init_error_maintenance#:#The server is not available due to maintenance. We apologise for any inconvenience.
