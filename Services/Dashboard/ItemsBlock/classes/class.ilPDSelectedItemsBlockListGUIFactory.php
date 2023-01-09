@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 class ilPDSelectedItemsBlockListGUIFactory
 {
@@ -35,7 +40,7 @@ class ilPDSelectedItemsBlockListGUIFactory
     /**
      * @throws ilException
      */
-    public function byType(string $a_type): \ilObjectListGUI
+    public function byType(string $a_type): ilObjectListGUI
     {
         /** @var $item_list_gui ilObjectListGUI */
         if (!array_key_exists($a_type, self::$list_by_type)) {
@@ -64,12 +69,6 @@ class ilPDSelectedItemsBlockListGUIFactory
             $item_list_gui->enableCopy(false);
             $item_list_gui->enableLink(false);
             $item_list_gui->enableInfoScreen(true);
-            $item_list_gui->enableSubscribe($this->block->getViewSettings()->enabledSelectedItems());
-
-            //$item_list_gui->enableDescription(false);
-            //$item_list_gui->enableProperties(false);
-            //$item_list_gui->enablePreconditions(false);
-            //$item_list_gui->enableNoticeProperties(false);
 
             $item_list_gui->enableCommands(true, true);
 
