@@ -5,7 +5,7 @@ source CI/Import/Variables.sh
 
 printLn "Initialize paths variables"
 
-./CI/PHPUnit/run_tests.sh | tee "$RESULTS_DATA_DIRECTORY_PHPUNIT_RESULTS_PATH"
+./CI/PHPUnit/run_tests.sh "$@" | tee "$RESULTS_DATA_DIRECTORY_PHPUNIT_RESULTS_PATH"
 
 PIPE_EXIT_CODE=`echo ${PIPESTATUS[0]}`
 
