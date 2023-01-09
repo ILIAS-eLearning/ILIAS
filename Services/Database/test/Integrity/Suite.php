@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Tests\Services\Database\Integrity;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,6 +17,8 @@ namespace ILIAS\Tests\Services\Database\Integrity;
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+namespace ILIAS\Tests\Services\Database\Integrity;
 
 use PHPUnit\Framework\TestSuite;
 use Iterator;
