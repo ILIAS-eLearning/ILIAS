@@ -92,7 +92,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
                 $this->addColumn($lng->txt("dcl_status"), "_status_" . $field->getTitle());
             }
         }
-        $this->addColumn($lng->txt("actions"), "", "30px");
+        
         $this->setTopCommands(true);
         $this->setEnableHeader(true);
         $this->setShowRowsSelector(true);
@@ -142,6 +142,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     {
         $this->object_data = $data;
         $this->buildData($data);
+        $this->addActionRowIfNeeded();
     }
 
 
@@ -216,6 +217,13 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         }
         $this->setData($data);
     }
+    
+    protected function addActionRowIfNeeded() : void
+    {
+        if ($this->needsActionRow()) {
+            $this->addColumn($this->lng->txt("actions"), "", "30px");
+        }
+    }
 
 
     /**
@@ -255,7 +263,12 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             $this->tpl->setVariable("VIEW_IMAGE_SRC", ilUtil::img(ilUtil::getImagePath("enlarge.svg"), $this->lng->txt('dcl_display_record_alt')));
             $this->tpl->parseCurrentBlock();
         }
-        $this->tpl->setVariable("ACTIONS", $record_data["_actions"]);
+        
+        if (strlen($record_data["_actions"]) > 0) {
+            $this->tpl->setCurrentBlock('actions');
+            $this->tpl->setVariable("ACTIONS", $record_data["_actions"]);
+            $this->tpl->parseCurrentBlock();
+        }
 
         if ($this->mode == ilDclRecordListGUI::MODE_MANAGE) {
             if ($record_obj->hasPermissionToDelete($this->parent_obj->parent_obj->ref_id)) {
@@ -387,7 +400,23 @@ class ilDclRecordListTableGUI extends ilTable2GUI
 
         return ilNoteGUI::getListCommentsJSCall($ajax_hash, '');
     }
-
+    
+    protected function needsActionRow() : bool
+    {
+        if ($this->table->getPublicCommentsEnabled() ||
+            ilDclDetailedViewDefinition::isActive($this->tableview->getId())) {
+            return true;
+        }
+        
+        foreach ($this->object_data as $record) {
+            if ($record->hasPermissionToEdit($this->parent_obj->parent_obj->ref_id) ||
+                $record->hasPermissionToDelete($this->parent_obj->parent_obj->ref_id)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
 
     /**
      * Exports the table
