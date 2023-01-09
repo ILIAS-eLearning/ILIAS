@@ -30,6 +30,13 @@ trait SecureString
 {
     protected function secure(string $string): string
     {
-        return htmlspecialchars(strip_tags($string), ENT_QUOTES, 'UTF-8', false);
+        return htmlspecialchars(
+            strip_tags(
+                preg_replace('#\p{C}+#u', '', $string)
+            ),
+            ENT_QUOTES,
+            'UTF-8',
+            false
+        );
     }
 }
