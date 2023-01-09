@@ -77,7 +77,7 @@
 		"sebastian/environment": "^5.0",
 		"captainhook/captainhook": "^5.3",
 		"rector/rector": "^0.12.12",
-		"phpstan/phpstan": "^1.6"
+		"phpstan/phpstan": "^1.9"
 	},
 	"autoload": {
 		"psr-4" : {
@@ -429,10 +429,10 @@
 		},
 		"phpstan/phpstan": {
 			"source": "https://github.com/phpstan/phpstanr",
-			"used_version": "1.6",
+			"used_version": "1.9.8",
 			"added_by": "Michael Jansen <mjansen@databay.de>",
 			"wrapped_by": null,
-			"last_update": "2022-05-02",
+			"last_update": "2023-01-09",
 			"last_update_by": "",
 			"approved-by": "TB",
 			"approved-date": "2022-05-03"
