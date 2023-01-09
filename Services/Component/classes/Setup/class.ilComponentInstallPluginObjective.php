@@ -97,6 +97,7 @@ class ilComponentInstallPluginObjective implements Setup\Objective
         $ORIG_DIC = $this->initEnvironment($environment, $component_repository);
         $plugin = $component_factory->getPlugin($info->getId());
         $plugin->install();
+        $plugin->update();
         $GLOBALS["DIC"] = $ORIG_DIC;
 
         return $environment;
@@ -130,7 +131,7 @@ class ilComponentInstallPluginObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilDB"] = $db;
         $GLOBALS["DIC"]["ilIliasIniFile"] = $ini;
         $GLOBALS["DIC"]["ilClientIniFile"] = $client_ini;
-        $GLOBALS["DIC"]["ilLog"] = new class () extends ilLogger {
+        $GLOBALS["DIC"]["ilLog"] = new class() extends ilLogger {
             public function __construct()
             {
             }
@@ -153,7 +154,7 @@ class ilComponentInstallPluginObjective implements Setup\Objective
             {
             }
         };
-        $GLOBALS["DIC"]["ilLoggerFactory"] = new class () extends ilLoggerFactory {
+        $GLOBALS["DIC"]["ilLoggerFactory"] = new class() extends ilLoggerFactory {
             public function __construct()
             {
             }
@@ -169,6 +170,7 @@ class ilComponentInstallPluginObjective implements Setup\Objective
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
         $GLOBALS["DIC"]["ilBench"] = null;
         $GLOBALS["DIC"]["lng"] = new ilLanguage('en');
+        $GLOBALS["DIC"]["lng"]->lang_user = 'en';
         $GLOBALS["DIC"]["ilPluginAdmin"] = $plugin_admin;
         $GLOBALS["DIC"]["ilias"] = null;
         $GLOBALS["DIC"]["ilErr"] = null;
@@ -177,12 +179,17 @@ class ilComponentInstallPluginObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilSetting"] = new ilSetting();
         $GLOBALS["DIC"]["component.repository"] = $component_repository;
         $GLOBALS["DIC"]["objDefinition"] = new ilObjectDefinition();
-        $GLOBALS["DIC"]["ilUser"] = new class () extends ilObjUser {
+        $GLOBALS["DIC"]["ilUser"] = new class() extends ilObjUser {
             public array $prefs = [];
 
             public function __construct()
             {
                 $this->prefs["language"] = "en";
+            }
+        };
+        $GLOBALS["DIC"]["tree"] = new class() extends ilTree {
+            public function __construct()
+            {
             }
         };
 
