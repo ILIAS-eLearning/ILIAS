@@ -473,15 +473,8 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
     }
 
     /**
-     * @param string        $foreign_key_name
-     * @param array<string> $field_names
-     * @param string        $table_name
-     * @param array<string> $reference_field_names
-     * @param string        $reference_table
-     * @param string|null   $on_update
-     * @param string|null   $on_delete
-     * @return bool
-     * @throws ilException
+     * @param string[] $field_names
+     * @param string[] $reference_field_names
      */
     public function addForeignKey(
         string $foreign_key_name,
@@ -489,36 +482,35 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         string $table_name,
         array $reference_field_names,
         string $reference_table,
-        ?string $on_update = null,
-        ?string $on_delete = null
+        ?ForeignKeyConstraints $on_update = null,
+        ?ForeignKeyConstraints $on_delete = null
     ): bool {
-        if ($this->isValidForeignKeyConstraint($on_update) && $this->isValidForeignKeyConstraint($on_delete)) {
-            $table = $this->db_instance->quoteIdentifier($table_name, true);
-            $reference_table = $this->db_instance->quoteIdentifier($reference_table, true);
-            $field_names = implode(",", $field_names);
-            $field_names = $this->db_instance->quoteIdentifier($field_names, true);
-            $reference_field_names = implode(",", $reference_field_names);
-            $reference_field_names = $this->db_instance->quoteIdentifier($reference_field_names, true);
-            $foreign_key_name = $this->db_instance->quoteIdentifier($foreign_key_name, true);
-            $update = '';
-            if ($on_update) {
-                $update = "ON UPDATE $on_update";
-            }
-            $delete = '';
-            if ($on_delete) {
-                $delete = "ON DELETE $on_delete";
-            }
-            $query = "ALTER TABLE 
-                    $table ADD CONSTRAINT 
-                    $foreign_key_name FOREIGN KEY ($field_names) 
+        $table = $this->db_instance->quoteIdentifier($table_name, true);
+        $reference_table = $this->db_instance->quoteIdentifier($reference_table, true);
+        $field_names = implode(",", $field_names);
+        $field_names = $this->db_instance->quoteIdentifier($field_names, true);
+        $reference_field_names = implode(",", $reference_field_names);
+        $reference_field_names = $this->db_instance->quoteIdentifier($reference_field_names, true);
+        $foreign_key_name = $this->db_instance->quoteIdentifier($foreign_key_name, true);
+        $update = '';
+        if ($on_update) {
+            $on_update = $on_update->value;
+            $update = "ON UPDATE $on_update";
+        }
+        $delete = '';
+        if ($on_delete) {
+            $on_delete = $on_delete->value;
+            $delete = "ON DELETE $on_delete";
+        }
+        $query = "ALTER TABLE
+                    $table ADD CONSTRAINT
+                    $foreign_key_name FOREIGN KEY ($field_names)
                     REFERENCES $reference_table ($reference_field_names)
                     $update
                     $delete
                     ";
 
-            return (bool) $this->pdo->exec($query);
-        }
-        throw new ilException('The given constraint is invalid.');
+        return (bool) $this->pdo->exec($query);
     }
 
     public function dropForeignKey(string $foreign_key_name, string $table_name): bool
@@ -541,16 +533,6 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
             ) && $foreign_data['CONSTRAINT_NAME'] === $foreign_key_name) {
                 return true;
             }
-        }
-        return false;
-    }
-
-    public function isValidForeignKeyConstraint(?string $value): bool
-    {
-        $reflection = new ReflectionClass(ilForeignKeyConstraints::class);
-        $constraints = array_merge($reflection->getConstants());
-        if (in_array($value, $constraints) || $value === null) {
-            return true;
         }
         return false;
     }

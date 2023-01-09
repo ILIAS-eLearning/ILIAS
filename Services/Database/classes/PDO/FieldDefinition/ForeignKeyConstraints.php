@@ -15,17 +15,13 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
 
-namespace ILIAS\Services\Database\Integrity;
+namespace ILIAS\Services\Database\PDO\FieldDefinition;
 
-class ilDBResult
+enum ForeignKeyConstraints: string
 {
-    public function __construct(
-        private int $violations
-    ) {
-    }
-
-    public function violations(): int
-    {
-        return $this->violations;
-    }
+    case CASCADE = 'CASCADE';
+    case RESTRICT = 'RESTRICT';
+    case SET_NULL = 'SET_NULL';
+    case NO_ACTION = 'NO_ACTION';
+    case SET_DEFAULT = 'SET_DEFAULT';
 }

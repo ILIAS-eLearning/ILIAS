@@ -18,6 +18,7 @@ declare(strict_types=1);
  *********************************************************************/
 
 use PHPUnit\Framework\TestSuite;
+use ILIAS\Tests\Services\Database\Integrity\Suite as IntegritySuite;
 
 /**
  * Database Test-Suite
@@ -36,6 +37,9 @@ class ilServicesDatabaseSuite extends TestSuite
         /** @noRector */
         require_once('./Services/Database/test/Setup/ilDatabaseSetupSuite.php');
         $suite->addTestSuite(ilDatabaseSetupSuite::suite());
+
+        require_once('./Services/Database/test/Integrity/Suite.php');
+        $suite->addTestSuite(IntegritySuite::suite());
 
         return $suite;
     }
