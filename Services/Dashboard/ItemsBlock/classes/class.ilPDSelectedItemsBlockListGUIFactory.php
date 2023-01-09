@@ -69,11 +69,6 @@ class ilPDSelectedItemsBlockListGUIFactory
             $item_list_gui->enableLink(false);
             $item_list_gui->enableInfoScreen(true);
 
-            //$item_list_gui->enableDescription(false);
-            //$item_list_gui->enableProperties(false);
-            //$item_list_gui->enablePreconditions(false);
-            //$item_list_gui->enableNoticeProperties(false);
-
             $item_list_gui->enableCommands(true, true);
 
             self::$list_by_type[$a_type] = $item_list_gui;
