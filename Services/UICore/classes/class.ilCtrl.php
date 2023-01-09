@@ -664,6 +664,14 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
+    public function lookupOriginalClassName(string $a_class): ?string
+    {
+        return $this->structure->getObjNameByName($a_class);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getClassForClasspath(string $a_class_path): string
     {
         $path_info = pathinfo($a_class_path);
