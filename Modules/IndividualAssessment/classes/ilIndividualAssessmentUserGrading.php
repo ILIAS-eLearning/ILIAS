@@ -193,8 +193,7 @@ class ilIndividualAssessmentUserGrading
         ;
 
         if (!is_null($this->getEventTime())) {
-            $format = $data_factory->dateFormat()->standard()->toString();
-            $event_time = $event_time->withValue($this->getEventTime()->format($format));
+            $event_time = $event_time->withValue($this->getEventTime()->format($date_format->toString()));
         }
 
         $notify = $input
