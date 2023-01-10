@@ -59,7 +59,7 @@ class ilUserAvatarResolver
         $this->avatar_factory = $DIC["user.avatar.factory"];
 
         $this->letter_avatars_activated = (bool)$DIC->settings()->get('letter_avatars');
-        $this->flavour_definition = new ilUserProfilePictureDefinition(true);
+        $this->flavour_definition = new ilUserProfilePictureDefinition();
         $this->size = 'small';
         $this->readUserSettings();
     }
@@ -90,10 +90,10 @@ class ilUserAvatarResolver
 
         if ($this->has_public_profile) {
             $this->abbreviation = ilStr::subStr(
-                    $this->for_user->getFirstname(),
-                    0,
-                    1
-                )
+                $this->for_user->getFirstname(),
+                0,
+                1
+            )
                 . ilStr::subStr(
                     $this->for_user->getLastname(),
                     0,
@@ -178,7 +178,7 @@ class ilUserAvatarResolver
     {
         if ($this->hasProfilePicture()) {
             // IRSS
-            if($this->rid !== null) {
+            if ($this->rid !== null) {
                 $rid = $this->irss->manage()->find($this->rid);
                 $flavour = $this->irss->flavours()->get($rid, $this->flavour_definition);
                 $urls = $this->irss->consume()->flavourUrls($flavour)->getURLsAsArray(false);

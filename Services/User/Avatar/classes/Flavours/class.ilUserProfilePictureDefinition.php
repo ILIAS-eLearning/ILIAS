@@ -39,7 +39,6 @@ class ilUserProfilePictureDefinition implements FlavourDefinition
     ];
 
     public function __construct(
-        private bool $persist = true
     ) {
     }
 
@@ -69,7 +68,7 @@ class ilUserProfilePictureDefinition implements FlavourDefinition
 
     public function persist(): bool
     {
-        return $this->persist;
+        return true;
     }
 
     public function getSizes(): array
