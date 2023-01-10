@@ -63,4 +63,22 @@ class ilForumDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             );
         }
     }
+
+    public function step4(): void
+    {
+        if ($this->db->tableExists('frm_thread_access')) {
+            $this->db->dropTable('frm_thread_access');
+        }
+    }
+
+    public function step5(): void
+    {
+        if ($this->db->tableExists('settings')) {
+            $this->db->manipulateF(
+                "DELETE FROM settings WHERE keyword = %s",
+                ['text'],
+                ['frm_new_deadline']
+            );
+        }
+    }
 }

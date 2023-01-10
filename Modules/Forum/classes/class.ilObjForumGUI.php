@@ -3008,8 +3008,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             );
         }
 
-        $forumObj->updateLastAccess($this->user->getId(), $this->objCurrentTopic->getId());
-
         $this->prepareThreadScreen($forumObj);
 
         $threadContentTemplate = new ilTemplate(

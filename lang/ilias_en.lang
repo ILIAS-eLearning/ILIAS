@@ -188,8 +188,6 @@ administration#:#dump_tree_desc#:#Perform an analysis of the tree and print all 
 administration#:#dumping_tree#:#Dumping tree...
 administration#:#found#:#found.
 administration#:#found_none#:#none found.
-administration#:#frm_disp_info_desc#:#Please select the attributes which should to be shown in the overviews.
-administration#:#frm_displayed_infos#:#Displayed Information
 administration#:#git_hash_short#:#Commit Hash (short): %s
 administration#:#git_last_commit#:#Last Commit: %s
 administration#:#git_revision#:#Number: %s
@@ -4116,7 +4114,6 @@ common#:#forums_disable_forum_notification#:#Disable Notification for this Forum
 common#:#forums_enable_forum_notification#:#Enable Notification for this Forum
 common#:#forums_forum_notification_enabled#:#You will be notified about new messages in this forum.
 common#:#forums_last_post#:#Latest Article
-common#:#forums_new_articles#:#New Articles
 common#:#forums_notification_settings#:#Forums Notification Settings
 common#:#forums_threads#:#Threads
 common#:#forums_use_alias#:#You may use a pseudonym for your posting. If you leave this field blank, your posting will be marked as written by ‘%s’.
@@ -9631,7 +9628,6 @@ forum#:#frm_action_not_possible_parent_deleted#:#Action not possible, the parent
 forum#:#frm_action_not_possible_thr_closed#:#Action not possible, the thread has been closed.
 forum#:#frm_action_not_possible_thr_deleted#:#Action not possible, the thread has been deleted.
 forum#:#frm_activation_online_info#:#Set the forum online to make it visible and available to other users. If not, only administrators will have access to it.
-forum#:#frm_all_postings_stats#:#All
 forum#:#frm_all_threads#:#All Threads
 forum#:#frm_anonymous_posting#:#Posting with pseudonym
 forum#:#frm_anonymous_posting_desc#:#If enabled, registered users can post to this forum only by using a pseudonym or without name. If the option "Mark moderators posts" is also enabled, moderators can not use a pseudonym.
