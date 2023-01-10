@@ -13780,6 +13780,7 @@ registration#:#reg_confirmation_hash_life_time#:#Gültigkeitsdauer
 registration#:#reg_confirmation_hash_life_time_expired#:#Der Bestätigungslink ist nicht mehr gültig. Bitte registrieren Sie sich erneut!
 registration#:#reg_confirmation_hash_life_time_info#:#Geben Sie die Gültigkeitsdauer des Bestätigungslinks (in Sekunden) an. Empfohlener Wert sind 1800 Sekunden.
 registration#:#reg_confirmation_hash_not_found#:#Dieser Bestätigungslink passt zu keinem Benutzerkonto.
+registration#:#reg_confirmation_hash_not_passed#:#Der Bestätigungslink ist unvollständig.
 registration#:#reg_confirmation_link_successful#:#Sie haben sich erfolgreich bei ILIAS registriert. Jetzt müssen Sie noch Ihr Benutzerkonto aktivieren. Dazu wurde Ihnen soeben eine E-Mail mit einem Bestätigungslink geschickt. Bitte klicken Sie innerhalb der nächsten Minuten auf den Bestätigungslink, um Ihr Benutzerkonto zu aktivieren. Danach können Sie sich in ILIAS einloggen.
 registration#:#reg_default#:#Standard
 registration#:#reg_deleted_assignment#:#Die Zuordnungen wurde(n) gelöscht.
