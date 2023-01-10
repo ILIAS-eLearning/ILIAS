@@ -461,7 +461,7 @@ class ilConditionHandlerGUI
                 $this->getTargetRefId(),
                 $this->getTargetId()
             );
-            $obl->setValue($num_required > 0 ? $num_required : null);
+            $obl->setValue($num_required > 0 ? (string) $num_required : null);
             $obl->setRequired(true);
             $obl->setSize(1);
             $obl->setMinValue($min);
