@@ -115,36 +115,23 @@ class ilAssQuestionPreviewGUI
                     $classname,
                     ""
                 );
-                if (($_GET["calling_test"] > 0) || ($_GET["test_ref_id"] > 0)) {
-                    $ref_id = $_GET["calling_test"];
+                if ((isset($_GET['calling_test']) && strlen($_GET['calling_test']) !== 0) ||
+                    (isset($_GET['test_ref_id']) && strlen($_GET['test_ref_id']) !== 0)) {
+                    $ref_id = $_GET['calling_test'];
                     if (strlen($ref_id) !== 0 && !is_numeric($ref_id)) {
                         $ref_id_array = explode('_', $ref_id);
                         $ref_id = array_pop($ref_id_array);
                     }
 
                     if (strlen($ref_id) === 0) {
-                        $ref_id = $_GET["test_ref_id"];
+                        $ref_id = $_GET['test_ref_id'];
                     }
-                    if (is_array($_GET) && !array_key_exists('test_express_mode', $_GET) ||
-                        !$_GET['test_express_mode'] &&
-                        (
-                            !array_key_exists('___test_express_mode', $GLOBALS) ||
-                            !$GLOBALS['___test_express_mode']
-                        )
-                    ) {
-                        $this->tabs->setBackTarget(
-                            $this->lng->txt("backtocallingtest"),
-                            "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id"
-                        );
-                    //BACK FROM Question Page to Test
-                    } else {
-                        $link = ilTestExpressPage::getReturnToPageLink();
-                        //$this->tabs->setBackTarget($this->lng->txt("backtocallingtest"), $link);
-                        $this->tabs->setBackTarget(
-                            $this->lng->txt("backtocallingtest"),
-                            "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id"
-                        );
-                    }
+
+                    $link = ilTestExpressPage::getReturnToPageLink();
+                    $this->tabs->setBackTarget(
+                        $this->lng->txt("backtocallingtest"),
+                        "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id"
+                    );
                 } elseif (isset($_GET['calling_consumer']) && (int) $_GET['calling_consumer']) {
                     $ref_id = (int) $_GET['calling_consumer'];
                     $consumer = ilObjectFactory::getInstanceByRefId($ref_id);
@@ -156,11 +143,8 @@ class ilAssQuestionPreviewGUI
                     } else {
                         $this->tabs->setBackTarget($this->lng->txt("qpl"), ilLink::_getLink($ref_id));
                     }
-                    //} elseif (true) {
-                    // We're in the underworld and want to go back to the question page
                 } else {
                     $this->tabs->setBackTarget($this->lng->txt("backtocallingpool"), $this->ctrl->getLinkTargetByClass("ilobjquestionpoolgui", "questions"));
-                    //BACK FROM Question Page to Pool
                 }
             }
         }
