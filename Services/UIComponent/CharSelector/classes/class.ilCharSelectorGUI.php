@@ -20,7 +20,7 @@
  * This shows a character selector
  * @deprecated needs to be moved to KS
  */
-class ilCharSelectorGUI
+class ilCharSelectorGUI implements ilCtrlBaseClassInterface
 {
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
