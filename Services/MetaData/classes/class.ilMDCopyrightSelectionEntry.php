@@ -183,6 +183,14 @@ class ilMDCopyrightSelectionEntry
         }
         return $matches[2] ? $matches[2] : 0;
     }
+
+    public static function isEntry($a_cp_string) : bool
+    {
+        if (!preg_match('/il_copyright_entry__([0-9]+)__([0-9]+)/', $a_cp_string)) {
+            return false;
+        }
+        return true;
+    }
     
     /**
      * get usage

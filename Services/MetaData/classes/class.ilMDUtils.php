@@ -125,13 +125,13 @@ class ilMDUtils
         include_once('Services/MetaData/classes/class.ilMDSettings.php');
         $settings = ilMDSettings::_getInstance();
         if (!$settings->isCopyrightSelectionActive()) {
-            return $a_copyright;
+            return ilMDCopyrightSelectionEntry::isEntry($a_copyright) ? '' : $a_copyright;
         }
         include_once('Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php');
         return ilMDCopyrightSelectionEntry::_lookupCopyright($a_copyright);
     }
 
-    public static function _getDefaultCopyright(): string
+    public static function _getDefaultCopyright() : string
     {
         $default_id = ilMDCopyrightSelectionEntry::getDefault();
         return self::_parseCopyright(
