@@ -107,7 +107,7 @@ class ilMDUtils
     {
         $settings = ilMDSettings::_getInstance();
         if (!$settings->isCopyrightSelectionActive()) {
-            return $a_copyright;
+            return ilMDCopyrightSelectionEntry::isEntry($a_copyright) ? '' : $a_copyright;
         }
 
         return ilMDCopyrightSelectionEntry::_lookupCopyright($a_copyright);
