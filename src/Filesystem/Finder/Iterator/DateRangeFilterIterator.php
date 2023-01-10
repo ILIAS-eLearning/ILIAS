@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Finder\Iterator;
@@ -11,20 +27,6 @@ use ILIAS\Filesystem\DTO\Metadata;
 use InvalidArgumentException;
 use Iterator as PhpIterator;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
-
 /**
  * Class DateRangeFilterIterator
  * @package ILIAS\Filesystem\Finder\Iterator
@@ -32,32 +34,26 @@ use Iterator as PhpIterator;
  */
 class DateRangeFilterIterator extends FilterIterator
 {
-    private FileSystem $filesystem;
     /** @var DateComparator[] */
     private array $comparators = [];
 
     /**
-     * @param Filesystem $filesystem
-     * @param PhpIterator $iterator The Iterator to filter
+     * @param PhpIterator      $iterator    The Iterator to filter
      * @param DateComparator[] $comparators An array of DateComparator instances
      * @throws InvalidArgumentException
      */
-    public function __construct(Filesystem $filesystem, PhpIterator $iterator, array $comparators)
+    public function __construct(private Filesystem $filesystem, PhpIterator $iterator, array $comparators)
     {
         array_walk($comparators, static function ($comparator): void {
             if (!($comparator instanceof DateComparator)) {
-                if (is_object($comparator)) {
-                    throw new InvalidArgumentException(sprintf(
+                throw new InvalidArgumentException(
+                    sprintf(
                         'Invalid comparator given: %s',
-                        get_class($comparator)
-                    ));
-                }
-
-                throw new InvalidArgumentException(sprintf('Invalid comparator given: %s', gettype($comparator)));
+                        $comparator::class
+                    )
+                );
             }
         });
-
-        $this->filesystem = $filesystem;
         $this->comparators = $comparators;
 
         parent::__construct($iterator);
