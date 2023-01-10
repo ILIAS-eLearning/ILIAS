@@ -420,7 +420,9 @@ class ilDclTableView extends ActiveRecord
      */
     public function cloneStructure(ilDclTableView $orig, array $new_fields): void
     {
+        global $DIC;
         //clone structure
+        $this->setTitle($orig->getTitle() . ' ' . $DIC->language()->txt('copy_of_suffix'));
         $this->setTitle($orig->getTitle());
         $this->setOrder($orig->getOrder());
         $this->setDescription($orig->getDescription());
