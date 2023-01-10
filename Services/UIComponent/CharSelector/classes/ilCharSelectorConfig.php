@@ -303,8 +303,8 @@ class ilCharSelectorConfig
 
         // check configuration from administration settings
         $admin_config = new self(self::CONTEXT_ADMIN);
-        $admin_config->setAvailability($ilSetting->get('char_selector_availability'));
-        $admin_config->setDefinition($ilSetting->get('char_selector_definition'));
+        $admin_config->setAvailability((int) $ilSetting->get('char_selector_availability'));
+        $admin_config->setDefinition((string) $ilSetting->get('char_selector_definition'));
         if ($admin_config->getAvailability() === self::INACTIVE) {
             // a globally inactive selector can't be overwritten by users or tests
             return $admin_config;
@@ -323,8 +323,8 @@ class ilCharSelectorConfig
 
         // check configuration from user settings
         $user_config = new self(self::CONTEXT_USER);
-        $user_config->setAvailability($ilUser->getPref('char_selector_availability'));
-        $user_config->setDefinition($ilUser->getPref('char_selector_definition'));
+        $user_config->setAvailability((int) $ilUser->getPref('char_selector_availability'));
+        $user_config->setDefinition((string) $ilUser->getPref('char_selector_definition'));
         if ($user_config->getAvailability() !== self::INHERIT) {
             // take user specific config
             return $user_config;
