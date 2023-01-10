@@ -79,7 +79,7 @@ class StorageHandlerFactory
             return $this->handlers[$storage_id];
         }
 
-        throw new \LogicException("no other StorageHandler possible at the moment");
+        throw new \LogicException("no StorageHandler for '$storage_id' available");
     }
 
     public function getPrimary(): ?\ILIAS\ResourceStorage\StorageHandler\StorageHandler
