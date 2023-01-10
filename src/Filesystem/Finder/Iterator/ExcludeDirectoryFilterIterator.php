@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Finder\Iterator;
@@ -10,20 +26,6 @@ use InvalidArgumentException;
 use Iterator as PhpIterator;
 use RecursiveIterator;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
-
 /**
  * Class ExcludeDirectoryFilterIterator
  * @package ILIAS\Filesystem\Finder\Iterator
@@ -31,44 +33,36 @@ use RecursiveIterator;
  */
 class ExcludeDirectoryFilterIterator extends FilterIterator implements RecursiveIterator
 {
-    /** @var PhpIterator|RecursiveIterator */
-    private $iterator;
     private bool $isRecursive;
     /** @var string[] */
     private array $excludedDirs = [];
     private string $excludedPattern = '';
 
     /**
-     * @param PhpIterator $iterator The Iterator to filter
-     * @param string[] $directories An array of directories to exclude
+     * @param PhpIterator $iterator    The Iterator to filter
+     * @param string[]    $directories An array of directories to exclude
      * @throws InvalidArgumentException
      */
-    public function __construct(PhpIterator $iterator, array $directories)
+    public function __construct(private PhpIterator $iterator, array $directories)
     {
         array_walk($directories, static function ($directory): void {
             if (!is_string($directory)) {
-                if (is_object($directory)) {
-                    throw new InvalidArgumentException(sprintf('Invalid directory given: %s', get_class($directory)));
-                }
-
-                throw new InvalidArgumentException(sprintf('Invalid directory given: %s', gettype($directory)));
+                throw new InvalidArgumentException(sprintf('Invalid directory given: %s', $directory::class));
             }
         });
-
-        $this->iterator = $iterator;
         $this->isRecursive = $iterator instanceof RecursiveIterator;
 
         $patterns = [];
         foreach ($directories as $directory) {
             $directory = rtrim($directory, '/');
-            if (!$this->isRecursive || false !== strpos($directory, '/')) {
+            if (!$this->isRecursive || str_contains($directory, '/')) {
                 $patterns[] = preg_quote($directory, '#');
             } else {
                 $this->excludedDirs[$directory] = true;
             }
         }
 
-        if ($patterns) {
+        if ($patterns !== []) {
             $this->excludedPattern = '#(?:^|/)(' . implode('|', $patterns) . ')(?:/|$)#';
         }
 
@@ -87,7 +81,7 @@ class ExcludeDirectoryFilterIterator extends FilterIterator implements Recursive
             return false;
         }
 
-        if ($this->excludedPattern) {
+        if ($this->excludedPattern !== '' && $this->excludedPattern !== '0') {
             $path = $metadata->getPath();
             $path = str_replace('\\', '/', $path);
 

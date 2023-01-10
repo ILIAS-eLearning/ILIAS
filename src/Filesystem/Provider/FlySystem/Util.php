@@ -1,36 +1,36 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Provider\FlySystem;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * @internal
  * @description This is an override of the Class \League\Flysystem\Util. normalizeRelativePath in the originl class
  * replaces all backslashes \ with a slash /. This leads to problems with files which have a backslash in its title
  */
-class Util extends \League\Flysystem\Util
+class Util // extends \League\Flysystem\Util
 {
-    /**
-     * @param string $path
-     */
-    public static function normalizeRelativePath($path): string
+    public static function normalizeRelativePath(string $path): string
     {
         $path = preg_replace("#\\\\(?!['\\\])#m", '/', $path); // this only replaces backslashes
-        $path = static::removeFunkyWhiteSpace($path);
+        $path = preg_replace('#\p{C}+#u', '', $path);
         $parts = [];
 
         foreach (explode('/', $path) as $part) {

@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\Filesystem\Util;
 
 use ILIAS\DI\Container;
@@ -9,23 +25,9 @@ use Mockery;
 use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
- * Class LegacyPathHelperTest
- *
  * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
+ * @author                 Fabian Schmid <fabian@sr.solutions>
  *
  * @runTestsInSeparateProcesses
  * @preserveGlobalState    disabled
@@ -34,15 +36,10 @@ use PHPUnit\Framework\TestCase;
  */
 class LegacyPathHelperTest extends TestCase
 {
-    private $libsPath;
-    private $customizingPath;
-    private $tempPath;
-    private $storagePath;
-    private $webPath;
-    /**
-     * @var MockInterface | Filesystems $filesystemsMock
-     */
-    private $filesystemsMock;
+    private string $libsPath;
+    private string $storagePath;
+    private string $webPath;
+    private \Mockery\MockInterface|\ILIAS\Filesystem\Filesystems $filesystemsMock;
 
 
     /**
@@ -63,12 +60,9 @@ class LegacyPathHelperTest extends TestCase
         define("ILIAS_ABSOLUTE_PATH", $iliasAbsolutePath);
         define("ILIAS_WEB_DIR", $webDir);
         define("CLIENT_ID", 'default');
-
-        $this->customizingPath = $iliasAbsolutePath . '/' . 'Customizing';
         $this->libsPath = $iliasAbsolutePath . '/' . 'libs';
         $this->webPath = CLIENT_WEB_DIR;
         $this->storagePath = CLIENT_DATA_DIR;
-        $this->tempPath = sys_get_temp_dir();
 
         //create mock DI container
         $this->filesystemsMock = \Mockery::mock(Filesystems::class);

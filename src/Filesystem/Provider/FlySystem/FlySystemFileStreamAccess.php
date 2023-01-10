@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Provider\FlySystem;
@@ -12,74 +28,39 @@ use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Stream\Streams;
 use League\Flysystem\FileExistsException;
 use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
+use League\Flysystem\UnableToWriteFile;
+use League\Flysystem\UnableToRetrieveMetadata;
+use League\Flysystem\UnableToReadFile;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
- * Class FlySystemFileStreamAccess
- *
- * Streaming access implementation of the fly system library.
- *
- * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
- * @version 1.0.0
+ * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
+ * @author                 Fabian Schmid <fabian@sr.solutions>
  */
 final class FlySystemFileStreamAccess implements FileStreamAccess
 {
-    private FilesystemInterface $flySystemFS;
-
-    /**
-     * FlySystemFileStreamAccess constructor.
-     *
-     * @param FilesystemInterface $flySystemFS   A configured fly system filesystem instance.
-     */
-    public function __construct(FilesystemInterface $flySystemFS)
-    {
-        $this->flySystemFS = $flySystemFS;
+    public function __construct(
+        private FilesystemOperator $flysystem_operator
+    ) {
     }
 
     /**
      * Opens a readable stream of the file.
      * Please make sure to close the stream after the work is done with Stream::close()
-     *
-     * @param string $path The path to the file which should be used to open the new stream.
-     *
-     * @return FileStream The newly created file stream.
-     *
-     * @throws FileNotFoundException    If the file could not be found.
-     * @throws IOException              If the stream could not be opened.
-     *
-     * @since   5.3
-     * @version 1.0
-     *
      * @see FileStream::close()
      */
     public function readStream(string $path): FileStream
     {
         try {
-            $resource = $this->flySystemFS->readStream($path);
+            $resource = $this->flysystem_operator->readStream($path);
             if ($resource === false) {
                 throw new IOException("Could not open stream for file \"$path\"");
             }
-
-            $stream = Streams::ofResource($resource);
-            return $stream;
-        } catch (\League\Flysystem\FileNotFoundException $ex) {
+            return Streams::ofResource($resource);
+        } catch (UnableToRetrieveMetadata|UnableToReadFile $ex) {
             throw new FileNotFoundException("File \"$path\" not found.", 0, $ex);
         }
     }
-
 
     /**
      * Writes the stream to a new file.
@@ -87,31 +68,21 @@ final class FlySystemFileStreamAccess implements FileStreamAccess
      *
      * The stream will be closed after the write operation is done. Please note that the
      * resource must be detached from the stream in order to write to the file.
-     *
-     * @param string     $path   The file which should be used to write the stream into.
-     * @param FileStream $stream The stream which should be written into the new file.
-     *
-     * @throws FileAlreadyExistsException If the file already exists.
-     * @throws IOException If the file could not be written to the filesystem.
-     * @since   5.3
-     * @version 1.0
      * @see     FileStream::detach()
      */
     public function writeStream(string $path, FileStream $stream): void
     {
         $resource = $stream->detach();
+        if (!is_resource($resource)) {
+            throw new \InvalidArgumentException('The given stream must not be detached.');
+        }
+        if ($this->flysystem_operator->fileExists($path)) {
+            throw new FileAlreadyExistsException("File \"$path\" already exists.");
+        }
         try {
-            if (!is_resource($resource)) {
-                throw new \InvalidArgumentException('The given stream must not be detached.');
-            }
-
-            $result = $this->flySystemFS->writeStream($path, $resource);
-
-            if ($result === false) {
-                throw new IOException("Could not write stream to file \"$path\"");
-            }
-        } catch (FileExistsException $ex) {
-            throw new FileAlreadyExistsException("File \"$path\" already exists.", 0, $ex);
+            $this->flysystem_operator->writeStream($path, $resource);
+        } catch (UnableToWriteFile $ex) {
+            throw new IOException("Could not write stream to file \"$path\"", 0, $ex);
         } finally {
             if (is_resource($resource)) {
                 fclose($resource);
@@ -119,20 +90,9 @@ final class FlySystemFileStreamAccess implements FileStreamAccess
         }
     }
 
-
     /**
      * Creates a new file or updates an existing one.
      * If the file is updated its content will be truncated before writing the stream.
-     *
-     * The stream will be closed after the write operation is done. Please note that the
-     * resource must be detached from the stream in order to write to the file.
-     *
-     * @param string     $path   The file which should be used to write the stream into.
-     * @param FileStream $stream The stream which should be written to the file.
-     *
-     * @throws IOException If the stream could not be written to the file.
-     * @since   5.3
-     * @version 1.0
      * @see     FileStream::detach()
      */
     public function putStream(string $path, FileStream $stream): void
@@ -143,7 +103,7 @@ final class FlySystemFileStreamAccess implements FileStreamAccess
                 throw new \InvalidArgumentException('The given stream must not be detached.');
             }
 
-            $result = $this->flySystemFS->putStream($path, $resource);
+            $result = $this->flysystem_operator->putStream($path, $resource);
 
             if ($result === false) {
                 throw new IOException("Could not put stream content into \"$path\"");
@@ -155,21 +115,12 @@ final class FlySystemFileStreamAccess implements FileStreamAccess
         }
     }
 
-
     /**
      * Updates an existing file.
      * The file content will be truncated to 0.
      *
      * The stream will be closed after the write operation is done. Please note that the
      * resource must be detached from the stream in order to write to the file.
-     *
-     * @param string     $path   The path to the file which should be updated.
-     * @param FileStream $stream The stream which should be used to update the file content.
-     *
-     * @throws FileNotFoundException If the file which should be updated doesn't exist.
-     * @throws IOException If the file could not be updated.
-     * @since   5.3
-     * @version 1.0
      */
     public function updateStream(string $path, FileStream $stream): void
     {
@@ -178,14 +129,10 @@ final class FlySystemFileStreamAccess implements FileStreamAccess
             if (!is_resource($resource)) {
                 throw new \InvalidArgumentException('The given stream must not be detached.');
             }
-
-            $result = $this->flySystemFS->updateStream($path, $resource);
-
-            if ($result === false) {
-                throw new IOException("Could not update file \"$path\"");
-            }
-        } catch (\League\Flysystem\FileNotFoundException $ex) {
-            throw new FileNotFoundException("File \"$path\" not found.", 0, $ex);
+            // FlySystem 3 has no updateStream method, so we have to use writeStream instead.
+            $this->flysystem_operator->writeStream($path, $resource);
+        } catch (UnableToWriteFile $ex) {
+            throw new FileNotFoundException("Unable to update Stream in \"$path\".", 0, $ex);
         } finally {
             if (is_resource($resource)) {
                 fclose($resource);

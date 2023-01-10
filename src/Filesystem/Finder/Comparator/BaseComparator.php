@@ -1,24 +1,26 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Finder\Comparator;
 
 use InvalidArgumentException;
-
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 
 /**
  * Class Base
@@ -60,23 +62,13 @@ abstract class BaseComparator
 
     public function test(string $test): bool
     {
-        switch ($this->operator) {
-            case '>':
-                return $test > $this->target;
-
-            case '>=':
-                return $test >= $this->target;
-
-            case '<':
-                return $test < $this->target;
-
-            case '<=':
-                return $test <= $this->target;
-
-            case '!=':
-                return $test !== $this->target;
-        }
-
-        return $test === $this->target;
+        return match ($this->operator) {
+            '>' => $test > $this->target,
+            '>=' => $test >= $this->target,
+            '<' => $test < $this->target,
+            '<=' => $test <= $this->target,
+            '!=' => $test !== $this->target,
+            default => $test === $this->target,
+        };
     }
 }

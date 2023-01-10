@@ -1,68 +1,45 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
- * Class FilesystemsImpl
- *
  * The Filesystems implementation holds the configuration for the filesystem service.
  *
- * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
- * @version 1.0.0
- *
+ * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
+ * @author                 Fabian Schmid <fabian@sr.solutions>
  */
 final class FilesystemsImpl implements Filesystems
 {
-    private Filesystem $node_modules;
-    private Filesystem $libs;
-    private Filesystem $storage;
-    private Filesystem $web;
-    private Filesystem $temp;
-    private Filesystem $customizing;
-
-
     /**
      * FilesystemsImpl constructor.
-     *
-     * @param Filesystem $storage
-     * @param Filesystem $web
-     * @param Filesystem $temp
-     * @param Filesystem $customizing
-     * @param FileSystem $libs
-     * @param FileSystem $node_modules
      */
     public function __construct(
-        Filesystem $storage,
-        Filesystem $web,
-        Filesystem $temp,
-        Filesystem $customizing,
-        FileSystem $libs,
-        FileSystem $node_modules
+        private Filesystem $storage,
+        private Filesystem $web,
+        private Filesystem $temp,
+        private Filesystem $customizing,
+        private FileSystem $libs,
+        private FileSystem $node_modules
     ) {
-        $this->storage = $storage;
-        $this->web = $web;
-        $this->temp = $temp;
-        $this->customizing = $customizing;
-        $this->libs = $libs;
-        $this->node_modules = $node_modules;
     }
-
 
     /**
      * @inheritDoc
@@ -72,7 +49,6 @@ final class FilesystemsImpl implements Filesystems
         return $this->web;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -80,7 +56,6 @@ final class FilesystemsImpl implements Filesystems
     {
         return $this->storage;
     }
-
 
     /**
      * @inheritDoc
@@ -90,7 +65,6 @@ final class FilesystemsImpl implements Filesystems
         return $this->temp;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -98,7 +72,6 @@ final class FilesystemsImpl implements Filesystems
     {
         return $this->customizing;
     }
-
 
     /**
      * @inheritDoc

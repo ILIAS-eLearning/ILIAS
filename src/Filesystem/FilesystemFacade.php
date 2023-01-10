@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem;
@@ -11,40 +27,17 @@ use ILIAS\Filesystem\Provider\FileAccess;
 use ILIAS\Filesystem\Provider\FileStreamAccess;
 use ILIAS\Filesystem\Stream\FileStream;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
- * Class FilesystemFacade
- *
  * The filesystem facade is used internally to satisfy the Filesystem interface because the implementations are split into
  * different classes to reduce the size and responsibility of each class.
  *
  * This class simply delegates the work to the classes which are responsible for the task.
  *
- * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
- * @version 1.0.0
- *
- * @internal
+ * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
+ * @author                 Fabian Schmid <fabian@sr.solutions>
  */
 final class FilesystemFacade implements Filesystem
 {
-    private FileStreamAccess $fileStreamAccess;
-    private FileAccess $fileAccess;
-    private DirectoryAccess $directoryAccess;
-
-
     /**
      * FilesystemFacade constructor.
      *
@@ -54,13 +47,12 @@ final class FilesystemFacade implements Filesystem
      * @param FileAccess       $fileAccess
      * @param DirectoryAccess  $directoryAccess
      */
-    public function __construct(FileStreamAccess $fileStreamAccess, FileAccess $fileAccess, DirectoryAccess $directoryAccess)
-    {
-        $this->fileStreamAccess = $fileStreamAccess;
-        $this->fileAccess = $fileAccess;
-        $this->directoryAccess = $directoryAccess;
+    public function __construct(
+        private FileStreamAccess $fileStreamAccess,
+        private FileAccess $fileAccess,
+        private DirectoryAccess $directoryAccess
+    ) {
     }
-
 
     /**
      * @inheritDoc
@@ -70,7 +62,6 @@ final class FilesystemFacade implements Filesystem
         return $this->directoryAccess->hasDir($path);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -78,7 +69,6 @@ final class FilesystemFacade implements Filesystem
     {
         return $this->directoryAccess->listContents($path, $recursive);
     }
-
 
     /**
      * @inheritDoc
@@ -88,7 +78,6 @@ final class FilesystemFacade implements Filesystem
         $this->directoryAccess->createDir($path, $visibility);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -96,7 +85,6 @@ final class FilesystemFacade implements Filesystem
     {
         $this->directoryAccess->copyDir($source, $destination);
     }
-
 
     /**
      * @inheritDoc
@@ -106,7 +94,6 @@ final class FilesystemFacade implements Filesystem
         $this->directoryAccess->deleteDir($path);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -114,7 +101,6 @@ final class FilesystemFacade implements Filesystem
     {
         return $this->fileAccess->read($path);
     }
-
 
     /**
      * @inheritDoc
@@ -124,7 +110,6 @@ final class FilesystemFacade implements Filesystem
         return $this->fileAccess->has($path);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -132,7 +117,6 @@ final class FilesystemFacade implements Filesystem
     {
         return $this->fileAccess->getMimeType($path);
     }
-
 
     /**
      * @inheritDoc
@@ -142,15 +126,13 @@ final class FilesystemFacade implements Filesystem
         return $this->fileAccess->getTimestamp($path);
     }
 
-
     /**
      * @inheritDoc
      */
-    public function getSize(string $path, int $fileSizeUnit): DataSize
+    public function getSize(string $path, int $unit): DataSize
     {
-        return $this->fileAccess->getSize($path, $fileSizeUnit);
+        return $this->fileAccess->getSize($path, $unit);
     }
-
 
     /**
      * @inheritDoc
@@ -160,7 +142,6 @@ final class FilesystemFacade implements Filesystem
         return $this->fileAccess->setVisibility($path, $visibility);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -168,7 +149,6 @@ final class FilesystemFacade implements Filesystem
     {
         return $this->fileAccess->getVisibility($path);
     }
-
 
     /**
      * @inheritDoc
@@ -178,7 +158,6 @@ final class FilesystemFacade implements Filesystem
         return $this->fileStreamAccess->readStream($path);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -186,7 +165,6 @@ final class FilesystemFacade implements Filesystem
     {
         $this->fileStreamAccess->writeStream($path, $stream);
     }
-
 
     /**
      * @inheritDoc
@@ -196,7 +174,6 @@ final class FilesystemFacade implements Filesystem
         $this->fileStreamAccess->putStream($path, $stream);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -204,7 +181,6 @@ final class FilesystemFacade implements Filesystem
     {
         $this->fileStreamAccess->updateStream($path, $stream);
     }
-
 
     /**
      * @inheritDoc
@@ -214,7 +190,6 @@ final class FilesystemFacade implements Filesystem
         $this->fileAccess->write($path, $content);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -222,7 +197,6 @@ final class FilesystemFacade implements Filesystem
     {
         $this->fileAccess->update($path, $new_content);
     }
-
 
     /**
      * @inheritDoc
@@ -232,7 +206,6 @@ final class FilesystemFacade implements Filesystem
         $this->fileAccess->put($path, $content);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -240,7 +213,6 @@ final class FilesystemFacade implements Filesystem
     {
         $this->fileAccess->delete($path);
     }
-
 
     /**
      * @inheritDoc
@@ -250,7 +222,6 @@ final class FilesystemFacade implements Filesystem
         return $this->fileAccess->readAndDelete($path);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -258,7 +229,6 @@ final class FilesystemFacade implements Filesystem
     {
         $this->fileAccess->rename($path, $new_path);
     }
-
 
     /**
      * @inheritDoc

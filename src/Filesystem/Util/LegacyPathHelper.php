@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Filesystem\Util;
 
 use ILIAS\Filesystem\Filesystem;
@@ -25,14 +25,11 @@ use ILIAS\Filesystem\FilesystemsAware;
 use ILIAS\FileUpload\Location;
 
 /**
- * Class LegacyPathHelper
- *
  * The legacy path helper provides convenient functions for the integration of the filesystem service within legacy components.
  * This class should be deprecated with ILIAS 5.5 or earlier.
  *
- * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since   5.3
- * @version 1.0.0
+ * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
+ * @author                 Fabian Schmid <fabian@sr.solutions>
  */
 final class LegacyPathHelper
 {
@@ -54,21 +51,21 @@ final class LegacyPathHelper
             $nodeModulesWithLeadingDot
         ] = self::listPaths();
 
-        switch (true) {
-            case self::checkPossiblePath($temp, $absolute_path):
-                return Location::TEMPORARY;
-            case self::checkPossiblePath($web, $absolute_path):
-            case self::checkPossiblePath($webRelativeWithLeadingDot, $absolute_path):
-            case self::checkPossiblePath($webRelativeWithoutLeadingDot, $absolute_path):
-                return Location::WEB;
-            case self::checkPossiblePath($storage, $absolute_path):
-                return Location::STORAGE;
-            case self::checkPossiblePath($customizing, $absolute_path):
-            case self::checkPossiblePath($customizingRelativeWithLeadingDot, $absolute_path):
-                return Location::CUSTOMIZING;
-            default:
-                throw new \InvalidArgumentException("Invalid path supplied. Path must start with the web, storage, temp, customizing or libs storage location. Path given: '{$absolute_path}'");
-        }
+        return match (true) {
+            self::checkPossiblePath($temp, $absolute_path) => Location::TEMPORARY,
+            self::checkPossiblePath($web, $absolute_path), self::checkPossiblePath(
+                $webRelativeWithLeadingDot,
+                $absolute_path
+            ), self::checkPossiblePath($webRelativeWithoutLeadingDot, $absolute_path) => Location::WEB,
+            self::checkPossiblePath($storage, $absolute_path) => Location::STORAGE,
+            self::checkPossiblePath($customizing, $absolute_path), self::checkPossiblePath(
+                $customizingRelativeWithLeadingDot,
+                $absolute_path
+            ) => Location::CUSTOMIZING,
+            default => throw new \InvalidArgumentException(
+                "Invalid path supplied. Path must start with the web, storage, temp, customizing or libs storage location. Path given: '{$absolute_path}'"
+            ),
+        };
     }
 
     /**
@@ -100,34 +97,24 @@ final class LegacyPathHelper
             $nodeModulesWithLeadingDot
         ] = self::listPaths();
 
-        switch (true) {
-            case self::checkPossiblePath($temp, $absolute_path):
-                return self::filesystems()->temp();
-            case self::checkPossiblePath($web, $absolute_path):
-                return self::filesystems()->web();
-            case self::checkPossiblePath($webRelativeWithLeadingDot, $absolute_path):
-                return self::filesystems()->web();
-            case self::checkPossiblePath($webRelativeWithoutLeadingDot, $absolute_path):
-                return self::filesystems()->web();
-            case self::checkPossiblePath($storage, $absolute_path):
-                return self::filesystems()->storage();
-            case self::checkPossiblePath($customizing, $absolute_path):
-                return self::filesystems()->customizing();
-            case self::checkPossiblePath($customizingRelativeWithLeadingDot, $absolute_path):
-                return self::filesystems()->customizing();
-            case self::checkPossiblePath($libs, $absolute_path):
-                return self::filesystems()->libs();
-            case self::checkPossiblePath($libsRelativeWithLeadingDot, $absolute_path):
-                return self::filesystems()->libs();
-            case self::checkPossiblePath($nodeModules, $absolute_path):
-                return self::filesystems()->nodeModules();
-            case self::checkPossiblePath($nodeModulesWithLeadingDot, $absolute_path):
-                return self::filesystems()->nodeModules();
-            default:
-                throw new \InvalidArgumentException("Invalid path supplied. Path must start with the web, storage, temp, customizing or libs storage location. Path given: '{$absolute_path}'");
-        }
+        return match (true) {
+            self::checkPossiblePath($temp, $absolute_path) => self::filesystems()->temp(),
+            self::checkPossiblePath($web, $absolute_path) => self::filesystems()->web(),
+            self::checkPossiblePath($webRelativeWithLeadingDot, $absolute_path) => self::filesystems()->web(),
+            self::checkPossiblePath($webRelativeWithoutLeadingDot, $absolute_path) => self::filesystems()->web(),
+            self::checkPossiblePath($storage, $absolute_path) => self::filesystems()->storage(),
+            self::checkPossiblePath($customizing, $absolute_path) => self::filesystems()->customizing(),
+            self::checkPossiblePath($customizingRelativeWithLeadingDot, $absolute_path) => self::filesystems(
+            )->customizing(),
+            self::checkPossiblePath($libs, $absolute_path) => self::filesystems()->libs(),
+            self::checkPossiblePath($libsRelativeWithLeadingDot, $absolute_path) => self::filesystems()->libs(),
+            self::checkPossiblePath($nodeModules, $absolute_path) => self::filesystems()->nodeModules(),
+            self::checkPossiblePath($nodeModulesWithLeadingDot, $absolute_path) => self::filesystems()->nodeModules(),
+            default => throw new \InvalidArgumentException(
+                "Invalid path supplied. Path must start with the web, storage, temp, customizing or libs storage location. Path given: '{$absolute_path}'"
+            ),
+        };
     }
-
 
     /**
      * Creates a relative path from an absolute path which starts with a valid storage location.
@@ -157,95 +144,75 @@ final class LegacyPathHelper
             $nodeModulesWithLeadingDot
         ] = self::listPaths();
 
-        switch (true) {
-            // web without ./
-            case self::checkPossiblePath($webRelativeWithoutLeadingDot, $absolute_path):
-                return self::resolveRelativePath($webRelativeWithoutLeadingDot, $absolute_path);
-                // web with ./
-            case self::checkPossiblePath($webRelativeWithLeadingDot, $absolute_path):
-                return self::resolveRelativePath($webRelativeWithLeadingDot, $absolute_path);
-                // web/
-            case self::checkPossiblePath($web, $absolute_path):
-                return self::resolveRelativePath($web, $absolute_path);
-                // temp/
-            case self::checkPossiblePath($temp, $absolute_path):
-                return self::resolveRelativePath($temp, $absolute_path);
-                // iliasdata/
-            case self::checkPossiblePath($storage, $absolute_path):
-                return self::resolveRelativePath($storage, $absolute_path);
-                // Customizing/
-            case self::checkPossiblePath($customizing, $absolute_path):
-                return self::resolveRelativePath($customizing, $absolute_path);
-                // ./Customizing/
-            case self::checkPossiblePath($customizingRelativeWithLeadingDot, $absolute_path):
-                return self::resolveRelativePath($customizingRelativeWithLeadingDot, $absolute_path);
-                // libs/
-            case self::checkPossiblePath($libs, $absolute_path):
-                // ./libs
-            case self::checkPossiblePath($libsRelativeWithLeadingDot, $absolute_path):
-                return self::resolveRelativePath($libsRelativeWithLeadingDot, $absolute_path);
-                // node_modules/
-            case self::checkPossiblePath($nodeModules, $absolute_path):
-                // ./node_modules
-            case self::checkPossiblePath($nodeModulesWithLeadingDot, $absolute_path):
-                return self::resolveRelativePath($nodeModulesWithLeadingDot, $absolute_path);
-            default:
-                throw new \InvalidArgumentException("Invalid path supplied. Path must start with the web, storage, temp, customizing or libs storage location. Path given: '{$absolute_path}'");
-        }
+        return match (true) {
+            self::checkPossiblePath($webRelativeWithoutLeadingDot, $absolute_path) => self::resolveRelativePath(
+                $webRelativeWithoutLeadingDot,
+                $absolute_path
+            ),
+            self::checkPossiblePath($webRelativeWithLeadingDot, $absolute_path) => self::resolveRelativePath(
+                $webRelativeWithLeadingDot,
+                $absolute_path
+            ),
+            self::checkPossiblePath($web, $absolute_path) => self::resolveRelativePath($web, $absolute_path),
+            self::checkPossiblePath($temp, $absolute_path) => self::resolveRelativePath($temp, $absolute_path),
+            self::checkPossiblePath($storage, $absolute_path) => self::resolveRelativePath($storage, $absolute_path),
+            self::checkPossiblePath($customizing, $absolute_path) => self::resolveRelativePath(
+                $customizing,
+                $absolute_path
+            ),
+            self::checkPossiblePath($customizingRelativeWithLeadingDot, $absolute_path) => self::resolveRelativePath(
+                $customizingRelativeWithLeadingDot,
+                $absolute_path
+            ),
+            self::checkPossiblePath($libs, $absolute_path), self::checkPossiblePath(
+                $libsRelativeWithLeadingDot,
+                $absolute_path
+            ) => self::resolveRelativePath($libsRelativeWithLeadingDot, $absolute_path),
+            self::checkPossiblePath($nodeModules, $absolute_path), self::checkPossiblePath(
+                $nodeModulesWithLeadingDot,
+                $absolute_path
+            ) => self::resolveRelativePath($nodeModulesWithLeadingDot, $absolute_path),
+            default => throw new \InvalidArgumentException(
+                "Invalid path supplied. Path must start with the web, storage, temp, customizing or libs storage location. Path given: '{$absolute_path}'"
+            ),
+        };
     }
-
 
     private static function resolveRelativePath(string $possible_path, string $absolute_path): string
     {
         $real_possible_path = realpath($possible_path);
 
-        switch (true) {
-            case $possible_path === $absolute_path:
-            case $real_possible_path === $absolute_path:
-                return "";
-            case strpos($absolute_path, $possible_path) === 0:
-                return substr(
-                    $absolute_path,
-                    strlen($possible_path) + 1
-                );                             //also remove the trailing slash
-            case strpos($absolute_path, $real_possible_path) === 0:
-                return substr(
-                    $absolute_path,
-                    strlen($real_possible_path) + 1
-                );                             //also remove the trailing slash
-            default:
-                throw new \InvalidArgumentException("Invalid path supplied. Path must start with the web, storage, temp, customizing or libs storage location. Path given: '{$absolute_path}'");
-        }
+        return match (true) {
+            $possible_path === $absolute_path, $real_possible_path === $absolute_path => "",
+            str_starts_with($absolute_path, $possible_path) => substr(
+                $absolute_path,
+                strlen($possible_path) + 1
+            ),
+            str_starts_with($absolute_path, $real_possible_path) => substr(
+                $absolute_path,
+                strlen($real_possible_path) + 1
+            ),
+            default => throw new \InvalidArgumentException(
+                "Invalid path supplied. Path must start with the web, storage, temp, customizing or libs storage location. Path given: '{$absolute_path}'"
+            ),
+        };
     }
 
-
-    /**
-     * @param string $possible_path
-     * @param string $absolute_path
-     *
-     * @return bool
-     */
     private static function checkPossiblePath(string $possible_path, string $absolute_path): bool
     {
         $real_possible_path = realpath($possible_path);
 
-        switch (true) {
-            case $possible_path === $absolute_path:
-                return true;
-            case $real_possible_path === $absolute_path:
-                return true;
-            case is_string($possible_path) && strpos($absolute_path, $possible_path) === 0:
-                return true;
-            case is_string($real_possible_path) && strpos($absolute_path, $real_possible_path) === 0:
-                return true;
-            default:
-                return false;
-        }
+        return match (true) {
+            $possible_path === $absolute_path => true,
+            $real_possible_path === $absolute_path => true,
+            is_string($possible_path) && str_starts_with($absolute_path, $possible_path) => true,
+            is_string($real_possible_path) && str_starts_with($absolute_path, $real_possible_path) => true,
+            default => false,
+        };
     }
 
-
     /**
-     * @return array
+     * @return mixed[]
      */
     private static function listPaths(): array
     {
@@ -261,17 +228,18 @@ final class LegacyPathHelper
         $nodeModules = ILIAS_ABSOLUTE_PATH . '/node_modules';
         $nodeModulesWithLeadingDot = './node_modules';
 
-        return array($web,
-                     $webRelativeWithLeadingDot,
-                     $webRelativeWithoutLeadingDot,
-                     $storage,
-                     $customizing,
-                     $customizingRelativeWithLeadingDot,
-                     $libs,
-                     $libsRelativeWithLeadingDot,
-                     $temp,
-                     $nodeModules,
-                     $nodeModulesWithLeadingDot
-        );
+        return [
+            $web,
+            $webRelativeWithLeadingDot,
+            $webRelativeWithoutLeadingDot,
+            $storage,
+            $customizing,
+            $customizingRelativeWithLeadingDot,
+            $libs,
+            $libsRelativeWithLeadingDot,
+            $temp,
+            $nodeModules,
+            $nodeModulesWithLeadingDot
+        ];
     }
 }
