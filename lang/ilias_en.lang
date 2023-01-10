@@ -4034,10 +4034,6 @@ common#:#feedback#:#Feedback
 common#:#field_name#:#Field Name
 common#:#field_type#:#Field Type
 common#:#file#:#File
-common#:#file#:#amount_of_downloads#:#Downloads
-common#:#file#:#amount_of_downloads_since#:#%d times since %s
-common#:#file#:#show_amount_of_downloads#:#Show number of downloads
-common#:#file#:#show_amount_of_downloads_info#:#When active, the number of downloads will be visible on the info-page of a file object.
 common#:#file_add#:#Upload File
 common#:#file_add_and_metadata#:#Upload File and Edit Metadata
 common#:#file_added#:#File uploaded
@@ -9446,6 +9442,8 @@ export#:#export_select_resources#:#Select Resources
 export#:#no_file#:#No file
 file#:#action_download#:#Enable Direct Download
 file#:#action_show#:#Redirect User to the Info Page
+file#:#amount_of_downloads#:#Downloads
+file#:#amount_of_downloads_since#:#%d times since %s
 file#:#file_copy#:#Copy File
 file#:#file_download#:#Download File
 file#:#file_import#:#Import File
@@ -9471,6 +9469,8 @@ file#:#not_yet_migrated#:#This file object has not yet been migrated and no new 
 file#:#on_click_action#:#Action on Click on Title
 file#:#replace_file_info#:#All previous file versions will be deleted.
 file#:#resource_id#:#Resource ID
+file#:#show_amount_of_downloads#:#Show number of downloads
+file#:#show_amount_of_downloads_info#:#When active, the number of downloads will be visible on the info-page of a file object.
 file#:#storage_id#:#Storage ID
 file#:#upload_info#:#File
 file#:#upload_info_desc#:#Manage Uploads and Versions in Tab "Versions"

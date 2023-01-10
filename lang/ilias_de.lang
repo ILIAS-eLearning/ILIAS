@@ -4040,10 +4040,6 @@ common#:#feedback#:#Feedback
 common#:#field_name#:#Feldname
 common#:#field_type#:#Feldtyp
 common#:#file#:#Datei
-common#:#file#:#amount_of_downloads#:#Downloads
-common#:#file#:#amount_of_downloads_since#:#%d seit %s
-common#:#file#:#show_amount_of_downloads#:#Anzahl Downloads anzeigen
-common#:#file#:#show_amount_of_downloads_info#:#Wenn aktiv, wird die Anzahl Downloads auf der Info-Seite eines File-Objektes angezeigt.
 common#:#file_add#:#Datei hochladen
 common#:#file_add_and_metadata#:#Datei hochladen und Metadaten editieren
 common#:#file_added#:#Datei hochgeladen
@@ -9452,6 +9448,8 @@ export#:#export_select_resources#:#Objekte auswählen
 export#:#no_file#:#Keine Datei
 file#:#action_download#:#Datei herunterladen
 file#:#action_show#:#Infoseite anzeigen
+file#:#amount_of_downloads#:#Downloads
+file#:#amount_of_downloads_since#:#%d seit %s
 file#:#file_copy#:#Datei kopieren
 file#:#file_download#:#Datei herunterladen
 file#:#file_import#:#Dateiimport
@@ -9477,6 +9475,8 @@ file#:#not_yet_migrated#:#Dieses Datei-Objekt wurde noch nicht migriert und es k
 file#:#on_click_action#:#Klick auf Titel
 file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
 file#:#resource_id#:#Ressourcen ID
+file#:#show_amount_of_downloads#:#Anzahl Downloads anzeigen
+file#:#show_amount_of_downloads_info#:#Wenn aktiv, wird die Anzahl Downloads auf der Info-Seite eines File-Objektes angezeigt.
 file#:#storage_id#:#Storage ID
 file#:#upload_info#:#Datei
 file#:#upload_info_desc#:#Sie können die Dateien und die Dateiversionen im Tab "Versionen" verwalten.
@@ -10004,7 +10004,7 @@ iass#:#iass_added#:#Individuelle Bewertung hinzugefügt
 iass#:#iass_amend_saved#:#Geänderte Prüfungsdaten wurden gespeichert.
 iass#:#iass_assessment_not_completed#:#Noch nicht abgeschlossen
 iass#:#iass_cancel#:#Abbrechen
-iass#:#iass_changed_by#:#Nachträglich geändert 
+iass#:#iass_changed_by#:#Nachträglich geändert
 iass#:#iass_confirm_finalize#:#Abschließen
 iass#:#iass_consultation_hours#:#Sprechstunden
 iass#:#iass_contact#:#Name
