@@ -35,8 +35,8 @@ class ilAdvancedMDFieldDefinitionLocation extends ilAdvancedMDFieldDefinition
         $parts = explode("#", $a_cdata);
         if (count($parts) == 3) {
             $adt = $this->getADT();
-            $adt->setLatitude($parts[0]);
-            $adt->setLongitude($parts[1]);
+            $adt->setLatitude((float) $parts[0]);
+            $adt->setLongitude((float) $parts[1]);
             $adt->setZoom($parts[2]);
         }
     }
