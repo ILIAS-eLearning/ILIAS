@@ -142,13 +142,13 @@ class ilConditionHandlerGUI
 
     protected function initListModeFromPost(): string
     {
-        if ($this->http->wrapper()->post()->has('list_mode')) {
-            return $this->http->wrapper()->post()->retrieve(
-                'list_mode',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
-        return "";
+        return $this->http->wrapper()->post()->retrieve(
+            'list_mode',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always(self::LIST_MODE_UNDEFINED)
+            ])
+        );
     }
 
     protected function initSourceIdFromQuery(): int
