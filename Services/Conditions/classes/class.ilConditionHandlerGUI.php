@@ -13,8 +13,8 @@ declare(strict_types=1);
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
 
@@ -461,7 +461,7 @@ class ilConditionHandlerGUI
                 $this->getTargetRefId(),
                 $this->getTargetId()
             );
-            $obl->setValue($num_required > 0 ? $num_required : null);
+            $obl->setValue($num_required > 0 ? (string) $num_required : null);
             $obl->setRequired(true);
             $obl->setSize(1);
             $obl->setMinValue($min);
