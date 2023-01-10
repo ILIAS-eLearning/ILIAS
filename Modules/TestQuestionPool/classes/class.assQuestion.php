@@ -2308,7 +2308,7 @@ abstract class assQuestion
                 )
             );
             if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
-                ilInternalLink::_saveLink("qst", $id, $matches[2], $matches[3], $matches[1]);
+                ilInternalLink::_saveLink("qst", $id, $matches[2], (int) $matches[3], (int) $matches[1]);
             }
         }
         if ($original_id !== -1) {
