@@ -833,8 +833,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $cmd,
                 $ref_id,
                 $topicData,
-                $this->is_moderator,
-                ilForumProperties::FORUM_OVERVIEW_NO_NEW_POSTS
+                $this->is_moderator
             );
             $tbl->init();
             $tbl->setMapper($frm)->fetchData();
@@ -4573,8 +4572,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 'mergeThreads',
                 (int) $this->httpRequest->getQueryParams()['ref_id'],
                 $topicData,
-                $this->is_moderator,
-                ilForumProperties::FORUM_OVERVIEW_NO_NEW_POSTS
+                $this->is_moderator
             );
             $tbl->setSelectedThread($threadToMerge);
             $tbl->setMapper($frm)->fetchData();
