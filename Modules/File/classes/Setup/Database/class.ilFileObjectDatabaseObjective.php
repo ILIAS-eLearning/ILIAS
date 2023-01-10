@@ -83,15 +83,15 @@ class ilFileObjectDatabaseObjective implements ilDatabaseUpdateSteps
             'downloads',
             [
                 'type' => 'integer',
-                'length' => '8',
-                'notnull' => '1',
+                'length' => 8,
+                'notnull' => false,
                 'default' => 0 // will be adjusted in an update query.
             ]
         );
 
         $this->database->manipulate("
             UPDATE file_data SET downloads = (
-                SELECT SUM(read_event.read_count) AS downloads FROM read_event 
+                SELECT COALESCE(SUM(read_event.read_count), 0) FROM read_event 
                     WHERE read_event.obj_id = file_data.file_id
             );
         ");
