@@ -30,7 +30,6 @@ class ilForumTopicTableGUI extends ilTable2GUI
     private ilForum $mapper;
     private bool $is_moderator = false;
     private int $ref_id = 0;
-    private int $overview_setting = 0;
     private ForumDto $topicData;
     private ?ilForumTopic $merge_thread_obj = null;
     private int $position = 1;

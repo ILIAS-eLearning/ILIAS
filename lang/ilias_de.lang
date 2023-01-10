@@ -188,8 +188,6 @@ administration#:#dump_tree_desc#:#Analysiere die Baumstruktur und liste alle Bau
 administration#:#dumping_tree#:#Liste Tree auf...
 administration#:#found#:#Gefunden
 administration#:#found_none#:#Nicht gefunden
-administration#:#frm_disp_info_desc#:#Bitte wählen Sie aus, welche Informationen in den Übersichten angezeigt werden sollen.
-administration#:#frm_displayed_infos#:#Angezeigte Informationen
 administration#:#git_hash_short#:#Commit Hash (kurz): %s
 administration#:#git_last_commit#:#Letzter Commit: %s
 administration#:#git_revision#:#Nummer: %s
@@ -4122,7 +4120,6 @@ common#:#forums_disable_forum_notification#:#Benachrichtigung für gesamtes Foru
 common#:#forums_enable_forum_notification#:#Benachrichtigung für gesamtes Forum starten
 common#:#forums_forum_notification_enabled#:#Sie werden über neue Beiträge in diesem Forum benachrichtigt.
 common#:#forums_last_post#:#Letzter Beitrag
-common#:#forums_new_articles#:#Neue Beiträge
 common#:#forums_notification_settings#:#Benachrichtigung über neue und geänderte Forenbeiträge
 common#:#forums_threads#:#Themen
 common#:#forums_use_alias#:#Sie können hier ein Pseudonym eingeben, das Sie für diesen Beitrag verwenden möchten. Wenn Sie dieses Feld leer lassen, wird Ihr Beitrag als von "%s" geschrieben markiert.
@@ -9641,7 +9638,6 @@ forum#:#frm_action_not_possible_parent_deleted#:#Die Aktion kann nicht durchgef�
 forum#:#frm_action_not_possible_thr_closed#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde geschlossen.
 forum#:#frm_action_not_possible_thr_deleted#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde gelöscht.
 forum#:#frm_activation_online_info#:#Nur wenn das Forum online geschaltet ist, können Benutzer auf das Forum zugreifen. Wenn nicht, ist das Forum nur für Administratoren verfügbar.
-forum#:#frm_all_postings_stats#:#Alle
 forum#:#frm_all_threads#:#Alle Themen
 forum#:#frm_anonymous_posting#:#Mit Pseudonym schreiben
 forum#:#frm_anonymous_posting_desc#:#Beiträge können unter beliebigem Namen geschrieben werden. Ist die Option „Beiträge der Moderation markieren“ aktiviert, kann die Moderation kein Pseudonym verwenden.###Modified as part of gender mainstreaming activities for ILIAS 8

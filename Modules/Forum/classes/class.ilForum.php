@@ -559,8 +559,6 @@ class ilForum
         $dead_thr = 0;
 
         if ((int) $p_node['parent'] === 0) {
-            ilObjForum::_deleteAccessEntries((int) $p_node['tree']);
-
             $dead_thr = (int) $p_node['tree'];
 
             $this->db->manipulateF('DELETE FROM frm_threads WHERE thr_pk = %s', ['integer'], [$dead_thr]);
@@ -1708,7 +1706,6 @@ class ilForum
         $ilAtomQuery->run();
 
         ilForumNotification::mergeThreadNotifications($sourceThreadForMerge->getId(), $targetThreadForMerge->getId());
-        ilObjForum::_deleteAccessEntries($sourceThreadForMerge->getId());
         ilObjForum::mergeForumUserRead($sourceThreadForMerge->getId(), $targetThreadForMerge->getId());
 
         $lastPostString = $targetThreadForMerge->getLastPostString();

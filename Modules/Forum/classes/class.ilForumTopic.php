@@ -534,7 +534,6 @@ class ilForumTopic
 
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock('frm_user_read');
-        $ilAtomQuery->addTableLock('frm_thread_access');
 
         $ilAtomQuery->addQueryCallable(static function (ilDBInterface $ilDB) use ($new_obj_id, $current_id): void {
             $ilDB->manipulateF(
@@ -545,18 +544,6 @@ class ilForumTopic
 
             $ilDB->manipulateF(
                 'UPDATE frm_user_read SET obj_id = %s WHERE thread_id = %s',
-                ['integer', 'integer'],
-                [$new_obj_id, $current_id]
-            );
-
-            $ilDB->manipulateF(
-                'DELETE FROM frm_thread_access WHERE obj_id = %s AND thread_id = %s',
-                ['integer', 'integer'],
-                [$new_obj_id, $current_id]
-            );
-
-            $ilDB->manipulateF(
-                'UPDATE frm_thread_access SET obj_id = %s WHERE thread_id =%s',
                 ['integer', 'integer'],
                 [$new_obj_id, $current_id]
             );

@@ -242,32 +242,6 @@ class ilObjForum extends ilObject
         return (bool) $this->db->numRows($res);
     }
 
-    public function updateLastAccess(int $a_usr_id, int $a_thread_id): void
-    {
-        $res = $this->db->queryF(
-            'SELECT * FROM frm_thread_access WHERE usr_id = %s AND obj_id = %s AND thread_id = %s',
-            ['integer', 'integer', 'integer'],
-            [$a_usr_id, $this->getId(), $a_thread_id]
-        );
-        $data = $this->db->fetchAssoc($res);
-
-        if (is_array($data)) {
-            $this->db->replace(
-                'frm_thread_access',
-                [
-                    'usr_id' => ['integer', $a_usr_id],
-                    'obj_id' => ['integer', $this->getId()],
-                    'thread_id' => ['integer', $a_thread_id]
-                ],
-                [
-                    'access_last' => ['integer', time()],
-                    'access_old' => ['integer', (int) ($data['access_old'] ?? 0)],
-                    'access_old_ts' => ['timestamp', $data['access_old_ts']]
-                ]
-            );
-        }
-    }
-
     public static function _deleteUser(int $a_usr_id): void
     {
         global $DIC;
@@ -275,7 +249,6 @@ class ilObjForum extends ilObject
         $data = [$a_usr_id];
 
         $DIC->database()->manipulateF('DELETE FROM frm_user_read WHERE usr_id = %s', ['integer'], $data);
-        $DIC->database()->manipulateF('DELETE FROM frm_thread_access WHERE usr_id = %s', ['integer'], $data);
         $DIC->database()->manipulateF('DELETE FROM frm_notification WHERE user_id = %s', ['integer'], $data);
     }
 
@@ -284,13 +257,6 @@ class ilObjForum extends ilObject
         global $DIC;
 
         $DIC->database()->manipulateF('DELETE FROM frm_user_read WHERE post_id = %s', ['integer'], [$a_post_id]);
-    }
-
-    public static function _deleteAccessEntries(int $a_thread_id): void
-    {
-        global $DIC;
-
-        $DIC->database()->manipulateF('DELETE FROM frm_thread_access WHERE thread_id = %s', ['integer'], [$a_thread_id]);
     }
 
     public function updateMoficationUserId(int $usr_id): void
@@ -536,7 +502,6 @@ class ilObjForum extends ilObject
         $this->db->manipulateF('DELETE FROM frm_data WHERE top_frm_fk = %s', ['integer'], $obj_id);
         $this->db->manipulateF('DELETE FROM frm_settings WHERE obj_id = %s', ['integer'], $obj_id);
         $this->db->manipulateF('DELETE FROM frm_user_read WHERE obj_id = %s', ['integer'], $obj_id);
-        $this->db->manipulateF('DELETE FROM frm_thread_access WHERE obj_id = %s', ['integer'], $obj_id);
         $this->db->manipulate('DELETE FROM frm_notification WHERE ' . $this->db->in(
             'thread_id',
             $thread_ids_to_delete,
