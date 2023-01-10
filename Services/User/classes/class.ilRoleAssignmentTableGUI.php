@@ -13,11 +13,10 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilRoleAssignmentTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilPathGUI
-     */
     protected $path_gui;
-    
+    protected $factory;
+    protected $renderer;
+
     /**
     * Constructor
     */
@@ -28,6 +27,9 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
         $rbacsystem = $DIC['rbacsystem'];
+
+        $this->factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
 
         $lng->loadLanguageModule('rbac');
         $this->setId("usrroleass");
@@ -66,7 +68,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
     {
         return $this->path_gui;
     }
-    
+
     /**
     * Init filter
     */
@@ -75,7 +77,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         global $DIC;
 
         $lng = $DIC['lng'];
-        
+
         // roles
         $option[0] = $lng->txt('assigned_roles');
         $option[1] = $lng->txt('all_roles');
@@ -91,16 +93,12 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $si->readFromSession();
         $this->filter["role_filter"] = $si->getValue();
     }
-    
+
     /**
     * Fill table row
     */
     protected function fillRow($a_set)
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         if (isset($a_set['checkbox']['id'])) {
             $this->tpl->setVariable('VAL_ID', $a_set['checkbox']['id']);
             if ($a_set['checkbox']['disabled']) {
@@ -110,9 +108,34 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
                 $this->tpl->setVariable('VAL_CHECKED', 'checked="checked"');
             }
         }
-        $this->tpl->setVariable("ROLE", $a_set["role"]);
-        $this->tpl->setVariable("DESCRIPTION", $a_set["description"]);
-        $this->tpl->setVariable("CONTEXT", $a_set["context"]);
+
+        $this->ctrl->setParameterByClass("ilobjrolegui", "ref_id", $a_set['ref_id']);
+        $this->ctrl->setParameterByClass("ilobjrolegui", "obj_id", $a_set["obj_id"]);
+
+        $this->tpl->setVariable(
+            'ROLE',
+            $this->renderer->render(
+                $this->factory->link()->standard(
+                    ilObjRole::_getTranslation($a_set['title']),
+                    $this->ctrl->getLinkTargetByClass(ilObjRoleGUI::class, 'perm')
+                )
+            )
+        );
+        $this->tpl->setVariable('DESCRIPTION', $a_set['description']);
+        // Add link to objector local Rores
+        $context = $a_set['context'];
+        if ($a_set['role_type'] === 'local') {
+            $context = $this->renderer->render(
+                $this->factory->link()->standard(
+                    $context,
+                    ilLink::_getLink(
+                        $a_set['ref_id'],
+                        ilObject::_lookupType(ilObject::_lookupObjId($a_set['ref_id']))
+                    )
+                )
+            );
+        }
+        $this->tpl->setVariable('CONTEXT', $context);
         $this->tpl->setVariable('PATH', $a_set['path']);
     }
 
@@ -142,16 +165,16 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
                 continue;
             }
 
-            $path = "";
+            $context = "";
             if ($tree->isInTree($rolf[0])) {
                 if ($rolf[0] == ROLE_FOLDER_ID) {
-                    $path = $this->lng->txt("global");
+                    $context = $this->lng->txt("global");
                 } else {
                     $tmpPath = $tree->getPathFull($rolf[0]);
-                    $path = $this->getTitleForReference($ref_id);
+                    $context = $this->getTitleForReference($ref_id);
                 }
             } else {
-                $path = "<b>Rolefolder " . $rolf[0] . " not found in tree! (Role " . $role["obj_id"] . ")</b>";
+                $context = "<b>Rolefolder " . $rolf[0] . " not found in tree! (Role " . $role["obj_id"] . ")</b>";
             }
 
             $disabled = false;
@@ -185,35 +208,22 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
 
             $role_ids[$counter] = $role["obj_id"];
 
-
             $checkbox = [
                 'id' => $role['obj_id'],
                 'disabled' => $disabled,
                 'checked' => in_array($role['obj_id'], $assigned_roles)
             ];
-            $this->ctrl->setParameterByClass("ilobjrolegui", "ref_id", $rolf[0]);
-            $this->ctrl->setParameterByClass("ilobjrolegui", "obj_id", $role["obj_id"]);
-            $result_set[$counter][] = $link = "<a href=\"" . $this->ctrl->getLinkTargetByClass("ilobjrolegui", "perm") . "\">" . ilObjRole::_getTranslation($role["title"]) . "</a>";
-            $title = ilObjRole::_getTranslation($role["title"]);
-            $result_set[$counter][] = $role["description"];
 
-            // Add link to objector local Rores
-            if ($role["role_type"] == "local") {
-                $result_set[$counter][] = $context = "<a href='" . ilLink::_getLink(
-                    $ref_id,
-                    ilObject::_lookupType(ilObject::_lookupObjId($ref_id))
-                ) . "' target='_top'>" . $path . "</a>";
-            } else {
-                $result_set[$counter][] = $path;
-                $context = $path;
-            }
+            $title = ilObjRole::_getTranslation($role["title"]);
 
             $records[] = [
                 "path" => $path,
                 "description" => $role["description"],
                 "context" => $context,
                 "checkbox" => $checkbox,
-                "role" => $link,
+                "role_type" => $role["role_type"],
+                "ref_id" => $ref_id,
+                "obj_id" => $role["obj_id"],
                 "title" => $title,
                 'path' => $this->getPathGUI()->getPath(ROOT_FOLDER_ID, $ref_id)
             ];
@@ -245,5 +255,4 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         ilDatePresentation::resetToDefaults();
         return (string) $title;
     }
-
 }
