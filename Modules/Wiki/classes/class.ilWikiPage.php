@@ -335,9 +335,12 @@ class ilWikiPage extends ilPageObject
         );
 
         // delete important page
-        $wiki = new ilObjWiki($this->getWikiId(), false);
-        if ($wiki->isImportantPage($this->getId())) {
-            $wiki->removeImportantPage($this->getId());
+        // note: the wiki might be already deleted here
+        if (ilObject::_exists($this->getWikiId())) {
+            $wiki = new ilObjWiki($this->getWikiId(), false);
+            if ($wiki->isImportantPage($this->getId())) {
+                $wiki->removeImportantPage($this->getId());
+            }
         }
 
         // delete internal links information to this page
