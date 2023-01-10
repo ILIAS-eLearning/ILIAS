@@ -1343,6 +1343,7 @@ class ilStartUpGUI
         );
 
         if ((int) $this->user->getAuthMode(true) == AUTH_SAML && $had_external_authentication) {
+            $this->logger->info('Redirecting user to SAML logout script');
             $this->ctrl->redirectToURL('saml.php?action=logout&logout_url=' . urlencode(ILIAS_HTTP_PATH . '/login.php'));
         }
 
@@ -2023,7 +2024,9 @@ class ilStartUpGUI
         $auth = $factory->auth();
 
         if (isset($params['action']) && $params['action'] == 'logout') {
-            $auth->logout(isset($params['logout_url']) ? $params['logout_url'] : '');
+            $logout_url = isset($params['logout_url']) ? $params['logout_url'] : '';
+            ilLoggerFactory::getLogger('auth')->info(sprintf('Requested SAML logout: %s', $logout_url));
+            $auth->logout($logout_url);
         }
 
         if (isset($params['target']) && !isset($params['returnTo'])) {
