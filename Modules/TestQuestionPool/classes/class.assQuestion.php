@@ -2279,7 +2279,7 @@ abstract class assQuestion
 
     public function updateSuggestedSolutions(int $original_id = -1): void
     {
-        $id = (strlen($original_id) && is_numeric($original_id)) ? $original_id : $this->getId();
+        $id = $original_id !== -1 ? $original_id : $this->getId();
         $this->db->manipulateF(
             "DELETE FROM qpl_sol_sug WHERE question_fi = %s",
             array('integer'),
