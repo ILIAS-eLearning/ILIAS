@@ -44,8 +44,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         string $a_parent_cmd,
         int $ref_id,
         ForumDto $topicData,
-        bool $is_moderator = false,
-        int $overview_setting = 0
+        bool $is_moderator = false
     ) {
         global $DIC;
 
@@ -56,7 +55,6 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
         $this->parent_cmd = $a_parent_cmd;
         $this->setIsModerator($is_moderator);
-        $this->setOverviewSetting($overview_setting);
         $this->setRefId($ref_id);
         $this->setTopicData($topicData);
 
@@ -391,17 +389,6 @@ class ilForumTopicTableGUI extends ilTable2GUI
     public function getRefId(): int
     {
         return $this->ref_id;
-    }
-
-    public function setOverviewSetting(int $overview_setting): self
-    {
-        $this->overview_setting = $overview_setting;
-        return $this;
-    }
-
-    public function getOverviewSetting(): int
-    {
-        return $this->overview_setting;
     }
 
     public function setIsModerator(bool $is_moderator): self
