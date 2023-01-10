@@ -1196,10 +1196,9 @@ abstract class assQuestionGUI
         $ilUser = $this->ilUser;
         $ilAccess = $this->access;
 
-        $save = (is_array($_POST["cmd"]) &&
-            array_key_exists("saveSuggestedSolution", $_POST["cmd"])) ? true : false;
-
-        if ($save && $_POST["deleteSuggestedSolution"] == 1) {
+        $cmd = $this->request->raw('cmd');
+        $save = is_array($cmd) && array_key_exists('saveSuggestedSolution', $cmd);
+        if ($save && $this->request->int('deleteSuggestedSolution') === 1) {
             $this->object->deleteSuggestedSolutions();
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "suggestedsolution");
