@@ -65,6 +65,20 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
 
         return null;
     }
+    public function getResponsiveLogoModification(CalledContexts $called_contexts): ?LogoModification
+    {
+        if ($this->isKioskModeEnabled($called_contexts)) {
+            $logo = $this->globalScreen()->layout()->factory()->logo();
+
+            $logo = $logo->withModification(function (Image $current) {
+                return null;
+            });
+
+            return $logo->withHighPriority();
+        }
+
+        return null;
+    }
 
     public function getMainBarModification(CalledContexts $called_contexts): ?MainBarModification
     {
@@ -148,4 +162,5 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
         }
         return null;
     }
+
 }
