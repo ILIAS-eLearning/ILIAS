@@ -30,14 +30,11 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         $filter_value = "",
         ?ilDclBaseFieldModel $sort_field = null
     ): ?ilDclRecordQueryObject {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         $join_str
             = "INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
-            . $ilDB->quote($this->getId(), 'integer') . ") ";
+            . $this->db->quote($this->getId(), 'integer') . ") ";
         $join_str .= "INNER JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS filter_stloc_{$this->getId()} ON (filter_stloc_{$this->getId()}.record_field_id = filter_record_field_{$this->getId()}.id AND filter_stloc_{$this->getId()}.value LIKE "
-            . $ilDB->quote("%$filter_value%", 'text') . ") ";
+            . $this->db->quote("%$filter_value%", 'text') . ") ";
 
         $sql_obj = new ilDclRecordQueryObject();
         $sql_obj->setJoinStatement($join_str);
@@ -61,10 +58,10 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
     {
         $has_url_property = $this->getProperty(ilDclBaseFieldModel::PROP_URL);
         if ($has_url_property) {
-            $values = array(
+            $values = [
                 'link' => $form->getInput("field_" . $this->getId()),
                 'title' => $form->getInput("field_" . $this->getId() . "_title"),
-            );
+            ];
             $this->checkValidityOfURLField($values, $record_id);
         } else {
             parent::checkValidityFromForm($form, $record_id);
@@ -117,7 +114,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
     {
         // TODO: value should always be an array with url fields, can we remove the check & json_decode?
         if (!is_array($value)) {
-            $value = array('link' => $value, 'title' => '');
+            $value = ['link' => $value, 'title' => ''];
         }
 
         //Don't check empty values
@@ -152,14 +149,11 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
 
     public function checkFieldCreationInput(ilPropertyFormGUI $form): bool
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-
         $return = true;
         // Additional check for text fields: The length property should be max 200 if the textarea option is not set
         if ((int) $form->getInput('prop_' . ilDclBaseFieldModel::PROP_LENGTH) > 200 && !$form->getInput('prop_' . ilDclBaseFieldModel::PROP_TEXTAREA)) {
             $inputObj = $form->getItemByPostVar('prop_' . ilDclBaseFieldModel::PROP_LENGTH);
-            $inputObj->setAlert($lng->txt("form_msg_value_too_high"));
+            $inputObj->setAlert($this->lng->txt("form_msg_value_too_high"));
             $return = false;
         }
 
@@ -171,13 +165,13 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
      */
     public function getValidFieldProperties(): array
     {
-        return array(
+        return [
             ilDclBaseFieldModel::PROP_LENGTH,
             ilDclBaseFieldModel::PROP_REGEX,
             ilDclBaseFieldModel::PROP_URL,
             ilDclBaseFieldModel::PROP_TEXTAREA,
             ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT,
-        );
+        ];
     }
 
     protected function checkRegexAndLength(string $value): void
