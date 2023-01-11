@@ -1432,7 +1432,7 @@ class ilObjMediaObject extends ilObject
         }
         ilFileUtils::makeDirParents($dir);
         if ($a_mode == "rename") {
-            rename($tmp_name, $dir . "/" . $a_name);
+            ilFileUtils::rename($tmp_name, $dir . "/" . $a_name);
         } else {
             ilFileUtils::moveUploadedFile($tmp_name, $a_name, $dir . "/" . $a_name, true, $a_mode);
         }
