@@ -210,4 +210,12 @@ class Factory implements Field\Factory
     {
         return new Hidden($this->data_factory, $this->refinery);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function colorpicker(string $label, string $byline = null): Field\ColorPicker
+    {
+        return new ColorPicker($this->data_factory, $this->refinery, $label, $byline);
+    }
 }
