@@ -1218,12 +1218,16 @@ abstract class assQuestionGUI
         if (!array_key_exists('type', $solution_array)) {
             $solution_array['type'] = '';
         }
-        if (strcmp($_POST["solutiontype"], "file") == 0 &&
+
+        $solution_type = $this->request->raw('solutiontype');
+        if (is_string($solution_type) &&
+            strcmp($solution_type, "file") == 0 &&
             strcmp($solution_array["type"], "file") != 0) {
             $solution_array = array(
                 "type" => "file"
             );
-        } elseif (strcmp($_POST["solutiontype"], "text") == 0 &&
+        } elseif (is_string($solution_type) &&
+            strcmp($solution_type, "text") == 0 &&
             strcmp($solution_array["type"], "text") != 0) {
             $oldsaveSuggestedSolutionOutputMode = $this->getRenderPurpose();
             $this->setRenderPurpose(self::RENDER_PURPOSE_INPUT_VALUE);
