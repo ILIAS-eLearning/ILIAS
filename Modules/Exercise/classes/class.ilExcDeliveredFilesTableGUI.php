@@ -82,7 +82,7 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
         $ilCtrl = $this->ctrl;
 
         $this->tpl->setVariable("FILE_ID", $a_set["returned_id"]);
-        $this->tpl->setVariable("DELIVERED_FILE", $a_set["filetitle"]);
+        $this->tpl->setVariable("DELIVERED_FILE", htmlentities($a_set["filetitle"]));
 
         $date = new ilDateTime($a_set['timestamp14'], IL_CAL_TIMESTAMP);
         $this->tpl->setVariable("DELIVERED_DATE", ilDatePresentation::formatDate($date));
