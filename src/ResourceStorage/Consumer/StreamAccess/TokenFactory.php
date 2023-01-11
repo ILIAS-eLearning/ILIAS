@@ -37,9 +37,6 @@ class TokenFactory
     public function __construct(string $storage_dir)
     {
         $this->storage_dir = $storage_dir;
-        if (!is_dir($this->storage_dir)) {
-            throw new \InvalidArgumentException('Storage directory does not exist');
-        }
     }
 
     public function check(string $access_key): Token
@@ -73,6 +70,9 @@ class TokenFactory
 
     private function checkURI(string $uri): void
     {
+        if (!is_dir($this->storage_dir)) {
+            throw new \InvalidArgumentException('Storage directory does not exist');
+        }
         if ($this->isMemoryStream($uri)) {
             return;
         }

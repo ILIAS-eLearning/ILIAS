@@ -29,8 +29,8 @@ class ilFileObjectToStorageMigration implements Setup\Migration
 
     protected bool $prepared = false;
     private bool $confirmed = false;
-    protected ilFileObjectToStorageMigrationRunner $runner;
-    protected ilDBInterface $database;
+    protected ?ilFileObjectToStorageMigrationRunner $runner;
+    protected ?ilDBInterface $database;
 
     /**
      * @inheritDoc
@@ -53,12 +53,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
      */
     public function getPreconditions(Environment $environment): array
     {
-        return [
-            new ilIniFilesLoadedObjective(),
-            new ilDatabaseInitializedObjective(),
-            new ilDatabaseUpdatedObjective(),
-            new ilStorageContainersExistingObjective()
-        ];
+        return ilResourceStorageMigrationHelper::getPreconditions();
     }
 
     /**
@@ -66,67 +61,26 @@ class ilFileObjectToStorageMigration implements Setup\Migration
      */
     public function prepare(Environment $environment): void
     {
-        /**
-         * @var $ilias_ini  ilIniFile
-         * @var $client_ini ilIniFile
-         * @var $client_id  string
-         * @var $io  Setup\CLI\IOWrapper
-         */
-        $ilias_ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
-        $this->database = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $irss_helper = new ilResourceStorageMigrationHelper(
+            new ilObjFileStakeholder(),
+            $environment
+        );
 
-        $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
-        $data_dir = $ilias_ini->readVariable('clients', 'datadir');
+        $legacy_files_dir = $irss_helper->getClientDataDir() . "/ilFile";
+        $this->helper = new ilFileObjectToStorageMigrationHelper(
+            $irss_helper
+        );
 
-        if (!$this->prepared) {
-            global $DIC;
-            $DIC['ilDB'] = $this->database;
-            $DIC['ilBench'] = null;
+        $storage_configuration = new LocalConfig($irss_helper->getClientDataDir());
+        $f = new FlySystemFilesystemFactory();
 
-            $legacy_files_dir = "{$data_dir}/{$client_id}/ilFile";
-            $client_data_dir = "{$data_dir}/{$client_id}";
-            if (!defined("CLIENT_DATA_DIR")) {
-                define('CLIENT_DATA_DIR', $client_data_dir);
-            }
-            if (!defined("CLIENT_ID")) {
-                define('CLIENT_ID', $client_id);
-            }
-            if (!defined("ILIAS_ABSOLUTE_PATH")) {
-                define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 5));
-            }
-            if (!defined("ILIAS_WEB_DIR")) {
-                define('ILIAS_WEB_DIR', dirname(__DIR__, 4) . "/data/");
-            }
-            if (!defined("CLIENT_WEB_DIR")) {
-                define("CLIENT_WEB_DIR", dirname(__DIR__, 4) . "/data/" . $client_id);
-            }
+        $this->runner = new ilFileObjectToStorageMigrationRunner(
+            $f->getLocal($storage_configuration),
+            $irss_helper,
+            self::MIGRATION_LOG_CSV
+        );
 
-            // if dir doesn't exists there are no steps to do,
-            // so don't initialize ilFileObjectToStorageMigrationHelper
-            if (!is_dir($legacy_files_dir)) {
-                return;
-            }
-
-            if (!is_readable($legacy_files_dir)) {
-                throw new Exception("{$legacy_files_dir} is not readable, abort...");
-            }
-
-            if (!is_writable("{$data_dir}/{$client_id}/storage")) {
-                throw new Exception("storage directory is not writable, abort...");
-            }
-
-            $this->helper = new ilFileObjectToStorageMigrationHelper($legacy_files_dir, $this->database);
-
-            $storageConfiguration = new LocalConfig($client_data_dir);
-            $f = new FlySystemFilesystemFactory();
-
-            $this->runner = new ilFileObjectToStorageMigrationRunner(
-                $f->getLocal($storageConfiguration),
-                $this->database,
-                $legacy_files_dir . "/" . self::MIGRATION_LOG_CSV,
-                $client_data_dir
-            );
-        }
+        $this->database = $irss_helper->getDatabase();
     }
 
     /**

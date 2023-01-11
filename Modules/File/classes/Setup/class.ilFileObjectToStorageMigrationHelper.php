@@ -22,14 +22,11 @@ class ilFileObjectToStorageMigrationHelper
     public const MIGRATED = ".migrated";
     protected ilDBInterface $database;
 
-    /**
-     * @param string        $base_path
-     * @param ilDBInterface $database
-     */
-    public function __construct(string $base_path, ilDBInterface $database)
+
+    public function __construct(ilResourceStorageMigrationHelper $irss_helper)
     {
-        $this->base_path = $base_path;
-        $this->database = $database;
+        $this->base_path = $irss_helper->getClientDataDir() . '/ilFile';
+        $this->database = $irss_helper->getDatabase();
     }
 
     public function getNext(): ilFileObjectToStorageDirectory
