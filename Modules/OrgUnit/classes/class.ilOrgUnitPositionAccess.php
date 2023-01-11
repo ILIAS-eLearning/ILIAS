@@ -27,6 +27,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
     private ilAccess $access;
     private ilObjUser $user;
     protected \ilOrgUnitUserAssignmentDBRepository $assignmentRepo;
+    protected \ilOrgUnitOperationDBRepository $operationRepo;
 
     public function __construct(ilAccess $access)
     {
@@ -37,6 +38,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 
         $dic = \ilOrgUnitLocalDIC::dic();
         $this->assignmentRepo = $dic["repo.UserAssignments"];
+        $this->operationRepo = $dic["repo.Operations"];
     }
 
 
@@ -109,7 +111,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         array $user_ids
     ): array {
         // $all_available_users = $this->ua->getUserIdsOfOrgUnit()
-        $operation = ilOrgUnitOperationQueries::findByOperationString($pos_perm, $this->getTypeForRefId($ref_id));
+        $operation = $this->operationRepo->findOperationByNameAndContext($pos_perm, $this->getTypeForRefId($ref_id));
         if (!$operation) {
             return [];
         }
@@ -181,7 +183,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
             return false;
         }
 
-        $operation = ilOrgUnitOperationQueries::findByOperationString($pos_perm, $this->getTypeForRefId($ref_id));
+        $operation = $this->operationRepo->findOperationByNameAndContext($pos_perm, $this->getTypeForRefId($ref_id));
         if (!$operation) {
             return false;
         }

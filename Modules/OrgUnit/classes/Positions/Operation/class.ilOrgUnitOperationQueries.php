@@ -22,95 +22,76 @@
  */
 class ilOrgUnitOperationQueries
 {
+    protected static ilOrgUnitOperationDBRepository $operationRepo;
+
+    protected static function getOperationRepo()
+    {
+        if (!isset(self::$operationRepo)) {
+            $dic = ilOrgUnitLocalDIC::dic();
+            self::$operationRepo = $dic["repo.Operations"];
+        }
+
+        return self::$operationRepo;
+    }
+
     /**
-     * @param string $context ilOrgUnitOperationContext::CONTEXT_OBJECT will provide this new
-     *                        operation to all contexts such as
-     *                        ilOrgUnitOperationContext::CONTEXT_GRP or
-     *                        ilOrgUnitOperationContext::CONTEXT_CRS
-     *                        use a more specific for your object type but the related context must
-     *                        exist. Register a new context using
-     *                        ilOrgUnitOperationContext::registerNewContext() for plugins
-     * @throws ilException
+     * @deprecated Please use registerNewOperation() from ilOrgUnitOperationDBRepository
      */
     public static function registerNewOperation(
         string $operation_name,
         string $description,
         string $context = ilOrgUnitOperationContext::CONTEXT_OBJECT
     ): void {
-        $contextList = ilOrgUnitOperationContext::where(array('context' => $context));
-        if (!$contextList->hasSets()) {
-            throw new ilException('Context does not exist! register context first using ilOrgUnitOperationContext::registerNewContext()');
-        }
-        /**
-         * @var $ilOrgUnitOperationContext ilOrgUnitOperationContext
-         */
-        $ilOrgUnitOperationContext = $contextList->first();
-
-        if (ilOrgUnitOperation::where(array(
-            'context_id' => $ilOrgUnitOperationContext->getId(),
-            'operation_string' => $operation_name,
-        ))->hasSets()
-        ) {
-            throw new ilException('This operation in this context has already been registered.');
-        }
-        $operation = new ilOrgUnitOperation();
-        $operation->setOperationString($operation_name);
-        $operation->setContextId($ilOrgUnitOperationContext->getId());
-        $operation->setDescription($description);
-        $operation->create();
+        self::getOperationRepo()->registerNewOperation($operation_name, $description, [$context]);
     }
 
     /**
-     * @param array $contexts
-     * @throws ilException
-     * @see registerNewOperation
+     * @deprecated Please use registerNewOperation() from ilOrgUnitOperationDBRepository
      */
     public static function registerNewOperationForMultipleContexts(
         string $operation_name,
         string $description,
         array $contexts
     ): void {
-        foreach ($contexts as $context) {
-            self::registerNewOperation($operation_name, $description, $context);
-        }
+        self::getOperationRepo()->registerNewOperation($operation_name, $description, $contexts);
     }
 
     /**
+     * @deprecated Please use findOperationsByContextName() from ilOrgUnitOperationDBRepository
      * @return ilOrgUnitOperation[]
      */
     public static function getOperationsForContextName(string $context_name): array
     {
-        $context = ilOrgUnitOperationContextQueries::findByName($context_name);
-        return ilOrgUnitOperation::where(array('context_id' => $context->getPopulatedContextIds()))
-                                 ->get();
+        return self::getOperationRepo()->findOperationsByContextName($context_name);
     }
 
     /**
+     * @deprecated Please use findOperationsByContextId() from ilOrgUnitOperationDBRepository
      * @return ilOrgUnitOperation[]
      */
     public static function getOperationsForContextId(string $context_id): array
     {
-        $context = ilOrgUnitOperationContextQueries::findById($context_id);
-        return ilOrgUnitOperation::where(array('context_id' => $context->getPopulatedContextIds()))
-                                 ->get();
+        return self::getOperationRepo()->findOperationsByContextId($context_id);
     }
 
     /**
-     * @throws arException
+     * @@deprecated Please use getOperationById() from ilOrgUnitOperationDBRepository
      */
-    public static function findById(int $operation_id): ActiveRecord /* ilOrgUnitOperation|ActiveRecord */
+    public static function findById(int $operation_id): ?ilOrgUnitOperation
     {
-        return ilOrgUnitOperation::findOrFail($operation_id);
+        return self::getOperationRepo()->findOperationById($operation_id);
     }
 
+    /**
+     * @@deprecated Please use findOperationByNameAndContext() from ilOrgUnitOperationDBRepository
+     */
     public static function findByOperationString(
         string $operation_string,
         string $context_name
-    ): ?ActiveRecord { /*ilOrgUnitOperation|ActiveRecord*/
-        $context = ilOrgUnitOperationContextQueries::findByName($context_name);
-
-        return ilOrgUnitOperation::where(['operation_string' => $operation_string,
-                                          'context_id' => $context->getId()
-        ])->first();
+    ): ?ilOrgUnitOperation {
+        return self::getOperationRepo()->findOperationByNameAndContext(
+            $operation_string,
+            $context_name
+        );
     }
 }
