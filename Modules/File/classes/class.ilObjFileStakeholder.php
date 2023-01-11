@@ -25,16 +25,14 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 class ilObjFileStakeholder extends AbstractResourceStakeholder
 {
     protected int $owner = 6;
-    protected ilDBInterface $database;
+    protected ?ilDBInterface $database;
 
     /**
      * ilObjFileStakeholder constructor.
      */
     public function __construct(int $owner = 6)
     {
-        global $DIC;
         $this->owner = $owner;
-        $this->database = $DIC->database();
     }
 
     /**
@@ -52,6 +50,8 @@ class ilObjFileStakeholder extends AbstractResourceStakeholder
 
     public function resourceHasBeenDeleted(ResourceIdentification $identification): bool
     {
+        global $DIC;
+        $this->database = $DIC->database();
         $r = $this->database->queryF(
             "SELECT file_id FROM file_data WHERE rid = %s",
             ['text'],
