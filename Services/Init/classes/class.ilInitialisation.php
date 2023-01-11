@@ -141,8 +141,12 @@ class ilInitialisation
         self::initGlobal('ilIliasIniFile', $ilIliasIniFile);
 
         // initialize constants
-        define("ILIAS_DATA_DIR", $ilIliasIniFile->readVariable("clients", "datadir"));
-        define("ILIAS_WEB_DIR", $ilIliasIniFile->readVariable("clients", "path"));
+        if (!defined('ILIAS_DATA_DIR')) {
+            define("ILIAS_DATA_DIR", $ilIliasIniFile->readVariable("clients", "datadir"));
+        }
+        if (!defined('ILIAS_WEB_DIR')) {
+            define("ILIAS_WEB_DIR", $ilIliasIniFile->readVariable("clients", "path"));
+        }
         if (!defined("ILIAS_ABSOLUTE_PATH")) {
             define("ILIAS_ABSOLUTE_PATH", $ilIliasIniFile->readVariable('server', 'absolute_path'));
         }
@@ -418,6 +422,9 @@ class ilInitialisation
      */
     protected static function determineClient(): void
     {
+        if (defined('CLIENT_ID')) {
+            return;
+        }
         global $DIC;
         $df = new \ILIAS\Data\Factory();
 
