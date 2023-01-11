@@ -1494,7 +1494,7 @@ class ilExAssignment
                         unlink($target);
                     }
                     // rename file
-                    rename($file_path, $target);
+                    ilFileUtils::rename($file_path, $target);
 
                     if ($noti_rec_ids) {
                         foreach ($noti_rec_ids as $user_id) {

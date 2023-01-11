@@ -928,7 +928,7 @@ class ilObjSurveyQuestionPool extends ilObject
                                 if (!is_dir($target_path)) {
                                     ilFileUtils::makeDirParents($target_path);
                                 }
-                                rename($source_path, $target_path . $question_object["question_id"]);
+                                ilFileUtils::rename($source_path, $target_path . $question_object["question_id"]);
                             }
                         } else {
                             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("spl_move_same_pool"), true);
