@@ -92,6 +92,7 @@ class AccessTokenTest extends AbstractBaseTest
     {
         $this->expectException(\InvalidArgumentException::class);
         $sif = new TokenFactory('/loremipsum/');
+        $sif->check('loremipsum');
     }
 
     public function testStreamAccessInfoOutsideDirectory(): void
