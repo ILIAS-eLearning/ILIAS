@@ -1340,6 +1340,13 @@ class ilConditionHandler
                 
                 if ($newCondition->storeCondition()) {
                     $valid++;
+
+                    //Copy num_obligatory, to be checked below
+                    self::saveNumberOfRequiredTriggers(
+                        $a_target_ref_id,
+                        $target_obj,
+                        $con['num_obligatory']
+                    );
                 }
             }
         }
