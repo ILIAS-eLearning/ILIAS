@@ -1250,12 +1250,18 @@ abstract class assQuestionGUI
             $this->setRenderPurpose($oldsaveSuggestedSolutionOutputMode);
         }
 
-        if ($save && strlen($_POST["filename"])) {
-            $solution = $solution->withTitle($_POST["filename"]);
+        $solution_filename = $this->request->raw('filename');
+        if ($save &&
+            is_string($solution_filename) &&
+            strlen($solution_filename)) {
+            $solution = $solution->withTitle($solution_filename);
         }
 
-        if ($save && strlen($_POST["solutiontext"])) {
-            $solution = $solution->withValue($_POST["solutiontext"]);
+        $solution_text = $this->request->raw('solutiontext');
+        if ($save &&
+            is_string($solution_text) &&
+            strlen($solution_text)) {
+            $solution->withValue($solution_text);
         }
 
         if ($solution) {
