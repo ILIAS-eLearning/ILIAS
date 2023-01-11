@@ -33,6 +33,7 @@ use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
 use ILIAS\ResourceStorage\Resource\Repository\ResourceDBRepository;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository;
 use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 class ilFileObjectToStorageMigrationRunner
 {
@@ -49,47 +50,19 @@ class ilFileObjectToStorageMigrationRunner
     protected ilDBInterface $database;
     protected bool $keep_originals = false;
     protected ?int $migrate_to_new_object_id = null;
-    protected ilObjFileStakeholder $stakeholder;
+    protected ResourceStakeholder $stakeholder;
 
-    /**
-     * ilFileObjectToStorageMigration constructor.
-     * @param Filesystem    $file_system
-     * @param ilDBInterface $database
-     */
-    public function __construct(Filesystem $file_system, ilDBInterface $database, string $log_file_path)
-    {
+    public function __construct(
+        Filesystem $file_system,
+        ilResourceStorageMigrationHelper $irss_helper,
+        string $log_file_name
+    ) {
         $this->file_system = $file_system;
-        $this->database = $database;
-        $this->migration_log_handle = fopen($log_file_path, 'ab');
-
-        $storage_handler = new MaxNestingFileSystemStorageHandler($this->file_system, Location::STORAGE, true);
-        $storage_handler_factory = new StorageHandlerFactory([
-            $storage_handler
-        ]);
-
-        $this->movement_implementation = $storage_handler->movementImplementation();
-
-        $revisionDBRepository = new RevisionDBRepository($database);
-        $resourceDBRepository = new ResourceDBRepository($database);
-        $informationDBRepository = new InformationDBRepository($database);
-        $stakeholderDBRepository = new StakeholderDBRepository($database);
-        $builder = new ResourceBuilder(
-            $storage_handler_factory,
-            $revisionDBRepository,
-            $resourceDBRepository,
-            $informationDBRepository,
-            $stakeholderDBRepository,
-            new LockHandlerilDB($database)
-        );
-        $this->resource_builder = $builder;
-        $this->storage_manager = new Manager($builder, new StandardRepositoryPreloader(
-            $resourceDBRepository,
-            $revisionDBRepository,
-            $informationDBRepository,
-            $stakeholderDBRepository
-        ));
-        $this->consumer_factory = new ConsumerFactory($storage_handler_factory);
-        $this->stakeholder = new ilObjFileStakeholder();
+        $this->database = $irss_helper->getDatabase();
+        $this->migration_log_handle = fopen($irss_helper->getClientDataDir() . '/ilFile/' . $log_file_name, 'ab');
+        $this->resource_builder = $irss_helper->getResourceBuilder();
+        $this->storage_manager = $irss_helper->getManager();
+        $this->stakeholder = $irss_helper->getStakeholder();
     }
 
     /**
@@ -188,7 +161,9 @@ class ilFileObjectToStorageMigrationRunner
         );
         $d = $this->database->fetchObject($r);
 
-        if (isset($d->rid) && $d->rid !== '' && ($resource_identification = $this->storage_manager->find($d->rid)) && $resource_identification !== null) {
+        if (isset($d->rid) && $d->rid !== '' && ($resource_identification = $this->storage_manager->find(
+            $d->rid
+        )) && $resource_identification !== null) {
             $resource = $this->resource_builder->get($resource_identification);
         } else {
             $resource = $this->resource_builder->newBlank();
