@@ -55,7 +55,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     public function __construct(
         ilObjUser $user = null,
         ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation = null,
-        ilGlobalTemplate $mainTemplate = null,
+        ilGlobalTemplateInterface $mainTemplate = null,
         ServerRequestInterface $httpRequest = null
     ) {
         global $DIC;
@@ -300,11 +300,15 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('auth_err_expired'));
         } elseif ($this->http->wrapper()->query()->has('reg_confirmation_msg')) {
             $this->lng->loadLanguageModule('registration');
+            $message_key = $this->http->wrapper()->query()->retrieve(
+                'reg_confirmation_msg',
+                $this->refinery->kindlyTo()->string()
+            );
+            $message_type = "reg_account_confirmation_successful" === $message_key ?
+                ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS : ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE;
             $this->mainTemplate->setOnScreenMessage(
-                'failure',
-                $this->lng->txt(
-                    $this->http->wrapper()->query()->retrieve('reg_confirmation_msg', $this->refinery->kindlyTo()->string())
-                )
+                $message_type,
+                $this->lng->txt($message_key)
             );
         }
         if ($page_editor_html !== '') {
