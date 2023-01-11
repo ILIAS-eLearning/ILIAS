@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Refinery\String;
 
@@ -125,5 +125,15 @@ class Group
     public function levenshtein(): Levenshtein
     {
         return new Levenshtein();
+    }
+
+    /**
+     * This method returns an instance of the UTFNormal class which can be used to get Transformations that can be used
+     * to normalize a string to one of the Unicode Normalization Form (C, D, KC, KD).
+     * See https://unicode.org/reports/tr15/ for more information.
+     */
+    public function utfnormal(): UTFNormal
+    {
+        return new UTFNormal();
     }
 }
