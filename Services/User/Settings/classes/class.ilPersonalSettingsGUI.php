@@ -263,7 +263,7 @@ class ilPersonalSettingsGUI
      */
     protected function allowPasswordChange(): bool
     {
-        if (\ilSession::get('used_external_auth')) {
+        if (\ilSession::get('used_external_auth_mode')) {
             return false;
         }
 

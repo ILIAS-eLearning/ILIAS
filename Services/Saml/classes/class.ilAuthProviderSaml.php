@@ -206,7 +206,7 @@ final class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderA
 
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
             $status->setAuthenticatedUserId(ilObjUser::_lookupId($internal_account));
-            ilSession::set('used_external_auth', true);
+            ilSession::set('used_external_auth_mode', $this->getTriggerAuthMode());
 
             return true;
         }
@@ -245,7 +245,7 @@ final class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderA
 
             ilSession::set(self::SESSION_TMP_ATTRIBUTES, null);
             ilSession::set(self::SESSION_TMP_RETURN_TO, null);
-            ilSession::set('used_external_auth', true);
+            ilSession::set('used_external_auth_mode', $this->getTriggerAuthMode());
 
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
             $status->setAuthenticatedUserId(ilObjUser::_lookupId($new_name));
