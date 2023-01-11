@@ -1238,11 +1238,19 @@ abstract class assQuestionGUI
             );
             $this->setRenderPurpose($oldsaveSuggestedSolutionOutputMode);
         }
-        if ($save && strlen($_POST["filename"])) {
-            $solution_array["value"]["filename"] = $_POST["filename"];
+
+        $solution_filename = $this->request->raw('filename');
+        if ($save &&
+            is_string($solution_filename) &&
+            strlen($solution_filename)) {
+            $solution_array["value"]["filename"] = $solution_filename;
         }
-        if ($save && strlen($_POST["solutiontext"])) {
-            $solution_array["value"] = $_POST["solutiontext"];
+
+        $solution_text = $this->request->raw('solutiontext');
+        if ($save &&
+            is_string($solution_text) &&
+            strlen($solution_text)) {
+            $solution_array["value"] = $solution_text;
         }
         if (isset($solution_array['type']) && $solution_array['type'] !== "") {
             $form = new ilPropertyFormGUI();
