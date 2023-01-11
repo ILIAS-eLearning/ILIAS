@@ -10,6 +10,11 @@ Priorities for the development of the Test & Assessment and the Test Question Po
 ## Others
 * Fixing access to Learning Status when access to test results is limited (see: [Mantis 25064](https://mantis.ilias.de/view.php?id=25064&nbn=9))
 
+## Kiosk-Mode
+* current kiosk-mode enforces the header to be removed without it (the header) being a UI-Component. 
+* In consequence, a test_kiosk_header.css is neccessary to hide whitespace (https://mantis.ilias.de/view.php?id=36161)
+* This SHOULD be removed in favor of a concept with better integration.
+
 ## Open Warnings / Issues without Tickets
 These are open findings from the PHP8 Project which couldn't be solved in the scope of the project itself. They are documented here for transparency.
 Remarks on the individual items are marked with "@PHP8-CR"
