@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
-use ILIAS\Data\Factory as Datafactory;
+use ILIAS\Data;
 use ILIAS\UI\Component as C;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Factory as Refinery;
@@ -34,13 +34,13 @@ class ColorPicker extends Input implements C\Input\Field\ColorPicker
     /**
      * Input constructor.
      *
-     * @param DataFactory $data_factory
+     * @param Data\Factory $data_factory
      * @param Factory $refinery
      * @param $label
      * @param $byline
      */
     public function __construct(
-        Datafactory $datafactory,
+        Data\Factory $datafactory,
         Refinery $refinery,
         string $label,
         string $byline
