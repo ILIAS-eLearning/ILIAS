@@ -69,11 +69,13 @@ class ilDclBaseFieldModel
     public const EXPORTABLE_VIEW = 4;
 
     protected ilDBInterface $db;
+    protected ilLanguage $lng;
 
     public function __construct(int $a_id = 0)
     {
         global $DIC;
         $this->db = $DIC->database();
+        $this->lng = $DIC->language();
 
         if ($a_id != 0) {
             $this->id = $a_id;
