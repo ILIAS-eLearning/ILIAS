@@ -162,7 +162,6 @@ class ilSoapUtils extends ilSoapAdministration
             ilLoggerFactory::getLogger('obj')->info('Finished copy step 1. Starting copying of object dependencies...');
             return $this->ilCloneDependencies($sid, $copy_identifier, true);
         }
-
         // Check options of this node
         $options = $cp_options->getOptions((int) $node['child']);
 

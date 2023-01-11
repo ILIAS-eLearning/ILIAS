@@ -894,6 +894,21 @@ class ilObjectCopyGUI
 
         $copy_id = $this->retriever->getMaybeInt('_copy_id');
         $options = ilCopyWizardOptions::_getInstance($copy_id);
+        $node = $options->fetchFirstNode();
+        $json->current_node_id = 0;
+        $json->current_node_title = "";
+        $json->in_dependencies = false;
+        if (is_array($node)) {
+            $json->current_node_id = $node['obj_id'];
+            $json->current_node_title = $node['title'];
+        } else {
+            $node = $options->fetchFirstDependenciesNode();
+            if (is_array($node)) {
+                $json->current_node_id = $node['obj_id'];
+                $json->current_node_title = $node['title'];
+                $json->in_dependencies = true;
+            }
+        }
         $json->required_steps = $options->getRequiredSteps();
         $json->id = $copy_id;
 
