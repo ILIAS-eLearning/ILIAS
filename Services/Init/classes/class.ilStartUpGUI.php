@@ -233,9 +233,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 $ilAppEventHandler->raise(
                     'Services/Authentication',
                     'afterLogout',
-                    array(
-                        'username' => $this->user->getLogin()
-                    )
+                    [
+                        'username' => $this->user->getLogin(),
+                        'is_explicit_logout' => false,
+                    ]
                 );
             }
             $this->logger->debug('Show login page');
@@ -1397,10 +1398,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      */
     public function doLogout(): void
     {
-        global $DIC;
-
-        $ilIliasIniFile = $DIC['ilIliasIniFile'];
-
         $this->eventHandler->raise(
             'Services/Authentication',
             'beforeLogout',
@@ -1414,21 +1411,19 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper($this->user);
         $tosWithdrawalGui->handleWithdrawalLogoutRequest($this->httpRequest, $this);
 
-        $had_external_authentication = ilSession::get('used_external_auth');
+        $used_external_auth_mode = ilSession::get('used_external_auth_mode');
 
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $this->authSession->logout();
         $this->eventHandler->raise(
             'Services/Authentication',
             'afterLogout',
-            array(
-                'username' => $this->user->getLogin()
-            )
+            [
+                'username' => $this->user->getLogin(),
+                'is_explicit_logout' => true,
+                'used_external_auth_mode' => $used_external_auth_mode,
+            ]
         );
-        if ((int) $this->user->getAuthMode(true) == ilAuthUtils::AUTH_SAML && $had_external_authentication) {
-            $this->logger->info('Redirecting user to SAML logout script');
-            $this->ctrl->redirectToURL('saml.php?action=logout&logout_url=' . urlencode(ILIAS_HTTP_PATH . '/login.php'));
-        }
 
         // reset cookie
         $client_id = CLIENT_ID;
