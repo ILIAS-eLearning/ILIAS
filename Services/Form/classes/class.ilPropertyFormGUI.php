@@ -993,7 +993,7 @@ class ilPropertyFormGUI extends ilFormGUI
                     return "";
                 }
             } else {
-                if (!rename($data["tmp_name"], $target_file)) {
+                if (!ilFileUtils::rename($data["tmp_name"], $target_file)) {
                     return "";
                 }
             }
