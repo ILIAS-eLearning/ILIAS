@@ -206,7 +206,6 @@ class ilObjLearningSequenceLearnerGUI
         switch ($response) {
             case null:
                 //render the page
-                $this->tpl->setFileUploadRefId(0);
                 $this->tpl->setContent('THIS SHOULD NOT SHOW');
                 return;
 
