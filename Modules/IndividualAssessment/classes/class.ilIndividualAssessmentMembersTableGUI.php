@@ -64,7 +64,8 @@ class ilIndividualAssessmentMembersTableGUI
             $data,
             fn ($record) =>
                  $this->iass_access->mayGradeUserById($record->id())
-                 && $this->iass_access->mayViewUserById($record->id())
+                 || $this->iass_access->mayViewUserById($record->id())
+                 || $this->iass_access->mayManageUserById($record->id())
         );
     }
 
