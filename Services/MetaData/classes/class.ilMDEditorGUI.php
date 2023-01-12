@@ -3731,7 +3731,7 @@ class ilMDEditorGUI
 
     public function listSection(): void
     {
-        switch ($_REQUEST['section']) {
+        switch ($_REQUEST['section'] ?? '') {
             case 'meta_general':
                 $this->listGeneral();
                 break;
