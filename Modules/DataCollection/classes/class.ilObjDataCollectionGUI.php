@@ -633,16 +633,12 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
     final public function toggleNotification(): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilUser = $DIC['ilUser'];
-
         $ntf = $this->http->wrapper()->query()->retrieve('ntf', $this->refinery->kindlyTo()->int());
         switch ($ntf) {
             case 1:
                 ilNotification::setNotification(
                     ilNotification::TYPE_DATA_COLLECTION,
-                    $ilUser->getId(),
+                    $this->user->getId(),
                     $this->obj_id,
                     false
                 );
@@ -650,12 +646,12 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             case 2:
                 ilNotification::setNotification(
                     ilNotification::TYPE_DATA_COLLECTION,
-                    $ilUser->getId(),
+                    $this->user->getId(),
                     $this->obj_id
                 );
                 break;
         }
-        $ilCtrl->redirectByClass("ildclrecordlistgui", "show");
+        $this->ctrl->redirectByClass("ildclrecordlistgui", "show");
     }
 
     protected function addHeaderAction(): void
@@ -665,5 +661,29 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             "",
             $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true)
         );
+
+        $dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_REPOSITORY, $this->access, "dcl", $this->ref_id, $this->obj_id);
+
+        $lg = $dispatcher->initHeaderAction();
+
+        // notification
+        if ($this->user->getId() != ANONYMOUS_USER_ID and $this->object->getNotification() == 1) {
+            if (ilNotification::hasNotification(ilNotification::TYPE_DATA_COLLECTION, $this->user->getId(), $this->obj_id)) {
+                //Command Activate Notification
+                $this->ctrl->setParameter($this, "ntf", 1);
+                $lg->addCustomCommand($this->ctrl->getLinkTarget($this, "toggleNotification"), "dcl_notification_deactivate_dcl");
+
+                $lg->addHeaderIcon("not_icon", ilUtil::getImagePath("notification_on.svg"), $this->lng->txt("dcl_notification_activated"));
+            } else {
+                //Command Deactivate Notification
+                $this->ctrl->setParameter($this, "ntf", 2);
+                $lg->addCustomCommand($this->ctrl->getLinkTarget($this, "toggleNotification"), "dcl_notification_activate_dcl");
+
+                $lg->addHeaderIcon("not_icon", ilUtil::getImagePath("notification_off.svg"), $this->lng->txt("dcl_notification_deactivated"));
+            }
+            $this->ctrl->setParameter($this, "ntf", "");
+        }
+
+        $this->tpl->setHeaderActionMenu($lg->getHeaderAction());
     }
 }
