@@ -286,6 +286,10 @@ class ilDclRecordEditGUI
                         } else {
                             $item->setValue($default_value->getValue());
                         }
+                    } else {
+                        if ($item instanceof ilDclTextInputGUI) {
+                            $item->setValue("");
+                        }
                     }
                 }
                 $this->form->addItem($item);
