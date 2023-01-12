@@ -30,6 +30,7 @@ class ilObject
 {
     public const TITLE_LENGTH = 255; // title column max length in db
     public const DESC_LENGTH = 128; // (short) description column max length in db
+    public const LONG_DESC_LENGTH = 4000; // long description column max length in db
     public const TABLE_OBJECT_DATA = "object_data";
 
     protected ?ILIAS $ilias;
