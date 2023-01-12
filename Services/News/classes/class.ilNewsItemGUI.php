@@ -237,7 +237,7 @@ class ilNewsItemGUI
         $media = new ilFileInputGUI($lng->txt('news_media'), 'media');
         $media->setSuffixes(["jpeg", "jpg", "png", "gif", "mp4", "mp3"]);
         $media->setRequired(false);
-        $media->setALlowDeletion(true);
+        $media->setAllowDeletion(true);
         $media->setValue(" ");
         $form->addItem($media);
 

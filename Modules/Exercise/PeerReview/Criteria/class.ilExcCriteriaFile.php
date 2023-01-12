@@ -74,7 +74,7 @@ class ilExcCriteriaFile extends ilExcCriteria
         $files->setInfo($this->getDescription());
         $files->setRequired($this->isRequired());
         $files->setValue(implode("<br />", $existing));
-        $files->setALlowDeletion(true);
+        $files->setAllowDeletion(true);
         $this->form->addItem($files);
     }
 

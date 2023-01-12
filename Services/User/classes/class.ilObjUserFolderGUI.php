@@ -3243,7 +3243,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $lng->txt("attachment"),
                 "att_" . $lang_key
             );
-            $att->setALlowDeletion(true);
+            $att->setAllowDeletion(true);
             if ($amail["att_file"] ?? false) {
                 $att->setValue($amail["att_file"]);
             }
