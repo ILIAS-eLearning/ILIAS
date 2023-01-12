@@ -1183,7 +1183,7 @@ class ilCalendarCategoryGUI
         $form->addCommandButton('uploadAppointments', $this->lng->txt('import'));
 
         $ics = new ilFileInputGUI($this->lng->txt('cal_import_file'), 'file');
-        $ics->setALlowDeletion(false);
+        $ics->setAllowDeletion(false);
         $ics->setSuffixes(array('ics'));
         $ics->setInfo($this->lng->txt('cal_import_file_info'));
         $form->addItem($ics);
