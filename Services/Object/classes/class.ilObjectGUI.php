@@ -710,6 +710,7 @@ class ilObjectGUI
         $ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
         $ta->setCols(40);
         $ta->setRows(2);
+        $ta->setMaxNumOfChars(ilObject::LONG_DESC_LENGTH);
         $form->addItem($ta);
 
         $form = $this->initDidacticTemplate($form);
@@ -955,6 +956,7 @@ class ilObjectGUI
         $ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
         $ta->setCols(40);
         $ta->setRows(2);
+        $ta->setMaxNumOfChars(ilObject::LONG_DESC_LENGTH);
         $form->addItem($ta);
 
         $this->initEditCustomForm($form);
