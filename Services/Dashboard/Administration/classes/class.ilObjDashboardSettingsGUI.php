@@ -122,6 +122,60 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $this->tpl->setContent($ui->renderer()->renderAsync($form));
     }
 
+    public function editSorting(): void
+    {
+        $this->setSettingsSubTabs("sorting");
+        $ui = $this->ui;
+        $form = $this->initSortingForm();
+        $this->tpl->setContent($ui->renderer()->renderAsync($form));
+    }
+
+    public function initSortingForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
+    {
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'saveSorting'),
+            array_map(
+                function (int $view): ILIAS\UI\Component\Input\Field\Section {
+                    return $this->getViewSorting(
+                        $view,
+                        $this->lng->txt("dash_presentation_" . $this->viewSettings->getViewName($view))
+                    );
+                },
+                $this->viewSettings->getPresentationViews()
+            )
+        );
+        return $form;
+    }
+
+    public function getViewSorting(int $view, string $title): ILIAS\UI\Component\Input\Field\Section
+    {
+        $availabe_sort_options = $this->viewSettings->getAvailableSortOptionsByView($view);
+        $options = array_reduce(
+            $availabe_sort_options,
+            function (array $options, string $option): array {
+                $options[$option] = $this->lng->txt("dash_sort_by_" . $option);
+                return $options;
+            },
+            []
+        );
+
+        $available_sorting = $this->ui_factory->input()->field()->multiSelect($this->lng->txt("dash_avail_sortation"), $options)->withValue(
+            $this->viewSettings->getActiveSortingsByView($view)
+        );
+        $default_pres = $this->ui_factory->input()->field()->radio($this->lng->txt("dash_default_sortation"));
+        foreach ($this->viewSettings->getActiveSortingsByView($view) as $sort_option) {
+            $default_pres = $default_pres->withOption(
+                $sort_option,
+                $this->lng->txt("dash_sort_by_" . $sort_option),
+            );
+        }
+        $default_pres = $default_pres->withValue($this->viewSettings->getDefaultSortingByView($view));
+        return $this->ui_factory->input()->field()->section(
+            $this->maybeDisable(["avail_sorting" => $available_sorting, "default_sorting" => $default_pres]),
+            $title
+        );
+    }
+
     public function initForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
     {
         $ui = $this->ui;
@@ -169,16 +223,16 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $form_action = $ctrl->getLinkTarget($this, "saveSettings");
         return $f->input()->container()->form()->standard(
             $form_action,
-            ["main_panel" => $section1, "side_panel" => $section2, 'sortation' => $this->getSortation()]
+            ["main_panel" => $section1, "side_panel" => $section2]
         );
     }
 
-    public function getPresentationForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
+    public function getPresentationForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
     {
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this, 'savePresentation'),
             array_map(
-                function (int $view) : ILIAS\UI\Component\Input\Field\Section {
+                function (int $view): ILIAS\UI\Component\Input\Field\Section {
                     return $this->getViewPresentation(
                         $view,
                         $this->lng->txt("dash_presentation_" . $this->viewSettings->getViewName($view))
@@ -215,12 +269,6 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             $side_panel->enable($mod, (bool) $form_data['side_panel']['enable_' . $mod]);
         }
 
-        $this->viewSettings->storeSorting(
-            $form_data['sortation']['default_sort'],
-            $form_data['sortation']['avail_sort'] ?: []
-        );
-
-
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "editSettings");
     }
@@ -246,6 +294,12 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 $lng->txt("dash_presentation"),
                 $ctrl->getLinkTarget($this, "editPresentation")
             );
+
+            $tabs->addSubTab(
+                "sorting",
+                $lng->txt("dash_sortation"),
+                $ctrl->getLinkTarget($this, "editSorting")
+            );
         }
 
         $tabs->activateSubTab($a_active);
@@ -268,7 +322,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
     {
         $lng = $this->lng;
         $ops = $this->viewSettings->getAvailablePresentationsByView($view);
-        $pres_options = array_column(array_map(static function (int $k, string $v) use ($lng) : array {
+        $pres_options = array_column(array_map(static function (int $k, string $v) use ($lng): array {
             return [$v, $lng->txt("dash_" . $v)];
         }, array_keys($ops), $ops), 1, 0);
         $avail_pres = $this->ui_factory->input()->field()->multiSelect($lng->txt("dash_avail_presentation"), $pres_options)
@@ -283,27 +337,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         );
     }
 
-    public function getSortation(): \ILIAS\UI\Component\Input\Field\Section
-    {
-        $lng = $this->lng;
-        $ops = $this->viewSettings->getAvailableSortOptions();
-        $sortation_options = array_column(array_map(static function (int $k, string $v) use ($lng) : array {
-            return [$v, $lng->txt("dash_sort_by_" . $v)];
-        }, array_keys($ops), $ops), 1, 0);
-        $avail_sort = $this->ui_factory->input()->field()->multiSelect($lng->txt("dash_avail_sortation"), $sortation_options)
-                                 ->withValue($this->viewSettings->getActiveSortings());
-        $default_sort = $this->ui_factory->input()->field()->radio($lng->txt("dash_default_sortation"));
-        foreach ($sortation_options as $k => $text) {
-            $default_sort = $default_sort->withOption($k, $text);
-        }
-        $default_sort = $default_sort->withValue($this->viewSettings->getDefaultSorting());
-        return $this->ui_factory->input()->field()->section(
-            $this->maybeDisable(["avail_sort" => $avail_sort, "default_sort" => $default_sort]),
-            $lng->txt("dash_sortation")
-        );
-    }
-
-    protected function savePresentation() : void
+    protected function savePresentation(): void
     {
         $request = $this->request;
         $lng = $this->lng;
@@ -328,6 +362,27 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         }
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $this->editPresentation();
+    }
+
+    public function saveSorting(): void
+    {
+        if (!$this->canWrite()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
+            $this->editSorting();
+        }
+
+        $form = $this->initSortingForm();
+        $form = $form->withRequest($this->request);
+        $form_data = $form->getData();
+
+        foreach ($form_data as $view => $view_data) {
+            $this->viewSettings->storeViewSorting(
+                $view,
+                $view_data['default_sorting'],
+                $view_data['avail_sorting'] ?: []
+            );
+        }
+        $this->editSorting();
     }
 
     /**
