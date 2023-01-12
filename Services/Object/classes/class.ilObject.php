@@ -327,7 +327,7 @@ class ilObject
     {
         // Shortened form is storted in object_data. Long form is stored in object_description
         $this->desc = ilStr::shortenTextExtended($desc, $this->max_desc, $this->add_dots);
-        $this->long_desc = $desc;
+        $this->long_desc = ilStr::shortenTextExtended($desc, ilObject::LONG_DESC_LENGTH);
     }
 
     /**
