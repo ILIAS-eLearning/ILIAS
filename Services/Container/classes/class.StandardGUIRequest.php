@@ -112,14 +112,20 @@ class StandardGUIRequest
         return $this->str("cont_block_id");
     }
 
-    public function getPreviousSession(): int
+    public function getPreviousSession(): ?int
     {
-        return $this->int("crs_prev_sess");
+        if ($this->http->wrapper()->query()->has('crs_prev_sess')) {
+            return $this->int("crs_prev_sess");
+        }
+        return null;
     }
 
-    public function getNextSession(): int
+    public function getNextSession(): ?int
     {
-        return $this->int("crs_next_sess");
+        if ($this->http->wrapper()->query()->has('crs_next_sess')) {
+            return $this->int("crs_next_sess");
+        }
+        return null;
     }
 
     public function getObjectiveId(): int
