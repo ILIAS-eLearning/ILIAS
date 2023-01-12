@@ -10623,6 +10623,17 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return [];
     }
 
+    /**
+     * Returns whether this test must consider skills, usually by providing
+     * appropriate extensions in the user interface components. Skills must be
+     * considered if skill management is globally enabled and this object has
+     * the skill service enabled as well.
+     *
+     * @see #isSkillServiceEnabled()
+     * @see #isSkillManagementGloballyActivated()
+     *
+     * @return boolean whether this test takes skills into account.
+     */
     public function isSkillServiceToBeConsidered(): bool
     {
         if (!$this->isSkillServiceEnabled()) {

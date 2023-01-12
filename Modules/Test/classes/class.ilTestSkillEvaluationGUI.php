@@ -17,6 +17,9 @@
  *********************************************************************/
 
 /**
+ * User interface which displays the competences which a learner has shown in a
+ * test.
+ *
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id: class.ilTestSkillGUI.php 46688 2013-12-09 15:23:17Z bheyser $
  *

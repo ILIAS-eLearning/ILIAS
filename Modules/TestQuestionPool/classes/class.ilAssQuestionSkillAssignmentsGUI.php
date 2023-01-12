@@ -17,6 +17,9 @@
  *********************************************************************/
 
 /**
+ * User interface for assignment of questions from a test question pool (or
+ * directly from a test) to competences.
+ *
  * @author  Björn Heyser <bheyser@databay.de>
  * @package Modules/Test
  *
