@@ -2324,7 +2324,7 @@ s     */
                 $par["client_id"] = array_shift($parts);
                 $par["target"] = implode("_", $parts);
             } else {
-                foreach (explode("&", $url["query"]) as $p) {
+                foreach (explode("&", ($url["query"] ?? "")) as $p) {
                     $p = explode("=", $p);
                     $par[$p[0]] = $p[1];
                 }
