@@ -115,7 +115,7 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
 
     public function getValidFieldProperties(): array
     {
-        return array(ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES);
+        return [ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES];
     }
 
     public function allowFilterInListView(): bool
