@@ -908,4 +908,9 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         ilSession::clear("saved_post");
         $this->ctrl->redirect($this, self::CMD_CONTENT);
     }
+
+    protected function enableDragDropFileUpload(): void
+    {
+    }
+ 
 }
