@@ -1233,27 +1233,30 @@ class ilObjStudyProgramme extends ilContainer
     }
 
     /**
-     * Get all StudyProgrammes monitoring this category.
+     * Get all (not OUTDATED) StudyProgrammes monitoring this category.
      * @return ilObjStudyProgramme[]
      */
     protected static function getProgrammesMonitoringCategory(int $cat_ref_id): array
     {
         $db = ilStudyProgrammeDIC::dic()['model.AutoCategories.ilStudyProgrammeAutoCategoriesRepository'];
-        $programmes = array_map(
-            static function (array $rec) {
-                $values = array_values($rec);
-                $prg_obj_id = (int) array_shift($values);
+        $programmes =
+            array_filter(
+                array_map(
+                    static function (array $rec) {
+                        $values = array_values($rec);
+                        $prg_obj_id = (int) array_shift($values);
 
-                $references = ilObject::_getAllReferences($prg_obj_id);
-                $prg_ref_id = (int) array_shift($references);
+                        $references = ilObject::_getAllReferences($prg_obj_id);
+                        $prg_ref_id = (int) array_shift($references);
 
-                $prg = self::getInstanceByRefId($prg_ref_id);
-                if ($prg->isAutoContentApplicable()) {
-                    return $prg;
-                }
-            },
-            $db::getProgrammesFor($cat_ref_id)
-        );
+                        $prg = self::getInstanceByRefId($prg_ref_id);
+                        if ($prg->isAutoContentApplicable()) {
+                            return $prg;
+                        }
+                    },
+                    $db::getProgrammesFor($cat_ref_id)
+                )
+            );
         return $programmes;
     }
 
