@@ -176,7 +176,7 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
             (count(
                 $this->handler->filterUserIdsByRbacOrPositionOfCurrentUser(
                     "write_learning_progress",
-                    "set_lp",
+                    "edit_learning_progress",
                     $this->iass->getRefId(),
                     [$user_id]
                 )
@@ -191,11 +191,18 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
             (count(
                 $this->handler->filterUserIdsByRbacOrPositionOfCurrentUser(
                     "read_learning_progress",
-                    "set_lp",
+                    "read_learning_progress",
                     $this->iass->getRefId(),
                     [$user_id]
                 )
             ) > 0);
+    }
+
+    public function mayManageUserById(int $user_id): bool
+    {
+        return
+            $this->isSystemAdmin() ||
+            $this->mayEditMembers();
     }
 
     public function mayAmendGradeUser(bool $use_cache = true): bool
