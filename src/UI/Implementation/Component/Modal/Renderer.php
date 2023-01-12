@@ -25,6 +25,7 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Component\Modal\InterruptiveItem\InterruptiveItem;
 
 /**
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
@@ -128,36 +129,53 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('MESSAGE', $modal->getMessage());
         $tpl->setVariable('CLOSE_LABEL', $this->txt('close'));
 
-        $standard_items = array_filter(
+        $standard_items = $this->renderInterruptiveItemsByClass(
+            Component\Modal\InterruptiveItem\Standard::class,
             $modal->getAffectedItems(),
-            fn ($i) => $i instanceof Component\Modal\InterruptiveItem\Standard
+            $default_renderer
         );
-        if (count($standard_items)) {
+        if ($standard_items) {
             $tpl->setCurrentBlock('with_standard_items');
-            foreach ($standard_items as $item) {
-                $tpl->setCurrentBlock('standard_item');
-                $tpl->setVariable('STANDARD_ITEM', $default_renderer->render($item));
-                $tpl->parseCurrentBlock();
-            }
+            $tpl->setVariable('STANDARD_ITEMS', $standard_items);
         }
 
-        $key_value_items = array_filter(
+        $key_value_items = $this->renderInterruptiveItemsByClass(
+            Component\Modal\InterruptiveItem\KeyValue::class,
             $modal->getAffectedItems(),
-            fn ($i) => $i instanceof Component\Modal\InterruptiveItem\KeyValue
+            $default_renderer
         );
-        if (count($key_value_items)) {
+        if ($key_value_items) {
             $tpl->setCurrentBlock('with_key_value_items');
-            foreach ($key_value_items as $item) {
-                $tpl->setCurrentBlock('key_value_item');
-                $tpl->setVariable('KEY_VALUE_ITEM', $default_renderer->render($item));
-                $tpl->parseCurrentBlock();
-            }
+            $tpl->setVariable('KEY_VALUE_ITEMS', $key_value_items);
         }
 
         $tpl->setVariable('ACTION_BUTTON_LABEL', $this->txt($modal->getActionButtonLabel()));
         $tpl->setVariable('ACTION_BUTTON', $modal->getActionButtonLabel());
         $tpl->setVariable('CANCEL_BUTTON_LABEL', $this->txt($modal->getCancelButtonLabel()));
         return $tpl->get();
+    }
+
+    /**
+     * Filters items by provided class, and renders only those.
+     * @param string            $class_name
+     * @param InterruptiveItem  $items
+     * @param RendererInterface $default_renderer
+     * @return string
+     */
+    protected function renderInterruptiveItemsByClass(
+        string $class_name,
+        array $items,
+        RendererInterface $default_renderer
+    ): string {
+        $items_of_class = array_filter(
+            $items,
+            fn ($i) => $i instanceof $class_name
+        );
+        $rendered_items = '';
+        foreach ($items_of_class as $item) {
+            $rendered_items .= $default_renderer->render($item);
+        }
+        return $rendered_items;
     }
 
     protected function renderRoundTrip(Component\Modal\RoundTrip $modal, RendererInterface $default_renderer): string

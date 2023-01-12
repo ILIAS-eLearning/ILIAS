@@ -45,25 +45,16 @@ class Standard extends InterruptiveItem implements StandardInterface
         $this->description = $description;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getIcon(): ?Image
     {
         return $this->icon;

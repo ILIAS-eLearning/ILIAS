@@ -33,7 +33,7 @@ interface KeyValue extends InterruptiveItem
     public function getKey(): string;
 
     /**
-     * Get the key of the pair
+     * Get the value of the pair
      */
     public function getValue(): string;
 }

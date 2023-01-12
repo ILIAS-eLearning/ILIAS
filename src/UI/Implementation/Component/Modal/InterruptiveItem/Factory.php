@@ -28,9 +28,6 @@ use ILIAS\UI\Component\Image\Image;
  */
 class Factory implements ItemInterface\Factory
 {
-    /**
-     * @inheritdoc
-     */
     public function standard(
         string $id,
         string $title,

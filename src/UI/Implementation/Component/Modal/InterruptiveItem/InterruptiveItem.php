@@ -39,9 +39,6 @@ abstract class InterruptiveItem implements ItemInterface
         $this->id = $id;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getId(): string
     {
         return $this->id;

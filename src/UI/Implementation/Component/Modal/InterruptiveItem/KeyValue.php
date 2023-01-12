@@ -38,17 +38,11 @@ class KeyValue extends InterruptiveItem implements KeyValueInterface
         $this->value = $value;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getKey(): string
     {
         return $this->key;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getValue(): string
     {
         return $this->value;

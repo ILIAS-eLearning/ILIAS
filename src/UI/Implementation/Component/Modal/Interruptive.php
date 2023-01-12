@@ -29,7 +29,7 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 class Interruptive extends Modal implements M\Interruptive
 {
     /**
-     * @var \ILIAS\UI\Component\Modal\InterruptiveItem\InterruptiveItem[]
+     * @var M\InterruptiveItem\InterruptiveItem[]
      */
     protected array $items = array();
     protected string $title;

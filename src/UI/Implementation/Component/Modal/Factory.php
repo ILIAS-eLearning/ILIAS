@@ -24,7 +24,6 @@ use ILIAS\UI\Component\Modal as M;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\Modal\InterruptiveItem\Factory as ItemFactory;
-use ILIAS\LTI\ToolProvider\Content\Item;
 
 /**
  * Implementation of factory for modals

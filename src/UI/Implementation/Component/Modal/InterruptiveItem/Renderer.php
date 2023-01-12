@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Modal\InterruptiveItem;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
-use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Modal\InterruptiveItem as ItemInterface;
@@ -35,33 +34,46 @@ class Renderer extends AbstractComponentRenderer
         $this->checkComponent($component);
 
         if ($component instanceof ItemInterface\Standard) {
-            $tpl = $this->getTemplate(
-                'tpl.standardInterruptiveItem.html',
-                true,
-                true
-            );
-            $icon = ($component->getIcon()) ?
-                $default_renderer->render($component->getIcon()) : '';
-            $desc = ($component->getDescription()) ?
-                '<br>' . $component->getDescription() : '';
-            $tpl->setVariable('ITEM_ICON', $icon);
-            $tpl->setVariable('ITEM_ID', $component->getId());
-            $tpl->setVariable('ITEM_TITLE', $component->getTitle());
-            $tpl->setVariable('ITEM_DESCRIPTION', $desc);
+            return $this->renderStandard($component, $default_renderer);
         } elseif ($component instanceof ItemInterface\KeyValue) {
-            $tpl = $this->getTemplate(
-                'tpl.keyValueInterruptiveItem.html',
-                true,
-                true
-            );
-            $tpl->setVariable('ITEM_KEY', $component->getKey());
-            $tpl->setVariable('ITEM_VALUE', $component->getValue());
+            return $this->renderKeyValue($component, $default_renderer);
         } else {
             return '';
         }
+    }
 
+    protected function renderStandard(
+        ItemInterface\Standard $component,
+        RendererInterface $default_renderer
+    ): string {
+        $tpl = $this->getTemplate(
+            'tpl.standardInterruptiveItem.html',
+            true,
+            true
+        );
+        $icon = ($component->getIcon()) ?
+            $default_renderer->render($component->getIcon()) : '';
+        $desc = ($component->getDescription()) ?
+            '<br>' . $component->getDescription() : '';
+        $tpl->setVariable('ITEM_ICON', $icon);
         $tpl->setVariable('ITEM_ID', $component->getId());
+        $tpl->setVariable('ITEM_TITLE', $component->getTitle());
+        $tpl->setVariable('ITEM_DESCRIPTION', $desc);
+        return $tpl->get();
+    }
 
+    protected function renderKeyValue(
+        ItemInterface\KeyValue $component,
+        RendererInterface $default_renderer
+    ): string {
+        $tpl = $this->getTemplate(
+            'tpl.keyValueInterruptiveItem.html',
+            true,
+            true
+        );
+        $tpl->setVariable('ITEM_KEY', $component->getKey());
+        $tpl->setVariable('ITEM_VALUE', $component->getValue());
+        $tpl->setVariable('ITEM_ID', $component->getId());
         return $tpl->get();
     }
 

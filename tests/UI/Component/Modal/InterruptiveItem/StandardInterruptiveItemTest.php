@@ -97,7 +97,7 @@ class StandardInterruptiveItemTest extends ILIAS_UI_TestBase
         $html = $r->render($this->getItem());
 
         $expected = <<<EOT
-<tr class="il-interruptive-item">
+<tr class="standard-interruptive-item">
 	<td>
 		<img src="path" class="img-standard" alt="alt" />
 	</td>
@@ -123,7 +123,7 @@ EOT;
         $html = $r->render($this->getItemWithoutDescription());
 
         $expected = <<<EOT
-<tr class="il-interruptive-item">
+<tr class="standard-interruptive-item">
 	<td>
 		<img src="path" class="img-standard" alt="alt" />
 	</td>
@@ -148,7 +148,7 @@ EOT;
         $html = $r->render($this->getItemWithoutIcon());
 
         $expected = <<<EOT
-<tr class="il-interruptive-item">
+<tr class="standard-interruptive-item">
 	<td></td>
 	<td>
 		title <br>
