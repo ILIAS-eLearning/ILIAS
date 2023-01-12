@@ -388,7 +388,7 @@ class ilTestTabsManager
         
         if ($DIC->ctrl()->getCmdClass() == 'iltestevaluationgui') {
             return in_array($DIC->ctrl()->getCmd(), array(
-                '', 'outUserResultsPassOverview', 'outUserListOfAnswerPasses', 'outEvaluation', 'eval_a', 'singleResults', 'detailedEvaluation'
+                '', 'outUserResultsPassOverview', 'outUserListOfAnswerPasses', 'outEvaluation', 'eval_a', 'singleResults', 'detailedEvaluation', 'outUserResultsOverview', 'confirmDeletePass'
             ));
         }
         
