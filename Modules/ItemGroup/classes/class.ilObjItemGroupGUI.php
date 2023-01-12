@@ -164,7 +164,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
             $op = new ilRadioOption($txt, $key);
             $si->addOption($op);
         }
-        $lpres->addSubItem($si);
+        $tile_view->addSubItem($si);
         $si->setValue($this->object->getTileSize());
 
         $lpres->setValue($this->object->getListPresentation());
