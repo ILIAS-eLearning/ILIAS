@@ -602,7 +602,7 @@ class ilTestTabsManager
             }
 
             // skill service
-            if ($this->getTestOBJ()->isSkillServiceEnabled() && ilObjTest::isSkillManagementGloballyActivated()) {
+            if ($this->getTestOBJ()->isSkillServiceToBeConsidered()) {
                 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php';
 
                 $link = $DIC->ctrl()->getLinkTargetByClass(

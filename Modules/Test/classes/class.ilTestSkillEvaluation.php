@@ -19,6 +19,8 @@
 use ILIAS\Skill\Service\SkillProfileService;
 
 /**
+ * Logic for determining a learner’s competences based on the results of a test.
+ *
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
  *

@@ -1021,7 +1021,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         $deletename = $filename;
         $result = @unlink($this->getImagePath() . $deletename);
-        $result = $result & @unlink($this->getImagePath() . $this->getThumbPrefix() . $deletename);
+        $result = $result && @unlink($this->getImagePath() . $this->getThumbPrefix() . $deletename);
         return $result;
     }
 
@@ -1484,7 +1484,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      */
     public function getOperators($expression): array
     {
-        require_once "./Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php";
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
     }
 
