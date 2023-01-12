@@ -1220,7 +1220,7 @@ class ilInfoScreenGUI
         $properties = [];
 
         foreach ($conditions as $condition) {
-            if (!in_array($condition['id'], $visible_conditions)) {
+            if (!isset($condition["id"]) || !in_array($condition['id'], $visible_conditions)) {
                 continue;
             }
 
