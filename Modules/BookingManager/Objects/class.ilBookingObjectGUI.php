@@ -308,7 +308,7 @@ class ilBookingObjectGUI
         $form_gui->addItem($desc);
 
         $file = new ilFileInputGUI($lng->txt("book_additional_info_file"), "file");
-        $file->set(true);
+        $file->setAllowDeletion(true);
         $form_gui->addItem($file);
 
         $nr = new ilNumberInputGUI($lng->txt("booking_nr_of_items"), "items");
