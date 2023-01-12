@@ -999,11 +999,12 @@ class ilRbacReview
     public function isProtected(int $a_ref_id, int $a_role_id): bool
     {
         $query = 'SELECT protected FROM rbac_fa ' .
-            'WHERE rol_id = ' . $this->db->quote($a_role_id, ilDBConstants::T_INTEGER) . ' ' .
-            'AND assign = ' . $this->db->quote('y', ilDBConstants::T_TEXT);
+            'WHERE rol_id = ' . $this->db->quote($a_role_id, ilDBConstants::T_INTEGER);
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->protected === 'y';
+            if ($row->protected === 'y') {
+                return true;
+            }
         }
         return false;
     }
