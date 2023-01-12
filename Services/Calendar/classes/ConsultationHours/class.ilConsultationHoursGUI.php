@@ -231,6 +231,15 @@ class ilConsultationHoursGUI
                     $this->ctrl->saveParameter($this, 'apps');
                     $this->ctrl->setReturn($this, 'appointmentList');
                     $this->tabs->activateSubTab('cal_ch_app_list');
+                } elseif ($this->initAppointmentIdsFromQuery()) {
+                    $rep_search->setCallback(
+                        $this,
+                        'assignUsersToAppointment',
+                        array()
+                    );
+                    $this->ctrl->saveParameter($this, 'apps');
+                    $this->ctrl->setReturn($this, 'appointmentList');
+                    $this->tabs->activateSubTab('cal_ch_app_list');
                 }
                 $this->ctrl->forwardCommand($rep_search);
                 break;
@@ -266,7 +275,7 @@ class ilConsultationHoursGUI
             $this->ctrl->redirect($this, 'appointmentList');
         }
         ilSession::set('ch_apps', $apps);
-        $this->ctrl->setParameterByClass(ilRepositorySearchGUI::class, 'assignM', 1);
+        $this->ctrl->setParameterByClass(ilConsultationHoursGUI::class, 'assignM', 1);
         $this->ctrl->redirectByClass(ilRepositorySearchGUI::class, '');
     }
 
@@ -318,15 +327,17 @@ class ilConsultationHoursGUI
     {
         if ($a_app) {
             $app = $a_app;
-        } else {
+        } elseif ($this->initBookingUsersFromPost() !== []) {
             $app = $this->initAppointmentIdsFromPost();
+            $app = current($app);
+        } elseif ($this->initAppointmentIdsFromQuery() !== []) {
+            $app = $this->initAppointmentIdsFromQuery();
+            $app = current($app);
         }
-
         if (!count($users)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             return [];
         }
-
         $booking = ilBookingEntry::getInstanceByCalendarEntryId($app);
         $assigned_users = array();
         foreach ($users as $user) {
@@ -338,9 +349,7 @@ class ilConsultationHoursGUI
                 $assigned_users[] = $user;
             }
         }
-
         $unassigned_users = array_diff($users, $assigned_users);
-
         if ($a_redirect) {
             $this->sendInfoAboutUnassignedUsers($unassigned_users);
             $this->ctrl->redirect($this, 'appointmentList');

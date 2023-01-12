@@ -436,8 +436,8 @@ var model = function() {
             if(!state.entries[entry_id]) { //tools
                 return true;
             }
-            var hops = entry_id.split(':'),
-                entries = state.entries;
+            var hops = entry_id.split(':');
+                state.entries;
             while (hops.length > 1) {
                 entry_id = hops.join(':');
                 if(!state.entries[entry_id].engaged) {
@@ -910,6 +910,10 @@ var renderer = function($) {
                 max_buttons = more.calcAmountOfButtons() - 1; //room for the more-button
 
             if(model_state.any_tools_visible()) { max_buttons--;}
+            // Pathological case: there even is no space for one button.
+            // We pretend there still is room...
+            if(max_buttons < 0) { max_buttons = 0; }
+
             for(i = max_buttons; i < root_entries_length; i++) {
                 btn = parts.triggerer.withHtmlId(dom_references[root_entries[i].id].triggerer);
                 list = btn.getElement().parent();
@@ -976,11 +980,22 @@ var renderer = function($) {
                 someting_to_focus_on = $('#' + dom_id.slate)
                     .children().first()
                     .children().first();
-            if(someting_to_focus_on[0]){
+            console.log("here we go.");
+
+            someting_to_focus_on_if_listing = someting_to_focus_on.children().first().children().first();
+            if(someting_to_focus_on[0]) {
                 if(!someting_to_focus_on.is(":focusable")) { //cannot focus w/o index
                     someting_to_focus_on.attr('tabindex', '-1');
+                    console.log("first entry no focusable");
+                    if(someting_to_focus_on_if_listing[0]
+                      && someting_to_focus_on_if_listing.is(":focusable")) { //cannot focus w/o index
+                        console.log("sub entry focusable");
+
+                        someting_to_focus_on_if_listing[0].focus();
+                    }
+                } else {
+                    someting_to_focus_on[0].focus();
                 }
-                someting_to_focus_on[0].focus();
             }
         },
         focusTopentry: function(top_entry_id) {

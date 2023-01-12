@@ -308,7 +308,7 @@ class ilRbacSystem
     private function fetchAssignedRoles(int $a_usr_id, int $a_ref_id): array
     {
         // Member view constraints
-        if ($this->mem_view['active'] && $a_usr_id == $this->user->getId()) {
+        if (isset($this->mem_view['active']) && $this->mem_view['active'] && $a_usr_id == $this->user->getId()) {
             // check if current ref_id is subitem of active container
             if (in_array($a_ref_id, $this->mem_view['items']) && $this->mem_view['role']) {
                 // Return default member role

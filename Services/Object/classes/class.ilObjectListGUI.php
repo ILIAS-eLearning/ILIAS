@@ -1003,7 +1003,7 @@ class ilObjectListGUI
         foreach ($this->commands as $command) {
             $permission = $command["permission"];
             $cmd = $command["cmd"];
-            $lang_var = $command["lang_var"];
+            $lang_var = $command["lang_var"] ?? "";
             $txt = "";
             $info_object = null;
             $cmd_link = '';
@@ -1358,7 +1358,7 @@ class ilObjectListGUI
                     $tags_url = ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $redraw_js);
 
                     // list object tags
-                    if (is_array(self::$tags[$note_obj_id])) {
+                    if (isset(self::$tags[$note_obj_id])) {
                         $tags_tmp = array();
                         foreach (self::$tags[$note_obj_id] as $tag => $is_tag_owner) {
                             if ($is_tag_owner) {
@@ -1984,7 +1984,12 @@ class ilObjectListGUI
         }
 
         $this->current_selection_list = new ilAdvancedSelectionListGUI();
-        $this->current_selection_list->setAriaListTitle(sprintf($this->lng->txt('actions_for'), $this->getTitle()));
+        $this->current_selection_list->setAriaListTitle(
+            sprintf(
+                $this->lng->txt('actions_for'),
+                htmlspecialchars(addslashes($this->getTitle()))
+            )
+        );
         $this->current_selection_list->setAsynch($use_async && !$get_async_commands);
         $this->current_selection_list->setAsynchUrl($async_url);
         if ($header_actions) {
@@ -2632,12 +2637,12 @@ class ilObjectListGUI
         if ($this->getCheckboxStatus()) {
             $this->tpl->setCurrentBlock("check");
             $this->tpl->setVariable("VAL_ID", $this->getCommandId());
-            $this->tpl->setVariable("CHECK_TITLE", $this->lng->txt("select")." ".$this->getTitle());
+            $this->tpl->setVariable("CHECK_TITLE", $this->lng->txt("select") . " " . $this->getTitle());
             $this->tpl->parseCurrentBlock();
             $cnt += 1;
         } elseif ($this->getDownloadCheckboxState() != self::DOWNLOAD_CHECKBOX_NONE) {
             $this->tpl->setCurrentBlock("check_download");
-            $this->tpl->setVariable("CHECK_DOWNLOAD_TITLE", $this->lng->txt("download")." ".$this->getTitle());
+            $this->tpl->setVariable("CHECK_DOWNLOAD_TITLE", $this->lng->txt("download") . " " . $this->getTitle());
             if ($this->getDownloadCheckboxState() == self::DOWNLOAD_CHECKBOX_ENABLED) {
                 $this->tpl->setVariable("VAL_ID", $this->getCommandId());
             } else {
@@ -3121,7 +3126,7 @@ class ilObjectListGUI
             ->standard($actions)
             ->withAriaLabel(sprintf(
                 $this->lng->txt('actions_for'),
-                $title
+                htmlspecialchars(addslashes($title))
             ));
 
         $def_command = $this->getDefaultCommand();
@@ -3242,18 +3247,10 @@ class ilObjectListGUI
         $dropdown = $ui->factory()->dropdown()->standard($actions)
                        ->withAriaLabel(sprintf(
                            $this->lng->txt('actions_for'),
-                           $title
+                           htmlspecialchars(addslashes($title))
                        ));
 
-        $img = $this->object_service->commonSettings()->tileImage()->getByObjId($obj_id);
-        if ($img->exists()) {
-            $path = $img->getFullPath();
-        } else {
-            $path = ilUtil::getImagePath('cont_tile/cont_tile_default_' . $type . '.svg');
-            if (!is_file($path)) {
-                $path = ilUtil::getImagePath('cont_tile/cont_tile_default.svg');
-            }
-        }
+        $path = $this->getTileImagePath();
 
         // workaround for #26205
         // we should get rid of _top links completely and gifure our how
@@ -3390,6 +3387,20 @@ class ilObjectListGUI
     public function checkInfoPageOnAsynchronousRendering(): bool
     {
         return false;
+    }
+
+    protected function getTileImagePath(): string
+    {
+        $img = $this->object_service->commonSettings()->tileImage()->getByObjId($this->obj_id);
+        if ($img->exists()) {
+            $path = $img->getFullPath();
+        } else {
+            $path = ilUtil::getImagePath('cont_tile/cont_tile_default_' . $this->type . '.svg');
+            if (!is_file($path)) {
+                $path = ilUtil::getImagePath('cont_tile/cont_tile_default.svg');
+            }
+        }
+        return $path;
     }
 
     /**

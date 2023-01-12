@@ -447,7 +447,7 @@ class ilUserImportParser extends ilSaxParser
 
                 // if we have an object id, store it
                 $this->user_id = -1;
-                if (!is_null($a_attribs["Id"]) && $this->getUserMappingMode() == IL_USER_MAPPING_ID) {
+                if (isset($a_attribs["Id"]) && $this->getUserMappingMode() == IL_USER_MAPPING_ID) {
                     if (is_numeric($a_attribs["Id"])) {
                         $this->user_id = $a_attribs["Id"];
                     } elseif ($id = ilUtil::__extractId($a_attribs["Id"], IL_INST_ID) > 0) {
@@ -465,7 +465,7 @@ class ilUserImportParser extends ilSaxParser
                 );
 
                 $this->userObj->setLanguage($a_attribs["Language"] ?? '');
-                $this->userObj->setImportId($a_attribs["Id"]);
+                $this->userObj->setImportId($a_attribs["Id"] ?? '');
                 $this->action = (is_null($a_attribs["Action"])) ? "Insert" : $a_attribs["Action"];
                 $this->currPassword = null;
                 $this->currPasswordType = null;
@@ -1123,7 +1123,7 @@ class ilUserImportParser extends ilSaxParser
 
                             //set role entries
                             foreach ($this->roles as $role_id => $role) {
-                                if ($this->role_assign[$role_id]) {
+                                if (isset($this->role_assign[$role_id]) && $this->role_assign[$role_id]) {
                                     $this->assignToRole($this->userObj, $this->role_assign[$role_id]);
                                 }
                             }
@@ -1919,14 +1919,14 @@ class ilUserImportParser extends ilSaxParser
                 if (strtotime($this->cdata) === false && !is_numeric($this->cdata)) {
                     $this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"), "TimeLimitFrom", $this->cdata));
                 }
-                $this->userObj->setTimeLimitFrom($this->cdata);
+                $this->userObj->setTimeLimitFrom((int) $this->cdata);
                 break;
             case "TimeLimitUntil":
                 // Accept datetime or Unix timestamp
                 if (strtotime($this->cdata) === false && !is_numeric($this->cdata)) {
                     $this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"), "TimeLimitUntil", $this->cdata));
                 }
-                $this->userObj->setTimeLimitUntil($this->cdata);
+                $this->userObj->setTimeLimitUntil((int) $this->cdata);
                 break;
             case "TimeLimitMessage":
                 switch (strtolower($this->cdata)) {

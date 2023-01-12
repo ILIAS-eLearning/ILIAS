@@ -45,9 +45,9 @@ class ilTimingsCronReminder extends ilCronJob
         $this->db = $DIC->database();
         $this->obj_data_cache = $DIC['ilObjDataCache'];
 
-        self::$objects_information = array();
-        $this->users_with_exceeded_timings = array();
-        $this->users = array();
+        self::$objects_information = [];
+        $this->users_with_exceeded_timings = [];
+        $this->users = [];
         $this->now = time();
     }
 
@@ -119,8 +119,8 @@ class ilTimingsCronReminder extends ilCronJob
             'SELECT usr_id FROM usr_data WHERE 
 									(active = 1 AND time_limit_unlimited = 1) OR 
 									(active = 1 AND time_limit_unlimited = 0 AND time_limit_from < %s AND time_limit_until > %s)',
-            array('integer', 'integer'),
-            array($now, $now)
+            ['integer', 'integer'],
+            [$now, $now]
         );
         while ($row = $this->db->fetchAssoc($query)) {
             $usr_id = (int) $row['usr_id'];
@@ -137,13 +137,13 @@ class ilTimingsCronReminder extends ilCronJob
 
     protected function getNewExceededObjectForUser(): void
     {
-        $users_with_exceeded_objects = array();
+        $users_with_exceeded_objects = [];
 
         if (is_array($this->users_with_exceeded_timings) && $this->users_with_exceeded_timings !== []) {
             foreach ($this->users_with_exceeded_timings as $key => $user_id) {
                 $objects = $this->getExceededObjectsForUser($user_id);
                 if (is_array($objects) && $objects !== []) {
-                    $obj_data = array();
+                    $obj_data = [];
                     $already_notified = $this->getAlreadySentNotifications($user_id);
                     $objects = array_diff_key($objects, $already_notified);
                     foreach (array_keys($objects) as $ref_id) {
@@ -163,13 +163,13 @@ class ilTimingsCronReminder extends ilCronJob
 
     protected function getFreshlyStartedObjectsForUser(): void
     {
-        $users_with_new_started_object = array();
+        $users_with_new_started_object = [];
 
         if (is_array($this->users) && $this->users !== []) {
             foreach ($this->users as $key => $user_id) {
                 $objects = $this->getObjectsWithTimingsForUser($user_id);
                 if (is_array($objects) && $objects !== []) {
-                    $obj_data = array();
+                    $obj_data = [];
                     $already_notified = $this->getAlreadySentNotifications($user_id, false);
                     $this->log->debug('User_id ' . $user_id . ' was already notified for ' . count($already_notified) . ' elements ');
                     $objects = array_diff_key($objects, $already_notified);
@@ -346,8 +346,8 @@ class ilTimingsCronReminder extends ilCronJob
             $this->db->manipulateF(
                 'INSERT INTO ' . ilCourseConstants::CRON_TIMINGS_EXCEEDED_TABLE . ' (user_id, ref_id, sent) VALUES ' .
                 ' (%s,%s,%s)',
-                array('integer', 'integer', 'integer'),
-                array($user_id, $ref_id, $this->now)
+                ['integer', 'integer', 'integer'],
+                [$user_id, $ref_id, $this->now]
             );
 
             $this->log->debug('ilTimingsCronReminder->markExceededInDatabase: Marked exceeded in Database. User ' . $user_id . ' ref_id ' . $ref_id);
@@ -360,8 +360,8 @@ class ilTimingsCronReminder extends ilCronJob
             $this->db->manipulateF(
                 'INSERT INTO ' . ilCourseConstants::CRON_TIMINGS_STARTED_TABLE . ' (user_id, ref_id, sent) VALUES ' .
                 ' (%s,%s,%s)',
-                array('integer', 'integer', 'integer'),
-                array($user_id, $ref_id, $this->now)
+                ['integer', 'integer', 'integer'],
+                [$user_id, $ref_id, $this->now]
             );
 
             $this->log->debug('ilTimingsCronReminder->markFreshlyStartedInDatabase: Marked freshly started in Database. User ' . $user_id . ' ref_id ' . $ref_id);
@@ -370,7 +370,7 @@ class ilTimingsCronReminder extends ilCronJob
 
     protected function getAlreadySentNotifications(int $user_id, bool $for_exceeded = true): array
     {
-        $ref_ids = array();
+        $ref_ids = [];
         $table = ilCourseConstants::CRON_TIMINGS_EXCEEDED_TABLE;
 
         if (!$for_exceeded) {
@@ -380,8 +380,8 @@ class ilTimingsCronReminder extends ilCronJob
         $result = $this->db->queryF(
             'SELECT * FROM ' . $table . ' WHERE ' .
             'user_id = %s',
-            array('integer'),
-            array($user_id)
+            ['integer'],
+            [$user_id]
         );
 
         while ($record = $this->db->fetchAssoc($result)) {
@@ -395,11 +395,12 @@ class ilTimingsCronReminder extends ilCronJob
         if (!array_key_exists($ref_id, self::$objects_information)) {
             $obj_id = $this->obj_data_cache->lookupObjId($ref_id);
             $type = $this->obj_data_cache->lookupType($obj_id);
-            $value = array('title' => $this->obj_data_cache->lookupTitle($obj_id),
-                           'type' => $type,
-                           'url' => ilLink::_getLink($ref_id, $type),
-                           'obj_id' => $obj_id
-            );
+            $value = [
+                'title' => $this->obj_data_cache->lookupTitle($obj_id),
+                'type' => $type,
+                'url' => ilLink::_getLink($ref_id, $type),
+                'obj_id' => $obj_id
+            ];
             self::$objects_information[$ref_id] = $value;
 
             $this->log->debug('ilTimingsCronReminder->getInformationForRefId: ...cached object information for => ' . $value['type'] . ' => ' . $value['title']);
@@ -410,14 +411,14 @@ class ilTimingsCronReminder extends ilCronJob
     protected function getExceededObjectsForUser(int $user_id): array
     {
         $tmp = [];
-        return ilTimingsUser::lookupTimings(array($user_id), $tmp, true);
+        return ilTimingsUser::lookupTimings([$user_id], $tmp, true);
     }
 
     protected function getObjectsWithTimingsForUser(int $user_id): array
     {
-        $meta = array();
-        $timings_obj_list = ilTimingsUser::lookupTimings(array($user_id), $meta, false);
-        return $meta[$user_id];
+        $meta = [];
+        $timings_obj_list = ilTimingsUser::lookupTimings([$user_id], $meta, false);
+        return $meta[$user_id] ?? [];
     }
 
     protected function hasUserActivatedNotification(int $user_id): bool

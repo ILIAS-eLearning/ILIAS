@@ -35,6 +35,7 @@ class ilBookingReservation
     protected int $group_id = 0;
     protected int $assigner_id = 0;
     protected int $context_obj_id = 0;
+    protected string $message = "";
     protected \ILIAS\BookingManager\Reservations\ReservationDBRepository $repo;
 
     public function __construct(
@@ -75,6 +76,16 @@ class ilBookingReservation
     public function getUserId(): int
     {
         return $this->user_id;
+    }
+
+    public function setMessage(string $message): void
+    {
+        $this->message = $message;
+    }
+
+    public function getMessage(): string
+    {
+        return $this->message;
     }
 
     /**
@@ -180,6 +191,7 @@ class ilBookingReservation
             $this->setStatus($row['status']);
             $this->setGroupId($row['group_id']);
             $this->setContextObjId($row['context_obj_id']);
+            $this->setMessage($row['message']);
         }
     }
 
@@ -197,7 +209,8 @@ class ilBookingReservation
             $this->getFrom(),
             $this->getTo(),
             $this->getStatus(),
-            $this->getGroupId()
+            $this->getGroupId(),
+            $this->getMessage()
         );
         return ($this->id > 0);
     }
@@ -217,7 +230,8 @@ class ilBookingReservation
             $this->getFrom(),
             $this->getTo(),
             $this->getStatus(),
-            $this->getGroupId()
+            $this->getGroupId(),
+            $this->getMessage()
         );
         return true;
     }

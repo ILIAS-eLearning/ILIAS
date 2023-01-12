@@ -1760,7 +1760,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 "-",
                 $value
             );
-            $role_assignment[$keys[0]] = $keys[1];
+            if (count($keys) === 2) {
+                $role_assignment[$keys[0]] = $keys[1];
+            }
         }
 
         $importParser = new ilUserImportParser(
@@ -2623,7 +2625,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $valid = true;
         foreach ($profile_fields as $field) {
             if (($checked["required_" . $field] ?? false) &&
-                !(int) $checked['visib_reg_' . $field]
+                !(int) ($checked['visib_reg_' . $field] ?? null)
             ) {
                 $valid = false;
                 break;
@@ -2845,8 +2847,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
             [self::class],
             "settings"
         ));
-        $confirmDialog->addButton($this->lng->txt("confirm"), "confirmUsrFieldChangeListeners");
-        $confirmDialog->addButton($this->lng->txt("cancel"), "settings");
+        $confirmDialog->setConfirm($this->lng->txt("confirm"), "confirmUsrFieldChangeListeners");
+        $confirmDialog->setCancel($this->lng->txt("cancel"), "settings");
 
         $tpl = new ilTemplate(
             "tpl.usr_field_change_listener_confirm.html",
@@ -3241,7 +3243,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $lng->txt("attachment"),
                 "att_" . $lang_key
             );
-            $att->setALlowDeletion(true);
+            $att->setAllowDeletion(true);
             if ($amail["att_file"] ?? false) {
                 $att->setValue($amail["att_file"]);
             }

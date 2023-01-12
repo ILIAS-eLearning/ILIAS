@@ -87,4 +87,9 @@ class ilDatabaseUpdateStepsMetricsCollectedObjective extends Setup\Metrics\Colle
     {
         return hash("sha256", static::class . $this->step_class);
     }
+
+    public function getLabel(): string
+    {
+        return "Status of database update steps in " . $this->step_class;
+    }
 }

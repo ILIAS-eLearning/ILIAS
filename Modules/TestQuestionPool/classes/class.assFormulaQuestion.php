@@ -260,14 +260,11 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
     }
 
     /**
-     * @param array $userdata
-     * @param bool $graphicalOutput
-     * @param bool $forsolution
-     * @param bool $result_output
-     * @param ilAssQuestionPreviewSession|null $previewSession
+     * @param int[] $selections
+     * @param string[] $correctness_icons
      * @return bool|mixed|string
      */
-    public function substituteVariables(array $userdata, $graphicalOutput = false, $forsolution = false, $result_output = false)
+    public function substituteVariables(array $userdata, bool $graphicalOutput = false, bool $forsolution = false, bool $result_output = false, array $correctness_icons = [])
     {
         if ((count($this->results) == 0) && (count($this->variables) == 0)) {
             return false;
@@ -299,7 +296,11 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                 ) {
                     $is_frac = true;
                 }
-                if ($forsolution) {
+                if (is_array($userdata) &&
+                    isset($userdata[$result]) &&
+                    isset($userdata[$result]["value"])) {
+                    $input = $this->generateResultInputHtml($result, $userdata[$result]["value"]);
+                } elseif ($forsolution) {
                     $value = $resObj->calculateFormula($this->getVariables(), $this->getResults(), parent::getId());
                     $value = sprintf("%." . $resObj->getPrecision() . "f", $value);
 
@@ -315,10 +316,6 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                     $input = '<span class="ilc_qinput_TextInput solutionbox">' . ilLegacyFormElementsUtil::prepareFormOutput(
                         $value
                     ) . '</span>';
-                } elseif (is_array($userdata) &&
-                    isset($userdata[$result]) &&
-                    isset($userdata[$result]["value"])) {
-                    $input = $this->generateResultInputHtml($result, $userdata[$result]["value"]);
                 } else {
                     $input = $this->generateResultInputHTML($result, '');
                 }
@@ -328,7 +325,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                     if ($forsolution) {
                         if (is_array($userdata)) {
                             foreach ($this->getResultUnits($resObj) as $unit) {
-                                if ($userdata[$result]["unit"] == $unit->getId()) {
+                                if (isset($userdata[$result]["unit"]) && $userdata[$result]["unit"] == $unit->getId()) {
                                     $units = $unit->getUnit();
                                 }
                             }
@@ -402,17 +399,14 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 
                     $template = new ilTemplate("tpl.il_as_qpl_formulaquestion_output_solution_image.html", true, true, 'Modules/TestQuestionPool');
 
+                    $correctness_icon = $correctness_icons['not_correct'];
                     if ($resObj->isCorrect($this->getVariables(), $this->getResults(), $user_value, $resunit)) {
-                        $template->setCurrentBlock("icon_ok");
-                        $template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
-                        $template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
-                        $template->parseCurrentBlock();
-                    } else {
-                        $template->setCurrentBlock("icon_not_ok");
-                        $template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
-                        $template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
-                        $template->parseCurrentBlock();
+                        $correctness_icon = $correctness_icons['correct'];
                     }
+                    $template->setCurrentBlock("icon_ok");
+                    $template->setVariable("ICON_OK", $correctness_icon);
+                    $template->parseCurrentBlock();
+
                     $checkSign = $template->get();
                 }
                 $resultOutput = "";
@@ -1347,20 +1341,22 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 
         foreach ($this->getResults() as $index => $a) {
             $key = "result_$index";
-            if (
-                $post->has($key)
-                ||
-               $post->has($key . "_unit")
-            ) {
-                $value =$post->retrieve(
+            if ($post->has($key)) {
+                $value = $post->retrieve(
                     $key,
                     $this->dic->refinery()->kindlyTo()->string()
                 );
 
                 $solutionSubmit[$key] = $value;
             }
+            if ($post->has($key . "_unit")) {
+                $value = $post->retrieve(
+                    $key . "_unit",
+                    $this->dic->refinery()->kindlyTo()->string()
+                );
+                $solutionSubmit[$key . "_unit"] = $value;
+            }
         }
-
         return $solutionSubmit;
     }
 

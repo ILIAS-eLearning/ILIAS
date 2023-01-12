@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,11 +13,16 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\StorageHandler;
 
 use ILIAS\Filesystem\Stream\FileStream;
+use ILIAS\ResourceStorage\Flavour\Flavour;
+use ILIAS\ResourceStorage\Flavour\StorableFlavourDecorator;
 use ILIAS\ResourceStorage\Identification\IdentificationGenerator;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Resource\StorableResource;
@@ -30,7 +33,7 @@ use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
 
 /**
  * Class FileResourceHandler
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  * @internal
  */
 interface StorageHandler
@@ -46,11 +49,29 @@ interface StorageHandler
 
     public function has(ResourceIdentification $identification): bool;
 
+    // STREAMS
+
     public function getStream(Revision $revision): FileStream;
 
     public function storeUpload(UploadedFileRevision $revision): bool;
 
     public function storeStream(FileStreamRevision $revision): bool;
+
+
+    // FLAVOURS
+
+    public function hasFlavour(Revision $revision, Flavour $flavour): bool;
+
+    public function storeFlavour(Revision $revision, StorableFlavourDecorator $storabel_flavour): bool;
+
+    public function deleteFlavour(Revision $revision, Flavour $flavour): bool;
+
+    public function getFlavourStreams(Revision $revision, Flavour $flavour): \Generator;
+
+
+    public function getFlavourPath(Revision $revision, Flavour $flavour): string;
+
+    // REVISIONS
 
     public function cloneRevision(CloneRevision $revision): bool;
 
@@ -86,10 +107,11 @@ interface StorageHandler
 
     /**
      * This is the full path to a revision of a Resource, incl. the StorageLocation base path. This can be used
-     * to access the file itself. But getStream is musch easier for this.
+     * to access the file itself. But getStream is much easier for this.
      * @see getStream instead.
      */
     public function getRevisionPath(Revision $revision): string;
+
 
     /**
      * @return string "link" or "rename"

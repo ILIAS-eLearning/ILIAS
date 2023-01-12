@@ -139,8 +139,14 @@ class ObjectiveIterator implements \Iterator
             $this->returned[$hash] = true;
             $this->markAsFailed($cur);
             if ($this->stack === []) {
+                // Since the current objective doesn't need to be achieved,
+                // we are fine and can simply stop here.
+                if ($cur instanceof Objective\Tentatively) {
+                    return;
+                }
                 throw new UnachievableException(
-                    "Objective had failed preconditions."
+                    "Objective '" . $cur->getLabel() . "' had failed preconditions:\n  - " .
+                    implode("\n  - ", array_map(fn ($o) => $o->getLabel(), $failed_preconditions))
                 );
             }
             $this->next();

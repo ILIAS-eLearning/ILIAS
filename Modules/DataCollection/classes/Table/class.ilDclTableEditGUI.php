@@ -413,7 +413,7 @@ class ilDclTableEditGUI
         } else {
             $this->table->doDelete(false);
         }
-
+        $this->ctrl->clearParameterByClass("ilobjdatacollectiongui", "table_id");
         $this->ctrl->redirectByClass("ildcltablelistgui", "listtables");
     }
 

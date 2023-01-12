@@ -13,16 +13,18 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
 
 namespace ILIAS\ResourceStorage\Revision;
 
+use ILIAS\ResourceStorage\Consumer\StreamAccess\Token;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Information\Information;
 
 /**
  * Class FileRevision
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 interface Revision
 {
@@ -45,4 +47,12 @@ interface Revision
     public function setTitle(string $title): Revision;
 
     public function getTitle(): string;
+
+    public function withToken(Token $token): Revision;
+
+    public function maybeGetToken(): ?Token;
+
+    public function setStorageID(string $storage_id): void;
+
+    public function getStorageID(): string;
 }

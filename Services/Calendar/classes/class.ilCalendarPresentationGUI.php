@@ -166,6 +166,7 @@ class ilCalendarPresentationGUI
                 }
                 $visibility->showSelected($v);
                 $visibility->save();
+                $this->ctrl->setParameterByClass(ilCalendarMonthGUI::class, 'category_id', $info['cat_id']);
                 $this->ctrl->setParameterByClass(\ilCalendarMonthGUI::class, 'seed', $this->seed);
                 $this->ctrl->redirectToURL(
                     $this->ctrl->getLinkTargetByClass(\ilCalendarMonthGUI::class, '')
@@ -378,6 +379,7 @@ class ilCalendarPresentationGUI
         $ctrl->setParameterByClass("ilcalendarappointmentgui", "seed", $this->seed->get(IL_CAL_DATE, ''));
         $ctrl->setParameterByClass("ilcalendarappointmentgui", "app_id", "");
         $ctrl->setParameterByClass("ilcalendarappointmentgui", "dt", "");
+        $ctrl->setParameterByClass("ilcalendarappointmentgui", "idate", (new ilDate(time(), IL_CAL_UNIX))->get(IL_CAL_DATE));
 
         $extra_button_added = false;
         // add appointment
@@ -583,7 +585,7 @@ class ilCalendarPresentationGUI
 
         $this->tabs_gui->clearTargets();
         if ($this->getRepositoryMode()) {
-            if ($this->http->wrapper()->query()->has('back_tp_pd')) {
+            if ($this->http->wrapper()->query()->has('backpd')) {
                 $this->tabs_gui->setBack2Target(
                     $this->lng->txt('back_to_pd'),
                     $this->ctrl->getLinkTargetByClass(ilDashboardGUI::class, 'jumpToCalendar')
@@ -764,7 +766,7 @@ class ilCalendarPresentationGUI
 
         $cats = ilCalendarCategories::_getInstance($this->user->getId());
         foreach ($cats->getCategoriesInfo() as $cat_id => $info) {
-            if ($info['remote']) {
+            if ($info['remote'] ?? false) {
                 // Check for execution
                 $category = new ilCalendarCategory($cat_id);
 

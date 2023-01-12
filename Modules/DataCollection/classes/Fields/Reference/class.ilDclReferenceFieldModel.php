@@ -104,10 +104,10 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel
 
     public function getValidFieldProperties(): array
     {
-        return array(ilDclBaseFieldModel::PROP_REFERENCE,
-                     ilDclBaseFieldModel::PROP_REFERENCE_LINK,
-                     ilDclBaseFieldModel::PROP_N_REFERENCE
-        );
+        return [ilDclBaseFieldModel::PROP_REFERENCE,
+                ilDclBaseFieldModel::PROP_REFERENCE_LINK,
+                ilDclBaseFieldModel::PROP_N_REFERENCE
+        ];
     }
 
     public function allowFilterInListView(): bool

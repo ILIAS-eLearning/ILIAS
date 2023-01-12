@@ -162,13 +162,11 @@ class ilStudyProgrammeAppEventListener
 
     private static function onServiceUserDeleteUser(array $parameter): void
     {
-        $assignments = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB']
-            ->getInstancesOfUser((int) $parameter["usr_id"])
-        ;
+        $repo = ilStudyProgrammeDIC::dic()['repo.assignment'];
+        $assignments = $repo->getForUser((int) $parameter["usr_id"]);
 
         foreach ($assignments as $ass) {
-            $prg = ilObjStudyProgramme::getInstanceByObjId($ass->getRootId());
-            $prg->removeAssignment($ass);
+            $repo->delete($ass);
         }
     }
 
@@ -312,16 +310,14 @@ class ilStudyProgrammeAppEventListener
 
     private static function sendReAssignedMail(array $params): void
     {
-        $usr_id = $params['usr_id'];
-        $ref_id = $params['root_prg_ref_id'];
-        ilObjStudyProgramme::sendReAssignedMail($ref_id, $usr_id);
+        $dic = ilStudyProgrammeDIC::dic();
+        $dic['mail']->sendReAssignedMail($params['ass_id']);
     }
 
     private static function sendInformToReAssignMail(array $params): void
     {
-        $usr_id = $params['usr_id'];
-        $progress_id = $params['progress_id'];
-        ilObjStudyProgramme::sendInformToReAssignMail($progress_id, $usr_id);
+        $dic = ilStudyProgrammeDIC::dic();
+        $dic['mail']->sendInformToReAssignMail($params['ass_id']);
     }
 
     /**
@@ -329,8 +325,7 @@ class ilStudyProgrammeAppEventListener
      */
     private static function sendRiskyToFailMail(array $params): void
     {
-        $usr_id = $params['usr_id'];
-        $progress_id = $params['progress_id'];
-        ilObjStudyProgramme::sendRiskyToFailMail($progress_id, $usr_id);
+        $dic = ilStudyProgrammeDIC::dic();
+        $dic['mail']->sendRiskyToFailMail($params['ass_id']);
     }
 }

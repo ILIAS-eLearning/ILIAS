@@ -173,7 +173,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 
         // image file
         $fi = new ilImageFileInputGUI($lng->txt("cont_file"), "image_file");
-        $fi->setALlowDeletion(false);
+        $fi->setAllowDeletion(false);
         if ($a_mode == "edit") {
             $fi->setImage($this->content_obj->getBaseThumbnailTarget());
         }

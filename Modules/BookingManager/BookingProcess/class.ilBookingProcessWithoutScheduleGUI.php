@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use \ILIAS\Filesystem\Stream\Streams;
+use ILIAS\Filesystem\Stream\Streams;
 
 /**
  * Booking process ui class
@@ -103,7 +103,7 @@ class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\Bookin
         );
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -120,7 +120,8 @@ class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\Bookin
                     "confirmedBooking",
                     "displayPostInfo",
                     "deliverPostFile",
-                    "redirectToParticipantsList"
+                    "redirectToParticipantsList",
+                    "saveMessage"
             ))) {
                     $this->$cmd();
                 }
@@ -136,7 +137,7 @@ class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\Bookin
      * week view for booking a single object /
      * confirmation for
      */
-    public function book() : void // ok
+    public function book(): void // ok
     {
         $tpl = $this->tpl;
 
@@ -155,7 +156,48 @@ class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\Bookin
             $this->ctrl->setParameter($this, 'bkusr', $this->user_id_to_book);
         }
 
-        $user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
+        if ($this->pool->usesMessages()) {
+            $this->showMessageForm();
+        } else {
+            $this->showConfirmation();
+        }
+    }
+
+    protected function getMessageForm(): \ILIAS\Repository\Form\FormAdapterGUI
+    {
+        $obj = new ilBookingObject($this->book_obj_id);
+        return $this->gui->form([self::class], "saveMessage", $this->lng->txt("book_book"))
+            ->section("main", $this->lng->txt("book_booking") . ": " . $obj->getTitle())
+            ->textarea(
+                "message",
+                $this->lng->txt("book_message"),
+                $this->lng->txt("book_message_info")
+            );
+    }
+
+    protected function showMessageForm(): void
+    {
+        $this->tpl->setContent($this->getMessageForm()->render());
+    }
+
+    protected function saveMessage(): void
+    {
+        $this->ctrl->saveParameter($this, ['object_id', 'returnCmd', 'bkusr']);
+        $form = $this->getMessageForm();
+        if (!$form->isValid()) {
+            $this->tabs_gui->clearTargets();
+            $this->tabs_gui->setBackTarget($this->lng->txt('book_back_to_list'), $this->ctrl->getLinkTarget($this, 'back'));
+            $this->tpl->setContent($form->render());
+            return;
+        }
+        $this->confirmedBooking($form->getData("message"));
+    }
+
+    protected function showConfirmation(): void
+    {
+        $tpl = $this->tpl;
+
+        $obj = new ilBookingObject($this->book_obj_id);
 
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($this->lng->txt("book_confirm_booking_no_schedule"));
@@ -170,7 +212,7 @@ class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\Bookin
     }
 
     // Table to assign participants to an object.
-    public function assignParticipants() : void
+    public function assignParticipants(): void
     {
         $this->util_gui->assignParticipants($this->book_obj_id);
     }
@@ -178,7 +220,7 @@ class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\Bookin
     /**
      * Create reservations for a bunch of booking pool participants.
      */
-    public function bookMultipleParticipants() : void
+    public function bookMultipleParticipants(): void
     {
         $participants = $this->book_request->getParticipants();
         if (count($participants) === 0) {
@@ -218,7 +260,7 @@ class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\Bookin
         $this->tpl->setContent($conf->getHTML());
     }
 
-    public function redirectToParticipantsList() : void
+    public function redirectToParticipantsList(): void
     {
         $this->ctrl->redirect($this, 'assignParticipants');
     }
@@ -227,7 +269,7 @@ class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\Bookin
      * Save multiple users reservations for one booking pool object.
      * @todo check if object/user exist in the DB,
      */
-    public function saveMultipleBookings() : void
+    public function saveMultipleBookings(): void
     {
         $participants = $this->book_request->getParticipants();
         $object_id = $this->book_request->getObjectId();
@@ -261,7 +303,7 @@ class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\Bookin
     //
 
     // Book object - either of type or specific - for given dates
-    public function confirmedBooking() : bool
+    public function confirmedBooking($message = ""): bool
     {
         $success = false;
         $rsv_ids = array();
@@ -275,7 +317,11 @@ class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\Bookin
                         $object_id,
                         $this->user_id_to_book,
                         $this->user_id_assigner,
-                        $this->context_obj_id
+                        $this->context_obj_id,
+                        null,
+                        null,
+                        null,
+                        $message
                     );
                     $success = $object_id;
                 } else {
@@ -295,7 +341,7 @@ class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\Bookin
         return true;
     }
 
-    public function displayPostInfo() : void
+    public function displayPostInfo(): void
     {
         $this->util_gui->displayPostInfo(
             $this->book_obj_id,
@@ -304,7 +350,7 @@ class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\Bookin
         );
     }
 
-    public function deliverPostFile() : void
+    public function deliverPostFile(): void
     {
         $this->util_gui->deliverPostFile(
             $this->book_obj_id,
@@ -312,7 +358,7 @@ class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\Bookin
         );
     }
 
-    public function back() : void
+    public function back(): void
     {
         $this->util_gui->back();
     }

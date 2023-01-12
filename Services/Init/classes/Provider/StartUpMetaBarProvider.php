@@ -1,11 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\Init\Provider;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\TopParentItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
 use Psr\Http\Message\UriInterface;
+use ILIAS\Data\Factory as DataFactory;
 
 /**
  * Class StartUpMetaBarProvider
@@ -68,6 +87,7 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
                                              ->withTitle($txt('language'));
 
         $base = $this->getBaseURL($request->getUri());
+        $dataFactory = new DataFactory();
 
         foreach ($languages as $lang_key) {
             $link = $this->appendUrlParameterString($base, "lang=" . $lang_key);
@@ -78,8 +98,8 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
 
             $s = $this->meta_bar->linkItem($if($lang_key))
                                 ->withSymbol($language_icon)
-                                ->withAction($link)
-                                ->withTitle($language_name);
+                                ->withContentLanguage($dataFactory->languageTag($lang_key))
+                                ->withLanguageForTargetedResource($dataFactory->languageTag($lang_key));
 
             $language_selection->appendChild($s);
         }

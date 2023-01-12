@@ -23,6 +23,7 @@
 class ilOrgUnitUserAssignmentQueries
 {
     protected static ilOrgUnitUserAssignmentQueries $instance;
+    protected \ilOrgUnitPositionDBRepository $positionRepo;
 
     public static function getInstance(): self
     {
@@ -33,6 +34,16 @@ class ilOrgUnitUserAssignmentQueries
         return self::$instance;
     }
 
+    private function getPositionRepo(): ilOrgUnitPositionDBRepository
+    {
+        if (!isset($this->positionRepo)) {
+            $dic = ilOrgUnitLocalDIC::dic();
+            $this->positionRepo = $dic["repo.Positions"];
+        }
+
+        return $this->positionRepo;
+    }
+
     /**
      * @return ilOrgUnitPosition[]
      */
@@ -40,7 +51,7 @@ class ilOrgUnitUserAssignmentQueries
     {
         $positions = [];
         foreach ($this->getAssignmentsOfUserId($user_id) as $assignment) {
-            $positions[] = ilOrgUnitPosition::find($assignment->getPositionId());
+            $positions[] = $this->getPositionRepo()->getSingle($assignment->getPositionId(), 'id');
         }
 
         return $positions;
@@ -137,7 +148,7 @@ class ilOrgUnitUserAssignmentQueries
      */
     public function getUserIdsOfUsersOrgUnitsInPosition(
         int $user_id,
-        array $users_position_id,
+        int $users_position_id,
         int $position_id,
         bool $recursive = false
     ): array {

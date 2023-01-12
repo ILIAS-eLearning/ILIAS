@@ -30,16 +30,6 @@
     border: 1px solid #BCCAE5;
 }
 
-#private_rooms {
-    /*margin: 0 0 50px 10px;*/
-    overflow: auto;
-    position: relative;
-    top: 0px;
-    bottom: 0px;
-    left: 10px;
-    right: 0px;
-}
-
 #chat_wrapper {
     width: 100%;
     min-height: 300px;
@@ -127,10 +117,6 @@
 	padding-left: 30px;
 	margin: 3px 0;
 
-}
-
-#create_private_room {
-    font-size: 10pt;
 }
 
 .chat.notice {

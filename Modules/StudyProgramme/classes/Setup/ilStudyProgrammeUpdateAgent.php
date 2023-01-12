@@ -26,13 +26,38 @@ class ilStudyProgrammeUpdateAgent extends Setup\Agent\NullAgent
 {
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(
+        $update_progresses = new ilDatabaseUpdateStepsExecutedObjective(
             new ilStudyProgrammeProgressTableUpdateSteps()
+        );
+        $update_assignments = new ilDatabaseUpdateStepsExecutedObjective(
+            new ilStudyProgrammeAssignmentTableUpdateSteps()
+        );
+        $update_settings = new ilDatabaseUpdateStepsExecutedObjective(
+            new ilStudyProgrammeSettingsTableUpdateSteps()
+        );
+        $update_auto_category = new ilDatabaseUpdateStepsExecutedObjective(
+            new ilStudyProgrammeAutoCategoryTableUpdateSteps()
+        );
+
+        return new Setup\ObjectiveCollection(
+            'Database is updated for Module/Studyprogramme',
+            false,
+            $update_progresses,
+            $update_assignments,
+            $update_settings,
+            $update_auto_category
         );
     }
 
     public function getStatusObjective(Metrics\Storage $storage): Objective
     {
-        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeProgressTableUpdateSteps());
+        return new Setup\ObjectiveCollection(
+            'Module/Studyprogramme',
+            true,
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeProgressTableUpdateSteps()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeAssignmentTableUpdateSteps()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeSettingsTableUpdateSteps()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeAutoCategoryTableUpdateSteps())
+        );
     }
 }

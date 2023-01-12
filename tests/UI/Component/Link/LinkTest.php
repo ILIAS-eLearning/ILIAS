@@ -22,6 +22,7 @@ require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
 use ILIAS\UI\Implementation\Component as I;
+use ILIAS\Data\LanguageTag;
 
 /**
  * Test on link implementation.
@@ -86,6 +87,28 @@ class LinkTest extends ILIAS_UI_TestBase
 
         $expected_html =
             '<a href="http://www.ilias.de" target="_blank" rel="noopener">label</a>';
+
+        $this->assertHTMLEquals($expected_html, $html);
+    }
+
+    public function testRenderWithLanguage(): void
+    {
+        $language = $this->getMockBuilder(LanguageTag::class)->getMock();
+        $language->method('__toString')->willReturn('en');
+        $reference = $this->getMockBuilder(LanguageTag::class)->getMock();
+        $reference->method('__toString')->willReturn('fr');
+
+        $f = $this->getLinkFactory();
+        $r = $this->getDefaultRenderer();
+
+        $c = $f->standard("label", "http://www.ilias.de")
+            ->withContentLanguage($language)
+            ->withLanguageOfReferencedContent($reference);
+
+        $html = $r->render($c);
+
+        $expected_html =
+            '<a lang="en" hreflang="fr" href="http://www.ilias.de">label</a>';
 
         $this->assertHTMLEquals($expected_html, $html);
     }

@@ -203,6 +203,12 @@ class ilPCPlugged extends ilPageContent
         global $DIC;
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
 
+        /** @var ilComponentFactory $component_factory */
+        $component_factory = $DIC["component.factory"];
+
+        /** @var ilComponentRepository $component_repository */
+        $component_repository = $DIC["component.repository"];
+
         $xpath = new DOMXPath($page->getDomDoc());
         $nodes = $xpath->query("//Plugged");
 
@@ -211,9 +217,14 @@ class ilPCPlugged extends ilPageContent
             $plugin_name = $node->getAttribute('PluginName');
             $plugin_version = $node->getAttribute('PluginVersion');
 
-            if ($ilPluginAdmin->isActive(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name)) {
+            $info = null;
+            try {
+                $info = $component_repository->getPluginByName($plugin_name);
+            } catch (InvalidArgumentException $e) {
+            }
+            if (!is_null($info) && $info->isActive()) {
                 /** @var ilPageComponentPlugin $plugin_obj */
-                $plugin_obj = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name);
+                $plugin_obj = $component_factory->getPlugin($info->getId());
                 $plugin_obj->setPageObj($page);
 
                 $properties = array();

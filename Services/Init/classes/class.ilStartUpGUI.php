@@ -114,7 +114,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      */
     public function getUnsafeGetCommands(): array
     {
-        return [];
+        return [
+            'doLogout'
+        ];
     }
 
     /**
@@ -296,6 +298,14 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         // check expired session and send message
         if ($this->authSession->isExpired()) {
             $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('auth_err_expired'));
+        } elseif ($this->http->wrapper()->query()->has('reg_confirmation_msg')) {
+            $this->lng->loadLanguageModule('registration');
+            $this->mainTemplate->setOnScreenMessage(
+                'failure',
+                $this->lng->txt(
+                    $this->http->wrapper()->query()->retrieve('reg_confirmation_msg', $this->refinery->kindlyTo()->string())
+                )
+            );
         }
         if ($page_editor_html !== '') {
             $tpl->setVariable('LPE', $page_editor_html);
@@ -999,7 +1009,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $rtpl->setCurrentBlock("homelink");
             $rtpl->setVariable(
                 "CLIENT_ID",
-                "?client_id=" . $_COOKIE["ilClientId"] . "&lang=" . $this->lng->getLangKey()
+                "?client_id=" . CLIENT_ID . "&lang=" . $this->lng->getLangKey()
             );
             $rtpl->setVariable("TXT_HOME", $this->lng->txt("home"));
             $rtpl->parseCurrentBlock();
@@ -1366,6 +1376,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             )
         );
         if ((int) $this->user->getAuthMode(true) == ilAuthUtils::AUTH_SAML && $had_external_authentication) {
+            $this->logger->info('Redirecting user to SAML logout script');
             $this->ctrl->redirectToURL('saml.php?action=logout&logout_url=' . urlencode(ILIAS_HTTP_PATH . '/login.php'));
         }
 
@@ -1484,6 +1495,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         $tpl = self::initStartUpTemplate('tpl.view_terms_of_service.html', $back_to_login, !$back_to_login);
 
+        $this->mainTemplate->setTitle($this->lng->txt('accept_usr_agreement'));
+        $this->mainTemplate->setOnScreenMessage('info', $this->lng->txt('accept_usr_agreement_intro'));
+
         $helper = new ilTermsOfServiceHelper();
         $handleDocument = $helper->isGloballyEnabled() && $this->termsOfServiceEvaluation->hasDocument();
         if ($handleDocument) {
@@ -1545,8 +1559,12 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         // In case of an valid session, redirect to starting page
         if ($this->authSession->isValid()) {
-            ilInitialisation::redirectToStartingPage();
-            return;
+            if (!$this->user->isAnonymous() || ilPublicSectionSettings::getInstance()->isEnabledForDomain(
+                $this->httpRequest->getServerParams()['SERVER_NAME']
+            )) {
+                ilInitialisation::redirectToStartingPage();
+                return;
+            }
         }
 
         if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME'])) {
@@ -1781,7 +1799,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $soap_client->call(
                 'deleteExpiredDualOptInUserObjects',
                 [
-                    $_COOKIE[session_name()] . '::' . $_COOKIE['ilClientId'],
+                    $_COOKIE[session_name()] . '::' . CLIENT_ID,
                     $exception->getCode() // user id
                 ]
             );
@@ -1821,7 +1839,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $view_title = $lng->txt('login_to_ilias');
         if ($a_show_back) {
             // #13400
-            $param = 'client_id=' . $_COOKIE['ilClientId'] . '&lang=' . $lng->getLangKey();
+            $param = 'client_id=' . CLIENT_ID . '&lang=' . $lng->getLangKey();
 
             $tpl->setCurrentBlock('link_item_bl');
             $tpl->setVariable('LINK_TXT', $view_title);
@@ -1988,7 +2006,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $auth = $factory->auth();
 
         if (isset($params['action']) && $params['action'] === 'logout') {
-            $auth->logout($params['logout_url'] ?? '');
+            $logout_url = $params['logout_url'] ?? '';
+            $this->logger->info(sprintf('Requested SAML logout: %s', $logout_url));
+            $auth->logout($logout_url);
         }
 
         if (isset($params['target']) && !isset($params['returnTo'])) {

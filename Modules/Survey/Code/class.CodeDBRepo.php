@@ -327,7 +327,7 @@ class CodeDBRepo
         ],
             [    // where
                 "survey_fi" => ["integer", $survey_id],
-                "survey_key" => ["integer", $code]
+                "survey_key" => ["text", $code]
             ]
         );
     }

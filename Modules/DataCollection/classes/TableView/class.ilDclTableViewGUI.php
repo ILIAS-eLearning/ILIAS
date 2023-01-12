@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclTableViewGUI
@@ -125,7 +141,7 @@ class ilDclTableViewGUI
         $button->setCaption('change');
         $this->toolbar->addButtonInstance($button);
 
-        $table_gui = new ilDclTableViewTableGUI($this, 'show', $this->table);
+        $table_gui = new ilDclTableViewTableGUI($this, 'show', $this->table, $this->getParentObj()->getRefId());
         $this->tpl->setContent($table_gui->getHTML());
     }
 
@@ -145,15 +161,17 @@ class ilDclTableViewGUI
     public function confirmDeleteTableviews(): void
     {
         //at least one view must exist
-
         $tableviews = [];
         $has_dcl_tableview_ids = $this->http->wrapper()->post()->has('dcl_tableview_ids');
-        if ($has_dcl_tableview_ids) {
-            $tableviews = $this->http->wrapper()->post()->retrieve(
-                'dcl_tableview_ids',
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-            );
+        if (!$has_dcl_tableview_ids) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_delete_views_no_selection'), true);
+            $this->ctrl->redirect($this, 'show');
         }
+
+        $tableviews = $this->http->wrapper()->post()->retrieve(
+            'dcl_tableview_ids',
+            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+        );
         $this->checkViewsLeft(count($tableviews));
 
         $this->tabs->clearSubTabs();

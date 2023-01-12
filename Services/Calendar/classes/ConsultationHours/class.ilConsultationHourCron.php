@@ -89,7 +89,6 @@ class ilConsultationHourCron extends ilCronJob
         $limit->increment(IL_CAL_DAY, $days_before);
 
         $counter = 0;
-
         $query = 'SELECT * FROM booking_user ' .
             'JOIN cal_entries ON entry_id = cal_id ' .
             'WHERE notification_sent = ' . $this->db->quote(0, 'integer') . ' ' .
@@ -99,7 +98,7 @@ class ilConsultationHourCron extends ilCronJob
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $mail = new ilCalendarMailNotification();
             $mail->setAppointmentId((int) $row->entry_id);
-            $mail->setRecipients(array($row->user_id));
+            $mail->setRecipients(array((int) $row->user_id));
             $mail->setType(ilCalendarMailNotification::TYPE_BOOKING_REMINDER);
             $mail->send();
 
@@ -126,7 +125,7 @@ class ilConsultationHourCron extends ilCronJob
         $consultation_days->setMinValue(1);
         $consultation_days->setMaxLength(2);
         $consultation_days->setSize(2);
-        $consultation_days->setValue($this->setting->get('ch_reminder_days', '2'));
+        $consultation_days->setValue((string) $this->setting->get('ch_reminder_days', '2'));
         $consultation_days->setRequired(true);
         $a_form->addItem($consultation_days);
     }

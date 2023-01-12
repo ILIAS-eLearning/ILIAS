@@ -279,7 +279,11 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
             $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
         }
 
-        $errortext = $this->object->createErrorTextOutput($selections, $graphicalOutput, $show_correct_solution, false);
+        $correctness_icons = [
+            'correct' => $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_OK),
+            'not_correct' => $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK)
+        ];
+        $errortext = $this->object->createErrorTextOutput($selections, $graphicalOutput, $show_correct_solution, false, $correctness_icons);
 
         $template->setVariable("ERRORTEXT", $errortext);
         $questionoutput = $template->get();

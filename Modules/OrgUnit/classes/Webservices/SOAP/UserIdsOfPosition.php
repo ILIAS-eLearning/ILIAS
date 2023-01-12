@@ -33,8 +33,6 @@ class UserIdsOfPosition extends Base
     {
         $position_id = $params[self::POSITION_ID];
 
-        // $record = ilOrgUnitPosition::find($position_id);
-
         $usr_ids = [];
         foreach (ilOrgUnitUserAssignmentQueries::getInstance()->getUserAssignmentsOfPosition($position_id) as $assignment) {
             $usr_ids[] = $assignment->getUserId();

@@ -36,7 +36,7 @@ class ilCalendarAuthenticationToken
     private int $selection_type = self::SELECTION_NONE;
     private int $calendar = 0;
 
-    private ?string $ical = null;
+    private string $ical = '';
     private int $ical_ctime = 0;
 
     protected ilDBInterface $db;
@@ -179,10 +179,10 @@ class ilCalendarAuthenticationToken
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->token = $row->hash;
+            $this->token = (string) $row->hash;
             $this->selection_type = (int) $row->selection;
             $this->calendar = (int) $row->calendar;
-            $this->ical = $row->ical;
+            $this->ical = (string) $row->ical;
             $this->ical_ctime = (int) $row->c_time;
         }
         return true;

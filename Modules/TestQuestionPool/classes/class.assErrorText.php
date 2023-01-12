@@ -183,7 +183,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
             $this->setOwner($data["owner"]);
             include_once("./Services/RTE/classes/class.ilRTE.php");
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
-            $this->setErrorText($data["errortext"]);
+            $this->setErrorText((string) $data["errortext"]);
             $this->setTextSize($data["textsize"]);
             $this->setPointsWrong($data["points_wrong"]);
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
@@ -208,7 +208,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
         if ($result->numRows() > 0) {
             while ($data = $ilDB->fetchAssoc($result)) {
-                array_push($this->errordata, new assAnswerErrorText($data["text_wrong"], $data["text_correct"], $data["points"]));
+                array_push($this->errordata, new assAnswerErrorText((string) $data["text_wrong"], (string) $data["text_correct"], (float) $data["points"]));
             }
         }
 
@@ -618,7 +618,11 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         ksort($this->errordata);
     }
 
-    public function createErrorTextOutput($selections = null, $graphicalOutput = false, $correct_solution = false, $use_link_tags = true): string
+    /**
+     * @param int[] $selections
+     * @param string[] $correctness_icons
+     */
+    public function createErrorTextOutput($selections = null, bool $graphicalOutput = false, bool $correct_solution = false, bool $use_link_tags = true, array $correctness_icons = []): string
     {
         $counter = 0;
         $errorcounter = 0;
@@ -731,11 +735,8 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                         "ilc_qetitem_ErrorTextSelected" : "ilc_qetitem_ErrorTextItem"
                     );
                     if ($graphicalOutput) {
-                        if ($group_selected) {
-                            $img = ' <img src="' . ilUtil::getImagePath("icon_ok.svg") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
-                        } else {
-                            $img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.svg") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
-                        }
+                        $correctness = $group_selected ? 'correct' : 'not_correct';
+                        $img = $correctness_icons[$correctness];
                     }
 
                     $item_stack[] = $this->getErrorTokenHtml($item, $class, $use_link_tags) . $img;
@@ -754,15 +755,12 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
                 // Errors markes with #, group errors (()) are handled above
                 $class = 'ilc_qetitem_ErrorTextItem';
-                $img = '';
                 if ($this->isTokenSelected($counter, $selections)) {
                     $class = "ilc_qetitem_ErrorTextSelected";
                     if ($graphicalOutput) {
-                        if ($this->getPointsForSelectedPositions(array($counter)) > 0) {
-                            $img = ' <img src="' . ilUtil::getImagePath("icon_ok.svg") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
-                        } else {
-                            $img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.svg") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
-                        }
+                        $correctness = $this->getPointsForSelectedPositions(array($counter)) > 0 ?
+                            'correct' : 'not_correct';
+                        $img = $correctness_icons[$correctness];
                     }
                 }
 
@@ -1035,7 +1033,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     */
     public function setErrorText($a_value): void
     {
-        $this->errortext = $a_value;
+        $this->errortext = $this->getHtmlQuestionContentPurifier()->purify($a_value ?? '');
     }
 
     /**

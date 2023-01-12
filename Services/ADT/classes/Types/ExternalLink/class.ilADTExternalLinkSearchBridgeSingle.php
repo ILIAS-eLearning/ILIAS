@@ -2,7 +2,21 @@
 
 declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * external link search bridge
@@ -37,8 +51,6 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
      */
     public function addToForm(): void
     {
-        $def = $this->getADT()->getCopyOfDefinition();
-
         $url = new ilTextInputGUI($this->getTitle(), $this->getElementId());
         $url->setSize(255);
         $url->setValue($this->getADT()->getUrl());
@@ -50,11 +62,18 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
         $post = $this->extractPostValues($a_post);
 
         if ($post && $this->shouldBeImportedFromPost($post)) {
-            $item = $this->getForm()->getItemByPostVar($this->getElementId());
-            $item->setValue($post);
+            if ($this->getForm() instanceof ilPropertyFormGUI) {
+                $item = $this->getForm()->getItemByPostVar($this->getElementId());
+                $item->setValue($post);
+            } elseif (array_key_exists($this->getElementId(), $this->table_filter_fields)) {
+                $this->table_filter_fields[$this->getElementId()]->setValue($post);
+                $this->writeFilter($post);
+            }
+
             $this->getADT()->setUrl($post);
         } else {
-            $this->getADT()->setUrl();
+            $this->writeFilter();
+            $this->getADT()->setUrl(null);
         }
         return true;
     }
@@ -123,7 +142,10 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
     public function isInCondition(ilADT $a_adt): bool
     {
         if ($this->getADT()->getCopyOfDefinition()->isComparableTo($a_adt)) {
-            return $this->getADT()->equals($a_adt);
+            return !strcmp(
+                trim($this->getADT()->getUrl() ?? ''),
+                trim($a_adt->getUrl() ?? '')
+            );
         }
         return false;
     }

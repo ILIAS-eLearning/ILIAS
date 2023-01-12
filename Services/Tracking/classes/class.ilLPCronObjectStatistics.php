@@ -2,7 +2,22 @@
 
 declare(strict_types=0);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 /**
  * Cron for lp object statistics
@@ -205,7 +220,7 @@ class ilLPCronObjectStatistics extends ilCronJob
                 "fulldate" => array("integer", date("Ymd", $this->date)),
                 "cnt_references" => array("integer", (int) $item["references"]),
                 "cnt_objects" => array("integer", (int) $item["objects"]),
-                "cnt_deleted" => array("integer", (int) $item["deleted"])
+                "cnt_deleted" => array("integer", isset($item["deleted"]) ? (int) $item["deleted"] : 0)
             );
 
             $this->db->insert("obj_type_stat", $set);

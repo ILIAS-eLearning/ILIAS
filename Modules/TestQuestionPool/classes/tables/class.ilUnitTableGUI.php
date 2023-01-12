@@ -45,6 +45,8 @@ class ilUnitTableGUI extends ilTable2GUI
 
         parent::__construct($controller, $default_cmd);
 
+        $ilCtrl->setParameter($this->getParentObject(), 'category_id', $category->getId());
+
         if ($this->getParentObject()->isCRUDContext()) {
             $this->addColumn('', '', '1%', true);
             $this->setSelectAllCheckbox('unit_ids[]');

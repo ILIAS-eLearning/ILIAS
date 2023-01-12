@@ -28,29 +28,42 @@ class ilVirusScannerICapClient extends ilVirusScanner
         $this->scanCommand = IL_ICAP_CLIENT;
     }
 
-    protected function buildScanCommand(string $file = '-'): string
+    /**
+     * @param string $file
+     * @return string
+     */
+    protected function buildScanCommandArguments($file = '-') // default means piping
     {
-        return $this->scanCommand . ' -i ' . IL_ICAP_HOST . ' -p ' . IL_ICAP_PORT . ' -v -s ' . IL_ICAP_AV_COMMAND . ' -f ' . $file;
+        return ' -i ' . IL_ICAP_HOST . ' -p ' . IL_ICAP_PORT . ' -v -s ' . IL_ICAP_AV_COMMAND . ' -f ' . $file;
     }
 
     public function scanFile(string $file_path, string $org_name = ""): string
     {
         $return_string = '';
-        if (is_readable($file_path)) {
-            $cmd = $this->buildScanCommand($file_path) . " 2>&1";
-            $out = ilShellUtil::execQuoted($cmd);
-            $timeout = preg_grep('/failed\/timedout.*/', $out);
-            $virus_detected = preg_grep('/' . self::HEADER_INFECTION_FOUND . '.*/', $out);
-            if (is_array($virus_detected) && count($virus_detected) > 0) {
-                $return_string = sprintf('Virus detected in %s', $file_path);
-                $this->log->warning($return_string);
-            } elseif (is_array($timeout) && count($timeout) > 0) {
-                $return_string = 'Cannot connect to icap server.';
-                $this->log->warning($return_string);
+        if (file_exists($file_path)) {
+            if (is_readable($file_path)) {
+                $file_path     = realpath($file_path);
+                $args           = ilShellUtil::escapeShellArg($file_path);
+                $arguments      = $this->buildScanCommandArguments($args) . " 2>&1";
+                $cmd            = ilShellUtil::escapeShellCmd($this->scanCommand);
+                $out            = ilShellUtil::execQuoted($cmd, $arguments);
+                $timeout        = preg_grep('/failed\/timedout.*/', $out);
+                $virus_detected = preg_grep('/' . self::HEADER_INFECTION_FOUND . '.*/', $out);
+                if (is_array($virus_detected) && count($virus_detected) > 0) {
+                    $return_string = sprintf('Virus detected in %s', $file_path);
+                    $this->log->warning($return_string);
+
+                } elseif (is_array($timeout) && count($timeout) > 0) {
+                    $return_string = 'Cannot connect to icap server.';
+                    $this->log->warning($return_string);
+                }
+                $this->scanResult = implode("\n", $out);
+            } else {
+                $return_string = sprintf('File "%s" not readable.', $file_path);
+                $this->log->info($return_string);
             }
-            $this->scanResult = implode("\n", $out);
         } else {
-            $return_string = sprintf('File "%s" not found or not readable.', $file_path);
+            $return_string = sprintf('File "%s" not found.', $file_path);
             $this->log->info($return_string);
         }
 

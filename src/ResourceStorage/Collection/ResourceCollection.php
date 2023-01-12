@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,12 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\ResourceStorage\Collection;
 
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
-use ILIAS\ResourceStorage\Resource\StorableResource;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * Class ResourceCollection
@@ -34,20 +32,21 @@ use ILIAS\ResourceStorage\Resource\StorableResource;
 class ResourceCollection
 {
     public const NO_SPECIFIC_OWNER = -1;
-
-    private ResourceCollectionIdentification $identification;
     private array $resource_identifications = [];
-    private int $owner = self::NO_SPECIFIC_OWNER;
-    private string $title;
+    /**
+     * @readonly
+     */
+    private string $title = 'default';
+    private ResourceCollectionIdentification $identification;
+    private int $owner;
 
     public function __construct(
         ResourceCollectionIdentification $identification,
         int $owner,
-        string $title
+        string $title // currently unused
     ) {
         $this->identification = $identification;
         $this->owner = $owner;
-        $this->title = 'default';//$title;
     }
 
     public function getIdentification(): ResourceCollectionIdentification
@@ -79,9 +78,7 @@ class ResourceCollection
     {
         $this->resource_identifications = array_filter(
             $this->resource_identifications,
-            function (ResourceIdentification $i) use ($identification) {
-                return $i->serialize() !== $identification->serialize();
-            }
+            fn (ResourceIdentification $i): bool => $i->serialize() !== $identification->serialize()
         );
     }
 

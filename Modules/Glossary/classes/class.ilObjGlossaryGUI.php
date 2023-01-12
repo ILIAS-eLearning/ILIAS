@@ -187,6 +187,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
             case "ilcommonactiondispatchergui":
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+                $this->prepareOutput();
                 $this->ctrl->forwardCommand($gui);
                 break;
 

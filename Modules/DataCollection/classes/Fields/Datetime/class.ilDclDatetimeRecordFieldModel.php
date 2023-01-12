@@ -26,11 +26,11 @@
 class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
 {
     /**
-     * @param int|string $value
+     * @param int|string|null $value
      */
     public function parseValue($value): string
     {
-        return $value;
+        return (string)$value;
     }
 
     public function getValueFromExcel(ilExcel $excel, int $row, int $col): ?string

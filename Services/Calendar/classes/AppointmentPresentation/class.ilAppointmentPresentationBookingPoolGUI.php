@@ -78,7 +78,8 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 
                 $link = $this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI",
                                                                 "ilObjBookingPoolGUI",
-                                                                "ilbookingobjectgui"
+                                                                "ilbookingobjectgui",
+                                                                "ilBookingProcessGUI"
                 ), "deliverPostFile");
 
                 $array_info[] = $this->ui->renderer()->render(

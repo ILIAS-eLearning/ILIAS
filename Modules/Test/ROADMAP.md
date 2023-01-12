@@ -2,11 +2,31 @@
 
 Priorities for the development of the Test & Assessment and the Test Question Pool depend on developer resources provided by a handfull of organizations. Thus no promises are made on timeframes.
 
-## Prioritized
+## Prioritized in the long run
 * Reducing the number of reported issues in Test & Assessment
 * Defining a concise interface for questions.
 * Separating the Test-Player from the Questions and the Question-Pool.
-* Refactoring `ilTestParticipantList`: This Class has a lot of very expensive loops in it (https://mantis.ilias.de/view.php?id=33596), but we can not remove them right now as it is used in very different contexts for all kind of lists. Sometimes users don't have $active_ids (participant list in test with access limited to selected participants), sometimes they don't have $usr_ids (anonymous tests in public section).
+* Refactoring `ilTestParticipantList`: This Class has a lot of very expensive loops in it [Mantis 33596](https://mantis.ilias.de/view.php?id=33596), but we can not remove them right now as it is used in very different contexts for all kind of lists. Sometimes users don't have $active_ids (participant list in test with access limited to selected participants), sometimes they don't have $usr_ids (anonymous tests in public section).
+
+## Roadmap in 2023
+
+Among other challenges, we are planning to use the given developing budget from the ILIAS Community Members for the following tasks:
+
+1. Main Goal: Fixing Issues and further cleaning up the code.
+2. Further roll out of Repository Pattern
+3. Continue of Abandon of settings and features in Test & Assessment to focus on main aspects and reduce the work on major refactorings
+4. Fundamental work
+	* Work on the project to abandon legacy ui.
+	* Clarification CTRL-flow
+	* Feasibility study/ Research project: Replacement of TinyMCE in creation of questions
+		* Infrastructure setup for the replacement
+		* Conversion of the Long-Menu-Question to UI-Forms as pilot
+	* Use of IRSS in T&A
+5. Feasibility study Test in Learning sequence - Transfer Exam View to General Kiosk Mode
+6. KS Improvements / Exchange of single elements' trough existing KS elements independently of the Legacy-UI-Project
+
+Depending on development ressources, funding and approval, some new features are conceivable in 2023 (e.g. option for a failing attempt).
+
 
 ## Others
 * Fixing access to Learning Status when access to test results is limited (see: [Mantis 25064](https://mantis.ilias.de/view.php?id=25064&nbn=9))
@@ -15,19 +35,18 @@ Priorities for the development of the Test & Assessment and the Test Question Po
 * Grading: Use of Short Form / Offical Form. Conceptual changes only with the introduction of new UI forms. (see [Mantis](https://mantis.ilias.de/view.php?id=31209#c83984))
 * Streamlining of trimming and removal of white spaces in answer-options (see: [Mantis 35091](https://mantis.ilias.de/view.php?id=35091))
 
+
 ## Open Warnings / Issues without Tickets
 These are open findings from the PHP8 Project which couldn't be solved in the scope of the project itself. They are documented here for transparency.
 Remarks on the individual items are marked with "@PHP8-CR"
 ### Test
 * \ilTestPlayerAbstractGUI::autosaveCmd / This looks like another issue in the autosaving. Left for review/analysis by TechSquad
-* \ilTestSkillEvaluation::determineReachedSkillPointsWithSolutionCompare / Incompatible type. Left for review/analysis by TechSquad
 * \ilAssLacCompositeValidator::validateSubTree / Incompatible type. Left for review/analysis by TechSquad
 ### TestQuestionPool
 * \ilObjQuestionPoolGUI::exportQuestionObject / Void result used. Left for review/analysis by TechSquad
 * \assMatchingQuestionGUI::writeAnswerSpecificPostData / Incompatible type. Left for review/analysis by TechSquad
 * \assMatchingQuestionGUI::populateAnswerSpecificFormPart / Incompatible type. Left for review/analysis by TechSquad
 * \assMatchingQuestionImport::fromXML / Incompatible type. Left for review/analysis by TechSquad
-* \ilAssQuestionSkillAssignmentsGUI::validateSolutionCompareExpression / Incompatible type. Left for review/analysis by TechSquad
 * \ilTestSkillEvaluation::determineReachedSkillPointsWithSolutionCompare / Incompatible type. Left for review/analysis by TechSquad
 * \ilAssLacCompositeValidator::validateSubTree / Incompatible type. Left for review/analysis by TechSquad
 * \assOrderingHorizontalGUI::saveFeedback / Undefined method. Left for review/analysis by TechSquad

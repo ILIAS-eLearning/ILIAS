@@ -1,32 +1,26 @@
 <?php
 
 declare(strict_types=1);
-/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Stores selection of hidden calendars for a specific user
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
  * @ingroup ServicesCalendar
  */
 class ilCalendarVisibility
@@ -40,6 +34,7 @@ class ilCalendarVisibility
     protected int $obj_id = 0;
     protected array $hidden = array();
     protected array $visible = array();
+    protected int $forced_visible = 0;
 
     protected ilDBInterface $db;
 
@@ -153,6 +148,9 @@ class ilCalendarVisibility
     {
         $this->delete();
         foreach ($this->hidden as $hidden) {
+            if ($hidden === $this->forced_visible) {
+                continue;
+            }
             $query = "INSERT INTO cal_cat_visibility (user_id, cat_id, obj_id, visible) " .
                 "VALUES ( " .
                 $this->db->quote($this->user_id, 'integer') . ", " .
@@ -163,6 +161,9 @@ class ilCalendarVisibility
             $this->db->manipulate($query);
         }
         foreach ($this->visible as $visible) {
+            if ($visible === $this->forced_visible) {
+                continue;
+            }
             $query = "INSERT INTO cal_cat_visibility (user_id, cat_id, obj_id, visible) " .
                 "VALUES ( " .
                 $this->db->quote($this->user_id, 'integer') . ", " .
@@ -207,6 +208,7 @@ class ilCalendarVisibility
 
     public function forceVisibility(int $a_cat_id): void
     {
+        $this->forced_visible = $a_cat_id;
         if (($key = array_search($a_cat_id, $this->hidden)) !== false) {
             unset($this->hidden[$key]);
         }

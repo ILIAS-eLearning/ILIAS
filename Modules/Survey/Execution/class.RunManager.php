@@ -99,7 +99,10 @@ class RunManager
         }
 
         if (!$this->feature_config->usesAppraisees() && $this->appraisee_id > 0) {
-            throw new \ilSurveyException("Appraisee ID given, but appraisees not supported");
+            // self eval currently uses current user as appraisee id
+            if ($this->survey->getMode() !== \ilObjSurvey::MODE_SELF_EVAL || $user_id !== $this->appraisee_id) {
+                throw new \ilSurveyException("Appraisee ID given, but appraisees not supported");
+            }
         }
 
         /* this fails on the info screen

@@ -3,7 +3,4 @@
   <baseclasses>
     <baseclass name="ilPreviewGUI" dir="classes" />
   </baseclasses>
-  <pluginslots>
-    <pluginslot id="pvre" name="PreviewRenderer" />
-  </pluginslots>
 </service>

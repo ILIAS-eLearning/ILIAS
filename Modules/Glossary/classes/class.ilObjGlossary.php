@@ -125,7 +125,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         switch ($a_mode) {
             case "level":
             case "subtree":
-                // case "fixed":
+            // case "fixed":
                 $this->virtual_mode = $a_mode;
                 $this->virtual = true;
                 break;
@@ -822,7 +822,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         return $online_ref_ids;
     }
 
-    public static function getAdvMDSubItemTitle($a_obj_id, $a_sub_type, $a_sub_id): string
+    public static function getAdvMDSubItemTitle(int $a_obj_id, string $a_sub_type, int $a_sub_id): string
     {
         global $DIC;
 

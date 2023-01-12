@@ -386,9 +386,15 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         $pref_deadline->setRequired(true);
         $pref->addSubItem($pref_deadline);
 
+
         $public = new ilCheckboxInputGUI($this->lng->txt("book_public_log"), "public");
         $public->setInfo($this->lng->txt("book_public_log_info"));
         $form->addItem($public);
+
+        // messages
+        $mess = new ilCheckboxInputGUI($this->lng->txt("book_messages"), "messages");
+        $mess->setInfo($this->lng->txt("book_messages_info"));
+        $form->addItem($mess);
 
         $this->lng->loadLanguageModule("rep");
         $section = new ilFormSectionHeaderGUI();
@@ -417,6 +423,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
     ): void {
         $a_values["online"] = !$this->object->isOffline();
         $a_values["public"] = $this->object->hasPublicLog();
+        $a_values["messages"] = $this->object->usesMessages();
         $a_values["stype"] = $this->object->getScheduleType();
         $a_values["limit"] = $this->object->getOverallLimit();
         $a_values["period"] = $this->object->getReservationFilterPeriod();
@@ -444,6 +451,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
             $this->object->setReminderDay($form->getInput('rmd_day'));
             $this->object->setPublicLog($form->getInput('public'));
             $this->object->setScheduleType($form->getInput('stype'));
+            $this->object->setMessages((bool) (int) $form->getInput('messages'));
             $this->object->setOverallLimit($form->getInput('limit') ?: null);
             $this->object->setReservationFilterPeriod($form->getInput('period') != '' ? (int) $form->getInput('period') : null);
             $this->object->setPreferenceDeadline($pref_deadline);

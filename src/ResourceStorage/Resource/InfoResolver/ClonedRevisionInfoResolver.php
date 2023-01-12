@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +13,10 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Resource\InfoResolver;
 
@@ -29,9 +30,9 @@ use ILIAS\ResourceStorage\Revision\FileRevision;
  */
 class ClonedRevisionInfoResolver implements InfoResolver
 {
-    protected int $next_version_number;
-    protected \ILIAS\ResourceStorage\Revision\FileRevision $existing_revision;
     protected \ILIAS\ResourceStorage\Information\Information $info;
+    protected int $next_version_number;
+    protected FileRevision $existing_revision;
 
     /**
      * ClonedRevisionInfoResolver constructor.
@@ -50,7 +51,7 @@ class ClonedRevisionInfoResolver implements InfoResolver
 
     public function getOwnerId(): int
     {
-        return $this->existing_revision->getOwnerId() ?? 6;
+        return $this->existing_revision->getOwnerId();
     }
 
     public function getRevisionTitle(): string

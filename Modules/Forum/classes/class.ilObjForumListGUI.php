@@ -81,15 +81,7 @@ class ilObjForumListGUI extends ilObjectListGUI
             $drafts_statistics = ilForumPostDraft::getDraftsStatisticsByRefId($this->ref_id);
             $num_drafts_total = $drafts_statistics['total'];
         }
-
-        $frm_overview_setting = (int) (new ilSetting('frma'))->get(
-            'forum_overview',
-            (string) ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS
-        );
         $num_new_total = 0;
-        if ($frm_overview_setting === ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS) {
-            $num_new_total = $properties['num_new_posts'];
-        }
 
         if (!$this->user->isAnonymous()) {
             if ($this->getDetailsLevel() === ilObjectListGUI::DETAILS_ALL) {
@@ -98,13 +90,6 @@ class ilObjForumListGUI extends ilObjectListGUI
                     'property' => $this->lng->txt('forums_articles') . ' (' . $this->lng->txt('unread') . ')',
                     'value' => $num_posts_total . ' (' . $num_unread_total . ')'
                 ];
-                if ($frm_overview_setting === ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS && $num_new_total > 0) {
-                    $props[] = [
-                        'alert' => false,
-                        'property' => $this->lng->txt('forums_new_articles'),
-                        'value' => $num_new_total
-                    ];
-                }
             }
 
             if ($num_drafts_total > 0 && ilForumPostDraft::isSavePostDraftAllowed()) {

@@ -204,7 +204,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function addterms(): void
     {
-        $this->writePostData();
+        $this->writePostData(true);
         $position = key($_POST["cmd"]["addterms"]);
         $this->object->insertTerm($position + 1);
         $this->editQuestion();
@@ -212,7 +212,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function removeterms(): void
     {
-        $this->writePostData();
+        $this->writePostData(true);
         $position = key($_POST["cmd"]["removeterms"]);
         $this->object->deleteTerm($position);
         $this->editQuestion();
@@ -220,7 +220,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function adddefinitions(): void
     {
-        $this->writePostData();
+        $this->writePostData(true);
         $position = key($_POST["cmd"]["adddefinitions"]);
         $this->object->insertDefinition($position + 1);
         $this->editQuestion();
@@ -228,7 +228,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function removedefinitions(): void
     {
-        $this->writePostData();
+        $this->writePostData(true);
         $position = key($_POST["cmd"]["removedefinitions"]);
         $this->object->deleteDefinition($position);
         $this->editQuestion();
@@ -236,7 +236,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function addpairs(): void
     {
-        $this->writePostData();
+        $this->writePostData(true);
         $position = key($_POST["cmd"]["addpairs"]);
         $this->object->insertMatchingPair($position + 1);
         $this->editQuestion();
@@ -244,7 +244,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function removepairs(): void
     {
-        $this->writePostData();
+        $this->writePostData(true);
         $position = key($_POST["cmd"]["removepairs"]);
         $this->object->deleteMatchingPair($position);
         $this->editQuestion();
@@ -587,17 +587,13 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                         }
                     }
 
+                    $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK);
                     if ($ok) {
-                        $template->setCurrentBlock("icon_ok");
-                        $template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
-                        $template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
-                        $template->parseCurrentBlock();
-                    } else {
-                        $template->setCurrentBlock("icon_ok");
-                        $template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
-                        $template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
-                        $template->parseCurrentBlock();
+                        $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_OK);
                     }
+                    $template->setCurrentBlock("icon_ok");
+                    $template->setVariable("ICON_OK", $correctness_icon);
+                    $template->parseCurrentBlock();
                 }
             }
 
@@ -682,7 +678,9 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         switch ($this->object->getShuffleMode()) {
             case 1:
                 $terms = $this->object->getShuffler()->transform($terms);
-                $definitions = $this->object->getShuffler()->transform($definitions);
+                $definitions = $this->object->getShuffler()->transform(
+                    $this->object->getShuffler()->transform($definitions)
+                );
                 break;
             case 2:
                 $terms = $this->object->getShuffler()->transform($terms);
@@ -870,7 +868,9 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 if (count($solutions)) {
                     $definitions = $this->sortDefinitionsBySolution($solutions, $definitions);
                 } else {
-                    $definitions = $this->object->getShuffler()->transform($definitions);
+                    $definitions = $this->object->getShuffler()->transform(
+                        $this->object->getShuffler()->transform($definitions)
+                    );
                 }
                 break;
             case 2:

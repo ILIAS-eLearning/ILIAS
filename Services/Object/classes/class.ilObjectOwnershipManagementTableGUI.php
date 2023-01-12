@@ -120,7 +120,7 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TITLE", $set["title"]);
         $this->tpl->setVariable("PATH", $set["path"]);
 
-        if ($set["readable"]) {
+        if ($set["readable"] && !$this->isParentReadOnly()) {
             $this->tpl->setCurrentBlock("actions");
             $this->tpl->setVariable("ACTIONS", $this->buildActions($set["ref_id"], $set["type"]));
             $this->tpl->parseCurrentBlock();
@@ -190,5 +190,13 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
         }
 
         return $path;
+    }
+
+    protected function isParentReadOnly(): bool
+    {
+        if (!method_exists($this->parent_obj, 'isReadOnly')) {
+            return false;
+        }
+        return $this->parent_obj->isReadOnly();
     }
 }

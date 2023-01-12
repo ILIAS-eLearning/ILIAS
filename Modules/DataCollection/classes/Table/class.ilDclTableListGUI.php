@@ -72,6 +72,11 @@ class ilDclTableListGUI
         return $this->parent_obj->getObjectId();
     }
 
+    public function getRefId(): int
+    {
+        return $this->parent_obj->getRefId();
+    }
+
     /**
      * execute command
      */
@@ -213,12 +218,15 @@ class ilDclTableListGUI
         //at least one table must exist
         $tables = [];
         $has_dcl_table_ids = $this->http->wrapper()->post()->has('dcl_table_ids');
-        if ($has_dcl_table_ids) {
-            $tables = $this->http->wrapper()->post()->retrieve(
-                'dcl_table_ids',
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-            );
+        if (!$has_dcl_table_ids) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_delete_tables_no_selection'), true);
+            $this->ctrl->redirect($this, 'listTables');
         }
+
+        $tables = $this->http->wrapper()->post()->retrieve(
+            'dcl_table_ids',
+            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+        );
         $this->checkTablesLeft(count($tables));
 
         $this->tabs->clearSubTabs();
@@ -246,8 +254,8 @@ class ilDclTableListGUI
                 ilDclCache::getTableCache($table_id)->doDelete();
             }
         }
-
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tables_deleted'), true);
+        $this->ctrl->clearParameterByClass("ilobjdatacollectiongui", "table_id");
         $this->ctrl->redirect($this, 'listTables');
     }
 

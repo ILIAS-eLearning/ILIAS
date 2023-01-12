@@ -772,8 +772,11 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         return $page;
     }
 
-    public static function getAdvMDSubItemTitle($a_obj_id, $a_sub_type, $a_sub_id): string // TODO PHP8-REVIEW Type hints are missing here
-    {
+    public static function getAdvMDSubItemTitle(
+        int $a_obj_id,
+        string $a_sub_type,
+        int $a_sub_id
+    ): string {
         global $DIC;
 
         $lng = $DIC->language();

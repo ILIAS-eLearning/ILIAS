@@ -42,7 +42,7 @@ class RemoveUserIdFromPositionInOrgUnit extends Base
         if (!ilObjUser::_exists($user_id)) {
             throw new LogicException("User does not exist");
         }
-        if (!ilOrgUnitPosition::find($position_id) instanceof ilOrgUnitPosition) {
+        if (!$this->positionRepo->getSingle($position_id, 'id') instanceof ilOrgUnitPosition) {
             throw new LogicException("Position does not exist");
         }
         if (ilObject2::_lookupType($orgu_ref_id, true) !== 'orgu') {

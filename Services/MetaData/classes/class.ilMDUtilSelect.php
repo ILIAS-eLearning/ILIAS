@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -284,15 +285,15 @@ class ilMDUtilSelect
         $ilDB->setLimit(200, 0);
         // In case an index is defined on field il_meta_format, this group by
         // statement takes advantage of it to improve the performance of the query.
-        $query = "SELECT format as forma from il_meta_format GROUP BY format";
+        $query = "SELECT format AS forma from il_meta_format GROUP BY format";
         $res = $ilDB->query($query);
         if (!$res->numRows()) {
             return '';
         }
         $options = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if (is_string($row->format) && $row->format !== '') {
-                $options[$row->format] = substr($row->format, 0, 48);
+            if (is_string($row->forma) && $row->forma !== '') {
+                $options[$row->forma] = substr($row->forma, 0, 48);
             }
         }
 

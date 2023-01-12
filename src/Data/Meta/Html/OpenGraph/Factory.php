@@ -21,7 +21,6 @@ namespace ILIAS\Data\Meta\Html\OpenGraph;
 
 use ILIAS\Data\URI;
 use ILIAS\Data\Meta\Html\OpenGraph\Resource;
-use ILIAS\Data\Meta\Html\TagCollection;
 use ILIAS\Data\Meta\Html\NullTag;
 use ILIAS\Data\Meta\Html\Tag as HTMLTag;
 use DateTimeImmutable;

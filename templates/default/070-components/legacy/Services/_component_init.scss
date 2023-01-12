@@ -19,7 +19,7 @@ div.ilStartupFrame {
 		}
 	}
 
-	padding-top: 50px;
+	padding-top: $il-line-height-computed;
 	width: fit-content;
 	margin-left: auto;
 	margin-right: auto;
@@ -28,12 +28,25 @@ div.ilStartupFrame {
 	}
 }
 
+
+ul.ilStartupSectionRegistrationLinks {
+	list-style: none;
+	li {
+		display: inline-block;
+	}
+}
+
 div.ilStartupSection form.form-horizontal {
 	border: $il-panel-border;
 	border-radius: $il-panel-border-radius;
 
-	.ilFormHeader {
+	.ilFormHeader,
+	.form-group,
+	.ilFormFooter {
 		padding: $il-padding-xlarge-vertical $il-padding-xlarge-horizontal;
+	}
+
+	.ilFormHeader {
 		background-color: $il-main-dark-bg;
 	}
 

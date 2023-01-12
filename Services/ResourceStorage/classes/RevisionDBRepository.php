@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Revision\Repository;
@@ -7,42 +23,29 @@ namespace ILIAS\ResourceStorage\Revision\Repository;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver;
+use ILIAS\ResourceStorage\Resource\StorableResource;
+use ILIAS\ResourceStorage\Revision\CloneRevision;
 use ILIAS\ResourceStorage\Revision\FileRevision;
 use ILIAS\ResourceStorage\Revision\FileStreamRevision;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Revision\RevisionCollection;
 use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
-use ILIAS\ResourceStorage\Resource\StorableResource;
-use ILIAS\ResourceStorage\Revision\CloneRevision;
-use ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class RevisionDBRepository
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  * @internal
  */
 class RevisionDBRepository implements RevisionRepository
 {
     public const TABLE_NAME = 'il_resource_revision';
     public const IDENTIFICATION = 'rid';
-    protected \ilDBInterface $db;
     /**
      * @var Revision[]
      */
     protected array $cache = [];
+    protected \ilDBInterface $db;
 
     public function __construct(\ilDBInterface $db)
     {
@@ -64,6 +67,7 @@ class RevisionDBRepository implements RevisionRepository
     ): UploadedFileRevision {
         $new_version_number = $info_resolver->getNextVersionNumber();
         $revision = new UploadedFileRevision($resource->getIdentification(), $result);
+        $revision->setStorageID($resource->getStorageID());
         $revision->setVersionNumber($new_version_number);
 
         return $revision;
@@ -77,6 +81,7 @@ class RevisionDBRepository implements RevisionRepository
     ): FileStreamRevision {
         $new_version_number = $info_resolver->getNextVersionNumber();
         $revision = new FileStreamRevision($resource->getIdentification(), $stream, $keep_original);
+        $revision->setStorageID($resource->getStorageID());
         $revision->setVersionNumber($new_version_number);
 
         return $revision;
@@ -89,6 +94,7 @@ class RevisionDBRepository implements RevisionRepository
     ): CloneRevision {
         $new_version_number = $info_resolver->getNextVersionNumber();
         $revision = new CloneRevision($resource->getIdentification(), $revision_to_clone);
+        $revision->setStorageID($revision_to_clone->getStorageID());
         $revision->setVersionNumber($new_version_number);
 
         return $revision;
@@ -154,11 +160,11 @@ class RevisionDBRepository implements RevisionRepository
         );
         while ($d = $this->db->fetchObject($r)) {
             $revision = new FileRevision(new ResourceIdentification($d->rid));
-            $revision->setVersionNumber((int) $d->version_number);
-            $revision->setOwnerId((int) $d->owner_id);
-            $revision->setTitle((string) $d->title);
+            $revision->setVersionNumber((int)$d->version_number);
+            $revision->setOwnerId((int)$d->owner_id);
+            $revision->setTitle((string)$d->title);
             $collection->add($revision);
-            $this->cache[$d->rid][(int) $d->version_number] = $revision;
+            $this->cache[$d->rid][(int)$d->version_number] = $revision;
         }
 
         return $collection;
@@ -196,9 +202,9 @@ class RevisionDBRepository implements RevisionRepository
     public function populateFromArray(array $data): void
     {
         $revision = new FileRevision(new ResourceIdentification($data['rid']));
-        $revision->setVersionNumber((int) $data['version_number']);
-        $revision->setOwnerId((int) $data['owner_id']);
-        $revision->setTitle((string) $data['revision_title']);
-        $this->cache[$data['rid']][(int) $data['version_number']] = $revision;
+        $revision->setVersionNumber((int)$data['version_number']);
+        $revision->setOwnerId((int)$data['owner_id']);
+        $revision->setTitle((string)$data['revision_title']);
+        $this->cache[$data['rid']][(int)$data['version_number']] = $revision;
     }
 }

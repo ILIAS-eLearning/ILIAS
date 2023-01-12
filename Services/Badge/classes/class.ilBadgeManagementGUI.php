@@ -100,25 +100,6 @@ class ilBadgeManagementGUI
                 $ilCtrl->forwardCommand($form);
                 break;
 
-                /*
-                case "illplistofsettingsgui":
-                    $id = $_GET["lpid"];
-                    if($id)
-                    {
-                        $ilCtrl->saveParameter($this, "bid");
-                        $ilCtrl->saveParameter($this, "lpid");
-
-                        $ilTabs->clearTargets();
-                        $ilTabs->setBackTarget(
-                            $lng->txt("back"),
-                            $ilCtrl->getLinkTarget($this, "editBadge")
-                        );
-                        $lpgui = new ilLPListOfSettingsGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY, $id);
-                        $ilCtrl->forwardCommand($lpgui);
-                        break;
-                    }
-                */
-
             default:
                 $this->$cmd();
                 break;

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,12 +13,15 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Consumer;
 
+use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
 use ILIAS\ResourceStorage\Resource\StorableResource;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 
 /**
  * Class SrcConsumer
@@ -30,27 +31,27 @@ class SrcConsumer
 {
     use GetRevisionTrait;
 
-    private \ILIAS\ResourceStorage\StorageHandler\StorageHandler $storage_handler;
-    private \ILIAS\ResourceStorage\Resource\StorableResource $resource;
     protected ?int $revision_number = null;
+    private SrcBuilder $src_builder;
+    private StorableResource $resource;
+    private StreamAccess $stream_access;
 
     /**
      * DownloadConsumer constructor.
      */
-    public function __construct(StorableResource $resource, StorageHandler $storage_handler)
+    public function __construct(SrcBuilder $src_builder, StorableResource $resource, StreamAccess $stream_access)
     {
+        $this->src_builder = $src_builder;
         $this->resource = $resource;
-        $this->storage_handler = $storage_handler;
+        $this->stream_access = $stream_access;
     }
 
-    public function getSrc(): string
+    public function getSrc(bool $signed = false): string
     {
-        $revision = $this->getRevision();
-        $stream = $this->storage_handler->getStream($revision);
-        $base64 = base64_encode($stream->getContents());
-        $mime = $revision->getInformation()->getMimeType();
-
-        return "data:$mime;base64,$base64";
+        return $this->src_builder->getRevisionURL(
+            $this->stream_access->populateRevision($this->getRevision()),
+            $signed
+        );
     }
 
     /**

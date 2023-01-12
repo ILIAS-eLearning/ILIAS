@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\Layout\Builder;
 
@@ -76,8 +77,12 @@ class StandardPageBuilder implements PageBuilder
             $view_title
         );
 
-        foreach ($this->meta->getMetaData()->getItems() as $meta_datum) {
-            $standard = $standard->withAdditionalMetaDatum($meta_datum->getKey(), $meta_datum->getValue());
+        foreach ($this->meta->getMetaData() as $meta_datum) {
+            $standard = $standard->withAdditionalMetaDatum($meta_datum);
+        }
+
+        if (null !== ($og_meta_data = $this->meta->getOpenGraphMetaData())) {
+            $standard = $standard->withAdditionalMetaDatum($og_meta_data);
         }
 
         return $standard->withSystemInfos($parts->getSystemInfos())

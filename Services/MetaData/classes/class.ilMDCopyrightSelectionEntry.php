@@ -64,7 +64,7 @@ class ilMDCopyrightSelectionEntry
         $res = $ilDB->query($query);
 
         $entries = [];
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        while ($row = $ilDB->fetchObject($res)) {
             $entries[] = new ilMDCopyrightSelectionEntry((int) $row->entry_id);
         }
         return $entries;
@@ -83,8 +83,8 @@ class ilMDCopyrightSelectionEntry
         $query = "SELECT title FROM il_md_cpr_selections " .
             "WHERE entry_id = " . $ilDB->quote($entry_id, ilDBConstants::T_INTEGER) . " ";
         $res = $ilDB->query($query);
-        $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        return $row->title ?: '';
+        $row = $ilDB->fetchObject($res);
+        return $row->title ?? '';
     }
 
     public static function _lookupCopyright(string $a_cp_string): string
@@ -100,8 +100,8 @@ class ilMDCopyrightSelectionEntry
         $query = "SELECT copyright FROM il_md_cpr_selections " .
             "WHERE entry_id = " . $ilDB->quote($entry_id, ilDBConstants::T_INTEGER) . " ";
         $res = $ilDB->query($query);
-        $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        return $row->copyright ?: '';
+        $row = $ilDB->fetchObject($res);
+        return $row->copyright ?? '';
     }
 
     public static function lookupCopyrightByText(string $copyright_text): int
@@ -113,7 +113,7 @@ class ilMDCopyrightSelectionEntry
         $query = 'SELECT entry_id FROM il_md_cpr_selections ' .
             'WHERE copyright = ' . $db->quote($copyright_text, 'text');
         $res = $db->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        while ($row = $db->fetchObject($res)) {
             return (int) $row->entry_id;
         }
         return 0;
@@ -128,6 +128,14 @@ class ilMDCopyrightSelectionEntry
             return 0;
         }
         return (int) ($matches[2] ?? 0);
+    }
+
+    public static function isEntry($a_cp_string): bool
+    {
+        if (!preg_match('/il_copyright_entry__([0-9]+)__([0-9]+)/', $a_cp_string)) {
+            return false;
+        }
+        return true;
     }
 
     public function getUsage(): int
@@ -150,9 +158,9 @@ class ilMDCopyrightSelectionEntry
             "WHERE entry_id = " . $this->db->quote($this->entry_id, 'integer');
 
         $res = $this->db->query($query);
-        $row = $res->fetchRow(ilDBConstants::FETCHMODE_DEFAULT);
+        $row = $this->db->fetchAssoc($res);
 
-        return (bool) $row['is_default'];
+        return (bool) ($row['is_default'] ?? false);
     }
 
     public function setOutdated(bool $a_value): void
@@ -175,7 +183,7 @@ class ilMDCopyrightSelectionEntry
             "WHERE is_default = " . $db->quote(1, 'integer');
 
         $res = $db->query($query);
-        $row = $res->fetchRow(ilDBConstants::FETCHMODE_DEFAULT);
+        $row = $db->fetchAssoc($res);
 
         return (int) $row['entry_id'];
     }
@@ -254,7 +262,7 @@ class ilMDCopyrightSelectionEntry
     {
         $query = "SELECT count(entry_id) total FROM il_md_cpr_selections";
         $res = $this->db->query($query);
-        $row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+        $row = $this->db->fetchAssoc($res);
 
         return $row['total'] + 1;
     }
@@ -313,7 +321,7 @@ class ilMDCopyrightSelectionEntry
             "ORDER BY is_default DESC, position ASC ";
 
         $res = $this->db->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        while ($row = $this->db->fetchObject($res)) {
             $this->setTitle($row->title);
             $this->setDescription($row->description);
             $this->setCopyright($row->copyright);
@@ -332,7 +340,7 @@ class ilMDCopyrightSelectionEntry
             );
 
         $res = $this->db->query($query);
-        $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
+        $row = $this->db->fetchObject($res);
         $this->usage = (int) $row->used;
     }
 

@@ -31,10 +31,10 @@ class ilStudyProgrammeAutoMembershipSource
     public const TYPE_ORGU = 'orgu';
 
     public const SOURCE_MAPPING = [
-        self::TYPE_ROLE => ilStudyProgrammeAssignment::AUTO_ASSIGNED_BY_ROLE,
-        self::TYPE_GROUP => ilStudyProgrammeAssignment::AUTO_ASSIGNED_BY_GROUP,
-        self::TYPE_COURSE => ilStudyProgrammeAssignment::AUTO_ASSIGNED_BY_COURSE,
-        self::TYPE_ORGU => ilStudyProgrammeAssignment::AUTO_ASSIGNED_BY_ORGU
+        self::TYPE_ROLE => ilPRGAssignment::AUTO_ASSIGNED_BY_ROLE,
+        self::TYPE_GROUP => ilPRGAssignment::AUTO_ASSIGNED_BY_GROUP,
+        self::TYPE_COURSE => ilPRGAssignment::AUTO_ASSIGNED_BY_COURSE,
+        self::TYPE_ORGU => ilPRGAssignment::AUTO_ASSIGNED_BY_ORGU
     ];
 
     protected int $prg_obj_id;

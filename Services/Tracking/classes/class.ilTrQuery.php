@@ -559,6 +559,19 @@ class ilTrQuery
                 }
 
                 $result["set"][$idx]["ref_id"] = $objects["ref_ids"][(int) $item["obj_id"]];
+
+                // BT 35475: set titles of referenced objects correctly
+                if (
+                    $item['title'] == '' &&
+                    ($item['type'] == 'catr' ||
+                    $item['type'] == 'crsr' ||
+                    $item['type'] == 'grpr')
+                ) {
+                    $result['set'][$idx]['title'] =
+                        ilContainerReference::_lookupTargetTitle(
+                            (int) $item["obj_id"]
+                        );
+                }
             }
 
             // scos data (:TODO: will not be part of offset/limit)
@@ -999,6 +1012,9 @@ class ilTrQuery
 
         // begin-patch ouf
         if ($members_read) {
+            // BT 35452: failsafe against invalid users without an entry in usr_data
+            $members = self::filterOutUsersWithoutData($members);
+
             return $GLOBALS['DIC']->access(
             )->filterUserIdsByRbacOrPositionOfCurrentUser(
                 'read_learning_progress',
@@ -1064,6 +1080,9 @@ class ilTrQuery
             return $a_users;
         }
 
+        // BT 35452: failsafe against invalid users without an entry in usr_data
+        $a_users = self::filterOutUsersWithoutData($a_users);
+
         // begin-patch ouf
         return $GLOBALS['DIC']->access(
         )->filterUserIdsByRbacOrPositionOfCurrentUser(
@@ -1072,6 +1091,31 @@ class ilTrQuery
             $a_ref_id,
             $a_users
         );
+    }
+
+    /**
+     * @param int[] $user_ids
+     * @return int[]
+     */
+    protected static function filterOutUsersWithoutData(array $user_ids): array
+    {
+        if (ilObjUser::userExists($user_ids)) {
+            return $user_ids;
+        }
+
+        $res = [];
+        foreach ($user_ids as $user_id) {
+            if (ilObjUser::userExists([$user_id])) {
+                $res[] = $user_id;
+                continue;
+            }
+            global $DIC;
+            $DIC->logger()->trac()->info(
+                'Excluded user with id ' . $user_id .
+                ' from participants, because they do not have an entry in usr_data.'
+            );
+        }
+        return $res;
     }
 
     protected static function buildFilters(
@@ -1248,7 +1292,7 @@ class ilTrQuery
 
                     case "read_count":
                         if (!$a_aggregate) {
-                            if (isset($value["from"])) {
+                            if (isset($value["from"]) && $value["from"] > 0) {
                                 $where[] = "(read_event." . $id . "+read_event.childs_" . $id . ") >= " . $ilDB->quote(
                                     $value["from"],
                                     "integer"
@@ -1262,14 +1306,14 @@ class ilTrQuery
                                     " OR (read_event." . $id . "+read_event.childs_" . $id . ") IS NULL)";
                             }
                         } else {
-                            if (isset($value["from"])) {
-                                $having[] = "SUM(read_event." . $id . "+read_event.childs_" . $id . ") >= " . $ilDB->quote(
+                            if (isset($value["from"]) && $value["from"] > 0) {
+                                $having[] = "IFNULL(SUM(read_event." . $id . "+read_event.childs_" . $id . "),0) >= " . $ilDB->quote(
                                     $value["from"],
                                     "integer"
                                 );
                             }
                             if (isset($value["to"])) {
-                                $having[] = "SUM(read_event." . $id . "+read_event.childs_" . $id . ") <= " . $ilDB->quote(
+                                $having[] = "IFNULL(SUM(read_event." . $id . "+read_event.childs_" . $id . "),0) <= " . $ilDB->quote(
                                     $value["to"],
                                     "integer"
                                 );
@@ -1321,7 +1365,7 @@ class ilTrQuery
         }
         if (sizeof($having)) {
             // ugly "having" hack because of summary view
-            $sql .= " [[--HAVING " . implode(" AND ", $having) . "HAVING--]]";
+            $sql .= " [[--HAVING " . implode(" AND ", $having) . " HAVING--]]";
         }
 
         return $sql;

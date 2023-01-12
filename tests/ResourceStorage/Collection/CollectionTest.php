@@ -19,18 +19,14 @@
 namespace ILIAS\ResourceStorage\Resource;
 
 use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTest;
-use ILIAS\ResourceStorage\AbstractBaseTest;
 use ILIAS\ResourceStorage\Collection\CollectionBuilder;
 use ILIAS\ResourceStorage\Collection\Collections;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
-use ILIAS\ResourceStorage\Collection\Sorter\Sorter;
 use ILIAS\ResourceStorage\DummyIDGenerator;
 use ILIAS\ResourceStorage\Identification\CollectionIdentificationGenerator;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
-use ILIAS\ResourceStorage\Revision\NullRevision;
-use ILIAS\ResourceStorage\Revision\Revision;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -39,6 +35,18 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class CollectionTest extends AbstractBaseResourceBuilderTest
 {
+    /**
+     * @var \ILIAS\ResourceStorage\Collection\CollectionBuilder|mixed
+     */
+    public $collection_builder;
+    /**
+     * @var \ILIAS\ResourceStorage\Preloader\RepositoryPreloader&\PHPUnit\Framework\MockObject\MockObject|mixed
+     */
+    public $preloader;
+    /**
+     * @var \ILIAS\ResourceStorage\Collection\Collections|mixed
+     */
+    public $collections;
     public const DUMMY_RCID = 'dummy-rcid';
 
     protected CollectionIdentificationGenerator $rcid_generator;
@@ -59,11 +67,9 @@ class CollectionTest extends AbstractBaseResourceBuilderTest
 
         $this->resource_builder = new ResourceBuilder(
             $this->storage_handler_factory,
-            $this->revision_repository,
-            $this->resource_repository,
-            $this->information_repository,
-            $this->stakeholder_repository,
-            $this->locking
+            $this->repositories,
+            $this->locking,
+            $this->stream_access
         );
 
         $this->collections = new Collections(

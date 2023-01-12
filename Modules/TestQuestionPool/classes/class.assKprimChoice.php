@@ -172,7 +172,16 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
     public function setAnswers($answers): void
     {
-        $this->answers = $answers;
+        if (is_null($answers)) {
+            return;
+        }
+        $clean_answer_text = function (ilAssKprimChoiceAnswer $answer) {
+            $answer->setAnswertext(
+                $this->getHtmlQuestionContentPurifier()->purify($answer->getAnswertext())
+            );
+            return $answer;
+        };
+        $this->answers = array_map($clean_answer_text, $answers);
     }
 
     public function getAnswers(): array
@@ -193,6 +202,9 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
     public function addAnswer(ilAssKprimChoiceAnswer $answer): void
     {
+        $answer->setAnswertext(
+            $this->getHtmlQuestionContentPurifier()->purify($answer->getAnswertext())
+        );
         $this->answers[] = $answer;
     }
 
@@ -446,7 +458,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
      * @param integer $active_id
      * @param integer $pass
      * @param boolean $returndetails (deprecated !!)
-     * @return integer/array $points/$details (array $details is deprecated !!)
+     * @return float/array $points/$details (array $details is deprecated !!)
      */
     public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false)
     {
@@ -619,7 +631,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                     $ext = 'JPEG';
                     break;
             }
-            ilShellUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbSize());
+            ilShellUtil::convertImage($filename, $thumbpath, $ext, (string)$this->getThumbSize());
         }
     }
 
@@ -684,7 +696,6 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                 );
                 if (is_numeric($value)) {
                     $solutionSubmit[] = $value;
-
                 }
             }
         }
@@ -694,7 +705,9 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     protected function calculateReachedPointsForSolution($found_values, $active_id = 0)
     {
         $numCorrect = 0;
-
+        if ($found_values == null) {
+            $found_values = [];
+        }
         foreach ($this->getAnswers() as $key => $answer) {
             if (!isset($found_values[$answer->getPosition()])) {
                 continue;

@@ -42,7 +42,7 @@ class ilImageFileInputGUI extends ilFileInputGUI
 
         parent::__construct($a_title, $a_postvar);
         $this->setType("image_file");
-        $this->setALlowDeletion(true);
+        $this->setAllowDeletion(true);
         $this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
         $this->setHiddenTitle("(" . $lng->txt("form_image_file_input") . ")");
         $this->cache = true;

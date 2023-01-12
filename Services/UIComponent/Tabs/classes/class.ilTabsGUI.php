@@ -482,7 +482,7 @@ class ilTabsGUI
             }
 
             if ($a_get_sub_tabs) {
-                $tpl->setVariable("TXT_SUBTABS", $this->getTabTextOfId($this->getActiveTab()).": ".$lng->txt("subtabs"));
+                $tpl->setVariable("TXT_SUBTABS", $this->getTabTextOfId($this->getActiveTab()) . ": " . $lng->txt("subtabs"));
             } else {
                 $tpl->setVariable("TXT_TABS", $lng->txt("tabs"));
                 $tpl->setVariable("LAST_TAB_LABEL", $lng->txt("show_more"));
@@ -538,7 +538,7 @@ class ilTabsGUI
     public function getActiveTab(): string
     {
         foreach ($this->target as $i => $target) {
-            if ($this->target[$i]['activate']) {
+            if ($this->target[$i]['activate'] ?? null) {
                 return $this->target[$i]['id'];
             }
         }

@@ -163,10 +163,8 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             return;
         }
 
-        if ($grading->getFile() == '' && $this->getFilename() !== null) {
-            $storage = $this->getUserFileStorage();
-            $storage->deleteCurrentFile();
-        }
+        $storage = $this->getUserFileStorage();
+        $storage->deleteAllFilesBut($grading->getFile());
 
         if ($grading->isFinalized()) {
             $not_finalized_grading = $grading->withFinalized(false);
@@ -194,6 +192,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 
         $this->setToolbar();
         $form = $this->buildForm($this->getFormActionForCommand(self::CMD_SAVE_AMEND), true, true);
+        $form->withSubmitCaption($this->lng->txt("save_amend"));
         $this->tpl->setContent($this->renderer->render($form));
     }
 
@@ -208,9 +207,9 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 
     protected function downloadFile(): void
     {
-        $path = $this->getUserFileStorage()->getFilePath();
+        $path = $this->getUserFileStorage()->getAbsolutePath();
         $file_name = $this->getMember()->fileName();
-        ilFileDelivery::deliverFileLegacy($path, $file_name);
+        ilFileDelivery::deliverFileLegacy($path . "/" . $file_name, $file_name);
     }
 
     protected function saveAmend(): void
@@ -228,12 +227,10 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         $grading = $form->getData();
 
         if (!is_null($grading)) {
-            if ($grading->getFile() == '') {
-                $storage = $this->getUserFileStorage();
-                $storage->deleteCurrentFile();
-            }
-
             $this->saveMember($grading, true, true);
+
+            $storage = $this->getUserFileStorage();
+            $storage->deleteAllFilesBut($grading->getFile());
 
             if ($this->getObject()->isActiveLP()) {
                 ilIndividualAssessmentLPInterface::updateLPStatusOfMember($this->getMember());
@@ -255,6 +252,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             $this->lng,
             $this->refinery_factory,
             $this,
+            $this->user->getDateFormat(),
             $this->getPossibleLPStates(),
             $may_be_edited,
             $this->getObject()->getSettings()->isEventTimePlaceRequired(),
@@ -368,8 +366,11 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         $array = $this->upload->getResults();
         $result = end($array);
 
+        $storage = $this->getUserFileStorage();
+        $storage->create();
+
         if ($result instanceof UploadResult && $result->isOK()) {
-            $identifier = $this->uploadFile($result);
+            $identifier = $storage->uploadFile($result);
             $status = HandlerResult::STATUS_OK;
             $message = 'Upload ok';
         } else {
@@ -383,67 +384,38 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 
     protected function getRemoveResult(string $identifier): HandlerResult
     {
-        $status = HandlerResult::STATUS_FAILED;
+        $status = HandlerResult::STATUS_OK;
         $message = $this->lng->txt('iass_file_deleted');
-
-        if ($this->getFileName() == $identifier) {
-            $this->deleteFile();
-            $member = $this->getMember();
-            $grading = $member->getGrading()->withFile(null);
-            $member = $member->withGrading($grading);
-            $this->getObject()->membersStorage()->updateMember($member);
-            $status = HandlerResult::STATUS_OK;
-            $message = 'File Deleted';
-        }
 
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
     }
 
     public function getInfoResult(string $identifier): FileInfoResult
     {
-        $filename = $this->getFileName();
-        if ($filename != $identifier) {
-            throw new LogicException("Wrong filename $identifier");
-        }
-
-        $file_size = filesize($this->getFilePath());
+        $storage = $this->getUserFileStorage();
+        $path = $storage->getAbsolutePath() . "/" . $identifier;
         return new BasicFileInfoResult(
             $this->getFileIdentifierParameterName(),
             $identifier,
-            $filename,
-            $file_size,
-            pathinfo($filename, PATHINFO_EXTENSION)
+            $identifier,
+            filesize($path),
+            pathinfo($path, PATHINFO_EXTENSION)
         );
     }
 
     public function getInfoForExistingFiles(array $file_ids): array
     {
-        $name = $this->getFileName();
-
-        $ids = array_filter($file_ids, function ($id) {
-            if ($id == "") {
-                return false;
-            }
-            return true;
-        });
-
-        if (is_null($name) || count($ids) === 0) {
-            return [];
-        }
-
-        if (!in_array($name, $file_ids)) {
-            throw new LogicException("Wrong filename " . $this->getFileName());
-        }
-
-        return [
-            new BasicFileInfoResult(
+        $file_ids = array_filter($file_ids, fn ($id) => $id !== "");
+        $path = $this->getUserFileStorage()->getAbsolutePath();
+        return array_map(function ($id) use ($path) {
+            return new BasicFileInfoResult(
                 $this->getFileIdentifierParameterName(),
-                "identifier",
-                $name,
-                64,
-                ''
-            )
-        ];
+                $id,
+                $id,
+                filesize($path . "/" . $id),
+                pathinfo($path . "/" . $id, PATHINFO_EXTENSION)
+            );
+        }, $file_ids);
     }
 
     public function getFileIdentifierParameterName(): string
@@ -467,54 +439,6 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         $this->ctrl->setParameter($this, 'usr_id', null);
 
         return $link;
-    }
-
-    public function getFileRemovalURL(): string
-    {
-        $this->ctrl->setParameter($this, 'usr_id', $this->getExaminee()->getId());
-        $this->ctrl->setParameter($this, $this->getFileIdentifierParameterName(), $this->getFileName());
-        $link = $this->ctrl->getLinkTarget($this, self::CMD_REMOVE);
-        $this->ctrl->setParameter($this, 'usr_id', null);
-        $this->ctrl->setParameter($this, $this->getFileIdentifierParameterName(), null);
-
-        return $link;
-    }
-
-    protected function uploadFile(UploadResult $result): string
-    {
-        $storage = $this->getUserFileStorage();
-        $storage->create();
-        $storage->deleteCurrentFile();
-        $storage->uploadFile($result);
-
-        return $storage->getFileName();
-    }
-
-    protected function deleteFile(): void
-    {
-        $storage = $this->getUserFileStorage();
-        $storage->deleteCurrentFile();
-    }
-
-    protected function getFileName(): ?string
-    {
-        $path = $this->getFilePath();
-        if (is_null($path)) {
-            return null;
-        }
-
-        $array = explode('/', $path);
-        return end($array);
-    }
-
-    protected function getFilePath(): ?string
-    {
-        $storage = $this->getUserFileStorage();
-        if ($storage->isEmpty()) {
-            return null;
-        }
-
-        return $storage->getFilePath();
     }
 
     protected function redirect(string $cmd): void

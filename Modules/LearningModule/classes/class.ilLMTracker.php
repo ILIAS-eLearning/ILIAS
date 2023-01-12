@@ -307,7 +307,7 @@ class ilLMTracker
         // please note that the dirty flag works only to a certain limit
         // e.g. if questions are answered the flag is not set (yet)
         // or if pages/chapter are added/deleted the flag is not set
-        if ((int) $this->loaded_for_node === $this->getCurrentPage() && !$this->dirty) {
+        if ((int) $this->loaded_for_node === $this->getCurrentPage() && $this->getCurrentPage() > 0 && !$this->dirty) {
             return;
         }
 

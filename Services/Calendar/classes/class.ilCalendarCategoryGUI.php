@@ -1,27 +1,22 @@
 <?php
 
 declare(strict_types=1);
-/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\Services as HttpServices;
 use ILIAS\Refinery\Factory as RefineryFactory;
@@ -226,6 +221,9 @@ class ilCalendarCategoryGUI
             $this->tpl->setOnScreenMessage('failure', $e->getMessage());
             $form->setValuesByPost();
             $this->add($form);
+            if (!$e instanceof ilCurlConnectionException) {
+                throw $e;
+            }
             return;
         }
 
@@ -279,9 +277,7 @@ class ilCalendarCategoryGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->returnToParent($this);
         }
-
         $category = new ilCalendarCategory($this->category_id);
-
         try {
             $this->doSynchronisation($category);
         } catch (Exception $e) {
@@ -409,8 +405,7 @@ class ilCalendarCategoryGUI
             $old_selection = $cat_visibility->getHidden();
         }
 
-        $new_selection = array();
-
+        $new_selection = [];
         // put all entries from the old selection into the new one
         // that are not presented on the screen
         foreach ($old_selection as $cat_id) {
@@ -418,7 +413,6 @@ class ilCalendarCategoryGUI
                 $new_selection[] = $cat_id;
             }
         }
-
         foreach ($shown_cat_ids as $shown_cat_id) {
             $shown_cat_id = (int) $shown_cat_id;
             if ($this->obj_id > 0) {
@@ -437,7 +431,6 @@ class ilCalendarCategoryGUI
         } else {
             $cat_visibility->hideSelected($new_selection);
         }
-
         $cat_visibility->save();
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
@@ -1190,7 +1183,7 @@ class ilCalendarCategoryGUI
         $form->addCommandButton('uploadAppointments', $this->lng->txt('import'));
 
         $ics = new ilFileInputGUI($this->lng->txt('cal_import_file'), 'file');
-        $ics->setALlowDeletion(false);
+        $ics->setAllowDeletion(false);
         $ics->setSuffixes(array('ics'));
         $ics->setInfo($this->lng->txt('cal_import_file_info'));
         $form->addItem($ics);

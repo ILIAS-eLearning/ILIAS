@@ -21,11 +21,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Link;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\HasContentLanguage;
+use ILIAS\Data\LanguageTag;
 
 /**
  * Link base interface.
  */
-interface Link extends Component
+interface Link extends Component, HasContentLanguage
 {
     /**
      * Get the action url of a link
@@ -37,8 +39,9 @@ interface Link extends Component
      */
     public function withOpenInNewViewport(bool $open_in_new_viewport): Link;
 
-    /**
-     * Get if the link should be opened in new viewport
-     */
     public function getOpenInNewViewport(): ?bool;
+
+    public function withLanguageOfReferencedContent(LanguageTag $language): Link;
+
+    public function getLanguageOfReferencedResource(): ?LanguageTag;
 }

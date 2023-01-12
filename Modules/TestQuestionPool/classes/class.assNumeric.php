@@ -359,8 +359,10 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         }
         $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
         $data = $ilDB->fetchAssoc($result);
-
-        $enteredvalue = $data["value1"];
+        $enteredvalue = '';
+        if (is_array($data) && array_key_exists('value1', $data)) {
+            $enteredvalue = $data["value1"];
+        }
 
         $points = 0;
         if ($this->contains($enteredvalue)) {

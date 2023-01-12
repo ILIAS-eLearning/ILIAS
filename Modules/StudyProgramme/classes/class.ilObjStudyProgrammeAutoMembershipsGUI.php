@@ -32,7 +32,7 @@ use ILIAS\UI\Component\Link;
  *
  * @author: Nils Haagen  <nils.haagen@concepts-and-training.de>
  *
- * @ilCtrl_Calls ilObjStudyProgrammeAutoMembershipsGUI: ilPropertyFormGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeAutoMembershipsGUI: ilPropertyFormGUI, ilFormPropertyDispatchGUI
  */
 class ilObjStudyProgrammeAutoMembershipsGUI
 {
@@ -146,12 +146,12 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         if ($this->request_wrapper->has(self::F_ORIGINAL_SOURCE_ID)) {
             $current_src_id = $this->request_wrapper->retrieve(
                 self::F_ORIGINAL_SOURCE_ID,
-                $this->refinery->to()->int()
+                $this->refinery->to()->string()
             );
         }
 
         $selected_src_type = $this->request_wrapper->retrieve(self::F_SOURCE_TYPE, $this->refinery->kindlyTo()->string());
-        $selected_src = $this->request_wrapper->retrieve(self::F_SOURCE_ID, $this->refinery->kindlyTo()->int());
+        $selected_src = $this->request_wrapper->retrieve(self::F_SOURCE_ID, $this->refinery->kindlyTo()->string());
 
         $form = $this->getSelectionForm(
             $selected_src_type,
@@ -392,9 +392,8 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         return $this->ui_factory->modal()->roundtrip(
             '',
             []
-        )->withAsyncRenderUrl(
-            $link
-        );
+        )
+        ->withAsyncRenderUrl($link);
     }
 
     protected function getAsynchModalOutput(): void
@@ -409,7 +408,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 
         $current_src_id = null;
         if ($this->request_wrapper->has(self::F_ORIGINAL_SOURCE_ID)) {
-            $current_src_id = $this->request_wrapper->retrieve(self::F_ORIGINAL_SOURCE_ID, $this->refinery->to()->int());
+            $current_src_id = $this->request_wrapper->retrieve(self::F_ORIGINAL_SOURCE_ID, $this->refinery->to()->string());
         }
 
         $form = $this->getForm($current_src_type, $current_src_id);
@@ -430,55 +429,61 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $signal_id = $replaceSignal->getId();
         $f_selected_type = self::F_SOURCE_TYPE;
         $f_selected_id = self::F_SOURCE_ID;
-        $submit = $this->ui_factory->button()->primary($this->txt('search'), "#")->withOnLoadCode(
+        $submit = $this->ui_factory->button()->primary($this->txt('search'), "#")
+        ->withOnLoadCode(
             function ($id) use ($form_id, $link, $signal_id, $f_selected_type, $f_selected_id) {
                 return
                     "$('#$id').click(function() { 
-						var checked = $(\"input[name='$f_selected_type']:checked\"). val();
-						if(checked == 'orgu' || typeof(checked) == \"undefined\") {
-							$('#$form_id').submit();
-							return false;
-						}
-						
-						var i_value = $(\"input[name='$f_selected_id\" + checked + \"']\"). val();
-						if(i_value == '' || typeof(i_value) == \"undefined\") {
-							$('#$form_id').submit();
-							return false;
-						}
-						
-						n_url = '$link' + '&$f_selected_type=' + checked + '&$f_selected_id=' + i_value;
-						$('#$id').attr(\"onclick\", function(event) {
-							$(this).trigger('$signal_id',
-								{
-									'id' : '$signal_id', 'event' : 'click',
-									'triggerer' : $(this),
-									'options' : JSON.parse('{\"url\":\"' + n_url + '\"}')
-								}
-							);
-						});
-						return false;
-					}
-				);"
-                ;
+
+                        var checked = $(\"input[name='$f_selected_type']:checked\"). val();
+                        if(checked == 'orgu' || typeof(checked) == \"undefined\") {
+                            console.log('$(\'#$form_id\').submit()');
+                            document.getElementById('$form_id').submit();
+                            return false;
+                        }
+
+                        var i_value = $(\"input[name='$f_selected_id\" + checked + \"']\"). val();
+                        if(i_value == '' || typeof(i_value) == \"undefined\") {
+                            document.getElementById('$form_id').submit();
+                            return false;
+                        }
+
+                        n_url = '$link' + '&$f_selected_type=' + checked + '&$f_selected_id=' + i_value;
+                        $('#$id').attr(\"onclick\", function(event) {
+                            $(this).trigger('$signal_id',
+                                {
+                                    'id' : '$signal_id', 'event' : 'click',
+                                    'triggerer' : $(this),
+                                    'options' : JSON.parse('{\"url\":\"' + n_url + '\"}')
+                                }
+                            );
+                        });
+                        return false;
+                    }
+                );";
             }
         );
 
-        $modal = $modal->withActionButtons([$submit]);
+        $modal = $modal->withActionButtons([$submit])
+            ->withAdditionalOnLoadCode(
+                function ($id) use ($form) {
+                    $selector_post_var = self::F_SOURCE_ID . ilStudyProgrammeAutoMembershipSource::TYPE_ORGU;
+                    $js = $form->getItemByPostVar($selector_post_var)->getOnloadCode();
+                    return implode(';', $js);
+                }
+            );
 
         echo $this->ui_renderer->renderAsync($modal);
         exit;
     }
 
-    protected function getForm(string $source_type = null, int $source_id = null): ilPropertyFormGUI
+    protected function getForm(string $source_type = null, ?string $source_id = ''): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
         if (is_null($source_type)) {
             $source_type = "";
         }
-        /** @var string $source_id */
-        // TODO: This should not be necessary anymore when we change to new forms.
-        $source_id = (string) $source_id ?? "";
 
         $form->setId(uniqid($source_type . $source_id, true));
         $form->setFormAction($this->ctrl->getFormAction($this, 'save'));
@@ -528,16 +533,15 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $orgu = new ilRepositorySelector2InputGUI(
             "",
             self::F_SOURCE_ID . ilStudyProgrammeAutoMembershipSource::TYPE_ORGU,
-            false
+            false,
+            $this
         );
         $orgu->getExplorerGUI()->setSelectableTypes(["orgu"]);
         $orgu->getExplorerGUI()->setTypeWhiteList(["root", "orgu"]);
-
         $orgu->getExplorerGUI()->setRootId(ilObjOrgUnit::getRootOrgRefId());
         $orgu->getExplorerGUI()->setAjax(false);
         $radio_orgu->addSubItem($orgu);
         $rgroup->addOption($radio_orgu);
-
         if (
             !is_null($source_type) &&
             !is_null($source_id) &&
@@ -566,7 +570,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $form->addItem($hi);
 
         $hi = new ilHiddenInputGUI(self::F_ORIGINAL_SOURCE_ID);
-        $hi->setValue($source_id);
+        $hi->setValue($source_id ?? '');
         $form->addItem($hi);
 
         return $form;
@@ -576,7 +580,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         string $selected_source_type,
         string $selected_source,
         string $source_type = null,
-        int $source_id = null
+        string $source_id = null
     ): ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "save"));
@@ -601,7 +605,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         }
 
         $hi = new ilHiddenInputGUI(self::F_ORIGINAL_SOURCE_TYPE);
-        $hi->setValue($source_type);
+        $hi->setValue($source_type ?? '');
         $form->addItem($hi);
 
         $hi = new ilHiddenInputGUI(self::F_ORIGINAL_SOURCE_ID);
@@ -729,7 +733,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             case ilStudyProgrammeAutoMembershipSource::TYPE_ORGU:
                 $hops = array_map(
                     static function (array $c): string {
-                        return ilObject::_lookupTitle($c["obj_id"]);
+                        return ilObject::_lookupTitle((int)$c["obj_id"]);
                     },
                     $this->tree->getPathFull($src_id)
                 );

@@ -559,8 +559,6 @@ class ilForum
         $dead_thr = 0;
 
         if ((int) $p_node['parent'] === 0) {
-            ilObjForum::_deleteAccessEntries((int) $p_node['tree']);
-
             $dead_thr = (int) $p_node['tree'];
 
             $this->db->manipulateF('DELETE FROM frm_threads WHERE thr_pk = %s', ['integer'], [$dead_thr]);
@@ -710,10 +708,6 @@ class ilForum
      */
     public function getAllThreads(int $a_topic_id, array $params = [], int $limit = 0, int $offset = 0): array
     {
-        $frm_overview_setting = (int) (new ilSetting('frma'))->get(
-            'forum_overview',
-            (string) ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS
-        );
         $frm_props = ilForumProperties::getInstance($this->getForumId());
         $is_post_activation_enabled = $frm_props->isPostActivationEnabled();
 
@@ -795,13 +789,6 @@ class ilForum
         }
         $additional_sort .= implode(' ', $dynamic_columns);
 
-        $new_deadline_condition = $this->db->quote(date(
-            'Y-m-d H:i:s',
-            (int) $this->settings->get(
-                'frm_new_deadline',
-                (string) (time() - 60 * 60 * 24 * 7 * ilObjForum::NEWS_NEW_CONSIDERATION_WEEKS)
-            )
-        ), 'timestamp');
 
         if (!$this->user->isAnonymous()) {
             $query = "SELECT
@@ -809,27 +796,6 @@ class ilForum
 					  MAX(pos_date) post_date,
 					  SUM(tree1.parent_pos != 0) num_posts, 
 					  SUM(tree1.parent_pos != 0) - SUM(tree1.parent_pos != 0 AND postread.post_id IS NOT NULL) num_unread_posts, ";
-
-            // new posts query
-            if ($frm_overview_setting === ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS) {
-                $query .= "
-					  (SELECT COUNT(DISTINCT(ipos.pos_pk))
-						FROM frm_posts ipos
-						INNER JOIN frm_posts_tree treenew
-							ON treenew.pos_fk = ipos.pos_pk 
-						LEFT JOIN frm_user_read iread ON iread.post_id = ipos.pos_pk AND iread.usr_id = %s
-						LEFT JOIN frm_thread_access iacc ON (iacc.thread_id = ipos.pos_thr_fk AND iacc.usr_id = %s)
-						WHERE ipos.pos_thr_fk = thr_pk
-						AND treenew.parent_pos != 0
-						AND (ipos.pos_update > iacc.access_old_ts
-							OR
-							(iacc.access_old IS NULL AND (ipos.pos_update > " . $new_deadline_condition . "))
-							)
-						 
-						AND ipos.pos_author_id != %s
-						AND iread.usr_id IS NULL $active_inner_query
-					  ) num_new_posts, ";
-            }
 
             $query .= " thr_pk, thr_top_fk, thr_subject, thr_author_id, thr_display_user_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
 					  $optional_fields
@@ -854,16 +820,7 @@ class ilForum
 						$having
 						ORDER BY is_sticky DESC $additional_sort, thr_date DESC";
 
-            // data_types for new posts query and $active_inner_query
-            if ($frm_overview_setting === ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS) {
-                $data_types[] = 'integer';
-                $data_types[] = 'integer';
-                $data_types[] = 'integer';
-                if ($is_post_activation_enabled && !$params['is_moderator']) {
-                    $data_types[] = 'integer';
-                    $data_types[] = 'integer';
-                }
-            }
+
             $data_types[] = 'integer';
             if ($is_post_activation_enabled && !$params['is_moderator']) {
                 $data_types[] = 'integer';
@@ -872,16 +829,7 @@ class ilForum
             $data_types[] = 'integer';
             $data_types[] = 'integer';
 
-            // data_values for new posts query and $active_inner_query
-            if ($frm_overview_setting === ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS) {
-                $data[] = $user_id;
-                $data[] = $user_id;
-                $data[] = $user_id;
-                if ($is_post_activation_enabled && !$params['is_moderator']) {
-                    $data[] = 1;
-                    $data[] = $user_id;
-                }
-            }
+
             $data[] = $user_id;
             if ($is_post_activation_enabled && !$params['is_moderator']) {
                 $data[] = 1;
@@ -894,7 +842,6 @@ class ilForum
 					  MAX(pos_date) post_date,
 					  COUNT(DISTINCT(tree1.pos_fk)) num_posts,
 					  COUNT(DISTINCT(tree1.pos_fk)) num_unread_posts,
-					  COUNT(DISTINCT(tree1.pos_fk)) num_new_posts,
 					  thr_pk, thr_top_fk, thr_subject, thr_author_id, thr_display_user_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
 					  $optional_fields
 					  FROM frm_threads
@@ -1759,7 +1706,6 @@ class ilForum
         $ilAtomQuery->run();
 
         ilForumNotification::mergeThreadNotifications($sourceThreadForMerge->getId(), $targetThreadForMerge->getId());
-        ilObjForum::_deleteAccessEntries($sourceThreadForMerge->getId());
         ilObjForum::mergeForumUserRead($sourceThreadForMerge->getId(), $targetThreadForMerge->getId());
 
         $lastPostString = $targetThreadForMerge->getLastPostString();

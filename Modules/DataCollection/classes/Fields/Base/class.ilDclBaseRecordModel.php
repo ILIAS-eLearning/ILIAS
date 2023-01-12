@@ -410,14 +410,14 @@ class ilDclBaseRecordModel
     /**
      * @param int|string $field_id
      */
-    public function getRecordFieldHTML($field_id, array $options = array()): string
+    public function getRecordFieldHTML($field_id, array $options = []): string
     {
         $this->loadRecordFields();
         if (ilDclStandardField::_isStandardField($field_id)) {
             $html = $this->getStandardFieldHTML($field_id, $options);
         } else {
-            if (is_object($this->recordfields[$field_id])) {
-                $html = $this->recordfields[$field_id]->getRecordRepresentation()->getHTML();
+            if (array_key_exists($field_id, $this->recordfields) && is_object($this->recordfields[$field_id])) {
+                $html = $this->recordfields[$field_id]->getRecordRepresentation()->getHTML(true, $options);
             } else {
                 $html = '';
             }
@@ -549,9 +549,9 @@ class ilDclBaseRecordModel
             case 'last_edit_by':
                 return ilUserUtil::getNamePresentation($this->getLastEditBy());
             case 'last_update':
-                return ilDatePresentation::formatDate(new ilDateTime($this->getLastUpdate(), IL_CAL_DATETIME));
+                return ilDatePresentation::formatDate($this->getLastUpdate());
             case 'create_date':
-                return ilDatePresentation::formatDate(new ilDateTime($this->getCreateDate(), IL_CAL_DATETIME));
+                return ilDatePresentation::formatDate($this->getCreateDate());
             case 'comments':
                 $nComments = $this->getNrOfComments();
 
@@ -628,11 +628,11 @@ class ilDclBaseRecordModel
         $this->loadRecordFields();
         foreach ($this->recordfields as $recordfield) {
             if ($recordfield->getField()->getDatatypeId() == ilDclDatatype::INPUTFORMAT_FILE) {
-                $this->deleteFile($recordfield->getValue());
+                $this->deleteFile((int)$recordfield->getValue());
             }
 
             if ($recordfield->getField()->getDatatypeId() == ilDclDatatype::INPUTFORMAT_MOB) {
-                $this->deleteMob($recordfield->getValue());
+                $this->deleteMob((int)$recordfield->getValue());
             }
 
             $recordfield->delete();

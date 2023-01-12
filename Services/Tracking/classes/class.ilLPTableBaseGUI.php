@@ -57,15 +57,21 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
-        parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
-
-        // country names
-        $this->lng->loadLanguageModule("meta");
         $this->anonymized = !ilObjUserTracking::_enabledUserRelatedData();
         if (!$this->anonymized && isset($this->obj_id) && $this->obj_id > 0) {
             $olp = ilObjectLP::getInstance($this->obj_id);
             $this->anonymized = $olp->isAnonymized();
         }
+
+        /*
+         * BT 35453: parent constructor needs to be called after $this->anonymized
+         * is set, in order for getSelectableUserColumns to also properly return
+         * user defined fields (e.g. firstname, lastname, and other user data).
+         */
+        parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
+
+        // country names
+        $this->lng->loadLanguageModule("meta");
     }
 
     protected function initItemIdFromPost(): array
@@ -312,9 +318,9 @@ class ilLPTableBaseGUI extends ilTable2GUI
         }
 
         if (!$this->filter["area"]) {
-            $res->filter(ROOT_FOLDER_ID, false);
+            $res->filter(ROOT_FOLDER_ID, true);
         } else {
-            $res->filter($this->filter["area"], false);
+            $res->filter($this->filter["area"], true);
         }
 
         $objects = array();
@@ -892,7 +898,11 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $timing_cache = ilTimingCache::getInstanceByRefId($a_ref_id);
         if ($timing_cache->isWarningRequired($a_user_id)) {
             $timings = ilTimingCache::_getTimings($a_ref_id);
-            if ($timings['item']['changeable'] && $timings['user'][$a_user_id]['end']) {
+            if (
+                $timings['item']['changeable'] &&
+                ($timings['user'][$a_user_id] ?? false) &&
+                $timings['user'][$a_user_id]['end']
+            ) {
                 $end = $timings['user'][$a_user_id]['end'];
             } elseif ($timings['item']['suggestion_end']) {
                 $end = $timings['item']['suggestion_end'];
@@ -1170,7 +1180,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 }
             }
         }
-
         return array($cols, $privacy_fields);
     }
 

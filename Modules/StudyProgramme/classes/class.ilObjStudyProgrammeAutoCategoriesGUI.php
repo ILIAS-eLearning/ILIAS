@@ -315,13 +315,23 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         $form_id = "form_" . $form->getId();
         $submit = $this->ui_factory->button()->primary($this->lng->txt('add'), "#")->withOnLoadCode(
             function ($id) use ($form_id) {
-                return "$('#$id').click(function() { $('#$form_id').submit(); return false; });";
+                return "$('#$id').click(function() { document.getElementById('$form_id').submit(); return false; });";
             }
         );
-        $modal = $this->ui_factory->modal()->roundtrip(
-            $this->lng->txt('modal_categories_title'),
-            $this->ui_factory->legacy($form->getHtml())
-        )->withActionButtons([$submit]);
+        $modal = $this->ui_factory->modal()
+            ->roundtrip(
+                $this->lng->txt('modal_categories_title'),
+                $this->ui_factory->legacy($form->getHtml())
+            )
+            ->withActionButtons([$submit])
+            ->withAdditionalOnLoadCode(
+                function ($id) use ($form) {
+                    $selector_post_var = self::F_CATEGORY_REF;
+                    $js = $form->getItemByPostVar($selector_post_var)->getOnloadCode();
+                    return implode(';', $js);
+                }
+            );
+
 
         echo $this->ui_renderer->renderAsync($modal);
         exit;
@@ -350,7 +360,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         $form->addItem($cat);
 
         $hi = new ilHiddenInputGUI(self::F_CATEGORY_ORIGINAL_REF);
-        $hi->setValue($current_ref_id ?? "");
+        $hi->setValue((string)$current_ref_id ?? "");
         $form->addItem($hi);
 
         return $form;
@@ -411,7 +421,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 
         $hops = array_map(
             static function (array $c): string {
-                return ilObject::_lookupTitle($c["obj_id"]);
+                return ilObject::_lookupTitle((int)$c["obj_id"]);
             },
             $this->tree->getPathFull($cat_ref_id)
         );

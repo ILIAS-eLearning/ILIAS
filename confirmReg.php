@@ -27,4 +27,4 @@ ilInitialisation::initILIAS();
 /** @var ILIAS\DI\Container $DIC */
 $DIC->ctrl()->setCmd('confirmRegistration');
 $DIC->ctrl()->callBaseClass(ilStartUpGUI::class);
-$DIC->http()-close();
+$DIC->http()->close();

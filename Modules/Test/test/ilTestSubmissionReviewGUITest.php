@@ -36,6 +36,7 @@ class ilTestSubmissionReviewGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilias();
         $this->addGlobal_tree();
         $this->addGlobal_ilDB();
+        $this->addGlobal_ilUser();
         $this->addGlobal_ilComponentRepository();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilObjDataCache();

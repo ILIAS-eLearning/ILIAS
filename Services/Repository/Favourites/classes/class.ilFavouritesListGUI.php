@@ -65,15 +65,16 @@ class ilFavouritesListGUI
             $ctrl->setParameterByClass("ilPDSelectedItemsBlockGUI", "view", "0");
             $ctrl->setParameterByClass("ilPDSelectedItemsBlockGUI", "col_side", "center");
             $ctrl->setParameterByClass("ilPDSelectedItemsBlockGUI", "block_type", "pditems");
-            $panel = $f->panel()->secondary()->listing("", $item_groups);
-            $panel = $panel->withActions($f->dropdown()->standard([$f->link()->standard(
-                $this->lng->txt("rep_configure"),
-                $ctrl->getLinkTargetByClass(
-                    ["ilDashboardGUI", "ilColumnGUI", "ilPDSelectedItemsBlockGUI"],
-                    "manage"
+
+            // see PR discussion at https://github.com/ILIAS-eLearning/ILIAS/pull/5247/files
+            $config_item = $f->item()->standard(
+                $f->link()->standard(
+                    $this->lng->txt("rep_configure"),
+                    $this->ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilColumnGUI", "ilPDSelectedItemsBlockGUI"], "manage")
                 )
-            )
-            ]));
+            );
+            array_unshift($item_groups, $f->item()->group($this->lng->txt(""), [$config_item]));
+            $panel = $f->panel()->secondary()->listing("", $item_groups);
             return $this->ui->renderer()->render([$panel]);
         }
 

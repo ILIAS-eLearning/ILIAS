@@ -31,9 +31,22 @@ class ilSessionOverviewTableGUI extends ilTable2GUI
     protected ilAccessHandler $access;
     protected array $events = [];
 
+    /**
+     * @var \ILIAS\UI\Renderer
+     */
+    protected $renderer;
+
+    /**
+     * @var \ILIAS\UI\Factory
+     */
+    protected $ui_factory;
+
     public function __construct(object $a_parent_obj, string $a_parent_cmd, int $a_crs_ref_id, array $a_members)
     {
         global $DIC;
+
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
 
         $this->tree = $DIC->repositoryTree();
         $this->access = $DIC->access();
@@ -137,12 +150,11 @@ class ilSessionOverviewTableGUI extends ilTable2GUI
         $this->tpl->setCurrentBlock('eventcols');
         foreach ($this->events as $event_obj) {
             if ($a_set['event_' . $event_obj->getId()]) {
-                $this->tpl->setVariable("IMAGE_PARTICIPATED", ilUtil::getImagePath('icon_ok.svg'));
-                $this->tpl->setVariable("PARTICIPATED", $this->lng->txt('event_participated'));
+                $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_ok.svg'), $this->lng->txt('event_participated'));
             } else {
-                $this->tpl->setVariable("IMAGE_PARTICIPATED", ilUtil::getImagePath('icon_not_ok.svg'));
-                $this->tpl->setVariable("PARTICIPATED", $this->lng->txt('event_not_participated'));
+                $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_not_ok.svg'), $this->lng->txt('event_not_participated'));
             }
+            $this->tpl->setVariable("IMAGE_PARTICIPATED", $this->renderer->render($icon));
             $this->tpl->parseCurrentBlock();
         }
     }

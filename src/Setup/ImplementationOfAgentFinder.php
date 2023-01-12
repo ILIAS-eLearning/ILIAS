@@ -182,10 +182,16 @@ class ImplementationOfAgentFinder implements AgentFinder
             new \RecursiveIteratorIterator(
                 new \RecursiveDirectoryIterator(__DIR__ . "/../../Customizing/global/plugins/")
             );
+        $names = [];
         foreach ($directories as $dir) {
             $groups = [];
-            if (preg_match("%^" . __DIR__ . "/[.][.]/[.][.]/Customizing/global/plugins/((Modules)|(Services))/((\\w+/){2})([^/\.]+)$%", (string) $dir, $groups)) {
-                yield $groups[6];
+            if (preg_match("%^" . __DIR__ . "/[.][.]/[.][.]/Customizing/global/plugins/((Modules)|(Services))/((\\w+/){2})([^/\.]+)(/|$)%", (string) $dir, $groups)) {
+                $name = $groups[6];
+                if (isset($names[$name])) {
+                    continue;
+                }
+                $names[$name] = true;
+                yield $name;
             }
         }
     }

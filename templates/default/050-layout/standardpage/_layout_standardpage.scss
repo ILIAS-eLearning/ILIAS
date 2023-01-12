@@ -26,7 +26,7 @@ $il-mainbar-btn-bg-color-engaged: $il-main-bg;
 $il-mainbar-tools-btn-bg: $il-warning-color;
 $il-mainbar-tools-btn-bg-engaged: lighten($il-main-color, 50%);
 $il-mainbar-tools-tab-btn-bg-engaged: white;
-$il-mainbar-tools-tab-btn-bg-disengaged: lighten($il-main-color, 15%);
+$il-mainbar-tools-tab-btn-bg-disengaged: $il-main-color;
 $il-mainbar-tools-bg: $il-main-dark-bg;
 $il-mainbar-tools-item-gap: 3px;
 $il-mainbar-icon-filter: invert(50%);

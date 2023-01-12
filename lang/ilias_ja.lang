@@ -1207,7 +1207,6 @@ assessment#:#showSuggestedSolution#:#推奨の解答
 assessment#:#show_answer_overview#:#解答概要を表示
 assessment#:#show_detailed_results#:#ユーザの詳細結果を表示(パスしたものをマーク)
 assessment#:#show_examview_html#:#画面上に
-assessment#:#show_examview_pdf#:#PDFダウンロード
 assessment#:#show_pass_overview#:#マークした試験状況を表示
 assessment#:#show_user_answers#:#マークしたユーザの解答を表示
 assessment#:#showinfo#:#全テストプロパティの表示
@@ -16918,4 +16917,4 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#Weblink
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Weblink###19 08 2022 new variable
-wsp#:#wsp_type_wfld#:#Folder###19 08 2022 new variable
+wsp#:#wsp_type_wfld#:#Folder###19 08 2022 new variable

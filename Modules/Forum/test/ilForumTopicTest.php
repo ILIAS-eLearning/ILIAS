@@ -90,7 +90,6 @@ class ilForumTopicTest extends TestCase
 
             'num_posts' => '',
             'num_unread_posts' => '',
-            'num_new_posts' => '',
             'usr_notification_is_enabled' => '',
         ];
 
@@ -114,7 +113,6 @@ class ilForumTopicTest extends TestCase
 
         $this->assertSame(0, $instance->getNumPosts());
         $this->assertSame(0, $instance->getNumUnreadPosts());
-        $this->assertSame(0, $instance->getNumNewPosts());
         $this->assertFalse($instance->isUserNotificationEnabled());
     }
 

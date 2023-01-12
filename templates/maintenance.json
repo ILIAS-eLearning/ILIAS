@@ -1,0 +1,16 @@
+{
+    "maintenance_model": "Coordinator",
+    "first_maintainer": "",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": [
+        "amstutz(26468)"
+    ],
+    "tester": "",
+    "testcase_writer": "",
+    "path": "templates",
+    "belong_to_component": "",
+    "used_in_components": [
+        "All"
+    ]
+}

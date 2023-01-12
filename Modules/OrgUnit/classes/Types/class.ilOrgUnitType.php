@@ -377,7 +377,7 @@ class ilOrgUnitType
         if (isset($this->amd_records_assigned[$active])) {
             return $this->amd_records_assigned[$active];
         }
-        $this->amd_records_assigned[$active] = array();
+        $this->amd_records_assigned[$active] = [];
         $sql = 'SELECT * FROM orgu_types_adv_md_rec WHERE type_id = ' . $this->db->quote($this->getId(), 'integer');
         $set = $this->db->query($sql);
         while ($rec = $this->db->fetchObject($set)) {
@@ -476,7 +476,7 @@ class ilOrgUnitType
             foreach ($this->getOrgUnitIds() as $orgu_id) {
                 ilAdvancedMDRecord::saveObjRecSelection($orgu_id, 'orgu_type', $record_ids);
             }
-            $this->amd_records_assigned = null; // Force reload of assigned objects
+            $this->amd_records_assigned = []; // Force reload of assigned objects
         }
     }
 
@@ -512,7 +512,7 @@ class ilOrgUnitType
             foreach ($this->getOrgUnitIds() as $orgu_id) {
                 ilAdvancedMDRecord::saveObjRecSelection($orgu_id, 'orgu_type', $record_ids);
             }
-            $this->amd_records_assigned = null; // Force reload of assigned objects
+            $this->amd_records_assigned = []; // Force reload of assigned objects
         }
     }
 

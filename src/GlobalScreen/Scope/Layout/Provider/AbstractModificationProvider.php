@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\Layout\Provider;
 
@@ -34,6 +35,7 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\TitleModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ShortTitleModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification;
+use ILIAS\Data\Factory as DataFactory;
 
 /**
  * Class AbstractModificationProvider
@@ -41,10 +43,8 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification;
  */
 abstract class AbstractModificationProvider extends AbstractProvider implements ModificationProvider
 {
-    /**
-     * @var ContextCollection
-     */
     protected ContextCollection $context_collection;
+    protected DataFactory $data;
     /**
      * @var ToolFactory
      */
@@ -58,6 +58,7 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
         parent::__construct($dic);
         $this->context_collection = $this->globalScreen()->tool()->context()->collection();
         $this->factory = $this->globalScreen()->layout()->factory();
+        $this->data = new DataFactory();
     }
 
     /**

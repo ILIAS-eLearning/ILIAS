@@ -63,6 +63,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     protected ilObjFileStakeholder $stakeholder;
     private ilDBInterface $database;
     protected int $on_click_mode = self::CLICK_MODE_DOWNLOAD;
+    protected int $amount_of_downloads = 0;
 
     /**
      * ilObjFile constructor.
@@ -334,6 +335,20 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->on_click_mode = $on_click_mode;
     }
 
+    public function getAmountOfDownloads(): int
+    {
+        return $this->amount_of_downloads;
+    }
+
+    public function setAmountOfDownloads(int $amount): void
+    {
+        if (0 > $amount) {
+            throw new LogicException("Amount cannot be a negative number.");
+        }
+
+        $this->amount_of_downloads = $amount;
+    }
+
     /**
      * @param $a_action
      * @deprecated
@@ -374,6 +389,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->page_count = (int) ($row->page_count ?? 0);
         $this->resource_id = $row->rid ?? null;
         $this->on_click_mode = (int) ($row->on_click_mode ?? self::CLICK_MODE_DOWNLOAD);
+        $this->amount_of_downloads = (int) ($row->downloads ?? 0);
 
         $this->initImplementation();
     }
@@ -483,6 +499,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             'rating' => ['integer', $this->hasRating()],
             'rid' => ['text', $this->resource_id ?? ''],
             'on_click_mode' => ['integer', $this->getOnClickMode()],
+            'downloads' => ['integer', $this->getAmountOfDownloads()],
         ];
     }
 
@@ -557,6 +574,10 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     public function sendFile(?int $a_hist_entry_id = null): void
     {
+        // increment file download count by one.
+        $this->setAmountOfDownloads($this->getAmountOfDownloads() + 1);
+        $this->update();
+
         $this->implementation->sendFile($a_hist_entry_id);
     }
 

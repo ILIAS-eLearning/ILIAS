@@ -29,9 +29,6 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
         // event description
         $this->addEventDescription($a_app);
 
-        // event location
-        $this->addEventLocation($a_app);
-
         //Contained in:
         $this->addContainerInfo($this->getObjIdForAppointment());
 
@@ -83,7 +80,7 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
             foreach ($eventItems as $file) {
                 if ($file['type'] == "file") {
                     $this->has_files = true;
-                    $href = ilLink::_getStaticLink((int)$file['ref_id'], "file", true, "download");
+                    $href = ilLink::_getStaticLink((int)$file['ref_id'], "file", true, '_download');
                     $link = $f->link()->standard($file['title'], $href);
                     if (ilObjFileAccess::_isFileInline($file["title"])) {
                         $link = $link->withOpenInNewViewport(true);

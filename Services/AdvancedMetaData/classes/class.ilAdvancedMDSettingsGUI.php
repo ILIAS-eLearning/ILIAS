@@ -216,11 +216,27 @@ class ilAdvancedMDSettingsGUI
             return $this->http->wrapper()->post()->retrieve(
                 'position',
                 $this->refinery->kindlyTo()->dictOf(
-                    $this->refinery->kindlyTo()->float()
+                    $this->refinery->byTrying([
+                        $this->refinery->kindlyTo()->float(),
+                        $this->refinery->always(0)
+                    ])
                 )
             );
         }
         return [];
+    }
+
+    protected function getTableOffsetFromPost(): int
+    {
+        // BT 35518: hacky solution for getting the table offset
+        if ($this->http->wrapper()->post()->has(ilAdvancedMDRecordTableGUI::ID . '_table_nav')) {
+            $nav = $this->http->wrapper()->post()->retrieve(
+                ilAdvancedMDRecordTableGUI::ID . '_table_nav',
+                $this->refinery->kindlyTo()->string()
+            );
+            return (int) explode(':', $nav)[2];
+        }
+        return 0;
     }
 
     /**
@@ -561,8 +577,6 @@ class ilAdvancedMDSettingsGUI
         }
 
         $c_gui = new ilConfirmationGUI();
-
-        // set confirm/cancel commands
         $c_gui->setFormAction($this->ctrl->getFormAction($this, "deleteFiles"));
         $c_gui->setHeaderText($this->lng->txt("md_adv_delete_files_sure"));
         $c_gui->setCancel($this->lng->txt("cancel"), "showFiles");
@@ -578,8 +592,8 @@ class ilAdvancedMDSettingsGUI
             $info = $file_data[$file_id];
             $c_gui->addItem(
                 "file_id[]",
-                $file_id,
-                is_array($info['name']) ? implode(',', $info['name']) : 'No Records'
+                (string) $file_id,
+                is_array($info['name'] ?? false) ? implode(',', $info['name']) : 'No Records'
             );
         }
         $this->tpl->setContent($c_gui->getHTML());
@@ -704,7 +718,7 @@ class ilAdvancedMDSettingsGUI
         asort($positions, SORT_NUMERIC);
 
         $sorted_positions = [];
-        $i = 1;
+        $i = 1 + $this->getTableOffsetFromPost();
         foreach ($positions as $record_id => $pos) {
             $sorted_positions[(int) $record_id] = $i++;
         }
@@ -715,6 +729,11 @@ class ilAdvancedMDSettingsGUI
             ilAdvancedMDRecord::deleteObjRecSelection($this->obj_id);
         }
         foreach ($this->getParsedRecordObjects() as $item) {
+            // BT 35518: this is kind of a hacky solution to skip items not in the table due to pagination
+            if (!array_key_exists($item['id'], $sorted_positions)) {
+                continue;
+            }
+
             $perm = $this->getPermissions()->hasPermissions(
                 ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
                 (string) $item['id'],
@@ -733,7 +752,7 @@ class ilAdvancedMDSettingsGUI
             if ($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES]) {
                 $obj_types = array();
                 $post_object_types = (array) ($this->http->request()->getParsedBody()['obj_types'] ?? []);
-                if (is_array($post_object_types[$record_obj->getRecordId()])) {
+                if (is_array($post_object_types[$record_obj->getRecordId()] ?? false)) {
                     foreach ($post_object_types[$record_obj->getRecordId()] as $type => $status) {
                         if ($status) {
                             $type = explode(":", $type);
@@ -763,7 +782,9 @@ class ilAdvancedMDSettingsGUI
                     $record_obj->setActive(isset($post_active[$record_obj->getRecordId()]));
                 }
 
-                $record_obj->setGlobalPosition((int) $sorted_positions[$record_obj->getRecordId()]);
+                if (isset($sorted_positions[$record_obj->getRecordId()])) {
+                    $record_obj->setGlobalPosition((int) $sorted_positions[$record_obj->getRecordId()]);
+                }
                 $record_obj->update();
             } elseif ($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_TOGGLE_ACTIVATION]) {
                 // global, optional record
@@ -780,11 +801,17 @@ class ilAdvancedMDSettingsGUI
 
             // save local sorting
             if ($this->context == self::CONTEXT_OBJECT) {
-                global $DIC;
+                if (isset($sorted_positions[$item['id']])) {
+                    global $DIC;
 
-                $local_position = new \ilAdvancedMDRecordObjectOrdering($item['id'], $this->obj_id, $DIC->database());
-                $local_position->setPosition((int) $sorted_positions[$item['id']]);
-                $local_position->save();
+                    $local_position = new \ilAdvancedMDRecordObjectOrdering(
+                        $item['id'],
+                        $this->obj_id,
+                        $DIC->database()
+                    );
+                    $local_position->setPosition((int) $sorted_positions[$item['id']]);
+                    $local_position->save();
+                }
             }
         }
 
@@ -1470,11 +1497,12 @@ class ilAdvancedMDSettingsGUI
         if (!$this->obj_type) {
             // scope
             $scope = new ilCheckboxInputGUI($this->lng->txt('md_adv_scope'), 'scope');
+            $scope->setInfo($this->lng->txt('md_adv_scope_info'));
             $scope->setChecked($this->record->enabledScope());
             $scope->setValue("1");
             $this->form->addItem($scope);
             $subitems = new ilRepositorySelector2InputGUI(
-                $this->lng->txt("objects"),
+                $this->lng->txt('md_adv_scope_objects'),
                 "scope_containers",
                 true,
                 $this->form
@@ -1511,6 +1539,15 @@ class ilAdvancedMDSettingsGUI
             foreach (ilAdvancedMDRecord::_getAssignableObjectTypes(true) as $type) {
                 $t = $type["obj_type"] . ":" . $type["sub_type"];
                 $this->lng->loadLanguageModule($type["obj_type"]);
+
+                /*
+                 * BT 35914: workaround for hiding portfolio pages in portfolios,
+                 * since they only get data from portfolio templates
+                 */
+                if ($type["obj_type"] == "prtf" && $type["sub_type"] == "pfpg") {
+                    continue;
+                }
+
 
                 $type_options = $options;
                 switch ($type["obj_type"]) {
@@ -1936,20 +1973,22 @@ class ilAdvancedMDSettingsGUI
         }
 
         $scopes = $form->getInput('scope');
-        if (is_array($scopes)) {
+        $scopes_selection = $form->getInput('scope_containers_sel');
+        if ($scopes && is_array($scopes_selection)) {
             $this->record->enableScope(true);
             $this->record->setScopes(
                 array_map(
-                    function ($scope_ref_id) {
+                    function (string $scope_ref_id) {
                         $scope = new ilAdvancedMDRecordScope();
-                        $scope->setRefId($scope_ref_id);
+                        $scope->setRefId((int) $scope_ref_id);
                         return $scope;
                     },
-                    $scopes
+                    $scopes_selection
                 )
             );
         } else {
             $this->record->enableScope(false);
+            $this->record->setScopes([]);
         }
         return $this->record;
     }
@@ -2097,8 +2136,9 @@ class ilAdvancedMDSettingsGUI
                 $tmp_arr["readonly"] = !(bool) $parent_id;
                 $tmp_arr["local"] = $parent_id;
 
-                // local records are never optional
-                $assigned = $optional = false;
+                // local records are never optional (or unassigned)
+                $assigned = (bool) $parent_id;
+                $optional = false;
                 foreach ($tmp_arr['obj_types'] as $idx => $item) {
                     if ($item["obj_type"] == $this->obj_type &&
                         in_array($item["sub_type"], $sub_type)) {
@@ -2120,7 +2160,9 @@ class ilAdvancedMDSettingsGUI
                 }
             }
 
-            $res[] = $tmp_arr;
+            if ($assigned ?? true) {
+                $res[] = $tmp_arr;
+            }
         }
         return $res;
     }

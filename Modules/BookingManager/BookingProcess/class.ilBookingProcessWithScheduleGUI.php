@@ -291,6 +291,13 @@ class ilBookingProcessWithScheduleGUI implements \ILIAS\BookingManager\BookingPr
             ->radio("recurrence", $this->lng->txt("book_recurrence"), "", "0")
             ->radioOption("0", $this->lng->txt("book_no_recurrence"))
             ->radioOption("1", $this->lng->txt("book_book_recurrence"));
+        if ($this->pool->usesMessages()) {
+            $form = $form->textarea(
+                "message",
+                $this->lng->txt("book_message"),
+                $this->lng->txt("book_message_info")
+            );
+        }
         return $form;
     }
 
@@ -318,9 +325,17 @@ class ilBookingProcessWithScheduleGUI implements \ILIAS\BookingManager\BookingPr
                       ->send();
         }
 
+        $message = $this->pool->usesMessages()
+            ? $form->getData("message")
+            : "";
+
         // recurrence? -> show recurrence form
         $recurrence = $form->getData("recurrence");
         if ($recurrence === "1") {
+            if ($this->pool->usesMessages()) {
+                $this->ctrl->setParameterByClass(self::class, "message",
+                    rawurlencode($message));
+            }
             $this->ctrl->setParameterByClass(self::class, "object_id", $this->book_request->getObjectId());
             $this->ctrl->setParameterByClass(self::class, "nr", (int) $form->getData("nr"));
             $form = $this->getRecurrenceForm();
@@ -330,7 +345,8 @@ class ilBookingProcessWithScheduleGUI implements \ILIAS\BookingManager\BookingPr
         }
         $this->checkAvailability(
             false,
-            $form->getData("nr")
+            $form->getData("nr"),
+            $message
         );
     }
 
@@ -356,13 +372,20 @@ class ilBookingProcessWithScheduleGUI implements \ILIAS\BookingManager\BookingPr
         return $form;
     }
 
-    public function checkAvailability(bool $incl_recurrence = true, int $nr = 0) : void
+    public function checkAvailability(
+        bool $incl_recurrence = true,
+        int $nr = 0,
+        string $message = ""
+    ) : void
     {
         $obj_id = $this->book_request->getObjectId();
         $from = $this->book_request->getSlotFrom();
         $to = $this->book_request->getSlotTo();
         if ($nr === 0) {
             $nr = $this->book_request->getNr();
+        }
+        if ($message === "" && $this->pool->usesMessages()) {
+            $message = $this->book_request->getMessage();
         }
         $recurrence = 0;
         $until_ts = 0;
@@ -381,6 +404,11 @@ class ilBookingProcessWithScheduleGUI implements \ILIAS\BookingManager\BookingPr
         }
 
         $this->ctrl->saveParameter($this, ["object_id", "slot", "nr"]);
+        if ($this->pool->usesMessages()) {
+            $this->ctrl->setParameter($this, "message",
+                rawurlencode($message)
+            );
+        }
         $this->ctrl->setParameter($this, "recurrence", $recurrence);
         $this->ctrl->setParameter($this, "until", $until_ts);
         $book_available_target = $this->getBookAvailableTarget(
@@ -438,6 +466,9 @@ class ilBookingProcessWithScheduleGUI implements \ILIAS\BookingManager\BookingPr
         $from = $this->book_request->getSlotFrom();
         $to = $this->book_request->getSlotTo();
         $nr = $this->book_request->getNr();
+        $message = $this->pool->usesMessages()
+            ? $this->book_request->getMessage()
+            : "";
         if (is_null($recurrence)) {
             $recurrence = (int) $this->book_request->getRecurrence();
         }
@@ -456,7 +487,8 @@ class ilBookingProcessWithScheduleGUI implements \ILIAS\BookingManager\BookingPr
             $to,
             $recurrence,
             $nr,
-            $until
+            $until,
+            $message
         );
         if (count($booked) > 0) {
             $this->util_gui->handleBookingSuccess($obj_id, "displayPostInfo", $booked);

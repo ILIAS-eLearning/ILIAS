@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Consumer;
 
-use ILIAS\HTTP\Response\ResponseHeader;
-
 /**
  * Class DownloadConsumer
  * @package ILIAS\ResourceStorage\Consumer

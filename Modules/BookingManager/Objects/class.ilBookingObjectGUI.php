@@ -358,7 +358,7 @@ class ilBookingObjectGUI
         $form_gui->addItem($desc);
 
         $file = new ilFileInputGUI($lng->txt("book_additional_info_file"), "file");
-        $file->setALlowDeletion(true);
+        $file->setAllowDeletion(true);
         $form_gui->addItem($file);
 
         $nr = new ilNumberInputGUI($lng->txt("booking_nr_of_items"), "items");
@@ -390,7 +390,7 @@ class ilBookingObjectGUI
         $form_gui->addItem($pdesc);
 
         $pfile = new ilFileInputGUI($lng->txt("book_post_booking_file"), "post_file");
-        $pfile->setALlowDeletion(true);
+        $pfile->setAllowDeletion(true);
         $form_gui->addItem($pfile);
 
         // #18214 - should also work for new objects

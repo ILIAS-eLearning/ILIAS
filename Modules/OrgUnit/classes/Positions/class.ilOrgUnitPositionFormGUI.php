@@ -16,19 +16,46 @@
  ********************************************************************
  */
 
-use ILIAS\Modules\OrgUnit\ARHelper\BaseForm;
+declare(strict_types=1);
+use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
 
 /**
  * Class ilOrgUnitPositionFormGUI
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilOrgUnitPositionFormGUI extends BaseForm
+class ilOrgUnitPositionFormGUI extends \ilPropertyFormGUI
 {
-    //public const F_AUTHORITIES = "authorities";
-    public const F_AUTHORITIES = "empty";
-    protected ActiveRecord $object;
+    public const F_AUTHORITIES = "authorities";
+    protected \ilOrgUnitPosition $object;
     public const F_TITLE = 'title';
     public const F_DESCRIPTION = 'description';
+    protected \ilOrgUnitPositionDBRepository $positionRepo;
+
+    protected BaseCommands $parent_gui;
+    protected \ILIAS\DI\Container $DIC;
+    protected \ilLanguage $lng;
+    protected \ilCtrl $ctrl;
+
+    public function __construct(BaseCommands $parent_gui, \ilOrgUnitPosition $object)
+    {
+        global $DIC;
+
+        $dic = ilOrgUnitLocalDIC::dic();
+        $this->positionRepo = $dic["repo.Positions"];
+
+        $this->parent_gui = $parent_gui;
+        $this->object = $object;
+        $this->lng = $DIC->language();
+
+        $this->ctrl = $DIC->ctrl();
+        $this->ctrl->saveParameter($parent_gui, 'arid');
+        $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
+        $this->initFormElements();
+        $this->initButtons();
+        $this->setTarget('_top');
+
+        parent::__construct();
+    }
 
     protected function initFormElements(): void
     {
@@ -54,7 +81,7 @@ class ilOrgUnitPositionFormGUI extends BaseForm
         $over_options = [];
         $over_options[ilOrgUnitAuthority::OVER_EVERYONE] = $lng->txt('over_'
             . ilOrgUnitAuthority::OVER_EVERYONE);
-        $over_options += ilOrgUnitPosition::getArray('id', 'title');
+        $over_options += $this->positionRepo->getArray('id', 'title');
         $over->setOptions($over_options);
         $m->addInput($over);
 
@@ -71,14 +98,26 @@ class ilOrgUnitPositionFormGUI extends BaseForm
         $this->addItem($m);
     }
 
+    private function initButtons(): void
+    {
+        if (!$this->object->getId()) {
+            $this->setTitle($this->txt('create'));
+            $this->addCommandButton(BaseCommands::CMD_CREATE, $this->txt(BaseCommands::CMD_CREATE));
+            $this->addCommandButton(BaseCommands::CMD_CANCEL, $this->txt(BaseCommands::CMD_CANCEL));
+        } else {
+            $this->setTitle($this->txt('update'));
+            $this->addCommandButton(BaseCommands::CMD_UPDATE, $this->txt(BaseCommands::CMD_UPDATE));
+            $this->addCommandButton(BaseCommands::CMD_CANCEL, $this->txt(BaseCommands::CMD_CANCEL));
+        }
+    }
+
     public function fillForm(): void
     {
-        $this->object->afterObjectLoad();
-        $array = array(
+        $array = [
             self::F_TITLE => $this->object->getTitle(),
             self::F_DESCRIPTION => $this->object->getDescription(),
             self::F_AUTHORITIES => $this->object->getAuthoritiesAsArray()
-        );
+        ];
         $this->setValuesByArray($array);
     }
 
@@ -88,29 +127,54 @@ class ilOrgUnitPositionFormGUI extends BaseForm
             return false;
         }
 
-        $this->object->setTitle($this->getInput(self::F_TITLE));
-        $this->object->setDescription($this->getInput(self::F_DESCRIPTION));
+        $authorities = ($this->getInput(self::F_AUTHORITIES) != '')
+            ? (array) $this->getInput(self::F_AUTHORITIES)
+            : [];
 
-        $authorities = (array) $this->getInput(self::F_AUTHORITIES);
-
-        $ilOrgUnitAuthorities = [];
-        foreach ($authorities as $authority) {
-            /**
-             * @var $ilOrgUnitAuthority ilOrgUnitAuthority
-             */
-            $id = $authority["id"];
-            if ($id == '') {
-                $id = null;
-            }
-            $ilOrgUnitAuthority = ilOrgUnitAuthority::findOrGetInstance($id);
-            $ilOrgUnitAuthority->setPositionId($this->object->getId());
-            $ilOrgUnitAuthority->setScope($authority["scope"]);
-            $ilOrgUnitAuthority->setOver($authority["over"]);
-            $ilOrgUnitAuthorities[] = $ilOrgUnitAuthority;
+        if (count($authorities) == 0) {
+            $this->object = $this->object
+                ->withTitle($this->getInput(self::F_TITLE))
+                ->withDescription($this->getInput(self::F_DESCRIPTION))
+                ->withAuthorities([]);
+            return true;
         }
 
-        $this->object->setAuthorities($ilOrgUnitAuthorities);
-        $this->object->storeAuthorities();
+        /**
+         * @var ilOrgUnitAuthority[] $new_authorities
+         */
+        $new_authorities = [];
+        foreach ($authorities as $authority) {
+            $id = ($authority["id"] == '') ? null : (int) $authority["id"];
+
+            $new_authorities[] = $this->positionRepo->getAuthority($id)
+                ->withPositionId($this->object->getId())
+                ->withScope((int) $authority["scope"])
+                ->withOver((int) $authority["over"]);
+        }
+        $this->object = $this->object
+            ->withTitle($this->getInput(self::F_TITLE))
+            ->withDescription($this->getInput(self::F_DESCRIPTION))
+            ->withAuthorities($new_authorities);
         return true;
+    }
+
+    public function saveObject(): bool
+    {
+        if ($this->fillObject() === false) {
+            return false;
+        }
+
+        $this->object = $this->positionRepo->store($this->object);
+        return true;
+    }
+
+    private function txt(string $key): string
+    {
+        return $this->lng->txt($key);
+    }
+
+    private function infoTxt(string $key): string
+    {
+        return $this->lng->txt($key . '_info');
     }
 }

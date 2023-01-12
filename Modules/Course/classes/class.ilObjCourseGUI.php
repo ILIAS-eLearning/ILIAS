@@ -388,10 +388,9 @@ class ilObjCourseGUI extends ilContainerGUI
                 }
                 if ($this->object->getSubscriptionMaxMembers()) {
                     $reg_info = ilObjCourseAccess::lookupRegistrationInfo($this->object->getId());
-
                     $info->addProperty(
                         $this->lng->txt('mem_free_places'),
-                        (string) $reg_info['reg_info_free_places']
+                        (string) ($reg_info['reg_info_free_places'] ?? '0')
                     );
                 }
             }

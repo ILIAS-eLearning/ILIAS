@@ -24,7 +24,7 @@ declare(strict_types=1);
  */
 class ilExportSelectionTableGUI extends ilTable2GUI
 {
-    protected ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement $post_data;
+    protected array $post_data;
 
     protected ilAccessHandler $access;
     protected ilObjectDefinition $objDefinition;
@@ -36,7 +36,7 @@ class ilExportSelectionTableGUI extends ilTable2GUI
 
         //TODO PHP8-Review: please check the usage of $_POST
         /** @var ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement $_POST */
-        $this->post_data = $_POST;
+        $this->post_data = ($DIC->http()->request()->getParsedBody() ?? []);
 
         $this->tree = $DIC->repositoryTree();
         $this->objDefinition = $DIC['objDefinition'];
@@ -80,8 +80,8 @@ class ilExportSelectionTableGUI extends ilTable2GUI
         if ($a_set['perm_export'] and $a_set['last_export']) {
             $selected = "EXPORT_E";
         }
-        if (is_array($this->post_data["cp_options"])) {
-            if (isset($this->post_data["cp_options"][$a_set['ref_id']]["type"])) {
+        if (isset($this->post_data["cp_options"])) {
+            if (isset($a_set['ref_id']) && isset($this->post_data["cp_options"][$a_set['ref_id']]["type"])) {
                 switch ($this->post_data["cp_options"][$a_set['ref_id']]["type"]) {
                     case "2":
                         $selected = "EXPORT";

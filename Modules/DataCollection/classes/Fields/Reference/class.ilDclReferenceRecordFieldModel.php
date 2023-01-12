@@ -50,16 +50,14 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         if ($value) {
             if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
                 if (!is_array($value)) {
-                    $value = array($value);
+                    $value = [$value];
                 }
                 foreach ($value as $val) {
                     if ($val) {
                         $ref_rec = ilDclCache::getRecordCache($val);
                         $ref_record_field = $ref_rec->getRecordField($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
-                        if ($ref_record_field) {
-                            $exp_value = $ref_record_field->getExportValue();
-                            $names[] = is_array($exp_value) ? array_shift($exp_value) : $exp_value;
-                        }
+                        $exp_value = $ref_record_field->getExportValue();
+                        $names[] = is_array($exp_value) ? array_shift($exp_value) : $exp_value;
                     }
                 }
 
@@ -67,11 +65,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
             } else {
                 $ref_rec = ilDclCache::getRecordCache($this->getValue());
                 $ref_record_field = $ref_rec->getRecordField($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
-
-                $exp_value = "";
-                if ($ref_record_field) {
-                    $exp_value = $ref_record_field->getExportValue();
-                }
+                $exp_value = $ref_record_field->getExportValue();
 
                 return (is_array($exp_value) ? array_shift($exp_value) : $exp_value);
             }
@@ -80,13 +74,8 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-    /**
-     * @return int|int[]|string|string[]
-     */
     public function getValueFromExcel(ilExcel $excel, int $row, int $col)
     {
-        global $DIC;
-        $lng = $DIC['lng'];
         $value = parent::getValueFromExcel($excel, $row, $col);
         $old = $value;
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
@@ -98,10 +87,10 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         }
 
         if (!$has_value && $old) {
-            $warning = "(" . $row . ", " . ilDataCollectionImporter::getExcelCharForInteger($col + 1) . ") " . $lng->txt("dcl_no_such_reference") . " "
+            $warning = "(" . $row . ", " . ilDataCollectionImporter::getExcelCharForInteger($col + 1) . ") " . $this->lng->txt("dcl_no_such_reference") . " "
                 . $old;
 
-            return array('warning' => $warning);
+            return ['warning' => $warning];
         }
 
         return $value;
@@ -117,7 +106,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
     {
         $delimiter = strpos($stringValues, '; ') ? '; ' : ', ';
         $slicedStrings = explode($delimiter, $stringValues);
-        $slicedReferences = array();
+        $slicedReferences = [];
         $resolved = 0;
         for ($i = 0; $i < count($slicedStrings); $i++) {
             //try to find a reference since the last resolved value separated by a comma.
@@ -141,7 +130,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         return $slicedReferences;
     }
 
-    public function getReferenceFromValue(int $value): int
+    public function getReferenceFromValue($value): int
     {
         $field = ilDclCache::getFieldCache($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
         $table = ilDclCache::getTableCache($field->getTableId());
@@ -167,12 +156,30 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
 
         if ($field_clone && $record_clone) {
             $record_field_clone = ilDclCache::getRecordFieldCache($record_clone, $field_clone);
-            $clone_reference = $record_field_clone->getValue();
-            $reference_record = ilDclCache::getCloneOf($clone_reference, ilDclCache::TYPE_RECORD);
-            if ($reference_record) {
-                $this->setValue($reference_record->getId()); // reference fields store the id of the reference's record as their value
-                $this->doUpdate();
+            $clone_references = $record_field_clone->getValue();
+
+            if (is_array($clone_references)) {
+                $value = [];
+                foreach ($clone_references as $clone_reference) {
+                    if (!is_null($temp_value = $this->getCloneRecordId($clone_reference))) {
+                        $value[] = $temp_value;
+                    }
+                }
+            } elseif (!is_null($temp_value = $this->getCloneRecordId($clone_references))) {
+                $value = $temp_value;
             }
+
+            $this->setValue($value, true); // reference fields store the id of the reference's record as their value
+            $this->doUpdate();
         }
+    }
+
+    protected function getCloneRecordId(string $clone_reference): ?string
+    {
+        $reference_record = ilDclCache::getCloneOf($clone_reference, ilDclCache::TYPE_RECORD);
+        if ($reference_record) {
+            return (string) $reference_record->getId();
+        }
+        return null;
     }
 }

@@ -39,4 +39,14 @@ class UserDefined extends Tag
     {
         return "<meta name=\"$this->key\" content=\"$this->value\" />";
     }
+
+    public function getKey(): string
+    {
+        return $this->key;
+    }
+
+    public function getValue(): string
+    {
+        return $this->value;
+    }
 }

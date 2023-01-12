@@ -57,6 +57,7 @@ class ilObjFileGUI extends ilObject2GUI
     protected \ILIAS\Refinery\Factory $refinery;
     protected \ILIAS\HTTP\Wrapper\WrapperFactory $http;
     protected ilFileServicesSettings $file_service_settings;
+    protected ilObjFileAccessSettings $object_settings;
 
     /**
      * Constructor
@@ -75,6 +76,7 @@ class ilObjFileGUI extends ilObject2GUI
         $this->storage = $DIC->resourceStorage();
         $this->upload_handler = new ilObjFileUploadHandlerGUI();
         $this->stakeholder = new ilObjFileStakeholder();
+        $this->object_settings = new ilObjFileAccessSettings();
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
         $this->obj_service = $DIC->object();
         $this->lng->loadLanguageModule(ilObjFile::OBJECT_TYPE);
@@ -698,6 +700,14 @@ class ilObjFileGUI extends ilObject2GUI
                 $this->lng->txt("version_uploaded"),
                 (new ilDateTime($version->getDate(), IL_CAL_DATETIME))->get(IL_CAL_DATETIME)
             );
+        }
+
+        if ($this->object_settings->shouldShowAmountOfDownloads()) {
+            $info->addProperty($this->lng->txt("amount_of_downloads"), sprintf(
+                $this->lng->txt("amount_of_downloads_since"),
+                $this->object->getAmountOfDownloads(),
+                $this->object->getCreateDate(),
+            ));
         }
 
         if ($this->object->getPageCount() > 0) {

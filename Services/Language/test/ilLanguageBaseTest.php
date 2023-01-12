@@ -20,6 +20,7 @@ declare(strict_types=1);
  */
 
 use PHPUnit\Framework\TestCase;
+use ILIAS\DI\Container;
 
 /**
  * Class ilLanguageBaseTest
@@ -27,4 +28,22 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class ilLanguageBaseTest extends TestCase
 {
+    protected function setUp() : void
+    {
+        $GLOBALS['DIC'] = new Container();
+        
+        parent::setUp();
+    }
+    
+    protected function setGlobalVariable(string $name, $value) : void
+    {
+        global $DIC;
+        
+        $GLOBALS[$name] = $value;
+        
+        unset($DIC[$name]);
+        $DIC[$name] = static function (Container $c) use ($name) {
+            return $GLOBALS[$name];
+        };
+    }
 }

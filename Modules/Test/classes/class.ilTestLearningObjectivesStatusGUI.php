@@ -108,7 +108,6 @@ class ilTestLearningObjectivesStatusGUI
 
     private function renderStatus($tpl, $objectiveId, $loStatusData)
     {
-        include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
         $loc_settings = ilLOSettings::getInstanceByObjId($this->getCrsObjId());
         $has_initial_test = (bool) $loc_settings->getInitialTest();
 
@@ -153,24 +152,15 @@ class ilTestLearningObjectivesStatusGUI
     {
         $res = array();
 
-        // we need the collection for the correct order
-        include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
-        include_once "Services/Tracking/classes/collection/class.ilLPCollectionOfObjectives.php";
         $coll_objtv = new ilLPCollectionOfObjectives($crsObjId, ilLPObjSettings::LP_MODE_OBJECTIVES);
         $coll_objtv = $coll_objtv->getItems();
         if ($coll_objtv) {
             // #13373
             $lo_results = $this->getUsersObjectivesResults($crsObjId, $usrId);
-
-            include_once "Modules/Course/classes/Objectives/class.ilLOTestAssignments.php";
             $lo_ass = ilLOTestAssignments::getInstance($crsObjId);
 
             $tmp = array();
-
-            include_once "Modules/Course/classes/class.ilCourseObjective.php";
             foreach ($coll_objtv as $objective_id) {
-                // patch optes start
-
                 $title = ilCourseObjective::lookupObjectiveTitle($objective_id, true);
 
                 $tmp[$objective_id] = array(
@@ -190,7 +180,7 @@ class ilTestLearningObjectivesStatusGUI
                     $tmp[$objective_id]["limit_perc"] = $lo_result["limit_perc"];
                     $tmp[$objective_id]["status"] = $lo_result["status"];
                     $tmp[$objective_id]["type"] = $lo_result["type"];
-                    $tmp[$objective_id]["initial"] = $lo_result["initial"];
+                    $tmp[$objective_id]["initial"] = $lo_result["initial"] ?? null;
                 }
             }
 
@@ -206,8 +196,6 @@ class ilTestLearningObjectivesStatusGUI
     private function getUsersObjectivesResults($crsObjId, $usrId): array
     {
         $res = array();
-
-        include_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";
         $lur = new ilLOUserResults($crsObjId, $usrId);
 
         foreach ($lur->getCourseResultsForUserPresentation() as $objective_id => $types) {

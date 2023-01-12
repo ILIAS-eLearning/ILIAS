@@ -26,7 +26,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  *
  * @version		$Id$
  *
- * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionPageGUI, ilQuestionBrowserTableGUI, ilToolbarGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionPageGUI, ilQuestionBrowserTableGUI, ilToolbarGUI, ilObjTestGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assOrderingQuestionGUI, assImagemapQuestionGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assNumericGUI, assTextSubsetGUI, assSingleChoiceGUI, ilPropertyFormGUI
@@ -158,8 +158,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
 
         $this->prepareOutput();
-
-        $this->ctrl->setReturn($this, "questions");
 
         $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 
@@ -577,6 +575,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $xml_file = ilObjQuestionPool::_getImportDirectory() . '/' . $subdir . '/' . $subdir . ".xml";
             $qti_file = ilObjQuestionPool::_getImportDirectory() . '/' . $subdir . '/' . str_replace("qpl", "qti", $subdir) . ".xml";
         }
+        if (!file_exists($qti_file)) {
+            ilFileUtils::delDir($basedir);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('cannot_find_xml'), true);
+            $this->ctrl->redirect($this, 'create');
+            return false;
+        }
         $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_VERIFY_QTI, 0, "");
         $qtiParser->startParsing();
         $founditems = &$qtiParser->getFoundItems();
@@ -762,7 +766,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $qtiParser->startParsing();
             // import page data
             if (strlen(ilSession::get("qpl_import_xml_file"))) {
-                $contParser = new ilContObjParser($newObj, ilSession::get("qpl_import_xml_file"), ilSession::get("qpl_import_subdir"));
+                $contParser = new ilQuestionPageParser($newObj, ilSession::get("qpl_import_xml_file"), ilSession::get("qpl_import_subdir"));
                 $contParser->setQuestionMapping($qtiParser->getImportMapping());
                 $contParser->startParsing();
                 // #20494

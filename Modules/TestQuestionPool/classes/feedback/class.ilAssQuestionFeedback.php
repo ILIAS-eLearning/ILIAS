@@ -265,7 +265,10 @@ abstract class ilAssQuestionFeedback
 
         if ($this->db->numRows($res) > 0) {
             $row = $this->db->fetchAssoc($res);
-            $feedbackContent = ilRTE::_replaceMediaObjectImageSrc($row['feedback'] ?? '', 1);
+            $feedbackContent = ilRTE::_replaceMediaObjectImageSrc(
+                $this->questionOBJ->getHtmlQuestionContentPurifier()->purify($row['feedback'] ?? ''),
+                1
+            );
         }
         return $feedbackContent;
     }
@@ -276,7 +279,23 @@ abstract class ilAssQuestionFeedback
 
     public function isSpecificAnswerFeedbackAvailable(int $questionId): bool
     {
-        return (bool) strlen($this->getAllSpecificAnswerFeedbackContents($questionId));
+        $res = $this->db->queryF(
+            "SELECT answer FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
+            ['integer'],
+            [$questionId]
+        );
+
+        $allFeedbackContents = '';
+
+        while ($row = $this->db->fetchAssoc($res)) {
+            $allFeedbackContents .= $this->getSpecificAnswerFeedbackExportPresentation(
+                $this->questionOBJ->getId(),
+                0,
+                $row['answer']
+            );
+        }
+
+        return (bool) strlen(trim(strip_tags($allFeedbackContents)));
     }
 
     /**
@@ -291,6 +310,7 @@ abstract class ilAssQuestionFeedback
         $feedbackId = $this->getGenericFeedbackId($questionId, $solutionCompleted);
 
         if (strlen($feedbackContent)) {
+            $feedbackContent = $this->questionOBJ->getHtmlQuestionContentPurifier()->purify($feedbackContent);
             $feedbackContent = ilRTE::_replaceMediaObjectImageSrc($feedbackContent, 0);
         }
 

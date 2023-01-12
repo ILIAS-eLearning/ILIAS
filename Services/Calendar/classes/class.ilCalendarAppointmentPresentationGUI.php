@@ -32,8 +32,6 @@ class ilCalendarAppointmentPresentationGUI
     protected const MODE_MODAL = "modal";
     protected const MODE_LIST_ITEM = "list_item";
 
-    protected static ?self $instance = null;
-
     protected ilDate $seed;
     protected ilCalendarSettings $settings;
     protected array $appointment = [];
@@ -89,10 +87,7 @@ class ilCalendarAppointmentPresentationGUI
      */
     public static function _getInstance(ilDate $seed, array $a_app): self
     {
-        if (!self::$instance instanceof self) {
-            self::$instance = new self($seed, $a_app);
-        }
-        return self::$instance;
+        return new static($seed, $a_app);
     }
 
     public function executeCommand(): void

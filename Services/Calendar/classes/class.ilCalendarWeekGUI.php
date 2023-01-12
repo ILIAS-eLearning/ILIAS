@@ -66,7 +66,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
         switch ($next_class) {
             case "ilcalendarappointmentpresentationgui":
                 $this->ctrl->setReturn($this, "");
-                $gui = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $this->getCurrentApp());
+                $gui = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, (array) $this->getCurrentApp());
                 $this->ctrl->forwardCommand($gui);
                 break;
             case 'ilcalendarappointmentgui':

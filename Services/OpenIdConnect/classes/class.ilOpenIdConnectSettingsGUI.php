@@ -2,19 +2,21 @@
 
 declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 use ILIAS\FileUpload\FileUpload;
 
@@ -344,11 +346,21 @@ class ilOpenIdConnectSettingsGUI
             }
         }
 
-        $invalid_scopes = $this->settings->validateScopes((string) $form->getInput('provider'), (array) $scopes);
-        if (!empty($invalid_scopes)) {
+        try {
+            $invalid_scopes = $this->settings->validateScopes((string) $form->getInput('provider'), (array) $scopes);
+            if (!empty($invalid_scopes)) {
+                $this->mainTemplate->setOnScreenMessage(
+                    'failure',
+                    sprintf($this->lng->txt('auth_oidc_settings_invalid_scopes'), implode(",", $invalid_scopes))
+                );
+                $form->setValuesByPost();
+                $this->settings($form);
+                return;
+            }
+        } catch (ilCurlConnectionException $e) {
             $this->mainTemplate->setOnScreenMessage(
                 'failure',
-                sprintf($this->lng->txt('auth_oidc_settings_invalid_scopes'), implode(",", $invalid_scopes))
+                $e->getMessage()
             );
             $form->setValuesByPost();
             $this->settings($form);

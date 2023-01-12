@@ -673,7 +673,7 @@ class ilCalendarAppointmentGUI
         }
 
         $this->ctrl->saveParameter($this, array('seed', 'app_id', 'dt', 'idate'));
-        if ($this->getRecurrenceExclusionFromQuery()) {
+        if ($a_edit_single_app) {
             $this->ctrl->setParameter($this, 'rexl', 1);
 
             // Calculate new appointment time
@@ -1046,7 +1046,7 @@ class ilCalendarAppointmentGUI
     {
         $this->notification->setRecipients(array());
         $map = [];
-        foreach ($form->getInput('notu') as $rcp) {
+        foreach ((array) $form->getInput('notu') as $rcp) {
             $rcp = trim($rcp);
             $usr_id = (int) ilObjUser::_loginExists($rcp);
             if ($rcp === '') {

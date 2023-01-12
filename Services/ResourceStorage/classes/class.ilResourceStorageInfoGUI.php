@@ -16,12 +16,12 @@
  *
  *********************************************************************/
 
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\DI\Container;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * Class ilResourceStorageInfoGUI
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class ilResourceStorageInfoGUI
 {

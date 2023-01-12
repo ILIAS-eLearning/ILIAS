@@ -62,7 +62,8 @@ class ilCertificateCourseLearningProgressEvaluation
     {
         $courseTemplates = $this->templateRepository
             ->fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress(
-                $this->trackingHelper->enabledLearningProgress()
+                $this->trackingHelper->enabledLearningProgress(),
+                $refId
             );
 
         $templatesOfCompletedCourses = [];

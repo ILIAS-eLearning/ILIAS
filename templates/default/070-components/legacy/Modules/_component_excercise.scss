@@ -12,12 +12,11 @@
 .ilExcAssignmentHead img {
 	display: block;
 	float: left;
-	margin-top: 4px;
+	margin: 0 $il-padding-base-horizontal 0 $il-padding-xs-horizontal;
 }
 
 .ilExcAssignmentHead .ilAssignmentHeader {
 	padding: 0;
-	margin: 1px 0 0 25px;
 	font-size: $il-font-size-large;
 }
 

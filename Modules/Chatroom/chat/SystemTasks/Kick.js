@@ -7,10 +7,9 @@ var UserlistAction = require('../Model/Messages/UserlistAction');
 module.exports = function (req, res) {
 	var userId = parseInt(req.params.id);
 	var roomId = parseInt(req.params.roomId);
-	var subRoomId = parseInt(req.params.subRoomId);
-	var serverRoomId = Container.createServerRoomId(roomId, subRoomId);
+	var serverRoomId = Container.createServerRoomId(roomId);
 	var namespace = Container.getNamespace(req.params.namespace);
-	var room = namespace.getRoom(serverRoomId);
+        var room = namespace.getRoom(serverRoomId);
 	var subscriber = room.getSubscriber(userId);
 
 	function createKickUserCallback(namespace, action, noticeKicked, room, mainRoomUserlistAction) {
@@ -31,20 +30,12 @@ module.exports = function (req, res) {
 		room.removeSubscriber(userId);
 		room.subscriberLeft(userId);
 
-		var action = KickAction.create(roomId, subRoomId);
-		var userlistAction = UserlistAction.create(roomId, subRoomId, room.getJoinedSubscribers());
-		var notice = Notice.create('user_kicked', roomId, subRoomId, {user: subscriber.getName()});
-		var noticeKicked = Notice.create('kicked_from_private_room', roomId, 0, {title: room.getTitle()});
-
+		var action = KickAction.create(roomId);
+		var userlistAction = UserlistAction.create(roomId, room.getJoinedSubscribers());
+		var notice = Notice.create('user_kicked', roomId, {user: subscriber.getName()});
+		var noticeKicked = Notice.create('kicked_from_private_room', roomId, {title: room.getTitle()});
 		var mainRoomUserlistAction = null;
-		if (subRoomId > 0) {
-			mainRoomUserlistAction = UserlistAction.create(
-				roomId, 0, namespace.getRoom(Container.createServerRoomId(roomId, 0)).getJoinedSubscribers()
-			);
-		}
-
 		var socketIds = subscriber.getSocketIds();
-
 		var kickUser = createKickUserCallback(namespace, action, noticeKicked, room, mainRoomUserlistAction);
 
 		socketIds.forEach(kickUser);

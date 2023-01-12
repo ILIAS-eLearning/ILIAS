@@ -114,16 +114,20 @@ class ilDclFieldListGUI
         $conf->setFormAction($this->ctrl->getFormAction($this));
         $conf->setHeaderText($this->lng->txt('dcl_confirm_delete_fields'));
 
-        if ($this->http->wrapper()->post()->has('dcl_field_ids')) {
-            $field_ids = $this->http->wrapper()->post()->retrieve(
-                'dcl_field_ids',
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-            );
-            foreach ($field_ids as $field_id) {
-                /** @var ilDclBaseFieldModel $field */
-                $field = ilDclCache::getFieldCache($field_id);
-                $conf->addItem('dcl_field_ids[]', $field_id, $field->getTitle());
-            }
+        $has_field_ids = $this->http->wrapper()->post()->has('dcl_field_ids');
+        if (!$has_field_ids) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_delete_fields_no_selection'), true);
+            $this->ctrl->redirect($this, 'listFields');
+        }
+
+        $field_ids = $this->http->wrapper()->post()->retrieve(
+            'dcl_field_ids',
+            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+        );
+        foreach ($field_ids as $field_id) {
+            /** @var ilDclBaseFieldModel $field */
+            $field = ilDclCache::getFieldCache($field_id);
+            $conf->addItem('dcl_field_ids[]', $field_id, $field->getTitle());
         }
 
         $conf->setConfirm($this->lng->txt('delete'), 'deleteFields');
@@ -152,16 +156,18 @@ class ilDclFieldListGUI
             $val += 10;
         }
 
-        foreach ($fields as $field) {
-            $exportable = false;
-            if ($this->http->wrapper()->post()->has('exportable')) {
-                $exportable = $this->http->wrapper()->post()->retrieve(
-                    'exportable',
-                    $this->refinery->kindlyTo()->bool()
-                );
-            }
+        $exportable = [];
+        if ($this->http->wrapper()->post()->has("exportable")) {
+            $exportable = $this->http->wrapper()->post()->retrieve(
+                "exportable",
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->string()
+                )
+            );
+        }
 
-            $field->setExportable($exportable && $exportable[$field->getId()] === "on");
+        foreach ($fields as $field) {
+            $field->setExportable(array_key_exists($field->getId(), $exportable) && $exportable[$field->getId()] === "on");
             $field->setOrder($order[$field->getId()]);
             $field->doUpdate();
         }

@@ -1,31 +1,34 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\Setup;
 use ILIAS\Setup\Objective;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class ilStorageContainersExistingObjective
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class ilStorageContainersExistingObjective extends Objective\DirectoryCreatedObjective
 {
-    protected string $base_dir;
+    protected string $base_dir = StorageHandlerFactory::BASE_DIRECTORY;
 
     /**
      * @var string[]
@@ -38,7 +41,6 @@ class ilStorageContainersExistingObjective extends Objective\DirectoryCreatedObj
     {
         parent::__construct(StorageHandlerFactory::BASE_DIRECTORY);
         $this->storage_handler_ids = $storage_handler_ids ?? $this->storage_handler_ids;
-        $this->base_dir = StorageHandlerFactory::BASE_DIRECTORY;
     }
 
     protected function buildStorageBasePath(Setup\Environment $environment): string

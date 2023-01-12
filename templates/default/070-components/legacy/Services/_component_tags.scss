@@ -1,5 +1,6 @@
+@use "sass:map";
 @use "../../../010-settings/" as *;
-@use "../../../010-settings/legacy-settings/legacy-settings_button" as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_legacy-and-ui-tag" as *;
 @use "../../../050-layout/basics" as *;
 
 /* Services/Tags */
@@ -16,46 +17,46 @@
 .ilTag {
 	background-color: $il-btn-tag-bg;
 	/* background-color: lighten($brand-primary, 10%); */
-	color: $il-btn-tag-fg-relevance-veryhigh;
+	color: map.get($tag-priority-text-colors, "veryhigh");
 	display: inline-block;
 	white-space: nowrap;
 	padding: 1px 5px;
-	margin: 2px 4px 2px 0;
-	border-radius: 3px;
+	margin: $il-padding-small-vertical $il-padding-small-horizontal $il-padding-small-vertical 0;
+	border-radius: $il-border-radius-secondary-small;
 }
 
 a.ilTag:hover, a.ilTag:active {
 	text-decoration: none;
-	color: $il-btn-tag-fg-relevance-veryhigh;
-	background-color: darken($il-btn-tag-bg, 5%);
+	color: map.get($tag-priority-text-colors, "veryhigh");
+	background-color: map.get($tag-priority-bg-colors, "veryhigh");
 }
 
 .ilTagRelVeryHigh {
 
 }
 .ilTagRelHigh {
-	background-color: $il-btn-tag-bg-relevance-high;
-	color: $il-btn-tag-fg-relevance-high;
+	background-color: map.get($tag-priority-bg-colors, "high");
+	color: map.get($tag-priority-text-colors, "high");
 }
 .ilTagRelMiddle {
-	background-color: $il-btn-tag-bg-relevance-middle;
-	color: $il-btn-tag-fg-relevance-middle;
+	background-color: map.get($tag-priority-bg-colors, "middle");
+	color: map.get($tag-priority-text-colors, "middle");
 }
 .ilTagRelLow {
-	background-color: $il-btn-tag-bg-relevance-low;
-	color: $il-btn-tag-fg-relevance-low;
+	background-color: map.get($tag-priority-bg-colors, "low");
+	color: map.get($tag-priority-text-colors, "low");
 }
 .ilTagRelVeryLow {
-	background-color: $il-btn-tag-bg-relevance-verylow;
-	color: $il-btn-tag-fg-relevance-verylow;
+	background-color: map.get($tag-priority-bg-colors, "verylow");
+	color: map.get($tag-priority-text-colors, "verylow");
 }
 
 .ilTag.ilHighlighted, .ilTag.ilHighlighted:hover {
-	background-color: $il-btn-tag-bg-highlighted;
-	color: $il-btn-tag-fg-highlighted;
+	background-color: map.get($tag-priority-bg-colors, "highlighted");
+	color: map.get($tag-priority-text-colors, "highlighted");
 
 	&:hover{
-		background-color: darken($il-btn-tag-bg-highlighted, 5%);
+		background-color: darken(map.get($tag-priority-bg-colors, "highlighted"), 5%);
 	}
 }
 

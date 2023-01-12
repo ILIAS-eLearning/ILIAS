@@ -88,6 +88,7 @@
 <xsl:param name="page_perma_link"/>
 <xsl:param name="activated_protection"/>
 <xsl:param name="protection_text"/>
+<xsl:param name="acc_save_url"/>
 
 <xsl:template match="PageObject">
 	<xsl:if test="$mode != 'edit'">
@@ -2665,10 +2666,24 @@
 
 		<!-- YouTube -->
 		<xsl:when test = "substring-after($data,'youtube.com') != '' or substring-after($data,'youtu.be') != ''">
+			<!-- info on video preload attribute: http://www.stevesouders.com/blog/2013/04/12/html5-video-preload/ -->
+			<!-- see #bug12622 -->
+			<video style="max-width: 100%;" class="ilPageVideo" preload="auto">
+				<xsl:if test="$width != ''">
+					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				</xsl:if>
+				<xsl:if test="$height != ''">
+					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				</xsl:if>
+				<!-- see #bug22632 -->
+				<xsl:attribute name="src"><xsl:value-of select="$httpprefix"/>//www.youtube.com/watch?v=<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='v']/@Value" />&amp;controls=0</xsl:attribute>
+			</video>
+		</xsl:when>
+		<!--
+		<xsl:when test = "substring-after($data,'youtube.com') != '' or substring-after($data,'youtu.be') != ''">
 			<xsl:if test="$width = '' and $height = ''">
 				<xsl:attribute name="class">embed-responsive embed-responsive-16by9</xsl:attribute>
 			</xsl:if>
-			<!-- iframe instead of object tag, see bug #21657 -->
 			<iframe frameborder="0" allowfullscreen="1">
 				<xsl:if test="$width != ''">
 					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
@@ -2684,7 +2699,7 @@
 				</xsl:attribute>
 				<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
 			</iframe>
-		</xsl:when>
+		</xsl:when>-->
 		<xsl:when test = "substring-after($data,'xxxyoutube.com') != ''">
 			<object>
 				<xsl:if test="$width != ''">
@@ -2899,6 +2914,11 @@
 				</xsl:call-template>
 				<xsl:comment>Comment to have separate embed ending tag</xsl:comment>
 			</embed>
+		</xsl:when>
+
+		<!-- 36216 -->
+		<xsl:when test = "$type='application/octet-stream'">
+			Unsupported Media Type
 		</xsl:when>
 
 		<!-- all other mime types: output standard object/embed tag -->
@@ -3560,7 +3580,7 @@
 					</xsl:choose>
 				</xsl:variable>
 				<script type="text/javascript">
-					if (typeof variable === 'undefined') {
+					if (typeof ilAccordionsInits === 'undefined') {
 						var ilAccordionsInits = [];
 					}
 					ilAccordionsInits.push({
@@ -3572,7 +3592,7 @@
 							height: null,
 							orientation: 'vertical',
 							behaviour: '<xsl:value-of select = "$beh"/>',
-							save_url: '',
+							save_url: '<xsl:value-of select = "$acc_save_url"/>',
 							active_head_class: '<xsl:value-of select="$aheadclass"/>',
 							int_id: '',
 							multi: false

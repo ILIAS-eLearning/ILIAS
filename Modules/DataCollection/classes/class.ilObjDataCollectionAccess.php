@@ -284,11 +284,10 @@ class ilObjDataCollectionAccess extends ilObjectAccess
      * @param $table_id
      * @return bool
      */
-    protected static function hasAccessToTable(int $table_id): bool
+    protected static function hasAccessToTable(int $table_id, int $ref_id): bool
     {
         $table = ilDclCache::getTableCache($table_id);
-
-        return $table->getIsVisible() || ($table_id == $table->getCollectionObject()->getFirstVisibleTableId());
+        return self::hasWriteAccess($ref_id) || $table->getIsVisible();
     }
 
     public static function hasAccessTo(int $ref_id, int $table_id, int $tableview_id): bool
@@ -298,7 +297,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         $table = ilDclCache::getTableCache($table_id);
 
         // is tableview in table and is table in datacollection
-        if (($tableview->getTableId() != $table_id)
+        if (($tableview->getTableId() !== $table_id)
             || !self::isTableInDataCollection($table, $ref_id)
         ) {
             return false;
@@ -307,7 +306,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         // check access
         return self::hasWriteAccess($ref_id)
             || (
-                self::hasReadAccess($ref_id) && self::hasAccessToTable($table_id) && self::hasAccessToTableView($tableview)
+                self::hasReadAccess($ref_id) && self::hasAccessToTable($table_id, $ref_id) && self::hasAccessToTableView($tableview)
             );
     }
 

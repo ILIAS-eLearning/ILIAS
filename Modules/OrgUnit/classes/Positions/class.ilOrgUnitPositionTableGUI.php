@@ -16,6 +16,7 @@
  ********************************************************************
  */
 
+declare(strict_types=1);
 use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
 
 /**
@@ -24,19 +25,13 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
  */
 class ilOrgUnitPositionTableGUI extends ilTable2GUI
 {
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    protected $DIC;
-    /**
-     * @var array
-     */
-    protected $columns
-        = array(
+    protected \ILIAS\DI\Container $DIC;
+    protected array $columns = [
             'title',
             'description',
             'authorities',
-        );
+        ];
+    protected \ilOrgUnitPositionDBRepository $positionRepo;
 
     /**
      * ilOrgUnitPositionTableGUI constructor.
@@ -46,6 +41,10 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI
     public function __construct(BaseCommands $parent_obj, $parent_cmd)
     {
         $this->DIC = $GLOBALS["DIC"];
+
+        $dic = ilOrgUnitLocalDIC::dic();
+        $this->positionRepo = $dic["repo.Positions"];
+
         $this->setPrefix('orgu_types_table');
         $this->setId('orgu_types_table');
         parent::__construct($parent_obj, $parent_cmd);
@@ -63,13 +62,13 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI
     public function fillRow(array $a_set): void
     {
         /**
-         * @var $obj ilOrgUnitPosition
+         * @var $position ilOrgUnitPosition
          */
-        $obj = ilOrgUnitPosition::find($a_set["id"]);
+        $position = $this->positionRepo->getSingle($a_set["id"], 'id');
 
-        $this->tpl->setVariable('TITLE', $obj->getTitle());
-        $this->tpl->setVariable('DESCRIPTION', $obj->getDescription());
-        $this->tpl->setVariable('AUTHORITIES', implode("<br>", $obj->getAuthorities()));
+        $this->tpl->setVariable('TITLE', $position->getTitle());
+        $this->tpl->setVariable('DESCRIPTION', $position->getDescription());
+        $this->tpl->setVariable('AUTHORITIES', implode("<br>", $this->getAuthorityDescription($position->getAuthorities())));
 
         $this->DIC->ctrl()
                   ->setParameterByClass(ilOrgUnitPositionGUI::class, BaseCommands::AR_ID, $a_set['id']);
@@ -81,7 +80,7 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI
                                                                                        ilOrgUnitPositionGUI::class,
                                                                                        ilOrgUnitPositionGUI::CMD_EDIT
                                                                                    ));
-        if (!$obj->isCorePosition()) {
+        if (!$position->isCorePosition()) {
             $selection->addItem($this->DIC->language()->txt('delete'), 'delete', $this->DIC->ctrl()
                                                                                            ->getLinkTargetByClass(
                                                                                                ilOrgUnitPositionGUI::class,
@@ -104,6 +103,46 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI
      */
     private function buildData(): void
     {
-        $this->setData(ilOrgUnitPosition::getArray());
+        $this->setData($this->positionRepo->getArray());
+    }
+
+    /**
+     * Returns descriptions for authorities as an array of strings
+     *
+     * @param ilOrgUnitAuthority[] $authorities
+     */
+    private function getAuthorityDescription(array $authorities): array
+    {
+        $lang = $this->DIC->language();
+        $lang->loadLanguageModule('orgu');
+        $lang_keys = array(
+            'in',
+            'over',
+            'scope_' . ilOrgUnitAuthority::SCOPE_SAME_ORGU,
+            'scope_' . ilOrgUnitAuthority::SCOPE_SUBSEQUENT_ORGUS,
+            'over_' . ilOrgUnitAuthority::OVER_EVERYONE,
+        );
+        $t = [];
+        foreach ($lang_keys as $key) {
+            $t[$key] = $lang->txt($key);
+        }
+
+        $authority_description =[];
+        foreach ($authorities as $authority) {
+            switch ($authority->getOver()) {
+                case ilOrgUnitAuthority::OVER_EVERYONE:
+                    $over_txt = $t["over_" . $authority->getOver()];
+                    break;
+                default:
+                    $over_txt = $this->positionRepo
+                        ->getSingle($authority->getOver(), 'id')
+                        ->getTitle();
+                    break;
+            }
+
+            $authority_description[] = " " . $t["over"] . " " . $over_txt . " " . $t["in"] . " " . $t["scope_" . $authority->getScope()];
+        }
+
+        return $authority_description;
     }
 }

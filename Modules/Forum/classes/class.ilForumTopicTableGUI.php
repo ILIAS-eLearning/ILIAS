@@ -30,7 +30,6 @@ class ilForumTopicTableGUI extends ilTable2GUI
     private ilForum $mapper;
     private bool $is_moderator = false;
     private int $ref_id = 0;
-    private int $overview_setting = 0;
     private ForumDto $topicData;
     private ?ilForumTopic $merge_thread_obj = null;
     private int $position = 1;
@@ -44,8 +43,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         string $a_parent_cmd,
         int $ref_id,
         ForumDto $topicData,
-        bool $is_moderator = false,
-        int $overview_setting = 0
+        bool $is_moderator = false
     ) {
         global $DIC;
 
@@ -56,7 +54,6 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
         $this->parent_cmd = $a_parent_cmd;
         $this->setIsModerator($is_moderator);
-        $this->setOverviewSetting($overview_setting);
         $this->setRefId($ref_id);
         $this->setTopicData($topicData);
 
@@ -233,7 +230,6 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
         $num_posts = $thread->getNumPosts();
         $num_unread = $thread->getNumUnreadPosts();
-        $num_new = $thread->getNumNewPosts();
 
         $this->ctrl->setParameter($this->getParentObject(), 'page', 0);
         $subject = '<div><a href="' . $this->ctrl->getLinkTarget(
@@ -266,9 +262,6 @@ class ilForumTopicTableGUI extends ilTable2GUI
         if (!$this->user->isAnonymous()) {
             if ($num_unread > 0) {
                 $topicStats .= '<br /><span class="ilAlert ilWhiteSpaceNowrap">' . $this->lng->txt('unread') . ': ' . $num_unread . '</span>';
-            }
-            if ($num_new > 0 && $this->getOverviewSetting() === ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS) {
-                $topicStats .= '<br /><span class="ilAlert ilWhiteSpaceNowrap">' . $this->lng->txt('new') . ': ' . $num_new . '</span>';
             }
         }
 
@@ -395,17 +388,6 @@ class ilForumTopicTableGUI extends ilTable2GUI
     public function getRefId(): int
     {
         return $this->ref_id;
-    }
-
-    public function setOverviewSetting(int $overview_setting): self
-    {
-        $this->overview_setting = $overview_setting;
-        return $this;
-    }
-
-    public function getOverviewSetting(): int
-    {
-        return $this->overview_setting;
     }
 
     public function setIsModerator(bool $is_moderator): self

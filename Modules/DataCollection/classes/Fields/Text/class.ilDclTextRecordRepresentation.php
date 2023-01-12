@@ -1,4 +1,19 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilDclTextFieldRepresentation
@@ -9,21 +24,19 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
 {
     public const LINK_MAX_LENGTH = 40;
 
-    public function getHTML(bool $link = true): string
+    public function getHTML(bool $link = true, array $options = []): string
     {
         $value = $this->getRecordField()->getValue();
-
-        $tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
 
         //Property URL
         $field = $this->getField();
         if ($field->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
             if (is_array($value)) {
-                $link = $value['link'];
+                $link = (string)$value['link'];
                 $link_value = $value['title'] ?: $this->shortenLink($link);
             } else {
-                $link = $value;
-                $link_value = $this->shortenLink($value);
+                $link = (string)$value;
+                $link_value = $this->shortenLink($link);
             }
 
             if (substr($link, 0, 3) === 'www') {
@@ -43,20 +56,26 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
                 $link,
                 ENT_QUOTES
             ) . "'>" . htmlspecialchars($link_value, ENT_QUOTES) . "</a>";
-        } elseif ($field->hasProperty(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT) && $link && ilDclDetailedViewDefinition::isActive($tableview_id)) {
+        } elseif ($field->hasProperty(
+            ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT
+        ) && $link && ilDclDetailedViewDefinition::isActive($this->getTableViewId())) {
             $this->ctrl->clearParametersByClass("ilDclDetailedViewGUI");
             $this->ctrl->setParameterByClass(
                 'ilDclDetailedViewGUI',
                 'record_id',
                 $this->getRecordField()->getRecord()->getId()
             );
-            $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'tableview_id', $tableview_id);
+            $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'tableview_id', $this->getTableViewId());
             $html = '<a href="' . $this->ctrl->getLinkTargetByClass(
                 "ilDclDetailedViewGUI",
                 'renderRecord'
             ) . '">' . $value . '</a>';
         } else {
             $html = (is_array($value) && isset($value['link'])) ? $value['link'] : $value;
+        }
+
+        if (!$html) {
+            $html = "";
         }
 
         return $html;
@@ -98,13 +117,13 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
         $raw_input = $this->getFormInput();
 
         $value = is_array($raw_input) ? $raw_input['link'] : $raw_input;
-        $field_values = array();
+        $field_values = [];
         if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_URL)) {
             $field_values["field_" . $this->getRecordField()->getField()->getId() . "_title"] = (isset($raw_input['title'])) ? $raw_input['title'] : '';
         }
 
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_TEXTAREA)) {
-            $breaks = array("<br />");
+            $breaks = ["<br />"];
             $value = str_ireplace($breaks, "", $value);
         }
 

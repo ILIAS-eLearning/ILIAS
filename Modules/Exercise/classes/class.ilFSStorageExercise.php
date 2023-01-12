@@ -231,7 +231,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
                     $savepath . "/" . $prefix . "_" . $filename
                 );
             } else {
-                rename(
+                ilFileUtils::rename(
                     $a_http_post_file['tmp_name'],
                     $savepath . "/" . $prefix . "_" . $filename
                 );

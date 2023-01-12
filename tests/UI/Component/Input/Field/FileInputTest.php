@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -133,6 +133,11 @@ class FileInputTest extends ILIAS_UI_TestBase
                 }
 
                 return null;
+            }
+
+            public function supportsChunkedUploads(): bool
+            {
+                return false;
             }
         };
     }
@@ -279,6 +284,9 @@ class FileInputTest extends ILIAS_UI_TestBase
                                 <div class="ui-input-file-metadata" style="display: none;">
                                     <input id="id_1" type="hidden" name="name_0[form_input_0][]" value="test_file_id_1" />
                                 </div>
+                                <div class="ui-input-file-input-progress-container">
+                                    <div class="ui-input-file-input-progress-indicator"></div>
+                                </div>
                             </div>
                         </div>
                         <div class="ui-input-file-input-dropzone">
@@ -347,6 +355,9 @@ class FileInputTest extends ILIAS_UI_TestBase
                                         </div>
                                     </div>
                                     <input id="id_2" type="hidden" name="name_0[form_input_2][]" value="file_id" />
+                                </div>
+                                <div class="ui-input-file-input-progress-container">
+                                    <div class="ui-input-file-input-progress-indicator"></div>
                                 </div>
                             </div>
                         </div>
@@ -422,6 +433,9 @@ class FileInputTest extends ILIAS_UI_TestBase
                                         </div>
                                     </div>
                                     <input id="id_2" type="hidden" name="name_0[form_input_2][]" value="test_file_id_1" />
+                                </div>
+                                <div class="ui-input-file-input-progress-container">
+                                    <div class="ui-input-file-input-progress-indicator"></div>
                                 </div>
                             </div>
                         </div>
@@ -508,64 +522,5 @@ class FileInputTest extends ILIAS_UI_TestBase
             $this->buildButtonFactory(),
             $this->buildSymbolFactory()
         );
-    }
-
-    public function getDefaultRenderer(
-        JavaScriptBinding $js_binding = null,
-        array $with_stub_renderings = []
-    ): TestDefaultRenderer {
-        $ui_factory = $this->getUIFactory();
-        $tpl_factory = $this->getTemplateFactory();
-        $resource_registry = $this->getResourceRegistry();
-        $lng = $this->getLanguage();
-        if (!$js_binding) {
-            $js_binding = $this->getJavaScriptBinding();
-        }
-
-        $refinery = $this->getRefinery();
-        $img_resolver = new ilImagePathResolver();
-
-        $component_renderer_loader
-            = new LoaderCachingWrapper(
-                new LoaderResourceRegistryWrapper(
-                    $resource_registry,
-                    new FSLoader(
-                        new DefaultRendererFactory(
-                            $ui_factory,
-                            $tpl_factory,
-                            $lng,
-                            $js_binding,
-                            $refinery,
-                            $img_resolver
-                        ),
-                        new GlyphRendererFactory(
-                            $ui_factory,
-                            $tpl_factory,
-                            $lng,
-                            $js_binding,
-                            $refinery,
-                            $img_resolver
-                        ),
-                        new IconRendererFactory(
-                            $ui_factory,
-                            $tpl_factory,
-                            $lng,
-                            $js_binding,
-                            $refinery,
-                            $img_resolver
-                        ),
-                        new FieldRendererFactory(
-                            $ui_factory,
-                            $tpl_factory,
-                            $lng,
-                            $js_binding,
-                            $refinery,
-                            $img_resolver
-                        )
-                    )
-                )
-            );
-
-        return new TestDefaultRenderer($component_renderer_loader, $with_stub_renderings);
     }
 }

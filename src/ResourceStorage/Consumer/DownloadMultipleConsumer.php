@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +13,10 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Consumer;
 
@@ -23,9 +24,8 @@ use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\HTTP\Response\ResponseHeader;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
+use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
-use ILIAS\ResourceStorage\Resource\StorableResource;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 
 /**
  * Class DownloadMultipleConsumer
@@ -33,25 +33,28 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
  */
 class DownloadMultipleConsumer implements DeliveryConsumer
 {
-    protected string $zip_file_name;
     protected ResourceCollection $collection;
     protected ?int $revision_number = null;
-    protected FileNamePolicy $file_name_policy;
-    protected StorageHandlerFactory $storage_handler_factory;
-    /**
-     * @var StorableResource[]
-     */
-    protected array $resources = [];
     protected bool $use_revision_titles = false;
+    /**
+     * @var \ILIAS\ResourceStorage\Resource\StorableResource[]
+     */
+    protected array $resources;
+    private StreamAccess $stream_access;
+    protected FileNamePolicy $file_name_policy;
+    protected string $zip_file_name;
 
+    /**
+     * @param \ILIAS\ResourceStorage\Resource\StorableResource[] $resources
+     */
     public function __construct(
-        array $rescources,
-        StorageHandlerFactory $storage_handler_factory,
+        array $resources,
+        StreamAccess $stream_access,
         FileNamePolicy $file_name_policy,
         string $zip_file_name
     ) {
-        $this->resources = $rescources;
-        $this->storage_handler_factory = $storage_handler_factory;
+        $this->resources = $resources;
+        $this->stream_access = $stream_access;
         $this->file_name_policy = $file_name_policy;
         $this->zip_file_name = $zip_file_name;
     }
@@ -67,8 +70,7 @@ class DownloadMultipleConsumer implements DeliveryConsumer
         $zip->open($temp, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
 
         foreach ($this->resources as $resource) {
-            $storage_handler = $this->storage_handler_factory->getHandlerForResource($resource);
-            $revision = $resource->getCurrentRevision();
+            $revision = $this->stream_access->populateRevision($resource->getCurrentRevision());
             if ($this->use_revision_titles) {
                 $file_name = $this->file_name_policy->prepareFileNameForConsumer($revision->getTitle());
             } else {
@@ -77,7 +79,7 @@ class DownloadMultipleConsumer implements DeliveryConsumer
                 );
             }
 
-            $zip->addFile($storage_handler->getStream($revision)->getMetadata('uri'), $file_name);
+            $zip->addFile($revision->maybeGetToken()->resolveStream()->getMetadata('uri'), $file_name);
         }
 
         $zip->close();

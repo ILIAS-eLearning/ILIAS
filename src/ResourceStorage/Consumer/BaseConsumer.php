@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,13 +13,16 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Consumer;
 
-use ILIAS\ResourceStorage\Resource\StorableResource;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
+use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
+use ILIAS\ResourceStorage\Resource\StorableResource;
 
 /**
  * Class BaseConsumer
@@ -31,22 +32,22 @@ abstract class BaseConsumer implements DeliveryConsumer
 {
     use GetRevisionTrait;
 
-    protected \ILIAS\ResourceStorage\StorageHandler\StorageHandler $storage_handler;
-    protected \ILIAS\ResourceStorage\Resource\StorableResource $resource;
     protected ?int $revision_number = null;
-    protected \ILIAS\ResourceStorage\Policy\FileNamePolicy $file_name_policy;
     protected string $file_name = '';
+    protected StorableResource $resource;
+    protected StreamAccess $stream_access;
+    protected FileNamePolicy $file_name_policy;
 
     /**
      * DownloadConsumer constructor.
      */
     public function __construct(
         StorableResource $resource,
-        StorageHandler $storage_handler,
+        StreamAccess $stream_access,
         FileNamePolicy $file_name_policy
     ) {
         $this->resource = $resource;
-        $this->storage_handler = $storage_handler;
+        $this->stream_access = $stream_access;
         $this->file_name_policy = $file_name_policy;
         $this->file_name = $resource->getCurrentRevision()->getInformation()->getTitle();
     }

@@ -223,7 +223,9 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
         $member = $this->object->membersStorage()->loadMember($this->object, $this->usr);
         $file_storage = $this->object->getFileStorage();
         $file_storage->setUserId($this->usr->getId());
-        ilFileDelivery::deliverFileLegacy($file_storage->getFilePath(), $member->fileName());
+        $filepath = $file_storage->getAbsolutePath();
+        $filename = $member->fileName();
+        ilFileDelivery::deliverFileLegacy($filepath . "/" . $filename, $filename);
     }
 
     protected function addGeneralDataToInfo(ilInfoScreenGUI $info): ilInfoScreenGUI

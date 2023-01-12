@@ -2304,8 +2304,8 @@ s     */
             $url = parse_url($href);
 
             // only handle links on same host
-            $this->log->debug("Host: " . $url["host"]);
-            if ($url["host"] != "" && $url["host"] != $ilias_url["host"]) {
+            $this->log->debug("Host: " . ($url["host"] ?? ""));
+            if (($url["host"] ?? "") !== "" && $url["host"] !== $ilias_url["host"]) {
                 continue;
             }
 

@@ -25,12 +25,14 @@ declare(strict_types=1);
  */
 class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
 {
+    public const COMPARISON_NONE = 0;
     public const COMPARISON_ASCENDING = 1;
     public const COMPARISON_DESCENDING = 2;
 
     protected array $items = array();
     protected array $labels = [];
-    protected int $comparison_mode = 1;
+    // BT 35500: default should be no comparison
+    protected int $comparison_mode = self::COMPARISON_NONE;
 
     public function __construct(
         string $a_title = "",
@@ -129,11 +131,21 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
             foreach ($a_value as $id => $value) {
                 if (isset($this->items[$id])) {
                     if (method_exists($this->items[$id], "setValue")) {
+                        // BT 35708: numeric inputs in table filters do not take floats as values
+                        $value = is_float($value) ? (string) $value : $value;
                         $this->items[$id]->setValue($value);
                     }
                     // datetime
                     elseif (method_exists($this->items[$id], "setDate")) {
                         $this->items[$id]->setDate($value);
+                    }
+                    // duration
+                    elseif (method_exists($this->items[$id], "setMonths")) {
+                        $this->items[$id]->setMonths((int) ($value['MM'] ?? 0));
+                        $this->items[$id]->setDays((int) ($value['dd'] ?? 0));
+                        $this->items[$id]->setHours((int) ($value['hh'] ?? 0));
+                        $this->items[$id]->setMinutes((int) ($value['mm'] ?? 0));
+                        $this->items[$id]->setSeconds((int) ($value['ss'] ?? 0));
                     }
                 }
             }
@@ -169,6 +181,10 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
             elseif (method_exists($obj, "setDate")) {
                 $result[$id] = $obj->getDate();
             }
+            // duration
+            elseif (method_exists($obj, 'getValueAsArray')) {
+                $result[$id] = $obj->getValueAsArray();
+            }
         }
         return $result;
     }
@@ -192,7 +208,7 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
                 }
             }
 
-            if ($this->comparison_mode) {
+            if ($this->comparison_mode !== self::COMPARISON_NONE) {
                 $prev = null;
                 foreach ($this->items as $obj) {
                     $value = $obj->getPostValueForComparison();
