@@ -257,12 +257,12 @@ class ilObjSystemCheckGUI extends ilObjectGUI
             if ($dt) {
                 $trash->setAgeLimit($dt);
             }
-            $trash->setNumberLimit($form->getInput('number'));
+            $trash->setNumberLimit((int) $form->getInput('number'));
 
             if ($form->getInput('types')) {
                 $trash->setTypesLimit((array) $form->getInput('types'));
             }
-            $trash->setMode($form->getInput('type'));
+            $trash->setMode((int) $form->getInput('type'));
             $trash->start();
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
