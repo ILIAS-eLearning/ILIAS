@@ -10462,7 +10462,7 @@ lso#:#abstract_img#:#Image for Abstract
 lso#:#avail_time_period#:#Period
 lso#:#completed_steps#:#Passed Steps
 lso#:#condition_always#:#Always
-lso#:#curriculum#:#Curriculum
+lso#:#curriculum#:#Content
 lso#:#delete_confirmation#:#Are you sure you want to delete this objects?
 lso#:#entries_deleted#:#Successfully deleted entries.
 lso#:#entries_updated#:#Entries saved
@@ -10505,7 +10505,7 @@ lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membersh
 lso#:#lso_mail_unsubscribe_member_sub#:#Your cancellation of membership in learning sequence "%s"
 lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s". You are assigned to position %s on the list.  You will receive a message from a learning sequence administrator when your request has been approved or rejected.
 lso#:#lso_mail_wl_sub#:#Your registration for learning sequence "%s"
-lso#:#lso_mainbar_button_label_curriculum#:#Curriculum
+lso#:#lso_mainbar_button_label_curriculum#:#Learning Sequence
 lso#:#lso_mainbar_button_label_toc#:#Content
 lso#:#lso_mem_tbl_header#:#Learning Sequence Member
 lso#:#lso_member_administration#:#Edit Participants
