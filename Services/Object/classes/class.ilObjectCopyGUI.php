@@ -386,7 +386,7 @@ class ilObjectCopyGUI
             $exp->removeFormItemForType($container);
         }
 
-        if ($this->request_wrapper->has("paste_copy_repexpand")) {
+        if (!$this->request_wrapper->has("paste_copy_repexpand")) {
             $expanded = $this->tree->readRootId();
         } else {
             $expanded = $this->request_wrapper->retrieve("paste_copy_repexpand", $this->refinery->kindlyTo()->int());

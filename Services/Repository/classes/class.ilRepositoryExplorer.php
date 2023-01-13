@@ -375,7 +375,8 @@ class ilRepositoryExplorer extends ilExplorer
 
         $nodes = [];
         foreach ($this->type_grps[$parent_type] as $t => $g) {
-            if (is_array($group[$t])) {
+            if (array_key_exists($t, $group)
+                && is_array($group[$t])) {
                 // do we have to sort this group??
                 $sort = ilContainerSorting::_getInstance($a_parent_obj_id);
                 $group = $sort->sortItems($group);
