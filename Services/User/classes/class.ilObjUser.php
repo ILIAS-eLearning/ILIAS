@@ -856,6 +856,7 @@ class ilObjUser extends ilObject
 
         $ilDB = $this->db;
         $ilSetting = $DIC['ilSetting'];
+        $lng = $DIC->language();
 
         if (func_num_args() != 1) {
             return false;
@@ -882,14 +883,14 @@ class ilObjUser extends ilObject
         if ((int) $ilSetting->get('allow_change_loginname') &&
            (int) $ilSetting->get('reuse_of_loginnames') == 0 &&
            self::_doesLoginnameExistInHistory($a_login)) {
-            throw new ilUserException($this->lng->txt('loginname_already_exists'));
+            throw new ilUserException($lng->txt('loginname_already_exists'));
         } elseif ((int) $ilSetting->get('allow_change_loginname') &&
                 (int) $ilSetting->get('loginname_change_blocking_time') &&
                 is_array($last_history_entry) &&
                 $last_history_entry[1] + (int) $ilSetting->get('loginname_change_blocking_time') > time()) {
             throw new ilUserException(
                 sprintf(
-                    $this->lng->txt('changing_loginname_not_possible_info'),
+                    $lng->txt('changing_loginname_not_possible_info'),
                     ilDatePresentation::formatDate(
                         new ilDateTime($last_history_entry[1], IL_CAL_UNIX)
                     ),
@@ -3598,7 +3599,7 @@ class ilObjUser extends ilObject
         if ($ilDB->numRows($res) == 0) {
             $ilDB->manipulateF(
                 '
-				INSERT INTO loginname_history 
+				INSERT INTO loginname_history
 						(usr_id, login, history_date)
 				VALUES 	(%s, %s, %s)',
                 array('integer', 'text', 'integer'),
@@ -3705,7 +3706,7 @@ class ilObjUser extends ilObject
 
             $res = $ilDB->queryf(
                 '
-				SELECT COUNT(usr_id) cnt FROM usr_data 
+				SELECT COUNT(usr_id) cnt FROM usr_data
 				WHERE reg_hash = %s',
                 array('text'),
                 array($hashcode)
@@ -3723,8 +3724,8 @@ class ilObjUser extends ilObject
 
             $ilDB->manipulateF(
                 '
-				UPDATE usr_data	
-				SET reg_hash = %s	
+				UPDATE usr_data
+				SET reg_hash = %s
 				WHERE usr_id = %s',
                 array('text', 'integer'),
                 array($hashcode, $a_usr_id)
@@ -3750,7 +3751,7 @@ class ilObjUser extends ilObject
 
         $res = $ilDB->queryf(
             '
-			SELECT usr_id, create_date FROM usr_data 
+			SELECT usr_id, create_date FROM usr_data
 			WHERE reg_hash = %s',
             array('text'),
             array($a_hash)
@@ -3768,7 +3769,7 @@ class ilObjUser extends ilObject
 
             $ilDB->manipulateF(
                 '
-				UPDATE usr_data	
+				UPDATE usr_data
 				SET reg_hash = %s
 				WHERE usr_id = %s',
                 array('text', 'integer'),
