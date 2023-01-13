@@ -34,9 +34,9 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
         // Only visible, if not on login-page but not logged in
         $target_str = '';
         if (isset($request->getQueryParams()['ref_id']) && $ref_id = $request->getQueryParams()['ref_id']) {
-            $type = \ilObject::_lookupType($ref_id, true);
+            $type = \ilObject::_lookupType((int) $ref_id, true);
             if ($type != "root") {  // see bug #30710
-                $target_str = 'target=' . \ilObject::_lookupType($ref_id, true) . '_' . (int) $ref_id . '&';
+                $target_str = 'target=' . \ilObject::_lookupType((int) $ref_id, true) . '_' . (int) $ref_id . '&';
             }
         } elseif (isset($request->getQueryParams()['target']) && $target = $request->getQueryParams()['target']) {
             $target_str = 'target=' . $target . '&';

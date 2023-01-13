@@ -93,12 +93,12 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 
         switch ($a_name) {
             case 'Course':
-                if (strlen($a_attribs['importId'])) {
+                if (strlen($a_attribs['importId'] ?? '')) {
                     $this->log->write("CourseXMLParser: importId = " . $a_attribs['importId']);
                     $this->course_obj->setImportId($a_attribs['importId']);
                     ilObject::_writeImportId($this->course_obj->getId(), $a_attribs['importId']);
                 }
-                if (strlen($a_attribs['showMembers'])) {
+                if (strlen($a_attribs['showMembers'] ?? '')) {
                     $this->course_obj->setShowMembers(
                         $a_attribs['showMembers'] == 'Yes'
                     );
@@ -106,7 +106,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 break;
 
             case 'Admin':
-                if ($id_data = $this->__parseId($a_attribs['id'])) {
+                if ($id_data = $this->__parseId($a_attribs['id'] ?? '')) {
                     if ($id_data['local'] or $id_data['imported']) {
                         $this->handleAdmin($a_attribs, $id_data);
                     }
@@ -114,7 +114,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 break;
 
             case 'Tutor':
-                if ($id_data = $this->__parseId($a_attribs['id'])) {
+                if ($id_data = $this->__parseId($a_attribs['id'] ?? '')) {
                     if ($id_data['local'] or $id_data['imported']) {
                         $this->handleTutor($a_attribs, $id_data);
                     }
@@ -122,7 +122,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 break;
 
             case 'Member':
-                if ($id_data = $this->__parseId($a_attribs['id'])) {
+                if ($id_data = $this->__parseId($a_attribs['id'] ?? '')) {
                     if ($id_data['local'] or $id_data['imported']) {
                         $this->handleMember($a_attribs, $id_data);
                     }
@@ -130,7 +130,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 break;
 
             case 'Subscriber':
-                if ($id_data = $this->__parseId($a_attribs['id'])) {
+                if ($id_data = $this->__parseId($a_attribs['id'] ?? '')) {
                     if ($id_data['local'] or $id_data['imported']) {
                         $this->handleSubscriber($a_attribs, $id_data);
                     }
@@ -138,7 +138,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 break;
 
             case 'WaitingList':
-                if ($id_data = $this->__parseId($a_attribs['id'])) {
+                if ($id_data = $this->__parseId($a_attribs['id'] ?? '')) {
                     if ($id_data['local'] or $id_data['imported']) {
                         $this->handleWaitingList($a_attribs, $id_data);
                     }
@@ -146,9 +146,9 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 break;
 
             case 'Owner':
-                if ($id_data = $this->__parseId($a_attribs['id'])) {
+                if ($id_data = $this->__parseId($a_attribs['id'] ?? '')) {
                     if ($id_data['local'] or $id_data['imported']) {
-                        $this->course_obj->setOwner($id_data['usr_id']);
+                        $this->course_obj->setOwner((int) ($id_data['usr_id'] ?? 0));
                         $this->course_obj->updateOwner();
                     }
                 }
@@ -210,7 +210,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             case 'Registration':
                 $this->in_registration = true;
 
-                switch ($a_attribs['registrationType']) {
+                switch ($a_attribs['registrationType'] ?? '') {
                     case 'Confirmation':
                         $this->course_obj->setSubscriptionType(ilCourseConstants::IL_CRS_SUBSCRIPTION_CONFIRMATION);
                         break;
@@ -224,9 +224,9 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                         break;
                 }
 
-                $this->course_obj->setSubscriptionMaxMembers((int) $a_attribs['maxMembers']);
+                $this->course_obj->setSubscriptionMaxMembers((int) ($a_attribs['maxMembers'] ?? 0));
                 $this->course_obj->enableSubscriptionMembershipLimitation($this->course_obj->getSubscriptionMaxMembers() > 0);
-                $this->course_obj->enableWaitingList($a_attribs['waitingList'] == 'Yes' ? true : false);
+                $this->course_obj->enableWaitingList(($a_attribs['waitingList'] ?? null) == 'Yes' ? true : false);
                 break;
 
             case 'Sort':
@@ -248,12 +248,12 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 break;
 
             case 'ContainerSetting':
-                $this->current_container_setting = $a_attribs['id'];
+                $this->current_container_setting = ($a_attribs['id'] ?? '');
                 break;
 
             case 'Period':
                 $this->in_period = true;
-                $this->in_period_with_time = $a_attribs['withTime'];
+                $this->in_period_with_time = (bool) ($a_attribs['withTime'] ?? false);
                 break;
 
             case 'WaitingListAutoFill':
@@ -298,10 +298,10 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                          'usr_id' => $id
             );
         }
-        if ($fields[1] == $this->setting->get('inst_id', '0') && strlen(ilObjUser::_lookupLogin($fields[3]))) {
+        if ($fields[1] == $this->setting->get('inst_id', '0') && strlen(ilObjUser::_lookupLogin((int) $fields[3]))) {
             return array('imported' => false,
                          'local' => true,
-                         'usr_id' => $fields[3]
+                         'usr_id' => (int) $fields[3]
             );
         }
         return [];
@@ -317,10 +317,10 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             if (!array_key_exists($id_data['usr_id'], $this->course_members_array)) {
                 // add only if member is not assigned yet
                 $this->course_members->add($id_data['usr_id'], ilParticipants::IL_CRS_ADMIN);
-                if ($a_attribs['notification'] == 'Yes') {
+                if (isset($a_attribs['notification']) && $a_attribs['notification'] == 'Yes') {
                     $this->course_members->updateNotification($id_data['usr_id'], true);
                 }
-                if ($a_attribs['passed'] == 'Yes') {
+                if (isset($a_attribs['passed']) && $a_attribs['passed'] == 'Yes') {
                     $this->course_members->updatePassed($id_data['usr_id'], true);
                 }
                 if (isset($a_attribs['contact']) && $a_attribs['contact'] == 'Yes') {
@@ -330,10 +330,10 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 $this->course_members_array[$id_data['usr_id']] = "added";
             } else {
                 // update
-                if ($a_attribs['notification'] == 'Yes') {
+                if (isset($a_attribs['notification']) && $a_attribs['notification'] == 'Yes') {
                     $this->course_members->updateNotification($id_data['usr_id'], true);
                 }
-                if ($a_attribs['passed'] == 'Yes') {
+                if (isset($a_attribs['passed']) && $a_attribs['passed'] == 'Yes') {
                     $this->course_members->updatePassed($id_data['usr_id'], true);
                 }
                 if (isset($a_attribs['contact']) && $a_attribs['contact'] == 'Yes') {
@@ -356,10 +356,10 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             if (!array_key_exists($id_data['usr_id'], $this->course_members_array)) {
                 // add only if member is not assigned yet
                 $this->course_members->add($id_data['usr_id'], ilParticipants::IL_CRS_TUTOR);
-                if ($a_attribs['notification'] == 'Yes') {
+                if (isset($a_attribs['notification']) && $a_attribs['notification'] == 'Yes') {
                     $this->course_members->updateNotification($id_data['usr_id'], true);
                 }
-                if ($a_attribs['passed'] == 'Yes') {
+                if (isset($a_attribs['passed']) && $a_attribs['passed'] == 'Yes') {
                     $this->course_members->updatePassed($id_data['usr_id'], true);
                 }
                 if (isset($a_attribs['contact']) && $a_attribs['contact'] == 'Yes') {
@@ -368,10 +368,10 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 }
                 $this->course_members_array[$id_data['usr_id']] = "added";
             } else {
-                if ($a_attribs['notification'] == 'Yes') {
+                if (isset($a_attribs['notification']) && $a_attribs['notification'] == 'Yes') {
                     $this->course_members->updateNotification($id_data['usr_id'], true);
                 }
-                if ($a_attribs['passed'] == 'Yes') {
+                if (isset($a_attribs['passed']) && $a_attribs['passed'] == 'Yes') {
                     $this->course_members->updatePassed($id_data['usr_id'], true);
                 }
                 if (isset($a_attribs['contact']) && $a_attribs['contact'] == 'Yes') {
@@ -397,19 +397,19 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             if (!array_key_exists($id_data['usr_id'], $this->course_members_array)) {
                 // add only if member is not yet assigned as tutor or admin
                 $this->course_members->add($id_data['usr_id'], ilParticipants::IL_CRS_MEMBER);
-                if ($a_attribs['blocked'] == 'Yes') {
+                if (isset($a_attribs['blocked']) && $a_attribs['blocked'] == 'Yes') {
                     $this->course_members->updateBlocked($id_data['usr_id'], true);
                 }
-                if ($a_attribs['passed'] == 'Yes') {
+                if (isset($a_attribs['passed']) && $a_attribs['passed'] == 'Yes') {
                     $this->course_members->updatePassed($id_data['usr_id'], true);
                 }
                 $this->course_members_array[$id_data['usr_id']] = "added";
             } else {
                 // the member does exist. Now update status etc. only
-                if ($a_attribs['blocked'] == 'Yes') {
+                if (isset($a_attribs['blocked']) && $a_attribs['blocked'] == 'Yes') {
                     $this->course_members->updateBlocked($id_data['usr_id'], true);
                 }
-                if ($a_attribs['passed'] == 'Yes') {
+                if (isset($a_attribs['passed']) && $a_attribs['passed'] == 'Yes') {
                     $this->course_members->updatePassed($id_data['usr_id'], true);
                 }
             }
@@ -430,7 +430,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 // add only if not exist
                 $this->course_members->addSubscriber($id_data['usr_id']);
             }
-            $this->course_members->updateSubscriptionTime($id_data['usr_id'], $a_attribs['subscriptionTime']);
+            $this->course_members->updateSubscriptionTime($id_data['usr_id'], (int) ($a_attribs['subscriptionTime'] ?? 0));
         } elseif (isset($a_attribs['action']) && $a_attribs['action'] == 'Detach' && $this->course_members->isSubscriber($id_data['usr_id'])) {
             // if action set and detach and is subscriber
             $this->course_members->deleteSubscriber($id_data["usr_id"]);
@@ -448,7 +448,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 // add only if not exists
                 $this->course_waiting_list->addToList($id_data['usr_id']);
             }
-            $this->course_waiting_list->updateSubscriptionTime($id_data['usr_id'], $a_attribs['subscriptionTime']);
+            $this->course_waiting_list->updateSubscriptionTime($id_data['usr_id'], (int) ($a_attribs['subscriptionTime'] ?? 0));
         } elseif (isset($a_attribs['action']) && $a_attribs['action'] == 'Detach' && $this->course_waiting_list->isOnList($id_data['usr_id'])) {
             // if action set and detach and is on list
             $this->course_waiting_list->removeFromList($id_data['usr_id']);
