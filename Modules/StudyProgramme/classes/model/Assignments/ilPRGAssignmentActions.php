@@ -213,7 +213,8 @@ trait ilPRGAssignmentActions
     protected function applyProgressDeadline(
         ilStudyProgrammeSettingsRepository $settings_repo,
         ilPRGProgress $progress,
-        int $acting_usr_id = null
+        int $acting_usr_id = null,
+        bool $recalculate = true
     ): ilPRGProgress {
         $today = $this->getNow();
         $format = ilPRGProgress::DATE_FORMAT;
@@ -232,7 +233,11 @@ trait ilPRGAssignmentActions
                 ) {
                     $progress = $progress->markFailed($this->getNow(), $acting_usr_id);
                 } else {
-                    $progress = $this->recalculateProgressStatus($settings_repo, $progress);
+                    $node_settings = $settings_repo->get($progress->getNodeId());
+                    $completion_mode = $node_settings->getLPMode();
+                    if ($recalculate || $completion_mode !== ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
+                        $progress = $this->recalculateProgressStatus($settings_repo, $progress);
+                    }
                 }
                 break;
 
@@ -291,6 +296,7 @@ trait ilPRGAssignmentActions
         );
         return $this->withProgressTree($zipper->getRoot());
     }
+
     public function resetProgresses(
         ilStudyProgrammeSettingsRepository $settings_repo,
         int $acting_usr_id
@@ -300,7 +306,6 @@ trait ilPRGAssignmentActions
             function ($pgs) use ($acting_usr_id, $settings_repo): ilPRGProgress {
                 $pgs = $this->updateProgressRelevanceFromSettings($settings_repo, $pgs);
                 $pgs = $this->resetProgressToSettings($settings_repo, $pgs, $acting_usr_id);
-                //$pgs = $pgs->withStatus(ilPRGProgress::STATUS_IN_PROGRESS)
                 return $pgs;
             }
         );
@@ -467,10 +472,8 @@ trait ilPRGAssignmentActions
             function ($pgs) use ($err_collection, $acting_usr_id, $settings_repo, &$leafs): ilPRGProgress {
                 $pgs = $this->updateProgressRelevanceFromSettings($settings_repo, $pgs);
                 $pgs = $this->resetProgressToSettings($settings_repo, $pgs, $acting_usr_id);
-
+                $pgs = $this->applyProgressDeadline($settings_repo, $pgs, $acting_usr_id, false);
                 if (!$pgs->getSubnodes()) {
-                    $pgs = $this->recalculateProgressStatus($settings_repo, $pgs);
-                    $pgs = $this->applyProgressDeadline($settings_repo, $pgs, $acting_usr_id);
                     $leafs[] = $pgs->getPath();
                 }
 
