@@ -10378,7 +10378,7 @@ lso#:#abstract_img#:#Bild für die Einleitungsseite
 lso#:#avail_time_period#:#Zeitraum
 lso#:#completed_steps#:#Bestandene Schritte
 lso#:#condition_always#:#Immer
-lso#:#curriculum#:#Curriculum
+lso#:#curriculum#:#Inhalte
 lso#:#delete_confirmation#:#Möchten Sie folgende Objekte wirklich löschen?
 lso#:#entries_deleted#:#Einträge wurden erfolgreich gelöscht.
 lso#:#entries_updated#:#Einträge gespeichert
@@ -10421,7 +10421,7 @@ lso#:#lso_mail_unsubscribe_member_bod#:#wir bestätigen Ihre Abmeldung von der L
 lso#:#lso_mail_unsubscribe_member_sub#:#Ihre Abmeldung von der Lernsequenz "%s"
 lso#:#lso_mail_wl_bod#:#Sie sind auf die Warteliste der Lernsequenz "%s" gesetzt worden und haben die Position %s auf der Warteliste.  Sie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
 lso#:#lso_mail_wl_sub#:#Ihre Anmeldung für Lernsequenz "%s"
-lso#:#lso_mainbar_button_label_curriculum#:#Curriculum
+lso#:#lso_mainbar_button_label_curriculum#:#Lernsequenz
 lso#:#lso_mainbar_button_label_toc#:#Inhalte
 lso#:#lso_mem_tbl_header#:#Lernsequenz Teilnehmer
 lso#:#lso_member_administration#:#Teilnehmerverwaltung
