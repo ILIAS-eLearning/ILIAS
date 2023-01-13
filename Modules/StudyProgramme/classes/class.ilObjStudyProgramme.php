@@ -731,28 +731,31 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @return int[]
      */
-    public function getCompletedCourses(int $a_user_id): array
+    public function getCompletedCourses(int $usr_id): array
     {
         $node_data = $this->tree->getNodeData($this->getRefId());
         $crsrs = $this->tree->getSubTree($node_data, true, ["crsr"]);
 
         $completed_crss = array();
         foreach ($crsrs as $ref) {
+            $crs_id = (int) ilContainerReference::_lookupTargetId((int) $ref["obj_id"]);
+            $crs_ref_id = (int) ilContainerReference::_lookupTargetRefId((int) $ref["obj_id"]);
+
             if (ilObject::_exists((int) $ref['ref_id'], true) &&
-                is_null(ilObject::_lookupDeletedDate((int) $ref['ref_id']))
+                is_null(ilObject::_lookupDeletedDate((int) $ref['ref_id'])) &&
+                ilObject::_exists($crs_id, false) &&
+                is_null(ilObject::_lookupDeletedDate($crs_ref_id)) &&
+                ilLPStatus::_hasUserCompleted($crs_id, $usr_id)
             ) {
-                $crs_id = (int) ilContainerReference::_lookupTargetId((int) $ref["obj_id"]);
-                if (ilObject::_exists($crs_id) && ilLPStatus::_hasUserCompleted($crs_id, $a_user_id)) {
-                    $containing_prg = self::getInstanceByRefId((int) $ref["parent"]);
-                    if ($containing_prg->isActive()) {
-                        $completed_crss[] = [
-                            "crs_id" => $crs_id
-                            , "prg_ref_id" => (int) $ref["parent"]
-                            , "crsr_ref_id" => (int) $ref["child"]
-                            , "crsr_id" => (int) $ref["obj_id"]
-                            , "title" => ilContainerReference::_lookupTitle((int) $ref["obj_id"])
-                        ];
-                    }
+                $containing_prg = self::getInstanceByRefId((int) $ref["parent"]);
+                if ($containing_prg->isActive()) {
+                    $completed_crss[] = [
+                        "crs_id" => $crs_id
+                        , "prg_ref_id" => (int) $ref["parent"]
+                        , "crsr_ref_id" => (int) $ref["child"]
+                        , "crsr_id" => (int) $ref["obj_id"]
+                        , "title" => ilContainerReference::_lookupTitle((int) $ref["obj_id"])
+                    ];
                 }
             }
         }
