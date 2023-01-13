@@ -105,16 +105,11 @@ class ilObjStudyProgrammeAccess extends ilObjectAccess implements ilConditionHan
         int $a_usr_id
     ): bool {
         if ($a_operator === ilConditionHandler::OPERATOR_ACCREDITED_OR_PASSED) {
-            $valid_progress = array(
-                ilStudyProgrammeProgress::STATUS_COMPLETED,
-                ilStudyProgrammeProgress::STATUS_ACCREDITED
-            );
+            $repo = ilStudyProgrammeDIC::dic()['repo.assignment'];
+            $assignments = $repo->getAllForNodeIsContained($a_trigger_obj_id, [$a_usr_id]);
 
-            $prg_user_progress = ilStudyProgrammeDIC::dic()['model.Progress.ilStudyProgrammeProgressRepository']
-                ->getByPrgIdAndUserId($a_trigger_obj_id, $a_usr_id);
-
-            foreach ($prg_user_progress as $progress) {
-                if (in_array($progress->getStatus(), $valid_progress)) {
+            foreach ($assignments as $ass) {
+                if ($ass->getProgressForNode($a_trigger_obj_id)->isSuccessful()) {
                     return true;
                 }
             }
