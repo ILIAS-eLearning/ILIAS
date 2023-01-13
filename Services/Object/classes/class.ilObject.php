@@ -32,6 +32,7 @@ class ilObject
     public const DESC_LENGTH = 128; // (short) description column max length in db
     public const LONG_DESC_LENGTH = 4000; // long description column max length in db
     public const TABLE_OBJECT_DATA = "object_data";
+    protected ilLogger $obj_log;
 
     protected ?ILIAS $ilias;
     protected ?ilObjectDefinition $obj_definition;
@@ -86,6 +87,7 @@ class ilObject
         $this->obj_definition = $DIC["objDefinition"];
         $this->db = $DIC["ilDB"];
         $this->log = $DIC["ilLog"];
+        $this->obj_log = ilLoggerFactory::getLogger("obj");
         $this->error = $DIC["ilErr"];
         $this->tree = $DIC["tree"];
         $this->app_event_handler = $DIC["ilAppEventHandler"];
@@ -1568,8 +1570,12 @@ class ilObject
         $options = ilCopyWizardOptions::_getInstance($copy_id);
 
         $title = $this->getTitle();
+        $this->obj_log->debug($title);
+        $this->obj_log->debug("isTreeCopyDisabled: " . $options->isTreeCopyDisabled());
+        $this->obj_log->debug("omit_tree: " . $omit_tree);
         if (!$options->isTreeCopyDisabled() && !$omit_tree) {
             $title = $this->appendCopyInfo($target_id, $copy_id);
+            $this->obj_log->debug("title incl. copy info: " . $title);
         }
 
         // create instance
@@ -1642,8 +1648,10 @@ class ilObject
     {
         $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
         if (!$cp_options->isRootNode($this->getRefId())) {
+            $this->obj_log->debug("No root node.");
             return $this->getTitle();
         }
+        $this->obj_log->debug("Root node.");
         $nodes = $this->tree->getChilds($target_id);
 
         $title_unique = false;
@@ -1653,6 +1661,7 @@ class ilObject
         while (!$title_unique) {
             $found = 0;
             foreach ($nodes as $node) {
+                $this->obj_log->debug("Compare " . $title . " and " . $node['title']);
                 if (($title == $node['title']) && ($this->getType() == $node['type'])) {
                     $found++;
                 }
