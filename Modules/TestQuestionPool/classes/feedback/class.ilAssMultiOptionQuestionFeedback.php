@@ -379,8 +379,22 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
 
     public function specificAnswerFeedbackExists(): bool
     {
-        return (bool) strlen(
-            $this->getAllSpecificAnswerFeedbackContents($this->questionOBJ->getId())
+        $res = $this->db->queryF(
+            "SELECT answer FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
+            ['integer'],
+            [$this->questionOBJ->getId()]
         );
+
+        $allFeedbackContents = '';
+
+        while ($row = $this->db->fetchAssoc($res)) {
+            $allFeedbackContents .= $this->getSpecificAnswerFeedbackExportPresentation(
+                $this->questionOBJ->getId(),
+                0,
+                $row['answer']
+            );
+        }
+
+        return (bool) strlen(trim(strip_tags($allFeedbackContents)));
     }
 }
