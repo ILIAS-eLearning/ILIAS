@@ -622,7 +622,7 @@ assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Verknüpfung
 assessment#:#conf_delete_pass#:#Durchgang wirklich löschen?
 assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?
-assessment#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie die Testdaten aller Benutzer des Tests entfernen wollen?
+assessment#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Datensätze der Umfrage löschen wollen?
 assessment#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie alle Testdaten der ausgewählten Benutzer entfernen wollen?
 assessment#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in den Test als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 assessment#:#coordinates#:#Koordinaten
@@ -1583,7 +1583,7 @@ assessment#:#tst_nav_while_edit_modal_header#:#Entscheidung über Antworten
 assessment#:#tst_nav_while_edit_modal_nosave_btn#:#Nicht Speichern
 assessment#:#tst_nav_while_edit_modal_save_btn#:#Speichern
 assessment#:#tst_nav_while_edit_modal_text#:#Was soll mit den Antworten dieser Frage geschehen, die Sie ggfs. bereits gegeben haben?
-assessment#:#tst_no_evaluation_data#:#Es liegen (noch) keine Benutzerdaten vor.
+assessment#:#tst_no_evaluation_data#:#Es liegen noch keine Datensätze vor.
 assessment#:#tst_no_marks_defined#:#Es sind keine Noten definiert. Bitte erzeugen Sie wenigstens ein einfaches Notenschema!
 assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Bitte wählen Sie wenigstens eine Frage aus, die Sie in einen Fragenpool überführen möchten!
 assessment#:#tst_no_question_selected_for_removal#:#Bitte wählen Sie wenigstens eine Frage zum Entfernen aus!
@@ -2023,7 +2023,7 @@ auth#:#auth_ldap_server_ds#:#LDAP-Server
 auth#:#auth_login_editor#:#Loginseite gestalten
 auth#:#auth_oidc#:#OpenId Connect
 auth#:#auth_oidc_login_element_info#:#Bei ILIAS anmelden über OpenID Connect
-auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen
+auth#:#auth_oidc_mapping_table#:#Zuordnung von Datenfeldern der ILIAS-Konten zu OpenID-Connect-Attributen
 auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
 auth#:#auth_oidc_role_info#:#OpenID Connect Attribut::Wert (zum Beispiel: "roles::Mitarbeitende").
 auth#:#auth_oidc_role_mapping_table#:#Zuordnung von ILIAS-Rollen zu OpenId-Connect-Attributen
@@ -5714,7 +5714,7 @@ common#:#txt_submitted#:#Sie haben sich erfolgreich bei ILIAS registriert. Ihr K
 common#:#typ#:#Objekttyp-Definition
 common#:#type#:#Typ
 common#:#udf_added_field#:#Ein neues Feld wurde angelegt.
-common#:#udf_delete_sure#:#Sind Sie sicher, dass Sie diese Feld und alle zugehörigen Benutzerdaten löschen möchten ?
+common#:#udf_delete_sure#:#Sind Sie sicher, dass Sie dieses Feld und alle zugehörigen Datensätze löschen möchten?
 common#:#udf_duplicate_entries#:#Die Werte müssen eindeutig sein.
 common#:#udf_field_deleted#:#Das Feld wurde gelöscht.
 common#:#udf_name_already_exists#:#Ein Feld mit diesem Namen existiert bereits. Bitte wählen Sie einen anderen Feldnamen.
@@ -6700,7 +6700,7 @@ content#:#cont_number_type#:#Nummerntyp
 content#:#cont_numbered_list#:#Nummerierte Liste
 content#:#cont_obj_removed#:#Objekte entfernt
 content#:#cont_objectives#:#Ergebnisse zu Lernzielen speichern
-content#:#cont_objectives_info#:#Nur wenn Sie sehr sicher sind, dass der korrekte Ablauf dieses Lernmoduls gewährleistet ist, können Sie zur Vermeidung von Nutzerdaten und zur Erhöhung der Performanz diese Speicherung deaktivieren.
+content#:#cont_objectives_info#:#Deaktivieren Sie diese Option nur, wenn Sie sicher sind, dass der korrekte Ablauf dieses Lernmoduls gewährleistet ist. Damit reduzieren Sie die Speicherung von personenbezogenen Daten und erhöhen die Performanz.
 content#:#cont_offline_mode_allow#:#Offline-Modus erlauben
 content#:#cont_offline_mode_allow_info#:#Erlaubt die Nutzung des Lernmoduls ohne Internet-Anbindung im SCORM-Offline-Player. Dazu wird das Lernmodul über das &#x25bc;-Menü  heruntergeladen und mit einem Add-on des Browsers Firefox dargestellt. Nach dem Bearbeiten des Lernmoduls müssen Benutzer über die Option 'Offline-Modus' ihre Lernstandsdaten in ILIAS importieren.
 content#:#cont_offline_mode_disable_not_allowed_info#:#Da das Lernmodul von Nutzern aktuell im Offline-Modus genutzt wird, kann der Offline-Modus nicht deaktiviert werden.
@@ -7344,7 +7344,7 @@ crs#:#crs_cancellation_end#:#Spätester Kursaustritt
 crs#:#crs_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbstständig die Kursmitgliedschaft beenden.
 crs#:#crs_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht. Ein Austritt aus dem Kurs ist jetzt nicht mehr möglich.
 crs#:#crs_cannot_find_role#:#Rolle konnte nicht gefunden werden.
-crs#:#crs_cdf_edit_member#:#Kursspezifische Benutzerdaten bearbeiten
+crs#:#crs_cdf_edit_member#:#Personenbezogene Angaben zu diesem Kurs bearbeiten
 crs#:#crs_cdf_tbl_last_edit#:#Aktualisiert (Kursspezifische Daten)
 crs#:#crs_checklist_objective#:#Checkliste Lernziel
 crs#:#crs_contact#:#Kontakt
@@ -7360,7 +7360,7 @@ crs#:#crs_course_group_notification_link#:#Link:
 crs#:#crs_course_period_not_valid#:#Der Zeitraum ist nicht gültig.
 crs#:#crs_course_status_of_users#:#Bestehen des Kurses
 crs#:#crs_create_date#:#Erstellungsdatum
-crs#:#crs_custom_user_fields#:#Kursspezifische Benutzerdaten
+crs#:#crs_custom_user_fields#:#Personenbezogene Angaben
 crs#:#crs_dates#:#Termine
 crs#:#crs_deactivate_notification#:#Benachrichtigung deaktivieren
 crs#:#crs_delete_objectve_sure#:#Sind Sie sicher, dass die ausgewählten Lernziele entfernt werden sollen?
@@ -7401,7 +7401,7 @@ crs#:#crs_html#:#HTML
 crs#:#crs_import#:#Kurs importieren
 crs#:#crs_important_info#:#Wichtige Informationen
 crs#:#crs_info_agree#:#Ich bin damit einverstanden, dass die oben angegebenen Daten von Kursadministratoren eingesehen werden können.
-crs#:#crs_info_agreement#:#Die folgenden Daten können von Kursadministratoren eingesehen werden:
+crs#:#crs_info_agreement#:#Falls die folgenden Angaben in Ihrem Persönliche Profil vorliegen, können sie von der Kursadministration eingesehen werden:
 crs#:#crs_info_download#:#Dateien zum Herunterladen
 crs#:#crs_info_reg#:#Aufnahmeverfahren
 crs#:#crs_info_reg_confirmation#:#Sie müssen einen Aufnahmeantrag stellen, um in die Gruppe aufgenommen zu werden. Beschreiben Sie im Feld Nachricht, warum Sie beitreten möchten. Sobald Ihr Antrag angenommen oder abgelehnt wurde, erhalten Sie eine Benachrichtigung.
@@ -7796,13 +7796,13 @@ crs#:#crs_unsubscribe_member_explanation#:#Sie erhalten diese Mail, da Sie die K
 crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, dass Sie die Mitgliedschaft in diesem Kurs beenden möchten?
 crs#:#crs_unsubscribed_from_crs#:#Ihre Kursmitgliedschaft wurde beendet.
 crs#:#crs_update_subscr_request#:#Aufnahmeantrag aktualisieren
-crs#:#crs_user_agreement#:#Freigegebene Daten
+crs#:#crs_user_agreement#:#Angaben des Persönlichen Profils
 crs#:#crs_user_agreement_info#:#Für Kursadministratoren freigegebene Daten
 crs#:#crs_user_already_assigned#:#Die Person ist bereits Teilnehmer dieses Kurses.
 crs#:#crs_users_added#:#Benutzer wurde(n) in den Kurs aufgenommen
 crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieses Kurses
 crs#:#crs_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Warteliste ausgetragen.
-crs#:#crs_usr_agreement#:#Benutzervereinbarung
+crs#:#crs_usr_agreement#:#Einsichtnahme in personenbezogene Daten
 crs#:#crs_view_info_objective#:#Lernziele werden in einer eigenen Liste angezeigt. Objekte, die keinen Lernzielen zugeordnet sind, werden darunter aufgelistet.
 crs#:#crs_view_info_timing#:#Objekte werden anhand eines Zeitplans dargestellt.
 crs#:#crs_view_info_timing_absolute#:#Das Start- und Enddatum wird absolut gesetzt.
@@ -7917,7 +7917,7 @@ crs#:#timings_usr_edit#:#Persönliche Lernplanung
 crs#:#tutor_email#:#E-Mail
 crs#:#tutor_name#:#Name
 crs#:#tutor_phone#:#Telefon
-crs#:#user_fields#:#Benutzerdaten
+crs#:#user_fields#:#Angaben des Persönlichen Profils
 crsv#:#crsv_create#:#Kurszertifikat erstellen
 crsv#:#crsv_create_info#:#Wählen Sie einen Kurs, für den Sie ein Zertifikat benötigen
 dash#:#dash_activation#:#Aktivierung
@@ -9818,7 +9818,7 @@ grp#:#grp_cancel_subscr_request#:#Aufnahmeantrag zurückziehen
 grp#:#grp_cancellation_end#:#Spätester Gruppenaustritt
 grp#:#grp_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbstständig die Gruppenmitgliedschaft beenden.
 grp#:#grp_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht. Ein Austritt aus der Gruppe ist jetzt nicht mehr möglich.
-grp#:#grp_cdf_edit_member#:#Gruppenspezifische Benutzerdaten bearbeiten
+grp#:#grp_cdf_edit_member#:#Personenbezogene Angaben zu dieser Gruppe bearbeiten
 grp#:#grp_cdf_tbl_last_edit#:#Aktualisiert (Gruppenspezifische Daten)
 grp#:#grp_change_type#:#Gruppenart ändern
 grp#:#grp_contact#:#Betreuung
@@ -9828,7 +9828,7 @@ grp#:#grp_create_new#:#Neue Gruppe anlegen
 grp#:#grp_create_new_grp_in#:#Neue Gruppe in '%1' erstellen.
 grp#:#grp_create_or_use_existing#:#Wollen Sie den Benutzer zu einer bestehenden Gruppe hinzufügen oder eine neue Gruppe anlegen?
 grp#:#grp_created_and_user_been_added#:#Die Gruppe wurde erstellt und der Benutzer hinzugefügt.
-grp#:#grp_custom_user_fields#:#Gruppenspezifische Benutzerdaten
+grp#:#grp_custom_user_fields#:#Personenbezogene Angaben
 grp#:#grp_deactivate_notification#:#Benachrichtigung deaktivieren
 grp#:#grp_edit_members#:#Teilnehmerverwaltung
 grp#:#grp_enable_map#:#Gruppenkarte aktivieren
@@ -9942,8 +9942,8 @@ grp#:#grp_typ#:#Typ
 grp#:#grp_unsubscribe#:#Gruppenmitgliedschaft beenden
 grp#:#grp_update_subscr_request#:#Aufnahmeantrag aktualisieren
 grp#:#grp_use_existing#:#Bestehende Gruppe nutzen
-grp#:#grp_user_agreement#:#Freigegebene Daten
-grp#:#grp_user_agreement_info#:#Für Gruppenadministratoren freigegebene Daten
+grp#:#grp_user_agreement#:#Angaben des Persönlichen Profils
+grp#:#grp_user_agreement_info#:#Falls die folgenden Angaben in Ihrem persönliche Profil vorliegen, können sie von der Gruppenadministration eingesehen werden:
 grp#:#grp_user_already_in_group#:#Der ausgewählte Benutzer ist bereits Mitglied der Gruppe.
 grp#:#grp_user_been_added#:#Der Benutzer wurde der Gruppe hinzugefügt.
 grp#:#grp_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieser Gruppe.
@@ -10169,7 +10169,7 @@ ldap#:#ldap_add_missing#:#Fehlende Rollen zuweisen
 ldap#:#ldap_add_remove#:#Rollen hinzufügen/entfernen
 ldap#:#ldap_add_role_ass_rule#:#Neue Regel für die ILIAS-Rollenzuordnung
 ldap#:#ldap_as_ds#:#Als Datenquelle verwenden
-ldap#:#ldap_as_ds_info#:#Wenn aktiviert, wird die LDAP-Konfiguration zur Benutzerdatensynchronisierung in Kombination mit anderen Authentifizierungsarten (CAS, ...) genutzt. Eine direkte Authentifizierung über LDAP ist nicht möglich.
+ldap#:#ldap_as_ds_info#:#In Kombination mit anderen Authentifizierungsarten (z. B. CAS oder SAML) wird die LDAP-Konfiguration nur für die Synchronisierung der Angaben in den ILIAS-Konten genutzt. Eine direkte Authentifizierung über LDAP ist nicht möglich.
 ldap#:#ldap_assignment_type#:#Art der Zuordnung
 ldap#:#ldap_authentication_settings#:#Einstellungen zur Authentifizierung
 ldap#:#ldap_bind_anonymous#:#Anonym verbinden
@@ -10215,7 +10215,7 @@ ldap#:#ldap_info_text#:#Informationstext
 ldap#:#ldap_info_text_info#:#Sie können hier einen Informationstext angeben, der auf der Info-Seite des der Rolle zugehörigen Objektes angezeigt wird. Optional kann dieser Text auch im Magazin und auf dem Dashboard eingeblendet werden.
 ldap#:#ldap_local_role#:#Lokale Rolle
 ldap#:#ldap_mapping_info_type#:#Auch im Magazin anzeigen.
-ldap#:#ldap_mapping_table#:#Zuordnung von LDAP-Attributen zu ILIAS-Benutzerdaten
+ldap#:#ldap_mapping_table#:#Zuordnung von Datenfeldern der ILIAS-Konten zu LDAP-Attributen
 ldap#:#ldap_mapping_template#:#Vorlage benutzen für Objektklasse:
 ldap#:#ldap_member_info#:#Geben Sie hier den Attributnamen ein, dem die Gruppenmitglieder zugeordnet sind. Wählen Sie 'Attributwert ist DN', wenn die Mitgliedernamen als DN angelegt werden.
 ldap#:#ldap_memberisdn#:#Attributwert ist DN
@@ -12274,7 +12274,7 @@ orgu#:#orgu_already_deleted#:#Das Objekt wurde bereits gelöscht.
 orgu#:#orgu_enable_my_staff#:#‘Ansicht Mitarbeiter’ aktivieren
 orgu#:#orgu_enable_my_staff_info#:#Die Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
 orgu#:#orgu_global_set_form#:#Globale Einstellungen
-orgu#:#orgu_global_set_positions#:#Anzeige von Benutzerdaten nach Positionen in Organisationseinheiten
+orgu#:#orgu_global_set_positions#:#Nutzung von Positionen in Objekttypen
 orgu#:#orgu_global_set_positions_type_active#:#Positionen in:
 orgu#:#orgu_global_set_type_changeable#:#Verhalten neuer Objekte
 orgu#:#orgu_global_set_type_changeable_no#:#Positionen sind im Objekt nicht deaktivierbar
@@ -12903,9 +12903,9 @@ prtt#:#prtt_properties#:#Portfoliovorlagen-Eigenschaften
 prtt#:#prtt_select_datasets#:#Formulare auswählen
 prtt#:#prtt_style#:#Portfoliovorlagen-Style
 ps#:#cdf_edited_by_self#:#durch den Benutzer
-ps#:#crs_ps_cdf_info#:#Weitere kursspezifische Daten. Bitte füllen Sie die folgenden Felder aus.
+ps#:#crs_ps_cdf_info#:#Bitte ergänzen Sie für diesen Kurs weitere Angaben und füllen Sie folgende Felder aus.
 ps#:#crs_ps_required_info#:#Für die Teilnahme an diesem Kurs werden weitere Informationen benötigt.
-ps#:#grp_ps_cdf_info#:#Weitere gruppenspezifische Daten. Bitte füllen Sie die folgenden Felder aus.
+ps#:#grp_ps_cdf_info#:#Bitte ergänzen Sie für diese Gruppe weitere Angaben und füllen Sie folgende Felder aus:
 ps#:#grp_ps_required_info#:#Für die Teilnahme an dieser Gruppe werden weitere Informationen benötigt.
 ps#:#ps_agreement_accepted#:#Nutzungsvereinbarung akzeptiert
 ps#:#ps_auto_https#:#Automatische HTTPS-Erkennung
@@ -12928,7 +12928,7 @@ ps#:#ps_cdf_select_one#:#Bitte treffen Sie eine Auswahl.
 ps#:#ps_cdf_type#:#Typ
 ps#:#ps_cdf_value#:#Wert
 ps#:#ps_cdf_warning_modify#:#Achtung: mindestens ein Benutzer hat der Nutzungsvereinbarung bereits zugestimmt. Das Ändern von Datenfeldern bewirkt, dass diese Nutzungsvereinbarungen zurückgesetzt wird.
-ps#:#ps_crs_user_fields#:#Kursspezifische Benutzerdaten
+ps#:#ps_crs_user_fields#:#Persönliche Angaben zu diesem Kurs
 ps#:#ps_error_message_https_header_missing#:#Die automatische HTTPS-Erkennung erfordert einen Header-Namen und einen Header-Wert.
 ps#:#ps_error_message_invalid_login_max_attempts#:#Maximale Anzahl von Anmeldeversuchen darf nicht kleiner als 0 sein.
 ps#:#ps_error_message_invalid_password_max_age#:#Maximales Passwortalter darf nicht kleiner sein als 0.
@@ -12954,7 +12954,7 @@ ps#:#ps_export_user_data#:#Benutzerdaten
 ps#:#ps_export_wait#:#Benutzer auf der Warteliste
 ps#:#ps_field_type#:#Datenfeldtyp
 ps#:#ps_files_deleted#:#Die Exportdateien wurden gelöscht.
-ps#:#ps_grp_user_fields#:#Gruppenspezifische Benutzerdaten
+ps#:#ps_grp_user_fields#:#Persönliche Angaben zu dieser Gruppe
 ps#:#ps_login_max_attempts#:#Maximale Anzahl von Anmeldeversuchen
 ps#:#ps_login_max_attempts_info#:# Bestimmt wie viele Anmeldeversuche eines Benutzer höchstens fehlschlagen dürfen. Schlagen mehr Anmeldeversuche fehl, wird dieser Benutzer auf 'inaktiv' gesetzt und muss im 'Benutzer Management' wieder aktiviert werden, bevor er die Plattform benutzen kann. Wird kein Wert eingetragen, ist die Funktion deaktiviert und ILIAS zählt die fehlgeschlagenen Anmeldeversuche nicht.
 ps#:#ps_not_accepted#:#Nicht zugestimmt
@@ -13260,7 +13260,7 @@ rbac#:#excs_edit_permission#:#Rechteeinstellungen für die Übungs-Administratio
 rbac#:#excs_read#:#Lesezugriff auf Übungs-Administration
 rbac#:#excs_visible#:#Übungs-Administration ist sichtbar
 rbac#:#excs_write#:#Einstellungen in Übungs-Administration bearbeiten
-rbac#:#export_member_data#:#Zugriff Benutzerdaten
+rbac#:#export_member_data#:#Export von Mitgliederdaten
 rbac#:#extt_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#extt_read#:#Lesezugriff auf Administration der Software von Drittanbietern
 rbac#:#extt_visible#:#Administration der Software von Drittanbietern ist sichtbar
@@ -15479,8 +15479,8 @@ survey#:#heading#:#Überschrift
 survey#:#horizontal#:#horizontal
 survey#:#import_error_closing_file#:#Fehler beim Schließen der Importdatei!
 survey#:#import_error_opening_file#:#Fehler beim Öffnen der Importdatei!
-survey#:#import_from_file#:#Import von Benutzerdaten aus einer Datei
-survey#:#import_from_text#:#Import von Benutzerdaten aus einem Text
+survey#:#import_from_file#:#Angaben zu Personen per Datei importieren
+survey#:#import_from_text#:#Angaben zu Personen per Text importieren
 survey#:#import_no_file_selected#:#Keine Datei ausgewählt!
 survey#:#import_question#:#Fragen importieren
 survey#:#import_wrong_file_type#:#Falscher Dateityp!
@@ -15508,7 +15508,7 @@ survey#:#mailaddresses_info#:#Tragen Sie kommagetrennte Anmeldenamen ein.
 survey#:#mailnotification#:#Einzelne E-Mail je beendeter Umfrage
 survey#:#mailparticipantdata#:#Zusätzliche Teilnehmerdaten
 survey#:#mailparticipantdata_info#:#Fügen Sie einen einleitenden Text hinzu, der vor den Ergebnisdaten eines Teilnehmers in die E-Mail eingetragen wird.
-survey#:#mailparticipantdata_placeholder#:# Diese Platzhalter werden durch die entsprechenden Benutzerdaten ersetzt, wenn 'Datenschutz' auf 'Mit namen' gesetzt ist.
+survey#:#mailparticipantdata_placeholder#:# Diese Platzhalter werden durch die entsprechenden Angaben ersetzt, wenn unten die Einstellung „Datenschutz“ auf „Mit Namen“ gesetzt ist.
 survey#:#maintenance#:#Teilnehmer
 survey#:#manage_phrases#:#Meine Phrasen
 survey#:#material#:#Material
@@ -15867,7 +15867,7 @@ survey#:#svy_add_internal_user_info#:#Feedbackgeber benötigen ein ILIAS-Konto f
 survey#:#svy_add_rater#:#Feedbackgeber hinzufügen
 survey#:#svy_all_raters#:#Alle Feedbackgeber
 survey#:#svy_all_survey_competences#:#Alle Umfrage-Kompetenzen
-survey#:#svy_all_user_data_deleted#:#Alle Benutzerdaten der Umfrage wurden gelöscht!
+survey#:#svy_all_user_data_deleted#:#Die Datensätze der Umfrage wurden gelöscht.
 survey#:#svy_analysis#:#Analyse
 survey#:#svy_anonymous_participants#:#Teilnehmerliste
 survey#:#svy_anonymous_participants_info#:#Wenn aktiviert kann eine Teilnehmerliste bei anonymen Umfragen erzeugt werden.
@@ -15887,7 +15887,7 @@ survey#:#svy_compress_view#:#Komprimierte Sicht
 survey#:#svy_compress_view_info#:#Alle Single-Choice Fragen eines Fragenblocks mit gleicher Antwortskalierung werden matrixartig dargestellt.
 survey#:#svy_copy#:#Umfrage kopieren
 survey#:#svy_create_question#:#Frage erstellen
-survey#:#svy_delete_all_user_data#:#Alle Benutzerdaten löschen
+survey#:#svy_delete_all_user_data#:#Alle Datensätze löschen
 survey#:#svy_dont_send#:#Keine Nachricht senden
 survey#:#svy_eval_captions#:#Kennzahl
 survey#:#svy_eval_captions_abs#:#Anzahl
