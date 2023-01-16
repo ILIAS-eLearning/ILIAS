@@ -194,7 +194,7 @@ class ilMStListUsers
             ) . '%', 'text') . ')';
         }
 
-        if ($arr_filter['activation']) {
+        if ($arr_filter['activation'] ?? false) {
             if ($arr_filter['activation'] == 'active') {
                 $where[] = '(active = "1")';
             }
