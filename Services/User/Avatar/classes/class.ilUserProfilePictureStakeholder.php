@@ -30,7 +30,9 @@ class ilUserProfilePictureStakeholder extends AbstractResourceStakeholder
     public function __construct()
     {
         global $DIC;
-        $this->default_owner = $DIC->isDependencyAvailable('user') ? $DIC->user()->getId() : 6;
+        $this->default_owner = $DIC->isDependencyAvailable('user')
+            ? $DIC->user()->getId()
+            : (int) SYSTEM_USER_ID;
     }
 
 
