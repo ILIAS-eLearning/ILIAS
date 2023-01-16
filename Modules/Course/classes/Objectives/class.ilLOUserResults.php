@@ -425,7 +425,7 @@ class ilLOUserResults
 
             switch ($status) {
                 case self::STATUS_COMPLETED:
-                    $tmp_completed[$user_id]++;
+                    $tmp_completed[$user_id] = ($tmp_completed[$user_id] ?? 0) + 1;
                     break;
 
                 case self::STATUS_FAILED:
