@@ -368,7 +368,9 @@ class ilMemberExportGUI
         if ($this->http->wrapper()->post()->has('id')) {
             $ids = $this->http->wrapper()->post()->retrieve(
                 'id',
-                $this->refinery->kindlyTo()->string()
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->string()
+                )
             );
         }
         return $ids;
