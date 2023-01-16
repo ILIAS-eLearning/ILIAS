@@ -395,6 +395,7 @@ class ilContainer extends ilObject
 
         // translations
         $ot = ilObjectTranslation::getInstance($this->getId());
+        $ot->setDefaultTitle($new_obj->getTitle());     // get possible "- COPY" extension
         $ot->copy($new_obj->getId());
 
         #18624 - copy all sorting settings
