@@ -181,7 +181,7 @@ class ilPersonalProfileGUI
                             );
                         } else {
                             $rid = $existing_rid;
-                            $this->irss->manage()->appendNewRevision(
+                            $this->irss->manage()->replaceWithUpload(
                                 $existing_rid,
                                 $avatar_upload_result,
                                 $this->stakeholder,
@@ -212,7 +212,7 @@ class ilPersonalProfileGUI
                         );
                     } else {
                         $rid = $existing_rid;
-                        $this->irss->manage()->appendNewRevisionFromStream(
+                        $this->irss->manage()->replaceWithStream(
                             $rid,
                             $stream,
                             $this->stakeholder,

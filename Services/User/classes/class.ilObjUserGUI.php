@@ -1659,7 +1659,7 @@ class ilObjUserGUI extends ilObjectGUI
                 );
             } else {
                 $rid = $existing_rid;
-                $this->irss->manage()->appendNewRevision(
+                $this->irss->manage()->replaceWithUpload(
                     $existing_rid,
                     $avatar_upload_result,
                     $this->stakeholder,
