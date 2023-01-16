@@ -281,7 +281,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
                 } else {
                     $sort = null;
                 }
-                $this->addColumn($v['txt'], $sort, $v['width']);
+                $this->addColumn($v['txt'], $sort);
             }
         }
 
