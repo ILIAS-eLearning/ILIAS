@@ -38,9 +38,21 @@ class ilOrgUnitLocalDIC
 
         $dic['repo.UserAssignments'] = fn ($dic) => new ilOrgUnitUserAssignmentDBRepository($DIC['ilDB']);
         $dic['repo.Authorities'] = fn ($dic) => new ilOrgUnitAuthorityDBRepository($DIC['ilDB']);
-        $dic['repo.Positions'] = fn ($dic) => new ilOrgUnitPositionDBRepository($DIC['ilDB'], $dic['repo.Authorities'], $dic['repo.UserAssignments']);
+        $dic['repo.Positions'] = fn ($dic) => new ilOrgUnitPositionDBRepository(
+            $DIC['ilDB'],
+            $dic['repo.Authorities'],
+            $dic['repo.UserAssignments']
+        );
         $dic['repo.OperationContexts'] = fn ($dic) => new ilOrgUnitOperationContextDBRepository($DIC['ilDB']);
-        $dic['repo.Operations'] = fn ($dic) => new ilOrgUnitOperationDBRepository($DIC['ilDB'], $dic["repo.OperationContexts"]);
+        $dic['repo.Operations'] = fn ($dic) => new ilOrgUnitOperationDBRepository(
+            $DIC['ilDB'],
+            $dic["repo.OperationContexts"]
+        );
+        $dic['repo.Permissions'] = fn ($dic) => new ilOrgUnitPermissionDBRepository(
+            $DIC['ilDB'],
+            $dic["repo.Operations"],
+            $dic["repo.OperationContexts"]
+        );
 
         return $dic;
     }

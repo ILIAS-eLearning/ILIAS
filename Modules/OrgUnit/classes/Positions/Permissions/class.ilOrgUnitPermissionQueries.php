@@ -22,213 +22,63 @@
  */
 class ilOrgUnitPermissionQueries
 {
+    protected static ilOrgUnitPermissionDBRepository $permissionRepo;
+
+    protected static function getPermissionRepo()
+    {
+        if (!isset(self::$permissionRepo)) {
+            $dic = ilOrgUnitLocalDIC::dic();
+            self::$permissionRepo = $dic["repo.Permissions"];
+        }
+
+        return self::$permissionRepo;
+    }
+
     /**
-     * @throws ilException
+     * @deprecated Please use getTemplateByContext() from ilOrgUnitPermissionDBRepository
      */
     public static function getTemplateSetForContextName(string $context_name, string $position_id, bool $editable = false): ilOrgUnitPermission
     {
-        $context = ilOrgUnitOperationContextQueries::findByName($context_name);
-        if (!$context) {
-            throw new ilException('No context found');
-        }
-        if (!$position_id) {
-            throw new ilException('$position_id cannot be null');
-        }
-
-        $template_set = ilOrgUnitPermission::where([
-            'parent_id' => ilOrgUnitPermission::PARENT_TEMPLATE,
-            'context_id' => $context->getId(),
-            'position_id' => $position_id,
-        ])->first();
-
-        if (!$template_set) {
-            $template_set = new ilOrgUnitPermission();
-            $template_set->setParentId(ilOrgUnitPermission::PARENT_TEMPLATE);
-            $template_set->setContextId($context->getId());
-            $template_set->setPositionId($position_id);
-            $template_set->setNewlyCreated(true);
-            $template_set->create();
-        }
-
-        $template_set->setProtected(!$editable);
-        $template_set->afterObjectLoad();
-        return $template_set;
-    }
-
-    public static function hasLocalSet(int $ref_id, int $position_id): bool
-    {
-        return (ilOrgUnitPermission::where([
-            'parent_id' => $ref_id,
-            'position_id' => $position_id,
-        ])->hasSets());
+        return self::getPermissionRepo()->getTemplateByContext($context_name, (int) $position_id, $editable);
     }
 
     /**
-     * @throws ilPositionPermissionsNotActive
-     * @throws ilException
+     * @deprecated Please use hasLocalPermission() from ilOrgUnitPermissionDBRepository
+     */
+    public static function hasLocalSet(int $ref_id, int $position_id): bool
+    {
+        return self::getPermissionRepo()->hasLocalPermission($ref_id, $position_id);
+    }
+
+    /**
+     * @deprecated Please use getPermissionByRefId() from ilOrgUnitPermissionDBRepository
      */
     public static function getSetForRefId(int $ref_id, int $position_id): ilOrgUnitPermission
     {
-        // TODO write performant query
-        self::assertRefIdAndPositionIdIsNotNull($ref_id, $position_id);
-
-        $context = self::getContextByRefId($ref_id);
-
-        $ilOrgUnitGlobalSettings = ilOrgUnitGlobalSettings::getInstance();
-        $ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
-
-        if (!$ilOrgUnitObjectPositionSetting->isActive()) {
-            throw new ilPositionPermissionsNotActive(
-                "Postion-related permissions not active in {$context->getContext()}",
-                $context->getContext()
-            );
-        }
-
-        /**
-         * @var $dedicated_set ilOrgUnitPermission
-         */
-        $dedicated_set = ilOrgUnitPermission::where([
-            'parent_id' => $ref_id,
-            'context_id' => $context->getId(),
-            'position_id' => $position_id,
-        ])->first();
-        if ($dedicated_set) {
-            $dedicated_set->afterObjectLoad();
-            return $dedicated_set;
-        }
-
-        return self::getTemplateSetForContextName($context->getContext(), $position_id);
+        return self::getPermissionRepo()->getPermissionByRefId($ref_id, $position_id);
     }
 
     /**
-     * @throws ilPositionPermissionsNotActive
-     * @throws ilException
+     * @deprecated Please use createPermissionByRefId() from ilOrgUnitPermissionDBRepository
      */
     public static function findOrCreateSetForRefId(int $ref_id, int $position_id): ilOrgUnitPermission
     {
-        /**
-         * @var $dedicated_set ilOrgUnitPermission
-         */
-        self::assertRefIdAndPositionIdIsNotNull($ref_id, $position_id);
-
-        $context = self::getContextByRefId($ref_id);
-
-        $ilOrgUnitGlobalSettings = ilOrgUnitGlobalSettings::getInstance();
-        $ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
-
-        if (!$ilOrgUnitObjectPositionSetting->isActive()) {
-            throw new ilPositionPermissionsNotActive(
-                "Position-related permissions not active in {$context->getContext()}",
-                $context->getContext()
-            );
-        }
-
-        $dedicated_set = ilOrgUnitPermission::where([
-            'parent_id' => $ref_id,
-            'context_id' => $context->getId(),
-            'position_id' => $position_id,
-        ])->first();
-        if ($dedicated_set) {
-            $dedicated_set->afterObjectLoad();
-            return $dedicated_set;
-        }
-
-        $template = self::getTemplateSetForContextName($context->getContext(), $position_id);
-
-        $set = new ilOrgUnitPermission();
-        $set->setProtected(false);
-        $set->setParentId($ref_id);
-        $set->setPositionId($position_id);
-        $set->setContextId($context->getId());
-        $set->setOperations($template->getOperations());
-        $set->setNewlyCreated(true);
-        $set->create();
-        $set->afterObjectLoad();
-
-        return $set;
+        return self::getPermissionRepo()->createPermissionByRefId($ref_id, $position_id);
     }
 
     /**
-     * @throws ilPositionPermissionsNotActive
-     * @throws ilException
+     * @deprecated Please use deletePermissionByRefId() from ilOrgUnitPermissionDBRepository
      */
     public static function removeLocalSetForRefId(int $ref_id, int $position_id): bool
     {
-        /**
-         * @var $dedicated_set ilOrgUnitPermission
-         */
-        self::assertRefIdAndPositionIdIsNotNull($ref_id, $position_id);
-
-        $context = self::getContextByRefId($ref_id);
-
-        $ilOrgUnitGlobalSettings = ilOrgUnitGlobalSettings::getInstance();
-        $ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
-
-        if (!$ilOrgUnitObjectPositionSetting->isActive()) {
-            throw new ilPositionPermissionsNotActive(
-                "Position-related permissions not active in {$context->getContext()}",
-                $context->getContext()
-            );
-        }
-
-        $dedicated_set = ilOrgUnitPermission::where([
-            'parent_id' => $ref_id,
-            'context_id' => $context->getId(),
-            'position_id' => $position_id,
-            'protected' => false,
-        ])->first();
-        if ($dedicated_set) {
-            $dedicated_set->delete();
-
-            return true;
-        }
-
-        return false;
+        return self::getPermissionRepo()->deletePermissionByRefId($ref_id, $position_id);
     }
 
     /**
-     * @return ilOrgUnitPermission[]
-     * @throws ilException
+     * @deprecated Please use getTemplatesForActiveContexts() from ilOrgUnitPermissionDBRepository
      */
     public static function getAllTemplateSetsForAllActivedContexts(int $position_id, bool $editable = false): array
     {
-        $activated_components = [];
-        foreach (ilOrgUnitGlobalSettings::getInstance()->getPositionSettings() as $ilOrgUnitObjectPositionSetting) {
-            if ($ilOrgUnitObjectPositionSetting->isActive()) {
-                $activated_components[] = $ilOrgUnitObjectPositionSetting->getType();
-            }
-        }
-        $sets = [];
-        foreach ($activated_components as $context) {
-            $sets[] = self::getTemplateSetForContextName($context, $position_id, $editable);
-        }
-
-        return $sets;
-    }
-
-    /**
-     * @throws ilException
-     */
-    private static function getContextByRefId(int $ref_id): ilOrgUnitOperationContext
-    {
-        $context = ilOrgUnitOperationContextQueries::findByRefId($ref_id);
-        if (!$context) {
-            throw new ilException('Context not found');
-        }
-
-        return $context;
-    }
-
-    /**
-     * @throws ilException
-     */
-    private static function assertRefIdAndPositionIdIsNotNull(int $ref_id, int $position_id): void
-    {
-        if (!$ref_id) {
-            throw new ilException('$ref_id cannot be null');
-        }
-        if (!$position_id) {
-            throw new ilException('$position_id cannot be null');
-        }
+        return self::getPermissionRepo()->getTemplatesForActiveContexts($position_id, $editable);
     }
 }

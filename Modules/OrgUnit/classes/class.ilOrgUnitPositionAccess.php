@@ -28,6 +28,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
     private ilObjUser $user;
     protected \ilOrgUnitUserAssignmentDBRepository $assignmentRepo;
     protected \ilOrgUnitOperationDBRepository $operationRepo;
+    protected \ilOrgUnitPermissionDBRepository $permissionRepo;
 
     public function __construct(ilAccess $access)
     {
@@ -39,6 +40,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         $dic = \ilOrgUnitLocalDIC::dic();
         $this->assignmentRepo = $dic["repo.UserAssignments"];
         $this->operationRepo = $dic["repo.Operations"];
+        $this->permissionRepo = $dic["repo.Permissions"];
     }
 
 
@@ -118,13 +120,11 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 
         $allowed_user_ids = [];
         foreach ($this->assignmentRepo->getPositionsByUser($user_id) as $position) {
-            $permissions = ilOrgUnitPermissionQueries::getSetForRefId($ref_id, $position->getId());
-            $permissions->afterObjectLoad();
+            $permissions = $this->permissionRepo->getPermissionByRefId($ref_id, $position->getId());
             if (!$permissions->isOperationIdSelected($operation->getOperationId())) {
                 continue;
             }
 
-            $position->afterObjectLoad();
             foreach ($position->getAuthorities() as $authority) {
                 switch ($authority->getOver()) {
                     case ilOrgUnitAuthority::OVER_EVERYONE:
@@ -190,7 +190,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         $current_user_id = $this->getCurrentUsersId();
 
         foreach ($this->ua->getPositionsOfUserId($current_user_id) as $position) {
-            $permissions = ilOrgUnitPermissionQueries::getSetForRefId($ref_id, $position->getId());
+            $permissions = $this->permissionRepo->getPermissionByRefId($ref_id, $position->getId());
             if ($permissions->isOperationIdSelected($operation->getOperationId())) {
                 return true;
             }
@@ -209,7 +209,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         $current_user_id = $this->getCurrentUsersId();
 
         foreach ($this->ua->getPositionsOfUserId($current_user_id) as $position) {
-            $permissions = ilOrgUnitPermissionQueries::getSetForRefId($ref_id, $position->getId());
+            $permissions = $this->permissionRepo->getPermissionByRefId($ref_id, $position->getId());
             if (count($permissions->getOperations()) > 0) {
                 return true;
             }
