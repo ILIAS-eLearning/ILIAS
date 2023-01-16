@@ -130,11 +130,14 @@ class ilUserAvatarResolver
 
     private function resolveProfilePicturePath(): string
     {
-        // IRSS
+        $rid = $this->irss->manage()->find($this->rid);
+        $flavour = $this->irss->flavours()->get($rid, $this->flavour_definition);
+        $urls = $this->irss->consume()->flavourUrls($flavour)->getURLsAsArray(false);
 
-        $available_sizes = array_keys($this->flavour_definition->getSizes());
+        $available_sizes = array_flip(array_keys($this->flavour_definition->getSizes()));
+        $size_index = $available_sizes[$this->size];
 
-        return "";
+        return $urls[$size_index] ?? '';
     }
 
 
@@ -174,19 +177,19 @@ class ilUserAvatarResolver
         return $this->ui->symbol()->avatar()->letter($this->abbreviation)->withLabel($alternative_text);
     }
 
+    /**
+     * This method returns the URL to the Profile Picture of a User.
+     * Depending on Settings and the Availability of a Prodile Picture,
+     * there's a Fallback to the Letter Avatar as well (as data-URL).
+     *
+     * @deprecated use getAvatar() instead
+     */
     public function getLegacyPictureURL(): string
     {
         if ($this->hasProfilePicture()) {
             // IRSS
             if ($this->rid !== null) {
-                $rid = $this->irss->manage()->find($this->rid);
-                $flavour = $this->irss->flavours()->get($rid, $this->flavour_definition);
-                $urls = $this->irss->consume()->flavourUrls($flavour)->getURLsAsArray(false);
-
-                $available_sizes = array_flip(array_keys($this->flavour_definition->getSizes()));
-                $size_index = $available_sizes[$this->size];
-
-                return $urls[$size_index];
+                return $this->resolveProfilePicturePath();
             }
 
             // LEGACY
@@ -201,11 +204,18 @@ class ilUserAvatarResolver
         return $avatar->getUrl();
     }
 
+    /**
+     * There are places where we want wo show the Profile Picture of a User, even if the user
+     * doesn't want to show it. (e.g. in Administration)
+     */
     public function setForcePicture(bool $force_image): void
     {
         $this->force_image = $force_image;
     }
 
+    /**
+     * There are the Sizes  'big', 'small', 'xsmall', 'xxsmall', @see ilUserProfilePictureDefinition
+     */
     public function setSize(string $size): void
     {
         $this->size = $size;
