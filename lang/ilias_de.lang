@@ -5041,10 +5041,10 @@ common#:#obj_tstv#:#Testzertifikat
 common#:#obj_type#:#Objekttyp
 common#:#obj_user#:#Benutzer
 common#:#obj_usr#:#Benutzer
-common#:#obj_usrf#:#Lokale Konten
-common#:#obj_usrf_desc#:#Anmeldekontenverwaltung
+common#:#obj_usrf#:#ILIAS-Konten
+common#:#obj_usrf_desc#:#Verwaltung der ILIAS-Konten
 common#:#obj_wbdv#:#WebDAV
-common#:#obj_wbdv_desc#:#Konfiguration der WebDAV Einstellungen.
+common#:#obj_wbdv_desc#:#Konfiguration der WebDAV-Einstellungen.
 common#:#obj_wbrs#:#Weblink
 common#:#obj_wbrs_desc#:#Allgemeine Einstellungen für Weblinks
 common#:#obj_webr#:#Weblink
