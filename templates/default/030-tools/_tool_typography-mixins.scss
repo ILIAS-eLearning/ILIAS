@@ -1,3 +1,15 @@
+@mixin strip-paragraph-margin__first-and-last {
+	p {
+		&:first-child {
+			margin-top: 0;
+		}
+		&:last-child {
+			margin-bottom: 0;
+		}
+
+	}
+}
+
 @mixin ilRight {
 	text-align: right;
 }

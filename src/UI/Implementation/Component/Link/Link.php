@@ -23,7 +23,9 @@ namespace ILIAS\UI\Implementation\Component\Link;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\HasContentLanguage;
+use ILIAS\UI\Implementation\Component\HasHelpTopics;
 use ILIAS\Data\LanguageTag;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * This implements commonalities between Links
@@ -32,6 +34,8 @@ abstract class Link implements C\Link\Link
 {
     use ComponentHelper;
     use HasContentLanguage;
+    use HasHelpTopics;
+    use JavaScriptBindable;
 
     protected string $action;
     protected ?bool $open_in_new_viewport = null;

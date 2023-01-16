@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
+use ILIAS\UI\Implementation\Render\TooltipRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
@@ -130,6 +131,11 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
+        $tooltip_embedding = $this->getTooltipRenderer()->maybeGetTooltipEmbedding(...$component->getHelpTopics());
+        if ($tooltip_embedding) {
+            $component = $component->withAdditionalOnLoadCode($tooltip_embedding[1]);
+        }
+
         $this->maybeRenderId($component, $tpl);
 
         if ($component instanceof Component\Button\Tag) {
@@ -140,7 +146,16 @@ class Renderer extends AbstractComponentRenderer
             $this->additionalRenderBulky($component, $default_renderer, $tpl);
         }
 
-        return $tpl->get();
+        if (!$tooltip_embedding) {
+            return $tpl->get();
+        }
+
+        $tooltip_id = $this->createId();
+        $tpl->setCurrentBlock("with_aria_describedby");
+        $tpl->setVariable("ARIA_DESCRIBED_BY", $tooltip_id);
+        $tpl->parseCurrentBlock();
+
+        return $tooltip_embedding[0]($tooltip_id, $tpl->get());
     }
 
     /**
@@ -233,6 +248,19 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("ARIA_LABEL", $aria_label);
             $tpl->parseCurrentBlock();
         }
+
+        $tooltip_embedding = $this->getTooltipRenderer()->maybeGetTooltipEmbedding(...$component->getHelpTopics());
+        if ($tooltip_embedding) {
+            $component = $component->withAdditionalOnLoadCode($tooltip_embedding[1]);
+            $tooltip_id = $this->createId();
+            $tpl->setCurrentBlock("with_aria_describedby");
+            $tpl->setVariable("ARIA_DESCRIBED_BY", $tooltip_id);
+            $tpl->parseCurrentBlock();
+
+            $this->maybeRenderId($component, $tpl);
+            return $tooltip_embedding[0]($tooltip_id, $tpl->get());
+        }
+
         $this->maybeRenderId($component, $tpl);
         return $tpl->get();
     }
