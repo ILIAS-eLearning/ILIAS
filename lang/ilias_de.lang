@@ -135,7 +135,7 @@ administration#:#adm_sql#:#SQL
 administration#:#adm_sure_delete_settings_template#:#Wollen Sie wirklich die folgenden Vorlagen löschen?
 administration#:#adm_table#:#Tabelle
 administration#:#adm_time#:#Zeit
-administration#:#adm_user_administration#:#Benutzer und Rollen
+administration#:#adm_user_administration#:#Konten und Rollen
 administration#:#adm_user_starting_point#:#Persönliche Startseite
 administration#:#adm_user_starting_point_info#:#Wählen Sie die Seite oder Objekt, welche nach dem Login gezeigt wird.
 administration#:#adm_user_starting_point_inherit#:#Standard-Einstellungen übernehmen
@@ -184,7 +184,7 @@ administration#:#clean#:#Räume auf
 administration#:#clean_desc#:#Entferne ungültige Referenzen und Baumeinträge. Initialisiere Lücken in der Baumstruktur
 administration#:#cleaning#:#Bereinigen...
 administration#:#cleaning_final#:#Endgültig bereinigen...
-administration#:#course_export#:#Sichtbar in der Kursteilnehmerverwaltung
+administration#:#course_export#:#Sichtbar in „Mitglieder“ in Kursen
 administration#:#disabled#:#Deaktiviert
 administration#:#done#:#Erledigt
 administration#:#dump_tree#:#Tree auflisten
@@ -197,7 +197,7 @@ administration#:#frm_displayed_infos#:#Angezeigte Informationen
 administration#:#git_hash_short#:#Commit Hash (kurz): %s
 administration#:#git_last_commit#:#Letzter Commit: %s
 administration#:#git_revision#:#Nummer: %s
-administration#:#group_export#:#Sichtbar in der Gruppenteilnehmerverwaltung
+administration#:#group_export#:#Sichtbar in „Mitglieder“ in Gruppen
 administration#:#history_loginname#:#Verlauf der Anmeldenamen
 administration#:#initializing_gaps#:#Initialisiere Lücken in der Baumstruktur ...
 administration#:#language_all_modules#:#Alle Module
@@ -3426,7 +3426,7 @@ common#:#added_new_condition#:#Eine neue Vorbedingung wurde angelegt.
 common#:#additional_info#:#Zusätzliche Informationen
 common#:#address#:#Adresse
 common#:#admin_force_noti#:#Benachrichtigung aktiv
-common#:#administrate_users#:#Lokale Benutzerverwaltung
+common#:#administrate_users#:#Lokale Konten
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Übernehmen
@@ -3567,7 +3567,7 @@ common#:#back_to_course#:#Zurück zum Kurs
 common#:#back_to_crs_content#:#Zurück zum Inhalt des Kurses
 common#:#back_to_fold_content#:#Zurück zum Inhalt des Ordners
 common#:#back_to_grp_content#:#Zurück zum Inhalt der Gruppe
-common#:#backto_lua#:#Zurück zur lokalen Benutzerverwaltung
+common#:#backto_lua#:#Zurück zu den lokalen Konten
 common#:#basedn#:#BaseDN
 common#:#basic_settings#:#Grundeinstellungen
 common#:#before#:#vor
@@ -5041,7 +5041,7 @@ common#:#obj_tstv#:#Testzertifikat
 common#:#obj_type#:#Objekttyp
 common#:#obj_user#:#Benutzer
 common#:#obj_usr#:#Benutzer
-common#:#obj_usrf#:#Benutzerverwaltung
+common#:#obj_usrf#:#Lokale Konten
 common#:#obj_usrf_desc#:#Anmeldekontenverwaltung
 common#:#obj_wbdv#:#WebDAV
 common#:#obj_wbdv_desc#:#Konfiguration der WebDAV Einstellungen.
@@ -5825,11 +5825,11 @@ common#:#usr_inactive_only#:#Nur nicht-aktive Benutzer
 common#:#usr_limited_access_only#:#Nur Benutzer mit Zugangsbefristung
 common#:#usr_name_undisclosed#:#Nicht freigegeben
 common#:#usr_new#:#Neuer Benutzer
-common#:#usr_settings_changeable_lua#:#Änderbar in lokaler Benutzerverwaltung
-common#:#usr_settings_explanation_profile#:#Bestimmen Sie in der folgenden Tabelle, welche Felder für einen Benutzer sichtbar und welche änderbar sind. Ist ein Datenfeld 'Sichtbar', werden die Daten angezeigt, können aber nicht geändert werden. Ist ein Datenfeld 'Änderbar' kann der Benutzer die Daten nachträglich ändern. Bei der Einstellung 'Erforderliche Angabe' ist die Eingabe verpflichtend. Unabhängig von diesen Einstellungen können Systemadministratoren alle Daten in der Benutzeradministration ändern.
+common#:#usr_settings_changeable_lua#:#Änderbar in „Lokale Konten“ in Kategorien
+common#:#usr_settings_explanation_profile#:#Pro Datenfeld kann der Zugriff in Profil, Mitglieder-Reitern und lokalen Konten konfiguriert werden:<ul><li>Sichtbar: Angabe wird angezeigt, kann aber nicht geändert werden.</li><li>Änderbar: Angabe wird angezeigt und kann geändert werden.</li><li>Export: Angabe kann in Listen der Teilnehmerinnen und Teilnehmern exportiert werden.</li><li>Durchsuchbar: Nach der Angabe kann gesucht werden, und es gibt eine Autovervollständigung in Formularfeldern.</li><li>Bei der Einstellung „Erforderliche Angabe“ ist die Eingabe verpflichtend.</li></ul>Unabhängig von diesen Einstellungen kann die Systemadministration alle Daten ändern.
 common#:#usr_settings_header_profile#:#Einstellungen für die Anmeldekonten
 common#:#usr_settings_saved#:#Die globalen Benutzereinstellungen wurden erfolgreich gespeichert und sind nun aktiviert!
-common#:#usr_settings_visib_lua#:#Sichtbar in lokaler Benutzerverwaltung
+common#:#usr_settings_visib_lua#:#Sichtbar in „Lokale Konten“ in Kategorien
 common#:#usr_skin_style#:#Skin/Style
 common#:#usr_without_courses#:#Benutzer ohne Kurse zugewiesen
 common#:#usrf#:#Anmeldekonten
@@ -14007,7 +14007,7 @@ registration#:#reg_fixed#:#Auswahl aus vorgegebener Liste
 registration#:#reg_info_pwd#:#Wenn eingeschaltet, wird neu angemeldeten Benutzern ein automatisch generiertes Passwort vergeben und zugesandt.
 registration#:#reg_mail_body_activation#:#um Ihr Konto freizuschalten, klicken Sie bitte den folgenden Link an:###Modified as part of gender mainstreaming activities for ILIAS 8
 registration#:#reg_mail_body_approve#:#Sie haben sich bereits bei der eLearning-Plattform angemeldet und eine Mail mit Ihren Zugangsdaten erhalten. Jetzt ist Ihr Zugang von Ihrem/Ihrer AdministratorIn freigeschaltet worden. Bei Fragen und Problemen, wenden Sie sich am besten per Mail an ihn/sie.
-registration#:#reg_mail_body_confirmation#:#Um das ILIAS-Konto zu aktivieren, müssen Sie es in der ILIAS-Benutzerverwaltung freischalten.
+registration#:#reg_mail_body_confirmation#:#Um das ILIAS-Konto zu aktivieren, müssen Sie es freischalten in: Administration » Konten und Rollen » ILIAS-Konten
 registration#:#reg_mail_body_profile#:#Profildaten:
 registration#:#reg_mail_body_profile_changed#:#Ihre Profildaten wurden geändert.
 registration#:#reg_mail_body_pwd_generation#:#Allerdings muss Ihr Zugang noch von dem/der AdministratorIn freigeschaltet werden. Wenn dies erfolgt ist, erhalten Sie noch eine Bestätigungsmail.
@@ -15334,7 +15334,7 @@ style#:#sub_style_name#:#Sub-Style-Name
 style#:#sub_style_name_description#:#Der Sub-Style-Name kann als Beschreibung für das Einsatzgebiet verwendet werden. Es wird in allen UI-Elementen aufgelistet, welche eine Selektierung des Skins erlauben.
 style#:#sub_style_parent_style_description#:#Sub-Styles werden genau einem Parent-Style zugewiesen. Sie werden nur den Usern angezeigt, welche auch Zugang zum Parent-Style haben. Der Parent-Style eines Sub-Styles kann nur während der Erstellung des Sub-Styles einmalig zugeordnet werden.
 style#:#system_style_activation#:#System-Style aktiviert
-style#:#system_style_activation_description#:#Aktive System-Styles können bestimmten Benutzern zugewiesen, oder durch diese ausgewählt werden wenn die betreffende Einstellung (Benutzerverwaltung / Einstellungen / Standardfelder / Standard-Skin/ -Style) aktiviert ist.
+style#:#system_style_activation_description#:#Dieser System-Style kann in ILIAS genutzt werden: Aktive System-Styles können einzelnen ILIAS-Konten zugewiesen werden. Ist die Auswahl des System-Styles unter „Administration » Konten und Rollen » ILIAS-Konten » Einstellungen » Standardfelder” aktiviert, können Benutzerinnen und Benutzer in ihren persönlichen Einstellungen einen System-Style wählen.
 style#:#system_style_default_description#:#Wenn aktiviert, ist dieser Style als Standard-System-Style festgelegt. Der Standard-System-Style wird verwendet, sofern der Benutzer noch keinen eigenen Style zugewiesen hat, oder der Benutzer nicht eingeloggt ist.
 style#:#system_style_personal_description#:#Wenn aktiviert, ist dieser Style als persönlicher Style festgelegt. Das stellt eine gute Hilfe dar, wenn aktuelle Änderungen am Skin mitverfolgt werden möchten.
 style#:#update_colors#:#Farben aktualisieren
@@ -15896,7 +15896,7 @@ survey#:#svy_activation_limited_visibility_info#:#Außerhalb des angegebenen Zei
 survey#:#svy_activation_online_info#:#Nur wenn die Umfrage online ist, können Benutzer an der Umfrage teilnehmen.
 survey#:#svy_add_internal_user#:#Benutzer hinzufügen
 survey#:#svy_add_internal_user_info#:#Feedbackgeber benötigen ein ILIAS-Konto für diese Installation.
-survey#:#svy_add_rater#:#Feedback-Geber hinzufügen
+survey#:#svy_add_rater#:#Feedbackgeber hinzufügen
 survey#:#svy_all_raters#:#Alle Feedbackgeber
 survey#:#svy_all_survey_competences#:#Alle Umfrage-Kompetenzen
 survey#:#svy_all_user_data_deleted#:#Alle Benutzerdaten der Umfrage wurden gelöscht!
@@ -16549,11 +16549,11 @@ user#:#del_mail_subject#:#[ILIAS] – Ihr ILIAS-Konto wird bald gelöscht
 user#:#delete_inactive_user_accounts_frequency#:#Intervall
 user#:#delete_inactive_user_accounts_frequency_desc#:#Intervall, mit welchem auf Löschung sowie auf E-Mail-Versand getestet wird.
 user#:#editing_this_role#:#Regel editieren
-user#:#enable_local_user_administration#:#Lokale Benutzerverwaltung aktivieren
-user#:#enable_local_user_administration_info#:#Wenn aktiviert, können Benutzerzugänge in Kategorien und Organisationseinheiten angelegt und verwaltet werden.
+user#:#enable_local_user_administration#:#Lokale Konten
+user#:#enable_local_user_administration_info#:#In Kategorien und Organisationseinheiten erscheint ein Reiter „Lokale Konten”. Dort können lokale ILIAS-Konten angelegt, importiert und verwaltet werden. Damit können auch Personen ohne Zugriff auf die Administration neue ILIAS-Konten anlegen.
 user#:#feedhash#:#Newsfeed-Hash
 user#:#has_role#:#Rolle
-user#:#inform_user_mail_info#:#Falls aktiviert, wird eine E-Mail an den Benutzer gesendet. Deren Inhalt kann in 'Administration » Benutzerverwaltung » Einstellungen » Benachrichtigung über Neuanmeldung' definiert werden.
+user#:#inform_user_mail_info#:#An die oben eingetragene E-Mail-Adresse wird eine Benachrichtigung gesendet. Deren Inhalt kann definiert werden in: Administration » Konten und Rollen » ILIAS-Konten » Einstellungen » Benachrichtigung über Neuanmeldung
 user#:#interests#:#Interessen
 user#:#interests_general#:#Allgemeine Interessen
 user#:#interests_help_looking#:#Suche Hilfe
@@ -16566,7 +16566,7 @@ user#:#roles_without_starting_point#:#Rollen ohne definierte Startseite
 user#:#save_order#:#Reihenfolge speichern
 user#:#send_mail_reminder_window_too_small#:#Das Intervall ist zu groß, um den Versand einer E-Mail vor der Löschung des Kontos zu gewährleisten.
 user#:#send_mail_to_inactive_users#:#Benachrichtigungsmail
-user#:#send_mail_to_inactive_users_desc#:#Bevor ILIAS-Konten gelöscht werden, sendet ILIAS eine E-Mail an die betroffenen Personen. Durch ein erneutes Anmelden einer Person in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer E-Mail-Empfang möglich ist. Bei Aktivierung des Cronjobs mit Benachrichtigungsmail, kann es vorkommen, dass zu Beginn die Zeitspanne zwischen Benachrichtigung und Löschung geringer ist als die eingestellte Zeitspanne.
+user#:#send_mail_to_inactive_users_desc#:#Bevor ILIAS-Konten gelöscht werden, sendet ILIAS eine E-Mail an die betroffenen Personen. Durch ein erneutes Anmelden der jeweiligen Person in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer E-Mail-Empfang möglich ist. Bei Aktivierung des Cronjobs mit Benachrichtigungsmail, kann es vorkommen, dass zu Beginn die Zeitspanne zwischen Benachrichtigung und Löschung geringer ist als die eingestellte Zeitspanne.
 user#:#send_mail_to_inactive_users_must_be_smaller_than#:#Dieser Wert muss kleiner sein, als der Wert „Vergangene Tage seit letzter Anmeldung“.
 user#:#send_mail_to_inactive_users_numbers_only#:#Bitte nur ganzzahlige, positive Werte eingeben. Ihre Eingabe wurde gerundet.
 user#:#send_mail_to_inactive_users_suffix#:#Tage bis zur Löschung.
@@ -16598,7 +16598,7 @@ user#:#user_account_deleted_confirmation#:#Ihr ILIAS-Konto wurde gelöscht. Eine
 user#:#user_activate_public_profile#:#Aktivierung
 user#:#user_activate_public_profile_info#:#Vor- und Nachname sind bei aktiviertem Profil immer sichtbar.
 user#:#user_activation#:#Aktivierung
-user#:#user_adm_enable_alpha_nav#:#Alphabetische Navigation in der Benutzeradministration
+user#:#user_adm_enable_alpha_nav#:#Alphabetische Navigation für die Tabelle „ILIAS-Konten”
 user#:#user_all#:#Alle
 user#:#user_allow_delete_own_account#:#Benutzer können eigenes ILIAS-Konto löschen
 user#:#user_any#:#Alle
@@ -16611,7 +16611,7 @@ user#:#user_delete_own_account_aborted#:#Der Löschprozess wurde abgebrochen. Da
 user#:#user_delete_own_account_email_body#:#Ihr ILIAS-Konto "%s" auf %s wurde am %s gelöscht.
 user#:#user_delete_own_account_email_subject#:#ILIAS-Konto gelöscht
 user#:#user_delete_own_account_final_confirmation#:#Bitte bestätigen Sie ein letztes Mal, dass Ihr ILIAS-Konto unwiderruflich aus dem System entfernt werden soll.
-user#:#user_delete_own_account_info#:#Hier können Sie Ihren aktuellen ILIAS-Konto löschen. Bedenken Sie, dass dieser Vorgang nicht rückgängig gemacht werden kann!
+user#:#user_delete_own_account_info#:#Hier können Sie Ihr aktuelles ILIAS-Konto löschen. Bedenken Sie, dass dieser Vorgang nicht rückgängig gemacht werden kann!
 user#:#user_delete_own_account_logout_button#:#Mit Authentifizierung fortsetzen
 user#:#user_delete_own_account_logout_confirmation#:#Ihr ILIAS-Konto wurde zur Löschung markiert, bitte authentifizieren Sie sich, um den Vorgang fortzusetzen.
 user#:#user_delete_own_account_notification_email#:#Benachrichtigungs-E-Mail
