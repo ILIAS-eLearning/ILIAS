@@ -18,8 +18,9 @@
 declare(strict_types=1);
 
 use ILIAS\MyStaff\ilMyStaffAccess;
-use ILIAS\MyStaff\ListCourses\ilMStListCoursesTableGUI;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\MyStaff\ListCourses\ilMStListCoursesTableGUI;
+
 
 /**
  * Class ilMStListCoursesGUI
