@@ -18,6 +18,7 @@
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Services;
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -48,6 +49,7 @@ class ilPersonalProfileGUI
     private RequestInterface $request;
     private \ILIAS\FileUpload\FileUpload $uploads;
     private Services $irss;
+    private ResourceStakeholder $stakeholder;
 
     public function __construct(
         \ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation = null,
@@ -66,6 +68,7 @@ class ilPersonalProfileGUI
         $this->request = $DIC->http()->request();
         $this->uploads = $DIC->upload();
         $this->irss = $DIC->resourceStorage();
+        $this->stakeholder = new ilUserProfilePictureStakeholder();
 
         if ($termsOfServiceEvaluation === null) {
             $termsOfServiceEvaluation = $DIC['tos.document.evaluator'];
@@ -160,7 +163,6 @@ class ilPersonalProfileGUI
                 // User has uploaded a file of a captured image
                 $this->uploads->process();
                 $existing_rid = $this->irss->manage()->find($this->user->getAvatarRid());
-                $stakeholder = new ilUserProfilePictureStakeholder();
                 $revision_title = 'Avatar for user ' . $this->user->getLogin();
 
                 // move uploaded file
@@ -174,7 +176,7 @@ class ilPersonalProfileGUI
                         if ($existing_rid === null) {
                             $rid = $this->irss->manage()->upload(
                                 $avatar_upload_result,
-                                $stakeholder,
+                                $this->stakeholder,
                                 $revision_title
                             );
                         } else {
@@ -182,7 +184,7 @@ class ilPersonalProfileGUI
                             $this->irss->manage()->appendNewRevision(
                                 $existing_rid,
                                 $avatar_upload_result,
-                                $stakeholder,
+                                $this->stakeholder,
                                 $revision_title
                             );
                         }
@@ -205,7 +207,7 @@ class ilPersonalProfileGUI
                     if ($existing_rid === null) {
                         $rid = $this->irss->manage()->stream(
                             $stream,
-                            $stakeholder,
+                            $this->stakeholder,
                             $revision_title
                         );
                     } else {
@@ -213,14 +215,14 @@ class ilPersonalProfileGUI
                         $this->irss->manage()->appendNewRevisionFromStream(
                             $rid,
                             $stream,
-                            $stakeholder,
+                            $this->stakeholder,
                             $revision_title
                         );
                     }
                 }
                 $this->user->setAvatarRid($rid->serialize());
+                $this->irss->flavours()->ensure($rid, new ilUserProfilePictureDefinition()); // Create different sizes
                 $this->user->update();
-                // create flavours?
             }
         }
     }
