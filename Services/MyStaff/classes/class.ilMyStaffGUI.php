@@ -18,6 +18,7 @@
 
 use ILIAS\MyStaff\ilMyStaffAccess;
 use ILIAS\MyStaff\ListCourses\ilMStListCourse;
+use ILIAS\MyStaff\ListCourses\ilMStListCoursesGUI;
 
 /**
  * Class ilMyStaffGUI
