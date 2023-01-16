@@ -23,11 +23,13 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ILIAS\MyStaff\ilMyStaffAccess;
 use ILIAS\MyStaff\ilMyStaffCachedAccessDecorator;
+
 use ILIAS\MyStaff\ListUsers\ilMStListUsers;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ilMStListCertificatesGUI;
 use ilMStListCompetencesGUI;
 use ilMStListCompetencesSkillsGUI;
+
 use ilMStListCoursesGUI;
 use ilMStListUsersGUI;
 use ilMyStaffGUI;
