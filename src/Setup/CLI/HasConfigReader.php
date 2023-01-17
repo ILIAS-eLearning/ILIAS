@@ -33,7 +33,7 @@ trait HasConfigReader
      */
     protected ConfigReader $config_reader;
 
-    protected function readAgentConfig(Agent $agent, InputInterface $input): ?Config
+    protected function readAgentConfig(Agent $agent, InputInterface $input, string $use_config_field = null): ?Config
     {
         if (!($this->config_reader instanceof ConfigReader)) {
             throw new \LogicException("\$this->config_reader not properly initialized.");
@@ -59,6 +59,9 @@ trait HasConfigReader
         }
 
         $config_content = $this->config_reader->readConfigFile($config_file, $config_overwrites);
+        if ($use_config_field !== null) {
+            $config_content = $config_content[$use_config_field] ?? null;
+        }
 
         $trafo = $agent->getArrayToConfigTransformation();
         return $trafo->transform($config_content);
