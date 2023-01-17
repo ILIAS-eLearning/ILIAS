@@ -158,7 +158,7 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
         $actions = new ilAdvancedSelectionListGUI();
         $actions->setListTitle($this->language->txt("actions"));
         $actions->setAsynch(true);
-        $actions->setId($a_set["ref_id"]);
+        $actions->setId((string) $a_set["ref_id"]);
 
         $actions->setAsynchUrl(
             str_replace("\\", "\\\\", $this->ctrl->getLinkTargetByClass(
@@ -193,7 +193,7 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
                 continue;
             }
 
-            if ($filter['etal_employee'] !== false) {
+            if ($filter['etal_employee'] !== "") {
                 $filterUser = ilObjUser::getUserIdByLogin($filter['etal_employee']);
                 if ($val->getEmployee() !== $filterUser) {
                     continue;
@@ -214,20 +214,20 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
                 $employeeName = ilObjUser::_lookupLogin($talkData->getEmployee());
             }
 
-            if ($filter['etal_superior'] !== false) {
+            if ($filter['etal_superior'] !== "") {
                 $filterUser = ilObjUser::getUserIdByLogin($filter['etal_superior']);
                 if (intval($talk->getOwner()) !== $filterUser) {
                     continue;
                 }
             }
 
-            if ($filter['etal_title'] !== false) {
+            if ($filter['etal_title'] !== "") {
                 if (strpos($talk->getTitle(), $filter['etal_title']) === false) {
                     continue;
                 }
             }
 
-            if ($filter['etal_template'] !== false) {
+            if ($filter['etal_template'] !== "") {
                 if (strpos($parent->getTitle(), $filter['etal_template']) === false) {
                     continue;
                 }
@@ -241,8 +241,7 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
                     continue;
                 }
             }
-
-            if ($filter['etal_status'] !== false && intval($filter['etal_status'] !== 0)) {
+            if ($filter['etal_status'] !== "" && intval($filter['etal_status'] !== 0)) {
                 $filterCompleted = intval($filter['etal_status']) === ilEmployeeTalkTableGUI::STATUS_COMPLETED;
                 if ($filterCompleted && !$val->isCompleted()) {
                     continue;
