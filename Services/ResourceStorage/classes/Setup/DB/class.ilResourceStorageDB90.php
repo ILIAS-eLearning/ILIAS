@@ -70,4 +70,21 @@ class ilResourceStorageDB90 implements ilDatabaseUpdateSteps
         $this->db->addIndex($flavour_table, ['variant'], 'i4');
         $this->db->addPrimaryKey($flavour_table, ['rid', 'revision', 'definition_id', 'variant']);
     }
+
+    public function step_2(): void
+    {
+        // Remove some unused indexes, since they are in primaries now
+        try {
+            $this->db->dropIndexByFields('il_resource_info', ['rid']);
+        } catch (Exception $e) {
+        }
+        try {
+            $this->db->dropIndexByFields('il_resource_revision', ['rid']);
+        } catch (Exception $e) {
+        }
+        try {
+            $this->db->dropIndexByFields('il_resource_stkh_u', ['rid']);
+        } catch (Exception $e) {
+        }
+    }
 }

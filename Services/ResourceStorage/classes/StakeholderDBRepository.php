@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\ResourceStorage\Stakeholder\Repository;
 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Stakeholder\LostStakeholder;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 /**
@@ -162,8 +163,11 @@ class StakeholderDBRepository implements StakeholderRepository
     {
         $stakeholders = [];
         $class_name = $data['class_name'];
-        $stakeholder = new $class_name();
-        $stakeholders[] = $stakeholder;
-        $this->cache[$data['rid']][$data['stakeholder_id']] = $stakeholder;
+
+        if (class_exists($class_name)) {
+            $stakeholder = new $class_name();
+            $stakeholders[] = $stakeholder;
+            $this->cache[$data['rid']][$data['stakeholder_id']] = $stakeholder;
+        }
     }
 }

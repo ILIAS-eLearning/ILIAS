@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Refinery\Factory;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 
@@ -30,6 +30,10 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
 class ilObjFileServicesGUI extends ilObject2GUI
 {
     public const CMD_EDIT_SETTINGS = 'editSettings';
+    protected const TAB_PERMISSIONS = 'perm_settings';
+    protected const TAB_SETTINGS = 'settings';
+    protected const TAB_OVERVIEW = 'resource_overview';
+
     protected ilTabsGUI $tabs;
     public ilLanguage $lng;
     public ilErrorHandling $error_handling;
@@ -54,6 +58,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
         $this->tabs = $DIC['ilTabs'];
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('adn');
+        $this->lng->loadLanguageModule('irss');
         $this->ctrl = $DIC['ilCtrl'];
         $this->tpl = $DIC['tpl'];
         $this->tree = $DIC['tree'];
@@ -100,10 +105,15 @@ class ilObjFileServicesGUI extends ilObject2GUI
         $this->checkPermissionOrFail('read');
 
         switch ($next_class) {
-            case 'ilpermissiongui':
-                $this->tabs_gui->setTabActive('perm_settings');
+            case strtolower(ilPermissionGUI::class):
+                $this->tabs_gui->activateTab(self::TAB_PERMISSIONS);
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
+                break;
+            case strtolower(ilResourceOverviewGUI::class):
+                $this->tabs_gui->activateTab(self::TAB_OVERVIEW);
+                $overview = new ilResourceOverviewGUI();
+                $this->ctrl->forwardCommand($overview);
                 break;
             default:
                 if (!$cmd || $cmd === 'view') {
@@ -119,27 +129,40 @@ class ilObjFileServicesGUI extends ilObject2GUI
      */
     public function getAdminTabs(): void
     {
+        // General Settings for File-Services
         if ($this->rbac_system->checkAccess(
             "visible,read",
             $this->object->getRefId()
         )
         ) {
-            $this->tabs_gui->addTarget(
-                'settings',
-                $this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS),
-                [self::CMD_EDIT_SETTINGS, "view"]
+            $this->tabs_gui->addTab(
+                self::TAB_SETTINGS,
+                $this->lng->txt(self::TAB_SETTINGS),
+                $this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS)
             );
         }
+        // Resource-Overview
+        if ($this->rbac_system->checkAccess(
+            "visible,read",
+            $this->object->getRefId()
+        )
+        ) {
+            $this->tabs_gui->addTab(
+                self::TAB_OVERVIEW,
+                $this->lng->txt(self::TAB_OVERVIEW),
+                $this->ctrl->getLinkTargetByClass(ilResourceOverviewGUI::class),
+            );
+        }
+        // Permissions-tab
         if ($this->rbac_system->checkAccess(
             'edit_permission',
             $this->object->getRefId()
         )
         ) {
-            $this->tabs_gui->addTarget(
-                "perm_settings",
-                $this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, "perm"),
-                [],
-                ilPermissionGUI::class
+            $this->tabs_gui->addTab(
+                self::TAB_PERMISSIONS,
+                $this->lng->txt(self::TAB_PERMISSIONS),
+                $this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, "perm")
             );
         }
     }
@@ -156,7 +179,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
-        $form->setTitle($this->lng->txt("settings"));
+        $form->setTitle($this->lng->txt(self::TAB_SETTINGS));
 
         // default positive list
         $ne = new ilNonEditableValueGUI($this->lng->txt("file_suffix_default_positive"), "");
@@ -215,7 +238,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
 
     protected function editSettings(): void
     {
-        $this->tabs_gui->setTabActive('settings');
+        $this->tabs_gui->setTabActive(self::TAB_SETTINGS);
 
         $this->checkPermissionOrFail("visible,read");
 

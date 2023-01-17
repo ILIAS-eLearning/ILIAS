@@ -66,4 +66,6 @@ interface StorableResource
     public function setStorageID(string $storage_id): void;
 
     public function getMaxRevision(): int;
+
+    public function getFullSize(): int;
 }

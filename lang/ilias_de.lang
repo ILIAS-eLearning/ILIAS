@@ -10080,11 +10080,31 @@ init#:#init_error_authentication_fail#:#Authentifizierung fehlgeschlagen.
 init#:#init_error_maintenance#:#Der Server ist aufgrund von Wartungsarbeiten aktuell nicht verf&uuml;gbar. Wir bitten um Verst&auml;ndnis. Versuchen Sie es sp&auml;ter noch einmal.
 init#:#init_error_redirect_click#:#Bitte klicken um fortzufahren.
 init#:#init_error_redirect_info#:#Weiterleitungen werden durch Kontext nicht unterstützt.
+irss#:#action_download#:#Herunterladen
+irss#:#action_goto#:#Ressource öffnen
+irss#:#action_remove_resource#:#Ressource löschen
+irss#:#action_show_revisions#:#Revisionen anzeigen
+irss#:#creation_date#:#Erstellungsdatum (Diese Revision)
+irss#:#file_size#:#Dateigrösse (Diese Revision)
+irss#:#file_size_bigger_than#:#Dateigrösse grösser als (MB)
+irss#:#full_size#:#Ressourcengrössse (Alle Revisionen)
 irss#:#max_revision#:#Max. Revision
 irss#:#resource_id#:#Resource ID
+irss#:#resource_no_stakeholder_uri#:#Kein Stakeholder stellt einen Link zu der Nutzung dieser Resource zur Verfügung.
+irss#:#resource_overview#:#Ressourcen-Übersicht
+irss#:#revision#:#Revision
+irss#:#revisions#:#Verfügbare Revisionen
+irss#:#sorting#:#Sortierung
+irss#:#sorting_1#:#Titel (aufsteigend)
+irss#:#sorting_2#:#Titel (absteigend)
+irss#:#sorting_3#:#Dateigrösse (aufsteigend)
+irss#:#sorting_4#:#Dateigrösse (absteigend)
+irss#:#sorting_5#:#Erstellungsdatum (aufsteigend)
+irss#:#sorting_6#:#Erstellungsdatum (absteigend)
 irss#:#stakeholders#:#Stakeholders
 irss#:#storage_id#:#Storage ID
 irss#:#storage_info#:#Storage Information
+irss#:#type#:#Dateityp
 itgr#:#itgr_always_open#:#Immer offen
 itgr#:#itgr_assign_materials#:#Objekte auswählen
 itgr#:#itgr_assigned_materials#:#Objekte im Objekteblock

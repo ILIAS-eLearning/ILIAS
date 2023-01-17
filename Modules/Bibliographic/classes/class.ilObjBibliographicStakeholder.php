@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 
 /**
@@ -24,6 +25,15 @@ use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
  */
 class ilObjBibliographicStakeholder extends AbstractResourceStakeholder
 {
+    private ilDBInterface $db;
+
+    public function __construct()
+    {
+        global $DIC;
+        $this->db = $DIC->database();
+    }
+
+
     /**
      * @inheritDoc
      */
@@ -38,5 +48,20 @@ class ilObjBibliographicStakeholder extends AbstractResourceStakeholder
     public function getOwnerOfNewResources(): int
     {
         return 6;
+    }
+
+    public function getLocationURIForResourceUsage(ResourceIdentification $identification): ?string
+    {
+        $r = $this->db->query(
+            "SELECT id FROM il_bibl_data WHERE rid = " . $this->db->quote($identification->serialize(), 'text')
+        );
+        $d = $this->db->fetchObject($r);
+        if (isset($d->id)) {
+            $references = ilObject::_getAllReferences($d->id);
+            $ref_id = array_shift($references);
+
+            return ilLink::_getLink($ref_id, 'bibl');
+        }
+        return null;
     }
 }

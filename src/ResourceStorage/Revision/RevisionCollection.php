@@ -118,4 +118,14 @@ class RevisionCollection
         }
         return max(array_keys($this->revisions));
     }
+
+    public function getFullSize(): int
+    {
+        $size = 0;
+        foreach ($this->revisions as $revision) {
+            $size += $revision->getInformation()->getSize();
+        }
+
+        return $size;
+    }
 }

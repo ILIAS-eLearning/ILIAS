@@ -53,4 +53,6 @@ interface ResourceStakeholder
     public function getOwnerOfResource(ResourceIdentification $identification): int;
 
     public function getOwnerOfNewResources(): int;
+
+    public function getLocationURIForResourceUsage(ResourceIdentification $identification): ?string;
 }

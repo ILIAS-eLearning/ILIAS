@@ -10074,11 +10074,31 @@ init#:#init_error_authentication_fail#:#Authentication failed.
 init#:#init_error_maintenance#:#The server is not available due to maintenance. We apologise for any inconvenience.
 init#:#init_error_redirect_click#:#Please click to continue.
 init#:#init_error_redirect_info#:#Redirect not supported by context.
+irss#:#action_download#:#Download
+irss#:#action_goto#:#Open Resource
+irss#:#action_remove_resource#:#Delete Resource
+irss#:#action_show_revisions#:#Show Revisions
+irss#:#creation_date#:#Creation Date (This Revision)
+irss#:#file_size#:#File Size (This Revision)
+irss#:#file_size_bigger_than#:#File Size greater than (MB)
+irss#:#full_size#:#Resource Size (All Revisions)
 irss#:#max_revision#:#Max. Revision
 irss#:#resource_id#:#Resource ID
+irss#:#resource_no_stakeholder_uri#:#No Stakeholder provides a valid Link to the usage of this Resource.
+irss#:#resource_overview#:#Resource Overview
+irss#:#revision#:#Revision
+irss#:#revisions#:#Available Revisions
+irss#:#sorting#:#Default Ordering
+irss#:#sorting_1#:#By Title (Ascending)
+irss#:#sorting_2#:#By Title (Descending)
+irss#:#sorting_3#:#By File Size (Ascending)
+irss#:#sorting_4#:#By File Size (Descending)
+irss#:#sorting_5#:#By Creation Date (Ascending)
+irss#:#sorting_6#:#By Creation Date (Descending)
 irss#:#stakeholders#:#Stakeholders
 irss#:#storage_id#:#Storage ID
 irss#:#storage_info#:#Storage Information
+irss#:#type#:#File Type
 itgr#:#itgr_always_open#:#Always Open
 itgr#:#itgr_assign_materials#:#Assign Materials
 itgr#:#itgr_assigned_materials#:#Assigned Materials
