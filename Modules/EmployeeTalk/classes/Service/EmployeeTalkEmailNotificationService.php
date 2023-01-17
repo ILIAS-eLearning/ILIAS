@@ -27,8 +27,8 @@ final class EmployeeTalkEmailNotificationService
 {
     private EmployeeTalkEmailNotification $message;
     private string $subject;
-    private string $to;
-    private string $cc;
+    private \ilObjUser $to;
+    private \ilObjUser $cc;
     private VCalender $calendar;
     private ilSetting $settings;
 
@@ -103,10 +103,11 @@ final class EmployeeTalkEmailNotificationService
             $attachmentName,
             $this->calendar->render()
         );
+        /* currently broken
         $mail->setAttachments([
             $attachment
-        ]);
-        $mail->sendMail([$this->to]);
+        ]);*/
+        $mail->sendMail([$this->to->getId()]);
 
         //return $mailsent;
         return true;

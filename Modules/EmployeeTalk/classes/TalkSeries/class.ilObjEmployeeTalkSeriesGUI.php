@@ -456,7 +456,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
     {
         $location = $this->form->getInput('etal_location');
         $employee = $this->form->getInput('etal_employee');
-        ['tgl' => $tgl] = $this->form->getInput('etal_event');
+        ['fullday' => $tgl] = $this->form->getInput('etal_event');
 
         /**
          * @var ilDateDurationInputGUI $dateTimeInput

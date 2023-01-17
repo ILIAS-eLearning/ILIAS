@@ -84,7 +84,7 @@ final class ilObjEmployeeTalkSeries extends ilContainer
 
     public function update(): bool
     {
-        parent::update();
+        $ret = parent::update();
 
         /**
          * @var \ILIAS\DI\Container $container
@@ -99,6 +99,7 @@ final class ilObjEmployeeTalkSeries extends ilContainer
                   'appointments' => []
             ]
         );
+        return $ret;
     }
 
     /**
