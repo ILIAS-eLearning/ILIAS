@@ -50,6 +50,11 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
         $language->loadLanguageModule("tala");
     }
 
+    protected function supportsPageEditor(): bool
+    {
+        return false;
+    }
+
     public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
