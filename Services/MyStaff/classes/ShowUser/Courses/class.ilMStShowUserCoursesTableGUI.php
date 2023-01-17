@@ -16,14 +16,18 @@
  ********************************************************************
  */
 
-namespace ILIAS\MyStaff\Courses\ShowUser;
+// no namespace for ilCtrl classes
+//namespace ILIAS\MyStaff\Courses\ShowUser;
 
+/*
 use Closure;
 use ilAdvancedSelectionListGUI;
 use ilCSVWriter;
-use ilExcel;
+use ilExcel;*/
 use ILIAS\MyStaff\ilMyStaffAccess;
 use ILIAS\MyStaff\ListCourses\ilMStListCourse;
+
+/*
 use ilLPStatus;
 use ilMStShowUserCoursesGUI;
 use ilMyStaffGUI;
@@ -32,11 +36,12 @@ use ilOrgUnitOperation;
 use ilRepositorySelectorInputGUI;
 use ilSelectInputGUI;
 use ilTable2GUI;
-use ilTextInputGUI;
+use ilTextInputGUI;*/
 
 /**
  * Class ilMStShowUserCoursesTableGUI
  * @author Martin Studer <ms@studer-raimann.ch>
+ * @ilCtrl_Calls ilMStShowUserCoursesTableGUI: ilFormPropertyDispatchGUI
  */
 class ilMStShowUserCoursesTableGUI extends ilTable2GUI
 {
@@ -113,7 +118,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
             ),
         );
 
-        $user_courses_fetcher = new ilMStShowUserCourses($DIC);
+        $user_courses_fetcher = new \ILIAS\MyStaff\Courses\ShowUser\ilMStShowUserCourses($DIC);
         $result = $user_courses_fetcher->getData($arr_usr_id, $options);
         $this->setMaxCount($result->getTotalDatasetCount());
         $data = $result->getDataset();
