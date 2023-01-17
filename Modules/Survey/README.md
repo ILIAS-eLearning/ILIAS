@@ -182,6 +182,7 @@ Answer options for each question. Hold Scale Values. Texts are in Question Categ
 * **Privacy**: With Names (0): Names are presented in the Participants and Results view. Without Names/Anonymous (2): Instead of the names the term "Anonymous" is printed out in the Participants and Results view. (`svy_svy.anonymize`, see Property Access Codes)
 * **List of Participants**: This suboption of Privacy/Anonymous is only available if activated in the Administration (List of Participants). This activates an additional Participants list with first-, lastname, login and status (finished) after the end date of the survey. Additionally a minimum number of participants can be set in the Administration (`svy_svy.anon_user_list`).
 * **Access Codes**: Use Access Codes yes/no (`svy_svy.anonymize`: 0: With Names/No Codes, 1: Anonymous/Codes, 2: Anonymous/No Codes, 3: With Names/Codes). If activated, all users have to enter an access code when starting the survey.
+* **Mail Notification**: Send mail each time a participant finishes a survey (`svy_svy.mailnotification`) to the users in `svy_svy.mailaddresses`, using ilSystemNotification->sendMail().
 
 
 [WIP]

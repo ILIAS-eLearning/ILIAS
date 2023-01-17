@@ -15778,7 +15778,7 @@ survey#:#survey_next#:#Next >>
 survey#:#survey_next_question#:#Next Page
 survey#:#survey_no_pool#:#Do not use question pool
 survey#:#survey_not_available#:#n/a
-survey#:#survey_notification_finished_introduction#:#The following participant has finished the survey.
+survey#:#survey_notification_finished_introduction#:#A participant has finished the survey.
 survey#:#survey_notification_finished_reason#:#You are receiving this e-mail because you activated notifications for the survey mentioned above.
 survey#:#survey_notification_target_group#:#Target Group
 survey#:#survey_notification_target_group_invited#:#All users who got the survey put on their Personal Desktop

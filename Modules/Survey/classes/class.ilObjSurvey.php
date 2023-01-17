@@ -2443,17 +2443,17 @@ class ilObjSurvey extends ilObject
             $ntf->setReasonLangId('survey_notification_finished_reason');
 
             if (is_numeric($recipient)) {
-                $lng = $ntf->getUserLanguage($recipient);
-                $ntf->sendMail(array($recipient), false);
+                $lng = $ntf->getUserLanguage((int) $recipient);
+                $ntf->sendMailAndReturnRecipients([(int) $recipient]);
             } else {
                 $recipient = trim($recipient);
                 $user_ids = ilObjUser::getUserIdsByEmail($recipient);
                 if (empty($user_ids)) {
-                    $ntf->sendMail(array($recipient), false);
+                    $ntf->sendMailAndReturnRecipients([ilObjUser::_lookupId($recipient)]);
                 } else {
                     foreach ($user_ids as $user_id) {
                         $lng = $ntf->getUserLanguage($user_id);
-                        $ntf->sendMail(array($user_id), false);
+                        $ntf->sendMailAndReturnRecipients(array($user_id));
                     }
                 }
             }
