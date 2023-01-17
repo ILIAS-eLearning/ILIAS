@@ -316,6 +316,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
                 $ret["end"] = null;
             }
         }
+        $ret["fullday"] = (bool) ($ret["tgl"] ?? false);
         return $ret;
     }
 
