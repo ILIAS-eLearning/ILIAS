@@ -39,9 +39,9 @@ class HasConfigReaderTest extends TestCase
                 $this->config_reader = $cr;
             }
 
-            public function _readAgentConfig(Agent $agent, InputInterface $input): ?Config
+            public function _readAgentConfig(Agent $agent, InputInterface $input, string $use_config_field = null): ?Config
             {
-                return $this->readAgentConfig($agent, $input);
+                return $this->readAgentConfig($agent, $input, $use_config_field);
             }
         };
     }
