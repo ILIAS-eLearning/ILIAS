@@ -15925,9 +15925,9 @@ survey#:#svy_import_codes_info#:#Dieser Import benötigt eine "%s"-Export-Datei.
 survey#:#svy_ind_feedb_info#:#Feedback-Nehmer erhalten mehrere einzelne Evaluationen durch Feebdack-Geber.
 survey#:#svy_ind_feedb_mode#:#Fremd-Evaluation
 survey#:#svy_mail_confirmation_subject#:#Umfrage "%s" - Ihre Teilnahmebestätigung
-survey#:#svy_mail_context_rater_invitation_info#:#Invite raters to participate in a survey.
-survey#:#svy_mail_context_rater_invitation_survey_title#:#Survey Title
-survey#:#svy_mail_context_rater_invitation_title#:#Survey: Rater Invitation
+survey#:#svy_mail_context_rater_invitation_info#:#Feedback-Geber zur Teilnahme in einer Umfrage einladen.
+survey#:#svy_mail_context_rater_invitation_survey_title#:#Titel der Umfrage
+survey#:#svy_mail_context_rater_invitation_title#:#Umfrage: Feedback-Geber einladen
 survey#:#svy_mail_context_reminder_info#:#Erinnert Benutzer an einer Umfrage teilzunehmen
 survey#:#svy_mail_context_reminder_survey_title#:#Umfragetitel
 survey#:#svy_mail_context_reminder_title#:#Umfrage: Teilnahme-Erinnerung
