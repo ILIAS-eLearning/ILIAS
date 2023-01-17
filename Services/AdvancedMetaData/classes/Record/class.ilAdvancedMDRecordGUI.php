@@ -477,7 +477,7 @@ class ilAdvancedMDRecordGUI
                     $presentation_bridge = ilADTFactory::getInstance()->getPresentationBridgeForInstance($element);
                     #21615
                     if (get_class($element) == 'ilADTLocation') {
-                        $presentation_bridge->setSize(100, 200);
+                        $presentation_bridge->setSize('100%', '200px');
                         #22638
                         $presentation_value = $presentation_bridge->getHTML();
                         $presentation_value .= "<script>ilInitMaps();</script>";
