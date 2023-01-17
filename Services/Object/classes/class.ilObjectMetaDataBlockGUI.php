@@ -141,7 +141,7 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
                 $value = ilADTFactory::getInstance()->getPresentationBridgeForInstance($element);
 
                 if ($element instanceof ilADTLocation) {
-                    $value->setSize(100, 200);
+                    $value->setSize('100%', '200px');
                 }
 
                 if (in_array($element->getType(), array("MultiEnum", "Enum", "Text"))) {
