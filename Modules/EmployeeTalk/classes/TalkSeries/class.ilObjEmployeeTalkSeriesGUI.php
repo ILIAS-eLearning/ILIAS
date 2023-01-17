@@ -57,7 +57,6 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
             ->retrieve("ref_id", $this->container->refinery()->kindlyTo()->int());
 
         parent::__construct([], $refId, true, false);
-
         $this->container->language()->loadLanguageModule('mst');
         $this->container->language()->loadLanguageModule('trac');
         $this->container->language()->loadLanguageModule('etal');
