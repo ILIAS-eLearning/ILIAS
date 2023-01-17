@@ -165,7 +165,6 @@ class ilMStShowUserGUI
 
         $DIC->tabs()->setBackTarget($DIC->language()->txt('mst_list_users'), $DIC->ctrl()->getLinkTargetByClass(array(
             ilMyStaffGUI::class,
-            self::class,
             ilMStListUsersGUI::class,
         )));
 
