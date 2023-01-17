@@ -279,7 +279,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
                 if (isset($v['sort_field'])) {
                     $sort = $v['sort_field'];
                 } else {
-                    $sort = null;
+                    $sort = "";
                 }
                 $this->addColumn($v['txt'], $sort);
             }
