@@ -692,6 +692,17 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     }
 
     /**
+    * @param assAnswerMatchingPair[]
+    */
+    public function withMatchingPairs(array $pairs): self
+    {
+        $clone = clone $this;
+        $clone->matchingpairs = $pairs;
+        return $clone;
+    }
+
+
+    /**
     * Returns the number of matching pairs
     *
     * @return integer The number of matching pairs of the matching question
