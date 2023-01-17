@@ -294,7 +294,8 @@ class ilMStListUsersTableGUI extends ilTable2GUI
                                                                  "",
                                                                  true
                                                              )));
-        $this->tpl->setVariable('ACTIONS', $this->uiRenderer->render($dropdown));
+        //$this->tpl->setVariable('ACTIONS', $this->uiRenderer->render($dropdown));
+        $this->tpl->setVariable('ACTIONS', $actions->getHTML());
         $this->tpl->parseCurrentBlock();
     }
 
