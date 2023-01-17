@@ -15346,7 +15346,7 @@ survey#:#codes_created#:#Zugangsschlüssel erzeugt
 survey#:#codes_deleted#:#Zugangsschlüssel gelöscht
 survey#:#combobox#:#Kombinationsfeld
 survey#:#concatenation#:#Verknüpfung
-survey#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Benutzerdaten der Umfrage löschen wollen?
+survey#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Teilnehmerdaten der Umfrage löschen wollen?
 survey#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie diese Teilnehmer entfernen wollen? Dies löscht alle Umfragedaten für die ausgewählten Benutzer.
 survey#:#confirm_remove_heading#:#Sind Sie sicher, dass Sie die Überschrift entfernen wollen?
 survey#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in die Umfrage als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
@@ -16016,7 +16016,7 @@ svy#:#svy_invite_participants#:#Teilnehmer einladen
 svy#:#svy_link_to_svy#:#Link zur Umfrage
 svy#:#svy_part_overview#:#Übersicht
 svy#:#svy_print_selection#:#Auswahl Druckansicht
-svy#:#svy_remove_all_participants#:#Alle Teilnehmer entfernen
+svy#:#svy_remove_all_participants#:#Alle Teilnehmerdaten löschen
 svy#:#svy_remove_participants#:#Teilnehmer entfernen
 svy#:#svy_selected_participants#:#Ausgewählte Teilnehmer
 svy#:#svy_selected_questions#:#Ausgewählte Fragen
