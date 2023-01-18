@@ -192,7 +192,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
                 } else {
                     $sort = null;
                 }
-                $this->addColumn($v['txt'], $sort);
+                $this->addColumn($v['txt'], (string) $sort);
             }
         }
         //Actions
