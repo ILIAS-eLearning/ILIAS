@@ -97,7 +97,12 @@ class InfoScreenGUI
 
         // handle (anonymous) code
 
-        $this->run_manager->initSession($this->requested_code);
+        try {
+            $this->run_manager->initSession($this->requested_code);
+        } catch (\ilWrongSurveyCodeException $e) {
+            $this->main_tpl->setOnScreenMessage("failure", $e->getMessage(), true);
+            $this->ctrl->redirect($this->survey_gui, "infoScreen");
+        }
         $anonymous_code = $this->run_manager->getCode();
 
         // completed message
