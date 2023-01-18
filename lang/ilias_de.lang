@@ -16017,6 +16017,7 @@ survey#:#svy_skl_comp_assignm_not_supported#:#Die Zuordnung von Kompetenzen ist 
 survey#:#svy_sum_score#:#Skalenpunktesumme
 survey#:#svy_type_of_rater#:#Art Feedback-Geber
 survey#:#svy_view_own_results#:#Eigene Antworten einsehen
+survey#:#svy_wrong_or_expired_code#:#Der angegebene Zugangsschlüssel ist leider nicht gültig oder abgelaufen. Bitte versuchen Sie es erneut.
 survey#:#text_maximum_chars_allowed#:#Bitte geben Sie nicht mehr als ein Maximum von %s Zeichen ein. Alle Zeichen, die darüber hinaus gehen, werden automatisch gelöscht.
 survey#:#text_question_not_filled_out#:#Sie müssen alle Antwortfelder ausfüllen!
 survey#:#unfold#:#Fragenblock auflösen

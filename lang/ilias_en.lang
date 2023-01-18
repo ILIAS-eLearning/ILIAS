@@ -16007,6 +16007,7 @@ survey#:#svy_skl_comp_assignm_not_supported#:#Competence assignment is not suppo
 survey#:#svy_sum_score#:#Sum Score
 survey#:#svy_type_of_rater#:#Type of Rater
 survey#:#svy_view_own_results#:#View given answers
+survey#:#svy_wrong_or_expired_code#:#Sorry, you entered an invalid or expired code.
 survey#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!
 survey#:#unfold#:#Unfold
