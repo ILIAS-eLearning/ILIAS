@@ -35,7 +35,7 @@ class ilAdvancedMDFieldDefinitionInternalLink extends ilAdvancedMDFieldDefinitio
         $parsed_import_id = ilUtil::parseImportId($a_cdata);
 
         if (
-            (strcmp($parsed_import_id['inst_id'], IL_INST_ID) == 0) &&
+            (strcmp((string) $parsed_import_id['inst_id'], IL_INST_ID) == 0) &&
             ilObject::_exists($parsed_import_id['id'], true, $parsed_import_id['type'])
         ) {
             $this->getADT()->setTargetRefId($parsed_import_id['id']);
