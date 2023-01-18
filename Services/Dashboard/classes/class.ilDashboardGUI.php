@@ -25,6 +25,7 @@
  * @ilCtrl_Calls ilDashboardGUI: ilMyStaffGUI
  * @ilCtrl_Calls ilDashboardGUI: ilGroupUserActionsGUI, ilAchievementsGUI
  * @ilCtrl_Calls ilDashboardGUI: ilPDSelectedItemsBlockGUI, ilPDMembershipBlockGUI, ilPDMailBlockGUI, ilDashboardRecommendedContentGUI, ilStudyProgrammeDashboardViewGUI, ilDashboardLearningSequenceGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilSelectedItemsBlockGUI, ilRecommendedContentBlockGUI, ilMembershipBlockGUI, ilLearningSequenceBlockGUI, ilStudyProgrammeBlockGUI
  *
  */
 class ilDashboardGUI implements ilCtrlBaseClassInterface
@@ -227,6 +228,10 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 break;
             case "ilstudyprogrammedashboardviewgui":
                 $gui = new ilStudyProgrammeDashboardViewGUI();
+                $this->ctrl->forwardCommand($gui);
+                break;
+            case strtolower(ilLearningSequenceBlockGUI::class):
+                $gui = new ilLearningSequenceBlockGUI();
                 $this->ctrl->forwardCommand($gui);
                 break;
             default:
@@ -530,31 +535,36 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
     protected function renderFavourites(): string
     {
-        $block = new ilPDSelectedItemsBlockGUI();
-        return $block->getHTML();
+//        $block = new ilPDSelectedItemsBlockGUI();
+//        return $block->getHTML();
+        return (new ilSelectedItemsBlockGUI())->getHTML();
     }
 
     protected function renderRecommendedContent(): string
     {
-        $db_rec_content = new ilDashboardRecommendedContentGUI();
-        return $db_rec_content->render();
+//        $db_rec_content = new ilDashboardRecommendedContentGUI();
+//        return $db_rec_content->render();
+        return (new ilRecommendedContentBlockGUI())->getHTML();
     }
 
     protected function renderStudyProgrammes(): string
     {
-        $st_block = ilStudyProgrammeDIC::dic()['ilStudyProgrammeDashboardViewGUI'];
-        return $st_block->getHTML();
+//        $st_block = ilStudyProgrammeDIC::dic()['ilStudyProgrammeDashboardViewGUI'];
+//        return $st_block->getHTML();
+        return (new ilStudyProgrammeBlockGUI())->getHTML();
     }
 
     protected function renderMemberships(): string
     {
-        $block = new ilPDMembershipBlockGUI();
-        return $block->getHTML();
+//        $block = new ilPDMembershipBlockGUI();
+//        return $block->getHTML();
+        return (new ilMembershipBlockGUI())->getHTML();
     }
 
     protected function renderLearningSequences(): string
     {
-        $st_block = new ilDashboardLearningSequenceGUI();
-        return $st_block->getHTML();
+//        $st_block = new ilDashboardLearningSequenceGUI();
+//        return $st_block->getHTML();
+        return (new ilLearningSequenceBlockGUI())->getHTML();
     }
 }

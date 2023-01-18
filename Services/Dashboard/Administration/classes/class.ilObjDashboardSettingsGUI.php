@@ -138,7 +138,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 function (int $view): ILIAS\UI\Component\Input\Field\Section {
                     return $this->getViewSorting(
                         $view,
-                        $this->lng->txt("dash_presentation_" . $this->viewSettings->getViewName($view))
+                        $this->lng->txt("dash_" . $this->viewSettings->getViewName($view))
                     );
                 },
                 $this->viewSettings->getPresentationViews()
@@ -235,7 +235,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 function (int $view): ILIAS\UI\Component\Input\Field\Section {
                     return $this->getViewPresentation(
                         $view,
-                        $this->lng->txt("dash_presentation_" . $this->viewSettings->getViewName($view))
+                        $this->lng->txt("dash_" . $this->viewSettings->getViewName($view))
                     );
                 },
                 $this->viewSettings->getPresentationViews()
