@@ -19,14 +19,12 @@ declare(strict_types=1);
 
 use ILIAS\MyStaff\ilMyStaffAccess;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
-use ILIAS\MyStaff\ListCourses\ilMStListCoursesTableGUI;
-
 
 /**
  * Class ilMStListCoursesGUI
  * @author            Martin Studer <ms@studer-raimann.ch>
  * @ilCtrl_IsCalledBy ilMStListCoursesGUI: ilMyStaffGUI
- * @ilCtrl_Calls      ilMStListCoursesGUI: ilFormPropertyDispatchGUI
+ * @ilCtrl_Calls      ilMStListCoursesGUI: ilMStListCoursesTableGUI
  */
 class ilMStListCoursesGUI extends ilPropertyFormGUI
 {
@@ -68,12 +66,12 @@ class ilMStListCoursesGUI extends ilPropertyFormGUI
         $next_class = $this->ctrl->getNextClass();
 
         switch ($next_class) {
-            case strtolower(ilFormPropertyDispatchGUI::class):
+            case strtolower(\ilMStListCoursesTableGUI::class):
                 $this->checkAccessOrFail();
 
                 $this->ctrl->setReturn($this, self::CMD_INDEX);
-                $this->table = new ilMStListCoursesTableGUI($this, self::CMD_INDEX);
-                $this->table->executeCommand();
+                $this->table = new \ilMStListCoursesTableGUI($this, self::CMD_INDEX);
+                $this->ctrl->forwardCommand($this->table);
                 break;
             default:
                 switch ($cmd) {
