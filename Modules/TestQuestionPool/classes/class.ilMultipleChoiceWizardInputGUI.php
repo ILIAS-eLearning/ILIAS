@@ -44,9 +44,13 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 
         if (is_array($_POST[$this->getPostVar()]) && $_POST["types"] == 1) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+            foreach ($_POST[$this->getPostVar()]["answer"] as $index => $answer){
+                $_POST[$this->getPostVar()]["answer"][$index] = strip_tags($_POST[$this->getPostVar()]["answer"][$index],  ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+            }
         } elseif (is_array($_POST[$this->getPostVar()]) && $_POST["types"] == 0) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()], true, "<em>, <strong>");
+            foreach ($_POST[$this->getPostVar()]["answer"] as $index => $answer){
+                $_POST[$this->getPostVar()]["answer"][$index] = strip_tags($_POST[$this->getPostVar()]["answer"][$index],  "<em>, <strong>");
+            }
         }
 
         $foundvalues = $_POST[$this->getPostVar()];
