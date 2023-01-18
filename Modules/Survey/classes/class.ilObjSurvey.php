@@ -2448,6 +2448,15 @@ class ilObjSurvey extends ilObject
             $ntf->setGotoLangId('survey_notification_tutor_link');
             $ntf->setReasonLangId('survey_notification_finished_reason');
 
+            $recipient = trim($recipient);
+            $user_id = (int) ilObjUser::_lookupId($recipient);
+            if ($user_id > 0) {
+                $ntf->sendMailAndReturnRecipients([$user_id]);
+            }
+            /*  note: this block is replace by the single line above
+                since the UI asks for account names and the "e-mail" fallback leads
+                to strange issues like multiple mails. Also the test case has been
+                adopted, see https://mantis.ilias.de/view.php?id=36327
             if (is_numeric($recipient)) {
                 $lng = $ntf->getUserLanguage((int) $recipient);
                 $ntf->sendMailAndReturnRecipients([(int) $recipient]);
@@ -2462,7 +2471,7 @@ class ilObjSurvey extends ilObject
                         $ntf->sendMailAndReturnRecipients(array($user_id));
                     }
                 }
-            }
+            }*/
         }
     }
 
