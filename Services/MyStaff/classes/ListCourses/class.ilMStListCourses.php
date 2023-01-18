@@ -156,7 +156,8 @@ class ilMStListCourses
             $where[] = '(crs_ref_id = ' . $this->dic->database()->quote($arr_filter['course'], 'integer') . ')';
         }
 
-        if (!empty($arr_filter['lp_status']) || $arr_filter['lp_status'] === 0) {
+
+        if (isset($arr_filter['lp_status']) || ($arr_filter['lp_status']  ?? null) === 0) {
             switch ($arr_filter['lp_status']) {
                 case ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM:
                     //if a user has the lp status not attempted it could be, that the user hase no records in table ut_lp_marks

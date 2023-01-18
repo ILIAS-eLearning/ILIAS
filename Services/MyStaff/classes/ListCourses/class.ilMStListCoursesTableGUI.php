@@ -17,12 +17,13 @@
  */
 declare(strict_types=1);
 
-use Closure;
+/*use Closure;
 use ilAdvancedSelectionListGUI;
 use ilCSVWriter;
-use ilExcel;
+use ilExcel;*/
 use ILIAS\MyStaff\ilMyStaffAccess;
-use ilLPStatus;
+
+/*use ilLPStatus;
 use ilMStListCoursesGUI;
 use ilMyStaffGUI;
 use ilObjUserTracking;
@@ -31,7 +32,7 @@ use ilRepositorySelectorInputGUI;
 use ilSelectInputGUI;
 use ilTable2GUI;
 use ilTextInputGUI;
-use ilUserSearchOptions;
+use ilUserSearchOptions;*/
 
 /**
  * Class ilMStListCoursesTableGUI
@@ -224,7 +225,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
             );
         }
 
-        if ($arr_searchable_user_columns['login']) {
+        if ($arr_searchable_user_columns['login'] ?? false) {
             $cols['usr_login'] = array(
                 'txt' => $DIC->language()->txt('login'),
                 'default' => true,
@@ -232,7 +233,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
                 'sort_field' => 'usr_login',
             );
         }
-        if ($arr_searchable_user_columns['firstname']) {
+        if ($arr_searchable_user_columns['firstname'] ?? false) {
             $cols['usr_firstname'] = array(
                 'txt' => $DIC->language()->txt('firstname'),
                 'default' => true,
@@ -240,7 +241,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
                 'sort_field' => 'usr_firstname',
             );
         }
-        if ($arr_searchable_user_columns['lastname']) {
+        if ($arr_searchable_user_columns['lastname'] ?? false) {
             $cols['usr_lastname'] = array(
                 'txt' => $DIC->language()->txt('lastname'),
                 'default' => true,
@@ -249,7 +250,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
             );
         }
 
-        if ($arr_searchable_user_columns['email']) {
+        if ($arr_searchable_user_columns['email'] ?? false) {
             $cols['usr_email'] = array(
                 'txt' => $DIC->language()->txt('email'),
                 'default' => true,
@@ -258,7 +259,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
             );
         }
 
-        if ($arr_searchable_user_columns['org_units']) {
+        if ($arr_searchable_user_columns['org_units'] ?? false) {
             $cols['usr_assinged_orgus'] = array(
                 'txt' => $DIC->language()->txt('objs_orgu'),
                 'default' => true,
