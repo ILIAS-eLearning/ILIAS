@@ -74,6 +74,9 @@ class EvaluationManager
             case \ilObjSurvey::MODE_360:
                 return ($access->canEditSettings() ||
                     $survey->get360Results() === \ilObjSurvey::RESULTS_360_ALL);
+            // tutors can switch appraisees on detailed evaluation screen
+            case \ilObjSurvey::MODE_IND_FEEDB:
+                return ($access->canEditSettings());
         }
         return false;
 
