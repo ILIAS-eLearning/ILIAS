@@ -784,7 +784,7 @@ class ilConditionHandlerGUI
                 'tpl.condition_handler_sco_row.html',
                 true,
                 true,
-                "Services/AccessControl"
+                "Services/Conditions"
             );
 
             $olp = ilObjectLP::getInstance($trigger_obj_id);
