@@ -47,7 +47,7 @@ class ilMStListCourses
         //Permission Filter
         $operation_access = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS;
 
-        if (!empty($options['filters']['lp_status']) || $options['filters']['lp_status'] === 0) {
+        if (isset($options['filters']['lp_status']) || ($options['filters']['lp_status'] ?? null) === 0) {
             $operation_access = ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS;
         }
         /*$tmp_table_user_matrix = ilMyStaffAccess::getInstance()->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($this->dic->user()

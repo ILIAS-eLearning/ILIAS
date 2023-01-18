@@ -17,8 +17,6 @@
  */
 declare(strict_types=1);
 
-namespace ILIAS\MyStaff\ListCourses;
-
 use Closure;
 use ilAdvancedSelectionListGUI;
 use ilCSVWriter;
@@ -38,6 +36,7 @@ use ilUserSearchOptions;
 /**
  * Class ilMStListCoursesTableGUI
  * @author Martin Studer <ms@studer-raimann.ch>
+ * @ilCtrl_Calls      ilMStListCoursesTableGUI: ilFormPropertyDispatchGUI
  */
 class ilMStListCoursesTableGUI extends ilTable2GUI
 {
@@ -106,13 +105,13 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
 
         $all_users_for_user = $this->access->getUsersForUser($DIC->user()->getId());
 
-        $list_courses_fetcher = new ilMStListCourses($DIC);
+        $list_courses_fetcher = new \ILIAS\MyStaff\ListCourses\ilMStListCourses($DIC);
         $result = $list_courses_fetcher->getData($all_users_for_user, $options);
         $this->setMaxCount($result->getTotalDatasetCount());
         $data = $result->getDataset();
 
         // Workaround because the fillRow Method only accepts arrays
-        $data = array_map(function (ilMStListCourse $it): array {
+        $data = array_map(function (\ILIAS\MyStaff\ListCourses\ilMStListCourse $it): array {
             return [$it];
         }, $data);
         $this->setData($data);
@@ -142,9 +141,9 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $item = new ilSelectInputGUI($DIC->language()->txt('member_status'), 'memb_status');
         $item->setOptions(array(
             "" => $DIC->language()->txt("mst_opt_all"),
-            ilMStListCourse::MEMBERSHIP_STATUS_REQUESTED => $DIC->language()->txt('mst_memb_status_requested'),
-            ilMStListCourse::MEMBERSHIP_STATUS_WAITINGLIST => $DIC->language()->txt('mst_memb_status_waitinglist'),
-            ilMStListCourse::MEMBERSHIP_STATUS_REGISTERED => $DIC->language()->txt('mst_memb_status_registered'),
+            \ILIAS\MyStaff\ListCourses\ilMStListCourse::MEMBERSHIP_STATUS_REQUESTED => $DIC->language()->txt('mst_memb_status_requested'),
+            \ILIAS\MyStaff\ListCourses\ilMStListCourse::MEMBERSHIP_STATUS_WAITINGLIST => $DIC->language()->txt('mst_memb_status_waitinglist'),
+            \ILIAS\MyStaff\ListCourses\ilMStListCourse::MEMBERSHIP_STATUS_REGISTERED => $DIC->language()->txt('mst_memb_status_registered'),
         ));
         $this->addFilterItem($item);
         $item->readFromSession();
@@ -322,7 +321,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
                         $this->tpl->setCurrentBlock('td');
                         $this->tpl->setVariable(
                             'VALUE',
-                            ilMStListCourse::getMembershipStatusText($set->getUsrRegStatus())
+                            \ILIAS\MyStaff\ListCourses\ilMStListCourse::getMembershipStatusText($set->getUsrRegStatus())
                         );
                         $this->tpl->parseCurrentBlock();
                         break;
@@ -389,7 +388,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $a_csv->addRow();
     }
 
-    protected function getFieldValuesForExport(ilMStListCourse $my_staff_course): array
+    protected function getFieldValuesForExport(\ILIAS\MyStaff\ListCourses\ilMStListCourse $my_staff_course): array
     {
         $propGetter = Closure::bind(function ($prop) {
             return $this->$prop;
@@ -402,7 +401,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
                     $field_values[$k] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($my_staff_course->getUsrId());
                     break;
                 case 'usr_reg_status':
-                    $field_values[$k] = ilMStListCourse::getMembershipStatusText($my_staff_course->getUsrRegStatus());
+                    $field_values[$k] = \ILIAS\MyStaff\ListCourses\ilMStListCourse::getMembershipStatusText($my_staff_course->getUsrRegStatus());
                     break;
                 case 'usr_lp_status':
                     $field_values[$k] = ilMyStaffGUI::getUserLpStatusAsText($my_staff_course);
