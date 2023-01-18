@@ -157,6 +157,10 @@ class ilMyStaffAccess extends ilObjectAccess
         global $DIC;
 
         $arr_users = $this->getUsersForUser($DIC->user()->getId());
+        if (count($arr_users) > 0 && $usr_id === 0) {
+            return true;
+        }
+
         if (count($arr_users) > 0 && in_array($usr_id, $arr_users)) {
             return true;
         }
