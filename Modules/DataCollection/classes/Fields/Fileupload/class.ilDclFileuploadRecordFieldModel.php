@@ -14,10 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 use ILIAS\FileUpload\MimeType;
+use ILIAS\Filesystem\Stream\Streams;
 
 /**
  * Class ilDclBaseFieldModel
@@ -27,23 +27,36 @@ use ILIAS\FileUpload\MimeType;
  */
 class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
 {
+    private \ILIAS\FileUpload\FileUpload $upload;
+
+    public function __construct(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field)
+    {
+        parent::__construct($record, $field);
+        global $DIC;
+        $this->upload = $DIC->upload();
+    }
+
     /**
      * @param null|array|int $value
      */
     public function parseValue($value)
     {
-        global $DIC;
         if ($value == -1) { //marked for deletion.
             return null;
         }
 
         $file = $value;
 
-        $hasRecordId = $this->http->wrapper()->query()->has('record_id');
-        $is_confirmed = $this->http->wrapper()->query()->has('save_confirmed');
-        $has_save_confirmation = ($this->getRecord()->getTable()->getSaveConfirmation() && $hasRecordId);
+        $has_record_id = $this->http->wrapper()->query()->has('record_id');
+        $is_confirmed = $this->http->wrapper()->post()->has('save_confirmed');
+        $has_save_confirmation = ($this->getRecord()->getTable()->getSaveConfirmation() && !$has_record_id);
 
-        if (is_array($file) && $file['tmp_name'] != "" && (!$has_save_confirmation || $is_confirmed)) {
+        if (
+            is_array($file)
+            && isset($file['tmp_name'])
+            && $file['tmp_name'] !== ""
+            && (!$has_save_confirmation || $is_confirmed)
+        ) {
             $file_obj = new ilObjFile();
             $file_obj->setType("file");
             $file_obj->setTitle($file["name"]);
@@ -52,7 +65,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
             $file_obj->create();
 
             if ($has_save_confirmation) {
-                $ilfilehash = $this->http->wrapper()->query()->retrieve(
+                $ilfilehash = $this->http->wrapper()->post()->retrieve(
                     'ilfilehash',
                     $this->refinery->kindlyTo()->string()
                 );
@@ -72,16 +85,12 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
                 $file_obj->setFileName($file["name"]);
             } else {
                 $move_file = $file['tmp_name'];
-                /**
-                 * @var \ILIAS\FileUpload\FileUpload $upload
-                 */
-                $upload = $DIC->upload();
 
-                if (false === $upload->hasBeenProcessed()) {
-                    $upload->process();
+                if (false === $this->upload->hasBeenProcessed()) {
+                    $this->upload->process();
                 }
 
-                if (false === $upload->hasUploads()) {
+                if (false === $this->upload->hasUploads()) {
                     throw new ilException($this->lng->txt('upload_error_file_not_found'));
                 }
                 $file_obj->getUploadFile($move_file, $file["name"]);
