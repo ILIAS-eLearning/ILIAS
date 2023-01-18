@@ -523,15 +523,15 @@ class ilMemberExport
                 // check for group in group
                 if (
                     $group_data["parent"] != $this->ref_id &&
-                    $this->tree->checkForParentType($group_data["ref_id"], "grp", true)
+                    $this->tree->checkForParentType((int) $group_data["ref_id"], "grp", true)
                 ) {
                     unset($groups[$idx]);
                 } else {
                     $this->groups[$group_data["ref_id"]] = $group_data["title"];
                     //TODO: change permissions from write to manage_members plus "|| ilObjGroup->getShowMembers()"----- uncomment below; testing required
                     $this->groups_rights[$group_data["ref_id"]] =
-                        $this->access->checkAccess("write", "", $group_data["ref_id"]);
-                    $gobj = ilGroupParticipants::_getInstanceByObjId($group_data["obj_id"]);
+                        $this->access->checkAccess("write", "", (int) $group_data["ref_id"]);
+                    $gobj = ilGroupParticipants::_getInstanceByObjId((int) $group_data["obj_id"]);
                     $this->groups_participants[$group_data["ref_id"]] = $gobj->getParticipants();
                 }
             }

@@ -334,7 +334,7 @@ class ilMemberExportGUI
                             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                         );
 
-                        // no break
+                    // no break
                     case 'xls':
                         ilUtil::deliverData(
                             $contents,
@@ -342,7 +342,7 @@ class ilMemberExportGUI
                             'application/vnd.ms-excel'
                         );
 
-                        // no break
+                    // no break
                     default:
                     case 'csv':
                         ilUtil::deliverData(
@@ -368,7 +368,9 @@ class ilMemberExportGUI
         if ($this->http->wrapper()->post()->has('id')) {
             $ids = $this->http->wrapper()->post()->retrieve(
                 'id',
-                $this->refinery->kindlyTo()->string()
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->string()
+                )
             );
         }
         return $ids;
