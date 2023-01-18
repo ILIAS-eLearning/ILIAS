@@ -424,6 +424,11 @@ class ilObjSurvey extends ilObject
         if (count($user_ids)) {
             $lp_obj = ilObjectLP::getInstance($this->getId());
             $lp_obj->resetLPDataForUserIds($user_ids);
+
+            // remove invitations, if exist
+            foreach ($user_ids as $user_id) {
+                $this->invitation_manager->remove($this->getSurveyId(), $user_id);
+            }
         }
     }
 
