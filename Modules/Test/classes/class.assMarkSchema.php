@@ -129,8 +129,8 @@ class ASS_MarkSchema
                 array(
                     $next_id,
                     $test_id,
-                    $value->getShortName(),
-                    $value->getOfficialName(),
+                    substr($value->getShortName(), 0, 15),
+                    substr($value->getOfficialName(), 0, 50),
                     $value->getMinimumLevel(),
                     $value->getPassed(),
                     time()
