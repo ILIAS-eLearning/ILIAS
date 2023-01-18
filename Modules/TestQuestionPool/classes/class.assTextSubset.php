@@ -892,7 +892,6 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
      */
     public function getOperators($expression): array
     {
-        require_once "./Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php";
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
     }
 

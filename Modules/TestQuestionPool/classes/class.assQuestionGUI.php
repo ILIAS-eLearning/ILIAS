@@ -1196,10 +1196,9 @@ abstract class assQuestionGUI
         $ilUser = $this->ilUser;
         $ilAccess = $this->access;
 
-        $save = (is_array($_POST["cmd"]) &&
-            array_key_exists("saveSuggestedSolution", $_POST["cmd"])) ? true : false;
-
-        if ($save && $_POST["deleteSuggestedSolution"] == 1) {
+        $cmd = $this->request->raw('cmd');
+        $save = is_array($cmd) && array_key_exists('saveSuggestedSolution', $cmd);
+        if ($save && $this->request->int('deleteSuggestedSolution') === 1) {
             $this->object->deleteSuggestedSolutions();
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "suggestedsolution");
@@ -1219,12 +1218,16 @@ abstract class assQuestionGUI
         if (!array_key_exists('type', $solution_array)) {
             $solution_array['type'] = '';
         }
-        if (strcmp($_POST["solutiontype"], "file") == 0 &&
+
+        $solution_type = $this->request->raw('solutiontype');
+        if (is_string($solution_type) &&
+            strcmp($solution_type, "file") == 0 &&
             strcmp($solution_array["type"], "file") != 0) {
             $solution_array = array(
                 "type" => "file"
             );
-        } elseif (strcmp($_POST["solutiontype"], "text") == 0 &&
+        } elseif (is_string($solution_type) &&
+            strcmp($solution_type, "text") == 0 &&
             strcmp($solution_array["type"], "text") != 0) {
             $oldsaveSuggestedSolutionOutputMode = $this->getRenderPurpose();
             $this->setRenderPurpose(self::RENDER_PURPOSE_INPUT_VALUE);
@@ -1235,11 +1238,19 @@ abstract class assQuestionGUI
             );
             $this->setRenderPurpose($oldsaveSuggestedSolutionOutputMode);
         }
-        if ($save && strlen($_POST["filename"])) {
-            $solution_array["value"]["filename"] = $_POST["filename"];
+
+        $solution_filename = $this->request->raw('filename');
+        if ($save &&
+            is_string($solution_filename) &&
+            strlen($solution_filename)) {
+            $solution_array["value"]["filename"] = $solution_filename;
         }
-        if ($save && strlen($_POST["solutiontext"])) {
-            $solution_array["value"] = $_POST["solutiontext"];
+
+        $solution_text = $this->request->raw('solutiontext');
+        if ($save &&
+            is_string($solution_text) &&
+            strlen($solution_text)) {
+            $solution_array["value"] = $solution_text;
         }
         if (isset($solution_array['type']) && $solution_array['type'] !== "") {
             $form = new ilPropertyFormGUI();

@@ -208,13 +208,13 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
                 case 'odf_last_update':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', (string) $a_set['odf_info_txt']);
+                    $this->tpl->setVariable('VAL_CUST', (string) ($a_set['odf_info_txt'] ?? ''));
                     $this->tpl->parseCurrentBlock();
                     break;
 
                 case 'roles':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', (string) $a_set['roles_label']);
+                    $this->tpl->setVariable('VAL_CUST', (string) ($a_set['roles_label'] ?? ''));
                     $this->tpl->parseCurrentBlock();
                     break;
 
@@ -222,7 +222,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                     $this->tpl->setCurrentBlock('custom_fields');
                     $this->tpl->setVariable(
                         'VAL_CUST',
-                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id'])
+                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits((int) $a_set['usr_id'])
                     );
                     $this->tpl->parseCurrentBlock();
                     break;

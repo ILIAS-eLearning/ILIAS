@@ -57,7 +57,7 @@ class ilMDXMLCopier extends ilMDSaxParser
             case 'Identifier':
                 $par = $this->__getParent();
                 $this->md_ide = $par->addIdentifier();
-                $this->md_ide->setCatalog($a_attribs['Catalog']);
+                $this->md_ide->setCatalog($a_attribs['Catalog'] ?? '');
                 $this->md_ide->setEntry('il__' . $this->md->getObjType() . '_' . $this->md->getObjId());
                 $this->md_ide->save();
                 $this->__pushParent($this->md_ide);

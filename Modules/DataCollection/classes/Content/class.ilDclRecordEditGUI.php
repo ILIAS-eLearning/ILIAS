@@ -286,6 +286,10 @@ class ilDclRecordEditGUI
                         } else {
                             $item->setValue($default_value->getValue());
                         }
+                    } else {
+                        if ($item instanceof ilDclTextInputGUI) {
+                            $item->setValue("");
+                        }
                     }
                 }
                 $this->form->addItem($item);
@@ -532,53 +536,56 @@ class ilDclRecordEditGUI
 
             // when save_confirmation is enabled, not yet confirmed and we have not an async-request => prepare for displaying confirmation
             if ($this->table->getSaveConfirmation() && $this->form->getInput('save_confirmed') == null && !$this->ctrl->isAsynch()) {
-                // temporary store fileuploads (reuse code from ilPropertyFormGUI)
-                $hash = $this->http->wrapper()->post()->retrieve(
-                    'ilfilehash',
-                    $this->refinery->kindlyTo()->string()
-                );
-                foreach ($_FILES as $field => $data) {
-                    if (is_array($data["tmp_name"])) {
-                        foreach ($data["tmp_name"] as $idx => $upload) {
-                            if (is_array($upload)) {
-                                foreach ($upload as $idx2 => $file) {
-                                    if ($file && is_uploaded_file($file)) {
-                                        $file_name = $data["name"][$idx][$idx2];
-                                        $file_type = $data["type"][$idx][$idx2];
+                $hash = "";
+                if ($has_ilfilehash) {
+                    // temporary store fileuploads (reuse code from ilPropertyFormGUI)
+                    $hash = $this->http->wrapper()->post()->retrieve(
+                        'ilfilehash',
+                        $this->refinery->kindlyTo()->string()
+                    );
+                    foreach ($_FILES as $field => $data) {
+                        if (is_array($data["tmp_name"])) {
+                            foreach ($data["tmp_name"] as $idx => $upload) {
+                                if (is_array($upload)) {
+                                    foreach ($upload as $idx2 => $file) {
+                                        if ($file && is_uploaded_file($file)) {
+                                            $file_name = $data["name"][$idx][$idx2];
+                                            $file_type = $data["type"][$idx][$idx2];
+                                            $this->form->keepTempFileUpload(
+                                                $hash,
+                                                $field,
+                                                $file,
+                                                $file_name,
+                                                $file_type,
+                                                $idx,
+                                                $idx2
+                                            );
+                                        }
+                                    }
+                                } else {
+                                    if ($upload && is_uploaded_file($upload)) {
+                                        $file_name = $data["name"][$idx];
+                                        $file_type = $data["type"][$idx];
                                         $this->form->keepTempFileUpload(
                                             $hash,
                                             $field,
-                                            $file,
+                                            $upload,
                                             $file_name,
                                             $file_type,
-                                            $idx,
-                                            $idx2
+                                            $idx
                                         );
                                     }
                                 }
-                            } else {
-                                if ($upload && is_uploaded_file($upload)) {
-                                    $file_name = $data["name"][$idx];
-                                    $file_type = $data["type"][$idx];
-                                    $this->form->keepTempFileUpload(
-                                        $hash,
-                                        $field,
-                                        $upload,
-                                        $file_name,
-                                        $file_type,
-                                        $idx
-                                    );
-                                }
                             }
+                        } else {
+                            $this->form->keepTempFileUpload(
+                                $hash,
+                                $field,
+                                $data["tmp_name"],
+                                $data["name"],
+                                $data["type"]
+                            );
                         }
-                    } else {
-                        $this->form->keepTempFileUpload(
-                            $hash,
-                            $field,
-                            $data["tmp_name"],
-                            $data["name"],
-                            $data["type"]
-                        );
                     }
                 }
 

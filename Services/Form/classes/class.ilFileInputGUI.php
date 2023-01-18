@@ -141,7 +141,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
         return $this->filename_post;
     }
 
-    public function setALlowDeletion(bool $a_val): void
+    public function setAllowDeletion(bool $a_val): void
     {
         $this->allow_deletion = $a_val;
     }
@@ -169,7 +169,8 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 
         $_FILES[$this->getPostVar()]["name"] = ilUtil::stripSlashes($_FILES[$this->getPostVar()]["name"]);
 
-        $_FILES[$this->getPostVar()]["name"] = utf8_encode($_FILES[$this->getPostVar()]["name"]);
+        $utf_normal = $this->refinery->string()->utfnormal()->formC();
+        $_FILES[$this->getPostVar()]["name"] = $utf_normal->transform(($_FILES[$this->getPostVar()]["name"]));
 
         // remove trailing '/'
         $_FILES[$this->getPostVar()]["name"] = rtrim($_FILES[$this->getPostVar()]["name"], '/');

@@ -29,6 +29,9 @@ use ILIAS\ResourceStorage\Resource\Repository\CollectionDBRepository;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\Setup\Environment;
+use ILIAS\ResourceStorage\Services;
+use ILIAS\ResourceStorage\Manager\Manager;
+use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
 
 /**
  * Class ilResourceStorageMigrationHelper
@@ -41,6 +44,7 @@ class ilResourceStorageMigrationHelper
     protected ResourceBuilder $resource_builder;
     protected CollectionBuilder $collection_builder;
     protected ResourceStakeholder $stakeholder;
+    protected Manager $manager;
 
     /**
      * ilResourceStorageMigrationHelper constructor.
@@ -82,6 +86,12 @@ class ilResourceStorageMigrationHelper
         $this->collection_builder = new CollectionBuilder(
             new CollectionDBRepository($db)
         );
+
+        $this->manager = new Manager(
+            $this->resource_builder,
+            $this->collection_builder,
+            $container[InitResourceStorage::D_REPOSITORY_PRELOADER]
+        );
     }
 
     /**
@@ -119,6 +129,11 @@ class ilResourceStorageMigrationHelper
     public function getCollectionBuilder(): CollectionBuilder
     {
         return $this->collection_builder;
+    }
+
+    public function getManager(): Manager
+    {
+        return $this->manager;
     }
 
     public function moveFilesOfPathToCollection(

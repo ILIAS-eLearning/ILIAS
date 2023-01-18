@@ -67,6 +67,7 @@ class RevisionDBRepository implements RevisionRepository
     ): UploadedFileRevision {
         $new_version_number = $info_resolver->getNextVersionNumber();
         $revision = new UploadedFileRevision($resource->getIdentification(), $result);
+        $revision->setStorageID($resource->getStorageID());
         $revision->setVersionNumber($new_version_number);
 
         return $revision;
@@ -80,6 +81,7 @@ class RevisionDBRepository implements RevisionRepository
     ): FileStreamRevision {
         $new_version_number = $info_resolver->getNextVersionNumber();
         $revision = new FileStreamRevision($resource->getIdentification(), $stream, $keep_original);
+        $revision->setStorageID($resource->getStorageID());
         $revision->setVersionNumber($new_version_number);
 
         return $revision;
@@ -92,6 +94,7 @@ class RevisionDBRepository implements RevisionRepository
     ): CloneRevision {
         $new_version_number = $info_resolver->getNextVersionNumber();
         $revision = new CloneRevision($resource->getIdentification(), $revision_to_clone);
+        $revision->setStorageID($revision_to_clone->getStorageID());
         $revision->setVersionNumber($new_version_number);
 
         return $revision;

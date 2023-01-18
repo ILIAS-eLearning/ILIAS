@@ -289,7 +289,13 @@ ilias.questions.assTextQuestion = function(a_id) {
 	jQuery('#textarea'+a_id).prop("disabled",true);
 	jQuery('#feedback'+a_id).addClass("ilc_qfeedr_FeedbackRight");
 	jQuery('#feedback'+a_id).html('<b>Answer submitted!</b><br>');
-	jQuery('#feedback'+a_id).slideToggle();
+	const el = document.getElementById("feedback" + a_id);
+	if (el) {
+		el.style.display = '';
+		if (typeof MathJax != "undefined") {
+			MathJax.Hub.Queue(["Typeset",MathJax.Hub, this]);
+		}
+	}
 	answers[a_id].passed = true;
 	ilias.questions.scormHandler(a_id,"neutral",jQuery('#textarea'+a_id).val());
 };
@@ -793,7 +799,6 @@ ilias.questions.assErrorText =function(a_id) {
 }
 
 ilias.questions.showFeedback =function(a_id) {
-	
 	jQuery('#feedback'+a_id).hide();
 
 	// "image map as single choice" not supported yet
@@ -918,12 +923,15 @@ ilias.questions.showFeedback =function(a_id) {
 	}
 	
 	jQuery('#feedback'+a_id).html(fbtext);
-	jQuery('#feedback'+a_id).slideToggle(400, 'swing', function(){
+
+	const el = document.getElementById("feedback" + a_id);
+	if (el) {
+		el.style.display = '';
 		if (typeof MathJax != "undefined") {
 			MathJax.Hub.Queue(["Typeset",MathJax.Hub, this]);
 		}
-	});
-	
+	}
+
 	// update question overviews
 	if (typeof il.COPagePres != "undefined")
 	{

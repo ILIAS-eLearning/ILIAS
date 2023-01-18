@@ -10,19 +10,22 @@ Priorities for the development of the Test & Assessment and the Test Question Po
 ## Others
 * Fixing access to Learning Status when access to test results is limited (see: [Mantis 25064](https://mantis.ilias.de/view.php?id=25064&nbn=9))
 
+## Kiosk-Mode
+* current kiosk-mode enforces the header to be removed without it (the header) being a UI-Component. 
+* In consequence, a test_kiosk_header.css is neccessary to hide whitespace (https://mantis.ilias.de/view.php?id=36161)
+* This SHOULD be removed in favor of a concept with better integration.
+
 ## Open Warnings / Issues without Tickets
 These are open findings from the PHP8 Project which couldn't be solved in the scope of the project itself. They are documented here for transparency.
 Remarks on the individual items are marked with "@PHP8-CR"
 ### Test
 * \ilTestPlayerAbstractGUI::autosaveCmd / This looks like another issue in the autosaving. Left for review/analysis by TechSquad
-* \ilTestSkillEvaluation::determineReachedSkillPointsWithSolutionCompare / Incompatible type. Left for review/analysis by TechSquad
 * \ilAssLacCompositeValidator::validateSubTree / Incompatible type. Left for review/analysis by TechSquad
 ### TestQuestionPool
 * \ilObjQuestionPoolGUI::exportQuestionObject / Void result used. Left for review/analysis by TechSquad
 * \assMatchingQuestionGUI::writeAnswerSpecificPostData / Incompatible type. Left for review/analysis by TechSquad
 * \assMatchingQuestionGUI::populateAnswerSpecificFormPart / Incompatible type. Left for review/analysis by TechSquad
 * \assMatchingQuestionImport::fromXML / Incompatible type. Left for review/analysis by TechSquad
-* \ilAssQuestionSkillAssignmentsGUI::validateSolutionCompareExpression / Incompatible type. Left for review/analysis by TechSquad
 * \ilTestSkillEvaluation::determineReachedSkillPointsWithSolutionCompare / Incompatible type. Left for review/analysis by TechSquad
 * \ilAssLacCompositeValidator::validateSubTree / Incompatible type. Left for review/analysis by TechSquad
 * \assOrderingHorizontalGUI::saveFeedback / Undefined method. Left for review/analysis by TechSquad

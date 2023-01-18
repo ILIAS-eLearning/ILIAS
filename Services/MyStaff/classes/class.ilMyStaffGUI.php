@@ -18,6 +18,7 @@
 
 use ILIAS\MyStaff\ilMyStaffAccess;
 use ILIAS\MyStaff\ListCourses\ilMStListCourse;
+use ILIAS\MyStaff\ListCourses\ilMStListCoursesGUI;
 
 /**
  * Class ilMyStaffGUI
@@ -50,10 +51,9 @@ class ilMyStaffGUI
 
         // determine next class in the call structure
         $next_class = $DIC->ctrl()->getNextClass($this);
-
         switch ($next_class) {
-            case strtolower(ilMStListCoursesGUI::class):
-                $list_gui = new ilMStListCoursesGUI();
+            case "ilmstlistcoursesgui":
+                $list_gui = new \ilMStListCoursesGUI();
                 $DIC->ctrl()->forwardCommand($list_gui);
                 break;
             case strtolower(ilMStListCertificatesGUI::class):

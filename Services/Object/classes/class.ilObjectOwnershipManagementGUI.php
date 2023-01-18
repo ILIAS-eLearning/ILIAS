@@ -37,9 +37,10 @@ class ilObjectOwnershipManagementGUI
     protected ilTree $tree;
     protected int $user_id;
     protected int $own_id = 0;
+    protected bool $read_only;
     private ilObjectRequestRetriever $retriever;
 
-    public function __construct(int $user_id = null)
+    public function __construct(int $user_id = null, bool $read_only = false)
     {
         global $DIC;
 
@@ -56,6 +57,7 @@ class ilObjectOwnershipManagementGUI
         if (!is_null($user_id)) {
             $this->user_id = $user_id;
         }
+        $this->read_only = $read_only;
         $this->own_id = $this->retriever->getMaybeInt(self::P_OWNID, 0);
     }
 
@@ -179,6 +181,8 @@ class ilObjectOwnershipManagementGUI
 
     public function delete(): void
     {
+        $this->checkReadOnly();
+
         $this->redirectParentCmd(
             $this->own_id,
             "delete"
@@ -187,6 +191,8 @@ class ilObjectOwnershipManagementGUI
 
     public function move(): void
     {
+        $this->checkReadOnly();
+
         $this->redirectParentCmd(
             $this->own_id,
             "cut"
@@ -195,6 +201,8 @@ class ilObjectOwnershipManagementGUI
 
     public function export(): void
     {
+        $this->checkReadOnly();
+
         $this->redirectCmd(
             $this->own_id,
             ilExportGUI::class
@@ -203,10 +211,26 @@ class ilObjectOwnershipManagementGUI
 
     public function changeOwner(): void
     {
+        $this->checkReadOnly();
+
         $this->redirectCmd(
             $this->own_id,
             ilPermissionGUI::class,
             "owner"
         );
+    }
+
+    public function isReadOnly(): bool
+    {
+        return $this->read_only;
+    }
+
+    protected function checkReadOnly(): void
+    {
+        if ($this->read_only) {
+            throw new ilObjectException(
+                'Cannot perform actions when in read only mode'
+            );
+        }
     }
 }

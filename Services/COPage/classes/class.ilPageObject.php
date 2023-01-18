@@ -2304,8 +2304,8 @@ s     */
             $url = parse_url($href);
 
             // only handle links on same host
-            $this->log->debug("Host: " . $url["host"]);
-            if ($url["host"] != "" && $url["host"] != $ilias_url["host"]) {
+            $this->log->debug("Host: " . ($url["host"] ?? ""));
+            if (($url["host"] ?? "") !== "" && $url["host"] !== $ilias_url["host"]) {
                 continue;
             }
 
@@ -2324,13 +2324,15 @@ s     */
                 $par["client_id"] = array_shift($parts);
                 $par["target"] = implode("_", $parts);
             } else {
-                foreach (explode("&", $url["query"]) as $p) {
+                foreach (explode("&", ($url["query"] ?? "")) as $p) {
                     $p = explode("=", $p);
-                    $par[$p[0]] = $p[1];
+                    if (isset($p[0]) && isset($p[1])) {
+                        $par[$p[0]] = $p[1];
+                    }
                 }
             }
 
-            $target_client_id = $par["client_id"];
+            $target_client_id = $par["client_id"] ?? "";
             if ($target_client_id != "" && $target_client_id != CLIENT_ID) {
                 continue;
             }
@@ -2338,12 +2340,12 @@ s     */
             // get ref id
             $ref_id = 0;
             if (is_int(strpos($href, "ilias.php"))) {
-                $ref_id = (int) $par["ref_id"];
-            } elseif ($par["target"] !== "") {
+                $ref_id = (int) ($par["ref_id"] ?? 0);
+            } elseif (isset($par["target"]) && $par["target"] !== "") {
                 $t = explode("_", $par["target"]);
-                if ($objDefinition->isRBACObject($t[0])) {
-                    $ref_id = (int) $t[1];
-                    $type = $t[0];
+                if ($objDefinition->isRBACObject($t[0] ?? "")) {
+                    $ref_id = (int) ($t[1] ?? 0);
+                    $type = $t[0] ?? "";
                 }
             }
             if ($ref_id > 0) {
@@ -2351,7 +2353,7 @@ s     */
                     $new_ref_id = $a_mapping[$ref_id];
                     // we have a mapping -> replace the ID
                     if (is_int(strpos($href, "ilias.php"))) {
-                        $new_href = str_replace("ref_id=" . $par["ref_id"], "ref_id=" . $new_ref_id, $href);
+                        $new_href = str_replace("ref_id=" . ($par["ref_id"] ?? ""), "ref_id=" . $new_ref_id, $href);
                     } else {
                         $nt = str_replace($type . "_" . $ref_id, $type . "_" . $new_ref_id, $par["target"]);
                         $new_href = str_replace($par["target"], $nt, $href);

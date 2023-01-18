@@ -243,6 +243,15 @@ class ilLTIProviderObjectSettingGUI
             $tf = new ilTextInputGUI($this->lng->txt('lti_13_deployment_id'), 'deployment_id_' . $global_consumer->getExtConsumerId());
             $tf->setValue($active_consumer->deploymentId);
             $op1->addSubItem($tf);
+            $tf = new ilTextInputGUI($this->lng->txt('lti_13_keyset_url'), 'keyset_url_' . $global_consumer->getExtConsumerId());
+            $tf->setValue($active_consumer->jku);
+            $op1->addSubItem($tf);
+            $tf = new ilTextInputGUI($this->lng->txt('lti_13_token_url'), 'token_url_' . $global_consumer->getExtConsumerId());
+            $tf->setValue($active_consumer->accessTokenUrl);
+            $op1->addSubItem($tf);
+            $tf = new ilTextInputGUI($this->lng->txt('lti_13_authentication_url'), 'authentication_url_' . $global_consumer->getExtConsumerId());
+            $tf->setValue($active_consumer->authenticationUrl);
+            $op1->addSubItem($tf);
             $version->addOption($op1);
 
             $op0 = new ilRadioOption($this->lng->txt("lti_obj_version_11"), ILIAS\LTI\ToolProvider\Util::LTI_VERSION1);
@@ -320,6 +329,21 @@ class ilLTIProviderObjectSettingGUI
                     $consumer->deploymentId = $form->getInput('deployment_id_' . $global_consumer->getExtConsumerId());
                 } else {
                     $consumer->deploymentId = null;
+                }
+                if ($form->getInput('keyset_url_' . $global_consumer->getExtConsumerId())) {
+                    $consumer->jku = $form->getInput('keyset_url_' . $global_consumer->getExtConsumerId());
+                } else {
+                    $consumer->jku = '';
+                }
+                if ($form->getInput('token_url_' . $global_consumer->getExtConsumerId())) {
+                    $consumer->accessTokenUrl = $form->getInput('token_url_' . $global_consumer->getExtConsumerId());
+                } else {
+                    $consumer->accessTokenUrl = '';
+                }
+                if ($form->getInput('authentication_url_' . $global_consumer->getExtConsumerId())) {
+                    $consumer->authenticationUrl = $form->getInput('authentication_url_' . $global_consumer->getExtConsumerId());
+                } else {
+                    $consumer->authenticationUrl = '';
                 }
                 $consumer->saveLTI($connector);
             }

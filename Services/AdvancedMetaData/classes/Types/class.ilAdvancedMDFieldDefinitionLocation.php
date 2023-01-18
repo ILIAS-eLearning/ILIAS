@@ -1,7 +1,23 @@
 <?php
 
 declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 /**
  * AMD field type location
@@ -35,8 +51,8 @@ class ilAdvancedMDFieldDefinitionLocation extends ilAdvancedMDFieldDefinition
         $parts = explode("#", $a_cdata);
         if (count($parts) == 3) {
             $adt = $this->getADT();
-            $adt->setLatitude($parts[0]);
-            $adt->setLongitude($parts[1]);
+            $adt->setLatitude((float) $parts[0]);
+            $adt->setLongitude((float) $parts[1]);
             $adt->setZoom($parts[2]);
         }
     }

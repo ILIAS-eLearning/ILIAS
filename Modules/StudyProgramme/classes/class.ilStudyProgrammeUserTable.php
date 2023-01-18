@@ -284,6 +284,6 @@ class ilStudyProgrammeUserTable
         if ($del = ilObjectDataDeletionLog::get($obj_id)) {
             return sprintf('(%s)', $del['title']);
         }
-        return 'object id ' .$obj_id;
+        return 'object id ' . $obj_id;
     }
 }

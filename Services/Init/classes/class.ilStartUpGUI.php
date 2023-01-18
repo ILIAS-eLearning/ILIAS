@@ -55,7 +55,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     public function __construct(
         ilObjUser $user = null,
         ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation = null,
-        ilGlobalTemplate $mainTemplate = null,
+        ilGlobalTemplateInterface $mainTemplate = null,
         ServerRequestInterface $httpRequest = null
     ) {
         global $DIC;
@@ -114,7 +114,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      */
     public function getUnsafeGetCommands(): array
     {
-        return [];
+        return [
+            'doLogout'
+        ];
     }
 
     /**
@@ -298,11 +300,15 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('auth_err_expired'));
         } elseif ($this->http->wrapper()->query()->has('reg_confirmation_msg')) {
             $this->lng->loadLanguageModule('registration');
+            $message_key = $this->http->wrapper()->query()->retrieve(
+                'reg_confirmation_msg',
+                $this->refinery->kindlyTo()->string()
+            );
+            $message_type = "reg_account_confirmation_successful" === $message_key ?
+                ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS : ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE;
             $this->mainTemplate->setOnScreenMessage(
-                'failure',
-                $this->lng->txt(
-                    $this->http->wrapper()->query()->retrieve('reg_confirmation_msg', $this->refinery->kindlyTo()->string())
-                )
+                $message_type,
+                $this->lng->txt($message_key)
             );
         }
         if ($page_editor_html !== '') {
@@ -1374,6 +1380,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             )
         );
         if ((int) $this->user->getAuthMode(true) == ilAuthUtils::AUTH_SAML && $had_external_authentication) {
+            $this->logger->info('Redirecting user to SAML logout script');
             $this->ctrl->redirectToURL('saml.php?action=logout&logout_url=' . urlencode(ILIAS_HTTP_PATH . '/login.php'));
         }
 
@@ -1556,8 +1563,12 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         // In case of an valid session, redirect to starting page
         if ($this->authSession->isValid()) {
-            ilInitialisation::redirectToStartingPage();
-            return;
+            if (!$this->user->isAnonymous() || ilPublicSectionSettings::getInstance()->isEnabledForDomain(
+                $this->httpRequest->getServerParams()['SERVER_NAME']
+            )) {
+                ilInitialisation::redirectToStartingPage();
+                return;
+            }
         }
 
         if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME'])) {
@@ -1999,7 +2010,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $auth = $factory->auth();
 
         if (isset($params['action']) && $params['action'] === 'logout') {
-            $auth->logout($params['logout_url'] ?? '');
+            $logout_url = $params['logout_url'] ?? '';
+            $this->logger->info(sprintf('Requested SAML logout: %s', $logout_url));
+            $auth->logout($logout_url);
         }
 
         if (isset($params['target']) && !isset($params['returnTo'])) {

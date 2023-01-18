@@ -69,7 +69,6 @@ class StandardGUIRequest
     /** @return int [] */
     public function getSelectedIds(): array
     {
-        // initially these came per $_GET["item_ref_id"] or $_POST["id"];
         if ($this->int("item_ref_id") > 0) {
             $ids = [$this->int("item_ref_id")];
         } else {
@@ -113,14 +112,20 @@ class StandardGUIRequest
         return $this->str("cont_block_id");
     }
 
-    public function getPreviousSession(): int
+    public function getPreviousSession(): ?int
     {
-        return $this->int("crs_prev_sess");
+        if ($this->http->wrapper()->query()->has('crs_prev_sess')) {
+            return $this->int("crs_prev_sess");
+        }
+        return null;
     }
 
-    public function getNextSession(): int
+    public function getNextSession(): ?int
     {
-        return $this->int("crs_next_sess");
+        if ($this->http->wrapper()->query()->has('crs_next_sess')) {
+            return $this->int("crs_next_sess");
+        }
+        return null;
     }
 
     public function getObjectiveId(): int

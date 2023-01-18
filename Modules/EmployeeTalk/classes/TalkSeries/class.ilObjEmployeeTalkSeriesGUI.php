@@ -57,7 +57,6 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
             ->retrieve("ref_id", $this->container->refinery()->kindlyTo()->int());
 
         parent::__construct([], $refId, true, false);
-
         $this->container->language()->loadLanguageModule('mst');
         $this->container->language()->loadLanguageModule('trac');
         $this->container->language()->loadLanguageModule('etal');
@@ -457,7 +456,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
     {
         $location = $this->form->getInput('etal_location');
         $employee = $this->form->getInput('etal_employee');
-        ['tgl' => $tgl] = $this->form->getInput('etal_event');
+        ['fullday' => $tgl] = $this->form->getInput('etal_event');
 
         /**
          * @var ilDateDurationInputGUI $dateTimeInput

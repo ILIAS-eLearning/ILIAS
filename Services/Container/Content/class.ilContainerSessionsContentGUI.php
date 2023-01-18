@@ -268,13 +268,13 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 
 
         // do session limit
-        if ($request->getPreviousSession() > 0) {
+        if ($request->getPreviousSession() !== null) {
             $user->writePref(
                 'crs_sess_show_prev_' . $container->getId(),
                 (string) $request->getPreviousSession()
             );
         }
-        if ($request->getNextSession() > 0) {
+        if ($request->getNextSession() !== null) {
             $user->writePref(
                 'crs_sess_show_next_' . $container->getId(),
                 (string) $request->getNextSession()

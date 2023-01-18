@@ -17,6 +17,9 @@
  *********************************************************************/
 
 /**
+ * User interface for assignment of questions from a test question pool (or
+ * directly from a test) to competences.
+ *
  * @author  Björn Heyser <bheyser@databay.de>
  * @package Modules/Test
  *
@@ -681,8 +684,6 @@ class ilAssQuestionSkillAssignmentsGUI
             $questionProvider = new ilAssLacQuestionProvider();
             $questionProvider->setQuestion($question);
             $conditionValidator = new ilAssLacCompositeValidator($questionProvider);
-            // @PHP8-CR I have flat zero clue what is going on here. I like to leave this "intact" for further analysis
-            // and not remove eventually helpful hints.
             $conditionValidator->validate($conditionComposite);
         } catch (ilAssLacException $e) {
             if ($e instanceof ilAssLacFormAlertProvider) {

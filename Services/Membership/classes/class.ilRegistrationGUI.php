@@ -184,13 +184,13 @@ abstract class ilRegistrationGUI
                     'LINK_ITEM',
                     $this->ctrl->getLinkTargetByClass("ilrepositorygui", "")
                 );
-                $get_ref_id = 0;
-                if ($this->http->wrapper()->query()->has('ref_id')) {
-                    $get_ref_id = $this->http->wrapper()->query()->retrieve(
-                        'ref_id',
-                        $this->refinery->kindlyTo()->int()
-                    );
-                }
+                $get_ref_id = $this->http->wrapper()->query()->retrieve(
+                    'ref_id',
+                    $this->refinery->byTrying([
+                        $this->refinery->kindlyTo()->int(),
+                        $this->refinery->always(0)
+                    ])
+                );
 
                 $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $get_ref_id);
                 $tpl->setVariable('ITEM_LINKED_TITLE', $title);
@@ -247,15 +247,15 @@ abstract class ilRegistrationGUI
             return;
         }
 
-        $cdf_values = [];
-        if ($this->http->wrapper()->post()->has('cdf')) {
-            $cdf_values = $this->http->wrapper()->post()->retrieve(
-                'cdf',
+        $cdf_values = $this->http->wrapper()->post()->retrieve(
+            'cdf',
+            $this->refinery->byTrying([
                 $this->refinery->kindlyTo()->dictOf(
                     $this->refinery->kindlyTo()->string()
-                )
-            );
-        }
+                ),
+                $this->refinery->always([])
+            ])
+        );
 
         $cdf = new ilNonEditableValueGUI($this->lng->txt('ps_crs_user_fields'));
         $cdf->setValue($this->lng->txt($this->type . '_ps_cdf_info'));
@@ -289,13 +289,13 @@ abstract class ilRegistrationGUI
 
     protected function validateAgreement(): bool
     {
-        $agreement = null;
-        if ($this->http->wrapper()->post()->has('agreement')) {
-            $agreement = $this->http->wrapper()->post()->retrieve(
-                'agreement',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
+        $agreement = $this->http->wrapper()->post()->retrieve(
+            'agreement',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always(null)
+            ])
+        );
 
         if ($agreement) {
             return true;
@@ -313,40 +313,40 @@ abstract class ilRegistrationGUI
         foreach (ilCourseDefinedFieldDefinition::_getFields($this->container->getId()) as $field_obj) {
             switch ($field_obj->getType()) {
                 case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_SELECT:
-                    $cdf_value = '';
-                    if ($this->http->wrapper()->post()->has('cdf_' . $field_obj->getId())) {
-                        $cdf_value = $this->http->wrapper()->post()->retrieve(
-                            'cdf_' . $field_obj->getId(),
-                            $this->refinery->kindlyTo()->string()
-                        );
-                    }
+                    $cdf_value = $this->http->wrapper()->post()->retrieve(
+                        'cdf_' . $field_obj->getId(),
+                        $this->refinery->byTrying([
+                            $this->refinery->kindlyTo()->string(),
+                            $this->refinery->always('')
+                        ])
+                    );
 
                     // Split value id from post
-                    list($field_id, $option_id) = explode('_', $cdf_value);
+                    $cdf_parts = explode('_', $cdf_value);
+                    $option_id = (int) ($cdf_parts[1] ?? 0);
 
                     $open_answer_indexes = $field_obj->getValueOptions();
                     if (in_array($option_id, $open_answer_indexes)) {
-                        $value = '';
-                        if ($this->http->wrapper()->post()->has('cdf_oa_' . $field_obj->getId() . '_' . $option_id)) {
-                            $value = $this->http->wrapper()->post()->retrieve(
-                                'cdf_oa_' . $field_obj->getId() . '_' . $option_id,
-                                $this->refinery->kindlyTo()->string()
-                            );
-                        }
+                        $value = $this->http->wrapper()->post()->retrieve(
+                            'cdf_oa_' . $field_obj->getId() . '_' . $option_id,
+                            $this->refinery->byTrying([
+                                $this->refinery->kindlyTo()->string(),
+                                $this->refinery->always('')
+                            ])
+                        );
                     } else {
                         $value = $field_obj->getValueById((int) $option_id);
                     }
                     break;
 
                 case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_TEXT:
-                    $value = '';
-                    if ($this->http->wrapper()->post()->has('cdf_' . $field_obj->getId())) {
-                        $value = $this->http->wrapper()->post()->retrieve(
-                            'cdf_' . $field_obj->getId(),
-                            $this->refinery->kindlyTo()->string()
-                        );
-                    }
-
+                    $value = $this->http->wrapper()->post()->retrieve(
+                        'cdf_' . $field_obj->getId(),
+                        $this->refinery->byTrying([
+                            $this->refinery->kindlyTo()->string(),
+                            $this->refinery->always('')
+                        ])
+                    );
                     break;
             }
 
@@ -364,7 +364,7 @@ abstract class ilRegistrationGUI
 
     protected function setAccepted(bool $a_status): void
     {
-        if (!$this->privacy->confirmationRequired($this->type) and !ilCourseDefinedFieldDefinition::_hasFields($this->container->getId())) {
+        if (!$this->privacy->confirmationRequired($this->type) && !ilCourseDefinedFieldDefinition::_hasFields($this->container->getId())) {
             return;
         }
 
@@ -479,13 +479,13 @@ abstract class ilRegistrationGUI
 
     protected function updateSubscriptionRequest(): void
     {
-        $subject = '';
-        if ($this->http->wrapper()->post()->has('subject')) {
-            $subject = $this->http->wrapper()->post()->retrieve(
-                'subject',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
+        $subject = $this->http->wrapper()->post()->retrieve(
+            'subject',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always('')
+            ])
+        );
 
         $this->participants->updateSubject($this->user->getId(), ilUtil::stripSlashes($subject));
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('sub_request_saved'), true);

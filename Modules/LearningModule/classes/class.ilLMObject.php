@@ -1019,7 +1019,7 @@ class ilLMObject
                         if (($target["inst"] == 0 || $target["inst"] = IL_INST_ID) &&
                             ($target["type"] == "pg" || $target["type"] == "st")) {
                             // first check, whether target is also within the copied set
-                            if ($a_copied_nodes[$target["id"]] > 0) {
+                            if (($a_copied_nodes[$target["id"]] ?? 0) > 0) {
                                 $fix[$target["id"]] = $a_copied_nodes[$target["id"]];
                             } else {
                                 // now check, if a copy if the target is already in the same lm

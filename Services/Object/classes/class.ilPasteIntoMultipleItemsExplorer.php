@@ -164,6 +164,8 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 
     public function formatObject(ilTemplate $tpl, $node_id, array $option, $obj_id = 0): void
     {
+        $node_id = (int) $node_id;
+        $obj_id = (int) $obj_id;
         if (!isset($node_id) or !is_array($option)) {
             $this->error->raiseError(
                 get_class($this) .
@@ -296,7 +298,7 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
         $tpl->setVariable("TXT_ALT_IMG", $title);
         $tpl->parseCurrentBlock();
 
-        if (strlen($formItem = $this->buildFormItem($obj_id, $option['type']))) {
+        if (strlen($formItem = $this->buildFormItem((int) $obj_id, $option['type']))) {
             $tpl->setCurrentBlock('check');
             $tpl->setVariable('OBJ_CHECK', $formItem);
             $tpl->parseCurrentBlock();
@@ -310,7 +312,7 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
         if ($parent_id == 0) {
             return true;
         }
-        if ($this->access->checkAccess("read", "", $parent_id)) {
+        if ($this->access->checkAccess("read", "", (int) $parent_id)) {
             return true;
         }
         return false;
@@ -318,7 +320,7 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 
     public function isVisible($ref_id, string $type): bool
     {
-        if (!$this->access->checkAccess('visible', '', $ref_id)) {
+        if (!$this->access->checkAccess('visible', '', (int) $ref_id)) {
             return false;
         }
         return true;

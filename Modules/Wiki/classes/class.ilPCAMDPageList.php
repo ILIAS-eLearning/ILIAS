@@ -184,7 +184,7 @@ class ilPCAMDPageList extends ilPageContent
         $recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $wiki_ref_id, "wpg");
         foreach ($recs as $record) {
             foreach (ilAdvancedMDFieldDefinition::getInstancesByRecordId($record->getRecordId(), true) as $field) {
-                if (isset($list_values[$field->getFieldId()])) {
+                if (isset($list_values[$field->getFieldId()]) && $list_values[$field->getFieldId()] !== "") {
                     $field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, false);
                     $field->setSearchValueSerialized($field_form, $list_values[$field->getFieldId()]);
                     $found_pages = $field->searchSubObjects($field_form, $wiki_id, "wpg");

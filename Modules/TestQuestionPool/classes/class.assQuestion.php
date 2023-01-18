@@ -2279,7 +2279,7 @@ abstract class assQuestion
 
     public function updateSuggestedSolutions(int $original_id = -1): void
     {
-        $id = (strlen($original_id) && is_numeric($original_id)) ? $original_id : $this->getId();
+        $id = $original_id !== -1 ? $original_id : $this->getId();
         $this->db->manipulateF(
             "DELETE FROM qpl_sol_sug WHERE question_fi = %s",
             array('integer'),
@@ -2308,7 +2308,7 @@ abstract class assQuestion
                 )
             );
             if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
-                ilInternalLink::_saveLink("qst", $id, $matches[2], $matches[3], $matches[1]);
+                ilInternalLink::_saveLink("qst", $id, $matches[2], (int) $matches[3], (int) $matches[1]);
             }
         }
         if ($original_id !== -1) {

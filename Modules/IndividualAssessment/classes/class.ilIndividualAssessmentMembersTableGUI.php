@@ -60,7 +60,13 @@ class ilIndividualAssessmentMembersTableGUI
      */
     public function setData(array $data): void
     {
-        $this->data = $data;
+        $this->data = array_filter(
+            $data,
+            fn ($record) =>
+                 $this->iass_access->mayGradeUserById($record->id())
+                 || $this->iass_access->mayViewUserById($record->id())
+                 || $this->iass_access->mayManageUserById($record->id())
+        );
     }
 
     /**
@@ -107,7 +113,7 @@ class ilIndividualAssessmentMembersTableGUI
      */
     protected function getSubheadline(ilIndividualAssessmentMember $record): string
     {
-        if (!$this->userMayViewGrades() && !$this->userMayEditGrades()) {
+        if (!$this->iass_access->mayViewUser() && !$this->iass_access->mayGradeUser()) {
             return "";
         }
 
@@ -123,7 +129,7 @@ class ilIndividualAssessmentMembersTableGUI
     protected function getImportantInfos(ilIndividualAssessmentMember $record, bool $finalized_only = true): array
     {
         if (
-            (!$this->userMayViewGrades() && !$this->userMayEditGrades())
+            (!$this->iass_access->mayViewUser() && !$this->iass_access->mayGradeUser())
             ||
             (!$record->finalized() && $finalized_only)
         ) {
@@ -186,13 +192,22 @@ class ilIndividualAssessmentMembersTableGUI
         if (
             !$this->checkEditable($record->finalized(), $record->id(), $examiner_id)
             && !$this->checkAmendable($record->finalized())
-            && !$this->userMayViewGrades()
-            && !$this->userMayEditGrades()
+            && !$this->iass_access->mayViewUser()
+            && !$this->iass_access->mayGradeUser()
         ) {
             return [];
         }
 
         $usr_id = $record->id();
+
+        if (
+            !$this->iass_access->mayViewUserById($usr_id)
+            && !$record->finalized()
+            && $examiner_id !== $this->current_user_id
+        ) {
+            return [];
+        }
+
         $file_name = $record->fileName();
 
         return array_merge(
@@ -211,12 +226,12 @@ class ilIndividualAssessmentMembersTableGUI
      */
     protected function getFurtherFields(ilIndividualAssessmentMember $record): array
     {
-        if (!$this->userMayViewGrades() && !$this->userMayEditGrades()) {
+        if (!$this->iass_access->mayViewUser() && !$this->iass_access->mayGradeUser()) {
             return [];
         }
 
         return array_merge(
-            [$this->txt("grading") . ":" => $this->getEntryForStatus($record->LPStatus())],
+            $record->LPStatus() ? [$this->txt("grading") . ":" => $this->getEntryForStatus($record->LPStatus())] : [],
             $this->getImportantInfos($record, false),
             $this->getLocationInfos(
                 $record->finalized(),
@@ -294,7 +309,7 @@ class ilIndividualAssessmentMembersTableGUI
             return [];
         }
 
-        $dt = new ilDate($event_time->format("Y-m-d"), IL_CAL_DATE);
+        $dt = new ilDateTime($event_time->format("Y-m-d H:m"), IL_CAL_DATE);
         $event_time_str = ilDatePresentation::formatDate($dt);
         return [$this->txt("iass_event_time") . ": " => $event_time_str];
     }
@@ -425,7 +440,7 @@ class ilIndividualAssessmentMembersTableGUI
         return
             $this->checkEditable($finalized, $usr_id, $examiner_id) ||
             $this->checkAmendable($finalized) ||
-            $this->userMayViewGrades()
+            $this->iass_access->mayViewUser()
         ;
     }
 
@@ -439,10 +454,10 @@ class ilIndividualAssessmentMembersTableGUI
         }
 
         return
-            $this->userIsSystemAdmin()
+            $this->iass_access->isSystemAdmin()
             ||
             (
-                $this->userMayEditGradesOf($usr_id)
+                $this->iass_access->mayGradeUserById($usr_id)
                 &&
                 $this->wasEditedByViewer($examiner_id)
             );
@@ -454,8 +469,8 @@ class ilIndividualAssessmentMembersTableGUI
     protected function checkAmendable(bool $finalized): bool
     {
         if (
-            ($this->userIsSystemAdmin() && $finalized) ||
-            ($finalized && $this->userMayAmendGrades())
+            ($this->iass_access->isSystemAdmin() && $finalized) ||
+            ($finalized && $this->iass_access->mayAmendGradeUser())
         ) {
             return true;
         }
@@ -468,7 +483,7 @@ class ilIndividualAssessmentMembersTableGUI
      */
     protected function checkUserRemoveable(bool $finalized): bool
     {
-        if (($this->userIsSystemAdmin() && !$finalized) || (!$finalized && $this->userMayEditMembers())) {
+        if (($this->iass_access->isSystemAdmin() && !$finalized) || (!$finalized && $this->iass_access->mayEditMembers())) {
             return true;
         }
 
@@ -481,7 +496,7 @@ class ilIndividualAssessmentMembersTableGUI
     protected function checkDownloadFile(int $usr_id, string $file_name = null): bool
     {
         if ((!is_null($file_name) && $file_name !== '')
-            && ($this->userIsSystemAdmin() || $this->userMayDownloadAttachment($usr_id))
+            && ($this->iass_access->isSystemAdmin() || $this->userMayDownloadAttachment($usr_id))
         ) {
             return true;
         }
@@ -491,37 +506,7 @@ class ilIndividualAssessmentMembersTableGUI
 
     protected function userMayDownloadAttachment(int $usr_id): bool
     {
-        return $this->userMayViewGrades() || $this->userMayEditGrades() || $this->userMayEditGradesOf($usr_id);
-    }
-
-    protected function userMayViewGrades(): bool
-    {
-        return $this->iass_access->mayViewUser();
-    }
-
-    protected function userMayEditGrades(): bool
-    {
-        return $this->iass_access->mayGradeUser();
-    }
-
-    protected function userMayAmendGrades(): bool
-    {
-        return $this->iass_access->mayAmendGradeUser();
-    }
-
-    protected function userMayEditMembers(): bool
-    {
-        return $this->iass_access->mayEditMembers();
-    }
-
-    protected function userIsSystemAdmin(): bool
-    {
-        return $this->iass_access->isSystemAdmin();
-    }
-
-    protected function userMayEditGradesOf(int $usr_id): bool
-    {
-        return $this->iass_access->mayGradeUserById($usr_id);
+        return $this->iass_access->mayViewUser() || $this->iass_access->mayGradeUser() || $this->iass_access->mayGradeUserById($usr_id);
     }
 
     protected function wasEditedByViewer(int $examiner_id = null): bool

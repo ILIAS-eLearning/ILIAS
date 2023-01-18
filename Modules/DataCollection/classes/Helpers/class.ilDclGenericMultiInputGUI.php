@@ -144,7 +144,11 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
                     $item->setChecked((bool) $value[$key]);
                 } else {
                     if ($item instanceof ilDateTimeInputGUI) {
-                        $item->setDate(new ilDate($value[$key], IL_CAL_DATE));
+                        if (ilCalendarUtil::parseIncomingDate($value[$key])) {
+                            $item->setDate(new ilDate($value[$key], IL_CAL_DATE));
+                        } else {
+                            $item->setDate();
+                        }
                     } else {
                         $item->setValue($value[$key]);
                     }
@@ -191,24 +195,29 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
 
         $value = $this->arrayArray($this->getPostVar());
         // escape data
-        $out_array = array();
+        $out_array = [];
         foreach ($value as $item_num => $item) {
             foreach ($this->inputs as $input_key => $input) {
                 if (isset($item[$input_key])) {
-                    $out_array[$item_num][$input_key] = (is_string($item[$input_key])) ? ilUtil::stripSlashes($item[$input_key]) : $item[$input_key];
+                    if ($input instanceof ilDateTimeInputGUI) {
+                        $out = (is_string($item[$input_key])) ? ilUtil::stripSlashes($item[$input_key]) : $item[$input_key];
+                        if (ilCalendarUtil::parseIncomingDate($out)) {
+                            $out_array[$item_num][$input_key] = $out;
+                        } else {
+                            $valid = false;
+                            $this->setAlert($this->lng->txt("form_msg_wrong_date"));
+                            $out_array[$item_num][$input_key] = null;
+                        }
+                    }
                 }
             }
         }
+
         $this->setValue($out_array);
 
         if ($this->getRequired() && !trim(implode("", $this->getValue()))) {
-            $valid = false;
-        }
-
-        if (!$valid) {
             $this->setAlert($lng->txt("msg_input_is_required"));
-
-            return false;
+            $valid = false;
         }
 
         return $valid;
@@ -384,6 +393,6 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
 
     public function getSubItems(): array
     {
-        return array();
+        return [];
     }
 }

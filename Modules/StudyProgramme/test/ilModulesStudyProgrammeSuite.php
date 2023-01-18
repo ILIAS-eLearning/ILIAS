@@ -67,6 +67,8 @@ class ilModulesStudyProgrammeSuite extends TestSuite
         $suite->addTestSuite("ilPrgRestartAssignmentsCronJobTest");
         require_once("./Modules/StudyProgramme/test/ilObjStudyProgrammeCacheTest.php");
         $suite->addTestSuite("ilObjStudyProgrammeCacheTest");
+        require_once("./Modules/StudyProgramme/test/ilObjStudyProgrammeCertificateTest.php");
+        $suite->addTestSuite("ilObjStudyProgrammeCertificateTest");
 
         return $suite;
     }
