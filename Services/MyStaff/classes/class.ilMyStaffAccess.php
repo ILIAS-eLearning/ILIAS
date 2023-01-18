@@ -366,7 +366,6 @@ class ilMyStaffAccess extends ilObjectAccess
                 $ids = array_merge($ids, $ref_ids);
             }
         }
-
         return $ids;
     }
 
@@ -417,14 +416,14 @@ class ilMyStaffAccess extends ilObjectAccess
                 'where type = "' . $context . '" ' .
                 'AND object_reference.ref_id not in ' .
                 '   (SELECT parent_id FROM il_orgu_permissions ' .
-                '   where position_id = ' . $position_id . ' and context_id = ' . $context_id . ' and operations not like \'%"' . $operation_id . '"%\' and parent_id <> -1)';
+                '   where position_id = ' . $position_id . ' and context_id = ' . $context_id . ' and operations not like \'%' . $operation_id . '%\' and parent_id <> -1)';
         } else {
             $query = $return_ref_id
                 ?
                 'SELECT parent_id as ref_id FROM il_orgu_permissions '
                 :
                 'SELECT obj_id FROM il_orgu_permissions INNER JOIN object_reference ON object_reference.ref_id = il_orgu_permissions.parent_id ';
-            $query .= ' where position_id = ' . $position_id . ' and context_id = ' . $context_id . ' and operations like \'%"' . $operation_id . '"%\' and parent_id <> -1';
+            $query .= ' where position_id = ' . $position_id . ' and context_id = ' . $context_id . ' and operations like \'%' . $operation_id . '%\' and parent_id <> -1';
         }
 
         return array_map(function ($item) use ($return_ref_id) {
@@ -440,7 +439,7 @@ class ilMyStaffAccess extends ilObjectAccess
         global $DIC;
         $res = $DIC->database()->query('SELECT * FROM il_orgu_permissions ' .
             ' WHERE context_id = ' . $context_id . ' ' .
-            'AND operations LIKE \'%"' . $operation_id . '"%\' ' .
+            'AND operations LIKE \'%' . $operation_id . '%\' ' .
             'AND position_id = ' . $position_id . ' ' .
             'AND parent_id = -1');
 
@@ -494,6 +493,7 @@ class ilMyStaffAccess extends ilObjectAccess
         assert($operation instanceof ilOrgUnitOperation);
 
         $all_users_for_user = $this->getUsersForUser($GLOBALS['DIC']->user()->getId());
+
 
         $tmp_table_objects_specific_perimissions = $this->buildTempTableIlobjectsSpecificPermissionSetForOperationAndContext(
             $org_unit_operation_string,
