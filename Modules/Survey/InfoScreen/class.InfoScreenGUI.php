@@ -291,6 +291,10 @@ class InfoScreenGUI
 
                     $info->addSection($this->lng->txt("survey_360_rate_other_appraisees"));
 
+                    if (!$this->status_manager->isAppraisee()) {
+                        $this->addPrivacyInfo($info);
+                    }
+
                     foreach ($list as $appr_id => $item) {
                         $appr_name = \ilUserUtil::getNamePresentation($appr_id, false, false, "", true);
 
@@ -316,6 +320,17 @@ class InfoScreenGUI
         }
     }
 
+    protected function addPrivacyInfo(
+        \ilInfoScreenGUI $info
+    ): void {
+        $survey = $this->survey;
+        $privacy_info = $this->lng->txt("svy_rater_see_app_info");
+        if (in_array($survey->get360Results(), [\ilObjSurvey::RESULTS_360_OWN, \ilObjSurvey::RESULTS_360_ALL], true)) {
+            $privacy_info .= " " . $this->lng->txt("svy_app_see_rater_info");
+        }
+        $info->addProperty($this->lng->txt("svy_privacy_info"), $privacy_info);
+    }
+
     protected function addAppraiseeInfo(
         \ilInfoScreenGUI $info
     ): void {
@@ -323,11 +338,7 @@ class InfoScreenGUI
         if ($this->status_manager->isAppraisee()) {
             $info->addSection($this->lng->txt("survey_360_appraisee_info"));
 
-            $privacy_info = $this->lng->txt("svy_rater_see_app_info");
-            if (in_array($survey->get360Results(), [\ilObjSurvey::RESULTS_360_OWN, \ilObjSurvey::RESULTS_360_ALL], true)) {
-                $privacy_info .= " " . $this->lng->txt("svy_app_see_rater_info");
-            }
-            $info->addProperty($this->lng->txt("svy_privacy_info"), $privacy_info);
+            $this->addPrivacyInfo($info);
 
             $appr_data = $survey->getAppraiseesData();
             $appr_data = $appr_data[$this->user->getId()];
