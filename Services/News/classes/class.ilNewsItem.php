@@ -71,6 +71,7 @@ class ilNewsItem
     private bool $limitation = false;
     protected bool $content_text_is_lang_var = false;
     private ilGlobalTemplateInterface $main_tpl;
+    protected ilLogger $log;
 
     public function __construct(int $a_id = 0)
     {
@@ -89,6 +90,7 @@ class ilNewsItem
             $this->read();
         }
         $this->limitation = true;
+        $this->log = $DIC->logger()->news();
     }
 
     public function setId(int $a_id): void
@@ -592,6 +594,7 @@ class ilNewsItem
      * Get News For Ref Id.
      *
      * @deprecated (will migrate to ilNewsData)
+     * @param string|int $a_time_period
      * @param int $a_limit currently only supported for groups and courses
      * @param int[] $a_excluded currently only supported for groups and courses (news ids)
      */
@@ -599,7 +602,7 @@ class ilNewsItem
         int $a_ref_id,
         bool $a_only_public = false,
         bool $a_stopnesting = false,
-        int $a_time_period = 0,
+        $a_time_period = 0,
         bool $a_prevent_aggregation = true,
         bool $a_forum_group_sequences = false,
         bool $a_no_auto_generated = false,
@@ -712,11 +715,12 @@ class ilNewsItem
     /**
      * Get news aggregation (e.g. for courses, groups)
      * @deprecated (will migrate to ilNewsData)
+     * @param string|int $a_time_period
      */
     public function getAggregatedNewsData(
         int $a_ref_id,
         bool $a_only_public = false,
-        int $a_time_period = 0,
+        $a_time_period = 0,
         bool $a_prevent_aggregation = false,
         string $a_starting_date = "",
         bool $a_no_auto_generated = false,
@@ -1015,10 +1019,11 @@ class ilNewsItem
     /**
      * Query news for a context
      * @deprecated will move to ilNewsData
+     * @param string|int $a_time_period
      */
     public function queryNewsForContext(
         bool $a_for_rss_use = false,
-        int $a_time_period = 0,
+        $a_time_period = 0,
         string $a_starting_date = "",
         bool $a_no_auto_generated = false,
         bool $a_oldest_first = false,
@@ -1149,22 +1154,25 @@ class ilNewsItem
     /**
      * @deprecated will move to ilNewsData
      * @return int[]
+     * @param string|int $a_time_period
      */
     public function checkNewsExistsForObjects(
         array $objects,
-        int $a_time_period = 1
+        $a_time_period = 1
     ): array {
         $ilDB = $this->db;
 
         $all = [];
 
+        $this->log->debug("time period: " . $a_time_period);
         $limit_ts = self::handleTimePeriod($a_time_period);
 
         // are there any news items for relevant objects and?
-        $query = $ilDB->query("SELECT id,context_obj_id,context_obj_type" .
+        $query = $ilDB->query($q = "SELECT id,context_obj_id,context_obj_type" .
             " FROM il_news_item" .
             " WHERE " . $ilDB->in("context_obj_id", array_keys($objects), false, "integer") .
             " AND creation_date >= " . $ilDB->quote($limit_ts, "timestamp"));
+        $this->log->debug($q);
         while ($rec = $ilDB->fetchAssoc($query)) {
             if ($objects[$rec["context_obj_id"]]["type"] == $rec["context_obj_type"]) {
                 $all[] = (int) $rec["id"];
@@ -1176,11 +1184,12 @@ class ilNewsItem
 
     /**
      * @deprecated will move to ilNewsData
+     * @param string|int $a_time_period
      */
     public function queryNewsForMultipleContexts(
         array $a_contexts,
         bool $a_for_rss_use = false,
-        int $a_time_period = 0,
+        $a_time_period = 0,
         string $a_starting_date = "",
         bool $a_no_auto_generated = false,
         int $a_user_id = null,
@@ -1525,10 +1534,12 @@ class ilNewsItem
     /**
      * Checks whether news are available for
      * @deprecated will move to ilNewsData
+     * @param array  $a_obj_ids
+     * @param string|int $a_time_period
      */
     public static function filterObjIdsPerNews(
         array $a_obj_ids,
-        int $a_time_period = 0,
+        $a_time_period = 0,
         string $a_starting_date = "",
         string $a_ending_date = '',
         bool $ignore_period = false
