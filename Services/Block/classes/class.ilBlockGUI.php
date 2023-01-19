@@ -176,12 +176,12 @@ abstract class ilBlockGUI
 
     public function getOffset(): int
     {
-        return $this->offset;
+        return $this->offset ?? 0;
     }
 
     public function correctOffset(): void
     {
-        if (!($this->offset < $this->max_count)) {
+        if (!(($this->offset ?? 0) < $this->max_count)) {
             $this->setOffset(0);
         }
     }

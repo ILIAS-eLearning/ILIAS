@@ -23,11 +23,11 @@ class ilPDSelectedItemsBlockListGUIFactory
     /** @var ilObjectListGUI[] */
     protected static array $list_by_type = [];
     protected ilObjectDefinition $objDefinition;
-    protected ilPDSelectedItemsBlockGUI $block;
+    protected $block;
     protected ilPDSelectedItemsBlockViewGUI $blockView;
 
     public function __construct(
-        ilPDSelectedItemsBlockGUI $block,
+        $block,
         ilPDSelectedItemsBlockViewGUI $blockView
     ) {
         global $DIC;

@@ -19,15 +19,7 @@ declare(strict_types=1);
  *********************************************************************/
 class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
 {
-    private ilSetting $settings;
     protected ?string $visible_on_pd_mode = null;
-
-    public function __construct()
-    {
-        global $DIC;
-        $this->settings = $DIC->settings();
-        parent::__construct();
-    }
 
     public function initViewSettings(): void
     {
@@ -35,6 +27,8 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
             $this->user,
             ilPDSelectedItemsBlockConstants::VIEW_MY_STUDYPROGRAMME
         );
+
+        $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
     }
 
     public function emptyHandling(): string
@@ -166,5 +160,10 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
     public function getCardForData(array $data): ?\ILIAS\UI\Component\Card\RepositoryObject
     {
         return null;
+    }
+
+    public function getBlockType(): string
+    {
+        return 'pdprg';
     }
 }

@@ -2,26 +2,30 @@
 
 declare(strict_types=1);
 
+/**
+* This file is part of ILIAS, a powerful learning management system
+* published by ILIAS open source e-Learning e.V.
+*
+* ILIAS is licensed with the GPL-3.0,
+* see https://www.gnu.org/licenses/gpl-3.0.en.html
+* You should have received a copy of said license along with the
+* source code, too.
+*
+* If this is not the case or you just want to try ILIAS, you'll find
+* us at:
+* https://www.ilias.de
+* https://github.com/ILIAS-eLearning
+*
+*********************************************************************/
+
 use ILIAS\UI\Component\MessageBox\MessageBox;
 
-/**
- * This file is part of ILIAS, a powerful learning management system
- * published by ILIAS open source e-Learning e.V.
- *
- * ILIAS is licensed with the GPL-3.0,
- * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with the
- * source code, too.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
 abstract class ilDashboardBlockGUI extends ilBlockGUI
 {
     private string $content;
+    protected ilSetting $settings;
+    protected ilLogger $logging;
+    protected ilPDSelectedItemsBlockListGUIFactory $list_factory;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\UI\Factory $factory;
     protected ILIAS\UI\Renderer $renderer;
@@ -29,6 +33,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     protected ilPDSelectedItemsBlockViewGUI $blockView;
     /** @var array<string, array>  */
     protected array $data;
+
 
     public function __construct()
     {
@@ -38,11 +43,14 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $this->factory = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();
         $this->http = $DIC->http();
+        $this->logging = $DIC->logger()->root();
+        $this->settings = $DIC->settings();
 
         $this->new_rendering = true;
         $this->initViewSettings();
         $this->viewSettings->parse();
         $this->blockView = ilPDSelectedItemsBlockViewGUI::bySettings($this->viewSettings);
+        $this->list_factory = new ilPDSelectedItemsBlockListGUIFactory($this, $this->blockView);
         $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
         if ($this->viewSettings->isTilePresentation()) {
             $this->setPresentation(self::PRES_MAIN_LEG);
@@ -101,6 +109,9 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             foreach ($group as $datum) {
                 $cards[] = $this->getCardForData($datum);
             }
+            $cards = array_filter($cards, static function ($card) {
+                return $card !== null;
+            });
             if ($cards) {
                 $groupedCards[] = $this->ui->factory()->panel()->sub(
                     $title,
@@ -165,12 +176,12 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $data = $this->getData();
         switch ($this->viewSettings->getEffectiveSortingMode()) {
             case ilPDSelectedItemsBlockConstants::SORT_BY_ALPHABET:
-                usort($data, static function ($a, $b) {
+                uasort($data, static function ($a, $b) {
                     return strcmp($a['title'], $b['title']);
                 });
                 break;
             case ilPDSelectedItemsBlockConstants::SORT_BY_START_DATE:
-                usort($data, static function ($a, $b) {
+                uasort($data, static function ($a, $b) {
                     return $a['lso_obj']->getCreateDate() <=> $b['lso_obj']->getCreateDate();
                 });
                 break;

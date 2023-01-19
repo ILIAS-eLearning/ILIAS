@@ -231,7 +231,11 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->forwardCommand($gui);
                 break;
             case strtolower(ilLearningSequenceBlockGUI::class):
-                $gui = new ilLearningSequenceBlockGUI();
+            case strtolower(ilMembershipBlockGUI::class):
+            case strtolower(ilRecommendedContentBlockGUI::class):
+            case strtolower(ilSelectedItemsBlockGUI::class):
+            case strtolower(ilStudyProgrammeBlockGUI::class):
+                $gui = new $next_class();
                 $this->ctrl->forwardCommand($gui);
                 break;
             default:
@@ -535,36 +539,29 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
     protected function renderFavourites(): string
     {
-//        $block = new ilPDSelectedItemsBlockGUI();
-//        return $block->getHTML();
+//        return (new ilPDSelectedItemsBlockGUI())->getHTML();
         return (new ilSelectedItemsBlockGUI())->getHTML();
     }
 
     protected function renderRecommendedContent(): string
     {
-//        $db_rec_content = new ilDashboardRecommendedContentGUI();
-//        return $db_rec_content->render();
+//        return (new ilDashboardRecommendedContentGUI())->render();
         return (new ilRecommendedContentBlockGUI())->getHTML();
     }
 
     protected function renderStudyProgrammes(): string
     {
-//        $st_block = ilStudyProgrammeDIC::dic()['ilStudyProgrammeDashboardViewGUI'];
-//        return $st_block->getHTML();
         return (new ilStudyProgrammeBlockGUI())->getHTML();
     }
 
     protected function renderMemberships(): string
     {
-//        $block = new ilPDMembershipBlockGUI();
-//        return $block->getHTML();
+//        return (new ilPDMembershipBlockGUI())->getHTML();
         return (new ilMembershipBlockGUI())->getHTML();
     }
 
     protected function renderLearningSequences(): string
     {
-//        $st_block = new ilDashboardLearningSequenceGUI();
-//        return $st_block->getHTML();
         return (new ilLearningSequenceBlockGUI())->getHTML();
     }
 }

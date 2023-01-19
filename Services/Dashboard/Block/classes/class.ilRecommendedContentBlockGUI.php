@@ -25,6 +25,8 @@ class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
             $this->user,
             ilPDSelectedItemsBlockConstants::VIEW_RECOMMENDED_CONTENT
         );
+
+        $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
     }
 
     public function emptyHandling(): string
@@ -34,16 +36,76 @@ class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
 
     public function initData(): void
     {
-        $this->setData([]);
+        $rec_manager = new ilRecommendedContentManager();
+        $recommendations = $rec_manager->getOpenRecommendationsOfUser($this->user->getId());
+
+        $short_desc = $this->settings->get("rep_shorten_description");
+        $short_desc_max_length = (int) $this->settings->get("rep_shorten_description_length");
+        $ctrl = $this->ctrl;
+
+        $recommendations = array_map(static function ($ref_id) use ($short_desc, $short_desc_max_length) {
+            $obj_id = ilObject::_lookupObjectId($ref_id);
+            $desc = ilObject::_lookupDescription($obj_id);
+            if ($short_desc && $short_desc_max_length !== 0) {
+                $desc = ilStr::shortenTextExtended($desc, $short_desc_max_length, true);
+            }
+
+            return [
+               'title' => ilObject::_lookupTitle($obj_id),
+               'description' => $desc,
+               'ref_id' => $ref_id,
+               'obj_id' => $obj_id,
+               'url' => '',
+               'type' => ilObject::_lookupType($obj_id),
+            ];
+        }, $recommendations);
+
+        $this->setData(['' => $recommendations]);
     }
 
     public function getItemForData(array $data): ?\ILIAS\UI\Component\Item\Item
     {
-        return null;
+        $item = $data;
+        /** @var ilObjectListGUI $itemListGui */
+        $list_factory = new ilPDSelectedItemsBlockListGUIFactory($this, $this->blockView);
+        $item_gui = $list_factory->byType($data['type']);
+        ilObjectActivation::addListGUIActivationProperty($item_gui, $item);
+
+        $this->ctrl->setParameterByClass(self::class, "item_ref_id", $data['ref_id']);
+
+        $item_gui->addCustomCommand(
+            $this->ctrl->getLinkTarget($this, "remove"),
+            "dash_remove_from_list"
+        );
+
+        $item_gui->addCustomCommand(
+            $this->ctrl->getLinkTarget($this, "makeFavourite"),
+            "dash_make_favourite"
+        );
+
+        $this->ctrl->clearParameterByClass(self::class, "item_ref_id");
+
+
+        $list_item = $item_gui->getAsListItem(
+            $data['ref_id'],
+            $data['obj_id'],
+            $data['type'],
+            $data['title'],
+            $data['description'],
+        );
+
+        return $list_item;
     }
 
     public function getCardForData(array $data): ?\ILIAS\UI\Component\Card\RepositoryObject
     {
-        return null;
+        $list_factory = new ilPDSelectedItemsBlockListGUIFactory($this, $this->blockView);
+        return $list_factory->byType($data['type'])->getAsCard(
+            $data['ref_id'],
+            $data['obj_id'],
+            $data['type'],
+            $data['title'],
+            $data['description'],
+        );
     }
 }
