@@ -77,6 +77,9 @@ class EvaluationManager
             // tutors can switch appraisees on detailed evaluation screen
             case \ilObjSurvey::MODE_IND_FEEDB:
                 return ($access->canEditSettings());
+            case \ilObjSurvey::MODE_SELF_EVAL:
+                return ($access->canEditSettings() ||
+                    $survey->getSelfEvaluationResults() === \ilObjSurvey::RESULTS_SELF_EVAL_ALL);
         }
         return false;
 
@@ -111,8 +114,8 @@ class EvaluationManager
                     $appraisee_ids[] = (int) \ilObjUser::_lookupId($item['login']);
                 }
             }
-        } elseif ($feature_config->usesAppraisees() /*||
-            $survey->getMode() === \ilObjSurvey::MODE_SELF_EVAL*/) {
+        } elseif ($feature_config->usesAppraisees() ||
+            $survey->getMode() === \ilObjSurvey::MODE_SELF_EVAL) {
             $appraisee_ids[] = $user_id;
         }
         return $appraisee_ids;
@@ -136,6 +139,7 @@ class EvaluationManager
         if ($req_appr_id === 0) {
             $req_appr_id = $user_id;
         }
+
 
         // requested appraisee is valid -> return appraisee
         $valid = $this->getSelectableAppraisees();
@@ -210,7 +214,20 @@ class EvaluationManager
     {
         $appr_id = $this->getCurrentAppraisee();
         $finished_ids = null;
+
+        $filter = false;
         if ($appr_id > 0) {
+            $filter = true;
+            if ($this->survey->getMode() === \ilObjSurvey::MODE_SELF_EVAL &&
+            $this->survey->getSelfEvaluationResults() === \ilObjSurvey::RESULTS_SELF_EVAL_ALL) {
+                $filter = false;
+            }
+            if ($this->access->canEditSettings()) {
+                $filter = false;
+            }
+        }
+
+        if ($filter) {
             $finished_ids = $this->survey->getFinishedIdsForAppraiseeId($appr_id);
             if (!count($finished_ids)) {
                 $finished_ids = [];
@@ -235,7 +252,6 @@ class EvaluationManager
         $data = array();
 
         $finished_ids = $this->getFilteredFinishedIds();
-
         $participants = $this->access->canReadResultOfParticipants($finished_ids);
         foreach ($this->survey->getSurveyQuestions() as $qdata) {
             $q_eval = \SurveyQuestion::_instanciateQuestionEvaluation((int) $qdata["question_id"], $finished_ids);
