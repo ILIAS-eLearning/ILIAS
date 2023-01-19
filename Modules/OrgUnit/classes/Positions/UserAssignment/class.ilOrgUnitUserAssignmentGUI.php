@@ -219,7 +219,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         }
 
         if (!count($user_ids)) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->txt("user_not_found"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("user_not_found"), true);
             $this->ctrl->redirect($this, self::CMD_INDEX);
         }
 
