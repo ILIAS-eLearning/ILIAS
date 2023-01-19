@@ -299,13 +299,13 @@ class ilLikeData
      * Get expression entries for obj/subobj/news
      *
      * @param int $obj_id
-     * @param ?int $since_ts timestamp (show only data since...)
+     * @param ?string $since_ts timestamp (show only data since...)
      * @return array
      * @throws ilLikeDataException
      */
     public function getExpressionEntriesForObject(
         int $obj_id,
-        ?int $since_ts = null
+        ?string $since_ts = null
     ): array {
         if (!is_array($this->data[$obj_id])) {
             throw new ilLikeDataException("No data loaded for object $obj_id.");
