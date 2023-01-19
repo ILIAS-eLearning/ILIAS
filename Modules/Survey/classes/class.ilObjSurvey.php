@@ -314,7 +314,7 @@ class ilObjSurvey extends ilObject
         );
         $this->deleteAllUserData(false);
 
-        $this->code_manager->deleteAll();
+        $this->code_manager->deleteAll(true);
 
         // delete export files
         $svy_data_dir = ilFileUtils::getDataDir() . "/svy_data";

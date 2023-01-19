@@ -70,9 +70,11 @@ class CodeManager
      * Delete all codes of survey
      * @throws \ilPermissionException
      */
-    public function deleteAll(): void
+    public function deleteAll(bool $force = false): void
     {
-        $this->checkPermission();
+        if (!$force) {
+            $this->checkPermission();
+        }
         $repo = $this->code_repo;
         $repo->deleteAll($this->survey_id);
     }
