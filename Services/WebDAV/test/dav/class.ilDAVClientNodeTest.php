@@ -331,7 +331,7 @@ class ilDAVClientNodeTest extends TestCase
             $dav_client->setName('My Valid Name');
             $this->assertFalse('This should not happen!');
         } catch (Forbidden $e) {
-            $this->assertEquals('It is not possible to change the name of the root', $e->getMessage());
+            $this->assertEquals('It is not possible to change the name of this node.', $e->getMessage());
         }
     }
 
@@ -343,7 +343,7 @@ class ilDAVClientNodeTest extends TestCase
             $dav_client->createFile('My New File.txt');
             $this->assertFalse('This should not happen!');
         } catch (Forbidden $e) {
-            $this->assertEquals('It is not possible to create a file here', $e->getMessage());
+            $this->assertEquals('It is not possible to create a file here.', $e->getMessage());
         }
     }
 
@@ -355,7 +355,7 @@ class ilDAVClientNodeTest extends TestCase
             $dav_client->createDirectory('My New Folder');
             $this->assertFalse('This should not happen!');
         } catch (Forbidden $e) {
-            $this->assertEquals('It is not possible to create a directory here', $e->getMessage());
+            $this->assertEquals('It is not possible to create a directory here.', $e->getMessage());
         }
     }
 
@@ -367,7 +367,7 @@ class ilDAVClientNodeTest extends TestCase
             $dav_client->delete();
             $this->assertFalse('This should not happen!');
         } catch (Forbidden $e) {
-            $this->assertEquals('It is not possible to delete the root', $e->getMessage());
+            $this->assertEquals('It is not possible to delete this node.', $e->getMessage());
         }
     }
 

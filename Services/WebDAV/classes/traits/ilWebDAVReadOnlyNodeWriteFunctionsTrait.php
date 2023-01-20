@@ -28,7 +28,7 @@ trait ilWebDAVReadOnlyNodeWriteFunctionsTrait
      */
     public function createDirectory($name): void
     {
-        throw new Forbidden("It is not possible to create a directory here");
+        throw new Forbidden("It is not possible to create a directory here.");
     }
 
     /**
@@ -37,7 +37,7 @@ trait ilWebDAVReadOnlyNodeWriteFunctionsTrait
      */
     public function createFile($name, $data = null): ?string
     {
-        throw new Forbidden("It is not possible to create a file here");
+        throw new Forbidden("It is not possible to create a file here.");
     }
 
     /**
@@ -46,7 +46,7 @@ trait ilWebDAVReadOnlyNodeWriteFunctionsTrait
      */
     public function setName($name): void
     {
-        throw new Forbidden("It is not possible to change the name of the root");
+        throw new Forbidden("It is not possible to change the name of this node.");
     }
 
     /**
@@ -55,6 +55,15 @@ trait ilWebDAVReadOnlyNodeWriteFunctionsTrait
      */
     public function delete(): void
     {
-        throw new Forbidden("It is not possible to delete the root");
+        throw new Forbidden("It is not possible to delete this node.");
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see \Sabre\DAV\INode::put()
+     */
+    public function put(): void
+    {
+        throw new Forbidden("It is not possible to change this node.");
     }
 }
