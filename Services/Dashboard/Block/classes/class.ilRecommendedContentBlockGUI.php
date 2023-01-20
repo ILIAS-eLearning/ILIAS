@@ -108,4 +108,9 @@ class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
             $data['description'],
         );
     }
+
+    public function getBlockType(): string
+    {
+        return 'pdrecc';
+    }
 }

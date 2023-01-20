@@ -102,4 +102,9 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
 
         return $card;
     }
+
+    public function getBlockType(): string
+    {
+        return 'pditems';
+    }
 }
