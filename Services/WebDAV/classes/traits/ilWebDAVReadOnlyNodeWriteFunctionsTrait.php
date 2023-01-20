@@ -62,7 +62,7 @@ trait ilWebDAVReadOnlyNodeWriteFunctionsTrait
      * {@inheritDoc}
      * @see \Sabre\DAV\INode::put()
      */
-    public function put(): void
+    public function put($data): void
     {
         throw new Forbidden("It is not possible to change this node.");
     }
