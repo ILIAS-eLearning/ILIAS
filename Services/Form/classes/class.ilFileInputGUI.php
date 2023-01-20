@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * This class represents a file property in a property form.
@@ -250,7 +250,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 
     public function getInput(): array
     {
-        return $_FILES[$this->getPostVar()];
+        return $_FILES[$this->getPostVar()] ?? [];
     }
 
     public function render(string $a_mode = ""): string

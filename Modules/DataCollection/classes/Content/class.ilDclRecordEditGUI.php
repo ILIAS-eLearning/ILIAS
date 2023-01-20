@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclRecordEditGUI
@@ -457,11 +456,17 @@ class ilDclRecordEditGUI
         $this->initForm();
 
         // if save confirmation is enabled: Temporary file-uploads need to be handled
-        $has_save_confirmed = $this->http->wrapper()->post()->has('format');
+        $has_save_confirmed = $this->http->wrapper()->post()->has('save_confirmed');
         $has_ilfilehash = $this->http->wrapper()->post()->has('ilfilehash');
-        $has_record_id = $this->http->wrapper()->post()->has('ilfilehash');
+        $has_record_id = isset($this->record_id);
+        $table_has_save_confirmation = $this->table->getSaveConfirmation();
 
-        if ($this->table->getSaveConfirmation() && $has_save_confirmed && $has_ilfilehash && $has_record_id && !$this->ctrl->isAsynch()) {
+        if ($table_has_save_confirmation
+            && $has_save_confirmed
+            && $has_ilfilehash
+            && !$has_record_id
+            && !$this->ctrl->isAsynch()
+        ) {
             $ilfilehash = $this->http->wrapper()->post()->retrieve('ilfilehash', $this->refinery->kindlyTo()->string());
 
             ilDclPropertyFormGUI::rebuildTempFileByHash($ilfilehash);
@@ -497,7 +502,8 @@ class ilDclRecordEditGUI
             $all_fields = $this->table->getEditableFields(!$this->record_id);
         }
 
-        //Check if we can create this record.
+        // Check if we can create this record.
+        $valid = true;
         foreach ($all_fields as $field) {
             try {
                 $field->checkValidityFromForm($this->form, $this->record_id);
@@ -535,7 +541,7 @@ class ilDclRecordEditGUI
             }
 
             // when save_confirmation is enabled, not yet confirmed and we have not an async-request => prepare for displaying confirmation
-            if ($this->table->getSaveConfirmation() && $this->form->getInput('save_confirmed') == null && !$this->ctrl->isAsynch()) {
+            if ($table_has_save_confirmation && $this->form->getInput('save_confirmed') == null && !$this->ctrl->isAsynch()) {
                 $hash = "";
                 if ($has_ilfilehash) {
                     // temporary store fileuploads (reuse code from ilPropertyFormGUI)
