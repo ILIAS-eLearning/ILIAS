@@ -2,6 +2,12 @@
 
 /* Modules/Poll */
 
+.ilPollAlert {
+	margin: 5px;
+	font-size: $il-font-size-small;
+	color: $il-warning-color;
+}
+
 .ilPollDescription {
 	margin: 5px;
 	font-size: $il-font-size-small;
@@ -14,6 +20,14 @@
 	margin: 1.5%;
 	font-size: $il-font-size-small;
 	font-style: italic;
+}
+
+.ilPollModeInfo {
+	display: inline-block;
+	width: 97%;
+	margin: 1.5%;
+	font-size: $il-font-size-small;
+	color: $il-text-light-color;
 }
 
 img.ilPollQuestionImage {

@@ -15237,6 +15237,12 @@ div#right_bottom_area iframe {
 }
 
 /* Modules/Poll */
+.ilPollAlert {
+  margin: 5px;
+  font-size: 0.75rem;
+  color: #B54F00;
+}
+
 .ilPollDescription {
   margin: 5px;
   font-size: 0.75rem;
@@ -15249,6 +15255,14 @@ div#right_bottom_area iframe {
   margin: 1.5%;
   font-size: 0.75rem;
   font-style: italic;
+}
+
+.ilPollModeInfo {
+  display: inline-block;
+  width: 97%;
+  margin: 1.5%;
+  font-size: 0.75rem;
+  color: #6f6f6f;
 }
 
 img.ilPollQuestionImage {

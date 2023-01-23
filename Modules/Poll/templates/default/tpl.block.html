@@ -7,13 +7,26 @@
 			{TXT_DESC}
 		</div>
 		<!-- END desc -->
-				
-		<div class="ilPollQuestion">				
+
+		<!-- BEGIN offline_alert -->
+		<div class="ilPollAlert">
+			{TXT_OFFLINE}
+		</div>
+		<!-- END offline_alert -->
+
+		<!-- BEGIN question -->
+		<div class="ilPollQuestion">
+			<!-- BEGIN question_text -->
 			{TXT_QUESTION}<br />
+			<!-- END question_text -->
 			<!-- BEGIN image -->
 			<img  class="ilPollQuestionImage" src="{URL_IMAGE}" />
 			<!-- END image -->
 		</div>
+		<!-- END question -->
+		<!-- BEGIN mode_info_question -->
+		<div class="ilPollModeInfo">{MODE_INFO_QUESTION}</div>
+		<!-- END mode_info_question -->
 		
 		<!-- BEGIN answers_vote -->
 		<div class="ilPollQuestionAnswers">		
@@ -39,14 +52,14 @@
 			</form>			
 						
 			<!-- BEGIN mode_info_bl -->
-			<div class="il_Footer light">{MODE_INFO}</div>
+			<div class="ilPollModeInfo">{MODE_INFO}</div>
 			<!-- END mode_info_bl -->			
 			
 		</div>
 		<!-- END answers_vote -->
 
 		<!-- BEGIN out_of_voting_period -->
-			<div class="ilPollQuestionAnswers small">{TXT_VOTING_PERIOD}</div>
+			<div class="ilPollQuestion small">{TXT_VOTING_PERIOD}</div>
 		<!-- END out_of_voting_period -->
 
 		<!-- BEGIN answers_result -->

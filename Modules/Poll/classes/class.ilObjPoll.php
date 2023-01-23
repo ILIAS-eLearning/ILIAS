@@ -37,8 +37,7 @@ class ilObjPoll extends ilObject2
     protected int $period_begin = 0;
     protected int $period_end = 0;
 
-    // 4.5
-    protected int $max_number_answers = 1;
+    protected int $max_number_answers = 0;
     protected bool $result_sort_by_votes = false;
     protected bool $mode_non_anonymous = false;
     protected bool $show_comments = false;
@@ -58,6 +57,7 @@ class ilObjPoll extends ilObject2
 
         $this->db = $DIC->database();
         // default
+        $this->setOfflineStatus(true);
         $this->setViewResults(self::VIEW_RESULTS_AFTER_VOTE);
         $this->setAccessType(ilObjectActivation::TIMINGS_DEACTIVATED);
         $this->setVotingPeriod(false);

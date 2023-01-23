@@ -142,9 +142,6 @@ class ilPollBlock extends ilCustomBlock
         }
 
         if (!$this->active) {
-            if ($this->poll->getOfflineStatus()) {
-                return $this->lng->txt("poll_block_message_offline");
-            }
             if ($this->poll->getAccessBegin() > time()) {
                 $date = ilDatePresentation::formatDate(new ilDateTime($this->poll->getAccessBegin(), IL_CAL_UNIX));
                 return sprintf($this->lng->txt("poll_block_message_inactive"), $date);

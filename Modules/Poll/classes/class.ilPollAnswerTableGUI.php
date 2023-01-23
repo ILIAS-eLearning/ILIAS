@@ -50,11 +50,6 @@ class ilPollAnswerTableGUI extends ilTable2GUI
         );
         $this->setDescription(sprintf($this->lng->txt("poll_population"), $total));
 
-        if ($total) {
-            $this->addCommandButton("confirmDeleteAllVotes", $this->lng->txt("poll_delete_votes"));
-        }
-
-        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setRowTemplate("tpl.answer_row.html", "Modules/Poll");
         $this->setDefaultOrderField("pos");
         $this->setDefaultOrderDirection("asc");
