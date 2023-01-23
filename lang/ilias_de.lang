@@ -16059,12 +16059,12 @@ svy#:#svy_status#:#Status
 svy#:#svy_status_finished#:#Beendet
 svy#:#svy_status_in_progress#:#In Bearbeitung
 svy#:#svy_status_invited#:#Eingeladen
-svy#:#svy_user_added_360_appraisee#:#360°-Umfrage '%1'
-svy#:#svy_user_added_360_appraisee_close_mail#:#Die 360°-Umfrage wurde für Ihre Feedback-Geber geschlossen.
-svy#:#svy_user_added_360_appraisee_mail#:#Sie wurden der Umfrage als Feedback-Nehmer hinzugefügt.
-svy#:#svy_user_added_360_rater#:#360°-Umfrage '%1'
-svy#:#svy_user_added_360_rater_mail#:#Sie wurden als Feedback-Geber hinzugefügt.
-svy#:#svy_user_added_360_rater_reminder_mail#:#Bitte bewerten Sie noch die folgenden Feedback-Nehmer:
+svy#:#svy_user_added_appraisee#:#Umfrage '%1'
+svy#:#svy_user_added_appraisee_close_mail#:#Die Umfrage wurde für Ihre Feedback-Geber geschlossen.
+svy#:#svy_user_added_appraisee_mail#:#Sie wurden der Umfrage als Feedback-Nehmer hinzugefügt.
+svy#:#svy_user_added_rater#:#Umfrage '%1'
+svy#:#svy_user_added_rater_mail#:#Sie wurden als Feedback-Geber hinzugefügt.
+svy#:#svy_user_added_rater_reminder_mail#:#Bitte bewerten Sie noch die folgenden Feedback-Nehmer:
 svy#:#svy_user_not_found#:#Es wurde kein entsprechender Benutzer gefunden.
 svy#:#svy_users_invited#:#Die Benutzer wurden eingeladen.
 sysc#:#sysc_action_list_tree#:#Dump der Baumstruktur erzeugen
