@@ -134,7 +134,9 @@ class ObjectiveIterator implements \Iterator
             if (count($this->stack) === 0) {
                 throw new UnachievableException(
                     "Objective '" . $cur->getLabel() . "' had failed preconditions:\n  - " .
-                    implode("\n  - ", array_map(fn ($o) => $o->getLabel(), $failed_preconditions))
+                    implode("\n  - ", array_map(function ($o) {
+                        return $o->getLabel();
+                    }, $failed_preconditions))
                 );
             }
             $this->next();
