@@ -4325,8 +4325,8 @@ class ilObjSurvey extends ilObject
         // user specific language
         $lng = $ntf->getUserLanguage($a_user_id);
 
-        $ntf->setIntroductionLangId("svy_user_added_360_appraisee_mail");
-        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_360_appraisee"));
+        $ntf->setIntroductionLangId("svy_user_added_appraisee_mail");
+        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_appraisee"));
 
         // #10044
         $mail = new ilMail(ANONYMOUS_USER_ID);
@@ -4354,8 +4354,8 @@ class ilObjSurvey extends ilObject
         // user specific language
         $lng = $ntf->getUserLanguage($a_user_id);
 
-        $ntf->setIntroductionLangId("svy_user_added_360_appraisee_close_mail");
-        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_360_appraisee"));
+        $ntf->setIntroductionLangId("svy_user_added_appraisee_close_mail");
+        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_appraisee"));
 
         // #10044
         $mail = new ilMail(ANONYMOUS_USER_ID);
@@ -4384,8 +4384,8 @@ class ilObjSurvey extends ilObject
         // user specific language
         $lng = $ntf->getUserLanguage($a_user_id);
 
-        $ntf->setIntroductionLangId("svy_user_added_360_rater_mail");
-        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_360_rater"));
+        $ntf->setIntroductionLangId("svy_user_added_rater_mail");
+        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_rater"));
         $ntf->addAdditionalInfo("survey_360_appraisee", ilUserUtil::getNamePresentation($a_appraisee_id, false, false, "", true));
 
         // #10044
@@ -5240,8 +5240,8 @@ class ilObjSurvey extends ilObject
         // user specific language
         $lng = $ntf->getUserLanguage($a_user_id);
 
-        $ntf->setIntroductionLangId("svy_user_added_360_rater_reminder_mail");
-        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_360_rater"));
+        $ntf->setIntroductionLangId("svy_user_added_rater_reminder_mail");
+        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_rater"));
 
         foreach ($a_appraisee_ids as $appraisee_id) {
             $ntf->addAdditionalInfo("survey_360_appraisee", ilUserUtil::getNamePresentation($appraisee_id, false, false, "", true));
