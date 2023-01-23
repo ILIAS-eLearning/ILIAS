@@ -54,14 +54,7 @@ class ilStudyProgrammeIndividualPlanProgressListGUI extends ilStudyProgrammeExpa
 
         $points = parent::buildProgressStatus($progress);
         if (!$can_be_completed && !$progress->isSuccessful()) {
-            return
-                "<img src='" .
-                ilUtil::getImagePath("icon_alert.svg") .
-                "' alt='" .
-                $this->lng->txt("warning") .
-                "'>" .
-                $points
-            ;
+            return $this->alert_icon . $points;
         }
 
         return $points;

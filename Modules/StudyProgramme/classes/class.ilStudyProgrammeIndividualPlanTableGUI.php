@@ -83,8 +83,14 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
         $this->determineLimit();
         $this->determineOffsetAndOrder();
 
-        $this->possible_image = "<img src='" . ilUtil::getImagePath("icon_ok.svg") . "' alt='ok'>";
-        $this->not_possible_image = "<img src='" . ilUtil::getImagePath("icon_not_ok.svg") . "' alt='not ok'>";
+        $ui_factory = $DIC['ui.factory'];
+        $ui_renderer = $DIC['ui.renderer'];
+        $this->possible_image = $ui_renderer->render(
+            $ui_factory->symbol()->icon()->custom(ilUtil::getImagePath("icon_ok.svg"), 'ok')->withSize('small')
+        );
+        $this->not_possible_image = $ui_renderer->render(
+            $ui_factory->symbol()->icon()->custom(ilUtil::getImagePath("icon_not_ok.svg"), 'not ok')->withSize('small')
+        );
     }
 
     protected function fillRow(array $a_set): void
