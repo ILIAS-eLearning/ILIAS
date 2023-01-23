@@ -218,11 +218,14 @@ class EvaluationManager
         $filter = false;
         if ($appr_id > 0) {
             $filter = true;
+            // see #36336
             if ($this->survey->getMode() === \ilObjSurvey::MODE_SELF_EVAL &&
             $this->survey->getSelfEvaluationResults() === \ilObjSurvey::RESULTS_SELF_EVAL_ALL) {
                 $filter = false;
             }
-            if ($this->access->canEditSettings()) {
+            // see #36336, #36378
+            if ($this->survey->getMode() !== \ilObjSurvey::MODE_IND_FEEDB &&
+                $this->access->canEditSettings()) {
                 $filter = false;
             }
         }
