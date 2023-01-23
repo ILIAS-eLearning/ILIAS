@@ -202,7 +202,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
                 }
                 break;
             case self::LINK:
-                $string = ilLink::_getLink((int)$context_parameters['ref_id'], 'prg');
+                $string = ilLink::_getLink((int)$context_parameters['ref_id'], 'prg') . ' ';
                 break;
             case self::ORG_UNIT:
                 $string = ilObjUser::lookupOrgUnitsRepresentation($recipient->getId());
