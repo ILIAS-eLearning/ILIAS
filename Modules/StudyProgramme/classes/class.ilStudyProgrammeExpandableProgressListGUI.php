@@ -29,6 +29,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
     protected int $indent = 0;
     protected bool $js_added = false;
     protected bool $css_added = false;
+    protected string $alert_icon;
 
     public function __construct(ilPRGProgress $progress)
     {
@@ -41,6 +42,14 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
         $this->access = $DIC['ilAccess'];
         $this->request_wrapper = $DIC->http()->wrapper()->query();
         $this->refinery = $DIC->refinery();
+
+        $ui_factory = $DIC['ui.factory'];
+        $ui_renderer = $DIC['ui.renderer'];
+        $this->alert_icon = $ui_renderer->render(
+            $ui_factory->symbol()->icon()
+                ->custom(ilUtil::getImagePath("icon_alert.svg"), $this->lng->txt("warning"))
+                ->withSize('medium')
+        );
     }
 
     protected function getIndent(): int
