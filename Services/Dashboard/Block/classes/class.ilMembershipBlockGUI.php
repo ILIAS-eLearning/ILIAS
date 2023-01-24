@@ -36,45 +36,15 @@ class ilMembershipBlockGUI extends ilDashboardBlockGUI
 
     public function initData(): void
     {
-        $groupedItems = $this->blockView->getItemGroups();
-        $item_groups = [];
-        $list_items = [];
+        $provider = new ilPDSelectedItemsBlockMembershipsProvider($this->user);
+        $data = $provider->getItems();
 
-        foreach ($groupedItems as $group) {
-            $list_items = [];
-
-            foreach ($group->getItems() as $item) {
-                try {
-                    $itemListGUI = $this->list_factory->byType($item['type']);
-                    ilObjectActivation::addListGUIActivationProperty($itemListGUI, $item);
-
-                    $list_items[] = [
-                        'title' => $item['title'],
-                        'description' => $item['description'],
-                        'ref_id' => $item['ref_id'],
-                        'obj_id' => $item['obj_id'],
-                        'url' => '',
-                        'obj' => $item,
-                        'type' => $item['type'],
-                        'start' => $item['start'] ?? null,
-                        'end' => $item['end'] ?? null,
-                    ];
-                } catch (ilException $e) {
-                    $this->logging->warning('Listing failed for item with ID ' . $item['obj_id'] . ': ' . $e->getMessage());
-                    continue;
-                }
-            }
-            if (count($list_items) > 0) {
-                $item_groups[$group->getLabel()] = $list_items;
-            }
-        }
-
-        $this->setData($item_groups);
+        $this->setData(['' => $data]);
     }
 
     public function getItemForData(array $data): ?\ILIAS\UI\Component\Item\Item
     {
-        $itemListGui = $this->list_factory->byType($data['type']);
+        $itemListGui = $this->byType($data['type']);
         ilObjectActivation::addListGUIActivationProperty($itemListGui, $data);
 
         $list_item = $itemListGui->getAsListItem(
@@ -90,7 +60,7 @@ class ilMembershipBlockGUI extends ilDashboardBlockGUI
 
     public function getCardForData(array $data): ?\ILIAS\UI\Component\Card\RepositoryObject
     {
-        $itemListGui = $this->list_factory->byType($data['type']);
+        $itemListGui = $this->byType($data['type']);
         ilObjectActivation::addListGUIActivationProperty($itemListGui, $data);
 
         $card = $itemListGui->getAsCard(

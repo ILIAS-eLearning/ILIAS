@@ -76,7 +76,7 @@ class ilColumnGUI
         "ilPDCalendarBlockGUI" => "Services/Calendar/",
         "ilPDTasksBlockGUI" => "Services/Tasks/",
         "ilPDMailBlockGUI" => "Services/Mail/",
-        "ilPDSelectedItemsBlockGUI" => "Services/Dashboard/ItemsBlock/",
+        "ilSelectedItemsBlockGUI" => "Services/Dashboard/Block/",
         "ilPDNewsBlockGUI" => "Services/News/",
         'ilPollBlockGUI' => 'Modules/Poll/',
         'ilClassificationBlockGUI' => 'Services/Classification/',
@@ -91,7 +91,7 @@ class ilColumnGUI
         "ilNewsForContextBlockGUI" => "news",
         "ilCalendarBlockGUI" => "cal",
         "ilPDCalendarBlockGUI" => "pdcal",
-        "ilPDSelectedItemsBlockGUI" => "pditems",
+        "ilSelectedItemsBlockGUI" => "pditems",
         'ilPollBlockGUI' => 'poll',
         'ilClassificationBlockGUI' => 'clsfct',
         "ilPDStudyProgrammeSimpleListGUI" => "prgsimplelist",
@@ -124,7 +124,7 @@ class ilColumnGUI
             "ilPDNewsBlockGUI" => IL_COL_RIGHT,
             "ilPDStudyProgrammeSimpleListGUI" => IL_COL_CENTER,
             "ilPDStudyProgrammeExpandableListGUI" => IL_COL_CENTER,
-            "ilPDSelectedItemsBlockGUI" => IL_COL_CENTER,
+            "ilSelectedItemsBlockGUI" => IL_COL_CENTER,
             "ilPDMailBlockGUI" => IL_COL_RIGHT
             )
         );

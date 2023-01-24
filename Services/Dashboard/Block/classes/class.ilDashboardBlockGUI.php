@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 use ILIAS\UI\Component\MessageBox\MessageBox;
 
+/**
+ * @ilCtrl_IsCalledBy ilDashboardBlockGUI: ilColumnGUI
+ * @ilCtrl_Calls ilDashboardBlockGUI: ilCommonActionDispatcherGUI
+ */
 abstract class ilDashboardBlockGUI extends ilBlockGUI
 {
     private string $content;
@@ -28,14 +32,13 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     private int $requested_item_ref_id;
     private mixed $object_cache;
     private ilTree $tree;
+    private mixed $objDefinition;
     protected ilSetting $settings;
     protected ilLogger $logging;
-    protected ilPDSelectedItemsBlockListGUIFactory $list_factory;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\UI\Factory $factory;
     protected ILIAS\UI\Renderer $renderer;
     protected ilPDSelectedItemsBlockViewSettings $viewSettings;
-    protected ilPDSelectedItemsBlockViewGUI $blockView;
     /** @var array<string, array>  */
     protected array $data;
 
@@ -52,12 +55,11 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $this->settings = $DIC->settings();
         $this->object_cache = $DIC['ilObjDataCache'];
         $this->tree = $DIC->repositoryTree();
+        $this->objDefinition = $DIC["objDefinition"];
 
         $this->new_rendering = true;
         $this->initViewSettings();
         $this->viewSettings->parse();
-        $this->blockView = ilPDSelectedItemsBlockViewGUI::bySettings($this->viewSettings);
-        $this->list_factory = new ilPDSelectedItemsBlockListGUIFactory($this, $this->blockView);
         $this->favourites = new ilFavouritesManager();
         $this->rbacsystem = $DIC->rbac()->system();
 
@@ -179,27 +181,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             $this->lng->txt('dash_' . $this->viewSettings->getViewName($this->viewSettings->getCurrentView()))
         );
         $this->addCommandActions();
-
-        // sort
-        switch ($this->viewSettings->getEffectiveSortingMode()) {
-            case ilPDSelectedItemsBlockConstants::SORT_BY_ALPHABET:
-                $data = $this->getData();
-                $data = array_merge(...array_values($data));
-                uasort($data, static function ($a, $b) {
-                    return strcmp($a['title'], $b['title']);
-                });
-                $this->setData(['' => $data]);
-                break;
-            case ilPDSelectedItemsBlockConstants::SORT_BY_START_DATE:
-                $this->groupItemsByStartDate();
-                break;
-            case ilPDSelectedItemsBlockConstants::SORT_BY_TYPE:
-                $this->groupItemsByType();
-                break;
-            case ilPDSelectedItemsBlockConstants::SORT_BY_LOCATION:
-                $this->groupItemsByLocation();
-                break;
-        }
+        $this->setData($this->getItemGroups());
 
         return parent::getHTML();
     }
@@ -212,7 +194,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         });
     }
 
-    public function groupItemsByStartDate(): void
+    public function groupItemsByStartDate(): array
     {
         $data = $this->getData();
         $items = array_merge(...array_values($data));
@@ -282,14 +264,12 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             $groups[$this->lng->txt('pd_' . $key)] = $group;
             unset($groups[$key]);
         }
-        $this->setData($groups);
+        return $groups;
     }
 
-    protected function groupItemsByType(): void
+    protected function groupItemsByType(): array
     {
-        global $DIC;
-        $objDefinition = $DIC["objDefinition"];
-        $object_types_by_container = $DIC['objDefinition']->getGroupedRepositoryObjectTypes(
+        $object_types_by_container = $this->objDefinition->getGroupedRepositoryObjectTypes(
             ['cat', 'crs', 'grp', 'fold']
         );
         $grouped_items = [];
@@ -304,7 +284,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         }
 
         foreach ($object_types_by_container as $type_title => $type) {
-            if (!$objDefinition->isPlugin($type_title)) {
+            if (!$this->objDefinition->isPlugin($type_title)) {
                 $title = $this->lng->txt('objs_' . $type_title);
             } else {
                 $pl = ilObjectPlugin::getPluginObjectByType($type_title);
@@ -322,10 +302,10 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             });
         }
 
-        $this->setData($grouped_items);
+        return $grouped_items;
     }
 
-    protected function groupItemsByLocation(): void
+    protected function groupItemsByLocation(): array
     {
         $grouped_items = [];
         $data = $this->getData();
@@ -351,7 +331,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
                 return strcmp($left['title'], $right['title']);
             });
         }
-        $this->setData($grouped_items);
+        return $grouped_items;
     }
 
     protected function isRootNode(int $refId): bool
@@ -455,28 +435,47 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $this->ctrl->redirectByClass('ildashboardgui', 'show');
     }
 
+    public function getItemGroups(): array
+    {
+        switch ($this->viewSettings->getEffectiveSortingMode()) {
+            case ilPDSelectedItemsBlockConstants::SORT_BY_ALPHABET:
+                $data = $this->getData();
+                $data = array_merge(...array_values($data));
+                uasort($data, static function ($a, $b) {
+                    return strcmp($a['title'], $b['title']);
+                });
+                return ['' => $data];
+                break;
+            case ilPDSelectedItemsBlockConstants::SORT_BY_START_DATE:
+                return $this->groupItemsByStartDate();
+            case ilPDSelectedItemsBlockConstants::SORT_BY_TYPE:
+                return $this->groupItemsByType();
+            case ilPDSelectedItemsBlockConstants::SORT_BY_LOCATION:
+            default:
+                return $this->groupItemsByLocation();
+        }
+    }
+
     public function manageObject(): string
     {
-        $this->blockView->setIsInManageMode(true);
-
         $top_tb = new ilToolbarGUI();
         $top_tb->setFormAction($this->ctrl->getFormAction($this));
         $top_tb->setLeadingImage(ilUtil::getImagePath('arrow_upright.svg'), $this->lng->txt('actions'));
 
         $button = ilSubmitButton::getInstance();
-        $grouped_items = $this->blockView->getItemGroups();
+        $grouped_items = $this->getItemGroups();
         if ($this->viewSettings->isSelectedItemsViewActive()) {
             $button->setCaption('remove');
         } else {
             $button->setCaption('pd_unsubscribe_memberships');
-            foreach ($grouped_items as $group) {
-                $items = $group->getItems();
-                $group->setItems([]);
-                foreach ($items as $item) {
+            foreach ($grouped_items as $key => $group) {
+                $items = [];
+                foreach ($group as $item) {
                     if ($this->rbacsystem->checkAccess('leave', $item['ref_id'])) {
-                        $group->pushItem($item);
+                        $items[] = $item;
                     }
                 }
+                $grouped_items[$key] = $items;
             }
         }
         $button->setCommand('confirmRemove');
@@ -699,5 +698,41 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         ];
 
         return $commandGroups;
+    }
+
+    /**
+     * @throws ilException
+     */
+    public function byType(string $a_type): ilObjectListGUI
+    {
+        $class = $this->objDefinition->getClassName($a_type);
+        if (!$class) {
+            throw new ilException(sprintf("Could not find a class for object type: %s", $a_type));
+        }
+
+        $location = $this->objDefinition->getLocation($a_type);
+        if (!$location) {
+            throw new ilException(sprintf("Could not find a class location for object type: %s", $a_type));
+        }
+
+        $full_class = 'ilObj' . $class . 'ListGUI';
+        require_once $location . '/class.' . $full_class . '.php';
+        $item_list_gui = new $full_class();
+
+        $item_list_gui->setContainerObject($this);
+        $item_list_gui->enableNotes(false);
+        $item_list_gui->enableComments(false);
+        $item_list_gui->enableTags(false);
+
+        $item_list_gui->enableIcon(true);
+        $item_list_gui->enableDelete(false);
+        $item_list_gui->enableCut(false);
+        $item_list_gui->enableCopy(false);
+        $item_list_gui->enableLink(false);
+        $item_list_gui->enableInfoScreen(true);
+
+        $item_list_gui->enableCommands(true, true);
+
+        return $item_list_gui;
     }
 }

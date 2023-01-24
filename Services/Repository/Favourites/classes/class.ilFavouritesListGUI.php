@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -23,7 +25,6 @@
  */
 class ilFavouritesListGUI
 {
-    protected ilPDSelectedItemsBlockViewGUI $block_view;
     protected \ILIAS\DI\UIServices $ui;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
@@ -38,7 +39,6 @@ class ilFavouritesListGUI
 
         $settings = new ilPDSelectedItemsBlockViewSettings($user);
         $settings->parse();
-        $this->block_view = ilPDSelectedItemsBlockViewGUI::bySettings($settings);
         $this->ui = $DIC->ui();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -47,30 +47,31 @@ class ilFavouritesListGUI
 
     public function render(): string
     {
+        $favoritesManager = new ilSelectedItemsBlockGUI();
         $f = $this->ui->factory();
         $item_groups = [];
         $ctrl = $this->ctrl;
-        foreach ($this->block_view->getItemGroups() as $group) {
+        foreach ($favoritesManager->getItemGroups() as $key => $group) {
             $items = [];
-            foreach ($group->getItems() as $item) {
+            foreach ($group as $item) {
                 $items[] = $f->item()->standard(
                     $f->link()->standard($item["title"], ilLink::_getLink($item["ref_id"]))
                 )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon((int) $item["obj_id"]), $item["title"]));
             }
             if (count($items) > 0) {
-                $item_groups[] = $f->item()->group($group->getLabel(), $items);
+                $item_groups[] = $f->item()->group($key, $items);
             }
         }
         if (count($item_groups) > 0) {
-            $ctrl->setParameterByClass("ilPDSelectedItemsBlockGUI", "view", "0");
-            $ctrl->setParameterByClass("ilPDSelectedItemsBlockGUI", "col_side", "center");
-            $ctrl->setParameterByClass("ilPDSelectedItemsBlockGUI", "block_type", "pditems");
+            $ctrl->setParameterByClass("ilSelectedItemsBlockGUI", "view", "0");
+            $ctrl->setParameterByClass("ilSelectedItemsBlockGUI", "col_side", "center");
+            $ctrl->setParameterByClass("ilSelectedItemsBlockGUI", "block_type", "pditems");
 
             // see PR discussion at https://github.com/ILIAS-eLearning/ILIAS/pull/5247/files
             $config_item = $f->item()->standard(
                 $f->link()->standard(
                     $this->lng->txt("rep_configure"),
-                    $this->ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilColumnGUI", "ilPDSelectedItemsBlockGUI"], "manage")
+                    $this->ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilColumnGUI", "ilDashboardBlockGUI"], "manage")
                 )
             );
             array_unshift($item_groups, $f->item()->group($this->lng->txt(""), [$config_item]));
@@ -78,7 +79,6 @@ class ilFavouritesListGUI
             return $this->ui->renderer()->render([$panel]);
         }
 
-        $pdblock = new ilPDSelectedItemsBlockGUI();
-        return $pdblock->getNoItemFoundContent();
+        return $favoritesManager->getNoItemFoundContent();
     }
 }

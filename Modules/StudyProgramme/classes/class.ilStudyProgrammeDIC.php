@@ -342,17 +342,6 @@ class ilStudyProgrammeDIC
             );
         };
 
-        $dic['ilStudyProgrammeDashboardViewGUI'] = static fn ($dic) =>
-            new ilStudyProgrammeDashboardViewGUI(
-                $DIC['lng'],
-                $DIC['ilAccess'],
-                $DIC['ilSetting'],
-                $DIC['ui.factory'],
-                $DIC['ui.renderer'],
-                $DIC['ilCtrl'],
-                $dic['ilStudyProgrammeUserTable'],
-                $DIC['ilUser']->getId()
-            );
         $dic['ilStudyProgrammeCommonSettingsGUI'] = static fn ($dic) =>
             new ilStudyProgrammeCommonSettingsGUI(
                 $DIC['ilCtrl'],

@@ -161,8 +161,7 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
 
     public function getCardForData(array $data): ?\ILIAS\UI\Component\Card\RepositoryObject
     {
-        $list_factory = new ilPDSelectedItemsBlockListGUIFactory($this, $this->blockView);
-        return $list_factory->byType($data['type'])->getAsCard(
+        return $this->byType($data['type'])->getAsCard(
             $data['ref_id'],
             $data['obj_id'],
             $data['type'],

@@ -24,7 +24,7 @@
  * @ilCtrl_Calls ilDashboardGUI: ilPortfolioRepositoryGUI, ilObjChatroomGUI
  * @ilCtrl_Calls ilDashboardGUI: ilMyStaffGUI
  * @ilCtrl_Calls ilDashboardGUI: ilGroupUserActionsGUI, ilAchievementsGUI
- * @ilCtrl_Calls ilDashboardGUI: ilPDSelectedItemsBlockGUI, ilPDMembershipBlockGUI, ilPDMailBlockGUI, ilDashboardRecommendedContentGUI, ilStudyProgrammeDashboardViewGUI, ilDashboardLearningSequenceGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilPDMailBlockGUI
  * @ilCtrl_Calls ilDashboardGUI: ilSelectedItemsBlockGUI, ilRecommendedContentBlockGUI, ilMembershipBlockGUI, ilLearningSequenceBlockGUI, ilStudyProgrammeBlockGUI, ilObjStudyProgrammeGUI
  *
  */
@@ -155,27 +155,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $this->initColumn($column_gui);
                 $this->show();
                 break;
-
-            case "ilpdselecteditemsblockgui":
-                $block = new ilPDSelectedItemsBlockGUI();
-                $this->displayHeader();
-                $ret = $this->ctrl->forwardCommand($block);
-                if ($ret != "") {
-                    $this->tpl->setContent($ret);
-                    $this->tpl->printToStdout();
-                }
-                break;
-
-            case "ilpdmembershipblockgui":
-                $block = new ilPDMembershipBlockGUI();
-                $ret = $this->ctrl->forwardCommand($block);
-                if ($ret != "") {
-                    $this->displayHeader();
-                    $this->tpl->setContent($ret);
-                    $this->tpl->printToStdout();
-                }
-                break;
-
             case 'ilcontactgui':
                 if (!ilBuddySystem::getInstance()->isEnabled()) {
                     throw new ilPermissionException($this->lng->txt('msg_no_perm_read'));
@@ -220,15 +199,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $ggui = new ilGroupUserActionsGUI();
                 $this->ctrl->forwardCommand($ggui);
                 $this->tpl->printToStdout();
-                break;
-
-            case "ildashboardrecommendedcontentgui":
-                $gui = new ilDashboardRecommendedContentGUI();
-                $this->ctrl->forwardCommand($gui);
-                break;
-            case "ilstudyprogrammedashboardviewgui":
-                $gui = new ilStudyProgrammeDashboardViewGUI();
-                $this->ctrl->forwardCommand($gui);
                 break;
             case strtolower(ilLearningSequenceBlockGUI::class):
             case strtolower(ilMembershipBlockGUI::class):
@@ -543,13 +513,11 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
     protected function renderFavourites(): string
     {
-//        return (new ilPDSelectedItemsBlockGUI())->getHTML();
         return (new ilSelectedItemsBlockGUI())->getHTML();
     }
 
     protected function renderRecommendedContent(): string
     {
-//        return (new ilDashboardRecommendedContentGUI())->render();
         return (new ilRecommendedContentBlockGUI())->getHTML();
     }
 
@@ -560,7 +528,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
     protected function renderMemberships(): string
     {
-//        return (new ilPDMembershipBlockGUI())->getHTML();
         return (new ilMembershipBlockGUI())->getHTML();
     }
 

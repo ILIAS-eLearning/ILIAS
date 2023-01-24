@@ -2,26 +2,25 @@
 
 declare(strict_types=1);
 
-
 /**
- * This file is part of ILIAS, a powerful learning management system
- * published by ILIAS open source e-Learning e.V.
- *
- * ILIAS is licensed with the GPL-3.0,
- * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with the
- * source code, too.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
+* This file is part of ILIAS, a powerful learning management system
+* published by ILIAS open source e-Learning e.V.
+*
+* ILIAS is licensed with the GPL-3.0,
+* see https://www.gnu.org/licenses/gpl-3.0.en.html
+* You should have received a copy of said license along with the
+* source code, too.
+*
+* If this is not the case or you just want to try ILIAS, you'll find
+* us at:
+* https://www.ilias.de
+* https://github.com/ILIAS-eLearning
+*
+*********************************************************************/
 
 /**
  * Membership overview
- * @ilCtrl_Calls ilMembershipOverviewGUI: ilPDMembershipBlockGUI
+ * @ilCtrl_Calls ilMembershipOverviewGUI: ilMembershipBlockGUI
  * @author       killing@leifos.de
  */
 class ilMembershipOverviewGUI implements ilCtrlBaseClassInterface
@@ -46,9 +45,9 @@ class ilMembershipOverviewGUI implements ilCtrlBaseClassInterface
         $cmd = $ctrl->getCmd("show");
         $this->main_tpl->setTitle($this->lng->txt("my_courses_groups"));
         switch ($next_class) {
-            case "ilpdmembershipblockgui":
+            case "ilmembershipblockgui":
                 $ctrl->setReturn($this, "show");
-                $block = new ilPDMembershipBlockGUI(true);
+                $block = new ilMembershipBlockGUI();
                 $ret = $this->ctrl->forwardCommand($block);
                 if ($ret != "") {
                     $this->main_tpl->setContent($ret);
@@ -70,7 +69,7 @@ class ilMembershipOverviewGUI implements ilCtrlBaseClassInterface
 
         $main_tpl->setTitle($lng->txt("my_courses_groups"));
 
-        $block = new ilPDMembershipBlockGUI(true);
+        $block = new ilMembershipBlockGUI();
         $main_tpl->setContent($block->getHTML());
     }
 }

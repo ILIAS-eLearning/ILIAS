@@ -80,9 +80,7 @@ class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
     public function getItemForData(array $data): ?\ILIAS\UI\Component\Item\Item
     {
         $item = $data;
-        /** @var ilObjectListGUI $itemListGui */
-        $list_factory = new ilPDSelectedItemsBlockListGUIFactory($this, $this->blockView);
-        $item_gui = $list_factory->byType($data['type']);
+        $item_gui = $this->byType($data['type']);
         ilObjectActivation::addListGUIActivationProperty($item_gui, $item);
 
         $this->ctrl->setParameterByClass(get_class($this), "item_ref_id", $data['ref_id']);
@@ -113,8 +111,7 @@ class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
 
     public function getCardForData(array $data): ?\ILIAS\UI\Component\Card\RepositoryObject
     {
-        $list_factory = new ilPDSelectedItemsBlockListGUIFactory($this, $this->blockView);
-        return $list_factory->byType($data['type'])->getAsCard(
+        return $this->byType($data['type'])->getAsCard(
             $data['ref_id'],
             $data['obj_id'],
             $data['type'],
