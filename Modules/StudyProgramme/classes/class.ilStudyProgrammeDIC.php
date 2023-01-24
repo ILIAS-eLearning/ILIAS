@@ -40,6 +40,8 @@ class ilStudyProgrammeDIC
         $dic['permissionhelper'] = static function ($dic) use ($prg, $DIC) {
             return new ilPRGPermissionsHelper(
                 $DIC['ilAccess'],
+                ilOrgUnitGlobalSettings::getInstance(),
+                $DIC['ilObjDataCache'],
                 new ilOrgUnitPositionAccess($DIC['ilAccess']),
                 (int)$prg->getRefid()
             );
@@ -284,6 +286,8 @@ class ilStudyProgrammeDIC
         $dic['permissionhelper'] = static function ($dic) use ($DIC) {
             return new ilPRGPermissionsHelper(
                 $DIC['ilAccess'],
+                ilOrgUnitGlobalSettings::getInstance(),
+                $DIC['ilObjDataCache'],
                 new ilOrgUnitPositionAccess($DIC['ilAccess']),
                 -1
             );
