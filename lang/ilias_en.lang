@@ -15868,7 +15868,7 @@ survey#:#survey_results_anonymized_info#:#In the tab ‘Results’ participants'
 survey#:#survey_results_finished#:#Survey finished
 survey#:#survey_results_not_started#:#Survey not started
 survey#:#survey_results_personalized#:#With Names
-survey#:#survey_results_personalized_info#:#In the tab ‘Results’ the names of the participants and their respective answers are listed. Users having access to this tab can inspect who has provided which answer.
+survey#:#survey_results_personalized_info#:#In the tab ‘Results’ the names of the participants and their respective answers are listed. Users having full access to this tab can inspect who has provided which answer. Even users with limited access to the tab may deduce given answers, if the number of participants is low.
 survey#:#survey_results_started#:#Survey started
 survey#:#survey_results_tutor_body#:#Attached you will find the detailed results for the following survey
 survey#:#survey_results_tutor_subject#:#Results for survey "%s"
