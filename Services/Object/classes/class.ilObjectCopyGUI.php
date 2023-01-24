@@ -873,6 +873,14 @@ class ilObjectCopyGUI
 
     protected function showCopyProgress(): void
     {
+        $ref_id = ROOT_FOLDER_ID;
+        if ($this->request_wrapper->has('ref_id')) {
+            $ref_id = $this->request_wrapper->retrieve(
+                'ref_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+
         $progress = new ilObjectCopyProgressTableGUI(
             $this,
             'showCopyProgress',
@@ -881,7 +889,8 @@ class ilObjectCopyGUI
         $progress->setObjectInfo($this->targets_copy_id);
         $progress->parse();
         $progress->init();
-        $progress->setRedirectionUrl($this->ctrl->getParentReturn($this->parent_obj));
+        $link = ilLink::_getLink($ref_id);
+        $progress->setRedirectionUrl($link);
 
         $this->tpl->setContent($progress->getHTML());
     }
