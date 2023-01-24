@@ -671,17 +671,15 @@ class ilRepositorySearchGUI
     public function showSearchSelected(): void
     {
         $selected = [];
-        if ($this->http->wrapper()->post()->has('selected_id')) {
-            $selected = $this->http->wrapper()->post()->retrieve(
+        if ($this->http->wrapper()->query()->has('selected_id')) {
+            $selected = $this->http->wrapper()->query()->retrieve(
                 'selected_id',
-                $this->refinery->kindlyTo()->dictOf(
-                    $this->refinery->kindlyTo()->int()
-                )
+                $this->refinery->kindlyTo()->int()
             );
         }
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.rep_search_result.html', 'Services/Search');
         $this->addNewSearchButton();
-        $this->showSearchUserTable(array($selected), 'showSearchResults');
+        $this->showSearchUserTable([$selected], 'showSearchResults');
     }
 
     public function initFormSearch(ilObjUser $user = null): void
