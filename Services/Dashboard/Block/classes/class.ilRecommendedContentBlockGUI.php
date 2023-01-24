@@ -19,6 +19,16 @@ declare(strict_types=1);
  *********************************************************************/
 class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
 {
+    private int $requested_item_ref_id;
+
+    public function __construct()
+    {
+        global $DIC;
+        parent::__construct();
+        $request = $DIC->repository()->internal()->gui()->standardRequest();
+        $this->requested_item_ref_id = $request->getItemRefId();
+    }
+
     public function initViewSettings(): void
     {
         $this->viewSettings = new ilPDSelectedItemsBlockViewSettings(
@@ -71,7 +81,7 @@ class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
         $item_gui = $list_factory->byType($data['type']);
         ilObjectActivation::addListGUIActivationProperty($item_gui, $item);
 
-        $this->ctrl->setParameterByClass(self::class, "item_ref_id", $data['ref_id']);
+        $this->ctrl->setParameterByClass(get_class($this), "item_ref_id", $data['ref_id']);
 
         $item_gui->addCustomCommand(
             $this->ctrl->getLinkTarget($this, "remove"),
@@ -112,5 +122,25 @@ class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
     public function getBlockType(): string
     {
         return 'pdrecc';
+    }
+
+    protected function makeFavourite(): void
+    {
+        $fav_manager = new ilFavouritesManager();
+        $ctrl = $this->ctrl;
+        $lng = $this->lng;
+        $fav_manager->add($this->user->getId(), $this->requested_item_ref_id);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("dash_added_to_favs"), true);
+        $ctrl->returnToParent($this);
+    }
+
+    protected function remove(): void
+    {
+        $rec_manager = new ilRecommendedContentManager();
+        $ctrl = $this->ctrl;
+        $lng = $this->lng;
+        $rec_manager->declineObjectRecommendation($this->user->getId(), $this->requested_item_ref_id);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("dash_item_removed"), true);
+        $ctrl->returnToParent($this);
     }
 }

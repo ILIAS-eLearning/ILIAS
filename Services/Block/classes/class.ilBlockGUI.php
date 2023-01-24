@@ -33,7 +33,7 @@ abstract class ilBlockGUI
     public const PRES_SEC_LIST = 2;		// secondary list panel
     public const PRES_MAIN_LIST = 3;		// main standard list panel
     public const PRES_MAIN_TILE = 4;		// main standard list panel
-    private int $offset;
+    private int $offset = 0;
     private int $limit;
     private bool $enableedit;
     private string $subtitle;
@@ -171,19 +171,21 @@ abstract class ilBlockGUI
 
     public function setOffset(int $a_offset): void
     {
-        $this->offset = $a_offset;
+        if ($this->correctOffset($a_offset)) {
+            $this->offset = $a_offset;
+        } else {
+            throw new ilException("ilBlockGUI::setOffset(): Offset out of range.");
+        }
     }
 
     public function getOffset(): int
     {
-        return $this->offset ?? 0;
+        return $this->offset;
     }
 
-    public function correctOffset(): void
+    public function correctOffset(int $a_offset): bool
     {
-        if (!(($this->offset ?? 0) < $this->max_count)) {
-            $this->setOffset(0);
-        }
+        return $a_offset < $this->max_count;
     }
 
     public function setLimit(int $a_limit): void
@@ -519,7 +521,6 @@ abstract class ilBlockGUI
 
         $data = $this->getData();
         $this->max_count = count($data);
-        $this->correctOffset();
         $data = array_slice($data, $this->getOffset(), $this->getLimit());
 
         $this->preloadData($data);
@@ -676,7 +677,6 @@ abstract class ilBlockGUI
     {
         $data = $this->getData();
         $this->max_count = count($data);
-        $this->correctOffset();
         $data = array_slice($data, $this->getOffset(), $this->getLimit());
         $this->preloadData($data);
         return $data;

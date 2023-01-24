@@ -196,7 +196,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
 
     public function addCommandActions(): void
     {
-        $sortings = $this->viewSettings->getActiveSortingsByView($this->viewSettings->getCurrentView());
+        $sortings = $this->viewSettings->getSelectableSortingModes();
         foreach ($sortings as $sorting) {
             $this->ctrl->setParameter($this, 'sorting', $sorting);
             $this->addBlockCommand(
@@ -207,7 +207,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             $this->ctrl->setParameter($this, 'sorting', null);
         }
 
-        $presentations = $this->viewSettings->getActivePresentationsByView($this->viewSettings->getCurrentView());
+        $presentations = $this->viewSettings->getSelectablePresentationModes();
         foreach ($presentations as $presentation) {
             $this->ctrl->setParameter($this, 'presentation', $presentation);
             $this->addBlockCommand(
@@ -478,7 +478,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             $sortingCommands[] = [
                 'txt' => $this->lng->txt('dash_sort_by_' . $sorting),
                 'url' => $this->ctrl->getLinkTarget($this, 'changePDItemSorting'),
-                'xxxasyncUrl' => $this->ctrl->getLinkTarget($this, 'changePDItemSorting', '', true),
+                'asyncUrl' => $this->ctrl->getLinkTarget($this, 'changePDItemSorting', '', true),
                 'active' => $sorting === $effectiveSorting,
             ];
             $this->ctrl->setParameter($this, 'sorting', null);
@@ -500,7 +500,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             $presentationCommands[] = [
                 'txt' => $this->lng->txt('pd_presentation_mode_' . $presentation),
                 'url' => $this->ctrl->getLinkTarget($this, 'changePDItemPresentation'),
-                'xxxasyncUrl' => $this->ctrl->getLinkTarget($this, 'changePDItemPresentation', '', true),
+                'asyncUrl' => $this->ctrl->getLinkTarget($this, 'changePDItemPresentation', '', true),
                 'active' => $presentation === $effectivePresentation,
             ];
             $this->ctrl->setParameter($this, 'presentation', null);

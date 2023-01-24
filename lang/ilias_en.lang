@@ -7946,9 +7946,12 @@ dash#:#dash_default_presentation#:#Default Presentation
 dash#:#dash_default_sortation#:#Default Sortation
 dash#:#dash_enable_cal#:#Calendar
 dash#:#dash_enable_favourites#:#Favourites
+dash#:#dash_enable_learning_sequences#:#Learning Sequences
 dash#:#dash_enable_mail#:#Mail
 dash#:#dash_enable_memberships#:#My Courses and Groups
 dash#:#dash_enable_news#:#News
+dash#:#dash_enable_recommended_content#:#Recommended Content
+dash#:#dash_enable_study_programmes#:#Study Programmes
 dash#:#dash_enable_task#:#Tasks
 dash#:#dash_favourites#:#Favourites
 dash#:#dash_info_sure_remove_from_favs#:#Are you sure you want to remove the following objects from your Favourites?
@@ -7965,6 +7968,7 @@ dash#:#dash_presentation_learning_sequences#:#Learning Sequences
 dash#:#dash_presentation_memberships#:#My Courses and Groups
 dash#:#dash_presentation_recommended_content#:#Recommended Content
 dash#:#dash_presentation_study_programme#:#Study Programmes
+dash#:#dash_recommended_content#:#Recommended Content
 dash#:#dash_remove_from_list#:#Remove from List
 dash#:#dash_side_panel#:#Side Panel
 dash#:#dash_sort_by_alphabet#:#Sort by Alphabet
