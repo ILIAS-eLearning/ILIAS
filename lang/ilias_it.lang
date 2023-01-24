@@ -10878,7 +10878,7 @@ mathjax#:#mathjax_limiter#:#Delimitatori in linea
 mathjax#:#mathjax_limiter_info#:#Selezionare i delimitatori in linea come sono configurati nell'installazione di MathJax.
 mathjax#:#mathjax_mathjax#:#MathJax
 mathjax#:#mathjax_path_to_mathjax#:#URL di MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#Per esempio https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML o un URL nella tua installazione locale.
+mathjax#:#mathjax_path_to_mathjax_desc#:#Per esempio https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML o un URL nella tua installazione locale.
 mathjax#:#mathjax_server_address#:#Indirizzo del server
 mathjax#:#mathjax_server_address_info#:#Per esempio http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#La cache di MathJax è stata eliminata.

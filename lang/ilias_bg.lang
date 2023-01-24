@@ -10864,7 +10864,7 @@ mathjax#:#mathjax_limiter#:#Inline Delimiters
 mathjax#:#mathjax_limiter_info#:#Изберете вътрешните разделители, както са конфигурирани във вашата инсталация на MathJax.
 mathjax#:#mathjax_mathjax#:#MathJax
 mathjax#:#mathjax_path_to_mathjax#:#URL към MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#Напр. https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML или URL адрес на локалната ви инсталация.
+mathjax#:#mathjax_path_to_mathjax_desc#:#Напр. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML или URL адрес на локалната ви инсталация.
 mathjax#:#mathjax_server_address#:#Адрес на сървъра
 mathjax#:#mathjax_server_address_info#:#Например http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#Кешът на MathJax беше изчистен.

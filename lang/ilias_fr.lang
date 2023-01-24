@@ -10864,7 +10864,7 @@ mathjax#:#mathjax_limiter#:#Séparateurs
 mathjax#:#mathjax_limiter_info#:#Définissez les séparateurs tels qu'ils sont configurés dans votre installation MathJax.
 mathjax#:#mathjax_mathjax#:#MathJax
 mathjax#:#mathjax_path_to_mathjax#:#URL vers MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#Ex. https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML ou une URL vers votre installation locale.
+mathjax#:#mathjax_path_to_mathjax_desc#:#Ex. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML ou une URL vers votre installation locale.
 mathjax#:#mathjax_server_address#:#Adresse de serveur
 mathjax#:#mathjax_server_address_info#:#Par ex. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#Le cache MathJax a été supprimé.

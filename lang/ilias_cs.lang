@@ -10864,7 +10864,7 @@ mathjax#:#mathjax_limiter#:#Oddělovače inline
 mathjax#:#mathjax_limiter_info#:#Vyberte inline oddělovače, jak jsou nakonfigurovány ve vaší instalaci MathJax.
 mathjax#:#mathjax_mathjax#:#MathJax
 mathjax#:#mathjax_path_to_mathjax#:#URL pro MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#Například https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML nebo adresu URL vaší místní instalace.
+mathjax#:#mathjax_path_to_mathjax_desc#:#Například https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML nebo adresu URL vaší místní instalace.
 mathjax#:#mathjax_server_address#:#Adresa serveru
 mathjax#:#mathjax_server_address_info#:#Například http://localhost: 8003
 mathjax#:#mathjax_server_cache_cleared#:#Mezipaměť MathJax byla vymazána.

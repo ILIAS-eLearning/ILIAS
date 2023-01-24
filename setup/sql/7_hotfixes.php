@@ -556,7 +556,7 @@ if ($ilDB->tableColumnExists('cmix_settings', 'user_ident')) {
         if ($row['user_name'] == 'fullname') {
             $name = 3;
         }
-        
+
         $ilDB->update(
             "cmix_users",
             [
@@ -608,7 +608,7 @@ if ($ilDB->tableColumnExists('lti_ext_provider', 'user_ident')) {
         if ($row['user_name'] == 'fullname') {
             $name = 3;
         }
-        
+
         $ilDB->update(
             "lti_ext_provider",
             [
@@ -670,7 +670,7 @@ if ($ilDB->tableColumnExists('cmix_lrs_types', 'user_ident')) {
         if ($row['user_name'] == 'fullname') {
             $name = 3;
         }
-        
+
         $ilDB->update(
             "cmix_lrs_types",
             [
@@ -1633,4 +1633,38 @@ else {
         array($new, $old)
     );
 }
+?>
+<#93>
+<?php
+// change default URL as recommended here: https://www.mathjax.org/MathJax-v2-7-9-available/
+$check = "SELECT * FROM settings WHERE module = 'MathJax' AND keyword = 'enable' AND VALUE = '1'";
+$result = $ilDB->query($check);
+if ($row = $ilDB->fetchAssoc($result)) {
+    // don't change the url of an activated mathjax
+}
+else {
+    // change the default value
+    $old = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe';
+    $new = 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe';
+
+    $ilDB->manipulateF(
+        "UPDATE settings SET value=%s WHERE module='MathJax' AND keyword='path_to_mathjax' AND value=%s",
+        array('text','text'),
+        array($new, $old)
+    );
+}
+?>
+<#94>
+<?php
+// update bylines for MathJax-URL in [lng_data]
+$old = 'cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js';
+$new = 'cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js';
+
+$ilDB->manipulateF(
+		"UPDATE lng_data SET value=REPLACE(value, %s, %s) WHERE module='mathjax' AND " .
+			"identifier='mathjax_path_to_mathjax_desc' AND " .
+			$ilDB->like('value', 'text', '%%' . $old . '%%'),
+    array('text','text'),
+		array($old, $new)
+);
 ?>
