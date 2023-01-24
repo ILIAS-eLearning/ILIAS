@@ -15781,7 +15781,7 @@ survey#:#survey_cancel_preview#:#Vorschau abbrechen
 survey#:#survey_cannot_preview_survey#:#Vorschau nicht verfügbar
 survey#:#survey_clipboard_notice#:#Es befinden sich Fragen in der Zwischenablage. Wählen Sie ein Ziel oder leeren Sie die Zwischenablage.
 survey#:#survey_code#:#Zugangsschlüssel
-survey#:#survey_code_delete_sure#:#Wollen Sie wirklich die folgenden Zugangsschlüssel löschen?
+survey#:#survey_code_delete_sure#:#Wollen Sie wirklich die folgenden ungenutzten Zugangsschlüssel löschen?
 survey#:#survey_code_url#:#URL für direkten Zugriff
 survey#:#survey_code_url_name#:#URL <small>(Benutzen Sie die rechte Maustaste, um die URL zu kopieren)</small>
 survey#:#survey_code_used#:#Der Zugangsschlüssel wurde ...
@@ -15988,6 +15988,7 @@ survey#:#svy_page_error#:#Beim Beantworten einer Frage ist ein Fehler aufgetrete
 survey#:#svy_page_errors#:#Beim Beantworten mehrerer Fragen sind Fehler aufgetreten. Die Fehlermeldungen finden Sie bei den betroffenen Fragen!
 survey#:#svy_participant#:#Teilnehmer
 survey#:#svy_participation#:#Teilnahme
+survey#:#svy_please_select_unused_codes#:#Bitte wählen Sie zumindest einen ungenutzten Zugangsschlüssel aus.
 survey#:#svy_print_hide_labels#:#Labels ausblenden
 survey#:#svy_print_show_labels#:#Labels anzeigen
 survey#:#svy_privacy_info#:#Persönliche Daten
