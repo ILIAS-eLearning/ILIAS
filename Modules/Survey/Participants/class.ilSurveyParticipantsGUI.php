@@ -831,7 +831,7 @@ class ilSurveyParticipantsGUI
     public function mailCodesObject(): void
     {
         $this->handleWriteAccess();
-        $this->setParticipantSubTabs("codes");
+        $this->setParticipantSubTabs("mail_survey_codes");
 
         $mailData['m_subject'] =
             $this->edit_request->getCodeMailPart("subject")
