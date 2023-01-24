@@ -15876,7 +15876,7 @@ survey#:#survey_results_anonymized_info#:#Im Reiter 'Ergebnisse' werden die Name
 survey#:#survey_results_finished#:#Umfrage beendet
 survey#:#survey_results_not_started#:#Umfrage nicht begonnen
 survey#:#survey_results_personalized#:#Mit Namen
-survey#:#survey_results_personalized_info#:#Im Reiter 'Ergebnisse' werden Teilnehmer namentlich gelistet und ihre Antworten angezeigt. Alle Benutzer mit Zugang zu diesem Reiter können einsehen, wer welche Antworten gegeben hat.
+survey#:#survey_results_personalized_info#:#Im Reiter 'Ergebnisse' werden Teilnehmer namentlich gelistet und ihre Antworten angezeigt. Alle Benutzer mit vollem Zugang zu diesem Reiter können einsehen, wer welche Antworten gegeben hat. Auch Benutzer mit eingeschränktem Zugang zum Reiter können bei niedriger Teilnehmeranzahl einzelne Antworten Teilnehmern zuordnen.
 survey#:#survey_results_started#:#Umfrage begonnen
 survey#:#survey_results_tutor_body#:#Im Anhang finden Sie die Ergebnisse der folgenden Umfrage
 survey#:#survey_results_tutor_subject#:#Ergebnisse der Umfrage "%s"
