@@ -237,11 +237,13 @@ class ilLDAPAttributeMapping
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->mapping_rules[$row->keyword]['value'] = $row->value;
-            $this->mapping_rules[$row->keyword]['performUpdate'] = (bool) $row->perform_update;
+            if (!is_null($row->value)) {
+                $this->mapping_rules[$row->keyword]['value'] = $row->value;
+                $this->mapping_rules[$row->keyword]['performUpdate'] = (bool) $row->perform_update;
 
-            if ($row->perform_update) {
-                $this->rules_for_update[$row->keyword]['value'] = $row->value;
+                if ($row->perform_update) {
+                    $this->rules_for_update[$row->keyword]['value'] = $row->value;
+                }
             }
         }
     }
