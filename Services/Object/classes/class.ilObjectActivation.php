@@ -329,8 +329,6 @@ class ilObjectActivation
             $item['start'] = $item_array['timing_start'] ?? "";
             $item['end'] = $item_array['timing_end'] ?? "";
             $item['activation_info'] = 'obj_activation_list_gui';
-        } else {
-            $item['start'] = 'abc';
         }
 
         // #7359 - session sorting should always base on appointment date

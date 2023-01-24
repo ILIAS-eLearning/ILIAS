@@ -58,27 +58,25 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     protected static array $availableSortOptionsByView = [
         self::VIEW_SELECTED_ITEMS => [
             self::SORT_BY_LOCATION,
-            self::SORT_BY_TYPE,
             self::SORT_BY_ALPHABET,
         ],
         self::VIEW_MY_MEMBERSHIPS => [
             self::SORT_BY_LOCATION,
-            self::SORT_BY_TYPE,
-            self::SORT_BY_START_DATE,
             self::SORT_BY_ALPHABET,
+            self::SORT_BY_START_DATE,
         ],
         self::VIEW_MY_STUDYPROGRAMME => [
             self::SORT_BY_LOCATION,
-            self::SORT_BY_TYPE,
+            self::SORT_BY_ALPHABET,
         ],
         self::VIEW_RECOMMENDED_CONTENT => [
             self::SORT_BY_LOCATION,
             self::SORT_BY_TYPE,
+            self::SORT_BY_ALPHABET,
         ],
         self::VIEW_LEARNING_SEQUENCES => [
-            self::SORT_BY_ALPHABET,
             self::SORT_BY_LOCATION,
-            self::SORT_BY_TYPE,
+            self::SORT_BY_ALPHABET,
         ],
     ];
 
@@ -236,9 +234,14 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     public function getActiveSortingsByView(int $view): array
     {
         $val = $this->settings->get('pd_active_sort_view_' . $view);
-        return ($val === "" || $val === null)
-            ? []
-            : unserialize($val, ['allowed_classes' => false]);
+        if ($val === "" || $val === null) {
+            $active_sortings = [];
+        } else {
+            $active_sortings = unserialize($val, ['allowed_classes' => false]);
+        }
+        return array_filter($active_sortings, function ($sorting) use ($view) {
+            return in_array($sorting, $this->getAvailableSortOptionsByView($view), true);
+        });
     }
 
     /**
