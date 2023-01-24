@@ -87,7 +87,9 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
                 'ref_id' => $prg->getRefId(),
                 'obj_id' => $prg->getId(),
                 'type' => $prg->getType(),
-                'prg_obj' => $prg,
+                'obj' => $prg,
+                'start' => null,
+                'end' => null,
             ];
         }
 
@@ -116,7 +118,7 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
 
     public function getItemForData(array $data): ?\ILIAS\UI\Component\Item\Item
     {
-        $prg = $data['prg_obj'];
+        $prg = $data['obj'];
         $properties = $data['properties'];
         $title = $prg->getTitle();
         $link = $this->getDefaultTargetUrl($prg->getRefId());
@@ -159,7 +161,14 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
 
     public function getCardForData(array $data): ?\ILIAS\UI\Component\Card\RepositoryObject
     {
-        return null;
+        $list_factory = new ilPDSelectedItemsBlockListGUIFactory($this, $this->blockView);
+        return $list_factory->byType($data['type'])->getAsCard(
+            $data['ref_id'],
+            $data['obj_id'],
+            $data['type'],
+            $data['title'],
+            $data['description'],
+        );
     }
 
     public function getBlockType(): string

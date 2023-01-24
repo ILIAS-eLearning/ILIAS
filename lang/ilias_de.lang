@@ -12501,7 +12501,7 @@ pd#:#pd_import_personal_data#:#Persönliche Daten importieren
 pd#:#pd_my_memberships_intro#:#Willkommen zu Ihren Kurs- und Gruppenmitgliedschaften
 pd#:#pd_my_memberships_intro2#:#Hier finden Sie alle Kurse und Gruppen, in denen Sie Mitglied sind. Zur Zeit verfügen Sie über keinerlei Mitgliedschaften. Um Kurs- oder Gruppenmitglied zu werden gibt es zwei Wege:<br /><ol><li>Sie können Kursen oder Gruppen beitreten, bei denen der Beitritt von einen Administrator erlaubt wurde.</li><li>Ein Administrator kann Ihnen eine Kurs- oder Gruppenmitgliedsrolle zuweisen.</li></ol><br />In beiden Fällen erscheinen die entsprechenden Kurse oder Gruppen automatisch in dieser Übersicht.
 pd#:#pd_my_memberships_sort_default#:#Standard-Sortierung
-pd#:#pd_not_date#:#Nicht datiert
+pd#:#pd_not_dated#:#Nicht datiert
 pd#:#pd_ongoing#:#Aktuell
 pd#:#pd_personal_items_default_view#:#Standard-Sicht
 pd#:#pd_personal_items_default_view_info#:#Wählen Sie hier die Standard-Sicht für die Ausgewählten Angebote.

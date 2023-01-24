@@ -49,14 +49,18 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
                     $itemListGUI = $this->list_factory->byType($item['type']);
                     ilObjectActivation::addListGUIActivationProperty($itemListGUI, $item);
 
+                    $obj = ilObjectFactory::getInstanceByRefId($item['ref_id']);
+
                     $list_items[] = [
                         'title' => $item['title'],
                         'description' => $item['description'],
                         'ref_id' => $item['ref_id'],
                         'obj_id' => $item['obj_id'],
                         'url' => '',
-                        'mem_obj' => $item,
+                        'obj' => $item,
                         'type' => $item['type'],
+                        'start' => $item['start'] ?? null,
+                        'end' => $item['end'] ?? null,
                     ];
                 } catch (ilException $e) {
                     $this->logging->warning('Listing failed for item with ID ' . $item['obj_id'] . ': ' . $e->getMessage());

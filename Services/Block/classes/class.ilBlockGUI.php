@@ -185,7 +185,7 @@ abstract class ilBlockGUI
 
     public function correctOffset(int $a_offset): bool
     {
-        return $a_offset < $this->max_count;
+        return $a_offset <= $this->max_count;
     }
 
     public function setLimit(int $a_limit): void

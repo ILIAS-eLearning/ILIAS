@@ -54,8 +54,10 @@ class ilMembershipBlockGUI extends ilDashboardBlockGUI
                         'ref_id' => $item['ref_id'],
                         'obj_id' => $item['obj_id'],
                         'url' => '',
-                        'mem_obj' => $item,
+                        'obj' => $item,
                         'type' => $item['type'],
+                        'start' => $item['start'] ?? null,
+                        'end' => $item['end'] ?? null,
                     ];
                 } catch (ilException $e) {
                     $this->logging->warning('Listing failed for item with ID ' . $item['obj_id'] . ': ' . $e->getMessage());

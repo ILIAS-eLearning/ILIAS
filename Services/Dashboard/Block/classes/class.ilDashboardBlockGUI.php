@@ -26,6 +26,8 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     private ilFavouritesManager $favourites;
     private ilRbacSystem $rbacsystem;
     private int $requested_item_ref_id;
+    private mixed $object_cache;
+    private ilTree $tree;
     protected ilSetting $settings;
     protected ilLogger $logging;
     protected ilPDSelectedItemsBlockListGUIFactory $list_factory;
@@ -48,6 +50,8 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $this->http = $DIC->http();
         $this->logging = $DIC->logger()->root();
         $this->settings = $DIC->settings();
+        $this->object_cache = $DIC['ilObjDataCache'];
+        $this->tree = $DIC->repositoryTree();
 
         $this->new_rendering = true;
         $this->initViewSettings();
@@ -149,6 +153,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     {
         $this->initViewSettings();
         $this->viewSettings->parse();
+        $this->initData();
 
         if ($this->viewSettings->isTilePresentation()) {
             $this->setPresentation(self::PRES_MAIN_LEG);
@@ -176,22 +181,194 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $this->addCommandActions();
 
         // sort
-        $data = $this->getData();
         switch ($this->viewSettings->getEffectiveSortingMode()) {
             case ilPDSelectedItemsBlockConstants::SORT_BY_ALPHABET:
+                $data = $this->getData();
+                $data = array_merge(...array_values($data));
                 uasort($data, static function ($a, $b) {
                     return strcmp($a['title'], $b['title']);
                 });
+                $this->setData(['' => $data]);
                 break;
             case ilPDSelectedItemsBlockConstants::SORT_BY_START_DATE:
-                uasort($data, static function ($a, $b) {
-                    return $a['lso_obj']->getCreateDate() <=> $b['lso_obj']->getCreateDate();
-                });
+                $this->groupItemsByStartDate();
+                break;
+            case ilPDSelectedItemsBlockConstants::SORT_BY_TYPE:
+                $this->groupItemsByType();
+                break;
+            case ilPDSelectedItemsBlockConstants::SORT_BY_LOCATION:
+                $this->groupItemsByLocation();
                 break;
         }
-        $this->setData($data);
 
         return parent::getHTML();
+    }
+
+    public function setData(array $a_data): void
+    {
+        // unset empty keys
+        $this->data = array_filter($a_data, static function ($a) {
+            return !empty($a);
+        });
+    }
+
+    public function groupItemsByStartDate(): void
+    {
+        $data = $this->getData();
+        $items = array_merge(...array_values($data));
+
+        $groups = [
+            'upcoming' => [],
+            'ongoing' => [],
+            'ended' => [],
+            'not_dated' => []
+        ];
+        foreach ($items as $item) {
+            if (isset($item['start'], $item['end']) && $item['start'] instanceof ilDateTime && $item['start']->get(IL_CAL_UNIX) > 0) {
+                if ($item['start']->get(IL_CAL_UNIX) > time()) {
+                    $groups['upcoming'][] = $item;
+                } elseif ($item['end'] instanceof ilDateTime && $item['end']->get(IL_CAL_UNIX) > time()) {
+                    $groups['ongoing'][] = $item;
+                } else {
+                    $groups['ended'][] = $item;
+                }
+            } else {
+                $groups['not_dated'][] = $item;
+            }
+        }
+
+        uasort($groups['upcoming'], static function ($left, $right) {
+            if ($left['start']->get(IL_CAL_UNIX) < $right['start']->get(IL_CAL_UNIX)) {
+                return -1;
+            }
+
+            if ($left['start']->get(IL_CAL_UNIX) > $right['start']->get(IL_CAL_UNIX)) {
+                return 1;
+            }
+
+            return strcmp($left['title'], $right['title']);
+        });
+
+        uasort($groups['ongoing'], static function ($left, $right) {
+            if ($left['start']->get(IL_CAL_UNIX) < $right['start']->get(IL_CAL_UNIX)) {
+                return 1;
+            }
+
+            if ($left['start']->get(IL_CAL_UNIX) > $right['start']->get(IL_CAL_UNIX)) {
+                return -1;
+            }
+
+            return strcmp($left['title'], $right['title']);
+        });
+
+        uasort($groups['ended'], static function ($left, $right) {
+            if ($left['start']->get(IL_CAL_UNIX) < $right['start']->get(IL_CAL_UNIX)) {
+                return 1;
+            }
+
+            if ($left['start']->get(IL_CAL_UNIX) > $right['start']->get(IL_CAL_UNIX)) {
+                return -1;
+            }
+
+            return strcmp($left['title'], $right['title']);
+        });
+
+        uasort($groups['not_dated'], static function ($left, $right) {
+            return strcmp($left['title'], $right['title']);
+        });
+
+        // map keys to titles
+        foreach ($groups as $key => $group) {
+            $groups[$this->lng->txt('pd_' . $key)] = $group;
+            unset($groups[$key]);
+        }
+        $this->setData($groups);
+    }
+
+    protected function groupItemsByType(): void
+    {
+        global $DIC;
+        $objDefinition = $DIC["objDefinition"];
+        $object_types_by_container = $DIC['objDefinition']->getGroupedRepositoryObjectTypes(
+            ['cat', 'crs', 'grp', 'fold']
+        );
+        $grouped_items = [];
+        $data = $this->getData();
+        $data = array_merge(...array_values($data));
+        $provider = new ilPDSelectedItemsBlockMembershipsProvider($this->viewSettings->getActor());
+
+        foreach ($data as $item) {
+            if (isset($object_types_by_container[$item['type']])) {
+                $object_types_by_container[$item['type']]['items'][] = $item;
+            }
+        }
+
+        foreach ($object_types_by_container as $type_title => $type) {
+            if (!$objDefinition->isPlugin($type_title)) {
+                $title = $this->lng->txt('objs_' . $type_title);
+            } else {
+                $pl = ilObjectPlugin::getPluginObjectByType($type_title);
+                $title = $pl->txt("objs_" . $type_title);
+            }
+
+            if (isset($type['items'])) {
+                $grouped_items[$title] = $type['items'];
+            }
+        }
+
+        foreach ($grouped_items as $key => $group) {
+            usort($grouped_items[$key], static function ($left, $right) {
+                return strcmp($left['title'], $right['title']);
+            });
+        }
+
+        $this->setData($grouped_items);
+    }
+
+    protected function groupItemsByLocation(): void
+    {
+        $grouped_items = [];
+        $data = $this->getData();
+        $data = array_merge(...array_values($data));
+
+        $parent_ref_ids = array_values(array_unique(array_map(function ($item) {
+            return $this->tree->getParentId($item['ref_id']);
+        }, $data)));
+        $this->object_cache->preloadReferenceCache($parent_ref_ids);
+
+        foreach ($data as $key => $item) {
+            $parent_ref = $this->tree->getParentId($item['ref_id']);
+            if ($this->isRootNode($parent_ref)) {
+                $title = $this->getRepositoryTitle();
+            } else {
+                $title = $this->object_cache->lookupTitle($this->object_cache->lookupObjId($parent_ref));
+            }
+            $grouped_items[$title][] = $item;
+        }
+        ksort($grouped_items);
+        foreach ($grouped_items as $key => $group) {
+            usort($grouped_items[$key], static function ($left, $right) {
+                return strcmp($left['title'], $right['title']);
+            });
+        }
+        $this->setData($grouped_items);
+    }
+
+    protected function isRootNode(int $refId): bool
+    {
+        return $this->tree->getRootId() === $refId;
+    }
+
+    protected function getRepositoryTitle(): string
+    {
+        $nd = $this->tree->getNodeData($this->tree->getRootId());
+        $title = $nd['title'];
+
+        if ($title === 'ILIAS') {
+            $title = $this->lng->txt('repository');
+        }
+
+        return $title;
     }
 
     public function addCommandActions(): void

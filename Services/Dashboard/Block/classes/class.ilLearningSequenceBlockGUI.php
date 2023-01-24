@@ -89,8 +89,10 @@ class ilLearningSequenceBlockGUI extends ilDashboardBlockGUI
                 'ref_id' => $lso_ref_id,
                 'obj_id' => $lso_obj->getId(),
                 'url' => '',
-                'lso_obj' => $lso_obj,
+                'obj' => $lso_obj,
                 'type' => 'lso',
+                'start' => null,
+                'end' => null,
             ];
         }
 
@@ -99,7 +101,7 @@ class ilLearningSequenceBlockGUI extends ilDashboardBlockGUI
 
     public function getItemForData(array $data): \ILIAS\UI\Component\Item\Item
     {
-        return $this->getLsoItem($data['lso_obj']);
+        return $this->getLsoItem($data['obj']);
     }
 
     protected function getLsoItem(ilObjLearningSequence $lso_obj)

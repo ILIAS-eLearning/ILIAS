@@ -25,7 +25,7 @@
  * @ilCtrl_Calls ilDashboardGUI: ilMyStaffGUI
  * @ilCtrl_Calls ilDashboardGUI: ilGroupUserActionsGUI, ilAchievementsGUI
  * @ilCtrl_Calls ilDashboardGUI: ilPDSelectedItemsBlockGUI, ilPDMembershipBlockGUI, ilPDMailBlockGUI, ilDashboardRecommendedContentGUI, ilStudyProgrammeDashboardViewGUI, ilDashboardLearningSequenceGUI
- * @ilCtrl_Calls ilDashboardGUI: ilSelectedItemsBlockGUI, ilRecommendedContentBlockGUI, ilMembershipBlockGUI, ilLearningSequenceBlockGUI, ilStudyProgrammeBlockGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilSelectedItemsBlockGUI, ilRecommendedContentBlockGUI, ilMembershipBlockGUI, ilLearningSequenceBlockGUI, ilStudyProgrammeBlockGUI, ilObjStudyProgrammeGUI
  *
  */
 class ilDashboardGUI implements ilCtrlBaseClassInterface
