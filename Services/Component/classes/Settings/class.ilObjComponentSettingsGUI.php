@@ -134,6 +134,8 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
     protected function forwardConfigGUI(string $name): void
     {
+        $name = $this->ctrl->lookupOriginalClassName($name);
+
         if (!class_exists($name)) {
             throw new Exception("class $name not found!");
         }
