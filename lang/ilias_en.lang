@@ -10059,13 +10059,13 @@ iass#:#iass_sort_name_desc#:#Username descending
 iass#:#iass_status_completed#:#Completed
 iass#:#iass_status_failed#:#Failed
 iass#:#iass_status_pending#:#Status pending
-iass#:#iass_subj_notification_completed#:#%s: Individual Assessment completed.
-iass#:#iass_subj_notification_failed#:#%s: Individual Assessment failed.
+iass#:#iass_subj_notification_completed#:#%s: Individual Assessment is completed.
+iass#:#iass_subj_notification_failed#:#%s: Individual Assessment is failed.
 iass#:#iass_upload_file#:#Record file
-iass#:#iass_user_removed#:#User successfully removed.
+iass#:#iass_user_removed#:#Participant has successfully been removed.
 iass#:#iass_usr_amend#:#Amend Grading
 iass#:#iass_usr_download_attachment#:#Download Attachment
-iass#:#iass_usr_edit#:#Edit Participant Record and Learning Progress
+iass#:#iass_usr_edit#:#Edit Participant Record
 iass#:#iass_usr_remove#:#Remove Participant from Assessment
 iass#:#iass_usr_view#:#Participant Record
 iass#:#il_iass_member#:#Participant
@@ -13278,7 +13278,7 @@ rbac#:#ecss_visible#:#ECS settings are visible
 rbac#:#ecss_write#:#User can edit ECS settings
 rbac#:#edit_event#:#Edit Calendar
 rbac#:#edit_in_online_editor#:#Open in online editor
-rbac#:#edit_learning_progress#:#Edit Learning Progress
+rbac#:#edit_learning_progress#:#Edit Learning Progress Settings
 rbac#:#edit_members#:#Manage members
 rbac#:#edit_permission#:#Change Permissions
 rbac#:#edit_roleassignment#:#Edit role assignment
