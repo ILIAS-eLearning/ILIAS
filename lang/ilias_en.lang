@@ -15769,7 +15769,7 @@ survey#:#survey_cancel_preview#:#Cancel Preview
 survey#:#survey_cannot_preview_survey#:#Preview not available
 survey#:#survey_clipboard_notice#:#There are question(s) in the clipboard. Select the target position or empty the clipboard.
 survey#:#survey_code#:#Survey Access Code
-survey#:#survey_code_delete_sure#:#Are you sure you want to delete the following access codes?
+survey#:#survey_code_delete_sure#:#Are you sure you want to delete the following unused access codes?
 survey#:#survey_code_url#:#URL for Direct Access
 survey#:#survey_code_url_name#:#URL <small>(use right mouse button to copy URL)</small>
 survey#:#survey_code_used#:#Code was ..
@@ -15863,7 +15863,7 @@ survey#:#survey_results_anonymized_info#:#In the tab ‘Results’ participants'
 survey#:#survey_results_finished#:#Survey finished
 survey#:#survey_results_not_started#:#Survey not started
 survey#:#survey_results_personalized#:#With Names
-survey#:#survey_results_personalized_info#:#In the tab ‘Results’ the names of the participants and their respective answers are listed. Users having access to this tab can inspect who has provided which answer.
+survey#:#survey_results_personalized_info#:#In the tab ‘Results’ the names of the participants and their respective answers are listed. Users having full access to this tab can inspect who has provided which answer. Even users with limited access to the tab may deduce given answers, if the number of participants is low.
 survey#:#survey_results_started#:#Survey started
 survey#:#survey_results_tutor_body#:#Attached you will find the detailed results for the following survey
 survey#:#survey_results_tutor_subject#:#Results for survey "%s"
@@ -15975,6 +15975,7 @@ survey#:#svy_page_error#:#There was an error answering a survey question. Please
 survey#:#svy_page_errors#:#There were errors answering the survey questions. Please refer to the questions to get more information on the errors!
 survey#:#svy_participant#:#Participant
 survey#:#svy_participation#:#Participation
+survey#:#svy_please_select_unused_codes#:#Please select at least one unused code.
 survey#:#svy_print_hide_labels#:#Hide labels
 survey#:#svy_print_show_labels#:#Show labels
 survey#:#svy_privacy_info#:#Privacy
