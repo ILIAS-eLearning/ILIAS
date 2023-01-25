@@ -71,7 +71,7 @@ class ilFavouritesListGUI
             $config_item = $f->item()->standard(
                 $f->link()->standard(
                     $this->lng->txt("rep_configure"),
-                    $this->ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilColumnGUI", "ilDashboardBlockGUI"], "manage")
+                    $this->ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilColumnGUI", "ilSelectedItemsBlockGUI"], "manage")
                 )
             );
             array_unshift($item_groups, $f->item()->group($this->lng->txt(""), [$config_item]));

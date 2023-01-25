@@ -18,6 +18,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+/**
+ * @ilCtrl_IsCalledBy ilSelectedItemsBlockGUI: ilColumnGUI
+ */
 class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
 {
     public function initViewSettings(): void

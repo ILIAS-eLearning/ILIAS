@@ -463,20 +463,24 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $top_tb->setLeadingImage(ilUtil::getImagePath('arrow_upright.svg'), $this->lng->txt('actions'));
 
         $button = ilSubmitButton::getInstance();
-        $grouped_items = $this->getItemGroups();
+        $grouped_items = [];
+        $item_groups = $this->getItemGroups();
         if ($this->viewSettings->isSelectedItemsViewActive()) {
             $button->setCaption('remove');
         } else {
             $button->setCaption('pd_unsubscribe_memberships');
-            foreach ($grouped_items as $key => $group) {
-                $items = [];
-                foreach ($group as $item) {
-                    if ($this->rbacsystem->checkAccess('leave', $item['ref_id'])) {
-                        $items[] = $item;
-                    }
+        }
+        foreach ($item_groups as $key => $item_group) {
+            $group = new ilPDSelectedItemsBlockGroup();
+            $group->setLabel($key);
+            $items = [];
+            foreach ($item_group as $item) {
+                if ($this->rbacsystem->checkAccess('leave', $item['ref_id'])) {
+                    $items[] = $item;
                 }
-                $grouped_items[$key] = $items;
             }
+            $group->setItems($items);
+            $grouped_items[] = $group;
         }
         $button->setCommand('confirmRemove');
         $top_tb->addStickyItem($button);

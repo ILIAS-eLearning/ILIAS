@@ -149,6 +149,15 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 break;
 
             case "ilcolumngui":
+                if (strtolower($cmdClass = $this->ctrl->getCmdClass()) === strtolower(ilSelectedItemsBlockGUI::class)) {
+                    $gui = new $cmdClass();
+                    $ret = $this->ctrl->forwardCommand($gui);
+                    if ($ret != "") {
+                        $this->tpl->setContent($ret);
+                        $this->tpl->printToStdout();
+                    }
+                    break;
+                }
                 $this->getStandardTemplates();
                 $this->setTabs();
                 $column_gui = new ilColumnGUI("pd");
