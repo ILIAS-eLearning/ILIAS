@@ -8545,7 +8545,7 @@ dcl#:#dcl_plugin_no_hooks_available#:#No active field-type plugins found
 dcl#:#dcl_prev_record#:#Previous Entry
 dcl#:#dcl_prop_expression#:#Expression
 dcl#:#dcl_prop_expression_info#:#Supported operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>‘(’, ‘)’</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>‘The result is ’ & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Available fields (click on title to copy field inside expression):<br>%s
-dcl#:#dcl_public_comments#:#Enable public comments for Entries
+dcl#:#dcl_public_comments#:#Activate Public Comments
 dcl#:#dcl_public_comments_desc#:#Users can comment on entries of the table.
 dcl#:#dcl_rating#:#Rating
 dcl#:#dcl_rating_desc#:#Users can rate entries with up to five stars.
@@ -8578,7 +8578,7 @@ dcl#:#dcl_simulate_info#:#Simulating the import will not add any fields into the
 dcl#:#dcl_skipped_delete_records#:#%s Entries were not deleted due to permission settings
 dcl#:#dcl_status#:#Your Status
 dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.
-dcl#:#dcl_std_filter#:#Standardfilter
+dcl#:#dcl_std_filter#:#Default Filter
 dcl#:#dcl_supported_filetypes#:#Allowed file-extensions
 dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: pdf, docx
 dcl#:#dcl_table#:#Table
