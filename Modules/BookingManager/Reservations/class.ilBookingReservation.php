@@ -251,7 +251,7 @@ class ilBookingReservation
         int $a_to,
         bool $a_return_single = true,
         bool $a_return_counter = false
-    ) : array {
+    ): array {
         global $DIC;
 
         $nr_map = ilBookingObject::getNrOfItemsForObjects($a_ids);
@@ -311,7 +311,7 @@ class ilBookingReservation
         ilBookingSchedule $a_schedule,
         int $a_from,
         int $a_to
-    ) : bool {
+    ): bool {
         global $DIC;
 
         if (!$a_from) {
@@ -631,7 +631,7 @@ class ilBookingReservation
             " AND cc.type = " . $ilDB->quote(ilCalendarCategory::TYPE_BOOK, 'integer') .
             " AND ce.context_id = " . $ilDB->quote($this->getId(), 'integer'));
         $row = $ilDB->fetchAssoc($set);
-        return (int) $row["cal_id"];
+        return (int) ($row["cal_id"] ?? 0);
     }
 
     /**

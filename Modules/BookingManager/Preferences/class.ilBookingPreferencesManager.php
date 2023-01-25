@@ -136,7 +136,6 @@ class ilBookingPreferencesManager
         // phase one: assign lowest popular items to random user
         while (!$end_phase_one) {
             $popularity = $this->calculatePopularity($booking_object_ids, $preferences);
-
             $low_pop_book_obj_id = $this->getObjectWithLowestPopularity($popularity, $availability);
             if ($low_pop_book_obj_id > 0) {
                 $user_ids = $this->getUsersForObject($preferences, $low_pop_book_obj_id);
@@ -208,7 +207,7 @@ class ilBookingPreferencesManager
         $user_ids = [];
         foreach ($preferences as $user_id => $obj_ids) {
             foreach ($obj_ids as $obj_id) {
-                if ($obj_id === $sel_obj_id) {
+                if ((int) $obj_id === $sel_obj_id) {
                     $user_ids[] = (int) $user_id;
                 }
             }
@@ -305,6 +304,9 @@ class ilBookingPreferencesManager
     protected function chooseRandomUserFromPreferences(
         array $preferences
     ): ?int {
+        if (count($preferences) === 0) {
+            return null;
+        }
         $user_ids = array_keys($preferences);
         return $this->selectRandomEntry($user_ids);
     }
