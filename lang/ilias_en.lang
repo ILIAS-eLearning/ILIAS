@@ -2519,7 +2519,7 @@ book#:#book_objects_available#:#Objects available %s
 book#:#book_open#:#Open Booking Pool
 book#:#book_overall_limit#:#Limit number of bookings
 book#:#book_overall_limit_warning#:#You have reached the maximum number of bookings.
-book#:#book_participant_already_assigned#:#Participant(s) already assigned.
+book#:#book_participant_already_assigned#:#One or more participants have already been assigned.
 book#:#book_participant_assigned#:#Participant(s) assigned
 book#:#book_period#:#Period
 book#:#book_pool_added#:#A booking pool has been added.
