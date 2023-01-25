@@ -1609,8 +1609,10 @@ if (!$ilDB->indexExistsByFields('style_template', ['style_id'])) {
 ?>
 <#91>
 <?php
-if ($ilDB->uniqueConstraintExists('cmix_token', array('obj_id', 'usr_id'))) {
-    $ilDB->dropUniqueConstraintByFields('cmix_token', array('obj_id', 'usr_id'));
+//avoid notices for $ilDB->uniqueConstraintExists and dropUniqueConstraintByFields
+try {
+    $ilDB->dropUniqueConstraint('cmix_token', 'c1');
+} catch (\Exception $e) {
 }
 $ilDB->addUniqueConstraint('cmix_token', array('obj_id', 'usr_id', 'ref_id'), 'c1');
 ?>
