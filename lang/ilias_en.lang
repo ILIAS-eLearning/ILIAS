@@ -14619,7 +14619,7 @@ sess#:#sess_mail_permanent_link#:#Click on the following link to find all of the
 sess#:#sess_mail_permanent_link_participants#:#Click on the following link to edit the participants of the session:
 sess#:#sess_mail_sub_acc_bod#:#you have been registered for session "%s".
 sess#:#sess_mail_sub_acc_sub#:#Registration for Session "%s"
-sess#:#sess_mail_sub_dec_bod#:#we regret to say that your registration has been refused for session "%s".
+sess#:#sess_mail_sub_dec_bod#:#your registration for session "%s" has been refused.
 sess#:#sess_mail_sub_dec_sub#:#Registration refused for session "%s"
 sess#:#sess_mail_type#:#Mail to Participants
 sess#:#sess_material_assigned#:#Assigned
