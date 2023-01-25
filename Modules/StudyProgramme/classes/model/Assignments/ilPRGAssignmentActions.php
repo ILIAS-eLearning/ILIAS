@@ -276,6 +276,10 @@ trait ilPRGAssignmentActions
             ->withLastChange($acting_usr_id, $this->getNow())
             ->withIndividualModifications(false);
 
+        if ($pgs->isSuccessful()) {
+            $pgs = $pgs->withCurrentAmountOfPoints($pgs->getAmountOfPoints());
+        }
+
         return $pgs;
     }
 
