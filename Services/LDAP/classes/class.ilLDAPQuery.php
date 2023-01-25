@@ -249,10 +249,10 @@ class ilLDAPQuery
             $tmp_result->run();
             try {
                 $errcode = 0;
-                $dn = '';
+                $matcheddn = '';
                 $errmsg = '';
                 $referrals = [];
-                ldap_parse_result($this->lh, $res, $errcode, $dn, $errmsg, $referrals, $controls);
+                ldap_parse_result($this->lh, $res, $errcode, $matcheddn, $errmsg, $referrals, $controls);
                 $cookie = $controls[LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'] ?? '';
                 $this->logger->debug('Estimated number of results: ' . $estimated_results);
             } catch (Exception $e) {
