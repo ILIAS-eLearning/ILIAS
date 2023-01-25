@@ -612,7 +612,7 @@ class ilBookingReservation
             " AND cc.type = " . $ilDB->quote(ilCalendarCategory::TYPE_BOOK, 'integer') .
             " AND ce.context_id = " . $ilDB->quote($this->getId(), 'integer'));
         $row = $ilDB->fetchAssoc($set);
-        return (int) $row["cal_id"];
+        return (int) ($row["cal_id"] ?? 0);
     }
 
     /**
