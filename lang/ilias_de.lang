@@ -10006,7 +10006,7 @@ iass#:#iass_consultation_hours#:#Sprechstunden
 iass#:#iass_contact#:#Name
 iass#:#iass_contact_info#:#Kontaktinformationen
 iass#:#iass_content#:#Inhalt
-iass#:#iass_content_explanation#:#Inhalte der Prüfung.
+iass#:#iass_content_explanation#:#Geben Sie hier die Inhalte der Prüfung ein.
 iass#:#iass_copy#:#Individuelle Bewertung kopieren
 iass#:#iass_download#:#Download
 iass#:#iass_edit#:#Einstellungen
@@ -10018,7 +10018,7 @@ iass#:#iass_event_time_place_required_info#:#Zeitpunkt und Ort der Prüfung müs
 iass#:#iass_file#:#Datei
 iass#:#iass_file_dropzone#:#Ziehen Sie ihre Datei hierhin
 iass#:#iass_file_required#:#Pflichtangabe Prüfungsblatt
-iass#:#iass_file_required_info#:#Ein Prüfungsblatt muss hochgeladen werden
+iass#:#iass_file_required_info#:#Ein Prüfungsblatt muss hochgeladen werden.
 iass#:#iass_file_visible_examinee#:#Datei für Teilnehmer sichtbar
 iass#:#iass_filter_all#:#Alle
 iass#:#iass_filter_failed#:#Nur nicht bestanden
@@ -10048,7 +10048,7 @@ iass#:#iass_place#:#Ort der Prüfung
 iass#:#iass_record#:#Prüfungsnotiz
 iass#:#iass_record_info#:#Die Prüfungsnotiz kann nach finaler Bewertung vom Teilnehmer eingesehen werden. Ist unten die Benachrichtigung aktiviert, erhält der Teilnehmer die Prüfungsnotiz auch per E-Mail.
 iass#:#iass_record_template#:#Vorlage Prüfungsnotiz
-iass#:#iass_record_template_explanation#:#Vorlage für die Prüfungsnotiz. Wird für jeden neuen Teilnehmer verwendet.
+iass#:#iass_record_template_explanation#:#Hier eingegebener Text dient als Vorlage für die Prüfungsnotiz und wird für jeden neuen Teilnehmer verwendet.
 iass#:#iass_remove_user_qst#:#Soll der Teilnehmer wirklich entfernt werden?
 iass#:#iass_responsibility#:#Zuständigkeit
 iass#:#iass_save_amend#:#Geänderte Prüfungsdaten speichern
@@ -10062,14 +10062,14 @@ iass#:#iass_sort_name_desc#:#Anmeldename → absteigend###Modified as part of ge
 iass#:#iass_status_completed#:#Bestanden
 iass#:#iass_status_failed#:#Nicht bestanden
 iass#:#iass_status_pending#:#Noch nicht bewertet
-iass#:#iass_subj_notification_completed#:#%s: Individuelle Bewertung erfolgreich abgeschlossen.
-iass#:#iass_subj_notification_failed#:#%s: Individuelle Bewertung nicht erfolgreich.
+iass#:#iass_subj_notification_completed#:#%s: Individuelle Bewertung wurde erfolgreich abgeschlossen.
+iass#:#iass_subj_notification_failed#:#%s: Individuelle Bewertung wurde nicht erfolgreich abgeschlossen.
 iass#:#iass_upload_file#:#Prüfungsblatt
 iass#:#iass_user_removed#:#Benutzer wurde erfolgreich entfernt.
 iass#:#iass_usr_amend#:#Prüfungsdaten nachträglich ändern
 iass#:#iass_usr_download_attachment#:#Datei herunterladen
-iass#:#iass_usr_edit#:#Teilnehmer bewerten und Lernfortschritt bearbeiten
-iass#:#iass_usr_remove#:#Teilnehmer entfernen
+iass#:#iass_usr_edit#:#Bewerten
+iass#:#iass_usr_remove#:#Entfernen
 iass#:#iass_usr_view#:#Prüfungsdaten
 iass#:#il_iass_member#:#Teilnehmer
 iass#:#il_iass_members#:#Teilnehmer
