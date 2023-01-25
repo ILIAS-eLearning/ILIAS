@@ -213,7 +213,6 @@ class ilAdvancedMDRecordGUI
         $this->editor_form = array();
         
         foreach ($this->getActiveRecords() as $record_obj) {
-
             $record_id = $record_obj->getRecordId();
             
             $values = new ilAdvancedMDValues($record_id, $this->obj_id, $this->sub_type, $this->sub_id);
@@ -345,7 +344,6 @@ class ilAdvancedMDRecordGUI
             $this->form->addItem($section);
             
             foreach ($fields as $field) {
-
                 $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($record->getRecordId());
 
                 $field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, false);
@@ -422,7 +420,6 @@ class ilAdvancedMDRecordGUI
             $defs = $a_values->getDefinitions();
             foreach ($a_values->getADTGroup()->getElements() as $element_id => $element) {
                 if (!$element->isNull()) {
-
                     $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($record_id);
                     $title = $field_translations->getTitleForLanguage($element_id, $this->user->getLanguage());
 
@@ -468,8 +465,10 @@ class ilAdvancedMDRecordGUI
                         #22638
                         $presentation_value = $presentation_bridge->getHTML();
                         $presentation_value .= "<script>ilInitMaps();</script>";
-                    } else {
+                    } elseif (get_class($element) == 'ilADTExternalLink' || get_class($element) == 'ilADTInternalLink') {
                         #22638
+                        $presentation_value = $presentation_bridge->getHTML();
+                    } else {
                         $presentation_value = strip_tags($presentation_bridge->getHTML());
                     }
                     $array_elements[$positions[$element_id]] =
@@ -816,7 +815,8 @@ class ilAdvancedMDRecordGUI
                 
                 $this->table_gui->addColumn(
                     $field_translations->getTitleForLanguage($def->getFieldId(), $this->user->getLanguage()),
-                    'md_' . $def->getFieldId());
+                    'md_' . $def->getFieldId()
+                );
             }
         }
     }
@@ -838,8 +838,21 @@ class ilAdvancedMDRecordGUI
                 if ($this->handleECSDefinitions($def)) {
                     continue;
                 }
+
+                $res = '';
+                $res_raw = $data['md_' . $def->getFieldId()] ?? null;
+                $res_presentation = $data['md_' . $def->getFieldId() . '_presentation'] ?? null;
+                if ($res_raw) {
+                    $res = $res_raw;
+                }
+                if (
+                    $res_presentation instanceof ilADTPresentationBridge &&
+                    !($res_presentation instanceof ilADTLocationPresentationBridge)
+                ) {
+                    $res = $res_presentation->getHTML();
+                }
                 
-                $html .= "<td class='std'>" . $data['md_' . $def->getFieldId()] . "</td>";
+                $html .= "<td class='std'>" . $res . "</td>";
             }
         }
         return $html;
