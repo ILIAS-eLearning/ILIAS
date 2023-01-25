@@ -121,6 +121,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
                 )
                 ->withAdditionalTransformation($refinery->int()->isGreaterThanOrEqual(1))
                 ->withValue($this->getQualificationPeriod())
+                ->withRequired(true)
             ],
             $lng->txt('validity_qualification_period')
         );
@@ -139,9 +140,10 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
         $grp4 = $input->group([], $lng->txt('prg_no_restart'));
         $grp5 = $input->group(
             [
-                'vq_restart_period' => $input->numeric($lng->txt('restart_period_label'), $lng->txt('restart_period_desc'))
+                'vq_restart_period' => $input->numeric('', $lng->txt('restart_period_desc'))
                     ->withAdditionalTransformation($refinery->int()->isGreaterThan(0))
                     ->withValue($this->getRestartPeriod() !== null ? $this->getRestartPeriod() : null)
+                    ->withRequired(true)
             ],
             $lng->txt('restart_period')
         );
