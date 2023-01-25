@@ -7118,8 +7118,8 @@ content#:#glo_online_info#:#Only if the glossary is online, users are able to us
 content#:#glo_presentation_mode#:#Presentation Mode
 content#:#glo_presentation_view#:#Presentation View
 content#:#glo_quick_navigation#:#Quick Navigation
-content#:#glo_show_taxonomy#:#Show Taxonomy
-content#:#glo_show_taxonomy_info#:#The taxonomy will be visible in the presentation view of the glossary and can be used to select referenced terms.
+content#:#glo_show_taxonomy#:#Taxonomy
+content#:#glo_show_taxonomy_info#:#The taxonomy is offered in the presentation view for filtering the glossary terms. It can be created in the sub-tab 'Taxonomy'.
 content#:#glo_style#:#Glossary Style
 content#:#glo_table_form#:#In Table Form
 content#:#glo_table_form_info#:#Terms and definition are first shown in a two-column overview. Clicking the term opens the full content of a term on a separate screen.
