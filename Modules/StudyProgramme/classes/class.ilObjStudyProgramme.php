@@ -952,17 +952,7 @@ class ilObjStudyProgramme extends ilContainer
         $ass = $this->assignment_repository->createFor($this->getId(), $usr_id, $acting_usr_id);
         $ass = $ass
             ->initAssignmentDates();
-        //with updatePlanFromRepository,
-        //all successful courses are acknowledged; this is not actually wanted, here;(
-        /*
-        $err_collection = $this->getMessageCollection('add_user');
-        $ass = $ass
-            ->updatePlanFromRepository(
-                $this->getSettingsRepository(),
-                $acting_usr_id,
-                $err_collection
-            );
-        */
+
         $ass = $ass->resetProgresses(
             $this->getSettingsRepository(),
             $acting_usr_id
@@ -1521,7 +1511,6 @@ class ilObjStudyProgramme extends ilContainer
                 $triggering_obj_id
             );
             $this->assignment_repository->store($ass);
-            $this->refreshLPStatus($ass->getUserId());
         }
     }
 
@@ -1672,7 +1661,6 @@ class ilObjStudyProgramme extends ilContainer
             );
 
         $this->assignment_repository->store($assignment);
-        $this->refreshLPStatus($assignment->getUserId());
     }
 
     public function unmarkAccredited(
