@@ -31,7 +31,10 @@ class ilMembershipBlockGUI extends ilDashboardBlockGUI
 
     public function emptyHandling(): string
     {
-        return $this->lng->txt("rep_mo_mem_dash");
+        return $this->renderer->render($this->factory->panel()->standard(
+            $this->getTitle(),
+            $this->factory->legacy($this->lng->txt("rep_mo_mem_dash"))
+        ));
     }
 
     public function initData(): void
