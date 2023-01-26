@@ -244,26 +244,32 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             if (false == $skipParticipant[$pass][$active_id]) {
                 foreach ((array) $questions as $qst_id => $reached_points) {
                     $this->saveFeedback($active_id, $qst_id, $pass, $ajax);
-                    $update_participant = assQuestion::_setReachedPoints(
-                        $active_id,
-                        $qst_id,
-                        $reached_points,
-                        $maxPointsByQuestionId[$qst_id],
-                        $pass,
-                        1,
-                        $this->object->areObligationsEnabled()
-                    );
+
+                    // fix #35543: save manual points only if they differ from the existing points
+                    // this prevents a question being set to "answered" if only feedback is entered
+                    $old_points = assQuestion::_getReachedPoints($active_id, $qst_id, $pass);
+                    if ($reached_points != $old_points) {
+                        $update_participant = assQuestion::_setReachedPoints(
+                            $active_id,
+                            $qst_id,
+                            $reached_points,
+                            $maxPointsByQuestionId[$qst_id],
+                            $pass,
+                            1,
+                            $this->object->areObligationsEnabled()
+                        );
+                    }
                 }
 
                 if ($update_participant) {
-                    $changed_one = true;
-                    $lastAndHopefullyCurrentQuestionId = $qst_id;
-
                     ilLPStatusWrapper::_updateStatus(
                         $this->object->getId(),
                         ilObjTestAccess::_getParticipantId($active_id)
                     );
                 }
+
+                $changed_one = true;
+                $lastAndHopefullyCurrentQuestionId = $qst_id;
             }
         }
 
