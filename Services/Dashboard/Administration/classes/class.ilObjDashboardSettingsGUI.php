@@ -167,7 +167,8 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 $this->viewSettings->getActiveSortingsByView($view)
             )
             ->withAdditionalOnLoadCode(function ($id) use ($view) {
-                return "$('#$id').change(function () {
+                return "$('#$id').attr('data-checkbox', 'activeSorting$view');
+                $('#$id').change(function () {
                     // not checked options
                     var disabledOptions = $(this).find('input[type=\"checkbox\"]:not(:checked)');
                     var checkedOptions = $(this).find('input[type=\"checkbox\"]:checked');
@@ -201,7 +202,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 });";
             });
         $options = [];
-        foreach ($this->viewSettings->getActiveSortingsByView($view) as $sort_option) {
+        foreach ($this->viewSettings->getAvailableSortOptionsByView($view) as $sort_option) {
             $options[$sort_option] = $this->lng->txt("dash_sort_by_" . $sort_option);
         }
         $default_sorting = $this->ui_factory
@@ -212,7 +213,14 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             ->withRequired(true)
             ->withAdditionalOnLoadCode(function ($id) use ($view) {
                 // write id to attr
-                return "$('#$id').attr('data-select', 'sorting$view');";
+                return "$('#$id').attr('data-select', 'sorting$view');
+                // disable options that are not checked
+                var disabledOptions = $('[data-checkbox=\"activeSorting$view\"]').parent().find('input[type=\"checkbox\"]:not(:checked)');
+                $('#$id').find('option').each(function () {
+                    if (disabledOptions.filter('[value=\"' + $(this).val() + '\"]').length > 0) {
+                        $(this).attr('disabled', 'disabled');
+                    }
+                });";
             });
         return $this->ui_factory->input()->field()->section(
             $this->maybeDisable(["avail_sorting" => $available_sorting, "default_sorting" => $default_sorting]),

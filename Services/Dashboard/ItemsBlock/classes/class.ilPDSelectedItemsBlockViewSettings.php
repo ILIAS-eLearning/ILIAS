@@ -200,10 +200,11 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
 
     public function getDefaultSortingByView(int $view): string
     {
-        if (!in_array($view, $this->getPresentationViews(), true)) {
-            return $this->settings->get('pd_def_sort_by_view' . $view, self::SORT_BY_LOCATION);
+        $sorting = $this->settings->get('pd_def_sort_by_view' . $view, self::SORT_BY_LOCATION);
+        if (!in_array($sorting, $this->getAvailableSortOptionsByView($view), true)) {
+            return $this->getAvailableSortOptionsByView($view)[0];
         }
-        return $this->getAvailableSortOptionsByView($view)[0];
+        return $sorting;
     }
 
     /**
