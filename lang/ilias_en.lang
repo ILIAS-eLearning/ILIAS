@@ -12634,8 +12634,10 @@ prg#:#prg_dash_label_valid#:#Valid:
 prg#:#prg_deadline#:#Deadline
 prg#:#prg_deadline_date#:#Processing time expires at fixed date
 prg#:#prg_deadline_date_desc#:#the programme must be finished until a given date.
+prg#:#prg_deadline_date_label#:#Process until
 prg#:#prg_deadline_period#:#Processing time is determined inividually
 prg#:#prg_deadline_period_desc#:#The programme must be finished within a given timespan.
+prg#:#prg_deadline_period_label#:#Days after assignment
 prg#:#prg_deadline_settings#:#Processing Period
 prg#:#prg_delete_confirmation#:#Do you really want to delete the selected entries?
 prg#:#prg_delete_failure#:#Delete failed.
@@ -12776,8 +12778,9 @@ prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>you were reassigned to study progr
 prg#:#re_assigned_mail_subject#:#Renewed participation in the study programm
 prg#:#restart_information#:#Information regarding automatic restart upon pending qualification expiration
 prg#:#restart_period#:#Restart obligatory
-prg#:#restart_period_desc#:#days before expiry
+prg#:#restart_period_desc#:#automatic reassignment before expiry
 prg#:#restart_period_info#:#Days before qualification expiration to restart qualification
+prg#:#restart_period_label#:#Days before expiry
 prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>the deadline for completing the study program '%s' will soon be reached.
 prg#:#risky_to_fail_mail_subject#:#Reminder, that the deadline for the study program will soon be reached
 prg#:#rol#:#Role
@@ -12808,12 +12811,14 @@ prg#:#usr_active#:#User
 prg#:#validity_qualification_date#:#Qualification expires at fixed date
 prg#:#validity_qualification_date_desc#:#expiry date
 prg#:#validity_qualification_period#:#Qualification expires individually
-prg#:#validity_qualification_period_desc#:#days after completion
+prg#:#validity_qualification_period_desc#:#Qualification is valid for this amount of days and expires afterwards
 prg#:#validity_updated#:#Updated validity
 prg#:#vq_date#:#Expiration
 prg#:#vq_date_info#:#Qualification expires at fixed date
+prg#:#vq_date_label#:#Expiry date
 prg#:#vq_information#:#Information regarding validity of achived qualification
 prg#:#vq_period_info#:#Days until qualification will expire after achivement
+prg#:#vq_period_label#:#Days after completion
 prg#:#warning#:#Warning!
 prg#:#will_not_modify_deadline_on_successful_progress#:#No change because already completed or marked accredited
 prg#:#will_not_modify_irrelevant_progress#:#No change because not relevant
