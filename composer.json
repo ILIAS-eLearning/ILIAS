@@ -71,7 +71,8 @@
 		"seld/jsonlint": "^1.8",
 		"jasig/phpcas": "^1.4",
 		"league/commonmark": "^2.3",
-		"ifsnop/mysqldump-php": "2.10"
+		"ifsnop/mysqldump-php": "2.10",
+		"mustache/mustache": "^2.14"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
