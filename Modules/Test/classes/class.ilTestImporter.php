@@ -53,8 +53,6 @@ class ilTestImporter extends ilXmlImporter
             ilSession::set('tst_import_subdir', $this->getImportPackageName());
             $newObj->saveToDb(); // this generates test id first time
             $questionParentObjId = $newObj->getId();
-            $newObj->setOfflineStatus(false);
-            $questionParentObjId = $newObj->getId();
         } else {
             // single object
             $new_id = $a_mapping->getMapping('Modules/Test', 'tst', 'new_id');
