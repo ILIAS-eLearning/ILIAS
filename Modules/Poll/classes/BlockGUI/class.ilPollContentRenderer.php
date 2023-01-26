@@ -146,7 +146,7 @@ class ilPollContentRenderer
             $this->answers,
             !$this->state->mayUserVote($user_id)
         );
-        $this->renderAnonimityInfo($tpl, $poll->getNonAnonymous());
+        $this->renderAnonimityInfo($tpl, !$poll->getNonAnonymous());
     }
 
     protected function renderResults(
