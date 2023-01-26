@@ -96,9 +96,9 @@ class ilIndividualAssessmentMembersGUI
     public function executeCommand(): void
     {
         if (!$this->iass_access->mayEditMembers()
-            && !$this->iass_access->mayGradeUser()
-            && !$this->iass_access->mayViewUser()
-            && !$this->iass_access->mayAmendGradeUser()
+            && !$this->iass_access->mayGradeAnyUser()
+            && !$this->iass_access->mayViewAnyUser()
+            && !$this->iass_access->mayAmendAllUsers()
         ) {
             $this->handleAccessViolation();
         }
@@ -332,7 +332,7 @@ class ilIndividualAssessmentMembersGUI
 
         $ret[$this->txt("iass_filter_all")] = $this->getLinkForStatusFilter(null);
 
-        if ($this->maybeViewLearningProgress()) {
+        if ($this->iass_access->mayViewAnyUser()) {
             $ret[$this->txt("iass_filter_not_started")] =
                 $this->getLinkForStatusFilter(ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED);
             $ret[$this->txt("iass_filter_not_finalized")] =
@@ -438,11 +438,6 @@ class ilIndividualAssessmentMembersGUI
     public function handleAccessViolation(): void
     {
         $this->error_object->raiseError($this->txt("msg_no_perm_read"), $this->error_object->WARNING);
-    }
-
-    protected function maybeViewLearningProgress(): bool
-    {
-        return $this->iass_access->mayViewUser();
     }
 
     protected function txt(string $code): string
