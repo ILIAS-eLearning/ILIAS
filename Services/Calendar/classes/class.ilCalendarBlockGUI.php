@@ -640,7 +640,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
             $this->addBlockCommand(
                 $this->ctrl->getLinkTarget($this, "setPdModeEvents"),
                 $this->lng->txt("cal_upcoming_events_header"),
-                $this->ctrl->getLinkTarget($this, "setPdModeEvents", "", true)
+                ""
+                // see #35777 $this->ctrl->getLinkTarget($this, "setPdModeEvents", "", true)
             );
 
             // @todo: set checked on ($this->display_mode == 'mmon')
@@ -679,7 +680,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
             echo $this->getHTML();
             exit;
         } else {
-            $this->ctrl->redirectByClass("ildashboardgui", "show");
+            $this->ctrl->returnToParent($this);
         }
     }
 
