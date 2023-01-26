@@ -159,19 +159,63 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             []
         );
 
-        $available_sorting = $this->ui_factory->input()->field()->multiSelect($this->lng->txt("dash_avail_sortation"), $options)->withValue(
-            $this->viewSettings->getActiveSortingsByView($view)
-        );
-        $default_pres = $this->ui_factory->input()->field()->radio($this->lng->txt("dash_default_sortation"));
+        $available_sorting = $this->ui_factory
+            ->input()
+            ->field()
+            ->multiSelect($this->lng->txt("dash_avail_sortation"), $options)
+            ->withValue(
+                $this->viewSettings->getActiveSortingsByView($view)
+            )
+            ->withAdditionalOnLoadCode(function ($id) use ($view) {
+                return "$('#$id').change(function () {
+                    // not checked options
+                    var disabledOptions = $(this).find('input[type=\"checkbox\"]:not(:checked)');
+                    var checkedOptions = $(this).find('input[type=\"checkbox\"]:checked');
+                    var selectionInput = $('[data-select=\"sorting$view\"]');
+                    selectionInput.find('option').each(function () {
+                        if (disabledOptions.filter('[value=\"' + $(this).val() + '\"]').length > 0) {
+                        console.log('disbale option' + $(this).val());
+                            $(this).attr('disabled', 'disabled');
+                        }
+                        if (checkedOptions.filter('[value=\"' + $(this).val() + '\"]').length > 0) {
+                            console.log('enable option' + $(this).val());
+                            $(this).removeAttr('disabled');
+                        }
+                    });
+                    // change selection to first available option only if current selection is disabled
+                    if (selectionInput.find('option:selected').attr('disabled') === 'disabled') {
+                        var firstPossibleOption = selectionInput.find('option:not([disabled]):first');
+                        firstPossibleOption.attr('selected', 'selected');
+                        if (firstPossibleOption.length > 0) {
+                        console.log(firstPossibleOption);
+                            selectionInput.find('option:selected').removeAttr('selected');
+                        }
+                    }
+                    // if only one option is not disabled make it readonly
+                    if ($(this).find('input[type=\"checkbox\"]:checked').length === 1) {
+                    console.log('make readonly option');
+                       $(this).find('input[type=\"checkbox\"]:checked').attr('disabled', 'disabled');
+                    } else {
+                        $(this).find('input[type=\"checkbox\"]:disabled').removeAttr('disabled'); 
+                    }
+                });";
+            });
+        $options = [];
         foreach ($this->viewSettings->getActiveSortingsByView($view) as $sort_option) {
-            $default_pres = $default_pres->withOption(
-                $sort_option,
-                $this->lng->txt("dash_sort_by_" . $sort_option),
-            );
+            $options[$sort_option] = $this->lng->txt("dash_sort_by_" . $sort_option);
         }
-        $default_pres = $default_pres->withValue($this->viewSettings->getDefaultSortingByView($view));
+        $default_sorting = $this->ui_factory
+            ->input()
+            ->field()
+            ->select($this->lng->txt("dash_default_sortation"), $options)
+            ->withValue($this->viewSettings->getDefaultSortingByView($view))
+            ->withRequired(true)
+            ->withAdditionalOnLoadCode(function ($id) use ($view) {
+                // write id to attr
+                return "$('#$id').attr('data-select', 'sorting$view');";
+            });
         return $this->ui_factory->input()->field()->section(
-            $this->maybeDisable(["avail_sorting" => $available_sorting, "default_sorting" => $default_pres]),
+            $this->maybeDisable(["avail_sorting" => $available_sorting, "default_sorting" => $default_sorting]),
             $title
         );
     }
