@@ -18,27 +18,34 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-class ilStudyProgrammeEvents
+class ilStudyProgrammeEvents implements StudyProgrammeEvents
 {
-    private const COMPONENT = "Modules/StudyProgramme";
-
     protected ilAppEventHandler $app_event_handler;
 
     public function __construct(
-        ilAppEventHandler $app_event_handler
+        ilAppEventHandler $app_event_handler,
+        PRGEventHandler $prg_event_handler
     ) {
         $this->app_event_handler = $app_event_handler;
+        $this->prg_event_handler = $prg_event_handler;
     }
 
     public function raise(string $event, array $parameter): void
     {
-        $this->app_event_handler->raise(self::COMPONENT, $event, $parameter);
+        switch ($event) {
+            case self::EVENT_USER_LP_STATUS_CHANGE:
+                $this->prg_event_handler->onUpdateLPStatus($parameter['prg_id'], $parameter['usr_id']);
+                break;
+            default:
+                $this->app_event_handler->raise(self::COMPONENT, $event, $parameter);
+        }
     }
+
 
     public function userAssigned(ilPRGAssignment $assignment): void
     {
         $this->raise(
-            "userAssigned",
+            self::EVENT_USER_ASSIGNED,
             [
                 "root_prg_id" => $assignment->getRootId(),
                 "usr_id" => $assignment->getUserId(),
@@ -50,22 +57,17 @@ class ilStudyProgrammeEvents
     public function userReAssigned(ilPRGAssignment $assignment): void
     {
         $this->raise(
-            "userReAssigned",
+            self::EVENT_USER_REASSIGNED,
             [
                 "ass_id" => $assignment->getId()
             ]
         );
     }
-    protected function getRefIdFor(int $obj_id): int
-    {
-        return ilObjStudyProgramme::getRefIdFor($obj_id);
-    }
-
 
     public function userDeassigned(ilPRGAssignment $a_assignment): void
     {
         $this->raise(
-            "userDeassigned",
+            self::EVENT_USER_DEASSIGNED,
             [
                 "root_prg_id" => $a_assignment->getRootId(),
                 "usr_id" => $a_assignment->getUserId(),
@@ -74,13 +76,10 @@ class ilStudyProgrammeEvents
         );
     }
 
-    /**
-     * @throws ilException
-     */
     public function userSuccessful(ilPRGAssignment $assignment, int $pgs_node_id): void
     {
         $this->raise(
-            "userSuccessful",
+            self::EVENT_USER_SUCCESSFUL,
             [
                 "root_prg_id" => $assignment->getRootId(),
                 "prg_id" => $pgs_node_id,
@@ -93,7 +92,7 @@ class ilStudyProgrammeEvents
     public function informUserByMailToRestart(ilPRGAssignment $assignment): void
     {
         $this->raise(
-            'informUserToRestart',
+            self::EVENT_USER_TO_RESTART,
             [
                 "ass_id" => (int) $assignment->getId()
             ]
@@ -103,9 +102,20 @@ class ilStudyProgrammeEvents
     public function userRiskyToFail(ilPRGAssignment $assignment): void
     {
         $this->raise(
-            "userRiskyToFail",
+            self::EVENT_USER_ABOUT_TO_FAIL,
             [
                 "ass_id" => (int) $assignment->getId()
+            ]
+        );
+    }
+
+    public function userLPStatusChange(ilPRGAssignment $assignment, int $pgs_node_id): void
+    {
+        $this->raise(
+            self::EVENT_USER_LP_STATUS_CHANGE,
+            [
+                "usr_id" => $assignment->getUserId(),
+                "prg_id" => $pgs_node_id
             ]
         );
     }
