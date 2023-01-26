@@ -19,6 +19,8 @@ class ilConsultationHourUtils
         $ctrl = $DIC->ctrl();
         $lng = $DIC->language();
         $logger = $DIC->logger()->cal();
+        $ctrl->setParameterByClass(end($ctrl_class_structure), 'seed', '');
+        $ctrl->setParameterByClass(end($ctrl_class_structure), 'category_id', '');
 
         $obj_id = \ilObject::_lookupObjId($ref_id);
         $participants = \ilParticipants::getInstance($ref_id);
