@@ -412,7 +412,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
      */
     protected function buildPositionInput($questionId, $position) : string
     {
-        return '<input type="text" name="order[q_' . $questionId . ']" value="' . $position . '" maxlength="3" size="3" />';
+        return '<input type="text" name="order[q_' . $questionId . ']" value="' . $position . '" maxlength="4" size="4" />';
     }
 
     /**
