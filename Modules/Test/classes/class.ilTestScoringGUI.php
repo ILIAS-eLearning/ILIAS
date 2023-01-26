@@ -288,15 +288,20 @@ class ilTestScoringGUI extends ilTestServiceGUI
         foreach ($questionGuiList as $questionId => $questionGui) {
             $reachedPoints = $form->getItemByPostVar("question__{$questionId}__points")->getValue();
 
-            assQuestion::_setReachedPoints(
-                $activeId,
-                $questionId,
-                $reachedPoints,
-                $maxPointsByQuestionId[$questionId],
-                $pass,
-                1,
-                $this->object->areObligationsEnabled()
-            );
+            // fix #35543: save manual points only if they differ from the existing points
+            // this prevents a question being set to "answered" if only feedback is entered
+            $oldPoints = assQuestion::_getReachedPoints($activeId, $questionId, $pass);
+            if ($reachedPoints != $oldPoints) {
+                assQuestion::_setReachedPoints(
+                    $activeId,
+                    $questionId,
+                    $reachedPoints,
+                    $maxPointsByQuestionId[$questionId],
+                    $pass,
+                    1,
+                    $this->object->areObligationsEnabled()
+                );
+            }
 
             $feedback = ilUtil::stripSlashes(
                 $form->getItemByPostVar("question__{$questionId}__feedback")->getValue(),
