@@ -24,11 +24,6 @@ declare(strict_types=1);
 interface IndividualAssessmentAccessHandler
 {
     /**
-     * Can a user perform an operation on some Individual assessment?
-     */
-    public function checkAccessToObj(string $operation): bool;
-
-    /**
      * Create default roles at an object
      */
     public function initDefaultRolesForObject(ilObjIndividualAssessment $iass): void;
@@ -43,8 +38,17 @@ interface IndividualAssessmentAccessHandler
      */
     public function deassignUserFromMemberRole(ilObjUser $usr, ilObjIndividualAssessment $iass): bool;
 
-    /**
-     * Check whether user is system admin.
-     */
+
+    public function mayReadObject(): bool;
+    public function mayEditObject(): bool;
+    public function mayEditPermissions(): bool;
+    public function mayEditMembers(): bool;
+    public function mayViewAnyUser(): bool;
+    public function mayViewAllUsers(): bool;
+    public function mayGradeAnyUser(): bool;
+    public function mayGradeAllUsers(): bool;
+    public function mayGradeUser(int $user_id): bool;
+    public function mayViewUser(int $user_id): bool;
+    public function mayAmendAllUsers(): bool;
     public function isSystemAdmin(): bool;
 }
