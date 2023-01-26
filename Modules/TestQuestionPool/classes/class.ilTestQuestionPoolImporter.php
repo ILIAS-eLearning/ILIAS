@@ -34,11 +34,9 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         // Container import => pool object already created
         if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
-            $newObj->setOnline(true);
+            $newObj->setOnline(true); // sets Question pools to always online
 
             $_SESSION['qpl_import_subdir'] = $this->getImportPackageName();
-
-            $newObj->setOnline(true);
         } elseif ($new_id = $a_mapping->getMapping('Modules/TestQuestionPool', 'qpl', "new_id")) {
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
         } else {
