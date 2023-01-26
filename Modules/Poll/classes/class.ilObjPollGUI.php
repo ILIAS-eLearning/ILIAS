@@ -176,16 +176,20 @@ class ilObjPollGUI extends ilObject2GUI
 
     protected function validateCustom(ilPropertyFormGUI $form): bool
     {
+        $valid = true;
         if ($form->getInput("online") && !$this->object->getAnswers()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
             $form->getItemByPostVar("online")->setAlert($this->lng->txt("poll_cannot_set_online_no_answers"));
-            return false;
+            $valid = false;
         }
         #20594
-        if (!$form->getInput("voting_period") &&
+        if (!array_filter($form->getInput("voting_period")) &&
             (int) $form->getInput("results") === ilObjPoll::VIEW_RESULTS_AFTER_PERIOD) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
             $form->getItemByPostVar("results")->setAlert($this->lng->txt("poll_view_results_after_period_impossible"));
+            $valid = false;
+        }
+        if (!$valid) {
             return false;
         }
         return parent::validateCustom($form);

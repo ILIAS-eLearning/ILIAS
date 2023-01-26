@@ -24,9 +24,10 @@
 			<!-- END image -->
 		</div>
 		<!-- END question -->
-		<!-- BEGIN mode_info_question -->
-		<div class="ilPollModeInfo">{MODE_INFO_QUESTION}</div>
-		<!-- END mode_info_question -->
+
+		<!-- BEGIN vote_info -->
+		<div class="ilPollModeInfo">{VOTE_INFO}</div>
+		<!-- END vote_info -->
 		
 		<!-- BEGIN answers_vote -->
 		<div class="ilPollQuestionAnswers">		
@@ -45,22 +46,14 @@
 				<!-- END answer -->
 
 				<input type="submit" class="btn btn-default" value="{TXT_SUBMIT}" name="cmd[{CMD_FORM}]" />
-								
-				<!-- BEGIN voting_period_bl -->
-				<div class="small">{TXT_VOTING_END_PERIOD}</div>
-				<!-- END voting_period_bl -->
 			</form>			
 						
-			<!-- BEGIN mode_info_bl -->
-			<div class="ilPollModeInfo">{MODE_INFO}</div>
-			<!-- END mode_info_bl -->			
+			<!-- BEGIN anonimity_info -->
+			<div class="ilPollModeInfo">{ANONIMITY_INFO}</div>
+			<!-- END anonimity_info -->
 			
 		</div>
 		<!-- END answers_vote -->
-
-		<!-- BEGIN out_of_voting_period -->
-			<div class="ilPollQuestion small">{TXT_VOTING_PERIOD}</div>
-		<!-- END out_of_voting_period -->
 
 		<!-- BEGIN answers_result -->
 		<div class="ilPollQuestionResults">
@@ -74,10 +67,15 @@
             {PIE_CHART}
 			<div id="{PIE_LEGEND_ID}" class="ilPollLegend"></div>
 			<!-- END pie_bl -->
-            {TOTAL_ANSWERS}
 		</div>
-
+		<!-- BEGIN total_answers -->
+		<div class="ilPollModeInfo">{TOTAL_ANSWERS}</div>
+		<!-- END total_answers -->
 		<!-- END answers_result -->
+
+		<!-- BEGIN message_box -->
+		<div class="ilPollModeInfo">{MESSAGE_BOX}</div>
+		<!-- END message_box -->
 	</td>
     <!-- BEGIN comment_link -->
     <div class="il_ContainerItemCommands2">

@@ -15288,25 +15288,6 @@ img.ilPollQuestionImage {
   margin-bottom: 5px;
 }
 
-.ilPollQuestionResultBar {
-  width: 100%;
-  border: 1px solid #757575;
-  float: left;
-  height: 18px;
-}
-
-.ilPollQuestionResultBarInner {
-  background-color: #e2e8ef;
-  height: 18px;
-}
-
-.ilPollQuestionResultPerc {
-  float: right;
-  position: relative;
-  margin-top: -17px;
-  margin-right: 3px;
-}
-
 .ilPollLegend {
   margin-bottom: 5px;
 }

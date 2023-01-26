@@ -12463,9 +12463,8 @@ poll#:#poll_answer#:#Answer
 poll#:#poll_answers#:#Possible Answers
 poll#:#poll_barchart#:#Bar Chart
 poll#:#poll_block_message_already_voted#:#You already voted in this poll.
-poll#:#poll_block_message_inactive#:#This poll will be available from %s.
 poll#:#poll_block_message_no_answers#:#This poll is incomplete.
-poll#:#poll_block_results_available_on#:#The results will be available on %s.
+poll#:#poll_block_results_available_on#:#The results will be available %s.
 poll#:#poll_cannot_set_online_no_answers#:#The status cannot be changed to &quot;online&quot; because this poll has no question!
 poll#:#poll_comments#:#Comments
 poll#:#poll_copy#:#Copy Poll
@@ -12490,6 +12489,7 @@ poll#:#poll_notification_unsubscribe#:#Deactivate Notification
 poll#:#poll_percentage#:#Current Percentage
 poll#:#poll_piechart#:#Pie Chart
 poll#:#poll_population#:#%s Participants
+poll#:#poll_population_singular#:#1 Participant
 poll#:#poll_question#:#Question
 poll#:#poll_result#:#Results
 poll#:#poll_result_answers#:#Votes
@@ -12515,8 +12515,9 @@ poll#:#poll_vote_notification_reason#:#You are receiving this e-mail because you
 poll#:#poll_vote_notification_subject#:#Poll "%s": new vote
 poll#:#poll_votes_no_edit#:#This poll already contains votes. You cannot edit the poll until you delete these votes.
 poll#:#poll_voting_period_and_results#:#Voting Period and Results
+poll#:#poll_voting_period_ended_info#:#The voting period ended %s.
 poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
-poll#:#poll_voting_period_info#:#Deadline for Voting: %s
+poll#:#poll_voting_period_info#:#The deadline for voting is %s.
 poll#:#poll_voting_period_limited#:#Limited Voting Period
 prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions
 prg#:#add_automembership_source#:#Add Source

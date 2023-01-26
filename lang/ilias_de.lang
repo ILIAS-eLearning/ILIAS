@@ -12469,9 +12469,8 @@ poll#:#poll_answer#:#Antwort
 poll#:#poll_answers#:#Mögliche Antworten
 poll#:#poll_barchart#:#Balkendiagramm
 poll#:#poll_block_message_already_voted#:#Sie haben bereits abgestimmt.
-poll#:#poll_block_message_inactive#:#Diese Abstimmung ist verfügbar ab dem %s.
 poll#:#poll_block_message_no_answers#:#Diese Abstimmung ist nicht komplett.
-poll#:#poll_block_results_available_on#:#Die Ergebnisse werden am %s veröffentlicht.
+poll#:#poll_block_results_available_on#:#Die Ergebnisse werden %s veröffentlicht.
 poll#:#poll_cannot_set_online_no_answers#:#Der Status kann nicht auf &quot;online (aktiviert)&quot; geändert werden, da der Abstimmung noch keine Frage hinzugefügt wurde!
 poll#:#poll_comments#:#Kommentare
 poll#:#poll_copy#:#Abstimmung kopieren
@@ -12495,7 +12494,8 @@ poll#:#poll_notification_subscribe#:#Benachrichtigung aktivieren
 poll#:#poll_notification_unsubscribe#:#Benachrichtigung deaktivieren
 poll#:#poll_percentage#:#Aktueller Anteil
 poll#:#poll_piechart#:#Kuchendiagramm
-poll#:#poll_population#:#%s Teilnehmer
+poll#:#poll_population#:#%s Teilnehmende
+poll#:#poll_population_singular#:#1 Teilnehmer
 poll#:#poll_question#:#Frage
 poll#:#poll_result#:#Abstimmungsergebnisse
 poll#:#poll_result_answers#:#Stimmen
@@ -12521,8 +12521,9 @@ poll#:#poll_vote_notification_reason#:#Sie erhalten diese Nachricht, da Sie die 
 poll#:#poll_vote_notification_subject#:#Abstimmung "%s": neue Stimme
 poll#:#poll_votes_no_edit#:#Diese Abstimmung beinhaltet bereits Stimmen. Sie kann nicht bearbeitet werden so lange Sie die Stimmen nicht löschen.
 poll#:#poll_voting_period_and_results#:#Stimmperiode und Ergebnisse
+poll#:#poll_voting_period_ended_info#:#Das Ende der Abstimmung war %s.
 poll#:#poll_voting_period_full_info#:#Abstimmung von %s bis %s
-poll#:#poll_voting_period_info#:#Ende der Abstimmung: %s
+poll#:#poll_voting_period_info#:#Das Ende der Abstimmung ist %s.
 poll#:#poll_voting_period_limited#:#Zeitlich begrenzte Stimmperiode
 prg#:#access_ctr_by_orgu_position#:#Berechtigungen anhand Positionen in Organisationseinheiten
 prg#:#add_automembership_source#:#Automatismus hinzufügen
@@ -16989,6 +16990,5 @@ wsp#:#wsp_type_file#:#Datei
 wsp#:#wsp_type_ltiv#:#Zertifikat: LTI-Konsument
 wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
-wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner

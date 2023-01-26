@@ -57,23 +57,9 @@ class ilPollBlock extends ilCustomBlock
     /**
      * Check if user will see any content (vote/result)
      */
-    public function hasAnyContent(int $a_user_id, int $a_ref_id): bool
+    public function initActive(int $a_ref_id): void
     {
-        if (!count($this->answers)) {
-            return false;
-        }
-
         $this->active = ilObjPollAccess::_isActivated($a_ref_id);
-        if (!$this->active) {
-            return false;
-        }
-
-        if (!$this->mayVote($a_user_id) &&
-            !$this->maySeeResults($a_user_id)) {
-            return false;
-        }
-
-        return true;
     }
 
     public function mayVote(int $a_user_id): bool
@@ -133,22 +119,6 @@ class ilPollBlock extends ilCustomBlock
                 return false;
         }
         return false;
-    }
-
-    public function getMessage(int $a_user_id): ?string
-    {
-        if (!count($this->answers)) {
-            return $this->lng->txt("poll_block_message_no_answers");
-        }
-
-        if (!$this->active) {
-            if ($this->poll->getAccessBegin() > time()) {
-                $date = ilDatePresentation::formatDate(new ilDateTime($this->poll->getAccessBegin(), IL_CAL_UNIX));
-                return sprintf($this->lng->txt("poll_block_message_inactive"), $date);
-            }
-        }
-
-        return null;
     }
 
     /**
