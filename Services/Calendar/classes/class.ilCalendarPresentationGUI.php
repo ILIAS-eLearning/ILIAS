@@ -167,12 +167,12 @@ class ilCalendarPresentationGUI
                 $visibility->showSelected($v);
                 $visibility->save();
                 $this->ctrl->setParameterByClass(ilCalendarMonthGUI::class, 'category_id', $info['cat_id']);
-                $this->ctrl->setParameterByClass(\ilCalendarMonthGUI::class, 'seed', $this->seed);
-                $this->ctrl->redirectToURL(
-                    $this->ctrl->getLinkTargetByClass(\ilCalendarMonthGUI::class, '')
-                );
+                $this->ctrl->setParameterByClass(\ilCalendarMonthGUI::class, 'seed', $this->getRequestedSeedAsString());
             }
         }
+        $this->ctrl->redirectToURL(
+            $this->ctrl->getLinkTargetByClass(\ilCalendarMonthGUI::class, '')
+        );
     }
 
     /**
@@ -204,7 +204,6 @@ class ilCalendarPresentationGUI
         $this->prepareOutput();
 
         $this->help->setScreenIdComponent("cal");
-
         switch ($cmd) {
             case 'selectCHCalendarOfUser':
                 $this->initAndRedirectToConsultationHours();
@@ -726,10 +725,7 @@ class ilCalendarPresentationGUI
         }
     }
 
-    /**
-     * init the seed date for presentations (month view, minicalendar)
-     */
-    public function initSeed(): void
+    protected function getRequestedSeedAsString(): string
     {
         $seed = '';
         if ($this->http->wrapper()->query()->has('seed')) {
@@ -738,6 +734,15 @@ class ilCalendarPresentationGUI
                 $this->refinery->kindlyTo()->string()
             );
         }
+        return $seed;
+    }
+
+    /**
+     * init the seed date for presentations (month view, minicalendar)
+     */
+    public function initSeed(): void
+    {
+        $seed = $this->getRequestedSeedAsString();
 
         // default to today
         $now = new \ilDate(time(), IL_CAL_UNIX);
