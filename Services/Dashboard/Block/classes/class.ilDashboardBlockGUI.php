@@ -24,7 +24,7 @@ use ILIAS\UI\Component\MessageBox\MessageBox;
  * @ilCtrl_IsCalledBy ilDashboardBlockGUI: ilColumnGUI
  * @ilCtrl_Calls ilDashboardBlockGUI: ilCommonActionDispatcherGUI
  */
-abstract class ilDashboardBlockGUI extends ilBlockGUI
+abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHandling
 {
     private string $content;
     private ilFavouritesManager $favourites;
@@ -70,6 +70,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             $this->setPresentation(self::PRES_MAIN_LIST);
         }
 
+        $params = $DIC->http()->request()->getQueryParams();
         $this->requested_item_ref_id = (int) ($params["item_ref_id"] ?? 0);
 
         $this->initData();
@@ -173,13 +174,14 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
 
     public function getHTML(): string
     {
+        $this->setTitle(
+            $this->lng->txt('dash_' . $this->viewSettings->getViewName($this->viewSettings->getCurrentView()))
+        );
+
         if (!$this->data) {
             return $this->emptyHandling();
         }
 
-        $this->setTitle(
-            $this->lng->txt('dash_' . $this->viewSettings->getViewName($this->viewSettings->getCurrentView()))
-        );
         $this->addCommandActions();
         $this->setData($this->getItemGroups());
 
