@@ -166,8 +166,10 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
             ->method('txt')
             ->withConsecutive(
                 ['prg_no_validity_qualification'],
+                ['vq_period_label'],
                 ['validity_qualification_period_desc'],
                 ['validity_qualification_period'],
+                ['vq_date_label'],
                 ['validity_qualification_date_desc'],
                 ['validity_qualification_date'],
                 ['prg_no_restart'],
@@ -178,8 +180,10 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
             )
             ->will($this->onConsecutiveCalls(
                 'prg_no_validity_qualification',
+                'vq_period_label',
                 'validity_qualification_period_desc',
                 'validity_qualification_period',
+                'vq_date_label',
                 'validity_qualification_date_desc',
                 'validity_qualification_date',
                 'prg_no_restart',

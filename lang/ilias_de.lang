@@ -12624,8 +12624,10 @@ prg#:#prg_dash_label_valid#:#Gültigkeit:
 prg#:#prg_deadline#:#Stichtag
 prg#:#prg_deadline_date#:#Bearbeitungszeitraum endet an festem Stichtag
 prg#:#prg_deadline_date_desc#:#Das Programm muss bis zu einem Stichtag abgeschlossen werden.
+prg#:#prg_deadline_date_label#:#Bearbeitung bis
 prg#:#prg_deadline_period#:#Bearbeitungszeitraum endet individuell
 prg#:#prg_deadline_period_desc#:#Das Programm muss innerhalb des angegebenen Zeitraums (in Tagen) abgeschlossen werden.
+prg#:#prg_deadline_period_label#:#Tage nach Zuweisung
 prg#:#prg_deadline_settings#:#Bearbeitungszeitraum
 prg#:#prg_delete_confirmation#:#Möchten Sie die ausgewählten Einträge wirklich löschen?
 prg#:#prg_delete_failure#:#Löschen fehlgeschlagen.
@@ -12767,8 +12769,9 @@ prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>Sie wurden erneut dem Studienprogr
 prg#:#re_assigned_mail_subject#:#Erneute Teilnahme am Studienprogramm
 prg#:#restart_information#:#Wiederaufnahme (in Tagen) vor Ablauf der Qualifikation
 prg#:#restart_period#:#Automatische Wiederaufnahme vor Ablauf der Qualifikation
-prg#:#restart_period_desc#:#Tage vor Ablauf der Qualifikation
+prg#:#restart_period_desc#:#Wiederaufnahme (in Tagen) vor Ablauf der Qualifikation
 prg#:#restart_period_info#:#Automatische Wiederaufnahme vor Ablauf der Qualifikation in Tagen
+prg#:#restart_period_label#:#Tage vor Ablauf der Qualifikation
 prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>der Stichtag für das Abschließen des Studienprogramm '%s' ist bald ereicht.
 prg#:#risky_to_fail_mail_subject#:#Erinnerung, das der Stichtag am Studienprogramm bald ereicht ist
 prg#:#rol#:#Rolle
@@ -12799,12 +12802,14 @@ prg#:#usr_active#:#Benutzer
 prg#:#validity_qualification_date#:#Ablauf der Qualifikation zu einem Stichtag
 prg#:#validity_qualification_date_desc#:#Datum des Ablaufs der Qualifikation
 prg#:#validity_qualification_period#:#Ablauf der Qualifikation - individuell
-prg#:#validity_qualification_period_desc#:#Tage nach erfolgreicher Teilnahme
+prg#:#validity_qualification_period_desc#:#Die Qualifikation ist nach erfolgreicher Teilnahme für einen Zeitraum (in Tagen) gültig
 prg#:#validity_updated#:#Gültigkeit aktualisiert
 prg#:#vq_date#:#Ablaufdatum
 prg#:#vq_date_info#:#Ablauf der Qualifikation zu einem Stichtag
+prg#:#vq_date_label#:#Ablaufdatum
 prg#:#vq_information#:#Gültigkeit einer erreichten Qualifikation
 prg#:#vq_period_info#:#Die Qualifikation ist nur eine begrenzte Anzahl Tage gültig
+prg#:#vq_period_label#:#Tage nach erfolgreicher Teilnahme
 prg#:#warning#:#Warnung!
 prg#:#will_not_modify_deadline_on_successful_progress#:#keine Änderung, da bereits abgeschlossen oder akkreditiert
 prg#:#will_not_modify_irrelevant_progress#:#keine Änderung, da irrelevant

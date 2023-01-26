@@ -77,7 +77,7 @@ class ilStudyProgrammeDeadlineSettings
         $grp2 = $input->group(
             [
                 'deadline_period' => $input->numeric(
-                    '',
+                    $lng->txt('prg_deadline_period_label'),
                     $lng->txt('prg_deadline_period_desc')
                 )
                 ->withAdditionalTransformation($refinery->int()->isGreaterThanOrEqual(1))
@@ -88,7 +88,7 @@ class ilStudyProgrammeDeadlineSettings
         $grp3 = $input->group(
             [
                 'deadline_date' => $input->dateTime(
-                    '',
+                    $lng->txt('prg_deadline_date_label'),
                     $lng->txt('prg_deadline_date_desc')
                 )
                 ->withFormat($format)
