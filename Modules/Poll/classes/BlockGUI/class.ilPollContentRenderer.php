@@ -60,10 +60,8 @@ class ilPollContentRenderer
         ilTemplate $tpl,
         int $ref_id,
         int $user_id,
-        ilPollBlock $block
+        ilObjPoll $poll
     ): void {
-        $poll = $block->getPoll();
-
         $this->renderAnchor($tpl, $poll->getId());
         $this->renderAvailability($tpl, $poll);
         $this->renderDescription($tpl, $poll->getDescription());
@@ -85,7 +83,7 @@ class ilPollContentRenderer
             $this->renderAnswersAndResults($tpl, $poll, $user_id);
         }
 
-        if ($block->showComments()) {
+        if ($poll->getShowComments()) {
             $this->renderComments($tpl, $ref_id);
         }
     }

@@ -12474,16 +12474,19 @@ poll#:#poll_edit#:#Edit Poll
 poll#:#poll_edit_question#:#Edit Question
 poll#:#poll_image#:#Image
 poll#:#poll_import#:#Import Poll
+poll#:#poll_limit_not_below_answer_count#:#The answer limit must be below the number of possible answers.
 poll#:#poll_limit_number_of_answers#:#Limit Number of Answers per Participant
 poll#:#poll_max_number_of_answers#:#Max. Answers
 poll#:#poll_max_number_of_answers_info#:#You may choose up to %s answers.
 poll#:#poll_mode#:#Mode
 poll#:#poll_mode_anonymous#:#Without Names / Anonymous
-poll#:#poll_mode_anonymous_info#:#In the tab ‘Results’ participants' names are omitted.
+poll#:#poll_mode_anonymous_info#:#In the tab ‘Results’ the names of participants are omitted.
 poll#:#poll_mode_personal#:#With Names
-poll#:#poll_mode_personal_info#:#In the tab ‘Results’ participants' names and their respective answers are listed. Users with access to this tab can inspect who has given which answer.
+poll#:#poll_mode_personal_info#:#In the tab ‘Results’ the names of participants and their respective answers are listed. Users with access to this tab can inspect who has given which answer.
 poll#:#poll_new#:#Add New Poll
 poll#:#poll_non_anonymous_warning#:#Your name and vote are visible for administrators in the results.
+poll#:#poll_notification_activated#:#Notification Activated
+poll#:#poll_notification_deactivated#:#Notification Deactivated
 poll#:#poll_notification_subscribe#:#Activate Notification
 poll#:#poll_notification_unsubscribe#:#Deactivate Notification
 poll#:#poll_percentage#:#Current Percentage

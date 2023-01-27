@@ -19,7 +19,6 @@ declare(strict_types=1);
  ********************************************************************
  */
 
-use ILIAS\Container\Content\ViewManager;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
@@ -34,7 +33,6 @@ class ilPollBlockGUI extends ilBlockGUI
     public static string $block_type = "poll";
     protected ilPollBlock $poll_block;
     public static bool $js_init = false;
-    protected ViewManager $container_view_manager;
     protected bool $new_rendering = true;
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
@@ -56,13 +54,6 @@ class ilPollBlockGUI extends ilBlockGUI
 
         $this->lng->loadLanguageModule("poll");
         $this->setRowTemplate("tpl.block.html", "Modules/Poll");
-
-        $this->container_view_manager = $DIC
-            ->container()
-            ->internal()
-            ->domain()
-            ->content()
-            ->view();
 
         $this->comments = new ilPollCommentsHandler(
             $DIC->notes(),
@@ -108,7 +99,7 @@ class ilPollBlockGUI extends ilBlockGUI
 
     public function fillRow(array $a_set): void
     {
-        if ($this->poll_block->showComments()) {
+        if ($this->poll_block->getPoll()->getShowComments()) {
             $this->initJS();
         }
 
@@ -116,7 +107,7 @@ class ilPollBlockGUI extends ilBlockGUI
             $this->tpl,
             $this->getRefId(),
             $this->user->getId(),
-            $this->poll_block
+            $this->poll_block->getPoll()
         );
     }
 
@@ -124,7 +115,6 @@ class ilPollBlockGUI extends ilBlockGUI
     {
         $this->poll_block->setRefId($this->getRefId());
         $may_write = $this->access->checkAccess("write", "", $this->getRefId());
-        $this->poll_block->initActive($this->getRefId());
 
         $poll_obj = $this->poll_block->getPoll();
         $this->setTitle($poll_obj->getTitle());
@@ -269,12 +259,5 @@ class ilPollBlockGUI extends ilBlockGUI
         );
         $this->fillRow(current($this->getData()));
         return $this->tpl->get();
-    }
-
-    protected function getMessageBox(string $message): string
-    {
-        return $this->ui_renderer->render(
-            $this->ui_factory->messageBox()->info($message)
-        );
     }
 }

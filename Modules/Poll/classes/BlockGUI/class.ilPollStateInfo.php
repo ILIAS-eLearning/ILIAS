@@ -21,6 +21,8 @@ declare(strict_types=1);
 
 class ilPollStateInfo
 {
+    protected array $cached_user_status = [];
+
     public function isOfflineOrUnavailable(ilObjPoll $poll): bool
     {
         $offline = $poll->getOfflineStatus();
@@ -75,7 +77,10 @@ class ilPollStateInfo
 
     public function hasUserAlreadyVoted(int $user_id, ilObjPoll $poll): bool
     {
-        return $poll->hasUserVoted($user_id);
+        if (!array_key_exists($user_id, $this->cached_user_status)) {
+            $this->cached_user_status[$user_id] = $poll->hasUserVoted($user_id);
+        }
+        return $this->cached_user_status[$user_id];
     }
 
     public function mayUserVote(int $user_id): bool

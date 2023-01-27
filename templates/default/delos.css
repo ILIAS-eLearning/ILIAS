@@ -15288,6 +15288,10 @@ img.ilPollQuestionImage {
   margin-bottom: 5px;
 }
 
+.ilPollQuestionResult .progress .progress-bar {
+  background-color: #4c6586;
+}
+
 .ilPollLegend {
   margin-bottom: 5px;
 }
