@@ -595,7 +595,7 @@ class ilObjCourseGrouping
                 }
 
                 if ($condition['operator'] == 'not_member') {
-                    if (!$hash_table[$condition['target_ref_id']]) {
+                    if (!($hash_table[$condition['target_ref_id']] ?? false)) {
                         $items[] = $condition['target_ref_id'];
                     }
                     $hash_table[$condition['target_ref_id']] = true;
