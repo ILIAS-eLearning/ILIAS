@@ -415,7 +415,7 @@ class ilLOUserResults
             // initial tests only count if no qualified test
             if (
                 $row["type"] == self::TYPE_INITIAL &&
-                in_array($row['user_id'], (array) $has_final_result[(int) $row['objective_id']])
+                in_array($row['user_id'], (array) ($has_final_result[(int) $row['objective_id']] ?? []))
             ) {
                 continue;
             }
