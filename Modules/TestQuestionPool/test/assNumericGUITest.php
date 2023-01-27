@@ -46,6 +46,7 @@ class assNumericGUITest extends assBaseTestCase
             unset($DIC['ilias']);
             $DIC['ilias'] = $ilias_mock;
             $GLOBALS['ilias'] = $DIC['ilias'];
+            $this->setGlobalVariable('http', $this->getHttpMock());
         }
     }
 
