@@ -2185,7 +2185,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         if ($this->objProperties->isFileUploadAllowed()) {
             $oFileUploadGUI = new ilFileWizardInputGUI($this->lng->txt('forums_attachments_add'), 'userfile');
-            $oFileUploadGUI->setSuffixes(['png', 'jpg']);
             $oFileUploadGUI->setFilenames([0 => '']);
             $this->replyEditForm->addItem($oFileUploadGUI);
         }
