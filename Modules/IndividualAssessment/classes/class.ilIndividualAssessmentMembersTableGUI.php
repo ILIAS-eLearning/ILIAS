@@ -149,13 +149,17 @@ class ilIndividualAssessmentMembersTableGUI
             return [];
         }
 
+        if (!ilObjUser::userExists([$graded_by_id])) {
+            return [$this->txt('iass_graded_by') . ":" => $this->txt("user_deleted")];
+        }
+
         $full_name = $this->getFullNameFor($graded_by_id);
         if (!$this->hasPublicProfile($graded_by_id)) {
-            return [$this->txt('iass_graded_by') => $full_name];
+            return [$this->txt('iass_graded_by') . ":" => $full_name];
         }
 
         return [
-            $this->txt('iass_graded_by') => $this->getProfileLink($full_name, $graded_by_id)
+            $this->txt('iass_graded_by') . ":" => $this->getProfileLink($full_name, $graded_by_id)
         ];
     }
 
