@@ -2,7 +2,7 @@
 
 if [[ -z ${GHRUN} ]]
 then
-  RUNCSFIXER=$(libs/composer/vendor/bin/php-cs-fixer fix --using-cache=no --dry-run -vvv --config=./CI/PHP-CS-Fixer/code-format.php_cs)
+  RUNCSFIXER=$(libs/composer/vendor/bin/php-cs-fixer fix --using-cache=no --dry-run -vvv --config=./CI/PHP-CS-Fixer/code-format.php_cs $@)
   RESULT=$?
   if [[ ${RESULT} -ne 0 ]]
   then
