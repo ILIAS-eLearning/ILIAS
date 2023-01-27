@@ -218,12 +218,12 @@ class ilLOEditorStatus
         // Step 2
         // course material
         $done = $this->getMaterialsStatus(true);
-        $this->ctrl->setParameterByClass('ilobjcoursegui', 'cmd', 'enableAdministrationPanel');
+        //$this->ctrl->setParameterByClass('ilobjcoursegui', 'cmd', 'enableAdministrationPanel');
 
         $steps[] = $this->workflow->step(
             $this->lng->txt('crs_objective_status_materials'),
             implode(" ", $this->getFailureMessages(self::SECTION_MATERIALS)),
-            $this->ctrl->getLinkTargetByClass('ilobjcoursegui', '')
+            $this->ctrl->getLinkTargetByClass('ilobjcoursegui', 'enableAdministrationPanel')
         )->withStatus($this->determineStatus($done, self::SECTION_MATERIALS));
 
         // Step 3
@@ -249,7 +249,6 @@ class ilLOEditorStatus
             'testsOverview' :
             'testOverview';
         $this->ctrl->setParameter($this->getCmdClass(), 'tt', ilLOSettings::TYPE_TEST_QUALIFIED);
-
         $steps[] = $this->workflow->step(
             $this->lng->txt('crs_objective_status_qtest'),
             implode(" ", $this->getFailureMessages(self::SECTION_QTEST)),
