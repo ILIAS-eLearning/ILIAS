@@ -726,8 +726,13 @@ class ilFileSystemGUI
         if (is_file($_FILES["new_file"]["tmp_name"])) {
             $name = ilUtil::stripSlashes($_FILES["new_file"]["name"]);
             $tgt_file = $cur_dir . "/" . $name;
+            try {
+                ilUtil::moveUploadedFile($_FILES["new_file"]["tmp_name"], $name, $tgt_file);
+            } catch (ilException $e) {
+                ilUtil::sendFailure($e->getMessage(), true);
+                $this->ctrl->redirect($this, "listFiles");
+            }
 
-            ilUtil::moveUploadedFile($_FILES["new_file"]["tmp_name"], $name, $tgt_file);
         } elseif ($_POST["uploaded_file"]) {
             include_once 'Services/FileSystem/classes/class.ilUploadFiles.php';
 

@@ -3581,6 +3581,12 @@ class ilUtil
         while ($file = readdir($dir)) {
             if ($file != "." and
             $file != "..") {
+                // triple dot is not allowed in filenames
+                if ($file === '...') {
+                    unlink($a_dir . "/" . $file);
+                    continue;
+                }
+
                 // directories
                 if (@is_dir($a_dir . "/" . $file)) {
                     ilUtil::rRenameSuffix($a_dir . "/" . $file, $a_old_suffix, $a_new_suffix);
@@ -3590,7 +3596,14 @@ class ilUtil
                 if (@is_file($a_dir . "/" . $file)) {
                     // first check for files with trailing dot
                     if (strrpos($file, '.') == (strlen($file) - 1)) {
-                        rename($a_dir . '/' . $file, substr($a_dir . '/' . $file, 0, -1));
+                        try {
+                            rename($a_dir . '/' . $file, substr($a_dir . '/' . $file, 0, -1));
+                        } catch (Throwable $t) {
+                            // to avoid exploits we do delete this file and continue renaming
+                            unlink($a_dir . '/' . $file);
+                            continue;
+                        }
+
                         $file = substr($file, 0, -1);
                     }
 
