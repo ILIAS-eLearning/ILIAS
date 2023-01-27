@@ -8,6 +8,8 @@
 	var ACTION_REMOVE_CONV = "remove";
 	var ACTION_STORE_CONV = "store";
 	var ACTION_DERIVED_FROM_CONV_OPEN_STATUS = "derivefromopen";
+	const resizeTextareas = {}; // string: function
+	const MAX_CHAT_LINES = 3;
 
 	$.widget("custom.iloscautocomplete", $.ui.autocomplete, {
 		more: false,
@@ -31,63 +33,28 @@
 		}
 	});
 
+	const triggerMap = {
+		participantEvent: ['click', '[data-onscreenchat-userid]'],
+		onEmitCloseConversation: ['click', '[data-onscreenchat-close]'],
+		submitEvent: ['click', '[data-action="onscreenchat-submit"]', 'keydown', '[data-onscreenchat-window]'],
+		addEvent: ['click', '[data-onscreenchat-add]'],
+		windowClicked: ['click', '[data-onscreenchat-window]'],
+		resizeChatWindow: ['input', '[data-onscreenchat-message]'],
+		messageInput: ['keyup click', '[data-onscreenchat-message]'],
+		focusOut: ['focusout', '[data-onscreenchat-window]'],
+		emoticonClicked: ['click', '[data-onscreenchat-emoticon]'],
+		menuItemClicked: ['click', '[data-onscreenchat-menu-item]'],
+		menuItemRemovalRequest: ['click', '[data-onscreenchat-menu-remove-conversation]'],
+	};
 	$scope.il.OnScreenChatJQueryTriggers = {
-		triggers: {
-			participantEvent: function(){},
-			onEmitCloseConversation: function(){},
-			submitEvent: function(){},
-			addEvent: function(){},
-			resizeChatWindow: function() {},
-			focusOut: function() {},
-			messageInput: function() {},
-			menuItemRemovalRequest: function() {},
-			emoticonClicked: function() {},
-			messageContentPasted: function() {},
-			windowClicked: function() {},
-			menuItemClicked: function() {},
-			updatePlaceholder: function() {}
-		},
+		triggers: mapObject(triggerMap, function(){return function(){};}),
 
 		setTriggers: function(triggers) {
-			if (triggers.hasOwnProperty('participantEvent')) {
-				$scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent = triggers.participantEvent;
-			}
-			if (triggers.hasOwnProperty('onEmitCloseConversation')) {
-				$scope.il.OnScreenChatJQueryTriggers.triggers.onEmitCloseConversation = triggers.onEmitCloseConversation;
-			}
-			if (triggers.hasOwnProperty('submitEvent')) {
-				$scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent = triggers.submitEvent;
-			}
-			if (triggers.hasOwnProperty('addEvent')) {
-				$scope.il.OnScreenChatJQueryTriggers.triggers.addEvent = triggers.addEvent;
-			}
-			if (triggers.hasOwnProperty('resizeChatWindow')) {
-				$scope.il.OnScreenChatJQueryTriggers.triggers.resizeChatWindow = triggers.resizeChatWindow;
-			}
-			if (triggers.hasOwnProperty('focusOut')) {
-				$scope.il.OnScreenChatJQueryTriggers.triggers.focusOut = triggers.focusOut;
-			}
-			if (triggers.hasOwnProperty('messageInput')) {
-				$scope.il.OnScreenChatJQueryTriggers.triggers.messageInput = triggers.messageInput;
-			}
-			if (triggers.hasOwnProperty('menuItemRemovalRequest')) {
-				$scope.il.OnScreenChatJQueryTriggers.triggers.menuItemRemovalRequest = triggers.menuItemRemovalRequest;
-			}
-			if (triggers.hasOwnProperty('emoticonClicked')) {
-				$scope.il.OnScreenChatJQueryTriggers.triggers.emoticonClicked = triggers.emoticonClicked;
-			}
-			if (triggers.hasOwnProperty('messageContentPasted')) {
-				$scope.il.OnScreenChatJQueryTriggers.triggers.messageContentPasted = triggers.messageContentPasted;
-			}
-			if (triggers.hasOwnProperty('windowClicked')) {
-				$scope.il.OnScreenChatJQueryTriggers.triggers.windowClicked = triggers.windowClicked;
-			}
-			if (triggers.hasOwnProperty('menuItemClicked')) {
-				$scope.il.OnScreenChatJQueryTriggers.triggers.menuItemClicked = triggers.menuItemClicked;
-			}
-			if (triggers.hasOwnProperty('updatePlaceholder')) {
-				$scope.il.OnScreenChatJQueryTriggers.triggers.updatePlaceholder = triggers.updatePlaceholder;
-			}
+			Object.keys(triggerMap).map(function(key){
+				if (triggers.hasOwnProperty(key)) {
+					$scope.il.OnScreenChatJQueryTriggers.triggers[key] = triggers[key];
+				}
+			});
 
 			return this;
 		},
@@ -95,24 +62,12 @@
 		init: function() {
 			$(window).on('resize', $scope.il.OnScreenChat.resizeWindow).resize();
 
-			$('body')
-				.on('click', '[data-onscreenchat-userid]', $scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent)
-				.on('click', '[data-onscreenchat-close]', $scope.il.OnScreenChatJQueryTriggers.triggers.onEmitCloseConversation)
-				.on('click', '[data-action="onscreenchat-submit"]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
-				.on('click', '[data-onscreenchat-add]', $scope.il.OnScreenChatJQueryTriggers.triggers.addEvent)
-				.on('click', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.windowClicked)
-				.on('keydown', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
-				.on('input', '[data-onscreenchat-message]', function(e) {
-					$scope.il.OnScreenChatJQueryTriggers.triggers.resizeChatWindow.call(this, e);
-					$scope.il.OnScreenChatJQueryTriggers.triggers.updatePlaceholder.call(this, e);
-				})
-				.on('paste', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.messageContentPasted)
-				.on('keyup click', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.messageInput)
-				.on('focusout', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.focusOut)
-				.on('click', '[data-onscreenchat-emoticon]', $scope.il.OnScreenChatJQueryTriggers.triggers.emoticonClicked)
-				// Notification center events
-				.on('click', '[data-onscreenchat-menu-item]', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemClicked)
-				.on('click', '[data-onscreenchat-menu-remove-conversation]', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemRemovalRequest);
+			const body = $('body');
+			mapObject(triggerMap, function(eventAndSelector, key){
+				piecesOf(2, eventAndSelector).forEach(function(eventAndSelector){
+					body.on(eventAndSelector[0], eventAndSelector[1], $scope.il.OnScreenChatJQueryTriggers.triggers[key]);
+				});
+			});
 		}
 	};
 
@@ -241,10 +196,8 @@
 				messageInput:            getModule().onMessageInput,
 				menuItemRemovalRequest:  getModule().onMenuItemRemovalRequest,
 				emoticonClicked:         getModule().onEmoticonClicked,
-				messageContentPasted:    getModule().onMessageContentPasted,
 				windowClicked:           getModule().onWindowClicked,
 				menuItemClicked:         getModule().onMenuItemClicked,
-				updatePlaceholder:       getModule().updatePlaceholder
 			}).init();
 
 			$('body').append(
@@ -372,6 +325,12 @@
 				getModule().closeWindowWithLongestInactivity();
 			}
 
+			resizeTextareas[conversation.id] = expandableTextarea(
+				'.panel-footer-for-shadow',
+				'[data-onscreenchat-window="' + conversation.id + '"] [data-onscreenchat-message]',
+				MAX_CHAT_LINES
+			);
+
 			getModule().resizeMessageInput.call($(conversationWindow).find('[data-onscreenchat-message]'));
 			getModule().scrollBottom(conversationWindow);
 
@@ -389,6 +348,7 @@
 		resizeMessageInput: function(e){
 			var inputWrapper = $(this).closest('.panel-footer');
 			var parent = $(inputWrapper).closest('[data-onscreenchat-window]');
+			resizeTextareas[parent.data('onscreenchat-window')]();
 			var wrapperHeight = parent.outerHeight();
 			var headingHeight = parent.find('.panel-heading').outerHeight();
 			var inputHeight = $(inputWrapper).outerHeight();
@@ -596,9 +556,18 @@
 		},
 
 		handleSubmit: function(e) {
-			if ((e.keyCode === 13 && !e.shiftKey) || e.type === 'click') {
+			const isEnter = e.keyCode === 13;
+			const shiftEnter = isEnter && e.shiftKey;
+			const altEnter = isEnter && e.altKey;
+			if (shiftEnter || altEnter) {
+				const input = this.querySelector('[data-onscreenchat-message]');
+				insertAtCursor(input, '\n');
+				getModule().resizeMessageInput.call($(input));
 				e.preventDefault();
-				var conversationId = $(this).closest('[data-onscreenchat-window]').attr('data-onscreenchat-window');
+				return false;
+			} else if (isEnter || e.type === 'click') {
+				e.preventDefault();
+				const conversationId = $(this).closest('[data-onscreenchat-window]').attr('data-onscreenchat-window');
 				getModule().send(conversationId);
 				getModule().historyBlocked = true;
 			}
@@ -606,16 +575,15 @@
 
 		send: function(conversationId) {
 			var input = $('[data-onscreenchat-window=' + conversationId + ']').find('[data-onscreenchat-message]');
-			var message = input.text();
+			var message = input.val();
 
 			if(message !== "") {
 				$chat.sendMessage(conversationId, message);
-				input.html('');
+				input.val('');
 				getModule().onMessageInput.call(input);
 				getModule().resizeMessageInput.call(input);
 
 				var e = $.Event('click');
-				$scope.il.OnScreenChatJQueryTriggers.triggers.updatePlaceholder.call(input, e);
 			}
 		},
 
@@ -815,25 +783,9 @@
 
 			e.preventDefault();
 			e.stopPropagation();
-	
-			var messagePaster = new MessagePaster(messageField);
-			messagePaster.paste($(this).find('img').data('emoticon'));
+
+			insertAtCursor(messageField[0], $(this).find('img').data('emoticon'));
 			messageField.popover('hide');
-
-			$scope.il.OnScreenChatJQueryTriggers.triggers.updatePlaceholder.call(messageField.get(0), e);
-		},
-
-		onMessageContentPasted: function(e) {
-			var text = (e.originalEvent || e).clipboardData.getData('text/plain');
-
-			e.stopPropagation();
-			e.preventDefault();
-
-			var messagePaster = new MessagePaster($(this));
-			messagePaster.paste(text);
-
-			$scope.il.OnScreenChatJQueryTriggers.triggers.resizeChatWindow.call(this, e);
-			$scope.il.OnScreenChatJQueryTriggers.triggers.updatePlaceholder.call(this, e);
 		},
 
 		onWindowClicked: function(e) {
@@ -850,17 +802,6 @@
 
 		onMenuItemClicked: function(e) {
 			$scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent.call(this, e);
-		},
-
-		updatePlaceholder: function(e) {
-			var $this = $(this),
-				placeholder = $this.parent().find('[data-onscreenchat-message-placeholder]');
-
-			if ($.trim($this.html()).length > 0 ) {
-				placeholder.addClass('ilNoDisplay');
-			} else {
-				placeholder.removeClass('ilNoDisplay');
-			}
 		},
 
 		onConversationLeft: function(conversation) {
@@ -1511,36 +1452,6 @@
 		return "";
 	};
 
-	const MessagePaster = function(message) {
-		let _message = message, getLastCaretPosition = function() {
-			return _message.attr("data-onscreenchat-last-caret-pos") || 0;
-		};
-
-		this.paste = function(text) {
-			let lastCaretPosition = parseInt(getLastCaretPosition(), 10),
-				pre  = _message.text().substr(0, lastCaretPosition),
-				post = _message.text().substr(lastCaretPosition);
-
-			_message.text(pre + text  + post);
-
-			if (window.getSelection) {
-				let node = _message.get(0);
-				node.focus();
-
-				let textNode = node.firstChild;
-				let range = document.createRange();
-				range.setStart(textNode, lastCaretPosition + text.length);
-				range.setEnd(textNode, lastCaretPosition + text.length);
-
-				let sel = window.getSelection();
-				sel.removeAllRanges();
-				sel.addRange(range);
-			} else {
-				_message.focus();
-			}
-		};
-	};
-
 	const MessageFormatter = function MessageFormatter(emoticons) {
 		let _emoticons = emoticons;
 
@@ -1648,5 +1559,134 @@
 				.data("emoticons", this);
 		};
 	};
+
+    function insertAtCursor(node, text){
+        const lastCaretPosition = node.selectionStart;
+        node.value = node.value.substr(0, lastCaretPosition) + text + node.value.substr(lastCaretPosition);
+        const newCursorPos = lastCaretPosition + text.length;
+        node.setSelectionRange(newCursorPos, newCursorPos);
+        node.focus();
+    }
+
+    function mapObject(obj, proc){
+        return Object.fromEntries(Object.entries(obj).map(function(entry){
+            return [entry[0], proc(entry[1], entry[0])];
+        }));
+    }
+    function piecesOf(nr, array) {
+        let current = array;
+        const result = [];
+        while(current.length) {
+            result.push(current.slice(0, 2));
+            current = current.slice(nr);
+        }
+        return result;
+    }
+    function freeze(thunk){
+        let thaw = function(){
+            const value = thunk();
+            thaw = function(){return value;};
+            return value;
+        };
+
+        return function(){
+            return thaw();
+        };
+    }
+
+    function expandableTextareaFromNodes(shadowBox, textarea, maxLines){
+        const shadow = document.createElement('textarea');
+        const updateHeight = (function(){
+            /** Prevent style update if style is already set. */
+            let currentHeight = '';
+            return function(newHeight){
+                if (newHeight !== currentHeight){
+                    textarea.style.height = newHeight;
+                    currentHeight = newHeight;
+                }
+            };
+        })();
+        shadow.style.height = window.getComputedStyle(textarea).height;
+        shadow.setAttribute('area-hidden', 'true');
+        shadow.readOnly = true;
+        shadow.disabled = true;
+
+        const syncShadow = function(){
+            const relevantStyles = 'padding-top padding-bottom padding-left padding-right margin-left margin-right margin-top margin-bottom width font-size font-family font-style font-weight line-height font-variant text-transform letter-spacing border box-sizing display';
+            const style = window.getComputedStyle(textarea);
+            relevantStyles.split(' ').forEach(function(name){
+                shadow.style[name] = style[name];
+            });
+        };
+
+        /** Return the height which would be added on newline. */
+        const calculateLineHeight = function(){
+            const value = shadow.value;
+            shadow.value = '';
+            const height = shadow.scrollHeight;
+            shadow.value = '\n';
+            const lineHeight = shadow.scrollHeight - height;
+            shadow.value = value;
+            return lineHeight;
+        };
+
+        const lineHeight = freeze(calculateLineHeight);
+
+        /**
+         * Max height of the textarea.
+         * !! This is not equal to maxLines * lineHeight() because it includes the base height.
+         */
+        const maxTextareaHeight = freeze(function(){
+            const value = shadow.value;
+            shadow.value = '\n'.repeat(maxLines - 1);
+            const lineHeight = shadow.scrollHeight;
+            shadow.value = value;
+            return lineHeight;
+        });
+
+        const lines = function(initial, currentHeight){
+            return parseInt(((currentHeight - initial) / lineHeight()) + 1);
+        };
+
+        const resize = function(){
+            shadow.value = '';
+            const init = shadow.scrollHeight;
+            const height = textarea.clientHeight;
+            shadow.value = textarea.value;
+            const scroll = shadow.scrollHeight;
+            const currentLines = lines(init, scroll);
+            if(scroll > init)
+            {
+                if(currentLines <= maxLines)
+                {
+                    updateHeight(scroll + 'px');
+                }
+                else
+                {
+                    updateHeight(maxTextareaHeight() + 'px');
+                }
+            }
+            else if(scroll < height)
+            {
+                updateHeight('');
+            }
+        };
+
+        return function(){
+            shadowBox.appendChild(shadow);
+            syncShadow();
+            resize();
+            shadow.remove();
+        };
+    }
+
+    function expandableTextarea(shadowBoxSelector, textareaSelector, maxLines){
+        const select = function(selector){
+            const node = document.querySelector(selector);
+            console.assert(node !== null, 'Could not find selector ' + JSON.stringify(selector));
+            return node;
+        };
+        return expandableTextareaFromNodes(select(shadowBoxSelector), select(textareaSelector), maxLines);
+    }
 
 })(jQuery, window, window.il.Chat, window.il.ChatDateTimeFormatter);
