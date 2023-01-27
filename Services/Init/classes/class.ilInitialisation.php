@@ -29,6 +29,7 @@ use ILIAS\FileUpload\Processor\PreProcessorManagerImpl;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement;
 use ILIAS\Filesystem\Definitions\SuffixDefinitions;
+use ILIAS\FileUpload\Processor\InsecureFilenameSanitizerPreProcessor;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -346,6 +347,7 @@ class ilInitialisation
                     $c->language()->txt("msg_info_blacklisted")
                 )
             );
+            $fileUploadImpl->register(new InsecureFilenameSanitizerPreProcessor());
 
             return $fileUploadImpl;
         };
