@@ -20,6 +20,7 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\TA\Questions\assQuestionSuggestedSolution;
 use ILIAS\TA\Questions\assQuestionSuggestedSolutionsDatabaseRepository;
 use ILIAS\DI\Container;
+use Psr\Http\Message\ServerRequestInterface;
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
@@ -54,7 +55,8 @@ abstract class assQuestion
         self::IMG_MIME_TYPE_PNG => array('binary'),
         self::IMG_MIME_TYPE_GIF => array('binary')
     );
-
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
     protected ILIAS\DI\LoggingServices $ilLog;
 
@@ -206,6 +208,8 @@ abstract class assQuestion
         $this->tpl = $tpl;
         $this->db = $ilDB;
         $this->ilLog = $ilLog;
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->title = $title;
         $this->comment = $comment;
