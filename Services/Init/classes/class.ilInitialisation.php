@@ -38,6 +38,7 @@ use ILIAS\ResourceStorage\Information\Repository\InformationDBRepository;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository;
 use ILIAS\ResourceStorage\Preloader\DBRepositoryPreloader;
 use ILIAS\Filesystem\Definitions\SuffixDefinitions;
+use ILIAS\FileUpload\Processor\InsecureFilenameSanitizerPreProcessor;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -355,6 +356,7 @@ class ilInitialisation
                     $c->language()->txt("msg_info_blacklisted")
                 )
             );
+            $fileUploadImpl->register(new InsecureFilenameSanitizerPreProcessor());
 
             return $fileUploadImpl;
         };
