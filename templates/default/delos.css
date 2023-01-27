@@ -10337,6 +10337,9 @@ footer {
 .il-maincontrols-footer .il-footer-permanent-url {
   margin-right: 5px;
 }
+.il-maincontrols-footer .il-footer-permanent-url > a {
+  color: white;
+}
 .il-maincontrols-footer .il-footer-text {
   margin-right: 5px;
 }
@@ -18420,38 +18423,16 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   -webkit-hyphens: auto;
   hyphens: auto;
 }
+#onscreenchat-container .chat-window-wrapper .panel-footer-for-shadow {
+  height: 0;
+  width: 0;
+}
 #onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessageContainer {
-  background-color: transparent;
-}
-#onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessageContainer .iosOnScreenChatMessagePlaceholder {
-  position: absolute;
-  z-index: 0;
-  border: 0 none !important;
-  background-color: transparent;
-  opacity: 0.5;
-}
-#onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessageContainer .iosOnScreenChatMessage {
-  background-color: transparent;
-  position: relative;
-  z-index: 1;
-  white-space: pre-wrap;
-  user-select: text;
-  outline: none;
-  overflow-x: hidden;
-  height: auto;
-  min-height: 26px;
-  max-height: 75px;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  -ms-word-break: break-all;
-  word-break: break-all;
-  word-break: break-word;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-  cursor: text;
-  padding-right: 26px;
+  resize: none;
+  width: 100%;
+  border: 1px solid;
+  background: white;
+  height: 25px;
 }
 #onscreenchat-container .chat-window-wrapper .osc_truncate_username {
   width: 150px;
@@ -20187,3 +20168,4 @@ table.mceToolbar td {
   border: 1px solid #dddddd;
   border-radius: 0.25em;
 }
+/*# sourceMappingURL=delos.css.map */
