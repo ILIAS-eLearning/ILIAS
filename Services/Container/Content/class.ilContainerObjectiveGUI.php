@@ -845,7 +845,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             if (isset($types[ilLOUserResults::TYPE_QUALIFIED])) {
                 $result = $types[ilLOUserResults::TYPE_QUALIFIED];
                 $result["type"] = ilLOUserResults::TYPE_QUALIFIED;
-                $result["initial"] = $types[ilLOUserResults::TYPE_INITIAL];
+                $result["initial"] = $types[ilLOUserResults::TYPE_INITIAL] ?? null;
             } else {
                 $result = $types[ilLOUserResults::TYPE_INITIAL];
                 $result["type"] = ilLOUserResults::TYPE_INITIAL;
