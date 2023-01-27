@@ -11,6 +11,7 @@ use ILIAS\FileUpload\Processor\FilenameSanitizerPreProcessor;
 use ILIAS\FileUpload\Processor\PreProcessorManagerImpl;
 use ILIAS\FileUpload\Processor\VirusScannerPreProcessor;
 use ILIAS\GlobalScreen\Services;
+use ILIAS\FileUpload\Processor\InsecureFilenameSanitizerPreProcessor;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -293,6 +294,7 @@ class ilInitialisation
             }
 
             $fileUploadImpl->register(new FilenameSanitizerPreProcessor());
+            $fileUploadImpl->register(new InsecureFilenameSanitizerPreProcessor());
             $fileUploadImpl->register(new BlacklistExtensionPreProcessor(ilFileUtils::getExplicitlyBlockedFiles(), $c->language()->txt("msg_info_blacklisted")));
 
             return $fileUploadImpl;
