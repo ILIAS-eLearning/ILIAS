@@ -2977,12 +2977,13 @@ class ilObjCourseGUI extends ilContainerGUI
             $question = $this->lng->txt('crs_loc_objectives_passed_confirmation');
         }
 
+        $confirm->setHeaderText($question);
         $confirm->addHiddenItem('objective_id', (string) $a_objective_id);
         $confirm->addHiddenItem('tid', (string) $a_test_id);
         $confirm->setConfirm($this->lng->txt('crs_loc_tst_start'), 'redirectLocToTestConfirmed');
         $confirm->setCancel($this->lng->txt('cancel'), 'view');
 
-        $this->tpl->setOnScreenMessage('question', $question);
+        //$this->tpl->setOnScreenMessage('question', $question);
         $this->tpl->setContent($confirm->getHTML());
     }
 
