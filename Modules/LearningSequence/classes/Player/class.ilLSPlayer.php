@@ -98,7 +98,7 @@ class ilLSPlayer
         $this->ls_items->storeState($state, $current_item_ref_id, $next_item->getRefId());
 
         //get proper view
-        if ($next_item !== $current_item) {
+        if ($next_item != $current_item) {
             $view = $this->view_factory->getViewFor($next_item);
             $state = $this->ls_items->getStateFor($next_item, $view);
         }
