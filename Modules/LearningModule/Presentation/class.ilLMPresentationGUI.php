@@ -1146,11 +1146,11 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             $rating_gui->setObject($this->lm->getId(), "lm", $this->getCurrentPageId(), "lm");
             $rating_gui->setYourRatingText($this->lng->txt("lm_rate_page"));
 
-            $this->ctrl->setParameter($this, "pgid", $this->getCurrentPageId());
+            $this->ctrl->setParameter($this, "pg_id", $this->getCurrentPageId());
             $this->tpl->addOnLoadCode("il.LearningModule.setRatingUrl('" .
                 $this->ctrl->getLinkTarget($this, "updatePageRating", "", true, false) .
                 "')");
-            $this->ctrl->setParameter($this, "pgid", "");
+            $this->ctrl->setParameter($this, "pg_id", "");
 
             $rating = '<div id="ilrtrpg" style="text-align:right">' .
                 $rating_gui->getHTML(true, true, "il.LearningModule.saveRating(%rating%);") .
@@ -1162,7 +1162,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     public function updatePageRating(): void
     {
         $ilUser = $this->user;
-        $pg_id = $this->getCurrentPageId();
+        $pg_id = $this->service->getRequest()->getPgId();
         if (!$this->ctrl->isAsynch() || !$pg_id) {
             exit();
         }
