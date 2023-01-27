@@ -637,16 +637,20 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
                 $update = $row["solution_id"];
             }
 
+            $multiple_choice_result = $this->http->wrapper()->post()->has('multiple_choice_result') ?
+                $this->http->wrapper()->post()->retrieve('multiple_choice_result', $this->refinery->kindlyTo()->string()) :
+                '';
+
             if ($update != -1) {
-                if (strlen($_POST["multiple_choice_result"])) {
-                    $this->updateCurrentSolution($update, $_POST["multiple_choice_result"], null, $authorized);
+                if ($multiple_choice_result !== '') {
+                    $this->updateCurrentSolution($update, $multiple_choice_result, null, $authorized);
                     $entered_values++;
                 } else {
                     $this->removeSolutionRecordById($update);
                 }
             } else {
-                if (strlen($_POST["multiple_choice_result"])) {
-                    $this->saveCurrentSolution($active_id, $pass, $_POST['multiple_choice_result'], null, $authorized);
+                if ($multiple_choice_result !== '') {
+                    $this->saveCurrentSolution($active_id, $pass, $multiple_choice_result, null, $authorized);
                     $entered_values++;
                 }
             }
