@@ -156,7 +156,7 @@ abstract class ilPageObject
 
     abstract public function getParentType(): string;
 
-    final public function initPageConfig(): void
+    public function initPageConfig(): void
     {
         $cfg = ilPageObjectFactory::getConfigInstance($this->getParentType());
         $this->setPageConfig($cfg);
@@ -758,6 +758,9 @@ abstract class ilPageObject
         $pc_path = "./" . $pc_def["component"] . "/" . $pc_def["directory"] . "/class." . $pc_class . ".php";
         require_once($pc_path);
         $pc = new $pc_class($this);
+        if ($cont_node->myDOMNode->nodeName !== "PageContent") {
+            return null;
+        }
         $pc->setNode($cont_node);
         $pc->setHierId($a_hier_id);
         $pc->setPcId($a_pc_id);
@@ -888,11 +891,16 @@ s     */
                 ? "encoding=\"" . $this->encoding . "\""
                 : "";
             return "<?xml version=\"1.0\" $enc_str ?>" .
-                "<!DOCTYPE PageObject SYSTEM \"" . ILIAS_ABSOLUTE_PATH . "/xml/" . $this->cur_dtd . "\">" .
+                "<!DOCTYPE PageObject SYSTEM \"" . $this->getIliasAbsolutePath() . "/xml/" . $this->cur_dtd . "\">" .
                 $this->xml;
         } else {
             return $this->xml;
         }
+    }
+
+    protected function getIliasAbsolutePath(): string
+    {
+        return ILIAS_ABSOLUTE_PATH;
     }
 
     /**

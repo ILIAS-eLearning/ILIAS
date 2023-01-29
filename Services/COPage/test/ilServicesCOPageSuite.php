@@ -31,6 +31,8 @@ class ilServicesCOPageSuite extends TestSuite
     {
         $suite = new self();
 
+        require_once("./Services/COPage/test/COPageTestBase.php");
+
         require_once("./Services/COPage/test/EditorEditSessionRepositoryTest.php");
         $suite->addTestSuite("EditorEditSessionRepositoryTest");
 
@@ -39,6 +41,16 @@ class ilServicesCOPageSuite extends TestSuite
 
         require_once("./Services/COPage/test/PCParagraphTest.php");
         $suite->addTestSuite("PCParagraphTest");
+
+        require_once("./Services/COPage/test/PCSectionTest.php");
+        $suite->addTestSuite("PCSectionTest");
+
+        require_once("./include/inc.xml5compliance.php");
+        require_once("./include/inc.xsl5compliance.php");
+        require_once("./Services/COPage/test/class.ilUnitTestPageConfig.php");
+        require_once("./Services/COPage/test/PageObjectTest.php");
+        require_once("./Services/COPage/test/class.ilUnitTestPageObject.php");
+        $suite->addTestSuite("PageObjectTest");
 
         return $suite;
     }
