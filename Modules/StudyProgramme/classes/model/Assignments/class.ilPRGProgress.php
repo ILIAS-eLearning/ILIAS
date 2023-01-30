@@ -159,7 +159,8 @@ class ilPRGProgress extends Node
                 ];
             case self::STATUS_COMPLETED:
                 return [
-                    self::STATUS_IN_PROGRESS // deaccriditation of sub-progress might revert completion,
+                    self::STATUS_IN_PROGRESS, // deaccriditation of sub-progress might revert completion,
+                    self::STATUS_NOT_RELEVANT
                 ];
             case self::STATUS_FAILED:
                 return [
