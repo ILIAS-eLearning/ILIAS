@@ -427,7 +427,6 @@ class ilObjStudyProgrammeAutoCategoriesGUI
             $this->tree->getPathFull($cat_ref_id)
         );
         $path = implode(' > ', $hops);
-        $title = array_pop($hops);
-        return [$title, $this->ui_factory->link()->standard($path, $url)];
+        return [$path, $this->ui_factory->link()->standard($path, $url)];
     }
 }
