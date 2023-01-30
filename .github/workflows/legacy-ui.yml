@@ -1,0 +1,42 @@
+name: legacy-ui-checks
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to run checks on'
+        required: true
+        default: 'trunk'
+  schedule:
+     # Runs every day bright and early
+    - cron: '0 3 * * 0'
+permissions:
+  contents: read
+  pull-requests: read
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    outputs:
+      all: ${{ steps.changes.outputs.all }}
+    strategy:
+      fail-fast: false
+    steps:
+      - name: 'Checkout Code'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: 'Install Dependencies'
+        uses: php-actions/composer@v6
+        with:
+          php_version: 8.1
+          args: --no-interaction --no-progress --ignore-platform-reqs --no-scripts
+
+      - name: 'PHStan Custom Rules'
+        run: CI/PHPStan/run_legacy_ui_report.sh
+
+      - name: 'Store Report'
+        uses: actions/upload-artifact@v3
+        with:
+          name: Reports
+          path: Reports
+          retention-days: 30
