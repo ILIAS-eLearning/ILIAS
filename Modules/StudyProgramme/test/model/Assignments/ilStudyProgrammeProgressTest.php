@@ -308,6 +308,7 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
             ->withStatus(ilPRGProgress::STATUS_COMPLETED);
         if (in_array($status, [
             ilPRGProgress::STATUS_IN_PROGRESS,
+            ilPRGProgress::STATUS_NOT_RELEVANT,
             $pgs->getStatus()
         ])) {
             $this->assertTrue($pgs->isTransitionAllowedTo($status));
