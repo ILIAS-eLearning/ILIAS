@@ -10878,7 +10878,7 @@ mathjax#:#mathjax_limiter#:#Beágyazott határolójelek
 mathjax#:#mathjax_limiter_info#:#Válassza ki a beágyazott határolójeleket, ahogy azok az Ön MathJax installációjában konfiguráltak.
 mathjax#:#mathjax_mathjax#:#MathJax
 mathjax#:#mathjax_path_to_mathjax#:#URL a MathJaxhoz
-mathjax#:#mathjax_path_to_mathjax_desc#:#Például https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML vagy egy URL a saját helyi telepítésre.
+mathjax#:#mathjax_path_to_mathjax_desc#:#Például https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe vagy egy URL a saját helyi telepítésre.
 mathjax#:#mathjax_server_address#:#Szerver címe
 mathjax#:#mathjax_server_address_info#:#Például http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#A MathJax gyorsítótárát sikeresen ürítette.
