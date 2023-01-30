@@ -39,8 +39,8 @@ class ilObjForumSearchResultTableGUI extends ilRepositoryObjectSearchResultTable
             $DIC->ctrl()->setParameterByClass(ilObjForumGUI::class, 'thr_pk', $result_set['item_id']);
             $row['link'] = $DIC->ctrl()->getLinkTargetByClass(ilObjForumGUI::class, 'viewThread');
 
-            $row['relevance'] = $result_set['relevance'];
-            $row['content'] = $result_set['content'];
+            $row['relevance'] = (float) ($result_set['relevance'] ?? 0.0);
+            $row['content'] = (string) ($result_set['content'] ?? '');
 
             $rows[] = $row;
         }
