@@ -419,13 +419,20 @@ class ilMemberExportGUI
                 continue;
             }
 
-            $ret = $this->fss_export->deleteMemberExportFile($file['timest'] . '_participant_export_' .
-                $file['type'] . '_' . $this->obj_id . '.' . $file['type']);
+            $path = $file['timest'] . '_participant_export_' .
+                $file['type'] . '_' . $this->obj_id . '.' . $file['type'];
+            if ($this->fss_export->hasMemberExportFile($path)) {
+                $this->fss_export->deleteMemberExportFile($path);
+                continue;
+            }
 
-            //try xlsx if return is false and type is xls
-            if ($file['type'] === "xls" && !$ret) {
-                $this->fss_export->deleteMemberExportFile($file['timest'] . '_participant_export_' .
-                    $file['type'] . '_' . $this->obj_id . '.' . "xlsx");
+            if ($file['type'] !== "xls") {
+                continue;
+            }
+            //try xlsx if type is xls and file can't be found
+            $path = $file['timest'] . '_participant_export_xls_' . $this->obj_id . '.xlsx';
+            if ($this->fss_export->hasMemberExportFile($path)) {
+                $this->fss_export->deleteMemberExportFile($path);
             }
         }
 
