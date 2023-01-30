@@ -5006,14 +5006,14 @@ common#:#obj_skmg_desc#:#Kompetenzen und Kategorien verwalten
 common#:#obj_spl#:#Fragenpool für Umfragen
 common#:#obj_spl_select#:#-- Bitte wählen Sie einen Fragenpool für Umfragen aus --
 common#:#obj_st#:#Kapitel
-common#:#obj_sty#:#Style
+common#:#obj_sty#:#Content-Style
 common#:#obj_stys#:#Layout
 common#:#obj_stys_desc#:#Einstellungen für das Erscheinungsbild der Installation und für Styles bestimmter Inhaltsobjekte
 common#:#obj_svy#:#Umfrage
 common#:#obj_svy_duplicate#:#Umfrage kopieren
 common#:#obj_svyf#:#Umfragen
 common#:#obj_svyf_desc#:#Systemweite Einstellungen für Umfragen
-common#:#obj_sysc#:#System Check
+common#:#obj_sysc#:#System-Check
 common#:#obj_sysc_desc#:#System-Check und Werkzeuge zur Fehlerbehebung
 common#:#obj_tags#:#Tagging
 common#:#obj_tags_desc#:#Einstellungen für Tagging
