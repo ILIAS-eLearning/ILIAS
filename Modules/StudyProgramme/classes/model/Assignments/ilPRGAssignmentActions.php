@@ -60,6 +60,7 @@ trait ilPRGAssignmentActions
             $children,
             fn ($c) => ilObject::_exists((int)$c['ref_id'], true)
                 && is_null(ilObject::_lookupDeletedDate((int)$c['ref_id']))
+                && ! is_null(ilContainerReference::_lookupTargetRefId((int) $c['obj_id']))
                 && is_null(ilObject::_lookupDeletedDate(
                     (int) ilContainerReference::_lookupTargetRefId((int) $c['obj_id'])
                 ))
