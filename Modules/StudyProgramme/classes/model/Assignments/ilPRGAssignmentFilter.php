@@ -146,7 +146,8 @@ class ilPRGAssignmentFilter
                 ilStudyProgrammeUserTable::OPTION_ALL => $this->lng->txt("all"),
                 ilStudyProgrammeUserTable::VALIDITY_OPTION_VALID => $this->lng->txt("prg_still_valid"),
                 ilStudyProgrammeUserTable::VALIDITY_OPTION_INVALID => $this->lng->txt("prg_not_valid")
-            ]
+            ],
+            $this->lng->txt('prg_validity')
         ];
 
         $items[] = [
@@ -159,10 +160,11 @@ class ilPRGAssignmentFilter
                 ilPRGProgress::STATUS_ACCREDITED => $this->lng->txt("prg_status_accredited"),
                 ilPRGProgress::STATUS_NOT_RELEVANT => $this->lng->txt("prg_status_not_relevant"),
                 ilPRGProgress::STATUS_FAILED => $this->lng->txt("prg_status_failed")
-            ]
+            ],
+            ''
         ];
 
-        $items[] = ['prg_status_hide_irrelevant', ilTable2GUI::FILTER_CHECKBOX, null];
+        $items[] = ['prg_status_hide_irrelevant', ilTable2GUI::FILTER_CHECKBOX, null, ''];
 
         $items[] = [
              'usr_active',
@@ -171,15 +173,17 @@ class ilPRGAssignmentFilter
                 ilStudyProgrammeUserTable::OPTION_ALL => $this->lng->txt("all"),
                 ilStudyProgrammeUserTable::OPTION_USR_ACTIVE => $this->lng->txt("active_only"),
                 ilStudyProgrammeUserTable::OPTION_USR_INACTIVE => $this->lng->txt("inactive_only")
-             ]
+             ],
+             ''
         ];
 
-        $items[] = ['name', ilTable2GUI::FILTER_TEXT, null];
+        $items[] = ['name', ilTable2GUI::FILTER_TEXT, null, ''];
 
         $items[] = [
             ilPRGAssignmentDBRepository::PROGRESS_FIELD_VQ_DATE, //vq_date
             ilTable2GUI::FILTER_DATE_RANGE,
-            null
+            null,
+            ''
         ];
 
         return $items;
