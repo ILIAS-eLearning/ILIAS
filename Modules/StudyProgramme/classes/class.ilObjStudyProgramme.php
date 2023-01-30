@@ -1493,7 +1493,7 @@ class ilObjStudyProgramme extends ilContainer
         global $DIC; // TODO: replace this by a settable static for testing purpose?
         $tree = $DIC['tree'];
         $node_data = $tree->getParentNodeData($ref_id);
-        if (count($node_data) === 0 || $node_data["type"] !== "prg") {
+        if (count($node_data) === 0 || !array_key_exists('type', $node_data) || $node_data["type"] !== "prg") {
             return;
         }
         self::initStudyProgrammeCache();
