@@ -34,6 +34,7 @@ use ILIAS\Modules\EmployeeTalk\TalkSeries\Repository\IliasDBEmployeeTalkSeriesRe
  * @ilCtrl_Calls      ilObjEmployeeTalkGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI
  * @ilCtrl_Calls      ilObjEmployeeTalkGUI: ilPermissionGUI
  * @ilCtrl_Calls      ilObjEmployeeTalkGUI: ilInfoScreenGUI
+ * @ilCtrl_Calls      ilObjEmployeeTalkGUI: ilPropertyFormGUI
  */
 final class ilObjEmployeeTalkGUI extends ilObjectGUI
 {
