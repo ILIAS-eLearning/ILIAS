@@ -18,6 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
+
 /**
  * Class ilObjTalkTemplateGUI
  *
@@ -160,5 +162,19 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
         $md->setRefId($this->object->getRefId());
         $md->setPropertyForm($form);
         return $md;
+    }
+
+    public static function _goto(string $refId): void
+    {
+        /**
+         * @var \ILIAS\DI\Container $container
+         */
+        $container = $GLOBALS['DIC'];
+        $container->ctrl()->setParameterByClass(strtolower(self::class), 'ref_id', $refId);
+        $container->ctrl()->redirectByClass([
+            strtolower(ilAdministrationGUI::class),
+            strtolower(ilObjTalkTemplateAdministrationGUI::class),
+            strtolower(self::class),
+        ], ControlFlowCommand::INDEX);
     }
 }

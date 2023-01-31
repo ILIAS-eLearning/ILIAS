@@ -63,13 +63,13 @@ final class ilObjTalkTemplateAdministrationAccess extends ilObjectAccess
      */
     public static function _checkGoto(string $a_target): bool
     {
-        $dic = $GLOBALS['DIC'];
+        global $DIC;
 
         $t_arr = explode('_', $a_target);
         if ($t_arr[0] !== 'tala' || ((int) $t_arr[1]) <= 0) {
             return false;
         }
-        if ($dic->access()->checkAccess('read', '', $t_arr[1])) {
+        if ($DIC->access()->checkAccess('read', '', (int) $t_arr[1])) {
             return true;
         }
 

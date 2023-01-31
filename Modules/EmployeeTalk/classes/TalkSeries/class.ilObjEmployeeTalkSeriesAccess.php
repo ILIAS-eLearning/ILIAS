@@ -77,7 +77,7 @@ final class ilObjEmployeeTalkSeriesAccess extends ilObjectAccess
         if ($t_arr[0] !== ilObjEmployeeTalkSeries::TYPE || ((int) $t_arr[1]) <= 0) {
             return false;
         }
-        if ($DIC->access()->checkAccess('read', '', $t_arr[1])) {
+        if ($DIC->access()->checkAccess('read', '', (int) $t_arr[1])) {
             return true;
         }
 
