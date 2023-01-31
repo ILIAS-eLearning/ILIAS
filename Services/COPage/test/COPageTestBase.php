@@ -47,6 +47,10 @@ class COPageTestBase extends TestCase
             define("ILIAS_LOG_ENABLED", false);
         }
 
+        if (!defined("IL_INST_ID")) {
+            define("IL_INST_ID", 0);
+        }
+
         if (!defined("COPAGE_TEST")) {
             define("COPAGE_TEST", "1");
         }
