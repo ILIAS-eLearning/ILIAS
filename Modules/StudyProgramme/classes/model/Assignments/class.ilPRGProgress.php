@@ -40,6 +40,8 @@ class ilPRGProgress extends Node
         self::STATUS_FAILED
     ];
 
+    public const COMPLETED_BY_SUBNODES = -2;
+
     public const DATE_TIME_FORMAT = ilPRGAssignment::DATE_TIME_FORMAT;
     public const DATE_FORMAT = ilPRGAssignment::DATE_FORMAT;
 
