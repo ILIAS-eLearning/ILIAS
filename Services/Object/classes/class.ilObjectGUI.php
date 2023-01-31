@@ -1446,7 +1446,7 @@ class ilObjectGUI
         $obj_id = ilObject::_lookupObjId($this->object->getRefId());
         $obj_type = ilObject::_lookupType($obj_id);
 
-        if ($this->ctrl->getNextClass() != "ilcolumngui") {
+        if ($this->ctrl->getNextClass($this) != "ilcolumngui") {
             // normal command processing
             return $this->getContent();
         } else {
