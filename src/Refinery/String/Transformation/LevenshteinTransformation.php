@@ -118,6 +118,9 @@ class LevenshteinTransformation implements Transformation
             }
             $cost_matrix[$i + 1] = $current_row;
         }
+        if ($cost_matrix[$primary_string_length][$secondary_string_length] > $this->maximum_distance && $this->maximum_distance != 0) {
+            return -1.0;
+        }
         return $cost_matrix[$primary_string_length][$secondary_string_length];
     }
 
