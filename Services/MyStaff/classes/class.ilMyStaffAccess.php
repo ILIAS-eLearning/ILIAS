@@ -834,7 +834,7 @@ class ilMyStaffAccess extends ilObjectAccess
         }
 
         $q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " 
-			(INDEX i1(orgu_id), INDEX i2 (tree_path), INDEX i3 (tree_child), INDEX i4 (tree_parent), INDEX i5 (tree_lft), INDEX i6 (tree_rgt), INDEX i7 (user_position_id), INDEX i8 (user_id))
+			(INDEX i1(orgu_id), INDEX i2 (tree_path(255)), INDEX i3 (tree_child), INDEX i4 (tree_parent), INDEX i5 (tree_lft), INDEX i6 (tree_rgt), INDEX i7 (user_position_id), INDEX i8 (user_id))
 		AS (
 					SELECT  orgu_ua.orgu_id AS orgu_id,
 							tree_orgu.path AS tree_path,
