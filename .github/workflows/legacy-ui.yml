@@ -1,14 +1,8 @@
 name: legacy-ui-checks
 on:
-  workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Branch to run checks on'
-        required: true
-        default: 'trunk'
   schedule:
-     # Runs every day bright and early
-    - cron: '0 3 * * 0'
+     # Run every 12 hours
+    - cron: '0 3,15 * * *'
 permissions:
   contents: read
   pull-requests: read
