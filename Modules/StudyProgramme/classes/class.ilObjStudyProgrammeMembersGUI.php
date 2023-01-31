@@ -220,7 +220,7 @@ class ilObjStudyProgrammeMembersGUI
 
     protected function getAssignmentsById(): array
     {
-        return $this->assignment_db->getAllForSpecificNode($this->object->getId());
+        return $this->assignment_db->getAllForNodeIsContained($this->object->getId());
     }
 
     protected function getMembersTableGUI(): ilStudyProgrammeMembersTableGUI
@@ -829,12 +829,25 @@ class ilObjStudyProgrammeMembersGUI
 
     protected function mailToSelectedUsers(): void
     {
-        $prgrs_ids = $this->getPostPrgsIds();
-        $usr_ids = array_unique(array_map(fn ($pgs_id) => $pgs_id->getUsrId(), $prgrs_ids));
-        $usr_ids = base64_encode(json_encode($usr_ids));
-        $class = 'ilStudyProgrammeMailMemberSearchGUI';
-        $cmd = 'showSelectableUsers';
-        $this->ctrl->setParameterByClass($class, self::F_SELECTED_USER_IDS, $usr_ids);
-        $this->ctrl->redirectByClass($class, $cmd);
+        $dic = ilStudyProgrammeDIC::dic();
+        $gui = $dic['ilStudyProgrammeMailMemberSearchGUI'];
+
+        $selected = $this->getPostPrgsIds();
+        $selected_ids = array_map(
+            fn ($id) => $id->getAssignmentId(),
+            $selected
+        );
+
+        $assignments = array_filter(
+            $this->getAssignmentsById(),
+            fn ($ass) => in_array($ass->getId(), $selected_ids)
+        );
+        $gui->setAssignments($assignments);
+        $this->tabs->clearTargets();
+        $this->tabs->setBackTarget(
+            $this->lng->txt('btn_back'),
+            $this->ctrl->getLinkTarget($this, $this->getDefaultCommand())
+        );
+        $this->ctrl->forwardCommand($gui);
     }
 }
