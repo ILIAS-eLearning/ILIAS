@@ -187,7 +187,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
             );
         }
 
-        if ($arr_searchable_user_columns['email']) {
+        if (isset($arr_searchable_user_columns['email']) && $arr_searchable_user_columns['email']) {
             $cols['usr_email'] = array(
                 'txt' => $DIC->language()->txt('email'),
                 'default' => true,
