@@ -452,9 +452,10 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
             if ($this->answers[$key]->getPoints() <= 0) {
                 continue;
             }
+            $value = html_entity_decode($value); #SB
             switch ($textrating) {
                 case TEXTGAP_RATING_CASEINSENSITIVE:
-                    if (strcmp(ilStr::strToLower(html_entity_decode($value)), ilStr::strToLower($answer)) == 0) {
+                    if (strcmp(ilStr::strToLower($value), ilStr::strToLower($answer)) == 0) { #SB
                         return $key;
                     }
                     break;

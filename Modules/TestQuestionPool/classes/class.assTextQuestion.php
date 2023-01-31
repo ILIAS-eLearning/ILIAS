@@ -487,7 +487,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
                 break;
         }
 
-        // run answers against Levenshtein2 methods
+        // run answers against Levenshtein methods
         foreach ($answerwords as $a_original) {
             if (isset($transformation) && $transformation->transform($a_original) >= 0) {
                 return true;
