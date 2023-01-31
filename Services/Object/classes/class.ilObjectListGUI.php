@@ -1548,7 +1548,10 @@ class ilObjectListGUI
             $this->tpl->setVariable("CONDITION_TOGGLE_ID", "_opt_" . $toggle_id);
             $this->tpl->setVariable(
                 "TXT_PRECONDITIONS",
-                sprintf($this->lng->txt("preconditions_optional_hint"), $num_optional_required)
+                sprintf(
+                    $this->lng->txt("preconditions_optional_hint"),
+                    $num_optional_required - $passed_optional
+                )
             );
             $this->tpl->parseCurrentBlock();
         }
