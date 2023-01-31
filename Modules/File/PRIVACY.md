@@ -2,11 +2,11 @@
 Disclaimer: This documentation does not warrant completeness or correctness. Please report any missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de) or contribute a fix via [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories).
 
 ## General Information
-The file object encompasses only files which were created as an independent object. This means that files which are created by adding a new item of the type file to the repository, a course, category etc. are file objects while files which are uploaded to exercises, tests etc. are not. The file object uses the ILIAS Resource Storage Service (IRSS) to manage the storing and retrieving of its files while the data which is associated with the files (ownership etc.) is managed by the file object itself.
+The File Object encompasses only files which are created as an independent object. This means files which are created by "Add New Item" in the Repository or at "Personal Workspace" > "Personal and Shared Resources". This is NOT about files which are uploaded to Exercises, Tests etc. The File Object uses the ILIAS Resource Storage Service (IRSS) to manage the storing and retrieving of files. Data associated with the File Object such as its Owner is managed by the File Object itself.
 
 ## Services being used
-- The File Object employs the following services, please consult the respective privacy.mds:
-  - [Info Screen](../../Services/InfoScreen/PRIVACY.md)
+- The File Object employs the following services, please consult the respective PRIVACY.mds:
+  - [InfoScreen](../../Services/InfoScreen/PRIVACY.md)
   - [Metadata](../../Services/MetaData/Privacy.md)
   - [AccessControl](../../Services/AccessControl/PRIVACY.md)
   - ECS
@@ -18,17 +18,21 @@ The file object encompasses only files which were created as an independent obje
 
 
 ## Data being stored
-- UserID of the account that created the ILIAS file object is stored as "owner". 
-- Creation Timestamp of the ILIAS file object. 
-- Update Timestamp  of the ILIAS file object. 
-- Ressource-Identifier for accessing the file through the Ressource Storage Service.
+- User ID of the account that created the ILIAS File Object is stored as "Owner".
+- Creation timestamp of the ILIAS File Object is stored.
+- Update timestamp of the ILIAS File Object is stored.
+- Resource ID for accessing the file through the ILIAS Ressource Storage Service is stored.
 
 ## Data being presented
-- Persons with "edit settings" permission for the file object are presented with the first and last name of the user who uploaded a version for each version entry on the version tab.
+- Persons with "Edit Settings" permission for the File Object are presented with the first and last name of the person who uploaded a version for each version entry on the tab "Version".
 
 ## Data being deleted
-- Persons with "delete" permission for the file object can delete the file object. If no trash is activated then the data is deleted at once.  
-- If the trash is activated then the basic object, permission and learning progress and metadata data are deleted only, once the object is deleted from trash. User can empty the trash at Administration > System Settings an Maintenance > Repository Trash and Permissions.
+- Persons with "Delete" permission for the File Object can delete the File Object.
+- If the Trash is deactivated, the File Object is deleted immediately. 
+- If the Trash is activated, deleting the File Object from the Repository merely pushes the File Object, its permissions, Learning Progress and Metadata to the Trash. 
+- In the latter case the File Object will only be finally deleted when:
+  - Manually emptying the Trash at "Administration" > "System Settings and Maintenance" > "Repository Trash and Permissions" > "Trash".
+  - Or running a Cronjob for emtpying the Trash.
 
 ## Data being exported
-- Exports of the file object contain the owner data and UserID for each version of the file object.
+- Exports of the File Object contain the User ID for each version of the File Object.
