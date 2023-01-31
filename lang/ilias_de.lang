@@ -5970,6 +5970,7 @@ cont#:#cont_filter_fields#:#Filterfelder
 cont#:#cont_filter_record#:#Datensatz
 cont#:#cont_found_objects#:#Gefundene Objekte
 cont#:#cont_item_list#:#Liste
+cont#:#cont_item_list_info#:#Untergeordnete Objekte in einer Liste anzeigen.
 cont#:#cont_list_presentation#:#Präsentationsansicht für Inhalte
 cont#:#cont_mem_skills#:#Kompetenzen
 cont#:#cont_news_edited#:#Bearbeitet
@@ -6029,6 +6030,7 @@ cont#:#cont_tile_size_2#:#groß (bis zu drei Kacheln in einer Zeile)
 cont#:#cont_tile_size_3#:#sehr groß (bis zu zwei Kacheln in einer Zeile)
 cont#:#cont_tile_size_4#:#volle Breite (eine Kachel in einer Zeile)
 cont#:#cont_tile_view#:#Kacheln
+cont#:#cont_tile_view_info#:#Untergeordnete Objekte als Kacheln anzeigen. Bilder für diese Kacheln können in den Einstellungen jedes einzelnen Objekts hochgeladen werden.
 contact#:#contact_awrn_ap_contacts#:#Bestätigte Kontakte
 contact#:#contact_awrn_ap_contacts_info#:#Alle bestätigten Kontakte eines Benutzers werden aufgelistet.
 contact#:#contact_awrn_req_contacts#:#Kontaktanfragen
@@ -12202,7 +12204,7 @@ obj#:#obj_show_header_actions#:#Aktionen anzeigen
 obj#:#obj_show_title_and_icon#:#Titel und Icon anzeigen
 obj#:#obj_target_location#:#Zielordner
 obj#:#obj_tile_image#:#Kachelbild
-obj#:#obj_tile_image_info#:#Das Kachelbild wird genutzt, wenn im übergeordneten Container die Kachelansicht gewählt wurde. Um Performanzprobleme zu verhindern, laden Sie nur Bilder mit einer Auflösung von 72 dpi und einer Breite von weniger als 1000 px hoch. Ansonsten kommt es möglicherweise zu einem verzögerten Seitenaufbau.
+obj#:#obj_tile_image_info#:#Das Kachelbild wird genutzt, um dieses Objekt zu representieren, wenn im übergeordneten Container die Kachelansicht gewählt wurde. Um Performanzprobleme zu verhindern, laden Sie nur Bilder mit einer Auflösung von 72 dpi und einer Breite von weniger als 1000 px hoch.
 obj#:#obj_tool_booking#:#Ressourcen
 obj#:#obj_tool_booking_info#:#Buchungspools nutzen um Ressourcen zu buchen.
 obj#:#obj_tool_ext_mail_subject_prefix#:#Prefix E-Mail-Betreff
