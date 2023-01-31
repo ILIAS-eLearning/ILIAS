@@ -3373,11 +3373,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $lpres = new ilRadioGroupInputGUI($this->lng->txt('cont_list_presentation'), "list_presentation");
 
         $item_list = new ilRadioOption($this->lng->txt('cont_item_list'), "");
-        //$item_list->setInfo($this->lng->txt('cont_item_list_info'));
+        $item_list->setInfo($this->lng->txt('cont_item_list_info'));
         $lpres->addOption($item_list);
 
         $tile_view = new ilRadioOption($this->lng->txt('cont_tile_view'), "tile");
-        //$tile_view->setInfo($this->lng->txt('cont_tile_view_info'));
+        $tile_view->setInfo($this->lng->txt('cont_tile_view_info'));
         $lpres->addOption($tile_view);
 
         $lpres->setValue(
