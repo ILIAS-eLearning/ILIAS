@@ -183,7 +183,7 @@ class ilStudyProgrammeUserTable
                 $show_lp && $pgs->getCompletionDate() ? $pgs->getCompletionDate()->format($this->getUserDateFormat()) : ''
             )
             ->withCompletionBy(
-                $show_lp && $pgs->getCompletionBy() ? $this::lookupTitle($pgs->getCompletionBy()) : ''
+                $show_lp && $pgs->getCompletionBy() ? $this->completionByToRepresent($pgs->getCompletionBy()) : ''
             )
             ->withCompletionByObjId(
                 $show_lp && $pgs->getCompletionBy() ? $pgs->getCompletionBy() : null
@@ -268,6 +268,14 @@ class ilStudyProgrammeUserTable
             $this->lng->txt('prg_autoassignment'),
             $this->lng->txt($srcs[$assignment_src])
         ]);
+    }
+
+    public function completionByToRepresent(int $completion_by): string
+    {
+        if ($completion_by === ilPRGProgress::COMPLETED_BY_SUBNODES) {
+            return $this->lng->txt("prg_completed_by_subnodes");
+        }
+        return $this::lookupTitle($completion_by);
     }
 
     public static function lookupTitle(int $obj_id): string

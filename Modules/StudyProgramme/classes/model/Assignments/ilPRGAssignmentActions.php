@@ -95,18 +95,14 @@ trait ilPRGAssignmentActions
         }
         $node_settings = $settings_repo->get($progress->getNodeId());
         $completion_mode = $node_settings->getLPMode();
-        $completing_crs_id = null;
+
         switch ($completion_mode) {
             case ilStudyProgrammeSettings::MODE_UNDEFINED:
+            case ilStudyProgrammeSettings::MODE_LP_COMPLETED:
                 return $progress;
                 break;
-            case ilStudyProgrammeSettings::MODE_LP_COMPLETED:
-                $achieved_points = 0;
-                if ($completing_crs_id = $this->hasCompletedCourseChild($progress)) {
-                    $achieved_points = $progress->getAmountOfPoints();
-                }
-                break;
             case ilStudyProgrammeSettings::MODE_POINTS:
+                $completing_crs_id = ilPRGProgress::COMPLETED_BY_SUBNODES;
                 $achieved_points = $progress->getAchievedPointsOfChildren();
                 break;
         }
