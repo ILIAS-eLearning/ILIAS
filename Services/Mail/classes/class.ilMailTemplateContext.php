@@ -165,7 +165,8 @@ abstract class ilMailTemplateContext
             case 'ilias_url' === $placeholder_id:
                 $resolved = $this->envHelper->getHttpPath()
                     . '/login.php?client_id='
-                    . $this->envHelper->getClientId();
+                    . rawurlencode($this->envHelper->getClientId())
+                    . ' ';
                 break;
 
             case 'installation_name' === $placeholder_id:
