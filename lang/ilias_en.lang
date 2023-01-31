@@ -1447,6 +1447,8 @@ assessment#:#tst_general_properties#:#General Settings
 assessment#:#tst_header_participant#:#Your Answer:
 assessment#:#tst_header_solution#:#Best Solution:
 assessment#:#tst_heading_scoring#:#Scoring
+assessment#:#tst_hide_pagecontents#:#Hide page content
+assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.													  
 assessment#:#tst_hide_side_list#:#Hide List of Questions
 assessment#:#tst_highscore_achieved_ts#:#Date
 assessment#:#tst_highscore_achieved_ts_description#:#A column containing the test date will be included in the ranking.
@@ -1797,7 +1799,10 @@ assessment#:#tst_results_access_setting#:#Point in Time
 assessment#:#tst_results_aggregated#:#Aggregated Test Results
 assessment#:#tst_results_back_introduction#:#Back to Introductory Message
 assessment#:#tst_results_back_overview#:#Back to Results Overview
-assessment#:#tst_results_details_options#:#Further Details to be Included in Test Results
+assessment#:#tst_results_details_options#:#Further Options
+assessment#:#tst_results_gamification#:#Gamification
+assessment#:#tst_results_grading_opt_show_details#:#Show detailed test results
+assessment#:#tst_results_grading_opt_show_details_desc#:#In addition to the summary test result, a "Detailed Results" action is provided. The "Detailed test results" table shows the titles of the questions and the points achieved for each run. The content of the table can be further supplemented in the "Further options" section.													
 assessment#:#tst_results_grading_opt_show_mark#:#Show Resulting Mark
 assessment#:#tst_results_grading_opt_show_mark_desc#:#The resulting mark will be appended to the summary test result. Participants can access their test results within the ‘Results’-tab.
 assessment#:#tst_results_grading_opt_show_status#:#Show ‘Passed’ / ‘Failed’ Status
@@ -1858,7 +1863,9 @@ assessment#:#tst_show_solution_answers_only_desc#:#If is selected, the ILIAS con
 assessment#:#tst_show_solution_compare#:#Show Best Solution in ‘Detailed Results’
 assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the 'Detailed Results' that can be accessed via the 'Show Test Results'-button on the 'Info'-tab. It will not be displayed in the printable 'List of Answers' even though the setting is made here.
 assessment#:#tst_show_solution_details#:#Scored Answers of Participant
-assessment#:#tst_show_solution_details_desc#:#As an add-on  to the ‘Table of Detailed Test Results’, the participant get a link to a page for each question. This linked page contains the question, the answer provided by the participant, information on whether this was the correct answer and points scored by this answer.
+assessment#:#tst_show_solution_details_desc#:#The ‘Table of Detailed Test Results’ will be added by a list of answers.
+assessment#:#tst_show_solution_details_singlepage#:#Scored Answers on single pages
+assessment#:#tst_show_solution_details_singlepage_desc#:#Participants can access each question individually and see if their answers were correct and how many points they scored.
 assessment#:#tst_show_solution_feedback#:#Feedback
 assessment#:#tst_show_solution_feedback_desc#:#Feedback related to the answers provided by the participant is displayed. Please mind  that this option becomes effective only if you have activated ‘Scored Answers of Participant’  and feedback was prepared along with the questions in the first place.
 assessment#:#tst_show_solution_printview#:#Additional ‘List of Answers’ for Printing
