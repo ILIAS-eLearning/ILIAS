@@ -151,6 +151,16 @@ A booking pool is the main entity for managing booking objects (resources) and t
 
 ...
 
+#### File Storage
+
+*Additional Description File*
+- `ilBookingManager/book*BOOK_OBJ_ID*/file/*FILENAME*` (web data directory)
+- Additional description file as uploaded in the booking object settings
+
+*Post Booking Information File*
+- `ilBookingManager/book*BOOK_OBJ_ID*/post/*FILENAME*` (web data directory)
+- Information file being presented post booking as uploaded in the booking object settings
+
 ### Reservations
 
 * **Code**: `Modules/BookingManager/Reservations`
