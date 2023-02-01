@@ -5710,6 +5710,7 @@ common#:#udf_delete_sure#:#Skutečně chcete smazat toto pole a všechna přiřa
 common#:#udf_duplicate_entries#:#Tato hodnota musí být unikátní.
 common#:#udf_field_deleted#:#Pole smazáno.
 common#:#udf_name_already_exists#:#Toto pole již existuje. Zvolte prosím jiný název.
+common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Je-li pole nastaveno na "požadováno", pak to musí ibýt nastaveno na "viditelné při registraci"
 common#:#udf_type_date#:#Datové pole
 common#:#udf_type_datetime#:#Datum a čas
@@ -11067,7 +11068,9 @@ meta#:#md_adv_record_lng_table_lng#:#Language###30 04 2021 new variable
 meta#:#md_adv_records#:#Zahrnuté datové soubory
 meta#:#md_adv_records_exported#:#Nový exportní soubor byl vytvořen.
 meta#:#md_adv_scope#:#Rozsah
+meta#:#md_adv_scope_info#:#Usage of this custom metadata set will be limited to selected parts of the repository.###01 02 2023 new variable
 meta#:#md_adv_scope_list_header#:#Omezeno na:
+meta#:#md_adv_scope_objects#:#Data Set Effective From###01 02 2023 new variable
 meta#:#md_adv_searchable#:#Prohledávatelný
 meta#:#md_adv_select_one_file#:#Vyberte prosím jeden soubor.
 meta#:#md_adv_show#:#Zobrazit
@@ -13765,6 +13768,7 @@ registration#:#reg_confirmation_hash_life_time#:#Doba trvání
 registration#:#reg_confirmation_hash_life_time_expired#:#Potvrzovaní odkaz již není dále platný.
 registration#:#reg_confirmation_hash_life_time_info#:#Vložit dobu trvání (sekundy) potvrzení odkazu.
 registration#:#reg_confirmation_hash_not_found#:#Žádný uživatelský účet nemůže souhlasit potvrzovacímu odkazu.
+registration#:#reg_confirmation_hash_not_passed#:#The confirmation link is incomplete.###01 02 2023 new variable
 registration#:#reg_confirmation_link_successful#:#Úspěšně jste odeslali požadavek na účet ILIAS. Registraci musíte potvrdit kliknutím na potvrzovací odkaz.
 registration#:#reg_default#:#Výchozí
 registration#:#reg_deleted_assignment#:#Smazaná přidělení.

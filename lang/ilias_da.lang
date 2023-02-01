@@ -5710,6 +5710,7 @@ common#:#udf_delete_sure#:#Er du sikker på du vil SLETTE dette felt og alle ind
 common#:#udf_duplicate_entries#:#Værdierne skal være unikke
 common#:#udf_field_deleted#:#Det brugerdefinerede felt blev slettet.
 common#:#udf_name_already_exists#:#Feltnavnet eksisterer i forvejen, så du skal vælge et andet.
+common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Når en feltindtastning er krævet skal det være synligt i brugeroprettelsen.
 common#:#udf_type_date#:#Datofelt
 common#:#udf_type_datetime#:#Dato og tid
@@ -11067,7 +11068,9 @@ meta#:#md_adv_record_lng_table_lng#:#Language###30 04 2021 new variable
 meta#:#md_adv_records#:#Included Datasets###16 08 2007 new variable
 meta#:#md_adv_records_exported#:#En ny eksportfil er blevet lavet
 meta#:#md_adv_scope#:#Scope###31 08 2017 new variable
+meta#:#md_adv_scope_info#:#Usage of this custom metadata set will be limited to selected parts of the repository.###01 02 2023 new variable
 meta#:#md_adv_scope_list_header#:#Limited to:###31 08 2017 new variable
+meta#:#md_adv_scope_objects#:#Data Set Effective From###01 02 2023 new variable
 meta#:#md_adv_searchable#:#Søgbart
 meta#:#md_adv_select_one_file#:#Vælg venligst kun en fil
 meta#:#md_adv_show#:#Vis
@@ -13765,6 +13768,7 @@ registration#:#reg_confirmation_hash_life_time#:#Lifetime###20 08 2010 new varia
 registration#:#reg_confirmation_hash_life_time_expired#:#Bekræftelseslinket er ikke længere gyldigt.
 registration#:#reg_confirmation_hash_life_time_info#:#Tidsbegrænsning i sekunder som brugeren har til at bekræfte efter afsendelse.
 registration#:#reg_confirmation_hash_not_found#:#Ingen matchende brugerkonto til dette bekræftelseslink.
+registration#:#reg_confirmation_hash_not_passed#:#The confirmation link is incomplete.###01 02 2023 new variable
 registration#:#reg_confirmation_link_successful#:#You successfully submitted an account request to ILIAS. You have to confirm your registration by clicking the confirmation link.###26 06 2009 new variable
 registration#:#reg_default#:#Default
 registration#:#reg_deleted_assignment#:#Deleted assignment(s).

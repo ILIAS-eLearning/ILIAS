@@ -5710,6 +5710,7 @@ common#:#udf_delete_sure#:#Сигурни ли сте, че искате да и
 common#:#udf_duplicate_entries#:#Стойностите трябва да са уникални.
 common#:#udf_field_deleted#:#Изтрито поле.
 common#:#udf_name_already_exists#:#Наименованието на това поле вече съществува. Моля, изберете друго име.
+common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Когато полето е зададено като "задължително", то трябва да е зададено като "видимо при регистрация"
 common#:#udf_type_date#:#Поле за дата
 common#:#udf_type_datetime#:#Дата и час
@@ -11067,7 +11068,9 @@ meta#:#md_adv_record_lng_table_lng#:#Език###22 06 2022 new variable
 meta#:#md_adv_records#:#Включени набори от данни
 meta#:#md_adv_records_exported#:#Създаден е нов експортен файл.
 meta#:#md_adv_scope#:#Обхват
+meta#:#md_adv_scope_info#:#Usage of this custom metadata set will be limited to selected parts of the repository.###01 02 2023 new variable
 meta#:#md_adv_scope_list_header#:#Ограничено до:
+meta#:#md_adv_scope_objects#:#Data Set Effective From###01 02 2023 new variable
 meta#:#md_adv_searchable#:#Searchable
 meta#:#md_adv_select_one_file#:#Моля, изберете един файл.
 meta#:#md_adv_show#:#Show
@@ -13765,6 +13768,7 @@ registration#:#reg_confirmation_hash_life_time#:#Срок на експлоат�
 registration#:#reg_confirmation_hash_life_time_expired#:#Връзката за потвърждение вече не е валидна. Моля, регистрирайте се отново!###22 06 2022 new variable
 registration#:#reg_confirmation_hash_life_time_info#:#Введете времето на живот (в секунди) на връзките за потвърждение.
 registration#:#reg_confirmation_hash_not_found#:#Към тази връзка за потвърждение не може да бъде съпоставен потребителски акаунт.###22 06 2022 new variable
+registration#:#reg_confirmation_hash_not_passed#:#The confirmation link is incomplete.###01 02 2023 new variable
 registration#:#reg_confirmation_link_successful#:#Успешно изпратихте заявка за акаунт до ILIAS. В следващите минути ще получите имейл за потвърждение. Моля, потвърдете регистрацията си, като щракнете върху връзката за потвърждение в този имейл.<br />Ще бъдете пренасочени към <a href="%s" title="login screen">екрана за вход</a> след 20 секунди.###22 06 2022 new variable
 registration#:#reg_default#:#По подразбиране###22 06 2022 new variable
 registration#:#reg_deleted_assignment#:#Изтрити задачи.

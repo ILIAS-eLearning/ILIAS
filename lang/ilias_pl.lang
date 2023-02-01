@@ -5710,6 +5710,7 @@ common#:#udf_delete_sure#:#Czy na pewno chcesz usunąć pole i wszystkie przydzi
 common#:#udf_duplicate_entries#:#Wartość powinna być unikalna.
 common#:#udf_field_deleted#:#Pole usunięte.
 common#:#udf_name_already_exists#:#Ta nazwa pola już istnieje. Wybierz inną nazwę.
+common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Ustawienie "Pole niezbędne" wymaga ustawienia "Widoczne w formularzu rejestracyjnym"
 common#:#udf_type_date#:#Data
 common#:#udf_type_datetime#:#Data i godzina
@@ -11067,7 +11068,9 @@ meta#:#md_adv_record_lng_table_lng#:#Language###30 04 2021 new variable
 meta#:#md_adv_records#:#Zawarte rekordy danych
 meta#:#md_adv_records_exported#:#Utworzono nowy plik eksportowy.
 meta#:#md_adv_scope#:#Obszar obowiązywania
+meta#:#md_adv_scope_info#:#Usage of this custom metadata set will be limited to selected parts of the repository.###01 02 2023 new variable
 meta#:#md_adv_scope_list_header#:#Ograniczony do:
+meta#:#md_adv_scope_objects#:#Data Set Effective From###01 02 2023 new variable
 meta#:#md_adv_searchable#:#Przeszukiwane
 meta#:#md_adv_select_one_file#:#Wybierz plik.
 meta#:#md_adv_show#:#Pokaż
@@ -13765,6 +13768,7 @@ registration#:#reg_confirmation_hash_life_time#:#Okres obowiązywania
 registration#:#reg_confirmation_hash_life_time_expired#:#Link potwierdzający rejestracje konta nie jest już ważny.
 registration#:#reg_confirmation_hash_life_time_info#:#Wpisz (w sekundach) ważność linku potwierdzającego aktywację konta.
 registration#:#reg_confirmation_hash_not_found#:#Żaden użytkownik nie pasuje do tego linku potwierdzającego rejestracje kota.
+registration#:#reg_confirmation_hash_not_passed#:#The confirmation link is incomplete.###01 02 2023 new variable
 registration#:#reg_confirmation_link_successful#:#Zarejestrowałeś się z powodzeniem na ILIAS. Teraz musisz jeszcze tylko aktywować swoje konto użytkownika. W tym celu wysłaliśmy Ci właśnie wiadomość mailową z linkiem potwierdzającym. W ciągu kolejnej minuty kliknij na ten link, aby aktywować konto. Następnie możesz zalogować się do ILIAS.
 registration#:#reg_default#:#Domyślnie
 registration#:#reg_deleted_assignment#:#Usunięto przydziały.

@@ -5724,6 +5724,7 @@ common#:#udf_delete_sure#:#Ali ste prepričani, da želite izbrisati to polje in
 common#:#udf_duplicate_entries#:#Vrednosti morajo biti edinstvene.
 common#:#udf_field_deleted#:#Polje je bilo iIzbrisano.
 common#:#udf_name_already_exists#:#Polje s tem imenom že obstaja. Izberite drugo ime polja.
+common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Nastavitev "Obvezen podatek" zahteva nastavitev "Vidno v obrazcu za registracijo".
 common#:#udf_type_date#:#Date
 common#:#udf_type_datetime#:#Datum in čas
@@ -11081,7 +11082,9 @@ meta#:#md_adv_record_lng_table_lng#:#Language###19 08 2022 new variable
 meta#:#md_adv_records#:#Vsebovani podatkovni zapisi
 meta#:#md_adv_records_exported#:#Nova datoteka za izvoz je bila ustvarjena.
 meta#:#md_adv_scope#:#Področje veljave
+meta#:#md_adv_scope_info#:#Usage of this custom metadata set will be limited to selected parts of the repository.###01 02 2023 new variable
 meta#:#md_adv_scope_list_header#:#Omejeno na:
+meta#:#md_adv_scope_objects#:#Data Set Effective From###01 02 2023 new variable
 meta#:#md_adv_searchable#:#Lahko se preišče
 meta#:#md_adv_select_one_file#:#Izberite datoteko.
 meta#:#md_adv_show#:#Prikaži
@@ -13779,6 +13782,7 @@ registration#:#reg_confirmation_hash_life_time#:#Rok veljavnosti
 registration#:#reg_confirmation_hash_life_time_expired#:#Povezava za potrditev ni več veljavna. Ponovno se registrirajte!
 registration#:#reg_confirmation_hash_life_time_info#:#Vnesite rok veljavnosti povezave za potrditev (v sekundah). Priporočena vrednost je 1800 sekund.
 registration#:#reg_confirmation_hash_not_found#:#Ta povezava za potrditev ni povezava z nobenim uporabniškim računom.
+registration#:#reg_confirmation_hash_not_passed#:#The confirmation link is incomplete.###01 02 2023 new variable
 registration#:#reg_confirmation_link_successful#:#Uspešno ste se registrirali v ILIAS. Zdaj morate še aktivirati svoj uporabniški račun. Potrdite registracijo s klikom na povezavo za preverjanje v tem e-poštnem sporočilu. <br/> Po 20 sekundah boste preusmerjeni na <ahref="%s"title="loginscreen"> prijavni zaslon </a>. V naslednjih minutah kliknite na povezavo za potrditev, da omogočite svoj uporabniški račun. Nato se lahko prijavite v ILIAS.
 registration#:#reg_default#:#Privzeto
 registration#:#reg_deleted_assignment#:#Dodelit(e)ve je bila/so bile izbrisana/-e.

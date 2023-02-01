@@ -5724,6 +5724,7 @@ common#:#udf_delete_sure#:#Biztos, hogy törli ezt a mezőt és minden hozzáren
 common#:#udf_duplicate_entries#:#Az értékeknek egyedieknek kell lenniük.
 common#:#udf_field_deleted#:#Törölt mező
 common#:#udf_name_already_exists#:#Ez a mezőnév már létezik. Válasszon egy másik nevet!
+common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Ha a mező 'kötelező', a 'Látható a Regisztráció alatt' opciót is be kell állítani
 common#:#udf_type_date#:#Dátum
 common#:#udf_type_datetime#:#Dátum és idő
@@ -11081,7 +11082,9 @@ meta#:#md_adv_record_lng_table_lng#:#Nyelv
 meta#:#md_adv_records#:#Magába foglalt rekordok
 meta#:#md_adv_records_exported#:#Egy új exportfájl jött létre.
 meta#:#md_adv_scope#:#Hatókör
+meta#:#md_adv_scope_info#:#Usage of this custom metadata set will be limited to selected parts of the repository.###01 02 2023 new variable
 meta#:#md_adv_scope_list_header#:#Korlátozva erre:
+meta#:#md_adv_scope_objects#:#Data Set Effective From###01 02 2023 new variable
 meta#:#md_adv_searchable#:#Kereshető
 meta#:#md_adv_select_one_file#:#Válasszon ki egy fájlt!
 meta#:#md_adv_show#:#Megjelenítés
@@ -13779,6 +13782,7 @@ registration#:#reg_confirmation_hash_life_time#:#Élettartam
 registration#:#reg_confirmation_hash_life_time_expired#:#A visszaigazoló link nem érvényes a továbbiakban. Regisztráljon újra!
 registration#:#reg_confirmation_hash_life_time_info#:#Visszaigazoló linkek élettartamának megadása (másodpercben). Az ajánlott érték 1800 másodperc.
 registration#:#reg_confirmation_hash_not_found#:#Ehhez a visszaigazoló linkhez nem tartozik ILIAS-fiók.
+registration#:#reg_confirmation_hash_not_passed#:#The confirmation link is incomplete.###01 02 2023 new variable
 registration#:#reg_confirmation_link_successful#:#Sikeresen elküldött egy ILIAS-fiók igényt az ILIAS-hoz. A következő néhány percben kap egy visszaigazoló e-mailt.<br/>20 másodperc múlva átirányításra kerül a <a href="%s" title="login screen">bejelentkező képernyőre</a>.
 registration#:#reg_default#:#Alapértelmezett
 registration#:#reg_deleted_assignment#:#Törölt összerendelés(ek)

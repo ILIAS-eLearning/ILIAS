@@ -5712,6 +5712,7 @@ common#:#udf_delete_sure#:#Are you sure you want to delete this field and all as
 common#:#udf_duplicate_entries#:#The values have to be unique.###25 02 2007 new variable
 common#:#udf_field_deleted#:#Deleted field.###25 02 2007 new variable
 common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.###25 02 2007 new variable
+common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#When field is set to "required", it must be set to "visible in registration"###29 09 2009 new variable
 common#:#udf_type_date#:#Date Field###25 09 2007 new variable
 common#:#udf_type_datetime#:#Date and Time###23 07 2008 new variable
@@ -11069,7 +11070,9 @@ meta#:#md_adv_record_lng_table_lng#:#Language###30 04 2021 new variable
 meta#:#md_adv_records#:#Included Datasets###16 08 2007 new variable
 meta#:#md_adv_records_exported#:#A new export file has been created.###16 08 2007 new variable
 meta#:#md_adv_scope#:#Scope###31 08 2017 new variable
+meta#:#md_adv_scope_info#:#Usage of this custom metadata set will be limited to selected parts of the repository.###01 02 2023 new variable
 meta#:#md_adv_scope_list_header#:#Limited to:###31 08 2017 new variable
+meta#:#md_adv_scope_objects#:#Data Set Effective From###01 02 2023 new variable
 meta#:#md_adv_searchable#:#Searchable###16 08 2007 new variable
 meta#:#md_adv_select_one_file#:#Please choose one file.###16 08 2007 new variable
 meta#:#md_adv_show#:#Show###25 09 2007 new variable
@@ -13767,6 +13770,7 @@ registration#:#reg_confirmation_hash_life_time#:#Lifetime###20 08 2010 new varia
 registration#:#reg_confirmation_hash_life_time_expired#:#The confirmation link is not valid anymore.###26 06 2009 new variable
 registration#:#reg_confirmation_hash_life_time_info#:#Enter the lifetime (seconds) of confirmation links.###26 06 2009 new variable
 registration#:#reg_confirmation_hash_not_found#:#No user account could be matched to this confirmation link.###26 06 2009 new variable
+registration#:#reg_confirmation_hash_not_passed#:#The confirmation link is incomplete.###01 02 2023 new variable
 registration#:#reg_confirmation_link_successful#:#You successfully submitted an account request to ILIAS. You have to confirm your registration by clicking the confirmation link.###26 06 2009 new variable
 registration#:#reg_default#:#Default###25 02 2007 new variable
 registration#:#reg_deleted_assignment#:#Deleted assignment(s).###25 02 2007 new variable

@@ -5710,6 +5710,7 @@ common#:#udf_delete_sure#:#Êtes-vous sûr de vouloir supprimer ce champ et tout
 common#:#udf_duplicate_entries#:#Ces valeurs doivent être uniques.
 common#:#udf_field_deleted#:#Zone supprimée.
 common#:#udf_name_already_exists#:#Ce nom de champ existe déjà. Veuillez en choisir un autre.
+common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Lorsque la zone est mise à  "requis", elle doit être mise "visible à  l'inscription"
 common#:#udf_type_date#:#Zone date
 common#:#udf_type_datetime#:#Date et Heure
@@ -11067,7 +11068,9 @@ meta#:#md_adv_record_lng_table_lng#:#Language###30 04 2021 new variable
 meta#:#md_adv_records#:#Ensembles de données inclus
 meta#:#md_adv_records_exported#:#Un nouveau fichier d'export a été créé.
 meta#:#md_adv_scope#:#Étendue
+meta#:#md_adv_scope_info#:#Usage of this custom metadata set will be limited to selected parts of the repository.###01 02 2023 new variable
 meta#:#md_adv_scope_list_header#:#Limité à:
+meta#:#md_adv_scope_objects#:#Data Set Effective From###01 02 2023 new variable
 meta#:#md_adv_searchable#:#Consultable
 meta#:#md_adv_select_one_file#:#Veuillez sélectionner un fichier.
 meta#:#md_adv_show#:#Afficher
@@ -13765,6 +13768,7 @@ registration#:#reg_confirmation_hash_life_time#:#Durée de vie
 registration#:#reg_confirmation_hash_life_time_expired#:#Le lien de confirmation n'est plus valide. Veuillez vous enregistrer de nouveau !
 registration#:#reg_confirmation_hash_life_time_info#:#Saisir la durée de vie (secondes) des liens de confirmation.
 registration#:#reg_confirmation_hash_not_found#:#Aucun compte utilisateur ne correspond à ce lien de confirmation.
+registration#:#reg_confirmation_hash_not_passed#:#The confirmation link is incomplete.###01 02 2023 new variable
 registration#:#reg_confirmation_link_successful#:#Vous avez demandé un compte sur ILIAS. Vous allez recevoir un mail de confirmation d'ici peu.
 registration#:#reg_default#:#Défaut
 registration#:#reg_deleted_assignment#:#Assignation(s) supprimée(s).

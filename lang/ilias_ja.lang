@@ -5710,6 +5710,7 @@ common#:#udf_delete_sure#:#本当にこの欄と全ての割り当てユーザ�
 common#:#udf_duplicate_entries#:#値はユニークでなければなりません。
 common#:#udf_field_deleted#:#欄を削除しました。
 common#:#udf_name_already_exists#:#この欄の名称は既に使用されています。別の名前を使用してください。
+common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#欄が"必須項目"に設定されていると、"登録中表示"に設定しなければなりません。
 common#:#udf_type_date#:#日付
 common#:#udf_type_datetime#:#日付と時間
@@ -11067,7 +11068,9 @@ meta#:#md_adv_record_lng_table_lng#:#言語
 meta#:#md_adv_records#:#含まれたデータベース
 meta#:#md_adv_records_exported#:#新しいエクスポート ファイルが作成されました。
 meta#:#md_adv_scope#:#範囲
+meta#:#md_adv_scope_info#:#Usage of this custom metadata set will be limited to selected parts of the repository.###01 02 2023 new variable
 meta#:#md_adv_scope_list_header#:#限定：
+meta#:#md_adv_scope_objects#:#Data Set Effective From###01 02 2023 new variable
 meta#:#md_adv_searchable#:#検索可能
 meta#:#md_adv_select_one_file#:#ファイルを一つ選択してください。
 meta#:#md_adv_show#:#表示
@@ -13765,6 +13768,7 @@ registration#:#reg_confirmation_hash_life_time#:#有効期間
 registration#:#reg_confirmation_hash_life_time_expired#:#確認用のリンクはもう有効ではありません。
 registration#:#reg_confirmation_hash_life_time_info#:#確認用リンクの有効期間を秒で入力してください。
 registration#:#reg_confirmation_hash_not_found#:#この確認用リンクに一致する可能性のユーザ アカウントはありません
+registration#:#reg_confirmation_hash_not_passed#:#The confirmation link is incomplete.###01 02 2023 new variable
 registration#:#reg_confirmation_link_successful#:#アカウントがILIASへ正しく送られました。数分すると確認のemailを受領します。そのmaiにあるリンク先をクリックして登録を確認してください。<br />リダイレクトされます<a href="%s" タイトル="ログイン画面">ログイン画面</a>20秒後
 registration#:#reg_default#:#初期設定
 registration#:#reg_deleted_assignment#:#割当を削除しました。

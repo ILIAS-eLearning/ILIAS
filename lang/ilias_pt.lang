@@ -5710,6 +5710,7 @@ common#:#udf_delete_sure#:#Tem a certeza que quer apagar este campo e todos os d
 common#:#udf_duplicate_entries#:#Os valores têm de ser únicos.
 common#:#udf_field_deleted#:#Campo apagado.
 common#:#udf_name_already_exists#:#Este nome de campo já existe. Escolha um nome diferente.
+common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Inserir texto
 common#:#udf_type_date#:#Inserir pergunta
 common#:#udf_type_datetime#:#Data e hora
@@ -11067,7 +11068,9 @@ meta#:#md_adv_record_lng_table_lng#:#Language###30 04 2021 new variable
 meta#:#md_adv_records#:#O utilizador pode mudar definições de permissões da administração de teste e avaliação
 meta#:#md_adv_records_exported#:#Foi criado um novo ficheiro de exportação.
 meta#:#md_adv_scope#:#Âmbito
+meta#:#md_adv_scope_info#:#Usage of this custom metadata set will be limited to selected parts of the repository.###01 02 2023 new variable
 meta#:#md_adv_scope_list_header#:#Limitado a:
+meta#:#md_adv_scope_objects#:#Data Set Effective From###01 02 2023 new variable
 meta#:#md_adv_searchable#:#Pesquisável
 meta#:#md_adv_select_one_file#:#Escolha apenas um ficheiro.
 meta#:#md_adv_show#:#Mostrar
@@ -13765,6 +13768,7 @@ registration#:#reg_confirmation_hash_life_time#:#Vigência
 registration#:#reg_confirmation_hash_life_time_expired#:#O link de confirmação não é mais válido. Por favor,  cadastre-se de novo!
 registration#:#reg_confirmation_hash_life_time_info#:#Inserir a vigência (segundos) dos links da confirmação
 registration#:#reg_confirmation_hash_not_found#:#Nenhuma conta de usuário corresponde no link de confirmação
+registration#:#reg_confirmation_hash_not_passed#:#The confirmation link is incomplete.###01 02 2023 new variable
 registration#:#reg_confirmation_link_successful#:#Você submeteu uma solicitação de conta no ILIAS com sucesso. Você receberá um e-mail de confirmação nos próximos minutos. Por favor confirme o seu cadastro clicando no link de confirmação neste e-mail. Você será redirecionado para a tela do Login após 20 segundos.
 registration#:#reg_default#:#Por Padrão
 registration#:#reg_deleted_assignment#:#Atribuições eliminados

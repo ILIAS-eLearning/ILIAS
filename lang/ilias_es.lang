@@ -5712,6 +5712,7 @@ common#:#udf_delete_sure#:#¿Está seguro de querer eliminar este campo y todos 
 common#:#udf_duplicate_entries#:#Los valores tienen que ser únicos.
 common#:#udf_field_deleted#:#Campo eliminado
 common#:#udf_name_already_exists#:#Este nombre de campo ya existe. Por favor elija un nombre diferente
+common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Cuando el campo está en "requerido", debe ser ajustado a "visible en el registro"
 common#:#udf_type_date#:#Campo Fecha
 common#:#udf_type_datetime#:#Fecha y hora
@@ -11069,7 +11070,9 @@ meta#:#md_adv_record_lng_table_lng#:#Language###30 04 2021 new variable
 meta#:#md_adv_records#:#Conjuntos de datos incluidos
 meta#:#md_adv_records_exported#:#Se ha creado un nuevo Archivo de exportación.
 meta#:#md_adv_scope#:#Ámbito
+meta#:#md_adv_scope_info#:#Usage of this custom metadata set will be limited to selected parts of the repository.###01 02 2023 new variable
 meta#:#md_adv_scope_list_header#:#Limitado a:
+meta#:#md_adv_scope_objects#:#Data Set Effective From###01 02 2023 new variable
 meta#:#md_adv_searchable#:#Indexado
 meta#:#md_adv_select_one_file#:#Por favor escoja un Archivo.
 meta#:#md_adv_show#:#Mostrar
@@ -13767,6 +13770,7 @@ registration#:#reg_confirmation_hash_life_time#:#Tiempo de vida
 registration#:#reg_confirmation_hash_life_time_expired#:#El enlace de confirmación ya no es válido.
 registration#:#reg_confirmation_hash_life_time_info#:#Introduzca la duración (segundos) de los enlaces de confirmación.
 registration#:#reg_confirmation_hash_not_found#:#No se encontró coincidencia de cuenta para este enlace de confirmación.
+registration#:#reg_confirmation_hash_not_passed#:#The confirmation link is incomplete.###01 02 2023 new variable
 registration#:#reg_confirmation_link_successful#:#Ha enviado correctamente una solicitud de cuenta a ILIAS. Tiene que confirmar su registro haciendo click en el enlace de confirmación.
 registration#:#reg_default#:#Por defecto
 registration#:#reg_deleted_assignment#:#Asignaciones eliminadas

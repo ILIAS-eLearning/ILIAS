@@ -5710,6 +5710,7 @@ common#:#udf_delete_sure#:#დარწმუნებული ხართ რ
 common#:#udf_duplicate_entries#:#ეს ღირებულებები უნდა იყოს უნიკალური
 common#:#udf_field_deleted#:#წაშლილი ველი
 common#:#udf_name_already_exists#:#ეს ველი უკვე არსებობს. გთხოვთ აირჩიოთ სხვა სახელი
+common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#როდესაც ველი დაყენებულია " მოთხოვნილ"ზე ის ასევე დაყენებული უნდა იყოს " ხილვადი რეგისტრაციაში" ზე
 common#:#udf_type_date#:#თარიღი
 common#:#udf_type_datetime#:#თარიღი და დრო
@@ -11067,7 +11068,9 @@ meta#:#md_adv_record_lng_table_lng#:#Language###30 04 2021 new variable
 meta#:#md_adv_records#:#მოდემების ჩართვით
 meta#:#md_adv_records_exported#:#ახალი საექსპორტო ფაილი შექმნილია
 meta#:#md_adv_scope#:#Scope###31 08 2017 new variable
+meta#:#md_adv_scope_info#:#Usage of this custom metadata set will be limited to selected parts of the repository.###01 02 2023 new variable
 meta#:#md_adv_scope_list_header#:#Limited to:###31 08 2017 new variable
+meta#:#md_adv_scope_objects#:#Data Set Effective From###01 02 2023 new variable
 meta#:#md_adv_searchable#:#ძიებადი
 meta#:#md_adv_select_one_file#:#გთხოვთ აირჩიოთ ერთი ფაილი
 meta#:#md_adv_show#:#ჩვენება
@@ -13765,6 +13768,7 @@ registration#:#reg_confirmation_hash_life_time#:#სიცოცხლის დ
 registration#:#reg_confirmation_hash_life_time_expired#:#დასტურის ლინკი აღარ არის ძალაში. გთხოვთ ხელახლა დარეგისტრირდეთ
 registration#:#reg_confirmation_hash_life_time_info#:#შეიყვანეთ დასტურის ლინკების სიცოცხლის დრო (წამები)
 registration#:#reg_confirmation_hash_not_found#:#არც ერთი ანგარიში არ ემთხვევა დასტურის ამ ლინკს
+registration#:#reg_confirmation_hash_not_passed#:#The confirmation link is incomplete.###01 02 2023 new variable
 registration#:#reg_confirmation_link_successful#:#თქვენ წარმატებით ჩააბარეთ ანგარიშის მოთხოვნა ილიასს. თქვენ მიიღებთ დასტურს ემაილით შემდეგ წუთებში. გთხოვთ დაადასტუროთ თქვენი რეგისტრაცია დასტურის ლინკზე დაკლიკებით ამ ემაილში. <br/> თქვენ გადახვალთ <ა ჰრეფ="%s" ტიტლე="ლოგინ სცრეენ">ლოგინ სცრეენ</ა> 20წამის შემდეგ
 registration#:#reg_default#:#სტანდარტი
 registration#:#reg_deleted_assignment#:#წაშლილი დანიშვნები

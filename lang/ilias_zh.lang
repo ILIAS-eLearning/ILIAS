@@ -5709,6 +5709,7 @@ common#:#udf_delete_sure#:#您真的要删除这个字段，以及所有已分�
 common#:#udf_duplicate_entries#:#这个值必须是唯一的。
 common#:#udf_field_deleted#:#已删除字段。
 common#:#udf_name_already_exists#:#这个字段名称已经存在。请选择一个不同的名称
+common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#当字段设置为“必填”时，它必需被设置为“注册中可见”。
 common#:#udf_type_date#:#日期字段
 common#:#udf_type_datetime#:#日期和时间
@@ -11066,7 +11067,9 @@ meta#:#md_adv_record_lng_table_lng#:#Language###30 04 2021 new variable
 meta#:#md_adv_records#:#已包含的数据集
 meta#:#md_adv_records_exported#:#一个新的导出文件已经创建。
 meta#:#md_adv_scope#:#Scope###31 08 2017 new variable
+meta#:#md_adv_scope_info#:#Usage of this custom metadata set will be limited to selected parts of the repository.###01 02 2023 new variable
 meta#:#md_adv_scope_list_header#:#Limited to:###31 08 2017 new variable
+meta#:#md_adv_scope_objects#:#Data Set Effective From###01 02 2023 new variable
 meta#:#md_adv_searchable#:#可搜索
 meta#:#md_adv_select_one_file#:#请选择一个文件。
 meta#:#md_adv_show#:#显示
@@ -13764,6 +13767,7 @@ registration#:#reg_confirmation_hash_life_time#:#生命周期
 registration#:#reg_confirmation_hash_life_time_expired#:#确认链接不再有效。
 registration#:#reg_confirmation_hash_life_time_info#:#输入确认链接的生命周期(秒)。
 registration#:#reg_confirmation_hash_not_found#:#没有用户账号能被匹配到这个确认链接。
+registration#:#reg_confirmation_hash_not_passed#:#The confirmation link is incomplete.###01 02 2023 new variable
 registration#:#reg_confirmation_link_successful#:#您已成功提交了一个账号请求到ILIAS。您必须确认您是通过点击确认链接注册的。
 registration#:#reg_default#:#默认
 registration#:#reg_deleted_assignment#:#已删除的分配

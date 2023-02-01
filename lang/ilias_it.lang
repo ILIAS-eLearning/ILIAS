@@ -5724,6 +5724,7 @@ common#:#udf_delete_sure#:#Sei sicuro di voler eliminare questo campo e con esso
 common#:#udf_duplicate_entries#:#I valori devono essere unici.
 common#:#udf_field_deleted#:#Campo eliminato.
 common#:#udf_name_already_exists#:#Questo nome di campo esiste già. Scegli un nome diverso.
+common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Quando il campo è impostato su "obbligatorio", deve essere impostato su "visibile in registrazione".
 common#:#udf_type_date#:#Campo Data
 common#:#udf_type_datetime#:#Data e Ora
@@ -11081,7 +11082,9 @@ meta#:#md_adv_record_lng_table_lng#:#Lingua
 meta#:#md_adv_records#:#Dataset inclusi
 meta#:#md_adv_records_exported#:#È stato creato un nuovo file di export
 meta#:#md_adv_scope#:#Ambito
+meta#:#md_adv_scope_info#:#Usage of this custom metadata set will be limited to selected parts of the repository.###01 02 2023 new variable
 meta#:#md_adv_scope_list_header#:#Limitato a:
+meta#:#md_adv_scope_objects#:#Data Set Effective From###01 02 2023 new variable
 meta#:#md_adv_searchable#:#Ricercabile
 meta#:#md_adv_select_one_file#:#Scegli un file.
 meta#:#md_adv_show#:#Mostra
@@ -13779,6 +13782,7 @@ registration#:#reg_confirmation_hash_life_time#:#Illimitato
 registration#:#reg_confirmation_hash_life_time_expired#:#Il link di conferma non è più valido.
 registration#:#reg_confirmation_hash_life_time_info#:#Inserire la durata (in secondi) del link di conferma.
 registration#:#reg_confirmation_hash_not_found#:#Nessun account utente potrebbe essere presente a questo link di conferma.
+registration#:#reg_confirmation_hash_not_passed#:#The confirmation link is incomplete.###01 02 2023 new variable
 registration#:#reg_confirmation_link_successful#:#Hai presentato con successo una richiesta di account ad ILIAS. Riceverai una mail di conferma entro qualche minuto. Si prega di confermare la registrazione cliccando sul link di conferma in questa mail.<br />Sarai reindirizzato alla <a href="%s" title="login screen">pagina login</a> entro 20 secondi.
 registration#:#reg_default#:#Impostazione predefinita
 registration#:#reg_deleted_assignment#:#Cancella l'assegnazione (i).

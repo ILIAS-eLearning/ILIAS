@@ -5710,6 +5710,7 @@ common#:#udf_delete_sure#:#Jeste li sigurni da želite izbrisati ovo polje i sve
 common#:#udf_duplicate_entries#:#Vrijednosti moraju biti jedinstvene.
 common#:#udf_field_deleted#:#Izbrisano polje.
 common#:#udf_name_already_exists#:#Ovo ime polja već postoji. Odaberite drugo ime.
+common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Kada je polje postavljeno na 'obavezno', mora biti postavljeno na 'vidljivo u registraciji'
 common#:#udf_type_date#:#Datum
 common#:#udf_type_datetime#:#Datum i vrijeme
@@ -11067,7 +11068,9 @@ meta#:#md_adv_record_lng_table_lng#:#Language###04 06 2021 new variable
 meta#:#md_adv_records#:#Uključeni skupovi podataka
 meta#:#md_adv_records_exported#:#Stvorena je nova izvozna datoteka.
 meta#:#md_adv_scope#:#Opseg
+meta#:#md_adv_scope_info#:#Usage of this custom metadata set will be limited to selected parts of the repository.###01 02 2023 new variable
 meta#:#md_adv_scope_list_header#:#Ograničeno na:
+meta#:#md_adv_scope_objects#:#Data Set Effective From###01 02 2023 new variable
 meta#:#md_adv_searchable#:#Može se pretraživati
 meta#:#md_adv_select_one_file#:#Odaberi jednu datoteku.
 meta#:#md_adv_show#:#Pokaži
@@ -13765,6 +13768,7 @@ registration#:#reg_confirmation_hash_life_time#:#Trajanje
 registration#:#reg_confirmation_hash_life_time_expired#:#Poveznica za potvrdu više nije važeća. Molimo registrirajte se ponovno!
 registration#:#reg_confirmation_hash_life_time_info#:#Unesite trajanje (sekunde) poveznice za potvrdu. Preporučena vrijednost je 1800 sekundi.
 registration#:#reg_confirmation_hash_not_found#:#Nijedan korisnički račun ne može se povezati s ovom poveznicom za potvrdu.
+registration#:#reg_confirmation_hash_not_passed#:#The confirmation link is incomplete.###01 02 2023 new variable
 registration#:#reg_confirmation_link_successful#:#Uspješno ste podnijeli zahtjev za račun ILIAS-u. U sljedećih nekoliko minuta primit ćete e-poruku s potvrdom. Potvrdite svoju registraciju klikom na poveznicu za potvrdu u ovoj poruci e-pošte.<br />Bit ćete preusmjereni na <a href="%s" title="login screen"> zaslon za prijavu </a> nakon 20 sekundi.
 registration#:#reg_default#:#Zadano
 registration#:#reg_deleted_assignment#:#Izbrisani zadatak(-ci).
