@@ -59,7 +59,7 @@ abstract class ilCronJob
         $is_within_same_week_in_same_year = ($last_year . '-' . $last_week) === ($now_year . '-' . $now_week);
         if ($is_within_same_week_in_same_year) {
             // Same week in same year, only execute if the month differs (2022-52 is valid for January and December)
-            return $last_month !== $now_month;
+            return $last_month !== $now_month && $now->diff($last_run)->d > 7;
         }
 
         if ($now_year - $last_year > 1) {
