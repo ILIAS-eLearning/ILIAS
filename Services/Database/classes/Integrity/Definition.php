@@ -41,6 +41,14 @@ class Definition
             throw new InvalidArgumentException('Associations must not be empty.');
         }
 
+        array_walk($this->associations, static function ($association): void {
+            if (!$association instanceof Association) {
+                throw new InvalidArgumentException(
+                    'Associations must be of type ' . Association::class . '.'
+                );
+            }
+        });
+
         $first = $this->associations[0];
 
         foreach ($this->associations as $association) {

@@ -22,6 +22,8 @@ namespace ILIAS\Services\Database\Integrity;
 
 class Field
 {
+    private const _AS = 'as';
+    private const COMBINE_TABLE_AND_FIELD = '.';
     private string $original_table_name;
     private string $converted_table_name;
 
@@ -31,7 +33,7 @@ class Field
         $this->original_table_name = $table_name;
 
         if (null !== $alias) {
-            $this->converted_table_name = $table_name . ' as ' . $alias;
+            $this->converted_table_name = $table_name . ' ' . self::_AS . ' ' . $alias;
             $this->table_name = $alias;
             $this->original_table_name = $table_name;
         }
@@ -44,7 +46,7 @@ class Field
 
     public function fieldName(): string
     {
-        return $this->table_name . '.' . $this->field_name;
+        return $this->table_name . self::COMBINE_TABLE_AND_FIELD . $this->field_name;
     }
 
     public function rawFieldName(): string

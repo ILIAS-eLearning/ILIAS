@@ -100,4 +100,36 @@ class DefinitionTest extends TestCase
 
         $this->assertEquals($tableName, $instance->referenceTableName());
     }
+
+    public function testInvalidName(): void
+    {
+        $association_one = new Association(
+            new Field('table_one', 'field_one'),
+            new Field('table_two', 'field_two')
+        );
+
+        $association_two = new Association(
+            new Field('table_three', 'field_one'),
+            new Field('table_four', 'field_two')
+        );
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('All fields must have the same table');
+        $instance = new Definition([$association_one, $association_two]);
+    }
+
+
+    public function testInvalidParameter(): void
+    {
+        $association_one = new Association(
+            new Field('table_one', 'field_one'),
+            new Field('table_two', 'field_two')
+        );
+
+        $association_two = 'funny string';
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Associations must be of type ILIAS\Services\Database\Integrity\Association.');
+        $instance = new Definition([$association_one, $association_two]);
+    }
 }

@@ -22,6 +22,9 @@ namespace ILIAS\Services\Database\Integrity;
 
 class Ignore
 {
+    private const IS_NOT_NULL = 'IS NOT NULL';
+    private const NOT_EQUALS = '!=';
+
     /**
      * @var string[]
      */
@@ -29,8 +32,8 @@ class Ignore
 
     public function __construct(?string ...$values_to_ignore)
     {
-        $this->values_to_ignore = array_map(static function (?string $valueToIgnore): string {
-            return null === $valueToIgnore ? 'IS NOT NULL' : '!= ' . $valueToIgnore;
+        $this->values_to_ignore = array_map(static function (?string $value_to_ignore): string {
+            return null === $value_to_ignore ? self::IS_NOT_NULL : self::NOT_EQUALS . ' ' . $value_to_ignore;
         }, $values_to_ignore);
     }
 
