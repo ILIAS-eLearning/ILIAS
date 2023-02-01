@@ -1411,9 +1411,16 @@ class ilObjRoleGUI extends ilObjectGUI
         
         $mode = (int) $_POST['mode'];
         $start = ($this->obj_ref_id == ROLE_FOLDER_ID ? ROOT_FOLDER_ID : $this->obj_ref_id);
-        
-        $this->object->changeExistingObjects($start, $mode, unserialize(ilUtil::stripSlashes($_POST['type_filter'])));
-        
+        $this->object->changeExistingObjects(
+            $start,
+            $mode,
+            unserialize(
+                ilUtil::stripSlashes($_POST['type_filter']),
+                [
+                    'allowed_classes' => false
+                ]
+            )
+        );
         ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'perm');
     }
