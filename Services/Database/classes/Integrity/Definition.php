@@ -24,16 +24,14 @@ use InvalidArgumentException;
 
 class Definition
 {
-    /**
-     * @var Association[]
-     */
-    private array $associations;
     private Ignore $ignore;
 
-    public function __construct(array $associations, ?Ignore $ignore = null)
+    /**
+     * @param \ILIAS\Services\Database\Integrity\Association[] $associations
+     */
+    public function __construct(private array $associations, ?Ignore $ignore = null)
     {
-        $this->associations = $associations;
-        $this->ignore = null === $ignore ? new Ignore() : $ignore;
+        $this->ignore = $ignore ?? new Ignore();
         $this->validate();
     }
 
