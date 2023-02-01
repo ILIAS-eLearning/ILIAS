@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -846,7 +846,7 @@ class Renderer extends AbstractComponentRenderer
             $template->setVariable('FILE_NAME', $file_info->getName());
             $template->setVariable(
                 'FILE_SIZE',
-                (new DataSize($file_info->getSize(), DataSize::MB))->inBytes() . " MB"
+                (string) (new DataSize($file_info->getSize(), DataSize::Byte))
             );
         }
 
