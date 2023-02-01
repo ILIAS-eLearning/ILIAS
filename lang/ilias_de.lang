@@ -6709,7 +6709,7 @@ content#:#cont_offline_mode_allow_info#:#Erlaubt die Nutzung des Lernmoduls ohne
 content#:#cont_offline_mode_disable_not_allowed_info#:#Da das Lernmodul von Nutzern aktuell im Offline-Modus genutzt wird, kann der Offline-Modus nicht deaktiviert werden.
 content#:#cont_online#:#Online
 content#:#cont_online_help_ids#:#Screen-IDs
-content#:#cont_online_info#:#Nur wenn das SCORM-Lernmodul online geschaltet ist, können Benutzer auf das Lernmodul zugreifen. Wenn nicht ist das SCORM-Lernmodul nur für Personen mit Bearbeitungsrechten verfügbar.
+content#:#cont_online_info#:#Nur wenn das SCORM-Lernmodul online geschaltet ist, können Benutzer auf das Lernmodul zugreifen. Wenn nicht, ist das SCORM-Lernmodul nur für Personen mit dem Recht „Einstellungen bearbeiten“ verfügbar.
 content#:#cont_open#:#Anzeige des Lernmoduls
 content#:#cont_open_clipboard#:#Medien-Clipboard öffnen
 content#:#cont_open_iframe#:#Öffnet im selben Fenster (iFrame) unterhalb des ILIAS-Hauptmenüs
