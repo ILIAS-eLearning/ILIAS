@@ -249,7 +249,7 @@ class FileInputTest extends ILIAS_UI_TestBase
         $test_file_info = $this->createMock(FileInfoResult::class);
         $test_file_info->method('getFileIdentifier')->willReturn("test_file_id_1");
         $test_file_info->method('getName')->willReturn("test file name 1");
-        $test_file_info->method('getSize')->willReturn(1);
+        $test_file_info->method('getSize')->willReturn(1001);
 
         $file_input = $this->buildFactory()->file(
             $this->getUploadHandler($test_file_info),
@@ -273,7 +273,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                                     <span data-action="collapse">
                                     </span>
                                     <span data-dz-name>test file name 1</span>
-                                    <span data-dz-size>1 MB</span>
+                                    <span data-dz-size>1 KB</span>
                                     <span data-action="remove">
                                     <a class="glyph" aria-label="close">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
@@ -379,13 +379,13 @@ class FileInputTest extends ILIAS_UI_TestBase
         $test_file_info = $this->createMock(FileInfoResult::class);
         $test_file_info->method('getFileIdentifier')->willReturn("test_file_id_1");
         $test_file_info->method('getName')->willReturn("test file name 1");
-        $test_file_info->method('getSize')->willReturn(1);
+        $test_file_info->method('getSize')->willReturn(1000 * 1000 + 1);
 
         $factory = $this->buildFactory();
 
         $metadata_input = $factory->text("text_input");
         $file_input = $factory->file(
-            ($u = $this->getUploadHandler($test_file_info)),
+            $u = $this->getUploadHandler($test_file_info),
             "file_input",
             null,
             $metadata_input
