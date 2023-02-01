@@ -1,8 +1,8 @@
--- MySQL dump 10.19  Distrib 10.3.34-MariaDB, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.19  Distrib 10.3.36-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: ilias_release
 -- ------------------------------------------------------
--- Server version	10.3.34-MariaDB-0+deb10u1
+-- Server version	10.3.36-MariaDB-0+deb10u2
 
 --
 -- Table structure for table `acc_access_key`
@@ -20353,7 +20353,7 @@ INSERT INTO `settings` VALUES ('lucene_adv_search','lom_structure','0');
 INSERT INTO `settings` VALUES ('lucene_adv_search','lom_taxon','0');
 INSERT INTO `settings` VALUES ('lucene_adv_search','lom_user_role','0');
 INSERT INTO `settings` VALUES ('lucene_adv_search','lom_version','0');
-INSERT INTO `settings` VALUES ('MathJax','path_to_mathjax','https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe');
+INSERT INTO `settings` VALUES ('MathJax','path_to_mathjax','https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe');
 INSERT INTO `settings` VALUES ('mobs','file_manager_always','');
 INSERT INTO `settings` VALUES ('mobs','mep_activate_pages','1');
 INSERT INTO `settings` VALUES ('mobs','restricted_file_types','');
@@ -20412,7 +20412,7 @@ INSERT INTO `settings` VALUES ('common','soap_connect_timeout','0');
 INSERT INTO `settings` VALUES ('common','rpc_server_host','');
 INSERT INTO `settings` VALUES ('common','rpc_server_port','0');
 INSERT INTO `settings` VALUES ('common','inst_id','0');
-INSERT INTO `settings` VALUES ('common','db_hotfixes_7','92');
+INSERT INTO `settings` VALUES ('common','db_hotfixes_7','93');
 INSERT INTO `settings` VALUES ('adve','autosave','30');
 INSERT INTO `settings` VALUES ('common','rep_favourites','1');
 
@@ -25024,4 +25024,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2022-12-21 17:21:59
+-- Dump completed on 2023-02-01 15:14:27

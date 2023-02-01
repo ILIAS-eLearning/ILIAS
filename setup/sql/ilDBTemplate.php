@@ -48594,7 +48594,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'lucene_adv_search'), 'keyword' => array('text', 'lom_version'), 'value' => array('clob', '0')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'MathJax'), 'keyword' => array('text', 'path_to_mathjax'), 'value' => array('clob', 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe')));
+'module' => array('text', 'MathJax'), 'keyword' => array('text', 'path_to_mathjax'), 'value' => array('clob', 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'mobs'), 'keyword' => array('text', 'file_manager_always'), 'value' => array('clob', '')));
@@ -48777,7 +48777,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'inst_id'), 'value' => array('clob', '0')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '92')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '93')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'adve'), 'keyword' => array('text', 'autosave'), 'value' => array('clob', '30')));
