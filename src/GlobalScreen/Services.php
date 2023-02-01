@@ -28,6 +28,7 @@ use ILIAS\GlobalScreen\Scope\Layout\LayoutServices;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\MetaBarItemFactory;
 use ILIAS\GlobalScreen\Scope\Notification\NotificationServices;
+use ILIAS\GlobalScreen\Scope\Toast\ToastServices;
 use ILIAS\GlobalScreen\Scope\Tool\ToolServices;
 
 /**
@@ -95,6 +96,11 @@ class Services
     public function notifications(): NotificationServices
     {
         return $this->get(NotificationServices::class);
+    }
+
+    public function toasts(): ToastServices
+    {
+        return $this->get(ToastServices::class);
     }
 
     /**

@@ -43,7 +43,7 @@ class ChatInvitationNotificationProvider extends AbstractNotificationProvider
         $latest_time = 0;
         $osd_notification_handler = new ilNotificationOSDHandler(new ilNotificationOSDRepository($this->dic->database()));
         $invitations = [];
-        foreach ($osd_notification_handler->getNotificationsForUser(
+        foreach ($osd_notification_handler->getOSDNotificationsForUser(
             $this->dic->user()->getId(),
             true,
             time() - $leftIntervalTimestamp,

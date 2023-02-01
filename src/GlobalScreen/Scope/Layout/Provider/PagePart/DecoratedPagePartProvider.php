@@ -26,6 +26,7 @@ use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
+use ILIAS\UI\Component\Toast\Container as TContainer;
 
 /**
  * Class DecoratedPagePartProvider
@@ -163,5 +164,10 @@ class DecoratedPagePartProvider implements PagePartProvider
     public function getViewTitle(): string
     {
         return $this->getDecoratedOrOriginal(self::PURPOSE_VIEWTITLE, $this->original->getViewTitle());
+    }
+
+    public function getToastContainer() : ?TContainer
+    {
+        return $this->getDecoratedOrOriginal(TContainer::class, $this->original->getToastContainer());
     }
 }
