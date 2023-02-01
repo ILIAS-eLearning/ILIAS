@@ -610,6 +610,7 @@ class ilExerciseManagementGUI
         $actions = array(
             $this->ui_factory->button()->shy($this->lng->txt("grade_evaluate"), "#")->withOnClick($modal->getShowSignal())
         );
+
         if ($this->exercise->hasTutorFeedbackMail()) {
             $actions[] = $this->ui_factory->button()->shy(
                 $this->lng->txt("exc_tbl_action_feedback_mail"),

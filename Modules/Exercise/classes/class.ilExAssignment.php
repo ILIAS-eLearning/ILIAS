@@ -2336,7 +2336,9 @@ class ilExAssignment
         global $DIC;
         $db = $DIC->database();
         $id = $db->nextId("exc_ass_file_order");
-        $db->insert("exc_ass_file_order", [
+        $db->insert(
+            "exc_ass_file_order",
+            [
                 "id" => ["integer", $id],
                 "order_nr" => ["integer", $a_order_nr],
                 "assignment_id" => ["integer", $a_ass_id],
@@ -2596,5 +2598,16 @@ class ilExAssignment
             }
         }
         return $calculated_deadlines;
+    }
+
+    // see bug #36253
+    public function canParticipantReceiveFeedback($part_id) : bool
+    {
+        if ($this->hasTeam()) {
+            if (!ilExAssignmentTeam::getTeamId($this->getId(), $part_id)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
