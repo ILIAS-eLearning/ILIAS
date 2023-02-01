@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Repository\Provider;
 
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
