@@ -850,7 +850,7 @@ class Renderer extends AbstractComponentRenderer
             $template->setVariable('FILE_NAME', $file_info->getName());
             $template->setVariable(
                 'FILE_SIZE',
-                (new DataSize($file_info->getSize(), DataSize::MB))->inBytes() . " MB"
+                (string) (new DataSize($file_info->getSize(), DataSize::Byte))
             );
         }
 

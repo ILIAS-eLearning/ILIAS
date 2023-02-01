@@ -1,28 +1,31 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\FileUpload\Handler;
 
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class BasicFileInfoResult
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class BasicFileInfoResult implements FileInfoResult
+final class BasicFileInfoResult implements FileInfoResult
 {
     private string $mime_type;
     private string $file_identifier;
@@ -30,12 +33,16 @@ class BasicFileInfoResult implements FileInfoResult
     private string $name;
     private string $file_identification_key;
 
-
     /**
-     * BasicFileInfoResult constructor.
+     * @param int    $size in Bytes, we will change this to DataSize in the future
      */
-    public function __construct(string $file_identification_key, string $file_identifier, string $name, int $size, string $mime_type)
-    {
+    public function __construct(
+        string $file_identification_key,
+        string $file_identifier,
+        string $name,
+        int $size,
+        string $mime_type
+    ) {
         $this->file_identification_key = $file_identification_key;
         $this->file_identifier = $file_identifier;
         $this->name = $name;
