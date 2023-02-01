@@ -35,7 +35,7 @@ class ToastsOfNotifications
         $this->settings = $settings;
     }
 
-    public function create(array $notifications): array
+    public function transformNotificationsForToasts(array $notifications): array
     {
         return array_map([$this, 'toastFromNotification'], $notifications);
     }
