@@ -195,9 +195,9 @@ $fields = array(
         'type' => 'blob'
     )
 );
- 
+
 $ilDB->createTable("my_table", $fields);
- 
+
 ?>
 ```
 Renaming a table is done with `$ilDB->renameTable(...)`.
