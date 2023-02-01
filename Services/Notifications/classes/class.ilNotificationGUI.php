@@ -109,7 +109,7 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
     {
         $settings = new ilSetting('notifications');
         ilSession::enableWebAccessWithoutSession(true);
-        $notifications = (new ilNotificationOSDHandler())->getNotificationsForUser(
+        $notifications = (new ilNotificationOSDHandler())->getOSDNotificationsForUser(
             $this->user->getId(),
             true,
             $this->dic->http()->wrapper()->query()->retrieve('max_age', $this->dic->refinery()->kindlyTo()->int())
@@ -118,7 +118,7 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
         $toasts = (new ToastsOfNotifications(
             $this->dic->ui()->factory(),
             $settings
-        ))->create($notifications);
+        ))->transformNotificationsForToasts($notifications);
 
         $this->dic->http()->saveResponse(
             $this->dic->http()->response()

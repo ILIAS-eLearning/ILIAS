@@ -54,7 +54,7 @@ class ilNotificationOSDHandler extends ilNotificationHandler
     /**
      * @return ilOSDNotificationObject[]
      */
-    public function getNotificationsForUser(int $user_id, bool $append_osd_id_to_link = true, int $max_age_seconds = 0, string $type = ''): array
+    public function getOSDNotificationsForUser(int $user_id, bool $append_osd_id_to_link = true, int $max_age_seconds = 0, string $type = ''): array
     {
         $notifications = $this->repo->getOSDNotificationsByUser($user_id, $max_age_seconds, $type);
 
