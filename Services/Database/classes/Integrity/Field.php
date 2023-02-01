@@ -22,15 +22,11 @@ namespace ILIAS\Services\Database\Integrity;
 
 class Field
 {
-    private string $table_name;
-    private string $field_name;
     private string $original_table_name;
     private string $converted_table_name;
 
-    public function __construct(string $table_name, string $field_name, ?string $alias = null)
+    public function __construct(private string $table_name, private string $field_name, ?string $alias = null)
     {
-        $this->table_name = $table_name;
-        $this->field_name = $field_name;
         $this->converted_table_name = $table_name;
         $this->original_table_name = $table_name;
 

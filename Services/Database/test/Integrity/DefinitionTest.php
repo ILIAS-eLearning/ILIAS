@@ -39,7 +39,7 @@ class DefinitionTest extends TestCase
     public function testZeroAssociationsWillFail(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $instance = new Definition([]);
+        new Definition([]);
     }
 
 

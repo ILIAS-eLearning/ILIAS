@@ -64,8 +64,8 @@ class Integrity
             'SELECT COUNT(1) as violations FROM %s LEFT JOIN %s ON %s WHERE %s',
             $definition->tableName(),
             $definition->referenceTableName(),
-            join(' AND ', $on),
-            join(' AND ', $where),
+            implode(' AND ', $on),
+            implode(' AND ', $where),
         ));
 
         $result = $this->database->fetchAssoc($result);

@@ -22,13 +22,8 @@ namespace ILIAS\Services\Database\Integrity;
 
 class Association
 {
-    private Field $field;
-    private Field $reference_field;
-
-    public function __construct(Field $field, Field $reference_field)
+    public function __construct(private Field $field, private Field $reference_field)
     {
-        $this->field = $field;
-        $this->reference_field = $reference_field;
     }
 
     public function field(): Field
