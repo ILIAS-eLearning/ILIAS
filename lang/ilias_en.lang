@@ -2039,6 +2039,7 @@ auth#:#auth_oidc_settings_custom_session_duration_option#:#Duration of Own Sessi
 auth#:#auth_oidc_settings_custom_session_duration_type#:#Session Duration Settings
 auth#:#auth_oidc_settings_default_role#:#Role Assignment
 auth#:#auth_oidc_settings_default_role_info#:#Please select a global role for the ILIAS user accounts that will be created for users who have authenticated themselves using OpenID Connect.
+auth#:#auth_oidc_settings_discovery_url#:#Discovery URL of the provider
 auth#:#auth_oidc_settings_img#:#Image
 auth#:#auth_oidc_settings_img_file_info#:#Upload an image that you would like to have shown on the login page. The image will link automatically to the OpenID Connect login script.
 auth#:#auth_oidc_settings_invalid_scopes#:#The following values are not valid Scopes: %s
@@ -2063,6 +2064,10 @@ auth#:#auth_oidc_settings_txt_val_info#:#Enter a text to be displayed on the log
 auth#:#auth_oidc_settings_user_attr#:#Attribute name of user accounts
 auth#:#auth_oidc_settings_user_sync#:#Synchronise Automatically
 auth#:#auth_oidc_settings_user_sync_info#:#Users who do not have an ILIAS account, but have successfully authenticated themselves using OpenID Connect, will have an ILIAS account created for them automatically.
+auth#:#auth_oidc_settings_validate_scope_custom#:#Use custom OpenID Connect Discovery url
+auth#:#auth_oidc_settings_validate_scope_default#:#Use :Provider-URL:/.well-known/openid-configuration
+auth#:#auth_oidc_settings_validate_scope_none#:#Do not validate Scopes on saving
+auth#:#auth_oidc_settings_validate_scopes#:#Validate Scopes upon saving
 auth#:#auth_oidc_update_field_info#:#Update Automatically
 auth#:#auth_oidc_update_role_info#:#Only Synchronise Automatically the First Time a User Logs In.
 auth#:#auth_oidconnect#:#OpenID Connect
