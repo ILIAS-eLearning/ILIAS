@@ -84,9 +84,6 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->viewObject();
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function afterImport(ilObject $new_object): void
     {
         $part = ilCourseParticipants::_getInstanceByObjId($new_object->getId());
