@@ -195,7 +195,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
                 'sort_field' => 'usr_email',
             );
         }
-        if ($arr_searchable_user_columns['org_units']) {
+        if (isset($arr_searchable_user_columns['org_units']) && $arr_searchable_user_columns['org_units']) {
             $cols['usr_assinged_orgus'] = array(
                 'txt' => $DIC->language()->txt('objs_orgu'),
                 'default' => true,

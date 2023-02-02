@@ -8959,13 +8959,12 @@ etal#:#lock_edititng_for_others#:#Bearbeitung für andere sperren
 etal#:#meta_adv_records#:#Metadaten
 etal#:#mm_org_etal#:#Gespräch
 etal#:#mm_talk_template#:#Gesprächsvorlagen
-etal#:#notification_talks_created#:#Sie wurden von %s zu einem Gespräch eingeladen.
-etal#:#notification_talks_date_details#:#Termindetails
+etal#:#notification_talks_created#:#Sie wurden zu einem Gespräch eingeladen.
 etal#:#notification_talks_date_list_header#:#Daten
-etal#:#notification_talks_removed#:#Folgende Termine mit %s wurden abgesagt.
-etal#:#notification_talks_subject#:#Termineinladung
-etal#:#notification_talks_talk_title#:#Titel: %s
-etal#:#notification_talks_updated#:#Folgende Gesprächstermine mit %s wurden angepasst.
+etal#:#notification_talks_removed#:#Folgende Termine wurden abgesagt.
+etal#:#notification_talks_subject#:#Termineinladung: %s
+etal#:#notification_talks_subject_update#:#Terminaktualisierung: %s
+etal#:#notification_talks_updated#:#Folgende Gesprächstermine wurden angepasst.
 etal#:#talk_serial#:#Talk Serial
 etal#:#tals_add#:#Gespräche hinzufügen
 etal#:#tals_new#:#Neue Gesprächsserie
