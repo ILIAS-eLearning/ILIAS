@@ -51,4 +51,9 @@ class InternalDomainService
             $this
         );
     }
+
+    public function xsl(): Xsl\XslManager
+    {
+        return new Xsl\XslManager();
+    }
 }

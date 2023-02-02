@@ -37,6 +37,7 @@ class ilPageObjectGUI
     public const PREVIEW = "preview";
     public const OFFLINE = "offline";
     public const PRINTING = "print";
+    protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected int $requested_ref_id;
     protected int $requested_pg_id;
     protected string $requested_file_id;
@@ -226,6 +227,7 @@ class ilPageObjectGUI
             ->edit();
 
         $this->afterConstructor();
+        $this->xsl = $DIC->copage()->internal()->domain()->xsl();
     }
 
     public function afterConstructor(): void
@@ -1574,12 +1576,9 @@ class ilPageObjectGUI
             // cache hit
             $output = $this->obj->getRenderedContent();
         } else {
-            $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
             $this->log->debug("Calling XSLT, content: " . substr($content, 0, 100));
             try {
-                $args = array( '/_xml' => $content, '/_xsl' => $xsl );
-                $xh = xslt_create();
-                $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
+                $output = $this->xsl->process($content, $params);
             } catch (Exception $e) {
                 $output = "";
                 if ($this->getOutputMode() == "edit") {
@@ -1592,7 +1591,6 @@ class ilPageObjectGUI
                 && $this->obj->old_nr == 0) {
                 $this->obj->writeRenderedContent($output, $md5);
             }
-            xslt_free($xh);
         }
 
         if (!$is_error) {
@@ -2096,10 +2094,6 @@ class ilPageObjectGUI
         $xml .= $link_xml;
         $xml .= "</dummy>";
 
-        $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
-        $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
-        $xh = xslt_create();
-
         $mode = "media";
         if ($a_fullscreen) {
             $mode = "fullscreen";
@@ -2112,10 +2106,7 @@ class ilPageObjectGUI
         $params = array('mode' => $mode, 'enlarge_path' => $enlarge_path,
             'link_params' => "ref_id=" . $this->requested_ref_id,'fullscreen_link' => "",
             'ref_id' => $this->requested_ref_id, 'webspace_path' => $wb_path);
-        $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
-        //echo "<br><br>".htmlentities($output);
-        //echo xslt_error($xh);
-        xslt_free($xh);
+        $output = $this->xsl->process($xml, $params);
 
         // unmask user html
         $tpl->addCss(ilUtil::getStyleSheetLocation());
@@ -2489,18 +2480,11 @@ class ilPageObjectGUI
         $xml .= $media_obj->getXML(IL_MODE_OUTPUT);
         $xml .= "</dummy>";
 
-        //echo htmlentities($xml); exit;
-
-        $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
-        $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
-        $xh = xslt_create();
 
         $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         $mode = "fullscreen";
         $params = array('mode' => $mode, 'webspace_path' => $wb_path);
-        $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
-        xslt_error($xh);
-        xslt_free($xh);
+        $output = $this->xsl->process($xml, $params);
 
         // unmask user html
         $this->tpl->setVariable("MEDIA_CONTENT", $output);
