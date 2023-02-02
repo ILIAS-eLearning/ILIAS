@@ -201,7 +201,7 @@ class ilOrgUnitUserRepository
     public function loadPositions(array $user_ids): void
     {
         $assignments = $this->getAssignmentRepo()
-            ->getAssignmentsByUsers($user_ids);
+            ->getByUsers($user_ids);
         foreach ($assignments as $assignment) {
             $org_unit_user = ilOrgUnitUser::getInstanceById($assignment->getUserId());
             $org_unit_user->addPositions($this->getPositionRepo()->getSingle($assignment->getPositionId(), 'id'));

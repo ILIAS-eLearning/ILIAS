@@ -67,11 +67,11 @@ class ilOrgUnitUserAssignmentRepository
     }
 
     /**
-     * @deprecated Please use getAssignmentsByUsers() from ilOrgUnitUserAssignmentDBRepository
+     * @deprecated Please use getByUsers() from ilOrgUnitUserAssignmentDBRepository
      */
     public function findAllUserAssingmentsByUserIds(array $arr_user_ids): array
     {
-        $assignments = $this->getAssignmentRepo()->getAssignmentsByUsers($arr_user_ids);
+        $assignments = $this->getAssignmentRepo()->getByUsers($arr_user_ids);
 
         $user_assignment_list_by_user = [];
         foreach ($assignments as $user_assignment) {
@@ -110,11 +110,11 @@ class ilOrgUnitUserAssignmentRepository
     }
 
     /**
-     * @deprecated Please use getAssignmentsByUsers() from ilOrgUnitUserAssignmentDBRepository
+     * @deprecated Please use getByUsers() from ilOrgUnitUserAssignmentDBRepository
      */
     public function getAssignmentsOfUserId(int $user_id): array
     {
-        return $this->getAssignmentRepo()->getAssignmentsByUsers([$user_id]);
+        return $this->getAssignmentRepo()->getByUsers([$user_id]);
     }
 
     /**
@@ -181,11 +181,11 @@ class ilOrgUnitUserAssignmentRepository
     }
 
     /**
-     * @deprecated Please use getAssignmentsByPosition() from ilOrgUnitUserAssignmentDBRepository
+     * @deprecated Please use getByPosition() from ilOrgUnitUserAssignmentDBRepository
      */
     public function getUserAssignmentsOfPosition(int $position_id): array
     {
-        return $this->getAssignmentRepo()->getAssignmentsByPosition($position_id);
+        return $this->getAssignmentRepo()->getByPosition($position_id);
     }
 
     /**

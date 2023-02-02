@@ -17,13 +17,14 @@
  */
 declare(strict_types=1);
 
+use JetBrains\PhpStorm\NoReturn;
+
 class ilOrgUnitPermissionDBRepository implements OrgUnitPermissionRepository
 {
     public const TABLE_NAME = 'il_orgu_permissions';
+    protected ilOrgUnitOperationContextDBRepository $contextRepo;
     protected ilDBInterface $db;
     protected ilOrgUnitOperationDBRepository $operationRepo;
-    protected ilOrgUnitOperationContextDBRepository $contextRepo;
-
 
     public function __construct(ilDBInterface $db, ilOrgUnitOperationDBRepository $operationRepo, ilOrgUnitOperationContextDBRepository $contextRepo)
     {
@@ -32,22 +33,103 @@ class ilOrgUnitPermissionDBRepository implements OrgUnitPermissionRepository
         $this->contextRepo = $contextRepo;
     }
 
+    public function get(int $parent_id, int $position_id): ilOrgUnitPermission
+    {
+        if ($position_id === 0) {
+            throw new ilException('$position_id cannot be 0');
+        }
+        if ($parent_id <= 0) {
+            throw new ilException('$parent_id cannot be <=0');
+        }
+
+        $context = $this->contextRepo->getByRefId($parent_id);
+        if (!$context) {
+            throw new ilException('Context for ref_id ' . $parent_id . ' not found');
+        }
+
+        if (!$this->isContextEnabled($context->getContext())) {
+            throw new ilPositionPermissionsNotActive(
+                "Position-related permissions not active in {$context->getContext()}",
+                $context->getContext()
+            );
+        }
+
+        $permission = $this->find($parent_id, $position_id);
+        if ($permission) {
+            return $permission;
+        }
+
+        $template = $this->getDefaultForContext($context->getContext(), $position_id);
+        $permission = (new ilOrgUnitPermission())
+            ->withParentId($parent_id)
+            ->withContextId($context->getId())
+            ->withPositionId($position_id)
+            ->withOperations($template->getOperations())
+            ->withProtected(false);
+        $permission = $this->store($permission);
+
+        return $permission;
+    }
+
+    public function find(int $parent_id, int $position_id): ?ilOrgUnitPermission
+    {
+        if ($position_id === 0) {
+            throw new ilException('$position_id cannot be 0');
+        }
+        if ($parent_id <= 0) {
+            throw new ilException('$parent_id cannot be <=0');
+        }
+
+        $context = $this->contextRepo->getByRefId($parent_id);
+        if (!$context) {
+            return null;
+        }
+
+        if (!$this->isContextEnabled($context->getContext())) {
+            return null;
+        }
+
+        $query = 'SELECT id, parent_id, context_id, position_id, protected, operations FROM' . PHP_EOL
+            . self::TABLE_NAME
+            . '	WHERE ' . self::TABLE_NAME . '.parent_id = ' . $this->db->quote($parent_id, 'integer') . PHP_EOL
+            . ' AND ' . self::TABLE_NAME . '.position_id = ' . $this->db->quote($position_id, 'integer') . PHP_EOL
+            . ' AND ' . self::TABLE_NAME . '.context_id = ' . $this->db->quote($context->getId(), 'integer') . PHP_EOL;
+        $res = $this->db->query($query);
+        if ($res->numRows() === 0) {
+            return null;
+        }
+
+        $rec = $this->db->fetchAssoc($res);
+        $ret = (new ilOrgUnitPermission((int) $rec['id']))
+            ->withParentId((int) $rec["parent_id"])
+            ->withContextId((int) $rec['context_id'])
+            ->withPositionId((int) $rec['position_id'])
+            ->withProtected((bool) $rec['protected'])
+            ->withOperations($this->convertToArray((string) $rec["operations"]));
+
+        $ret = $this->update($ret);
+        return $ret;
+    }
+
     public function store(ilOrgUnitPermission $permission): ilOrgUnitPermission
     {
         if ($permission->getId() === 0) {
-            $operation = $this->insert($permission);
+            $permission = $this->insertDB($permission);
         } else {
             if ($permission->isProtected()) {
                 throw new ilException("Protected permission " . $permission->getId() . " can not be updated");
             }
-            $this->update($permission);
+            if ($permission->getParentId() == ilOrgUnitPermission::PARENT_TEMPLATE) {
+                $permission = $permission->withProtected(true);
+            }
+            $this->updateDB($permission);
         }
 
-        $permission = $this->updatePermission($permission);
+        $permission = $this->update($permission);
         return $permission;
     }
 
-    private function insert(ilOrgUnitPermission $permission): ilOrgUnitPermission
+    private function insertDB(ilOrgUnitPermission $permission): ilOrgUnitPermission
     {
         $id = $this->db->nextId(self::TABLE_NAME);
 
@@ -70,7 +152,7 @@ class ilOrgUnitPermissionDBRepository implements OrgUnitPermissionRepository
             ->withOperations($permission->getOperations());
     }
 
-    private function update(ilOrgUnitPermission $permission): void
+    private function updateDB(ilOrgUnitPermission $permission): void
     {
         $where = [ 'id' => [ 'integer', $permission->getId() ] ];
 
@@ -85,161 +167,44 @@ class ilOrgUnitPermissionDBRepository implements OrgUnitPermissionRepository
         $this->db->update(self::TABLE_NAME, $values, $where);
     }
 
-    private function delete(int $permission_id): void
+    public function delete(int $parent_id, int $position_id): bool
     {
-        if ($permission_id === 0) {
-            return;
+        if ($position_id === 0) {
+            throw new ilException('$position_id cannot be 0');
+        }
+        if ($parent_id <= 0) {
+            throw new ilException('$parent_id cannot be <=0');
         }
 
-        $permission = $this->findPermissionById($permission_id);
+        $context = $this->contextRepo->getByRefId($parent_id);
+        if (!$context) {
+            throw new ilException('Context for ref_id ' . $parent_id . ' not found');
+        }
+
+        if (!$this->isContextEnabled($context->getContext())) {
+            throw new ilPositionPermissionsNotActive(
+                "Position-related permissions not active in {$context->getContext()}",
+                $context->getContext()
+            );
+        }
+
+        $permission = $this->find($parent_id, $position_id);
         if ($permission) {
             $query = 'DELETE FROM ' . self::TABLE_NAME . PHP_EOL
-                . ' WHERE id = ' . $this->db->quote($permission_id, 'integer');
+                . ' WHERE id = ' . $this->db->quote($permission->getId(), 'integer');
             $this->db->manipulate($query);
-        }
-    }
 
-    public function getTemplateByContext(string $context_name, int $position_id, bool $editable = false): ilOrgUnitPermission
-    {
-        if ($position_id === 0) {
-            throw new ilException('$position_id cannot be 0');
-        }
-
-        $context = $this->contextRepo->findContextByName($context_name);
-        if (!$context) {
-            throw new ilException('Context ' . $context_name . ' not found');
-        }
-
-        $template = $this->findPermissionByParentAndContext(
-            ilOrgUnitPermission::PARENT_TEMPLATE,
-            $context->getId(),
-            $position_id
-        );
-
-        if (!$template) {
-            $template = (new ilOrgUnitPermission())
-                ->withParentId(ilOrgUnitPermission::PARENT_TEMPLATE)
-                ->withContextId($context->getId())
-                ->withPositionId($position_id)
-                ->withNewlyCreated(true)
-                ->withProtected(true);
-            $template = $this->store($template);
-        }
-
-        $template = $template->withProtected(!$editable);
-        $template = $this->updatePermission($template);
-
-        return $template;
-    }
-
-    public function hasLocalPermission(int $ref_id, int $position_id): bool
-    {
-        if ($this->findPermissionByParent($ref_id, $position_id)) {
             return true;
         }
 
         return false;
     }
 
-    public function getPermissionByRefId(int $ref_id, int $position_id): ilOrgUnitPermission
-    {
-        if ($position_id === 0) {
-            throw new ilException('$position_id cannot be 0');
-        }
-        if ($ref_id === 0) {
-            throw new ilException('$ref_id cannot be 0');
-        }
-
-        $context = $this->contextRepo->findContextByRefId($ref_id);
-        if (!$context) {
-            throw new ilException('Context for ref_id ' . $ref_id . ' not found');
-        }
-        $ilOrgUnitGlobalSettings = ilOrgUnitGlobalSettings::getInstance();
-        $ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
-        if (!$ilOrgUnitObjectPositionSetting->isActive()) {
-            throw new ilPositionPermissionsNotActive(
-                "Position-related permissions not active in {$context->getContext()}",
-                $context->getContext()
-            );
-        }
-
-        $permission = $this->findPermissionByParentAndContext($ref_id, $context->getId(), $position_id);
-        if ($permission) {
-            return $permission;
-        }
-
-        return $this->getTemplateByContext($context->getContext(), $position_id);
-    }
-
-    public function createPermissionByRefId(int $ref_id, int $position_id): ilOrgUnitPermission
-    {
-        $permission = $this->getPermissionByRefId($ref_id, $position_id);
-
-        if (!$permission->isTemplate()) {
-            return $permission;
-        }
-
-        $permission = $permission
-            ->withParentId($ref_id)
-            ->withProtected(false)
-            ->withNewlyCreated(true);
-
-        $permission = $this->store($permission);
-        return $permission;
-    }
-
-    public function deletePermissionByRefId(int $ref_id, int $position_id): bool
-    {
-        if ($position_id === 0) {
-            throw new ilException('$position_id cannot be 0');
-        }
-        if ($ref_id === 0) {
-            throw new ilException('$ref_id cannot be 0');
-        }
-
-        $context = $this->contextRepo->findContextByRefId($ref_id);
-        if (!$context) {
-            throw new ilException('Context for ref_id ' . $ref_id . ' not found');
-        }
-        $ilOrgUnitGlobalSettings = ilOrgUnitGlobalSettings::getInstance();
-        $ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
-        if (!$ilOrgUnitObjectPositionSetting->isActive()) {
-            throw new ilPositionPermissionsNotActive(
-                "Position-related permissions not active in {$context->getContext()}",
-                $context->getContext()
-            );
-        }
-
-        $permission = $this->findPermissionByParentAndContext($ref_id, $context->getId(), $position_id);
-        if ($permission) {
-            $this->delete($permission->getId());
-            return true;
-        }
-
-        return false;
-    }
-
-    public function getTemplatesForActiveContexts(int $position_id, bool $editable = false): array
-    {
-        $active_contexts = [];
-        foreach (ilOrgUnitGlobalSettings::getInstance()->getPositionSettings() as $ilOrgUnitObjectPositionSetting) {
-            if ($ilOrgUnitObjectPositionSetting->isActive()) {
-                $active_contexts[] = $ilOrgUnitObjectPositionSetting->getType();
-            }
-        }
-
-        $permissions = [];
-        foreach ($active_contexts as $context) {
-            $permissions[] = $this->getTemplateByContext($context, $position_id, $editable);
-        }
-
-        return $permissions;
-    }
-
-    public function updatePermission(ilOrgUnitPermission $permission): ilOrgUnitPermission
+    // TODO: Check if public use in GUI is still necessary, otherwise make this private
+    public function update(ilOrgUnitPermission $permission): ilOrgUnitPermission
     {
         $permission = $permission->withPossibleOperations(
-            $this->operationRepo->findOperationsByContextId($permission->getContextId())
+            $this->operationRepo->getOperationsByContextId($permission->getContextId())
         );
         $permission = $permission->withOperations(
             is_array($permission->getOperations()) ? $permission->getOperations() : []
@@ -250,81 +215,128 @@ class ilOrgUnitPermissionDBRepository implements OrgUnitPermissionRepository
         }
         $permission = $permission->withSelectedOperationIds($selected_operation_ids);
         $permission = $permission->withContext(
-            $this->contextRepo->findContextById($permission->getContextId())
+            $this->contextRepo->getById($permission->getContextId())
         );
 
         return $permission;
     }
 
-    private function findPermissionByParent(int $parent_id, int $position_id): ?ilOrgUnitPermission
+    public function getLocalorDefault(int $parent_id, int $position_id): ilOrgUnitPermission
     {
-        $query = 'SELECT id, parent_id, context_id, position_id, protected, operations FROM' . PHP_EOL
-            . self::TABLE_NAME
-            . '	WHERE ' . self::TABLE_NAME . '.parent_id = ' . $this->db->quote($parent_id, 'integer') . PHP_EOL
-            . ' AND ' . self::TABLE_NAME . '.position_id = ' . $this->db->quote($position_id, 'integer') . PHP_EOL;
-        $res = $this->db->query($query);
-        if ($res->numRows() === 0) {
-            return null;
+        if ($position_id === 0) {
+            throw new ilException('$position_id cannot be 0');
         }
 
-        $rec = $this->db->fetchAssoc($res);
-        $ret = (new ilOrgUnitPermission((int) $rec['id']))
-            ->withParentId((int) $rec["parent_id"])
-            ->withContextId((int) $rec['context_id'])
-            ->withPositionId((int) $rec['position_id'])
-            ->withProtected((bool) $rec['protected'])
-            ->withOperations($this->convertToArray((string) $rec["operations"]));
+        $context = $this->contextRepo->getByRefId($parent_id);
+        if (!$context) {
+            throw new ilException('Context for ref_id ' . $parent_id . ' not found');
+        }
 
-        $ret = $this->updatePermission($ret);
+        if (!$this->isContextEnabled($context->getContext())) {
+            throw new ilPositionPermissionsNotActive(
+                "Position-related permissions not active in {$context->getContext()}",
+                $context->getContext()
+            );
+        }
+
+        $permission = $this->find($parent_id, $position_id);
+        if ($permission) {
+            return $permission;
+        }
+
+        return $this->getDefaultForContext($context->getContext(), $position_id);
+    }
+
+    public function getDefaultForContext(string $context_name, int $position_id, bool $editable = false): ilOrgUnitPermission
+    {
+        if ($position_id === 0) {
+            throw new ilException('$position_id cannot be 0');
+        }
+
+        $context = $this->contextRepo->find($context_name);
+        if (!$context) {
+            throw new ilException('Context ' . $context_name . ' not found');
+        }
+
+        $template = false;
+        $query = 'SELECT id, parent_id, context_id, position_id, protected, operations FROM' . PHP_EOL
+            . self::TABLE_NAME
+            . '	WHERE ' . self::TABLE_NAME . '.parent_id = ' . $this->db->quote(ilOrgUnitPermission::PARENT_TEMPLATE, 'integer') . PHP_EOL
+            . ' AND ' . self::TABLE_NAME . '.position_id = ' . $this->db->quote($position_id, 'integer') . PHP_EOL
+            . ' AND ' . self::TABLE_NAME . '.context_id = ' . $this->db->quote($context->getId(), 'integer') . PHP_EOL;
+        $res = $this->db->query($query);
+        if ($res->numRows() > 0) {
+            $rec = $this->db->fetchAssoc($res);
+            $template = (new ilOrgUnitPermission((int) $rec['id']))
+                ->withParentId((int) $rec["parent_id"])
+                ->withContextId((int) $rec['context_id'])
+                ->withPositionId((int) $rec['position_id'])
+                ->withProtected((bool) $rec['protected'])
+                ->withOperations($this->convertToArray((string) $rec["operations"]));
+            $template = $this->update($template);
+        }
+
+        if (!$template) {
+            $template = (new ilOrgUnitPermission())
+                ->withParentId(ilOrgUnitPermission::PARENT_TEMPLATE)
+                ->withContextId($context->getId())
+                ->withPositionId($position_id)
+                ->withProtected(true);
+            $template = $this->store($template);
+        }
+
+        $template = $template->withProtected(!$editable);
+        $template = $this->update($template);
+
+        return $template;
+    }
+
+    public function getDefaultsForActiveContexts(int $position_id, bool $editable = false): array
+    {
+        $active_contexts = [];
+        foreach (ilOrgUnitGlobalSettings::getInstance()->getPositionSettings() as $ilOrgUnitObjectPositionSetting) {
+            if ($ilOrgUnitObjectPositionSetting->isActive()) {
+                $active_contexts[] = $ilOrgUnitObjectPositionSetting->getType();
+            }
+        }
+
+        $permissions = [];
+        foreach ($active_contexts as $context) {
+            $permissions[] = $this->getDefaultForContext($context, $position_id, $editable);
+        }
+
+        return $permissions;
+    }
+
+    private function isContextEnabled(string $context): bool
+    {
+        $ilOrgUnitGlobalSettings = ilOrgUnitGlobalSettings::getInstance();
+        $ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context);
+        if (!$ilOrgUnitObjectPositionSetting->isActive()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * This will be replaced in a future update
+     * including a migration for existing db entries
+     */
+    private function convertToArray(string $operations)
+    {
+        $ids = json_decode($operations);
+        $ret = [];
+        foreach ($ids as $operation_id) {
+            $ret[] = $this->operationRepo->getById($operation_id);
+        }
         return $ret;
     }
 
-    private function findPermissionByParentAndContext(int $parent_id, int $context_id, int $position_id): ?ilOrgUnitPermission
-    {
-        $query = 'SELECT id, parent_id, context_id, position_id, protected, operations FROM' . PHP_EOL
-            . self::TABLE_NAME
-            . '	WHERE ' . self::TABLE_NAME . '.parent_id = ' . $this->db->quote($parent_id, 'integer') . PHP_EOL
-            . ' AND ' . self::TABLE_NAME . '.context_id = ' . $this->db->quote($context_id, 'integer') . PHP_EOL
-            . ' AND ' . self::TABLE_NAME . '.position_id = ' . $this->db->quote($position_id, 'integer') . PHP_EOL;
-        $res = $this->db->query($query);
-        if ($res->numRows() === 0) {
-            return null;
-        }
-
-        $rec = $this->db->fetchAssoc($res);
-        $ret = (new ilOrgUnitPermission((int) $rec['id']))
-            ->withParentId((int) $rec["parent_id"])
-            ->withContextId((int) $rec['context_id'])
-            ->withPositionId((int) $rec['position_id'])
-            ->withProtected((bool) $rec['protected'])
-            ->withOperations($this->convertToArray((string) $rec["operations"]));
-
-        $ret = $this->updatePermission($ret);
-        return $ret;
-    }
-
-    private function findPermissionById(int $permission_id): ?ilOrgUnitPermission
-    {
-        $query = 'SELECT id, parent_id, context_id, position_id, protected, operations FROM' . PHP_EOL
-            . self::TABLE_NAME
-            . '	WHERE ' . self::TABLE_NAME . '.id = ' . $this->db->quote($permission_id, 'integer') . PHP_EOL;
-        $res = $this->db->query($query);
-        if ($res->numRows() === 0) {
-            return null;
-        }
-
-        $rec = $this->db->fetchAssoc($res);
-        $ret = (new ilOrgUnitPermission((int) $rec['id']))
-            ->withParentId((int) $rec["parent_id"])
-            ->withContextId((int) $rec['context_id'])
-            ->withPositionId((int) $rec['position_id'])
-            ->withProtected((bool) $rec['protected'])
-            ->withOperations($this->convertToArray((string) $rec["operations"]));
-
-        $ret = $this->updatePermission($ret);
-        return $ret;
-    }
-
+    /**
+     * This will be replaced in a future update
+     * including a migration for existing db entries
+     */
     private function convertToJson(array $operations)
     {
         $ids = [];
@@ -332,15 +344,5 @@ class ilOrgUnitPermissionDBRepository implements OrgUnitPermissionRepository
             $ids[] = $operation->getOperationId();
         }
         return json_encode($ids);
-    }
-
-    private function convertToArray(string $operations)
-    {
-        $ids = json_decode($operations);
-        $ret = [];
-        foreach ($ids as $operation_id) {
-            $ret[] = $this->operationRepo->findOperationById($operation_id);
-        }
-        return $ret;
     }
 }

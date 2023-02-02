@@ -189,7 +189,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
             $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("user_not_found_to_delete"), true);
             $this->ctrl->redirect($this, self::CMD_INDEX);
         }
-        $this->assignmentRepo->delete($assignment->getId());
+        $this->assignmentRepo->delete($assignment);
 
         $this->main_tpl->setOnScreenMessage('success', $this->language->txt('remove_successful'), true);
         $this->cancel();
@@ -199,7 +199,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
     {
         $r = $this->http->request();
         $assignments = $this->assignmentRepo
-            ->getAssignmentsByUserAndPosition((int) $_POST['usr_id'], (int) $r->getQueryParams()['position_id']);
+            ->getByUserAndPosition((int) $_POST['usr_id'], (int) $r->getQueryParams()['position_id']);
 
         foreach ($assignments as $assignment) {
             $this->assignmentRepo->delete($assignment->getId());
@@ -242,7 +242,6 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         }
         foreach ($user_ids as $user_id) {
             $assignment = $this->assignmentRepo->get($user_id, $position_id, $this->getParentRefId());
-            $this->assignmentRepo->store($assignment);
         }
 
         $this->main_tpl->setOnScreenMessage('success', $this->language->txt("users_successfuly_added"), true);

@@ -101,12 +101,11 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
 
         if ($action == 'add') {
             $assignment = $this->assignmentRepo->get($user_id, $position_id, $org_unit_id);
-            $this->assignmentRepo->store($assignment);
             $this->stats['created']++;
         } elseif ($action == 'remove') {
             $assignment = $this->assignmentRepo->find($user_id, $position_id, $org_unit_id);
             if ($assignment) {
-                $this->assignmentRepo->delete($assignment->getId());
+                $this->assignmentRepo->delete($assignment);
                 $this->stats['removed']++;
             }
         } else {

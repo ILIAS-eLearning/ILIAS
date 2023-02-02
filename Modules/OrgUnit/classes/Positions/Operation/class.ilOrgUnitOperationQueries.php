@@ -19,6 +19,7 @@
 /**
  * Class ilOrgUnitOperationQueries
  * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @deprecated Please use OrgUnitOperationRepository
  */
 class ilOrgUnitOperationQueries
 {
@@ -35,61 +36,62 @@ class ilOrgUnitOperationQueries
     }
 
     /**
-     * @deprecated Please use registerNewOperation() from ilOrgUnitOperationDBRepository
+     * @deprecated Please use get() from OrgUnitOperationRepository
      */
     public static function registerNewOperation(
         string $operation_name,
         string $description,
         string $context = ilOrgUnitOperationContext::CONTEXT_OBJECT
     ): void {
-        self::getOperationRepo()->registerNewOperation($operation_name, $description, [$context]);
+        self::getOperationRepo()->get($operation_name, $description, [$context]);
     }
 
     /**
-     * @deprecated Please use registerNewOperation() from ilOrgUnitOperationDBRepository
+     * @deprecated Please use get() from OrgUnitOperationRepository
      */
     public static function registerNewOperationForMultipleContexts(
         string $operation_name,
         string $description,
         array $contexts
     ): void {
-        self::getOperationRepo()->registerNewOperation($operation_name, $description, $contexts);
+        self::getOperationRepo()->get($operation_name, $description, $contexts);
     }
 
     /**
-     * @deprecated Please use findOperationsByContextName() from ilOrgUnitOperationDBRepository
+     * @deprecated Please use getOperationsByContextName() from OrgUnitOperationRepository
      * @return ilOrgUnitOperation[]
      */
     public static function getOperationsForContextName(string $context_name): array
     {
-        return self::getOperationRepo()->findOperationsByContextName($context_name);
+        return self::getOperationRepo()->getOperationsByContextName($context_name);
     }
 
     /**
-     * @deprecated Please use findOperationsByContextId() from ilOrgUnitOperationDBRepository
+     * @deprecated Please use getOperationsByContextId() from OrgUnitOperationRepository
      * @return ilOrgUnitOperation[]
      */
     public static function getOperationsForContextId(string $context_id): array
     {
-        return self::getOperationRepo()->findOperationsByContextId($context_id);
+        return self::getOperationRepo()->getOperationsByContextId($context_id);
     }
 
     /**
-     * @@deprecated Please use getOperationById() from ilOrgUnitOperationDBRepository
+     * @@deprecated Please use get() from OrgUnitOperationRepository for operation name
+     * Operations should not be referenced by Id
      */
     public static function findById(int $operation_id): ?ilOrgUnitOperation
     {
-        return self::getOperationRepo()->findOperationById($operation_id);
+        return self::getOperationRepo()->getById($operation_id);
     }
 
     /**
-     * @@deprecated Please use findOperationByNameAndContext() from ilOrgUnitOperationDBRepository
+     * @@deprecated Please use find() from OrgUnitOperationRepository
      */
     public static function findByOperationString(
         string $operation_string,
         string $context_name
     ): ?ilOrgUnitOperation {
-        return self::getOperationRepo()->findOperationByNameAndContext(
+        return self::getOperationRepo()->find(
             $operation_string,
             $context_name
         );

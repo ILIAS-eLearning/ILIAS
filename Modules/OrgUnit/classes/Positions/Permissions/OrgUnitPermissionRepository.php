@@ -19,37 +19,64 @@ declare(strict_types=1);
 
 interface OrgUnitPermissionRepository
 {
+    /**
+     * Get local permission for parent and position
+     * If no permission exists yet, it is created from the default setting
+     *
+     * @throws ilException
+     * @throws ilPositionPermissionsNotActive
+     */
+    public function get(int $parent_id, int $position_id): ilOrgUnitPermission;
+
+    /**
+     * Find local permission for parent and position
+     * Does not create new local permissions, returns null if no local permission exists
+     */
+    public function find(int $parent_id, int $position_id): ?ilOrgUnitPermission;
+
+    /**
+     * Store permission to db
+     * Returns permission with updated fields (see update())
+     */
     public function store(ilOrgUnitPermission $permission): ilOrgUnitPermission;
 
     /**
-     * Returns a permission template for a specified context
-     * If the template does not exist, it is created
-     */
-    public function getTemplateByContext(string $context_name, int $position_id, bool $editable = false): ilOrgUnitPermission;
-
-    public function hasLocalPermission(int $ref_id, int $position_id): bool;
-
-    /**
-     * Returns the local permission set for a ref_id (if it exists),
-     * otherwise returns a permission template for the context of ref_id
-     */
-    public function getPermissionByRefId(int $ref_id, int $position_id): ilOrgUnitPermission;
-
-    /**
-     * Returns the local permission set for a ref_id (if it exists),
-     * otherwise creates a new local permission set
-     */
-    public function createPermissionByRefId(int $ref_id, int $position_id): ilOrgUnitPermission;
-
-    public function deletePermissionByRefId(int $ref_id, int $position_id): bool;
-
-    /**
-     * Returns an array of permission templates for all active contexts
-     * If the templates don't exist yet, they will be created (see getTemplateByContext)
+     * Delete local permission for parent and position
+     * Returns false if no local permission exists
      *
-     * @return array ilOrgUnitPermission[]
+     * @throws ilException
+     * @throws ilPositionPermissionsNotActive
      */
-    public function getTemplatesForActiveContexts(int $position_id, bool $editable = false): array;
+    public function delete(int $parent_id, int $position_id): bool;
 
-    public function updatePermission(ilOrgUnitPermission $permission): ilOrgUnitPermission;
+    /**
+     * Update/refresh the additional fields of the permssion object (e.g. available operations)
+     *
+     * This is done via the repository cause it also needs data from the operations/context repositories
+     * Ideally, this should be private use only but is still needed as public in the current version
+     */
+    public function update(ilOrgUnitPermission $permission): ilOrgUnitPermission;
+
+    /**
+     * Get an existing local permission. If a local permission does not exist,
+     * return a protected default setting (if permissions are enabled for the context of the parent_id)
+     *
+     * @throws ilException
+     * @throws ilPositionPermissionsNotActive
+     */
+    public function getLocalorDefault(int $parent_id, int $position_id): ilOrgUnitPermission;
+
+    /**
+     * Get the default setting for a specified context
+     * If the setting does not exist, it is created (if permissions are enabled for this context)
+     */
+    public function getDefaultForContext(string $context_name, int $position_id, bool $editable = false): ilOrgUnitPermission;
+
+    /**
+    * Get an array of default settings for all active contexts
+    * If the settings don't exist yet, they will be created (if permissions are enabled for these contexts)
+    *
+    * @return array ilOrgUnitPermission[]
+    */
+    public function getDefaultsForActiveContexts(int $position_id, bool $editable = false): array;
 }

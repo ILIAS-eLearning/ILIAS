@@ -284,9 +284,9 @@ class ilOrgUnitPositionDBRepository implements OrgUnitPositionRepository
             $this->authorityRepo->delete($authority->getId());
         }
 
-        $assignments = $this->assignmentRepo->getAssignmentsByPosition($position_id);
+        $assignments = $this->assignmentRepo->getByPosition($position_id);
         foreach ($assignments as $assignment) {
-            $this->assignmentRepo->delete($assignment->getId());
+            $this->assignmentRepo->delete($assignment);
         }
     }
 

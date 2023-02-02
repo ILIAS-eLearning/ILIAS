@@ -20,21 +20,47 @@ declare(strict_types=1);
 interface OrgUnitOperationContextRepository
 {
     /**
+     * Get a context
+     * If the context does not exist, it is created
      * @throws ilException
      */
-    public function registerNewContext(string $context, ?string $parent_context): void;
+    public function get(string $context, ?string $parent_context): ilOrgUnitOperationContext;
 
+    /**
+     * Store context to db
+     */
     public function store(ilOrgUnitOperationContext $operation_context): ilOrgUnitOperationContext;
 
-    public function delete(int $id): void;
+    /**
+     * Delete context by name
+     * Returns false, if no context is found
+     */
+    public function delete(string $context): bool;
 
-    public function find(string $context, int $parent_context_id): ?ilOrgUnitOperationContext;
+    /**
+     * Find an existing context
+     * Returns null if no context is found
+     */
+    public function find(string $context): ?ilOrgUnitOperationContext;
 
-    public function findContextById(int $id): ?ilOrgUnitOperationContext;
+    /**
+     * Get context by id
+     * Returns null if no context is found
+     *
+     * This is kept for backwards compatibility, but might be removed at a later date
+     * @deprecated Please refer to contexts by context name
+     */
+    public function getById(int $id): ?ilOrgUnitOperationContext;
 
-    public function findContextByName(string $context): ?ilOrgUnitOperationContext;
+    /**
+     * Get context by ref_id
+     * Returns null if no context is found
+     */
+    public function getByRefId(int $ref_id): ?ilOrgUnitOperationContext;
 
-    public function findContextByRefId(int $ref_id): ?ilOrgUnitOperationContext;
-
-    public function findContextByObjId(int $obj_id): ?ilOrgUnitOperationContext;
+    /**
+     * Get context by obj_id
+     * Returns null if no context is found
+     */
+    public function getByObjId(int $obj_id): ?ilOrgUnitOperationContext;
 }

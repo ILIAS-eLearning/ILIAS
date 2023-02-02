@@ -844,9 +844,9 @@ class ilPermissionGUI extends ilPermission2GUI
 
         foreach ($positions as $position_id) {
             if (isset($local_post[$position_id])) {
-                $this->getPermissionRepo()->createPermissionByRefId($ref_id, $position_id);
+                $this->getPermissionRepo()->get($ref_id, $position_id);
             } else {
-                $this->getPermissionRepo()->deletePermissionByRefId($ref_id, $position_id);
+                $this->getPermissionRepo()->delete($ref_id, $position_id);
             }
         }
 
@@ -866,11 +866,11 @@ class ilPermissionGUI extends ilPermission2GUI
                 if (!isset($local_post[$position_id])) {
                     continue;
                 }
-                $ilOrgUnitPermission = $this->getPermissionRepo()->getPermissionByRefId($ref_id, $position_id);
+                $ilOrgUnitPermission = $this->getPermissionRepo()->getLocalorDefault($ref_id, $position_id);
                 if (!$ilOrgUnitPermission->isTemplate()) {
                     $new_ops = [];
                     foreach ($ops as $op_id => $op) {
-                        $new_ops[] = $this->getOperationRepo()->findOperationById($op_id);
+                        $new_ops[] = $this->getOperationRepo()->getById($op_id);
                     }
                     $ilOrgUnitPermission = $ilOrgUnitPermission->withOperations($new_ops);
                     $ilOrgUnitPermission = $this->getPermissionRepo()->store($ilOrgUnitPermission);

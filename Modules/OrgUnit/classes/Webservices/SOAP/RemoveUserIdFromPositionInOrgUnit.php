@@ -50,7 +50,7 @@ class RemoveUserIdFromPositionInOrgUnit extends Base
         } else {
             $assignment = $this->assignmentRepo->find($user_id, $position_id, $orgu_ref_id);
             if ($assignment) {
-                $this->assignmentRepo->delete($assignment->getId());
+                $this->assignmentRepo->delete($assignment);
             } else {
                 $this->addError("No assignment found");
             }

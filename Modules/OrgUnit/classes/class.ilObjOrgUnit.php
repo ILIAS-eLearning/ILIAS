@@ -239,7 +239,6 @@ class ilObjOrgUnit extends ilContainer
 
         foreach ($user_ids as $user_id) {
             $assignment = $this->assignmentRepo->get($user_id, $position_id, $this->getRefId());
-            $this->assignmentRepo->store($assignment);
 
             $this->ilAppEventHandler->raise('Modules/OrgUnit', 'assignUsersToEmployeeRole', array(
                 'object' => $this,
@@ -263,7 +262,6 @@ class ilObjOrgUnit extends ilContainer
 
         foreach ($user_ids as $user_id) {
             $assignment = $this->assignmentRepo->get($user_id, $position_id, $this->getRefId());
-            $this->assignmentRepo->store($assignment);
 
             $this->ilAppEventHandler->raise('Modules/OrgUnit', 'assignUsersToSuperiorRole', array(
                 'object' => $this,
@@ -283,7 +281,7 @@ class ilObjOrgUnit extends ilContainer
 
         $assignment = $this->assignmentRepo->find($user_id, $position_id, $this->getRefId());
         if ($assignment) {
-            $this->assignmentRepo->delete($assignment->getId());
+            $this->assignmentRepo->delete($assignment);
         }
 
         $this->ilAppEventHandler->raise('Modules/OrgUnit', 'deassignUserFromEmployeeRole', array(
@@ -303,7 +301,7 @@ class ilObjOrgUnit extends ilContainer
 
         $assignment = $this->assignmentRepo->find($user_id, $position_id, $this->getRefId());
         if ($assignment) {
-            $this->assignmentRepo->delete($assignment->getId());
+            $this->assignmentRepo->delete($assignment);
         }
 
         $this->ilAppEventHandler->raise('Modules/OrgUnit', 'deassignUserFromSuperiorRole', array(
@@ -454,9 +452,9 @@ class ilObjOrgUnit extends ilContainer
         }
 
         // Delete all position assignments to this object.
-        $assignments = $this->assignmentRepo->getAssignmentsByOrgUnit($this->getRefId());
+        $assignments = $this->assignmentRepo->getByOrgUnit($this->getRefId());
         foreach ($assignments as $assignment) {
-            $this->assignmentRepo->delete($assignment->getId());
+            $this->assignmentRepo->delete($assignment);
         }
 
         return true;

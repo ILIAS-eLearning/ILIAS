@@ -138,7 +138,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
         }
 
         $employee_position = $this->positionRepo->getSingle(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE, 'core_identifier');
-        $assignments = $this->assignmentRepo->getAssignmentsByPosition($position->getId());
+        $assignments = $this->assignmentRepo->getByPosition($position->getId());
         foreach ($assignments as $assignment) {
             $this->assignmentRepo->store($assignment->withPositionId($employee_position->getId()));
         }

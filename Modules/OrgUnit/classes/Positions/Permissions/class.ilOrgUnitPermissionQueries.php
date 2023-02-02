@@ -19,6 +19,7 @@
 /**
  * Class ilOrgUnitPermissionQueries
  * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @deprecated Please use OrgUnitPermissionRepository
  */
 class ilOrgUnitPermissionQueries
 {
@@ -35,50 +36,54 @@ class ilOrgUnitPermissionQueries
     }
 
     /**
-     * @deprecated Please use getTemplateByContext() from ilOrgUnitPermissionDBRepository
+     * @deprecated Please use getDefaultForContext() from OrgUnitPermissionRepository
      */
     public static function getTemplateSetForContextName(string $context_name, string $position_id, bool $editable = false): ilOrgUnitPermission
     {
-        return self::getPermissionRepo()->getTemplateByContext($context_name, (int) $position_id, $editable);
+        return self::getPermissionRepo()->getDefaultForContext($context_name, (int) $position_id, $editable);
     }
 
     /**
-     * @deprecated Please use hasLocalPermission() from ilOrgUnitPermissionDBRepository
+     * @deprecated Please use find() from OrgUnitPermissionRepository
      */
     public static function hasLocalSet(int $ref_id, int $position_id): bool
     {
-        return self::getPermissionRepo()->hasLocalPermission($ref_id, $position_id);
+        if (self::getPermissionRepo()->find($ref_id, $position_id)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
-     * @deprecated Please use getPermissionByRefId() from ilOrgUnitPermissionDBRepository
+     * @deprecated Please use getLocalorDefault() from OrgUnitPermissionRepository
      */
     public static function getSetForRefId(int $ref_id, int $position_id): ilOrgUnitPermission
     {
-        return self::getPermissionRepo()->getPermissionByRefId($ref_id, $position_id);
+        return self::getPermissionRepo()->getLocalorDefault($ref_id, $position_id);
     }
 
     /**
-     * @deprecated Please use createPermissionByRefId() from ilOrgUnitPermissionDBRepository
+     * @deprecated Please use get() from OrgUnitPermissionRepository
      */
     public static function findOrCreateSetForRefId(int $ref_id, int $position_id): ilOrgUnitPermission
     {
-        return self::getPermissionRepo()->createPermissionByRefId($ref_id, $position_id);
+        return self::getPermissionRepo()->get($ref_id, $position_id);
     }
 
     /**
-     * @deprecated Please use deletePermissionByRefId() from ilOrgUnitPermissionDBRepository
+     * @deprecated Please use delete() from OrgUnitPermissionRepository
      */
     public static function removeLocalSetForRefId(int $ref_id, int $position_id): bool
     {
-        return self::getPermissionRepo()->deletePermissionByRefId($ref_id, $position_id);
+        return self::getPermissionRepo()->delete($ref_id, $position_id);
     }
 
     /**
-     * @deprecated Please use getTemplatesForActiveContexts() from ilOrgUnitPermissionDBRepository
+     * @deprecated Please use getDefaultsForActiveContexts() from OrgUnitPermissionRepository
      */
     public static function getAllTemplateSetsForAllActivedContexts(int $position_id, bool $editable = false): array
     {
-        return self::getPermissionRepo()->getTemplatesForActiveContexts($position_id, $editable);
+        return self::getPermissionRepo()->getDefaultsForActiveContexts($position_id, $editable);
     }
 }

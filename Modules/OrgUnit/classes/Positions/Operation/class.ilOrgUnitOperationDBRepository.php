@@ -30,26 +30,29 @@ class ilOrgUnitOperationDBRepository implements OrgUnitOperationRepository
         $this->contextRepo = $contextRepo;
     }
 
-    public function registerNewOperation(string $operation_string, string $description, array $contexts, int $list_order = 0): void
+    public function get(string $operation_string, string $description, array $contexts, int $list_order = 0): array
     {
+        $operations = [];
         foreach ($contexts as $context) {
             $operation = $this->find($operation_string, $context);
             if ($operation) {
-                throw new ilException('The operation ' . $operation_string . ' in context ' . $context . 'has already been registered.');
+                $operations[] = $operation;
+                continue;
             }
 
-            $operation_context = $this->contextRepo->findContextByName($context);
-            if (!$operation_context) {
-                throw new ilException('Context ' . $context . ' does not exist! Register context first using ilOrgUnitOperationContextRepository');
-            }
+            $operation_context = $this->contextRepo->get($context, null);
 
             $new_operation = (new ilOrgUnitOperation())
                 ->withOperationString($operation_string)
                 ->withDescription($description)
                 ->withListOrder($list_order)
                 ->withContextId($operation_context->getId());
-            $this->store($new_operation);
+            $new_operation = $this->store($new_operation);
+
+            $operations[] = $new_operation;
         }
+
+        return $operations;
     }
 
     public function store(ilOrgUnitOperation $operation): ilOrgUnitOperation
@@ -98,26 +101,33 @@ class ilOrgUnitOperationDBRepository implements OrgUnitOperationRepository
         $this->db->update(self::TABLE_NAME, $values, $where);
     }
 
-    public function delete(int $id): void
+    public function delete(ilOrgUnitOperation $operation): bool
     {
-        if ($id == 0) {
-            return;
+        if ($operation->getOperationId() === 0) {
+            return false;
         }
 
-        $operation = $this->findOperationById($id);
-        if ($operation) {
-            $query = 'DELETE FROM ' . self::TABLE_NAME . PHP_EOL
-                . ' WHERE operation_id = ' . $this->db->quote($id, 'integer');
-            $this->db->manipulate($query);
+        $query = 'DELETE FROM ' . self::TABLE_NAME . PHP_EOL
+            . ' WHERE operation_id = ' . $this->db->quote($operation->getOperationId(), 'integer');
+        $rows = $this->db->manipulate($query);
+        if ($rows > 0) {
+            return true;
         }
+
+        return false;
     }
 
-    private function find(string $operation_string, int $context_id): ?ilOrgUnitOperation
+    public function find(string $operation_string, string $context): ?ilOrgUnitOperation
     {
+        $context = $this->contextRepo->find($context);
+        if (!$context) {
+            return null;
+        }
+
         $query = 'SELECT operation_id, operation_string, description, list_order, context_id FROM' . PHP_EOL
             . self::TABLE_NAME
             . ' WHERE ' . self::TABLE_NAME . '.operation_string = ' . $this->db->quote($operation_string, 'string') . PHP_EOL
-            . ' AND ' . self::TABLE_NAME . '.context_id = ' . $this->db->quote($context_id, 'integer');
+            . ' AND ' . self::TABLE_NAME . '.context_id = ' . $this->db->quote($context->getId(), 'integer');
 
         $res = $this->db->query($query);
         if ($res->numRows() === 0) {
@@ -132,7 +142,7 @@ class ilOrgUnitOperationDBRepository implements OrgUnitOperationRepository
             ->withContextId((int) $rec['context_id']);
     }
 
-    public function findOperationById(int $operation_id): ?ilOrgUnitOperation
+    public function getById(int $operation_id): ?ilOrgUnitOperation
     {
         $query = 'SELECT operation_id, operation_string, description, list_order, context_id FROM' . PHP_EOL
             . self::TABLE_NAME
@@ -151,7 +161,7 @@ class ilOrgUnitOperationDBRepository implements OrgUnitOperationRepository
             ->withContextId((int) $rec['context_id']);
     }
 
-    public function findOperationByName(string $operation_string): ?ilOrgUnitOperation
+    public function getByName(string $operation_string): array
     {
         $query = 'SELECT operation_id, operation_string, description, list_order, context_id FROM' . PHP_EOL
             . self::TABLE_NAME
@@ -159,45 +169,25 @@ class ilOrgUnitOperationDBRepository implements OrgUnitOperationRepository
 
         $res = $this->db->query($query);
         if ($res->numRows() === 0) {
-            return null;
+            return [];
         }
 
-        $rec = $this->db->fetchAssoc($res);
-        return (new ilOrgUnitOperation((int) $rec['operation_id']))
-            ->withOperationString((string) $rec['operation_string'])
-            ->withDescription((string) $rec["description"])
-            ->withListOrder((int) $rec["list_order"])
-            ->withContextId((int) $rec['context_id']);
+        $ret = [];
+        while ($rec = $this->db->fetchAssoc($res)) {
+            $operation = (new ilOrgUnitOperation((int)$rec['operation_id']))
+                ->withOperationString((string)$rec['operation_string'])
+                ->withDescription((string)$rec["description"])
+                ->withListOrder((int)$rec["list_order"])
+                ->withContextId((int)$rec['context_id']);
+            $ret[] = $operation;
+        }
+
+        return $ret;
     }
 
-    public function findOperationByNameAndContext(string $operation_string, string $context): ?ilOrgUnitOperation
+    public function getOperationsByContextId(int $context_id): array
     {
-        $operation_context = $this->contextRepo->findContextByName($context);
-        if (!$operation_context) {
-            throw new ilException('Context ' . $context . ' does not exist!');
-        }
-
-        $query = 'SELECT operation_id, operation_string, description, list_order, context_id FROM' . PHP_EOL
-            . self::TABLE_NAME
-            . ' WHERE ' . self::TABLE_NAME . '.operation_string = ' . $this->db->quote($operation_string, 'string') . PHP_EOL
-            . ' AND ' . self::TABLE_NAME . '.context_id = ' . $this->db->quote($operation_context->getId(), 'integer');
-
-        $res = $this->db->query($query);
-        if ($res->numRows() === 0) {
-            return null;
-        }
-
-        $rec = $this->db->fetchAssoc($res);
-        return (new ilOrgUnitOperation((int) $rec['operation_id']))
-            ->withOperationString((string) $rec['operation_string'])
-            ->withDescription((string) $rec["description"])
-            ->withListOrder((int) $rec["list_order"])
-            ->withContextId((int) $rec['context_id']);
-    }
-
-    public function findOperationsByContextId(int $context_id): array
-    {
-        $operation_context = $this->contextRepo->findContextById($context_id);
+        $operation_context = $this->contextRepo->getById($context_id);
         if (!$operation_context) {
             throw new ilException('Context with id ' . $context_id . ' does not exist!');
         }
@@ -220,9 +210,9 @@ class ilOrgUnitOperationDBRepository implements OrgUnitOperationRepository
         return $ret;
     }
 
-    public function findOperationsByContextName(string $context): array
+    public function getOperationsByContextName(string $context): array
     {
-        $operation_context = $this->contextRepo->findContextByName($context);
+        $operation_context = $this->contextRepo->find($context);
         if (!$operation_context) {
             throw new ilException('Context ' . $context . ' does not exist!');
         }

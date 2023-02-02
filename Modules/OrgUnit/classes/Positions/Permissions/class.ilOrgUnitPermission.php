@@ -25,7 +25,7 @@ class ilOrgUnitPermission
     public const PARENT_TEMPLATE = -1;
     public const TABLE_NAME = 'il_orgu_permissions';
 
-    protected ?int $id = 0;
+    protected int $id = 0;
     protected int $parent_id = self::PARENT_TEMPLATE;
     protected int $context_id = 0;
     protected int $position_id = 0;
@@ -44,7 +44,6 @@ class ilOrgUnitPermission
      */
     protected array $selected_operation_ids = [];
     protected ?ilOrgUnitOperationContext $context = null;
-    protected bool $newly_created = false;
 
     public function __construct($id = 0)
     {
@@ -157,18 +156,6 @@ class ilOrgUnitPermission
     {
         $clone = clone $this;
         $clone->protected = $protected;
-        return $clone;
-    }
-
-    public function isNewlyCreated(): bool
-    {
-        return $this->newly_created;
-    }
-
-    public function withNewlyCreated(bool $newly_created): self
-    {
-        $clone = clone $this;
-        $clone->newly_created = $newly_created;
         return $clone;
     }
 
