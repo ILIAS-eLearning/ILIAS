@@ -330,7 +330,12 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 
     protected function renderItem(array $a_set, ilTemplate $a_tpl): void
     {
-        if (strlen((string) $a_set['path'])) {
+        $obj_type = ilObject::_lookupType($a_set['obj_id']);
+
+        if (
+            strlen((string) $a_set['path']) &&
+            $this->obj_def->isAllowedInRepository($obj_type)
+        ) {
             $a_tpl->setCurrentBlock('calendar_path');
             $a_tpl->setVariable('ADD_PATH_INFO', $a_set['path']);
             $a_tpl->parseCurrentBlock();
@@ -365,7 +370,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
                 $this->ctrl->setParameterByClass('ilcalendarpresentationgui', 'backpd', 1);
             }
             $this->ctrl->setParameterByClass('ilcalendarpresentationgui', 'ref_id', $a_set['ref_id']);
-            switch (ilObject::_lookupType($a_set['obj_id'])) {
+            switch ($obj_type) {
                 case 'crs':
                     $link = $this->ctrl->getLinkTargetByClass(
                         [
@@ -419,15 +424,14 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
                 break;
 
             case ilCalendarCategory::TYPE_OBJ:
-                $type = ilObject::_lookupType($a_set['obj_id']);
-                $a_tpl->setVariable('IMG_SRC', ilUtil::getImagePath('icon_' . $type . '.svg'));
-                $a_tpl->setVariable('IMG_ALT', $this->lng->txt('cal_type_' . $type));
+                $img_type = $obj_type === 'tals' ? 'etal' : $obj_type;
+                $a_tpl->setVariable('IMG_SRC', ilUtil::getImagePath('icon_' . $img_type . '.svg'));
+                $a_tpl->setVariable('IMG_ALT', $this->lng->txt('cal_type_' . $obj_type));
                 break;
 
             case ilCalendarCategory::TYPE_BOOK:
-                $type = ilObject::_lookupType($a_set['obj_id']);
                 $a_tpl->setVariable('IMG_SRC', ilUtil::getImagePath('icon_book.svg'));
-                $a_tpl->setVariable('IMG_ALT', $this->lng->txt('cal_type_' . $type));
+                $a_tpl->setVariable('IMG_ALT', $this->lng->txt('cal_type_' . $obj_type));
                 break;
 
             case ilCalendarCategory::TYPE_CH:
