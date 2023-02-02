@@ -23,6 +23,7 @@ namespace ILIAS\Modules\EmployeeTalk\Talk\Repository;
 use ILIAS\Modules\EmployeeTalk\Talk\DAO\EmployeeTalk;
 use ilDBInterface;
 use ilDateTime;
+use ilDate;
 use ilTimeZone;
 use ILIAS\MyStaff\ilMyStaffAccess;
 use ilOrgUnitPermissionQueries;
@@ -102,11 +103,6 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
         $this->database->free($statement);
 
         return $talks;
-    }
-
-    public function findUsersByPositionRights(int $user): array
-    {
-        return $managedUser;
     }
 
     public function findByObjectId(int $objectId): EmployeeTalk
@@ -195,11 +191,20 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
 
     private function parseFromStdClass($stdClass): EmployeeTalk
     {
+        $all_day = boolval($stdClass->all_day);
+        if ($all_day) {
+            $start_date = new ilDate($stdClass->start_date, IL_CAL_UNIX);
+            $end_date = new ilDate($stdClass->start_date, IL_CAL_UNIX);
+        } else {
+            $start_date = new ilDateTime($stdClass->start_date, IL_CAL_UNIX, ilTimeZone::UTC);
+            $end_date = new ilDateTime($stdClass->start_date, IL_CAL_UNIX, ilTimeZone::UTC);
+        }
+
         return new EmployeeTalk(
             intval($stdClass->object_id),
-            new ilDateTime($stdClass->start_date, IL_CAL_UNIX, ilTimeZone::UTC),
-            new ilDateTime($stdClass->end_date, IL_CAL_UNIX, ilTimeZone::UTC),
-            boolval($stdClass->all_day),
+            $start_date,
+            $end_date,
+            $all_day,
             $stdClass->series_id ?? '',
             $stdClass->location ?? '',
             intval($stdClass->employee),

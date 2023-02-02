@@ -329,9 +329,14 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         $superiorName = $superior->getFullname();
 
         $dates = [];
+        $add_time = $firstTalk->getData()->isAllDay() ? 0 : 1;
         foreach ($talks as $talk) {
             $data = $talk->getData();
-            $startDate = $data->getStartDate()->get(IL_CAL_DATETIME);
+            $startDate = $data->getStartDate()->get(
+                IL_CAL_FKT_DATE,
+                ilCalendarUtil::getUserDateFormat($add_time, true),
+                $employee->getTimeZone()
+            );
 
             $dates[] = strval($startDate);
         }
@@ -469,13 +474,18 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
          */
         $dateTimeInput = $this->form->getItemByPostVar('etal_event');
         ['start' => $start, 'end' => $end] = $dateTimeInput->getValue();
-        $startDate = new ilDateTime($start, IL_CAL_UNIX, ilTimeZone::UTC);
-        $endDate = new ilDateTime($end, IL_CAL_UNIX, ilTimeZone::UTC);
+        if (intval($tgl)) {
+            $start_date = new ilDate($start, IL_CAL_UNIX);
+            $end_date = new ilDate($end, IL_CAL_UNIX);
+        } else {
+            $start_date = new ilDateTime($start, IL_CAL_UNIX, ilTimeZone::UTC);
+            $end_date = new ilDateTime($end, IL_CAL_UNIX, ilTimeZone::UTC);
+        }
 
         return new EmployeeTalk(
             -1,
-            $startDate,
-            $endDate,
+            $start_date,
+            $end_date,
             boolval(intval($tgl)),
             '',
             $location ?? '',
@@ -566,7 +576,11 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 
             $cloneData->setStartDate($date);
             $endDate = $date->get(IL_CAL_UNIX) + $periodDiff;
-            $cloneData->setEndDate(new ilDateTime($endDate, IL_CAL_UNIX));
+            if ($cloneData->isAllDay()) {
+                $cloneData->setEndDate(new ilDate($endDate, IL_CAL_UNIX));
+            } else {
+                $cloneData->setEndDate(new ilDateTime($endDate, IL_CAL_UNIX, ilTimeZone::UTC));
+            }
             $cloneObject->setData($cloneData);
             $cloneObject->update();
             $talks[] = $cloneObject;
