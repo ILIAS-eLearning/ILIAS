@@ -135,12 +135,11 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this, 'saveSorting'),
             array_map(
-                function (int $view): ILIAS\UI\Component\Input\Field\Section {
-                    return $this->getViewSorting(
-                        $view,
-                        $this->lng->txt("dash_" . $this->viewSettings->getViewName($view))
-                    );
-                },
+                fn (int $view): ILIAS\UI\Component\Input\Field\Section =>
+                $this->getViewSorting(
+                    $view,
+                    $this->lng->txt("dash_" . $this->viewSettings->getViewName($view))
+                ),
                 $this->viewSettings->getPresentationViews()
             )
         );
@@ -149,11 +148,13 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
     public function getViewSorting(int $view, string $title): ILIAS\UI\Component\Input\Field\Section
     {
+        $this->tpl->addJavaScript("Services/Dashboard/Administration/js/unnamed.js");
+        $lng = $this->lng;
         $availabe_sort_options = $this->viewSettings->getAvailableSortOptionsByView($view);
         $options = array_reduce(
             $availabe_sort_options,
-            function (array $options, string $option): array {
-                $options[$option] = $this->lng->txt("dash_sort_by_" . $option);
+            static function (array $options, string $option) use ($lng): array {
+                $options[$option] = $lng->txt("dash_sort_by_" . $option);
                 return $options;
             },
             []
@@ -166,41 +167,13 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             ->withValue(
                 $this->viewSettings->getActiveSortingsByView($view)
             )
-            ->withAdditionalOnLoadCode(function ($id) use ($view) {
-                return "$('#$id').attr('data-checkbox', 'activeSorting$view');
-                $('#$id').change(function () {
-                    // not checked options
-                    var disabledOptions = $(this).find('input[type=\"checkbox\"]:not(:checked)');
-                    var checkedOptions = $(this).find('input[type=\"checkbox\"]:checked');
-                    var selectionInput = $('[data-select=\"sorting$view\"]');
-                    selectionInput.find('option').each(function () {
-                        if (disabledOptions.filter('[value=\"' + $(this).val() + '\"]').length > 0) {
-                        console.log('disbale option' + $(this).val());
-                            $(this).attr('disabled', 'disabled');
-                        }
-                        if (checkedOptions.filter('[value=\"' + $(this).val() + '\"]').length > 0) {
-                            console.log('enable option' + $(this).val());
-                            $(this).removeAttr('disabled');
-                        }
-                    });
-                    // change selection to first available option only if current selection is disabled
-                    if (selectionInput.find('option:selected').attr('disabled') === 'disabled') {
-                        var firstPossibleOption = selectionInput.find('option:not([disabled]):first');
-                        firstPossibleOption.attr('selected', 'selected');
-                        if (firstPossibleOption.length > 0) {
-                        console.log(firstPossibleOption);
-                            selectionInput.find('option:selected').removeAttr('selected');
-                        }
-                    }
-                    // if only one option is not disabled make it readonly
-                    if ($(this).find('input[type=\"checkbox\"]:checked').length === 1) {
-                    console.log('make readonly option');
-                       $(this).find('input[type=\"checkbox\"]:checked').attr('disabled', 'disabled');
-                    } else {
-                        $(this).find('input[type=\"checkbox\"]:disabled').removeAttr('disabled'); 
-                    }
-                });";
-            });
+            ->withAdditionalOnLoadCode(
+                static fn ($id) =>
+                    "$id.setAttribute('data-checkbox', 'activeSorting$view');
+                    document.addEventListener('DOMContentLoaded', function () {
+                        handleUserInputForSortationsByView($view);
+                    });"
+            );
         $options = [];
         foreach ($this->viewSettings->getAvailableSortOptionsByView($view) as $sort_option) {
             $options[$sort_option] = $this->lng->txt("dash_sort_by_" . $sort_option);
@@ -211,17 +184,12 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             ->select($this->lng->txt("dash_default_sortation"), $options)
             ->withValue($this->viewSettings->getDefaultSortingByView($view))
             ->withRequired(true)
-            ->withAdditionalOnLoadCode(function ($id) use ($view) {
-                // write id to attr
-                return "$('#$id').attr('data-select', 'sorting$view');
-                // disable options that are not checked
-                var disabledOptions = $('[data-checkbox=\"activeSorting$view\"]').parent().find('input[type=\"checkbox\"]:not(:checked)');
-                $('#$id').find('option').each(function () {
-                    if (disabledOptions.filter('[value=\"' + $(this).val() + '\"]').length > 0) {
-                        $(this).attr('disabled', 'disabled');
-                    }
-                });";
-            });
+            ->withAdditionalOnLoadCode(
+                static fn ($id) =>
+                    "$id.setAttribute('data-select', 'sorting$view');
+                    const selectedOption$view = document.querySelectorAll('[data-select=\"sorting$view\"] > option[selected=\"selected\"]')[0];
+                    selectedOption$view.setAttribute('default', 'default');"
+            );
         return $this->ui_factory->input()->field()->section(
             $this->maybeDisable(["avail_sorting" => $available_sorting, "default_sorting" => $default_sorting]),
             $title
@@ -284,12 +252,11 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this, 'savePresentation'),
             array_map(
-                function (int $view): ILIAS\UI\Component\Input\Field\Section {
-                    return $this->getViewPresentation(
+                fn (int $view): ILIAS\UI\Component\Input\Field\Section =>
+                    $this->getViewPresentation(
                         $view,
                         $this->lng->txt("dash_" . $this->viewSettings->getViewName($view))
-                    );
-                },
+                    ),
                 $this->viewSettings->getPresentationViews()
             )
         );
@@ -374,9 +341,11 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
     {
         $lng = $this->lng;
         $ops = $this->viewSettings->getAvailablePresentationsByView($view);
-        $pres_options = array_column(array_map(static function (int $k, string $v) use ($lng): array {
-            return [$v, $lng->txt("dash_" . $v)];
-        }, array_keys($ops), $ops), 1, 0);
+        $pres_options = array_column(array_map(
+            static fn (int $k, string $v): array => [$v, $lng->txt("dash_" . $v)],
+            array_keys($ops),
+            $ops
+        ), 1, 0);
         $avail_pres = $this->ui_factory->input()->field()->multiSelect($lng->txt("dash_avail_presentation"), $pres_options)
                                  ->withValue($this->viewSettings->getActivePresentationsByView($view));
         $default_pres = $this->ui_factory->input()->field()->radio($lng->txt("dash_default_presentation"))
