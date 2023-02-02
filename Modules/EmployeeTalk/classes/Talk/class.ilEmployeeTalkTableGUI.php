@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
 use ILIAS\EmployeeTalk\UI\ControlFlowCommandHandler;
-use ILIAS\DI\UIServices;
 
 final class ilEmployeeTalkTableGUI extends ilTable2GUI
 {
@@ -29,8 +28,6 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
     public const STATUS_COMPLETED = 2;
 
     private ilLanguage $language;
-    private ilObjUser $currentUser;
-    private UIServices $ui;
 
     public function __construct(ControlFlowCommandHandler $a_parent_obj, $a_parent_cmd = "")
     {
@@ -40,8 +37,6 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
         $container = $GLOBALS['DIC'];
 
         $this->language = $container->language();
-        $this->currentUser = $container->user();
-        $this->ui = $container->ui();
         $this->language->loadLanguageModule('etal');
         $this->language->loadLanguageModule('orgu');
 
@@ -256,11 +251,7 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
                 "ref_id" => $talk->getRefId(),
                 "etal_title" => $talk->getTitle(),
                 "etal_template" => $parent->getTitle(),
-                "etal_date" => $talkData->getStartDate()->get(
-                    IL_CAL_DATETIME,
-                    $this->currentUser->getTimeFormat(),
-                    $this->currentUser->getTimeZone()
-                ),
+                "etal_date" => ilDatePresentation::formatDate($talkData->getStartDate()),
                 "etal_superior" => $superiorName,
                 "etal_employee" => $employeeName,
                 "etal_status" => $talkData->isCompleted() ? $this->language->txt('etal_status_completed') : $this->language->txt('etal_status_pending'),

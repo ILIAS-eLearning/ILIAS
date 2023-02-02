@@ -232,9 +232,14 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $series = $firstTalk->getParent();
 
         $dates = [];
+        $add_time = $firstTalk->getData()->isAllDay() ? 0 : 1;
         foreach ($talks as $talk) {
             $data = $talk->getData();
-            $startDate = $data->getStartDate()->get(IL_CAL_DATETIME);
+            $startDate = $data->getStartDate()->get(
+                IL_CAL_FKT_DATE,
+                ilCalendarUtil::getUserDateFormat($add_time, true),
+                $employee->getTimeZone()
+            );
 
             $dates[] = $startDate;
         }
@@ -287,9 +292,14 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $superiorName = $superior->getFullname();
 
         $dates = [];
+        $add_time = $firstTalk->getData()->isAllDay() ? 0 : 1;
         foreach ($talks as $talk) {
             $data = $talk->getData();
-            $startDate = $data->getStartDate()->get(IL_CAL_DATETIME);
+            $startDate = $data->getStartDate()->get(
+                IL_CAL_FKT_DATE,
+                ilCalendarUtil::getUserDateFormat($add_time, true),
+                $employee->getTimeZone()
+            );
 
             $dates[] = $startDate;
         }

@@ -246,14 +246,18 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
             $dateTimeInput = $form->getItemByPostVar('event');
             ['tgl' => $tgl] = $form->getInput('event');
             ['start' => $start, 'end' => $end] = $dateTimeInput->getValue();
-
-            $startDate = new ilDateTime($start, IL_CAL_UNIX, ilTimeZone::UTC);
-            $endDate = new ilDateTime($end, IL_CAL_UNIX, ilTimeZone::UTC);
+            if (intval($tgl)) {
+                $start_date = new ilDate($start, IL_CAL_UNIX);
+                $end_date = new ilDate($end, IL_CAL_UNIX);
+            } else {
+                $start_date = new ilDateTime($start, IL_CAL_UNIX, ilTimeZone::UTC);
+                $end_date = new ilDateTime($end, IL_CAL_UNIX, ilTimeZone::UTC);
+            }
 
             $data = $this->talk->getData();
             $data->setAllDay(boolval(intval($tgl)));
-            $data->setStartDate($startDate);
-            $data->setEndDate($endDate);
+            $data->setStartDate($start_date);
+            $data->setEndDate($end_date);
             $data->setStandalone(true);
 
             $this->talk->setData($data);
@@ -290,9 +294,14 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         $superiorName = $superior->getFullname();
 
         $dates = [];
+        $add_time = $firstTalk->getData()->isAllDay() ? 0 : 1;
         foreach ($talks as $talk) {
             $data = $talk->getData();
-            $startDate = $data->getStartDate()->get(IL_CAL_DATETIME);
+            $startDate = $data->getStartDate()->get(
+                IL_CAL_FKT_DATE,
+                ilCalendarUtil::getUserDateFormat($add_time, true),
+                $employee->getTimeZone()
+            );
 
             $dates[] = $startDate;
         }
@@ -496,7 +505,11 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
 
             $cloneData->setStartDate($date);
             $endDate = $date->get(IL_CAL_UNIX) + $periodDiff;
-            $cloneData->setEndDate(new ilDateTime($endDate, IL_CAL_UNIX));
+            if ($cloneData->isAllDay()) {
+                $cloneData->setEndDate(new ilDate($endDate, IL_CAL_UNIX));
+            } else {
+                $cloneData->setEndDate(new ilDateTime($endDate, IL_CAL_UNIX, ilTimeZone::UTC));
+            }
             $cloneObject->setData($cloneData);
             $cloneObject->update();
 
@@ -536,13 +549,18 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
          */
         $dateTimeInput = $form->getItemByPostVar('event');
         ['start' => $start, 'end' => $end] = $dateTimeInput->getValue();
-        $startDate = new ilDateTime($start, IL_CAL_UNIX, ilTimeZone::UTC); //TODO superfluous?
-        $endDate = new ilDateTime($end, IL_CAL_UNIX, ilTimeZone::UTC);
+        if (intval($tgl)) {
+            $start_date = new ilDate($start, IL_CAL_UNIX);
+            $end_date = new ilDate($end, IL_CAL_UNIX);
+        } else {
+            $start_date = new ilDateTime($start, IL_CAL_UNIX, ilTimeZone::UTC);
+            $end_date = new ilDateTime($end, IL_CAL_UNIX, ilTimeZone::UTC);
+        }
 
         return new EmployeeTalk(
             -1,
-            $startDate,
-            $endDate,
+            $start_date,
+            $end_date,
             boolval(intval($tgl)),
             '',
             $data->getLocation(),
