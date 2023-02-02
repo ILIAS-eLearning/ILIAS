@@ -43,6 +43,9 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         array $ilOrgUnitPermissionsFilter,
         ilObjectDefinition $objectDefinition
     ) {
+        $dic = \ilOrgUnitLocalDIC::dic();
+        $this->permissionRepo = $dic["repo.Permissions"];
+
         global $DIC;
         $this->parent_gui = $parent_gui;
         $this->language = $DIC->language();
@@ -53,9 +56,6 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         $this->initFormElements();
         $this->initButtons();
         $this->setTarget('_top');
-
-        $dic = \ilOrgUnitLocalDIC::dic();
-        $this->permissionRepo = $dic["repo.Permissions"];
 
         parent::__construct();
     }
@@ -86,7 +86,7 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
     private function initFormElements(): void
     {
         foreach ($this->ilOrgUnitPermissions as $ilOrgUnitPermission) {
-            $ilOrgUnitPermission = $this->permissionRepo->updatePermission($ilOrgUnitPermission);
+            $ilOrgUnitPermission = $this->permissionRepo->update($ilOrgUnitPermission);
             if ($ilOrgUnitPermission->getContext() !== null) {
                 $header = new ilFormSectionHeaderGUI();
                 $context = $ilOrgUnitPermission->getContext()->getContext();
@@ -110,7 +110,7 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
     {
         $operations = array();
         foreach ($this->ilOrgUnitPermissions as $ilOrgUnitPermission) {
-            $ilOrgUnitPermission = $this->permissionRepo->updatePermission($ilOrgUnitPermission);
+            $ilOrgUnitPermission = $this->permissionRepo->update($ilOrgUnitPermission);
             if ($ilOrgUnitPermission->getContext() !== null) {
                 $context = $ilOrgUnitPermission->getContext()->getContext();
                 foreach ($ilOrgUnitPermission->getPossibleOperations() as $operation) {
@@ -132,7 +132,7 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         $permissions = [];
         foreach ($this->ilOrgUnitPermissions as $ilOrgUnitPermission) {
             $operations = [];
-            $ilOrgUnitPermission = $this->permissionRepo->updatePermission($ilOrgUnitPermission);
+            $ilOrgUnitPermission = $this->permissionRepo->update($ilOrgUnitPermission);
             if ($ilOrgUnitPermission->getContext()) {
                 $context = $ilOrgUnitPermission->getContext()->getContext();
                 foreach ($ilOrgUnitPermission->getPossibleOperations() as $operation) {

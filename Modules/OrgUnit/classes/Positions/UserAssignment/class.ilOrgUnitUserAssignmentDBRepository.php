@@ -36,7 +36,7 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
         }
     }
 
-    private function getPositionRepo(): \ilOrgUnitPositionDBRepository
+    protected function getPositionRepo(): \ilOrgUnitPositionDBRepository
     {
         if (!isset($this->positionRepo)) {
             $dic = \ilOrgUnitLocalDIC::dic();
@@ -55,18 +55,20 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
             . ' AND ' . self::TABLE_NAME . '.orgu_id = ' . $this->db->quote($orgu_id, 'integer');
 
         $res = $this->db->query($query);
-        if ($res->numRows() === 0) {
-            return (new ilOrgUnitUserAssignment())
-                ->withUserId($user_id)
-                ->withPositionId($position_id)
-                ->withOrguId($orgu_id);
+        if ($res->numRows() > 0) {
+            $rec = $this->db->fetchAssoc($res);
+            return (new ilOrgUnitUserAssignment((int) $rec['id']))
+                ->withUserId((int) $rec['user_id'])
+                ->withPositionId((int) $rec['position_id'])
+                ->withOrguId((int) $rec['orgu_id']);
         }
 
-        $rec = $this->db->fetchAssoc($res);
-        return (new ilOrgUnitUserAssignment((int) $rec['id']))
-            ->withUserId((int) $rec['user_id'])
-            ->withPositionId((int) $rec['position_id'])
-            ->withOrguId((int) $rec['orgu_id']);
+        $assignment = (new ilOrgUnitUserAssignment())
+            ->withUserId($user_id)
+            ->withPositionId($position_id)
+            ->withOrguId($orgu_id);
+        $assignment = $this->store($assignment);
+        return $assignment;
     }
 
     public function find(int $user_id, int $position_id, int $orgu_id): ?ilOrgUnitUserAssignment
@@ -89,46 +91,6 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
             ->withOrguId((int) $rec['orgu_id']);
     }
 
-    /**
-     * @return ilOrgUnitUserAssignment[]
-     */
-    private function getAll(int $id, string $field): array
-    {
-        if (!in_array($field, ['user_id', 'position_id', 'orgu_id'])) {
-            throw new Exception("Invalid field: " . $field);
-        }
-        $query = 'SELECT id, user_id, position_id, orgu_id FROM' . PHP_EOL
-            . self::TABLE_NAME
-            . '	WHERE ' . self::TABLE_NAME . '.' . $field . ' = ' . $this->db->quote($id, 'integer');
-        $res = $this->db->query($query);
-        $ret = [];
-        while ($rec = $this->db->fetchAssoc($res)) {
-            $ret[] = (new ilOrgUnitUserAssignment((int) $rec['id']))
-                ->withUserId((int) $rec['user_id'])
-                ->withPositionId((int) $rec['position_id'])
-                ->withOrguId((int) $rec['orgu_id']);
-        }
-        return $ret;
-    }
-
-    private function getById(int $id): ?ilOrgUnitUserAssignment
-    {
-        $query = 'SELECT id, user_id, position_id, orgu_id FROM' . PHP_EOL
-            . self::TABLE_NAME
-            . '	WHERE ' . self::TABLE_NAME . '.id = ' . $this->db->quote($id, 'integer');
-        $res = $this->db->query($query);
-        if ($res->numRows() === 0) {
-            return null;
-        }
-
-        $rec = $this->db->fetchAssoc($res);
-        return (new ilOrgUnitUserAssignment((int) $rec['id']))
-                ->withUserId((int) $rec['user_id'])
-                ->withPositionId((int) $rec['position_id'])
-                ->withOrguId((int) $rec['orgu_id']);
-    }
-
-
     public function store(ilOrgUnitUserAssignment $assignment): ilOrgUnitUserAssignment
     {
         if ($assignment->getId() === 0) {
@@ -142,7 +104,7 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
         return $assignment;
     }
 
-    private function insert(ilOrgUnitUserAssignment $assignment): ilOrgUnitUserAssignment
+    protected function insert(ilOrgUnitUserAssignment $assignment): ilOrgUnitUserAssignment
     {
         $id = $this->db->nextId(self::TABLE_NAME);
 
@@ -163,7 +125,7 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
         return $ret;
     }
 
-    private function update(ilOrgUnitUserAssignment $assignment): void
+    protected function update(ilOrgUnitUserAssignment $assignment): void
     {
         $where = [ 'id' => [ 'integer', $assignment->getId() ] ];
 
@@ -176,94 +138,143 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
         $this->db->update(self::TABLE_NAME, $values, $where);
     }
 
-    public function delete(int $assigment_id): void
+    public function delete(ilOrgUnitUserAssignment $assignment): bool
     {
-        if ($assigment_id === 0) {
-            return;
+        if ($assignment->getId() === 0) {
+            return false;
         }
 
-        $assignment = $this->getById($assigment_id);
-        if ($assignment) {
-            $query = 'DELETE FROM ' . self::TABLE_NAME . PHP_EOL
-                . ' WHERE id = ' . $this->db->quote($assigment_id, 'integer');
-            $this->db->manipulate($query);
+        $query = 'DELETE FROM ' . self::TABLE_NAME . PHP_EOL
+            . ' WHERE id = ' . $this->db->quote($assignment->getId(), 'integer');
+        $rows = $this->db->manipulate($query);
 
+        if ($rows > 0) {
             $this->raiseEvent('deassignUserFromPosition', $assignment);
+            return true;
         }
+
+        return false;
     }
 
-    public function deleteByUser(int $user_id): void
+    public function deleteByUser(int $user_id): bool
     {
-        $assignments = $this->getAll($user_id, 'user_id');
-        foreach ($assignments as $assignment) {
-            $this->delete($assignment->getId());
+        if ($user_id <= 0) {
+            return false;
         }
-    }
 
-    public function getAssignmentsByUsers(array $user_ids): array
-    {
-        $assigments = [];
-        foreach ($user_ids as $user_id) {
-            $assigments += $this->getAll($user_id, 'user_id');
+        $query = 'DELETE FROM ' . self::TABLE_NAME . PHP_EOL
+            . ' WHERE user_id = ' . $this->db->quote($user_id, 'integer');
+        $rows = $this->db->manipulate($query);
+
+        if ($rows > 0) {
+            return true;
         }
-        return $assigments;
+
+        return false;
     }
 
-    public function getAssignmentsByPosition(int $position_id): array
+    public function getByUsers(array $user_ids): array
     {
-        return $this->getAll($position_id, 'position_id');
-    }
-
-    public function getAssignmentsByOrgUnit(int $orgu_id): array
-    {
-        return $this->getAll($orgu_id, 'orgu_id');
-    }
-
-
-    public function getAssignmentsByUserAndPosition(int $user_id, int $position_id): array
-    {
-        $assignments = $this->getAll($user_id, 'user_id');
+        $query = 'SELECT id, user_id, position_id, orgu_id FROM' . PHP_EOL
+            . self::TABLE_NAME
+            . ' WHERE ' . $this->db->in('user_id', $user_ids, false, 'integer');
+        $res = $this->db->query($query);
         $ret = [];
-        foreach ($assignments as $assignment) {
-            if ($position_id == $assignment->getPositionId()) {
-                $ret[] = $assignment;
-            }
+        while ($rec = $this->db->fetchAssoc($res)) {
+            $ret[] = (new ilOrgUnitUserAssignment((int) $rec['id']))
+                ->withUserId((int) $rec['user_id'])
+                ->withPositionId((int) $rec['position_id'])
+                ->withOrguId((int) $rec['orgu_id']);
+        }
+        return $ret;
+    }
+
+    public function getByPosition(int $position_id): array
+    {
+        $query = 'SELECT id, user_id, position_id, orgu_id FROM' . PHP_EOL
+            . self::TABLE_NAME
+            . '	WHERE ' . self::TABLE_NAME . '.position_id = ' . $this->db->quote($position_id, 'integer');
+        $res = $this->db->query($query);
+        $ret = [];
+        while ($rec = $this->db->fetchAssoc($res)) {
+            $ret[] = (new ilOrgUnitUserAssignment((int) $rec['id']))
+                ->withUserId((int) $rec['user_id'])
+                ->withPositionId((int) $rec['position_id'])
+                ->withOrguId((int) $rec['orgu_id']);
+        }
+        return $ret;
+    }
+
+    public function getByOrgUnit(int $orgu_id): array
+    {
+        $query = 'SELECT id, user_id, position_id, orgu_id FROM' . PHP_EOL
+            . self::TABLE_NAME
+            . '	WHERE ' . self::TABLE_NAME . '.orgu_id = ' . $this->db->quote($orgu_id, 'integer');
+        $res = $this->db->query($query);
+        $ret = [];
+        while ($rec = $this->db->fetchAssoc($res)) {
+            $ret[] = (new ilOrgUnitUserAssignment((int) $rec['id']))
+                ->withUserId((int) $rec['user_id'])
+                ->withPositionId((int) $rec['position_id'])
+                ->withOrguId((int) $rec['orgu_id']);
+        }
+        return $ret;
+    }
+
+
+    public function getByUserAndPosition(int $user_id, int $position_id): array
+    {
+        $query = 'SELECT id, user_id, position_id, orgu_id FROM' . PHP_EOL
+            . self::TABLE_NAME
+            . '	WHERE ' . self::TABLE_NAME . '.user_id = ' . $this->db->quote($user_id, 'integer') . PHP_EOL
+            . '	AND ' . self::TABLE_NAME . '.position_id = ' . $this->db->quote($position_id, 'integer');
+        $res = $this->db->query($query);
+        $ret = [];
+        while ($rec = $this->db->fetchAssoc($res)) {
+            $ret[] = (new ilOrgUnitUserAssignment((int) $rec['id']))
+                ->withUserId((int) $rec['user_id'])
+                ->withPositionId((int) $rec['position_id'])
+                ->withOrguId((int) $rec['orgu_id']);
         }
         return $ret;
     }
 
     public function getUsersByOrgUnits(array $orgu_ids): array
     {
+        $query = 'SELECT user_id FROM' . PHP_EOL
+            . self::TABLE_NAME
+            . ' WHERE ' . $this->db->in(self::TABLE_NAME . '.orgu_id', $orgu_ids, false, 'integer');
+        $res = $this->db->query($query);
         $users = [];
-        foreach ($orgu_ids as $orgu_id) { // TODO ?
-            $assignments = $this->getAll($orgu_id, 'orgu_id');
-            foreach ($assignments as $assignment) {
-                $users[] = $assignment->getUserId();
-            }
+        while ($rec = $this->db->fetchAssoc($res)) {
+            $users[] = (int) $rec['user_id'];
         }
         return $users;
     }
 
     public function getUsersByPosition(int $position_id): array
     {
-        $assignments = $this->getAll($position_id, 'position_id');
+        $query = 'SELECT user_id FROM' . PHP_EOL
+            . self::TABLE_NAME
+            . '	WHERE ' . self::TABLE_NAME . '.position_id = ' . $this->db->quote($position_id, 'integer');
+        $res = $this->db->query($query);
         $users = [];
-        foreach ($assignments as $assignment) {
-            $users[] = $assignment->getUserId();
+        while ($rec = $this->db->fetchAssoc($res)) {
+            $users[] = (int) $rec['user_id'];
         }
         return $users;
     }
 
     public function getUsersByOrgUnitsAndPosition(array $orgu_ids, int $position_id): array
     {
+        $query = 'SELECT user_id FROM' . PHP_EOL
+            . self::TABLE_NAME
+            . ' WHERE ' . $this->db->in(self::TABLE_NAME . '.orgu_id', $orgu_ids, false, 'integer') . PHP_EOL
+            . '	AND ' . self::TABLE_NAME . '.position_id = ' . $this->db->quote($position_id, 'integer');
+        $res = $this->db->query($query);
         $users = [];
-        foreach ($orgu_ids as $orgu_id) { // TODO ?
-            $assignments = $this->getAll($orgu_id, 'orgu_id');
-            foreach ($assignments as $assignment) {
-                if ($position_id == $assignment->getPositionId()) {
-                    $users[] = $assignment->getUserId();
-                }
-            }
+        while ($rec = $this->db->fetchAssoc($res)) {
+            $users[] = (int) $rec['user_id'];
         }
         return $users;
     }
@@ -272,12 +283,13 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
     {
         $orgu_ids = $this->getOrgUnitsByUserAndPosition($user_id, $position_id, $recursive);
 
+        $query = 'SELECT user_id FROM' . PHP_EOL
+            . self::TABLE_NAME
+            . ' WHERE ' . $this->db->in(self::TABLE_NAME . '.orgu_id', $orgu_ids, false, 'integer');
+        $res = $this->db->query($query);
         $users = [];
-        foreach ($orgu_ids as $orgu_id) { // TODO ?
-            $assignments = $this->getAll($orgu_id, 'orgu_id');
-            foreach ($assignments as $assignment) {
-                $users[] = $assignment->getUserId();
-            }
+        while ($rec = $this->db->fetchAssoc($res)) {
+            $users[] = (int) $rec['user_id'];
         }
         return $users;
     }
@@ -286,36 +298,41 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
     {
         $orgu_ids = $this->getOrgUnitsByUserAndPosition($user_id, $position_id, $recursive);
 
+        $query = 'SELECT user_id FROM' . PHP_EOL
+            . self::TABLE_NAME
+            . ' WHERE ' . $this->db->in(self::TABLE_NAME . '.orgu_id', $orgu_ids, false, 'integer') . PHP_EOL
+            . '	AND ' . self::TABLE_NAME . '.position_id = ' . $this->db->quote($position_filter_id, 'integer');
+        $res = $this->db->query($query);
         $users = [];
-        foreach ($orgu_ids as $orgu_id) { // TODO ?
-            $assignments = $this->getAll($orgu_id, 'orgu_id');
-            foreach ($assignments as $assignment) {
-                if ($position_filter_id == $assignment->getPositionId()) {
-                    $users[] = $assignment->getUserId();
-                }
-            }
+        while ($rec = $this->db->fetchAssoc($res)) {
+            $users[] = (int) $rec['user_id'];
         }
         return $users;
     }
 
     public function getOrgUnitsByUser(int $user_id): array
     {
+        $query = 'SELECT orgu_id FROM' . PHP_EOL
+            . self::TABLE_NAME
+            . '	WHERE ' . self::TABLE_NAME . '.user_id = ' . $this->db->quote($user_id, 'integer');
+        $res = $this->db->query($query);
         $orgu_ids = [];
-        $orgus = $this->getAssignmentsByUsers([$user_id]);
-        foreach ($orgus as $orgu) {
-            $orgu_ids[] = $orgu->getOrguId();
+        while ($rec = $this->db->fetchAssoc($res)) {
+            $orgu_ids[] = (int) $rec['orgu_id'];
         }
         return $orgu_ids;
     }
 
     public function getOrgUnitsByUserAndPosition(int $user_id, int $position_id, bool $recursive = false): array
     {
-        $assignments = $this->getAll($user_id, 'user_id');
+        $query = 'SELECT orgu_id FROM' . PHP_EOL
+            . self::TABLE_NAME
+            . '	WHERE ' . self::TABLE_NAME . '.user_id = ' . $this->db->quote($user_id, 'integer') . PHP_EOL
+            . '	AND ' . self::TABLE_NAME . '.position_id = ' . $this->db->quote($position_id, 'integer');
+        $res = $this->db->query($query);
         $orgu_ids = [];
-        foreach ($assignments as $assignment) {
-            if ($position_id == $assignment->getPositionId()) {
-                $orgu_ids[] = $assignment->getOrguId();
-            }
+        while ($rec = $this->db->fetchAssoc($res)) {
+            $orgu_ids[] = (int) $rec['orgu_id'];
         }
 
         if (!$recursive) {
@@ -333,36 +350,42 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
 
     public function getPositionsByUser(int $user_id): array
     {
+        $query = 'SELECT DISTINCT position_id FROM' . PHP_EOL
+            . self::TABLE_NAME
+            . '	WHERE ' . self::TABLE_NAME . '.user_id = ' . $this->db->quote($user_id, 'integer');
+        $res = $this->db->query($query);
+
         $positions = [];
-        foreach ($this->getAssignmentsByUsers([$user_id]) as $assignment) {
-            $positions[] = $this->getPositionRepo()->getSingle($assignment->getPositionId(), 'id');
+        while ($rec = $this->db->fetchAssoc($res)) {
+            $positions[] = $this->getPositionRepo()->getSingle((int) $rec['position_id'], 'id');
         }
         return $positions;
     }
 
     public function getSuperiorsByUsers(array $user_ids): array
     {
-        $query = "SELECT 
-				orgu_ua.orgu_id AS orgu_id,
-				orgu_ua.user_id AS empl,
-				orgu_ua2.user_id as sup
-				FROM
-				il_orgu_ua as orgu_ua,
-				il_orgu_ua as orgu_ua2
-				WHERE
-				orgu_ua.orgu_id = orgu_ua2.orgu_id 
-				and orgu_ua.user_id <> orgu_ua2.user_id 
-				and orgu_ua.position_id = " . ilOrgUnitPosition::CORE_POSITION_EMPLOYEE . "
-				and orgu_ua2.position_id = " . ilOrgUnitPosition::CORE_POSITION_SUPERIOR . " 
-				AND " . $this->db->in('orgu_ua.user_id', $user_ids, false, 'integer');
-
-        $st = $this->db->query($query);
-
-        $empl_id__sup_ids = [];
-        while ($data = $this->db->fetchAssoc($st)) {
-            $empl_id__sup_ids[$data['empl']][] = $data['sup'];
+        $query = 'SELECT ' . PHP_EOL
+            . ' ua.orgu_id AS orgu_id,' . PHP_EOL
+            . ' ua.user_id AS empl,' . PHP_EOL
+            . ' ua2.user_id as sup' . PHP_EOL
+            . ' FROM' . PHP_EOL
+            . self::TABLE_NAME . ' as ua,' . PHP_EOL
+            . self::TABLE_NAME . ' as ua2' . PHP_EOL
+            . ' WHERE ua.orgu_id = ua2.orgu_id' . PHP_EOL
+            . ' AND ua.user_id <> ua2.user_id' . PHP_EOL
+            . ' AND ua.position_id = ' . $this->db->quote(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE, 'integer') . PHP_EOL
+            . ' AND ua2.position_id = ' . $this->db->quote(ilOrgUnitPosition::CORE_POSITION_SUPERIOR, 'integer') . PHP_EOL
+            . ' AND ' . $this->db->in('ua.user_id', $user_ids, false, 'integer');
+        $res = $this->db->query($query);
+        if ($res->numRows() === 0) {
+            return [];
         }
-        return $empl_id__sup_ids;
+
+        $ret = [];
+        while ($rec = $this->db->fetchAssoc($res)) {
+            $ret[$rec['empl']][] = $rec['sup'];
+        }
+        return $ret;
     }
 
     protected function raiseEvent(string $event, ilOrgUnitUserAssignment $assignment): void

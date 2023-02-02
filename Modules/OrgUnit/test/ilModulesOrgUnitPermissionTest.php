@@ -34,7 +34,6 @@ class ilModulesOrgUnitPermissionTest extends TestCase
         $this->assertEquals([], $permission->getSelectedOperationIds());
         $this->assertEquals(null, $permission->getContext());
         $this->assertEquals(false, $permission->isProtected());
-        $this->assertEquals(false, $permission->isNewlyCreated());
         $this->assertEquals(true, $permission->isTemplate());
         $this->assertEquals(false, $permission->isOperationIdSelected(1));
     }
@@ -54,7 +53,6 @@ class ilModulesOrgUnitPermissionTest extends TestCase
         $this->assertEquals([1,2], $permission->withSelectedOperationIds([1,2])->getSelectedOperationIds());
         $this->assertEquals($mock_context, $permission->withContext($mock_context)->getContext());
         $this->assertEquals(true, $permission->withProtected(true)->isProtected());
-        $this->assertEquals(true, $permission->withNewlyCreated(true)->isNewlyCreated());
         $this->assertEquals(false, $permission->withParentId(777)->isTemplate());
         $this->assertEquals(true, $permission->withSelectedOperationIds([1,2])->isOperationIdSelected(1));
     }

@@ -20,38 +20,61 @@ declare(strict_types=1);
 interface OrgUnitUserAssignmentRepository
 {
     /**
-     * Gets existing user assignment or creates a new one
+     * Get existing user assignment or create a new one
      */
     public function get(int $user_id, int $position_id, int $orgu_id): ilOrgUnitUserAssignment;
 
+    /**
+     * Find assignment for user, position and org-unit
+     * Does not create new assigment, returns null if no assignment exists
+     */
     public function find(int $user_id, int $position_id, int $orgu_id): ?ilOrgUnitUserAssignment;
 
+    /**
+     * Store assignment to db
+     */
     public function store(ilOrgUnitUserAssignment $assignment): ilOrgUnitUserAssignment;
 
-    public function delete(int $assigment_id): void;
-
-    public function deleteByUser(int $user_id): void;
+    /**
+     * Delete a single assignment
+     * Returns false if no assignment was found
+     */
+    public function delete(ilOrgUnitUserAssignment $assignment): bool;
 
     /**
+     * Delete all assignments for a user_id
+     * Returns false if no assignments were found
+     */
+    public function deleteByUser(int $user_id): bool;
+
+    /**
+     * Get assignments for one or more users
+     *
      * @param int[] $user_ids
      * @return ilOrgUnitUserAssignment[]
      */
-    public function getAssignmentsByUsers(array $user_ids): array;
+    public function getByUsers(array $user_ids): array;
 
     /**
+     * Get all assignments for a position
+     *
      * @return ilOrgUnitUserAssignment[]
      */
-    public function getAssignmentsByPosition(int $position_id): array;
+    public function getByPosition(int $position_id): array;
 
     /**
+     * Get all assignments for an org-unit
+     *
      * @return ilOrgUnitUserAssignment[]
      */
-    public function getAssignmentsByOrgUnit(int $orgu_id): array;
+    public function getByOrgUnit(int $orgu_id): array;
 
     /**
+     * Get assignments for a user in a dedicated position
+     *
      * @return ilOrgUnitUserAssignment[]
      */
-    public function getAssignmentsByUserAndPosition(int $user_id, int $position_id): array;
+    public function getByUserAndPosition(int $user_id, int $position_id): array;
 
     /**
      * Get all users for a given set of org-units
@@ -62,6 +85,8 @@ interface OrgUnitUserAssignmentRepository
     public function getUsersByOrgUnits(array $orgu_ids): array;
 
     /**
+     * Get all users with a certain position
+     *
      * @return int[]
      */
     public function getUsersByPosition(int $position_id): array;
@@ -91,22 +116,32 @@ interface OrgUnitUserAssignmentRepository
     public function getFilteredUsersByUserAndPosition(int $user_id, int $position_id, int $position_filter_id, bool $recursive = false): array;
 
     /**
+     * Get all org-units a user is assigned to
+     *
      * @return int[]
      */
     public function getOrgUnitsByUser(int $user_id): array;
 
     /**
+     * Get all org-units where a user has a dedicated position
+     *
      * @return int[]
      */
     public function getOrgUnitsByUserAndPosition(int $user_id, int $position_id, bool $recursive = false): array;
 
     /**
+     * Get all positions a user is assigned to
+     *
      * @return ilOrgUnitPosition[]
      */
     public function getPositionsByUser(int $user_id): array;
 
     /**
+     * Get all superiors of one or more users
+     * $user_id => [ $superior_ids ]
+     *
      * @param int[] $user_ids
+     * @return int[]
      */
     public function getSuperiorsByUsers(array $user_ids): array;
 }

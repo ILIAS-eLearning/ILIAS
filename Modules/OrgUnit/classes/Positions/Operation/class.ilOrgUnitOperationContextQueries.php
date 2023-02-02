@@ -19,6 +19,7 @@
 /**
  * Class ilOrgUnitOperationContextQueries
  * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @deprecated Please use OrgUnitOperationContextRepository
  */
 class ilOrgUnitOperationContextQueries
 {
@@ -36,22 +37,22 @@ class ilOrgUnitOperationContextQueries
     }
 
     /**
-     * @deprecated Please use registerNewContext() from ilOrgUnitOperationContextDBRepository
+     * @deprecated Please use get() from OrgUnitOperationContextRepository
      */
     public static function registerNewContext(string $context_name, ?string $parent_context = null): void
     {
-        self::getContextRepo()->registerNewContext($context_name, $parent_context);
+        $context = self::getContextRepo()->get($context_name, $parent_context);
     }
 
 
     /**
-     * @deprecated Please use findContextByName() from ilOrgUnitOperationContextDBRepository
+     * @deprecated Please use find() from OrgUnitOperationContextRepository
      * @throws ilException
      */
     public static function findByName(string $context_name): ilOrgUnitOperationContext
     {
         if (!isset(self::$instance_by_name[$context_name])) {
-            $context = self::getContextRepo()->findContextByName($context_name);
+            $context = self::getContextRepo()->find($context_name);
             if (!$context) {
                 throw new ilException("Context not found");
             }
@@ -62,15 +63,16 @@ class ilOrgUnitOperationContextQueries
     }
 
     /**
-     * @deprecated Please use findContextById() from ilOrgUnitOperationContextDBRepository
+     * @deprecated Please use find() from OrgUnitOperationContextRepository for context name
+     * Contexts should not be referenced by Id
      */
     public static function findById(int $id): ilOrgUnitOperationContext
     {
-        return self::getContextRepo()->findContextById($id);
+        return self::getContextRepo()->getById($id);
     }
 
     /**
-     * @deprecated Please use findContextByRefId() from ilOrgUnitOperationContextDBRepository
+     * @deprecated Please use getByRefId() from OrgUnitOperationContextRepository
      */
     public static function findByRefId(int $ref_id): ilOrgUnitOperationContext
     {
@@ -80,7 +82,7 @@ class ilOrgUnitOperationContextQueries
     }
 
     /**
-     * @deprecated Please use findContextByObjId() from ilOrgUnitOperationContextDBRepository
+     * @deprecated Please use getByObjId() from OrgUnitOperationContextRepository
      */
     public static function findByObjId(int $obj_id): ilOrgUnitOperationContext
     {

@@ -42,7 +42,6 @@ class AddUserIdToPositionInOrgUnit extends Base
             $this->addError("OrgUnit does not exist");
         } else {
             $assignment = $this->assignmentRepo->get($user_id, $position_id, $orgu_ref_id);
-            $this->assignmentRepo->store($assignment);
         }
 
         return true;

@@ -28,15 +28,16 @@ class ilOrgUnitOperationContextDBRepository implements OrgUnitOperationContextRe
         $this->db = $db;
     }
 
-    public function registerNewContext(string $context, ?string $parent_context): void
+    public function get(string $context, ?string $parent_context): ilOrgUnitOperationContext
     {
-        if (count($this->getAll($context, 'context')) > 0) {
-            throw new ilException('Context already registered');
+        $context = $this->find($context);
+        if ($context) {
+            return $context;
         }
 
         $parent_id = 0;
         if ($parent_context !== null) {
-            $parent = $this->findContextByName($parent_context);
+            $parent = $this->find($parent_context);
             if (!$parent) {
                 throw new ilException("Parent context not found");
             }
@@ -44,9 +45,16 @@ class ilOrgUnitOperationContextDBRepository implements OrgUnitOperationContextRe
         }
 
         $context = (new ilOrgUnitOperationContext())
-            ->withContext($context)
+            ->withContext($context->getContext())
             ->withParentContextId($parent_id);
         $this->store($context);
+
+        $context = $context
+            ->withPathNames([$context->getContext()])
+            ->withPathIds([$context->getId()]);
+        $context = $this->appendPath($context);
+
+        return $context;
     }
 
 
@@ -99,43 +107,45 @@ class ilOrgUnitOperationContextDBRepository implements OrgUnitOperationContextRe
         $this->db->update(self::TABLE_NAME, $values, $where);
     }
 
-    public function delete(int $id): void
+    public function delete(string $context): bool
     {
-        if ($id == 0) {
-            return;
+        $operation_context = $this->find($context);
+        if (!$operation_context) {
+            return false;
         }
 
-        $operation_context = $this->findContextById($id);
-        if ($operation_context) {
-            $query = 'DELETE FROM ' . self::TABLE_NAME . PHP_EOL
-                . ' WHERE id = ' . $this->db->quote($id, 'integer');
-            $this->db->manipulate($query);
+        $query = 'DELETE FROM ' . self::TABLE_NAME . PHP_EOL
+                . ' WHERE id = ' . $this->db->quote($operation_context->getId(), 'integer');
+        $rows = $this->db->manipulate($query);
+        if ($rows > 0) {
+            return true;
         }
+
+        return false;
     }
 
-    public function find(string $context, int $parent_context_id): ?ilOrgUnitOperationContext
+    public function find(string $context): ?ilOrgUnitOperationContext
     {
         $query = 'SELECT id, context, parent_context_id FROM' . PHP_EOL
             . self::TABLE_NAME
-            . ' WHERE ' . self::TABLE_NAME . '.context = ' . $this->db->quote($context, 'string') . PHP_EOL
-            . ' AND ' . self::TABLE_NAME . '.parent_context_id = ' . $this->db->quote($parent_context_id, 'integer');
-
+            . '	WHERE ' . self::TABLE_NAME . '.context = ' . $this->db->quote($context, 'string');
         $res = $this->db->query($query);
         if ($res->numRows() === 0) {
             return null;
         }
 
         $rec = $this->db->fetchAssoc($res);
-        $ret = (new ilOrgUnitOperationContext((int) $rec['id']))
+        $operation_context = (new ilOrgUnitOperationContext((int) $rec['id']))
             ->withContext((string) $rec['context'])
             ->withParentContextId((int) $rec['parent_context_id'])
             ->withPathNames([(string) $rec['context']])
             ->withPathIds([(int) $rec['id']]);
-        $ret = $this->appendPath($ret);
-        return $ret;
+        $operation_context = $this->appendPath($operation_context);
+
+        return $operation_context;
     }
 
-    public function findContextById(int $id): ?ilOrgUnitOperationContext
+    public function getById(int $id): ?ilOrgUnitOperationContext
     {
         $query = 'SELECT id, context, parent_context_id FROM' . PHP_EOL
             . self::TABLE_NAME
@@ -146,43 +156,26 @@ class ilOrgUnitOperationContextDBRepository implements OrgUnitOperationContextRe
         }
 
         $rec = $this->db->fetchAssoc($res);
-        $ret = (new ilOrgUnitOperationContext((int) $rec['id']))
+        $operation_context = (new ilOrgUnitOperationContext((int) $rec['id']))
             ->withContext((string) $rec['context'])
             ->withParentContextId((int) $rec['parent_context_id'])
             ->withPathNames([(string) $rec['context']])
             ->withPathIds([(int) $rec['id']]);
-        $ret = $this->appendPath($ret);
+        $operation_context = $this->appendPath($operation_context);
 
-        return $ret;
+        return $operation_context;
     }
 
-    public function findContextByName(string $context): ?ilOrgUnitOperationContext
-    {
-        $contexts = $this->getAll($context, 'context');
-        if (count($contexts) === 0) {
-            return null;
-        }
-        return array_shift($contexts);
-    }
-
-    public function findContextByRefId(int $ref_id): ?ilOrgUnitOperationContext
+    public function getByRefId(int $ref_id): ?ilOrgUnitOperationContext
     {
         $type_context = ilObject2::_lookupType($ref_id, true);
-        $contexts = $this->getAll($type_context, 'context');
-        if (count($contexts) === 0) {
-            return null;
-        }
-        return array_shift($contexts);
+        return $this->find($type_context);
     }
 
-    public function findContextByObjId(int $obj_id): ?ilOrgUnitOperationContext
+    public function getByObjId(int $obj_id): ?ilOrgUnitOperationContext
     {
         $type_context = ilObject2::_lookupType($obj_id, false);
-        $contexts = $this->getAll($type_context, 'context');
-        if (count($contexts) === 0) {
-            return null;
-        }
-        return array_shift($contexts);
+        return $this->find($type_context);
     }
 
 
@@ -190,7 +183,7 @@ class ilOrgUnitOperationContextDBRepository implements OrgUnitOperationContextRe
     {
         $parent_context_id = ($next >= 0) ? $next : $operation_context->getParentContextId();
         if ($parent_context_id > 0) {
-            $parent = $this->findContextById($parent_context_id);
+            $parent = $this->getById($parent_context_id);
             if ($parent) {
                 $path_names = $operation_context->getPathNames();
                 $path_names[] = $parent->getContext();
@@ -205,34 +198,5 @@ class ilOrgUnitOperationContextDBRepository implements OrgUnitOperationContextRe
             }
         }
         return $operation_context;
-    }
-
-    /**
-     * @return ilOrgUnitOperationContext[]
-     */
-    private function getAll(int|string $value, string $field): array
-    {
-        $fields = [
-            'context' => 'string',
-            'parent_context_id' => 'integer'
-        ];
-        if (!in_array($field, array_keys($fields))) {
-            throw new Exception("Invalid field: " . $field);
-        }
-        $query = 'SELECT id, context, parent_context_id FROM' . PHP_EOL
-            . self::TABLE_NAME
-            . '	WHERE ' . self::TABLE_NAME . '.' . $field . ' = ' . $this->db->quote($value, $fields[$field]);
-        $res = $this->db->query($query);
-        $ret = [];
-        while ($rec = $this->db->fetchAssoc($res)) {
-            $operation_context = (new ilOrgUnitOperationContext((int) $rec['id']))
-                ->withContext((string) $rec['context'])
-                ->withParentContextId((int) $rec['parent_context_id'])
-                ->withPathNames([(string) $rec['context']])
-                ->withPathIds([(int) $rec['id']]);
-            $operation_context = $this->appendPath($operation_context);
-            $ret[] = $operation_context;
-        }
-        return $ret;
     }
 }

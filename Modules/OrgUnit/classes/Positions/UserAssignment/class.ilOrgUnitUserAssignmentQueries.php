@@ -20,6 +20,7 @@ declare(strict_types=1);
 /**
  * Class ilOrgUnitUserAssignmentQueries
  * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @deprecated Please use OrgUnitUserAssignmentRepository
  */
 class ilOrgUnitUserAssignmentQueries extends ilOrgUnitUserAssignmentDBRepository
 {
@@ -36,7 +37,7 @@ class ilOrgUnitUserAssignmentQueries extends ilOrgUnitUserAssignmentDBRepository
     }
 
     /**
-     * @deprecated Please use getPositionsByUser() from ilOrgUnitUserAssignmentDBRepository
+     * @deprecated Please use getPositionsByUser() from OrgUnitUserAssignmentRepository
      */
     public function getPositionsOfUserId(int $user_id): array
     {
@@ -44,7 +45,7 @@ class ilOrgUnitUserAssignmentQueries extends ilOrgUnitUserAssignmentDBRepository
     }
 
     /**
-     * @deprecated Please use find() from ilOrgUnitUserAssignmentDBRepository
+     * @deprecated Please use find() from OrgUnitUserAssignmentRepository
      * @throws ilException
      */
     public function getAssignmentOrFail(int $user_id, int $position_id, int $orgu_id): ilOrgUnitUserAssignment
@@ -57,31 +58,31 @@ class ilOrgUnitUserAssignmentQueries extends ilOrgUnitUserAssignmentDBRepository
     }
 
     /**
-     * @deprecated Please use getAssignmentsByUsers() from ilOrgUnitUserAssignmentDBRepository
+     * @deprecated Please use getByUsers() from OrgUnitUserAssignmentRepository
      */
     public function getAssignmentsOfUserId(int $user_id): array
     {
-        return $this->getAssignmentsByUsers([$user_id]);
+        return $this->getByUsers([$user_id]);
     }
 
     /**
-     * @deprecated Please use getAssignmentsByUsers() from ilOrgUnitUserAssignmentDBRepository
+     * @deprecated Please use getByUsers() from OrgUnitUserAssignmentRepository
      */
     public function getAssignmentsOfUserIds(array $user_ids): array
     {
-        return $this->getAssignmentsByUsers($user_ids);
+        return $this->getByUsers($user_ids);
     }
 
     /**
-     * @deprecated Please use getAssignmentsByUserAndPosition() from ilOrgUnitUserAssignmentDBRepository
+     * @deprecated Please use getByUserAndPosition() from OrgUnitUserAssignmentRepository
      */
     public function getAssignmentsOfUserIdAndPosition(int $user_id, int $position_id): array
     {
-        return $this->getAssignmentsByUserAndPosition($user_id, $position_id);
+        return $this->getByUserAndPosition($user_id, $position_id);
     }
 
     /**
-     * @deprecated Please use getUsersByOrgUnits() from ilOrgUnitUserAssignmentDBRepository
+     * @deprecated Please use getUsersByOrgUnits() from OrgUnitUserAssignmentRepository
      */
     public function getUserIdsOfOrgUnit(int $orgu_id): array
     {
@@ -89,7 +90,7 @@ class ilOrgUnitUserAssignmentQueries extends ilOrgUnitUserAssignmentDBRepository
     }
 
     /**
-     * @deprecated Please use getUsersByOrgUnits() from ilOrgUnitUserAssignmentDBRepository
+     * @deprecated Please use getUsersByOrgUnits() from OrgUnitUserAssignmentRepository
      */
     public function getUserIdsOfOrgUnits(array $orgu_ids): array
     {
@@ -97,7 +98,7 @@ class ilOrgUnitUserAssignmentQueries extends ilOrgUnitUserAssignmentDBRepository
     }
 
     /**
-     * @deprecated Please use getUsersByUserAndPosition() from ilOrgUnitUserAssignmentDBRepository
+     * @deprecated Please use getUsersByUserAndPosition() from OrgUnitUserAssignmentRepository
      */
     public function getUserIdsOfOrgUnitsOfUsersPosition(int $position_id, int $user_id, bool $recursive = false): array
     {
@@ -105,7 +106,7 @@ class ilOrgUnitUserAssignmentQueries extends ilOrgUnitUserAssignmentDBRepository
     }
 
     /**
-     * @deprecated Please use getUsersByOrgUnitsAndPosition() from ilOrgUnitUserAssignmentDBRepository
+     * @deprecated Please use getUsersByOrgUnitsAndPosition() from OrgUnitUserAssignmentRepository
      */
     public function getUserIdsOfOrgUnitsInPosition(array $orgu_ids, int $position_id): array
     {
@@ -113,7 +114,7 @@ class ilOrgUnitUserAssignmentQueries extends ilOrgUnitUserAssignmentDBRepository
     }
 
     /**
-     * @deprecated Please use getFilteredUsersByUserAndPosition() from ilOrgUnitUserAssignmentDBRepository
+     * @deprecated Please use getFilteredUsersByUserAndPosition() from OrgUnitUserAssignmentRepository
      */
     public function getUserIdsOfUsersOrgUnitsInPosition(int $user_id, int $users_position_id, int $position_id, bool $recursive = false): array
     {
@@ -121,7 +122,7 @@ class ilOrgUnitUserAssignmentQueries extends ilOrgUnitUserAssignmentDBRepository
     }
 
     /**
-     * @deprecated Please use getOrgUnitsByUser() from ilOrgUnitUserAssignmentDBRepository
+     * @deprecated Please use getOrgUnitsByUser() from OrgUnitUserAssignmentRepository
      */
     public function getOrgUnitIdsofUser(int $user_id): array
     {
@@ -129,7 +130,7 @@ class ilOrgUnitUserAssignmentQueries extends ilOrgUnitUserAssignmentDBRepository
     }
 
     /**
-     * @deprecated Please use getOrgUnitsByUserAndPosition() from ilOrgUnitUserAssignmentDBRepository
+     * @deprecated Please use getOrgUnitsByUserAndPosition() from OrgUnitUserAssignmentRepository
      */
     public function getOrgUnitIdsOfUsersPosition(int $position_id, int $user_id, bool $recursive = false): array
     {
@@ -137,7 +138,7 @@ class ilOrgUnitUserAssignmentQueries extends ilOrgUnitUserAssignmentDBRepository
     }
 
     /**
-     * @deprecated Please use getUsersByPosition() from ilOrgUnitUserAssignmentDBRepository
+     * @deprecated Please use getUsersByPosition() from OrgUnitUserAssignmentRepository
      */
     public function getUserIdsOfPosition(int $position_id): array
     {
@@ -145,15 +146,15 @@ class ilOrgUnitUserAssignmentQueries extends ilOrgUnitUserAssignmentDBRepository
     }
 
     /**
-     * @deprecated Please use getAssignmentsByPosition() from ilOrgUnitUserAssignmentDBRepository
+     * @deprecated Please use getByPosition() from OrgUnitUserAssignmentRepository
      */
     public function getUserAssignmentsOfPosition(int $position_id): array
     {
-        return $this->getAssignmentsByPosition($position_id);
+        return $this->getByPosition($position_id);
     }
 
     /**
-     * @deprecated Please use deleteByUser() from ilOrgUnitUserAssignmentDBRepository
+     * @deprecated Please use deleteByUser() from OrgUnitUserAssignmentRepository
      */
     public function deleteAllAssignmentsOfUser(int $user_id): void
     {

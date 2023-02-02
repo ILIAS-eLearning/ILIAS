@@ -52,7 +52,7 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands
     {
         $this->getParentGui()->addSubTabs();
         $this->getParentGui()->activeSubTab(ilOrgUnitPositionGUI::SUBTAB_PERMISSIONS);
-        $ilOrgUnitPermissions = $this->permissionRepo->getTemplatesForActiveContexts($this->getCurrentPositionId());
+        $ilOrgUnitPermissions = $this->permissionRepo->getDefaultsForActiveContexts($this->getCurrentPositionId());
         $ilOrgUnitDefaultPermissionFormGUI = new ilOrgUnitDefaultPermissionFormGUI(
             $this,
             $ilOrgUnitPermissions,
@@ -66,7 +66,7 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands
     protected function update(): void
     {
         $this->getParentGui()->addSubTabs();
-        $ilOrgUnitPermissions = $this->permissionRepo->getTemplatesForActiveContexts($this->getCurrentPositionId(), true);
+        $ilOrgUnitPermissions = $this->permissionRepo->getDefaultsForActiveContexts($this->getCurrentPositionId(), true);
         $ilOrgUnitDefaultPermissionFormGUI = new ilOrgUnitDefaultPermissionFormGUI(
             $this,
             $ilOrgUnitPermissions,
