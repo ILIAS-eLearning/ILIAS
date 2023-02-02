@@ -211,6 +211,9 @@ class ilSurveyEditorGUI
                 $inserted = $this->object->insertQuestion($this->request->getNewId());
                 if (!$inserted) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("survey_error_insert_incomplete_question"));
+                } else {
+                    // this ensures the status update of the survey, see #36162
+                    $this->ctrl->redirect($this, "questions");
                 }
             }
         }
