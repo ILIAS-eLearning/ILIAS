@@ -283,7 +283,8 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         }
 
         $firstTalk = $talks[0];
-        $talkTitle = $firstTalk->getTitle();
+        $talk_title = $firstTalk->getTitle();
+        $talk_ref_id = $firstTalk->getRefId();
         $superior = new ilObjUser($firstTalk->getOwner());
         $employee = new ilObjUser($firstTalk->getData()->getEmployee());
         $superiorName = $superior->getFullname();
@@ -297,16 +298,16 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         }
 
         $message = new EmployeeTalkEmailNotification(
-            sprintf($this->language->txt('notification_talks_updated'), $superiorName),
-            $this->language->txt('notification_talks_date_details'),
-            sprintf($this->language->txt('notification_talks_talk_title'), $talkTitle),
-            $this->language->txt('notification_talks_date_list_header'),
+            $talk_ref_id,
+            'notification_talks_subject_update',
+            'notification_talks_updated',
+            $superiorName,
             $dates
         );
 
         $vCalSender = new EmployeeTalkEmailNotificationService(
             $message,
-            $talkTitle,
+            $talk_title,
             $employee,
             $superior,
             VCalendarFactory::getInstanceFromTalks($firstTalk->getParent())
@@ -535,7 +536,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
          */
         $dateTimeInput = $form->getItemByPostVar('event');
         ['start' => $start, 'end' => $end] = $dateTimeInput->getValue();
-        $startDate = new ilDateTime($start, IL_CAL_UNIX, ilTimeZone::UTC);
+        $startDate = new ilDateTime($start, IL_CAL_UNIX, ilTimeZone::UTC); //TODO superfluous?
         $endDate = new ilDateTime($end, IL_CAL_UNIX, ilTimeZone::UTC);
 
         return new EmployeeTalk(

@@ -8962,13 +8962,12 @@ etal#:#lock_edititng_for_others#:#Lock editing for others
 etal#:#meta_adv_records#:#Metadata
 etal#:#mm_org_etal#:#Talks
 etal#:#mm_talk_template#:#Talk Templates
-etal#:#notification_talks_created#:#You have been invited by %s to the following employee talks.
-etal#:#notification_talks_date_details#:#Appointment details
+etal#:#notification_talks_created#:#You have been invited to the following employee talks.
 etal#:#notification_talks_date_list_header#:#Dates
-etal#:#notification_talks_removed#:#The following appointments have been canceled by %s.
-etal#:#notification_talks_subject#:#Invitation
-etal#:#notification_talks_talk_title#:#Titel: %s
-etal#:#notification_talks_updated#:#The following talk appointments have been changed by %s.
+etal#:#notification_talks_removed#:#The following appointments have been canceled.
+etal#:#notification_talks_subject#:#Invitation: %s
+etal#:#notification_talks_subject_update#:#Update: %s
+etal#:#notification_talks_updated#:#The following talk appointments have been changed.
 etal#:#talk_serial#:#Talk Serial
 etal#:#tals_add#:#Add Talks
 etal#:#tals_new#:#New Talks
