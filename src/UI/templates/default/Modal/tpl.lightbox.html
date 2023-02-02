@@ -1,4 +1,4 @@
-<div class="modal fade il-modal-lightbox" tabindex="-1" role="dialog" id="{ID}">
+<div class="modal fade il-modal-lightbox il-modal-lightbox-{COLOR_SCHEME}" tabindex="-1" role="dialog" id="{ID}">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content il-modal-lightbox-page">
 			<div class="modal-header">
@@ -19,7 +19,10 @@
 					<div class="carousel-inner" role="listbox">
 						<!-- BEGIN pages -->
 						<div class="item{CLASS_ACTIVE}<!-- BEGIN page_type_text --> text-only<!-- END page_type_text -->" data-title="{TITLE2}">
-							{CONTENT}<!-- BEGIN page_description -->
+							<div class="item-content">
+							{CONTENT}
+							</div>
+							<!-- BEGIN page_description -->
 							<div class="carousel-caption">
 								{DESCRIPTION}
 							</div><!-- END page_description -->
