@@ -243,9 +243,11 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
         } else {
             $active_sortings = unserialize($val, ['allowed_classes' => false]);
         }
-        return array_filter($active_sortings, function ($sorting) use ($view) {
-            return in_array($sorting, $this->getAvailableSortOptionsByView($view), true);
-        });
+        return array_filter(
+            $active_sortings,
+            fn (string $sorting): bool =>
+                in_array($sorting, $this->getAvailableSortOptionsByView($view), true)
+        );
     }
 
     /**

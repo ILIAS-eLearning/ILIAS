@@ -35,6 +35,7 @@ use ILIAS\Repository\StandardGUIRequest;
 use ilStr;
 use ilPDSelectedItemsBlockViewSettings;
 use ILIAS\UI\Component\Legacy\Legacy;
+use ilFavouritesListGUI;
 
 /**
  * Repository related main menu items
@@ -125,22 +126,20 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
                                     ->withSupportsAsynchronousLoading(true)
                                     ->withTitle($title)
                                     ->withSymbol($icon)
-                                    ->withContentWrapper(function () use ($f): Legacy {
-                                        return $f->legacy((new \ilFavouritesListGUI())->render());
-                                    })
+                                    ->withContentWrapper(
+                                        static fn (): Legacy =>
+                                            $f->legacy((new ilFavouritesListGUI())->render())
+                                    )
                                     ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
                                     ->withPosition(10)
                                     ->withAvailableCallable(
-                                        function () use ($dic): bool {
-                                            return (bool) $dic->settings()->get('rep_favourites', "0");
-                                        }
+                                        static fn (): bool =>
+                                            (bool) $dic->settings()->get('rep_favourites', "0")
                                     )
                                     ->withVisibilityCallable(
                                         $access_helper->isUserLoggedIn($access_helper->isRepositoryReadable(
                                             static function () use ($dic): bool {
-                                                return true;
                                                 $pdItemsViewSettings = new ilPDSelectedItemsBlockViewSettings($dic->user());
-
                                                 return $pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledSelectedItems();
                                             }
                                         ))

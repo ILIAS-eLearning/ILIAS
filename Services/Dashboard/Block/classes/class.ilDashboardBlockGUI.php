@@ -190,10 +190,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 
     public function setData(array $a_data): void
     {
-        // unset empty keys
-        $this->data = array_filter($a_data, static function ($a) {
-            return !empty($a);
-        });
+        $this->data = array_filter($a_data);
     }
 
     public function groupItemsByStartDate(): array
@@ -221,45 +218,23 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
             }
         }
 
-        uasort($groups['upcoming'], static function ($left, $right) {
+
+        $orderByDate = static function (array $left, array $right, bool $asc = true) {
             if ($left['start']->get(IL_CAL_UNIX) < $right['start']->get(IL_CAL_UNIX)) {
-                return -1;
+                return $asc ? -1 : 1;
             }
 
             if ($left['start']->get(IL_CAL_UNIX) > $right['start']->get(IL_CAL_UNIX)) {
-                return 1;
+                return $asc ? 1 : -1;
             }
 
             return strcmp($left['title'], $right['title']);
-        });
+        };
 
-        uasort($groups['ongoing'], static function ($left, $right) {
-            if ($left['start']->get(IL_CAL_UNIX) < $right['start']->get(IL_CAL_UNIX)) {
-                return 1;
-            }
-
-            if ($left['start']->get(IL_CAL_UNIX) > $right['start']->get(IL_CAL_UNIX)) {
-                return -1;
-            }
-
-            return strcmp($left['title'], $right['title']);
-        });
-
-        uasort($groups['ended'], static function ($left, $right) {
-            if ($left['start']->get(IL_CAL_UNIX) < $right['start']->get(IL_CAL_UNIX)) {
-                return 1;
-            }
-
-            if ($left['start']->get(IL_CAL_UNIX) > $right['start']->get(IL_CAL_UNIX)) {
-                return -1;
-            }
-
-            return strcmp($left['title'], $right['title']);
-        });
-
-        uasort($groups['not_dated'], static function ($left, $right) {
-            return strcmp($left['title'], $right['title']);
-        });
+        uasort($groups['upcoming'], static fn ($left, $right) => $orderByDate($left, $right));
+        uasort($groups['ongoing'], static fn ($left, $right) => $orderByDate($left, $right, false));
+        uasort($groups['ended'], static fn ($left, $right) => $orderByDate($left, $right));
+        $groups['not_dated'] = $this->sortByTitle($groups['not_dated']);
 
         // map keys to titles
         foreach ($groups as $key => $group) {
@@ -299,9 +274,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         }
 
         foreach ($grouped_items as $key => $group) {
-            usort($grouped_items[$key], static function ($left, $right) {
-                return strcmp($left['title'], $right['title']);
-            });
+            $grouped_items[$key] = $this->sortByTitle($group);
         }
 
         return $grouped_items;
@@ -313,9 +286,9 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $data = $this->getData();
         $data = array_merge(...array_values($data));
 
-        $parent_ref_ids = array_values(array_unique(array_map(function ($item) {
-            return $this->tree->getParentId($item['ref_id']);
-        }, $data)));
+        $parent_ref_ids = array_values(array_unique(
+            array_map(fn (array $item): ?int => $this->tree->getParentId($item['ref_id']), $data)
+        ));
         $this->object_cache->preloadReferenceCache($parent_ref_ids);
 
         foreach ($data as $key => $item) {
@@ -329,9 +302,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         }
         ksort($grouped_items);
         foreach ($grouped_items as $key => $group) {
-            usort($grouped_items[$key], static function ($left, $right) {
-                return strcmp($left['title'], $right['title']);
-            });
+            $grouped_items[$key] = $this->sortByTitle($group);
         }
         return $grouped_items;
     }
@@ -399,9 +370,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
                 break;
 
             default:
-                if (method_exists($this, $cmd)) {
-                    return $this->$cmd();
-                }
                 if (method_exists($this, $cmd . 'Object')) {
                     return $this->{$cmd . 'Object'}();
                 }
@@ -409,7 +377,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         return "";
     }
 
-    public function changePDItemSorting(): void
+    public function changePDItemSortingObject(): void
     {
         $this->viewSettings->storeActorSortingMode(
             ilUtil::stripSlashes((string) ($this->http->request()->getQueryParams()['sorting'] ?? ''))
@@ -418,7 +386,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $this->initAndShow();
     }
 
-    public function changePDItemPresentation(): void
+    public function changePDItemPresentationObject(): void
     {
         $this->viewSettings->storeActorPresentationMode(
             \ilUtil::stripSlashes((string) ($this->http->request()->getQueryParams()['presentation'] ?? ''))
@@ -443,9 +411,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
             case ilPDSelectedItemsBlockConstants::SORT_BY_ALPHABET:
                 $data = $this->getData();
                 $data = array_merge(...array_values($data));
-                uasort($data, static function ($a, $b) {
-                    return strcmp($a['title'], $b['title']);
-                });
+                $data = $this->sortByTitle($data);
                 return ['' => $data];
                 break;
             case ilPDSelectedItemsBlockConstants::SORT_BY_START_DATE:
@@ -514,9 +480,11 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         }
 
         if (is_array($groupedCommands[0])) {
-            $actions = array_map(static function ($item) use ($ui) {
-                return $ui->factory()->link()->standard($item["txt"], $item["url"]);
-            }, $groupedCommands[0]);
+            $actions = array_map(
+                static fn (array $item): ILIAS\UI\Component\Link\Standard =>
+                    $ui->factory()->link()->standard($item["txt"], $item["url"]),
+                $groupedCommands[0]
+            );
             if (count($actions) > 0) {
                 $dd = $this->ui->factory()->dropdown()->standard($actions);
                 $this->main_tpl->setHeaderActionMenu($ui->renderer()->render($dd));
@@ -722,7 +690,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         }
 
         $full_class = 'ilObj' . $class . 'ListGUI';
-        require_once $location . '/class.' . $full_class . '.php';
         $item_list_gui = new $full_class();
 
         $item_list_gui->setContainerObject($this);
@@ -740,5 +707,16 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $item_list_gui->enableCommands(true, true);
 
         return $item_list_gui;
+    }
+
+    public function sortByTitle(array $data, bool $asc = true): array
+    {
+        uasort(
+            $data,
+            static fn ($left, $right) => $asc ?
+                strcmp($left['title'], $right['title']) :
+                strcmp($right['title'], $left['title'])
+        );
+        return $data;
     }
 }

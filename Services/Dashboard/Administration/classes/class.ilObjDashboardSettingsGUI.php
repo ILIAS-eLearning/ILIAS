@@ -148,7 +148,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
     public function getViewSorting(int $view, string $title): ILIAS\UI\Component\Input\Field\Section
     {
-        $this->tpl->addJavaScript("Services/Dashboard/Administration/js/unnamed.js");
+        $this->tpl->addJavaScript("Services/Dashboard/Administration/js/ilDashboardSortationUserInputHandler.js");
         $lng = $this->lng;
         $availabe_sort_options = $this->viewSettings->getAvailableSortOptionsByView($view);
         $options = array_reduce(
@@ -168,7 +168,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 $this->viewSettings->getActiveSortingsByView($view)
             )
             ->withAdditionalOnLoadCode(
-                static fn ($id) =>
+                static fn (int $id) =>
                     "$id.setAttribute('data-checkbox', 'activeSorting$view');
                     document.addEventListener('DOMContentLoaded', function () {
                         handleUserInputForSortationsByView($view);
@@ -185,7 +185,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             ->withValue($this->viewSettings->getDefaultSortingByView($view))
             ->withRequired(true)
             ->withAdditionalOnLoadCode(
-                static fn ($id) =>
+                static fn (int $id) =>
                     "$id.setAttribute('data-select', 'sorting$view');
                     const selectedOption$view = document.querySelectorAll('[data-select=\"sorting$view\"] > option[selected=\"selected\"]')[0];
                     selectedOption$view.setAttribute('default', 'default');"
