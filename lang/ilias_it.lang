@@ -81,7 +81,6 @@ adm#:#adm_support_contacts_info#:#Contatti di supporto utilizzati nel collegamen
 administration#:#adm_achievements#:#Achievements###07 02 2020 new variable
 administration#:#adm_activate_db_benchmark#:#Attiva Benchmark
 administration#:#adm_activate_db_benchmark_desc#:#Il Benchmarking verrà disabilitato automaticamente dopo una richiesta.
-administration#:#adm_add_settings_template#:#Aggiungi Template
 administration#:#adm_adm_role_protect#:#Proteggere il ruolo di Amministratore
 administration#:#adm_adm_role_protect_info#:#Se abilitato, solo l'amministratore è autorizzato a (de)assegnare gli utenti da/per il ruolo di amministratore.
 administration#:#adm_auth_login#:#Authentication Login###29 07 2022 new variable
@@ -94,7 +93,6 @@ administration#:#adm_db_bench_sorted_by_sql#:#Ordinato da SQL
 administration#:#adm_db_benchmark#:#Riferimento DB
 administration#:#adm_db_benchmark_user#:#Nome dell'Account Utente
 administration#:#adm_db_benchmark_user_desc#:#Verranno eseguite le misurazioni del solo utente attuale.
-administration#:#adm_edit_settings_template#:#Modifica Template
 administration#:#adm_extending_ilias#:#Extending ILIAS###07 02 2020 new variable
 administration#:#adm_external_setting_edit#:#Modifica impostazioni
 administration#:#adm_hide#:#Nascosto nelle Impostazioni del Form
@@ -128,11 +126,9 @@ administration#:#adm_rep_tree_only_cntr_info#:#Sono elencate solo categorie, cor
 administration#:#adm_rep_tree_presentation#:#Rappresentazione dell'albero delle Risorse
 administration#:#adm_repository_and_objects#:#Repository and Objects###07 02 2020 new variable
 administration#:#adm_search_and_find#:#Search and Find###07 02 2020 new variable
-administration#:#adm_settings_templates#:#Impostazioni Template
 administration#:#adm_show_comments_tagging_in_lists#:#Visualizza il numero di note, commenti e tag nella lista degli oggetti
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Visualizzare i tag anziché il numero
 administration#:#adm_sql#:#SQL
-administration#:#adm_sure_delete_settings_template#:#Vuoi davvero eliminare i seguenti template?
 administration#:#adm_table#:#Tabella
 administration#:#adm_time#:#Tempo
 administration#:#adm_user_administration#:#Amministrazione utente
@@ -469,7 +465,6 @@ assessment#:#add_imagemap#:#Importa immagine Mappa
 assessment#:#add_poly#:#Aggiungi area poligonale
 assessment#:#add_rect#:#Aggiungi area rettangolare
 assessment#:#additional_rating_info#:#Si prega di notare che i valori indicati qui sono espressi in percentuali e questi devono aggiungere fino a 100.
-assessment#:#adm_settings_templates#:#Impostazioni dei Template
 assessment#:#advanced_rating#:#Classificazione avanzata
 assessment#:#advanced_rating_info#:#The advanced rating is only available if a unit is assigned to the result.
 assessment#:#all_available_question_pools#:#Tutti le raccolte di domande disponibili
@@ -1207,7 +1202,6 @@ assessment#:#showSuggestedSolution#:#Soluzione proposta
 assessment#:#show_answer_overview#:#Mostra panoramica risposte
 assessment#:#show_detailed_results#:#Mostra i risultati dettagliati del test (svolgimento del test valutato)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.
-assessment#:#show_examview_pdf#:#Shows exam view in an automatically downloaded PDF.
 assessment#:#show_pass_overview#:#Mostra il sommario dei voti
 assessment#:#show_user_answers#:#Mostra le risposte valutate degli utenti
 assessment#:#showinfo#:#Mostra la Information Page completa
@@ -1288,10 +1282,10 @@ assessment#:#tst_activate_skill_service_desc#:#A new tab 'Competences' will be d
 assessment#:#tst_activation_limited_visibility_info#:#Se scelto, il test è visibile anche all'esterno della disponibilità data.
 assessment#:#tst_activation_online_info#:#Se non in linea, solo gli amministratori possono visualizzare e modificare il test.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editing Mode for additional Question Content
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Additional Content Editing with Page Object Editor
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module.###29 07 2022 new variable
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Default Editing Mode for Additional Question Content
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module.###29 07 2022 new variable
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Default Editing Mode for Additional Question Content
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Additional Content Editing with Page Object Editor
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#Tutte le competenze di test
 assessment#:#tst_all_user_data_deleted#:#Tutti i dati di questo test sono stati cancellati!
@@ -4205,9 +4199,7 @@ common#:#ignore_on_conflict#:#Ignora i conflitti
 common#:#ignore_required_fields#:#Ignora campi richiesti
 common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.
 common#:#il_astpl_loc_initial#:#Test iniziale
-common#:#il_astpl_loc_initial_desc#:#Modello di impostazioni per i test iniziali dei corsi orientati agli obiettivi di apprendimento
 common#:#il_astpl_loc_qualified#:#Test di qualificazione
-common#:#il_astpl_loc_qualified_desc#:#Modello di impostazioni per i test di qualificazione di corsi orientati all'obiettivo di apprendimento
 common#:#il_blog_contributor#:#Blog Contributor
 common#:#il_blog_editor#:#Blog-Editor
 common#:#il_chat_moderator#:#Moderatore Chat
@@ -10876,7 +10868,7 @@ mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###29 07 2022 new variable
 mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###29 07 2022 new variable
 mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###29 07 2022 new variable
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML###29 07 2022 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe###29 07 2022 new variable
 mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js###29 07 2022 new variable
 mathjax#:#mathjax_server_address#:#Indirizzo del server
 mathjax#:#mathjax_server_address_info#:#Per esempio http://localhost:8003
@@ -15669,7 +15661,6 @@ survey#:#survey_pool_selection#:#Selezione del gruppo
 survey#:#survey_prev_question#:#Pagina precedente
 survey#:#survey_previous#:#<<< Salva e torna indietro
 survey#:#survey_question_editor#:#Lista Domande
-survey#:#survey_question_editor_settings_template#:#List View (in Tab "Questions")
 survey#:#survey_question_obligatory#:#(Questa domanda &
 survey#:#survey_question_pool#:#Gruppo di domande
 survey#:#survey_question_pool_title#:#Titolo del gruppo
@@ -15847,7 +15838,6 @@ survey#:#svy_settings_section_before_start#:#Informazioni prima di iniziare il s
 survey#:#svy_settings_section_finishing#:#Terminare il sondaggio
 survey#:#svy_settings_section_question_behaviour#:#Administering the Survey: Behaviour of the Question
 survey#:#svy_settings_section_reminders#:#Promemoria
-survey#:#svy_settings_template#:#Modello
 survey#:#svy_show_questiontitles#:#Mostra i titoli delle domande nel sondaggio
 survey#:#svy_skl_comp_assignm_not_supported#:#L'assegnazione delle competenze non è supportata per questo tipo di domanda.
 survey#:#svy_sum_score#:#Sum Score###29 07 2022 new variable

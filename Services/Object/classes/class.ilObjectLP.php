@@ -47,7 +47,11 @@ class ilObjectLP
         $this->obj_id = $obj_id;
     }
 
-    public static function getInstance(int $obj_id): ilObjectLP
+    /**
+     * @param int $obj_id
+     * @return ilObjectLP|mixed
+     */
+    public static function getInstance(int $obj_id)
     {
         static $instances = array();
 
@@ -69,7 +73,6 @@ class ilObjectLP
     {
         global $DIC;
         $objDefinition = $DIC["objDefinition"];
-
         if (self::isSupportedObjectType($type)) {
             switch ($type) {
                 // container
@@ -117,10 +120,9 @@ class ilObjectLP
                     return ilLTIConsumerLP::class;
                 case 'frm':
                     return ilForumLP::class;
-
-                    // plugin
-                case $objDefinition->isPluginTypeName($type):
-                    return "ilPluginLP";
+            }
+            if ($objDefinition->isPluginTypeName($type)) {
+                return "ilPluginLP";
             }
         }
         return "";
@@ -354,8 +356,8 @@ class ilObjectLP
         ;
         $result = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($result)) {
-            if (in_array(ilObject::_lookupType($row["obj_id"]), ["crs", "grp", "fold"])) {
-                $coll_ref_id = ilObject::_getAllReferences($row["obj_id"]);
+            if (in_array(ilObject::_lookupType((int) $row["obj_id"]), ["crs", "grp", "fold"])) {
+                $coll_ref_id = ilObject::_getAllReferences((int) $row["obj_id"]);
                 $coll_ref_id = array_pop($coll_ref_id);
 
                 // #13402
@@ -382,7 +384,7 @@ class ilObjectLP
                     ;
                     $ilDB->manipulate($sql);
 
-                    ilLPStatusWrapper::_refreshStatus($row["obj_id"]);
+                    ilLPStatusWrapper::_refreshStatus((int) $row["obj_id"]);
                 }
             }
         }
@@ -419,7 +421,7 @@ class ilObjectLP
         ;
         $result = $this->db->query($sql);
         while ($row = $this->db->fetchAssoc($result)) {
-            if (in_array(ilObject::_lookupType($row["obj_id"]), array("crs", "grp", "fold"))) {
+            if (in_array(ilObject::_lookupType((int) $row["obj_id"]), array("crs", "grp", "fold"))) {
                 // remove from parent collection
                 $sql =
                     "DELETE FROM ut_lp_collections" . PHP_EOL
@@ -428,7 +430,7 @@ class ilObjectLP
                 ;
                 $this->db->manipulate($sql);
 
-                ilLPStatusWrapper::_refreshStatus($row["obj_id"]);
+                ilLPStatusWrapper::_refreshStatus((int) $row["obj_id"]);
             }
         }
     }
@@ -481,7 +483,7 @@ class ilObjectLP
                         foreach ($ref_ids as $ref_id) {
                             if ($tree->isGrandChild($path_ref_id, $ref_id)) {
                                 $found[$obj_id][] = $ref_id;
-                                if ($chk[$path_ob_id]) {
+                                if ($chk[$path_ob_id] ?? false) {
                                     $res[$obj_id] = true;
                                 }
                                 break;
@@ -530,8 +532,8 @@ class ilObjectLP
         ;
         $result = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($result)) {
-            $types_map[$row["type"]][] = $row["obj_id"];
-            $res[$row["obj_id"]] = false;
+            $types_map[$row["type"]][] = (int) $row["obj_id"];
+            $res[(int) $row["obj_id"]] = false;
         }
 
         $find_by_parent = [];
@@ -604,7 +606,7 @@ class ilObjectLP
                 ;
                 $result = $ilDB->query($sql);
                 while ($row = $ilDB->fetchAssoc($result)) {
-                    $res[$row["obj_id"]] = true;
+                    $res[(int) $row["obj_id"]] = true;
                 }
             }
         }

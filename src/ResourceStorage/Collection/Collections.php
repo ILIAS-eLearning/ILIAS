@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,15 +16,13 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\ResourceStorage\Collection;
 
-use ILIAS\ResourceStorage\Collection\Sorter\ByCreationDate;
-use ILIAS\ResourceStorage\Collection\Sorter\ByTitle;
-use ILIAS\ResourceStorage\Collection\Sorter\CollectionSorter;
 use ILIAS\ResourceStorage\Collection\Sorter\Sorter;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\ResourceStorage\Lock\LockHandler;
 use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
@@ -39,21 +35,21 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
  */
 class Collections
 {
-    private \ILIAS\ResourceStorage\Resource\ResourceBuilder $resource_builder;
-    private CollectionBuilder $collection_builder;
-    private \ILIAS\ResourceStorage\Preloader\RepositoryPreloader $preloader;
     private array $cache = [];
+    private ResourceBuilder $resource_builder;
+    private CollectionBuilder $collection_builder;
+    private RepositoryPreloader $preloader;
 
     /**
      * Consumers constructor.
      */
     public function __construct(
-        ResourceBuilder $r,
-        CollectionBuilder $c,
+        ResourceBuilder $resource_builder,
+        CollectionBuilder $collection_builder,
         RepositoryPreloader $preloader
     ) {
-        $this->resource_builder = $r;
-        $this->collection_builder = $c;
+        $this->resource_builder = $resource_builder;
+        $this->collection_builder = $collection_builder;
         $this->preloader = $preloader;
     }
 
@@ -145,7 +141,8 @@ class Collections
         $collection = $this->get($collection_id);
         if ($delete_resources_as_well) {
             foreach ($collection->getResourceIdentifications() as $resource_identification) {
-                $this->resource_builder->remove($resource_identification, $stakeholder);
+                $resource = $this->resource_builder->get($resource_identification);
+                $this->resource_builder->remove($resource, $stakeholder);
             }
         }
         return $this->collection_builder->delete($collection_id);
@@ -154,7 +151,7 @@ class Collections
     /**
      * @return ResourceIdentification[]
      */
-    public function rangeAsArray(ResourceCollection $collection, int $from, int $amout)
+    public function rangeAsArray(ResourceCollection $collection, int $from, int $amout): array
     {
         $return = [];
         foreach ($collection->getResourceIdentifications() as $position => $identification) {
@@ -177,9 +174,8 @@ class Collections
         }
     }
 
-    public function sort(
-        ResourceCollection $collection,
-    ): Sorter {
+    public function sort(ResourceCollection $collection): Sorter
+    {
         return new Sorter(
             $this->resource_builder,
             $this->collection_builder,

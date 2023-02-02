@@ -26,7 +26,7 @@ class ilMemcacheServer extends ActiveRecord
     /**
      * @var int
      */
-    public const STATUS_INACTIVE = -1;
+    public const STATUS_INACTIVE = 0;
     /**
      * @var int
      */

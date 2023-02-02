@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -112,7 +114,7 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
                 $a_parent_skl_tree_id,
                 $a_node["type"],
                 "",
-                ($this->vtree->isDraft($a_node["id"]) || $this->vtree->isOutdated($a_node["id"]))
+                (int) ($this->vtree->isDraft($a_node["id"]) || $this->vtree->isOutdated($a_node["id"]))
             );
         } else {
             $icon = ilUtil::getImagePath("icon_" . $a_node["type"] . ".svg");

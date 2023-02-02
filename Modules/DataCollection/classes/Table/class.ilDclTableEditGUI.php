@@ -413,7 +413,7 @@ class ilDclTableEditGUI
         } else {
             $this->table->doDelete(false);
         }
-
+        $this->ctrl->clearParameterByClass("ilobjdatacollectiongui", "table_id");
         $this->ctrl->redirectByClass("ildcltablelistgui", "listtables");
     }
 
@@ -438,7 +438,7 @@ class ilDclTableEditGUI
         foreach ($tables as $table) {
             $options[$table->getId()] = $table->getTitle();
         }
-        $table_selection = new ilSelectInputGUI('', 'table_id');
+        $table_selection = new ilSelectInputGUI($this->lng->txt("dcl_select"), 'table_id');
         $table_selection->setOptions($options);
         $table_selection->setValue($this->table->getId());
 

@@ -145,8 +145,10 @@ class ilBookingObject
         if ($this->id) {
             $path = $this->getFileFullPath();
             if ($path) {
-                unlink($path);
-                $this->setFile(null);
+                if (is_file($path)) {
+                    unlink($path);
+                }
+                $this->setFile("");
             }
         }
     }
@@ -209,8 +211,10 @@ class ilBookingObject
         if ($this->id) {
             $path = $this->getPostFileFullPath();
             if ($path) {
-                unlink($path);
-                $this->setPostFile(null);
+                if (is_file($path)) {
+                    unlink($path);
+                }
+                $this->setPostFile("");
             }
         }
     }
@@ -383,7 +387,7 @@ class ilBookingObject
 
         $objects = array();
         while ($row = $ilDB->fetchAssoc($set)) {
-            $objects[] = $row['booking_object_id'];
+            $objects[] = (int) $row['booking_object_id'];
         }
 
         return $objects;

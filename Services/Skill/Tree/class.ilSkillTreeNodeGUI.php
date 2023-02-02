@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -50,7 +52,7 @@ class ilSkillTreeNodeGUI
     protected int $requested_ref_id = 0;
     protected int $requested_node_id = 0;
     protected string $requested_backcmd = "";
-    protected int $requested_tmpmode = 0;
+    protected bool $requested_tmpmode = false;
     protected int $base_skill_id = 0;
 
     /**
@@ -288,7 +290,7 @@ class ilSkillTreeNodeGUI
         // status
         $radg = new ilRadioGroupInputGUI($lng->txt("skmg_status"), "status");
         foreach (ilSkillTreeNode::getAllStatus() as $k => $op) {
-            $op = new ilRadioOption($op, $k, ilSkillTreeNode::getStatusInfo($k));
+            $op = new ilRadioOption($op, (string) $k, ilSkillTreeNode::getStatusInfo($k));
             $radg->addOption($op);
         }
         $radg->setValue((string) ilSkillTreeNode::STATUS_PUBLISH);
@@ -525,7 +527,7 @@ class ilSkillTreeNodeGUI
                 $obj_id,
                 $this->getType(),
                 "",
-                (ilSkillTreeNode::_lookupStatus($obj_id) == ilSkillTreeNode::STATUS_DRAFT)
+                ilSkillTreeNode::_lookupStatus($obj_id)
             )
         );
     }

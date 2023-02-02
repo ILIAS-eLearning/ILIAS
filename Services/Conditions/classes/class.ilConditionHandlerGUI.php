@@ -2,8 +2,7 @@
 
 declare(strict_types=1);
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -14,10 +13,10 @@ declare(strict_types=1);
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 use ILIAS\Refinery\Factory;
 use ILIAS\HTTP\GlobalHttpState;
@@ -143,13 +142,13 @@ class ilConditionHandlerGUI
 
     protected function initListModeFromPost(): string
     {
-        if ($this->http->wrapper()->post()->has('list_mode')) {
-            return $this->http->wrapper()->post()->retrieve(
-                'list_mode',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
-        return "";
+        return $this->http->wrapper()->post()->retrieve(
+            'list_mode',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always(self::LIST_MODE_UNDEFINED)
+            ])
+        );
     }
 
     protected function initSourceIdFromQuery(): int
@@ -320,7 +319,7 @@ class ilConditionHandlerGUI
             }
         }
 
-        $table = new ilConditionHandlerTableGUI($this, 'listConditions', $list_mode === self::LIST_MODE_ALL);
+        $table = new ilConditionHandlerTableGUI($this, 'listConditions', $list_mode !== self::LIST_MODE_ALL);
         $table->setConditions(
             ilConditionHandler::_getPersistedConditionsOfTarget(
                 $this->getTargetRefId(),
@@ -368,7 +367,7 @@ class ilConditionHandlerGUI
                     ilConditionHandler::saveNumberOfRequiredTriggers(
                         $this->getTargetRefId(),
                         $this->getTargetId(),
-                        $num_req
+                        (int) $num_req
                     );
                     break;
             }
@@ -462,7 +461,7 @@ class ilConditionHandlerGUI
                 $this->getTargetRefId(),
                 $this->getTargetId()
             );
-            $obl->setValue($num_required > 0 ? $num_required : null);
+            $obl->setValue($num_required > 0 ? (string) $num_required : null);
             $obl->setRequired(true);
             $obl->setSize(1);
             $obl->setMinValue($min);
@@ -785,7 +784,7 @@ class ilConditionHandlerGUI
                 'tpl.condition_handler_sco_row.html',
                 true,
                 true,
-                "Services/AccessControl"
+                "Services/Conditions"
             );
 
             $olp = ilObjectLP::getInstance($trigger_obj_id);

@@ -311,9 +311,15 @@ class ilPageQuestionProcessor
                 $recs[$key] = $rec;
             }
             return $recs;
-        } else {
-            return $ilDB->fetchAssoc($set);
         }
+
+        if ($rec = $ilDB->fetchAssoc($set)) {
+            return $rec;
+        }
+        return [
+            "try" =>  0,
+            "passed" => false
+        ];
     }
 
     /**

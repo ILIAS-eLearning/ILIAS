@@ -23,7 +23,7 @@
  */
 class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
 {
-    public function getHTML(bool $link = true): string
+    public function getHTML(bool $link = true, array $options = []): string
     {
         $title = $this->getRecordField()->getValueForRepresentation();
         if (!$title) {

@@ -63,6 +63,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     protected ilObjFileStakeholder $stakeholder;
     private ilDBInterface $database;
     protected int $on_click_mode = self::CLICK_MODE_DOWNLOAD;
+    protected int $amount_of_downloads = 0;
 
     /**
      * ilObjFile constructor.
@@ -92,6 +93,14 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             $this->max_version = $resource->getMaxRevision();
             $this->version = $resource->getMaxRevision();
         }
+    }
+
+    public function updateObjectFromCurrentRevision(): void
+    {
+        $this->updateObjectFromRevision(
+            $this->manager->getCurrentRevision($this->manager->find($this->getResourceId())),
+            false
+        );
     }
 
     private function updateObjectFromRevision(Revision $r, bool $create_previews = true): void
@@ -326,6 +335,20 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->on_click_mode = $on_click_mode;
     }
 
+    public function getAmountOfDownloads(): int
+    {
+        return $this->amount_of_downloads;
+    }
+
+    public function setAmountOfDownloads(int $amount): void
+    {
+        if (0 > $amount) {
+            throw new LogicException("Amount cannot be a negative number.");
+        }
+
+        $this->amount_of_downloads = $amount;
+    }
+
     /**
      * @param $a_action
      * @deprecated
@@ -333,6 +356,13 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     public function setAction(string $a_action): void
     {
         throw new LogicException('cannot change action');
+    }
+
+
+    public function handleChangedObjectTitle(string $new_title): void
+    {
+        $this->setTitle($new_title);
+        $this->implementation->handleChangedObjectTitle($new_title);
     }
 
 
@@ -353,12 +383,13 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->filetype = $row->file_type ?? '';
         $this->filesize = $row->file_size ?? 0;
         $this->version = $row->version ?? 1;
-        $this->max_version = $row->max_version ?: 1;
-        $this->mode = $row->f_mode;
-        $this->rating = $row->rating;
-        $this->page_count = (int) $row->page_count;
-        $this->resource_id = $row->rid;
+        $this->max_version = $row->max_version ?? 1;
+        $this->mode = $row->f_mode ?? self::MODE_OBJECT;
+        $this->rating = (bool) ($row->rating ?? false);
+        $this->page_count = (int) ($row->page_count ?? 0);
+        $this->resource_id = $row->rid ?? null;
         $this->on_click_mode = (int) ($row->on_click_mode ?? self::CLICK_MODE_DOWNLOAD);
+        $this->amount_of_downloads = (int) ($row->downloads ?? 0);
 
         $this->initImplementation();
     }
@@ -468,6 +499,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             'rating' => ['integer', $this->hasRating()],
             'rid' => ['text', $this->resource_id ?? ''],
             'on_click_mode' => ['integer', $this->getOnClickMode()],
+            'downloads' => ['integer', $this->getAmountOfDownloads()],
         ];
     }
 
@@ -542,6 +574,10 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     public function sendFile(?int $a_hist_entry_id = null): void
     {
+        // increment file download count by one.
+        $this->setAmountOfDownloads($this->getAmountOfDownloads() + 1);
+        $this->update();
+
         $this->implementation->sendFile($a_hist_entry_id);
     }
 

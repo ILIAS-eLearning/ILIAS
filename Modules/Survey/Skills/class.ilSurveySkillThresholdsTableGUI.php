@@ -103,7 +103,7 @@ class ilSurveySkillThresholdsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("LEVEL", $a_set["title"]);
         $this->tpl->setVariable("LEVEL_ID", $a_set["id"]);
 
-        $tr = $this->thresholds[$a_set["id"]][$this->tref_id];
+        $tr = $this->thresholds[$a_set["id"]][$this->tref_id] ?? 0;
         if ((int) $tr !== 0) {
             $this->tpl->setVariable("THRESHOLD", (int) $tr);
         } else {

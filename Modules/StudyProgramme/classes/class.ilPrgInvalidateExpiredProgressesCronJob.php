@@ -29,18 +29,21 @@ class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
 {
     private const ID = 'prg_invalidate_expired_progresses';
 
-    protected ilStudyProgrammeProgressRepository $user_progress_db;
-    protected ilLogger $log;
+    protected ilComponentLogger $log;
     protected ilLanguage $lng;
+    protected ilPRGAssignmentDBRepository $assignment_repo;
+    protected ilStudyProgrammeSettingsDBRepository $settings_repo;
 
     public function __construct()
     {
         global $DIC;
-
-        $this->user_progress_db = ilStudyProgrammeDIC::dic()['model.Progress.ilStudyProgrammeProgressRepository'];
         $this->log = $DIC['ilLog'];
         $this->lng = $DIC['lng'];
         $this->lng->loadLanguageModule('prg');
+
+        $dic = ilStudyProgrammeDIC::dic();
+        $this->assignment_repo = $dic['repo.assignment'];
+        $this->settings_repo = $dic['model.Settings.ilStudyProgrammeSettingsRepository'];
     }
 
     public function getTitle(): string
@@ -81,9 +84,10 @@ class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
     public function run(): ilCronJobResult
     {
         $result = new ilCronJobResult();
-        foreach ($this->user_progress_db->getExpiredSuccessfull() as $progress) {
+        foreach ($this->assignment_repo->getExpiredAndNotInvalidated() as $assignment) {
             try {
-                $progress->invalidate();
+                $assignment = $assignment->invalidate($this->settings_repo);
+                $this->assignment_repo->store($assignment);
             } catch (ilException $e) {
                 $this->log->write('an error occured: ' . $e->getMessage());
             }

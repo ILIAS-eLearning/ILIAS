@@ -28,7 +28,7 @@ class EmployeePositionId extends Base
 {
     protected function run(array $params): int
     {
-        return ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+        return $this->positionRepo->getSingle(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE, 'core_identifier')->getId();
     }
 
     public function getName(): string

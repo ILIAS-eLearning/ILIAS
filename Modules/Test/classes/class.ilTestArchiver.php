@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestArchiver
@@ -29,8 +43,7 @@ class ilTestArchiver
     public const PDF_BEST_SOLUTION_FILENAME = 'best_solution.pdf';
     public const TEST_MATERIALS_PATH_COMPONENT = 'materials';
 
-    public const TEST_RESULT_FILENAME = 'test_result_v';
-    public const TEST_RESULT_POSTFIX = '.pdf';
+    protected const TEST_RESULT_FILENAME = 'test_result.pdf';
 
     public const TEST_OVERVIEW_PDF_FILENAME = 'results_overview_html_v';
     public const TEST_OVERVIEW_PDF_POSTFIX = '.pdf';
@@ -283,9 +296,7 @@ class ilTestArchiver
     {
         $this->ensureTestArchiveIsAvailable();
         $this->ensurePassDataDirectoryIsAvailable($active_fi, $pass);
-        $new_path = $this->getPassDataDirectory($active_fi, $pass) . self::DIR_SEP
-            . self::TEST_RESULT_FILENAME . ($this->countFilesInDirectory($this->getPassDataDirectory($active_fi, $pass), self::TEST_RESULT_FILENAME))
-            . self::TEST_RESULT_POSTFIX;
+        $new_path = $this->getPassDataDirectory($active_fi, $pass) . self::DIR_SEP . self::TEST_RESULT_FILENAME;
         copy($pdf_path, $new_path);
         $this->logArchivingProcess(date(self::LOG_DTSGROUP_FORMAT) . self::LOG_ADDITION_STRING . $new_path);
     }
@@ -667,6 +678,9 @@ class ilTestArchiver
         if (@file_exists($data_index_file)) {
             $lines = explode("\n", file_get_contents($data_index_file));
             foreach ($lines as $line) {
+                if (strlen($line) === 0) {
+                    continue;
+                }
                 $line_items = explode('|', $line);
                 $line_data['identifier'] = $line_items[0] . '|' . $line_items[1];
                 $line_data['yyyy'] = $line_items[2];

@@ -24,7 +24,7 @@ use ILIAS\Filesystem\Util\LegacyPathHelper;
 /**
  * File System Explorer GUI class
  *
- * @deprecated
+ * @deprecated Will be removed in ILIAS 10. Use ILIAS ResourceStorageService as replacement.
  */
 class ilFileSystemGUI
 {
@@ -379,7 +379,7 @@ class ilFileSystemGUI
         }
 
         // check if only one item is select, if command does not allow multiple selection
-        if (count($selected) > 1 && $this->commands[$a_nr]["single"]) {
+        if (count($selected) > 1 && ($this->commands[$a_nr]["single"] ?? false)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_select_max_one_item"), true);
             $this->ctrl->redirect($this, "listFiles");
         }
@@ -684,9 +684,13 @@ class ilFileSystemGUI
             $upload_result = $upload->getResults()[$_FILES["new_file"]["tmp_name"]];
             if ($upload_result instanceof UploadResult) {
                 $processing_status = $upload_result->getStatus();
-                if ($processing_status->getCode(
-                ) === ProcessingStatus::REJECTED) {
-                    throw new ilException($processing_status->getMessage());
+                if ($processing_status->getCode() === ProcessingStatus::REJECTED) {
+                    $this->tpl->setOnScreenMessage(
+                        'failure',
+                        $processing_status->getMessage(),
+                        true
+                    );
+                    $this->ctrl->redirect($this, "listFiles");
                 }
             }
 

@@ -460,6 +460,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         $active = ($only_active) ? 1 : 0; // Cache key
         if (
             array_key_exists($type_id, $this->amd_records_assigned) &&
+            isset($this->amd_records_assigned[$type_id][$active]) &&
             is_array($this->amd_records_assigned[$type_id][$active])
         ) {
             return $this->amd_records_assigned[$type_id][$active];

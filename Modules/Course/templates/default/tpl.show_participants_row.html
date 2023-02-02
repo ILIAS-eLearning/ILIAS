@@ -1,6 +1,6 @@
 <tr class="{CSS_ROW} small">
 	<td class="std">
-		<input type="checkbox" name="{VAL_POSTNAME}[]" value="{VAL_ID}" {VAL_CHECKED} />
+		<input type="checkbox" title="{SELECT_PARTICIPANT}" name="{VAL_POSTNAME}[]" value="{VAL_ID}" {VAL_CHECKED} />
 		<input type="hidden" name="visible_member_ids[]" value="{VAL_ID}" />		
 	</td>
 	<td class="std">
@@ -34,7 +34,7 @@
 	<!--  END access_time -->
 	<td class="std">
 		<!--  BEGIN grade -->
-		<input type="checkbox" name="passed[]" value="{VAL_PASSED_ID}" {VAL_PASSED_CHECKED} />
+		<input type="checkbox" title="{PASSED_TITLE}" name="passed[]" value="{VAL_PASSED_ID}" {VAL_PASSED_CHECKED} />
 		<!--  END grade -->{VAL_PASSED_TXT}
 	</td>
 	<!-- BEGIN passed_info_col -->
@@ -44,17 +44,17 @@
 	<!-- END passed_info_col -->
 	<td class="std">
                 <!-- BEGIN with_contact -->
-		<input type="checkbox" name="contact[]" value="{VAL_CONTACT_ID}" {VAL_CONTACT_CHECKED} />
+		<input type="checkbox" title="{CONTACT_TITLE}" name="contact[]" value="{VAL_CONTACT_ID}" {VAL_CONTACT_CHECKED} />
                 <!-- END with_contact -->
 	</td>
 	<td class="std">
                 <!-- BEGIN with_blocked -->
-		<input type="checkbox" name="blocked[]" value="{VAL_BLOCKED_ID}" {VAL_BLOCKED_CHECKED} />
+		<input type="checkbox" title="{BLOCKED_TITLE}" name="blocked[]" value="{VAL_BLOCKED_ID}" {VAL_BLOCKED_CHECKED} />
                 <!-- END with_blocked -->
 	</td>
 	<td class="std">
                 <!-- BEGIN with_notification -->
-		<input type="checkbox" name="notification[]" value="{VAL_NOTIFICATION_ID}" {VAL_NOTIFICATION_CHECKED} />
+		<input type="checkbox" title="{NOTIFICATION_TITLE}" name="notification[]" value="{VAL_NOTIFICATION_ID}" {VAL_NOTIFICATION_CHECKED} />
                 <!-- END with_notification -->
 	</td>
 	<td class="std">

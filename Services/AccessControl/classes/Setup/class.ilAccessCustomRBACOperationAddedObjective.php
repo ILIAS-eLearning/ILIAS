@@ -2,7 +2,22 @@
 
 declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use ILIAS\Setup;
 use ILIAS\Setup\Environment;
@@ -27,7 +42,7 @@ class ilAccessCustomRBACOperationAddedObjective implements Setup\Objective
 
     public function getHash(): string
     {
-        return hash("sha256", self::class);
+        return hash("sha256", self::class . "::" . $this->id);
     }
 
     public function getLabel(): string
@@ -58,7 +73,7 @@ class ilAccessCustomRBACOperationAddedObjective implements Setup\Objective
             $this->pos = 9999;
         }
 
-        $ops_id = ilRbacReview::_getCustomRBACOperationId($this->id);
+        $ops_id = ilRbacReview::_getCustomRBACOperationId($this->id, $db);
         if (is_null($ops_id)) {
             $ops_id = $db->nextId("rbac_operations");
 
@@ -74,7 +89,7 @@ class ilAccessCustomRBACOperationAddedObjective implements Setup\Objective
         }
 
         foreach ($this->types as $type) {
-            $type_id = ilObject::_getObjectTypeIdByTitle($type);
+            $type_id = ilObject::_getObjectTypeIdByTitle($type, $db);
             if (!$type_id) {
                 $type_id = $db->nextId('object_data');
 
@@ -120,13 +135,13 @@ class ilAccessCustomRBACOperationAddedObjective implements Setup\Objective
 
         $dic = $this->initEnvironment($environment);
 
-        $ops_id = ilRbacReview::_getCustomRBACOperationId($this->id);
+        $ops_id = ilRbacReview::_getCustomRBACOperationId($this->id, $db);
         if (!$ops_id) {
             return true;
         }
 
         foreach ($this->types as $key => $type) {
-            $type_id = ilObject::_getObjectTypeIdByTitle($type);
+            $type_id = ilObject::_getObjectTypeIdByTitle($type, $db);
             if (is_null($type_id)) {
                 return true;
             }

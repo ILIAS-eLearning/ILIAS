@@ -16,8 +16,7 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilTestSkillEvaluationTest
@@ -35,7 +34,8 @@ class ilTestSkillEvaluationTest extends ilTestBaseTestCase
             $this->createMock(ilDBInterface::class),
             0,
             0,
-            $this->createMock(\ILIAS\Skill\Service\SkillProfileService::class)
+            $this->createMock(\ILIAS\Skill\Service\SkillProfileService::class),
+            $this->createMock(\ILIAS\Skill\Service\SkillPersonalService::class)
         );
     }
 

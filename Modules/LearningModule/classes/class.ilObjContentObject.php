@@ -1823,6 +1823,9 @@ class ilObjContentObject extends ilObject
         bool $as_subitem = false,
         string $movecopy = "move"
     ): void {
+        if ($source_id === $target_id) {
+            return;
+        }
         $lmtree = new ilTree($this->getId());
         $lmtree->setTableNames('lm_tree', 'lm_data');
         $lmtree->setTreeTablePK("lm_id");

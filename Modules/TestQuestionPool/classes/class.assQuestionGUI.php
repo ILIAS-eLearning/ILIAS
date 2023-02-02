@@ -38,6 +38,16 @@ abstract class assQuestionGUI
     public const FORM_ENCODING_URLENCODE = 'application/x-www-form-urlencoded';
     public const FORM_ENCODING_MULTIPART = 'multipart/form-data';
 
+    protected const SUGGESTED_SOLUTION_COMMANDS_CANCEL = 'cancelSuggestedSolution';
+    protected const SUGGESTED_SOLUTION_COMMANDS_SAVE = 'saveSuggestedSolution';
+    protected const SUGGESTED_SOLUTION_COMMANDS_DEFAULT = 'suggestedsolution';
+
+    public const CORRECTNESS_NOT_OK = 0;
+    public const CORRECTNESS_MOSTLY_OK = 1;
+    public const CORRECTNESS_OK = 2;
+
+    protected const HAS_SPECIAL_QUESTION_COMMANDS = false;
+
     public const SESSION_PREVIEW_DATA_BASE_INDEX = 'ilAssQuestionPreviewAnswers';
     private $ui;
     private ilObjectDataCache $ilObjDataCache;
@@ -146,18 +156,6 @@ abstract class assQuestionGUI
 
     public function addHeaderAction(): void
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        /*
-                $DIC->ui()->mainTemplate()->setVariable(
-                    "HEAD_ACTION",
-                    $this->getHeaderAction()
-                );
-
-                $this->notes_gui->initJavascript();
-
-                $redrawActionsUrl = $this->ctrl->getLinkTarget($this, 'redrawHeaderAction', '', true);
-                $this->ui->mainTemplate()->addOnLoadCode("il.Object.setRedrawAHUrl('$redrawActionsUrl');");
-        */
     }
 
     public function redrawHeaderAction(): void
@@ -199,22 +197,24 @@ abstract class assQuestionGUI
     {
         $this->ilHelp->setScreenIdComponent('qpl');
 
-        $cmd = $this->ctrl->getCmd("editQuestion");
         $next_class = $this->ctrl->getNextClass($this);
 
         switch ($next_class) {
             case 'ilformpropertydispatchgui':
                 $form = $this->buildEditForm();
-
                 $form_prop_dispatch = new ilFormPropertyDispatchGUI();
                 $form_prop_dispatch->setItem($form->getItemByPostVar(ilUtil::stripSlashes($this->request->raw('postvar'))));
-                return $this->ctrl->forwardCommand($form_prop_dispatch);
-
+                $this->ctrl->forwardCommand($form_prop_dispatch);
+                break;
             default:
+                $cmd = $this->ctrl->getCmd('editQuestion');
                 switch ($cmd) {
-                    case 'suggestedsolution':
-                    case 'showSuggestedSolution':
-                    case 'saveSuggestedSolution':
+                    case self::SUGGESTED_SOLUTION_COMMANDS_CANCEL:
+                    case self::SUGGESTED_SOLUTION_COMMANDS_SAVE:
+                    case self::SUGGESTED_SOLUTION_COMMANDS_DEFAULT:
+                        $this->suggestedsolution();
+                        break;
+                    case 'saveSuggestedSolutionType':
                     case 'saveContentsSuggestedSolution':
                     case 'deleteSuggestedSolution':
                     case 'linkChilds':
@@ -227,10 +227,20 @@ abstract class assQuestionGUI
                         break;
 
                     default:
-                        $ret = $this->$cmd();
+                        if (method_exists($this, $cmd)) {
+                            $this->$cmd();
+                            return;
+                        }
+                        if ($this->hasSpecialQuestionCommands() === true) {
+                            $this->callSpecialQuestionCommands($cmd);
+                        }
                 }
         }
-        return $ret;
+    }
+
+    protected function hasSpecialQuestionCommands(): bool
+    {
+        return static::HAS_SPECIAL_QUESTION_COMMANDS;
     }
 
     /** needed for page editor compliance */
@@ -369,7 +379,7 @@ abstract class assQuestionGUI
         $this->targetGuiClass = $targetGuiClass;
     }
 
-    public function getTargetGuiClass(): string
+    public function getTargetGuiClass(): ?string
     {
         return $this->targetGuiClass;
     }
@@ -539,10 +549,6 @@ abstract class assQuestionGUI
         }
 
         if (strlen($html)) {
-            if ($inlineFeedbackEnabled && $this->hasInlineFeedback()) {
-                $html = $this->buildFocusAnchorHtml() . $html;
-            }
-
             $page_gui->setQuestionHTML(array($this->object->getId() => $html));
         }
 
@@ -615,6 +621,7 @@ abstract class assQuestionGUI
         $original_id = $this->object->getOriginalId();
         if ($original_id) {
             $this->object->syncWithOriginal();
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         }
         if (strlen($this->request->raw("return_to"))) {
             $this->ctrl->redirect($this, $this->request->raw("return_to"));
@@ -642,6 +649,8 @@ abstract class assQuestionGUI
 
     public function cancelSync(): void
     {
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
+
         if (strlen($this->request->raw("return_to"))) {
             $this->ctrl->redirect($this, $this->request->raw("return_to"));
         }
@@ -656,7 +665,6 @@ abstract class assQuestionGUI
                 }
                 ilUtil::redirect(ilLink::_getLink($ref_id));
             }
-            $_GET["ref_id"] = $this->request->raw("calling_test");
 
             if ($this->request->raw('test_express_mode')) {
                 ilUtil::redirect(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
@@ -720,11 +728,8 @@ abstract class assQuestionGUI
             $ilUser->setPref("tst_lastquestiontype", $this->object->getQuestionType());
             $ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
             $this->object->saveToDb();
-            if ($this->object->getOriginalId() == null) {
-                $originalexists = false;
-            } else {
-                $originalexists = $this->object->_questionExistsInPool($this->object->getOriginalId());
-            }
+            $originalexists = !is_null($this->object->getOriginalId()) &&
+                $this->object->_questionExistsInPool($this->object->getOriginalId());
 
             if (($this->request->raw("calling_test") ||
                     ($this->request->isset('calling_consumer')
@@ -822,11 +827,8 @@ abstract class assQuestionGUI
             $ilUser->setPref("tst_lastquestiontype", $this->object->getQuestionType());
             $ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
             $this->object->saveToDb();
-            if ($this->object->getOriginalId() == null) {
-                $originalexists = false;
-            } else {
-                $originalexists = $this->object->_questionExistsInPool($this->object->getOriginalId());
-            }
+            $originalexists = !is_null($this->object->getOriginalId()) &&
+                $this->object->_questionExistsInPool($this->object->getOriginalId());
             if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                         && (int) $this->request->raw('calling_consumer')))
                 && $originalexists && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
@@ -1049,7 +1051,7 @@ abstract class assQuestionGUI
         $question->setCols(80);
 
         if (!$this->object->getSelfAssessmentEditingMode()) {
-            if ($this->object->getAdditionalContentEditingMode() != assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT) {
+            if ($this->object->getAdditionalContentEditingMode() != assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_IPE) {
                 $question->setUseRte(true);
                 $question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
                 $question->addPlugin("latex");
@@ -1213,9 +1215,9 @@ abstract class assQuestionGUI
         $ilUser = $this->ilUser;
         $ilAccess = $this->access;
 
-        $save = (is_array($_POST["cmd"]) && array_key_exists("suggestedsolution", $_POST["cmd"])) ? true : false;
-
-        if ($save && $_POST["deleteSuggestedSolution"] == 1) {
+        $cmd = $this->request->raw('cmd');
+        $save = is_array($cmd) && array_key_exists('saveSuggestedSolution', $cmd);
+        if ($save && $this->request->int('deleteSuggestedSolution') === 1) {
             $this->object->deleteSuggestedSolutions();
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "suggestedsolution");
@@ -1226,15 +1228,15 @@ abstract class assQuestionGUI
         $solution = $this->object->getSuggestedSolution(0);
         $options = $this->getTypeOptions();
 
-        if (strcmp($_POST["solutiontype"], "file") == 0
-            && (!$solution || $solution->getType() !== assQuestionSuggestedSolution::TYPE_FILE)
+        if (is_string($solution_type) && strcmp($solution_type, "file") == 0 &&
+            (!$solution || $solution->getType() !== assQuestionSuggestedSolution::TYPE_FILE)
         ) {
             $solution = $this->getSuggestedSolutionsRepo()->create(
                 $this->object->getId(),
                 assQuestionSuggestedSolution::TYPE_FILE
             );
-        } elseif (strcmp($_POST["solutiontype"], "text") == 0
-            && (!$solution || $solution->getType() !== assQuestionSuggestedSolution::TYPE_TEXT)
+        } elseif (is_string($solution_type) && strcmp($solution_type, "text") == 0 &&
+            (!$solution || $solution->getType() !== assQuestionSuggestedSolution::TYPE_TEXT)
         ) {
             $oldsaveSuggestedSolutionOutputMode = $this->getRenderPurpose();
             $this->setRenderPurpose(self::RENDER_PURPOSE_INPUT_VALUE);
@@ -1248,12 +1250,18 @@ abstract class assQuestionGUI
             $this->setRenderPurpose($oldsaveSuggestedSolutionOutputMode);
         }
 
-        if ($save && strlen($_POST["filename"])) {
-            $solution = $solution->withTitle($_POST["filename"]);
+        $solution_filename = $this->request->raw('filename');
+        if ($save &&
+            is_string($solution_filename) &&
+            strlen($solution_filename)) {
+            $solution = $solution->withTitle($solution_filename);
         }
 
-        if ($save && strlen($_POST["solutiontext"])) {
-            $solution = $solution->withValue($_POST["solutiontext"]);
+        $solution_text = $this->request->raw('solutiontext');
+        if ($save &&
+            is_string($solution_text) &&
+            strlen($solution_text)) {
+            $solution->withValue($solution_text);
         }
 
         if ($solution) {
@@ -1329,7 +1337,8 @@ abstract class assQuestionGUI
 
                         $this->getSuggestedSolutionsRepo()->update([$solution]);
 
-                        $originalexists = $this->object->getOriginalId() && $this->object->_questionExistsInPool($this->object->getOriginalId());
+                        $originalexists = $this->object->getOriginalId() &&
+                            $this->object->_questionExistsInPool($this->object->getOriginalId());
                         if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                                     && (int) $this->request->raw('calling_consumer'))) && $originalexists
                             && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
@@ -1372,8 +1381,8 @@ abstract class assQuestionGUI
                 $form->addItem($question);
             }
             if ($ilAccess->checkAccess("write", "", $this->request->getRefId())) {
-                $form->addCommandButton('showSuggestedSolution', $this->lng->txt('cancel'));
-                $form->addCommandButton('suggestedsolution', $this->lng->txt('save'));
+                $form->addCommandButton('cancelSuggestedSolution', $this->lng->txt('cancel'));
+                $form->addCommandButton('saveSuggestedSolution', $this->lng->txt('save'));
             }
 
             if ($save) {
@@ -1381,13 +1390,13 @@ abstract class assQuestionGUI
                     if ($solution->isOfTypeFile()) {
                         $solution = $solution->withTitle($_POST["filename"]);
                     }
+
                     if (!$solution->isOfTypeLink()) {
                         $this->getSuggestedSolutionsRepo()->update([$solution]);
                     }
 
-                    //$originalexists = $this->object->_questionExistsInPool($this->object->original_id);
-                    $originalexists = false; //TODO: re-enable check?
-
+                    $originalexists = !is_null($this->object->getOriginalId()) &&
+                        $this->object->_questionExistsInPool($this->object->getOriginalId());
                     if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                                 && (int) $this->request->raw('calling_consumer'))) && $originalexists
                         && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
@@ -1403,7 +1412,7 @@ abstract class assQuestionGUI
             $output = $form->getHTML();
         }
 
-        $savechange = $this->ctrl->getCmd() === "saveSuggestedSolution";
+        $savechange = $this->ctrl->getCmd() === "saveSuggestedSolutionType";
 
         $changeoutput = "";
         if ($ilAccess->checkAccess("write", "", $this->request->getRefId())) {
@@ -1426,7 +1435,7 @@ abstract class assQuestionGUI
             $solutiontype->setRequired(true);
             $formchange->addItem($solutiontype);
 
-            $formchange->addCommandButton("saveSuggestedSolution", $this->lng->txt("select"));
+            $formchange->addCommandButton("saveSuggestedSolutionType", $this->lng->txt("select"));
 
             if ($savechange) {
                 $formchange->checkInput();
@@ -1472,7 +1481,7 @@ abstract class assQuestionGUI
         $this->tpl->setVariable("ADM_CONTENT", $template->get());
     }
 
-    public function saveSuggestedSolution(): void
+    public function saveSuggestedSolutionType(): void
     {
         global $DIC;
         $tree = $DIC['tree'];
@@ -2009,6 +2018,33 @@ abstract class assQuestionGUI
 
     public function saveCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
+    }
+
+
+    protected function generateCorrectnessIconsForCorrectness(int $correctness): string
+    {
+        switch ($correctness) {
+            case self::CORRECTNESS_NOT_OK:
+                $icon_name = 'icon_not_ok.svg';
+                $label = $this->lng->txt("answer_is_wrong");
+                break;
+            case self::CORRECTNESS_MOSTLY_OK:
+                $icon_name = 'icon_ok.svg';
+                $label = $this->lng->txt("answer_is_not_correct_but_positive");
+                break;
+            case self::CORRECTNESS_OK:
+                $icon_name = 'icon_ok.svg';
+                $label = $this->lng->txt("answer_is_right");
+                break;
+            default:
+                return '';
+        }
+        $path = ilUtil::getImagePath($icon_name);
+        $icon = $this->ui->factory()->symbol()->icon()->custom(
+            $path,
+            $label
+        );
+        return $this->ui->renderer()->render($icon);
     }
 
     /**

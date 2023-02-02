@@ -2,8 +2,7 @@
 
 declare(strict_types=1);
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -14,10 +13,10 @@ declare(strict_types=1);
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * INTERNAL CLASS: Please do not use in consumer code.
@@ -129,6 +128,12 @@ class ilConditionHandler
         $this->validation = true;
     }
 
+    public static function resetCache(): void
+    {
+        self::$cond_for_target_cache = [];
+        self::$cond_target_rows = [];
+    }
+
     /**
      * @param string target type ILIAS obj type
      */
@@ -161,7 +166,7 @@ class ilConditionHandler
             /** @var ilConditionControllerInterface $controller */
             $controller = new $class_name();
             if ($controller->isContainerConditionController($parent_ref_id)) {
-                return $controller->getConditionSetForRepositoryObject($a_target_ref_id)->getHiddenStatus();
+                return (bool) $controller->getConditionSetForRepositoryObject($a_target_ref_id)->getHiddenStatus();
             }
         }
         return self::lookupPersistedHiddenStatusByTarget($a_target_ref_id);
@@ -836,10 +841,10 @@ class ilConditionHandler
         switch ($condition['trigger_type']) {
             case 'crsg':
                 return ilObjCourseGrouping::_checkCondition(
-                    $condition['trigger_obj_id'],
-                    $condition['operator'],
-                    $condition['value'],
-                    $a_usr_id
+                    (int) $condition['trigger_obj_id'],
+                    (string) $condition['operator'],
+                    (string) $condition['value'],
+                    (int) $a_usr_id
                 );
         }
         $class = $objDefinition->getClassName($condition['trigger_type']);
@@ -847,12 +852,16 @@ class ilConditionHandler
         $full_class = "ilObj" . $class . "Access";
         include_once($location . "/class." . $full_class . ".php");
 
+        if (!$full_class instanceof ilConditionHandling) {
+            return false;
+        }
+
         $fullfilled = call_user_func(
             array($full_class, 'checkCondition'),
-            $condition['trigger_obj_id'],
-            $condition['operator'],
-            $condition['value'],
-            $a_usr_id
+            (int) $condition['trigger_obj_id'],
+            (string) $condition['operator'],
+            (string) $condition['value'],
+            (int) $a_usr_id
         );
         return $fullfilled;
     }
@@ -954,6 +963,8 @@ class ilConditionHandler
         $ilDB = $DIC['ilDB'];
 
         // Get all conditions
+
+        self::resetCache();
         $all = self::_getPersistedConditionsOfTarget($a_target_ref_id, $a_target_obj_id, $a_target_obj_type);
         $opt = self::getPersistedOptionalConditionsOfTarget($a_target_ref_id, $a_target_obj_id, $a_target_obj_type);
 
@@ -1130,6 +1141,13 @@ class ilConditionHandler
 
                 if ($newCondition->storeCondition()) {
                     $valid++;
+
+                    //Copy num_obligatory, to be checked below
+                    self::saveNumberOfRequiredTriggers(
+                        $a_target_ref_id,
+                        $target_obj,
+                        $con['num_obligatory']
+                    );
                 }
             }
         }

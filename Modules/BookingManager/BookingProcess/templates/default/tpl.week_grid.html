@@ -1,0 +1,27 @@
+<h3>
+	{TXT_OBJECT}
+</h3>
+<div class="small ilTextinfo">
+	{TXT_INFO}
+</div>
+	<table class="il-cal-week">
+		<tr class="calheader">
+			<th style="width:7%" class="calstd calheadertime">{TIME}</th>
+			<!-- BEGIN weekdays -->
+			<th class="calstd" style="width:{WIDTH}%" colspan="{COL_SPAN}">{TXT_WEEKDAY}<br />{TXT_DATE}</th>
+			<!-- END weekdays -->
+		</tr>
+		<!-- BEGIN slots -->
+		<tr class="calstdtime">
+			<th class="calstd calheadertime">
+				{TXT_HOUR}
+			</th>
+			<!-- BEGIN dates -->
+			<td class="calempty_border" rowspan="{ROW_SPAN}" style="background-color: white; min-height:1px; height:1px;">
+				{CONTENT}
+			</td>
+			<!-- END dates -->
+		</tr>
+		<!-- END slots -->
+	</table>
+

@@ -372,7 +372,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                         foreach ($working_data as $value) {
                             if (strlen($value["value"])) {
                                 if ($value["value"] == $cat->scale - 1) {
-                                    if (!$value['uncheck']) {
+                                    if (!($value['uncheck'] ?? false)) {
                                         $template->setVariable("CHECKED_MC", " checked=\"checked\"");
                                     }
                                 }
@@ -439,9 +439,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
         if ($show_questiontext) {
             $this->outQuestionText($template);
         }
-        if ($question_title) {
-            $template->setVariable("QUESTION_TITLE", $this->object->getTitle());
-        }
+        $template->setVariable("QUESTION_TITLE", $this->getQuestionTitle($question_title));
         $template->parseCurrentBlock();
         return $template->get();
     }

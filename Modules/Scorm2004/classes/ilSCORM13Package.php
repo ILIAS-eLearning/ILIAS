@@ -205,7 +205,7 @@ class ilSCORM13Package
         // iterate through items and set href and scoType as activity attributes
         foreach ($x->xpath('//*[local-name()="item"]') as $xe) {
             // get reference to resource and set href accordingly
-            if ($b = $r[strval($xe['resourceId'])]) {
+            if ($b = ($r[strval($xe['resourceId'])] ?? false)) {
                 $xe['href'] = strval($b['base']) . strval($b['href']);
                 unset($xe['resourceId']);
                 if (strval($b['scormType']) === 'sco') {

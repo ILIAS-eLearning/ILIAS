@@ -1,0 +1,65 @@
+@use "../../../010-settings/" as *;
+
+/* Modules/Portfolio */
+
+ul.ilPCMyCoursesCourseList > li {
+	margin-bottom: 10px;
+	.course-list-tree-icon {
+		width: 20px;
+		height: 20px;
+	}
+}
+
+ul.ilPCMyCoursesObjectiveList > li {
+	margin-top: 5px; 
+	margin-left: 40px;
+}
+
+a.ilPCMyCoursesToggle {
+	outline: 0;
+}
+
+div.ilPCMyCoursesPath {
+	margin-bottom: 10px;
+	font-size: $il-font-size-small; 
+	/* font-style: italic; */
+}
+
+div.ilPrtfSignature
+{
+	margin-top: 60px;
+	border-top: 1px solid black;
+}
+
+.ilPrtfMetaInfo {
+	margin-top: 20px;
+}
+
+.ilPrtfMetaInfo td {
+	padding-left: 20px;
+}
+
+.ilPrtfMetaInfo td, .ilPrtfMetaInfo th {
+	padding-top: 5px;
+	vertical-align: top;
+}
+
+div.ilPrtfToc {
+	margin-top: 40px;
+}
+
+body.ilPrtfPdfBody {
+	> div.ilInvisibleBorder {
+		padding: 0;
+		padding-left: 40px;
+	}
+	margin: 0;
+}
+
+body.ilPrtfPdfBody h1.ilc_PrintPageTitle {
+	border-bottom: 1px solid #000000;
+}
+
+body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
+	visibility: hidden;
+}

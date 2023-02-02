@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 26.3.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- Generator: Adobe Illustrator 26.4.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 320 320" style="enable-background:new 0 0 320 320;" xml:space="preserve">
 <style type="text/css">
-	.st0{clip-path:url(#SVGID_00000060001620327472610140000009495820769935777156_);fill:#58698E;}
+	.st0{clip-path:url(#SVGID_00000111175959172607463740000014282656031222854547_);fill:#4C6586;}
 </style>
 <g>
-	<defs>
-		<rect id="SVGID_1_" width="320" height="320"/>
-	</defs>
-	<clipPath id="SVGID_00000044885607400728490040000012944633798462341553_">
-		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
-	</clipPath>
-	<path style="clip-path:url(#SVGID_00000044885607400728490040000012944633798462341553_);fill:#58698E;" d="M47.7,233.4
-		c-7.7,30.9,26.5,33.8,26.5,33.8H157c0,0,28.8-3.6,26.2-29.4c-2.9-28.3-32.8-26.6-32.8-26.6s-1-18.5-19.8-25.3
-		c-21.1-7.6-33.6,1.3-35.4,2.2c-20.1,10.4-14.9,32.8-14.9,32.8C64.9,214.7,50.6,221.6,47.7,233.4 M280,250V90c0-5.5-4.5-10-10-10
-		H126.7L120,60H40v30v126.4c2.9-3.5,6.6-6.4,10.9-8.6c1.3-0.7,2.7-1.3,4.1-1.8V105V75h50l6.7,20H265v150h-66.9
-		c-0.5,5.7-2.1,10.7-4.5,15H270C275.5,260,280,255.5,280,250"/>
+	<g>
+		<defs>
+			<rect id="SVGID_1_" width="320" height="320"/>
+		</defs>
+		<clipPath id="SVGID_00000073688397496892756550000010346370676684989314_">
+			<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+		</clipPath>
+		<path style="clip-path:url(#SVGID_00000073688397496892756550000010346370676684989314_);fill:#4C6586;" d="M47.7,233.4
+			c-7.7,30.9,26.5,33.8,26.5,33.8H157c0,0,28.8-3.6,26.2-29.4c-2.9-28.3-32.8-26.6-32.8-26.6s-1-18.5-19.8-25.3
+			c-21.1-7.6-33.6,1.3-35.4,2.2c-20.1,10.4-14.9,32.8-14.9,32.8C64.9,214.7,50.6,221.6,47.7,233.4 M280,250V90c0-5.5-4.5-10-10-10
+			H126.7L120,60H40v30v126.4c2.9-3.5,6.6-6.4,10.9-8.6c1.3-0.7,2.7-1.3,4.1-1.8V105V75h50l6.7,20H265v150h-66.9
+			c-0.5,5.7-2.1,10.7-4.5,15H270C275.5,260,280,255.5,280,250"/>
+	</g>
 </g>
 </svg>

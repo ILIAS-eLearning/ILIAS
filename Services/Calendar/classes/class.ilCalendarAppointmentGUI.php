@@ -32,6 +32,7 @@ class ilCalendarAppointmentGUI
 {
     private ilPropertyFormGUI $form;
     private ilCalendarUserNotification $notification;
+    protected bool $requested_rexl;
 
     protected ilDate $seed;
     protected ilDateTime $initialDate;
@@ -79,6 +80,7 @@ class ilCalendarAppointmentGUI
         $this->initSeed($seed);
         $this->initInitialDate($initialDate);
         $this->initAppointment($a_appointment_id);
+        $this->requested_rexl = (bool) $this->getRecurrenceExclusionFromQuery();
     }
 
     protected function getAppointmentIdFromQuery(): int
@@ -94,13 +96,20 @@ class ilCalendarAppointmentGUI
 
     protected function getRecurrenceExclusionFromQuery(): int
     {
-        if ($this->http->wrapper()->query()->has('rexl')) {
-            return $this->http->wrapper()->query()->retrieve(
+        $val = 0;
+        if ($this->http->wrapper()->post()->has('rexl')) {
+            $val = $this->http->wrapper()->post()->retrieve(
                 'rexl',
                 $this->refinery->kindlyTo()->int()
             );
         }
-        return 0;
+        if ($val === 0 && $this->http->wrapper()->query()->has('rexl')) {
+            $val = $this->http->wrapper()->query()->retrieve(
+                'rexl',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return $val;
     }
 
     protected function getRecurrenceDateFromQuery(): int
@@ -118,6 +127,9 @@ class ilCalendarAppointmentGUI
     {
         // Clear tabs and set back target
         $this->tabs->clearTargets();
+        if ($this->http->wrapper()->query()->has('app_id')) {
+            $this->ctrl->saveParameter($this, 'app_id');
+        }
         $this->tabs->setBackTarget(
             $this->lng->txt('cal_back_to_cal'),
             $this->ctrl->getLinkTarget($this, 'cancel')
@@ -207,7 +219,7 @@ class ilCalendarAppointmentGUI
         }
         $ref_id = 0;
         if ($this->http->wrapper()->query()->has('ref_id')) {
-            $ref_id_id = $this->http->wrapper()->query()->retrieve(
+            $ref_id = $this->http->wrapper()->query()->retrieve(
                 'ref_id',
                 $this->refinery->kindlyTo()->int()
             );
@@ -487,12 +499,15 @@ class ilCalendarAppointmentGUI
             }
 
             $cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
-            $type = ilObject::_lookupType($cat_info['obj_id']);
+            $type = ilObject::_lookupType($cat_info['obj_id'] ?? 0);
 
-            if ($a_as_milestone && $cat_info['type'] == ilCalendarCategory::TYPE_OBJ
-                && ($type == "grp" || $type == "crs")) {
+            if (
+                $a_as_milestone &&
+                ($cat_info['type'] ??  ilCalendarCategory::TYPE_UNDEFINED) == ilCalendarCategory::TYPE_OBJ &&
+                ($type == "grp" || $type == "crs")
+            ) {
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_created_milestone_resp_q'), true);
-                $this->showResponsibleUsersList($cat_info['obj_id']);
+                $this->showResponsibleUsersList($cat_info['obj_id'] ?? 0);
                 return;
             } elseif ($a_as_milestone) {
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_created_milestone'), true);
@@ -650,6 +665,7 @@ class ilCalendarAppointmentGUI
     protected function editSingle(): void
     {
         $this->ctrl->setParameter($this, 'rexl', "1");
+        $this->requested_rexl = true;
         $this->edit(true);
     }
 
@@ -667,9 +683,8 @@ class ilCalendarAppointmentGUI
         }
 
         $this->ctrl->saveParameter($this, array('seed', 'app_id', 'dt', 'idate'));
-        if ($this->getRecurrenceExclusionFromQuery()) {
+        if ($this->requested_rexl) {
             $this->ctrl->setParameter($this, 'rexl', 1);
-
             // Calculate new appointment time
             $duration = $this->getAppointment()->getEnd()->get(IL_CAL_UNIX) - $this->getAppointment()->getStart()->get(IL_CAL_UNIX);
             $calc = new ilCalendarRecurrenceCalculator($this->getAppointment(), $this->rec);
@@ -791,8 +806,7 @@ class ilCalendarAppointmentGUI
 
     protected function update(): void
     {
-        $single_editing = (bool) $this->getRecurrenceExclusionFromQuery();
-
+        $single_editing = $this->requested_rexl;
         $form = $this->load('edit', $this->app->isMilestone());
 
         if ($this->app->validate() and $this->notification->validate()) {
@@ -867,8 +881,8 @@ class ilCalendarAppointmentGUI
         $entry = new ilCalendarEntry($app_id);
         $recs = ilCalendarRecurrences::_getRecurrences($app_id);
         if (
-            !count($recs) &&
-            !$this->app->isMilestone()
+            !count($recs) ||
+            $this->app->isMilestone()
         ) {
             $confirm = new ilConfirmationGUI();
             $confirm->setFormAction($this->ctrl->getFormAction($this));
@@ -905,9 +919,7 @@ class ilCalendarAppointmentGUI
             $app_id = (int) $app_id;
             $app = new ilCalendarEntry($app_id);
             $app->delete();
-
             ilCalendarCategoryAssignments::_deleteByAppointmentId($app_id);
-
             ilCalendarUserNotification::deleteCalendarEntry($app_id);
         }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_deleted_app'), true);
@@ -1042,7 +1054,7 @@ class ilCalendarAppointmentGUI
     {
         $this->notification->setRecipients(array());
         $map = [];
-        foreach ($form->getInput('notu') as $rcp) {
+        foreach ((array) $form->getInput('notu') as $rcp) {
             $rcp = trim($rcp);
             $usr_id = (int) ilObjUser::_loginExists($rcp);
             if ($rcp === '') {
@@ -1069,7 +1081,11 @@ class ilCalendarAppointmentGUI
 
     protected function loadRecurrenceSettings(ilPropertyFormGUI $form, bool $a_as_milestone = false): void
     {
-        $this->rec = $form->getItemByPostVar('frequence')->getRecurrence();
+        if ($form->getItemByPostVar('frequence') instanceof ilRecurrenceInputGUI) {
+            $this->rec = $form->getItemByPostVar('frequence')->getRecurrence();
+        } else {
+            $this->rec = new ilCalendarRecurrence();
+        }
     }
 
     protected function saveRecurrenceSettings(): void

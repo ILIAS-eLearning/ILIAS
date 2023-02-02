@@ -1,19 +1,23 @@
 <?php
 
 declare(strict_types=1);
-/******************************************************************************
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * SAX based XML parser for record import files
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -337,7 +341,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
 
             case self::MODE_INSERT:
                 // set local context
-                if (is_array($this->context)) {
+                if (isset($this->context) && is_array($this->context)) {
                     $this->getCurrentRecord()->setParentObject($this->context["obj_id"]);
                     $this->getCurrentRecord()->setAssignedObjectTypes(array(
                         array(

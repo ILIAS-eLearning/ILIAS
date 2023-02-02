@@ -31,6 +31,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
     protected ilWorkspaceAccessHandler $ws_access;
     protected ContextServices $tool_context;
     protected ilPortfolioDeclarationOfAuthorship $declaration_authorship;
+    protected \ILIAS\Skill\Service\SkillPersonalService $skill_personal_service;
 
     public function __construct(int $a_id = 0)
     {
@@ -51,6 +52,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
         $this->ctrl->saveParameter($this, "exc_back_ref_id");
         $this->notes_gui = $DIC->notes()->gui();
+        $this->skill_personal_service = $DIC->skills()->personal();
     }
 
     public function getType(): string
@@ -818,7 +820,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
         $has_form_content = false;
 
-        $pskills = array_keys(ilPersonalSkill::getSelectedUserSkills($ilUser->getId()));
+        $pskills = array_keys($this->skill_personal_service->getSelectedUserSkills($ilUser->getId()));
         $skill_ids = array();
 
         foreach (ilPortfolioTemplatePage::getAllPortfolioPages($a_prtt_id) as $page) {
@@ -1045,7 +1047,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
             }
 
             //skills manipulation
-            $pskills = array_keys(ilPersonalSkill::getSelectedUserSkills($ilUser->getId()));
+            $pskills = array_keys($this->skill_personal_service->getSelectedUserSkills($ilUser->getId()));
             $skill_ids = array();
 
             $recipe = array();

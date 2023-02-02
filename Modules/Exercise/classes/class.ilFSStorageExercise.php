@@ -231,7 +231,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
                     $savepath . "/" . $prefix . "_" . $filename
                 );
             } else {
-                rename(
+                ilFileUtils::rename(
                     $a_http_post_file['tmp_name'],
                     $savepath . "/" . $prefix . "_" . $filename
                 );
@@ -256,6 +256,10 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
     ): array {
         $files = array();
 
+        if ($a_user_id === "t") {   // team assignment without team, see #36253
+            return[];
+        }
+
         $dir = $this->getFeedbackPath($a_user_id);
         if (is_dir($dir)) {
             $dp = opendir($dir);
@@ -265,7 +269,6 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
                 }
             }
         }
-
         return $files;
     }
 

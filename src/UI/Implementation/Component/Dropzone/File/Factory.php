@@ -28,17 +28,20 @@ use ILIAS\UI\Component\Input\Factory as InputFactory;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Component\Input\Field\Input;
 use ilLanguage;
+use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 class Factory implements FactoryInterface
 {
+    protected SignalGeneratorInterface $signal_generator;
     protected UploadLimitResolver $upload_limit_resolver;
     protected InputFactory $factory;
     protected ilLanguage $language;
 
     public function __construct(
+        SignalGeneratorInterface $signal_generator,
         UploadLimitResolver $upload_limit_resolver,
         InputFactory $factory,
         ilLanguage $language
@@ -46,6 +49,7 @@ class Factory implements FactoryInterface
         $this->upload_limit_resolver = $upload_limit_resolver;
         $this->factory = $factory;
         $this->language = $language;
+        $this->signal_generator = $signal_generator;
     }
 
     public function standard(
@@ -73,6 +77,7 @@ class Factory implements FactoryInterface
         ?Input $metadata_input = null
     ): WrapperInterface {
         return new Wrapper(
+            $this->signal_generator,
             $this->factory,
             $this->language,
             $this->upload_limit_resolver,

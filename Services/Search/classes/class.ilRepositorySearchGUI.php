@@ -18,6 +18,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Factory;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as RefineryFactory;
+
 /**
 * Class ilRepositorySearchGUI
 *
@@ -29,12 +34,6 @@ declare(strict_types=1);
 * @ilCtrl_Calls ilRepositorySearchGUI: ilFormPropertyDispatchGUI
 *
 */
-
-use ILIAS\UI\Renderer;
-use ILIAS\UI\Factory;
-use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\Refinery\Factory as RefineryFactory;
-
 class ilRepositorySearchGUI
 {
     private array $search_results = [];
@@ -527,7 +526,11 @@ class ilRepositorySearchGUI
 
     protected function showClipboard(): void
     {
-        $this->ctrl->setParameter($this, 'user_type', $this->initUserTypeFromQuery());
+        $user_type = $this->initUserTypeFromQuery();
+        if ($user_type === '') {
+            $user_type = $this->initUserTypeFromPost();
+        }
+        $this->ctrl->setParameter($this, 'user_type', $user_type);
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget(
             $this->lng->txt('back'),
@@ -545,7 +548,11 @@ class ilRepositorySearchGUI
 
     protected function addFromClipboard(): void
     {
-        $this->ctrl->setParameter($this, 'user_type', $this->initUserTypeFromPost());
+        $user_type = $this->initUserTypeFromPost();
+        if ($user_type === '') {
+            $user_type = $this->initUserTypeFromQuery();
+        }
+        $this->ctrl->setParameter($this, 'user_type', $user_type);
 
         $users = [];
         if ($this->http->wrapper()->post()->has('uids')) {
@@ -562,8 +569,6 @@ class ilRepositorySearchGUI
         }
         $class = $this->callback['class'];
         $method = $this->callback['method'];
-        $user_type = $this->initUserTypeFromPost();
-
         if (!$class->$method($users, $user_type)) {
             $this->ctrl->returnToParent($this);
         }
@@ -613,9 +618,22 @@ class ilRepositorySearchGUI
         $class = $this->callback['class'];
         $method = $this->callback['method'];
 
-        $post_selected_command = (string) ($this->http->request()->getParsedBody()['selectedCommand'] ?? '');
         $post_user = (array) ($this->http->request()->getParsedBody()['user'] ?? []);
-
+        $post_selected_command = '';
+        if (
+            $this->http->wrapper()->post()->has('table_top_cmd') &&
+            $this->http->wrapper()->post()->has('selectedCommand_2')
+        ) {
+            $post_selected_command = $this->http->wrapper()->post()->retrieve(
+                'selectedCommand_2',
+                $this->refinery->kindlyTo()->string()
+            );
+        } elseif ($this->http->wrapper()->post()->has('selectedCommand')) {
+            $post_selected_command = $this->http->wrapper()->post()->retrieve(
+                'selectedCommand',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
         // Redirects if everything is ok
         if (!$class->$method($post_user, $post_selected_command)) {
             $this->showSearchResults();
@@ -653,17 +671,15 @@ class ilRepositorySearchGUI
     public function showSearchSelected(): void
     {
         $selected = [];
-        if ($this->http->wrapper()->post()->has('selected_id')) {
-            $selected = $this->http->wrapper()->post()->retrieve(
+        if ($this->http->wrapper()->query()->has('selected_id')) {
+            $selected = $this->http->wrapper()->query()->retrieve(
                 'selected_id',
-                $this->refinery->kindlyTo()->dictOf(
-                    $this->refinery->kindlyTo()->int()
-                )
+                $this->refinery->kindlyTo()->int()
             );
         }
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.rep_search_result.html', 'Services/Search');
         $this->addNewSearchButton();
-        $this->showSearchUserTable(array($selected), 'showSearchResults');
+        $this->showSearchUserTable([$selected], 'showSearchResults');
     }
 
     public function initFormSearch(ilObjUser $user = null): void
@@ -814,10 +830,12 @@ class ilRepositorySearchGUI
 
         $post_rep_query = (array) ($this->http->request()->getParsedBody()['rep_query'] ?? []);
         $post_search_for = (string) ($this->http->request()->getParsedBody()['search_for'] ?? '');
-        foreach ((array) $post_rep_query[$post_search_for] as $field => $value) {
-            if (trim(ilUtil::stripSlashes($value))) {
-                $found_query = true;
-                break;
+        if (isset($post_rep_query[$post_search_for])) {
+            foreach ((array) $post_rep_query[$post_search_for] as $field => $value) {
+                if (trim(ilUtil::stripSlashes($value))) {
+                    $found_query = true;
+                    break;
+                }
             }
         }
         if ($this->http->wrapper()->post()->has('rep_query_orgu')) {
@@ -855,7 +873,7 @@ class ilRepositorySearchGUI
                 $post_rep_query_orgu = (array) ($this->http->request()->getParsedBody()['rep_query_orgu'] ?? []);
                 $selected_objects = array_map(
                     function ($ref_id) {
-                        return ilObject::_lookupObjId($ref_id);
+                        return ilObject::_lookupObjId((int) $ref_id);
                     },
                     $post_rep_query_orgu
                 );

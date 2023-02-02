@@ -36,9 +36,9 @@ class ilDclRecordListTableGUI extends ilTable2GUI
      * @var ilDclBaseRecordModel[]
      */
     protected array $object_data;
-    protected array $numeric_fields = array();
-    protected array $filter = array();
-    protected int $mode;
+    protected array $numeric_fields = [];
+    protected array $filter = [];
+    protected string $mode;
     protected int $userId;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
@@ -48,7 +48,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         string $a_parent_cmd,
         ilDclTable $table,
         int $tableview_id,
-        int $mode = ilDclRecordListGUI::MODE_VIEW
+        string $mode = ilDclRecordListGUI::MODE_VIEW
     ) {
         global $DIC;
         $this->ctrl = $DIC->ctrl();
@@ -78,7 +78,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             $this->addColumn("", "_front", '15px');
         }
 
-        $this->numeric_fields = array();
+        $this->numeric_fields = [];
         foreach ($this->tableview->getVisibleFields() as $field) {
             $title = $field->getTitle();
             $sort_field = ($field->getRecordQuerySortObject() != null) ? $field->getSortField() : '';
@@ -86,14 +86,12 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             if ($field->hasNumericSorting()) {
                 $this->numeric_fields[] = $title;
             }
-
             $this->addColumn($title, $sort_field);
 
             if ($field->hasProperty(ilDclBaseFieldModel::PROP_LEARNING_PROGRESS)) {
                 $this->addColumn($this->lng->txt("dcl_status"), "_status_" . $field->getTitle());
             }
         }
-        $this->addColumn($this->lng->txt("actions"), "", "30px");
         $this->setTopCommands(true);
         $this->setEnableHeader(true);
         $this->setShowRowsSelector(true);
@@ -122,7 +120,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             $this->parent_obj->getRefId(),
             $this->table->getId()
         ))) {
-            $this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_EXCEL_ASYNC));
+            $this->setExportFormats([self::EXPORT_EXCEL, self::EXPORT_EXCEL_ASYNC]);
         }
 
         $this->ctrl->saveParameter($a_parent_obj, 'tableview_id');
@@ -142,6 +140,14 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     {
         $this->object_data = $data;
         $this->buildData();
+        $this->addActionRowIfNeeded();
+    }
+
+    protected function addActionRowIfNeeded(): void
+    {
+        if ($this->needsActionRow()) {
+            $this->addColumn($this->lng->txt("actions"), "", "30px");
+        }
     }
 
     public function numericOrdering(string $a_field): bool
@@ -154,15 +160,15 @@ class ilDclRecordListTableGUI extends ilTable2GUI
      */
     private function buildData(): void
     {
-        $data = array();
+        $data = [];
         foreach ($this->object_data as $record) {
-            $record_data = array();
+            $record_data = [];
             $record_data["_front"] = null;
             $record_data['_record'] = $record;
 
             foreach ($this->tableview->getVisibleFields() as $field) {
                 $title = $field->getTitle();
-                $record_data[$title] = $record->getRecordFieldHTML($field->getId());
+                $record_data[$title] = $record->getRecordFieldHTML($field->getId(), ['tableview_id' => $this->tableview->getId()]);
 
                 // Additional column filled in ::fillRow() method, showing the learning progress
                 if ($field->getProperty(ilDclBaseFieldModel::PROP_LEARNING_PROGRESS)) {
@@ -271,7 +277,12 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             );
             $this->tpl->parseCurrentBlock();
         }
-        $this->tpl->setVariable("ACTIONS", $a_set["_actions"]);
+
+        if (strlen($a_set["_actions"]) > 0) {
+            $this->tpl->setCurrentBlock('actions');
+            $this->tpl->setVariable("ACTIONS", $a_set["_actions"]);
+            $this->tpl->parseCurrentBlock();
+        }
 
         if ($this->mode == ilDclRecordListGUI::MODE_MANAGE) {
             if ($record_obj->hasPermissionToDelete($this->parent_obj->getRefId())) {
@@ -282,6 +293,23 @@ class ilDclRecordListTableGUI extends ilTable2GUI
                 $this->tpl->touchBlock('mode_manage_no_owner');
             }
         }
+    }
+
+    protected function needsActionRow(): bool
+    {
+        if ($this->table->getPublicCommentsEnabled() ||
+            ilDclDetailedViewDefinition::isActive($this->tableview->getId())) {
+            return true;
+        }
+
+        foreach ($this->object_data as $record) {
+            if ($record->hasPermissionToEdit($this->parent_obj->getRefId()) ||
+                $record->hasPermissionToDelete($this->parent_obj->getRefId())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -320,7 +348,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             if (!$field_set->isFilterChangeable()) {
                 $filter->setDisabled(true);
                 if ($filter instanceof ilCombinationInputGUI) {
-                    $filter->__call('setDisabled', array(true));
+                    $filter->__call('setDisabled', [true]);
                 }
             }
         }
@@ -345,7 +373,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
 
                 $filter->setDisabled(true);
                 if ($filter instanceof ilCombinationInputGUI) {
-                    $filter->__call('setDisabled', array(true));
+                    $filter->__call('setDisabled', [true]);
                 }
             }
 
@@ -394,7 +422,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
      * Exports the table
      */
     public function exportData(
-        string $format,
+        int $format,
         bool $send = false
     ): void {
         if ($this->dataExists()) {

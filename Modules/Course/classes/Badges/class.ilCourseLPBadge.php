@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -25,7 +28,7 @@ class ilCourseLPBadge implements ilBadgeType, ilBadgeAuto
 {
     public function getId(): string
     {
-        return "course_lp";
+        return 'course_lp';
     }
 
     public function getCaption(): string
@@ -33,7 +36,7 @@ class ilCourseLPBadge implements ilBadgeType, ilBadgeAuto
         global $DIC;
 
         $lng = $DIC['lng'];
-        return $lng->txt("badge_course_lp");
+        return $lng->txt('badge_course_lp');
     }
 
     public function isSingleton(): bool
@@ -46,7 +49,7 @@ class ilCourseLPBadge implements ilBadgeType, ilBadgeAuto
      */
     public function getValidObjectTypes(): array
     {
-        return ["crs"];
+        return ['crs'];
     }
 
     public function getConfigGUIInstance(): ?ilBadgeTypeGUI
@@ -54,25 +57,30 @@ class ilCourseLPBadge implements ilBadgeType, ilBadgeAuto
         return new ilCourseLPBadgeGUI();
     }
 
-    public function evaluate(int $a_user_id, array $a_params, array $a_config): bool
+    public function evaluate(int $a_user_id, array $a_params, ?array $a_config): bool
     {
-        $subitem_obj_ids = array();
-        foreach ($a_config["subitems"] as $ref_id) {
-            $subitem_obj_ids[$ref_id] = ilObject::_lookupObjId($ref_id);
+        $subitem_obj_ids = [];
+
+        if ($a_config !== null && isset($a_config['subitems'])) {
+            foreach ($a_config['subitems'] as $ref_id) {
+                $subitem_obj_ids[$ref_id] = ilObject::_lookupObjId((int) $ref_id);
+            }
         }
 
-        $trigger_subitem_id = $a_params["obj_id"];
+        $trigger_subitem_id = $a_params['obj_id'];
 
         // relevant for current badge instance?
         if (in_array($trigger_subitem_id, $subitem_obj_ids)) {
             $completed = true;
 
             // check if all subitems are completed now
-            foreach ($a_config["subitems"] as $subitem_id) {
-                $subitem_obj_id = $subitem_obj_ids[$subitem_id];
-                if (ilLPStatus::_lookupStatus($subitem_obj_id, $a_user_id) != ilLPStatus::LP_STATUS_COMPLETED_NUM) {
-                    $completed = false;
-                    break;
+            if ($a_config !== null && isset($a_config['subitems'])) {
+                foreach ($a_config['subitems'] as $subitem_id) {
+                    $subitem_obj_id = $subitem_obj_ids[$subitem_id];
+                    if (ilLPStatus::_lookupStatus($subitem_obj_id, $a_user_id) !== ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+                        $completed = false;
+                        break;
+                    }
                 }
             }
 

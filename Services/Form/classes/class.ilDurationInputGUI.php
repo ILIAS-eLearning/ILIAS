@@ -149,7 +149,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
 
     public function setValueByArray(array $a_values): void
     {
-        $values = $a_values[$this->getPostVar()];
+        $values = ($a_values[$this->getPostVar()] ?? []);
         $value_or_zero = fn ($part) => array_key_exists($part, $values ?? []) ? (int) $values[$part] : 0;
         $this->setMonths($value_or_zero("MM"));
         $this->setDays($value_or_zero("dd"));
@@ -349,5 +349,42 @@ class ilDurationInputGUI extends ilFormPropertyGUI
             $value += $this->getSeconds();
         }
         return $value;
+    }
+
+    public function getPostValueForComparison(): int
+    {
+        $values = $this->getInput();
+        $value_or_zero = fn ($part) => array_key_exists($part, $values ?? []) ? (int) $values[$part] : 0;
+        $value = 0;
+        if ($this->getShowMonths()) {
+            $value += $value_or_zero("MM") * 30 * 24 * 60 * 60;
+        }
+        if ($this->getShowDays()) {
+            $value += $value_or_zero("dd") * 24 * 60 * 60;
+        }
+        if ($this->getShowHours()) {
+            $value += $value_or_zero("hh") * 60 * 60;
+        }
+        if ($this->getShowMinutes()) {
+            $value += $value_or_zero("mm") * 60;
+        }
+        if ($this->getShowSeconds()) {
+            $value += $value_or_zero("ss");
+        }
+        return $value;
+    }
+
+    /**
+     * @return array{MM: int, dd: int, hh: int, mm: int, ss: int}
+     */
+    public function getValueAsArray(): array
+    {
+        return [
+            'MM' => $this->getMonths(),
+            'dd' => $this->getDays(),
+            'hh' => $this->getHours(),
+            'mm' => $this->getMinutes(),
+            'ss' => $this->getSeconds()
+        ];
     }
 }

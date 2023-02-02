@@ -176,8 +176,8 @@ class ilLMObjTranslation
         );
         while ($rec = $ilDB->fetchAssoc($set)) {
             $lmobjtrans = new ilLMObjTranslation($a_target_id, $rec["lang"]);
-            $lmobjtrans->setTitle($rec["title"]);
-            $lmobjtrans->setShortTitle($rec["short_title"]);
+            $lmobjtrans->setTitle((string) $rec["title"]);
+            $lmobjtrans->setShortTitle((string) $rec["short_title"]);
             $lmobjtrans->save();
         }
     }

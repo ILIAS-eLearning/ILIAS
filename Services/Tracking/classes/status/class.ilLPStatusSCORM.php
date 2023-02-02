@@ -171,9 +171,9 @@ class ilLPStatusSCORM extends ilLPStatus
         $status_info['failed'] = array();
         $status_info['in_progress'] = array();
         foreach ($status_info['scos'] as $sco_id) {
-            $status_info['completed'][$sco_id] = $info['completed'][$sco_id] ?: array();
-            $status_info['failed'][$sco_id] = $info['failed'][$sco_id] ?: array();
-            $status_info['in_progress'][$sco_id] = $info['in_progress'][$sco_id] ?: array();
+            $status_info['completed'][$sco_id] = $info['completed'][$sco_id] ?? array();
+            $status_info['failed'][$sco_id] = $info['failed'][$sco_id] ?? array();
+            $status_info['in_progress'][$sco_id] = $info['in_progress'][$sco_id] ?? array();
         }
         //var_dump($status_info["completed"]);
         return $status_info;

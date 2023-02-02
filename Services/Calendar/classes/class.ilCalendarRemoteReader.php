@@ -1,7 +1,22 @@
 <?php
 
 declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Reader for remote ical calendars
@@ -92,6 +107,9 @@ class ilCalendarRemoteReader
         $parser->parse();
     }
 
+    /**
+     * @throws ilCurlConnectionException
+     */
     protected function initCurl(): void
     {
         try {
@@ -116,7 +134,7 @@ class ilCalendarRemoteReader
         }
     }
 
-    protected function replaceWebCalProtocol()
+    protected function replaceWebCalProtocol(): void
     {
         if (substr($this->getUrl(), 0, 6) == 'webcal') {
             $purged = preg_replace('/webcal/', 'http', $this->getUrl(), 1);
@@ -124,6 +142,9 @@ class ilCalendarRemoteReader
         }
     }
 
+    /**
+     * @throws ilCurlConnectionException
+     */
     private function call(): string
     {
         try {

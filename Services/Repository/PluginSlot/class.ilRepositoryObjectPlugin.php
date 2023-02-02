@@ -246,4 +246,10 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
     {
         return false;
     }
+
+    public function getPrefix(): string
+    {
+        $lh = $this->getLanguageHandler();
+        return $lh->getPrefix();
+    }
 }

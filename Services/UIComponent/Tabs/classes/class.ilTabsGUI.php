@@ -20,7 +20,7 @@
  * Tabs GUI
  * @author Alexander Killing <killing@leifos.de>
  *
- * @deprecated 11
+ * @deprecated 10
  */
 class ilTabsGUI
 {
@@ -482,9 +482,10 @@ class ilTabsGUI
             }
 
             if ($a_get_sub_tabs) {
-                $tpl->setVariable("TXT_SUBTABS", $lng->txt("subtabs"));
+                $tpl->setVariable("TXT_SUBTABS", $this->getTabTextOfId($this->getActiveTab()) . ": " . $lng->txt("subtabs"));
             } else {
                 $tpl->setVariable("TXT_TABS", $lng->txt("tabs"));
+                $tpl->setVariable("LAST_TAB_LABEL", $lng->txt("show_more"));
 
                 // non tabbed links
                 foreach ($this->non_tabbed_link as $link) {
@@ -520,10 +521,24 @@ class ilTabsGUI
         }
     }
 
+    protected function getTabTextOfId(string $id): string
+    {
+        foreach ($this->target as $i => $target) {
+            if ($this->target[$i]['id'] == $id) {
+                if ($target["dir_text"]) {
+                    return $target["text"];
+                } else {
+                    return $this->lng->txt($target["text"]);
+                }
+            }
+        }
+        return "";
+    }
+
     public function getActiveTab(): string
     {
         foreach ($this->target as $i => $target) {
-            if ($this->target[$i]['activate']) {
+            if ($this->target[$i]['activate'] ?? null) {
                 return $this->target[$i]['id'];
             }
         }

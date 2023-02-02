@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 26.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- Generator: Adobe Illustrator 26.5.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 320 320" style="enable-background:new 0 0 320 320;" xml:space="preserve">
 <style type="text/css">
-	.st0{clip-path:url(#SVGID_00000121266534627930112560000016107601435523194556_);fill:#52658B;}
+	.st0{clip-path:url(#SVGID_00000145751378736584812240000018380363210275351472_);fill:#4C6586;}
 </style>
 <g>
-	<defs>
-		<rect id="SVGID_1_" width="320" height="320"/>
-	</defs>
-	<clipPath id="SVGID_00000157277470659291094420000013954812082563660450_">
-		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
-	</clipPath>
-	<path style="clip-path:url(#SVGID_00000157277470659291094420000013954812082563660450_);fill:#52658B;" d="M285,245H95V125h190
-		V245z M148.9,109.1H84.3c0,0-4.3,0-4.3,4.3v83.3H35V85h50V35h63.9V109.1z M300,257.6V113.5c0,0,0-4.3-4.3-4.3H163.9V25
-		c0-2.8-2.2-5-5-5H90H79.8H75c-2.8,0-6.6,1.6-8.5,3.5L23.5,66.5c-2,2-3.5,5.8-3.5,8.5v7.7V90v116.7c0,2.8,2.2,5,5,5h55v45.9
-		c0,0,0,4.3,4.3,4.3h88.4v13.4l-19.4,10V300h73.3v-14.7l-19.4-10v-13.4h88.4C295.7,261.9,300,261.9,300,257.6"/>
+	<g>
+		<defs>
+			<rect id="SVGID_1_" width="320" height="320"/>
+		</defs>
+		<clipPath id="SVGID_00000050659942704573925450000003148773535774029739_">
+			<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+		</clipPath>
+		<path style="clip-path:url(#SVGID_00000050659942704573925450000003148773535774029739_);fill:#4C6586;" d="M285,245H95V125h190
+			V245z M148.9,109.1H84.3c0,0-4.3,0-4.3,4.3v83.3H35V85h50V35h63.9V109.1z M300,257.6V113.5c0,0,0-4.3-4.3-4.3H163.9V25
+			c0-2.8-2.2-5-5-5H90H79.8H75c-2.8,0-6.6,1.6-8.5,3.5l-43,43c-2,2-3.5,5.8-3.5,8.5v7.7V90v116.7c0,2.8,2.2,5,5,5h55v45.9
+			c0,0,0,4.3,4.3,4.3h88.4v13.4l-19.4,10V300h73.3v-14.7l-19.4-10v-13.4h88.4C295.7,261.9,300,261.9,300,257.6"/>
+	</g>
 </g>
 </svg>

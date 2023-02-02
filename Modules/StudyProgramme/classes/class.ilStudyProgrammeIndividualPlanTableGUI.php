@@ -26,19 +26,15 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
 
     protected ilDBInterface $db;
 
-    protected ilStudyProgrammeAssignment $assignment;
-    protected ilStudyProgrammeProgressRepository $sp_user_progress_db;
+    protected ilPRGAssignment $assignment;
     protected string $possible_image;
     protected string $not_possible_image;
 
     public function __construct(
         ilObjStudyProgrammeIndividualPlanGUI $parent_obj,
-        ilStudyProgrammeAssignment $ass,
-        ilStudyProgrammeProgressRepository $sp_user_progress_db
+        ilPRGAssignment $ass
     ) {
         $this->setId("manage_indiv");
-
-        $this->sp_user_progress_db = $sp_user_progress_db;
 
         parent::__construct($parent_obj, 'manage');
 
@@ -87,8 +83,14 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
         $this->determineLimit();
         $this->determineOffsetAndOrder();
 
-        $this->possible_image = "<img src='" . ilUtil::getImagePath("icon_ok.svg") . "' alt='ok'>";
-        $this->not_possible_image = "<img src='" . ilUtil::getImagePath("icon_not_ok.svg") . "' alt='not ok'>";
+        $ui_factory = $DIC['ui.factory'];
+        $ui_renderer = $DIC['ui.renderer'];
+        $this->possible_image = $ui_renderer->render(
+            $ui_factory->symbol()->icon()->custom(ilUtil::getImagePath("icon_ok.svg"), 'ok')->withSize('small')
+        );
+        $this->not_possible_image = $ui_renderer->render(
+            $ui_factory->symbol()->icon()->custom(ilUtil::getImagePath("icon_not_ok.svg"), 'not ok')->withSize('small')
+        );
     }
 
     protected function fillRow(array $a_set): void
@@ -106,7 +108,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
         $this->tpl->setVariable("POINTS_CURRENT", $a_set["points_current"]);
         $this->tpl->setVariable(
             "POINTS_REQUIRED",
-            $this->getRequiredPointsInput($a_set["progress_id"], $a_set["status"], $a_set["points_required"])
+            $this->getRequiredPointsInput($a_set["progress_id"], $a_set["status"], (string)$a_set["points_required"])
         );
         $this->tpl->setVariable("MANUAL_STATUS", $this->getManualStatusSelect(
             $a_set["progress_id"],
@@ -156,11 +158,12 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
         $prg = ilObjStudyProgramme::getInstanceByObjId($prg_id);
 
         $ass_id = $this->assignment->getId();
+        $usr_id = $this->assignment->getUserId();
         $plan = array();
 
         $prg->applyToSubTreeNodes(
-            function ($node) use ($ass_id, &$plan) {
-                $progress = $this->sp_user_progress_db->getByIds($node->getId(), $ass_id);
+            function ($node) use ($prg_id, $ass_id, $usr_id, &$plan, $prg) {
+                $progress = $this->assignment->getProgressForNode($node->getId());
                 $completion_by_id = $progress->getCompletionBy();
 
                 if ($completion_by_id) {
@@ -176,8 +179,9 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
                 } else {
                     $completion_by = '';
                     if ($progress->isSuccessful()) {
-                        $names = $node->getNamesOfCompletedOrAccreditedChildren($ass_id);
-                        $completion_by = implode(", ", $names);
+                        if ($progress->getCompletionBy()) {
+                            $completion_by = ilStudyProgrammeUserTable::lookupTitle($progress->getCompletionBy());
+                        }
                     }
                 }
 
@@ -209,13 +213,13 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
         $parent = $this->getParentObject();
         $options = [
             $parent::MANUAL_STATUS_NONE => '-',
-            ilStudyProgrammeProgress::STATUS_IN_PROGRESS => $this->lng->txt("prg_status_in_progress"),
-            ilStudyProgrammeProgress::STATUS_ACCREDITED => $this->lng->txt("prg_status_accredited"),
-            ilStudyProgrammeProgress::STATUS_NOT_RELEVANT => $this->lng->txt("prg_status_not_relevant")
+            ilPRGProgress::STATUS_IN_PROGRESS => $this->lng->txt("prg_status_in_progress"),
+            ilPRGProgress::STATUS_ACCREDITED => $this->lng->txt("prg_status_accredited"),
+            ilPRGProgress::STATUS_NOT_RELEVANT => $this->lng->txt("prg_status_not_relevant")
             //COMPLETED/FAILED are not to be set manually.
         ];
 
-        $allowed = ilStudyProgrammeProgress::getAllowedTargetStatusFor($status);
+        $allowed = ilPRGProgress::getAllowedTargetStatusFor($status);
 
         $options = array_filter(
             $options,
@@ -234,7 +238,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
 
     protected function getRequiredPointsInput(string $progress_id, int $status, string $points_required): string
     {
-        if ($status !== ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
+        if ($status != ilPRGProgress::STATUS_IN_PROGRESS) {
             return $points_required;
         }
 

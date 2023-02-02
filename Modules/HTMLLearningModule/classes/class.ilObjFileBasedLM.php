@@ -145,8 +145,8 @@ class ilObjFileBasedLM extends ilObject
         string $a_filename = ""
     ): void {
         preg_match("/.*htlm_([0-9]*)\.zip/", $a_filename, $match);
-        if (is_dir($a_dir . "/htlm_" . $match[1])) {
-            $a_dir .= "/htlm_" . $match[1];
+        if (is_dir($a_dir . "/htlm_" . ($match[1] ?? ""))) {
+            $a_dir .= "/htlm_" . ($match[1] ?? "");
         }
         ilFileUtils::rCopy($a_dir, $this->getDataDirectory());
         ilFileUtils::renameExecutables($this->getDataDirectory());

@@ -23,6 +23,7 @@ namespace ILIAS\UI\Component\Dropzone\File;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Component\Input\Field\FileUpload;
 use ILIAS\UI\Component\Droppable;
+use ILIAS\UI\Component\Triggerable;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>

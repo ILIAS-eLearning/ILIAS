@@ -15,6 +15,7 @@ var ilDataCollection = (function () {
   var after_save = function (o) {
   };
 
+  var table_id;
   var strings = {};
 
   /**
@@ -26,7 +27,7 @@ var ilDataCollection = (function () {
   var showEditRecordOverlay = function (record_id, after_save) {
     var callback = {
       success: function (o) {
-        showRightPanel(o.responseText);
+        showModal(o.responseText);
       },
       failure: handleAjaxFailure
     };
@@ -44,11 +45,12 @@ var ilDataCollection = (function () {
   var showCreateRecordOverlay = function (table_id, after_save) {
     var callback = {
       success: function (o) {
-        showRightPanel(o.responseText);
+        showModal(o.responseText);
       },
       failure: handleAjaxFailure
     };
     il.Overlay.hideAllOverlays(window.event, true);
+    this.table_id = table_id;
     YAHOO.util.Connect.asyncRequest('GET', this.create_url + '&table_id=' + table_id, callback);
     if (typeof after_save != 'undefined') this.after_save = after_save;
   };
@@ -62,15 +64,14 @@ var ilDataCollection = (function () {
   var saveRecordData = function (data, callback_function) {
     var callback = {
       success: function (o) {
-        showRightPanel(o.responseText);
+        showModal(o.responseText);
         if (typeof callback_function != 'undefined') callback_function(o);
         ilDataCollection.after_save(o);
-        ilDataCollection.after_save = function (o) {
-        };
+        ilDataCollection.after_save = function (o) {};
       },
       failure: handleAjaxFailure
     };
-    YAHOO.util.Connect.asyncRequest('POST', this.save_url, callback, data);
+    YAHOO.util.Connect.asyncRequest('POST', this.save_url+ '&table_id=' + this.table_id, callback, data);
   };
 
   /**
@@ -79,17 +80,17 @@ var ilDataCollection = (function () {
    * @param record_id
    * @param callback_function Callback function executed on success
    */
-  var getRecordData = function (record_id, callback_function) {
+  var getRecordData = function (record_id, table_id, callback_function) {
     var callback = {
       success: function (o) {
         if (typeof callback_function != 'undefined') callback_function(o);
       },
       failure: handleAjaxFailureJSON
     };
-    YAHOO.util.Connect.asyncRequest('GET', this.data_url + '&record_id=' + record_id, callback);
+    YAHOO.util.Connect.asyncRequest('GET', this.data_url + '&record_id=' + record_id + '&table_id=' + table_id, callback);
   };
 
-  var showRightPanel = function (html) {
+  var showModal = function (html) {
     il.UICore.showRightPanel();
     il.UICore.setRightPanelContent(html);
   };
@@ -102,7 +103,7 @@ var ilDataCollection = (function () {
 
   var handleAjaxFailureJSON = function (o) {
     il.UICore.showRightPanel();
-    il.UICore.setRightPanelContent('Ajax failure');
+    il.UICore.setRightPanelContent('Ajax failure JSON');
     console.log(o);
   };
 

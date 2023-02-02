@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generator: Adobe Illustrator 26.5.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="22px" height="22px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+	 viewBox="0 0 320 320" style="enable-background:new 0 0 320 320;" xml:space="preserve">
+<style type="text/css">
+	.st0{clip-path:url(#SVGID_00000103958977634537362150000012380564568999823767_);fill:#4C6586;}
+</style>
 <g>
-	<defs>
-		<circle id="SVGID_1_" cx="16" cy="16" r="14"/>
-	</defs>
-	<clipPath id="SVGID_2_">
-		<use xlink:href="#SVGID_1_"  overflow="visible"/>
-	</clipPath>
-	
-		<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="1.0357" y1="33.6071" x2="2.0357" y2="33.6071" gradientTransform="matrix(28 0 0 -28 -27 957)">
-		<stop  offset="0" style="stop-color:#2F5A28"/>
-		<stop  offset="1.983430e-02" style="stop-color:#2F5A28"/>
-		<stop  offset="0.2094" style="stop-color:#2F5A28"/>
-		<stop  offset="0.5166" style="stop-color:#2F5A28"/>
-		<stop  offset="0.79" style="stop-color:#2F5A28"/>
-		<stop  offset="1" style="stop-color:#2F5A28"/>
-	</linearGradient>
-	<rect x="2" y="2" clip-path="url(#SVGID_2_)" fill="url(#SVGID_3_)" width="28" height="28"/>
+	<g>
+		<defs>
+			<rect id="SVGID_1_" width="320" height="320"/>
+		</defs>
+		<clipPath id="SVGID_00000057132817209577457540000011099399647937293727_">
+			<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+		</clipPath>
+		<path style="clip-path:url(#SVGID_00000057132817209577457540000011099399647937293727_);fill:#4C6586;" d="M149.9,235.9
+			l95.4-127.8L213.4,84l-70,92.9l-41.9-37.7L74.7,169l74.3,66.9l0,0H149.9z M285,160c0,69-56,125-125,125S35,229,35,160
+			S91,35,160,35S285,91,285,160 M300,160c0-77.3-62.7-140-140-140S20,82.7,20,160s62.7,140,140,140S300,237.3,300,160"/>
+	</g>
 </g>
-<polygon fill="#FFFFFF" points="25.5,11.2 22.3,8.8 15.3,18.1 11.2,14.3 8.5,17.3 15.9,24 15.9,24 16,24 "/>
 </svg>

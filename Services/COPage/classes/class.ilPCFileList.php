@@ -372,10 +372,12 @@ class ilPCFileList extends ilPageContent
         );
 
         foreach ($file_ids as $file_id) {
-            $file = new ilObjFile($file_id, false);
-            $usages = $file->getUsages();
-            if (count($usages) == 0) {
-                $file->delete();
+            if (ilObject::_lookupType($file_id) === "file") {
+                $file = new ilObjFile($file_id, false);
+                $usages = $file->getUsages();
+                if (count($usages) == 0) {
+                    $file->delete();
+                }
             }
         }
     }

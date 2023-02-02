@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilObjForum
  * @author  Wolfgang Merkens <wmerkens@databay.de>
@@ -25,14 +25,12 @@ declare(strict_types=1);
  */
 class ilObjForum extends ilObject
 {
-    public const NEWS_NEW_CONSIDERATION_WEEKS = 8;
-
     public ilForum $Forum;
     /** @var array<int, int>  */
     private static array $obj_id_to_forum_id_cache = [];
     /** @var array<int, int>  */
     private static array $ref_id_to_forum_id_cache = [];
-    /** @var array<int, array{num_posts: int, num_unread_posts: int, num_new_posts: int}>  */
+    /** @var array<int, array{num_posts: int, num_unread_posts: int}>  */
     private static array $forum_statistics_cache = [];
     /** @var array<int, array|null>  */
     private static array $forum_last_post_cache = [];
@@ -50,13 +48,6 @@ class ilObjForum extends ilObject
         $this->logger = $DIC->logger()->root();
 
         $settings = $DIC->settings();
-        $weeks = self::NEWS_NEW_CONSIDERATION_WEEKS;
-        if ($settings->get('frm_store_new')) {
-            $weeks = (int) $settings->get('frm_store_new');
-        }
-        $new_deadline = time() - 60 * 60 * 24 * 7 * $weeks;
-        $settings->set('frm_new_deadline', (string) $new_deadline);
-
         $this->Forum = new ilForum();
     }
 
@@ -251,66 +242,6 @@ class ilObjForum extends ilObject
         return (bool) $this->db->numRows($res);
     }
 
-    public function updateLastAccess(int $a_usr_id, int $a_thread_id): void
-    {
-        $res = $this->db->queryF(
-            'SELECT * FROM frm_thread_access WHERE usr_id = %s AND obj_id = %s AND thread_id = %s',
-            ['integer', 'integer', 'integer'],
-            [$a_usr_id, $this->getId(), $a_thread_id]
-        );
-        $data = $this->db->fetchAssoc($res);
-
-        if (is_array($data)) {
-            $this->db->replace(
-                'frm_thread_access',
-                [
-                    'usr_id' => ['integer', $a_usr_id],
-                    'obj_id' => ['integer', $this->getId()],
-                    'thread_id' => ['integer', $a_thread_id]
-                ],
-                [
-                    'access_last' => ['integer', time()],
-                    'access_old' => ['integer', (int) ($data['access_old'] ?? 0)],
-                    'access_old_ts' => ['timestamp', $data['access_old_ts']]
-                ]
-            );
-        }
-    }
-
-    public static function _updateOldAccess(int $a_usr_id): void
-    {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $ilDB->manipulateF(
-            'UPDATE frm_thread_access SET access_old = access_last WHERE usr_id = %s',
-            ['integer'],
-            [$a_usr_id]
-        );
-
-        $res = $ilDB->query(
-            'SELECT * FROM frm_thread_access WHERE usr_id = ' . $ilDB->quote($a_usr_id, 'integer')
-        );
-        while ($row = $ilDB->fetchAssoc($res)) {
-            $ilDB->manipulate(
-                "UPDATE frm_thread_access SET " .
-                " access_old_ts = " . $ilDB->quote(date('Y-m-d H:i:s', (int) $row["access_old"]), "timestamp") .
-                " WHERE usr_id = " . $ilDB->quote((int) $row["usr_id"], "integer") .
-                " AND obj_id = " . $ilDB->quote((int) $row["obj_id"], "integer") .
-                " AND thread_id = " . $ilDB->quote((int) $row["thread_id"], "integer")
-            );
-        }
-
-        $weeks = self::NEWS_NEW_CONSIDERATION_WEEKS;
-        if ($DIC->settings()->get('frm_store_new')) {
-            $weeks = (int) $DIC->settings()->get('frm_store_new');
-        }
-        $new_deadline = time() - 60 * 60 * 24 * 7 * $weeks;
-
-        $ilDB->manipulateF('DELETE FROM frm_thread_access WHERE access_last < %s', ['integer'], [$new_deadline]);
-    }
-
     public static function _deleteUser(int $a_usr_id): void
     {
         global $DIC;
@@ -318,7 +249,6 @@ class ilObjForum extends ilObject
         $data = [$a_usr_id];
 
         $DIC->database()->manipulateF('DELETE FROM frm_user_read WHERE usr_id = %s', ['integer'], $data);
-        $DIC->database()->manipulateF('DELETE FROM frm_thread_access WHERE usr_id = %s', ['integer'], $data);
         $DIC->database()->manipulateF('DELETE FROM frm_notification WHERE user_id = %s', ['integer'], $data);
     }
 
@@ -327,13 +257,6 @@ class ilObjForum extends ilObject
         global $DIC;
 
         $DIC->database()->manipulateF('DELETE FROM frm_user_read WHERE post_id = %s', ['integer'], [$a_post_id]);
-    }
-
-    public static function _deleteAccessEntries(int $a_thread_id): void
-    {
-        global $DIC;
-
-        $DIC->database()->manipulateF('DELETE FROM frm_thread_access WHERE thread_id = %s', ['integer'], [$a_thread_id]);
     }
 
     public function updateMoficationUserId(int $usr_id): void
@@ -434,7 +357,7 @@ class ilObjForum extends ilObject
                 (bool) ($old_thread->getNumPosts() - 1)
             );
 
-            $old_forum_files = new ilFileDataForum($this->getId(), $old_post_id);
+            $old_forum_files = new ilFileDataForum($this->getId(), $top_pos->getId());
             $old_forum_files->ilClone($new_obj->getId(), $newPostId);
         }
 
@@ -518,6 +441,8 @@ class ilObjForum extends ilObject
 
     public function delete(): bool
     {
+        $this->Forum->setForumId($this->getId());
+
         if (!parent::delete()) {
             return false;
         }
@@ -527,18 +452,31 @@ class ilObjForum extends ilObject
             $originalPageObject->delete();
         }
 
-        $tmp_file_obj = new ilFileDataForum($this->getId());
-        $tmp_file_obj->delete();
-
         $this->Forum->setMDB2WhereCondition('top_frm_fk = %s ', ['integer'], [$this->getId()]);
 
         $topData = $this->Forum->getOneTopic();
 
-        $threads = $this->Forum->getAllThreads($topData->getTopPk());
+        $threads = $this->Forum->getAllThreads($topData->getTopPk(), [
+            'is_moderator' => true,
+        ]);
         $thread_ids_to_delete = [];
         foreach ($threads['items'] as $thread) {
             $thread_ids_to_delete[$thread->getId()] = $thread->getId();
         }
+
+        // Get All posting IDs
+        $posting_ids = [];
+        $res = $this->db->query(
+            'SELECT pos_pk FROM frm_posts WHERE  '
+            . $this->db->in('pos_thr_fk', $thread_ids_to_delete)
+        );
+
+        while ($row = $res->fetchObject()) {
+            $posting_ids[] = (int)$row->pos_pk;
+        }
+
+        $tmp_file_obj = new ilFileDataForum($this->getId());
+        $tmp_file_obj->delete($posting_ids);
 
         $this->db->manipulate('DELETE FROM frm_posts_tree WHERE ' . $this->db->in(
             'thr_fk',
@@ -564,7 +502,6 @@ class ilObjForum extends ilObject
         $this->db->manipulateF('DELETE FROM frm_data WHERE top_frm_fk = %s', ['integer'], $obj_id);
         $this->db->manipulateF('DELETE FROM frm_settings WHERE obj_id = %s', ['integer'], $obj_id);
         $this->db->manipulateF('DELETE FROM frm_user_read WHERE obj_id = %s', ['integer'], $obj_id);
-        $this->db->manipulateF('DELETE FROM frm_thread_access WHERE obj_id = %s', ['integer'], $obj_id);
         $this->db->manipulate('DELETE FROM frm_notification WHERE ' . $this->db->in(
             'thread_id',
             $thread_ids_to_delete,
@@ -802,7 +739,7 @@ class ilObjForum extends ilObject
     }
 
     /**
-     * @return array{num_posts: int, num_unread_posts: int, num_new_posts: int}
+     * @return array{num_posts: int, num_unread_posts: int}
      */
     public static function lookupStatisticsByRefId(int $ref_id): array
     {
@@ -820,7 +757,6 @@ class ilObjForum extends ilObject
         $statistics = [
             'num_posts' => 0,
             'num_unread_posts' => 0,
-            'num_new_posts' => 0
         ];
 
         $forumId = self::lookupForumIdByRefId($ref_id);
@@ -841,11 +777,6 @@ class ilObjForum extends ilObject
             ) . ' OR frm_posts.pos_author_id = ' . $ilDB->quote($ilUser->getId(), 'integer') . ') ';
         }
 
-        $weeks = self::NEWS_NEW_CONSIDERATION_WEEKS;
-        if ($ilSetting->get('frm_store_new')) {
-            $weeks = (int) $ilSetting->get('frm_store_new');
-        }
-        $new_deadline = time() - 60 * 60 * 24 * 7 * $weeks;
 
         if (!$ilUser->isAnonymous()) {
             $query = "
@@ -872,39 +803,13 @@ class ilObjForum extends ilObject
             $types = ['integer', 'integer', 'integer'];
             $values = [$forumId, $ilUser->getId(), $forumId];
 
-            $forum_overview_setting = (int) ilSetting::_lookupValue('frma', 'forum_overview');
-            if ($forum_overview_setting === ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS) {
-                $news_types = ['integer', 'integer', 'integer', 'timestamp', 'integer'];
-                $news_values = [$ilUser->getId(), $ilUser->getId(), $forumId, $new_deadline, $ilUser->getId()];
-
-                $query .= " 
-				UNION ALL
-				
-				(SELECT COUNT(frm_posts.pos_pk) cnt
-				FROM frm_posts
-				INNER JOIN frm_posts_tree tree1
-					ON tree1.pos_fk = frm_posts.pos_pk
-					AND tree1.parent_pos != 0
-				LEFT JOIN frm_user_read ON (post_id = frm_posts.pos_pk AND frm_user_read.usr_id = %s)
-				LEFT JOIN frm_thread_access ON (frm_thread_access.thread_id = frm_posts.pos_thr_fk AND frm_thread_access.usr_id = %s)
-				WHERE frm_posts.pos_top_fk = %s
-				AND ( (frm_posts.pos_update > frm_thread_access.access_old_ts)
-						OR (frm_thread_access.access_old IS NULL AND frm_posts.pos_update > %s)
-					)
-				AND frm_posts.pos_author_id != %s 
-				AND frm_user_read.usr_id IS NULL $act_clause)";
-
-                $types = array_merge($types, $news_types);
-                $values = array_merge($values, $news_values);
-            }
-
             $mapping = array_keys($statistics);
             $res = $ilDB->queryF(
                 $query,
                 $types,
                 $values
             );
-            for ($i = 0; $i <= 2; $i++) {
+            for ($i = 0; $i < 2; $i++) {
                 $row = $ilDB->fetchAssoc($res);
 
                 $statistics[$mapping[$i]] = (int) ((is_array($row) ? $row['cnt'] : 0));
@@ -936,7 +841,6 @@ class ilObjForum extends ilObject
             $statistics = [
                 'num_posts' => (int) $row['cnt'],
                 'num_unread_posts' => (int) $row['cnt'],
-                'num_new_posts' => (int) $row['cnt']
             ];
         }
 

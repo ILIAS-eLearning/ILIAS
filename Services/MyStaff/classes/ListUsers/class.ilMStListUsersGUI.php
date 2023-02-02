@@ -135,7 +135,7 @@ class ilMStListUsersGUI
         $mst_lus_usr_id = $this->http->wrapper()->query()->retrieve('mst_lus_usr_id', $this->refinery->kindlyTo()->int());
 
         if ($mst_lus_usr_id > 0) {
-            exit;
+//            exit;
         }
 
         $selection = new ilAdvancedSelectionListGUI();

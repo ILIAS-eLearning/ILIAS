@@ -288,7 +288,8 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
     }
 
     public function fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress(
-        bool $isGlobalLpEnabled
+        bool $isGlobalLpEnabled,
+        ?int $forRefId = null
     ): array {
         $this->logger->debug(
             'START - Fetch all active course certificate templates with disabled learning progress: "%s"'
@@ -296,12 +297,18 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
 
         $joinLpSettings = '';
         $whereLpSettings = '';
+        $onSettingsForRefId = '';
+
         if ($isGlobalLpEnabled) {
             $joinLpSettings = 'LEFT JOIN ut_lp_settings uls ON uls.obj_id = od.obj_id';
             $whereLpSettings = sprintf(
                 'AND (uls.u_mode IS NULL OR uls.u_mode = %s)',
                 $this->database->quote(ilLPObjSettings::LP_MODE_DEACTIVATED, 'integer')
             );
+        }
+
+        if (is_int($forRefId)) {
+            $onSettingsForRefId = " AND settings.value IS NOT NULL AND (JSON_CONTAINS(settings.value, '\"{$forRefId}\"', '$') = 1 OR JSON_CONTAINS(settings.value, '{$forRefId}', '$')) ";
         }
 
         $sql = "
@@ -314,7 +321,7 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
                 ['od.obj_id', 'text']
             ],
             false
-        )} $joinLpSettings
+        )} $onSettingsForRefId $joinLpSettings
             WHERE il_cert_template.obj_type = %s
             AND il_cert_template.currently_active = %s
             " . $whereLpSettings;

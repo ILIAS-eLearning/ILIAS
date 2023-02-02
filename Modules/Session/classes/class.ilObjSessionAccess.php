@@ -31,7 +31,7 @@ class ilObjSessionAccess extends ilObjectAccess
     protected ilObjUser $user;
     protected static ?array $registrations = null;
     protected static ?array $registered = null;
-    protected static ?ilBookingReservationDBRepository $booking_repo = null;
+    protected static ?\ILIAS\BookingManager\Reservations\ReservationDBRepository $booking_repo = null;
 
     public function __construct()
     {
@@ -168,13 +168,17 @@ class ilObjSessionAccess extends ilObjectAccess
 
     public static function _preloadData($a_obj_ids, $a_ref_ids): void
     {
-        $f = new ilBookingReservationDBRepositoryFactory();
-        self::$booking_repo = $f->getRepoWithContextObjCache($a_obj_ids);
+        global $DIC;
+
+        self::$booking_repo = $DIC->bookingManager()
+            ->internal()
+            ->repo()
+            ->reservationWithContextObjCache($a_obj_ids);
     }
 
-    public static function getBookingInfoRepo(): ?ilBookingReservationDBRepository
+    public static function getBookingInfoRepo() : ?\ILIAS\BookingManager\Reservations\ReservationDBRepository
     {
-        if (self::$booking_repo instanceof ilBookingReservationDBRepository) {
+        if (self::$booking_repo instanceof \ILIAS\BookingManager\Reservations\ReservationDBRepository) {
             return self::$booking_repo;
         }
         return null;

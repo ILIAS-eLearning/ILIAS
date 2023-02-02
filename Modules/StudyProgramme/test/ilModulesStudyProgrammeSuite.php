@@ -31,9 +31,16 @@ class ilModulesStudyProgrammeSuite extends TestSuite
     {
         $suite = new ilModulesStudyProgrammeSuite();
 
-        // add each test class of the component
-        require_once("./Modules/StudyProgramme/test/model/Progress/ilStudyProgrammeProgressTest.php");
+        require_once("./Modules/StudyProgramme/test/model/Assignments/ilStudyProgrammeProgressTest.php");
         $suite->addTestSuite("ilStudyProgrammeProgressTest");
+        require_once("./Modules/StudyProgramme/test/model/Assignments/ilStudyProgrammeProgressIdTest.php");
+        $suite->addTestSuite("ilStudyProgrammeProgressIdTest");
+        require_once("./Modules/StudyProgramme/test/model/Assignments/ilStudyProgrammeProgressTreeTest.php");
+        $suite->addTestSuite("ilStudyProgrammeProgressTreeTest");
+        require_once("./Modules/StudyProgramme/test/model/Assignments/ilStudyProgrammeAssignmentTest.php");
+        $suite->addTestSuite("ilStudyProgrammeAssignmentTest");
+        require_once("./Modules/StudyProgramme/test/model/Assignments/ilStudyProgrammeAssignmentActionsTest.php");
+        $suite->addTestSuite("ilStudyProgrammeAssignmentActionsTest");
         require_once("./Modules/StudyProgramme/test/model/AutoCategories/ilStudyProgrammeAutoCategoryTest.php");
         $suite->addTestSuite("ilStudyProgrammeAutoCategoryTest");
         require_once("./Modules/StudyProgramme/test/model/AutoMemberships/ilStudyProgrammeAutoMembershipsSourceTest.php");
@@ -50,18 +57,18 @@ class ilModulesStudyProgrammeSuite extends TestSuite
         $suite->addTestSuite("ilStudyProgrammeTypeSettingsTest");
         require_once("./Modules/StudyProgramme/test/types/ilStudyProgrammeTypeInfoTest.php");
         $suite->addTestSuite("ilStudyProgrammeTypeInfoTest");
-        require_once("./Modules/StudyProgramme/test/ilStudyProgrammeDashGUITest.php");
-        $suite->addTestSuite("ilStudyProgrammeDashGUITest");
-        require_once("./Modules/StudyProgramme/test/ilStudyProgrammeProgressCalculationsTest.php");
-        $suite->addTestSuite("ilStudyProgrammeProgressCalculationsTest");
         require_once("./Modules/StudyProgramme/test/helpers/ilStudyProgrammeGUIMessagesTest.php");
         $suite->addTestSuite("ilStudyProgrammeGUIMessagesTest");
         require_once("./Modules/StudyProgramme/test/cron/ilStudyProgrammeCronRiskyToFailTest.php");
         $suite->addTestSuite("ilStudyProgrammeCronRiskyToFailTest");
         require_once("./Modules/StudyProgramme/test/cron/ilStudyProgrammeCronAboutToExpireTest.php");
         $suite->addTestSuite("ilStudyProgrammeCronAboutToExpireTest");
+        require_once("./Modules/StudyProgramme/test/cron/ilPrgRestartAssignmentsCronJobTest.php");
+        $suite->addTestSuite("ilPrgRestartAssignmentsCronJobTest");
         require_once("./Modules/StudyProgramme/test/ilObjStudyProgrammeCacheTest.php");
         $suite->addTestSuite("ilObjStudyProgrammeCacheTest");
+        require_once("./Modules/StudyProgramme/test/ilObjStudyProgrammeCertificateTest.php");
+        $suite->addTestSuite("ilObjStudyProgrammeCertificateTest");
 
         return $suite;
     }

@@ -27,7 +27,7 @@ class ilADTInternalLinkDBBridge extends ilADTDBBridge
      */
     public function readRecord(array $a_row): void
     {
-        $this->getADT()->setTargetRefId($a_row[$this->getElementId()]);
+        $this->getADT()->setTargetRefId((int) $a_row[$this->getElementId()]);
     }
 
     /**

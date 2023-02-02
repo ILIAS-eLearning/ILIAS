@@ -52,4 +52,66 @@ class ilBookingManagerDBUpdateSteps implements \ilDatabaseUpdateSteps
             $this->db->addIndex('booking_object', ['schedule_id'], 'i2');
         }
     }
+
+    public function step_4() : void
+    {
+        $db = $this->db;
+        if (!$db->tableExists("book_sel_object")) {
+            $fields = array(
+                "user_id" => array(
+                    "type" => "integer",
+                    "notnull" => true,
+                    "length" => 4,
+                    "default" => 0
+                ),
+                "object_id" => array(
+                    "type" => "integer",
+                    "notnull" => true,
+                    "length" => 4,
+                    "default" => 0
+                )
+            );
+            $db->createTable("book_sel_object", $fields);
+            $db->addPrimaryKey("book_sel_object", ["user_id", "object_id"]);
+        }
+    }
+
+    public function step_5() : void
+    {
+        $db = $this->db;
+        if (!$db->tableColumnExists("book_sel_object", "pool_id")) {
+            $db->addTableColumn("book_sel_object", "pool_id", [
+                "type" => "integer",
+                "notnull" => true,
+                "length" => 4,
+                "default" => 0
+            ]);
+        }
+    }
+
+    public function step_6() : void
+    {
+        $db = $this->db;
+        if (!$db->tableColumnExists("booking_settings", "messages")) {
+            $db->addTableColumn("booking_settings", "messages", [
+                "type" => "integer",
+                "notnull" => true,
+                "length" => 4,
+                "default" => 0
+            ]);
+        }
+    }
+
+    public function step_7() : void
+    {
+        $db = $this->db;
+        if (!$db->tableColumnExists("booking_reservation", "message")) {
+            $db->addTableColumn("booking_reservation", "message", [
+                "type" => "text",
+                "notnull" => true,
+                "length" => 4000,
+                "default" => ""
+            ]);
+        }
+    }
 }

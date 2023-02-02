@@ -1,7 +1,20 @@
 <?php
 
-require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacMissingBracket.php";
-require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacConditionParserException.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ConditionParser
@@ -66,11 +79,12 @@ class ilAssLacConditionParser
      * @param $condition
      *
      * @see CompositeBuilder::create()
-     * @return array
+     * @return ilAssLacAbstractComposite
      */
-    public function parse($condition): array
+    public function parse($condition): ilAssLacAbstractComposite
     {
         $this->condition = $condition;
+        $this->index = 0;
         $this->checkBrackets();
         $this->fetchExpressions();
         $this->fetchOperators();
@@ -236,6 +250,6 @@ class ilAssLacConditionParser
         $next_bracket = strpos($this->condition, "(", $index + 1);
         $next_expression = strpos($this->condition, "n", $index + 1);
 
-        return $next_bracket !== false & $next_bracket < $next_expression;
+        return $next_bracket !== false && $next_bracket < $next_expression;
     }
 }

@@ -49,6 +49,9 @@ class ilPCSectionGUI extends ilPageContentGUI
             $form->setShowTopButtons(false);
 
             $onload_code = [];
+            $char = $form->getItemByPostVar("characteristic");
+            $onload_code = array_merge($onload_code, $char->getOnloadCode());
+
             $from = $form->getItemByPostVar("active_from");
             $from->setSideBySide(false);
             $onload_code = array_merge($onload_code, $from->getOnloadCode());

@@ -32,13 +32,20 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
 
         $this->addGlobal_lng();
         $this->addGlobal_tpl();
+        $this->addGlobal_ilToolbar();
         $this->addGlobal_ilCtrl();
         $this->addGlobal_ilias();
         $this->addGlobal_tree();
         $this->addGlobal_ilDB();
+        $this->addGlobal_ilUser();
+        $this->addGlobal_ilLoggerFactory();
         $this->addGlobal_ilComponentRepository();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilObjDataCache();
+        $this->addGlobal_http();
+        $this->addGlobal_ilErr();
+        $this->addGlobal_GlobalScreenService();
+        $this->addGlobal_ilUser();
 
         $this->testObj = new ilTestEvaluationGUI($this->createMock(ilObjTest::class));
     }

@@ -35,7 +35,8 @@ class LSItemOnlineStatus
         self::S_LEARNMODULE_HTML,
         self::S_SAHS,
         self::S_TEST,
-        self::S_SURVEY
+        self::S_SURVEY,
+        self::S_CONTENTPAGE
     );
 
     public function setOnlineStatus(int $ref_id, bool $status): void

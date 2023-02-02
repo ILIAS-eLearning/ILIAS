@@ -16,10 +16,6 @@
  *
  *********************************************************************/
 
-
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionAbstractPageObjectCommandForwarder.php';
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php';
-
 /**
  * class can be used as forwarder for hint page object contexts
  *

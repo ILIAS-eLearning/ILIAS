@@ -34,7 +34,7 @@ class ilUserAutoComplete
     private string $result_field;
     private int $search_type;
     private int $privacy_mode;
-    private ilObjUser $user;
+    private ?ilObjUser $user = null;
     private int $limit = 0;
     private bool $user_limitations = true;
     private bool $respect_min_search_character_count = true;
@@ -111,7 +111,7 @@ class ilUserAutoComplete
         $this->user = $user;
     }
 
-    public function getUser(): ilObjUser
+    public function getUser(): ?ilObjUser
     {
         return $this->user;
     }

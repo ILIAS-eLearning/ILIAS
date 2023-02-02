@@ -241,10 +241,10 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 				</button>
 				<div class="il-item-description">description</div>
 				<div class="dropdown">
-					<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="actions" aria-haspopup="true" aria-expanded="false">
+					<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_menu">
 						<span class="caret"></span>
 					</button>
-					<ul class="dropdown-menu">
+					<ul id="id_menu" class="dropdown-menu">
 						<li>
 							<button class="btn btn-link" data-action="https://www.ilias.de" id="id">ILIAS</button>
 						</li>
@@ -256,18 +256,12 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 				<div class="il-item-additional-content">someContent</div>
 				<hr class="il-item-divider">
 					<div class="row il-item-properties">
-						<div class="col-md-12">
-							<div class="row">
-								<div class="col-sm-3 il-item-property-name">prop1</div>
-								<div class="col-sm-9 il-item-property-value il-multi-line-cap-3">val1</div>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="row">
-								<div class="col-sm-3 il-item-property-name">prop2</div>
-								<div class="col-sm-9 il-item-property-value il-multi-line-cap-3">val2</div>
-							</div>
-						</div>
+                        <div class="col-sm-12 il-multi-line-cap-3">
+                            <span class="il-item-property-name">prop1</span><span class="il-item-property-value">val1</span>
+                        </div>
+                        <div class="col-sm-12 il-multi-line-cap-3">
+                            <span class="il-item-property-name">prop2</span><span class="il-item-property-value">val2</span>
+                        </div>
 					</div>
 					<div class="il-aggregate-notifications" data-aggregatedby="id">
 						<div class="il-maincontrols-slate il-maincontrols-slate-notification">

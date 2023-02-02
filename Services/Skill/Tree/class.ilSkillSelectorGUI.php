@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -125,7 +127,7 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
             return true;
         }
         // references that refer directly to a (basic) skill template
-        if ($a_node["type"] == "sktr" && ilSkillTreeNode::_lookupType($a_node["skill_id"]) == "sktp") {
+        if ($a_node["type"] == "sktr" && ilSkillTreeNode::_lookupType((int) $a_node["skill_id"]) == "sktp") {
             return true;
         }
 

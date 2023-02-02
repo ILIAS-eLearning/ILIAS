@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * abstract parent feedback class for all question types
@@ -208,13 +222,8 @@ abstract class ilAssQuestionFeedback
     final protected function buildFeedbackContentFormProperty(string $label, string $postVar, bool $asNonEditable): ilSubEnabledFormPropertyGUI
     {
         if ($asNonEditable) {
-            require_once 'Services/Form/classes/class.ilNonEditableValueGUI.php';
-
             $property = new ilNonEditableValueGUI($label, $postVar, true);
         } else {
-            require_once 'Services/Form/classes/class.ilTextAreaInputGUI.php';
-            require_once 'Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php';
-
             $property = new ilTextAreaInputGUI($label, $postVar);
             $property->setRequired(false);
             $property->setRows(10);
@@ -226,11 +235,9 @@ abstract class ilAssQuestionFeedback
                 $property->addButton("latex");
                 $property->addButton("pastelatex");
 
-                require_once 'Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php';
                 $property->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
                 $property->setRTESupport($this->questionOBJ->getId(), "qpl", "assessment");
             } else {
-                require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
                 $property->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
                 $property->setUseTagsForRteOnly(false);
             }
@@ -248,8 +255,6 @@ abstract class ilAssQuestionFeedback
      */
     final public function getGenericFeedbackContent(int $questionId, bool $solutionCompleted): string
     {
-        require_once 'Services/RTE/classes/class.ilRTE.php';
-
         $res = $this->db->queryF(
             "SELECT * FROM {$this->getGenericFeedbackTableName()} WHERE question_fi = %s AND correctness = %s",
             array('integer', 'text'),
@@ -260,7 +265,10 @@ abstract class ilAssQuestionFeedback
 
         if ($this->db->numRows($res) > 0) {
             $row = $this->db->fetchAssoc($res);
-            $feedbackContent = ilRTE::_replaceMediaObjectImageSrc($row['feedback'], 1);
+            $feedbackContent = ilRTE::_replaceMediaObjectImageSrc(
+                $this->questionOBJ->getHtmlQuestionContentPurifier()->purify($row['feedback'] ?? ''),
+                1
+            );
         }
         return $feedbackContent;
     }
@@ -271,7 +279,23 @@ abstract class ilAssQuestionFeedback
 
     public function isSpecificAnswerFeedbackAvailable(int $questionId): bool
     {
-        return (bool) strlen($this->getAllSpecificAnswerFeedbackContents($questionId));
+        $res = $this->db->queryF(
+            "SELECT answer FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
+            ['integer'],
+            [$questionId]
+        );
+
+        $allFeedbackContents = '';
+
+        while ($row = $this->db->fetchAssoc($res)) {
+            $allFeedbackContents .= $this->getSpecificAnswerFeedbackExportPresentation(
+                $this->questionOBJ->getId(),
+                0,
+                $row['answer']
+            );
+        }
+
+        return (bool) strlen(trim(strip_tags($allFeedbackContents)));
     }
 
     /**
@@ -286,6 +310,7 @@ abstract class ilAssQuestionFeedback
         $feedbackId = $this->getGenericFeedbackId($questionId, $solutionCompleted);
 
         if (strlen($feedbackContent)) {
+            $feedbackContent = $this->questionOBJ->getHtmlQuestionContentPurifier()->purify($feedbackContent);
             $feedbackContent = ilRTE::_replaceMediaObjectImageSrc($feedbackContent, 0);
         }
 
@@ -505,7 +530,6 @@ abstract class ilAssQuestionFeedback
     public function getClassNameByType(string $a_type, bool $a_gui = false): string
     {
         $gui = ($a_gui) ? "GUI" : "";
-        include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssQuestionFeedback.php");
 
         if ($a_type == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK) {
             return "ilAssGenFeedbackPage" . $gui;
@@ -540,7 +564,6 @@ abstract class ilAssQuestionFeedback
     final protected function getPageObjectContent(string $pageObjectType, int $pageObjectId): string
     {
         $cl = $this->getClassNameByType($pageObjectType, true);
-        require_once 'Modules/TestQuestionPool/classes/feedback/class.' . $cl . '.php';
 
         $this->ensurePageObjectExists($pageObjectType, $pageObjectId);
 
@@ -555,7 +578,6 @@ abstract class ilAssQuestionFeedback
     final protected function getPageObjectXML(string $pageObjectType, int $pageObjectId): string
     {
         $cl = $this->getClassNameByType($pageObjectType);
-        require_once 'Modules/TestQuestionPool/classes/feedback/class.' . $cl . '.php';
 
         $this->ensurePageObjectExists($pageObjectType, $pageObjectId);
 
@@ -566,7 +588,6 @@ abstract class ilAssQuestionFeedback
     private function ensurePageObjectExists(string $pageObjectType, int $pageObjectId): void
     {
         if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK) {
-            include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssGenFeedbackPage.php");
             if (!ilAssGenFeedbackPage::_exists($pageObjectType, $pageObjectId)) {
                 $pageObject = new ilAssGenFeedbackPage();
                 $pageObject->setParentId($this->questionOBJ->getId());
@@ -575,7 +596,6 @@ abstract class ilAssQuestionFeedback
             }
         }
         if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK) {
-            include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPage.php");
             if (!ilAssSpecFeedbackPage::_exists($pageObjectType, $pageObjectId)) {
                 $pageObject = new ilAssSpecFeedbackPage();
                 $pageObject->setParentId($this->questionOBJ->getId());
@@ -588,7 +608,6 @@ abstract class ilAssQuestionFeedback
     final protected function createPageObject(string $pageObjectType, int $pageObjectId, string $pageObjectContent): void
     {
         $cl = $this->getClassNameByType($pageObjectType);
-        require_once 'Modules/TestQuestionPool/classes/feedback/class.' . $cl . '.php';
 
         $pageObject = new $cl();
         $pageObject->setParentId($this->questionOBJ->getId());
@@ -600,7 +619,6 @@ abstract class ilAssQuestionFeedback
     final protected function duplicatePageObject(string $pageObjectType, int $originalPageObjectId, int $duplicatePageObjectId, int $duplicatePageObjectParentId): void
     {
         $cl = $this->getClassNameByType($pageObjectType);
-        require_once 'Modules/TestQuestionPool/classes/feedback/class.' . $cl . '.php';
 
         $pageObject = new $cl($originalPageObjectId);
         $pageObject->setParentId($duplicatePageObjectParentId);
@@ -611,14 +629,12 @@ abstract class ilAssQuestionFeedback
     final protected function ensurePageObjectDeleted(string $pageObjectType, int $pageObjectId): void
     {
         if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK) {
-            include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssGenFeedbackPage.php");
             if (ilAssGenFeedbackPage::_exists($pageObjectType, $pageObjectId)) {
                 $pageObject = new ilAssGenFeedbackPage($pageObjectId);
                 $pageObject->delete();
             }
         }
         if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK) {
-            include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPage.php");
             if (ilAssSpecFeedbackPage::_exists($pageObjectType, $pageObjectId)) {
                 $pageObject = new ilAssSpecFeedbackPage($pageObjectId);
                 $pageObject->delete();

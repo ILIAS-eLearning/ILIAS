@@ -1,0 +1,15 @@
+@use "../../../010-settings/" as *;
+
+/* Services/FileUpload */
+
+.ilFileUploadEntryProgressPercent {
+	font-size: $il-font-size-xsmall;
+}
+
+.ilFileUploadEntryOptions {
+	font-size: $il-font-size-small;
+}
+
+.ilFileUploadEntryOptions label.control-label {
+	padding-top: 3px;
+}

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -29,6 +31,8 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
     protected int $level_id = 0;
     protected bool $write_permission = false;
     protected ilSkillResources $resources;
+    protected \ILIAS\UI\Factory $ui_fac;
+    protected \ILIAS\UI\Renderer $ui_ren;
 
     public function __construct(
         $a_parent_obj,
@@ -44,6 +48,8 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $this->tree = $DIC->repositoryTree();
+        $this->ui_fac = $DIC->ui()->factory();
+        $this->ui_ren = $DIC->ui()->renderer();
 
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
@@ -100,8 +106,13 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
+        $icon = $this->ui_fac->symbol()->icon()->standard(
+            $obj_type,
+            $this->lng->txt("icon") . " " . $this->lng->txt($obj_type),
+            "medium"
+        );
         $this->tpl->setVariable("TITLE", ilObject::_lookupTitle($obj_id));
-        $this->tpl->setVariable("IMG", ilUtil::img(ilObject::_getIcon($obj_id, "tiny")));
+        $this->tpl->setVariable("IMG", $this->ui_ren->render($icon));
         if ($this->write_permission) {
             $this->tpl->setCurrentBlock("checkbox");
             $this->tpl->setVariable("ID", $ref_id);

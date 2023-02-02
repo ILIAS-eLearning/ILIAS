@@ -2,18 +2,27 @@
 
 declare(strict_types=1);
 
-/* Copyright (c) 2021 - Richard Klees <richard.klees@concepts-and-training.de> - Extended GPL, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Mechanic regarding the access control and roles of an objet goes here.
  */
 interface IndividualAssessmentAccessHandler
 {
-    /**
-     * Can a user perform an operation on some Individual assessment?
-     */
-    public function checkAccessToObj(string $operation): bool;
-
     /**
      * Create default roles at an object
      */
@@ -29,8 +38,17 @@ interface IndividualAssessmentAccessHandler
      */
     public function deassignUserFromMemberRole(ilObjUser $usr, ilObjIndividualAssessment $iass): bool;
 
-    /**
-     * Check whether user is system admin.
-     */
+
+    public function mayReadObject(): bool;
+    public function mayEditObject(): bool;
+    public function mayEditPermissions(): bool;
+    public function mayEditMembers(): bool;
+    public function mayViewAnyUser(): bool;
+    public function mayViewAllUsers(): bool;
+    public function mayGradeAnyUser(): bool;
+    public function mayGradeAllUsers(): bool;
+    public function mayGradeUser(int $user_id): bool;
+    public function mayViewUser(int $user_id): bool;
+    public function mayAmendAllUsers(): bool;
     public function isSystemAdmin(): bool;
 }

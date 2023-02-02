@@ -1,8 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Services/Object/classes/class.ilObjectLP.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Test to lp connector
@@ -53,7 +65,6 @@ class ilTestLP extends ilObjectLP
 
     public function isAnonymized(): bool
     {
-        include_once './Modules/Test/classes/class.ilObjTest.php';
         return (bool) ilObjTest::_lookupAnonymity($this->obj_id);
     }
 
@@ -72,7 +83,6 @@ class ilTestLP extends ilObjectLP
             // #19247
             $testOBJ = $this->testObj;
         } else {
-            require_once 'Services/Object/classes/class.ilObjectFactory.php';
             $testOBJ = ilObjectFactory::getInstanceByObjId($this->obj_id);
         }
         $testOBJ->removeTestResultsByUserIds($a_user_ids);
@@ -84,14 +94,11 @@ class ilTestLP extends ilObjectLP
         }
 
         if ($test_ref_id) {
-            require_once "Modules/Course/classes/Objectives/class.ilLOSettings.php";
-            $course_obj_id = ilLOSettings::isObjectiveTest($test_ref_id);
+            $course_obj_id = ilLOTestAssignments::lookupContainerForTest($test_ref_id);
             if ($course_obj_id) {
                 // remove objective results data
                 $lo_settings = ilLOSettings::getInstanceByObjId($course_obj_id);
 
-                require_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";
-                include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
                 ilLOUserResults::deleteResultsFromLP(
                     $course_obj_id,
                     $a_user_ids,
@@ -100,8 +107,6 @@ class ilTestLP extends ilObjectLP
                     ilLOTestAssignments::lookupObjectivesForTest($test_ref_id)
                 );
 
-                // refresh LP - see ilLPStatusWrapper::_updateStatus()
-                require_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
                 $lp_status = ilLPStatusFactory::_getInstance($course_obj_id);
                 if (strtolower(get_class($lp_status)) != "illpstatus") {
                     foreach ($a_user_ids as $user_id) {

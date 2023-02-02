@@ -66,6 +66,7 @@ class ilCalendarSharedUserListTableGUI extends ilTable2GUI
     {
         $users = array();
         foreach ($this->user_ids as $id) {
+            $id = (int) $id;
             $name = ilObjUser::_lookupName($id);
 
             $tmp_data['id'] = $id;

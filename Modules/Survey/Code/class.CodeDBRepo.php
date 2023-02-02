@@ -326,8 +326,8 @@ class CodeDBRepo
             "user_key" => ["text", $user_key]
         ],
             [    // where
-                "survey_id" => ["integer", $survey_id],
-                "survey_key" => ["integer", $code]
+                "survey_fi" => ["integer", $survey_id],
+                "survey_key" => ["text", $code]
             ]
         );
     }

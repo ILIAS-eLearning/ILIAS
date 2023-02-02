@@ -26,12 +26,12 @@ class ilStudyProgrammeIndividualPlanProgressListGUI extends ilStudyProgrammeExpa
         return $this->progress->isRelevant();
     }
 
-    protected function shouldShowSubProgress(ilStudyProgrammeProgress $progress): bool
+    protected function shouldShowSubProgress(ilPRGProgress $progress): bool
     {
         return true;
     }
 
-    protected function newSubItem(ilStudyProgrammeProgress $progress): ilStudyProgrammeExpandableProgressListGUI
+    protected function newSubItem(ilPRGProgress $progress): ilStudyProgrammeExpandableProgressListGUI
     {
         return new ilStudyProgrammeIndividualPlanProgressListGUI($progress);
     }
@@ -47,21 +47,14 @@ class ilStudyProgrammeIndividualPlanProgressListGUI extends ilStudyProgrammeExpa
         return $title;
     }
 
-    protected function buildProgressStatus(ilStudyProgrammeProgress $progress): string
+    protected function buildProgressStatus(ilPRGProgress $progress): string
     {
         $programme = ilObjStudyProgramme::getInstanceByObjId($progress->getNodeId());
         $can_be_completed = $programme->canBeCompleted($progress);
 
         $points = parent::buildProgressStatus($progress);
         if (!$can_be_completed && !$progress->isSuccessful()) {
-            return
-                "<img src='" .
-                ilUtil::getImagePath("icon_alert.svg") .
-                "' alt='" .
-                $this->lng->txt("warning") .
-                "'>" .
-                $points
-            ;
+            return $this->alert_icon . $points;
         }
 
         return $points;

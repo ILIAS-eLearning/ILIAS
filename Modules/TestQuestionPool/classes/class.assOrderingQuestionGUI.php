@@ -45,6 +45,9 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public const F_USE_NESTED = 'nested_answers';
     public const F_NESTED_ORDER = 'order_elems';
+    public const F_NESTED_ORDER_ORDER = 'content';
+    public const F_NESTED_ORDER_INDENT = 'indentation';
+    public const F_NESTED_IDENTIFIER_PREFIX = ilIdentifiedMultiValuesJsPositionIndexRemover::IDENTIFIER_INDICATOR_PREFIX;
 
     /**
      * @var assOrderingQuestion
@@ -99,23 +102,24 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $form = $this->buildNestingForm();
         $form->setValuesByPost();
         if ($form->checkInput()) {
-            $post = $_POST[self::F_NESTED_ORDER]; //array random_id => ordering_element
-
+            $post = $this->request->raw(self::F_NESTED_ORDER);
             $list = $this->object->getOrderingElementList();
-            $ordered = [];
 
-            foreach ($list->getElements() as $element) {
-                $posted_element = $post[$element->getRandomIdentifier()];
+            $ordered = [];
+            foreach (array_keys($post[self::F_NESTED_ORDER_ORDER]) as $idx => $identifier) {
+                $element_identifier = str_replace(self::F_NESTED_IDENTIFIER_PREFIX, '', $identifier);
+                $element = $list->getElementByRandomIdentifier($element_identifier);
+
                 $ordered[] = $element
-                    ->withPosition($posted_element->getPosition())
-                    ->withIndentation($posted_element->getIndentation());
+                    ->withPosition($idx)
+                    ->withIndentation($post[self::F_NESTED_ORDER_INDENT][$identifier]);
             }
 
             $list = $list->withElements($ordered);
             $this->object->setOrderingElementList($list);
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
         } else {
-            ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+            $this->tpl->setOnScreenMessage('error', $this->lng->txt('form_input_not_valid'), true);
         }
 
         $this->editNesting();
@@ -168,7 +172,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $this->object->setPoints((int)$this->request->raw("points"));
 
-        $use_nested = (bool) (int)$this->request->raw(self::F_USE_NESTED);
+        $use_nested = $this->request->raw(self::F_USE_NESTED) === "1";
         $this->object->setNestingType($use_nested);
     }
 
@@ -177,6 +181,29 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     {
         $list = $form->getItemByPostVar(assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR)
             ->getElementList($this->object->getId());
+
+        $use_nested = $this->request->raw(self::F_USE_NESTED) === "1";
+
+        if ($use_nested) {
+            $existing_list = $this->object->getOrderingElementList();
+
+            $nu = [];
+            $parent_indent = -1;
+            foreach ($list->getElements() as $element) {
+                $element = $list->ensureValidIdentifiers($element);
+
+                if ($existing = $existing_list->getElementByRandomIdentifier($element->getRandomIdentifier())) {
+                    if ($existing->getIndentation() == $parent_indent + 1) {
+                        $element = $element
+                            ->withIndentation($existing->getIndentation());
+                    }
+                }
+                $parent_indent = $element->getIndentation();
+                $nu[] = $element;
+            }
+            $list = $list->withElements($nu);
+        }
+
         return $list;
     }
 
@@ -254,7 +281,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $form->setValuesByPost();
 
         if (!$form->checkInput()) {
-            $this->editQuestion($form);
+            $this->renderEditForm($form);
+            $this->addEditSubtabs(self::TAB_EDIT_QUESTION);
             return 1; // return 1 = something went wrong, no saving happened
         }
 
@@ -334,7 +362,13 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $orderingElementInput->setStylingDisabled($this->isRenderPurposePrintPdf());
 
         $this->object->initOrderingElementAuthoringProperties($orderingElementInput);
-        $orderingElementInput->setElementList($this->object->getOrderingElementList());
+
+        $list =  $this->object->getOrderingElementList();
+        foreach ($list->getElements() as $element) {
+            $element = $list->ensureValidIdentifiers($element);
+        }
+
+        $orderingElementInput->setElementList($list);
 
         $form->addItem($orderingElementInput);
         $form->addCommandButton(self::CMD_SAVE_NESTING, $this->lng->txt("save"));
@@ -391,9 +425,10 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         $answers_gui->setInteractionEnabled(false);
-
         $answers_gui->setElementList($solutionOrderingList);
-
+        if ($graphicalOutput) {
+            $answers_gui->setShowCorrectnessIconsEnabled(true);
+        }
         $answers_gui->setCorrectnessTrueElementList(
             $solutionOrderingList->getParityTrueElementList($this->object->getOrderingElementList())
         );
@@ -447,7 +482,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         if ($this->getPreviewSession() && $this->getPreviewSession()->hasParticipantSolution()) {
             $solutionOrderingElementList = unserialize(
                 $this->getPreviewSession()->getParticipantsSolution(),
-                ["allowed_classes" => false]
+                ["allowed_classes" => true]
             );
         } else {
             $solutionOrderingElementList = $this->object->getShuffledOrderingElementList();

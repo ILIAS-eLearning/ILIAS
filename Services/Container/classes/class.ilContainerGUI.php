@@ -458,7 +458,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $lng->loadLanguageModule('cntr');
 
-        if (ilSession::get("clipboard")) {
+        if ($this->clipboard->hasEntries()) {
             // #11545
             $main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
 
@@ -2270,6 +2270,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $desc = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
         $desc->setRows(2);
         $desc->setCols(40);
+        $desc->setMaxNumOfChars(ilObject::LONG_DESC_LENGTH);
         $form->addItem($desc);
 
         if ($this->getCreationMode() === false) {

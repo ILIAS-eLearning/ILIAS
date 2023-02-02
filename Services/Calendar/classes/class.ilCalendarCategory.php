@@ -37,6 +37,7 @@ class ilCalendarCategory
 
     public const DEFAULT_COLOR = '#04427e';
 
+    public const TYPE_UNDEFINED = 0;
     public const TYPE_USR = 1;        // user
     public const TYPE_OBJ = 2;        // object
     public const TYPE_GLOBAL = 3;    // global

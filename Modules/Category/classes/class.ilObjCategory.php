@@ -25,6 +25,8 @@ declare(strict_types=1);
  */
 class ilObjCategory extends ilContainer
 {
+    protected ilLogger $cat_log;
+
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         global $DIC;
@@ -32,6 +34,7 @@ class ilObjCategory extends ilContainer
         $this->db = $DIC->database();
         $this->app_event_handler = $DIC["ilAppEventHandler"];
         $this->log = $DIC["ilLog"];
+        $this->cat_log = ilLoggerFactory::getLogger("cat");
         $this->user = $DIC->user();
         $this->type = "cat";
         parent::__construct($a_id, $a_call_by_reference);
@@ -101,10 +104,15 @@ class ilObjCategory extends ilContainer
 
                     // clone assignments (for all sub-items)
                     foreach ($mappings as $old_ref_id => $new_ref_id) {
+                        if (!is_numeric($old_ref_id)) {     // e.g. 967_adv_rec
+                            continue;
+                        }
                         if ($old_ref_id != $new_ref_id) {
-                            $old_obj_id = ilObject::_lookupObjId($old_ref_id);
-                            $new_obj_id = ilObject::_lookupObjId($new_ref_id);
-                            $obj_type = ilObject::_lookupType($old_obj_id);
+                            $old_obj_id = ilObject::_lookupObjId((int) $old_ref_id);
+                            $new_obj_id = ilObject::_lookupObjId((int) $new_ref_id);
+                            $obj_type = ilObject::_lookupType((int) $old_obj_id);
+
+                            $this->cat_log->debug("Clone tax assignmets for old ref ID $old_ref_id of type $obj_type (old tax ID is $old_tax_id).");
 
                             $tax_ass = new ilTaxNodeAssignment($obj_type, $old_obj_id, "obj", $old_tax_id);
                             $assignmts = $tax_ass->getAssignmentsOfItem($old_obj_id);

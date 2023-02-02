@@ -43,6 +43,7 @@ class ilLSLaunchlinksBuilder
     protected int $usr_id;
     protected $first_access;
     protected ilLearningSequenceRoles $roles;
+    protected ilLSLearnerItemsQueries $ls_items;
 
     public function __construct(
         ilLanguage $language,
@@ -52,7 +53,8 @@ class ilLSLaunchlinksBuilder
         int $lso_ref_id,
         int $usr_id,
         $first_access,
-        ilLearningSequenceRoles $roles
+        ilLearningSequenceRoles $roles,
+        ilLSLearnerItemsQueries $ls_items
     ) {
         $this->lng = $language;
         $this->access = $access;
@@ -63,6 +65,7 @@ class ilLSLaunchlinksBuilder
         $this->usr_id = $usr_id;
         $this->first_access = $first_access;
         $this->roles = $roles;
+        $this->ls_items = $ls_items;
     }
 
     protected function mayJoin(): bool
@@ -102,38 +105,47 @@ class ilLSLaunchlinksBuilder
         $links = [];
 
         if (!$this->isMember() && $this->mayJoin()) {
-            $links[] = [
+            if (!$this->ls_items->hasItems()) {
+                return [];
+            }
+            return [[
                 $this->lng->txt("lso_player_start"),
-                $this->getLink(self::CMD_START)
-            ];
-            return $links;
+                $this->getLink(self::CMD_START),
+                true
+            ]];
         }
 
-        if (!$this->hasCompleted()) {
+        if (!$this->hasCompleted() && $this->ls_items->hasItems()) {
             $label = "lso_player_resume";
             if ($this->first_access === -1) {
                 $label = "lso_player_start";
             }
             $links[] = [
                 $this->lng->txt($label),
-                $this->getLink(self::CMD_VIEW)
+                $this->getLink(self::CMD_VIEW),
+                true
             ];
         } else {
-            $links[] = [
-                $this->lng->txt("lso_player_review"),
-                $this->getLink(self::CMD_VIEW)
-            ];
+            if ($this->ls_items->hasItems()) {
+                $links[] = [
+                    $this->lng->txt("lso_player_review"),
+                    $this->getLink(self::CMD_VIEW),
+                    true
+                ];
+            }
 
             if ($cmd === self::CMD_STANDARD) {
                 $links[] = [
                     $this->lng->txt("lso_player_extro"),
-                    $this->getLink(self::CMD_EXTRO)
+                    $this->getLink(self::CMD_EXTRO),
+                    false
                 ];
             }
             if ($cmd === self::CMD_EXTRO) {
                 $links[] = [
                     $this->lng->txt("lso_player_abstract"),
-                    $this->getLink(self::CMD_STANDARD)
+                    $this->getLink(self::CMD_STANDARD),
+                    false
                 ];
             }
         }
@@ -141,7 +153,8 @@ class ilLSLaunchlinksBuilder
         if ($this->mayUnparticipate()) {
             $links[] = [
                 $this->lng->txt("unparticipate"),
-                $this->getLink(self::CMD_UNSUBSCRIBE)
+                $this->getLink(self::CMD_UNSUBSCRIBE),
+                false
             ];
         }
 

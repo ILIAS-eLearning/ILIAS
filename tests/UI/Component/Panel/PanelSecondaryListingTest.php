@@ -153,8 +153,8 @@ class PanelSecondaryListingTest extends ILIAS_UI_TestBase
 <div class="panel panel-secondary panel-flex">
 	<div class="panel-heading ilHeader">
 		<h2>Title</h2>
-		<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="actions" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
-			<ul class="dropdown-menu">
+		<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"> <span class="caret"></span></button>
+			<ul id="id_3_menu" class="dropdown-menu">
 				<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
 				<li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">Github</button></li>
 			</ul>
@@ -188,10 +188,10 @@ EOT;
 		<h2>Title</h2>
 		<div class="il-viewcontrol-sortation" id="id_1">
 			<div class="dropdown">
-				<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="actions" aria-haspopup="true" aria-expanded="false">
+				<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_4" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_4_menu">
 					<span class="caret"></span>
 				</button>
-				<ul class="dropdown-menu">
+				<ul id="id_4_menu" class="dropdown-menu">
 					<li><button class="btn btn-link" data-action="?sortation=a" id="id_2">A</button></li>
 					<li><button class="btn btn-link" data-action="?sortation=b" id="id_3">B</button></li>
 				</ul>
@@ -325,27 +325,30 @@ EOT;
 
         $expected_html = <<<EOT
 <div class="panel panel-secondary panel-flex">
-<div class="panel-body">
-<div class="il-item-group">\n
-    <h3>Subtitle 1</h3>\n
-<div class="il-item-group-items">\n
-<div class="il-std-item-container">
-<div class="il-item il-std-item ">
-<div class="il-item-title">title1</div>
-</div></div>\n
-<div class="il-std-item-container">
-<div class="il-item il-std-item ">
-<div class="il-item-title">title2</div>
+  <div class="panel-body">
+    <div class="il-item-group">
+      <h3>Subtitle 1</h3>
+      <div class="il-item-group-items">
+        <ul>
+            <li class="il-std-item-container">
+              <div class="il-item il-std-item ">
+                <div class="il-item-title">title1</div>
+              </div>
+            </li>
+            <li class="il-std-item-container">
+              <div class="il-item il-std-item ">
+                <div class="il-item-title">title2</div>
+              </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
-</div>\n
-</div>\n
-</div>
-</div>
-</div>\n
 EOT;
         $this->assertHTMLEquals(
-            $this->cleanHTML($expected_html),
-            $this->cleanHTML($html)
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($html)
         );
     }
 

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +13,10 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Revision;
 
@@ -25,9 +26,9 @@ use ILIAS\ResourceStorage\Information\Information;
 
 /**
  * Class CloneRevision
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
-class CloneRevision implements Revision
+class CloneRevision extends BaseRevision implements Revision
 {
     protected bool $available = true;
     protected \ILIAS\ResourceStorage\Identification\ResourceIdentification $identification;
@@ -35,24 +36,17 @@ class CloneRevision implements Revision
     protected ?\ILIAS\ResourceStorage\Information\Information $information = null;
     protected int $owner_id = 0;
     protected string $title = '';
-    protected \ILIAS\ResourceStorage\Revision\FileRevision $revision_to_clone;
+    protected FileRevision $revision_to_clone;
 
     /**
      * Revision constructor.
      */
     public function __construct(ResourceIdentification $identification, FileRevision $revision_to_clone)
     {
-        $this->identification = $identification;
         $this->revision_to_clone = $revision_to_clone;
+        parent::__construct($identification);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIdentification(): ResourceIdentification
-    {
-        return $this->identification;
-    }
 
     public function setVersionNumber(int $version_number): void
     {

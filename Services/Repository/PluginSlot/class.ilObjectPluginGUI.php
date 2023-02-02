@@ -27,7 +27,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     protected ilComponentRepository $component_repository;
     protected ilNavigationHistory $nav_history;
     protected ilTabsGUI $tabs;
-    protected ilPlugin $plugin;
+    protected ?ilPlugin $plugin = null;
     protected PluginSlotGUIRequest $slot_request;
     protected ilComponentFactory $component_factory;
 
@@ -392,6 +392,24 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
                 $ilCtrl->getLinkTargetByClass("ilpermissiongui", "perm"),
                 ["perm", "info", "owner"],
                 'ilpermissiongui'
+            );
+        }
+    }
+
+    public function addInfoTab(): void
+    {
+        $ilAccess = $this->access;
+        $ilTabs = $this->tabs;
+
+        // info screen
+        if ($ilAccess->checkAccess('visible', "", $this->object->getRefId())) {
+            $ilTabs->addTarget(
+                "info_short",
+                $this->ctrl->getLinkTargetByClass(
+                    "ilinfoscreengui",
+                    "showSummary"
+                ),
+                "showSummary"
             );
         }
     }

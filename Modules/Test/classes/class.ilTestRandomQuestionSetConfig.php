@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 /**
  * class that manages/holds the data for a question set configuration for continues tests
  *

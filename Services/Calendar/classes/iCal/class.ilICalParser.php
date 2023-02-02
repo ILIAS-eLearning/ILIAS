@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -69,9 +70,13 @@ class ilICalParser
 
             // Check for next multilines (they start with a space)
             $offset = 1;
-            while (isset($lines[$i + $offset]) and
-                (strpos($lines[$i + $offset], ilICalUtils::ICAL_SPACE) === 0) or
-                (strpos($lines[$i + $offset], ilICalUtils::ICAL_TAB) === 0)) {
+            while (
+                isset($lines[$i + $offset]) &&
+                (
+                    (strpos($lines[$i + $offset], ilICalUtils::ICAL_SPACE) === 0) ||
+                    (strpos($lines[$i + $offset], ilICalUtils::ICAL_TAB) === 0)
+                )
+            ) {
                 $lines[$i + $offset] = str_replace(ilICalUtils::ICAL_EOL, '', $lines[$i + $offset]);
                 $line = $line . substr($lines[$i + $offset], 1);
                 $offset++;

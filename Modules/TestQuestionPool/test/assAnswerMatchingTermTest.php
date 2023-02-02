@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Unit tests
@@ -39,8 +53,8 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         $expected = 'Text';
 
         // Act
-        $instance->text = $expected;
-        $actual = $instance->text;
+        $instance = $instance->withText($expected);
+        $actual = $instance->getText();
 
         // Assert
         $this->assertEquals($expected, $actual);
@@ -54,8 +68,8 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         $expected = 'path/to/picture?';
 
         // Act
-        $instance->picture = $expected;
-        $actual = $instance->picture;
+        $instance = $instance->withPicture($expected);
+        $actual = $instance->getPicture();
 
         // Assert
         $this->assertEquals($expected, $actual);
@@ -69,7 +83,7 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         $expected = null;
 
         // Act
-        $actual = $instance->picture;
+        $actual = $instance->getPicture();
 
         // Assert
         $this->assertEquals($expected, $actual);
@@ -83,8 +97,8 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         $expected = 12345;
 
         // Act
-        $instance->identifier = $expected;
-        $actual = $instance->identifier;
+        $instance = $instance->withIdentifier($expected);
+        $actual = $instance->getIdentifier();
 
         // Assert
         $this->assertEquals($expected, $actual);

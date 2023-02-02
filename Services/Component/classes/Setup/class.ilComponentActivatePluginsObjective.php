@@ -108,13 +108,13 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
         return $plugin->isActivationPossible($environment);
     }
 
-    protected function initEnvironment(Setup\Environment $environment): ?ILIAS\DI\Container
+    protected function initEnvironment(Setup\Environment $environment)
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $plugin_admin = $environment->getResource(Setup\Environment::RESOURCE_PLUGIN_ADMIN);
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
-
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
 
         // ATTENTION: This is a total abomination. It only exists to allow various
         // sub components of the various readers to run. This is a memento to the
@@ -122,10 +122,11 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
         // component could just service locate the whole world via the global $DIC.
         $DIC = $GLOBALS["DIC"];
         $GLOBALS["DIC"] = new DI\Container();
+        $GLOBALS["DIC"]["component.repository"] = $component_repository;
         $GLOBALS["DIC"]["ilDB"] = $db;
         $GLOBALS["DIC"]["ilIliasIniFile"] = $ini;
         $GLOBALS["DIC"]["ilClientIniFile"] = $client_ini;
-        $GLOBALS["DIC"]["ilLog"] = new class () extends ilLogger {
+        $GLOBALS["DIC"]["ilLog"] = new class() extends ilLogger {
             public function __construct()
             {
             }
@@ -148,7 +149,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
             {
             }
         };
-        $GLOBALS["DIC"]["ilLoggerFactory"] = new class () extends ilLoggerFactory {
+        $GLOBALS["DIC"]["ilLoggerFactory"] = new class() extends ilLoggerFactory {
             public function __construct()
             {
             }
@@ -167,7 +168,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilias"] = null;
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
         $GLOBALS["DIC"]["ilErr"] = null;
-        $GLOBALS["DIC"]["tree"] = new class () extends ilTree {
+        $GLOBALS["DIC"]["tree"] = new class() extends ilTree {
             public function __construct()
             {
             }
@@ -175,7 +176,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilAppEventHandler"] = null;
         $GLOBALS["DIC"]["ilSetting"] = new ilSetting();
         $GLOBALS["DIC"]["objDefinition"] = new ilObjectDefinition();
-        $GLOBALS["DIC"]["ilUser"] = new class () extends ilObjUser {
+        $GLOBALS["DIC"]["ilUser"] = new class() extends ilObjUser {
             public array $prefs = [];
 
             public function __construct()

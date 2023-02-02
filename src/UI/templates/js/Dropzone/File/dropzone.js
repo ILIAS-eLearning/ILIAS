@@ -112,6 +112,14 @@ il.UI = il.UI || {};
             }
         }
 
+        let removeAllFilesFromQueue = function (dropzone_id) {
+            if (typeof dropzones[dropzone_id] === 'undefined') {
+                console.error(`Error: tried accessing unknown dropzone '${dropzone_id}'.`);
+                return;
+            }
+            il.UI.Input.File.removeAllFilesFromQueue(dropzones[dropzone_id].file_input_id);
+        }
+
         /**
          * @param {Event} event
          */
@@ -183,6 +191,7 @@ il.UI = il.UI || {};
 
         return {
             init: init,
+            removeAllFilesFromQueue: removeAllFilesFromQueue,
         }
     })($);
 })($, il.UI);

@@ -26,6 +26,7 @@ use ilOrgUnitPosition;
 class ilOrgUnitUserAssignmentRepository
 {
     protected static self $instance;
+    protected \ilOrgUnitPositionDBRepository $positionRepo;
 
     public static function getInstance(): self
     {
@@ -34,6 +35,16 @@ class ilOrgUnitUserAssignmentRepository
         }
 
         return self::$instance;
+    }
+
+    private function getPositionRepo(): \ilOrgUnitPositionDBRepository
+    {
+        if (!isset($this->positionRepo)) {
+            $dic = \ilOrgUnitLocalDIC::dic();
+            $this->positionRepo = $dic["repo.Positions"];
+        }
+
+        return $this->positionRepo;
     }
 
     public function findOrCreateAssignment(int $user_id, int $position_id, int $orgu_id): ilOrgUnitUserAssignment
@@ -111,7 +122,7 @@ class ilOrgUnitUserAssignmentRepository
     {
         $positions = [];
         foreach ($this->getAssignmentsOfUserId($user_id) as $assignment) {
-            $positions[] = ilOrgUnitPosition::find($assignment->getPositionId());
+            $positions[] = $this->getPositionRepo()->getSingle($assignment->getPositionId(), 'id');
         }
 
         return $positions;

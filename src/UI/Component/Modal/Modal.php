@@ -25,11 +25,13 @@ use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Onloadable;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Triggerable;
+use ILIAS\UI\Component\Triggerer;
+use ILIAS\UI\Component\Closable;
 
 /**
  * This describes commonalities between the different modals
  */
-interface Modal extends Component, JavaScriptBindable, Triggerable, Onloadable
+interface Modal extends Component, JavaScriptBindable, Triggerable, Onloadable, Closable
 {
     /**
      * Get the url returning the rendered modal, if the modals content should be rendered via ajax

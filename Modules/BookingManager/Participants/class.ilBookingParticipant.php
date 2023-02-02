@@ -17,6 +17,7 @@
  *********************************************************************/
 
 /**
+ * @todo split up to manager and repo class
  * @author Jesús López <lopez@leifos.com>
  */
 class ilBookingParticipant

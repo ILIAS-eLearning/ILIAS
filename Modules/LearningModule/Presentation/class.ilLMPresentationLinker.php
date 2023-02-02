@@ -281,12 +281,14 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                 "OnClick" => ""],
             "FAQ" => [
                 "Type" => "FAQ",
+                "Frame" => "faq",
                 "OnClick" => "return il.LearningModule.showContentFrame(event, 'faq');"],
             "Glossary" => [
                 "Type" => "Glossary",
                 "OnClick" => "return il.LearningModule.showContentFrame(event, 'glossary');"],
             "Media" => [
                 "Type" => "Media",
+                "Frame" => "media",
                 "OnClick" => "return il.LearningModule.showContentFrame(event, 'media');"]
         ];
 
@@ -313,7 +315,6 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
         array $int_links
     ): string {
         $ilCtrl = $this->ctrl;
-
         $a_layoutframes = $this->getLayoutLinkTargets();
 
         // Determine whether the view of a learning resource should
@@ -358,7 +359,8 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                                 $ltarget = "_parent";
                             }
                             $cmd = "layout";
-                            if ($nframe != "") {
+                            // page command is for displaying in the slate
+                            if ($nframe != "" && $nframe != "_blank") {
                                 $cmd = "page";
                             }
                             $href =

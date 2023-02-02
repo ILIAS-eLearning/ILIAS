@@ -94,7 +94,10 @@ class ilWorkflowDefinitionRepository
             }
             $definition['version'] = substr(array_pop($parts), 1);
             $definition['title'] = implode(' ', $parts);
-            $definition['instances'] = $stats[$definition['id'] . '.php'];
+            $definition['instances'] = null;
+            if (isset($stats[$definition['id'] . '.php'])) {
+                $definition['instances'] = $stats[$definition['id'] . '.php'];
+            }
 
             $definitions[$definition['id']] = $definition;
         }

@@ -228,7 +228,7 @@ class WikiHtmlExport
 
         // render print view
         $wiki_gui = new \ilObjWikiGUI([], $this->wiki->getRefId(), true);
-        $print_view = $wiki_gui->getPrintView();
+        $print_view = $wiki_gui->getPrintView(true);
         $print_view->setOffline(true);
         $html = $print_view->renderPrintView();
         file_put_contents($this->export_dir . "/index.html", $html);

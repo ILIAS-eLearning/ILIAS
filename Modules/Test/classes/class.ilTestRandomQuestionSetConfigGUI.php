@@ -894,7 +894,9 @@ class ilTestRandomQuestionSetConfigGUI
     {
         $return = false;
         $last_sync = $this->questionSetConfig->getLastQuestionSyncTimestamp();
-        if ($last_sync !== null && $last_sync !== 0) {
+
+        if ($last_sync !== null && $last_sync !== 0 &&
+            !$this->isFrozenConfigRequired()) {
             $return = true;
 
             $sync_date = new ilDateTime($last_sync, IL_CAL_UNIX);

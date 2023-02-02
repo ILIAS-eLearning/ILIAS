@@ -64,7 +64,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     public const CMD_INFO_SCREEN = "infoScreen";
     public const CMD_SETTINGS = "settings";
     public const CMD_PERMISSIONS = "perm";
-    public const CMD_LP = "learningProgress";
     public const CMD_EXPORT = "export";
     public const CMD_IMPORT = "importFile";
     public const CMD_CREATE = "create";
@@ -85,6 +84,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     public const CMD_PERFORM_PASTE = 'performPasteIntoMultipleObjects';
     public const CMD_SHOW_TRASH = 'trash';
     public const CMD_UNDELETE = 'undelete';
+    public const CMD_REDRAW_HEADER = 'redrawHeaderAction';
 
     public const TAB_VIEW_CONTENT = "view";
     public const TAB_MANAGE = "manage";
@@ -145,8 +145,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             self::forwardByClass(
                 ilRepositoryGUI::class,
                 [ilObjLearningSequenceGUI::class],
-                $params,
-                self::CMD_VIEW
+                $params
             );
         }
 
@@ -285,7 +284,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                 $this->manage_members($cmd);
                 break;
             case 'illearningprogressgui':
-                $this->learningProgress($cmd);
+                $this->learningProgress();
                 break;
             case 'ilexportgui':
                 $this->export();
@@ -350,7 +349,12 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
             case false:
                 if ($cmd === '') {
-                    $cmd = self::CMD_VIEW;
+                    if ($this->checkAccess("write")) {
+                        $cmd = self::CMD_CONTENT;
+                    }
+                    else {
+                        $cmd = self::CMD_VIEW;
+                    }
                 }
 
                 switch ($cmd) {
@@ -368,7 +372,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                     case self::CMD_SETTINGS:
                     case self::CMD_SAVE:
                     case self::CMD_CREATE:
-                    case self::CMD_LP:
                     case self::CMD_UNPARTICIPATE:
                         $this->$cmd();
                         break;
@@ -418,6 +421,10 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                     case self::CMD_CANCEL_LINK:
                         $cmd = self::CMD_CONTENT;
                         $this->$cmd();
+                        break;
+
+                    case self::CMD_REDRAW_HEADER:
+                        $this->redrawHeaderActionObject();
                         break;
 
                     default:
@@ -489,10 +496,10 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     {
         $this->recordLearningSequenceRead();
         $this->tabs->clearSubTabs();
-        if (
-            $this->checkAccess("read") ||
-            $this->checkAccess("write")
-        ) {
+        if ($this->checkAccess("write")) {
+            $this->manageContent(self::CMD_CONTENT);
+            return;
+        } else if ($this->checkAccess("read")) {
             $this->learnerView(self::CMD_LEARNER_VIEW);
             return;
         } else {
@@ -563,7 +570,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $this->ctrl->forwardCommand($ms_gui);
     }
 
-    protected function learningProgress(string $cmd = self::CMD_LP): void
+    protected function learningProgress(): void
     {
         $this->tabs->setTabActive(self::TAB_LP);
 
@@ -578,12 +585,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             $this->getObject()->getRefId(),
             $for_user
         );
-
-        if ($cmd === self::CMD_LP) {
-            $cmd = '';
-        }
-
-        $this->ctrl->setCmd($cmd);
         $this->ctrl->forwardCommand($lp_gui);
     }
 
@@ -698,7 +699,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             $this->tabs->addTab(
                 self::TAB_LP,
                 $this->lng->txt(self::TAB_LP),
-                $this->getLinkTarget(self::CMD_LP)
+                $this->ctrl->getLinkTargetByClass(array('ilobjlearningsequencegui', 'illearningprogressgui'), '')
             );
         }
 
@@ -767,17 +768,14 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
     protected function checkLPAccess(): bool
     {
-        if (ilObject::_lookupType($this->obj_id) !== "lso") {
+        if (ilObject::_lookupType($this->ref_id, true) !== "lso") {
             return false;
         }
 
         $ref_id = $this->getObject()->getRefId();
         $is_participant = ilLearningSequenceParticipants::_isParticipant($ref_id, $this->user->getId());
 
-        $lp_access = ilLearningProgressAccess::checkAccess($ref_id, $is_participant);
-        $may_edit_lp_settings = $this->checkAccess('edit_learning_progress');
-
-        return ($lp_access || $may_edit_lp_settings);
+        return ilLearningProgressAccess::checkAccess($ref_id, $is_participant);
     }
 
     protected function getLinkTarget(string $cmd): string
@@ -803,8 +801,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                 return 'ilInfoScreenGUI';
             case self::CMD_PERMISSIONS:
                 return 'ilPermissionGUI';
-            case self::CMD_LP:
-                return 'ilLearningProgressGUI';
         }
 
         throw new InvalidArgumentException('cannot resolve class for command: ' . $cmd);
@@ -892,4 +888,29 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     {
         parent::showPossibleSubObjects();
     }
+
+    /**
+    * ATTENTION: This mostly is a copy of `ilObjectGUI::confirmDeleteObject`, but does not
+    * redirect to parent afterwards, because we are, in fact, the parent.
+    */
+    public function confirmedDeleteObject(): void
+    {
+        if ($this->post_wrapper->has("mref_id")) {
+            $mref_id = $this->post_wrapper->retrieve(
+                "mref_id",
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            );
+            $_SESSION["saved_post"] = array_unique(array_merge($_SESSION["saved_post"], $mref_id));
+        }
+
+        $ru = new ilRepositoryTrashGUI($this);
+        $ru->deleteObjects($this->requested_ref_id, ilSession::get("saved_post") ?? []);
+        ilSession::clear("saved_post");
+        $this->ctrl->redirect($this, self::CMD_CONTENT);
+    }
+
+    protected function enableDragDropFileUpload(): void
+    {
+    }
+ 
 }

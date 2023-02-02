@@ -1,7 +1,22 @@
 <?php
 
 declare(strict_types=0);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilLPObjSettings
@@ -427,7 +442,7 @@ class ilLPObjSettings
         return $res;
     }
 
-    public static function _lookupDBMode(int $a_obj_id): int
+    public static function _lookupDBMode(int $a_obj_id): ?int
     {
         global $DIC;
 
@@ -435,12 +450,11 @@ class ilLPObjSettings
         // this does NOT handle default mode!
         $query = "SELECT u_mode FROM ut_lp_settings" .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer");
-        $set = $ilDB->query($query);
-        $row = $ilDB->fetchAssoc($set);
-        if (is_array($row)) {
-            return (int) $row['u_mode'];
+        $res = $ilDB->query($query);
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            return (int) $row->u_mode;
         }
-        return 0;
+        return null;
     }
 
     public static function _mode2Text(int $a_mode): string

@@ -118,7 +118,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     public function getChildsOfNode($a_parent_node_id): array
     {
         $parent_node = $this->nodes[$a_parent_node_id];
-        return (array) $parent_node['childs'];
+        return (array) ($parent_node['childs'] ?? []);
     }
 
     /**
@@ -167,6 +167,6 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
      */
     public function isNodeHighlighted($a_node): bool
     {
-        return $a_node['current'];
+        return $a_node['current'] ?? false;
     }
 }

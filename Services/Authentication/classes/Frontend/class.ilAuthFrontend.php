@@ -316,9 +316,6 @@ class ilAuthFrontend
         // @todo move to event handling
         ilOnlineTracking::addUser($user->getId());
 
-        // @todo move to event handling
-        ilObjForum::_updateOldAccess($user->getId());
-
         $security_settings = ilSecuritySettings::_getInstance();
 
         // determine first login of user for setting an indicator

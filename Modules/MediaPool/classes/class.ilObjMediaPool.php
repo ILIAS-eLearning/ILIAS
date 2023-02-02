@@ -21,7 +21,7 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilObjMediaPool extends ilObject
+class ilObjMediaPool extends ilObject implements ilAdvancedMetaDataSubItems
 {
     protected ?int $default_width = null;
     protected ?int $default_height = null;
@@ -507,5 +507,17 @@ class ilObjMediaPool extends ilObject
             $conf->setMasterLanguageOnly(true, ($a_mode === "master"));
             $exp->exportObject($this->getType(), $this->getId(), "4.4.0");
         }
+    }
+
+    public static function getAdvMDSubItemTitle(int $a_obj_id, string $a_sub_type, int $a_sub_id): string
+    {
+        $repo = new ILIAS\MediaPool\MediaPoolRepository();
+        $snippets = $repo->getItems((int) $a_obj_id);
+        foreach ($snippets as $snippet) {
+            if ((int) $snippet['obj_id'] === (int) $a_sub_id) {
+                return $snippet['title'];
+            }
+        }
+        return '';
     }
 }

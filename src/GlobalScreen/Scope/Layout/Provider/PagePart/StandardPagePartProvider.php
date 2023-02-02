@@ -30,6 +30,7 @@ use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Combined;
+use ILIAS\UI\Component\Toast\Container as TContainer;
 use ilUserUtil;
 use ilUtil;
 use ILIAS\GlobalScreen\Services;
@@ -186,7 +187,7 @@ class StandardPagePartProvider implements PagePartProvider
         $std_logo = ilUtil::getImagePath("HeaderIcon.svg");
 
         return $this->ui->factory()->image()
-                        ->standard($std_logo, "ILIAS")
+                        ->standard($std_logo, $this->lang->txt('rep_main_page'))
                         ->withAction($this->getStartingPointAsUrl());
     }
 
@@ -198,7 +199,7 @@ class StandardPagePartProvider implements PagePartProvider
         $responsive_logo = ilUtil::getImagePath("HeaderIconResponsive.svg");
 
         return $this->ui->factory()->image()
-                        ->standard($responsive_logo, "ILIAS")
+                        ->standard($responsive_logo, $this->lang->txt('rep_main_page'))
                         ->withAction($this->getStartingPointAsUrl());
     }
 
@@ -263,5 +264,19 @@ class StandardPagePartProvider implements PagePartProvider
     public function getViewTitle(): string
     {
         return 'view';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getToastContainer(): TContainer
+    {
+        $toast_container = $this->ui->factory()->toast()->container();
+
+        foreach ($this->gs->collector()->toasts()->getToasts() as $toast) {
+            $toast_container = $toast_container->withAdditionalToast($toast);
+        }
+
+        return $toast_container;
     }
 }

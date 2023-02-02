@@ -79,6 +79,12 @@ class ilOrgUnitPermission extends ActiveRecord
     protected bool $protected = false;
     protected bool $newly_created = false;
 
+    public function __construct($primary_key = 0)
+    {
+        parent::__construct($primary_key);
+        $this->afterObjectLoad();
+    }
+
     public function update(): void
     {
         if ($this->isProtected()) {
@@ -178,7 +184,7 @@ class ilOrgUnitPermission extends ActiveRecord
         return $this->selected_operation_ids;
     }
 
-    public function isOperationIdSelected(string $operation_id): bool
+    public function isOperationIdSelected(int $operation_id): bool
     {
         return in_array($operation_id, $this->selected_operation_ids);
     }

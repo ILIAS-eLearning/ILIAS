@@ -87,9 +87,13 @@ class ilSurveyExecutionGUI
         $this->log = ilLoggerFactory::getLogger("svy");
 
         $domain_service = $DIC->survey()->internal();
+        $appraisee_id = ($a_object->getMode() === ilObjSurvey::MODE_SELF_EVAL)
+            ? $this->user->getId()
+            : $this->requested_appr_id;
         $this->run_manager = $domain_service->domain()->execution()->run(
             $a_object,
-            $this->user->getId()
+            $this->user->getId(),
+            $appraisee_id
         );
         $this->participant_manager = $domain_service->domain()->participants()->status(
             $a_object,
@@ -205,12 +209,12 @@ class ilSurveyExecutionGUI
 
         if (!$a_ignore_status) {
             // completed
-            if ($this->run_manager->hasFinished($appr_id)) {
+            if ($this->run_manager->hasFinished()) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("already_completed_survey"), true);
                 $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
             }
             // starting
-            elseif (!$this->run_manager->hasStarted($appr_id)) {
+            elseif (!$this->run_manager->hasStarted()) {
                 if ($a_may_start) {
                     //$_SESSION["finished_id"][$this->object->getId()] =
                     //    $this->object->startSurvey($user_id, $anonymous_code, $appr_id);
@@ -228,7 +232,7 @@ class ilSurveyExecutionGUI
 
         // validate finished id
         if ($this->object->getActiveID($user_id, $anonymous_code, $appr_id) !==
-            $this->run_manager->getCurrentRunId($appr_id)) {
+            $this->run_manager->getCurrentRunId()) {
             throw new ilSurveyException("Run ID mismatch");
         }
     }
@@ -498,7 +502,7 @@ class ilSurveyExecutionGUI
 
     protected function getCurrentRunId(): int
     {
-        return $this->run_manager->getCurrentRunId($this->requested_appr_id);
+        return $this->run_manager->getCurrentRunId();
     }
 
     /**
@@ -629,7 +633,11 @@ class ilSurveyExecutionGUI
             }
 
             $button = ilLinkButton::getInstance();
-            $button->setCaption("survey_execution_exit");
+            if ($this->object->getMode() === ilObjSurvey::MODE_360) {
+                $button->setCaption("survey_execution_exit_360");
+            } else {
+                $button->setCaption("survey_execution_exit");
+            }
             $button->setUrl($this->ctrl->getLinkTarget($this, "exitSurvey"));
             $ilToolbar->addButtonInstance($button);
 
@@ -646,7 +654,7 @@ class ilSurveyExecutionGUI
         $tree = $this->tree;
 
         // #14971
-        if ($this->feature_config->usesAppraisees()) {
+        if ($this->object->getMode() === ilObjSurvey::MODE_360) {
             $target_ref_id = $this->object->getRefId();
         } else {
             // #11534

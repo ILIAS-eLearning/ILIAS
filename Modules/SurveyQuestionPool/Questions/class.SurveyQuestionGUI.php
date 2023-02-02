@@ -569,6 +569,27 @@ abstract class SurveyQuestionGUI
         return $title;
     }
 
+    protected function getQuestionTitle(
+        int $question_title_mode = 1
+    ): string {
+        $title = "";
+        switch ($question_title_mode) {
+            case ilObjSurvey::PRINT_HIDE_LABELS:
+                $title = $this->object->getTitle();
+                break;
+
+            case ilObjSurvey::PRINT_SHOW_LABELS:
+                $title = $this->object->getTitle();
+                if (trim($this->object->getLabel())) {
+                    $title .= ' <span class="questionLabel">(' .
+                            $this->object->getLabel()
+                         . ')</span>';
+                }
+                break;
+        }
+        return $title;
+    }
+
     public function preview(): void
     {
         $ilTabs = $this->tabs;

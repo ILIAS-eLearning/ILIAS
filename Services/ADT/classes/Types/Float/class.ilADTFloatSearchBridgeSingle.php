@@ -38,7 +38,7 @@ class ilADTFloatSearchBridgeSingle extends ilADTSearchBridgeSingle
         if ($max !== null) {
             $number->setMaxValue($max);
 
-            $length = strlen($max);
+            $length = strlen((string) $max);
             $number->setSize($length);
             $number->setMaxLength($length);
         }

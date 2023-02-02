@@ -73,7 +73,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
             }
         } else {
             $this->setLimit(20);
-
+            $this->setShowRowsSelector(false);     // see #35492
             $this->addColumn($this->lng->txt("trac_figure"));
         }
         $this->initFilter();
@@ -82,7 +82,11 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
             foreach ($this->getMonthsYear(
                 $this->filter["yearmonth"]
             ) as $num => $caption) {
-                $this->addColumn($caption, "month_" . $num);
+                if ($this->is_details) {
+                    $this->addColumn($caption);     // see #35492
+                } else {
+                    $this->addColumn($caption, "month_" . $num);
+                }
             }
         } else {
             foreach ($this->types as $type) {
@@ -204,6 +208,11 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
             return true;
         }
         return false;
+    }
+
+    protected function isForwardingToFormDispatcher(): bool
+    {
+        return true;
     }
 
 

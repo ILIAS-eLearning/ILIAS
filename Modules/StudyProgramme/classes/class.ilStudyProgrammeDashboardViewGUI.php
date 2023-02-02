@@ -21,187 +21,86 @@ declare(strict_types=1);
 class ilStudyProgrammeDashboardViewGUI
 {
     protected ilLanguage $lng;
-    protected ilObjUser $user;
     protected ilAccessHandler $access;
     protected ilSetting $setting;
     protected ILIAS\UI\Factory $factory;
     protected ILIAS\UI\Renderer $renderer;
     protected ilCtrl $ctrl;
-    protected ilLogger $log;
-
+    protected ilStudyProgrammeUserTable $user_table;
+    protected int $usr_id;
     protected ?string $visible_on_pd_mode = null;
-    protected ?ilStudyProgrammeProgressRepository $progress_repository = null;
-    protected ?ilStudyProgrammeAssignmentRepository $assignment_repository = null;
-
     public function __construct(
         ilLanguage $lng,
-        ilObjUser $user,
         ilAccess $access,
         ilSetting $setting,
         ILIAS\UI\Factory $factory,
         ILIAS\UI\Renderer $renderer,
         ilCtrl $ctrl,
-        ilLogger $log
+        ilStudyProgrammeUserTable $user_table,
+        int $usr_id
     ) {
         $this->lng = $lng;
         $this->lng->loadLanguageModule('prg');
-        $this->user = $user;
+        $this->lng->loadLanguageModule('certificate');
         $this->access = $access;
         $this->setting = $setting;
-        $this->log = $log;
         $this->factory = $factory;
         $this->renderer = $renderer;
         $this->ctrl = $ctrl;
+        $this->user_table = $user_table;
+        $this->usr_id = $usr_id;
     }
 
-    protected function getProgressRepository(): ilStudyProgrammeProgressRepository
-    {
-        if (!$this->progress_repository) {
-            $this->progress_repository = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'];
-        }
-        return $this->progress_repository;
-    }
-
-    protected function getAssignmentRepository(): ilStudyProgrammeAssignmentRepository
-    {
-        if (!$this->assignment_repository) {
-            $this->assignment_repository = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
-        }
-        return $this->assignment_repository;
-    }
-
-    protected function getUsersAssignments(): array
-    {
-        return $this->getAssignmentRepository()->getDashboardInstancesforUser($this->user->getId());
-    }
-
-    /**
-     * @throws ilException
-     */
     public function getHTML(): string
     {
+        //array ilStudyProgrammeUserTableRow[]
+        $this->user_table->disablePermissionCheck(true);
+        $rows = $this->user_table->fetchSingleUserRootAssignments($this->usr_id);
         $items = [];
-        $now = new DateTimeImmutable();
-
-        foreach ($this->getUsersAssignments() as $assignments) {
-            $properties = [];
-            krsort($assignments);
-
-            $assignment = current($assignments);
-            if (!$this->isReadable($assignment)) {
+        foreach ($rows as $row) {
+            $prg = ilObjStudyProgramme::getInstanceByObjId($row->getNodeId());
+            if (! $this->isReadable($prg)) {
                 continue;
             }
 
-            $progress = $this->getProgressRepository()->getRootProgressOf($assignment);
-
-            $current_prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
-            [$minimum_percents, $current_percents] = $this->calculatePercent(
-                $current_prg,
-                $progress->getCurrentAmountOfPoints()
-            );
-
-            $current_status = $progress->getStatus();
-            $deadline = $progress->getDeadline();
-            $restart_date = $assignment->getRestartDate();
-
-            $properties[] = $this->fillMinimumCompletion($minimum_percents);
-            $properties[] = $this->fillCurrentCompletion($current_percents);
-            $properties[] = $this->fillStatus((string) $current_status);
-
-            if ($progress->isSuccessful()) {
-                $properties[] = $this->fillRestartFrom($restart_date);
-
-                $valid = $progress->hasValidQualification($now);
-                $validation_expiry_date = $progress->getValidityOfQualification();
-                $properties[] = $this->fillValidation($valid, $validation_expiry_date);
-            }
-            if ($progress->isInProgress()) {
-                $properties[] = $this->fillFinishUntil($deadline);
+            $min = $row->getPointsRequired();
+            $max = $row->getPointsReachable();
+            $cur = $row->getPointsCurrent();
+            $required_string = $min;
+            if ((float)$max < (float)$min) {
+                $required_string .= ' ' . $this->txt('prg_dash_label_unreachable') . ' (' . $max . ')';
             }
 
+            $properties = [
+                [$this->txt('prg_dash_label_minimum') => $required_string],
+                [$this->txt('prg_dash_label_gain') => $cur],
+                [$this->txt('prg_dash_label_status') => $row->getStatus()],
+            ];
 
+            if (in_array($row->getStatusRaw(), [ilPRGProgress::STATUS_COMPLETED, ilPRGProgress::STATUS_ACCREDITED])) {
+                $validity = $row->getExpiryDate() ? $row->getExpiryDate() : $row->getValidity();
+                $properties[] = [$this->txt('prg_dash_label_valid') => $validity];
+            } else {
+                $properties[] = [$this->txt('prg_dash_label_finish_until') =>$row->getDeadline()];
+            }
 
-            $items[] = $this->buildItem($current_prg, $properties);
+            $validator = new ilCertificateDownloadValidator();
+            if ($validator->isCertificateDownloadable($row->getUsrId(), $row->getNodeId())) {
+                $cert_url = "ilias.php?baseClass=ilRepositoryGUI&ref_id=" . $prg->getRefId() . "&cmd=deliverCertificate";
+                $cert_link = $this->factory->link()->standard($this->txt('download_certificate'), $cert_url);
+                $properties[] = [$this->txt('certificate') => $this->renderer->render($cert_link)];
+            }
+
+            $items[] = $this->buildItem($prg, $properties);
         }
 
         if (count($items) === 0) {
-            return "";
+            return '';
         }
-
         $group[] = $this->factory->item()->group("", $items);
         $panel = $this->factory->panel()->listing()->standard($this->lng->txt("dash_studyprogramme"), $group);
 
         return $this->renderer->render($panel);
-    }
-
-
-
-    protected function isInProgress(int $current_status): bool
-    {
-        $status = [ilStudyProgrammeProgress::STATUS_IN_PROGRESS];
-        return in_array($current_status, $status);
-    }
-
-    protected function fillValidation(?bool $valid, ?DateTimeImmutable $validation_expiry_date): array
-    {
-        $validation = '';
-        if (!$valid) {
-            $validation = $this->txt('no');
-        }
-        if ($valid && is_null($validation_expiry_date)) {
-            $validation = $this->txt('yes');
-        }
-        if ($valid && !is_null($validation_expiry_date)) {
-            $date = new ilDate($validation_expiry_date->format('Y-m-d'), IL_CAL_DATE);
-            $validation = ilDatePresentation::formatDate($date);
-        }
-
-        return [$this->txt('prg_dash_label_valid') => $validation];
-    }
-
-    protected function fillMinimumCompletion(float $value): array
-    {
-        $title = $value . " " . $this->txt('percentage');
-        return [$this->txt('prg_dash_label_minimum') => $title];
-    }
-
-    protected function fillCurrentCompletion(float $value): array
-    {
-        $title = $value . " " . $this->txt('percentage');
-        return [$this->txt('prg_dash_label_gain') => $title];
-    }
-
-    protected function fillStatus(string $status): array
-    {
-        return [$this->txt('prg_dash_label_status') => $this->txt('prg_status_' . $status)];
-    }
-
-    protected function fillFinishUntil(DateTimeImmutable $value = null): array
-    {
-        $ret = [];
-        if (!is_null($value)) {
-            $date = new ilDate(
-                $value->format('Y-m-d'),
-                IL_CAL_DATE
-            );
-            $date_string = ilDatePresentation::formatDate($date);
-            $ret[$this->txt('prg_dash_label_finish_until')] = $date_string;
-        }
-        return $ret;
-    }
-
-    protected function fillRestartFrom(DateTimeImmutable $value = null): array
-    {
-        $ret = [];
-        if (!is_null($value)) {
-            $date = new ilDate(
-                $value->format('Y-m-d'),
-                IL_CAL_DATE
-            );
-            $date_string = ilDatePresentation::formatDate($date);
-            $ret[$this->txt('prg_dash_label_restart_from')] = $date_string;
-        }
-        return $ret;
     }
 
     protected function getVisibleOnPDMode(): string
@@ -216,97 +115,17 @@ class ilStudyProgrammeDashboardViewGUI
         return $this->visible_on_pd_mode;
     }
 
-    /**
-     * @throws ilException
-     */
-    protected function hasPermission(
-        ilStudyProgrammeAssignment $assignment,
-        string $permission
-    ): bool {
-        try {
-            $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
-        } catch (ilException $e) {
-            return false;
-        }
-        return $this->access->checkAccess($permission, "", $prg->getRefId(), "prg", $prg->getId());
-    }
-
-    /**
-     * @throws ilException
-     */
-    protected function isReadable(ilStudyProgrammeAssignment $assignment): bool
+    protected function isReadable(ilObjStudyProgramme $prg): bool
     {
         if ($this->getVisibleOnPDMode() === ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_ALLWAYS) {
             return true;
         }
-
-        return $this->hasPermission($assignment, "read");
+        return $this->access->checkAccess('read', "", $prg->getRefId(), "prg", $prg->getId());
     }
 
     protected function txt(string $code): string
     {
         return $this->lng->txt($code);
-    }
-
-    protected function calculatePercent(ilObjStudyProgramme $prg, int $current_points): array
-    {
-        $minimum_percents = 0;
-        $current_percents = 0;
-
-        if ($prg->hasLPChildren()) {
-            $minimum_percents = 100;
-            if ($current_points > 0) {
-                $current_percents = 100;
-            }
-        }
-
-        $children = $prg->getAllPrgChildren();
-        if (count($children) > 0) {
-            $max_points = 0;
-            foreach ($children as $child) {
-                $max_points += $child->getPoints();
-            }
-
-            if ($max_points > 0) {
-                $prg_points = $prg->getPoints();
-                $minimum_percents = round((100 * $prg_points / $max_points), 2);
-            }
-            if ($current_points > 0) {
-                $current_percents = round((100 * $current_points / $max_points), 2);
-            }
-        }
-
-        return [
-            $minimum_percents,
-            $current_percents
-        ];
-    }
-
-    protected function findValidationValues(array $assignments): array
-    {
-        $validation_date = $this->findValid($assignments);
-
-        return [
-            !is_null($validation_date) && $validation_date->format("Y-m-d") > date("Y-m-d"),
-            $validation_date
-        ];
-    }
-
-    protected function findValid(array $assignments): ?DateTimeImmutable
-    {
-        $status = [
-            ilStudyProgrammeProgress::STATUS_COMPLETED,
-            ilStudyProgrammeProgress::STATUS_ACCREDITED
-        ];
-        foreach ($assignments as $assignment) {
-            $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
-            $progress = $prg->getProgressForAssignment($assignment->getId());
-
-            if (in_array($progress->getStatus(), $status)) {
-                return $progress->getValidityOfQualification();
-            }
-        }
-        return null;
     }
 
     protected function buildItem(

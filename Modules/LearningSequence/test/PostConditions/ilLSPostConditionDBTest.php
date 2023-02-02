@@ -94,13 +94,13 @@ class ilLSPostConditionDBTest extends TestCase
         $rows = [
             [
                 'ref_id' => 33,
-                'condition_operator' => 'operator1',
-                'value' => 11
+                'condition_operator' => 'failed',
+                'value' => "11"
             ],
             [
                 'ref_id' => 44,
-                'condition_operator' => 'operator2',
-                'value' => 12
+                'condition_operator' => 'finished',
+                'value' => "12"
             ],
             null
         ];
@@ -123,12 +123,12 @@ class ilLSPostConditionDBTest extends TestCase
         $result = $obj->select([33,44]);
 
         $this->assertEquals(33, $result[0]->getRefId());
-        $this->assertEquals('operator1', $result[0]->getConditionOperator());
-        $this->assertEquals(11, $result[0]->getValue());
+        $this->assertEquals('failed', $result[0]->getConditionOperator());
+        $this->assertEquals("11", $result[0]->getValue());
 
         $this->assertEquals(44, $result[1]->getRefId());
-        $this->assertEquals('operator2', $result[1]->getConditionOperator());
-        $this->assertEquals(12, $result[1]->getValue());
+        $this->assertEquals('finished', $result[1]->getConditionOperator());
+        $this->assertEquals("12", $result[1]->getValue());
     }
 
     public function testDelete(): void

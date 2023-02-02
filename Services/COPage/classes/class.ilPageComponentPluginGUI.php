@@ -67,13 +67,14 @@ abstract class ilPageComponentPluginGUI
     /**
      * Get HTML
      */
-    public function getHTML(): void
+    public function getHTML(): string
     {
         if ($this->getMode() == ilPageComponentPlugin::CMD_INSERT) {
             $this->insert();
         } elseif ($this->getMode() == ilPageComponentPlugin::CMD_EDIT) {
             $this->edit();
         }
+        return "";
     }
 
     abstract public function executeCommand(): void;

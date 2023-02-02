@@ -86,7 +86,7 @@ class ilAdvSelectInputGUI extends ilFormPropertyGUI
         return $this->str($this->getPostVar());
     }
 
-    public function insert(ilTemplate $a_tpl): void
+    protected function getAdvSelection(): ilAdvancedSelectionListGUI
     {
         $selection = new ilAdvancedSelectionListGUI();
         $selection->setFormSelectMode(
@@ -118,9 +118,19 @@ class ilAdvSelectInputGUI extends ilFormPropertyGUI
                 $selection->setListTitle($option["txt"]);
             }
         }
+        return $selection;
+    }
 
+    public function insert(ilTemplate $a_tpl): void
+    {
+        $selection = $this->getAdvSelection();
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $selection->getHTML());
         $a_tpl->parseCurrentBlock();
+    }
+
+    public function getOnloadCode(): array
+    {
+        return $this->getAdvSelection()->getOnloadCode();
     }
 }

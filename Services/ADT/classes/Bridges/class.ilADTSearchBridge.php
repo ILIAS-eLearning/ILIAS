@@ -34,7 +34,7 @@ abstract class ilADTSearchBridge
     public const DEFAULT_SEARCH_COLUMN = 'value';
 
     protected ?ilPropertyFormGUI $form = null;
-    protected ilTable2GUI $table_gui;
+    protected ?ilTable2GUI $table_gui = null;
     protected array $table_filter_fields = [];
     protected string $id = '';
     protected string $title = '';
@@ -117,13 +117,20 @@ abstract class ilADTSearchBridge
         if (!$this->table_gui instanceof ilTable2GUI) {
             return;
         }
-        $session_table = (array) (ilSession::get("form_" . $this->table_gui->getId()) ?? []);
+        /*
+         * BT 35593: changes in ilFormPropertyGUI::clearFromSession make it necessary
+         * to have a flat array for all the filter inputs in the session.
+         */
         if ($a_value !== null) {
-            $session_table[$this->getElementId()] = serialize($a_value);
+            ilSession::set(
+                "form_" . $this->table_gui->getId() . "_" . $this->getElementId(),
+                serialize($a_value)
+            );
         } else {
-            unset($session_table[$this->getElementId()]);
+            ilSession::clear(
+                "form_" . $this->table_gui->getId() . "_" . $this->getElementId()
+            );
         }
-        ilSession::set("form_" . $this->table_gui->getId(), $session_table);
     }
 
     /**
@@ -135,8 +142,13 @@ abstract class ilADTSearchBridge
         if (!$this->table_gui instanceof ilTable2GUI) {
             return null;
         }
-        $session_table = (array) (ilSession::get("form_" . $this->table_gui->getId()) ?? []);
-        $value = $session_table[$this->getElementId()] ?? '';
+        /*
+         * BT 35593: changes in ilFormPropertyGUI::clearFromSession make it necessary
+         * to have a flat array of all the filter inputs in the session.
+         */
+        $value = ilSession::get(
+            "form_" . $this->table_gui->getId() . "_" . $this->getElementId()
+        ) ?? '';
         if ($value) {
             return unserialize($value);
         }
@@ -204,14 +216,14 @@ abstract class ilADTSearchBridge
         if ($a_post === null) {
             $a_post = $this->http->request()->getParsedBody();
             if ($multi !== false) {
-                $post = $a_post[substr($element_id, 0, $multi)][substr($element_id, $multi + 1, -1)];
+                $post = $a_post[substr($element_id, 0, $multi)][substr($element_id, $multi + 1, -1)] ?? null;
             } else {
-                $post = $a_post[$element_id];
+                $post = $a_post[$element_id] ?? null;
             }
         } elseif ($multi !== false) {
-            $post = $a_post[substr($element_id, $multi + 1, -1)];
+            $post = $a_post[substr($element_id, $multi + 1, -1)] ?? null;
         } else {
-            $post = $a_post[$element_id];
+            $post = $a_post[$element_id] ?? null;
         }
         return $post;
     }

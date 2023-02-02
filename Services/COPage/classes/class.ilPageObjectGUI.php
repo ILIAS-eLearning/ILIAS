@@ -44,13 +44,13 @@ class ilPageObjectGUI
     protected int $requested_old_nr;
     protected EditGUIRequest $request;
     protected EditSessionRepository $edit_repo;
-    protected string $exp_target_script;
-    protected string $exp_id;
-    protected string $exp_frame;
-    protected string $act_meth;
+    protected string $exp_target_script = "";
+    protected string $exp_id = "";
+    protected string $exp_frame = "";
+    protected string $act_meth = "";
     protected object $act_obj;
-    public string $page_back_title;
-    protected int $notes_parent_id;
+    public string $page_back_title = "";
+    protected int $notes_parent_id = 0;
     protected ilPropertyFormGUI $form;
     protected int $styleid = 0;
     protected bool $enabledpagefocus;
@@ -1397,7 +1397,9 @@ class ilPageObjectGUI
                 false,
                 true,
                 true,
-                $link_xml . $template_xml . $this->getComponentPluginsXML()
+                $link_xml . $template_xml . $this->getComponentPluginsXML(),
+                false,
+                $this->getStyleId()
             );
         }
 
@@ -1495,6 +1497,8 @@ class ilPageObjectGUI
                          'img_row' => $row_path,
                          'img_cell' => $cell_path,
                          'img_item' => $item_path,
+                         'acc_save_url' => "./ilias.php?baseClass=ilaccordionpropertiesstoragegui&cmd=setOpenedTab" .
+                             "&user_id=" . $this->user->getId(),
                          'append_footnotes' => $append_footnotes,
                          'compare_mode' => $this->getCompareMode() ? "y" : "n",
                          'enable_split_new' => $enable_split_new,
@@ -2753,6 +2757,8 @@ class ilPageObjectGUI
     */
     public function editActivation(): void
     {
+        $this->setBackToEditTabs();
+
         $atpl = new ilTemplate("tpl.page_activation.php", true, true, "Services/COPage");
         $this->initActivationForm();
         $this->getActivationFormValues();
@@ -2970,7 +2976,7 @@ class ilPageObjectGUI
         $ac->setInternalLinkDefault("Media_Media", 0);
         $ac->setInternalLinkFilterTypes(array("PageObject_FAQ", "GlossaryItem", "Media_Media", "Media_FAQ"));
         $val = $this->obj->getInitialOpenedContent();
-        if ($val["id"] != "" && $val["type"] != "") {
+        if (($val["id"] ?? '') != "" && ($val["type"] ?? '') != "") {
             $ac->setValue($val["type"] . "|" . $val["id"] . "|" . $val["target"]);
         }
 
@@ -2988,7 +2994,7 @@ class ilPageObjectGUI
     {
         $this->obj->saveInitialOpenedContent(
             $this->request->getString("opened_content_ajax_type"),
-            $this->request->getString("opened_content_ajax_id"),
+            $this->request->getInt("opened_content_ajax_id"),
             $this->request->getString("opened_content_ajax_target")
         );
 
@@ -3039,7 +3045,7 @@ class ilPageObjectGUI
      */
     public function editMasterLanguage(): void
     {
-        $this->ctrl->setParameter($this, "transl", "");
+        $this->ctrl->setParameter($this, "transl", "-");
         $this->ctrl->redirect($this, "edit");
     }
 

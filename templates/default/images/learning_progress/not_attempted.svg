@@ -1,1 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 40 14"><defs><style>.cls-1{fill:none;}.cls-2{clip-path:url(#clippath);}.cls-3{fill:#52658b;}</style><clipPath id="clippath"><rect class="cls-1" y=".16" width="40" height="13.68"/></clipPath></defs><g class="cls-2"><path class="cls-3" d="M2.9,7c0-1.89,1.53-3.42,3.42-3.42s3.42,1.53,3.42,3.42-1.53,3.42-3.42,3.42-3.42-1.53-3.42-3.42m-1,6.84H12.5V.16H1.9C.85,.16,0,1.01,0,2.06V11.94c0,1.05,.85,1.9,1.9,1.9m12.18,0h11.84V.16H14.08V13.84Zm25.92-1.9V2.06c0-1.05-.85-1.9-1.9-1.9h-10.6V13.84h10.6c1.05,0,1.9-.85,1.9-1.9"/></g></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.5.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 40 13.7" style="enable-background:new 0 0 40 13.7;" xml:space="preserve">
+<style type="text/css">
+	.st0{clip-path:url(#SVGID_00000085251967017277844660000008462091694317339011_);fill:#4C6586;}
+</style>
+<g>
+	<g>
+		<defs>
+			<rect id="SVGID_1_" y="0" width="40" height="13.7"/>
+		</defs>
+		<clipPath id="SVGID_00000026872872320929610410000001359506723196844987_">
+			<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+		</clipPath>
+		<path style="clip-path:url(#SVGID_00000026872872320929610410000001359506723196844987_);fill:#4C6586;" d="M2.9,6.8
+			c0-1.9,1.5-3.4,3.4-3.4S9.7,5,9.7,6.8c0,1.9-1.5,3.4-3.4,3.4S2.9,8.7,2.9,6.8 M1.9,13.7h10.6V0H1.9C0.9,0,0,0.9,0,1.9v9.9
+			C0,12.8,0.9,13.7,1.9,13.7 M14.1,13.7h11.8V0H14.1V13.7z M40,11.8V1.9c0-1-0.9-1.9-1.9-1.9H27.5v13.7h10.6
+			C39.1,13.7,40,12.8,40,11.8"/>
+	</g>
+</g>
+</svg>

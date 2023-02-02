@@ -112,6 +112,10 @@ class ilObjExerciseGUI extends ilObjectGUI
         /** @var ilObjExercise $exc */
         $exc = $this->object;
 
+        if (!$this->getCreationMode() && isset($this->object)) {
+            $this->tpl->setPermanentLink("exc", $this->object->getRefId());
+        }
+
         //echo "-".$next_class."-".$cmd."-"; exit;
         switch ($next_class) {
             case "ilinfoscreengui":
@@ -604,12 +608,6 @@ class ilObjExerciseGUI extends ilObjectGUI
         }
 
         // learning progress
-        /* might not be needed anymore
-        $save_sort_order = $this->requested_sort_order;		// hack, because exercise sort parameters
-        $save_sort_by = $this->requested_sort_by;			// must not be forwarded to learning progress
-        $save_offset = $this->requested_offset;
-        $_GET["offset"] = $_GET["sort_by"] = $_GET["sort_order"] = "";
-        */
         $ctrl->clearParametersByClass('illearningprogressgui');
 
         if (ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
@@ -619,12 +617,6 @@ class ilObjExerciseGUI extends ilObjectGUI
                 $this->ctrl->getLinkTargetByClass(array('ilobjexercisegui', 'illearningprogressgui'), '')
             );
         }
-
-        /* might not be needed anymore
-        $_GET["sort_order"] = $save_sort_order;		// hack, part ii
-        $_GET["sort_by"] = $save_sort_by;
-        $_GET["offset"] = $save_offset;
-        */
 
         // meta data
         if ($this->access->checkAccess('write', '', $this->object->getRefId())) {

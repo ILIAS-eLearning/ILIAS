@@ -119,7 +119,7 @@ class ilObjectDefinition
 
         $sql =
             "SELECT id, class_name, component, location, checkbox, inherit, translate, devmode, allow_link," . PHP_EOL
-            . "allow_copy, rbac, system, sideblock, default_pos, grp, default_pres_pos, export, repository," . PHP_EOL
+            . "allow_copy, rbac, `system`, sideblock, default_pos, grp, default_pres_pos, `export`, repository," . PHP_EOL
             . "workspace, administration, amet, orgunit_permissions, lti_provider, offline_handling" . PHP_EOL
             . "FROM il_object_def" . PHP_EOL
         ;
@@ -139,7 +139,7 @@ class ilObjectDefinition
                 "rbac" => $rec["rbac"],
                 "group" => $rec["grp"],
                 "system" => $rec["system"],
-                "default_pos" => "9999" . str_pad($rec["default_pos"], 4, "0", STR_PAD_LEFT), // "unassigned" group
+                "default_pos" => "9999" . str_pad((string) $rec["default_pos"], 4, "0", STR_PAD_LEFT), // "unassigned" group
                 "sideblock" => $rec["sideblock"],
                 'export' => $rec['export'],
                 'repository' => $rec['repository'],
@@ -431,7 +431,7 @@ class ilObjectDefinition
     public function getSubObjects(string $obj_type, bool $filter = true): array
     {
         $subs = [];
-        if ($subobjects = $this->obj_data[$obj_type]["subobjects"]) {
+        if ($subobjects = ($this->obj_data[$obj_type]["subobjects"] ?? false)) {
             // Filter some objects e.g. chat object are creatable if chat is active
             if ($filter) {
                 $this->__filterObjects($subobjects);
@@ -702,7 +702,7 @@ class ilObjectDefinition
 
         $sql =
             "SELECT id, class_name, component, location, checkbox, inherit, translate, devmode, allow_link," . PHP_EOL
-            . "allow_copy, rbac, system, sideblock, default_pos, grp, default_pres_pos, export, repository," . PHP_EOL
+            . "allow_copy, rbac, `system`, sideblock, default_pos, grp, default_pres_pos, `export`, repository," . PHP_EOL
             . "workspace, administration, amet, orgunit_permissions, lti_provider, offline_handling" . PHP_EOL
             . "FROM il_object_def" . PHP_EOL
             . "WHERE component = %s" . PHP_EOL
@@ -830,7 +830,7 @@ class ilObjectDefinition
     {
         $amet = [];
         foreach ($this->obj_data as $k => $v) {
-            if ($v["amet"]) {
+            if ($v["amet"] ?? false) {
                 $amet[] = ["obj_type" => $k, "sub_type" => ""];
             }
         }

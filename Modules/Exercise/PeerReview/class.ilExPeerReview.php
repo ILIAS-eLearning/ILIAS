@@ -253,7 +253,10 @@ class ilExPeerReview
         $values = null;
         $data = $a_data["pcomment"];
         if ($data) {
-            $values = unserialize($data);
+            try {
+                $values = unserialize($data);
+            } catch (Exception $e) {
+            }
             if (!is_array($values)) {
                 // v1 - pcomment == text
                 $values = array("text" => $data);
@@ -346,7 +349,7 @@ class ilExPeerReview
             " AND peer_id = " . $ilDB->quote($a_peer_id, "integer") .
             " AND ass_id = " . $ilDB->quote($this->assignment_id, "integer"));
         $row = $ilDB->fetchAssoc($set);
-        return (bool) $row["ass_id"];
+        return ((int) ($row["ass_id"] ?? 0) > 0);
     }
 
     public function updatePeerReviewTimestamp(

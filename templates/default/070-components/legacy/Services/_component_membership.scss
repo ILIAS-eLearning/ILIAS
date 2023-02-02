@@ -1,0 +1,23 @@
+@use "../../../010-settings/" as *;
+
+/* Services/Membership */
+
+div.ilAttendanceListPrint td, div.ilAttendanceListPrint th {
+	border: 1px solid $il-main-border-color;
+	padding: 2px;
+}
+
+th.ilMembershipRowActionsHeader {
+	text-align: right;
+}
+
+th.ilMembershipRowActionsHeader span {
+	padding-right: 6px;
+}
+
+body.ilBodyPrint {
+	height: auto;
+	background-color: white;
+	margin: 10px;
+	padding: 0;
+}

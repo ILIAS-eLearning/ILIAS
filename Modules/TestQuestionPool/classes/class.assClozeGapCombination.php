@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 class assClozeGapCombination
 {
     public function loadFromDb($question_id): array
@@ -100,7 +116,7 @@ class assClozeGapCombination
                             $gap_combinations['select'][$i][$k],
                             $j,
                             $gap_values[$i][$j][$k],
-                            $gap_combinations['points'][$i][$j],
+                            (float) $gap_combinations['points'][$i][$j], //Temporary cast solution demanded by @kergomard in https://github.com/ILIAS-eLearning/ILIAS/pull/5178#issuecomment-1301983937
                             $best_solution
                         )
                     );

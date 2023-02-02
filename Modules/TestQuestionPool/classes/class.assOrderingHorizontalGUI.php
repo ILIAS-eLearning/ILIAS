@@ -12,7 +12,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
@@ -146,7 +147,8 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         if (($active_id > 0) && (!$show_correct_solution)) {
             $elements = [];
             $solutions = $this->object->getSolutionValues($active_id, $pass);
-            if (strlen($solutions[0]["value1"])) {
+
+            if (count($solutions) && strlen($solutions[0]["value1"])) {
                 $elements = explode("{::}", $solutions[0]["value1"]);
             }
 
@@ -177,23 +179,15 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
                 $reached_points = $this->object->calculateReachedPoints($active_id, $pass);
             }
             if ($graphicalOutput) {
-                // output of ok/not ok icons for user entered solutions
+                $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK);
                 if ($reached_points == $this->object->getMaximumPoints()) {
-                    $template->setCurrentBlock("icon_ok");
-                    $template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
-                    $template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
-                    $template->parseCurrentBlock();
-                } else {
-                    $template->setCurrentBlock("icon_ok");
-                    if ($reached_points > 0) {
-                        $template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.svg"));
-                        $template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_not_correct_but_positive"));
-                    } else {
-                        $template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
-                        $template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
-                    }
-                    $template->parseCurrentBlock();
+                    $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_OK);
+                } elseif ($reached_points > 0) {
+                    $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_MOSTLY_OK);
                 }
+                $template->setCurrentBlock("icon_ok");
+                $template->setVariable("ICON_OK", $correctness_icon);
+                $template->parseCurrentBlock();
             }
         } else {
             $reached_points = $this->object->getPoints();
@@ -255,12 +249,12 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 
         $template = new ilTemplate("tpl.il_as_qpl_orderinghorizontal_preview.html", true, true, "Modules/TestQuestionPool");
         $js = <<<JS
-    
+
         $('#horizontal_{QUESTION_ID}').ilHorizontalOrderingQuestion({
             result_value_selector  : '.ilOrderingValue',
             result_separator       : '{::}'
         });
-    
+
 JS;
         $js = str_replace('{QUESTION_ID}', $this->object->getId(), $js);
         $this->tpl->addOnLoadCode($js);
@@ -317,13 +311,6 @@ JS;
         $elements = $this->object->getRandomOrderingElements();
 
         if ($active_id) {
-            // hey: prevPassSolutions - obsolete due to central check
-            #$solutions = NULL;
-            #include_once "./Modules/Test/classes/class.ilObjTest.php";
-            #if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-            #{
-            #	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-            #}
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
             // hey.
             if (is_array($solutions) && count($solutions) == 1) {
@@ -430,7 +417,7 @@ JS;
     {
         $this->object->setTextSize($_POST["textsize"]);
         $this->object->setOrderText($_POST["ordertext"]);
-        $this->object->setPoints($_POST["points"]);
+        $this->object->setPoints((float)$_POST["points"]);
     }
 
     /**

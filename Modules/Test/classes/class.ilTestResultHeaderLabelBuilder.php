@@ -1,7 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -151,7 +164,6 @@ class ilTestResultHeaderLabelBuilder
 
     private function initTestType()
     {
-        require_once 'Modules/Course/classes/Objectives/class.ilLOSettings.php';
         $loSettings = ilLOSettings::getInstanceByObjId($this->getObjectiveOrientedContainerId());
 
         if ($loSettings->getInitialTest() == $this->getTestRefId()) {
@@ -163,7 +175,6 @@ class ilTestResultHeaderLabelBuilder
 
     private function initObjectives()
     {
-        require_once 'Modules/Course/classes/Objectives/class.ilLOTestRun.php';
         $loRuns = ilLOTestRun::getRun($this->getObjectiveOrientedContainerId(), $this->getUserId(), $this->getTestObjId());
 
         $this->objectives = array();
@@ -309,7 +320,6 @@ class ilTestResultHeaderLabelBuilder
 
     private function getObjectiveTitle(ilLOTestRun $loRun)
     {
-        require_once 'Modules/Course/classes/class.ilCourseObjective.php';
         return ilCourseObjective::lookupObjectiveTitle($loRun->getObjectiveId());
     }
 

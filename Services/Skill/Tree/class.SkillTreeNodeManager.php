@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -349,7 +351,7 @@ class SkillTreeNodeManager
 
         $cnt = 10;
         foreach ($childs as $c) {
-            \ilSkillTreeNode::_writeOrderNr($c["child"], $cnt);
+            \ilSkillTreeNode::_writeOrderNr((int) $c["child"], $cnt);
             $cnt += 10;
         }
     }

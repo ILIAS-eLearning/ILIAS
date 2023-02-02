@@ -2,7 +2,21 @@
 
 declare(strict_types=1);
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Setup;
 
@@ -57,7 +71,9 @@ class ilUseRootConfirmed implements Setup\Objective
         $message =
             "You seem to be using root or your user just can't be determined. You should\n" .
             "be running this setup with the same user the webserver uses. If this is not\n" .
-            "the case there might be problems accessing files via the web later...\n";
+            "the case there might be problems accessing files via the web later...\n" .
+            "If you still proceed, carefully check file access rights in the data-directories\n" .
+            "after finishing the setup.\n";
 
         if (!$admin_interaction->confirmOrDeny($message)) {
             throw new Setup\NoConfirmationException($message);

@@ -129,8 +129,8 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
             }
             $this->tpl->setVariable("MAIL_SENT", $sent);
 
-            if ($a_set["href"] || $this->fallback_url) {
-                if ($a_set["href"]) {
+            if (($a_set["href"] ?? false) || $this->fallback_url) {
+                if ($a_set["href"] ?? false) {
                     $this->tpl->setVariable("DIRECT_HREF", $a_set["href"]);
                 } else {
                     $this->tpl->setVariable("DIRECT_HREF", $this->fallback_url);

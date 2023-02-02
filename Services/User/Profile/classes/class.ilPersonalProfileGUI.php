@@ -730,7 +730,7 @@ class ilPersonalProfileGUI
                     $form_valid = false;
                 } elseif (ilObjUser::_loginExists($un, $ilUser->getId())) {
                     $this->tpl->setOnScreenMessage('failure', $lng->txt('form_input_not_valid'));
-                    $this->form->getItemByPostVar('username')->setAlert($this->lng->txt('loginname_already_exists'));
+                    $this->form->getItemByPostVar('username')->setAlert($lng->txt('loginname_already_exists'));
                     $form_valid = false;
                 } else {
                     $ilUser->setLogin($un);

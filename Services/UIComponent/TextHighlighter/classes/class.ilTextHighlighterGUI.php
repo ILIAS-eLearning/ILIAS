@@ -20,7 +20,7 @@
  * Text highlighter.
  * @author Alexander Killing <killing@leifos.de>
  *
- * @deprecated 11
+ * @deprecated 10
  */
 class ilTextHighlighterGUI
 {

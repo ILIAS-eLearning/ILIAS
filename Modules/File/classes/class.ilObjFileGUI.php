@@ -57,6 +57,7 @@ class ilObjFileGUI extends ilObject2GUI
     protected \ILIAS\Refinery\Factory $refinery;
     protected \ILIAS\HTTP\Wrapper\WrapperFactory $http;
     protected ilFileServicesSettings $file_service_settings;
+    protected ilObjFileAccessSettings $object_settings;
 
     /**
      * Constructor
@@ -75,6 +76,7 @@ class ilObjFileGUI extends ilObject2GUI
         $this->storage = $DIC->resourceStorage();
         $this->upload_handler = new ilObjFileUploadHandlerGUI();
         $this->stakeholder = new ilObjFileStakeholder();
+        $this->object_settings = new ilObjFileAccessSettings();
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
         $this->obj_service = $DIC->object();
         $this->lng->loadLanguageModule(ilObjFile::OBJECT_TYPE);
@@ -381,7 +383,8 @@ class ilObjFileGUI extends ilObject2GUI
         $processor = new ilObjFileProcessor(
             $this->stakeholder,
             $this,
-            $this->storage
+            $this->storage,
+            $this->file_service_settings
         );
 
         $errors = false;
@@ -410,6 +413,17 @@ class ilObjFileGUI extends ilObject2GUI
             );
         }
 
+        if ($processor->getInvalidFileNames() !== []) {
+            $this->ui->mainTemplate()->setOnScreenMessage(
+                'info',
+                sprintf(
+                    $this->lng->txt('file_upload_info_file_with_critical_extension'),
+                    implode(', ', $processor->getInvalidFileNames())
+                ),
+                true
+            );
+        }
+
         switch ($this->id_type) {
             case self::WORKSPACE_NODE_ID:
                 $link = $this->ctrl->getLinkTargetByClass(ilObjWorkspaceRootFolderGUI::class);
@@ -421,6 +435,14 @@ class ilObjFileGUI extends ilObject2GUI
         }
 
         $this->ctrl->redirectToURL($link);
+    }
+
+    public function putObjectInTree(ilObject $obj, int $parent_node_id = null): void
+    {
+        // this is needed to support multi fileuploads in personal and shared resources
+        $backup_node_id = $this->node_id;
+        parent::putObjectInTree($obj, $parent_node_id);
+        $this->node_id = $backup_node_id;
     }
 
     /**
@@ -448,7 +470,8 @@ class ilObjFileGUI extends ilObject2GUI
         } else {
             $title = $this->object->checkFileExtension($filename, $title);
         }
-        $this->object->setTitle($title);
+
+        $this->object->handleChangedObjectTitle($title);
         $this->object->setDescription($form->getInput('description'));
         $this->object->setRating($form->getInput('rating'));
         $this->object->setOnclickMode((int) $form->getInput('on_click_action'));
@@ -679,6 +702,14 @@ class ilObjFileGUI extends ilObject2GUI
             );
         }
 
+        if ($this->object_settings->shouldShowAmountOfDownloads()) {
+            $info->addProperty($this->lng->txt("amount_of_downloads"), sprintf(
+                $this->lng->txt("amount_of_downloads_since"),
+                $this->object->getAmountOfDownloads(),
+                $this->object->getCreateDate(),
+            ));
+        }
+
         if ($this->object->getPageCount() > 0) {
             $info->addProperty($this->lng->txt("page_count"), $this->object->getPageCount());
         }
@@ -686,7 +717,7 @@ class ilObjFileGUI extends ilObject2GUI
         // using getVersions function instead of ilHistory direct
         $uploader = $this->object->getVersions();
         $uploader = array_shift($uploader);
-        $uploader = $uploader["user_id"];
+        $uploader = $uploader["user_id"] ?? -1; // unknown uploader
         $info->addProperty($this->lng->txt("file_uploaded_by"), ilUserUtil::getNamePresentation($uploader));
 
         // download link added in repository
@@ -804,9 +835,7 @@ class ilObjFileGUI extends ilObject2GUI
         $ilAccess = $DIC['ilAccess'];
 
         if ($a_additional && substr($a_additional, -3) == "wsp") {
-            /** @noRector  */
-            include("ilias.php");
-            exit;
+            ilObjectGUI::_gotoSharedWorkspaceNode((int) $a_target);
         }
 
         // added support for direct download goto links

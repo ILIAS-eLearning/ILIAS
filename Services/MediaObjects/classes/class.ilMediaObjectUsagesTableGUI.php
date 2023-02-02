@@ -142,7 +142,7 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
                             $item["sub_title"] = ilLMObject::_lookupTitle($page_obj->getId());
                             $ref_id = $this->getFirstWritableRefId($lm_obj->getId());
                             if ($ref_id > 0) {
-                                $item["obj_link"] = ilLink::_getStaticLink($page_obj->getId() . "_" . $ref_id, "pg");
+                                $item["obj_link"] = ilLink::_getStaticLink(null, "pg", "", $page_obj->getId() . "_" . $ref_id);
                             }
                         }
                         break;
@@ -178,6 +178,23 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
                         $ref_id = $this->getFirstWritableRefId($page_obj->getId());
                         if ($ref_id > 0) {
                             $item["obj_link"] = ilLink::_getStaticLink($ref_id, $otype);
+                        }
+                        break;
+
+                    case "mep":
+                        $item["obj_type_txt"] = $this->lng->txt("mep_page_type_mep");
+                        $item["sub_txt"] = $this->lng->txt("mep_page_type_mep");
+                        $item["sub_title"] = ilMediaPoolItem::lookupTitle($usage["id"]);
+
+                        $mep_pools = ilMediaPoolItem::getPoolForItemId($usage["id"]);
+                        foreach ($mep_pools as $mep_id) {
+                            $ref_ids = ilObject::_getAllReferences($mep_id);
+                            $item["obj_title"] = ilObject::_lookupTitle($mep_id);
+                            foreach ($ref_ids as $rid) {
+                                $item["obj_link"] = ilLink::_getStaticLink($rid, "mep");
+                                break;
+                            }
+                            break;
                         }
                         break;
 

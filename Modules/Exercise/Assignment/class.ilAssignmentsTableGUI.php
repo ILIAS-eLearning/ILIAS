@@ -103,6 +103,9 @@ class ilAssignmentsTableGUI extends ilTable2GUI
                 if (is_array($peer_reviews)) {
                     $data[$idx]["peer_invalid"] = $peer_reviews["invalid"];
                 }
+                if (is_null($peer_reviews)) {
+                    $data[$idx]["peer_invalid"] = false;
+                }
             }
             $data[$idx]["ass_type"] = $this->types->getById($row["type"]);
             $data[$idx]["type"] = $data[$idx]["ass_type"]->getTitle();

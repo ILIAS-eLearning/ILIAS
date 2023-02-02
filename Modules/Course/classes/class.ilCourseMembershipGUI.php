@@ -98,7 +98,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         // members who have the course administrator role
         if (
             !$this->access->checkAccess('edit_permission', '', $this->getParentObject()->getRefId()) &&
-            !$this->getMembersObject()->isAdmin($GLOBALS['DIC']['ilUser']->getId())
+            !$this->getMembersObject()->isAdmin($this->user->getId())
         ) {
             foreach ($participants as $part) {
                 if ($this->getMembersObject()->isAdmin($part)) {
@@ -127,8 +127,10 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         if ($this->http->wrapper()->post()->has('refs')) {
             $refs = $this->http->wrapper()->post()->retrieve(
                 'refs',
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->dictOf(
+                        $this->refinery->kindlyTo()->int()
+                    )
                 )
             );
         }

@@ -86,6 +86,18 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
         return $this->value;
     }
 
+    public function unserializeData(string $a_data): void
+    {
+        $data = unserialize($a_data);
+
+        // BT 35716: table filters with numeric input fields should accept 0
+        if ($data || $data === 0 || $data === 0. || $data === '0') {
+            $this->setValue((string) $data);
+        } else {
+            $this->setValue(null);
+        }
+    }
+
     public function setMaxLength(int $a_maxlength): void
     {
         $this->maxlength = $a_maxlength;

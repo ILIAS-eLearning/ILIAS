@@ -13,13 +13,15 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\Refinery\Random\Seed;
 use ILIAS\DI\Container;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\Refinery\Factory;
+use ILIAS\Refinery\KindlyTo\Transformation\StringTransformation;
 
 /**
  * Cloze test question GUI representation
@@ -157,130 +159,139 @@ JS;
 
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form): void
     {
-        if (is_array($this->post->has('gap'))) {
-            if ($this->ctrl->getCmd() !== 'createGaps') {
-                $this->object->clearGapAnswers();
-            }
+        if (!$this->post->has('gap')) {
+            return;
+        }
 
-            foreach ($_POST['gap'] as $idx => $hidden) {
-                $clozetype = $_POST['clozetype_' . $idx];
+        $gaps = $this->post->retrieve(
+            "gap",
+            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+        );
 
-                $this->object->setGapType($idx, $clozetype);
+        if ($this->ctrl->getCmd() !== 'createGaps') {
+            $this->object->clearGapAnswers();
+        }
 
-                switch ($clozetype) {
-                    case CLOZE_TEXT:
+        foreach ($gaps as $idx => $hidden) {
+            $clozetype = $this->post->retrieve(
+                "clozetype_" . $idx,
+                $this->refinery->kindlyTo()->string()
+            );
 
-                        $this->object->setGapShuffle($idx, 0);
+            $this->object->setGapType($idx, $clozetype);
 
-                        if ($this->ctrl->getCmd() != 'createGaps') {
-                            if (is_array($_POST['gap_' . $idx]['answer'])) {
-                                foreach ($_POST['gap_' . $idx]['answer'] as $order => $value) {
-                                    $this->object->addGapAnswer($idx, $order, $value);
-                                }
-                            } else {
-                                $this->object->addGapAnswer($idx, 0, '');
+            switch ($clozetype) {
+                case CLOZE_TEXT:
+
+                    $this->object->setGapShuffle($idx, 0);
+
+                    if ($this->ctrl->getCmd() != 'createGaps') {
+                        if (is_array($_POST['gap_' . $idx]['answer'])) {
+                            foreach ($_POST['gap_' . $idx]['answer'] as $order => $value) {
+                                $this->object->addGapAnswer($idx, $order, $value);
                             }
-                        }
-
-                        if (is_array($_POST['gap_' . $idx]['points'])) {
-                            foreach ($_POST['gap_' . $idx]['points'] as $order => $value) {
-                                $this->object->setGapAnswerPoints($idx, $order, $value);
-                            }
-                        }
-
-
-                        $k_gapsize = 'gap_' . $idx . '_gapsize';
-                        if ($this->request->isset($k_gapsize)) {
-                            $this->object->setGapSize($idx, $order, $_POST[$k_gapsize]);
-                        }
-                        break;
-
-                    case CLOZE_SELECT:
-
-                        $this->object->setGapShuffle($idx, (int) (isset($_POST["shuffle_$idx"]) && $_POST["shuffle_$idx"]));
-
-                        if ($this->ctrl->getCmd() != 'createGaps') {
-                            if (is_array($_POST['gap_' . $idx]['answer'])) {
-                                foreach ($_POST['gap_' . $idx]['answer'] as $order => $value) {
-                                    $this->object->addGapAnswer($idx, $order, $value);
-                                }
-                            } else {
-                                $this->object->addGapAnswer($idx, 0, '');
-                            }
-                        }
-
-                        if (is_array($_POST['gap_' . $idx]['points'])) {
-                            foreach ($_POST['gap_' . $idx]['points'] as $order => $value) {
-                                $this->object->setGapAnswerPoints($idx, $order, $value);
-                            }
-                        }
-                        break;
-
-                    case CLOZE_NUMERIC:
-
-                        $this->object->setGapShuffle($idx, 0);
-
-                        $gap = $this->object->getGap($idx);
-                        if (!$gap) {
-                            break;
-                        }
-
-                        $this->object->getGap($idx)->clearItems();
-
-                        if ($this->post->has('gap_' . $idx . '_numeric')) {
-                            if ($this->ctrl->getCmd() !== 'createGaps') {
-                                $this->object->addGapAnswer(
-                                    $idx,
-                                    0,
-                                    str_replace(",", ".", $_POST['gap_' . $idx . '_numeric'])
-                                );
-                            }
-
-                            $this->object->setGapAnswerLowerBound(
-                                $idx,
-                                0,
-                                str_replace(",", ".", $_POST['gap_' . $idx . '_numeric_lower'])
-                            );
-
-                            $this->object->setGapAnswerUpperBound(
-                                $idx,
-                                0,
-                                str_replace(",", ".", $_POST['gap_' . $idx . '_numeric_upper'])
-                            );
-
-                            $this->object->setGapAnswerPoints($idx, 0, $_POST['gap_' . $idx . '_numeric_points']);
                         } else {
-                            if ($this->ctrl->getCmd() != 'createGaps') {
-                                $this->object->addGapAnswer($idx, 0, '');
+                            $this->object->addGapAnswer($idx, 0, '');
+                        }
+                    }
+
+                    if (is_array($_POST['gap_' . $idx]['points'])) {
+                        foreach ($_POST['gap_' . $idx]['points'] as $order => $value) {
+                            $this->object->setGapAnswerPoints($idx, $order, $value);
+                        }
+                    }
+
+                    $k_gapsize = 'gap_' . $idx . '_gapsize';
+                    if ($this->request->isset($k_gapsize)) {
+                        $this->object->setGapSize($idx, $_POST[$k_gapsize]);
+                    }
+                    break;
+
+                case CLOZE_SELECT:
+
+                    $this->object->setGapShuffle($idx, (int) (isset($_POST["shuffle_$idx"]) && $_POST["shuffle_$idx"]));
+
+                    if ($this->ctrl->getCmd() != 'createGaps') {
+                        if (is_array($_POST['gap_' . $idx]['answer'])) {
+                            foreach ($_POST['gap_' . $idx]['answer'] as $order => $value) {
+                                $this->object->addGapAnswer($idx, $order, $value);
                             }
-
-                            $this->object->setGapAnswerLowerBound($idx, 0, '');
-
-                            $this->object->setGapAnswerUpperBound($idx, 0, '');
+                        } else {
+                            $this->object->addGapAnswer($idx, 0, '');
                         }
+                    }
 
-                        if ($this->post->has('gap_' . $idx . '_gapsize')) {
-                            $this->object->setGapSize($idx, $order, $_POST['gap_' . $idx . '_gapsize']);
+                    if (is_array($_POST['gap_' . $idx]['points'])) {
+                        foreach ($_POST['gap_' . $idx]['points'] as $order => $value) {
+                            $this->object->setGapAnswerPoints($idx, $order, $value);
                         }
+                    }
+                    break;
+
+                case CLOZE_NUMERIC:
+
+                    $this->object->setGapShuffle($idx, 0);
+
+                    $gap = $this->object->getGap($idx);
+                    if (!$gap) {
                         break;
-                }
-                $assClozeGapCombinationObject = new assClozeGapCombination();
-                $assClozeGapCombinationObject->clearGapCombinationsFromDb($this->object->getId());
-                if (
-                    isset($_POST['gap_combination']) &&
-                    is_array($_POST['gap_combination']) &&
-                    count($_POST['gap_combination']) > 0
-                ) {
-                    $assClozeGapCombinationObject->saveGapCombinationToDb(
-                        $this->object->getId(),
-                        ilArrayUtil::stripSlashesRecursive($_POST['gap_combination']),
-                        ilArrayUtil::stripSlashesRecursive($_POST['gap_combination_values'])
-                    );
-                }
+                    }
+
+                    $this->object->getGap($idx)->clearItems();
+
+                    if ($this->post->has('gap_' . $idx . '_numeric')) {
+                        if ($this->ctrl->getCmd() !== 'createGaps') {
+                            $this->object->addGapAnswer(
+                                $idx,
+                                0,
+                                str_replace(",", ".", $_POST['gap_' . $idx . '_numeric'])
+                            );
+                        }
+
+                        $this->object->setGapAnswerLowerBound(
+                            $idx,
+                            0,
+                            str_replace(",", ".", $_POST['gap_' . $idx . '_numeric_lower'])
+                        );
+
+                        $this->object->setGapAnswerUpperBound(
+                            $idx,
+                            0,
+                            str_replace(",", ".", $_POST['gap_' . $idx . '_numeric_upper'])
+                        );
+
+                        $this->object->setGapAnswerPoints($idx, 0, $_POST['gap_' . $idx . '_numeric_points']);
+                    } else {
+                        if ($this->ctrl->getCmd() != 'createGaps') {
+                            $this->object->addGapAnswer($idx, 0, '');
+                        }
+
+                        $this->object->setGapAnswerLowerBound($idx, 0, '');
+
+                        $this->object->setGapAnswerUpperBound($idx, 0, '');
+                    }
+
+                    if ($this->post->has('gap_' . $idx . '_gapsize')) {
+                        $this->object->setGapSize($idx, $_POST['gap_' . $idx . '_gapsize']);
+                    }
+                    break;
             }
-            if ($this->ctrl->getCmd() != 'createGaps') {
-                $this->object->updateClozeTextFromGaps();
+            $assClozeGapCombinationObject = new assClozeGapCombination();
+            $assClozeGapCombinationObject->clearGapCombinationsFromDb($this->object->getId());
+            if (
+                isset($_POST['gap_combination']) &&
+                is_array($_POST['gap_combination']) &&
+                count($_POST['gap_combination']) > 0
+            ) {
+                $assClozeGapCombinationObject->saveGapCombinationToDb(
+                    $this->object->getId(),
+                    ilArrayUtil::stripSlashesRecursive($_POST['gap_combination']),
+                    ilArrayUtil::stripSlashesRecursive($_POST['gap_combination_values'])
+                );
             }
+        }
+        if ($this->ctrl->getCmd() != 'createGaps') {
+            $this->object->updateClozeTextFromGaps();
         }
     }
 
@@ -383,7 +394,7 @@ JS;
         $question->setRows(10);
         $question->setCols(80);
         if (!$this->object->getSelfAssessmentEditingMode()) {
-            if ($this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT) {
+            if ($this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE) {
                 $question->setUseRte(true);
                 include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
                 $question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
@@ -450,7 +461,7 @@ JS;
         $cloze_text->setRows(10);
         $cloze_text->setCols(80);
         if (!$this->object->getSelfAssessmentEditingMode()) {
-            if ($this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT) {
+            if ($this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE) {
                 $cloze_text->setUseRte(true);
                 include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
                 $cloze_text->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
@@ -894,7 +905,7 @@ JS;
                     break;
                 case CLOZE_SELECT:
                     $gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_select.html", true, true, "Modules/TestQuestionPool");
-                    foreach ($gap->getItems($gap->getShuffler()) as $item) {
+                    foreach ($gap->getItems($this->object->getShuffler(), $gap_index) as $item) {
                         $gaptemplate->setCurrentBlock("select_gap_option");
                         $gaptemplate->setVariable("SELECT_GAP_VALUE", $item->getOrder());
                         $gaptemplate->setVariable(
@@ -1000,7 +1011,7 @@ JS;
                 if ($graphicalOutput) {
                     // output of ok/not ok icons for user entered solutions
                     $details = $this->object->calculateReachedPoints($active_id, $pass, true, true);
-                    $check = $details[$gap_index];
+                    $check = $details[$gap_index] ?? [];
 
                     if (count($check_for_gap_combinations) != 0) {
                         $gaps_used_in_combination = $assClozeGapCombinationObject->getGapsWhichAreUsedInCombination($this->object->getId());
@@ -1023,47 +1034,38 @@ JS;
                             $points_array = $this->object->calculateCombinationResult($custom_user_solution);
                             $max_combination_points = $assClozeGapCombinationObject->getMaxPointsForCombination($this->object->getId(), $combination_id);
                             if ($points_array[0] == $max_combination_points) {
-                                $gaptemplate->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
-                                $gaptemplate->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+                                $gaptemplate->setVariable("ICON_OK", $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_OK));
                             } elseif ($points_array[0] > 0) {
-                                $gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.svg"));
-                                $gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_not_correct_but_positive"));
+                                $gaptemplate->setVariable("ICON_OK", $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_MOSTLY_OK));
                             } else {
-                                $gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
-                                $gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+                                $gaptemplate->setVariable("ICON_OK", $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK));
                             }
                         } else {
-                            if ($check["best"]) {
+                            if (array_key_exists('best', $check) && $check["best"]) {
                                 $gaptemplate->setCurrentBlock("icon_ok");
-                                $gaptemplate->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
-                                $gaptemplate->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+                                $gaptemplate->setVariable("ICON_OK", $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_OK));
                                 $gaptemplate->parseCurrentBlock();
                             } else {
-                                $gaptemplate->setCurrentBlock("icon_not_ok");
-                                if ($check["positive"]) {
-                                    $gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.svg"));
-                                    $gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_not_correct_but_positive"));
+                                $gaptemplate->setCurrentBlock("icon_ok");
+                                if (array_key_exists('positive', $check) && $check["positive"]) {
+                                    $gaptemplate->setVariable("ICON_OK", $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_MOSTLY_OK));
                                 } else {
-                                    $gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
-                                    $gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+                                    $gaptemplate->setVariable("ICON_OK", $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK));
                                 }
                                 $gaptemplate->parseCurrentBlock();
                             }
                         }
                     } else {
-                        if ($check["best"]) {
+                        if (array_key_exists('best', $check) && $check["best"]) {
                             $gaptemplate->setCurrentBlock("icon_ok");
-                            $gaptemplate->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
-                            $gaptemplate->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+                            $gaptemplate->setVariable("ICON_OK", $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_OK));
                             $gaptemplate->parseCurrentBlock();
                         } else {
-                            $gaptemplate->setCurrentBlock("icon_not_ok");
-                            if ($check["positive"]) {
-                                $gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.svg"));
-                                $gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_not_correct_but_positive"));
+                            $gaptemplate->setCurrentBlock("icon_ok");
+                            if (array_key_exists('positive', $check) && $check["positive"]) {
+                                $gaptemplate->setVariable("ICON_OK", $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_MOSTLY_OK));
                             } else {
-                                $gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
-                                $gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+                                $gaptemplate->setVariable("ICON_OK", $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK));
                             }
                             $gaptemplate->parseCurrentBlock();
                         }
@@ -1235,12 +1237,6 @@ JS;
             $indexedSolution = $this->object->fetchSolutionSubmit($use_post_solutions);
             $user_solution = $this->object->fetchValuePairsFromIndexedValues($indexedSolution);
         } elseif ($active_id) {
-            // hey: prevPassSolutions - obsolete due to central check
-            #include_once "./Modules/Test/classes/class.ilObjTest.php";
-            #if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-            #{
-            #	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-            #}
             $user_solution = $this->object->getTestOutputSolutions($active_id, $pass);
             // hey.
             if (!is_array($user_solution)) {
@@ -1278,7 +1274,7 @@ JS;
                     break;
                 case CLOZE_SELECT:
                     $gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_select.html", true, true, "Modules/TestQuestionPool");
-                    foreach ($gap->getItems($gap->getShuffler()) as $item) {
+                    foreach ($gap->getItems($this->object->getShuffler(), $gap_index) as $item) {
                         $gaptemplate->setCurrentBlock("select_gap_option");
                         $gaptemplate->setVariable("SELECT_GAP_VALUE", $item->getOrder());
                         $gaptemplate->setVariable(
@@ -1340,6 +1336,9 @@ JS;
 
         foreach ($this->object->gaps as $gapIndex => $gap) {
             $answerValue = $this->object->fetchAnswerValueForGap($userSolution, $gapIndex);
+            if ($answerValue === '') {
+                continue;
+            }
             $answerIndex = $this->object->feedbackOBJ->determineAnswerIndexForAnswerValue($gap, $answerValue);
             $fb = $this->object->feedbackOBJ->determineTestOutputGapFeedback($gapIndex, $answerIndex);
 
@@ -1405,12 +1404,12 @@ JS;
 
         $html = '<div>';
         $i = 0;
-        foreach ($this->object->getGaps() as $gap) {
+        foreach ($this->object->getGaps() as $gap_index => $gap) {
             if ($gap->type == CLOZE_SELECT) {
                 $html .= '<p>Gap ' . ($i + 1) . ' - SELECT</p>';
                 $html .= '<ul>';
                 $j = 0;
-                foreach ($gap->getItems($this->object->getShuffler()) as $gap_item) {
+                foreach ($gap->getItems($this->object->getShuffler(), $gap_index) as $gap_item) {
                     $aggregate = $aggregation[$i];
                     $html .= '<li>' . $gap_item->getAnswerText() . ' - ' . ($aggregate[$j] ? $aggregate[$j] : 0) . '</li>';
                     $j++;
@@ -1446,7 +1445,7 @@ JS;
                 $html .= '<p>Gap ' . ($i + 1) . ' - NUMERIC</p>';
                 $html .= '<ul>';
                 $j = 0;
-                foreach ($gap->getItems($this->object->getShuffler()) as $gap_item) {
+                foreach ($gap->getItems($this->object->getShuffler(), $gap_index) as $gap_item) {
                     $aggregate = (array) $aggregation[$i];
                     foreach ($aggregate as $answer => $count) {
                         $html .= '<li>' . $answer . ' - ' . $count . '</li>';

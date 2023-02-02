@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -27,8 +28,10 @@ use ILIAS\UI\Component\Symbol\Symbol;
  * Class BaseItem
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class TopParentItem extends AbstractBaseItem implements isItem, hasSymbol, hasTitle, isParent
+class TopParentItem extends AbstractBaseItem implements isItem, hasSymbol, hasTitle, isParent, hasContentLanguage
 {
+    use ContentLanguage;
+
     /**
      * @var isChild[]
      */

@@ -3,6 +3,22 @@
 declare(strict_types=1);
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Class ilADTEnumSearchBridgeMulti
  */
 class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
@@ -48,6 +64,9 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
     {
         $value = $this->readFilter();
         if ($value !== null) {
+            if (is_string($value)) {
+                $value = [$value];
+            }
             $this->getADT()->setSelections($value);
         }
     }
@@ -65,7 +84,7 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
         $cbox->setValue($this->getADT()->getSelections());
 
         foreach ($options as $value => $caption) {
-            $option = new ilCheckboxOption($caption, $value);
+            $option = new ilCheckboxOption($caption, (string) $value);
             $cbox->addOption($option);
         }
 
@@ -90,6 +109,10 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
             }
         } else {
             $this->getADT()->setSelections();
+            // BT 35593: multi enum filter should reset when nothing is selected
+            if (array_key_exists($this->getElementId(), $this->table_filter_fields)) {
+                $this->writeFilter();
+            }
         }
         return true;
     }

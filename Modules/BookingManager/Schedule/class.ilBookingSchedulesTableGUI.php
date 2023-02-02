@@ -22,6 +22,7 @@
  */
 class ilBookingSchedulesTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\BookingManager\InternalDomainService $domain;
     protected ilAccessHandler $access;
     protected ilObjectDataCache $obj_data_cache;
     protected int $ref_id;
@@ -52,6 +53,10 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setRowTemplate("tpl.booking_schedule_row.html", "Modules/BookingManager");
+        $this->domain = $DIC
+            ->bookingManager()
+            ->internal()
+            ->domain();
 
         $this->getItems($ilObjDataCache->lookupObjId($this->ref_id));
     }
@@ -62,7 +67,7 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
      */
     public function getItems(int $a_pool_id): void
     {
-        $data = ilBookingSchedule::getList($a_pool_id);
+        $data = $this->domain->schedules($a_pool_id)->getScheduleData();
 
         $this->setMaxCount(count($data));
         $this->setData($data);

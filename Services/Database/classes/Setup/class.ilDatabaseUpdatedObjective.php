@@ -132,9 +132,6 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
         }
 
         $db_update = new ilDBUpdate($db);
-
-        $db_update->applyUpdate();
-        $db_update->applyHotfix();
         $db_update->applyCustomUpdates();
 
         $GLOBALS["DIC"] = $DIC;

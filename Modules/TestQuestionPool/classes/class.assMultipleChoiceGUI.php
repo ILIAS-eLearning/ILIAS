@@ -261,28 +261,21 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     }
                     if ($checked) {
                         if ($answer->getPointsChecked() > $answer->getPointsUnchecked()) {
-                            $ok = true;
+                            $ok = self::CORRECTNESS_OK;
                         } else {
-                            $ok = false;
+                            $ok = self::CORRECTNESS_NOT_OK;
                         }
                     } else {
                         if ($answer->getPointsChecked() > $answer->getPointsUnchecked()) {
-                            $ok = false;
+                            $ok = self::CORRECTNESS_NOT_OK;
                         } else {
-                            $ok = true;
+                            $ok = self::CORRECTNESS_OK;
                         }
                     }
-                    if ($ok) {
-                        $template->setCurrentBlock("icon_ok");
-                        $template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
-                        $template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
-                        $template->parseCurrentBlock();
-                    } else {
-                        $template->setCurrentBlock("icon_ok");
-                        $template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
-                        $template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
-                        $template->parseCurrentBlock();
-                    }
+                    $icon = $this->generateCorrectnessIconsForCorrectness($ok);
+                    $template->setCurrentBlock("icon_ok");
+                    $template->setVariable("ICON_OK", $icon);
+                    $template->parseCurrentBlock();
                 }
             }
             if (strlen($answer->getImage())) {
@@ -387,6 +380,9 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $template->parseCurrentBlock();
         }
         $questiontext = $this->object->getQuestion();
+        if ($show_feedback && $this->hasInlineFeedback()) {
+            $questiontext .= $this->buildFocusAnchorHtml();
+        }
         if ($show_question_text == true) {
             $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
         }
@@ -405,10 +401,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         $solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
         $solutionoutput = $solutiontemplate->get();
-
-        if ($show_feedback && $this->hasInlineFeedback()) {
-            $solutionoutput = $this->buildFocusAnchorHtml() . $solutionoutput;
-        }
 
         if (!$show_question_only) {
             // get page object output
@@ -489,6 +481,9 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         }
         $template->setVariable("QUESTION_ID", $this->object->getId());
         $questiontext = $this->object->getQuestion();
+        if ($showInlineFeedback && $this->hasInlineFeedback()) {
+            $questiontext .= $this->buildFocusAnchorHtml();
+        }
         $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
         $questionoutput = $template->get();
         if (!$show_question_only) {
@@ -522,13 +517,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         // get the solution of the user for the active pass or from the last pass if allowed
         $user_solution = array();
         if ($active_id) {
-            // hey: prevPassSolutions - obsolete due to central check
-            #$solutions = NULL;
-            #include_once "./Modules/Test/classes/class.ilObjTest.php";
-            #if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-            #{
-            #	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-            #}
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
             // hey.
             foreach ($solutions as $idx => $solution_value) {
@@ -708,7 +696,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         $this->object->flushAnswers();
         if ($this->object->isSingleline()) {
             foreach ($_POST['choice']['answer'] as $index => $answertext) {
-                $answertext = ilUtil::secureString($answertext);
+                $answertext = ilUtil::secureString(htmlentities($answertext));
 
                 $picturefile = $_POST['choice']['imagename'][$index] ?? '';
                 $file_org_name = $_FILES['choice']['name']['image'][$index] ?? '';
@@ -822,7 +810,13 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         if ($this->object->getAnswerCount() == 0) {
             $this->object->addAnswer("", 0, 0, 0);
         }
-        $choices->setValues($this->object->getAnswers());
+        $choices->setValues(array_map(
+            function (ASS_AnswerMultipleResponseImage $value) {
+                $value->setAnswerText(html_entity_decode($value->getAnswerText()));
+                return $value;
+            },
+            $this->object->getAnswers()
+        ));
         $form->addItem($choices);
         return $form;
     }

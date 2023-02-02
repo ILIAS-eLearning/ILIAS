@@ -1567,7 +1567,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
                 continue;
             }
 
-            $part = new ilGroupParticipants($row["obj_id"]);
+            $part = new ilGroupParticipants((int) $row["obj_id"]);
             $reci = $part->getNotificationRecipients();
             if (sizeof($reci)) {
                 $missing = (int) $row["registration_min_members"] - $part->getCountMembers();

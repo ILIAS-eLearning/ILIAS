@@ -68,8 +68,15 @@ class ilDclBaseFieldModel
     public const EDIT_VIEW = 2;
     public const EXPORTABLE_VIEW = 4;
 
+    protected ilDBInterface $db;
+    protected ilLanguage $lng;
+
     public function __construct(int $a_id = 0)
     {
+        global $DIC;
+        $this->db = $DIC->database();
+        $this->lng = $DIC->language();
+
         if ($a_id != 0) {
             $this->id = $a_id;
             $this->doRead();
@@ -288,19 +295,23 @@ class ilDclBaseFieldModel
 
     public function doRead(): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         //THEN 1 ELSE 0 END AS has_options FROM il_dcl_field f WHERE id = ".$ilDB->quote($this->getId(),"integer");
-        $query = "SELECT * FROM il_dcl_field WHERE id = " . $ilDB->quote($this->getId(), "integer");
-        $set = $ilDB->query($query);
-        $rec = $ilDB->fetchAssoc($set);
+        $query = "SELECT * FROM il_dcl_field WHERE id = " . $this->db->quote($this->getId(), "integer");
+        $set = $this->db->query($query);
+        $rec = $this->db->fetchAssoc($set);
 
-        $this->setTableId($rec["table_id"]);
-        $this->setTitle($rec["title"]);
-        $this->setDescription($rec["description"]);
-        $this->setDatatypeId($rec["datatype_id"]);
-        $this->setUnique($rec["is_unique"]);
+        if ($rec) {
+            $this->setTableId($rec["table_id"]);
+            if (null !== $rec["title"]) {
+                $this->setTitle($rec["title"]);
+            }
+            if (null !== $rec["description"]) {
+                $this->setDescription($rec["description"]);
+            }
+            $this->setDatatypeId($rec["datatype_id"]);
+            $this->setUnique($rec["is_unique"]);
+        }
+
         $this->loadProperties();
         $this->loadTableFieldSetting();
     }
@@ -410,7 +421,7 @@ class ilDclBaseFieldModel
     {
         $tablefield_setting = ilDclTableFieldSetting::getInstance($this->getTableId(), $this->getId());
         $tablefield_setting->setExportable($this->exportable);
-        $tablefield_setting->setFieldOrder($this->order);
+        $tablefield_setting->setFieldOrder($this->getOrder());
         $tablefield_setting->store();
     }
 
@@ -446,6 +457,7 @@ class ilDclBaseFieldModel
 
     public function getViewSetting(int $tableview_id): ilDclTableViewFieldSetting
     {
+        ilDclTableViewFieldSetting::getTableViewFieldSetting($this->getId(), $tableview_id);
         return ilDclTableViewFieldSetting::getTableViewFieldSetting($this->getId(), $tableview_id);
     }
 
@@ -570,7 +582,7 @@ class ilDclBaseFieldModel
     /**
      * @param mixed $value
      */
-    protected function normalizeValue($value): string
+    protected function normalizeValue($value)
     {
         if (is_string($value)) {
             $value = trim(preg_replace("/\\s+/uism", " ", $value));
@@ -623,8 +635,10 @@ class ilDclBaseFieldModel
                 $value = null;
             }
 
-            $fieldprop_obj->setValue($value);
-            $fieldprop_obj->create();
+            if ($value) {
+                $fieldprop_obj->setValue($value);
+                $fieldprop_obj->create();
+            }
         }
     }
 

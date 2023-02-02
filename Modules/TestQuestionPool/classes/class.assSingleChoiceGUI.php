@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
@@ -273,37 +274,18 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $answer = $this->object->answers[$answer_id];
             if (($active_id > 0) && (!$show_correct_solution)) {
                 if ($graphicalOutput) {
-                    // output of ok/not ok icons for user entered solutions
-                    $ok = false;
+                    $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK);
+
                     if (strcmp($user_solution, $answer_id) == 0) {
                         if ($answer->getPoints() == $this->object->getMaximumPoints()) {
-                            $ok = true;
-                        } else {
-                            $ok = false;
-                        }
-                        if ($ok) {
-                            $template->setCurrentBlock("icon_ok");
-                            $template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
-                            $template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
-                            $template->parseCurrentBlock();
-                        } else {
-                            $template->setCurrentBlock("icon_not_ok");
-                            if ($answer->getPoints() > 0) {
-                                $template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.svg"));
-                                $template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_not_correct_but_positive"));
-                            } else {
-                                $template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
-                                $template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
-                            }
-                            $template->parseCurrentBlock();
+                            $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_OK);
+                        } elseif ($answer->getPoints() > 0) {
+                            $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_MOSTLY_OK);
                         }
                     }
-                    if (strlen($user_solution) == 0) {
-                        $template->setCurrentBlock("icon_not_ok");
-                        $template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
-                        $template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
-                        $template->parseCurrentBlock();
-                    }
+                    $template->setCurrentBlock("icon_ok");
+                    $template->setVariable("ICON_OK", $correctness_icon);
+                    $template->parseCurrentBlock();
                 }
             }
             if (strlen($answer->getImage())) {
@@ -353,6 +335,9 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $template->parseCurrentBlock();
         }
         $questiontext = $this->object->getQuestion();
+        if ($show_feedback && $this->hasInlineFeedback()) {
+            $questiontext .= $this->buildFocusAnchorHtml();
+        }
         if ($show_question_text == true) {
             $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
         }
@@ -370,10 +355,6 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
         $solutionoutput = $solutiontemplate->get();
-
-        if ($show_feedback && $this->hasInlineFeedback()) {
-            $solutionoutput = $this->buildFocusAnchorHtml() . $solutionoutput;
-        }
 
         if (!$show_question_only) {
             // get page object output
@@ -440,6 +421,9 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $template->parseCurrentBlock();
         }
         $questiontext = $this->object->getQuestion();
+        if ($showInlineFeedback && $this->hasInlineFeedback()) {
+            $questiontext .= $this->buildFocusAnchorHtml();
+        }
         $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
         $questionoutput = $template->get();
         if (!$show_question_only) {
@@ -458,14 +442,6 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         // get the solution of the user for the active pass or from the last pass if allowed
         $user_solution = "";
         if ($active_id) {
-            // hey: prevPassSolutions - obsolete due to central check
-            #$solutions = NULL;
-            #include_once "./Modules/Test/classes/class.ilObjTest.php";
-            #if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-            #{
-            #	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-            #}
-            // hey.
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
             foreach ($solutions as $idx => $solution_value) {
                 $user_solution = $solution_value["value1"];
@@ -658,7 +634,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $this->object->flushAnswers();
         if ($this->object->isSingleline()) {
             foreach ($_POST['choice']['answer'] as $index => $answertext) {
-                $answertext = ilUtil::secureString($answertext);
+                $answertext = ilUtil::secureString(htmlentities($answertext));
 
                 $picturefile = $_POST['choice']['imagename'][$index] ?? '';
                 $file_org_name = $_FILES['choice']['name']['image'][$index] ?? '';
@@ -690,8 +666,6 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     {
         $isSingleline = $this->getEditAnswersSingleLine();
 
-        // Choices
-        include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php";
         $choices = new ilSingleChoiceWizardInputGUI($this->lng->txt("answers"), "choice");
         $choices->setRequired(true);
         $choices->setQuestionObject($this->object);
@@ -704,7 +678,13 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         if ($this->object->getAnswerCount() == 0) {
             $this->object->addAnswer("", 0, 0);
         }
-        $choices->setValues($this->object->getAnswers());
+        $choices->setValues(array_map(
+            function (ASS_AnswerBinaryStateImage $value) {
+                $value->setAnswerText(html_entity_decode($value->getAnswerText()));
+                return $value;
+            },
+            $this->object->getAnswers()
+        ));
         $form->addItem($choices);
         return $form;
     }

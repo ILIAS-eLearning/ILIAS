@@ -123,23 +123,19 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             $room->connectUser($chat_user);
         }
 
-        $subScope = 0;
-        $response = $connector->sendEnterPrivateRoom($scope, $subScope, $user_id);
+        $response = $connector->sendEnterPrivateRoom($scope, $user_id);
         if (!$response) {
             $this->mainTpl->setOnScreenMessage('failure', $this->ilLng->txt('unable_to_connect'), true);
             $this->ilCtrl->redirectByClass('ilinfoscreengui', 'info');
         }
 
         $settings = $connector->getSettings();
-        $known_private_room = $room->getActivePrivateRooms($this->ilUser->getId());
 
         $initial = new stdClass();
         $initial->users = $room->getConnectedUsers();
-        $initial->private_rooms = array_values($known_private_room);
         $initial->redirect_url = $this->ilCtrl->getLinkTarget($this->gui, 'view-lostConnection', '', false);
         $initial->profile_image_url = $this->ilCtrl->getLinkTarget($this->gui, 'view-getUserProfileImages', '', true);
         $initial->no_profile_image_url = ilUtil::getImagePath('no_photo_xxsmall.jpg');
-        $initial->private_rooms_enabled = (bool) $room->getSetting('private_rooms_enabled');
         $initial->subdirectory = $settings->getSubDirectory();
 
         $initial->userinfo = [
@@ -182,53 +178,6 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
         $initial->messages = [];
 
-        $sub = null;
-        if ($this->hasRequestValue('sub')) {
-            $sub = $this->getRequestValue('sub', $this->refinery->kindlyTo()->int());
-        }
-
-        if ($sub !== null) {
-            if ($known_private_room[$sub]) {
-                if (!$room->isAllowedToEnterPrivateRoom($chat_user->getUserId(), $sub)) {
-                    $initial->messages[] = [
-                        'type' => 'error',
-                        'message' => $this->ilLng->txt('not_allowed_to_enter'),
-                    ];
-                } else {
-                    $scope = $room->getRoomId();
-                    $params = [];
-                    $params['user'] = $chat_user->getUserId();
-                    $params['sub'] = $sub;
-
-                    $params['message'] = json_encode([
-                        'type' => 'private_room_entered',
-                        'user' => $user_id
-                    ], JSON_THROW_ON_ERROR);
-
-                    $connector = $this->gui->getConnector();
-                    $response = $connector->sendEnterPrivateRoom($scope, $sub, $chat_user->getUserId());
-
-                    if ($this->isSuccessful($response)) {
-                        $room->subscribeUserToPrivateRoom($params['sub'], $params['user']);
-                    }
-
-                    $initial->enter_room = $sub;
-                }
-            } else {
-                $initial->messages[] = [
-                    'type' => 'error',
-                    'message' => $this->ilLng->txt('user_invited'),
-                ];
-            }
-        }
-
-        if ((int) $room->getSetting('display_past_msgs')) {
-            $initial->messages = array_merge(
-                $initial->messages,
-                array_reverse($room->getLastMessages($room->getSetting('display_past_msgs'), $chat_user))
-            );
-        }
-
         $roomTpl = new ilTemplate('tpl.chatroom.html', true, true, 'Modules/Chatroom');
         $roomTpl->setVariable('BASEURL', $settings->generateClientUrl());
         $roomTpl->setVariable('INSTANCE', $settings->getInstance());
@@ -236,7 +185,6 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $roomTpl->setVariable('POSTURL', $this->ilCtrl->getLinkTarget($this->gui, 'postMessage', '', true));
 
         $roomTpl->setVariable('ACTIONS', $this->ilLng->txt('actions'));
-        $roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM', $this->ilLng->txt('create_private_room_label'));
         $roomTpl->setVariable('LBL_USER', $this->ilLng->txt('user'));
         $roomTpl->setVariable('LBL_USER_TEXT', $this->ilLng->txt('invite_username'));
         $showAutoMessages = true;
@@ -370,11 +318,8 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
     {
         $js_translations = [
             'LBL_MAINROOM' => 'chat_mainroom',
-            'LBL_LEAVE_PRIVATE_ROOM' => 'leave_private_room',
             'LBL_LEFT_PRIVATE_ROOM' => 'left_private_room',
             'LBL_JOIN' => 'chat_join',
-            'LBL_DELETE_PRIVATE_ROOM' => 'delete_private_room',
-            'LBL_DELETE_PRIVATE_ROOM_QUESTION' => 'delete_private_room_question',
             'LBL_INVITE_TO_PRIVATE_ROOM' => 'invite_to_private_room',
             'LBL_KICK' => 'chat_kick',
             'LBL_BAN' => 'chat_ban',
@@ -385,7 +330,6 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             'LBL_CONNECT' => 'chat_connection_established',
             'LBL_DISCONNECT' => 'chat_connection_disconnected',
             'LBL_TO_MAINROOM' => 'chat_to_mainroom',
-            'LBL_CREATE_PRIVATE_ROOM_JS' => 'chat_create_private_room_button',
             'LBL_WELCOME_TO_CHAT' => 'welcome_to_chat',
             'LBL_USER_INVITED' => 'user_invited',
             'LBL_USER_KICKED' => 'user_kicked',
@@ -415,8 +359,6 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             'chat_users_are_typing' => $this->ilLng->txt('chat_users_are_typing'),
         ]);
 
-        $roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM', $this->ilLng->txt('chat_create_private_room_button'));
-        $roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM_TEXT', $this->ilLng->txt('create_private_room_text'));
         $roomTpl->setVariable('LBL_LAYOUT', $this->ilLng->txt('layout'));
         $roomTpl->setVariable('LBL_SHOW_SETTINGS', $this->ilLng->txt('show_settings'));
         $roomTpl->setVariable('LBL_USER_IN_ROOM', $this->ilLng->txt('user_in_room'));
@@ -482,34 +424,6 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             $chat_user->setUsername($this->ilUser->getLogin());
             $this->showRoom($room, $chat_user);
         }
-    }
-
-    public function invitePD(): void
-    {
-        $chatSettings = new ilSetting('chatroom');
-        if (!$chatSettings->get('chat_enabled', '0')) {
-            $this->ilCtrl->redirect($this->gui, 'settings-general');
-        }
-
-        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
-        $chat_user = new ilChatroomUser($this->ilUser, $room);
-
-        $user_id = $this->getRequestValue('usr_id', $this->refinery->kindlyTo()->int());
-
-        $connector = $this->gui->getConnector();
-        $title = $room->getUniquePrivateRoomTitle($chat_user->buildLogin());
-        $subRoomId = $room->addPrivateRoom($title, $chat_user, ['public' => false]);
-
-        $room->inviteUserToPrivateRoom($user_id, $subRoomId);
-        $connector->sendCreatePrivateRoom($room->getRoomId(), $subRoomId, $chat_user->getUserId(), $title);
-        $connector->sendInviteToPrivateRoom($room->getRoomId(), $subRoomId, $chat_user->getUserId(), $user_id);
-
-        $room->sendInvitationNotification($this->gui, $chat_user, $user_id, $subRoomId);
-
-        ilSession::set('show_invitation_message', $user_id);
-
-        $this->ilCtrl->setParameter($this->gui, 'sub', $subRoomId);
-        $this->ilCtrl->redirect($this->gui, 'view');
     }
 
     public function logout(): void

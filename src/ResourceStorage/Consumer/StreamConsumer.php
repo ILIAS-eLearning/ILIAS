@@ -13,6 +13,7 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
 
 namespace ILIAS\ResourceStorage\Consumer;
@@ -21,7 +22,7 @@ use ILIAS\Filesystem\Stream\FileStream;
 
 /**
  * Interface StreamConsumer
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 interface StreamConsumer
 {

@@ -35,19 +35,10 @@ class ilRegistrationSettingsTest extends TestCase
 
     public function testConstruct(): void
     {
-        global $DIC;
-        /** @var $setting MockObject */
-        $ilSetting = $DIC['ilSetting'];
-        $ilSetting->method("get")->willReturnCallback(
-            function ($arg, $arg2 = null) {
-                if ($arg === 'approve_recipient' && $arg2=== "") {
-                    return "";
-                }
-                return null;
-            }
-        );
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods(['get'])->getMock();
+        $settings->method('get')->willReturn('');
 
-        $settings = new ilRegistrationSettings();
+        $settings = new ilRegistrationSettings($settings);
         $this->assertInstanceOf(ilRegistrationSettings::class, $settings);
     }
 

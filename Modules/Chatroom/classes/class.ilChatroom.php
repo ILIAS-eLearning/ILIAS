@@ -36,10 +36,7 @@ class ilChatroom
     private static string $userTable = 'chatroom_users';
     private static string $sessionTable = 'chatroom_sessions';
     private static string $banTable = 'chatroom_bans';
-    private static string $privateRoomsTable = 'chatroom_prooms';
-    private static string $privateSessionsTable = 'chatroom_psessions';
     private static string $uploadTable = 'chatroom_uploads';
-    private static string $privateRoomsAccessTable = 'chatroom_proomaccess';
     private array $settings = [];
     /**
      * Each value of this array describes a setting with the internal type.
@@ -56,9 +53,7 @@ class ilChatroom
         'restrict_history' => 'boolean',
         'autogen_usernames' => 'string',
         'room_type' => 'string',
-        'allow_private_rooms' => 'boolean',
         'display_past_msgs' => 'integer',
-        'private_rooms_enabled' => 'boolean'
     ];
     private int $roomId = 0;
     private ?ilObjChatroom $object = null;
@@ -238,50 +233,6 @@ class ilChatroom
         return null;
     }
 
-    /**
-     * @return array{proom_id: int, room_id: int, object_id: int}[]
-     */
-    public static function findDeletablePrivateRooms(): array
-    {
-        global $DIC;
-
-        $query = '
-			SELECT private_rooms.proom_id id, MIN(disconnected) min_disconnected, MAX(disconnected) max_disconnected
-			FROM ' . self::$privateSessionsTable . ' private_sessions
-			INNER JOIN ' . self::$privateRoomsTable . ' private_rooms
-				ON private_sessions.proom_id = private_rooms.proom_id
-			WHERE closed = 0
-			GROUP BY private_rooms.proom_id
-			HAVING MIN(disconnected) > 0 AND MAX(disconnected) < %s';
-        $rset = $DIC->database()->queryF(
-            $query,
-            ['integer'],
-            [time() + 60 * 5]
-        );
-
-        $rooms = [];
-
-        while ($row = $DIC->database()->fetchAssoc($rset)) {
-            $rooms[$row['id']] = $row['id'];
-        }
-
-        $query = 'SELECT DISTINCT proom_id, room_id, object_id FROM ' . self::$privateRoomsTable
-            . ' INNER JOIN ' . self::$settingsTable . ' ON parent_id = room_id '
-            . ' WHERE ' . $DIC->database()->in('proom_id', $rooms, false, 'integer');
-
-        $rset = $DIC->database()->query($query);
-        $rooms = [];
-        while ($row = $DIC->database()->fetchAssoc($rset)) {
-            $rooms[] = [
-                'proom_id' => (int) $row['proom_id'],
-                'room_id' => (int) $row['room_id'],
-                'object_id' => (int) $row['object_id']
-            ];
-        }
-
-        return $rooms;
-    }
-
     public function getDescription(): string
     {
         if (!$this->object) {
@@ -359,13 +310,10 @@ class ilChatroom
     {
         global $DIC;
 
-        $subRoom = 0;
         $timestamp = 0;
         if (is_array($message)) {
-            $subRoom = (int) ($message['sub'] ?? 0);
             $timestamp = (int) $message['timestamp'];
         } elseif (is_object($message)) {
-            $subRoom = (int) $message->sub;
             $timestamp = (int) $message->timestamp;
         }
 
@@ -375,7 +323,6 @@ class ilChatroom
             [
                 'hist_id' => ['integer', $id],
                 'room_id' => ['integer', $this->roomId],
-                'sub_room' => ['integer', $subRoom],
                 'message' => ['text', json_encode($message, JSON_THROW_ON_ERROR)],
                 'timestamp' => ['integer', ($timestamp > 0 ? $timestamp : time())],
             ]
@@ -453,20 +400,6 @@ class ilChatroom
         $res = $DIC->database()->queryF($query, $types, $values);
 
         if ($row = $DIC->database()->fetchAssoc($res)) {
-            $query = 'SELECT proom_id FROM ' . self::$privateRoomsTable . ' WHERE parent_id = %s';
-            $rset_prooms = $DIC->database()->queryF($query, ['integer'], [$this->roomId]);
-
-            $prooms = [];
-
-            while ($row_prooms = $DIC->database()->fetchAssoc($rset_prooms)) {
-                $prooms[] = $row_prooms['proom_id'];
-            }
-
-            $query = 'UPDATE ' . self::$privateSessionsTable . ' SET disconnected = %s WHERE ' .
-                $DIC->database()->in('user_id', $userIds, false, 'integer') .
-                ' AND ' . $DIC->database()->in('proom_id', $prooms, false, 'integer');
-            $DIC->database()->manipulateF($query, ['integer'], [time()]);
-
             $query = 'DELETE FROM ' . self::$userTable . ' WHERE room_id = %s AND ' .
                 $DIC->database()->in('user_id', $userIds, false, 'integer');
 
@@ -512,59 +445,20 @@ class ilChatroom
         return ($row = $DIC->database()->fetchAssoc($res)) && (int) $row['cnt'] === 1;
     }
 
-    public function isAllowedToEnterPrivateRoom(int $chat_userid, int $proom_id): bool
-    {
-        global $DIC;
-
-        $query = 'SELECT COUNT(user_id) cnt FROM ' . self::$privateRoomsAccessTable .
-            ' WHERE proom_id = %s AND user_id = %s';
-
-        $types = ['integer', 'integer'];
-        $values = [$proom_id, $chat_userid];
-        $res = $DIC->database()->queryF($query, $types, $values);
-
-        if (($row = $DIC->database()->fetchAssoc($res)) && (int) $row['cnt'] === 1) {
-            return true;
-        }
-
-        $query = 'SELECT COUNT(*) cnt FROM ' . self::$privateRoomsTable .
-            ' WHERE proom_id = %s AND owner = %s';
-
-        $types = ['integer', 'integer'];
-        $values = [$proom_id, $chat_userid];
-        $res = $DIC->database()->queryF($query, $types, $values);
-
-        return ($row = $DIC->database()->fetchAssoc($res)) && (int) $row['cnt'] === 1;
-    }
-
     public function getHistory(
         ilDateTime $from = null,
         ilDateTime $to = null,
         int $restricted_session_userid = null,
-        ?int $proom_id = 0,
         bool $respect_target = true
     ): array {
         global $DIC;
 
         $join = '';
 
-        if ($proom_id) {
-            $join .=
-                'INNER JOIN ' . self::$privateSessionsTable . ' pSessionTable ' .
-                'ON pSessionTable.user_id = ' . $DIC->database()->quote($restricted_session_userid, 'integer') . ' ' .
-                'AND pSessionTable.proom_id = historyTable.sub_room ' .
-                'AND timestamp >= pSessionTable.connected ' .
-                'AND timestamp <= pSessionTable.disconnected ';
-        }
-
         $query =
             'SELECT historyTable.* ' .
             'FROM ' . self::$historyTable . ' historyTable ' . $join . ' ' .
             'WHERE historyTable.room_id = ' . $this->getRoomId();
-
-        if ($proom_id !== null) {
-            $query .= ' AND historyTable.sub_room = ' . $DIC->database()->quote($proom_id, 'integer');
-        }
 
         $filter = [];
 
@@ -617,31 +511,6 @@ class ilChatroom
     public function getRoomId(): int
     {
         return $this->roomId;
-    }
-
-    public function getPrivateRoomSessions(
-        ilDateTime $from,
-        ilDateTime $to,
-        int $user_id,
-        int $room_id
-    ): array {
-        global $DIC;
-
-        $query = 'SELECT proom_id, title FROM ' . self::$privateRoomsTable . ' WHERE proom_id IN (
-            SELECT proom_id FROM ' . self::$privateSessionsTable . ' WHERE connected >= %s AND disconnected <= %s AND user_id = %s
-        ) AND parent_id = %s';
-
-        $res = $DIC->database()->queryF(
-            $query,
-            ['integer', 'integer', 'integer', 'integer'],
-            [$from->getUnixTime(), $to->getUnixTime(), $user_id, $room_id]
-        );
-        $result = [];
-        while ($row = $DIC->database()->fetchAssoc($res)) {
-            $result[] = $row;
-        }
-
-        return $result;
     }
 
     public function saveFileUploadToDb(int $user_id, string $filename, string $type): void
@@ -780,59 +649,10 @@ class ilChatroom
         return $result;
     }
 
-    public function addPrivateRoom(string $title, ilChatroomUser $owner, array $settings): int
-    {
-        global $DIC;
-
-        $nextId = $DIC->database()->nextId(self::$privateRoomsTable);
-        $DIC->database()->insert(
-            self::$privateRoomsTable,
-            [
-                'proom_id' => ['integer', $nextId],
-                'parent_id' => ['integer', $this->roomId],
-                'title' => ['text', $title],
-                'owner' => ['integer', $owner->getUserId()],
-                'closed' => ['integer', ($settings['closed'] ?? 0)],
-                'created' => ['integer', ($settings['created'] ?? time())],
-                'is_public' => ['integer', $settings['public']],
-            ]
-        );
-
-        return $nextId;
-    }
-
-    public function closePrivateRoom(int $id): void
-    {
-        global $DIC;
-
-        $DIC->database()->manipulateF(
-            'UPDATE ' . self::$privateRoomsTable . ' SET closed = %s WHERE proom_id = %s',
-            ['integer', 'integer'],
-            [time(), $id]
-        );
-    }
-
-    public function isOwnerOfPrivateRoom(int $user_id, int $proom_id): bool
-    {
-        global $DIC;
-
-        $query = 'SELECT proom_id FROM ' . self::$privateRoomsTable . ' WHERE proom_id = %s AND owner = %s';
-        $types = ['integer', 'integer'];
-        $values = [$proom_id, $user_id];
-
-        $res = $DIC->database()->queryF($query, $types, $values);
-        if ($DIC->database()->fetchAssoc($res)) {
-            return true;
-        }
-
-        return false;
-    }
-
     /**
      * @param null|ilChatroomObjectGUI $gui
      * @param int|ilChatroomUser $sender (can be an instance of ilChatroomUser or an user id of an ilObjUser instance
      * @param int $recipient_id
-     * @param int $subScope
      * @param string $invitationLink
      * @throws InvalidArgumentException
      */
@@ -840,13 +660,12 @@ class ilChatroom
         ?ilChatroomObjectGUI $gui,
         $sender,
         int $recipient_id,
-        int $subScope = 0,
         string $invitationLink = ''
     ): void {
         $links = [];
 
         if ($gui && $invitationLink === '') {
-            $invitationLink = $this->getChatURL($gui, $subScope);
+            $invitationLink = $this->getChatURL($gui);
         }
 
         $links[] = new ilNotificationLink(
@@ -883,10 +702,6 @@ class ilChatroom
                 'BR' => "\n",
             ];
 
-            if ($subScope) {
-                $bodyParams['room_name'] .= ' - ' . self::lookupPrivateRoomTitle($subScope);
-            }
-
             $notification = new ilNotificationConfig(ChatInvitationNotificationProvider::NOTIFICATION_TYPE);
             $notification->setTitleVar('chat_invitation', $bodyParams, 'chatroom');
             $notification->setShortDescriptionVar('chat_invitation_short', $bodyParams, 'chatroom');
@@ -902,16 +717,9 @@ class ilChatroom
         }
     }
 
-    public function getChatURL(ilChatroomObjectGUI $gui, int $scope_id = 0): string
+    public function getChatURL(ilChatroomObjectGUI $gui): string
     {
-        $url = '';
-        if ($scope_id) {
-            $url = ilLink::_getStaticLink($gui->getObject()->getRefId(), $gui->getObject()->getType(), true, '_' . $scope_id);
-        } else {
-            $url = ilLink::_getStaticLink($gui->getObject()->getRefId(), $gui->getObject()->getType());
-        }
-
-        return $url;
+        return ilLink::_getStaticLink($gui->getObject()->getRefId(), $gui->getObject()->getType());
     }
 
     public function getTitle(): string
@@ -921,146 +729,6 @@ class ilChatroom
         }
 
         return $this->object->getTitle();
-    }
-
-    public static function lookupPrivateRoomTitle(int $proom_id): string
-    {
-        global $DIC;
-
-        $query = 'SELECT title FROM ' . self::$privateRoomsTable . ' WHERE proom_id = %s';
-        $types = ['integer'];
-        $values = [$proom_id];
-
-        $rset = $DIC->database()->queryF($query, $types, $values);
-        if ($row = $DIC->database()->fetchAssoc($rset)) {
-            return $row['title'];
-        }
-
-        return 'unknown';
-    }
-
-    public function inviteUserToPrivateRoomByLogin(string $login, int $proom_id): void
-    {
-        $user_id = (int) ilObjUser::_lookupId($login);
-        if ($user_id) {
-            $this->inviteUserToPrivateRoom($user_id, $proom_id);
-        }
-    }
-
-    public function inviteUserToPrivateRoom(int $user_id, int $proom_id): void
-    {
-        global $DIC;
-
-        $DIC->database()->replace(
-            self::$privateRoomsAccessTable,
-            [
-                'user_id' => ['integer', $user_id],
-                'proom_id' => ['integer', $proom_id]
-            ],
-            []
-        );
-    }
-
-    public function getActivePrivateRooms(int $userid): array
-    {
-        global $DIC;
-
-        $query = '
-			SELECT roomtable.title, roomtable.proom_id, accesstable.user_id id, roomtable.owner rowner
-			FROM ' . self::$privateRoomsTable . ' roomtable
-			LEFT JOIN ' . self::$privateRoomsAccessTable . ' accesstable
-			ON roomtable.proom_id = accesstable.proom_id
-			AND accesstable.user_id = %s
-			WHERE parent_id = %s
-			AND (closed = 0 OR closed IS NULL)
-			AND (accesstable.user_id IS NOT NULL OR roomtable.owner = %s)';
-        $types = ['integer', 'integer', 'integer'];
-        $values = [$userid, $this->roomId, $userid];
-        $rset = $DIC->database()->queryF($query, $types, $values);
-        $rooms = [];
-        while ($row = $DIC->database()->fetchAssoc($rset)) {
-            $row['active_users'] = $this->listUsersInPrivateRoom((int) $row['id']);
-            $row['owner'] = $row['rowner'];
-            $rooms[$row['proom_id']] = $row;
-        }
-
-        return $rooms;
-    }
-
-    /**
-     * @param int $private_room_id
-     * @return int[]
-     */
-    public function listUsersInPrivateRoom(int $private_room_id): array
-    {
-        global $DIC;
-
-        $query = '
-            SELECT chatroom_users.user_id FROM ' . self::$privateSessionsTable . '
-            INNER JOIN chatroom_users
-                ON chatroom_users.user_id = ' . self::$privateSessionsTable . ' .user_id WHERE proom_id = %s AND disconnected = 0
-        ';
-        $types = ['integer'];
-        $values = [$private_room_id];
-        $rset = $DIC->database()->queryF($query, $types, $values);
-
-        $users = [];
-        while ($row = $DIC->database()->fetchAssoc($rset)) {
-            $users[(int) $row['user_id']] = (int) $row['user_id'];
-        }
-
-        return array_values($users);
-    }
-
-    public function subscribeUserToPrivateRoom(int $room_id, int $user_id): void
-    {
-        global $DIC;
-
-        if (!$this->userIsInPrivateRoom($room_id, $user_id)) {
-            $id = $DIC->database()->nextId(self::$privateSessionsTable);
-            $DIC->database()->insert(
-                self::$privateSessionsTable,
-                [
-                    'psess_id' => ['integer', $id],
-                    'proom_id' => ['integer', $room_id],
-                    'user_id' => ['integer', $user_id],
-                    'connected' => ['integer', time()],
-                    'disconnected' => ['integer', 0],
-                ]
-            );
-        }
-    }
-
-    public function userIsInPrivateRoom(int $room_id, int $user_id): bool
-    {
-        global $DIC;
-
-        $query = 'SELECT proom_id id FROM ' . self::$privateSessionsTable .
-            ' WHERE user_id = %s AND proom_id = %s AND disconnected = 0';
-        $types = ['integer', 'integer'];
-        $values = [$user_id, $room_id];
-        $rset = $DIC->database()->queryF($query, $types, $values);
-        if ($DIC->database()->fetchAssoc($rset)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public function unsubscribeUserFromPrivateRoom(int $room_id, int $user_id): void
-    {
-        global $DIC;
-
-        $DIC->database()->update(
-            self::$privateSessionsTable,
-            [
-                'disconnected' => ['integer', time()]
-            ],
-            [
-                'proom_id' => ['integer', $room_id],
-                'user_id' => ['integer', $user_id]
-            ]
-        );
     }
 
     public function countActiveUsers(): int
@@ -1077,68 +745,6 @@ class ilChatroom
         }
 
         return 0;
-    }
-
-    public function getPrivateRooms(): array
-    {
-        global $DIC;
-
-        $query = 'SELECT * FROM ' . self::$privateRoomsTable . ' WHERE parent_id = %s';
-        $rset = $DIC->database()->queryF($query, ['integer'], [$this->roomId]);
-
-        $rooms = [];
-        while ($row = $DIC->database()->fetchAssoc($rset)) {
-            $rooms[] = $row;
-        }
-
-        return $rooms;
-    }
-
-    /**
-     * @param int $subRoomId
-     * @return int[]
-     */
-    public function getPrivilegedUsersForPrivateRoom(int $subRoomId): array
-    {
-        global $DIC;
-
-        $query = 'SELECT user_id FROM ' . self::$privateRoomsAccessTable . ' WHERE proom_id = %s';
-        $rset = $DIC->database()->queryF($query, ['integer'], [$subRoomId]);
-
-        $userIds = [];
-        while ($row = $DIC->database()->fetchAssoc($rset)) {
-            $userIds[] = (int) $row['user_id'];
-        }
-
-        return $userIds;
-    }
-
-    public function getUniquePrivateRoomTitle(string $title): string
-    {
-        global $DIC;
-
-        $query = 'SELECT title FROM ' . self::$privateRoomsTable . ' WHERE parent_id = %s and closed = 0';
-        $rset = $DIC->database()->queryF($query, ['integer'], [$this->roomId]);
-
-        $titles = [];
-        while ($row = $DIC->database()->fetchAssoc($rset)) {
-            $titles[] = $row['title'];
-        }
-
-        $suffix = '';
-        $i = 0;
-        do {
-            if (!in_array($title . $suffix, $titles, true)) {
-                $title .= $suffix;
-                break;
-            }
-
-            ++$i;
-
-            $suffix = ' (' . $i . ')';
-        } while (true);
-
-        return $title;
     }
 
     /**
@@ -1176,36 +782,6 @@ class ilChatroom
         }
 
         return $rooms;
-    }
-
-    /**
-     * @param int $parent_room
-     * @param int $user_id
-     * @return array<int, int>
-     */
-    public function getPrivateSubRooms(int $parent_room, int $user_id): array
-    {
-        global $DIC;
-
-        $query = "
-        SELECT      proom_id, parent_id
-        FROM        " . self::$privateRoomsTable . "
-        WHERE       parent_id = %s
-        AND         owner = %s
-        AND         closed = 0
-        ";
-
-        $types = ['integer', 'integer'];
-        $values = [$parent_room, $user_id];
-        $res = $DIC->database()->queryF($query, $types, $values);
-
-        $priv_rooms = [];
-        while ($row = $DIC->database()->fetchAssoc($res)) {
-            $proom_id = (int) $row['proom_id'];
-            $priv_rooms[$proom_id] = (int) $row['parent_id'];
-        }
-
-        return $priv_rooms;
     }
 
     public function getRefIdByRoomId(int $room_id): int
@@ -1247,7 +823,6 @@ class ilChatroom
             'SELECT *
 			FROM ' . self::$historyTable . '
 			WHERE room_id = ' . $DIC->database()->quote($this->roomId, 'integer') . '
-			AND sub_room = 0
 			AND (
 				(' . $DIC->database()->like('message', 'text', '%"type":"message"%') . ' AND NOT ' . $DIC->database()->like('message', 'text', '%"public":0%') . ')
 		  		OR ' . $DIC->database()->like('message', 'text', '%"target":{%"id":"' . $chatuser->getUserId() . '"%') . '
@@ -1271,21 +846,22 @@ class ilChatroom
             }
         }
 
-        $rset = $DIC->database()->queryF(
-            'SELECT *
-			FROM ' . self::$historyTable . '
-			WHERE room_id = %s
-			AND sub_room = 0
-			AND ' . $DIC->database()->like('message', 'text', '%%"type":"notice"%%') . '
-			AND timestamp <= %s AND timestamp >= %s
-			ORDER BY timestamp DESC',
-            ['integer', 'integer', 'integer'],
-            [$this->roomId, $results[0]->timestamp, $results[$result_count - 1]->timestamp]
-        );
+        if ($results !== []) {
+            $rset = $DIC->database()->queryF(
+                'SELECT *
+                 FROM ' . self::$historyTable . '
+                 WHERE room_id = %s
+                 AND ' . $DIC->database()->like('message', 'text', '%%"type":"notice"%%') . '
+                 AND timestamp <= %s AND timestamp >= %s
+                 ORDER BY timestamp DESC',
+                ['integer', 'integer', 'integer'],
+                [$this->roomId, $results[0]->timestamp, $results[$result_count - 1]->timestamp]
+            );
 
-        while (($row = $DIC->database()->fetchAssoc($rset))) {
-            $tmp = json_decode($row['message'], false, 512, JSON_THROW_ON_ERROR);
-            $results[] = $tmp;
+            while (($row = $DIC->database()->fetchAssoc($rset))) {
+                $tmp = json_decode($row['message'], false, 512, JSON_THROW_ON_ERROR);
+                $results[] = $tmp;
+            }
         }
 
         usort($results, static function (stdClass $a, stdClass $b): int {
@@ -1298,28 +874,20 @@ class ilChatroom
         return $results;
     }
 
-    public function clearMessages(int $sub_room): void
+    public function clearMessages(): void
     {
         global $DIC;
 
         $DIC->database()->queryF(
-            'DELETE FROM ' . self::$historyTable . ' WHERE room_id = %s AND sub_room = %s',
-            ['integer', 'integer'],
-            [$this->roomId, $sub_room]
+            'DELETE FROM ' . self::$historyTable . ' WHERE room_id = %s',
+            ['integer'],
+            [$this->roomId]
         );
 
-        if ($sub_room) {
-            $DIC->database()->queryF(
-                'DELETE FROM ' . self::$privateSessionsTable . ' WHERE proom_id = %s AND disconnected < %s',
-                ['integer', 'integer'],
-                [$sub_room, time()]
-            );
-        } else {
-            $DIC->database()->queryF(
-                'DELETE FROM ' . self::$sessionTable . ' WHERE room_id = %s AND disconnected < %s',
-                ['integer', 'integer'],
-                [$this->roomId, time()]
-            );
-        }
+        $DIC->database()->queryF(
+            'DELETE FROM ' . self::$sessionTable . ' WHERE room_id = %s AND disconnected < %s',
+            ['integer', 'integer'],
+            [$this->roomId, time()]
+        );
     }
 }

@@ -350,7 +350,7 @@ class ilObjPollGUI extends ilObject2GUI
         // show existing file
         $file = $this->object->getImageFullPath(true);
         if ($file) {
-            $img->setImage($file);
+            $img->setImage(ilWACSignedPath::signFile($file));
         }
 
         $anonymous = new ilRadioGroupInputGUI($this->lng->txt("poll_mode"), "mode");

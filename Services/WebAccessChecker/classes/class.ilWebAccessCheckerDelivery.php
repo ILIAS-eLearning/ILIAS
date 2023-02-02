@@ -19,6 +19,9 @@
 use ILIAS\FileDelivery\Delivery;
 use ILIAS\HTTP\Cookies\CookieFactory;
 use ILIAS\HTTP\Services;
+use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
+use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamInfoFactory;
+use ILIAS\ResourceStorage\Consumer\StreamAccess\TokenFactory;
 
 /**
  * Class ilWebAccessCheckerDelivery
@@ -126,12 +129,11 @@ class ilWebAccessCheckerDelivery
 
         $this->http->saveResponse($response);
 
-        if ($this->wac->getPathObject()->isImage()) {
-            $this->deliverDummyImage();
-        }
         if ($this->wac->getPathObject()->isVideo()) {
             $this->deliverDummyVideo();
         }
+
+        $this->deliverDummyImage();
 
         $this->wac->initILIAS();
     }
@@ -165,10 +167,30 @@ class ilWebAccessCheckerDelivery
             throw new ilWACException(ilWACException::ACCESS_WITHOUT_CHECK);
         }
 
-        $ilFileDelivery = new Delivery($this->wac->getPathObject()->getCleanURLdecodedPath(), $this->http);
+        $path = $this->wac->getPathObject();
+        // This is currently the place where WAC handles things from the ResourceStorageService.
+        if ($path->getModuleType() === 'rs') {
+            // initialize constants
+            if (!defined('CLIENT_DATA_DIR')) {
+                $ini = new ilIniFile("./ilias.ini.php");
+                $ini->read();
+                $data_dir = rtrim($ini->readVariable("clients", "datadir"), '/');
+                $client_data_dir = $data_dir . "/" . $path->getClient();
+            } else {
+                $client_data_dir = CLIENT_DATA_DIR;
+            }
+
+            $token_factory = new TokenFactory($client_data_dir);
+            $token = $token_factory->check($path->getFileName());
+            $path_to_file = $token->resolveStream(); // FileStream
+        } else {
+            $path_to_file = $path->getCleanURLdecodedPath();
+        }
+
+        $ilFileDelivery = new Delivery($path_to_file, $this->http);
         $ilFileDelivery->setCache(true);
         $ilFileDelivery->setDisposition($this->wac->getDisposition());
-        if ($this->wac->getPathObject()->isStreamable()) { // fixed 0016468
+        if ($path->isStreamable()) { // fixed 0016468
             $ilFileDelivery->stream();
         } else {
             $ilFileDelivery->deliver();

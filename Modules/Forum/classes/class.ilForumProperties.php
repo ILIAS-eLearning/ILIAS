@@ -28,8 +28,6 @@ class ilForumProperties
     public const VIEW_DATE = 2;
     public const VIEW_DATE_ASC = 2;
     public const VIEW_DATE_DESC = 3;
-    public const FORUM_OVERVIEW_WITH_NEW_POSTS = 0;
-    public const FORUM_OVERVIEW_NO_NEW_POSTS = 1;
     public const FILE_UPLOAD_GLOBALLY_ALLOWED = 0;
     public const FILE_UPLOAD_INDIVIDUAL = 1;
     public const THREAD_SORTING_DEFAULT = 0;

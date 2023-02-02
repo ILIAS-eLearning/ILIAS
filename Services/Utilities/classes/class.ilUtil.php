@@ -92,6 +92,8 @@ class ilUtil
 
         if (is_object($styleDefinition)) {
             $image_dir = $styleDefinition->getImageDirectory($current_style);
+        } else {
+            $image_dir = "images";
         }
         $skin_img = "";
         if ($current_skin == "default") {
@@ -1251,16 +1253,34 @@ class ilUtil
     ): void {
         global $DIC;
 
+        $http = $DIC->http();
+        $cookie_jar = $http->cookieJar();
+
         $cookie_factory = new CookieFactoryImpl();
-        $defalut_cookie_time = time() - (365 * 24 * 60 * 60);
+
+        $cookie_expire = null;
+        if (defined('IL_COOKIE_EXPIRE') && is_numeric(IL_COOKIE_EXPIRE) && IL_COOKIE_EXPIRE > 0) {
+            $cookie_expire = (int) IL_COOKIE_EXPIRE;
+        }
+
+        $expires = null;
+        if ($a_set_cookie_invalid) {
+            $expires = time() - 10;
+        } elseif ($cookie_expire > 0) {
+            $expires = time() + $cookie_expire;
+        }
 
         $cookie = $cookie_factory->create($a_cookie_name, $a_cookie_value)
-                                 ->withExpires($a_set_cookie_invalid ? 0 : $defalut_cookie_time)
+                                 ->withExpires($expires)
                                  ->withSecure(defined('IL_COOKIE_SECURE') ? IL_COOKIE_SECURE : false)
                                  ->withPath(defined('IL_COOKIE_PATH') ? IL_COOKIE_PATH : '')
                                  ->withDomain(defined('IL_COOKIE_DOMAIN') ? IL_COOKIE_DOMAIN : '')
                                  ->withHttpOnly(defined('IL_COOKIE_HTTPONLY') ? IL_COOKIE_HTTPONLY : false);
-        $DIC->http()->cookieJar()->with($cookie);
+
+
+        $jar = $cookie_jar->with($cookie);
+        $response = $jar->renderIntoResponseHeader($http->response());
+        $http->saveResponse($response);
     }
 
     /**

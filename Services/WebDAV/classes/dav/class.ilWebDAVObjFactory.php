@@ -86,14 +86,15 @@ class ilWebDAVObjFactory
             throw new ilWebDAVNotDavableException(ilWebDAVNotDavableException::OBJECT_TYPE_NOT_DAVABLE);
         }
 
-        if (!$this->isDAVableObjTitle($ilias_object->getTitle())) {
+        if ($this->isHiddenFile($ilias_object->getTitle())) {
+            throw new ilWebDAVNotDavableException(ilWebDAVNotDavableException::OBJECT_HIDDEN);
+        }
+
+        if ($this->hasTitleForbiddenChars($ilias_object->getTitle())) {
             throw new ilWebDAVNotDavableException(ilWebDAVNotDavableException::OBJECT_TITLE_NOT_DAVABLE);
         }
 
         if ($ilias_object_type === 'file') {
-            if (!$this->hasValidFileExtension($ilias_object->getTitle())) {
-                throw new ilWebDAVNotDavableException(ilWebDAVNotDavableException::FILE_EXTENSION_NOT_ALLOWED);
-            }
             return new ilDAVFile(
                 $ilias_object,
                 $this->repository_helper,

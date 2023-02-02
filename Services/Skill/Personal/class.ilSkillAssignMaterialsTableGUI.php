@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +19,9 @@
  ********************************************************************
  */
 
+use ILIAS\Skill\Tree\SkillTreeNodeManager;
+use ILIAS\Skill\Personal\AssignedMaterialManager;
+
 /**
  * Assign materials to skill levels table
  *
@@ -31,6 +36,11 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
     protected int $tref_id = 0;
     protected int $basic_skill_id = 0;
     protected ilSkillTreeNode $skill;
+    protected \ILIAS\UI\Factory $ui_fac;
+    protected \ILIAS\UI\Renderer $ui_ren;
+    protected ilSkillTreeRepository $tree_repo;
+    protected SkillTreeNodeManager $node_manager;
+    protected AssignedMaterialManager $assigned_material_manager;
 
     public function __construct(
         $a_parent_obj,
@@ -45,6 +55,8 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $ilUser = $DIC->user();
+        $this->ui_fac = $DIC->ui()->factory();
+        $this->ui_ren = $DIC->ui()->renderer();
 
         $this->ws_tree = new ilWorkspaceTree($ilUser->getId());
         if (!$this->ws_tree->readRootId()) {
@@ -56,12 +68,13 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
         $this->tref_id = $a_tref_id;
         $this->basic_skill_id = $a_basic_skill_id;
 
+        $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
+        $tree_id = $this->tree_repo->getTreeIdForNodeId($this->basic_skill_id);
+        $this->node_manager = $DIC->skills()->internal()->manager()->getTreeNodeManager($tree_id);
+        $this->assigned_material_manager = $DIC->skills()->internal()->manager()->getAssignedMaterialManager();
 
         // build title
-        $tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
-        $tree_id = $tree_repo->getTreeIdForNodeId($this->basic_skill_id);
-        $node_manager = $DIC->skills()->internal()->manager()->getTreeNodeManager($tree_id);
-        $title = $node_manager->getWrittenPath($this->basic_skill_id);
+        $title = $this->node_manager->getWrittenPath($this->basic_skill_id);
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->getLevels());
@@ -100,25 +113,28 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
 
-        $mat = ilPersonalSkill::getAssignedMaterial($ilUser->getId(), $this->tref_id, $a_set["id"]);
+        $mat = $this->assigned_material_manager->getAssignedMaterials($ilUser->getId(), $this->tref_id, (int) $a_set["id"]);
         $ilCtrl->setParameter($this->parent_obj, "level_id", $a_set["id"]);
         foreach ($mat as $m) {
             $this->tpl->setCurrentBlock("mat");
-            $obj_id = $this->ws_tree->lookupObjectId($m["wsp_id"]);
+            $obj_id = $this->ws_tree->lookupObjectId($m->getWorkspaceId());
+            $obj_type = ilObject::_lookupType($obj_id);
+            $mat_icon = $this->ui_fac->symbol()->icon()->standard(
+                $obj_type,
+                $this->lng->txt("icon") . " " . $this->lng->txt($obj_type),
+                "medium"
+            );
             $this->tpl->setVariable(
                 "MAT_TITLE",
                 ilObject::_lookupTitle($obj_id)
             );
-            $this->tpl->setVariable(
-                "MAT_IMG",
-                ilUtil::img(ilUtil::getImagePath("icon_" . ilObject::_lookupType($obj_id) . ".svg"))
-            );
+            $this->tpl->setVariable("MAT_IMG", $this->ui_ren->render($mat_icon));
             $this->tpl->setVariable("TXT_REMOVE", $lng->txt("remove"));
-            $ilCtrl->setParameter($this->parent_obj, "wsp_id", $m["wsp_id"]);
+            $ilCtrl->setParameter($this->parent_obj, "wsp_id", $m->getWorkspaceId());
             $this->tpl->setVariable("HREF_REMOVE", $ilCtrl->getLinkTarget($this->parent_obj, "removeMaterial"));
 
-            $obj_id = $this->ws_tree->lookupObjectId($m["wsp_id"]);
-            $url = $this->ws_access->getGotoLink($m["wsp_id"], $obj_id);
+            $obj_id = $this->ws_tree->lookupObjectId($m->getWorkspaceId());
+            $url = $this->ws_access->getGotoLink($m->getWorkspaceId(), $obj_id);
             $this->tpl->setVariable("HREF_MAT", $url);
             $this->tpl->parseCurrentBlock();
         }

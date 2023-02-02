@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 /** @noinspection PhpIncompatibleReturnTypeInspection */
 
 namespace ILIAS\GlobalScreen\Scope\Layout;
@@ -31,9 +31,8 @@ use ILIAS\GlobalScreen\SingletonTrait;
  */
 class LayoutServices
 {
-    use SingletonTrait;
-
     private MetaContent $meta_content;
+    private ModificationFactory $modification_factory;
 
     /**
      * LayoutServices constructor.
@@ -41,6 +40,7 @@ class LayoutServices
     public function __construct(string $resource_version)
     {
         $this->meta_content = new MetaContent($resource_version);
+        $this->modification_factory = new ModificationFactory();
     }
 
     /**
@@ -48,7 +48,7 @@ class LayoutServices
      */
     public function factory(): ModificationFactory
     {
-        return $this->get(ModificationFactory::class);
+        return $this->modification_factory;
     }
 
     /**

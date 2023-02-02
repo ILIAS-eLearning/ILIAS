@@ -41,7 +41,6 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
 
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
-
         $this->current_user = $DIC->user();
 
         $this->setting = $DIC["ilSetting"];
@@ -160,7 +159,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         if (!$this->custom_prefs) {
             return (string) $a_user->getPref($a_id);
         } else {
-            return (string) $this->custom_prefs[$a_id];
+            return (string) ($this->custom_prefs[$a_id] ?? "");
         }
     }
 
@@ -173,14 +172,12 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
     public function executeCommand(): string
     {
         global $DIC;
-
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
         $ret = "";
         if (!self::validateUser($this->getUserId())) {
             return "";
         }
-
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd();
 
@@ -377,7 +374,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             $tpl->setCurrentBlock("vcard");
             $tpl->setVariable("TXT_VCARD", $lng->txt("vcard"));
             $tpl->setVariable("TXT_DOWNLOAD_VCARD", $lng->txt("vcard_download"));
-            $ilCtrl->setParameter($this, "user", $this->getUserId());
+            $ilCtrl->setParameter($this, "user_id", $this->getUserId());
             $tpl->setVariable("HREF_VCARD", $ilCtrl->getLinkTarget($this, "deliverVCard"));
         }
 
@@ -790,7 +787,6 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
 
         $ilUser = $DIC->user();
         $ilCtrl = $DIC->ctrl();
-
         if (ilObject::_lookupType($usrId) != "usr") {
             return false;
         }

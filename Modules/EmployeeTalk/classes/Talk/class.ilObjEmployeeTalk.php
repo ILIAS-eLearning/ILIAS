@@ -77,7 +77,7 @@ final class ilObjEmployeeTalk extends ilObject
         $app = new ilCalendarAppointmentTemplate($this->getId());
         $app->setTitle($this->getTitle());
         $app->setSubtitle('');
-        $app->setTranslationType(IL_CAL_TRANSLATION_NONE);
+        $app->setTranslationType(ilCalendarEntry::TRANSLATION_NONE);
         $app->setDescription($this->getLongDescription());
         $app->setStart($this->data->getStartDate());
         $app->setEnd($this->data->getEndDate());
@@ -111,7 +111,7 @@ final class ilObjEmployeeTalk extends ilObject
         $app = new ilCalendarAppointmentTemplate($this->getParent()->getId());
         $app->setTitle($this->getTitle());
         $app->setSubtitle($this->getParent()->getTitle());
-        $app->setTranslationType(IL_CAL_TRANSLATION_NONE);
+        $app->setTranslationType(ilCalendarEntry::TRANSLATION_NONE);
         $app->setDescription($this->getLongDescription());
         $app->setStart($this->data->getStartDate());
         $app->setEnd($this->data->getEndDate());

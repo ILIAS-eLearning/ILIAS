@@ -81,7 +81,7 @@ class ilObjectCopyProgressTableGUI extends ilTable2GUI
         $progress->setAnimated(true);
         $progress->setId((string) $set['copy_id']);
 
-        $this->ctrl->setParameter($this->getParentObject(), 'copy_id', $set['copy_id']);
+        $this->ctrl->setParameter($this->getParentObject(), '_copy_id', $set['copy_id']);
         $progress->setAsyncStatusUrl(
             $this->ctrl->getLinkTarget(
                 $this->getParentObject(),

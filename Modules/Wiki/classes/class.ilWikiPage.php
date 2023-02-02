@@ -258,6 +258,15 @@ class ilWikiPage extends ilPageObject
             $this->getId()
         );
 
+        // delete important page
+        // note: the wiki might be already deleted here
+        if (ilObject::_exists($this->getWikiId())) {
+            $wiki = new ilObjWiki($this->getWikiId(), false);
+            if ($wiki->isImportantPage($this->getId())) {
+                $wiki->removeImportantPage($this->getId());
+            }
+        }
+
         // delete internal links information to this page
         ilInternalLink::_deleteAllLinksToTarget("wpg", $this->getId());
 
@@ -462,7 +471,6 @@ class ilWikiPage extends ilPageObject
         $orphaned = array();
         foreach ($pages as $k => $page) {
             $sources = ilInternalLink::_getSourcesOfTarget("wpg", $page["id"], 0);
-
             $ids = array();
             foreach ($sources as $source) {
                 if ($source["type"] === "wpg:pg") {
@@ -475,9 +483,10 @@ class ilWikiPage extends ilPageObject
                 " GROUP BY wiki_id";
             $set = $ilDB->query($query);
             $rec = $ilDB->fetchAssoc($set);
-            if ($rec && (int) $rec["cnt"] === 0 &&
-                ilObjWiki::_lookupStartPage($a_wiki_id) !== $page["title"]) {
-                $orphaned[] = $page;
+            if (count($ids) === 0 || ($rec && (int) $rec["cnt"] === 0)) {
+                if (ilObjWiki::_lookupStartPage($a_wiki_id) !== $page["title"]) {
+                    $orphaned[] = $page;
+                }
             }
         }
 

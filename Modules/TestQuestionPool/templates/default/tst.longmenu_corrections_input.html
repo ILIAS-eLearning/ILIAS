@@ -5,17 +5,19 @@
     {ANSWERS_MODAL}
 </div>
 <script type="text/javascript">
-(function($){ $(document).ready(function(){
+(function(){
+    document.addEventListener("DOMContentLoaded", () => {
+        let option = document.getElementById('link_{POSTVAR}');
+        let modal = document.getElementById('modal_{POSTVAR}');
+        option.addEventListener('click',
+            (e) => {
+                $(modal).modal('toggle');
+                e.stopPropagation();
+                e.preventDefault();
+                return false;
+            }
+        );
 
-        $('#link_{POSTVAR}').click(function(e)
-        {
-            $('#modal_{POSTVAR}').modal('show');
-            
-            e.stopPropagation();
-            e.preventDefault();
-            
-            return false;
-        });
-        
-}); }(jQuery));
-</script>
+    });
+})();
+</script>-

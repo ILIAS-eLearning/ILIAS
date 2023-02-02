@@ -1,37 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 26.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- Generator: Adobe Illustrator 26.5.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 320 320" style="enable-background:new 0 0 320 320;" xml:space="preserve">
 <style type="text/css">
-	.st0{clip-path:url(#SVGID_00000074429357493773494620000006980780099941233834_);fill:#52658B;}
-	.st1{fill:#FFFFFF;}
-	.st2{clip-path:url(#SVGID_00000142141956592846219900000017595759938073545885_);fill:#52658B;}
-	.st3{fill:#52658B;}
-	.st4{fill:none;}
+	.st0{fill:none;}
+	.st1{fill:#4C6586;}
 </style>
+<rect x="25" y="55" class="st0" width="270" height="215"/>
+<rect x="25" y="55" class="st0" width="270" height="215"/>
+<rect class="st0" width="320" height="320"/>
 <g>
-	<defs>
-		<rect id="SVGID_1_" x="25" y="55" width="270" height="215"/>
-	</defs>
-	<clipPath id="SVGID_00000098222420024873256740000006280402882625544077_">
-		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
-	</clipPath>
-	<path style="clip-path:url(#SVGID_00000098222420024873256740000006280402882625544077_);fill:#52658B;" d="M65,55
-		c-5.5,0-10,4.5-10,10v160c0,5.5,4.5,10,10,10h220c5.5,0,10-4.5,10-10V65c0-5.5-4.5-10-10-10H65z"/>
+	<polygon class="st1" points="144.7,230.7 144.7,230.7 145.3,230.7 214.9,137.5 191.6,120 140.6,187.7 110.1,160.2 90.5,181.9 	"/>
+	<path class="st1" d="M285,55H65c-5.5,0-10,4.5-10,10v25H35c-5.5,0-10,4.5-10,10v160c0,5.5,4.5,10,10,10h220c5.5,0,10-4.5,10-10v-25
+		h20c5.5,0,10-4.5,10-10V65C295,59.5,290.5,55,285,55z M250,255H40V105h210V255z M280,220h-15V100c0-5.5-4.5-10-10-10H70V70h210V220
+		z"/>
 </g>
-<rect x="70" y="70" class="st1" width="210" height="150"/>
-<g>
-	<defs>
-		<rect id="SVGID_00000041277211364109315390000000442649644787495345_" x="25" y="55" width="270" height="215"/>
-	</defs>
-	<clipPath id="SVGID_00000116936520579305369180000002250029103989462184_">
-		<use xlink:href="#SVGID_00000041277211364109315390000000442649644787495345_"  style="overflow:visible;"/>
-	</clipPath>
-	<path style="clip-path:url(#SVGID_00000116936520579305369180000002250029103989462184_);fill:#52658B;" d="M35,90
-		c-5.5,0-10,4.5-10,10v160c0,5.5,4.5,10,10,10h220c5.5,0,10-4.5,10-10V100c0-5.5-4.5-10-10-10H35z"/>
-</g>
-<rect x="40" y="105" class="st1" width="210" height="150"/>
-<polygon class="st3" points="214.9,137.5 191.6,120 140.6,187.7 110.1,160.2 90.5,181.9 144.7,230.7 144.7,230.7 144.7,230.7 
-	145.3,230.7 "/>
-<rect x="0" class="st4" width="320" height="320"/>
 </svg>

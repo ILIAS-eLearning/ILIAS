@@ -154,6 +154,9 @@ class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 
         $tpl = new ilTemplate("tpl.prop_alphabet.html", true, true, "Services/Form");
         foreach ($this->getLetters() as $l) {
+            if (is_null($l)) {
+                continue;
+            }
             $l = $this->fixDBUmlauts($l);
             $tpl->setCurrentBlock("letter");
             $tpl->setVariable("TXT_LET", $l);

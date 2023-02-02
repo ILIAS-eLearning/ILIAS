@@ -100,25 +100,6 @@ class ilBadgeManagementGUI
                 $ilCtrl->forwardCommand($form);
                 break;
 
-                /*
-                case "illplistofsettingsgui":
-                    $id = $_GET["lpid"];
-                    if($id)
-                    {
-                        $ilCtrl->saveParameter($this, "bid");
-                        $ilCtrl->saveParameter($this, "lpid");
-
-                        $ilTabs->clearTargets();
-                        $ilTabs->setBackTarget(
-                            $lng->txt("back"),
-                            $ilCtrl->getLinkTarget($this, "editBadge")
-                        );
-                        $lpgui = new ilLPListOfSettingsGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY, $id);
-                        $ilCtrl->forwardCommand($lpgui);
-                        break;
-                    }
-                */
-
             default:
                 $this->$cmd();
                 break;
@@ -303,6 +284,7 @@ class ilBadgeManagementGUI
 
             $img_mode = new ilRadioGroupInputGUI($lng->txt("image"), "img_mode");
             $img_mode->setRequired(true);
+            $img_mode->setValue("tmpl");
             $form->addItem($img_mode);
 
             $img_mode_tmpl = new ilRadioOption($lng->txt("badge_image_from_template"), "tmpl");

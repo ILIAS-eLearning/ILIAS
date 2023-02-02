@@ -448,7 +448,7 @@ class ilUserProfile
         foreach ($this->getStandardFields() as $field => $info) {
             if ($ilSetting->get('usr_settings_visib_lua_' . $field, '1')) {
                 $fields[$field] = $info;
-            } elseif ($info['visib_lua_fix_value']) {
+            } elseif ($info['visib_lua_fix_value'] ?? false) {
                 $fields[$field] = $info;
             }
         }
@@ -887,7 +887,7 @@ class ilUserProfile
                     continue;
                 }
 
-                if (!$user_defined_data["f_" . $field]) {
+                if (!($user_defined_data["f_" . $field] ?? false)) {
                     ilLoggerFactory::getLogger('user')->info('Profile is incomplete due to missing required udf.');
                     return true;
                 }

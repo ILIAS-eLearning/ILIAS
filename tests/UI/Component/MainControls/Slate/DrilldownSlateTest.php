@@ -98,7 +98,7 @@ class DrilldownSlateTest extends ILIAS_UI_TestBase
                         <header class="show-title show-backnav">
                             <h2>ddmenu</h2>
                             <div class="backnav">
-                                <button class="btn btn-bulky" id="id_1"><span class="glyph" role="img"><span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span></span><span class="bulky-label"></span></button>
+                                <button class="btn btn-bulky" id="id_1" aria-label="back"><span class="glyph" role="img"><span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span></span><span class="bulky-label"></span></button>
                             </div>
                         </header>
                         <ul>

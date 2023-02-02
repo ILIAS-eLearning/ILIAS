@@ -1,0 +1,11 @@
+@use "../../../010-settings/" as *;
+@use "../../../050-layout/basics" as *;
+
+.il-table-access-control-permissions{
+  font-size: $il-font-size-small;
+
+  label {
+    vertical-align: middle;
+    padding-left: $il-padding-small-horizontal;
+  }
+}

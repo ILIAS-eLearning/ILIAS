@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -202,5 +204,5 @@ interface ilSkillUserLevelRepository
         int $a_object_id,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ): ?string;
+    ): string;
 }

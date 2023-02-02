@@ -81,7 +81,6 @@ adm#:#adm_support_contacts_info#:#フッターリンクと"誰がオンライン
 administration#:#adm_achievements#:#実績
 administration#:#adm_activate_db_benchmark#:#ベンチマークを使用可能にする
 administration#:#adm_activate_db_benchmark_desc#:#ベンチマークは1回要求後に自動的に切れます。
-administration#:#adm_add_settings_template#:#テンプレート追加
 administration#:#adm_adm_role_protect#:#管理者役割を保護
 administration#:#adm_adm_role_protect_info#:#有効にすると管理者だけしか管理者役割とユーザ間の割り当て・解除ができなくなります。
 administration#:#adm_auth_login#:#認証Login
@@ -94,7 +93,6 @@ administration#:#adm_db_bench_sorted_by_sql#:#SQLで並び替え
 administration#:#adm_db_benchmark#:#DBベンチマーク
 administration#:#adm_db_benchmark_user#:#ユーザアカウント名
 administration#:#adm_db_benchmark_user_desc#:#このユーザの測定だけを実行します。
-administration#:#adm_edit_settings_template#:#テンプレートを編集
 administration#:#adm_extending_ilias#:#ILIASを拡張
 administration#:#adm_external_setting_edit#:#設定編集
 administration#:#adm_hide#:#設定フォーム内を非表示
@@ -128,11 +126,9 @@ administration#:#adm_rep_tree_only_cntr_info#:#カテゴリ、コース、グル
 administration#:#adm_rep_tree_presentation#:#リポジトリのツリー表示
 administration#:#adm_repository_and_objects#:#リポジトリとオブジェクト
 administration#:#adm_search_and_find#:#Search and Find
-administration#:#adm_settings_templates#:#テンプレートの設定
 administration#:#adm_show_comments_tagging_in_lists#:#オブジェクトリスト内のメモ、コメント、タグ数を表示
 administration#:#adm_show_comments_tagging_in_lists_tags#:#番号ではなくタグを表示
 administration#:#adm_sql#:#SQL
-administration#:#adm_sure_delete_settings_template#:#次のテンプレートを本当に削除しますか?
 administration#:#adm_table#:#テーブル
 administration#:#adm_time#:#Time
 administration#:#adm_user_administration#:#ユーザ管理
@@ -472,7 +468,6 @@ assessment#:#add_imagemap#:#イメージマップをインポート
 assessment#:#add_poly#:#多角形エリアを追加
 assessment#:#add_rect#:#長方形エリアを追加
 assessment#:#additional_rating_info#:#ここに示される値はパーセント表示で100以内にする必要がある事に注意願います。
-assessment#:#adm_settings_templates#:#テンプレート設定
 assessment#:#advanced_rating#:#上位レート
 assessment#:#advanced_rating_info#:#上位レートはユニットが結果に割り当てられる場合のみ利用できます。
 assessment#:#all_available_question_pools#:#全ての利用可能な問題集
@@ -1212,7 +1207,6 @@ assessment#:#showSuggestedSolution#:#推奨の解答
 assessment#:#show_answer_overview#:#解答概要を表示
 assessment#:#show_detailed_results#:#ユーザの詳細結果を表示(パスしたものをマーク)
 assessment#:#show_examview_html#:#画面上に
-assessment#:#show_examview_pdf#:#PDFダウンロード
 assessment#:#show_pass_overview#:#マークした試験状況を表示
 assessment#:#show_user_answers#:#マークしたユーザの解答を表示
 assessment#:#showinfo#:#全テストプロパティの表示
@@ -1293,10 +1287,10 @@ assessment#:#tst_activate_skill_service_desc#:#新規タブ'能力'が表示さ�
 assessment#:#tst_activation_limited_visibility_info#:#表示期間前後にテストのタイトルのみが表示されます。受験者はテスト受験できません。
 assessment#:#tst_activation_online_info#:#オンラインの場合に受験者はテスト受験できます。
 assessment#:#tst_add_quest_cont_edit_mode#:#追加問題コンテンツのモード編集
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#ページオブジェクトエディタ付の追加コンテンツ編集
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#問題と回答に書式設定がありません。LaTexにもありません。ただし、ｄフィードバックとヒントはILIAS学習モジュールへ問題が埋め込まれ時に再利用できます。
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#追加問題コンテンツの初期モード編集
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#ヒント、フィードバック、回答、問題の書式設定を許可。ただし、フィードバックとヒントはILIAS学習モジュールへ問題が埋め込まれた時には再利用できません。
-assessment#:#tst_add_quest_cont_edit_mode_default#:#追加問題コンテンツの初期モード編集
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#ページオブジェクトエディタ付の追加コンテンツ編集
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#試験に合格です。試験は再開できません。
 assessment#:#tst_all_test_competences#:#全テスト能力
 assessment#:#tst_all_user_data_deleted#:#このテストの全ユーザデータは削除されました!
@@ -4241,9 +4235,7 @@ common#:#ignore_on_conflict#:#競合を無視
 common#:#ignore_required_fields#:#要求フィールドを無視
 common#:#ignore_required_fields_info#:#アクティブにすると、全必須フィールドを記入しなくても提出する事ができます。新規ユーザは次回ログオン後にパーソナルプロファイル内の不足情報を追記する必要があります。
 common#:#il_astpl_loc_initial#:#初期テスト
-common#:#il_astpl_loc_initial_desc#:#学習目標志向コースの初期テスト用テンプレート設定
 common#:#il_astpl_loc_qualified#:#資格テスト
-common#:#il_astpl_loc_qualified_desc#:#学習目標志向コースの資格テスト用テンプレート設定
 common#:#il_blog_contributor#:#ブログ著者
 common#:#il_blog_editor#:#ブログ編集者
 common#:#il_chat_moderator#:#Chat Moderator
@@ -10968,7 +10960,7 @@ mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###19 08 2022 new variable
 mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###19 08 2022 new variable
 mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###19 08 2022 new variable
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script###19 08 2022 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML###19 08 2022 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe###19 08 2022 new variable
 mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js###19 08 2022 new variable
 mathjax#:#mathjax_server_address#:#サーバアドレス
 mathjax#:#mathjax_server_address_info#:#例 http://localhost:8003
@@ -15763,7 +15755,6 @@ survey#:#survey_pool_selection#:#質問集選択
 survey#:#survey_prev_question#:#前のページ
 survey#:#survey_previous#:#<< 戻る
 survey#:#survey_question_editor#:#質問のリスト
-survey#:#survey_question_editor_settings_template#:#一覧表示("質問"タブ内)
 survey#:#survey_question_obligatory#:#この質問は必須です。 質問へ回答する必要があります!
 survey#:#survey_question_pool#:#質問集
 survey#:#survey_question_pool_title#:#質問集タイトル
@@ -15941,7 +15932,6 @@ survey#:#svy_settings_section_before_start#:#サーベイ開始前情報
 survey#:#svy_settings_section_finishing#:#サーベイ終了
 survey#:#svy_settings_section_question_behaviour#:#サーベイ管理: 質問のふるまい
 survey#:#svy_settings_section_reminders#:#注意喚起
-survey#:#svy_settings_template#:#テンプレート
 survey#:#svy_show_questiontitles#:#質問タイトルを表示
 survey#:#svy_skl_comp_assignm_not_supported#:#能力割当てはこの質問タイプをサポートしていません。
 survey#:#svy_sum_score#:#合計点数

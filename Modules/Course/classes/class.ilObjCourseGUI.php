@@ -388,10 +388,9 @@ class ilObjCourseGUI extends ilContainerGUI
                 }
                 if ($this->object->getSubscriptionMaxMembers()) {
                     $reg_info = ilObjCourseAccess::lookupRegistrationInfo($this->object->getId());
-
                     $info->addProperty(
                         $this->lng->txt('mem_free_places'),
-                        (string) $reg_info['reg_info_free_places']
+                        (string) ($reg_info['reg_info_free_places'] ?? '0')
                     );
                 }
             }
@@ -2697,8 +2696,9 @@ class ilObjCourseGUI extends ilContainerGUI
 
     public function askResetObject(): void
     {
-        $this->tpl->setOnScreenMessage('question', $this->lng->txt('crs_objectives_reset_sure'));
+        //$this->tpl->setOnScreenMessage('question', $this->lng->txt('crs_objectives_reset_sure'));
         $confirm = new ilConfirmationGUI();
+        $confirm->setHeaderText($this->lng->txt('crs_objectives_reset_sure'));
         $confirm->setFormAction($this->ctrl->getFormAction($this));
         $confirm->setConfirm($this->lng->txt('reset'), 'reset');
         $confirm->setCancel($this->lng->txt('cancel'), 'cancel');
@@ -2978,12 +2978,13 @@ class ilObjCourseGUI extends ilContainerGUI
             $question = $this->lng->txt('crs_loc_objectives_passed_confirmation');
         }
 
+        $confirm->setHeaderText($question);
         $confirm->addHiddenItem('objective_id', (string) $a_objective_id);
         $confirm->addHiddenItem('tid', (string) $a_test_id);
         $confirm->setConfirm($this->lng->txt('crs_loc_tst_start'), 'redirectLocToTestConfirmed');
         $confirm->setCancel($this->lng->txt('cancel'), 'view');
 
-        $this->tpl->setOnScreenMessage('question', $question);
+        //$this->tpl->setOnScreenMessage('question', $question);
         $this->tpl->setContent($confirm->getHTML());
     }
 

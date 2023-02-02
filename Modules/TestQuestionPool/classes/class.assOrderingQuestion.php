@@ -350,7 +350,11 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
             foreach ($this->getOrderingElementList() as $element) {
                 $filename = $element->getContent();
-                //if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
+
+                if ($filename === '') {
+                    continue;
+                }
+
                 if (!copy($imagepath_original . $filename, $imagepath . $filename)) {
                     $ilLog->write("image could not be duplicated!!!!");
                     $ilLog->write($imagepath_original . $filename);
@@ -518,15 +522,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if ($inputGUI->isPostSubmit($lastPost)) {
             return $this->fetchSolutionListFromFormSubmissionData($lastPost);
         }
-
-        // hey: prevPassSolutions - pass will be always available from now on
-        #if( $pass === null && !ilObjTest::_getUsePreviousAnswers($activeId, true) )
-        #// condition looks strange? yes - keep it null when previous solutions not enabled (!)
-        #{
-        #   $pass = ilObjTest::_getPass($activeId);
-        #}
-        // hey.
-
         $indexedSolutionValues = $this->fetchIndexedValuesFromValuePairs(
             // hey: prevPassSolutions - obsolete due to central check
             $this->getTestOutputSolutions($activeId, $pass)
@@ -731,7 +726,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         $solutionOrderingElementList = unserialize(
             $previewSession->getParticipantsSolution(),
-            ["allowed_classes" => false]
+            ["allowed_classes" => true]
         );
 
         $reachedPoints = $this->calculateReachedPointsForSolution($solutionOrderingElementList);
@@ -812,7 +807,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         }
 
         $result = @unlink($this->getImagePath() . $imageFilename);
-        $result = $result & @unlink($this->getImagePath() . $this->getThumbPrefix() . $imageFilename);
+        $result = $result && @unlink($this->getImagePath() . $this->getThumbPrefix() . $imageFilename);
 
         return $result;
     }
@@ -858,7 +853,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if (ilFileUtils::moveUploadedFile($upload_file, $target_filename, $target_filepath)) {
             $thumb_path = $this->getImagePath() . $this->getThumbPrefix() . $target_filename;
             if ($this->getThumbGeometry()) {
-                ilShellUtil::convertImage($target_filepath, $thumb_path, "JPEG", $this->getThumbGeometry());
+                ilShellUtil::convertImage($target_filepath, $thumb_path, "JPEG", (string)$this->getThumbGeometry());
             }
             return $target_filename;
         }
@@ -946,7 +941,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         );
 
         $ilDB->manipulateF(
-            "INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, ordering_type, thumb_geometry, element_height) 
+            "INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, ordering_type, thumb_geometry, element_height)
                             VALUES (%s, %s, %s, %s)",
             array( "integer", "text", "integer", "integer" ),
             array(
@@ -1143,7 +1138,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                     $ext = 'JPEG';
                     break;
             }
-            ilShellUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbGeometry());
+            ilShellUtil::convertImage($filename, $thumbpath, $ext, (string)$this->getThumbGeometry());
         }
     }
 
@@ -1375,7 +1370,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param $nested_solution
      * @return int
      */
-    protected function calculateReachedPointsForSolution(ilAssOrderingElementList $solutionOrderingElementList): int
+    protected function calculateReachedPointsForSolution(ilAssOrderingElementList $solutionOrderingElementList): float
     {
         $reachedPoints = $this->getPoints();
 

@@ -81,7 +81,6 @@ adm#:#adm_support_contacts_info#:#Support contacts used in the footer link and (
 administration#:#adm_achievements#:#Achievements
 administration#:#adm_activate_db_benchmark#:#Activate Benchmark
 administration#:#adm_activate_db_benchmark_desc#:#Benchmarking will be automatically disabled after one request.
-administration#:#adm_add_settings_template#:#Add Template
 administration#:#adm_adm_role_protect#:#Protect Administrator Role
 administration#:#adm_adm_role_protect_info#:#If enabled, only administrator are allowed to de/assign users from/to the administrator role.
 administration#:#adm_auth_login#:#Authentication Login
@@ -94,7 +93,6 @@ administration#:#adm_db_bench_sorted_by_sql#:#Sorted by SQL
 administration#:#adm_db_benchmark#:#DB Benchmark
 administration#:#adm_db_benchmark_user#:#User Account Name
 administration#:#adm_db_benchmark_user_desc#:#Only measurements for this user will be made.
-administration#:#adm_edit_settings_template#:#Edit Template
 administration#:#adm_extending_ilias#:#Extending ILIAS
 administration#:#adm_external_setting_edit#:#Edit Settings
 administration#:#adm_hide#:#Hide in Settings Form
@@ -128,11 +126,9 @@ administration#:#adm_rep_tree_only_cntr_info#:#Only categories, courses and grou
 administration#:#adm_rep_tree_presentation#:#Repository Tree Presentation
 administration#:#adm_repository_and_objects#:#Repository and Objects
 administration#:#adm_search_and_find#:#Search and Find
-administration#:#adm_settings_templates#:#Settings Templates
 administration#:#adm_show_comments_tagging_in_lists#:#Show number of notes, comments and tags in object lists
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Display tags instead of number
 administration#:#adm_sql#:#SQL
-administration#:#adm_sure_delete_settings_template#:#Do you really want to delete the following templates?
 administration#:#adm_table#:#Table
 administration#:#adm_time#:#Time
 administration#:#adm_user_administration#:#Users and Roles
@@ -472,7 +468,6 @@ assessment#:#add_imagemap#:#Uvozi slikovni zemljevid
 assessment#:#add_poly#:#Dodaj poligon
 assessment#:#add_rect#:#Dodaj pravokotnik
 assessment#:#additional_rating_info#:#Upoštevajte, da so tukaj podane vrednosti izražene v odstotkih in morajo na koncu dati vsoto 100.
-assessment#:#adm_settings_templates#:#Predloge nastavitev
 assessment#:#advanced_rating#:#Razširjena ocena
 assessment#:#advanced_rating_info#:#Razširjena ocena je mogoča le, če ste definirali enoto za rezultat. Nadaljnje nastavitve ocene se prikažejo po shranjevanju določenih enot.
 assessment#:#all_available_question_pools#:#Vse obstoječe skupine vprašanj
@@ -1212,7 +1207,6 @@ assessment#:#showSuggestedSolution#:#Vrsta
 assessment#:#show_answer_overview#:#Pokaži pregled odgovorov
 assessment#:#show_detailed_results#:#Podrobni rezultati testov (ocenjeno opravljanje testa)
 assessment#:#show_examview_html#:#Na zaslonu
-assessment#:#show_examview_pdf#:#Prenos PDF
 assessment#:#show_pass_overview#:#Pregled rezultatov (ocenjeno opravljanje testa)
 assessment#:#show_user_answers#:#Odgovori (ocenjeno opravljanje testa)
 assessment#:#showinfo#:#Prikaži lastnosti testa
@@ -1293,10 +1287,10 @@ assessment#:#tst_activate_skill_service_desc#:#Podpira dodelitev vprašanj kompe
 assessment#:#tst_activation_limited_visibility_info#:#Izven določenega obdobja se prikaže ime testa. Testa ni mogoče zagnati.
 assessment#:#tst_activation_online_info#:#Udeleženci lahko opravljajo test le, če je na spletu.
 assessment#:#tst_add_quest_cont_edit_mode#:#Urednik za povratne informacije in namige glede rešitev.
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Uporabite urejevalnik strani ILIAS za urejanje povratnih informacij in nasvetov
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module.
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Za urejanje povratnih informacij in nasvetov uporabite urejevalnik obogatenega besedila
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module.
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Za urejanje povratnih informacij in nasvetov uporabite urejevalnik obogatenega besedila
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Uporabite urejevalnik strani ILIAS za urejanje povratnih informacij in nasvetov
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.
 assessment#:#tst_all_test_competences#:#Vse testne kompetence
 assessment#:#tst_all_user_data_deleted#:#Podatki vseh udeležencev testa so bili izbrisani!
@@ -4240,9 +4234,7 @@ common#:#ignore_on_conflict#:#Prezri v primeru konflikta
 common#:#ignore_required_fields#:#Prezri obvezna uporabniška polja
 common#:#ignore_required_fields_info#:#Če je aktivirano, obvezni podatki pri pošiljanju tega obrazca ne bodo več preverjani (če je mogoče). Posledica tega je, da bo moral uporabnik ob naslednji prijavi dopolniti svoj profil.
 common#:#il_astpl_loc_initial#:#Vstopni test
-common#:#il_astpl_loc_initial_desc#:#Predloga nastavitve za vstopni test tečajev, ki so osredotočeni na učne cilje
 common#:#il_astpl_loc_qualified#:#Kvalifikacijski test
-common#:#il_astpl_loc_qualified_desc#:#Predloga nastavitve za kvalifikacijski test tečajev, ki so osredotočeni na učne cilje
 common#:#il_blog_contributor#:#Avtor bloga
 common#:#il_blog_editor#:#Urednik bloga
 common#:#il_chat_moderator#:#Moderator klepeta
@@ -10967,7 +10959,7 @@ mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###19 08 2022 new variable
 mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###19 08 2022 new variable
 mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###19 08 2022 new variable
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script###19 08 2022 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML###19 08 2022 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe###19 08 2022 new variable
 mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js###19 08 2022 new variable
 mathjax#:#mathjax_server_address#:#Server Address
 mathjax#:#mathjax_server_address_info#:#E.g. http
@@ -15762,7 +15754,6 @@ survey#:#survey_pool_selection#:#Izbira skupine
 survey#:#survey_prev_question#:#Prejšnja stran
 survey#:#survey_previous#:#<< Nazaj
 survey#:#survey_question_editor#:#Pogled seznama
-survey#:#survey_question_editor_settings_template#:#Ogled seznama (v zavihku "Vprašanja")
 survey#:#survey_question_obligatory#:#(To vprašanje je obvezno. Nanj morate odgovoriti!)
 survey#:#survey_question_pool#:#Skupina vprašanj
 survey#:#survey_question_pool_title#:#Naslov skupine
@@ -15940,7 +15931,6 @@ survey#:#svy_settings_section_before_start#:#Informacije pred začetkom ankete
 survey#:#svy_settings_section_finishing#:#Zaključi anketo
 survey#:#svy_settings_section_question_behaviour#:#Upravljanje ankete: Obnašanje vprašanja
 survey#:#svy_settings_section_reminders#:#Opomniki
-survey#:#svy_settings_template#:#Predloga
 survey#:#svy_show_questiontitles#:#Prikaz naslova vprašanj
 survey#:#svy_skl_comp_assignm_not_supported#:#Dodelitev kompetenc za ta tip vprašanja ni mogoča.
 survey#:#svy_sum_score#:#Sum Score###19 08 2022 new variable

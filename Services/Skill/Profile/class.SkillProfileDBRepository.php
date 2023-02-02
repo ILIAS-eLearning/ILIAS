@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -26,15 +28,17 @@ class SkillProfileDBRepository
     protected \ilDBInterface $db;
     protected Service\SkillInternalFactoryService $factory_service;
 
-    public function __construct(\ilDBInterface $db = null, Service\SkillInternalFactoryService $factory_service = null)
-    {
+    public function __construct(
+        \ilDBInterface $db = null,
+        Service\SkillInternalFactoryService $factory_service = null
+    ) {
         global $DIC;
 
         $this->db = ($db) ?: $DIC->database();
         $this->factory_service = ($factory_service) ?: $DIC->skills()->internal()->factory();
     }
 
-    public function getById(int $profile_id): SkillProfile
+    public function get(int $profile_id): SkillProfile
     {
         $ilDB = $this->db;
 
@@ -44,18 +48,18 @@ class SkillProfileDBRepository
         );
 
         if ($rec = $ilDB->fetchAssoc($set)) {
-            return $this->getProfileFromRecord($rec);
+            return $this->getFromRecord($rec);
         }
         throw new \ilSkillProfileNotFoundException("Profile with ID $profile_id not found.");
     }
 
-    protected function getProfileFromRecord(array $rec): SkillProfile
+    protected function getFromRecord(array $rec): SkillProfile
     {
         $rec["id"] = (int) $rec["id"];
         $rec["ref_id"] = (int) $rec["ref_id"];
         $rec["skill_tree_id"] = (int) $rec["skill_tree_id"];
 
-        return $this->factory_service->profile(
+        return $this->factory_service->profile()->profile(
             $rec["id"],
             $rec["title"],
             $rec["description"],
@@ -89,7 +93,7 @@ class SkillProfileDBRepository
             $ilDB->quote($profile->getRefId(), "integer") .
             ")");
 
-        return $this->getById($new_profile_id);
+        return $this->get($new_profile_id);
     }
 
     public function updateProfile(
@@ -107,7 +111,7 @@ class SkillProfileDBRepository
             " AND ref_id = " . $ilDB->quote($profile->getRefId(), "integer")
         );
 
-        return $this->getById($profile->getId());
+        return $this->get($profile->getId());
     }
 
     public function deleteProfile(int $profile_id): void
@@ -130,6 +134,9 @@ class SkillProfileDBRepository
         );
     }
 
+    /**
+     * @return SkillProfile[]
+     */
     public function getProfilesForAllSkillTrees(): array
     {
         $ilDB = $this->db;
@@ -140,12 +147,15 @@ class SkillProfileDBRepository
         );
         $profiles = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $profiles[$rec["id"]] = $rec;
+            $profiles[] = $this->getFromRecord($rec);
         }
 
         return $profiles;
     }
 
+    /**
+     * @return SkillProfile[]
+     */
     public function getProfilesForSkillTree(int $skill_tree_id): array
     {
         $ilDB = $this->db;
@@ -157,12 +167,15 @@ class SkillProfileDBRepository
         );
         $profiles = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $profiles[$rec["id"]] = $rec;
+            $profiles[] = $this->getFromRecord($rec);
         }
 
         return $profiles;
     }
 
+    /**
+     * @return SkillProfile[]
+     */
     public function getAllGlobalProfiles(): array
     {
         $ilDB = $this->db;
@@ -174,12 +187,15 @@ class SkillProfileDBRepository
         );
         $profiles = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $profiles[$rec["id"]] = $rec;
+            $profiles[] = $this->getFromRecord($rec);
         }
 
         return $profiles;
     }
 
+    /**
+     * @return SkillProfile[]
+     */
     public function getLocalProfilesForObject(int $ref_id): array
     {
         $ilDB = $this->db;
@@ -191,13 +207,13 @@ class SkillProfileDBRepository
         );
         $profiles = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $profiles[$rec["id"]] = $rec;
+            $profiles[] = $this->getFromRecord($rec);
         }
 
         return $profiles;
     }
 
-    public function lookup(int $id, string $field): ?string
+    public function lookup(int $id, string $field): string
     {
         $ilDB = $this->db;
 
@@ -207,7 +223,7 @@ class SkillProfileDBRepository
         );
         $rec = $ilDB->fetchAssoc($set);
 
-        return isset($rec[$field]) ? (string) $rec[$field] : null;
+        return $rec[$field] ?? "";
     }
 
     public function updateRefIdAfterImport(int $profile_id, int $new_ref_id): void

@@ -1617,8 +1617,10 @@ class ilTree
             0,
             $this->tree_id
         ));
-        $row = $this->db->fetchObject($res);
-        $this->root_id = (int) $row->child;
+        $this->root_id = 0;
+        if ($row = $this->db->fetchObject($res)) {
+            $this->root_id = (int) $row->child;
+        }
         return $this->root_id;
     }
 
@@ -1964,7 +1966,7 @@ class ilTree
 
         // GET SUBTREE BY PARENT RELATION
         $parent_childs = [];
-        $this->__getSubTreeByParentRelation($a_node['child'], $parent_childs);
+        $this->__getSubTreeByParentRelation((int)$a_node['child'], $parent_childs);
         $this->__validateSubtrees($lft_childs, $parent_childs);
 
         return true;

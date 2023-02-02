@@ -645,7 +645,8 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
         // redirect to target if not repository
         if (!$this->session_repo->getClipboardWsp2Repo()) {
-            $redirect_node = $target_node_id;
+            //$redirect_node = $target_node_id;
+            $redirect_node = $this->node_id;    // see bug 34459
         } else {
             // reload current folder
             $redirect_node = $this->node_id;
@@ -966,6 +967,10 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
     public function getBucketTitle(): string
     {
-        return ilFileUtils::getASCIIFilename($this->object->getTitle());
+        $title = ilFileUtils::getASCIIFilename($this->object->getTitle());
+        if ($title === '') { // $this->>object->getTitle() is empty in root of personal and shared resources
+            $title = $this->lng->txt('personal_resources');
+        }
+        return $title;
     }
 }

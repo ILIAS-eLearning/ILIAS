@@ -45,7 +45,7 @@ class ilSkillContainerGUIRequest extends SkillGUIRequest
 
     public function getUserIds(): array
     {
-        return $this->intArray("usr_id");
+        return $this->intArray("usr_ids");
     }
 
     public function getSelectedSkill(): string

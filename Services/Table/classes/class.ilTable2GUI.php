@@ -20,7 +20,7 @@
  * @author	Alex Killing <alex.killing@gmx.de>
  * @author	Sascha Hofmann <shofmann@databay.de>
  *
- * @deprecated 11
+ * @deprecated 10
  */
 class ilTable2GUI extends ilTableGUI
 {
@@ -76,7 +76,7 @@ class ilTable2GUI extends ilTableGUI
     protected bool $open_form_tag = true;
     protected bool $close_form_tag = true;
     protected array $export_formats = [];
-    protected bool $export_mode = false;
+    protected int $export_mode = 0;
     protected bool $print_mode = false;
     protected bool $enable_command_for_all = false;
     protected bool $restore_filter = false;
@@ -573,8 +573,10 @@ class ilTable2GUI extends ilTableGUI
             case self::FILTER_NUMBER_RANGE:
                 $item = new ilCombinationInputGUI($caption, $id);
                 $combi_item = new ilNumberInputGUI("", $id . "_from");
+                $combi_item->setSize(5);
                 $item->addCombinationItem("from", $combi_item, $lng->txt("from"));
                 $combi_item = new ilNumberInputGUI("", $id . "_to");
+                $combi_item->setSize(5);
                 $item->addCombinationItem("to", $combi_item, $lng->txt("to"));
                 $item->setComparisonMode(ilCombinationInputGUI::COMPARISON_ASCENDING);
                 //$item->setMaxLength(7);
@@ -1071,6 +1073,19 @@ class ilTable2GUI extends ilTableGUI
                 $this->tpl->parseCurrentBlock();
                 continue;
             }
+
+            if ($column['is_checkbox_action_column'] && !$this->select_all_on_top) {
+                $this->tpl->setCurrentBlock('tbl_header_top_select_column');
+                if ($column["width"] != "") {
+                    $width = (is_numeric($column["width"]))
+                        ? $column["width"] . "px"
+                        : $column["width"];
+                    $this->tpl->setVariable("TBL_COLUMN_WIDTH", " style=\"width:" . $width . "\"");
+                }
+                $this->tpl->parseCurrentBlock();
+                continue;
+            }
+
             if (
                 !$this->enabled["sort"] ||
                 (($column["sort_field"] == "") &&
@@ -1234,7 +1249,7 @@ class ilTable2GUI extends ilTableGUI
         if ($this->getOrderDirection() != "") {
             $this->storeProperty("direction", $this->getOrderDirection());
         }
-        if ($this->getOffset() > 0) {
+        if ($this->getOffset() >= 0) {
             $this->storeProperty("offset", (string) $this->getOffset());
         }
     }
@@ -1256,7 +1271,7 @@ class ilTable2GUI extends ilTableGUI
         $ilCtrl = $this->ctrl;
 
 
-        if ($this->getExportMode()) {
+        if ($this->getExportMode() > 0) {
             $this->exportData($this->getExportMode(), true);
         }
 
@@ -1615,16 +1630,19 @@ class ilTable2GUI extends ilTableGUI
             $this->tpl->parseCurrentBlock();
 
             // (keep) filter hidden?
-            if (!$this->isFilterVisible()) {
-                if (!$this->getDisableFilterHiding()) {
-                    $id = $this->getId();
-                    $this->main_tpl->addOnLoadCode("
-                        ilTableHideFilter['atfil_$id'] = true;
-                        ilTableHideFilter['tfil_$id'] = true;
-                        ilTableHideFilter['dtfil_$id'] = true;
-                    ");
-                }
+            if (!$this->isFilterVisible() && !$this->getDisableFilterHiding()) {
+                $id = $this->getId();
+                $this->main_tpl->addOnLoadCode("
+                    ilTableHideFilter['atfil_$id'] = true;
+                    ilTableHideFilter['tfil_$id'] = true;
+                    ilTableHideFilter['dtfil_$id'] = true;
+                ");
             }
+            /*
+             * BT 35757: filter has to be initialized after it has a chance to get hidden,
+             * moving this here from ServiceTable.js to avoid timing weirdness with onLoadCode.
+             */
+            $this->main_tpl->addOnLoadCode("ilInitTableFilters()");
         }
     }
 
@@ -2600,7 +2618,7 @@ class ilTable2GUI extends ilTableGUI
         return $this->print_mode;
     }
 
-    public function getExportMode(): bool
+    public function getExportMode(): int
     {
         return $this->export_mode;
     }
@@ -2608,7 +2626,7 @@ class ilTable2GUI extends ilTableGUI
     /**
      * Export and optionally send current table data
      */
-    public function exportData(string $format, bool $send = false): void
+    public function exportData(int $format, bool $send = false): void
     {
         if ($this->dataExists()) {
             // #9640: sort
@@ -2624,7 +2642,6 @@ class ilTable2GUI extends ilTableGUI
             }
 
             $filename = "export";
-
             switch ($format) {
                 case self::EXPORT_EXCEL:
                     $excel = new ilExcel();

@@ -39,9 +39,14 @@ class ilTestParticipantsTableGUITest extends ilTestBaseTestCase
                       return "testFormAction";
                   });
 
+        $renderer_mock = $this->createMock(\ILIAS\UI\Renderer::class);
+        $ui_factory_mock = $this->createMock(\ILIAS\UI\Factory::class);
         $this->setGlobalVariable("lng", $lng_mock);
         $this->setGlobalVariable("ilCtrl", $ctrl_mock);
         $this->setGlobalVariable("tpl", $this->createMock(ilGlobalPageTemplate::class));
+        $this->setGlobalVariable("ui.renderer", $renderer_mock);
+        $this->setGlobalVariable("ui.factory", $ui_factory_mock);
+
         $this->setGlobalVariable("component.repository", $this->createMock(ilComponentRepository::class));
         $component_factory = $this->createMock(ilComponentFactory::class);
         $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());

@@ -26,6 +26,7 @@ class ilObjBookingPool extends ilObject
     public const TYPE_FIX_SCHEDULE = 1;
     public const TYPE_NO_SCHEDULE = 2;
     public const TYPE_NO_SCHEDULE_PREFERENCES = 3;
+    protected \ILIAS\BookingManager\InternalDomainService $domain;
 
     protected bool $offline = true;
     protected bool $public_log = false;
@@ -36,6 +37,7 @@ class ilObjBookingPool extends ilObject
     protected int $reminder_day = 1;
     protected int $pref_deadline = 0;
     protected int $preference_nr = 0;
+    protected bool $messages = false;
 
 
     public function __construct(
@@ -48,6 +50,7 @@ class ilObjBookingPool extends ilObject
         $this->type = "book";
         $this->setScheduleType(self::TYPE_FIX_SCHEDULE);
         parent::__construct($a_id, $a_call_by_reference);
+        $this->domain = $DIC->bookingManager()->internal()->domain();
     }
 
     /**
@@ -64,7 +67,8 @@ class ilObjBookingPool extends ilObject
             "reminder_day" => array("integer", $this->getReminderDay()),
             "rsv_filter_period" => array("integer", $this->getReservationFilterPeriod()),
             "preference_nr" => array("integer", $this->getPreferenceNumber()),
-            "pref_deadline" => array("integer", $this->getPreferenceDeadline())
+            "pref_deadline" => array("integer", $this->getPreferenceDeadline()),
+            "messages" => array("integer", $this->usesMessages())
         );
     }
 
@@ -122,6 +126,7 @@ class ilObjBookingPool extends ilObject
             $this->setReservationFilterPeriod($row['rsv_filter_period']);
             $this->setPreferenceNumber($row['preference_nr']);
             $this->setPreferenceDeadline($row['pref_deadline']);
+            $this->setMessages((bool) ((int) ($row['messages'] ?? 0)));
         }
     }
 
@@ -206,6 +211,8 @@ class ilObjBookingPool extends ilObject
     {
         $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
 
+        $schedule_manager = $this->domain->schedules($this->getId());
+
         if ($new_obj !== null) {
             //copy online status if object is not the root copy object
             $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
@@ -221,13 +228,14 @@ class ilObjBookingPool extends ilObject
             $new_obj->setReminderDay($this->getReminderDay());
             $new_obj->setPreferenceNumber($this->getPreferenceNumber());
             $new_obj->setPreferenceDeadline($this->getPreferenceDeadline());
+            $new_obj->setMessages($this->usesMessages());
 
             $smap = null;
             if ($this->getScheduleType() === self::TYPE_FIX_SCHEDULE) {
                 // schedules
-                foreach (ilBookingSchedule::getList($this->getId()) as $item) {
-                    $schedule = new ilBookingSchedule($item["booking_schedule_id"]);
-                    $smap[$item["booking_schedule_id"]] = $schedule->doClone($new_obj->getId());
+                foreach ($schedule_manager->getScheduleList() as $schedule_id => $title) {
+                    $schedule = new ilBookingSchedule($schedule_id);
+                    $smap[$schedule_id] = $schedule->doClone($new_obj->getId());
                 }
             }
 
@@ -253,6 +261,17 @@ class ilObjBookingPool extends ilObject
     public function isOffline(): bool
     {
         return $this->offline;
+    }
+
+    public function setMessages(
+        bool $a_value = true
+    ): void {
+        $this->messages = $a_value;
+    }
+
+    public function usesMessages(): bool
+    {
+        return $this->messages;
     }
 
     /**

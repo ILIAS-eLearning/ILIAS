@@ -20,7 +20,7 @@
  * Portfolio
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-class ilObjPortfolio extends ilObjPortfolioBase
+class ilObjPortfolio extends ilObjPortfolioBase implements ilAdvancedMetaDataSubItems
 {
     protected bool $default = false;
 
@@ -240,5 +240,10 @@ class ilObjPortfolio extends ilObjPortfolioBase
             return false;
         }
         return true;
+    }
+
+    public static function getAdvMDSubItemTitle(int $a_obj_id, string $a_sub_type, int $a_sub_id): string
+    {
+        return \ilPortfolioPage::lookupTitle($a_sub_id);
     }
 }

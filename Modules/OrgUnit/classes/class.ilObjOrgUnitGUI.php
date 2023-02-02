@@ -748,12 +748,11 @@ class ilObjOrgUnitGUI extends ilContainerGUI
      */
     public function performPaste(): void
     {
-        if (!in_array($_SESSION["clipboard"]['cmd'], array('cut'))) {
+        if ($this->clipboard->getCmd() != 'cut') {
             $message = __METHOD__ . ": cmd was not 'cut' ; may be a hack attempt!";
             $this->ilias->raiseError($message, $this->ilias->error_obj->WARNING);
-        }
-        if ($_SESSION["clipboard"]['cmd'] == 'cut') {
-            if (isset($_GET['ref_id']) && (int) $_GET['ref_id']) {
+        } else {
+            if ($this->clipboard->hasEntries()) {
                 $this->pasteObject();
             }
         }
@@ -793,25 +792,14 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
         $arr_ref_ids = [];
         //Delete via Manage (more than one)
-        if (is_array($_POST['id']) && count($_POST['id']) > 0) {
+        if (isset($_POST["id"]) && is_array($_POST['id']) && count($_POST['id']) > 0) {
             $arr_ref_ids = $_POST['id'];
-        } elseif ($_GET['item_ref_id'] > 0) {
-            $arr_ref_ids = [$_GET['item_ref_id']];
+        } elseif (isset($_GET['item_ref_id']) && (int) $_GET['item_ref_id'] > 0) {
+            $arr_ref_ids = [(int) $_GET['item_ref_id']];
         }
 
         if (!$ru->showDeleteConfirmation($arr_ref_ids, false)) {
             $ilCtrl->returnToParent($this);
         }
-    }
-
-    /**
-     * @throws ilCtrlException
-     */
-    public function cancelMoveLinkObject(): void
-    {
-        $parent_ref_id = $_SESSION["clipboard"]["parent"];
-        unset($_SESSION["clipboard"]);
-        $this->ctrl->setParameter($this, 'ref_id', $parent_ref_id);
-        $this->ctrl->redirect($this);
     }
 }

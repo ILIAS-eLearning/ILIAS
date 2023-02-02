@@ -27,9 +27,9 @@ declare(strict_types=1);
 */
 class ilStudyProgrammeAcknowledgeCompletedCoursesTableGUI extends ilTable2GUI
 {
-    protected string $user_id;
+    protected int $user_id;
 
-    public function __construct($parent_obj, string $user_id, $completed_courses)
+    public function __construct($parent_obj, int $user_id, $completed_courses)
     {
         parent::__construct($parent_obj);
         $this->user_id = $user_id;
@@ -44,7 +44,7 @@ class ilStudyProgrammeAcknowledgeCompletedCoursesTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set): void
     {
-        $this->tpl->setVariable("USR_ID", $this->user_id);
+        $this->tpl->setVariable("USR_ID", (string) $this->user_id);
         $this->tpl->setVariable("PRG_REF_ID", $a_set["prg_ref_id"]);
         $this->tpl->setVariable("CRS_ID", $a_set["crs_id"]);
         $this->tpl->setVariable("CRSR_ID", $a_set["crsr_id"]);

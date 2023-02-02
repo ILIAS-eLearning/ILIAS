@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Notifications;
 
+use ilDBInterface;
+
 /**
  * @author Jan Posselt <jposselt@databay.de>
  */
@@ -110,8 +112,8 @@ class ilNotificationSetupHelper
 
             $ilDB->addPrimaryKey(self::$tbl_notification_channels, array('channel_name'));
 
-            self::registerChannel('mail', 'mail', 'mail_desc', 'ilNotificationMailHandler', 'Services/Notifications/classes/class.ilNotificationMailHandler.php');
-            self::registerChannel('osd', 'osd', 'osd_desc', 'ilNotificationOSDHandler', 'Services/Notifications/classes/class.ilNotificationOSDHandler.php');
+            self::registerChannel($ilDB, 'mail', 'mail', 'mail_desc', 'ilNotificationMailHandler', 'Services/Notifications/classes/class.ilNotificationMailHandler.php');
+            self::registerChannel($ilDB, 'osd', 'osd', 'osd_desc', 'ilNotificationOSDHandler', 'Services/Notifications/classes/class.ilNotificationOSDHandler.php');
         }
 
         if (!$ilDB->tableExists(self::$tbl_notification_types)) {
@@ -125,18 +127,18 @@ class ilNotificationSetupHelper
             $ilDB->createTable(self::$tbl_notification_types, $fields);
             $ilDB->addPrimaryKey(self::$tbl_notification_types, array('type_name'));
 
-            self::registerType('chat_invitation', 'chat_invitation', 'chat_invitation_description', 'chat');
-            self::registerType('osd_maint', 'osd_maint', 'osd_maint_description', 'osd_notification');
+            self::registerType($ilDB, 'chat_invitation', 'chat_invitation', 'chat_invitation_description', 'chat');
+            self::registerType($ilDB, 'osd_maint', 'osd_maint', 'osd_maint_description', 'osd_notification');
         }
     }
 
-    public static function registerChannel(string $name, string $title, string $description, string $class, string $classfile, string $config_type = 'set_by_user'): void
+    public static function registerChannel(ilDBInterface $db, string $name, string $title, string $description, string $class, string $classfile, string $config_type = 'set_by_user'): void
     {
-        ilNotificationDatabaseHandler::registerChannel($name, $title, $description, $class, $classfile, $config_type);
+        ilNotificationDatabaseHandler::registerChannel($db, $name, $title, $description, $class, $classfile, $config_type);
     }
 
-    public static function registerType(string $name, string $title, string $description, string $notification_group, string $config_type = 'set_by_user'): void
+    public static function registerType(ilDBInterface $db, string $name, string $title, string $description, string $notification_group, string $config_type = 'set_by_user'): void
     {
-        ilNotificationDatabaseHandler::registerType($name, $title, $description, $notification_group, $config_type);
+        ilNotificationDatabaseHandler::registerType($db, $name, $title, $description, $notification_group, $config_type);
     }
 }

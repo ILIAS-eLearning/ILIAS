@@ -179,7 +179,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
                 continue;
             }
 
-            $this->questions[] = $row['question_id'];
+            $this->questions[] = (int) $row['question_id'];
         }
     }
 
@@ -306,41 +306,26 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 
     // =================================================================================================================
 
-    /**
-     * @return ilTestRandomQuestionSetSourcePoolDefinition
-     */
-    public function rewind(): ilTestRandomQuestionSetSourcePoolDefinition
+    public function rewind(): int
     {
         return reset($this->questions);
     }
 
-    /**
-     * @return ilTestRandomQuestionSetSourcePoolDefinition
-     */
-    public function current(): ilTestRandomQuestionSetSourcePoolDefinition
+    public function current(): int
     {
         return current($this->questions);
     }
 
-    /**
-     * @return integer
-     */
     public function key(): int
     {
         return key($this->questions);
     }
 
-    /**
-     * @return ilTestRandomQuestionSetSourcePoolDefinition
-     */
-    public function next(): ilTestRandomQuestionSetSourcePoolDefinition
+    public function next(): int
     {
         return next($this->questions);
     }
 
-    /**
-     * @return boolean
-     */
     public function valid(): bool
     {
         return key($this->questions) !== null;

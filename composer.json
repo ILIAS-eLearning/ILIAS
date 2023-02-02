@@ -45,8 +45,8 @@
 		"filp/whoops": "^2.1.13",
 		"monolog/monolog": "^2.3.5",
 		"technosophos/libris": "^2.0.2",
-		"ezyang/htmlpurifier": "4.14.0",
-		"phpmailer/phpmailer": "^6.5",
+		"ezyang/htmlpurifier": "^4.16",
+		"phpmailer/phpmailer": "^6.6",
 		"geshi/geshi": "^1.0.9.1",
 		"tecnickcom/tcpdf": "^6.3",
 		"pimple/pimple" : "^3.0",
@@ -74,12 +74,12 @@
 		"mikey179/vfsstream": "^1.6",
 		"phpunit/phpunit": "^9.5",
 		"mockery/mockery": "^1.4",
-		"friendsofphp/php-cs-fixer": "^3.5",
+		"friendsofphp/php-cs-fixer": "^3.11",
 		"sebastian/environment": "^5.0",
 		"captainhook/captainhook": "^5.10",
 		"captainhook/plugin-composer": "^5.3",
 		"rector/rector": "^0.12.12",
-		"phpstan/phpstan": "^1.6"
+		"phpstan/phpstan": "^1.9"
 	},
 	"autoload": {
 		"psr-4" : {
@@ -199,20 +199,20 @@
 		},
 		"ezyang/htmlpurifier" : {
 			"source" : "http://repo.or.cz/htmlpurifier.git",
-			"used_version" : "v4.14.0",
+			"used_version" : "v4.16.0",
 			"wrapped_by" : "Services/Html",
 			"added_by" : "Michael Jansen <mjansen@databay.de>",
-			"last_update" : "2022-01-04",
+			"last_update" : "2022-11-08",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
 		},
 		"phpmailer/phpmailer" : {
 			"source" : "https://github.com/PHPMailer/PHPMailer",
-			"used_version" : "v6.5.0",
+			"used_version" : "v6.6.5",
 			"wrapped_by" : "Services/Mail",
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
-			"last_update" : "2022-07-07",
+			"last_update" : "2022-11-08",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -431,10 +431,10 @@
 		},
 		"phpstan/phpstan": {
 			"source": "https://github.com/phpstan/phpstanr",
-			"used_version": "1.6",
+			"used_version": "1.9.8",
 			"added_by": "Michael Jansen <mjansen@databay.de>",
 			"wrapped_by": null,
-			"last_update": "2022-05-02",
+			"last_update": "2023-01-09",
 			"last_update_by": "",
 			"approved-by": "TB",
 			"approved-date": "2022-05-03"

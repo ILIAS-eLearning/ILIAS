@@ -1,0 +1,16 @@
+@use "../010-settings/" as *;
+
+table {
+	font-size: $il-font-size-base;
+    font-size: 100%;// from delos_cont.css
+}
+
+th {
+	text-align: left;
+}
+
+tr, td {
+    vertical-align: top;
+	white-space: normal;
+    word-wrap: break-word;
+}

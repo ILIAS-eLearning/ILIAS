@@ -103,8 +103,8 @@ class ilBookingPrefBasedBookGatewayRepository
                         $reservation->setObjectId($obj_id);
                         $reservation->setUserId($user_id);
                         $reservation->setAssignerId($user_id);
-                        $reservation->setFrom(null);
-                        $reservation->setTo(null);
+                        $reservation->setFrom(0);
+                        $reservation->setTo(0);
                         $reservation->save();
                     }
                 }

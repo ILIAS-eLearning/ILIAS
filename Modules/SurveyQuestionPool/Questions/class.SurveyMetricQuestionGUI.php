@@ -208,9 +208,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
         if ($show_questiontext) {
             $this->outQuestionText($template);
         }
-        if ($question_title) {
-            $template->setVariable("QUESTION_TITLE", $this->object->getTitle());
-        }
+        $template->setVariable("QUESTION_TITLE", $this->getQuestionTitle($question_title));
         $template->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
         $template->setVariable("QUESTION_ID", $this->object->getId());
         if (is_array($working_data)) {

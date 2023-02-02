@@ -35,6 +35,8 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
         ilGlobalTemplateInterface $tpl,
         ilLanguage $lng
     ) {
+        parent::__construct();
+
         $this->parent_gui = $parent_gui;
         $this->type_repository = $type_repository;
         $this->global_tpl = $tpl;
@@ -101,10 +103,10 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
             $record_ids_removed = array_diff($record_ids, $record_ids_selected);
             $record_ids_added = array_diff($record_ids_selected, $record_ids);
             foreach ($record_ids_added as $record_id) {
-                $type->assignAdvancedMDRecord($record_id);
+                $type->assignAdvancedMDRecord((int) $record_id);
             }
             foreach ($record_ids_removed as $record_id) {
-                $type->deassignAdvancedMdRecord($record_id);
+                $type->deassignAdvancedMdRecord((int) $record_id);
             }
         } catch (ilException $e) {
             $this->global_tpl->setOnScreenMessage("failure", $e->getMessage());

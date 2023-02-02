@@ -1,8 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionAbstractPageObjectCommandForwarder.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * class can be used as forwarder for feedback page object contexts
@@ -45,8 +57,6 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
      */
     public function forward(): void
     {
-        //$this->ensurePageObjectExists($_GET['feedback_type'], $_GET['feedback_id']);
-
         $pageObjectGUI = $this->getPageObjectGUI($this->request->raw('feedback_type'), $this->request->raw('feedback_id'));
         $pageObjectGUI->setEnabledTabs(true);
 
@@ -68,9 +78,7 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
      */
     public function ensurePageObjectExists($pageObjectType, $pageObjectId): void
     {
-        include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssQuestionFeedback.php");
         if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK) {
-            include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssGenFeedbackPage.php");
             if (!ilAssGenFeedbackPage::_exists($pageObjectType, $pageObjectId)) {
                 $pageObject = new ilAssGenFeedbackPage();
                 $pageObject->setParentId($this->questionOBJ->getId());
@@ -79,7 +87,6 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
             }
         }
         if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK) {
-            include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPage.php");
             if (!ilAssSpecFeedbackPage::_exists($pageObjectType, $pageObjectId)) {
                 $pageObject = new ilAssSpecFeedbackPage();
                 $pageObject->setParentId($this->questionOBJ->getId());

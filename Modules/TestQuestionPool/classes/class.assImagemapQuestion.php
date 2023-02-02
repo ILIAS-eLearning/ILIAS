@@ -1,13 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScoringAdjustable.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoringAdjustable.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php';
-require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php';
 
 /**
  * Class for image map questions
@@ -32,6 +41,11 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     public const MODE_SINGLE_CHOICE = 0;
     public const MODE_MULTIPLE_CHOICE = 1;
+
+    public const AVAILABLE_SHAPES = [
+        'RECT' => 'rect',
+        'CIRCLE' => 'circle',
+        'POLY' => 'poly'];
 
     /** @var $answers array The possible answers of the imagemap question. */
     public $answers;
@@ -407,7 +421,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             include_once "./Modules/TestQuestionPool/classes/class.assAnswerImagemap.php";
             if ($result->numRows() > 0) {
                 while ($data = $ilDB->fetchAssoc($result)) {
-                    $image_map_question = new ASS_AnswerImagemap($data["answertext"], $data["points"], $data["aorder"]);
+                    $image_map_question = new ASS_AnswerImagemap($data["answertext"] ?? '', $data["points"], $data["aorder"]);
                     $image_map_question->setCoords($data["coords"]);
                     $image_map_question->setArea($data["area"]);
                     $image_map_question->setPointsUnchecked($data['points_unchecked']);
@@ -965,10 +979,13 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     /**
      * @param $found_values
-     * @return int
+     * @return float
      */
-    protected function calculateReachedPointsForSolution($found_values): int
+    protected function calculateReachedPointsForSolution($found_values): float
     {
+        if ($found_values == null) {
+            $found_values = [];
+        }
         $points = 0;
         if (count($found_values) > 0) {
             foreach ($this->answers as $key => $answer) {
@@ -993,7 +1010,6 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
      */
     public function getOperators($expression): array
     {
-        require_once "./Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php";
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
     }
 

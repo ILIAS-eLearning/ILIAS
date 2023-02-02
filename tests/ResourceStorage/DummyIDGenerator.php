@@ -20,8 +20,8 @@ namespace ILIAS\ResourceStorage;
 
 use ILIAS\ResourceStorage\Identification\CollectionIdentificationGenerator;
 use ILIAS\ResourceStorage\Identification\IdentificationGenerator;
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 class DummyIDGenerator implements IdentificationGenerator, CollectionIdentificationGenerator
 {

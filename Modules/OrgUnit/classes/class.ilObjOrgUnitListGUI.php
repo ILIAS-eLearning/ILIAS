@@ -96,49 +96,22 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
         return $this->ctrl->getLinkTargetByClass("ilobjorgunitgui", $a_cmd);
     }
 
-    public function insertIconsAndCheckboxes(): void
+    /**
+     * Get object type specific type icon
+     */
+    public function getTypeIcon(): string
     {
-        // FSX removed $this->getCheckboxStatus() in if-Statement: 0014726
-        if (!$this->settings->get('custom_icons')) {
-            parent::insertIconsAndCheckboxes();
-
-            return;
-        }
         $icons_cache = ilObjOrgUnit::getIconsCache();
         if (isset($icons_cache[$this->obj_id])) {
             $icon_file = $icons_cache[$this->obj_id];
-            // icon link
-            if (!$this->default_command or (!$this->getCommandsStatus() and !$this->restrict_to_goto)) {
-            } else {
-                $this->tpl->setCurrentBlock("icon_link_s");
-
-                if ($this->default_command["frame"] != "") {
-                    $this->tpl->setVariable("ICON_TAR", "target='" . $this->default_command["frame"] . "'");
-                }
-
-                $this->tpl->setVariable("ICON_HREF", $this->default_command["link"]);
-                $this->tpl->parseCurrentBlock();
-                $this->tpl->touchBlock("icon_link_e");
-            }
-            $this->enableIcon(false);
-            if ($this->getContainerObject()->isActiveAdministrationPanel() && !$_SESSION["clipboard"]) {
-                $this->tpl->touchBlock("i_1");    // indent main div  }
-                $this->tpl->touchBlock("d_2");    // indent main div  } #0014913
-            } else {
-                $this->tpl->touchBlock("d_1");
-            }
-
-            parent::insertIconsAndCheckboxes();
-            $this->tpl->setCurrentBlock("icon");
-            $this->tpl->setVariable(
-                "ALT_ICON",
-                $this->lng->txt("icon") . " " . $this->lng->txt("obj_" . $this->getIconImageType())
-            );
-            $this->tpl->setVariable("SRC_ICON", $icon_file);
-            $this->tpl->parseCurrentBlock();
-            $this->enableIcon(true);
-        } else {
-            parent::insertIconsAndCheckboxes();
+            return $icon_file;
         }
+
+        return ilObject::getIconForReference(
+            $this->ref_id,
+            $this->obj_id,
+            'small',
+            $this->getIconImageType()
+        );
     }
 }

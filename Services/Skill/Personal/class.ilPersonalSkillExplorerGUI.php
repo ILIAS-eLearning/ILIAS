@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -99,9 +101,10 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
         $this->all_nodes = [];
 
         foreach ($this->tree->getChilds(0) as $c) {
-            $tree_id = $this->tree_repo->getTreeIdForNodeId($c["child"]);
+            $node_id = (int) $c["child"];
+            $tree_id = $this->tree_repo->getTreeIdForNodeId($node_id);
             $tree = $this->skill_tree_factory->getTreeById($tree_id);
-            $all_nodes = $tree->getSubTree($tree->getNodeData($c["child"]));
+            $all_nodes = $tree->getSubTree($tree->getNodeData($node_id));
             foreach ($all_nodes as $n) {
                 $this->node[$n["child"]] = $n;
                 $this->child_nodes[$n["parent"]][] = $n;
@@ -149,7 +152,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
             }
         }
         foreach ($this->getOriginalChildsOfNode($a_node_id) as $n) {
-            $this->buildSelectableTree($n["child"]);
+            $this->buildSelectableTree((int) $n["child"]);
         }
         if ($this->selectable[$a_node_id]) {
             $this->setHasSelectableNodes(true);
@@ -214,7 +217,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 
         // title
         if ((int) $a_node["parent"] == 0) {
-            $tree_obj = $this->skill_tree_manager->getTree($a_node["skl_tree_id"]);
+            $tree_obj = $this->skill_tree_manager->getTree((int) $a_node["skl_tree_id"]);
             $title = $tree_obj->getTitle();
         } else {
             $title = $a_node["title"];
@@ -229,7 +232,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
      */
     public function isNodeClickable($a_node): bool
     {
-        if (!ilSkillTreeNode::_lookupSelfEvaluation($a_node["child"])) {
+        if (!ilSkillTreeNode::_lookupSelfEvaluation((int) $a_node["child"])) {
             return false;
         }
         return true;

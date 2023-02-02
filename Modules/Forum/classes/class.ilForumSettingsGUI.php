@@ -168,7 +168,6 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $stickyThreadSorting = new ilRadioGroupInputGUI($this->lng->txt('sorting_manual_sticky'), 'thread_sorting');
         $latestAtTop = new ilRadioOption($this->lng->txt('frm_sticky_threads_latest_at_top'), '0');
         $latestAtTop->setInfo($this->lng->txt('frm_sticky_threads_latest_at_top_info'));
-        $latestAtTop->setValue('1');
         $stickyThreadSorting->addOption($latestAtTop);
         $manualSorting = new ilRadioOption($this->lng->txt('frm_sticky_threads_manual_sorting'), '1');
         $manualSorting->setInfo($this->lng->txt('frm_sticky_threads_manual_sorting_info'));

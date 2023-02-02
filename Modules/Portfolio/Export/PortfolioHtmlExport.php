@@ -30,16 +30,16 @@ class PortfolioHtmlExport
 {
     protected \ilObjPortfolio $portfolio;
     protected \ilObjPortfolioBaseGUI $portfolio_gui;
-    protected string $export_dir;
-    protected string $sub_dir;
-    protected string $target_dir;
+    protected string $export_dir = "";
+    protected string $sub_dir = "";
+    protected string $target_dir = "";
     protected \ILIAS\GlobalScreen\Services $global_screen;
     protected \ILIAS\Services\Export\HTML\Util $export_util;
     protected \ilCOPageHTMLExport $co_page_html_export;
     protected \ilLanguage $lng;
     protected array $tabs = [];
-    protected array  $export_material;
-    protected string $active_tab;
+    protected array  $export_material = [];
+    protected string $active_tab = "";
     protected bool $include_comments = false;
     protected bool $print_version = false;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;

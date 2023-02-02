@@ -1,10 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
-require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 *
@@ -25,17 +35,22 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 
     protected bool $participantHasSolutionsFilterEnabled = false;
 
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected \ILIAS\UI\Renderer $renderer;
+    protected \ILIAS\UI\Factory $ui_factory;
+
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
         $this->setId('tst_participants_' . $a_parent_obj->getTestObj()->getRefId());
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
 
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
+        $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
+        $this->renderer = $DIC->ui()->renderer();
+        $this->ui_factory = $DIC->ui()->factory();
 
         $this->setStyle('table', 'fullwidth');
 
@@ -266,7 +281,10 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 
     protected function buildOkIcon(): string
     {
-        return "<img border=\"0\" align=\"middle\" src=\"" . ilUtil::getImagePath("icon_ok.svg") . "\" alt=\"" . $this->lng->txt("ok") . "\" />";
+        return $this->renderer->render($this->ui_factory->symbol()->icon()->custom(
+            ilUtil::getImagePath("icon_ok.svg"),
+            $this->lng->txt("ok")
+        ));
     }
 
     protected function buildFormattedAccessDate(array $data): string

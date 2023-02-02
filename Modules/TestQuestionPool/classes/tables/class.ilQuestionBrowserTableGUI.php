@@ -25,7 +25,6 @@
  *
  * @ilCtrl_Calls ilQuestionBrowserTableGUI: ilFormPropertyDispatchGUI
 */
-
 class ilQuestionBrowserTableGUI extends ilTable2GUI
 {
     private \ILIAS\TestQuestionPool\InternalRequestService $request;

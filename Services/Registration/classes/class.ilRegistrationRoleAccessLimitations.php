@@ -28,8 +28,8 @@ class ilRegistrationRoleAccessLimitations
     public const IL_REG_ACCESS_LIMITATION_MISSING_MODE = 1;
     public const IL_REG_ACCESS_LIMITATION_OUT_OF_DATE = 2;
 
+    /** @var array<int, array{id: int, absolute: null|int, relative_d: null|int, relative_m: null|int, mode:string}> */
     private array $access_limitations = [];
-    public array $access_limits = [];
 
     protected ilDBInterface $db;
 
@@ -48,34 +48,32 @@ class ilRegistrationRoleAccessLimitations
 
         $this->access_limitations = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->access_limitations[$row->role_id]['id'] = (int) $row->role_id;
-            $this->access_limitations[$row->role_id]['absolute'] = (int) $row->limit_absolute;
-            $this->access_limitations[$row->role_id]['relative_d'] = (int) $row->limit_relative_d;
-            $this->access_limitations[$row->role_id]['relative_m'] = (int) $row->limit_relative_m;
-            $this->access_limitations[$row->role_id]['mode'] = (string) $row->limit_mode;
+            $role_id = (int) $row->role_id;
+            $this->access_limitations[$role_id]['id'] = $role_id;
+            $this->access_limitations[$role_id]['absolute'] = is_null($row->limit_absolute) ? null : (int) $row->limit_absolute;
+            $this->access_limitations[$role_id]['relative_d'] = is_null($row->limit_relative_d) ? null : (int) $row->limit_relative_d;
+            $this->access_limitations[$role_id]['relative_m'] = is_null($row->limit_relative_m) ? null : (int) $row->limit_relative_m;
+            $this->access_limitations[$role_id]['mode'] = (string) $row->limit_mode;
         }
     }
 
     public function save(): bool
     {
-        foreach ($this->access_limitations as $key => $data) {
-            $limit_value = "";
-
-            // Delete old entry
+        foreach ($this->access_limitations as $role_id => $data) {
             $query = "DELETE FROM reg_access_limit " .
-                "WHERE role_id = " . $this->db->quote($key, 'integer');
-            $res = $this->db->manipulate($query);
+                "WHERE role_id = " . $this->db->quote($role_id, 'integer');
+            $this->db->manipulate($query);
 
             $query = "INSERT INTO reg_access_limit (role_id,limit_mode,limit_absolute," .
                 "limit_relative_d,limit_relative_m) " .
                 "VALUES( " .
-                $this->db->quote($key, ilDBConstants::T_INTEGER) . ", " .
+                $this->db->quote($role_id, ilDBConstants::T_INTEGER) . ", " .
                 $this->db->quote($data['mode'], ilDBConstants::T_TEXT) . ", " .
-                $this->db->quote($data['absolute'], ilDBConstants::T_INTEGER) . ", " .
-                $this->db->quote($data['relative_d'], ilDBConstants::T_INTEGER) . ", " .
-                $this->db->quote($data['relative_m'], ilDBConstants::T_INTEGER) . " " .
+                $this->db->quote($data['absolute'] ?? null, ilDBConstants::T_INTEGER) . ", " .
+                $this->db->quote($data['relative_d'] ?? null, ilDBConstants::T_INTEGER) . ", " .
+                $this->db->quote($data['relative_m'] ?? null, ilDBConstants::T_INTEGER) . " " .
                 ")";
-            $res = $this->db->manipulate($query);
+            $this->db->manipulate($query);
         }
         return true;
     }
@@ -83,7 +81,7 @@ class ilRegistrationRoleAccessLimitations
     public function validate(): int
     {
         foreach ($this->access_limitations as $data) {
-            if ($data['mode'] === "null") {
+            if ($data['mode'] === 'null') {
                 return self::IL_REG_ACCESS_LIMITATION_MISSING_MODE;
             }
 
@@ -110,23 +108,36 @@ class ilRegistrationRoleAccessLimitations
 
     public function getAbsolute(int $a_role_id): int
     {
-        return $this->access_limitations[$a_role_id] ? $this->access_limitations[$a_role_id]['absolute'] : time();
+        return $this->access_limitations[$a_role_id]['absolute'] ?? time();
     }
 
-    public function setAbsolute(string $date, int $a_role_id): void
+    public function setAbsolute(?string $date, int $a_role_id): void
     {
-        $this->access_limitations[$a_role_id]['absolute'] = strtotime($date);
+        if (!is_null($date)) {
+            $unix_date = strtotime($date);
+            if ($unix_date) {
+                $this->access_limitations[$a_role_id]['absolute'] = $unix_date;
+            }
+        }
     }
 
     public function getRelative(int $a_role_id, string $a_type): int
     {
-        return $this->access_limitations[$a_role_id] ? $this->access_limitations[$a_role_id]['relative_' . $a_type] : 0;
+        return $this->access_limitations[$a_role_id]['relative_' . $a_type] ?? 0;
     }
 
-    public function setRelative(array $a_arr, int $a_role_id): void
+    /**
+     * @param array{dd: int|string, MM: int|string}|null $a_arr
+     */
+    public function setRelative(?array $a_arr, int $a_role_id): void
     {
-        $this->access_limitations[$a_role_id]['relative_d'] = $a_arr['dd'];
-        $this->access_limitations[$a_role_id]['relative_m'] = $a_arr['MM'];
+        if (null === $a_arr) {
+            $this->access_limitations[$a_role_id]['relative_d'] = null;
+            $this->access_limitations[$a_role_id]['relative_m'] = null;
+        } else {
+            $this->access_limitations[$a_role_id]['relative_d'] = (int) $a_arr['dd'];
+            $this->access_limitations[$a_role_id]['relative_m'] = (int) $a_arr['MM'];
+        }
     }
 
     public function resetAccessLimitations(): void

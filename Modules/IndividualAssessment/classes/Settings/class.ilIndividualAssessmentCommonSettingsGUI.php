@@ -2,7 +2,21 @@
 
 declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilIndividualAssessmentCommonSettingsGUI
 {
@@ -84,9 +98,6 @@ class ilIndividualAssessmentCommonSettingsGUI
         $section_appearance->setTitle($this->txt('cont_presentation'));
         $form->addItem($section_appearance);
         $form_service = $this->object_service->commonSettings()->legacyForm($form, $this->object);
-        $form_service->addTitleIconVisibility();
-        $form_service->addTopActionsVisibility();
-        $form_service->addIcon();
         $form_service->addTileImage();
     }
 
@@ -110,9 +121,6 @@ class ilIndividualAssessmentCommonSettingsGUI
         );
 
         $form_service = $this->object_service->commonSettings()->legacyForm($form, $this->object);
-        $form_service->saveTitleIconVisibility();
-        $form_service->saveTopActionsVisibility();
-        $form_service->saveIcon();
         $form_service->saveTileImage();
 
         $this->tpl->setOnScreenMessage("success", $this->lng->txt('iass_settings_saved'), true);

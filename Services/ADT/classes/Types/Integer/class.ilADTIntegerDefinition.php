@@ -27,7 +27,7 @@ class ilADTIntegerDefinition extends ilADTDefinition
 
     // properties
 
-    public function handleNumber(int $a_value): ?int
+    public function handleNumber(?int $a_value): ?int
     {
         if (!is_numeric($a_value)) {
             $a_value = null;

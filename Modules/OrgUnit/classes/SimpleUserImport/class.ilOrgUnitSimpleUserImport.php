@@ -25,6 +25,18 @@
  */
 class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
 {
+    protected \ilOrgUnitPositionDBRepository $positionRepo;
+
+    private function getPositionRepo(): ilOrgUnitPositionDBRepository
+    {
+        if (!isset($this->positionRepo)) {
+            $dic = ilOrgUnitLocalDIC::dic();
+            $this->positionRepo = $dic["repo.Positions"];
+        }
+
+        return $this->positionRepo;
+    }
+
     /**
      * @param $file_path
      */
@@ -72,12 +84,16 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
         $org_unit = new ilObjOrgUnit($org_unit_id);
 
         if ($role === 'employee') {
-            $position_id = ilOrgUnitPosition::CORE_POSITION_EMPLOYEE;
+            $position_id = $this->getPositionRepo()
+                ->getSingle(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE, 'core_identifier')
+                ->getId();
         } elseif ($role === 'superior') {
-            $position_id = ilOrgUnitPosition::CORE_POSITION_SUPERIOR;
+            $position_id = $this->getPositionRepo()
+                ->getSingle(ilOrgUnitPosition::CORE_POSITION_SUPERIOR, 'core_identifier')
+                ->getId();
         } else {
             //if passed a custom position.
-            $position = ilOrgUnitPosition::where(['title' => $role])->first();
+            $position = $this->getPositionRepo()->getSingle($role, 'title');
             if ($position instanceof ilOrgUnitPosition) {
                 $position_id = $position->getId();
             } else {

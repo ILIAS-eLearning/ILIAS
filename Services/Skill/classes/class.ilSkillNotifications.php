@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -225,8 +227,8 @@ class ilSkillNotifications extends ilCronJob
         $mail = new ilMail(ANONYMOUS_USER_ID);
         $mail->enqueue(
             ilObjUser::_lookupLogin($a_user_id),
-            null,
-            null,
+            "",
+            "",
             $subject,
             $ntf->composeAndGetMessage($a_user_id, null, "read", true),
             []

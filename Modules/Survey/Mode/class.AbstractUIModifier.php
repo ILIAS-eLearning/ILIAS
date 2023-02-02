@@ -76,11 +76,14 @@ abstract class AbstractUIModifier implements UIModifier
         \ilToolbarGUI $toolbar,
         int $user_id
     ): void {
-        $this->addApprSelectionToToolbar(
-            $survey,
-            $toolbar,
-            $user_id
-        );
+        $config = $this->getInternalService()->domain()->modeFeatureConfig($survey->getMode());
+        if ($config->usesAppraisees()) {
+            $this->addApprSelectionToToolbar(
+                $survey,
+                $toolbar,
+                $user_id
+            );
+        }
 
         $this->addExportAndPrintButton(
             $survey,
@@ -115,11 +118,14 @@ abstract class AbstractUIModifier implements UIModifier
         $gui = $this->service->gui();
         $lng = $gui->lng();
 
-        $this->addApprSelectionToToolbar(
-            $survey,
-            $toolbar,
-            $user_id
-        );
+        $config = $this->getInternalService()->domain()->modeFeatureConfig($survey->getMode());
+        if ($config->usesAppraisees()) {
+            $this->addApprSelectionToToolbar(
+                $survey,
+                $toolbar,
+                $user_id
+            );
+        }
 
         $captions = new \ilSelectInputGUI($lng->txt("svy_eval_captions"), "cp");
         $captions->setOptions(array(
@@ -173,6 +179,16 @@ abstract class AbstractUIModifier implements UIModifier
 
         if ($details) {
             $pv = $this->service->gui()->print()->resultsDetails($survey->getRefId());
+            $this->service->gui()->ctrl()->setParameterByClass(
+                "ilSurveyEvaluationGUI",
+                "vw",
+                $this->service->gui()->evaluation($survey)->request()->getVW()
+            );
+            $this->service->gui()->ctrl()->setParameterByClass(
+                "ilSurveyEvaluationGUI",
+                "cp",
+                $this->service->gui()->evaluation($survey)->request()->getCP()
+            );
             $modal_elements = $pv->getModalElements(
                 $this->service->gui()->ctrl()->getLinkTargetByClass(
                     "ilSurveyEvaluationGUI",

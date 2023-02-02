@@ -62,6 +62,7 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
     {
         $this->db->manipulateF('DELETE FROM notification_usercfg WHERE module = %s', ['text'], ['osd_main']);
         ilNotificationSetupHelper::registerType(
+            $this->db,
             'buddysystem_request',
             'buddysystem_request',
             'buddysystem_request_desc',
@@ -73,6 +74,7 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
     public function step_4(): void
     {
         ilNotificationSetupHelper::registerType(
+            $this->db,
             'who_is_online',
             'who_is_online',
             'who_is_online_desc',
@@ -97,6 +99,7 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
     public function step_5(): void
     {
         ilNotificationSetupHelper::registerType(
+            $this->db,
             'badge_received',
             'badge_received',
             'badge_received_desc',

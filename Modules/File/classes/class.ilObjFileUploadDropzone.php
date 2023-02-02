@@ -100,7 +100,7 @@ class ilObjFileUploadDropzone
 
     public function isUploadAllowed(string $obj_type): bool
     {
-        if ($this->definition->isContainer($obj_type)) {
+        if ($this->definition->isContainer($obj_type) && $obj_type !== "orgu") {
             return $this->access->checkAccess('create_file', '', $this->target_ref_id, 'file');
         }
 

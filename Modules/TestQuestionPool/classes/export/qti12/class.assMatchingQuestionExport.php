@@ -133,32 +133,32 @@ class assMatchingQuestionExport extends assQuestionExport
         // add answertext
         $matchingtext_orders = array();
         foreach ($this->object->getMatchingPairs() as $index => $matchingpair) {
-            array_push($matchingtext_orders, $matchingpair->term->identifier);
+            array_push($matchingtext_orders, $matchingpair->getTerm()->getIdentifier());
         }
 
         $termids = array();
         foreach ($this->object->getTerms() as $term) {
-            array_push($termids, $term->identifier);
+            array_push($termids, $term->getidentifier());
         }
         // add answers
         foreach ($this->object->getDefinitions() as $definition) {
             $attrs = array(
-                "ident" => $definition->identifier,
+                "ident" => $definition->getIdentifier(),
                 "match_max" => "1",
                 "match_group" => join(",", $termids)
             );
             $a_xml_writer->xmlStartTag("response_label", $attrs);
             $a_xml_writer->xmlStartTag("material");
-            if (strlen($definition->picture)) {
+            if (strlen($definition->getPicture())) {
                 if ($force_image_references) {
                     $attrs = array(
                         "imagtype" => "image/jpeg",
-                        "label" => $definition->picture,
-                        "uri" => $this->object->getImagePathWeb() . $definition->picture
+                        "label" => $definition->getPicture(),
+                        "uri" => $this->object->getImagePathWeb() . $definition->getPicture()
                     );
                     $a_xml_writer->xmlElement("matimage", $attrs);
                 } else {
-                    $imagepath = $this->object->getImagePath() . $definition->picture;
+                    $imagepath = $this->object->getImagePath() . $definition->getPicture();
                     $fh = @fopen($imagepath, "rb");
                     if ($fh != false) {
                         $imagefile = fread($fh, filesize($imagepath));
@@ -166,21 +166,21 @@ class assMatchingQuestionExport extends assQuestionExport
                         $base64 = base64_encode($imagefile);
                         $attrs = array(
                             "imagtype" => "image/jpeg",
-                            "label" => $definition->picture,
+                            "label" => $definition->getPicture(),
                             "embedded" => "base64"
                         );
                         $a_xml_writer->xmlElement("matimage", $attrs, $base64, false, false);
                     }
                 }
             }
-            if (strlen($definition->text)) {
+            if (strlen($definition->getText())) {
                 $attrs = array(
                     "texttype" => "text/plain"
                 );
-                if ($this->object->isHTML($definition->text)) {
+                if ($this->object->isHTML($definition->getText())) {
                     $attrs["texttype"] = "text/xhtml";
                 }
-                $a_xml_writer->xmlElement("mattext", $attrs, $definition->text);
+                $a_xml_writer->xmlElement("mattext", $attrs, $definition->getText());
             }
             $a_xml_writer->xmlEndTag("material");
             $a_xml_writer->xmlEndTag("response_label");
@@ -188,20 +188,20 @@ class assMatchingQuestionExport extends assQuestionExport
         // add matchingtext
         foreach ($this->object->getTerms() as $term) {
             $attrs = array(
-                "ident" => $term->identifier
+                "ident" => $term->getIdentifier()
             );
             $a_xml_writer->xmlStartTag("response_label", $attrs);
             $a_xml_writer->xmlStartTag("material");
-            if (strlen($term->picture)) {
+            if (strlen($term->getPicture())) {
                 if ($force_image_references) {
                     $attrs = array(
                         "imagtype" => "image/jpeg",
-                        "label" => $term->picture,
-                        "uri" => $this->object->getImagePathWeb() . $term->picture
+                        "label" => $term->getPicture(),
+                        "uri" => $this->object->getImagePathWeb() . $term->getPicture()
                     );
                     $a_xml_writer->xmlElement("matimage", $attrs);
                 } else {
-                    $imagepath = $this->object->getImagePath() . $term->picture;
+                    $imagepath = $this->object->getImagePath() . $term->getPicture();
                     $fh = @fopen($imagepath, "rb");
                     if ($fh != false) {
                         $imagefile = fread($fh, filesize($imagepath));
@@ -209,21 +209,21 @@ class assMatchingQuestionExport extends assQuestionExport
                         $base64 = base64_encode($imagefile);
                         $attrs = array(
                             "imagtype" => "image/jpeg",
-                            "label" => $term->picture,
+                            "label" => $term->getPicture(),
                             "embedded" => "base64"
                         );
                         $a_xml_writer->xmlElement("matimage", $attrs, $base64, false, false);
                     }
                 }
             }
-            if (strlen($term->text)) {
+            if (strlen($term->getText())) {
                 $attrs = array(
                     "texttype" => "text/plain"
                 );
-                if ($this->object->isHTML($term->text)) {
+                if ($this->object->isHTML($term->getText())) {
                     $attrs["texttype"] = "text/xhtml";
                 }
-                $a_xml_writer->xmlElement("mattext", $attrs, $term->text);
+                $a_xml_writer->xmlElement("mattext", $attrs, $term->getText());
             }
             $a_xml_writer->xmlEndTag("material");
             $a_xml_writer->xmlEndTag("response_label");
@@ -250,18 +250,18 @@ class assMatchingQuestionExport extends assQuestionExport
             $attrs = array(
                 "respident" => "MQ"
             );
-            $a_xml_writer->xmlElement("varsubset", $attrs, $matchingpair->term->identifier . "," . $matchingpair->definition->identifier);
+            $a_xml_writer->xmlElement("varsubset", $attrs, $matchingpair->getTerm()->getIdentifier() . "," . $matchingpair->getDefinition()->getidentifier());
             $a_xml_writer->xmlEndTag("conditionvar");
 
             // qti setvar
             $attrs = array(
                 "action" => "Add"
             );
-            $a_xml_writer->xmlElement("setvar", $attrs, $matchingpair->points);
+            $a_xml_writer->xmlElement("setvar", $attrs, $matchingpair->getPoints());
             // qti displayfeedback
             $attrs = array(
                 "feedbacktype" => "Response",
-                "linkrefid" => "correct_" . $matchingpair->term->identifier . "_" . $matchingpair->definition->identifier
+                "linkrefid" => "correct_" . $matchingpair->getTerm()->getIdentifier() . "_" . $matchingpair->getDefinition()->getIdentifier()
             );
             $a_xml_writer->xmlElement("displayfeedback", $attrs);
             $a_xml_writer->xmlEndTag("respcondition");
@@ -283,7 +283,7 @@ class assMatchingQuestionExport extends assQuestionExport
                 $attrs = array(
                     "respident" => "MQ"
                 );
-                $a_xml_writer->xmlElement("varsubset", $attrs, $matchingpair->term->identifier . "," . $matchingpair->definition->identifier);
+                $a_xml_writer->xmlElement("varsubset", $attrs, $matchingpair->getTerm()->getIdentifier() . "," . $matchingpair->getDefinition()->getIdentifier());
             }
             $a_xml_writer->xmlEndTag("conditionvar");
             // qti displayfeedback
@@ -310,7 +310,7 @@ class assMatchingQuestionExport extends assQuestionExport
                 $attrs = array(
                     "respident" => "MQ"
                 );
-                $a_xml_writer->xmlElement("varsubset", $attrs, $matchingpair->term->identifier . "," . $matchingpair->definition->identifier);
+                $a_xml_writer->xmlElement("varsubset", $attrs, $matchingpair->getTerm()->getIdentifier() . "," . $matchingpair->getDefinition()->getIdentifier());
             }
             $a_xml_writer->xmlEndTag("not");
             $a_xml_writer->xmlEndTag("conditionvar");
@@ -328,7 +328,7 @@ class assMatchingQuestionExport extends assQuestionExport
         // PART III: qti itemfeedback
         foreach ($this->object->getMatchingPairs() as $index => $matchingpair) {
             $attrs = array(
-                "ident" => "correct_" . $matchingpair->term->identifier . "_" . $matchingpair->definition->identifier,
+                "ident" => "correct_" . $matchingpair->getTerm()->getIdentifier() . "_" . $matchingpair->getDefinition()->getIdentifier(),
                 "view" => "All"
             );
             $a_xml_writer->xmlStartTag("itemfeedback", $attrs);

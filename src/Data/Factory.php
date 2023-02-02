@@ -2,12 +2,27 @@
 
 declare(strict_types=1);
 
-/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Data;
 
 use ILIAS\Data\Clock\ClockFactory;
 use ILIAS\Data\Clock\ClockFactoryImpl;
+use ILIAS\Data\Meta;
 
 /**
  * Builds data types.
@@ -24,6 +39,8 @@ class Factory
      */
     private ?Color\Factory $colorfactory = null;
     private ?Dimension\Factory $dimensionfactory = null;
+    private ?Meta\Html\Factory $html_metadata_factory = null;
+    private ?Meta\Html\OpenGraph\Factory $open_graph_metadata_factory = null;
 
     /**
      * Get an ok result.
@@ -180,5 +197,28 @@ class Factory
     public function dataset(array $dimensions): Chart\Dataset
     {
         return new Chart\Dataset($dimensions);
+    }
+
+    public function htmlMetadata(): Meta\Html\Factory
+    {
+        if (null === $this->html_metadata_factory) {
+            $this->html_metadata_factory = new Meta\Html\Factory();
+        }
+
+        return $this->html_metadata_factory;
+    }
+
+    public function openGraphMetadata(): Meta\Html\OpenGraph\Factory
+    {
+        if (null === $this->open_graph_metadata_factory) {
+            $this->open_graph_metadata_factory = new Meta\Html\OpenGraph\Factory();
+        }
+
+        return $this->open_graph_metadata_factory;
+    }
+
+    public function languageTag(string $language_tag): LanguageTag
+    {
+        return LanguageTag::fromString($language_tag);
     }
 }

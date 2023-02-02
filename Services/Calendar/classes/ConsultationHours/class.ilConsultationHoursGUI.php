@@ -24,7 +24,7 @@ use ILIAS\HTTP\Services as HttpServices;
 /**
  * Consultation hours editor
  * @author      Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_Calls: ilConsultationHoursGUI ilPublicUserProfileGUI, ilRepositorySearchGUI
+ * @ilCtrl_Calls ilConsultationHoursGUI: ilPublicUserProfileGUI, ilRepositorySearchGUI
  */
 class ilConsultationHoursGUI
 {
@@ -88,7 +88,7 @@ class ilConsultationHoursGUI
         $this->global_user = $DIC->user();
     }
 
-    protected function initSearchAssignmentToAppointments($a_default = false): int
+    protected function initSearchAssignmentToAppointments($a_default = false): bool
     {
         $this->search_assignment_to_appointments = $a_default;
         if ($this->http->wrapper()->query()->has('assignM')) {
@@ -102,13 +102,21 @@ class ilConsultationHoursGUI
 
     protected function initGroupIdFromQuery(): int
     {
-        if ($this->http->wrapper()->query()->has('group_id')) {
+        if ($this->http->wrapper()->query()->has('grp_id')) {
             return $this->http->wrapper()->query()->retrieve(
-                'group_id',
+                'grp_id',
                 $this->refinery->kindlyTo()->int()
             );
         }
         return 0;
+    }
+
+    protected function initAppointmentIdsFromQuery(): array
+    {
+        if ($this->http->wrapper()->query()->has('apps')) {
+            return [$this->http->wrapper()->query()->retrieve('apps', $this->refinery->kindlyTo()->int())];
+        }
+        return [];
     }
 
     protected function initAppointmentIdsFromPost(): array
@@ -116,7 +124,7 @@ class ilConsultationHoursGUI
         if ($this->http->wrapper()->post()->has('apps')) {
             return $this->http->wrapper()->post()->retrieve(
                 'apps',
-                $this->refinery->kindlyTo()->listOf(
+                $this->refinery->kindlyTo()->dictOf(
                     $this->refinery->kindlyTo()->int()
                 )
             );
@@ -126,12 +134,12 @@ class ilConsultationHoursGUI
 
     protected function initAppointmentIdsFromPostString(): array
     {
-        if ($this->http->wrapper()->post()->has('apps')) {
+        if ($this->http->wrapper()->post()->has('apps_string')) {
             $app_string = $this->http->wrapper()->post()->retrieve(
-                'apps',
+                'apps_string',
                 $this->refinery->kindlyTo()->string()
             );
-            return explode(';', $app_string);
+            return array_map('intval', explode(';', $app_string));
         }
         return [];
     }
@@ -165,11 +173,26 @@ class ilConsultationHoursGUI
         return [];
     }
 
+    /**
+     * @return string[]
+     */
+    protected function initBookingUsersFromQuery(): array
+    {
+        if ($this->http->wrapper()->query()->has('bookuser')) {
+            return [
+                $this->http->wrapper()->query()->retrieve(
+                    'bookuser',
+                    $this->refinery->kindlyTo()->string()
+                )
+            ];
+        }
+        return [];
+    }
+
     public function executeCommand(): void
     {
         $this->help->setScreenIdComponent("cal");
-
-        switch ($this->ctrl->getNextClass()) {
+        switch ($this->ctrl->getNextClass($this)) {
             case "ilpublicuserprofilegui":
                 #22168 don't send the current user if no GET user_id
                 //$profile = new ilPublicUserProfileGUI($this->user_id);
@@ -208,6 +231,15 @@ class ilConsultationHoursGUI
                     $this->ctrl->saveParameter($this, 'apps');
                     $this->ctrl->setReturn($this, 'appointmentList');
                     $this->tabs->activateSubTab('cal_ch_app_list');
+                } elseif ($this->initAppointmentIdsFromQuery()) {
+                    $rep_search->setCallback(
+                        $this,
+                        'assignUsersToAppointment',
+                        array()
+                    );
+                    $this->ctrl->saveParameter($this, 'apps');
+                    $this->ctrl->setReturn($this, 'appointmentList');
+                    $this->tabs->activateSubTab('cal_ch_app_list');
                 }
                 $this->ctrl->forwardCommand($rep_search);
                 break;
@@ -231,15 +263,20 @@ class ilConsultationHoursGUI
 
     protected function searchUsersForAppointments(): void
     {
-        ilSession::set('ch_apps', $this->initAppointmentIdsFromPost());
-        if (!count(ilSession::get('ch_apps'))) {
+        $apps = [];
+        if ($this->initAppointmentIdsFromPost() !== []) {
+            $apps = $this->initAppointmentIdsFromPost();
+        } elseif ($this->initAppointmentIdsFromQuery() !== []) {
+            $apps = $this->initAppointmentIdsFromQuery();
+        }
+
+        if ($apps === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'appointmentList');
         }
-        $this->initSearchAssignmentToAppointments(true);
-        $this->ctrl->setCmdClass('ilrepositorysearchgui');
-        $this->ctrl->setcmd('');
-        $this->executeCommand();
+        ilSession::set('ch_apps', $apps);
+        $this->ctrl->setParameterByClass(ilConsultationHoursGUI::class, 'assignM', 1);
+        $this->ctrl->redirectByClass(ilRepositorySearchGUI::class, '');
     }
 
     /**
@@ -290,15 +327,17 @@ class ilConsultationHoursGUI
     {
         if ($a_app) {
             $app = $a_app;
-        } else {
+        } elseif ($this->initBookingUsersFromPost() !== []) {
             $app = $this->initAppointmentIdsFromPost();
+            $app = current($app);
+        } elseif ($this->initAppointmentIdsFromQuery() !== []) {
+            $app = $this->initAppointmentIdsFromQuery();
+            $app = current($app);
         }
-
         if (!count($users)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             return [];
         }
-
         $booking = ilBookingEntry::getInstanceByCalendarEntryId($app);
         $assigned_users = array();
         foreach ($users as $user) {
@@ -310,9 +349,7 @@ class ilConsultationHoursGUI
                 $assigned_users[] = $user;
             }
         }
-
         $unassigned_users = array_diff($users, $assigned_users);
-
         if ($a_redirect) {
             $this->sendInfoAboutUnassignedUsers($unassigned_users);
             $this->ctrl->redirect($this, 'appointmentList');
@@ -399,7 +436,7 @@ class ilConsultationHoursGUI
         if ($form->checkInput()) {
             $group = new ilConsultationHourGroup();
             $group->setTitle($form->getInput('title'));
-            $group->setMaxAssignments($form->getInput('multiple'));
+            $group->setMaxAssignments((int) $form->getInput('multiple'));
             $group->setUserId($this->getUserId());
             $group->save();
 
@@ -438,7 +475,7 @@ class ilConsultationHoursGUI
         if ($form->checkInput()) {
             $group = new ilConsultationHourGroup($group_id);
             $group->setTitle($form->getInput('title'));
-            $group->setMaxAssignments($form->getInput('multiple'));
+            $group->setMaxAssignments((int) $form->getInput('multiple'));
             $group->setUserId($this->getUserId());
             $group->update();
 
@@ -552,6 +589,18 @@ class ilConsultationHoursGUI
      */
     protected function confirmRejectBooking(bool $a_send_notification = true): void
     {
+        $bookusers = [];
+        if ($this->initBookingUsersFromPost() !== []) {
+            $bookusers = $this->initBookingUsersFromPost();
+        } elseif ($this->initBookingUsersFromQuery() !== []) {
+            $bookusers = $this->initBookingUsersFromQuery();
+        }
+
+        if ($bookusers === []) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
+            $this->bookingList();
+            return;
+        }
         $this->setSubTabs();
         $this->tabs->activateSubTab('cal_ch_app_bookings');
 
@@ -570,7 +619,7 @@ class ilConsultationHoursGUI
 
         $confirm->setCancel($this->lng->txt('cancel'), 'bookingList');
 
-        foreach ($this->initBookingUsersFromPost() as $bookuser) {
+        foreach ($bookusers as $bookuser) {
             $ids = explode('_', $bookuser);
 
             $entry = new ilCalendarEntry((int) $ids[0]);
@@ -602,7 +651,6 @@ class ilConsultationHoursGUI
     {
         foreach ($this->initBookingUsersFromPost() as $bookuser) {
             $ids = explode('_', $bookuser);
-
             ilConsultationHourUtils::cancelBooking((int) $ids[1], (int) $ids[0], $a_send_notification);
         }
         if ($a_send_notification) {
@@ -643,8 +691,8 @@ class ilConsultationHoursGUI
         $this->initFormSequence(self::MODE_CREATE);
 
         $this->booking = new ilBookingEntry();
-        $this->form->getItemByPostVar('bo')->setValue($this->booking->getNumberOfBookings());
-        $this->form->getItemByPostVar('ap')->setValue(1);
+        $this->form->getItemByPostVar('bo')->setValue((string) $this->booking->getNumberOfBookings());
+        $this->form->getItemByPostVar('ap')->setValue("1");
         $this->form->getItemByPostVar('du')->setMinutes(15);
         $this->form->getItemByPostVar('st')->setDate(
             new ilDateTime(mktime(8, 0, 0, (int) date('n', time()), (int) date('d', time()), (int) date('Y', time())), IL_CAL_UNIX)
@@ -774,7 +822,7 @@ class ilConsultationHoursGUI
 
             $booking = new ilBookingEntry();
             $booking->setObjId($this->getUserId());
-            $booking->setNumberOfBookings($this->form->getInput('bo'));
+            $booking->setNumberOfBookings((int) $this->form->getInput('bo'));
 
             $deadline = $this->form->getInput('dead');
             $deadline = $deadline['dd'] * 24 + $deadline['hh'];
@@ -785,10 +833,10 @@ class ilConsultationHoursGUI
                 $booking->setBookingGroup((int) $this->form->getInput('grp'));
             }
 
-            $tgt = explode(',', $this->form->getInput('tgt'));
+            $tgt = array_map('intval', explode(',', $this->form->getInput('tgt')));
             $obj_ids = array();
-            foreach ((array) $tgt as $ref_id) {
-                if (!trim($ref_id)) {
+            foreach ($tgt as $ref_id) {
+                if ($ref_id === 0) {
                     continue;
                 }
                 $obj_id = ilObject::_lookupObjId($ref_id);
@@ -803,10 +851,8 @@ class ilConsultationHoursGUI
                 $obj_ids[] = $obj_id;
             }
             $booking->setTargetObjIds($obj_ids);
-
             $booking->save();
             $this->createAppointments($booking);
-
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'appointmentList');
         } else {
@@ -933,15 +979,23 @@ class ilConsultationHoursGUI
      */
     public function edit(): void
     {
-        if (!$this->http->wrapper()->post()->has('apps')) {
+        // first read from hidden input
+        $apps = [];
+        if ($this->initAppointmentIdsFromPostString() !== []) {
+            $apps = $this->initAppointmentIdsFromPostString();
+        } elseif ($this->initAppointmentIdsFromPost() !== []) {
+            $apps = $this->initAppointmentIdsFromPost();
+        } elseif ($this->initAppointmentIdsFromQuery()) {
+            $apps = $this->initAppointmentIdsFromQuery();
+        }
+        if (!count($apps)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->appointmentList();
             return;
         }
 
         $this->initFormSequence(self::MODE_MULTI);
-        $apps = $this->initAppointmentIdsFromPostString();
-        $hidden = new ilHiddenInputGUI('apps');
+        $hidden = new ilHiddenInputGUI('apps_string');
         $hidden->setValue(implode(';', $apps));
         $this->form->addItem($hidden);
 
@@ -955,7 +1009,7 @@ class ilConsultationHoursGUI
 
         $booking = new ilBookingEntry($entry->getContextId());
 
-        $this->form->getItemByPostVar('bo')->setValue($booking->getNumberOfBookings());
+        $this->form->getItemByPostVar('bo')->setValue((string) $booking->getNumberOfBookings());
 
         $ref_ids = array();
         foreach ($booking->getTargetObjIds() as $obj_id) {
@@ -984,10 +1038,10 @@ class ilConsultationHoursGUI
         $deadline = $deadline['dd'] * 24 + $deadline['hh'];
         $booking->setDeadlineHours($deadline);
 
-        $tgt = explode(',', (string) $this->form->getInput('tgt'));
+        $tgt = array_map('intval', explode(',', (string) $this->form->getInput('tgt')));
         $obj_ids = [];
-        foreach ((array) $tgt as $ref_id) {
-            if (!trim($ref_id)) {
+        foreach ($tgt as $ref_id) {
+            if ($ref_id === 0) {
                 continue;
             }
             $obj_id = ilObject::_lookupObjId($ref_id);
@@ -1002,7 +1056,7 @@ class ilConsultationHoursGUI
         $booking->setTargetObjIds($obj_ids);
 
         if (ilConsultationHourGroups::getCountGroupsOfUser($this->getUserId())) {
-            $booking->setBookingGroup($this->form->getInput('grp'));
+            $booking->setBookingGroup((int) $this->form->getInput('grp'));
         }
         $booking->save();
         return $booking;
@@ -1046,23 +1100,27 @@ class ilConsultationHoursGUI
     protected function updateMulti(): void
     {
         $this->initFormSequence(self::MODE_MULTI);
-
-        if ($this->form->checkInput()) {
+        if (!$this->form->checkInput()) {
             $this->form->setValuesByPost();
-            $apps = $this->initAppointmentIdsFromPostString();
-
-            // create new booking
-            $booking = $this->createNewBookingEntry($this->form);
-            if (!$booking instanceof \ilBookingEntry) {
-                $this->edit();
-                return;
-            }
-            $this->rewriteBookingIdsForAppointments($booking, $apps, $this->form);
-            ilBookingEntry::removeObsoleteEntries();
-
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
-            $this->ctrl->redirect($this, 'appointmentList');
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
+            $this->edit();
+            return;
         }
+
+        $this->form->setValuesByPost();
+        $apps = $this->initAppointmentIdsFromPostString();
+
+        // create new booking
+        $booking = $this->createNewBookingEntry($this->form);
+        if (!$booking instanceof \ilBookingEntry) {
+            $this->edit();
+            return;
+        }
+        $this->rewriteBookingIdsForAppointments($booking, $apps, $this->form);
+        ilBookingEntry::removeObsoleteEntries();
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+        $this->ctrl->redirect($this, 'appointmentList');
         $this->tpl->setContent($this->form->getHTML());
     }
 
@@ -1071,8 +1129,13 @@ class ilConsultationHoursGUI
      */
     public function confirmDelete(): void
     {
-        $apps = $this->initAppointmentIdsFromPost();
-        if (!count($apps)) {
+        $apps = [];
+        if ($this->initAppointmentIdsFromPost() !== []) {
+            $apps = $this->initAppointmentIdsFromPost();
+        } elseif ($this->initAppointmentIdsFromQuery() !== []) {
+            $apps = $this->initAppointmentIdsFromQuery();
+        }
+        if ($apps === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->appointmentList();
             return;
@@ -1089,7 +1152,7 @@ class ilConsultationHoursGUI
             $entry = new ilCalendarEntry($entry_id);
             $confirm->addItem(
                 'apps[]',
-                $entry_id,
+                (string) $entry_id,
                 ilDatePresentation::formatDate($entry->getStart()) . ', ' . $entry->getTitle()
             );
 
@@ -1097,17 +1160,14 @@ class ilConsultationHoursGUI
                 $bookings_available[] = ilDatePresentation::formatDate($entry->getStart()) . ', ' . $entry->getTitle();
             }
         }
-
         if ($bookings_available) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cal_ch_delete_app_booking_info') . '<br />' . implode(
                 '<br />',
                 $bookings_available
             ));
         }
-
         $confirm->setConfirm($this->lng->txt('delete'), 'delete');
         $confirm->setCancel($this->lng->txt('cancel'), 'appointmentList');
-
         $this->tpl->setContent($confirm->getHTML());
     }
 
@@ -1132,12 +1192,9 @@ class ilConsultationHoursGUI
             // remove calendar entries
             $entry = new ilCalendarEntry($entry_id);
             $entry->delete();
-
             ilCalendarCategoryAssignments::_deleteByAppointmentId($entry_id);
         }
-
         ilBookingEntry::removeObsoleteEntries();
-
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_deleted_app'), true);
         $this->ctrl->redirect($this, 'appointmentList');
     }
@@ -1150,9 +1207,9 @@ class ilConsultationHoursGUI
         $this->tabs->clearTargets();
 
         $user_id = 0;
-        if ($this->http->wrapper()->query()->has('user_id')) {
+        if ($this->http->wrapper()->query()->has('user')) {
             $user_id = $this->http->wrapper()->query()->retrieve(
-                'user_id',
+                'user',
                 $this->refinery->kindlyTo()->int()
             );
         }

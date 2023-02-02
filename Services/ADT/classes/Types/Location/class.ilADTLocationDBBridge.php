@@ -11,8 +11,8 @@ class ilADTLocationDBBridge extends ilADTDBBridge
 
     public function readRecord(array $a_row): void
     {
-        $this->getADT()->setLongitude($a_row[$this->getElementId() . "_long"]);
-        $this->getADT()->setLatitude($a_row[$this->getElementId() . "_lat"]);
+        $this->getADT()->setLongitude((float) $a_row[$this->getElementId() . "_long"]);
+        $this->getADT()->setLatitude((float) $a_row[$this->getElementId() . "_lat"]);
         $this->getADT()->setZoom($a_row[$this->getElementId() . "_zoom"]);
     }
 

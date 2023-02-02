@@ -29,6 +29,8 @@ use ILIAS\InfoScreen\StandardGUIRequest;
  */
 class ilInfoScreenGUI
 {
+    protected \ILIAS\DI\UIServices $ui;
+    protected ?\ILIAS\UI\Component\MessageBox\MessageBox $mbox = null;
     protected ilTabsGUI $tabs_gui;
     protected ilRbacSystem $rbacsystem;
     protected ilGlobalPageTemplate $tpl;
@@ -85,6 +87,7 @@ class ilInfoScreenGUI
         $this->form_action = "";
         $this->top_formbuttons = array();
         $this->hiddenelements = array();
+        $this->ui = $DIC->ui();
         $this->request = new StandardGUIRequest(
             $DIC->http(),
             $DIC->refinery()
@@ -138,6 +141,17 @@ class ilInfoScreenGUI
                 break;
         }
     }
+
+    public function setMessageBox(ILIAS\UI\Component\MessageBox\MessageBox $a_val): void
+    {
+        $this->mbox = $a_val;
+    }
+
+    public function getMessageBox(): ILIAS\UI\Component\MessageBox\MessageBox
+    {
+        return $this->mbox;
+    }
+
 
     public function setTableClass(string $a_val): void
     {
@@ -378,6 +392,8 @@ class ilInfoScreenGUI
         $copyright = "";
         if (is_object($rights = $md->getRights())) {
             $copyright = ilMDUtils::_parseCopyright($rights->getDescription());
+        } else {
+            $copyright = ilMDUtils::_getDefaultCopyright();
         }
 
         // learning time
@@ -839,6 +855,10 @@ class ilInfoScreenGUI
             }
         }
 
+        if (!is_null($this->mbox)) {
+            $tpl->setVariable("MBOX", $this->ui->renderer()->render([$this->mbox]));
+        }
+
         return $tpl->get();
     }
 
@@ -1200,7 +1220,7 @@ class ilInfoScreenGUI
         $properties = [];
 
         foreach ($conditions as $condition) {
-            if (!in_array($condition['id'], $visible_conditions)) {
+            if (!isset($condition["id"]) || !in_array($condition['id'], $visible_conditions)) {
                 continue;
             }
 
@@ -1218,7 +1238,10 @@ class ilInfoScreenGUI
             if ($obligatory) {
                 $this->addSection($lng->txt("preconditions_obligatory_hint"));
             } else {
-                $this->addSection(sprintf($lng->txt("preconditions_optional_hint"), $num_optional_required));
+                $this->addSection(sprintf(
+                    $lng->txt("preconditions_optional_hint"),
+                    $num_optional_required - $passed_optional
+                ));
             }
 
             foreach ($properties as $p) {

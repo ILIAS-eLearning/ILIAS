@@ -81,7 +81,6 @@ adm#:#adm_support_contacts_info#:#Suporta os contactos usados no link do rodapé
 administration#:#adm_achievements#:#Achievements###07 02 2020 new variable
 administration#:#adm_activate_db_benchmark#:#Ativa referência
 administration#:#adm_activate_db_benchmark_desc#:#A referenciação será automaticamente desativada depois de um pedido.
-administration#:#adm_add_settings_template#:#Adicionar modelo
 administration#:#adm_adm_role_protect#:#Proteger função do administrador
 administration#:#adm_adm_role_protect_info#:#Se estiver ativado, apenas os administradores estão autorizados a atribuir ou não a função de administrador.
 administration#:#adm_auth_login#:#Authentication Login###29 07 2022 new variable
@@ -94,7 +93,6 @@ administration#:#adm_db_bench_sorted_by_sql#:#Ordenado por SQL
 administration#:#adm_db_benchmark#:#Referência DB
 administration#:#adm_db_benchmark_user#:#Nome da conta do utilizador
 administration#:#adm_db_benchmark_user_desc#:#Serão tomadas apenas medidas para este utilizador.
-administration#:#adm_edit_settings_template#:#Editar modelo
 administration#:#adm_extending_ilias#:#Extending ILIAS###07 02 2020 new variable
 administration#:#adm_external_setting_edit#:#Editar definições
 administration#:#adm_hide#:#Ocultar em forma de definições
@@ -128,11 +126,9 @@ administration#:#adm_rep_tree_only_cntr_info#:#São listadas apenas categorias, 
 administration#:#adm_rep_tree_presentation#:#Apresentação em árvore do repositório
 administration#:#adm_repository_and_objects#:#Repository and Objects###07 02 2020 new variable
 administration#:#adm_search_and_find#:#Search and Find###07 02 2020 new variable
-administration#:#adm_settings_templates#:#Definições modelos
 administration#:#adm_show_comments_tagging_in_lists#:#Mostra números de notas, comentários e identificadores em listas de objetos
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Mostra identificadores em vez de número
 administration#:#adm_sql#:#SQL
-administration#:#adm_sure_delete_settings_template#:#Tem a certeza que quer apagar os seguintes modelos?
 administration#:#adm_table#:#Tabela
 administration#:#adm_time#:#Tempo
 administration#:#adm_user_administration#:#Administração de utilizadores
@@ -469,7 +465,6 @@ assessment#:#add_imagemap#:#Importar mapa de imagem
 assessment#:#add_poly#:#Adicionar área de polígono
 assessment#:#add_rect#:#Adicionar área de retângulo
 assessment#:#additional_rating_info#:#Note que os valores fornecidos aqui são expressos em percentagens e devem ir até aos 100.
-assessment#:#adm_settings_templates#:#Definições modelos
 assessment#:#advanced_rating#:#Classificação avançada
 assessment#:#advanced_rating_info#:#A classificação avançada só está disponível se uma unidade estiver atribuída ao resultado. Serão exibidas outras definições de classificação depois de guardar as unidades especificadas.
 assessment#:#all_available_question_pools#:#Todos os bancos de perguntas disponíveis
@@ -1207,7 +1202,6 @@ assessment#:#showSuggestedSolution#:#Tipo
 assessment#:#show_answer_overview#:#Mostrar vista geral de respostas
 assessment#:#show_detailed_results#:#Mostrar resultados detalhados do utilizador (tentativa marcada)
 assessment#:#show_examview_html#:#No ecrã
-assessment#:#show_examview_pdf#:#Download de PDF
 assessment#:#show_pass_overview#:#Mostrar vista geral de tentativas marcadas
 assessment#:#show_user_answers#:#Mostrar respostas marcadas do utilizador
 assessment#:#showinfo#:#Mostrar todas as propriedades de teste
@@ -1288,10 +1282,10 @@ assessment#:#tst_activate_skill_service_desc#:#Suporta a atribuição de pergunt
 assessment#:#tst_activation_limited_visibility_info#:#Antes e depois do período indicado, aparece somente o título do teste. Os participantes não podem fazer o teste.
 assessment#:#tst_activation_online_info#:#Se estiverem online, os participantes podem fazer o teste.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editor para feedback e sugestões
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Usar editor de páginas ILIAS para editar feedback e sugestões
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module.###29 07 2022 new variable
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Usar editor de Rich-Text para editar feedback e sugestões
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module.###29 07 2022 new variable
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Usar editor de Rich-Text para editar feedback e sugestões
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Usar editor de páginas ILIAS para editar feedback e sugestões
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#Todas as competências do teste
 assessment#:#tst_all_user_data_deleted#:#Todos os dados de utilizador deste teste foram removidos!
@@ -4205,9 +4199,7 @@ common#:#ignore_on_conflict#:#Ignorar em conflito
 common#:#ignore_required_fields#:#Ignorar campos pedidos
 common#:#ignore_required_fields_info#:#Se estiver ativado, pode submeter este formulário sem preencher todos os campos obrigatórios. O novo utilizador tem de adicionar a informação que falta sobre o perfil pessoal após o próximo login.
 common#:#il_astpl_loc_initial#:#Teste inicial
-common#:#il_astpl_loc_initial_desc#:#Modelo de definições para testes iniciais de cursos orientados para objetivos de aprendizagem
 common#:#il_astpl_loc_qualified#:#Teste de qualificação
-common#:#il_astpl_loc_qualified_desc#:#Modelo de definições para testes de qualificação de cursos orientados para objetivos de aprendizagem
 common#:#il_blog_contributor#:#Set
 common#:#il_blog_editor#:#Outubro
 common#:#il_chat_moderator#:#Moderador de chat
@@ -10876,7 +10868,7 @@ mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###29 07 2022 new variable
 mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###29 07 2022 new variable
 mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###29 07 2022 new variable
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML###29 07 2022 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe###29 07 2022 new variable
 mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js###29 07 2022 new variable
 mathjax#:#mathjax_server_address#:#Endereço do servidor
 mathjax#:#mathjax_server_address_info#:#P. ex. http://localhost:8003
@@ -15669,7 +15661,6 @@ survey#:#survey_pool_selection#:#Seleção de banco
 survey#:#survey_prev_question#:#Página anterior
 survey#:#survey_previous#:#<<< save and previous page
 survey#:#survey_question_editor#:#Edit survey questions
-survey#:#survey_question_editor_settings_template#:#List View (in Tab "Questions")
 survey#:#survey_question_obligatory#:#(This question is obligatory. You must answer the question)
 survey#:#survey_question_pool#:#Banco de perguntas
 survey#:#survey_question_pool_title#:#Título do banco
@@ -15847,7 +15838,6 @@ survey#:#svy_settings_section_before_start#:#Informação antes de iniciar o inq
 survey#:#svy_settings_section_finishing#:#Terminar o inquérito
 survey#:#svy_settings_section_question_behaviour#:#Administering the Survey: Behaviour of the Question
 survey#:#svy_settings_section_reminders#:#Lembretes
-survey#:#svy_settings_template#:#Modelo
 survey#:#svy_show_questiontitles#:#Show question titles in survey
 survey#:#svy_skl_comp_assignm_not_supported#:#A atribuição da competência não é suportada por este tipo de pergunta.
 survey#:#svy_sum_score#:#Sum Score###29 07 2022 new variable

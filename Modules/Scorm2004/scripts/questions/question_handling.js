@@ -15,6 +15,7 @@ ilias.questions.txt = {
 	all_answers_correct: "Correct!",
 	enough_answers_correct: 'Correct, but not the best solution!',
 	nr_of_tries_exceeded: "Number of tries exceeded.",
+	correct_answers_separator: "or",
 	correct_answers_shown: "Correct solution see above.",
 	correct_answers_also: "Also correct are:",
 	correct_answer_also: "Also correct is:",
@@ -288,7 +289,13 @@ ilias.questions.assTextQuestion = function(a_id) {
 	jQuery('#textarea'+a_id).prop("disabled",true);
 	jQuery('#feedback'+a_id).addClass("ilc_qfeedr_FeedbackRight");
 	jQuery('#feedback'+a_id).html('<b>Answer submitted!</b><br>');
-	jQuery('#feedback'+a_id).slideToggle();
+	const el = document.getElementById("feedback" + a_id);
+	if (el) {
+		el.style.display = '';
+		if (typeof MathJax != "undefined") {
+			MathJax.Hub.Queue(["Typeset",MathJax.Hub, this]);
+		}
+	}
 	answers[a_id].passed = true;
 	ilias.questions.scormHandler(a_id,"neutral",jQuery('#textarea'+a_id).val());
 };
@@ -792,7 +799,6 @@ ilias.questions.assErrorText =function(a_id) {
 }
 
 ilias.questions.showFeedback =function(a_id) {
-	
 	jQuery('#feedback'+a_id).hide();
 
 	// "image map as single choice" not supported yet
@@ -917,12 +923,15 @@ ilias.questions.showFeedback =function(a_id) {
 	}
 	
 	jQuery('#feedback'+a_id).html(fbtext);
-	jQuery('#feedback'+a_id).slideToggle(400, 'swing', function(){
+
+	const el = document.getElementById("feedback" + a_id);
+	if (el) {
+		el.style.display = '';
 		if (typeof MathJax != "undefined") {
 			MathJax.Hub.Queue(["Typeset",MathJax.Hub, this]);
 		}
-	});
-	
+	}
+
 	// update question overviews
 	if (typeof il.COPagePres != "undefined")
 	{
@@ -1177,9 +1186,11 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 					correct_solution = '';
 					for (var j=0;j<questions[a_id].correct_answers[i][0].length;j++)
 					{
-						correct_solution += questions[a_id].correct_answers[i][0][j] + ' or ';
+						if (correct_solution.length > 0) {
+							correct_solution += ' ' + ilias.questions.txt.correct_answers_separator + ' ';
+						}
+						correct_solution += questions[a_id].correct_answers[i][0][j];
 					}
-					correct_solution = correct_solution.substring(0, correct_solution.length - 4);
 					if(questions[a_id].correct_answers[i][2] == 1)
 					{
 						a_node.find("[name='answer[" + i + "]']").val(correct_solution);

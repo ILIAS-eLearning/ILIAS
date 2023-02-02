@@ -57,6 +57,12 @@ class MessageBoxTest extends ILIAS_UI_TestBase
     , C\MessageBox\MessageBox::CONFIRMATION => "alert-warning"
     );
 
+    public static array $canonical_role_types = array( C\MessageBox\MessageBox::FAILURE => "alert"
+                                                        , C\MessageBox\MessageBox::SUCCESS => "status"
+                                                        , C\MessageBox\MessageBox::INFO => "status"
+                                                        , C\MessageBox\MessageBox::CONFIRMATION => "status"
+    );
+
     public function getUIFactory(): NoUIFactory
     {
         return new class () extends NoUIFactory {
@@ -167,11 +173,12 @@ class MessageBoxTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $g = $f->$factory_method("Lorem ipsum dolor sit amet.");
         $css_classes = self::$canonical_css_classes[$factory_method];
+        $role_type = self::$canonical_role_types[$factory_method];
 
         $html = $this->normalizeHTML($r->render($g));
-        $expected = "<div class=\"alert $css_classes\" role=\"alert\">" .
-                    "<h5 class=\"ilAccHeadingHidden\"><a id=\"il_message_focus\" name=\"il_message_focus\">" .
-                    $g->getType() . "_message</a></h5>Lorem ipsum dolor sit amet.</div>";
+        $expected = "<div class=\"alert $css_classes\" role=\"$role_type\">" .
+                    "<div class=\"ilAccHeadingHidden\"><a id=\"il_message_focus\" name=\"il_message_focus\">" .
+                    $g->getType() . "_message</a></div>Lorem ipsum dolor sit amet.</div>";
         $this->assertHTMLEquals($expected, $html);
     }
 
@@ -184,15 +191,16 @@ class MessageBoxTest extends ILIAS_UI_TestBase
         $bf = $this->getButtonFactory();
         $r = $this->getDefaultRenderer();
         $css_classes = self::$canonical_css_classes[$factory_method];
+        $role_type = self::$canonical_role_types[$factory_method];
 
         $buttons = [$bf->standard("Confirm", "#"), $bf->standard("Cancel", "#")];
 
         $g = $f->$factory_method("Lorem ipsum dolor sit amet.")->withButtons($buttons);
 
         $html = $this->normalizeHTML($r->render($g));
-        $expected = "<div class=\"alert $css_classes\" role=\"alert\">" .
-                    "<h5 class=\"ilAccHeadingHidden\"><a id=\"il_message_focus\" name=\"il_message_focus\">" .
-                    $g->getType() . "_message</a></h5>Lorem ipsum dolor sit amet." .
+        $expected = "<div class=\"alert $css_classes\" role=\"$role_type\">" .
+                    "<div class=\"ilAccHeadingHidden\"><a id=\"il_message_focus\" name=\"il_message_focus\">" .
+                    $g->getType() . "_message</a></div>Lorem ipsum dolor sit amet." .
                     "<div><button class=\"btn btn-default\"   data-action=\"#\" id=\"id_1\">Confirm</button>" .
                     "<button class=\"btn btn-default\"   data-action=\"#\" id=\"id_2\">Cancel</button></div></div>";
         $this->assertHTMLEquals($expected, $html);
@@ -207,6 +215,7 @@ class MessageBoxTest extends ILIAS_UI_TestBase
         $lf = $this->getLinkFactory();
         $r = $this->getDefaultRenderer();
         $css_classes = self::$canonical_css_classes[$factory_method];
+        $role_type = self::$canonical_role_types[$factory_method];
 
         $links = [
             $lf->standard("Open Exercise Assignment", "#"),
@@ -216,9 +225,9 @@ class MessageBoxTest extends ILIAS_UI_TestBase
         $g = $f->$factory_method("Lorem ipsum dolor sit amet.")->withLinks($links);
 
         $html = $this->normalizeHTML($r->render($g));
-        $expected = "<div class=\"alert $css_classes\" role=\"alert\">" .
-                    "<h5 class=\"ilAccHeadingHidden\"><a id=\"il_message_focus\" name=\"il_message_focus\">" .
-                    $g->getType() . "_message</a></h5>Lorem ipsum dolor sit amet." .
+        $expected = "<div class=\"alert $css_classes\" role=\"$role_type\">" .
+                    "<div class=\"ilAccHeadingHidden\"><a id=\"il_message_focus\" name=\"il_message_focus\">" .
+                    $g->getType() . "_message</a></div>Lorem ipsum dolor sit amet." .
                     "<ul><li><a href=\"#\" >Open Exercise Assignment</a></li>" .
                     "<li><a href=\"#\" >Open other screen</a></li></ul></div>";
         $this->assertHTMLEquals($expected, $html);
@@ -234,6 +243,7 @@ class MessageBoxTest extends ILIAS_UI_TestBase
         $lf = $this->getLinkFactory();
         $r = $this->getDefaultRenderer();
         $css_classes = self::$canonical_css_classes[$factory_method];
+        $role_type = self::$canonical_role_types[$factory_method];
 
         $buttons = [$bf->standard("Confirm", "#"), $bf->standard("Cancel", "#")];
         $links = [
@@ -244,9 +254,9 @@ class MessageBoxTest extends ILIAS_UI_TestBase
         $g = $f->$factory_method("Lorem ipsum dolor sit amet.")->withButtons($buttons)->withLinks($links);
 
         $html = $this->normalizeHTML($r->render($g));
-        $expected = "<div class=\"alert $css_classes\" role=\"alert\">" .
-                    "<h5 class=\"ilAccHeadingHidden\"><a id=\"il_message_focus\" name=\"il_message_focus\">" .
-                    $g->getType() . "_message</a></h5>Lorem ipsum dolor sit amet." .
+        $expected = "<div class=\"alert $css_classes\" role=\"$role_type\">" .
+                    "<div class=\"ilAccHeadingHidden\"><a id=\"il_message_focus\" name=\"il_message_focus\">" .
+                    $g->getType() . "_message</a></div>Lorem ipsum dolor sit amet." .
                     "<div><button class=\"btn btn-default\"   data-action=\"#\" id=\"id_1\">Confirm</button>" .
                     "<button class=\"btn btn-default\"   data-action=\"#\" id=\"id_2\">Cancel</button></div>" .
                     "<ul><li><a href=\"#\" >Open Exercise Assignment</a></li>" .

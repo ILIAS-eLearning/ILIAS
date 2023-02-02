@@ -61,9 +61,9 @@ class ilFileVersionsUploadHandlerGUI extends ilCtrlAwareStorageUploadHandler
 
         if ($result instanceof UploadResult && $result->isOK()) {
             if ($this->upload_mode === self::MODE_REPLACE) {
-                $identifier = (string) $this->file->replaceWithUpload($result, $this->file->getTitle());
+                $identifier = (string) $this->file->replaceWithUpload($result, $result->getName());
             } else {
-                $identifier = (string) $this->file->appendUpload($result, $this->file->getTitle());
+                $identifier = (string) $this->file->appendUpload($result, $result->getName());
             }
             $status = HandlerResult::STATUS_OK;
             $message = "file upload OK";

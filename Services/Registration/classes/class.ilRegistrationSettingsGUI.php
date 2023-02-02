@@ -401,9 +401,7 @@ class ilRegistrationSettingsGUI
             }
             foreach ($this->rbacreview->getGlobalRoles() as $role) {
                 if ($role_obj = ilObjectFactory::getInstanceByObjId($role, false)) {
-                    $role_obj->setAllowRegister(
-                        (int) $roles[$role] === 1
-                    );
+                    $role_obj->setAllowRegister(isset($roles[$role]) && (int) $roles[$role] === 1);
                     $role_obj->update();
                 }
             }
@@ -520,6 +518,8 @@ class ilRegistrationSettingsGUI
             $role_access->addOption($op_absolute);
             $role_access->addOption($op_relative);
             $role_access->setValue($this->access_limitations_obj->getMode($role['id']));
+
+            $role_access->setValue('unlimited');
             $form->addItem($role_access);
         }
 
@@ -580,9 +580,16 @@ class ilRegistrationSettingsGUI
 
         $this->access_limitations_obj->resetAccessLimitations();
         foreach (ilObjRole::_lookupRegisterAllowed() as $role) {
-            $this->access_limitations_obj->setMode($form->getInput("role_access_" . $role['id']), $role['id']);
-            $this->access_limitations_obj->setAbsolute($form->getInput("absolute_date_" . $role['id']), $role['id']);
-            $this->access_limitations_obj->setRelative($form->getInput("duration_" . $role['id']), $role['id']);
+            $mode = $form->getInput('role_access_' . $role['id']);
+            $this->access_limitations_obj->setMode($mode, $role['id']);
+
+            if ($mode === 'absolute') {
+                $this->access_limitations_obj->setAbsolute($form->getInput('absolute_date_' . $role['id']), $role['id']);
+            }
+
+            if ($mode === 'relative') {
+                $this->access_limitations_obj->setRelative($form->getInput('duration_' . $role['id']), $role['id']);
+            }
         }
 
         if ($err = $this->access_limitations_obj->validate()) {
@@ -866,7 +873,7 @@ class ilRegistrationSettingsGUI
         $valid = $this->form_gui->checkInput();
         if ($valid) {
             $number = $this->form_gui->getInput('reg_codes_number');
-            $role = $this->form_gui->getInput('reg_codes_role');
+            $role = (int) $this->form_gui->getInput('reg_codes_role');
             $local = $this->form_gui->getInput("reg_codes_local");
 
             if (is_array($local)) {
@@ -901,11 +908,11 @@ class ilRegistrationSettingsGUI
                     if (!array_sum($date)) {
                         $valid = false;
                     } else {
-                        $date = [
+                        $date = serialize([
                             "d" => $date["dd"],
                             "m" => $date["MM"] % 12,
                             "y" => floor($date["MM"] / 12)
-                        ];
+                        ]);
                     }
                     break;
 
@@ -1017,7 +1024,7 @@ class ilRegistrationSettingsGUI
 
         $codes = ilRegistrationCode::getCodesForExport(
             $utab->filter["code"],
-            $utab->filter["role"],
+            $utab->filter["role"] ? (int)$utab->filter["role"] : null,
             $utab->filter["generated"],
             $utab->filter["alimit"]
         );

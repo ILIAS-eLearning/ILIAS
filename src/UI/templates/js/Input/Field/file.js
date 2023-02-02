@@ -33,6 +33,9 @@ il.UI.Input = il.UI.Input || {};
 			expand_glyph: '[data-action="expand"] .glyph',
 			collapse_glyph: '[data-action="collapse"] .glyph',
 			form_submit_buttons: '.il-standard-form-cmd > button',
+
+			progress_container: '.ui-input-file-input-progress-container',
+			progress_indicator: '.ui-input-file-input-progress-indicator',
 		};
 
 		/**
@@ -80,6 +83,12 @@ il.UI.Input = il.UI.Input || {};
 		let dropzones = [];
 
 		/**
+		 * Holds a list of Files per file input id to remove before sending the form
+		 * @type string[]
+		 */
+		let removal_items = [];
+
+		/**
 		 * @param {string} input_id
 		 * @param {string} upload_url
 		 * @param {string} removal_url
@@ -101,7 +110,9 @@ il.UI.Input = il.UI.Input || {};
 			max_file_size,
 			mime_types,
 			is_disabled,
-			translations
+			translations,
+			chunked_upload,
+			chunk_size
 		) {
 			if (typeof dropzones[input_id] !== 'undefined') {
 				console.error(`Error: tried to register input '${input_id}' as file input twice.`);
@@ -120,6 +131,8 @@ il.UI.Input = il.UI.Input || {};
 			let file_list = document.querySelector(`#${input_id} ${SELECTOR.file_list}`);
 			let action_button = document.querySelector(`#${input_id} ${SELECTOR.dropzone} button`);
 
+			removal_items[input_id] = [];
+
 			dropzones[input_id] = new Dropzone(
 				`#${input_id} ${SELECTOR.dropzone}`,
 				{
@@ -136,6 +149,9 @@ il.UI.Input = il.UI.Input || {};
 					file_identifier: file_identifier,
 					removal_url: removal_url,
 					input_id: input_id,
+					chunking: chunked_upload,
+					chunkSize: chunk_size,
+					forceChunking: chunked_upload,
 
 					// override default rendering function.
 					addedfile: file => {
@@ -184,6 +200,33 @@ il.UI.Input = il.UI.Input || {};
 			dropzone.on('queuecomplete', submitCurrentFormHook);
 			dropzone.on('processing', enableAutoProcessingHook);
 			dropzone.on('success', setResourceStorageIdHook);
+			dropzone.on('error', function () {
+				return false;
+			});
+			dropzone.on('uploadprogress', function (file, progress, bytesSent) {
+				let file_id_input = $(`#${file.input_id}`);
+				let file_preview = file_id_input.closest(SELECTOR.file_list_entry);
+
+				if (file_preview) {
+					let progressContainer = file_preview.find(SELECTOR.progress_container);
+					let progressIndicator = file_preview.find(SELECTOR.progress_indicator);
+					let number = Math.round(progress);
+
+					if (number === 100 && bytesSent < file.size) {
+						// return;
+					}
+					if (progressContainer && progressIndicator) {
+						progressContainer.css('display', 'block');
+						if (!file.hasOwnProperty('progress_storage') || number > file.progress_storage) {
+							progressIndicator.css('width', number + '%');
+						}
+						if (number === 100) {
+							progressIndicator.addClass('success');
+						}
+					}
+					file.progress_storage = number;
+				}
+			});
 		}
 
 		// ==========================================
@@ -197,6 +240,7 @@ il.UI.Input = il.UI.Input || {};
 			let removal_glyph = $(this);
 			let input_id = removal_glyph.closest(SELECTOR.file_input).attr('id');
 			let dropzone = dropzones[input_id];
+			current_form.errors = false;
 
 			if (typeof dropzone === 'undefined') {
 				console.error(`Error: tried to remove file from uninitialized input: '${input_id}'`);
@@ -223,21 +267,9 @@ il.UI.Input = il.UI.Input || {};
 			// the global event listener won't trigger this hook again.
 			removal_glyph.attr('disabled');
 			removal_glyph.css('color', 'grey');
-
-			$.ajax({
-				type: 'GET',
-				url: dropzone.options.removal_url,
-				data: {
-					[dropzone.options.file_identifier]: file_entry_input.val(),
-				},
-				success: json_response => {
-					$(this).closest(SELECTOR.file_list_entry).remove();
-					ajaxResponseSuccessHook(json_response, file_entry);
-				},
-				error: json_response => {
-					ajaxResponseFailureHook(json_response, file_entry);
-				},
-			});
+			// collect the file id for removal.
+			removal_items[input_id].push(file_entry_input.val());
+			$(this).closest(SELECTOR.file_list_entry).remove();
 		}
 
 		/**
@@ -245,6 +277,8 @@ il.UI.Input = il.UI.Input || {};
 		 */
 		let processFormSubmissionHook = function (event) {
 			current_form = $(this).closest('form');
+			current_form.errors = false;
+
 			event.preventDefault();
 
 			// disable ALL submit buttons on the current page,
@@ -255,8 +289,7 @@ il.UI.Input = il.UI.Input || {};
 			.each(function () {
 				$(this).attr('disabled', true);
 			});
-
-			processCurrentFormDropzones();
+			processCurrentFormDropzones(event);
 		}
 
 		let toggleExpansionGlyphsHook = function () {
@@ -362,9 +395,10 @@ il.UI.Input = il.UI.Input || {};
 			let dropzone = dropzones[file_id_input.closest(SELECTOR.file_input).attr('id')];
 
 			if (typeof response.status === 'undefined' || 1 !== response.status) {
+				current_form.errors = true;
 				response.responseText = response.message;
 				ajaxResponseFailureHook(response, file_preview);
-				return;
+				return false;
 			}
 
 			// set the upload results IRSS file id.
@@ -374,7 +408,7 @@ il.UI.Input = il.UI.Input || {};
 		let submitCurrentFormHook = function () {
 			// submit the current form only if all dropzones
 			// were processed.
-			if (++current_dropzone === current_dropzone_count) {
+			if (current_form.errors === false && ++current_dropzone === current_dropzone_count) {
 				current_form.submit();
 			}
 		}
@@ -421,7 +455,7 @@ il.UI.Input = il.UI.Input || {};
 		let ajaxResponseFailureHook = function (response, file_preview) {
 			console.error(response.status, response.responseText);
 			displayErrorMessage(
-				I18N.general_error,
+				response.responseText,
 				file_preview
 			);
 		}
@@ -478,7 +512,7 @@ il.UI.Input = il.UI.Input || {};
 				let current_input_id = dropzone.files[i].input_id;
 				if (typeof current_input_id !== 'undefined' && current_input_id === input_id) {
 					file_to_remove = dropzone.files[i];
-          break;
+          			break;
 				}
 			}
 
@@ -486,6 +520,22 @@ il.UI.Input = il.UI.Input || {};
 				// removes ONE file object at found position.
 				dropzone.removeFile(file_to_remove);
 			}
+		}
+
+		let removeAllFilesFromQueue = function (input_id) {
+			if (typeof dropzones[input_id] === 'undefined') {
+				console.error(`Error: tried to access unknown input '${input_id}'.`);
+				return;
+			}
+
+			for (let i = 0; i < dropzones[input_id].files.length; ++i) {
+				let file = dropzones[input_id].files[i];
+				let file_id_input = $(`#${file.input_id}`);
+				let file_preview = file_id_input.closest(SELECTOR.file_list_entry);
+				file_preview.remove();
+			}
+
+			dropzones[input_id].removeAllFiles();
 		}
 
 		/**
@@ -510,7 +560,28 @@ il.UI.Input = il.UI.Input || {};
 			}
 		}
 
-		let processCurrentFormDropzones = function () {
+		let processRemovals = function (input_id, event) {
+			let file_to_remove = removal_items[input_id];
+			let dropzone = dropzones[input_id];
+			for (let i = 0, i_max = file_to_remove.length; i < i_max; i++) {
+				let file_id = file_to_remove[i];
+				$.ajax({
+					type: 'GET',
+					url: dropzone.options.removal_url,
+					data: {
+						[dropzone.options.file_identifier]: file_id,
+					},
+					success: json_response => {
+
+					},
+					error: json_response => {
+
+					},
+				});
+			}
+		}
+
+		let processCurrentFormDropzones = function (event) {
 			// retrieve all file inputs of the current form.
 			let file_inputs = current_form.find(SELECTOR.file_input);
 			current_dropzone_count = file_inputs.length;
@@ -519,11 +590,15 @@ il.UI.Input = il.UI.Input || {};
 			// all need to be processed.
 			if (Array.isArray(file_inputs)) {
 				for (let i = 0; i < file_inputs.length; i++) {
-					let dropzone = dropzones[file_inputs[i].attr('id')];
+					let input_id = file_inputs[i].attr('id');
+					let dropzone = dropzones[input_id];
+					processRemovals(input_id, event);
 					dropzone.processQueue();
 				}
 			} else {
-				let dropzone = dropzones[file_inputs.attr('id')];
+				let input_id = file_inputs.attr('id');
+				let dropzone = dropzones[input_id];
+				processRemovals(input_id, event);
 				if (0 !== dropzone.files.length) {
 					dropzone.processQueue();
 				} else {
@@ -600,6 +675,7 @@ il.UI.Input = il.UI.Input || {};
 		 */
 		let displayErrorMessage = function (message, container) {
 			container.find(SELECTOR.error_message).html(message);
+			container.find(SELECTOR.progress_indicator).addClass('error');
 		}
 
 		/**
@@ -614,6 +690,7 @@ il.UI.Input = il.UI.Input || {};
 		// ==========================================
 
 		return {
+			removeAllFilesFromQueue: removeAllFilesFromQueue,
 			renderFileEntry: renderFileEntryHook,
 			init: init,
 		}

@@ -88,7 +88,7 @@ class ilContProfileTableGUI extends ilTable2GUI
             foreach ($this->container_global_profiles->getProfiles() as $gp) {
                 $profiles[$gp["profile_id"]] = [
                     "profile_id" => $gp["profile_id"],
-                    "title" => $this->profile_service->lookupTitle($gp["profile_id"])
+                    "title" => $this->profile_service->lookupProfileTitle($gp["profile_id"])
                 ];
             }
         }
@@ -96,7 +96,7 @@ class ilContProfileTableGUI extends ilTable2GUI
             foreach ($this->container_local_profiles->getProfiles() as $lp) {
                 $profiles[$lp["profile_id"]] = [
                     "profile_id" => $lp["profile_id"],
-                    "title" => $this->profile_service->lookupTitle($lp["profile_id"])
+                    "title" => $this->profile_service->lookupProfileTitle($lp["profile_id"])
                 ];
             }
         }
@@ -116,7 +116,7 @@ class ilContProfileTableGUI extends ilTable2GUI
         $tpl->setVariable("TITLE", $a_set["title"]);
         $tpl->setVariable("ID", $a_set["profile_id"]);
 
-        if ($this->profile_service->lookupRefId($a_set["profile_id"]) > 0) {
+        if ($this->profile_service->lookupProfileRefId($a_set["profile_id"]) > 0) {
             $tpl->setVariable("CONTEXT", $lng->txt("skmg_context_local"));
         } else {
             $tpl->setVariable("CONTEXT", $lng->txt("skmg_context_global"));
@@ -126,7 +126,7 @@ class ilContProfileTableGUI extends ilTable2GUI
         $ctrl->setParameterByClass("ilskillprofilegui", "sprof_id", $a_set["profile_id"]);
         $ctrl->setParameterByClass("ilskillprofilegui", "local_context", true);
 
-        if ($this->profile_service->lookupRefId($a_set["profile_id"]) > 0) {
+        if ($this->profile_service->lookupProfileRefId($a_set["profile_id"]) > 0) {
             $items = [
                 $ui_factory->link()->standard(
                     $lng->txt("edit"),

@@ -134,7 +134,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
                 }
             } else {
                 $pl = ilObjectPlugin::getPluginObjectByType($k);
-                $types[$k] = $pl->txt("objs_" . $k) . " (" . (int) $type_counts[$k] . ")";
+                $types[$k] = $pl->txt("objs_" . $k) . " (" . (int) ($type_counts[$k] ?? 0) . ")";
             }
         }
         $type_prop->setOptions($types);

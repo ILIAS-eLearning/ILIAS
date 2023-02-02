@@ -747,6 +747,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             case "ilcommonactiondispatchergui":
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $gui->enableCommentsSettings(false);
+                $this->prepareOutput();
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -1188,7 +1189,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $owner = $this->object->getOwner();
 
         $ilTabs->clearTargets();
-        $ilLocator->clearItems();
         $tpl->setLocator();
 
         $back_caption = "";
@@ -1318,9 +1318,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $a_tpl->setTitleIcon($ppic);
         $a_tpl->setTitle($this->object->getTitle());
         $a_tpl->setDescription($name);
-
-        // to get rid of locator in repository preview
-        $a_tpl->setVariable("LOCATOR", "");
     }
 
     /**
@@ -2658,7 +2655,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $ilLocator = $this->locator;
 
         if (is_object($this->object)) {
-            $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->node_id);
+            $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "preview"), "", $this->node_id);
         }
     }
 
@@ -2759,12 +2756,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
      */
     public function addContributor(
         array $a_user_ids = array(),
-        ?int $a_user_type = null
+        ?string $a_user_type = null
     ): void {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $rbacreview = $this->rbac_review;
         $rbacadmin = $this->rbacadmin;
+        $a_user_type = (int) $a_user_type;
 
         if (!$this->checkPermissionBool("write")) {
             return;

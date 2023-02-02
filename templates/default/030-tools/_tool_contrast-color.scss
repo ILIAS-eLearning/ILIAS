@@ -1,0 +1,18 @@
+@use "sass:map";
+// Picks the color with the higher contrast provided from a dark and light option
+
+@function contrast-color($color, $dark-color, $light-color, $threshold: 55%) {
+    @if type-of($dark-color) != "color" or type-of($light-color) != "color" { @error "You must input a color value."; }
+    @return if(lightness($color) < $threshold, $light-color, $dark-color);
+}
+
+@function contrast-color-for-maps($input-map, $dark-color, $light-color) {
+    $map-with-contrasting-colors: ();
+    @if type-of($input-map) != "map" { @error "You must provide a map."; }
+    @each $name, $value in $input-map {
+        $chosen-color: ($name: contrast-color($value, $dark-color, $light-color));
+        $map-with-contrasting-colors: map.merge($chosen-color, $map-with-contrasting-colors);
+    }
+    @return $map-with-contrasting-colors;
+}
+

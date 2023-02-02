@@ -15,7 +15,6 @@
  *
  *********************************************************************/
 
-
 /**
 * Class ilTestEvaluationUserData
 *
@@ -26,7 +25,6 @@
 * @defgroup ModulesTest Modules/Test
 * @extends ilObject
 */
-
 include_once "./Services/Object/classes/class.ilObject.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
@@ -213,7 +211,7 @@ class ilTestEvaluationUserData
 
     public function getLogin(): string
     {
-        return $this->login;
+        return $this->login ?? '';
     }
 
     public function setLogin($a_login): void
@@ -542,7 +540,7 @@ class ilTestEvaluationUserData
         $this->user_id = $a_usr_id;
     }
 
-    public function getUserID(): int
+    public function getUserID(): ?int
     {
         return $this->user_id;
     }

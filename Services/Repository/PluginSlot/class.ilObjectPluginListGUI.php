@@ -26,7 +26,7 @@
 abstract class ilObjectPluginListGUI extends ilObjectListGUI
 {
     protected ilComponentFactory $component_factory;
-    protected ?ilObjectPlugin $plugin;
+    protected ?ilRepositoryObjectPlugin $plugin = null;
 
     public function __construct(int $a_context = self::CONTEXT_REPOSITORY)
     {
@@ -60,7 +60,7 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
     /**
      * @return ilObjectPlugin|null
      */
-    protected function getPlugin(): ?ilObjectPlugin
+    protected function getPlugin(): ?ilRepositoryObjectPlugin
     {
         if (!$this->plugin) {
             $this->plugin = $this->component_factory->getPlugin($this->getType());

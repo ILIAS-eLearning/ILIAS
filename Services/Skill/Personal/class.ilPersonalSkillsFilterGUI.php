@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +20,7 @@
  */
 
 use ILIAS\Skill\Service\SkillPersonalGUIRequest;
+use ILIAS\Skill\Personal;
 
 /**
  * Filter for personal skills
@@ -50,9 +53,9 @@ class ilPersonalSkillsFilterGUI
         // type of formation
         $options = array(
             0 => $lng->txt("skmg_all"),
-            ilSkillEval::TYPE_APPRAISAL => $lng->txt("skmg_eval_type_1"),
-            ilSkillEval::TYPE_MEASUREMENT => $lng->txt("skmg_eval_type_2"),
-            ilSkillEval::TYPE_SELF_EVAL => $lng->txt("skmg_eval_type_3"),
+            Personal\SkillEval::TYPE_APPRAISAL => $lng->txt("skmg_eval_type_1"),
+            Personal\SkillEval::TYPE_MEASUREMENT => $lng->txt("skmg_eval_type_2"),
+            Personal\SkillEval::TYPE_SELF_EVAL => $lng->txt("skmg_eval_type_3"),
             );
         $si = new ilSelectInputGUI($lng->txt("skmg_type_of_formation"), "type_of_formation");
         $si->setOptions($options);
@@ -118,6 +121,16 @@ class ilPersonalSkillsFilterGUI
         ilSession::set("skmg_pf_to", $t);
     }
 
+    // TODO: Remove this method as soon as filters are also available in gap profile view
+    public function clear(): void
+    {
+        ilSession::clear("skmg_pf_type_of_formation");
+        ilSession::clear("skmg_pf_target_level");
+        ilSession::clear("skmg_pf_mat_res");
+        ilSession::clear("skmg_pf_from");
+        ilSession::clear("skmg_pf_to");
+    }
+
     public function isInRange(array $level_entry): bool
     {
         // from
@@ -137,12 +150,12 @@ class ilPersonalSkillsFilterGUI
         }
 
         // type
-        $type = ilSkillEval::TYPE_APPRAISAL;
+        $type = Personal\SkillEval::TYPE_APPRAISAL;
         if ($level_entry["self_eval"] == 1) {
-            $type = ilSkillEval::TYPE_SELF_EVAL;
+            $type = Personal\SkillEval::TYPE_SELF_EVAL;
         }
         if ($level_entry["trigger_obj_type"] == "tst") {
-            $type = ilSkillEval::TYPE_MEASUREMENT;
+            $type = Personal\SkillEval::TYPE_MEASUREMENT;
         }
         if (ilSession::get("skmg_pf_type_of_formation") > 0 && ilSession::get("skmg_pf_type_of_formation") != $type) {
             return false;

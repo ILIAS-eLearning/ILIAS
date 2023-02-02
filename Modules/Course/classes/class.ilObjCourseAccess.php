@@ -26,7 +26,7 @@ declare(strict_types=0);
 class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 {
     protected static bool $using_code = false;
-    protected static ?ilBookingReservationDBRepository $booking_repo = null;
+    protected static ?\ILIAS\BookingManager\Reservations\ReservationDBRepository $booking_repo = null;
 
     protected ilAccessHandler $access;
     protected ilObjUser $user;
@@ -409,11 +409,10 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         $coursePreload = new ilCertificateObjectsForUserPreloader($repository);
         $coursePreload->preLoad($ilUser->getId(), $obj_ids);
 
-        $f = new ilBookingReservationDBRepositoryFactory();
-        self::$booking_repo = $f->getRepoWithContextObjCache($obj_ids);
+        self::$booking_repo = $DIC->bookingManager()->internal()->repo()->reservationWithContextObjCache($obj_ids);
     }
 
-    public static function getBookingInfoRepo(): ?ilBookingReservationDBRepository
+    public static function getBookingInfoRepo() : ?\ILIAS\BookingManager\Reservations\ReservationDBRepository
     {
         return self::$booking_repo;
     }

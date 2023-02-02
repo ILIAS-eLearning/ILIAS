@@ -1,0 +1,62 @@
+@use "../../../010-settings/" as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_panel" as *;
+@use "../../../050-layout/basics" as *;
+
+/* Services/Init */
+
+div.ilStartupFrame {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+		width: 100%;
+	}
+}
+
+.ilStartupSection {
+
+	.control-label {
+	 	width: 33.33%;
+		& + div {
+			width: 66.67%;
+		}
+	}
+
+	padding-top: $il-line-height-computed;
+	width: fit-content;
+	margin-left: auto;
+	margin-right: auto;
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+		padding-top: 15px;
+	}
+}
+
+
+ul.ilStartupSectionRegistrationLinks {
+	list-style: none;
+	li {
+		display: inline-block;
+	}
+}
+
+div.ilStartupSection form.form-horizontal {
+	border: $il-panel-border;
+	border-radius: $il-panel-border-radius;
+
+	.ilFormHeader,
+	.form-group,
+	.ilFormFooter {
+		padding: $il-padding-xlarge-vertical $il-padding-xlarge-horizontal;
+	}
+
+	.ilFormHeader {
+		background-color: $il-main-dark-bg;
+	}
+
+	.form-group {
+		margin: $il-padding-xlarge-vertical 0;
+	}
+
+	text-align: left;
+	width: 40em;
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+		width: auto;
+	}
+}

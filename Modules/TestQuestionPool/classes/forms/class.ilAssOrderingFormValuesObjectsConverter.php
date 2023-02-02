@@ -256,8 +256,12 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 
         $position = 0;
 
+        if (array_key_exists('content', $values)) {
+            $values = $values['content'];
+        }
         foreach ($values as $identifier => $value) {
             $element = new ilAssOrderingElement();
+
             $element->setRandomIdentifier($identifier);
 
             $element->setPosition($position++);
@@ -295,7 +299,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 
     protected function fetchSubmittedFileUploadProperty($fileUpload, $property)
     {
-        if (!isset($fileUpload[$property]) || !strlen($fileUpload[$property])) {
+        if (!array_key_exists($property, $fileUpload)) {
             return null;
         }
 

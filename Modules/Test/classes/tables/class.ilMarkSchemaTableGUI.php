@@ -1,10 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
-require_once 'Services/Form/classes/class.ilTextInputGUI.php';
-require_once 'Services/Form/classes/class.ilNumberInputGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMarkSchemaGUI
@@ -89,11 +99,13 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
         $short_name = new ilTextInputGUI('', 'mark_short_' . $a_set['mark_id']);
         $short_name->setValue($a_set['mark_short']);
         $short_name->setDisabled(!$this->is_editable);
+        $short_name->setMaxLength(15);
         $short_name->setSize(10);
 
         $official_name = new ilTextInputGUI('', 'mark_official_' . $a_set['mark_id']);
         $official_name->setSize(20);
         $official_name->setDisabled(!$this->object->canEditMarks());
+        $official_name->setMaxLength(50);
         $official_name->setValue($a_set['mark_official']);
 
         $percentage = new ilNumberInputGUI('', 'mark_percentage_' . $a_set['mark_id']);

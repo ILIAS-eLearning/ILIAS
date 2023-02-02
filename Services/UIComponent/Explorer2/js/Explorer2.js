@@ -25,20 +25,29 @@ il.Explorer2 = {
 	
 	init: function (config, js_tree_config) {
 		if (config.ajax) {
+			const node_name = config.node_par_name;
 			js_tree_config.core.data = {url: config.url + "&exp_cmd=getNodeAsync",
 				data: function(n) {
 					var id = n.id;
 					if (n.id === "#") {
 						id = "";
 					}
-					return {node_id: id,
-						exp_cont: config.container_id,
-						searchterm: il.Explorer2.current_search_term
-					};
+					if (id == "") {
+						return {
+							exp_cont: config.container_id,
+							searchterm: il.Explorer2.current_search_term
+						};
+					} else {
+						let d = {
+							exp_cont: config.container_id,
+							searchterm: il.Explorer2.current_search_term
+						};
+						d[node_name] = id;
+						return d;
+					}
 			}};
 		}
 		config.js_tree_config = js_tree_config;
-		console.log(js_tree_config);
 		il.Explorer2.configs[config.container_id] = config;
 		$("#" + config.container_id).on("loaded.jstree", function (event, data) {
 				var i;
@@ -46,7 +55,6 @@ il.Explorer2 = {
 				for (i = 0; i < config.second_hnodes.length; i++) {
 					$("#" + config.second_hnodes[i]).addClass("ilExplSecHighlight");
 				}
-				console.log("loaded jstree");
 
 		}).on("open_node.jstree close_node.jstree", function (event, data) {
 				il.Explorer2.toggle(event, data);
@@ -85,7 +93,6 @@ il.Explorer2 = {
 				e.preventDefault();
 				var pid = $(e.target).parents("li").parents("li").attr("id");
 				il.Explorer2.current_search_term = $(e.target).val();
-				console.log("refresh node " + pid);
 				$("#" + cid).jstree('refresh_node', pid);
 			}
 		});
@@ -116,8 +123,9 @@ il.Explorer2 = {
 		} else {
 			url = url + "&exp_cmd=closeNode";
 		}
-		url = url + "&exp_cont=" + container_id + "&node_id=" + id;
-		
+		if (id != "") {
+			url = url + "&exp_cont=" + container_id + "&" + t.configs[container_id].node_par_name + "=" + id;
+		}
 		il.Util.sendAjaxGetRequestToUrl(url, {}, {}, null);
 	},
 	

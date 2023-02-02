@@ -1,9 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
-require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestPassOverviewTableGUI
@@ -228,7 +239,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
         return "{$reachedPoints} {$this->lng->txt('of')} {$maxPoints}";
     }
 
-    private function getRequiredActions($isScoredPass): array
+    private function getRequiredActions(?bool $isScoredPass): array
     {
         $actions = array();
 
@@ -236,7 +247,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
             $actions[$this->getPassDetailsCommand()] = $this->lng->txt('tst_pass_details');
         }
 
-        if (!$isScoredPass && $this->getPassDeletionCommand()) {
+        if (!is_null($isScoredPass) && !$isScoredPass && $this->getPassDeletionCommand()) {
             $actions[$this->getPassDeletionCommand()] = $this->lng->txt('delete');
         }
 

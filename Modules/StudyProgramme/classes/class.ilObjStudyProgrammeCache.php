@@ -52,7 +52,17 @@ class ilObjStudyProgrammeCache
         // the same object. Since ilObjStudyProgramme is a container, it should (??)
         // only have one ref_id...
         if (!array_key_exists($ref_id, $this->instances)) {
-            $this->instances[$ref_id] = new ilObjStudyProgramme($ref_id);
+            $type = ilObject::_lookupType($ref_id, true);
+            if ($type === 'prg') {
+                $this->instances[$ref_id] = new ilObjStudyProgramme($ref_id);
+            }
+            if ($type === 'prgr') {
+                $prg_reference = new ilObjStudyProgrammeReference($ref_id, true);
+                $this->instances[$ref_id] = $prg_reference->getReferencedObject();
+            }
+            if ($type !== 'prgr' && $type !== 'prg') {
+                throw new \Exception('invalid ref_id: ' . $ref_id);
+            }
         }
         return $this->instances[$ref_id];
     }

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\LearningModule\ReadingTime\ReadingTimeManager;
+
 /**
  * Importer class for files
  *
@@ -23,6 +25,7 @@
  */
 class ilLearningModuleImporter extends ilXmlImporter
 {
+    protected ReadingTimeManager $reading_time_manager;
     protected array $qtis;
     protected ilLearningModuleDataSet $ds;
     protected ilImportConfig $config;
@@ -50,6 +53,7 @@ class ilLearningModuleImporter extends ilXmlImporter
             $mob_config = $this->getImport()->getConfig("Services/MediaObjects");
             $mob_config->setUsePreviousImportIds(true);
         }
+        $this->reading_time_manager = new ReadingTimeManager();
     }
 
     public function importXmlRepresentation(
@@ -183,6 +187,12 @@ class ilLearningModuleImporter extends ilXmlImporter
         $lm_map = $a_mapping->getMappingsOfEntity("Modules/LearningModule", "lm");
         foreach ($lm_map as $old_lm_id => $new_lm_id) {
             ilLMMenuEditor::fixImportMenuItems($new_lm_id, $ref_mapping);
+        }
+
+        // typical reading time
+        $lm_map = $a_mapping->getMappingsOfEntity("Modules/LearningModule", "lm");
+        foreach ($lm_map as $old_lm_id => $new_lm_id) {
+            $this->reading_time_manager->updateReadingTime($new_lm_id);
         }
     }
 }

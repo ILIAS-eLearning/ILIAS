@@ -28,6 +28,29 @@ of the guidelines it should conform to. You also can check your final GUI for
 Kitchen Sink compliance using the procedures the framework provides for Unit
 Testing.
 
+## Condsider the overarching UX
+
+When building views with the UI framework or adding new components to it, please
+be mindful of the larger context. Every UI and their elements should follow an
+overarching strategy to intuitively guide the user as much as possible to the
+functions and information they are currently interested in. Coherent and
+comprehensive UI concepts make ILIAS easier to use and avoid overcrowded and
+confusing screens.
+
+Here are some points to consider when creating a layered, context-sensitive UX
+strategy:
+* Anticipate the user intent to group, highlight, show, and hide information and
+actions depending on context.
+* Make use of the experience a user brings from other apps to match a mental model
+they have already learned.
+* Consider giving operations their own specialized interface, step, or mode rather
+than building a one-size-fits-all screen but utilize common UX-concepts and already
+existing UI components when you do.
+
+Documents with recommendations on how to approach UX challenges of specific UI
+components and use cases will be added below:
+* [Best practices for properties and actions displayed on repository objects](docu/ux-guide-repository-objects-properties-and-actions.md)
+
 ## Using the Framework
 
 As a user of the ILIAS UI-Framework your entry point to the framework is provided

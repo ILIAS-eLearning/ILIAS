@@ -17,6 +17,9 @@
  *********************************************************************/
 
 use ILIAS\UI\Component\Symbol\Avatar\Avatar;
+use ILIAS\Data\DateFormat\DateFormat;
+use ILIAS\Data\DateFormat\Factory as DateFormatFactory;
+use ILIAS\Data\Factory as DataFactory;
 
 /**
  * User class
@@ -108,6 +111,8 @@ class ilObjUser extends ilObject
     protected string $first_login = "";	// timestamp
     protected bool $profile_incomplete = false;
 
+    protected DateFormatFactory $date_format_factory;
+
     public function __construct(
         int $a_user_id = 0,
         bool $a_call_by_reference = false
@@ -133,6 +138,7 @@ class ilObjUser extends ilObject
         }
 
         $this->app_event_handler = $DIC['ilAppEventHandler'];
+        $this->date_format_factory = (new DataFactory())->dateFormat();
     }
 
     /**
@@ -850,6 +856,7 @@ class ilObjUser extends ilObject
 
         $ilDB = $this->db;
         $ilSetting = $DIC['ilSetting'];
+        $lng = $DIC->language();
 
         if (func_num_args() != 1) {
             return false;
@@ -876,14 +883,14 @@ class ilObjUser extends ilObject
         if ((int) $ilSetting->get('allow_change_loginname') &&
            (int) $ilSetting->get('reuse_of_loginnames') == 0 &&
            self::_doesLoginnameExistInHistory($a_login)) {
-            throw new ilUserException($this->lng->txt('loginname_already_exists'));
+            throw new ilUserException($lng->txt('loginname_already_exists'));
         } elseif ((int) $ilSetting->get('allow_change_loginname') &&
                 (int) $ilSetting->get('loginname_change_blocking_time') &&
                 is_array($last_history_entry) &&
                 $last_history_entry[1] + (int) $ilSetting->get('loginname_change_blocking_time') > time()) {
             throw new ilUserException(
                 sprintf(
-                    $this->lng->txt('changing_loginname_not_possible_info'),
+                    $lng->txt('changing_loginname_not_possible_info'),
                     ilDatePresentation::formatDate(
                         new ilDateTime($last_history_entry[1], IL_CAL_UNIX)
                     ),
@@ -1005,13 +1012,23 @@ class ilObjUser extends ilObject
         }
     }
 
-    public function getDateFormat(): string
+    public function getDateFormat(): DateFormat
     {
-        if ($format = $this->getPref('date_format')) {
-            return $format;
-        } else {
+        if (!($format = $this->getPref('date_format'))) {
             $settings = ilCalendarSettings::_getInstance();
-            return $settings->getDefaultDateFormat();
+            $format = $settings->getDefaultDateFormat();
+        }
+
+        switch ($format) {
+            case ilCalendarSettings::DATE_FORMAT_DMY:
+                return $this->date_format_factory->germanShort();
+
+            case ilCalendarSettings::DATE_FORMAT_MDY:
+                return $this->date_format_factory->americanShort();
+
+            case ilCalendarSettings::DATE_FORMAT_YMD:
+            default:
+                return $this->date_format_factory->standard();
         }
     }
 
@@ -2485,9 +2502,15 @@ class ilObjUser extends ilObject
         while ($obj = $ilDB->fetchAssoc($objs)) {
             if ($obj["type"] == "mob") {
                 $obj["title"] = ilObject::_lookupTitle($obj["item_id"]);
+                if (ilObject::_lookupType((int) $obj["item_id"]) !== "mob") {
+                    continue;
+                }
             }
             if ($obj["type"] == "incl") {
                 $obj["title"] = ilMediaPoolPage::lookupTitle($obj["item_id"]);
+                if (!ilPageObject::_exists("mep", (int) $obj["item_id"], "-")) {
+                    continue;
+                }
             }
             $objects[] = array("id" => $obj["item_id"],
                 "type" => $obj["type"], "title" => $obj["title"],
@@ -3576,7 +3599,7 @@ class ilObjUser extends ilObject
         if ($ilDB->numRows($res) == 0) {
             $ilDB->manipulateF(
                 '
-				INSERT INTO loginname_history 
+				INSERT INTO loginname_history
 						(usr_id, login, history_date)
 				VALUES 	(%s, %s, %s)',
                 array('integer', 'text', 'integer'),
@@ -3683,7 +3706,7 @@ class ilObjUser extends ilObject
 
             $res = $ilDB->queryf(
                 '
-				SELECT COUNT(usr_id) cnt FROM usr_data 
+				SELECT COUNT(usr_id) cnt FROM usr_data
 				WHERE reg_hash = %s',
                 array('text'),
                 array($hashcode)
@@ -3701,8 +3724,8 @@ class ilObjUser extends ilObject
 
             $ilDB->manipulateF(
                 '
-				UPDATE usr_data	
-				SET reg_hash = %s	
+				UPDATE usr_data
+				SET reg_hash = %s
 				WHERE usr_id = %s',
                 array('text', 'integer'),
                 array($hashcode, $a_usr_id)
@@ -3728,7 +3751,7 @@ class ilObjUser extends ilObject
 
         $res = $ilDB->queryf(
             '
-			SELECT usr_id, create_date FROM usr_data 
+			SELECT usr_id, create_date FROM usr_data
 			WHERE reg_hash = %s',
             array('text'),
             array($a_hash)
@@ -3737,13 +3760,16 @@ class ilObjUser extends ilObject
             $oRegSettigs = new ilRegistrationSettings();
 
             if ($oRegSettigs->getRegistrationHashLifetime() != 0 &&
-               time() - $oRegSettigs->getRegistrationHashLifetime() > strtotime($row['create_date'])) {
-                throw new ilRegConfirmationLinkExpiredException('reg_confirmation_hash_life_time_expired', $row['usr_id']);
+                time() - $oRegSettigs->getRegistrationHashLifetime() > strtotime($row['create_date'])) {
+                throw new ilRegConfirmationLinkExpiredException(
+                    'reg_confirmation_hash_life_time_expired',
+                    (int) $row['usr_id']
+                );
             }
 
             $ilDB->manipulateF(
                 '
-				UPDATE usr_data	
+				UPDATE usr_data
 				SET reg_hash = %s
 				WHERE usr_id = %s',
                 array('text', 'integer'),
@@ -3833,7 +3859,7 @@ class ilObjUser extends ilObject
     /**
      * get ids of all users that have been inactivated since at least the given period
      * @param int $period (in days)
-     * @return	int[] of user ids
+     * @return list<int> A list of user ids
      * @throws ilException
      */
     public static function _getUserIdsByInactivationPeriod(
@@ -3855,11 +3881,11 @@ class ilObjUser extends ilObject
 
         $query = "SELECT usr_id FROM usr_data WHERE $field < %s AND active = %s";
 
-        $res = $ilDB->queryF($query, array('timestamp', 'integer'), array($date, 0));
+        $res = $ilDB->queryF($query, ['timestamp', 'integer'], [$date, 0]);
 
-        $ids = array();
+        $ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $ids[] = $row->usr_id;
+            $ids[] = (int) $row->usr_id;
         }
 
         return $ids;

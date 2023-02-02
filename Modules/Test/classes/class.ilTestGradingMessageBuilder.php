@@ -1,7 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -38,6 +51,11 @@ class ilTestGradingMessageBuilder
     private $container;
 
     /**
+     * @var string[] $messageText
+     */
+    private array $messageText = [];
+
+    /**
      * @param ilLanguage $lng
      * @param ilObjTest $testOBJ
      */
@@ -65,10 +83,6 @@ class ilTestGradingMessageBuilder
 
         if ($this->testOBJ->isShowGradingStatusEnabled()) {
             $this->addMessagePart($this->buildGradingStatusMsg());
-        }
-
-        if ($this->testOBJ->areObligationsEnabled()) {
-            $this->addMessagePart($this->buildObligationsMsg());
         }
 
         if ($this->testOBJ->isShowGradingMarkEnabled()) {
@@ -172,15 +186,6 @@ class ilTestGradingMessageBuilder
     private function getMaxPoints()
     {
         return $this->resultData['max_points'];
-    }
-
-    private function buildObligationsMsg(): string
-    {
-        if ($this->areObligationsAnswered()) {
-            return $this->lng->txt('grading_obligations_answered_msg');
-        }
-
-        return $this->lng->txt('grading_obligations_missing_msg');
     }
 
     private function areObligationsAnswered(): bool

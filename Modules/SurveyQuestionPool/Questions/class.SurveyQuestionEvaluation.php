@@ -88,11 +88,12 @@ abstract class SurveyQuestionEvaluation
         $set = $ilDB->query($sql);
         $cnt_answer_records = [];
         while ($row = $ilDB->fetchAssoc($set)) {
-            $cnt_answer_records[(int) $row["active_fi"]] += 1;
+            $key = (int) $row["active_fi"];
+            $cnt_answer_records[$key] = ($cnt_answer_records[$key] ?? 0) + 1;
             if ($this->supportsSumScore()) {
-                $res[(int) $row["active_fi"]] += $row["value"] + 1;
+                $res[$key] = ($res[$key] ?? 0) + $row["value"] + 1;
             } else {
-                $res[(int) $row["active_fi"]] = 0;
+                $res[$key] = 0;
             }
         }
 

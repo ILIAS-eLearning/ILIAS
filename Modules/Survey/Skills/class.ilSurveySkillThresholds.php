@@ -25,7 +25,7 @@ class ilSurveySkillThresholds
     protected ilObjSurvey $survey;
     protected ilDBInterface $db;
     /** @var array<int, array<int, int>>  */
-    protected array $threshold;
+    protected array $threshold = [];
 
     public function __construct(ilObjSurvey $a_survey)
     {

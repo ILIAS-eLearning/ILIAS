@@ -86,11 +86,12 @@ trait ilWebDAVAccessChildrenFunctionsTrait
                 $already_seen_titles[$child_ref] = $child->getName();
 
                 $child_nodes[$child_ref] = $child;
-            } catch (ilWebDAVNotDavableException | Forbidden $e) {
-                if (!$problem_info_file_needed) {
-                    $problem_info_file_needed == true;
+            } catch (ilWebDAVNotDavableException $e) {
+                if (!$problem_info_file_needed &&
+                    $e->getMessage() === ilWebDAVNotDavableException::OBJECT_TITLE_NOT_DAVABLE) {
+                    $problem_info_file_needed = true;
                 }
-            } catch (NotFound | RuntimeException $e) {
+            } catch (NotFound | RuntimeException | Forbidden $e) {
             }
         }
 

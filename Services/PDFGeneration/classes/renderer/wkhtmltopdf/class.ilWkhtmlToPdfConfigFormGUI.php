@@ -327,7 +327,13 @@ class ilWkhtmlToPdfConfigFormGUI
     {
         $everything_ok = true;
         $config = new ilWkhtmlToPdfConfig();
-        $config->setPath($this->request->securedString('path'));
+        $path = realpath(ilShellUtil::escapeShellCmd($this->request->securedString('path')));
+        if($path === false) {
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("file_not_found"), true);
+            $everything_ok = false;
+            $path = '';
+        }
+        $config->setPath($path);
         if (mb_stripos($config->getPath(), 'wkhtmlto') === false) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("file_not_found"), true);
             $everything_ok = false;

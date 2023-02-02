@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -132,19 +134,19 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             );
         }
     }
-    
-    public function view(StandardForm $a_form = null) : void
+
+    public function view(StandardForm $a_form = null): void
     {
         $this->tabs_gui->activateTab("settings");
 
         if (!$a_form) {
             $a_form = $this->initSettingsForm();
         }
-        
+
         $this->tpl->setContent($this->renderer->render($a_form));
     }
-    
-    protected function initSettingsForm() : StandardForm
+
+    protected function initSettingsForm(): StandardForm
     {
         $ilSetting = $this->settings;
         $ilAccess = $this->access;
@@ -202,7 +204,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
         // breadcrumbs start with courses
         $change_mode = $f->radio(
-            $this->lng->txt("rep_breadcr_crs_overwrite_settings")
+            $this->lng->txt("rep_breadcr_crs_config")
         )->withOption(
             '1',
             $this->lng->txt("rep_breadcr_crs_overwrite")
@@ -232,7 +234,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             $this->lng->txt("enable_trash"),
             $this->lng->txt("enable_trash_info")
         )->withValue((bool) $ilSetting->get("enable_trash"));
-    
+
         // change event
         $this->lng->loadLanguageModule("trac");
         $event = $f->checkbox(
@@ -353,7 +355,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             $this->lng->txt("adm_item_cmd_asynch"),
             $this->lng->txt("adm_item_cmd_asynch_info")
         )->withValue((bool) $ilSetting->get("item_cmd_asynch"));
-        
+
         // notes/comments/tagging
         $pltags = $f->checkbox(
             $this->lng->txt('adm_show_comments_tagging_in_lists_tags')
@@ -402,7 +404,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             );
             $this->ctrl->redirect($this, "view");
         }
-    
+
         $form = $this->initSettingsForm()
                      ->withRequest($this->http->request());
         if ($form->getData()) {
@@ -441,7 +443,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             if ($data["rep_export_limitation"][0] === (string) ilExportLimitation::SET_EXPORT_LIMITED) {
                 $ilSetting->set(
                     "rep_export_limit_number",
-                    (string) $data["rep_export_limitation"][1]["rep_export_limit_number"] ?? ''
+                    (string) ($data["rep_export_limitation"][1]["rep_export_limit_number"] ?? '')
                 );
             }
 
@@ -523,19 +525,19 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
         $this->view($form);
     }
-    
-    public function customIcons(StandardForm $a_form = null) : void
+
+    public function customIcons(StandardForm $a_form = null): void
     {
         $this->tabs_gui->activateTab("icons");
 
         if (!$a_form) {
             $a_form = $this->initCustomIconsForm();
         }
-        
+
         $this->tpl->setContent($this->renderer->render($a_form));
     }
-    
-    protected function initCustomIconsForm() : StandardForm
+
+    protected function initCustomIconsForm(): StandardForm
     {
         $ilSetting = $this->settings;
         $ilAccess = $this->access;
@@ -573,7 +575,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             );
             $this->ctrl->redirect($this, "customIcons");
         }
-    
+
         $form = $this->initCustomIconsForm()
                      ->withRequest($this->http->request());
         if ($form->getData()) {
@@ -700,7 +702,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->tpl->setContent($grp_table->getHTML());
     }
 
-    protected function initNewItemGroupForm(int $a_grp_id = 0) : ilPropertyFormGUI
+    protected function initNewItemGroupForm(int $a_grp_id = 0): ilPropertyFormGUI
     {
         $this->setModuleSubTabs("new_item_groups");
 
@@ -927,7 +929,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         return null;
     }
 
-    protected function getMaxLengthConstraint(int $max_length) : Constraint
+    protected function getMaxLengthConstraint(int $max_length): Constraint
     {
         //This gives max_length many 9's in a row (and 0 for non-positive max_length)
         //The int cast is necessary for negative max_length
@@ -936,12 +938,12 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         return $this->refinery->int()->isLessThanOrEqual($bound);
     }
 
-    protected function getPositiveConstraint() : Constraint
+    protected function getPositiveConstraint(): Constraint
     {
         return $this->refinery->int()->isGreaterThan(0);
     }
 
-    protected function getNonNegativeConstraint() : Constraint
+    protected function getNonNegativeConstraint(): Constraint
     {
         return $this->refinery->int()->isGreaterThanOrEqual(0);
     }

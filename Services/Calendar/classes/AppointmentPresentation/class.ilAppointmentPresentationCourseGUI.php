@@ -21,7 +21,6 @@ declare(strict_types=1);
 
 /**
  * @author            Jesús López Reyes <lopez@leifos.com>
- * @version           $Id$
  * @ilCtrl_IsCalledBy ilAppointmentPresentationCourseGUI: ilCalendarAppointmentPresentationGUI
  * @ingroup           ServicesCalendar
  */

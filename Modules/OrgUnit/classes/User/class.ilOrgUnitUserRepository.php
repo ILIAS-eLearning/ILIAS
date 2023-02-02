@@ -28,6 +28,8 @@ use ilOrgUnitUserAssignment;
 class ilOrgUnitUserRepository
 {
     protected \ILIAS\DI\Container $dic;
+    protected \ilOrgUnitPositionDBRepository $positionRepo;
+
     /**
      * @var self[]
      */
@@ -46,6 +48,16 @@ class ilOrgUnitUserRepository
     {
         global $DIC;
         $this->dic = $DIC;
+    }
+
+    private function getPositionRepo(): \ilOrgUnitPositionDBRepository
+    {
+        if (!isset($this->positionRepo)) {
+            $dic = \ilOrgUnitLocalDIC::dic();
+            $this->positionRepo = $dic["repo.Positions"];
+        }
+
+        return $this->positionRepo;
     }
 
     /**
@@ -190,7 +202,7 @@ class ilOrgUnitUserRepository
         if (count($assignments) > 0) {
             foreach ($assignments as $assignment) {
                 $org_unit_user = ilOrgUnitUser::getInstanceById($assignment->getUserId());
-                $org_unit_user->addPositions(ilOrgUnitPosition::find($assignment->getPositionId()));
+                $org_unit_user->addPositions($this->getPositionRepo()->getSingle($assignment->getPositionId(), 'id'));
             }
         }
 

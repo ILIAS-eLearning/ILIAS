@@ -214,6 +214,7 @@ export default class ParagraphUI {
     this.uiModel.config.text_formats.forEach(f =>
       wrapper.addTextFormat(f)
     );
+    wrapper.setTextBlockFormats(this.uiModel.config.text_block_formats);
 
     il.Util.addOnLoad(function () {
       $(window).resize(() => {
@@ -431,10 +432,12 @@ export default class ParagraphUI {
     this.log("setParagraphClass");
     this.log(i);
     const fc = document.querySelector(".ilTinyParagraphClassSelector .dropdown button");
+    const ddbtn = document.querySelector(
+      ".ilTinyParagraphClassSelector button[data-copg-ed-par-class='" + i + "']");
     this.log(fc);
     if (fc) {
       this.log("SETTin DROP DOWN BUTTON: " + i)
-      fc.firstChild.textContent = i + " ";
+      fc.firstChild.textContent = ddbtn.textContent + " ";
     }
     this.tinyWrapper.setParagraphClass(i);
   }
@@ -556,53 +559,6 @@ export default class ParagraphUI {
       il.AdvancedSelectionList.init['char_style_selection']();
     }
     il.copg.editor.reInitUI();
-  }
-
-  // default callback for successfull ajax request, reloads page content
-  pageReloadAjaxSuccess(o)
-  {
-    if(o.responseText !== undefined)
-    {
-      let edit_div = document.getElementById('il_EditPage');
-
-      if (typeof il == 'undefined'){
-        il = o.argument.il;
-      }
-      removeToolbar();
-      $("#ilPageEditTopActionBar").css("visibility", "");
-      $('#il_EditPage').replaceWith(o.responseText);
-      this.reInitUI();
-      il.IntLink.refresh();
-      if (o.argument.osd_text && o.argument.osd_text != "") {
-        OSDNotifier = OSDNotifications({
-          initialNotifications: [{
-            notification_osd_id: 123,
-            valid_until: 0,
-            visible_for: 3,
-            data: {
-              title: "",
-              link: false,
-              iconPath: false,
-              shortDescription: o.argument.osd_text,
-              handlerParams: {
-                osd: {
-                  closable: false
-                }
-              }
-            }
-          }]
-        });
-      }
-    }
-  }
-
-  insertJSAtPlaceholder(cmd_id)
-  {
-    /*
-    clickcmdid = cmd_id;
-    let pl = document.getElementById('CONTENT' + cmd_id);
-    pl.style.display = 'none';
-    doActionForm('cmd[exec]', 'command', 'insert_par', '', 'PageContent', '');*/
   }
 
   ////

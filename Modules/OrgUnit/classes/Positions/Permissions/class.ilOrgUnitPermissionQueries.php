@@ -48,11 +48,10 @@ class ilOrgUnitPermissionQueries
             $template_set->setPositionId($position_id);
             $template_set->setNewlyCreated(true);
             $template_set->create();
-            $template_set->afterObjectLoad();
         }
 
         $template_set->setProtected(!$editable);
-
+        $template_set->afterObjectLoad();
         return $template_set;
     }
 
@@ -94,6 +93,7 @@ class ilOrgUnitPermissionQueries
             'position_id' => $position_id,
         ])->first();
         if ($dedicated_set) {
+            $dedicated_set->afterObjectLoad();
             return $dedicated_set;
         }
 
@@ -129,6 +129,7 @@ class ilOrgUnitPermissionQueries
             'position_id' => $position_id,
         ])->first();
         if ($dedicated_set) {
+            $dedicated_set->afterObjectLoad();
             return $dedicated_set;
         }
 
@@ -142,6 +143,7 @@ class ilOrgUnitPermissionQueries
         $set->setOperations($template->getOperations());
         $set->setNewlyCreated(true);
         $set->create();
+        $set->afterObjectLoad();
 
         return $set;
     }

@@ -140,8 +140,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $new_type = $this->mep_request->getNewType();
 
 
+
         if ($new_type !== "" && ($cmd !== "confirmRemove" && $cmd !== "copyToClipboard"
-            && $cmd !== "pasteFromClipboard")) {
+                && $cmd !== "pasteFromClipboard")) {
+            $this->tpl->setPermanentLink("mep", $this->ref_id);
             $this->setCreationMode(true);
         }
 
@@ -554,6 +556,11 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
     protected function getEditFormCustomValues(array &$a_values): void
     {
+        $ot = ilObjectTranslation::getInstance($this->getMediaPool()->getId());
+        if ($ot->getContentActivated()) {
+            $a_values["title"] = $ot->getDefaultTitle();
+            $a_values["desc"] = $ot->getDefaultDescription();
+        }
         if ($this->getMediaPool()->getDefaultWidth() > 0) {
             $a_values["default_width"] = $this->object->getDefaultWidth();
         }
@@ -565,6 +572,13 @@ class ilObjMediaPoolGUI extends ilObject2GUI
     protected function updateCustom(ilPropertyFormGUI $form): void
     {
         $obj_service = $this->object_service;
+
+        $ot = ilObjectTranslation::getInstance($this->getMediaPool()->getId());
+        if ($ot->getContentActivated()) {
+            $ot->setDefaultTitle($form->getInput('title'));
+            $ot->setDefaultDescription($form->getInput('desc'));
+            $ot->save();
+        }
 
         $this->getMediaPool()->setDefaultWidth($form->getInput("default_width"));
         $this->object->setDefaultHeight($form->getInput("default_height"));
@@ -1501,6 +1515,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $this->checkPermission("write");
 
         if ($this->rbac_system->checkAccess("visible", SYSTEM_FOLDER_ID)) {
+            $tb = new ilToolbarGUI();
             // action type
             $options = array(
                 "rename" => $lng->txt("mep_up_dir_move"),
@@ -1508,10 +1523,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 );
             $si = new ilSelectInputGUI("", "action");
             $si->setOptions($options);
-            $ilToolbar->addInputItem($si);
-            $ilToolbar->setCloseFormTag(false);
-            $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-            $ilToolbar->setFormName("mep_up_form");
+            $tb->addInputItem($si);
+            $tb->setCloseFormTag(false);
+            $tb->setFormAction($ilCtrl->getFormAction($this));
+            $tb->setFormName("mep_up_form");
 
             $tab = new ilUploadDirFilesTableGUI(
                 $this,
@@ -1519,7 +1534,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $a_files
             );
             $tab->setFormName("mep_up_form");
-            $tpl->setContent($tab->getHTML());
+            $tpl->setContent($tb->getHTML() . $tab->getHTML());
         }
     }
 
@@ -1592,8 +1607,8 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                     $media_item->getLocation(),
                     true,
                     true,
-                    "",
-                    ""
+                    null,
+                    null
                 );
                 $media_item->setWidth($wh["width"]);
                 $media_item->setHeight($wh["height"]);

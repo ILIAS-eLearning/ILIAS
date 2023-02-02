@@ -22,7 +22,7 @@ use ILIAS\Repository;
 
 /**
  *
- * @deprecated 11
+ * @deprecated 10
  */
 class TableGUIRequest
 {
@@ -42,9 +42,9 @@ class TableGUIRequest
         );
     }
 
-    public function getExportMode(string $prefix): bool
+    public function getExportMode(string $prefix): int
     {
-        return (bool) $this->int($prefix . "_xpt");
+        return $this->int($prefix . "_xpt");
     }
 
     public function getTemplate(string $prefix): string

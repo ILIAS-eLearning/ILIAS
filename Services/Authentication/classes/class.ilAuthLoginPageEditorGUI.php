@@ -80,10 +80,8 @@ class ilAuthLoginPageEditorGUI
         if ($query_wrapper->has("redirectSource")) {
             $this->redirect_source = $query_wrapper->retrieve("redirectSource", $refinery->kindlyTo()->string());
         }
-        if ($is_post_request) {
-            if ($post_wrapper->has("key")) {
-                $this->key = $post_wrapper->retrieve("key", $refinery->kindlyTo()->int());
-            }
+        if ($post_wrapper->has("key")) {
+            $this->key = $post_wrapper->retrieve("key", $refinery->kindlyTo()->int());
         } elseif ($query_wrapper->has("key")) {
             $this->key = $query_wrapper->retrieve("key", $refinery->kindlyTo()->int());
         }

@@ -22,6 +22,9 @@ use ILIAS\Repository\StandardGUIRequest;
  * Repository Explorer
  *
  * @author Alexander Killing <killing@leifos.de>
+ * @deprecated
+ * only use seems to be ilPasteIntoMultipleItemsExplorer
+ * which is still used in repository and workspace.
  */
 class ilRepositoryExplorer extends ilExplorer
 {
@@ -372,7 +375,8 @@ class ilRepositoryExplorer extends ilExplorer
 
         $nodes = [];
         foreach ($this->type_grps[$parent_type] as $t => $g) {
-            if (is_array($group[$t])) {
+            if (array_key_exists($t, $group)
+                && is_array($group[$t])) {
                 // do we have to sort this group??
                 $sort = ilContainerSorting::_getInstance($a_parent_obj_id);
                 $group = $sort->sortItems($group);

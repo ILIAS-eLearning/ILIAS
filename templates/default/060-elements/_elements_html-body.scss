@@ -1,0 +1,23 @@
+@use "../010-settings/" as *;
+
+html, body {
+	height:100%;
+	overflow: hidden;
+}
+html {
+	font-size: 100%;
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+		-webkit-text-size-adjust: none;
+	}
+}
+html, body {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+		overflow: initial;
+		height: auto;
+		min-height: 100vh;
+	}
+}
+/* see bug ILIAS bug #17589 and http://stackoverflow.com/questions/17045132/scrollbar-overlay-in-ie10-how-do-you-stop-that */
+body{
+	-ms-overflow-style: scrollbar;
+}

@@ -169,7 +169,7 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
         $notification = $this->getNotificationFromRequest();
 
         $notification->resetForAllUsers();
-        $this->tpl->setOnScreenMessage('info', $this->lng->txt('msg_success_reset'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_success_reset'), true);
         $this->cancel();
     }
 
@@ -181,7 +181,7 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
         } elseif (isset($this->http->request()->getParsedBody()['interruptive_items'][0])) {
             $identifier = $this->http->request()->getParsedBody()['interruptive_items'][0];
         } else {
-            $identifier = $this->http->request()->getQueryParams()[self::IDENTIFIER];
+            $identifier = $this->http->request()->getQueryParams()[self::IDENTIFIER] ?? null;
         }
 
         return ilADNNotification::findOrFail($identifier);

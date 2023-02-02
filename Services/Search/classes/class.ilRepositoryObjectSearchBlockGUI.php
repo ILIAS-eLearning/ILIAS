@@ -108,6 +108,7 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
 
         $this->lng->loadLanguageModule('search');
         $tpl->setVariable("TXT_SEARCH_INPUT_LABEL", $this->lng->txt('search_field'));
+        $tpl->setVariable("TXT_SEARCH_INPUT_PERFORM_LABEL", $this->lng->txt('search_field_perform'));
         $tpl->setVariable("TXT_PERFORM", $this->lng->txt('btn_search'));
         $tpl->setVariable("FORMACTION", $this->ctrl->getFormActionByClass('ilrepositoryobjectsearchgui', 'performSearch'));
 

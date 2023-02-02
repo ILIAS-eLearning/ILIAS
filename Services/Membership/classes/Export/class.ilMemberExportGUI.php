@@ -334,7 +334,7 @@ class ilMemberExportGUI
                             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                         );
 
-                        // no break
+                    // no break
                     case 'xls':
                         ilUtil::deliverData(
                             $contents,
@@ -342,7 +342,7 @@ class ilMemberExportGUI
                             'application/vnd.ms-excel'
                         );
 
-                        // no break
+                    // no break
                     default:
                     case 'csv':
                         ilUtil::deliverData(
@@ -368,7 +368,9 @@ class ilMemberExportGUI
         if ($this->http->wrapper()->post()->has('id')) {
             $ids = $this->http->wrapper()->post()->retrieve(
                 'id',
-                $this->refinery->kindlyTo()->string()
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->string()
+                )
             );
         }
         return $ids;
@@ -417,13 +419,20 @@ class ilMemberExportGUI
                 continue;
             }
 
-            $ret = $this->fss_export->deleteMemberExportFile($file['timest'] . '_participant_export_' .
-                $file['type'] . '_' . $this->obj_id . '.' . $file['type']);
+            $path = $file['timest'] . '_participant_export_' .
+                $file['type'] . '_' . $this->obj_id . '.' . $file['type'];
+            if ($this->fss_export->hasMemberExportFile($path)) {
+                $this->fss_export->deleteMemberExportFile($path);
+                continue;
+            }
 
-            //try xlsx if return is false and type is xls
-            if ($file['type'] === "xls" && !$ret) {
-                $this->fss_export->deleteMemberExportFile($file['timest'] . '_participant_export_' .
-                    $file['type'] . '_' . $this->obj_id . '.' . "xlsx");
+            if ($file['type'] !== "xls") {
+                continue;
+            }
+            //try xlsx if type is xls and file can't be found
+            $path = $file['timest'] . '_participant_export_xls_' . $this->obj_id . '.xlsx';
+            if ($this->fss_export->hasMemberExportFile($path)) {
+                $this->fss_export->deleteMemberExportFile($path);
             }
         }
 

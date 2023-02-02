@@ -53,13 +53,6 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
     {
         $user_solution = array();
         if ($active_id) {
-            // hey: prevPassSolutions - obsolete due to central check
-            #$solutions = NULL;
-            #include_once "./Modules/Test/classes/class.ilObjTest.php";
-            #if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-            #{
-            #	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-            #}
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
             // hey.
             foreach ($solutions as $idx => $solution_value) {
@@ -82,10 +75,11 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
     {
         $form = $this->buildEditForm();
         $form->setValuesByPost();
+        $check = $form->checkInput();
         $this->writeQuestionGenericPostData();
         $this->writeQuestionSpecificPostData($form);
         $custom_check = $this->object->checkQuestionCustomPart($form);
-        if (!$form->checkInput() || !$custom_check) {
+        if (!$check || !$custom_check) {
             if (!$custom_check) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
             }
@@ -102,29 +96,26 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $hidden_text_files = $this->request->raw('hidden_text_files') ?? '';
         $hidden_correct_answers = $this->request->raw('hidden_correct_answers') ?? [];
         $long_menu_type = $this->request->raw('long_menu_type') ?? '';
-        $this->object->setLongMenuTextValue(ilArrayUtil::stripSlashesRecursive($longmenu_text));
-        $this->object->setAnswers($this->trimArrayRecursive(json_decode(ilArrayUtil::stripSlashesRecursive($hidden_text_files))));
-        $this->object->setCorrectAnswers($this->trimArrayRecursive(json_decode(ilArrayUtil::stripSlashesRecursive($hidden_correct_answers))));
+        $this->object->setLongMenuTextValue(ilUtil::stripSlashes($longmenu_text));
+        $this->object->setAnswers($this->trimArrayRecursive(json_decode(ilUtil::stripSlashes($hidden_text_files))));
+        $this->object->setCorrectAnswers($this->trimArrayRecursive(json_decode(ilUtil::stripSlashes($hidden_correct_answers))));
         $this->object->setAnswerType(ilArrayUtil::stripSlashesRecursive($long_menu_type));
         $this->object->setQuestion($this->request->raw('question'));
         $this->object->setLongMenuTextValue($this->request->raw('longmenu_text'));
         $this->object->setMinAutoComplete($this->request->int('min_auto_complete'));
         $this->object->setIdenticalScoring($this->request->int('identical_scoring'));
+
         $this->saveTaxonomyAssignments();
     }
 
     protected function trimArrayRecursive(array $data)
     {
-        if (is_array($data)) {
-            foreach ($data as $k => $v) {
-                if (is_array($v)) {
-                    $data[$k] = $this->trimArrayRecursive($v);
-                } else {
-                    $data[$k] = trim($v);
-                }
+        foreach ($data as $k => $v) {
+            if (is_array($v)) {
+                $data[$k] = $this->trimArrayRecursive($v);
+            } else {
+                $data[$k] = trim($v);
             }
-        } else {
-            $data = trim($data);
         }
         return $data;
     }
@@ -169,7 +160,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $long_menu_text->setRows(10);
         $long_menu_text->setCols(80);
         if (!$this->object->getSelfAssessmentEditingMode()) {
-            if ($this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT) {
+            if ($this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE) {
                 include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
                 $long_menu_text->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
                 $long_menu_text->addPlugin("latex");
@@ -184,7 +175,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             $long_menu_text->setUseTagsForRteOnly(false);
         }
 
-        $long_menu_text->setValue($this->object->prepareTextareaOutput($this->object->getLongMenuTextValue()));
+        $long_menu_text->setValue($this->object->getLongMenuTextValue());
         $form->addItem($long_menu_text);
 
         $tpl = new ilTemplate("tpl.il_as_qpl_longmenu_question_gap_button_code.html", true, true, "Modules/TestQuestionPool");
@@ -367,13 +358,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $user_solution = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : array();
         $user_solution = array_values($user_solution);
 
-        $template = new ilTemplate("tpl.il_as_qpl_longmenu_question_output.html", true, true, "Modules/TestQuestionPool");
-
-        $question_text = $this->object->getQuestion();
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($question_text, true));
-        $template->setVariable("ANSWER_OPTIONS_JSON", json_encode($this->object->getAvailableAnswerOptions()));
-        $template->setVariable('AUTOCOMPLETE_LENGTH', $this->object->getMinAutoComplete());
-        $template->setVariable('LONGMENU_TEXT', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution));
+        $template = $this->getTemplateForPreviewAndTest($user_solution);
 
         $question_output = $template->get();
         if (!$show_question_only) {
@@ -381,8 +366,6 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         }
         return $question_output;
     }
-
-
 
     public function getTestOutput(
         $active_id,
@@ -395,34 +378,37 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
     ): string {
         $user_solution = array();
         if ($active_id) {
-            $solutions = null;
-            include_once "./Modules/Test/classes/class.ilObjTest.php";
-            if (!ilObjTest::_getUsePreviousAnswers($active_id, true)) {
-                if (is_null($pass)) {
-                    $pass = ilObjTest::_getPass($active_id);
-                }
-            }
             $solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
             foreach ($solutions as $idx => $solution_value) {
                 $user_solution[$solution_value["value1"]] = $solution_value["value2"];
             }
         }
 
-        $template = new ilTemplate("tpl.il_as_qpl_longmenu_question_output.html", true, true, "Modules/TestQuestionPool");
+        $template = $this->getTemplateForPreviewAndTest($user_solution);
 
-        $question_text = $this->object->getQuestion();
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($question_text, true));
-        $template->setVariable("ANSWER_OPTIONS_JSON", json_encode($this->object->getAvailableAnswerOptions()));
-        $template->setVariable('LONGMENU_TEXT', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution));
-        $template->setVariable('AUTOCOMPLETE_LENGTH', $this->object->getMinAutoComplete());
         $question_output = $template->get();
         $page_output = $this->outQuestionPage("", $is_postponed, $active_id, $question_output);
         return $page_output;
     }
 
+    protected function getTemplateForPreviewAndTest(array $user_solution): ilTemplate
+    {
+        $template = new ilTemplate("tpl.il_as_qpl_longmenu_question_output.html", true, true, "Modules/TestQuestionPool");
+        $this->tpl->addJavaScript('./Modules/TestQuestionPool/templates/default/longMenuQuestionPlayer.js');
+        $this->tpl->addOnLoadCode('il.test.player.longmenu.init('
+            . $this->object->getMinAutoComplete() . ', '
+            . json_encode($this->object->getAvailableAnswerOptions())
+            . ')');
+
+        $question_text = $this->object->getQuestion();
+        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($question_text, true));
+        $template->setVariable('LONGMENU_TEXT', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution));
+        return $template;
+    }
+
     public function getSpecificFeedbackOutput(array $userSolution): string
     {
-        if (!$this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), 0, 0)) {
+        if (!$this->object->feedbackOBJ->specificAnswerFeedbackExists()) {
             return '';
         }
 
@@ -507,7 +493,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         foreach ($text_array as $key => $value) {
             $answer_is_correct = false;
             $user_value = '';
-            $return_value .= $value;
+            $return_value .= $this->object->prepareTextareaOutput($value, true);
             if ($key < sizeof($text_array) - 1) {
                 if ($correct_answers[$key][2] == assLongMenu::ANSWER_TYPE_TEXT_VAL) {
                     if (array_key_exists($key, $user_solution)) {
@@ -539,13 +525,11 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             $tpl->setVariable('DISABLED', 'disabled');
             $tpl->setVariable('JS_IGNORE', '_ignore');
             if ($graphical) {
+                $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK);
                 if ($ok) {
-                    $tpl->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
-                    $tpl->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
-                } else {
-                    $tpl->setVariable("ICON_OK", ilUtil::getImagePath("icon_not_ok.svg"));
-                    $tpl->setVariable("TEXT_OK", $this->lng->txt("answer_is_wrong"));
+                    $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_OK);
                 }
+                $tpl->setVariable("ICON_OK", $correctness_icon);
             }
         }
         $tpl->setVariable('VALUE', $value);
@@ -568,13 +552,11 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
                 $tpl->setVariable('SOLUTION', $user_value);
             }
             if ($graphical) {
+                $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK);
                 if ($ok) {
-                    $tpl->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
-                    $tpl->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
-                } else {
-                    $tpl->setVariable("ICON_OK", ilUtil::getImagePath("icon_not_ok.svg"));
-                    $tpl->setVariable("TEXT_OK", $this->lng->txt("answer_is_wrong"));
+                    $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_OK);
                 }
+                $tpl->setVariable("ICON_OK", $correctness_icon);
             }
             $tpl->parseCurrentBlock();
         } else {

@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\DI;
 
@@ -8,19 +22,6 @@ use ILIAS\BackgroundTasks\BackgroundTaskServices;
 use ILIAS\Repository;
 use ILIAS\Skill\Service\SkillService;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case, or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Customizing of pimple-DIC for ILIAS.
  *
@@ -29,6 +30,8 @@ use ILIAS\Skill\Service\SkillService;
  */
 class Container extends \Pimple\Container
 {
+    private ?\ilFileServicesSettings $file_service_settings = null;
+
     /**
      * Get interface to the Database.
      */
@@ -382,7 +385,14 @@ class Container extends \Pimple\Container
 
     public function fileServiceSettings(): \ilFileServicesSettings
     {
-        return new \ilFileServicesSettings($this->settings());
+        if ($this->file_service_settings === null) {
+            $this->file_service_settings = new \ilFileServicesSettings(
+                $this->settings(),
+                $this->clientIni(),
+                $this->database()
+            );
+        }
+        return $this->file_service_settings;
     }
 
     public function contentStyle(): \ILIAS\Style\Content\Service

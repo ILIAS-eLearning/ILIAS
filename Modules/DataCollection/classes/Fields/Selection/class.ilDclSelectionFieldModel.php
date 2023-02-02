@@ -31,7 +31,7 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
 
     public function getValidFieldProperties(): array
     {
-        return array(static::PROP_SELECTION_OPTIONS, static::PROP_SELECTION_TYPE);
+        return [static::PROP_SELECTION_OPTIONS, static::PROP_SELECTION_TYPE];
     }
 
     /**
@@ -67,7 +67,6 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
                     "filter_stloc_{$this->getId()}.value LIKE " . $ilDB->quote("%[$filter_value,%", 'text') . " OR " .
                     "filter_stloc_{$this->getId()}.value LIKE " . $ilDB->quote("%,$filter_value]%", 'text') .
                     ") ";
-                ;
             } else {
                 $where_str .= "filter_stloc_{$this->getId()}.value = "
                     . $ilDB->quote($filter_value, 'integer');
@@ -86,6 +85,20 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
     public function isMulti(): bool
     {
         return ($this->getProperty(static::PROP_SELECTION_TYPE) == self::SELECTION_TYPE_MULTI);
+    }
+
+    public function checkFieldCreationInput(ilPropertyFormGUI $form): bool
+    {
+        $options_post_var = "prop_".static::PROP_SELECTION_OPTIONS;
+        foreach ($form->getInput($options_post_var) as $value) {
+            if ($value["selection_value"] == "") {
+                $inputObj = $form->getItemByPostVar($options_post_var);
+                $inputObj->setAlert($this->lng->txt("msg_input_is_required"));
+                return false;
+            }
+        }
+
+        return parent::checkFieldCreationInput($form);
     }
 
     /**
@@ -123,23 +136,23 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
      */
     public function fillPropertiesForm(ilPropertyFormGUI &$form): bool
     {
-        $values = array(
+        $values = [
             'table_id' => $this->getTableId(),
             'field_id' => $this->getId(),
             'title' => $this->getTitle(),
             'datatype' => $this->getDatatypeId(),
             'description' => $this->getDescription(),
             'unique' => $this->isUnique(),
-        );
+        ];
 
         $properties = $this->getValidFieldProperties();
         foreach ($properties as $prop) {
             if ($prop == static::PROP_SELECTION_OPTIONS) {
                 $options = ilDclSelectionOption::getAllForField($this->getId());
-                $prop_values = array();
+                $prop_values = [];
                 foreach ($options as $option) {
                     // the 'selection_value' is for a correct input
-                    $prop_values[$option->getOptId()] = array('selection_value' => $option->getValue());
+                    $prop_values[$option->getOptId()] = ['selection_value' => $option->getValue()];
                 }
 
                 $values['prop_' . $prop] = $prop_values;
@@ -200,7 +213,7 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
             $record_field_value = $record_field->getValue();
 
             if (is_array($record_field_value) && count($record_field_value) > 1) {
-                $sorted_array = array();
+                $sorted_array = [];
                 // $options has the right order, so loop those
                 foreach ($options as $option) {
                     if (in_array($option->getOptId(), $record_field_value)) {
@@ -223,7 +236,7 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
             $record_field_value = $record_field->getValue();
 
             if ($record_field_value && !is_array($record_field_value) && $is_multi_now) {
-                $record_field->setValue(array($record_field_value));
+                $record_field->setValue([$record_field_value]);
                 $record_field->doUpdate();
             } else {
                 if (is_array($record_field_value) && !$is_multi_now) {
@@ -243,7 +256,6 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
         switch ($key) {
             case static::PROP_SELECTION_OPTIONS:
                 return ilDclSelectionOption::getAllForField($this->getId());
-                break;
             default:
                 return parent::getProperty($key);
         }

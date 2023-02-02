@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -21,6 +23,7 @@ namespace ILIAS\Skill\Service;
 
 use ILIAS\Skill\Tree;
 use ILIAS\Skill\Profile;
+use ILIAS\Skill\Personal;
 
 /**
  * Skill internal factory service
@@ -34,21 +37,13 @@ class SkillInternalFactoryService
         return new Tree\SkillTreeFactory();
     }
 
-    public function profile(
-        int $id,
-        string $title,
-        string $description,
-        int $skill_tree_id,
-        string $image_id = "",
-        int $ref_id = 0
-    ): Profile\SkillProfile {
-        return new Profile\SkillProfile(
-            $id,
-            $title,
-            $description,
-            $skill_tree_id,
-            $image_id,
-            $ref_id
-        );
+    public function profile(): Profile\SkillProfileFactory
+    {
+        return new Profile\SkillProfileFactory();
+    }
+
+    public function personal(): Personal\PersonalSkillFactory
+    {
+        return new Personal\PersonalSkillFactory();
     }
 }

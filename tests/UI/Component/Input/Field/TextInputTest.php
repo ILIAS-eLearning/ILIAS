@@ -97,7 +97,7 @@ class TextInputTest extends ILIAS_UI_TestBase
 <div class="form-group row">
    <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
    <div class="col-sm-8 col-md-9 col-lg-10">
-      <div class="help-block alert alert-danger" role="alert">an_error</div>
+      <div class="help-block alert alert-danger" aria-describedby="id_1" role="alert">an_error</div>
       <input id="id_1" type="text" name="name_0" class="form-control form-control-sm" />
       <div class="help-block">byline</div>
    </div>

@@ -42,6 +42,8 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI
         ilObjUser $user,
         Filesystem $web_dir
     ) {
+        parent::__construct();
+
         $this->parent_gui = $parent_gui;
         $this->type_repo = $type_repo;
         $this->ctrl = $ctrl;

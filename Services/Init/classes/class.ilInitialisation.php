@@ -27,19 +27,9 @@ use ILIAS\FileUpload\Processor\BlacklistExtensionPreProcessor;
 use ILIAS\FileUpload\Processor\FilenameSanitizerPreProcessor;
 use ILIAS\FileUpload\Processor\PreProcessorManagerImpl;
 use ILIAS\GlobalScreen\Services;
-use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
 use ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement;
-use ILIAS\ResourceStorage\Policy\WhiteAndBlacklistedFileNamePolicy;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
-use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\MaxNestingFileSystemStorageHandler;
-use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\FileSystemStorageHandler;
-use ILIAS\ResourceStorage\Resource\Repository\ResourceDBRepository;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
-use ILIAS\ResourceStorage\Information\Repository\InformationDBRepository;
-use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository;
-use ILIAS\ResourceStorage\Preloader\DBRepositoryPreloader;
 use ILIAS\Filesystem\Definitions\SuffixDefinitions;
-use ILIAS\ResourceStorage\Resource\Repository\CollectionDBRepository;
+use ILIAS\FileUpload\Processor\InsecureFilenameSanitizerPreProcessor;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -54,24 +44,6 @@ if (null === $DIC) {
     $DIC = new Container();
 }
 
-/**
- * This file is part of ILIAS, a powerful learning management system
- * published by ILIAS open source e-Learning e.V.
- *
- * ILIAS is licensed with the GPL-3.0,
- * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with the
- * source code, too.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
-
-/** @defgroup ServicesInit Services/Init
- */
 /**
  * ILIAS Initialisation Utility Class
  * perform basic setup: init database handler, load configuration file,
@@ -156,8 +128,12 @@ class ilInitialisation
         self::initGlobal('ilIliasIniFile', $ilIliasIniFile);
 
         // initialize constants
-        define("ILIAS_DATA_DIR", $ilIliasIniFile->readVariable("clients", "datadir"));
-        define("ILIAS_WEB_DIR", $ilIliasIniFile->readVariable("clients", "path"));
+        if (!defined('ILIAS_DATA_DIR')) {
+            define("ILIAS_DATA_DIR", $ilIliasIniFile->readVariable("clients", "datadir"));
+        }
+        if (!defined('ILIAS_WEB_DIR')) {
+            define("ILIAS_WEB_DIR", $ilIliasIniFile->readVariable("clients", "path"));
+        }
         if (!defined("ILIAS_ABSOLUTE_PATH")) {
             define("ILIAS_ABSOLUTE_PATH", $ilIliasIniFile->readVariable('server', 'absolute_path'));
         }
@@ -237,34 +213,7 @@ class ilInitialisation
     protected static function initResourceStorage(): void
     {
         global $DIC;
-
-        $DIC['resource_storage'] = static function (Container $c): \ILIAS\ResourceStorage\Services {
-            $revision_repository = new RevisionDBRepository($c->database());
-            $resource_repository = new ResourceDBRepository($c->database());
-            $collection_repository = new CollectionDBRepository($c->database());
-            $information_repository = new InformationDBRepository($c->database());
-            $stakeholder_repository = new StakeholderDBRepository($c->database());
-            return new \ILIAS\ResourceStorage\Services(
-                new StorageHandlerFactory([
-                    new MaxNestingFileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE),
-                    new FileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE)
-                ]),
-                $revision_repository,
-                $resource_repository,
-                $collection_repository,
-                $information_repository,
-                $stakeholder_repository,
-                new LockHandlerilDB($c->database()),
-                new ilFileServicesPolicy($c->fileServiceSettings()),
-                new DBRepositoryPreloader(
-                    $c->database(),
-                    $resource_repository,
-                    $revision_repository,
-                    $information_repository,
-                    $stakeholder_repository
-                )
-            );
-        };
+        (new InitResourceStorage())->init($DIC);
     }
 
     /**
@@ -394,11 +343,11 @@ class ilInitialisation
             $fileUploadImpl->register(new FilenameSanitizerPreProcessor());
             $fileUploadImpl->register(
                 new ilFileServicesPreProcessor(
-                    $c->rbac()->system(),
                     $c->fileServiceSettings(),
                     $c->language()->txt("msg_info_blacklisted")
                 )
             );
+            $fileUploadImpl->register(new InsecureFilenameSanitizerPreProcessor());
 
             return $fileUploadImpl;
         };
@@ -461,6 +410,9 @@ class ilInitialisation
      */
     protected static function determineClient(): void
     {
+        if (defined('CLIENT_ID')) {
+            return;
+        }
         global $DIC;
         $df = new \ILIAS\Data\Factory();
 
@@ -522,7 +474,12 @@ class ilInitialisation
             self::abortAndDie("Fatal Error: ilInitialisation::initClientIniFile called without CLIENT_ID.");
         }
 
-        $ini_file = "./" . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/client.ini.php";
+        $ini_file = "/client.ini.php";
+        if (defined('CLIENT_WEB_DIR')) {
+            $ini_file = CLIENT_WEB_DIR . $ini_file;
+        } else {
+            $ini_file = "./" . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/client.ini.php";
+        }
 
         // get settings from ini file
         $ilClientIniFile = new ilIniFile($ini_file);
@@ -599,8 +556,8 @@ class ilInitialisation
             $mess = array(
                 "en" => "The server is not available due to maintenance." .
                     " We apologise for any inconvenience.",
-                "de" => "Der Server ist aufgrund von Wartungsarbeiten nicht verfügbar." .
-                    " Wir bitten um Verständnis."
+                "de" => "Der Server ist aufgrund von Wartungsarbeiten aktuell nicht verf&uuml;gbar.".
+                    " Wir bitten um Verst&auml;ndnis. Versuchen Sie es sp&auml;ter noch einmal."
             );
             $mess_id = "init_error_maintenance";
 
@@ -1128,9 +1085,7 @@ class ilInitialisation
      */
     protected static function handleDevMode(): void
     {
-        if ((defined(SHOWNOTICES) && SHOWNOTICES) || version_compare(PHP_VERSION, '8.0', '>=')) {
-            error_reporting(-1);
-        }
+        error_reporting(-1);
     }
 
     protected static bool $already_initialized = false;
@@ -1371,7 +1326,7 @@ class ilInitialisation
         // $ilUser
         self::initGlobal(
             "ilUser",
-            "ilObjUser",
+            new ilObjUser(ANONYMOUS_USER_ID),
             "./Services/User/classes/class.ilObjUser.php"
         );
         $ilias->account = $ilUser;
@@ -1736,6 +1691,24 @@ class ilInitialisation
             ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for goto target: ' . $target);
             return true;
         }
+
+
+        $current_ref_id = $DIC->http()->wrapper()->query()->has('ref_id')
+            ? $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int())
+            : null;
+
+        if (null !== $current_ref_id
+            && $DIC->user()->getId() === 0
+            && $DIC->access()->checkAccessOfUser(
+                ANONYMOUS_USER_ID,
+                'visible',
+                '',
+                $current_ref_id
+            )) {
+            return true;
+        }
+
+
         ilLoggerFactory::getLogger('auth')->debug('Authentication required');
         return false;
     }

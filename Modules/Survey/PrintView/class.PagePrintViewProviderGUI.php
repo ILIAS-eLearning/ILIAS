@@ -77,6 +77,12 @@ class PagePrintViewProviderGUI extends Export\AbstractPrintViewProvider
 
         $form->addItem($radg);
 
+        // include labels in print view
+        if ($this->survey->getShowQuestionTitles()) {
+            $cb = new \ilCheckboxInputGUI($lng->txt("svy_print_show_labels"), "include_labels");
+            $form->addItem($cb);
+        }
+
         $form->addCommandButton("printView", $lng->txt("print_view"));
 
         $form->setTitle($lng->txt("svy_print_selection"));
@@ -105,10 +111,17 @@ class PagePrintViewProviderGUI extends Export\AbstractPrintViewProvider
             $pages = [$pages[$pg - 1]];
         }
 
+        $question_title_mode = $this->request->getIncludeLables()
+            ? 3
+            : 1;
+
         foreach ($pages as $page) {
             $page_renderer = new PageRenderer(
                 $this->survey,
-                $page
+                $page,
+                [],
+                [],
+                $question_title_mode
             );
             $print_pages[] = $page_renderer->render();
         }

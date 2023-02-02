@@ -44,7 +44,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         bool $a_print_mode = false
     ) {
         global $DIC;
-
         $this->objDefinition = $DIC['objDefinition'];
         $this->rbacsystem = $DIC->rbac()->system();
         $this->access = $DIC->access();
@@ -80,7 +79,12 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
         $labels = $this->getSelectableColumns();
         foreach ($this->getSelectedColumns() as $c) {
-            $this->addColumn($labels[$c]["txt"], $c);
+            // see bug #35119; these column list percentage lists and are not sortable
+            if (in_array($c, ["status", "mark", "language", "country", "gender", "city", "sel_country"])) {
+                $this->addColumn($labels[$c]["txt"]);
+            } else {
+                $this->addColumn($labels[$c]["txt"], $c);
+            }
         }
 
         if ($this->rbacsystem->checkAccess('write', $this->ref_id)) {
@@ -247,7 +251,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             ilObjUserTracking::EXTENDED_DATA_READ_COUNT
         )) {
             $item = $this->addFilterItemByMetaType(
-                "read_count",
+                "read_count_sum",
                 ilTable2GUI::FILTER_NUMBER_RANGE,
                 true,
                 "&#8721; " . $this->lng->txt("trac_read_count")
@@ -320,9 +324,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             }
 
             $item = $this->addFilterItemByMetaType(
-                "trac_status_changed",
+                "status_changed_max",
                 ilTable2GUI::FILTER_DATE_RANGE,
-                true
+                true,
+                $this->lng->txt("trac_status_changed")
             );
             $this->filter["status_changed"] = $item->getDate();
         }
@@ -400,16 +405,18 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS
         )) {
             $item = $this->addFilterItemByMetaType(
-                "trac_first_access",
+                "first_access_min",
                 ilTable2GUI::FILTER_DATETIME_RANGE,
-                true
+                true,
+                $this->lng->txt("trac_first_access")
             );
             $this->filter["first_access"] = $item->getDate();
 
             $item = $this->addFilterItemByMetaType(
-                "trac_last_access",
+                "last_access_max",
                 ilTable2GUI::FILTER_DATETIME_RANGE,
-                true
+                true,
+                $this->lng->txt("trac_last_access")
             );
             $this->filter["last_access"] = $item->getDate();
         }
@@ -825,7 +832,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                         break;
                     }
 
-                    // no break
+                // no break
                 default:
                     $value = $this->parseValue($c, $a_set[$c], $a_set["type"]);
                     $this->tpl->setVariable(strtoupper($c), $value);

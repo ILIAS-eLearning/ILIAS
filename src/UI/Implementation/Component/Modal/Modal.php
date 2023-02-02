@@ -129,6 +129,16 @@ abstract class Modal implements M\Modal
         return $this->appendTriggeredSignal($signal, 'ready');
     }
 
+    public function withOnClose(Signal $signal): self
+    {
+        return $this->withTriggeredSignal($signal, 'hidden.bs.modal');
+    }
+
+    public function appendOnClose(Signal $signal): self
+    {
+        return $this->withTriggeredSignal($signal, 'hidden.bs.modal');
+    }
+
     /**
      * Set the show and close signals for this modal
      */

@@ -70,10 +70,9 @@ class ilRepositoryObjectPluginSlot
         if (!$component_repository->hasPluginId($a_type)) {
             return false;
         }
-
         $slot = $component_repository->getPluginSlotById("robj");
-        if ($slot->hasPluginName($a_type)) {
-            $plugin = $slot->getPluginByName($a_type);
+        if ($slot->hasPluginId($a_type)) {
+            $plugin = $slot->getPluginById($a_type);
             if (!$a_active_status || $plugin->isActive()) {
                 if ($plugin->supportsLearningProgress()) {
                     return true;

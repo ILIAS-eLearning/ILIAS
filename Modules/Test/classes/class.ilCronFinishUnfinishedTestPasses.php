@@ -1,12 +1,20 @@
 <?php
 
-require_once 'Services/Cron/classes/class.ilCronJob.php';
-require_once 'Services/Cron/classes/class.ilCronJobResult.php';
-require_once 'Modules/Test/classes/class.ilObjTest.php';
-require_once 'Modules/Test/classes/class.ilTestPassFinishTasks.php';
-require_once 'Services/Logging/classes/public/class.ilLoggerFactory.php';
-
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilCronFinishUnfinishedTestPasses
@@ -134,7 +142,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
 				FROM tst_active
 				LEFT JOIN usr_data
 				ON tst_active.user_fi = usr_data.usr_id
-				WHERE IFNULL(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass 
+				WHERE IFNULL(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass
 			";
         $result = $this->db->query($query);
         while ($row = $this->db->fetchAssoc($result)) {
@@ -177,7 +185,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
                     $this->log->info('Test (' . $test_id . ') has processing time (' . $this->test_ending_times[$test_id]['processing_time'] . ')');
                     $obj_id = $this->test_ending_times[$test_id]['obj_fi'];
                     $test_obj = new ilObjTest($obj_id, false);
-                    $startingTime = $test_obj->getStartingTimeOfUser($data['active_id'], $data['last_started_pass']);
+                    $startingTime = $test_obj->getStartingTimeOfUser($data['active_id']);
                     $max_processing_time = $test_obj->isMaxProcessingTimeReached($startingTime, $data['active_id']);
                     if ($max_processing_time) {
                         $this->log->info('Max Processing time reached for user id (' . $data['usr_id'] . ') so test with active id (' . $data['active_id'] . ') will be finished.');

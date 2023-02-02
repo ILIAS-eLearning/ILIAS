@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 26.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- Generator: Adobe Illustrator 26.4.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 320 320" style="enable-background:new 0 0 320 320;" xml:space="preserve">
 <style type="text/css">
-	.st0{clip-path:url(#SVGID_00000183933246280108724530000013334965793154330556_);fill:#52658B;}
+	.st0{clip-path:url(#SVGID_00000075122491593332644510000014574227245275879810_);fill:#4C6586;}
 </style>
 <g>
-	<defs>
-		<rect id="SVGID_1_" width="320" height="320"/>
-	</defs>
-	<clipPath id="SVGID_00000124134075820779117980000016619203476383230595_">
-		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
-	</clipPath>
-	<path style="clip-path:url(#SVGID_00000124134075820779117980000016619203476383230595_);fill:#52658B;" d="M142.4,206.7l-12.2-2.6
-		l3.2,16.1l4.7,23.9c1.1,5.4,4.5,6.2,7.7,1.6l17.7-25.1c0,0,0,0,0,0l5.8-8.2l-9.8-2.1h0L142.4,206.7z M198.4,75.5l-39.1-8.3
-		l-27,127.2l39.1,8.3L198.4,75.5z"/>
+	<g>
+		<defs>
+			<rect id="SVGID_1_" width="320" height="320"/>
+		</defs>
+		<clipPath id="SVGID_00000010293120344611478740000010171371134618315455_">
+			<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+		</clipPath>
+		<path style="clip-path:url(#SVGID_00000010293120344611478740000010171371134618315455_);fill:#4C6586;" d="M280,122.7h-35v139.8
+			h35V122.7z M119.8,150h-40v15h40V150z M149.8,120h-70v15h70V120z M169.8,90h-90v15h90V90z M204.8,255h-150V65h150V255z M220,265
+			V55c0-2.8-2.2-5-5-5H45c-2.8,0-5,2.2-5,5v210c0,2.8,2.2,5,5,5h170C217.8,270,220,267.8,220,265 M280,111.9l-5.7-16.2l-8.4-24.1
+			c-1.9-5.5-5-5.5-6.9,0L248.4,102l0,0l-3.4,9.9h8.7l0,0H269H280z"/>
+	</g>
 </g>
 </svg>

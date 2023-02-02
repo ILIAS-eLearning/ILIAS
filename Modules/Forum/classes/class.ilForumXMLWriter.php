@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * XML writer class
@@ -183,9 +183,8 @@ class ilForumXMLWriter extends ilXmlWriter
 
                 foreach ($tmp_file_obj->getFilesOfPost() as $file) {
                     $this->xmlStartTag("Attachment");
-
-                    copy($file['path'], $this->target_dir_absolute . "/" . basename($file['path']));
-                    $content = $this->target_dir_relative . "/" . basename($file['path']);
+                    copy($file['path'], $this->target_dir_absolute . "/" . basename($file['name']));
+                    $content = $this->target_dir_relative . "/" . basename($file['name']);
                     $this->xmlElement("Content", null, $content);
 
                     $this->xmlEndTag("Attachment");

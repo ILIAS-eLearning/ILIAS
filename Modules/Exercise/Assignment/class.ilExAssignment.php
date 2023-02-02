@@ -176,7 +176,7 @@ class ilExAssignment
 				SELECT id, order_nr
 				FROM exc_ass_file_order
 				WHERE assignment_id = {$db->quote($a_ass_id, 'integer')}
-				AND filename = {$db->quote($a_file_data['entry'], 'string')}
+				AND filename = {$db->quote($a_file_data['entry'], 'text')}
 			");
 
         $order_val = 0;
@@ -1213,7 +1213,7 @@ class ilExAssignment
     public function getExerciseMemberAssignmentData(
         int $a_user_id,
         string $a_grade = ""
-    ): array {
+    ): ?array {
         global $DIC;
         $ilDB = $DIC->database();
 
@@ -1229,7 +1229,7 @@ class ilExAssignment
 
         $set = $ilDB->query($q);
 
-        $data = [];
+        $data = null;
         while ($rec = $ilDB->fetchAssoc($set)) {
             $sub = new ilExSubmission($this, $a_user_id);
 
@@ -1461,6 +1461,9 @@ class ilExAssignment
         ilFileUtils::delDir($mfu);
     }
 
+    /**
+     * @param array<int, list<string>> $a_files
+     */
     public function saveMultiFeedbackFiles(
         array $a_files,
         ilObjExercise $a_exc
@@ -1491,7 +1494,7 @@ class ilExAssignment
                         unlink($target);
                     }
                     // rename file
-                    rename($file_path, $target);
+                    ilFileUtils::rename($file_path, $target);
 
                     if ($noti_rec_ids) {
                         foreach ($noti_rec_ids as $user_id) {
@@ -1598,7 +1601,7 @@ class ilExAssignment
                     $res[] = $row["id"];
                 }
             } elseif ($row['fb_date'] == self::FEEDBACK_DATE_CUSTOM) {
-                if (trim($row["fb_file"]) && $row['fb_date_custom'] <= time()) {
+                if (trim($row["fb_file"] ?? "") && ($row['fb_date_custom'] ?? 0) <= time()) {
                     $res[] = $row["id"];
                 }
             }
@@ -1825,7 +1828,7 @@ class ilExAssignment
     //
 
     public function setIndividualDeadline(
-        int $id,
+        string $id,
         ilDateTime $date
     ): void {
         $is_team = false;
@@ -1834,7 +1837,7 @@ class ilExAssignment
             $is_team = true;
         }
 
-        $idl = ilExcIndividualDeadline::getInstance($this->getId(), $id, $is_team);
+        $idl = ilExcIndividualDeadline::getInstance($this->getId(), (int) $id, $is_team);
         $idl->setIndividualDeadline($date->get(IL_CAL_UNIX));
         $idl->save();
     }
@@ -1953,6 +1956,9 @@ class ilExAssignment
         }
     }
 
+    /**
+     * @param list<string> $a_file
+     */
     public static function instructionFileDeleteOrder(
         int $a_ass_id,
         array $a_file
@@ -1965,8 +1971,7 @@ class ilExAssignment
         foreach ($a_file as $v) {
             $db->manipulate(
                 "DELETE FROM exc_ass_file_order " .
-                //"WHERE id = " . $ilDB->quote((int)$k, "integer") .
-                "WHERE filename = " . $db->quote($v, "string") .
+                "WHERE filename = " . $db->quote($v, 'text') .
                 " AND assignment_id = " . $db->quote($a_ass_id, 'integer')
             );
         }
@@ -1985,14 +1990,14 @@ class ilExAssignment
             $db->manipulate(
                 "DELETE FROM exc_ass_file_order" .
                 " WHERE assignment_id = " . $db->quote($a_ass_id, 'integer') .
-                " AND filename = " . $db->quote($a_new_name, 'string')
+                " AND filename = " . $db->quote($a_new_name, 'text')
             );
 
             $db->manipulate(
                 "UPDATE exc_ass_file_order SET" .
-                " filename = " . $db->quote($a_new_name, 'string') .
+                " filename = " . $db->quote($a_new_name, 'text') .
                 " WHERE assignment_id = " . $db->quote($a_ass_id, 'integer') .
-                " AND filename = " . $db->quote($a_old_name, 'string')
+                " AND filename = " . $db->quote($a_old_name, 'text')
             );
         }
     }
@@ -2009,7 +2014,7 @@ class ilExAssignment
             $result = $db->query(
                 "SELECT id FROM exc_ass_file_order" .
                 " WHERE assignment_id = " . $db->quote($a_ass_id, 'integer') .
-                " AND filename = " . $db->quote($a_filename, 'string')
+                " AND filename = " . $db->quote($a_filename, 'text')
             );
 
             return $db->numRows($result);
@@ -2141,5 +2146,16 @@ class ilExAssignment
             }
         }
         return $calculated_deadlines;
+    }
+
+    // see bug #36253
+    public function canParticipantReceiveFeedback(int $part_id): bool
+    {
+        if ($this->hasTeam()) {
+            if (!ilExAssignmentTeam::getTeamId($this->getId(), $part_id)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

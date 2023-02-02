@@ -412,7 +412,6 @@ class ilLearningProgressBaseGUI
         int $user_id
     ): void {
         $type = $this->ilObjectDataCache->lookupType($item_id);
-
         // Section learning_progress
         // $info->addSection($this->lng->txt('trac_learning_progress'));
         // see ilLPTableBaseGUI::parseTitle();
@@ -440,34 +439,36 @@ class ilLearningProgressBaseGUI
                     $status_text
             );
 
-            // status
-            $i_tpl = new ilTemplate(
-                "tpl.lp_edit_manual_info_page.html",
-                true,
-                true,
-                "Services/Tracking"
-            );
-            $i_tpl->setVariable(
-                "INFO_EDITED",
-                $this->lng->txt("trac_info_edited")
-            );
-            $i_tpl->setVariable(
-                "SELECT_STATUS",
-                ilLegacyFormElementsUtil::formSelect(
-                    (int) ilLPMarks::_hasCompleted(
-                        $user_id,
-                        $item_id
-                    ),
-                    'lp_edit',
-                    [0 => $this->lng->txt('trac_not_completed'),
-                     1 => $this->lng->txt('trac_completed')
-                    ],
-                    false,
-                    true
-                )
-            );
-            $i_tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-            $info->addProperty($this->lng->txt('trac_status'), $i_tpl->get());
+            if ($olp->getCurrentMode() === ilLPObjSettings::LP_MODE_MANUAL) {
+                // status
+                $i_tpl = new ilTemplate(
+                    "tpl.lp_edit_manual_info_page.html",
+                    true,
+                    true,
+                    "Services/Tracking"
+                );
+                $i_tpl->setVariable(
+                    "INFO_EDITED",
+                    $this->lng->txt("trac_info_edited")
+                );
+                $i_tpl->setVariable(
+                    "SELECT_STATUS",
+                    ilLegacyFormElementsUtil::formSelect(
+                        (int) ilLPMarks::_hasCompleted(
+                            $user_id,
+                            $item_id
+                        ),
+                        'lp_edit',
+                        [0 => $this->lng->txt('trac_not_completed'),
+                         1 => $this->lng->txt('trac_completed')
+                        ],
+                        false,
+                        true
+                    )
+                );
+                $i_tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+                $info->addProperty($this->lng->txt('trac_status'), $i_tpl->get());
+            }
 
             // #15334 - see ilLPTableBaseGUI::isPercentageAvailable()
             $mode = $olp->getCurrentMode();
@@ -508,7 +509,7 @@ class ilLearningProgressBaseGUI
         // More infos for lm's
         if (in_array($type, ["lm", "htlm"])) {
             $progress = ilLearningProgress::_getProgress($user_id, $item_id);
-            if ($progress['access_time']) {
+            if ($progress['access_time'] ?? false) {
                 $info->addProperty(
                     $this->lng->txt('trac_last_access'),
                     ilDatePresentation::formatDate(
@@ -524,7 +525,7 @@ class ilLearningProgressBaseGUI
 
             $info->addProperty(
                 $this->lng->txt('trac_visits'),
-                (string) $progress['visits']
+                (string) ($progress['visits'] ?? "")
             );
 
             if ($type == 'lm') {

@@ -130,8 +130,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
         $this->cs = $DIC->contentStyle();
 
-        // note: using $DIC->http()->request()->getQueryParams() here will
-        // fail, since the goto magic currently relies on setting $_GET
         $this->initByRequest($query_params, $embed_mode);
 
         // check, if learning module is online
@@ -340,11 +338,12 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             case "illearningprogressgui":
                 $this->initScreenHead("learning_progress");
                 $new_gui = new ilLearningProgressGUI(
-                    ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+                    ilLearningProgressBaseGUI::LP_CONTEXT_REPOSITORY,
                     $this->requested_ref_id,
                     $ilUser->getId()
                 );
                 $this->ctrl->forwardCommand($new_gui);
+                $this->tpl->printToStdout();
                 break;
 
             case "ilratinggui":
@@ -1048,7 +1047,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         } else {        // lonely page
             $ilLocator->addItem(
                 $this->getLMPresentationTitle(),
-                $this->linker->getLink("layout", "", $this->requested_frame)
+                $this->linker->getLink("layout", 0, $this->requested_frame)
             );
 
             $lm_obj = ilLMObjectFactory::getInstance($this->lm, $a_id);
@@ -1146,11 +1145,11 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             $rating_gui->setObject($this->lm->getId(), "lm", $this->getCurrentPageId(), "lm");
             $rating_gui->setYourRatingText($this->lng->txt("lm_rate_page"));
 
-            $this->ctrl->setParameter($this, "pgid", $this->getCurrentPageId());
+            $this->ctrl->setParameter($this, "pg_id", $this->getCurrentPageId());
             $this->tpl->addOnLoadCode("il.LearningModule.setRatingUrl('" .
                 $this->ctrl->getLinkTarget($this, "updatePageRating", "", true, false) .
                 "')");
-            $this->ctrl->setParameter($this, "pgid", "");
+            $this->ctrl->setParameter($this, "pg_id", "");
 
             $rating = '<div id="ilrtrpg" style="text-align:right">' .
                 $rating_gui->getHTML(true, true, "il.LearningModule.saveRating(%rating%);") .
@@ -1162,7 +1161,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     public function updatePageRating(): void
     {
         $ilUser = $this->user;
-        $pg_id = $this->getCurrentPageId();
+        $pg_id = $this->service->getRequest()->getPgId();
         if (!$this->ctrl->isAsynch() || !$pg_id) {
             exit();
         }
@@ -1585,7 +1584,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             );
         }
 
-        $f = $this->form->getHTML();
+        $f = $this->form->getHTMLAsync();
 
         $tpl->setVariable("ITEM_SELECTION", $f);
 

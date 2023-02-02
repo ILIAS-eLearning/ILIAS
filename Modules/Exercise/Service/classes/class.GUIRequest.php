@@ -157,6 +157,11 @@ class GUIRequest
         return $this->int("member_id");
     }
 
+    public function getMemberIds(): array
+    {
+        return $this->intArray("member_ids");
+    }
+
     // can me merged with member id?
     public function getParticipantId(): int
     {
@@ -194,7 +199,7 @@ class GUIRequest
      */
     public function getGroupMembers(): array
     {
-        return $this->intArray("grpt");
+        return $this->arrayArray("grpt");
     }
 
     //
@@ -212,9 +217,17 @@ class GUIRequest
     }
 
     /**
-     * @return string[]
+     * @return array<int, list<string>>
      */
     public function getFiles(): array
+    {
+        return $this->arrayArray("file");
+    }
+
+    /**
+     * @return list<string>
+     */
+    public function getInstructionFilesToDelete(): array
     {
         return $this->strArray("file");
     }
@@ -268,12 +281,12 @@ class GUIRequest
 
     public function getFilterStatus(): string
     {
-        return trim($this->str("requested_filter_status"));
+        return trim($this->str("filter_status"));
     }
 
     public function getFilterFeedback(): string
     {
-        return trim($this->str("requested_filter_feedback"));
+        return trim($this->str("filter_feedback"));
     }
 
     //

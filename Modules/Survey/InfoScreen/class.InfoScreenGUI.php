@@ -33,6 +33,7 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class InfoScreenGUI
 {
+    protected \ILIAS\DI\UIServices $ui;
     protected \ilObjSurvey $survey;
     protected \ilObjUser $user;
     protected \ilToolbarGUI $toolbar;
@@ -61,6 +62,7 @@ class InfoScreenGUI
         $this->user = $user;
         $this->toolbar = $toolbar;
         $this->survey_gui = $survey_gui;
+        $this->ui = $DIC->ui();
         /** @var \ilObjSurvey $survey */
         $survey = $survey_gui->getObject();
         $this->survey = $survey;
@@ -95,7 +97,12 @@ class InfoScreenGUI
 
         // handle (anonymous) code
 
-        $this->run_manager->initSession($this->requested_code);
+        try {
+            $this->run_manager->initSession($this->requested_code);
+        } catch (\ilWrongSurveyCodeException $e) {
+            $this->main_tpl->setOnScreenMessage("failure", $e->getMessage(), true);
+            $this->ctrl->redirect($this->survey_gui, "infoScreen");
+        }
         $anonymous_code = $this->run_manager->getCode();
 
         // completed message
@@ -135,7 +142,7 @@ class InfoScreenGUI
             $toolbar->addButtonInstance($button);
         }
 
-        $this->displayNotStartableReasons();
+        $this->displayNotStartableReasons($info);
 
         if ($status_manager->mustEnterCode($anonymous_code)) {
             $info->setFormAction($this->ctrl->getFormAction($this->survey_gui, "infoScreen"));
@@ -284,6 +291,10 @@ class InfoScreenGUI
 
                     $info->addSection($this->lng->txt("survey_360_rate_other_appraisees"));
 
+                    if (!$this->status_manager->isAppraisee()) {
+                        $this->addPrivacyInfo($info);
+                    }
+
                     foreach ($list as $appr_id => $item) {
                         $appr_name = \ilUserUtil::getNamePresentation($appr_id, false, false, "", true);
 
@@ -309,6 +320,17 @@ class InfoScreenGUI
         }
     }
 
+    protected function addPrivacyInfo(
+        \ilInfoScreenGUI $info
+    ): void {
+        $survey = $this->survey;
+        $privacy_info = $this->lng->txt("svy_rater_see_app_info");
+        if (in_array($survey->get360Results(), [\ilObjSurvey::RESULTS_360_OWN, \ilObjSurvey::RESULTS_360_ALL], true)) {
+            $privacy_info .= " " . $this->lng->txt("svy_app_see_rater_info");
+        }
+        $info->addProperty($this->lng->txt("svy_privacy_info"), $privacy_info);
+    }
+
     protected function addAppraiseeInfo(
         \ilInfoScreenGUI $info
     ): void {
@@ -316,11 +338,7 @@ class InfoScreenGUI
         if ($this->status_manager->isAppraisee()) {
             $info->addSection($this->lng->txt("survey_360_appraisee_info"));
 
-            $privacy_info = $this->lng->txt("svy_rater_see_app_info");
-            if (in_array($survey->get360Results(), [\ilObjSurvey::RESULTS_360_OWN, \ilObjSurvey::RESULTS_360_ALL], true)) {
-                $privacy_info .= " " . $this->lng->txt("svy_app_see_rater_info");
-            }
-            $info->addProperty($this->lng->txt("svy_privacy_info"), $privacy_info);
+            $this->addPrivacyInfo($info);
 
             $appr_data = $survey->getAppraiseesData();
             $appr_data = $appr_data[$this->user->getId()];
@@ -360,9 +378,11 @@ class InfoScreenGUI
         }
     }
 
-    protected function displayNotStartableReasons(): void
+    protected function displayNotStartableReasons(\ilInfoScreenGUI $info): void
     {
         $survey = $this->survey;
+
+        $links = [];
 
         if (!$this->access_manager->canStartSurvey() &&
             $this->access_manager->canEditSettings()) {
@@ -386,9 +406,15 @@ class InfoScreenGUI
             }
 
             if (count($messages) > 0) {
-                $messages[] = "<a href=\"" . $this->ctrl->getLinkTarget($this->survey_gui, "properties") . "\">&raquo; " .
-                    $this->lng->txt("survey_edit_settings") . "</a>";
-                $this->main_tpl->setOnScreenMessage('info', implode("<br />", $messages));
+                $links[] = $this->ui->factory()->link()->standard(
+                    $this->lng->txt("survey_edit_settings"),
+                    $this->ctrl->getLinkTarget($this->survey_gui, "properties")
+                );
+                $mbox = $this->ui->factory()->messageBox()->info(implode("<br />", $messages));
+                if (count($links) > 0) {
+                    $mbox = $mbox->withLinks($links);
+                }
+                $info->setMessageBox($mbox);
             }
         }
     }

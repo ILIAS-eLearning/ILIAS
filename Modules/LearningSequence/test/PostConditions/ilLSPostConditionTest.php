@@ -24,39 +24,39 @@ class ilLSPostConditionTest extends TestCase
 {
     public function testObjectCreation(): void
     {
-        $obj = new ilLSPostCondition(33, 'operator1');
+        $obj = new ilLSPostCondition(33, 'always');
 
         $this->assertInstanceOf(ilLSPostCondition::class, $obj);
         $this->assertEquals(33, $obj->getRefId());
-        $this->assertEquals('operator1', $obj->getConditionOperator());
+        $this->assertEquals('always', $obj->getConditionOperator());
         $this->assertNull($obj->getValue());
     }
 
     public function testWithConditionOperator(): void
     {
-        $obj = new ilLSPostCondition(23, 'operator2', 15);
-        $new_obj = $obj->withConditionOperator('operator3');
+        $obj = new ilLSPostCondition(23, 'always', '15');
+        $new_obj = $obj->withConditionOperator('failed');
 
         $this->assertEquals(23, $obj->getRefId());
-        $this->assertEquals('operator2', $obj->getConditionOperator());
-        $this->assertEquals(15, $obj->getValue());
+        $this->assertEquals('always', $obj->getConditionOperator());
+        $this->assertEquals('15', $obj->getValue());
 
         $this->assertEquals(23, $new_obj->getRefId());
-        $this->assertEquals('operator3', $new_obj->getConditionOperator());
-        $this->assertEquals(15, $new_obj->getValue());
+        $this->assertEquals('failed', $new_obj->getConditionOperator());
+        $this->assertEquals('15', $new_obj->getValue());
     }
 
     public function testWithValue(): void
     {
-        $obj = new ilLSPostCondition(45, 'operator5', 15);
-        $new_obj = $obj->withValue(22);
+        $obj = new ilLSPostCondition(45, 'not_finished', '15');
+        $new_obj = $obj->withValue('22');
 
         $this->assertEquals(45, $obj->getRefId());
-        $this->assertEquals('operator5', $obj->getConditionOperator());
-        $this->assertEquals(15, $obj->getValue());
+        $this->assertEquals('not_finished', $obj->getConditionOperator());
+        $this->assertEquals('15', $obj->getValue());
 
         $this->assertEquals(45, $new_obj->getRefId());
-        $this->assertEquals('operator5', $new_obj->getConditionOperator());
-        $this->assertEquals(22, $new_obj->getValue());
+        $this->assertEquals('not_finished', $new_obj->getConditionOperator());
+        $this->assertEquals('22', $new_obj->getValue());
     }
 }

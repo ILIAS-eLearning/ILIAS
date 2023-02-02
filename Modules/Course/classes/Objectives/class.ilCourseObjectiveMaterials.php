@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=0);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -242,8 +243,10 @@ class ilCourseObjectiveMaterials
         if (!$a_get_id) {
             return (bool) $res->numRows();
         } else {
-            $row = $this->db->fetchAssoc($res);
-            return (int) $row["lm_ass_id"];
+            while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+                return (int) $row->lm_ass_id;
+            }
+            return 0;
         }
     }
 

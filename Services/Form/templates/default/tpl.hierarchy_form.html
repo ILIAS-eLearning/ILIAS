@@ -55,37 +55,15 @@
 </div>
 <!-- END disambiguation_menu -->
 <script language="JavaScript" type="text/javascript">
-window.setTimeout(function() {
-    var as_subitem = Object();
-<!-- BEGIN as_subitem_flag -->
-    as_subitem['{SI_NODE_ID}' + '_' + '{SI_GRP}'] = "{SI_SI}";
-<!-- END as_subitem_flag -->
-
-<!-- BEGIN dragtarget -->
-	d = new ilDragTarget("droparea_" + "{EL_ID}", "{GROUP}");
-<!-- END dragtarget -->
-<!-- BEGIN dragcontent -->
-	d = new ilDragContent("il_img_" + "{EL_ID}", "{GROUP}");
-<!-- END dragcontent -->
-}, 0);
+var as_subitem = Object();
 </script>
-<!-- BEGIN updater -->
-<script language="JavaScript" type="text/javascript">
-window.setTimeout(function() {
-    parent.{UPDATER_FRAME}.updater('{EXP_ID_UPDATER}', '{HREF_UPDATER}');
-}, 0);
-</script>
-<!-- END updater -->
-
 <!-- This one is called from other frames/contents -->
 <!-- BEGIN tr_update -->
 <script language="JavaScript" type="text/javascript">
-window.setTimeout(function() {
-    function ilHierarchyFormUpdater()
-    {
-        doActionForm('{UPDATE_CMD}', 0, 0, 0);
-    }
-}, 0);
+function ilHierarchyFormUpdater()
+{
+	doActionForm('{UPDATE_CMD}', 0, 0, 0);
+}
 </script>
 <!-- END tr_update -->
 <div id="ilsaving" class="ilHighlighted" style="display:none;">{TXT_SAVING}</div>

@@ -32,7 +32,7 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
     {
         parent::__construct($record, $field);
 
-        $this->expression = $this->getField()->getProperty(ilDclBaseFieldModel::PROP_FORMULA_EXPRESSION);
+        $this->expression = (string)$this->getField()->getProperty(ilDclBaseFieldModel::PROP_FORMULA_EXPRESSION);
     }
 
     public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation): void

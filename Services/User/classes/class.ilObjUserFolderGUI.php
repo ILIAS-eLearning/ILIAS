@@ -629,10 +629,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 false
             );
             if ($obj instanceof \ilObjUser) {
-                $obj->setTimeLimitUnlimited(1);
-                $obj->setTimeLimitFrom("");
-                $obj->setTimeLimitUntil("");
-                $obj->setTimeLimitMessage(0);
+                $obj->setTimeLimitUnlimited(true);
+                $obj->setTimeLimitFrom(null);
+                $obj->setTimeLimitUntil(null);
+                $obj->setTimeLimitMessage("");
                 $obj->update();
             }
         }
@@ -758,9 +758,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
             );
             if ($obj instanceof \ilObjUser) {
                 $obj->setTimeLimitUnlimited(0);
-                $obj->setTimeLimitFrom($timefrom);
-                $obj->setTimeLimitUntil($timeuntil);
-                $obj->setTimeLimitMessage(0);
+                $obj->setTimeLimitFrom((int) $timefrom);
+                $obj->setTimeLimitUntil((int) $timeuntil);
+                $obj->setTimeLimitMessage("");
                 $obj->update();
             }
         }
@@ -1744,7 +1744,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             }
         }
 
-        $rule = $result["conflict_action"][0];
+        $rule = $result["conflict_action"][0] ?? 1;
 
         //If local roles exist, merge the roles that are to be assigned, otherwise just take the array that has global roles
         $local_role_selection = (array) ($result['local_role_selection'] ?? []);
@@ -1760,7 +1760,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 "-",
                 $value
             );
-            $role_assignment[$keys[0]] = $keys[1];
+            if (count($keys) === 2) {
+                $role_assignment[$keys[0]] = $keys[1];
+            }
         }
 
         $importParser = new ilUserImportParser(
@@ -2623,7 +2625,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $valid = true;
         foreach ($profile_fields as $field) {
             if (($checked["required_" . $field] ?? false) &&
-                !(int) $checked['visib_reg_' . $field]
+                !(int) ($checked['visib_reg_' . $field] ?? null)
             ) {
                 $valid = false;
                 break;
@@ -2734,7 +2736,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 );
             }
 
-            if (($checked["export_" . $field] ?? false) && !$field_properties[$field]["export_hide"]) {
+            if (($checked["export_" . $field] ?? false) && !($field_properties[$field]["export_hide"] ?? false)) {
                 $ilias->setSetting(
                     "usr_settings_export_" . $field,
                     "1"
@@ -2744,7 +2746,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             }
 
             // Course export/visibility
-            if (($checked["course_export_" . $field] ?? false) && !$field_properties[$field]["course_export_hide"]) {
+            if (($checked["course_export_" . $field] ?? false) && !($field_properties[$field]["course_export_hide"] ?? false)) {
                 $ilias->setSetting(
                     "usr_settings_course_export_" . $field,
                     "1"
@@ -2754,7 +2756,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             }
 
             // Group export/visibility
-            if (($checked["group_export_" . $field] ?? false) && !$field_properties[$field]["group_export_hide"]) {
+            if (($checked["group_export_" . $field] ?? false) && !($field_properties[$field]["group_export_hide"] ?? false)) {
                 $ilias->setSetting(
                     "usr_settings_group_export_" . $field,
                     "1"
@@ -2845,8 +2847,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
             [self::class],
             "settings"
         ));
-        $confirmDialog->addButton($this->lng->txt("confirm"), "confirmUsrFieldChangeListeners");
-        $confirmDialog->addButton($this->lng->txt("cancel"), "settings");
+        $confirmDialog->setConfirm($this->lng->txt("confirm"), "confirmUsrFieldChangeListeners");
+        $confirmDialog->setCancel($this->lng->txt("cancel"), "settings");
 
         $tpl = new ilTemplate(
             "tpl.usr_field_change_listener_confirm.html",
@@ -3241,7 +3243,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $lng->txt("attachment"),
                 "att_" . $lang_key
             );
-            $att->setALlowDeletion(true);
+            $att->setAllowDeletion(true);
             if ($amail["att_file"] ?? false) {
                 $att->setValue($amail["att_file"]);
             }

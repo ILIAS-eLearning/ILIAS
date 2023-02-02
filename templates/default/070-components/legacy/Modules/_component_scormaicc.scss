@@ -1,0 +1,26 @@
+@use "../../../010-settings/" as *;
+
+/* Modules/ScormAicc */
+
+table.il_ScormTable {
+	color: $il-text-color;
+	background-color: $il-main-dark-bg;
+	border-spacing: 1px;
+	border: none;
+}
+
+td.il_ScormTableKey {
+	background-color: $il-main-dark-bg;
+	color: $il-text-color;
+	padding: 1px 3px;
+	vertical-align: top;
+	text-align: right;
+}
+
+td.il_ScormTableValue {
+	background: none $il-main-dark-bg;
+	color: $il-text-color;
+	padding: 1px 3px;
+	vertical-align: top;
+	text-align: left;
+}

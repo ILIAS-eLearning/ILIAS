@@ -95,7 +95,6 @@ il.COPagePres =
 	 */
 	initInteractiveImages: function () {
 		// preload overlay images (necessary?)
-		
 		// add onmouseover event to all map areas
 		$("map.iim > area").mouseover(this.overBaseArea);
 		$("map.iim > area").mouseout(this.outBaseArea);
@@ -105,6 +104,63 @@ il.COPagePres =
 		$("a.ilc_marker_Marker").mouseout(this.outMarker);
 		$("a.ilc_marker_Marker").click(this.clickMarker);
 
+		// add areas
+		document.querySelectorAll("[data-copg-iim-data-type='area']").forEach(el => {
+			const d = el.dataset;
+			il.COPagePres.addIIMArea({
+				area_id: d.copgIimAreaId,
+				iim_id: d.copgIimId,
+				tr_nr: d.copgIimTrNr,
+				title: d.copgIimTitle
+			});
+		});
+
+		// add trigger for overlays/popups
+		document.querySelectorAll("[data-copg-iim-data-type='trigger']").forEach(el => {
+			const d = el.dataset;
+			il.COPagePres.addIIMTrigger({
+				iim_id: d.copgIimId,
+				type: d.copgIimType,
+				title: d.copgIimTitle,
+				ovx: d.copgIimOvx,
+				ovy: d.copgIimOvy,
+				markx: d.copgIimMarkx,
+				marky: d.copgIimMarky,
+				popup_nr: d.copgIimPopupNr,
+				nr: d.copgIimNr,
+				popx: d.copgIimPopx,
+				popy: d.copgIimPopy,
+				popwidth: d.copgIimPopwidth,
+				popheight: d.copgIimPopheight,
+				tr_id: d.copgIimTrId
+			});
+		});
+
+		// add markers
+		document.querySelectorAll("[data-copg-iim-data-type='marker']").forEach(el => {
+			const d = el.dataset;
+			il.COPagePres.addIIMMarker({
+				iim_id: d.copgIimId,
+				m_id: d.copgIimMId,
+				markx: d.copgIimMarkx,
+				marky: d.copgIimMarky,
+				tr_nr: d.copgIimTrNr,
+				tr_id: d.copgIimTrId,
+				edit_mode: d.copgIimEditMode
+			});
+		});
+
+		// add popups
+		document.querySelectorAll("[data-copg-iim-data-type='popup']").forEach(el => {
+			const d = el.dataset;
+			il.COPagePres.addIIMPopup({
+				iim_id: d.copgIimId,
+				pop_id: d.copgIimPopId,
+				div_id: d.copgIimDivId,
+				nr: d.copgIimNr,
+				title: d.copgIimTitle
+			});
+		});
 	},
 	
 	/**
@@ -153,7 +209,6 @@ il.COPagePres =
 	 */
 	handleOverEvent: function (iim_id, area_tr_nr, is_marker)
 	{
-//console.log("over enter");
 		var k, j, tr, coords, ovx, ovy, base, ov, base_map_name, c, k2, i2, tr2;
 		
 		if (this.dragging) {
@@ -198,7 +253,6 @@ il.COPagePres =
 				if (tr.map_initialized == null && !is_marker)
 				{
 					tr.map_initialized = true;
-//console.log(tr);
 					$("map[name='" + base_map_name + "'] > area").each(
 						function (i,el) {
 							// if title is the same, add area to overlay map
@@ -272,7 +326,6 @@ il.COPagePres =
 	 */
 	handleOutEvent: function (iim_id, area_tr_nr)
 	{
-//console.log("out");
 		var k, tr;
 		
 		if (this.dragging) {
@@ -299,7 +352,6 @@ il.COPagePres =
 			return;
 		}
 
-//console.log("overOvArea " + k + ":" + ov_id);
 		il.COPagePres.iim_trigger[k].over_ov_area = value;
 		if (value) {
 			$("img#" + ov_id).css('display', '');
@@ -377,9 +429,7 @@ il.COPagePres =
 				"auto_hide":false});
 		}
 		
-//console.log("showing trigger " + tr_id);
-//console.log("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr']);
-		
+
 		// show the overlay
 		base = $("img#base_img_" + il.COPagePres.iim_trigger[tr_id].iim_id);
 		pos = base.offset();
@@ -402,12 +452,10 @@ il.COPagePres =
 	},
 
 	addIIMTrigger: function(tr) {
-//console.log(tr);
 		this.iim_trigger[tr.tr_id] = tr;
 	},
 	
 	addIIMArea: function(a) {
-//console.log(a);
 		this.iim_area[a.area_id] = a;
 	},
 	
@@ -569,7 +617,6 @@ il.COPagePres =
 						
 						base = $("img#base_img_" + cpop.iim_id);
 						bpos = base.offset();
-//console.log(dtr);
 						popx = bpos.left + parseInt(dtr.popx, 10);
 						popy = bpos.top + parseInt(dtr.popy, 10);
 						pdummy.css("position", "absolute");
@@ -819,7 +866,6 @@ il.COPagePres =
 	},
 
 	openFullScreenModal: function (target) {
-		console.log("openFullScreenModal: " + target);
 		$("#il-copg-mob-fullscreen" + il.COPagePres.fullscreen_suffix).attr("src", target);
 		$(document).trigger(il.COPagePres.fullscreen_signal, {
 			id: il.COPagePres.fullscreen_signal,

@@ -220,6 +220,10 @@ var renderer = function($) {
 
             if(model_state.any_tools_visible()) { max_buttons--};
 
+            // Pathological case: there even is no space for one button.
+            // We pretend there still is room...
+            if(max_buttons < 0) { max_buttons = 0; }
+
             for(i = max_buttons; i < root_entries_length; i++) {
                 btn = parts.triggerer.withHtmlId(dom_references[root_entries[i].id].triggerer);
                 list = btn.getElement().parent();
@@ -228,19 +232,26 @@ var renderer = function($) {
             }
         },
         render: function (model_state) {
-            var entry_ids = Object.keys(model_state.entries),
-                last_entry_id = entry_ids[entry_ids.length - 1],
+            var entry_ids = Object.keys(model_state.entries);
+
+            if (entry_ids.length == 0) {
+                return;
+            }
+
+            var last_entry_id = entry_ids[entry_ids.length - 1],
                 more_entry = model_state.entries[last_entry_id],
                 more_button = parts.triggerer.withHtmlId(dom_references[more_entry.id].triggerer),
                 more_slate = parts.slate.withHtmlId(dom_references[more_entry.id].slate);
                 //reset
                 btns = more_slate.getElement().find('.btn-bulky, .link-bulky');
-                for(var i = 0; i < btns.length; i = i + 1) {
-                    li = document.createElement('li');
-                    li.appendChild(btns[i]);
-                    li.setAttribute('role', 'none');
-                    $(li).insertBefore(more_button.getElement().parent());
-                }
+
+
+            for(var i = 0; i < btns.length; i = i + 1) {
+                li = document.createElement('li');
+                li.appendChild(btns[i]);
+                li.setAttribute('role', 'none');
+                $(li).insertBefore(more_button.getElement().parent());
+            }
 
             if(model_state.more_available) {
                 more_button.getElement().parent().show();
@@ -279,16 +290,24 @@ var renderer = function($) {
                 someting_to_focus_on = $('#' + dom_id.slate)
                     .children().first()
                     .children().first();
-            if(someting_to_focus_on[0]){
+            someting_to_focus_on_if_listing = someting_to_focus_on.children().first().children().first();
+            if(someting_to_focus_on[0]) {
                 if(!someting_to_focus_on.is(":focusable")) { //cannot focus w/o index
                     someting_to_focus_on.attr('tabindex', '-1');
+                    if(someting_to_focus_on_if_listing[0]
+                      && someting_to_focus_on_if_listing.is(":focusable")) { //cannot focus w/o index
+                        someting_to_focus_on_if_listing[0].focus();
+                    }
+                } else {
+                    someting_to_focus_on[0].focus();
                 }
-                someting_to_focus_on[0].focus();
             }
         },
         focusTopentry: function(top_entry_id) {
             var  triggerer = dom_references[top_entry_id];
-            document.getElementById(triggerer.triggerer).focus();
+            if (triggerer) {
+                document.getElementById(triggerer.triggerer).focus();
+            }
         },
 
         dispatchResizeNotification: function() {

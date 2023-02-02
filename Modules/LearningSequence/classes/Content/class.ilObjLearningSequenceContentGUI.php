@@ -91,7 +91,7 @@ class ilObjLearningSequenceContentGUI
 
         $data = $this->parent_gui->getObject()->getLSItems();
         // Sadly, ilTable2 only wants an array for fillRow, so we need to wrap this...
-        array_map(fn ($s) => [$s], $data);
+        $data = array_map(fn ($s) => [$s], $data);
         $this->renderTable($data);
     }
 
@@ -121,9 +121,13 @@ class ilObjLearningSequenceContentGUI
      */
     protected function confirmDelete(): void
     {
+        $r = $this->refinery;
         $ref_ids = $this->post_wrapper->retrieve(
             "id",
-            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            $r->byTrying([
+                $r->kindlyTo()->listOf($r->kindlyTo()->int()),
+                $r->always([])
+            ])
         );
 
         if (!$ref_ids || count($ref_ids) < 1) {
@@ -133,7 +137,7 @@ class ilObjLearningSequenceContentGUI
 
         foreach ($ref_ids as $ref_id) {
             $obj = ilObjectFactory::getInstanceByRefId($ref_id);
-            $this->confirmation_gui->addItem("id[]", $ref_id, $obj->getTitle());
+            $this->confirmation_gui->addItem("id[]", (string) $ref_id, $obj->getTitle());
         }
 
         $this->confirmation_gui->setFormAction($this->ctrl->getFormAction($this));
@@ -174,6 +178,7 @@ class ilObjLearningSequenceContentGUI
     protected function save(): void
     {
         $data = $this->parent_gui->getObject()->getLSItems();
+        $r = $this->refinery;
 
         $updated = [];
         foreach ($data as $lsitem) {
@@ -182,9 +187,9 @@ class ilObjLearningSequenceContentGUI
             $order = $this->getFieldName(self::FIELD_ORDER, $ref_id);
             $condition_type = $this->getFieldName(self::FIELD_POSTCONDITION_TYPE, $ref_id);
 
-            $condition_type = $this->post_wrapper->retrieve($condition_type, $this->refinery->kindlyTo()->string());
-            $online = $this->post_wrapper->retrieve($online, $this->refinery->kindlyTo()->bool());
-            $order = $this->post_wrapper->retrieve($order, $this->refinery->kindlyTo()->int());
+            $condition_type = $this->post_wrapper->retrieve($condition_type, $r->kindlyTo()->string());
+            $online = $this->post_wrapper->retrieve($online, $r->byTrying([$r->kindlyTo()->bool(), $r->always(false)]));
+            $order = $this->post_wrapper->retrieve($order, $r->kindlyTo()->int());
 
             $condition = $lsitem->getPostCondition()
                 ->withConditionOperator($condition_type);

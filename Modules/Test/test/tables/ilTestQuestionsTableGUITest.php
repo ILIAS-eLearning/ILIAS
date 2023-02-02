@@ -110,15 +110,6 @@ class ilTestQuestionsTableGUITest extends ilTestBaseTestCase
         $this->assertEquals("202000", $this->tableGui->getTotalWorkingTime());
     }
 
-    public function testQuestionTitleLinksEnabled(): void
-    {
-        $this->assertIsBool($this->tableGui->isQuestionTitleLinksEnabled());
-        $this->tableGui->setQuestionTitleLinksEnabled(false);
-        $this->assertFalse($this->tableGui->isQuestionTitleLinksEnabled());
-        $this->tableGui->setQuestionTitleLinksEnabled(true);
-        $this->assertTrue($this->tableGui->isQuestionTitleLinksEnabled());
-    }
-
     public function testQuestionRemoveRowButtonEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isQuestionRemoveRowButtonEnabled());

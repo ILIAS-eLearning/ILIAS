@@ -56,10 +56,12 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderWrapper(Wrapper $dropzone, RenderInterface $default_renderer): string
     {
+        $clear_signal = $dropzone->getClearSignal();
+
         $modal = $this->getUIFactory()->modal()->roundtrip(
             $dropzone->getTitle(),
             [$dropzone->getForm()]
-        );
+        )->withOnClose($clear_signal);
 
         $template = $this->getTemplate("tpl.dropzone.html", true, true);
         $template->setVariable('MODAL', $default_renderer->render($modal));
@@ -68,6 +70,9 @@ class Renderer extends AbstractComponentRenderer
 
         $dropzone = $this->initClientsideDropzone($dropzone);
         $dropzone = $dropzone->withAdditionalDrop($modal->getShowSignal());
+        $dropzone = $dropzone->withAdditionalOnLoadCode(function ($id) use ($clear_signal): string {
+            return "$('#$id').on('$clear_signal', function() { il.UI.Dropzone.removeAllFilesFromQueue('$id');});";
+        });
 
         $this->bindAndApplyJavaScript($dropzone, $template);
 

@@ -92,29 +92,6 @@ class FactoriesCrawlerTest extends TestCase
     }
 
     /**
-     *
-     * @throws Crawler\Exception\CrawlerException
-     */
-    public function testIdenticalNamesFactory(): void
-    {
-        $this->crawler->crawlFactory("tests/UI/Crawler/Fixture/IdenticalNamesFactory.php");
-        $this->assertTrue(true);
-    }
-
-    /**
-     * @throws Crawler\Exception\CrawlerException
-     */
-    public function testIdenticalEntriesFactory(): void
-    {
-        try {
-            $this->crawler->crawlFactory("tests/UI/Crawler/Fixture/IdenticalEntriesFactory.php");
-            $this->assertFalse("This should not happen");
-        } catch (Crawler\Exception\CrawlerException $e) {
-            $this->assertEquals(Crawler\Exception\CrawlerException::DUPLICATE_ENTRY, $e->getCode());
-        }
-    }
-
-    /**
      * @throws Crawler\Exception\CrawlerException
      */
     public function testNoNamespaceFactory(): void

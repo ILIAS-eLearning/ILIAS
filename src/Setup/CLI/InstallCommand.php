@@ -141,7 +141,7 @@ class InstallCommand extends Command
 
         $agent = $this->getRelevantAgent($input);
 
-        $config = $this->readAgentConfig($agent, $input);
+        $config = $this->readAgentConfig($agent, $input, $input->getOption("plugin"));
 
         $objective = new ObjectiveCollection(
             "Install and Update ILIAS Plugin",

@@ -156,7 +156,7 @@ abstract class ilPageObject
 
     abstract public function getParentType(): string;
 
-    final public function initPageConfig(): void
+    public function initPageConfig(): void
     {
         $cfg = ilPageObjectFactory::getConfigInstance($this->getParentType());
         $this->setPageConfig($cfg);
@@ -758,6 +758,9 @@ abstract class ilPageObject
         $pc_path = "./" . $pc_def["component"] . "/" . $pc_def["directory"] . "/class." . $pc_class . ".php";
         require_once($pc_path);
         $pc = new $pc_class($this);
+        if ($cont_node->myDOMNode->nodeName !== "PageContent") {
+            return null;
+        }
         $pc->setNode($cont_node);
         $pc->setHierId($a_hier_id);
         $pc->setPcId($a_pc_id);
@@ -888,11 +891,16 @@ s     */
                 ? "encoding=\"" . $this->encoding . "\""
                 : "";
             return "<?xml version=\"1.0\" $enc_str ?>" .
-                "<!DOCTYPE PageObject SYSTEM \"" . ILIAS_ABSOLUTE_PATH . "/xml/" . $this->cur_dtd . "\">" .
+                "<!DOCTYPE PageObject SYSTEM \"" . $this->getIliasAbsolutePath() . "/xml/" . $this->cur_dtd . "\">" .
                 $this->xml;
         } else {
             return $this->xml;
         }
+    }
+
+    protected function getIliasAbsolutePath(): string
+    {
+        return ILIAS_ABSOLUTE_PATH;
     }
 
     /**
@@ -979,7 +987,7 @@ s     */
      * If no node is given, then the whole dom will be scanned
      * @param php4DOMNode|DOMNode|null $a_node
      */
-    public function handleDeleteContent($a_node = null): void
+    public function handleDeleteContent($a_node = null, $move_operation = false): void
     {
         if (!isset($a_node)) {
             $xpc = xpath_new_context($this->dom);
@@ -997,7 +1005,7 @@ s     */
 
             /** @var DOMElement $node */
             if ($node->firstChild->nodeName == 'Plugged') {
-                ilPCPlugged::handleDeletedPluggedNode($this, $node->firstChild);
+                ilPCPlugged::handleDeletedPluggedNode($this, $node->firstChild, $move_operation);
             }
         }
     }
@@ -1144,7 +1152,8 @@ s     */
         bool $a_append_mobs = false,
         bool $a_append_bib = false,
         string $a_append_str = "",
-        bool $a_omit_pageobject_tag = false
+        bool $a_omit_pageobject_tag = false,
+        int $style_id = 0
     ): string {
         if ($a_incl_head) {
             //echo "\n<br>#".$this->encoding."#";
@@ -1161,7 +1170,7 @@ s     */
                     // deprecated
                     //					$bibs = $this->getBibliographyXML();
                 }
-                $trans = $this->getLanguageVariablesXML();
+                $trans = $this->getLanguageVariablesXML($style_id);
                 //echo htmlentities($this->dom->dump_node($this->node)); exit;
                 return "<dummy>" . $this->dom->dump_node($this->node) . $mobs . $bibs . $trans . $a_append_str . "</dummy>";
             } else {
@@ -1191,7 +1200,7 @@ s     */
     /**
      * Get language variables as XML
      */
-    public function getLanguageVariablesXML(): string
+    public function getLanguageVariablesXML(int $style_id = 0): string
     {
         $xml = "<LVs>";
         $lang_vars = array(
@@ -1243,10 +1252,34 @@ s     */
             }
         }
 
+        // workaround for #30561, should go to characteristic manager
+        $dummy_pc = new ilPCSectionGUI($this, null, "");
+        $dummy_pc->setStyleId($style_id);
+        foreach (["section", "table", "flist_li", "list_u", "list_o",
+                  "table", "table_cell"] as $type) {
+            $dummy_pc->getCharacteristicsOfCurrentStyle([$type]);
+            foreach ($dummy_pc->getCharacteristics() as $char => $txt) {
+                $xml .= "<LV name=\"char_" . $type . "_" . $char . "\" value=\"" . $txt . "\"/>";
+            }
+        }
+        $type = "media_cont";
+        $dummy_pc = new ilPCMediaObjectGUI($this, null, "");
+        $dummy_pc->setStyleId($style_id);
+        $dummy_pc->getCharacteristicsOfCurrentStyle([$type]);
+        foreach ($dummy_pc->getCharacteristics() as $char => $txt) {
+            $xml .= "<LV name=\"char_" . $type . "_" . $char . "\" value=\"" . $txt . "\"/>";
+        }
+        foreach (["text_block", "heading1", "heading2", "heading3"] as $type) {
+            $dummy_pc = new ilPCParagraphGUI($this, null, "");
+            $dummy_pc->setStyleId($style_id);
+            $dummy_pc->getCharacteristicsOfCurrentStyle([$type]);
+            foreach ($dummy_pc->getCharacteristics() as $char => $txt) {
+                $xml .= "<LV name=\"char_" . $type . "_" . $char . "\" value=\"" . $txt . "\"/>";
+            }
+        }
         foreach ($lang_vars as $lang_var) {
             $xml .= $this->getLangVarXML($lang_var);
         }
-
         $xml .= "</LVs>";
         return $xml;
     }
@@ -1881,7 +1914,7 @@ s     */
             $new_id = "";
             $import_id = "";
             // get the new id from the current mapping
-            if ($a_mapping[$old_id] > 0) {
+            if (($a_mapping[$old_id] ?? 0) > 0) {
                 $new_id = $a_mapping[$old_id];
                 if ($a_reuse_existing_by_import) {
                     // this should work, if the lm has been imported in a translation installation and re-exported
@@ -2221,7 +2254,7 @@ s     */
         // pc classes hook, @todo: move rest of function to this hook, too
         $defs = ilCOPagePCDef::getPCDefinitions();
         foreach ($defs as $def) {
-            ilCOPagePCDef::requirePCClassByName($def["name"]);
+            //ilCOPagePCDef::requirePCClassByName($def["name"]);
             if (method_exists($def["pc_class"], 'afterRepositoryCopy')) {
                 call_user_func($def["pc_class"] . '::afterRepositoryCopy', $this, $a_mapping, $a_source_ref_id);
             }
@@ -2279,8 +2312,8 @@ s     */
             $url = parse_url($href);
 
             // only handle links on same host
-            $this->log->debug("Host: " . $url["host"]);
-            if ($url["host"] != "" && $url["host"] != $ilias_url["host"]) {
+            $this->log->debug("Host: " . ($url["host"] ?? ""));
+            if (($url["host"] ?? "") !== "" && $url["host"] !== $ilias_url["host"]) {
                 continue;
             }
 
@@ -2299,13 +2332,15 @@ s     */
                 $par["client_id"] = array_shift($parts);
                 $par["target"] = implode("_", $parts);
             } else {
-                foreach (explode("&", $url["query"]) as $p) {
+                foreach (explode("&", ($url["query"] ?? "")) as $p) {
                     $p = explode("=", $p);
-                    $par[$p[0]] = $p[1];
+                    if (isset($p[0]) && isset($p[1])) {
+                        $par[$p[0]] = $p[1];
+                    }
                 }
             }
 
-            $target_client_id = $par["client_id"];
+            $target_client_id = $par["client_id"] ?? "";
             if ($target_client_id != "" && $target_client_id != CLIENT_ID) {
                 continue;
             }
@@ -2313,12 +2348,12 @@ s     */
             // get ref id
             $ref_id = 0;
             if (is_int(strpos($href, "ilias.php"))) {
-                $ref_id = (int) $par["ref_id"];
-            } elseif ($par["target"] !== "") {
+                $ref_id = (int) ($par["ref_id"] ?? 0);
+            } elseif (isset($par["target"]) && $par["target"] !== "") {
                 $t = explode("_", $par["target"]);
-                if ($objDefinition->isRBACObject($t[0])) {
-                    $ref_id = (int) $t[1];
-                    $type = $t[0];
+                if ($objDefinition->isRBACObject($t[0] ?? "")) {
+                    $ref_id = (int) ($t[1] ?? 0);
+                    $type = $t[0] ?? "";
                 }
             }
             if ($ref_id > 0) {
@@ -2326,7 +2361,7 @@ s     */
                     $new_ref_id = $a_mapping[$ref_id];
                     // we have a mapping -> replace the ID
                     if (is_int(strpos($href, "ilias.php"))) {
-                        $new_href = str_replace("ref_id=" . $par["ref_id"], "ref_id=" . $new_ref_id, $href);
+                        $new_href = str_replace("ref_id=" . ($par["ref_id"] ?? ""), "ref_id=" . $new_ref_id, $href);
                     } else {
                         $nt = str_replace($type . "_" . $ref_id, $type . "_" . $new_ref_id, $par["target"]);
                         $new_href = str_replace($par["target"], $nt, $href);
@@ -2402,8 +2437,8 @@ s     */
 
     /**
      * Updates page object with current xml content
-     * This function is currently (4.4.0 alpha) called by:
-     * - ilContObjParser (LM and Glossary import parser)
+     * This function is currently (8 beta) called by:
+     * - ilQuestionPageParser (Test and TestQuestionPool)
      * - ilSCORM13Package->dbImportSco (SCORM importer)
      * - assQuestion->copyPageOfQuestion
      */
@@ -3027,10 +3062,14 @@ s     */
      * @throws ilDateTimeException
      * @throws ilWACException
      */
-    public function deleteContent(string $a_hid, bool $a_update = true, string $a_pcid = "")
-    {
+    public function deleteContent(
+        string $a_hid,
+        bool $a_update = true,
+        string $a_pcid = "",
+        bool $move_operation = false
+    ) {
         $curr_node = $this->getContentNode($a_hid, $a_pcid);
-        $this->handleDeleteContent($curr_node);
+        $this->handleDeleteContent($curr_node, $move_operation);
         $curr_node->unlink_node($curr_node);
         if ($a_update) {
             return $this->update();
@@ -3048,7 +3087,8 @@ s     */
     public function deleteContents(
         array $a_hids,
         bool $a_update = true,
-        bool $a_self_ass = false
+        bool $a_self_ass = false,
+        bool $move_operation = false
     ) {
         if (!is_array($a_hids)) {
             return true;
@@ -3059,8 +3099,8 @@ s     */
 
             // @todo 1: hook
             // do not delete question nodes in assessment pages
-            if (!$this->checkForTag("Question", $a_hid[0], (string) $a_hid[1]) || $a_self_ass) {
-                $curr_node = $this->getContentNode((string) $a_hid[0], (string) $a_hid[1]);
+            if (!$this->checkForTag("Question", $a_hid[0], (string) ($a_hid[1] ?? "")) || $a_self_ass) {
+                $curr_node = $this->getContentNode((string) $a_hid[0], (string) ($a_hid[1] ?? ""));
                 if (is_object($curr_node)) {
                     $parent_node = $curr_node->parent_node();
                     if ($parent_node->node_name() != "TableRow") {
@@ -3084,7 +3124,12 @@ s     */
     public function cutContents(array $a_hids)
     {
         $this->copyContents($a_hids);
-        return $this->deleteContents($a_hids, true, $this->getPageConfig()->getEnableSelfAssessment());
+        return $this->deleteContents(
+            $a_hids,
+            true,
+            $this->getPageConfig()->getEnableSelfAssessment(),
+            true
+        );
     }
 
     /**
@@ -3235,6 +3280,7 @@ s     */
 
     /**
      * delete content object with hierarchical id >= $a_hid
+     * as part of a split page operation
      * @param string  $a_hid hierarchical id of content object
      * @param bool $a_update update page in db (note: update deletes all
      *                       hierarchical ids in DOM!)
@@ -3253,7 +3299,7 @@ s     */
             if (!is_int(strpos($hier_id, "_"))) {
                 if ($hier_id != "pg" && $hier_id >= $a_hid) {
                     $curr_node = $this->getContentNode($hier_id);
-                    $this->handleDeleteContent($curr_node);
+                    $this->handleDeleteContent($curr_node, true);
                     $curr_node->unlink_node($curr_node);
                 }
             }
@@ -3266,6 +3312,7 @@ s     */
 
     /**
      * delete content object with hierarchical id < $a_hid
+     * as part of the split page operation
      * @param string  $a_hid              hierarchical id of content object
      * @param bool $a_update           update page in db (note: update deletes all
      *                                    hierarchical ids in DOM!)
@@ -3284,7 +3331,7 @@ s     */
             if (!is_int(strpos($hier_id, "_"))) {
                 if ($hier_id != "pg" && $hier_id < $a_hid) {
                     $curr_node = $this->getContentNode($hier_id);
-                    $this->handleDeleteContent($curr_node);
+                    $this->handleDeleteContent($curr_node, true);
                     $curr_node->unlink_node($curr_node);
                 }
             }
@@ -3554,7 +3601,7 @@ s     */
         $clone_node = $source_node->clone_node(true);
 
         // delete source node
-        $this->deleteContent($a_source, false, $a_spcid);
+        $this->deleteContent($a_source, false, $a_spcid, true);
 
         // insert cloned node at target
         $content->setNode($clone_node);
@@ -3591,7 +3638,7 @@ s     */
         $clone_node = $source_node->clone_node(true);
 
         // delete source node
-        $this->deleteContent($a_source, false, $a_spcid);
+        $this->deleteContent($a_source, false, $a_spcid, true);
 
         // insert cloned node at target
         $content->setNode($clone_node);

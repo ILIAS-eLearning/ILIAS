@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -37,6 +39,8 @@ class ilSkillCatTableGUI extends ilTable2GUI
     protected int $requested_node_id = 0;
     protected int $requested_tref_id = 0;
     protected int $requested_ref_id = 0;
+    protected \ILIAS\UI\Factory $ui_fac;
+    protected \ILIAS\UI\Renderer $ui_ren;
 
     public const MODE_SCAT = 0;
     public const MODE_SCTP = 1;
@@ -54,6 +58,8 @@ class ilSkillCatTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
+        $this->ui_fac = $DIC->ui()->factory();
+        $this->ui_ren = $DIC->ui()->renderer();
 
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
@@ -130,7 +136,7 @@ class ilSkillCatTableGUI extends ilTable2GUI
 
                 // skill template reference
             case "sktr":
-                $tid = ilSkillTemplateReference::_lookupTemplateId($a_set["child"]);
+                $tid = ilSkillTemplateReference::_lookupTemplateId((int) $a_set["child"]);
                 $ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "tref_id", $a_set["child"]);
                 $ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "node_id", $tid);
                 $ret = $ilCtrl->getLinkTargetByClass("ilskilltemplatereferencegui", "listItems");
@@ -181,12 +187,17 @@ class ilSkillCatTableGUI extends ilTable2GUI
         $this->tpl->setVariable("HREF_TITLE", $ret);
 
         $this->tpl->setVariable("TITLE", $a_set["title"]);
-        $icon = ilSkillTreeNode::getIconPath(
-            $a_set["child"],
+        $icon_path = ilSkillTreeNode::getIconPath(
+            (int) $a_set["child"],
             $a_set["type"],
             "",
-            ilSkillTreeNode::_lookupStatus($a_set["child"])
+            ilSkillTreeNode::_lookupStatus((int) $a_set["child"])
         );
-        $this->tpl->setVariable("ICON", ilUtil::img($icon, ""));
+        $icon = $this->ui_fac->symbol()->icon()->custom(
+            $icon_path,
+            "",
+            "medium"
+        );
+        $this->tpl->setVariable("ICON", $this->ui_ren->render($icon));
     }
 }

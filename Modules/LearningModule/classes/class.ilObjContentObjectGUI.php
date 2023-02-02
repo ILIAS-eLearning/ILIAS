@@ -380,6 +380,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
             case "ilcommonactiondispatchergui":
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+                $this->prepareOutput();
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -553,10 +554,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         // tries
         $radg = new ilRadioGroupInputGUI($lng->txt("cont_tries"), "store_tries");
-        $radg->setValue(0);
-        $op1 = new ilRadioOption($lng->txt("cont_tries_reset_on_visit"), 0, $lng->txt("cont_tries_reset_on_visit_info"));
+        $radg->setValue("0");
+        $op1 = new ilRadioOption($lng->txt("cont_tries_reset_on_visit"), "0", $lng->txt("cont_tries_reset_on_visit_info"));
         $radg->addOption($op1);
-        $op2 = new ilRadioOption($lng->txt("cont_tries_store"), 1, $lng->txt("cont_tries_store_info"));
+        $op2 = new ilRadioOption($lng->txt("cont_tries_store"), "1", $lng->txt("cont_tries_store_info"));
         $radg->addOption($op2);
         $this->form->addItem($radg);
 
@@ -656,7 +657,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $values["rating_pages"] = $this->lm->hasRatingPages();
         $values["disable_def_feedback"] = $this->lm->getDisableDefaultFeedback();
         $values["progr_icons"] = $this->lm->getProgressIcons();
-        $values["store_tries"] = $this->lm->getStoreTries();
+        $values["store_tries"] = (string) (int) $this->lm->getStoreTries();
         $values["restrict_forw_nav"] = $this->lm->getRestrictForwardNavigation();
 
         $values["notification_blocked_users"] = ilNotification::hasNotification(
@@ -666,7 +667,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
         );
 
         $values["cont_show_info_tab"] = $this->object->isInfoEnabled();
-
         $this->form->setValuesByArray($values, true);
     }
 
@@ -777,9 +777,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $form->addItem($menu);
 
         // toc
+        /*
         $toc = new ilCheckboxInputGUI($this->lng->txt("cont_toc"), "cobj_act_toc");
+
         $toc->setChecked($this->lm->isActiveTOC());
-        $form->addItem($toc);
+        $form->addItem($toc);*/
 
         // print view
         $print = new ilCheckboxInputGUI($this->lng->txt("cont_print_view"), "cobj_act_print");
@@ -861,7 +863,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $form = $this->initMenuForm();
         if ($form->checkInput()) {
             $this->lm->setActiveLMMenu((int) $form->getInput("cobj_act_lm_menu"));
-            $this->lm->setActiveTOC((int) $form->getInput("cobj_act_toc"));
+            //$this->lm->setActiveTOC((int) $form->getInput("cobj_act_toc"));
             $this->lm->setActivePrintView((int) $form->getInput("cobj_act_print"));
             $this->lm->setActivePreventGlossaryAppendix((int) $form->getInput("cobj_act_print_prev_glo"));
             $this->lm->setHideHeaderFooterPrint((int) $form->getInput("hide_head_foot_print"));
@@ -2297,57 +2299,20 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         $ilCtrl->saveParameter($this, array("menu_entry"));
 
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_menu_object_selector.html", "Modules/LearningModule");
-
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("lm_menu_select_object_to_add"));
 
-        $exp = new ilLMMenuObjectSelector(
-            $this->ctrl->getLinkTarget($this, 'test'),
+        $exp = new ilRepositorySelectorExplorerGUI(
             $this,
-            $this->edit_request->getMenuEntry()
+            "showEntrySelector",
+            $this,
+            "addMenuEntry",
+            "link_ref_id"
         );
-
-        $exp->setExpand($this->requested_lm_menu_expand ?: $this->tree->readRootId());
-        $exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'showEntrySelector'));
-        $exp->setTargetGet("ref_id");
-        $exp->setRefId($this->requested_ref_id);
-
-        $sel_types = array('mcst', 'mep', 'cat', 'lm','glo','frm','exc','tst','svy', 'chat', 'wiki', 'sahs',
-            "crs", "grp", "book", "tst", "file");
-        $exp->setSelectableTypes($sel_types);
-
-        // build html-output
-        $exp->setOutput(0);
-        $output = $exp->getOutput();
-
-        // get page ids
-        foreach ($exp->format_options as $node) {
-            if (!$node["container"]) {
-                $pages[] = $node["child"];
-            }
+        //$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "glo", "fold"));
+        $exp->setClickableTypes(array('mcst', 'mep', 'cat', 'lm','glo','frm','exc','tst','svy', 'chat', 'wiki', 'sahs', "crs", "grp", "book", "tst", "file"));
+        if (!$exp->handleCommand()) {
+            $this->tpl->setContent($exp->getHTML());
         }
-
-        // access mode selector
-        $this->tpl->setVariable("TXT_SET_PUBLIC_MODE", $this->lng->txt("set_public_mode"));
-        $this->tpl->setVariable("TXT_CHOOSE_PUBLIC_MODE", $this->lng->txt("choose_public_mode"));
-        $modes = array("complete" => $this->lng->txt("all_pages"), "selected" => $this->lng->txt("selected_pages_only"));
-        $select_public_mode = ilLegacyFormElementsUtil::formSelect(
-            $this->lm->getPublicAccessMode(),
-            "lm_public_mode",
-            $modes,
-            false,
-            true
-        );
-        $this->tpl->setVariable("SELECT_PUBLIC_MODE", $select_public_mode);
-
-        $this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("choose_public_pages"));
-        $this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
-        $this->tpl->setVariable("EXPLORER", $output);
-        //$this->tpl->setVariable("ONCLICK", $js_pages);
-        $this->tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
-        $this->tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
-        $this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-        $this->tpl->setVariable("FORMACTION", $this->ctrl->getLinkTarget($this, "savePublicSection"));
     }
 
     /**
@@ -3016,7 +2981,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     {
         $ilCtrl = $this->ctrl;
 
-        $ilCtrl->setParameter($this, "transl", "");
+        $ilCtrl->setParameter($this, "transl", "-");
         if ($this->lang_switch_mode == "short_titles") {
             $ilCtrl->redirectByClass("illmeditshorttitlesgui", "");
         }

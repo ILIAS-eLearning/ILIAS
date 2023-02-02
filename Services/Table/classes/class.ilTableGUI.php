@@ -20,7 +20,7 @@
  * HTML table component
  * @author	Sascha Hofmann <shofmann@databay.de>
  *
- * @deprecated 11
+ * @deprecated 10
  */
 class ilTableGUI
 {

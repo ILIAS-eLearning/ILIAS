@@ -24,7 +24,7 @@ const IL_FM_NEGATIVE = 2;
  *
  * @author Stefan Meyer <meyer@leifos.com>
  *
- * @deprecated 11
+ * @deprecated 10
  */
 class ilExplorer
 {
@@ -557,11 +557,10 @@ class ilExplorer
             }
             $tpl_tree->parseCurrentBlock();
         }
-
         $cur_depth = -1;
         foreach ($this->format_options as $key => $options) {
             //echo "-".$options["depth"]."-";
-            if (!$options["visible"]) {
+            if (!($options["visible"] ?? false)) {
                 continue;
             }
 
@@ -1049,13 +1048,11 @@ class ilExplorer
         if (!is_array(ilSession::get($this->expand_variable))) {
             ilSession::set($this->expand_variable, [$this->getRoot()]);
         }
-        // IF $_GET["expand"] is positive => expand this node
         if ($a_node_id > 0 && !in_array($a_node_id, ilSession::get($this->expand_variable))) {
             $exp = ilSession::get($this->expand_variable);
             $exp[] = $a_node_id;
             ilSession::set($this->expand_variable, $exp);
         }
-        // IF $_GET["expand"] is negative => compress this node
         if ($a_node_id < 0) {
             $key = array_keys(ilSession::get($this->expand_variable), -(int) $a_node_id);
             $exp = ilSession::get($this->expand_variable);

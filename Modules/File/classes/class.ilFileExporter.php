@@ -41,18 +41,23 @@ class ilFileExporter extends ilXmlExporter
      */
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
-        $md_ids = array();
+        $md_ids = [];
         foreach ($a_ids as $file_id) {
             $md_ids[] = $file_id . ":0:file";
         }
 
-        return array(
-            array(
+        return [
+            [
                 "component" => "Services/MetaData",
                 "entity" => "md",
                 "ids" => $md_ids,
-            ),
-        );
+            ],
+            [
+                "component" => "Services/Object",
+                "entity" => "common",
+                "ids" => $a_ids
+            ]
+        ];
     }
 
 

@@ -195,7 +195,10 @@ class ilQTIParser extends ilSaxParser
         parent::__construct($a_xml_file);
 
         $this->qpl_id = $a_qpl_id;
-        $this->lng = &$lng;
+        $this->lng = $lng;
+        if (is_array($a_import_idents)) {
+            $this->import_idents = &$a_import_idents;
+        }
         $this->depth = new SplObjectStorage();
     }
 
@@ -223,6 +226,11 @@ class ilQTIParser extends ilSaxParser
     {
         $this->tst_object = $a_tst_object;
         $this->tst_id = $this->tst_object->getId();
+    }
+
+    public function getTestObject(): ilObjTest
+    {
+        return $this->tst_object;
     }
 
     /**
@@ -761,7 +769,7 @@ class ilQTIParser extends ilSaxParser
                     $GLOBALS['ilDB'],
                     $GLOBALS['lng']
                 );
-                $question->fromXML(
+                $this->import_mapping = $question->fromXML(
                     $this->item,
                     $this->qpl_id,
                     $this->tst_id,

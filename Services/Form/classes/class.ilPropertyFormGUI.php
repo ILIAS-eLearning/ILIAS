@@ -52,6 +52,7 @@ class ilPropertyFormGUI extends ilFormGUI
     protected ?Refinery\Factory $refinery = null;
 
     protected ?ilGlobalTemplateInterface $global_tpl = null;
+    protected $onload_code = [];
 
     public function __construct()
     {
@@ -753,6 +754,10 @@ class ilPropertyFormGUI extends ilFormGUI
                     "TXT_ALERT",
                     $item->getAlert()
                 );
+                $this->tpl->setVariable(
+                    "ALERT_FOR_ID",
+                    $item->getFieldId()
+                );
                 $this->tpl->parseCurrentBlock();
             }
 
@@ -767,6 +772,7 @@ class ilPropertyFormGUI extends ilFormGUI
                             "il.Form.hideSubForm('subform_$dsfid');"
                         );
                     }
+                    $this->addAsyncOnloadCode("il.Form.hideSubForm('subform_$dsfid');");
                 }
             }
 
@@ -793,6 +799,11 @@ class ilPropertyFormGUI extends ilFormGUI
         $this->tpl->touchBlock("item");
     }
 
+    public function addAsyncOnloadCode(string $code): void
+    {
+        $this->onload_code[] = $code;
+    }
+
     public function getHTML(): string
     {
         $html = parent::getHTML();
@@ -807,10 +818,32 @@ class ilPropertyFormGUI extends ilFormGUI
                 }
             }
         }
-
+        if ($this->ctrl->isAsynch()) {
+            $html = $this->appendOnloadCode($html);
+        }
         return $html;
     }
 
+    public function getHTMLAsync(): string
+    {
+        $html = $this->getHTML();
+        if (!$this->ctrl->isAsynch()) {
+            $html = $this->appendOnloadCode($html);
+        }
+        return $html;
+    }
+
+    protected function appendOnloadCode(string $html): string
+    {
+        if (count($this->onload_code) > 0) {
+            $html.= "<script>";
+            foreach ($this->onload_code as $code) {
+                $html.= $code . "\n";
+            }
+            $html.= "</script>";
+        }
+        return $html;
+    }
 
     //
     // UPLOAD HANDLING
@@ -960,7 +993,7 @@ class ilPropertyFormGUI extends ilFormGUI
                     return "";
                 }
             } else {
-                if (!rename($data["tmp_name"], $target_file)) {
+                if (!ilFileUtils::rename($data["tmp_name"], $target_file)) {
                     return "";
                 }
             }

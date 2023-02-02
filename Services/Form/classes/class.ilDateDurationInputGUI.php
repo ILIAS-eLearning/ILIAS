@@ -215,8 +215,8 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 
         $post = $this->strArray($this->getPostVar());
 
-        $start = $post["start"];
-        $end = $post["end"];
+        $start = $post["start"] ?? '';
+        $end = $post["end"] ?? '';
 
         // if full day is active, ignore time format
         $format = isset($post['tgl'])
@@ -316,6 +316,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
                 $ret["end"] = null;
             }
         }
+        $ret["fullday"] = (bool) ($ret["tgl"] ?? false);
         return $ret;
     }
 

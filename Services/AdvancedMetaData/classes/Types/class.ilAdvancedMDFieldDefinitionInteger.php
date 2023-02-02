@@ -236,7 +236,7 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
 
     public function getValueForXML(ilADT $element): string
     {
-        return $element->getNumber();
+        return (string) $element->getNumber();
     }
 
     public function importValueFromXML(string $a_cdata): void

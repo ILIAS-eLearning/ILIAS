@@ -53,7 +53,7 @@ abstract class ilMailMimeSenderUser implements ilMailMimeSender
 
     public function hasEnvelopFromAddress(): bool
     {
-        return $this->settings->get('mail_system_usr_env_from_addr', '') !== '';
+        return $this->settings->get('mail_system_usr_env_from_addr', '') !== '' && $this->settings->get('mail_system_usr_env_from_addr', '') !== null;
     }
 
     public function getEnvelopFromAddress(): string

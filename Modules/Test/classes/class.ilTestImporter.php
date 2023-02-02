@@ -1,8 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Export/classes/class.ilXmlImporter.php");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Importer class for files
@@ -41,8 +53,6 @@ class ilTestImporter extends ilXmlImporter
             ilSession::set('tst_import_subdir', $this->getImportPackageName());
             $newObj->saveToDb(); // this generates test id first time
             $questionParentObjId = $newObj->getId();
-            $newObj->setOfflineStatus(false);
-            $questionParentObjId = $newObj->getId();
         } else {
             // single object
             $new_id = $a_mapping->getMapping('Modules/Test', 'tst', 'new_id');
@@ -79,12 +89,12 @@ class ilTestImporter extends ilXmlImporter
         $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_PARSE_QTI, $questionParentObjId, $idents);
         $qtiParser->setTestObject($newObj);
         $qtiParser->startParsing();
+        $newObj = $qtiParser->getTestObject();
 
         // import page data
-        include_once("./Modules/LearningModule/classes/class.ilContObjParser.php");
-        $contParser = new ilContObjParser($newObj, $xml_file, basename($this->getImportDirectory()));
-        $contParser->setQuestionMapping($qtiParser->getImportMapping());
-        $contParser->startParsing();
+        $questionPageParser = new ilQuestionPageParser($newObj, $xml_file, basename($this->getImportDirectory()));
+        $questionPageParser->setQuestionMapping($qtiParser->getImportMapping());
+        $questionPageParser->startParsing();
 
         foreach ($qtiParser->getQuestionIdMapping() as $oldQuestionId => $newQuestionId) {
             $a_mapping->addMapping(
@@ -131,8 +141,6 @@ class ilTestImporter extends ilXmlImporter
         $this->importSkillLevelThresholds($a_mapping, $importedAssignmentList, $newObj, $xml_file);
 
         $a_mapping->addMapping("Modules/Test", "tst", $a_id, $newObj->getId());
-
-        ilObjTest::_setImportDirectory();
     }
 
     /**
@@ -179,7 +187,7 @@ class ilTestImporter extends ilXmlImporter
             $tax_ids = explode(":", $new_tax_ids);
 
             foreach ($tax_ids as $tid) {
-                ilObjTaxonomy::saveUsage($tid, $newTstObjId);
+                ilObjTaxonomy::saveUsage((int) $tid, (int) $newTstObjId);
             }
         }
 

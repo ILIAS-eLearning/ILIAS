@@ -90,7 +90,7 @@ class ilContainerImporter extends ilXmlImporter
 
         $skl_local_prof_map = $a_mapping->getMappingsOfEntity('Services/Skill', 'skl_local_prof');
         foreach ($skl_local_prof_map as $old_prof_id => $new_prof_id) {
-            $this->skill_profile_service->updateRefIdAfterImport((int) $new_prof_id, (int) $new_crs_ref_id);
+            $this->skill_profile_service->updateProfileRefIdAfterImport((int) $new_prof_id, (int) $new_crs_ref_id);
             $this->skill_profile_service->addRoleToProfile(
                 (int) $new_prof_id,
                 ilParticipants::getDefaultMemberRole((int) $new_crs_ref_id)
@@ -136,7 +136,8 @@ class ilContainerImporter extends ilXmlImporter
                 if ($this->isRootNode($obj->getRefId(), $mapping)) {
                     $obj->setOfflineStatus(true);
                 } else {
-                    $obj->setOfflineStatus(false);
+                    // use the offline status of the imported XML file and set the offline status for the new container objects accordingly
+                    $obj->setOfflineStatus(!((string) $offline === "0"));
                 }
                 $obj->update();
             }

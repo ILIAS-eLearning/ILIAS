@@ -31,6 +31,7 @@ final class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderA
     private const SESSION_TMP_RETURN_TO = 'tmp_return_to';
 
     private ilSamlIdp $idp;
+    private ilLanguage $lng;
     /** @var array<string, mixed> */
     private array $attributes = [];
     private string $return_to = '';
@@ -40,7 +41,11 @@ final class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderA
 
     public function __construct(ilAuthCredentials $credentials, ?int $a_idp_id = null)
     {
+        global $DIC;
+
         parent::__construct($credentials);
+
+        $this->lng = $DIC->language();
 
         if (null === $a_idp_id || 0 === $a_idp_id) {
             $this->idp = ilSamlIdp::getFirstActiveIdp();
@@ -309,7 +314,13 @@ final class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderA
             $login = $a_user_data[$this->idp->getLoginClaim()][0];
             $login = ilAuthUtils::_generateLogin($login);
 
-            $xml_writer->xmlStartTag('User', ['Action' => 'Insert']);
+            $xml_writer->xmlStartTag(
+                'User',
+                [
+                    'Action' => 'Insert',
+                    'Language' => $this->lng->getDefaultLanguage()
+                ]
+            );
             $xml_writer->xmlElement('Login', [], $login);
 
             $xml_writer->xmlElement('Role', [

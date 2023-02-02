@@ -13,7 +13,7 @@
  *
  *****************************************************************************/
 /**
- * @deprecated
+ * @deprecated Will be removed in ILIAS 10. Use ILIAS ResourceStorageService as replacement.
  */
 class ilFileData extends ilFile
 {

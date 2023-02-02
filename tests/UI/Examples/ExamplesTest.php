@@ -56,16 +56,20 @@ class ExamplesTest extends ILIAS_UI_TestBase
         $this->dic = new Container();
         $this->dic["tpl"] = $this->getTemplateFactory()->getTemplate("tpl.main.html", false, false);
         $this->dic["lng"] = $this->getLanguage();
-        $this->dic["refinery"] = $this->getRefinery();
+        $this->dic["refinery"] = new \ILIAS\Refinery\Factory(
+            new ILIAS\Data\Factory(),
+            $this->getLanguage()
+        );
         (new InitUIFramework())->init($this->dic);
 
         $this->dic["ui.template_factory"] = $this->getTemplateFactory();
 
         $this->dic["ilCtrl"] = $this->getMockBuilder(\ilCtrl::class)->disableOriginalConstructor()->onlyMethods([
-            "getFormActionByClass","setParameterByClass","saveParameterByClass","getLinkTargetByClass"
+            "getFormActionByClass","setParameterByClass","saveParameterByClass","getLinkTargetByClass", "isAsynch"
         ])->getMock();
         $this->dic["ilCtrl"]->method("getFormActionByClass")->willReturn("Testing");
         $this->dic["ilCtrl"]->method("getLinkTargetByClass")->willReturn("2");
+        $this->dic["ilCtrl"]->method("isAsynch")->willReturn(false);
 
         $this->dic["upload"] = $this->getMockBuilder(FileUpload::class)->getMock();
 

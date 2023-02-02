@@ -232,7 +232,7 @@ class ilSystemNotification extends ilMailNotification
                 return false;
             }
 
-            $goto = $this->createPermanentLink(array(), $a_goto_additional);
+            $goto = $this->createPermanentLink(array(), (string) $a_goto_additional);
             if ($goto) {
                 $this->appendBody($this->getLanguageText($this->goto_caption) . ": " .
                     $goto);

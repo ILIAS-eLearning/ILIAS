@@ -37,6 +37,7 @@ class ilDclDetailedViewGUI
     protected array $record_ids = array();
     protected bool $is_enabled_paging = true;
     protected ilLanguage $lng;
+    protected ilCtrlInterface $ctrl;
     private ilGlobalTemplateInterface $main_tpl;
 
     private ilDataCollectionUiPort $dclUi;
@@ -59,13 +60,13 @@ class ilDclDetailedViewGUI
     /**
      * @param ilObjDataCollectionGUI $a_dcl_object
      */
-    public function __construct(ilObjDataCollectionGUI $a_dcl_object)
+    public function __construct(ilObjDataCollectionGUI $a_dcl_object, int $tableview_id)
     {
         global $DIC;
         $this->init(ilDataCollectionOutboundsAdapter::new());
 
         $tpl = $DIC->ui()->mainTemplate();
-        $ilCtrl = $DIC->ctrl();
+        $this->ctrl = $DIC->ctrl();
         $this->dcl_gui_object = $a_dcl_object;
         $this->lng = $DIC->language();
         $this->http = $DIC->http();
@@ -86,7 +87,7 @@ class ilDclDetailedViewGUI
         }
         $this->record_obj = ilDclCache::getRecordCache($this->record_id);
 
-        $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+        $ref_id = $this->dcl_gui_object->getRefId();
         if (!$this->record_obj->hasPermissionToView($ref_id)) {
             $this->dclUi->displayFailureMessage($this->lng->txt('dcl_msg_no_perm_view'));
 
@@ -110,8 +111,10 @@ class ilDclDetailedViewGUI
         $this->notesGUI = new ilNoteGUI($repId, $objId);
         $this->notesGUI->enablePublicNotes(true);
         $this->notesGUI->enablePublicNotesDeletion(true);
-        $ilCtrl->setParameterByClass("ilnotegui", "record_id", $this->record_id);
-        $ilCtrl->setParameterByClass("ilnotegui", "rep_id", $repId);
+        $this->ctrl->setParameterByClass("ilnotegui", "record_id", $this->record_id);
+        $this->ctrl->setParameterByClass("ilnotegui", "rep_id", $repId);
+
+        $this->tableview_id = $tableview_id;
 
         if ($this->http->wrapper()->query()->has('disable_paging')
             && $this->http->wrapper()->query()->retrieve('disable_paging', $this->refinery->kindlyTo()->bool())) {
@@ -130,31 +133,7 @@ class ilDclDetailedViewGUI
 
     public function executeCommand(): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
-        if ($this->http->wrapper()->query()->has('tableview_id')) {
-            $this->tableview_id = $this->http->wrapper()->query()->retrieve(
-                'tableview_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        } else {
-            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
-            $this->tableview_id = $this->table->getFirstTableViewId($ref_id);
-        }
-        $ilCtrl->setParameter($this, 'tableview_id', $this->tableview_id);
-
-        if ($this->http->wrapper()->query()->has('back_tableview_id')) {
-            $ilCtrl->setParameter(
-                $this->dcl_gui_object,
-                'tableview_id',
-                $this->http->wrapper()->query()->retrieve('back_tableview_id', $this->refinery->kindlyTo()->int())
-            );
-        } else {
-            $ilCtrl->setParameter($this->dcl_gui_object, 'tableview_id', $this->tableview_id);
-            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
-            $this->tableview_id = $this->table->getFirstTableViewId($ref_id);
-        }
+        $this->ctrl->setParameter($this, 'tableview_id', $this->tableview_id);
 
         if (!$this->checkAccess()) {
             $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
@@ -167,8 +146,8 @@ class ilDclDetailedViewGUI
             return;
         }
 
-        $cmd = $ilCtrl->getCmd();
-        $cmdClass = $ilCtrl->getCmdClass();
+        $cmd = $this->ctrl->getCmd();
+        $cmdClass = $this->ctrl->getCmdClass();
         switch ($cmdClass) {
             case 'ilnotegui':
                 switch ($cmd) {
@@ -202,7 +181,7 @@ class ilDclDetailedViewGUI
         global $DIC;
         $tpl = $DIC['tpl'];
         $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('dcl_msg_info_alternatives'));
-        $table_gui = new ilDclTableViewTableGUI($this, 'renderRecord', $this->table);
+        $table_gui = new ilDclTableViewTableGUI($this, 'renderRecord', $this->table, $this->dcl_gui_object->getRefId());
         $tpl->setContent($table_gui->getHTML());
     }
 
@@ -458,7 +437,7 @@ class ilDclDetailedViewGUI
     {
         // We need the default sorting etc. to dertermine on which position we currently are, thus we instantiate the table gui.
         $list = new ilDclRecordListTableGUI(
-            new ilDclRecordListGUI($this->dcl_gui_object, $this->table->getId()),
+            new ilDclRecordListGUI($this->dcl_gui_object, $this->table->getId(), $this->tableview_id),
             "listRecords",
             $this->table,
             $this->tableview_id
@@ -478,11 +457,9 @@ class ilDclDetailedViewGUI
      */
     protected function checkAccess(): bool
     {
-        return ilObjDataCollectionAccess::hasAccessTo(
-            filter_input(INPUT_GET, 'ref_id'),
-            $this->table->getId(),
-            $this->tableview_id
-        )
-            && ilDclDetailedViewDefinition::isActive($this->tableview_id);
+        $ref_id = $this->dcl_gui_object->getRefId();
+        $has_accass = ilObjDataCollectionAccess::hasAccessTo($ref_id, $this->table->getId(), $this->tableview_id);
+        $is_active = ilDclDetailedViewDefinition::isActive($this->tableview_id);
+        return $has_accass && $is_active;
     }
 }

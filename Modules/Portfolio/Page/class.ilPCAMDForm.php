@@ -137,7 +137,7 @@ class ilPCAMDForm extends ilPageContent
                 foreach ($nodes as $node) {
                     $old_ids = explode(",", (string) $node->getAttribute("RecordIds"));
                     $new_ids = array_map(static function ($i) use ($mappings, $key) {
-                        return $mappings[$key][(int) $i];
+                        return $mappings[$key][(int) $i] ?? null;
                     }, $old_ids);
                     $new_ids = implode(",", $new_ids);
                     if ($new_ids !== "") {

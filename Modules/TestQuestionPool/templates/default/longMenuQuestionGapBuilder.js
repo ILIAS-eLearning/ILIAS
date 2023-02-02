@@ -1,7 +1,7 @@
 /*globals  tinyMCE, tinymce, prompt, ilTinyMceInitCallbackRegistry */
 var longMenuQuestionGapBuilder = (() => {
 	'use strict';
-	
+
 	let pub = {};
 	let last_cursor_position = 0;
 	let needs_update = false;
@@ -15,7 +15,7 @@ var longMenuQuestionGapBuilder = (() => {
 	{
 		return 	(isTinyActive() && typeof tinyMCE.get(pub.textarea) !== 'undefined' && tinyMCE.get(pub.textarea) !== null );
 	};
-	
+
 	let bindTextareaHandlerVanilla = () =>
 	{
 		let cloze_text_area = document.getElementById(pub.textarea);
@@ -26,8 +26,8 @@ var longMenuQuestionGapBuilder = (() => {
 		cloze_text_area.oncut = cutfunction;
 		cloze_text_area.onpaste = (e) =>
 		{
-			e.preventDefault();
 			if (e.clipboardData.getData('text').search(new RegExp(pub.gap_regexp)) !== -1) {
+                e.preventDefault();
 				let new_clipboard = e.clipboardData.getData('text').replace(
 						new RegExp(pub.gap_regexp, 'g'), '[' +  pub.replacement_word  + ']');
 				document.execCommand('insertText', false, new_clipboard);
@@ -37,7 +37,7 @@ var longMenuQuestionGapBuilder = (() => {
 			}
 		};
 	};
-	
+
 	let bindTextareaHandlerTiny = (ed) =>
 	{
 		if (ed.id !== pub.textarea) {
@@ -56,7 +56,7 @@ var longMenuQuestionGapBuilder = (() => {
 			}
 		});
 	};
-	
+
 	let clickfunction = () =>
 	{
 		if (isTinyActiveInTextArea() && moveCursorToEndOfGapTiny()) {
@@ -68,7 +68,7 @@ var longMenuQuestionGapBuilder = (() => {
 			return;
 		}
 	}
-	
+
 	let inputfunction = () =>
 	{
 		if (needs_update) {
@@ -76,8 +76,8 @@ var longMenuQuestionGapBuilder = (() => {
 			needs_update = false;
 		}
 	};
-	
-	let keyupfunction = (e) => {	
+
+	let keyupfunction = (e) => {
 		if (e.key === "Backspace" || e.key === "Delete")
 		{
 			checkDataConsistencyCallback();
@@ -99,12 +99,12 @@ var longMenuQuestionGapBuilder = (() => {
 			}
 		}
 	};
-	
+
 	let cutfunction = () =>
 	{
 		needs_update = true;
 	};
-	
+
 	let appendGapTrigger = () =>
 	{
 		let selector =  document.getElementById(pub.trigger);
@@ -116,7 +116,7 @@ var longMenuQuestionGapBuilder = (() => {
 			return false;
 		};
 	};
-	
+
 	let insertGapCodeAtCaret = (o) =>
 	{
 		let code = '[' + pub.replacement_word + ']';
@@ -142,7 +142,7 @@ var longMenuQuestionGapBuilder = (() => {
 	let createNewGapCode = () =>
 	{
 		let newText = pub.getTextAreaValue();
-		let iterator = newText.match(new RegExp(pub.gap_regexp, 'g'));		
+		let iterator = newText.match(new RegExp(pub.gap_regexp, 'g'));
 		let last = 0;
 		for (let i = 0; i < iterator.length; i++ ) {
 			last = i;
@@ -159,19 +159,19 @@ var longMenuQuestionGapBuilder = (() => {
 			moveCursorToEndOfGapTiny();
 		}
 		cleanGapCode();
-	};	
-	
+	};
+
 	let cleanGapCode = () =>
 	{
 		let text 		= pub.getTextAreaValue();
 		let newText 	= text.replace(new RegExp(pub.gap_regexp, 'g'), '[temp]');
 		let gaps_length	= text.split(new RegExp(pub.gap_regexp)).length;
-		
+
 		for (let i = 0; i < gaps_length; i++) {
 			let gap_id =  i + 1;
 			newText = newText.replace(/\[temp]/, '[' + pub.replacement_word + ' ' + gap_id + ']');
 		}
-		
+
 		pub.setTextAreaValue(newText);
 		if (typeof pub.callbackCleanGapCode === 'function') {
 			pub.callbackCleanGapCode();
@@ -194,7 +194,7 @@ var longMenuQuestionGapBuilder = (() => {
 		ed.selection.moveToBookmark(bm);
 		return index;
 	};
-	
+
 	let moveCursorToEndOfGapTiny = () =>
 	{
 		let inst = tinyMCE.activeEditor;
@@ -206,7 +206,7 @@ var longMenuQuestionGapBuilder = (() => {
 		}
 		return false;
 	}
-	
+
 	let moveCurserToEndOfGapVanilla = () =>
 		{
 			let cloze_text_area = document.getElementById(pub.textarea);
@@ -315,14 +315,14 @@ var longMenuQuestionGapBuilder = (() => {
 				existing_gaps.push(gap);
 			});
 		}
-		
+
 		let question_list_before = longMenuQuestion.questionParts.list;
 		let answers_before = longMenuQuestion.answers;
 		if (typeof pub.checkDataConsistencyAfterGapRemoval === 'function') {
 			pub.checkDataConsistencyAfterGapRemoval(existing_gaps);
 		}
-		
-		if (question_list_before.toString() !== longMenuQuestion.questionParts.list.toString() || 
+
+		if (question_list_before.toString() !== longMenuQuestion.questionParts.list.toString() ||
 			answers_before.toString() !== longMenuQuestion.answers.toString()) {
 			cleanGapCode();
 		}
@@ -346,7 +346,7 @@ var longMenuQuestionGapBuilder = (() => {
 					let new_gap_id = parseInt(gap_id[0], 10) + offset;
 					text = text.replace(gap_text, '[' + pub.replacement_word + ' ' + new_gap_id + ']');
 				});
-				text_elements[offset] = text; 
+				text_elements[offset] = text;
 			});
 			pub.setTextAreaValue(text_elements.join(''));
 			checkDataConsistencyCallback();
@@ -356,7 +356,7 @@ var longMenuQuestionGapBuilder = (() => {
 		let length = 0;
 		if (matches) {
 			length = matches.length;
-		} 
+		}
 		if (length > longMenuQuestion.questionParts.list.length) {
 			let starting_length = content.length;
 			let additionnal_gaps = length - longMenuQuestion.questionParts.list.length;
@@ -378,7 +378,7 @@ var longMenuQuestionGapBuilder = (() => {
 			checkDataConsistencyCallback();
 		}
 	};
-	
+
 	//Public property
 	pub.textarea  			= '';
 	pub.trigger				= '';
@@ -403,14 +403,14 @@ var longMenuQuestionGapBuilder = (() => {
 			bindTextareaHandlerTiny(tinyMCE.get(pub.textarea));
 			return;
 		}
-		
+
 		let tinyMutationObserver = new MutationObserver(() => {
 			if (isTinyActiveInTextArea()) {
 				bindTextareaHandlerTiny(tinyMCE.get(pub.textarea));
 				tinyMutationObserver.disconnect();
 			}
 		});
-		
+
 		tinyMutationObserver.observe(document.getElementById(pub.textarea), {attributes: true});
 	};
 	pub.getTextAreaValue = () =>
@@ -441,12 +441,12 @@ var longMenuQuestionGapBuilder = (() => {
 			cursor = getCursorPositionTiny(inst);
 			inst.setContent(text);
 			inGap = cursorInGap(cursor);
-			
+
 			if(inGap[1] !== -1 )
 			{
 				pub.active_gap = parseInt(inGap[0], 10);
 			}
-			
+
 			setCursorPositionTiny(inst, parseInt(cursor, 10));
 		}
 		else
@@ -474,7 +474,7 @@ var longMenuQuestionGapBuilder = (() => {
 			setCaretPosition(document.getElementById(pub.textarea), parseInt(cursor, 10));
 		}
 	};
-	
+
 	//Return just the public parts
 	return pub;
 })();

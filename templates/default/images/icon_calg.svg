@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 26.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- Generator: Adobe Illustrator 26.4.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 320 320" style="enable-background:new 0 0 320 320;" xml:space="preserve">
 <style type="text/css">
-	.st0{clip-path:url(#SVGID_00000173873583561378523480000007751496089061155229_);fill:#52658B;}
+	.st0{clip-path:url(#SVGID_00000134937598191202628870000004866693055307448465_);fill:#4C6586;}
 </style>
 <g>
-	<defs>
-		<rect id="SVGID_1_" width="320" height="320"/>
-	</defs>
-	<clipPath id="SVGID_00000052793816396930916300000009195446835533645227_">
-		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
-	</clipPath>
-	<path style="clip-path:url(#SVGID_00000052793816396930916300000009195446835533645227_);fill:#52658B;" d="M237.7,150.8
-		c0,23-46,69.1-46,46c0-46-46-46-46-69.1c0-23,23,0,46-23C208,88.4,237.7,127.7,237.7,150.8 M128.9,158.7
-		c-1.9,24.2-0.9,27.9-8.4,40.8c-13.2,22.8-14.1,19.3-18,4.8c-4.8-18-24.3-42.7-14.5-54C97.8,139,130.5,137.6,128.9,158.7 M267.7,160
-		c0-59.5-48.2-107.7-107.7-107.7c-59.5,0-107.7,48.2-107.7,107.7c0,59.5,48.2,107.7,107.7,107.7C219.5,267.7,267.7,219.5,267.7,160"
-		/>
+	<g>
+		<defs>
+			<rect id="SVGID_1_" width="320" height="320"/>
+		</defs>
+		<clipPath id="SVGID_00000065066660880204367430000005691945439060862641_">
+			<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+		</clipPath>
+		<path style="clip-path:url(#SVGID_00000065066660880204367430000005691945439060862641_);fill:#4C6586;" d="M237.7,150.8
+			c0,23-46,69.1-46,46c0-46-46-46-46-69.1c0-23,23,0,46-23C208,88.4,237.7,127.7,237.7,150.8 M128.9,158.7
+			c-1.9,24.2-0.9,27.9-8.4,40.8c-13.2,22.8-14.1,19.3-18,4.8c-4.8-18-24.3-42.7-14.5-54C97.8,139,130.5,137.6,128.9,158.7
+			 M267.7,160c0-59.5-48.2-107.7-107.7-107.7S52.3,100.5,52.3,160S100.5,267.7,160,267.7S267.7,219.5,267.7,160"/>
+	</g>
 </g>
 </svg>

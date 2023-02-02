@@ -81,7 +81,6 @@ adm#:#adm_support_contacts_info#:#Kontakty podpory použité v odkazu zápatí a
 administration#:#adm_achievements#:#Achievements###07 02 2020 new variable
 administration#:#adm_activate_db_benchmark#:#Aktivovat Benchmark
 administration#:#adm_activate_db_benchmark_desc#:#Benchmarking bude automaticky vypnut po prvním požadavku.
-administration#:#adm_add_settings_template#:#Přidat šablonu
 administration#:#adm_adm_role_protect#:#Chránit role správce
 administration#:#adm_adm_role_protect_info#:#Je-li zapnuto, pak jen správce má povoleno zařadit/odebírat uživatele z/do role správce.
 administration#:#adm_auth_login#:#Authentication Login###29 07 2022 new variable
@@ -94,7 +93,6 @@ administration#:#adm_db_bench_sorted_by_sql#:#Řazeno dle SQL
 administration#:#adm_db_benchmark#:#DB Benchmarku
 administration#:#adm_db_benchmark_user#:#Jméno uživatelského účtu
 administration#:#adm_db_benchmark_user_desc#:#Bude provedeno měření jen pro tohoto uživatele.
-administration#:#adm_edit_settings_template#:#Upravit šablonu
 administration#:#adm_extending_ilias#:#Extending ILIAS###07 02 2020 new variable
 administration#:#adm_external_setting_edit#:#Upravit nastavení
 administration#:#adm_hide#:#Skrýt ve formuláři nastavení
@@ -128,11 +126,9 @@ administration#:#adm_rep_tree_only_cntr_info#:#Jsou vypsány jen kategorie, kurz
 administration#:#adm_rep_tree_presentation#:#Prezentace stromu úložiště
 administration#:#adm_repository_and_objects#:#Repository and Objects###07 02 2020 new variable
 administration#:#adm_search_and_find#:#Search and Find###07 02 2020 new variable
-administration#:#adm_settings_templates#:#Nastavení šablon
 administration#:#adm_show_comments_tagging_in_lists#:#Ukaž počet poznámek, komentářů a tagů v seznamech objektu
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Zobrazte tagy místo čísla
 administration#:#adm_sql#:#SQL
-administration#:#adm_sure_delete_settings_template#:#Skutečně chcete smazat následující šablony?
 administration#:#adm_table#:#Tabulka
 administration#:#adm_time#:#Čas
 administration#:#adm_user_administration#:#Správa uživatelů
@@ -469,7 +465,6 @@ assessment#:#add_imagemap#:#Importovat mapu obrázku
 assessment#:#add_poly#:#Přidat plochu polygonu
 assessment#:#add_rect#:#Přidat trojúhelníkovou plochu
 assessment#:#additional_rating_info#:#Povšimněte si, že zde uvedené hodnoty jsou vyjádřeny jako procenta a jejich součet musí být 100.
-assessment#:#adm_settings_templates#:#Nastavení šablon
 assessment#:#advanced_rating#:#Rozšířené hodnocení
 assessment#:#advanced_rating_info#:#Rozšířené hodnocení je dostupné jen když jednotka je přiřazena k výsledku.
 assessment#:#all_available_question_pools#:#Všechny dostupné zásobníky otázek
@@ -1207,7 +1202,6 @@ assessment#:#showSuggestedSolution#:#Typ
 assessment#:#show_answer_overview#:#Zobrazit přehled odpovědí
 assessment#:#show_detailed_results#:#Zobrazit podrobné výsledky uživatele. (Známkovaný průchod)
 assessment#:#show_examview_html#:#Zobrazit přehled zkoušky ve stránce odevzdání testu
-assessment#:#show_examview_pdf#:#Zobrazit výsledky testu v automaticky staženém PDF.
 assessment#:#show_pass_overview#:#Zobrazit přehled označených průchodů
 assessment#:#show_user_answers#:#Zobrazit označené odpovědi uživatelů
 assessment#:#showinfo#:#Zobrazit úplnou stránku informací
@@ -1288,10 +1282,10 @@ assessment#:#tst_activate_skill_service_desc#:#Zobrazí se nová záložka 'Způ
 assessment#:#tst_activation_limited_visibility_info#:#Je-li vybráno, tento test je viditelný i mimo zadanou dostupnost.
 assessment#:#tst_activation_online_info#:#Je-li offline, pouze správci mohou vidět a upravovat tento test.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editační mód pro dodatečný obsah otázky
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Editace dodatečného obsahu s Editorem objektů stránky
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module.###29 07 2022 new variable
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Výchozí editační mód pro dodatečný obsah otázky
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module.###29 07 2022 new variable
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Výchozí editační mód pro dodatečný obsah otázky
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Editace dodatečného obsahu s Editorem objektů stránky
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#Způsobilost ve všech testech
 assessment#:#tst_all_user_data_deleted#:#Všechna uživatelská data tohoto testu byly smazány!
@@ -4205,9 +4199,7 @@ common#:#ignore_on_conflict#:#Ignorovat při konfliktu
 common#:#ignore_required_fields#:#Ignorovat vyžadovaná pole
 common#:#ignore_required_fields_info#:#Je-li aktivováno, mandatorní pole po odeslání tohoto formuláře nejsou nadále ověřena (je-li to možné). Příslušný uživatel musí po příštím přihlášení vyplnit tento osobní profil.
 common#:#il_astpl_loc_initial#:#Počáteční test
-common#:#il_astpl_loc_initial_desc#:#Šablona nastavení pro počáteční testy kurzů orientovaných na cíl učení
 common#:#il_astpl_loc_qualified#:#Kvalifikační test
-common#:#il_astpl_loc_qualified_desc#:#Šablona nastavení pro kvalifikační testy kurzů orientovaných na cíl učení
 common#:#il_blog_contributor#:#Přispěvatel Blogu
 common#:#il_blog_editor#:#Blog-Editor
 common#:#il_chat_moderator#:#Moderátor besedy
@@ -10876,7 +10868,7 @@ mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###29 07 2022 new variable
 mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###29 07 2022 new variable
 mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###29 07 2022 new variable
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML###29 07 2022 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe###29 07 2022 new variable
 mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js###29 07 2022 new variable
 mathjax#:#mathjax_server_address#:#Adresa serveru
 mathjax#:#mathjax_server_address_info#:#Například http://localhost: 8003
@@ -15669,7 +15661,6 @@ survey#:#survey_pool_selection#:#Výběr zásobníku
 survey#:#survey_prev_question#:#Předchozí stránka
 survey#:#survey_previous#:#<< Předchozí
 survey#:#survey_question_editor#:#Zobrazení seznamu
-survey#:#survey_question_editor_settings_template#:#Zobrazení seznamu (v tabulce "Otázky")
 survey#:#survey_question_obligatory#:#Tato otázka je povinná. Musíte na tuto otázku odpovědět.
 survey#:#survey_question_pool#:#Zásobník otázek
 survey#:#survey_question_pool_title#:#Zázev zásobníku
@@ -15847,7 +15838,6 @@ survey#:#svy_settings_section_before_start#:#Informace před zahájením průzku
 survey#:#svy_settings_section_finishing#:#Dokončení přehledu:
 survey#:#svy_settings_section_question_behaviour#:#Správa přehledu: Chování otázky
 survey#:#svy_settings_section_reminders#:#Připomenutí
-survey#:#svy_settings_template#:#Šablona
 survey#:#svy_show_questiontitles#:#Zobrazit názvy otázek v anketě
 survey#:#svy_skl_comp_assignm_not_supported#:#Přiřazení způsobilostí není pro tento typ otázky podporováno.
 survey#:#svy_sum_score#:#Sum Score###29 07 2022 new variable

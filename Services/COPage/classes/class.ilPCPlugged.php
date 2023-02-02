@@ -203,6 +203,12 @@ class ilPCPlugged extends ilPageContent
         global $DIC;
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
 
+        /** @var ilComponentFactory $component_factory */
+        $component_factory = $DIC["component.factory"];
+
+        /** @var ilComponentRepository $component_repository */
+        $component_repository = $DIC["component.repository"];
+
         $xpath = new DOMXPath($page->getDomDoc());
         $nodes = $xpath->query("//Plugged");
 
@@ -211,9 +217,14 @@ class ilPCPlugged extends ilPageContent
             $plugin_name = $node->getAttribute('PluginName');
             $plugin_version = $node->getAttribute('PluginVersion');
 
-            if ($ilPluginAdmin->isActive(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name)) {
+            $info = null;
+            try {
+                $info = $component_repository->getPluginByName($plugin_name);
+            } catch (InvalidArgumentException $e) {
+            }
+            if (!is_null($info) && $info->isActive()) {
                 /** @var ilPageComponentPlugin $plugin_obj */
-                $plugin_obj = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name);
+                $plugin_obj = $component_factory->getPlugin($info->getId());
                 $plugin_obj->setPageObj($page);
 
                 $properties = array();
@@ -244,7 +255,8 @@ class ilPCPlugged extends ilPageContent
      */
     public static function handleDeletedPluggedNode(
         ilPageObject $a_page,
-        DOMNode $a_node
+        DOMNode $a_node,
+        bool $move_operation = false
     ): void {
         global $DIC;
         $component_repository = $DIC['component.repository'];
@@ -266,7 +278,7 @@ class ilPCPlugged extends ilPageContent
             }
 
             // let the plugin delete additional content
-            $plugin_obj->onDelete($properties, $plugin_version);
+            $plugin_obj->onDelete($properties, $plugin_version, $move_operation);
         }
     }
 

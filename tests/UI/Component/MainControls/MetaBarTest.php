@@ -181,7 +181,7 @@ class MetaBarTest extends ILIAS_UI_TestBase
                 <span class="il-counter"><span class="badge badge-notify il-counter-status" style="display:none">0</span></span>
                 <span class="il-counter"><span class="badge badge-notify il-counter-novelty" style="display:none">0</span></span>
              </span>
-             <span class="bulky-label">more</span>
+             <span class="bulky-label">show_more</span>
          </button>
          <div class="il-metabar-slates">
             <div class="il-maincontrols-slate disengaged" id="id_4" role="menu">

@@ -377,8 +377,11 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 
         // mode
         if ($has_radio) {
-            $ext = new ilRadioOption($lng->txt("form_link_external"), "ext");
-            $ext->addSubItem($ti);
+            // BT 35578: link input might be required (so $has_radio = true), but might only be internal
+            if ($has_ext) {
+                $ext = new ilRadioOption($lng->txt("form_link_external"), "ext");
+                $ext->addSubItem($ti);
+            }
 
             if ($has_int) {
                 $int = new ilRadioOption($lng->txt("form_link_internal"), "int");
@@ -390,7 +393,10 @@ class ilLinkInputGUI extends ilFormPropertyGUI
                 $no = new ilRadioOption($lng->txt("form_no_link"), "no");
                 $mode->addOption($no);
             }
-            $mode->addOption($ext);
+            // BT 35578: link input might be required (so $has_radio = true), but might only be internal
+            if ($has_ext) {
+                $mode->addOption($ext);
+            }
             if ($has_int) {
                 $mode->addOption($int);
             }

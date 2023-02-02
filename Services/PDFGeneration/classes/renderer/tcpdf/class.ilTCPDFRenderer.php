@@ -101,7 +101,7 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
         $pdf->SetMargins($config['margin_left'], $config['margin_top'], $config['margin_right']);
-        $pdf->SetAutoPageBreak('auto', $config['margin_buttom']);
+        $pdf->SetAutoPageBreak('auto', $config['margin_bottom']);
         $pdf->setImageScale($config['image_scale']);
 
         $pdf->setHeaderFont([PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN]);

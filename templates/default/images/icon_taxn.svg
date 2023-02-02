@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 26.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- Generator: Adobe Illustrator 26.5.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 320 320" style="enable-background:new 0 0 320 320;" xml:space="preserve">
 <style type="text/css">
-	.st0{clip-path:url(#SVGID_00000098928209162261328470000007424358375228807827_);fill:#52658B;}
+	.st0{clip-path:url(#SVGID_00000134239452041699963540000009885498579805292956_);fill:#4C6586;}
 	.st1{fill:none;}
 </style>
 <g>
-	<defs>
-		<rect id="SVGID_1_" x="65" y="65" width="190" height="195"/>
-	</defs>
-	<clipPath id="SVGID_00000124859620998001911210000000456039199443031975_">
-		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
-	</clipPath>
-	<path style="clip-path:url(#SVGID_00000124859620998001911210000000456039199443031975_);fill:#52658B;" d="M215,195
-		c0-13.8-11.2-25-25-25c-13.8,0-25,11.2-25,25c0,13.8,11.2,25,25,25C203.8,220,215,208.8,215,195 M235,195c0,24.9-20.1,45-45,45
-		s-45-20.1-45-45c0-24.9,20.1-45,45-45S235,170.1,235,195 M255,195c0-35.9-29.1-65-65-65c-32.5,0-59.4,23.9-64.2,55H85V65H65v130.3
-		v9.7h60.8c4.8,31.2,31.7,55,64.2,55C225.9,260,255,230.9,255,195"/>
+	<g>
+		<defs>
+			<rect id="SVGID_1_" x="65" y="65" width="190" height="195"/>
+		</defs>
+		<clipPath id="SVGID_00000054975623745853824240000000687561712274947518_">
+			<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+		</clipPath>
+		<path style="clip-path:url(#SVGID_00000054975623745853824240000000687561712274947518_);fill:#4C6586;" d="M215,195
+			c0-13.8-11.2-25-25-25s-25,11.2-25,25s11.2,25,25,25S215,208.8,215,195 M235,195c0,24.9-20.1,45-45,45s-45-20.1-45-45
+			s20.1-45,45-45S235,170.1,235,195 M255,195c0-35.9-29.1-65-65-65c-32.5,0-59.4,23.9-64.2,55H85V65H65v130.3v9.7h60.8
+			c4.8,31.2,31.7,55,64.2,55C225.9,260,255,230.9,255,195"/>
+	</g>
 </g>
 <rect class="st1" width="320" height="320"/>
 </svg>

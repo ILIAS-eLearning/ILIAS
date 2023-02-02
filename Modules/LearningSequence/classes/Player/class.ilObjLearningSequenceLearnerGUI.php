@@ -148,11 +148,12 @@ class ilObjLearningSequenceLearnerGUI
     protected function initToolbar(string $cmd)
     {
         foreach ($this->launchlinks_builder->getLinks() as $entry) {
-            list($label, $link) = $entry;
-            $this->toolbar->addButton(
-                $label,
-                $link
-            );
+            list($label, $link, $primary) = $entry;
+            $sub_button = ilLinkButton::getInstance();
+            $sub_button->setPrimary($primary);
+            $sub_button->setCaption($label, false);
+            $sub_button->setUrl($link);
+            $this->toolbar->addButtonInstance($sub_button);
         }
     }
 
@@ -192,7 +193,7 @@ class ilObjLearningSequenceLearnerGUI
                     $contents[] = $this->ui_factory->image()->responsive($img, '');
                 }
             } else {
-                $contents[] = $this->ui_factory->legacy($this->intro);
+                $contents[] = $this->ui_factory->legacy($this->extro);
             }
         }
         return $contents;
@@ -205,7 +206,6 @@ class ilObjLearningSequenceLearnerGUI
         switch ($response) {
             case null:
                 //render the page
-                $this->tpl->setFileUploadRefId(0);
                 $this->tpl->setContent('THIS SHOULD NOT SHOW');
                 return;
 

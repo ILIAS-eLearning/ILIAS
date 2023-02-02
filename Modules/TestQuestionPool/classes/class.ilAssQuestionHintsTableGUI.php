@@ -1,10 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
-require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Table GUI for managing list of hints for a question
@@ -91,6 +101,7 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
             require_once 'Modules/TestQuestionPool/classes/class.ilAssHintPageGUI.php';
 
             foreach ($tableData as $key => $data) {
+                $this->ensurePageObjectExists('qht', $data['hint_id']);
                 $pageObjectGUI = new ilAssHintPageGUI($data['hint_id']);
                 $pageObjectGUI->setOutputMode("presentation");
                 $tableData[$key]['hint_text'] = $pageObjectGUI->presentation();
@@ -309,5 +320,15 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
         $txt = ilLegacyFormElementsUtil::prepareTextareaOutput($a_set['hint_text'], true);
         $this->tpl->setVariable('HINT_TEXT', $txt);
         $this->tpl->setVariable('HINT_POINTS', $a_set['hint_points']);
+    }
+
+    protected function ensurePageObjectExists($pageObjectType, $pageObjectId): void
+    {
+        if (!ilAssHintPage::_exists($pageObjectType, $pageObjectId)) {
+            $pageObject = new ilAssHintPage();
+            $pageObject->setParentId($this->questionOBJ->getId());
+            $pageObject->setId($pageObjectId);
+            $pageObject->createFromXML();
+        }
     }
 }

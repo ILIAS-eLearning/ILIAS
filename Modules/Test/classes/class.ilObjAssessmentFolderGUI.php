@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * Class ilObjAssessmentFolderGUI
  * @author Helmut Schottmüller <hschottm@gmx.de>
- * @ilCtrl_Calls ilObjAssessmentFolderGUI: ilPermissionGUI, ilSettingsTemplateGUI, ilGlobalUnitConfigurationGUI
+ * @ilCtrl_Calls ilObjAssessmentFolderGUI: ilPermissionGUI, ilGlobalUnitConfigurationGUI
  */
 class ilObjAssessmentFolderGUI extends ilObjectGUI
 {
@@ -68,11 +68,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
-
-            case 'ilsettingstemplategui':
-                $this->forwardToSettingsTemplateGUI();
-                break;
-
             case 'ilglobalunitconfigurationgui':
                 if (!$rbacsystem->checkAccess('visible,read', $this->getAssessmentFolder()->getRefId())) {
                     $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->WARNING);
@@ -650,12 +645,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
                 ""
             );
 
-            $this->tabs_gui->addTab(
-                "templates",
-                $lng->txt("adm_settings_templates"),
-                $this->ctrl->getLinkTargetByClass("ilsettingstemplategui", "")
-            );
-
             $this->tabs_gui->addTarget(
                 'units',
                 $this->ctrl->getLinkTargetByClass('ilGlobalUnitConfigurationGUI', ''),
@@ -757,31 +746,5 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         }
 
         return $form;
-    }
-
-    private function forwardToSettingsTemplateGUI(): void
-    {
-        global $DIC;
-        $ilTabs = $DIC['ilTabs'];
-
-        $ilTabs->setTabActive('templates');
-
-        $gui = new ilSettingsTemplateGUI(self::getSettingsTemplateConfig());
-
-        $this->ctrl->forwardCommand($gui);
-    }
-
-    /**
-     * @return ilTestSettingsTemplateConfig
-     */
-    public static function getSettingsTemplateConfig(): ilTestSettingsTemplateConfig
-    {
-        global $DIC;
-        $lng = $DIC['lng'];
-
-        $config = new ilTestSettingsTemplateConfig($lng);
-        $config->init();
-
-        return $config;
     }
 }

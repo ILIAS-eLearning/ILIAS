@@ -43,10 +43,9 @@ class InternalRequestService
         return $this->int("ref_id");
     }
 
-    /** @return string[] */
-    public function getProcessId(): array
+    public function getProcessId(): string
     {
-        return $this->strArray("process_id");
+        return $this->str("process_id");
     }
 
     public function is_set(string $key): bool

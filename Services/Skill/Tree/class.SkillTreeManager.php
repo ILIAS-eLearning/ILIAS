@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -106,7 +108,7 @@ class SkillTreeManager
     {
         foreach ($this->repository_tree->getChilds($this->skmg_ref_id) as $c) {
             if ($c["type"] == "skee") {
-                yield new \ilObjSkillTree($c["child"]);
+                yield new \ilObjSkillTree((int) $c["child"]);
             }
         }
     }

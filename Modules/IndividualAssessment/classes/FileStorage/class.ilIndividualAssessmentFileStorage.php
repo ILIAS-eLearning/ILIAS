@@ -52,16 +52,6 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemAbstractionStorage i
     }
 
     /**
-     * Is the webdir folder for this IA empty?
-     */
-    public function isEmpty(): bool
-    {
-        $files = $this->readDir();
-
-        return count($files) == 0;
-    }
-
-    /**
      * Set the user id for an extra folder of each participant in the IA
      */
     public function setUserId(int $user_id): void
@@ -119,11 +109,11 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemAbstractionStorage i
     /**
      * Upload the file
      */
-    public function uploadFile(UploadResult $file): bool
+    public function uploadFile(UploadResult $file): string
     {
         $path = $this->getAbsolutePath();
 
-        $clean_name = preg_replace("/[^a-zA-Z0-9\_\.\-]/", "", $file->getName());
+        $clean_name = ilFileUtils::getValidFilename($file->getName());
         $new_file = $path . "/" . $clean_name;
 
         ilFileUtils::moveUploadedFile(
@@ -132,32 +122,20 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemAbstractionStorage i
             $new_file
         );
 
-        return true;
+        return $clean_name;
     }
 
     /**
      * Delete the existing file
      */
-    public function deleteCurrentFile(): void
+    public function deleteAllFilesBut(string $filename): void
     {
         $files = $this->readDir();
-        $this->deleteFile($this->getAbsolutePath() . "/" . $files[0]);
-    }
-
-    /**
-     * Get the path of file
-     */
-    public function getFilePath(): string
-    {
-        $files = $this->readDir();
-        return $this->getAbsolutePath() . "/" . $files[0];
-    }
-
-    /**
-     * Delete a file by name
-     */
-    public function deleteFileByName(string $file_name): void
-    {
-        $this->deleteFile($this->getAbsolutePath() . "/" . $file_name);
+        foreach ($files as $file) {
+            if ($file === $filename) {
+                continue;
+            }
+            $this->deleteFile($this->getAbsolutePath() . "/" . $file);
+        }
     }
 }

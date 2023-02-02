@@ -357,13 +357,13 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
         try {
             if ($this->shouldUseLuceneSearch()) {
-                $query_parser = new ilMailLuceneQueryParser($this->filter['mail_filter']);
+                $query_parser = new ilMailLuceneQueryParser($this->filter['mail_filter'] ?? '');
                 $query_parser->setFields([
-                    'title' => (bool) $this->filter['mail_filter_subject'],
-                    'content' => (bool) $this->filter['mail_filter_body'],
-                    'mattachment' => (bool) $this->filter['mail_filter_attach'],
-                    'msender' => (bool) $this->filter['mail_filter_sender'],
-                    'mrcp' => (bool) $this->filter['mail_filter_recipients']
+                    'title' => (bool) ($this->filter['mail_filter_subject'] ?? false),
+                    'content' => (bool) ($this->filter['mail_filter_body'] ?? false),
+                    'mattachment' => (bool) ($this->filter['mail_filter_attach'] ?? false),
+                    'msender' => (bool) ($this->filter['mail_filter_sender'] ?? false),
+                    'mrcp' => (bool) ($this->filter['mail_filter_recipients'] ?? false)
                 ]);
                 $query_parser->parse();
 
@@ -377,8 +377,8 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
                 ilMailBoxQuery::$filtered_ids = $result->getIds();
                 ilMailBoxQuery::$filter = [
-                    'mail_filter_only_unread' => $this->filter['mail_filter_only_unread'],
-                    'mail_filter_only_with_attachments' => $this->filter['mail_filter_only_with_attachments'],
+                    'mail_filter_only_unread' => $this->filter['mail_filter_only_unread'] ?? false,
+                    'mail_filter_only_with_attachments' => $this->filter['mail_filter_only_with_attachments'] ?? false,
                 ];
             } else {
                 ilMailBoxQuery::$filter = $this->filter;
@@ -508,7 +508,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
                     return '<p>' . $value . '</p>';
                 }, $search_result));
 
-                if (!$mail['msr_subject']) {
+                if (!isset($mail['msr_subject']) || !$mail['msr_subject']) {
                     $mail['msr_subject_link_read'] = $link_mark_as_read;
                     $mail['msr_subject_mailclass'] = $css_class;
                     $mail['msr_subject'] = htmlspecialchars($mail['m_subject']);

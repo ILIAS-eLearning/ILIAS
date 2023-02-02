@@ -54,7 +54,7 @@ class TestConfig implements Config
 
 class TestObject extends Setup\CLI\AchieveCommand
 {
-    public function readAgentConfig(Agent $agent, InputInterface $input): ?Config
+    public function readAgentConfig(Agent $agent, InputInterface $input, string $use_config_field = null): ?Config
     {
         return new Setup\ConfigCollection(["Test" => new TestConfig()]);
     }

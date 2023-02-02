@@ -1,17 +1,20 @@
 <?php
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
@@ -20,33 +23,17 @@
  */
 class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
 {
-    /**
-     * @var bool
-     */
-    protected $parsingActive = false;
+    protected bool $parsingActive = false;
 
-    /**
-     * @var string
-     */
-    protected $characterDataBuffer = null;
+    protected ?string $characterDataBuffer = null;
 
-    protected ?ilTestSkillLevelThresholdImportList
-        $skillLevelThresholdImportList = null;
+    protected ?ilTestSkillLevelThresholdImportList $skillLevelThresholdImportList = null;
 
-    /**
-     * @var integer
-     */
-    protected $curSkillBaseId = null;
+    protected ?int $curSkillBaseId = null;
 
-    /**
-     * @var integer
-     */
-    protected $curSkillTrefId = null;
+    protected ?int $curSkillTrefId = null;
 
-    /**
-     * @var ilTestSkillLevelThresholdImport
-     */
-    protected $curSkillLevelThreshold = null;
+    protected ?ilTestSkillLevelThresholdImport $curSkillLevelThreshold = null;
 
     public function isParsingActive(): bool
     {
@@ -58,7 +45,7 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
         $this->parsingActive = $parsingActive;
     }
 
-    protected function getCharacterDataBuffer(): string
+    protected function getCharacterDataBuffer(): ?string
     {
         return $this->characterDataBuffer;
     }
@@ -76,7 +63,7 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
         $this->characterDataBuffer .= $characterData;
     }
 
-    public function getSkillLevelThresholdImportList(): \ilTestSkillLevelThresholdImportList
+    public function getSkillLevelThresholdImportList(): ?\ilTestSkillLevelThresholdImportList
     {
         return $this->skillLevelThresholdImportList;
     }
@@ -90,27 +77,27 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
         $this->skillLevelThresholdImportList = new ilTestSkillLevelThresholdImportList($ilDB);
     }
 
-    public function getCurSkillBaseId(): int
+    public function getCurSkillBaseId(): ?int
     {
         return $this->curSkillBaseId;
     }
 
-    public function setCurSkillBaseId(int $curSkillBaseId): void
+    public function setCurSkillBaseId(?int $curSkillBaseId): void
     {
         $this->curSkillBaseId = $curSkillBaseId;
     }
 
-    public function getCurSkillTrefId(): int
+    public function getCurSkillTrefId(): ?int
     {
         return $this->curSkillTrefId;
     }
 
-    public function setCurSkillTrefId(int $curSkillTrefId): void
+    public function setCurSkillTrefId(?int $curSkillTrefId): void
     {
         $this->curSkillTrefId = $curSkillTrefId;
     }
 
-    public function getCurSkillLevelThreshold(): \ilTestSkillLevelThresholdImport
+    public function getCurSkillLevelThreshold(): ?\ilTestSkillLevelThresholdImport
     {
         return $this->curSkillLevelThreshold;
     }

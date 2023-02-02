@@ -18,10 +18,6 @@
 
 use ILIAS\Modules\Test\CanAccessFileUploadAnswer;
 
-include_once "./Services/Object/classes/class.ilObjectAccess.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
-include_once './Services/Conditions/interfaces/interface.ilConditionHandling.php';
-
 /**
 * Class ilObjTestAccess
 *
@@ -115,7 +111,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             );
             $row = $ilDB->fetchAssoc($result);
             if ($row !== null && $row['active_id'] > 0) {
-                include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
                 assQuestion::_updateTestResultCache($row['active_id']);
             } else {
                 return false;
@@ -145,7 +140,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                     $active_id = $points[count($points) - 1]["active_fi"];
                     $pass = $points[count($points) - 1]["pass"];
                     if (strlen($active_id) && strlen($pass)) {
-                        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
                         $res = assQuestion::_updateTestPassResults($active_id, $pass, false, null, $a_obj_id);
                         $max = $res['maxpoints'];
                         $reached = $res['points'];
@@ -160,7 +154,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                             $active_id = $row["active_fi"];
                             $pass = $row["pass"];
                             if (strlen($active_id) && strlen($pass)) {
-                                include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
                                 $res = assQuestion::_updateTestPassResults($active_id, $pass, false, null, $a_obj_id);
                                 $max = $res['maxpoints'];
                                 $reached = $res['points'];
@@ -169,7 +162,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                     }
                 }
             }
-            include_once "./Modules/Test/classes/class.assMarkSchema.php";
             $percentage = (!$max) ? 0 : ($reached / $max) * 100.0;
             $mark = ASS_MarkSchema::_getMatchingMarkFromObjId($a_obj_id, $percentage);
             return ($mark["passed"]) ? true : false;
@@ -222,7 +214,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                     $active_id = $points[count($points) - 1]["active_fi"];
                     $pass = $points[count($points) - 1]["pass"];
                     if (strlen($active_id) && strlen($pass)) {
-                        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
                         $res = assQuestion::_updateTestPassResults($active_id, $pass, false, null, $a_obj_id);
                         $max = $res['maxpoints'];
                         $reached = $res['points'];
@@ -237,7 +228,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                             $active_id = $row["active_fi"];
                             $pass = $row["pass"];
                             if (strlen($active_id) && strlen($pass)) {
-                                include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
                                 $res = assQuestion::_updateTestPassResults($active_id, $pass, false, null, $a_obj_id);
                                 $max = $res['maxpoints'];
                                 $reached = $res['points'];
@@ -246,7 +236,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                     }
                 }
             }
-            include_once "./Modules/Test/classes/class.assMarkSchema.php";
             $percentage = (!$max) ? 0 : ($reached / $max) * 100.0;
             $mark = ASS_MarkSchema::_getMatchingMarkFromObjId($a_obj_id, $percentage);
             return ($mark["failed"]) ? true : false;
@@ -276,7 +265,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             );
             $row = $ilDB->fetchAssoc($result);
             if ($row !== null && $row['active_id'] > 0) {
-                include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
                 assQuestion::_updateTestResultCache($row['active_id']);
                 return true;
             } else {
@@ -293,7 +281,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      */
     public static function getConditionOperators(): array
     {
-        include_once './Services/Conditions/classes/class.ilConditionHandler.php';
         return array(
             ilConditionHandler::OPERATOR_PASSED,
             ilConditionHandler::OPERATOR_FAILED,
@@ -310,8 +297,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     */
     public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id): bool
     {
-        include_once './Services/Conditions/classes/class.ilConditionHandler.php';
-
         switch ($a_operator) {
             case ilConditionHandler::OPERATOR_PASSED:
                 return ilObjTestAccess::_isPassed($a_usr_id, $a_trigger_obj_id);
@@ -593,10 +578,8 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         $row = $ilDB->fetchAssoc($result);
         $obj_id = $row["obj_fi"];
 
-        include_once "./Modules/Test/classes/class.ilObjTest.php";
         $is_anonymous = ilObjTest::_lookupAnonymity($obj_id);
 
-        include_once './Services/User/classes/class.ilObjUser.php';
         $uname = ilObjUser::_lookupName($user_id);
 
         $name = "";
@@ -703,7 +686,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             }
             foreach ($all_participants as $active_id) {
                 if (!in_array($active_id, $found_participants)) {
-                    include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
                     assQuestion::_updateTestResultCache($active_id);
                 }
             }

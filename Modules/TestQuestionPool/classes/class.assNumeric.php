@@ -1,13 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScoringAdjustable.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoringAdjustable.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php';
-require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php';
 
 /**
  * Class for numeric questions
@@ -350,8 +359,10 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         }
         $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
         $data = $ilDB->fetchAssoc($result);
-
-        $enteredvalue = $data["value1"];
+        $enteredvalue = '';
+        if (is_array($data) && array_key_exists('value1', $data)) {
+            $enteredvalue = $data["value1"];
+        }
 
         $points = 0;
         if ($this->contains($enteredvalue)) {
@@ -552,7 +563,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 
         $next_id = $ilDB->nextId('qpl_num_range');
         $ilDB->manipulateF(
-            "INSERT INTO qpl_num_range (range_id, question_fi, lowerlimit, upperlimit, points, aorder, tstamp) 
+            "INSERT INTO qpl_num_range (range_id, question_fi, lowerlimit, upperlimit, points, aorder, tstamp)
 							 VALUES (%s, %s, %s, %s, %s, %s, %s)",
             array( 'integer', 'integer', 'text', 'text', 'float', 'integer', 'integer' ),
             array( $next_id, $this->id, $this->getLowerLimit(), $this->getUpperLimit(
@@ -623,7 +634,9 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         $worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
 
         $worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
-        if (strlen($solutions[0]["value1"])) {
+        if (array_key_exists(0, $solutions) &&
+            array_key_exists('value1', $solutions[0]) &&
+            strlen($solutions[0]["value1"])) {
             $worksheet->setCell($startrow + $i, 1, $solutions[0]["value1"]);
         }
         $i++;
@@ -641,7 +654,6 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
      */
     public function getOperators($expression): array
     {
-        require_once "./Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php";
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
     }
 

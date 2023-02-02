@@ -1,0 +1,23 @@
+@use "../../../010-settings/"as *;
+@use "../../../030-tools/tool_focus-outline" as *;
+
+.il-link{
+	@include il-focus();
+}
+
+
+.il-link.link-bulky {
+	text-decoration: none;
+
+	.icon, .bulky-label{
+		display: inline-block;
+	}
+
+	.icon {
+		text-decoration: none;
+	}
+
+	.bulky-label{
+		color: $il-text-color;
+	}
+}

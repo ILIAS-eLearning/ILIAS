@@ -166,12 +166,13 @@ class ilCalendarPresentationGUI
                 }
                 $visibility->showSelected($v);
                 $visibility->save();
-                $this->ctrl->setParameterByClass(\ilCalendarMonthGUI::class, 'seed', $this->seed);
-                $this->ctrl->redirectToURL(
-                    $this->ctrl->getLinkTargetByClass(\ilCalendarMonthGUI::class, '')
-                );
+                $this->ctrl->setParameterByClass(ilCalendarMonthGUI::class, 'category_id', $info['cat_id']);
+                $this->ctrl->setParameterByClass(\ilCalendarMonthGUI::class, 'seed', $this->getRequestedSeedAsString());
             }
         }
+        $this->ctrl->redirectToURL(
+            $this->ctrl->getLinkTargetByClass(\ilCalendarMonthGUI::class, '')
+        );
     }
 
     /**
@@ -203,7 +204,6 @@ class ilCalendarPresentationGUI
         $this->prepareOutput();
 
         $this->help->setScreenIdComponent("cal");
-
         switch ($cmd) {
             case 'selectCHCalendarOfUser':
                 $this->initAndRedirectToConsultationHours();
@@ -231,9 +231,7 @@ class ilCalendarPresentationGUI
                     $this->lng->txt('cal_back_to_cal'),
                     $this->ctrl->getLinkTargetByClass($this->readLastClass())
                 );
-
-                $gui = new ilConsultationHoursGUI();
-                $this->ctrl->forwardCommand($gui);
+                $this->ctrl->forwardCommand(new ilConsultationHoursGUI());
                 if ($this->showToolbarAndSidebar()) {
                     $this->showSideBlocks();
                 }
@@ -380,6 +378,7 @@ class ilCalendarPresentationGUI
         $ctrl->setParameterByClass("ilcalendarappointmentgui", "seed", $this->seed->get(IL_CAL_DATE, ''));
         $ctrl->setParameterByClass("ilcalendarappointmentgui", "app_id", "");
         $ctrl->setParameterByClass("ilcalendarappointmentgui", "dt", "");
+        $ctrl->setParameterByClass("ilcalendarappointmentgui", "idate", (new ilDate(time(), IL_CAL_UNIX))->get(IL_CAL_DATE));
 
         $extra_button_added = false;
         // add appointment
@@ -585,7 +584,7 @@ class ilCalendarPresentationGUI
 
         $this->tabs_gui->clearTargets();
         if ($this->getRepositoryMode()) {
-            if ($this->http->wrapper()->query()->has('back_tp_pd')) {
+            if ($this->http->wrapper()->query()->has('backpd')) {
                 $this->tabs_gui->setBack2Target(
                     $this->lng->txt('back_to_pd'),
                     $this->ctrl->getLinkTargetByClass(ilDashboardGUI::class, 'jumpToCalendar')
@@ -725,10 +724,7 @@ class ilCalendarPresentationGUI
         }
     }
 
-    /**
-     * init the seed date for presentations (month view, minicalendar)
-     */
-    public function initSeed(): void
+    protected function getRequestedSeedAsString(): string
     {
         $seed = '';
         if ($this->http->wrapper()->query()->has('seed')) {
@@ -737,6 +733,15 @@ class ilCalendarPresentationGUI
                 $this->refinery->kindlyTo()->string()
             );
         }
+        return $seed;
+    }
+
+    /**
+     * init the seed date for presentations (month view, minicalendar)
+     */
+    public function initSeed(): void
+    {
+        $seed = $this->getRequestedSeedAsString();
 
         // default to today
         $now = new \ilDate(time(), IL_CAL_UNIX);
@@ -766,7 +771,7 @@ class ilCalendarPresentationGUI
 
         $cats = ilCalendarCategories::_getInstance($this->user->getId());
         foreach ($cats->getCategoriesInfo() as $cat_id => $info) {
-            if ($info['remote']) {
+            if ($info['remote'] ?? false) {
                 // Check for execution
                 $category = new ilCalendarCategory($cat_id);
 

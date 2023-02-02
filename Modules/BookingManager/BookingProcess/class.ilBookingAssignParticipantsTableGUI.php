@@ -34,7 +34,7 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
     protected ilObjBookingPool $pool;
 
     public function __construct(
-        ilBookingProcessGUI $a_parent_obj,
+        object $a_parent_obj,
         string $a_parent_cmd,
         int $a_ref_id,
         int $a_pool_id,

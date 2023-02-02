@@ -41,8 +41,8 @@ or contribute a fix via [Pull Request](docs/development/contributing.md#pull-req
   The purpose is to temporarily store the message data in case the account navigates to other screens in
   the "Mail Service", e.g. "Search" or "Attachments" screens.
 - Personal "Mail Service" related preferences are stored along with the ID of the account. This includes the
-  preferred usage of the delivery channels, the setting which email addresses should be used, the configured signature,
-  a configurable linebreak and finally a flag whether daily summaries of internal emails should be sent to
+  preferred usage of the delivery channels, the setting which email addresses should be used, the configured signature 
+  and finally a flag whether daily summaries of internal emails should be sent to
   the external email addresses of the user (if the corresponding cron job is enabled in the administration).
 - ILIAS affords accounts with default mail folders to organize mails. Accounts can create custom folders for
   further structruring of mails. The ID of the account is used as a reference here to present the folders in the ILIAS

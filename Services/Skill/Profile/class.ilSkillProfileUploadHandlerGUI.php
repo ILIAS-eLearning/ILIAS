@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -30,7 +32,7 @@ use ILIAS\ResourceStorage\Services as ResourceStorage;
  *
  * @author Thomas Famula <famula@leifos.de>
  *
- * @ilCtrl_isCalledBy ilSkillProfileUploadHandlerGUI : ilObjSkillManagementGUI, ilContSkillAdminGUI
+ * @ilCtrl_isCalledBy ilSkillProfileUploadHandlerGUI : ilObjSkillTreeGUI, ilContSkillAdminGUI
  */
 class ilSkillProfileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 {

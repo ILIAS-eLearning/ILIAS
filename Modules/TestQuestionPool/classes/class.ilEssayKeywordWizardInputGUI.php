@@ -12,7 +12,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
 {
@@ -24,7 +25,7 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 foreach ($a_value['answer'] as $index => $value) {
                     include_once "./Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php";
                     if (isset($a_value['points'])) {
-                        $value = $a_value['points'][$index];
+                        $pvalue = $a_value['points'][$index];
                     } else {
                         $value = 0.0;
                     }
@@ -33,7 +34,7 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
                     } else {
                         $value_unchecked = 0.0;
                     }
-                    $answer = new ASS_AnswerMultipleResponseImage($value, (float)$value, $index, $value_unchecked);
+                    $answer = new ASS_AnswerMultipleResponseImage($value, (float)$pvalue, $index, $value_unchecked);
                     $this->values[] = $answer;
                 }
             }

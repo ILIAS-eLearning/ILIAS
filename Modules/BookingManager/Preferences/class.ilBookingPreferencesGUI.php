@@ -109,7 +109,7 @@ class ilBookingPreferencesGUI
 
         $fields = [];
         foreach (ilBookingObject::getList($this->pool->getId()) as $book_obj) {
-            $checked = is_array($preferences[$this->user->getId()]) &&
+            $checked = isset($preferences[$this->user->getId()]) &&
                 in_array($book_obj["booking_object_id"], $preferences[$this->user->getId()], true);
 
             $fields["cb_" . $book_obj["booking_object_id"]] =
@@ -209,7 +209,7 @@ class ilBookingPreferencesGUI
         $preferences = $repo->getPreferencesOfUser($this->pool->getId(), $this->user->getId());
         $preferences = $preferences->getPreferences();
         $cnt = 1;
-        if (is_array($preferences[$this->user->getId()])) {
+        if (isset($preferences[$this->user->getId()])) {
             foreach ($preferences[$this->user->getId()] as $book_obj_id) {
                 $book_obj = new ilBookingObject($book_obj_id);
                 $info_gui->addProperty((string) $cnt++, $book_obj->getTitle());
@@ -235,7 +235,7 @@ class ilBookingPreferencesGUI
                     $ctrl->setParameterByClass("ilBookingObjectGUI", "object_id", $book_obj_id);
                     $b = $ui->factory()->button()->shy(
                         $lng->txt("book_post_booking_information"),
-                        $ctrl->getLinkTargetByClass(["ilBookingObjectGUI", "ilBookingProcessGUI"], "displayPostInfo")
+                        $ctrl->getLinkTargetByClass(["ilBookingObjectGUI", "ilBookingProcessWithoutScheduleGUI"], "displayPostInfo")
                     );
                     $post_info_button = "<br>" . $ui->renderer()->render($b);
                 }

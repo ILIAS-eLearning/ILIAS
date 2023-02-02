@@ -16,12 +16,7 @@
  *
  *********************************************************************/
 
-require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScoringAdjustable.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoringAdjustable.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php';
-require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php';
 
 /**
  * Class for TextSubset questions
@@ -465,7 +460,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
             }
             switch ($textrating) {
                 case TEXTGAP_RATING_CASEINSENSITIVE:
-                    if (strcmp(ilStr::strToLower($value), ilStr::strToLower($answer)) == 0) {
+                    if (strcmp(ilStr::strToLower(html_entity_decode($value)), ilStr::strToLower($answer)) == 0) {
                         return $key;
                     }
                     break;
@@ -847,17 +842,24 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
      */
     protected function getSolutionSubmit(): array
     {
-        $solutionSubmit = array();
         $purifier = $this->getHtmlUserSolutionPurifier();
-        foreach ($_POST as $key => $val) {
-            if (preg_match("/^TEXTSUBSET_(\d+)/", $key, $matches)) {
-                $val = trim($val);
-                if (strlen($val)) {
-                    $val = $purifier->purify($val);
-                    $solutionSubmit[] = $val;
+        $post = $this->dic->http()->wrapper()->post();
+
+        $solutionSubmit = [];
+        foreach ($this->getAnswers() as $index => $a) {
+            if ($post->has("TEXTSUBSET_$index")) {
+                $value = $post->retrieve(
+                    "TEXTSUBSET_$index",
+                    $this->dic->refinery()->kindlyTo()->string()
+                );
+                if ($value) {
+                    $value = trim($value);
+                    $value = $purifier->purify($value);
+                    $solutionSubmit[] = $value;
                 }
             }
         }
+
         return $solutionSubmit;
     }
 
@@ -865,12 +867,13 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
      * @param $enteredTexts
      * @return int
      */
-    protected function calculateReachedPointsForSolution($enteredTexts): int
+    protected function calculateReachedPointsForSolution($enteredTexts): float
     {
+        $enteredTexts ??= [];
         $available_answers = $this->getAvailableAnswers();
         $points = 0;
         foreach ($enteredTexts as $enteredtext) {
-            $index = $this->isAnswerCorrect($available_answers, $enteredtext);
+            $index = $this->isAnswerCorrect($available_answers, html_entity_decode($enteredtext));
             if ($index !== false) {
                 unset($available_answers[$index]);
                 $points += $this->answers[$index]->getPoints();
@@ -889,7 +892,6 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
      */
     public function getOperators($expression): array
     {
-        require_once "./Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php";
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
     }
 

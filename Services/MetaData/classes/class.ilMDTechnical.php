@@ -316,11 +316,11 @@ class ilMDTechnical extends ilMDBase
                 $this->setRBACId((int) $row->rbac_id);
                 $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
-                $this->setSize($row->t_size);
+                $this->setSize($row->t_size ?? '');
                 $this->setInstallationRemarks($row->ir ?? '');
-                $this->setInstallationRemarksLanguage(new ilMDLanguageItem($row->ir_language));
+                $this->setInstallationRemarksLanguage(new ilMDLanguageItem($row->ir_language ?? ''));
                 $this->setOtherPlatformRequirements($row->opr ?? '');
-                $this->setOtherPlatformRequirementsLanguage(new ilMDLanguageItem($row->opr_language));
+                $this->setOtherPlatformRequirementsLanguage(new ilMDLanguageItem($row->opr_language ?? ''));
                 $this->setDuration($row->duration ?? '');
             }
             return true;

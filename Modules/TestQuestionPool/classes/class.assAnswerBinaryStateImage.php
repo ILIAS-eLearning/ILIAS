@@ -67,19 +67,17 @@ class ASS_AnswerBinaryStateImage extends ASS_AnswerBinaryState
      */
     public function getImage(): string
     {
-        return $this->image;
+        return $this->image ?? '';
     }
 
     /**
-     * Sets the image filename
-     *
      * Sets the image filename
      *
      * @param int|string $a_image The image filename
      *
      * @see $image
      */
-    public function setImage($a_image = 0): void
+    public function setImage($a_image = ''): void
     {
         $this->image = $a_image;
     }

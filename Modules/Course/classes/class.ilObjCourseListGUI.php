@@ -168,8 +168,8 @@ class ilObjCourseListGUI extends ilObjectListGUI
 
         // booking information
         $repo = ilObjCourseAccess::getBookingInfoRepo();
-        if (!$repo instanceof ilBookingReservationDBRepository) {
-            $repo = (new ilBookingReservationDBRepositoryFactory())->getRepoWithContextObjCache([$this->obj_id]);
+        if (!$repo instanceof \ILIAS\BookingManager\Reservations\ReservationDBRepository) {
+            $repo = $DIC->bookingManager()->internal()->repo()->reservationWithContextObjCache([$this->obj_id]);
         }
         $book_info = new ilBookingInfoListItemPropertiesAdapter($repo);
         return $book_info->appendProperties($this->obj_id, $props);

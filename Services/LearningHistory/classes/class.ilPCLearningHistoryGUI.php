@@ -115,10 +115,10 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
 
         //
         $radg = new ilRadioGroupInputGUI($lng->txt("lhist_type_of_achievement"), "mode");
-        //$radg->setValue();
-        $op1 = new ilRadioOption($lng->txt("lhist_all"), 0);
+        $radg->setValue("0");
+        $op1 = new ilRadioOption($lng->txt("lhist_all"), "0");
         $radg->addOption($op1);
-        $op2 = new ilRadioOption($lng->txt("lhist_selected"), 1);
+        $op2 = new ilRadioOption($lng->txt("lhist_selected"), "1");
         $radg->addOption($op2);
         $form->addItem($radg);
 

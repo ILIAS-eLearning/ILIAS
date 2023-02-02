@@ -21,7 +21,7 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  *
- * @deprecated 11
+ * @deprecated 10
  */
 class ilGroupedListGUI
 {
@@ -138,6 +138,9 @@ class ilGroupedListGUI
                         }
                         if ($i["id"] != "") {
                             $tpl->setVariable("ID", 'id="' . $i["id"] . '"');
+                        }
+                        if ($this->getAsDropDown()) {
+                            $tpl->setVariable("ITEM_ROLE", 'role="menuitem"');
                         }
                         $tpl->parseCurrentBlock();
                         $tpl->touchBlock("item");

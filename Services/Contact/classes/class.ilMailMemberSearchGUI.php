@@ -312,7 +312,7 @@ class ilMailMemberSearchGUI
 
         $radio_roles = new ilRadioOption($this->objMailMemberRoles->getRadioOptionTitle(), 'mail_member_roles');
         foreach ($mail_roles as $role) {
-            $chk_role = new ilCheckboxInputGUI($role['form_option_title'], 'roles[]');
+            $chk_role = new ilCheckboxInputGUI($role['form_option_title'], 'roles[' . $role['role_id'] . ']');
 
             if (isset($role['default_checked']) && $role['default_checked']) {
                 $chk_role->setChecked(true);

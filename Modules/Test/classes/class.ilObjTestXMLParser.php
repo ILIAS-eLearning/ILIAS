@@ -28,6 +28,8 @@ class ilObjTestXMLParser extends ilSaxParser
 
     protected ?ilImportMapping $importMapping = null;
 
+    protected String $cdata = '';
+
     public function getTestOBJ(): ?\ilObjTest
     {
         return $this->testOBJ;

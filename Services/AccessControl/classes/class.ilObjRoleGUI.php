@@ -1204,7 +1204,12 @@ class ilObjRoleGUI extends ilObjectGUI
                 'type_filter',
                 $this->refinery->kindlyTo()->string()
             );
-            $type_filter = unserialize($serialized_type_filter);
+            $type_filter = unserialize(
+                $serialized_type_filter,
+                [
+                    'allowed_classes' => false
+                ]
+            );
         }
 
         $this->object->changeExistingObjects($start, $mode, $type_filter);

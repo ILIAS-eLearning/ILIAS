@@ -75,8 +75,8 @@ class ilContainerLocalProfiles
 
         $this->profiles = [];
         $set = $db->query(
-            "SELECT spr.profile_id, spr.role_id, sp.title FROM skl_profile_role spr INNER JOIN skl_profile sp " .
-            " ON spr.profile_id = sp.id " .
+            "SELECT spr.profile_id, spr.role_id, sp.title, sp.skill_tree_id " .
+            " FROM skl_profile_role spr INNER JOIN skl_profile sp ON spr.profile_id = sp.id " .
             " WHERE sp.ref_id <> 0 " .
             " AND role_id  = " . $db->quote($this->getMemberRoleId(), "integer")
         );

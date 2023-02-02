@@ -1,5 +1,21 @@
 <?php
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Unit tests
  *
  * @author Guido Vollbach <gvollbachdatabay.de>
@@ -41,6 +57,7 @@ class assKprimChoiceTest extends assBaseTestCase
         $this->assertEquals('qpl_a_kprim', $obj->getAnswerTableName());
     }
 
+    /* Removed by @kergomard 17 NOV 2022, we should introduce this again
     public function test_isCompleteWithoutAnswer_shouldReturnTrue(): void
     {
         $obj = new assKprimChoice();
@@ -70,7 +87,7 @@ class assKprimChoiceTest extends assBaseTestCase
         $ans->setAnswertext('Text');
         $obj->addAnswer($ans);
         $this->assertEquals(true, $obj->isComplete());
-    }
+    } */
 
     public function test_isValidOptionLabel_shouldReturnTrue(): void
     {
@@ -85,6 +102,7 @@ class assKprimChoiceTest extends assBaseTestCase
         $this->assertEquals(true, $obj->isObligationPossible(1));
     }
 
+    /* Removed by @kergomard 17 NOV 2022, we should introduce this again
     public function test_getAnswer_shouldReturnAnswer(): void
     {
         $obj = new assKprimChoice();
@@ -94,7 +112,7 @@ class assKprimChoiceTest extends assBaseTestCase
         $obj->addAnswer($ans);
         $this->assertInstanceOf('ilAssKprimChoiceAnswer', $obj->getAnswer(0));
         $this->assertEquals(null, $obj->getAnswer(1));
-    }
+    } */
 
     public function test_isValidAnswerType_shouldReturnTrue(): void
     {

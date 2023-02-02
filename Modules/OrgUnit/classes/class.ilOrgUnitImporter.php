@@ -15,7 +15,6 @@
  *
  ********************************************************************
  */
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilOrgUnitImporter
@@ -39,11 +38,18 @@ class ilOrgUnitImporter extends ilXmlImporter
         $this->database = $DIC->database();
     }
 
-    /** @return bool|int */
-    protected function buildRef(int $id, string $type) /*: bool|int*/
+    /**
+     * @param $id int|string
+     * @return bool|int
+     */
+    protected function buildRef($id, string $type) /*: bool|int*/
     {
+        if (!is_int($id) && !is_string($id)) {
+            throw new \InvalidArgumentException("Expected int or string as \$id, got: " . gettype($id));
+        }
+
         if ($type === 'reference_id') {
-            if (!ilObjOrgUnit::_exists($id, true)) {
+            if (!ilObjOrgUnit::_exists((int) $id, true)) {
                 return false;
             }
 

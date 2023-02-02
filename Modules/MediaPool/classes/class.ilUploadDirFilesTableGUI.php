@@ -69,23 +69,22 @@ class ilUploadDirFilesTableGUI extends ilTable2GUI
         $files = array();
         foreach ($a_files as $f) {
             if (is_file($this->upload_dir . "/" . $f)) {
-                $files[] = $f;
+                $files[] = ["file" => $f];
             } elseif (is_dir($this->upload_dir . "/" . $f)) {
                 $dir = ilFileUtils::getDir($this->upload_dir . "/" . $f, true);
                 foreach ($dir as $d) {
                     if ($d["type"] === "file") {
-                        $files[] = $f . $d["subdir"] . "/" . $d["entry"];
+                        $files[] = ["file" => $f . $d["subdir"] . "/" . $d["entry"]];
                     }
                 }
             }
         }
-
         return $files;
     }
 
     protected function fillRow(array $a_set): void
     {
-        $this->tpl->setVariable("TXT_FILE", $a_set);
-        $this->tpl->setVariable("VAL_FILE", $a_set);
+        $this->tpl->setVariable("TXT_FILE", $a_set["file"]);
+        $this->tpl->setVariable("VAL_FILE", $a_set["file"]);
     }
 }

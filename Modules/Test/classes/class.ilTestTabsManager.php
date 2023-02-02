@@ -1,6 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -95,7 +111,7 @@ class ilTestTabsManager
     /**
      * @var array[string]
      */
-    protected $hiddenTabs;
+    protected $hiddenTabs = [];
 
     /**
      * ilTestTabsManager constructor.
@@ -266,24 +282,6 @@ class ilTestTabsManager
         }
 
         return true;
-    }
-
-    /**
-     */
-    public function initSettingsTemplate()
-    {
-        $this->resetHiddenTabs();
-
-        if ($this->getTestOBJ()->getTemplate()) {
-            require_once 'Services/Administration/classes/class.ilSettingsTemplate.php';
-
-            $template = new ilSettingsTemplate(
-                $this->getTestOBJ()->getTemplate(),
-                ilObjAssessmentFolderGUI::getSettingsTemplateConfig()
-            );
-
-            $this->setHiddenTabs($template->getHiddenTabs());
-        }
     }
 
     /**
@@ -588,7 +586,7 @@ class ilTestTabsManager
             }
 
             // skill service
-            if ($this->getTestOBJ()->isSkillServiceEnabled() && ilObjTest::isSkillManagementGloballyActivated()) {
+            if ($this->getTestOBJ()->isSkillServiceToBeConsidered()) {
                 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php';
 
                 $link = $DIC->ctrl()->getLinkTargetByClass(
@@ -645,7 +643,7 @@ class ilTestTabsManager
 
         // NEW CORRECTIONS TAB
         $setting = new ilSetting('assessment');
-        $scoring_adjust_active = (bool) $setting->get('assessment_adjustments_enabled', false);
+        $scoring_adjust_active = (bool) $setting->get('assessment_adjustments_enabled', '0');
         if ($this->isWriteAccessGranted() && $scoring_adjust_active && !$this->isHiddenTab(self::TAB_ID_CORRECTION)) {
             $this->tabs->addTab(
                 self::TAB_ID_CORRECTION,
@@ -658,7 +656,7 @@ class ilTestTabsManager
             // statistics tab
             $this->tabs->addTarget(
                 self::TAB_ID_STATISTICS,
-                $DIC->ctrl()->getLinkTargetByClass("iltestevaluationgui", "outEvaluation"),
+                $DIC->ctrl()->getLinkTargetByClass([ilRepositoryGUI::class, ilObjTestGUI::class, ilTestEvaluationGUI::class], "outEvaluation"),
                 array(
                     "statistics", "outEvaluation", "exportEvaluation", "detailedEvaluation", "eval_a", "evalUserDetail",
                     "passDetails", "outStatisticsResultsOverview", "statisticsPassDetails", "singleResults"
@@ -778,9 +776,6 @@ class ilTestTabsManager
         }
         */
 
-        //include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
-        //$template = new ilSettingsTemplate($this->getTestOBJ()->getTemplate(), ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
-
         if (!$this->isHiddenTab('questions')) {
             $this->tabs->addSubTab(
                 self::SUBTAB_ID_QST_LIST_VIEW,
@@ -896,17 +891,16 @@ class ilTestTabsManager
                 array("", "ilobjtestgui", "ilcertificategui")
             );
         }
-        /* TODO: PHP8 RETRY WHEN LTI IS DONE
-         $lti_settings = new ilLTIProviderObjectSettingGUI($this->testOBJ->getRefId());
-         if ($lti_settings->hasSettingsAccess()) {
-             $this->tabs->addSubTabTarget(
-                 'lti_provider',
-                 $DIC->ctrl()->getLinkTargetByClass(ilLTIProviderObjectSettingGUI::class),
-                 '',
-                 [ilLTIProviderObjectSettingGUI::class]
-             );
-         }
-        */
+
+        $lti_settings = new ilLTIProviderObjectSettingGUI($this->testOBJ->getRefId());
+        if ($lti_settings->hasSettingsAccess()) {
+            $this->tabs->addSubTabTarget(
+                'lti_provider',
+                $DIC->ctrl()->getLinkTargetByClass(ilLTIProviderObjectSettingGUI::class),
+                '',
+                [ilLTIProviderObjectSettingGUI::class]
+            );
+        }
     }
 
     /**

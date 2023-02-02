@@ -49,7 +49,7 @@ $r_pos = strpos($requested_target, "_");
 $rest = substr($requested_target, $r_pos + 1);
 $target_arr = explode("_", $requested_target);
 $target_type = $target_arr[0];
-$target_id = $target_arr[1];
+$target_id = $target_arr[1] ?? ''; // optional for plugins
 $additional = $target_arr[2] ?? '';		// optional for pages
 
 // imprint has no ref id...
@@ -61,11 +61,28 @@ if ($target_type === "impr") {
 if (!ilStartUpGUI::_checkGoto($requested_target)) {
     // if anonymous: go to login page
     if ($DIC->user()->getId() === 0 || $DIC->user()->isAnonymous()) {
-        $DIC->ctrl()->redirectToURL(
-            "login.php?target="
+        $url = "login.php?target="
             . $orig_target . "&cmd=force_login&lang="
-            . $DIC->user()->getCurrentLanguage()
-        );
+            . $DIC->user()->getCurrentLanguage();
+        if ($DIC->http()->wrapper()->query()->has('soap_pw')) {
+            $url = ilUtil::appendUrlParameterString(
+                $url,
+                'soap_pw=' . $DIC->http()->wrapper()->query()->retrieve(
+                    'soap_pw',
+                    $DIC->refinery()->kindlyTo()->string()
+                )
+            );
+        }
+        if ($DIC->http()->wrapper()->query()->has('ext_uid')) {
+            $url = ilUtil::appendUrlParameterString(
+                $url,
+                'ext_uid=' . $DIC->http()->wrapper()->query()->retrieve(
+                    'ext_uid',
+                    $DIC->refinery()->kindlyTo()->string()
+                )
+            );
+        }
+        $DIC->ctrl()->redirectToURL($url);
     } else {
         // message if target given but not accessible
         $tarr = explode("_", $requested_target);
@@ -107,7 +124,7 @@ switch ($target_type) {
 
         // exception, must be kept for now
     case "git":
-        $target_ref_id = $target_arr[2];
+        $target_ref_id = $target_arr[2] ?? 0;
         ilGlossaryTermGUI::_goto($target_id, $target_ref_id);
         break;
 
@@ -115,6 +132,7 @@ switch ($target_type) {
     case "glo":
         ilObjGlossaryGUI::_goto($target_id);
         break;
+
 
         // please migrate to default branch implementation
     case "lm":
@@ -125,6 +143,7 @@ switch ($target_type) {
     case "htlm":
         ilObjFileBasedLMGUI::_goto($target_id);
         break;
+
 
         // please migrate to default branch implementation
     case "frm":

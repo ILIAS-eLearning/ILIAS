@@ -32,14 +32,14 @@ class ilObjBlog extends ilObject2
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_service;
 
     protected int $nav_mode_list_months_with_post = 0;
-    protected bool $notes;
-    protected string $bg_color;
-    protected string $font_color;
-    protected string $img;
-    protected string $ppic;
-    protected bool $rss;
-    protected bool $approval;
-    protected bool $style;
+    protected bool $notes = false;
+    protected string $bg_color = "";
+    protected string $font_color = "";
+    protected string $img = "";
+    protected string $ppic = "";
+    protected bool $rss = false;
+    protected bool $approval = false;
+    protected bool $style = false;
     protected bool $abstract_shorten = false;
     protected int $abstract_shorten_length = self::ABSTRACT_DEFAULT_SHORTEN_LENGTH;
     protected bool $abstract_image = false;
@@ -48,7 +48,7 @@ class ilObjBlog extends ilObject2
     protected bool $keywords = true;
     protected int $nav_mode = self::NAV_MODE_LIST;
     protected int $nav_mode_list_postings = self::NAV_MODE_LIST_DEFAULT_POSTINGS;
-    protected ?int $nav_mode_list_months;
+    protected ?int $nav_mode_list_months = null;
     protected int $overview_postings = 5;
     protected bool $authors = true;
     protected array $order = [];

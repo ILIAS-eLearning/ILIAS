@@ -110,7 +110,9 @@ class ilAccountMail
 
     public function reset(): void
     {
-        unset($this->u_password, $this->user, $this->target);
+        $this->user = null;
+        $this->u_password = '';
+        $this->target = '';
     }
 
     /**

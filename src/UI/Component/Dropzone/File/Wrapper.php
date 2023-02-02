@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Triggerable;
+use ILIAS\UI\Implementation\Component\Signal;
 
 /**
  * A wrapper file dropzone wraps around any other component from the UI framework, e.g. a calendar entry.
@@ -28,7 +30,7 @@ use ILIAS\UI\Component\Component;
  * Dropping the files opens a modal where the user can start the upload process.
  * @author  nmaerchy <nm@studer-raimann.ch>
  */
-interface Wrapper extends File
+interface Wrapper extends File, Triggerable
 {
     /**
      * Get the components being wrapped by this dropzone.
@@ -36,4 +38,9 @@ interface Wrapper extends File
      * @return Component[]
      */
     public function getContent(): array;
+
+    /**
+     * gets the Signal to clear the file-list in the modal of a wrapper dropzone.
+     */
+    public function getClearSignal(): Signal;
 }

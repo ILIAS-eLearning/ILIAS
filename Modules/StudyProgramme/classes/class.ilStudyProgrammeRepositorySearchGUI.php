@@ -21,6 +21,8 @@ declare(strict_types=1);
 /**
 * Custom repository search gui class for study programme to make it possible
 * to get a handle on users selected in the repository search gui.
+*
+* @ilCtrl_Calls ilStudyProgrammeRepositorySearchGUI: ilPropertyFormGUI
 */
 class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
 {
@@ -87,7 +89,7 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
             $toolbar->addStickyItem($ul, true);
         }
 
-        if (count((array) $a_options['user_type'])) {
+        if (count($a_options['user_type'] ?? [])) {
             $si = new ilSelectInputGUI("", "user_type");
             $si->setOptions($a_options['user_type']);
             if (!$a_sticky) {
@@ -119,7 +121,7 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
                 $toolbar->addButtonInstance($button);
             }
 
-            if (is_numeric($a_options['add_from_container'])) {
+            if (isset($a_options['add_from_container']) && is_numeric($a_options['add_from_container'])) {
                 $parent_ref_id = (int) $a_options['add_from_container'];
                 $parent_container_ref_id = $tree->checkForParentType($parent_ref_id, "grp");
                 $parent_container_type = "grp";

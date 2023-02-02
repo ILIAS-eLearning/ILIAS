@@ -222,7 +222,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         //disengage all, close slates
-        $btn_disengage = $f->button()->bulky($f->symbol()->glyph()->collapseHorizontal("#"), "close", "#")
+        $btn_disengage = $f->button()->bulky($f->symbol()->glyph()->collapseHorizontal("#"), $this->txt('close'), "#")
             ->withOnClick($component->getDisengageAllSignal());
         $tpl->setVariable("CLOSE_SLATES", $default_renderer->render($btn_disengage));
 
@@ -244,7 +244,7 @@ class Renderer extends AbstractComponentRenderer
         ];
         $entries = $component->getEntries();
 
-        $more_label = 'more';
+        $more_label = $this->txt('show_more');
         $more_symbol = $f->symbol()->glyph()->disclosure()
             ->withCounter($f->counter()->novelty(0))
             ->withCounter($f->counter()->status(0));
@@ -332,6 +332,8 @@ class Renderer extends AbstractComponentRenderer
 
         $id = $this->bindJavaScript($component);
         $tpl->setVariable('ID', $id);
+        $tpl->setVariable('ID_HEADLINE', $id."_headline");
+        $tpl->setVariable('ID_DESCRIPTION', $id."_description");
 
         return $tpl->get();
     }

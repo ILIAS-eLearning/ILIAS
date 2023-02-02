@@ -199,11 +199,6 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                                 $error = true;
                             }
                         }
-                        if ($getType == CLOZE_SELECT) {
-                            if (ilUtil::stripSlashes($this->raw('shuffle_' . $key) ?? '') === '') {
-                                $error = true;
-                            }
-                        }
                     } else {
                         $error = true;
                     }

@@ -76,6 +76,7 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
         $this->refinery = $DIC->refinery();
         $this->appointment = $a_appointment;
         $this->infoscreen = $a_info_screen;
+        $this->info_items = [];
         $this->toolbar = $a_toolbar;
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule("dateplaner");

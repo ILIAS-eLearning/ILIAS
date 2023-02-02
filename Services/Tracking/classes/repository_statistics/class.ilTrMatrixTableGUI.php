@@ -76,11 +76,12 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
             }
         }
 
-
+        $this->lng = $DIC->language();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+        $this->initFilter();
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
-        // @todo check this: has to be before constructor to work
-        $this->initFilter();
         $this->parseTitle($this->obj_id, "trac_matrix");
         $this->setEnableHeader(true);
         $this->setFormAction(
@@ -135,7 +136,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                 } else {
                     $title = $icon . ' ' . $title;
                 }
-                if ($labels[$c]["path"]) {
+                if ($labels[$c]["path"] ?? false) {
                     $tooltip[] = $labels[$c]["path"];
                 }
             }
@@ -192,7 +193,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
             );
         }
         $parent = [];
-        if (is_array($this->obj_ids)) {
+        if (isset($this->obj_ids)) {
             $tmp_cols = array();
             foreach ($this->obj_ids as $obj_id) {
                 if ($obj_id == $this->obj_id) {
@@ -218,6 +219,14 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                     if ($type == "sess") {
                         $sess = new ilObjSession($obj_id, false);
                         $title = $sess->getPresentationTitle();
+                    }
+
+                    // BT 35475: set titles of referenced objects correctly
+                    if (
+                        $title == '' &&
+                        ($type == 'catr' || $type == 'crsr' || $type == 'grpr')
+                    ) {
+                        $title = ilContainerReference::_lookupTargetTitle((int) $obj_id);
                     }
 
                     // #16453
@@ -308,6 +317,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         array $a_user_fields,
         array $a_privary_fields = null
     ): array {
+
         // #17081
         if ($this->restore_filter) {
             $name = $this->restore_filter_values["name"];
@@ -339,7 +349,6 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                     $check_agreement = $this->in_group;
                 }
             }
-
             $data = ilTrQuery::getUserObjectMatrix(
                 $this->ref_id,
                 $collection["object_ids"],
@@ -417,12 +426,14 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                         $this->subitem_ids[$item_id] = $collection["subitems"]["item_titles"][$item_id];
 
                         $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
-                        if (in_array(
-                            $user_id,
-                            $collection["subitems"]["completed"][$item_id]
-                        )) {
+                        if (isset(
+                                $collection["subitems"]["completed"]
+                            ) && in_array(
+                                $user_id,
+                                $collection["subitems"]["completed"][$item_id]
+                            )) {
                             $status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
-                        } elseif (is_array(
+                        } elseif (isset(
                             $collection["subitems"]["in_progress"]
                         ) &&
                             in_array(
@@ -551,7 +562,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                         : ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 
                     $this->tpl->setCurrentBlock("objects");
-                    if (!$a_set["privacy_conflict"]) {
+                    if (!($a_set["privacy_conflict"] ?? false)) {
                         $this->tpl->setVariable(
                             "VAL_STATUS",
                             $this->parseValue(
@@ -568,12 +579,12 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
                 default:
                     $this->tpl->setCurrentBlock("user_field");
-                    if (!$a_set["privacy_conflict"]) {
+                    if (!($a_set["privacy_conflict"] ?? false)) {
                         $this->tpl->setVariable(
                             "VAL_UF",
                             $this->parseValue(
                                 $c,
-                                $a_set[$c],
+                                $a_set[$c] ?? "",
                                 ""
                             )
                         );
@@ -634,7 +645,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                     "(" . $type_text . ") " . $labels[$c]["txt"]
                 );
 
-                if (is_array($this->perc_map) && $this->perc_map[$obj_id]) {
+                if (isset($this->perc_map) && ($this->perc_map[$obj_id] ?? false)) {
                     $cnt++;
                     $a_excel->setCell(
                         $a_row,
@@ -672,7 +683,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                     );
                     $a_excel->setCell($a_row, $cnt, $val);
 
-                    if (is_array($this->perc_map) && $this->perc_map[$obj_id]) {
+                    if (isset($this->perc_map) && ($this->perc_map[$obj_id] ?? false)) {
                         $cnt++;
                         $perc = (int) $a_set[$c . "_perc"];
                         $perc = !$perc
@@ -697,7 +708,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                     case "status_changed":
                     */
                 default:
-                    $val = $this->parseValue($c, $a_set[$c], "user");
+                    $val = $this->parseValue($c, $a_set[$c] ?? '', "user");
                     $a_excel->setCell($a_row, $cnt, $val);
                     break;
             }
@@ -730,7 +741,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
                 $a_csv->addColumn("(" . $type_text . ") " . $labels[$c]["txt"]);
 
-                if (is_array($this->perc_map) && $this->perc_map[$obj_id]) {
+                if (isset($this->perc_map) && ($this->perc_map[$obj_id] ?? false)) {
                     $a_csv->addColumn(
                         $this->lng->txt("trac_percentage") . " (%)"
                     );
@@ -756,7 +767,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                     );
                     $a_csv->addColumn($val);
 
-                    if (is_array($this->perc_map) && $this->perc_map[$obj_id]) {
+                    if (isset($this->perc_map) && ($this->perc_map[$obj_id] ?? false)) {
                         $perc = (int) $a_set[$c . "_perc"];
                         if (!$perc) {
                             $perc = null;
@@ -780,7 +791,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                     case "status_changed":
                     */
                 default:
-                    $val = $this->parseValue($c, $a_set[$c], "user");
+                    $val = $this->parseValue($c, $a_set[$c] ?? '', "user");
                     $a_csv->addColumn($val);
                     break;
             }

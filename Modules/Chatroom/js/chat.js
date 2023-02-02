@@ -322,8 +322,8 @@
 			getDataById: function(id) {
 				return $(this).data('ilChatUserList')._index['id_' + id] ? $(this).data('ilChatUserList')._index['id_' + id].data('ilChatUserList') : undefined;
 			},
-			setNewEvents: function(id, newEvents) {
-				var data = $(this).data('ilChatUserList')._index['id_' + id].data('ilChatUserList');
+			setNewEvents: function(newEvents) {
+				var data = $(this).data('ilChatUserList')._index['id_0'].data('ilChatUserList');
 				if (data) {
 					data.new_events = newEvents;
 				}
@@ -388,16 +388,16 @@
 				});
 			},
 			add: function(options) {
-				if ($(this).data('ilChatList')._index['id_' + options.id]) {
+				if ($(this).data('ilChatList')._index['id_0']) {
 					if(options.label != undefined)
 					{
-						$(this).data('ilChatList')._index['id_' + options.id].find('.label').html(options.label);
+						$(this).data('ilChatList')._index['id_0'].find('.label').html(options.label);
 					}
 					return $(this);
 				}
 
 				var line = $(   
-					'<div class="listentry '+options.type+'_'+options.id+' online_user"><img src="'+iconsByType[options.type]+'" />&nbsp;' +
+					'<div class="listentry '+options.type+'_0'+' online_user"><img src="'+iconsByType[options.type]+'" />&nbsp;' +
 						'<div class="btn-group">' +
 							'<button class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-container="body">' +
 							'<span class="label">' + options.label + '</span> ' +
@@ -413,7 +413,7 @@
 				line.data('ilChatList', options);
 
 				var $this = $(this);
-				$this.data('ilChatList')._index['id_' + options.id] = line;
+				$this.data('ilChatList')._index['id_0'] = line;
 
 				line.find("button").on("click", function(e) {
 
@@ -487,9 +487,9 @@
 			getDataById: function(id) {
 				return $(this).data('ilChatList')._index['id_' + id] ? $(this).data('ilChatList')._index['id_' + id].data('ilChatList') : undefined;
 			},
-			setNewEvents: function(id, newEvents) {
+			setNewEvents: function(newEvents) {
 
-				var data = $(this).data('ilChatList')._index['id_' + id].data('ilChatList');
+				var data = $(this).data('ilChatList')._index['id_0'].data('ilChatList');
 				if(data)
 				{
 					data.new_events = newEvents;
@@ -546,29 +546,24 @@
 
 				$(this).data('state', s);
 			},
-			addScope: function(scope_id, scope) {
+			addScope: function(scope) {
 				const tmp = $('<div class="messageContainer" aria-live="off">');
-				$(this).data('ilChatMessageArea')._scopes['id_' + scope_id] = tmp;
+				$(this).data('ilChatMessageArea')._scopes['id_0'] = tmp;
 				$(this).append(tmp);
 				tmp.data('ilChatMessageArea', scope);
 				tmp.hide();
 
 				const fader = $('<div class="fader">');
-				$(this).data('ilChatMessageArea')._typeInfos['id_' + scope_id] = fader;
+				$(this).data('ilChatMessageArea')._typeInfos['id_0'] = fader;
 				$(this).append(fader);
 				fader.data('ilChatMessageArea', scope);
 				fader.append($('<div class="typing-info" aria-live="off">'));
 				fader.hide();
 			},
 			addTypingInfo: function (messageObject, text) {
-				const scope = messageObject.subRoomId;
 				let containers;
 
-				if (scope == -1) {
-					containers = $(this).data('ilChatMessageArea')._typeInfos;
-				} else {
-					containers = [$(this).data('ilChatMessageArea')._typeInfos['id_' + scope]];
-				}
+				containers = [$(this).data('ilChatMessageArea')._typeInfos['id_0']];
 
 				$.each(containers, function() {
 					const container = this;
@@ -580,14 +575,9 @@
 					container.find(".typing-info").text(text);
 				});
 			},
-			addMessage: function(scope, message) {
+			addMessage: function(message) {
 				var containers, msgArea = $(this);
-				if (scope == -1) {
-					containers = $(this).data('ilChatMessageArea')._scopes;
-				}
-				else {
-					containers = [$(this).data('ilChatMessageArea')._scopes['id_' + scope]];
-				}
+				containers = [$(this).data('ilChatMessageArea')._scopes['id_0']];
 
 				$.each(containers, function() {
 					var container = this;
@@ -596,8 +586,8 @@
 						return;
 					}
 
-                    var line = $('<div class="messageLine chat"></div>')
-							.addClass((message.target != undefined && !message.target.public) ? 'private' : 'public');
+					var line = $('<div class="messageLine chat"></div>')
+						.addClass((message.target != undefined && !message.target.public) ? 'private' : 'public');
 
 					switch(message.type) {
 						case 'message':
@@ -617,41 +607,37 @@
 							var messageDate =  new Date(message.timestamp);
 
 							if (typeof lastHandledDate.scope == "undefined" ||
-								lastHandledDate.scope== null || 
+								lastHandledDate.scope== null ||
 								lastHandledDate.scope.getDate() != messageDate.getDate() ||
 								lastHandledDate.scope.getMonth() != messageDate.getMonth() ||
 								lastHandledDate.scope.getFullYear() != messageDate.getFullYear()) {
-								container.append($('<div class="messageLine chat dateline"><span class="chat content date">' + il.Chatroom.formatISODate(message.timestamp) + '</span><span class="chat content username"></span><span class="chat content message"></span></div>'));
+								container.append($('<div class="messageLine chat dateline"><span class="chat content date">' +	 il.Chatroom.formatISODate(message.timestamp) + '</span><span class="chat content username"></span><span class="chat content message"></span></div>'));
 							}
 							lastHandledDate.scope = messageDate;
-							
-							line.append($('<span class="chat content date"></span>').append('' + il.Chatroom.formatISOTime(message.timestamp) + ', '))
-								.append($('<span class="chat content username"></span>').append(message.from.username));
+
+							line.append($('<span class="chat content date"></span>').append('' + il.Chatroom.formatISOTime(message	.timestamp) + ', '))
+							.append($('<span class="chat content username"></span>').append(message.from.username));
 
 							if (message.target) {
 								if (message.target.username != "") {
-									line.append($('<span class="chat recipient">@</span>').append(message.target.username))
-								}
-								else {
-									line.append($('<span class="chat recipient">@</span>').append('unknown'))
+									line.append($('<span class="chat recipient">@</span>').append(message.target.username)	);
+								} else {
+									line.append($('<span class="chat recipient">@</span>').append('unknown'));
 								}
 							}
 
 							var messageSpan = $('<span class="chat content message"></span>');
-								messageSpan.text(messageSpan.text(content).text())
-									.html(il.Chatroom.getSmileys().replace(messageSpan.text()));
+							messageSpan.text(messageSpan.text(content).text())
+							.html(il.Chatroom.getSmileys().replace(messageSpan.text()));
 							line.append($('<span class="chat content messageseparator">:</span>'))
-								.append(messageSpan);
+							.append(messageSpan);
 
-							if (message.subRoomId != il.Chatroom.getSubRoomId()) {
-								$('.room_' + message.subRoomId).addClass('new_events');
-							}
+							$('.room_0').addClass('new_events');
 
 							break;
 						case 'connected':
 							if (message.login || (message.users[0] && message.users[0].login)) {
-								line
-								    .append($('<span class="chat"></span>').append(il.Chatroom.translate('connect', {username: message.users[0].login})));
+								line.append($('<span class="chat"></span>').append(il.Chatroom.translate('connect', {username: message.users[0].login})));
 								line.addClass('notice');
 								if (!msgArea.data('state').show_auto_msg) {
 									line.addClass('ilNoDisplay');
@@ -660,8 +646,7 @@
 							break;
 						case 'disconnected':
 							if (message.login || (message.users[0] && message.users[0].login)) {
-								line
-								    .append($('<span class="chat"></span>').append(il.Chatroom.translate('disconnected', {username: message.users[0].login})));
+								line.append($('<span class="chat"></span>').append(il.Chatroom.translate('disconnected', {	username: message.users[0].login})));
 								line.addClass('notice');
 								if (!msgArea.data('state').show_auto_msg) {
 									line.addClass('ilNoDisplay');
@@ -670,25 +655,23 @@
 							break;
 						case 'private_room_entered':
 							if (message.login || (message.users[0] && message.users[0].login)) {
-							    line
-							    .append($('<span class="chat content date"></span>').append('' + il.Chatroom.formatISOTime(message.timestamp) + ', '))
-							    .append($('<span class="chat content username"></span>').append(message.login || message.users[0].login))
-							    .append($('<span class="chat content messageseparator">:</span>'))
-							    .append($('<span class="chat content message"></span>').append(il.Chatroom.translate('connect', {username: message.users[0].login})));
+								line
+									.append($('<span class="chat content date"></span>').append('' + il.Chatroom.formatISOTime(message.timestamp) + ', '))
+									.append($('<span class="chat content username"></span>').append(message.login || message.users	[0].login))
+									.append($('<span class="chat content messageseparator">:</span>'))
+									.append($('<span class="chat content message"></span>').append(il.Chatroom.translate('connect'	, {username: message.users[0].login})));
 							}
 							break;
 						case 'private_room_left':
 						case 'notice':
-							line
-							    .append($('<span class="chat"></span>').append(message.content));
+							line.append($('<span class="chat"></span>').append(message.content));
 							line.addClass('notice');
 							if (!msgArea.data('state').show_auto_msg) {
 								line.addClass('ilNoDisplay');
 							}
 							break;
 						case 'error':
-							line
-							.append($('<span class="chat"></span>').append(message.content));
+							line.append($('<span class="chat"></span>').append(message.content));
 							line.addClass('error');
 							break;
 						case 'userjustkicked':
@@ -696,10 +679,7 @@
 					}
 
 					container.append(line);
-
-					if (message.subRoomId == il.Chatroom.getSubRoomId()) {
-						scrollChatArea(container, msgArea.data('state'));
-					}
+					scrollChatArea(container, msgArea.data('state'));
 				});
 
 				return $(this);
@@ -707,10 +687,10 @@
 			hasContent: function(id) {
 				return $(this).data('ilChatMessageArea')._scopes['id_' + id].find('div').length > 0;
 			},
-			clearMessages: function(id) {
-				$(this).data('ilChatMessageArea')._scopes['id_' + id].find('div').html('');
+			clearMessages: function() {
+				$(this).data('ilChatMessageArea')._scopes['id_0'].find('div').html('');
 			},
-			show: function(id, posturl, leaveCallback) {
+			show: function(posturl, leaveCallback) {
 				const scopes = $(this).data('ilChatMessageArea')._scopes,
 					typeInfos = $(this).data('ilChatMessageArea')._typeInfos,
 					msgArea = $(this);
@@ -723,37 +703,18 @@
 					$(this).hide().find("[aria-live]").attr("aria-live", "off");
 				});
 
-				scopes['id_' + id].attr("aria-live", "polite").show();
-				typeInfos['id_' + id].show().find("[aria-live]").attr("aria-live", "polite");
+				scopes['id_0'].attr("aria-live", "polite").show();
+				typeInfos['id_0'].show().find("[aria-live]").attr("aria-live", "polite");
 
-				scrollChatArea(scopes['id_' + id], msgArea.data('state'));
-				if (id == 0) {
-				    $('.current_room_title').text(scopes['id_' + id].data('ilChatMessageArea').title);
-				}
-				else {
-				    $('.current_room_title').html('').append(
-					$('<a href="#"></a>')
-					    .text(il.Chatroom.translate('main'))
-					    .click(function(e) {
-							e.preventDefault();
-							e.stopPropagation();
+				scrollChatArea(scopes['id_0'], msgArea.data('state'));
+			    $('.current_room_title').text(scopes['id_0'].data('ilChatMessageArea').title);
 
-							il.Chatroom.leavePrivateRoom();
-					    })
-				    )
-				    .append('&nbsp;&rarr;&nbsp;' + scopes['id_' + id].data('ilChatMessageArea').title);
-				}
                     
 				$('.in_room').removeClass('in_room');
                     
-				$('.room_' + id).addClass('in_room');
+				$('.room_0').addClass('in_room');
 
-				if (!id) {
-					$('#chat_users').find('.online_user').not('.hidden_entry').show();
-				}
-				else {
-					$('#chat_users').find('.online_user').hide();
-				}
+			    $('#chat_users').find('.online_user').not('.hidden_entry').show();
 
 				if ($('.online_user:visible').length == 0) {
 					$('.no_users').show();
@@ -796,8 +757,6 @@
 						}
 					});
 
-				il.Chatroom.setSubRoomId(id);
-
 				return $(this);
 			}
 		};
@@ -810,4 +769,4 @@
 			$.error( 'Method ' +  method + ' does not exist on jQuery.ilChatMessageArea' );
 		}
 	};
-})(jQuery)
+})(jQuery);

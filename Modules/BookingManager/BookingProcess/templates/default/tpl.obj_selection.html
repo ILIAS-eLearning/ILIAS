@@ -1,0 +1,10 @@
+<form method="post" action="{FORM_ACTION}">
+    <ul class="il-book-obj-selection">
+        <!-- BEGIN item -->
+        <li class="il-book-border-mark-{COLOR_NR}">
+            <input id="book_obj_cb_{ID}" type="checkbox" name="object_id[]" value="{ID}" {CHECKED}> <label for="book_obj_cb_{ID}">{TITLE}</label>
+        </li>
+        <!-- END item -->
+    </ul>
+    {BUTTON}
+</form>

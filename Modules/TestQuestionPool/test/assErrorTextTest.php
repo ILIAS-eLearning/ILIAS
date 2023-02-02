@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Unit tests for assErrorTextTest
@@ -93,6 +107,7 @@ class assErrorTextTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
+    /* Removed by @kergomard 17 NOV 2022, we should introduce this again
     public function test_getErrorsFromText_emptyArgShouldPullInternal(): void
     {
         // Arrange
@@ -100,10 +115,10 @@ class assErrorTextTest extends assBaseTestCase
         $instance = new assErrorText();
 
         $errortext = '
-			Eine ((Kündigung)) kommt durch zwei gleichlautende Willenserklärungen zustande.
-			Ein Vertrag kommt durch ((drei gleichlaute)) Willenserklärungen zustande.
-			Ein Kaufvertrag an der Kasse im #Supermarkt kommt durch das legen von Ware auf das
-			Kassierband und den Kassiervorgang zustande. Dies nennt man ((konsequentes)) Handeln.';
+            Eine ((Kündigung)) kommt durch zwei gleichlautende Willenserklärungen zustande.
+            Ein Vertrag kommt durch ((drei gleichlaute)) Willenserklärungen zustande.
+            Ein Kaufvertrag an der Kasse im #Supermarkt kommt durch das legen von Ware auf das
+            Kassierband und den Kassiervorgang zustande. Dies nennt man ((konsequentes)) Handeln.';
 
         $expected = array(
             'passages' => array( 0 => 'Kündigung',  1 => 'drei gleichlaute', 3 => 'konsequentes'),
@@ -116,7 +131,7 @@ class assErrorTextTest extends assBaseTestCase
 
         // Assert
         $this->assertEquals($expected, $actual);
-    }
+    } */
 
     public function test_setErrordata_newError(): void
     {

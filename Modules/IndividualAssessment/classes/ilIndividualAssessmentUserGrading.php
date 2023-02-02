@@ -2,7 +2,21 @@
 
 declare(strict_types=1);
 
-/* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Input\Field;
 use ILIAS\Refinery\Factory as Refinery;
@@ -66,6 +80,11 @@ class ilIndividualAssessmentUserGrading
         return $this->file;
     }
 
+    public function hasFile(): bool
+    {
+        return !empty($this->file);
+    }
+
     public function isFileVisible(): bool
     {
         return $this->is_file_visible;
@@ -116,6 +135,7 @@ class ilIndividualAssessmentUserGrading
         ilLanguage $lng,
         Refinery $refinery,
         AbstractCtrlAwareUploadHandler $file_handler,
+        \ILIAS\Data\DateFormat\DateFormat $date_format,
         array $grading_options,
         bool $may_be_edited = true,
         bool $place_required = false,
@@ -141,7 +161,7 @@ class ilIndividualAssessmentUserGrading
 
         $file = $input
             ->file($file_handler, $lng->txt('iass_upload_file'), $lng->txt('iass_file_dropzone'))
-            ->withValue([$this->getFile()])
+            ->withValue($this->hasFile() ? [$this->getFile()] : [])
         ;
 
         $file_visible = $input
@@ -166,13 +186,14 @@ class ilIndividualAssessmentUserGrading
 
         $event_time = $input
             ->dateTime($lng->txt('iass_event_time'))
+            ->withUseTime(true)
+            ->withFormat($date_format)
             ->withRequired($place_required)
             ->withDisabled(!$may_be_edited)
         ;
 
         if (!is_null($this->getEventTime())) {
-            $format = $data_factory->dateFormat()->standard()->toString();
-            $event_time = $event_time->withValue($this->getEventTime()->format($format));
+            $event_time = $event_time->withValue($this->getEventTime()->format($date_format->toString()));
         }
 
         $notify = $input

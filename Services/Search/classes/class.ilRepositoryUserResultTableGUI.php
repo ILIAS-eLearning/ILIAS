@@ -163,17 +163,17 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 
         $link = '';
         if ($this->getType() == self::TYPE_GLOBAL_SEARCH) {
-            $link = ilUserUtil::getProfileLink($a_set['usr_id']);
+            $link = ilUserUtil::getProfileLink((int) $a_set['usr_id']);
             if ($link) {
                 $this->tpl->setVariable('IMG_LINKED_TO_PROFILE', $link);
                 $this->tpl->setVariable(
                     'USR_IMG_SRC_LINKED',
-                    ilObjUser::_getPersonalPicturePath($a_set['usr_id'], 'xsmall')
+                    ilObjUser::_getPersonalPicturePath((int) $a_set['usr_id'], 'xsmall')
                 );
             } else {
                 $this->tpl->setVariable(
                     'USR_IMG_SRC',
-                    ilObjUser::_getPersonalPicturePath($a_set['usr_id'], 'xsmall')
+                    ilObjUser::_getPersonalPicturePath((int) $a_set['usr_id'], 'xsmall')
                 );
             }
         }
@@ -337,7 +337,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
             foreach ($usr_data['set'] as $set) {
                 $users[$counter] = $set;
                 foreach ($udf_ids as $udf_field) {
-                    $users[$counter]['udf_' . $udf_field] = $data[$set['usr_id']][$udf_field];
+                    $users[$counter]['udf_' . $udf_field] = $data[(int) $set['usr_id']][$udf_field];
                 }
                 ++$counter;
             }
@@ -348,13 +348,10 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
         if ($this->getType() == self::TYPE_GLOBAL_SEARCH) {
             if ($this->getLuceneResult() instanceof ilLuceneSearchResult) {
                 foreach ($users as $counter => $ud) {
-                    $users[$counter]['relevance'] = $this->getLuceneResult()->getRelevance($ud['usr_id']);
+                    $users[$counter]['relevance'] = $this->getLuceneResult()->getRelevance((int) $ud['usr_id']);
                 }
             }
         }
-
-
-
         $this->setData($users);
         return true;
     }

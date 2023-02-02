@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +13,10 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Resource\InfoResolver;
 
@@ -29,12 +30,12 @@ use ILIAS\FileUpload\DTO\UploadResult;
  */
 class UploadInfoResolver extends AbstractInfoResolver implements InfoResolver
 {
-    protected \ILIAS\FileUpload\DTO\UploadResult $upload;
     protected string $path;
     protected string $file_name;
     protected string $suffix;
     protected string $mime_type;
     protected \DateTimeImmutable $creation_date;
+    protected UploadResult $upload;
 
     public function __construct(
         UploadResult $upload,
@@ -42,8 +43,8 @@ class UploadInfoResolver extends AbstractInfoResolver implements InfoResolver
         int $revision_owner_id,
         string $revision_title
     ) {
-        parent::__construct($next_version_number, $revision_owner_id, $revision_title);
         $this->upload = $upload;
+        parent::__construct($next_version_number, $revision_owner_id, $revision_title);
         $this->file_name = $upload->getName();
         $this->suffix = pathinfo($this->file_name, PATHINFO_EXTENSION);
         $this->mime_type = $upload->getMimeType();
@@ -72,6 +73,6 @@ class UploadInfoResolver extends AbstractInfoResolver implements InfoResolver
 
     public function getSize(): int
     {
-        return $this->upload->getSize() ?? 0;
+        return $this->upload->getSize();
     }
 }

@@ -28,72 +28,60 @@ declare(strict_types=1);
  * @author  Stefan Meyer <meyer@leifos.com>
  * @version $Id$
  * @ingroup ServicesCalendar
+ * @implements Iterator<string, ilDateTime>
  */
-class ilDateList implements Iterator
+class ilDateList implements Iterator, Countable
 {
     public const TYPE_DATE = 1;
     public const TYPE_DATETIME = 2;
 
-    protected array $list_item = array();
+    /** @var array<string, ilDateTime> */
+    protected array $list_item = [];
 
     protected int $type;
 
     public function __construct(int $a_type)
     {
         $this->type = $a_type;
-        $this->list_item = array();
+        $this->list_item = [];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function rewind()
+    public function rewind(): void
     {
         reset($this->list_item);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function current()
+    public function current(): ilDateTime
     {
         return current($this->list_item);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function key()
+    public function key(): string
     {
         return key($this->list_item);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function next()
+    public function next(): void
     {
-        return next($this->list_item);
+        next($this->list_item);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function valid(): bool
     {
-        return $this->current() !== false;
+        return key($this->list_item) !== null;
     }
 
-    /**
-     */
+    public function count(): int
+    {
+        return count($this->list_item);
+    }
+
+    /** @return array<string, ilDateTime> */
     public function get(): array
     {
-        return $this->list_item ?: array();
+        return $this->list_item;
     }
 
-    /**
-     * get item at specific position
-     */
     public function getAtPosition(int $a_pos): ?ilDateTime
     {
         $counter = 1;
@@ -102,20 +90,15 @@ class ilDateList implements Iterator
                 return $item;
             }
         }
+
         return null;
     }
 
-    /**
-     * add a date to the date list
-     */
     public function add(ilDateTime $date): void
     {
         $this->list_item[(string) $date->get(IL_CAL_UNIX)] = clone $date;
     }
 
-    /**
-     * Merge two lists
-     */
     public function merge(ilDateList $other_list): void
     {
         foreach ($other_list->get() as $new_date) {
@@ -123,12 +106,9 @@ class ilDateList implements Iterator
         }
     }
 
-    /**
-     * remove from list
-     */
     public function remove(ilDateTime $remove): void
     {
-        $unix_remove = $remove->get(IL_CAL_UNIX);
+        $unix_remove = (string) $remove->get(IL_CAL_UNIX);
         if (isset($this->list_item[$unix_remove])) {
             unset($this->list_item[$unix_remove]);
         }
@@ -143,9 +123,6 @@ class ilDateList implements Iterator
         }
     }
 
-    /**
-     * Sort list
-     */
     public function sort(): void
     {
         ksort($this->list_item, SORT_NUMERIC);
@@ -157,6 +134,7 @@ class ilDateList implements Iterator
         foreach ($this->get() as $date) {
             $out .= $date->get(IL_CAL_DATETIME, '', 'Europe/Berlin') . '<br/>';
         }
+
         return $out;
     }
 }

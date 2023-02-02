@@ -139,7 +139,10 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
 
         if ($this->db->numRows($res) > 0) {
             $row = $this->db->fetchAssoc($res);
-            $feedbackContent = ilRTE::_replaceMediaObjectImageSrc($row['feedback'] ?? '', 1);
+            $feedbackContent = ilRTE::_replaceMediaObjectImageSrc(
+                $this->questionOBJ->getHtmlQuestionContentPurifier()->purify($row['feedback'] ?? ''),
+                1
+            );
         }
 
         return $feedbackContent;
@@ -167,7 +170,10 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
     public function saveSpecificAnswerFeedbackContent(int $questionId, int $questionIndex, int $answerIndex, string $feedbackContent): int
     {
         if ($feedbackContent !== '') {
-            $feedbackContent = ilRTE::_replaceMediaObjectImageSrc($feedbackContent, 0);
+            $feedbackContent = ilRTE::_replaceMediaObjectImageSrc(
+                $this->questionOBJ->getHtmlQuestionContentPurifier()->purify($feedbackContent),
+                0
+            );
         }
 
         $feedbackId = $this->getSpecificAnswerFeedbackId($questionId, $questionIndex, $answerIndex);

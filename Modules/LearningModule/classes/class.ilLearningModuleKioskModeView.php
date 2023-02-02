@@ -130,7 +130,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         // this may be necessary if updateGet has not been processed
 
         // THIS currently fails
-        $this->initLMService($state->getValueFor("current_page"));
+        $this->initLMService((int) $state->getValueFor("current_page"));
         $nav_stat = $this->lm_pres_service->getNavigationStatus();
 
         // next
@@ -230,6 +230,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         URLBuilder $url_builder,
         array $post = null
     ): Component {
+        $this->initLMService((int) $state->getValueFor("current_page"));
         $this->ctrl->setParameterByClass("illmpresentationgui", 'ref_id', $this->lm->getRefId());
         $content = $this->uiRenderer->render($this->messages);
         // @todo Check non-existence of third parameter (existed in ILIAS 7)

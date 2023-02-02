@@ -1,0 +1,58 @@
+@use "../../../010-settings/" as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_tree" as *;
+@use "../../../050-layout/basics" as *;
+
+//== Tree
+//
+
+.il-tree {
+	list-style-type: none;
+	padding: 0 $il-padding-small-vertical 0 calc($il-padding-small-vertical + $il-tree-node-horizontal-spacing);
+	margin-left: 0;
+	ul {
+		padding-left: $il-tree-node-indentation;
+		list-style-type: none;
+	}
+	li.il-tree-node {
+		padding: 0;
+
+		.node-line {
+			padding: $il-tree-node-vertical-spacing 0 $il-tree-node-vertical-spacing $il-tree-node-indentation;
+			cursor: pointer;
+			display: flex;
+			flex-wrap: wrap;
+			> .node-label {
+				padding-left: $il-tree-node-horizontal-spacing;
+				.icon {
+					vertical-align: text-bottom;
+				}
+			}
+			> .node-byline {
+				padding-left: $il-tree-node-horizontal-spacing;
+				width: 100%;
+			}
+		}
+		&.highlighted > .node-line {
+			background-color: $il-highlight-bg;
+		}
+		&.expandable {
+			> .node-line:before {
+				color: $il-neutral-light-color;
+				// to be fixed: @extend .glyphicon-triangle-right:before;
+				font-family: il-icons;
+				content: "\e606";
+				position: absolute;
+				margin-left: -$il-tree-node-indentation;
+			}
+			&[aria-expanded="true"] > .node-line:before {
+				// to be fixed: @extend .glyphicon-triangle-bottom:before;
+				font-family: il-icons;
+				content: "\e604";
+			}
+		}
+		&[aria-expanded="false"] > ul{
+			display: none;
+		}
+	}
+}
+

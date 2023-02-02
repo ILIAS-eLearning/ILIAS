@@ -13,26 +13,27 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
 
 namespace ILIAS\ResourceStorage\Revision\Repository;
 
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\ResourceStorage\Lock\LockingRepository;
+use ILIAS\ResourceStorage\Preloader\PreloadableRepository;
+use ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver;
+use ILIAS\ResourceStorage\Resource\StorableResource;
+use ILIAS\ResourceStorage\Revision\CloneRevision;
+use ILIAS\ResourceStorage\Revision\FileRevision;
 use ILIAS\ResourceStorage\Revision\FileStreamRevision;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Revision\RevisionCollection;
 use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
-use ILIAS\ResourceStorage\Resource\StorableResource;
-use ILIAS\ResourceStorage\Lock\LockingRepository;
-use ILIAS\ResourceStorage\Revision\CloneRevision;
-use ILIAS\ResourceStorage\Revision\FileRevision;
-use ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver;
-use ILIAS\ResourceStorage\Preloader\PreloadableRepository;
 
 /**
  * Class RevisionARRepository
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  * @internal
  */
 interface RevisionRepository extends LockingRepository, PreloadableRepository

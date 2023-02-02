@@ -1,11 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
-require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
-require_once 'Services/Taxonomy/classes/class.ilTaxonomyTree.php';
-require_once 'Services/Taxonomy/classes/class.ilTaxNodeAssignment.php';
-require_once 'Modules/TestQuestionPool/classes/class.ilQuestionPoolDuplicatedTaxonomiesKeysMap.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -102,14 +113,20 @@ class ilQuestionPoolTaxonomiesDuplicator
 
     private function duplicateTaxonomyFromPoolToTest($poolTaxonomyId): void
     {
+        $poolTaxonomy = new ilObjTaxonomy($poolTaxonomyId);
         $testTaxonomy = new ilObjTaxonomy();
         $testTaxonomy->create();
+        $testTaxonomy->setTitle($poolTaxonomy->getTitle());
+        $testTaxonomy->setDescription($poolTaxonomy->getDescription());
+        $testTaxonomy->setSortingMode($poolTaxonomy->getSortingMode());
 
-        $poolTaxonomy = new ilObjTaxonomy($poolTaxonomyId);
-        $poolTaxonomy->doCloneObject($testTaxonomy, null, null); // TODO this is no longer possible
+        $this->node_mapping = array();
 
-        $poolTaxonomy->getTree()->readRootId();
-        $testTaxonomy->getTree()->readRootId();
+        $poolTaxonomy->cloneNodes(
+            $testTaxonomy,
+            $testTaxonomy->getTree()->readRootId(),
+            $poolTaxonomy->getTree()->readRootId()
+        );
 
         $testTaxonomy->update();
 

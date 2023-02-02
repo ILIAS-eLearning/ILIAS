@@ -1,0 +1,52 @@
+@use "../../../010-settings/"as *;
+@use "../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+@use "../../../030-tools/tool_typography-mixins" as *;
+@use "../../../050-layout/basics" as *;
+
+//== Characteristic Value Listing
+//** item rows layout
+$il-characteristic-value-border-color: $il-main-border-color;
+
+/* common css for characteristic value listing */
+.il-listing-characteristic-value-row {
+  @include btstrp3.clearfix; /* i tried .ilClearFloat, did not work as expected */
+  border-top: solid $il-characteristic-value-border-color 1px;
+  padding: $il-padding-large-horizontal 0;
+}
+.il-listing-characteristic-value-row:first-child {
+  border-top: none;
+}
+.il-listing-characteristic-value-label {
+  @include ilFloatLeft;
+  width: 50%;
+  right: 50%;
+  @media (max-width: $il-grid-float-breakpoint-max) {
+	width: 75%;
+	right: 75%;
+  }
+}
+.il-listing-characteristic-value-item {
+  @include ilFloatRight;
+  padding-left: $il-padding-large-horizontal;
+  width: 50%;
+  left: 50%;
+  @media (max-width: $il-grid-float-breakpoint-max) {
+	width: 25%;
+	left: 25%;
+  }
+}
+/* when characteristic value listing is used in the card */
+.il-card .il-listing-characteristic-value-row {
+  border-top: none;
+  padding: $il-padding-small-horizontal $il-padding-small-vertical;
+}
+.il-card .il-listing-characteristic-value-label {
+  padding-left: $il-padding-small-horizontal;
+  width: 75%;
+  right: 75%;
+}
+.il-card .il-listing-characteristic-value-item {
+  @include ilRight;
+  width: 25%;
+  left: 25%;
+}

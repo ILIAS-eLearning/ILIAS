@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -52,8 +50,8 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
             false,
             $this->lng->txt('name')
         );
-        $this->current_filter['login'] = $login->getValue();
-
+        $this->current_filter['login'] = (string) $login->getValue();
+        $this->current_filter['roles'] = 0;
         if ($this->isColumnSelected('roles')) {
             $role = $this->addFilterItemByMetaType(
                 'roles',
@@ -65,7 +63,7 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
             $options = array();
             $options[0] = $this->lng->txt('all_roles');
             $role->setOptions($options + $this->getParentObject()->getLocalRoles());
-            $this->current_filter['roles'] = $role->getValue();
+            $this->current_filter['roles'] = (int) $role->getValue();
         }
 
         if ($this->isColumnSelected('org_units')) {

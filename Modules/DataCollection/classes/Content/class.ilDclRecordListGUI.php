@@ -28,9 +28,9 @@ class ilDclRecordListGUI
 {
     public const GET_TABLE_ID = 'table_id';
     public const GET_TABLEVIEW_ID = 'tableview_id';
-    public const GET_MODE = 'mode';
-    public const MODE_VIEW = 1;
-    public const MODE_MANAGE = 2;
+    public const GET_MODE = "mode";
+    public const MODE_VIEW = "view";
+    public const MODE_MANAGE = "manage";
     public const CMD_LIST_RECORDS = 'listRecords';
     public const CMD_SHOW = 'show';
     public const CMD_CONFIRM_DELETE_RECORDS = 'confirmDeleteRecords';
@@ -40,7 +40,7 @@ class ilDclRecordListGUI
     /**
      * Stores current mode active
      */
-    protected int $mode = self::MODE_VIEW;
+    protected string $mode = self::MODE_VIEW;
     protected ilDclTable $table_obj;
     protected ?int $table_id;
     protected int $obj_id;
@@ -67,7 +67,7 @@ class ilDclRecordListGUI
     /**
      * @throws ilCtrlException
      */
-    public function __construct(ilObjDataCollectionGUI $a_parent_obj, int $table_id)
+    public function __construct(ilObjDataCollectionGUI $a_parent_obj, int $table_id, int $tableview_id)
     {
         global $DIC;
 
@@ -81,20 +81,11 @@ class ilDclRecordListGUI
         $this->refinery = $DIC->refinery();
 
         $this->table_id = $table_id;
-        if ($this->table_id == null) {
-            $this->table_id = filter_input(INPUT_GET, self::GET_TABLE_ID);
-        }
+        $this->tableview_id = $tableview_id;
 
         $this->obj_id = $a_parent_obj->getObject()->getId();
         $this->parent_obj = $a_parent_obj;
         $this->table_obj = ilDclCache::getTableCache($table_id);
-
-        if ($tableview_id = filter_input(INPUT_GET, self::GET_TABLEVIEW_ID, FILTER_VALIDATE_INT)) {
-            $this->tableview_id = $tableview_id;
-        } else {
-            //get first visible tableview
-            $this->tableview_id = $this->table_obj->getFirstTableViewId($this->parent_obj->getRefId());
-        }
 
         $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, self::GET_TABLE_ID, $this->table_id);
         $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, self::GET_TABLEVIEW_ID, $this->tableview_id);
@@ -103,8 +94,8 @@ class ilDclRecordListGUI
         $this->mode = self::MODE_VIEW;
 
         if ($this->http->wrapper()->query()->has(self::GET_MODE)) {
-            $mode = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
-            if (in_array($mode, self::$available_modes)) {
+            $mode = $this->http->wrapper()->query()->retrieve(self::GET_MODE, $this->refinery->kindlyTo()->string());
+            if (in_array($mode, self::$available_modes, true)) {
                 $this->mode = $mode;
             }
         }
@@ -138,12 +129,12 @@ class ilDclRecordListGUI
         // whereas 'listRecords' handels the filters "normally", filling them from the POST-variable
         switch ($cmd) {
             case self::CMD_SHOW:
-                $this->setSubTabs();
+                $this->setSubTabs($this->mode);
                 $this->listRecords(true);
                 break;
             case self::CMD_CANCEL_DELETE:
             case self::CMD_LIST_RECORDS:
-                $this->setSubTabs();
+                $this->setSubTabs($this->mode);
                 $this->listRecords();
                 break;
             case self::CMD_CONFIRM_DELETE_RECORDS:
@@ -180,7 +171,7 @@ class ilDclRecordListGUI
         $permission_to_add_or_import = ilObjDataCollectionAccess::hasPermissionToAddRecord(
             $this->parent_obj->getRefId(),
             $this->table_id
-        ) and $this->table_obj->hasCustomFields();
+        ) && $this->table_obj->hasCustomFields();
         if ($permission_to_add_or_import) {
             $this->ctrl->setParameterByClass("ildclrecordeditgui", "record_id", null);
 
@@ -456,7 +447,7 @@ class ilDclRecordListGUI
             /** @var ilDclBaseRecordModel $record */
             $record = ilDclCache::getRecordCache($record_id);
             if ($record) {
-                $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+                $ref_id = $this->parent_obj->getRefId();
 
                 if ($record->hasPermissionToDelete($ref_id)) {
                     $record->doDelete();
@@ -491,30 +482,26 @@ class ilDclRecordListGUI
         return $obj_id == $obj_id_rec;
     }
 
-    protected function setSubTabs(string $active_id = self::GET_MODE): void
+    protected function setSubTabs(string $active_mode = self::GET_MODE): void
     {
         $this->ctrl->setParameter($this, self::GET_MODE, self::MODE_VIEW);
         $this->tabs->addSubTab(
-            'mode_1',
+            self::MODE_VIEW,
             $this->lng->txt('view'),
             $this->ctrl->getLinkTarget($this, self::CMD_LIST_RECORDS)
         );
-        $this->ctrl->clearParameters($this);
 
         $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
         if ($this->table_obj->hasPermissionToDeleteRecords($ref_id)) {
             $this->ctrl->setParameter($this, self::GET_MODE, self::MODE_MANAGE);
             $this->tabs->addSubTab(
-                'mode_2',
+                self::MODE_MANAGE,
                 $this->lng->txt('dcl_manage'),
                 $this->ctrl->getLinkTarget($this, self::CMD_LIST_RECORDS)
             );
-            $this->ctrl->clearParameters($this);
         }
-
-        if ($active_id == self::GET_MODE) {
-            $active_id = 'mode_' . $this->mode;
-        }
+        $this->tabs->activateSubTab($active_mode);
+        $this->ctrl->clearParameters($this);
     }
 
     /**
@@ -635,5 +622,15 @@ class ilDclRecordListGUI
             $this->table_id,
             $this->tableview_id
         );
+    }
+
+    public function getTableId(): int
+    {
+        return $this->table_id;
+    }
+
+    public function getTableviewId(): int
+    {
+        return $this->tableview_id;
     }
 }

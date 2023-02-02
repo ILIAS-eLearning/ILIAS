@@ -159,6 +159,10 @@ class ilContSkillAdminGUI
 
     public function initCompetenceAssignmentForm(): ilPropertyFormGUI
     {
+        $tpl = $this->tpl;
+        $ctrl = $this->ctrl;
+        $lng = $this->lng;
+
         $form = new ilPropertyFormGUI();
 
         $mem_skills = new ilContainerMemberSkills($this->container_skills->getId(), $this->requested_usr_id);
@@ -169,6 +173,11 @@ class ilContSkillAdminGUI
         $ne = new ilNonEditableValueGUI($this->lng->txt("obj_user"), "");
         $ne->setValue($name["lastname"] . ", " . $name["firstname"] . " [" . $name["login"] . "]");
         $form->addItem($ne);
+
+        if (empty($this->container_skills->getOrderedSkills())) {
+            $tpl->setOnScreenMessage('info', $lng->txt("cont_skill_no_skills_selected"), true);
+            $ctrl->redirect($this, "listMembers");
+        }
 
         foreach ($this->container_skills->getOrderedSkills() as $sk) {
             $skill = new ilBasicSkill($sk["skill_id"]);
@@ -295,7 +304,7 @@ class ilContSkillAdminGUI
 
             foreach ($user_ids as $i) {
                 $name = ilUserUtil::getNamePresentation($i, false, false, "", true);
-                $cgui->addItem("usr_id[]", $i, $name);
+                $cgui->addItem("usr_ids[]", $i, $name);
             }
 
             $tpl->setContent($cgui->getHTML());
@@ -440,14 +449,15 @@ class ilContSkillAdminGUI
         $selectable_profiles = [];
         $all_profiles = $this->profile_service->getAllGlobalProfiles();
         $selected_profiles = $this->container_global_profiles->getProfiles();
-        foreach ($all_profiles as $id => $profile) {
-            if (!array_key_exists($id, $selected_profiles)) {
-                $selectable_profiles[$id] = $profile;
+        foreach ($all_profiles as $profile) {
+            if (!array_key_exists($profile->getId(), $selected_profiles)) {
+                $selectable_profiles[$profile->getId()] = $profile;
             }
         }
 
         foreach ($selectable_profiles as $profile) {
-            $options[$profile["id"]] = $profile["title"];
+            $tree = $this->tree_service->getObjSkillTreeById($profile->getSkillTreeId());
+            $options[$profile->getId()] = $tree->getTitle() . ": " . $profile->getTitle();
         }
 
         if ($this->skmg_settings->getLocalAssignmentOfProfiles()) {
@@ -527,11 +537,11 @@ class ilContSkillAdminGUI
             $cgui->setConfirm($lng->txt("remove"), "removeSelectedGlobalProfiles");
 
             foreach ($this->requested_profile_ids as $i) {
-                if ($this->profile_service->lookupRefId($i) > 0) {
+                if ($this->profile_service->lookupProfileRefId($i) > 0) {
                     $this->tpl->setOnScreenMessage('info', $lng->txt("cont_skill_removal_not_possible"), true);
                     $ctrl->redirect($this, "listProfiles");
                 }
-                $cgui->addItem("id[]", $i, $this->profile_service->lookupTitle($i));
+                $cgui->addItem("id[]", $i, $this->profile_service->lookupProfileTitle($i));
             }
 
             $tpl->setContent($cgui->getHTML());
@@ -574,7 +584,7 @@ class ilContSkillAdminGUI
             $cgui->setHeaderText($lng->txt("cont_skill_really_remove_profile_from_list"));
             $cgui->setCancel($lng->txt("cancel"), "listProfiles");
             $cgui->setConfirm($lng->txt("remove"), "removeSingleGlobalProfile");
-            $cgui->addItem("", (string) $profile_id, $this->profile_service->lookupTitle($profile_id));
+            $cgui->addItem("", (string) $profile_id, $this->profile_service->lookupProfileTitle($profile_id));
 
             $tpl->setContent($cgui->getHTML());
         }
@@ -616,11 +626,11 @@ class ilContSkillAdminGUI
             $cgui->setConfirm($lng->txt("delete"), "deleteSelectedLocalProfiles");
 
             foreach ($this->requested_profile_ids as $i) {
-                if (!($this->profile_service->lookupRefId($i) > 0)) {
+                if (!($this->profile_service->lookupProfileRefId($i) > 0)) {
                     $this->tpl->setOnScreenMessage('info', $lng->txt("cont_skill_deletion_not_possible"), true);
                     $ctrl->redirect($this, "listProfiles");
                 }
-                $cgui->addItem("id[]", $i, $this->profile_service->lookupTitle($i));
+                $cgui->addItem("id[]", $i, $this->profile_service->lookupProfileTitle($i));
             }
 
             $tpl->setContent($cgui->getHTML());
@@ -634,8 +644,8 @@ class ilContSkillAdminGUI
 
         if (!empty($this->requested_profile_ids)) {
             foreach ($this->requested_profile_ids as $id) {
-                if ($this->profile_service->lookupRefId($id) > 0) {
-                    $this->profile_service->delete($id);
+                if ($this->profile_service->lookupProfileRefId($id) > 0) {
+                    $this->profile_service->deleteProfile($id);
                 }
             }
         }
@@ -664,7 +674,7 @@ class ilContSkillAdminGUI
             $cgui->setHeaderText($lng->txt("cont_skill_really_delete_profile_from_list"));
             $cgui->setCancel($lng->txt("cancel"), "listProfiles");
             $cgui->setConfirm($lng->txt("delete"), "deleteSingleLocalProfile");
-            $cgui->addItem("", (string) $profile_id, $this->profile_service->lookupTitle($profile_id));
+            $cgui->addItem("", (string) $profile_id, $this->profile_service->lookupProfileTitle($profile_id));
 
             $tpl->setContent($cgui->getHTML());
         }
@@ -678,7 +688,7 @@ class ilContSkillAdminGUI
         $profile_id = (int) $this->params["profile_id"];
 
         if ($profile_id > 0) {
-            $this->profile_service->delete($profile_id);
+            $this->profile_service->deleteProfile($profile_id);
         }
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
 

@@ -54,6 +54,11 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable("MESSAGE_TEXT", $component->getMessageText());
         $tpl->setVariable("ACC_TEXT", $this->txt($component->getType() . "_message"));
+        if ($component->getType() == Component\MessageBox\MessageBox::FAILURE) {
+            $tpl->setVariable("ROLE", "alert");
+        } else {
+            $tpl->setVariable("ROLE", "status");
+        }
 
 
         $links = $component->getLinks();

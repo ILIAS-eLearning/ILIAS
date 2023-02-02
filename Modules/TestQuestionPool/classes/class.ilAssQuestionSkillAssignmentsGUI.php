@@ -1,8 +1,25 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
+ * User interface for assignment of questions from a test question pool (or
+ * directly from a test) to competences.
+ *
  * @author  Björn Heyser <bheyser@databay.de>
  * @package Modules/Test
  *
@@ -667,8 +684,6 @@ class ilAssQuestionSkillAssignmentsGUI
             $questionProvider = new ilAssLacQuestionProvider();
             $questionProvider->setQuestion($question);
             $conditionValidator = new ilAssLacCompositeValidator($questionProvider);
-            // @PHP8-CR I have flat zero clue what is going on here. I like to leave this "intact" for further analysis
-            // and not remove eventually helpful hints.
             $conditionValidator->validate($conditionComposite);
         } catch (ilAssLacException $e) {
             if ($e instanceof ilAssLacFormAlertProvider) {

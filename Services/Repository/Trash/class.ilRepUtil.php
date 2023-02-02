@@ -57,6 +57,10 @@ class ilRepUtil
         $ilSetting = $DIC->settings();
         $user = $DIC->user();
 
+        // deactivating the cache to make functions like
+        // _hasUntrashedReference work properly (e.g. when event listener react)
+        $tree->useCache(false);
+
         $log = $ilLog;
 
         // Remove duplicate ids from array
@@ -211,12 +215,12 @@ class ilRepUtil
 
             $ilUser = $DIC->user();
             $tree = $DIC->repositoryTree();
-            $parent_data = $tree->getParentNodeData($node_data['ref_id']);
+
             ilChangeEvent::_recordWriteEvent(
                 $node_data['obj_id'],
                 $ilUser->getId(),
                 'purge',
-                $parent_data['obj_id']
+                null
             );
             // END ChangeEvent: Record remove from system.
 

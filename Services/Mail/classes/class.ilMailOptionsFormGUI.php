@@ -54,14 +54,6 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
             $this->addItem($incoming_mail_gui);
         }
 
-        $options = [];
-        for ($i = 50; $i <= 80; $i++) {
-            $options[$i] = $i;
-        }
-        $si = new ilSelectInputGUI($this->lng->txt('linebreak'), 'linebreak');
-        $si->setOptions($options);
-        $this->addItem($si);
-
         $ta = new ilTextAreaInputGUI($this->lng->txt('signature'), 'signature');
         $ta->setRows(10);
         $ta->setCols(60);
@@ -107,7 +99,6 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
             $mail_address_option = $this->options->getEmailAddressMode();
         }
 
-        $this->options->setLinebreak((int) $this->getInput('linebreak'));
         $this->options->setSignature($this->getInput('signature'));
         $this->options->setIsCronJobNotificationStatus((bool) $this->getInput('cronjob_notification'));
         $this->options->setIncomingType($incoming_type);
@@ -121,7 +112,6 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
     public function populate(): void
     {
         $data = [
-            'linebreak' => $this->options->getLinebreak(),
             'signature' => $this->options->getSignature(),
             'cronjob_notification' => $this->options->isCronJobNotificationEnabled(),
         ];

@@ -51,4 +51,14 @@ abstract class AbstractValue implements Value
     {
         return isset($this->parentTask);
     }
+
+    public function __serialize(): array
+    {
+        return ['data' => $this->serialize()];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        $this->unserialize($data['data']);
+    }
 }

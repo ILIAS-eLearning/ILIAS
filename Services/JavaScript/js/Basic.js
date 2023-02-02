@@ -195,27 +195,6 @@ il.Util = {
 		}
 	},
 	
-	// Set standard screen reader focus
-	setStdScreenReaderFocus: function() {
-		var obj = document.getElementById("il_message_focus");
-		if (obj) {
-			obj.focus();
-			self.location.hash = 'il_message_focus';
-		} else {
-			obj = document.getElementById("il_lm_head");
-			if (obj && self.location.hash == '') {
-				obj.focus();
-				self.location.hash = 'il_lm_head';
-			} else {
-				obj = document.getElementById("il_mhead_t_focus");
-				if (obj && self.location.hash == '') {
-					obj.focus();
-					self.location.hash = 'il_mhead_t_focus';
-				}
-			}
-		}
-	},
-	
 	/**
 	 * Get region information (coordinates + size) for an element
 	 */

@@ -29,19 +29,21 @@ class ilDclBaseRecordRepresentation
     protected ilCtrl $ctrl;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
+    protected \ILIAS\UI\Renderer $renderer;
+    protected ilObjUser $user;
 
     public function __construct(ilDclBaseRecordFieldModel $record_field)
     {
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-        $ilCtrl = $DIC['ilCtrl'];
 
-        $this->lng = $lng;
-        $this->access = $ilAccess;
-        $this->ctrl = $ilCtrl;
+        $this->lng = $DIC->language();
+        $this->access = $DIC->access();
+        $this->ctrl = $DIC->ctrl();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
+        $this->user = $DIC->user();
 
         $this->record_field = $record_field;
     }
@@ -69,7 +71,9 @@ class ilDclBaseRecordRepresentation
         $input_field = $form->getItemByPostVar('field_' . $this->getRecordField()->getField()->getId());
         if ($input_field) {
             $value = $this->getFormInput();
-            $input_field->setValueByArray(array("field_" . $this->getRecordField()->getField()->getId() => $value));
+            if (!is_null($value)) {
+                $input_field->setValueByArray(array("field_" . $this->getRecordField()->getField()->getId() => $value));
+            }
         }
     }
 
@@ -85,9 +89,9 @@ class ilDclBaseRecordRepresentation
     /**
      * Outputs html of a certain field
      */
-    public function getHTML(bool $link = true): string
+    public function getHTML(bool $link = true, array $options = []): string
     {
-        return $this->getRecordField()->getValue();
+        return (string)$this->getRecordField()->getValue();
     }
 
     /**
@@ -137,5 +141,31 @@ class ilDclBaseRecordRepresentation
     public function getRecord(): ilDclBaseRecordModel
     {
         return $this->record_field->getRecord();
+    }
+
+    /**
+     * Note this should be properly injected from ilObjDataCollection GUI.
+     */
+    protected function getTableViewId(): int
+    {
+        $tableview_id = null;
+        if ($this->http->wrapper()->query()->has('tableview_id')) {
+            $tableview_id = $this->http->wrapper()->query()->retrieve(
+                'tableview_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if ($this->http->wrapper()->post()->has('tableview_id')) {
+            $tableview_id = $this->http->wrapper()->post()->retrieve(
+                'tableview_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if (!$tableview_id) {
+            $table_obj = ilDclCache::getTableCache($this->getRecordField()->getRecord()->getTableId());
+            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+            $tableview_id = $table_obj->getFirstTableViewId($ref_id);
+        }
+        return $tableview_id;
     }
 }

@@ -200,7 +200,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $tpl->setCurrentBlock("prop_text_propval");
                 $tpl->setVariable(
                     "PROPERTY_VALUE",
-                    ilLegacyFormElementsUtil::prepareFormOutput((string) $value->getAnswertext())
+                    ilLegacyFormElementsUtil::prepareFormOutput(htmlspecialchars_decode((string) $value->getAnswertext()))
                 );
                 $tpl->parseCurrentBlock();
 

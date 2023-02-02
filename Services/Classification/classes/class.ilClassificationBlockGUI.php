@@ -160,7 +160,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
         $ajax_content_url = $ilCtrl->getLinkTarget($this, "filterContainer", "", true, false);
 
         $tabs = new ilTabsGUI();
-        $tabs->setBackTarget($this->lng->txt("clsfct_back_to_cat"), (string) $ilCtrl->getParentReturn($this));
+        $tabs->setBackTarget($this->lng->txt("clsfct_back_to_cat"), $ilCtrl->getLinkTarget($this, "returnToParent"));
         $tabs->addTab("sel_objects", $this->lng->txt("clsfct_selected_objects"), "#");
         $tabs_html = $tabs->getHTML();
 
@@ -184,6 +184,12 @@ class ilClassificationBlockGUI extends ilBlockGUI
             //$this->tpl->setVariable("DATA", $btpl->get());
         }
         return $overall_html;
+    }
+
+    protected function returnToParent(): void
+    {
+        $this->repo->unsetAll();    // this resets, e.g. the taxonomy selection before showing the parent container
+        $this->ctrl->returnToParent($this);
     }
 
     protected function validate(): bool
@@ -213,7 +219,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
             if ($current) {
                 // combine providers AND
                 $provider_object_ids = $provider->getFilteredObjects();
-                if (is_array($all_matching_provider_object_ids)) {
+                if (isset($all_matching_provider_object_ids)) {
                     $all_matching_provider_object_ids = array_intersect($all_matching_provider_object_ids, $provider_object_ids);
                 } else {
                     $all_matching_provider_object_ids = $provider_object_ids;
@@ -225,7 +231,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 
         $ltpl = new ilTemplate("tpl.classification_object_list.html", true, true, "Services/Classification");
 
-        if (is_array($all_matching_provider_object_ids) && sizeof($all_matching_provider_object_ids)) {
+        if (isset($all_matching_provider_object_ids) && sizeof($all_matching_provider_object_ids)) {
             $fields = array(
                 "object_reference.ref_id"
                 ,"object_data.obj_id"
@@ -263,7 +269,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
                             }
                         }
                         if ($block_ref_id > 0) {
-                            if (!is_array($valid_objects[$block_ref_id])) {
+                            if (!isset($valid_objects[$block_ref_id])) {
                                 $valid_objects[$block_ref_id] = array(
                                     "title" => $block_title,
                                     "items" => array()

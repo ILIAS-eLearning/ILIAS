@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
@@ -101,8 +101,8 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
     protected function getMemcachedServer(array $node): ilMemcacheServer
     {
         $m = new ilMemcacheServer();
-        $m->setStatus($node["active"] === "1" ? ilMemcacheServer::STATUS_ACTIVE : ilMemcacheServer::STATUS_INACTIVE);
-        $m->setHost($node["host"]);
+        $m->setStatus(boolval($node["active"]) === true ? ilMemcacheServer::STATUS_ACTIVE : ilMemcacheServer::STATUS_INACTIVE);
+        $m->setHost((string) $node["host"]);
         $m->setPort((int) $node["port"]);
         $m->setWeight((int) $node["weight"]);
 

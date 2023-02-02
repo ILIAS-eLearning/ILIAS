@@ -1,7 +1,22 @@
 <?php
 
 declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * AMD field type date
@@ -67,43 +82,18 @@ class ilAdvancedMDFieldDefinitionDate extends ilAdvancedMDFieldDefinition
      */
     public function getLuceneSearchString($a_value): string
     {
-        // see ilADTDateSearchBridgeRange::importFromPost();
+        $start = new ilDate('1970-01-01', IL_CAL_DATE);
+        $end = new ilDate('2038-01-19', IL_CAL_DATE);
 
-        if ($a_value["tgl"]) {
-            $start = $end = null;
-
-            if ($a_value["lower"]["date"]) {
-                $start = mktime(
-                    12,
-                    0,
-                    0,
-                    $a_value["lower"]["date"]["m"],
-                    $a_value["lower"]["date"]["d"],
-                    $a_value["lower"]["date"]["y"]
-                );
-            }
-            if ($a_value["upper"]["date"]) {
-                $end = mktime(
-                    12,
-                    0,
-                    0,
-                    $a_value["upper"]["date"]["m"],
-                    $a_value["upper"]["date"]["d"],
-                    $a_value["upper"]["date"]["y"]
-                );
-            }
-
-            if ($start && $end && $start > $end) {
-                $tmp = $start;
-                $start = $end;
-                $end = $tmp;
-            }
-
-            $start = new ilDate($start, IL_CAL_UNIX);
-            $end = new ilDate($end, IL_CAL_UNIX);
-
-            return "{" . $start->get(IL_CAL_DATE) . " TO " . $end->get(IL_CAL_DATE) . "}";
+        if (!($a_value['lower'] ?? false) || !($a_value['upper'])) {
+            return '';
         }
-        return "null";
+        if ($a_value['lower'] ?? false) {
+            $start = ilCalendarUtil::parseIncomingDate($a_value['lower']);
+        }
+        if ($a_value['upper'] ?? false) {
+            $end = ilCalendarUtil::parseIncomingDate($a_value['upper']);
+        }
+        return '[' . $start->get(IL_CAL_DATE) . ' TO ' . $end->get(IL_CAL_DATE) . ']';
     }
 }

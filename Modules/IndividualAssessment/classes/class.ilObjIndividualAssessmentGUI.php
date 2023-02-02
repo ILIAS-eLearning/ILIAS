@@ -117,7 +117,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($info);
                 break;
             case 'illearningprogressgui':
-                if (!$this->object->accessHandler()->mayViewObject()) {
+                if (!$this->object->accessHandler()->mayReadObject()) {
                     $this->handleAccessViolation();
                 }
                 $this->tabs_gui->activateTab(self::TAB_LP);
@@ -223,7 +223,9 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
         $member = $this->object->membersStorage()->loadMember($this->object, $this->usr);
         $file_storage = $this->object->getFileStorage();
         $file_storage->setUserId($this->usr->getId());
-        ilFileDelivery::deliverFileLegacy($file_storage->getFilePath(), $member->fileName());
+        $filepath = $file_storage->getAbsolutePath();
+        $filename = $member->fileName();
+        ilFileDelivery::deliverFileLegacy($filepath . "/" . $filename, $filename);
     }
 
     protected function addGeneralDataToInfo(ilInfoScreenGUI $info): ilInfoScreenGUI
@@ -277,7 +279,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
 
     protected function getTabs(): void
     {
-        if ($this->object->accessHandler()->mayViewObject()) {
+        if ($this->object->accessHandler()->mayReadObject()) {
             $this->tabs_gui->addTab(
                 self::TAB_INFO,
                 $this->txt('info_short'),
@@ -301,17 +303,17 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
             }
         }
         if ($this->object->accessHandler()->mayEditMembers()
-            || $this->object->accessHandler()->mayGradeUser()
-            || $this->object->accessHandler()->mayAmendGradeUser()
-            || $this->object->accessHandler()->mayViewUser()) {
+            || $this->object->accessHandler()->mayGradeAnyUser()
+            || $this->object->accessHandler()->mayAmendAllUsers()
+            || $this->object->accessHandler()->mayViewAnyUser()) {
             $this->tabs_gui->addTab(
                 self::TAB_MEMBERS,
                 $this->txt('il_iass_members'),
                 $this->getLinkTarget('members')
             );
         }
-        if (($this->object->accessHandler()->mayViewUser()
-            || $this->object->accessHandler()->mayGradeUser()
+        if (($this->object->accessHandler()->mayViewAnyUser()
+            || $this->object->accessHandler()->mayGradeAnyUser()
             || ($this->object->loadMembers()->userAllreadyMember($this->usr)
             && $this->object->isActiveLP()))
             && ilObjUserTracking::_enabledLearningProgress()) {
@@ -413,7 +415,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
     public function addToNavigationHistory(): void
     {
         if (!$this->getCreationMode()) {
-            if ($this->object->accessHandler()->mayViewObject()) {
+            if ($this->object->accessHandler()->mayReadObject()) {
                 $ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
                 $link = ilLink::_getLink($ref_id, "iass");
                 $this->ilNavigationHistory->addItem($ref_id, $link, 'iass');

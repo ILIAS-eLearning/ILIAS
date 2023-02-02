@@ -51,8 +51,10 @@ class ilPRGPermissionsHelper
     ];
 
     protected ilAccess $access;
+    protected ilOrgUnitGlobalSettings $orgu_settings;
+    protected ilObjectDataCache $data_cache;
     protected ilOrgUnitPositionAccess $orgu_access;
-    protected ilObjStudyProgramme $programme;
+    protected int $prg_ref_id;
     protected array $cache = [];
 
     /**
@@ -62,12 +64,16 @@ class ilPRGPermissionsHelper
 
     public function __construct(
         ilAccess $access,
+        ilOrgUnitGlobalSettings $orgu_settings,
+        ilObjectDataCache $data_cache,
         ilOrgUnitPositionAccess $orgu_access,
-        ilObjStudyProgramme $programme
+        int $prg_ref_id
     ) {
         $this->access = $access;
+        $this->orgu_settings = $orgu_settings;
+        $this->data_cache = $data_cache;
         $this->orgu_access = $orgu_access;
-        $this->programme = $programme;
+        $this->prg_ref_id = $prg_ref_id;
     }
 
     public function may(string $operation): bool
@@ -171,13 +177,20 @@ class ilPRGPermissionsHelper
     protected function getAllAssignedUserIds(): array
     {
         if (!isset($this->cache[self::ROLEPERM_MANAGE_MEMBERS])) {
-            $this->cache[self::ROLEPERM_MANAGE_MEMBERS] = array_unique($this->programme->getMembers());
+            $prg = ilObjStudyProgramme::getInstanceByRefId($this->getProgrammeRefId());
+            $this->cache[self::ROLEPERM_MANAGE_MEMBERS] = array_unique($prg->getMembers());
         }
         return $this->cache[self::ROLEPERM_MANAGE_MEMBERS];
     }
 
     protected function getProgrammeRefId(): int
     {
-        return $this->programme->getRefId();
+        return $this->prg_ref_id;
+    }
+
+    public function isOrguAccessEnabledGlobally(): bool
+    {
+        $obj_id = $this->data_cache->lookupObjId($this->getProgrammeRefId());
+        return $this->orgu_settings->isPositionAccessActiveForObject($obj_id);
     }
 }

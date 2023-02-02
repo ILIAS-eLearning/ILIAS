@@ -40,7 +40,6 @@ class ilMailOptionsTest extends ilMailBaseTest
         $object = new stdClass();
         $object->cronjob_notification = false;
         $object->signature = 'smth';
-        $object->linebreak = 0;
         $object->incoming_type = 1;
         $object->mail_address_option = 0;
         $object->email = 'test@test.com';
@@ -57,10 +56,21 @@ class ilMailOptionsTest extends ilMailBaseTest
         ])->getMock();
         $this->setGlobalVariable('ilSetting', $settings);
 
-        $mailOptions = new ilMailOptions($userId);
+        $mailOptions = new class ($userId) extends ilMailOptions {
+            public function read(): void
+            {
+                parent::read();
+            }
+        };
+
+        $this->assertSame('', $mailOptions->getSignature());
+        $this->assertSame(ilMailOptions::INCOMING_LOCAL, $mailOptions->getIncomingType());
+        $this->assertSame(false, $mailOptions->isCronJobNotificationEnabled());
+
+        $mailOptions->read();
+
         $this->assertSame($object->signature, $mailOptions->getSignature());
         $this->assertSame($object->incoming_type, $mailOptions->getIncomingType());
-        $this->assertSame($object->linebreak, $mailOptions->getLinebreak());
         $this->assertSame($object->cronjob_notification, $mailOptions->isCronJobNotificationEnabled());
     }
 }

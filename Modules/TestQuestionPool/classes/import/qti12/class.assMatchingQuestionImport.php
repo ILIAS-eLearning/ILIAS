@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,8 +15,6 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-
-include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assQuestionImport.php";
 
 /**
 * Class for matching question imports
@@ -58,7 +57,7 @@ class assMatchingQuestionImport extends assQuestionImport
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping): void
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, $import_mapping): array
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -246,7 +245,7 @@ class assMatchingQuestionImport extends assQuestionImport
                     $term = $terms[$ident];
                 }
             }
-            $this->object->addMatchingPair(new assAnswerMatchingTerm('', '', $term["ident"]), new assAnswerMatchingDefinition('', '', $definition["answerorder"]), $response['points']);
+            $this->object->addMatchingPair(new assAnswerMatchingTerm('', '', (float) $term["ident"]), new assAnswerMatchingDefinition('', '', (int) $definition["answerorder"]), (float) $response['points']);
         }
         // additional content editing mode information
         $this->object->setAdditionalContentEditingMode(
@@ -328,12 +327,13 @@ class assMatchingQuestionImport extends assQuestionImport
         $this->object->saveToDb();
         if ($tst_id > 0) {
             $q_1_id = $this->object->getId();
-            $question_id = $this->object->duplicate(true, null, null, null, $tst_id);
+            $question_id = $this->object->duplicate(true, "", "", "", $tst_id);
             $tst_object->questions[$question_counter++] = $question_id;
             $import_mapping[$item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
         } else {
             $import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
         }
+        return $import_mapping;
     }
 
     /**
@@ -348,11 +348,11 @@ class assMatchingQuestionImport extends assQuestionImport
         foreach ($this->object->getMatchingPairs() as $index => $pair) {
             /* @var assAnswerMatchingPair $pair */
 
-            if ($pair->term->identifier != $termId) {
+            if ($pair->getTerm()->getIdentifier() != $termId) {
                 continue;
             }
 
-            if ($pair->definition->identifier != $definitionId) {
+            if ($pair->getDefinition()->getIdentifier() != $definitionId) {
                 continue;
             }
 

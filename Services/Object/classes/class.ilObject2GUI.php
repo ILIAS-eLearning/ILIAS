@@ -70,7 +70,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 
     protected int $request_ref_id;
     protected int $id_type;
-    protected int $parent_id;
+    protected ?int $parent_id;
     protected string $type;
     protected string $html;
 

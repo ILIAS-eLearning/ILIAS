@@ -1,0 +1,13 @@
+@use "../../010-settings/" as s;
+
+/* Small Drop Menus */
+
+// Variables not in standard Bootstrap
+$dropdown-link-bg: transparent;
+$dropdown-header-bg: white;
+
+$il-font-size-dropdown: s.$il-font-size-base;
+$il-dropdown-shadow: 3px 9px 9px 0 rgba(0,0,0,0.3);
+
+//** determines display of icons in dropdowns, 'none' for no display and 'inline' for display
+$il-nav-icons: inline;

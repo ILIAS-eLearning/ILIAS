@@ -80,8 +80,21 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
         $short_name->setValue(ilStr::subStr($this->object->getTitle(), 0, 30));
         $short_name->setSize(30);
 
+        $short_name_value = $this->setting->get(
+            'certificate_short_name_' . $this->object->getId(),
+            ''
+        );
+
         $infoText = $this->language->txt('certificate_short_name_description');
-        $short_name->setInfo($infoText);
+        if ($short_name_value !== '') {
+            $short_name->setInfo(str_replace(
+                '[SHORT_TITLE]',
+                $short_name_value,
+                $infoText
+            ));
+        } else {
+            $short_name->setInfo($infoText);
+        }
 
         $form->addItem($short_name);
 
@@ -90,8 +103,8 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 
     public function save(array $formFields): void
     {
-        $this->setting->set('certificate_' . $this->object->getId(), (string) $formFields['certificate_enabled_scorm']);
-        $this->setting->set('certificate_short_name_' . $this->object->getId(), (string) $formFields['short_name']);
+        $this->setting->set('certificate_' . $this->object->getId(), (string) ($formFields['certificate_enabled_scorm'] ?? '0'));
+        $this->setting->set('certificate_short_name_' . $this->object->getId(), (string) ($formFields['short_name'] ?? ''));
     }
 
     public function fetchFormFieldData(string $content): array
@@ -99,11 +112,11 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
         $formFields = $this->settingsFormFactory->fetchFormFieldData($content);
         $formFields['certificate_enabled_scorm'] = $this->setting->get(
             'certificate_' . $this->object->getId(),
-            (string) $formFields['certificate_enabled_scorm']
+            (string) ($formFields['certificate_enabled_scorm'] ?? '0')
         );
         $formFields['short_name'] = $this->setting->get(
             'certificate_short_name_' . $this->object->getId(),
-            (string) $formFields['short_name']
+            (string) ($formFields['short_name'] ?? '')
         );
 
         return $formFields;

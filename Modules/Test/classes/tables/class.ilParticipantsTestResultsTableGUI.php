@@ -1,10 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
-require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+use ILIAS\DI\UIServices;
 
 /**
  *
@@ -16,6 +28,8 @@ require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 
 class ilParticipantsTestResultsTableGUI extends ilTable2GUI
 {
+    private UIServices $ui;
+
     protected bool $accessResultsCommandsEnabled = false;
     protected bool $manageResultsCommandsEnabled = false;
 
@@ -27,8 +41,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         global $DIC;
-        $this->lng = $DIC->language();
-        $this->ctrl = $DIC->ctrl();
+        $this->ui = $DIC->ui();
 
         $this->setStyle('table', 'fullwidth');
 
@@ -97,7 +110,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
     public function initColumns(): void
     {
         if ($this->isMultiRowSelectionRequired()) {
-            $this->addColumn('', '', '1%');
+            $this->addColumn('', '', '1%', true);
         }
 
         $this->addColumn($this->lng->txt("name"), 'name');
@@ -150,7 +163,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("FULLNAME", $a_set['name']);
 
         $this->tpl->setVariable("SCORED_PASS", $this->buildScoredPassString($a_set));
-        $this->tpl->setVariable("PASS_FINISHED", $this->buildPassFinishedString($a_set));
+        $this->tpl->setVariable("SCORED_PASS_FINISHED", $this->buildScoredPassFinishedString($a_set));
 
         $this->tpl->setVariable("ANSWERED_QUESTIONS", $this->buildAnsweredQuestionsString($a_set));
         $this->tpl->setVariable("REACHED_POINTS", $this->buildReachedPointsString($a_set));
@@ -215,9 +228,13 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         return $this->buildImageIcon(ilUtil::getImagePath("icon_not_ok.svg"), $this->lng->txt("failed"));
     }
 
-    protected function buildImageIcon(string $src, string $alt): string
+    protected function buildImageIcon(string $icon_name, string $label): string
     {
-        return "<img border=\"0\" align=\"middle\" src=\"" . $src . "\" alt=\"" . $alt . "\" />";
+        $icon = $this->ui->factory()->symbol()->icon()->custom(
+            $icon_name,
+            $label
+        );
+        return $this->ui->renderer()->render($icon);
     }
 
     protected function buildFormattedAccessDate(array $data): string
@@ -230,10 +247,10 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         return $this->lng->txt('pass') . ' ' . ($data['scored_pass'] + 1);
     }
 
-    protected function buildPassFinishedString(array $data): string
+    protected function buildScoredPassFinishedString(array $data): string
     {
-        if (isset($data['pass_finished'])) {
-            return ilDatePresentation::formatDate(new ilDateTime($data['pass_finished'], IL_CAL_UNIX));
+        if (isset($data['scored_pass_finished_timestamp'])) {
+            return ilDatePresentation::formatDate(new ilDateTime($data['scored_pass_finished_timestamp'], IL_CAL_UNIX));
         }
         return '';
     }

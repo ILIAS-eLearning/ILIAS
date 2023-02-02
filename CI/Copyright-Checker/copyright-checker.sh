@@ -56,6 +56,10 @@ do
     continue
   fi
 
+  if [[ $FELONE == "./src/UI/examples" ]]; then
+    continue
+  fi
+
   # check for php extension
   if [ ! ${FELONE: -4} == ".php" ]; then
     continue

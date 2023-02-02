@@ -285,8 +285,7 @@ class ilPortfolioPage extends ilPageObject
             $ctrl->setParameterByClass("ilobjportfoliotemplategui", "user_page", $a_target);
             $href = $ctrl->getLinkTargetByClass(array(
                 "ilRepositoryGUI",
-                "ilObjPortfolioTemplateGUI",
-                "ilobjportfoliotemplategui"
+                "ilObjPortfolioTemplateGUI"
             ), "preview", "", false, true);
         } else {
             if (!$a_offline) {

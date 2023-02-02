@@ -99,7 +99,8 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
             }
 
             $file_data = $this->legacy_form->getInput('tile_image');
-            if (isset($file_data['tmp_name']) && $file_data['tmp_name']) {
+            if (isset($file_data['tmp_name']) && $file_data['tmp_name'] &&
+                isset($file_data['size']) && $file_data['size'] > 0) {
                 $tile_image->saveFromHttpRequest($file_data['tmp_name']);
             }
         }

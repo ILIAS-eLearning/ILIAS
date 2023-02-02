@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +13,10 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Revision;
 
@@ -25,18 +26,21 @@ use ILIAS\ResourceStorage\Information\FileInformation;
 
 /**
  * Class UploadedFileRevision
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class FileStreamRevision extends FileRevision implements Revision
 {
-    private \ILIAS\Filesystem\Stream\FileStream $stream;
-    protected bool $keep_original = true;
+    private FileStream $stream;
+    protected bool $keep_original = false;
 
     /**
      * @inheritDoc
      */
-    public function __construct(ResourceIdentification $identification, FileStream $stream, bool $keep_original = false)
-    {
+    public function __construct(
+        ResourceIdentification $identification,
+        FileStream $stream,
+        bool $keep_original = false
+    ) {
         $this->stream = $stream;
         $this->keep_original = $keep_original;
         parent::__construct($identification);

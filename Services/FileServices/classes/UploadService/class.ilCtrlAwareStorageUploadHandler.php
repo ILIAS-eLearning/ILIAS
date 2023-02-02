@@ -44,12 +44,7 @@ class ilCtrlAwareStorageUploadHandler extends AbstractCtrlAwareUploadHandler
         global $DIC;
         parent::__construct();
         $this->storage = $DIC->resourceStorage();
-        $store_as_temp_resource = false;
-        if ($store_as_temp_resource) {
-            $this->stakeholder = new ilTemporaryStakeholder();
-        } else {
-            $this->stakeholder = $stakeholder;
-        }
+        $this->stakeholder = $stakeholder;
     }
 
     protected function getUploadResult(): HandlerResult
@@ -61,9 +56,15 @@ class ilCtrlAwareStorageUploadHandler extends AbstractCtrlAwareUploadHandler
         $result = end($result_array);
 
         if ($result instanceof UploadResult && $result->isOK()) {
-            $identifier = $this->storage->manage()->upload($result, $this->stakeholder)->serialize();
-            $status = HandlerResult::STATUS_OK;
-            $message = "file upload OK";
+            if (!$this->is_chunked) {
+                $identifier = $this->storage->manage()->upload($result, $this->stakeholder)->serialize();
+                $status = HandlerResult::STATUS_OK;
+                $message = "file upload OK";
+            } else {
+                $identifier = '';
+                $status = HandlerResult::STATUS_FAILED;
+                $message = 'chunking not supported';
+            }
         } else {
             $identifier = '';
             $status = HandlerResult::STATUS_FAILED;

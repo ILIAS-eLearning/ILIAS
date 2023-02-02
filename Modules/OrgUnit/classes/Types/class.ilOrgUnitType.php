@@ -36,7 +36,7 @@ class ilOrgUnitType
     protected ?string $icon = null;
     protected array $translations = array();
     protected array $amd_records_assigned;
-    protected static array $amd_records_available = [];
+    protected static ?array $amd_records_available = null;
     protected array $orgus = [];
     protected array $orgus_ids = [];
     protected ilDBInterface $db;
@@ -374,10 +374,10 @@ class ilOrgUnitType
     public function getAssignedAdvancedMDRecords(bool $a_only_active = false): array
     {
         $active = ($a_only_active) ? 1 : 0; // Cache key
-        if (is_array($this->amd_records_assigned[$active])) {
+        if (isset($this->amd_records_assigned[$active])) {
             return $this->amd_records_assigned[$active];
         }
-        $this->amd_records_assigned[$active] = array();
+        $this->amd_records_assigned[$active] = [];
         $sql = 'SELECT * FROM orgu_types_adv_md_rec WHERE type_id = ' . $this->db->quote($this->getId(), 'integer');
         $set = $this->db->query($sql);
         while ($rec = $this->db->fetchObject($set)) {
@@ -476,7 +476,7 @@ class ilOrgUnitType
             foreach ($this->getOrgUnitIds() as $orgu_id) {
                 ilAdvancedMDRecord::saveObjRecSelection($orgu_id, 'orgu_type', $record_ids);
             }
-            $this->amd_records_assigned = null; // Force reload of assigned objects
+            $this->amd_records_assigned = []; // Force reload of assigned objects
         }
     }
 
@@ -512,7 +512,7 @@ class ilOrgUnitType
             foreach ($this->getOrgUnitIds() as $orgu_id) {
                 ilAdvancedMDRecord::saveObjRecSelection($orgu_id, 'orgu_type', $record_ids);
             }
-            $this->amd_records_assigned = null; // Force reload of assigned objects
+            $this->amd_records_assigned = []; // Force reload of assigned objects
         }
     }
 

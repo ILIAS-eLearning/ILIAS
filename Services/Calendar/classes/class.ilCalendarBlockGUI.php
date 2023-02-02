@@ -2,7 +2,21 @@
 
 declare(strict_types=1);
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\ViewControl\Section as Section;
 use ILIAS\Refinery\Factory as RefineryFactory;
@@ -40,6 +54,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
     protected bool $force_month_view = false;
 
     protected int $requested_cal_agenda_per;
+    protected array $modals = [];
 
     /**
      * Constructor
@@ -119,7 +134,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
         if ($this->http->wrapper()->query()->has('app_id')) {
             return $this->http->wrapper()->query()->retrieve(
                 'app_id',
-                $this->refinery->kindlyTo()->string()
+                $this->refinery->kindlyTo()->int()
             );
         }
         return 0;
@@ -130,7 +145,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
         if ($this->http->wrapper()->query()->has('dt')) {
             return $this->http->wrapper()->query()->retrieve(
                 'dt',
-                $this->refinery->kindlyTo()->string()
+                $this->refinery->kindlyTo()->int()
             );
         }
         return 0;
@@ -213,6 +228,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
         switch ($next_class) {
             case "ilcalendarappointmentgui":
+                $this->initCategories();
                 $app_gui = new ilCalendarAppointmentGUI($this->seed, $this->seed);
                 $this->ctrl->forwardCommand($app_gui);
                 break;
@@ -547,9 +563,15 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
         // workaround to include asynch code from ui only one time, see #20853
         if ($this->ctrl->isAsynch()) {
-            global $DIC;
-            $f = $DIC->ui()->factory()->legacy("");
-            $ret .= $DIC->ui()->renderer()->renderAsync($f);
+            $f = $this->ui->factory()->legacy("");
+            $ret .= $this->ui->renderer()->renderAsync($f);
+        }
+        if (count($this->modals) > 0) {
+            if ($this->ctrl->isAsynch()) {
+                $ret .= $this->ui->renderer()->renderAsync($this->modals);
+            } else {
+                $ret .= $this->ui->renderer()->render($this->modals);
+            }
         }
         return $ret;
     }
@@ -618,7 +640,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
             $this->addBlockCommand(
                 $this->ctrl->getLinkTarget($this, "setPdModeEvents"),
                 $this->lng->txt("cal_upcoming_events_header"),
-                $this->ctrl->getLinkTarget($this, "setPdModeEvents", "", true)
+                ""
+                // see #35777 $this->ctrl->getLinkTarget($this, "setPdModeEvents", "", true)
             );
 
             // @todo: set checked on ($this->display_mode == 'mmon')
@@ -657,7 +680,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
             echo $this->getHTML();
             exit;
         } else {
-            $this->ctrl->redirectByClass("ildashboardgui", "show");
+            $this->ctrl->returnToParent($this);
         }
     }
 
@@ -709,20 +732,17 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
                 $dates = $this->getDatesForItem($item);
 
-                $comps = [$f->button()->shy(
+                $shy = $f->button()->shy(
                     $item["event"]->getPresentationTitle(),
                     ""
-                )->withOnClick($modal->getShowSignal()),
-                          $modal
-                ];
-                $renderer = $ui->renderer();
-                $shy = $renderer->render($comps);
+                )->withOnClick($modal->getShowSignal());
 
                 $data[] = array(
                     "date" => ilDatePresentation::formatPeriod($dates["start"], $dates["end"]),
                     "title" => $item["event"]->getPresentationTitle(),
                     "url" => "#",
-                    "shy_button" => $shy
+                    "shy_button" => $shy,
+                    "modal" => $modal
                 );
             }
             $this->setEnableNumInfo(true);
@@ -841,6 +861,9 @@ class ilCalendarBlockGUI extends ilBlockGUI
     protected function getListItemForData(array $data): ?\ILIAS\UI\Component\Item\Item
     {
         $factory = $this->ui->factory();
+        if (isset($data["modal"])) {
+            $this->modals[] = $data["modal"];
+        }
         if (isset($data["shy_button"])) {
             return $factory->item()->standard($data["shy_button"])->withDescription($data["date"]);
         } else {

@@ -347,7 +347,9 @@ class ilMemberAgreementGUI
             switch ($field_obj->getType()) {
                 case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_SELECT:
                     // Split value id from post
-                    list($field_id, $option_id) = explode('_', $form->getInput('cdf_' . $field_obj->getId()));
+                    $exp = explode('_', $form->getInput('cdf_' . $field_obj->getId()));
+                    $field_id = $exp[0];
+                    $option_id = $exp[1] ?? null;
                     $open_answer_indexes = $field_obj->getValueOptions();
                     if (in_array($option_id, $open_answer_indexes)) {
                         $value = $form->getInput('cdf_oa_' . $field_obj->getId() . '_' . $option_id);

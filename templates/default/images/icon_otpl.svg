@@ -1,47 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 26.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- Generator: Adobe Illustrator 26.5.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="32px" height="32px" viewBox="0 0 32 32" style="enable-background:new 0 0 32 32;" xml:space="preserve">
+	 viewBox="0 0 320 320" style="enable-background:new 0 0 320 320;" xml:space="preserve">
 <style type="text/css">
-	.st0{clip-path:url(#SVGID_00000176765818652076524170000007433004567280518326_);fill:#526586;}
-	.st1{fill:#FFFFFF;}
-	.st2{clip-path:url(#SVGID_00000039115426109354509720000012267846194915327640_);fill:#FFFFFF;}
-	.st3{clip-path:url(#SVGID_00000158019640313600210120000009351955647979651721_);fill:#FFFFFF;}
+	.st0{fill:#4C6586;}
 </style>
-<g>
-	<g>
-		<defs>
-			<rect id="SVGID_1_" width="32" height="32"/>
-		</defs>
-		<clipPath id="SVGID_00000054229125288259681560000008423470124517104279_">
-			<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
-		</clipPath>
-		<rect style="clip-path:url(#SVGID_00000054229125288259681560000008423470124517104279_);fill:#526586;" width="32" height="32"/>
-	</g>
-</g>
-<polygon class="st1" points="26,24.4 26,24.4 26,26 6,26 6,24.4 "/>
-<g>
-	<g>
-		<defs>
-			<rect id="SVGID_00000149368910313828933600000001830653613663667630_" width="32" height="32"/>
-		</defs>
-		<clipPath id="SVGID_00000019638334924547237830000015527831868159838101_">
-			<use xlink:href="#SVGID_00000149368910313828933600000001830653613663667630_"  style="overflow:visible;"/>
-		</clipPath>
-		<path style="clip-path:url(#SVGID_00000019638334924547237830000015527831868159838101_);fill:#FFFFFF;" d="M24.8,23.1v-0.8
-			c0-0.4-0.4-0.4-0.4-0.4h-1.3c0,0,0,0,0-0.1V14c0,0,0-0.4-0.4-0.4h-2.5c0,0-0.4,0-0.4,0.4v7.8c0,0,0,0,0,0.1h-2.1c0,0,0,0,0-0.1V14
-			c0,0,0-0.4-0.4-0.4h-2.5c0,0-0.4,0-0.4,0.4v7.8c0,0,0,0,0,0.1h-2.1c0,0,0,0,0-0.1V14c0,0,0-0.4-0.4-0.4H9.3c0,0-0.4,0-0.4,0.4v7.8
-			c0,0,0,0,0,0.1H7.7c-0.4,0-0.4,0.4-0.4,0.4v0.8c0,0.4,0.4,0.4,0.4,0.4h16.7C24.8,23.5,24.8,23.1,24.8,23.1"/>
-	</g>
-	<g>
-		<defs>
-			<rect id="SVGID_00000036233085019374312180000002583112953426131359_" width="32" height="32"/>
-		</defs>
-		<clipPath id="SVGID_00000001625984432403161400000000537604399797396616_">
-			<use xlink:href="#SVGID_00000036233085019374312180000002583112953426131359_"  style="overflow:visible;"/>
-		</clipPath>
-		<path style="clip-path:url(#SVGID_00000001625984432403161400000000537604399797396616_);fill:#FFFFFF;" d="M6.9,12.7
-			c0,0-1,0-0.2-0.6l8.4-5.6c0,0,0.8-0.6,1.7,0l8.4,5.6c0,0,0.8,0.6-0.2,0.6H6.9z"/>
-	</g>
-</g>
+<path class="st0" d="M205,129.2h-25v89.9h25V129.2z M140,129.2h-25v89.9h25V129.2z M67,114.2h186L164.7,61c-2.4-1.4-7-1.4-9.4,0
+	L67,114.2z M281.8,122.2c-0.7,2.6-3.2,7-11.8,7h-25v89.9h15c0,0,5,0,5,5v10c0,0,0,5-5,5H60c0,0-5,0-5-5v-10c0,0,0-5,5-5h15v-89.9H50
+	c-8.6,0-11.1-4.4-11.8-7c-0.7-2.6-0.8-7.7,6.5-12.1l102.9-61.9c7.1-4.3,17.8-4.3,24.9,0l102.9,61.9
+	C282.6,114.5,282.5,119.5,281.8,122.2 M40,259.1c0-2.8,2.2-5,5-5h230c2.8,0,5,2.2,5,5v10c0,2.8-2.2,5-5,5H45c-2.8,0-5-2.2-5-5V259.1
+	z M320,0H0v320h320V0z"/>
 </svg>

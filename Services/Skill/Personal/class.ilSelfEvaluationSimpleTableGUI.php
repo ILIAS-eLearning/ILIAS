@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +19,9 @@
  ********************************************************************
  */
 
+use ILIAS\Skill\Tree\SkillTreeNodeManager;
+use ILIAS\Skill\Personal\SelfEvaluationManager;
+
 /**
  * Self evaluation, second simplier implementation
  *
@@ -31,6 +36,9 @@ class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
     protected int $basic_skill_id = 0;
     protected int $cur_level_id = 0;
     protected ilSkillTreeNode $skill;
+    protected ilSkillTreeRepository $tree_repo;
+    protected SkillTreeNodeManager $node_manager;
+    protected SelfEvaluationManager $self_evaluation_manager;
 
     public function __construct(
         $a_parent_obj,
@@ -54,7 +62,12 @@ class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
         $this->tref_id = $a_tref_id;
         $this->basic_skill_id = $a_basic_skill_id;
 
-        $this->cur_level_id = ilPersonalSkill::getSelfEvaluation(
+        $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
+        $tree_id = $this->tree_repo->getTreeIdForNodeId($this->basic_skill_id);
+        $this->node_manager = $DIC->skills()->internal()->manager()->getTreeNodeManager($tree_id);
+        $this->self_evaluation_manager = $DIC->skills()->internal()->manager()->getSelfEvaluationManager();
+
+        $this->cur_level_id = $this->self_evaluation_manager->getSelfEvaluation(
             $ilUser->getId(),
             $this->top_skill_id,
             $this->tref_id,
@@ -62,10 +75,7 @@ class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
         );
 
         // build title
-        $tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
-        $tree_id = $tree_repo->getTreeIdForNodeId($this->basic_skill_id);
-        $node_manager = $DIC->skills()->internal()->manager()->getTreeNodeManager($tree_id);
-        $title = $node_manager->getWrittenPath($this->basic_skill_id);
+        $title = $this->node_manager->getWrittenPath($this->basic_skill_id);
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->getLevels());

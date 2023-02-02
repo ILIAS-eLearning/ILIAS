@@ -392,4 +392,9 @@ class EditingGUIRequest
     {
         return $this->str("print_selection");
     }
+
+    public function getIncludeLables(): bool
+    {
+        return (bool) (int) $this->str("include_labels");
+    }
 }

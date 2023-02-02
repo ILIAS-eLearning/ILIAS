@@ -34,6 +34,9 @@ the path to the `setup.php` when the command is called from somewhere else.
 You most probably want to execute the setup with the user that also executes your
 webserver to avoid problems with filesystem permissions. The installation creates
 directories and files that the webserver will need to read and sometimes even modify.
+If you need to run setup as another user, please make sure that the user that executes
+the webserver has the necessary filesystem permissions (e.g. by using chown), to
+avoid some errors which may be difficult to troubleshoot.
 
 The setup will ask you to confirm some assumptions during the setup process, where
 you will have to type `yes` (or `no`, of course). These checks can be overwritten
@@ -197,7 +200,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
     "database" : {
         "type" : "innodb",
         "host" : "192.168.47.11",
-        "port" : "3306",
+        "port" : 3306,
         "database" : "db_test7",
         "user" : "test7_homer",
         "password" : "homers-secret",
@@ -250,16 +253,16 @@ are printed bold**, all other fields might be omitted. A minimal example is
         "components" : "all",
         "memcached_nodes" : [
             {
-                "active" : "1",
+                "active" : true,
                 "host" : "example1.com",
-                "port" : "4711",
-                "weight" : "10"
+                "port" : 4711,
+                "weight" : 10
             },
             {
-                "active" : "0",
+                "active" : false,
                 "host" : "example2.com",
-                "port" : "4712",
-                "weight" : "20"
+                "port" : 4712,
+                "weight" : 90
             }
         ]
     },
@@ -310,8 +313,8 @@ are printed bold**, all other fields might be omitted. A minimal example is
     ```
 	"mathjax": {
 		"client_enabled": true,
-		"client_polyfill_url": "https://polyfill.io/v3/polyfill.min.js?features=es6",
-		"client_script_url": "https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js",
+		"client_polyfill_url": "",
+		"client_script_url": "https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe",
 		"client_limiter": 0,
 		"server_enabled": true,
 		"server_address": "http://your.mathjax.server:8003",

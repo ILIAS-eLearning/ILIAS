@@ -80,6 +80,7 @@ class ilExerciseManagementGUI
     protected array $requested_status;                     // key might be ass_ids or user_ids!
     protected array $requested_tutor_notices;                     // key might be ass_ids or user_ids!
     protected array $requested_group_members;                     // "grpt"
+    /** @var array<int, list<string>> */
     protected array $requested_files;                     // "file"
     protected string $requested_filter_status;
     protected string $requested_filter_feedback;
@@ -195,7 +196,7 @@ class ilExerciseManagementGUI
                     }
 
                     $this->exercise->sendFeedbackFileNotification(
-                        $pcommand["name"],
+                        $pcommand["name"] ?? "",
                         $noti_rec_ids,
                         $this->assignment->getId()
                     );
@@ -540,7 +541,6 @@ class ilExerciseManagementGUI
     public function listTextAssignmentObject(): void
     {
         $this->initFilter();
-
         $this->setBackToMembers();
 
         /** @var $button_print \ILIAS\UI\Component\Component */
@@ -574,11 +574,8 @@ class ilExerciseManagementGUI
             }
         }
         if ($total_reports == 0) {
-            $mtpl = new ilTemplate("tpl.message.html", true, true, "Services/Utilities");
-            $mtpl->setCurrentBlock("info_message");
-            $mtpl->setVariable("TEXT", $this->lng->txt("fiter_no_results"));
-            $mtpl->parseCurrentBlock();
-            $report_html .= $mtpl->get();
+            $mess = $this->ui_factory->messageBox()->info($this->lng->txt("fiter_no_results"));
+            $report_html .= $this->ui_renderer->render($mess);
         }
 
         $group_panels_tpl->setVariable('CONTENT', $report_html);
@@ -643,6 +640,7 @@ class ilExerciseManagementGUI
         $actions = array(
             $this->ui_factory->button()->shy($this->lng->txt("grade_evaluate"), "#")->withOnClick($modal->getShowSignal())
         );
+
         if ($this->exercise->hasTutorFeedbackMail()) {
             $actions[] = $this->ui_factory->button()->shy(
                 $this->lng->txt("exc_tbl_action_feedback_mail"),
@@ -659,7 +657,6 @@ class ilExerciseManagementGUI
         $this->ctrl->setParameter($this, "member_id", "");
 
         $actions_dropdown = $this->ui_factory->dropdown()->standard($actions);
-
         if ($a_data['status'] == self::GRADE_NOT_GRADED) {
             $str_status_key = $this->lng->txt('exc_tbl_status');
             $str_status_value = $this->lng->txt('not_yet');
@@ -730,7 +727,7 @@ class ilExerciseManagementGUI
 
                     $review_html .=
                         '<div class="ilBlockPropertyCaption">' . $crit->getTitle() . '</div>' .
-                        '<div style="margin:2px 0;">' . $crit->getHTML($values[$crit_id]) . '</div>';
+                        '<div style="margin:2px 0;">' . $crit->getHTML($values[$crit_id] ?? null) . '</div>';
                 }
                 $feedback_tpl->setVariable("PEER_FEEDBACK", $review_html);
                 $feedback_tpl->parseCurrentBlock();
@@ -1255,11 +1252,10 @@ class ilExerciseManagementGUI
         $cgui->setHeaderText($lng->txt("exc_msg_sure_to_deassign_participant"));
         $cgui->setCancel($lng->txt("cancel"), "members");
         $cgui->setConfirm($lng->txt("remove"), "deassignMembers");
-
         foreach ($members as $k => $m) {
             $cgui->addItem(
-                "member[$k]",
-                $m,
+                "member_ids[]",
+                $k,
                 ilUserUtil::getNamePresentation((int) $k, false, false, "", true)
             );
         }
@@ -1277,9 +1273,9 @@ class ilExerciseManagementGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $members = $this->getMultiActionUserIds();
+        $member_ids = $this->request->getMemberIds();
 
-        foreach (array_keys($members) as $usr_id) {
+        foreach ($member_ids as $usr_id) {
             $this->exercise->members_obj->deassignMember((int) $usr_id);
             $this->removeUserSubmissionFilesFromWebDir((int) $usr_id);
         }
@@ -1469,7 +1465,7 @@ class ilExerciseManagementGUI
                 if ($reci_ids !== []) {
                     // send notification
                     $this->exercise->sendFeedbackFileNotification(
-                        null,
+                        "",
                         $reci_ids,
                         $ass_id,
                         true
@@ -2155,9 +2151,14 @@ class ilExerciseManagementGUI
         // e.g. ilExercise/3/exc_367/subm_1/<ass_id>/20210628175716_368
         $zip_internal_path = $this->getWebFilePathFromExternalFilePath($zip_original_full_path);
 
-        list($obj_date, $obj_id) = explode("_", basename($zip_original_full_path));
+        $arr = explode("_", basename($zip_original_full_path));
+        $obj_date = $arr[0];
+        $obj_id = (int) ($arr[1] ?? 0);
+        if ($obj_id === 0) {
+            throw new ilExerciseException("Cannot open HTML view for " . $zip_internal_path . " / " .
+                $submission->getSubmittedPrintFile() . ".");
+        }
 
-        $obj_id = (int) $obj_id;
         $obj_id = $this->assignment->getAssignmentType()->getExportObjIdForResourceId($obj_id);
         if ($print_version) {
             $obj_id .= "print";
@@ -2192,7 +2193,7 @@ class ilExerciseManagementGUI
                 $submission_repository = $this->service->repo()->submission();
                 $submission_repository->updateWebDirAccessTime($this->assignment->getId(), $member_id);
 
-                ilUtil::redirect($index_html_file);
+                ilUtil::redirect($index_html_file . "?" . time());
             }
 
             $error_msg = $this->lng->txt("exc_copy_zip_error");
@@ -2220,7 +2221,6 @@ class ilExerciseManagementGUI
             null,
             $print_versions
         );
-
         if ($submitted !== []) {
             $submitted = array_pop($submitted);
 

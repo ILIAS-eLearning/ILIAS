@@ -73,7 +73,7 @@ class ilFormatMail extends ilMail
         $key = 'rcp_to';
         if ('cc' === $a_type) {
             $key = 'rcp_cc';
-        } elseif ('bcc' === $a_type) {
+        } elseif ('bc' === $a_type) {
             $key = 'rcp_bcc';
         }
 
@@ -89,23 +89,6 @@ class ilFormatMail extends ilMail
         $this->mail_data[$key] .= $name_str;
 
         return $this->mail_data;
-    }
-
-    public function formatLinebreakMessage(string $message): string
-    {
-        $formatted = [];
-
-        $linebreak = $this->mail_options->getLinebreak();
-
-        $lines = explode(chr(10), $message);
-        foreach ($lines as $iValue) {
-            if (strpos($iValue, '>') !== 0) {
-                $formatted[] = wordwrap($iValue, $linebreak, chr(10));
-            } else {
-                $formatted[] = $iValue;
-            }
-        }
-        return implode(chr(10), $formatted);
     }
 
     public function appendSignature(string $message): string

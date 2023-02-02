@@ -48,6 +48,13 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
         );
     }
 
+    public function handleChangedObjectTitle(string $new_title): void
+    {
+        $current_revision = $this->resource->getCurrentRevision();
+        $current_revision->setTitle($new_title);
+        $this->storage->manage()->updateRevision($current_revision);
+    }
+
     /**
      * @inheritDoc
      */
@@ -99,7 +106,9 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
             $revision = $this->resource->getCurrentRevision();
         }
 
-        if (!$this->download_with_uploaded_filename) {
+        if ($this->download_with_uploaded_filename) {
+            $consumer->overrideFileName($revision->getInformation()->getTitle());
+        } else {
             $consumer->overrideFileName($revision->getTitle());
         }
 

@@ -1,8 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * This class represents a key value pair wizard property in a property form.
@@ -13,10 +25,10 @@ require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
 */
 class ilMatchingPairWizardInputGUI extends ilTextInputGUI
 {
-    protected $pairs = array();
+    protected $pairs = [];
     protected $allowMove = false;
-    protected $terms = array();
-    protected $definitions = array();
+    protected $terms = [];
+    protected $definitions = [];
 
     /**
     * Constructor
@@ -37,7 +49,11 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         if (is_array($a_value)) {
             if (isset($a_value['term']) && is_array($a_value['term'])) {
                 foreach ($a_value['term'] as $idx => $term) {
-                    $this->pairs[] = new assAnswerMatchingPair(new assAnswerMatchingTerm('', '', $term), new assAnswerMatchingDefinition('', '', $a_value['definition'][$idx]), $a_value['points'][$idx]);
+                    $this->pairs[] = new assAnswerMatchingPair(
+                        new assAnswerMatchingTerm('', '', $term),
+                        new assAnswerMatchingDefinition('', '', $a_value['definition'][$idx]),
+                        (float)$a_value['points'][$idx]
+                    );
                 }
             }
             $term_ids = explode(",", $a_value['term_id']);
@@ -167,6 +183,9 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
     {
         global $DIC;
         $lng = $DIC['lng'];
+        $global_tpl = $DIC['tpl'];
+        $global_tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
+        $global_tpl->addJavascript("./Modules/TestQuestionPool/templates/default/matchingpairwizard.js");
 
         $tpl = new ilTemplate("tpl.prop_matchingpairinput.html", true, true, "Modules/TestQuestionPool");
         $i = 0;
@@ -179,9 +198,9 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
             $tpl->parseCurrentBlock();
             foreach ($this->terms as $term) {
                 $tpl->setCurrentBlock("option_term");
-                $tpl->setVariable("VALUE_OPTION", ilLegacyFormElementsUtil::prepareFormOutput($term->identifier));
+                $tpl->setVariable("VALUE_OPTION", ilLegacyFormElementsUtil::prepareFormOutput($term->getIdentifier()));
                 $tpl->setVariable("TEXT_OPTION", $lng->txt('term') . " " . $counter);
-                if ($pair->term->identifier == $term->identifier) {
+                if ($pair->getTerm()->getIdentifier() == $term->getIdentifier()) {
                     $tpl->setVariable('SELECTED_OPTION', ' selected="selected"');
                 }
                 $tpl->parseCurrentBlock();
@@ -194,20 +213,20 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
             $tpl->parseCurrentBlock();
             foreach ($this->definitions as $definition) {
                 $tpl->setCurrentBlock("option_definition");
-                $tpl->setVariable("VALUE_OPTION", ilLegacyFormElementsUtil::prepareFormOutput($definition->identifier));
+                $tpl->setVariable("VALUE_OPTION", ilLegacyFormElementsUtil::prepareFormOutput($definition->getIdentifier()));
                 $tpl->setVariable("TEXT_OPTION", $lng->txt('definition') . " " . $counter);
-                if ($pair->definition->identifier == $definition->identifier) {
+                if ($pair->getDefinition()->getIdentifier() == $definition->getIdentifier()) {
                     $tpl->setVariable('SELECTED_OPTION', ' selected="selected"');
                 }
                 $tpl->parseCurrentBlock();
                 $counter++;
             }
 
-            if (strlen($pair->points)) {
-                $tpl->setCurrentBlock('points_value');
-                $tpl->setVariable('POINTS_VALUE', $pair->points);
-                $tpl->parseCurrentBlock();
-            }
+
+            $tpl->setCurrentBlock('points_value');
+            $tpl->setVariable('POINTS_VALUE', $pair->getPoints());
+            $tpl->parseCurrentBlock();
+
             if ($this->getAllowMove()) {
                 $tpl->setCurrentBlock("move");
                 $tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
@@ -237,7 +256,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         $tpl->setCurrentBlock('term_ids');
         $ids = array();
         foreach ($this->terms as $term) {
-            array_push($ids, $term->identifier);
+            array_push($ids, $term->getIdentifier());
         }
         $tpl->setVariable("POST_VAR", $this->getPostVar());
         $tpl->setVariable("TERM_IDS", join(",", $ids));
@@ -246,7 +265,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         $tpl->setCurrentBlock('definition_ids');
         $ids = array();
         foreach ($this->definitions as $definition) {
-            array_push($ids, $definition->identifier);
+            array_push($ids, $definition->getIdentifier());
         }
         $tpl->setVariable("POST_VAR", $this->getPostVar());
         $tpl->setVariable("DEFINITION_IDS", join(",", $ids));
@@ -261,10 +280,5 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();
-
-        global $DIC;
-        $tpl = $DIC['tpl'];
-        $tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
-        $tpl->addJavascript("./Modules/TestQuestionPool/templates/default/matchingpairwizard.js");
     }
 }
