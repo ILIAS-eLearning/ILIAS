@@ -495,10 +495,9 @@ class ilObjSurvey extends ilObject
      */
     public function saveCompletionStatus(): void
     {
-        $ilDB = $this->db;
-
+        $db = $this->db;
         if ($this->getSurveyId() > 0) {
-            $ilDB->manipulateF(
+            $db->manipulateF(
                 "UPDATE svy_svy SET complete = %s, tstamp = %s WHERE survey_id = %s",
                 array('text','integer','integer'),
                 array($this->isComplete(), time(), $this->getSurveyId())
@@ -566,6 +565,7 @@ class ilObjSurvey extends ilObject
             $this->svy_log->debug("added entry to svy_svy_qst, id: " . $next_id . ", question id: " . $duplicate_id . ", sequence: " . $sequence);
 
             $this->loadQuestionsFromDb();
+            $this->saveCompletionStatus();
             return true;
         }
     }
