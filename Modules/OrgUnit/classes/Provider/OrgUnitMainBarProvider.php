@@ -86,7 +86,7 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
 
         $title = $this->dic->language()->txt("mm_talk_template", "");
         $action = "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . ilObjTalkTemplateAdministration::getRootRefId() . "&cmd=jump";
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('etal', $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('tala', $title);
         $linkEmployeeTalkTemplates = $this->mainmenu->link($this->employeeTalkTemplateIdentifier)
                                                     ->withAlwaysAvailable(true)
                                                     ->withAction($action)
