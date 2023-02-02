@@ -280,6 +280,11 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
      */
     protected function buildPath($a_ref_id): string
     {
+        $obj_type = ilObject::_lookupType($a_ref_id, true);
+        if (!$this->obj_def->isAllowedInRepository($obj_type)) {
+            return '';
+        }
+
         $path_arr = $this->tree->getPathFull($a_ref_id, ROOT_FOLDER_ID);
         $counter = 0;
         unset($path_arr[count($path_arr) - 1]);
@@ -330,12 +335,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 
     protected function renderItem(array $a_set, ilTemplate $a_tpl): void
     {
-        $obj_type = ilObject::_lookupType($a_set['obj_id']);
-
-        if (
-            strlen((string) $a_set['path']) &&
-            $this->obj_def->isAllowedInRepository($obj_type)
-        ) {
+        if (strlen((string) $a_set['path'])) {
             $a_tpl->setCurrentBlock('calendar_path');
             $a_tpl->setVariable('ADD_PATH_INFO', $a_set['path']);
             $a_tpl->parseCurrentBlock();
@@ -362,6 +362,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
         }
         $a_tpl->setVariable('BGCOLOR', $a_set['color']);
 
+        $obj_type = ilObject::_lookupType($a_set['obj_id']);
         if (
             ($a_set['type'] == ilCalendarCategory::TYPE_OBJ) &&
             $a_set['ref_id']

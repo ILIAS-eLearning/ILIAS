@@ -424,14 +424,11 @@ class ilCalendarCategories
 
         $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, ['crs']));
         $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, ['grp']));
-
-        $repository = new IliasDBEmployeeTalkSeriesRepository($this->user, $this->db);
-        $talks = $repository->findByOwnerAndEmployee();
-        $talkIds = array_map(function (ilObjEmployeeTalkSeries $item) {
-            return $item->getId();
-        }, $talks);
-
-        $this->readSelectedCategories($talkIds, 0, false);
+        $this->readSelectedCategories(
+            $this->lookupRelevantTalkSeriesIds(),
+            0,
+            false
+        );
 
         $this->addSubitemCalendars();
     }
@@ -491,14 +488,11 @@ class ilCalendarCategories
         $this->readSelectedCategories($sessions);
         $this->readSelectedCategories($groups);
         $this->readSelectedCategories($exercises);
-
-        $repository = new IliasDBEmployeeTalkSeriesRepository($this->user, $this->db);
-        $talks = $repository->findByOwnerAndEmployee();
-        $talkIds = array_map(function (ilObjEmployeeTalkSeries $item) {
-            return $item->getId();
-        }, $talks);
-
-        $this->readSelectedCategories($talkIds, 0, false);
+        $this->readSelectedCategories(
+            $this->lookupRelevantTalkSeriesIds(),
+            0,
+            false
+        );
 
         $this->addSubitemCalendars();
     }
@@ -560,14 +554,11 @@ class ilCalendarCategories
         if (!$a_container_only) {
             $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, ['crs']));
             $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, ['grp']));
-
-            $repository = new IliasDBEmployeeTalkSeriesRepository($this->user, $this->db);
-            $talks = $repository->findByOwnerAndEmployee();
-            $talkIds = array_map(function (ilObjEmployeeTalkSeries $item) {
-                return $item->getId();
-            }, $talks);
-
-            $this->readSelectedCategories($talkIds, 0, false);
+            $this->readSelectedCategories(
+                $this->lookupRelevantTalkSeriesIds(),
+                0,
+                false
+            );
         }
 
         $this->addSubitemCalendars();
@@ -944,6 +935,18 @@ class ilCalendarCategories
                 $this->categories_info[$cat_id]['subitem_obj_ids'] = array();
             }
         }
+    }
+
+    /**
+     * @return int[]
+     */
+    protected function lookupRelevantTalkSeriesIds(): array
+    {
+        $repository = new IliasDBEmployeeTalkSeriesRepository($this->user, $this->db);
+        $talks = $repository->findByOwnerAndEmployee();
+        return array_map(function (ilObjEmployeeTalkSeries $item) {
+            return $item->getId();
+        }, $talks);
     }
 
     /**
