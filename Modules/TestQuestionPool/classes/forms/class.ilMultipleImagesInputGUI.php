@@ -241,6 +241,10 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
         if (is_array($F['tmp_name'])) {
             foreach ($F['tmp_name'] as $index => $tmpname) {
                 $filename = $F['name'][$index];
+                if (is_array($filename)) {
+                    $filename = array_shift($filename);
+                    $tmpname = array_shift($tmpname);
+                }
                 $filename_arr = pathinfo($filename);
                 $suffix = $filename_arr["extension"] ?? '';
                 $mimetype = $F['type'][$index];
@@ -257,6 +261,10 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 
         foreach ($F['tmp_name'] as $index => $tmpname) {
             $filename = $F['name'][$index];
+            if (is_array($filename)) {
+                $filename = array_shift($filename);
+                $tmpname = array_shift($tmpname);
+            }
             $filename_arr = pathinfo($filename);
             $suffix = $filename_arr["extension"] ?? '';
             $mimetype = $F['type'][$index];
