@@ -110,7 +110,7 @@ class ilBookingPreferencesGUI
         $fields = [];
         foreach (ilBookingObject::getList($this->pool->getId()) as $book_obj) {
             $checked = isset($preferences[$this->user->getId()]) &&
-                in_array($book_obj["booking_object_id"], $preferences[$this->user->getId()], true);
+                in_array((int) $book_obj["booking_object_id"], $preferences[$this->user->getId()], true);
 
             $fields["cb_" . $book_obj["booking_object_id"]] =
                 $f->input()->field()->checkbox($book_obj["title"], $book_obj["description"])->withValue($checked);
