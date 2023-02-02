@@ -313,8 +313,8 @@ are printed bold**, all other fields might be omitted. A minimal example is
     ```
 	"mathjax": {
 		"client_enabled": true,
-		"client_polyfill_url": "https://polyfill.io/v3/polyfill.min.js?features=es6",
-		"client_script_url": "https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js",
+		"client_polyfill_url": "",
+		"client_script_url": "https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe",
 		"client_limiter": 0,
 		"server_enabled": true,
 		"server_address": "http://your.mathjax.server:8003",

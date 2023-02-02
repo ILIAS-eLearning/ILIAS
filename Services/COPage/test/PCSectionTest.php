@@ -276,4 +276,22 @@ EOT;
             $page->getXMLFromDom()
         );
     }
+
+    public function testModel(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc_sec = new ilPCSection($page);
+        $pc_sec->create($page, "pg");
+
+        $pc_sec->setProtected(true);
+
+        $model = new stdClass();
+        $model->protected = true;
+
+
+        $this->assertEquals(
+            $model,
+            $pc_sec->getModel()
+        );
+    }
 }
