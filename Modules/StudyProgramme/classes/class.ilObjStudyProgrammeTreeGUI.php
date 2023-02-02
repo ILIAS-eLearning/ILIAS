@@ -304,7 +304,7 @@ class ilObjStudyProgrammeTreeGUI
         $create_leaf_form->setId("select_course_explorer");
 
         $ref_expand = ROOT_FOLDER_ID;
-        if ($this->http_wrapper->post()->has("ref_repexpand")) {
+        if ($this->http_wrapper->query()->has("ref_repexpand")) {
             $ref_expand = $this->http_wrapper->query()->retrieve("ref_repexpand", $this->refinery->kindlyTo()->int());
         }
 
@@ -383,7 +383,7 @@ class ilObjStudyProgrammeTreeGUI
                 $accordion->setBehaviour(ilAccordionGUI::FIRST_OPEN);
             }
 
-            $content = $accordion->getHTML();
+            $content = $accordion->getHTML(true);
         }
 
         // creating modal window output
