@@ -224,7 +224,8 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
     private function sendNotification(array $talks): void
     {
         $firstTalk = $talks[0];
-        $talkTitle = $firstTalk->getTitle();
+        $talk_title = $firstTalk->getTitle();
+        $talk_ref_id = $firstTalk->getRefId();
         $superior = new ilObjUser($firstTalk->getOwner());
         $employee = new ilObjUser($firstTalk->getData()->getEmployee());
         $superiorName = $superior->getFullname();
@@ -239,10 +240,10 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         }
 
         $message = new EmployeeTalkEmailNotification(
-            sprintf($this->lng->txt('notification_talks_removed'), $superiorName),
-            $this->lng->txt('notification_talks_date_list_header'),
-            sprintf($this->lng->txt('notification_talks_talk_title'), $talkTitle),
-            $this->lng->txt('notification_talks_date_details'),
+            $talk_ref_id,
+            'notification_talks_subject_update',
+            'notification_talks_removed',
+            $superiorName,
             $dates
         );
 
@@ -251,7 +252,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         if ($series->hasChildren()) {
             $vCalSender = new EmployeeTalkEmailNotificationService(
                 $message,
-                $talkTitle,
+                $talk_title,
                 $employee,
                 $superior,
                 VCalendarFactory::getInstanceFromTalks($series)
@@ -259,10 +260,10 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         } else {
             $vCalSender = new EmployeeTalkEmailNotificationService(
                 $message,
-                $talkTitle,
+                $talk_title,
                 $employee,
                 $superior,
-                VCalendarFactory::getEmptyInstance($series, $talkTitle)
+                VCalendarFactory::getEmptyInstance($series, $talk_title)
             );
         }
 
@@ -279,7 +280,8 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         }
 
         $firstTalk = $talks[0];
-        $talkTitle = $firstTalk->getTitle();
+        $talk_title = $firstTalk->getTitle();
+        $talk_ref_id = $firstTalk->getRefId();
         $superior = new ilObjUser($firstTalk->getOwner());
         $employee = new ilObjUser($firstTalk->getData()->getEmployee());
         $superiorName = $superior->getFullname();
@@ -293,16 +295,16 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         }
 
         $message = new EmployeeTalkEmailNotification(
-            sprintf($this->lng->txt('notification_talks_updated'), $superiorName),
-            $this->lng->txt('notification_talks_date_details'),
-            sprintf($this->lng->txt('notification_talks_talk_title'), $talkTitle),
-            $this->lng->txt('notification_talks_date_list_header'),
+            $talk_ref_id,
+            'notification_talks_subject_update',
+            'notification_talks_updated',
+            $superiorName,
             $dates
         );
 
         $vCalSender = new EmployeeTalkEmailNotificationService(
             $message,
-            $talkTitle,
+            $talk_title,
             $employee,
             $superior,
             VCalendarFactory::getInstanceFromTalks($firstTalk->getParent())

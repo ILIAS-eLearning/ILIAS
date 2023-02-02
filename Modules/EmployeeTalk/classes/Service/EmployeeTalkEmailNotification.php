@@ -22,67 +22,54 @@ namespace ILIAS\EmployeeTalk\Service;
 
 final class EmployeeTalkEmailNotification
 {
-    private string $salutation;
-    private string $dateHeader;
-    private string $talkTitle;
-    private string $appointmentDetails;
+    private int $talk_ref_id;
+    private string $subject_key;
+    private string $message_key;
+    private string $superior_name;
     /**
      * @var string[] $dates
      */
     private array $dates;
 
     /**
-     * EmployeeTalkEmailNotification constructor.
-     * @param string $salutation
-     * @param string $dateHeader
-     * @param string $talkTitle
-     * @param string $appointmentDetails
-     * @param string[] $dates
+     * @param int       $talk_ref_id
+     * @param string    $subject_key
+     * @param string    $message_key
+     * @param string    $superior_name
+     * @param string[]  $dates
      */
     public function __construct(
-        string $salutation,
-        string $dateHeader,
-        string $talkTitle,
-        string $appointmentDetails,
+        int $talk_ref_id,
+        string $subject_key,
+        string $message_key,
+        string $superior_name,
         array $dates
     ) {
-        $this->salutation = $salutation;
-        $this->dateHeader = $dateHeader;
-        $this->talkTitle = $talkTitle;
-        $this->appointmentDetails = $appointmentDetails;
+        $this->talk_ref_id = $talk_ref_id;
+        $this->subject_key = $subject_key;
+        $this->message_key = $message_key;
+        $this->superior_name = $superior_name;
         $this->dates = $dates;
     }
 
-    /**
-     * @return string
-     */
-    public function getSalutation(): string
+    public function getTalkRefId(): int
     {
-        return $this->salutation;
+        return $this->talk_ref_id;
     }
 
-    /**
-     * @return string
-     */
-    public function getDateHeader(): string
+    public function getSubjectLangKey(): string
     {
-        return $this->dateHeader;
+        return $this->subject_key;
     }
 
-    /**
-     * @return string
-     */
-    public function getTalkTitle(): string
+    public function getMessageLangKey(): string
     {
-        return $this->talkTitle;
+        return $this->message_key;
     }
 
-    /**
-     * @return string
-     */
-    public function getAppointmentDetails(): string
+    public function getNameOfSuperior(): string
     {
-        return $this->appointmentDetails;
+        return $this->superior_name;
     }
 
     /**
@@ -91,19 +78,5 @@ final class EmployeeTalkEmailNotification
     public function getDates(): array
     {
         return $this->dates;
-    }
-
-    public function __toString(): string
-    {
-        $dateList = "";
-        foreach ($this->dates as $date) {
-            $dateList .= "- $date\r\n";
-        }
-
-        return $this->getSalutation() . "\r\n\r\n"
-            . $this->getAppointmentDetails() . "\r\n"
-            . $this->getTalkTitle() . "\r\n\r\n"
-            . $this->getDateHeader() . ":\r\n"
-            . $dateList;
     }
 }
