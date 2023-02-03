@@ -61,12 +61,6 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
 
 
         switch ($next_class) {
-            case 'ilpermissiongui':
-                parent::prepareOutput();
-                $this->tabs_gui->activateTab('perm_settings');
-                $ilPermissionGUI = new ilPermissionGUI($this);
-                $this->ctrl->forwardCommand($ilPermissionGUI);
-                break;
             case 'ilinfoscreengui':
                 parent::prepareOutput();
                 $this->tabs_gui->activateTab('info_short');
@@ -76,8 +70,6 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
             default:
                 parent::executeCommand();
         }
-        global $DIC;
-        $DIC->logger()->root()->dump($this->obj_definition->isRBACObject($this->object->getType()));
     }
 
     public function viewObject(): void
