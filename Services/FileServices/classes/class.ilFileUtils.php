@@ -525,7 +525,7 @@ class ilFileUtils
                     $DIC->language()->txt("upload_error_file_not_found")
                 );
             }
-            $upload_result = $upload->getResults()[$a_file];
+            $upload_result = $upload->getResults()[$a_file] ?? null;
             if ($upload_result instanceof UploadResult) {
                 $processing_status = $upload_result->getStatus();
                 if ($processing_status->getCode(

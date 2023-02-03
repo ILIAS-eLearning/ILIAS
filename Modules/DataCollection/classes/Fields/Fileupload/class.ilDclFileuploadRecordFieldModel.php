@@ -41,7 +41,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     public function parseValue($value)
     {
-        if ($value == -1) { //marked for deletion.
+        if ($value === -1) { //marked for deletion.
             return null;
         }
 
@@ -57,13 +57,6 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
             && $file['tmp_name'] !== ""
             && (!$has_save_confirmation || $is_confirmed)
         ) {
-            $file_obj = new ilObjFile();
-            $file_obj->setType("file");
-            $file_obj->setTitle($file["name"]);
-            $file_obj->setFileName($file["name"]);
-            $file_obj->setMode(ilObjFile::MODE_OBJECT);
-            $file_obj->create();
-
             if ($has_save_confirmation) {
                 $ilfilehash = $this->http->wrapper()->post()->retrieve(
                     'ilfilehash',
@@ -77,12 +70,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
                     $file["type"]
                 );
 
-                $file_obj->appendStream(
-                    ILIAS\Filesystem\Stream\Streams::ofResource(fopen($move_file, 'rb')),
-                    $file_obj->getTitle()
-                );
-
-                $file_obj->setFileName($file["name"]);
+                $file_stream = ILIAS\Filesystem\Stream\Streams::ofResource(fopen($move_file, 'rb'));
             } else {
                 $move_file = $file['tmp_name'];
 
@@ -93,8 +81,22 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
                 if (false === $this->upload->hasUploads()) {
                     throw new ilException($this->lng->txt('upload_error_file_not_found'));
                 }
-                $file_obj->getUploadFile($move_file, $file["name"]);
+
+                $file_stream = Streams::ofResource(fopen($move_file, 'rb'));
             }
+
+            $file_title = $file["name"] ?? basename($move_file);
+
+            $file_obj = new ilObjFile();
+            $file_obj->setType("file");
+            $file_obj->setTitle($file_title);
+            $file_obj->setFileName($file_title);
+            $file_obj->setMode(ilObjFile::MODE_OBJECT);
+            $file_obj->create();
+
+            $file_obj->appendStream($file_stream, $file_title);
+            $file_obj->setTitle($file_title);
+            $file_obj->setFileName($file_title);
 
             $file_obj->update();
 
