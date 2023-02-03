@@ -1096,6 +1096,13 @@ class ilObjectGUI
         ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $this->ref_id, $rbac_log);
         
         // use forced callback after object creation
+        $this->callCreationCallback($a_obj);
+    }
+
+    public function callCreationCallback(ilObject $a_obj) : void
+    {
+        $objDefinition = $this->objDefinition;
+        // use forced callback after object creation
         if ($_REQUEST["crtcb"]) {
             $callback_type = ilObject::_lookupType((int) $_REQUEST["crtcb"], true);
             $class_name = "ilObj" . $objDefinition->getClassName($callback_type) . "GUI";
@@ -1432,10 +1439,15 @@ class ilObjectGUI
                 $this->ctrl->setParameter($this, "new_type", "");
 
                 $newObj = ilObjectFactory::getInstanceByObjId($new_id);
-
                 // put new object id into tree - already done in import for containers
                 if (!$objDefinition->isContainer($new_type)) {
                     $this->putObjectInTree($newObj);
+                } else {
+                    $ref_ids = ilObject::_getAllReferences($newObj->getId());
+                    if (count($ref_ids) === 1) {
+                        $newObj->setRefId((int) current($ref_ids));
+                    }
+                    $this->callCreationCallback($newObj);   // see #24244
                 }
                 
                 $this->afterImport($newObj);
