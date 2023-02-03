@@ -317,6 +317,9 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         // reminder
         $rmd = new ilCheckboxInputGUI($this->lng->txt("book_reminder_setting"), "rmd");
         $rmd->setChecked($this->object->getReminderStatus());
+        if (!ilCronManager::isJobActive('book_notification')) {
+            $rmd->setInfo($this->lng->txt("book_notification_cron_not_active"));
+        }
         $fixed->addSubItem($rmd);
 
         $rmd_day = new ilNumberInputGUI($this->lng->txt("book_reminder_day"), "rmd_day");
@@ -648,7 +651,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
         if ($lg && $access->checkAccess("read", "", $this->ref_id)) {
             // notification
-            if (true) {
+            if ($this->object->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE &&
+                $this->object->getReminderStatus()) {
                 if (!ilNotification::hasNotification(ilNotification::TYPE_BOOK, $user->getId(), $this->object->getId())) {
                     $lg->addHeaderIcon(
                         "not_icon",
