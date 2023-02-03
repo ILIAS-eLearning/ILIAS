@@ -76,6 +76,8 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
             default:
                 parent::executeCommand();
         }
+        global $DIC;
+        $DIC->logger()->root()->dump($this->obj_definition->isRBACObject($this->object->getType()));
     }
 
     public function viewObject(): void
@@ -129,7 +131,7 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
         $this->ctrl->redirectByClass(strtolower(ilInfoScreenGUI::class), "showSummary");
     }
 
-    public function getTabs(): void
+    protected function getTabs(): void
     {
         $read_access_ref_id = $this->rbacsystem->checkAccess('visible,read', $this->object->getRefId());
         if ($read_access_ref_id) {
@@ -140,8 +142,6 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
         if ($this->rbacsystem->checkAccess('write', $this->object->getRefId(), $this->type)) {
             $this->tabs_gui->addTab('settings', $this->lng->txt("settings"), $this->ctrl->getLinkTarget($this, "edit"));
         }
-
-        parent::getTabs();
     }
 
     protected function initCreationForms(string $new_type): array

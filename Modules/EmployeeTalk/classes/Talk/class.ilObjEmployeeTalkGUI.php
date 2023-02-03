@@ -515,7 +515,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $this->editObject();
     }
 
-    public function getTabs(): void
+    protected function getTabs(): void
     {
         $this->tabs_gui->addTab('view_content', $this->lng->txt("content"), $this->ctrl->getLinkTarget($this, ControlFlowCommand::UPDATE));
         $this->tabs_gui->addTab("info_short", "Info", $this->ctrl->getLinkTargetByClass(strtolower(ilInfoScreenGUI::class), "showSummary"));
