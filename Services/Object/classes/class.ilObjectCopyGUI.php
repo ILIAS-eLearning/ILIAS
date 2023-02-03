@@ -101,6 +101,7 @@ class ilObjectCopyGUI
 
         $this->lng->loadLanguageModule('search');
         $this->lng->loadLanguageModule('obj');
+        $this->ctrl->saveParameter($this, "crtcb");
 
         $this->clipboard = $DIC
             ->repository()
@@ -820,6 +821,7 @@ class ilObjectCopyGUI
 
                 // Delete wizard options
                 $wizard_options->deleteAll();
+                $this->parent_obj->callCreationCallback($new_obj);
 
                 // rbac log
                 if (ilRbacLog::isActive()) {
@@ -973,6 +975,9 @@ class ilObjectCopyGUI
         );
 
         $this->targets_copy_id[$target_ref_id] = $result['copy_id'];
+
+        $new_obj = ilObjectFactory::getInstanceByRefId((int) $result['ref_id']);
+        $this->parent_obj->callCreationCallback($new_obj);
 
         return $result;
     }
