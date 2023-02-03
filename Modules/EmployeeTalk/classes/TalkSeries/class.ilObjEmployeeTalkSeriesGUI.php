@@ -81,31 +81,6 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirectByClass(ilDashboardGUI::class, "");
         }
-
-        $nextClass = $this->container->ctrl()->getNextClass($this);
-        $command = $this->container->ctrl()->getCmd();
-
-        // Stop User from creating talks with employees which dont belong to the respective orgunit
-        if ($nextClass === '' && $command === 'save') {
-            $userName = filter_input(INPUT_POST, 'etal_employee', FILTER_CALLBACK, ['options' => function ($input) {
-                if (ilObjUser::_loginExists($input)) {
-                    return $input;
-                }
-
-                return null;
-            }]);
-
-            if (is_null($userName)) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
-                $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class), ControlFlowCommand::DEFAULT);
-            }
-
-            $userId = ilObjUser::_lookupId($userName);
-            if (!$talkAccess->canCreate(new ilObjUser($userId))) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
-                $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class), ControlFlowCommand::DEFAULT);
-            }
-        }
     }
 
     public function executeCommand(): void
@@ -206,17 +181,46 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class), ControlFlowCommand::DEFAULT, "", false);
     }
 
-    protected function validateCustom(ilPropertyFormGUI $a_form): bool
+    public function saveObject(): void
     {
-        /**
-         * @var ilTextInputGUI $userName
-         */
-        $userName = $a_form->getInput('etal_employee');
-        if (!ilObjUser::_loginExists($userName->getValue())) {
-            $userName->setValidationFailureMessage("etal_invalid_user");
-            return false;
+        $this->ctrl->setParameter($this, "new_type", $this->requested_new_type);
+
+        $form = $this->initCreateForm($this->requested_new_type);
+        if ($form->checkInput()) {
+            $userName = (string) $form->getInput('etal_employee');
+            $userId = (int) ilObjUser::_lookupId($userName);
+            $talkAccess = new ilObjEmployeeTalkAccess();
+            if (
+                !ilObjUser::_loginExists($userName) ||
+                !$talkAccess->canCreate(new ilObjUser($userId))
+            ) {
+                $form->getItemByPostVar('etal_employee')
+                     ->setAlert($this->lng->txt('etal_invalid_user'));
+                $this->tpl->setOnScreenMessage(
+                    'failure',
+                    $this->lng->txt('form_input_not_valid')
+                );
+                $form->setValuesByPost();
+                $this->tpl->setContent($form->getHTML());
+                return;
+            }
+
+            $this->ctrl->setParameter($this, "new_type", "");
+
+            $class_name = "ilObj" . $this->obj_definition->getClassName($this->requested_new_type);
+            $newObj = new $class_name();
+            $newObj->setType($this->requested_new_type);
+            $newObj->setTitle($form->getInput("title"));
+            $newObj->setDescription($form->getInput("desc"));
+            $newObj->create();
+
+            $this->putObjectInTree($newObj);
+
+            $this->afterSave($newObj);
         }
-        return parent::validateCustom($a_form);
+
+        $form->setValuesByPost();
+        $this->tpl->setContent($form->getHTML());
     }
 
     protected function initCreateForm(string $new_type): ilPropertyFormGUI

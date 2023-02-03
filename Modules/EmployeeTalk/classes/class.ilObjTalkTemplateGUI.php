@@ -59,6 +59,9 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
 
+        if (!$next_class && ($cmd === 'create' || $cmd === 'save')) {
+            $this->setCreationMode();
+        }
 
         switch ($next_class) {
             case 'ilinfoscreengui':
