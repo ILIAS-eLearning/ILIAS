@@ -55,6 +55,15 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
         return false;
     }
 
+    public function isActiveAdministrationPanel(): bool
+    {
+        return false;
+    }
+
+    public function setContentSubTabs(): void
+    {
+    }
+
     public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
@@ -76,6 +85,9 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
                 break;
             case strtolower(ilObjTalkTemplateGUI::class):
                 $ilTalkTemplateGUI = new ilObjTalkTemplateGUI();
+                if ($cmd === 'create') {
+                    $ilTalkTemplateGUI->setCreationMode();
+                }
                 $this->ctrl->forwardCommand($ilTalkTemplateGUI);
                 break;
             default:
