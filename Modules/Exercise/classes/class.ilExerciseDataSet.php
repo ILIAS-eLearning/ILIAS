@@ -712,11 +712,11 @@ class ilExerciseDataSet extends ilDataSet
                 $end = new ilDateTime($a_rec["End"], IL_CAL_DATETIME, "UTC");
                 $rmd = new ilExAssignmentReminder($new_exc_id, $new_ass_id, $a_rec["Type"]);
                 $rmd->setReminderStatus($a_rec["Status"]);
-                $rmd->setReminderStart($a_rec["Start"]);
-                $rmd->setReminderEnd($end->get(IL_CAL_UNIX));
-                $rmd->setReminderFrequency($a_rec["Freq"]);
-                $rmd->setReminderLastSend($a_rec["LastSend"]);
-                $rmd->setReminderMailTemplate($a_rec["TemplateId"]);
+                $rmd->setReminderStart((int) ($a_rec["Start"] ?? 0));
+                $rmd->setReminderEnd((int) $end->get(IL_CAL_UNIX));
+                $rmd->setReminderFrequency((int) ($a_rec["Freq"] ?? 0));
+                $rmd->setReminderLastSend((int) ($a_rec["LastSend"] ?? 0));
+                $rmd->setReminderMailTemplate((int) ($a_rec["TemplateId"] ?? 0));
                 $rmd->save();
         }
     }
