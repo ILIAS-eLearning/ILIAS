@@ -85,9 +85,6 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
                 break;
             case strtolower(ilObjTalkTemplateGUI::class):
                 $ilTalkTemplateGUI = new ilObjTalkTemplateGUI();
-                if ($cmd === 'create') {
-                    $ilTalkTemplateGUI->setCreationMode();
-                }
                 $this->ctrl->forwardCommand($ilTalkTemplateGUI);
                 break;
             default:
