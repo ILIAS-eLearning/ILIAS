@@ -900,26 +900,4 @@ class ilChangeEvent
         }
         return $res;
     }
-
-    /**
-     * _updateAccessForScormOfflinePlayer
-     * needed to synchronize last_access and first_access when learning modul is used offline
-     * called in ./Modules/ScormAicc/classes/class.ilSCORMOfflineMode.php
-     */
-    public static function _updateAccessForScormOfflinePlayer(
-        int $obj_id,
-        int $usr_id,
-        int $i_last_access,
-        string $t_first_access
-    ): bool {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-        $res = $ilDB->queryF(
-            'UPDATE read_event SET first_access=%s, last_access = %s WHERE obj_id=%s AND usr_id=%s',
-            array('timestamp', 'integer', 'integer', 'integer'),
-            array($t_first_access, $i_last_access, $obj_id, $usr_id)
-        );
-        return true;
-    }
 }

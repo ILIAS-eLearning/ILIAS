@@ -491,31 +491,32 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         $usersToDelete = array();
         $fields = fgetcsv($fhandle, 4096, ';');
         while (($csv_rows = fgetcsv($fhandle, 4096, ";")) !== false) {
+            $user_id = 0;
             $data = array_combine($fields, $csv_rows);
             //no check the format - sufficient to import users
-            if ($data["Login"]) {
+            if (isset($data["Login"])) {
                 $user_id = $this->get_user_id($data["Login"]);
             }
-            if ($data["login"]) {
+            if (isset($data["login"])) {
                 $user_id = $this->get_user_id($data["login"]);
             }
             //add mail in future
-            if ($data["user"] && is_numeric($data["user"])) {
+            if (isset($data["user"]) && is_numeric($data["user"])) {
                 $user_id = $data["user"];
             }
             if ($user_id > 0) {
                 $last_access = ilUtil::now();
-                if ($data['Date']) {
+                if (isset($data['Date'])) {
                     $date_ex = explode('.', $data['Date']);
                     $last_access = implode('-', array($date_ex[2], $date_ex[1], $date_ex[0]));
                 }
-                if ($data['LastAccess']) {
+                if (isset($data['LastAccess'])) {
                     $last_access = $data['LastAccess'];
                 }
 
                 $status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
 
-                if ($data["Status"]) {
+                if (isset($data["Status"])) {
                     if (is_numeric($data["Status"])) {
                         $status = $data["Status"];
                     } elseif ($data["Status"] == ilLPStatus::LP_STATUS_NOT_ATTEMPTED) {
@@ -527,20 +528,20 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                     }
                 }
                 $attempts = null;
-                if ($data["Attempts"]) {
-                    $attempts = $data["Attempts"];
+                if (isset($data["Attempts"])) {
+                    $attempts = (int) $data["Attempts"];
                 }
 
                 $percentage_completed = 0;
                 if ($status == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
                     $percentage_completed = 100;
-                } elseif ($data['percentageCompletedSCOs']) {
-                    $percentage_completed = $data['percentageCompletedSCOs'];
+                } elseif (isset($data['percentageCompletedSCOs'])) {
+                    $percentage_completed = (int) $data['percentageCompletedSCOs'];
                 }
 
                 $sco_total_time_sec = null;
-                if ($data['SumTotal_timeSeconds']) {
-                    $sco_total_time_sec = $data['SumTotal_timeSeconds'];
+                if (isset($data['SumTotal_timeSeconds'])) {
+                    $sco_total_time_sec = (int) $data['SumTotal_timeSeconds'];
                 }
 
                 if ($status == ilLPStatus::LP_STATUS_NOT_ATTEMPTED) {
