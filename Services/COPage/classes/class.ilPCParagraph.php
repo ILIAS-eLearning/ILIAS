@@ -2222,6 +2222,7 @@ class ilPCParagraph extends ilPageContent
         string $a_insert_at = "",
         string $a_new_pc_id = ""
     ) {
+        throw new ilCOPagePCEditException("ilPCParagraph->insert is deprecated.");
         $ilUser = $this->user;
 
         $this->log->debug("step 1: " . substr($a_content, 0, 1000));

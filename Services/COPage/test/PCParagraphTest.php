@@ -239,4 +239,145 @@ class PCParagraphTest extends TestCase
             );
         }
     }
+
+    /**
+     * Test HTML to BB transformation, spans
+     */
+    public function testHandleAjaxContentSpans(): void
+    {
+        $cases = [
+            // Standard, Strong
+            '<div id="1:1234" class="ilc_text_block_Standard">xxx<span class="ilc_text_inline_Strong">xxx</span>xxx</div>'
+            => [
+                "text" => 'xxx[str]xxx[/str]xxx',
+                "id" => '1:1234',
+                "class" => 'Standard'
+            ],
+            // Mnemonic, Emphatic
+            '<div id="1:1235" class="ilc_text_block_Mnemonic">xxx<span class="ilc_text_inline_Emph">xxx</span>xxx</div>'
+            => [
+                "text" => 'xxx[emp]xxx[/emp]xxx',
+                "id" => '1:1235',
+                "class" => 'Mnemonic'
+            ],
+            // Headline1, Important
+            '<div id="1:1236" class="ilc_text_block_Headline1">xxx<span class="ilc_text_inline_Important">xxx</span>xxx</div>'
+            => [
+                "text" => 'xxx[imp]xxx[/imp]xxx',
+                "id" => '1:1236',
+                "class" => 'Headline1'
+            ],
+            // Standard, Sup
+            '<div id="1:1237" class="ilc_text_block_Standard">xxx a<sup class="ilc_sup_Sup">b*c</sup> xxx</div>'
+            => [
+                "text" => 'xxx a[sup]b*c[/sup] xxx',
+                "id" => '1:1237',
+                "class" => 'Standard'
+            ],
+            // Standard, Sub
+            '<div id="1:1238" class="ilc_text_block_Standard">xxx a<sub class="ilc_sub_Sub">2</sub> xxx</div>'
+            => [
+                "text" => 'xxx a[sub]2[/sub] xxx',
+                "id" => '1:1238',
+                "class" => 'Standard'
+            ],
+            // Headline2, Comment
+            '<div id="1:1239" class="ilc_text_block_Headline2">xxx <span class="ilc_text_inline_Comment">xxx</span> xxx</div>'
+            => [
+                "text" => 'xxx [com]xxx[/com] xxx',
+                "id" => '1:1239',
+                "class" => 'Headline2'
+            ],
+            // Headline3, Comment
+            '<div id="1:1240" class="ilc_text_block_Headline3">xxx <span class="ilc_text_inline_Quotation">xxx</span> xxx</div>'
+            => [
+                "text" => 'xxx [quot]xxx[/quot] xxx',
+                "id" => '1:1240',
+                "class" => 'Headline3'
+            ],
+            // Book, Accent
+            '<div id="1:1241" class="ilc_text_block_Book">xxx <span class="ilc_text_inline_Accent">xxx</span> xxx</div>'
+            => [
+                "text" => 'xxx [acc]xxx[/acc] xxx',
+                "id" => '1:1241',
+                "class" => 'Book'
+            ],
+            // Numbers, Code
+            '<div id="1:1242" class="ilc_text_block_Numbers">xxx <code>xxx</code> xxx</div>'
+            => [
+                "text" => 'xxx [code]xxx[/code] xxx',
+                "id" => '1:1242',
+                "class" => 'Numbers'
+            ],
+            // Verse, Mnemonic
+            '<div id="1:1243" class="ilc_text_block_Verse">xxx <span class="ilc_text_inline_Mnemonic">xxx</span> xxx</div>'
+            => [
+                "text" => 'xxx [marked class="Mnemonic"]xxx[/marked] xxx',
+                "id" => '1:1243',
+                "class" => 'Verse'
+            ],
+            // List, Attention
+            '<div id="1:1244" class="ilc_text_block_List">xxx <span class="ilc_text_inline_Attention">xxx</span> xxx</div>'
+            => [
+                "text" => 'xxx [marked class="Attention"]xxx[/marked] xxx',
+                "id" => '1:1244',
+                "class" => 'List'
+            ],
+        ];
+
+        foreach ($cases as $in => $expected) {
+            $out = ilPCParagraph::handleAjaxContent($in);
+            $this->assertEquals(
+                $expected["text"],
+                $out["text"]
+            );
+            $this->assertEquals(
+                $expected["id"],
+                $out["id"]
+            );
+            $this->assertEquals(
+                $expected["class"],
+                $out["class"]
+            );
+        }
+    }
+
+    /**
+     * Test HTML to BB transformation, lists (are not transformed in this first step)
+     */
+    public function testHandleAjaxContentLists(): void
+    {
+        $cases = [
+            // List, Bullet
+            '<div id="1:1234" class="ilc_text_block_List"><ul class="ilc_list_u_BulletedList"><li class="ilc_list_item_StandardListItem">one</li><li class="ilc_list_item_StandardListItem">two</li><li class="ilc_list_item_StandardListItem">three</li></ul></div>'
+            => [
+                "text" => '<ul class="ilc_list_u_BulletedList"><li class="ilc_list_item_StandardListItem">one</li><li class="ilc_list_item_StandardListItem">two</li><li class="ilc_list_item_StandardListItem">three</li></ul>',
+                "id" => '1:1234',
+                "class" => 'List'
+            ],
+            // List, Numberd
+            '<div id="1:1235" class="ilc_text_block_List"><ol class="ilc_list_o_NumberedList"><li class="ilc_list_item_StandardListItem">one</li><li class="ilc_list_item_StandardListItem">two</li><li class="ilc_list_item_StandardListItem">three</li></ol></div>'
+            => [
+                "text" => '<ol class="ilc_list_o_NumberedList"><li class="ilc_list_item_StandardListItem">one</li><li class="ilc_list_item_StandardListItem">two</li><li class="ilc_list_item_StandardListItem">three</li></ol>',
+                "id" => '1:1235',
+                "class" => 'List'
+            ],
+        ];
+
+        foreach ($cases as $in => $expected) {
+            $out = ilPCParagraph::handleAjaxContent($in);
+            $this->assertEquals(
+                $expected["text"],
+                $out["text"]
+            );
+            $this->assertEquals(
+                $expected["id"],
+                $out["id"]
+            );
+            $this->assertEquals(
+                $expected["class"],
+                $out["class"]
+            );
+        }
+    }
 }
