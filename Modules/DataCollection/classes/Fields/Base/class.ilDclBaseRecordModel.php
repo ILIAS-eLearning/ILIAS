@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 use ILIAS\Notes\Service;
 
@@ -47,11 +46,11 @@ class ilDclBaseRecordModel
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
 
-    public function __construct(int $a_id = 0)
+    public function __construct(?int $a_id = 0)
     {
         global $DIC;
 
-        if ($a_id !== 0) {
+        if ($a_id && $a_id != 0) {
             $this->id = $a_id;
             $this->doRead();
         }
@@ -59,11 +58,6 @@ class ilDclBaseRecordModel
         $this->notes = $DIC->notes();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-    }
-
-    private function fixDate(string $value): string
-    {
-        return $value;
     }
 
     public function doUpdate(bool $omit_notification = false): void
@@ -78,7 +72,7 @@ class ilDclBaseRecordModel
             ),
             "last_update" => array(
                 "date",
-                $this->fixDate($this->getLastUpdate()),
+                $this->getLastUpdate()->get(IL_CAL_DATETIME),
             ),
             "owner" => array(
                 "integer",
@@ -139,7 +133,7 @@ class ilDclBaseRecordModel
     public function doCreate(): void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         if (!ilDclTable::_tableExists($this->getTableId())) {
             throw new ilException("The field does not have a related table!");
@@ -159,8 +153,8 @@ class ilDclBaseRecordModel
                 $this->getTableId(),
                 "integer"
             ) . ","
-            . $ilDB->quote($this->getCreateDate(), "timestamp") . "," . $ilDB->quote(
-                $this->getLastUpdate(),
+            . $ilDB->quote($this->getCreateDate()->get(IL_CAL_DATETIME), "timestamp") . "," . $ilDB->quote(
+                $this->getLastUpdate()->get(IL_CAL_DATETIME),
                 "timestamp"
             ) . ","
             . $ilDB->quote($this->getOwner(), "integer") . "," . $ilDB->quote($this->getLastEditBy(), "integer") . "

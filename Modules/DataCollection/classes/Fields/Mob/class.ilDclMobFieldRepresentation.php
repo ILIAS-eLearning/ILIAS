@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclFileuploadFieldRepresentaion
@@ -23,7 +22,7 @@
  */
 class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilFileInputGUI
+    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilFileInputGUI
     {
         $input = new ilFileInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         $input->setSuffixes(ilDclMobFieldModel::$mob_suffixes);

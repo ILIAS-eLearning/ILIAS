@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclIliasReferenceRecordFieldModel
@@ -46,8 +45,11 @@ class ilDclIliasReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $ilUser = $DIC['ilUser'];
-        $usr_id = $ilUser->getId();
         $obj_ref = $this->getValue();
+        if (!$obj_ref) {
+            return false;
+        }
+        $usr_id = $ilUser->getId();
         $obj_id = ilObject2::_lookupObjectId($obj_ref);
         $query
             = "  SELECT status_changed, status
@@ -62,7 +64,11 @@ class ilDclIliasReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
     {
         $ref_id = $this->getValue();
 
-        return ilObject2::_lookupTitle(ilObject2::_lookupObjectId($ref_id)) . ' [' . $ref_id . ']';
+        if ($ref_id) {
+            return ilObject2::_lookupTitle(ilObject2::_lookupObjectId($ref_id)) . ' [' . $ref_id . ']';
+        } else {
+            return "";
+        }
     }
 
     public function getExportValue(): string

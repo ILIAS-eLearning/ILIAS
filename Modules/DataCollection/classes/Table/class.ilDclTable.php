@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclBaseFieldModel
@@ -828,7 +827,7 @@ class ilDclTable
     /**
      * Get a field by title
      */
-    public function getFieldByTitle(string $title): ilDclBaseFieldModel
+    public function getFieldByTitle(string $title): ?ilDclBaseFieldModel
     {
         $return = null;
         foreach ($this->getFields() as $field) {

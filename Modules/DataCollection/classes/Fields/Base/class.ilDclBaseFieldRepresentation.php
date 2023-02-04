@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclBaseFieldRepresentation
@@ -97,7 +96,7 @@ abstract class ilDclBaseFieldRepresentation
     /**
      * Returns field-input
      */
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ?ilFormPropertyGUI
+    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ?ilFormPropertyGUI
     {
         return null;
     }

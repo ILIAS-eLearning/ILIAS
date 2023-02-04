@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclDateTimeREpresentation
@@ -23,7 +22,7 @@
  */
 class ilDclDatetimeFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilDateTimeInputGUI
+    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilDateTimeInputGUI
     {
         $input = new ilDateTimeInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         $input->setStartYear(date("Y") - 100);

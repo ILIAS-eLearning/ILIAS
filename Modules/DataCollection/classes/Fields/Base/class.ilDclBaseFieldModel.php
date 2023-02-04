@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclBaseFieldModel
@@ -27,10 +26,7 @@
  */
 class ilDclBaseFieldModel
 {
-    /**
-     * @var int|string $id int for custom fields string for standard fields
-     */
-    protected $id = 0;
+    protected string $id = "";
     protected int $table_id = 0;
     protected string $title = "";
     protected string $description = "";
@@ -122,9 +118,8 @@ class ilDclBaseFieldModel
 
     /**
      * Get field id
-     * @return int|string
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }

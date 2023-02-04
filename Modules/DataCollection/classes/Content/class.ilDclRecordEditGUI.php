@@ -513,9 +513,10 @@ class ilDclRecordEditGUI
         $this->initForm();
 
         // if save confirmation is enabled: Temporary file-uploads need to be handled
-        $has_save_confirmed = $this->http->wrapper()->post()->has('format');
+        $has_save_confirmed = $this->http->wrapper()->post()->has('save_confirmed');
         $has_ilfilehash = $this->http->wrapper()->post()->has('ilfilehash');
-        $has_record_id = $this->http->wrapper()->post()->has('ilfilehash');
+        $has_record_id = isset($this->record_id);
+        $table_has_save_confirmation = $this->table->getSaveConfirmation();
 
         $ilfilehash = $has_ilfilehash ? $this->http->wrapper()->post()->retrieve(
             'ilfilehash',

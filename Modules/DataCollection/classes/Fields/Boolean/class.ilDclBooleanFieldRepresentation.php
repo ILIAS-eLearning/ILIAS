@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclFileuploadFieldRepresentaion
@@ -23,7 +22,7 @@
  */
 class ilDclBooleanFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilDclCheckboxInputGUI
+    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilDclCheckboxInputGUI
     {
         $input = new ilDclCheckboxInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         $this->setupInputField($input, $this->getField());

@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclFieldFactory
@@ -330,7 +329,7 @@ class ilDclFieldFactory
         return $title;
     }
 
-    public static function getRecordModelInstance(int $record_id): ilDclBaseRecordModel
+    public static function getRecordModelInstance(?int $record_id): ilDclBaseRecordModel
     {
         return new ilDclBaseRecordModel($record_id);
     }

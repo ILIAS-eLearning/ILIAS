@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * @author martin@fluxlabs.ch
@@ -74,7 +73,7 @@ class ilDataCollectionUiAdapter implements ilDataCollectionUiPort
 
     public function addJavaScriptFile(string $filePath): void
     {
-        $this->ui->mainTemplate()->addJavaScript("./Services/UIComponent/Modal/js/Modal.js");
+        $this->ui->mainTemplate()->addJavaScript($filePath);
     }
 
     public function displayFailureMessage(string $message): void

@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilObjDataCollection
@@ -137,7 +136,7 @@ class ilObjDataCollection extends ilObject2
         $http = $DIC->http();
         $refinery = $DIC->refinery();
 
-        $ref_id = $http->wrapper()->query()->retrieve('table_id', $refinery->kindlyTo()->int());
+        $ref_id = $http->wrapper()->query()->retrieve('ref_id', $refinery->kindlyTo()->int());
 
         // If coming from trash, never send notifications and don't load dcl Object
         if ($ref_id === SYSTEM_FOLDER_ID) {

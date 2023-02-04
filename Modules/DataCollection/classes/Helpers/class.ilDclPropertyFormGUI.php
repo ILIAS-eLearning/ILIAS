@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclPropertyFormGUI
@@ -86,7 +85,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
                     $name = $file[7];
 
                     if ($idx2 != "") {
-                        if (!$_FILES[$field]["tmp_name"][$idx][$idx2]) {
+                        if (!($_FILES[$field]["tmp_name"][$idx][$idx2] ?? false)) {
                             $_FILES[$field]["tmp_name"][$idx][$idx2] = $full_file;
                             $_FILES[$field]["name"][$idx][$idx2] = $name;
                             $_FILES[$field]["type"][$idx][$idx2] = $type;
@@ -95,7 +94,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
                         }
                     } else {
                         if ($idx != "") {
-                            if (!$_FILES[$field]["tmp_name"][$idx]) {
+                            if (!($_FILES[$field]["tmp_name"][$idx] ?? false)) {
                                 $_FILES[$field]["tmp_name"][$idx] = $full_file;
                                 $_FILES[$field]["name"][$idx] = $name;
                                 $_FILES[$field]["type"][$idx] = $type;
@@ -103,7 +102,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
                                 $_FILES[$field]["size"][$idx] = filesize($full_file);
                             }
                         } else {
-                            if (!$_FILES[$field]["tmp_name"]) {
+                            if (!($_FILES[$field]["tmp_name"] ?? false)) {
                                 $_FILES[$field]["tmp_name"] = $full_file;
                                 $_FILES[$field]["name"] = $name;
                                 $_FILES[$field]["type"] = $type;

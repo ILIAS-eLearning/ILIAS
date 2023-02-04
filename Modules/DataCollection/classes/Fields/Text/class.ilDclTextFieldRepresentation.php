@@ -13,8 +13,8 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
 /**
  * Class ilDclTextFieldRepresentation
  * @author  Michael Herren <mh@studer-raimann.ch>
@@ -52,7 +52,7 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
         return $pass;
     }
 
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilFormPropertyGUI
+    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilFormPropertyGUI
     {
         $input = new ilDclTextInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_TEXTAREA)) {

@@ -13,8 +13,8 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
 /**
  * Class ilDclDateTimeREpresentation
  * @author  Michael Herren <mh@studer-raimann.ch>
@@ -22,7 +22,7 @@
  */
 class ilDclFormulaFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilTextInputGUI
+    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilTextInputGUI
     {
         $input = new ilTextInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         $input->setDisabled(true);

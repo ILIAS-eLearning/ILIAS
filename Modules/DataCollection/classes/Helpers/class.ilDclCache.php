@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclCache
@@ -152,10 +151,10 @@ class ilDclCache
         return $fields_cache[$field_id];
     }
 
-    public static function getRecordCache(int $record_id = 0): ilDclBaseRecordModel
+    public static function getRecordCache(?int $record_id): ilDclBaseRecordModel
     {
         $records_cache = &self::$records_cache;
-        if (!isset($records_cache[$record_id])) {
+        if (!$record_id || !isset($records_cache[$record_id])) {
             $records_cache[$record_id] = ilDclFieldFactory::getRecordModelInstance($record_id);
         }
 

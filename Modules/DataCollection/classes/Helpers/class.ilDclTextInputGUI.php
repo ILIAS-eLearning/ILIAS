@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclTextInputGUI
@@ -42,9 +41,10 @@ class ilDclTextInputGUI extends ilTextInputGUI
             if (substr($regex, 0, 1) != "/") {
                 $regex = "/" . $regex;
             }
-            if (substr($regex, -1) != "/") {
+            if (substr($regex, -1) != "/" || $regex == "/") {
                 $regex .= "/";
             }
+
             try {
                 preg_match($regex, '');
             } catch (Exception $e) {
