@@ -23,7 +23,7 @@
  */
 class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilFileInputGUI
+    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilFileInputGUI
     {
         $input = new ilFileInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         $input->setSuffixes($this->getField()->getSupportedExtensions());

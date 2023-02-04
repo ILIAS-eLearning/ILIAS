@@ -23,7 +23,7 @@
  */
 class ilDclNumberFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilNumberInputGUI
+    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilNumberInputGUI
     {
         $input = new ilNumberInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         // 9 is the maximum number of digits for an integer
