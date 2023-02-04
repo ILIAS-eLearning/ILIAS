@@ -21,49 +21,12 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class PCParagraphTest extends TestCase
+class PCParagraphTest extends COPageTestBase
 {
-    /**
-     * @param mixed $value
-     */
-    protected function setGlobalVariable(string $name, $value): void
-    {
-        global $DIC;
+    //
+    // test legacy static methods
+    //
 
-        $GLOBALS[$name] = $value;
-
-        unset($DIC[$name]);
-        $DIC[$name] = static function (\ILIAS\DI\Container $c) use ($value) {
-            return $value;
-        };
-    }
-
-    protected function setUp(): void
-    {
-        $dic = new ILIAS\DI\Container();
-        $GLOBALS['DIC'] = $dic;
-
-        if (!defined("COPAGE_TEST")) {
-            define("COPAGE_TEST", "1");
-        }
-        parent::setUp();
-
-        $def_mock = $this->getMockBuilder(ilObjectDefinition::class)
-                          ->disableOriginalConstructor()
-                          ->getMock();
-
-        $def_mock
-            ->method('getAllRepositoryTypes')
-            ->willReturn(["crs", "grp", "cat"]);
-        $this->setGlobalVariable(
-            "objDefinition",
-            $def_mock
-        );
-    }
-
-    protected function tearDown(): void
-    {
-    }
 
     /**
      * Test _input2xml (empty)
@@ -377,6 +340,81 @@ class PCParagraphTest extends TestCase
             $this->assertEquals(
                 $expected["class"],
                 $out["class"]
+            );
+        }
+    }
+
+    //
+    // test basic dom creation
+    //
+
+    public function testConstruction(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = new ilPCParagraph($page);
+        $this->assertEquals(
+            ilPCParagraph::class,
+            get_class($pc)
+        );
+    }
+
+    public function testCreate(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = new ilPCParagraph($page);
+        $pc->create($page, "pg");
+        $this->assertXmlEquals(
+            '<PageObject HierId="pg"><PageContent><Paragraph Language=""></Paragraph></PageContent></PageObject>',
+            $page->getXMLFromDom()
+        );
+    }
+
+    //
+    // test setTest using legacy (saveJS) way
+    //
+
+    // see saveJs in ilPCParagraph
+    protected function legacyHtmlToXml(string $content): string
+    {
+        $content = str_replace("<br>", "<br />", $content);
+        $content = ilPCParagraph::handleAjaxContent($content);
+        $content = ilPCParagraph::_input2xml($content["text"], true, false);
+        $content = ilPCParagraph::handleAjaxContentPost($content);
+        return $content;
+    }
+
+    public function testLegacyHtml2Text(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = new ilPCParagraph($page);
+        $pc->create($page, "pg");
+
+        $cases = [
+            ''
+            => '',
+            'Some text'
+            => 'Some text',
+            'test &amp; the &lt; and the &gt; and the \ also'
+            => 'test &amp;amp; the &amp;lt; and the &amp;gt; and the \ also',
+            'xxx <span class="ilc_text_inline_Strong">xxx</span> xxx'
+            => 'xxx <Strong>xxx</Strong> xxx',
+        ];
+
+        foreach ($cases as $html => $expected) {
+            $html = '<div id="1:1234" class="ilc_text_block_Standard">' . $html . '</div>';
+            $xml = $this->legacyHtmlToXml($html);
+            $pc->setText($xml, false);
+
+            $expected = '<PageObject HierId="pg"><PageContent><Paragraph Language="">' . $expected . '</Paragraph></PageContent></PageObject>';
+
+            $this->assertEquals(
+                $xml,
+                $pc->getText()
+            );
+
+            $this->assertXmlEquals(
+                $expected,
+                $page->getXMLFromDom()
             );
         }
     }
