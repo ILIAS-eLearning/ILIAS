@@ -86,11 +86,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
     public function executeCommand(): void
     {
-//        $ilAccess = $this->access;
         $ilCtrl = $this->ctrl;
-//        $tpl = $this->tpl;
-//        $ilTabs = $this->tabs;
-//        $lng = $this->lng;
 
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd();
@@ -131,6 +127,9 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $obj_service = $this->getObjectService();
+
+        //check/select only once
+        $this->object->checkMasteryScoreValues();
 
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($ilCtrl->getFormAction($this));
@@ -287,13 +286,12 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         // end lesson mode
         $this->form->addItem($radg);
 
-
         // mastery_score
         if ($this->object->getMasteryScoreValues() != "") {
             $ni = new ilNumberInputGUI($this->lng->txt("cont_mastery_score_2004"), "mastery_score");
             $ni->setMaxLength(3);
             $ni->setSize(3);
-            $ni->setInfo($this->lng->txt("cont_mastery_score_2004_info") . $this->object->getMasteryScoreValues());
+            $ni->setInfo($this->lng->txt("cont_mastery_score_2004_info") . ' ' . $this->object->getMasteryScoreValues());
             $this->form->addItem($ni);
         }
 
@@ -412,9 +410,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
      */
     public function getPropertiesFormValues(): void
     {
-        //check/select only once
-        $this->object->checkMasteryScoreValues();
-
         $values = array();
         $values["Fobject_title"] = $this->object->getTitle();
         $values["Fobject_description"] = $this->object->getDescription();
@@ -458,10 +453,13 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $obj_service = $this->getObjectService();
         $this->initPropertiesForm();
         $this->form->checkInput();
-
         if ($this->dic->http()->wrapper()->post()->has('mastery_score')) {
-            $this->object->setMasteryScore($this->dic->http()->wrapper()->post()->retrieve('mastery_score', $this->dic->refinery()->kindlyTo()->int()));
-            // $this->object->updateMasteryScoreValues();
+            $sMasteryScore = $this->dic->http()->wrapper()->post()->retrieve('mastery_score', $this->dic->refinery()->kindlyTo()->string());
+            if ($sMasteryScore !== "") {
+                $this->object->setMasteryScore((int) $sMasteryScore);
+            } else {
+                $this->object->setMasteryScore(null);
+            }
         }
 
         $t_auto_review = $this->dic->http()->wrapper()->post()->retrieve('auto_review', $this->dic->refinery()->kindlyTo()->string());

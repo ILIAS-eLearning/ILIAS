@@ -237,7 +237,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             $ni = new ilNumberInputGUI($this->lng->txt("cont_mastery_score_12"), "mastery_score");
             $ni->setMaxLength(3);
             $ni->setSize(3);
-            $ni->setInfo($this->lng->txt("cont_mastery_score_12_info") . $this->object->getMasteryScoreValues());
+            $ni->setInfo($this->lng->txt("cont_mastery_score_12_info") . ' ' . $this->object->getMasteryScoreValues());
             $this->form->addItem($ni);
         }
 
@@ -587,16 +587,13 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             $this->object->setTitle($this->dic->http()->wrapper()->post()->retrieve('Fobject_title', $this->dic->refinery()->kindlyTo()->string()));
             $this->object->setDescription($this->dic->http()->wrapper()->post()->retrieve('Fobject_description', $this->dic->refinery()->kindlyTo()->string()));
 
-            //check if OfflineMode-Zip has to be created
-//            $tmpOfflineMode = ilUtil::yn2tf($_POST["cobj_offline_mode"]);
-//            if ($tmpOfflineMode == true) {
-//                if ($this->object->getOfflineMode() == false) {
-//                    $this->object->zipLmForOfflineMode();
-//                }
-//            }
             if ($this->dic->http()->wrapper()->post()->has('mastery_score')) {
-                $this->object->setMasteryScore($this->dic->http()->wrapper()->post()->retrieve('mastery_score', $this->dic->refinery()->kindlyTo()->int()));
-                // $this->object->updateMasteryScoreValues();
+                $sMasteryScore = $this->dic->http()->wrapper()->post()->retrieve('mastery_score', $this->dic->refinery()->kindlyTo()->string());
+                if ($sMasteryScore !== "") {
+                    $this->object->setMasteryScore((int) $sMasteryScore);
+                } else {
+                    $this->object->setMasteryScore(null);
+                }
             }
 
             $t_height = $this->object->getHeight();

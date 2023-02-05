@@ -161,7 +161,9 @@ class ilObjSAHSLearningModule extends ilObject
 //            $this->setOfflineMode(ilUtil::yn2tf($lm_rec["offline_mode"]));
             $this->setAutoSuspend(ilUtil::yn2tf($lm_rec["auto_suspend"]));
             $this->setIe_force_render(ilUtil::yn2tf($lm_rec["ie_force_render"]));
-            $this->setMasteryScore((int) $lm_rec["mastery_score"]);
+            if ($lm_rec["mastery_score"] != null) {
+                $this->setMasteryScore((int) $lm_rec["mastery_score"]);
+            }
             $this->setIdSetting((int) $lm_rec["id_setting"]);
             $this->setNameSetting((int) $lm_rec["name_setting"]);
             if (ilObject::_lookupType($this->getStyleSheetId()) !== "sty") {
@@ -817,11 +819,6 @@ class ilObjSAHSLearningModule extends ilObject
         $this->updateMetaData();
         parent::update();
 
-        $s_mastery_score = $this->getMasteryScore();
-        if ($s_mastery_score == "") {
-            $s_mastery_score = null;
-        }
-
         $statement = $ilDB->manipulateF(
             '
 			UPDATE sahs_lm  
@@ -930,7 +927,7 @@ class ilObjSAHSLearningModule extends ilObject
                 ilUtil::tf2yn($this->getCheck_values()),
                 ilUtil::tf2yn($this->getAutoSuspend()),
                 ilUtil::tf2yn($this->getIe_force_render()),
-                $s_mastery_score,
+                $this->getMasteryScore(),
                 $this->getIdSetting(),
                 $this->getNameSetting(),
                 $this->getId())
