@@ -407,7 +407,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                     }
                 }
                 if (!$raw) {
-                    $time = ilDatePresentation::secondsToString(self::_ISODurationToCentisec($data_rec["total_time"]) / 100);
+                    $time = ilDatePresentation::secondsToString((int) round(self::_ISODurationToCentisec($data_rec["total_time"]) / 100));
                     $score = "";
                     if ($data_rec["c_raw"] != null) {
                         $score = $data_rec["c_raw"];
@@ -418,7 +418,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                     if ($data_rec["scaled"] != null) {
                         $score .= ($data_rec["scaled"] * 100) . "%";
                     }
-                    $title = self::_lookupItemTitle($data_rec["cp_node_id"]);
+                    $title = self::_lookupItemTitle((int) $data_rec["cp_node_id"]);
                     $last_access = ilDatePresentation::formatDate(new ilDateTime($data_rec['last_access'], IL_CAL_DATETIME));
                     $data[] = array("sco_id" => $data_rec["cp_node_id"],
                         "score" => $score, "time" => $time, "status" => $status,"last_access" => $last_access,"title" => $title);
