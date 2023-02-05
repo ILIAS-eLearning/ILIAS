@@ -502,7 +502,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             }
             //add mail in future
             if (isset($data["user"]) && is_numeric($data["user"])) {
-                $user_id = $data["user"];
+                $user_id = (int) $data["user"];
             }
             if ($user_id > 0) {
                 $last_access = ilUtil::now();
