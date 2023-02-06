@@ -190,7 +190,8 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
                 "mref_id",
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             );
-            $_SESSION["saved_post"] = array_unique(array_merge($_SESSION["saved_post"], $mref_id));
+            $saved_post = array_unique(array_merge(ilSession::get('saved_post'), $mref_id));
+            ilSession::set('saved_post', $saved_post);
         }
 
         $ru = new ilRepositoryTrashGUI($this);
