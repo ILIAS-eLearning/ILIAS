@@ -78,6 +78,29 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
     public function viewObject(): void
     {
         $this->tabs_gui->activateTab('view_content');
+
+        $form = new ilPropertyFormGUI();
+        $md = new ilAdvancedMDRecordGUI(
+            ilAdvancedMDRecordGUI::MODE_EDITOR,
+            $this->object->getType(),
+            $this->object->getId(),
+            'etal'
+        );
+        $md->setPropertyForm($form);
+        $md->parse();
+
+        foreach ($form->getInputItemsRecursive() as $item) {
+            if ($item instanceof ilCombinationInputGUI) {
+                $item->__call('setValue', ['']);
+                $item->__call('setDisabled', [true]);
+            }
+            if (method_exists($item, 'setDisabled')) {
+                /** @var $item ilFormPropertyGUI */
+                $item->setDisabled(true);
+            }
+        }
+
+        $this->tpl->setContent($form->getHTML());
     }
 
     protected function initEditCustomForm(ilPropertyFormGUI $a_form): void
@@ -149,6 +172,39 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
     public function getAdminTabs(): void
     {
         $this->getTabs();
+    }
+
+    protected function addAdminLocatorItems(bool $do_not_add_object = false): void
+    {
+        parent::addAdminLocatorItems(true);
+
+        $this->ctrl->setParameterByClass(
+            strtolower(ilObjTalkTemplateAdministrationGUI::class),
+            'ref_id',
+            ilObjTalkTemplateAdministration::getRootRefId()
+        );
+        $this->locator->addItem(
+            $this->lng->txt('obj_tala'),
+            $this->ctrl->getLinkTargetByClass(
+                ilObjTalkTemplateAdministrationGUI::class,
+                ControlFlowCommand::INDEX
+            )
+        );
+        $this->ctrl->clearParameterByClass(
+            strtolower(ilObjTalkTemplateAdministrationGUI::class),
+            'ref_id'
+        );
+
+        $this->locator->addItem(
+            ilObject::_lookupTitle(
+                ilObject::_lookupObjId($this->object->getRefId())
+            ),
+            $this->ctrl->getLinkTargetByClass([
+                strtolower(ilAdministrationGUI::class),
+                strtolower(ilObjTalkTemplateAdministrationGUI::class),
+                strtolower(self::class),
+            ], ControlFlowCommand::INDEX)
+        );
     }
 
     private function initMetaDataForm(ilPropertyFormGUI $form): ilAdvancedMDRecordGUI

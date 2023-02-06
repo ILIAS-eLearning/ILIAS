@@ -64,8 +64,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
 
         $this->setReturnLocation("save", strtolower(ilEmployeeTalkMyStaffListGUI::class));
 
-        // get the standard template
-        //$this->container->ui()->mainTemplate()->loadStandardTemplate();
+        $this->omitLocator();
         $this->container->ui()->mainTemplate()->setTitle($this->container->language()->txt('mst_my_staff'));
         $this->talkAccess = ilObjEmployeeTalkAccess::getInstance();
         $this->repository = new IliasDBEmployeeTalkSeriesRepository($this->user, $this->container->database());
@@ -191,7 +190,8 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
                 "mref_id",
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             );
-            $_SESSION["saved_post"] = array_unique(array_merge($_SESSION["saved_post"], $mref_id));
+            $saved_post = array_unique(array_merge(ilSession::get('saved_post'), $mref_id));
+            ilSession::set('saved_post', $saved_post);
         }
 
         $ru = new ilRepositoryTrashGUI($this);
@@ -339,7 +339,8 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
          */
         $data = $this->object->getData();
 
-        $lng->loadLanguageModule($this->object->getType());
+        $lng->loadLanguageModule('etal');
+        $lng->loadLanguageModule('orgu');
 
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
@@ -520,8 +521,6 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $this->tabs_gui->addTab('view_content', $this->lng->txt("content"), $this->ctrl->getLinkTarget($this, ControlFlowCommand::UPDATE));
         $this->tabs_gui->addTab("info_short", "Info", $this->ctrl->getLinkTargetByClass(strtolower(ilInfoScreenGUI::class), "showSummary"));
         //$this->tabs_gui->addTab('settings', $this->lng->txt("settings"), $this->ctrl->getLinkTarget($this, "edit"));
-
-        parent::getTabs();
     }
 
     /**

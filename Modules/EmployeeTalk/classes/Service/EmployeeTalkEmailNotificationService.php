@@ -60,6 +60,7 @@ final class EmployeeTalkEmailNotificationService
 
         $notif->setRefId($this->message->getTalkRefId());
         $notif->setIntroductionLangId($this->message->getMessageLangKey());
+        $notif->setGotoLangId('url');
 
         $notif->addAdditionalInfo(
             'superior',
