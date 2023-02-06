@@ -27,6 +27,7 @@ class ilRecommendedContentManager
     protected ilRecommendedContentDBRepository $repo;
     protected ilRbacReview $rbacreview;
     protected ilFavouritesManager $fav_manager;
+    protected ilAccessHandler $access;
 
     public function __construct(
         ilRecommendedContentDBRepository $repo = null,
@@ -46,6 +47,8 @@ class ilRecommendedContentManager
         $this->fav_manager = (is_null($fav_manager))
             ? new ilFavouritesManager()
             : $fav_manager;
+
+        $this->access = $DIC->access();
     }
 
     public function addRoleRecommendation(int $role_id, int $ref_id): void
@@ -100,6 +103,7 @@ class ilRecommendedContentManager
     {
         $review = $this->rbacreview;
         $repo = $this->repo;
+        $access = $this->access;
 
         $role_ids = $review->assignedRoles($user_id);
 
@@ -109,8 +113,8 @@ class ilRecommendedContentManager
         $favourites = $this->fav_manager->getFavouritesOfUser($user_id);
         $favourites_ref_ids = array_column($favourites, "ref_id");
 
-        return array_filter($recommendations, static function (int $i) use ($favourites_ref_ids): bool {
-            return !in_array($i, $favourites_ref_ids, true);
+        return array_filter($recommendations, static function ($i) use ($favourites_ref_ids, $access): bool {
+            return !in_array($i, $favourites_ref_ids) && $access->checkAccess('visible', '', $i);
         });
     }
 

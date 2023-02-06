@@ -26,6 +26,8 @@ use ILIAS\StudyProgramme\Assignment\Zipper;
  */
 trait ilPRGAssignmentActions
 {
+    abstract public function getProgressSuccessNotification(): \Closure;
+
     protected function getProgressIdString(int $node_id): string
     {
         return sprintf(
@@ -60,6 +62,7 @@ trait ilPRGAssignmentActions
             $children,
             fn ($c) => ilObject::_exists((int)$c['ref_id'], true)
                 && is_null(ilObject::_lookupDeletedDate((int)$c['ref_id']))
+                && ! is_null(ilContainerReference::_lookupTargetRefId((int) $c['obj_id']))
                 && is_null(ilObject::_lookupDeletedDate(
                     (int) ilContainerReference::_lookupTargetRefId((int) $c['obj_id'])
                 ))
@@ -78,9 +81,14 @@ trait ilPRGAssignmentActions
         return null;
     }
 
-    protected function notifyProgressScuccess(ilPRGProgress $pgs): void
+    protected function notifyProgressSuccess(ilPRGProgress $pgs): void
     {
         $eventnote = $this->getProgressSuccessNotification();
+        $eventnote($this, $pgs->getNodeId());
+    }
+    protected function notifyProgressLPStatus(ilPRGProgress $pgs): void
+    {
+        $eventnote = $this->getProgressStatusNotification();
         $eventnote($this, $pgs->getNodeId());
     }
 
@@ -94,18 +102,14 @@ trait ilPRGAssignmentActions
         }
         $node_settings = $settings_repo->get($progress->getNodeId());
         $completion_mode = $node_settings->getLPMode();
-        $completing_crs_id = null;
+
         switch ($completion_mode) {
             case ilStudyProgrammeSettings::MODE_UNDEFINED:
+            case ilStudyProgrammeSettings::MODE_LP_COMPLETED:
                 return $progress;
                 break;
-            case ilStudyProgrammeSettings::MODE_LP_COMPLETED:
-                $achieved_points = 0;
-                if ($completing_crs_id = $this->hasCompletedCourseChild($progress)) {
-                    $achieved_points = $progress->getAmountOfPoints();
-                }
-                break;
             case ilStudyProgrammeSettings::MODE_POINTS:
+                $completing_crs_id = ilPRGProgress::COMPLETED_BY_SUBNODES;
                 $achieved_points = $progress->getAchievedPointsOfChildren();
                 break;
         }
@@ -119,8 +123,8 @@ trait ilPRGAssignmentActions
                 ->withStatus(ilPRGProgress::STATUS_COMPLETED)
                 ->withCompletion($completing_crs_id, $this->getNow());
 
-            // there was a status change, so:
-            $this->notifyProgressScuccess($progress);
+            $this->notifyProgressSuccess($progress);
+            $this->notifyProgressLPStatus($progress);
         }
 
         if (!$successful && $progress->isSuccessful()
@@ -130,6 +134,8 @@ trait ilPRGAssignmentActions
                 ->withStatus(ilPRGProgress::STATUS_IN_PROGRESS)
                 ->withCompletion(null, null)
                 ->withValidityOfQualification(null);
+
+            $this->notifyProgressLPStatus($progress);
         }
 
         return $progress;
@@ -208,7 +214,7 @@ trait ilPRGAssignmentActions
         if (!$active && $pgs->isInProgress()) {
             $pgs = $pgs->withStatus(ilPRGProgress::STATUS_NOT_RELEVANT);
         }
-
+        $this->notifyProgressLPStatus($pgs);
         return $pgs;
     }
 
@@ -360,10 +366,6 @@ trait ilPRGAssignmentActions
                     $err_collection->add(false, 'will_not_modify_irrelevant_progress', $this->getProgressIdString($pgs->getNodeId()));
                     return $pgs;
                 }
-                if ($pgs->getStatus() === ilPRGProgress::STATUS_COMPLETED) {
-                    $err_collection->add(false, 'will_not_set_completed_progress_to_irrelevant_', $this->getProgressIdString($pgs->getNodeId()));
-                    return $pgs;
-                }
                 $pgs = $pgs->markNotRelevant($this->getNow(), $acting_usr_id);
                 $err_collection->add(true, 'set_to_irrelevant', $this->getProgressIdString($pgs->getNodeId()));
                 return $pgs;
@@ -409,7 +411,8 @@ trait ilPRGAssignmentActions
                     $pgs = $this->updateProgressValidityFromSettings($settings, $pgs);
                 }
 
-                $this->notifyProgressScuccess($pgs);
+                $this->notifyProgressSuccess($pgs);
+                $this->notifyProgressLPStatus($pgs);
                 $err_collection->add(true, 'status_changed', $this->getProgressIdString($pgs->getNodeId()));
                 return $pgs;
             }
@@ -456,6 +459,7 @@ trait ilPRGAssignmentActions
                 $pgs = $this->applyProgressDeadline($settings_repo, $pgs, $acting_usr_id);
                 if ($pgs->getStatus() !== $old_status) {
                     $err_collection->add(false, 'status_changed_due_to_deadline', $this->getProgressIdString($pgs->getNodeId()));
+                    $this->notifyProgressLPStatus($pgs);
                 } else {
                     $err_collection->add(true, 'status_changed', $this->getProgressIdString($pgs->getNodeId()));
                 }

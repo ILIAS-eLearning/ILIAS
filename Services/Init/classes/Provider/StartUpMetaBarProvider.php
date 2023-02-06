@@ -58,6 +58,7 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
                 $target_str = 'target=' . \ilObject::_lookupType((int) $ref_id, true) . '_' . (int) $ref_id . '&';
             }
         } elseif (isset($request->getQueryParams()['target']) && $target = $request->getQueryParams()['target']) {
+            $target = rawurlencode($target);        // see #32789
             $target_str = 'target=' . $target . '&';
         }
 

@@ -18,6 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
+
 /**
  * Class ilObjTalkTemplateGUI
  *
@@ -57,14 +59,11 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
 
+        if (!$next_class && ($cmd === 'create' || $cmd === 'save')) {
+            $this->setCreationMode();
+        }
 
         switch ($next_class) {
-            case 'ilpermissiongui':
-                parent::prepareOutput();
-                $this->tabs_gui->activateTab('perm_settings');
-                $ilPermissionGUI = new ilPermissionGUI($this);
-                $this->ctrl->forwardCommand($ilPermissionGUI);
-                break;
             case 'ilinfoscreengui':
                 parent::prepareOutput();
                 $this->tabs_gui->activateTab('info_short');
@@ -127,7 +126,7 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
         $this->ctrl->redirectByClass(strtolower(ilInfoScreenGUI::class), "showSummary");
     }
 
-    public function getTabs(): void
+    protected function getTabs(): void
     {
         $read_access_ref_id = $this->rbacsystem->checkAccess('visible,read', $this->object->getRefId());
         if ($read_access_ref_id) {
@@ -138,8 +137,6 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
         if ($this->rbacsystem->checkAccess('write', $this->object->getRefId(), $this->type)) {
             $this->tabs_gui->addTab('settings', $this->lng->txt("settings"), $this->ctrl->getLinkTarget($this, "edit"));
         }
-
-        parent::getTabs();
     }
 
     protected function initCreationForms(string $new_type): array
@@ -160,5 +157,19 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
         $md->setRefId($this->object->getRefId());
         $md->setPropertyForm($form);
         return $md;
+    }
+
+    public static function _goto(string $refId): void
+    {
+        /**
+         * @var \ILIAS\DI\Container $container
+         */
+        $container = $GLOBALS['DIC'];
+        $container->ctrl()->setParameterByClass(strtolower(self::class), 'ref_id', $refId);
+        $container->ctrl()->redirectByClass([
+            strtolower(ilAdministrationGUI::class),
+            strtolower(ilObjTalkTemplateAdministrationGUI::class),
+            strtolower(self::class),
+        ], ControlFlowCommand::INDEX);
     }
 }

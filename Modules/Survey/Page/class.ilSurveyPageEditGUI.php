@@ -104,6 +104,8 @@ class ilSurveyPageEditGUI
                     // add page?
                     if ($this->svy_request->getNewId()) {
                         $this->insertNewQuestion($this->svy_request->getNewId());
+                        $ilCtrl->setParameter($this->editor_gui, "pgov", $this->current_page);
+                        $ilCtrl->redirect($this, "questions");
                     }
 
                     // subcommands
@@ -256,6 +258,7 @@ class ilSurveyPageEditGUI
         } else {
             $a_new_id = $this->appendNewQuestionToSurvey($a_new_id);
             $this->object->loadQuestionsFromDb();
+            $this->object->saveCompletionStatus();
 
             $pos = $this->svy_request->getTargetQuestionPosition();
 

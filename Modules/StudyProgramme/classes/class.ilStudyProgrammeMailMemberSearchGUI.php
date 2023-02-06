@@ -109,10 +109,7 @@ class ilStudyProgrammeMailMemberSearchGUI
             $name = ilObjUser::_lookupName($user_id);
             $login = ilObjUser::_lookupLogin($user_id);
 
-            $publicName = '';
-            if (in_array(ilObjUser::_lookupPref($user_id, 'public_profile'), array('g', 'y'))) {
-                $publicName = $name['lastname'] . ', ' . $name['firstname'];
-            }
+            $publicName = $name['lastname'] . ', ' . $name['firstname'];
 
             $data[$user_id]['user_id'] = $user_id;
             $data[$user_id]['login'] = $login;

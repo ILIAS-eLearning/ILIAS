@@ -55,6 +55,15 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
         return false;
     }
 
+    public function isActiveAdministrationPanel(): bool
+    {
+        return false;
+    }
+
+    public function setContentSubTabs(): void
+    {
+    }
+
     public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
@@ -88,7 +97,7 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
     /**
      * called by prepare output
      */
-    public function setTitleAndDescription(): void
+    protected function setTitleAndDescription(): void
     {
         # all possible create permissions
         parent::setTitleAndDescription();
@@ -98,7 +107,7 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
         $this->tpl->setTitleIcon("", $this->lng->txt("obj_" . $this->object->getType()));
     }
 
-    public function showPossibleSubObjects(): void
+    protected function showPossibleSubObjects(): void
     {
         $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
         $gui->setMode(ilObjectDefinition::MODE_ADMINISTRATION);
@@ -131,14 +140,16 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
         return new ilContainerByTypeContentGUI($this, new ilContainerUserFilter(['std_' . ilContainerFilterField::STD_FIELD_OBJECT_TYPE => ilObjTalkTemplate::TYPE]));
     }
 
-    public function getTabs(): void
+    protected function getTabs(): void
     {
         $read_access_ref_id = $this->rbacsystem->checkAccess('visible,read', $this->object->getRefId());
         if ($read_access_ref_id) {
             $this->tabs_gui->addTab('view_content', $this->lng->txt("content"), $this->ctrl->getLinkTarget($this, "view"));
             $this->tabs_gui->addTab("info_short", "Info", $this->ctrl->getLinkTargetByClass(strtolower(ilInfoScreenGUI::class), "showSummary"));
         }
-        //$this->tabs_gui->activateTab('view_content');
+        if ($this->tree->getSavedNodeData($this->object->getRefId())) {
+            $this->tabs_gui->addTarget('trash', $this->ctrl->getLinkTarget($this, 'trash'), 'trash', get_class($this));
+        }
         parent::getTabs();
     }
 

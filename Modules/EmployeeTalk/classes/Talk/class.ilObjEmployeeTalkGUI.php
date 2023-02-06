@@ -34,6 +34,7 @@ use ILIAS\Modules\EmployeeTalk\TalkSeries\Repository\IliasDBEmployeeTalkSeriesRe
  * @ilCtrl_Calls      ilObjEmployeeTalkGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI
  * @ilCtrl_Calls      ilObjEmployeeTalkGUI: ilPermissionGUI
  * @ilCtrl_Calls      ilObjEmployeeTalkGUI: ilInfoScreenGUI
+ * @ilCtrl_Calls      ilObjEmployeeTalkGUI: ilPropertyFormGUI
  */
 final class ilObjEmployeeTalkGUI extends ilObjectGUI
 {
@@ -223,25 +224,31 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
     private function sendNotification(array $talks): void
     {
         $firstTalk = $talks[0];
-        $talkTitle = $firstTalk->getTitle();
+        $talk_title = $firstTalk->getTitle();
+        $talk_ref_id = $firstTalk->getRefId();
         $superior = new ilObjUser($firstTalk->getOwner());
         $employee = new ilObjUser($firstTalk->getData()->getEmployee());
         $superiorName = $superior->getFullname();
         $series = $firstTalk->getParent();
 
         $dates = [];
+        $add_time = $firstTalk->getData()->isAllDay() ? 0 : 1;
         foreach ($talks as $talk) {
             $data = $talk->getData();
-            $startDate = $data->getStartDate()->get(IL_CAL_DATETIME);
+            $startDate = $data->getStartDate()->get(
+                IL_CAL_FKT_DATE,
+                ilCalendarUtil::getUserDateFormat($add_time, true),
+                $employee->getTimeZone()
+            );
 
             $dates[] = $startDate;
         }
 
         $message = new EmployeeTalkEmailNotification(
-            sprintf($this->lng->txt('notification_talks_removed'), $superiorName),
-            $this->lng->txt('notification_talks_date_list_header'),
-            sprintf($this->lng->txt('notification_talks_talk_title'), $talkTitle),
-            $this->lng->txt('notification_talks_date_details'),
+            $talk_ref_id,
+            'notification_talks_subject_update',
+            'notification_talks_removed',
+            $superiorName,
             $dates
         );
 
@@ -250,7 +257,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         if ($series->hasChildren()) {
             $vCalSender = new EmployeeTalkEmailNotificationService(
                 $message,
-                $talkTitle,
+                $talk_title,
                 $employee,
                 $superior,
                 VCalendarFactory::getInstanceFromTalks($series)
@@ -258,10 +265,10 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         } else {
             $vCalSender = new EmployeeTalkEmailNotificationService(
                 $message,
-                $talkTitle,
+                $talk_title,
                 $employee,
                 $superior,
-                VCalendarFactory::getEmptyInstance($series, $talkTitle)
+                VCalendarFactory::getEmptyInstance($series, $talk_title)
             );
         }
 
@@ -278,30 +285,36 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         }
 
         $firstTalk = $talks[0];
-        $talkTitle = $firstTalk->getTitle();
+        $talk_title = $firstTalk->getTitle();
+        $talk_ref_id = $firstTalk->getRefId();
         $superior = new ilObjUser($firstTalk->getOwner());
         $employee = new ilObjUser($firstTalk->getData()->getEmployee());
         $superiorName = $superior->getFullname();
 
         $dates = [];
+        $add_time = $firstTalk->getData()->isAllDay() ? 0 : 1;
         foreach ($talks as $talk) {
             $data = $talk->getData();
-            $startDate = $data->getStartDate()->get(IL_CAL_DATETIME);
+            $startDate = $data->getStartDate()->get(
+                IL_CAL_FKT_DATE,
+                ilCalendarUtil::getUserDateFormat($add_time, true),
+                $employee->getTimeZone()
+            );
 
             $dates[] = $startDate;
         }
 
         $message = new EmployeeTalkEmailNotification(
-            sprintf($this->lng->txt('notification_talks_updated'), $superiorName),
-            $this->lng->txt('notification_talks_date_details'),
-            sprintf($this->lng->txt('notification_talks_talk_title'), $talkTitle),
-            $this->lng->txt('notification_talks_date_list_header'),
+            $talk_ref_id,
+            'notification_talks_subject_update',
+            'notification_talks_updated',
+            $superiorName,
             $dates
         );
 
         $vCalSender = new EmployeeTalkEmailNotificationService(
             $message,
-            $talkTitle,
+            $talk_title,
             $employee,
             $superior,
             VCalendarFactory::getInstanceFromTalks($firstTalk->getParent())
@@ -502,7 +515,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $this->editObject();
     }
 
-    public function getTabs(): void
+    protected function getTabs(): void
     {
         $this->tabs_gui->addTab('view_content', $this->lng->txt("content"), $this->ctrl->getLinkTarget($this, ControlFlowCommand::UPDATE));
         $this->tabs_gui->addTab("info_short", "Info", $this->ctrl->getLinkTargetByClass(strtolower(ilInfoScreenGUI::class), "showSummary"));

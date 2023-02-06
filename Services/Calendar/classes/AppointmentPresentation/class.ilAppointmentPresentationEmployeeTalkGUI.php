@@ -35,7 +35,7 @@ class ilAppointmentPresentationEmployeeTalkGUI extends ilAppointmentPresentation
         array $a_appointment,
         ?ilInfoScreenGUI $a_info_screen,
         ?ilToolbarGUI $a_toolbar,
-        Item $a_list_item
+        ?Item $a_list_item
     ) {
         parent::__construct($a_appointment, $a_info_screen, $a_toolbar, $a_list_item);
 

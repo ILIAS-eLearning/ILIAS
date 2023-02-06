@@ -24,6 +24,7 @@ use ILIAS\Glossary\Presentation;
  */
 class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
 {
+    protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected array $mobs;
     protected bool $fill_on_load_code;
     protected string $offline_dir;
@@ -86,6 +87,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         $this->content_style_service =
             $DIC->contentStyle();
         $this->initByRequest();
+        $this->xsl = $DIC->copage()->internal()->domain()->xsl();
     }
 
     /**
@@ -655,10 +657,6 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         $xml .= $link_xml;
         $xml .= "</dummy>";
 
-        $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
-        $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
-        $xh = xslt_create();
-
         if (!$this->offlineMode()) {
             $enlarge_path = ilUtil::getImagePath("enlarge.svg", false, "output");
             $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
@@ -677,8 +675,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         $params = array('mode' => $mode, 'enlarge_path' => $enlarge_path,
             'link_params' => "ref_id=" . $this->requested_ref_id,'fullscreen_link' => $fullscreen_link,
             'ref_id' => $this->requested_ref_id, 'pg_frame' => "", 'webspace_path' => $wb_path);
-        $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
-        xslt_free($xh);
+        $output = $this->xsl->process($xml, $params);
 
         // unmask user html
         $this->tpl->setVariable("MEDIA_CONTENT", $output);

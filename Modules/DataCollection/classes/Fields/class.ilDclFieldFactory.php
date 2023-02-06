@@ -330,7 +330,7 @@ class ilDclFieldFactory
         return $title;
     }
 
-    public static function getRecordModelInstance(int $record_id): ilDclBaseRecordModel
+    public static function getRecordModelInstance(?int $record_id): ilDclBaseRecordModel
     {
         return new ilDclBaseRecordModel($record_id);
     }

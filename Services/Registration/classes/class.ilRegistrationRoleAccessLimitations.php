@@ -115,7 +115,7 @@ class ilRegistrationRoleAccessLimitations
     {
         if (!is_null($date)) {
             $unix_date = strtotime($date);
-            if (!$unix_date) {
+            if ($unix_date) {
                 $this->access_limitations[$a_role_id]['absolute'] = $unix_date;
             }
         }

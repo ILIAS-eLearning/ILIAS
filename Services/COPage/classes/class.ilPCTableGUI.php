@@ -25,6 +25,7 @@
  */
 class ilPCTableGUI extends ilPageContentGUI
 {
+    protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected ilPropertyFormGUI $form;
     protected ilTabsGUI $tabs;
     protected ilObjUser $user;
@@ -46,6 +47,7 @@ class ilPCTableGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
         $this->setCharacteristics(array("StandardTable" => $this->lng->txt("cont_StandardTable")));
         $this->tool_context = $DIC->globalScreen()->tool()->context();
+        $this->xsl = $DIC->copage()->internal()->domain()->xsl();
     }
 
     public function setBasicTableCellStyles(): void
@@ -450,21 +452,15 @@ class ilPCTableGUI extends ilPageContentGUI
         global $DIC;
 
         $ilUser = $DIC->user();
+        $xsl = $DIC->copage()->internal()->domain()->xsl();
 
         $content = "<dummy>" . $content . "</dummy>";
 
-        $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
-        $args = array( '/_xml' => $content, '/_xsl' => $xsl );
-        $xh = xslt_create();
-        //echo "<b>XML</b>:".htmlentities($content).":<br>";
-        //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
         $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         $enlarge_path = ilUtil::getImagePath("enlarge.svg");
         $params = array('mode' => $a_mode,
             'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path);
-        $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
-        xslt_error($xh);
-        xslt_free($xh);
+        $output = $xsl->process($content, $params);
 
         // unmask user html
         if ($unmask) {
@@ -1255,14 +1251,10 @@ class ilPCTableGUI extends ilPageContentGUI
         $ilUser = $DIC->user();
         $content = "<dummy>" . $content . "</dummy>";
 
-        $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
-        $args = array( '/_xml' => $content, '/_xsl' => $xsl );
-        $xh = xslt_create();
         $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         $enlarge_path = ilUtil::getImagePath("enlarge.svg");
         $params = array('webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path);
-        $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
-        xslt_free($xh);
+        $output = $this->xsl->process($content, $params);
 
         // unmask user html
         if ($unmask) {

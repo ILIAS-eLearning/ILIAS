@@ -321,3 +321,8 @@ If the constraint is met, show the question.
 ### Properties
 * **User**: (`svy_invitation.user_id`)
 * **Survey**: (`svy_invitation.survey_id`)
+
+## Competences
+
+### Business Rules
+Results screen lists all profiles of the user. If other competences are used an additional dropdown "All competences of survey".

@@ -109,6 +109,11 @@ class ilFSStorageGroup extends ilFileSystemAbstractionStorage
         return $this->deleteFile($this->getMemberExportDirectory() . '/' . $a_export_name);
     }
 
+    public function hasMemberExportFile(string $a_export_name): bool
+    {
+        return $this->fileExists($this->getMemberExportDirectory() . '/' . $a_export_name);
+    }
+
     /**
      * @inheritDoc
      */

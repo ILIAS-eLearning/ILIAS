@@ -170,7 +170,7 @@ class ilObjFileBasedLM extends ilObject
         // copy content
         $new_obj->populateByDirectoy($this->getDataDirectory());
 
-        $new_obj->setStartFile($this->getStartFile());
+        $new_obj->setStartFile((string) $this->getStartFile());
         $new_obj->update();
 
         return $new_obj;

@@ -1238,7 +1238,10 @@ class ilInfoScreenGUI
             if ($obligatory) {
                 $this->addSection($lng->txt("preconditions_obligatory_hint"));
             } else {
-                $this->addSection(sprintf($lng->txt("preconditions_optional_hint"), $num_optional_required));
+                $this->addSection(sprintf(
+                    $lng->txt("preconditions_optional_hint"),
+                    $num_optional_required - $passed_optional
+                ));
             }
 
             foreach ($properties as $p) {

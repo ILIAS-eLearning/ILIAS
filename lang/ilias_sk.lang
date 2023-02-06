@@ -1138,7 +1138,7 @@ assessment#:#rectangle_click_tl_corner#:#Klepněte prosím na levý horní roh p
 assessment#:#redirectAfterSave#:#Byl dosažen maximální pracovní čas a Vaše poslední otázka bude automaticky uložena. V několika sekundách budete přesměrován(a)...
 assessment#:#redirect_after_finishing_rule#:#Redirect###27 01 2015 new variable
 assessment#:#redirect_after_finishing_tst#:#Redirect after finishing the test###24 10 2013 new variable
-assessment#:#redirect_after_finishing_tst_desc#:#After completion of test each participant is automatically redirected to a defined webpage. This is only valid if the participants have no access to their test results.###27 01 2015 new variable
+assessment#:#redirect_after_finishing_tst_desc#:#After completing the test, each participant is automatically redirected to a specific webpage of your choosing. This will only happen if participants do not have direct access to their test results. When entering the address of an external webpage, use the complete URL (including ‘https://’). When redirecting to an Object in ILIAS, use the permalink that can be found in the footer of the Object in question.###27 01 2015 new variable
 assessment#:#redirect_always#:#always to defined webpage###27 01 2015 new variable
 assessment#:#redirect_in_kiosk_mode#:#Redirect only in kiosk mode###24 10 2013 new variable
 assessment#:#redirection_url#:#Redirection target###24 10 2013 new variable
@@ -10868,7 +10868,7 @@ mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###29 07 2022 new variable
 mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###29 07 2022 new variable
 mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###29 07 2022 new variable
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML###29 07 2022 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe###29 07 2022 new variable
 mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js###29 07 2022 new variable
 mathjax#:#mathjax_server_address#:#Server Address###25 10 2016 new variable
 mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003###25 10 2016 new variable

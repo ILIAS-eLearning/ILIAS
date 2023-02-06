@@ -1143,7 +1143,7 @@ assessment#:#rectangle_click_tl_corner#:#Bitte klicken Sie auf die obere linke E
 assessment#:#redirectAfterSave#:#Die maximale Bearbeitungszeit für diesen Test wurde erreicht. Ihre letzte bearbeitete Frage wurde automatisch beim Erreichen der Bearbeitungszeit gespeichert. In wenigen Sekunden werden Sie weitergeleitet...
 assessment#:#redirect_after_finishing_rule#:#Weiterleitung
 assessment#:#redirect_after_finishing_tst#:#Weiterleitung
-assessment#:#redirect_after_finishing_tst_desc#:#Teilnehmer werden nach Beenden des Tests automatisch zu einer definierten Webseite weitergeleitet. Dies geschieht nur, wenn der Test so konfiguriert wurde, dass die Teilnehmer ihre Testergebnisse nach Beenden des Tests nicht einsehen können.
+assessment#:#redirect_after_finishing_tst_desc#:#Teilnehmer werden nach Beenden des Tests automatisch zu einer definierten Webseite weitergeleitet. Dies geschieht nur, wenn der Test so konfiguriert wurde, dass die Teilnehmer ihre Testergebnisse nach Beenden des Tests nicht einsehen können. Wenn Sie die Adresse einer externen Webseite eingeben, verwenden Sie die vollständige URL (einschließlich "https://"). Wenn Sie zu einem Objekt in ILIAS weiterleiten, verwenden Sie den Permalink, der in der Fußzeile des betreffenden Objekts zu finden ist.
 assessment#:#redirect_always#:#immer zur definierten Zielseite
 assessment#:#redirect_in_kiosk_mode#:#nur bei aktivierter Prüfungsansicht
 assessment#:#redirection_url#:#URL Zielseite
@@ -2514,6 +2514,7 @@ book#:#book_no_recurrence#:#nur diesen Termin buchen
 book#:#book_not#:#Nicht
 book#:#book_not_enough_preferences#:#Sie haben nicht genügend Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
 book#:#book_notification#:#Benachrichtigungen über Reservierungen
+book#:#book_notification_cron_not_active#:#Achtung: Der notwendige Cron-Job "Benachrichtigungen über Reservierungen" ist zurzeit nicht aktiviert.
 book#:#book_notification_info#:#Sendet eine Liste der Reservierungen des nächsten Tages an Benutzer (nur eigene) und Admins (wenn aktiviert).
 book#:#book_nr_of_preferences#:#Anzahl
 book#:#book_nr_of_preferences_info#:#Anzahl an Präferenzen, die jeder Teilnehmer abgeben darf.
@@ -3431,6 +3432,7 @@ common#:#additional_info#:#Zusätzliche Informationen
 common#:#address#:#Adresse
 common#:#admin_force_noti#:#Benachrichtigung aktiv
 common#:#administrate_users#:#Lokale Konten
+common#:#administrate_users_headline#:#Lokale ILIAS-Konten dieser Kategorie
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Übernehmen
@@ -4142,6 +4144,7 @@ common#:#gender#:#Anrede
 common#:#gender_f#:#Frau
 common#:#gender_m#:#Herr
 common#:#gender_n#:#Keine Anrede
+common#:#general#:#Allgemein
 common#:#general_settings#:#Allgemeine Einstellungen
 common#:#generate#:#generieren
 common#:#ghostscript_not_configured#:#Ghostscript ist nicht konfiguriert. Bitte öffnen Sie das <a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a> um Ghostscript zu konfigurieren.
@@ -8958,13 +8961,12 @@ etal#:#lock_edititng_for_others#:#Bearbeitung für andere sperren
 etal#:#meta_adv_records#:#Metadaten
 etal#:#mm_org_etal#:#Gespräch
 etal#:#mm_talk_template#:#Gesprächsvorlagen
-etal#:#notification_talks_created#:#Sie wurden von %s zu einem Gespräch eingeladen.
-etal#:#notification_talks_date_details#:#Termindetails
+etal#:#notification_talks_created#:#Sie wurden zu einem Gespräch eingeladen.
 etal#:#notification_talks_date_list_header#:#Daten
-etal#:#notification_talks_removed#:#Folgende Termine mit %s wurden abgesagt.
-etal#:#notification_talks_subject#:#Termineinladung
-etal#:#notification_talks_talk_title#:#Titel: %s
-etal#:#notification_talks_updated#:#Folgende Gesprächstermine mit %s wurden angepasst.
+etal#:#notification_talks_removed#:#Folgende Termine wurden abgesagt.
+etal#:#notification_talks_subject#:#Termineinladung: %s
+etal#:#notification_talks_subject_update#:#Terminaktualisierung: %s
+etal#:#notification_talks_updated#:#Folgende Gesprächstermine wurden angepasst.
 etal#:#talk_serial#:#Talk Serial
 etal#:#tals_add#:#Gespräche hinzufügen
 etal#:#tals_new#:#Neue Gesprächsserie
@@ -11027,8 +11029,9 @@ mathjax#:#mathjax_polyfill_url#:#Url eines Polyfills
 mathjax#:#mathjax_polyfill_url_desc_line1#:#Für MathJax 2 nicht benötigt
 mathjax#:#mathjax_polyfill_url_desc_line2#:#Für MathJax 3 z.B. https://polyfill.io/v3/polyfill.min.js?features=es6
 mathjax#:#mathjax_script_url#:#URL des MathJax-Skripts
-mathjax#:#mathjax_script_url_desc_line1#:#Für MathJax 2 z.B. https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML
-mathjax#:#mathjax_script_url_desc_line2#:#Für MathJax 3 z.B. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js
+mathjax#:#mathjax_script_url_desc_line1#:#Für MathJax 2 z.B. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe
+mathjax#:#mathjax_script_url_desc_line2#:#Für MathJax 3 z.B. https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+mathjax#:#mathjax_script_url_desc_line3#:#Bitte verwenden Sie den Safe Mode, um XSS-Angriffe durch MathJax-Code mit Javascript zu vermeiden. Für MathJax 2 kann er an die CDN-Url als Parameter angefügt werden (s.o). Für MathJax 3 müssen Sie ein Skript einbinden, dass ihn konfiguriert, bevor MathJax geladen wird. Verwenden Sie z.B. https://ihre-domain/ihr-ilias/Services/MathJax/js/cdn-mathjax3-es5-tex-mml-chtml-safe.js
 mathjax#:#mathjax_server_address#:#Server-Adresse
 mathjax#:#mathjax_server_address_info#:#z.B. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#Der MathJax-Cache wurde geleert.
@@ -11792,11 +11795,11 @@ meta#:#meta_obj_type_inactive#:#Datensatz nicht anbieten
 meta#:#meta_obj_type_mandatory#:#Immer zum Ausfüllen anbieten
 meta#:#meta_obj_type_optional#:#Datensatz muss aktiviert werden
 meta#:#meta_oer_blocked#:#Wird vom OER-Harvester ignoriert
-meta#:#meta_oer_blocked_info#:#Wird nicht automatisch als Open Educational Ressource (OER) gelistet
+meta#:#meta_oer_blocked_info#:#Wird nicht automatisch als OER (Open Educational Resource) gelistet
 meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
 meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter den/der ausgewählten Lizenz veröffentlicht sind, werden in die OER-Kategorie verknüpft.
 meta#:#meta_oer_harvester#:#OER Harvester
-meta#:#meta_oer_harvester_desc#:#OER Harvester
+meta#:#meta_oer_harvester_desc#:#Scannt alle Dateiobjekte im Magazin auf ihre Lizenz. Der OER-Harvester fügt alle Ressourcen unter ausgewählten CC-Lizenzen der in den Cron-Job-Einstellungen definierten Kategorie hinzu. Damit dieser Cronjob Ergebnisse liefern kann, muss die Copyright-Auswahl in der Metadaten-Administration aktiviert und konfiguriert sein.
 meta#:#meta_oer_target#:#Kategorie für OER-Freigaben
 meta#:#meta_operating_system#:#Betriebssystem
 meta#:#meta_or_composite#:#... oder zusammengesetzt ...
@@ -12607,6 +12610,7 @@ prg#:#prg_can_not_manage_in_repo#:#Sie dürfen dieses Studienprogramm nicht verw
 prg#:#prg_cancel#:#Abbrechen
 prg#:#prg_cancel_tree_order#:#Reihenfolge des Baums verwerfen.
 prg#:#prg_changed_by#:#Geändert durch
+prg#:#prg_completed_by_subnodes#:#Unterprogramm(e)
 prg#:#prg_completion_by#:#Abgeschlossen durch
 prg#:#prg_completion_date#:#Abschlussdatum
 prg#:#prg_confirm_delete#:#Löschen
@@ -17001,6 +17005,5 @@ wsp#:#wsp_type_file#:#Datei
 wsp#:#wsp_type_ltiv#:#Zertifikat: LTI-Konsument
 wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
-wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner

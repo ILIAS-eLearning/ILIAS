@@ -1439,6 +1439,8 @@ assessment#:#tst_general_properties#:#General Settings
 assessment#:#tst_header_participant#:#Your Answer:
 assessment#:#tst_header_solution#:#Best Solution:
 assessment#:#tst_heading_scoring#:#Scoring
+assessment#:#tst_hide_pagecontents#:#Hide page content
+assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.													  
 assessment#:#tst_hide_side_list#:#Hide List of Questions
 assessment#:#tst_highscore_achieved_ts#:#Date
 assessment#:#tst_highscore_achieved_ts_description#:#A column containing the test date will be included in the ranking.
@@ -1789,7 +1791,10 @@ assessment#:#tst_results_access_setting#:#Point in Time
 assessment#:#tst_results_aggregated#:#Aggregated Test Results
 assessment#:#tst_results_back_introduction#:#Back to Introductory Message
 assessment#:#tst_results_back_overview#:#Back to Results Overview
-assessment#:#tst_results_details_options#:#Further Details to be Included in Test Results
+assessment#:#tst_results_details_options#:#Further Options
+assessment#:#tst_results_gamification#:#Gamification
+assessment#:#tst_results_grading_opt_show_details#:#Show detailed test results
+assessment#:#tst_results_grading_opt_show_details_desc#:#In addition to the summary test result, a "Detailed Results" action is provided. The "Detailed test results" table shows the titles of the questions and the points achieved for each run. The content of the table can be further supplemented in the "Further options" section.													
 assessment#:#tst_results_grading_opt_show_mark#:#Show Resulting Mark
 assessment#:#tst_results_grading_opt_show_mark_desc#:#The resulting mark will be appended to the summary test result. Participants can access their test results within the ‘Results’-tab.
 assessment#:#tst_results_grading_opt_show_status#:#Show ‘Passed’ / ‘Failed’ Status
@@ -1850,7 +1855,9 @@ assessment#:#tst_show_solution_answers_only_desc#:#If is selected, the ILIAS con
 assessment#:#tst_show_solution_compare#:#Show Best Solution in ‘Detailed Results’
 assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the 'Detailed Results' that can be accessed via the 'Show Test Results'-button on the 'Info'-tab. It will not be displayed in the printable 'List of Answers' even though the setting is made here.
 assessment#:#tst_show_solution_details#:#Scored Answers of Participant
-assessment#:#tst_show_solution_details_desc#:#As an add-on  to the ‘Table of Detailed Test Results’, the participant get a link to a page for each question. This linked page contains the question, the answer provided by the participant, information on whether this was the correct answer and points scored by this answer.
+assessment#:#tst_show_solution_details_desc#:#The ‘Table of Detailed Test Results’ will be added by a list of answers.
+assessment#:#tst_show_solution_details_singlepage#:#Scored Answers on single pages
+assessment#:#tst_show_solution_details_singlepage_desc#:#Participants can access each question individually and see if their answers were correct and how many points they scored.
 assessment#:#tst_show_solution_feedback#:#Feedback
 assessment#:#tst_show_solution_feedback_desc#:#Feedback related to the answers provided by the participant is displayed. Please mind  that this option becomes effective only if you have activated ‘Scored Answers of Participant’  and feedback was prepared along with the questions in the first place.
 assessment#:#tst_show_solution_printview#:#Additional ‘List of Answers’ for Printing
@@ -2507,6 +2514,7 @@ book#:#book_no_recurrence#:#Book only this date
 book#:#book_not#:#Not
 book#:#book_not_enough_preferences#:#You selected not enough preferences. The preferences have not been saved.
 book#:#book_notification#:#Send Reservation Notifications
+book#:#book_notification_cron_not_active#:#Note: The corresponding cron job "Send Reservation Notifications" is currently not activated.
 book#:#book_notification_info#:#Send a list of reservations of the next day to users (own reservations) and admins (if activated).
 book#:#book_nr_of_preferences#:#Number of Preferences
 book#:#book_nr_of_preferences_info#:#Number of preferences each participant can indicate.
@@ -3425,6 +3433,7 @@ common#:#additional_info#:#Additional Information
 common#:#address#:#Address
 common#:#admin_force_noti#:#Notification active
 common#:#administrate_users#:#Local User Administration
+common#:#administrate_users_headline#:#Local ILIAS Accounts of this Category
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Adopt
@@ -4136,6 +4145,7 @@ common#:#gender#:#Salutation
 common#:#gender_f#:#Ms.
 common#:#gender_m#:#Mr.
 common#:#gender_n#:#Not stated
+common#:#general#:#General
 common#:#general_settings#:#General Settings
 common#:#generate#:#Generate
 common#:#ghostscript_not_configured#:#Ghostscript is not configured. Please open the <a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a> to configure it.
@@ -8952,13 +8962,12 @@ etal#:#lock_edititng_for_others#:#Lock editing for others
 etal#:#meta_adv_records#:#Metadata
 etal#:#mm_org_etal#:#Talks
 etal#:#mm_talk_template#:#Talk Templates
-etal#:#notification_talks_created#:#You have been invited by %s to the following employee talks.
-etal#:#notification_talks_date_details#:#Appointment details
+etal#:#notification_talks_created#:#You have been invited to the following employee talks.
 etal#:#notification_talks_date_list_header#:#Dates
-etal#:#notification_talks_removed#:#The following appointments have been canceled by %s.
-etal#:#notification_talks_subject#:#Invitation
-etal#:#notification_talks_talk_title#:#Titel: %s
-etal#:#notification_talks_updated#:#The following talk appointments have been changed by %s.
+etal#:#notification_talks_removed#:#The following appointments have been canceled.
+etal#:#notification_talks_subject#:#Invitation: %s
+etal#:#notification_talks_subject_update#:#Update: %s
+etal#:#notification_talks_updated#:#The following talk appointments have been changed.
 etal#:#talk_serial#:#Talk Serial
 etal#:#tals_add#:#Add Talks
 etal#:#tals_new#:#New Talks
@@ -11021,8 +11030,9 @@ mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill
 mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed
 mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe
 mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js
+mathjax#:#mathjax_script_url_desc_line3#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include script that configures it before MathJax is loaded. Use for example https://your-domain/your-ilias/Services/MathJax/js/cdn-mathjax3-es5-tex-mml-chtml-safe.js
 mathjax#:#mathjax_server_address#:#Server Address
 mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.
@@ -11787,10 +11797,10 @@ meta#:#meta_obj_type_mandatory#:#Data set always offered
 meta#:#meta_obj_type_optional#:#Data set needs activation
 meta#:#meta_oer_blocked#:#Ignored by OER Harvester
 meta#:#meta_oer_blocked_info#:#Will not be listed automatically as Open Educational Ressource (OER)
-meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
-meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter den/der ausgewählten Lizenz veröffentlicht sind, werden in die OER-Kategorie verknüpft.
+meta#:#meta_oer_copyright_selection#:#Copyright Selection
+meta#:#meta_oer_copyright_selection_info#:#Only objects that have been published with one of the selected copyrights will be linked to the OER Category.
 meta#:#meta_oer_harvester#:#OER Harvester
-meta#:#meta_oer_harvester_desc#:#OER Harvester
+meta#:#meta_oer_harvester_desc#:#Scans all File objects in the repository for their license. The OER Harvester adds all resources under selected CC licenses to the category defined in the cronjob settings. To get results from this cronjob it is necessary to activate and configurate the copyright selection in the administration of 'Metadata'.
 meta#:#meta_oer_target#:#Category for Release OER Content
 meta#:#meta_operating_system#:#Operating System
 meta#:#meta_or_composite#:#Or Composite
@@ -12603,6 +12613,7 @@ prg#:#prg_can_not_manage_in_repo#:#You're not allowed to manage this Study Progr
 prg#:#prg_cancel#:#Cancel
 prg#:#prg_cancel_tree_order#:#Dismiss tree order
 prg#:#prg_changed_by#:#Changed by
+prg#:#prg_completed_by_subnodes#:#subprogrammes
 prg#:#prg_completion_by#:#Completion by
 prg#:#prg_completion_date#:#Completion date
 prg#:#prg_confirm_delete#:#Delete

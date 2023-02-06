@@ -228,8 +228,8 @@ class ilMyStaffAccess extends ilObjectAccess
 				and orgu_ua.user_id = " . $DIC->database()->quote(
             $user_id,
             'integer'
-        ) . " AND perm.operations LIKE  '%\""
-            . $operation->getOperationId() . "\"%'
+        ) . " AND perm.operations REGEXP '[\[,]\"?"
+            . $operation->getOperationId() . "\"?[\],]'
 				WHERE perm.parent_id = -1";
 
         $set = $DIC->database()->query($q);
@@ -411,19 +411,19 @@ class ilMyStaffAccess extends ilObjectAccess
         $operation_id = $operation_object->getOperationId();
 
         if ($this->hasPositionDefaultPermissionForOperationInContext($position_id, $operation_id, $context_id)) {
-            $query = 'select ' . ($return_ref_id ? 'object_reference.ref_id' : 'object_data.obj_id') . ' from object_data ' .
-                'inner join object_reference on object_reference.obj_id = object_data.obj_id ' .
-                'where type = "' . $context . '" ' .
-                'AND object_reference.ref_id not in ' .
-                '   (SELECT parent_id FROM il_orgu_permissions ' .
-                '   where position_id = ' . $position_id . ' and context_id = ' . $context_id . ' and operations not like \'%' . $operation_id . '%\' and parent_id <> -1)';
+            $query = "select " . ($return_ref_id ? "object_reference.ref_id" : "object_data.obj_id") . " from object_data " .
+                "inner join object_reference on object_reference.obj_id = object_data.obj_id " .
+                "where type = '" . $context . "' " .
+                "AND object_reference.ref_id not in " .
+                "   (SELECT parent_id FROM il_orgu_permissions " .
+                "   where position_id = " . $position_id . " and context_id = " . $context_id . " and operations NOT REGEXP '[\[,]\"?" . $operation_id . "\"?[\],]' and parent_id <> -1)";
         } else {
             $query = $return_ref_id
                 ?
-                'SELECT parent_id as ref_id FROM il_orgu_permissions '
+                "SELECT parent_id as ref_id FROM il_orgu_permissions "
                 :
-                'SELECT obj_id FROM il_orgu_permissions INNER JOIN object_reference ON object_reference.ref_id = il_orgu_permissions.parent_id ';
-            $query .= ' where position_id = ' . $position_id . ' and context_id = ' . $context_id . ' and operations like \'%' . $operation_id . '%\' and parent_id <> -1';
+                "SELECT obj_id FROM il_orgu_permissions INNER JOIN object_reference ON object_reference.ref_id = il_orgu_permissions.parent_id ";
+            $query .= " where position_id = " . $position_id . " and context_id = " . $context_id . " and operations REGEXP '[\[,]\"?" . $operation_id . "\"?[\],]' and parent_id <> -1";
         }
 
         return array_map(function ($item) use ($return_ref_id) {
@@ -437,11 +437,11 @@ class ilMyStaffAccess extends ilObjectAccess
         int $context_id
     ): bool {
         global $DIC;
-        $res = $DIC->database()->query('SELECT * FROM il_orgu_permissions ' .
-            ' WHERE context_id = ' . $context_id . ' ' .
-            'AND operations LIKE \'%' . $operation_id . '%\' ' .
-            'AND position_id = ' . $position_id . ' ' .
-            'AND parent_id = -1');
+        $res = $DIC->database()->query("SELECT * FROM il_orgu_permissions " .
+            " WHERE context_id = " . $context_id . " " .
+            "AND operations REGEXP '[\[,]\"?" . $operation_id . "\"?[\],]' " .
+            "AND position_id = " . $position_id . " " .
+            "AND parent_id = -1");
 
         return (bool) $DIC->database()->numRows($res) > 0;
     }
@@ -572,7 +572,7 @@ class ilMyStaffAccess extends ilObjectAccess
             ) . "
 				INNER JOIN il_orgu_permissions AS perm on perm.position_id = orgu_ua_current_user.position_id AND perm.parent_id = -1
 				INNER JOIN il_orgu_op_contexts AS contexts on contexts.id = perm.context_id AND contexts.context =  '$context'
-				and perm.operations  LIKE '%\"" . $operation->getOperationId() . "\"%'
+				and perm.operations REGEXP '[\[,]\"?" . $operation->getOperationId() . "\"?[\],]'
 				
 				AND
 				( 
@@ -654,7 +654,7 @@ class ilMyStaffAccess extends ilObjectAccess
 					INNER JOIN object_data AS obj ON obj.obj_id = obj_ref.obj_id AND obj.type = '$context'
 					INNER JOIN il_orgu_op_contexts AS contexts on contexts.id = perm.context_id AND contexts.context = '$context'
 					WHERE
-				    perm.operations LIKE '%\"" . $operation->getOperationId() . "\"%'
+				    perm.operations REGEXP '[\[,]\"?" . $operation->getOperationId() . "\"?[\],]'
 			);";
 
         $DIC->database()->manipulate($q);
@@ -694,7 +694,7 @@ class ilMyStaffAccess extends ilObjectAccess
 				    FROM
 				    object_data AS obj
 				    INNER JOIN object_reference AS obj_ref ON obj_ref.obj_id = obj.obj_id
-				    INNER JOIN il_orgu_permissions AS perm ON perm.operations LIKE '%\"" . $operation->getOperationId() . "\"%' AND perm.parent_id = -1
+				    INNER JOIN il_orgu_permissions AS perm ON perm.operations REGEXP '[\[,]\"?" . $operation->getOperationId() . "\"?[\],]' AND perm.parent_id = -1
 				    INNER JOIN il_orgu_op_contexts AS contexts on contexts.id = perm.context_id AND contexts.context = '" . $context . "'
 				    INNER JOIN il_orgu_ua AS orgu_ua ON orgu_ua.position_id = perm.position_id AND orgu_ua.user_id = " . $GLOBALS['DIC']->user()
                                                                                                                                         ->getId() . "
@@ -759,7 +759,7 @@ class ilMyStaffAccess extends ilObjectAccess
 				    INNER JOIN il_orgu_authority AS auth ON auth.position_id = orgu_ua.position_id
 				    INNER JOIN il_orgu_op_contexts AS contexts on contexts.id = perm.context_id AND contexts.context = '" . $context . "'
 				    WHERE
-				    perm.operations LIKE '%\"" . $operation->getOperationId() . "\"%'
+				    perm.operations REGEXP '[\[,]\"?" . $operation->getOperationId() . "\"?[\],]'
 							);";
 
         $DIC->database()->manipulate($q);
@@ -834,7 +834,7 @@ class ilMyStaffAccess extends ilObjectAccess
         }
 
         $q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " 
-			(INDEX i1(orgu_id), INDEX i2 (tree_path), INDEX i3 (tree_child), INDEX i4 (tree_parent), INDEX i5 (tree_lft), INDEX i6 (tree_rgt), INDEX i7 (user_position_id), INDEX i8 (user_id))
+			(INDEX i1(orgu_id), INDEX i2 (tree_path(255)), INDEX i3 (tree_child), INDEX i4 (tree_parent), INDEX i5 (tree_lft), INDEX i6 (tree_rgt), INDEX i7 (user_position_id), INDEX i8 (user_id))
 		AS (
 					SELECT  orgu_ua.orgu_id AS orgu_id,
 							tree_orgu.path AS tree_path,
