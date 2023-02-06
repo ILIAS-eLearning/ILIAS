@@ -23,24 +23,58 @@ class ilStudyProgrammeEvents implements StudyProgrammeEvents
     protected ilAppEventHandler $app_event_handler;
 
     public function __construct(
+        ilLogger $logger,
         ilAppEventHandler $app_event_handler,
         PRGEventHandler $prg_event_handler
     ) {
+        $this->logger = $logger;
         $this->app_event_handler = $app_event_handler;
         $this->prg_event_handler = $prg_event_handler;
     }
 
     public function raise(string $event, array $parameter): void
     {
-        switch ($event) {
-            case self::EVENT_USER_LP_STATUS_CHANGE:
-                $this->prg_event_handler->onUpdateLPStatus($parameter['prg_id'], $parameter['usr_id']);
-                break;
-            default:
-                $this->app_event_handler->raise(self::COMPONENT, $event, $parameter);
+        $this->logger->debug("PRG raised: " . $event . ' (' . print_r($parameter, true) . ')');
+
+        if (in_array($event, [
+            self::EVENT_USER_ASSIGNED,
+            self::EVENT_USER_DEASSIGNED,
+            self::EVENT_USER_SUCCESSFUL,
+            self::EVENT_USER_NOT_SUCCESSFUL,
+            self::EVENT_VALIDITY_CHANGE
+        ])) {
+            $this->prg_event_handler->updateLPStatus($parameter['prg_id'], $parameter['usr_id']);
+        }
+
+        if (in_array($event, [
+                self::EVENT_USER_SUCCESSFUL,
+                self::EVENT_USER_NOT_SUCCESSFUL,
+                self::EVENT_VALIDITY_CHANGE,
+                self::EVENT_SCORE_CHANGE
+            ])
+            && $parameter["root_prg_id"] === $parameter["prg_id"]
+        ) {
+            $cert = fn () => $this->app_event_handler->raise(self::COMPONENT, self::EVENT_USER_SUCCESSFUL, $parameter);
+            $this->prg_event_handler->triggerCertificateOnce($cert, $parameter["root_prg_id"], $parameter["usr_id"]);
+        }
+
+        if ($event === self::EVENT_USER_ABOUT_TO_FAIL) {
+            $this->prg_event_handler->sendRiskyToFailMail($parameter['ass_id'], $parameter['root_prg_id']);
+        }
+        if ($event === self::EVENT_USER_TO_RESTART) {
+            $this->prg_event_handler->sendInformToReAssignMail($parameter['ass_id'], $parameter['root_prg_id']);
+        }
+        if ($event === self::EVENT_USER_REASSIGNED) {
+            $this->prg_event_handler->sendReAssignedMail($parameter['ass_id'], $parameter['root_prg_id']);
+        }
+
+        if (in_array($event, [
+            self::EVENT_USER_ASSIGNED,
+            self::EVENT_USER_DEASSIGNED
+        ])) {
+            $this->app_event_handler->raise(self::COMPONENT, $event, $parameter);
         }
     }
-
 
     public function userAssigned(ilPRGAssignment $assignment): void
     {
@@ -48,17 +82,8 @@ class ilStudyProgrammeEvents implements StudyProgrammeEvents
             self::EVENT_USER_ASSIGNED,
             [
                 "root_prg_id" => $assignment->getRootId(),
+                "prg_id" => $assignment->getRootId(),
                 "usr_id" => $assignment->getUserId(),
-                "ass_id" => $assignment->getId()
-            ]
-        );
-    }
-
-    public function userReAssigned(ilPRGAssignment $assignment): void
-    {
-        $this->raise(
-            self::EVENT_USER_REASSIGNED,
-            [
                 "ass_id" => $assignment->getId()
             ]
         );
@@ -70,8 +95,20 @@ class ilStudyProgrammeEvents implements StudyProgrammeEvents
             self::EVENT_USER_DEASSIGNED,
             [
                 "root_prg_id" => $a_assignment->getRootId(),
+                "prg_id" => $a_assignment->getRootId(),
                 "usr_id" => $a_assignment->getUserId(),
                 "ass_id" => $a_assignment->getId()
+            ]
+        );
+    }
+
+    public function userReAssigned(ilPRGAssignment $assignment): void
+    {
+        $this->raise(
+            self::EVENT_USER_REASSIGNED,
+            [
+                "ass_id" => $assignment->getId(),
+                "root_prg_id" => (int) $assignment->getRootId()
             ]
         );
     }
@@ -94,7 +131,8 @@ class ilStudyProgrammeEvents implements StudyProgrammeEvents
         $this->raise(
             self::EVENT_USER_TO_RESTART,
             [
-                "ass_id" => (int) $assignment->getId()
+                "ass_id" => (int) $assignment->getId(),
+                "root_prg_id" => (int) $assignment->getRootId()
             ]
         );
     }
@@ -104,19 +142,38 @@ class ilStudyProgrammeEvents implements StudyProgrammeEvents
         $this->raise(
             self::EVENT_USER_ABOUT_TO_FAIL,
             [
-                "ass_id" => (int) $assignment->getId()
+                "ass_id" => (int) $assignment->getId(),
+                "root_prg_id" => (int) $assignment->getRootId()
             ]
         );
     }
 
-    public function userLPStatusChange(ilPRGAssignment $assignment, int $pgs_node_id): void
+    public function validityChange(ilPRGAssignment $assignment, int $pgs_node_id): void
     {
-        $this->raise(
-            self::EVENT_USER_LP_STATUS_CHANGE,
-            [
-                "usr_id" => $assignment->getUserId(),
-                "prg_id" => $pgs_node_id
-            ]
-        );
+        $this->raise(self::EVENT_VALIDITY_CHANGE, [
+            "ass_id" => $assignment->getId(),
+            "root_prg_id" => $assignment->getRootId(),
+            "prg_id" => $pgs_node_id,
+            "usr_id" => $assignment->getUserId()
+        ]);
+    }
+    public function scoreChange(ilPRGAssignment $assignment, int $pgs_node_id): void
+    {
+        $this->raise(self::EVENT_SCORE_CHANGE, [
+            "ass_id" => $assignment->getId(),
+            "root_prg_id" => $assignment->getRootId(),
+            "prg_id" => $pgs_node_id,
+            "usr_id" => $assignment->getUserId()
+        ]);
+    }
+
+    public function userRevertSuccessful(ilPRGAssignment $assignment, int $pgs_node_id): void
+    {
+        $this->raise(self::EVENT_USER_NOT_SUCCESSFUL, [
+            "ass_id" => $assignment->getId(),
+            "root_prg_id" => $assignment->getRootId(),
+            "prg_id" => $pgs_node_id,
+            "usr_id" => $assignment->getUserId()
+        ]);
     }
 }

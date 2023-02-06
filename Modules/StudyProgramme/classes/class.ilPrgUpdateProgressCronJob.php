@@ -28,7 +28,6 @@ class ilPrgUpdateProgressCronJob extends ilCronJob
 
     protected Pimple\Container $dic;
     protected ilLanguage $lng;
-    protected ilLPStatusWrapper $lp_status_wrapper;
     protected ilStudyProgrammeSettingsDBRepository $settings_repo;
     protected ilPRGAssignmentDBRepository $assignment_repo;
     protected int $acting_user_id;
@@ -38,7 +37,6 @@ class ilPrgUpdateProgressCronJob extends ilCronJob
         global $DIC;
         $this->lng = $DIC['lng'];
         $this->lng->loadLanguageModule('prg');
-        $this->lp_status_wrapper = new ilLPStatusWrapper();
 
         $dic = ilStudyProgrammeDIC::dic();
         $this->settings_repo = $dic['model.Settings.ilStudyProgrammeSettingsRepository'];
@@ -91,7 +89,6 @@ class ilPrgUpdateProgressCronJob extends ilCronJob
         foreach ($this->assignment_repo->getPassedDeadline($now) as $assignment) {
             $assignment = $assignment->markProgressesFailedForExpiredDeadline(
                 $this->settings_repo,
-                $this->lp_status_wrapper,
                 $this->acting_user_id
             );
             $this->assignment_repo->store($assignment);

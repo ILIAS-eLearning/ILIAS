@@ -472,17 +472,8 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
             (int) $row[self::ASSIGNMENT_FIELD_ID],
             (int) $row[self::ASSIGNMENT_FIELD_USR_ID]
         );
-
         $ass = $ass
-            ->withProgressSuccessNotification(
-                fn (ilPRGAssignment $ass, int $pgs_id) => $this->events->userSuccessful($ass, $pgs_id)
-            )
-            ->withProgressStatusChangeNotification(
-                fn (ilPRGAssignment $ass, int $pgs_id) => $this->events->userLPStatusChange($ass, $pgs_id)
-            )
-            ;
-
-        $ass = $ass
+            ->withEvents($this->events)
             ->withLastChange(
                 (int) $row[self::ASSIGNMENT_FIELD_LAST_CHANGE_BY],
                 \DateTimeImmutable::createFromFormat(
