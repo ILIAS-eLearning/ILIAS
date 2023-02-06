@@ -85,6 +85,17 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
                 break;
             case strtolower(ilObjTalkTemplateGUI::class):
                 $ilTalkTemplateGUI = new ilObjTalkTemplateGUI();
+                $ilTalkTemplateGUI->setAdminMode($this->admin_mode);
+                $this->ctrl->setParameter(
+                    $this,
+                    'ref_id',
+                    ilObjTalkTemplateAdministration::getRootRefId()
+                );
+                $this->tabs->setBackTarget(
+                    $this->lng->txt('obj_tala'),
+                    $this->ctrl->getLinkTarget($this, 'view')
+                );
+                $this->ctrl->clearParameters($this);
                 $this->ctrl->forwardCommand($ilTalkTemplateGUI);
                 break;
             default:

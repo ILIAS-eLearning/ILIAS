@@ -151,6 +151,39 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
         $this->getTabs();
     }
 
+    protected function addAdminLocatorItems(bool $do_not_add_object = false): void
+    {
+        parent::addAdminLocatorItems(true);
+
+        $this->ctrl->setParameterByClass(
+            strtolower(ilObjTalkTemplateAdministrationGUI::class),
+            'ref_id',
+            ilObjTalkTemplateAdministration::getRootRefId()
+        );
+        $this->locator->addItem(
+            $this->lng->txt('obj_tala'),
+            $this->ctrl->getLinkTargetByClass(
+                ilObjTalkTemplateAdministrationGUI::class,
+                ControlFlowCommand::INDEX
+            )
+        );
+        $this->ctrl->clearParameterByClass(
+            strtolower(ilObjTalkTemplateAdministrationGUI::class),
+            'ref_id'
+        );
+
+        $this->locator->addItem(
+            ilObject::_lookupTitle(
+                ilObject::_lookupObjId($this->object->getRefId())
+            ),
+            $this->ctrl->getLinkTargetByClass([
+                strtolower(ilAdministrationGUI::class),
+                strtolower(ilObjTalkTemplateAdministrationGUI::class),
+                strtolower(self::class),
+            ], ControlFlowCommand::INDEX)
+        );
+    }
+
     private function initMetaDataForm(ilPropertyFormGUI $form): ilAdvancedMDRecordGUI
     {
         $md = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_REC_SELECTION, $this->object->getType(), $this->object->getId(), "etal");
