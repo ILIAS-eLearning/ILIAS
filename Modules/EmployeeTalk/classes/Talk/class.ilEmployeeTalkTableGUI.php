@@ -171,7 +171,7 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
         $this->tpl->setVariable("HREF_ETAL_TITLE", $url);
         $this->tpl->setVariable("VAL_ETAL_TITLE", $a_set['etal_title']);
         $this->tpl->setVariable("VAL_ETAL_TEMPLATE", $a_set['etal_template']);
-        $this->tpl->setVariable("VAL_ETAL_DATE", $a_set['etal_date']);
+        $this->tpl->setVariable("VAL_ETAL_DATE", ilDatePresentation::formatDate($a_set['etal_date']));
         $this->tpl->setVariable("VAL_ETAL_SUPERIOR", $a_set['etal_superior']);
         $this->tpl->setVariable("VAL_ETAL_EMPLOYEE", $a_set['etal_employee']);
         $this->tpl->setVariable("VAL_ETAL_STATUS", $a_set['etal_status']);
@@ -251,7 +251,7 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
                 "ref_id" => $talk->getRefId(),
                 "etal_title" => $talk->getTitle(),
                 "etal_template" => $parent->getTitle(),
-                "etal_date" => ilDatePresentation::formatDate($talkData->getStartDate()),
+                "etal_date" => $talkData->getStartDate(),
                 "etal_superior" => $superiorName,
                 "etal_employee" => $employeeName,
                 "etal_status" => $talkData->isCompleted() ? $this->language->txt('etal_status_completed') : $this->language->txt('etal_status_pending'),
