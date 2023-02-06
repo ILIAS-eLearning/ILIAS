@@ -56,4 +56,9 @@ class InternalDomainService
     {
         return new Xsl\XslManager();
     }
+
+    public function domUtil(): Dom\DomUtil
+    {
+        return new Dom\DomUtil();
+    }
 }
