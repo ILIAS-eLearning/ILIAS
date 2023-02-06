@@ -26,7 +26,7 @@ use ILIAS\StudyProgramme\Assignment\Zipper;
  */
 trait ilPRGAssignmentActions
 {
-    abstract public function getProgressSuccessNotification(): \Closure;
+    abstract public function getEvents(): StudyProgrammeEvents;
 
     protected function getProgressIdString(int $node_id): string
     {
@@ -81,18 +81,6 @@ trait ilPRGAssignmentActions
         return null;
     }
 
-    protected function notifyProgressSuccess(ilPRGProgress $pgs): void
-    {
-        $eventnote = $this->getProgressSuccessNotification();
-        $eventnote($this, $pgs->getNodeId());
-    }
-    protected function notifyProgressLPStatus(ilPRGProgress $pgs): void
-    {
-        $eventnote = $this->getProgressStatusNotification();
-        $eventnote($this, $pgs->getNodeId());
-    }
-
-
     protected function recalculateProgressStatus(
         ilStudyProgrammeSettingsRepository $settings_repo,
         ilPRGProgress $progress
@@ -115,6 +103,8 @@ trait ilPRGAssignmentActions
         }
 
         $progress = $progress->withCurrentAmountOfPoints($achieved_points);
+        $this->notifyScoreChange($progress);
+
         $required_points = $progress->getAmountOfPoints();
         $successful = ($achieved_points >= $required_points);
 
@@ -124,7 +114,6 @@ trait ilPRGAssignmentActions
                 ->withCompletion($completing_crs_id, $this->getNow());
 
             $this->notifyProgressSuccess($progress);
-            $this->notifyProgressLPStatus($progress);
         }
 
         if (!$successful && $progress->isSuccessful()
@@ -135,7 +124,8 @@ trait ilPRGAssignmentActions
                 ->withCompletion(null, null)
                 ->withValidityOfQualification(null);
 
-            $this->notifyProgressLPStatus($progress);
+            $this->notifyValidityChange($progress);
+            $this->notifyProgressRevertSuccess($progress);
         }
 
         return $progress;
@@ -183,6 +173,7 @@ trait ilPRGAssignmentActions
         }
 
         $validity = is_null($date) || $date->format(ilPRGProgress::DATE_FORMAT) >= $this->getNow()->format(ilPRGProgress::DATE_FORMAT);
+        $this->notifyValidityChange($progress);
         return $progress->withValidityOfQualification($date)
             ->withInvalidated(!$validity);
     }
@@ -214,7 +205,6 @@ trait ilPRGAssignmentActions
         if (!$active && $pgs->isInProgress()) {
             $pgs = $pgs->withStatus(ilPRGProgress::STATUS_NOT_RELEVANT);
         }
-        $this->notifyProgressLPStatus($pgs);
         return $pgs;
     }
 
@@ -241,6 +231,7 @@ trait ilPRGAssignmentActions
                     && $deadline->format($format) < $today->format($format)
                 ) {
                     $progress = $progress->markFailed($this->getNow(), $acting_usr_id);
+                    $this->notifyProgressRevertSuccess($progress);
                 } else {
                     $node_settings = $settings_repo->get($progress->getNodeId());
                     $completion_mode = $node_settings->getLPMode();
@@ -255,6 +246,7 @@ trait ilPRGAssignmentActions
                     || $deadline->format($format) >= $today->format($format)
                 ) {
                     $progress = $progress->markNotFailed($this->getNow(), $acting_usr_id);
+                    $this->notifyProgressRevertSuccess($progress);
                 }
                 break;
         }
@@ -276,6 +268,7 @@ trait ilPRGAssignmentActions
             $pgs = $pgs
                 ->withValidityOfQualification(null)
                 ->withDeadline(null);
+            $this->notifyValidityChange($pgs);
         }
 
         $pgs = $pgs
@@ -285,6 +278,7 @@ trait ilPRGAssignmentActions
 
         if ($pgs->isSuccessful()) {
             $pgs = $pgs->withCurrentAmountOfPoints($pgs->getAmountOfPoints());
+            $this->notifyScoreChange($pgs);
         }
 
         return $pgs;
@@ -299,6 +293,23 @@ trait ilPRGAssignmentActions
         $progress_path = $this->getProgressForNode($node_id)->getPath();
         $zipper = new Zipper($this->getProgressTree());
         return $zipper = $zipper->toPath($progress_path);
+    }
+
+    protected function notifyProgressSuccess(ilPRGProgress $pgs): void
+    {
+        $this->getEvents()->userSuccessful($this, $pgs->getNodeId());
+    }
+    protected function notifyValidityChange(ilPRGProgress $pgs): void
+    {
+        $this->getEvents()->validityChange($this, $pgs->getNodeId());
+    }
+    protected function notifyScoreChange(ilPRGProgress $pgs): void
+    {
+        $this->getEvents()->scoreChange($this, $pgs->getNodeId());
+    }
+    protected function notifyProgressRevertSuccess(ilPRGProgress $pgs): void
+    {
+        $this->getEvents()->userRevertSuccessful($this, $pgs->getNodeId());
     }
 
     public function initAssignmentDates(): self
@@ -406,6 +417,7 @@ trait ilPRGAssignmentActions
                 $pgs = $pgs
                     ->markAccredited($this->getNow(), $acting_usr_id)
                     ->withCurrentAmountOfPoints($pgs->getAmountOfPoints());
+                $this->notifyScoreChange($pgs);
 
                 if (!$pgs->getValidityOfQualification()) {
                     $settings = $settings_repo->get($pgs->getNodeId())->getValidityOfQualificationSettings();
@@ -413,7 +425,6 @@ trait ilPRGAssignmentActions
                 }
 
                 $this->notifyProgressSuccess($pgs);
-                $this->notifyProgressLPStatus($pgs);
                 $err_collection->add(true, 'status_changed', $this->getProgressIdString($pgs->getNodeId()));
                 return $pgs;
             }
@@ -455,15 +466,16 @@ trait ilPRGAssignmentActions
                 $pgs = $pgs
                     ->unmarkAccredited($this->getNow(), $acting_usr_id)
                     ->withCurrentAmountOfPoints($pgs->getAchievedPointsOfChildren());
+                $this->notifyScoreChange($pgs);
 
                 $old_status = $pgs->getStatus();
                 $pgs = $this->applyProgressDeadline($settings_repo, $pgs, $acting_usr_id);
                 if ($pgs->getStatus() !== $old_status) {
                     $err_collection->add(false, 'status_changed_due_to_deadline', $this->getProgressIdString($pgs->getNodeId()));
-                    $this->notifyProgressLPStatus($pgs);
                 } else {
                     $err_collection->add(true, 'status_changed', $this->getProgressIdString($pgs->getNodeId()));
                 }
+                $this->notifyProgressRevertSuccess($pgs);
                 return $pgs;
             }
         );
@@ -515,11 +527,13 @@ trait ilPRGAssignmentActions
                 ) {
                     $pgs = $pgs->succeed($now, $triggering_obj_id)
                         ->withCurrentAmountOfPoints($pgs->getAmountOfPoints());
+                    $this->notifyScoreChange($pgs);
 
                     $settings = $settings_repo->get($pgs->getNodeId());
                     $pgs = $this->updateProgressValidityFromSettings($settings->getValidityOfQualificationSettings(), $pgs);
                 }
 
+                $this->notifyProgressSuccess($pgs);
                 return $pgs;
             }
         );
@@ -531,7 +545,6 @@ trait ilPRGAssignmentActions
 
     public function markProgressesFailedForExpiredDeadline(
         ilStudyProgrammeSettingsRepository $settings_repo,
-        ilLPStatusWrapper $LPStatusWrapper,
         int $acting_usr_id
     ): self {
         $zipper = $this->getZipper($this->getRootId());
@@ -539,7 +552,7 @@ trait ilPRGAssignmentActions
 
         $deadline = $this->getNow();
         $zipper = $zipper->modifyAll(
-            function ($pgs) use ($acting_usr_id, $deadline, $LPStatusWrapper, &$touched): ilPRGProgress {
+            function ($pgs) use ($acting_usr_id, $deadline, &$touched): ilPRGProgress {
                 if (is_null($pgs->getDeadline())
                     || !$pgs->isInProgress()
                     || $pgs->getDeadline()->format(ilPRGProgress::DATE_FORMAT) >= $deadline->format(ilPRGProgress::DATE_FORMAT)
@@ -548,7 +561,7 @@ trait ilPRGAssignmentActions
                 }
 
                 $touched[] = $pgs->getPath();
-                $LPStatusWrapper::_updateStatus($pgs->getNodeId(), $this->getUserId());
+                $this->notifyProgressRevertSuccess($pgs);
                 return $pgs->markFailed($this->getNow(), $acting_usr_id);
             }
         );
@@ -615,6 +628,7 @@ trait ilPRGAssignmentActions
                     ->withIndividualModifications(true)
                     ->withInvalidated(!$validity);
 
+                $this->notifyValidityChange($pgs);
                 $err_collection->add(true, 'validity_updated', $this->getProgressIdString($pgs->getNodeId()));
                 return $pgs;
             }
@@ -655,8 +669,6 @@ trait ilPRGAssignmentActions
         $zipper = $this->updateParentProgresses($settings_repo, $zipper);
         return $this->withProgressTree($zipper->getRoot());
     }
-
-
 
     public function invalidate(
         ilStudyProgrammeSettingsRepository $settings_repo

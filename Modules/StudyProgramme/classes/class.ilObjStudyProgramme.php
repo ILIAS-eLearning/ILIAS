@@ -996,6 +996,22 @@ class ilObjStudyProgramme extends ilContainer
         return $this;
     }
 
+
+    public function getSpecificAssignment(int $assignment_id): ilPRGAssignment
+    {
+        return $this->assignment_repository->get($assignment_id);
+    }
+
+    public function storeExpiryInfoSentFor(ilPRGAssignment $ass): void
+    {
+        $this->assignment_repository->storeExpiryInfoSentFor($ass);
+    }
+
+    public function storeRiskyToFailSentFor(ilPRGAssignment $ass): void
+    {
+        $this->assignment_repository->storeRiskyToFailSentFor($ass);
+    }
+
     /**
      * Check whether user is assigned to this program or any node above.
      */

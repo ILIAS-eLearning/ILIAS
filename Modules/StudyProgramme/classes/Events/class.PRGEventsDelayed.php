@@ -36,9 +36,14 @@ class PRGEventsDelayed implements StudyProgrammeEvents
 
     public function raiseCollected(): void
     {
+        $accounted_for = [];
         foreach (array_filter($this->events) as $entry) {
             list($event, $parameter) = $entry;
-            $this->prg_events->raise($event, $parameter);
+            $k = $event . print_r($parameter, true);
+            if (!array_key_exists($k, $accounted_for)) {
+                $accounted_for[$k] = true;
+                $this->prg_events->raise($event, $parameter);
+            }
         }
         $this->events[] = [];
     }
@@ -55,7 +60,8 @@ class PRGEventsDelayed implements StudyProgrammeEvents
     public function userReAssigned(ilPRGAssignment $assignment): void
     {
         $this->collect(self::EVENT_USER_REASSIGNED, [
-            "ass_id" => $assignment->getId()
+            "ass_id" => $assignment->getId(),
+            "root_prg_id" => (int) $assignment->getRootId()
         ]);
     }
 
@@ -72,14 +78,16 @@ class PRGEventsDelayed implements StudyProgrammeEvents
     public function informUserByMailToRestart(ilPRGAssignment $assignment): void
     {
         $this->collect(self::EVENT_USER_TO_RESTART, [
-            "ass_id" => (int) $assignment->getId()
+            "ass_id" => (int) $assignment->getId(),
+            "root_prg_id" => (int) $assignment->getRootId()
         ]);
     }
 
     public function userRiskyToFail(ilPRGAssignment $assignment): void
     {
         $this->collect(self::EVENT_USER_ABOUT_TO_FAIL, [
-            "ass_id" => (int) $assignment->getId()
+            "ass_id" => (int) $assignment->getId(),
+            "root_prg_id" => (int) $assignment->getRootId()
         ]);
     }
 
@@ -93,11 +101,32 @@ class PRGEventsDelayed implements StudyProgrammeEvents
         ]);
     }
 
-    public function userLPStatusChange(ilPRGAssignment $assignment, int $pgs_node_id): void
+    public function validityChange(ilPRGAssignment $assignment, int $pgs_node_id): void
     {
-        $this->collect(self::EVENT_USER_LP_STATUS_CHANGE, [
-            "usr_id" => $assignment->getUserId(),
-            "prg_id" => $pgs_node_id
+        $this->collect(self::EVENT_VALIDITY_CHANGE, [
+            "ass_id" => $assignment->getId(),
+            "root_prg_id" => $assignment->getRootId(),
+            "prg_id" => $pgs_node_id,
+            "usr_id" => $assignment->getUserId()
+        ]);
+    }
+    public function scoreChange(ilPRGAssignment $assignment, int $pgs_node_id): void
+    {
+        $this->collect(self::EVENT_SCORE_CHANGE, [
+            "ass_id" => $assignment->getId(),
+            "root_prg_id" => $assignment->getRootId(),
+            "prg_id" => $pgs_node_id,
+            "usr_id" => $assignment->getUserId()
+        ]);
+    }
+
+    public function userRevertSuccessful(ilPRGAssignment $assignment, int $pgs_node_id): void
+    {
+        $this->collect(self::EVENT_USER_NOT_SUCCESSFUL, [
+            "ass_id" => $assignment->getId(),
+            "root_prg_id" => $assignment->getRootId(),
+            "prg_id" => $pgs_node_id,
+            "usr_id" => $assignment->getUserId()
         ]);
     }
 }

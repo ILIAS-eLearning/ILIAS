@@ -141,18 +141,7 @@ class ilStudyProgrammeAppEventListener
                         break;
                 }
                 break;
-            case "Modules/StudyProgramme":
-                switch ($event) {
-                    case "userReAssigned":
-                        self::sendReAssignedMail($parameter);
-                        break;
-                    case 'informUserToRestart':
-                        self::sendInformToReAssignMail($parameter);
-                        break;
-                    case 'userRiskyToFail':
-                        self::sendRiskyToFailMail($parameter);
-                }
-                break;
+
             default:
                 throw new ilException(
                     "ilStudyProgrammeAppEventListener::handleEvent: Won't handle events of '$component'."
@@ -306,26 +295,5 @@ class ilStudyProgrammeAppEventListener
         }
 
         ilObjStudyProgramme::removeMemberFromProgrammes($src_type, $id, $usr_id);
-    }
-
-    private static function sendReAssignedMail(array $params): void
-    {
-        $dic = ilStudyProgrammeDIC::dic();
-        $dic['mail']->sendReAssignedMail($params['ass_id']);
-    }
-
-    private static function sendInformToReAssignMail(array $params): void
-    {
-        $dic = ilStudyProgrammeDIC::dic();
-        $dic['mail']->sendInformToReAssignMail($params['ass_id']);
-    }
-
-    /**
-     * @throws ilException
-     */
-    private static function sendRiskyToFailMail(array $params): void
-    {
-        $dic = ilStudyProgrammeDIC::dic();
-        $dic['mail']->sendRiskyToFailMail($params['ass_id']);
     }
 }
