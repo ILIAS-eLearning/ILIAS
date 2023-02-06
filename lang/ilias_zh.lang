@@ -1137,7 +1137,7 @@ assessment#:#rectangle_click_tl_corner#:#请点击所需区域的左上角。
 assessment#:#redirectAfterSave#:#已到达最大测试时间，您的最后一个题目已经被自动保存。几秒钟后您的浏览器将被重定向……
 assessment#:#redirect_after_finishing_rule#:#Redirect###27 01 2015 new variable
 assessment#:#redirect_after_finishing_tst#:#Redirect after finishing the test###24 10 2013 new variable
-assessment#:#redirect_after_finishing_tst_desc#:#After completion of test each participant is automatically redirected to a defined webpage. This is only valid if the participants have no access to their test results.###27 01 2015 new variable
+assessment#:#redirect_after_finishing_tst_desc#:#After completing the test, each participant is automatically redirected to a specific webpage of your choosing. This will only happen if participants do not have direct access to their test results. When entering the address of an external webpage, use the complete URL (including ‘https://’). When redirecting to an Object in ILIAS, use the permalink that can be found in the footer of the Object in question.###27 01 2015 new variable
 assessment#:#redirect_always#:#always to defined webpage###27 01 2015 new variable
 assessment#:#redirect_in_kiosk_mode#:#Redirect only in kiosk mode###24 10 2013 new variable
 assessment#:#redirection_url#:#Redirection target###24 10 2013 new variable

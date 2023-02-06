@@ -1138,7 +1138,7 @@ assessment#:#rectangle_click_tl_corner#:#Palun klikka soovitud ala ülemises vas
 assessment#:#redirectAfterSave#:#Maksimaalne tööaeg on saavutatud ja sinu viimane küsimus on salvestatud automaatselt. Mõne sekundi pärast suunatakse sind edasi...
 assessment#:#redirect_after_finishing_rule#:#Redirect
 assessment#:#redirect_after_finishing_tst#:#Redirect after finishing the test
-assessment#:#redirect_after_finishing_tst_desc#:#After completion of test each participant is automatically redirected to a defined webpage. This is only valid if the participants have no access to their test results.
+assessment#:#redirect_after_finishing_tst_desc#:#After completing the test, each participant is automatically redirected to a specific webpage of your choosing. This will only happen if participants do not have direct access to their test results. When entering the address of an external webpage, use the complete URL (including ‘https://’). When redirecting to an Object in ILIAS, use the permalink that can be found in the footer of the Object in question.
 assessment#:#redirect_always#:#always to defined webpage
 assessment#:#redirect_in_kiosk_mode#:#Redirect only in kiosk mode
 assessment#:#redirection_url#:#Redirection target
