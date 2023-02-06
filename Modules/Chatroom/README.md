@@ -44,7 +44,7 @@ The latest version can be downloaded at the following URL: https://github.com/no
 
 In addition, [here](https://github.com/nodesource/distributions#deb "here") is an installation guide for the respective Unix-based operating system.
 
-The basic configuration is done within ILIAS in the section `Administration / Chat`. After the server and client settings have been saved, the configuration files `server.cfg` and` client.cfg` are stored in the external ILIAS data directory in the subdirectory `chatroom`. These files MUST be passed to start the Chat Server (see [Server Configuration](#Server Configuration)).
+The basic configuration is done within ILIAS in the section `Administration / Repository and Objects / Chat Room`. After the server and client settings have been saved, the configuration files `server.cfg` and` client.cfg` are stored in the external ILIAS data directory in the subdirectory `chatroom`. These files MUST be passed to start the Chat Server (see [Server Configuration](#Server Configuration)).
 
 ![](./docu/images/view-clientsettings_en.PNG)
 
