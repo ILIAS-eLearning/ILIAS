@@ -16328,3 +16328,4 @@ cmix#:#no_substatements_label#:#Do not store substatements
 cmix#:#no_substatements_info#:#With this option - which is only available for the ILIAS LRS proxy - the storage of subordinate statements can be suppressed. This can for example affect the answering of single tasks in a test. The content is informed that the statements would have been saved.
 exc#:#exc_fullscreen#:#Fullscreen
 tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.
+auth#:#auth_oidc_failed#:#Login via OpenID Connect failed
