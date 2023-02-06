@@ -353,7 +353,7 @@ class ilTestServiceGUI
                             $template->parseCurrentBlock();
 
                             $template->setCurrentBlock('back_anchor');
-                            $template->setVariable('HREF_BACK_ANCHOR', "#tst_results_toolbar");
+                            $template->setVariable('HREF_BACK_ANCHOR', "#pass_details_tbl_row_act_{$active_id}_qst_{$question_id}");
                             $template->setVariable('TXT_BACK_ANCHOR', $this->lng->txt('tst_back_to_question_list'));
                             $template->parseCurrentBlock();
                         }
