@@ -17,6 +17,8 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
      */
     private $settings = null;
 
+    private $lng = null;
+
 
     /**
      * ilAuthProviderOpenIdConnect constructor.
@@ -24,8 +26,10 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
      */
     public function __construct(ilAuthCredentials $credentials)
     {
+        global $DIC;
         parent::__construct($credentials);
         $this->settings = ilOpenIdConnectSettings::getInstance();
+        $this->lng = $DIC->language();
     }
 
     /**
@@ -112,7 +116,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
             $this->getLogger()->warning($e->getMessage());
             $this->getLogger()->warning($e->getCode());
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
-            $status->setTranslatedReason($e->getMessage());
+            $status->setTranslatedReason($this->lng->txt("auth_oidc_failed"));
             return false;
         }
     }
