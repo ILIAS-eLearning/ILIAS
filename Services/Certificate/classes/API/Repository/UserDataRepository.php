@@ -77,6 +77,10 @@ FROM
 
         $query = $this->database->query($sql);
 
+        if ([] !== $ilCtrlStack) {
+            $ilCtrlStack[] = ilUserCertificateApiGUI::class;
+        }
+
         $result = [];
         while ($row = $this->database->fetchAssoc($query)) {
             $id = (int) $row['id'];
@@ -88,7 +92,6 @@ FROM
 
             $link = '';
             if ([] !== $ilCtrlStack) {
-                $ilCtrlStack[] = ilUserCertificateApiGUI::class;
                 $this->ctrl->setParameterByClass(ilUserCertificateApiGUI::class, 'certificate_id', $id);
                 $link = $this->ctrl->getLinkTargetByClass($ilCtrlStack, ilUserCertificateApiGUI::CMD_DOWNLOAD);
                 $this->ctrl->clearParametersByClass(ilUserCertificateApiGUI::class);
