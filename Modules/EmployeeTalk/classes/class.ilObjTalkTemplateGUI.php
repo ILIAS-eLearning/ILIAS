@@ -78,6 +78,29 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
     public function viewObject(): void
     {
         $this->tabs_gui->activateTab('view_content');
+
+        $form = new ilPropertyFormGUI();
+        $md = new ilAdvancedMDRecordGUI(
+            ilAdvancedMDRecordGUI::MODE_EDITOR,
+            $this->object->getType(),
+            $this->object->getId(),
+            'etal'
+        );
+        $md->setPropertyForm($form);
+        $md->parse();
+
+        foreach ($form->getInputItemsRecursive() as $item) {
+            if ($item instanceof ilCombinationInputGUI) {
+                $item->__call('setValue', ['']);
+                $item->__call('setDisabled', [true]);
+            }
+            if (method_exists($item, 'setDisabled')) {
+                /** @var $item ilFormPropertyGUI */
+                $item->setDisabled(true);
+            }
+        }
+
+        $this->tpl->setContent($form->getHTML());
     }
 
     protected function initEditCustomForm(ilPropertyFormGUI $a_form): void
