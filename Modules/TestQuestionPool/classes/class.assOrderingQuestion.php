@@ -212,13 +212,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     *
     * @access public
     */
-    public function duplicate(
-        bool $for_test = true,
-        ?string $title = "",
-        ?string $author = "",
-        ?string $owner = "",
-        $testObjId = null
-    ): int {
+    public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null) {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
             return;
