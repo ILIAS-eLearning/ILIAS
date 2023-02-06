@@ -16,7 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -27,9 +27,9 @@ jobs:
           coverage: none
 
       - name: Install dependencies
-        run: composer update && composer install --no-interaction --no-progress
+        run: composer install --no-interaction --no-progress
 
-      - name: PHP Unit Test 
+      - name: PHP Unit Test
         run: CI/PHPUnit/run_tests.sh
         env:
           GHRUN: "yes"
