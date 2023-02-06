@@ -1998,6 +1998,23 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				AND pass > ' . $ilDB->quote($pass, 'integer')
                 );
         }
+
+        // qpl_hint_tracking
+        $ilDB->manipulate(
+            'DELETE
+				FROM qpl_hint_tracking
+				WHERE qhtr_active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
+				AND qhtr_pass = ' . $ilDB->quote($pass, 'integer')
+            );
+
+        if ($must_renumber) {
+            $ilDB->manipulate(
+                'UPDATE qpl_hint_tracking
+				SET qhtr_pass = qhtr_pass - 1
+				WHERE qhtr_active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
+				AND qhtr_pass > ' . $ilDB->quote($pass, 'integer')
+                );
+        }
             
         // tst_test_rnd_qst -> nothing to do
             
