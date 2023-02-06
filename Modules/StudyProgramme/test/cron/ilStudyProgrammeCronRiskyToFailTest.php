@@ -144,8 +144,8 @@ class ilStudyProgrammeCronRiskyToFailTest extends TestCase
 
         $this->assertEquals(2, count($job->logs));
         $expected_events = [
-            ['userRiskyToFail', ["ass_id" => 42]],
-            ['userRiskyToFail', ["ass_id" => 43]],
+            ['userRiskyToFail', ["ass_id" => 42, 'root_prg_id' => 11]],
+            ['userRiskyToFail', ["ass_id" => 43, 'root_prg_id' => 11]]
         ];
         $this->assertEquals($expected_events, $this->events->raised);
     }
