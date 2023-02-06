@@ -264,11 +264,11 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
         }
         $this->tpl->parseCurrentBlock();
 
-        if ($item["obj_type_txt"] != "") {
+        if (($item["obj_type_txt"] ?? "") != "") {
             $this->tpl->setVariable("VAL_TYPE", $item["obj_type_txt"]);
         }
 
-        if ($usage["type"] != "clip") {
+        if (($usage["type"] ?? "") != "clip") {
             if ($item["obj_link"]) {
                 $this->tpl->setCurrentBlock("linked_item");
                 $this->tpl->setVariable("TXT_OBJECT", $item["obj_title"]);
