@@ -896,7 +896,7 @@ class ilObjectGUI
 
     public function callCreationCallback(ilObject $obj): void
     {
-        $objDefinition = $this->objDefinition;
+        $objDefinition = $this->obj_definition;
         // use forced callback after object creation
         if ($this->requested_crtcb) {
             $callback_type = ilObject::_lookupType((int) $this->requested_crtcb, true);
