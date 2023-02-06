@@ -1,5 +1,11 @@
 # Roadmap
 
+## Without Priority
+
+The following issues are mostly usability issues, that could be tackled as part of the ongoing PER project.
+- Action to edit translations is hard to find: https://mantis.ilias.de/view.php?id=33957
+
+
 ## Short Term
 
 ### Remove dependency to include/inc.xml5compliance.php
