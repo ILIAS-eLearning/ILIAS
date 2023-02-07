@@ -566,7 +566,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         } else {
             $this->object->setIsSingleline($_POST["types"] == 0 ? true : false);
         }
-        $this->object->setThumbSize((strlen($_POST["thumb_size"])) ? $_POST["thumb_size"] : "");
+        $this->object->setThumbSize((isset($_POST["thumb_size"]) && strlen($_POST["thumb_size"])) ? $_POST["thumb_size"] : "");
     }
 
     public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form): ilPropertyFormGUI
