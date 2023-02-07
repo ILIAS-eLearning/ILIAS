@@ -206,6 +206,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $ru->deleteObjects($this->requested_ref_id, $refIds);
         $trashEnabled = boolval($this->container->settings()->get('enable_trash'));
 
+        $this->sendNotification($talks);
         if ($trashEnabled) {
             foreach ($talks as $talk) {
                 $talk->delete();
@@ -213,8 +214,6 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         }
 
         ilSession::clear("saved_post");
-
-        $this->sendNotification($talks);
 
         $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class), ControlFlowCommand::DEFAULT, "", false);
     }

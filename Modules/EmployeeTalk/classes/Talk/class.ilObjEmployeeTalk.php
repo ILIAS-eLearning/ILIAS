@@ -211,9 +211,17 @@ final class ilObjEmployeeTalk extends ilObject
         );
 
         $this->repository->delete($this->getData());
-        $nodeData = $this->tree->getNodeData($this->getRefId());
+        $nodeData = $this->tree->getNodeData(
+            $this->getRefId(),
+            (-1) * $this->getRefId()
+        );
         $result = parent::delete();
-        $this->tree->deleteNode(intval($nodeData['tree']), intval($nodeData['child']));
+        if ((int) $nodeData['child'] === $this->getRefId()) {
+            $this->tree->deleteNode(
+                (-1) * $this->getRefId(),
+                $this->getRefId()
+            );
+        }
 
         return $result;
     }
