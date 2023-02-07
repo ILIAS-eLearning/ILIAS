@@ -246,10 +246,12 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
 
         $message = new EmployeeTalkEmailNotification(
             $talk_ref_id,
+            $talk_title,
             'notification_talks_subject_update',
             'notification_talks_removed',
             $superiorName,
-            $dates
+            $dates,
+            false
         );
 
         // Check if we deleted the last talk of the series
@@ -306,6 +308,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
 
         $message = new EmployeeTalkEmailNotification(
             $talk_ref_id,
+            $talk_title,
             'notification_talks_subject_update',
             'notification_talks_updated',
             $superiorName,

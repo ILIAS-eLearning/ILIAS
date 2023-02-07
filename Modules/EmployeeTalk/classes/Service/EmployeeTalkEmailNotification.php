@@ -23,6 +23,7 @@ namespace ILIAS\EmployeeTalk\Service;
 final class EmployeeTalkEmailNotification
 {
     private int $talk_ref_id;
+    private string $talk_name;
     private string $subject_key;
     private string $message_key;
     private string $superior_name;
@@ -30,31 +31,43 @@ final class EmployeeTalkEmailNotification
      * @var string[] $dates
      */
     private array $dates;
+    private bool $add_goto;
 
     /**
-     * @param int       $talk_ref_id
-     * @param string    $subject_key
-     * @param string    $message_key
-     * @param string    $superior_name
-     * @param string[]  $dates
+     * @param int      $talk_ref_id
+     * @param string   $talk_name
+     * @param string   $subject_key
+     * @param string   $message_key
+     * @param string   $superior_name
+     * @param string[] $dates
+     * @param bool     $add_goto
      */
     public function __construct(
         int $talk_ref_id,
+        string $talk_name,
         string $subject_key,
         string $message_key,
         string $superior_name,
-        array $dates
+        array $dates,
+        bool $add_goto = true
     ) {
         $this->talk_ref_id = $talk_ref_id;
+        $this->talk_name = $talk_name;
         $this->subject_key = $subject_key;
         $this->message_key = $message_key;
         $this->superior_name = $superior_name;
         $this->dates = $dates;
+        $this->add_goto = $add_goto;
     }
 
     public function getTalkRefId(): int
     {
         return $this->talk_ref_id;
+    }
+
+    public function getTalkName(): string
+    {
+        return $this->talk_name;
     }
 
     public function getSubjectLangKey(): string
@@ -78,5 +91,10 @@ final class EmployeeTalkEmailNotification
     public function getDates(): array
     {
         return $this->dates;
+    }
+
+    public function getAddGoto(): bool
+    {
+        return $this->add_goto;
     }
 }
