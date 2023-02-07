@@ -5981,6 +5981,7 @@ cont#:#cont_filter_fields#:#Filter Fields
 cont#:#cont_filter_record#:#Record
 cont#:#cont_found_objects#:#Found Objects
 cont#:#cont_item_list#:#List
+cont#:#cont_item_list_info#:#Display content objects in a list.
 cont#:#cont_list_presentation#:#Item Presentation
 cont#:#cont_mem_skills#:#Competences
 cont#:#cont_news_edited#:#Bearbeitet
@@ -6040,6 +6041,7 @@ cont#:#cont_tile_size_2#:#large (up to three tiles in a row)
 cont#:#cont_tile_size_3#:#extra large (up to two tiles in a row)
 cont#:#cont_tile_size_4#:#full (one tile in a row)
 cont#:#cont_tile_view#:#Tiles
+cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.
 contact#:#contact_awrn_ap_contacts#:#Approved Contacts
 contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.
 contact#:#contact_awrn_req_contacts#:#Contact Requests
@@ -12216,7 +12218,7 @@ obj#:#obj_show_header_actions#:#Show Header Actions
 obj#:#obj_show_title_and_icon#:#Show Title and Icon
 obj#:#obj_target_location#:#Target Location
 obj#:#obj_tile_image#:#Tile Image
-obj#:#obj_tile_image_info#:#The tile image will be used, if the container (course, folder, group, ...) activates the tile view presentation. To avoid performance issues, upload files with a resolution of 72dpi and a width less than 1000 px. Otherwise the display of the page will be unnecessarily delayed.
+obj#:#obj_tile_image_info#:#This image will be used as a thumbnail-style image (called a tile) to represent this object in the container (e.g. the category, folder group etc.) in which it is located. The tile is only used if the parent container sets its ‘Item Presentation’ (oder 'Content Display Options' - siehe oben) to ‘Tiles’ (rather than ‘List’). To avoid performance issues, only upload files with a resolution of 72dpi and a width of less than 1000 px.
 obj#:#obj_tool_booking#:#Resources
 obj#:#obj_tool_booking_info#:#Use the booking pools to book resources.
 obj#:#obj_tool_ext_mail_subject_prefix#:#Mail Subject Prefix
