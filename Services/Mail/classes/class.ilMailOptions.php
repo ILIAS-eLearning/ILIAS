@@ -68,9 +68,7 @@ class ilMailOptions
         $this->isCronJobNotificationEnabled = false;
         $this->signature = '';
 
-        if ($this->settings->get('show_mail_settings') === '1') {
-            $this->read();
-        }
+        $this->read();
     }
 
     /**
@@ -111,26 +109,28 @@ class ilMailOptions
         );
         $row = $this->db->fetchObject($res);
         if ($row !== null) {
-            $this->isCronJobNotificationEnabled = (bool) $row->cronjob_notification;
-            $this->signature = (string) $row->signature;
-            $this->linebreak = (int) $row->linebreak;
-            $this->incomingType = (int) $row->incoming_type;
-            $this->emailAddressMode = (int) $row->mail_address_option;
+            if ($this->settings->get('show_mail_settings') === '1') {
+                $this->isCronJobNotificationEnabled = (bool) $row->cronjob_notification;
+                $this->signature = (string) $row->signature;
+                $this->linebreak = (int) $row->linebreak;
+                $this->incomingType = (int) $row->incoming_type;
+                $this->emailAddressMode = (int) $row->mail_address_option;
 
-            if (false === filter_var(
-                $this->incomingType,
-                FILTER_VALIDATE_INT,
-                ['options' => ['min_range' => self::INCOMING_LOCAL, 'max_range' => self::INCOMING_BOTH]]
-            )) {
-                $this->incomingType = self::INCOMING_LOCAL;
-            }
+                if (false === filter_var(
+                        $this->incomingType,
+                        FILTER_VALIDATE_INT,
+                        ['options' => ['min_range' => self::INCOMING_LOCAL, 'max_range' => self::INCOMING_BOTH]]
+                    )) {
+                    $this->incomingType = self::INCOMING_LOCAL;
+                }
 
-            if (false === filter_var(
-                $this->emailAddressMode,
-                FILTER_VALIDATE_INT,
-                ['options' => ['min_range' => self::FIRST_EMAIL, 'max_range' => self::BOTH_EMAIL]]
-            )) {
-                $this->emailAddressMode = self::FIRST_EMAIL;
+                if (false === filter_var(
+                        $this->emailAddressMode,
+                        FILTER_VALIDATE_INT,
+                        ['options' => ['min_range' => self::FIRST_EMAIL, 'max_range' => self::BOTH_EMAIL]]
+                    )) {
+                    $this->emailAddressMode = self::FIRST_EMAIL;
+                }
             }
 
             $this->firstEmailAddress = (string) $row->email;
