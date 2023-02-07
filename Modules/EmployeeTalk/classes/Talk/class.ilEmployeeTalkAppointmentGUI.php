@@ -308,6 +308,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
 
         $message = new EmployeeTalkEmailNotification(
             $talk_ref_id,
+            $talk_title,
             'notification_talks_subject_update',
             'notification_talks_updated',
             $superiorName,

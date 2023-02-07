@@ -59,8 +59,14 @@ final class EmployeeTalkEmailNotificationService
         );
 
         $notif->setRefId($this->message->getTalkRefId());
+        $notif->setObjId(0);
         $notif->setIntroductionLangId($this->message->getMessageLangKey());
         $notif->setGotoLangId('url');
+
+        $notif->addAdditionalInfo(
+            'obj_etal',
+            $this->message->getTalkName()
+        );
 
         $notif->addAdditionalInfo(
             'superior',
@@ -69,8 +75,16 @@ final class EmployeeTalkEmailNotificationService
 
         $notif->addAdditionalInfo(
             'notification_talks_date_list_header',
-            "- " . implode("\r\n- ", $this->message->getDates())
+            "- " . implode("\r\n- ", $this->message->getDates()),
+            true
         );
+
+        if ($this->message->getAddGoto()) {
+            $notif->addAdditionalInfo(
+                'url',
+                $this->getTalkGoto()
+            );
+        }
 
         $attachment_name = 'appointments.ics';
         $attachment->storeAsAttachment(
@@ -99,5 +113,11 @@ final class EmployeeTalkEmailNotificationService
         $message .= "Content-Transfer-Encoding: UTF8\r\n\r\n";
         $message .= $this->calendar->render() . "\r\n";
         return $message;
+    }
+
+    private function getTalkGoto(): string
+    {
+        return ILIAS_HTTP_PATH . '/goto.php?target=etal_' .
+            $this->message->getTalkRefId() . '&client_id=' . CLIENT_ID;
     }
 }

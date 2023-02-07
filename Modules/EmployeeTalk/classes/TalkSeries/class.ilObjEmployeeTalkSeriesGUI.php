@@ -348,6 +348,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 
         $message = new EmployeeTalkEmailNotification(
             $talk_ref_id,
+            $talk_title,
             'notification_talks_subject',
             'notification_talks_created',
             $superiorName,
