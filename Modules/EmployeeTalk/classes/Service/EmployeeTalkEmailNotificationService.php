@@ -102,6 +102,8 @@ final class EmployeeTalkEmailNotificationService
             [$attachment_name]
         );
 
+        $attachment->unlinkFile('appointments.ics');
+
         return true;
     }
 
