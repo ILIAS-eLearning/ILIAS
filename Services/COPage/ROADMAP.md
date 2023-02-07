@@ -1,8 +1,18 @@
 # Roadmap
 
+## Without Priority
+
+The following issues are mostly usability issues, that could be tackled as part of the ongoing PER project.
+- Action to edit translations is hard to find: https://mantis.ilias.de/view.php?id=33957
+
+
 ## Short Term
 
-### Page Editor Refactoring (ILIAS 7, at least partially)
+### Remove dependency to include/inc.xml5compliance.php
+
+Dom handling should be move to internal service, the dependency to include/inc.xml5compliance.php should be removed. More unit tests for dom transformations should be introduced.
+
+### Continue Page Editor Refactoring (started with ILIAS 7)
 
 https://docu.ilias.de/goto_docu_wiki_wpage_6254_1357.html
 
@@ -56,6 +66,8 @@ Cyclomatic Complexity
     Maximum Method Complexity                   114.00
 ...
 ```
+
+## Long Term
 
 ### Integration of new question service
 

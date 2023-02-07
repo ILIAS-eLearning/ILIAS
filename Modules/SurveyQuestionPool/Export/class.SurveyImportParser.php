@@ -509,7 +509,7 @@ class SurveyImportParser extends ilSaxParser
                     // duplicate the question for the survey (if pool is to be used)
                     if (is_object($this->survey) &&
                         $this->spl_id > 0) {
-                        $question_id = $this->activequestion->duplicate(true, "", "", "", $this->survey->getId());
+                        $question_id = $this->activequestion->duplicate(true, "", "", 0, $this->survey->getId());
                     } else {
                         $question_id = $this->activequestion->getId();
                     }

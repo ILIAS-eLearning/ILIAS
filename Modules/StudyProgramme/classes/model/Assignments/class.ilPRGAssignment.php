@@ -53,12 +53,15 @@ class ilPRGAssignment
     protected ilPRGProgress $progress;
     protected ilPRGUserInformation $user_info;
     protected \Closure $progress_success_event_handling;
+    protected \Closure $progress_status_event_handling;
 
     public function __construct(int $id, int $usr_id)
     {
         $this->id = $id;
         $this->usr_id = $usr_id;
         $this->progress_success_event_handling = function (ilPRGAssignment $ass, int $pgs_id) {
+        };
+        $this->progress_status_event_handling = function (ilPRGAssignment $ass, int $pgs_id) {
         };
     }
 
@@ -212,5 +215,17 @@ class ilPRGAssignment
     public function getProgressSuccessNotification(): \Closure
     {
         return $this->progress_success_event_handling;
+    }
+
+    public function withProgressStatusChangeNotification(\Closure $progress_status_event_handling): self
+    {
+        $clone = clone $this;
+        $clone->progress_status_event_handling = $progress_status_event_handling;
+        return $clone;
+    }
+
+    public function getProgressStatusNotification(): \Closure
+    {
+        return $this->progress_status_event_handling;
     }
 }

@@ -64,8 +64,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
 
         $this->setReturnLocation("save", strtolower(ilEmployeeTalkMyStaffListGUI::class));
 
-        // get the standard template
-        //$this->container->ui()->mainTemplate()->loadStandardTemplate();
+        $this->omitLocator();
         $this->container->ui()->mainTemplate()->setTitle($this->container->language()->txt('mst_my_staff'));
         $this->talkAccess = ilObjEmployeeTalkAccess::getInstance();
         $this->repository = new IliasDBEmployeeTalkSeriesRepository($this->user, $this->container->database());
@@ -191,7 +190,8 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
                 "mref_id",
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             );
-            $_SESSION["saved_post"] = array_unique(array_merge($_SESSION["saved_post"], $mref_id));
+            $saved_post = array_unique(array_merge(ilSession::get('saved_post'), $mref_id));
+            ilSession::set('saved_post', $saved_post);
         }
 
         $ru = new ilRepositoryTrashGUI($this);
@@ -224,25 +224,31 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
     private function sendNotification(array $talks): void
     {
         $firstTalk = $talks[0];
-        $talkTitle = $firstTalk->getTitle();
+        $talk_title = $firstTalk->getTitle();
+        $talk_ref_id = $firstTalk->getRefId();
         $superior = new ilObjUser($firstTalk->getOwner());
         $employee = new ilObjUser($firstTalk->getData()->getEmployee());
         $superiorName = $superior->getFullname();
         $series = $firstTalk->getParent();
 
         $dates = [];
+        $add_time = $firstTalk->getData()->isAllDay() ? 0 : 1;
         foreach ($talks as $talk) {
             $data = $talk->getData();
-            $startDate = $data->getStartDate()->get(IL_CAL_DATETIME);
+            $startDate = $data->getStartDate()->get(
+                IL_CAL_FKT_DATE,
+                ilCalendarUtil::getUserDateFormat($add_time, true),
+                $employee->getTimeZone()
+            );
 
             $dates[] = $startDate;
         }
 
         $message = new EmployeeTalkEmailNotification(
-            sprintf($this->lng->txt('notification_talks_removed'), $superiorName),
-            $this->lng->txt('notification_talks_date_list_header'),
-            sprintf($this->lng->txt('notification_talks_talk_title'), $talkTitle),
-            $this->lng->txt('notification_talks_date_details'),
+            $talk_ref_id,
+            'notification_talks_subject_update',
+            'notification_talks_removed',
+            $superiorName,
             $dates
         );
 
@@ -251,7 +257,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         if ($series->hasChildren()) {
             $vCalSender = new EmployeeTalkEmailNotificationService(
                 $message,
-                $talkTitle,
+                $talk_title,
                 $employee,
                 $superior,
                 VCalendarFactory::getInstanceFromTalks($series)
@@ -259,10 +265,10 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         } else {
             $vCalSender = new EmployeeTalkEmailNotificationService(
                 $message,
-                $talkTitle,
+                $talk_title,
                 $employee,
                 $superior,
-                VCalendarFactory::getEmptyInstance($series, $talkTitle)
+                VCalendarFactory::getEmptyInstance($series, $talk_title)
             );
         }
 
@@ -279,30 +285,36 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         }
 
         $firstTalk = $talks[0];
-        $talkTitle = $firstTalk->getTitle();
+        $talk_title = $firstTalk->getTitle();
+        $talk_ref_id = $firstTalk->getRefId();
         $superior = new ilObjUser($firstTalk->getOwner());
         $employee = new ilObjUser($firstTalk->getData()->getEmployee());
         $superiorName = $superior->getFullname();
 
         $dates = [];
+        $add_time = $firstTalk->getData()->isAllDay() ? 0 : 1;
         foreach ($talks as $talk) {
             $data = $talk->getData();
-            $startDate = $data->getStartDate()->get(IL_CAL_DATETIME);
+            $startDate = $data->getStartDate()->get(
+                IL_CAL_FKT_DATE,
+                ilCalendarUtil::getUserDateFormat($add_time, true),
+                $employee->getTimeZone()
+            );
 
             $dates[] = $startDate;
         }
 
         $message = new EmployeeTalkEmailNotification(
-            sprintf($this->lng->txt('notification_talks_updated'), $superiorName),
-            $this->lng->txt('notification_talks_date_details'),
-            sprintf($this->lng->txt('notification_talks_talk_title'), $talkTitle),
-            $this->lng->txt('notification_talks_date_list_header'),
+            $talk_ref_id,
+            'notification_talks_subject_update',
+            'notification_talks_updated',
+            $superiorName,
             $dates
         );
 
         $vCalSender = new EmployeeTalkEmailNotificationService(
             $message,
-            $talkTitle,
+            $talk_title,
             $employee,
             $superior,
             VCalendarFactory::getInstanceFromTalks($firstTalk->getParent())
@@ -327,7 +339,8 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
          */
         $data = $this->object->getData();
 
-        $lng->loadLanguageModule($this->object->getType());
+        $lng->loadLanguageModule('etal');
+        $lng->loadLanguageModule('orgu');
 
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
@@ -503,13 +516,11 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $this->editObject();
     }
 
-    public function getTabs(): void
+    protected function getTabs(): void
     {
         $this->tabs_gui->addTab('view_content', $this->lng->txt("content"), $this->ctrl->getLinkTarget($this, ControlFlowCommand::UPDATE));
         $this->tabs_gui->addTab("info_short", "Info", $this->ctrl->getLinkTargetByClass(strtolower(ilInfoScreenGUI::class), "showSummary"));
         //$this->tabs_gui->addTab('settings', $this->lng->txt("settings"), $this->ctrl->getLinkTarget($this, "edit"));
-
-        parent::getTabs();
     }
 
     /**

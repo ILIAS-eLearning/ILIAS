@@ -59,14 +59,11 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
 
+        if (!$next_class && ($cmd === 'create' || $cmd === 'save')) {
+            $this->setCreationMode();
+        }
 
         switch ($next_class) {
-            case 'ilpermissiongui':
-                parent::prepareOutput();
-                $this->tabs_gui->activateTab('perm_settings');
-                $ilPermissionGUI = new ilPermissionGUI($this);
-                $this->ctrl->forwardCommand($ilPermissionGUI);
-                break;
             case 'ilinfoscreengui':
                 parent::prepareOutput();
                 $this->tabs_gui->activateTab('info_short');
@@ -81,6 +78,29 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
     public function viewObject(): void
     {
         $this->tabs_gui->activateTab('view_content');
+
+        $form = new ilPropertyFormGUI();
+        $md = new ilAdvancedMDRecordGUI(
+            ilAdvancedMDRecordGUI::MODE_EDITOR,
+            $this->object->getType(),
+            $this->object->getId(),
+            'etal'
+        );
+        $md->setPropertyForm($form);
+        $md->parse();
+
+        foreach ($form->getInputItemsRecursive() as $item) {
+            if ($item instanceof ilCombinationInputGUI) {
+                $item->__call('setValue', ['']);
+                $item->__call('setDisabled', [true]);
+            }
+            if (method_exists($item, 'setDisabled')) {
+                /** @var $item ilFormPropertyGUI */
+                $item->setDisabled(true);
+            }
+        }
+
+        $this->tpl->setContent($form->getHTML());
     }
 
     protected function initEditCustomForm(ilPropertyFormGUI $a_form): void
@@ -129,7 +149,7 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
         $this->ctrl->redirectByClass(strtolower(ilInfoScreenGUI::class), "showSummary");
     }
 
-    public function getTabs(): void
+    protected function getTabs(): void
     {
         $read_access_ref_id = $this->rbacsystem->checkAccess('visible,read', $this->object->getRefId());
         if ($read_access_ref_id) {
@@ -140,8 +160,6 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
         if ($this->rbacsystem->checkAccess('write', $this->object->getRefId(), $this->type)) {
             $this->tabs_gui->addTab('settings', $this->lng->txt("settings"), $this->ctrl->getLinkTarget($this, "edit"));
         }
-
-        parent::getTabs();
     }
 
     protected function initCreationForms(string $new_type): array
@@ -154,6 +172,39 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
     public function getAdminTabs(): void
     {
         $this->getTabs();
+    }
+
+    protected function addAdminLocatorItems(bool $do_not_add_object = false): void
+    {
+        parent::addAdminLocatorItems(true);
+
+        $this->ctrl->setParameterByClass(
+            strtolower(ilObjTalkTemplateAdministrationGUI::class),
+            'ref_id',
+            ilObjTalkTemplateAdministration::getRootRefId()
+        );
+        $this->locator->addItem(
+            $this->lng->txt('obj_tala'),
+            $this->ctrl->getLinkTargetByClass(
+                ilObjTalkTemplateAdministrationGUI::class,
+                ControlFlowCommand::INDEX
+            )
+        );
+        $this->ctrl->clearParameterByClass(
+            strtolower(ilObjTalkTemplateAdministrationGUI::class),
+            'ref_id'
+        );
+
+        $this->locator->addItem(
+            ilObject::_lookupTitle(
+                ilObject::_lookupObjId($this->object->getRefId())
+            ),
+            $this->ctrl->getLinkTargetByClass([
+                strtolower(ilAdministrationGUI::class),
+                strtolower(ilObjTalkTemplateAdministrationGUI::class),
+                strtolower(self::class),
+            ], ControlFlowCommand::INDEX)
+        );
     }
 
     private function initMetaDataForm(ilPropertyFormGUI $form): ilAdvancedMDRecordGUI

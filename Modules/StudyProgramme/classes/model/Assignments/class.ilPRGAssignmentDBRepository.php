@@ -63,13 +63,13 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
      * <id => ilPRGProgress>
      */
     protected array $progresses = [];
-    protected ilStudyProgrammeEvents $events;
+    protected StudyProgrammeEvents $events;
 
     public function __construct(
         ilDBInterface $db,
         ilTree $tree,
         ilStudyProgrammeSettingsRepository $settings_repo,
-        ilStudyProgrammeEvents $events
+        PRGEventsDelayed $events
     ) {
         $this->db = $db;
         $this->tree = $tree;
@@ -137,6 +137,8 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
                 $pgs
             );
         }
+
+        $this->events->raiseCollected();
     }
 
     public function delete(ilPRGAssignment $assignment): void
@@ -471,9 +473,15 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
             (int) $row[self::ASSIGNMENT_FIELD_USR_ID]
         );
 
-        $ass = $ass->withProgressSuccessNotification(
-            fn (ilPRGAssignment $ass, int $pgs_id) => $this->events->userSuccessful($ass, $pgs_id)
-        );
+        $ass = $ass
+            ->withProgressSuccessNotification(
+                fn (ilPRGAssignment $ass, int $pgs_id) => $this->events->userSuccessful($ass, $pgs_id)
+            )
+            ->withProgressStatusChangeNotification(
+                fn (ilPRGAssignment $ass, int $pgs_id) => $this->events->userLPStatusChange($ass, $pgs_id)
+            )
+            ;
+
         $ass = $ass
             ->withLastChange(
                 (int) $row[self::ASSIGNMENT_FIELD_LAST_CHANGE_BY],
