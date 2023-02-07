@@ -155,7 +155,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
             $this->deletePendingTalks($parent);
             $this->createRecurringTalks($form, $reoccurrence, $parent);
 
-            ilUtil::sendSuccess($this->language->txt('saved_successfully'), true);
+            $this->template->setOnScreenMessage('success', $this->language->txt('saved_successfully'), true);
         }
 
         $this->controlFlow->redirectToURL(
@@ -560,7 +560,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
     private function loadEtalkData(ilPropertyFormGUI $form): EmployeeTalk
     {
         $data = $this->talk->getData();
-        ['tgl' => $tgl] = $form->getInput('event');
+        $tgl = $form->getInput('event')['tgl'] ?? 0;
 
         /**
          * @var ilDateDurationInputGUI $dateTimeInput
