@@ -1957,6 +1957,7 @@ assessment#:#tst_wf_info_optional_question#:#Diese Frage gehört zu einem bereit
 assessment#:#tst_you_have_to_answer_this_question#:#Diese Frage muss beantwortet werden, um den Test beenden zu können.
 assessment#:#tst_your_answer_was#:#Sie haben die folgende Antwort gegeben
 assessment#:#tst_your_answers#:#Dies sind die Antworten, die Sie zu den folgenden Fragen gegeben haben. Bitte kontrollieren Sie Ihre Antworten und senden Sie diese dann ab.
+assessment#:#tst_current_pass_no_longer_valid#:#Ihr aktueller Test Durchlauf ist nicht mehr gültig. <br>Er wurde wahrscheinlich bereits abgeschlossen oder von einem Tutor beendet.
 assessment#:#un_add_category#:#Kategorie hinzufügen
 assessment#:#un_add_unit#:#Einheit hinzufügen
 assessment#:#un_cat_deletion_errors_f#:#Die folgenden Kategorien können nicht gelöscht werden:
@@ -2008,7 +2009,6 @@ assessment#:#without_solutions_participants#:#Teilnehmer ohne Antworten
 assessment#:#worked_through#:#Bearbeitet
 assessment#:#working_time#:#Bearbeitungsdauer
 assessment#:#you_received_a_of_b_points#:#Sie haben %s von %s möglichen Punkten erreicht.
-assessment#:#tst_current_pass_no_longer_valid#:#Ihr aktueller Test Durchlauf ist nicht mehr gültig. <br>Er wurde wahrscheinlich bereits abgeschlossen oder von einem Tutor beendet.
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr ILIAS-Konto zu reaktivieren, können Sie einen ILIAS-Anmeldekonten-Code benutzen.
 auth#:#auth_account_code_title#:#Anmeldekonten-Code

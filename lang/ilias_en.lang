@@ -1958,6 +1958,7 @@ assessment#:#tst_wf_info_optional_question#:#This question relates to an already
 assessment#:#tst_you_have_to_answer_this_question#:#You have to answer this question to be able to finish the test.
 assessment#:#tst_your_answer_was#:#Your answer was
 assessment#:#tst_your_answers#:#These are your answers given to the following questions.
+assessment#:#tst_current_pass_no_longer_valid#:#Your current Test Pass is no longer valid. <br>It was probably already completed or finished by a Tutor.
 assessment#:#un_add_category#:#Add Category
 assessment#:#un_add_unit#:#Add Unit
 assessment#:#un_cat_deletion_errors_f#:#Cannot delete certain categories:
@@ -2009,7 +2010,6 @@ assessment#:#without_solutions_participants#:#Participants without solutions
 assessment#:#worked_through#:#Worked Through
 assessment#:#working_time#:#Working Time
 assessment#:#you_received_a_of_b_points#:#You received %s of %s possible points
-assessment#:#tst_current_pass_no_longer_valid#:#Your current Test Pass is no longer valid. <br>It was probably already completed or finished by a Tutor.
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#To re-activate your account you can use an ILIAS account code.
 auth#:#auth_account_code_title#:#Account Code
