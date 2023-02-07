@@ -94,6 +94,13 @@ class LevenshteinTest extends TestCase
         $this->assertEquals(2.0, $transformation->transform(496));
     }
 
+    public function testNoMaxEscapeButOverTheLimit()
+    {
+        $transformation = $this->group->levenshtein()->standard("Juni", 2);
+
+        $this->assertEquals(-1, $transformation->transform("Januar"));
+    }
+
     // Numerical
     public function testCustomCostsMixed()
     {
