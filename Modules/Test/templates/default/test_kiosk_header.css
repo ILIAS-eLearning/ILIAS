@@ -1,5 +1,5 @@
  /*
- this is an abomination for release_8! 
+ this is an abomination for release_8!
  proper "kiosk-handling" is _very_ much encouraged for 9.
  */
 
@@ -8,4 +8,12 @@ body .il-layout-page {
 }
 body header .header-inner {
     display:none !important;
+}
+
+body .breadcrumbs {
+    display: none;
+}
+
+main.il-layout-page-content {
+    grid-row: auto;
 }
