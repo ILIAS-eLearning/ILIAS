@@ -18,6 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\HTTP\Services as HttpServices;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\EmployeeTalk\UI\ControlFlowCommandHandler;
 use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
 use ILIAS\Modules\EmployeeTalk\Talk\DAO\EmployeeTalk;
@@ -41,6 +43,8 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
     private ilGlobalTemplateInterface $template;
     private ilLanguage $language;
     private ilCtrl $controlFlow;
+    private HttpServices $http;
+    private Refinery $refinery;
     private ilTabsGUI $tabs;
     private ilObjEmployeeTalk $talk;
 
@@ -56,12 +60,16 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         ilGlobalTemplateInterface $template,
         ilLanguage $language,
         ilCtrl $controlFlow,
+        HttpServices $http,
+        Refinery $refinery,
         ilTabsGUI $tabs,
         ilObjEmployeeTalk $talk
     ) {
         $this->template = $template;
         $this->language = $language;
         $this->controlFlow = $controlFlow;
+        $this->http = $http;
+        $this->refinery = $refinery;
         $this->tabs = $tabs;
         $this->talk = $talk;
 
@@ -71,10 +79,19 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
     public function executeCommand(): void
     {
         $cmd = $this->controlFlow->getCmd(ControlFlowCommand::DEFAULT);
-        $params = $this->controlFlow->getParameterArrayByClass(strtolower(self::class));
+        if ($this->http->wrapper()->query()->has('ref_id')) {
+            $ref_id = $this->http->wrapper()->query()->retrieve(
+                'ref_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        } else {
+            throw new ilEmployeeTalkAppointmentException(
+                'No ref_id found'
+            );
+        }
 
         $backClass = strtolower(ilObjEmployeeTalkGUI::class);
-        $this->controlFlow->setParameterByClass($backClass, 'ref_id', $params['ref_id']);
+        $this->controlFlow->setParameterByClass($backClass, 'ref_id', $ref_id);
         $this->tabs->setBackTarget($this->language->txt('back'), $this->controlFlow->getLinkTargetByClass(strtolower(ilObjEmployeeTalkGUI::class), ControlFlowCommand::DEFAULT));
 
         switch ($this->editMode()) {
@@ -244,7 +261,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
              * @var ilDateDurationInputGUI $dateTimeInput
              */
             $dateTimeInput = $form->getItemByPostVar('event');
-            ['tgl' => $tgl] = $form->getInput('event');
+            $tgl = $form->getInput('event')['tgl'] ?? 0;
             ['start' => $start, 'end' => $end] = $dateTimeInput->getValue();
             if (intval($tgl)) {
                 $start_date = new ilDate($start, IL_CAL_UNIX);

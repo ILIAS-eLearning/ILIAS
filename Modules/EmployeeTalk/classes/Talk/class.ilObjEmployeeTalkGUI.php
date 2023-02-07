@@ -114,6 +114,8 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
                     $this->tpl,
                     $this->lng,
                     $this->ctrl,
+                    $this->container->http(),
+                    $this->container->refinery(),
                     $this->container->tabs(),
                     $this->object
                 );
