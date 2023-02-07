@@ -3392,6 +3392,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 case 'count_system':
                 case 'count_system':
                 case 'pass_scoring':
+                case 'score_cutting':
                     $settings = $settings->withScoringSettings(
                         $settings->getScoringSettings()->$setter(
                             (int) $templateData[$field]['value']
