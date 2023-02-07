@@ -241,7 +241,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         $set = array_pop($a_set);
 
         $propGetter = Closure::bind(function ($prop) {
-            return $this->$prop;
+            return $this->$prop ?? null;
         }, $set, $set);
 
         foreach ($this->getSelectableColumns() as $k => $v) {
