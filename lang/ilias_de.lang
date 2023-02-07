@@ -2008,6 +2008,7 @@ assessment#:#without_solutions_participants#:#Teilnehmer ohne Antworten
 assessment#:#worked_through#:#Bearbeitet
 assessment#:#working_time#:#Bearbeitungsdauer
 assessment#:#you_received_a_of_b_points#:#Sie haben %s von %s möglichen Punkten erreicht.
+assessment#:#tst_current_pass_no_longer_valid#:#Ihr aktueller Test Durchlauf ist nicht mehr gültig. <br>Er wurde wahrscheinlich bereits abgeschlossen oder von einem Tutor beendet.
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr ILIAS-Konto zu reaktivieren, können Sie einen ILIAS-Anmeldekonten-Code benutzen.
 auth#:#auth_account_code_title#:#Anmeldekonten-Code
