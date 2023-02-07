@@ -211,14 +211,26 @@ final class ilObjEmployeeTalk extends ilObject
         );
 
         $this->repository->delete($this->getData());
-        $nodeData = $this->tree->getNodeData(
+        /**
+         * TODO: this method is sometimes used to bypass the trash,
+         *  is there a better way to do that?
+         */
+        $trashed_node_data = $this->tree->getNodeData(
             $this->getRefId(),
             (-1) * $this->getRefId()
         );
+        $node_data = $this->tree->getNodeData($this->getRefId());
+
         $result = parent::delete();
-        if ((int) $nodeData['child'] === $this->getRefId()) {
+
+        if ((int) ($trashed_node_data['child'] ?? 0) === $this->getRefId()) {
             $this->tree->deleteNode(
                 (-1) * $this->getRefId(),
+                $this->getRefId()
+            );
+        } elseif ((int) ($node_data['child'] ?? 0) === $this->getRefId()) {
+            $this->tree->deleteNode(
+                $node_data['tree'],
                 $this->getRefId()
             );
         }
