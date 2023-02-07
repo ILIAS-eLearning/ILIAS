@@ -171,6 +171,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
 
         // display form again to correct errors
         $this->tabs_gui->activateTab("view_content");
+        $this->addExternalEditFormCustom($form);
         $form->setValuesByPost();
         $this->tpl->setContent($form->getHtml());
     }
