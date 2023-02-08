@@ -84,6 +84,7 @@ il.UI.Input = il.UI.Input || {};
 				clone.attr('data-file-id', new_file_id);
 
 				files.file_id = new_file_id;
+				files.is_existing = true;
 
 				$(container).append(clone);
 			};
