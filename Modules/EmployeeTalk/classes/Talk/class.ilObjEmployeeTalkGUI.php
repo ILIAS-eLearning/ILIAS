@@ -159,6 +159,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
     public function updateObject(): void
     {
         $form = $this->initEditForm();
+        $this->addExternalEditFormCustom($form);
         if ($form->checkInput() &&
             $this->validateCustom($form) &&
             !$this->isReadonly) {
@@ -173,7 +174,6 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
 
         // display form again to correct errors
         $this->tabs_gui->activateTab("view_content");
-        $this->addExternalEditFormCustom($form);
         $form->setValuesByPost();
         $this->tpl->setContent($form->getHtml());
     }
