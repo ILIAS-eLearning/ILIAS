@@ -1372,6 +1372,7 @@ assessment#:#tst_count_correct_solutions#:#Nur vollständig richtig beantwortete
 assessment#:#tst_count_correct_solutions_desc#:#Vollständige und richtige Antworten erhalten die maximale Punktzahl. In allen anderen Fällen gibt es 0 Punkte. Dies gilt auch für Fragen, die Punkte für Teilantworten vorsehen.
 assessment#:#tst_count_partial_solutions#:#Auch teilweise falsch beantwortete Fragen ergeben Punkte
 assessment#:#tst_count_partial_solutions_desc#:#Bei einigen Fragetypen können für korrekt gegebene Teilantworten Punkte erzielt werden. Diese werden aufsummiert. Dies betrifft die Fragetypen Multiple Choice, KPrim, Mehrfachauswahl in Imagemaps, Fehler / Worte markieren und Zuordnungsfrage.
+assessment#:#tst_current_pass_no_longer_valid#:#Ihr aktueller Test Durchlauf ist nicht mehr gültig. <br>Er wurde wahrscheinlich bereits abgeschlossen oder von einem Tutor beendet.
 assessment#:#tst_default_settings#:#Persönliche Standardeinstellungen
 assessment#:#tst_defaults_applied#:#Die ausgewählten Standardeinstellungen wurden angewendet.
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS konnte die ausgewählten Standardeinstellungen nicht auf diesen Test anwenden! Eventuell enthält dieser Test bereits Teilnehmerdatensätze, die verhindern, dass bestimmte Standardeinstellungen übernommen werden können.
@@ -1957,7 +1958,6 @@ assessment#:#tst_wf_info_optional_question#:#Diese Frage gehört zu einem bereit
 assessment#:#tst_you_have_to_answer_this_question#:#Diese Frage muss beantwortet werden, um den Test beenden zu können.
 assessment#:#tst_your_answer_was#:#Sie haben die folgende Antwort gegeben
 assessment#:#tst_your_answers#:#Dies sind die Antworten, die Sie zu den folgenden Fragen gegeben haben. Bitte kontrollieren Sie Ihre Antworten und senden Sie diese dann ab.
-assessment#:#tst_current_pass_no_longer_valid#:#Ihr aktueller Test Durchlauf ist nicht mehr gültig. <br>Er wurde wahrscheinlich bereits abgeschlossen oder von einem Tutor beendet.
 assessment#:#un_add_category#:#Kategorie hinzufügen
 assessment#:#un_add_unit#:#Einheit hinzufügen
 assessment#:#un_cat_deletion_errors_f#:#Die folgenden Kategorien können nicht gelöscht werden:
