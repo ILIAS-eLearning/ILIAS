@@ -256,7 +256,7 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
             $talks = $this->repository->findAll();
         } else {
             $users = $this->getEmployeeIdsWithValidPermissionRights($this->currentUser->getId());
-            $talks = $this->repository->findByEmployeesAndOwner($users, $this->currentUser->getId());
+            $talks = $this->repository->findByUserOrTheirEmployees($this->currentUser->getId(), $users);
         }
         $table->setTalkData($talks);
 
