@@ -298,7 +298,7 @@ class ilObjectCopyGUI
         $cgs = new ilObjectCopyCourseGroupSelectionTableGUI(
             $this,
             'showSourceSelectionMembership',
-            'copy_selection_membership'
+            'copy_selection_mmbrs'
         );
         $cgs->init();
         $cgs->setObjects(
