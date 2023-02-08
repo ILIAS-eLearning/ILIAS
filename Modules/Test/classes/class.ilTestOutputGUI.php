@@ -575,7 +575,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $participants = $testObj->getActiveParticipantList();
         $participant = $participants->getParticipantByUsrId($DIC->user()->getId());
         if (!$participant || !$participant->hasUnfinishedPasses()) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("tst_current_pass_no_longer_valid"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("tst_current_run_no_longer_valid"), true);
             $this->backToInfoScreenCmd();
         }
     }
