@@ -119,7 +119,7 @@ final class EmployeeTalkEmailNotificationService
 
     private function getTalkGoto(): string
     {
-        return ILIAS_HTTP_PATH . '/goto.php?target=etal_' .
+        return ILIAS_HTTP_PATH . '/goto.php?target=' . \ilObjEmployeeTalk::TYPE . '_' .
             $this->message->getTalkRefId() . '&client_id=' . CLIENT_ID;
     }
 }
