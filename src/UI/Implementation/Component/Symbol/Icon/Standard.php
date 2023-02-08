@@ -173,7 +173,11 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         self::GCON,
         self::CON,
         self::FILS,
-        self::TALA
+        self::TALA,
+        self::ALERT,
+        self::TIME,
+        self::CHECKED,
+        self::NOT_OK
     ];
 
     public function __construct(string $name, string $label, string $size, bool $is_disabled)
