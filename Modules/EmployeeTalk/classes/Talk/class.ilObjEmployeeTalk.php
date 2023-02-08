@@ -211,10 +211,7 @@ final class ilObjEmployeeTalk extends ilObject
         );
 
         $this->repository->delete($this->getData());
-        /**
-         * TODO: this method is sometimes used to bypass the trash,
-         *  is there a better way to do that?
-         */
+
         $trashed_node_data = $this->tree->getNodeData(
             $this->getRefId(),
             (-1) * $this->getRefId()

@@ -67,16 +67,18 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
     }
 
     /**
+     * @param int   $user
      * @param int[] $employees
-     * @param int   $owner
      * @return EmployeeTalk[]
      */
-    public function findByEmployeesAndOwner(array $employees, int $owner): array
+    public function findByUserOrTheirEmployees(int $user, array $employees): array
     {
         $result = $this->database->query($q = 'SELECT * FROM etal_data AS talk
             INNER JOIN object_data AS od ON od.obj_id = talk.object_id
-            WHERE ' . $this->database->in('employee', $employees, false, 'integer') .
-            ' OR od.owner = ' . $this->database->quote($owner, 'integer'));
+            WHERE (' . $this->database->in('employee', $employees, false, 'integer') .
+            ' AND ' . $this->database->in('od.owner', $employees, false, 'integer') .
+            ') OR od.owner = ' . $this->database->quote($user, 'integer') .
+            ' OR employee = ' . $this->database->quote($user, 'integer'));
         $talks = [];
         while ($row = $result->fetchObject()) {
             $talks[] = $this->parseFromStdClass($row);
