@@ -124,6 +124,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
     public function editSorting(): void
     {
+        $this->tabs_gui->activateTab("settings");
         $this->setSettingsSubTabs("sorting");
         $ui = $this->ui;
         $form = $this->initSortingForm();
@@ -168,7 +169,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 $this->viewSettings->getActiveSortingsByView($view)
             )
             ->withAdditionalOnLoadCode(
-                static fn (int $id) =>
+                static fn (string $id) =>
                     "$id.setAttribute('data-checkbox', 'activeSorting$view');
                     document.addEventListener('DOMContentLoaded', function () {
                         handleUserInputForSortationsByView($view);
@@ -183,12 +184,10 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             ->field()
             ->select($this->lng->txt("dash_default_sortation"), $options)
             ->withValue($this->viewSettings->getDefaultSortingByView($view))
-            ->withRequired(true)
+            ->withRequired(false)
             ->withAdditionalOnLoadCode(
-                static fn (int $id) =>
-                    "$id.setAttribute('data-select', 'sorting$view');
-                    const selectedOption$view = document.querySelectorAll('[data-select=\"sorting$view\"] > option[selected=\"selected\"]')[0];
-                    selectedOption$view.setAttribute('default', 'default');"
+                static fn (string $id) =>
+                    "$id.setAttribute('data-select', 'sorting$view');"
             );
         return $this->ui_factory->input()->field()->section(
             $this->maybeDisable(["avail_sorting" => $available_sorting, "default_sorting" => $default_sorting]),
@@ -220,7 +219,8 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             ->withValue($this->viewSettings->enabledMemberships());
 
         $fields["enable_recommended_content"] = $f->input()->field()->checkbox($lng->txt("dash_enable_recommended_content"))
-            ->withValue($this->viewSettings->enabledRecommendedContent());
+            ->withValue(true)
+        ->withDisabled(true);
 
         $fields["enable_learning_sequences"] = $f->input()->field()->checkbox($lng->txt("dash_enable_learning_sequences"))
             ->withValue($this->viewSettings->enabledLearningSequences());

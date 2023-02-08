@@ -47,7 +47,7 @@ function updateSelectedValueToFirstPossibleOption(selectionInput) {
  * @param {Element} checkboxInput
  */
 function ensureLastOptionNotDeselectable(checkboxInput) {
-    const checkedCheckbox = checkboxInput.querySelectorAll('input[type=\"checkbox\"]:checked')
+    const checkedCheckbox = checkboxInput.querySelectorAll('input[type=\"checkbox\"]:checked');
     if (checkedCheckbox.length === 1) {
         checkedCheckbox[0].setAttribute('disabled', 'disabled');
     } else {
@@ -58,16 +58,28 @@ function ensureLastOptionNotDeselectable(checkboxInput) {
     }
 }
 
+function disableMinusOption(selectionInput) {
+    const minusOption = selectionInput.querySelector('option[value=\"\"]');
+    if (minusOption) {
+        minusOption.setAttribute('disabled', 'disabled');
+        minusOption.style.display = 'none';
+    }
+}
+
 /**
  * @param {int} view
  */
 function handleUserInputForSortationsByView(view) {
     const selectionInput = document.querySelectorAll('[data-select="sorting' + view + '"]')[0];
     const checkboxInput = document.querySelectorAll('[data-checkbox="activeSorting' + view + '"]')[0];
+    disableMinusOption(selectionInput);
     updateSelectionInputWithActivatedOptions(selectionInput, checkboxInput);
+    const selectedOption = selectionInput.querySelectorAll('option[selected=\"selected\"]')[0];
+    selectedOption.setAttribute('default', 'default');
     ensureLastOptionNotDeselectable(checkboxInput);
     checkboxInput.onchange = function () {
         updateSelectionInputWithActivatedOptions(selectionInput, checkboxInput);
+        ensureLastOptionNotDeselectable(checkboxInput);
     };
 }
 
