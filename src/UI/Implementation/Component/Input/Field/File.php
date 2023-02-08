@@ -45,7 +45,14 @@ class File extends Input implements C\Input\Field\File
 
     protected function getConstraintForRequirement()
     {
-        return $this->refinery->string();
+        return $this->refinery->custom()->constraint(
+            function ($value) {
+                return (is_array($value) && count($value) > 0);
+            },
+            function ($txt, $value) {
+                return $txt("msg_no_file");
+            },
+        );
     }
 
     protected function isClientSideValueOk($value) : bool
