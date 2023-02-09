@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 use ILIAS\Setup;
 
@@ -106,10 +105,10 @@ class ilComponentBuildPluginInfoObjective extends Setup\Artifact\BuildArtifactOb
      */
     protected function scanDir(string $dir): array
     {
-        if (!file_exists($dir)) {
+        if (!file_exists($dir) || !is_dir($dir)) {
             return [];
         }
-        $result = scandir($dir);
+        $result = scandir($dir) ?: [];
         return array_values(array_diff($result, [".", ".."]));
     }
 
