@@ -512,7 +512,9 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
             $html = $this->renderFavourites();
         }
         $html .= $this->renderRecommendedContent();
-        $html .= $this->renderStudyProgrammes();
+        if ($settings->enabledStudyProgrammes()) {
+            $html .= $this->renderStudyProgrammes();
+        }
         if ($settings->enabledLearningSequences()) {
             $html .= $this->renderLearningSequences();
         }

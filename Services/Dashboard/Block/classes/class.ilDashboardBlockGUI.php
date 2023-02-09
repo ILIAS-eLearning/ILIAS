@@ -327,33 +327,39 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     public function addCommandActions(): void
     {
         $sortings = $this->viewSettings->getSelectableSortingModes();
-        foreach ($sortings as $sorting) {
-            $this->ctrl->setParameter($this, 'sorting', $sorting);
-            $this->addBlockCommand(
-                $this->ctrl->getLinkTarget($this, 'changePDItemSorting'),
-                $this->lng->txt('dash_sort_by_' . $sorting),
-                $this->ctrl->getLinkTarget($this, 'changePDItemSorting', '', true)
-            );
-            $this->ctrl->setParameter($this, 'sorting', null);
+        if (count($sortings) > 1) {
+            foreach ($sortings as $sorting) {
+                $this->ctrl->setParameter($this, 'sorting', $sorting);
+                $this->addBlockCommand(
+                    $this->ctrl->getLinkTarget($this, 'changePDItemSorting'),
+                    $this->lng->txt('dash_sort_by_' . $sorting),
+                    $this->ctrl->getLinkTarget($this, 'changePDItemSorting', '', true)
+                );
+                $this->ctrl->setParameter($this, 'sorting', null);
+            }
         }
 
         $presentations = $this->viewSettings->getSelectablePresentationModes();
-        foreach ($presentations as $presentation) {
-            $this->ctrl->setParameter($this, 'presentation', $presentation);
-            $this->addBlockCommand(
-                $this->ctrl->getLinkTarget($this, 'changePDItemPresentation'),
-                $this->lng->txt('pd_presentation_mode_' . $presentation),
-                $this->ctrl->getLinkTarget($this, 'changePDItemPresentation', '', true)
-            );
-            $this->ctrl->setParameter($this, 'presentation', null);
+        if (count($presentations) > 1) {
+            foreach ($presentations as $presentation) {
+                $this->ctrl->setParameter($this, 'presentation', $presentation);
+                $this->addBlockCommand(
+                    $this->ctrl->getLinkTarget($this, 'changePDItemPresentation'),
+                    $this->lng->txt('pd_presentation_mode_' . $presentation),
+                    $this->ctrl->getLinkTarget($this, 'changePDItemPresentation', '', true)
+                );
+                $this->ctrl->setParameter($this, 'presentation', null);
+            }
         }
 
-        $this->addBlockCommand(
-            $this->ctrl->getLinkTarget($this, 'manage'),
-            $this->viewSettings->isSelectedItemsViewActive() ?
-                $this->lng->txt('pd_remove_multiple') :
-                $this->lng->txt('pd_unsubscribe_multiple_memberships')
-        );
+        if (!$this->viewSettings->isLearningSequenceViewActive()) {
+            $this->addBlockCommand(
+                $this->ctrl->getLinkTarget($this, 'manage'),
+                $this->viewSettings->isSelectedItemsViewActive() || $this->viewSettings->isMembershipsViewActive() ?
+                    $this->lng->txt('pd_remove_multiple') :
+                    $this->lng->txt('pd_unsubscribe_multiple_memberships')
+            );
+        }
     }
 
     public function executeCommand(): string
