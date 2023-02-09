@@ -169,7 +169,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
             'sort_field' => 'skill_level',
         );
 
-        if ($arr_searchable_user_columns['login']) {
+        if ($arr_searchable_user_columns['login'] ?? false) {
             $cols['login'] = array(
                 'txt' => $this->dic->language()->txt('login'),
                 'default' => true,
@@ -177,7 +177,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
                 'sort_field' => 'login',
             );
         }
-        if ($arr_searchable_user_columns['firstname']) {
+        if ($arr_searchable_user_columns['firstname'] ?? false) {
             $cols['first_name'] = array(
                 'txt' => $this->dic->language()->txt('firstname'),
                 'default' => true,
@@ -185,7 +185,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
                 'sort_field' => 'firstname',
             );
         }
-        if ($arr_searchable_user_columns['lastname']) {
+        if ($arr_searchable_user_columns['lastname'] ?? false) {
             $cols['last_name'] = array(
                 'txt' => $this->dic->language()->txt('lastname'),
                 'default' => true,
