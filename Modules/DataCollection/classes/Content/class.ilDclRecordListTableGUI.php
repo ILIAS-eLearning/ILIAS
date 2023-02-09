@@ -320,6 +320,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             $filter = &end($this->filters);
             $value = $field_set->getFilterValue();
             $filter->setValueByArray($value);
+            $filter->writeToSession();
             $this->applyFilter($field->getId(), empty(array_filter($value)) ? null : $filter->getValue());
 
             //Disable filters
