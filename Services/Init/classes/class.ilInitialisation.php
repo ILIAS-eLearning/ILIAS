@@ -566,7 +566,7 @@ class ilInitialisation
             $mess = array(
                 "en" => "The server is not available due to maintenance." .
                     " We apologise for any inconvenience.",
-                "de" => "Der Server ist aufgrund von Wartungsarbeiten aktuell nicht verf&uuml;gbar.".
+                "de" => "Der Server ist aufgrund von Wartungsarbeiten aktuell nicht verf&uuml;gbar." .
                     " Wir bitten um Verst&auml;ndnis. Versuchen Sie es sp&auml;ter noch einmal."
             );
             $mess_id = "init_error_maintenance";
@@ -1448,7 +1448,7 @@ class ilInitialisation
     private static function initGlobalScreen(\ILIAS\DI\Container $c): void
     {
         $c['global_screen'] = function () use ($c) {
-            return new Services(new ilGSProviderFactory($c), htmlentities(str_replace(" ", "_", ILIAS_VERSION)));
+            return new Services(new ilGSProviderFactory($c), htmlentities(str_replace([" ", ".", "-"], "_", ILIAS_VERSION_NUMERIC)));
         };
         $c->globalScreen()->tool()->context()->stack()->clear();
         $c->globalScreen()->tool()->context()->claim()->main();
