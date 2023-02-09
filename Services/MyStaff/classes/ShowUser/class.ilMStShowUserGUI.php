@@ -50,8 +50,13 @@ class ilMStShowUserGUI
         $this->usr_id = $DIC->http()->request()->getQueryParams()['usr_id'];
         $DIC->ctrl()->setParameter($this, 'usr_id', $this->usr_id);
 
-        $DIC->ui()->mainTemplate()->setTitle(ilUserUtil::getNamePresentation($this->usr_id));
-        $DIC->ui()->mainTemplate()->setTitleIcon(ilObjUser::_getPersonalPicturePath($this->usr_id, "xxsmall"));
+        $this->setTitleAndIcon();
+    }
+
+    protected function setTitleAndIcon(): void
+    {
+        $this->main_tpl->setTitle(ilUserUtil::getNamePresentation($this->usr_id));
+        $this->main_tpl->setTitleIcon(ilObjUser::_getPersonalPicturePath($this->usr_id, "xxsmall"));
     }
 
     protected function checkAccessOrFail(): void
@@ -96,6 +101,7 @@ class ilMStShowUserGUI
                     new ilObjUser($this->usr_id)
                 );
                 $DIC->ctrl()->forwardCommand($gui);
+                $this->setTitleAndIcon();
                 break;
             case strtolower(ilMStShowUserCompetencesGUI::class):
                 $this->addTabs(self::TAB_SHOW_COMPETENCES);
