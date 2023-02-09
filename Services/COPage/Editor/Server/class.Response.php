@@ -47,6 +47,6 @@ class Response
             ->withAddedHeader('Content-Type', 'application/json')
             ->withBody($stream));
         $http->sendResponse();
-        exit;
+        $http->close();
     }
 }
