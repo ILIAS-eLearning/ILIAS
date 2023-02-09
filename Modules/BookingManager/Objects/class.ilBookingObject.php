@@ -225,8 +225,8 @@ class ilBookingObject
             $storage = new ilFSStorageBooking($this->id);
             $storage->delete();
 
-            $this->setFile(null);
-            $this->setPostFile(null);
+            $this->setFile("");
+            $this->setPostFile("");
         }
     }
 
