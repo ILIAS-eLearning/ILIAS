@@ -8959,6 +8959,7 @@ etal#:#etal_add_new_item#:#Neues Gespräch hinzufügen
 etal#:#etal_date_appointment_edit#:#Gesprächsdatum
 etal#:#etal_date_series_edit#:#Gesprächsserie
 etal#:#etal_edit#:#Allgemein
+etal#:#etal_invalid_user#:#Dieses Konto existiert nicht, oder kann nicht eingeladen werden.
 etal#:#etal_new#:#Neues Gespräch
 etal#:#etal_open#:#Gespräch öffnen
 etal#:#etal_status_all#:#Alle
@@ -13909,6 +13910,10 @@ rbac#:#tags_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#tags_read#:#Lesezugriff zu den Tagging-Einstellungen
 rbac#:#tags_visible#:#Tagging-Einstellungen sind sichtbar
 rbac#:#tags_write#:#Tagging-Einstellungen bearbeiten
+rbac#:#tala_edit_permission#:#Rechteeinstellungen in der Gesprächsvorlagen-Administration ändern
+rbac#:#tala_read#:#Lesezugriff auf Gesprächsvorlagen-Administration
+rbac#:#tala_visible#:#Gesprächsvorlagen-Administration ist sichtbar
+rbac#:#tala_write#:#Gesprächsvorlagen anlegen und bearbeiten
 rbac#:#taxs_edit_permission#:#Rechteeinstellungen für die Taxonomie-Administration ändern
 rbac#:#taxs_read#:#Lesezugriff auf Taxonomie-Administration
 rbac#:#taxs_visible#:#Taxonomie-Administration ist sichtbar
