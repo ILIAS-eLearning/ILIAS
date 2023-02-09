@@ -891,14 +891,14 @@ class ilObjContentObject extends ilObject
             $ilDB->quote($this->getId(), "integer");
         $lm_set = $ilDB->query($q);
         $lm_rec = $ilDB->fetchAssoc($lm_set);
-        $this->setLayout($lm_rec["default_layout"]);
-        $this->setPageHeader($lm_rec["page_header"]);
-        $this->setTOCMode($lm_rec["toc_mode"]);
+        $this->setLayout((string) $lm_rec["default_layout"]);
+        $this->setPageHeader((string) $lm_rec["page_header"]);
+        $this->setTOCMode((string) $lm_rec["toc_mode"]);
         $this->setActiveTOC(ilUtil::yn2tf($lm_rec["toc_active"]));
         $this->setActiveNumbering(ilUtil::yn2tf($lm_rec["numbering"]));
         $this->setActivePrintView(ilUtil::yn2tf($lm_rec["print_view_active"]));
         $this->setActivePreventGlossaryAppendix(ilUtil::yn2tf($lm_rec["no_glo_appendix"]));
-        $this->setHideHeaderFooterPrint($lm_rec["hide_head_foot_print"]);
+        $this->setHideHeaderFooterPrint((bool) $lm_rec["hide_head_foot_print"]);
         $this->setActiveDownloads(ilUtil::yn2tf($lm_rec["downloads_active"]));
         $this->setActiveDownloadsPublic(ilUtil::yn2tf($lm_rec["downloads_public_active"]));
         $this->setActiveLMMenu(ilUtil::yn2tf($lm_rec["lm_menu_active"]));
@@ -906,21 +906,21 @@ class ilObjContentObject extends ilObject
         $this->setHeaderPage((int) $lm_rec["header_page"]);
         $this->setFooterPage((int) $lm_rec["footer_page"]);
         $this->setHistoryUserComments(ilUtil::yn2tf($lm_rec["hist_user_comments"]));
-        $this->setPublicAccessMode($lm_rec["public_access_mode"]);
+        $this->setPublicAccessMode((string) $lm_rec["public_access_mode"]);
         $this->setPublicExportFile("xml", (string) $lm_rec["public_xml_file"]);
         $this->setPublicExportFile("html", (string) $lm_rec["public_html_file"]);
         $this->setLayoutPerPage((bool) $lm_rec["layout_per_page"]);
-        $this->setRating($lm_rec["rating"]);
-        $this->setRatingPages($lm_rec["rating_pages"]);
-        $this->setDisableDefaultFeedback($lm_rec["disable_def_feedback"]);
-        $this->setProgressIcons($lm_rec["progr_icons"]);
-        $this->setStoreTries($lm_rec["store_tries"]);
-        $this->setRestrictForwardNavigation($lm_rec["restrict_forw_nav"]);
+        $this->setRating((bool) $lm_rec["rating"]);
+        $this->setRatingPages((bool) $lm_rec["rating_pages"]);
+        $this->setDisableDefaultFeedback((bool) $lm_rec["disable_def_feedback"]);
+        $this->setProgressIcons((bool) $lm_rec["progr_icons"]);
+        $this->setStoreTries((bool) $lm_rec["store_tries"]);
+        $this->setRestrictForwardNavigation((bool) $lm_rec["restrict_forw_nav"]);
 
         // #14661
         $this->setPublicNotes($this->notes->domain()->commentsActive($this->getId()));
 
-        $this->setForTranslation($lm_rec["for_translation"]);
+        $this->setForTranslation((bool) $lm_rec["for_translation"]);
     }
 
     public function updateProperties(): void
