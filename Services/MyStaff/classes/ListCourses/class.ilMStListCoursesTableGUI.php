@@ -364,7 +364,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
                                                                  "",
                                                                  true
                                                              )));
-        //$this->tpl->setVariable('ACTIONS', $actions->getHTML());
+        $this->tpl->setVariable('ACTIONS', $actions->getHTML());
         $this->tpl->parseCurrentBlock();
     }
 
