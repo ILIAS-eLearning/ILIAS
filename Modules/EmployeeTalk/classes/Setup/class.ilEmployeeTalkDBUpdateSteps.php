@@ -108,34 +108,7 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
 
     public function step_4(): void
     {
-        $this->useTransaction(function (\ilDBInterface $db) {
-            $this->registerNewOrgUnitOperationContext(
-                $db,
-                ilOrgUnitOperationContext::CONTEXT_ETAL,
-                ilOrgUnitOperationContext::CONTEXT_OBJECT
-            );
-
-            $this->registerNewOrgUnitOperation(
-                $db,
-                ilOrgUnitOperation::OP_READ_EMPLOYEE_TALK,
-                'Read Employee Talk',
-                ilOrgUnitOperationContext::CONTEXT_ETAL
-            );
-
-            $this->registerNewOrgUnitOperation(
-                $db,
-                ilOrgUnitOperation::OP_CREATE_EMPLOYEE_TALK,
-                'Create Employee Talk',
-                ilOrgUnitOperationContext::CONTEXT_ETAL
-            );
-
-            $this->registerNewOrgUnitOperation(
-                $db,
-                ilOrgUnitOperation::OP_EDIT_EMPLOYEE_TALK,
-                'Edit Employee Talk (not only own)',
-                ilOrgUnitOperationContext::CONTEXT_ETAL
-            );
-        });
+        // replaced by OrgUnit objectives
     }
 
     public function step_5(): void
@@ -152,65 +125,5 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
                 $db->addPrimaryKey($table_name, ['id']);
             }
         });
-    }
-
-    protected function registerNewOrgUnitOperationContext(
-        \ilDBInterface $db,
-        string $context_name,
-        string $parent_context
-    ): void {
-        // abort if the context already exists
-        $result = $db->query('SELECT * FROM il_orgu_op_contexts
-            WHERE context = ' . $db->quote($context_name, 'text'));
-        if ($result->numRows()) {
-            return;
-        }
-
-        // abort if the parent context does not exist
-        $result = $db->query('SELECT id FROM il_orgu_op_contexts
-          WHERE context = ' . $db->quote($parent_context, 'text'));
-        if (!($row = $result->fetchObject())) {
-            return;
-        }
-        $parent_context_id = (int) $row->id;
-
-        $id = $db->nextId('il_orgu_op_contexts');
-        $db->insert('il_orgu_op_contexts', [
-            'id' => ['integer', $id],
-            'context' => ['text', $context_name],
-            'parent_context_id' => ['integer', $parent_context_id]
-        ]);
-    }
-
-    protected function registerNewOrgUnitOperation(
-        \ilDBInterface $db,
-        string $operation_name,
-        string $description,
-        string $context
-    ): void {
-        // abort if context does not exist
-        $result = $db->query('SELECT id FROM il_orgu_op_contexts
-            WHERE context = ' . $db->quote($context, 'text'));
-        if (!($row = $result->fetchObject())) {
-            return;
-        }
-        $context_id = (int) $row->id;
-
-        // abort if operation does already exist in this context
-        $result = $db->query('SELECT * FROM il_orgu_operations
-            WHERE context_id = ' . $db->quote($context_id, 'integer') .
-            ' AND operation_string = ' . $db->quote($operation_name, 'text'));
-        if ($result->numRows()) {
-            return;
-        }
-
-        $id = $db->nextId('il_orgu_operations');
-        $db->insert('il_orgu_operations', [
-            'operation_id' => ['integer', $id],
-            'operation_string' => ['text', $operation_name],
-            'description' => ['text', $description],
-            'list_order' => ['integer', 0],
-            'context_id' => ['integer', $context_id],
-        ]);
     }
 }
