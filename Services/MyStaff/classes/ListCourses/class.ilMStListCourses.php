@@ -214,10 +214,6 @@ class ilMStListCourses
             $where[] = 'usr_id = ' . $this->dic->database()->quote($arr_filter['usr_id'], \ilDBConstants::T_INTEGER);
         }
 
-        if (isset($arr_filter['usr_id']) && is_numeric($arr_filter['usr_id'])) {
-            $where[] = 'usr_id = ' . $this->dic->database()->quote($arr_filter['usr_id'], \ilDBConstants::T_INTEGER);
-        }
-
         if (!empty($where)) {
             return ' WHERE ' . implode(' AND ', $where) . ' ';
         } else {
