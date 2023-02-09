@@ -8962,6 +8962,7 @@ etal#:#etal_add_new_item#:#Add new Talk
 etal#:#etal_date_appointment_edit#:#Date of Talk
 etal#:#etal_date_series_edit#:#Date of Talk Series
 etal#:#etal_edit#:#General
+etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.
 etal#:#etal_new#:#New Talk
 etal#:#etal_open#:#Open Employee Talk
 etal#:#etal_status_all#:#All
@@ -13917,6 +13918,10 @@ rbac#:#tags_edit_permission#:#User can change permission settings in Tagging adm
 rbac#:#tags_read#:#User has read access to Tagging administration
 rbac#:#tags_visible#:#Tagging administration is visible
 rbac#:#tags_write#:#User can edit settings in Tagging administration
+rbac#:#tala_edit_permission#:#User can change permission settings in Talk Templates administration
+rbac#:#tala_read#:#User has read access to Talk Templates administration
+rbac#:#tala_visible#:#Talk Templates administration is visible
+rbac#:#tala_write#:#User can create and edit Talk Templates
 rbac#:#taxs_edit_permission#:#User can change permission settings in Taxonomy administration
 rbac#:#taxs_read#:#User has read access to Taxonomy administration
 rbac#:#taxs_visible#:#Taxonomy administration is visible
