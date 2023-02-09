@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +18,6 @@
  *
  ********************************************************************
  */
-declare(strict_types=1);
 
 use PHPUnit\Framework\TestSuite;
 
@@ -30,6 +32,12 @@ class ilModulesOrgUnitSuite extends TestSuite
         /** @noRector */
         require_once("./Modules/OrgUnit/test/ilModulesOrgUnitTest.php");
         $suite->addTestSuite("ilModulesOrgUnitTest");
+        /** @noRector */
+        require_once("./Modules/OrgUnit/test/ilOrgUnitOperationContextRegisteredObjectiveTest.php");
+        $suite->addTestSuite("ilOrgUnitOperationContextRegisteredObjectiveTest");
+        /** @noRector */
+        require_once("./Modules/OrgUnit/test/ilOrgUnitOperationRegisteredObjectiveTest.php");
+        $suite->addTestSuite("ilOrgUnitOperationRegisteredObjectiveTest");
 
         require_once("./Modules/OrgUnit/test/ilModulesOrgUnitAuthorityTest.php");
         $suite->addTestSuite("ilModulesOrgUnitAuthorityTest");
