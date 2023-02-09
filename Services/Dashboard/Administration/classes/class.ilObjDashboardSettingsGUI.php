@@ -215,12 +215,12 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 )
             );
 
+        $fields["enable_recommended_content"] = $f->input()->field()->checkbox($lng->txt("dash_enable_recommended_content"))
+                                                  ->withValue(true)
+                                                  ->withDisabled(true);
         $fields["enable_memberships"] = $f->input()->field()->checkbox($lng->txt("dash_enable_memberships"), $info_text)
             ->withValue($this->viewSettings->enabledMemberships());
 
-        $fields["enable_recommended_content"] = $f->input()->field()->checkbox($lng->txt("dash_enable_recommended_content"))
-            ->withValue(true)
-        ->withDisabled(true);
 
         $fields["enable_learning_sequences"] = $f->input()->field()->checkbox($lng->txt("dash_enable_learning_sequences"))
             ->withValue($this->viewSettings->enabledLearningSequences());

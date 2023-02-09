@@ -26,8 +26,8 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     /** @var int[] */
     protected static array $availableViews = [
         self::VIEW_SELECTED_ITEMS,
-        self::VIEW_MY_MEMBERSHIPS,
         self::VIEW_RECOMMENDED_CONTENT,
+        self::VIEW_MY_MEMBERSHIPS,
         self::VIEW_LEARNING_SEQUENCES,
         self::VIEW_MY_STUDYPROGRAMME,
     ];
@@ -60,21 +60,21 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
             self::SORT_BY_LOCATION,
             self::SORT_BY_ALPHABET,
         ],
-        self::VIEW_MY_MEMBERSHIPS => [
-            self::SORT_BY_LOCATION,
-            self::SORT_BY_ALPHABET,
-            self::SORT_BY_START_DATE,
-        ],
-        self::VIEW_MY_STUDYPROGRAMME => [
-            self::SORT_BY_LOCATION,
-            self::SORT_BY_ALPHABET,
-        ],
         self::VIEW_RECOMMENDED_CONTENT => [
             self::SORT_BY_LOCATION,
             self::SORT_BY_TYPE,
             self::SORT_BY_ALPHABET,
         ],
+        self::VIEW_MY_MEMBERSHIPS => [
+            self::SORT_BY_LOCATION,
+            self::SORT_BY_ALPHABET,
+            self::SORT_BY_START_DATE,
+        ],
         self::VIEW_LEARNING_SEQUENCES => [
+            self::SORT_BY_LOCATION,
+            self::SORT_BY_ALPHABET,
+        ],
+        self::VIEW_MY_STUDYPROGRAMME => [
             self::SORT_BY_LOCATION,
             self::SORT_BY_ALPHABET,
         ],
