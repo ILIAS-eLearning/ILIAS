@@ -303,24 +303,22 @@ class ilTestRandomQuestionSetConfigGUI
 
         $this->tpl->setContent($this->ctrl->getHTML($form));
 
-        if (!$disabled_form) {
-            $this->configStateMessageHandler->setContext(
-                ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_GENERAL_CONFIG
-            );
+        $this->configStateMessageHandler->setContext(
+            ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_GENERAL_CONFIG
+        );
 
-            $this->configStateMessageHandler->handle();
+        $this->configStateMessageHandler->handle();
 
-            if ($this->configStateMessageHandler->hasValidationReports()) {
-                if ($this->configStateMessageHandler->isValidationFailed()) {
-                    $this->tpl->setOnScreenMessage('failure', $this->configStateMessageHandler->getValidationReportHtml());
-                } else {
-                    $this->tpl->setOnScreenMessage('info', $this->configStateMessageHandler->getValidationReportHtml());
-                }
+        if ($this->configStateMessageHandler->hasValidationReports()) {
+            if ($this->configStateMessageHandler->isValidationFailed()) {
+                $this->tpl->setOnScreenMessage('failure', $this->configStateMessageHandler->getValidationReportHtml());
+            } else {
+                $this->tpl->setOnScreenMessage('info', $this->configStateMessageHandler->getValidationReportHtml());
             }
+        }
 
-            if ($this->testrequest->isset('modified') && (int) $this->testrequest->raw('modified')) {
-                $this->tpl->setOnScreenMessage('success', $this->getGeneralModificationSuccessMessage());
-            }
+        if ($this->testrequest->isset('modified') && (int) $this->testrequest->raw('modified')) {
+            $this->tpl->setOnScreenMessage('success', $this->getGeneralModificationSuccessMessage());
         }
     }
 
@@ -398,10 +396,6 @@ class ilTestRandomQuestionSetConfigGUI
         }
 
         $this->tpl->setContent($content);
-
-        if ($disabled_form) {
-            return;
-        }
 
         $this->configStateMessageHandler->setContext(
             ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_POOL_SELECTION
