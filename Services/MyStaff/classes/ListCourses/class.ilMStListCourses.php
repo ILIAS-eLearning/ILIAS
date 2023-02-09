@@ -80,7 +80,7 @@ class ilMStListCourses
                                                                                                                'text'
                                                                                                            ) . '
                     INNER JOIN object_reference AS crs_ref on crs_ref.obj_id = crs.obj_id AND crs_ref.deleted IS NULL
-	                INNER JOIN usr_data on usr_data.usr_id = memb.usr_id AND usr_data.active = 1';
+	                INNER JOIN usr_data on usr_data.usr_id = memb.usr_id';
 
         $data = [];
         $users_per_position = ilMyStaffAccess::getInstance()->getUsersForUserPerPosition($this->dic->user()->getId());
