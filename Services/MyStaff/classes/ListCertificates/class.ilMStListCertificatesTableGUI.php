@@ -162,7 +162,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
             'width' => 'auto',
             'sort_field' => 'issuedOnTimestamp',
         );
-        if ($arr_searchable_user_columns['login']) {
+        if ($arr_searchable_user_columns['login'] ?? false) {
             $cols['userLogin'] = array(
                 'txt' => $DIC->language()->txt('login'),
                 'default' => true,
@@ -170,7 +170,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
                 'sort_field' => 'userLogin',
             );
         }
-        if ($arr_searchable_user_columns['firstname']) {
+        if ($arr_searchable_user_columns['firstname'] ?? false) {
             $cols['userFirstName'] = array(
                 'txt' => $DIC->language()->txt('firstname'),
                 'default' => true,
@@ -178,7 +178,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
                 'sort_field' => 'userFirstName',
             );
         }
-        if ($arr_searchable_user_columns['lastname']) {
+        if ($arr_searchable_user_columns['lastname'] ?? false) {
             $cols['userLastName'] = array(
                 'txt' => $DIC->language()->txt('lastname'),
                 'default' => true,
