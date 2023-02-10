@@ -187,7 +187,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
             );
         }
 
-        if (isset($arr_searchable_user_columns['email']) && $arr_searchable_user_columns['email']) {
+        if ($arr_searchable_user_columns['email'] ?? false) {
             $cols['usr_email'] = array(
                 'txt' => $DIC->language()->txt('email'),
                 'default' => true,
@@ -195,7 +195,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
                 'sort_field' => 'usr_email',
             );
         }
-        if (isset($arr_searchable_user_columns['org_units']) && $arr_searchable_user_columns['org_units']) {
+        if ($arr_searchable_user_columns['org_units'] ?? false) {
             $cols['usr_assinged_orgus'] = array(
                 'txt' => $DIC->language()->txt('objs_orgu'),
                 'default' => true,
