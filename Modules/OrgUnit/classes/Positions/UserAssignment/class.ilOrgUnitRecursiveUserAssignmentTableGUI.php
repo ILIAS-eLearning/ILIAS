@@ -102,8 +102,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
                 }
             }
             $permission_view_lp = $this->mayViewLPIn($ref_id, $access, $orgu_tree);
-            foreach ($orgu_tree->getAssignements($ref_id, $this->ilOrgUnitPosition) as $usr_id) {
-                $usr_id = (int) $usr_id;
+            foreach ($orgu_tree->getAssignedUsers([$ref_id], $this->ilOrgUnitPosition->getId()) as $usr_id) {
                 if (!array_key_exists($usr_id, $data)) {
                     $user = new ilObjUser($usr_id);
                     $set["login"] = $user->getLogin();

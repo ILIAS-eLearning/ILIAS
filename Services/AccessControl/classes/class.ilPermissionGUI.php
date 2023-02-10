@@ -1,6 +1,4 @@
 <?php
-
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +13,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ********************************************************************
+ */
+declare(strict_types=1);
 
 /**
  * New PermissionGUI (extends from old ilPermission2GUI)
@@ -38,6 +38,8 @@ class ilPermissionGUI extends ilPermission2GUI
     protected ilToolbarGUI $toolbar;
     protected \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
     protected \ilOrgUnitPositionDBRepository $positionRepo;
+    protected \ilOrgUnitPermissionDBRepository $permissionRepo;
+    protected \ilOrgUnitOperationDBRepository $operationRepo;
 
     public function __construct(object $a_gui_obj)
     {
@@ -57,6 +59,26 @@ class ilPermissionGUI extends ilPermission2GUI
         }
 
         return $this->positionRepo;
+    }
+
+    private function getPermissionRepo(): \ilOrgUnitPermissionDBRepository
+    {
+        if (!isset($this->permissionRepo)) {
+            $dic = ilOrgUnitLocalDIC::dic();
+            $this->permissionRepo = $dic["repo.Permissions"];
+        }
+
+        return $this->permissionRepo;
+    }
+
+    private function getOperationRepo(): \ilOrgUnitOperationDBRepository
+    {
+        if (!isset($this->operationRepo)) {
+            $dic = ilOrgUnitLocalDIC::dic();
+            $this->operationRepo = $dic["repo.Operations"];
+        }
+
+        return $this->operationRepo;
     }
 
     /**
@@ -822,9 +844,9 @@ class ilPermissionGUI extends ilPermission2GUI
 
         foreach ($positions as $position_id) {
             if (isset($local_post[$position_id])) {
-                ilOrgUnitPermissionQueries::findOrCreateSetForRefId($ref_id, $position_id);
+                $this->getPermissionRepo()->get($ref_id, $position_id);
             } else {
-                ilOrgUnitPermissionQueries::removeLocalSetForRefId($ref_id, $position_id);
+                $this->getPermissionRepo()->delete($ref_id, $position_id);
             }
         }
 
@@ -844,13 +866,15 @@ class ilPermissionGUI extends ilPermission2GUI
                 if (!isset($local_post[$position_id])) {
                     continue;
                 }
-                $ilOrgUnitPermission = ilOrgUnitPermissionQueries::getSetForRefId($ref_id, $position_id);
-                $new_ops = [];
-                foreach ($ops as $op_id => $op) {
-                    $new_ops[] = ilOrgUnitOperationQueries::findById($op_id);
+                $ilOrgUnitPermission = $this->getPermissionRepo()->getLocalorDefault($ref_id, $position_id);
+                if (!$ilOrgUnitPermission->isTemplate()) {
+                    $new_ops = [];
+                    foreach ($ops as $op_id => $op) {
+                        $new_ops[] = $this->getOperationRepo()->getById($op_id);
+                    }
+                    $ilOrgUnitPermission = $ilOrgUnitPermission->withOperations($new_ops);
+                    $ilOrgUnitPermission = $this->getPermissionRepo()->store($ilOrgUnitPermission);
                 }
-                $ilOrgUnitPermission->setOperations($new_ops);
-                $ilOrgUnitPermission->save();
             }
         }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
