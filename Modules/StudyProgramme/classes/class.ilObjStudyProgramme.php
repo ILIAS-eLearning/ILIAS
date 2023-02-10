@@ -995,7 +995,6 @@ class ilObjStudyProgramme extends ilContainer
         return $this;
     }
 
-
     public function getSpecificAssignment(int $assignment_id): ilPRGAssignment
     {
         return $this->assignment_repository->get($assignment_id);
@@ -1006,9 +1005,19 @@ class ilObjStudyProgramme extends ilContainer
         $this->assignment_repository->storeExpiryInfoSentFor($ass);
     }
 
+    public function resetExpiryInfoSentFor(ilPRGAssignment $ass): void
+    {
+        $this->assignment_repository->resetExpiryInfoSentFor($ass);
+    }
+
     public function storeRiskyToFailSentFor(ilPRGAssignment $ass): void
     {
         $this->assignment_repository->storeRiskyToFailSentFor($ass);
+    }
+
+    public function resetRiskyToFailSentFor(ilPRGAssignment $ass): void
+    {
+        $this->assignment_repository->resetRiskyToFailSentFor($ass);
     }
 
     /**
