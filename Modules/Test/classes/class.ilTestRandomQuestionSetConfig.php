@@ -384,7 +384,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 
     public function resetQuestionSetRelatedTestSettings()
     {
-        $this->testOBJ->setResultFilterTaxIds(array());
+        //$this->testOBJ->setResultFilterTaxIds(array());
         $this->testOBJ->saveToDb(true);
     }
 
