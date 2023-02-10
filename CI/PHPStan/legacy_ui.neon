@@ -1,0 +1,38 @@
+services:
+	errorFormatter.csv:
+		class: \ILIAS\CI\PHPStan\ErrorFormatter\CSVFormatter
+rules:
+#    - ILIAS\CI\PHPStan\Rules\NoLegacyTableUsagesRule
+#    - ILIAS\CI\PHPStan\Rules\NoLegacyButtonUsagesRule
+#    - ILIAS\CI\PHPStan\Rules\NoLegacyModalUsagesRule
+    - ILIAS\CI\PHPStan\Rules\NoLegacySelectionListUsagesRule
+parameters:
+    customRulesetUsed: true
+    bootstrapFiles:
+        - constants.php
+    excludePaths:
+        - '%currentWorkingDirectory%/vendor/*'
+        - '%currentWorkingDirectory%/Customizing/*'
+        - '%currentWorkingDirectory%/CI/*'
+        - '%currentWorkingDirectory%/data/*'
+        - '%currentWorkingDirectory%/dicto/*'
+        - '%currentWorkingDirectory%/docs/*'
+        - '%currentWorkingDirectory%/lang/*'
+        - '%currentWorkingDirectory%/node_modules/*'
+        - '%currentWorkingDirectory%/templates/*'
+        - '%currentWorkingDirectory%/xml/*'
+        - '%currentWorkingDirectory%/.github/*'
+        - '%currentWorkingDirectory%/**/mediawiki/*'
+        - '%currentWorkingDirectory%/**/Wiki/libs/*'
+        - '%currentWorkingDirectory%/**/class.ilLTIConsumerResultService.php'
+    earlyTerminatingMethodCalls:
+        ilCtrl:
+            - redirect
+            - redirectByClass
+            - redirectToURL
+        ilCtrlInterface:
+            - redirect
+            - redirectByClass
+            - redirectToURL
+        ILIAS\HTTP\RawHTTPServices:
+            - close
