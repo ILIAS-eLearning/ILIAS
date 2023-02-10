@@ -128,24 +128,24 @@ class ilMailOptions
                 $this->emailAddressMode = (int) $row->mail_address_option;
 
                 $this->setAbsenceStatus((bool) $row->absence_status);
-            $this->setAbsentFrom((int) $row->absent_from);
-            $this->setAbsentUntil((int) $row->absent_until);
-            $this->setAbsenceAutoresponderSubject($row->absence_ar_subject ?? '');
-            $this->setAbsenceAutoresponderBody($row->absence_ar_body ?? '');
-
-            if (false === filter_var(
-                $this->incomingType,
-                FILTER_VALIDATE_INT,
-                ['options' => ['min_range' => self::INCOMING_LOCAL, 'max_range' => self::INCOMING_BOTH]]
-            )) {
-                $this->incomingType = self::INCOMING_LOCAL;
-            }
+                $this->setAbsentFrom((int) $row->absent_from);
+                $this->setAbsentUntil((int) $row->absent_until);
+                $this->setAbsenceAutoresponderSubject($row->absence_ar_subject ?? '');
+                $this->setAbsenceAutoresponderBody($row->absence_ar_body ?? '');
 
                 if (false === filter_var(
-                        $this->emailAddressMode,
-                        FILTER_VALIDATE_INT,
-                        ['options' => ['min_range' => self::FIRST_EMAIL, 'max_range' => self::BOTH_EMAIL]]
-                    )) {
+                    $this->incomingType,
+                    FILTER_VALIDATE_INT,
+                    ['options' => ['min_range' => self::INCOMING_LOCAL, 'max_range' => self::INCOMING_BOTH]]
+                )) {
+                    $this->incomingType = self::INCOMING_LOCAL;
+                }
+
+                if (false === filter_var(
+                    $this->emailAddressMode,
+                    FILTER_VALIDATE_INT,
+                    ['options' => ['min_range' => self::FIRST_EMAIL, 'max_range' => self::BOTH_EMAIL]]
+                )) {
                     $this->emailAddressMode = self::FIRST_EMAIL;
                 }
             }
