@@ -397,10 +397,13 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $form_data = $form->getData();
 
         foreach ($form_data as $view => $view_data) {
+            if (!isset($view_data['avail_sorting']) || !is_array($view_data['avail_sorting'])) {
+                $view_data['avail_sorting'] = [$view_data['default_sorting']];
+            }
             $this->viewSettings->storeViewSorting(
                 $view,
                 $view_data['default_sorting'],
-                $view_data['avail_sorting'] ?: []
+                $view_data['avail_sorting']
             );
         }
         $this->editSorting();

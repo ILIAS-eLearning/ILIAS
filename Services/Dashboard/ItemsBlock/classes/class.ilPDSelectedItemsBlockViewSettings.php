@@ -35,10 +35,10 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     /** @var string[] */
     protected static array $viewNames = [
         self::VIEW_SELECTED_ITEMS => 'favourites',
-        self::VIEW_MY_MEMBERSHIPS => 'memberships',
-        self::VIEW_MY_STUDYPROGRAMME => 'studyprogramme',
         self::VIEW_RECOMMENDED_CONTENT => 'recommended_content',
-        self::VIEW_LEARNING_SEQUENCES => 'learningsequences'
+        self::VIEW_MY_MEMBERSHIPS => 'memberships',
+        self::VIEW_LEARNING_SEQUENCES => 'learningsequences',
+        self::VIEW_MY_STUDYPROGRAMME => 'studyprogramme',
     ];
 
     /** @var string[] */
@@ -86,11 +86,11 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
             self::PRESENTATION_LIST,
             self::PRESENTATION_TILE
         ],
-        self::VIEW_MY_MEMBERSHIPS => [
+        self::VIEW_RECOMMENDED_CONTENT => [
             self::PRESENTATION_LIST,
             self::PRESENTATION_TILE
         ],
-        self::VIEW_RECOMMENDED_CONTENT => [
+        self::VIEW_MY_MEMBERSHIPS => [
             self::PRESENTATION_LIST,
             self::PRESENTATION_TILE
         ],

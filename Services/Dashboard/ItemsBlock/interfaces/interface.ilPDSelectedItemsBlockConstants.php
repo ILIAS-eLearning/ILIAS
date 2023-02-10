@@ -21,8 +21,8 @@ declare(strict_types=1);
 interface ilPDSelectedItemsBlockConstants
 {
     public const VIEW_SELECTED_ITEMS = 0;
-    public const VIEW_MY_MEMBERSHIPS = 1;
-    public const VIEW_RECOMMENDED_CONTENT = 2;
+    public const VIEW_RECOMMENDED_CONTENT = 1;
+    public const VIEW_MY_MEMBERSHIPS = 2;
     public const VIEW_LEARNING_SEQUENCES = 3;
     public const VIEW_MY_STUDYPROGRAMME = 4;
 
