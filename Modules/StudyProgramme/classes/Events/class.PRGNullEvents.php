@@ -39,6 +39,9 @@ class PRGNullEvents implements StudyProgrammeEvents
     public function validityChange(ilPRGAssignment $assignment, int $pgs_node_id): void
     {
     }
+    public function deadlineChange(ilPRGAssignment $assignment, int $pgs_node_id): void
+    {
+    }
     public function scoreChange(ilPRGAssignment $assignment, int $pgs_node_id): void
     {
     }

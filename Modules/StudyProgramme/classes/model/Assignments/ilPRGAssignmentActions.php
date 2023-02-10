@@ -189,6 +189,7 @@ trait ilPRGAssignmentActions
             $date = $progress->getAssignmentDate();
             $date = $date->add(new DateInterval('P' . $period . 'D'));
         }
+        $this->notifyDeadlineChange($progress);
         return $progress->withDeadline($date);
     }
 
@@ -302,6 +303,10 @@ trait ilPRGAssignmentActions
     protected function notifyValidityChange(ilPRGProgress $pgs): void
     {
         $this->getEvents()->validityChange($this, $pgs->getNodeId());
+    }
+    protected function notifyDeadlineChange(ilPRGProgress $pgs): void
+    {
+        $this->getEvents()->deadlineChange($this, $pgs->getNodeId());
     }
     protected function notifyScoreChange(ilPRGProgress $pgs): void
     {
@@ -595,6 +600,9 @@ trait ilPRGAssignmentActions
                     ->withLastChange($acting_usr_id, $this->getNow())
                     ->withIndividualModifications(true);
                 $pgs = $this->applyProgressDeadline($settings_repo, $pgs, $acting_usr_id);
+                if ($pgs->isInProgress()) {
+                    $this->notifyDeadlineChange($pgs);
+                }
                 $err_collection->add(true, 'deadline_updated', $this->getProgressIdString($pgs->getNodeId()));
                 return $pgs;
             }
