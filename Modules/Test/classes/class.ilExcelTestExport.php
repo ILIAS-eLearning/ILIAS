@@ -359,7 +359,11 @@ class ilExcelTestExport extends ilTestExportAbstract
                 $this->worksheet->setBold($this->worksheet->getColumnCoord($col) . $row);
                 $row += 2;
                 if (is_object($userdata) && is_array($userdata->getQuestions($passCount))) {
-                    foreach ($userdata->getQuestions($passCount) as $question) {
+                    $questions = $userdata->getQuestions($passCount);
+                    usort($questions, static function ($a, $b) {
+                        return $a['sequence'] - $b['sequence'];
+                    });
+                    foreach ($questions as $question) {
                         $question = assQuestion::instantiateQuestion((int) $question["id"]);
                         if (is_object($question)) {
                             $row = $question->setExportDetailsXLS($this->worksheet, $row, $col, $active_id, $passCount);
