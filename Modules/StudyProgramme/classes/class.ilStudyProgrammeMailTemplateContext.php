@@ -24,19 +24,19 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
 {
     public const ID = 'prg_context_manual';
 
-    private const TITLE = "prg_title";
-    private const DESCRIPTION = "prg_description";
-    private const TYPE = "prg_type";
-    private const LINK = "prg_link";
-    private const ORG_UNIT = "prg_orgus";
-    private const STATUS = "prg_status";
-    private const COMPLETION_DATE = "prg_completion_date";
-    private const COMPLETED_BY = "prg_completion_by";
-    private const POINTS_REQUIRED = "prg_points_required";
-    private const POINTS_CURRENT = "prg_points_current";
-    private const DEADLINE = "prg_deadline";
-    private const EXPIRE_DATE = "prg_expiry_date";
-    private const VALIDITY = "prg_validity";
+    private const TITLE = "study_programme_title";
+    private const DESCRIPTION = "study_programme_description";
+    private const TYPE = "study_programme_type";
+    private const LINK = "study_programme_link";
+    private const ORG_UNIT = "study_programme_org_units";
+    private const STATUS = "study_programme_status";
+    private const COMPLETION_DATE = "study_programme_completion_date";
+    private const COMPLETED_BY = "study_programme_completion_by";
+    private const POINTS_REQUIRED = "study_programme_points_required";
+    private const POINTS_CURRENT = "study_programme_points_current";
+    private const DEADLINE = "study_programme_deadline";
+    private const EXPIRE_DATE = "study_programme_expire_date";
+    private const VALIDITY = "study_programme_validity";
 
     private const DATE_FORMAT = 'd-m-Y H:i:s';
 
