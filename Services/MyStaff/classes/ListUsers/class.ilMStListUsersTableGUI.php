@@ -354,7 +354,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
                     $field_values[$k] = $my_staff_user->returnIlUserObj()->getLookingForHelpAsText();
                     break;
                 default:
-                    $field_values[$k] = strip_tags($propGetter($k));
+                    $field_values[$k] = strip_tags($propGetter($k) ?? "");
                     break;
             }
         }
