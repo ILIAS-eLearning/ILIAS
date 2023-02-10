@@ -234,7 +234,7 @@ class ilIndividualAssessmentUserGrading
                     $finalized = $values['finalized'];
                 }
 
-                $file = $this->getFile();
+                $file = null;
                 if (
                     isset($values['file'][0]) &&
                     trim($values['file'][0]) != ''
