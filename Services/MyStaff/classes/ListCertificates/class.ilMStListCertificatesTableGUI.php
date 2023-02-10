@@ -326,7 +326,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
                     $field_values[$k] = new ilDateTime($propGetter($k), IL_CAL_UNIX);
                     break;
                 default:
-                    $field_values[$k] = strip_tags($propGetter($k));
+                    $field_values[$k] = strip_tags($propGetter($k) ?? "");
                     break;
             }
         }

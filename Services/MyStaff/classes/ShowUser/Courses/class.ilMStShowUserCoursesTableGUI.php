@@ -341,7 +341,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
                     $field_values[$k] = ilMyStaffGUI::getUserLpStatusAsText($my_staff_course);
                     break;
                 default:
-                    $field_values[$k] = strip_tags($propGetter($k));
+                    $field_values[$k] = strip_tags($propGetter($k) ?? "");
                     break;
             }
         }
