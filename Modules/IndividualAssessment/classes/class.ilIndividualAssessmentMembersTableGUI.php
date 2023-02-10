@@ -508,7 +508,7 @@ class ilIndividualAssessmentMembersTableGUI
 
     protected function userMayDownloadAttachment(int $usr_id): bool
     {
-        return $this->iass_access->mayViewUser($usr_id) || $this->iass_access->mayGradeUser() || $this->iass_access->mayGradeUser($usr_id);
+        return $this->iass_access->mayViewUser($usr_id) || $this->iass_access->mayGradeUser($usr_id);
     }
 
     protected function wasEditedByViewer(int $examiner_id = null): bool
