@@ -112,25 +112,21 @@ class ilMailOptionsTest extends ilMailBaseTest
         $this->object->absent_until = $absent_until;
         $this->object->absence_ar_subject = 'subject';
         $this->object->absence_ar_body = 'body';
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
-        $queryMock = $this->getMockBuilder(ilDBStatement::class)->getMock();
 
         $clockService = $this->getMockBuilder(ClockInterface::class)->getMock();
         $clockService->method('now')->willReturn((new DateTimeImmutable())->setTimestamp(100));
 
-        $database->expects($this->once())->method('fetchObject')->willReturn($this->object);
-        $database->expects($this->once())->method('queryF')->willReturn($queryMock);
-
-        $this->setGlobalVariable('ilDB', $database);
-
-        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
-            'set',
-            'get',
-        ])->getMock();
-        $this->setGlobalVariable('ilSetting', $settings);
+        $this->settings->expects($this->exactly(3))->method('get')->willReturnMap(
+            [
+                ['mail_incoming_mail', '', ''],
+                ['mail_address_option', '', ''],
+                ['show_mail_settings', null, '1']
+            ]
+        );
+        $this->setGlobalVariable('ilSetting', $this->settings);
 
         $mailOptions = new ilMailOptions(1, null, $clockService);
-        $this->assertEquals($mailOptions->isAbsent(), $result);
+        $this->assertEquals($result, $mailOptions->isAbsent());
     }
 
     public function provideMailOptionsData(): Generator
