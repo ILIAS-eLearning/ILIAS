@@ -87,12 +87,12 @@ class ilSurveyMailTemplateReminderContext extends ilMailTemplateContext
 
         $placeholders = array();
 
-        $placeholders['svy_title'] = array(
+        $placeholders['survey_title'] = array(
             'placeholder' => 'SURVEY_TITLE',
             'label' => $lng->txt('svy_mail_context_reminder_survey_title')
         );
 
-        $placeholders['svy_link'] = array(
+        $placeholders['survey_link'] = array(
             'placeholder' => 'SURVEY_LINK',
             'label' => $lng->txt('perma_link')
         );
@@ -111,11 +111,11 @@ class ilSurveyMailTemplateReminderContext extends ilMailTemplateContext
          */
         $ilObjDataCache = $this->obj_data_cache;
 
-        if ('svy_title' === $placeholder_id) {
+        if ('survey_title' === $placeholder_id) {
             return $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']));
         }
 
-        if ('svy_link' === $placeholder_id) {
+        if ('survey_link' === $placeholder_id) {
             return ilLink::_getLink($context_parameters['ref_id'], 'svy');
         }
 
