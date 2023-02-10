@@ -37,10 +37,10 @@ class ilDashboardSidePanelSettingsRepository
     public function getValidModules(): array
     {
         return [
+            self::TASKS,
             self::CALENDAR,
             self::NEWS,
             self::MAIL,
-            self::TASKS
         ];
     }
 

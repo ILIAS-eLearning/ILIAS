@@ -352,10 +352,12 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
             }
         }
 
-        if (!$this->viewSettings->isLearningSequenceViewActive()) {
+        if (!$this->viewSettings->isLearningSequenceViewActive() && !$this->viewSettings->isStudyProgrammeViewActive()) {
             $this->addBlockCommand(
                 $this->ctrl->getLinkTarget($this, 'manage'),
-                $this->viewSettings->isSelectedItemsViewActive() || $this->viewSettings->isMembershipsViewActive() ?
+                $this->viewSettings->isSelectedItemsViewActive() ||
+                $this->viewSettings->isMembershipsViewActive() ||
+                $this->viewSettings->isRecommendedContentViewActive() ?
                     $this->lng->txt('pd_remove_multiple') :
                     $this->lng->txt('pd_unsubscribe_multiple_memberships')
             );
@@ -408,6 +410,9 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     protected function returnToContext(): void
     {
         $this->ctrl->setParameterByClass('ildashboardgui', 'view', $this->viewSettings->getCurrentView());
+        if ($this->http->request()->getQueryParams()['manage'] ?? false) {
+            $this->ctrl->redirect($this, 'manage');
+        }
         $this->ctrl->redirectByClass('ildashboardgui', 'show');
     }
 
@@ -439,7 +444,11 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $button = ilSubmitButton::getInstance();
         $grouped_items = [];
         $item_groups = $this->getItemGroups();
-        if ($this->viewSettings->isSelectedItemsViewActive()) {
+        if (
+            $this->viewSettings->isSelectedItemsViewActive() ||
+            $this->viewSettings->isRecommendedContentViewActive() ||
+            $this->viewSettings->isMembershipsViewActive()
+        ) {
             $button->setCaption('remove');
         } else {
             $button->setCaption('pd_unsubscribe_memberships');
@@ -668,7 +677,9 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 
         $commandGroups[] = [
             [
-                'txt' => $this->viewSettings->isSelectedItemsViewActive() ?
+                'txt' => $this->viewSettings->isSelectedItemsViewActive() ||
+                $this->viewSettings->isRecommendedContentViewActive() ||
+                $this->viewSettings->isMembershipsViewActive() ?
                     $this->lng->txt('pd_remove_multiple') :
                     $this->lng->txt('pd_unsubscribe_multiple_memberships'),
                 'url' => $this->ctrl->getLinkTarget($this, 'manage'),

@@ -91,11 +91,6 @@ class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
             "dash_remove_from_list"
         );
 
-        $item_gui->addCustomCommand(
-            $this->ctrl->getLinkTarget($this, "makeFavourite"),
-            "dash_make_favourite"
-        );
-
         $this->ctrl->clearParameterByClass(self::class, "item_ref_id");
 
 

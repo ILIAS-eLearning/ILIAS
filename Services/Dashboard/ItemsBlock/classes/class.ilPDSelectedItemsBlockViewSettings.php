@@ -58,6 +58,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     protected static array $availableSortOptionsByView = [
         self::VIEW_SELECTED_ITEMS => [
             self::SORT_BY_LOCATION,
+            self::SORT_BY_TYPE,
             self::SORT_BY_ALPHABET,
         ],
         self::VIEW_RECOMMENDED_CONTENT => [
@@ -67,6 +68,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
         ],
         self::VIEW_MY_MEMBERSHIPS => [
             self::SORT_BY_LOCATION,
+            self::SORT_BY_TYPE,
             self::SORT_BY_ALPHABET,
             self::SORT_BY_START_DATE,
         ],
@@ -156,6 +158,11 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     public function isMembershipsViewActive(): bool
     {
         return $this->currentView === $this->getMembershipsView();
+    }
+
+    public function isRecommendedContentViewActive(): bool
+    {
+        return $this->currentView === self::VIEW_RECOMMENDED_CONTENT;
     }
 
     public function isSelectedItemsViewActive(): bool
