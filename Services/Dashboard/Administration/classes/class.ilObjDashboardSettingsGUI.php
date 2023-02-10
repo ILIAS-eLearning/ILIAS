@@ -400,11 +400,13 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             if (!isset($view_data['avail_sorting']) || !is_array($view_data['avail_sorting'])) {
                 $view_data['avail_sorting'] = [$view_data['default_sorting']];
             }
-            $this->viewSettings->storeViewSorting(
-                $view,
-                $view_data['default_sorting'],
-                $view_data['avail_sorting']
-            );
+            if (isset($view_data['default_sorting'])) {
+                $this->viewSettings->storeViewSorting(
+                    $view,
+                    $view_data['default_sorting'],
+                    $view_data['avail_sorting']
+                );
+            }
         }
         $this->editSorting();
     }

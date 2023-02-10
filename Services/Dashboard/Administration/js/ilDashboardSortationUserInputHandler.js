@@ -36,10 +36,12 @@ function switchBackToDefaultIfEnabled(selectionInput, checkboxInput) {
  * @param {Element} checkboxInput
  */
 function updateSelectedValueToFirstPossibleOption(selectionInput) {
-    if (selectionInput.querySelector('option[selected="selected"]').getAttribute('disabled') === 'disabled') {
+    const selectedDefaultSortation =  selectionInput.querySelector('option[selected="selected"]');
+    if (!selectedDefaultSortation || selectedDefaultSortation.getAttribute('disabled') === 'disabled') {
         const firstPossibleOption = selectionInput.querySelector('option:not([disabled])');
-        selectionInput.querySelector('option[selected="selected"]').removeAttribute('selected');
-        firstPossibleOption.setAttribute('selected', 'selected');
+        if (firstPossibleOption) {
+            firstPossibleOption.setAttribute('selected', 'selected');
+        }
     }
 }
 
@@ -75,7 +77,9 @@ function handleUserInputForSortationsByView(view) {
     disableMinusOption(selectionInput);
     updateSelectionInputWithActivatedOptions(selectionInput, checkboxInput);
     const selectedOption = selectionInput.querySelectorAll('option[selected=\"selected\"]')[0];
-    selectedOption.setAttribute('default', 'default');
+    if (selectedOption) {
+        selectedOption.setAttribute('default', 'default');
+    }
     ensureLastOptionNotDeselectable(checkboxInput);
     checkboxInput.onchange = function () {
         updateSelectionInputWithActivatedOptions(selectionInput, checkboxInput);
