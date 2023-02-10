@@ -166,7 +166,7 @@ class ilCertificateGUIFactory
                 $formFactory = new ilCertificateSettingsStudyProgrammeFormRepository(
                     $object,
                     $certificatePath,
-                    true,
+                    false,
                     $DIC->language(),
                     $DIC->ctrl(),
                     $DIC->access(),
