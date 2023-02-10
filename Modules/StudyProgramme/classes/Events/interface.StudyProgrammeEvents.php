@@ -28,6 +28,7 @@ interface StudyProgrammeEvents
     public const EVENT_USER_TO_RESTART = 'informUserToRestart';
     public const EVENT_USER_ABOUT_TO_FAIL = 'userRiskyToFail';
     public const EVENT_VALIDITY_CHANGE = 'vqChange';
+    public const EVENT_DEADLINE_CHANGE = 'deadlineChange';
     public const EVENT_SCORE_CHANGE = 'currentPointsChange';
     public const EVENT_USER_NOT_SUCCESSFUL = 'userNotSuccessful';
 
@@ -39,6 +40,7 @@ interface StudyProgrammeEvents
     public function userSuccessful(ilPRGAssignment $assignment, int $pgs_node_id): void;
     public function userRevertSuccessful(ilPRGAssignment $assignment, int $pgs_node_id): void;
     public function validityChange(ilPRGAssignment $assignment, int $pgs_node_id): void;
+    public function deadlineChange(ilPRGAssignment $assignment, int $pgs_node_id): void;
     public function scoreChange(ilPRGAssignment $assignment, int $pgs_node_id): void;
 
     public function userRiskyToFail(ilPRGAssignment $assignment): void;

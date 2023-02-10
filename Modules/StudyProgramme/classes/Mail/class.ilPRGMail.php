@@ -92,6 +92,17 @@ class ilPRGMail
         }
     }
 
+    public function resetExpiryInfoSentFor(int $assignment_id, int $root_prg_id): void
+    {
+        list($ass, $prg) = $this->getAssignmentAndProgramme($assignment_id, $root_prg_id);
+        $now = new \DateTimeImmutable();
+        $vq = $ass->getProgressTree()->getValidityOfQualification();
+
+        if ($vq && $vq > $now) {
+            $prg->resetExpiryInfoSentFor($ass);
+        }
+    }
+
     public function sendRiskyToFailMail(int $assignment_id, int $root_prg_id): void
     {
         list($ass, $prg) = $this->getAssignmentAndProgramme($assignment_id, $root_prg_id);
@@ -107,6 +118,16 @@ class ilPRGMail
 
         if ($sent) {
             $prg->storeRiskyToFailSentFor($ass);
+        }
+    }
+
+    public function resetRiskyToFailSentFor(int $assignment_id, int $root_prg_id): void
+    {
+        list($ass, $prg) = $this->getAssignmentAndProgramme($assignment_id, $root_prg_id);
+        $now = new \DateTimeImmutable();
+        $deadline = $ass->getProgressTree()->getDeadline();
+        if ($deadline && $deadline > $now) {
+            $prg->resetRiskyToFailSentFor($ass);
         }
     }
 

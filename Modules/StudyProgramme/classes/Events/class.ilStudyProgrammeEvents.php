@@ -74,6 +74,13 @@ class ilStudyProgrammeEvents implements StudyProgrammeEvents
         ])) {
             $this->app_event_handler->raise(self::COMPONENT, $event, $parameter);
         }
+
+        if ($event === self::EVENT_VALIDITY_CHANGE) {
+            $this->prg_event_handler->resetMailFlagValidity($parameter['ass_id'], $parameter['root_prg_id']);
+        }
+        if ($event === self::EVENT_DEADLINE_CHANGE) {
+            $this->prg_event_handler->resetMailFlagDeadline($parameter['ass_id'], $parameter['root_prg_id']);
+        }
     }
 
     public function userAssigned(ilPRGAssignment $assignment): void
@@ -157,6 +164,17 @@ class ilStudyProgrammeEvents implements StudyProgrammeEvents
             "usr_id" => $assignment->getUserId()
         ]);
     }
+
+    public function deadlineChange(ilPRGAssignment $assignment, int $pgs_node_id): void
+    {
+        $this->raise(self::EVENT_DEADLINE_CHANGE, [
+            "ass_id" => $assignment->getId(),
+            "root_prg_id" => $assignment->getRootId(),
+            "prg_id" => $pgs_node_id,
+            "usr_id" => $assignment->getUserId()
+        ]);
+    }
+
     public function scoreChange(ilPRGAssignment $assignment, int $pgs_node_id): void
     {
         $this->raise(self::EVENT_SCORE_CHANGE, [

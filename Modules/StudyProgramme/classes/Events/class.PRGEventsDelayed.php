@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +14,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class PRGEventsDelayed implements StudyProgrammeEvents
 {
@@ -110,6 +109,17 @@ class PRGEventsDelayed implements StudyProgrammeEvents
             "usr_id" => $assignment->getUserId()
         ]);
     }
+
+    public function deadlineChange(ilPRGAssignment $assignment, int $pgs_node_id): void
+    {
+        $this->collect(self::EVENT_DEADLINE_CHANGE, [
+            "ass_id" => $assignment->getId(),
+            "root_prg_id" => $assignment->getRootId(),
+            "prg_id" => $pgs_node_id,
+            "usr_id" => $assignment->getUserId()
+        ]);
+    }
+
     public function scoreChange(ilPRGAssignment $assignment, int $pgs_node_id): void
     {
         $this->collect(self::EVENT_SCORE_CHANGE, [

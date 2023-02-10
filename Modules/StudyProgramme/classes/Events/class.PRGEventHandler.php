@@ -54,12 +54,23 @@ class PRGEventHandler
     {
         $this->mail->sendRiskyToFailMail($assignment_id, $root_prg_id);
     }
+
     public function sendInformToReAssignMail(int $assignment_id, int $root_prg_id): void
     {
         $this->mail->sendInformToReAssignMail($assignment_id, $root_prg_id);
     }
+
     public function sendReAssignedMail(int $assignment_id, int $root_prg_id): void
     {
         $this->mail->sendReAssignedMail($assignment_id, $root_prg_id);
+    }
+
+    public function resetMailFlagValidity(int $assignment_id, int $root_prg_id): void
+    {
+        $this->mail->resetExpiryInfoSentFor($assignment_id, $root_prg_id);
+    }
+    public function resetMailFlagDeadline(int $assignment_id, int $root_prg_id): void
+    {
+        $this->mail->resetRiskyToFailSentFor($assignment_id, $root_prg_id);
     }
 }
