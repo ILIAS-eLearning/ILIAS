@@ -239,7 +239,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     {
         $val = $this->settings->get('pd_active_sort_view_' . $view);
         if ($val === "" || $val === null) {
-            $active_sortings = [];
+            $active_sortings = $this->getAvailableSortOptionsByView($view);
         } else {
             $active_sortings = unserialize($val, ['allowed_classes' => false]);
         }
