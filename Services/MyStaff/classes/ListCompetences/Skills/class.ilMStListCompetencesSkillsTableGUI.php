@@ -221,7 +221,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $set = array_pop($a_set);
 
         $propGetter = Closure::bind(function ($prop) {
-            return $this->$prop;
+            return $this->$prop ?? null;
         }, $set, $set);
 
         foreach ($this->getSelectableColumns() as $k => $v) {
@@ -282,7 +282,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
     protected function getFieldValuesForExport(ilMStListCompetencesSkill $selected_skill): array
     {
         $propGetter = Closure::bind(function ($prop) {
-            return $this->$prop;
+            return $this->$prop ?? null;
         }, $selected_skill, $selected_skill);
 
         $field_values = array();
