@@ -12603,6 +12603,8 @@ prg#:#msg_update_individual_plan_failed#:#Update  of individual plan failed
 prg#:#no_srctype_or_id#:#Id and type may not be empty.
 prg#:#not_a_valid_cat_id#:#%s is not a valid ref-id of a category.
 prg#:#obj_prg_select#:#-- Please select a study programme --
+prg#:#optgrp_label_restart#:#Restart
+prg#:#optgrp_label_validity#:#Expiry
 prg#:#orgu#:#Organisational Unit
 prg#:#percentage#:#%
 prg#:#prg_access_by_orgu#:#Access Control by Organisation Unit Positions
