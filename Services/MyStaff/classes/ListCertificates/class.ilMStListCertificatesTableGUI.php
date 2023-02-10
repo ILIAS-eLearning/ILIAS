@@ -313,7 +313,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
     private function getFieldValuesForExport(UserCertificateDto $user_certificate_dto): array
     {
         $propGetter = Closure::bind(function ($prop) {
-            return $this->$prop;
+            return $this->$prop ?? null;
         }, $user_certificate_dto, $user_certificate_dto);
 
         $field_values = array();

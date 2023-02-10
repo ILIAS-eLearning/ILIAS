@@ -187,11 +187,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
-                if (isset($v['sort_field'])) {
-                    $sort = $v['sort_field'];
-                } else {
-                    $sort = null;
-                }
+                $sort = $v['sort_field'] ?? null;
                 $this->addColumn($v['txt'], (string) $sort);
             }
         }
@@ -207,14 +203,14 @@ class ilMStListUsersTableGUI extends ilTable2GUI
      * @throws \ilCtrlException
      * @throws \ilTemplateException
      */
-    final public function fillRow(array $a_set): void
+    final protected function fillRow(array $a_set): void
     {
         global $DIC;
 
         $set = array_pop($a_set);
 
         $propGetter = Closure::bind(function ($prop) {
-            return $this->$prop;
+            return $this->$prop ?? null;
         }, $set, $set);
 
         //Avatar
@@ -335,7 +331,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         global $DIC;
 
         $propGetter = Closure::bind(function ($prop) {
-            return $this->$prop;
+            return $this->$prop ?? null;
         }, $my_staff_user, $my_staff_user);
 
         $field_values = array();
