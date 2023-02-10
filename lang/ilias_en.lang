@@ -7844,7 +7844,7 @@ crs#:#edit_timings_list#:#Edit Timings
 crs#:#event#:#Session
 crs#:#event_add_new_event#:#Added new session
 crs#:#event_assign_materials_info#:#Assigned materials will be displayed directly below the session.
-crs#:#event_assign_materials_table#:#Assignment of Materials
+crs#:#event_assign_materials_table#:#Assigned Materials
 crs#:#event_blank_columns#:#Additional Columns
 crs#:#event_btn_add#:#Add Session
 crs#:#event_btn_add_edit#:#Add Session and Assign Materials
@@ -10120,7 +10120,7 @@ irss#:#type#:#File Type
 itgr#:#itgr_always_open#:#Always Open
 itgr#:#itgr_assign_materials#:#Assign Materials
 itgr#:#itgr_assigned_materials#:#Assigned Materials
-itgr#:#itgr_assignment#:#Assignment
+itgr#:#itgr_assignment#:#Assigned
 itgr#:#itgr_behaviour#:#Block Behaviour
 itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.
@@ -14648,7 +14648,7 @@ sess#:#sess_filter_all_types#:#All types
 sess#:#sess_filter_not_assigned#:#Not Assigned
 sess#:#sess_import#:#Import Session
 sess#:#sess_info_new_sess_type#:#New Session Type
-sess#:#sess_is_assigned#:#is Assigned
+sess#:#sess_is_assigned#:#Assigned
 sess#:#sess_list_reg_limit_places#:#Free places
 sess#:#sess_lp_preset#:#Activate Learning Progress
 sess#:#sess_lp_preset_info#:#Activates the learning progress for all session events to be created.
