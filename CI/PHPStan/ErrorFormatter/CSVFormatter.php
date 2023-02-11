@@ -32,7 +32,7 @@ class CSVFormatter implements ErrorFormatter
     private const H_LINE = 'Line';
     private const H_MESSAGE = 'Used Implementation';
     private const COMPONENT_UNKNOWN = 'Unknown';
-    private const H_RULE = 'Rile';
+    private const H_RULE = 'Rule';
 
     private array $csv_headers = [
         self::H_COMPONENT,

@@ -24,16 +24,16 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\RuleErrorBuilder;
 
-class NoLegacyButtonUsagesRule extends LegacyClassUsageRule implements Rule
+class NoLegacyCheckboxListUsagesRule extends LegacyClassUsageRule implements Rule
 {
     protected function getHumanReadableRuleName(): string
     {
-        return 'Legacy Button Usages';
+        return 'Legacy Checkbox List Usages';
     }
 
 
     protected function getForbiddenClasses(): array
     {
-        return ['ilLinkButton'];
+        return ['ilCheckboxListOverlayGUI'];
     }
 }

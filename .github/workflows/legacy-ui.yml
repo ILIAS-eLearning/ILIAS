@@ -1,5 +1,18 @@
 name: legacy-ui-checks
-on: [pull_request, push]
+on:
+  schedule:
+     # Run every 12 hours
+    - cron: '0 3,15 * * *'
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to run report'
+        required: true
+        default: 'trunk'
+        type: choice
+        options:
+          - trunk
+          - release_8
 permissions:
   contents: read
   pull-requests: read
@@ -10,27 +23,24 @@ jobs:
       all: ${{ steps.changes.outputs.all }}
     strategy:
       fail-fast: false
-      matrix:
-        php: [8.1]
-        paths: [Modules, Services]
     steps:
-      - name: Checkout code
+      - name: 'Checkout Code'
         uses: actions/checkout@v2
         with:
           fetch-depth: 1
 
-      - name: Install dependencies
+      - name: 'Install Dependencies'
         uses: php-actions/composer@v6
         with:
-          php_version: ${{ matrix.php }}
-          args: --no-interaction --no-progress --ignore-platform-reqs
+          php_version: 8.1
+          args: --no-interaction --no-progress --ignore-platform-reqs --no-scripts
 
-      - uses: php-actions/phpstan@v3
+      - name: 'PHStan Custom Rules'
+        run: CI/PHPStan/run_legacy_ui_report.sh
+
+      - name: 'Store Report'
+        uses: actions/upload-artifact@v3
         with:
-          php_version: ${{ matrix.php }}
-          error_format: table
-          configuration: CI/PHPStan/legacy_ui.neon
-          path: ${{ matrix.paths }}
-          autoload_file: libs/composer/vendor/autoload.php
-          memory_limit: -1
-          args: --no-progress --no-interaction
+          name: Reports
+          path: Reports
+          retention-days: 30

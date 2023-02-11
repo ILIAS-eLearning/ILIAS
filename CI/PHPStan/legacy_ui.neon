@@ -2,11 +2,14 @@ services:
 	errorFormatter.csv:
 		class: \ILIAS\CI\PHPStan\ErrorFormatter\CSVFormatter
 rules:
-#    - ILIAS\CI\PHPStan\Rules\NoLegacyTableUsagesRule
-#    - ILIAS\CI\PHPStan\Rules\NoLegacyButtonUsagesRule
-#    - ILIAS\CI\PHPStan\Rules\NoLegacyModalUsagesRule
-    - ILIAS\CI\PHPStan\Rules\NoLegacySelectionListUsagesRule
+    - ILIAS\CI\PHPStan\Rules\NoLegacyButtonUsagesRule # ILIAS 9
+    - ILIAS\CI\PHPStan\Rules\NoLegacyCheckboxListUsagesRule # ILIAS 9
+    - ILIAS\CI\PHPStan\Rules\NoLegacySelectionListUsagesRule # ILIAS 9
+#    - ILIAS\CI\PHPStan\Rules\NoLegacyModalUsagesRule # ILIAS 10
+#    - ILIAS\CI\PHPStan\Rules\NoLegacyTableUsagesRule # ILIAS 10
 parameters:
+    parallel:
+        maximumNumberOfProcesses: 10
     customRulesetUsed: true
     bootstrapFiles:
         - constants.php

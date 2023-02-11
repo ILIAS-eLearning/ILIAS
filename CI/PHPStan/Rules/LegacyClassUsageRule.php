@@ -18,6 +18,7 @@
 
 namespace ILIAS\CI\PHPStan\Rules;
 
+use PhpParser\Node\Expr\CallLike;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PhpParser\Node;
@@ -28,6 +29,8 @@ abstract class LegacyClassUsageRule implements Rule
 {
     protected ReflectionProvider $reflectionProvider;
     protected \PHPStan\Rules\Generics\GenericAncestorsCheck $genericAncestorsCheck;
+    private array $forbidden_classes = [];
+    private array $ancestor_cache = [];
 
     public function __construct(
         ReflectionProvider $reflectionProvider,
@@ -35,11 +38,49 @@ abstract class LegacyClassUsageRule implements Rule
     ) {
         $this->reflectionProvider = $reflectionProvider;
         $this->genericAncestorsCheck = $genericAncestorsCheck;
+
+        // Determine possible class-names (parents and children) of the forbidden classes
+        $forbidden_classes = [];
+
+        foreach ($this->getForbiddenClasses() as $forbidden_class) {
+            $ancestors = $this->getClassAncestors($forbidden_class);
+            $this->cacheAncestors($forbidden_class, $ancestors);
+            $forbidden_classes = array_merge(
+                $forbidden_classes,
+                $ancestors
+            );
+        }
+
+        $this->forbidden_classes = array_unique($forbidden_classes);
+    }
+
+    private function getClassAncestors(string $class_name): array
+    {
+        if (isset($this->ancestor_cache[$class_name])) {
+            return $this->ancestor_cache[$class_name];
+        }
+
+        $ancestors[] = $class_name;
+
+        try {
+            $reflection = $this->reflectionProvider->getClass($class_name);
+            $ancestors = array_merge($ancestors, $reflection->getParentClassesNames());
+        } catch (\PHPStan\Broker\ClassNotFoundException $e) {
+            // Do nothing
+        } finally {
+            unset($reflection);
+        }
+        return array_unique($ancestors);
+    }
+
+    private function cacheAncestors($class_name, array $ancestor_classes): void
+    {
+        $this->ancestor_cache[$class_name] = $ancestor_classes;
     }
 
     public function getNodeType(): string
     {
-        return Node\Expr::class;
+        return CallLike::class;
     }
 
     abstract protected function getForbiddenClasses(): array;
@@ -61,23 +102,18 @@ abstract class LegacyClassUsageRule implements Rule
                 return [];
         }
 
-        try {
-            $reflection = $this->reflectionProvider->getClass($class_name);
-            $parent_class_names = $reflection->getParentClassesNames();
-        } catch (\Throwable $t) {
-            $parent_class_names = [];
+        $class_names_to_test = $this->getClassAncestors($class_name);
+
+        $array_intersect = array_intersect($class_names_to_test, $this->forbidden_classes);
+        if ($array_intersect !== []) {
+            $this->cacheAncestors($class_name, $class_names_to_test);
+            return [
+                RuleErrorBuilder::message("Usage of $class_name is forbidden.")
+                    ->metadata(['rule' => $this->getHumanReadableRuleName()])
+                    ->build()
+            ];
         }
-        $class_names_to_test = array_merge($parent_class_names, [$class_name]);
-        unset($reflection);
-        foreach ($this->getForbiddenClasses() as $class) {
-            if (in_array($class, $class_names_to_test)) {
-                return [
-                    RuleErrorBuilder::message($class_name)
-                        ->metadata(['rule' => $this->getHumanReadableRuleName()])
-                        ->build()
-                ];
-            }
-        }
+
         return [];
     }
 }
