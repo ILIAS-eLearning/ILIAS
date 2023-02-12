@@ -22,6 +22,8 @@
     /**
      * handle basic auth
      */
+//    file_put_contents("log.txt",var_export($_SERVER,true),8);
+
     if( !empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW']) )
     {
         $client = $_SERVER['PHP_AUTH_USER'];
