@@ -68,7 +68,7 @@ class ilCmiXapiVerbList
 
     public function isValidVerb(string $verb): bool
     {
-        return in_array($verb, $this->verbs);
+        return true;//not necessary for dynamic verbs: in_array($verb, $this->verbs);
     }
 
     public function getVerbUri(string $verb): string
