@@ -62,7 +62,11 @@ class ilCmiXapiHighscoreReport
         global $DIC;
 
         $rows = [];
-        $obj = ilObjCmiXapi::getInstance($this->objId, false);
+        if (ilObject::_lookupType($this->objId) == 'cmix') {
+            $obj = ilObjCmiXapi::getInstance($this->objId, false);
+        } else {
+            $obj = ilObjLTIConsumer::getInstance($this->objId, false);
+        }
 
         if ($obj->isMixedContentType()) {
             foreach ($this->response as $item) {

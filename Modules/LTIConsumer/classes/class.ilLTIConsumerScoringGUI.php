@@ -49,7 +49,7 @@ class ilLTIConsumerScoringGUI
 
     private array $tableData;
     private string $tableHtml = '';
-    private int $userRank;
+    private ?int $userRank;
     private \ilGlobalTemplateInterface $main_tpl;
 
 
