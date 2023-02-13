@@ -111,6 +111,7 @@ class ilForumXMLWriter extends ilXmlWriter
             $this->xmlElement("UpdateDate", null, $row->thr_date);
             $this->xmlElement("ImportName", null, $row->import_name);
             $this->xmlElement("Sticky", null, (int) $row->is_sticky);
+            $this->xmlElement("OrderSequenceIndex", null, (int) $row->thread_sorting);
             $this->xmlElement("Closed", null, (int) $row->is_closed);
 
             $query = 'SELECT frm_posts.*, frm_posts_tree.*
