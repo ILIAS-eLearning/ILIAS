@@ -111,12 +111,14 @@ class ilAuthSession
      */
     public function logout()
     {
+        global $DIC;
+
         $this->getLogger()->debug('Logout called for: ' . $this->getUserId());
         session_regenerate_id(true);
         session_destroy();
 
         $this->init();
-        $this->setAuthenticated(true, ANONYMOUS_USER_ID);
+        $this->setAuthenticated($DIC->settings()->get('pub_section'), ANONYMOUS_USER_ID);
     }
     
     /**
