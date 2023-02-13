@@ -78,44 +78,6 @@ class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
         $this->setData(['' => $recommendations]);
     }
 
-    public function getItemForData(array $data): ?\ILIAS\UI\Component\Item\Item
-    {
-        $item = $data;
-        $item_gui = $this->byType($data['type']);
-        ilObjectActivation::addListGUIActivationProperty($item_gui, $item);
-
-        $this->ctrl->setParameterByClass(get_class($this), "item_ref_id", $data['ref_id']);
-
-        $item_gui->addCustomCommand(
-            $this->ctrl->getLinkTarget($this, "remove"),
-            "dash_remove_from_list"
-        );
-
-        $this->ctrl->clearParameterByClass(self::class, "item_ref_id");
-
-
-        $list_item = $item_gui->getAsListItem(
-            $data['ref_id'],
-            $data['obj_id'],
-            $data['type'],
-            $data['title'],
-            $data['description'],
-        );
-
-        return $list_item;
-    }
-
-    public function getCardForData(array $data): ?\ILIAS\UI\Component\Card\RepositoryObject
-    {
-        return $this->byType($data['type'])->getAsCard(
-            $data['ref_id'],
-            $data['obj_id'],
-            $data['type'],
-            $data['title'],
-            $data['description'],
-        );
-    }
-
     public function getBlockType(): string
     {
         return 'pdrecc';

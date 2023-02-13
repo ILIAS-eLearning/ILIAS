@@ -82,9 +82,21 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 
     abstract public function emptyHandling(): string;
 
-    abstract public function getCardForData(array $data): ?\ILIAS\UI\Component\Card\RepositoryObject;
+    protected function getCardForData(array $data): ?\ILIAS\UI\Component\Card\RepositoryObject
+    {
+        $itemListGui = $this->byType($data['type']);
+        ilObjectActivation::addListGUIActivationProperty($itemListGui, $data);
 
-    abstract public function getItemForData(array $data): ?\ILIAS\UI\Component\Item\Item;
+        $card = $itemListGui->getAsCard(
+            (int) $data['ref_id'],
+            (int) $data['obj_id'],
+            (string) $data['type'],
+            (string) $data['title'],
+            (string) $data['description']
+        );
+
+        return $card;
+    }
 
     protected function getListItemGroups(): array
     {
@@ -108,7 +120,18 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 
     protected function getListItemForData(array $data): ?\ILIAS\UI\Component\Item\Item
     {
-        return $this->getItemForData($data);
+        $itemListGui = $this->byType($data['type']);
+        ilObjectActivation::addListGUIActivationProperty($itemListGui, $data);
+
+        $list_item = $itemListGui->getAsListItem(
+            (int) $data['ref_id'],
+            (int) $data['obj_id'],
+            (string) $data['type'],
+            (string) $data['title'],
+            (string) $data['description']
+        );
+
+        return $list_item;
     }
 
     protected function isRepositoryObject(): bool

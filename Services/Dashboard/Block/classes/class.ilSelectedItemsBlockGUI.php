@@ -58,38 +58,6 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
         $this->setData(['' => $data]);
     }
 
-    public function getItemForData(array $data): ?\ILIAS\UI\Component\Item\Item
-    {
-        $itemListGui = $this->byType($data['type']);
-        ilObjectActivation::addListGUIActivationProperty($itemListGui, $data);
-
-        $list_item = $itemListGui->getAsListItem(
-            (int) $data['ref_id'],
-            (int) $data['obj_id'],
-            (string) $data['type'],
-            (string) $data['title'],
-            (string) $data['description']
-        );
-
-        return $list_item;
-    }
-
-    public function getCardForData(array $data): ?\ILIAS\UI\Component\Card\RepositoryObject
-    {
-        $itemListGui = $this->byType($data['type']);
-        ilObjectActivation::addListGUIActivationProperty($itemListGui, $data);
-
-        $card = $itemListGui->getAsCard(
-            (int) $data['ref_id'],
-            (int) $data['obj_id'],
-            (string) $data['type'],
-            (string) $data['title'],
-            (string) $data['description']
-        );
-
-        return $card;
-    }
-
     public function getBlockType(): string
     {
         return 'pditems';

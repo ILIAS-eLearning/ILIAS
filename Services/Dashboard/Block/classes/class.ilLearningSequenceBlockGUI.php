@@ -99,44 +99,6 @@ class ilLearningSequenceBlockGUI extends ilDashboardBlockGUI
         $this->setData(['' => $data]);
     }
 
-    public function getItemForData(array $data): \ILIAS\UI\Component\Item\Item
-    {
-        return $this->getLsoItem($data['obj']);
-    }
-
-    protected function getLsoItem(ilObjLearningSequence $lso_obj)
-    {
-        $ref_id = $lso_obj->getRefId();
-        $title = $lso_obj->getTitle();
-
-        $link = $this->getLinkedTitle($ref_id, $title);
-
-        return $this->factory->item()->standard($link)
-                             ->withProperties(
-                                 [
-                                     $this->lng->txt('status') => $this->getOnlineStatus($ref_id)
-                                 ]
-                             )
-                             ->withLeadIcon($this->getIcon($title));
-    }
-
-    protected function getLinkedTitle(int $ref_id, string $title): \ILIAS\UI\Component\Button\Shy
-    {
-        $link = ilLink::_getLink($ref_id, 'lso');
-        return $this->factory->button()->shy($title, $link);
-    }
-
-    protected function getOnlineStatus(int $ref_id): string
-    {
-        $status = ilObjLearningSequenceAccess::isOffline($ref_id);
-
-        if ($status) {
-            return 'Offline';
-        }
-
-        return 'Online';
-    }
-
     protected function getIcon(string $title): \ILIAS\UI\Component\Symbol\Icon\Standard
     {
         if (!isset($this->icon) || is_null($this->icon)) {
@@ -148,17 +110,6 @@ class ilLearningSequenceBlockGUI extends ilDashboardBlockGUI
         }
 
         return $this->icon;
-    }
-
-    public function getCardForData(array $data): ?\ILIAS\UI\Component\Card\RepositoryObject
-    {
-        return $this->byType($data['type'])->getAsCard(
-            $data['ref_id'],
-            $data['obj_id'],
-            $data['type'],
-            $data['title'],
-            $data['description'],
-        );
     }
 
     public function getBlockType(): string

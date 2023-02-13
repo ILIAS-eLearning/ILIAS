@@ -119,6 +119,26 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
 
     public function getItemForData(array $data): ?\ILIAS\UI\Component\Item\Item
     {
+        $item_gui = $this->byType($data['type']);
+        ilObjectActivation::addListGUIActivationProperty($item_gui, $data);
+
+        $item_gui->initItem(
+            $data['ref_id'],
+            $data['obj_id'],
+            $data['type'],
+            $data['title'],
+            $data['description'],
+        );
+        $commands = $item_gui->getCommands();
+        $commands = array_map(
+            function ($command) {
+                return $this->factory->button()->shy(
+                    $this->lng->txt($command['lang_var']),
+                    $command['link']
+                );
+            },
+            $commands
+        );
         $prg = $data['obj'];
         $properties = $data['properties'];
         $title = $prg->getTitle();
@@ -135,7 +155,9 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
                              ->withProperties(array_merge(...$properties))
                              ->withDescription($description)
                              ->withLeadIcon($icon)
-        ;
+                            ->withActions(
+                                $this->factory->dropdown()->standard($commands)
+                            );
     }
 
 
@@ -158,17 +180,6 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
             null
         );
         return $link;
-    }
-
-    public function getCardForData(array $data): ?\ILIAS\UI\Component\Card\RepositoryObject
-    {
-        return $this->byType($data['type'])->getAsCard(
-            $data['ref_id'],
-            $data['obj_id'],
-            $data['type'],
-            $data['title'],
-            $data['description'],
-        );
     }
 
     public function getBlockType(): string
