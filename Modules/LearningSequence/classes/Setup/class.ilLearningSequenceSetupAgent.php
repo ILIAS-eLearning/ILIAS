@@ -57,8 +57,15 @@ class ilLearningSequenceSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(
-            new ilLearningSequenceRectifyPostConditionsTableDBUpdateSteps()
+        return new Setup\ObjectiveCollection(
+            'Database is updated for Module/LearningSequence',
+            false,
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilLearningSequenceRectifyPostConditionsTableDBUpdateSteps()
+            ),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilLearningSequenceRegisterNotificationType()
+            )
         );
     }
 

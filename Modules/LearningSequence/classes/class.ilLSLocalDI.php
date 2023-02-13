@@ -35,7 +35,6 @@ class ilLSLocalDI extends Container
         ilObjLearningSequence $object
     ): void {
         $obj_id = (int) $object->getId();
-//        $obj_title = $object->getTitle();
 
         $current_user = $dic['ilUser'];
         $current_user_id = (int) $current_user->getId();
@@ -50,7 +49,6 @@ class ilLSLocalDI extends Container
         };
 
         $this["obj.obj_id"] = $obj_id;
-//        $this["obj.title"] = (string) $obj_title;
 
         $this["usr.id"] = $current_user_id;
 
@@ -192,7 +190,6 @@ class ilLSLocalDI extends Container
             $window_title = $dic['ilSetting']->get('short_inst_name', 'ILIAS');
 
             return new ilKioskPageRenderer(
-                $dic["tpl"],
                 $dic["global_screen"]->layout()->meta(),
                 $dic["ui.factory"],
                 $dic["ui.renderer"],

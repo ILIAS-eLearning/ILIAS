@@ -28,7 +28,6 @@ use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
 
 class ilKioskPageRenderer
 {
-    protected ilGlobalPageTemplate $il_tpl;
     protected MetaContent $layout_meta_content;
     protected Factory $ui_factory;
     protected Renderer $ui_renderer;
@@ -39,7 +38,6 @@ class ilKioskPageRenderer
     protected string $window_base_title;
 
     public function __construct(
-        ilGlobalPageTemplate $il_global_template,
         MetaContent $layout_meta_content,
         Factory $ui_factory,
         Renderer $ui_renderer,
@@ -49,7 +47,6 @@ class ilKioskPageRenderer
         ilLSLocatorGUI $loc_gui,
         string $window_base_title
     ) {
-        $this->il_tpl = $il_global_template;
         $this->layout_meta_content = $layout_meta_content;
         $this->ui_factory = $ui_factory;
         $this->ui_renderer = $ui_renderer;
@@ -83,7 +80,6 @@ class ilKioskPageRenderer
             $this->ui_factory->legacy($html)
         );
     }
-
 
     public function render(
         LSControlBuilder $control_builder,
