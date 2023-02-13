@@ -5,6 +5,7 @@ rules:
     - ILIAS\CI\PHPStan\Rules\NoLegacyButtonUsagesRule # ILIAS 9
     - ILIAS\CI\PHPStan\Rules\NoLegacyCheckboxListUsagesRule # ILIAS 9
     - ILIAS\CI\PHPStan\Rules\NoLegacySelectionListUsagesRule # ILIAS 9
+    - ILIAS\CI\PHPStan\Rules\NoLegacyConfirmationUsagesRule # ILIAS 9
 #    - ILIAS\CI\PHPStan\Rules\NoLegacyModalUsagesRule # ILIAS 10
 #    - ILIAS\CI\PHPStan\Rules\NoLegacyTableUsagesRule # ILIAS 10
 parameters:
