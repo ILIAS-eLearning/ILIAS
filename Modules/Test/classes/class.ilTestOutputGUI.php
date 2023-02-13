@@ -567,8 +567,22 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         }
     }
 
+    protected function handleCheckTestPassValid() : void
+    {
+        global $DIC;
+        $testObj = new ilObjTest($this->ref_id, true);
+
+        $participants = $testObj->getActiveParticipantList();
+        $participant = $participants->getParticipantByUsrId($DIC->user()->getId());
+        if (!$participant || !$participant->hasUnfinishedPasses()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("tst_current_run_no_longer_valid"), true);
+            $this->backToInfoScreenCmd();
+        }
+    }
+
     protected function nextQuestionCmd()
     {
+        $this->handleCheckTestPassValid();
         $lastSequenceElement = $this->getCurrentSequenceElement();
         $nextSequenceElement = $this->testSequence->getNextSequence($lastSequenceElement);
 
@@ -588,6 +602,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
     protected function previousQuestionCmd()
     {
+        $this->handleCheckTestPassValid();
+
         $sequenceElement = $this->testSequence->getPreviousSequence(
             $this->getCurrentSequenceElement()
         );
