@@ -80,6 +80,7 @@ class ilForumXMLWriter extends ilXmlWriter
         $this->xmlElement("PresetSubject", null, (int) $row->preset_subject);
         $this->xmlElement("PresetRe", null, (int) $row->add_re_subject);
         $this->xmlElement("NotificationType", null, $row->notification_type);
+        $this->xmlElement("NotificationEvents", null, (int) $row->interested_events);
         $this->xmlElement("ForceNotification", null, (int) $row->admin_force_noti);
         $this->xmlElement("ToggleNotification", null, (int) $row->user_toggle_noti);
         $this->xmlElement("LastPost", null, $row->top_last_post);
