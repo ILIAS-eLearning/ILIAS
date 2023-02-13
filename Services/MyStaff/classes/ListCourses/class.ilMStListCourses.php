@@ -47,7 +47,7 @@ class ilMStListCourses
         //Permission Filter
         $operation_access = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS;
 
-        if (isset($options['filters']['lp_status']) || ($options['filters']['lp_status'] ?? null) === 0) {
+        if (isset($options['filters']['lp_status']) && $options['filters']['lp_status'] >= 0) {
             $operation_access = ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS;
         }
         /*$tmp_table_user_matrix = ilMyStaffAccess::getInstance()->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($this->dic->user()
@@ -157,7 +157,7 @@ class ilMStListCourses
         }
 
 
-        if (isset($arr_filter['lp_status']) || ($arr_filter['lp_status']  ?? null) === 0) {
+        if (isset($arr_filter['lp_status']) && $arr_filter['lp_status'] >= 0) {
             switch ($arr_filter['lp_status']) {
                 case ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM:
                     //if a user has the lp status not attempted it could be, that the user hase no records in table ut_lp_marks
