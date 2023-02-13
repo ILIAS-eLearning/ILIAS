@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +14,10 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\Notifications\Model\ilNotificationConfig;
 
 /**
  * EventListener for LSO
@@ -76,6 +77,21 @@ class ilLearningSequenceAppEventListener
             self::$lp_event_handler = new ilLSLPEventHandler(self::getIlTree(), self::getIlLPStatusWrapper());
         }
         self::$lp_event_handler->updateLPForChildEvent($parameter);
+
+        if ($parameter['status'] === ilLPStatus::LP_STATUS_COMPLETED_NUM
+            && $parameter['old_status'] !== $parameter['status']
+            && ilObject::_lookupType($parameter['obj_id']) === 'lso'
+        ) {
+            $lso_title = ilObject::_lookupTitle($parameter['obj_id']);
+            $notification = new ilNotificationConfig(ilLSCompletionNotificationProvider::NOTIFICATION_TYPE);
+            $notification->setValidForSeconds(ilNotificationConfig::TTL_LONG);
+            $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
+            $notification->setTitleVar($lso_title);
+            $notification->setShortDescriptionVar('lso_completion_short');
+            $notification->setLongDescriptionVar('lso_completion_long');
+            $notification->setIconPath('templates/default/images/icon_lso.svg');
+            $notification->notifyByUsers([$parameter['usr_id']]);
+        }
     }
 
     private static function onObjectDeletion(array $parameter): void

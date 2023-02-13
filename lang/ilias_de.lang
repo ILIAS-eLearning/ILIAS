@@ -10557,6 +10557,8 @@ lso#:#lso_settings_old_extro#:#Alte Abschlussseite ansehen
 lso#:#lso_settings_old_intro#:#Alte Einleitungsseite ansehen
 lso#:#lso_show_members_info#:#Mitgliedergalerie für Benutzer sichtbar
 lso#:#lso_start_item#:#%s öffnen
+lso#:#lso_toast_completed_desc#:#Sie haben diese Lernsequenz abgeschlossen. Natürlich können Sie den Inhalt noch weiter durchsehen.
+lso#:#lso_toast_completed_title#:#Herzlichen Glückwunsch
 lso#:#lso_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieser Lernsequenz
 lso#:#mail_lso_roles#:#alle Personen mit folgenden lokalen Rollen###Modified as part of gender mainstreaming activities for ILIAS 8. Label is now generalised for all components that support ‘mail to members‘
 lso#:#manage#:#Verwalten
@@ -10564,6 +10566,7 @@ lso#:#manage_content_maintab#:#Inhalt
 lso#:#members_gallery#:#Mitgliedergalerie
 lso#:#no_entries_selected_for_delete#:#Es muss mindestens ein Listeneintrag ausgewählt werden.
 lso#:#not_finished#:#Nicht Abgeschlossen
+lso#:#notification_lso_completed_title#:#Sie haben die Lernsequenz %s abgeschlossen.
 lso#:#participate#:#Anmelden
 lso#:#show_summary#:#Info
 lso#:#table_actions#:#Aktionen

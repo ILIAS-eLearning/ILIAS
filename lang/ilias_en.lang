@@ -10557,6 +10557,8 @@ lso#:#lso_settings_old_extro#:#View Old Exit Page
 lso#:#lso_settings_old_intro#:#View Old Intro Page
 lso#:#lso_show_members_info#:#Member Gallery available for users
 lso#:#lso_start_item#:#Open %s
+lso#:#lso_toast_completed_desc#:#You have completed this Learning Sequence. You might still keep looking through the content.
+lso#:#lso_toast_completed_title#:#Congratulations
 lso#:#lso_users_already_assigned#:#The user is already assigned to this learning sequence
 lso#:#mail_lso_roles#:#Send mails to roles of learning sequence.
 lso#:#manage#:#Manage
@@ -10564,6 +10566,7 @@ lso#:#manage_content_maintab#:#Content
 lso#:#members_gallery#:#Member Gallery
 lso#:#no_entries_selected_for_delete#:#There has to be at least one entry selected.
 lso#:#not_finished#:#Not Finished
+lso#:#notification_lso_completed_title#:#You completed the Learning Sequence %s.
 lso#:#participate#:#Subscribe
 lso#:#show_summary#:#Info
 lso#:#table_actions#:#Actions
