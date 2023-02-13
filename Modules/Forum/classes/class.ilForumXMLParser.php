@@ -299,7 +299,7 @@ class ilForumXMLParser extends ilSaxParser
                     $this->forum->setTitle(ilUtil::stripSlashes((string) ($this->forumArray["Title"] ?? '')));
                     $this->forum->setDescription(ilUtil::stripSlashes((string) ($this->forumArray["Description"] ?? '')));
                     $this->forum->update();
-                    $this->forum->updateMoficationUserId($update_forum_array['usr_id']);
+                    $this->forum->updateModificationUserId($update_forum_array['usr_id']);
 
                     $newObjProp = ilForumProperties::getInstance($this->forum->getId());
                     $newObjProp->setDefaultView((int) ($this->forumArray['DefaultView'] ?? ilForumProperties::VIEW_TREE));
