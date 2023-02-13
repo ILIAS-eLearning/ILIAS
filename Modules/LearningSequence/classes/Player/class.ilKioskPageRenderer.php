@@ -28,7 +28,6 @@ use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
 
 class ilKioskPageRenderer
 {
-    protected ilGlobalPageTemplate $il_tpl;
     protected MetaContent $layout_meta_content;
     protected Factory $ui_factory;
     protected Renderer $ui_renderer;
@@ -37,9 +36,9 @@ class ilKioskPageRenderer
     protected ilLSTOCGUI $toc_gui;
     protected ilLSLocatorGUI $loc_gui;
     protected string $window_base_title;
+    protected \Closure $lso_lp_state_completed;
 
     public function __construct(
-        ilGlobalPageTemplate $il_global_template,
         MetaContent $layout_meta_content,
         Factory $ui_factory,
         Renderer $ui_renderer,
@@ -47,9 +46,9 @@ class ilKioskPageRenderer
         ilTemplate $kiosk_template,
         ilLSTOCGUI $toc_gui,
         ilLSLocatorGUI $loc_gui,
-        string $window_base_title
+        string $window_base_title,
+        \Closure $lso_lp_state_completed
     ) {
-        $this->il_tpl = $il_global_template;
         $this->layout_meta_content = $layout_meta_content;
         $this->ui_factory = $ui_factory;
         $this->ui_renderer = $ui_renderer;
@@ -58,6 +57,7 @@ class ilKioskPageRenderer
         $this->toc_gui = $toc_gui;
         $this->loc_gui = $loc_gui;
         $this->window_base_title = $window_base_title;
+        $this->lso_lp_state_completed = $lso_lp_state_completed;
     }
 
     public function buildCurriculumSlate(Workflow $curriculum): Slate
@@ -84,6 +84,24 @@ class ilKioskPageRenderer
         );
     }
 
+    protected function getToastIfCompleted(): string
+    {
+        $completion_alert = '';
+        $lp = $this->lso_lp_state_completed;
+        if ($lp()) {
+            $toast = $this->ui_factory->toast()->standard(
+                $this->lng->txt('lso_toast_completed_title'),
+                $this->ui_factory->symbol()->icon()->standard('lso', 'Learning Sequence completed')
+                    ->withSize('large')
+            )
+            ->withDescription(
+                $this->lng->txt('lso_toast_completed_desc')
+            );
+            $toast_container = $this->ui_factory->toast()->container()->withAdditionalToast($toast);
+            $completion_alert = $this->ui_renderer->render($toast_container);
+        }
+        return $completion_alert;
+    }
 
     public function render(
         LSControlBuilder $control_builder,
@@ -146,6 +164,8 @@ class ilKioskPageRenderer
             $this->ui_renderer->render($content)
         );
 
-        return $this->tpl->get();
+        $completion_alert = $this->getToastIfCompleted();
+
+        return $this->tpl->get() . $completion_alert;
     }
 }

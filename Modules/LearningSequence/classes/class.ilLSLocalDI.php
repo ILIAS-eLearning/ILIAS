@@ -190,9 +190,9 @@ class ilLSLocalDI extends Container
         $this["player.kioskrenderer"] = function ($c) use ($dic): ilKioskPageRenderer {
             $kiosk_template = new ilTemplate("tpl.kioskpage.html", true, true, 'Modules/LearningSequence');
             $window_title = $dic['ilSetting']->get('short_inst_name', 'ILIAS');
+            $lso_lp_state_completed = fn () => ilLPStatus::_lookupStatus($c['obj.obj_id'], $c["usr.id"], true) === ilLPStatus::LP_STATUS_COMPLETED_NUM;
 
             return new ilKioskPageRenderer(
-                $dic["tpl"],
                 $dic["global_screen"]->layout()->meta(),
                 $dic["ui.factory"],
                 $dic["ui.renderer"],
@@ -200,7 +200,8 @@ class ilLSLocalDI extends Container
                 $kiosk_template,
                 $c["gui.toc"],
                 $c["gui.loc"],
-                $window_title
+                $window_title,
+                $lso_lp_state_completed
             );
         };
 
