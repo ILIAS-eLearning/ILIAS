@@ -231,6 +231,10 @@ class ilForumXMLParser extends ilSaxParser
                 $propertyValue['NotificationType'] = $this->cdata;
                 break;
 
+            case 'NotificationEvents':
+                $propertyValue['NotificationEvents'] = $this->cdata;
+                break;
+
             case 'ForceNotification':
                 $propertyValue['ForceNotification'] = $this->cdata;
                 break;
@@ -306,6 +310,7 @@ class ilForumXMLParser extends ilSaxParser
                     $newObjProp->setPresetSubject((bool) ($this->forumArray['PresetSubject'] ?? false));
                     $newObjProp->setAddReSubject((bool) ($this->forumArray['PresetRe'] ?? false));
                     $newObjProp->setNotificationType((string) ($this->forumArray['NotificationType'] ?: 'all_users'));
+                    $newObjProp->setInterestedEvents((int) ($this->forumArray['NotificationEvents'] ?? 0));
                     $newObjProp->setAdminForceNoti((bool) ($this->forumArray['ForceNotification'] ?? false));
                     $newObjProp->setUserToggleNoti((bool) ($this->forumArray['ToggleNotification'] ?? false));
                     $newObjProp->setFileUploadAllowed((bool) ($this->forumArray['FileUpload'] ?? false));
