@@ -3660,7 +3660,6 @@ common#:#categories_imported#:#Kategorienimport abgeschlossen.
 common#:#catr#:#Kategorielink
 common#:#catr_edit_info#:#Bitte wählen Sie die Kategorie aus, für die Sie einen Link erstellen möchten.
 common#:#catr_new#:#Neuen Kategorielink anlegen
-common#:#cc#:#CC
 common#:#certificate#:#Zertifikat
 common#:#certificate_file_already_exists_error#:#Die Zertikatsdatei exisitiert bereits im Dateisystem.
 common#:#certificate_file_input_output_error#:#Die Zertikatsdatei wurde im Dateisystem gefunden konnte aber aufgrund von Fehlern nicht gelöscht werden. Bitte kontaktieren Sie Ihren Administrator.
@@ -10608,7 +10607,6 @@ lti#:#user_provider_subtab#:#Von Benutzern definierte Provider
 ltiv#:#ltiv_create#:#Zertifikat für LTI-Konsument-Objekt erstellen
 ltiv#:#ltiv_create_info#:#Wählen Sie ein abgeschlossenes LTI-Konsument-Objekt aus, um ein Zertifikat dafür zu generieren.
 mail#:#back_to_folder#:#Zurück zum Ordner
-mail#:#bc#:#BCC
 mail#:#chat_users_have_been_invited#:#Die Benutzer wurden eingeladen:
 mail#:#chat_users_without_login#:#Die folgenden Benutzer haben keinen ILIAS-Account und können nicht eingeladen werden:
 mail#:#chat_users_without_permission#:#Die folgenden Benutzer haben keinen Zugriff zum ausgewählten Raum:
@@ -10633,9 +10631,11 @@ mail#:#mail_assign_entry_to_mailing_list#:#Zuordnung eines Kontakts zum Verteile
 mail#:#mail_attachment_file_not_exist#:#Mindestens einer der folgenden Anhänge konnte nicht gefunden werden: %1$s
 mail#:#mail_attachments#:#Anhänge
 mail#:#mail_auto_generated_info#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.
+mail#:#mail_bcc#:#BCC
 mail#:#mail_bg_task_desc#:#Betreff: %s
 mail#:#mail_bg_task_title#:#Mailversand
 mail#:#mail_both_email#:#Beide E-Mail-Adressen
+mail#:#mail_cc#:#CC
 mail#:#mail_change_to_folder#:#Wechseln zu Ordner: %s
 mail#:#mail_create_tpl#:#Textvorlage erstellen
 mail#:#mail_cronjob_notification_info#:#Hier können Sie die regelmäßige Benachrichtigung über neue Mails aktivieren.

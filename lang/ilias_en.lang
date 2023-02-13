@@ -3661,7 +3661,6 @@ common#:#categories_imported#:#Category import complete.
 common#:#catr#:#Category Link
 common#:#catr_edit_info#:#Please choose one category for creating a new link.
 common#:#catr_new#:#Create Category Link
-common#:#cc#:#CC
 common#:#certificate#:#Certificate
 common#:#certificate_file_already_exists_error#:#The certificate file already exists in the file system.
 common#:#certificate_file_input_output_error#:#The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator.
@@ -10609,7 +10608,6 @@ lti#:#user_provider_subtab#:#Providers Defined by Users
 ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object
 ltiv#:#ltiv_create_info#:#Select a completed LTI consumer object to generate a certificate for it
 mail#:#back_to_folder#:#Back to Folder
-mail#:#bc#:#BCC
 mail#:#chat_users_have_been_invited#:#The following users have been invited:
 mail#:#chat_users_without_login#:#The following users don't have an ILIAS account and can't be invited to a chat room:
 mail#:#chat_users_without_permission#:#The following users don't have access to the selected chat room:
@@ -10634,9 +10632,11 @@ mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Contacts to M
 mail#:#mail_attachment_file_not_exist#:#At least one of the following attachments does not exist: %1$s
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_auto_generated_info#:#This mail was automatically sent to you by the ILIAS installation %s, %s
+mail#:#mail_bcc#:#BCC
 mail#:#mail_bg_task_desc#:#Subject: %s
 mail#:#mail_bg_task_title#:#E-mail Delivery
 mail#:#mail_both_email#:#Both E-Mail Addresses
+mail#:#mail_cc#:#CC
 mail#:#mail_change_to_folder#:#Switch to folder: %s
 mail#:#mail_create_tpl#:#Create Text Templates
 mail#:#mail_cronjob_notification_info#:#You can activate a periodic notification about new mail here.
