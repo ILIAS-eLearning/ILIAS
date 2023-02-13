@@ -52,7 +52,7 @@ class ilExcelTestExport extends ilTestExportAbstract
 
         $datarows = $this->getDatarows($this->test_obj);
         foreach ($datarows as $row => $data) {
-            if ($row % 2 === 0) {
+            if ($this->bestonly && $row % 2 === 0) {
                 for ($col = 0, $colMax = count($header_row); $col < $colMax; $col++) {
                     $data[$col] = "";
                 }
