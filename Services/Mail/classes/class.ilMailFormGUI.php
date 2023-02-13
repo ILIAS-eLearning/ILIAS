@@ -736,13 +736,13 @@ class ilMailFormGUI
         $inp->setDataSource($dsDataLink, ',');
         $form_gui->addItem($inp);
 
-        $inp = new ilTextInputGUI($this->lng->txt('cc'), 'rcp_cc');
+        $inp = new ilTextInputGUI($this->lng->txt('mail_cc'), 'rcp_cc');
         $inp->setSize(50);
         $inp->setValue((string) ($mailData['rcp_cc'] ?? ''));
         $inp->setDataSource($dsDataLink, ',');
         $form_gui->addItem($inp);
 
-        $inp = new ilTextInputGUI($this->lng->txt('bc'), 'rcp_bcc');
+        $inp = new ilTextInputGUI($this->lng->txt('mail_bcc'), 'rcp_bcc');
         $inp->setSize(50);
         $inp->setValue($mailData['rcp_bcc'] ?? '');
         $inp->setDataSource($dsDataLink, ',');
