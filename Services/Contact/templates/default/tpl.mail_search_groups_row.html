@@ -1,5 +1,9 @@
 <tr class="{CSS_ROW}">
-	<td class="std" align="center" nowrap>{VAL_CHECK}</td>
+	<td class="std" align="center" nowrap>
+		<!-- BEGIN rcp_to --><label class="sr-only" for="{VAL_ID_TO}">{VAL_TXT_TO}</label>{VAL_CHECK_TO} <!-- END rcp_to -->
+		<!-- BEGIN rcp_cc --><label class="sr-only" for="{VAL_ID_CC}">{VAL_TXT_CC}</label>{VAL_CHECK_CC} <!-- END rcp_cc -->
+		<!-- BEGIN rcp_bcc --><label class="sr-only" for="{VAL_ID_BCC}">{VAL_TXT_BCC}</label>{VAL_CHECK_BCC} <!-- END rcp_bcc -->
+	</td>
 	<td class="std" valign="top">{VAL_TITLE}</td>
 	<td class="std" valign="top">{VAL_DESCRIPTION}</td>
 </tr>

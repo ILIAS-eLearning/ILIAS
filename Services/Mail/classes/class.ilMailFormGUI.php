@@ -2,12 +2,12 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* @author Jens Conze
-* @version $Id$
-*
-* @ingroup ServicesMail
-* @ilCtrl_Calls ilMailFormGUI: ilMailFolderGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailingListsGUI
-*/
+ * @author Jens Conze
+ * @version $Id$
+ *
+ * @ingroup ServicesMail
+ * @ilCtrl_Calls ilMailFormGUI: ilMailFolderGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailingListsGUI
+ */
 class ilMailFormGUI
 {
     /** @var ilTemplate */
@@ -113,7 +113,7 @@ class ilMailFormGUI
                 $this->ctrl->setReturn($this, "searchResults");
                 $this->ctrl->forwardCommand(new ilMailSearchCoursesGUI());
                 break;
-            
+
             case 'ilmailinglistsgui':
                 $this->ctrl->setReturn($this, 'searchResults');
                 $this->ctrl->forwardCommand(new ilMailingListsGUI());
@@ -270,7 +270,7 @@ class ilMailFormGUI
                 ilUtil::securePlainString($_POST["m_email"] ?? ''),
                 ilUtil::securePlainString($_POST["m_subject"] ?? ''),
                 ilUtil::securePlainString($_POST["m_message"] ?? ''),
-                (bool) ($_POST['use_placeholders']  ?? false),
+                (bool) ($_POST['use_placeholders'] ?? false),
                 ilMailFormCall::getContextId(),
                 ilMailFormCall::getContextParameters()
             );
@@ -309,7 +309,7 @@ class ilMailFormGUI
         if ($_SESSION['search_crs']) {
             $this->ctrl->setParameterByClass('ilmailsearchcoursesgui', 'cmd', 'showMembers');
         }
-        
+
         $this->ctrl->setParameterByClass('ilmailsearchcoursesgui', 'ref', 'mail');
         $this->ctrl->redirectByClass('ilmailsearchcoursesgui');
     }
@@ -337,7 +337,11 @@ class ilMailFormGUI
                 ilUtil::sendInfo($this->lng->txt('search_minimum_three'));
                 $this->searchUsers(false);
             } else {
-                $this->ctrl->setParameterByClass("ilmailsearchgui", "search", urlencode($_SESSION["mail_search_search"]));
+                $this->ctrl->setParameterByClass(
+                    "ilmailsearchgui",
+                    "search",
+                    urlencode($_SESSION["mail_search_search"])
+                );
                 $this->ctrl->redirectByClass("ilmailsearchgui");
             }
         }
@@ -382,7 +386,7 @@ class ilMailFormGUI
         $_GET["type"] = "attach";
         $this->showForm();
     }
-    
+
     public function searchResults()
     {
         $_GET["type"] = "search_res";
@@ -439,7 +443,7 @@ class ilMailFormGUI
     {
         $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_new.html", "Services/Mail");
         $this->tpl->setTitle($this->lng->txt("mail"));
-        
+
         $this->lng->loadLanguageModule("crs");
 
         if (ilMailFormCall::isRefererStored()) {
@@ -469,7 +473,7 @@ class ilMailFormGUI
                 $mailData["rcp_to"] = $this->umail->formatReplyRecipient();
                 $_SESSION["mail_id"] = "";
                 break;
-        
+
             case 'search_res':
                 $mailData = $this->umail->getSavedData();
 
@@ -489,17 +493,17 @@ class ilMailFormGUI
                 if ($_SESSION["mail_search_results_bcc"]) {
                     $mailData = $this->umail->appendSearchResult($_SESSION["mail_search_results_bcc"], 'bc');
                 }
-                
+
                 unset($_SESSION["mail_search_results_to"]);
                 unset($_SESSION["mail_search_results_cc"]);
                 unset($_SESSION["mail_search_results_bcc"]);
-                                
+
                 break;
-        
+
             case 'attach':
                 $mailData = $this->umail->getSavedData();
                 break;
-        
+
             case 'draft':
                 $_SESSION["draft"] = $_GET["mail_id"];
                 $mailData = $this->umail->getMail($_GET["mail_id"]);
@@ -509,7 +513,7 @@ class ilMailFormGUI
                 ilMailFormCall::setContextId($mailData['tpl_ctx_id']);
                 ilMailFormCall::setContextParameters($mailData['tpl_ctx_params']);
                 break;
-        
+
             case 'forward':
                 $mailData = $this->umail->getMail($_GET["mail_id"]);
                 $mailData["rcp_to"] = $mailData["rcp_cc"] = $mailData["rcp_bcc"] = '';
@@ -521,7 +525,7 @@ class ilMailFormGUI
                     }
                 }
                 break;
-        
+
             case 'new':
                 if (isset($_GET['rcp_to'])) {
                     // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
@@ -552,9 +556,9 @@ class ilMailFormGUI
                 $_SESSION['rcp_cc'] = '';
                 $_SESSION['rcp_bcc'] = '';
                 break;
-        
+
             case 'role':
-        
+
                 if (is_array($_POST['roles'])) {
                     // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
                     $mailData['rcp_to'] = ilUtil::securePlainString(implode(',', $_POST['roles']));
@@ -567,16 +571,16 @@ class ilMailFormGUI
                     $mailData['m_message'] = $sig;
                     $mailData['m_message'] .= chr(13) . chr(10) . chr(13) . chr(10);
                 }
-        
+
                 $mailData['m_message'] .= $_POST["additional_message_text"] . chr(13) . chr(10) . $this->umail->appendSignature();
                 $_POST["additional_message_text"] = "";
                 $_SESSION['mail_roles'] = [];
                 break;
-        
+
             case 'address':
                 $mailData["rcp_to"] = urldecode($_GET["rcp"]);
                 break;
-        
+
             default:
                 // GET DATA FROM POST
                 $mailData = $_POST;
@@ -630,7 +634,7 @@ class ilMailFormGUI
         }
 
         $dsDataLink = $this->ctrl->getLinkTarget($this, 'lookupRecipientAsync', '', true);
-        
+
         $inp = new ilTextInputGUI($this->lng->txt('mail_to'), 'rcp_to');
         $inp->setRequired(true);
         $inp->setSize(50);
@@ -639,14 +643,14 @@ class ilMailFormGUI
         $inp->setMaxLength(null);
         $form_gui->addItem($inp);
 
-        $inp = new ilTextInputGUI($this->lng->txt('cc'), 'rcp_cc');
+        $inp = new ilTextInputGUI($this->lng->txt('mail_cc'), 'rcp_cc');
         $inp->setSize(50);
         $inp->setValue($mailData["rcp_cc"]);
         $inp->setDataSource($dsDataLink, ",");
         $inp->setMaxLength(null);
         $form_gui->addItem($inp);
 
-        $inp = new ilTextInputGUI($this->lng->txt('bc'), 'rcp_bcc');
+        $inp = new ilTextInputGUI($this->lng->txt('mail_bcc'), 'rcp_bcc');
         $inp->setSize(50);
         $inp->setValue($mailData["rcp_bcc"]);
         $inp->setDataSource($dsDataLink, ",");
@@ -660,7 +664,7 @@ class ilMailFormGUI
         $form_gui->addItem($inp);
 
         $att = new ilMailFormAttachmentPropertyGUI($this->lng->txt(($mailData["attachments"]) ? 'edit' : 'add'));
-        
+
         if (isset($mailData["attachments"]) && is_array($mailData["attachments"])) {
             foreach ($mailData["attachments"] as $data) {
                 if (is_file($this->mfile->getMailPath() . '/' . $this->user->getId() . "_" . $data)) {
@@ -700,7 +704,7 @@ class ilMailFormGUI
                         if (!isset($mailData['template_id']) && $template->isDefault()) {
                             $template_chb->setValue($template->getTplId());
                             $form_gui->getItemByPostVar('m_subject')->setValue($template->getSubject());
-                            $mailData["m_message"] = $template->getMessage()  . $this->umail->appendSignature();
+                            $mailData["m_message"] = $template->getMessage() . $this->umail->appendSignature();
                         }
                     }
                     if (isset($mailData['template_id'])) {
