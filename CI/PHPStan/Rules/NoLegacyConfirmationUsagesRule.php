@@ -34,6 +34,6 @@ class NoLegacyConfirmationUsagesRule extends LegacyClassUsageRule implements Rul
 
     protected function getForbiddenClasses(): array
     {
-        return ['ilConfirmationGUI', 'ilConfirmationTableGUI'];
+        return ['ilConfirmationGUI'];
     }
 }
