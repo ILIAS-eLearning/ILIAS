@@ -782,13 +782,13 @@ class ilMailFolderGUI
         $form->addItem($to);
 
         if ($mailData['rcp_cc']) {
-            $cc = new ilCustomInputGUI($this->lng->txt('cc') . ':');
+            $cc = new ilCustomInputGUI($this->lng->txt('mail_cc') . ':');
             $cc->setHtml(ilUtil::htmlencodePlainString($this->umail->formatNamesForOutput((string) $mailData['rcp_cc']), false));
             $form->addItem($cc);
         }
 
         if ($mailData['rcp_bcc']) {
-            $bcc = new ilCustomInputGUI($this->lng->txt('bc') . ':');
+            $bcc = new ilCustomInputGUI($this->lng->txt('mail_bcc') . ':');
             $bcc->setHtml(ilUtil::htmlencodePlainString(
                 $this->umail->formatNamesForOutput((string) $mailData['rcp_bcc']),
                 false

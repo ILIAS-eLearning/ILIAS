@@ -549,7 +549,7 @@ class ilMailSearchGUI
 
                 if ($this->isDefaultRequestContext()) {
                     $tbl_grp->addColumn(
-                        $this->lng->txt('mail_to') . '/' . $this->lng->txt('cc') . '/' . $this->lng->txt('bcc'),
+                        $this->lng->txt('mail_to') . '/' . $this->lng->txt('mail_cc') . '/' . $this->lng->txt('mail_bcc'),
                         '',
                         '10%'
                     );
