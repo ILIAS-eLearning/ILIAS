@@ -91,7 +91,11 @@ class ilCmiXapiLaunchGUI
         if ($this->object->isBypassProxyEnabled()) {
             $params['endpoint'] = urlencode(rtrim($this->object->getLrsType()->getLrsEndpoint(), '/') . '/');
         } else {
-            $params['endpoint'] = urlencode(rtrim(ILIAS_HTTP_PATH . '/' . self::XAPI_PROXY_ENDPOINT, '/') . '/');
+            $link = ILIAS_HTTP_PATH;
+            if (in_array((int) $_SERVER['SERVER_PORT'], [80, 443])) {
+                $link = str_replace($_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'], $_SERVER['SERVER_NAME'], $link);
+            }
+            $params['endpoint'] = urlencode(rtrim($link . '/' . self::XAPI_PROXY_ENDPOINT, '/') . '/');
         }
         
         if ($this->object->isAuthFetchUrlEnabled()) {
@@ -127,7 +131,10 @@ class ilCmiXapiLaunchGUI
         $link = implode('/', [
             ILIAS_HTTP_PATH, 'Modules', 'CmiXapi', 'xapitoken.php'
         ]);
-        
+        if (in_array((int) $_SERVER['SERVER_PORT'], [80, 443])) {
+            $link = str_replace($_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'], $_SERVER['SERVER_NAME'], $link);
+        }
+
         $param = $this->buildAuthTokenFetchParam();
         $link = iLUtil::appendUrlParameterString($link, "param={$param}");
         
