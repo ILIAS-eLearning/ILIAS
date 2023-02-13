@@ -170,7 +170,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             )
             ->withAdditionalOnLoadCode(
                 static fn (string $id) =>
-                    "$id.setAttribute('data-checkbox', 'activeSorting$view');
+                    "document.getElementById('$id').setAttribute('data-checkbox', 'activeSorting$view');
                     document.addEventListener('DOMContentLoaded', function () {
                         handleUserInputForSortationsByView($view);
                     });"
@@ -187,7 +187,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             ->withRequired(false)
             ->withAdditionalOnLoadCode(
                 static fn (string $id) =>
-                    "$id.setAttribute('data-select', 'sorting$view');"
+                    "document.getElementById('$id').setAttribute('data-select', 'sorting$view');"
             );
         return $this->ui_factory->input()->field()->section(
             $this->maybeDisable(["avail_sorting" => $available_sorting, "default_sorting" => $default_sorting]),

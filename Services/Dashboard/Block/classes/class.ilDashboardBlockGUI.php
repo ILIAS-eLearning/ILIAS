@@ -147,9 +147,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
             foreach ($group as $datum) {
                 $cards[] = $this->getCardForData($datum);
             }
-            $cards = array_filter($cards, static function ($card) {
-                return $card !== null;
-            });
+            $cards = array_filter($cards);
             if ($cards) {
                 $groupedCards[] = $this->ui->factory()->panel()->sub(
                     $title,
@@ -447,7 +445,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
                 $data = array_merge(...array_values($data));
                 $data = $this->sortByTitle($data);
                 return ['' => $data];
-                break;
             case ilPDSelectedItemsBlockConstants::SORT_BY_START_DATE:
                 return $this->groupItemsByStartDate();
             case ilPDSelectedItemsBlockConstants::SORT_BY_TYPE:
@@ -523,7 +520,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
                     $ui->factory()->link()->standard($item["txt"], $item["url"]),
                 $groupedCommands[0]
             );
-            if (count($actions) > 0) {
+            if ($actions !== []) {
                 $dd = $this->ui->factory()->dropdown()->standard($actions);
                 $this->main_tpl->setHeaderActionMenu($ui->renderer()->render($dd));
             }

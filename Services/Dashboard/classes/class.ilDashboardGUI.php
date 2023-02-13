@@ -157,7 +157,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 if (strtolower($cmdClass = $this->ctrl->getCmdClass()) === strtolower(ilSelectedItemsBlockGUI::class)) {
                     $gui = new $cmdClass();
                     $ret = $this->ctrl->forwardCommand($gui);
-                    if ($ret != "") {
+                    if ($ret !== "") {
                         $this->tpl->setContent($ret);
                         $this->tpl->printToStdout();
                     }
@@ -221,7 +221,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
             case strtolower(ilStudyProgrammeBlockGUI::class):
                 $gui = new $next_class();
                 $ret = $this->ctrl->forwardCommand($gui);
-                if ($ret != "") {
+                if ($ret !== "") {
                     $this->tpl->setContent($ret);
                     $this->tpl->printToStdout();
                 }

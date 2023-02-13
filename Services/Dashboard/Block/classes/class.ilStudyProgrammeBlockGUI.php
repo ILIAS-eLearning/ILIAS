@@ -45,7 +45,7 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
         $items = [];
         foreach ($rows as $row) {
             $prg = ilObjStudyProgramme::getInstanceByObjId($row->getNodeId());
-            if (! $this->isReadable($prg) || !$prg->isActive()) {
+            if (!$this->isReadable($prg) || !$prg->isActive()) {
                 continue;
             }
 

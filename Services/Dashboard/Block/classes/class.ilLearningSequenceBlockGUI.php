@@ -32,13 +32,13 @@ class ilLearningSequenceBlockGUI extends ilDashboardBlockGUI
         $relevant = false;
 
         $ls_lp_items = $obj->getLSLearnerItems($this->user->getId());
-        if (count($ls_lp_items) === 0) {
+        if ($ls_lp_items === []) {
             return $relevant;
         }
 
         foreach ($ls_lp_items as $item) {
             if ($item->getLearningProgressStatus() === ilLPStatus::LP_STATUS_IN_PROGRESS_NUM) {
-                $relevant = true;
+                return true;
             }
         }
 
