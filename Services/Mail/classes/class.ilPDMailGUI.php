@@ -113,7 +113,7 @@ class ilPDMailGUI
 
         if ($mail_data['rcp_cc']) {
             $tpl->setCurrentBlock('cc');
-            $tpl->setVariable('TXT_CC', $this->lng->txt('cc'));
+            $tpl->setVariable('TXT_CC', $this->lng->txt('mail_cc'));
             $tpl->setVariable('CC', $umail->formatNamesForOutput((string) $mail_data['rcp_cc']));
             $tpl->parseCurrentBlock();
         }
