@@ -174,7 +174,7 @@ class ilMStShowUserGUI
             ilMStListUsersGUI::class,
         )));
 
-        if ($this->access->hasCurrentUserAccessToMyStaff()) {
+        if ($this->access->hasCurrentUserAccessToUser()) {
             $DIC->tabs()->addTab(
                 self::TAB_SHOW_COURSES,
                 $DIC->language()->txt('mst_list_courses'),
