@@ -2054,6 +2054,8 @@ class ilObjectListGUI
                     );
                 }
             }
+            $this->insertLPSettingsCommand();
+
 
             // info screen command
             if ($this->getInfoScreenStatus()) {
@@ -3401,6 +3403,93 @@ class ilObjectListGUI
             $this->insertCommand(
                 $cmd_link,
                 $this->lng->txt("learning_progress")
+            );
+        }
+    }
+
+    /**
+     * @deprecated in 9.0 (we need a better way to do this!)
+     */
+    private function insertLPSettingsCommand(): void
+    {
+        if (!ilObjUserTracking::_enabledLearningProgress()
+            || ilObjectLP::getTypeClass($this->type) === ''
+            ||! $this->checkCommandAccess('edit_learning_progress', '', $this->ref_id, $this->type)
+        ) {
+            return;
+        }
+
+        $cmd_link = '';
+        $this->ctrl->setParameterByClass(ilLearningProgressGUI::class, 'ref_id', $this->ref_id);
+        switch ($this->type) {
+            case 'sahs':
+                switch (ilObjSAHSLearningModule::_lookupSubType($this->obj_id)) {
+                    case "scorm2004":
+                        $scorm_class = ilObjSCORM2004LearningModuleGUI::class;
+                        break;
+                    case "scorm":
+                        $scorm_class = ilObjSCORMLearningModuleGUI::class;
+                        break;
+                    default:
+                        $scorm_class = '';
+                        break;
+                }
+
+                $cmd_link = $this->ctrl->getLinkTargetByClass([
+                    ilSAHSEditGUI::class,
+                    $scorm_class,
+                    ilLearningProgressGUI::class,
+                    ilLPListOfSettingsGUI::class
+                ]);
+                break;
+
+            case 'lm':
+                $cmd_link = $this->ctrl->getLinkTargetByClass([
+                    ilLMEditorGUI::class,
+                    ilObjLearningModuleGUI::class,
+                    ilLearningProgressGUI::class,
+                    ilLPListOfSettingsGUI::class
+                ]);
+                break;
+
+            case 'lso':
+                $cmd_link = $this->ctrl->getLinkTargetByClass([
+                    ilObjLearningSequenceGUI::class,
+                    ilLearningProgressGUI::class,
+                    ilLPListOfSettingsGUI::class
+                ]);
+                break;
+
+            case 'copa':
+            case 'iass':
+            case 'tst':
+            case 'htlm':
+            case 'exc':
+            case 'svy':
+            case 'file':
+            case 'crs':
+                $gui_class = "ilObj" . $this->obj_definition->getClassName($this->type) . "GUI";
+                $cmd_link = $this->ctrl->getLinkTargetByClass([
+                        ilRepositoryGUI::class,
+                        $gui_class,
+                        ilLearningProgressGUI::class,
+                        ilLPListOfSettingsGUI::class
+                ]);
+                break;
+
+            case 'prgr':
+            case 'prg':
+            case 'lso':
+                break;
+            default:
+                break;
+        }
+
+        $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->requested_ref_id);
+        if ($cmd_link !== '') {
+            $this->insertCommand(
+                $cmd_link,
+                $this->lng->txt("listaction_learning_progress_settings")
             );
         }
     }
