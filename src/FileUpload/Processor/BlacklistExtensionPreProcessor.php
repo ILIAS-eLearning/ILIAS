@@ -81,7 +81,7 @@ final class BlacklistExtensionPreProcessor extends AbstractRecursiveZipPreProces
 
     protected function getOKMessage() : string
     {
-        return 'File is OK';
+        return 'Extension is not blacklisted.';
     }
 
     private function getExtensionForFilename($filename)
