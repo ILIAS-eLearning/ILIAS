@@ -26,6 +26,10 @@ class ilLSItemsDBStub extends ilLSItemsDB
     {
         return './image/tester/myimage.png';
     }
+    protected function getCurrentLPMode(int $obj_id): int
+    {
+        return 1;
+    }
 }
 
 class ilLSItemsDBTest extends TestCase
@@ -102,6 +106,7 @@ class ilLSItemsDBTest extends TestCase
         $value = [
             '22' => [
                 'child' => 14,
+                'obj_id' => 16,
                 'type' => 'lsitem',
                 'title' => 'ls_title',
                 'description' => 'tiny_description'
@@ -187,7 +192,8 @@ class ilLSItemsDBTest extends TestCase
             true,
             22,
             $condition,
-            14
+            14,
+            1
         );
 
         $this->ls_item_online_status

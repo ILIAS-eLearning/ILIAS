@@ -27,13 +27,20 @@ declare(strict_types=1);
  */
 class ilLSPostCondition
 {
+    public const OPERATOR_LP = 'learning_progress';
+    public const OPERATOR_ALWAYS = 'always';
+    public const OPERATOR_FAILED = 'failed';
+    public const OPERATOR_FINISHED = 'finished';
+    public const OPERATOR_NOT_FINISHED = 'not_finished';
+    public const OPERATOR_PASSED = 'passed';
+
     protected static $known_operators = [
-        "always",
-        "failed",
-        "finished",
-        "learning_progress",
-        "not_finished",
-        "passed"
+        self::OPERATOR_ALWAYS,
+        self::OPERATOR_FAILED,
+        self::OPERATOR_FINISHED,
+        self::OPERATOR_NOT_FINISHED,
+        self::OPERATOR_PASSED,
+        self::OPERATOR_LP
     ];
 
     protected int $ref_id;

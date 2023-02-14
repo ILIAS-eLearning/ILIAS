@@ -57,6 +57,9 @@ class ilLSItemsDB
         $items = [];
         foreach ($children as $position => $child) {
             $ref_id = (int) $child['child'];
+            $obj_id = (int) $child['obj_id'];
+            $lp_mode = $this->getCurrentLPMode($obj_id);
+
             $items[] = new LSItem(
                 $child['type'],
                 $child['title'],
@@ -65,11 +68,18 @@ class ilLSItemsDB
                 $this->ls_item_online_status->getOnlineStatus($ref_id),
                 $position,
                 $conditions[$ref_id],
-                $ref_id
+                $ref_id,
+                $lp_mode
             );
         }
 
         return $items;
+    }
+
+    protected function getCurrentLPMode(int $obj_id): int
+    {
+        $obj_lp = ilObjectLP::getInstance($obj_id);
+        return $obj_lp->getCurrentMode();
     }
 
     protected function getIconPathForType(string $type): string

@@ -42,6 +42,8 @@ class ilObjLearningSequenceContentGUI
     protected LSItemOnlineStatus $ls_item_online_status;
     protected ArrayBasedRequestWrapper $post_wrapper;
     protected ILIAS\Refinery\Factory $refinery;
+    protected ILIAS\UI\Factory $ui_factory;
+    protected ILIAS\UI\Renderer $ui_renderer;
 
     public function __construct(
         ilObjLearningSequenceGUI $parent_gui,
@@ -52,7 +54,9 @@ class ilObjLearningSequenceContentGUI
         ilConfirmationGUI $confirmation_gui,
         LSItemOnlineStatus $ls_item_online_status,
         ArrayBasedRequestWrapper $post_wrapper,
-        Factory $refinery
+        Factory $refinery,
+        ILIAS\UI\Factory $ui_factory,
+        ILIAS\UI\Renderer $ui_renderer
     ) {
         $this->parent_gui = $parent_gui;
         $this->ctrl = $ctrl;
@@ -63,6 +67,8 @@ class ilObjLearningSequenceContentGUI
         $this->ls_item_online_status = $ls_item_online_status;
         $this->post_wrapper = $post_wrapper;
         $this->refinery = $refinery;
+        $this->ui_factory = $ui_factory;
+        $this->ui_renderer = $ui_renderer;
     }
 
     public function executeCommand(): void
@@ -97,6 +103,11 @@ class ilObjLearningSequenceContentGUI
 
     protected function renderTable(array $ls_items): void
     {
+        $alert_icon = $this->ui_renderer->render(
+            $this->ui_factory->symbol()->icon()
+                ->custom(ilUtil::getImagePath("icon_alert.svg"), $this->lng->txt("warning"))
+                ->withSize('small')
+        );
         $table = new ilObjLearningSequenceContentTableGUI(
             $this,
             $this->parent_gui,
@@ -107,7 +118,8 @@ class ilObjLearningSequenceContentGUI
             $this->ui_factory,
             $this->ui_renderer,
             new ilAdvancedSelectionListGUI(),
-            $this->ls_item_online_status
+            $this->ls_item_online_status,
+            $alert_icon
         );
 
         $table->setData($ls_items);

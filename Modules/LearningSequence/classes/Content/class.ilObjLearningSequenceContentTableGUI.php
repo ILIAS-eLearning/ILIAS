@@ -28,6 +28,8 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
     protected ILIAS\UI\Renderer $ui_renderer;
     protected ilAdvancedSelectionListGUI $advanced_selection_list_gui;
     protected LSItemOnlineStatus $ls_item_online_status;
+    protected string $alert_icon;
+    protected bool $lp_globally_enabled;
 
     public function __construct(
         ilObjLearningSequenceContentGUI $parent_gui,
@@ -39,7 +41,8 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
         ILIAS\UI\Factory $ui_factory,
         ILIAS\UI\Renderer $ui_renderer,
         ilAdvancedSelectionListGUI $advanced_selection_list_gui,
-        LSItemOnlineStatus $ls_item_online_status
+        LSItemOnlineStatus $ls_item_online_status,
+        string $alert_icon
     ) {
         parent::__construct($parent_gui, $cmd);
 
@@ -52,6 +55,11 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
         $this->ui_renderer = $ui_renderer;
         $this->advanced_selection_list_gui = $advanced_selection_list_gui;
         $this->ls_item_online_status = $ls_item_online_status;
+        $this->alert_icon = $alert_icon;
+
+        $this->lp_globally_enabled = ilObjUserTracking::_enabledLearningProgress();
+
+        $this->lng->loadLanguageModule('trac');
 
         $this->setTitle($this->lng->txt("table_sequence_content"));
         $this->setRowTemplate("tpl.content_table.html", "Modules/LearningSequence");
@@ -68,6 +76,9 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("table_title"));
         $this->addColumn($this->lng->txt("table_online"));
         $this->addColumn($this->lng->txt("table_may_proceed"));
+        if ($this->lp_globally_enabled) {
+            $this->addColumn($this->lng->txt("table_lp_settings"));
+        }
         $this->addColumn($this->lng->txt("table_actions"));
 
         $this->setLimit(9999);
@@ -132,8 +143,26 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
         $this->tpl->setVariable("ORDER", $ni->render());
         $this->tpl->setVariable("TITLE", $title);
         $this->tpl->setVariable("POST_CONDITIONS", $si->render());
+
+        if ($this->lp_globally_enabled) {
+            $this->tpl->setVariable("LP_SETTINGS", $this->getLPSettingsRepresentation($ls_item));
+        }
+
         $this->tpl->setVariable("ACTIONS", $this->getItemActionsMenu($ls_item->getRefId(), $ls_item->getType()));
         $this->tpl->setVariable("TYPE", $ls_item->getType());
+    }
+
+    protected function getLPSettingsRepresentation(LSItem $ls_item): string
+    {
+        $mode = $ls_item->getLPMode();
+        $setting = ilLPObjSettings::_mode2Text($mode);
+        if (
+            $ls_item->getPostCondition()->getConditionOperator() === ilLSPostCondition::OPERATOR_LP
+            && $mode === 0
+        ) {
+            $setting = $this->alert_icon . $setting;
+        }
+        return $setting;
     }
 
     protected function getItemActionsMenu(int $ref_id, string $type): string
