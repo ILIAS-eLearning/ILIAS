@@ -193,15 +193,26 @@ class ilChatroomAdmin
                 $settings['client'] = CLIENT_ID;
             }
 
-            $settings['client_name'] = (string) $settings['name'];
-            if (!$settings['client_name']) {
-                $settings['client_name'] = CLIENT_ID;
+            if (isset($settings['name']) && is_string($settings['name']) && !$settings['name'] === '') {
+                $settings['client_name'] = (string) $settings['name'];
+            } else {
+		$settings['client_name'] = CLIENT_ID;
             }
 
-            if (is_numeric($settings['conversation_idle_state_in_minutes'])) {
+            if (isset($settings['conversation_idle_state_in_minutes']) && is_numeric($settings['conversation_idle_state_in_minutes'])) {
                 $settings['conversation_idle_state_in_minutes'] = max(1, $settings['conversation_idle_state_in_minutes']);
             } else {
                 $settings['conversation_idle_state_in_minutes'] = 1;
+            }
+
+            if (!isset($settings['auth']) || !is_array($settings['auth'])) {
+                $settings['auth'] = [];
+            }
+            if (!isset($settings['auth']['key']) || !is_string($settings['auth']['key'])) {
+                $settings['auth']['key'] = '';
+            }
+            if (!isset($settings['auth']['secret']) || !is_string($settings['auth']['secret'])) {
+                $settings['auth']['secret'] = '';
             }
 
             return $settings;
