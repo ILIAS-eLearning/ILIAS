@@ -44,7 +44,8 @@ class LSLearnerItem extends LSItem
             $ls_item->isOnline(),
             $ls_item->getOrderNumber(),
             $ls_item->getPostCondition(),
-            $ls_item->getRefId()
+            $ls_item->getRefId(),
+            $ls_item->getLPMode()
         );
     }
 

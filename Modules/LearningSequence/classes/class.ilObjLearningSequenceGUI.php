@@ -250,8 +250,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         parent::prepareOutput();
         $this->addToNavigationHistory();
         //showRepTree is from containerGUI;
-        //LSO will attach allowed subitems to whitelist
-        //see: $this::getAdditionalWhitelistTypes
+        //LSO will attach allowed subitems to ok-list
+        //see: $this::getAdditionalOKTypes
 
         $in_player = (
             $next_class === 'ilobjlearningsequencelearnergui'
@@ -351,8 +351,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                 if ($cmd === '') {
                     if ($this->checkAccess("write")) {
                         $cmd = self::CMD_CONTENT;
-                    }
-                    else {
+                    } else {
                         $cmd = self::CMD_VIEW;
                     }
                 }
@@ -499,7 +498,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         if ($this->checkAccess("write")) {
             $this->manageContent(self::CMD_CONTENT);
             return;
-        } else if ($this->checkAccess("read")) {
+        } elseif ($this->checkAccess("read")) {
             $this->learnerView(self::CMD_LEARNER_VIEW);
             return;
         } else {
@@ -521,7 +520,9 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             new ilConfirmationGUI(),
             new LSItemOnlineStatus(),
             $this->post_wrapper,
-            $this->refinery
+            $this->refinery,
+            $this->ui_factory,
+            $this->ui_renderer
         );
         $this->ctrl->setCmd($cmd);
         $this->ctrl->forwardCommand($gui);
@@ -854,10 +855,10 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     }
 
     /**
-     * append additional types to ilRepositoryExplorerGUI's whitelist
+     * append additional types to ilRepositoryExplorerGUI's positive list
      * @return int[]|string[]
      */
-    protected function getAdditionalWhitelistTypes(): array
+    protected function getAdditionalOKTypes(): array
     {
         return array_filter(
             array_keys($this->obj_definition->getSubObjects('lso', false)),
@@ -912,5 +913,4 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     protected function enableDragDropFileUpload(): void
     {
     }
- 
 }
