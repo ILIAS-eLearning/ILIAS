@@ -89,7 +89,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $questiontext = $_POST["question"];
         $this->object->setQuestion($questiontext);
         $this->object->setErrorText($_POST["errortext"]);
-        $points_wrong = str_replace(",", ".", $_POST["points_wrong"]);
+        $points_wrong = str_replace(",", ".", $_POST["points_wrong"] ?? "0");
         if (strlen($points_wrong) == 0) {
             $points_wrong = -1.0;
         }
