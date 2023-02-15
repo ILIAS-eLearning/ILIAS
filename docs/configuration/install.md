@@ -200,8 +200,8 @@ systemctl restart httpd.service
 <a name="php-installation"></a>
 ### PHP Installation and Configuration
 
-Refer to the to documentation of your installation to install either PHP 8.0 to
-PHP 8.1 including packages for imagick, gd, mysql, mbstring, curl, dom, zip and xml.
+Refer to the to documentation of your installation to install PHP 8.1
+including packages for imagick, gd, mysql, mbstring, curl, dom, zip and xml.
 
 To check if the installation was successfull create the file `/var/www/html/phpinfo.php`
 with the following contents:
@@ -718,7 +718,7 @@ each ILIAS release.
 
 | ILIAS Version  | PHP Version                 |
 |----------------|-----------------------------|
-| 9.x            | 8.0.x, 8.1.x                |
+| 9.x            | 8.1.x                       |
 | 8.x            | 7.4.x, 8.0.x                |
 | 7.x            | 7.3.x, 7.4.x                |
 | 6.x            | 7.2.x, 7.3.x, 7.4.x         |
