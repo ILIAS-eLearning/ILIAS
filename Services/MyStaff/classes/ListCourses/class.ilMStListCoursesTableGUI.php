@@ -94,8 +94,8 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $options = array(
             'filters' => $this->filter,
             'limit' => array(
-                'start' => intval($this->getOffset()),
-                'end' => intval($this->getLimit()),
+                'start' => $this->getOffset(),
+                'end' => $this->getLimit(),
             ),
             'count' => true,
             'sort' => array(
@@ -276,11 +276,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
-                if (isset($v['sort_field'])) {
-                    $sort = $v['sort_field'];
-                } else {
-                    $sort = "";
-                }
+                $sort = $v['sort_field'] ?? "";
                 $this->addColumn($v['txt'], $sort);
             }
         }
@@ -292,12 +288,12 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array<ilMStListCourse> $a_set
+     * @param array<\ILIAS\MyStaff\ListCourses\ilMStListCourse> $a_set
      * @return void
      * @throws \ilCtrlException
      * @throws \ilTemplateException
      */
-    final public function fillRow(array $a_set): void
+    final protected function fillRow(array $a_set): void
     {
         global $DIC;
 
@@ -314,7 +310,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
                         $this->tpl->setCurrentBlock('td');
                         $this->tpl->setVariable(
                             'VALUE',
-                            strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($set->getUsrId()))
+                            ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($set->getUsrId())
                         );
                         $this->tpl->parseCurrentBlock();
                         break;
