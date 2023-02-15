@@ -47,7 +47,7 @@ class ilMStListCourses
         //Permission Filter
         $operation_access = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS;
 
-        if (isset($options['filters']['lp_status']) && $options['filters']['lp_status'] >= 0) { //prüfen auf Recht
+        if (isset($options['filters']['lp_status']) && $options['filters']['lp_status'] >= 0) {
             $operation_access = ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS;
         }
         /*$tmp_table_user_matrix = ilMyStaffAccess::getInstance()->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($this->dic->user()
@@ -118,7 +118,6 @@ class ilMStListCourses
             $union_query .= " LIMIT " . $options['limit']['start'] . "," . $options['limit']['end'];
         }
         $result = $this->dic->database()->query($union_query);
-        //echo '<pre>'; var_dump($result); echo '</pre>'; exit;
         $crs_data = array();
 
         while ($crs = $this->dic->database()->fetchAssoc($result)) {
