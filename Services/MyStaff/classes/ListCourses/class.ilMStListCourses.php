@@ -47,7 +47,7 @@ class ilMStListCourses
         //Permission Filter
         $operation_access = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS;
 
-        if (isset($options['filters']['lp_status']) && $options['filters']['lp_status'] >= 0) {
+        if (isset($options['filters']['lp_status']) && $options['filters']['lp_status'] >= 0) { //prüfen auf Recht
             $operation_access = ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS;
         }
         /*$tmp_table_user_matrix = ilMyStaffAccess::getInstance()->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($this->dic->user()
@@ -65,7 +65,7 @@ class ilMStListCourses
 	                    SELECT reg.obj_id, reg.usr_id, ' . ilMStListCourse::MEMBERSHIP_STATUS_REGISTERED . ' AS reg_status, lp.status AS lp_status FROM obj_members 
 		          AS reg
                         LEFT JOIN ut_lp_marks AS lp on lp.obj_id = reg.obj_id AND lp.usr_id = reg.usr_id
-                         WHERE ' . $this->dic->database()->in('reg.usr_id', $arr_usr_ids, false, 'integer') . ' AND (reg.admin = 1 OR reg.tutor = 1 OR reg.member = 1)
+                         WHERE ' . $this->dic->database()->in('reg.usr_id', $arr_usr_ids, false, 'integer') . ' AND (reg.admin > 0 OR reg.tutor > 0 OR reg.member > 0)
 		            UNION
 	                    SELECT obj_id, usr_id, ' . ilMStListCourse::MEMBERSHIP_STATUS_WAITINGLIST . ' AS reg_status, 0 AS lp_status FROM crs_waiting_list AS waiting
 	                    WHERE ' . $this->dic->database()->in('waiting.usr_id', $arr_usr_ids, false, 'integer') . '
@@ -118,6 +118,7 @@ class ilMStListCourses
             $union_query .= " LIMIT " . $options['limit']['start'] . "," . $options['limit']['end'];
         }
         $result = $this->dic->database()->query($union_query);
+        //echo '<pre>'; var_dump($result); echo '</pre>'; exit;
         $crs_data = array();
 
         while ($crs = $this->dic->database()->fetchAssoc($result)) {
