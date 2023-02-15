@@ -319,9 +319,9 @@ class ilMailTemplateGUI
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this, 'deleteTemplate'));
 
-        $confirm->setHeaderText($this->lng->txt('mail_tpl_sure_delete_entry'));
+        $confirm->setHeaderText($this->lng->txt('mail_tpl_sure_delete_entries'));
         if (1 === count($templateIds)) {
-            $confirm->setHeaderText($this->lng->txt('mail_tpl_sure_delete_entries'));
+            $confirm->setHeaderText($this->lng->txt('mail_tpl_sure_delete_entry'));
         }
 
         $confirm->setConfirm($this->lng->txt('confirm'), 'deleteTemplate');
