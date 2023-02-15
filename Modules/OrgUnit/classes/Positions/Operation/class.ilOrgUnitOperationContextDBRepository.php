@@ -13,8 +13,8 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
 declare(strict_types=1);
 
 class ilOrgUnitOperationContextDBRepository implements OrgUnitOperationContextRepository
@@ -30,9 +30,9 @@ class ilOrgUnitOperationContextDBRepository implements OrgUnitOperationContextRe
 
     public function get(string $context, ?string $parent_context): ilOrgUnitOperationContext
     {
-        $context = $this->find($context);
-        if ($context) {
-            return $context;
+        $context_implementation = $this->find($context);
+        if ($context_implementation) {
+            return $context_implementation;
         }
 
         $parent_id = 0;
@@ -44,17 +44,17 @@ class ilOrgUnitOperationContextDBRepository implements OrgUnitOperationContextRe
             $parent_id = $parent->getId();
         }
 
-        $context = (new ilOrgUnitOperationContext())
-            ->withContext($context->getContext())
+        $context_implementation = (new ilOrgUnitOperationContext())
+            ->withContext($context)
             ->withParentContextId($parent_id);
-        $this->store($context);
+        $this->store($context_implementation);
 
-        $context = $context
-            ->withPathNames([$context->getContext()])
-            ->withPathIds([$context->getId()]);
-        $context = $this->appendPath($context);
+        $context_implementation = $context_implementation
+            ->withPathNames([$context_implementation->getContext()])
+            ->withPathIds([$context_implementation->getId()]);
+        $context_implementation = $this->appendPath($context_implementation);
 
-        return $context;
+        return $context_implementation;
     }
 
 
