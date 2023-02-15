@@ -115,7 +115,7 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
                 function (): bool {
                     return (
                         new ilMyStaffCachedAccessDecorator($this->dic, ilMyStaffAccess::getInstance())
-                    )->hasCurrentUserAccessToUser();
+                    )->hasCurrentUserAccessToCourseMemberships();
                 }
             )->withNonAvailableReason($dic->ui()->factory()->legacy("{$dic->language()->txt('component_not_active')}"));
 

@@ -47,7 +47,9 @@ class ilMStListCompetencesGUI
 
     protected function checkAccessOrFail(): void
     {
-        if ($this->access->hasCurrentUserAccessToMyStaff()) {
+        if ($this->access->hasCurrentUserAccessToMyStaff()
+            && $this->access->hasCurrentUserAccessToCompetences()
+        ) {
             return;
         } else {
             $this->main_tpl->setOnScreenMessage('failure', $this->dic->language()->txt("permission_denied"), true);
@@ -107,7 +109,7 @@ class ilMStListCompetencesGUI
             $selection = new ilAdvancedSelectionListGUI();
 
             if ($this->dic->access()->checkAccess("visible", "", $mst_lco_crs_ref_id)) {
-                $link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::DEFAULT_CONTEXT);
+                $link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::COURSE_CONTEXT);
                 $selection->addItem(
                     ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)),
                     '',

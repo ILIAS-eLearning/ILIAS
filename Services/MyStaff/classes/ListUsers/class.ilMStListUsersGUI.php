@@ -56,7 +56,9 @@ class ilMStListUsersGUI
 
     protected function checkAccessOrFail(): void
     {
-        if ($this->access->hasCurrentUserAccessToMyStaff()) {
+        if ($this->access->hasCurrentUserAccessToMyStaff()
+            &&$this->access->hasCurrentUserAccessToUser()
+        ) {
             return;
         } else {
             $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("permission_denied"), true);
@@ -141,7 +143,7 @@ class ilMStListUsersGUI
 
         $selection = new ilAdvancedSelectionListGUI();
 
-        if ($this->access->hasCurrentUserAccessToMyStaff()) {
+        if ($this->access->hasCurrentUserAccessToCourseMemberships()) {
             $DIC->ctrl()->setParameterByClass(ilMStShowUserCoursesGUI::class, 'usr_id', $mst_lus_usr_id);
             $selection->addItem(
                 $DIC->language()->txt('mst_show_courses'),
