@@ -76,7 +76,7 @@ class ilMStListCourses
 	           
                     INNER JOIN object_data AS crs on crs.obj_id = memb.obj_id AND crs.type = ' . $this->dic->database()
                                                                                                            ->quote(
-                                                                                                               ilMyStaffAccess::DEFAULT_CONTEXT,
+                                                                                                               ilMyStaffAccess::COURSE_CONTEXT,
                                                                                                                'text'
                                                                                                            ) . '
                     INNER JOIN object_reference AS crs_ref on crs_ref.obj_id = crs.obj_id AND crs_ref.deleted IS NULL
