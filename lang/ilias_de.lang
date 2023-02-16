@@ -12001,6 +12001,7 @@ mob#:#mob_mime_type_not_allowed#:#Die folgenden Mime-Typen sind am Zielort nicht
 mob#:#mob_multi_srt_files#:#SRT-Dateien
 mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
 mob#:#mob_object#:#Objekt
+mob#:#mob_please_select_pool#:#Please select a media pool.
 mob#:#mob_really_delete_srt#:#Möchten Sie wirklich die folgenden srt-Dateien löschen?
 mob#:#mob_srt_files_deleted#:#Dateien für Untertitel wurden gelöscht.
 mob#:#mob_srt_not_allowed#:#Dateien vom Typ .srt können aktuell nicht hochgeladen werden. Um die Funktion zu aktivieren, muss diese durch einen Systemadministrator entsprechend konfiguriert werden (Administration > Datei-Services).
