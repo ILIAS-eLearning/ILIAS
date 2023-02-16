@@ -3784,7 +3784,7 @@ class ilObjUser extends ilObject
 
     public function setBirthday(?string $a_birthday): void
     {
-        if (strlen($a_birthday)) {
+        if ($a_birthday && strlen($a_birthday)) {
             $date = new ilDate($a_birthday, IL_CAL_DATE);
             $this->birthday = $date->get(IL_CAL_DATE);
         } else {

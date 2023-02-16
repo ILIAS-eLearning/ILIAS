@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Database Session Handling
@@ -96,7 +96,7 @@ class ilSessionDBHandler implements SessionHandlerInterface
      * Removes sessions that weren't updated for more than gc_maxlifetime seconds
      * @param int $max_lifetime Sessions that have not updated for the last max_lifetime seconds will be removed.
      */
-    public function gc($max_lifetime)
+    public function gc(int $max_lifetime): int | false
     {
         return ilSession::_destroyExpiredSessions();
     }

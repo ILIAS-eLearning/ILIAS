@@ -793,7 +793,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         }
 
         $loginSettings = new ilSetting("login_settings");
-        $information = $loginSettings->get("login_message_" . $this->lng->getLangKey());
+        $information = $loginSettings->get("login_message_" . $this->lng->getLangKey()) ?? '';
 
         if (strlen(trim($information))) {
             $tpl->setVariable("TXT_LOGIN_INFORMATION", $information);
@@ -1876,7 +1876,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $tpl->addBlockFile('STARTUP_CONTENT', 'startup_content', $template_file, $template_dir);
 
         PageContentProvider::setViewTitle($view_title);
-        $short_title = $ilSetting->get('short_inst_name');
+        $short_title = $ilSetting->get('short_inst_name') ?? '';
         if (trim($short_title) === "") {
             $short_title = 'ILIAS';
         }
