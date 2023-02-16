@@ -11199,6 +11199,7 @@ mep#:#mep_master_language_only_no_media#:#Master Language without Media
 mep#:#mep_media_files#:#Media Files
 mep#:#mep_media_subtitles#:#Media Subtitles
 mep#:#mep_mob#:#Media Object
+mep#:#mep_move_select_insert#:#Navigate to target folder and click "Insert"
 mep#:#mep_mpg#:#Content Snippet
 mep#:#mep_new_content_snippet#:#New Content Snippet
 mep#:#mep_new_folder#:#New Folder
