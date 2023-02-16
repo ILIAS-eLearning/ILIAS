@@ -519,8 +519,8 @@ class ilECSSettingsGUI
         $this->settings->setEnabledStatus((bool) $_POST['active']);
         $this->settings->setTitle(ilUtil::stripSlashes($_POST['title']));
         $this->settings->setServer(ilUtil::stripSlashes($_POST['server']));
-        $this->settings->setPort(ilUtil::stripSlashes($_POST['port']));
-        $this->settings->setProtocol(ilUtil::stripSlashes($_POST['protocol']));
+        $this->settings->setPort((int) ilUtil::stripSlashes($_POST['port']));
+        $this->settings->setProtocol((int) ilUtil::stripSlashes($_POST['protocol']));
         $this->settings->setClientCertPath(ilUtil::stripSlashes($_POST['client_cert']));
         $this->settings->setCACertPath(ilUtil::stripSlashes($_POST['ca_cert']));
         $this->settings->setKeyPath(ilUtil::stripSlashes($_POST['key_path']));
