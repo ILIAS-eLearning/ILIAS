@@ -96,8 +96,8 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         $certificates_fetcher = new ilMStListCertificates($DIC);
         $data = $certificates_fetcher->getData($options);
         $options['limit'] = array(
-            'start' => intval($this->getOffset()),
-            'end' => intval($this->getLimit()),
+            'start' => $this->getOffset(),
+            'end' => $this->getLimit(),
         );
         $this->setMaxCount(count($data));
 
@@ -119,8 +119,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
         //user
         $item = new ilTextInputGUI(
-            $DIC->language()->txt("login") . "/" . $DIC->language()->txt("email") . "/" . $DIC->language()
-                                                                                                                     ->txt("name"),
+            $DIC->language()->txt("login"),
             "user"
         );
 
@@ -212,11 +211,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
-                if (isset($v['sort_field'])) {
-                    $sort = $v['sort_field'];
-                } else {
-                    $sort = "";
-                }
+                $sort = $v['sort_field'] ?? "";
                 $this->addColumn($v['txt'], $sort);
             }
         }
@@ -234,7 +229,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
      * @throws \ilDateTimeException
      * @throws \ilTemplateException
      */
-    final public function fillRow(array $a_set): void
+    final protected function fillRow(array $a_set): void
     {
         global $DIC;
 
@@ -251,7 +246,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
                         $this->tpl->setCurrentBlock('td');
                         $this->tpl->setVariable(
                             'VALUE',
-                            strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($set->getUserId()))
+                            ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($set->getUserId())
                         );
                         $this->tpl->parseCurrentBlock();
                         break;
