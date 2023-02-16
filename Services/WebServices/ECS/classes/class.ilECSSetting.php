@@ -51,7 +51,6 @@ class ilECSSetting
     private ?string $cert_serial_number = '';
     private string $key_path = '';
     private string $key_password = '';
-    private int $polling = 0;
     private int $import_id = 0;
     private int $global_role = 0;
     private int $duration = 0;
@@ -561,7 +560,7 @@ class ilECSSetting
         $this->server_id = $this->db->nextId('ecs_server');
         $this->db->manipulate(
             'INSERT INTO ecs_server (server_id,active,title,protocol,server,port,auth_type,client_cert_path,ca_cert_path,' .
-            'key_path,key_password,cert_serial,polling_time,import_id,global_role,econtent_rcp,user_rcp,approval_rcp,duration,auth_user,auth_pass) ' .
+            'key_path,key_password,cert_serial,import_id,global_role,econtent_rcp,user_rcp,approval_rcp,duration,auth_user,auth_pass) ' .
             'VALUES (' .
             $this->db->quote($this->getServerId(), 'integer') . ', ' .
             $this->db->quote((int) $this->isEnabled(), 'integer') . ', ' .
