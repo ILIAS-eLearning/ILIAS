@@ -47,9 +47,10 @@ class ilMStListCourses
         //Permission Filter
         $operation_access = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS;
 
-        if (isset($options['filters']['lp_status']) && $options['filters']['lp_status'] >= 0) {
+        // permission should not be changed here because learning progress only works in combination with course memberships
+        /*if (isset($options['filters']['lp_status']) && $options['filters']['lp_status'] >= 0) {
             $operation_access = ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS;
-        }
+        }*/
         /*$tmp_table_user_matrix = ilMyStaffAccess::getInstance()->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($this->dic->user()
             ->getId(), $operation_access, ilMyStaffAccess::DEFAULT_CONTEXT, ilMyStaffAccess::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX);*/
 
@@ -76,7 +77,7 @@ class ilMStListCourses
 	           
                     INNER JOIN object_data AS crs on crs.obj_id = memb.obj_id AND crs.type = ' . $this->dic->database()
                                                                                                            ->quote(
-                                                                                                               ilMyStaffAccess::DEFAULT_CONTEXT,
+                                                                                                               ilMyStaffAccess::COURSE_CONTEXT,
                                                                                                                'text'
                                                                                                            ) . '
                     INNER JOIN object_reference AS crs_ref on crs_ref.obj_id = crs.obj_id AND crs_ref.deleted IS NULL

@@ -211,7 +211,7 @@ class ilMediaCreationGUI
                 break;
 
             default:
-                if (in_array($cmd, ["creationSelection", "uploadFile", "saveUrl", "cancel", "listPoolItems",
+                if (in_array($cmd, ["creationSelection", "uploadFile", "saveUrl", "cancel", "cancelCreate", "listPoolItems",
                     "insertFromPool", "poolSelection", "selectPool", "applyFilter", "resetFilter", "performBulkUpload",
                     "editTitlesAndDescriptions", "saveTitlesAndDescriptions"])) {
                     $this->$cmd();
@@ -563,6 +563,12 @@ class ilMediaCreationGUI
         $ctrl->returnToParent($this);
     }
 
+    protected function cancelCreate(): void
+    {
+        $ctrl = $this->ctrl;
+        $ctrl->returnToParent($this);
+    }
+
     protected function saveUrl(): void
     {
         $form = $this->initUrlForm();
@@ -644,6 +650,14 @@ class ilMediaCreationGUI
         $lng = $this->lng;
         $ui = $this->ui;
         $main_tpl = $this->main_tpl;
+
+        $form = $this->initPoolSelection();
+        if ($this->requested_mep === 0) {
+            $this->main_tpl->setOnScreenMessage("failure", $this->lng->txt("mob_please_select_pool"));
+            $form->setValuesByPost();
+            $this->main_tpl->setContent($form->getHTML());
+            return;
+        }
 
         if ($this->requested_mep > 0 &&
             $access->checkAccess("write", "", $this->requested_mep)
