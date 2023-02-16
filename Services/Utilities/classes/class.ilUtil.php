@@ -804,7 +804,8 @@ class ilUtil
             filter_var("http://de.de/" . $url, FILTER_VALIDATE_URL) === false) {
             return "";
         }
-        if (trim(strtolower(parse_url($url, PHP_URL_SCHEME))) == "javascript") {
+        $url = parse_url($url, PHP_URL_SCHEME) ?? '';
+        if (trim(strtolower($url)) == "javascript") {
             return "";
         }
         $url = htmlspecialchars($url, ENT_QUOTES);
