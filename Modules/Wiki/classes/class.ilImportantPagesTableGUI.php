@@ -13,7 +13,10 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilImportantPagesTableGUI extends ilTable2GUI
 {
-    protected ilWikiPageTemplate $templates;
+    /**
+     * @var ilWikiPageTemplate
+     */
+    protected $templates;
     /**
      * @var ilAccessHandler
      */
