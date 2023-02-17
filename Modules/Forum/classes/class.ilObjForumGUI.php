@@ -4837,7 +4837,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $draft->setPostUserAlias($userAlias);
             $draft->setNotificationStatus((bool) $form->getInput('notify'));
             $draft->setPostAuthorId($this->user->getId());
-            $draft->setPostDisplayUserId(($this->objProperties->isAnonymized() ? 0 : $this->user->getId()));
+            $draft->setPostDisplayUserId($this->isWritingWithPseudonymAllowed() ? 0 : $this->user->getId());
 
             if (0 === $autoSavedDraftId) {
                 $draftId = $draft->saveDraft();
@@ -4911,7 +4911,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $draft->setPostUserAlias($userAlias);
             $draft->setNotificationStatus((bool) $form->getInput('notify'));
             $draft->setPostAuthorId($this->user->getId());
-            $draft->setPostDisplayUserId(($this->objProperties->isAnonymized() ? 0 : $this->user->getId()));
+            $draft->setPostDisplayUserId($this->isWritingWithPseudonymAllowed() ? 0 : $this->user->getId());
             $draft->updateDraft();
 
             $GLOBALS['ilAppEventHandler']->raise(
@@ -5036,7 +5036,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $draftObj->setPostNotificationStatus((bool) $oReplyEditForm->getInput('notify_post'));
 
                 $draftObj->setPostAuthorId($this->user->getId());
-                $draftObj->setPostDisplayUserId(($this->objProperties->isAnonymized() ? 0 : $this->user->getId()));
+                $draftObj->setPostDisplayUserId(($this->isWritingWithPseudonymAllowed() ? 0 : $this->user->getId()));
 
                 if ($autosave_draft_id === 0) {
                     $draft_id = $draftObj->saveDraft();
@@ -5169,7 +5169,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $update_draft->setNotificationStatus((bool) $oReplyEditForm->getInput('notify'));
                 $update_draft->setUpdateUserId($this->user->getId());
                 $update_draft->setPostAuthorId($this->user->getId());
-                $update_draft->setPostDisplayUserId(($this->objProperties->isAnonymized() ? 0 : $this->user->getId()));
+                $update_draft->setPostDisplayUserId($this->isWritingWithPseudonymAllowed() ? 0 : $this->user->getId());
 
                 $update_draft->updateDraft();
 
