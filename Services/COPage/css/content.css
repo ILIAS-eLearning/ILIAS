@@ -14,7 +14,7 @@ a.ilc_qetitem_ErrorTextItem {
   text-decoration: none;
 }
 a.ilc_qetitem_ErrorTextItem:hover {
-  color: #141414;
+  color: #000000;
   text-decoration: none;
   background-color: #D0D0D0;
 }
@@ -382,7 +382,7 @@ div.ilc_ha_ihead_HAccordIHead {
   background-repeat: no-repeat;
 }
 div.ilc_ha_ihead_HAccordIHead:hover {
-  color: #141414;
+  color: #000000;
   background-color: #FFFFD0;
 }
 div.ilc_ha_ihcap_HAccordIHeadCap {
@@ -789,14 +789,14 @@ li.ilc_qordli_OrderListItem {
   margin-top: 5px;
   margin-bottom: 5px;
   margin-left: 0px;
-  background-color: #a6b2c3;
+  background-color: #e2e8ef;
   margin-right: 0px;
   cursor: move;
   padding: 10px;
 }
 li.ilc_qordli_OrderListItemHorizontal {
   cursor: move;
-  background-color: #a6b2c3;
+  background-color: #e2e8ef;
   padding: 10px;
   margin-right: 10px;
   margin-bottom: 5px;
@@ -817,7 +817,7 @@ span.ilc_text_inline_Emph {
 }
 span.ilc_qetcorr_ErrorTextCorrected {
   text-decoration: line-through;
-  color: #737373;
+  color: #7c7c7c;
 }
 span.ilc_text_inline_Important {
   text-decoration: underline;
@@ -1067,7 +1067,7 @@ div.ilc_ha_iheada_HAccordIHeadActive {
   background-image: url("../../../libs/ilias/Style/basic_style/images/tree_col.svg");
 }
 div.ilc_ha_iheada_HAccordIHeadActive:hover {
-  color: #141414;
+  color: #000000;
 }
 div.ilc_va_iheada_VAccordIHeadActive {
   background-image: url("../../../libs/ilias/Style/basic_style/images/tree_exp.svg");
@@ -1081,5 +1081,5 @@ div.ilc_va_iheada_VAccordIHeadActive {
   padding-right: 3px;
 }
 div.ilc_va_iheada_VAccordIHeadActive:hover {
-  color: #141414;
+  color: #000000;
 }
