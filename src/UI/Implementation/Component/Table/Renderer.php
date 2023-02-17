@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +14,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Table;
 
@@ -190,7 +189,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('TITLE', $component->getTitle());
         $tpl->setVariable('COL_COUNT', (string) $overall_column_count);
 
-        $this->renderTableHeader($tpl, $columns);
+        $this->renderTableHeader($default_renderer, $tpl, $columns, $order);
         $this->appendTableRows($tpl, $rows, $default_renderer);
 
         $multi_actions_dropdown = $this->getMultiActionsDropdown(
@@ -221,13 +220,32 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @param Column\Column[]
      */
-    protected function renderTableHeader(Template $tpl, array $columns)
-    {
+    protected function renderTableHeader(
+        RendererInterface $default_renderer,
+        Template $tpl,
+        array $columns,
+        \ILIAS\Data\Order $order
+    ) {
+        $sort_col = key($order->get());
+        $sort_direction = current($order->get());
+
         foreach ($columns as $col_id => $col) {
-            $sortation = 'none';
+            if ($col_id === $sort_col) {
+                if ($sort_direction === $order::ASC) {
+                    $sortation = 'ascending';
+                    $sortation_glyph = $this->getUIFactory()->symbol()->glyph()->sortAscending("#");
+                }
+                if ($sort_direction === $order::DESC) {
+                    $sortation = 'decending';
+                    $sortation_glyph = $this->getUIFactory()->symbol()->glyph()->sortDescending("#");
+                }
+                $sortation_glyph = $default_renderer->render($sortation_glyph->withUnavailableAction());
+                $tpl->setVariable('COL_SORTATION', $sortation);
+                $tpl->setVariable('COL_SORTATION_GLYPH', $sortation_glyph);
+            }
+
             $tpl->setCurrentBlock('header_cell');
             $tpl->setVariable('COL_INDEX', (string) $col->getIndex());
-            $tpl->setVariable('COL_SORTATION', $sortation);
             $tpl->setVariable('COL_TITLE', $col->getTitle());
             $tpl->parseCurrentBlock();
         }

@@ -1,4 +1,19 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -14,6 +29,7 @@ function base()
     global $DIC;
     $f = $DIC['ui.factory'];
     $r = $DIC['ui.renderer'];
+    $ctrl = $DIC['ilCtrl'];
 
 
     //this is some dummy-data:
@@ -45,13 +61,17 @@ function base()
     ];
 
     // define actions
-    $modal = getSomeExampleModal($f);
+    $modal = getSomeExampleModal($f, $ctrl);
     $signal = $modal->getShowSignal();
 
     $actions = [
-        'edit' => $f->table()->action()->single('Edit', 'ids', $signal),
-        'delete' => $f->table()->action()->standard('Delete', 'ids', buildDemoURL('table_action=delete')),
-        'compare' => $f->table()->action()->multi('Compare', 'ids', $signal)
+        //never in multi actions
+        'edit' => $f->table()->action()->single('edit', 'ids', buildDemoURL('table_action=edit')),
+        //never in single row
+        'compare' => $f->table()->action()->multi('compare', 'ids', buildDemoURL('table_action=compare')),
+        //in both
+        'delete' => $f->table()->action()->standard('delete', 'ids', $signal)
+
     ];
 
     // retrieve data and map records to table rows
@@ -130,10 +150,9 @@ function buildDemoURL($param)
     return $url;
 }
 
-function getSomeExampleModal($factory)
+function getSomeExampleModal($factory, $ctrl)
 {
-    $image = $factory->image()->responsive("src/UI/examples/Image/mountains.jpg", "Image source: https://stocksnap.io, Creative Commons CC0 license");
-    $page = $factory->modal()->lightboxImagePage($image, 'Mountains');
-    $modal = $factory->modal()->lightbox($page);
+    $form_action = $ctrl->getFormActionByClass('ilsystemstyledocumentationgui');
+    $modal = $factory->modal()->interruptive('Delete', 'really delete?', $form_action);
     return $modal;
 }

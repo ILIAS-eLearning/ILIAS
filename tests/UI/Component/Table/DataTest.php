@@ -1,4 +1,19 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -21,24 +36,16 @@ class DataTest extends ILIAS_UI_TestBase
         );
     }
 
-    protected function getDataFactory()
-    {
-        return new Data\Factory();
-    }
-
-    public function testBasicConstruction(): I\Table\Data
+    public function testDataTableBasicConstruction()
     {
         $number_of_rows = 12;
         $table = $this->getFactory()->data('title', $number_of_rows);
         $this->assertEquals($number_of_rows, $table->getNumberOfRows());
-        return $table;
     }
 
-    /**
-     * @depends testBasicConstruction
-     */
-    public function testColumns(I\Table\Data $table): I\Table\Data
+    public function testDataTableColumns()
     {
+        $table = $this->getFactory()->data('title');
         $f = $this->getFactory()->column();
         $table = $table->withColumns([
             'f0' => $f->text("col1"),
@@ -52,14 +59,11 @@ class DataTest extends ILIAS_UI_TestBase
 
         $this->assertEquals($check, $table->getColumns());
         $this->assertEquals($check, $table->getFilteredColumns());
-        return $table;
     }
 
-    /**
-     * @depends testColumns
-     */
-    public function testActions(I\Table\Data $table): I\Table\Data
+    public function testDataTableActions()
     {
+        $table = $this->getFactory()->data('title');
         $f = $this->getFactory()->action();
         $target = $this->getDataFactory()->uri('http://wwww.ilias.de?ref_id=1');
         $actions = [
@@ -71,15 +75,11 @@ class DataTest extends ILIAS_UI_TestBase
         $this->assertEquals($actions, $table->getActions());
         $this->assertEqualsCanonicalizing([$actions[0], $actions[2]], $table->getMultiActions());
         $this->assertEqualsCanonicalizing([$actions[0], $actions[1]], $table->getSingleActions());
-        return $table;
     }
 
-
-    /**
-     * @depends testActions
-     */
-    public function testData(I\Table\Data $table): I\Table\Data
+    public function testDataTableData()
     {
+        $table = $this->getFactory()->data('title');
         $data = new class () extends I\Table\DataRetrieval {
             public function getRows(
                 Component\Table\RowFactory $row_factory,
@@ -96,6 +96,5 @@ class DataTest extends ILIAS_UI_TestBase
 
         $table = $table->withData($data);
         $this->assertEquals($data, $table->getData());
-        return $table;
     }
 }

@@ -35,10 +35,10 @@ function pageFooterDemoFooter(): \ILIAS\UI\Component\MainControls\Footer
 
     return $f->mainControls()->footer($links, $text)->withPermanentURL(
         $df->uri(
-            ($_SERVER['REQUEST_SCHEME'] ?? "http") . '://'
-            . ($_SERVER['SERVER_NAME'] ?? "localhost") . ':'
-            . ($_SERVER['SERVER_PORT'] ?? "80")
-            . ($_SERVER['SCRIPT_NAME'] ?? "")
+            $_SERVER['REQUEST_SCHEME'] . '://'
+            . $_SERVER['SERVER_NAME'] . ':'
+            . $_SERVER['SERVER_PORT']
+            . $_SERVER['SCRIPT_NAME']
             . "?new_footer_ui=1"
         )
     );

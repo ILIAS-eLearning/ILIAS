@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +14,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Table;
 
@@ -39,14 +38,14 @@ interface Data extends Table
      * actually shown rows.
      * Those parameters are being provided to DataRetrieval::getRows.
      */
-    public function withData(DataRetrieval $data_retrieval): Data;
+    public function withData(DataRetrieval $data_retrieval): self;
 
     public function getData(): DataRetrieval;
 
     /**
      * @param array <string, Column>
      */
-    public function withColumns(array $columns): Data;
+    public function withColumns(array $columns): self;
 
     /**
      * @return array <string, Column>
@@ -61,7 +60,7 @@ interface Data extends Table
      * Since there must be but one View Control of a kind, e.g. a Pagination added here
      * will substitute the default one.
      */
-    public function withAdditionalViewControl(ViewControl $view_control): Data;
+    public function withAdditionalViewControl(ViewControl $view_control): self;
 
     /**
      * @return ViewControl[]
@@ -74,12 +73,12 @@ interface Data extends Table
      * and parameters will already influence e.g. the presentation of
      * column-titles (think of ordering...).
      */
-    public function withRequest(ServerRequestInterface $request): Data;
+    public function withRequest(ServerRequestInterface $request): self;
 
     /**
      * @param array <string, Action>    $actions
      */
-    public function withActions(array $actions): Data;
+    public function withActions(array $actions): self;
 
     /**
      * @return Action[]

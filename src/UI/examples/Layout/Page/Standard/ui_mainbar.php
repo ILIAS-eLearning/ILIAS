@@ -214,11 +214,11 @@ function getURI(): \ILIAS\Data\URI
 {
     $df = new Factory();
     return $df->uri(
-        ($_SERVER['REQUEST_SCHEME'] ?? "http") . '://'
-        . ($_SERVER['SERVER_NAME'] ?? "localhost") . ':'
-        . ($_SERVER['SERVER_PORT'] ?? "80")
-        . ($_SERVER['SCRIPT_NAME'] ?? "") . '?'
-        . ($_SERVER['QUERY_STRING'] ?? "")
+        $_SERVER['REQUEST_SCHEME'] . '://'
+        . $_SERVER['SERVER_NAME'] . ':'
+        . $_SERVER['SERVER_PORT']
+        . $_SERVER['SCRIPT_NAME'] . '?'
+        . $_SERVER['QUERY_STRING']
     );
 }
 

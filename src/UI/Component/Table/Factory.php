@@ -1,9 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,6 +14,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Table;
 
@@ -193,7 +190,7 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *       Tables display data in a very structured way; columns are essential
+     *       Tables display data in a very structured way; Columns are essential
      *       in that matter, for they define the nature of one field (aspect) of
      *       the data record.
      *
@@ -202,7 +199,7 @@ interface Factory
      *       a Glyph will indicate the ability to sort as well as the current direction.
      *
      *   effect: >
-     *       Operating the order-glyphs in the column title will change the records' order.
+     *       Operating the order-glyphs in the Column title will change the records' order.
      *
      * rules:
      *   usage:
@@ -230,18 +227,18 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *       Consumers may attach actions to the table; an action is a Signal or
+     *       Consumers may attach Actions to the table; an Action is a Signal or
      *       URL carrying a parameter that references the targeted record(s).
-     *       While there are actions that make sense for only one record (e.g.
+     *       While there are Actions that make sense for only one record (e.g.
      *       "edit" or "goto"), there are others that will only be used with
      *       more than one record (e.g. "export", "compare"), and finally those
      *       to be valid for both single and multi records (e.g. "delete").
-     *       However, actions share a common concept - they will trigger an URL
+     *       However, Actions share a common concept - they will trigger an URL
      *       or Signal, relay a parameter derived from the record to identify
      *       targets and bear a label.
      *   composition: >
-     *       If applicable, an additional column will be added at the very end
-     *       of the table containing a Button (or Dropdown, for more than one action).
+     *       An additional column will be added at the very end of the table
+     *       containing a Button (or Dropdown, for more than one action) if applicable.
      *       If there is at least one Multi Action, an unlabled column will be
      *       added at the very beginning of the table containing a checkbox to
      *       include the row in the selection.

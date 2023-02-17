@@ -1,8 +1,21 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
-
-/* Copyright (c) 2020 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Table\Column;
 
@@ -13,30 +26,11 @@ abstract class Column implements C\Column
 {
     use ComponentHelper;
 
-    /**
-     * @var string
-     */
-    protected $title;
-
-    /**
-     * @var bool
-     */
-    protected $sortable = true;
-
-    /**
-     * @var bool
-     */
-    protected $optional = false;
-
-    /**
-     * @var bool
-     */
-    protected $initially_visible = true;
-
-    /**
-     * @var int
-     */
-    protected $index;
+    protected string $title;
+    protected bool $sortable = true;
+    protected bool $optional = false;
+    protected bool $initially_visible = true;
+    protected int $index;
 
 
     public function __construct(string $title)
@@ -56,7 +50,7 @@ abstract class Column implements C\Column
         return $class;
     }
 
-    public function withIsSortable(bool $flag): C\Column
+    public function withIsSortable(bool $flag): self
     {
         $clone = clone $this;
         $clone->sortable = $flag;
@@ -68,7 +62,7 @@ abstract class Column implements C\Column
         return $this->sortable;
     }
 
-    public function withIsOptional(bool $flag): C\Column
+    public function withIsOptional(bool $flag): self
     {
         $clone = clone $this;
         $clone->optional = $flag;
@@ -80,7 +74,7 @@ abstract class Column implements C\Column
         return $this->optional;
     }
 
-    public function withIsInitiallyVisible(bool $flag): C\Column
+    public function withIsInitiallyVisible(bool $flag): self
     {
         $clone = clone $this;
         $clone->initially_visible = $flag;
@@ -92,7 +86,7 @@ abstract class Column implements C\Column
         return $this->initially_visible;
     }
 
-    public function withIndex(int $index): C\Column
+    public function withIndex(int $index): self
     {
         $clone = clone $this;
         $clone->index = $index;

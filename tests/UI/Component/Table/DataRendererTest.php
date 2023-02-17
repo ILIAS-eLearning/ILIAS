@@ -1,4 +1,19 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -35,9 +50,13 @@ class DTRenderer extends I\Table\Renderer
         return $this->getSingleActionsForRow($row_id, $actions);
     }
 
-    public function p_renderTableHeader($tpl, array $columns)
-    {
-        return $this->renderTableHeader($tpl, $columns);
+    public function p_renderTableHeader(
+        TestDefaultRenderer $default_renderer,
+        $tpl,
+        array $columns,
+        \ILIAS\Data\Order $order
+    ) {
+        return $this->renderTableHeader($default_renderer, $tpl, $columns, $order);
     }
 }
 
@@ -54,7 +73,9 @@ class DataRendererTest extends ILIAS_UI_TestBase
             $this->getTemplateFactory(),
             $this->getLanguage(),
             $this->getJavaScriptBinding(),
-            $this->getRefinery()
+            $this->getRefinery(),
+            new ilImagePathResolver(),
+            new \ILIAS\Data\Factory()
         );
     }
 
@@ -68,28 +89,30 @@ class DataRendererTest extends ILIAS_UI_TestBase
         return new I\Table\Column\Factory();
     }
 
-    private function getDataFactory()
-    {
-        return new Data\Factory();
-    }
-
-
-    public function getUIFactory()
+    public function getUIFactory(): NoUIFactory
     {
         $factory = new class () extends NoUIFactory {
-            public function button()
+            public function button(): \ILIAS\UI\Component\Button\Factory
             {
                 return new I\Button\Factory();
             }
-            public function dropdown()
+            public function dropdown(): ILIAS\UI\Component\Dropdown\Factory
             {
                 return new I\Dropdown\Factory();
+            }
+            public function symbol(): ILIAS\UI\Component\Symbol\Factory
+            {
+                return new I\Symbol\Factory(
+                    new I\Symbol\Icon\Factory(),
+                    new I\Symbol\Glyph\Factory(),
+                    new I\Symbol\Avatar\Factory()
+                );
             }
         };
         return $factory;
     }
 
-    public function testGetMultiActionHandler()
+    public function testDataTableGetMultiActionHandler()
     {
         $renderer = $this->getRenderer();
         $signal = new I\Signal('signal_id');
@@ -104,7 +127,7 @@ class DataRendererTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testGetActionRegistrationSignal()
+    public function testDataTableGetActionRegistrationSignal()
     {
         $renderer = $this->getRenderer();
         $f = $this->getActionFactory();
@@ -119,7 +142,7 @@ class DataRendererTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testGetActionRegistrationURL()
+    public function testDataTableGetActionRegistrationURL()
     {
         $renderer = $this->getRenderer();
         $f = $this->getActionFactory();
@@ -134,7 +157,7 @@ class DataRendererTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testMultiActionsDropdown()
+    public function testDataTableMultiActionsDropdown()
     {
         $renderer = $this->getRenderer();
         $f = $this->getActionFactory();
@@ -152,7 +175,7 @@ class DataRendererTest extends ILIAS_UI_TestBase
             count($renderer->p_getMultiActionsDropdown($actions, $signal)->getItems())
         );
     }
-    public function testSingleActionsDropdown()
+    public function testDataTableSingleActionsDropdown()
     {
         $renderer = $this->getRenderer();
         $f = $this->getActionFactory();
@@ -168,7 +191,7 @@ class DataRendererTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testRenderTableHeader()
+    public function testDataTableRenderTableHeader()
     {
         $renderer = $this->getRenderer();
         $tpl = $this->getTemplateFactory()->getTemplate("src/UI/templates/default/Table/tpl.datatable.html", true, true);
@@ -178,8 +201,9 @@ class DataRendererTest extends ILIAS_UI_TestBase
             'f2' => $f->text("Field 2")->withIndex(2),
             'f3' => $f->number("Field 3")->withIndex(3)
         ];
+        $order = (new \ILIAS\Data\Factory())->order('f1', \ILIAS\Data\Order::ASC);
 
-        $renderer->p_renderTableHeader($tpl, $columns);
+        $renderer->p_renderTableHeader($this->getDefaultRenderer(), $tpl, $columns, $order);
 
         $actual = $this->brutallyTrimHTML($tpl->get());
         $expected = <<<EOT
@@ -188,9 +212,9 @@ class DataRendererTest extends ILIAS_UI_TestBase
         <thead>
             <tr class="header row" role="rowgroup">
                 <th class="header cell rowselection" role="columnheader"></th>
-                <th class="header cell" role="columnheader" aria-colindex="1" aria-sort="none">Field 1</th>
-                <th class="header cell" role="columnheader" aria-colindex="2" aria-sort="none">Field 2</th>
-                <th class="header cell" role="columnheader" aria-colindex="3" aria-sort="none">Field 3</th>
+                <th class="header cell" role="columnheader" aria-colindex="1" aria-sort="ascending">Field 1<a class="glyph disabled" aria-label="sort_ascending" aria-disabled="true"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a></th>
+                <th class="header cell" role="columnheader" aria-colindex="2">Field 2</th>
+                <th class="header cell" role="columnheader" aria-colindex="3">Field 3</th>
                 <th class="header cell rowaction" role="columnheader"></th>
             </tr>
         </thead>
@@ -203,7 +227,7 @@ EOT;
         $this->assertEquals($expected, $actual);
     }
 
-    public function testRowFactory()
+    public function testDataTableRowFactory()
     {
         $f = $this->getColumnFactory();
         $columns = [
@@ -227,9 +251,9 @@ EOT;
     }
 
     /**
-     * @depends testRowFactory
+     * @depends testDataTableRowFactory
      */
-    public function testStandardRowFromFactory(array $params): I\Table\StandardRow
+    public function testDataTableStandardRowFromFactory(array $params): I\Table\StandardRow
     {
         list($rf, $columns, $actions) = $params;
         $record = [
@@ -256,16 +280,10 @@ EOT;
     }
 
     /**
-     * @depends testStandardRowFromFactory
+     * @depends testDataTableStandardRowFromFactory
      */
-    public function testRenderStandardRow(I\Table\StandardRow $row)
+    public function testDataTableRenderStandardRow(I\Table\StandardRow $row)
     {
-        list($rf, $columns, $actions) = $params;
-        $record = [
-            'f1' => 'v1',
-            'f2' => 'v2',
-            'f3' => 'v3'
-        ];
         $actual = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($row));
         $expected = <<<EOT
             <td class="cell rowselection" role="gridcell" tabindex="-1">
@@ -276,10 +294,10 @@ EOT;
             <td class="cell Number" role="gridcell" aria-colindex="3" tabindex="-1">v3</td>
             <td class="cell rowaction" role="gridcell" tabindex="-1">
                 <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="actions" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
-                    <ul class="dropdown-menu">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_2" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_2_menu"><span class="caret"></span></button>
+                    <ul id="id_2_menu" class="dropdown-menu">
                         <li><button class="btn btn-link" id="id_1">label1</button></li>
-                        <li><button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&param=row_id-1" id="id_2">label2</button></li>
+                        <li><button class="btn btn-link" data-action="">label2</button></li>
                     </ul>
                 </div>
             </td>

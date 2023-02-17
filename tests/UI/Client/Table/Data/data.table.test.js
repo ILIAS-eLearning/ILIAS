@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import data from '../src/table.data.js';
-import params from '../src/params.js';
+import data from '../../../../../src/UI/templates/js/Table/src/table.data.js';
+import params from '../../../../../src/UI/templates/js/Table/src/params.js';
 
 describe('table.data', function() {
     it('is defined', function() {

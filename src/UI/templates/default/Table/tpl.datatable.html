@@ -11,8 +11,11 @@
 				<th class="header cell rowselection" role="columnheader"></th>
 
 				<!-- BEGIN header_cell -->
-				<th class="header cell" role="columnheader" aria-colindex="{COL_INDEX}" aria-sort="{COL_SORTATION}">
+				<th class="header cell" role="columnheader" aria-colindex="{COL_INDEX}"<!-- BEGIN header_cell_sortation --> aria-sort="{COL_SORTATION}"<!-- END header_cell_sortation -->>
 					{COL_TITLE}
+					<!-- BEGIN header_cell_sortglyph -->
+					{COL_SORTATION_GLYPH}
+					<!-- END header_cell_sortglyph -->
 				</th>
 				<!-- END header_cell -->
 

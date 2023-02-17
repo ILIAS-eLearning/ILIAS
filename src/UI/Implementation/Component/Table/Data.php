@@ -1,8 +1,21 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
-
-/* Copyright (c) 2020 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Table;
 
@@ -18,14 +31,9 @@ class Data extends Table implements T\Data, JSBindable
 {
     use JavaScriptBindable;
 
-
     protected string $title;
     protected int $number_of_rows;
-
-    /**
-     * @var DataRetrieval
-     */
-    protected $data_retrieval;
+    protected DataRetrieval $data_retrieval;
 
     /**
      * @var array <string, Column>
@@ -37,11 +45,7 @@ class Data extends Table implements T\Data, JSBindable
      */
     protected $actions;
 
-    /**
-     * @var Signal
-     */
-    protected $multi_action_signal;
-
+    protected Signal $multi_action_signal;
 
     public function __construct(
         SignalGeneratorInterface $signal_generator,
@@ -58,13 +62,13 @@ class Data extends Table implements T\Data, JSBindable
     {
         return $this->title;
     }
-    
+
     public function getNumberOfRows(): ?int
     {
         return $this->number_of_rows;
     }
 
-    public function withData(T\DataRetrieval $data_retrieval): T\Data
+    public function withData(T\DataRetrieval $data_retrieval): self
     {
         $clone = clone $this;
         $clone->data_retrieval = $data_retrieval;
@@ -79,7 +83,7 @@ class Data extends Table implements T\Data, JSBindable
     /**
      * @inheritdoc
      */
-    public function withColumns(array $columns): T\Data
+    public function withColumns(array $columns): self
     {
         $clone = clone $this;
         $counter = 0;
@@ -101,7 +105,7 @@ class Data extends Table implements T\Data, JSBindable
     /**
      * @inheritdoc
      */
-    public function withAdditionalViewControl(ViewControl $view_control): T\Data
+    public function withAdditionalViewControl(ViewControl $view_control): self
     {
         //NYI
         return $this;
@@ -112,10 +116,11 @@ class Data extends Table implements T\Data, JSBindable
      */
     public function getViewControls(): array
     {
+        //NYI
         return [];
     }
 
-    public function withRequest(ServerRequestInterface $request): T\Data
+    public function withRequest(ServerRequestInterface $request): self
     {
         //NYI
         return $this;
@@ -124,7 +129,7 @@ class Data extends Table implements T\Data, JSBindable
     /**
      * @inheritdoc
      */
-    public function withActions(array $actions): T\Data
+    public function withActions(array $actions): self
     {
         $clone = clone $this;
         $clone->actions = $actions;

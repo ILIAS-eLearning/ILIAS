@@ -222,11 +222,11 @@ function getDemoEntryRepository(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainC
 
     $df = new \ILIAS\Data\Factory();
     $url = $df->uri(
-        ($_SERVER['REQUEST_SCHEME'] ?? "http") . '://'
-        . ($_SERVER['SERVER_NAME'] ?? "localhost") . ':'
-        . ($_SERVER['SERVER_PORT'] ?? "80")
-        . ($_SERVER['SCRIPT_NAME'] ?? "") . '?'
-        . ($_SERVER['QUERY_STRING'] ?? "")
+        $_SERVER['REQUEST_SCHEME'] . '://'
+        . $_SERVER['SERVER_NAME'] . ':'
+        . $_SERVER['SERVER_PORT']
+        . $_SERVER['SCRIPT_NAME'] . '?'
+        . $_SERVER['QUERY_STRING']
     );
     $link1 = $f->link()->bulky($icon, 'Favorites (Link)', $url);
     $link2 = $f->link()->bulky($icon, 'Courses (Link2)', $url);

@@ -17,14 +17,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Table;
+namespace ILIAS\UI\examples\Table\Action\Single;
 
-use Exception;
+use ILIAS\UI\NotImplementedException;
 
-interface RowFactory
+function base()
 {
-    /**
-     * @throws Exception if record cannot be processed to row
-     */
-    public function standard(string $id, array $record): Row;
+    throw new NotImplementedException();
 }
