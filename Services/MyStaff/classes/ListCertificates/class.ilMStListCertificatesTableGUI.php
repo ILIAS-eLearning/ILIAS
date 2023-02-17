@@ -78,6 +78,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         global $DIC;
 
         $this->setExternalSorting(true);
+        $this->setExternalSegmentation(true);
         $this->setDefaultOrderField('obj_title');
 
         $this->determineLimit();
@@ -85,7 +86,10 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
         $options = array(
             'filters' => $this->filter,
-            'limit' => array(),
+            'limit' => array(
+                'start' => $this->getOffset(),
+                'end' => $this->getLimit(),
+            ),
             'count' => true,
             'sort' => array(
                 'field' => $this->getOrderField(),
@@ -95,17 +99,19 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
         $certificates_fetcher = new ilMStListCertificates($DIC);
         $data = $certificates_fetcher->getData($options);
-        $options['limit'] = array(
-            'start' => $this->getOffset(),
-            'end' => $this->getLimit(),
-        );
-        $this->setMaxCount(count($data));
 
         // Workaround because the fillRow Method only accepts arrays
         $data = array_map(function (UserCertificateDto $it): array {
             return [$it];
         }, $data);
         $this->setData($data);
+
+        $options['limit'] = array(
+            'start' => null,
+            'end' => null,
+        );
+        $max_data = $certificates_fetcher->getData($options);
+        $this->setMaxCount(count($max_data));
     }
 
     final public function initFilter(): void
@@ -119,7 +125,9 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
         //user
         $item = new ilTextInputGUI(
-            $DIC->language()->txt("login"),
+            $DIC->language()->txt("login")
+            . "/" . $DIC->language()->txt("email")
+            . "/" . $DIC->language()->txt("name"),
             "user"
         );
 
