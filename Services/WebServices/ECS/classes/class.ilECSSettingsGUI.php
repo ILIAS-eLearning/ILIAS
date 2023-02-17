@@ -253,7 +253,7 @@ class ilECSSettingsGUI
      */
     protected function doDelete(): void
     {
-        $this->initSettings($_REQUEST['server_id']);
+        $this->initSettings((int) $_REQUEST['server_id']);
         $this->settings->delete();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('ecs_setting_deleted'), true);
         $this->ctrl->redirect($this, 'overview');
