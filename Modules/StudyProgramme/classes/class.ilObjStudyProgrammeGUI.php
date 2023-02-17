@@ -36,6 +36,10 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectTranslationGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilCertificateGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeAutoCategoriesGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilContainerGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilContainerPageGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectContentStyleSettingsGUI
  */
 class ilObjStudyProgrammeGUI extends ilContainerGUI
 {
@@ -45,6 +49,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     private const TAB_SETTINGS = "settings";
     private const TAB_MEMBERS = "members";
     private const TAB_METADATA = "edit_advanced_settings";
+    private const SUBTAB_PAGE_EDIT = "page";
 
     protected ilLocatorGUI $ilLocator;
     protected ilComponentLogger $ilLog;
@@ -230,6 +235,30 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($output_gui);
                 break;
 
+            case "ilcontainerpagegui":
+                $ret = $this->forwardToPageObject();
+                if ($ret != "") {
+                    $this->tpl->setContent($ret);
+                }
+                break;
+
+            case "ilcontainerstartobjectspagegui":
+                $pgui = new ilContainerStartObjectsPageGUI($this->object->getId());
+                $ret = $this->ctrl->forwardCommand($pgui);
+                if ($ret) {
+                    $this->tpl->setContent($ret);
+                }
+                break;
+            case "ilobjstylesheetgui":
+                $this->forwardToStyleSheet();
+                break;
+            case "ilobjectcontentstylesettingsgui":
+                $this->tabs_gui->activateTab(self::TAB_VIEW_CONTENT);
+                $settings_gui = $this->content_style_gui
+                    ->objectSettingsGUIForRefId(null, $this->object->getRefId());
+                $this->ctrl->forwardCommand($settings_gui);
+                break;
+
             case false:
                 $this->getSubTabs($cmd);
                 switch ($cmd) {
@@ -265,6 +294,14 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                     case 'getAsynchItemList':
                         parent::getAsynchItemListObject();
                         break;
+
+                    case 'editPageFrame':
+                        $this->editPageFrameObject();
+                        break;
+                    case 'editStyleProperties':
+                        $this->editStylePropertiesObject();
+                        break;
+
                     case 'trash':
                     case 'undelete':
                     case 'confirmRemoveFromSystem':
@@ -272,7 +309,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                     case 'deliverCertificate':
                     case 'addToDesk':
                     case 'removeFromDesk':
-
                     case 'cut':
                     case 'paste':
                     case 'clear':
@@ -369,6 +405,12 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     {
         $this->denyAccessIfNot(ilPRGPermissionsHelper::ROLEPERM_READ);
         $this->tabs_gui->activateTab(self::TAB_VIEW_CONTENT);
+
+        $this->toolbar->addButton(
+            $this->lng->txt('cntr_text_media_editor'),
+            $this->getLinkTarget("edit_page")
+        );
+
         parent::renderObject();
     }
 
@@ -550,6 +592,13 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                         $this->lng->txt("cntr_manage"),
                         $this->getLinkTarget(self::SUBTAB_VIEW_TREE)
                     );
+
+                    $this->tabs_gui->addSubTab(
+                        self::SUBTAB_PAGE_EDIT,
+                        $this->lng->txt("cntr_text_media_editor"),
+                        $this->getLinkTarget("edit_page")
+                    );
+                    $this->tabs_gui->activateSubTab($parent_tab);
                 }
                 break;
             case 'settings':
@@ -652,6 +701,12 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                     "ilStudyProgrammeCommonSettingsGUI"
                 ],
                 "editSettings"
+            );
+        }
+        if ($cmd == "edit_page") {
+            return $this->ctrl->getLinkTargetByClass(
+                ["ilObjStudyProgrammeGUI"],
+                "editPageFrame"
             );
         }
 
