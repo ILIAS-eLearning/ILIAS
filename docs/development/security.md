@@ -27,7 +27,9 @@ We are delighted when solutions are offered together with the initial report. Pl
 Please subscribe to our admin mailing list (ilias-admins@lists.ilias.de) to get notifications about security updates, updates in general and announcements for ILIAS server administrators.
 
 ## Contributors
+* Robin Baumgartner, sr solutions ag, Burgdorf, Switzerland
+* Tim Bongers, CaT Concepts and Training GmbH, Cologne, Germany
+* Rob Falkenstein, University of Freiburg - IT Services, Germany
+* Manuel G. Müller, Qualitus GmbH, Cologne, Germany
 * Fabian Sesterhenn, TH Köln, Cologne, Germany
 * Nadimo Staszak, University of Cologne, Cologne, Germany
-* Robin Baumgartner, studer + raimann ag, Burgdorf, Switzerland
-* Manuel G. Müller, Qualitus GmbH,  Cologne, Germany

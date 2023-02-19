@@ -20,7 +20,7 @@
 <fieldset class="ilTableFilter">
 <legend class="ilTableFilter"><!--{TXT_FILTER}-->
 <!-- BEGIN filter_deactivation -->
-<a href="#" class="ilTableFilterDeactivator btn btn-link" id = "dtfil_{FILD_ID}" onclick="return ilHideTableFilter('tfil_{FILD_ID}', '{SAVE_URL}');">{TXT_HIDE}</a>
+<button href="#" class="ilTableFilterDeactivator btn btn-link" id = "dtfil_{FILD_ID}" onclick="return ilHideTableFilter('tfil_{FILD_ID}', '{SAVE_URL}');">{TXT_HIDE}</button>
 <!-- END filter_deactivation -->
 </legend>
 <!-- BEGIN filter_select -->
@@ -67,7 +67,7 @@
 	</td>
 	<td class="ilWhiteSpaceNowrap ilRight">
 	<!-- BEGIN filter_activation -->
-	<a class="btn btn-link ilTableFilterActivator" id = "atfil_{FILA_ID}" href="#" onclick="return ilShowTableFilter('tfil_{FILA_ID}', '{SAVE_URLA}');">{TXT_ACTIVATE_FILTER}</a>
+	<button class="btn btn-link ilTableFilterActivator" id = "atfil_{FILA_ID}" href="#" onclick="return ilShowTableFilter('tfil_{FILA_ID}', '{SAVE_URLA}');">{TXT_ACTIVATE_FILTER}</button>
 	<!-- END filter_activation -->
 	<!-- BEGIN filter_hidden -->
 	<script>
