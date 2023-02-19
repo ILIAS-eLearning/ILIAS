@@ -304,7 +304,6 @@ class ilTable2GUI extends ilTableGUI
                     $this->selected_column[$k] = true;
                 }
             }
-
         }
 
         if ($old_sel != serialize($this->selected_column) && $set) {
@@ -1475,8 +1474,10 @@ class ilTable2GUI extends ilTableGUI
                 $this->tpl->setCurrentBlock("tbl_order_image");
                 if ($this->order_direction == "asc") {
                     $this->tpl->setVariable("ORDER_CLASS", "glyphicon glyphicon-arrow-up");
+                    $this->tpl->setVariable("ORDER_TXT", $this->lng->txt("sorting_asc"));
                 } else {
                     $this->tpl->setVariable("ORDER_CLASS", "glyphicon glyphicon-arrow-down");
+                    $this->tpl->setVariable("ORDER_TXT", $this->lng->txt("sorting_desc"));
                 }
                 $this->tpl->setVariable("IMG_ORDER_ALT", $this->lng->txt("change_sort_direction"));
                 $this->tpl->parseCurrentBlock();
