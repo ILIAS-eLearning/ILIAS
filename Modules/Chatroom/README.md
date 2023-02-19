@@ -260,8 +260,8 @@ In order to protect the chat server against unauthorized access, a key pair for 
 
 Example:
 
-* Authentication Key = d406e059-a9c6-4e4b-a7cd-bf36d680e4f7
-* Authentication Secret = 3a0cb5ac-6afd-48c1-b77f-570bfb3dc369
+* Authentication Key = 0cdc8989-d5f0-1111-4444-244320d9dabc
+* Authentication Secret = f7471a0e-c454-2222-3333-bb0f1b5d4123
 
 ## Server configuration
 
@@ -291,7 +291,6 @@ server.cfg:
 }
 ```
 
-
 client.cfg:
 ```json
 {
@@ -305,8 +304,8 @@ client.cfg:
     "enable_smilies": true,
     "play_invitation_sound": false,
     "auth": {
-				"key": "0cdc8989-d5f0-1111-4444-244320d9dabc",
-				"secret": "f7471a0e-c454-2222-3333-bb0f1b5d4123"
+        "key": "0cdc8989-d5f0-1111-4444-244320d9dabc",
+        "secret": "f7471a0e-c454-2222-3333-bb0f1b5d4123"
     },
     "database": {
         "type": "mysql",
@@ -318,6 +317,7 @@ client.cfg:
     }
 }
 ```
+
 ### Single ILIAS client:
 
 The following is the command to start a chat server for a single client.
@@ -326,10 +326,8 @@ The following is the command to start a chat server for a single client.
 cd [ILIAS_ROOT_DIRECTORY]
 node Modules/Chatroom/chat/chat.js \
   [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[CLIENT_ID]/chatroom/server.cfg \
-	[PATH_TO_EXTERNAL_DATA_DIRECTORY]/[CLIENT_ID]/chatroom/client.cfg &
+  [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[CLIENT_ID]/chatroom/client.cfg &
 ```
-
-
 
 ### Multiple ILIAS clients:
 
@@ -381,7 +379,7 @@ Group=onscreenchat
 WorkingDirectory=/%path%/%to%/%onscreenchat%
 ExecStart=/bin/sh -c "/usr/bin/node /%path%/%to%/%onscreenchat%/chat.js \
   /%path%/%to%/%onscreenchat%/server.cfg \
-	/%path%/%to%/%onscreenchat%/%allclient%/*_client.cfg"
+  /%path%/%to%/%onscreenchat%/%allclient%/*_client.cfg"
 Restart=always
 RestartSec=3
 
@@ -426,10 +424,10 @@ vHost Configuration:
     }
 
     location ~ ^/(chat|socket.io|backend) {
-            proxy_pass         http://onscreenchat;
-            proxy_http_version 1.1;
-            proxy_buffering off;
-            access_log  /var/log/nginx/onscreenchat.access.log ;
+        proxy_pass         http://onscreenchat;
+        proxy_http_version 1.1;
+        proxy_buffering off;
+        access_log  /var/log/nginx/onscreenchat.access.log ;
     }
 
 
@@ -449,12 +447,12 @@ proxy, proxy_connect, proxy_html, proxy_http, proxy_wstunnel, xml2enc
     ProxyPassMatch ^chat/(.*)$   http://127.0.0.1:8888/$0
 
     RewriteEngine On
-         RewriteCond %{REQUEST_URI} ^/socket.io/           [NC]
-        RewriteCond %{HTTP:Upgrade} websocket               [NC]
-        RewriteRule /(.*)           ws://127.0.0.1:8888/$1  [P]
+    RewriteCond %{REQUEST_URI} ^/socket.io/              [NC]
+    RewriteCond %{HTTP:Upgrade} websocket                [NC]
+    RewriteRule /(.*)           ws://127.0.0.1:8888/$1   [P]
 
-        RewriteCond %{QUERY_STRING} transport=polling       [NC]
-        RewriteRule /(.*)           http://127.0.0.1:8888/$1 [P]
+    RewriteCond %{QUERY_STRING} transport=polling        [NC]
+    RewriteRule /(.*)           http://127.0.0.1:8888/$1 [P]
 
 In the ILIAS configuration the proxy configurations are adjusted in the ***Chat server settings***.
 
