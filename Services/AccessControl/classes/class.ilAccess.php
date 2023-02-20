@@ -764,12 +764,17 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function filterUserIdsForUsersPositionsAndPermission(array $user_ids, int $for_user_id, string $permission): array
-    {
+    public function filterUserIdsForUsersPositionsAndPermission(
+        array $user_ids,
+        int $for_user_id,
+        string $permission,
+        bool $recursive = false
+    ): array {
         return $this->ilOrgUnitPositionAccess->filterUserIdsForUsersPositionsAndPermission(
             $user_ids,
             $for_user_id,
-            $permission
+            $permission,
+            $recursive
         );
     }
 
@@ -804,9 +809,18 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function checkRbacOrPositionPermissionAccess(string $rbac_perm, string $pos_perm, int $ref_id): bool
-    {
-        return $this->ilOrgUnitPositionAccess->checkRbacOrPositionPermissionAccess($rbac_perm, $pos_perm, $ref_id);
+    public function checkRbacOrPositionPermissionAccess(
+        string $rbac_perm,
+        string $pos_perm,
+        int $ref_id,
+        bool $recursive = false
+    ): bool {
+        return $this->ilOrgUnitPositionAccess->checkRbacOrPositionPermissionAccess(
+            $rbac_perm,
+            $pos_perm,
+            $ref_id,
+            $recursive
+        );
     }
 
     /**

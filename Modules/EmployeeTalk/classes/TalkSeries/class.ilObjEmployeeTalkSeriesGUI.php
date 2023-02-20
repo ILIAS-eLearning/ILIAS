@@ -104,7 +104,8 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
                     return $access->filterUserIdsForUsersPositionsAndPermission(
                         $userIds,
                         $this->user->getId(),
-                        ''
+                        '',
+                        true
                     );
                 });
                 $this->container->ctrl()->forwardCommand($repo);

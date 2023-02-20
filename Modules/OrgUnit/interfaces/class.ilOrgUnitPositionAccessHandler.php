@@ -31,7 +31,8 @@ interface ilOrgUnitPositionAccessHandler
     public function filterUserIdsForUsersPositionsAndPermission(
         array $user_ids,
         int $for_user_id,
-        string $permission
+        string $permission,
+        bool $recursive = false
     ): array;
 
     /**

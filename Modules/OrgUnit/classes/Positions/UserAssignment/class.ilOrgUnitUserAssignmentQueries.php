@@ -87,12 +87,14 @@ class ilOrgUnitUserAssignmentQueries
 
     /**
      * @param $orgunit_ref_id
-     * @return ilOrgUnitUserAssignment[]
+     * @return list<int>
      */
     public function getUserIdsOfOrgUnit(int $orgunit_ref_id): array
     {
-        return ilOrgUnitUserAssignment::where(['orgu_id' => $orgunit_ref_id])
-                                      ->getArray(null, 'user_id');
+        return array_map(
+            'intval',
+            ilOrgUnitUserAssignment::where(['orgu_id' => $orgunit_ref_id])->getArray(null, 'user_id')
+        );
     }
 
     /**
