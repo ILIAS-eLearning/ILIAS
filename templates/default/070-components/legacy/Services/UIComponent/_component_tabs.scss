@@ -28,7 +28,7 @@
 
 #ilTab {
 	padding: 0;
-	margin:  $il-padding-base-vertical $il-margin-xlarge-horizontal $il-padding-base-vertical;
+	margin:  $il-padding-base-vertical 0;
 	border: 0 none;
 	border-bottom: 2px solid $il-neutral-color;
 }
@@ -37,14 +37,11 @@
 	z-index: 3;
 }
 
-.ilTabsContentOuter {
-	padding: 0 $il-padding-large-horizontal;
-}
 
 /* Sub Tabs */
 #ilSubTab {
 	padding: $il-padding-large-vertical 0;
-	margin: 0 $il-margin-xlarge-horizontal;
+	margin: 0;
 
 	> li:first-child > a {
 		margin-left: $il-padding-xs-horizontal;

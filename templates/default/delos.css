@@ -8432,6 +8432,18 @@ table.mceToolbar tbody, table.mceToolbar tr, table.mceToolbar td {
     --bs-gutter-y: 18px;
   }
 }
+.container,
+.container-fluid {
+  --bs-gutter-x: 30px;
+  --bs-gutter-y: 0;
+  width: 100%;
+  padding-right: calc(var(--bs-gutter-x) * 0.5);
+  padding-left: calc(var(--bs-gutter-x) * 0.5);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* Responsive container system from Bootstrap 5 has been removed */
 html, body {
   height: 100%;
   overflow: hidden;
@@ -13627,7 +13639,7 @@ div.ilHeaderDesc {
 }
 
 div.il_HeaderInner {
-  padding: 15px;
+  padding: 12px 0;
   margin-bottom: 5px;
   overflow: visible;
 }
@@ -20773,7 +20785,7 @@ a.ilMediaLightboxClose:hover {
 
 #ilTab {
   padding: 0;
-  margin: 3px 15px 3px;
+  margin: 3px 0;
   border: 0 none;
   border-bottom: 2px solid #2c2c2c;
 }
@@ -20782,14 +20794,10 @@ a.ilMediaLightboxClose:hover {
   z-index: 3;
 }
 
-.ilTabsContentOuter {
-  padding: 0 12px;
-}
-
 /* Sub Tabs */
 #ilSubTab {
   padding: 6px 0;
-  margin: 0 15px;
+  margin: 0;
 }
 #ilSubTab > li:first-child > a {
   margin-left: 3px;
