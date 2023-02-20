@@ -159,35 +159,41 @@ class Renderer extends AbstractComponentRenderer
 
     public function renderDataTable(Component\Table\Data $component, RendererInterface $default_renderer)
     {
+        $tpl = $this->getTemplate("tpl.datatable.html", true, true);
+
         $f = $this->getUIFactory();
-        $df = new \ILIAS\Data\Factory();
-        //TODO: fix/implement the following (and move it to the component....)
+        $df = $this->getDataFactory();
+
+        //TODO: VIEWCONTROLS
         $range = $df->range(0, 10);
         $order = $df->order('f1', \ILIAS\Data\Order::ASC);
-        $visible_col_ids = [];
-        $additional_parameters = [];
+        $selected_optional = array_keys($component->getColumns());
+        //END TODO: VIEWCONTROLS
 
-        $row_factory = $component->getRowFactory();
+        $component = $component
+            ->withSelectedOptionalColumns($selected_optional)
+            ->withRange($range)
+            ->withOrder($order);
+
         $data_retrieval = $component->getData();
+        $row_factory = $component->getRowFactory();
         $columns = $component->getFilteredColumns();
-        $overall_column_count = count($component->getColumns());
 
+        $additional_parameters = [];
         $rows = $data_retrieval->getRows(
-            $row_factory,
-            $range,
-            $order,
+            $component->getRowFactory(),
+            $component->getRange(),
+            $component->getOrder(),
             array_keys($columns),
             $additional_parameters
         );
 
         $component = $this->registerActionsJS($component);
         $id = $this->bindJavaScript($component);
-
-        $tpl = $this->getTemplate("tpl.datatable.html", true, true);
-
         $tpl->setVariable('ID', $id);
         $tpl->setVariable('TITLE', $component->getTitle());
-        $tpl->setVariable('COL_COUNT', (string) $overall_column_count);
+        $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount());
+        $tpl->setVariable('VIEW_CONTROLS', $default_renderer->render($component->getViewControls()));
 
         $this->renderTableHeader($default_renderer, $tpl, $columns, $order);
         $this->appendTableRows($tpl, $rows, $default_renderer);

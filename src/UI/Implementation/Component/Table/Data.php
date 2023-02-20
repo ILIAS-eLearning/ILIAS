@@ -26,6 +26,8 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Component\JavaScriptBindable as JSBindable;
+use ILIAS\Data\Order;
+use ILIAS\Data\Range;
 
 class Data extends Table implements T\Data, JSBindable
 {
@@ -46,6 +48,7 @@ class Data extends Table implements T\Data, JSBindable
     protected $actions;
 
     protected Signal $multi_action_signal;
+    protected array $visible_optional_column_ids;
 
     public function __construct(
         SignalGeneratorInterface $signal_generator,
@@ -173,25 +176,6 @@ class Data extends Table implements T\Data, JSBindable
         return $this->getFilteredActions(T\Action\Multi::class);
     }
 
-    /**
-     * @return <string, Column\Column>
-     */
-    public function getFilteredColumns(): array
-    {
-        $visible_column_ids = []; //get this from table's view-control
-        $columns = $this->getColumns();
-        if (count($visible_column_ids) < 1) {
-            return $columns;
-        }
-        return  array_filter(
-            $columns,
-            function ($col_id) use ($visible_column_ids) {
-                return in_array($col_id, $visible_column_ids);
-            },
-            ARRAY_FILTER_USE_KEY
-        );
-    }
-
     public function getColumnCount(): int
     {
         return count($this->columns);
@@ -210,5 +194,45 @@ class Data extends Table implements T\Data, JSBindable
             $this->getFilteredColumns(),
             $this->getSingleActions()
         );
+    }
+
+    public function withSelectedOptionalColumns(array $selected_optional_columns): self
+    {
+        $clone = clone $this;
+        $clone->visible_optional_column_ids = $selected_optional_columns;
+        return $clone;
+    }
+
+    /**
+     * @return <string, Column\Column>
+     */
+    public function getFilteredColumns(): array
+    {
+        return array_filter(
+            $this->getColumns(),
+            fn ($col, $col_id) => !$col->isOptional() || in_array($col_id, $this->visible_optional_column_ids),
+            ARRAY_FILTER_USE_BOTH
+        );
+    }
+
+    public function getRange(): Range
+    {
+        return $this->range;
+    }
+    public function withRange(Range $range): self
+    {
+        $clone = clone $this;
+        $clone->range = $range;
+        return $clone;
+    }
+    public function getOrder(): Order
+    {
+        return $this->order;
+    }
+    public function withOrder(Order $order): self
+    {
+        $clone = clone $this;
+        $clone->order = $order;
+        return $clone;
     }
 }
