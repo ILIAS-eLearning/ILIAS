@@ -3816,15 +3816,6 @@ select[multiple].input-lg,
 .form-horizontal .checkbox {
   min-height: 24px;
 }
-.form-horizontal .form-group {
-  --bs-gutter-x: 30px;
-  --bs-gutter-y: 0;
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: calc(-1 * var(--bs-gutter-y));
-  margin-right: calc(-0.5 * var(--bs-gutter-x));
-  margin-left: calc(-0.5 * var(--bs-gutter-x));
-}
 @media (min-width: 768px) {
   .form-horizontal .control-label {
     text-align: right;
