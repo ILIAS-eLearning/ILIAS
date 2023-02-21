@@ -164,8 +164,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
         if (!$this->object->getSelfAssessmentEditingMode()) {
-            $this->object->setShuffle($_POST["shuffle"]);
-            $this->object->setShuffleMode($_POST["shuffle"]);
+            $this->object->setShuffle($_POST["shuffle"] ?? '0');
+            $this->object->setShuffleMode($_POST["shuffle"] ?? '0');
         } else {
             $this->object->setShuffle(1);
             $this->object->setShuffleMode(1);

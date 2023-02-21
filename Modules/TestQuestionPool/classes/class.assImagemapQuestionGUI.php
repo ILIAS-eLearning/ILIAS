@@ -100,7 +100,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     {
         if ($this->ctrl->getCmd() != 'deleteImage') {
             $this->object->flushAnswers();
-            if (is_array($_POST['image']) && is_array($_POST['image']['coords']['name'])) {
+            if (isset($_POST['image']) && is_array($_POST['image']) && is_array($_POST['image']['coords']['name'])) {
                 foreach ($_POST['image']['coords']['name'] as $idx => $name) {
                     if ($this->object->getIsMultipleChoice() && isset($_POST['image']['coords']['points_unchecked'])) {
                         $pointsUnchecked = $_POST['image']['coords']['points_unchecked'][$idx];
