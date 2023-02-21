@@ -31,6 +31,10 @@ class NoLegacyButtonUsagesRule extends LegacyClassUsageRule implements Rule
         return 'Legacy Button Usages';
     }
 
+    protected function getRelevantILIASVersion(): int
+    {
+        return 9;
+    }
 
     protected function getForbiddenClasses(): array
     {

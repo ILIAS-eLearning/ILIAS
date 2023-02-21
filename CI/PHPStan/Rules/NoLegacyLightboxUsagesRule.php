@@ -24,21 +24,21 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\RuleErrorBuilder;
 
-class NoLegacyCheckboxListUsagesRule extends LegacyClassUsageRule implements Rule
+class NoLegacyLightboxUsagesRule extends LegacyClassUsageRule implements Rule
 {
     protected function getHumanReadableRuleName(): string
     {
-        return 'Legacy Checkbox List Usages';
+        return 'Legacy Lightbox Usages';
     }
 
     protected function getRelevantILIASVersion(): int
     {
-        return 9;
+        return 10;
     }
 
 
     protected function getForbiddenClasses(): array
     {
-        return ['ilCheckboxListOverlayGUI'];
+        return ['ilLightboxGUI'];
     }
 }

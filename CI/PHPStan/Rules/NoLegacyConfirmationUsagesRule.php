@@ -31,6 +31,11 @@ class NoLegacyConfirmationUsagesRule extends LegacyClassUsageRule implements Rul
         return 'Legacy Confirmation Screen Usages';
     }
 
+    protected function getRelevantILIASVersion(): int
+    {
+        return 10;
+    }
+
 
     protected function getForbiddenClasses(): array
     {

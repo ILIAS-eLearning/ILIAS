@@ -31,12 +31,14 @@ class CSVFormatter implements ErrorFormatter
     private const H_CLASS = 'Filename';
     private const H_LINE = 'Line';
     private const H_MESSAGE = 'Used Implementation';
-    private const COMPONENT_UNKNOWN = 'Unknown';
+    private const UNKNOWN = 'Unknown';
     private const H_RULE = 'Rule';
+    private const H_VERSION = 'Version';
 
     private array $csv_headers = [
         self::H_COMPONENT,
         self::H_CLASS,
+        self::H_VERSION,
         self::H_LINE,
         self::H_RULE,
         self::H_MESSAGE
@@ -53,14 +55,15 @@ class CSVFormatter implements ErrorFormatter
             if (preg_match(self::COMPONENT_REGEX, $filename, $matches)) {
                 $component = $matches[1] . '/' . $matches[2];
             } else {
-                $component = self::COMPONENT_UNKNOWN;
+                $component = self::UNKNOWN;
             }
 
             $result = [
                 self::H_COMPONENT => $component,
                 self::H_CLASS => basename($fileSpecificError->getFile()),
+                self::H_VERSION => $fileSpecificError->getMetadata()['version'] ?? self::UNKNOWN,
                 self::H_LINE => $fileSpecificError->getLine(),
-                self::H_RULE => $fileSpecificError->getMetadata()['rule'] ?? '',
+                self::H_RULE => $fileSpecificError->getMetadata()['rule'] ?? self::UNKNOWN,
                 self::H_MESSAGE => $fileSpecificError->getMessage()
             ];
             $output->writeLineFormatted(implode(';', $result));
