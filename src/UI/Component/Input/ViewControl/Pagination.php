@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,19 +15,17 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\UI\Component\Input\Container\ViewControl;
+declare(strict_types=1);
 
-use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\JavaScriptBindable;
-use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\Refinery\Transformation;
+namespace ILIAS\UI\Component\Input\ViewControl;
+
+use ILIAS\UI\Component\Input\ViewControl\ViewControl as IViewControl;
 
 /**
- * This describes a View Control Container.
+ * This describes a Pagination View Control
  */
-interface ViewControl extends Component, JavaScriptBindable
+interface Pagination extends IViewControl
 {
-    public function withAdditionalTransformation(Transformation $trafo): self;
-    public function withRequest(ServerRequestInterface $request): self;
-    public function getData();
+    public function withLimitOptions(array $options): self;
+    public function withLabelLimit(string $label): self;
 }

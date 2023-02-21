@@ -431,5 +431,10 @@ class Factory implements G\Factory
     public function launch(string $action = null): G\Glyph
     {
         return new Glyph(G\Glyph::LAUNCH, "launch", $action);
+
+
+    public function sortation(string $action = null): G\Glyph
+    {
+        return new Glyph(G\Glyph::SORTATION, "sortation", $action);
     }
 }

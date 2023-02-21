@@ -1464,4 +1464,6 @@ interface Factory
      */
     public function launch(string $action = null): Glyph;
 
+
+    public function sortation(string $action = null): Glyph;
 }

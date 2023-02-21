@@ -29,11 +29,17 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *      The Standard View Control Container is used as the binding element of a collection of Control Inputs
-     *      for one visualization.
+     *      The Standard View Control Container is used as the binding element
+     *      of a collection of View Control Inputs concerning one visualization.
+     *   composition: >
+     *      A View Control Container holds one ore more View Controls; it is
+     *      otherwise transparent to the user and does not add "own" elements.
      *   effect: >
-     *      The View Control Container is responsible for aligning request-parameters for all contained View Controls
-     *      as well as receiving and distributing values accordingly.
+     *      The View Control Container is responsible for aligning request-parameters
+     *      for all contained View Controls as well as receiving and distributing
+     *      values accordingly.
+     *      When operating a contained View Control, the location is amended
+     *      with parameters of all contained View Controls and reloaded.
      * ---
      * @param array<string,\ILIAS\UI\Component\Input\ViewControl\ViewControl> $controls
      * @return \ILIAS\UI\Component\Input\Container\ViewControl\Standard

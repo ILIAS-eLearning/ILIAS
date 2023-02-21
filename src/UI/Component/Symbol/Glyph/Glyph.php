@@ -81,6 +81,7 @@ interface Glyph extends Symbol, Clickable
     public const ITALIC = "italic";
     public const LINK = "link";
     public const LAUNCH = "launch";
+    public const SORTATION = "sortation";
 
     /**
      * Get the type of the glyph.
