@@ -346,6 +346,17 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
 
         $output .= $this->render(0, true);
         if ($this->getMulti() && is_array($this->line_values) && count($this->line_values) > 0) {
+            $tpl = new ilTemplate("tpl.prop_generic_multi_line.html", true, true, 'Modules/OrgUnit');
+            $image_plus = ilGlyphGUI::get(ilGlyphGUI::ADD);
+            $image_minus = '<span class="glyphicon glyphicon-minus hide"></span>';
+
+            $tpl->setVariable('ADDITIONAL_ATTRS', "id='multi_line_add_button' style='display:none'");
+            $tpl->setCurrentBlock('multi_icons');
+            $tpl->setVariable('IMAGE_PLUS', $image_plus);
+            $tpl->setVariable('IMAGE_MINUS', $image_minus);
+            $tpl->parseCurrentBlock();
+            $output .= $tpl->get();
+
             foreach ($this->line_values as $run => $data) {
                 $object = $this;
                 $object->setValue($data);
@@ -359,7 +370,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
                 $image_plus = ilGlyphGUI::get(ilGlyphGUI::ADD);
                 $image_minus = '<span class="glyphicon glyphicon-minus hide"></span>';
 
-                $tpl->setVariable('ADDITIONAL_ATTRS', "style='float:left';");
+                $tpl->setVariable('ADDITIONAL_ATTRS', "id='multi_line_add_button'");
                 $tpl->setCurrentBlock('multi_icons');
                 $tpl->setVariable('IMAGE_PLUS', $image_plus);
                 $tpl->setVariable('IMAGE_MINUS', $image_minus);
