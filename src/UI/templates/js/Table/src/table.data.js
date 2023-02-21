@@ -43,7 +43,7 @@ var data = function(params, $) {
 
     collectSelectedRowIds = function(table_id) {
         var table = document.getElementById(table_id),
-            cols = table.getElementsByClassName('row-selector'),
+            cols = table.getElementsByClassName('c-table-data__row-selector'),
             i, col, ret = [];
             for(i = 0; i < cols.length; i = i + 1) {
                 col = cols[i];

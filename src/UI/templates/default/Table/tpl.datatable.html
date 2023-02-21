@@ -1,4 +1,4 @@
-<div class="il-table-data" id="{ID}">
+<div class="c-table-data" id="{ID}">
 
 	<!-- BEGIN header_title -->
 	<h3 class="ilHeader" id="{ID}_label">{TITLE}</h3>
@@ -6,17 +6,17 @@
 
 	<div class="viewcontrols">{VIEW_CONTROLS}</div>
 
-	<table class="table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
+	<table class="c-table-data__table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
 
 		<thead>
-			<tr class="header row" role="rowgroup">
+			<tr class="c-table-data__header c-table-data__row" role="rowgroup">
 				
 				<!-- BEGIN header_rowselection_cell -->
-				<th class="header cell rowselection" role="columnheader"></th>
+				<th class="c-table-data__header c-table-data__cell rowselection" role="columnheader"></th>
 				<!-- END header_rowselection_cell -->
 
 				<!-- BEGIN header_cell -->
-				<th class="header cell" role="columnheader" aria-colindex="{COL_INDEX}"<!-- BEGIN header_cell_sortation --> aria-sort="{COL_SORTATION}"<!-- END header_cell_sortation -->>
+				<th class="c-table-data__header c-table-data__cell c-table-data__cell--{COL_TYPE}" role="columnheader" aria-colindex="{COL_INDEX}"<!-- BEGIN header_cell_sortation --> aria-sort="{COL_SORTATION}"<!-- END header_cell_sortation -->>
 					{COL_TITLE}
 					<!-- BEGIN header_cell_sortglyph -->
 					{COL_SORTATION_GLYPH}
@@ -25,14 +25,14 @@
 				<!-- END header_cell -->
 
 				<!-- BEGIN header_action_cell -->
-				<th class="header cell rowaction" role="columnheader"></th>
+				<th class="c-table-data__header c-table-data__cell c-table-data__rowaction" role="columnheader"></th>
 				<!-- END header_action_cell -->
 			</tr>
 		</thead>
 
-		<tbody class="body" role="rowgroup">
+		<tbody class="c-table-data__body" role="rowgroup">
 			<!-- BEGIN row -->
-			<tr class="row {ALTERNATION}" role="row">
+			<tr class="c-table-data__row {ALTERNATION}" role="row">
 				{CELLS}
 			</tr>
 			<!-- END row -->
@@ -41,7 +41,7 @@
 	</table>
 
 	<!-- BEGIN multi_action -->
-	<div class="multiaction-triggerer">{MULTI_ACTION_TRIGGERER}</div>
+	<div class="c-table-data__multiaction-triggerer">{MULTI_ACTION_TRIGGERER}</div>
 	<!-- END multi_action -->
 
 </div>
