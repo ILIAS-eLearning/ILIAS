@@ -1,6 +1,6 @@
 # Chat Server Setup
 
-The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”,
+The keywords “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”,
 “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to be
 interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
@@ -11,15 +11,15 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
   - [ILIAS configuration](#ilias-configuration)
     - [Chat Server Settings](#chat-server-settings)
       - [IP Address / FQDN](#ip-address--fqdn)
-        - [port](#port)
-        - [relative path](#relative-path)
-        - [protocol](#protocol)
+        - [Port](#port)
+        - [Relative Path](#relative-path)
+        - [Protocol](#protocol)
         - [Logging](#logging)
         - [Connection ILIAS to server](#connection-ilias-to-the-server)
         - [Connection client to server](#connection-client-to-the-server)
         - [Delete old messages](#delete-old-messages)
-      - [General Settings](#general-settings)
-        - [Enable chat](#chat-enable)
+      - [General Chat Settings](#general-chat-settings)
+        - [Enable chat](#enable-chat)
         - [Repository Chat: Enable on-screen notifications](#repository-chat-enable-on-screen-notifications)
         - [Name and Authentication](#name-and-authentication)
   - [Server Configuration](#server-configuration)
@@ -38,15 +38,17 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 # Requirement
 
 A prerequisite for the chat server is Node.js. The chat server is tested with the
-versions mentioned in our [installation](/docs/configuration/install.md#server) documentation.
+versions mentioned in our [installation](../../docs/configuration/install.md#recommended-setup-for-running-ilias) documentation.
 
-The latest version can be downloaded at the following URL: https://github.com/nodesource/distributions#debinstall
+The latest version can be downloaded at the following URL: https://github.com/nodesource/distributions#installation-instructions
 
-In addition, [here](https://github.com/nodesource/distributions#deb "here") is an installation guide for the respective Unix-based operating system.
+In addition, [here](https://github.com/nodesource/distributions#debian-and-ubuntu-based-distributions "here") is an installation guide for the respective Unix-based operating system.
 
-The basic configuration is done within ILIAS in the section `Administration / Chat`. After the server and client settings have been saved, the configuration files `server.cfg` and` client.cfg` are stored in the external ILIAS data directory in the subdirectory `chatroom`. These files MUST be passed to start the Chat Server (see [Server Configuration](#Server Configuration)).
+The basic configuration of the client settings are done within ILIAS in the section `Administration / Repository and Objects / Chat Room`. After the client settings have been saved in the database, the configuration file  and `client.cfg` is stored in the external ILIAS data directory in the subdirectory `chatroom`.
+Additionally the server settings are obtained from database and stored as `server.cfg` in subdirectory `chatroom` mentioned above.
+Both files MUST be passed to start the Chat Server (see [Server Configuration](#server-configuration)).
 
-![](./docu/images/view-clientsettings_en.PNG)
+![](./docu/images/view-clientsettings_en.png)
 
 **Note:** On all changes to the settings, the chat server MUST be restarted!
 
@@ -67,7 +69,7 @@ Add a section "chatroom" on the toplevel of the JSON in the configuration file:
 }
 ```
 
-In this section, add the various confguration options according to you requirements.
+In this section, add the various configuration options according to your requirements.
 
 "address" and "port" of the server:
 
@@ -84,7 +86,7 @@ In this section, add the various confguration options according to you requireme
 #### IP address / FQDN
 The IPv4 address or FQDN where the chat server is to be bound.
 
-Example:
+Examples:
 
 * `chat.myilias.de`
 * `192.168.1.1`
@@ -112,17 +114,17 @@ Examples:
     ...
     "chatroom": {
         ...
-        "sub_directory" : "https://myilias.de/servers/chat"
+        "sub_directory" : "/servers/chat"
     }
 }
 ```
 
-#### Protokoll
+#### Protocol
 
-* **HTTP**: There is an unencrypted communication over HTTP with the chat server.
+* **HTTP**: To use an unencrypted communication over HTTP with the chat server just omit the following section `https`.
 
 * **HTTPS**: There is SSL encrypted communication over HTTP with the chat server. The following settings are necessary.
-  *   Certificate: absolute server path to the SSL certificate (for example: `/ etc / ssl / certs / server.pem`).
+  *   Certificate: absolute server path to the SSL certificate (eg: `/ etc / ssl / certs / server.pem`).
   *   Key: absolute server path to the private key (eg: * `/ etc / ssl / private / server.key`).
   *   Diffie-Hellman parameter: absolute server path to Diffie-Hellman file (eg: `/ etc / ssl / private / dhparam.pem`),
   *   Diffie-Hellman parameter creation (e.g., generated via: `openssl dhparam -out /etc/ssl/private/dhparam.pem 2048`).
@@ -174,7 +176,7 @@ If no paths are defined, the chat server creates the log file in the chat server
 
 #### Connection ILIAS to the server
 
-By default, ILIAS uses the IP address or FQDN set in the server configuration. It is recommended that the chat server is only locally accessible and made publicly available through a proxy server. In this case, another URL MUST be specified, via which the client can connect to the chat server.
+By default, ILIAS uses the IP address or FQDN set in the server configuration. It is recommended that the chat server is only locally accessible and made publicly available through a proxy server. In this case, another URL MUST be specified, via which the PHP processor can connect to the chat server.
 
 ```
 {
@@ -192,7 +194,7 @@ By default, ILIAS uses the IP address or FQDN set in the server configuration. I
 
 #### Connection client to the server
 
-See [Connection ILIAS to Server](#connection-ilias-to-server) this is the connection the browser (client) uses to the chat server. The URL MUST be reachable by all browser clients.
+This is the connection the browser (client) uses to the chat server. The URL MUST be reachable by all browser clients.
 
 ```
 {
@@ -208,8 +210,14 @@ See [Connection ILIAS to Server](#connection-ilias-to-server) this is the connec
 
 #### Delete old messages
 
-The deletion of old messages can be activated by selecting a ***Interval***. After this interval, all past messages are deleted, depending on the configured threshold. Both messages from the repository chat and from the on-screen chats are deleted.
+The deletion of old messages can be activated by selecting an ***Interval***. After this interval, all past messages are deleted, depending on the configured threshold. Both messages from the repository chat and from the on-screen chats are deleted.
 
+Setting deletion_unit MUST be one of:
+* days
+* weeks
+* months
+* years
+		
 ```
 {
     ...
@@ -224,19 +232,22 @@ The deletion of old messages can be activated by selecting a ***Interval***. Aft
 }
 ```
 
-### General Settings
+### General Chat Settings
 
-![](./docu/images/view-clientsettings_en.PNG)
+![](./docu/images/view-clientsettings_en.png)
 
 #### Enable chat
 
 The chat can be activated or deactivated via the selection field.
+If activated, browser notifications MAY be activated to notify users about new chat messages.
+
+![](./docu/images/view-clientsettings_enable_osc_en.png)
 
 #### Repository Chat: Enable on-screen notifications
 
 If enabled, users will be informed by a pop-up about new invitations in repository chats.
 
-![](./docu/images/view-clientsettings_enable_osd_en.PNG)
+![](./docu/images/view-clientsettings_enable_repochat_notifications_en.png)
 
 **Note**: Less time allows more timely notifications, but increases server load.
 
@@ -249,22 +260,22 @@ In order to protect the chat server against unauthorized access, a key pair for 
 
 Example:
 
-* Authentication Key = 801c4a44-739a-45d8-93df-880e7a2ac8e7
-* Authentication Secret = 04e60a6e-e9e7-4eb7-bd01-96e65b9a767c
+* Authentication Key = 0cdc8989-d5f0-1111-4444-244320d9dabc
+* Authentication Secret = f7471a0e-c454-2222-3333-bb0f1b5d4123
 
 ## Server configuration
 
 If the chat server is to be run in a different directory, the entire ILIAS chat directory (`ILIAS / Modules / Chatroom / chat`) MUST be copied to the desired directory.
 
-**Note**: The following configuration files are generated in ILIAS (see - [ILIAS Configuration](#ilias configuration)). These MUST be copied again when changing the configuration in ILIAS!
+**Note**: The following configuration files are generated in ILIAS (see - [ILIAS Configuration](#ilias-configuration)). These files MUST be copied again when changing the configuration in ILIAS!
 
-The two configuration files `server.cfg` and` client.cfg` can be found in the path `[PATH_TO_EXTERNAL_DATA_DIRECTORY] / [ANY_CLIENT_ID] / chatroom`.
+The two configuration files `server.cfg` and `client.cfg` can be found in the path `[PATH_TO_EXTERNAL_DATA_DIRECTORY] / [ANY_CLIENT_ID] / chatroom`.
 
 server.cfg:
 ```json
 {
     "protocol": "http",
-    "port": "8888",
+    "port": 8888,
     "address": "chat.myilias.de",
     "cert": "",
     "key": "",
@@ -273,13 +284,12 @@ server.cfg:
     "log_level": "info",
     "error_log": "\/var\/www\/ilias\/data\/chat_errors.log",
     "sub_directory": "",
-    "deletion_mode": "1",
-    "deletion_unit": "month",
-    "deletion_value": "3",
+    "deletion_mode": 1,
+    "deletion_unit": "months",
+    "deletion_value": 3,
     "deletion_time": "03:00"
 }
 ```
-
 
 client.cfg:
 ```json
@@ -287,13 +297,15 @@ client.cfg:
     "name": "onscreen",
     "enable_osd": false,
     "enable_osc": true,
+    "enable_browser_notifications": true,
+    "conversation_idle_state_in_minutes": 1,
     "osd_intervall": 60,
     "chat_enabled": true,
     "enable_smilies": true,
     "play_invitation_sound": false,
     "auth": {
-    "key": "0cdc8989-d5f0-1111-4444-244320d9dabc",
-    "secret": "f7471a0e-c454-2222-3333-bb0f1b5d4123"
+        "key": "0cdc8989-d5f0-1111-4444-244320d9dabc",
+        "secret": "f7471a0e-c454-2222-3333-bb0f1b5d4123"
     },
     "database": {
         "type": "mysql",
@@ -305,16 +317,17 @@ client.cfg:
     }
 }
 ```
+
 ### Single ILIAS client:
 
 The following is the command to start a chat server for a single client.
 
 ```bash
 cd [ILIAS_ROOT_DIRECTORY]
-node Modules/Chatroom/chat/chat [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[CLIENT_ID]/chatroom/server.cfg [PATH_TO_EXTERNAL_DATA_VERZEICHNIS]/[CLIENT_ID]/chatroom/client.cfg &
+node Modules/Chatroom/chat/chat.js \
+  [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[CLIENT_ID]/chatroom/server.cfg \
+  [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[CLIENT_ID]/chatroom/client.cfg &
 ```
-
-
 
 ### Multiple ILIAS clients:
 
@@ -322,12 +335,15 @@ The following shows the command that can be used to start a multi-client chat se
 
 ```bash
 cd [ILIAS_ROOT_DIRECTORY]
-node Modules/Chatroom/chat/chat [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[ANY_CLIENT_ID]/chatroom/server.cfg [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[CLIENT_ID_1]/chatroom/client.cfg [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[CLIENT_ID_2]/chatroom/client.cfg ... &
+node Modules/Chatroom/chat/chat.js \
+  [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[ANY_CLIENT_ID]/chatroom/server.cfg \
+  [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[CLIENT_ID_1]/chatroom/client.cfg \
+  [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[CLIENT_ID_2]/chatroom/client.cfg ... &
 ```
 Whether the chat server is running can be checked with the command ***netstat***. In the output, the service SHOULD be displayed with the specified ip:port.
 
 ```bash
-netstat -tlpn
+netstat -tlpn | grep node
 ```
 
 In addition, the function can be checked via the following URL. If successful, the status code **200** will be returned.
@@ -346,7 +362,7 @@ On Unix-based operating systems, there are various systems for managing services
 
 ### systemd (ubuntu)
 
-To automatically start the chat server with systemd, a file is stored in `/ etc / systemd / system`. chat.myilias.service created with the following content.
+To automatically start the chat server with systemd, a file is stored in `/ etc / systemd / system / chat.myilias.service` created with the following content.
 
 **Note:** The paths MUST be adjusted accordingly. For multiple clients, unique names MUST be assigned to the client.cfg, e.g. a_client.cfg, b_client.cfg, etc.
 
@@ -361,7 +377,9 @@ Type=simple
 User=onscreenchat
 Group=onscreenchat
 WorkingDirectory=/%path%/%to%/%onscreenchat%
-ExecStart=/bin/sh -c "/usr/bin/node /%path%/%to%/%onscreenchat%/chat.js /%path%/%to%/%onscreenchat%/server.cfg /%path%/%to%/%onscreenchat%/%allclient%/*_client.cfg"
+ExecStart=/bin/sh -c "/usr/bin/node /%path%/%to%/%onscreenchat%/chat.js \
+  /%path%/%to%/%onscreenchat%/server.cfg \
+  /%path%/%to%/%onscreenchat%/%allclient%/*_client.cfg"
 Restart=always
 RestartSec=3
 
@@ -376,6 +394,8 @@ useradd --system -d /%path%/%to%/%onscreenchat% -c "ILIAS onscreenchat" onscreen
 chown onscreenchat:onscreenchat -R /%path%/%to%/%onscreenchat%/;
 usermod -a -G onscreenchat onscreenchat;
 ```
+Additionally this user must be granted read access to configured `server.cfg` and `client.cfg`s.
+
 
 ## Proxy configuration
 
@@ -404,10 +424,10 @@ vHost Configuration:
     }
 
     location ~ ^/(chat|socket.io|backend) {
-            proxy_pass         http://onscreenchat;
-            proxy_http_version 1.1;
-            proxy_buffering off;
-            access_log  /var/log/nginx/onscreenchat.access.log ;
+        proxy_pass         http://onscreenchat;
+        proxy_http_version 1.1;
+        proxy_buffering off;
+        access_log  /var/log/nginx/onscreenchat.access.log ;
     }
 
 
@@ -427,12 +447,12 @@ proxy, proxy_connect, proxy_html, proxy_http, proxy_wstunnel, xml2enc
     ProxyPassMatch ^chat/(.*)$   http://127.0.0.1:8888/$0
 
     RewriteEngine On
-         RewriteCond %{REQUEST_URI} ^/socket.io/           [NC]
-        RewriteCond %{HTTP:Upgrade} websocket               [NC]
-        RewriteRule /(.*)           ws://127.0.0.1:8888/$1  [P]
+    RewriteCond %{REQUEST_URI} ^/socket.io/              [NC]
+    RewriteCond %{HTTP:Upgrade} websocket                [NC]
+    RewriteRule /(.*)           ws://127.0.0.1:8888/$1   [P]
 
-        RewriteCond %{QUERY_STRING} transport=polling       [NC]
-        RewriteRule /(.*)           http://127.0.0.1:8888/$1 [P]
+    RewriteCond %{QUERY_STRING} transport=polling        [NC]
+    RewriteRule /(.*)           http://127.0.0.1:8888/$1 [P]
 
 In the ILIAS configuration the proxy configurations are adjusted in the ***Chat server settings***.
 
