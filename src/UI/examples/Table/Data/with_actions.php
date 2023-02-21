@@ -24,7 +24,7 @@ use ILIAS\UI\Component\Table as I;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
 
-function base()
+function with_actions()
 {
     global $DIC;
     $f = $DIC['ui.factory'];
@@ -58,6 +58,20 @@ function base()
 
         'f4' => $f->table()->column()->number("Field 4")
             ->withIsOptional(false)
+    ];
+
+    // define actions
+    $modal = getSomeExampleModal($f, $ctrl);
+    $signal = $modal->getShowSignal();
+
+    $actions = [
+        //never in multi actions
+        'edit' => $f->table()->action()->single('edit', 'ids', buildDemoURL('table_action=edit')),
+        //never in single row
+        'compare' => $f->table()->action()->multi('compare', 'ids', buildDemoURL('table_action=compare')),
+        //in both
+        'delete' => $f->table()->action()->standard('delete', 'ids', $signal)
+
     ];
 
     // retrieve data and map records to table rows
@@ -98,7 +112,47 @@ function base()
     //setup the table
     $table = $f->table()->data('a data table', 50)
         ->withColumns($columns)
+        ->withActions($actions)
         ->withData($data_retrieval);
 
-    return $r->render($table);
+    //apply request and render
+    $request = $DIC->http()->request();
+    $out = [
+        $modal,
+        $table->withRequest($request)
+    ];
+
+    //demo results
+    $params = [];
+    parse_str($request->getUri()->getQuery(), $params);
+    if (array_key_exists('table_action', $params)) {
+        $items = [
+            'table_action' => $params['table_action'],
+            'ids' => print_r($params['ids'], true)
+        ];
+
+        $out[] = $f->divider()->horizontal();
+        $out[] = $f->listing()->characteristicValue()->text($items);
+    }
+
+    return $r->render($out);
+}
+
+function buildDemoURL($param)
+{
+    $df = new \ILIAS\Data\Factory();
+    $url = $df->uri(
+        $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME']
+        . ':' . $_SERVER['SERVER_PORT']
+        . $_SERVER['SCRIPT_NAME'] . '?' . $_SERVER['QUERY_STRING']
+        . '&' . $param
+    );
+    return $url;
+}
+
+function getSomeExampleModal($factory, $ctrl)
+{
+    $form_action = $ctrl->getFormActionByClass('ilsystemstyledocumentationgui');
+    $modal = $factory->modal()->interruptive('Delete', 'really delete?', $form_action);
+    return $modal;
 }

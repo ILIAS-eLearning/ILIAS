@@ -45,7 +45,7 @@ class Data extends Table implements T\Data, JSBindable
     /**
      * @var array <string, Action>
      */
-    protected $actions;
+    protected $actions = [];
 
     protected Signal $multi_action_signal;
     protected array $visible_optional_column_ids;
@@ -147,6 +147,11 @@ class Data extends Table implements T\Data, JSBindable
         return $this->actions;
     }
 
+    public function hasActions(): bool
+    {
+        return count($this->actions) > 0;
+    }
+
     public function getActionSignal(string $id = null): Signal
     {
         return $this->multi_action_signal;
@@ -191,6 +196,7 @@ class Data extends Table implements T\Data, JSBindable
     public function getRowFactory(): RowFactory
     {
         return new RowFactory(
+            $this->hasActions(),
             $this->getFilteredColumns(),
             $this->getSingleActions()
         );

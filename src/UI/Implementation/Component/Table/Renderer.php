@@ -195,7 +195,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount());
         $tpl->setVariable('VIEW_CONTROLS', $default_renderer->render($component->getViewControls()));
 
-        $this->renderTableHeader($default_renderer, $tpl, $columns, $order);
+        $this->renderTableHeader($default_renderer, $component->hasActions(), $tpl, $columns, $order);
         $this->appendTableRows($tpl, $rows, $default_renderer);
 
         $multi_actions_dropdown = $this->getMultiActionsDropdown(
@@ -228,6 +228,7 @@ class Renderer extends AbstractComponentRenderer
      */
     protected function renderTableHeader(
         RendererInterface $default_renderer,
+        bool $render_action_column,
         Template $tpl,
         array $columns,
         \ILIAS\Data\Order $order
@@ -255,6 +256,11 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('COL_TITLE', $col->getTitle());
             $tpl->parseCurrentBlock();
         }
+
+        if($render_action_column) {
+            $tpl->touchBlock('header_rowselection_cell');
+            $tpl->touchBlock('header_action_cell');
+        } 
     }
 
     /**
@@ -342,13 +348,16 @@ class Renderer extends AbstractComponentRenderer
             $cell_tpl->parseCurrentBlock();
         }
 
-        $cell_tpl->setVariable('ROW_ID', $component->getId());
 
-        $row_actions_dropdown = $this->getSingleActionsForRow(
-            $component->getId(),
-            $component->getActions()
-        );
-        $cell_tpl->setVariable('ACTION_CONTENT', $default_renderer->render($row_actions_dropdown));
+        if($component->tableHasActions()) {
+            $cell_tpl->setVariable('ROW_ID', $component->getId());
+            
+            $row_actions_dropdown = $this->getSingleActionsForRow(
+                $component->getId(),
+                $component->getActions()
+            );
+            $cell_tpl->setVariable('ACTION_CONTENT', $default_renderer->render($row_actions_dropdown));
+        }
 
         return $cell_tpl->get();
     }
