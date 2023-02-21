@@ -20,26 +20,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Table\Column;
 
 use ILIAS\UI\Component\Table\Column as C;
-use ILIAS\Data\DateFormat\DateFormat;
 
-class Date extends Column implements C\Date
+class Teaser extends Column implements C\Teaser
 {
-    protected DateFormat $format;
-
-    public function __construct(string $title, DateFormat $format)
-    {
-        $this->format = $format;
-        parent::__construct($title);
-    }
-
-    public function getFormat(): DateFormat
-    {
-        return $this->format;
-    }
-
-    public function format($value): string
-    {
-        assert(is_a($value, \DateTimeImmutable::class));
-        return (string)$value->format($this->getFormat()->toString());
-    }
 }

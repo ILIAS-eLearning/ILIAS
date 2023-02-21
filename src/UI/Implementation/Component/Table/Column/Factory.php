@@ -39,4 +39,29 @@ class Factory implements I\Factory
     {
         return new Date($title, $format);
     }
+
+    public function status(string $title): I\Status
+    {
+        return new Status($title);
+    }
+
+    public function statusIcon(string $title): I\StatusIcon
+    {
+        return new StatusIcon($title);
+    }
+
+    public function boolean(string $title, string $true, string $false): I\Boolean
+    {
+        return new Boolean($title, $true, $false);
+    }
+
+    public function email(string $title): I\EMail
+    {
+        return new EMail($title);
+    }
+
+    public function teaser(string $title): I\Teaser
+    {
+        return new Teaser($title);
+    }
 }

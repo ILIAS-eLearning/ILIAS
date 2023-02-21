@@ -30,6 +30,7 @@ abstract class Column implements C\Column
     protected bool $sortable = true;
     protected bool $optional = false;
     protected bool $initially_visible = true;
+    protected bool $highlighted = false;
     protected int $index;
 
 
@@ -96,5 +97,22 @@ abstract class Column implements C\Column
     public function getIndex(): int
     {
         return $this->index;
+    }
+
+    public function withHighlight(bool $flag): self
+    {
+        $clone = clone $this;
+        $clone->highlighted = $flag;
+        return $clone;
+    }
+
+    public function isHighlighted(): bool
+    {
+        return $this->highlighted;
+    }
+
+    public function format($value): string
+    {
+        return (string)$value;
     }
 }

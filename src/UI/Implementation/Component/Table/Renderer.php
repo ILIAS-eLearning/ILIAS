@@ -257,10 +257,10 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        if($render_action_column) {
+        if ($render_action_column) {
             $tpl->touchBlock('header_rowselection_cell');
             $tpl->touchBlock('header_action_cell');
-        } 
+        }
     }
 
     /**
@@ -349,9 +349,9 @@ class Renderer extends AbstractComponentRenderer
         }
 
 
-        if($component->tableHasActions()) {
+        if ($component->tableHasActions()) {
             $cell_tpl->setVariable('ROW_ID', $component->getId());
-            
+
             $row_actions_dropdown = $this->getSingleActionsForRow(
                 $component->getId(),
                 $component->getActions()

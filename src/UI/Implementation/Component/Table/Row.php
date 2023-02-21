@@ -87,6 +87,6 @@ class Row implements T\Row
         if (!array_key_exists($col_id, $this->record)) {
             return '';
         }
-        return (string) $this->record[$col_id];
+        return $this->columns[$col_id]->format($this->record[$col_id]);
     }
 }

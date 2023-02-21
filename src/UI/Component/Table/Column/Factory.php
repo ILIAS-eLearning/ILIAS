@@ -25,7 +25,7 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *       The Text Column is used for (short) text.
+     *      The Text Column is used for (short) text.
      *
      * ---
      * @return \ILIAS\UI\Component\Table\Column\Text
@@ -36,7 +36,7 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *       The Number Column is used for numeric values.
+     *      The Number Column is used for numeric values.
      * ---
      * @return \ILIAS\UI\Component\Table\Column\Number
      */
@@ -46,10 +46,68 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *       The Date Column is used for single dates.
+     *      The Date Column is used for single dates.
      *
      * ---
      * @return \ILIAS\UI\Component\Table\Column\Date
      */
     public function date(string $title, \ILIAS\Data\DateFormat\DateFormat $format): Date;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Status Column is used for _very_ small texts expressing a status
+     *
+     * ---
+     * @return \ILIAS\UI\Component\Table\Column\Status
+     */
+    public function status(string $title): Status;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      Sometimes, a status or progress is better expressed by an Icon.
+     *      Use the StatusIcon Column for it.
+     *
+     * ---
+     * @return \ILIAS\UI\Component\Table\Column\StatusIcon
+     */
+    public function statusIcon(string $title): StatusIcon;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Boolean Column is used to indicate a binary state, e.g. on/off.
+     *
+     * ---
+     * @return \ILIAS\UI\Component\Table\Column\Boolean
+     */
+    public function boolean(string $title, string $true, string $false): Boolean;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      Special formating for Mails in the EMail Column.
+     *
+     * ---
+     * @return \ILIAS\UI\Component\Table\Column\EMail
+     */
+    public function email(string $title): EMail;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Table is usually not for large texts. However, if there really is
+     *      the need for a longer/bigger entry in the cell, the Teaser Column MAY
+     *      be used to only display a part of it and the remaining parts in a modal.
+     *
+     * ---
+     * @return \ILIAS\UI\Component\Table\Column\Teaser
+     */
+    public function teaser(string $title): Teaser;
 }

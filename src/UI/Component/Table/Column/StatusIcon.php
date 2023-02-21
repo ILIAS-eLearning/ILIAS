@@ -17,11 +17,8 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Table;
+namespace ILIAS\UI\Component\Table\Column;
 
-use ILIAS\UI\Component\Table as T;
-
-abstract class DataRetrieval implements T\DataRetrieval
+interface StatusIcon extends Column
 {
-    protected array $records;
 }

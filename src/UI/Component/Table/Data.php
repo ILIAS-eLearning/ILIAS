@@ -83,5 +83,5 @@ interface Data extends Table
     /**
      * @return Action[]
      */
-    public function getActions(): ?array;
+    public function getActions(): array;
 }

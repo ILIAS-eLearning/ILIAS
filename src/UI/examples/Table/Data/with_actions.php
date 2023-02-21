@@ -76,8 +76,6 @@ function with_actions()
 
     // retrieve data and map records to table rows
     $data_retrieval = new class ($dummy_records) extends T\DataRetrieval {
-        protected $records;
-
         public function __construct(array $dummy_records)
         {
             $this->records = $dummy_records;
@@ -110,7 +108,7 @@ function with_actions()
     };
 
     //setup the table
-    $table = $f->table()->data('a data table', 50)
+    $table = $f->table()->data('a data table with actions', 50)
         ->withColumns($columns)
         ->withActions($actions)
         ->withData($data_retrieval);
