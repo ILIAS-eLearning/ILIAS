@@ -976,9 +976,13 @@ class ilObjectCopyGUI
 
         $this->targets_copy_id[$target_ref_id] = $result['copy_id'];
 
-        $new_obj = ilObjectFactory::getInstanceByRefId((int) $result['ref_id']);
-        $this->parent_obj->callCreationCallback($new_obj);
-
+        $new_ref_id = (int) $result['ref_id'];
+        if ($new_ref_id > 0) {
+            $new_obj = ilObjectFactory::getInstanceByRefId((int) $result['ref_id'], false);
+            if ($new_obj instanceof ilObject) {
+                $this->parent_obj->callCreationCallback($new_obj);
+            }
+        }
         return $result;
     }
 
