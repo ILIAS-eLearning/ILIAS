@@ -71,6 +71,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
             $this->userId = $wrapper->retrieve('usr_id', $this->container->refinery()->kindlyTo()->int());
         }
 
+        $this->omitLocator();
         $this->container->ui()->mainTemplate()->setTitle($this->container->language()->txt('mst_my_staff'));
     }
 
