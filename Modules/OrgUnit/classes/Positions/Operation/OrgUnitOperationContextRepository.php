@@ -24,7 +24,7 @@ interface OrgUnitOperationContextRepository
      * If the context does not exist, it is created
      * @throws ilException
      */
-    public function get(string $context, ?string $parent_context): ilOrgUnitOperationContext;
+    public function get(string $context_string, ?string $parent_context): ilOrgUnitOperationContext;
 
     /**
      * Store context to db
