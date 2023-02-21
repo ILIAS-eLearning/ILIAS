@@ -558,8 +558,8 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
-        $this->object->setShuffle($_POST["shuffle"]);
-        $this->object->setMultilineAnswerSetting($_POST["types"]);
+        $this->object->setShuffle($_POST["shuffle"] ?? false);
+        $this->object->setMultilineAnswerSetting($_POST["types"] ?? '0');
         if (isset($_POST['choice']) && isset($_POST['choice']['imagename']) && is_array($_POST['choice']['imagename']) && $_POST["types"] == 1) {
             $this->object->setIsSingleline(true);
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('info_answer_type_change'), true);
