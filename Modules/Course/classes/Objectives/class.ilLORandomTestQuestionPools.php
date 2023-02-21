@@ -97,7 +97,7 @@ class ilLORandomTestQuestionPools
         $res = $ilDB->query($query);
         $sequences = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $sequences[] = $row->qp_seq;
+            $sequences[] = (int) $row->qp_seq;
         }
         return $sequences;
     }
