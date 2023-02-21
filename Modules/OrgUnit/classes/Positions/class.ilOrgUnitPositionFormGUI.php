@@ -111,7 +111,7 @@ class ilOrgUnitPositionFormGUI extends BaseForm
             $ilOrgUnitAuthority->setPositionId($this->object->getId());
             $ilOrgUnitAuthority->setScope($authority["scope"]);
             $ilOrgUnitAuthority->setOver($authority["over"]);
-            $ilOrgUnitAuthorities[] = $ilOrgUnitAuthority;
+            $ilOrgUnitAuthorities[] = clone $ilOrgUnitAuthority;
         }
         $this->object->setAuthorities($ilOrgUnitAuthorities);
         $this->object->storeAuthorities();
