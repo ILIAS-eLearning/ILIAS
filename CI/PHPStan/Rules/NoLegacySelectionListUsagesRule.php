@@ -31,6 +31,11 @@ class NoLegacySelectionListUsagesRule extends LegacyClassUsageRule implements Ru
         return 'Legacy Advanced Selection List Usages';
     }
 
+    protected function getRelevantILIASVersion(): int
+    {
+        return 9;
+    }
+
 
     protected function getForbiddenClasses(): array
     {
