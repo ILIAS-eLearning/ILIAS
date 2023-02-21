@@ -2803,7 +2803,7 @@ chatroom#:#banned#:#Sie wurden für diesen Chatraum gesperrt.
 chatroom#:#bans#:#Gesperrte Benutzer
 chatroom#:#chat_address#:#Ansprechen
 chatroom#:#chat_anonymous_not_allowed#:#Um den Chatraum nutzen zu können, loggen Sie sich bitte ein.
-chatroom#:#chat_auth_token_info#:#Bitte definieren Sie hier zwei eindeutige Zeichenketten, die ILIAS zur Authentifizierung in Anfragen an den Chat-Server nutzt. Alternativ können diese bei Klick auf den Button automatisch generiert werden. Der Chat-Server kann mehrere ILIAS-Mandanten verwalten, jeder Mandant benötigt aber eine <b>eindeutige</b> Mandanten-ID.
+chatroom#:#chat_auth_token_info#:#Bitte definieren Sie hier zwei eindeutige Zeichenketten, die ILIAS zur Authentifizierung in Anfragen an den Chat-Server nutzt. Alternativ können diese bei Klick auf den Button automatisch generiert werden. Der Chat-Server kann mehrere ILIAS-Mandanten verwalten, jeder Mandant benötigt aber einen <b>eindeutigen</b> Namen.
 chatroom#:#chat_ban#:#Sperren
 chatroom#:#chat_broadcast_typing#:#Tippen im Chat anzeigen
 chatroom#:#chat_broadcast_typing_info#:#Anderen Anwesenden in einem Chat bzw. Chatraum wird angezeigt, wenn Sie beginnen, eine Nachricht zu schreiben.
