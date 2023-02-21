@@ -67,10 +67,61 @@ class ilMStListCertificates
 
 
             if (!empty($options['filters']['user'])) {
-                $usr_data_filter = $usr_data_filter->withUserLogin($options['filters']['user']);
+                $usr_data_filter = $usr_data_filter->withUserIdentification($options['filters']['user']);
             }
             if (!empty($options['filters']['obj_title'])) {
                 $usr_data_filter = $usr_data_filter->withObjectTitle($options['filters']['obj_title']);
+            }
+
+            if (!empty($options['filters']['org_unit'])) {
+                $org_unit_id = (int) $options['filters']['org_unit'];
+                $usr_data_filter = $usr_data_filter->withOrgUnitIds([$org_unit_id]);
+            }
+
+            if (!empty($options['sort']['field']) && !empty($options['sort']['direction'])) {
+                if ($options['sort']['field'] === "objectTitle" && $options['sort']['direction'] === "asc") {
+                    $usr_data_filter = $usr_data_filter->withSortedObjectTitles(UserDataFilter::SORT_DIRECTION_ASC);
+                }
+                elseif ($options['sort']['field'] === "objectTitle" && $options['sort']['direction'] === "desc") {
+                    $usr_data_filter = $usr_data_filter->withSortedObjectTitles(UserDataFilter::SORT_DIRECTION_DESC);
+                }
+                elseif ($options['sort']['field'] === "issuedOnTimestamp" && $options['sort']['direction'] === "asc") {
+                    $usr_data_filter = $usr_data_filter->withSortedIssuedOnTimestamps(UserDataFilter::SORT_DIRECTION_ASC);
+                }
+                elseif ($options['sort']['field'] === "issuedOnTimestamp" && $options['sort']['direction'] === "desc") {
+                    $usr_data_filter = $usr_data_filter->withSortedIssuedOnTimestamps(UserDataFilter::SORT_DIRECTION_DESC);
+                }
+                elseif ($options['sort']['field'] === "userLogin" && $options['sort']['direction'] === "asc") {
+                    $usr_data_filter = $usr_data_filter->withSortedLogins(UserDataFilter::SORT_DIRECTION_ASC);
+                }
+                elseif ($options['sort']['field'] === "userLogin" && $options['sort']['direction'] === "desc") {
+                    $usr_data_filter = $usr_data_filter->withSortedLogins(UserDataFilter::SORT_DIRECTION_DESC);
+                }
+                elseif ($options['sort']['field'] === "userFirstName" && $options['sort']['direction'] === "asc") {
+                    $usr_data_filter = $usr_data_filter->withSortedFirstNames(UserDataFilter::SORT_DIRECTION_ASC);
+                }
+                elseif ($options['sort']['field'] === "userFirstName" && $options['sort']['direction'] === "desc") {
+                    $usr_data_filter = $usr_data_filter->withSortedFirstNames(UserDataFilter::SORT_DIRECTION_DESC);
+                }
+                elseif ($options['sort']['field'] === "userLastName" && $options['sort']['direction'] === "asc") {
+                    $usr_data_filter = $usr_data_filter->withSortedLastNames(UserDataFilter::SORT_DIRECTION_ASC);
+                }
+                elseif ($options['sort']['field'] === "userLastName" && $options['sort']['direction'] === "desc") {
+                    $usr_data_filter = $usr_data_filter->withSortedLastNames(UserDataFilter::SORT_DIRECTION_DESC);
+                }
+                elseif ($options['sort']['field'] === "userEmail" && $options['sort']['direction'] === "asc") {
+                    $usr_data_filter = $usr_data_filter->withSortedEmails(UserDataFilter::SORT_DIRECTION_ASC);
+                }
+                elseif ($options['sort']['field'] === "userEmail" && $options['sort']['direction'] === "desc") {
+                    $usr_data_filter = $usr_data_filter->withSortedEmails(UserDataFilter::SORT_DIRECTION_DESC);
+                }
+            }
+
+            if ((!empty($options['limit']['start']) || $options['limit']['start'] === 0)
+                && !empty($options['limit']['end'])
+            ) {
+                $usr_data_filter = $usr_data_filter->withLimitOffset((int) $options['limit']['start']);
+                $usr_data_filter = $usr_data_filter->withLimitCount((int) $options['limit']['end']);
             }
 
 
