@@ -725,7 +725,7 @@ class ilCourseObjectivesGUI
             $this->test_type
         );
 
-        $qpl->setValue($sequences[0]);
+        $qpl->setValue((string) ($sequences[0] ?? ''));
         $qpl->setMultiValues($sequences);
         $ass_qpl->addSubItem($qpl);
 
