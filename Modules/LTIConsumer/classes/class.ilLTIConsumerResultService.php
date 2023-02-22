@@ -94,7 +94,7 @@ class ilLTIConsumerResultService
             $request = current($xml->imsx_POXBody->children());
             $this->operation = str_replace('Request', '', $request->getName());
 
-            $token = ilCmiXapiAuthToken::getInstanceByToken($request->resultRecord->sourcedGUID->sourcedId);
+            $token = ilCmiXapiAuthToken::getInstanceByToken((string) $request->resultRecord->sourcedGUID->sourcedId);
 
             $this->result = ilLTIConsumerResult::getByKeys($token->getObjId(), $token->getUsrId(), false);
             if (empty($this->result)) {
@@ -363,11 +363,11 @@ class ilLTIConsumerResultService
         $store = new TrivialOAuthDataStore();
         $store->add_consumer($a_key, $a_secret);
 
-        $server = new OAuthServer($store);
-        $method = new OAuthSignatureMethod_HMAC_SHA1();
+        $server = new \ILIAS\LTIOAuth\OAuthServer($store);
+        $method = new \ILIAS\LTIOAuth\OAuthSignatureMethod_HMAC_SHA1();
         $server->add_signature_method($method);
 
-        $request = OAuthRequest::from_request();
+        $request = \ILIAS\LTIOAuth\OAuthRequest::from_request();
         try {
             $server->verify_request($request);
         } catch (Exception $e) {
