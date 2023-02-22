@@ -58,6 +58,7 @@ class ilMStShowUserCompetencesGUI
 
         if ($this->access->hasCurrentUserAccessToMyStaff()
             && $this->access->hasCurrentUserAccessToUser($this->usr_id)
+            && $this->access->hasCurrentUserAccessToCompetences()
         ) {
             return;
         } else {

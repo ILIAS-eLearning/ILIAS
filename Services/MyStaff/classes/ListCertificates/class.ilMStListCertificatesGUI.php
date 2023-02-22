@@ -44,7 +44,9 @@ class ilMStListCertificatesGUI
     {
         global $DIC;
 
-        if ($this->access->hasCurrentUserAccessToMyStaff()) {
+        if ($this->access->hasCurrentUserAccessToMyStaff()
+            && $this->access->hasCurrentUserAccessToCertificates()
+        ) {
             return;
         } else {
             ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);
@@ -178,7 +180,7 @@ class ilMStListCertificatesGUI
             $selection = new ilAdvancedSelectionListGUI();
 
             if ($DIC->access()->checkAccess("visible", "", $mst_lco_crs_ref_id)) {
-                $link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::DEFAULT_CONTEXT);
+                $link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::COURSE_CONTEXT);
                 $selection->addItem(ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)), '', $link);
             };
 

@@ -61,6 +61,7 @@ class ilMStShowUserCoursesGUI
 
         if ($this->access->hasCurrentUserAccessToMyStaff()
             && $this->access->hasCurrentUserAccessToUser($this->usr_id)
+            && $this->access->hasCurrentUserAccessToCourseMemberships()
         ) {
             return;
         } else {
@@ -186,7 +187,7 @@ class ilMStShowUserCoursesGUI
             $selection = new ilAdvancedSelectionListGUI();
 
             if ($DIC->access()->checkAccess("visible", "", $mst_lco_crs_ref_id)) {
-                $link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::DEFAULT_CONTEXT);
+                $link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::COURSE_CONTEXT);
                 $selection->addItem(ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)), '', $link);
             };
 

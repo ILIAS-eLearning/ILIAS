@@ -50,7 +50,9 @@ class ilMStListUsersGUI
     {
         global $DIC;
 
-        if ($this->access->hasCurrentUserAccessToMyStaff()) {
+        if ($this->access->hasCurrentUserAccessToMyStaff()
+            && $this->access->hasCurrentUserAccessToUser()
+        ) {
             return;
         } else {
             ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);
@@ -155,7 +157,7 @@ class ilMStListUsersGUI
         if ($mst_lus_usr_id > 0) {
             $selection = new ilAdvancedSelectionListGUI();
 
-            if ($this->access->hasCurrentUserAccessToMyStaff()) {
+            if ($this->access->hasCurrentUserAccessToCourseMemberships()) {
                 $DIC->ctrl()->setParameterByClass(ilMStShowUserCoursesGUI::class, 'usr_id', $mst_lus_usr_id);
                 $selection->addItem($DIC->language()->txt('mst_show_courses'), '', $DIC->ctrl()->getLinkTargetByClass(array(
                     ilDashboardGUI::class,

@@ -128,7 +128,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $item->setParent($this->getParentObject());
         $item->setSelectText($DIC->language()->txt("mst_select_course"));
         $item->setHeaderMessage($DIC->language()->txt("mst_please_select_course"));
-        $item->setClickableTypes(array( ilMyStaffAccess::DEFAULT_CONTEXT ));
+        $item->setClickableTypes(array( ilMyStaffAccess::COURSE_CONTEXT ));
         $this->addFilterItem($item);
         $item->readFromSession();
         $item->setParent($this->getParentObject());

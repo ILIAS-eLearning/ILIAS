@@ -40,7 +40,7 @@ class ilMStListCourses
     public function getData(array $arr_usr_ids = array(), array $options = array())
     {
         //Permission Filter
-        $operation_access = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS;
+        $operation_access = ilMyStaffAccess::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION;
 
         // permission should not be changed here because learning progress only works in combination with course memberships
         /*if (!empty($options['filters']['lp_status']) || $options['filters']['lp_status'] === 0) {
@@ -71,7 +71,7 @@ class ilMStListCourses
 	                    ) AS memb
 	           
                     INNER JOIN object_data AS crs on crs.obj_id = memb.obj_id AND crs.type = ' . $this->dic->database()
-                ->quote(ilMyStaffAccess::DEFAULT_CONTEXT, 'text') . '
+                ->quote(ilMyStaffAccess::COURSE_CONTEXT, 'text') . '
                     INNER JOIN object_reference AS crs_ref on crs_ref.obj_id = crs.obj_id AND crs_ref.deleted IS NULL
 	                INNER JOIN usr_data on usr_data.usr_id = memb.usr_id';
 

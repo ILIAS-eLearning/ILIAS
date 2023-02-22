@@ -94,7 +94,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         $this->determineOffsetAndOrder();
 
         $arr_usr_id = $this->access->getUsersForUserOperationAndContext($DIC->user()
-            ->getId(), ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, ilMyStaffAccess::DEFAULT_CONTEXT);
+            ->getId(), ilMyStaffAccess::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION, ilMyStaffAccess::COURSE_CONTEXT);
 
         $this->filter['usr_id'] = $this->usr_id;
         $options = array(
@@ -137,7 +137,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         $item = new ilRepositorySelectorInputGUI($DIC->language()->txt("usr_filter_coursemember"), "course");
         $item->setSelectText($DIC->language()->txt("mst_select_course"));
         $item->setHeaderMessage($DIC->language()->txt("mst_please_select_course"));
-        $item->setClickableTypes(array(ilMyStaffAccess::DEFAULT_CONTEXT));
+        $item->setClickableTypes(array(ilMyStaffAccess::COURSE_CONTEXT));
         $this->addFilterItem($item);
         $item->readFromSession();
         $item->setParent($this->getParentObject());
