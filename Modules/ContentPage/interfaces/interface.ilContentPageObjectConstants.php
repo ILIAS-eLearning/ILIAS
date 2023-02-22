@@ -31,6 +31,7 @@ interface ilContentPageObjectConstants
 
     public const UI_CMD_COPAGE_DOWNLOAD_FILE = 'downloadFile';
     public const UI_CMD_COPAGE_DISPLAY_FULLSCREEN = 'displayMediaFullscreen';
+    public const UI_CMD_COPAGE_DISPLAY_MEDIA = 'displayMedia';
     public const UI_CMD_COPAGE_DOWNLOAD_PARAGRAPH = 'download_paragraph';
 
     public const UI_TAB_ID_CONTENT = 'content';
