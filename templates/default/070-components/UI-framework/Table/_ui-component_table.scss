@@ -293,6 +293,9 @@ th.c-table-data__cell:after {
         resize: horizontal;
     }
 }
+td.c-table-data__cell--email {
+    text-align: right;
+}
 
 .c-table-data__cell--number,
 .c-table-data__cell--status {
@@ -322,6 +325,10 @@ td.c-table-data__cell--number {
     }
 }
 
-td.c-table-data__cell--email {
-    text-align: right;
+
+td.c-table-data__cell--highlighted {
+    background-color: $il-main-dark-bg;
+}
+.c-table-data__row:hover td.c-table-data__cell--highlighted {
+    background-color: darken($il-main-darker-bg, 7%);
 }
