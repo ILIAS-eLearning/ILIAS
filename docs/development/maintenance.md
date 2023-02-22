@@ -938,8 +938,8 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 [//]: # (BEGIN Staff)
 
 * **Staff**
-	* 1st Maintainer: [mstuder](https://docu.ilias.de/goto_docu_usr_8473.html)
-	* 2nd Maintainer: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+	* 1st Maintainer: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
+	* 2nd Maintainer: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [qualitus.morgunova](https://docu.ilias.de/goto_docu_usr_69410.html)
 
