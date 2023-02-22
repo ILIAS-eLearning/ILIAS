@@ -179,13 +179,19 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
 
 // basic table design
 
+.c-table-data__table {
+    border: 1px solid $il-main-border-dark-color;
+}
+
 .c-table-data__cell {
     background-color: $il-main-bg;
     padding: $il-padding-large-vertical $il-padding-large-horizontal;
+    border: 1px solid $il-main-border-color;
+    // border-bottom: 1px solid $il-main-border-dark-color;
 }
 
 .c-table-data__row {
-    border-bottom: 1px solid $il-main-border-dark-color;
+    // border-bottom: 1px solid $il-main-border-dark-color;
 }
 
 .c-table-data__row:hover td.c-table-data__cell {
@@ -195,6 +201,7 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
 // table header
 
 th.c-table-data__cell {
+    padding: 0;
     position: -webkit-sticky;
     position: sticky;
     top: 0;
@@ -202,14 +209,28 @@ th.c-table-data__cell {
 }
 
 .c-table-data__header__resize-wrapper {
-    // resize is later added for specific types only
-    vertical-align: bottom;
-    overflow: auto;
-    width: 100%;
+    padding: $il-padding-xxlarge-vertical $il-padding-large-horizontal;
     height: 100%;
     margin: 0px;
-    padding: 0px;
-    display: inline-block;
+    display: block;
+    vertical-align: bottom;
+    // limit max-height
+    max-height: 85px;
+    overflow: hidden;
+    //indicate when text is being cut off
+    &:after {
+        content: "";
+        bottom: 0;
+        left: 0;
+        display: block;
+        position: absolute;
+        height: $il-padding-xxlarge-vertical * 1.5;
+        width: calc(100% - 10px);
+        background: linear-gradient(360deg, white, transparent);
+        pointer-events: none;
+    }
+
+    // resize is later added for specific types only
 }
 
 // row selection & multiaction
@@ -241,6 +262,7 @@ th.c-table-data__cell {
 .c-table-data__cell--text {
     .c-table-data__header__resize-wrapper {
         min-width: 140px;
+        // width: 140px;
         resize: horizontal;
     }
 }
@@ -248,13 +270,24 @@ th.c-table-data__cell {
 .c-table-data__cell--email {
     .c-table-data__header__resize-wrapper {
         min-width: 200px;
+        // width: 200px;
         resize: horizontal;
     }
 }
 
-.c-table-data__cell--date,
 .c-table-data__cell--number {
     .c-table-data__header__resize-wrapper {
+        width: 110px; // width instead of min-width so resizer can also reduce width below default
+        resize: horizontal;
+    }
+}
+td.c-table-data__cell--number {
+    text-align: right;
+}
+
+.c-table-data__cell--date {
+    .c-table-data__header__resize-wrapper {
+        // width: 110px;
         min-width: 110px;
         resize: horizontal;
     }
@@ -262,15 +295,13 @@ th.c-table-data__cell {
 
 .c-table-data__cell--statusicon,
 .c-table-data__cell--boolean {
-    min-width: 40px
-    // no resize
+    .c-table-data__header__resize-wrapper {
+        // width: 40px;
+        min-width: 40px;
+        resize: horizontal;
+    }
 }
 
 td.c-table-data__cell--email {
     text-align: right;
 }
-
-// multiaction
-
-
-
