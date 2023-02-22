@@ -333,8 +333,8 @@ class ilMyStaffAccess extends ilObjectAccess
 
     public function countOrgusOfUserWithOperationAndContext(
         int $user_id,
-        string $org_unit_operation_string = self::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION,
-        string $context = self::COURSE_CONTEXT
+        string $org_unit_operation_string,
+        string $context
     ): int {
         global $DIC;
 
@@ -361,8 +361,8 @@ class ilMyStaffAccess extends ilObjectAccess
 
     public function getUsersForUserOperationAndContext(
         int $user_id,
-        string $org_unit_operation_string = self::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION,
-        string $context = self::COURSE_CONTEXT,
+        string $org_unit_operation_string,
+        string $context,
         string $tmp_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX
     ): array {
         global $DIC;
@@ -569,8 +569,8 @@ class ilMyStaffAccess extends ilObjectAccess
 
     public function getIlobjectsAndUsersForUserOperationAndContext(
         int $user_id,
-        string $org_unit_operation_string = self::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION,
-        string $context = self::COURSE_CONTEXT
+        string $org_unit_operation_string,
+        string $context
     ): array {
         global $DIC;
 
@@ -602,8 +602,8 @@ class ilMyStaffAccess extends ilObjectAccess
 
     public function buildTempTableIlobjectsUserMatrixForUserOperationAndContext(
         int $user_id,
-        string $org_unit_operation_string = self::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION,
-        string $context = self::COURSE_CONTEXT,
+        string $org_unit_operation_string,
+        string $context,
         string $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX
     ): string {
         global $DIC;
@@ -740,8 +740,8 @@ class ilMyStaffAccess extends ilObjectAccess
     }
 
     public function buildTempTableIlobjectsSpecificPermissionSetForOperationAndContext(
-        string $org_unit_operation_string = self::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION,
-        string $context = self::COURSE_CONTEXT,
+        string $org_unit_operation_string,
+        string $context,
         string $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS
     ): string {
         global $DIC;
@@ -784,8 +784,8 @@ class ilMyStaffAccess extends ilObjectAccess
     }
 
     public function buildTempTableIlobjectsDefaultPermissionSetForOperationAndContext(
-        string $org_unit_operation_string = self::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION,
-        string $context = self::COURSE_CONTEXT,
+        string $org_unit_operation_string,
+        string $context,
         string $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS
     ): string {
         global $DIC;
@@ -846,8 +846,8 @@ class ilMyStaffAccess extends ilObjectAccess
      * @return string
      */
     public function buildTempTableIlorgunitDefaultPermissionSetForOperationAndContext(
-        string $org_unit_operation_string = self::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION,
-        string $context = self::COURSE_CONTEXT,
+        string $org_unit_operation_string,
+        string $context,
         string $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS
     ): string {
         global $DIC;

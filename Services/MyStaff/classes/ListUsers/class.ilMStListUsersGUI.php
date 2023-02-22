@@ -57,7 +57,7 @@ class ilMStListUsersGUI
     protected function checkAccessOrFail(): void
     {
         if ($this->access->hasCurrentUserAccessToMyStaff()
-            &&$this->access->hasCurrentUserAccessToUser()
+            && $this->access->hasCurrentUserAccessToUser()
         ) {
             return;
         } else {
