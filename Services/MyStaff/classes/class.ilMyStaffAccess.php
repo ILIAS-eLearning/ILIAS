@@ -155,6 +155,47 @@ class ilMyStaffAccess extends ilObjectAccess
         return false;
     }
 
+    public function hasCurrentUserAccessToTalks(): bool
+    {
+        global $DIC;
+
+        if (!$DIC->settings()->get("enable_my_staff")) {
+            return false;
+        }
+
+        if ($this->countOrgusOfUserWithOperationAndContext(
+            $DIC->user()->getId(),
+            ilOrgUnitOperation::OP_CREATE_EMPLOYEE_TALK,
+            ilOrgUnitOperationContext::CONTEXT_ETAL
+        )
+            > 0
+        ) {
+            return true;
+        }
+
+        if ($this->countOrgusOfUserWithOperationAndContext(
+            $DIC->user()->getId(),
+            ilOrgUnitOperation::OP_EDIT_EMPLOYEE_TALK,
+            ilOrgUnitOperationContext::CONTEXT_ETAL
+        )
+            > 0
+        ) {
+            return true;
+        }
+
+        if ($this->countOrgusOfUserWithOperationAndContext(
+            $DIC->user()->getId(),
+            ilOrgUnitOperation::OP_READ_EMPLOYEE_TALK,
+            ilOrgUnitOperationContext::CONTEXT_ETAL
+        )
+            > 0
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function hasCurrentUserAccessToCompetences(): bool
     {
         global $DIC;
