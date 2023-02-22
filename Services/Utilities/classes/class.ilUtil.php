@@ -804,12 +804,11 @@ class ilUtil
             filter_var("http://de.de/" . $url, FILTER_VALIDATE_URL) === false) {
             return "";
         }
-        $url = parse_url($url, PHP_URL_SCHEME) ?? '';
-        if (trim(strtolower($url)) == "javascript") {
+        if (trim(strtolower(parse_url($url, PHP_URL_SCHEME) ?? '')) === "javascript") {
             return "";
         }
-        $url = htmlspecialchars($url, ENT_QUOTES);
-        return $url;
+
+        return htmlspecialchars($url, ENT_QUOTES);
     }
 
     /**
