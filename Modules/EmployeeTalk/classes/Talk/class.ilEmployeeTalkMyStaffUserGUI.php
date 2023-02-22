@@ -98,7 +98,7 @@ final class ilEmployeeTalkMyStaffUserGUI implements ControlFlowCommandHandler
             $this->ctrl->redirectByClass(ilDashboardGUI::class, "");
         }
 
-        if (!$this->access->hasCurrentUserAccessToMyStaff() || !$this->access->hasCurrentUserAccessToUser($this->usrId)) {
+        if (!$this->access->hasCurrentUserAccessToTalks() || !$this->access->hasCurrentUserAccessToUser($this->usrId)) {
             $this->template->setOnScreenMessage('failure', $this->language->txt("permission_denied"), true);
             $this->ctrl->redirectByClass(ilDashboardGUI::class, "");
         }

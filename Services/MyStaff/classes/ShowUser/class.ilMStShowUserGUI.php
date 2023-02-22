@@ -217,7 +217,7 @@ class ilMStShowUserGUI
             $DIC->tabs()->addTab(self::TAB_SHOW_USER, $DIC->language()->txt('public_profile'), $public_profile_url);
         }
 
-        if ($this->access->hasCurrentUserAccessToMyStaff()) {
+        if ($this->access->hasCurrentUserAccessToTalks()) {
             $DIC->ctrl()->setParameterByClass(strtolower(self::class), 'usr_id', $this->usr_id);
             $DIC->tabs()->addTab(self::TAB_SHOW_TALKS, $DIC->language()->txt('etal_talks'), $DIC->ctrl()->getLinkTargetByClass([
                     strtolower(ilMyStaffGUI::class),

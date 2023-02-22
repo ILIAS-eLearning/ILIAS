@@ -85,7 +85,7 @@ final class EmployeeTalkUserActionProvider extends ilUserActionProvider
         }
 
         if (
-            !$this->access->hasCurrentUserAccessToMyStaff() ||
+            !$this->access->hasCurrentUserAccessToTalks() ||
             !$this->access->hasCurrentUserAccessToUser($a_target_user)
         ) {
             return false;
