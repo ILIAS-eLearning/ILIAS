@@ -82,7 +82,7 @@ final class MyStaffListEntryProvider extends AbstractStaticMainMenuProvider
                                   ->withPosition(60)
                                   ->withVisibilityCallable(
                                       function () {
-                                          return ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
+                                          return ilMyStaffAccess::getInstance()->hasCurrentUserAccessToTalks();
                                       }
                                   );
 
