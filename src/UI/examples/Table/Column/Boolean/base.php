@@ -17,7 +17,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Table\Column\Number;
+namespace ILIAS\UI\examples\Table\Column\Boolean;
 
 use ILIAS\UI\Implementation\Component\Table as T;
 use ILIAS\UI\Component\Table as I;
@@ -31,23 +31,27 @@ function base()
     $r = $DIC['ui.renderer'];
 
     $columns = [
-        'n1' => $f->table()->column()->number("some number"),
-        'n2' => $f->table()->column()->number("with decimals")
-            ->withDecimals(2),
-        'n3' => $f->table()->column()->number("with unit before")
-            ->withUnit('€', I\Column\Number::UNIT_POSITION_FORE),
-        'n4' => $f->table()->column()->number("with unit after")
-            ->withDecimals(2)
-            ->withUnit('Eur', I\Column\Number::UNIT_POSITION_AFT),
+        'b1' => $f->table()->column()->boolean('yes/no', 'yes', 'no'),
+        'b2' => $f->table()->column()->boolean("0/1", "1", "0"),
+        'b3' => $f->table()->column()->boolean(
+            "glyph",
+            $r->render($f->symbol()->glyph()->up()),
+            $r->render($f->symbol()->glyph()->down()->withHighlight())
+        )
     ];
 
-    $table = $f->table()->data('Numbers', 50)->withColumns($columns);
+    $table = $f->table()->data('Boolean Columns', 50)->withColumns($columns);
 
-    $dummy_records = [123, 45.66, 78.9876];
+    $dummy_records = [2, 13, 4, 5, 16, 17];
 
-    $data_retrieval = new class ($dummy_records) extends T\DataRetrieval {
-        public function __construct(array $dummy_records)
-        {
+    $data_retrieval = new class ($f, $r, $dummy_records) extends T\DataRetrieval {
+        public function __construct(
+            \ILIAS\UI\Factory $ui_factory,
+            \ILIAS\UI\Renderer $ui_renderer,
+            array $dummy_records
+        ) {
+            $this->ui_factory = $ui_factory;
+            $this->ui_renderer = $ui_renderer;
             $this->records = $dummy_records;
         }
 
@@ -60,9 +64,9 @@ function base()
         ): \Generator {
             foreach ($this->records as $number) {
                 $row_id = '';
-                for ($i=1; $i<5; $i++) {
-                    $record['n' . $i] = $number;
-                }
+                $record['b1'] = $number > 10;
+                $record['b2'] = $record['b1'];
+                $record['b3'] = $record['b1'];
                 yield $row_factory->standard($row_id, $record);
             }
         }
