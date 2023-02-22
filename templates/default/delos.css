@@ -13461,45 +13461,19 @@ div.alert ul > li:before {
   color: #6f6f6f;
 }
 
-/*
-.c-table-data {
-    display: table;
-
-    .c-table-data__row {
-        display:table-row;
-        .c-table-data__cell {
-            display:table-cell;
-            border:thin solid black;
-            padding:5px;
-        }
-    }
-    .c-table-data__header.c-table-data__cell {
-        font-weight: $il-font-weight-bold;
-    }
+.il-table-data {
+  display: table;
 }
-*/
-.c-table-data__row {
-  border-bottom: 1px solid #757575;
+.il-table-data .row {
+  display: table-row;
 }
-
-th.c-table-data__cell {
-  background-color: white;
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  z-index: 2;
+.il-table-data .row .cell {
+  display: table-cell;
+  border: thin solid black;
+  padding: 5px;
 }
-
-.c-table-data__cell {
-  padding: 6px 12px;
-}
-
-.c-table-data__cell--text {
-  min-width: 140px;
-}
-
-td.c-table-data__cell--email {
-  text-align: right;
+.il-table-data .header.cell {
+  font-weight: 600;
 }
 
 .il-toast-container {

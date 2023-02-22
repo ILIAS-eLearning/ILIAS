@@ -177,10 +177,17 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
 }
 */
 
+// basic table design
 
 .c-table-data__row {
     border-bottom: 1px solid $il-main-border-dark-color;
 }
+
+.c-table-data__cell {
+    padding: $il-padding-large-vertical $il-padding-large-horizontal;
+}
+
+// table header
 
 th.c-table-data__cell {
     background-color: $il-main-bg;
@@ -190,12 +197,29 @@ th.c-table-data__cell {
     z-index: 2;
 }
 
-.c-table-data__cell {
-    padding: $il-padding-large-vertical $il-padding-large-horizontal;
+.c-table-data__header__resize-wrapper {
+    // resize is later added for specific types only
+    vertical-align: bottom;
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    display: inline-block;
 }
+
+// special column types
 
 .c-table-data__cell--text {
     min-width: 140px;
+}
+
+// allow resizing for specific types only
+
+.c-table-data__cell--text, td.c-table-data__cell--email {
+    .c-table-data__header__resize-wrapper {
+        resize: horizontal;
+    }
 }
 
 td.c-table-data__cell--email {
@@ -204,14 +228,3 @@ td.c-table-data__cell--email {
 
 th.c-table-data__header.c-table-data__cell {}
 
-.c-table-data__header__resize-wrapper {
-    vertical-align: bottom;
-    resize: horizontal;
-    overflow: auto;
-    width: 100%;
-    height: 100%;
-    min-width: 150px;
-    margin: 0px;
-    padding: 0px;
-    display: block;
-}
