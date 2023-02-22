@@ -507,6 +507,7 @@ class Tool
             }
             Util::logError($errorMessage);
         }
+
         $this->result();
     }
 
@@ -1148,7 +1149,7 @@ EOD;
     private function result(): void
     {
         if (!$this->ok) {
-            $this->message = self::CONNECTION_ERROR_MESSAGE;
+            $this->message = self::CONNECTION_ERROR_MESSAGE . ' ' . $this->reason;
             $this->onError();
         }
         if (!$this->ok) {
@@ -1625,8 +1626,7 @@ EOD;
         }
 
         if ($this->ok) {
-
-// Check if a relaunch is being requested
+            // Check if a relaunch is being requested
             if (isset($this->messageParameters['relaunch_url'])) {
                 if (empty($this->messageParameters['platform_state'])) {
                     $this->ok = false;
@@ -1635,8 +1635,7 @@ EOD;
                     $this->sendRelaunchRequest();
                 }
             } else {
-
-// Validate message parameter constraints
+                // Validate message parameter constraints
                 $invalidParameters = array();
                 foreach ($this->constraints as $name => $constraint) {
                     if (empty($constraint['messages']) || in_array(
@@ -1665,8 +1664,7 @@ EOD;
                 }
 
                 if ($this->ok) {
-
-// Set the request context
+                    // Set the request context
                     $contextId = '';
                     //UK: Check if necessary
                     if ($this->hasConfiguredApiHook(self::$CONTEXT_ID_HOOK, $this->platform->getFamilyCode(), $this)) {
@@ -1900,8 +1898,7 @@ EOD;
                 }
 
                 if ($this->ok) {
-
-// Persist changes to cpntext
+                    // Persist changes to cpntext
                     if (isset($this->context)) {
                         $this->context->save();
                     }
