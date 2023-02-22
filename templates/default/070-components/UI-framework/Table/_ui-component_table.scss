@@ -204,7 +204,7 @@ td.c-table-data__cell--email {
 
 th.c-table-data__header.c-table-data__cell {}
 
-.resize-x {
+.c-table-data__header__resize-wrapper {
     vertical-align: bottom;
     resize: horizontal;
     overflow: auto;
@@ -213,6 +213,5 @@ th.c-table-data__header.c-table-data__cell {}
     min-width: 150px;
     margin: 0px;
     padding: 0px;
-    /* border: 1px solid black; */
     display: block;
 }
