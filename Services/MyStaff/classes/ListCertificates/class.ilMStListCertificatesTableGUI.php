@@ -197,11 +197,11 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         }
 
         if ($arr_searchable_user_columns['email']) {
-            $cols['usr_email'] = array(
+            $cols['userEmail'] = array(
                 'txt' => $DIC->language()->txt('email'),
                 'default' => true,
                 'width' => 'auto',
-                'sort_field' => 'usr_email',
+                'sort_field' => 'userEmail',
             );
         }
         if ($arr_searchable_user_columns['org_units']) {

@@ -42,6 +42,13 @@ class ilMStShowUserGUI
         $this->usr_id = $DIC->http()->request()->getQueryParams()['usr_id'];
         $DIC->ctrl()->setParameter($this, 'usr_id', $this->usr_id);
 
+        $this->setTitleAndIcon();
+    }
+
+    protected function setTitleAndIcon(): void
+    {
+        global $DIC;
+
         $DIC->ui()->mainTemplate()->setTitle(ilUserUtil::getNamePresentation($this->usr_id));
         $DIC->ui()->mainTemplate()->setTitleIcon(ilObjUser::_getPersonalPicturePath($this->usr_id, "xxsmall"));
     }
@@ -96,6 +103,7 @@ class ilMStShowUserGUI
                     new ilObjUser($this->usr_id)
                 );
                 $DIC->ctrl()->forwardCommand($gui);
+                $this->setTitleAndIcon();
                 break;
             case strtolower(ilMStShowUserCompetencesGUI::class):
                 $this->addTabs(self::TAB_SHOW_COMPETENCES);
@@ -169,7 +177,7 @@ class ilMStShowUserGUI
             ilMStListUsersGUI::class,
         )));
 
-        if ($this->access->hasCurrentUserAccessToMyStaff()) {
+        if ($this->access->hasCurrentUserAccessToUser()) {
             $DIC->tabs()->addTab(self::TAB_SHOW_COURSES, $DIC->language()->txt('mst_list_courses'), $DIC->ctrl()->getLinkTargetByClass(array(
                 ilMyStaffGUI::class,
                 self::class,

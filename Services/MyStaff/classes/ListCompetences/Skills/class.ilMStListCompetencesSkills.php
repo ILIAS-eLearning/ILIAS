@@ -38,8 +38,7 @@ class ilMStListCompetencesSkills
         //Permission Filter
         $operation_access = ilOrgUnitOperation::OP_VIEW_COMPETENCES;
 
-        $select = $options['count'] === true ?
-            'SELECT count(*)' : 'SELECT sktree.title as skill_title, skill_node_id, ulvl.trigger_obj_id, user_id, login, firstname, lastname, lvl.title as skill_level';
+        $select = 'SELECT sktree.title as skill_title, skill_node_id, ulvl.trigger_obj_id, user_id, login, firstname, lastname, lvl.title as skill_level';
 
         $query = $select .
             ' FROM skl_personal_skill sk ' .

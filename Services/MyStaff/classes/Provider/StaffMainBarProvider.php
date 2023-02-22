@@ -64,7 +64,7 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
             )
             ->withVisibilityCallable(
                 static function () {
-                    return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
+                    return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToUser();
                 }
             )->withNonAvailableReason($dic->ui()->factory()->legacy("{$dic->language()->txt('component_not_active')}"));
 
@@ -89,7 +89,7 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
             )
             ->withVisibilityCallable(
                 function () {
-                    return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
+                    return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToUser();
                 }
             )->withNonAvailableReason($dic->ui()->factory()->legacy("{$dic->language()->txt('component_not_active')}"));
 

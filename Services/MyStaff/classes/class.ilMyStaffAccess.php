@@ -162,6 +162,10 @@ class ilMyStaffAccess extends ilObjectAccess
         global $DIC;
 
         $arr_users = $this->getUsersForUser($DIC->user()->getId());
+        if (count($arr_users) > 0 && $usr_id === 0) {
+            return true;
+        }
+
         if (count($arr_users) > 0 && in_array($usr_id, $arr_users)) {
             return true;
         }
@@ -843,7 +847,7 @@ class ilMyStaffAccess extends ilObjectAccess
 		AS (
 					SELECT crs_members_crs_ref.ref_id, crs_members.usr_id, orgu_ua.position_id, orgu_ua.orgu_id
 						FROM (
-							SELECT obj_id, usr_id FROM obj_members WHERE member = 1
+							SELECT obj_id, usr_id FROM obj_members WHERE admin > 0 OR tutor > 0 OR member > 0
 							AND " . $DIC->database()->in('obj_members.usr_id', $only_courses_of_user_ids, false, 'integer') . " 
 						UNION
 							SELECT obj_id, usr_id FROM crs_waiting_list

@@ -113,6 +113,7 @@ class ilMStListCertificatesGUI
 
         $this->table = new ilMStListCertificatesTableGUI($this, self::CMD_INDEX);
         $DIC->ui()->mainTemplate()->setTitle($DIC->language()->txt('mst_list_certificates'));
+        $DIC->ui()->mainTemplate()->setTitleIcon(ilUtil::getImagePath('icon_cert.svg'));
         $DIC->ui()->mainTemplate()->setContent($this->table->getHTML());
     }
 
