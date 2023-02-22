@@ -179,22 +179,26 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
 
 // basic table design
 
+.c-table-data__cell {
+    background-color: $il-main-bg;
+    padding: $il-padding-large-vertical $il-padding-large-horizontal;
+}
+
 .c-table-data__row {
     border-bottom: 1px solid $il-main-border-dark-color;
 }
 
-.c-table-data__cell {
-    padding: $il-padding-large-vertical $il-padding-large-horizontal;
+.c-table-data__row:hover td.c-table-data__cell {
+    background-color: $il-main-darker-bg;
 }
 
 // table header
 
 th.c-table-data__cell {
-    background-color: $il-main-bg;
     position: -webkit-sticky;
     position: sticky;
     top: 0;
-    z-index: 2;
+    z-index: 3;
 }
 
 .c-table-data__header__resize-wrapper {
@@ -208,23 +212,65 @@ th.c-table-data__cell {
     display: inline-block;
 }
 
+// row selection & multiaction
+
+.c-table-data__rowselection {
+    min-width: 50px; // to align checkboxes with multiaction
+    text-align: center;
+}
+
+.c-table-data__multiaction-triggerer {
+    width: fit-content;
+}
+
+.c-table-data__rowselection,
+.c-table-data__multiaction-triggerer {
+    position: -webkit-sticky;
+    position: sticky;
+    left: 0;
+    z-index: 2;
+}
+
+.c-table-data__multiaction-triggerer {
+    padding-top: $il-margin-large-vertical;
+    padding-left: $il-margin-large-horizontal;
+}
+
 // special column types
 
 .c-table-data__cell--text {
-    min-width: 140px;
-}
-
-// allow resizing for specific types only
-
-.c-table-data__cell--text, td.c-table-data__cell--email {
     .c-table-data__header__resize-wrapper {
+        min-width: 140px;
         resize: horizontal;
     }
+}
+
+.c-table-data__cell--email {
+    .c-table-data__header__resize-wrapper {
+        min-width: 200px;
+        resize: horizontal;
+    }
+}
+
+.c-table-data__cell--date,
+.c-table-data__cell--number {
+    .c-table-data__header__resize-wrapper {
+        min-width: 110px;
+        resize: horizontal;
+    }
+}
+
+.c-table-data__cell--statusicon,
+.c-table-data__cell--boolean {
+    min-width: 40px
+    // no resize
 }
 
 td.c-table-data__cell--email {
     text-align: right;
 }
 
-th.c-table-data__header.c-table-data__cell {}
+// multiaction
+
+
 
