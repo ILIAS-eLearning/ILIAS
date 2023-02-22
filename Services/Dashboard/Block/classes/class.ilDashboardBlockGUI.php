@@ -588,7 +588,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         return $cgui->getHTML();
     }
 
-    public function confirmedRemove(): void
+    public function confirmedRemoveObject(): void
     {
         $refIds = (array) ($this->http->request()->getParsedBody()['ref_id'] ?? []);
         if (0 === count($refIds)) {
@@ -603,7 +603,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $this->ctrl->redirect($this, 'manage');
     }
 
-    public function confirmedUnsubscribe(): void
+    public function confirmedUnsubscribeObject(): void
     {
         $refIds = (array) ($this->http->request()->getParsedBody()['ref_id'] ?? []);
         if (0 === count($refIds)) {
@@ -612,7 +612,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 
         foreach ($refIds as $ref_id) {
             if ($this->access->checkAccess('leave', '', (int) $ref_id)) {
-                switch (ilObject::_lookupType($ref_id, true)) {
+                switch (ilObject::_lookupType((int) $ref_id, true)) {
                     case 'crs':
                         $members = new ilCourseParticipants(ilObject::_lookupObjId((int) $ref_id));
                         $members->delete($this->user->getId());
@@ -642,7 +642,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
                         continue 2;
                 }
 
-                ilForumNotification::checkForumsExistsDelete($ref_id, $this->user->getId());
+                ilForumNotification::checkForumsExistsDelete((int) $ref_id, $this->user->getId());
             }
         }
 
@@ -674,6 +674,9 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         }
 
         if ($manage) {
+            if (count($commandGroups) === 0) {
+                $commandGroups[] = [];
+            }
             return $commandGroups;
         }
 

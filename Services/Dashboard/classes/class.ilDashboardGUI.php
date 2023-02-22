@@ -223,7 +223,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $ret = $this->ctrl->forwardCommand($gui);
                 if ($ret !== "" && $ret !== null) {
                     $this->tpl->setContent($ret);
-                    $this->tpl->printToStdout();
                 }
                 $this->tpl->printToStdout();
                 break;
