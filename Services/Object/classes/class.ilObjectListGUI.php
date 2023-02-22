@@ -3474,4 +3474,9 @@ class ilObjectListGUI
             );
         }
     }
+
+    public function getCurrentSelectionList(): ?ilAdvancedSelectionListGUI
+    {
+        return $this->current_selection_list ?? null;
+    }
 }

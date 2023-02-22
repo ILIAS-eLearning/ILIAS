@@ -221,10 +221,17 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
             case strtolower(ilStudyProgrammeBlockGUI::class):
                 $gui = new $next_class();
                 $ret = $this->ctrl->forwardCommand($gui);
-                if ($ret !== "") {
+                if ($ret !== "" && $ret !== null) {
                     $this->tpl->setContent($ret);
                     $this->tpl->printToStdout();
                 }
+                $this->tpl->printToStdout();
+                break;
+            case strtolower(ilObjStudyProgrammeGUI::class):
+                include_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeGUI.php");
+                $gui = new $next_class();
+                $ret = $this->ctrl->forwardCommand($gui);
+                $this->tpl->printToStdout();
                 break;
             default:
                 $context->current()->addAdditionalData(self::DISENGAGE_MAINBAR, true);

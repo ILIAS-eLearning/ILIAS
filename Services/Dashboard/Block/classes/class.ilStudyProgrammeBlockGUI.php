@@ -117,11 +117,9 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
         return $this->visible_on_pd_mode;
     }
 
-    public function getItemForData(array $data): ?\ILIAS\UI\Component\Item\Item
+    protected function getListItemForData(array $data): ?\ILIAS\UI\Component\Item\Item
     {
         $item_gui = $this->byType($data['type']);
-        ilObjectActivation::addListGUIActivationProperty($item_gui, $data);
-
         $item_gui->initItem(
             $data['ref_id'],
             $data['obj_id'],
@@ -129,11 +127,19 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
             $data['title'],
             $data['description'],
         );
-        $commands = $item_gui->getCommands();
+        $item_gui->enableCommands(true, false);
+        $item_gui->insertCommands();
+        $current_item_selection_list = $item_gui->getCurrentSelectionList();
+        if ($current_item_selection_list instanceof ilAdvancedSelectionListGUI) {
+            $commands = $current_item_selection_list->getItems();
+        } else {
+            $commands = [];
+        }
+
         $commands = array_map(
             function ($command) {
                 return $this->factory->button()->shy(
-                    $this->lng->txt($command['lang_var']),
+                    $command['title'],
                     $command['link']
                 );
             },
@@ -159,7 +165,6 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
                                 $this->factory->dropdown()->standard($commands)
                             );
     }
-
 
     protected function getDefaultTargetUrl(int $prg_ref_id): string
     {
