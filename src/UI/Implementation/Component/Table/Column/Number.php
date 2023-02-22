@@ -24,6 +24,8 @@ use ILIAS\UI\Component\Table\Column as C;
 class Number extends Column implements C\Number
 {
     protected int $decimals = 0;
+    protected string $unit = '';
+    protected mixed $unit_pos = self::UNIT_POSITION_AFT;
 
     public function withDecimals(int $number_of_decimals): self
     {
@@ -31,8 +33,41 @@ class Number extends Column implements C\Number
         $clone->decimals = $number_of_decimals;
         return $clone;
     }
+
     public function getDecimals(): int
     {
         return $this->decimals;
+    }
+
+    public function withUnit(string $unit, $unit_position = self::UNIT_POSITION_AFT): self
+    {
+        if (! in_array($unit_position, [
+            self::UNIT_POSITION_FORE,
+            self::UNIT_POSITION_AFT
+        ])) {
+            throw new \InvalidArgumentException('Use $unit_position = \'UNIT_POSITION_FORE\'/, \'UNIT_POSITION_AFT\'');
+        }
+
+        $clone = clone $this;
+        $clone->unit = $unit;
+        $clone->unit_position = $unit_position;
+        return $clone;
+    }
+
+    public function format($value): string
+    {
+        $value = (string)number_format($value, $this->decimals);
+
+        if ($this->unit === '') {
+            return $value;
+        }
+
+        if ($this->unit_position === self::UNIT_POSITION_FORE) {
+            $value = $this->unit . ' ' . $value;
+        }
+        if ($this->unit_position === self::UNIT_POSITION_AFT) {
+            $value = $value . ' ' . $this->unit;
+        }
+        return $value;
     }
 }

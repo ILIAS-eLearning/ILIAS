@@ -42,6 +42,9 @@ function base()
         'achieve' => $f->table()->column()->statusIcon(""),
         'achieve_txt' => $f->table()->column()->status("progress"),
         'repeat' => $f->table()->column()->boolean("repeat", 'yes', 'no'),
+        'fee' => $f->table()->column()->number("Fee")
+            ->withDecimals(2)
+            ->withUnit('£', I\Column\Number::UNIT_POSITION_FORE)
     ];
 
     //setup the table
@@ -56,21 +59,24 @@ function base()
             'login' => 'superuser',
             'email' => 'user@example.com',
             'last' => new \DateTimeImmutable(),
-            'achieve' => 20
+            'achieve' => 20,
+            'fee' => 0
         ],
         [
             'usr_id' => 867,
             'login' => 'student1',
             'email' => 'stdudent1@example.com',
             'last' => new \DateTimeImmutable(),
-            'achieve' => 90
+            'achieve' => 90,
+            'fee' => 40
         ],
         [
             'usr_id' => 8923,
             'login' => 'student2',
             'email' => 'stdudent2@example.com',
             'last' => new \DateTimeImmutable(),
-            'achieve' => 66
+            'achieve' => 66,
+            'fee' => 36.789
         ],
 
     ];

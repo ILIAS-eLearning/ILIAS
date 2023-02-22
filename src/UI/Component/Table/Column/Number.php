@@ -21,6 +21,9 @@ namespace ILIAS\UI\Component\Table\Column;
 
 interface Number extends Column
 {
-    public function withDecimals(int $number_of_decimals): Number;
-    public function getDecimals(): int;
+    public const UNIT_POSITION_FORE = 'FORE';
+    public const UNIT_POSITION_AFT = 'AFT';
+
+    public function withDecimals(int $number_of_decimals): self;
+    public function withUnit(string $unit, $unit_position = self::UNIT_POSITION_AFT): self;
 }
