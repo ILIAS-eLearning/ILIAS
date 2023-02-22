@@ -38,11 +38,12 @@ class ilMyStaffAccess extends ilObjectAccess
     public const TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS = 'tmp_orgu_members';
     public const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX = 'tmp_obj_user_matr';
     public const ACCESS_ENROLMENTS_ORG_UNIT_OPERATION = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS;
-    public const COURSE_CONTEXT = 'crs';
-    public const EXERCISE_CONTEXT = 'exc';
-    public const GROUP_CONTEXT = 'grp';
-    public const SURVEY_CONTEXT = 'svy';
-    public const TEST_CONTEXT = 'tst';
+    public const COURSE_CONTEXT = ilOrgUnitOperationContext::CONTEXT_CRS;
+    public const EXERCISE_CONTEXT = ilOrgUnitOperationContext::CONTEXT_EXC;
+    public const GROUP_CONTEXT = ilOrgUnitOperationContext::CONTEXT_GRP;
+    public const SURVEY_CONTEXT = ilOrgUnitOperationContext::CONTEXT_SVY;
+    public const TEST_CONTEXT = ilOrgUnitOperationContext::CONTEXT_TST;
+    public const EMPLOYEE_TALK_CONTEXT = ilOrgUnitOperationContext::CONTEXT_ETAL;
 
     protected static ?self $instance = null;
     protected static array $orgu_users_of_current_user_show_staff_permission;
@@ -111,6 +112,10 @@ class ilMyStaffAccess extends ilObjectAccess
             return true;
         }
 
+        if ($this->hasCurrentUserAccessToTalks()) {
+            return true;
+        }
+
         return false;
     }
 
@@ -166,7 +171,7 @@ class ilMyStaffAccess extends ilObjectAccess
         if ($this->countOrgusOfUserWithOperationAndContext(
             $DIC->user()->getId(),
             ilOrgUnitOperation::OP_CREATE_EMPLOYEE_TALK,
-            ilOrgUnitOperationContext::CONTEXT_ETAL
+            self::EMPLOYEE_TALK_CONTEXT
         )
             > 0
         ) {
@@ -176,7 +181,7 @@ class ilMyStaffAccess extends ilObjectAccess
         if ($this->countOrgusOfUserWithOperationAndContext(
             $DIC->user()->getId(),
             ilOrgUnitOperation::OP_EDIT_EMPLOYEE_TALK,
-            ilOrgUnitOperationContext::CONTEXT_ETAL
+            self::EMPLOYEE_TALK_CONTEXT
         )
             > 0
         ) {
@@ -186,7 +191,7 @@ class ilMyStaffAccess extends ilObjectAccess
         if ($this->countOrgusOfUserWithOperationAndContext(
             $DIC->user()->getId(),
             ilOrgUnitOperation::OP_READ_EMPLOYEE_TALK,
-            ilOrgUnitOperationContext::CONTEXT_ETAL
+            self::EMPLOYEE_TALK_CONTEXT
         )
             > 0
         ) {
