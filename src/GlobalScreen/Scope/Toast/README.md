@@ -27,7 +27,7 @@ class ExampleToastProvider extends AbstractToastProvider
     {
         $factory = $this->globalScreen()->toasts()->factory();
         
-        $toast = $factory->standard(
+        $toast = $this->getDefaultToast(
             'Toast Example', 
             $this->dic->ui()->factory()->symbol()->icon()->standard('exmpl', 'Example')
         )->withDescription('This is a toast example from scope inside the Global Screen');

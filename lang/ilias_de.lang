@@ -12181,17 +12181,21 @@ noti#:#noti_activate_notification#:#Benachrichtigung aktivieren
 noti#:#noti_deactivate_notification#:#Benachrichtigung deaktivieren
 noti#:#noti_notification_activated#:#Benachrichtigungen sind aktiviert
 noti#:#noti_notification_deactivated#:#Benachrichtigungen sind deaktiviert
-notification_adm#:#enable_osd#:#Popup-Screen Benachrichtigungen aktivieren
-notification_adm#:#enable_osd_desc#:#Wenn aktiviert, werden Benutzer durch ein Popup über neue Benachrichtigungen informiert.
-notification_adm#:#notification_settings#:#Benachrichtigungseinstellungen
-notification_adm#:#osd_delay#:#Anzeigeverzögerung
-notification_adm#:#osd_delay_desc#:#Verzögerung der Anzeige der Benachrichtigungen in Millisekunden
-notification_adm#:#osd_interval#:#Abfrageintervall
-notification_adm#:#osd_interval_desc#:#Abfrageintervall für Nachrichten in Sekunden.Eine geringere Zeit ermöglicht zeitnähere Benachrichtigungen, erhöht aber die Serverlast.
-notification_adm#:#osd_vanish#:#Anzeigedauer
-notification_adm#:#osd_vanish_desc#:#Dauer der Anzeige von Benachrichtigungen in Sekunden
-notification_adm#:#play_sound#:#Ton abspielen
-notification_adm#:#play_sound_desc#:#Ton abspielen bei Erhalt einer neuen Benachrichtigung.
+notifications_adm#:#enable_osd#:#Popup Benachrichtigungen aktivieren
+notifications_adm#:#enable_osd_desc#:#Wenn aktiviert, werden Benutzer durch ein Popup über neue Benachrichtigungen informiert.
+notifications_adm#:#notification_settings#:#Benachrichtigungseinstellungen
+notifications_adm#:#osd_delay#:#Anzeigeverzögerung
+notifications_adm#:#osd_delay_desc#:#Verzögerung der Anzeige der Benachrichtigungen in Millisekunden
+notifications_adm#:#osd_error_presentation_time_too_small#:#Die Anzeigedauer muss mindestens 1000 Millisekunden betragen.
+notifications_adm#:#osd_error_refresh_interval_smaller_than_delay_and_vanish_combined#:#Das Abfrageintervall muss größer sein als die Summe der Anzeigedauer und der Anzeigeverzögerung.
+notifications_adm#:#osd_error_refresh_interval_too_small#:#Das Abfrageintervall muss mindestens 3000 Millisekunden betragen.
+notifications_adm#:#osd_interval#:#Abfrageintervall
+notifications_adm#:#osd_interval_desc#:#Abfrageintervall für Nachrichten in Millisekunden.Eine geringere Zeit ermöglicht zeitnähere Benachrichtigungen, erhöht aber die Serverlast.
+notifications_adm#:#osd_play_sound#:#Ton abspielen
+notifications_adm#:#osd_play_sound_desc#:#Ton abspielen bei Erhalt einer neuen Benachrichtigung.
+notifications_adm#:#osd_settings#:#Popup Benachrichtigungen
+notifications_adm#:#osd_vanish#:#Anzeigedauer
+notifications_adm#:#osd_vanish_desc#:#Dauer der Anzeige von Benachrichtigungen in Millisekunden
 obj#:#cont_filter_empty#:#Bitte nutzen Sie den Filter zur Anzeige von Objekten.
 obj#:#cont_skll_published#:#Alle Kompetenzzuweisungen wurden veröffentlicht.
 obj#:#cont_skll_published_some_not#:#Alle gegebenen Kompetenzzuweisungen wurden veröffentlicht. Zu einigen Benutzern konnten keine Kompetenzen veröffentlicht werden, da keine Zuweisungen vorlagen.

@@ -4921,7 +4921,7 @@ common#:#obj_mobs#:#Media Objects and Pools
 common#:#obj_mobs_desc#:#Settings for media objects and media pools.
 common#:#obj_not_found#:#Object Not Found
 common#:#obj_nota#:#Notifications
-common#:#obj_nota_desc#:#Notification Administration
+common#:#obj_nota_desc#:#Notifications Administration
 common#:#obj_nots#:#Notes
 common#:#obj_nots_desc#:#Notes settings
 common#:#obj_nwss#:#News and Web Feeds
@@ -12182,17 +12182,21 @@ noti#:#noti_activate_notification#:#Activate Notification
 noti#:#noti_deactivate_notification#:#Deactivate Notification
 noti#:#noti_notification_activated#:#Notification Activated
 noti#:#noti_notification_deactivated#:#Notification Deactivated
-notification_adm#:#enable_osd#:#Enable On-Screen Notifications
-notification_adm#:#enable_osd_desc#:#If enabled, users are notified by a popup about new notifications.
-notification_adm#:#notification_settings#:#Notifciation Settings
-notification_adm#:#osd_delay#:#Presentation Delay
-notification_adm#:#osd_delay_desc#:#Delay of the visible presentation in milliseconds.
-notification_adm#:#osd_interval#:#Refreshinterval
-notification_adm#:#osd_interval_desc#:#Polling interval for checking of new notifications in seconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle.
-notification_adm#:#osd_vanish#:#Presentation Time
-notification_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in seconds.
-notification_adm#:#play_sound#:#Play a Sound
-notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiation.
+notifications_adm#:#enable_osd#:#Enable On-Screen Notifications
+notifications_adm#:#enable_osd_desc#:#If enabled, users are notified by a popup about new notifications.
+notifications_adm#:#notification_settings#:#Notification Settings
+notifications_adm#:#osd_delay#:#Presentation Delay
+notifications_adm#:#osd_delay_desc#:#Delay of the visible presentation in milliseconds.
+notifications_adm#:#osd_error_presentation_time_too_small#:#The Presentation Time has to be at least than 1000 miliseconds.
+notifications_adm#:#osd_error_refresh_interval_smaller_than_delay_and_vanish_combined#:#The Refresh Interval has to be greater than the Presentation Time and the Presentation Delay combined.
+notifications_adm#:#osd_error_refresh_interval_too_small#:#The Refresh Interval has to be at least than 3000 miliseconds.
+notifications_adm#:#osd_interval#:#Refreshinterval
+notifications_adm#:#osd_interval_desc#:#Polling interval for checking of new notifications in miliseconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle.
+notifications_adm#:#osd_play_sound#:#Play a Sound
+notifications_adm#:#osd_play_sound_desc#:#Play a sound when receiving a new notficiation.
+notifications_adm#:#osd_settings#:#On-Screen Notifications
+notifications_adm#:#osd_vanish#:#Presentation Time
+notifications_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in miliseconds.
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
 obj#:#cont_skll_published#:#All assignments have been published.
 obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some users lacked competence assignments, thus no assignments could be published for them.

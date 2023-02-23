@@ -46,7 +46,7 @@ class ChatInvitationToastProvider extends AbstractToastProvider
             time() - $this->dic->user()->getPref(self::MUTED_UNTIL_PREFERENCE_KEY),
             self::NOTIFICATION_TYPE
         ) as $invitation) {
-            $toast = $this->toast_factory->standard(
+            $toast = $this->getDefaultToast(
                 $invitation->getObject()->title,
                 $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::CHTA, 'chat_invitations')
             )->withDescription($invitation->getObject()->shortDescription);
