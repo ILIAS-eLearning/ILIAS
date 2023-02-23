@@ -148,4 +148,17 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
     {
         $this->db->addIndex('notification_osd', ['usr_id', 'type', 'time_added'], 'i1');
     }
+
+    public function step_9(): void
+    {
+        $settings = new ilSetting('notifications');
+        $settings->set('osd_interval', (string) ($settings->get('osd_interval', '5') * 1000));
+        $settings->set('osd_vanish', (string) ($settings->get('osd_vanish', '3') * 1000));
+        $this->db->manipulateF(
+            'UPDATE usr_pref SET keyword = %s WHERE keyword = %s',
+            ['text', 'text'],
+            ['osd_play_sound', 'play_sound']
+        );
+
+    }
 }
