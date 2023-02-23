@@ -21,9 +21,8 @@ declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Setup\Environment;
-use ILIAS\DI;
 
-class ilOrgUnitNewOperationRegisteredObjective implements Setup\Objective
+class ilOrgUnitOperationRegisteredObjective implements Setup\Objective
 {
     protected string $operation_name;
     protected string $description;
@@ -66,20 +65,24 @@ class ilOrgUnitNewOperationRegisteredObjective implements Setup\Objective
     {
         $db = $environment->getResource(Environment::RESOURCE_DATABASE);
 
-        // abort if context does not exist
-        $result = $db->query('SELECT id FROM il_orgu_op_contexts
-            WHERE context = ' . $db->quote($this->context, 'text'));
-        if (!($row = $result->fetchObject())) {
-            return $environment;
+        // abort if context does not exist, just to be safe
+        if (!($context_id = $this->getContextId($db, $this->context))) {
+            throw new Exception(
+                'Context ' . $this->context . ' does not exists,
+                 this objective should not be applied!'
+            );
         }
-        $context_id = (int) $row->id;
 
-        // abort if operation already exists in this context
-        $result = $db->query('SELECT * FROM il_orgu_operations
-            WHERE context_id = ' . $db->quote($context_id, 'integer') .
-            ' AND operation_string = ' . $db->quote($this->operation_name, 'text'));
-        if ($result->numRows()) {
-            return $environment;
+        // abort if operation already exists in this context, just to be safe
+        if ($this->doesOperationExistInContext(
+            $db,
+            $context_id,
+            $this->operation_name
+        )) {
+            throw new Exception(
+                'Operation ' . $this->operation_name . ' already exists
+                 in context ' . $this->context . ', this objective should not be applied!'
+            );
         }
 
         $id = $db->nextId('il_orgu_operations');
@@ -98,22 +101,51 @@ class ilOrgUnitNewOperationRegisteredObjective implements Setup\Objective
     {
         $db = $environment->getResource(Environment::RESOURCE_DATABASE);
 
-        // not applicable if context does not exist
-        $result = $db->query('SELECT id FROM il_orgu_op_contexts
-            WHERE context = ' . $db->quote($this->context, 'text'));
-        if (!($row = $result->fetchObject())) {
-            return false;
+        // something is wrong if context does not exist
+        if (!($context_id = $this->getContextId($db, $this->context))) {
+            throw new Setup\UnachievableException(
+                'Cannot find context ' . $this->context
+            );
         }
-        $context_id = (int) $row->id;
 
         // not applicable if operation already exists in this context
-        $result = $db->query('SELECT * FROM il_orgu_operations
-            WHERE context_id = ' . $db->quote($context_id, 'integer') .
-            ' AND operation_string = ' . $db->quote($this->operation_name, 'text'));
-        if ($result->numRows()) {
+        if ($this->doesOperationExistInContext(
+            $db,
+            $context_id,
+            $this->operation_name
+        )) {
             return false;
         }
 
         return true;
+    }
+
+    protected function doesOperationExistInContext(
+        ilDBInterface $db,
+        int $context_id,
+        string $operation
+    ): bool {
+        $result = $db->query('SELECT * FROM il_orgu_operations
+            WHERE context_id = ' . $db->quote($context_id, 'integer') .
+            ' AND operation_string = ' . $db->quote($operation, 'text'));
+        if ($result->numRows()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Defaults to 0 if context is not found
+     */
+    protected function getContextId(
+        ilDBInterface $db,
+        string $context
+    ): int {
+        $result = $db->query('SELECT id FROM il_orgu_op_contexts
+            WHERE context = ' . $db->quote($context, 'text'));
+        if (!($row = $result->fetchObject())) {
+            return 0;
+        }
+        return (int) $row->id;
     }
 }

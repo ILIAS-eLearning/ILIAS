@@ -87,24 +87,24 @@ final class ilEmployeeTalkSetupAgent implements Setup\Agent
     {
         $objectives = [];
 
-        $objectives[] = new \ilOrgUnitNewOperationContextRegisteredObjective(
+        $objectives[] = new \ilOrgUnitOperationContextRegisteredObjective(
             ilOrgUnitOperationContext::CONTEXT_ETAL,
             ilOrgUnitOperationContext::CONTEXT_OBJECT
         );
 
-        $objectives[] = new \ilOrgUnitNewOperationRegisteredObjective(
+        $objectives[] = new \ilOrgUnitOperationRegisteredObjective(
             ilOrgUnitOperation::OP_READ_EMPLOYEE_TALK,
             'Read Employee Talk',
             ilOrgUnitOperationContext::CONTEXT_ETAL
         );
 
-        $objectives[] = new \ilOrgUnitNewOperationRegisteredObjective(
+        $objectives[] = new \ilOrgUnitOperationRegisteredObjective(
             ilOrgUnitOperation::OP_CREATE_EMPLOYEE_TALK,
             'Create Employee Talk',
             ilOrgUnitOperationContext::CONTEXT_ETAL
         );
 
-        $objectives[] = new \ilOrgUnitNewOperationRegisteredObjective(
+        $objectives[] = new \ilOrgUnitOperationRegisteredObjective(
             ilOrgUnitOperation::OP_EDIT_EMPLOYEE_TALK,
             'Edit Employee Talk (not only own)',
             ilOrgUnitOperationContext::CONTEXT_ETAL

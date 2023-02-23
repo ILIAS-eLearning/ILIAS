@@ -29,6 +29,12 @@ class ilModulesOrgUnitSuite extends TestSuite
         /** @noRector */
         require_once("./Modules/OrgUnit/test/ilModulesOrgUnitTest.php");
         $suite->addTestSuite("ilModulesOrgUnitTest");
+        /** @noRector */
+        require_once("./Modules/OrgUnit/test/ilOrgUnitOperationContextRegisteredObjectiveTest.php");
+        $suite->addTestSuite("ilOrgUnitOperationContextRegisteredObjectiveTest");
+        /** @noRector */
+        require_once("./Modules/OrgUnit/test/ilOrgUnitOperationContextRegisteredObjectiveTest.php");
+        $suite->addTestSuite("ilOrgUnitOperationContextRegisteredObjectiveTest");
 
         return $suite;
     }
