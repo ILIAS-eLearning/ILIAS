@@ -3816,15 +3816,6 @@ select[multiple].input-lg,
 .form-horizontal .checkbox {
   min-height: 24px;
 }
-.form-horizontal .form-group {
-  --bs-gutter-x: 30px;
-  --bs-gutter-y: 0;
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: calc(-1 * var(--bs-gutter-y));
-  margin-right: calc(-0.5 * var(--bs-gutter-x));
-  margin-left: calc(-0.5 * var(--bs-gutter-x));
-}
 @media (min-width: 768px) {
   .form-horizontal .control-label {
     text-align: right;
@@ -8432,6 +8423,18 @@ table.mceToolbar tbody, table.mceToolbar tr, table.mceToolbar td {
     --bs-gutter-y: 18px;
   }
 }
+.container,
+.container-fluid {
+  --bs-gutter-x: 30px;
+  --bs-gutter-y: 0;
+  width: 100%;
+  padding-right: calc(var(--bs-gutter-x) * 0.5);
+  padding-left: calc(var(--bs-gutter-x) * 0.5);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* Responsive container system from Bootstrap 5 has been removed */
 html, body {
   height: 100%;
   overflow: hidden;
@@ -13627,7 +13630,7 @@ div.ilHeaderDesc {
 }
 
 div.il_HeaderInner {
-  padding: 15px;
+  padding: 12px 0;
   margin-bottom: 5px;
   overflow: visible;
 }
@@ -13867,10 +13870,6 @@ div.ilCommandRow {
 
 div.ilCommandRow.one_side_col {
   padding-right: 22%;
-}
-
-div.ilAdminRow {
-  margin: 10px 15px 20px 15px;
 }
 
 table.std {
@@ -20773,7 +20772,7 @@ a.ilMediaLightboxClose:hover {
 
 #ilTab {
   padding: 0;
-  margin: 3px 15px 3px;
+  margin: 3px 0;
   border: 0 none;
   border-bottom: 2px solid #2c2c2c;
 }
@@ -20782,14 +20781,10 @@ a.ilMediaLightboxClose:hover {
   z-index: 3;
 }
 
-.ilTabsContentOuter {
-  padding: 0 12px;
-}
-
 /* Sub Tabs */
 #ilSubTab {
   padding: 6px 0;
-  margin: 0 15px;
+  margin: 0;
 }
 #ilSubTab > li:first-child > a {
   margin-left: 3px;
