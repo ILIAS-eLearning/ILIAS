@@ -36,7 +36,10 @@ var data = function(params, $) {
             target = params.amendParameterToSignal(action.target, action.param, row_ids);
             $('#' + table_id).trigger(
                 target.id,
-                target.options
+                {
+                    'id': target.id,
+                    'options': target.options
+                }
             );
         }
     },
@@ -45,19 +48,28 @@ var data = function(params, $) {
         var table = document.getElementById(table_id),
             cols = table.getElementsByClassName('c-table-data__row-selector'),
             i, col, ret = [];
-            for(i = 0; i < cols.length; i = i + 1) {
-                col = cols[i];
-                if(col.checked) {
-                    ret.push(col.value);
-                }
+        for(i = 0; i < cols.length; i = i + 1) {
+            col = cols[i];
+            if(col.checked) {
+                ret.push(col.value);
             }
-            return ret;
+        }
+        return ret;
     },
+    selectAll = function(table_id, state) {
+        var table = document.getElementById(table_id),
+            cols = table.getElementsByClassName('c-table-data__row-selector');
+        for(i = 0; i < cols.length; i = i + 1) {
+            col = cols[i];
+            col.checked = state;
+        }
+    }
 
     public_interface = {
         registerAction: registerAction,
         doAction: doAction,
-        collectSelectedRowIds: collectSelectedRowIds
+        collectSelectedRowIds: collectSelectedRowIds,
+        selectAll: selectAll
     };
     return public_interface;
 }

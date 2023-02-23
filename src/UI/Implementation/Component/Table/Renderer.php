@@ -195,7 +195,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount());
         $tpl->setVariable('VIEW_CONTROLS', $default_renderer->render($component->getViewControls()));
 
-        $this->renderTableHeader($default_renderer, $component->hasActions(), $tpl, $columns, $order);
+        $this->renderTableHeader($default_renderer, $component, $tpl, $order);
         $this->appendTableRows($tpl, $rows, $default_renderer);
 
         $multi_actions_dropdown = $this->getMultiActionsDropdown(
@@ -211,9 +211,17 @@ class Renderer extends AbstractComponentRenderer
 
     protected function registerActionsJS(Component\Table\Data $component): Component\Table\Data
     {
-        $component = $component->withAdditionalOnLoadCode(
-            $this->getMultiActionHandler($component->getActionSignal())
-        );
+        $component = $component
+            ->withAdditionalOnLoadCode(
+                $this->getMultiActionHandler($component->getActionSignal())
+            )
+            ->withAdditionalOnLoadCode(
+                $this->getSelectionHandler(
+                    $component->getSelectionSignalSelect(),
+                    $component->getSelectionSignalDeSelect()
+                )
+            )
+        ;
         $actions = $component->getActions();
         foreach ($actions as $action_id => $action) {
             $component = $component->withAdditionalOnLoadCode(
@@ -228,23 +236,24 @@ class Renderer extends AbstractComponentRenderer
      */
     protected function renderTableHeader(
         RendererInterface $default_renderer,
-        bool $render_action_column,
+        Component\Table\Data $component,
         Template $tpl,
-        array $columns,
         \ILIAS\Data\Order $order
     ) {
+        $glyph_factory = $this->getUIFactory()->symbol()->glyph();
         $sort_col = key($order->get());
         $sort_direction = current($order->get());
+        $columns = $component->getFilteredColumns();
 
         foreach ($columns as $col_id => $col) {
             if ($col_id === $sort_col) {
                 if ($sort_direction === $order::ASC) {
                     $sortation = 'ascending';
-                    $sortation_glyph = $this->getUIFactory()->symbol()->glyph()->sortAscending("#");
+                    $sortation_glyph = $glyph_factory->sortAscending("#");
                 }
                 if ($sort_direction === $order::DESC) {
                     $sortation = 'decending';
-                    $sortation_glyph = $this->getUIFactory()->symbol()->glyph()->sortDescending("#");
+                    $sortation_glyph = $glyph_factory->sortDescending("#");
                 }
                 $sortation_glyph = $default_renderer->render($sortation_glyph->withUnavailableAction());
                 $tpl->setVariable('COL_SORTATION', $sortation);
@@ -258,8 +267,11 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        if ($render_action_column) {
-            $tpl->touchBlock('header_rowselection_cell');
+        if ($component->hasActions()) {
+            $select_all = $glyph_factory->add('')->withOnClick($component->getSelectionSignalSelect());
+            $select_none = $glyph_factory->close('')->withOnClick($component->getSelectionSignalDeSelect());
+            $tpl->setVariable('SELECTION_CONTROL_SELECT', $default_renderer->render($select_all));
+            $tpl->setVariable('SELECTION_CONTROL_DESELECT', $default_renderer->render($select_none));
             $tpl->touchBlock('header_action_cell');
         }
     }
@@ -298,6 +310,9 @@ class Renderer extends AbstractComponentRenderer
             $signal->addOption('action', $action_id);
             $buttons[] = $f->button()->shy($act->getLabel(), $signal);
         }
+        $buttons[] =  $f->divider()->horizontal();
+        $buttons[] =  $f->button()->shy('all objects', '#'); //TODO: all objects
+
         $dropdown = $f->dropdown()->standard($buttons);
         return $dropdown;
     }
@@ -312,6 +327,24 @@ class Renderer extends AbstractComponentRenderer
                 });";
         };
     }
+     protected function getSelectionHandler(
+         Component\Signal $selection_signal_select,
+         Component\Signal $selection_signal_deselect
+     ): \Closure {
+         return function ($id) use ($selection_signal_select, $selection_signal_deselect) {
+             return "
+                $(document).on('{$selection_signal_select}', function(event, signal_data) {
+                    il.UI.table.data.selectAll('{$id}', true);
+                    return false;
+                });
+                $(document).on('{$selection_signal_deselect}', function(event, signal_data) {
+                    il.UI.table.data.selectAll('{$id}', false);
+                    return false;
+                });
+            ";
+         };
+     }
+
 
     protected function getActionRegistration(
         string $action_id,

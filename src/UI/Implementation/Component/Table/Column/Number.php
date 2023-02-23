@@ -27,6 +27,9 @@ class Number extends Column implements C\Number
     protected string $unit = '';
     protected mixed $unit_pos = self::UNIT_POSITION_AFT;
 
+    protected $delim_decimal = ',';
+    protected $delim_thousands = '';
+
     public function withDecimals(int $number_of_decimals): self
     {
         $clone = clone $this;
@@ -56,7 +59,12 @@ class Number extends Column implements C\Number
 
     public function format($value): string
     {
-        $value = (string)number_format($value, $this->decimals);
+        $value = (string)number_format(
+            $value,
+            $this->decimals,
+            $this->delim_decimal,
+            $this->delim_thousands
+        );
 
         if ($this->unit === '') {
             return $value;

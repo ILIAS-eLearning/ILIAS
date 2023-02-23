@@ -43,8 +43,7 @@ function with_actions()
 
     // This is what the table will look like
     $columns = [
-        'f1' => $f->table()->column()->text("Field 1")
-            ->withIsSortable(false),
+        'f1' => $f->table()->column()->text("Field 1"),
 
         'f0' => $f->table()->column()->text("empty"),
 
@@ -53,8 +52,9 @@ function with_actions()
             ->withIsInitiallyVisible(false),
 
         'f3' => $f->table()->column()->number("Field 3")
-            ->withIsOptional(true)
-            ->withDecimals(2),
+            ->withDecimals(2)
+            ->withIsSortable(false)
+            ->withIsOptional(true),
 
         'f4' => $f->table()->column()->number("Field 4")
             ->withIsOptional(false)
