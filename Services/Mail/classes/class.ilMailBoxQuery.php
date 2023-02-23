@@ -86,6 +86,7 @@ class ilMailBoxQuery
             self::$filter['mail_filter_only_with_attachments']
         ) {
             $filter_qry .= ' AND attachments != ' . $DIC->database()->quote(serialize(null), 'text') . ' ';
+            $filter_qry .= ' AND attachments != ' . $DIC->database()->quote(serialize([]), 'text') . ' ';
         }
 
         if (isset(self::$filter['mail_filter_only_user_mails']) && self::$filter['mail_filter_only_user_mails']) {
