@@ -223,12 +223,8 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
-                if (isset($v['sort_field'])) {
-                    $sort = $v['sort_field'];
-                } else {
-                    $sort = null;
-                }
-                $this->addColumn($v['txt'], $sort, $v['width']);
+                $sort = $v['sort_field'] ?? "";
+                $this->addColumn($v['txt'], $sort);
             }
         }
         //Actions
