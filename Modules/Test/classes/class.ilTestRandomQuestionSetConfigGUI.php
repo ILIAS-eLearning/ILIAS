@@ -303,22 +303,27 @@ class ilTestRandomQuestionSetConfigGUI
 
         $this->tpl->setContent($this->ctrl->getHTML($form));
 
-        $this->configStateMessageHandler->setContext(
-            ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_GENERAL_CONFIG
-        );
+        if (!$disabled_form) {
+            $this->configStateMessageHandler->setContext(
+                ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_GENERAL_CONFIG
+            );
 
-        $this->configStateMessageHandler->handle();
+            $this->configStateMessageHandler->handle();
 
-        if ($this->configStateMessageHandler->hasValidationReports()) {
-            if ($this->configStateMessageHandler->isValidationFailed()) {
-                $this->tpl->setOnScreenMessage('failure', $this->configStateMessageHandler->getValidationReportHtml());
-            } else {
-                $this->tpl->setOnScreenMessage('info', $this->configStateMessageHandler->getValidationReportHtml());
+            if ($this->configStateMessageHandler->hasValidationReports()) {
+                if ($this->configStateMessageHandler->isValidationFailed()) {
+                    $this->tpl->setOnScreenMessage(
+                        'failure',
+                        $this->configStateMessageHandler->getValidationReportHtml()
+                    );
+                } else {
+                    $this->tpl->setOnScreenMessage('info', $this->configStateMessageHandler->getValidationReportHtml());
+                }
             }
-        }
 
-        if ($this->testrequest->isset('modified') && (int) $this->testrequest->raw('modified')) {
-            $this->tpl->setOnScreenMessage('success', $this->getGeneralModificationSuccessMessage());
+            if ($this->testrequest->isset('modified') && (int) $this->testrequest->raw('modified')) {
+                $this->tpl->setOnScreenMessage('success', $this->getGeneralModificationSuccessMessage());
+            }
         }
     }
 
@@ -396,6 +401,10 @@ class ilTestRandomQuestionSetConfigGUI
         }
 
         $this->tpl->setContent($content);
+
+        if ($disabled_form) {
+            return;
+        }
 
         $this->configStateMessageHandler->setContext(
             ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_POOL_SELECTION
@@ -890,7 +899,7 @@ class ilTestRandomQuestionSetConfigGUI
         $last_sync = $this->questionSetConfig->getLastQuestionSyncTimestamp();
 
         if ($last_sync !== null && $last_sync !== 0 &&
-            !$this->isFrozenConfigRequired()) {
+            !$this->isFrozenConfigRequired() && $this->questionSetConfig->isQuestionSetBuildable()) {
             $return = true;
 
             $sync_date = new ilDateTime($last_sync, IL_CAL_UNIX);
