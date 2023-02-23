@@ -28,17 +28,17 @@ use ilObjUser;
 use ilPlayerUtil;
 use ilSetting;
 use ilTemplate;
-use ILIAS\Services\Notifications\ToastsOfNotifications;
 
 /**
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilNotificationOSDGUI
 {
+    public const DEFAULT_POLLING_INTERVAL = 60000;
+
     protected ilObjUser $user;
     protected ilGlobalTemplateInterface $page;
     protected ilLanguage $lng;
-    private UIServices $ui;
 
     public function __construct(ilGlobalTemplateInterface $page, ilLanguage $language)
     {
@@ -47,7 +47,6 @@ class ilNotificationOSDGUI
         $this->user = $DIC->user();
         $this->page = $page;
         $this->lng = $language;
-        $this->ui = $DIC->ui();
     }
 
     public function populatePage(): void
@@ -62,11 +61,11 @@ class ilNotificationOSDGUI
 
         $osdTemplate->setVariable(
             'OSD_INTERVAL',
-            $notificationSettings->get('osd_interval') ?: '60'
+            $notificationSettings->get('osd_interval', (string) self::DEFAULT_POLLING_INTERVAL)
         );
         $osdTemplate->setVariable(
             'OSD_PLAY_SOUND',
-            $notificationSettings->get('play_sound') && $this->user->getPref('play_sound') ? 'true' : 'false'
+            $notificationSettings->get('osd_play_sound') && $this->user->getPref('osd_play_sound') ? 'true' : 'false'
         );
 
         iljQueryUtil::initjQuery($this->page);
