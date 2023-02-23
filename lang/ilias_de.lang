@@ -8306,6 +8306,7 @@ dateplaner#:#cal_type_remote#:#Web-Kalender
 dateplaner#:#cal_type_rl#:#Ort des Kalenders
 dateplaner#:#cal_type_sess#:#Sitzungskalender
 dateplaner#:#cal_type_system#:#Öffentlicher Kalender
+dateplaner#:#cal_type_tals#:#Gespräche
 dateplaner#:#cal_unshare#:#Freigabe beenden
 dateplaner#:#cal_unshare_cal#:#Freigabe beenden
 dateplaner#:#cal_unshared_selected_usr#:#Die Freigabe für die ausgewählten Benutzer/Rollen wurde beendet.
