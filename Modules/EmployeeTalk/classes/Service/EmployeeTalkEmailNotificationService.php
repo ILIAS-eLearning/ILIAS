@@ -68,6 +68,20 @@ final class EmployeeTalkEmailNotificationService
             $this->message->getTalkName()
         );
 
+        if ($this->message->getTalkDescription()) {
+            $notif->addAdditionalInfo(
+                'description',
+                $this->message->getTalkDescription()
+            );
+        }
+
+        if ($this->message->getTalkLocation()) {
+            $notif->addAdditionalInfo(
+                'location',
+                $this->message->getTalkLocation()
+            );
+        }
+
         $notif->addAdditionalInfo(
             'superior',
             $this->message->getNameOfSuperior()

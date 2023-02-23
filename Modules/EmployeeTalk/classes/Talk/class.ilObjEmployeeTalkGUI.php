@@ -227,7 +227,6 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
     {
         $firstTalk = $talks[0];
         $talk_title = $firstTalk->getTitle();
-        $talk_ref_id = $firstTalk->getRefId();
         $superior = new ilObjUser($firstTalk->getOwner());
         $employee = new ilObjUser($firstTalk->getData()->getEmployee());
         $superiorName = $superior->getFullname();
@@ -247,8 +246,10 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         }
 
         $message = new EmployeeTalkEmailNotification(
-            $talk_ref_id,
+            $firstTalk->getRefId(),
             $talk_title,
+            $firstTalk->getDescription(),
+            $firstTalk->getData()->getLocation(),
             'notification_talks_subject_update',
             'notification_talks_removed',
             $superiorName,
@@ -290,7 +291,6 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
 
         $firstTalk = $talks[0];
         $talk_title = $firstTalk->getTitle();
-        $talk_ref_id = $firstTalk->getRefId();
         $superior = new ilObjUser($firstTalk->getOwner());
         $employee = new ilObjUser($firstTalk->getData()->getEmployee());
         $superiorName = $superior->getFullname();
@@ -309,8 +309,10 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         }
 
         $message = new EmployeeTalkEmailNotification(
-            $talk_ref_id,
+            $firstTalk->getRefId(),
             $talk_title,
+            $firstTalk->getDescription(),
+            $firstTalk->getData()->getLocation(),
             'notification_talks_subject_update',
             'notification_talks_updated',
             $superiorName,
