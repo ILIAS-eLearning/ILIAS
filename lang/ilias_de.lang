@@ -4546,7 +4546,7 @@ common#:#max_previews_per_object_info#:#Legt die Anzahl an Vorschaubildern fest,
 common#:#mcst#:#Mediacast
 common#:#mcst_add#:#Mediacast anlegen
 common#:#mcst_new#:#Neuen Mediacast anlegen
-common#:#mem_add_to_wl#:#Zur Warteliste hinzufügen
+common#:#mem_add_to_wl#:#In Warteliste eintragen
 common#:#mem_alert_no_places#:#Es sind keine freien Plätze verfügbar.
 common#:#mem_cron_min_members#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerzahl
 common#:#mem_cron_min_members_info#:#Die Administratoren werden benachrichtigt sofern die minimale Anzahl nicht erreicht wird.

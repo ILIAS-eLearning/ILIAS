@@ -4547,7 +4547,7 @@ common#:#max_previews_per_object_info#:#Defines the maximum number of preview im
 common#:#mcst#:#Mediacast
 common#:#mcst_add#:#Add Mediacast
 common#:#mcst_new#:#New Mediacast
-common#:#mem_add_to_wl#:#Add to Waiting List
+common#:#mem_add_to_wl#:#Join Waiting List
 common#:#mem_alert_no_places#:#There are no free places available.
 common#:#mem_cron_min_members#:#Course/Group: Minimum Members Check
 common#:#mem_cron_min_members_info#:#The administrators will be notified if the minimum number is not met.
