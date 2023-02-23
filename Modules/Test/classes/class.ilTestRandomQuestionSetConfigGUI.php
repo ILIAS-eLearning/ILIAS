@@ -356,9 +356,10 @@ class ilTestRandomQuestionSetConfigGUI
 
         $this->tpl->setContent($this->ctrl->getHTML($form));
 
-        $this->configStateMessageHandler->setContext(
-            ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_GENERAL_CONFIG
-        );
+        if (!$disabled_form) {
+            $this->configStateMessageHandler->setContext(
+                ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_GENERAL_CONFIG
+            );
 
             $this->configStateMessageHandler->handle();
 
@@ -452,6 +453,10 @@ class ilTestRandomQuestionSetConfigGUI
         }
 
         $this->tpl->setContent($content);
+
+        if ($disabled_form) {
+            return;
+        }
 
         $this->configStateMessageHandler->setContext(
             ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_POOL_SELECTION
@@ -968,8 +973,9 @@ class ilTestRandomQuestionSetConfigGUI
     {
         $return = false;
         $last_sync = $this->questionSetConfig->getLastQuestionSyncTimestamp();
-        if ($last_sync != 0 &&
-            !$this->isFrozenConfigRequired()) {
+
+        if ($last_sync !== null && $last_sync !== 0 &&
+            !$this->isFrozenConfigRequired() && $this->questionSetConfig->isQuestionSetBuildable()) {
             $return = true;
 
             $sync_date = new ilDateTime($last_sync, IL_CAL_UNIX);
