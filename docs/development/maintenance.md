@@ -377,7 +377,7 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 	* 1st Maintainer: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
 	* 2nd Maintainer: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
 	* Testcases: N.A.
-	* Tester: N.A.
+	* Tester: [qualitus.morgunova](https://docu.ilias.de/goto_docu_usr_69410.html)
 
 [//]: # (END EmployeeTalk)
 
