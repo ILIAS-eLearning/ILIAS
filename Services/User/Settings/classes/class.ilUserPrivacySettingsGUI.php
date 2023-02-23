@@ -132,7 +132,7 @@ class ilUserPrivacySettingsGUI
     /**
      * Is awareness tool setting visible
      */
-    protected function isAwarnessSettingVisible(): bool
+    protected function isAwarenessSettingVisible(): bool
     {
         $awrn_set = new ilSetting("awrn");
 
@@ -203,7 +203,7 @@ class ilUserPrivacySettingsGUI
     protected function populateWithAwarenessSettingsSection(
         array &$formSections
     ): void {
-        if (!$this->isAwarnessSettingVisible()) {
+        if (!$this->isAwarenessSettingVisible()) {
             return;
         }
 
@@ -388,7 +388,7 @@ class ilUserPrivacySettingsGUI
             $form = $form->withRequest($request);
             $formData = $form->getData();
 
-            if ($this->isAwarnessSettingVisible() && $this->workWithUserSetting("hide_own_online_status")) {
+            if ($this->isAwarenessSettingVisible() && $this->workWithUserSetting("hide_own_online_status")) {
                 $val = $formData["hide_own_online_status"] ?? 'x';
                 if ($val == "x") {
                     $val = "";

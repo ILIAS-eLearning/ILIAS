@@ -867,7 +867,7 @@ interface Factory
      *   rivals:
      *     OSD notification: OSD notification are of the similar purpose as toast but arent a component ATM(26.04.2021).
      *        Therefore toast suppose to replace and unify this UI violation.
-     *     Message Box: The Message Box it primarily used to catch the users awarness for serious problems or error and
+     *     Message Box: The Message Box it primarily used to catch the users awareness for serious problems or error and
      *        is therefore more intrusive or even used to interrupt the users workflow, while toast will provide some
      *        less serious information which can be optional ignored by  the user.
      *     System Info: System Info is used for system specific information without temporal dependencies, while toast
