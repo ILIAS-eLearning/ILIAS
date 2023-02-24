@@ -198,12 +198,16 @@ class Renderer extends AbstractComponentRenderer
         $this->renderTableHeader($default_renderer, $component, $tpl, $order);
         $this->appendTableRows($tpl, $rows, $default_renderer);
 
-        $multi_actions_dropdown = $this->getMultiActionsDropdown(
-            $component->getMultiActions(),
-            $component->getActionSignal()
-        );
-        if ($multi_actions_dropdown) {
+        $multi_actions = $component->getMultiActions();
+        if (count($multi_actions) > 0) {
+            $modal = $this->buildMultiActionsAllObjectsModal($multi_actions, $id);
+            $multi_actions_dropdown = $this->buildMultiActionsDropdown(
+                $component->getMultiActions(),
+                $component->getActionSignal(),
+                $modal->getShowSignal()
+            );
             $tpl->setVariable('MULTI_ACTION_TRIGGERER', $default_renderer->render($multi_actions_dropdown));
+            $tpl->setVariable('MULTI_ACTION_ALL_MODAL', $default_renderer->render($modal));
         }
 
         return $tpl->get();
@@ -211,22 +215,17 @@ class Renderer extends AbstractComponentRenderer
 
     protected function registerActionsJS(Component\Table\Data $component): Component\Table\Data
     {
-        $component = $component
-            ->withAdditionalOnLoadCode(
-                $this->getMultiActionHandler($component->getActionSignal())
-            )
-            ->withAdditionalOnLoadCode(
-                $this->getSelectionHandler(
-                    $component->getSelectionSignalSelect(),
-                    $component->getSelectionSignalDeSelect()
-                )
-            )
-        ;
-        $actions = $component->getActions();
-        foreach ($actions as $action_id => $action) {
-            $component = $component->withAdditionalOnLoadCode(
-                $this->getActionRegistration($action_id, $action)
-            );
+        $js_onload = [
+            $this->getMultiActionHandler($component->getActionSignal()),
+            $this->getSelectionHandler($component->getSelectionSignal())
+        ];
+
+        foreach ($component->getActions() as $action_id => $action) {
+            $js_onload[] = $this->getActionRegistration($action_id, $action);
+        }
+
+        foreach ($js_onload as $js) {
+            $component = $component->withAdditionalOnLoadCode($js);
         }
         return $component;
     }
@@ -268,8 +267,12 @@ class Renderer extends AbstractComponentRenderer
         }
 
         if ($component->hasActions()) {
-            $select_all = $glyph_factory->add('')->withOnClick($component->getSelectionSignalSelect());
-            $select_none = $glyph_factory->close('')->withOnClick($component->getSelectionSignalDeSelect());
+            $signal = $component->getSelectionSignal();
+            $sig_all = clone $signal;
+            $sig_all->addOption('select', true);
+            $select_all = $glyph_factory->add('')->withOnClick($sig_all);
+            $signal->addOption('select', false);
+            $select_none = $glyph_factory->close('')->withOnClick($signal);
             $tpl->setVariable('SELECTION_CONTROL_SELECT', $default_renderer->render($select_all));
             $tpl->setVariable('SELECTION_CONTROL_DESELECT', $default_renderer->render($select_none));
             $tpl->touchBlock('header_action_cell');
@@ -295,23 +298,48 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
-    protected function getMultiActionsDropdown(
+    protected function buildMultiActionsAllObjectsModal(
         array $actions,
-        Component\Signal $action_signal
-    ): ?\ILIAS\UI\Component\dropdown\Dropdown {
-        if (count($actions) < 1) {
-            return null;
-        }
+        string $table_id
+    ): \ILIAS\UI\Component\Modal\Roundtrip {
         $f = $this->getUIFactory();
-        $buttons = [];
+        $msg = $f->legacy('<b>careful</b> - operation on ALL objects<hr>');
 
+        $select = $f->input()->field()->select(
+            "action",
+            array_map(
+                fn ($action) => $action->getLabel(),
+                $actions
+            ),
+            ""
+        );
+        $submit = $f->button()->primary('Do for all objects!', '#')
+            ->withOnLoadCode(
+                fn($id) => "$('#{$id}').click(function() { il.UI.table.data.doActionForAll('{$table_id}', this); return false; });"
+            );
+        $modal = $f->modal()
+            ->roundtrip('MultiAction', [$msg, $select])
+            ->withActionButtons([$submit]);
+        return $modal;
+    }
+
+    protected function buildMultiActionsDropdown(
+        array $actions,
+        Component\Signal $action_signal,
+        Component\Signal $modal_signal,
+    ): \ILIAS\UI\Component\Dropdown\Dropdown {
+        $f = $this->getUIFactory();
+        $glyph = $f->symbol()->glyph()->bulletlist();
+        $buttons = [];
+        $all_obj_buttons = [];
         foreach ($actions as $action_id => $act) {
             $signal = clone $action_signal;
             $signal->addOption('action', $action_id);
             $buttons[] = $f->button()->shy($act->getLabel(), $signal);
         }
+
         $buttons[] =  $f->divider()->horizontal();
-        $buttons[] =  $f->button()->shy('all objects', '#'); //TODO: all objects
+        $buttons[] =  $f->button()->shy('all objects', '#')->withOnClick($modal_signal);
 
         $dropdown = $f->dropdown()->standard($buttons);
         return $dropdown;
@@ -327,24 +355,18 @@ class Renderer extends AbstractComponentRenderer
                 });";
         };
     }
-     protected function getSelectionHandler(
-         Component\Signal $selection_signal_select,
-         Component\Signal $selection_signal_deselect
-     ): \Closure {
-         return function ($id) use ($selection_signal_select, $selection_signal_deselect) {
-             return "
-                $(document).on('{$selection_signal_select}', function(event, signal_data) {
-                    il.UI.table.data.selectAll('{$id}', true);
-                    return false;
-                });
-                $(document).on('{$selection_signal_deselect}', function(event, signal_data) {
-                    il.UI.table.data.selectAll('{$id}', false);
+
+    protected function getSelectionHandler(Component\Signal $selection_signal): \Closure
+    {
+        return function ($id) use ($selection_signal) {
+            return "
+                $(document).on('{$selection_signal}', function(event, signal_data) {
+                    il.UI.table.data.selectAll('{$id}', signal_data.options.select);
                     return false;
                 });
             ";
-         };
-     }
-
+        };
+    }
 
     protected function getActionRegistration(
         string $action_id,

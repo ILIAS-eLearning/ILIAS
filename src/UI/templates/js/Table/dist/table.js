@@ -84,6 +84,22 @@ var data = function(params, $) {
         }
     },
 
+    doActionForAll = function(table_id, originator) {
+        var actions = actions_registry[table_id],
+            modal_content = originator.parentNode.parentNode,
+            modal_close = modal_content.getElementsByClassName('close')[0],
+            selected_action = modal_content
+                .getElementsByClassName('modal-body')[0]
+                .getElementsByTagName('select')[0].value,
+            signal_data;
+
+            if(selected_action in actions) {
+                signal_data = {options : {action : selected_action}};
+                modal_close.click();
+                doAction(table_id, signal_data, ['ALL_OBJECTS']) ;
+            }
+    };
+
     collectSelectedRowIds = function(table_id) {
         var table = document.getElementById(table_id),
             cols = table.getElementsByClassName('c-table-data__row-selector'),
@@ -96,6 +112,7 @@ var data = function(params, $) {
         }
         return ret;
     },
+
     selectAll = function(table_id, state) {
         var table = document.getElementById(table_id),
             cols = table.getElementsByClassName('c-table-data__row-selector');
@@ -108,6 +125,7 @@ var data = function(params, $) {
     public_interface = {
         registerAction: registerAction,
         doAction: doAction,
+        doActionForAll: doActionForAll,
         collectSelectedRowIds: collectSelectedRowIds,
         selectAll: selectAll
     };

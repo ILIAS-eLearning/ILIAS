@@ -48,8 +48,7 @@ class Data extends Table implements T\Data, JSBindable
     protected $actions = [];
 
     protected Signal $multi_action_signal;
-    protected Signal $selection_all_signal;
-    protected Signal $selection_none_signal;
+    protected Signal $selection_signal;
     protected array $visible_optional_column_ids;
 
     public function __construct(
@@ -60,8 +59,7 @@ class Data extends Table implements T\Data, JSBindable
         $this->title = $title;
         $this->number_of_rows = $number_of_rows;
         $this->multi_action_signal = $signal_generator->create();
-        $this->selection_all_signal = $signal_generator->create();
-        $this->selection_none_signal = $signal_generator->create();
+        $this->selection_signal = $signal_generator->create();
         parent::__construct($title);
     }
 
@@ -160,13 +158,9 @@ class Data extends Table implements T\Data, JSBindable
     {
         return $this->multi_action_signal;
     }
-    public function getSelectionSignalSelect(): Signal
+    public function getSelectionSignal(): Signal
     {
-        return $this->selection_all_signal;
-    }
-    public function getSelectionSignalDeSelect(): Signal
-    {
-        return $this->selection_none_signal;
+        return $this->selection_signal;
     }
 
     /**
