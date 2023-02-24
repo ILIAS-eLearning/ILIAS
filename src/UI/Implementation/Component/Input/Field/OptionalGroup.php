@@ -112,6 +112,10 @@ class OptionalGroup extends Group implements Field\OptionalGroup
                 return $clone;
             }
         }
-        return parent::withInput($input);
+
+        $clone = parent::withInput($input);
+        // If disabled keep, else false, because the null case is already handled.
+        $clone->null_value_was_explicitly_set = $this->isDisabled() && $this->null_value_was_explicitly_set;
+        return $clone;
     }
 }
