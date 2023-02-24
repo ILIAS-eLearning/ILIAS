@@ -209,7 +209,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         if ($id === "status") {
             include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
             $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SCORM);
-            $path = $icons->getImagePathForStatus($value);
+            $path = $icons->getImagePathForStatus((int) $value);
             $text = ilLearningProgressBaseGUI::_getStatusText((integer) $value);
             $value = ilUtil::img($path, $text);
         }
