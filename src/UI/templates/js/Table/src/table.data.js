@@ -75,10 +75,20 @@ var data = function(params, $) {
 
     selectAll = function(table_id, state) {
         var table = document.getElementById(table_id),
-            cols = table.getElementsByClassName('c-table-data__row-selector');
+            cols = table.getElementsByClassName('c-table-data__row-selector'),
+            selector_all = table.getElementsByClassName('c-table-data__selection_all')[0],
+            selector_none = table.getElementsByClassName('c-table-data__selection_none')[0]
+            ;
         for(i = 0; i < cols.length; i = i + 1) {
             col = cols[i];
             col.checked = state;
+        }
+        if(state) {
+            selector_all.style.display='none';
+            selector_none.style.display='block';
+        } else {
+            selector_all.style.display='block';
+            selector_none.style.display='none';
         }
     }
 

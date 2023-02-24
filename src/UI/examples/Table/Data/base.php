@@ -37,7 +37,7 @@ function base()
         'usr_id' => $f->table()->column()->number("User ID"),
         'login' => $f->table()->column()->text("Login")
             ->withHighlight(true),
-        'email' => $f->table()->column()->email("eMail"),
+        'email' => $f->table()->column()->eMail("eMail"),
         'last' => $f->table()->column()->date("last login", $df->dateFormat()->germanLong()),
         'achieve' => $f->table()->column()->statusIcon(""),
         'achieve_txt' => $f->table()->column()->status("progress"),

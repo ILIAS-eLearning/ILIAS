@@ -26,7 +26,6 @@ interface Factory
      * description:
      *   purpose: >
      *      The Text Column is used for (short) text.
-     *
      * ---
      * @return \ILIAS\UI\Component\Table\Column\Text
      */
@@ -96,7 +95,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Table\Column\EMail
      */
-    public function email(string $title): EMail;
+    public function eMail(string $title): EMail;
 
     /**
      * ---

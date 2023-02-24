@@ -55,7 +55,7 @@ class Factory implements I\Factory
         return new Boolean($title, $true, $false);
     }
 
-    public function email(string $title): I\EMail
+    public function eMail(string $title): I\EMail
     {
         return new EMail($title);
     }

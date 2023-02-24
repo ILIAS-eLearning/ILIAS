@@ -188,7 +188,14 @@ class Renderer extends AbstractComponentRenderer
             $additional_parameters
         );
 
+        $multi_actions = $component->getMultiActions();
+
         $component = $this->registerActionsJS($component);
+        if (count($multi_actions) > 0) {
+            $component = $component->withAdditionalOnLoadCode(
+                fn($id) => "il.UI.table.data.selectAll('{$id}', false);"
+            );
+        }
         $id = $this->bindJavaScript($component);
         $tpl->setVariable('ID', $id);
         $tpl->setVariable('TITLE', $component->getTitle());
@@ -198,7 +205,6 @@ class Renderer extends AbstractComponentRenderer
         $this->renderTableHeader($default_renderer, $component, $tpl, $order);
         $this->appendTableRows($tpl, $rows, $default_renderer);
 
-        $multi_actions = $component->getMultiActions();
         if (count($multi_actions) > 0) {
             $modal = $this->buildMultiActionsAllObjectsModal($multi_actions, $id);
             $multi_actions_dropdown = $this->buildMultiActionsDropdown(
@@ -315,7 +321,7 @@ class Renderer extends AbstractComponentRenderer
         );
         $submit = $f->button()->primary('Do for all objects!', '#')
             ->withOnLoadCode(
-                fn($id) => "$('#{$id}').click(function() { il.UI.table.data.doActionForAll('{$table_id}', this); return false; });"
+                fn ($id) => "$('#{$id}').click(function() { il.UI.table.data.doActionForAll('{$table_id}', this); return false; });"
             );
         $modal = $f->modal()
             ->roundtrip('MultiAction', [$msg, $select])

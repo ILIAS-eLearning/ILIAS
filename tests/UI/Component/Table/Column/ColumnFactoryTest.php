@@ -27,7 +27,11 @@ class ColumnFactoryTest extends AbstractFactoryTest
     public $kitchensink_info_settings = [
         "text" => ["context" => false, "rules" => false],
         "number" => ["context" => false, "rules" => false],
-        "date" => ["context" => false, "rules" => false]
+        "date" => ["context" => false, "rules" => false],
+        "boolean" => ["context" => false, "rules" => false],
+        "eMail" => ["context" => false, "rules" => false],
+        "status" => ["context" => false, "rules" => false],
+        "statusIcon" => ["context" => false, "rules" => false]
     ];
 
     public $factory_title = 'ILIAS\\UI\\Component\\Table\\Column\\Factory';
