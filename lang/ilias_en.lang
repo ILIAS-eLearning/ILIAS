@@ -8465,10 +8465,10 @@ dcl#:#dcl_field_title_change_warning#:#You changed the title of the field hence 
 dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.
 dcl#:#dcl_field_visible#:#Visible
 dcl#:#dcl_fieldtitle#:#Field Title
+dcl#:#dcl_file#:#Fileupload
+dcl#:#dcl_file_desc#:#Field to upload arbitrary files. They can be downloaded with a link.
 dcl#:#dcl_file_format_description#:#The file needs to be an excel .XLSX file with the data you want to import on the first sheet. In the first row there have to be exactly the names of the fields (case sensitive) you want to import and in the following rows you can add the values. It is strongly recommended to simulate your import first. When importing reference or selection fields with multi selection, commas and/or semicolons can be used as delimiters.
 dcl#:#dcl_file_not_readable#:#The file could not be read. Please make sure to upload an XLSX file.
-dcl#:#dcl_fileupload#:#Fileupload
-dcl#:#dcl_fileupload_desc#:#Field to upload arbitrary files. They can be downloaded with a link.
 dcl#:#dcl_filter#:#Available in filter
 dcl#:#dcl_filter_changeable#:#Filter changeable
 dcl#:#dcl_formula#:#Formula
@@ -8665,6 +8665,7 @@ dcl#:#dcl_wrong_length#:#The text you entered is to long.
 dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification for this field (Regular Expression).
 dcl#:#dlc_xls_async_export#:#Asynchronous XLSX-Export
 dcl#:#fieldtitle_allow_chars#:#Not allowed chars: %s
+dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.
 didactic#:#activate_exclusive_template#:#Grey Out Default
 didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.
 didactic#:#activate_local_didactic_template#:#Scope of Application

@@ -8464,10 +8464,10 @@ dcl#:#dcl_field_title_change_warning#:#Sie haben den Titel des Feldes geändert.
 dcl#:#dcl_field_title_unique#:#Es existiert bereits ein Feld mit diesem Titel. Titel muss eindeutig sein.
 dcl#:#dcl_field_visible#:#Sichtbar
 dcl#:#dcl_fieldtitle#:#Feldtitel
+dcl#:#dcl_file#:#Datei-Upload
+dcl#:#dcl_file_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können
 dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel-Format .xlsx vorliegen, mit den zu importierenden Daten auf der ersten Seite. In der ersten Zeile müssen die exakten Namen der Felder stehen (inklusive Grossschreibung) und in den folgenden Zeilen die Werte der zu importierenden Datensatzeinträge. Es wird empfohlen, jeden Import zuerst zu simulieren. Für den Import von mehrfachen Einträgen bei Auswahlmenü-Feldern und Referenzfeldern werden Semikolon und/oder Komma als Trenner akzeptiert.
 dcl#:#dcl_file_not_readable#:#Die Datei konnte nicht gelesen werden. Bitte verwenden Sie das .xlsx-Dateiformat.
-dcl#:#dcl_fileupload#:#Datei-Upload
-dcl#:#dcl_fileupload_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können
 dcl#:#dcl_filter#:#Im Filter verfügbar
 dcl#:#dcl_filter_changeable#:#Filter änderbar
 dcl#:#dcl_formula#:#Formel
@@ -8664,6 +8664,7 @@ dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
 dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (Regulärer Ausdruck).
 dcl#:#dlc_xls_async_export#:#Asynchroner XLSX export
 dcl#:#fieldtitle_allow_chars#:#Nicht Erlaubte Zeichen: %s
+dcl#:#fileupload_not_migrated#:#Die Datei wurde noch nicht migriert und kann nicht angezeigt werden. Bitte wenden Sie sich an Ihre System-Administration.
 didactic#:#activate_exclusive_template#:#Standard ausgrauen
 didactic#:#activate_exclusive_template_info#:#Die Standard-Vorlage wird überall dort ausgegraut, wo diese didaktische Vorlage aktiv ist.
 didactic#:#activate_local_didactic_template#:#Gültigkeitsbereich

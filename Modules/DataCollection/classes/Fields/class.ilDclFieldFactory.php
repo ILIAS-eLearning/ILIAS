@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclFieldFactory
@@ -246,6 +245,12 @@ class ilDclFieldFactory
                 $fieldtype = self::$default_prefix . ucfirst(self::parseDatatypeTitle($datatype->getTitle()));
             }
             self::$field_type_cache[$datatype->getId()][$field->getId()] = $fieldtype;
+        } elseif ($field->getDatatypeId() == ilDclDatatype::INPUTFORMAT_FILEUPLOAD) {
+            // This is for legacy reasons. The fileupload field was replaced with ilDclDatatype::INPUTFORMAT_FILE in
+            // ILIAS 9, but must be available for one more release, since there might be records with this field type
+            // which have not et been migrated.
+            $fieldtype = self::$default_prefix . ucfirst('Fileupload');
+            self::$field_type_cache[$field->getDatatypeId()] = $fieldtype;
         } else {
             $fieldtype = self::$default_prefix . ucfirst(self::parseDatatypeTitle($datatype->getTitle()));
             self::$field_type_cache[$datatype->getId()] = $fieldtype;
@@ -297,6 +302,29 @@ class ilDclFieldFactory
                     ucfirst(self::parseDatatypeTitle($datatype->getTitle()))
                 );
             }
+        } elseif ($field->getDatatypeId() == ilDclDatatype::INPUTFORMAT_FILEUPLOAD) {
+            // This is for legacy reasons. The fileupload field was replaced with ilDclDatatype::INPUTFORMAT_FILE in
+            // ILIAS 9, but must be available for one more release, since there might be records with this field type
+            // which have not et been migrated.
+            $class_path = sprintf(
+                self::$field_base_path_patter,
+                ucfirst(self::parseDatatypeTitle('Fileupload'))
+            );
+
+            $class_name = sprintf(
+                'class.' . self::$default_prefix . '%s.php',
+                sprintf(
+                    $class_pattern,
+                    ucfirst('Fileupload'),
+                )
+            );
+
+            $return = $class_path . $class_name;
+            if ($field->getId() != null) {
+                self::$class_path_cache[$field->getId()][$class_pattern] = $return;
+            }
+
+            return $return;
         } else {
             $class_path = sprintf(
                 self::$field_base_path_patter,
