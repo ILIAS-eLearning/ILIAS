@@ -79,10 +79,7 @@ class ilOrgUnitOperationRegisteredObjective implements Setup\Objective
             $context_id,
             $this->operation_name
         )) {
-            throw new Exception(
-                'Operation ' . $this->operation_name . ' already exists
-                 in context ' . $this->context . ', this objective should not be applied!'
-            );
+            return $environment;
         }
 
         $id = $db->nextId('il_orgu_operations');

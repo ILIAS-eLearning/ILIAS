@@ -64,10 +64,7 @@ class ilOrgUnitOperationContextRegisteredObjective implements Setup\Objective
 
         // abort if the context already exists, just to be safe
         if ($this->doesContextExist($db, $this->context_name)) {
-            throw new Exception(
-                'Context ' . $this->context_name . ' already exists,
-                 this objective should not be applied!'
-            );
+            return $environment;
         }
 
         $parent_context_id = 0;
