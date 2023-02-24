@@ -151,7 +151,7 @@ class ilMMSubitemFormGUI
                 // remove deleted roles, see https://mantis.ilias.de/view.php?id=34936
                 $value_role_based_visibility[0] = array_intersect(
                     $this->item_facade->getGlobalRoleIDs(),
-                    $access->getGlobalRoles()
+                    array_keys($access->getGlobalRoles())
                 );
             }
             $role_based_visibility = $f()->field()->optionalGroup(
@@ -190,11 +190,13 @@ class ilMMSubitemFormGUI
             return false;
         }
 
+        $role_based_visibility = $data[0][self::F_ROLE_BASED_VISIBILITY] ?? false;
         $this->item_facade->setDefaultTitle((string) $data[0][self::F_TITLE]);
         $this->item_facade->setActiveStatus((bool) $data[0][self::F_ACTIVE]);
-        $this->item_facade->setRoleBasedVisibility((bool) $data[0][self::F_ROLE_BASED_VISIBILITY]);
-        if ($data[0][self::F_ROLE_BASED_VISIBILITY] and !empty($data[0][self::F_ROLE_BASED_VISIBILITY])) {
-            $this->item_facade->setGlobalRoleIDs((array) $data[0][self::F_ROLE_BASED_VISIBILITY][0]);
+        $this->item_facade->setRoleBasedVisibility((bool) $role_based_visibility);
+
+        if ($role_based_visibility) {
+            $this->item_facade->setGlobalRoleIDs((array) $role_based_visibility[0]);
         }
         if ((string) $data[0][self::F_PARENT]) {
             $this->item_facade->setParent((string) $data[0][self::F_PARENT]);
