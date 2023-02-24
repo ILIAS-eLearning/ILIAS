@@ -77,6 +77,9 @@ class Group extends Input implements C\Input\Field\Group
 
     public function isRequired()
     {
+        if($this->is_required) {
+            return true;
+        }
         foreach ($this->getInputs() as $input) {
             if ($input->isRequired()) {
                 return true;
