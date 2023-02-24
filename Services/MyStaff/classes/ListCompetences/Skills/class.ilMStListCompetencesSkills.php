@@ -125,7 +125,7 @@ class ilMStListCompetencesSkills
                     ->like("ud.email", "text", "%" . $filters['user'] . "%") . ") ";
         }
 
-        if (!empty($arr_filter['org_unit'])) {
+        if (!empty($filters['org_unit'])) {
             $wheres[] = 'ud.usr_id IN (SELECT user_id FROM il_orgu_ua WHERE orgu_id = ' .
                 $this->dic->database()->quote($filters['org_unit'], 'integer') . ')';
         }
