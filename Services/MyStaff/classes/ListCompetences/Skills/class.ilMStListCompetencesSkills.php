@@ -96,6 +96,7 @@ class ilMStListCompetencesSkills
         $skills = [];
         while ($rec = $this->dic->database()->fetchAssoc($set)) {
             $skills[] = new ilMStListCompetencesSkill(
+                intval($rec['skill_node_id']),
                 $rec['skill_title'],
                 $rec['skill_level'],
                 $rec['login'],

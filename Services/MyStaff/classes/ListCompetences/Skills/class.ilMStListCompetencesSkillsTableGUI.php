@@ -260,6 +260,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $actions = new ilAdvancedSelectionListGUI();
         $actions->setListTitle($this->dic->language()->txt("actions"));
         $actions->setAsynch(true);
+        $actions->setId($set->getUserId() . "-" . $set->getSkillNodeId());
 
         $this->dic->ctrl()->setParameterByClass(get_class($this->parent_obj), 'mst_lcom_usr_id', $set->getUserId());
 
