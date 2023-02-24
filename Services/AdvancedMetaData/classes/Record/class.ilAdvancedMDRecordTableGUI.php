@@ -97,6 +97,10 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
             if ($obj_type["obj_type"] == "prtf" && $obj_type["sub_type"] == "pfpg") {
                 continue;
             }
+            // EmployeeTalks get their md from templates
+            if ($obj_type["obj_type"] == "tals" && $obj_type["sub_type"] == "etal") {
+                continue;
+            }
 
             foreach ($a_set['obj_types'] as $t) {
                 if ($obj_type["obj_type"] == $t["obj_type"] &&
@@ -144,6 +148,10 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
                         break;
                     case "prg":
                         // currently only optional records for study programme (types)
+                        unset($type_options[1]);
+                        break;
+                    case "talt":
+                        // currently only optional records for talk templates (types)
                         unset($type_options[1]);
                         break;
                     case "rcrs":
