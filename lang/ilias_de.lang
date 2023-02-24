@@ -4507,8 +4507,9 @@ common#:#lso_edit#:#Lernsequenz bearbeiten
 common#:#lso_import#:#Lernsequenz importieren
 common#:#lso_new#:#Neue Lernsequenz anlegen
 common#:#lso_wizard_page#:#Lernsequenz kopieren (Schritt 2/2)
+common#:#lti#:#LTI Konsument
 common#:#lti_outcome#:#Benachrichtigung über LTI-Lernfortschritt
-common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI-Tool-Consumer.
+common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI-Tool-Consumer / LTI-Plattform.
 common#:#mail#:#Mail
 common#:#mail_addressbook#:#Kontakte
 common#:#mail_at_the_ilias_installation#:#Auf der ILIAS-Installation %2$s haben Sie %1$s neue Mail(s) erhalten

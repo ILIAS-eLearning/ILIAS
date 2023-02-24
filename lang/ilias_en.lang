@@ -4508,8 +4508,9 @@ common#:#lso_edit#:#Edit Learning Sequence
 common#:#lso_import#:#Import Learning Sequence
 common#:#lso_new#:#New Learning Sequence
 common#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)
-common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung
-common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI Tool Consumer.
+common#:#lti#:#LTI Consumer
+common#:#lti_outcome#:#LTI Learning Progress Notification
+common#:#lti_outcome_info#:#Sends Learning Progress Status of LTI Users to LTI Tool Consumer / LTI Platform.
 common#:#mail#:#Mail
 common#:#mail_addressbook#:#Contacts
 common#:#mail_at_the_ilias_installation#:#You received %1$s new mail at the ILIAS-Installation %2$s
