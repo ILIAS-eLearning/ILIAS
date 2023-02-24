@@ -151,9 +151,16 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
 
     public function step_9(): void
     {
-        $settings = new ilSetting('notifications');
-        $settings->set('osd_interval', (string) ($settings->get('osd_interval', '5') * 1000));
-        $settings->set('osd_vanish', (string) ($settings->get('osd_vanish', '3') * 1000));
+        $this->db->manipulateF(
+            "UPDATE settings SET value = CONCAT(value , '000') WHERE keyword = %s",
+            ['text'],
+            ['osd_interval']
+        );
+        $this->db->manipulateF(
+            "UPDATE settings SET value = CONCAT(value , '000') WHERE keyword = %s",
+            ['text'],
+            ['osd_vanish']
+        );
         $this->db->manipulateF(
             'UPDATE usr_pref SET keyword = %s WHERE keyword = %s',
             ['text', 'text'],
