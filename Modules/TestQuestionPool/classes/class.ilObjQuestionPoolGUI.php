@@ -1398,6 +1398,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     */
     protected function importFileObject(int $parent_id = null, bool $catch_errors = true): void
     {
+        if (!$this->checkPermissionBool("create", "", $_REQUEST["new_type"])) {
+            $this->error->raiseError($this->lng->txt("no_create_permission"));
+        }
+
         $form = $this->initImportForm($this->qplrequest->raw("new_type"));
         if ($form->checkInput()) {
             $this->uploadQplObject();
