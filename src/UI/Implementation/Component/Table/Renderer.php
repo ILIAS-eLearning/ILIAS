@@ -193,7 +193,7 @@ class Renderer extends AbstractComponentRenderer
         $component = $this->registerActionsJS($component);
         if (count($multi_actions) > 0) {
             $component = $component->withAdditionalOnLoadCode(
-                fn($id) => "il.UI.table.data.selectAll('{$id}', false);"
+                fn ($id) => "il.UI.table.data.selectAll('{$id}', false);"
             );
         }
         $id = $this->bindJavaScript($component);
@@ -333,7 +333,10 @@ class Renderer extends AbstractComponentRenderer
         array $actions,
         Component\Signal $action_signal,
         Component\Signal $modal_signal,
-    ): \ILIAS\UI\Component\Dropdown\Dropdown {
+    ): ?\ILIAS\UI\Component\Dropdown\Dropdown {
+        if (count($actions) === 0) {
+            return null;
+        }
         $f = $this->getUIFactory();
         $glyph = $f->symbol()->glyph()->bulletlist();
         $buttons = [];

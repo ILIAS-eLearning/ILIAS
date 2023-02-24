@@ -52,43 +52,7 @@ function base()
         ->withColumns($columns);
 
 
-    //this is some dummy-data:
-    $dummy_records = [
-        [
-            'usr_id' => 123,
-            'login' => 'superuser',
-            'email' => 'user@example.com',
-            'last' => new \DateTimeImmutable(),
-            'achieve' => 20,
-            'fee' => 0
-        ],
-        [
-            'usr_id' => 867,
-            'login' => 'student1',
-            'email' => 'student1@example.com',
-            'last' => new \DateTimeImmutable(),
-            'achieve' => 90,
-            'fee' => 40
-        ],
-        [
-            'usr_id' => 8923,
-            'login' => 'student2',
-            'email' => 'student2@example.com',
-            'last' => new \DateTimeImmutable(),
-            'achieve' => 66,
-            'fee' => 36.789
-        ],
-        [
-            'usr_id' => 8748,
-            'login' => 'student3_longname',
-            'email' => 'student3_long_email@example.com',
-            'last' => new \DateTimeImmutable(),
-            'achieve' => 66,
-            'fee' => 36.789
-        ],
-
-    ];
-
+    $dummy_records = getSomeDummyRecordsForDateTableBaseExample();
     // retrieve data and map records to table rows
     $data_retrieval = new class ($f, $r, $dummy_records) extends T\DataRetrieval {
         public function __construct(
@@ -121,4 +85,43 @@ function base()
     };
 
     return $r->render($table->withData($data_retrieval));
+}
+
+//this is some dummy-data:
+function getSomeDummyRecordsForDateTableBaseExample(): array
+{
+    return [
+        [
+            'usr_id' => 123,
+            'login' => 'superuser',
+            'email' => 'user@example.com',
+            'last' => new \DateTimeImmutable(),
+            'achieve' => 20,
+            'fee' => 0
+        ],
+        [
+            'usr_id' => 867,
+            'login' => 'student1',
+            'email' => 'student1@example.com',
+            'last' => new \DateTimeImmutable(),
+            'achieve' => 90,
+            'fee' => 40
+        ],
+        [
+            'usr_id' => 8923,
+            'login' => 'student2',
+            'email' => 'student2@example.com',
+            'last' => new \DateTimeImmutable(),
+            'achieve' => 66,
+            'fee' => 36.789
+        ],
+        [
+            'usr_id' => 8748,
+            'login' => 'student3_longname',
+            'email' => 'student3_long_email@example.com',
+            'last' => new \DateTimeImmutable(),
+            'achieve' => 66,
+            'fee' => 36.789
+        ],
+    ];
 }

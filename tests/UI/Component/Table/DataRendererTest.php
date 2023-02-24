@@ -40,9 +40,12 @@ class DTRenderer extends I\Table\Renderer
         return $this->getActionRegistration($action_id, $action);
     }
 
-    public function p_getMultiActionsDropdown(array $actions, I\Signal $signal)
-    {
-        return $this->getMultiActionsDropdown($actions, $signal);
+    public function p_buildMultiActionsDropdown(
+        array $actions,
+        I\Signal $action_signal,
+        I\Signal $modal_signal
+    ) {
+        return $this->buildMultiActionsDropdown($actions, $action_signal, $modal_signal);
     }
 
     public function p_getSingleActionsForRow(string $row_id, array $actions)
@@ -52,11 +55,11 @@ class DTRenderer extends I\Table\Renderer
 
     public function p_renderTableHeader(
         TestDefaultRenderer $default_renderer,
+        I\Table\Data $component,
         $tpl,
-        array $columns,
         \ILIAS\Data\Order $order
     ) {
-        return $this->renderTableHeader($default_renderer, $tpl, $columns, $order);
+        return $this->renderTableHeader($default_renderer, $component, $tpl, $order);
     }
 }
 
@@ -107,6 +110,16 @@ class DataRendererTest extends ILIAS_UI_TestBase
                     new I\Symbol\Glyph\Factory(),
                     new I\Symbol\Avatar\Factory()
                 );
+            }
+            public function table(): ILIAS\UI\Component\Table\Factory
+            {
+                return new I\Table\Factory(
+                    new I\SignalGenerator()
+                );
+            }
+            public function divider(): ILIAS\UI\Component\Divider\Factory
+            {
+                return new I\Divider\Factory();
             }
         };
         return $factory;
@@ -161,18 +174,19 @@ class DataRendererTest extends ILIAS_UI_TestBase
     {
         $renderer = $this->getRenderer();
         $f = $this->getActionFactory();
-        $signal = new I\Signal('signal_id');
+        $signal1 = new I\Signal('signal_id');
+        $signal2 = new I\Signal('signal_id2');
         $url = $this->getDataFactory()->uri('http://wwww.ilias.de?ref_id=1');
         $actions = [
-            $f->standard('label1', 'param', $signal),
+            $f->standard('label1', 'param', $signal1),
             $f->standard('label2', 'param', $url)
         ];
         $this->assertNull(
-            $renderer->p_getMultiActionsDropdown([], $signal)
+            $renderer->p_buildMultiActionsDropdown([], $signal1, $signal2)
         );
         $this->assertEquals(
-            2,
-            count($renderer->p_getMultiActionsDropdown($actions, $signal)->getItems())
+            4, //2 actions, 1 divider, one all-action
+            count($renderer->p_buildMultiActionsDropdown($actions, $signal1, $signal2)->getItems())
         );
     }
     public function testDataTableSingleActionsDropdown()
@@ -201,26 +215,32 @@ class DataRendererTest extends ILIAS_UI_TestBase
             'f2' => $f->text("Field 2")->withIndex(2),
             'f3' => $f->number("Field 3")->withIndex(3)
         ];
+        $table = $this->getUIFactory()->table()->data('')->withColumns($columns);
         $order = (new \ILIAS\Data\Factory())->order('f1', \ILIAS\Data\Order::ASC);
-
-        $renderer->p_renderTableHeader($this->getDefaultRenderer(), $tpl, $columns, $order);
+        $renderer->p_renderTableHeader($this->getDefaultRenderer(), $table, $tpl, $order);
 
         $actual = $this->brutallyTrimHTML($tpl->get());
         $expected = <<<EOT
-<div class="il-table-data" id="{ID}">
-    <table class="table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
+<div class="c-table-data" id="{ID}">
+    <div class="viewcontrols">{VIEW_CONTROLS}</div>
+    <table class="c-table-data__table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
         <thead>
-            <tr class="header row" role="rowgroup">
-                <th class="header cell rowselection" role="columnheader"></th>
-                <th class="header cell" role="columnheader" aria-colindex="1" aria-sort="ascending">Field 1<a class="glyph disabled" aria-label="sort_ascending" aria-disabled="true"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a></th>
-                <th class="header cell" role="columnheader" aria-colindex="2">Field 2</th>
-                <th class="header cell" role="columnheader" aria-colindex="3">Field 3</th>
-                <th class="header cell rowaction" role="columnheader"></th>
+            <tr class="c-table-data__header c-table-data__row" role="rowgroup">
+                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" aria-colindex="0" aria-sort="ascending">
+                    <div class="c-table-data__header__resize-wrapper">
+                        <a class="glyph disabled" aria-label="sort_ascending" aria-disabled="true"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a>Field 1
+                    </div>
+                </th>
+                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" aria-colindex="1">
+                    <div class="c-table-data__header__resize-wrapper">Field 2</div>
+                </th>
+                <th class="c-table-data__header c-table-data__cell c-table-data__cell--number" role="columnheader" aria-colindex="2">
+                    <div class="c-table-data__header__resize-wrapper">Field 3</div>
+                </th>
             </tr>
         </thead>
-        <tbody class="body" role="rowgroup"></tbody>
+        <tbody class="c-table-data__body" role="rowgroup"></tbody>
     </table>
-    <div class="multiaction-triggerer">{MULTI_ACTION_TRIGGERER}</div>
 </div>
 EOT;
         $expected = $this->brutallyTrimHTML($expected);
@@ -242,7 +262,7 @@ EOT;
             'a1' => $f->standard('label1', 'param', $signal),
             'a2' => $f->standard('label2', 'param', $url)
         ];
-        $rf = new I\Table\RowFactory($columns, $actions);
+        $rf = new I\Table\RowFactory(true, $columns, $actions);
 
         $this->assertInstanceOf(Component\Table\RowFactory::class, $rf);
         $row = $rf->standard('row_id-1', []);
@@ -259,7 +279,7 @@ EOT;
         $record = [
             'f1' => 'v1',
             'f2' => 'v2',
-            'f3' => 'v3'
+            'f3' => 3
         ];
         $row = $rf->standard('row_id-1', $record);
 
@@ -286,21 +306,17 @@ EOT;
     {
         $actual = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($row));
         $expected = <<<EOT
-            <td class="cell rowselection" role="gridcell" tabindex="-1">
-                <input type="checkbox" value="row_id-1" class="row-selector">
-            </td>
-            <td class="cell Text" role="gridcell" aria-colindex="1" tabindex="-1">v1</td>
-            <td class="cell Text" role="gridcell" aria-colindex="2" tabindex="-1">v2</td>
-            <td class="cell Number" role="gridcell" aria-colindex="3" tabindex="-1">v3</td>
-            <td class="cell rowaction" role="gridcell" tabindex="-1">
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_2" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_2_menu"><span class="caret"></span></button>
-                    <ul id="id_2_menu" class="dropdown-menu">
-                        <li><button class="btn btn-link" id="id_1">label1</button></li>
-                        <li><button class="btn btn-link" data-action="">label2</button></li>
-                    </ul>
-                </div>
-            </td>
+<td class="c-table-data__cell c-table-data__rowselection" role="gridcell" tabindex="-1">
+    <input type="checkbox" value="row_id-1" class="c-table-data__row-selector">
+</td>
+<td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="1" tabindex="-1">v1</td>
+<td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="2" tabindex="-1">v2</td>
+<td class="c-table-data__cell c-table-data__cell--number " role="gridcell" aria-colindex="3" tabindex="-1">3</td>
+<td class="c-table-data__cell c-table-data__rowaction" role="gridcell" tabindex="-1">
+    <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_2" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_2_menu"><span class="caret"></span></button>
+        <ul id="id_2_menu" class="dropdown-menu"><li><button class="btn btn-link" id="id_1">label1</button></li><li><button class="btn btn-link" data-action="">label2</button></li></ul>
+    </div>
+</td>
 EOT;
         $expected = $this->brutallyTrimHTML($expected);
         $this->assertEquals($expected, $actual);
