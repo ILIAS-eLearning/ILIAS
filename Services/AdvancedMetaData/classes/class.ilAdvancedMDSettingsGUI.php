@@ -1548,6 +1548,10 @@ class ilAdvancedMDSettingsGUI
                 if ($type["obj_type"] == "prtf" && $type["sub_type"] == "pfpg") {
                     continue;
                 }
+                // EmployeeTalks get their md from templates
+                if ($type["obj_type"] == "tals" && $type["sub_type"] == "etal") {
+                    continue;
+                }
 
 
                 $type_options = $options;
@@ -1558,6 +1562,10 @@ class ilAdvancedMDSettingsGUI
                         break;
                     case "prg":
                         // currently only optional records for study programme (types)
+                        unset($type_options[1]);
+                        break;
+                    case "talt":
+                        // currently only optional records for talk templates (types)
                         unset($type_options[1]);
                         break;
                     case "rcrs":

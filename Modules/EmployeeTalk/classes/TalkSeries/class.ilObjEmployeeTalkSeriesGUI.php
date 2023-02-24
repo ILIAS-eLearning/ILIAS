@@ -516,6 +516,29 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         $template->cloneMetaData($talk);
         $talk->update();
 
+        // assign talk series type to adv md records of the template
+        foreach (ilAdvancedMDRecord::_getSelectedRecordsByObject(
+            $template->getType(),
+            $template->getId(),
+            'etal',
+            false
+        ) as $rec) {
+            if (!$rec->isAssignedObjectType($talk->getType(), 'etal')) {
+                $rec->appendAssignedObjectType(
+                    $talk->getType(),
+                    'etal',
+                    true
+                );
+                $rec->update();
+            }
+        }
+
+        ilAdvancedMDRecord::saveObjRecSelection(
+            $talk->getId(),
+            'etal',
+            ilAdvancedMDRecord::getObjRecSelection($template->getId(), 'etal')
+        );
+
         ilAdvancedMDValues::_cloneValues(
             0,
             $template->getId(),
