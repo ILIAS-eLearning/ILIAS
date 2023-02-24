@@ -122,7 +122,7 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
      */
     public static function _getStatusInfo(?int $a_obj_id): array
     {
-        if (self::$statusInfoCache[$a_obj_id] === null) {
+        if (!isset(self::$statusInfoCache[$a_obj_id]) || self::$statusInfoCache[$a_obj_id] === null) {
             self::$statusInfoCache[$a_obj_id] = self::loadStatusInfo($a_obj_id);
         }
 
