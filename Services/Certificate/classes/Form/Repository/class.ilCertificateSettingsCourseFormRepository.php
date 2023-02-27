@@ -50,45 +50,25 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
         ?ilTree $tree = null,
         ?ilSetting $setting = null
     ) {
-        if (null === $settingsFormFactory) {
-            $settingsFormFactory = new ilCertificateSettingsFormRepository(
-                $object->getId(),
-                $certificatePath,
-                $hasAdditionalElements,
-                $language,
-                $ctrl,
-                $access,
-                $toolbar,
-                $placeholderDescriptionObject
-            );
-        }
-        $this->settingsFormFactory = $settingsFormFactory;
+        global $DIC;
 
-        if (null === $trackingHelper) {
-            $trackingHelper = new ilCertificateObjUserTrackingHelper();
-        }
-        $this->trackingHelper = $trackingHelper;
-
-        if (null === $objectHelper) {
-            $objectHelper = new ilCertificateObjectHelper();
-        }
-        $this->objectHelper = $objectHelper;
-
-        if (null === $lpHelper) {
-            $lpHelper = new ilCertificateObjectLPHelper();
-        }
-        $this->lpHelper = $lpHelper;
-
-        if (null === $tree) {
-            global $DIC;
-            $tree = $DIC['tree'];
-        }
-        $this->tree = $tree;
-
-        if (null === $setting) {
-            $setting = new ilSetting('crs');
-        }
-        $this->setting = $setting;
+        $this->settingsFormFactory = $settingsFormFactory ?? new ilCertificateSettingsFormRepository(
+            $object->getId(),
+            $certificatePath,
+            $hasAdditionalElements,
+            $language,
+            $ctrl,
+            $access,
+            $toolbar,
+            $placeholderDescriptionObject,
+            $DIC->ui()->factory(),
+            $DIC->ui()->renderer()
+        );
+        $this->trackingHelper = $trackingHelper ?? new ilCertificateObjUserTrackingHelper();
+        $this->objectHelper = $objectHelper ?? new ilCertificateObjectHelper();
+        $this->lpHelper = $lpHelper ?? new ilCertificateObjectLPHelper();
+        $this->tree = $tree ?? $DIC->repositoryTree();
+        $this->setting = $setting ?? new ilSetting('crs');
     }
 
     /**

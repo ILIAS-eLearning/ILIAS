@@ -42,25 +42,21 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
         ?ilCertificateSettingsFormRepository $settingsFormRepository = null,
         ?ilSetting $setting = null
     ) {
-        if (null === $settingsFormRepository) {
-            $settingsFormRepository = new ilCertificateSettingsFormRepository(
-                $object->getId(),
-                $certificatePath,
-                $hasAdditionalElements,
-                $language,
-                $ctrl,
-                $access,
-                $toolbar,
-                $placeholderDescriptionObject
-            );
-        }
+        global $DIC;
 
-        $this->settingsFormFactory = $settingsFormRepository;
-
-        if (null === $setting) {
-            $setting = new ilSetting('scorm');
-        }
-        $this->setting = $setting;
+        $this->settingsFormFactory = $settingsFormRepository ?? new ilCertificateSettingsFormRepository(
+            $object->getId(),
+            $certificatePath,
+            $hasAdditionalElements,
+            $language,
+            $ctrl,
+            $access,
+            $toolbar,
+            $placeholderDescriptionObject,
+            $DIC->ui()->factory(),
+            $DIC->ui()->renderer()
+        );
+        $this->setting = $setting ?? new ilSetting('scorm');
     }
 
     /**
