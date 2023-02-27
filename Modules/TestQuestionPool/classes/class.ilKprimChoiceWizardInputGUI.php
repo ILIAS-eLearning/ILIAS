@@ -129,7 +129,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $aidx => $answervalue) {
-                    $hasImage = $foundvalues['imagename'] ? true : false;
+                    $hasImage = isset($foundvalues['imagename']) ? true : false;
                     if (((strlen($answervalue)) == 0) && !$hasImage) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
