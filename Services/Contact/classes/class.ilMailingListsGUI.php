@@ -39,6 +39,7 @@ class ilMailingListsGUI
     private ilMailingLists $mlists;
     private ilPropertyFormGUI $form_gui;
     private \ILIAS\UI\Factory $ui_factory;
+    private \ILIAS\UI\Renderer $ui_renderer;
 
     public function __construct()
     {
@@ -54,6 +55,7 @@ class ilMailingListsGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         $this->umail = new ilFormatMail($this->user->getId());
         $this->mlists = new ilMailingLists($this->user);
@@ -253,35 +255,42 @@ class ilMailingListsGUI
                 $result[$counter]['members'] = count($entry->getAssignedEntries());
 
                 $this->ctrl->setParameter($this, 'ml_id', $entry->getId());
+                $buttons = [];
 
-                $current_selection_list = new ilAdvancedSelectionListGUI();
-                $current_selection_list->setListTitle($this->lng->txt("actions"));
-                $current_selection_list->setId("act_" . $counter);
-
-                $current_selection_list->addItem(
-                    $this->lng->txt("edit"),
-                    '',
-                    $this->ctrl->getLinkTarget($this, "showForm")
-                );
-                $current_selection_list->addItem(
-                    $this->lng->txt("members"),
-                    '',
-                    $this->ctrl->getLinkTarget($this, "showMembersList")
-                );
-                if ($mailing_allowed) {
-                    $current_selection_list->addItem(
-                        $this->lng->txt("send_mail_to"),
-                        '',
-                        $this->ctrl->getLinkTarget($this, "mailToList")
+                $buttons[] = $this->ui_factory
+                    ->button()
+                    ->shy(
+                        $this->lng->txt('edit'),
+                        $this->ctrl->getLinkTarget($this, 'showForm')
                     );
+                $buttons[] = $this->ui_factory
+                    ->button()
+                    ->shy(
+                        $this->lng->txt('members'),
+                        $this->ctrl->getLinkTarget($this, 'showMembersList')
+                    );
+                if ($mailing_allowed) {
+                    $buttons[] = $this->ui_factory
+                        ->button()
+                        ->shy(
+                            $this->lng->txt('send_mail_to'),
+                            $this->ctrl->getLinkTarget($this, 'mailToList')
+                        );
                 }
-                $current_selection_list->addItem(
-                    $this->lng->txt("delete"),
-                    '',
-                    $this->ctrl->getLinkTarget($this, "confirmDelete")
-                );
+                $buttons[] = $this->ui_factory
+                    ->button()
+                    ->shy(
+                        $this->lng->txt('delete'),
+                        $this->ctrl->getLinkTarget($this, 'confirmDelete')
+                    );
+                $this->ctrl->setParameter($this, 'ml_id', null);
 
-                $result[$counter]['COMMAND_SELECTION_LIST'] = $current_selection_list->getHTML();
+                $drop_down = $this->ui_factory
+                    ->dropdown()
+                    ->standard($buttons)
+                    ->withLabel($this->lng->txt('actions'));
+
+                $result[$counter]['COMMAND_SELECTION_LIST'] = $this->ui_renderer->render($drop_down);
                 ++$counter;
             }
 
