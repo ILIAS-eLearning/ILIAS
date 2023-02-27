@@ -26,8 +26,8 @@ declare(strict_types=1);
  */
 class ilCertificateDownloadValidator
 {
-    private ilCertificateUserCertificateAccessValidator $userCertificateAccessValidator;
-    private ilCertificateActiveValidator $activeValidator;
+    private readonly ilCertificateUserCertificateAccessValidator $userCertificateAccessValidator;
+    private readonly ilCertificateActiveValidator $activeValidator;
 
     public function __construct(
         ?ilCertificateUserCertificateAccessValidator $userCertificateAccessValidator = null,

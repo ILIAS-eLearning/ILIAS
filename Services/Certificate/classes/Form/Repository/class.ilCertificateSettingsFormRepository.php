@@ -30,23 +30,23 @@ use ILIAS\Refinery\Factory;
  */
 class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 {
-    private ilPageFormats $pageFormats;
-    private ilFormFieldParser $formFieldParser;
-    private ilCertificateTemplateImportAction $importAction;
-    private ilCertificateTemplateRepository $templateRepository;
-    private ilCertificateBackgroundImageFileService $backGroundImageFileService;
-    private WrapperFactory $httpWrapper;
-    private Factory $refinery;
+    private readonly ilPageFormats $pageFormats;
+    private readonly ilFormFieldParser $formFieldParser;
+    private readonly ilCertificateTemplateImportAction $importAction;
+    private readonly ilCertificateTemplateRepository $templateRepository;
+    private readonly ilCertificateBackgroundImageFileService $backGroundImageFileService;
+    private readonly WrapperFactory $httpWrapper;
+    private readonly Factory $refinery;
 
     public function __construct(
-        private int $objectId,
+        private readonly int $objectId,
         string $certificatePath,
-        private bool $hasAdditionalElements,
-        private ilLanguage $language,
-        private ilCtrlInterface $ctrl,
-        private ilAccessHandler $access,
-        private ilToolbarGUI $toolbar,
-        private ilCertificatePlaceholderDescription $placeholderDescriptionObject,
+        private readonly bool $hasAdditionalElements,
+        private readonly ilLanguage $language,
+        private readonly ilCtrlInterface $ctrl,
+        private readonly ilAccessHandler $access,
+        private readonly ilToolbarGUI $toolbar,
+        private readonly ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ?ilPageFormats $pageFormats = null,
         ?ilFormFieldParser $formFieldParser = null,
         ?ilCertificateTemplateImportAction $importAction = null,

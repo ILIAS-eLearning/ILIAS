@@ -27,18 +27,18 @@ use ILIAS\Filesystem\Exception\IOException;
  */
 class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepository
 {
-    private ilCertificateSettingsFormRepository $settingsFormFactory;
-    private ilCertificateObjUserTrackingHelper $trackingHelper;
-    private ilCertificateObjectHelper $objectHelper;
-    private ilCertificateObjectLPHelper $lpHelper;
-    private ilTree $tree;
-    private ilSetting $setting;
+    private readonly ilCertificateSettingsFormRepository $settingsFormFactory;
+    private readonly ilCertificateObjUserTrackingHelper $trackingHelper;
+    private readonly ilCertificateObjectHelper $objectHelper;
+    private readonly ilCertificateObjectLPHelper $lpHelper;
+    private readonly ilTree $tree;
+    private readonly ilSetting $setting;
 
     public function __construct(
-        private ilObject $object,
+        private readonly ilObject $object,
         string $certificatePath,
         bool $hasAdditionalElements,
-        private ilLanguage $language,
+        private readonly ilLanguage $language,
         ilCtrlInterface $ctrl,
         ilAccess $access,
         ilToolbarGUI $toolbar,

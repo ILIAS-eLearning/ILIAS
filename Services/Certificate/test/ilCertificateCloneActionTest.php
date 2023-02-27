@@ -116,9 +116,9 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
             $database,
             new ilCertificatePathFactory(),
             $templateRepository,
+            'some/web/directory',
             $fileSystem,
             $objectHelper,
-            'some/web/directory',
             '/certificates/default/background.jpg'
         );
 

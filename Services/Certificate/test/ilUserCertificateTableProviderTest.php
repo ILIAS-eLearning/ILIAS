@@ -202,7 +202,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
         $this->assertSame($expected, $dataSet);
     }
 
-    public function testFetchingDataWithInvalidOrderFieldWillResultInException(): void
+    public function testFetchingDataWithInvalidOrderFieldWillResultInException(): never
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -247,7 +247,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
         $this->fail('Should never happen');
     }
 
-    public function testFetchingDataWithEmptyOrderFieldWillResultInException(): void
+    public function testFetchingDataWithEmptyOrderFieldWillResultInException(): never
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -292,7 +292,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
         $this->fail('Should never happen');
     }
 
-    public function testFetchingDataWithWrongOrderDirectionWillResultInException(): void
+    public function testFetchingDataWithWrongOrderDirectionWillResultInException(): never
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -342,7 +342,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
         $this->fail('Should never happen');
     }
 
-    public function testFetchingDataWithInvalidLimitParameterWillResultInException(): void
+    public function testFetchingDataWithInvalidLimitParameterWillResultInException(): never
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -392,7 +392,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
         $this->fail('Should never happen');
     }
 
-    public function testFetchingDataWithInvalidOffsetParameterWillResultInException(): void
+    public function testFetchingDataWithInvalidOffsetParameterWillResultInException(): never
     {
         $this->expectException(InvalidArgumentException::class);
 

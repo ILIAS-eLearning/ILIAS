@@ -25,15 +25,15 @@ use ILIAS\Filesystem\Filesystem;
  */
 class ilCertificateBackgroundImageFileService
 {
-    public const BACKGROUND_IMAGE_NAME = 'background.jpg';
-    public const BACKGROUND_TEMPORARY_UPLOAD_FILE_NAME = 'background_upload.tmp';
-    public const BACKGROUND_THUMBNAIL_FILE_ENDING = '.thumb.jpg';
-    public const PLACEHOLDER_CLIENT_WEB_DIRECTORY = '[CLIENT_WEB_DIR]';
+    final public const BACKGROUND_IMAGE_NAME = 'background.jpg';
+    final public const BACKGROUND_TEMPORARY_UPLOAD_FILE_NAME = 'background_upload.tmp';
+    final public const BACKGROUND_THUMBNAIL_FILE_ENDING = '.thumb.jpg';
+    final public const PLACEHOLDER_CLIENT_WEB_DIRECTORY = '[CLIENT_WEB_DIR]';
 
     public function __construct(
-        private string $certificatePath,
-        private Filesystem $fileSystem,
-        private string $webDirectory = CLIENT_WEB_DIR
+        private readonly string $certificatePath,
+        private readonly Filesystem $fileSystem,
+        private readonly string $webDirectory = CLIENT_WEB_DIR
     ) {
     }
 

@@ -58,7 +58,7 @@ class ilCertificateTypeClassMapTest extends ilCertificateBaseTestCase
         $this->assertSame(ilScormPlaceholderValues::class, $class);
     }
 
-    public function testFetchUnknownClassWillResultInException(): void
+    public function testFetchUnknownClassWillResultInException(): never
     {
         $this->expectException(ilException::class);
 

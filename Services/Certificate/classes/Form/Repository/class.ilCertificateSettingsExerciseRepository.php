@@ -27,7 +27,7 @@ use ILIAS\Filesystem\Exception\IOException;
  */
 class ilCertificateSettingsExerciseRepository implements ilCertificateFormRepository
 {
-    private ilCertificateSettingsFormRepository $settingsFormFactory;
+    private readonly ilCertificateSettingsFormRepository $settingsFormFactory;
 
     public function __construct(
         ilObject $object,

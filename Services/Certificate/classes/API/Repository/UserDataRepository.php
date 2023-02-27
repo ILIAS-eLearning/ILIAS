@@ -32,7 +32,7 @@ use ilDBInterface;
  */
 class UserDataRepository
 {
-    private string $defaultTitle;
+    private readonly string $defaultTitle;
 
     /**
      * @param string|null     $defaultTitle The default title is use if the title of an repository object could not be
@@ -40,8 +40,8 @@ class UserDataRepository
      *                                    mechanisms to store the title of deleted objects (table: object_data_del) failed.
      */
     public function __construct(
-        private ilDBInterface $database,
-        private ilCtrlInterface $ctrl,
+        private readonly ilDBInterface $database,
+        private readonly ilCtrlInterface $ctrl,
         ?string $defaultTitle = null
     ) {
         if (null === $defaultTitle) {

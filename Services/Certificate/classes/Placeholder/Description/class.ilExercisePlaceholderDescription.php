@@ -23,8 +23,8 @@ declare(strict_types=1);
  */
 class ilExercisePlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    private ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
-    private ilLanguage $language;
+    private readonly ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
+    private readonly ilLanguage $language;
     private array $placeholder;
 
     public function __construct(

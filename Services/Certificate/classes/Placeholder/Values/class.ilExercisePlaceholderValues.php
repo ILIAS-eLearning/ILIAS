@@ -23,14 +23,14 @@ declare(strict_types=1);
  */
 class ilExercisePlaceholderValues implements ilCertificatePlaceholderValues
 {
-    private ilLanguage $language;
-    private ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
-    private ilCertificateLPMarksHelper $lpMarksHelper;
-    private ilCertificateObjectHelper $objectHelper;
-    private ilCertificateExerciseMembersHelper $exerciseMembersHelper;
-    private ilCertificateLPStatusHelper $lpStatusHelper;
-    private ilCertificateUtilHelper $utilHelper;
-    private ilCertificateDateHelper $dateHelper;
+    private readonly ilLanguage $language;
+    private readonly ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
+    private readonly ilCertificateLPMarksHelper $lpMarksHelper;
+    private readonly ilCertificateObjectHelper $objectHelper;
+    private readonly ilCertificateExerciseMembersHelper $exerciseMembersHelper;
+    private readonly ilCertificateLPStatusHelper $lpStatusHelper;
+    private readonly ilCertificateUtilHelper $utilHelper;
+    private readonly ilCertificateDateHelper $dateHelper;
 
     public function __construct(
         ?ilDefaultPlaceholderValues $defaultPlaceholderValues = null,

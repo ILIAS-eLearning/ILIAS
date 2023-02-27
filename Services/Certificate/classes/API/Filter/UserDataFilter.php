@@ -25,14 +25,14 @@ namespace ILIAS\Certificate\API\Filter;
  */
 class UserDataFilter
 {
-    public const SORT_FIELD_ISSUE_TIMESTAMP = 1;
-    public const SORT_FIELD_USR_LOGIN = 2;
-    public const SORT_FIELD_USR_LASTNAME = 3;
-    public const SORT_FIELD_USR_FIRSTNAME = 4;
-    public const SORT_FIELD_OBJ_TITLE = 5;
-    public const SORT_FIELD_USR_EMAIL = 6;
-    public const SORT_DIRECTION_ASC = 1;
-    public const SORT_DIRECTION_DESC = 2;
+    final public const SORT_FIELD_ISSUE_TIMESTAMP = 1;
+    final public const SORT_FIELD_USR_LOGIN = 2;
+    final public const SORT_FIELD_USR_LASTNAME = 3;
+    final public const SORT_FIELD_USR_FIRSTNAME = 4;
+    final public const SORT_FIELD_OBJ_TITLE = 5;
+    final public const SORT_FIELD_USR_EMAIL = 6;
+    final public const SORT_DIRECTION_ASC = 1;
+    final public const SORT_DIRECTION_DESC = 2;
 
     private ?string $objectTitle = null;
     private ?int $issuedBeforeTimestamp = null;
@@ -47,6 +47,7 @@ class UserDataFilter
     private array $userIds = [];
     /** @var int[] */
     private array $objIds = [];
+    /** @var list<array{0: string, 1: string}> */
     private array $sorts = [];
     private ?int $limitOffset = null;
     private ?int $limitCount = null;
@@ -357,6 +358,9 @@ class UserDataFilter
         return $clone;
     }
 
+    /**
+     * @return list<array{0: string, 1: string}>
+     */
     public function getSorts(): array
     {
         return $this->sorts;

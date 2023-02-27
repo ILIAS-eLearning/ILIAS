@@ -37,10 +37,10 @@ use ILIAS\FileUpload\Location;
  */
 class ilCertificateGUI
 {
-    private ilCertificateBackgroundImageDelete $backgroundImageDelete;
-    private Filesystem $fileSystem;
-    private WrapperFactory $httpWrapper;
-    private Factory $refinery;
+    private readonly ilCertificateBackgroundImageDelete $backgroundImageDelete;
+    private readonly Filesystem $fileSystem;
+    private readonly WrapperFactory $httpWrapper;
+    private readonly Factory $refinery;
     protected ilCtrlInterface $ctrl;
     protected ilTree $tree;
     protected ILIAS $ilias;
@@ -49,24 +49,24 @@ class ilCertificateGUI
     protected int $ref_id;
     protected ilAccessHandler $access;
     protected ilToolbarGUI $toolbar;
-    private ilCertificateTemplateRepository $templateRepository;
-    private ilCertificateFormRepository $settingsFormFactory;
-    private ilXlsFoParser $xlsFoParser;
-    private ilCertificateDeleteAction $deleteAction;
-    private ilCertificateTemplateExportAction $exportAction;
-    private ilCertificateBackgroundImageUpload $backgroundImageUpload;
-    private ilCertificateTemplatePreviewAction $previewAction;
-    private FileUpload $fileUpload;
-    private string $certificatePath;
-    private ilSetting $settings;
-    private ilPageFormats $pageFormats;
-    private Filesystem $tmp_file_system;
-    private ilLogger $logger;
+    private readonly ilCertificateTemplateRepository $templateRepository;
+    private readonly ilCertificateFormRepository $settingsFormFactory;
+    private readonly ilXlsFoParser $xlsFoParser;
+    private readonly ilCertificateDeleteAction $deleteAction;
+    private readonly ilCertificateTemplateExportAction $exportAction;
+    private readonly ilCertificateBackgroundImageUpload $backgroundImageUpload;
+    private readonly ilCertificateTemplatePreviewAction $previewAction;
+    private readonly FileUpload $fileUpload;
+    private readonly string $certificatePath;
+    private readonly ilSetting $settings;
+    private readonly ilPageFormats $pageFormats;
+    private readonly Filesystem $tmp_file_system;
+    private readonly ilLogger $logger;
 
     public function __construct(
-        private ilCertificatePlaceholderDescription $placeholderDescriptionObject,
+        private readonly ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ilCertificatePlaceholderValues $placeholderValuesObject,
-        private int $objectId,
+        private readonly int $objectId,
         string $certificatePath,
         ?ilCertificateFormRepository $settingsFormFactory = null,
         ?ilCertificateDeleteAction $deleteAction = null,

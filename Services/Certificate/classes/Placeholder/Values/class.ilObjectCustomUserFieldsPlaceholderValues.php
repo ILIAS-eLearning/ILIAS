@@ -23,7 +23,7 @@ declare(strict_types=1);
  */
 class ilObjectCustomUserFieldsPlaceholderValues implements ilCertificatePlaceholderValues
 {
-    private ilCertificateObjectHelper $objectHelper;
+    private readonly ilCertificateObjectHelper $objectHelper;
 
     public function __construct(?ilCertificateObjectHelper $objectHelper = null)
     {

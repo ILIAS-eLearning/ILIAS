@@ -27,14 +27,14 @@ use ILIAS\Filesystem\Exception\IOException;
  */
 class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepository
 {
-    private ilCertificateSettingsFormRepository $settingsFormFactory;
-    private ilSetting $setting;
+    private readonly ilCertificateSettingsFormRepository $settingsFormFactory;
+    private readonly ilSetting $setting;
 
     public function __construct(
-        private ilObject $object,
+        private readonly ilObject $object,
         string $certificatePath,
         bool $hasAdditionalElements,
-        private ilLanguage $language,
+        private readonly ilLanguage $language,
         ilCtrlInterface $ctrl,
         ilAccess $access,
         ilToolbarGUI $toolbar,

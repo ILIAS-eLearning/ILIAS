@@ -23,13 +23,13 @@ declare(strict_types=1);
  */
 class ilCertificatePdfAction
 {
-    private ilCertificateUtilHelper $ilUtilHelper;
-    private ilErrorHandling $errorHandler;
+    private readonly ilCertificateUtilHelper $ilUtilHelper;
+    private readonly ilErrorHandling $errorHandler;
 
     public function __construct(
-        private ilPdfGenerator $pdfGenerator,
+        private readonly ilPdfGenerator $pdfGenerator,
         ?ilCertificateUtilHelper $ilUtilHelper = null,
-        private string $translatedErrorText = '',
+        private readonly string $translatedErrorText = '',
         ?ilErrorHandling $errorHandler = null
     ) {
         if (null === $ilUtilHelper) {

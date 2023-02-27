@@ -24,7 +24,7 @@ use ILIAS\Filesystem\Exception\FileNotFoundException;
 
 class ilCertificateSettingsStudyProgrammeFormRepository implements ilCertificateFormRepository
 {
-    private ilCertificateSettingsFormRepository $settingsFormRepository;
+    private readonly ilCertificateSettingsFormRepository $settingsFormRepository;
 
     public function __construct(
         ilObject $object,

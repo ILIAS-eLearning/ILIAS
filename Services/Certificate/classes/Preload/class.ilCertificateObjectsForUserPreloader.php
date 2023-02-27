@@ -26,7 +26,7 @@ class ilCertificateObjectsForUserPreloader
     /** @var array<int, int[]> */
     private static array $certificates = [];
 
-    public function __construct(private ilUserCertificateRepository $userCertificateRepository)
+    public function __construct(private readonly ilUserCertificateRepository $userCertificateRepository)
     {
     }
 
