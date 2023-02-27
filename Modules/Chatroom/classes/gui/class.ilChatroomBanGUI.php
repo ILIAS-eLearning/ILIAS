@@ -26,9 +26,9 @@ declare(strict_types=1);
  */
 class ilChatroomBanGUI extends ilChatroomGUIHandler
 {
-    private ilCtrlInterface $controller;
-    private ilLanguage $language;
-    private ilObjUser $user;
+    private readonly ilCtrlInterface $controller;
+    private readonly ilLanguage $language;
+    private readonly ilObjUser $user;
 
     public function __construct(
         ilChatroomObjectGUI $gui,

@@ -52,11 +52,8 @@ class ilChatroomSetupAgent implements Setup\Agent
         'years'
     ];
 
-    protected Refinery\Factory $refinery;
-
-    public function __construct(Refinery\Factory $refinery)
+    public function __construct(protected Refinery\Factory $refinery)
     {
-        $this->refinery = $refinery;
     }
 
     /**
@@ -70,7 +67,7 @@ class ilChatroomSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getConfigInput(Setup\Config $config = null): UI\Component\Input\Field\Input
+    public function getConfigInput(Setup\Config $config = null): never
     {
         throw new LogicException("Not yet implemented.");
     }

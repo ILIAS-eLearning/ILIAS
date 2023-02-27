@@ -72,8 +72,6 @@ class ilChatroomUserTest extends ilChatroomAbstractTest
 
     /**
      * @dataProvider usernameDataProvider
-     * @param string $username
-     * @param string $expected
      */
     public function testSetUsername(string $username, string $expected): void
     {
@@ -180,9 +178,6 @@ class ilChatroomUserTest extends ilChatroomAbstractTest
         $this->assertSame('jdoe', $suggestions['login']);
     }
 
-    /**
-     * @return array
-     */
     public function usernameDataProvider(): array
     {
         return [

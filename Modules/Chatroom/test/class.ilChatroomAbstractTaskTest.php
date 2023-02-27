@@ -161,7 +161,7 @@ abstract class ilChatroomAbstractTaskTest extends ilChatroomAbstractTest
         $mock->expects($this->once())->method('sendResponse')->with(
             $this->equalTo($response)
         )->willReturnCallback(
-            static function (): void {
+            static function (): never {
                 throw new Exception('Exit', 0);
             }
         );

@@ -252,7 +252,6 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
     }
 
     /**
-     * @param int $smileyId
      * @return array{chatroom_smiley_id: int, chatroom_smiley_keywords: string, chatroom_current_smiley_image_path: string}
      */
     protected function getSmileyFormDataById(int $smileyId): array
@@ -268,7 +267,6 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 
     /**
      * @param array<string, mixed> $form_data
-     * @return ilPropertyFormGUI
      */
     public function initSmiliesEditForm(array $form_data): ilPropertyFormGUI
     {

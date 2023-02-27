@@ -61,8 +61,6 @@ class ilChatroomServerSettingsTest extends TestCase
     }
 
     /**
-     * @param string $property
-     * @param callable $assertionCallback
      * @param mixed $value
      * @dataProvider setterAndGettersProvider
      */

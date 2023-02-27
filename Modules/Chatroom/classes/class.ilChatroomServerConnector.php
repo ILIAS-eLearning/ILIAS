@@ -28,11 +28,8 @@ class ilChatroomServerConnector
 {
     protected static ?bool $connection_status = null;
 
-    private ilChatroomServerSettings $settings;
-
-    public function __construct(ilChatroomServerSettings $settings)
+    public function __construct(private readonly ilChatroomServerSettings $settings)
     {
-        $this->settings = $settings;
     }
 
     public static function checkServerConnection(bool $use_cache = true): bool
@@ -72,8 +69,6 @@ class ilChatroomServerConnector
 
     /**
      * Creates connect URL using given $scope and $userId and returns it.
-     * @param int $scope
-     * @param int $userId
      * @return string|false
      */
     public function connect(int $scope, int $userId)
@@ -84,8 +79,7 @@ class ilChatroomServerConnector
     }
 
     /**
-     * @param string $url
-     * @param array $stream_context_params
+     * @param array|null $stream_context_params
      * @return string|false
      */
     protected function file_get_contents(string $url, ?array $stream_context_params = null)
@@ -111,7 +105,7 @@ class ilChatroomServerConnector
             $ctx = array_merge_recursive($ctx, $stream_context_params);
         }
 
-        set_error_handler(static function (int $severity, string $message, string $file, int $line): void {
+        set_error_handler(static function (int $severity, string $message, string $file, int $line): never {
             throw new ErrorException($message, $severity, $severity, $file, $line);
         });
 
@@ -127,9 +121,6 @@ class ilChatroomServerConnector
     }
 
     /**
-     * @param int $scope
-     * @param int $user
-     * @param string $title
      * @return string|false
      */
     public function sendCreatePrivateRoom(int $scope, int $user, string $title)
@@ -141,8 +132,6 @@ class ilChatroomServerConnector
     }
 
     /**
-     * @param int $scope
-     * @param int $user
      * @return string|false
      * @deprecated Please use sendEnterPrivateRoom instead
      */
@@ -152,8 +141,6 @@ class ilChatroomServerConnector
     }
 
     /**
-     * @param int $scope
-     * @param int $user
      * @return string|false
      */
     public function sendEnterPrivateRoom(int $scope, int $user)
@@ -164,8 +151,6 @@ class ilChatroomServerConnector
     }
 
     /**
-     * @param int $scope
-     * @param int $user
      * @return string|false
      */
     public function sendClearMessages(int $scope, int $user)
@@ -176,8 +161,6 @@ class ilChatroomServerConnector
     }
 
     /**
-     * @param int $scope
-     * @param int $user
      * @return string|false
      */
     public function leavePrivateRoom(int $scope, int $user)
@@ -186,8 +169,6 @@ class ilChatroomServerConnector
     }
 
     /**
-     * @param int $scope
-     * @param int $user
      * @return string|false
      */
     public function sendLeavePrivateRoom(int $scope, int $user)
@@ -198,8 +179,6 @@ class ilChatroomServerConnector
     }
 
     /**
-     * @param int $scope
-     * @param int $user
      * @return string|false
      */
     public function sendKick(int $scope, int $user)
@@ -210,8 +189,6 @@ class ilChatroomServerConnector
     /**
      * Returns kick URL
      * Creates kick URL using given $scope and $query and returns it.
-     * @param int $scope
-     * @param int $user
      * @return string|false
      */
     public function kick(int $scope, int $user)
@@ -222,8 +199,6 @@ class ilChatroomServerConnector
     }
 
     /**
-     * @param int $scope
-     * @param int $user
      * @return string|false
      */
     public function sendBan(int $scope, int $user)
@@ -239,9 +214,6 @@ class ilChatroomServerConnector
     }
 
     /**
-     * @param int $scope
-     * @param int $user
-     * @param int $invited_id
      * @return string|false
      */
     public function sendInviteToPrivateRoom(int $scope, int $user, int $invited_id)
@@ -253,7 +225,6 @@ class ilChatroomServerConnector
     }
 
     /**
-     * @param string $message
      * @return string|false
      */
     public function sendUserConfigChange(string $message)
