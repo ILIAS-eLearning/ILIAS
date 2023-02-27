@@ -99,11 +99,10 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
     protected function showDocuments(): void
     {
         if ($this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
-            $addDocumentBtn = ilLinkButton::getInstance();
-            $addDocumentBtn->setPrimary(true);
-            $addDocumentBtn->setUrl($this->ctrl->getLinkTarget($this, 'showAddDocumentForm'));
-            $addDocumentBtn->setCaption('tos_add_document_btn_label');
-            $this->toolbar->addStickyItem($addDocumentBtn);
+            $this->toolbar->addStickyItem($this->uiFactory->button()->primary(
+                $this->lng->txt('tos_add_document_btn_label'),
+                $this->ctrl->getLinkTarget($this, 'showAddDocumentForm')
+            ));
         }
 
         $documentTableGui = new ilTermsOfServiceDocumentTableGUI(
