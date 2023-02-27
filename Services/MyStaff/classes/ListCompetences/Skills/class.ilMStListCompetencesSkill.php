@@ -9,6 +9,10 @@ class ilMStListCompetencesSkill
 {
 
     /**
+     * @var integer
+     */
+    protected $skill_node_id;
+    /**
      * @var string
      */
     protected $skill_title;
@@ -44,14 +48,33 @@ class ilMStListCompetencesSkill
      * @param string $first_name
      * @param int    $user_id
      */
-    public function __construct(string $skill_title, string $skill_level, string $login, string $last_name, string $first_name, int $user_id)
+    public function __construct(int $skill_node_id, string $skill_title, string $skill_level, string $login, string $last_name, string $first_name, int $user_id)
     {
+        $this->skill_node_id = $skill_node_id;
         $this->skill_title = $skill_title;
         $this->skill_level = $skill_level;
         $this->login = $login;
         $this->last_name = $last_name;
         $this->first_name = $first_name;
         $this->user_id = $user_id;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getSkillNodeId() : int
+    {
+        return $this->skill_node_id;
+    }
+
+
+    /**
+     * @param int $skill_node_id
+     */
+    public function setSkillNodeId(int $skill_node_id) : void
+    {
+        $this->skill_node_id = $skill_node_id;
     }
 
 
