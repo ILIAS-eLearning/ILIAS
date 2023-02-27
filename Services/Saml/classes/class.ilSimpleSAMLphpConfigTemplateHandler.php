@@ -26,7 +26,7 @@ use ILIAS\Filesystem\Filesystem;
  */
 final class ilSimpleSAMLphpConfigTemplateHandler
 {
-    public function __construct(private Filesystem $fs)
+    public function __construct(private readonly Filesystem $fs)
     {
     }
 
