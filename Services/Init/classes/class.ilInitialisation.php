@@ -1112,6 +1112,8 @@ class ilInitialisation
 
             // add notices to error reporting
             error_reporting(E_ALL);
+        } else {
+            error_reporting(E_ALL & ~E_NOTICE);
         }
 
         if (defined('DEBUGTOOLS') && DEBUGTOOLS) {
