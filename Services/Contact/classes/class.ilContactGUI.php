@@ -26,15 +26,10 @@ declare(strict_types=1);
 */
 class ilContactGUI
 {
-    public const CONTACTS_VIEW_GALLERY = 'buddy_view_gallery';
-    public const CONTACTS_VIEW_TABLE = 'buddy_view_table';
+    final public const CONTACTS_VIEW_GALLERY = 'buddy_view_gallery';
+    final public const CONTACTS_VIEW_TABLE = 'buddy_view_table';
 
-    private \ILIAS\HTTP\GlobalHttpState $http;
-    /**
-     * @var int[]|null
-     */
-    private ?array $postUsrId = null;
-
+    private readonly \ILIAS\HTTP\GlobalHttpState $http;
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;

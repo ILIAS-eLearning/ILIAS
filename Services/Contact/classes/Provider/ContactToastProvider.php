@@ -27,7 +27,7 @@ use ILIAS\Notifications\ilNotificationOSDHandler;
 
 class ContactToastProvider extends AbstractToastProvider
 {
-    public const NOTIFICATION_TYPE = 'buddysystem_request';
+    final public const NOTIFICATION_TYPE = 'buddysystem_request';
 
     public function getToasts(): array
     {

@@ -27,14 +27,14 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilMailSearchObjectMembershipsTableGUI extends ilTable2GUI
 {
-    private GlobalHttpState $http;
-    private Refinery $refinery;
-    private ilObjUser $user;
+    private readonly GlobalHttpState $http;
+    private readonly Refinery $refinery;
+    private readonly ilObjUser $user;
     /** @var array<string, string>  */
-    private array $mode;
+    private readonly array $mode;
     private bool $mailing_allowed;
-    private \ILIAS\UI\Factory $ui_factory;
-    private \ILIAS\UI\Renderer $ui_renderer;
+    private readonly \ILIAS\UI\Factory $ui_factory;
+    private readonly \ILIAS\UI\Renderer $ui_renderer;
 
     /**
      * @param ilMailSearchCoursesGUI|ilMailSearchGroupsGUI $a_parent_obj $a_parent_obj

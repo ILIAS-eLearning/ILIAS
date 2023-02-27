@@ -368,7 +368,7 @@ abstract class ilMailSearchObjectGUI
         if ($this->http->wrapper()->query()->has('search_' . $this->getObjectType())) {
             $obj_ids = $this->refinery->kindlyTo()->listOf(
                 $this->refinery->kindlyTo()->int()
-            )->transform(explode(',', $this->http->wrapper()->query()->retrieve(
+            )->transform(explode(',', (string) $this->http->wrapper()->query()->retrieve(
                 'search_' . $this->getObjectType(),
                 $this->refinery->kindlyTo()->string()
             )));
@@ -382,7 +382,7 @@ abstract class ilMailSearchObjectGUI
         } elseif (ilSession::get('search_' . $this->getObjectType())) {
             $obj_ids = $this->refinery->kindlyTo()->listOf(
                 $this->refinery->kindlyTo()->int()
-            )->transform(explode(',', ilSession::get('search_' . $this->getObjectType())));
+            )->transform(explode(',', (string) ilSession::get('search_' . $this->getObjectType())));
             ilSession::set('search_' . $this->getObjectType(), '');
         }
 

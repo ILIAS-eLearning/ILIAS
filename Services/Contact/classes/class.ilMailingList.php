@@ -24,16 +24,16 @@ declare(strict_types=1);
  */
 class ilMailingList
 {
+    final public const MODE_ADDRESSBOOK = 1;
+    final public const MODE_TEMPORARY = 2;
+
     private int $user_id;
     private string $title = '';
     private string $description = '';
     private string $createdate;
     private ?string $changedate;
+    private readonly ilDBInterface $db;
 
-    private ilDBInterface $db;
-
-    public const MODE_ADDRESSBOOK = 1;
-    public const MODE_TEMPORARY = 2;
     private int $mode;
 
     public function __construct(ilObjUser $user, private int $mail_id = 0)

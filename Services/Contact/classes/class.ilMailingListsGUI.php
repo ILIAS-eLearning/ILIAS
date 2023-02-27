@@ -26,20 +26,20 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilMailingListsGUI
 {
-    private \ILIAS\HTTP\GlobalHttpState $http;
-    private Refinery $refinery;
-    private ilGlobalTemplateInterface $tpl;
-    private ilCtrlInterface $ctrl;
-    private ilLanguage $lng;
-    private ilObjUser $user;
-    private ilErrorHandling $error;
-    private ilToolbarGUI $toolbar;
-    private ilRbacSystem $rbacsystem;
-    private ilFormatMail $umail;
-    private ilMailingLists $mlists;
+    private readonly \ILIAS\HTTP\GlobalHttpState $http;
+    private readonly Refinery $refinery;
+    private readonly ilGlobalTemplateInterface $tpl;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilLanguage $lng;
+    private readonly ilObjUser $user;
+    private readonly ilErrorHandling $error;
+    private readonly ilToolbarGUI $toolbar;
+    private readonly ilRbacSystem $rbacsystem;
+    private readonly ilFormatMail $umail;
+    private readonly ilMailingLists $mlists;
     private ilPropertyFormGUI $form_gui;
-    private \ILIAS\UI\Factory $ui_factory;
-    private \ILIAS\UI\Renderer $ui_renderer;
+    private readonly \ILIAS\UI\Factory $ui_factory;
+    private readonly \ILIAS\UI\Renderer $ui_renderer;
 
     public function __construct()
     {

@@ -28,19 +28,19 @@ use ILIAS\Refinery\Factory as Refinery;
 */
 class ilMailSearchGUI
 {
-    private ilGlobalTemplateInterface $tpl;
-    private ilCtrlInterface $ctrl;
+    private readonly ilGlobalTemplateInterface $tpl;
+    private readonly ilCtrlInterface $ctrl;
     protected ilRbacReview $rbacreview;
     protected ilObjectDataCache $object_data_cache;
-    private ilLanguage $lng;
-    private ilFormatMail $umail;
-    private GlobalHttpState $http;
-    private Refinery $refinery;
+    private readonly ilLanguage $lng;
+    private readonly ilFormatMail $umail;
+    private readonly GlobalHttpState $http;
+    private readonly Refinery $refinery;
 
     /**
      * @param ilWorkspaceAccessHandler|null|ilPortfolioAccessHandler $wsp_access_handler
      */
-    public function __construct(private $wsp_access_handler = null, private ?int $wsp_node_id = null)
+    public function __construct(private $wsp_access_handler = null, private readonly ?int $wsp_node_id = null)
     {
         /** @var $DIC \ILIAS\DI\Container */
         global $DIC;
@@ -147,7 +147,7 @@ class ilMailSearchGUI
 
         if (ilSession::get('mail_search_search') === '') {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_insert_query'));
-        } elseif (strlen(ilSession::get('mail_search_search')) < 3) {
+        } elseif (strlen((string) ilSession::get('mail_search_search')) < 3) {
             $this->lng->loadLanguageModule('search');
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('search_minimum_three'));
         }

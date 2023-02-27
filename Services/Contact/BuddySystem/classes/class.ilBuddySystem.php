@@ -47,20 +47,11 @@ class ilBuddySystem
         return self::$instance;
     }
 
-    /**
-     * @param string $keyword
-     * @param string $value
-     */
     public function setSetting(string $keyword, string $value): void
     {
         $this->settings->set($keyword, $value);
     }
 
-    /**
-     * @param string $keyword
-     * @param string|null $default
-     * @return string|null
-     */
     public function getSetting(string $keyword, ?string $default = null): ?string
     {
         return $this->settings->get($keyword, $default);

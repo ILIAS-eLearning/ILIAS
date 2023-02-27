@@ -38,7 +38,7 @@ class ilBuddySystemGUI
     protected ilObjUser $user;
     protected ilLanguage $lng;
     protected Services $http;
-    private ilGlobalTemplateInterface $main_tpl;
+    private readonly ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {
