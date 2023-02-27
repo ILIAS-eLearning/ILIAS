@@ -151,15 +151,18 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
             $this->form_gui = $this->initSmiliesForm();
         }
 
-        $table = ilChatroomSmiliesGUI::_getExistingSmiliesTable($this->gui);
-
         $tpl_smilies = new ilTemplate(
             'tpl.chatroom_edit_smilies.html',
             true,
             true,
             'Modules/Chatroom'
         );
-        $tpl_smilies->setVariable('SMILEY_TABLE', $table);
+        $tpl_smilies->setVariable('SMILEY_TABLE', ilChatroomSmiliesGUI::_getExistingSmiliesTable(
+            $this->gui,
+            $this->uiFactory,
+            $this->uiRenderer,
+            $this->rbacsystem
+        ));
         $tpl_smilies->setVariable('SMILEY_FORM', $this->form_gui->getHTML());
 
         $this->mainTpl->setContent($tpl_smilies->get());
