@@ -38,6 +38,7 @@ class ilMailingListsGUI
     private ilFormatMail $umail;
     private ilMailingLists $mlists;
     private ilPropertyFormGUI $form_gui;
+    private \ILIAS\UI\Factory $ui_factory;
 
     public function __construct()
     {
@@ -52,6 +53,7 @@ class ilMailingListsGUI
         $this->toolbar = $DIC['ilToolbar'];
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC->ui()->factory();
 
         $this->umail = new ilFormatMail($this->user->getId());
         $this->mlists = new ilMailingLists($this->user);
@@ -229,10 +231,10 @@ class ilMailingListsGUI
 
         $tbl = new ilMailingListsTableGUI($this, 'showMailingLists');
 
-        $create_btn = ilLinkButton::getInstance();
-        $create_btn->setCaption('create');
-        $create_btn->setUrl($this->ctrl->getLinkTarget($this, 'showForm'));
-        $this->toolbar->addButtonInstance($create_btn);
+        $this->toolbar->addComponent($this->ui_factory->button()->standard(
+            $this->lng->txt('create'),
+            $this->ctrl->getLinkTarget($this, 'showForm')
+        ));
 
         $result = [];
         $entries = $this->mlists->getAll();
@@ -447,10 +449,10 @@ class ilMailingListsGUI
         );
 
         if ($availale_usr_ids !== []) {
-            $create_btn = ilLinkButton::getInstance();
-            $create_btn->setCaption('add');
-            $create_btn->setUrl($this->ctrl->getLinkTarget($this, 'showAssignmentForm'));
-            $this->toolbar->addButtonInstance($create_btn);
+            $this->toolbar->addComponent($this->ui_factory->button()->standard(
+                $this->lng->txt('add'),
+                $this->ctrl->getLinkTarget($this, 'showAssignmentForm')
+            ));
         }
 
         $assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
