@@ -41,7 +41,7 @@ function base()
             ->withUnit('Eur', I\Column\Number::UNIT_POSITION_AFT),
     ];
 
-    $table = $f->table()->data('Numbers', 50)->withColumns($columns);
+    $table = $f->table()->data('Numbers', $columns, 50);
 
     $dummy_records = [123, 45.66, 78.9876];
 
@@ -53,10 +53,11 @@ function base()
 
         public function getRows(
             I\RowFactory $row_factory,
+            array $visible_column_ids,
             Range $range,
             Order $order,
-            array $visible_column_ids,
-            array $additional_parameters
+            ?array $filter_data,
+            ?array $additional_parameters
         ): \Generator {
             foreach ($this->records as $number) {
                 $row_id = '';

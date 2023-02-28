@@ -35,7 +35,7 @@ function base()
         'i2' => $f->table()->column()->statusIcon("chart")
     ];
 
-    $table = $f->table()->data('Icons/Charts', 50)->withColumns($columns);
+    $table = $f->table()->data('Icons/Charts', $columns, 50);
 
     $dummy_records = [23, 45, 67];
 
@@ -52,10 +52,11 @@ function base()
 
         public function getRows(
             I\RowFactory $row_factory,
+            array $visible_column_ids,
             Range $range,
             Order $order,
-            array $visible_column_ids,
-            array $additional_parameters
+            ?array $filter_data,
+            ?array $additional_parameters
         ): \Generator {
             foreach ($this->records as $number) {
                 $row_id = '';

@@ -23,8 +23,5 @@ use Exception;
 
 interface RowFactory
 {
-    /**
-     * @throws Exception if record cannot be processed to row
-     */
     public function standard(string $id, array $record): Row;
 }

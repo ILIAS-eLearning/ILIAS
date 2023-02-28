@@ -32,15 +32,6 @@ function with_actions()
     $ctrl = $DIC['ilCtrl'];
 
 
-    //this is some dummy-data:
-    $dummy_records = [
-        ['f1' => 'value1.1','f2' => 'value1.2','f3' => 1.11],
-        ['f1' => 'value2.1','f2' => 'value2.2','f3' => 2.22],
-        ['f1' => 'value3.1','f2' => 'value3.2','f3' => 4.44],
-        ['f1' => 'value4.1','f2' => 'value4.2','f3' => 8.88]
-    ];
-
-
     // This is what the table will look like
     $columns = [
         'f1' => $f->table()->column()->text("Field 1"),
@@ -71,24 +62,20 @@ function with_actions()
         'compare' => $f->table()->action()->multi('compare', 'ids', buildDemoURL('table_action=compare')),
         //in both
         'delete' => $f->table()->action()->standard('delete', 'ids', $signal)
-
     ];
 
     // retrieve data and map records to table rows
-    $data_retrieval = new class ($dummy_records) extends T\DataRetrieval {
-        public function __construct(array $dummy_records)
-        {
-            $this->records = $dummy_records;
-        }
+    $data_retrieval = new class () extends T\DataRetrieval {
 
         public function getRows(
             I\RowFactory $row_factory,
+            array $visible_column_ids,
             Range $range,
             Order $order,
-            array $visible_column_ids,
-            array $additional_parameters
+            ?array $filter_data,
+            ?array $additional_parameters
         ): \Generator {
-            foreach ($this->records as $idx => $record) {
+            foreach ($this->getRecords() as $idx => $record) {
                 //identify record (e.g. for actions)
                 $row_id = 'rowid-' . (string) $idx;
 
@@ -105,11 +92,21 @@ function with_actions()
                     ->withDisabledAction('delete', $not_to_be_deleted);
             }
         }
+
+        //this is some dummy-data:
+        protected function getRecords() : array
+        {
+            return  [
+                ['f1' => 'value1.1','f2' => 'value1.2','f3' => 1.11],
+                ['f1' => 'value2.1','f2' => 'value2.2','f3' => 2.22],
+                ['f1' => 'value3.1','f2' => 'value3.2','f3' => 4.44],
+                ['f1' => 'value4.1','f2' => 'value4.2','f3' => 8.88]
+            ];
+        }
     };
 
     //setup the table
-    $table = $f->table()->data('a data table with actions', 50)
-        ->withColumns($columns)
+    $table = $f->table()->data('a data table with actions', $columns, 50)
         ->withActions($actions)
         ->withData($data_retrieval);
 

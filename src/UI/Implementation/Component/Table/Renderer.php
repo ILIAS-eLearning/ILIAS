@@ -156,41 +156,23 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-
     public function renderDataTable(Component\Table\Data $component, RendererInterface $default_renderer)
     {
         $tpl = $this->getTemplate("tpl.datatable.html", true, true);
 
-        $f = $this->getUIFactory();
-        $df = $this->getDataFactory();
+        $component = $this->registerActionsJS($component);
+        $component = $this->applyViewControls($component);
 
-        //TODO: VIEWCONTROLS
-        $range = $df->range(0, 10);
-        $order = $df->order('f1', \ILIAS\Data\Order::ASC);
-        $selected_optional = array_keys($component->getColumns());
-        //END TODO: VIEWCONTROLS
-
-        $component = $component
-            ->withSelectedOptionalColumns($selected_optional)
-            ->withRange($range)
-            ->withOrder($order);
-
-        $data_retrieval = $component->getData();
-        $row_factory = $component->getRowFactory();
-        $columns = $component->getFilteredColumns();
-
-        $additional_parameters = [];
-        $rows = $data_retrieval->getRows(
+        $rows = $component->getData()->getRows(
             $component->getRowFactory(),
+            array_keys($component->getFilteredColumns()),
             $component->getRange(),
             $component->getOrder(),
-            array_keys($columns),
-            $additional_parameters
+            $component->getFilter(),
+            $component->getAdditionalParameters()
         );
 
         $multi_actions = $component->getMultiActions();
-
-        $component = $this->registerActionsJS($component);
         if (count($multi_actions) > 0) {
             $component = $component->withAdditionalOnLoadCode(
                 fn ($id) => "il.UI.table.data.selectAll('{$id}', false);"
@@ -202,7 +184,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount());
         $tpl->setVariable('VIEW_CONTROLS', $default_renderer->render($component->getViewControls()));
 
-        $this->renderTableHeader($default_renderer, $component, $tpl, $order);
+        $this->renderTableHeader($default_renderer, $component, $tpl);
         $this->appendTableRows($tpl, $rows, $default_renderer);
 
         if (count($multi_actions) > 0) {
@@ -236,15 +218,34 @@ class Renderer extends AbstractComponentRenderer
         return $component;
     }
 
+    protected function applyViewControls(Component\Table\Data $component) : Component\Table\Data
+    {
+        //TODO: Viewcontrols, Filter
+        $df = $this->getDataFactory();
+        $range = $component->getRange();
+        $order = $component->getOrder();
+        $selected_optional = $component->getSelectedOptionalColumns();
+        $filter_data = null;
+        $additional_parameters = null;
+        //END TODO: Viewcontrols, Filter
+
+        return $component
+            ->withSelectedOptionalColumns($selected_optional)
+            ->withRange($range)
+            ->withOrder($order)
+            ->withFilter($filter_data)
+            ->withAdditionalParameters($additional_parameters);
+    }
+
     /**
      * @param Column\Column[]
      */
     protected function renderTableHeader(
         RendererInterface $default_renderer,
         Component\Table\Data $component,
-        Template $tpl,
-        \ILIAS\Data\Order $order
+        Template $tpl
     ) {
+        $order = $component->getOrder();
         $glyph_factory = $this->getUIFactory()->symbol()->glyph();
         $sort_col = key($order->get());
         $sort_direction = current($order->get());

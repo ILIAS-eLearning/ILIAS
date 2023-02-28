@@ -35,15 +35,16 @@ function base()
         'd1' => $f->table()->column()->date("German Long", $df->dateFormat()->germanLong()),
         'd2' => $f->table()->column()->date("German Short", $df->dateFormat()->germanShort())
     ];
-    $table = $f->table()->data('the date column', 50)->withColumns($columns);
+    $table = $f->table()->data('the date column', $columns, 50);
 
     $data_retrieval = new class () extends T\DataRetrieval {
         public function getRows(
             I\RowFactory $row_factory,
+            array $visible_column_ids,
             Range $range,
             Order $order,
-            array $visible_column_ids,
-            array $additional_parameters
+            ?array $filter_data,
+            ?array $additional_parameters
         ): \Generator {
             $row_id = '';
             $dat = new \DateTimeImmutable();

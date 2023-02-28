@@ -17,7 +17,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Table\Column\Text;
+namespace ILIAS\UI\examples\Table\Column\TimeSpan;
 
 use ILIAS\UI\Implementation\Component\Table as T;
 use ILIAS\UI\Component\Table as I;
@@ -29,24 +29,15 @@ function base()
     global $DIC;
     $f = $DIC['ui.factory'];
     $r = $DIC['ui.renderer'];
+    $df = new \ILIAS\Data\Factory();
 
     $columns = [
-        't1' => $f->table()->column()->text("some text")
+        'd1' => $f->table()->column()->timeSpan("German Long", $df->dateFormat()->germanLong()),
+        'd2' => $f->table()->column()->timeSpan("German Short", $df->dateFormat()->germanShort())
     ];
+    $table = $f->table()->data('the date column', $columns, 50);
 
-    $table = $f->table()->data('Text Column', $columns, 50);
-
-    $dummy_records = [
-        ['t1' => 'this is some text'],
-        ['t1' => 'this is some other text']
-    ];
-
-    $data_retrieval = new class ($dummy_records) extends T\DataRetrieval {
-        public function __construct(array $dummy_records)
-        {
-            $this->records = $dummy_records;
-        }
-
+    $data_retrieval = new class () extends T\DataRetrieval {
         public function getRows(
             I\RowFactory $row_factory,
             array $visible_column_ids,
@@ -55,10 +46,14 @@ function base()
             ?array $filter_data,
             ?array $additional_parameters
         ): \Generator {
-            foreach ($this->records as $idx => $record) {
-                $row_id = '';
-                yield $row_factory->standard($row_id, $record);
-            }
+            $row_id = '';
+            $dat = new \DateTimeImmutable();
+            $dat2 = $dat->add(new \DateInterval('PT10H30S'));
+            $record = [
+                'd1' => [$dat, $dat2],
+                'd2' => [$dat, $dat2],
+            ];
+            yield $row_factory->standard($row_id, $record);
         }
     };
 

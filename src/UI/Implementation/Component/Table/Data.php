@@ -40,7 +40,7 @@ class Data extends Table implements T\Data, JSBindable
     /**
      * @var array <string, Column>
      */
-    protected $columns;
+    protected $columns = [];
 
     /**
      * @var array <string, Action>
@@ -49,86 +49,59 @@ class Data extends Table implements T\Data, JSBindable
 
     protected Signal $multi_action_signal;
     protected Signal $selection_signal;
-    protected array $visible_optional_column_ids;
+    protected array $selected_optional_column_ids = [];
+    protected Range $range;
+    protected Order $order;
+    protected ?ServerRequestInterface $request = null;
 
     public function __construct(
         SignalGeneratorInterface $signal_generator,
         string $title,
+        array $columns,
         int $number_of_rows
     ) {
-        $this->title = $title;
+        parent::__construct($title);
         $this->number_of_rows = $number_of_rows;
         $this->multi_action_signal = $signal_generator->create();
         $this->selection_signal = $signal_generator->create();
-        parent::__construct($title);
+        $this->setEnumeratedColumns($columns);
+        $this->initializeVisibleColumns();
+        //TODO: inject
+        $df = new \ILIAS\Data\Factory();
+        $this->range = $df->range(0, $number_of_rows);
+        
+        $sortable_visible_cols = array_filter(
+            $this->getFilteredColumns(),
+            fn($c) => $c->isSortable()
+        );
+        $order_by = current(array_keys($sortable_visible_cols));
+        $this->order = $df->order($order_by, \ILIAS\Data\Order::ASC);
+
     }
 
-    public function getTitle(): string
+    protected function setEnumeratedColumns(array $columns): void
     {
-        return $this->title;
-    }
-
-    public function getNumberOfRows(): ?int
-    {
-        return $this->number_of_rows;
-    }
-
-    public function withData(T\DataRetrieval $data_retrieval): self
-    {
-        $clone = clone $this;
-        $clone->data_retrieval = $data_retrieval;
-        return $clone;
-    }
-
-    public function getData(): T\DataRetrieval
-    {
-        return $this->data_retrieval;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withColumns(array $columns): self
-    {
-        $clone = clone $this;
         $counter = 0;
         foreach ($columns as $id => $column) {
-            $clone->columns[$id] = $column->withIndex($counter);
+            assert(is_a($column, T\Column\Column::class), \InvalidArgumentException($id . ' is not a column.'));
+            $this->columns[$id] = $column->withIndex($counter);
             $counter++;
         }
-        return $clone;
+    }
+    protected function initializeVisibleColumns(): void
+    {
+        $this->selected_optional_column_ids =  array_keys(
+            array_filter(
+                $this->getColumns(),
+                fn($c) => $c->isInitiallyVisible()
+            )
+        );
     }
 
-    /**
-     * @inheritdoc
-     */
+
     public function getColumns(): array
     {
         return $this->columns;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withAdditionalViewControl(ViewControl $view_control): self
-    {
-        //NYI
-        return $this;
-    }
-
-    /**
-     * @return ViewControl[]
-     */
-    public function getViewControls(): array
-    {
-        //NYI
-        return [];
-    }
-
-    public function withRequest(ServerRequestInterface $request): self
-    {
-        //NYI
-        return $this;
     }
 
     /**
@@ -141,26 +114,125 @@ class Data extends Table implements T\Data, JSBindable
         return $clone;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getActions(): array
     {
         return $this->actions;
     }
-
-    public function hasActions(): bool
+    
+    /**
+     * @inheritdoc
+     */
+    public function withData(T\DataRetrieval $data_retrieval): self
     {
-        return count($this->actions) > 0;
+        $clone = clone $this;
+        $clone->data_retrieval = $data_retrieval;
+        return $clone;
+    }
+
+    public function getData(): T\DataRetrieval
+    {
+        return $this->data_retrieval;
+    }
+
+    public function withRequest(ServerRequestInterface $request): self
+    {
+        $clone = clone $this;
+        $clone->request = $request;
+        return $clone;
+    }
+    public function getRequest(): ServerRequestInterface
+    {
+        return $this->request;
+    }
+
+    public function withNumberOfRows(int $number_of_rows): self
+    {
+        $clone = clone $this;
+        $clone->number_of_rows = $number_of_rows;
+        return $clone;
+    }
+    public function getNumberOfRows(): ?int
+    {
+        return $this->number_of_rows;
+    }
+
+    public function withOrder(Order $order): self
+    {
+        $clone = clone $this;
+        $clone->order = $order;
+        return $clone;
+    }
+    public function getOrder(): Order
+    {
+        return $this->order;
+    }
+
+    public function withRange(Range $range): self
+    {
+        $clone = clone $this;
+        $clone->range = $range;
+        return $clone;
+    }
+    public function getRange(): Range
+    {
+        return $this->range;
+    }
+
+    public function withFilter(?array $filter): self
+    {
+        $clone = clone $this;
+        $clone->filter = $filter;
+        return $clone;
+    }
+    public function getFilter(): ?array
+    {
+        return $this->filter;
+    }
+
+    public function withAdditionalParameters(?array $additional_parameters): self
+    {
+        $clone = clone $this;
+        $clone->additional_parameters = $additional_parameters;
+        return $clone;
+    }
+    public function getAdditionalParameters(): ?array
+    {
+        return $this->additional_parameters;
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+/*    public function withAdditionalViewControl(ViewControl $view_control): self
+    {
+        //NYI
+        return $this;
+    }
+*/
+    /**
+     * @return ViewControl[]
+     */
+
+    public function getViewControls(): array
+    {
+        //NYI
+        return [];
     }
 
     public function getActionSignal(): Signal
     {
         return $this->multi_action_signal;
     }
+
     public function getSelectionSignal(): Signal
     {
         return $this->selection_signal;
+    }
+
+    public function hasActions(): bool
+    {
+        return count($this->actions) > 0;
     }
 
     /**
@@ -192,6 +264,30 @@ class Data extends Table implements T\Data, JSBindable
         return count($this->columns);
     }
 
+    public function withSelectedOptionalColumns(array $selected_optional_column_ids): self
+    {
+        $clone = clone $this;
+        $clone->selected_optional_column_ids = $selected_optional_column_ids;
+        return $clone;
+    }
+
+    public function getSelectedOptionalColumns(): array
+    {
+        return $this->selected_optional_column_ids;
+    }
+
+    /**
+     * @return <string, Column\Column>
+     */
+    public function getFilteredColumns(): array
+    {
+        return array_filter(
+            $this->getColumns(),
+            fn ($col, $col_id) => !$col->isOptional() || in_array($col_id, $this->selected_optional_column_ids),
+            ARRAY_FILTER_USE_BOTH
+        );
+    }
+
     /**
      * This is an anti-pattern and should not be copied!
      * The RowFactory should be injected (or constructed as anon class).
@@ -206,45 +302,5 @@ class Data extends Table implements T\Data, JSBindable
             $this->getFilteredColumns(),
             $this->getSingleActions()
         );
-    }
-
-    public function withSelectedOptionalColumns(array $selected_optional_columns): self
-    {
-        $clone = clone $this;
-        $clone->visible_optional_column_ids = $selected_optional_columns;
-        return $clone;
-    }
-
-    /**
-     * @return <string, Column\Column>
-     */
-    public function getFilteredColumns(): array
-    {
-        return array_filter(
-            $this->getColumns(),
-            fn ($col, $col_id) => !$col->isOptional() || in_array($col_id, $this->visible_optional_column_ids),
-            ARRAY_FILTER_USE_BOTH
-        );
-    }
-
-    public function getRange(): Range
-    {
-        return $this->range;
-    }
-    public function withRange(Range $range): self
-    {
-        $clone = clone $this;
-        $clone->range = $range;
-        return $clone;
-    }
-    public function getOrder(): Order
-    {
-        return $this->order;
-    }
-    public function withOrder(Order $order): self
-    {
-        $clone = clone $this;
-        $clone->order = $order;
-        return $clone;
     }
 }

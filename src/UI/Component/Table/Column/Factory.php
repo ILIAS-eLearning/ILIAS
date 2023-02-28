@@ -101,12 +101,11 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *      The Table is usually not for large texts. However, if there really is
-     *      the need for a longer/bigger entry in the cell, the Teaser Column MAY
-     *      be used to only display a part of it and the remaining parts in a modal.
+     *      To express a timespan, a duration: use the TimeSpan Column to 
+     *      visualize a start- and an enddate.
      *
      * ---
-     * @return \ILIAS\UI\Component\Table\Column\Teaser
+     * @return \ILIAS\UI\Component\Table\Column\TimeSpan
      */
-    public function teaser(string $title): Teaser;
+    public function timeSpan(string $title, \ILIAS\Data\DateFormat\DateFormat $format): TimeSpan;
 }

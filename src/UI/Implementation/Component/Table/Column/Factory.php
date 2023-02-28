@@ -60,8 +60,8 @@ class Factory implements I\Factory
         return new EMail($title);
     }
 
-    public function teaser(string $title): I\Teaser
+    public function timeSpan(string $title, \ILIAS\Data\DateFormat\DateFormat $format): I\TimeSpan
     {
-        return new Teaser($title);
+        return new TimeSpan($title, $format);
     }
 }

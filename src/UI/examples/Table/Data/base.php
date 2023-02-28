@@ -31,10 +31,10 @@ function base()
     $r = $DIC['ui.renderer'];
     $df = new \ILIAS\Data\Factory();
 
-
     // This is what the table will look like
     $columns = [
-        'usr_id' => $f->table()->column()->number("User ID"),
+        'usr_id' => $f->table()->column()->number("User ID")
+            ->withIsSortable(false),
         'login' => $f->table()->column()->text("Login")
             ->withHighlight(true),
         'email' => $f->table()->column()->eMail("eMail"),
@@ -48,31 +48,28 @@ function base()
     ];
 
     //setup the table
-    $table = $f->table()->data('a data table', 50)
-        ->withColumns($columns);
+    $table = $f->table()->data('a data table', $columns, 50);
 
-
-    $dummy_records = getSomeDummyRecordsForDateTableBaseExample();
     // retrieve data and map records to table rows
-    $data_retrieval = new class ($f, $r, $dummy_records) extends T\DataRetrieval {
+    $data_retrieval = new class ($f, $r) extends T\DataRetrieval {
         public function __construct(
             \ILIAS\UI\Factory $ui_factory,
-            \ILIAS\UI\Renderer $ui_renderer,
-            array $dummy_records
+            \ILIAS\UI\Renderer $ui_renderer
         ) {
             $this->ui_factory = $ui_factory;
             $this->ui_renderer = $ui_renderer;
-            $this->records = $dummy_records;
         }
 
         public function getRows(
             I\RowFactory $row_factory,
+            array $visible_column_ids,
             Range $range,
             Order $order,
-            array $visible_column_ids,
-            array $additional_parameters
+            ?array $filter_data,
+            ?array $additional_parameters
         ): \Generator {
-            foreach ($this->records as $idx => $record) {
+            $records = $this->getRecords($order);
+            foreach ($records as $idx => $record) {
                 $row_id = '';
                 $record['achieve_txt'] = $record['achieve'] > 80 ? 'passed' : 'failed';
                 $record['repeat'] = $record['achieve'] < 80;
@@ -82,46 +79,32 @@ function base()
                 yield $row_factory->standard($row_id, $record);
             }
         }
+
+        protected function getRecords(Order $order) : array
+        {
+            $records =  [
+                ['usr_id' => 123,'login' => 'superuser','email' => 'user@example.com',
+                 'last' => new \DateTimeImmutable(),'achieve' => 20,'fee' => 0
+                ],
+                ['usr_id' => 867,'login' => 'student1','email' => 'student1@example.com',
+                 'last' => new \DateTimeImmutable(),'achieve' => 90,'fee' => 40
+                ],
+                ['usr_id' => 8923,'login' => 'student2','email' => 'student2@example.com',
+                 'last' => new \DateTimeImmutable(),'achieve' => 66,'fee' => 36.789
+                ],
+                ['usr_id' => 8748,'login' => 'student3_longname','email' => 'student3_long_email@example.com',
+                 'last' => new \DateTimeImmutable(),'achieve' => 66,'fee' => 36.789
+                ]
+            ];
+
+            $order_field =current(array_keys($order->get()));
+            usort(
+                $records,
+                fn($a, $b) => $a[$order_field] <=> $b[$order_field]
+            );
+            return $records;
+        }
     };
 
     return $r->render($table->withData($data_retrieval));
-}
-
-//this is some dummy-data:
-function getSomeDummyRecordsForDateTableBaseExample(): array
-{
-    return [
-        [
-            'usr_id' => 123,
-            'login' => 'superuser',
-            'email' => 'user@example.com',
-            'last' => new \DateTimeImmutable(),
-            'achieve' => 20,
-            'fee' => 0
-        ],
-        [
-            'usr_id' => 867,
-            'login' => 'student1',
-            'email' => 'student1@example.com',
-            'last' => new \DateTimeImmutable(),
-            'achieve' => 90,
-            'fee' => 40
-        ],
-        [
-            'usr_id' => 8923,
-            'login' => 'student2',
-            'email' => 'student2@example.com',
-            'last' => new \DateTimeImmutable(),
-            'achieve' => 66,
-            'fee' => 36.789
-        ],
-        [
-            'usr_id' => 8748,
-            'login' => 'student3_longname',
-            'email' => 'student3_long_email@example.com',
-            'last' => new \DateTimeImmutable(),
-            'achieve' => 66,
-            'fee' => 36.789
-        ],
-    ];
 }

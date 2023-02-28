@@ -40,7 +40,7 @@ function base()
         )
     ];
 
-    $table = $f->table()->data('Boolean Columns', 50)->withColumns($columns);
+    $table = $f->table()->data('Boolean Columns', $columns, 50);
 
     $dummy_records = [2, 13, 4, 5, 16, 17];
 
@@ -57,10 +57,11 @@ function base()
 
         public function getRows(
             I\RowFactory $row_factory,
+            array $visible_column_ids,
             Range $range,
             Order $order,
-            array $visible_column_ids,
-            array $additional_parameters
+            ?array $filter_data,
+            ?array $additional_parameters
         ): \Generator {
             foreach ($this->records as $number) {
                 $row_id = '';

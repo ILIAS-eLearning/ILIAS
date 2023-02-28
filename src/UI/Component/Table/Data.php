@@ -21,13 +21,18 @@ namespace ILIAS\UI\Component\Table;
 
 use ILIAS\UI\Component\Input\ViewControl\ViewControl;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Data\Order;
+use ILIAS\Data\Range;
 
 /**
  * This describes a Data Table.
  */
 interface Data extends Table
 {
-    public function getNumberOfRows(): ?int;
+    /**
+     * @param array <string, Action>    $actions
+     */
+    public function withActions(array $actions): self;
 
     /**
      * Configure the Table to retrieve data with an instance of DataRetrieval;
@@ -40,18 +45,6 @@ interface Data extends Table
      */
     public function withData(DataRetrieval $data_retrieval): self;
 
-    public function getData(): DataRetrieval;
-
-    /**
-     * @param array <string, Column>
-     */
-    public function withColumns(array $columns): self;
-
-    /**
-     * @return array <string, Column>
-     */
-    public function getColumns(): array;
-
     /**
      * The Data Table brings some View Controls along - it is common enough to
      * use pagination, ordering and column selection. However, consumers might
@@ -60,12 +53,7 @@ interface Data extends Table
      * Since there must be but one View Control of a kind, e.g. a Pagination added here
      * will substitute the default one.
      */
-    public function withAdditionalViewControl(ViewControl $view_control): self;
-
-    /**
-     * @return ViewControl[]
-     */
-    public function getViewControls(): array;
+//    public function withAdditionalViewControl(ViewControl $view_control): self;
 
     /**
      * Rendering the Table must be done using the current Request:
@@ -75,13 +63,10 @@ interface Data extends Table
      */
     public function withRequest(ServerRequestInterface $request): self;
 
-    /**
-     * @param array <string, Action>    $actions
-     */
-    public function withActions(array $actions): self;
-
-    /**
-     * @return Action[]
-     */
-    public function getActions(): array;
+    public function withNumberOfRows(int $number_of_rows): self;
+    public function withSelectedOptionalColumns(array $selected_optional_column_ids): self;
+    public function withOrder(Order $order): self;
+    public function withRange(Range $range): self;
+    public function withFilter(?array $filter): self;
+    public function withAdditionalParameters(?array $additional_parameters): self;
 }

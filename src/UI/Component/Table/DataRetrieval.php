@@ -27,13 +27,15 @@ interface DataRetrieval
 {
     /**
      * This is called by the table to retrieve rows;
-     * map data-records to rows using $row_factory->map($record).
+     * map data-records to rows using the $row_factory
+     * e.g. $row_factory->standard($row_id, $record).
      */
     public function getRows(
         RowFactory $row_factory,
+        array $visible_column_ids,
         Range $range,
         Order $order,
-        array $visible_column_ids,
-        array $additional_parameters
+        ?array $filter_data, // $DIC->uiService()->filter()->getData();
+        ?array $additional_parameters
     ): Generator;
 }

@@ -21,6 +21,17 @@ namespace ILIAS\UI\Implementation\Component\Table\Column;
 
 use ILIAS\UI\Component\Table\Column as C;
 
-class Teaser extends Column implements C\Teaser
+class TimeSpan extends Date implements C\TimeSpan
 {
+    public function format($value): string
+    {
+        assert(is_array($value));
+        assert(is_a($value[0], \DateTimeImmutable::class) && is_a($value[1], \DateTimeImmutable::class));
+        
+        return 
+            (string)$value[0]->format($this->getFormat()->toString()) 
+            . ' - ' .
+            (string)$value[1]->format($this->getFormat()->toString())
+        ;
+    }
 }
