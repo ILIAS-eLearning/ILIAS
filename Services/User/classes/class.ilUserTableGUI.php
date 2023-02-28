@@ -632,7 +632,7 @@ class ilUserTableGUI extends ilTable2GUI
                 $this->tpl->parseCurrentBlock();
             } else {	// all other fields
                 $this->tpl->setCurrentBlock("user_field");
-                $val = (trim($a_set[$c]) == "")
+                $val = (trim($a_set[$c] ?? '') == "")
                     ? " "
                     : $a_set[$c];
                 if ($a_set[$c] != "") {
