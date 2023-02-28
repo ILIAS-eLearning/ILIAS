@@ -80,7 +80,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     protected bool $blockPassesAfterPassedEnabled = false;
     public int $use_previous_answers;
     public int $title_output;
-    public $processing_time; // Initialized as string, but cannot be declared
+    public ?string $processing_time = null;
     public $enable_processing_time; // Initialized as int, but cannot be declared
     public int $reset_processing_time;
 
@@ -124,7 +124,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      * bool?
      */
     protected $passwordEnabled;
-    protected ?string $password;
+    protected ?string $password = null;
 
     /**
      * bool?
@@ -181,7 +181,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     * Name of a custom style sheet for the test
     * string?
     */
-    private $_customStyle;
+    private ?string $_customStyle = null;
 
     protected $mailnotification;
 
@@ -201,9 +201,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     protected $activation_visibility;
 
-    protected $activation_starting_time;
+    protected ?string $activation_starting_time = null;
 
-    protected $activation_ending_time;
+    protected ?string $activation_ending_time = null;
 
     protected bool $autosave;
     protected int $autosave_ival;
@@ -1555,7 +1555,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function getCustomStyle(): ?string
     {
-        return (strlen($this->_customStyle)) ? $this->_customStyle : null;
+        return ($this->_customStyle && $this->_customStyle !== '') ? $this->_customStyle : null;
     }
 
     /**
@@ -1640,7 +1640,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function setECTSFX($a_ects_fx): void
     {
-        $this->ects_fx = (float) str_replace(",", ".", $a_ects_fx);
+        $this->ects_fx = (float) str_replace(",", ".", (string) ($a_ects_fx ?? ''));
     }
 
     public function getECTSGrades(): array
@@ -2209,9 +2209,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     * @access public
     * @see $processing_time
     */
-    public function getProcessingTime()
+    public function getProcessingTime(): ?string
     {
-        return (strlen($this->processing_time)) ? $this->processing_time : null;
+        return ($this->processing_time && $this->processing_time !== '') ? $this->processing_time : null;
     }
 
     /**
@@ -2219,7 +2219,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function getProcessingTimeAsArray(): array
     {
-        if (strlen($this->processing_time)) {
+        if ($this->processing_time && $this->processing_time !== '') {
             if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", $this->processing_time, $matches)) {
                 if ((int) $matches[1] + (int) $matches[2] + (int) $matches[3] == 0) {
                     return $this->getEstimatedWorkingTime();
@@ -2513,7 +2513,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function getPassword(): ?string
     {
-        return (strlen($this->password)) ? $this->password : null;
+        return ($this->password && $this->password !== '') ? $this->password : null;
     }
 
     /**
@@ -10213,14 +10213,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->activation_ending_time = $ending_time;
     }
 
-    public function getActivationStartingTime()
+    public function getActivationStartingTime(): ?string
     {
-        return (strlen($this->activation_starting_time)) ? $this->activation_starting_time : null;
+        return ($this->activation_starting_time && $this->activation_starting_time !== '') ? $this->activation_starting_time : null;
     }
 
-    public function getActivationEndingTime()
+    public function getActivationEndingTime(): ?string
     {
-        return (strlen($this->activation_ending_time)) ? $this->activation_ending_time : null;
+        return ($this->activation_ending_time && $this->activation_ending_time !== '') ? $this->activation_ending_time : null;
     }
 
     /**
