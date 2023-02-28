@@ -66,7 +66,7 @@ class ilUserProfilePictureMigration implements Setup\Migration
         $user_id = (int)$d->usr_id;
 
         $base_path = $this->buildBasePath();
-        $pattern = '/.*\/usr\_' . $user_id . '\..*/m';
+        $pattern = '/.*\/(usr|upload)\_' . $user_id . '\..*/m';
 
         $rid = $this->helper->moveFirstFileOfPatternToStorage(
             $base_path,
