@@ -24,7 +24,6 @@ declare(strict_types=1);
  */
 class ilUsersGalleryGUI
 {
-    protected ilUsersGalleryCollectionProvider $collection_provider;
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
@@ -35,7 +34,7 @@ class ilUsersGalleryGUI
     protected \ILIAS\HTTP\GlobalHttpState $http;
     protected \ILIAS\Refinery\Factory $refinery;
 
-    public function __construct(ilUsersGalleryCollectionProvider $collection_provider)
+    public function __construct(protected ilUsersGalleryCollectionProvider $collection_provider)
     {
         /** @var $DIC ILIAS\DI\Container */
         global $DIC;
@@ -49,8 +48,6 @@ class ilUsersGalleryGUI
         $this->renderer = $DIC->ui()->renderer();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-
-        $this->collection_provider = $collection_provider;
     }
 
     public function executeCommand(): void
@@ -87,7 +84,6 @@ class ilUsersGalleryGUI
     }
 
     /**
-     * @param ilObjUser $user
      * @param \ILIAS\UI\Component\Component[] $sections
      */
     protected function addActionSection(ilObjUser $user, array &$sections): void
@@ -115,7 +111,6 @@ class ilUsersGalleryGUI
 
     /**
      * @param ilUsersGalleryUserCollection[] $gallery_groups
-     * @return ilTemplate
      */
     protected function populateTemplate(array $gallery_groups): ilTemplate
     {
