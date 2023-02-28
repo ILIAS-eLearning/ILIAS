@@ -200,7 +200,7 @@ class ilEventItems
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
-        $ilLog = $DIC->logger()->root();
+        $ilLog = $DIC->logger()->sess();
 
         $ilLog->debug('Begin cloning session materials ...');
 
