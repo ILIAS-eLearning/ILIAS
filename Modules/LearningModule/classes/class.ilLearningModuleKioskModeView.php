@@ -47,6 +47,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
     protected array $messages = [];
     protected ?int $current_page_id = 0;
     protected array $additional_content = [];
+    protected ?array $menu_entries = null;
 
     protected function getObjectClass(): string
     {
