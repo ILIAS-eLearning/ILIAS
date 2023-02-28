@@ -126,10 +126,23 @@ class AccessManager
     {
         $survey = $this->getSurvey();
         if ($this->access->checkAccessOfUser($this->user_id, "write", "", $this->ref_id) ||
+            $this->checkRbacOrPositionPermission('read_results', 'access_results') ||
             \ilObjSurveyAccess::_hasEvaluationAccess($survey->getId(), $this->user_id)) {
             return true;
         }
         return false;
+    }
+
+    protected function checkRbacOrPositionPermission(
+        string $a_rbac_permission,
+        string $a_position_permission
+    ): bool {
+        $access = $this->access;
+        return $access->checkRbacOrPositionPermissionAccess(
+            $a_rbac_permission,
+            $a_position_permission,
+            $this->ref_id
+        );
     }
 
     /**
