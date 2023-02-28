@@ -94,12 +94,13 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
             // workaround for hiding portfolio pages in portfolios, since they only get
             // data from portfolio templates
             // @todo define interface for configuration of behaviour
+            $hidden = false;
             if ($obj_type["obj_type"] == "prtf" && $obj_type["sub_type"] == "pfpg") {
-                continue;
+                $hidden = true;
             }
             // EmployeeTalks get their md from templates
             if ($obj_type["obj_type"] == "tals" && $obj_type["sub_type"] == "etal") {
-                continue;
+                $hidden = true;
             }
 
             foreach ($a_set['obj_types'] as $t) {
@@ -170,6 +171,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
                     array("style" => "min-width:125px"),
                     $disabled || $do_disable
                 );
+                $this->tpl->setVariable('VAL_OBJ_TYPE_CLASS', $hidden ? 'hidden' : 'std');
                 $this->tpl->setVariable('VAL_OBJ_TYPE_STATUS', $select);
                 $this->tpl->parseCurrentBlock();
             } else {

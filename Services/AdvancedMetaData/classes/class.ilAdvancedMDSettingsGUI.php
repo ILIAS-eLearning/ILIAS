@@ -1544,12 +1544,13 @@ class ilAdvancedMDSettingsGUI
                  * BT 35914: workaround for hiding portfolio pages in portfolios,
                  * since they only get data from portfolio templates
                  */
+                $hidden = false;
                 if ($type["obj_type"] == "prtf" && $type["sub_type"] == "pfpg") {
-                    continue;
+                    $hidden = true;
                 }
                 // EmployeeTalks get their md from templates
                 if ($type["obj_type"] == "tals" && $type["sub_type"] == "etal") {
-                    continue;
+                    $hidden = true;
                 }
 
 
@@ -1586,6 +1587,14 @@ class ilAdvancedMDSettingsGUI
                 }
 
                 $sel_name = 'obj_types__' . $t;
+
+                if ($hidden) {
+                    $hidden = new ilHiddenInputGUI($sel_name);
+                    $hidden->setValue((string) $value);
+                    $this->form->addItem($hidden);
+                    continue;
+                }
+
                 $check = new ilSelectInputGUI($type['text'], $sel_name);
                 //$check = new ilSelectInputGUI($type["text"], 'obj_types[' . $t . ']');
                 $check->setOptions($type_options);
