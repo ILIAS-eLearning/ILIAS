@@ -173,11 +173,13 @@ class ilToolbarGUI
 
     /**
      * Add button instance
-     * @param ilButtonBase $a_button
+     * @param ilButtonBase|\ILIAS\UI\Component\Button\Standard|\ILIAS\UI\Component\Button\Primary $a_button
      */
-    public function addButtonInstance(ilButtonBase $a_button): void
+    public function addButtonInstance($a_button): void
     {
-        if ($a_button->isPrimary()) {
+        if (!($a_button instanceof \ILIAS\UI\Component\Component) && $a_button->isPrimary()) {
+            $this->addStickyItem($a_button);
+        } elseif ($a_button instanceof \ILIAS\UI\Component\Button\Primary) {
             $this->addStickyItem($a_button);
         } else {
             $this->items[] = array("type" => "button_obj", "instance" => $a_button);
@@ -366,7 +368,12 @@ class ilToolbarGUI
 
                         case "button_obj":
                             $tpl_items->setCurrentBlock("button_instance");
-                            $tpl_items->setVariable("BUTTON_OBJ", $item["instance"]->render());
+                            $tpl_items->setVariable(
+                                "BUTTON_OBJ",
+                                $item["instance"] instanceof \ILIAS\UI\Component\Button\Button
+                                    ? $this->ui->renderer()->render($item["instance"])
+                                    : $item["instance"]->render()
+                            );
                             $tpl_items->parseCurrentBlock();
                             $tpl_items->touchBlock("item");
                             break;

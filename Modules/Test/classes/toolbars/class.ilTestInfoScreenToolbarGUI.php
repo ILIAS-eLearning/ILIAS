@@ -180,7 +180,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
         }
     }
 
-    public function addButtonInstance(ilButtonBase $a_button): void
+    public function addButtonInstance($a_button): void
     {
         if ($this->globalToolbar instanceof parent) {
             $this->globalToolbar->addButtonInstance($a_button);
