@@ -166,7 +166,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
                     }
                     break;
 
-                // page selector
+                    // page selector
                 default:
                     $this->determineOffsetAndOrder();
                     $this->storeNavParameter();
@@ -575,7 +575,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
             }
         }
 
-        if (trim($value) == "" && $id != "status") {
+        if (($value && trim($value) == "") && $id != "status") {
             if ($id == "title" &&
                 get_class($this) != "ilTrObjectUsersPropsTableGUI" &&
                 get_class($this) != "ilTrMatrixTableGUI") {
@@ -649,7 +649,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 break;
         }
 
-        return $value;
+        return $value ?? '';
     }
 
     public function getCurrentFilter(bool $as_query = false): array
@@ -790,7 +790,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 $a_user = $this->user;
             }
             $user .= ", " . $a_user->getFullName(
-                ); // " [".$a_user->getLogin()."]";
+            ); // " [".$a_user->getLogin()."]";
         }
 
         if ($a_obj_id != ROOT_FOLDER_ID) {
