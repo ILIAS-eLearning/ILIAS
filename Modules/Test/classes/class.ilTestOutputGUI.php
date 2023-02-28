@@ -567,7 +567,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         }
     }
 
-    protected function handleCheckTestPassValid() : void
+    protected function handleCheckTestPassValid(): void
     {
         global $DIC;
         $testObj = new ilObjTest($this->ref_id, true);
@@ -654,7 +654,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $this->updateWorkingTime();
         $this->saveResult = false;
         if (!$force) {
-            $formtimestamp = $_POST["formtimestamp"];
+            $formtimestamp = $_POST["formtimestamp"] ?? '';
             if (strlen($formtimestamp) == 0) {
                 $formtimestamp = $this->testrequest->raw("formtimestamp");
             }
