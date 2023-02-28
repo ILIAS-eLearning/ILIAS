@@ -32,21 +32,8 @@ class ilCronManagerTableFilterMediator
     private const FILTER_STATUS_ACTIVE = 1;
     private const FILTER_STATUS_INACTIVE = 2;
 
-    private ilCronJobCollection $items;
-    private Factory $uiFactory;
-    private ilUIService $uiService;
-    private ilLanguage $lng;
-
-    public function __construct(
-        ilCronJobCollection $repository,
-        Factory $uiFactory,
-        ilUIService $uiService,
-        ilLanguage $lng
-    ) {
-        $this->items = $repository;
-        $this->uiFactory = $uiFactory;
-        $this->uiService = $uiService;
-        $this->lng = $lng;
+    public function __construct(private readonly ilCronJobCollection $items, private readonly Factory $uiFactory, private readonly ilUIService $uiService, private readonly ilLanguage $lng)
+    {
     }
 
     public function filter(string $action): Standard

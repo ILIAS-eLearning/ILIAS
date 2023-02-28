@@ -20,21 +20,14 @@ declare(strict_types=1);
 
 class ilCronStartUp
 {
-    private string $client;
-    private string $username;
-    private string $password;
-    private ilAuthSession $authSession;
+    private readonly ilAuthSession $authSession;
 
     public function __construct(
-        string $a_client_id,
-        string $a_login,
-        string $a_password,
+        private readonly string $client,
+        private readonly string $username,
+        private readonly string $password,
         ?ilAuthSession $authSession = null
     ) {
-        $this->client = $a_client_id;
-        $this->username = $a_login;
-        $this->password = $a_password;
-
         /** @noRector  */
         require_once './Services/Context/classes/class.ilContext.php';
         ilContext::init(ilContext::CONTEXT_CRON);

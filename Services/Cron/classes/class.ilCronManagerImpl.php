@@ -25,21 +25,8 @@ declare(strict_types=1);
  */
 class ilCronManagerImpl implements ilCronManager
 {
-    private ilCronJobRepository $cronRepository;
-    private ilDBInterface $db;
-    private ilSetting $settings;
-    private ilLogger $logger;
-
-    public function __construct(
-        ilCronJobRepository $cronRepository,
-        ilDBInterface $db,
-        ilSetting $settings,
-        ilLogger $logger
-    ) {
-        $this->cronRepository = $cronRepository;
-        $this->db = $db;
-        $this->settings = $settings;
-        $this->logger = $logger;
+    public function __construct(private readonly ilCronJobRepository $cronRepository, private readonly ilDBInterface $db, private readonly ilSetting $settings, private readonly ilLogger $logger)
+    {
     }
 
     private function getMicrotime(): float
@@ -116,11 +103,6 @@ class ilCronManagerImpl implements ilCronManager
 
     /**
      * Run single cron job (internal)
-     * @param ilCronJob $job
-     * @param ilObjUser $actor
-     * @param array|null $jobData
-     * @param bool $isManualExecution
-     * @return bool
      * @internal
      */
     private function runJob(ilCronJob $job, ilObjUser $actor, ?array $jobData = null, bool $isManualExecution = false): bool

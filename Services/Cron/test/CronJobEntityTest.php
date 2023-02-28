@@ -28,10 +28,6 @@ class CronJobEntityTest extends TestCase
 {
     /**
      * @param ilCronJob|null $job_instance
-     * @param int $schedule_type
-     * @param int $schedule_value
-     * @param bool $is_plugin
-     * @return ilCronJobEntity
      */
     private function getEntity(
         ilCronJob $job_instance = null,
@@ -74,8 +70,6 @@ class CronJobEntityTest extends TestCase
     }
 
     /**
-     * @param ilCronJobEntities $entities
-     * @return ilCronJobEntities
      * @depends testEntityCollectionCanBeCreatedWithItems
      */
     public function testCollectionCanBeChanged(ilCronJobEntities $entities): ilCronJobEntities
@@ -88,7 +82,6 @@ class CronJobEntityTest extends TestCase
     }
 
     /**
-     * @param ilCronJobEntities $entities
      * @depends testCollectionCanBeChanged
      */
     public function testCollectionCanBeFilteredAndSliced(ilCronJobEntities $entities): void

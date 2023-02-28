@@ -20,11 +20,8 @@ declare(strict_types=1);
 
 class ilStrictCliCronManager implements ilCronManager
 {
-    protected ilCronManager $cronManager;
-
-    public function __construct(ilCronManager $cronManager)
+    public function __construct(protected ilCronManager $cronManager)
     {
-        $this->cronManager = $cronManager;
     }
 
     /**
