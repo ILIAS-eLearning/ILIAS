@@ -84,7 +84,9 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
             ilAdvancedMDRecordGUI::MODE_EDITOR,
             $this->object->getType(),
             $this->object->getId(),
-            'etal'
+            'etal',
+            0,
+            false
         );
         $md->setPropertyForm($form);
         $md->parse();
@@ -209,7 +211,14 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
 
     private function initMetaDataForm(ilPropertyFormGUI $form): ilAdvancedMDRecordGUI
     {
-        $md = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_REC_SELECTION, $this->object->getType(), $this->object->getId(), "etal");
+        $md = new ilAdvancedMDRecordGUI(
+            ilAdvancedMDRecordGUI::MODE_REC_SELECTION,
+            $this->object->getType(),
+            $this->object->getId(),
+            "etal",
+            0,
+            false
+        );
         $md->setRefId($this->object->getRefId());
         $md->setPropertyForm($form);
         return $md;
