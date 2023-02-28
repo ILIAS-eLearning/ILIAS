@@ -71,7 +71,7 @@ class Data extends Table implements T\Data, JSBindable
         $this->range = $df->range(0, $number_of_rows);
 
         $sortable_visible_cols = array_filter(
-            $this->getFilteredColumns(),
+            $this->getVisibleColumns(),
             fn ($c) => $c->isSortable()
         );
         $order_by = current(array_keys($sortable_visible_cols));
@@ -139,7 +139,7 @@ class Data extends Table implements T\Data, JSBindable
         $clone->request = $request;
         return $clone;
     }
-    public function getRequest(): ServerRequestInterface
+    public function getRequest(): ?ServerRequestInterface
     {
         return $this->request;
     }
@@ -278,7 +278,7 @@ class Data extends Table implements T\Data, JSBindable
     /**
      * @return <string, Column\Column>
      */
-    public function getFilteredColumns(): array
+    public function getVisibleColumns(): array
     {
         return array_filter(
             $this->getColumns(),
@@ -298,7 +298,7 @@ class Data extends Table implements T\Data, JSBindable
     {
         return new RowFactory(
             $this->hasActions(),
-            $this->getFilteredColumns(),
+            $this->getVisibleColumns(),
             $this->getSingleActions()
         );
     }

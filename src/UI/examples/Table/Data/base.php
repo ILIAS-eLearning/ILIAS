@@ -39,9 +39,11 @@ function base()
             ->withHighlight(true),
         'email' => $f->table()->column()->eMail("eMail"),
         'last' => $f->table()->column()->date("last login", $df->dateFormat()->germanLong()),
-        'achieve' => $f->table()->column()->statusIcon(""),
-        'achieve_txt' => $f->table()->column()->status("progress"),
-        'repeat' => $f->table()->column()->boolean("repeat", 'yes', 'no'),
+        'achieve' => $f->table()->column()->statusIcon("progress"),
+        'achieve_txt' => $f->table()->column()->status("success")
+            ->withIsSortable(false),
+        'repeat' => $f->table()->column()->boolean("repeat", 'yes', 'no')
+            ->withIsSortable(false),
         'fee' => $f->table()->column()->number("Fee")
             ->withDecimals(2)
             ->withUnit('£', I\Column\Number::UNIT_POSITION_FORE)
@@ -97,14 +99,21 @@ function base()
                 ]
             ];
 
-            $order_field =current(array_keys($order->get()));
+            list($order_field, $order_direction) = $order->join([], fn ($ret, $key, $value) => [$key, $value]);
             usort(
                 $records,
                 fn ($a, $b) => $a[$order_field] <=> $b[$order_field]
             );
+            if ($order_direction === 'DESC') {
+                $records = array_reverse($records);
+            }
             return $records;
         }
     };
 
-    return $r->render($table->withData($data_retrieval));
+    return $r->render(
+        $table
+            ->withData($data_retrieval)
+            ->withRequest($DIC->http()->request())
+    );
 }

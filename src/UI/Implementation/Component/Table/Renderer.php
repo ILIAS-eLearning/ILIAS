@@ -165,7 +165,7 @@ class Renderer extends AbstractComponentRenderer
 
         $rows = $component->getData()->getRows(
             $component->getRowFactory(),
-            array_keys($component->getFilteredColumns()),
+            array_keys($component->getVisibleColumns()),
             $component->getRange(),
             $component->getOrder(),
             $component->getFilter(),
@@ -227,6 +227,16 @@ class Renderer extends AbstractComponentRenderer
         $selected_optional = $component->getSelectedOptionalColumns();
         $filter_data = null;
         $additional_parameters = null;
+
+        if ($request = $component->getRequest()) {
+            $params = [];
+            parse_str($request->getUri()->getQuery(), $params);
+            if (array_key_exists('tsort_f', $params) && array_key_exists('tsort_d', $params)
+                && array_key_exists($params['tsort_f'], $component->getVisibleColumns())
+            ) {
+                $order = $df->order($params['tsort_f'], $params['tsort_d']);
+            }
+        }
         //END TODO: Viewcontrols, Filter
 
         return $component
@@ -249,13 +259,15 @@ class Renderer extends AbstractComponentRenderer
         $glyph_factory = $this->getUIFactory()->symbol()->glyph();
         $sort_col = key($order->get());
         $sort_direction = current($order->get());
-        $columns = $component->getFilteredColumns();
+        $columns = $component->getVisibleColumns();
 
         foreach ($columns as $col_id => $col) {
+            $param_sort_direction = $order::ASC;
             if ($col_id === $sort_col) {
                 if ($sort_direction === $order::ASC) {
                     $sortation = 'ascending';
                     $sortation_glyph = $glyph_factory->sortAscending("#");
+                    $param_sort_direction = $order::DESC;
                 }
                 if ($sort_direction === $order::DESC) {
                     $sortation = 'decending';
@@ -268,7 +280,20 @@ class Renderer extends AbstractComponentRenderer
 
             $tpl->setCurrentBlock('header_cell');
             $tpl->setVariable('COL_INDEX', (string) $col->getIndex());
-            $tpl->setVariable('COL_TITLE', $col->getTitle());
+            $col_title = $col->getTitle();
+            if ($col->isSortable()) {
+                $uri = (string)$this->getDataFactory()->uri(
+                    $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI']
+                )
+                ->withParameter('tsort_f', $col_id)
+                ->withParameter('tsort_d', $param_sort_direction);
+
+                $col_title = $default_renderer->render(
+                    $this->getUIFactory()->button()->shy($col_title, $uri)
+                );
+            }
+            $tpl->setVariable('COL_TITLE', $col_title);
+
             $tpl->setVariable('COL_TYPE', strtolower($col->getType()));
             $tpl->parseCurrentBlock();
         }
