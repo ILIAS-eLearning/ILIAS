@@ -2863,14 +2863,14 @@ class ilObjUser extends ilObject
 
         if ($user->getAvatarRid() !== null && $user->getAvatarRid() !== ilObjUser::NO_AVATAR_RID) {
             $rid = $DIC->resourceStorage()->manage()->find($user->getAvatarRid());
-            // new profile picture
-            $DIC->resourceStorage()->manage()->appendNewRevisionFromStream(
+            // append profile picture
+            $DIC->resourceStorage()->manage()->replaceWithStream(
                 $rid,
                 $stream,
                 $stakeholder
             );
         } else {
-            // append profile picture
+            // new profile picture
             $rid = $DIC->resourceStorage()->manage()->stream(
                 $stream,
                 $stakeholder
