@@ -54,8 +54,6 @@ class ilUserProfilePictureMigration implements Setup\Migration
 
     public function step(Environment $environment): void
     {
-        $db = $this->helper->getDatabase();
-
         $r = $this->helper->getDatabase()->query(
             "SELECT
                         usr_id
