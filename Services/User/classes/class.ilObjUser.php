@@ -2937,7 +2937,21 @@ class ilObjUser extends ilObject
         if ($a_dir == "" || !is_dir($a_dir)) {
             return;
         }
+        // if profile picture is on IRSS
+        global $DIC;
+        $irss = $DIC->resourceStorage();
+        $user = new ilObjUser($a_user_id);
+        if ($user->getAvatarRid() !== null && $user->getAvatarRid() !== ilObjUser::NO_AVATAR_RID) {
+            $rid = $irss->manage()->find($user->getAvatarRid());
+            // Main Picture only is needed
+            $stream = $irss->consume()->stream($rid)->getStream();
+            $target = $a_dir . "/usr_" . $a_user_id . ".jpg";
+            fwrite(fopen($target, 'wb'), (string) $stream);
 
+            return;
+        }
+
+        // Legacy Picture Handling
         $webspace_dir = ilFileUtils::getWebspaceDir();
         $image_dir = $webspace_dir . "/usr_images";
         $images = array(
