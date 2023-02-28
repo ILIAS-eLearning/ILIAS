@@ -66,7 +66,6 @@ function with_actions()
 
     // retrieve data and map records to table rows
     $data_retrieval = new class () extends T\DataRetrieval {
-
         public function getRows(
             I\RowFactory $row_factory,
             array $visible_column_ids,
@@ -94,7 +93,7 @@ function with_actions()
         }
 
         //this is some dummy-data:
-        protected function getRecords() : array
+        protected function getRecords(): array
         {
             return  [
                 ['f1' => 'value1.1','f2' => 'value1.2','f3' => 1.11],

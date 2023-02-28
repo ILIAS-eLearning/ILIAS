@@ -69,14 +69,13 @@ class Data extends Table implements T\Data, JSBindable
         //TODO: inject
         $df = new \ILIAS\Data\Factory();
         $this->range = $df->range(0, $number_of_rows);
-        
+
         $sortable_visible_cols = array_filter(
             $this->getFilteredColumns(),
-            fn($c) => $c->isSortable()
+            fn ($c) => $c->isSortable()
         );
         $order_by = current(array_keys($sortable_visible_cols));
         $this->order = $df->order($order_by, \ILIAS\Data\Order::ASC);
-
     }
 
     protected function setEnumeratedColumns(array $columns): void
@@ -93,7 +92,7 @@ class Data extends Table implements T\Data, JSBindable
         $this->selected_optional_column_ids =  array_keys(
             array_filter(
                 $this->getColumns(),
-                fn($c) => $c->isInitiallyVisible()
+                fn ($c) => $c->isInitiallyVisible()
             )
         );
     }
@@ -118,7 +117,7 @@ class Data extends Table implements T\Data, JSBindable
     {
         return $this->actions;
     }
-    
+
     /**
      * @inheritdoc
      */

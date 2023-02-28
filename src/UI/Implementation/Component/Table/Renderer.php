@@ -218,7 +218,7 @@ class Renderer extends AbstractComponentRenderer
         return $component;
     }
 
-    protected function applyViewControls(Component\Table\Data $component) : Component\Table\Data
+    protected function applyViewControls(Component\Table\Data $component): Component\Table\Data
     {
         //TODO: Viewcontrols, Filter
         $df = $this->getDataFactory();

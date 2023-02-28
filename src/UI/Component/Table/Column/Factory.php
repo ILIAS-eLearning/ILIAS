@@ -101,7 +101,7 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *      To express a timespan, a duration: use the TimeSpan Column to 
+     *      To express a timespan, a duration: use the TimeSpan Column to
      *      visualize a start- and an enddate.
      *
      * ---

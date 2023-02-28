@@ -27,9 +27,9 @@ class TimeSpan extends Date implements C\TimeSpan
     {
         assert(is_array($value));
         assert(is_a($value[0], \DateTimeImmutable::class) && is_a($value[1], \DateTimeImmutable::class));
-        
-        return 
-            (string)$value[0]->format($this->getFormat()->toString()) 
+
+        return
+            (string)$value[0]->format($this->getFormat()->toString())
             . ' - ' .
             (string)$value[1]->format($this->getFormat()->toString())
         ;

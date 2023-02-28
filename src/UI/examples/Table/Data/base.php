@@ -80,7 +80,7 @@ function base()
             }
         }
 
-        protected function getRecords(Order $order) : array
+        protected function getRecords(Order $order): array
         {
             $records =  [
                 ['usr_id' => 123,'login' => 'superuser','email' => 'user@example.com',
@@ -100,7 +100,7 @@ function base()
             $order_field =current(array_keys($order->get()));
             usort(
                 $records,
-                fn($a, $b) => $a[$order_field] <=> $b[$order_field]
+                fn ($a, $b) => $a[$order_field] <=> $b[$order_field]
             );
             return $records;
         }
