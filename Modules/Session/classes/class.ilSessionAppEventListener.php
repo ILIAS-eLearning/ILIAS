@@ -75,7 +75,7 @@ class ilSessionAppEventListener implements ilAppEventListener
         $listener = new static(
             $DIC->database(),
             $DIC['ilObjDataCache'],
-            $DIC->logger()->root()
+            $DIC->logger()->sess()
         );
 
         $listener
@@ -87,6 +87,16 @@ class ilSessionAppEventListener implements ilAppEventListener
 
     public function handle(): void
     {
+        if ($this->component === 'Services/AccessControl') {
+            if ($this->event === 'deassignUser') {
+                $session = ilObjectFactory::getInstanceByObjId($this->parameters['obj_id'], false);
+                if ($session instanceof ilObjSession) {
+                    $session->handleAutoFill();
+                }
+            }
+        }
+
+
         if ('Modules/Session' !== $this->component) {
             return;
         }
@@ -107,21 +117,18 @@ class ilSessionAppEventListener implements ilAppEventListener
     private function handleRegisterEvent(): void
     {
         $type = ilSessionMembershipMailNotification::TYPE_REGISTER_NOTIFICATION;
-
         $this->sendMail($type);
     }
 
     private function handleEnteredEvent(): void
     {
         $type = ilSessionMembershipMailNotification::TYPE_ENTER_NOTIFICATION;
-
         $this->sendMail($type);
     }
 
     private function handleUnregisterEvent(): void
     {
         $type = ilSessionMembershipMailNotification::TYPE_UNREGISTER_NOTIFICATION;
-
         $this->sendMail($type);
     }
 
@@ -148,7 +155,6 @@ class ilSessionAppEventListener implements ilAppEventListener
             $notification->setRecipients($recipients);
             $notification->setType($type);
             $notification->setRefId($this->parameters['ref_id']);
-
             $notification->send((int) $this->parameters['usr_id']);
         }
     }

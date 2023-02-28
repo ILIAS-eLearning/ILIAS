@@ -212,14 +212,11 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 
             $part_id = (int) $part_id;
 
-            if ($part->isAssigned($part_id)) {
-                if (!$participated && !$registered && !$contact) {
-                    $part->delete($part_id);
-                }
-            } else {
-                if ($participated || $registered || $contact) {
-                    $part->add($part_id, ilParticipants::IL_SESS_MEMBER);
-                }
+            if ($part->isAssigned($part_id) && !$participated && !$registered) {
+                $part->delete($part_id);
+            }
+            if (!$part->isAssigned($part_id) && ($participated || $registered)) {
+                $part->add($part_id, ilParticipants::IL_SESS_MEMBER);
             }
             $event_part = new ilEventParticipants($this->getParentObject()->getId());
             $event_part->setUserId($part_id);

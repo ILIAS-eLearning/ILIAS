@@ -39,7 +39,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
     {
         global $DIC;
 
-        $this->logger = $DIC->logger()->root();
+        $this->logger = $DIC->logger()->sess();
         $this->tree = $DIC->repositoryTree();
         $this->rbac = $DIC->rbac();
 
@@ -295,9 +295,6 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
                     }
                     break;
             }
-
-
-            $this->logger->info('Filter: ' . $filter . ' -> ' . $filter_value);
         }
         return true;
     }
@@ -362,10 +359,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
         }
 
         $review = $this->rbac->review();
-
         $local_parent_roles = $review->getLocalRoles($this->member_ref_id);
-        $this->logger->dump($local_parent_roles);
-
         $local_roles_info = [];
         foreach ($local_parent_roles as $index => $role_id) {
             $local_roles_info[$role_id] = ilObjRole::_getTranslation(
