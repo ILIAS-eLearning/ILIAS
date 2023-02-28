@@ -298,7 +298,8 @@ class FlavourBuilder
     {
         $rid = $flavour->getResourceId()->serialize();
         if (isset($this->current_revision_cache[$rid])) {
-            return $this->current_revision_cache[$rid];
+            // return $this->current_revision_cache[$rid]; // we are currently not able to cache this seriously,
+            // since there might be situations where the revision changes in the meantime
         }
         return $this->current_revision_cache[$rid] = $this->getResourceOfFlavour($flavour)->getCurrentRevision();
     }
