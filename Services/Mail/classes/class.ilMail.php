@@ -29,6 +29,7 @@ class ilMail
 {
     public const ILIAS_HOST = 'ilias';
     public const PROP_CONTEXT_SUBJECT_PREFIX = 'subject_prefix';
+
     protected ilLanguage $lng;
     protected ilDBInterface $db;
     protected ilFileDataMail $mfile;
@@ -41,9 +42,9 @@ class ilMail
     protected ?array $mail_data = [];
     protected bool $save_in_sentbox;
     protected bool $appendInstallationSignature = false;
-    private ilAppEventHandler $eventHandler;
-    private ilMailAddressTypeFactory $mailAddressTypeFactory;
-    private ilMailRfc822AddressParserFactory $mailAddressParserFactory;
+    private readonly ilAppEventHandler $eventHandler;
+    private readonly ilMailAddressTypeFactory $mailAddressTypeFactory;
+    private readonly ilMailRfc822AddressParserFactory $mailAddressParserFactory;
     protected ?string $contextId = null;
     protected array $contextParameters = [];
     protected ilLogger $logger;
@@ -1409,7 +1410,7 @@ class ilMail
         );
         $signature = str_ireplace('[ILIAS_URL]', $clientUrl, $signature);
 
-        if (!preg_match('/^[\n\r]+/', $signature)) {
+        if (!preg_match('/^[\n\r]+/', (string) $signature)) {
             $signature = "\n" . $signature;
         }
 

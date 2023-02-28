@@ -27,7 +27,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 {
     protected PHPMailer $mailer;
 
-    public function __construct(protected ilSetting $settings, private ilAppEventHandler $eventHandler)
+    public function __construct(protected ilSetting $settings, private readonly ilAppEventHandler $eventHandler)
     {
         $mail = new PHPMailer();
         $this->setMailer($mail);

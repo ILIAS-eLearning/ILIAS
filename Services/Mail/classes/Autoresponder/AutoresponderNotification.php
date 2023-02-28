@@ -28,17 +28,11 @@ use ilDateTime;
 
 class AutoresponderNotification extends ilMailNotification
 {
-    private ilMailOptions $sender_mail_options;
-    private DateTimeImmutable $next_auto_responder_datetime;
-
     public function __construct(
-        ilMailOptions $sender_mail_options,
+        private readonly ilMailOptions $sender_mail_options,
         int $receiver_id,
-        DateTimeImmutable $next_auto_responder_datetime
+        private readonly DateTimeImmutable $next_auto_responder_datetime
     ) {
-        $this->sender_mail_options = $sender_mail_options;
-        $this->next_auto_responder_datetime = $next_auto_responder_datetime;
-
         parent::__construct();
 
         $this->setSender($sender_mail_options->getUsrId());

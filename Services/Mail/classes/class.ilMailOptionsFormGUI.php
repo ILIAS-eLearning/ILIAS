@@ -27,7 +27,7 @@ use ILIAS\Mail\Autoresponder\AutoresponderService;
  */
 class ilMailOptionsFormGUI extends ilPropertyFormGUI
 {
-    private int $default_auto_responder_absence_end_ts;
+    private readonly int $default_auto_responder_absence_end_ts;
     protected object $parentGui;
     protected AutoResponderRepository $autoResponderRepository;
 

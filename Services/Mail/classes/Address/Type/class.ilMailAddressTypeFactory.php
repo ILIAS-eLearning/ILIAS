@@ -24,8 +24,8 @@ declare(strict_types=1);
  */
 class ilMailAddressTypeFactory
 {
-    private ilGroupNameAsMailValidator $groupNameValidator;
-    private ilLogger $logger;
+    private readonly ilGroupNameAsMailValidator $groupNameValidator;
+    private readonly ilLogger $logger;
     protected ilRbacSystem $rbacsystem;
     protected ilRbacReview $rbacreview;
     protected ilMailAddressTypeHelper $typeHelper;

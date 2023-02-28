@@ -22,8 +22,10 @@ use ILIAS\Refinery\Factory as Refinery;
 
 class ilMimeMail
 {
-    public const MAIL_SUBJECT_PREFIX = '[ILIAS]';
+    final public const MAIL_SUBJECT_PREFIX = '[ILIAS]';
+
     protected static ?ilMailMimeTransport $defaultTransport = null;
+
     protected ilMailMimeSender $sender;
     protected ilMailMimeSubjectBuilder $subjectBuilder;
     protected ilSetting $settings;
@@ -47,7 +49,7 @@ class ilMimeMail
     protected array $adispo = [];
     /** @var string[] */
     protected array $adisplay = [];
-    private Refinery $refinery;
+    private readonly Refinery $refinery;
 
     public function __construct()
     {

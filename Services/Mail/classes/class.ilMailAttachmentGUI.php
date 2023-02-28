@@ -28,15 +28,15 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilMailAttachmentGUI
 {
-    private ilGlobalTemplateInterface $tpl;
-    private ilCtrlInterface $ctrl;
-    private ilLanguage $lng;
-    private ilObjUser $user;
-    private ilToolbarGUI $toolbar;
-    private ilFormatMail $umail;
-    private ilFileDataMail $mfile;
-    private GlobalHttpState $http;
-    private Refinery $refinery;
+    private readonly ilGlobalTemplateInterface $tpl;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilLanguage $lng;
+    private readonly ilObjUser $user;
+    private readonly ilToolbarGUI $toolbar;
+    private readonly ilFormatMail $umail;
+    private readonly ilFileDataMail $mfile;
+    private readonly GlobalHttpState $http;
+    private readonly Refinery $refinery;
 
     public function __construct()
     {
