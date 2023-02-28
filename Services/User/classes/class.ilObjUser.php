@@ -2859,6 +2859,7 @@ class ilObjUser extends ilObject
         global $DIC;
         $user = new ilObjUser($obj_id);
         $stakeholder = new ilUserProfilePictureStakeholder();
+        $stakeholder->setOwner($user->getId());
         $stream = Streams::ofResource(fopen($tmp_file, 'rb'));
 
         if ($user->getAvatarRid() !== null && $user->getAvatarRid() !== ilObjUser::NO_AVATAR_RID) {

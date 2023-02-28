@@ -58,7 +58,7 @@ class ilUserAvatarResolver
         $this->lng = $DIC->language();
         $this->avatar_factory = $DIC["user.avatar.factory"];
 
-        $this->letter_avatars_activated = (bool)$DIC->settings()->get('letter_avatars');
+        $this->letter_avatars_activated = (bool) $DIC->settings()->get('letter_avatars');
         $this->flavour_definition = new ilUserProfilePictureDefinition();
         $this->size = 'small';
         $this->readUserSettings();
@@ -89,16 +89,9 @@ class ilUserAvatarResolver
         }
 
         if ($this->has_public_profile) {
-            $this->abbreviation = ilStr::subStr(
-                $this->for_user->getFirstname(),
-                0,
-                1
-            )
-                . ilStr::subStr(
-                    $this->for_user->getLastname(),
-                    0,
-                    1
-                );
+            $sub_str_firstname = ilStr::subStr($this->for_user->getFirstname(), 0, 1);
+            $sub_str_lastname = ilStr::subStr($this->for_user->getLastname(), 0, 1);
+            $this->abbreviation = $sub_str_firstname . $sub_str_lastname;
         } else {
             $this->abbreviation = ilStr::subStr($this->for_user->getLogin(), 0, 2);
         }
@@ -140,11 +133,8 @@ class ilUserAvatarResolver
         return $urls[$size_index] ?? '';
     }
 
-
-
-
     /**
-     * @param bool $name_as_set_as_text_closely if the name is set as text close to the Avatar, the alternative
+     * @param bool $name_as_set_as_text_closely  if the name is set as text close to the Avatar, the alternative
      *                                           text for screenreaders will be set differently, to reduce redundancy
      *                                           for screenreaders. See rules on the Avatar Symbol in the UI Components
      */

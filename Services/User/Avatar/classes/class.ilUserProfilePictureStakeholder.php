@@ -33,6 +33,10 @@ class ilUserProfilePictureStakeholder extends AbstractResourceStakeholder
             : (defined('SYSTEM_USER_ID') ? (int) SYSTEM_USER_ID : 6);
     }
 
+    public function setOwner(int $user_id_of_ower): void
+    {
+        $this->default_owner = $user_id_of_ower;
+    }
 
     public function getId(): string
     {

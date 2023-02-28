@@ -1649,8 +1649,9 @@ class ilObjUserGUI extends ilObjectGUI
             $upload_tmp_name = $_FILES["userfile"]["tmp_name"];
             $avatar_upload_result = $uploads[$upload_tmp_name] ?? null;
 
-            $existing_rid = $this->irss->manage()->find($this->user->getAvatarRid());
-            $revision_title = 'Avatar for user ' . $this->user->getLogin();
+            $existing_rid = $this->irss->manage()->find($this->object->getAvatarRid());
+            $revision_title = 'Avatar for user ' . $this->object->getLogin();
+            $this->stakeholder->setOwner($this->object->getId()); // The Resource is owned by the user we are editing
             if ($existing_rid === null) {
                 $rid = $this->irss->manage()->upload(
                     $avatar_upload_result,
@@ -1666,7 +1667,7 @@ class ilObjUserGUI extends ilObjectGUI
                     $revision_title
                 );
             }
-            $this->user->setAvatarRid($rid->serialize());
+            $this->object->setAvatarRid($rid->serialize());
             $this->irss->flavours()->ensure($rid, new ilUserProfilePictureDefinition()); // Create different sizes
 
             // store filename
