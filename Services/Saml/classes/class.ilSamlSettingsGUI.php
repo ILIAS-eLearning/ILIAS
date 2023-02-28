@@ -237,7 +237,7 @@ final class ilSamlSettingsGUI
     private function listIdps(): void
     {
         if ($this->samlAuth && $this->rbac->system()->checkAccess(self::PERMISSION_WRITE, $this->ref_id)) {
-            $this->toolbar->addStickyItem($this->ui_factory->button()->primary(
+            $this->toolbar->addStickyItem($this->ui_factory->button()->standard(
                 $this->lng->txt('auth_saml_add_idp_btn'),
                 $this->ctrl->getLinkTarget($this, 'showNewIdpForm')
             ));
