@@ -26,7 +26,7 @@ use ILIAS\ContentPage\PageMetrics\Command\GetPageMetricsCommand;
 
 class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageObjectConstants
 {
-    private PageMetricsService $pageMetricsService;
+    private readonly PageMetricsService $pageMetricsService;
 
     public function __construct(int $a_context = self::CONTEXT_REPOSITORY)
     {
@@ -115,7 +115,7 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
                 'property' => $this->lng->txt('copa_prop_reading_time'),
                 'value' => $readingTimePropertyValue,
             ];
-        } catch (CouldNotFindPageMetrics $e) {
+        } catch (CouldNotFindPageMetrics) {
         }
 
         return $properties;

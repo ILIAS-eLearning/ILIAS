@@ -47,12 +47,12 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     protected GlobalHttpState $http;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
-    private ilNavigationHistory $navHistory;
-    private Container $dic;
+    private readonly ilNavigationHistory $navHistory;
+    private readonly Container $dic;
     private bool $infoScreenEnabled = false;
-    private PageMetricsService $pageMetricsService;
-    private ilHelpGUI $help;
-    private \ILIAS\DI\UIServices $uiServices;
+    private readonly PageMetricsService $pageMetricsService;
+    private readonly ilHelpGUI $help;
+    private readonly \ILIAS\DI\UIServices $uiServices;
 
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
@@ -509,7 +509,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
     /**
      * @param string $ctrlLink A link which describes the target controller for all page object links/actions
-     * @return string
      * @throws ilException
      */
     public function getContent(string $ctrlLink = ''): string
