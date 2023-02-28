@@ -77,14 +77,9 @@ class ilUserProfilePictureMachine extends AbstractMachine implements FlavourMach
 
         $i = 0;
         foreach ($for_definition->getSizes() as $size) {
-            $result_stream = $this->cropImage($stream, $size);
-            if ($for_definition->isGreyScale()) {
-                $result_stream = $this->makeGreyScale($result_stream);
-            }
-
             yield new Result(
                 $for_definition,
-                $result_stream,
+                $this->cropImage($stream, $size),
                 $i,
                 true
             );

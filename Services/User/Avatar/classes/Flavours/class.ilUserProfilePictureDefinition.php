@@ -29,8 +29,6 @@ class ilUserProfilePictureDefinition implements FlavourDefinition
 
     private int $quality = 50;
 
-    private bool $greyscale = false;
-
     private array $sizes = [
         'big' => 512,
         'small' => 100,
@@ -61,7 +59,6 @@ class ilUserProfilePictureDefinition implements FlavourDefinition
     {
         return json_encode([
             'quality' => $this->quality,
-            'greyscale' => $this->greyscale,
             'sizes' => $this->sizes
         ]);
     }
@@ -79,10 +76,5 @@ class ilUserProfilePictureDefinition implements FlavourDefinition
     public function getQuality(): int
     {
         return $this->quality;
-    }
-
-    public function isGreyscale(): bool
-    {
-        return $this->greyscale;
     }
 }
