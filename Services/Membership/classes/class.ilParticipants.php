@@ -335,7 +335,6 @@ abstract class ilParticipants
                 case 'il_crs_a':
                 case 'il_crs_t':
                 case 'il_grp_a':
-                case 'il_sess_':
                     break;
 
                 default:

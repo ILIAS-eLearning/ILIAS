@@ -32,7 +32,7 @@ class ilSessionWaitingList extends ilWaitingList
         global $DIC;
 
         $ilAppEventHandler = $DIC->event();
-        $ilLog = $DIC->logger()->sess();
+        $ilLog = $DIC->logger()->root();
 
         if (!parent::addToList($a_usr_id)) {
             return false;
