@@ -19,9 +19,7 @@
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 
 /**
- * Helper class for local user accounts (in categories)
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 class ilUserProfilePictureStakeholder extends AbstractResourceStakeholder
 {
@@ -32,7 +30,7 @@ class ilUserProfilePictureStakeholder extends AbstractResourceStakeholder
         global $DIC;
         $this->default_owner = $DIC->isDependencyAvailable('user')
             ? $DIC->user()->getId()
-            : (int) SYSTEM_USER_ID;
+            : (defined('SYSTEM_USER_ID') ? (int) SYSTEM_USER_ID : 6);
     }
 
 
