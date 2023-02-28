@@ -30,6 +30,7 @@ class ilObjMailGUI extends ilObjectGUI
     private const SETTINGS_SUB_TAB_ID_GENERAL = 'settings_general';
     private const SETTINGS_SUB_TAB_ID_EXTERNAL = 'settings_external';
     private const PASSWORD_PLACE_HOLDER = '***********************';
+
     private ilTabsGUI $tabs;
     private readonly \ILIAS\UI\Factory $ui_factory;
 
