@@ -23,13 +23,13 @@ declare(strict_types=1);
  */
 class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
 {
-    private ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
-    private ilObjectCustomUserFieldsPlaceholderValues $customUserFieldsPlaceholderValuesObject;
-    private ilCertificateObjectHelper $objectHelper;
-    private ilCertificateParticipantsHelper $participantsHelper;
-    private ilCertificateUtilHelper $ilUtilHelper;
-    private ilCertificateDateHelper $dateHelper;
-    private ilCertificateLPStatusHelper $lpStatusHelper;
+    private readonly ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
+    private readonly ilObjectCustomUserFieldsPlaceholderValues $customUserFieldsPlaceholderValuesObject;
+    private readonly ilCertificateObjectHelper $objectHelper;
+    private readonly ilCertificateParticipantsHelper $participantsHelper;
+    private readonly ilCertificateUtilHelper $ilUtilHelper;
+    private readonly ilCertificateDateHelper $dateHelper;
+    private readonly ilCertificateLPStatusHelper $lpStatusHelper;
 
     public function __construct(
         ?ilObjectCustomUserFieldsPlaceholderValues $customUserFieldsPlaceholderValues = null,

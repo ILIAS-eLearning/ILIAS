@@ -24,21 +24,13 @@ declare(strict_types=1);
  */
 class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
 {
-    protected int $usrId;
     protected ilBuddyList $buddyList;
     protected ilLanguage $lng;
     protected ilObjUser $user;
 
-    /**
-     * ilBuddySystemLinkButton constructor.
-     * @param int $usrId
-     * @throws ilBuddySystemException
-     */
-    protected function __construct(int $usrId)
+    protected function __construct(protected int $usrId)
     {
         global $DIC;
-
-        $this->usrId = $usrId;
         $this->buddyList = ilBuddyList::getInstanceByGlobalUser();
 
         $this->user = $DIC['ilUser'];
@@ -46,8 +38,6 @@ class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
     }
 
     /**
-     * @param int $usrId
-     * @return ilBuddySystemLinkButton
      * @throws ilBuddySystemException
      */
     public static function getInstanceByUserId(int $usrId): self
@@ -98,7 +88,7 @@ class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
         );
         $buttonTemplate->setVariable('BUTTON_BUDDY_ID', $this->getUsrId());
         $buttonTemplate->setVariable('BUTTON_CSS_CLASS', 'ilBuddySystemLinkWidget');
-        $buttonTemplate->setVariable('BUTTON_CURRENT_STATE', get_class($relation->getState()));
+        $buttonTemplate->setVariable('BUTTON_CURRENT_STATE', $relation->getState()::class);
 
         return $buttonTemplate->get();
     }

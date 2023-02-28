@@ -673,7 +673,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
-        $this->object->setShuffle($_POST["shuffle"]);
+        $this->object->setShuffle($_POST["shuffle"] ?? '0');
 
         $selectionLimit = (int) $form->getItemByPostVar('selection_limit')->getValue();
         $this->object->setSelectionLimit($selectionLimit > 0 ? $selectionLimit : null);

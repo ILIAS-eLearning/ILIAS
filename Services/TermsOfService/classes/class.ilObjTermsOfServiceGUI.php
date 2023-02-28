@@ -34,8 +34,8 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
     /** @var Component[]  */
     protected array $components = [];
 
-    public const F_TOS_STATUS = 'tos_status';
-    public const F_TOS_REEVALUATE_ON_LOGIN = 'tos_reevaluate_on_login';
+    final public const F_TOS_STATUS = 'tos_status';
+    final public const F_TOS_REEVALUATE_ON_LOGIN = 'tos_reevaluate_on_login';
 
     /**
      * @inheritdoc

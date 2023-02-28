@@ -28,7 +28,7 @@ class ilMailFormAttachmentPropertyGUI extends ilFormPropertyGUI
     /** @var string[] */
     private array $items = [];
 
-    public function __construct(private string $buttonLabel)
+    public function __construct(private readonly string $buttonLabel)
     {
         parent::__construct();
         $this->setTitle($this->lng->txt('attachments'));

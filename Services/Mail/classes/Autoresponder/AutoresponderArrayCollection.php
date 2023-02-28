@@ -25,15 +25,11 @@ use ArrayIterator;
 
 final class AutoresponderArrayCollection implements AutoresponderCollection
 {
-    /** @var AutoresponderDto[] */
-    private array $elements;
-
     /**
      * @param AutoresponderDto[]|array<int|string, AutoresponderDto> $elements
      */
-    public function __construct(array $elements = [])
+    public function __construct(private array $elements = [])
     {
-        $this->elements = $elements;
     }
 
     public function getIterator(): ArrayIterator

@@ -87,8 +87,8 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $options = array(
             'filters' => $this->filter,
             'limit' => array(
-                'start' => intval($this->getOffset()),
-                'end' => intval($this->getLimit()),
+                'start' => $this->getOffset(),
+                'end' => $this->getLimit(),
             ),
             'count' => true,
             'sort' => array(
@@ -194,6 +194,14 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
             );
         }
 
+        if ($arr_searchable_user_columns['org_units'] ?? false) {
+            $cols['usr_assinged_orgus'] = array(
+                'txt' => $this->dic->language()->txt('objs_orgu'),
+                'default' => true,
+                'width' => 'auto',
+            );
+        }
+
         return $cols;
     }
 
@@ -201,12 +209,8 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
     {
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
-                if (isset($v['sort_field'])) {
-                    $sort = $v['sort_field'];
-                } else {
-                    $sort = null;
-                }
-                $this->addColumn($v['txt'], $sort, $v['width']);
+                $sort = $v['sort_field'] ?? "";
+                $this->addColumn($v['txt'], $sort);
             }
         }
 
@@ -216,7 +220,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         }
     }
 
-    final public function fillRow(array $a_set): void
+    final protected function fillRow(array $a_set): void
     {
         $set = array_pop($a_set);
 
@@ -226,17 +230,29 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
-                if ($propGetter($k) !== null) {
-                    $this->tpl->setCurrentBlock('td');
-                    $this->tpl->setVariable(
-                        'VALUE',
-                        (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k))
-                    );
-                    $this->tpl->parseCurrentBlock();
-                } else {
-                    $this->tpl->setCurrentBlock('td');
-                    $this->tpl->setVariable('VALUE', '&nbsp;');
-                    $this->tpl->parseCurrentBlock();
+                switch ($k) {
+                    case 'usr_assinged_orgus':
+                        $this->tpl->setCurrentBlock('td');
+                        $this->tpl->setVariable(
+                            'VALUE',
+                            ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($set->getUserId())
+                        );
+                        $this->tpl->parseCurrentBlock();
+                        break;
+                    default:
+                        if ($propGetter($k) !== null) {
+                            $this->tpl->setCurrentBlock('td');
+                            $this->tpl->setVariable(
+                                'VALUE',
+                                (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k))
+                            );
+                            $this->tpl->parseCurrentBlock();
+                        } else {
+                            $this->tpl->setCurrentBlock('td');
+                            $this->tpl->setVariable('VALUE', '&nbsp;');
+                            $this->tpl->parseCurrentBlock();
+                        }
+                        break;
                 }
             }
         }
@@ -244,6 +260,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $actions = new ilAdvancedSelectionListGUI();
         $actions->setListTitle($this->dic->language()->txt("actions"));
         $actions->setAsynch(true);
+        $actions->setId($set->getUserId() . "-" . $set->getSkillNodeId());
 
         $this->dic->ctrl()->setParameterByClass(get_class($this->parent_obj), 'mst_lcom_usr_id', $set->getUserId());
 
@@ -288,6 +305,9 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $field_values = array();
         foreach ($this->getSelectedColumns() as $k => $v) {
             switch ($k) {
+                case 'usr_assinged_orgus':
+                    $field_values[$k] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($selected_skill->getUserId());
+                    break;
                 default:
                     $field_values[$k] = strip_tags($propGetter($k) ?? "");
                     break;

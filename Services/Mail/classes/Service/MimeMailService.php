@@ -26,12 +26,8 @@ use ilMailMimeSenderFactory;
 
 class MimeMailService
 {
-    protected Container $dic;
-
-    public function __construct(Container $DIC)
+    public function __construct(protected Container $dic)
     {
-        $this->dic = $DIC;
-
         if (!isset($this->dic['mail.mime.transport.factory'])) {
             $this->dic['mail.mime.transport.factory'] = static function (Container $c): ilMailMimeTransportFactory {
                 return new ilMailMimeTransportFactory($c->settings(), $c->event());

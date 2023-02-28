@@ -24,7 +24,7 @@ declare(strict_types=1);
  */
 class ilMailMimeSubjectBuilder
 {
-    public function __construct(private ilSetting $settings, private string $defaultPrefix)
+    public function __construct(private readonly ilSetting $settings, private readonly string $defaultPrefix)
     {
     }
 

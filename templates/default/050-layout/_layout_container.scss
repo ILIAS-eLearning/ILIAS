@@ -1,0 +1,31 @@
+@use "../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as *;
+@use "../050-layout/basics/" as *;
+
+// Container widths (based on Bootstrap 5)
+//
+// Set the container width, and override it for fixed navbars in media queries.
+
+$enable-container-classes: true !default;
+
+$container-padding-x: $grid-gutter-width !default;
+
+@mixin make-container($gutter: $container-padding-x) {
+    --#{$prefix}gutter-x: #{$gutter};
+    --#{$prefix}gutter-y: 0;
+    width: 100%;
+    padding-right: calc(var(--#{$prefix}gutter-x) * .5); // stylelint-disable-line function-disallowed-list
+    padding-left: calc(var(--#{$prefix}gutter-x) * .5); // stylelint-disable-line function-disallowed-list
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@if $enable-container-classes {
+
+    // Single container class with breakpoint max-widths
+    .container,
+    // 100% wide container at all breakpoints
+    .container-fluid {
+        @include make-container();
+    }
+    /* Responsive container system from Bootstrap 5 has been removed */
+}

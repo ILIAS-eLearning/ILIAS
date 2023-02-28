@@ -879,7 +879,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
-        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
+        $result = $this->getCurrentSolutionResultSet($active_id, (int)$pass, $authorizedSolution);
         while ($data = $ilDB->fetchAssoc($result)) {
             if (strcmp($data["value1"], "") != 0) {
                 if (!isset($found_values[$data['value2']])) {

@@ -93,10 +93,10 @@ class ilMailTemplateGUI
         if (count($contexts) <= 1) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_template_no_context_available'));
         } elseif ($this->isEditingAllowed()) {
-            $create_tpl_button = ilLinkButton::getInstance();
-            $create_tpl_button->setCaption('mail_new_template');
-            $create_tpl_button->setUrl($this->ctrl->getLinkTarget($this, 'showInsertTemplateForm'));
-            $this->toolbar->addButtonInstance($create_tpl_button);
+            $this->toolbar->addComponent($this->uiFactory->button()->standard(
+                $this->lng->txt('mail_new_template'),
+                $this->ctrl->getLinkTarget($this, 'showInsertTemplateForm')
+            ));
         }
 
         $tbl = new ilMailTemplateTableGUI(

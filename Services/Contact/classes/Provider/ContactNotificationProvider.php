@@ -41,8 +41,8 @@ use ILIAS\Notifications\ilNotificationOSDHandler;
  */
 class ContactNotificationProvider extends AbstractNotificationProvider
 {
-    public const MUTED_UNTIL_PREFERENCE_KEY = 'bs_nc_muted_until';
-    public const NOTIFICATION_TYPE = 'buddysystem_request';
+    final public const MUTED_UNTIL_PREFERENCE_KEY = 'bs_nc_muted_until';
+    final public const NOTIFICATION_TYPE = 'buddysystem_request';
 
     private function getIdentifier(string $id): IdentificationInterface
     {

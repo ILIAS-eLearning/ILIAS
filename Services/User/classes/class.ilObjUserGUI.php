@@ -980,7 +980,7 @@ class ilObjUserGUI extends ilObjectGUI
             ? ilDatePresentation::formatDate(new ilDateTime($this->object->getLastLogin(), IL_CAL_DATETIME))
             : null;
         $data["active"] = $this->object->getActive();
-        $data["time_limit_unlimited"] = $this->object->getTimeLimitUnlimited();
+        $data["time_limit_unlimited"] = $this->object->getTimeLimitUnlimited() ? '1' : '0';
 
         $data["time_limit_from"] = $this->object->getTimeLimitFrom()
             ? new ilDateTime($this->object->getTimeLimitFrom(), IL_CAL_UNIX)
@@ -1167,14 +1167,11 @@ class ilObjUserGUI extends ilObjectGUI
         // access
         $radg = new ilRadioGroupInputGUI($lng->txt("time_limit"), "time_limit_unlimited");
         $radg->setValue(1);
-        $op1 = new ilRadioOption($lng->txt("user_access_unlimited"), 1);
+        $radg->setRequired(true);
+        $op1 = new ilRadioOption($lng->txt("user_access_unlimited"), '1');
         $radg->addOption($op1);
-        $op2 = new ilRadioOption($lng->txt("user_access_limited"), 0);
+        $op2 = new ilRadioOption($lng->txt("user_access_limited"), '0');
         $radg->addOption($op2);
-
-        //		$ac = new ilCheckboxInputGUI($lng->txt("time_limit"), "time_limit_unlimited");
-        //		$ac->setChecked(true);
-        //		$ac->setOptionTitle($lng->txt("crs_unlimited"));
 
         // access.from
         $acfrom = new ilDateTimeInputGUI($this->lng->txt("crs_from"), "time_limit_from");

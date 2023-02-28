@@ -24,6 +24,8 @@ final class EmployeeTalkEmailNotification
 {
     private int $talk_ref_id;
     private string $talk_name;
+    private string $talk_description;
+    private string $talk_location;
     private string $subject_key;
     private string $message_key;
     private string $superior_name;
@@ -36,6 +38,8 @@ final class EmployeeTalkEmailNotification
     /**
      * @param int      $talk_ref_id
      * @param string   $talk_name
+     * @param string   $talk_description
+     * @param string   $talk_location
      * @param string   $subject_key
      * @param string   $message_key
      * @param string   $superior_name
@@ -45,6 +49,8 @@ final class EmployeeTalkEmailNotification
     public function __construct(
         int $talk_ref_id,
         string $talk_name,
+        string $talk_description,
+        string $talk_location,
         string $subject_key,
         string $message_key,
         string $superior_name,
@@ -53,6 +59,8 @@ final class EmployeeTalkEmailNotification
     ) {
         $this->talk_ref_id = $talk_ref_id;
         $this->talk_name = $talk_name;
+        $this->talk_description = $talk_description;
+        $this->talk_location = $talk_location;
         $this->subject_key = $subject_key;
         $this->message_key = $message_key;
         $this->superior_name = $superior_name;
@@ -68,6 +76,16 @@ final class EmployeeTalkEmailNotification
     public function getTalkName(): string
     {
         return $this->talk_name;
+    }
+
+    public function getTalkDescription(): string
+    {
+        return $this->talk_description;
+    }
+
+    public function getTalkLocation(): string
+    {
+        return $this->talk_location;
     }
 
     public function getSubjectLangKey(): string

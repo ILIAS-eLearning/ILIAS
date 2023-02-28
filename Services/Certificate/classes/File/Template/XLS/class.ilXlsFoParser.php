@@ -23,15 +23,15 @@ declare(strict_types=1);
  */
 class ilXlsFoParser
 {
-    private ilXMLChecker $xmlChecker;
-    private ilCertificateUtilHelper $utilHelper;
-    private ilCertificateXlstProcess $xlstProcess;
-    private ilLanguage $language;
-    private ilCertificateXlsFileLoader $certificateXlsFileLoader;
+    private readonly ilXMLChecker $xmlChecker;
+    private readonly ilCertificateUtilHelper $utilHelper;
+    private readonly ilCertificateXlstProcess $xlstProcess;
+    private readonly ilLanguage $language;
+    private readonly ilCertificateXlsFileLoader $certificateXlsFileLoader;
 
     public function __construct(
-        private ilSetting $settings,
-        private ilPageFormats $pageFormats,
+        private readonly ilSetting $settings,
+        private readonly ilPageFormats $pageFormats,
         ?ilXMLChecker $xmlChecker = null,
         ?ilCertificateUtilHelper $utilHelper = null,
         ?ilCertificateXlstProcess $xlstProcess = null,

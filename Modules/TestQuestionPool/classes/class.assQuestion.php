@@ -1414,7 +1414,7 @@ abstract class assQuestion
             array($question_id)
         );
         $data = $ilDB->fetchAssoc($result);
-        return $data["type_tag"];
+        return $data["type_tag"] ?? '';
     }
 
     /**

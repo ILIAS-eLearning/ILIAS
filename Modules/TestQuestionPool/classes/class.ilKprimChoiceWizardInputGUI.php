@@ -91,7 +91,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $answer->setPosition($index);
                 $answer->setAnswertext($value);
                 if (isset($a_value['imagename'])) {
-                    $answer->setImageFile($a_value['imagename'][$index]);
+                    $answer->setImageFile($a_value['imagename'][$index] ?? '');
                 }
 
                 if (isset($a_value['correctness']) && isset($a_value['correctness'][$index]) && strlen($a_value['correctness'][$index])) {
@@ -129,7 +129,8 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $aidx => $answervalue) {
-                    if (((strlen($answervalue)) == 0) && (isset($foundvalues['imagename']) && strlen($foundvalues['imagename'][$aidx]) == 0)) {
+                    $hasImage = isset($foundvalues['imagename']) ? true : false;
+                    if (((strlen($answervalue)) == 0) && !$hasImage) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
                     }
@@ -346,7 +347,8 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
                                 case UPLOAD_ERR_NO_FILE:
                                     if ($this->getRequired() && !$this->isIgnoreMissingUploadsEnabled()) {
-                                        if (isset($foundvalues['imagename']) && (!strlen($foundvalues['imagename'][$index])) && (!strlen($foundvalues['answer'][$index]))) {
+                                        $has_image = isset($foundvalues['imagename'][$index]) ? true : false;
+                                        if (!$has_image && (!strlen($foundvalues['answer'][$index]))) {
                                             $this->setAlert($this->lng->txt("form_msg_file_no_upload"));
                                             return false;
                                         }

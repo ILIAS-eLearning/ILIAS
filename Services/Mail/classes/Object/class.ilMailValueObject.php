@@ -24,20 +24,21 @@ declare(strict_types=1);
 class ilMailValueObject
 {
     /** @var string[] */
-    private array $attachments;
+    private readonly array $attachments;
+
     /**
      * @param string[] $attachments
      */
     public function __construct(
-        private string $from,
-        private string $recipients,
-        private string $recipientsCC,
-        private string $recipientsBCC,
-        private string $subject,
-        private string $body,
+        private readonly string $from,
+        private readonly string $recipients,
+        private readonly string $recipientsCC,
+        private readonly string $recipientsBCC,
+        private readonly string $subject,
+        private readonly string $body,
         array $attachments,
-        private bool $usePlaceholders = false,
-        private bool $saveInSentBox = false
+        private readonly bool $usePlaceholders = false,
+        private readonly bool $saveInSentBox = false
     ) {
         $this->attachments = array_filter(array_map('trim', $attachments));
     }

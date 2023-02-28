@@ -45,7 +45,7 @@ class ilMStListCourses
     final public function getData(array $arr_usr_ids = array(), array $options = array()): ListFetcherResult
     {
         //Permission Filter
-        $operation_access = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS;
+        $operation_access = ilMyStaffAccess::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION;
 
         // permission should not be changed here because learning progress only works in combination with course memberships
         /*if (isset($options['filters']['lp_status']) && $options['filters']['lp_status'] >= 0) {

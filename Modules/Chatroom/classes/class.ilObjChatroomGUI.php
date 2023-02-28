@@ -48,7 +48,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
 
-        $parts = array_filter(explode('_', $params));
+        $parts = array_filter(explode('_', (string) $params));
         $ref_id = (int) $parts[0];
         $sub = (int) ($parts[1] ?? 0);
 
@@ -230,7 +230,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
 
             default:
                 try {
-                    $res = explode('-', $this->ctrl->getCmd(''), 2);
+                    $res = explode('-', (string) $this->ctrl->getCmd(''), 2);
                     $result = $this->dispatchCall($res[0], $res[1] ?? '');
                     if (!$result && method_exists($this, $this->ctrl->getCmd() . 'Object')) {
                         $this->prepareOutput();
@@ -343,7 +343,6 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
 
     /**
      * @param ilObjChatroom $new_object
-     * @return void
      */
     protected function afterImport(ilObject $new_object): void
     {

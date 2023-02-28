@@ -30,11 +30,8 @@ use ilMailTemplateRepository;
 
 class MailService
 {
-    protected Container $dic;
-
-    public function __construct(Container $DIC)
+    public function __construct(protected Container $dic)
     {
-        $this->dic = $DIC;
         if (!isset($this->dic['mail.texttemplates.service'])) {
             $this->dic['mail.texttemplates.service'] = static function (Container $c): ilMailTemplateService {
                 return new ilMailTemplateService(new ilMailTemplateRepository($c->database()));

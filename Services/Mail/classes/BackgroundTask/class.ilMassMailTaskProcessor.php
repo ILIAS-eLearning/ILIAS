@@ -28,21 +28,20 @@ use ILIAS\DI\Container;
  */
 class ilMassMailTaskProcessor
 {
-    private TaskManager $taskManager;
-    private TaskFactory $taskFactory;
-    private ilLanguage $language;
-    private ilLogger $logger;
-    private ilMailValueObjectJsonService $objectJsonService;
-    private int $anonymousUserId;
+    private readonly TaskManager $taskManager;
+    private readonly TaskFactory $taskFactory;
+    private readonly ilLanguage $language;
+    private readonly ilLogger $logger;
+    private readonly ilMailValueObjectJsonService $objectJsonService;
 
     public function __construct(
+        private readonly int $anonymousUserId = ANONYMOUS_USER_ID,
         TaskManager $taskManager = null,
         TaskFactory $taskFactory = null,
         ilLanguage $language = null,
         ilLogger $logger = null,
         Container $dic = null,
-        ilMailValueObjectJsonService $objectJsonService = null,
-        int $anonymousUserId = ANONYMOUS_USER_ID
+        ilMailValueObjectJsonService $objectJsonService = null
     ) {
         if (null === $dic) {
             global $DIC;
@@ -73,8 +72,6 @@ class ilMassMailTaskProcessor
             $objectJsonService = new ilMailValueObjectJsonService();
         }
         $this->objectJsonService = $objectJsonService;
-
-        $this->anonymousUserId = $anonymousUserId;
     }
 
     /**

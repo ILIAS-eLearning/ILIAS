@@ -27,11 +27,11 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilMailOptionsGUI
 {
-    private ilGlobalTemplateInterface $tpl;
-    private ilCtrlInterface $ctrl;
-    private ilLanguage $lng;
-    private ilSetting $settings;
-    private ilObjUser $user;
+    private readonly ilGlobalTemplateInterface $tpl;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilLanguage $lng;
+    private readonly ilSetting $settings;
+    private readonly ilObjUser $user;
     protected GlobalHttpState $http;
     protected Refinery $refinery;
     protected ilMailOptionsFormGUI $form;

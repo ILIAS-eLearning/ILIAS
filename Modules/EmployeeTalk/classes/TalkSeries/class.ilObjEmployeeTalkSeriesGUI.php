@@ -328,7 +328,6 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 
         $firstTalk = $talks[0];
         $talk_title = $firstTalk->getTitle();
-        $talk_ref_id = $firstTalk->getRefId();
         $superior = new ilObjUser($firstTalk->getOwner());
         $employee = new ilObjUser($firstTalk->getData()->getEmployee());
         $superiorName = $superior->getFullname();
@@ -347,8 +346,10 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         }
 
         $message = new EmployeeTalkEmailNotification(
-            $talk_ref_id,
+            $firstTalk->getRefId(),
             $talk_title,
+            $firstTalk->getDescription(),
+            $firstTalk->getData()->getLocation(),
             'notification_talks_subject',
             'notification_talks_created',
             $superiorName,
@@ -513,6 +514,29 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         $talk->setDescription($template->getLongDescription());
         $template->cloneMetaData($talk);
         $talk->update();
+
+        // assign talk series type to adv md records of the template
+        foreach (ilAdvancedMDRecord::_getSelectedRecordsByObject(
+            $template->getType(),
+            $template->getId(),
+            'etal',
+            false
+        ) as $rec) {
+            if (!$rec->isAssignedObjectType($talk->getType(), 'etal')) {
+                $rec->appendAssignedObjectType(
+                    $talk->getType(),
+                    'etal',
+                    true
+                );
+                $rec->update();
+            }
+        }
+
+        ilAdvancedMDRecord::saveObjRecSelection(
+            $talk->getId(),
+            'etal',
+            ilAdvancedMDRecord::getObjRecSelection($template->getId(), 'etal')
+        );
 
         ilAdvancedMDValues::_cloneValues(
             0,

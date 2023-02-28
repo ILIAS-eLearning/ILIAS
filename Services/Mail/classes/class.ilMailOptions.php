@@ -27,12 +27,15 @@ use ILIAS\Data\Clock\ClockInterface;
  */
 class ilMailOptions
 {
-    public const INCOMING_LOCAL = 0;
-    public const INCOMING_EMAIL = 1;
-    public const INCOMING_BOTH = 2;
-    public const FIRST_EMAIL = 3;
-    public const SECOND_EMAIL = 4;
-    public const BOTH_EMAIL = 5;
+    final public const INCOMING_LOCAL = 0;
+    final public const INCOMING_EMAIL = 1;
+    final public const INCOMING_BOTH = 2;
+    final public const FIRST_EMAIL = 3;
+    final public const SECOND_EMAIL = 4;
+    final public const BOTH_EMAIL = 5;
+    final public const ABSENCE_STATUS_PRESENT = false;
+    final public const ABSENCE_STATUS_ABSENT = true;
+
     protected ILIAS $ilias;
     protected ilDBInterface $db;
     protected ilSetting $settings;
@@ -44,8 +47,6 @@ class ilMailOptions
     protected ilMailTransportSettings $mailTransportSettings;
     protected string $firstEmailAddress = '';
     protected string $secondEmailAddress = '';
-    public const ABSENCE_STATUS_PRESENT = false;
-    public const ABSENCE_STATUS_ABSENT = true;
     protected bool $absence_status = self::ABSENCE_STATUS_PRESENT;
     protected int $absent_from = 0;
     protected int $absent_until = 0;

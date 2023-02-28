@@ -28,7 +28,7 @@ final class ilXMLChecker
     /** @var array<int, LibXMLError[]> */
     private array $errorStack = [];
 
-    public function __construct(private DataTypeFactory $dataFactory)
+    public function __construct(private readonly DataTypeFactory $dataFactory)
     {
         $this->result = new Result\Error('No XML parsed, yet');
     }

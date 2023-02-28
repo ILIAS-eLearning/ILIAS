@@ -30,11 +30,8 @@ final class AutoresponderDatabaseRepository implements AutoresponderRepository
 {
     private const TABLE_NAME = 'mail_auto_responder';
 
-    protected ilDBInterface $db;
-
-    public function __construct(ilDBInterface $db)
+    public function __construct(protected ilDBInterface $db)
     {
-        $this->db = $db;
     }
 
     public function findBySenderId(int $sender_id): AutoresponderArrayCollection

@@ -26,14 +26,10 @@ declare(strict_types=1);
 */
 class ilContactGUI
 {
-    public const CONTACTS_VIEW_GALLERY = 1;
-    public const CONTACTS_VIEW_TABLE = 2;
-    private \ILIAS\HTTP\GlobalHttpState $http;
-    /**
-     * @var int[]|null
-     */
-    private ?array $postUsrId = null;
+    final public const CONTACTS_VIEW_GALLERY = 'buddy_view_gallery';
+    final public const CONTACTS_VIEW_TABLE = 'buddy_view_table';
 
+    private readonly \ILIAS\HTTP\GlobalHttpState $http;
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
@@ -48,6 +44,11 @@ class ilContactGUI
     protected ILIAS\Refinery\Factory $refinery;
     protected \ILIAS\UI\Factory $ui_factory;
     protected \ILIAS\UI\Renderer $ui_renderer;
+    /** @var array<string, string> */
+    private array $view_mode_options = [
+        self::CONTACTS_VIEW_TABLE => self::CONTACTS_VIEW_TABLE,
+        self::CONTACTS_VIEW_GALLERY => self::CONTACTS_VIEW_GALLERY,
+    ];
 
     public function __construct()
     {
@@ -153,23 +154,32 @@ class ilContactGUI
                 );
 
                 if (in_array(strtolower($this->ctrl->getCmdClass()), $galleryCmdClasses, true)) {
-                    $view_selection = new ilSelectInputGUI('', 'contacts_view');
-                    $view_selection->setOptions([
-                        (string) self::CONTACTS_VIEW_TABLE => $this->lng->txt('buddy_view_table'),
-                        (string) self::CONTACTS_VIEW_GALLERY => $this->lng->txt('buddy_view_gallery')
-                    ]);
-                    $view_selection->setValue(
-                        strtolower($this->ctrl->getCmdClass()) === strtolower(ilUsersGalleryGUI::class)
-                            ? (string) self::CONTACTS_VIEW_GALLERY
-                            : (string) self::CONTACTS_VIEW_TABLE
-                    );
-                    $this->toolbar->addInputItem($view_selection);
+                    $mode_options = array_combine(
+                        array_map(
+                            fn (string $mode): string => $this->lng->txt($mode),
+                            array_keys($this->view_mode_options)
+                        ),
+                        array_map(
+                            function (string $mode): string {
+                                $this->ctrl->setParameter($this, 'contacts_view', $mode);
+                                $url = $this->ctrl->getFormAction($this, 'changeContactsView');
+                                $this->ctrl->setParameter($this, 'contacts_view', null);
 
-                    $contact_view_btn = ilSubmitButton::getInstance();
-                    $contact_view_btn->setCaption('show');
-                    $contact_view_btn->setCommand('changeContactsView');
-                    $this->toolbar->addButtonInstance($contact_view_btn);
-                    $this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'changeContactsView'));
+                                return $url;
+                            },
+                            array_keys($this->view_mode_options)
+                        ),
+                    );
+
+                    $active_mode = strtolower($this->ctrl->getCmdClass()) === strtolower(ilUsersGalleryGUI::class)
+                        ? self::CONTACTS_VIEW_GALLERY
+                        : self::CONTACTS_VIEW_TABLE;
+
+                    $sortViewControl = $this->ui_factory
+                        ->viewControl()
+                        ->mode($mode_options, $this->lng->txt($active_mode))
+                        ->withActive($this->lng->txt($active_mode));
+                    $this->toolbar->addComponent($sortViewControl);
                 }
 
                 if (
@@ -263,18 +273,23 @@ class ilContactGUI
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
         }
 
-        if ($this->http->wrapper()->post()->has('contacts_view')) {
-            switch ($this->http->wrapper()->post()->retrieve('contacts_view', $this->refinery->kindlyTo()->int())) {
-                case self::CONTACTS_VIEW_GALLERY:
-                    $this->ctrl->redirectByClass(ilUsersGalleryGUI::class);
+        $contacts_view = $this->http->wrapper()->query()->retrieve(
+            'contacts_view',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always(self::CONTACTS_VIEW_TABLE)
+            ])
+        );
 
-                    // no break
-                case self::CONTACTS_VIEW_TABLE:
-                    $this->ctrl->redirect($this);
-            }
+        switch ($contacts_view) {
+            case self::CONTACTS_VIEW_GALLERY:
+                $this->ctrl->redirectByClass(ilUsersGalleryGUI::class);
+
+                // no break
+            case self::CONTACTS_VIEW_TABLE:
+            default:
+                $this->ctrl->redirect($this);
         }
-
-        $this->ctrl->redirect($this);
     }
 
 

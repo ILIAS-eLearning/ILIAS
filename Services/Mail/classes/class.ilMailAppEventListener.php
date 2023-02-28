@@ -27,8 +27,7 @@ use ILIAS\Services\User\ChangedUserFieldAttribute;
  */
 class ilMailAppEventListener implements ilAppEventListener
 {
-    private Container $dic;
-
+    private readonly Container $dic;
     protected string $component = '';
     protected string $event = '';
     /** @var ChangedUserFieldAttribute[] */

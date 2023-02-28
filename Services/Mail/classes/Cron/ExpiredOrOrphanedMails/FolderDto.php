@@ -25,7 +25,7 @@ class FolderDto
     /** @var MailDto[] */
     private array $orphaned_mail_objects = [];
 
-    public function __construct(private int $folder_id, private ?string $folder_title)
+    public function __construct(private readonly int $folder_id, private readonly ?string $folder_title)
     {
     }
 

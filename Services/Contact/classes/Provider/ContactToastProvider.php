@@ -27,7 +27,7 @@ use ILIAS\Notifications\ilNotificationOSDHandler;
 
 class ContactToastProvider extends AbstractToastProvider
 {
-    public const NOTIFICATION_TYPE = 'buddysystem_request';
+    final public const NOTIFICATION_TYPE = 'buddysystem_request';
 
     public function getToasts(): array
     {
@@ -45,7 +45,7 @@ class ContactToastProvider extends AbstractToastProvider
             0,
             self::NOTIFICATION_TYPE
         ) as $invitation) {
-            $toast = $this->toast_factory->standard(
+            $toast = $this->getDefaultToast(
                 $invitation->getObject()->title,
                 $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::CADM, 'buddysystem_request')
             )->withDescription($invitation->getObject()->shortDescription);

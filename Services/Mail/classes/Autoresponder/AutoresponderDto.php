@@ -24,15 +24,8 @@ use DateTimeImmutable;
 
 final class AutoresponderDto
 {
-    private int $sender_id;
-    private int $receiver_id;
-    private DateTimeImmutable $sent_time;
-
-    public function __construct(int $sender_id, int $receiver_id, DateTimeImmutable $sent_time)
+    public function __construct(private int $sender_id, private int $receiver_id, private DateTimeImmutable $sent_time)
     {
-        $this->sender_id = $sender_id;
-        $this->receiver_id = $receiver_id;
-        $this->sent_time = $sent_time;
     }
 
     public function getSenderId(): int

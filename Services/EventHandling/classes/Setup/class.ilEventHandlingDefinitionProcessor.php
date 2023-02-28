@@ -1,36 +1,47 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author Klees
  */
-class ilEventDefinitionProcessor implements ilComponentDefinitionProcessor
+class ilEventHandlingDefinitionProcessor implements ilComponentDefinitionProcessor
 {
-    protected ilDBInterface $db;
+    protected array $data = [];
     protected ?string $component;
 
-    public function __construct(ilDBInterface $db)
+    public function getData(): array
     {
-        $this->db = $db;
+        return $this->data;
     }
 
     public function purge(): void
     {
-        $this->db->manipulate("DELETE FROM il_event_handling WHERE component NOT LIKE 'Plugins/%'");
+        foreach ($this->data as $data_entry_key => $data_entry_values) {
+            $pattern = "^(plugins/).*";
+            $subject = $data_entry_values["component"];
+            preg_match($pattern, $subject, $component_is_plugin);
+
+            if (!$component_is_plugin) {
+                unset($this->data[$data_entry_key]);
+            }
+        }
     }
 
     public function beginComponent(string $component, string $type): void
@@ -53,14 +64,25 @@ class ilEventDefinitionProcessor implements ilComponentDefinitionProcessor
         if (!$component) {
             $component = $this->component;
         }
-        $q = "INSERT INTO il_event_handling (component, type, id) VALUES (" .
-            $this->db->quote($component, "text") . "," .
-            $this->db->quote($attributes["type"], "text") . "," .
-            $this->db->quote($attributes["id"], "text") . ")";
-        $this->db->manipulate($q);
+
+        $event = [
+            "component"             => $component,
+            "type"                  => $attributes["type"],
+            "type_specification"    => $attributes["id"]
+        ];
+
+        //only add event to data if no such entry exists
+        if (!$this->hasDataEntryForEvent($event)) {
+            $this->data[] = $event;
+        }
     }
 
     public function endTag(string $name): void
     {
+    }
+
+    public function hasDataEntryForEvent($event): bool
+    {
+        return in_array($event, $this->data, true);
     }
 }

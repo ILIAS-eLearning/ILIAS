@@ -394,6 +394,12 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
                     );
                     break;
 
+                case 'tals':
+                    $this->ctrl->setParameterByClass("ilcalendarpresentationgui", 'category_id', $a_set['id']);
+                    $link = $this->ctrl->getLinkTargetByClass("ilcalendarpresentationgui", '');
+                    $this->ctrl->setParameterByClass("ilcalendarpresentationgui", 'category_id', $this->category_id);
+                    break;
+
                 default:
                     $link = ilLink::_getLink($a_set['ref_id']);
                     break;

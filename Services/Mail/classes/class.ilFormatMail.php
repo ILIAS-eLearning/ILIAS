@@ -36,14 +36,14 @@ class ilFormatMail extends ilMail
 
         $currentUserLogin = $DIC->user()->getLogin();
 
-        foreach (explode(',', $this->mail_data['rcp_to']) as $to) {
+        foreach (explode(',', (string) $this->mail_data['rcp_to']) as $to) {
             $to = trim($to);
             if ($to !== '' && $currentUserLogin !== $to) {
                 $newCC[] = $to;
             }
         }
 
-        foreach (explode(',', $this->mail_data['rcp_cc']) as $cc) {
+        foreach (explode(',', (string) $this->mail_data['rcp_cc']) as $cc) {
             $cc = trim($cc);
             if ($cc !== '' && $currentUserLogin !== $cc) {
                 $newCC[] = $cc;

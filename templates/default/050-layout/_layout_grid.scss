@@ -1,6 +1,7 @@
 @use "sass:math";
 @use "../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as *;
 @use "../050-layout/basics/" as *;
+@use "../050-layout/layout_breakpoints" as *;
 
 //
 // Boottsrap 5: _variables.scss
@@ -11,30 +12,7 @@ $enable-cssgrid: false !default;
 
 $grid-row-columns: 6 !default;
 
-// redefining Bootstrap 5 breakpoints with Bootstrap 3 breakpoints
-$grid-breakpoints: (
-    xs: 0,
-    sm: $screen-xs,
-    md: $screen-sm,
-    lg: $screen-md,
-    xl: $screen-lg,
-    xxl: 1400px) !default;
-
-// scss-docs-start spacer-variables-maps
-$spacers: (
-    0: 0,
-    1: $il-padding-base-horizontal,
-    2: $il-padding-large-horizontal,
-    3: $il-padding-xlarge-horizontal,
-    4: $il-padding-xxlarge-horizontal,
-    5: $il-padding-xxxlarge-horizontal,
-    ) !default;
-// scss-docs-end spacer-variables-maps
-
 // Prefix for :root CSS variables
-
-$variable-prefix: bs- !default; // Deprecated in v5.2.0 for the shorter `$prefix`
-$prefix: $variable-prefix !default;
 
 //
 // Bootstrap 5: _functions.scss

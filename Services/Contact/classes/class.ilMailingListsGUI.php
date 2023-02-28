@@ -26,18 +26,20 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilMailingListsGUI
 {
-    private \ILIAS\HTTP\GlobalHttpState $http;
-    private Refinery $refinery;
-    private ilGlobalTemplateInterface $tpl;
-    private ilCtrlInterface $ctrl;
-    private ilLanguage $lng;
-    private ilObjUser $user;
-    private ilErrorHandling $error;
-    private ilToolbarGUI $toolbar;
-    private ilRbacSystem $rbacsystem;
-    private ilFormatMail $umail;
-    private ilMailingLists $mlists;
+    private readonly \ILIAS\HTTP\GlobalHttpState $http;
+    private readonly Refinery $refinery;
+    private readonly ilGlobalTemplateInterface $tpl;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilLanguage $lng;
+    private readonly ilObjUser $user;
+    private readonly ilErrorHandling $error;
+    private readonly ilToolbarGUI $toolbar;
+    private readonly ilRbacSystem $rbacsystem;
+    private readonly ilFormatMail $umail;
+    private readonly ilMailingLists $mlists;
     private ilPropertyFormGUI $form_gui;
+    private readonly \ILIAS\UI\Factory $ui_factory;
+    private readonly \ILIAS\UI\Renderer $ui_renderer;
 
     public function __construct()
     {
@@ -52,6 +54,8 @@ class ilMailingListsGUI
         $this->toolbar = $DIC['ilToolbar'];
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         $this->umail = new ilFormatMail($this->user->getId());
         $this->mlists = new ilMailingLists($this->user);
@@ -229,10 +233,10 @@ class ilMailingListsGUI
 
         $tbl = new ilMailingListsTableGUI($this, 'showMailingLists');
 
-        $create_btn = ilLinkButton::getInstance();
-        $create_btn->setCaption('create');
-        $create_btn->setUrl($this->ctrl->getLinkTarget($this, 'showForm'));
-        $this->toolbar->addButtonInstance($create_btn);
+        $this->toolbar->addComponent($this->ui_factory->button()->standard(
+            $this->lng->txt('create'),
+            $this->ctrl->getLinkTarget($this, 'showForm')
+        ));
 
         $result = [];
         $entries = $this->mlists->getAll();
@@ -251,35 +255,42 @@ class ilMailingListsGUI
                 $result[$counter]['members'] = count($entry->getAssignedEntries());
 
                 $this->ctrl->setParameter($this, 'ml_id', $entry->getId());
+                $buttons = [];
 
-                $current_selection_list = new ilAdvancedSelectionListGUI();
-                $current_selection_list->setListTitle($this->lng->txt("actions"));
-                $current_selection_list->setId("act_" . $counter);
-
-                $current_selection_list->addItem(
-                    $this->lng->txt("edit"),
-                    '',
-                    $this->ctrl->getLinkTarget($this, "showForm")
-                );
-                $current_selection_list->addItem(
-                    $this->lng->txt("members"),
-                    '',
-                    $this->ctrl->getLinkTarget($this, "showMembersList")
-                );
-                if ($mailing_allowed) {
-                    $current_selection_list->addItem(
-                        $this->lng->txt("send_mail_to"),
-                        '',
-                        $this->ctrl->getLinkTarget($this, "mailToList")
+                $buttons[] = $this->ui_factory
+                    ->button()
+                    ->shy(
+                        $this->lng->txt('edit'),
+                        $this->ctrl->getLinkTarget($this, 'showForm')
                     );
+                $buttons[] = $this->ui_factory
+                    ->button()
+                    ->shy(
+                        $this->lng->txt('members'),
+                        $this->ctrl->getLinkTarget($this, 'showMembersList')
+                    );
+                if ($mailing_allowed) {
+                    $buttons[] = $this->ui_factory
+                        ->button()
+                        ->shy(
+                            $this->lng->txt('send_mail_to'),
+                            $this->ctrl->getLinkTarget($this, 'mailToList')
+                        );
                 }
-                $current_selection_list->addItem(
-                    $this->lng->txt("delete"),
-                    '',
-                    $this->ctrl->getLinkTarget($this, "confirmDelete")
-                );
+                $buttons[] = $this->ui_factory
+                    ->button()
+                    ->shy(
+                        $this->lng->txt('delete'),
+                        $this->ctrl->getLinkTarget($this, 'confirmDelete')
+                    );
+                $this->ctrl->setParameter($this, 'ml_id', null);
 
-                $result[$counter]['COMMAND_SELECTION_LIST'] = $current_selection_list->getHTML();
+                $drop_down = $this->ui_factory
+                    ->dropdown()
+                    ->standard($buttons)
+                    ->withLabel($this->lng->txt('actions'));
+
+                $result[$counter]['COMMAND_SELECTION_LIST'] = $this->ui_renderer->render($drop_down);
                 ++$counter;
             }
 
@@ -447,10 +458,10 @@ class ilMailingListsGUI
         );
 
         if ($availale_usr_ids !== []) {
-            $create_btn = ilLinkButton::getInstance();
-            $create_btn->setCaption('add');
-            $create_btn->setUrl($this->ctrl->getLinkTarget($this, 'showAssignmentForm'));
-            $this->toolbar->addButtonInstance($create_btn);
+            $this->toolbar->addComponent($this->ui_factory->button()->standard(
+                $this->lng->txt('add'),
+                $this->ctrl->getLinkTarget($this, 'showAssignmentForm')
+            ));
         }
 
         $assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();

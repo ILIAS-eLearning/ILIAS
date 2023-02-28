@@ -29,13 +29,8 @@ use ilException;
  */
 class PageReadingTime
 {
-    private int $minutes;
+    private readonly int $minutes;
 
-    /**
-     * PageReadingTime constructor.
-     * @param int $minutes
-     * @throws ilException
-     */
     public function __construct(int $minutes)
     {
         if ($minutes < 0) {

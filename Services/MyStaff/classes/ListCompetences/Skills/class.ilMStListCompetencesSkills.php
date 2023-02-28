@@ -96,6 +96,7 @@ class ilMStListCompetencesSkills
         $skills = [];
         while ($rec = $this->dic->database()->fetchAssoc($set)) {
             $skills[] = new ilMStListCompetencesSkill(
+                intval($rec['skill_node_id']),
                 $rec['skill_title'],
                 $rec['skill_level'],
                 $rec['login'],
@@ -143,7 +144,7 @@ class ilMStListCompetencesSkills
                                                                                                                                                                                                     ) . ") ";
         }
 
-        if (!empty($arr_filter['org_unit'])) {
+        if (!empty($filters['org_unit'])) {
             $wheres[] = 'ud.usr_id IN (SELECT user_id FROM il_orgu_ua WHERE orgu_id = ' .
                 $this->dic->database()->quote($filters['org_unit'], 'integer') . ')';
         }

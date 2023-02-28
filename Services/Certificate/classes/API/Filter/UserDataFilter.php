@@ -25,13 +25,14 @@ namespace ILIAS\Certificate\API\Filter;
  */
 class UserDataFilter
 {
-    public const SORT_FIELD_ISSUE_TIMESTAMP = 1;
-    public const SORT_FIELD_USR_LOGIN = 2;
-    public const SORT_FIELD_USR_LASTNAME = 3;
-    public const SORT_FIELD_USR_FIRSTNAME = 4;
-    public const SORT_FIELD_OBJ_TITLE = 5;
-    public const SORT_DIRECTION_ASC = 1;
-    public const SORT_DIRECTION_DESC = 2;
+    final public const SORT_FIELD_ISSUE_TIMESTAMP = 1;
+    final public const SORT_FIELD_USR_LOGIN = 2;
+    final public const SORT_FIELD_USR_LASTNAME = 3;
+    final public const SORT_FIELD_USR_FIRSTNAME = 4;
+    final public const SORT_FIELD_OBJ_TITLE = 5;
+    final public const SORT_FIELD_USR_EMAIL = 6;
+    final public const SORT_DIRECTION_ASC = 1;
+    final public const SORT_DIRECTION_DESC = 2;
 
     private ?string $objectTitle = null;
     private ?int $issuedBeforeTimestamp = null;
@@ -41,14 +42,18 @@ class UserDataFilter
     private ?string $userLastName = null;
     private ?string $userLogin = null;
     private ?string $userEmail = null;
+    private ?string $userIdentification = null;
     /** @var int[] */
     private array $userIds = [];
     /** @var int[] */
     private array $objIds = [];
+    /** @var list<array{0: string, 1: string}> */
     private array $sorts = [];
     private ?int $limitOffset = null;
     private ?int $limitCount = null;
     private bool $shouldIncludeDeletedObjects = true;
+    /** @var int[] */
+    private array $orgUnitIds = [];
 
     /**
      * @param int[] $usrIds
@@ -66,6 +71,16 @@ class UserDataFilter
     private function ensureValidUniqueObjIds(array $objIds): void
     {
         array_walk($objIds, static function (int $objId): void {
+            // Do nothing, use this for type safety of array values
+        });
+    }
+
+    /**
+     * @param int[] $orgUnitIds
+     */
+    private function ensureValidUniqueOrgUnitIds(array $orgUnitIds): void
+    {
+        array_walk($orgUnitIds, static function (int $orgUnitId): void {
             // Do nothing, use this for type safety of array values
         });
     }
@@ -106,6 +121,14 @@ class UserDataFilter
     {
         $clone = clone $this;
         $clone->userEmail = $emailAddress;
+
+        return $clone;
+    }
+
+    public function withUserIdentification(?string $userIdentification): self
+    {
+        $clone = clone $this;
+        $clone->userIdentification = $userIdentification;
 
         return $clone;
     }
@@ -190,6 +213,34 @@ class UserDataFilter
         return $clone;
     }
 
+    /**
+     * @param int[] $orgUnitIds
+     * @return $this
+     */
+    public function withOrgUnitIds(array $orgUnitIds): self
+    {
+        $this->ensureValidUniqueOrgUnitIds($orgUnitIds);
+
+        $clone = clone $this;
+        $clone->orgUnitIds = array_unique($orgUnitIds);
+
+        return $clone;
+    }
+
+    /**
+     * @param int[] $orgUnitIds
+     * @return $this
+     */
+    public function withAdditionalOrgUnitIds(array $orgUnitIds): self
+    {
+        $this->ensureValidUniqueOrgUnitIds($orgUnitIds);
+
+        $clone = clone $this;
+        $clone->orgUnitIds = array_unique(array_merge($clone->orgUnitIds, $orgUnitIds));
+
+        return $clone;
+    }
+
     public function getObjectTitle(): ?string
     {
         return $this->objectTitle;
@@ -230,6 +281,11 @@ class UserDataFilter
         return $this->userEmail;
     }
 
+    public function getUserIdentification(): ?string
+    {
+        return $this->userIdentification;
+    }
+
     /**
      * @return int[]
      */
@@ -244,6 +300,14 @@ class UserDataFilter
     public function getObjIds(): array
     {
         return $this->objIds;
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getOrgUnitIds(): array
+    {
+        return $this->orgUnitIds;
     }
 
     public function withSortedLastNames(int $direction = self::SORT_DIRECTION_ASC): self
@@ -286,6 +350,17 @@ class UserDataFilter
         return $clone;
     }
 
+    public function withSortedEmails(int $direction = self::SORT_DIRECTION_ASC): self
+    {
+        $clone = clone $this;
+        $clone->sorts[] = [self::SORT_FIELD_USR_EMAIL, $direction];
+
+        return $clone;
+    }
+
+    /**
+     * @return list<array{0: string, 1: string}>
+     */
     public function getSorts(): array
     {
         return $this->sorts;

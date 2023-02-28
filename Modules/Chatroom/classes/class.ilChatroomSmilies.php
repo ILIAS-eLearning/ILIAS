@@ -71,7 +71,6 @@ class ilChatroomSmilies
      * Checks if smiley folder is available; if not
      * it will try to create folder and performs
      * actions for an initial smiley set
-     * @return boolean
      */
     public static function _checkSetup(): bool
     {
@@ -247,7 +246,6 @@ class ilChatroomSmilies
     }
 
     /**
-     * @param int $a_id
      * @return array{smiley_id: int, smiley_keywords: string, smiley_path: string, smiley_fullpath: string}
      */
     public static function _getSmiley(int $a_id): array
@@ -300,14 +298,12 @@ class ilChatroomSmilies
                 ['integer'],
                 [$a_id]
             );
-        } catch (Exception $e) {
+        } catch (Exception) {
         }
     }
 
     /**
      * Stores smiley with given keywords and path in database.
-     * @param string $keywords
-     * @param string $path
      */
     public static function _storeSmiley(string $keywords, string $path): void
     {
@@ -329,7 +325,6 @@ class ilChatroomSmilies
 
     /**
      * Trims given keywords and returns them in one array.
-     * @param string $words
      * @return string[]
      */
     public static function _prepareKeywords(string $words): array

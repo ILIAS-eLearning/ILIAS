@@ -24,7 +24,7 @@ declare(strict_types=1);
  */
 final class ilTermsOfServiceEventWithdrawn
 {
-    public function __construct(private ilObjUser $user)
+    public function __construct(private readonly ilObjUser $user)
     {
     }
 

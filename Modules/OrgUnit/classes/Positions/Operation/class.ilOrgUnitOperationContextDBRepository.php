@@ -30,9 +30,9 @@ class ilOrgUnitOperationContextDBRepository implements OrgUnitOperationContextRe
 
     public function get(string $context, ?string $parent_context): ilOrgUnitOperationContext
     {
-        $context = $this->find($context);
-        if ($context) {
-            return $context;
+        $found_context = $this->find($context);
+        if ($found_context) {
+            return $found_context;
         }
 
         $parent_id = 0;
@@ -45,7 +45,7 @@ class ilOrgUnitOperationContextDBRepository implements OrgUnitOperationContextRe
         }
 
         $context = (new ilOrgUnitOperationContext())
-            ->withContext($context->getContext())
+            ->withContext($context)
             ->withParentContextId($parent_id);
         $this->store($context);
 

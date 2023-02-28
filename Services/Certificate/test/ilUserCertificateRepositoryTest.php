@@ -214,7 +214,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
     /**
      *
      */
-    public function testFetchNoActiveCertificateLeadsToException(): void
+    public function testFetchNoActiveCertificateLeadsToException(): never
     {
         $this->expectException(ilException::class);
 
@@ -345,7 +345,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $this->assertSame(141, $result->getId());
     }
 
-    public function testNoCertificateInFetchtCertificateLeadsToException(): void
+    public function testNoCertificateInFetchtCertificateLeadsToException(): never
     {
         $this->expectException(ilException::class);
 

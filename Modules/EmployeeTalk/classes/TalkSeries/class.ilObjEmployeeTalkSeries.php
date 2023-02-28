@@ -56,8 +56,6 @@ final class ilObjEmployeeTalkSeries extends ilContainer
     {
         $this->setOfflineStatus(true);
 
-
-        //TODO: Copy metadata from template
         parent::create();
 
         $this->_writeContainerSetting($this->getId(), ilObjectServiceSettingsGUI::CUSTOM_METADATA, '1');

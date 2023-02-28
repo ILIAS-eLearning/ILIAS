@@ -25,14 +25,11 @@ use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
  */
 class ilObjBibliographicStakeholder extends AbstractResourceStakeholder
 {
-    private ilDBInterface $db;
+    protected ?ilDBInterface $database = null;
 
     public function __construct()
     {
-        global $DIC;
-        $this->db = $DIC->database();
     }
-
 
     /**
      * @inheritDoc
@@ -52,10 +49,12 @@ class ilObjBibliographicStakeholder extends AbstractResourceStakeholder
 
     public function getLocationURIForResourceUsage(ResourceIdentification $identification): ?string
     {
-        $r = $this->db->query(
-            "SELECT id FROM il_bibl_data WHERE rid = " . $this->db->quote($identification->serialize(), 'text')
+        $this->initDB();
+
+        $r = $this->database->query(
+            "SELECT id FROM il_bibl_data WHERE rid = " . $this->database->quote($identification->serialize(), 'text')
         );
-        $d = $this->db->fetchObject($r);
+        $d = $this->database->fetchObject($r);
         if (isset($d->id)) {
             $references = ilObject::_getAllReferences($d->id);
             $ref_id = array_shift($references);
@@ -63,5 +62,11 @@ class ilObjBibliographicStakeholder extends AbstractResourceStakeholder
             return ilLink::_getLink($ref_id, 'bibl');
         }
         return null;
+    }
+
+    private function initDB(): void
+    {
+        global $DIC;
+        $this->database = $DIC->database();
     }
 }

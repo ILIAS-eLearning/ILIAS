@@ -1,0 +1,10 @@
+@use "../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp;
+// redefining Bootstrap 5 breakpoints with Bootstrap 3 breakpoints
+$grid-breakpoints: (
+    xs: 0,
+    sm: btstrp.$screen-xs,
+    md: btstrp.$screen-sm,
+    lg: btstrp.$screen-md,
+    xl: btstrp.$screen-lg,
+    xxl: 1400px) !default;
+

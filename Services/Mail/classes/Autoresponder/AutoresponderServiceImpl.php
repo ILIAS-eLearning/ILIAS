@@ -28,26 +28,20 @@ use DateTimeImmutable;
 
 final class AutoresponderServiceImpl implements AutoresponderService
 {
-    private bool $auto_responder_status;
-    private AutoresponderRepository $auto_responder_repository;
-    private ClockInterface $clock;
     /** @var callable */
     private $mail_action;
-    private DateInterval $idle_time_interval;
+    private readonly DateInterval $idle_time_interval;
 
     /** @var ilMailOptions[] $auto_responder_data */
     protected array $auto_responder_data = [];
 
     public function __construct(
         int $global_idle_time_interval,
-        bool $initial_auto_responder_status,
-        AutoresponderRepository $auto_responder_repository,
-        ClockInterface $clock,
+        private bool $auto_responder_status,
+        private readonly AutoresponderRepository $auto_responder_repository,
+        private readonly ClockInterface $clock,
         ?callable $mail_action = null
     ) {
-        $this->auto_responder_status = $initial_auto_responder_status;
-        $this->auto_responder_repository = $auto_responder_repository;
-        $this->clock = $clock;
         $this->mail_action = $mail_action;
 
         $this->idle_time_interval = new DateInterval('P' . $global_idle_time_interval . 'D');

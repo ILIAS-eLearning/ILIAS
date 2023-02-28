@@ -28,7 +28,7 @@ class ilCachedCertificateTemplateRepository implements ilCertificateTemplateRepo
     /** @var array<string, ilCertificateTemplate[]> */
     protected static array $crs_certificates_without_lp = [];
 
-    public function __construct(private ilCertificateTemplateRepository $wrapped)
+    public function __construct(private readonly ilCertificateTemplateRepository $wrapped)
     {
     }
 

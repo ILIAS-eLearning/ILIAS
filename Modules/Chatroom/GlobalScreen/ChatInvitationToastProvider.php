@@ -27,8 +27,8 @@ use ILIAS\Notifications\ilNotificationOSDHandler;
 
 class ChatInvitationToastProvider extends AbstractToastProvider
 {
-    public const MUTED_UNTIL_PREFERENCE_KEY = 'chatinv_nc_muted_until';
-    public const NOTIFICATION_TYPE = 'chat_invitation';
+    final public const MUTED_UNTIL_PREFERENCE_KEY = 'chatinv_nc_muted_until';
+    final public const NOTIFICATION_TYPE = 'chat_invitation';
 
     public function getToasts(): array
     {
@@ -46,12 +46,11 @@ class ChatInvitationToastProvider extends AbstractToastProvider
             time() - $this->dic->user()->getPref(self::MUTED_UNTIL_PREFERENCE_KEY),
             self::NOTIFICATION_TYPE
         ) as $invitation) {
-            $toast = $this->toast_factory->standard(
+            $toast = $this->getDefaultToast(
                 $invitation->getObject()->title,
                 $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::CHTA, 'chat_invitations')
             )->withDescription($invitation->getObject()->shortDescription);
             foreach ($invitation->getObject()->links as $link) {
-
                 $toast = $toast->withAdditionalLink(
                     $this->dic->ui()->factory()->link()->standard(
                         $link->getTitle(),

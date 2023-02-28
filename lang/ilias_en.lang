@@ -2818,7 +2818,7 @@ chatroom#:#banned#:#You have been banned from this chat room
 chatroom#:#bans#:#Bans
 chatroom#:#chat_address#:#Address
 chatroom#:#chat_anonymous_not_allowed#:#Please login to use the chat.
-chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client id has to be <b>unique</b>.
+chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client name has to be <b>unique</b>.
 chatroom#:#chat_ban#:#Ban
 chatroom#:#chat_broadcast_typing#:#Broadcast Typing
 chatroom#:#chat_broadcast_typing_info#:#If enabled, your typing will be broadcasted to other participants of a conversation or chat room.
@@ -4546,7 +4546,7 @@ common#:#max_previews_per_object_info#:#Defines the maximum number of preview im
 common#:#mcst#:#Mediacast
 common#:#mcst_add#:#Add Mediacast
 common#:#mcst_new#:#New Mediacast
-common#:#mem_add_to_wl#:#Add to Waiting List
+common#:#mem_add_to_wl#:#Join Waiting List
 common#:#mem_alert_no_places#:#There are no free places available.
 common#:#mem_cron_min_members#:#Course/Group: Minimum Members Check
 common#:#mem_cron_min_members_info#:#The administrators will be notified if the minimum number is not met.
@@ -4921,7 +4921,7 @@ common#:#obj_mobs#:#Media Objects and Pools
 common#:#obj_mobs_desc#:#Settings for media objects and media pools.
 common#:#obj_not_found#:#Object Not Found
 common#:#obj_nota#:#Notifications
-common#:#obj_nota_desc#:#Notification Administration
+common#:#obj_nota_desc#:#Notifications Administration
 common#:#obj_nots#:#Notes
 common#:#obj_nots_desc#:#Notes settings
 common#:#obj_nwss#:#News and Web Feeds
@@ -8305,6 +8305,7 @@ dateplaner#:#cal_type_remote#:#Web Calendar
 dateplaner#:#cal_type_rl#:#Calendar Location
 dateplaner#:#cal_type_sess#:#Session Calendar
 dateplaner#:#cal_type_system#:#Public Calendar
+dateplaner#:#cal_type_tals#:#Talks
 dateplaner#:#cal_unshare#:#Cancel Sharing
 dateplaner#:#cal_unshare_cal#:#Stop Sharing
 dateplaner#:#cal_unshared_selected_usr#:#Stopped sharing the calendar with the selected users.
@@ -12181,17 +12182,21 @@ noti#:#noti_activate_notification#:#Activate Notification
 noti#:#noti_deactivate_notification#:#Deactivate Notification
 noti#:#noti_notification_activated#:#Notification Activated
 noti#:#noti_notification_deactivated#:#Notification Deactivated
-notification_adm#:#enable_osd#:#Enable On-Screen Notifications
-notification_adm#:#enable_osd_desc#:#If enabled, users are notified by a popup about new notifications.
-notification_adm#:#notification_settings#:#Notifciation Settings
-notification_adm#:#osd_delay#:#Presentation Delay
-notification_adm#:#osd_delay_desc#:#Delay of the visible presentation in milliseconds.
-notification_adm#:#osd_interval#:#Refreshinterval
-notification_adm#:#osd_interval_desc#:#Polling interval for checking of new notifications in seconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle.
-notification_adm#:#osd_vanish#:#Presentation Time
-notification_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in seconds.
-notification_adm#:#play_sound#:#Play a Sound
-notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiation.
+notifications_adm#:#enable_osd#:#Enable On-Screen Notifications
+notifications_adm#:#enable_osd_desc#:#If enabled, users are notified by a popup about new notifications.
+notifications_adm#:#notification_settings#:#Notification Settings
+notifications_adm#:#osd_delay#:#Presentation Delay
+notifications_adm#:#osd_delay_desc#:#Delay of the visible presentation in milliseconds.
+notifications_adm#:#osd_error_presentation_time_too_small#:#The Presentation Time has to be at least than 1000 miliseconds.
+notifications_adm#:#osd_error_refresh_interval_smaller_than_delay_and_vanish_combined#:#The Refresh Interval has to be greater than the Presentation Time and the Presentation Delay combined.
+notifications_adm#:#osd_error_refresh_interval_too_small#:#The Refresh Interval has to be at least than 3000 miliseconds.
+notifications_adm#:#osd_interval#:#Refreshinterval
+notifications_adm#:#osd_interval_desc#:#Polling interval for checking of new notifications in miliseconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle.
+notifications_adm#:#osd_play_sound#:#Play a Sound
+notifications_adm#:#osd_play_sound_desc#:#Play a sound when receiving a new notficiation.
+notifications_adm#:#osd_settings#:#On-Screen Notifications
+notifications_adm#:#osd_vanish#:#Presentation Time
+notifications_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in miliseconds.
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
 obj#:#cont_skll_published#:#All assignments have been published.
 obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some users lacked competence assignments, thus no assignments could be published for them.
@@ -12230,7 +12235,7 @@ obj#:#obj_show_header_actions#:#Show Header Actions
 obj#:#obj_show_title_and_icon#:#Show Title and Icon
 obj#:#obj_target_location#:#Target Location
 obj#:#obj_tile_image#:#Tile Image
-obj#:#obj_tile_image_info#:#This image will be used as a thumbnail-style image (called a tile) to represent this object in the container (e.g. the category, folder group etc.) in which it is located. The tile is only used if the parent container sets its ‘Item Presentation’ (oder 'Content Display Options' - siehe oben) to ‘Tiles’ (rather than ‘List’). To avoid performance issues, only upload files with a resolution of 72dpi and a width of less than 1000 px.
+obj#:#obj_tile_image_info#:#This image will be used as a thumbnail-style image (called a tile) to represent this object in the container (e.g. the category, folder group etc.) in which it is located. The tile is only used if the parent container sets its ‘Item Presentation’ (or 'Content Display Options' - see above) to ‘Tiles’ (rather than ‘List’). To avoid performance issues, only upload files with a resolution of 72dpi and a width of less than 1000 px.
 obj#:#obj_tool_booking#:#Resources
 obj#:#obj_tool_booking_info#:#Use the booking pools to book resources.
 obj#:#obj_tool_ext_mail_subject_prefix#:#Mail Subject Prefix

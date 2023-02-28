@@ -32,18 +32,18 @@ class ilMailFolderGUI
     private bool $confirmTrashDeletion = false;
     private bool $errorDelete = false;
     /** @var ilGlobalTemplateInterface */
-    private ilGlobalTemplateInterface $tpl;
-    private ilCtrlInterface $ctrl;
-    private ilLanguage $lng;
-    private ilToolbarGUI $toolbar;
-    private ilTabsGUI $tabs;
-    private ilObjUser $user;
+    private readonly ilGlobalTemplateInterface $tpl;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilLanguage $lng;
+    private readonly ilToolbarGUI $toolbar;
+    private readonly ilTabsGUI $tabs;
+    private readonly ilObjUser $user;
     public ilMail $umail;
     public ilMailbox $mbox;
-    private GlobalHttpState $http;
-    private Refinery $refinery;
+    private readonly GlobalHttpState $http;
+    private readonly Refinery $refinery;
     private int $currentFolderId = 0;
-    private ilErrorHandling $error;
+    private readonly ilErrorHandling $error;
 
     public function __construct()
     {
@@ -916,7 +916,7 @@ class ilMailFolderGUI
 
         try {
             if ($mailId > 0 && $filename !== '') {
-                while (str_contains($filename, '..')) {
+                while (str_contains((string) $filename, '..')) {
                     $filename = str_replace('..', '', $filename);
                 }
 

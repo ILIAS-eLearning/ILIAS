@@ -25,7 +25,7 @@ declare(strict_types=1);
 final class ilHtmlDomNodeIterator implements RecursiveIterator
 {
     private int $position;
-    private DOMNodeList $nodeList;
+    private readonly DOMNodeList $nodeList;
 
     public function __construct(DOMNode $el)
     {

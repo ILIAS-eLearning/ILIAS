@@ -30,14 +30,14 @@ use ILIAS\Mail\Provider\MailGlobalScreenToolProvider;
  */
 class ilMailGUI implements ilCtrlBaseClassInterface
 {
-    private ilGlobalTemplateInterface $tpl;
-    private ilCtrlInterface $ctrl;
-    private ilLanguage $lng;
+    private readonly ilGlobalTemplateInterface $tpl;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilLanguage $lng;
     private string $forwardClass = '';
-    private GlobalHttpState $http;
-    private Refinery $refinery;
+    private readonly GlobalHttpState $http;
+    private readonly Refinery $refinery;
     private int $currentFolderId = 0;
-    private ilObjUser $user;
+    private readonly ilObjUser $user;
     public ilMail $umail;
     public ilMailbox $mbox;
 

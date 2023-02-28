@@ -34,8 +34,8 @@ class Toast implements ComponentInterface\Toast
     use ComponentHelper;
     use JavaScriptBindable;
 
-    public const DEFAULT_VANISH_TIME_IN_MS = 5000;
-    public const DEFAULT_DELAY_TIME_IN_MS = 500;
+    public const DEFAULT_VANISH_TIME = 5000;
+    public const DEFAULT_DELAY_TIME = 500;
 
     /**
      * @var string|Shy|Link
@@ -48,8 +48,8 @@ class Toast implements ComponentInterface\Toast
     protected string $action = '';
     protected SignalGeneratorInterface $signal_generator;
     protected Signal $signal;
-    protected int $vanishTime = Toast::DEFAULT_VANISH_TIME_IN_MS;
-    protected int $delayTime = Toast::DEFAULT_DELAY_TIME_IN_MS;
+    protected int $vanishTime = Toast::DEFAULT_VANISH_TIME;
+    protected int $delayTime = Toast::DEFAULT_DELAY_TIME;
 
     public function __construct($title, Icon $icon, SignalGeneratorInterface $signal_generator)
     {

@@ -24,7 +24,7 @@ declare(strict_types=1);
  */
 class ilContactUserActionProvider extends ilUserActionProvider
 {
-    private ilObjUser $user;
+    private readonly ilObjUser $user;
     /** @var array<string, string> */
     private array $stateToPermLinkMap = [
         'ilBuddySystemLinkedRelationState' => '_contact_approved',
@@ -95,12 +95,12 @@ class ilContactUserActionProvider extends ilUserActionProvider
                         $a_target_user,
                         'usr',
                         true,
-                        $this->stateToPermLinkMap[get_class($target_state)]
+                        $this->stateToPermLinkMap[$target_state::class]
                     )
                 );
                 $f->setData([
-                    'current-state' => get_class($relation->getState()),
-                    'target-state' => get_class($target_state),
+                    'current-state' => $relation->getState()::class,
+                    'target-state' => $target_state::class,
                     'buddy-id' => $a_target_user,
                     'action' => $target_state->getAction()
                 ]);

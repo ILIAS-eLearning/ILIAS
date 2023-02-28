@@ -27,10 +27,12 @@ use ILIAS\Mail\Autoresponder\AutoresponderService;
  */
 class ilObjMailGUI extends ilObjectGUI
 {
-    public const SETTINGS_SUB_TAB_ID_GENERAL = 'settings_general';
-    public const SETTINGS_SUB_TAB_ID_EXTERNAL = 'settings_external';
-    public const PASSWORD_PLACE_HOLDER = '***********************';
-    protected ilTabsGUI $tabs;
+    private const SETTINGS_SUB_TAB_ID_GENERAL = 'settings_general';
+    private const SETTINGS_SUB_TAB_ID_EXTERNAL = 'settings_external';
+    private const PASSWORD_PLACE_HOLDER = '***********************';
+
+    private readonly ilTabsGUI $tabs;
+    private readonly \ILIAS\UI\Factory $ui_factory;
 
     public function __construct($a_data, int $a_id, bool $a_call_by_reference)
     {
@@ -39,6 +41,7 @@ class ilObjMailGUI extends ilObjectGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 
         $this->tabs = $DIC->tabs();
+        $this->ui_factory = $DIC->ui()->factory();
 
         $this->lng->loadLanguageModule('mail');
     }
@@ -330,15 +333,14 @@ class ilObjMailGUI extends ilObjectGUI
         }
 
         if ($this->user->getEmail() !== '') {
-            $btn = ilLinkButton::getInstance();
-            $btn->setUrl($this->ctrl->getLinkTarget($this, 'sendTestUserMail'));
-            $btn->setCaption('mail_external_send_test_usr');
-            $this->toolbar->addButtonInstance($btn);
-
-            $btn = ilLinkButton::getInstance();
-            $btn->setUrl($this->ctrl->getLinkTarget($this, 'sendTestSystemMail'));
-            $btn->setCaption('mail_external_send_test_sys');
-            $this->toolbar->addButtonInstance($btn);
+            $this->toolbar->addComponent($this->ui_factory->button()->standard(
+                $this->lng->txt('mail_external_send_test_usr'),
+                $this->ctrl->getLinkTarget($this, 'sendTestUserMail')
+            ));
+            $this->toolbar->addComponent($this->ui_factory->button()->standard(
+                $this->lng->txt('mail_external_send_test_sys'),
+                $this->ctrl->getLinkTarget($this, 'sendTestSystemMail')
+            ));
         }
 
         $this->tpl->setContent($form->getHTML());

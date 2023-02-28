@@ -23,13 +23,13 @@ declare(strict_types=1);
  */
 class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    private ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
-    private ilLanguage $language;
+    private readonly ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
+    private readonly ilLanguage $language;
     private array $placeholder;
-    private ilObjectLP $learningProgressObject;
+    private readonly ilObjectLP $learningProgressObject;
 
     public function __construct(
-        private ilObject $object,
+        private readonly ilObject $object,
         ?ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
         ?ilLanguage $language = null,
         ?ilObjectLP $learningProgressObject = null,

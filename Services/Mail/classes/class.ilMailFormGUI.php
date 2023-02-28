@@ -31,29 +31,29 @@ use ILIAS\Filesystem\Stream\Streams;
  */
 class ilMailFormGUI
 {
-    public const MAIL_FORM_TYPE_ATTACH = 'attach';
-    public const MAIL_FORM_TYPE_SEARCH_RESULT = 'search_res';
-    public const MAIL_FORM_TYPE_NEW = 'new';
-    public const MAIL_FORM_TYPE_ROLE = 'role';
-    public const MAIL_FORM_TYPE_REPLY = 'reply';
-    public const MAIL_FORM_TYPE_ADDRESS = 'address';
-    public const MAIL_FORM_TYPE_FORWARD = 'forward';
-    public const MAIL_FORM_TYPE_DRAFT = 'draft';
+    final public const MAIL_FORM_TYPE_ATTACH = 'attach';
+    final public const MAIL_FORM_TYPE_SEARCH_RESULT = 'search_res';
+    final public const MAIL_FORM_TYPE_NEW = 'new';
+    final public const MAIL_FORM_TYPE_ROLE = 'role';
+    final public const MAIL_FORM_TYPE_REPLY = 'reply';
+    final public const MAIL_FORM_TYPE_ADDRESS = 'address';
+    final public const MAIL_FORM_TYPE_FORWARD = 'forward';
+    final public const MAIL_FORM_TYPE_DRAFT = 'draft';
 
-    private ilGlobalTemplateInterface $tpl;
-    private ilCtrlInterface $ctrl;
-    private ilLanguage $lng;
-    private ilObjUser $user;
-    private ilTabsGUI $tabs;
-    private ilToolbarGUI $toolbar;
-    private ilFormatMail $umail;
-    private ilMailbox $mbox;
-    private ilFileDataMail $mfile;
-    private GlobalHttpState $http;
-    private Refinery $refinery;
+    private readonly ilGlobalTemplateInterface $tpl;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilLanguage $lng;
+    private readonly ilObjUser $user;
+    private readonly ilTabsGUI $tabs;
+    private readonly ilToolbarGUI $toolbar;
+    private readonly ilFormatMail $umail;
+    private readonly ilMailbox $mbox;
+    private readonly ilFileDataMail $mfile;
+    private readonly GlobalHttpState $http;
+    private readonly Refinery $refinery;
     private ?array $requestAttachments = null;
     protected ilMailTemplateService $templateService;
-    private ilMailBodyPurifier $purifier;
+    private readonly ilMailBodyPurifier $purifier;
     private string $mail_form_type = '';
 
     public function __construct(

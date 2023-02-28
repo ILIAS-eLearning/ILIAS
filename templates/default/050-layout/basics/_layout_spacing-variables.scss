@@ -47,3 +47,15 @@ $il-margin-small-horizontal: $il-padding-small-horizontal;
 
 $il-margin-xs-vertical: $il-padding-xs-vertical;
 $il-margin-xs-horizontal: $il-padding-xs-horizontal;
+
+// for Bootstrap 5 inspired code (e.g. grid)
+// scss-docs-start spacer-variables-maps
+$spacers: (
+    0: 0,
+    1: $il-padding-base-horizontal,
+    2: $il-padding-large-horizontal,
+    3: $il-padding-xlarge-horizontal,
+    4: $il-padding-xxlarge-horizontal,
+    5: $il-padding-xxxlarge-horizontal,
+    ) !default;
+// scss-docs-end spacer-variables-maps

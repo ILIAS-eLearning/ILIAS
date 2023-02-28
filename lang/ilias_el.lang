@@ -2768,7 +2768,7 @@ chatroom#:#banned#:#You have been banned from this chat###06 08 2011 new variabl
 chatroom#:#bans#:#Bans###06 08 2011 new variable
 chatroom#:#chat_address#:#Address###06 08 2011 new variable
 chatroom#:#chat_anonymous_not_allowed#:#Please login to use the chat.###10 11 2018 new variable
-chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client id has to be <b>unique</b>.###25 10 2016 new variable
+chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client name has to be <b>unique</b>.###25 10 2016 new variable
 chatroom#:#chat_ban#:#Ban###06 08 2011 new variable
 chatroom#:#chat_broadcast_typing#:#Broadcast Typing###29 07 2022 new variable
 chatroom#:#chat_broadcast_typing_info#:#If enabled, your typing will be broadcasted to other participants of a conversation or chat room.###29 07 2022 new variable
