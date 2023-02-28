@@ -101,6 +101,23 @@ describe('Textarea input', function () {
         assert.strictEqual(input.textarea.selectionEnd, position);
     });
 
+    it('can update the remainder if the content is updated programaticaly.', function () {
+        const content = '12345';
+        const max_limit = 10;
+        const remainder = 5;
+
+        // serverside rendering automatically adds this attribute,
+        // in this unit test however, we append it manually.
+        document.getElementById(test_input_id)?.setAttribute('maxLength', max_limit);
+
+        const input = new Textarea(test_input_id);
+
+        input.updateTextareaContent(content);
+
+        assert.isNotNull(input.remainder);
+        assert.equal(input.remainder.innerHTML, remainder);
+    });
+
     it('can update the remainder according to the current value.', function () {
         const content = '123456789';
         const max_limit = 10;

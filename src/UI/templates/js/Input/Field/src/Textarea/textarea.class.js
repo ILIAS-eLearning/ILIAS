@@ -61,6 +61,7 @@ export default class Textarea {
 
         // only refocus the textarea if the content exceeds the max-limit.
         if (this.isContentTooLarge(content)) {
+            this.updateRemainderCountHook();
             this.textarea.focus();
             return;
         }
@@ -78,6 +79,7 @@ export default class Textarea {
             this.textarea.selectionEnd = selection_end;
         }
 
+        this.updateRemainderCountHook();
         this.textarea.focus();
     }
 

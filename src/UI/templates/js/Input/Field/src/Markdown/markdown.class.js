@@ -378,7 +378,7 @@ export default class Markdown extends Textarea {
 function getContentWrappersOrAbort(input_wrapper) {
     let content_wrappers = new Map();
 
-    content_wrappers.set(CONTENT_WRAPPER_KEY_TEXTAREA, input_wrapper.querySelector('.ui-input-markdown-textarea'));
+    content_wrappers.set(CONTENT_WRAPPER_KEY_TEXTAREA, input_wrapper.querySelector('.ui-input-textarea'));
     content_wrappers.set(CONTENT_WRAPPER_KEY_PREVIEW, input_wrapper.querySelector('.ui-input-markdown-preview'));
 
     content_wrappers.forEach(function (wrapper) {

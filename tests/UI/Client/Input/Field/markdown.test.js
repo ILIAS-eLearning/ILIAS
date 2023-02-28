@@ -43,10 +43,8 @@ function initMockedDom() {
                         <span data-action="insert-unordered-list"><button class="btn btn-default" data-action="#" id="action_unordered_list">UL</button></span>
                     </div>
                 </div>
-                <div class="ui-input-markdown-textarea">
-                    <div class="ui-input-textarea">
-                        <textarea id="${test_input_id}" class="form-control form-control-sm" name="test_input_1"></textarea>
-                    </div>
+                <div class="ui-input-textarea">
+                    <textarea id="${test_input_id}" class="form-control form-control-sm" name="test_input_1"></textarea>
                 </div>
                 <div class="ui-input-markdown-preview hidden"></div>
             </div>

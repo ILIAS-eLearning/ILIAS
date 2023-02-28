@@ -156,10 +156,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                     </span>
                                 </div>
                             </div>
-                            <div class=\"ui-input-markdown-textarea\">
-                                <div class=\"ui-input-textarea\">
-                                    <textarea id=\"id_1\" class=\"form-control form-control-sm\" name=\"name_0\"></textarea>
-                                </div>
+                            <div class=\"ui-input-textarea\">
+                                <textarea id=\"id_1\" class=\"form-control form-control-sm\" name=\"name_0\"></textarea>
                             </div>
                             <div class=\"ui-input-markdown-preview hidden\">
                             </div>
@@ -214,10 +212,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                     </span>
                                 </div>
                             </div>
-                            <div class=\"ui-input-markdown-textarea\">
-                                <div class=\"ui-input-textarea\">
-                                    <textarea id=\"id_1\" class=\"form-control form-control-sm\" name=\"name_0\"></textarea>
-                                </div>
+                            <div class=\"ui-input-textarea\">
+                                <textarea id=\"id_1\" class=\"form-control form-control-sm\" name=\"name_0\"></textarea>
                             </div>
                             <div class=\"ui-input-markdown-preview hidden\">
                             </div>
@@ -275,11 +271,9 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                     </span>
                                 </div>
                             </div>
-                            <div class=\"ui-input-markdown-textarea\">
-                                <div class=\"ui-input-textarea\">
-                                    <textarea id=\"id_1\" class=\"form-control form-control-sm\" name=\"name_0\" minlength=\"$min\" maxlength=\"$max\"></textarea>
-                                    <div class=\"ui-input-textarea-remainder\"> ui_chars_remaining<span data-action=\"remainder\">$max</span></div>
-                                </div>
+                            <div class=\"ui-input-textarea\">
+                                <textarea id=\"id_1\" class=\"form-control form-control-sm\" name=\"name_0\" minlength=\"$min\" maxlength=\"$max\"></textarea>
+                                <div class=\"ui-input-textarea-remainder\"> ui_chars_remaining<span data-action=\"remainder\">$max</span></div>
                             </div>
                             <div class=\"ui-input-markdown-preview hidden\">
                             </div>
@@ -335,10 +329,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                     </span>
                                 </div>
                             </div>
-                            <div class=\"ui-input-markdown-textarea\">
-                                <div class=\"ui-input-textarea\">
-                                    <textarea id=\"id_1\" class=\"form-control form-control-sm\" name=\"name_0\" disabled=\"disabled\"></textarea>
-                                </div>
+                            <div class=\"ui-input-textarea\">
+                                <textarea id=\"id_1\" class=\"form-control form-control-sm\" name=\"name_0\" disabled=\"disabled\"></textarea>
                             </div>
                             <div class=\"ui-input-markdown-preview hidden\">
                             </div>
@@ -394,10 +386,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                     </span>
                                 </div>
                             </div>
-                            <div class=\"ui-input-markdown-textarea\">
-                                <div class=\"ui-input-textarea\">
-                                    <textarea id=\"id_1\" class=\"form-control form-control-sm\" name=\"name_0\"></textarea>
-                                </div>
+                            <div class=\"ui-input-textarea\">
+                                <textarea id=\"id_1\" class=\"form-control form-control-sm\" name=\"name_0\"></textarea>
                             </div>
                             <div class=\"ui-input-markdown-preview hidden\">
                             </div>
@@ -455,10 +445,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                     </span>
                                 </div>
                             </div>
-                            <div class=\"ui-input-markdown-textarea\">
-                                <div class=\"ui-input-textarea\">
-                                    <textarea id=\"id_1\" class=\"form-control form-control-sm\" name=\"name_0\"></textarea>
-                                </div>
+                            <div class=\"ui-input-textarea\">
+                                <textarea id=\"id_1\" class=\"form-control form-control-sm\" name=\"name_0\"></textarea>
                             </div>
                             <div class=\"ui-input-markdown-preview hidden\">
                             </div>
