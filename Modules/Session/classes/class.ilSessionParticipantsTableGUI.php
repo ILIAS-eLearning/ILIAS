@@ -201,11 +201,11 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
     {
         $all_participants = [];
         $all_possible_participants = $this->collectParticipants();
-        if ($all_possible_participants) {
+        if ($all_possible_participants !== []) {
             // user filter
             $user_query = new ilUserQuery();
             $user_query->setLimit(50000);
-            $user_query->setUserFilter($all_possible_participants);
+            $user_query->setUserFilter(array_keys($all_possible_participants));
             $user_query->setTextFilter((string) $this->current_filter['login']);
             $res = $user_query->query();
             $all_participants = $res['set'];
@@ -263,11 +263,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
      */
     protected function collectParticipants(): array
     {
-        $part = ilParticipants::getInstance($this->member_ref_id);
-        if (!$part instanceof ilParticipants) {
-            return $this->getParticipants()->getParticipants();
-        }
-        return $part->getParticipants();
+        return $this->getParticipants()->getEventParticipants()->getParticipants();
     }
 
     protected function matchesFilterCriteria(array $a_user_info): bool
