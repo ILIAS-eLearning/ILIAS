@@ -298,7 +298,10 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        if ($component->hasActions()) {
+        if ($component->hasSingleActions()) {
+            $tpl->touchBlock('header_action_cell');
+        }
+        if ($component->hasMultiActions()) {
             $signal = $component->getSelectionSignal();
             $sig_all = clone $signal;
             $sig_all->addOption('select', true);
@@ -307,7 +310,6 @@ class Renderer extends AbstractComponentRenderer
             $select_none = $glyph_factory->close('')->withOnClick($signal);
             $tpl->setVariable('SELECTION_CONTROL_SELECT', $default_renderer->render($select_all));
             $tpl->setVariable('SELECTION_CONTROL_DESELECT', $default_renderer->render($select_none));
-            $tpl->touchBlock('header_action_cell');
         }
     }
 
@@ -442,10 +444,10 @@ class Renderer extends AbstractComponentRenderer
             $cell_tpl->parseCurrentBlock();
         }
 
-
-        if ($component->tableHasActions()) {
+        if ($component->tableHasMultiActions()) {
             $cell_tpl->setVariable('ROW_ID', $component->getId());
-
+        }
+        if ($component->tableHasSingleActions()) {
             $row_actions_dropdown = $this->getSingleActionsForRow(
                 $component->getId(),
                 $component->getActions()

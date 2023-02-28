@@ -26,20 +26,23 @@ class Row implements T\Row
 {
     use ComponentHelper;
 
-    protected bool $table_has_actions;
+    protected bool $table_has_singleactions;
+    protected bool $table_has_multiactions;
     protected array $columns;
     protected array $actions;
     protected array $disabled_actions = [];
     protected string  $id;
 
     public function __construct(
-        bool $table_has_actions,
+        bool $table_has_singleactions,
+        bool $table_has_multiactions,
         array $columns,
         array $actions,
         string $id,
         array $record
     ) {
-        $this->table_has_actions = $table_has_actions;
+        $this->table_has_singleactions = $table_has_singleactions;
+        $this->table_has_multiactions = $table_has_multiactions;
         $this->columns = $columns;
         $this->actions = $actions;
         $this->id = $id;
@@ -66,9 +69,13 @@ class Row implements T\Row
         return $this->columns;
     }
 
-    public function tableHasActions(): bool
+    public function tableHasSingleActions(): bool
     {
-        return $this->table_has_actions;
+        return $this->table_has_singleactions;
+    }
+    public function tableHasMultiActions(): bool
+    {
+        return $this->table_has_multiactions;
     }
 
     public function getActions(): array

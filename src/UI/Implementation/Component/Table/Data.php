@@ -229,9 +229,13 @@ class Data extends Table implements T\Data, JSBindable
         return $this->selection_signal;
     }
 
-    public function hasActions(): bool
+    public function hasSingleActions(): bool
     {
-        return count($this->actions) > 0;
+        return count($this->getSingleActions()) > 0;
+    }
+    public function hasMultiActions(): bool
+    {
+        return count($this->getMultiActions()) > 0;
     }
 
     /**
@@ -297,7 +301,8 @@ class Data extends Table implements T\Data, JSBindable
     public function getRowFactory(): RowFactory
     {
         return new RowFactory(
-            $this->hasActions(),
+            $this->hasSingleActions(),
+            $this->hasMultiActions(),
             $this->getVisibleColumns(),
             $this->getSingleActions()
         );
