@@ -159,7 +159,7 @@ class SkillProfileManager
     public function lookupRefId(int $profile_id): int
     {
         $ref_id = $this->profile_repo->lookup($profile_id, "ref_id");
-        return $ref_id;
+        return (int) $ref_id;
     }
 
     /**

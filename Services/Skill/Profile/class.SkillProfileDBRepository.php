@@ -197,7 +197,7 @@ class SkillProfileDBRepository
         return $profiles;
     }
 
-    public function lookup(int $id, string $field): ?string
+    public function lookup(int $id, string $field): string
     {
         $ilDB = $this->db;
 
@@ -207,7 +207,7 @@ class SkillProfileDBRepository
         );
         $rec = $ilDB->fetchAssoc($set);
 
-        return isset($rec[$field]) ? (string) $rec[$field] : null;
+        return (string) ($rec[$field] ?? "");
     }
 
     public function updateRefIdAfterImport(int $profile_id, int $new_ref_id): void
@@ -236,6 +236,6 @@ class SkillProfileDBRepository
             [$profile_id]
         );
         $rec = $db->fetchAssoc($set);
-        return (int) $rec["skill_tree_id"] ?? 0;
+        return (int) ($rec["skill_tree_id"] ?? 0);
     }
 }
