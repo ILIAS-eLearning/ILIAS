@@ -558,7 +558,14 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
          * @var ilObjEmployeeTalkSeries $series
          */
         $series = $this->object->getParent();
-        $md = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, $series->getType(), $series->getId(), $this->object->getType(), $this->object->getId());
+        $md = new ilAdvancedMDRecordGUI(
+            ilAdvancedMDRecordGUI::MODE_EDITOR,
+            $series->getType(),
+            $series->getId(),
+            $this->object->getType(),
+            $this->object->getId(),
+            false
+        );
         $md->setPropertyForm($form);
         return $md;
     }
