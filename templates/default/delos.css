@@ -9713,6 +9713,10 @@ ul.dropdown-menu > li > .btn:hover, ul.dropdown-menu > li > .btn:focus {
   padding-left: 0px;
 }
 
+.ui-input-textarea-remainder {
+  font-size: 0.75rem;
+}
+
 .il-standard-form textarea {
   height: 4.56rem;
 }
@@ -9942,6 +9946,44 @@ ul.dropdown-menu > li > .btn:hover, ul.dropdown-menu > li > .btn:focus {
 }
 .ui-input-file-input-progress-container .ui-input-file-input-progress-indicator.error {
   background-color: #B54F00;
+}
+
+/**
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
+ */
+.il-viewcontrol-mode {
+  width: fit-content;
+  float: left;
+}
+
+.ui-input-markdown-actions {
+  width: fit-content;
+  float: right;
+}
+
+.ui-input-markdown-actions .glyph,
+.ui-input-markdown-actions .glyph:hover {
+  color: white;
+}
+
+.ui-input-markdown-controls {
+  width: 100%;
+  height: fit-content;
+  display: inline-block;
+}
+
+.ui-input-markdown-preview {
+  min-height: 4.56rem;
+  border: 1px solid #dddddd;
+  display: inline-block;
+  width: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin: 0;
+}
+
+.ui-input-markdown textarea {
+  font-family: Monospace, Courier !important;
 }
 
 .il-standard-form {

@@ -1,0 +1,48 @@
+/**
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
+ */
+
+@use "../../../010-settings/legacy-settings/legacy-settings_form" as *;
+@use "../../../010-settings/" as *;
+@use "./ui-component_textarea" as *;
+@use "../../../050-layout/basics" as *;
+
+.il-viewcontrol-mode {
+  width: fit-content;
+  float: left;
+}
+
+.ui-input-markdown-actions {
+  width: fit-content;
+  float: right;
+}
+
+// glyphs are grey by default, which leads to low contrast when being
+// used inside buttons. therefore, we use the text-color for interved
+// designs.
+.ui-input-markdown-actions .glyph,
+.ui-input-markdown-actions .glyph:hover{
+  color: $il-text-color-invert;
+}
+
+.ui-input-markdown-controls {
+  width: 100%;
+  height: fit-content;
+  display: inline-block;
+}
+
+.ui-input-markdown-preview {
+  min-height: $il-textarea-height;
+  border: $il-main-border;
+  display: inline-block;
+  width: 100%;
+  padding-left: $il-padding-large-horizontal;
+  padding-right: $il-padding-large-horizontal;
+  margin: 0;
+}
+
+// when working with markdown syntax we should use a monospaced font.
+// currently this must be overwritten with !important.
+.ui-input-markdown textarea {
+  font-family: Monospace, Courier !important;
+}

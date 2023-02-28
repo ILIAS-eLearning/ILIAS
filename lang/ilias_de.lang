@@ -3607,6 +3607,7 @@ common#:#bm#:#Bookmark
 common#:#bm_add_to_ilias#:#Zu ILIAS-Bookmarks hinzufügen
 common#:#bmf#:#Bookmark-Ordner
 common#:#bold#:#Fett
+common#:#bold_action#:#Fett gedruckt einfügen - Klicken Sie um fett gedruckten Text einzufügen.
 common#:#bookings#:#Bestellungen
 common#:#bookmark_added#:#Bookmark wurde angelegt!
 common#:#bookmark_folder_new#:#Neuer Bookmark-Ordner
@@ -3626,6 +3627,7 @@ common#:#btn_undelete#:#Wiederherstellen
 common#:#buddy_allow_to_contact_me_no#:#Erhält keine Kontaktanfragen
 common#:#buddy_allow_to_contact_me_yes#:#Erhält Kontaktanfragen
 common#:#building_export_file#:#Erstelle Export-Datei...
+common#:#bulletlist_action#:#Punktierte Liste einfügen - Klicken Sie um eine ungeordnete liste einzufügen.
 common#:#by#:#durch
 common#:#bytes#:#Bytes
 common#:#cal_from#:#Von:
@@ -4236,6 +4238,7 @@ common#:#grpr_edit#:#Gruppenlink bearbeiten
 common#:#grpr_edit_info#:#Bitte wählen Sie die Gruppe aus, für die Sie einen Link erstellen möchten.
 common#:#grpr_new#:#Neuen Gruppenlink anlegen
 common#:#grpr_settings#:#Einstellungen des Gruppenlinks
+common#:#header_action#:#Überschrift einfügen - Klicken Sie um eine Überschrift einzufügen
 common#:#header_searchable#:#Durchsuchbar
 common#:#header_title#:#Installationsüberschrift
 common#:#header_visible_registration#:#Sichtbar im Registrierungsformular
@@ -4377,6 +4380,7 @@ common#:#invisible_block#:#Unsichtbarer Block
 common#:#invisible_block_mess#:#Sie haben nicht das Recht, diesen Block zu sehen.
 common#:#ip_address#:#IP-Adresse
 common#:#is_already_your#:#ist bereits Ihre
+common#:#italic_action#:#Kursiv einfügen - Klicken Sie um kursiven Text einzufügen.
 common#:#item#:#Begriff
 common#:#itgr_add#:#Objekteblock anlegen
 common#:#itgr_new#:#Neuen Objekteblock anlegen
@@ -4439,6 +4443,7 @@ common#:#legend#:#Legende
 common#:#level#:#Stufe
 common#:#like#:#Like
 common#:#link#:#Verknüpfen
+common#:#link_action#:#Link einfügen - Klicken Sie um einen Link einzufügen.
 common#:#link_all#:#Alle verknüpfen
 common#:#link_check#:#Externe Links überprüfen
 common#:#link_check_message_b#:#Benachrichtigung aktiv<br />Wenn diese Option ausgewählt ist, werden Sie per Mail über ungültige Externe Links benachrichtigt. Voraussetzung ist allerdings, dass der dazugehörige Cron-Job in der Administration aktiviert wurde.
@@ -4801,6 +4806,7 @@ common#:#notifications#:#Benachrichtigungen
 common#:#nr_following_sessions#:#%1d folgende Sitzung(en)...
 common#:#num_of_selected_files#:#%s Datei(en) ausgewählt
 common#:#num_users#:#Anzahl Benutzer
+common#:#numberedlist_action#:#Nummerierte Liste List - Klicken Sie um eine nummerierte liste einzufügen.
 common#:#obj#:#Objekt
 common#:#obj_accs#:#Barrierefreiheit
 common#:#obj_accs_desc#:#Einstellungen zur Barrierefreiheit
@@ -16657,6 +16663,8 @@ ui#:#ui_file_input_invalid_size#:#Datei überschreitet die maximale Dateigrösse
 ui#:#ui_invalid_url#:#Das Format der URL ist nicht korrekt.
 ui#:#ui_link_label#:#Label
 ui#:#ui_link_url#:#URL
+ui#:#ui_md_input_edit#:#Bearbeiten
+ui#:#ui_md_input_view#:#Vorschau
 ui#:#ui_numeric_only#:#Bitte geben sie eine ganze Zahl ein.
 ui#:#ui_tag_required#:#Bitte geben sie mindestens ein Tag ein.
 ui#:#ui_transcription#:#Abschrift
