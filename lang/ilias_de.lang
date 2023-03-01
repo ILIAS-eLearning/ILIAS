@@ -8989,6 +8989,8 @@ etal#:#talt_add#:#Erstellen
 etal#:#talt_edit#:#Allgemein
 etal#:#talt_etal#:#Mitarbeiter-Gespräch
 etal#:#talt_new#:#Neue Gesprächsvorlage
+etal#:#will_update_series_info_lock#:#Die Bearbeitung von allen Gesprächsterminen dieser Serie sperren
+etal#:#will_update_series_info_title#:#Änderungen am Titel gelten für alle Gesprächstermine dieser Serie.
 exc#:#exc_add_assignment#:#Übungseinheit hinzufügen
 exc#:#exc_add_criteria#:#Kriterium hinzufügen
 exc#:#exc_add_criteria_catalogue#:#Katalog hinzufügen

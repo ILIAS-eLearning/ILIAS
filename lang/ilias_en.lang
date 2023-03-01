@@ -8990,6 +8990,8 @@ etal#:#talt_add#:#Add Template
 etal#:#talt_edit#:#General
 etal#:#talt_etal#:#Employee Talk
 etal#:#talt_new#:#New Talk Template
+etal#:#will_update_series_info_lock#:#Lock the editing of all appointments in this series
+etal#:#will_update_series_info_title#:#Changes to the title will be made to all appointments in this series.
 exc#:#exc_add_assignment#:#Add Assignment
 exc#:#exc_add_criteria#:#Add Criteria
 exc#:#exc_add_criteria_catalogue#:#Add Catalogue
