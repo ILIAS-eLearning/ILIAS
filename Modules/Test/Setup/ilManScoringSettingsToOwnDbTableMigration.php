@@ -27,7 +27,6 @@ use ilDatabaseUpdatedObjective;
 use ilDBInterface;
 use Exception;
 use ILIAS\Setup\CLI\IOWrapper;
-use ilDBStatement;
 
 /**
  * Class ilManScoringSettingsToOwnDbTableMigration
@@ -36,9 +35,10 @@ use ilDBStatement;
  */
 class ilManScoringSettingsToOwnDbTableMigration implements Setup\Migration
 {
+    private const TABLE_NAME = 'manscoring_done';
+    private const TESTS_PER_STEP = 10000;
+
     private ilDBInterface $db;
-    private const TABLE_NAME = "manscoring_done";
-    private ?ilDBStatement $step_selection_stmt = null;
 
     /**
      * @var IOWrapper
@@ -63,7 +63,7 @@ class ilManScoringSettingsToOwnDbTableMigration implements Setup\Migration
 
     public function getDefaultAmountOfStepsPerRun(): int
     {
-        return 1000;
+        return 10;
     }
 
     public function getPreconditions(Environment $environment): array
@@ -78,11 +78,6 @@ class ilManScoringSettingsToOwnDbTableMigration implements Setup\Migration
     {
         $this->db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $this->io = $environment->getResource(Environment::RESOURCE_ADMIN_INTERACTION);
-
-        $this->db->setLimit($this->getDefaultAmountOfStepsPerRun());
-        $this->step_selection_stmt = $this->db->query(
-            "SELECT keyword, value FROM settings WHERE " . $this->db->like('keyword', 'text', 'manscoring_done_%')
-        );
     }
 
     /**
@@ -101,7 +96,11 @@ class ilManScoringSettingsToOwnDbTableMigration implements Setup\Migration
         $success = [];
 
         $totalCount = 0;
-        while ($row = $this->db->fetchAssoc($this->step_selection_stmt)) {
+        $this->db->setLimit(self::TESTS_PER_STEP);
+        $result = $this->db->query(
+            "SELECT keyword, value FROM settings WHERE " . $this->db->like('keyword', 'text', 'manscoring_done_%')
+        );
+        while ($row = $this->db->fetchAssoc($result)) {
             $totalCount++;
 
             $keyword = $row["keyword"];
@@ -166,6 +165,6 @@ class ilManScoringSettingsToOwnDbTableMigration implements Setup\Migration
 
         $num_legacy_tests = (int) ($row['cnt'] ?? 0);
 
-        return (int) ceil($num_legacy_tests / $this->getDefaultAmountOfStepsPerRun());
+        return (int) ceil($num_legacy_tests / self::TESTS_PER_STEP);
     }
 }
