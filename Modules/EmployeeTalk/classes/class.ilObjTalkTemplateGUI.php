@@ -91,6 +91,7 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
         $md->setPropertyForm($form);
         $md->parse();
 
+        // this is necessary to disable the md fields
         foreach ($form->getInputItemsRecursive() as $item) {
             if ($item instanceof ilCombinationInputGUI) {
                 $item->__call('setValue', ['']);

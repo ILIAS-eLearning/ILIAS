@@ -434,6 +434,20 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $md = $this->initMetaDataForm($a_form);
         $md->parse();
 
+        // this is necessary to disable the md fields
+        if ($this->isReadonly) {
+            foreach ($a_form->getInputItemsRecursive() as $item) {
+                if ($item instanceof ilCombinationInputGUI) {
+                    $item->__call('setValue', ['']);
+                    $item->__call('setDisabled', [true]);
+                }
+                if (method_exists($item, 'setDisabled')) {
+                    /** @var $item ilFormPropertyGUI */
+                    $item->setDisabled(true);
+                }
+            }
+        }
+
         parent::addExternalEditFormCustom($a_form);
     }
 
