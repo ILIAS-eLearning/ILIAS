@@ -360,6 +360,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
 
         // title
         $ti = new ilTextInputGUI($this->lng->txt("title"), "title");
+        $ti->setInfo($this->lng->txt('will_update_series_info_title'));
         $ti->setSize(min(40, ilObject::TITLE_LENGTH));
         $ti->setMaxLength(ilObject::TITLE_LENGTH);
         $ti->setRequired(true);
@@ -375,6 +376,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $form->addItem($login);
 
         $writeLockForOthers = new ilCheckboxInputGUI($this->lng->txt("lock_edititng_for_others"), "etal_settings_locked_for_others");
+        $writeLockForOthers->setInfo($this->lng->txt('will_update_series_info_lock'));
         $writeLockForOthers->setDisabled($this->isReadonly || !$this->talkAccess->canEditTalkLockStatus(intval($this->object->getRefId())));
         $form->addItem($writeLockForOthers);
 
@@ -471,6 +473,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
          * @var ilObjEmployeeTalkSeries $series
          */
         $series = $this->object->getParent();
+        $updated_series = false;
 
         $md = $this->initMetaDataForm($a_form);
         $md->parse();
@@ -485,10 +488,12 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
             intval($a_form->getInput('etal_settings_locked_for_others'))
         );
 
-        //TODO: Use the object id of the series and not of the talk ...
         $settings = $this->repository->readEmployeeTalkSerieSettings(intval($series->getId()));
-        $settings->setLockedEditing($lockEdititngForOthers);
-        $this->repository->storeEmployeeTalkSerieSettings($settings);
+        if ($lockEdititngForOthers !== $settings->isLockedEditing()) {
+            $settings->setLockedEditing($lockEdititngForOthers);
+            $this->repository->storeEmployeeTalkSerieSettings($settings);
+            $updated_series = true;
+        }
 
 
         /**
@@ -517,11 +522,14 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
                 continue;
             }
             $talk = new ilObjEmployeeTalk(intval($treeNode['ref_id']));
-            if (
-                $talk->getId() !== $this->object->getId()
-            ) {
+            if ($talk->getId() === $this->object->getId()) {
+                continue;
+            }
+            if ($talk->getTitle() !== $this->object->getTitle()) {
                 $talk->setTitle($this->object->getTitle());
                 $talk->update();
+                $talks[] = $talk;
+            } elseif ($updated_series) {
                 $talks[] = $talk;
             }
         }
