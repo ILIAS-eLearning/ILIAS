@@ -116,22 +116,27 @@ class ilPCResources extends ilPageContent
     public static function modifyItemGroupRefIdsByMapping(
         ilPageObject $a_page,
         array $mappings
-    ): void {
+    ): bool {
         $dom = $a_page->getDom();
+        $log = ilLoggerFactory::getLogger('copg');
 
         if ($dom instanceof php4DOMDocument) {
             $dom = $dom->myDOMDocument;
         }
-
+        $changed = false;
         $xpath_temp = new DOMXPath($dom);
         $igs = $xpath_temp->query("//Resources/ItemGroup");
 
         foreach ($igs as $ig_node) {
             $ref_id = $ig_node->getAttribute("RefId");
+            $log->debug(">>> Fix Item Group with import Ref Id:" . $ref_id);
+            $log->debug("Ref Id Mapping:" . print_r($mappings, true));
             if ($mappings[$ref_id] > 0) {
                 $ig_node->setAttribute("RefId", $mappings[$ref_id]);
+                $changed = true;
             }
         }
+        return $changed;
     }
 
     public static function getLangVars(): array
@@ -142,7 +147,7 @@ class ilPCResources extends ilPageContent
     public static function resolveResources(
         ilPageObject $page,
         array $ref_mappings
-    ): void {
-        self::modifyItemGroupRefIdsByMapping($page, $ref_mappings);
+    ): bool {
+        return self::modifyItemGroupRefIdsByMapping($page, $ref_mappings);
     }
 }
