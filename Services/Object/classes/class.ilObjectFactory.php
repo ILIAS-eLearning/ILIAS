@@ -53,7 +53,7 @@ class ilObjectFactory
     /**
      * returns all objects of an owner, filtered by type, objects are not deleted!
      */
-    public function getObjectsForOwner(string $object_type, int $owner_id): array
+    public static function getObjectsForOwner(string $object_type, int $owner_id): array
     {
         global $DIC;
         $ilDB = $DIC->database();
