@@ -18,6 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 
@@ -44,6 +46,8 @@ class ilMailFolderGUI
     private readonly Refinery $refinery;
     private int $currentFolderId = 0;
     private readonly ilErrorHandling $error;
+    protected Factory $uiFactory;
+    protected Renderer $uiRenderer;
 
     public function __construct()
     {
@@ -58,6 +62,8 @@ class ilMailFolderGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->error = $DIC['ilErr'];
+        $this->uiFactory = $DIC->ui()->factory();
+        $this->uiRenderer = $DIC->ui()->renderer();
 
         $this->umail = new ilMail($this->user->getId());
         $this->mbox = new ilMailbox($this->user->getId());
@@ -620,8 +626,6 @@ class ilMailFolderGUI
         $sender = ilObjectFactory::getInstanceByObjId($mailData['sender_id'], false);
         $replyBtn = null;
         if ($sender instanceof ilObjUser && $sender->getId() !== 0 && !$sender->isAnonymous()) {
-            $replyBtn = ilLinkButton::getInstance();
-            $replyBtn->setCaption('reply');
             $this->ctrl->setParameterByClass(
                 ilMailFormGUI::class,
                 'mobj_id',
@@ -629,25 +633,31 @@ class ilMailFolderGUI
             );
             $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mail_id', $mailId);
             $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', ilMailFormGUI::MAIL_FORM_TYPE_REPLY);
-            $replyBtn->setUrl($this->ctrl->getLinkTargetByClass(ilMailFormGUI::class));
-            $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
-            $replyBtn->setPrimary(true);
+            $replyBtn = $this->uiFactory->button()->primary(
+                $this->lng->txt('reply'),
+                $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class)
+            );
             $this->toolbar->addStickyItem($replyBtn);
+            $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
         }
 
-        $fwdBtn = ilLinkButton::getInstance();
-        $fwdBtn->setCaption('forward');
         $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mobj_id', $mailData['folder_id']);
         $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mail_id', $mailId);
         $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', ilMailFormGUI::MAIL_FORM_TYPE_FORWARD);
-        $fwdBtn->setUrl($this->ctrl->getLinkTargetByClass(ilMailFormGUI::class));
-        $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
         if ($replyBtn === null) {
-            $fwdBtn->setPrimary(true);
+            $fwdBtn = $this->uiFactory->button()->primary(
+                $this->lng->txt('forward'),
+                $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class)
+            );
             $this->toolbar->addStickyItem($fwdBtn);
         } else {
-            $this->toolbar->addButtonInstance($fwdBtn);
+            $fwdBtn = $this->uiFactory->button()->standard(
+                $this->lng->txt('forward'),
+                $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class)
+            );
+            $this->toolbar->addComponent($fwdBtn);
         }
+        $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
 
         $printBtn = ilLinkButton::getInstance();
         $printBtn->setCaption('print');
