@@ -208,7 +208,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
         if (isset($_POST[$this->getPostVar()]) && is_array($_POST[$this->getPostVar()])) {
             $foundvalues = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
         } else {
-            $foundvalues = $_POST[$this->getPostVar()];
+            $foundvalues = $_POST[$this->getPostVar()] ?? null;
         }
         $max_points = 0;
 
