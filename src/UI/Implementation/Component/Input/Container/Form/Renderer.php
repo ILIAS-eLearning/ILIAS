@@ -45,7 +45,7 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable("INPUTS", $default_renderer->render($component->getInputGroup()));
 
-        if($component->getRequired()) {
+        if($component->hasRequiredInputs()) {
             $tpl->setVariable("TXT_REQUIRED", $this->txt("required_field"));
         }
 

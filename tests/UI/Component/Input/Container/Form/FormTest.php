@@ -449,7 +449,7 @@ class FormTest extends ILIAS_UI_TestBase
         $inputs = [$if->text(""), $if->text("")];
         $form = new ConcreteForm($this->buildInputFactory(), $inputs);
 
-        $this->assertFalse($form->getRequired());
+        $this->assertFalse($form->hasRequiredInputs());
     }
 
     public function testFormWithRequiredField(): void
@@ -461,7 +461,7 @@ class FormTest extends ILIAS_UI_TestBase
             $if->text("")
         ];
         $form = new ConcreteForm($this->buildInputFactory(), $inputs);
-        $this->assertTrue($form->getRequired());
+        $this->assertTrue($form->hasRequiredInputs());
     }
 
 }

@@ -115,7 +115,7 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource
         $this->error = $error;
     }
 
-    public function getRequired(): bool
+    public function hasRequiredInputs(): bool
     {
         foreach ($this->getInputs() as $input) {
             if ($input->isRequired()) {
