@@ -164,6 +164,8 @@ class ilManScoringSettingsToOwnDbTableMigration implements Setup\Migration
         );
         $row = $this->db->fetchAssoc($result);
 
-        return (int) ($row['cnt'] ?? 0);
+        $num_legacy_tests = (int) ($row['cnt'] ?? 0);
+
+        return (int) ceil($num_legacy_tests / $this->getDefaultAmountOfStepsPerRun());
     }
 }
