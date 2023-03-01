@@ -86,7 +86,10 @@ class ilMailGUI implements ilCtrlBaseClassInterface
         } elseif ($this->http->wrapper()->query()->has('mobj_id')) {
             $folderId = $this->http->wrapper()->query()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
         } else {
-            $folderId = (int) ilSession::get('mobj_id');
+            $folderId = $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->int(),
+                $this->refinery->always($this->currentFolderId),
+            ])->transform(ilSession::get('mobj_id'));
         }
         if (0 === $folderId || !$this->mbox->isOwnedFolder($folderId)) {
             $folderId = $this->mbox->getInboxFolder();

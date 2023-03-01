@@ -61,7 +61,10 @@ class ilMailExplorer extends ilTreeExplorerGUI
         } elseif ($this->http->wrapper()->query()->has('mobj_id')) {
             $folderId = $this->http->wrapper()->query()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
         } else {
-            $folderId = $this->refinery->kindlyTo()->int()->transform(ilSession::get('mobj_id'));
+            $folderId = $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->int(),
+                $this->refinery->always($this->currentFolderId),
+            ])->transform(ilSession::get('mobj_id'));
         }
 
         $this->currentFolderId = $folderId;
