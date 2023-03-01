@@ -627,6 +627,14 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
          * @var \ILIAS\DI\Container $container
          */
         $container = $GLOBALS['DIC'];
+        if (!ilObject::_exists((int) $refId, true)) {
+            $container["tpl"]->setOnScreenMessage(
+                'failure',
+                $container->language()->txt("permission_denied"),
+                true
+            );
+            $container->ctrl()->redirectByClass(ilDashboardGUI::class, "");
+        }
         $container->ctrl()->setParameterByClass(strtolower(self::class), 'ref_id', $refId);
         $container->ctrl()->redirectByClass([
             strtolower(ilDashboardGUI::class),
