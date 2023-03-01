@@ -333,18 +333,25 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         $employee = new ilObjUser($firstTalk->getData()->getEmployee());
         $superiorName = $superior->getFullname();
 
-        $dates = [];
-        $add_time = $firstTalk->getData()->isAllDay() ? 0 : 1;
-        foreach ($talks as $talk) {
-            $data = $talk->getData();
-            $startDate = $data->getStartDate()->get(
-                IL_CAL_FKT_DATE,
-                ilCalendarUtil::getUserDateFormat($add_time, true),
-                $employee->getTimeZone()
-            );
+        $dates = array_map(
+            fn (ilObjEmployeeTalk $t) => $t->getData()->getStartDate(),
+            $talks
+        );
+        usort($dates, function (ilDateTime $a, ilDateTime $b) {
+            $a = $a->getUnixTime();
+            $b = $b->getUnixTime();
+            if ($a === $b) {
+                return 0;
+            }
+            return $a < $b ? -1 : 1;
+        });
 
-            $dates[] = strval($startDate);
-        }
+        $add_time = $firstTalk->getData()->isAllDay() ? 0 : 1;
+        $format = ilCalendarUtil::getUserDateFormat($add_time, true);
+        $timezone = $employee->getTimeZone();
+        $dates = array_map(function (ilDateTime $d) use ($add_time, $format, $timezone) {
+            return $d->get(IL_CAL_FKT_DATE, $format, $timezone);
+        }, $dates);
 
         $message = new EmployeeTalkEmailNotification(
             $firstTalk->getRefId(),
