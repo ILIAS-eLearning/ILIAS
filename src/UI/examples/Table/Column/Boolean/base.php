@@ -30,6 +30,8 @@ function base()
     $f = $DIC['ui.factory'];
     $r = $DIC['ui.renderer'];
 
+    $dummy_records = [2, 13, 4, 5, 16, 17];
+
     $columns = [
         'b1' => $f->table()->column()->boolean('yes/no', 'yes', 'no'),
         'b2' => $f->table()->column()->boolean("0/1", "1", "0"),
@@ -40,18 +42,10 @@ function base()
         )
     ];
 
-    $table = $f->table()->data('Boolean Columns', $columns, 50);
-
-    $dummy_records = [2, 13, 4, 5, 16, 17];
-
-    $data_retrieval = new class ($f, $r, $dummy_records) extends T\DataRetrieval {
+    $data_retrieval = new class ($dummy_records) extends T\DataRetrieval {
         public function __construct(
-            \ILIAS\UI\Factory $ui_factory,
-            \ILIAS\UI\Renderer $ui_renderer,
             array $dummy_records
         ) {
-            $this->ui_factory = $ui_factory;
-            $this->ui_renderer = $ui_renderer;
             $this->records = $dummy_records;
         }
 
@@ -73,5 +67,6 @@ function base()
         }
     };
 
-    return $r->render($table->withData($data_retrieval));
+    $table = $f->table()->data('Boolean Columns', $columns, $data_retrieval);
+    return $r->render($table);
 }

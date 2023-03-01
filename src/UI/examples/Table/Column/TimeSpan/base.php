@@ -35,7 +35,6 @@ function base()
         'd1' => $f->table()->column()->timeSpan("German Long", $df->dateFormat()->germanLong()),
         'd2' => $f->table()->column()->timeSpan("German Short", $df->dateFormat()->germanShort())
     ];
-    $table = $f->table()->data('the date column', $columns, 50);
 
     $data_retrieval = new class () extends T\DataRetrieval {
         public function getRows(
@@ -57,5 +56,6 @@ function base()
         }
     };
 
-    return $r->render($table->withData($data_retrieval));
+    $table = $f->table()->data('TimeSpan Columns', $columns, $data_retrieval);
+    return $r->render($table);
 }

@@ -30,6 +30,8 @@ function base()
     $f = $DIC['ui.factory'];
     $r = $DIC['ui.renderer'];
 
+    $dummy_records = [123, 45.66, 78.9876];
+
     $columns = [
         'n1' => $f->table()->column()->number("some number"),
         'n2' => $f->table()->column()->number("with decimals")
@@ -40,10 +42,6 @@ function base()
             ->withDecimals(2)
             ->withUnit('Eur', I\Column\Number::UNIT_POSITION_AFT),
     ];
-
-    $table = $f->table()->data('Numbers', $columns, 50);
-
-    $dummy_records = [123, 45.66, 78.9876];
 
     $data_retrieval = new class ($dummy_records) extends T\DataRetrieval {
         public function __construct(array $dummy_records)
@@ -69,5 +67,6 @@ function base()
         }
     };
 
-    return $r->render($table->withData($data_retrieval));
+    $table = $f->table()->data('Number Columns', $columns, $data_retrieval);
+    return $r->render($table);
 }

@@ -30,14 +30,12 @@ function base()
     $f = $DIC['ui.factory'];
     $r = $DIC['ui.renderer'];
 
+    $dummy_records = [23, 45, 67];
+
     $columns = [
         'i1' => $f->table()->column()->statusIcon("icon"),
         'i2' => $f->table()->column()->statusIcon("chart")
     ];
-
-    $table = $f->table()->data('Icons/Charts', $columns, 50);
-
-    $dummy_records = [23, 45, 67];
 
     $data_retrieval = new class ($f, $r, $dummy_records) extends T\DataRetrieval {
         public function __construct(
@@ -71,5 +69,6 @@ function base()
         }
     };
 
-    return $r->render($table->withData($data_retrieval));
+    $table = $f->table()->data('StatusIcons Columns', $columns, $data_retrieval);
+    return $r->render($table);
 }

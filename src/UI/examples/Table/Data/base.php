@@ -31,7 +31,12 @@ function base()
     $r = $DIC['ui.renderer'];
     $df = new \ILIAS\Data\Factory();
 
-    // This is what the table will look like
+    /**
+     * This is what the table will look like:
+     * Columns define the nature (and thus: shape) of one field/aspect of the data record.
+     *
+     * Also, some functions of the table are set per column, e.g. sortability
+    */
     $columns = [
         'usr_id' => $f->table()->column()->number("User ID")
             ->withIsSortable(false),
@@ -39,20 +44,31 @@ function base()
             ->withHighlight(true),
         'email' => $f->table()->column()->eMail("eMail"),
         'last' => $f->table()->column()->date("last login", $df->dateFormat()->germanLong()),
-        'achieve' => $f->table()->column()->statusIcon("progress"),
+        'achieve' => $f->table()->column()->statusIcon("progress")
+            ->withIsOptional(true),
         'achieve_txt' => $f->table()->column()->status("success")
-            ->withIsSortable(false),
+            ->withIsSortable(false)
+            ->withIsOptional(true),
         'repeat' => $f->table()->column()->boolean("repeat", 'yes', 'no')
             ->withIsSortable(false),
         'fee' => $f->table()->column()->number("Fee")
             ->withDecimals(2)
-            ->withUnit('£', I\Column\Number::UNIT_POSITION_FORE)
+            ->withUnit('£', I\Column\Number::UNIT_POSITION_FORE),
+        'hidden' => $f->table()->column()->status("success")
+            ->withIsSortable(false)
+            ->withIsOptional(true)
+            ->withIsInitiallyVisible(false)
     ];
 
-    //setup the table
-    $table = $f->table()->data('a data table', $columns, 50);
-
-    // retrieve data and map records to table rows
+    /**
+     * Configure the Table to retrieve data with an instance of DataRetrieval;
+     * the table itself is agnostic of the source or the way of retrieving records.
+     * However, it provides View Controls and therefore parameters that will
+     * influence the way data is being retrieved. E.g., it is usually a good idea
+     * to delegate sorting to the database, or limit records to the amount of
+     * actually shown rows.
+     * Those parameters are being provided to DataRetrieval::getRows.
+     */
     $data_retrieval = new class ($f, $r) extends T\DataRetrieval {
         public function __construct(
             \ILIAS\UI\Factory $ui_factory,
@@ -109,9 +125,10 @@ function base()
         }
     };
 
+    //setup the table
+    $table = $f->table()->data('a data table', $columns, $data_retrieval);
+
     return $r->render(
-        $table
-            ->withData($data_retrieval)
-            ->withRequest($DIC->http()->request())
+        $table->withRequest($DIC->http()->request())
     );
 }

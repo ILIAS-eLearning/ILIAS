@@ -35,23 +35,20 @@ function with_actions()
     // This is what the table will look like
     $columns = [
         'f1' => $f->table()->column()->text("Field 1"),
-
-        'f0' => $f->table()->column()->text("empty"),
-
-        'f2' => $f->table()->column()->text("Field 2")
-            ->withIsOptional(true)
-            ->withIsInitiallyVisible(false),
-
-        'f3' => $f->table()->column()->number("Field 3")
-            ->withDecimals(2)
-            ->withIsSortable(false)
-            ->withIsOptional(true),
-
+        'f2' => $f->table()->column()->text("Field 2"),
+        'f0' => $f->table()->column()->status("empty"),
+        'f3' => $f->table()->column()->number("Field 3")->withDecimals(2),
         'f4' => $f->table()->column()->number("Field 4")
-            ->withIsOptional(false)
     ];
 
-    // define actions
+    /**
+     * Define actions:
+     * An Action is a Signal or URL carrying a parameter that references
+     * the targeted record(s).
+     * Standard Actions apply to both a collection of records as well as
+     * a single entry, while Single- and Multiactions will only work for
+     * one of them.
+    */
     $modal = getSomeExampleModal($f, $ctrl);
     $signal = $modal->getShowSignal();
 
@@ -105,9 +102,8 @@ function with_actions()
     };
 
     //setup the table
-    $table = $f->table()->data('a data table with actions', $columns, 50)
-        ->withActions($actions)
-        ->withData($data_retrieval);
+    $table = $f->table()->data('a data table with actions', $columns, $data_retrieval)
+        ->withActions($actions);
 
     //apply request and render
     $request = $DIC->http()->request();

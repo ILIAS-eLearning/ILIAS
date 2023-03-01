@@ -133,7 +133,10 @@ class InitUIFramework
             );
         };
         $c["ui.factory.table"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\Table\Factory($c["ui.signal_generator"]);
+            return new ILIAS\UI\Implementation\Component\Table\Factory(
+                $c["ui.signal_generator"],
+                $c["ui.data_factory"]
+            );
         };
         $c["ui.factory.messagebox"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\MessageBox\Factory();

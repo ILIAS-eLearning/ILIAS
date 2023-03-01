@@ -23,5 +23,4 @@ use ILIAS\UI\Component\Table as T;
 
 abstract class DataRetrieval implements T\DataRetrieval
 {
-    protected array $records;
 }

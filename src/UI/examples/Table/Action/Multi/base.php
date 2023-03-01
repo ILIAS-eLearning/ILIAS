@@ -88,5 +88,5 @@ function getExampleTable($f)
             }
         }
     };
-    return $f->table()->data('a data table with actions', $columns, 50)->withData($data_retrieval);
+    return $f->table()->data('a data table with actions', $columns, $data_retrieval);
 }

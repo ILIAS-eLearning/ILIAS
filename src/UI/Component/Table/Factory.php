@@ -181,10 +181,13 @@ interface Factory
      * ---
      * @param string     $title
      * @param array <string, Column>     $columns
-     * @param int     $number_of_rows
      * @return \ILIAS\UI\Component\Table\Data
      */
-    public function data(string $title, array $columns, ?int $number_of_rows = 50): Data;
+    public function data(
+        string $title,
+        array $columns,
+        DataRetrieval $data_retrieval
+    ): Data;
 
 
     /**

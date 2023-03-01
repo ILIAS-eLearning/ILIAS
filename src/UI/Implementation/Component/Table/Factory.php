@@ -22,6 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Table;
 use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\NotImplementedException;
+use ILIAS\Data\Factory as DataFactory;
 use Closure;
 
 /**
@@ -32,10 +33,14 @@ use Closure;
 class Factory implements T\Factory
 {
     protected SignalGeneratorInterface $signal_generator;
+    protected DataFactory $data_factory;
 
-    public function __construct(SignalGeneratorInterface $signal_generator)
-    {
+    public function __construct(
+        SignalGeneratorInterface $signal_generator,
+        DataFactory $data_factory
+    ) {
         $this->signal_generator = $signal_generator;
+        $this->data_factory = $data_factory;
     }
 
     /**
@@ -49,9 +54,18 @@ class Factory implements T\Factory
     /**
      * @inheritdoc
      */
-    public function data(string $title, array $columns, ?int $number_of_rows = 50): T\Data
-    {
-        return new Data($this->signal_generator, $title, $columns, $number_of_rows);
+    public function data(
+        string $title,
+        array $columns,
+        T\DataRetrieval $data_retrieval
+    ): T\Data {
+        return new Data(
+            $this->signal_generator,
+            $this->data_factory,
+            $title,
+            $columns,
+            $data_retrieval
+        );
     }
 
     /**

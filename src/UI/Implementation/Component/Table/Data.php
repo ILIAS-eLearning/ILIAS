@@ -26,6 +26,7 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Component\JavaScriptBindable as JSBindable;
+use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
 
@@ -34,7 +35,6 @@ class Data extends Table implements T\Data, JSBindable
     use JavaScriptBindable;
 
     protected string $title;
-    protected int $number_of_rows;
     protected DataRetrieval $data_retrieval;
 
     /**
@@ -49,33 +49,31 @@ class Data extends Table implements T\Data, JSBindable
 
     protected Signal $multi_action_signal;
     protected Signal $selection_signal;
+    protected ?ServerRequestInterface $request = null;
+    protected DataFactory $data_factory;
+
+    protected int $number_of_rows = 800;
     protected array $selected_optional_column_ids = [];
     protected Range $range;
     protected Order $order;
-    protected ?ServerRequestInterface $request = null;
+    protected ?array $filter = null;
+    protected ?array $additional_parameters = null;
 
     public function __construct(
         SignalGeneratorInterface $signal_generator,
+        DataFactory $data_factory,
         string $title,
         array $columns,
-        int $number_of_rows
+        T\DataRetrieval $data_retrieval
     ) {
         parent::__construct($title);
-        $this->number_of_rows = $number_of_rows;
         $this->multi_action_signal = $signal_generator->create();
         $this->selection_signal = $signal_generator->create();
+        $this->data_factory = $data_factory;
+        $this->data_retrieval = $data_retrieval;
         $this->setEnumeratedColumns($columns);
         $this->initializeVisibleColumns();
-        //TODO: inject
-        $df = new \ILIAS\Data\Factory();
-        $this->range = $df->range(0, $number_of_rows);
-
-        $sortable_visible_cols = array_filter(
-            $this->getVisibleColumns(),
-            fn ($c) => $c->isSortable()
-        );
-        $order_by = current(array_keys($sortable_visible_cols));
-        $this->order = $df->order($order_by, \ILIAS\Data\Order::ASC);
+        $this->initializeViewDefaults();
     }
 
     protected function setEnumeratedColumns(array $columns): void
@@ -97,10 +95,27 @@ class Data extends Table implements T\Data, JSBindable
         );
     }
 
+    protected function initializeViewDefaults(): void
+    {
+        $this->range = $this->data_factory->range(0, $this->number_of_rows);
+
+        $sortable_visible_cols = array_filter(
+            $this->getVisibleColumns(),
+            fn ($c) => $c->isSortable()
+        );
+
+        $order_by = current(array_keys($sortable_visible_cols));
+        $this->order = $this->data_factory->order($order_by, \ILIAS\Data\Order::ASC);
+    }
 
     public function getColumns(): array
     {
         return $this->columns;
+    }
+
+    public function getDataRetrieval(): T\DataRetrieval
+    {
+        return $this->data_retrieval;
     }
 
     /**
@@ -116,21 +131,6 @@ class Data extends Table implements T\Data, JSBindable
     public function getActions(): array
     {
         return $this->actions;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withData(T\DataRetrieval $data_retrieval): self
-    {
-        $clone = clone $this;
-        $clone->data_retrieval = $data_retrieval;
-        return $clone;
-    }
-
-    public function getData(): T\DataRetrieval
-    {
-        return $this->data_retrieval;
     }
 
     public function withRequest(ServerRequestInterface $request): self

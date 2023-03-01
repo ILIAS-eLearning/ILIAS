@@ -40,6 +40,11 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderPresentationRow($component, $default_renderer);
         }
         if ($component instanceof Component\Table\Data) {
+            /*
+            if(!$component->getRequest()) {
+                return 'Render Data Table with Request to use View Controls!';
+            }
+            */
             return $this->renderDataTable($component, $default_renderer);
         }
         if ($component instanceof Component\Table\Row) {
@@ -163,7 +168,7 @@ class Renderer extends AbstractComponentRenderer
         $component = $this->registerActionsJS($component);
         $component = $this->applyViewControls($component);
 
-        $rows = $component->getData()->getRows(
+        $rows = $component->getDataRetrieval()->getRows(
             $component->getRowFactory(),
             array_keys($component->getVisibleColumns()),
             $component->getRange(),

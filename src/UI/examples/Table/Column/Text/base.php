@@ -34,8 +34,6 @@ function base()
         't1' => $f->table()->column()->text("some text")
     ];
 
-    $table = $f->table()->data('Text Column', $columns, 50);
-
     $dummy_records = [
         ['t1' => 'this is some text'],
         ['t1' => 'this is some other text']
@@ -62,5 +60,6 @@ function base()
         }
     };
 
-    return $r->render($table->withData($data_retrieval));
+    $table = $f->table()->data('Text Columns', $columns, $data_retrieval);
+    return $r->render($table);
 }

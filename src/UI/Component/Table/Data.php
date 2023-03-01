@@ -43,7 +43,7 @@ interface Data extends Table
      * actually shown rows.
      * Those parameters are being provided to DataRetrieval::getRows.
      */
-    public function withData(DataRetrieval $data_retrieval): self;
+    //public function withData(DataRetrieval $data_retrieval): self;
 
     /**
      * The Data Table brings some View Controls along - it is common enough to
@@ -63,8 +63,18 @@ interface Data extends Table
      */
     public function withRequest(ServerRequestInterface $request): self;
 
+    /**
+     * Number of Rows is the amount of rows shown per page
+     */
     public function withNumberOfRows(int $number_of_rows): self;
+
+    /**
+     * Not all columns are neccessarily visible; "selected optional" is the
+     * positive list of shown columns (the non-optional columns are always shown
+     * and are not included here)
+     */
     public function withSelectedOptionalColumns(array $selected_optional_column_ids): self;
+
     public function withOrder(Order $order): self;
     public function withRange(Range $range): self;
     public function withFilter(?array $filter): self;
