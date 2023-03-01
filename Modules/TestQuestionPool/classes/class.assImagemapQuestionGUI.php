@@ -343,7 +343,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 break;
         }
         if (strlen($c)) {
-            $preview->addArea($preview->getAreaCount(), $shape, $c, $_POST["shapetitle"], "", "", true, "blue");
+            $preview->addArea($preview->getAreaCount(), $shape, $c, $_POST["shapetitle"] ?? '', "", "", true, "blue");
         }
         $preview->createPreview();
         $imagepath = $this->object->getImagePathWeb() . $preview->getPreviewFilename($this->object->getImagePath(), $this->object->getImageFilename()) . "?img=" . time();
@@ -359,7 +359,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $editorTpl->parseCurrentBlock();
         }
 
-        if (strlen($_POST['shapetitle'])) {
+        if (isset($_POST['shapetitle']) && $_POST['shapetitle'] != '') {
             $editorTpl->setCurrentBlock("shapetitle");
             $editorTpl->setVariable("VALUE_SHAPETITLE", $_POST["shapetitle"]);
             $editorTpl->parseCurrentBlock();
