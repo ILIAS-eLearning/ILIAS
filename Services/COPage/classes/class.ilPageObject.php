@@ -5127,9 +5127,9 @@ s     */
      * Resolve resources
      * @todo: move this into proper "afterImport" routine that calls all PC components
      */
-    public function resolveResources(array $ref_mapping): void
+    public function resolveResources(array $ref_mapping): bool
     {
-        ilPCResources::resolveResources($this, $ref_mapping);
+        return ilPCResources::resolveResources($this, $ref_mapping);
     }
 
     /**
