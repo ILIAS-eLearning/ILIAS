@@ -37,7 +37,7 @@ interface ilDBPdoInterface extends ilDBInterface
 
     public function escapePattern(string $text): string;
 
-    public function migrateTableToEngine(string $table_name, string $engine = ilDBConstants::MYSQL_ENGINE_INNODB): bool;
+    public function migrateTableToEngine(string $table_name, string $engine = ilDBConstants::MYSQL_ENGINE_INNODB): void;
     /**
      * @return array of failed tables
      */
