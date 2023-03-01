@@ -732,8 +732,11 @@ assessment#:#examid_in_test_pass#:#ILIAS-Prüfungsnummer anzeigen
 assessment#:#examid_in_test_pass_desc#:#Im Test wird eine ILIAS-Prüfungsnummer angezeigt. Für jeden Testdurchlauf wird eine eigene Nummer erzeugt.
 assessment#:#examid_in_test_res#:#ILIAS-Prüfungsnummer anzeigen
 assessment#:#examid_in_test_res_desc#:#In den Testergebnissen, der Statistik und dem Excel-Export wird die ILIAS-Prüfungsnummer dargestellt.
+assessment#:#exp_all_test_runs#:#Alle Durchläufe
+assessment#:#exp_best_pass#:#Bewerteter Durchlauf
 assessment#:#exp_eval_data#:#Evaluationsdaten exportieren als
 assessment#:#exp_file_created#:#Exportdatei erzeugt.
+assessment#:#exp_scored_test_run#:#Bester Durchlauf
 assessment#:#exp_type_certificate#:#Zertifikat (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Durch Komma getrennte Werte (CSV)
@@ -1638,6 +1641,8 @@ assessment#:#tst_pass_overview_header_lo_initial_per_objective#:#Einstiegstester
 assessment#:#tst_pass_overview_header_lo_qualifying_all_objectives#:#Qualifizierende Testergebnisse<br />zu den Lernzielen im Kurs %s
 assessment#:#tst_pass_overview_header_lo_qualifying_per_objective#:#Qualifizierende Testergebnisse<br />zum Lernziel %s im Kurs %s
 assessment#:#tst_pass_scoring#:#Bewertung bei mehreren Durchläufen
+assessment#:#tst_pass_scoring_best#:#Bester Durchlauf
+assessment#:#tst_pass_scoring_last#:#Letzter Durchlauf
 assessment#:#tst_pass_waiting_enabled#:#Wartezeit zwischen Durchläufen erzwingen
 assessment#:#tst_pass_waiting_info#:#Mit dieser Option können erneute Durchläufe erst gestartet werden, wenn die definierte Zeitspanne seit dem vorherigen Durchlauf abgelaufen ist.
 assessment#:#tst_pass_waiting_time#:#Wartezeit

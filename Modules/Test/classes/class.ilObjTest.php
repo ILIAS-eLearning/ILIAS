@@ -9480,12 +9480,15 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $participantList = new ilTestParticipantList($this);
         $participantList->initializeFromDbRows($this->getTestParticipants());
 
-        $expFactory = new ilTestExportFactory($this);
-        $exportObj = $expFactory->getExporter('results');
-        $exportObj->setForcedAccessFilteredParticipantList($participantList);
-        $file = $exportObj->exportToExcel($deliver = false, 'active_id', $active_id, $passedonly = false);
+        $worksheet = (new ilExcelTestExport($this, ilTestEvaluationData::FILTER_BY_ACTIVE_ID, $active_id, $passedonly = false, true))
+            ->withResultsPage()
+            ->withAllUsersPages()
+            ->withUserPages()
+            ->getContent();
+        $file = ilFileUtils::ilTempnam();
+        $worksheet->writeToFile($file);
         $fd = new ilFileDataMail(ANONYMOUS_USER_ID);
-        $fd->copyAttachmentFile($file, "result_" . $active_id . ".xlsx");
+        $fd->copyAttachmentFile($file . 'xlsx', "result_" . $active_id . ".xlsx");
         $file_names[] = "result_" . $active_id . ".xlsx";
 
         $mail->sendAdvancedNotification($owner_id, $this->getTitle(), $usr_data, $file_names);
@@ -9493,7 +9496,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         if (count($file_names)) {
             $fd->unlinkFiles($file_names);
             unset($fd);
-            @unlink($file);
+            @unlink($file . 'xlsx');
         }
     }
 

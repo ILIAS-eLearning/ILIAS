@@ -974,24 +974,24 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass): int
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
     {
-        parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
+        parent::setExportDetailsXLS($worksheet, $startrow, $col, $active_id, $pass);
 
         $solution = $this->getSolutionValues($active_id, $pass);
         $i = 1;
         foreach ($this->getAnswers() as $id => $answer) {
-            $worksheet->setCell($startrow + $i, 0, $answer->getAnswertext());
-            $worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
+            $worksheet->setCell($startrow + $i, $col, $answer->getAnswertext());
+            $worksheet->setBold($worksheet->getColumnCoord($col) . ($startrow + $i));
             if (
                 count($solution) > 0 &&
                 isset($solution[0]) &&
                 is_array($solution[0]) &&
                 strlen($solution[0]['value1']) > 0 && $id == $solution[0]['value1']
             ) {
-                $worksheet->setCell($startrow + $i, 1, 1);
+                $worksheet->setCell($startrow + $i, $col + 1, 1);
             } else {
-                $worksheet->setCell($startrow + $i, 1, 0);
+                $worksheet->setCell($startrow + $i, $col + 1, 0);
             }
             $i++;
         }

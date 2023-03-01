@@ -732,8 +732,11 @@ assessment#:#examid_in_test_pass#:#Display Test ID
 assessment#:#examid_in_test_pass_desc#:#A Test ID is displayed in the test. A new, unique ID is generated for every test attempt.
 assessment#:#examid_in_test_res#:#Display ILIAS Test ID
 assessment#:#examid_in_test_res_desc#:#The ILIAS Test ID will be included in the test results.
+assessment#:#exp_all_test_runs#:#All test runs
+assessment#:#exp_best_pass#:#Scored test run
 assessment#:#exp_eval_data#:#Export evaluation data as
 assessment#:#exp_file_created#:#Export file created.
+assessment#:#exp_scored_test_run#:#Scored test run
 assessment#:#exp_type_certificate#:#Certificate (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Comma Separated Value (CSV)
@@ -1639,6 +1642,8 @@ assessment#:#tst_pass_overview_header_lo_initial_per_objective#:#Initial Test Re
 assessment#:#tst_pass_overview_header_lo_qualifying_all_objectives#:#Qualifying Test Results<br />for the Learning Objectives within the Course %s
 assessment#:#tst_pass_overview_header_lo_qualifying_per_objective#:#Qualifying Test Results<br />for the Learning Objectives %s within the Course %s
 assessment#:#tst_pass_scoring#:#Scoring Multiple Passes
+assessment#:#tst_pass_scoring_best#:#Best Test Pass
+assessment#:#tst_pass_scoring_last#:#Last Test Pass
 assessment#:#tst_pass_waiting_enabled#:#Force Waiting Time between Passes
 assessment#:#tst_pass_waiting_info#:#With this option additional passes can not be started before the defined time is lapsed relating to the last finished pass.
 assessment#:#tst_pass_waiting_time#:#Waiting Time

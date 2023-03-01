@@ -102,7 +102,10 @@ class ilTestEvaluationDataTest extends ilTestBaseTestCase
         $this->assertEquals([], $this->testObj->arrFilter);
 
         $this->testObj->setFilter("abd", "hello");
-        $this->assertEquals(["abd" => "hello"], $this->testObj->arrFilter);
+        $this->assertEquals([], $this->testObj->arrFilter);
+
+        $this->testObj->setFilter(ilTestEvaluationData::FILTER_BY_NAME, "hello");
+        $this->assertEquals(['name' => "hello"], $this->testObj->arrFilter);
 
         $this->testObj->setFilterArray(["abd" => "hello"]);
         $this->assertEquals(["abd" => "hello"], $this->testObj->arrFilter);

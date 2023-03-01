@@ -493,9 +493,9 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass): int
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
     {
-        parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
+        parent::setExportDetailsXLS($worksheet, $startrow, $col, $active_id, $pass);
 
         $i = 0;
         $selections = array();
@@ -508,7 +508,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         }
         $errortext = $this->createErrorTextExport($selections);
         $i++;
-        $worksheet->setCell($startrow + $i, 0, $errortext);
+        $worksheet->setCell($startrow + $i, $col, $errortext);
         $i++;
 
         return $startrow + $i + 1;
