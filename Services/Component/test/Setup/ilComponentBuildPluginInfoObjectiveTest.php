@@ -44,6 +44,18 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
             {
                 return parent::scanDir($dir);
             }
+            protected function isDir(string $dir): bool
+            {
+                return true;
+            }
+            public function _isDir(string $dir): bool
+            {
+                return parent::isDir($dir);
+            }
+            public function _isDotFile(string $file): bool
+            {
+                return parent::isDotFile($file);
+            }
             protected function buildPluginPath(string $type, string $component, string $slot, string $plugin): string
             {
                 return $this->test->files[parent::buildPluginPath($type, $component, $slot, $plugin)];
@@ -81,7 +93,7 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
             "Services" => ["Service1"],
             "Modules/Module1" => ["Slot1", "Slot2"],
             "Modules/Module2" => [],
-            "Services/Service1" => ["Slot3"]
+            "Services/Service1" => ["Slot3",".DS_Store"] // .DS_Store should be skipped
         ];
 
         $this->builder->build();
@@ -127,6 +139,21 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
                 ["artifacts", ".DS_Store"] // .DS_Store is a macOS artifact which is not relevant for the test.
             )
         );
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testIsDir(): void
+    {
+        // Use the component directory, because this should be mostly stable.
+        $expected = true;
+        $actual = $this->builder->_isDir(__DIR__ . "/../..");
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testIsDotFile(): void
+    {
+        $expected = true;
+        $actual = $this->builder->_isDotFile(".DS_Store");
         $this->assertEquals($expected, $actual);
     }
 
