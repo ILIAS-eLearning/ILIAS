@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +14,9 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -405,11 +405,34 @@ EOT;
         $this->assertEquals($expected, $actual);
     }
 
+
     public function testBylineProperty(): void
     {
         $bl = 'some byline';
         $f = $this->getFieldFactory();
         $group = $f->group([], "LABEL", $bl);
         $this->assertEquals($bl, $group->getByline());
+    }
+
+    public function testGroupWithoutRequiredField(): void
+    {
+        $f = $this->getFieldFactory();
+        $inputs = [
+            $f->text(""),
+            $f->text("")
+        ];
+        $group = $f->group($inputs, '');
+        $this->assertFalse($group->isRequired());
+    }
+
+    public function testGroupWithRequiredField(): void
+    {
+        $f = $this->getFieldFactory();
+        $inputs = [
+            $f->text(""),
+            $f->text("")->withRequired(true)
+        ];
+        $group = $f->group($inputs, '');
+        $this->assertTrue($group->isRequired());
     }
 }
