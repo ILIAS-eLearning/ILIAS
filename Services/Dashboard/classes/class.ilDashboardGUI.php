@@ -61,6 +61,11 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
 
+        if ($this->user->getId() === ANONYMOUS_USER_ID) {
+            $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', $this->lng->txt("msg_not_available_for_anon"), true);
+            $DIC->ctrl()->redirectToURL("login.php?cmd=force_login");
+        }
+
         $this->tpl = $tpl;
 
         $this->ctrl->setContextObject(
@@ -72,10 +77,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $this->lng->loadLanguageModule("pd"); // #16813
         $this->lng->loadLanguageModule("dash");
         $this->lng->loadLanguageModule("mmbr");
-
-        if ($this->user->getId() == ANONYMOUS_USER_ID) {
-            throw new ilPermissionException($this->lng->txt("msg_not_available_for_anon"));
-        }
 
         $params = $DIC->http()->request()->getQueryParams();
         $this->cmdClass = ($params['cmdClass'] ?? "");
