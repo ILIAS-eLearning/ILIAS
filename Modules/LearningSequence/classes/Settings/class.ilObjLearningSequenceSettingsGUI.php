@@ -56,7 +56,7 @@ class ilObjLearningSequenceSettingsGUI
         $this->settings = $obj->getLSSettings();
         $this->activation = $obj->getLSActivation();
         $this->obj_title = $obj->getTitle();
-        $this->obj_description = $obj->getDescription();
+        $this->obj_description = $obj->getLongDescription();
 
         $this->lng->loadLanguageModule('content');
         $this->lng->loadLanguageModule('obj');
