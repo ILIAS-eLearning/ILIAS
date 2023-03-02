@@ -140,9 +140,9 @@ class ilLanguage
      * @var string[]
      */
     protected static $lng_log = array();
-    public string $cust_lang_path;
-    protected ilLogger $log;
-    protected ilCachedLanguage $global_cache;
+    public $cust_lang_path;
+    protected $log;
+    protected $global_cache;
 
     /**
      * Constructor
