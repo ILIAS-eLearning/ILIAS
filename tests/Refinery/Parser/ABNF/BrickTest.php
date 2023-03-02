@@ -205,6 +205,16 @@ class BrickTest extends TestCase
         }
     }
 
+    private function breakIntoPieces(int $x, string $break_me): array
+    {
+        $len = (int) floor(strlen($break_me) / $x);
+
+        return array_map(
+            fn ($i) => substr($break_me, $i * $len, $len),
+            range(0, $x - !(strlen($break_me) % $x))
+        );
+    }
+
     public function characterProvider(): array
     {
         $alpha = array_fill(ord('a'), ord('z') - ord('a') + 1, '');
@@ -214,12 +224,17 @@ class BrickTest extends TestCase
         $alpha = implode('', $alpha);
         $alpha .= strtoupper($alpha);
 
+        // Circumvent error when running this test with Xdebug. The default value of xdebug.max_nesting_level will kill the test.
+        $alpha_parts = $this->breakIntoPieces(3, $alpha);
+
         $digits = '1234567890';
 
         return [
             'Accepts all digits.' => ['digit', $digits, true],
             'Accepts no characters from a-z or A-Z.' => ['digit', $alpha, false],
-            'Accepts characters from a-z and A-Z.' => ['alpha', $alpha, true],
+            'Accepts characters from a-z and A-Z (Part 1).' => ['alpha', $alpha_parts[0], true],
+            'Accepts characters from a-z and A-Z (Part 2).' => ['alpha', $alpha_parts[1], true],
+            'Accepts characters from a-z and A-Z (Part 3).' => ['alpha', $alpha_parts[2], true],
             'Accepts no digits.' => ['alpha', $digits, false],
         ];
     }

@@ -32,8 +32,8 @@ class LanguageTagTest extends TestCase
         $this->assertInstanceOf(LanguageTag::class, $tag);
     }
 
-        /**
-     * @dataProvider parseProvider
+    /**
+     * @dataProvider saveToRun
      */
     public function testParse(string $input, bool $isOk): void
     {
@@ -44,24 +44,28 @@ class LanguageTagTest extends TestCase
         $this->assertInstanceOf(LanguageTag::class, $tag);
     }
 
-    public function parseProvider(): array
+    /**
+     * @dataProvider risky
+     */
+    public function testRisky(string $input, bool $isOk): void
+    {
+        $this->testParse($input, $isOk);
+    }
+
+    public function saveToRun(): array
     {
         return [
             ['de', true],
             ['d$', false],
             ['aa-111', true],
-            ['aa-7-123abc-abc-a-12', true],
-            ['aa-b1b1b-6a8b-cccccc', true],
             ['aa-b1b1b', true],
             ['aa-bb', true],
-            ['aa-bbb-ccc-1111-ccccc-b1b1b', true],
             ['aa-bbb-ccc-ddd', true],
             ['aa-bbb', true],
             ['aa-bbbb-cc', true],
             ['aa-bbbb', true],
             ['aa-x-1234ab-d', true],
             ['aa', true],
-            ['aaa-bbb-ccc-ddd-abcd-123-abc123-0abc-b-01-abc123-x-01ab-abc12', true],
             ['aaa-bbb-ccc', true],
             ['aaaa', true],
             ['aaaaa', true],
@@ -72,28 +76,22 @@ class LanguageTagTest extends TestCase
             ['ar-afb', true],
             ['art-lojban', true],
             ['ast', true],
-            ['az-Arab-x-AZE-derbend', true],
             ['az-Latn', true],
             ['cel-gaulish', true],
             ['cmn-Hans-CN', true],
             ['de-CH-1901', true],
-            ['de-CH-x-phonebk', true],
-            ['de-DE-u-co-phonebk', true],
             ['de-DE', true],
             ['de-Qaaa', true],
             ['de', true],
             ['en-GB-oed', true],
-            ['en-US-u-islamcal', true],
             ['en-US-x-twain', true],
             ['en-US', true],
-            ['en-a-myext-b-another', true],
             ['en', true],
             ['es-005', true],
             ['es-419', true],
             ['fr-CA', true],
             ['fr', true],
             ['hak', true],
-            ['hy-Latn-IT-arevela', true],
             ['i-ami', true],
             ['i-bnn', true],
             ['i-default', true],
@@ -111,7 +109,6 @@ class LanguageTagTest extends TestCase
             ['mas', true],
             ['no-bok', true],
             ['no-nyn', true],
-            ['qaa-Qaaa-QM-x-southern', true],
             ['sgn-BE-FR', true],
             ['sgn-BE-NL', true],
             ['sgn-CH-DE', true],
@@ -127,7 +124,6 @@ class LanguageTagTest extends TestCase
             ['x-111-aaaaa-BBB', true],
             ['x-whatever', true],
             ['yue-HK', true],
-            ['zh-CN-a-myext-x-private', true],
             ['zh-Hans-CN', true],
             ['zh-Hans', true],
             ['zh-Hant-HK', true],
@@ -140,6 +136,31 @@ class LanguageTagTest extends TestCase
             ['zh-xiang', true],
             ['zh-yue-HK', true],
             ['zh-yue', true],
+        ];
+    }
+
+    public function risky(): array
+    {
+        if (function_exists('xdebug_info') && ((int) ini_get('xdebug.max_nesting_level')) < 780) {
+            $this->markTestSkipped(sprintf(
+                'You are running under Xdebug. To be able to run all tests xdebug.max_nesting_level must be at least 780 (Currently %d).',
+                (int) ini_get('xdebug.max_nesting_level')
+            ));
+        }
+
+        return [
+            ['aa-bbb-ccc-1111-ccccc-b1b1b', true],
+            ['aaa-bbb-ccc-ddd-abcd-123-abc123-0abc-b-01-abc123-x-01ab-abc12', true],
+            ['az-Arab-x-AZE-derbend', true],
+            ['de-CH-x-phonebk', true],
+            ['de-DE-u-co-phonebk', true],
+            ['en-US-u-islamcal', true],
+            ['en-a-myext-b-another', true],
+            ['hy-Latn-IT-arevela', true],
+            ['qaa-Qaaa-QM-x-southern', true],
+            ['aa-7-123abc-abc-a-12', true],
+            ['aa-b1b1b-6a8b-cccccc', true],
+            ['zh-CN-a-myext-x-private', true],
         ];
     }
 }
