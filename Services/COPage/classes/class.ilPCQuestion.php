@@ -321,13 +321,19 @@ class ilPCQuestion extends ilPageContent
             $code[] = self::getJSTextInitCode($this->getPage()->getPageConfig()->getLocalizationLanguage()) . ' il.COPagePres.updateQuestionOverviews();';
         }
 
+        $q_ids = $this->getPage()->getQuestionIds();
+
+        // call renderers
+        foreach ($q_ids as $q_id) {
+            $code[] = "renderILQuestion$q_id();";
+        }
+
+        // init answer status
         $get_stored_tries = $this->getPage()->getPageConfig()->getUseStoredQuestionTries();
         if ($get_stored_tries) {
-            $q_ids = $this->getPage()->getQuestionIds();
             if (count($q_ids) > 0) {
                 foreach ($q_ids as $q_id) {
                     $as = ilPageQuestionProcessor::getAnswerStatus($q_id, $ilUser->getId());
-                    $code[] = "renderILQuestion$q_id();";
                     $code[] = "ilias.questions.initAnswer(" . $q_id . ", " . (int) ($as["try"] ?? 0) . ", " . ($as["passed"] ? "true" : "null") . ");";
                 }
             }

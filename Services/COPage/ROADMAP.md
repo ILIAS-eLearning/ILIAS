@@ -77,6 +77,28 @@ The new questions service should be integrated into the page editor. Especially 
 
 Note this is an older entry. Should be done with integration of the question service.
 
+#### Render page questions
+
+- ilPCQuestion::getJavascriptFiles loads
+  - ./Modules/Scorm2004/scripts/questions/pure.js 
+  - ./Modules/Scorm2004/scripts/questions/question_handling.js 
+  - Modules/TestQuestionPool/js/ilAssMultipleChoice.js
+  - Modules/TestQuestionPool/js/ilMatchingQuestion.js
+  - (./Services/COPage/js/ilCOPageQuestionHandler.js)
+- ilPCQuestion::getJSTextInitCode loads
+  - ilias.question.txt... strings
+- ilPCQuestion::getQuestionJsOfPage
+  - uses Services/COPage/templates/default/tpl.question_export.html
+  - returns basix HTML of question (qtitle content)
+  - adds function renderILQuestion<NR>
+    - this function is declared early here, BUT not called yet
+    - it contains jQuery('div#container{VAL_ID}').autoRender call (pure.js rendering)
+- ilPCQuestion::getOnloadCode
+  - adds calls for all renderers renderILQuestion<NR>
+  - inits question answers and callback
+
+#### Saving page questions
+
 Saving of page question answers is quite strange and includes dependencies to the SCORM component. This should be refactored.
 
 **Page Rendering**
