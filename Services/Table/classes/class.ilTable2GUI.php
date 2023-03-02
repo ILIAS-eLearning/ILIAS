@@ -1373,7 +1373,7 @@ class ilTable2GUI extends ilTableGUI
         $ilCtrl->setParameter(
             $this->parent_obj,
             $this->getNavParameter(),
-            $sort_field . ":" . $order_dir . ":" . $this->offset
+            urlencode($sort_field) . ":" . $order_dir . ":" . $this->offset
         );
         $this->tpl->setVariable(
             "TBL_ORDER_LINK",
