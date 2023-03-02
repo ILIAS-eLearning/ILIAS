@@ -323,6 +323,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     {
         $this->renderEditForm($this->buildNestingForm());
         $this->addEditSubtabs(self::TAB_EDIT_NESTING);
+        $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
+        $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
     }
 
 
