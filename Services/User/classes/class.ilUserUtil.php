@@ -244,7 +244,7 @@ class ilUserUtil
             $all[self::START_PD_SUBSCRIPTION] = 'my_courses_groups';
         }
 
-        if ((new ilMyStaffCachedAccessDecorator($DIC, ilMyStaffAccess::getInstance()))->hasCurrentUserAccessToMyStaff()) {
+        if ((new ilMyStaffCachedAccessDecorator($DIC, ilMyStaffAccess::getInstance()))->hasCurrentUserAccessToUser()) {
             $all[self::START_PD_MYSTAFF] = 'my_staff';
         }
 
