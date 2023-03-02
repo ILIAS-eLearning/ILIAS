@@ -245,7 +245,7 @@ class ilLocalUserGUI
             );
             $f_result[$counter][] = $role_obj->getTitle();
             $f_result[$counter][] = $role_obj->getDescription() ? $role_obj->getDescription() : '';
-            $f_result[$counter][] = $role['role_type'] == 'global'
+            $f_result[$counter][] = (isset($role['role_type']) && $role['role_type'] == 'global')
                 ?
                 $this->lng->txt('global')
                 :
@@ -375,7 +375,6 @@ class ilLocalUserGUI
         $tpl->setVariable("BTN_NAME", "assignSave");
         $tpl->setVariable("BTN_VALUE", $this->lng->txt("change_assignment"));
         $tpl->setCurrentBlock("tbl_action_row");
-        $tpl->setVariable("TPLPATH", $this->tpl->getValue("TPLPATH"));
         $tpl->parseCurrentBlock();
         $tmp_obj = ilObjectFactory::getInstanceByObjId($_GET['obj_id']);
         $title = $this->lng->txt('role_assignment') . ' (' . $tmp_obj->getFullname() . ')';
@@ -424,25 +423,18 @@ class ilLocalUserGUI
 
     protected function setTableGUIBasicData($tbl, &$result_set, string $a_from = ""): void
     {
-        switch ($a_from) {
-            case "clipboardObject":
-                $offset = $_GET["offset"];
-                $order = $_GET["sort_by"];
-                $direction = $_GET["sort_order"];
-                $tbl->disable("footer");
-                break;
+        $order = $_GET["sort_by"] ?: 'title';
+        $direction = $_GET["sort_order"] ?: 'asc';
+        $offset = $_GET["offset"] ?: 0;
+        $limit = $_GET["limit"] ?: 0;
 
-            default:
-                $offset = $_GET["offset"];
-                $order = $_GET["sort_by"];
-                $direction = $_GET["sort_order"];
-                break;
-        }
+        if ($a_from == 'clipboardObject') $tbl->disable("footer");
+        $tbl->disable("linkbar");
 
-        $tbl->setOrderColumn($order);
-        $tbl->setOrderDirection($direction);
-        $tbl->setOffset($offset);
-        $tbl->setLimit($_GET["limit"]);
+        $tbl->setOrderColumn((string) $order);
+        $tbl->setOrderDirection((string) $direction);
+        $tbl->setOffset((int) $offset);
+        $tbl->setLimit((int) $limit);
         $tbl->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
         $tbl->setData($result_set);
     }
