@@ -266,7 +266,7 @@ EOT;
 <div class="il-section-input">
     <div class="il-section-input-header"><h2>test_results</h2></div>
         <div class="form-group row">
-            <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_access_enabled</label>
+            <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_access_enabled<span class="asterisk">*</span></label>
             <div class="col-sm-8 col-md-9 col-lg-10">
                 <input type="checkbox" id="id_1" value="checked" name="" class="form-control form-control-sm" />
                 <div class="help-block">tst_results_access_enabled_desc</div>
@@ -476,7 +476,7 @@ EOT;
     <div class="il-section-input-header"><h2>tst_results_gamification</h2></div>
     
     <div class="form-group row">
-        <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_enabled</label>
+        <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_enabled<span class="asterisk">*</span></label>
         <div class="col-sm-8 col-md-9 col-lg-10">
             <input type="checkbox" id="id_1" value="checked" name="" class="form-control form-control-sm" />
             <div class="help-block">tst_highscore_description</div>
