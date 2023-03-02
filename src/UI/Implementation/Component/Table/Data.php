@@ -150,7 +150,7 @@ class Data extends Table implements T\Data, JSBindable
         $clone->number_of_rows = $number_of_rows;
         return $clone;
     }
-    public function getNumberOfRows(): ?int
+    public function getNumberOfRows(): int
     {
         return $this->number_of_rows;
     }
@@ -199,20 +199,9 @@ class Data extends Table implements T\Data, JSBindable
         return $this->additional_parameters;
     }
 
-
-    /**
-     * @inheritdoc
-     */
-/*    public function withAdditionalViewControl(ViewControl $view_control): self
-    {
-        //NYI
-        return $this;
-    }
-*/
     /**
      * @return ViewControl[]
      */
-
     public function getViewControls(): array
     {
         //NYI

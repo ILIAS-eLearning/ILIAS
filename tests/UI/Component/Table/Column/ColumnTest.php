@@ -28,17 +28,11 @@ use ILIAS\UI\Implementation\Component\Table\Column;
  */
 class ColumnTest extends ILIAS_UI_TestBase
 {
-    public function testTitle(): Column\Column
+    public function testDataTableColumnsAttributes(): void
     {
         $col = new Column\Text('col');
         $this->assertEquals('col', $col->getTitle());
-        return $col;
-    }
-    /**
-     * @depends testTitle
-     */
-    public function testAttributes(Column\Column $col)
-    {
+
         $this->assertTrue($col->isSortable());
         $this->assertFalse($col->withIsSortable(false)->isSortable());
         $this->assertTrue($col->withIsSortable(true)->isSortable());
@@ -47,31 +41,56 @@ class ColumnTest extends ILIAS_UI_TestBase
         $this->assertTrue($col->withIsOptional(true)->isOptional());
         $this->assertFalse($col->withIsOptional(false)->isOptional());
 
-
         $this->assertTrue($col->isInitiallyVisible());
         $this->assertFalse($col->withIsInitiallyVisible(false)->isInitiallyVisible());
         $this->assertTrue($col->withIsInitiallyVisible(true)->isInitiallyVisible());
 
+        $this->assertFalse($col->isHighlighted());
+        $this->assertTrue($col->withHighlight(true)->isHighlighted());
+        $this->assertFalse($col->withHighlight(false)->isHighlighted());
+
         $this->assertEquals(12, $col->withIndex(12)->getIndex());
     }
 
-    public function testTypes()
+    public function testDataTableColumnBoolFormat(): void
+    {
+        $col = new Column\Boolean('col', 'TRUE', 'FALSE');
+        $this->assertEquals('TRUE', $col->format(true));
+        $this->assertEquals('FALSE', $col->format(false));
+    }
+
+    public function testDataTableColumnDateFormat(): void
     {
         $df = new \ILIAS\Data\Factory();
-        $cols = [
-            new Column\Text('title'),
-            new Column\Number('title'),
-            new Column\Date('title', $df->dateFormat()->germanShort())
-        ];
-        $types = array_map(
-            function ($c) {
-                return $c->getType();
-            },
-            $cols
-        );
+        $format = $df->dateFormat()->germanShort();
+        $dat = new \DateTimeImmutable();
+        $col = new Column\Date('col', $format);
+        $this->assertEquals($dat->format($format->toString()), $col->format($dat));
+    }
+
+    public function testDataTableColumnTimespanFormat(): void
+    {
+        $df = new \ILIAS\Data\Factory();
+        $format = $df->dateFormat()->germanShort();
+        $dat = new \DateTimeImmutable();
+        $col = new Column\Timespan('col', $format);
         $this->assertEquals(
-            ['Text', 'Number', 'Date'],
-            $types
+            $dat->format($format->toString()) . ' - ' . $dat->format($format->toString()),
+            $col->format([$dat, $dat])
         );
+    }
+
+    public function testDataTableColumnNumnberFormat(): void
+    {
+        $df = new \ILIAS\Data\Factory();
+        $dat = new \DateTimeImmutable();
+        $col = new Column\Number('col');
+        $this->assertEquals('1', $col->format(1));
+        $col = $col->withDecimals(3);
+        $this->assertEquals('1,000', $col->format(1));
+        $col = $col->withDecimals(2)->withUnit('$', $col::UNIT_POSITION_FORE);
+        $this->assertEquals('$ 1,00', $col->format(1));
+        $col = $col->withUnit('€', $col::UNIT_POSITION_AFT);
+        $this->assertEquals('1,00 €', $col->format(1));
     }
 }

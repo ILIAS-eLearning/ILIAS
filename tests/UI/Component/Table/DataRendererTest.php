@@ -24,6 +24,7 @@ use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\Data;
 use ILIAS\UI\Implementation\Component\Signal;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * wrapper around the renderer to expose protected functions
@@ -69,6 +70,17 @@ class DTRenderer extends I\Table\Renderer
  */
 class DataRendererTest extends ILIAS_UI_TestBase
 {
+    public function setUp(): void
+    {
+        //This avoids various index not set warnings, which are only relevant in test context.
+        $_SERVER["REQUEST_SCHEME"] = "http";
+        $_SERVER["SERVER_NAME"] = "localhost";
+        $_SERVER["SERVER_PORT"] = "80";
+        $_SERVER["REQUEST_URI"] = "";
+        $_SERVER['SCRIPT_NAME'] = "";
+        $_SERVER['QUERY_STRING'] = "param=1";
+    }
+
     private function getRenderer()
     {
         return new DTRenderer(
@@ -114,7 +126,8 @@ class DataRendererTest extends ILIAS_UI_TestBase
             public function table(): ILIAS\UI\Component\Table\Factory
             {
                 return new I\Table\Factory(
-                    new I\SignalGenerator()
+                    new I\SignalGenerator(),
+                    new \ILIAS\Data\Factory()
                 );
             }
             public function divider(): ILIAS\UI\Component\Divider\Factory
@@ -210,13 +223,27 @@ class DataRendererTest extends ILIAS_UI_TestBase
         $renderer = $this->getRenderer();
         $tpl = $this->getTemplateFactory()->getTemplate("src/UI/templates/default/Table/tpl.datatable.html", true, true);
         $f = $this->getColumnFactory();
+        $data = new class () extends I\Table\DataRetrieval {
+            public function getRows(
+                Component\Table\RowFactory $row_factory,
+                array $visible_column_ids,
+                Data\Range $range,
+                Data\Order $order,
+                ?array $filter_data,
+                ?array $additional_parameters
+            ): \Generator {
+                yield $row_factory->standard('', []);
+            }
+        };
         $columns = [
             'f1' => $f->text("Field 1")->withIndex(1),
             'f2' => $f->text("Field 2")->withIndex(2),
             'f3' => $f->number("Field 3")->withIndex(3)
         ];
-        $table = $this->getUIFactory()->table()->data('')->withColumns($columns);
+        $request = $this->createMock(ServerRequestInterface::class);
         $order = (new \ILIAS\Data\Factory())->order('f1', \ILIAS\Data\Order::ASC);
+        $table = $this->getUIFactory()->table()->data('', $columns, $data)
+            ->withRequest($request);
         $renderer->p_renderTableHeader($this->getDefaultRenderer(), $table, $tpl, $order);
 
         $actual = $this->brutallyTrimHTML($tpl->get());
@@ -226,16 +253,21 @@ class DataRendererTest extends ILIAS_UI_TestBase
     <table class="c-table-data__table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
         <thead>
             <tr class="c-table-data__header c-table-data__row" role="rowgroup">
-                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" aria-colindex="0" aria-sort="ascending">
+                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="0" aria-sort="ascending">
                     <div class="c-table-data__header__resize-wrapper">
-                        <a class="glyph disabled" aria-label="sort_ascending" aria-disabled="true"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a>Field 1
+                        <a class="glyph disabled" aria-label="sort_ascending" aria-disabled="true"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a>
+                        <button class="btn btn-link" data-action="http://localhost:80?tsort_f=f1&tsort_d=DESC" id="id_1">Field 1</button>
                     </div>
                 </th>
-                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" aria-colindex="1">
-                    <div class="c-table-data__header__resize-wrapper">Field 2</div>
+                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="1">
+                    <div class="c-table-data__header__resize-wrapper">
+                        <button class="btn btn-link" data-action="http://localhost:80?tsort_f=f2&tsort_d=ASC" id="id_2">Field 2</button>
+                    </div>
                 </th>
-                <th class="c-table-data__header c-table-data__cell c-table-data__cell--number" role="columnheader" aria-colindex="2">
-                    <div class="c-table-data__header__resize-wrapper">Field 3</div>
+                <th class="c-table-data__header c-table-data__cell c-table-data__cell--number" role="columnheader" tabindex="-1" aria-colindex="2">
+                    <div class="c-table-data__header__resize-wrapper">
+                        <button class="btn btn-link" data-action="http://localhost:80?tsort_f=f3&tsort_d=ASC" id="id_3">Field 3</button>
+                    </div>
                 </th>
             </tr>
         </thead>
@@ -262,7 +294,7 @@ EOT;
             'a1' => $f->standard('label1', 'param', $signal),
             'a2' => $f->standard('label2', 'param', $url)
         ];
-        $rf = new I\Table\RowFactory(true, $columns, $actions);
+        $rf = new I\Table\RowFactory(true, true, $columns, $actions);
 
         $this->assertInstanceOf(Component\Table\RowFactory::class, $rf);
         $row = $rf->standard('row_id-1', []);

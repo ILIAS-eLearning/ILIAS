@@ -30,6 +30,11 @@ use ILIAS\UI\Implementation\Component\Signal;
  */
 class ActionTest extends ILIAS_UI_TestBase
 {
+    protected Implementation\Standard $link_action;
+    protected Data\URI $link_target;
+    protected Implementation\Standard $signal_action;
+    protected Signal $signal_target;
+
     protected function buildFactories()
     {
         return [
@@ -38,55 +43,55 @@ class ActionTest extends ILIAS_UI_TestBase
         ];
     }
 
-    public function testAttributes(): Implementation\Standard
+    public function setUp(): void
     {
         list($f, $df) = $this->buildFactories();
         $label = 'label';
         $param = 'param';
         $target = $df->uri('http://wwww.ilias.de?ref_id=1');
-        $act = $f->standard($label, $param, $target);
+        $this->link_target = $target;
+        $this->link_action = $f->standard($label, $param, $target);
 
-        $this->assertEquals($label, $act->getLabel());
-        $this->assertEquals($label, $act->getLabel());
-        $this->assertEquals($target, $act->getTarget());
-        return $act;
-    }
-
-    public function testSignalTarget(): Implementation\Standard
-    {
-        list($f, $df) = $this->buildFactories();
         $label = 'label2';
         $param = 'param2';
         $target = new Signal('sig-id');
-        $act = $f->standard($label, $param, $target);
-        $this->assertEquals($target, $act->getTarget());
-        return $act;
+        $this->signal_target = $target;
+        $this->signal_action = $f->standard($label, $param, $target);
     }
 
-    public function testStringTarget()
+    public function testDataTableActionAttributes(): void
+    {
+        $act = $this->link_action;
+        $this->assertEquals('label', $act->getLabel());
+        $this->assertEquals('param', $act->getParameterName());
+        $this->assertEquals($this->link_target, $act->getTarget());
+    }
+
+    public function testDataTableActionSignalTarget(): void
+    {
+        $act = $this->signal_action;
+        $this->assertEquals($this->signal_target, $act->getTarget());
+    }
+
+    public function testDataTableActionStringTarget(): void
     {
         $this->expectException(\TypeError::class);
         list($f, $df) = $this->buildFactories();
         $act = $f->standard('', '', '');
     }
 
-    /**
-     * @depends testAttributes
-     */
-    public function testRowIdOnURI(Implementation\Standard $act)
+    public function testDataTableActionRowIdOnURI(): void
     {
-        $act = $act->withRowId('test-id');
+        $act = $this->link_action->withRowId('test-id');
         $this->assertEquals(
             'ref_id=1&param=test-id',
             $act->getTarget()->getQuery()
         );
     }
 
-    /**
-     * @depends testSignalTarget
-     */
-    public function testRowIdOnSignal(Implementation\Standard $act)
+    public function testDataTableActionRowIdOnSignal(): void
     {
+        $act = $this->signal_action->withRowId('test-id');
         $act = $act->withRowId('test-id2');
         $this->assertEquals(
             'test-id2',

@@ -21,8 +21,11 @@ require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
 use ILIAS\UI\Component;
-use ILIAS\UI\Implementation\Component as I;
-use ILIAS\Data;
+use ILIAS\UI\Implementation\Component as C;
+use ILIAS\UI\Component as I;
+use ILIAS\Data\Range;
+use ILIAS\Data\Order;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Tests for the Data Table.
@@ -31,39 +34,63 @@ class DataTest extends ILIAS_UI_TestBase
 {
     protected function getFactory()
     {
-        return new I\Table\Factory(
-            new I\SignalGenerator()
+        return new C\Table\Factory(
+            new C\SignalGenerator(),
+            new \ILIAS\Data\Factory()
         );
     }
 
-    public function testDataTableBasicConstruction()
+    protected function getDataRetrieval(): I\Table\DataRetrieval
     {
-        $number_of_rows = 12;
-        $table = $this->getFactory()->data('title', $number_of_rows);
-        $this->assertEquals($number_of_rows, $table->getNumberOfRows());
+        return new class () extends C\Table\DataRetrieval {
+            public function getRows(
+                I\Table\RowFactory $row_factory,
+                array $visible_column_ids,
+                Range $range,
+                Order $order,
+                ?array $filter_data,
+                ?array $additional_parameters
+            ): \Generator {
+                yield $row_factory->standard('', []);
+            }
+        };
     }
 
-    public function testDataTableColumns()
+    public function testDataTableBasicConstruction(): void
     {
-        $table = $this->getFactory()->data('title');
+        $data = $this->getDataRetrieval();
+        $cols = ['f0' => $this->getFactory()->column()->text("col1")];
+        $table = $this->getFactory()->data('title', $cols, $data);
+        $this->assertEquals(800, $table->getNumberOfRows());
+        $this->assertInstanceOf(Order::class, $table->getOrder());
+        $this->assertInstanceOf(Range::class, $table->getRange());
+        $this->assertInstanceOf(I\Signal::class, $table->getActionSignal());
+        $this->assertInstanceOf(I\Signal::class, $table->getSelectionSignal());
+        $this->assertFalse($table->hasSingleActions());
+        $this->assertFalse($table->hasMultiActions());
+        $this->assertEquals($data, $table->getDataRetrieval());
+    }
+
+    public function testDataTableColumns(): void
+    {
         $f = $this->getFactory()->column();
-        $table = $table->withColumns([
+        $cols = [
             'f0' => $f->text("col1"),
             'f1' => $f->text("col2")
-        ]);
+        ];
+        $table = $this->getFactory()->data('title', $cols, $this->getDataRetrieval());
+
         $this->assertEquals(2, $table->getColumnCount());
         $check = [
             'f0' => $f->text("col1")->withIndex(0),
             'f1' => $f->text("col2")->withIndex(1)
         ];
-
         $this->assertEquals($check, $table->getColumns());
-        $this->assertEquals($check, $table->getFilteredColumns());
+        $this->assertEquals($check, $table->getVisibleColumns());
     }
 
-    public function testDataTableActions()
+    public function testDataTableActions(): void
     {
-        $table = $this->getFactory()->data('title');
         $f = $this->getFactory()->action();
         $target = $this->getDataFactory()->uri('http://wwww.ilias.de?ref_id=1');
         $actions = [
@@ -71,30 +98,83 @@ class DataTest extends ILIAS_UI_TestBase
             $f->single('act1', 'p', $target),
             $f->multi('act2', 'p', $target)
         ];
-        $table = $table->withActions($actions);
+        $cols = ['f0' => $this->getFactory()->column()->text("col1")];
+        $table = $this->getFactory()->data('title', $cols, $this->getDataRetrieval())
+            ->withActions($actions);
+
         $this->assertEquals($actions, $table->getActions());
         $this->assertEqualsCanonicalizing([$actions[0], $actions[2]], $table->getMultiActions());
         $this->assertEqualsCanonicalizing([$actions[0], $actions[1]], $table->getSingleActions());
     }
 
-    public function testDataTableData()
+    protected function getTable(): I\Table\Data
     {
-        $table = $this->getFactory()->data('title');
-        $data = new class () extends I\Table\DataRetrieval {
-            public function getRows(
-                Component\Table\RowFactory $row_factory,
-                ILIAS\Data\Range $range,
-                ILIAS\Data\Order $order,
-                array $visible_column_ids,
-                array $additional_parameters
-            ): \Generator {
-                foreach ($this->records as $row_id => $record) {
-                    yield $row_factory->standard($row_id, $record);
-                }
-            }
-        };
+        $data = $this->getDataRetrieval();
+        $cols = ['f0' => $this->getFactory()->column()->text("col1")];
+        $table = $this->getFactory()->data('title', $cols, $data);
+        return $table;
+    }
 
-        $table = $table->withData($data);
-        $this->assertEquals($data, $table->getData());
+    public function testDataTableWithRequest(): void
+    {
+        $table = $this->getTable();
+        $request = $this->createMock(ServerRequestInterface::class);
+        $this->assertEquals($request, $table->withRequest($request)->getRequest());
+    }
+
+    public function testDataTableWithNumberOfRows(): void
+    {
+        $table = $this->getTable();
+        $nor = 12;
+        $this->assertEquals($nor, $table->withNumberOfRows($nor)->getNumberOfRows());
+    }
+
+    public function testDataTableWithOrder(): void
+    {
+        $table = $this->getTable();
+        $order = new Order('aspect', 'DESC');
+        $this->assertEquals($order, $table->withOrder($order)->getOrder());
+    }
+
+    public function testDataTableWithRange(): void
+    {
+        $table = $this->getTable();
+        $range = new Range(17, 53);
+        $this->assertEquals($range, $table->withRange($range)->getRange());
+    }
+
+    public function testDataTableWithFilter(): void
+    {
+        $table = $this->getTable();
+        $filter = [
+            'aspect' => ['values']
+        ];
+        $this->assertEquals($filter, $table->withFilter($filter)->getFilter());
+    }
+
+    public function testDataTableWithAdditionalParams(): void
+    {
+        $table = $this->getTable();
+        $params = [
+            'param' => 'value'
+        ];
+        $this->assertEquals($params, $table->withAdditionalParameters($params)->getAdditionalParameters());
+    }
+
+    public function testDataTableWithSelectedOptionalCols(): void
+    {
+        $data = $this->getDataRetrieval();
+        $cols = [
+            'f0' => $this->getFactory()->column()->text(''),
+            'f1' => $this->getFactory()->column()->text('')
+                ->withIsOptional(true)
+                ->withIsInitiallyVisible(false),
+            'f2' => $this->getFactory()->column()->text('')
+        ];
+        $table = $this->getFactory()->data('title', $cols, $data);
+        $this->assertEquals(3, $table->getColumnCount());
+        $this->assertEquals(['f0', 'f2'], array_keys($table->getVisibleColumns()));
+        $this->assertEquals(0, $table->getVisibleColumns()['f0']->getIndex());
+        $this->assertEquals(2, $table->getVisibleColumns()['f2']->getIndex());
     }
 }

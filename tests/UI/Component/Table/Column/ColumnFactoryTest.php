@@ -31,7 +31,8 @@ class ColumnFactoryTest extends AbstractFactoryTest
         "boolean" => ["context" => false, "rules" => false],
         "eMail" => ["context" => false, "rules" => false],
         "status" => ["context" => false, "rules" => false],
-        "statusIcon" => ["context" => false, "rules" => false]
+        "statusIcon" => ["context" => false, "rules" => false],
+        "timeSpan" => ["context" => false, "rules" => false]
     ];
 
     public $factory_title = 'ILIAS\\UI\\Component\\Table\\Column\\Factory';
@@ -44,21 +45,29 @@ class ColumnFactoryTest extends AbstractFactoryTest
         ];
     }
 
-    public function testImplementsInterfaces()
+    public function columnTypeProvider(): array
     {
         list($f, $df) = $this->buildFactories();
-
-        $text = $f->text("");
-        $this->assertInstanceOf(Column\Column::class, $text);
-        $this->assertInstanceOf(Column\Text::class, $text);
-
-        $number = $f->number("");
-        $this->assertInstanceOf(Column\Column::class, $number);
-        $this->assertInstanceOf(Column\Number::class, $number);
-
         $date_format = $df->dateFormat()->germanShort();
-        $date = $f->date("", $date_format);
-        $this->assertInstanceOf(Column\Column::class, $date);
-        $this->assertInstanceOf(Column\Date::class, $date);
+
+        return [
+            [Column\Text::class, $f->text("")],
+            [Column\Date::class, $f->date("", $date_format)],
+            [Column\TimeSpan::class, $f->timespan("", $date_format)],
+            [Column\Number::class, $f->number("")],
+            [Column\Boolean::class, $f->boolean("", '1', '0')],
+            [Column\Status::class, $f->status("")],
+            [Column\StatusIcon::class, $f->statusIcon("")],
+            [Column\EMail::class, $f->eMail("")]
+        ];
+    }
+
+    /**
+     * @dataProvider columnTypeProvider
+     */
+    public function testDataTableColsImplementInterfaces($class, $instance)
+    {
+        $this->assertInstanceOf(Column\Column::class, $instance);
+        $this->assertInstanceOf($class, $instance);
     }
 }

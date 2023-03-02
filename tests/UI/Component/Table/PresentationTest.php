@@ -49,7 +49,8 @@ class PresentationTest extends ILIAS_UI_TestBase
     private function getFactory(): I\Component\Table\Factory
     {
         return new I\Component\Table\Factory(
-            new I\Component\SignalGenerator()
+            new I\Component\SignalGenerator(),
+            new \ILIAS\Data\Factory()
         );
     }
 
