@@ -684,9 +684,13 @@ class ilFileSystemGUI
             $upload_result = $upload->getResults()[$_FILES["new_file"]["tmp_name"]];
             if ($upload_result instanceof UploadResult) {
                 $processing_status = $upload_result->getStatus();
-                if ($processing_status->getCode(
-                ) === ProcessingStatus::REJECTED) {
-                    throw new ilException($processing_status->getMessage());
+                if ($processing_status->getCode() === ProcessingStatus::REJECTED) {
+                    $this->tpl->setOnScreenMessage(
+                        'failure',
+                        $processing_status->getMessage(),
+                        true
+                    );
+                    $this->ctrl->redirect($this, "listFiles");
                 }
             }
 

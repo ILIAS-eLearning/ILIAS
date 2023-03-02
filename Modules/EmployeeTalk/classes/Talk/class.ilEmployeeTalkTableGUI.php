@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
 use ILIAS\EmployeeTalk\UI\ControlFlowCommandHandler;
-use ILIAS\DI\UIServices;
 
 final class ilEmployeeTalkTableGUI extends ilTable2GUI
 {
@@ -29,8 +28,6 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
     public const STATUS_COMPLETED = 2;
 
     private ilLanguage $language;
-    private ilObjUser $currentUser;
-    private UIServices $ui;
 
     public function __construct(ControlFlowCommandHandler $a_parent_obj, $a_parent_cmd = "")
     {
@@ -40,8 +37,6 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
         $container = $GLOBALS['DIC'];
 
         $this->language = $container->language();
-        $this->currentUser = $container->user();
-        $this->ui = $container->ui();
         $this->language->loadLanguageModule('etal');
         $this->language->loadLanguageModule('orgu');
 
@@ -158,7 +153,7 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
         $actions = new ilAdvancedSelectionListGUI();
         $actions->setListTitle($this->language->txt("actions"));
         $actions->setAsynch(true);
-        $actions->setId($a_set["ref_id"]);
+        $actions->setId((string) $a_set["ref_id"]);
 
         $actions->setAsynchUrl(
             str_replace("\\", "\\\\", $this->ctrl->getLinkTargetByClass(
@@ -176,7 +171,7 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
         $this->tpl->setVariable("HREF_ETAL_TITLE", $url);
         $this->tpl->setVariable("VAL_ETAL_TITLE", $a_set['etal_title']);
         $this->tpl->setVariable("VAL_ETAL_TEMPLATE", $a_set['etal_template']);
-        $this->tpl->setVariable("VAL_ETAL_DATE", $a_set['etal_date']);
+        $this->tpl->setVariable("VAL_ETAL_DATE", ilDatePresentation::formatDate($a_set['etal_date']));
         $this->tpl->setVariable("VAL_ETAL_SUPERIOR", $a_set['etal_superior']);
         $this->tpl->setVariable("VAL_ETAL_EMPLOYEE", $a_set['etal_employee']);
         $this->tpl->setVariable("VAL_ETAL_STATUS", $a_set['etal_status']);
@@ -193,7 +188,7 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
                 continue;
             }
 
-            if ($filter['etal_employee'] !== false) {
+            if ($filter['etal_employee'] !== "") {
                 $filterUser = ilObjUser::getUserIdByLogin($filter['etal_employee']);
                 if ($val->getEmployee() !== $filterUser) {
                     continue;
@@ -214,20 +209,20 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
                 $employeeName = ilObjUser::_lookupLogin($talkData->getEmployee());
             }
 
-            if ($filter['etal_superior'] !== false) {
+            if ($filter['etal_superior'] !== "") {
                 $filterUser = ilObjUser::getUserIdByLogin($filter['etal_superior']);
                 if (intval($talk->getOwner()) !== $filterUser) {
                     continue;
                 }
             }
 
-            if ($filter['etal_title'] !== false) {
+            if ($filter['etal_title'] !== "") {
                 if (strpos($talk->getTitle(), $filter['etal_title']) === false) {
                     continue;
                 }
             }
 
-            if ($filter['etal_template'] !== false) {
+            if ($filter['etal_template'] !== "") {
                 if (strpos($parent->getTitle(), $filter['etal_template']) === false) {
                     continue;
                 }
@@ -241,8 +236,7 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
                     continue;
                 }
             }
-
-            if ($filter['etal_status'] !== false && intval($filter['etal_status'] !== 0)) {
+            if ($filter['etal_status'] !== "" && intval($filter['etal_status'] !== 0)) {
                 $filterCompleted = intval($filter['etal_status']) === ilEmployeeTalkTableGUI::STATUS_COMPLETED;
                 if ($filterCompleted && !$val->isCompleted()) {
                     continue;
@@ -257,11 +251,7 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
                 "ref_id" => $talk->getRefId(),
                 "etal_title" => $talk->getTitle(),
                 "etal_template" => $parent->getTitle(),
-                "etal_date" => $talkData->getStartDate()->get(
-                    IL_CAL_DATETIME,
-                    $this->currentUser->getTimeFormat(),
-                    $this->currentUser->getTimeZone()
-                ),
+                "etal_date" => $talkData->getStartDate(),
                 "etal_superior" => $superiorName,
                 "etal_employee" => $employeeName,
                 "etal_status" => $talkData->isCompleted() ? $this->language->txt('etal_status_completed') : $this->language->txt('etal_status_pending'),

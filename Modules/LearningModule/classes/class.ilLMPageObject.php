@@ -549,25 +549,6 @@ class ilLMPageObject extends ilLMObject
         return $this->files_contained;
     }
 
-    /**
-     * export page object to fo
-     */
-    public function exportFO(
-        ilXmlWriter $a_xml_writer
-    ): void {
-        $title = ilLMPageObject::_getPresentationTitle($this->getId());
-        if ($title != "") {
-            $attrs = array();
-            $attrs["font-family"] = "Times";
-            $attrs["font-size"] = "14pt";
-            $a_xml_writer->xmlElement("fo:block", $attrs, $title);
-        }
-
-        // PageContent
-        $this->page_object->buildDom();
-        $fo = $this->page_object->getFO();
-        $a_xml_writer->appendXML($fo);
-    }
 
     /**
      * Get questions of learning module

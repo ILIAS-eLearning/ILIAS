@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\DI\UIServices;
+
 /**
  *
  * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -26,6 +28,8 @@
 
 class ilParticipantsTestResultsTableGUI extends ilTable2GUI
 {
+    private UIServices $ui;
+
     protected bool $accessResultsCommandsEnabled = false;
     protected bool $manageResultsCommandsEnabled = false;
 
@@ -37,8 +41,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         global $DIC;
-        $this->lng = $DIC->language();
-        $this->ctrl = $DIC->ctrl();
+        $this->ui = $DIC->ui();
 
         $this->setStyle('table', 'fullwidth');
 
@@ -225,9 +228,13 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         return $this->buildImageIcon(ilUtil::getImagePath("icon_not_ok.svg"), $this->lng->txt("failed"));
     }
 
-    protected function buildImageIcon(string $src, string $alt): string
+    protected function buildImageIcon(string $icon_name, string $label): string
     {
-        return "<img border=\"0\" align=\"middle\" src=\"" . $src . "\" alt=\"" . $alt . "\" />";
+        $icon = $this->ui->factory()->symbol()->icon()->custom(
+            $icon_name,
+            $label
+        );
+        return $this->ui->renderer()->render($icon);
     }
 
     protected function buildFormattedAccessDate(array $data): string

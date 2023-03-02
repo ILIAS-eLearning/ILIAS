@@ -71,7 +71,7 @@ class ilObjectDefinition
                 "rbac" => $rec["rbac"],
                 "group" => $rec["grp"],
                 "system" => $rec["system"],
-                "default_pos" => "9999" . str_pad($rec["default_pos"], 4, "0", STR_PAD_LEFT), // "unassigned" group
+                "default_pos" => "9999" . str_pad((string) $rec["default_pos"], 4, "0", STR_PAD_LEFT), // "unassigned" group
                 "sideblock" => $rec["sideblock"],
                 'export' => $rec['export'],
                 'repository' => $rec['repository'],
@@ -139,7 +139,7 @@ class ilObjectDefinition
                 "rbac" => $rec["rbac"],
                 "group" => $rec["grp"],
                 "system" => $rec["system"],
-                "default_pos" => "9999" . str_pad($rec["default_pos"], 4, "0", STR_PAD_LEFT), // "unassigned" group
+                "default_pos" => "9999" . str_pad((string) $rec["default_pos"], 4, "0", STR_PAD_LEFT), // "unassigned" group
                 "sideblock" => $rec["sideblock"],
                 'export' => $rec['export'],
                 'repository' => $rec['repository'],

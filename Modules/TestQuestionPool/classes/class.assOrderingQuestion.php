@@ -807,7 +807,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         }
 
         $result = @unlink($this->getImagePath() . $imageFilename);
-        $result = $result & @unlink($this->getImagePath() . $this->getThumbPrefix() . $imageFilename);
+        $result = $result && @unlink($this->getImagePath() . $this->getThumbPrefix() . $imageFilename);
 
         return $result;
     }
@@ -1041,9 +1041,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass): int
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
     {
-        parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
+        parent::setExportDetailsXLS($worksheet, $startrow, $col, $active_id, $pass);
 
         $solutions = $this->getSolutionValues($active_id, $pass);
         $sol = array();
@@ -1057,11 +1057,11 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         foreach ($sol as $idx) {
             foreach ($solutions as $solution) {
                 if ($solution["value1"] == $idx) {
-                    $worksheet->setCell($startrow + $i, 0, $solution["value2"]);
+                    $worksheet->setCell($startrow + $i, $col, $solution["value2"]);
                 }
             }
             $element = $this->getOrderingElementList()->getElementBySolutionIdentifier($idx);
-            $worksheet->setCell($startrow + $i, 1, $element->getContent());
+            $worksheet->setCell($startrow + $i, $col + 1, $element->getContent());
             $i++;
         }
 

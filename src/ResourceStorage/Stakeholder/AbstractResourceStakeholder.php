@@ -88,4 +88,9 @@ abstract class AbstractResourceStakeholder implements ResourceStakeholder
 
         return $this->provider_name_cache;
     }
+
+    public function getLocationURIForResourceUsage(ResourceIdentification $identification): ?string
+    {
+        return null;
+    }
 }

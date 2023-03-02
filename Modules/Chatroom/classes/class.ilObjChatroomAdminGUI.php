@@ -80,7 +80,7 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
 
             default:
                 $tabFactory->getAdminTabsForCommand($this->ctrl->getCmd());
-                $res = explode('-', $this->ctrl->getCmd(), 2);
+                $res = explode('-', (string) $this->ctrl->getCmd(), 2);
                 if (!array_key_exists(1, $res)) {
                     $res[1] = '';
                 }

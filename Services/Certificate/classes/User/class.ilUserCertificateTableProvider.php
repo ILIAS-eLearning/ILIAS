@@ -23,8 +23,11 @@ declare(strict_types=1);
  */
 class ilUserCertificateTableProvider
 {
-    public function __construct(private ilDBInterface $database, private ilLogger $logger, private string $defaultTitle)
-    {
+    public function __construct(
+        private readonly ilDBInterface $database,
+        private readonly ilLogger $logger,
+        private readonly string $defaultTitle
+    ) {
     }
 
     /**
@@ -116,11 +119,13 @@ WHERE il_cert_user_cert.usr_id = ' . $this->database->quote($userId, 'integer') 
 
             $data['cnt'] = (int) $row_cnt['cnt'];
 
-            $this->logger->debug(sprintf(
-                'All active certificates for user: "%s" total: "%s"',
-                $userId,
-                $data['cnt']
-            ));
+            $this->logger->debug(
+                sprintf(
+                    'All active certificates for user: "%s" total: "%s"',
+                    $userId,
+                    $data['cnt']
+                )
+            );
         } else {
             $data['cnt'] = count($data['items']);
         }

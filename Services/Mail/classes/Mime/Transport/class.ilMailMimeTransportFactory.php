@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 class ilMailMimeTransportFactory
 {
-    public function __construct(protected ilSetting $settings, private ilAppEventHandler $eventHandler)
+    public function __construct(protected ilSetting $settings, private readonly ilAppEventHandler $eventHandler)
     {
     }
 

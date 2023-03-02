@@ -62,22 +62,6 @@ class ilGlobalCache
     /**
      * @var string
      */
-    public const COMP_ILCTRL = 'ilctrl';
-    /**
-     * @var string
-     */
-    public const COMP_PLUGINS = 'plugins';
-    /**
-     * @var string
-     */
-    public const COMP_RBAC_UA = 'rbac_ua';
-    /**
-     * @var string
-     */
-    public const COMP_EVENTS = 'events';
-    /**
-     * @var string
-     */
     public const COMP_TPL_BLOCKS = 'tpl_blocks';
     /**
      * @var string
@@ -101,11 +85,9 @@ class ilGlobalCache
     protected static array $available_components = array(
         self::COMP_CLNG,
         self::COMP_OBJ_DEF,
-        self::COMP_ILCTRL,
         self::COMP_TEMPLATE,
         self::COMP_TPL_BLOCKS,
         self::COMP_TPL_VARIABLES,
-        self::COMP_EVENTS,
         self::COMP_GLOBAL_SCREEN,
     );
     protected static array $type_per_component = array();

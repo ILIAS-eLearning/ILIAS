@@ -34,10 +34,6 @@ interface PageMetricsRepository
     public function delete(PageMetrics $pageMetrics): void;
 
     /**
-     * @param int    $contentPageId
-     * @param int    $pageId
-     * @param string $language
-     * @return PageMetrics
      * @throws CouldNotFindPageMetrics
      */
     public function findBy(int $contentPageId, int $pageId, string $language): PageMetrics;

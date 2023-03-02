@@ -98,7 +98,7 @@ final class ilEmployeeTalkMyStaffUserGUI implements ControlFlowCommandHandler
             $this->ctrl->redirectByClass(ilDashboardGUI::class, "");
         }
 
-        if (!$this->access->hasCurrentUserAccessToMyStaff() || !$this->access->hasCurrentUserAccessToUser($this->usrId)) {
+        if (!$this->access->hasCurrentUserAccessToTalks() || !$this->access->hasCurrentUserAccessToUser($this->usrId)) {
             $this->template->setOnScreenMessage('failure', $this->language->txt("permission_denied"), true);
             $this->ctrl->redirectByClass(ilDashboardGUI::class, "");
         }
@@ -207,13 +207,18 @@ final class ilEmployeeTalkMyStaffUserGUI implements ControlFlowCommandHandler
         foreach ($templates as $item) {
             $type = $item["type"];
 
-            $path = ilObject::_getIcon('', 'tiny', $type);
+            $path = ilObject::_getIcon(0, 'tiny', $type);
             $icon = ($path != "")
                 ? ilUtil::img($path, "") . " "
                 : "";
 
-            $base_url = $this->ctrl->getLinkTargetByClass(strtolower(ilObjEmployeeTalkSeriesGUI::class), ControlFlowCommand::CREATE);
-            $url = $this->ctrl->appendRequestTokenParameterString($base_url . "&new_type=" . ilObjEmployeeTalkSeries::TYPE);
+            $this->ctrl->setParameterByClass(
+                ilObjEmployeeTalkSeriesGUI::class,
+                "new_type",
+                ilObjEmployeeTalkSeries::TYPE
+            );
+            $url = $this->ctrl->getLinkTargetByClass(strtolower(ilObjEmployeeTalkSeriesGUI::class), ControlFlowCommand::CREATE);
+            //$url = $this->ctrl->appendRequestTokenParameterString($base_url . "&new_type=" . ilObjEmployeeTalkSeries::TYPE);
             $refId = ilObject::_getAllReferences(intval($item['obj_id']));
 
             // Templates only have one ref id

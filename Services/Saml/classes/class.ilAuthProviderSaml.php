@@ -31,7 +31,7 @@ final class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderA
     private const SESSION_TMP_RETURN_TO = 'tmp_return_to';
 
     private ilSamlIdp $idp;
-    private ilLanguage $lng;
+    private readonly ilLanguage $lng;
     /** @var array<string, mixed> */
     private array $attributes = [];
     private string $return_to = '';

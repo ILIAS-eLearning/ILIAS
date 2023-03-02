@@ -28,7 +28,7 @@ class ilMailMailingListAddressType extends ilBaseMailAddressType
         ilMailAddressTypeHelper $typeHelper,
         ilMailAddress $address,
         ilLogger $logger,
-        private ilMailingLists $lists
+        private readonly ilMailingLists $lists
     ) {
         parent::__construct($typeHelper, $address, $logger);
     }

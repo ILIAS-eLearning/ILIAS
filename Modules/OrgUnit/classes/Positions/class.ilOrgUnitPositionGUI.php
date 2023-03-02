@@ -36,6 +36,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
     private ilGlobalTemplateInterface $tpl;
     private ilLanguage $language;
     protected \ilOrgUnitPositionDBRepository $positionRepo;
+    protected \ilOrgUnitUserAssignmentDBRepository $assignmentRepo;
 
     public function __construct()
     {
@@ -43,6 +44,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
 
         $dic = ilOrgUnitLocalDIC::dic();
         $this->positionRepo = $dic["repo.Positions"];
+        $this->assignmentRepo = $dic["repo.UserAssignments"];
 
         parent::__construct();
 
@@ -134,18 +136,11 @@ class ilOrgUnitPositionGUI extends BaseCommands
         if ($position->isCorePosition()) {
             $this->cancel();
         }
-        $ilOrgUnitUserAssignmentQueries = ilOrgUnitUserAssignmentQueries::getInstance();
-        $assignments = $ilOrgUnitUserAssignmentQueries->getUserAssignmentsOfPosition($position->getId());
 
         $employee_position = $this->positionRepo->getSingle(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE, 'core_identifier');
-
+        $assignments = $this->assignmentRepo->getByPosition($position->getId());
         foreach ($assignments as $assignment) {
-            ilOrgUnitUserAssignment::findOrCreateAssignment(
-                $assignment->getUserId(),
-                $employee_position->getId(),
-                $assignment->getOrguId()
-            );
-            $assignment->delete();
+            $this->assignmentRepo->store($assignment->withPositionId($employee_position->getId()));
         }
 
         $this->main_tpl->setOnScreenMessage('success', $this->language->txt('msg_assignment_to_employee_done'), true);
@@ -161,7 +156,6 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $position_string = $this->language->txt("position") . ": ";
         $authority_string = $this->language->txt("authorities") . ": ";
         $user_string = $this->language->txt("user_assignments") . ": ";
-        $ilOrgUnitUserAssignmentQueries = ilOrgUnitUserAssignmentQueries::getInstance();
 
         $confirmation = new ilConfirmationGUI();
         $confirmation->setFormAction($this->ctrl->getFormAction($this));
@@ -175,7 +169,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $confirmation->addItem('authorities', true, $authority_string);
 
         // Amount uf user-assignments
-        $userIdsOfPosition = $ilOrgUnitUserAssignmentQueries->getUserIdsOfPosition($position->getId());
+        $userIdsOfPosition = $this->assignmentRepo->getUsersByPosition($position->getId());
         $ilOrgUnitUserQueries = new ilOrgUnitUserQueries();
         $usersOfPosition = $ilOrgUnitUserQueries->findAllUsersByUserIds($userIdsOfPosition);
         $userNames = $ilOrgUnitUserQueries->getAllUserNames($usersOfPosition);

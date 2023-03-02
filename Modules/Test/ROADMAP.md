@@ -35,6 +35,10 @@ Depending on development ressources, funding and approval, some new features are
 * Grading: Use of Short Form / Offical Form. Conceptual changes only with the introduction of new UI forms. (see [Mantis](https://mantis.ilias.de/view.php?id=31209#c83984))
 * Streamlining of trimming and removal of white spaces in answer-options (see: [Mantis 35091](https://mantis.ilias.de/view.php?id=35091))
 
+## Kiosk-Mode
+* current kiosk-mode enforces the header to be removed without it (the header) being a UI-Component.
+* In consequence, a test_kiosk_header.css is neccessary to hide whitespace (https://mantis.ilias.de/view.php?id=36161)
+* This SHOULD be removed in favor of a concept with better integration.
 
 ## Open Warnings / Issues without Tickets
 These are open findings from the PHP8 Project which couldn't be solved in the scope of the project itself. They are documented here for transparency.

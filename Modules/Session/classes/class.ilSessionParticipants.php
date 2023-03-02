@@ -78,11 +78,11 @@ class ilSessionParticipants extends ilParticipants
     protected function readParticipantsStatus(): void
     {
         $this->participants_status = [];
-        foreach ($this->getMembers() as $mem_uid) {
+        foreach ($this->getEventParticipants()->getParticipants() as $mem_uid => $info) {
             $this->participants_status[$mem_uid]['blocked'] = false;
-            $this->participants_status[$mem_uid]['notification'] = false;
+            $this->participants_status[$mem_uid]['notification_enabled'] = (bool) $info['notification_enabled'];
             $this->participants_status[$mem_uid]['passed'] = false;
-            $this->participants_status[$mem_uid]['contact'] = $this->getEventParticipants()->isContact($mem_uid);
+            $this->participants_status[$mem_uid]['contact'] = (bool) $info['contact'];
         }
     }
 

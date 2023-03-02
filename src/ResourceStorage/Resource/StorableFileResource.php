@@ -188,4 +188,10 @@ class StorableFileResource implements StorableResource
     {
         return $this->revisions->getMax();
     }
+
+
+    public function getFullSize(): int
+    {
+        return $this->revisions->getFullSize();
+    }
 }

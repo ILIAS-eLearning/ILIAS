@@ -32,7 +32,7 @@ use ILIAS\BackgroundTasks\Value;
  */
 class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
 {
-    public const OPTION_CANCEL = 'cancel';
+    final public const OPTION_CANCEL = 'cancel';
 
     public function getOptions(array $input): array
     {

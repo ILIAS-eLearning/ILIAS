@@ -25,11 +25,11 @@ declare(strict_types=1);
  */
 class ilCertificatePathConstants
 {
-    public const COURSE_PATH = '/course/certificates/';
-    public const TEST_PATH = '/assessment/certificates/';
-    public const EXERCISE_PATH = '/exercise/certificates/';
-    public const SCORM_PATH = '/scorm/certificates/';
-    public const LTICON_PATH = '/lticon/certificates/';
-    public const CMIX_PATH = '/cmix/certificates/';
-    public const STUDY_PROGRAMME_PATH = '/prg/certificates/';
+    final public const COURSE_PATH = '/course/certificates/';
+    final public const TEST_PATH = '/assessment/certificates/';
+    final public const EXERCISE_PATH = '/exercise/certificates/';
+    final public const SCORM_PATH = '/scorm/certificates/';
+    final public const LTICON_PATH = '/lticon/certificates/';
+    final public const CMIX_PATH = '/cmix/certificates/';
+    final public const STUDY_PROGRAMME_PATH = '/prg/certificates/';
 }

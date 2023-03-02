@@ -110,6 +110,22 @@ class ilMDEditorGUI
         return $section;
     }
 
+    protected function initSectionFromRequest(): string
+    {
+        if ($section = $this->initSectionFromQuery()) {
+            return $section;
+        }
+
+        if ($this->http->wrapper()->post()->has('section')) {
+            $section = $this->http->wrapper()->post()->retrieve(
+                'section',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+
+        return $section;
+    }
+
     public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
@@ -3729,7 +3745,7 @@ class ilMDEditorGUI
 
     public function listSection(): void
     {
-        switch ($_REQUEST['section']) {
+        switch ($this->initSectionFromRequest()) {
             case 'meta_general':
                 $this->listGeneral();
                 break;

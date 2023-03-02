@@ -23,7 +23,6 @@ declare(strict_types=1);
  */
 class ilChatroomXMLParser extends ilSaxParser
 {
-    protected ilObjChatroom $chat;
     protected ilChatroom $room;
     protected string $cdata = '';
     protected bool $in_sub_rooms = false;
@@ -38,13 +37,10 @@ class ilChatroomXMLParser extends ilSaxParser
     protected ?string $title = '';
     /** @var int[]  */
     protected array $userIds = [];
-    /** @var array<int, int>  */
 
-    public function __construct(ilObjChatroom $chat, string $a_xml_data)
+    public function __construct(protected ilObjChatroom $chat, string $a_xml_data)
     {
         parent::__construct();
-
-        $this->chat = $chat;
 
         $room = ilChatroom::byObjectId($this->chat->getId());
         if ($room !== null) {

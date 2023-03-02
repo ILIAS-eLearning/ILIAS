@@ -1664,14 +1664,15 @@ class ilObjMediaCastGUI extends ilObjectGUI
     protected function addMobsToCast(
         array $mob_ids,
         string $long_desc = "",
-        bool $redirect = true
+        bool $redirect = true,
+        bool $extract = false
     ): void {
         $ctrl = $this->ctrl;
         $user = $this->user;
 
         $item_ids = [];
         foreach ($mob_ids as $mob_id) {
-            $item_ids[] = $this->object->addMobToCast($mob_id, $user->getId(), $long_desc);
+            $item_ids[] = $this->object->addMobToCast($mob_id, $user->getId(), $long_desc, $extract);
         }
 
         if ($redirect) {
@@ -1685,7 +1686,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 
     protected function afterPoolInsert(array $mob_ids): void
     {
-        $this->addMobsToCast($mob_ids);
+        $this->addMobsToCast($mob_ids, "", true, true);
     }
 
     protected function handleAutoplayTriggerObject(): void

@@ -22,67 +22,85 @@ namespace ILIAS\EmployeeTalk\Service;
 
 final class EmployeeTalkEmailNotification
 {
-    private string $salutation;
-    private string $dateHeader;
-    private string $talkTitle;
-    private string $appointmentDetails;
+    private int $talk_ref_id;
+    private string $talk_name;
+    private string $talk_description;
+    private string $talk_location;
+    private string $subject_key;
+    private string $message_key;
+    private string $superior_name;
     /**
      * @var string[] $dates
      */
     private array $dates;
+    private bool $add_goto;
 
     /**
-     * EmployeeTalkEmailNotification constructor.
-     * @param string $salutation
-     * @param string $dateHeader
-     * @param string $talkTitle
-     * @param string $appointmentDetails
+     * @param int      $talk_ref_id
+     * @param string   $talk_name
+     * @param string   $talk_description
+     * @param string   $talk_location
+     * @param string   $subject_key
+     * @param string   $message_key
+     * @param string   $superior_name
      * @param string[] $dates
+     * @param bool     $add_goto
      */
     public function __construct(
-        string $salutation,
-        string $dateHeader,
-        string $talkTitle,
-        string $appointmentDetails,
-        array $dates
+        int $talk_ref_id,
+        string $talk_name,
+        string $talk_description,
+        string $talk_location,
+        string $subject_key,
+        string $message_key,
+        string $superior_name,
+        array $dates,
+        bool $add_goto = true
     ) {
-        $this->salutation = $salutation;
-        $this->dateHeader = $dateHeader;
-        $this->talkTitle = $talkTitle;
-        $this->appointmentDetails = $appointmentDetails;
+        $this->talk_ref_id = $talk_ref_id;
+        $this->talk_name = $talk_name;
+        $this->talk_description = $talk_description;
+        $this->talk_location = $talk_location;
+        $this->subject_key = $subject_key;
+        $this->message_key = $message_key;
+        $this->superior_name = $superior_name;
         $this->dates = $dates;
+        $this->add_goto = $add_goto;
     }
 
-    /**
-     * @return string
-     */
-    public function getSalutation(): string
+    public function getTalkRefId(): int
     {
-        return $this->salutation;
+        return $this->talk_ref_id;
     }
 
-    /**
-     * @return string
-     */
-    public function getDateHeader(): string
+    public function getTalkName(): string
     {
-        return $this->dateHeader;
+        return $this->talk_name;
     }
 
-    /**
-     * @return string
-     */
-    public function getTalkTitle(): string
+    public function getTalkDescription(): string
     {
-        return $this->talkTitle;
+        return $this->talk_description;
     }
 
-    /**
-     * @return string
-     */
-    public function getAppointmentDetails(): string
+    public function getTalkLocation(): string
     {
-        return $this->appointmentDetails;
+        return $this->talk_location;
+    }
+
+    public function getSubjectLangKey(): string
+    {
+        return $this->subject_key;
+    }
+
+    public function getMessageLangKey(): string
+    {
+        return $this->message_key;
+    }
+
+    public function getNameOfSuperior(): string
+    {
+        return $this->superior_name;
     }
 
     /**
@@ -93,17 +111,8 @@ final class EmployeeTalkEmailNotification
         return $this->dates;
     }
 
-    public function __toString(): string
+    public function getAddGoto(): bool
     {
-        $dateList = "";
-        foreach ($this->dates as $date) {
-            $dateList .= "- $date\r\n";
-        }
-
-        return $this->getSalutation() . "\r\n\r\n"
-            . $this->getAppointmentDetails() . "\r\n"
-            . $this->getTalkTitle() . "\r\n\r\n"
-            . $this->getDateHeader() . ":\r\n"
-            . $dateList;
+        return $this->add_goto;
     }
 }

@@ -45,11 +45,12 @@ class ilMStListCourses
     final public function getData(array $arr_usr_ids = array(), array $options = array()): ListFetcherResult
     {
         //Permission Filter
-        $operation_access = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS;
+        $operation_access = ilMyStaffAccess::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION;
 
-        if (!empty($options['filters']['lp_status']) || $options['filters']['lp_status'] === 0) {
+        // permission should not be changed here because learning progress only works in combination with course memberships
+        /*if (isset($options['filters']['lp_status']) && $options['filters']['lp_status'] >= 0) {
             $operation_access = ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS;
-        }
+        }*/
         /*$tmp_table_user_matrix = ilMyStaffAccess::getInstance()->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($this->dic->user()
             ->getId(), $operation_access, ilMyStaffAccess::DEFAULT_CONTEXT, ilMyStaffAccess::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX);*/
 
@@ -65,7 +66,7 @@ class ilMStListCourses
 	                    SELECT reg.obj_id, reg.usr_id, ' . ilMStListCourse::MEMBERSHIP_STATUS_REGISTERED . ' AS reg_status, lp.status AS lp_status FROM obj_members 
 		          AS reg
                         LEFT JOIN ut_lp_marks AS lp on lp.obj_id = reg.obj_id AND lp.usr_id = reg.usr_id
-                         WHERE ' . $this->dic->database()->in('reg.usr_id', $arr_usr_ids, false, 'integer') . ' AND (reg.admin = 1 OR reg.tutor = 1 OR reg.member = 1)
+                         WHERE ' . $this->dic->database()->in('reg.usr_id', $arr_usr_ids, false, 'integer') . ' AND (reg.admin > 0 OR reg.tutor > 0 OR reg.member > 0)
 		            UNION
 	                    SELECT obj_id, usr_id, ' . ilMStListCourse::MEMBERSHIP_STATUS_WAITINGLIST . ' AS reg_status, 0 AS lp_status FROM crs_waiting_list AS waiting
 	                    WHERE ' . $this->dic->database()->in('waiting.usr_id', $arr_usr_ids, false, 'integer') . '
@@ -76,11 +77,11 @@ class ilMStListCourses
 	           
                     INNER JOIN object_data AS crs on crs.obj_id = memb.obj_id AND crs.type = ' . $this->dic->database()
                                                                                                            ->quote(
-                                                                                                               ilMyStaffAccess::DEFAULT_CONTEXT,
+                                                                                                               ilMyStaffAccess::COURSE_CONTEXT,
                                                                                                                'text'
                                                                                                            ) . '
                     INNER JOIN object_reference AS crs_ref on crs_ref.obj_id = crs.obj_id AND crs_ref.deleted IS NULL
-	                INNER JOIN usr_data on usr_data.usr_id = memb.usr_id AND usr_data.active = 1';
+	                INNER JOIN usr_data on usr_data.usr_id = memb.usr_id';
 
         $data = [];
         $users_per_position = ilMyStaffAccess::getInstance()->getUsersForUserPerPosition($this->dic->user()->getId());
@@ -156,7 +157,8 @@ class ilMStListCourses
             $where[] = '(crs_ref_id = ' . $this->dic->database()->quote($arr_filter['course'], 'integer') . ')';
         }
 
-        if (!empty($arr_filter['lp_status']) || $arr_filter['lp_status'] === 0) {
+
+        if (isset($arr_filter['lp_status']) && $arr_filter['lp_status'] >= 0) {
             switch ($arr_filter['lp_status']) {
                 case ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM:
                     //if a user has the lp status not attempted it could be, that the user hase no records in table ut_lp_marks
@@ -207,10 +209,6 @@ class ilMStListCourses
                                                                                                     $arr_filter['org_unit'],
                                                                                                     'integer'
                                                                                                 ) . ')';
-        }
-
-        if (isset($arr_filter['usr_id']) && is_numeric($arr_filter['usr_id'])) {
-            $where[] = 'usr_id = ' . $this->dic->database()->quote($arr_filter['usr_id'], \ilDBConstants::T_INTEGER);
         }
 
         if (isset($arr_filter['usr_id']) && is_numeric($arr_filter['usr_id'])) {

@@ -27,13 +27,8 @@ namespace ILIAS\ContentPage\PageMetrics\Command;
  */
 final class StorePageMetricsCommand
 {
-    private int $contentPageId;
-    private string $language;
-
-    public function __construct(int $contentPageId, string $language)
+    public function __construct(private readonly int $contentPageId, private readonly string $language)
     {
-        $this->contentPageId = $contentPageId;
-        $this->language = $language;
     }
 
     public function getContentPageId(): int

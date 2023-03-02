@@ -25,8 +25,8 @@ use ILIAS\DI\Container;
  */
 class ilObjPersistentCertificateVerificationGUI
 {
-    private ilPortfolioCertificateFileService $fileService;
-    private ilLanguage $language;
+    private readonly ilPortfolioCertificateFileService $fileService;
+    private readonly ilLanguage $language;
 
     public function __construct(
         ?Container $dic = null,

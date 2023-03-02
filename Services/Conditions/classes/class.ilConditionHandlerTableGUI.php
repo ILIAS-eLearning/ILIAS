@@ -125,7 +125,7 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
     {
         $this->lng->loadLanguageModule('rbac');
 
-        $this->setRowTemplate('tpl.condition_handler_row.html', 'Services/AccessControl');
+        $this->setRowTemplate('tpl.condition_handler_row.html', 'Services/Conditions');
         $this->setTitle($this->lng->txt('active_preconditions'));
         $this->addColumn('', '', '1');
         $this->addColumn($this->lng->txt('rbac_precondition_source'), 'title', '66%');

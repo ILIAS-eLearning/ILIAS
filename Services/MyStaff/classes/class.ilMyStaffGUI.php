@@ -50,10 +50,9 @@ class ilMyStaffGUI
 
         // determine next class in the call structure
         $next_class = $DIC->ctrl()->getNextClass($this);
-
         switch ($next_class) {
-            case strtolower(ilMStListCoursesGUI::class):
-                $list_gui = new ilMStListCoursesGUI();
+            case "ilmstlistcoursesgui":
+                $list_gui = new \ilMStListCoursesGUI();
                 $DIC->ctrl()->forwardCommand($list_gui);
                 break;
             case strtolower(ilMStListCertificatesGUI::class):
@@ -160,8 +159,8 @@ class ilMyStaffGUI
 
         if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject($my_staff_course->getCrsRefId())) {
             $lp_icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
-            $lp_icon = $DIC->ui()->factory()->image()
-                           ->standard(
+            $lp_icon = $DIC->ui()->factory()->symbol()->icon()
+                           ->custom(
                                $lp_icons->getImagePathForStatus($my_staff_course->getUsrLpStatus()),
                                ilLearningProgressBaseGUI::_getStatusText(intval($my_staff_course->getUsrLpStatus()))
                            );

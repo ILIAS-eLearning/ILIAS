@@ -602,6 +602,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
      */
     public function update(): void
     {
+        throw new ilCOPagePCEditException("ilPCParagraphGUI update is deprecated");
         $this->log->debug("ilPCParagraphGUI, update(): start");
 
         // set language and characteristic
@@ -641,6 +642,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
      */
     public function create(): void
     {
+        throw new ilCOPagePCEditException("ilPCParagraphGUI create is deprecated");
         $this->log->debug("ilPCParagraphGUI, create(): start.");
 
         if ($this->request->getString("ajaxform_hier_id") != "") {

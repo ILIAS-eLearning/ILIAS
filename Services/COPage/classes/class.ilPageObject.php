@@ -156,7 +156,7 @@ abstract class ilPageObject
 
     abstract public function getParentType(): string;
 
-    final public function initPageConfig(): void
+    public function initPageConfig(): void
     {
         $cfg = ilPageObjectFactory::getConfigInstance($this->getParentType());
         $this->setPageConfig($cfg);
@@ -758,6 +758,9 @@ abstract class ilPageObject
         $pc_path = "./" . $pc_def["component"] . "/" . $pc_def["directory"] . "/class." . $pc_class . ".php";
         require_once($pc_path);
         $pc = new $pc_class($this);
+        if ($cont_node->myDOMNode->nodeName !== "PageContent") {
+            return null;
+        }
         $pc->setNode($cont_node);
         $pc->setHierId($a_hier_id);
         $pc->setPcId($a_pc_id);
@@ -888,11 +891,16 @@ s     */
                 ? "encoding=\"" . $this->encoding . "\""
                 : "";
             return "<?xml version=\"1.0\" $enc_str ?>" .
-                "<!DOCTYPE PageObject SYSTEM \"" . ILIAS_ABSOLUTE_PATH . "/xml/" . $this->cur_dtd . "\">" .
+                "<!DOCTYPE PageObject SYSTEM \"" . $this->getIliasAbsolutePath() . "/xml/" . $this->cur_dtd . "\">" .
                 $this->xml;
         } else {
             return $this->xml;
         }
+    }
+
+    protected function getIliasAbsolutePath(): string
+    {
+        return ILIAS_ABSOLUTE_PATH;
     }
 
     /**
@@ -2324,13 +2332,15 @@ s     */
                 $par["client_id"] = array_shift($parts);
                 $par["target"] = implode("_", $parts);
             } else {
-                foreach (explode("&", $url["query"]) as $p) {
+                foreach (explode("&", ($url["query"] ?? "")) as $p) {
                     $p = explode("=", $p);
-                    $par[$p[0]] = $p[1];
+                    if (isset($p[0]) && isset($p[1])) {
+                        $par[$p[0]] = $p[1];
+                    }
                 }
             }
 
-            $target_client_id = $par["client_id"];
+            $target_client_id = $par["client_id"] ?? "";
             if ($target_client_id != "" && $target_client_id != CLIENT_ID) {
                 continue;
             }
@@ -2338,12 +2348,12 @@ s     */
             // get ref id
             $ref_id = 0;
             if (is_int(strpos($href, "ilias.php"))) {
-                $ref_id = (int) $par["ref_id"];
-            } elseif ($par["target"] !== "") {
+                $ref_id = (int) ($par["ref_id"] ?? 0);
+            } elseif (isset($par["target"]) && $par["target"] !== "") {
                 $t = explode("_", $par["target"]);
-                if ($objDefinition->isRBACObject($t[0])) {
-                    $ref_id = (int) $t[1];
-                    $type = $t[0];
+                if ($objDefinition->isRBACObject($t[0] ?? "")) {
+                    $ref_id = (int) ($t[1] ?? 0);
+                    $type = $t[0] ?? "";
                 }
             }
             if ($ref_id > 0) {
@@ -2351,7 +2361,7 @@ s     */
                     $new_ref_id = $a_mapping[$ref_id];
                     // we have a mapping -> replace the ID
                     if (is_int(strpos($href, "ilias.php"))) {
-                        $new_href = str_replace("ref_id=" . $par["ref_id"], "ref_id=" . $new_ref_id, $href);
+                        $new_href = str_replace("ref_id=" . ($par["ref_id"] ?? ""), "ref_id=" . $new_ref_id, $href);
                     } else {
                         $nt = str_replace($type . "_" . $ref_id, $type . "_" . $new_ref_id, $par["target"]);
                         $new_href = str_replace($par["target"], $nt, $href);
@@ -4003,34 +4013,6 @@ s     */
         exit();
     }
 
-    /**
-     * get fo page content
-     * @todo: deprecated?
-     */
-    public function getFO(): string
-    {
-        $xml = $this->getXMLFromDom(false, true, true);
-        $xsl = file_get_contents("./Services/COPage/xsl/page_fo.xsl");
-        $args = array('/_xml' => $xml, '/_xsl' => $xsl);
-        $xh = xslt_create();
-
-        $params = array();
-
-        $fo = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
-        var_dump($fo);
-        // do some replacements
-        $fo = str_replace("\n", "", $fo);
-        $fo = str_replace("<br/>", "<br>", $fo);
-        $fo = str_replace("<br>", "\n", $fo);
-
-        xslt_free($xh);
-
-        //
-        $fo = substr($fo, strpos($fo, ">") + 1);
-        //echo "<br><b>fo:</b><br>".htmlentities($fo); flush();
-        return $fo;
-    }
-
     public function registerOfflineHandler(object $handler): void
     {
         $this->offline_handler = $handler;
@@ -5145,9 +5127,9 @@ s     */
      * Resolve resources
      * @todo: move this into proper "afterImport" routine that calls all PC components
      */
-    public function resolveResources(array $ref_mapping): void
+    public function resolveResources(array $ref_mapping): bool
     {
-        ilPCResources::resolveResources($this, $ref_mapping);
+        return ilPCResources::resolveResources($this, $ref_mapping);
     }
 
     /**

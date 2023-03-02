@@ -37,7 +37,7 @@ class ilImportantPagesTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        $this->templates = new ilWikiPageTemplate($a_parent_obj->object->getId());
+        $this->templates = new ilWikiPageTemplate($a_parent_obj->getObject()->getId());
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $data = array_merge(
             [array("page_id" => 0)],

@@ -28,17 +28,17 @@ use ILIAS\Filesystem\Exception\IOException;
  */
 class ilCertificateCloneAction
 {
-    private Filesystem $fileSystem;
-    private ilCertificateObjectHelper $objectHelper;
-    private string $global_certificate_path;
+    private readonly Filesystem $fileSystem;
+    private readonly ilCertificateObjectHelper $objectHelper;
+    private readonly string $global_certificate_path;
 
     public function __construct(
-        private ilDBInterface $database,
-        private ilCertificatePathFactory $pathFactory,
-        private ilCertificateTemplateRepository $templateRepository,
+        private readonly ilDBInterface $database,
+        private readonly ilCertificatePathFactory $pathFactory,
+        private readonly ilCertificateTemplateRepository $templateRepository,
+        private readonly string $webDirectory = CLIENT_WEB_DIR,
         ?Filesystem $fileSystem = null,
         ?ilCertificateObjectHelper $objectHelper = null,
-        private string $webDirectory = CLIENT_WEB_DIR,
         string $global_certificate_path = null
     ) {
         if (null === $fileSystem) {

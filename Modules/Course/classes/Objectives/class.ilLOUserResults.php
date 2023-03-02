@@ -415,7 +415,7 @@ class ilLOUserResults
             // initial tests only count if no qualified test
             if (
                 $row["type"] == self::TYPE_INITIAL &&
-                in_array($row['user_id'], (array) $has_final_result[(int) $row['objective_id']])
+                in_array($row['user_id'], (array) ($has_final_result[(int) $row['objective_id']] ?? []))
             ) {
                 continue;
             }
@@ -425,7 +425,7 @@ class ilLOUserResults
 
             switch ($status) {
                 case self::STATUS_COMPLETED:
-                    $tmp_completed[$user_id]++;
+                    $tmp_completed[$user_id] = ($tmp_completed[$user_id] ?? 0) + 1;
                     break;
 
                 case self::STATUS_FAILED:

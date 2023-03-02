@@ -237,7 +237,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                 $lur_data[$objective_id] = ["type" => ilLOSettings::TYPE_TEST_INITIAL];
             }
 
-            if ($html = $this->renderObjective($objective_id, $has_lo_page, $acc, $lur_data[$objective_id])) {
+            if ($html = $this->renderObjective($objective_id, $has_lo_page, $acc, $lur_data[$objective_id] ?? null)) {
                 $this->renderer->addItemToBlock('lobj', 'lobj', $objective_id, $html);
             }
             $obj_cnt++;
@@ -845,7 +845,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             if (isset($types[ilLOUserResults::TYPE_QUALIFIED])) {
                 $result = $types[ilLOUserResults::TYPE_QUALIFIED];
                 $result["type"] = ilLOUserResults::TYPE_QUALIFIED;
-                $result["initial"] = $types[ilLOUserResults::TYPE_INITIAL];
+                $result["initial"] = $types[ilLOUserResults::TYPE_INITIAL] ?? null;
             } else {
                 $result = $types[ilLOUserResults::TYPE_INITIAL];
                 $result["type"] = ilLOUserResults::TYPE_INITIAL;
@@ -1035,9 +1035,13 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
     public static function getObjectiveResultSummary(
         bool $a_has_initial_test,
         int $a_objective_id,
-        array $a_lo_result
+        ?array $a_lo_result
     ): string {
         global $DIC;
+
+        if ($a_lo_result === null) {
+            $a_lo_result["type"] = null;
+        }
 
         $lng = $DIC->language();
         $lng->loadLanguageModule('crs');
@@ -1265,7 +1269,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $qual_res = null;
         $qual_lim = null;
 
-        if ($a_lo_result['type'] == ilLOUserResults::TYPE_QUALIFIED) {
+        if (($a_lo_result['type'] ?? null) == ilLOUserResults::TYPE_QUALIFIED) {
             $qual_res = (int) $a_lo_result['result_perc'];
             $qual_lim = (int) $a_lo_result['limit_perc'];
         }

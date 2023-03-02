@@ -32,11 +32,11 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilAccountMail
 {
-    private GlobalHttpState $http;
-    private ilSetting $settings;
-    private Refinery $refinery;
-    private ilTree $repositoryTree;
-    private ilMailMimeSenderFactory $senderFactory;
+    private readonly GlobalHttpState $http;
+    private readonly ilSetting $settings;
+    private readonly Refinery $refinery;
+    private readonly ilTree $repositoryTree;
+    private readonly ilMailMimeSenderFactory $senderFactory;
     public string $u_password = '';
     public ?ilObjUser $user = null;
     public string $target = '';
@@ -53,7 +53,7 @@ class ilAccountMail
         $this->refinery = $DIC->refinery();
         $this->settings = $DIC->settings();
         $this->repositoryTree = $DIC->repositoryTree();
-        $this->senderFactory = $DIC['mail.mime.sender.factory'];
+        $this->senderFactory = $DIC->mail()->mime()->senderFactory();
     }
 
     public function useLangVariablesAsFallback(bool $a_status): void
@@ -334,7 +334,7 @@ class ilAccountMail
             $this->http->wrapper()->query()->retrieve('target', $this->refinery->kindlyTo()->string()) !== ''
         ) {
             $target = $this->http->wrapper()->query()->retrieve('target', $this->refinery->kindlyTo()->string());
-            $tarr = explode('_', $target);
+            $tarr = explode('_', (string) $target);
             if ($this->repositoryTree->isInTree((int) $tarr[1])) {
                 $obj_id = ilObject::_lookupObjId((int) $tarr[1]);
                 $type = ilObject::_lookupType($obj_id);

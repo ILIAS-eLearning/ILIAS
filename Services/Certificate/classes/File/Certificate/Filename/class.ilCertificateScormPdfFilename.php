@@ -24,9 +24,9 @@ declare(strict_types=1);
 class ilCertificateScormPdfFilename implements ilCertificateFilename
 {
     public function __construct(
-        private ilCertificateFilename $origin,
-        private ilLanguage $lng,
-        private ilSetting $scormSetting
+        private readonly ilCertificateFilename $origin,
+        private readonly ilLanguage $lng,
+        private readonly ilSetting $scormSetting
     ) {
     }
 

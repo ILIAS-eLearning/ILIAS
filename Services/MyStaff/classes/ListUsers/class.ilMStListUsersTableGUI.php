@@ -187,12 +187,8 @@ class ilMStListUsersTableGUI extends ilTable2GUI
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
-                if (isset($v['sort_field'])) {
-                    $sort = $v['sort_field'];
-                } else {
-                    $sort = null;
-                }
-                $this->addColumn($v['txt'], $sort, $v['width']);
+                $sort = $v['sort_field'] ?? null;
+                $this->addColumn($v['txt'], (string) $sort);
             }
         }
         //Actions
@@ -207,14 +203,14 @@ class ilMStListUsersTableGUI extends ilTable2GUI
      * @throws \ilCtrlException
      * @throws \ilTemplateException
      */
-    final public function fillRow(array $a_set): void
+    final protected function fillRow(array $a_set): void
     {
         global $DIC;
 
         $set = array_pop($a_set);
 
         $propGetter = Closure::bind(function ($prop) {
-            return $this->$prop;
+            return $this->$prop ?? null;
         }, $set, $set);
 
         //Avatar
@@ -294,7 +290,8 @@ class ilMStListUsersTableGUI extends ilTable2GUI
                                                                  "",
                                                                  true
                                                              )));
-        $this->tpl->setVariable('ACTIONS', $this->uiRenderer->render($dropdown));
+        //$this->tpl->setVariable('ACTIONS', $this->uiRenderer->render($dropdown));
+        $this->tpl->setVariable('ACTIONS', $actions->getHTML());
         $this->tpl->parseCurrentBlock();
     }
 
@@ -334,7 +331,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         global $DIC;
 
         $propGetter = Closure::bind(function ($prop) {
-            return $this->$prop;
+            return $this->$prop ?? null;
         }, $my_staff_user, $my_staff_user);
 
         $field_values = array();
@@ -357,7 +354,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
                     $field_values[$k] = $my_staff_user->returnIlUserObj()->getLookingForHelpAsText();
                     break;
                 default:
-                    $field_values[$k] = strip_tags($propGetter($k));
+                    $field_values[$k] = strip_tags($propGetter($k) ?? "");
                     break;
             }
         }

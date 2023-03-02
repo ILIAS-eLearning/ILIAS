@@ -36,6 +36,7 @@ class ilTestTabsManager
 
     public const TAB_ID_INFOSCREEN = 'info_short';
     public const TAB_ID_SETTINGS = 'settings';
+    public const SUBTAB_ID_GENERAL_SETTINGS = 'general';
     public const TAB_ID_LEARNING_PROGRESS = 'learning_progress';
     public const TAB_ID_MANUAL_SCORING = 'manscoring';
     public const TAB_ID_CORRECTION = 'scoringadjust';
@@ -586,7 +587,7 @@ class ilTestTabsManager
             }
 
             // skill service
-            if ($this->getTestOBJ()->isSkillServiceEnabled() && ilObjTest::isSkillManagementGloballyActivated()) {
+            if ($this->getTestOBJ()->isSkillServiceToBeConsidered()) {
                 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php';
 
                 $link = $DIC->ctrl()->getLinkTargetByClass(

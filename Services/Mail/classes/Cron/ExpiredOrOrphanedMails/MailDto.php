@@ -22,7 +22,7 @@ namespace ILIAS\Mail\Cron\ExpiredOrOrphanedMails;
 
 class MailDto
 {
-    public function __construct(private int $mail_id, private ?string $mail_subject)
+    public function __construct(private readonly int $mail_id, private readonly ?string $mail_subject)
     {
     }
 

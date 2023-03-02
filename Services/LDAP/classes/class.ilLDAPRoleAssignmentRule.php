@@ -482,15 +482,29 @@ class ilLDAPRoleAssignmentRule
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setServerId((int) $row->server_id);
             $this->setType((int) $row->type);
-            $this->setDN($row->dn);
-            $this->setMemberAttribute($row->attribute);
+            if (!is_null($row->dn)) {
+                $this->setDN($row->dn);
+            }
+            if (!is_null($row->attribute)) {
+                $this->setMemberAttribute($row->attribute);
+            }
             $this->setMemberIsDN((bool) $row->isdn);
-            $this->setAttributeName($row->att_name);
-            $this->setAttributeValue($row->att_value);
+            if (!is_null($row->att_name)) {
+                $this->setAttributeName($row->att_name);
+            }
+            if (!is_null($row->att_value)) {
+                $this->setAttributeValue($row->att_value);
+            }
             $this->setRoleId((int) $row->role_id);
-            $this->enableAddOnUpdate((bool) $row->add_on_update);
-            $this->enableRemoveOnUpdate((bool) $row->remove_on_update);
-            $this->setPluginId((int) $row->plugin_id);
+            if (!is_null($row->add_on_update)) {
+                $this->enableAddOnUpdate((bool) $row->add_on_update);
+            }
+            if (!is_null($row->remove_on_update)) {
+                $this->enableRemoveOnUpdate((bool) $row->remove_on_update);
+            }
+            if (!is_null($row->plugin_id)) {
+                $this->setPluginId((int) $row->plugin_id);
+            }
         }
     }
 }

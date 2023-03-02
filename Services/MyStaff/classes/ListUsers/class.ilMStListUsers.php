@@ -97,24 +97,24 @@ class ilMStListUsers
             $list_user = new ilMStListUser();
             $list_user->setUsrId(intval($user['usr_id']));
             $list_user->setGender(intval($user['gender']));
-            $list_user->setTitle($user['title']);
-            $list_user->setInstitution($user['institution']);
-            $list_user->setDepartment($user['department']);
-            $list_user->setStreet($user['street']);
-            $list_user->setZipcode($user['zipcode']);
-            $list_user->setCity($user['city']);
-            $list_user->setCountry($user['country']);
-            $list_user->setSelCountry($user['sel_country']);
-            $list_user->setHobby($user['hobby']);
-            $list_user->setMatriculation($user['matriculation']);
+            $list_user->setTitle($user['title'] ?? "");
+            $list_user->setInstitution($user['institution'] ?? "");
+            $list_user->setDepartment($user['department'] ?? "");
+            $list_user->setStreet($user['street'] ?? "");
+            $list_user->setZipcode($user['zipcode'] ?? "");
+            $list_user->setCity($user['city'] ?? "");
+            $list_user->setCountry($user['country'] ?? "");
+            $list_user->setSelCountry($user['sel_country'] ?? "");
+            $list_user->setHobby($user['hobby'] ?? "");
+            $list_user->setMatriculation($user['matriculation'] ?? "");
             $list_user->setActive(intval($user['active']));
             $list_user->setTimeLimitOwner(intval($user['time_limit_owner']));
             $list_user->setLogin($user['login']);
             $list_user->setFirstname($user['firstname']);
             $list_user->setLastname($user['lastname']);
             $list_user->setEmail($user['email']);
-            $list_user->setPhone($user['phone_office']);
-            $list_user->setMobilePhone($user['phone_mobile']);
+            $list_user->setPhone($user['phone_office'] ?? "");
+            $list_user->setMobilePhone($user['phone_mobile'] ?? "");
 
             $user_data[] = $list_user;
         }
@@ -194,7 +194,7 @@ class ilMStListUsers
             ) . '%', 'text') . ')';
         }
 
-        if ($arr_filter['activation']) {
+        if ($arr_filter['activation'] ?? false) {
             if ($arr_filter['activation'] == 'active') {
                 $where[] = '(active = "1")';
             }

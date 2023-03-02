@@ -396,7 +396,7 @@ WHERE id = 30'
     /**
      *
      */
-    public function testFetchFirstCreatedTemplateFailsBecauseNothingWasSaved(): void
+    public function testFetchFirstCreatedTemplateFailsBecauseNothingWasSaved(): never
     {
         $this->expectException(ilException::class);
 

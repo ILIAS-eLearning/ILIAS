@@ -101,6 +101,7 @@ class ilObjectCopyGUI
 
         $this->lng->loadLanguageModule('search');
         $this->lng->loadLanguageModule('obj');
+        $this->ctrl->saveParameter($this, "crtcb");
 
         $this->clipboard = $DIC
             ->repository()
@@ -297,7 +298,7 @@ class ilObjectCopyGUI
         $cgs = new ilObjectCopyCourseGroupSelectionTableGUI(
             $this,
             'showSourceSelectionMembership',
-            'copy_selection_membership'
+            'copy_selection_mmbrs'
         );
         $cgs->init();
         $cgs->setObjects(
@@ -386,7 +387,7 @@ class ilObjectCopyGUI
             $exp->removeFormItemForType($container);
         }
 
-        if ($this->request_wrapper->has("paste_copy_repexpand")) {
+        if (!$this->request_wrapper->has("paste_copy_repexpand")) {
             $expanded = $this->tree->readRootId();
         } else {
             $expanded = $this->request_wrapper->retrieve("paste_copy_repexpand", $this->refinery->kindlyTo()->int());
@@ -820,6 +821,7 @@ class ilObjectCopyGUI
 
                 // Delete wizard options
                 $wizard_options->deleteAll();
+                $this->parent_obj->callCreationCallback($new_obj);
 
                 // rbac log
                 if (ilRbacLog::isActive()) {
@@ -873,6 +875,14 @@ class ilObjectCopyGUI
 
     protected function showCopyProgress(): void
     {
+        $ref_id = ROOT_FOLDER_ID;
+        if ($this->request_wrapper->has('ref_id')) {
+            $ref_id = $this->request_wrapper->retrieve(
+                'ref_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+
         $progress = new ilObjectCopyProgressTableGUI(
             $this,
             'showCopyProgress',
@@ -881,7 +891,8 @@ class ilObjectCopyGUI
         $progress->setObjectInfo($this->targets_copy_id);
         $progress->parse();
         $progress->init();
-        $progress->setRedirectionUrl($this->ctrl->getParentReturn($this->parent_obj));
+        $link = ilLink::_getLink($ref_id);
+        $progress->setRedirectionUrl($link);
 
         $this->tpl->setContent($progress->getHTML());
     }
@@ -965,6 +976,13 @@ class ilObjectCopyGUI
 
         $this->targets_copy_id[$target_ref_id] = $result['copy_id'];
 
+        $new_ref_id = (int) $result['ref_id'];
+        if ($new_ref_id > 0) {
+            $new_obj = ilObjectFactory::getInstanceByRefId((int) $result['ref_id'], false);
+            if ($new_obj instanceof ilObject) {
+                $this->parent_obj->callCreationCallback($new_obj);
+            }
+        }
         return $result;
     }
 

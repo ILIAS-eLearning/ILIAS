@@ -27,6 +27,7 @@
  */
 class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 {
+    protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected \ILIAS\Notes\DomainService $notes;
     protected \ILIAS\LearningModule\ReadingTime\ReadingTimeManager $reading_time_manager;
     protected string $requested_url;
@@ -173,6 +174,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         }
         $this->reading_time_manager = new \ILIAS\LearningModule\ReadingTime\ReadingTimeManager();
         $this->notes = $DIC->notes()->domain();
+        $this->xsl = $DIC->copage()->internal()->domain()->xsl();
     }
 
     public function getUnsafeGetCommands(): array
@@ -1145,11 +1147,11 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             $rating_gui->setObject($this->lm->getId(), "lm", $this->getCurrentPageId(), "lm");
             $rating_gui->setYourRatingText($this->lng->txt("lm_rate_page"));
 
-            $this->ctrl->setParameter($this, "pgid", $this->getCurrentPageId());
+            $this->ctrl->setParameter($this, "pg_id", $this->getCurrentPageId());
             $this->tpl->addOnLoadCode("il.LearningModule.setRatingUrl('" .
                 $this->ctrl->getLinkTarget($this, "updatePageRating", "", true, false) .
                 "')");
-            $this->ctrl->setParameter($this, "pgid", "");
+            $this->ctrl->setParameter($this, "pg_id", "");
 
             $rating = '<div id="ilrtrpg" style="text-align:right">' .
                 $rating_gui->getHTML(true, true, "il.LearningModule.saveRating(%rating%);") .
@@ -1161,7 +1163,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     public function updatePageRating(): void
     {
         $ilUser = $this->user;
-        $pg_id = $this->getCurrentPageId();
+        $pg_id = $this->service->getRequest()->getPgId();
         if (!$this->ctrl->isAsynch() || !$pg_id) {
             exit();
         }
@@ -1277,10 +1279,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $xml .= $link_xml;
         $xml .= "</dummy>";
 
-        $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
-        $args = array('/_xml' => $xml, '/_xsl' => $xsl);
-        $xh = xslt_create();
-
         if (!$this->offlineMode()) {
             $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         } else {
@@ -1301,9 +1299,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                         'pg_frame' => $pg_frame,
                         'webspace_path' => $wb_path
         );
-        $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
-
-        xslt_free($xh);
+        $output = $this->xsl->process($xml, $params);
 
         // unmask user html
         $this->tpl->setVariable("MEDIA_CONTENT", $output);

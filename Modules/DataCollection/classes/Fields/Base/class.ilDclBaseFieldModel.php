@@ -27,10 +27,7 @@
  */
 class ilDclBaseFieldModel
 {
-    /**
-     * @var int|string $id int for custom fields string for standard fields
-     */
-    protected $id = 0;
+    protected string $id = "";
     protected int $table_id = 0;
     protected string $title = "";
     protected string $description = "";
@@ -122,9 +119,8 @@ class ilDclBaseFieldModel
 
     /**
      * Get field id
-     * @return int|string
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
@@ -582,7 +578,7 @@ class ilDclBaseFieldModel
     /**
      * @param mixed $value
      */
-    protected function normalizeValue($value): string
+    protected function normalizeValue($value)
     {
         if (is_string($value)) {
             $value = trim(preg_replace("/\\s+/uism", " ", $value));

@@ -42,7 +42,8 @@ of the planned features of this service.
 
 * Increase peformance even more when learners complete a learning object and course certificates are evaluated
 
-## Mid Term 
+## Mid Term
+* Use a local dependency injection container instead of the `Huge Constructor with Defaults` pattern where applicable
 * Invert dependencies to support (new) object types and even repository object plugins without changing
   certificate related code: Use interfaces and ILIAS artifacts instead
 * Add an administration user interface to manage user certificates (issue, delete) or even certificate templates globally

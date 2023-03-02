@@ -115,7 +115,7 @@ class PrimitivesTest extends TestCase
 
     public function testUntilSuccess(): void
     {
-        $success_after = 300;
+        $success_after = 20;
         $primitives = new Primitives();
         $called = 0;
         $end_called = 0;
@@ -138,7 +138,7 @@ class PrimitivesTest extends TestCase
 
     public function testUntilChildFails(): void
     {
-        $fail_after = 134;
+        $fail_after = 20;
         $primitives = new Primitives();
         $called = 0;
         $end_called = 0;

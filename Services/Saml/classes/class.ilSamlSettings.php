@@ -25,7 +25,7 @@ declare(strict_types=1);
 final class ilSamlSettings
 {
     private static ?self $instance = null;
-    private ilSetting $settings;
+    private readonly ilSetting $settings;
 
     private function __construct()
     {

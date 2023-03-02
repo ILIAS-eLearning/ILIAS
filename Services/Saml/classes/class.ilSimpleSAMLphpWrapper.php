@@ -26,8 +26,8 @@ final class ilSimpleSAMLphpWrapper implements ilSamlAuth
 {
     private const ILIAS = 'ilias';
 
-    private SimpleSAML\Configuration $config;
-    private SimpleSAML\Auth\Simple $authSource;
+    private readonly SimpleSAML\Configuration $config;
+    private readonly SimpleSAML\Auth\Simple $authSource;
 
     public function __construct(string $authSourceName, string $configurationPath)
     {

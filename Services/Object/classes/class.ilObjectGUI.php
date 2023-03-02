@@ -710,6 +710,7 @@ class ilObjectGUI
         $ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
         $ta->setCols(40);
         $ta->setRows(2);
+        $ta->setMaxNumOfChars(ilObject::LONG_DESC_LENGTH);
         $form->addItem($ta);
 
         $form = $this->initDidacticTemplate($form);
@@ -890,11 +891,19 @@ class ilObjectGUI
         ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $this->ref_id, $rbac_log);
 
         // use forced callback after object creation
-        if ($this->requested_crtcb > 0) {
-            $callback_type = ilObject::_lookupType($this->requested_crtcb, true);
-            $class_name = "ilObj" . $this->obj_definition->getClassName($callback_type) . "GUI";
-            if (strtolower($class_name) == "ilobjitemgroupgui") {
-                $callback_obj = new $class_name($this->requested_crtcb);
+        $this->callCreationCallback($obj);
+    }
+
+    public function callCreationCallback(ilObject $obj): void
+    {
+        $objDefinition = $this->obj_definition;
+        // use forced callback after object creation
+        if ($this->requested_crtcb) {
+            $callback_type = ilObject::_lookupType((int) $this->requested_crtcb, true);
+            $class_name = "ilObj" . $objDefinition->getClassName($callback_type) . "GUI";
+            $location = $objDefinition->getLocation($callback_type);
+            if (in_array(strtolower($class_name), array("ilobjitemgroupgui"))) {
+                $callback_obj = new $class_name((int) $this->requested_crtcb);
             } else {
                 // #10368
                 $callback_obj = new $class_name(null, $this->requested_crtcb, true, false);
@@ -955,6 +964,7 @@ class ilObjectGUI
         $ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
         $ta->setCols(40);
         $ta->setRows(2);
+        $ta->setMaxNumOfChars(ilObject::LONG_DESC_LENGTH);
         $form->addItem($ta);
 
         $this->initEditCustomForm($form);
@@ -1165,10 +1175,15 @@ class ilObjectGUI
                 $this->ctrl->setParameter($this, "new_type", "");
 
                 $newObj = ilObjectFactory::getInstanceByObjId($new_id);
-
                 // put new object id into tree - already done in import for containers
                 if (!$this->obj_definition->isContainer($new_type)) {
                     $this->putObjectInTree($newObj);
+                } else {
+                    $ref_ids = ilObject::_getAllReferences($newObj->getId());
+                    if (count($ref_ids) === 1) {
+                        $newObj->setRefId((int) current($ref_ids));
+                    }
+                    $this->callCreationCallback($newObj);   // see #24244
                 }
 
                 $this->afterImport($newObj);

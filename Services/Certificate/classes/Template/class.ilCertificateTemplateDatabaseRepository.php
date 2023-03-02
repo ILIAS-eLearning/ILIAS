@@ -25,11 +25,11 @@ declare(strict_types=1);
  */
 class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRepository
 {
-    private ilLogger $logger;
-    private ilObjectDataCache $objectDataCache;
+    private readonly ilLogger $logger;
+    private readonly ilObjectDataCache $objectDataCache;
 
     public function __construct(
-        private ilDBInterface $database,
+        private readonly ilDBInterface $database,
         ?ilLogger $logger = null,
         ?ilObjectDataCache $objectDataCache = null
     ) {

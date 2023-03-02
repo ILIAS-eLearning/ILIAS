@@ -73,7 +73,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
             }
         } else {
             $this->setLimit(20);
-
+            $this->setShowRowsSelector(false);     // see #35492
             $this->addColumn($this->lng->txt("trac_figure"));
         }
         $this->initFilter();

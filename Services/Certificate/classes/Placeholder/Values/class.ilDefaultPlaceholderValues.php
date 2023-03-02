@@ -26,13 +26,13 @@ require_once 'Services/Calendar/classes/class.ilDateTime.php'; // Required becau
  */
 class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 {
-    private array $placeholder;
-    private ilCertificateObjectHelper $objectHelper;
-    private ilCertificateDateHelper $dateHelper;
-    private int $dateFormat;
-    private ilLanguage $language;
-    private ilCertificateUtilHelper $utilHelper;
-    private ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues;
+    private readonly array $placeholder;
+    private readonly ilCertificateObjectHelper $objectHelper;
+    private readonly ilCertificateDateHelper $dateHelper;
+    private readonly int $dateFormat;
+    private readonly ilLanguage $language;
+    private readonly ilCertificateUtilHelper $utilHelper;
+    private readonly ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues;
 
     public function __construct(
         ?ilCertificateObjectHelper $objectHelper = null,
@@ -41,7 +41,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         ?ilLanguage $language = null,
         ?ilCertificateUtilHelper $utilHelper = null,
         ?ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues = null,
-        private int $birthdayDateFormat = IL_CAL_DATE
+        private readonly int $birthdayDateFormat = IL_CAL_DATE
     ) {
         if (null === $objectHelper) {
             $objectHelper = new ilCertificateObjectHelper();

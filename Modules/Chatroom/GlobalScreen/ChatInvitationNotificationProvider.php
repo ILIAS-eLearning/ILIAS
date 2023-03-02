@@ -29,8 +29,8 @@ use ILIAS\Notifications\ilNotificationOSDHandler;
 
 class ChatInvitationNotificationProvider extends AbstractNotificationProvider
 {
-    public const MUTED_UNTIL_PREFERENCE_KEY = 'chatinv_nc_muted_until';
-    public const NOTIFICATION_TYPE = 'chat_invitation';
+    final public const MUTED_UNTIL_PREFERENCE_KEY = 'chatinv_nc_muted_until';
+    final public const NOTIFICATION_TYPE = 'chat_invitation';
 
     public function getNotifications(): array
     {
@@ -43,7 +43,7 @@ class ChatInvitationNotificationProvider extends AbstractNotificationProvider
         $latest_time = 0;
         $osd_notification_handler = new ilNotificationOSDHandler(new ilNotificationOSDRepository($this->dic->database()));
         $invitations = [];
-        foreach ($osd_notification_handler->getNotificationsForUser(
+        foreach ($osd_notification_handler->getOSDNotificationsForUser(
             $this->dic->user()->getId(),
             true,
             time() - $leftIntervalTimestamp,

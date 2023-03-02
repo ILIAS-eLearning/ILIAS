@@ -372,7 +372,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
             if ($form->checkInput()) {
                 $html_tags = $form->getInput("html_tags");
                 // get rid of select all
-                if ($html_tags[0] == "") {
+                if (array_key_exists(0, $html_tags) && (string) $html_tags[0] === '') {
                     unset($html_tags[0]);
                 }
                 $this->object->setUsedHTMLTags((array) $html_tags, $a_id);

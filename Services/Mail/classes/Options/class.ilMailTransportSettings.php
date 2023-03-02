@@ -23,7 +23,7 @@ declare(strict_types=1);
  */
 class ilMailTransportSettings
 {
-    public function __construct(private ilMailOptions $mailOptions)
+    public function __construct(private readonly ilMailOptions $mailOptions)
     {
     }
 

@@ -1,53 +1,32 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class PCParagraphTest extends TestCase
+class PCParagraphTest extends COPageTestBase
 {
-    /**
-     * @param mixed $value
-     */
-    protected function setGlobalVariable(string $name, $value): void
-    {
-        global $DIC;
+    //
+    // test legacy static methods
+    //
 
-        $GLOBALS[$name] = $value;
-
-        unset($DIC[$name]);
-        $DIC[$name] = static function (\ILIAS\DI\Container $c) use ($value) {
-            return $value;
-        };
-    }
-
-    protected function setUp(): void
-    {
-        $dic = new ILIAS\DI\Container();
-        $GLOBALS['DIC'] = $dic;
-
-        if (!defined("COPAGE_TEST")) {
-            define("COPAGE_TEST", "1");
-        }
-        parent::setUp();
-
-        $def_mock = $this->getMockBuilder(ilObjectDefinition::class)
-                          ->disableOriginalConstructor()
-                          ->getMock();
-
-        $def_mock
-            ->method('getAllRepositoryTypes')
-            ->willReturn(["crs", "grp", "cat"]);
-        $this->setGlobalVariable(
-            "objDefinition",
-            $def_mock
-        );
-    }
-
-    protected function tearDown(): void
-    {
-    }
 
     /**
      * Test _input2xml (empty)
@@ -220,6 +199,222 @@ class PCParagraphTest extends TestCase
             $this->assertEquals(
                 $expected,
                 $out
+            );
+        }
+    }
+
+    /**
+     * Test HTML to BB transformation, spans
+     */
+    public function testHandleAjaxContentSpans(): void
+    {
+        $cases = [
+            // Standard, Strong
+            '<div id="1:1234" class="ilc_text_block_Standard">xxx<span class="ilc_text_inline_Strong">xxx</span>xxx</div>'
+            => [
+                "text" => 'xxx[str]xxx[/str]xxx',
+                "id" => '1:1234',
+                "class" => 'Standard'
+            ],
+            // Mnemonic, Emphatic
+            '<div id="1:1235" class="ilc_text_block_Mnemonic">xxx<span class="ilc_text_inline_Emph">xxx</span>xxx</div>'
+            => [
+                "text" => 'xxx[emp]xxx[/emp]xxx',
+                "id" => '1:1235',
+                "class" => 'Mnemonic'
+            ],
+            // Headline1, Important
+            '<div id="1:1236" class="ilc_text_block_Headline1">xxx<span class="ilc_text_inline_Important">xxx</span>xxx</div>'
+            => [
+                "text" => 'xxx[imp]xxx[/imp]xxx',
+                "id" => '1:1236',
+                "class" => 'Headline1'
+            ],
+            // Standard, Sup
+            '<div id="1:1237" class="ilc_text_block_Standard">xxx a<sup class="ilc_sup_Sup">b*c</sup> xxx</div>'
+            => [
+                "text" => 'xxx a[sup]b*c[/sup] xxx',
+                "id" => '1:1237',
+                "class" => 'Standard'
+            ],
+            // Standard, Sub
+            '<div id="1:1238" class="ilc_text_block_Standard">xxx a<sub class="ilc_sub_Sub">2</sub> xxx</div>'
+            => [
+                "text" => 'xxx a[sub]2[/sub] xxx',
+                "id" => '1:1238',
+                "class" => 'Standard'
+            ],
+            // Headline2, Comment
+            '<div id="1:1239" class="ilc_text_block_Headline2">xxx <span class="ilc_text_inline_Comment">xxx</span> xxx</div>'
+            => [
+                "text" => 'xxx [com]xxx[/com] xxx',
+                "id" => '1:1239',
+                "class" => 'Headline2'
+            ],
+            // Headline3, Comment
+            '<div id="1:1240" class="ilc_text_block_Headline3">xxx <span class="ilc_text_inline_Quotation">xxx</span> xxx</div>'
+            => [
+                "text" => 'xxx [quot]xxx[/quot] xxx',
+                "id" => '1:1240',
+                "class" => 'Headline3'
+            ],
+            // Book, Accent
+            '<div id="1:1241" class="ilc_text_block_Book">xxx <span class="ilc_text_inline_Accent">xxx</span> xxx</div>'
+            => [
+                "text" => 'xxx [acc]xxx[/acc] xxx',
+                "id" => '1:1241',
+                "class" => 'Book'
+            ],
+            // Numbers, Code
+            '<div id="1:1242" class="ilc_text_block_Numbers">xxx <code>xxx</code> xxx</div>'
+            => [
+                "text" => 'xxx [code]xxx[/code] xxx',
+                "id" => '1:1242',
+                "class" => 'Numbers'
+            ],
+            // Verse, Mnemonic
+            '<div id="1:1243" class="ilc_text_block_Verse">xxx <span class="ilc_text_inline_Mnemonic">xxx</span> xxx</div>'
+            => [
+                "text" => 'xxx [marked class="Mnemonic"]xxx[/marked] xxx',
+                "id" => '1:1243',
+                "class" => 'Verse'
+            ],
+            // List, Attention
+            '<div id="1:1244" class="ilc_text_block_List">xxx <span class="ilc_text_inline_Attention">xxx</span> xxx</div>'
+            => [
+                "text" => 'xxx [marked class="Attention"]xxx[/marked] xxx',
+                "id" => '1:1244',
+                "class" => 'List'
+            ],
+        ];
+
+        foreach ($cases as $in => $expected) {
+            $out = ilPCParagraph::handleAjaxContent($in);
+            $this->assertEquals(
+                $expected["text"],
+                $out["text"]
+            );
+            $this->assertEquals(
+                $expected["id"],
+                $out["id"]
+            );
+            $this->assertEquals(
+                $expected["class"],
+                $out["class"]
+            );
+        }
+    }
+
+    /**
+     * Test HTML to BB transformation, lists (are not transformed in this first step)
+     */
+    public function testHandleAjaxContentLists(): void
+    {
+        $cases = [
+            // List, Bullet
+            '<div id="1:1234" class="ilc_text_block_List"><ul class="ilc_list_u_BulletedList"><li class="ilc_list_item_StandardListItem">one</li><li class="ilc_list_item_StandardListItem">two</li><li class="ilc_list_item_StandardListItem">three</li></ul></div>'
+            => [
+                "text" => '<ul class="ilc_list_u_BulletedList"><li class="ilc_list_item_StandardListItem">one</li><li class="ilc_list_item_StandardListItem">two</li><li class="ilc_list_item_StandardListItem">three</li></ul>',
+                "id" => '1:1234',
+                "class" => 'List'
+            ],
+            // List, Numberd
+            '<div id="1:1235" class="ilc_text_block_List"><ol class="ilc_list_o_NumberedList"><li class="ilc_list_item_StandardListItem">one</li><li class="ilc_list_item_StandardListItem">two</li><li class="ilc_list_item_StandardListItem">three</li></ol></div>'
+            => [
+                "text" => '<ol class="ilc_list_o_NumberedList"><li class="ilc_list_item_StandardListItem">one</li><li class="ilc_list_item_StandardListItem">two</li><li class="ilc_list_item_StandardListItem">three</li></ol>',
+                "id" => '1:1235',
+                "class" => 'List'
+            ],
+        ];
+
+        foreach ($cases as $in => $expected) {
+            $out = ilPCParagraph::handleAjaxContent($in);
+            $this->assertEquals(
+                $expected["text"],
+                $out["text"]
+            );
+            $this->assertEquals(
+                $expected["id"],
+                $out["id"]
+            );
+            $this->assertEquals(
+                $expected["class"],
+                $out["class"]
+            );
+        }
+    }
+
+    //
+    // test basic dom creation
+    //
+
+    public function testConstruction(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = new ilPCParagraph($page);
+        $this->assertEquals(
+            ilPCParagraph::class,
+            get_class($pc)
+        );
+    }
+
+    public function testCreate(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = new ilPCParagraph($page);
+        $pc->create($page, "pg");
+        $this->assertXmlEquals(
+            '<PageObject HierId="pg"><PageContent><Paragraph Language=""></Paragraph></PageContent></PageObject>',
+            $page->getXMLFromDom()
+        );
+    }
+
+    //
+    // test setTest using legacy (saveJS) way
+    //
+
+    // see saveJs in ilPCParagraph
+    protected function legacyHtmlToXml(string $content): string
+    {
+        $content = str_replace("<br>", "<br />", $content);
+        $content = ilPCParagraph::handleAjaxContent($content);
+        $content = ilPCParagraph::_input2xml($content["text"], true, false);
+        $content = ilPCParagraph::handleAjaxContentPost($content);
+        return $content;
+    }
+
+    public function testLegacyHtml2Text(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = new ilPCParagraph($page);
+        $pc->create($page, "pg");
+
+        $cases = [
+            ''
+            => '',
+            'Some text'
+            => 'Some text',
+            'test &amp; the &lt; and the &gt; and the \ also'
+            => 'test &amp;amp; the &amp;lt; and the &amp;gt; and the \ also',
+            'xxx <span class="ilc_text_inline_Strong">xxx</span> xxx'
+            => 'xxx <Strong>xxx</Strong> xxx',
+        ];
+
+        foreach ($cases as $html => $expected) {
+            $html = '<div id="1:1234" class="ilc_text_block_Standard">' . $html . '</div>';
+            $xml = $this->legacyHtmlToXml($html);
+            $pc->setText($xml, false);
+
+            $expected = '<PageObject HierId="pg"><PageContent><Paragraph Language="">' . $expected . '</Paragraph></PageContent></PageObject>';
+
+            $this->assertEquals(
+                $xml,
+                $pc->getText()
+            );
+
+            $this->assertXmlEquals(
+                $expected,
+                $page->getXMLFromDom()
             );
         }
     }

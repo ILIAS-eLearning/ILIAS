@@ -41,6 +41,7 @@ class ilObjStudyProgrammeMembersGUI
     public const ACTION_REMOVE_USER = "remove_user";
     public const ACTION_CHANGE_DEADLINE = "change_deadline";
 
+    public const F_COMMAND_OPTION_ALL = 'select_cmd_all';
     public const F_ALL_PROGRESS_IDS = 'all_progress_ids';
     public const F_SELECTED_PROGRESS_IDS = 'prgs_ids';
     public const F_SELECTED_USER_IDS = 'usrids';
@@ -219,7 +220,7 @@ class ilObjStudyProgrammeMembersGUI
 
     protected function getAssignmentsById(): array
     {
-        return $this->assignment_db->getAllForSpecificNode($this->object->getId());
+        return $this->assignment_db->getAllForNodeIsContained($this->object->getId());
     }
 
     protected function getMembersTableGUI(): ilStudyProgrammeMembersTableGUI
@@ -248,11 +249,18 @@ class ilObjStudyProgrammeMembersGUI
      */
     protected function getPostPrgsIds(): array
     {
-        if ($_POST['select_cmd_all']) {
-            $pgs_ids = $_POST[self::F_ALL_PROGRESS_IDS];
-            $pgs_ids = explode(',', $pgs_ids);
+        if ($this->http_wrapper->post()->has(self::F_COMMAND_OPTION_ALL)) {
+            $pgs_ids = $this->http_wrapper->post()->retrieve(
+                self::F_ALL_PROGRESS_IDS,
+                $this->refinery->custom()->transformation(
+                    fn ($ids) => explode(',', $ids)
+                )
+            );
         } else {
-            $pgs_ids = $_POST[self::F_SELECTED_PROGRESS_IDS];
+            $pgs_ids = $this->http_wrapper->post()->retrieve(
+                self::F_SELECTED_PROGRESS_IDS,
+                $this->refinery->custom()->transformation(fn ($ids) => $ids)
+            );
         }
         if ($pgs_ids === null) {
             $this->showInfoMessage("no_user_selected");
@@ -821,12 +829,25 @@ class ilObjStudyProgrammeMembersGUI
 
     protected function mailToSelectedUsers(): void
     {
-        $prgrs_ids = $this->getPostPrgsIds();
-        $usr_ids = array_unique(array_map(fn ($pgs_id) => $pgs_id->getUsrId(), $prgrs_ids));
-        $usr_ids = base64_encode(json_encode($usr_ids));
-        $class = 'ilStudyProgrammeMailMemberSearchGUI';
-        $cmd = 'showSelectableUsers';
-        $this->ctrl->setParameterByClass($class, self::F_SELECTED_USER_IDS, $usr_ids);
-        $this->ctrl->redirectByClass($class, $cmd);
+        $dic = ilStudyProgrammeDIC::dic();
+        $gui = $dic['ilStudyProgrammeMailMemberSearchGUI'];
+
+        $selected = $this->getPostPrgsIds();
+        $selected_ids = array_map(
+            fn ($id) => $id->getAssignmentId(),
+            $selected
+        );
+
+        $assignments = array_filter(
+            $this->getAssignmentsById(),
+            fn ($ass) => in_array($ass->getId(), $selected_ids)
+        );
+        $gui->setAssignments($assignments);
+        $this->tabs->clearTargets();
+        $this->tabs->setBackTarget(
+            $this->lng->txt('btn_back'),
+            $this->ctrl->getLinkTarget($this, $this->getDefaultCommand())
+        );
+        $this->ctrl->forwardCommand($gui);
     }
 }

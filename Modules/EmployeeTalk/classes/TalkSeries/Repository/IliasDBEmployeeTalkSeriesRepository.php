@@ -54,7 +54,7 @@ final class IliasDBEmployeeTalkSeriesRepository
         $userId = $this->currentUser->getId();
 
         //TODO: Alter table talks and store series id, which makes the
-        $statement = $this->database->prepare("
+        $result = $this->database->query("
             SELECT DISTINCT od.obj_id AS objId, oRef.ref_id AS refId
             FROM (
                 SELECT tree.parent AS parent, talk.employee AS employee
@@ -65,16 +65,14 @@ final class IliasDBEmployeeTalkSeriesRepository
                 ) AS talk
             INNER JOIN object_reference AS oRef ON oRef.ref_id = talk.parent
             INNER JOIN object_data AS od ON od.obj_id = oRef.obj_id
-            WHERE od.type = 'tals' AND (talk.employee = ? OR od.owner = ?) AND oRef.deleted is null;
-              ", ["integer", "integer"]);
-        $statement = $statement->execute([$userId, $userId]);
+            WHERE od.type = 'tals' AND (talk.employee = " . $this->database->quote($userId, 'integer') .
+            " OR od.owner = " . $this->database->quote($userId, 'integer') .
+            ") AND oRef.deleted is null");
 
         $talkSeries = [];
-        while (($result = $statement->fetchObject()) !== null) {
-            $talkSeries[] = new ilObjEmployeeTalkSeries($result->refId, true);
+        while ($row = $result->fetchObject()) {
+            $talkSeries[] = new ilObjEmployeeTalkSeries((int) $row->refId, true);
         }
-
-        $this->database->free($statement);
 
         return $talkSeries;
     }

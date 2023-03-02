@@ -23,13 +23,13 @@ declare(strict_types=1);
  */
 class ilCertificateCourseLearningProgressEvaluation
 {
-    private ilSetting $setting;
-    private ilCertificateObjectHelper $objectHelper;
-    private ilCertificateLPStatusHelper $statusHelper;
-    private ilCertificateObjUserTrackingHelper $trackingHelper;
+    private readonly ilSetting $setting;
+    private readonly ilCertificateObjectHelper $objectHelper;
+    private readonly ilCertificateLPStatusHelper $statusHelper;
+    private readonly ilCertificateObjUserTrackingHelper $trackingHelper;
 
     public function __construct(
-        private ilCertificateTemplateRepository $templateRepository,
+        private readonly ilCertificateTemplateRepository $templateRepository,
         ?ilSetting $setting = null,
         ?ilCertificateObjectHelper $objectHelper = null,
         ?ilCertificateLPStatusHelper $statusHelper = null,

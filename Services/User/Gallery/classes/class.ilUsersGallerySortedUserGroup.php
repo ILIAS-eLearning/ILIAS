@@ -20,13 +20,8 @@ declare(strict_types=1);
 
 class ilUsersGallerySortedUserGroup implements ilUsersGalleryUserCollection
 {
-    protected ilUsersGalleryUserCollection $collection;
-    protected ilUsersGalleryUserCollectionSorter $sorter;
-
-    public function __construct(ilUsersGalleryUserCollection $collection, ilUsersGalleryUserCollectionSorter $sorter)
+    public function __construct(protected ilUsersGalleryUserCollection $collection, protected ilUsersGalleryUserCollectionSorter $sorter)
     {
-        $this->collection = $collection;
-        $this->sorter = $sorter;
     }
 
     public function setItems(array $items): void // Missing array type.
@@ -49,7 +44,7 @@ class ilUsersGallerySortedUserGroup implements ilUsersGalleryUserCollection
         $this->collection->next();
     }
 
-    public function key()
+    public function key(): int
     {
         return $this->collection->key();
     }

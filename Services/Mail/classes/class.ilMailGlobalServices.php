@@ -28,8 +28,9 @@ declare(strict_types=1);
  */
 class ilMailGlobalServices
 {
-    public const CACHE_TYPE_REF_ID = 0;
-    public const CACHE_TYPE_NEW_MAILS = 1;
+    final public const CACHE_TYPE_REF_ID = 0;
+    final public const CACHE_TYPE_NEW_MAILS = 1;
+
     protected static array $global_mail_services_cache = [];
 
     public static function getMailObjectRefId(): int

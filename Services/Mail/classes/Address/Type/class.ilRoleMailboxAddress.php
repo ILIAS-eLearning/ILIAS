@@ -159,15 +159,15 @@ class ilRoleMailboxAddress
         //if (domain != null && preg_match('/[\[\]\\]|[\x00-\x1f]/',$domain))
         // Fix for Mantis Bug: 7429 sending mail fails because of brakets
         // Fix for Mantis Bug: 9978 sending mail fails because of semicolon
-        if ($domain !== null && preg_match('/[\[\]\\]|[\x00-\x1f]|[\x28-\x29]|[;]/', $domain)) {
+        if ($domain !== null && preg_match('/[\[\]\\]|[\x00-\x1f]|[\x28-\x29]|[;]/', (string) $domain)) {
             $domain = null;
         }
 
         // If the domain contains special characters, we put square
         //   brackets around it.
         if ($domain !== null &&
-            (preg_match('/[()<>@,;:\\".\[\]]/', $domain) ||
-                preg_match('/[^\x21-\x8f]/', $domain))
+            (preg_match('/[()<>@,;:\\".\[\]]/', (string) $domain) ||
+                preg_match('/[^\x21-\x8f]/', (string) $domain))
         ) {
             $domain = '[' . $domain . ']';
         }
@@ -225,9 +225,9 @@ class ilRoleMailboxAddress
 
         // If the local part contains illegal characters, we use
         //     the unambiguous role title instead.
-        if (preg_match('/[\\"\x00-\x1f]/', $local_part)) {
+        if (preg_match('/[\\"\x00-\x1f]/', (string) $local_part)) {
             $local_part = $unambiguous_role_title;
-        } elseif (!preg_match('/^[\\x00-\\x7E]+$/i', $local_part)) {
+        } elseif (!preg_match('/^[\\x00-\\x7E]+$/i', (string) $local_part)) {
             // 2013-12-05: According to #12283, we do not accept umlauts in the local part
             $local_part = $unambiguous_role_title;
             $use_phrase = false;

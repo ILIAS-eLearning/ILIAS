@@ -84,9 +84,6 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->viewObject();
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function afterImport(ilObject $new_object): void
     {
         $part = ilCourseParticipants::_getInstanceByObjId($new_object->getId());
@@ -1713,7 +1710,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->getObject()->getMembersObject()->delete($this->user->getId());
         $this->getObject()->getMembersObject()->sendUnsubscribeNotificationToAdmins($this->user->getId());
         $this->getObject()->getMembersObject()->sendNotification(
-            ilCourseMembershipMailNotification::TYPE_NOTIFICATION_UNSUBSCRIBE,
+            ilCourseMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER,
             $this->user->getId()
         );
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_unsubscribed_from_crs'), true);
@@ -2696,8 +2693,9 @@ class ilObjCourseGUI extends ilContainerGUI
 
     public function askResetObject(): void
     {
-        $this->tpl->setOnScreenMessage('question', $this->lng->txt('crs_objectives_reset_sure'));
+        //$this->tpl->setOnScreenMessage('question', $this->lng->txt('crs_objectives_reset_sure'));
         $confirm = new ilConfirmationGUI();
+        $confirm->setHeaderText($this->lng->txt('crs_objectives_reset_sure'));
         $confirm->setFormAction($this->ctrl->getFormAction($this));
         $confirm->setConfirm($this->lng->txt('reset'), 'reset');
         $confirm->setCancel($this->lng->txt('cancel'), 'cancel');
@@ -2977,12 +2975,13 @@ class ilObjCourseGUI extends ilContainerGUI
             $question = $this->lng->txt('crs_loc_objectives_passed_confirmation');
         }
 
+        $confirm->setHeaderText($question);
         $confirm->addHiddenItem('objective_id', (string) $a_objective_id);
         $confirm->addHiddenItem('tid', (string) $a_test_id);
         $confirm->setConfirm($this->lng->txt('crs_loc_tst_start'), 'redirectLocToTestConfirmed');
         $confirm->setCancel($this->lng->txt('cancel'), 'view');
 
-        $this->tpl->setOnScreenMessage('question', $question);
+        //$this->tpl->setOnScreenMessage('question', $question);
         $this->tpl->setContent($confirm->getHTML());
     }
 

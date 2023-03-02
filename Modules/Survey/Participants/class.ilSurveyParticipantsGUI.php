@@ -453,11 +453,11 @@ class ilSurveyParticipantsGUI
         $total = $this->object->getSurveyParticipants(null, false, true);
         $data = array();
         foreach ($total as $user_data) {
-            if (in_array($user_data['active_id'], $user_ids)
+            if (in_array(($user_data['active_id'] ?? null), $user_ids)
                 || (($user_data['invited'] ?? false) && in_array("inv" . $user_data['usr_id'], $user_ids))) {
-                $last_access = $this->object->getLastAccess($user_data["active_id"]);
+                $last_access = $this->object->getLastAccess($user_data["active_id"] ?? 0);
                 $data[] = array(
-                    'id' => $user_data["active_id"],
+                    'id' => $user_data["active_id"] ?? null,
                     'name' => $user_data["sortname"],
                     'login' => $user_data["login"] ?? null,
                     'last_access' => $last_access,
@@ -613,7 +613,12 @@ class ilSurveyParticipantsGUI
     public function deleteCodesConfirmObject(): void
     {
         $codes = $this->edit_request->getCodes();
-        if (count($codes) > 0) {
+
+        $data = $this->object->getSurveyCodesTableData($codes);
+        $data = array_filter($data, static function ($item): bool {
+            return !$item["used"];
+        });
+        if (count($data) > 0) {
             $cgui = new ilConfirmationGUI();
             $cgui->setHeaderText($this->lng->txt("survey_code_delete_sure"));
 
@@ -621,13 +626,7 @@ class ilSurveyParticipantsGUI
             $cgui->setCancel($this->lng->txt("cancel"), "codes");
             $cgui->setConfirm($this->lng->txt("confirm"), "deleteCodes");
 
-            $data = $this->object->getSurveyCodesTableData($codes);
-
             foreach ($data as $item) {
-                if ($item["used"]) {
-                    continue;
-                }
-
                 $title = array($item["code"]);
                 $title[] = $item["email"] ?? "";
                 $title[] = $item["last_name"] ?? "";
@@ -639,7 +638,7 @@ class ilSurveyParticipantsGUI
 
             $this->tpl->setContent($cgui->getHTML());
         } else {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('svy_please_select_unused_codes'), true);
             $this->ctrl->redirect($this, 'codes');
         }
     }
@@ -832,7 +831,7 @@ class ilSurveyParticipantsGUI
     public function mailCodesObject(): void
     {
         $this->handleWriteAccess();
-        $this->setParticipantSubTabs("codes");
+        $this->setParticipantSubTabs("mail_survey_codes");
 
         $mailData['m_subject'] =
             $this->edit_request->getCodeMailPart("subject")

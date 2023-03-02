@@ -24,12 +24,12 @@ declare(strict_types=1);
 class ilUserCertificatePresentation
 {
     public function __construct(
-        private int $objId,
-        private string $objType,
-        private ?ilUserCertificate $userCertificate,
-        private string $objectTitle,
-        private string $objectDescription,
-        private string $userName = ''
+        private readonly int $objId,
+        private readonly string $objType,
+        private readonly ?ilUserCertificate $userCertificate,
+        private readonly string $objectTitle,
+        private readonly string $objectDescription,
+        private readonly string $userName = ''
     ) {
     }
 

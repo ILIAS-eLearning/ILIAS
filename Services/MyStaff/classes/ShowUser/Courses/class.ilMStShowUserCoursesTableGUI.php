@@ -16,14 +16,18 @@
  ********************************************************************
  */
 
-namespace ILIAS\MyStaff\Courses\ShowUser;
+// no namespace for ilCtrl classes
+//namespace ILIAS\MyStaff\Courses\ShowUser;
 
+/*
 use Closure;
 use ilAdvancedSelectionListGUI;
 use ilCSVWriter;
-use ilExcel;
+use ilExcel;*/
 use ILIAS\MyStaff\ilMyStaffAccess;
 use ILIAS\MyStaff\ListCourses\ilMStListCourse;
+
+/*
 use ilLPStatus;
 use ilMStShowUserCoursesGUI;
 use ilMyStaffGUI;
@@ -32,11 +36,12 @@ use ilOrgUnitOperation;
 use ilRepositorySelectorInputGUI;
 use ilSelectInputGUI;
 use ilTable2GUI;
-use ilTextInputGUI;
+use ilTextInputGUI;*/
 
 /**
  * Class ilMStShowUserCoursesTableGUI
  * @author Martin Studer <ms@studer-raimann.ch>
+ * @ilCtrl_Calls ilMStShowUserCoursesTableGUI: ilFormPropertyDispatchGUI
  */
 class ilMStShowUserCoursesTableGUI extends ilTable2GUI
 {
@@ -95,8 +100,8 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
 
         $arr_usr_id = $this->access->getUsersForUserOperationAndContext(
             $DIC->user()->getId(),
-            ilOrgUnitOperation::OP_ACCESS_ENROLMENTS,
-            ilMyStaffAccess::DEFAULT_CONTEXT
+            ilMyStaffAccess::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION,
+            ilMyStaffAccess::COURSE_CONTEXT
         );
 
         $this->filter['usr_id'] = $this->usr_id;
@@ -113,7 +118,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
             ),
         );
 
-        $user_courses_fetcher = new ilMStShowUserCourses($DIC);
+        $user_courses_fetcher = new \ILIAS\MyStaff\Courses\ShowUser\ilMStShowUserCourses($DIC);
         $result = $user_courses_fetcher->getData($arr_usr_id, $options);
         $this->setMaxCount($result->getTotalDatasetCount());
         $data = $result->getDataset();
@@ -138,7 +143,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         $item = new ilRepositorySelectorInputGUI($DIC->language()->txt("usr_filter_coursemember"), "course");
         $item->setSelectText($DIC->language()->txt("mst_select_course"));
         $item->setHeaderMessage($DIC->language()->txt("mst_please_select_course"));
-        $item->setClickableTypes(array(ilMyStaffAccess::DEFAULT_CONTEXT));
+        $item->setClickableTypes(array(ilMyStaffAccess::COURSE_CONTEXT));
         $this->addFilterItem($item);
         $item->readFromSession();
         //$item->setParent($this->getParentObject());
@@ -218,12 +223,8 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
-                if (isset($v['sort_field'])) {
-                    $sort = $v['sort_field'];
-                } else {
-                    $sort = null;
-                }
-                $this->addColumn($v['txt'], $sort, $v['width']);
+                $sort = $v['sort_field'] ?? "";
+                $this->addColumn($v['txt'], $sort);
             }
         }
         //Actions
@@ -239,7 +240,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         $set = array_pop($a_set);
 
         $propGetter = Closure::bind(function ($prop) {
-            return $this->$prop;
+            return $this->$prop ?? null;
         }, $set, $set);
 
         foreach ($this->getSelectableColumns() as $k => $v) {
@@ -322,7 +323,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
     protected function getFieldValuesForExport(ilMStListCourse $my_staff_course): array
     {
         $propGetter = Closure::bind(function ($prop) {
-            return $this->$prop;
+            return $this->$prop ?? null;
         }, $my_staff_course, $my_staff_course);
 
         $field_values = array();
@@ -336,7 +337,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
                     $field_values[$k] = ilMyStaffGUI::getUserLpStatusAsText($my_staff_course);
                     break;
                 default:
-                    $field_values[$k] = strip_tags($propGetter($k));
+                    $field_values[$k] = strip_tags($propGetter($k) ?? "");
                     break;
             }
         }

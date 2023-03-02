@@ -27,7 +27,7 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
   * [Context Registration](#context-registration)
   * [Context Usage Example](#context-usage-example)
 * [ilMassMailTaskProcessor](#ilmassmailtaskprocessor)
-
+* [AutoResponder](#autoresponder)
 ## General
 
 The following chapters will describe and explain which purposes
@@ -368,7 +368,7 @@ registration process.
 global $DIC;
 
 /** @var \ilMailMimeSenderFactory $senderFactory */
-$senderFactory = $DIC["mail.mime.sender.factory"];
+$senderFactory = $DIC->mail()->mime()->senderFactory();
 $sender        = $senderFactory->system();
 
 $mailer = new \ilMimeMail();
@@ -819,3 +819,7 @@ The amount of mails before the background task will be executed can be defined
 by passing a positive integer in the **fifth parameter**.
 Be aware that a high integer for mails per task can exhaust the mail API.
 We recommend to keep this value below 1000 mails per task to ensure that every mail can be sent.
+
+## AutoResponder
+
+`send_time` of `AutoReponder` entries will be saved in `UTC`

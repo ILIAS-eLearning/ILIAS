@@ -21,8 +21,10 @@
 		<event type="raise" id="enter" />
 		<event type="raise" id="register" />
 		<event type="listen" id="Modules/Session" />
+		<event type="listen" id="Services/AccessControl" />
 	</events>
 	<mailtemplates>
 		<context id="sess_context_participant_manual" class="ilSessionMailTemplateParticipantContext" />
 	</mailtemplates>
+	<logging />
 </module>

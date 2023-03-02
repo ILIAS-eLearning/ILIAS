@@ -22,7 +22,7 @@ trait ilWebDAVCommonINodeFunctionsTrait
 {
     protected function retrieveLastModifiedAsIntFromObjectLastUpdateString(string $last_update): ?int
     {
-        $last_update_int = strtotime($this->obj->getLastUpdateDate());
+        $last_update_int = strtotime($last_update);
         if ($last_update_int !== false) {
             return $last_update_int;
         }

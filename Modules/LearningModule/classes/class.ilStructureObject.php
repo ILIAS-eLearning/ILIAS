@@ -261,33 +261,6 @@ class ilStructureObject extends ilLMObject
         }
     }
 
-    public function exportFO(
-        ilXmlWriter $a_xml_writer
-    ): void {
-        // fo:block (complete)
-        $attrs = array();
-        $attrs["font-family"] = "Times";
-        $attrs["font-size"] = "14pt";
-        $a_xml_writer->xmlElement("fo:block", $attrs, $this->getTitle());
-
-        // page objects
-        $this->exportFOPageObjects($a_xml_writer);
-    }
-
-    public function exportFOPageObjects(
-        ilXmlWriter $a_xml_writer
-    ): void {
-        $childs = $this->tree->getChilds($this->getId());
-        foreach ($childs as $child) {
-            if ($child["type"] != "pg") {
-                continue;
-            }
-
-            // export xml to writer object
-            $page_obj = new ilLMPageObject($this->getContentObject(), $child["obj_id"]);
-            $page_obj->exportFO($a_xml_writer);
-        }
-    }
 
     public static function getChapterList(
         int $a_lm_id

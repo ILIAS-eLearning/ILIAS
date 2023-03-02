@@ -27,7 +27,7 @@ use ILIAS\Filesystem\Exception\FileNotFoundException;
  */
 class ilCertificateSettingsTestFormRepository implements ilCertificateFormRepository
 {
-    private ilCertificateSettingsFormRepository $settingsFormFactory;
+    private readonly ilCertificateSettingsFormRepository $settingsFormFactory;
 
     public function __construct(
         int $objectId,
@@ -40,19 +40,20 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ?ilCertificateSettingsFormRepository $settingsFormRepository = null
     ) {
-        if (null === $settingsFormRepository) {
-            $settingsFormRepository = new ilCertificateSettingsFormRepository(
-                $objectId,
-                $certificatePath,
-                $hasAdditionalElements,
-                $language,
-                $ctrl,
-                $access,
-                $toolbar,
-                $placeholderDescriptionObject
-            );
-        }
-        $this->settingsFormFactory = $settingsFormRepository;
+        global $DIC;
+
+        $this->settingsFormFactory = $settingsFormRepository ?? new ilCertificateSettingsFormRepository(
+            $objectId,
+            $certificatePath,
+            $hasAdditionalElements,
+            $language,
+            $ctrl,
+            $access,
+            $toolbar,
+            $placeholderDescriptionObject,
+            $DIC->ui()->factory(),
+            $DIC->ui()->renderer()
+        );
     }
 
     /**

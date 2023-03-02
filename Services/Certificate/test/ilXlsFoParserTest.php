@@ -115,7 +115,7 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
         $this->assertSame('Something Processed', $output);
     }
 
-    public function testParseButXmlCheckerFindsAnError(): void
+    public function testParseButXmlCheckerFindsAnError(): never
     {
         $this->expectException(Exception::class);
 

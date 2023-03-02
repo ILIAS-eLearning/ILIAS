@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\ResourceStorage\Services;
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -44,6 +47,9 @@ class ilPersonalProfileGUI
     protected ilUserSettingsConfig $user_settings_config;
     protected ilProfileChecklistStatus $checklist_status;
     private RequestInterface $request;
+    private \ILIAS\FileUpload\FileUpload $uploads;
+    private Services $irss;
+    private ResourceStakeholder $stakeholder;
 
     public function __construct(
         \ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation = null,
@@ -60,6 +66,9 @@ class ilPersonalProfileGUI
         $this->errorHandler = $DIC['ilErr'];
         $this->eventHandler = $DIC['ilAppEventHandler'];
         $this->request = $DIC->http()->request();
+        $this->uploads = $DIC->upload();
+        $this->irss = $DIC->resourceStorage();
+        $this->stakeholder = new ilUserProfilePictureStakeholder();
 
         if ($termsOfServiceEvaluation === null) {
             $termsOfServiceEvaluation = $DIC['tos.document.evaluator'];
@@ -145,82 +154,75 @@ class ilPersonalProfileGUI
 
     public function uploadUserPicture(): void
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-
         if ($this->workWithUserSetting("upload")) {
             if (!$this->form->hasFileUpload("userfile") && $this->profile_request->getUserFileCapture() == "") {
                 if ($this->form->getItemByPostVar("userfile")->getDeletionFlag()) {
-                    $ilUser->removeUserPicture();
+                    $this->user->removeUserPicture();
                 }
             } else {
-                $webspace_dir = ilFileUtils::getWebspaceDir();
-                $image_dir = $webspace_dir . "/usr_images";
-                $store_file = "usr_" . $ilUser->getID() . "." . "jpg";
-
-                // store filename
-                $ilUser->setPref("profile_image", $store_file);
-                $ilUser->update();
+                // User has uploaded a file of a captured image
+                $this->uploads->process();
+                $existing_rid = $this->irss->manage()->find($this->user->getAvatarRid());
+                $revision_title = 'Avatar for user ' . $this->user->getLogin();
 
                 // move uploaded file
-                // begin patch profile-image-patch – Killing 1.3.2021
-                if ($this->form->hasFileUpload("userfile")) {
-                    $pi = pathinfo($_FILES["userfile"]["name"]);
-                    $uploaded_file = $this->form->moveFileUpload(
-                        $image_dir,
-                        "userfile",
-                        "upload_" . $ilUser->getId() . "." . $pi["extension"]
-                    );
-                    if (!$uploaded_file) {
+                if ($this->form->hasFileUpload("userfile") && $this->uploads->hasBeenProcessed()) {
+                    $uploads = $this->uploads->getResults();
+                    // this implementation uses the $_FILES superglobal since
+                    // the file has to be identified by the name of the input field
+                    $upload_tmp_name = $_FILES["userfile"]["tmp_name"];
+                    $avatar_upload_result = $uploads[$upload_tmp_name] ?? null;
+                    if ($avatar_upload_result !== null) {
+                        if ($existing_rid === null) {
+                            $rid = $this->irss->manage()->upload(
+                                $avatar_upload_result,
+                                $this->stakeholder,
+                                $revision_title
+                            );
+                        } else {
+                            $rid = $existing_rid;
+                            $this->irss->manage()->replaceWithUpload(
+                                $existing_rid,
+                                $avatar_upload_result,
+                                $this->stakeholder,
+                                $revision_title
+                            );
+                        }
+                    }
+                    if ($avatar_upload_result === null || !isset($rid)) {
                         $this->tpl->setOnScreenMessage('failure', $this->lng->txt("upload_error", true));
                         $this->ctrl->redirect($this, "showProfile");
                     }
-                } else {        // cam capture png
-                    $uploaded_file = $image_dir . "/" . "upload_" . $ilUser->getId() . ".png";
+                } else {
+                    // cam capture png
                     $img = $this->profile_request->getUserFileCapture();
                     $img = str_replace(['data:image/png;base64,', ' '], ['', '+'], $img);
                     $data = base64_decode($img);
-                    $success = file_put_contents($uploaded_file, $data);
-                    if (!$success) {
+                    if ($data === false) {
                         $this->tpl->setOnScreenMessage('failure', $this->lng->txt("upload_error", true));
                         $this->ctrl->redirect($this, "showProfile");
                     }
-                }
-                // end patch profile-image-patch – Killing 1.3.2021
-                chmod($uploaded_file, 0770);
+                    $stream = Streams::ofString($data);
 
-                // take quality 100 to avoid jpeg artefacts when uploading jpeg files
-                // taking only frame [0] to avoid problems with animated gifs
-                $show_file = "$image_dir/usr_" . $ilUser->getId() . ".jpg";
-                $thumb_file = "$image_dir/usr_" . $ilUser->getId() . "_small.jpg";
-                $xthumb_file = "$image_dir/usr_" . $ilUser->getId() . "_xsmall.jpg";
-                $xxthumb_file = "$image_dir/usr_" . $ilUser->getId() . "_xxsmall.jpg";
-                $uploaded_file = ilShellUtil::escapeShellArg($uploaded_file);
-                $show_file = ilShellUtil::escapeShellArg($show_file);
-                $thumb_file = ilShellUtil::escapeShellArg($thumb_file);
-                $xthumb_file = ilShellUtil::escapeShellArg($xthumb_file);
-                $xxthumb_file = ilShellUtil::escapeShellArg($xxthumb_file);
-
-                if (ilShellUtil::isConvertVersionAtLeast("6.3.8-3")) {
-                    ilShellUtil::execConvert(
-                        $uploaded_file . "[0] -geometry 200x200^ -gravity center -extent 200x200 -quality 100 JPEG:" . $show_file
-                    );
-                    ilShellUtil::execConvert(
-                        $uploaded_file . "[0] -geometry 100x100^ -gravity center -extent 100x100 -quality 100 JPEG:" . $thumb_file
-                    );
-                    ilShellUtil::execConvert(
-                        $uploaded_file . "[0] -geometry 75x75^ -gravity center -extent 75x75 -quality 100 JPEG:" . $xthumb_file
-                    );
-                    ilShellUtil::execConvert(
-                        $uploaded_file . "[0] -geometry 30x30^ -gravity center -extent 30x30 -quality 100 JPEG:" . $xxthumb_file
-                    );
-                } else {
-                    ilShellUtil::execConvert($uploaded_file . "[0] -geometry 200x200 -quality 100 JPEG:" . $show_file);
-                    ilShellUtil::execConvert($uploaded_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
-                    ilShellUtil::execConvert($uploaded_file . "[0] -geometry 75x75 -quality 100 JPEG:" . $xthumb_file);
-                    ilShellUtil::execConvert($uploaded_file . "[0] -geometry 30x30 -quality 100 JPEG:" . $xxthumb_file);
+                    if ($existing_rid === null) {
+                        $rid = $this->irss->manage()->stream(
+                            $stream,
+                            $this->stakeholder,
+                            $revision_title
+                        );
+                    } else {
+                        $rid = $existing_rid;
+                        $this->irss->manage()->replaceWithStream(
+                            $rid,
+                            $stream,
+                            $this->stakeholder,
+                            $revision_title
+                        );
+                    }
                 }
+                $this->user->setAvatarRid($rid->serialize());
+                $this->irss->flavours()->ensure($rid, new ilUserProfilePictureDefinition()); // Create different sizes
+                $this->user->update();
             }
         }
     }
@@ -730,7 +732,7 @@ class ilPersonalProfileGUI
                     $form_valid = false;
                 } elseif (ilObjUser::_loginExists($un, $ilUser->getId())) {
                     $this->tpl->setOnScreenMessage('failure', $lng->txt('form_input_not_valid'));
-                    $this->form->getItemByPostVar('username')->setAlert($this->lng->txt('loginname_already_exists'));
+                    $this->form->getItemByPostVar('username')->setAlert($lng->txt('loginname_already_exists'));
                     $form_valid = false;
                 } else {
                     $ilUser->setLogin($un);

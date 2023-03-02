@@ -87,13 +87,13 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
 
 
         $worker = new ilMassMailTaskProcessor(
+            self::SOME_USER_ID,
             $taskManager,
             $taskFactory,
             $this->languageMock,
             $this->loggerMock,
             $this->dicMock,
-            new ilMailValueObjectJsonService(),
-            self::SOME_USER_ID
+            new ilMailValueObjectJsonService()
         );
 
         $mailValueObject = new ilMailValueObject(
@@ -156,13 +156,13 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->willReturn($backgroundTask);
 
         $worker = new ilMassMailTaskProcessor(
+            self::SOME_USER_ID,
             $taskManager,
             $taskFactory,
             $this->languageMock,
             $this->loggerMock,
             $this->dicMock,
-            new ilMailValueObjectJsonService(),
-            self::SOME_USER_ID
+            new ilMailValueObjectJsonService()
         );
 
         $mailValueObjects = [];
@@ -233,13 +233,13 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->willReturn($backgroundTask);
 
         $worker = new ilMassMailTaskProcessor(
+            self::SOME_USER_ID,
             $taskManager,
             $taskFactory,
             $this->languageMock,
             $this->loggerMock,
             $this->dicMock,
-            new ilMailValueObjectJsonService(),
-            self::SOME_USER_ID
+            new ilMailValueObjectJsonService()
         );
 
         $mailValueObjects = [];
@@ -323,13 +323,13 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->willReturn($backgroundTask);
 
         $worker = new ilMassMailTaskProcessor(
+            self::SOME_USER_ID,
             $taskManager,
             $taskFactory,
             $this->languageMock,
             $this->loggerMock,
             $this->dicMock,
-            new ilMailValueObjectJsonService(),
-            self::SOME_USER_ID
+            new ilMailValueObjectJsonService()
         );
 
         $mailValueObjects = [];

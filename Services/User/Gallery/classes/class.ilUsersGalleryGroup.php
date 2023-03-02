@@ -19,17 +19,14 @@ declare(strict_types=1);
  *********************************************************************/
 class ilUsersGalleryGroup implements ilUsersGalleryUserCollection
 {
-    /** @var ilUsersGalleryUser[] */
-    protected array $users = [];
     protected bool $highlighted = false;
     protected string $label = '';
 
     /**
-     * @param ilUsersGalleryUser[] $users
+     * @param array<int, ilUsersGalleryUser> $users
      */
-    public function __construct(array $users)
+    public function __construct(protected array $users)
     {
-        $this->users = $users;
     }
 
     public function setHighlighted(bool $status): void
@@ -53,7 +50,7 @@ class ilUsersGalleryGroup implements ilUsersGalleryUserCollection
     }
 
     /**
-     * @param ilUsersGalleryUser[] $items
+     * @param array<int, ilUsersGalleryUser> $items
      */
     public function setItems(array $items): void
     {
@@ -61,7 +58,7 @@ class ilUsersGalleryGroup implements ilUsersGalleryUserCollection
     }
 
     /**
-     * @return ilUsersGalleryUser[]
+     * @return array<int, ilUsersGalleryUser>
      */
     public function getItems(): array
     {
@@ -83,7 +80,7 @@ class ilUsersGalleryGroup implements ilUsersGalleryUserCollection
         next($this->users);
     }
 
-    public function key()
+    public function key(): int
     {
         return key($this->users);
     }

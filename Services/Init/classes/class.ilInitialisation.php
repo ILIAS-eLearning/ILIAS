@@ -29,6 +29,7 @@ use ILIAS\FileUpload\Processor\PreProcessorManagerImpl;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement;
 use ILIAS\Filesystem\Definitions\SuffixDefinitions;
+use ILIAS\FileUpload\Processor\InsecureFilenameSanitizerPreProcessor;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -43,24 +44,6 @@ if (null === $DIC) {
     $DIC = new Container();
 }
 
-/**
- * This file is part of ILIAS, a powerful learning management system
- * published by ILIAS open source e-Learning e.V.
- *
- * ILIAS is licensed with the GPL-3.0,
- * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with the
- * source code, too.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
-
-/** @defgroup ServicesInit Services/Init
- */
 /**
  * ILIAS Initialisation Utility Class
  * perform basic setup: init database handler, load configuration file,
@@ -145,8 +128,12 @@ class ilInitialisation
         self::initGlobal('ilIliasIniFile', $ilIliasIniFile);
 
         // initialize constants
-        define("ILIAS_DATA_DIR", $ilIliasIniFile->readVariable("clients", "datadir"));
-        define("ILIAS_WEB_DIR", $ilIliasIniFile->readVariable("clients", "path"));
+        if (!defined('ILIAS_DATA_DIR')) {
+            define("ILIAS_DATA_DIR", $ilIliasIniFile->readVariable("clients", "datadir"));
+        }
+        if (!defined('ILIAS_WEB_DIR')) {
+            define("ILIAS_WEB_DIR", $ilIliasIniFile->readVariable("clients", "path"));
+        }
         if (!defined("ILIAS_ABSOLUTE_PATH")) {
             define("ILIAS_ABSOLUTE_PATH", $ilIliasIniFile->readVariable('server', 'absolute_path'));
         }
@@ -360,6 +347,7 @@ class ilInitialisation
                     $c->language()->txt("msg_info_blacklisted")
                 )
             );
+            $fileUploadImpl->register(new InsecureFilenameSanitizerPreProcessor());
 
             return $fileUploadImpl;
         };
@@ -422,6 +410,9 @@ class ilInitialisation
      */
     protected static function determineClient(): void
     {
+        if (defined('CLIENT_ID')) {
+            return;
+        }
         global $DIC;
         $df = new \ILIAS\Data\Factory();
 
@@ -565,8 +556,8 @@ class ilInitialisation
             $mess = array(
                 "en" => "The server is not available due to maintenance." .
                     " We apologise for any inconvenience.",
-                "de" => "Der Server ist aufgrund von Wartungsarbeiten nicht verfügbar." .
-                    " Wir bitten um Verständnis."
+                "de" => "Der Server ist aufgrund von Wartungsarbeiten aktuell nicht verf&uuml;gbar." .
+                    " Wir bitten um Verst&auml;ndnis. Versuchen Sie es sp&auml;ter noch einmal."
             );
             $mess_id = "init_error_maintenance";
 
@@ -665,19 +656,6 @@ class ilInitialisation
                 IL_COOKIE_HTTPONLY
             );
         }
-    }
-
-    protected static function initMail(\ILIAS\DI\Container $c): void
-    {
-        $c["mail.mime.transport.factory"] = static function (\ILIAS\DI\Container $c) {
-            return new \ilMailMimeTransportFactory($c->settings(), $c->event());
-        };
-        $c["mail.mime.sender.factory"] = static function (\ILIAS\DI\Container $c) {
-            return new \ilMailMimeSenderFactory($c->settings());
-        };
-        $c["mail.texttemplates.service"] = static function (\ILIAS\DI\Container $c) {
-            return new \ilMailTemplateService(new \ilMailTemplateRepository($c->database()));
-        };
     }
 
     protected static function initCron(\ILIAS\DI\Container $c): void
@@ -882,7 +860,7 @@ class ilInitialisation
     {
         global $ilSetting;
 
-        if (trim($ilSetting->get("locale")) != "") {
+        if ($ilSetting->get("locale") &&  trim($ilSetting->get("locale")) != "") {
             $larr = explode(",", trim($ilSetting->get("locale")));
             $ls = array();
             $first = $larr[0];
@@ -1178,7 +1156,7 @@ class ilInitialisation
     public static function handleErrorReporting(): void
     {
         // push the error level as high as possible / sane
-        error_reporting(E_ALL & ~E_NOTICE);
+        error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
 
         // see handleDevMode() - error reporting might be overwritten again
         // but we need the client ini first
@@ -1281,7 +1259,6 @@ class ilInitialisation
         self::initGlobal("https", "ilHTTPS", "./Services/Http/classes/class.ilHTTPS.php");
         self::initSettings();
         self::setSessionHandler();
-        self::initMail($GLOBALS['DIC']);
         self::initCron($GLOBALS['DIC']);
         self::initAvatar($GLOBALS['DIC']);
         self::initCustomObjectIcons($GLOBALS['DIC']);
@@ -1335,7 +1312,7 @@ class ilInitialisation
         // $ilUser
         self::initGlobal(
             "ilUser",
-            "ilObjUser",
+            new ilObjUser(ANONYMOUS_USER_ID),
             "./Services/User/classes/class.ilObjUser.php"
         );
         $ilias->account = $ilUser;
@@ -1445,7 +1422,7 @@ class ilInitialisation
     private static function initGlobalScreen(\ILIAS\DI\Container $c): void
     {
         $c['global_screen'] = function () use ($c) {
-            return new Services(new ilGSProviderFactory($c), htmlentities(str_replace(" ", "_", ILIAS_VERSION)));
+            return new Services(new ilGSProviderFactory($c), htmlentities(str_replace([" ", ".", "-"], "_", ILIAS_VERSION_NUMERIC)));
         };
         $c->globalScreen()->tool()->context()->stack()->clear();
         $c->globalScreen()->tool()->context()->claim()->main();
@@ -1700,6 +1677,24 @@ class ilInitialisation
             ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for goto target: ' . $target);
             return true;
         }
+
+
+        $current_ref_id = $DIC->http()->wrapper()->query()->has('ref_id')
+            ? $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int())
+            : null;
+
+        if (null !== $current_ref_id
+            && $DIC->user()->getId() === 0
+            && $DIC->access()->checkAccessOfUser(
+                ANONYMOUS_USER_ID,
+                'visible',
+                '',
+                $current_ref_id
+            )) {
+            return true;
+        }
+
+
         ilLoggerFactory::getLogger('auth')->debug('Authentication required');
         return false;
     }

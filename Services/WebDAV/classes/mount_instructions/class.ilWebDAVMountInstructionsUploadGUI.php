@@ -118,11 +118,11 @@ class ilWebDAVMountInstructionsUploadGUI
     protected function showDocuments(): void
     {
         if ($this->rbacsystem->checkAccess('write', $this->webdav_object_ref_id)) {
-            $addDocumentBtn = ilLinkButton::getInstance();
-            $addDocumentBtn->setPrimary(true);
-            $addDocumentBtn->setUrl($this->ctrl->getLinkTarget($this, 'showAddDocumentForm'));
-            $addDocumentBtn->setCaption('webdav_add_instructions_btn_label');
-            $this->toolbar->addStickyItem($addDocumentBtn);
+            $document_button = $this->ui_factory->button()->primary(
+                $this->lng->txt('webdav_add_instructions_btn_label'),
+                $this->ctrl->getLinkTarget($this, 'showAddDocumentForm')
+            );
+            $this->toolbar->addStickyItem($document_button);
         }
 
         $uri_builder = new ilWebDAVUriBuilder($this->http->request());

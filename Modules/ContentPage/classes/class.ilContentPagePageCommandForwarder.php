@@ -28,51 +28,34 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
     /**
      * presentation mode for authoring
      */
-    public const PRESENTATION_MODE_EDITING = 'PRESENTATION_MODE_EDITING';
+    final public const PRESENTATION_MODE_EDITING = 'PRESENTATION_MODE_EDITING';
 
     /**
      * presentation mode for requesting
      */
-    public const PRESENTATION_MODE_PRESENTATION = 'PRESENTATION_MODE_PRESENTATION';
+    final public const PRESENTATION_MODE_PRESENTATION = 'PRESENTATION_MODE_PRESENTATION';
 
     /**
      * presentation mode for embedded presentation, e.g. in a kiosk mode
      */
-    public const PRESENTATION_MODE_EMBEDDED_PRESENTATION = 'PRESENTATION_MODE_EMBEDDED_PRESENTATION';
+    final public const PRESENTATION_MODE_EMBEDDED_PRESENTATION = 'PRESENTATION_MODE_EMBEDDED_PRESENTATION';
 
     protected string $presentationMode = self::PRESENTATION_MODE_EDITING;
-    protected ilCtrlInterface $ctrl;
-    protected ilLanguage $lng;
-    protected ilTabsGUI $tabs;
-    protected ilObjContentPage $parentObject;
     protected string $backUrl = '';
-    protected ilObjUser $actor;
     /** @var callable[] */
     protected array $updateListeners = [];
-    protected GlobalHttpState $http;
-    protected Refinery $refinery;
-    protected ObjectFacade $content_style_domain;
     protected bool $isMediaRequest = false;
 
     public function __construct(
-        GlobalHttpState $http,
-        ilCtrlInterface $ctrl,
-        ilTabsGUI $tabs,
-        ilLanguage $lng,
-        ilObjContentPage $parentObject,
-        ilObjUser $actor,
-        Refinery $refinery,
-        ObjectFacade $content_style_domain
+        protected GlobalHttpState $http,
+        protected ilCtrlInterface $ctrl,
+        protected ilTabsGUI $tabs,
+        protected ilLanguage $lng,
+        protected ilObjContentPage $parentObject,
+        protected ilObjUser $actor,
+        protected Refinery $refinery,
+        protected ObjectFacade $content_style_domain
     ) {
-        $this->http = $http;
-        $this->ctrl = $ctrl;
-        $this->tabs = $tabs;
-        $this->lng = $lng;
-        $this->parentObject = $parentObject;
-        $this->actor = $actor;
-        $this->refinery = $refinery;
-        $this->content_style_domain = $content_style_domain;
-
         $this->lng->loadLanguageModule('content');
 
         $this->backUrl = '';
@@ -211,8 +194,6 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
     }
 
     /**
-     * @param string $ctrlLink
-     * @return string
      * @throws ilCtrlException
      * @throws ilException
      */

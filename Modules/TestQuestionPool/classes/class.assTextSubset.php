@@ -458,9 +458,10 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
             if ($this->answers[$key]->getPoints() <= 0) {
                 continue;
             }
+            $value = html_entity_decode($value); #SB
             switch ($textrating) {
                 case TEXTGAP_RATING_CASEINSENSITIVE:
-                    if (strcmp(ilStr::strToLower(html_entity_decode($value)), ilStr::strToLower($answer)) == 0) {
+                    if (strcmp(ilStr::strToLower($value), ilStr::strToLower($answer)) == 0) { #SB
                         return $key;
                     }
                     break;
@@ -775,15 +776,15 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass): int
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
     {
-        parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
+        parent::setExportDetailsXLS($worksheet, $startrow, $col, $active_id, $pass);
 
         $solutions = $this->getSolutionValues($active_id, $pass);
 
         $i = 1;
         foreach ($solutions as $solution) {
-            $worksheet->setCell($startrow + $i, 0, $solution["value1"]);
+            $worksheet->setCell($startrow + $i, $col, $solution["value1"]);
             $i++;
         }
 
@@ -892,7 +893,6 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
      */
     public function getOperators($expression): array
     {
-        require_once "./Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php";
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
     }
 

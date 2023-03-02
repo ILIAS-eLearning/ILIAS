@@ -51,7 +51,7 @@ interface Factory
      *     1: The Toast SHOULD always have the same size on full display and be independent from the display size.
      * ---
      *
-     * @param string|\ILIAS\UI\Implementation\Component\Button\Shy|\ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link $title Title of the item
+     * @param string|\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Link\Link $title Title of the item
      * @param \ILIAS\UI\Component\Symbol\Icon\Icon $icon lead icon
      *
      * @return  \ILIAS\UI\Component\Toast\Toast

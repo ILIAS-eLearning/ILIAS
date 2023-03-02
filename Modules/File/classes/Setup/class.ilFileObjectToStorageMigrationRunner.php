@@ -59,7 +59,14 @@ class ilFileObjectToStorageMigrationRunner
     ) {
         $this->file_system = $file_system;
         $this->database = $irss_helper->getDatabase();
-        $this->migration_log_handle = fopen($irss_helper->getClientDataDir() . '/ilFile/' . $log_file_name, 'ab');
+
+        $legacy_directory = $irss_helper->getClientDataDir() . '/ilFile/';
+        if (is_dir($legacy_directory)) {
+            $this->migration_log_handle = fopen($legacy_directory . $log_file_name, 'ab');
+        } else {
+            $this->migration_log_handle = false;
+        }
+
         $this->resource_builder = $irss_helper->getResourceBuilder();
         $this->storage_manager = $irss_helper->getManager();
         $this->stakeholder = $irss_helper->getStakeholder();
@@ -135,6 +142,9 @@ class ilFileObjectToStorageMigrationRunner
         string $movement_implementation,
         string $aditional_info = null
     ): void {
+        if (!$this->migration_log_handle) {
+            return;
+        }
         fputcsv($this->migration_log_handle, [
             $object_id,
             $old_path,

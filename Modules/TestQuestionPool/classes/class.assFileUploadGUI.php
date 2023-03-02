@@ -78,7 +78,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $this->object->setPoints((float)$_POST["points"]);
         $this->object->setMaxSize(($_POST['maxsize'] ?? null) ? (int) $_POST['maxsize'] : null);
         $this->object->setAllowedExtensions($_POST["allowedextensions"]);
-        $this->object->setCompletionBySubmission($_POST['completion_by_submission'] == 1 ? true : false);
+        $this->object->setCompletionBySubmission(isset($_POST['completion_by_submission']) && $_POST['completion_by_submission'] == 1);
     }
 
     /**

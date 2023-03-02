@@ -20,6 +20,7 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\TA\Questions\assQuestionSuggestedSolution;
 use ILIAS\TA\Questions\assQuestionSuggestedSolutionsDatabaseRepository;
 use ILIAS\DI\Container;
+use Psr\Http\Message\ServerRequestInterface;
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
@@ -54,7 +55,8 @@ abstract class assQuestion
         self::IMG_MIME_TYPE_PNG => array('binary'),
         self::IMG_MIME_TYPE_GIF => array('binary')
     );
-
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
     protected ILIAS\DI\LoggingServices $ilLog;
 
@@ -206,6 +208,8 @@ abstract class assQuestion
         $this->tpl = $tpl;
         $this->db = $ilDB;
         $this->ilLog = $ilLog;
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->title = $title;
         $this->comment = $comment;
@@ -1410,7 +1414,7 @@ abstract class assQuestion
             array($question_id)
         );
         $data = $ilDB->fetchAssoc($result);
-        return $data["type_tag"];
+        return $data["type_tag"] ?? '';
     }
 
     /**
@@ -3037,10 +3041,10 @@ abstract class assQuestion
         return $question_gui;
     }
 
-    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass): int
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
     {
-        $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord(0) . $startrow, $this->lng->txt($this->getQuestionType()));
-        $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord(1) . $startrow, $this->getTitle());
+        $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col) . $startrow, $this->lng->txt($this->getQuestionType()));
+        $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col + 1) . $startrow, $this->getTitle());
 
         return $startrow;
     }

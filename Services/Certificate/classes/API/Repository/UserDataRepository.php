@@ -32,7 +32,7 @@ use ilDBInterface;
  */
 class UserDataRepository
 {
-    private string $defaultTitle;
+    private readonly string $defaultTitle;
 
     /**
      * @param string|null     $defaultTitle The default title is use if the title of an repository object could not be
@@ -40,8 +40,8 @@ class UserDataRepository
      *                                    mechanisms to store the title of deleted objects (table: object_data_del) failed.
      */
     public function __construct(
-        private ilDBInterface $database,
-        private ilCtrlInterface $ctrl,
+        private readonly ilDBInterface $database,
+        private readonly ilCtrlInterface $ctrl,
         ?string $defaultTitle = null
     ) {
         if (null === $defaultTitle) {
@@ -77,6 +77,10 @@ FROM
 
         $query = $this->database->query($sql);
 
+        if ([] !== $ilCtrlStack) {
+            $ilCtrlStack[] = ilUserCertificateApiGUI::class;
+        }
+
         $result = [];
         while ($row = $this->database->fetchAssoc($query)) {
             $id = (int) $row['id'];
@@ -88,7 +92,6 @@ FROM
 
             $link = '';
             if ([] !== $ilCtrlStack) {
-                $ilCtrlStack[] = ilUserCertificateApiGUI::class;
                 $this->ctrl->setParameterByClass(ilUserCertificateApiGUI::class, 'certificate_id', $id);
                 $link = $this->ctrl->getLinkTargetByClass($ilCtrlStack, ilUserCertificateApiGUI::CMD_DOWNLOAD);
                 $this->ctrl->clearParametersByClass(ilUserCertificateApiGUI::class);
@@ -171,6 +174,7 @@ WHERE object_reference.deleted IS NULL';
         $sql .= '
 ) AS cert
 INNER JOIN usr_data ON usr_data.usr_id = cert.usr_id
+INNER JOIN il_orgu_ua ON il_orgu_ua.user_id = cert.usr_id
 ' . $this->createWhereCondition($filter);
 
         if (!$max_count_only) {
@@ -214,12 +218,16 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.usr_id
                     $orders[] = 'cert.acquired_timestamp' . $direction;
                     break;
 
+                case ($key === UserDataFilter::SORT_FIELD_USR_EMAIL):
+                    $orders[] = 'usr_data.email' . $direction;
+                    break;
+
                 default:
                     break;
             }
         }
 
-        return 'ORDER BY ' . implode(', ', $orders);
+        return ' ORDER BY ' . implode(', ', $orders);
     }
 
     /**
@@ -261,6 +269,16 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.usr_id
                 . ')';
         }
 
+        $userIdentification = $filter->getUserIdentification();
+        if (!empty($userIdentification)) {
+            $wheres[] = '(' . $this->database->like('usr_data.login', ilDBConstants::T_TEXT, '%' . $userIdentification . '%')
+                . ' OR ' . $this->database->like('usr_data.firstname', ilDBConstants::T_TEXT, '%' . $userIdentification . '%')
+                . ' OR ' . $this->database->like('usr_data.lastname', ilDBConstants::T_TEXT, '%' . $userIdentification . '%')
+                . ' OR ' . $this->database->like('usr_data.email', ilDBConstants::T_TEXT, '%' . $userIdentification . '%')
+                . ' OR ' . $this->database->like('usr_data.second_email', ilDBConstants::T_TEXT, '%' . $userIdentification . '%')
+                . ')';
+        }
+
         $issuedBeforeTimestamp = $filter->getIssuedBeforeTimestamp();
         if ($issuedBeforeTimestamp !== null) {
             $wheres[] = 'cert.acquired_timestamp < ' . $this->database->quote(
@@ -285,6 +303,11 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.usr_id
         $onlyCertActive = $filter->isOnlyCertActive();
         if ($onlyCertActive) {
             $wheres[] = 'cert.currently_active = ' . $this->database->quote(1, ilDBConstants::T_INTEGER);
+        }
+
+        $orgUnitIds = $filter->getOrgUnitIds();
+        if ($orgUnitIds) {
+            $wheres[] = $this->database->in('il_orgu_ua.orgu_id', $orgUnitIds, false, ilDBConstants::T_INTEGER);
         }
 
         if (empty($wheres)) {

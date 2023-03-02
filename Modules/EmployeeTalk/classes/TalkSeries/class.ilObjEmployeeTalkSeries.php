@@ -56,8 +56,6 @@ final class ilObjEmployeeTalkSeries extends ilContainer
     {
         $this->setOfflineStatus(true);
 
-
-        //TODO: Copy metadata from template
         parent::create();
 
         $this->_writeContainerSetting($this->getId(), ilObjectServiceSettingsGUI::CUSTOM_METADATA, '1');
@@ -84,7 +82,7 @@ final class ilObjEmployeeTalkSeries extends ilContainer
 
     public function update(): bool
     {
-        parent::update();
+        $ret = parent::update();
 
         /**
          * @var \ILIAS\DI\Container $container
@@ -99,6 +97,7 @@ final class ilObjEmployeeTalkSeries extends ilContainer
                   'appointments' => []
             ]
         );
+        return $ret;
     }
 
     /**

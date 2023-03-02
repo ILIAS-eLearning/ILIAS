@@ -33,18 +33,18 @@ class ilCertificateBackgroundImageUpload
     private const BACKGROUND_IMAGE_NAME = 'background.jpg';
     private const BACKGROUND_THUMBNAIL_IMAGE_NAME = 'background.jpg.thumb.jpg';
     private const BACKGROUND_TEMPORARY_FILENAME = 'background_upload.tmp';
-    private Filesystem $fileSystem;
-    private ilCertificateUtilHelper $utilHelper;
-    private ilCertificateFileUtilsHelper $fileUtilsHelper;
-    private LegacyPathHelperHelper $legacyPathHelper;
-    private Filesystem $tmp_file_system;
+    private readonly Filesystem $fileSystem;
+    private readonly ilCertificateUtilHelper $utilHelper;
+    private readonly ilCertificateFileUtilsHelper $fileUtilsHelper;
+    private readonly LegacyPathHelperHelper $legacyPathHelper;
+    private readonly Filesystem $tmp_file_system;
 
     public function __construct(
-        private FileUpload $fileUpload,
-        private string $certificatePath,
-        private ilLanguage $language,
-        private string $rootDirectory = CLIENT_WEB_DIR,
-        private string $clientId = CLIENT_ID,
+        private readonly FileUpload $fileUpload,
+        private readonly string $certificatePath,
+        private readonly ilLanguage $language,
+        private readonly string $rootDirectory = CLIENT_WEB_DIR,
+        private readonly string $clientId = CLIENT_ID,
         ?Filesystem $fileSystem = null,
         ?ilCertificateUtilHelper $utilHelper = null,
         ?ilCertificateFileUtilsHelper $certificateFileUtilsHelper = null,

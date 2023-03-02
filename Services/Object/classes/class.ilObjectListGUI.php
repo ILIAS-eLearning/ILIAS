@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\DI\UIServices;
@@ -1548,7 +1548,10 @@ class ilObjectListGUI
             $this->tpl->setVariable("CONDITION_TOGGLE_ID", "_opt_" . $toggle_id);
             $this->tpl->setVariable(
                 "TXT_PRECONDITIONS",
-                sprintf($this->lng->txt("preconditions_optional_hint"), $num_optional_required)
+                sprintf(
+                    $this->lng->txt("preconditions_optional_hint"),
+                    $num_optional_required - $passed_optional
+                )
             );
             $this->tpl->parseCurrentBlock();
         }
@@ -3263,7 +3266,7 @@ class ilObjectListGUI
 
         // workaround for scorm
         $modified_link =
-            $this->modifySAHSlaunch($def_cmd_link, $def_cmd_frame)[0];
+            $this->modifySAHSlaunch($def_cmd_link, $def_cmd_frame);
 
         $image = $this->ui->factory()
                           ->image()

@@ -48,7 +48,6 @@ il.Explorer2 = {
 			}};
 		}
 		config.js_tree_config = js_tree_config;
-		console.log(js_tree_config);
 		il.Explorer2.configs[config.container_id] = config;
 		$("#" + config.container_id).on("loaded.jstree", function (event, data) {
 				var i;
@@ -56,7 +55,6 @@ il.Explorer2 = {
 				for (i = 0; i < config.second_hnodes.length; i++) {
 					$("#" + config.second_hnodes[i]).addClass("ilExplSecHighlight");
 				}
-				console.log("loaded jstree");
 
 		}).on("open_node.jstree close_node.jstree", function (event, data) {
 				il.Explorer2.toggle(event, data);
@@ -95,7 +93,6 @@ il.Explorer2 = {
 				e.preventDefault();
 				var pid = $(e.target).parents("li").parents("li").attr("id");
 				il.Explorer2.current_search_term = $(e.target).val();
-				console.log("refresh node " + pid);
 				$("#" + cid).jstree('refresh_node', pid);
 			}
 		});

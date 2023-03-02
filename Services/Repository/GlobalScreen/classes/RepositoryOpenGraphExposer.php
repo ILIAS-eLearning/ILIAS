@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -43,9 +44,13 @@ class RepositoryOpenGraphExposer extends AbstractModificationProvider
 
     public function getContentModification(CalledContexts $screen_context_stack): ?ContentModification
     {
-        if ($screen_context_stack->current() instanceof ContextRepository &&
-            null !== ($object = $this->getObjectOfContext($screen_context_stack->current())) &&
-            $this->dic->access()->checkAccess('visible', '', $object->getRefId())
+        $current_context = $screen_context_stack->current();
+        $ref_id = $current_context->getReferenceId()->toInt();
+
+        if (
+            $ref_id > 0
+            && $this->dic->access()->checkAccess('visible', '', $ref_id)
+            && null !== ($object = $this->getObjectOfContext($current_context))
         ) {
             $this->exposeObjectOpenGraphMetaData($object);
         } else {
@@ -73,15 +78,15 @@ class RepositoryOpenGraphExposer extends AbstractModificationProvider
             }
         }
 
-        $uri = $this->data->uri(\ilLink::_getLink($object->getRefId(), $object->getType()));
+        $uri = $this->data->uri(\ilLink::_getStaticLink($object->getRefId(), $object->getType()));
 
         $this->globalScreen()->layout()->meta()->addOpenGraphMetaDatum(
             $this->data->openGraphMetadata()->website(
                 $uri,
                 $this->getDefaultImage(),
-                $object->getTitle(),
+                $object->getPresentationTitle(),
                 $uri->getHost(),
-                $object->getDescription(),
+                $object->getLongDescription(),
                 $object_translation->getDefaultLanguage(),
                 (1 < $additional_locale_count) ? array_slice($additional_locales, 1) : []
             )
@@ -125,12 +130,12 @@ class RepositoryOpenGraphExposer extends AbstractModificationProvider
             $this->data->uri(
                 ILIAS_HTTP_PATH . ltrim(
                     $image_path_resolver->resolveImagePath(
-                        'HeaderIconResponsive.svg'
+                        'Sharing.jpg'
                     ),
                     '.'
                 )
             ),
-            'image/svg+xml'
+            'image/jpg'
         );
     }
 

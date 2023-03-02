@@ -62,7 +62,7 @@ class ilObjSession extends ilObject
     {
         global $DIC;
 
-        $this->session_logger = $DIC->logger()->root();
+        $this->session_logger = $DIC->logger()->sess();
         $this->obj_data_cache = $DIC['ilObjDataCache'];
         $this->event_handler = $DIC->event();
 
@@ -676,6 +676,14 @@ class ilObjSession extends ilObject
 
         $parts = ilSessionParticipants::_getInstanceByObjId($this->getId());
         $current = $parts->getCountParticipants();
+
+        $refs = ilObject::_getAllReferences($this->getId());
+        $ref_id = current($refs);
+        if ($ref_id === false) {
+            $this->session_logger->warning('No ref_id found for obj_id: ' . $this->getId());
+            return true;
+        }
+        $current = ilSessionParticipants::lookupNumberOfMembers($ref_id);
         $max = $this->getRegistrationMaxUsers();
 
         if ($max <= $current) {

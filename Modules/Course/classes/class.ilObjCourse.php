@@ -18,7 +18,6 @@
 /**
  * Class ilObjCourse
  * @author  Stefan Meyer <meyer@leifos.com>
- * @version $Id$
  */
 class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 {

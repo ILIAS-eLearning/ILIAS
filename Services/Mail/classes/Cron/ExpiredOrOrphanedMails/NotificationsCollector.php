@@ -31,14 +31,15 @@ use ilDBInterface;
 class NotificationsCollector
 {
     private const PING_THRESHOLD = 500;
+
     /** @var array<int, ReportDto> */
     private array $collection = [];
-    private ilDBInterface $db;
-    private ilSetting $setting;
-    private ClockInterface $clock;
+    private readonly ilDBInterface $db;
+    private readonly ilSetting $setting;
+    private readonly ClockInterface $clock;
 
     public function __construct(
-        private ilMailCronOrphanedMails $job,
+        private readonly ilMailCronOrphanedMails $job,
         ?ilDBInterface $db = null,
         ?ilSetting $settings = null,
         ?ClockInterface $clock = null

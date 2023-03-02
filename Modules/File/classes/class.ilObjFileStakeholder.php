@@ -25,7 +25,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 class ilObjFileStakeholder extends AbstractResourceStakeholder
 {
     protected int $owner = 6;
-    protected ?ilDBInterface $database;
+    protected ?ilDBInterface $database = null;
 
     /**
      * ilObjFileStakeholder constructor.
@@ -50,15 +50,14 @@ class ilObjFileStakeholder extends AbstractResourceStakeholder
 
     public function resourceHasBeenDeleted(ResourceIdentification $identification): bool
     {
-        global $DIC;
-        $this->database = $DIC->database();
+        $this->initDB();
         $r = $this->database->queryF(
             "SELECT file_id FROM file_data WHERE rid = %s",
             ['text'],
             [$identification->serialize()]
         );
         $d = $this->database->fetchObject($r);
-        if (isset($d->file_id)) {
+        if (property_exists($d, 'file_id') && $d->file_id !== null) {
             try {
                 $this->database->manipulateF(
                     "UPDATE object_data SET offline = 1 WHERE obj_id = %s",
@@ -71,5 +70,29 @@ class ilObjFileStakeholder extends AbstractResourceStakeholder
             return true;
         }
         return false;
+    }
+
+    public function getLocationURIForResourceUsage(ResourceIdentification $identification): ?string
+    {
+        $this->initDB();
+        $r = $this->database->queryF(
+            "SELECT file_id FROM file_data WHERE rid = %s",
+            ['text'],
+            [$identification->serialize()]
+        );
+        $d = $this->database->fetchObject($r);
+        if (property_exists($d, 'file_id') && $d->file_id !== null) {
+            $references = ilObject::_getAllReferences($d->file_id);
+            $ref_id = array_shift($references);
+
+            return ilLink::_getLink($ref_id, 'file');
+        }
+        return null;
+    }
+
+    private function initDB(): void
+    {
+        global $DIC;
+        $this->database = $DIC->database();
     }
 }

@@ -29,7 +29,7 @@ final class ilAuthFrontendCredentialsSaml extends ilAuthFrontendCredentials
     private string $return_to = '';
     private array $attributes = [];
 
-    public function __construct(private ilSamlAuth $auth, private ServerRequestInterface $request)
+    public function __construct(private readonly ilSamlAuth $auth, private readonly ServerRequestInterface $request)
     {
         parent::__construct();
 

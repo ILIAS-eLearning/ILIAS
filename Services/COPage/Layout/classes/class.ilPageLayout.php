@@ -233,18 +233,32 @@ class ilPageLayout
             $height = $height / 10;
             $item->set_attribute("Height", $height . "px");
         }
-        $xsl = file_get_contents($this->getXSLPath());
 
         $xml = $dom->dump_mem(0, "UTF-8");
-
-        $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
-
-        $xh = xslt_create();
-        $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, null);
-        xslt_error($xh);
-        xslt_free($xh);
+        $output = $this->xslt($xml, []);
         return $output;
     }
+
+    protected function xslt(
+        string $xml,
+        array $params
+    ): string {
+        $xslt = new \XSLTProcessor();
+        $xsl = file_get_contents($this->getXSLPath());
+        $xslt_domdoc = new \DomDocument();
+        $xslt_domdoc->loadXML($xsl);
+        $xslt->importStylesheet($xslt_domdoc);
+        foreach ($params as $key => $value) {
+            $xslt->setParameter("", $key, (string) $value);
+        }
+        $xml_domdoc = new \DomDocument();
+        $xml_domdoc->loadXML($xml);
+        // show warnings again due to discussion in #12866
+        $result = $xslt->transformToXml($xml_domdoc);
+        unset($xslt);
+        return $result;
+    }
+
 
     public static function getLayoutsAsArray(
         int $a_active = 0

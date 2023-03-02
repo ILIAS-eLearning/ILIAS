@@ -54,15 +54,21 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
         $mob = new ilObjMediaObject($value);
         $med = $mob->getMediaItem('Standard');
 
-        if (!$med || $med->getLocation() == null) {
+        if (!$med || $med->getLocation() === "") {
             return "";
         }
 
         $field = $this->getRecordField()->getField();
 
         $is_linked_field = $field->getProperty(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT);
-        $tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
-        $has_view = ilDclDetailedViewDefinition::isActive($tableview_id);
+        $has_view = false;
+        if ($this->http->wrapper()->query()->has("tableview_id")) {
+            $tableview_id = $this->http->wrapper()->query()->retrieve(
+                'tableview_id',
+                $this->refinery->kindlyTo()->int()
+            );
+            $has_view = ilDclDetailedViewDefinition::isActive($tableview_id);
+        }
 
         $components = [];
 
@@ -125,6 +131,9 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
      */
     public function parseFormInput($value)
     {
+        if (is_null($value)) {
+            return "";
+        }
         if (is_array($value)) {
             return $value;
         }

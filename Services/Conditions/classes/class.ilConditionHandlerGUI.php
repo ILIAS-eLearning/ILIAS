@@ -319,7 +319,7 @@ class ilConditionHandlerGUI
             }
         }
 
-        $table = new ilConditionHandlerTableGUI($this, 'listConditions', $list_mode === self::LIST_MODE_ALL);
+        $table = new ilConditionHandlerTableGUI($this, 'listConditions', $list_mode !== self::LIST_MODE_ALL);
         $table->setConditions(
             ilConditionHandler::_getPersistedConditionsOfTarget(
                 $this->getTargetRefId(),
@@ -784,7 +784,7 @@ class ilConditionHandlerGUI
                 'tpl.condition_handler_sco_row.html',
                 true,
                 true,
-                "Services/AccessControl"
+                "Services/Conditions"
             );
 
             $olp = ilObjectLP::getInstance($trigger_obj_id);

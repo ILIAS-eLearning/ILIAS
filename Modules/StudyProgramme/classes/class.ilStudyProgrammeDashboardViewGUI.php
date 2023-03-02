@@ -29,7 +29,6 @@ class ilStudyProgrammeDashboardViewGUI
     protected ilStudyProgrammeUserTable $user_table;
     protected int $usr_id;
     protected ?string $visible_on_pd_mode = null;
-
     public function __construct(
         ilLanguage $lng,
         ilAccess $access,
@@ -42,6 +41,7 @@ class ilStudyProgrammeDashboardViewGUI
     ) {
         $this->lng = $lng;
         $this->lng->loadLanguageModule('prg');
+        $this->lng->loadLanguageModule('certificate');
         $this->access = $access;
         $this->setting = $setting;
         $this->factory = $factory;
@@ -82,6 +82,13 @@ class ilStudyProgrammeDashboardViewGUI
                 $properties[] = [$this->txt('prg_dash_label_valid') => $validity];
             } else {
                 $properties[] = [$this->txt('prg_dash_label_finish_until') =>$row->getDeadline()];
+            }
+
+            $validator = new ilCertificateDownloadValidator();
+            if ($validator->isCertificateDownloadable($row->getUsrId(), $row->getNodeId())) {
+                $cert_url = "ilias.php?baseClass=ilRepositoryGUI&ref_id=" . $prg->getRefId() . "&cmd=deliverCertificate";
+                $cert_link = $this->factory->link()->standard($this->txt('download_certificate'), $cert_url);
+                $properties[] = [$this->txt('certificate') => $this->renderer->render($cert_link)];
             }
 
             $items[] = $this->buildItem($prg, $properties);

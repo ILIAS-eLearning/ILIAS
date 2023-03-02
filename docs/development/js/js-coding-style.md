@@ -24,7 +24,7 @@ If global identifiers like `$`or `il` are being used, they should be declared at
 
 ## Use Airbnb Style
 
-Javascript code should be written using [Airbnb Stlye](https://github.com/airbnb/javascript) as coding style.
+Javascript code should be written using [Airbnb Style](https://github.com/airbnb/javascript) as coding style.
 
 ### Install
 

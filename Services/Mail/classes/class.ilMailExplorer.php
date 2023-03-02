@@ -32,8 +32,8 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilMailExplorer extends ilTreeExplorerGUI
 {
-    private GlobalHttpState $http;
-    private Refinery $refinery;
+    private readonly GlobalHttpState $http;
+    private readonly Refinery $refinery;
     private int $currentFolderId = 0;
 
     public function __construct(ilMailGUI $parentObject, int $userId)
@@ -61,7 +61,10 @@ class ilMailExplorer extends ilTreeExplorerGUI
         } elseif ($this->http->wrapper()->query()->has('mobj_id')) {
             $folderId = $this->http->wrapper()->query()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
         } else {
-            $folderId = $this->refinery->kindlyTo()->int()->transform(ilSession::get('mobj_id'));
+            $folderId = $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->int(),
+                $this->refinery->always($this->currentFolderId),
+            ])->transform(ilSession::get('mobj_id'));
         }
 
         $this->currentFolderId = $folderId;

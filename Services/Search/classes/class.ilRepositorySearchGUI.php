@@ -526,7 +526,11 @@ class ilRepositorySearchGUI
 
     protected function showClipboard(): void
     {
-        $this->ctrl->setParameter($this, 'user_type', $this->initUserTypeFromQuery());
+        $user_type = $this->initUserTypeFromQuery();
+        if ($user_type === '') {
+            $user_type = $this->initUserTypeFromPost();
+        }
+        $this->ctrl->setParameter($this, 'user_type', $user_type);
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget(
             $this->lng->txt('back'),
@@ -544,7 +548,11 @@ class ilRepositorySearchGUI
 
     protected function addFromClipboard(): void
     {
-        $this->ctrl->setParameter($this, 'user_type', $this->initUserTypeFromPost());
+        $user_type = $this->initUserTypeFromPost();
+        if ($user_type === '') {
+            $user_type = $this->initUserTypeFromQuery();
+        }
+        $this->ctrl->setParameter($this, 'user_type', $user_type);
 
         $users = [];
         if ($this->http->wrapper()->post()->has('uids')) {
@@ -561,8 +569,6 @@ class ilRepositorySearchGUI
         }
         $class = $this->callback['class'];
         $method = $this->callback['method'];
-        $user_type = $this->initUserTypeFromPost();
-
         if (!$class->$method($users, $user_type)) {
             $this->ctrl->returnToParent($this);
         }
@@ -665,17 +671,15 @@ class ilRepositorySearchGUI
     public function showSearchSelected(): void
     {
         $selected = [];
-        if ($this->http->wrapper()->post()->has('selected_id')) {
-            $selected = $this->http->wrapper()->post()->retrieve(
+        if ($this->http->wrapper()->query()->has('selected_id')) {
+            $selected = $this->http->wrapper()->query()->retrieve(
                 'selected_id',
-                $this->refinery->kindlyTo()->dictOf(
-                    $this->refinery->kindlyTo()->int()
-                )
+                $this->refinery->kindlyTo()->int()
             );
         }
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.rep_search_result.html', 'Services/Search');
         $this->addNewSearchButton();
-        $this->showSearchUserTable(array($selected), 'showSearchResults');
+        $this->showSearchUserTable([$selected], 'showSearchResults');
     }
 
     public function initFormSearch(ilObjUser $user = null): void

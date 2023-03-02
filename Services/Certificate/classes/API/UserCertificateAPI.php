@@ -29,7 +29,7 @@ use ILIAS\Certificate\API\Repository\UserDataRepository;
  */
 class UserCertificateAPI
 {
-    private UserDataRepository $userCertificateRepository;
+    private readonly UserDataRepository $userCertificateRepository;
 
     public function __construct(?UserDataRepository $userCertificateRepository = null)
     {

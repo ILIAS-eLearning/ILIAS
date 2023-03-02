@@ -24,6 +24,7 @@
  */
 abstract class ilPageContent
 {
+    protected DOMDocument $dom_doc;
     protected string $pcid;
     protected string $type = "";
     protected ilPageObject $pg_obj;
@@ -45,6 +46,7 @@ abstract class ilPageContent
         $this->log = ilLoggerFactory::getLogger('copg');
         $this->setPage($a_pg_obj);
         $this->dom = $a_pg_obj->getDom();
+        $this->dom_doc = $a_pg_obj->getDomDoc();
         $this->init();
         if ($this->getType() == "") {
             die("Error: ilPageContent::init() did not set type");

@@ -22,19 +22,17 @@ use Monolog\Logger;
 
 class ilCronDefinitionProcessor implements ilComponentDefinitionProcessor
 {
-    private ilDBInterface $db;
-    private ilCronJobRepository $cronRepository;
+    private readonly ilCronJobRepository $cronRepository;
     private ?string $component = null;
     /** @var string[] */
     private array $has_cron;
 
     public function __construct(
-        ilDBInterface $db,
+        private readonly ilDBInterface $db,
         ilSetting $setting,
         ilComponentRepository $componentRepository,
         ilComponentFactory $componentFactory
     ) {
-        $this->db = $db;
         $this->has_cron = [];
 
         $this->cronRepository = new ilCronJobRepositoryImpl(

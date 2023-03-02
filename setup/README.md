@@ -117,12 +117,13 @@ via options.
 
 Some components of ILIAS will publish named objectives to the setup via their
 agent. The most notorious example for this is the component `UICore` which provides
-the objective `reloadCtrlStructure` that will generate routing information for the
+the objective `buildIlCtrlArtifacts` that will generate routing information for the
 GUI. To achieve a single objective from an agent, e.g. for control structure reload,
 run `php setup/setup.php achieve $AGENT_NAME.$OBJECTIVE_NAME`, e.g. 
-`php setup/setup.php achieve uicore.reloadCtrlStructure` to reload the
-control structure. The agent might need to a config file to work, which may be added
-as last parameter: `php setup/setup.php achieve uicore.reloadCtrlStructure config.json`
+`php setup/setup.php achieve uicore.buildIlCtrlArtifacts` to generate the necessary
+artifacts for the control structure. The agent might need to a config file to work,
+which may be added as last parameter: 
+`php setup/setup.php achieve uicore.buildIlCtrlArtifacts config.json`
 
 ## List available objectives
 Calling `php setup/setup.php achieve` without any arguments and options  
@@ -200,7 +201,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
     "database" : {
         "type" : "innodb",
         "host" : "192.168.47.11",
-        "port" : "3306",
+        "port" : 3306,
         "database" : "db_test7",
         "user" : "test7_homer",
         "password" : "homers-secret",
@@ -313,8 +314,8 @@ are printed bold**, all other fields might be omitted. A minimal example is
     ```
 	"mathjax": {
 		"client_enabled": true,
-		"client_polyfill_url": "https://polyfill.io/v3/polyfill.min.js?features=es6",
-		"client_script_url": "https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js",
+		"client_polyfill_url": "",
+		"client_script_url": "https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe",
 		"client_limiter": 0,
 		"server_enabled": true,
 		"server_address": "http://your.mathjax.server:8003",

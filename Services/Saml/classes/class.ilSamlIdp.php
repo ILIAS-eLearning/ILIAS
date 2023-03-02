@@ -34,7 +34,7 @@ final class ilSamlIdp
     private const PROP_ALLOW_LOCAL_AUTH = 'allow_local_auth';
     private const PROP_ACCOUNT_MIGR_STATUS = 'account_migr_status';
 
-    private ilDBInterface $db;
+    private readonly ilDBInterface $db;
     /** @var self[] */
     private static array $instances = [];
     private bool $is_active = false;

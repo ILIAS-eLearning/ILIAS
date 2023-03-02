@@ -30,6 +30,7 @@ use ILIAS\Survey\Access\AccessManager;
  */
 class CodeManager
 {
+    protected int $survey_ref_id = 0;
     protected CodeDBRepo $code_repo;
     protected InternalDataService $data;
     protected int $survey_id;
@@ -46,6 +47,7 @@ class CodeManager
         $this->data = $data;
         $this->code_repo = $code_repo;
         $this->survey_id = $survey->getSurveyId();
+        $this->survey_ref_id = $survey->getRefId();
         $this->access = $domain_service->access(
             $survey->getRefId(),
             $user_id
@@ -59,7 +61,8 @@ class CodeManager
     protected function checkPermission(): void
     {
         if (!$this->access->canManageCodes()) {
-            throw new \ilPermissionException($this->lng->txt("permission_denied"));
+            throw new \ilPermissionException($this->lng->txt("permission_denied") .
+                " (" . $this->survey_ref_id . ")");
         }
     }
 
@@ -67,9 +70,11 @@ class CodeManager
      * Delete all codes of survey
      * @throws \ilPermissionException
      */
-    public function deleteAll(): void
+    public function deleteAll(bool $force = false): void
     {
-        $this->checkPermission();
+        if (!$force) {
+            $this->checkPermission();
+        }
         $repo = $this->code_repo;
         $repo->deleteAll($this->survey_id);
     }

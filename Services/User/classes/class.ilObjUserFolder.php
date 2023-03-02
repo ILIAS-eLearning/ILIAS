@@ -184,11 +184,11 @@ class ilObjUserFolder extends ilObject
             $csvrow = array();
             foreach ($settings as $header) {	// standard fields
                 // multi-text
-                if (is_array($row[$header])) {
+                if (isset($row[$header]) && is_array($row[$header])) {
                     $row[$header] = implode(", ", $row[$header]);
                 }
 
-                $csvrow[] = $row[$header];
+                $csvrow[] = $row[$header] ?? '';
             }
 
             // custom fields
