@@ -87,7 +87,7 @@ class ilSetupLanguage extends ilLanguage
      */
     public $comment_separator = "###";
     
-    protected ilDBInterface $db;
+    protected $db;
 
     /**
      * Constructor
