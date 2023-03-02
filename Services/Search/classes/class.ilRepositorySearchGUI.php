@@ -407,9 +407,6 @@ class ilRepositorySearchGUI
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-
-        $this->ctrl->setReturn($this, '');
-
         switch ($next_class) {
             default:
                 if (!$cmd) {
