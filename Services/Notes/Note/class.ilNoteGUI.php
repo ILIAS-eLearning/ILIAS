@@ -272,6 +272,7 @@ class ilNoteGUI
 
     public function getCommentsHTML(): string
     {
+        $this->gui->initJavascript();
         $ilCtrl = $this->ctrl;
         $ilCtrl->setParameter($this, "notes_type", Note::PUBLIC);
         $this->requested_note_type = Note::PUBLIC;
