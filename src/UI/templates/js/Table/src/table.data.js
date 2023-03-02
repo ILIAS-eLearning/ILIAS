@@ -1,5 +1,5 @@
 
-var data = function(params, $) {
+var data = function($, params, kbnav) {
     var
     actions_registry = {},
     /**
@@ -97,7 +97,8 @@ var data = function(params, $) {
         doAction: doAction,
         doActionForAll: doActionForAll,
         collectSelectedRowIds: collectSelectedRowIds,
-        selectAll: selectAll
+        selectAll: selectAll,
+        initKeyboardNavigation: kbnav.init
     };
     return public_interface;
 }

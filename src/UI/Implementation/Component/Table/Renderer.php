@@ -167,6 +167,14 @@ class Renderer extends AbstractComponentRenderer
 
         $component = $this->registerActionsJS($component);
         $component = $this->applyViewControls($component);
+        $component = $component->withAdditionalOnLoadCode(
+            fn ($id) => "il.UI.table.data.initKeyboardNavigation('{$id}');"
+        );
+        if ($component->hasMultiActions()) {
+            $component = $component->withAdditionalOnLoadCode(
+                fn ($id) => "il.UI.table.data.selectAll('{$id}', false);"
+            );
+        }
 
         $rows = $component->getDataRetrieval()->getRows(
             $component->getRowFactory(),
@@ -177,12 +185,7 @@ class Renderer extends AbstractComponentRenderer
             $component->getAdditionalParameters()
         );
 
-        $multi_actions = $component->getMultiActions();
-        if (count($multi_actions) > 0) {
-            $component = $component->withAdditionalOnLoadCode(
-                fn ($id) => "il.UI.table.data.selectAll('{$id}', false);"
-            );
-        }
+
         $id = $this->bindJavaScript($component);
         $tpl->setVariable('ID', $id);
         $tpl->setVariable('TITLE', $component->getTitle());
@@ -192,10 +195,11 @@ class Renderer extends AbstractComponentRenderer
         $this->renderTableHeader($default_renderer, $component, $tpl);
         $this->appendTableRows($tpl, $rows, $default_renderer);
 
-        if (count($multi_actions) > 0) {
+        if ($component->hasMultiActions()) {
+            $multi_actions = $component->getMultiActions();
             $modal = $this->buildMultiActionsAllObjectsModal($multi_actions, $id);
             $multi_actions_dropdown = $this->buildMultiActionsDropdown(
-                $component->getMultiActions(),
+                $multi_actions,
                 $component->getActionSignal(),
                 $modal->getShowSignal()
             );
