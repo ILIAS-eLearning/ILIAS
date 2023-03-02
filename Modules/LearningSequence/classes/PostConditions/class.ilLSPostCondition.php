@@ -61,6 +61,13 @@ class ilLSPostCondition
         return $this->ref_id;
     }
 
+    public function withRefId(int $ref_id): self
+    {
+        $clone = clone $this;
+        $clone->ref_id = $ref_id;
+        return $clone;
+    }
+
     public function getConditionOperator(): string
     {
         return $this->operator;
