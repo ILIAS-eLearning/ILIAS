@@ -105,3 +105,8 @@ $il-test-working-time-font-weight: $il-font-weight-bold;
         margin-bottom: $il-test-padding-large-vertical;
     }
 }
+
+// table row scroll margin correction
+#tst_pass_details_overview tr {
+    scroll-margin-top: 30px;
+}

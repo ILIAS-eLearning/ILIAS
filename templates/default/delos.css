@@ -16210,6 +16210,10 @@ div.ilc_Page.readonly textarea[disabled] {
   margin-bottom: 6px;
 }
 
+#tst_pass_details_overview tr {
+  scroll-margin-top: 30px;
+}
+
 /* Modules/Wiki */
 a.ilWikiPageMissing:link, a.ilWikiPageMissing:visited {
   color: #d00;
