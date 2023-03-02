@@ -18,6 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\HTTP\Services as HttpServices;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\EmployeeTalk\UI\ControlFlowCommandHandler;
 use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
 use ILIAS\Modules\EmployeeTalk\Talk\DAO\EmployeeTalk;
@@ -41,6 +43,8 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
     private ilGlobalTemplateInterface $template;
     private ilLanguage $language;
     private ilCtrl $controlFlow;
+    private HttpServices $http;
+    private Refinery $refinery;
     private ilTabsGUI $tabs;
     private ilObjEmployeeTalk $talk;
 
@@ -56,12 +60,16 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         ilGlobalTemplateInterface $template,
         ilLanguage $language,
         ilCtrl $controlFlow,
+        HttpServices $http,
+        Refinery $refinery,
         ilTabsGUI $tabs,
         ilObjEmployeeTalk $talk
     ) {
         $this->template = $template;
         $this->language = $language;
         $this->controlFlow = $controlFlow;
+        $this->http = $http;
+        $this->refinery = $refinery;
         $this->tabs = $tabs;
         $this->talk = $talk;
 
@@ -71,10 +79,19 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
     public function executeCommand(): void
     {
         $cmd = $this->controlFlow->getCmd(ControlFlowCommand::DEFAULT);
-        $params = $this->controlFlow->getParameterArrayByClass(strtolower(self::class));
+        if ($this->http->wrapper()->query()->has('ref_id')) {
+            $ref_id = $this->http->wrapper()->query()->retrieve(
+                'ref_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        } else {
+            throw new ilEmployeeTalkAppointmentException(
+                'No ref_id found'
+            );
+        }
 
         $backClass = strtolower(ilObjEmployeeTalkGUI::class);
-        $this->controlFlow->setParameterByClass($backClass, 'ref_id', $params['ref_id']);
+        $this->controlFlow->setParameterByClass($backClass, 'ref_id', $ref_id);
         $this->tabs->setBackTarget($this->language->txt('back'), $this->controlFlow->getLinkTargetByClass(strtolower(ilObjEmployeeTalkGUI::class), ControlFlowCommand::DEFAULT));
 
         switch ($this->editMode()) {
@@ -138,7 +155,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
             $this->deletePendingTalks($parent);
             $this->createRecurringTalks($form, $reoccurrence, $parent);
 
-            ilUtil::sendSuccess($this->language->txt('saved_successfully'), true);
+            $this->template->setOnScreenMessage('success', $this->language->txt('saved_successfully'), true);
         }
 
         $this->controlFlow->redirectToURL(
@@ -244,16 +261,20 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
              * @var ilDateDurationInputGUI $dateTimeInput
              */
             $dateTimeInput = $form->getItemByPostVar('event');
-            ['tgl' => $tgl] = $form->getInput('event');
+            $tgl = $form->getInput('event')['tgl'] ?? 0;
             ['start' => $start, 'end' => $end] = $dateTimeInput->getValue();
-
-            $startDate = new ilDateTime($start, IL_CAL_UNIX, ilTimeZone::UTC);
-            $endDate = new ilDateTime($end, IL_CAL_UNIX, ilTimeZone::UTC);
+            if (intval($tgl)) {
+                $start_date = new ilDate($start, IL_CAL_UNIX);
+                $end_date = new ilDate($end, IL_CAL_UNIX);
+            } else {
+                $start_date = new ilDateTime($start, IL_CAL_UNIX, ilTimeZone::UTC);
+                $end_date = new ilDateTime($end, IL_CAL_UNIX, ilTimeZone::UTC);
+            }
 
             $data = $this->talk->getData();
             $data->setAllDay(boolval(intval($tgl)));
-            $data->setStartDate($startDate);
-            $data->setEndDate($endDate);
+            $data->setStartDate($start_date);
+            $data->setEndDate($end_date);
             $data->setStandalone(true);
 
             $this->talk->setData($data);
@@ -283,30 +304,45 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         }
 
         $firstTalk = $talks[0];
-        $talkTitle = $firstTalk->getTitle();
+        $talk_title = $firstTalk->getTitle();
         $superior = new ilObjUser($firstTalk->getOwner());
         $employee = new ilObjUser($firstTalk->getData()->getEmployee());
         $superiorName = $superior->getFullname();
 
-        $dates = [];
-        foreach ($talks as $talk) {
-            $data = $talk->getData();
-            $startDate = $data->getStartDate()->get(IL_CAL_DATETIME);
+        $dates = array_map(
+            fn (ilObjEmployeeTalk $t) => $t->getData()->getStartDate(),
+            $talks
+        );
+        usort($dates, function (ilDateTime $a, ilDateTime $b) {
+            $a = $a->getUnixTime();
+            $b = $b->getUnixTime();
+            if ($a === $b) {
+                return 0;
+            }
+            return $a < $b ? -1 : 1;
+        });
 
-            $dates[] = $startDate;
-        }
+        $add_time = $firstTalk->getData()->isAllDay() ? 0 : 1;
+        $format = ilCalendarUtil::getUserDateFormat($add_time, true);
+        $timezone = $employee->getTimeZone();
+        $dates = array_map(function (ilDateTime $d) use ($add_time, $format, $timezone) {
+            return $d->get(IL_CAL_FKT_DATE, $format, $timezone);
+        }, $dates);
 
         $message = new EmployeeTalkEmailNotification(
-            sprintf($this->language->txt('notification_talks_updated'), $superiorName),
-            $this->language->txt('notification_talks_date_details'),
-            sprintf($this->language->txt('notification_talks_talk_title'), $talkTitle),
-            $this->language->txt('notification_talks_date_list_header'),
+            $firstTalk->getRefId(),
+            $talk_title,
+            $firstTalk->getDescription(),
+            $firstTalk->getData()->getLocation(),
+            'notification_talks_subject_update',
+            'notification_talks_updated',
+            $superiorName,
             $dates
         );
 
         $vCalSender = new EmployeeTalkEmailNotificationService(
             $message,
-            $talkTitle,
+            $talk_title,
             $employee,
             $superior,
             VCalendarFactory::getInstanceFromTalks($firstTalk->getParent())
@@ -495,7 +531,11 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
 
             $cloneData->setStartDate($date);
             $endDate = $date->get(IL_CAL_UNIX) + $periodDiff;
-            $cloneData->setEndDate(new ilDateTime($endDate, IL_CAL_UNIX));
+            if ($cloneData->isAllDay()) {
+                $cloneData->setEndDate(new ilDate($endDate, IL_CAL_UNIX));
+            } else {
+                $cloneData->setEndDate(new ilDateTime($endDate, IL_CAL_UNIX, ilTimeZone::UTC));
+            }
             $cloneObject->setData($cloneData);
             $cloneObject->update();
 
@@ -528,20 +568,25 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
     private function loadEtalkData(ilPropertyFormGUI $form): EmployeeTalk
     {
         $data = $this->talk->getData();
-        ['tgl' => $tgl] = $form->getInput('event');
+        $tgl = $form->getInput('event')['tgl'] ?? 0;
 
         /**
          * @var ilDateDurationInputGUI $dateTimeInput
          */
         $dateTimeInput = $form->getItemByPostVar('event');
         ['start' => $start, 'end' => $end] = $dateTimeInput->getValue();
-        $startDate = new ilDateTime($start, IL_CAL_UNIX, ilTimeZone::UTC);
-        $endDate = new ilDateTime($end, IL_CAL_UNIX, ilTimeZone::UTC);
+        if (intval($tgl)) {
+            $start_date = new ilDate($start, IL_CAL_UNIX);
+            $end_date = new ilDate($end, IL_CAL_UNIX);
+        } else {
+            $start_date = new ilDateTime($start, IL_CAL_UNIX, ilTimeZone::UTC);
+            $end_date = new ilDateTime($end, IL_CAL_UNIX, ilTimeZone::UTC);
+        }
 
         return new EmployeeTalk(
             -1,
-            $startDate,
-            $endDate,
+            $start_date,
+            $end_date,
             boolval(intval($tgl)),
             '',
             $data->getLocation(),

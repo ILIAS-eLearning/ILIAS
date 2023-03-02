@@ -983,9 +983,7 @@ class ilObjGroupGUI extends ilContainerGUI
     public function unsubscribeObject(): void
     {
         $this->checkPermission('leave');
-
         $this->object->members_obj->delete($this->user->getId());
-
         $this->object->members_obj->sendNotification(
             ilGroupMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER,
             $this->user->getId()

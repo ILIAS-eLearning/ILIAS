@@ -89,8 +89,6 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
     /**
      * Prepares and displays chatroom and connects user to it.
-     * @param ilChatroom $room
-     * @param ilChatroomUser $chat_user
      */
     private function showRoom(ilChatroom $room, ilChatroomUser $chat_user): void
     {
@@ -298,7 +296,6 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
     /**
      * Calls ilUtil::sendFailure method using given $message as parameter.
-     * @param string $message
      */
     private function cancelJoin(string $message): void
     {
@@ -474,7 +471,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
         ilWACSignedPath::setTokenMaxLifetimeInSeconds(30);
 
-        $user_ids = array_filter(array_map('intval', array_map('trim', explode(',', $usr_ids))));
+        $user_ids = array_filter(array_map('intval', array_map('trim', explode(',', (string) $usr_ids))));
 
         $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $chatRoomUserDetails = ilChatroomUser::getUserInformation($user_ids, $room->getRoomId());

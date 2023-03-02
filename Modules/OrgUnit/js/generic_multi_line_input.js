@@ -59,6 +59,7 @@
           $(element).change();
           $(document).trigger('multi_line_add_button', [$line, new_line]);
           $(element).find("textarea, input[type='text']").last().focus();
+          $('#multi_line_add_button').hide();
           return false;
         });
 
@@ -77,6 +78,8 @@
         });
 
         $(line).find('.remove_button').on('click', function (e) {
+          var siblings = $line.siblings('.multi_input_line').length;
+          if (siblings <= 1) $('#multi_line_add_button').show();
           $line.remove();
           $(element).change();
           $(document).trigger('multi_line_remove_button', $line);

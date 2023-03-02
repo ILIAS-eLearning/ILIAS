@@ -20,11 +20,11 @@ declare(strict_types=1);
 
 use ILIAS\DI\Container;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\GlobalScreen\Scope\Toast\Collector\ToastCollector;
 use ILIAS\Notifications\ilNotificationDatabaseHandler;
 use ILIAS\Notifications\ilNotificationHandler;
 use ILIAS\Notifications\ilNotificationOSDHandler;
 use ILIAS\Notifications\ilNotificationSettingsTable;
-use ILIAS\Services\Notifications\ToastsOfNotifications;
 
 /**
  * @author Ingmar Szmais <iszmais@databay.de>
@@ -107,37 +107,14 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
 
     public function getOSDNotificationsObject(): void
     {
-        $settings = new ilSetting('notifications');
         ilSession::enableWebAccessWithoutSession(true);
-        $notifications = (new ilNotificationOSDHandler())->getNotificationsForUser(
-            $this->user->getId(),
-            true,
-            $this->dic->http()->wrapper()->query()->retrieve('max_age', $this->dic->refinery()->kindlyTo()->int())
-        );
-
-        $toasts = (new ToastsOfNotifications(
-            $this->dic->ui()->factory(),
-            $settings
-        ))->create($notifications);
+        $toasts = $this->dic->globalScreen()->collector()->toasts()->getToasts();
 
         $this->dic->http()->saveResponse(
             $this->dic->http()->response()
                 ->withBody(Streams::ofString(
                     $this->dic->ui()->renderer()->renderAsync($toasts)
                 ))
-        );
-        $this->dic->http()->sendResponse();
-        $this->dic->http()->close();
-    }
-
-    public function removeOSDNotificationsObject(): void
-    {
-        ilSession::enableWebAccessWithoutSession(true);
-        (new ilNotificationOSDHandler())->removeNotification(
-            $this->dic->http()->wrapper()->query()->retrieve(
-                'notification_id',
-                $this->dic->refinery()->kindlyTo()->int()
-            )
         );
         $this->dic->http()->sendResponse();
         $this->dic->http()->close();
@@ -150,17 +127,6 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
         }
 
         $this->handler[$channel][] = $handler;
-    }
-
-    private function saveCustomizingOptionObject(): void
-    {
-        if ($this->dic->http()->wrapper()->post()->has('enable_custom_notification_configuration')) {
-            $this->user->writePref('use_custom_notification_setting', "1");
-        } else {
-            $this->user->writePref('use_custom_notification_setting', "0");
-        }
-
-        $this->showSettingsObject();
     }
 
     public function showSettingsObject(): void

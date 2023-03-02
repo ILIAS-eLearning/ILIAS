@@ -20,16 +20,16 @@ declare(strict_types=1);
 
 class ilCronJobResult
 {
-    public const STATUS_INVALID_CONFIGURATION = 1;
-    public const STATUS_NO_ACTION = 2;
-    public const STATUS_OK = 3;
-    public const STATUS_CRASHED = 4;
-    public const STATUS_RESET = 5;
-    public const STATUS_FAIL = 6;
+    final public const STATUS_INVALID_CONFIGURATION = 1;
+    final public const STATUS_NO_ACTION = 2;
+    final public const STATUS_OK = 3;
+    final public const STATUS_CRASHED = 4;
+    final public const STATUS_RESET = 5;
+    final public const STATUS_FAIL = 6;
 
-    public const CODE_NO_RESULT = 'job_no_result';
-    public const CODE_MANUAL_RESET = 'job_manual_reset';
-    public const CODE_SUPPOSED_CRASH = 'job_auto_deactivation_time_limit';
+    final public const CODE_NO_RESULT = 'job_no_result';
+    final public const CODE_MANUAL_RESET = 'job_manual_reset';
+    final public const CODE_SUPPOSED_CRASH = 'job_auto_deactivation_time_limit';
 
     protected int $status = self::STATUS_NO_ACTION;
     protected string $message = '';

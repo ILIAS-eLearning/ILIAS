@@ -23,9 +23,9 @@ declare(strict_types=1);
  */
 class ilUserCertificateRepository
 {
-    private ilDBInterface $database;
-    private ilLogger $logger;
-    private string $defaultTitle;
+    private readonly ilDBInterface $database;
+    private readonly ilLogger $logger;
+    private readonly string $defaultTitle;
 
     public function __construct(
         ?ilDBInterface $database = null,

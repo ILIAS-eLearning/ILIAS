@@ -28,14 +28,14 @@ use ILIAS\Filesystem\Exception\IOException;
  */
 class ilCertificateTemplateExportAction
 {
-    private ilCertificateObjectHelper $objectHelper;
-    private ilCertificateUtilHelper $utilHelper;
+    private readonly ilCertificateObjectHelper $objectHelper;
+    private readonly ilCertificateUtilHelper $utilHelper;
 
     public function __construct(
-        private int $objectId,
-        private string $certificatePath,
-        private ilCertificateTemplateRepository $templateRepository,
-        private Filesystem $filesystem,
+        private readonly int $objectId,
+        private readonly string $certificatePath,
+        private readonly ilCertificateTemplateRepository $templateRepository,
+        private readonly Filesystem $filesystem,
         ?ilCertificateObjectHelper $objectHelper = null,
         ?ilCertificateUtilHelper $utilHelper = null
     ) {

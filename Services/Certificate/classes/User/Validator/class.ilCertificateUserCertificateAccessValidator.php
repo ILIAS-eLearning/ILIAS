@@ -23,7 +23,7 @@ declare(strict_types=1);
  */
 class ilCertificateUserCertificateAccessValidator
 {
-    private ilUserCertificateRepository $userCertificateRepository;
+    private readonly ilUserCertificateRepository $userCertificateRepository;
 
     public function __construct(?ilUserCertificateRepository $userCertificateRepository = null)
     {

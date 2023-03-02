@@ -40,18 +40,15 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
 
     protected function getTypes(string $a_entity, string $a_version): array
     {
-        switch ($a_entity) {
-            case self::OBJ_TYPE:
-                return [
-                    'id' => 'integer',
-                    'title' => 'text',
-                    'description' => 'text',
-                    'info-tab' => 'integer'
-                ];
-
-            default:
-                return [];
-        }
+        return match ($a_entity) {
+            self::OBJ_TYPE => [
+                'id' => 'integer',
+                'title' => 'text',
+                'description' => 'text',
+                'info-tab' => 'integer'
+            ],
+            default => [],
+        };
     }
 
     public function readData(string $a_entity, string $a_version, array $a_ids): void
@@ -67,7 +64,6 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
 
 
     /**
-     * @param string $entity
      * @param int[] $ids
      */
     protected function readEntityData(string $entity, array $ids): void

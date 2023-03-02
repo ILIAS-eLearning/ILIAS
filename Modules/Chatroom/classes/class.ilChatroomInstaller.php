@@ -505,9 +505,6 @@ class ilChatroomInstaller
         self::setChatroomSettings($roomsToFix);
     }
 
-    /**
-     * @param int $ref_id
-     */
     public static function ensureCorrectPublicChatroomTreeLocation(int $ref_id): void
     {
         global $DIC;

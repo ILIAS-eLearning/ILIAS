@@ -95,7 +95,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $gl_set = $this->db->query($q);
         $gl_rec = $this->db->fetchAssoc($gl_set);
         $this->setOnline(ilUtil::yn2tf($gl_rec["is_online"]));
-        $this->setVirtualMode($gl_rec["virtual"]);
+        $this->setVirtualMode((string) ($gl_rec["virtual"] ?? ""));
         if (isset($gl_rec["public_xml_file"]) && $gl_rec["public_xml_file"] != "") {
             $this->setPublicExportFile("xml", $gl_rec["public_xml_file"]);
         }
@@ -104,9 +104,9 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         }
         $this->setActiveGlossaryMenu(ilUtil::yn2tf($gl_rec["glo_menu_active"]));
         $this->setActiveDownloads(ilUtil::yn2tf($gl_rec["downloads_active"]));
-        $this->setPresentationMode($gl_rec["pres_mode"]);
-        $this->setSnippetLength($gl_rec["snippet_length"]);
-        $this->setShowTaxonomy($gl_rec["show_tax"]);
+        $this->setPresentationMode((string) $gl_rec["pres_mode"]);
+        $this->setSnippetLength((int) $gl_rec["snippet_length"]);
+        $this->setShowTaxonomy((bool) $gl_rec["show_tax"]);
 
         // read auto glossaries
         $set = $this->db->query(

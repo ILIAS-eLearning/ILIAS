@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\DI\Container;
 use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
+use ILIAS\MyStaff\ilMyStaffAccess;
 
 final class EmployeeTalkUserActionProvider extends ilUserActionProvider
 {
@@ -27,6 +28,7 @@ final class EmployeeTalkUserActionProvider extends ilUserActionProvider
 
     private ilLanguage $language;
     private ilCtrl $controlFlow;
+    private ilMyStaffAccess $access;
 
     public function __construct()
     {
@@ -38,25 +40,28 @@ final class EmployeeTalkUserActionProvider extends ilUserActionProvider
         $container = $GLOBALS['DIC'];
         $this->language = $container->language();
         $this->controlFlow = $container->ctrl();
+        $this->access = ilMyStaffAccess::getInstance();
 
         $this->language->loadLanguageModule('etal');
     }
 
-    public function collectActionsForTargetUser($a_target_user): ilUserActionCollection
+    public function collectActionsForTargetUser(int $a_target_user): ilUserActionCollection
     {
         $actions = ilUserActionCollection::getInstance();
 
-        $jumpToUserTalkList = new ilUserAction();
-        $jumpToUserTalkList->setType(self::JUMP_TO_USER_TALK_LIST);
-        $jumpToUserTalkList->setText($this->language->txt('mm_org_etal'));
-        $jumpToUserTalkList->setHref($this->controlFlow->getLinkTargetByClass([
-            strtolower(ilDashboardGUI::class),
-            strtolower(ilMyStaffGUI::class),
-            strtolower(ilMStShowUserGUI::class),
-            strtolower(ilEmployeeTalkMyStaffUserGUI::class),
-        ], ControlFlowCommand::INDEX) . "&usr_id=$a_target_user");
+        if ($this->hasAccess($a_target_user)) {
+            $jumpToUserTalkList = new ilUserAction();
+            $jumpToUserTalkList->setType(self::JUMP_TO_USER_TALK_LIST);
+            $jumpToUserTalkList->setText($this->language->txt('mm_org_etal'));
+            $jumpToUserTalkList->setHref($this->controlFlow->getLinkTargetByClass([
+                    strtolower(ilDashboardGUI::class),
+                    strtolower(ilMyStaffGUI::class),
+                    strtolower(ilMStShowUserGUI::class),
+                    strtolower(ilEmployeeTalkMyStaffUserGUI::class),
+                ], ControlFlowCommand::INDEX) . "&usr_id=$a_target_user");
 
-        $actions->addAction($jumpToUserTalkList);
+            $actions->addAction($jumpToUserTalkList);
+        }
 
         return $actions;
     }
@@ -71,5 +76,21 @@ final class EmployeeTalkUserActionProvider extends ilUserActionProvider
         return [
             self::JUMP_TO_USER_TALK_LIST => $this->language->txt('mm_org_etal')
         ];
+    }
+
+    protected function hasAccess(int $a_target_user): bool
+    {
+        if (!$a_target_user) {
+            return false;
+        }
+
+        if (
+            !$this->access->hasCurrentUserAccessToTalks() ||
+            !$this->access->hasCurrentUserAccessToUser($a_target_user)
+        ) {
+            return false;
+        }
+
+        return true;
     }
 }

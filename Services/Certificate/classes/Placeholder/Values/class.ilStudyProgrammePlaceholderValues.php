@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValues
 {
-    private ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
-    private ilCertificateObjectHelper $objectHelper;
+    private readonly ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
+    private readonly ilCertificateObjectHelper $objectHelper;
 
     public function __construct(
         ?ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
@@ -67,7 +67,9 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
         $placeholders['PRG_TITLE'] = ilLegacyFormElementsUtil::prepareFormOutput($object->getTitle());
         $placeholders['PRG_DESCRIPTION'] = ilLegacyFormElementsUtil::prepareFormOutput($object->getDescription());
         $placeholders['PRG_TYPE'] = ilLegacyFormElementsUtil::prepareFormOutput($type ? $type->getTitle() : '');
-        $placeholders['PRG_POINTS'] = ilLegacyFormElementsUtil::prepareFormOutput((string) $object->getPoints());
+        $placeholders['PRG_POINTS'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $latest_progress ? (string) $latest_progress->getCurrentAmountOfPoints() : ''
+        );
         $placeholders['PRG_COMPLETION_DATE'] = ilLegacyFormElementsUtil::prepareFormOutput(
             $latest_progress->getCompletionDate() instanceof DateTimeImmutable ? $latest_progress->getCompletionDate(
             )->format('d.m.Y') : ''

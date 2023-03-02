@@ -637,16 +637,20 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
                 $update = $row["solution_id"];
             }
 
+            $multiple_choice_result = $this->http->wrapper()->post()->has('multiple_choice_result') ?
+                $this->http->wrapper()->post()->retrieve('multiple_choice_result', $this->refinery->kindlyTo()->string()) :
+                '';
+
             if ($update != -1) {
-                if (strlen($_POST["multiple_choice_result"])) {
-                    $this->updateCurrentSolution($update, $_POST["multiple_choice_result"], null, $authorized);
+                if ($multiple_choice_result !== '') {
+                    $this->updateCurrentSolution($update, $multiple_choice_result, null, $authorized);
                     $entered_values++;
                 } else {
                     $this->removeSolutionRecordById($update);
                 }
             } else {
-                if (strlen($_POST["multiple_choice_result"])) {
-                    $this->saveCurrentSolution($active_id, $pass, $_POST['multiple_choice_result'], null, $authorized);
+                if ($multiple_choice_result !== '') {
+                    $this->saveCurrentSolution($active_id, $pass, $multiple_choice_result, null, $authorized);
                     $entered_values++;
                 }
             }
@@ -675,8 +679,12 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
 
     protected function savePreviewData(ilAssQuestionPreviewSession $previewSession): void
     {
-        if (strlen($_POST['multiple_choice_result' . $this->getId() . 'ID'])) {
-            $previewSession->setParticipantsSolution($_POST['multiple_choice_result' . $this->getId() . 'ID']);
+        $mc_result_key = 'multiple_choice_result' . $this->getId() . 'ID';
+        if (
+            $this->http->wrapper()->post()->has($mc_result_key) &&
+            ($mc_result = $this->http->wrapper()->post()->retrieve($mc_result_key, $this->refinery->kindlyTo()->string())) !== ''
+        ) {
+            $previewSession->setParticipantsSolution($mc_result);
         } else {
             $previewSession->setParticipantsSolution(null);
         }
@@ -966,24 +974,24 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass): int
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
     {
-        parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
+        parent::setExportDetailsXLS($worksheet, $startrow, $col, $active_id, $pass);
 
         $solution = $this->getSolutionValues($active_id, $pass);
         $i = 1;
         foreach ($this->getAnswers() as $id => $answer) {
-            $worksheet->setCell($startrow + $i, 0, $answer->getAnswertext());
-            $worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
+            $worksheet->setCell($startrow + $i, $col, $answer->getAnswertext());
+            $worksheet->setBold($worksheet->getColumnCoord($col) . ($startrow + $i));
             if (
                 count($solution) > 0 &&
                 isset($solution[0]) &&
                 is_array($solution[0]) &&
                 strlen($solution[0]['value1']) > 0 && $id == $solution[0]['value1']
             ) {
-                $worksheet->setCell($startrow + $i, 1, 1);
+                $worksheet->setCell($startrow + $i, $col + 1, 1);
             } else {
-                $worksheet->setCell($startrow + $i, 1, 0);
+                $worksheet->setCell($startrow + $i, $col + 1, 0);
             }
             $i++;
         }

@@ -27,6 +27,7 @@ class ilOrgUnitUserAssignmentRepository
 {
     protected static self $instance;
     protected \ilOrgUnitPositionDBRepository $positionRepo;
+    protected \ilOrgUnitUserAssignmentDBRepository $assignmentRepo;
 
     public static function getInstance(): self
     {
@@ -47,34 +48,33 @@ class ilOrgUnitUserAssignmentRepository
         return $this->positionRepo;
     }
 
-    public function findOrCreateAssignment(int $user_id, int $position_id, int $orgu_id): ilOrgUnitUserAssignment
+    protected function getAssignmentRepo(): \ilOrgUnitUserAssignmentDBRepository
     {
-        $user_assignment = ilOrgUnitUserAssignment::where(array(
-            'user_id' => $user_id,
-            'position_id' => $position_id,
-            'orgu_id' => $orgu_id,
-        ))->first();
-        if (!$user_assignment) {
-            $user_assignment = new ilOrgUnitUserAssignment();
-            $user_assignment->setPositionId($position_id);
-            $user_assignment->setUserId($user_id);
-            $user_assignment->setOrguId($orgu_id);
-            $user_assignment->create();
+        if (!isset($this->assignmentRepo)) {
+            $dic = \ilOrgUnitLocalDIC::dic();
+            $this->assignmentRepo = $dic["repo.UserAssignments"];
         }
 
-        return $user_assignment;
+        return $this->assignmentRepo;
     }
 
     /**
-     * @param $arr_user_ids []
-     * @return ilOrgUnitUserAssignment[][] [user_id][][$user_assignment]
+     * @deprecated Please use get() from ilOrgUnitUserAssignmentDBRepository
+     */
+    public function findOrCreateAssignment(int $user_id, int $position_id, int $orgu_id): ilOrgUnitUserAssignment
+    {
+        return $this->getAssignmentRepo()->get($user_id, $position_id, $orgu_id);
+    }
+
+    /**
+     * @deprecated Please use getByUsers() from ilOrgUnitUserAssignmentDBRepository
      */
     public function findAllUserAssingmentsByUserIds(array $arr_user_ids): array
     {
-        $user_assignment_list = ilOrgUnitUserAssignment::where(['user_id' => $arr_user_ids], 'IN')->get();
+        $assignments = $this->getAssignmentRepo()->getByUsers($arr_user_ids);
 
         $user_assignment_list_by_user = [];
-        foreach ($user_assignment_list as $user_assignment) {
+        foreach ($assignments as $user_assignment) {
             $user_assignment_list_by_user[$user_assignment->getUserId()][] = $user_assignment;
         }
 
@@ -82,123 +82,75 @@ class ilOrgUnitUserAssignmentRepository
     }
 
     /**
-     * @param int[] $arr_empl_user_ids
-     * @return int[][] [user_id as an employee][][ user_id as a superior]
+     * @deprecated Please use getSuperiorsByUsers() from ilOrgUnitUserAssignmentDBRepository
      */
     public function getEmplSuperiorList(array $arr_empl_user_ids): array
     {
-        global $DIC;
-
-        $sql = "SELECT 
-				orgu_ua.orgu_id AS orgu_id,
-				orgu_ua.user_id AS empl,
-				orgu_ua2.user_id as sup
-				FROM
-				il_orgu_ua as orgu_ua,
-				il_orgu_ua as orgu_ua2
-				WHERE
-				orgu_ua.orgu_id = orgu_ua2.orgu_id 
-				and orgu_ua.user_id <> orgu_ua2.user_id 
-				and orgu_ua.position_id = " . ilOrgUnitPosition::CORE_POSITION_EMPLOYEE . "
-				and orgu_ua2.position_id = " . ilOrgUnitPosition::CORE_POSITION_SUPERIOR . " 
-				AND " . $DIC->database()->in('orgu_ua.user_id', $arr_empl_user_ids, false, 'integer');
-
-        $st = $DIC->database()->query($sql);
-
-        $empl_id__sup_ids = [];
-        while ($data = $DIC->database()->fetchAssoc($st)) {
-            $empl_id__sup_ids[$data['empl']][] = $data['sup'];
-        }
-        $this->arr_empl_user_ids = $empl_id__sup_ids;
-
-        return $empl_id__sup_ids;
+        return $this->getAssignmentRepo()->getSuperiorsByUsers($arr_empl_user_ids);
     }
 
     /**
-     * @param int $user_id
-     * @return ilOrgUnitPosition[]
+     * @deprecated Please use getPositionsByUser() from ilOrgUnitUserAssignmentDBRepository
      */
     public function getPositionsOfUserId(int $user_id): array
     {
-        $positions = [];
-        foreach ($this->getAssignmentsOfUserId($user_id) as $assignment) {
-            $positions[] = $this->getPositionRepo()->getSingle($assignment->getPositionId(), 'id');
-        }
-
-        return $positions;
+        return $this->getAssignmentRepo()->getPositionsByUser($user_id);
     }
 
     /**
-     * @throws ilException
+     * @deprecated Please use get() from ilOrgUnitUserAssignmentDBRepository
      */
     public function getAssignmentOrFail(int $user_id, int $position_id, int $orgu_id): ilOrgUnitUserAssignment
     {
-        $ua = ilOrgUnitUserAssignment::where([
-            'user_id' => $user_id,
-            'position_id' => $position_id,
-            'orgu_id' => $orgu_id,
-        ])->first();
-        if (!$ua) {
-            throw new  ilException('UserAssignement not found');
+        $assignment = $this->getAssignmentRepo()->get($user_id, $position_id, $orgu_id);
+        if (!$assignment) {
+            throw new  ilException('UserAssignment not found');
         }
-
-        assert($ua instanceof ilOrgUnitUserAssignment);
-        return $ua;
+        return $assignment;
     }
 
     /**
-     * @return ilOrgUnitUserAssignment[]
+     * @deprecated Please use getByUsers() from ilOrgUnitUserAssignmentDBRepository
      */
     public function getAssignmentsOfUserId(int $user_id): array
     {
-        return ilOrgUnitUserAssignment::where(['user_id' => $user_id])->get();
+        return $this->getAssignmentRepo()->getByUsers([$user_id]);
     }
 
     /**
-     * @return ilOrgUnitUserAssignment[]
+     * @deprecated Please use getUsersByOrgUnits() from ilOrgUnitUserAssignmentDBRepository
      */
     public function getUserIdsOfOrgUnit(int $orgunit_ref_id): array
     {
-        return ilOrgUnitUserAssignment::where(['orgu_id' => $orgunit_ref_id])->getArray(null, 'user_id');
+        return $this->getAssignmentRepo()->getUsersByOrgUnits([$orgunit_ref_id]);
     }
 
     /**
-     * @param int[] $orgunit_ref_id
-     * @return ilOrgUnitUserAssignment[]
+     * @deprecated Please use getUsersByOrgUnits() from ilOrgUnitUserAssignmentDBRepository
      */
     public function getUserIdsOfOrgUnits(array $orgunit_ref_id): array
     {
-        return ilOrgUnitUserAssignment::where(['orgu_id' => $orgunit_ref_id])->getArray(null, 'user_id');
+        return $this->getAssignmentRepo()->getUsersByOrgUnits($orgunit_ref_id);
     }
 
     /**
-     * @return ilOrgUnitUserAssignment[]
+     * @deprecated Please use getUsersByUserAndPosition() from ilOrgUnitUserAssignmentDBRepository
      */
     public function getUserIdsOfOrgUnitsOfUsersPosition(int $position_id, int $user_id, bool $recursive = false): array
     {
-        return ilOrgUnitUserAssignment::where(['orgu_id' => $this->getOrgUnitIdsOfUsersPosition(
-            $position_id,
-            $user_id,
-            $recursive
-        )
-        ])
-                                      ->getArray(null, 'user_id');
+        return $this->getAssignmentRepo()->getUsersByUserAndPosition($user_id, $position_id, $recursive);
     }
 
     /**
-     * @param int[] $orgu_ids
-     * @return int[]
+     * @deprecated Please use getUsersByOrgUnitsAndPosition() from ilOrgUnitUserAssignmentDBRepository
      */
     public function getUserIdsOfOrgUnitsInPosition(array $orgu_ids, int $position_id): array
     {
-        return ilOrgUnitUserAssignment::where([
-            'orgu_id' => $orgu_ids,
-            'position_id' => $position_id,
-        ])->getArray(null, 'user_id');
+        return $this->getAssignmentRepo()->getUsersByOrgUnitsAndPosition($orgu_ids, $position_id);
     }
 
     /**
-     * @return int[]
+     * @deprecated Please use getFilteredUsersByUserAndPosition() from ilOrgUnitUserAssignmentDBRepository
      */
     public function getUserIdsOfUsersOrgUnitsInPosition(
         int $user_id,
@@ -206,62 +158,41 @@ class ilOrgUnitUserAssignmentRepository
         int $position_id,
         bool $recursive = false
     ): array {
-        return ilOrgUnitUserAssignment::where([
-            'orgu_id' => $this->getOrgUnitIdsOfUsersPosition($users_position_id, $user_id, $recursive),
-            'position_id' => $position_id,
-        ])->getArray(null, 'user_id');
+        return $this->getAssignmentRepo()->getFilteredUsersByUserAndPosition($user_id, array_shift($users_position_id), $position_id, $recursive);
     }
 
     /**
-     * @return int[]
+     * @deprecated Please use getOrgUnitsByUserAndPosition() from ilOrgUnitUserAssignmentDBRepository
      */
     public function getOrgUnitIdsOfUsersPosition(
         int $position_id,
         int $user_id,
         bool $recursive = false
     ): array {
-        $orgu_ids = ilOrgUnitUserAssignment::where([
-            'position_id' => $position_id,
-            'user_id' => $user_id,
-        ])->getArray(null, 'orgu_id');
-
-        if (!$recursive) {
-            return $orgu_ids;
-        }
-
-        $recursive_orgu_ids = [];
-        $tree = ilObjOrgUnitTree::_getInstance();
-        foreach ($orgu_ids as $orgu_id) {
-            $recursive_orgu_ids += $tree->getAllChildren($orgu_id);
-        }
-
-        return $recursive_orgu_ids;
+        return $this->getAssignmentRepo()->getOrgUnitsByUserAndPosition($user_id, $position_id, $recursive);
     }
 
     /**
-     * @return int[]
+     * @deprecated Please use getUsersByPosition() from ilOrgUnitUserAssignmentDBRepository
      */
     public function getUserIdsOfPosition(int $position_id): array
     {
-        return ilOrgUnitUserAssignment::where([
-            'position_id' => $position_id,
-        ])->getArray(null, 'user_id');
+        return $this->getAssignmentRepo()->getUsersByPosition($position_id);
     }
 
     /**
-     * @return ilOrgUnitUserAssignment[]
+     * @deprecated Please use getByPosition() from ilOrgUnitUserAssignmentDBRepository
      */
     public function getUserAssignmentsOfPosition(int $position_id): array
     {
-        return ilOrgUnitUserAssignment::where([
-            'position_id' => $position_id,
-        ])->get();
+        return $this->getAssignmentRepo()->getByPosition($position_id);
     }
 
+    /**
+     * @deprecated Please use deleteByUser() from ilOrgUnitUserAssignmentDBRepository
+     */
     public function deleteAllAssignmentsOfUser(int $user_id): void
     {
-        global $DIC;
-        $q = "DELETE FROM il_orgu_ua WHERE user_id = " . $DIC->database()->quote($user_id, "integer");
-        $DIC->database()->manipulate($q);
+        $this->getAssignmentRepo()->deleteByUser($user_id);
     }
 }

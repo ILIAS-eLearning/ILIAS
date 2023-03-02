@@ -29,19 +29,11 @@ use ILIAS\Contact\Provider\ContactNotificationProvider;
  */
 class ilBuddySystemNotification
 {
-    protected ilObjUser $sender;
-    protected ilSetting $settings;
     /** @var int[] */
     protected array $recipientIds = [];
 
-    /**
-     * @param ilObjUser $user
-     * @param ilSetting $settings
-     */
-    public function __construct(ilObjUser $user, ilSetting $settings)
+    public function __construct(protected ilObjUser $sender, protected ilSetting $settings)
     {
-        $this->sender = $user;
-        $this->settings = $settings;
     }
 
     /**

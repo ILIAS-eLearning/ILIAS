@@ -37,8 +37,13 @@ class ilMyStaffAccess extends ilObjectAccess
     public const TMP_DEFAULT_TABLE_NAME_PREFIX_CRS_MEMBERS = 'tmp_crs_members';
     public const TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS = 'tmp_orgu_members';
     public const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX = 'tmp_obj_user_matr';
-    public const DEFAULT_ORG_UNIT_OPERATION = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS;
-    public const DEFAULT_CONTEXT = 'crs';
+    public const ACCESS_ENROLMENTS_ORG_UNIT_OPERATION = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS;
+    public const COURSE_CONTEXT = ilOrgUnitOperationContext::CONTEXT_CRS;
+    public const EXERCISE_CONTEXT = ilOrgUnitOperationContext::CONTEXT_EXC;
+    public const GROUP_CONTEXT = ilOrgUnitOperationContext::CONTEXT_GRP;
+    public const SURVEY_CONTEXT = ilOrgUnitOperationContext::CONTEXT_SVY;
+    public const TEST_CONTEXT = ilOrgUnitOperationContext::CONTEXT_TST;
+    public const EMPLOYEE_TALK_CONTEXT = ilOrgUnitOperationContext::CONTEXT_ETAL;
 
     protected static ?self $instance = null;
     protected static array $orgu_users_of_current_user_show_staff_permission;
@@ -50,22 +55,22 @@ class ilMyStaffAccess extends ilObjectAccess
         if (self::$instance === null) {
             self::$instance = new self();
 
-            self::$instance->dropTempTable(self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS . "_" . self::DEFAULT_ORG_UNIT_OPERATION . "_"
-                . self::DEFAULT_CONTEXT);
-            self::$instance->dropTempTable(self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS . "_" . self::DEFAULT_ORG_UNIT_OPERATION
-                . "_" . self::DEFAULT_CONTEXT);
-            self::$instance->dropTempTable(self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS . "_" . self::DEFAULT_ORG_UNIT_OPERATION
-                . "_" . self::DEFAULT_CONTEXT);
+            self::$instance->dropTempTable(self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS . "_" . self::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION . "_"
+                . self::COURSE_CONTEXT);
+            self::$instance->dropTempTable(self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS . "_" . self::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION
+                . "_" . self::COURSE_CONTEXT);
+            self::$instance->dropTempTable(self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS . "_" . self::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION
+                . "_" . self::COURSE_CONTEXT);
             self::$instance->dropTempTable(self::TMP_DEFAULT_TABLE_NAME_PREFIX_CRS_MEMBERS . "_user_id_" . $DIC->user()->getId());
             self::$instance->dropTempTable(self::TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS . "_user_id_" . $DIC->user()->getId());
-            self::$instance->dropTempTable(self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX . "_" . self::DEFAULT_ORG_UNIT_OPERATION . "_"
-                . self::DEFAULT_CONTEXT);
+            self::$instance->dropTempTable(self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX . "_" . self::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION . "_"
+                . self::COURSE_CONTEXT);
         }
 
         return self::$instance;
     }
 
-    protected function __construct()
+    public function __construct()
     {
     }
 
@@ -87,8 +92,8 @@ class ilMyStaffAccess extends ilObjectAccess
 
         if ($this->countOrgusOfUserWithOperationAndContext(
             $DIC->user()->getId(),
-            ilOrgUnitOperation::OP_ACCESS_ENROLMENTS,
-            self::DEFAULT_CONTEXT
+            self::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION,
+            self::COURSE_CONTEXT
         )
             > 0
         ) {
@@ -121,7 +126,68 @@ class ilMyStaffAccess extends ilObjectAccess
         if ($this->countOrgusOfUserWithOperationAndContext(
             $DIC->user()->getId(),
             ilOrgUnitOperation::OP_VIEW_CERTIFICATES,
-            self::DEFAULT_CONTEXT
+            self::COURSE_CONTEXT
+        )
+            > 0
+        ) {
+            return true;
+        }
+
+        if ($this->countOrgusOfUserWithOperationAndContext(
+            $DIC->user()->getId(),
+            ilOrgUnitOperation::OP_VIEW_CERTIFICATES,
+            self::EXERCISE_CONTEXT
+        )
+            > 0
+        ) {
+            return true;
+        }
+
+        if ($this->countOrgusOfUserWithOperationAndContext(
+            $DIC->user()->getId(),
+            ilOrgUnitOperation::OP_VIEW_CERTIFICATES,
+            self::TEST_CONTEXT
+        )
+            > 0
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function hasCurrentUserAccessToTalks(): bool
+    {
+        global $DIC;
+
+        if (!$DIC->settings()->get("enable_my_staff")) {
+            return false;
+        }
+
+        if ($this->countOrgusOfUserWithOperationAndContext(
+            $DIC->user()->getId(),
+            ilOrgUnitOperation::OP_CREATE_EMPLOYEE_TALK,
+            self::EMPLOYEE_TALK_CONTEXT
+        )
+            > 0
+        ) {
+            return true;
+        }
+
+        if ($this->countOrgusOfUserWithOperationAndContext(
+            $DIC->user()->getId(),
+            ilOrgUnitOperation::OP_EDIT_EMPLOYEE_TALK,
+            self::EMPLOYEE_TALK_CONTEXT
+        )
+            > 0
+        ) {
+            return true;
+        }
+
+        if ($this->countOrgusOfUserWithOperationAndContext(
+            $DIC->user()->getId(),
+            ilOrgUnitOperation::OP_READ_EMPLOYEE_TALK,
+            self::EMPLOYEE_TALK_CONTEXT
         )
             > 0
         ) {
@@ -142,7 +208,58 @@ class ilMyStaffAccess extends ilObjectAccess
         if ($this->countOrgusOfUserWithOperationAndContext(
             $DIC->user()->getId(),
             ilOrgUnitOperation::OP_VIEW_COMPETENCES,
-            self::DEFAULT_CONTEXT
+            self::COURSE_CONTEXT
+        )
+            > 0
+        ) {
+            return true;
+        }
+
+        if ($this->countOrgusOfUserWithOperationAndContext(
+            $DIC->user()->getId(),
+            ilOrgUnitOperation::OP_VIEW_COMPETENCES,
+            self::GROUP_CONTEXT
+        )
+            > 0
+        ) {
+            return true;
+        }
+
+        if ($this->countOrgusOfUserWithOperationAndContext(
+            $DIC->user()->getId(),
+            ilOrgUnitOperation::OP_VIEW_COMPETENCES,
+            self::SURVEY_CONTEXT
+        )
+            > 0
+        ) {
+            return true;
+        }
+
+        if ($this->countOrgusOfUserWithOperationAndContext(
+            $DIC->user()->getId(),
+            ilOrgUnitOperation::OP_VIEW_COMPETENCES,
+            self::TEST_CONTEXT
+        )
+            > 0
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function hasCurrentUserAccessToCourseMemberships(): bool
+    {
+        global $DIC;
+
+        if (!$DIC->settings()->get("enable_my_staff")) {
+            return false;
+        }
+
+        if ($this->countOrgusOfUserWithOperationAndContext(
+            $DIC->user()->getId(),
+            self::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION,
+            self::COURSE_CONTEXT
         )
             > 0
         ) {
@@ -183,7 +300,7 @@ class ilMyStaffAccess extends ilObjectAccess
             $DIC->user()
                                                                     ->getId(),
             ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
-            self::DEFAULT_CONTEXT
+            self::COURSE_CONTEXT
         );
         if (count($arr_usr_id) > 0) {
             return true;
@@ -212,8 +329,8 @@ class ilMyStaffAccess extends ilObjectAccess
 
     public function countOrgusOfUserWithOperationAndContext(
         int $user_id,
-        string $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
-        string $context = self::DEFAULT_CONTEXT
+        string $org_unit_operation_string,
+        string $context
     ): int {
         global $DIC;
 
@@ -228,8 +345,8 @@ class ilMyStaffAccess extends ilObjectAccess
 				and orgu_ua.user_id = " . $DIC->database()->quote(
             $user_id,
             'integer'
-        ) . " AND perm.operations LIKE  '%\""
-            . $operation->getOperationId() . "\"%'
+        ) . " AND perm.operations REGEXP '[\[,]\"?"
+            . $operation->getOperationId() . "\"?[\],]'
 				WHERE perm.parent_id = -1";
 
         $set = $DIC->database()->query($q);
@@ -240,8 +357,8 @@ class ilMyStaffAccess extends ilObjectAccess
 
     public function getUsersForUserOperationAndContext(
         int $user_id,
-        string $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
-        string $context = self::DEFAULT_CONTEXT,
+        string $org_unit_operation_string,
+        string $context,
         string $tmp_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX
     ): array {
         global $DIC;
@@ -411,19 +528,19 @@ class ilMyStaffAccess extends ilObjectAccess
         $operation_id = $operation_object->getOperationId();
 
         if ($this->hasPositionDefaultPermissionForOperationInContext($position_id, $operation_id, $context_id)) {
-            $query = 'select ' . ($return_ref_id ? 'object_reference.ref_id' : 'object_data.obj_id') . ' from object_data ' .
-                'inner join object_reference on object_reference.obj_id = object_data.obj_id ' .
-                'where type = "' . $context . '" ' .
-                'AND object_reference.ref_id not in ' .
-                '   (SELECT parent_id FROM il_orgu_permissions ' .
-                '   where position_id = ' . $position_id . ' and context_id = ' . $context_id . ' and operations not like \'%' . $operation_id . '%\' and parent_id <> -1)';
+            $query = "select " . ($return_ref_id ? "object_reference.ref_id" : "object_data.obj_id") . " from object_data " .
+                "inner join object_reference on object_reference.obj_id = object_data.obj_id " .
+                "where type = '" . $context . "' " .
+                "AND object_reference.ref_id not in " .
+                "   (SELECT parent_id FROM il_orgu_permissions " .
+                "   where position_id = " . $position_id . " and context_id = " . $context_id . " and operations NOT REGEXP '[\[,]\"?" . $operation_id . "\"?[\],]' and parent_id <> -1)";
         } else {
             $query = $return_ref_id
                 ?
-                'SELECT parent_id as ref_id FROM il_orgu_permissions '
+                "SELECT parent_id as ref_id FROM il_orgu_permissions "
                 :
-                'SELECT obj_id FROM il_orgu_permissions INNER JOIN object_reference ON object_reference.ref_id = il_orgu_permissions.parent_id ';
-            $query .= ' where position_id = ' . $position_id . ' and context_id = ' . $context_id . ' and operations like \'%' . $operation_id . '%\' and parent_id <> -1';
+                "SELECT obj_id FROM il_orgu_permissions INNER JOIN object_reference ON object_reference.ref_id = il_orgu_permissions.parent_id ";
+            $query .= " where position_id = " . $position_id . " and context_id = " . $context_id . " and operations REGEXP '[\[,]\"?" . $operation_id . "\"?[\],]' and parent_id <> -1";
         }
 
         return array_map(function ($item) use ($return_ref_id) {
@@ -437,19 +554,19 @@ class ilMyStaffAccess extends ilObjectAccess
         int $context_id
     ): bool {
         global $DIC;
-        $res = $DIC->database()->query('SELECT * FROM il_orgu_permissions ' .
-            ' WHERE context_id = ' . $context_id . ' ' .
-            'AND operations LIKE \'%' . $operation_id . '%\' ' .
-            'AND position_id = ' . $position_id . ' ' .
-            'AND parent_id = -1');
+        $res = $DIC->database()->query("SELECT * FROM il_orgu_permissions " .
+            " WHERE context_id = " . $context_id . " " .
+            "AND operations REGEXP '[\[,]\"?" . $operation_id . "\"?[\],]' " .
+            "AND position_id = " . $position_id . " " .
+            "AND parent_id = -1");
 
         return (bool) $DIC->database()->numRows($res) > 0;
     }
 
     public function getIlobjectsAndUsersForUserOperationAndContext(
         int $user_id,
-        string $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
-        string $context = self::DEFAULT_CONTEXT
+        string $org_unit_operation_string,
+        string $context
     ): array {
         global $DIC;
 
@@ -481,8 +598,8 @@ class ilMyStaffAccess extends ilObjectAccess
 
     public function buildTempTableIlobjectsUserMatrixForUserOperationAndContext(
         int $user_id,
-        string $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
-        string $context = self::DEFAULT_CONTEXT,
+        string $org_unit_operation_string,
+        string $context,
         string $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX
     ): string {
         global $DIC;
@@ -528,8 +645,8 @@ class ilMyStaffAccess extends ilObjectAccess
             $all_users_for_user
         );
 
-        if ($temporary_table_name != self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX . "_" . self::DEFAULT_ORG_UNIT_OPERATION . "_"
-            . self::DEFAULT_CONTEXT
+        if ($temporary_table_name != self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX . "_" . self::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION . "_"
+            . self::COURSE_CONTEXT
         ) {
             $this->dropTempTable($temporary_table_name);
         }
@@ -572,7 +689,7 @@ class ilMyStaffAccess extends ilObjectAccess
             ) . "
 				INNER JOIN il_orgu_permissions AS perm on perm.position_id = orgu_ua_current_user.position_id AND perm.parent_id = -1
 				INNER JOIN il_orgu_op_contexts AS contexts on contexts.id = perm.context_id AND contexts.context =  '$context'
-				and perm.operations  LIKE '%\"" . $operation->getOperationId() . "\"%'
+				and perm.operations REGEXP '[\[,]\"?" . $operation->getOperationId() . "\"?[\],]'
 				
 				AND
 				( 
@@ -619,8 +736,8 @@ class ilMyStaffAccess extends ilObjectAccess
     }
 
     public function buildTempTableIlobjectsSpecificPermissionSetForOperationAndContext(
-        string $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
-        string $context = self::DEFAULT_CONTEXT,
+        string $org_unit_operation_string,
+        string $context,
         string $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS
     ): string {
         global $DIC;
@@ -630,8 +747,8 @@ class ilMyStaffAccess extends ilObjectAccess
         $operation = ilOrgUnitOperationQueries::findByOperationString($org_unit_operation_string, $context);
         assert($operation instanceof ilOrgUnitOperation);
 
-        if ($temporary_table_name != self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS . "_" . self::DEFAULT_ORG_UNIT_OPERATION . "_"
-            . self::DEFAULT_CONTEXT
+        if ($temporary_table_name != self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS . "_" . self::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION . "_"
+            . self::COURSE_CONTEXT
         ) {
             $this->dropTempTable($temporary_table_name);
         }
@@ -654,7 +771,7 @@ class ilMyStaffAccess extends ilObjectAccess
 					INNER JOIN object_data AS obj ON obj.obj_id = obj_ref.obj_id AND obj.type = '$context'
 					INNER JOIN il_orgu_op_contexts AS contexts on contexts.id = perm.context_id AND contexts.context = '$context'
 					WHERE
-				    perm.operations LIKE '%\"" . $operation->getOperationId() . "\"%'
+				    perm.operations REGEXP '[\[,]\"?" . $operation->getOperationId() . "\"?[\],]'
 			);";
 
         $DIC->database()->manipulate($q);
@@ -663,8 +780,8 @@ class ilMyStaffAccess extends ilObjectAccess
     }
 
     public function buildTempTableIlobjectsDefaultPermissionSetForOperationAndContext(
-        string $org_unit_operation_string = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS,
-        string $context = self::DEFAULT_CONTEXT,
+        string $org_unit_operation_string,
+        string $context,
         string $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS
     ): string {
         global $DIC;
@@ -676,8 +793,8 @@ class ilMyStaffAccess extends ilObjectAccess
          */
         $operation = ilOrgUnitOperationQueries::findByOperationString($org_unit_operation_string, $context);
 
-        if ($temporary_table_name != self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS . "_" . self::DEFAULT_ORG_UNIT_OPERATION . "_"
-            . self::DEFAULT_CONTEXT
+        if ($temporary_table_name != self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS . "_" . self::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION . "_"
+            . self::COURSE_CONTEXT
         ) {
             $this->dropTempTable($temporary_table_name);
         }
@@ -694,7 +811,7 @@ class ilMyStaffAccess extends ilObjectAccess
 				    FROM
 				    object_data AS obj
 				    INNER JOIN object_reference AS obj_ref ON obj_ref.obj_id = obj.obj_id
-				    INNER JOIN il_orgu_permissions AS perm ON perm.operations LIKE '%\"" . $operation->getOperationId() . "\"%' AND perm.parent_id = -1
+				    INNER JOIN il_orgu_permissions AS perm ON perm.operations REGEXP '[\[,]\"?" . $operation->getOperationId() . "\"?[\],]' AND perm.parent_id = -1
 				    INNER JOIN il_orgu_op_contexts AS contexts on contexts.id = perm.context_id AND contexts.context = '" . $context . "'
 				    INNER JOIN il_orgu_ua AS orgu_ua ON orgu_ua.position_id = perm.position_id AND orgu_ua.user_id = " . $GLOBALS['DIC']->user()
                                                                                                                                         ->getId() . "
@@ -725,8 +842,8 @@ class ilMyStaffAccess extends ilObjectAccess
      * @return string
      */
     public function buildTempTableIlorgunitDefaultPermissionSetForOperationAndContext(
-        string $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
-        string $context = self::DEFAULT_CONTEXT,
+        string $org_unit_operation_string,
+        string $context,
         string $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS
     ): string {
         global $DIC;
@@ -737,8 +854,8 @@ class ilMyStaffAccess extends ilObjectAccess
          */
         $operation = ilOrgUnitOperationQueries::findByOperationString($org_unit_operation_string, $context);
 
-        if ($temporary_table_name != self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS . "_" . self::DEFAULT_ORG_UNIT_OPERATION . "_"
-            . self::DEFAULT_CONTEXT
+        if ($temporary_table_name != self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS . "_" . self::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION . "_"
+            . self::COURSE_CONTEXT
         ) {
             $this->dropTempTable($temporary_table_name);
         }
@@ -759,7 +876,7 @@ class ilMyStaffAccess extends ilObjectAccess
 				    INNER JOIN il_orgu_authority AS auth ON auth.position_id = orgu_ua.position_id
 				    INNER JOIN il_orgu_op_contexts AS contexts on contexts.id = perm.context_id AND contexts.context = '" . $context . "'
 				    WHERE
-				    perm.operations LIKE '%\"" . $operation->getOperationId() . "\"%'
+				    perm.operations REGEXP '[\[,]\"?" . $operation->getOperationId() . "\"?[\],]'
 							);";
 
         $DIC->database()->manipulate($q);
@@ -786,7 +903,7 @@ class ilMyStaffAccess extends ilObjectAccess
 		AS (
 					SELECT crs_members_crs_ref.ref_id, crs_members.usr_id, orgu_ua.position_id, orgu_ua.orgu_id
 						FROM (
-							SELECT obj_id, usr_id FROM obj_members WHERE member = 1
+							SELECT obj_id, usr_id FROM obj_members WHERE admin > 0 OR tutor > 0 OR member > 0
 							AND " . $DIC->database()->in(
             'obj_members.usr_id',
             $only_courses_of_user_ids,

@@ -36,10 +36,10 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
     private const CMD_SAVE = 'save';
     private const F_READING_TIME = 'reading_time';
 
-    private GlobalHttpState $http;
-    private Factory $uiFactory;
-    private Renderer $uiRenderer;
-    private Storage $settingsStorage;
+    private readonly GlobalHttpState $http;
+    private readonly Factory $uiFactory;
+    private readonly Renderer $uiRenderer;
+    private readonly Storage $settingsStorage;
 
     public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {

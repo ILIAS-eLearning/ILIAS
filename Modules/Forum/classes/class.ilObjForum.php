@@ -259,7 +259,7 @@ class ilObjForum extends ilObject
         $DIC->database()->manipulateF('DELETE FROM frm_user_read WHERE post_id = %s', ['integer'], [$a_post_id]);
     }
 
-    public function updateMoficationUserId(int $usr_id): void
+    public function updateModificationUserId(int $usr_id): void
     {
         $this->db->manipulateF(
             'UPDATE frm_data SET update_user = %s WHERE top_frm_fk = %s',

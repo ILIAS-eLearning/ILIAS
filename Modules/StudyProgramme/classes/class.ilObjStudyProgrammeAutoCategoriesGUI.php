@@ -162,7 +162,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
             ];
         }
         usort($data, static function (array $a, array $b): int {
-            return strnatcmp($a[4], $b[4]);
+            return strnatcasecmp($a[4], $b[4]);
         });
 
         $table = new ilStudyProgrammeAutoCategoriesTableGUI($this, "view", "");

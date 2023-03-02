@@ -48,15 +48,9 @@ class RemoveUserIdFromPositionInOrgUnit extends Base
         if (ilObject2::_lookupType($orgu_ref_id, true) !== 'orgu') {
             throw new LogicException("OrgUnit does not exist");
         } else {
-            $inst = \ilOrgUnitUserAssignment::where(
-                array(
-                    'user_id' => $user_id,
-                    'position_id' => $position_id,
-                    'orgu_id' => $orgu_ref_id,
-                )
-            )->first();
-            if ($inst instanceof \ilOrgUnitUserAssignment) {
-                $inst->delete();
+            $assignment = $this->assignmentRepo->find($user_id, $position_id, $orgu_ref_id);
+            if ($assignment) {
+                $this->assignmentRepo->delete($assignment);
             } else {
                 $this->addError("No assignment found");
             }

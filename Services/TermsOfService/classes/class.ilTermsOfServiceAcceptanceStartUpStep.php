@@ -27,7 +27,7 @@ use ILIAS\Init\StartupSequence\StartUpSequenceStep;
  */
 class ilTermsOfServiceAcceptanceStartUpStep extends StartUpSequenceStep
 {
-    public function __construct(private Container $dic)
+    public function __construct(private readonly Container $dic)
     {
     }
 

@@ -732,8 +732,11 @@ assessment#:#examid_in_test_pass#:#Display Test ID
 assessment#:#examid_in_test_pass_desc#:#A Test ID is displayed in the test. A new, unique ID is generated for every test attempt.
 assessment#:#examid_in_test_res#:#Display ILIAS Test ID
 assessment#:#examid_in_test_res_desc#:#The ILIAS Test ID will be included in the test results.
+assessment#:#exp_all_test_runs#:#All test runs
+assessment#:#exp_best_pass#:#Scored test run
 assessment#:#exp_eval_data#:#Export evaluation data as
 assessment#:#exp_file_created#:#Export file created.
+assessment#:#exp_scored_test_run#:#Scored test run
 assessment#:#exp_type_certificate#:#Certificate (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Comma Separated Value (CSV)
@@ -1364,6 +1367,7 @@ assessment#:#tst_count_correct_solutions#:#Only Correct and Complete Answers Sco
 assessment#:#tst_count_correct_solutions_desc#:#Participants score either the maximum number of points for a fully correct and complete answer or 0 points in every other case. This is also valid for questions that define points for partial answers.
 assessment#:#tst_count_partial_solutions#:#Incomplete or Partly Wrong Answers Score Points
 assessment#:#tst_count_partial_solutions_desc#:#When a question defines points for partial answers, points for correctly provided partial answers are added up: Participants can score points for incomplete or partly wrong answers on these questions.
+assessment#:#tst_current_run_no_longer_valid#:#Your current test run is no longer valid. <br>It was probably completed already or finished by a tutor.
 assessment#:#tst_default_settings#:#Personal Default Settings
 assessment#:#tst_defaults_applied#:#The selected test defaults have been applied.
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS could not apply the selected test defaults to this test! Maybe this test already contains participant data sets.
@@ -1638,6 +1642,8 @@ assessment#:#tst_pass_overview_header_lo_initial_per_objective#:#Initial Test Re
 assessment#:#tst_pass_overview_header_lo_qualifying_all_objectives#:#Qualifying Test Results<br />for the Learning Objectives within the Course %s
 assessment#:#tst_pass_overview_header_lo_qualifying_per_objective#:#Qualifying Test Results<br />for the Learning Objectives %s within the Course %s
 assessment#:#tst_pass_scoring#:#Scoring Multiple Passes
+assessment#:#tst_pass_scoring_best#:#Best Test Pass
+assessment#:#tst_pass_scoring_last#:#Last Test Pass
 assessment#:#tst_pass_waiting_enabled#:#Force Waiting Time between Passes
 assessment#:#tst_pass_waiting_info#:#With this option additional passes can not be started before the defined time is lapsed relating to the last finished pass.
 assessment#:#tst_pass_waiting_time#:#Waiting Time
@@ -2023,6 +2029,7 @@ auth#:#auth_info_migrate#:#If you have already an ILIAS account, enter username 
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 auth#:#auth_login_editor#:#Loginscreen Editor
 auth#:#auth_oidc#:#OpenID Connect
+auth#:#auth_oidc_failed#:#Login via OpenID Connect failed
 auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect
 auth#:#auth_oidc_mapping_table#:#Mapping ILIAS User Information to OpenID Connect Attributes
 auth#:#auth_oidc_profile#:#User Profile Mapping
@@ -2038,6 +2045,7 @@ auth#:#auth_oidc_settings_custom_session_duration_option#:#Duration of Own Sessi
 auth#:#auth_oidc_settings_custom_session_duration_type#:#Session Duration Settings
 auth#:#auth_oidc_settings_default_role#:#Role Assignment
 auth#:#auth_oidc_settings_default_role_info#:#Please select a global role for the ILIAS user accounts that will be created for users who have authenticated themselves using OpenID Connect.
+auth#:#auth_oidc_settings_discovery_url#:#Discovery URL of the provider
 auth#:#auth_oidc_settings_img#:#Image
 auth#:#auth_oidc_settings_img_file_info#:#Upload an image that you would like to have shown on the login page. The image will link automatically to the OpenID Connect login script.
 auth#:#auth_oidc_settings_invalid_scopes#:#The following values are not valid Scopes: %s
@@ -2062,6 +2070,10 @@ auth#:#auth_oidc_settings_txt_val_info#:#Enter a text to be displayed on the log
 auth#:#auth_oidc_settings_user_attr#:#Attribute name of user accounts
 auth#:#auth_oidc_settings_user_sync#:#Synchronise Automatically
 auth#:#auth_oidc_settings_user_sync_info#:#Users who do not have an ILIAS account, but have successfully authenticated themselves using OpenID Connect, will have an ILIAS account created for them automatically.
+auth#:#auth_oidc_settings_validate_scope_custom#:#Use custom OpenID Connect Discovery url
+auth#:#auth_oidc_settings_validate_scope_default#:#Use :Provider-URL:/.well-known/openid-configuration
+auth#:#auth_oidc_settings_validate_scope_none#:#Do not validate Scopes on saving
+auth#:#auth_oidc_settings_validate_scopes#:#Validate Scopes upon saving
 auth#:#auth_oidc_update_field_info#:#Update Automatically
 auth#:#auth_oidc_update_role_info#:#Only Synchronise Automatically the First Time a User Logs In.
 auth#:#auth_oidconnect#:#OpenID Connect
@@ -2514,6 +2526,7 @@ book#:#book_no_recurrence#:#Book only this date
 book#:#book_not#:#Not
 book#:#book_not_enough_preferences#:#You selected not enough preferences. The preferences have not been saved.
 book#:#book_notification#:#Send Reservation Notifications
+book#:#book_notification_cron_not_active#:#Note: The corresponding cron job "Send Reservation Notifications" is currently not activated.
 book#:#book_notification_info#:#Send a list of reservations of the next day to users (own reservations) and admins (if activated).
 book#:#book_nr_of_preferences#:#Number of Preferences
 book#:#book_nr_of_preferences_info#:#Number of preferences each participant can indicate.
@@ -2810,7 +2823,7 @@ chatroom#:#banned#:#You have been banned from this chat room
 chatroom#:#bans#:#Bans
 chatroom#:#chat_address#:#Address
 chatroom#:#chat_anonymous_not_allowed#:#Please login to use the chat.
-chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client id has to be <b>unique</b>.
+chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client name has to be <b>unique</b>.
 chatroom#:#chat_ban#:#Ban
 chatroom#:#chat_broadcast_typing#:#Broadcast Typing
 chatroom#:#chat_broadcast_typing_info#:#If enabled, your typing will be broadcasted to other participants of a conversation or chat room.
@@ -3432,6 +3445,7 @@ common#:#additional_info#:#Additional Information
 common#:#address#:#Address
 common#:#admin_force_noti#:#Notification active
 common#:#administrate_users#:#Local User Administration
+common#:#administrate_users_headline#:#Local ILIAS Accounts of this Category
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Adopt
@@ -3635,7 +3649,6 @@ common#:#catr_add#:#Add Category Link
 common#:#catr_edit_info#:#Please choose one category for creating a new link.
 common#:#catr_new#:#Create Category Link
 common#:#catr_settings#:#Category Link Settings
-common#:#cc#:#CC
 common#:#certificate#:#Certificate
 common#:#certificate_file_already_exists_error#:#The certificate file already exists in the file system.
 common#:#certificate_file_input_output_error#:#The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator.
@@ -3750,7 +3763,6 @@ common#:#copy_all#:#Copy all
 common#:#copy_n_of_suffix#:#- Copy (%1$s)
 common#:#copy_of#:#Copy of
 common#:#copy_of_suffix#:#- Copy
-common#:#copy_perma_link#:#Copy Permanent Link
 common#:#copy_selected_items#:#Copy
 common#:#count#:#Count
 common#:#country#:#Country
@@ -4538,7 +4550,7 @@ common#:#max_previews_per_object_info#:#Defines the maximum number of preview im
 common#:#mcst#:#Mediacast
 common#:#mcst_add#:#Add Mediacast
 common#:#mcst_new#:#New Mediacast
-common#:#mem_add_to_wl#:#Add to Waiting List
+common#:#mem_add_to_wl#:#Join Waiting List
 common#:#mem_alert_no_places#:#There are no free places available.
 common#:#mem_cron_min_members#:#Course/Group: Minimum Members Check
 common#:#mem_cron_min_members_info#:#The administrators will be notified if the minimum number is not met.
@@ -4913,7 +4925,7 @@ common#:#obj_mobs#:#Media Objects and Pools
 common#:#obj_mobs_desc#:#Settings for media objects and media pools.
 common#:#obj_not_found#:#Object Not Found
 common#:#obj_nota#:#Notifications
-common#:#obj_nota_desc#:#Notification Administration
+common#:#obj_nota_desc#:#Notifications Administration
 common#:#obj_nots#:#Notes
 common#:#obj_nots_desc#:#Notes settings
 common#:#obj_nwss#:#News and Web Feeds
@@ -5971,6 +5983,7 @@ cont#:#cont_filter_fields#:#Filter Fields
 cont#:#cont_filter_record#:#Record
 cont#:#cont_found_objects#:#Found Objects
 cont#:#cont_item_list#:#List
+cont#:#cont_item_list_info#:#Display content objects in a list.
 cont#:#cont_list_presentation#:#Item Presentation
 cont#:#cont_mem_skills#:#Competences
 cont#:#cont_news_edited#:#Bearbeitet
@@ -6030,6 +6043,7 @@ cont#:#cont_tile_size_2#:#large (up to three tiles in a row)
 cont#:#cont_tile_size_3#:#extra large (up to two tiles in a row)
 cont#:#cont_tile_size_4#:#full (one tile in a row)
 cont#:#cont_tile_view#:#Tiles
+cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.
 contact#:#contact_awrn_ap_contacts#:#Approved Contacts
 contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.
 contact#:#contact_awrn_req_contacts#:#Contact Requests
@@ -6100,7 +6114,7 @@ content#:#cont_add_popup#:#Add Popup
 content#:#cont_add_tab#:#Add Panel
 content#:#cont_add_url#:#Enter URL
 content#:#cont_added_cell#:#Column added
-content#:#cont_added_comment#:#Comment has been added to history.
+content#:#cont_added_comment#:#Comment has been added to history of learning module (see tab 'Content » History').
 content#:#cont_added_tab#:#Panel added.
 content#:#cont_added_term#:#Term added
 content#:#cont_adjust_size#:#Adjust Size
@@ -7834,7 +7848,7 @@ crs#:#edit_timings_list#:#Edit Timings
 crs#:#event#:#Session
 crs#:#event_add_new_event#:#Added new session
 crs#:#event_assign_materials_info#:#Assigned materials will be displayed directly below the session.
-crs#:#event_assign_materials_table#:#Assignment of Materials
+crs#:#event_assign_materials_table#:#Assigned Materials
 crs#:#event_blank_columns#:#Additional Columns
 crs#:#event_btn_add#:#Add Session
 crs#:#event_btn_add_edit#:#Add Session and Assign Materials
@@ -8295,6 +8309,7 @@ dateplaner#:#cal_type_remote#:#Web Calendar
 dateplaner#:#cal_type_rl#:#Calendar Location
 dateplaner#:#cal_type_sess#:#Session Calendar
 dateplaner#:#cal_type_system#:#Public Calendar
+dateplaner#:#cal_type_tals#:#Talks
 dateplaner#:#cal_unshare#:#Cancel Sharing
 dateplaner#:#cal_unshare_cal#:#Stop Sharing
 dateplaner#:#cal_unshared_selected_usr#:#Stopped sharing the calendar with the selected users.
@@ -8950,6 +8965,7 @@ etal#:#etal_add_new_item#:#Add new Talk
 etal#:#etal_date_appointment_edit#:#Date of Talk
 etal#:#etal_date_series_edit#:#Date of Talk Series
 etal#:#etal_edit#:#General
+etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.
 etal#:#etal_new#:#New Talk
 etal#:#etal_open#:#Open Employee Talk
 etal#:#etal_status_all#:#All
@@ -8960,13 +8976,12 @@ etal#:#lock_edititng_for_others#:#Lock editing for others
 etal#:#meta_adv_records#:#Metadata
 etal#:#mm_org_etal#:#Talks
 etal#:#mm_talk_template#:#Talk Templates
-etal#:#notification_talks_created#:#You have been invited by %s to the following employee talks.
-etal#:#notification_talks_date_details#:#Appointment details
+etal#:#notification_talks_created#:#You have been invited to the following employee talks.
 etal#:#notification_talks_date_list_header#:#Dates
-etal#:#notification_talks_removed#:#The following appointments have been canceled by %s.
-etal#:#notification_talks_subject#:#Invitation
-etal#:#notification_talks_talk_title#:#Titel: %s
-etal#:#notification_talks_updated#:#The following talk appointments have been changed by %s.
+etal#:#notification_talks_removed#:#The following appointments have been canceled.
+etal#:#notification_talks_subject#:#Invitation: %s
+etal#:#notification_talks_subject_update#:#Update: %s
+etal#:#notification_talks_updated#:#The following talk appointments have been changed.
 etal#:#talk_serial#:#Talk Serial
 etal#:#tals_add#:#Add Talks
 etal#:#tals_new#:#New Talks
@@ -8975,6 +8990,8 @@ etal#:#talt_add#:#Add Template
 etal#:#talt_edit#:#General
 etal#:#talt_etal#:#Employee Talk
 etal#:#talt_new#:#New Talk Template
+etal#:#will_update_series_info_lock#:#Lock the editing of all appointments in this series
+etal#:#will_update_series_info_title#:#Changes to the title will be made to all appointments in this series.
 exc#:#exc_add_assignment#:#Add Assignment
 exc#:#exc_add_criteria#:#Add Criteria
 exc#:#exc_add_criteria_catalogue#:#Add Catalogue
@@ -10110,7 +10127,7 @@ irss#:#type#:#File Type
 itgr#:#itgr_always_open#:#Always Open
 itgr#:#itgr_assign_materials#:#Assign Materials
 itgr#:#itgr_assigned_materials#:#Assigned Materials
-itgr#:#itgr_assignment#:#Assignment
+itgr#:#itgr_assignment#:#Assigned
 itgr#:#itgr_behaviour#:#Block Behaviour
 itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.
@@ -10751,7 +10768,6 @@ lti#:#user_provider_subtab#:#Providers Defined by Users
 ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object
 ltiv#:#ltiv_create_info#:#Select a completed LTI consumer object to generate a certificate for it
 mail#:#back_to_folder#:#Back to Folder
-mail#:#bc#:#BCC
 mail#:#current_folder#:#Current Folder: %s
 mail#:#deleteTemplate#:#Delete
 mail#:#first_email_missing_info#:#Selection not possible because no e-mail address has been entered
@@ -10761,6 +10777,16 @@ mail#:#link_check_affected_links#:#Affected Links
 mail#:#link_check_introduction#:#the following weblinks are invalid:
 mail#:#link_check_perma_link#:#Permanent Link
 mail#:#link_check_reason#:#You recife this mail because you enabled the notification for invalid links.
+mail#:#mail_absence_auto_responder_body#:#Message
+mail#:#mail_absence_auto_responder_body_hint#:#This is an automatically created message. You will not receive this kind of message until [NEXT_AUTO_RESPONDER_DATETIME].
+mail#:#mail_absence_auto_responder_body_info#:#This message will be sent automatically during your absence when users send you an ILIAS internal message.<br>Users will be notified of your absence every %1$s days if they send further messages.
+mail#:#mail_absence_auto_responder_body_info_single_day#:#This message will be sent automatically during your absence when users send you an ILIAS internal message.<br>Users will be notified again of your absence the next day if they send further messages.
+mail#:#mail_absence_auto_responder_subject#:#Subject
+mail#:#mail_absence_duration#:#Duration
+mail#:#mail_absence_status#:#Enable Autoresponder
+mail#:#mail_absence_status_info#:#Activation of the automatic sending of an out of office message
+mail#:#mail_absent_from#:#Absent from
+mail#:#mail_absent_until#:#Absent until
 mail#:#mail_account_mail#:#Account Mail
 mail#:#mail_add_folder#:#Add New Sub-folder
 mail#:#mail_add_recipient#:#Please enter a recipient
@@ -10772,12 +10798,17 @@ mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Contacts to M
 mail#:#mail_attachment_file_not_exist#:#At least one of the following attachments does not exist: %1$s
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_auto_generated_info#:#This mail was automatically sent to you by the ILIAS installation %s, %s
+mail#:#mail_auto_responder#:#Autoresponder
+mail#:#mail_auto_responder_idle_time#:#Sending again
+mail#:#mail_auto_responder_idle_time_info#:#Specify here how many days should elapse between resending an out-of-office note to the same sender.
+mail#:#mail_bcc#:#BCC
 mail#:#mail_bg_task_desc#:#Subject: %s
 mail#:#mail_bg_task_title#:#E-mail Delivery
 mail#:#mail_both_email#:#Both E-Mail Addresses
+mail#:#mail_cc#:#CC
 mail#:#mail_change_to_folder#:#Switch to folder: %s
 mail#:#mail_create_tpl#:#Create Text Templates
-mail#:#mail_cronjob_notification_info#:#You can activate a periodic notification about new mail here.
+mail#:#mail_cronjob_notification_info#:#Activation of regular notifications about new mails.
 mail#:#mail_crs_list_members_not_available#:#It is not possible to list the members of the marked courses.
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of at least one selected course can not be listed.
 mail#:#mail_crs_roles#:#Send Mail to Course Roles
@@ -11029,8 +11060,9 @@ mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill
 mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed
 mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe
 mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js
+mathjax#:#mathjax_script_url_desc_line3#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include script that configures it before MathJax is loaded. Use for example https://your-domain/your-ilias/Services/MathJax/js/cdn-mathjax3-es5-tex-mml-chtml-safe.js
 mathjax#:#mathjax_server_address#:#Server Address
 mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.
@@ -11182,6 +11214,7 @@ mep#:#mep_master_language_only_no_media#:#Master Language without Media
 mep#:#mep_media_files#:#Media Files
 mep#:#mep_media_subtitles#:#Media Subtitles
 mep#:#mep_mob#:#Media Object
+mep#:#mep_move_select_insert#:#Navigate to target folder and click "Insert"
 mep#:#mep_mpg#:#Content Snippet
 mep#:#mep_new_content_snippet#:#New Content Snippet
 mep#:#mep_new_folder#:#New Folder
@@ -11976,6 +12009,7 @@ mob#:#mob_mime_type_not_allowed#:#The following mime types are not allowed at th
 mob#:#mob_multi_srt_files#:#SRT Files
 mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
 mob#:#mob_object#:#Object
+mob#:#mob_please_select_pool#:#Bitte wählen Sie einen Medienpool aus.
 mob#:#mob_really_delete_srt#:#Do you really want to delete the following srt files?
 mob#:#mob_srt_files_deleted#:#Subtitle files have been deleted.
 mob#:#mob_srt_not_allowed#:#Files with a .srt suffix are currently not allowed to be uploaded. If you would like to use srt files, contact your system administrator.
@@ -12154,17 +12188,21 @@ noti#:#noti_activate_notification#:#Activate Notification
 noti#:#noti_deactivate_notification#:#Deactivate Notification
 noti#:#noti_notification_activated#:#Notification Activated
 noti#:#noti_notification_deactivated#:#Notification Deactivated
-notification_adm#:#enable_osd#:#Enable On-Screen Notifications
-notification_adm#:#enable_osd_desc#:#If enabled, users are notified by a popup about new notifications.
-notification_adm#:#notification_settings#:#Notifciation Settings
-notification_adm#:#osd_delay#:#Presentation Delay
-notification_adm#:#osd_delay_desc#:#Delay of the visible presentation in milliseconds.
-notification_adm#:#osd_interval#:#Refreshinterval
-notification_adm#:#osd_interval_desc#:#Polling interval for checking of new notifications in seconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle.
-notification_adm#:#osd_vanish#:#Presentation Time
-notification_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in seconds.
-notification_adm#:#play_sound#:#Play a Sound
-notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiation.
+notifications_adm#:#enable_osd#:#Enable On-Screen Notifications
+notifications_adm#:#enable_osd_desc#:#If enabled, users are notified by a popup about new notifications.
+notifications_adm#:#notification_settings#:#Notification Settings
+notifications_adm#:#osd_delay#:#Presentation Delay
+notifications_adm#:#osd_delay_desc#:#Delay of the visible presentation in milliseconds.
+notifications_adm#:#osd_error_presentation_time_too_small#:#The Presentation Time has to be at least than 1000 miliseconds.
+notifications_adm#:#osd_error_refresh_interval_smaller_than_delay_and_vanish_combined#:#The Refresh Interval has to be greater than the Presentation Time and the Presentation Delay combined.
+notifications_adm#:#osd_error_refresh_interval_too_small#:#The Refresh Interval has to be at least than 3000 miliseconds.
+notifications_adm#:#osd_interval#:#Refreshinterval
+notifications_adm#:#osd_interval_desc#:#Polling interval for checking of new notifications in miliseconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle.
+notifications_adm#:#osd_play_sound#:#Play a Sound
+notifications_adm#:#osd_play_sound_desc#:#Play a sound when receiving a new notficiation.
+notifications_adm#:#osd_settings#:#On-Screen Notifications
+notifications_adm#:#osd_vanish#:#Presentation Time
+notifications_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in miliseconds.
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
 obj#:#cont_skll_published#:#All assignments have been published.
 obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some users lacked competence assignments, thus no assignments could be published for them.
@@ -12203,7 +12241,7 @@ obj#:#obj_show_header_actions#:#Show Header Actions
 obj#:#obj_show_title_and_icon#:#Show Title and Icon
 obj#:#obj_target_location#:#Target Location
 obj#:#obj_tile_image#:#Tile Image
-obj#:#obj_tile_image_info#:#The tile image will be used, if the container (course, folder, group, ...) activates the tile view presentation. To avoid performance issues, upload files with a resolution of 72dpi and a width less than 1000 px. Otherwise the display of the page will be unnecessarily delayed.
+obj#:#obj_tile_image_info#:#This image will be used as a thumbnail-style image (called a tile) to represent this object in the container (e.g. the category, folder group etc.) in which it is located. The tile is only used if the parent container sets its ‘Item Presentation’ (or 'Content Display Options' - see above) to ‘Tiles’ (rather than ‘List’). To avoid performance issues, only upload files with a resolution of 72dpi and a width of less than 1000 px.
 obj#:#obj_tool_booking#:#Resources
 obj#:#obj_tool_booking_info#:#Use the booking pools to book resources.
 obj#:#obj_tool_ext_mail_subject_prefix#:#Mail Subject Prefix
@@ -12587,6 +12625,8 @@ prg#:#msg_update_individual_plan_failed#:#Update  of individual plan failed
 prg#:#no_srctype_or_id#:#Id and type may not be empty.
 prg#:#not_a_valid_cat_id#:#%s is not a valid ref-id of a category.
 prg#:#obj_prg_select#:#-- Please select a study programme --
+prg#:#optgrp_label_restart#:#Restart
+prg#:#optgrp_label_validity#:#Expiry
 prg#:#orgu#:#Organisational Unit
 prg#:#percentage#:#%
 prg#:#prg_access_by_orgu#:#Access Control by Organisation Unit Positions
@@ -12611,6 +12651,7 @@ prg#:#prg_can_not_manage_in_repo#:#You're not allowed to manage this Study Progr
 prg#:#prg_cancel#:#Cancel
 prg#:#prg_cancel_tree_order#:#Dismiss tree order
 prg#:#prg_changed_by#:#Changed by
+prg#:#prg_completed_by_subnodes#:#subprogrammes
 prg#:#prg_completion_by#:#Completion by
 prg#:#prg_completion_date#:#Completion date
 prg#:#prg_confirm_delete#:#Delete
@@ -12699,6 +12740,7 @@ prg#:#prg_quali_still_valid#:#Qualification still valid
 prg#:#prg_remove_user#:#Remove Assignment
 prg#:#prg_remove_user_success#:#Assignment removed successfully.
 prg#:#prg_remove_users_not_possible#:#Remove Selected Users Not Possible
+prg#:#prg_remove_users_partial_success#:#Assignments (partially) removed.
 prg#:#prg_remove_users_partitial_success#:#Remove Selected Users Particially
 prg#:#prg_remove_users_success#:#Remove Selected Users
 prg#:#prg_restart_assignments_temporal_progress_desc#:#Restart Studyprogramme assignments with progresses about to expire
@@ -13901,6 +13943,10 @@ rbac#:#tags_edit_permission#:#User can change permission settings in Tagging adm
 rbac#:#tags_read#:#User has read access to Tagging administration
 rbac#:#tags_visible#:#Tagging administration is visible
 rbac#:#tags_write#:#User can edit settings in Tagging administration
+rbac#:#tala_edit_permission#:#User can change permission settings in Talk Templates administration
+rbac#:#tala_read#:#User has read access to Talk Templates administration
+rbac#:#tala_visible#:#Talk Templates administration is visible
+rbac#:#tala_write#:#User can create and edit Talk Templates
 rbac#:#taxs_edit_permission#:#User can change permission settings in Taxonomy administration
 rbac#:#taxs_read#:#User has read access to Taxonomy administration
 rbac#:#taxs_visible#:#Taxonomy administration is visible
@@ -14618,7 +14664,7 @@ sess#:#sess_filter_all_types#:#All types
 sess#:#sess_filter_not_assigned#:#Not Assigned
 sess#:#sess_import#:#Import Session
 sess#:#sess_info_new_sess_type#:#New Session Type
-sess#:#sess_is_assigned#:#is Assigned
+sess#:#sess_is_assigned#:#Assigned
 sess#:#sess_list_reg_limit_places#:#Free places
 sess#:#sess_lp_preset#:#Activate Learning Progress
 sess#:#sess_lp_preset_info#:#Activates the learning progress for all session events to be created.

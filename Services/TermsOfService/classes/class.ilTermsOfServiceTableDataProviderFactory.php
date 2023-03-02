@@ -24,8 +24,8 @@ declare(strict_types=1);
  */
 class ilTermsOfServiceTableDataProviderFactory
 {
-    public const CONTEXT_ACCEPTANCE_HISTORY = 'acceptance_history';
-    public const CONTEXT_DOCUMENTS = 'documents';
+    final public const CONTEXT_ACCEPTANCE_HISTORY = 'acceptance_history';
+    final public const CONTEXT_DOCUMENTS = 'documents';
 
     protected ?ilDBInterface $db = null;
 

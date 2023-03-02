@@ -23,6 +23,7 @@
  */
 class ilPCSection extends ilPageContent
 {
+    protected \ILIAS\COPage\Dom\DomUtil $dom_util;
     protected DOMElement $sec_dom_node;
     protected ilAccessHandler $access;
     protected ilCtrl $ctrl;
@@ -37,6 +38,7 @@ class ilPCSection extends ilPageContent
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->setType("sec");
+        $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
     }
 
     public function setNode(php4DOMElement $a_node): void
@@ -211,7 +213,7 @@ class ilPCSection extends ilPageContent
      */
     public function setNoLink(): void
     {
-        ilDOMUtil::deleteAllChildsByName($this->sec_node, array("IntLink", "ExtLink"));
+        $this->dom_util->deleteAllChildsByName($this->sec_dom_node, ["IntLink", "ExtLink"]);
     }
 
     /**
@@ -222,11 +224,10 @@ class ilPCSection extends ilPageContent
         $this->setNoLink();
         if (trim($a_href) != "") {
             $attributes = array("Href" => trim($a_href));
-            ilDOMUtil::setFirstOptionalElement(
-                $this->dom,
-                $this->sec_node,
+            $this->dom_util->setFirstOptionalElement(
+                $this->sec_dom_node,
                 "ExtLink",
-                array(""),
+                [],
                 "",
                 $attributes
             );
@@ -244,11 +245,10 @@ class ilPCSection extends ilPageContent
         $this->setNoLink();
         $attributes = array("Type" => $a_type, "Target" => $a_target,
             "TargetFrame" => $a_target_frame);
-        ilDOMUtil::setFirstOptionalElement(
-            $this->dom,
-            $this->sec_node,
+        $this->dom_util->setFirstOptionalElement(
+            $this->sec_dom_node,
             "IntLink",
-            array(""),
+            [],
             "",
             $attributes
         );

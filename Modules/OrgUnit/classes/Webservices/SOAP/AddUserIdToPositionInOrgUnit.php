@@ -35,13 +35,13 @@ class AddUserIdToPositionInOrgUnit extends Base
         $orgu_ref_id = $params[self::ORGU_REF_ID];
 
         if (!ilObjUser::_exists($user_id)) {
-            $this->addError("user does not exist");
+            $this->addError("User does not exist");
         } elseif (!$this->positionRepo->getSingle($position_id, 'id') instanceof ilOrgUnitPosition) {
             $this->addError("Position does not exist");
         } elseif (ilObject2::_lookupType($orgu_ref_id, true) !== 'orgu') {
             $this->addError("OrgUnit does not exist");
         } else {
-            \ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $orgu_ref_id);
+            $assignment = $this->assignmentRepo->get($user_id, $position_id, $orgu_ref_id);
         }
 
         return true;

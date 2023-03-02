@@ -294,6 +294,7 @@ class ilObjStudyProgrammeSettingsGUI
         ilObjectTranslation $trans
     ): ILIAS\UI\Component\Input\Field\Section {
         $languages = ilMDLanguageItem::_getLanguages();
+        $lang = array_key_exists($trans->getDefaultLanguage(), $languages) ? $languages[$trans->getDefaultLanguage()] : '?';
         return $ff->section(
             [
                 self::PROP_TITLE =>
@@ -305,7 +306,7 @@ class ilObjStudyProgrammeSettingsGUI
                        ->withValue($trans->getDefaultDescription() ?? "")
             ],
             $this->txt("prg_edit"),
-            $this->txt("language") . ": " . $languages[$trans->getDefaultLanguage()] .
+            $this->txt("language") . ": " . $lang .
             ' <a href="' . $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "") .
             '">&raquo; ' . $this->txt("obj_more_translations") . '</a>'
         );

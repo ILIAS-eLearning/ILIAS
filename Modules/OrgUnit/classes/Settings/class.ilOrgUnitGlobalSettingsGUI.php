@@ -163,7 +163,7 @@ class ilOrgUnitGlobalSettingsGUI
             }
 
             // MyStaff
-            $DIC->settings()->set("enable_my_staff", (int) ($_POST["enable_my_staff"] ? 1 : 0));
+            $DIC->settings()->set("enable_my_staff", (int) $form->getInput('enable_my_staff'));
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'settings');

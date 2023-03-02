@@ -61,9 +61,6 @@ class ilChatroom
     /**
      * Checks user permissions by given array and ref_id.
      * @param string|string[] $permissions
-     * @param int $ref_id
-     * @param bool $send_info
-     * @return bool
      */
     public static function checkUserPermissions($permissions, int $ref_id, bool $send_info = true): bool
     {
@@ -87,10 +84,7 @@ class ilChatroom
     /**
      * Checks user permissions in question for a given user id in relation
      * to a given ref_id.
-     * @param int $usr_id
      * @param string|string[] $permissions
-     * @param int $ref_id
-     * @return bool
      */
     public static function checkPermissionsOfUser(int $usr_id, $permissions, int $ref_id): bool
     {
@@ -102,10 +96,7 @@ class ilChatroom
     }
 
     /**
-     * @param int $usrId
-     * @param int $refId
      * @param string[] $permissions
-     * @return bool
      */
     protected static function checkPermissions(int $usrId, int $refId, array $permissions): bool
     {
@@ -184,7 +175,6 @@ class ilChatroom
     /**
      * Sets $this->roomId by given array $rowdata and calls setSetting method
      * foreach available setting in $this->availableSettings.
-     * @param array $rowdata
      */
     public function initialize(array $rowdata): void
     {
@@ -200,7 +190,6 @@ class ilChatroom
 
     /**
      * Sets given name and value as setting into $this->settings array.
-     * @param string $name
      * @param mixed  $value
      */
     public function setSetting(string $name, $value): void
@@ -291,16 +280,11 @@ class ilChatroom
 
     private function phpTypeToMDBType(string $type): string
     {
-        switch ($type) {
-            case 'string':
-                return 'text';
-
-            case 'boolean':
-                return 'integer';
-
-            default:
-                return $type;
-        }
+        return match ($type) {
+            'string' => 'text',
+            'boolean' => 'integer',
+            default => $type,
+        };
     }
 
     /**
@@ -481,7 +465,7 @@ class ilChatroom
         while ($row = $DIC->database()->fetchAssoc($rset)) {
             try {
                 $message = json_decode($row['message'], false, 512, JSON_THROW_ON_ERROR);
-            } catch (JsonException $e) {
+            } catch (JsonException) {
                 $message = null;
             } finally {
                 if ($message === null) {
@@ -497,7 +481,7 @@ class ilChatroom
                 $row['message']->target !== null &&
                 !$row['message']->target->public && (
                     !isset($row['recipients']) ||
-                    !in_array($DIC->user()->getId(), explode(',', $row['recipients']), false)
+                    !in_array($DIC->user()->getId(), explode(',', (string) $row['recipients']), false)
                 )
             ) {
                 continue;
@@ -650,10 +634,7 @@ class ilChatroom
     }
 
     /**
-     * @param null|ilChatroomObjectGUI $gui
      * @param int|ilChatroomUser $sender (can be an instance of ilChatroomUser or an user id of an ilObjUser instance
-     * @param int $recipient_id
-     * @param string $invitationLink
      * @throws InvalidArgumentException
      */
     public function sendInvitationNotification(
@@ -749,7 +730,6 @@ class ilChatroom
 
     /**
      * Fetches and returns a Array<Integer, String> of all accessible repository object chats in the main tree
-     * @param int $user_id
      * @return array<int, string>
      */
     public function getAccessibleRoomIdByTitleMap(int $user_id): array

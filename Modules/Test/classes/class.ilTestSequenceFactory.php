@@ -64,7 +64,7 @@ class ilTestSequenceFactory
      */
     public function getSequenceByActiveIdAndPass($activeId, $pass)
     {
-        if (!isset($this->testSequences[$activeId]) || $this->testSequences[$activeId][$pass] === null) {
+        if (!isset($this->testSequences[$activeId][$pass])) {
             if ($this->testOBJ->isFixedTest()) {
                 $this->testSequences[$activeId][$pass] = new ilTestSequenceFixedQuestionSet(
                     $activeId,

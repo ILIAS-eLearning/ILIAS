@@ -23,13 +23,13 @@ declare(strict_types=1);
  */
 class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
 {
-    private ilLanguage $language;
-    private ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
-    private ilCertificateDateHelper $dateHelper;
-    private ilCertificateObjectHelper $objectHelper;
-    private ilCertificateUtilHelper $utilHelper;
-    private ilCertificateObjectLPHelper $objectLPHelper;
-    private ilCertificateLPStatusHelper $lpStatusHelper;
+    private readonly ilLanguage $language;
+    private readonly ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
+    private readonly ilCertificateDateHelper $dateHelper;
+    private readonly ilCertificateObjectHelper $objectHelper;
+    private readonly ilCertificateUtilHelper $utilHelper;
+    private readonly ilCertificateObjectLPHelper $objectLPHelper;
+    private readonly ilCertificateLPStatusHelper $lpStatusHelper;
 
     public function __construct(
         ?ilDefaultPlaceholderValues $defaultPlaceholderValues = null,

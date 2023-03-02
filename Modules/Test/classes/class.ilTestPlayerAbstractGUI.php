@@ -750,6 +750,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     public function finishTestCmd($requires_confirmation = true)
     {
+        $this->handleCheckTestPassValid();
         ilSession::clear("tst_next");
 
         $active_id = $this->testSession->getActiveId();

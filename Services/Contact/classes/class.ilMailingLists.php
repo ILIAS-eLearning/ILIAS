@@ -24,10 +24,10 @@ declare(strict_types=1);
  */
 class ilMailingLists
 {
-    private ilDBInterface $db;
+    private readonly ilDBInterface $db;
     private ?ilMailingList $ml = null;
 
-    public function __construct(private ilObjUser $user)
+    public function __construct(private readonly ilObjUser $user)
     {
         global $DIC;
 

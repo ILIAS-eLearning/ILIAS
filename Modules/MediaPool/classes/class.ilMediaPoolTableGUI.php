@@ -29,6 +29,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
     public const IL_MEP_EDIT = "edit";
     public const IL_MEP_SELECT_CONTENT = "selectc";
     public const IL_MEP_SELECT_SINGLE = "selectsingle";
+    protected \ILIAS\DI\UIServices $ui;
 
     protected string $mode = "";
     protected array $filter = [];
@@ -68,6 +69,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
+        $this->ui = $DIC->ui();
 
         $this->clipboard_manager = $DIC->mediaPool()
             ->internal()
@@ -400,6 +402,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
+        $actions = [];
 
         $this->tpl->setCurrentBlock("link");
 
@@ -421,6 +424,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
             case "fold":
                 $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
                 $ilCtrl->setParameter($this->parent_obj, $this->folder_par, $a_set["obj_id"]);
+                $ilCtrl->setParameter($this->parent_obj, "id", $a_set["obj_id"]);
                 $this->tpl->setVariable(
                     "LINK_VIEW",
                     $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd)
@@ -429,13 +433,11 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 
                 if ($ilAccess->checkAccess("write", "", $this->media_pool->getRefId()) &&
                     $this->getMode() === self::IL_MEP_EDIT) {
-                    $this->tpl->setCurrentBlock("edit");
-                    $this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
+                    $actions[$lng->txt("edit")] = $ilCtrl->getLinkTarget($this->parent_obj, "editFolder");
+                    $ilCtrl->setParameterByClass("ilobjmediapoolgui", "mepitem_id", $this->request->getItemId());
+                    $actions[$lng->txt("move")] = $ilCtrl->getLinkTarget($this->parent_obj, "move");
+                    $actions[$lng->txt("remove")] = $ilCtrl->getLinkTarget($this->parent_obj, "confirmRemove");
                     $ilCtrl->setParameter($this->parent_obj, $this->folder_par, $a_set["obj_id"]);
-                    $this->tpl->setVariable(
-                        "EDIT_LINK",
-                        $ilCtrl->getLinkTarget($this->parent_obj, "editFolder")
-                    );
                     $ilCtrl->setParameter(
                         $this->parent_obj,
                         $this->folder_par,
@@ -461,14 +463,12 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 
                 if ($this->getMode() === self::IL_MEP_EDIT &&
                     $ilAccess->checkAccess("write", "", $this->media_pool->getRefId())) {
-                    $this->tpl->setCurrentBlock("edit");
-                    $this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
                     $ilCtrl->setParameterByClass("ilmediapoolpagegui", "mepitem_id", $a_set["child"]);
-                    $this->tpl->setVariable(
-                        "EDIT_LINK",
-                        $ilCtrl->getLinkTargetByClass("ilmediapoolpagegui", "edit")
-                    );
-                    $this->tpl->parseCurrentBlock();
+                    $ilCtrl->setParameterByClass("ilobjmediapoolgui", "id", $a_set["child"]);
+                    $actions[$lng->txt("edit")] = $ilCtrl->getLinkTargetByClass("ilmediapoolpagegui", "edit");
+                    $ilCtrl->setParameterByClass("ilobjmediapoolgui", "mepitem_id", $this->request->getItemId());
+                    $actions[$lng->txt("move")] = $ilCtrl->getLinkTarget($this->parent_obj, "move");
+                    $actions[$lng->txt("remove")] = $ilCtrl->getLinkTarget($this->parent_obj, "confirmRemove");
                 }
 
                 $this->tpl->setCurrentBlock("tbl_content");
@@ -481,17 +481,16 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                 $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
                 $ilCtrl->setParameterByClass("ilobjmediaobjectgui", "mepitem_id", $a_set["child"]);
                 $ilCtrl->setParameter($this->parent_obj, "mob_id", $a_set["foreign_id"]);
+                $ilCtrl->setParameter($this->parent_obj, "id", $a_set["child"]);
 
                 // edit link
                 if ($ilAccess->checkAccess("write", "", $this->media_pool->getRefId()) &&
                     $this->getMode() === self::IL_MEP_EDIT) {
-                    $this->tpl->setCurrentBlock("edit");
-                    $this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
-                    $this->tpl->setVariable(
-                        "EDIT_LINK",
-                        $ilCtrl->getLinkTargetByClass("ilobjmediaobjectgui", "edit")
-                    );
-                    $this->tpl->parseCurrentBlock();
+                    $actions[$lng->txt("edit")] = $ilCtrl->getLinkTargetByClass("ilobjmediaobjectgui", "edit");
+                    $ilCtrl->setParameterByClass("ilobjmediapoolgui", "mepitem_id", $this->request->getItemId());
+                    $actions[$lng->txt("cont_copy_to_clipboard")] = $ilCtrl->getLinkTargetByClass("ilobjmediapoolgui", "copyToClipboard");
+                    $actions[$lng->txt("move")] = $ilCtrl->getLinkTargetByClass("ilobjmediapoolgui", "move");
+                    $actions[$lng->txt("remove")] = $ilCtrl->getLinkTarget($this->parent_obj, "confirmRemove");
                 }
 
                 $this->tpl->setCurrentBlock("link");
@@ -563,6 +562,15 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                 $this->tpl->parseCurrentBlock();
                 $this->tpl->setCurrentBlock("tbl_content");
             }
+        }
+
+        if (count($actions) > 0) {
+            $items = [];
+            foreach ($actions as $txt => $act) {
+                $items[] = $this->ui->factory()->link()->standard($txt, $act);
+            }
+            $dd = $this->ui->factory()->dropdown()->standard($items);
+            $this->tpl->setVariable("DROPDOWN", $this->ui->renderer()->render($dd));
         }
     }
 

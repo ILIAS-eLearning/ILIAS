@@ -26,11 +26,12 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilUserCertificateApiGUI
 {
-    public const CMD_DOWNLOAD = 'download';
-    private ilLogger $certificateLogger;
-    private ServerRequestInterface $request;
-    private ilLanguage $language;
-    private ilCtrlInterface $ctrl;
+    final public const CMD_DOWNLOAD = 'download';
+
+    private readonly ilLogger $certificateLogger;
+    private readonly ServerRequestInterface $request;
+    private readonly ilLanguage $language;
+    private readonly ilCtrlInterface $ctrl;
 
     public function __construct(
         ?ilLanguage $language = null,

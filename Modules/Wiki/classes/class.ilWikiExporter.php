@@ -24,14 +24,19 @@
 class ilWikiExporter extends ilXmlExporter
 {
     private ilWikiDataSet $ds;
+    protected \ILIAS\Style\Content\DomainService $content_style_domain;
     protected ilLogger $wiki_log;
 
     public function init(): void
     {
+        global $DIC;
+
         $this->ds = new ilWikiDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->setDSPrefix("ds");
         $this->wiki_log = ilLoggerFactory::getLogger('wiki');
+        $this->content_style_domain = $DIC->contentStyle()
+                                          ->domain();
     }
 
     public function getXmlExportTailDependencies(
@@ -83,6 +88,7 @@ class ilWikiExporter extends ilXmlExporter
         }
 
         // style
+        /*
         $obj_ids = (is_array($a_ids))
             ? $a_ids
             : array($a_ids);
@@ -90,7 +96,19 @@ class ilWikiExporter extends ilXmlExporter
             "component" => "Services/Style",
             "entity" => "object_style",
             "ids" => $obj_ids
-        );
+        );*/
+
+        // style
+        foreach ($a_ids as $id) {
+            $style_id = $this->content_style_domain->styleForObjId($id)->getStyleId();
+            if ($style_id > 0) {
+                $deps[] = array(
+                    "component" => "Services/Style",
+                    "entity" => "sty",
+                    "ids" => $style_id
+                );
+            }
+        }
 
         // service settings
         $deps[] = array(

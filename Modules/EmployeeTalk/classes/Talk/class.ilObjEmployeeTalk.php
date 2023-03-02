@@ -77,6 +77,7 @@ final class ilObjEmployeeTalk extends ilObject
         $app = new ilCalendarAppointmentTemplate($this->getId());
         $app->setTitle($this->getTitle());
         $app->setSubtitle('');
+        $app->setFullday($this->data->isAllDay());
         $app->setTranslationType(ilCalendarEntry::TRANSLATION_NONE);
         $app->setDescription($this->getLongDescription());
         $app->setStart($this->data->getStartDate());
@@ -111,6 +112,7 @@ final class ilObjEmployeeTalk extends ilObject
         $app = new ilCalendarAppointmentTemplate($this->getParent()->getId());
         $app->setTitle($this->getTitle());
         $app->setSubtitle($this->getParent()->getTitle());
+        $app->setFullday($this->data->isAllDay());
         $app->setTranslationType(ilCalendarEntry::TRANSLATION_NONE);
         $app->setDescription($this->getLongDescription());
         $app->setStart($this->data->getStartDate());
@@ -209,9 +211,26 @@ final class ilObjEmployeeTalk extends ilObject
         );
 
         $this->repository->delete($this->getData());
-        $nodeData = $this->tree->getNodeData($this->getRefId());
+
+        $trashed_node_data = $this->tree->getNodeData(
+            $this->getRefId(),
+            (-1) * $this->getRefId()
+        );
+        $node_data = $this->tree->getNodeData($this->getRefId());
+
         $result = parent::delete();
-        $this->tree->deleteNode(intval($nodeData['tree']), intval($nodeData['child']));
+
+        if ((int) ($trashed_node_data['child'] ?? 0) === $this->getRefId()) {
+            $this->tree->deleteNode(
+                (-1) * $this->getRefId(),
+                $this->getRefId()
+            );
+        } elseif ((int) ($node_data['child'] ?? 0) === $this->getRefId()) {
+            $this->tree->deleteNode(
+                $node_data['tree'],
+                $this->getRefId()
+            );
+        }
 
         return $result;
     }

@@ -495,10 +495,9 @@ class ilObjSurvey extends ilObject
      */
     public function saveCompletionStatus(): void
     {
-        $ilDB = $this->db;
-
+        $db = $this->db;
         if ($this->getSurveyId() > 0) {
-            $ilDB->manipulateF(
+            $db->manipulateF(
                 "UPDATE svy_svy SET complete = %s, tstamp = %s WHERE survey_id = %s",
                 array('text','integer','integer'),
                 array($this->isComplete(), time(), $this->getSurveyId())
@@ -566,6 +565,7 @@ class ilObjSurvey extends ilObject
             $this->svy_log->debug("added entry to svy_svy_qst, id: " . $next_id . ", question id: " . $duplicate_id . ", sequence: " . $sequence);
 
             $this->loadQuestionsFromDb();
+            $this->saveCompletionStatus();
             return true;
         }
     }
@@ -5432,7 +5432,7 @@ class ilObjSurvey extends ilObject
         if ($this->getReminderTemplate() &&
             array_key_exists($this->getReminderTemplate(), $this->getReminderMailTemplates())) {
             /** @var \ilMailTemplateService $templateService */
-            $templateService = $DIC['mail.texttemplates.service'];
+            $templateService = $DIC->mail()->textTemplates();
             $tmpl = $templateService->loadTemplateForId($this->getReminderTemplate());
 
             $tmpl_params = array(
@@ -5562,8 +5562,7 @@ class ilObjSurvey extends ilObject
 
         $res = array();
 
-        /** @var \ilMailTemplateService $templateService */
-        $templateService = $DIC['mail.texttemplates.service'];
+        $templateService = $DIC->mail()->textTemplates();
         foreach ($templateService->loadTemplatesForContextId(ilSurveyMailTemplateReminderContext::ID) as $tmpl) {
             $res[$tmpl->getTplId()] = $tmpl->getTitle();
             if (null !== $defaultTemplateId && $tmpl->isDefault()) {

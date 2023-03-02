@@ -31,15 +31,15 @@ class ilCertificateAppEventListener implements ilAppEventListener
     protected string $component = '';
     protected string $event = '';
     protected array $parameters = [];
-    private ilCertificateQueueRepository $certificateQueueRepository;
-    private ilCertificateTypeClassMap $certificateClassMap;
-    private ilCertificateTemplateRepository $templateRepository;
-    private ilUserCertificateRepository $userCertificateRepository;
+    private readonly ilCertificateQueueRepository $certificateQueueRepository;
+    private readonly ilCertificateTypeClassMap $certificateClassMap;
+    private readonly ilCertificateTemplateRepository $templateRepository;
+    private readonly ilUserCertificateRepository $userCertificateRepository;
 
     public function __construct(
         protected ilDBInterface $db,
-        private ilObjectDataCache $objectDataCache,
-        private ilLogger $logger
+        private readonly ilObjectDataCache $objectDataCache,
+        private readonly ilLogger $logger
     ) {
         $this->certificateQueueRepository = new ilCertificateQueueRepository($this->db, $this->logger);
         $this->certificateClassMap = new ilCertificateTypeClassMap();

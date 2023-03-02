@@ -154,7 +154,7 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 
     public function mayGradeAnyUser(): bool
     {
-        return $this->mayViewAllUsers() || $this->checkRBACAccessToObj('edit_learning_progress');
+        return $this->mayGradeAllUsers() || $this->checkRBACOrPositionAccessToObj('edit_learning_progress');
     }
 
     public function mayGradeAllUsers(): bool

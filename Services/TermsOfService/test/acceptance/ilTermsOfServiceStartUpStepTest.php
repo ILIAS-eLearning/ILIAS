@@ -255,7 +255,7 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
             ->willReturn($logger);
 
         $dic = new class ($loggingServices) extends Container {
-            public function __construct(private LoggingServices $loggingServices)
+            public function __construct(private readonly LoggingServices $loggingServices)
             {
                 parent::__construct();
             }
@@ -344,7 +344,7 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
             ->willReturn($logger);
 
         $dic = new class ($loggingServices) extends Container {
-            public function __construct(private LoggingServices $loggingServices)
+            public function __construct(private readonly LoggingServices $loggingServices)
             {
                 parent::__construct();
             }

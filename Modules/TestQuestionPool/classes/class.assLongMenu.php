@@ -790,16 +790,16 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass): int
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
     {
-        parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
+        parent::setExportDetailsXLS($worksheet, $startrow, $col, $active_id, $pass);
 
         $solution = $this->getSolutionValues($active_id, $pass);
 
         $i = 1;
         foreach ($this->getCorrectAnswers() as $gap_index => $gap) {
-            $worksheet->setCell($startrow + $i, 0, $this->lng->txt('assLongMenu') . " $i");
-            $worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
+            $worksheet->setCell($startrow + $i, $col, $this->lng->txt('assLongMenu') . " $i");
+            $worksheet->setBold($worksheet->getColumnCoord($col) . ($startrow + $i));
             foreach ($solution as $solutionvalue) {
                 if ($gap_index == $solutionvalue["value1"]) {
                     switch ($gap[2]) {
@@ -808,10 +808,10 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
                             if ($value == -1) {
                                 $value = '';
                             }
-                            $worksheet->setCell($startrow + $i, 1, $value);
+                            $worksheet->setCell($startrow + $i, $col + 1, $value);
                             break;
                         case self::ANSWER_TYPE_TEXT_VAL:
-                            $worksheet->setCell($startrow + $i, 1, $solutionvalue["value2"]);
+                            $worksheet->setCell($startrow + $i, $col + 1, $solutionvalue["value2"]);
                             break;
                     }
                 }

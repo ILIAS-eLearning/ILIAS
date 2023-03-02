@@ -31,20 +31,20 @@ use ILIAS\UI\Renderer;
  */
 class ilCronManagerGUI
 {
-    private ilLanguage $lng;
-    private ilCtrlInterface $ctrl;
-    private ilSetting $settings;
-    private ilGlobalTemplateInterface $tpl;
-    private Factory $uiFactory;
-    private Renderer $uiRenderer;
-    private ilUIService $uiService;
-    private ilCronJobRepository $cronRepository;
-    private \ILIAS\DI\RBACServices $rbac;
-    private ilErrorHandling $error;
-    private WrapperFactory $httpRequest;
-    private \ILIAS\Refinery\Factory $refinery;
-    private ilCronManager $cronManager;
-    private ilObjUser $actor;
+    private readonly ilLanguage $lng;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilSetting $settings;
+    private readonly ilGlobalTemplateInterface $tpl;
+    private readonly Factory $uiFactory;
+    private readonly Renderer $uiRenderer;
+    private readonly ilUIService $uiService;
+    private readonly ilCronJobRepository $cronRepository;
+    private readonly \ILIAS\DI\RBACServices $rbac;
+    private readonly ilErrorHandling $error;
+    private readonly WrapperFactory $httpRequest;
+    private readonly \ILIAS\Refinery\Factory $refinery;
+    private readonly ilCronManager $cronManager;
+    private readonly ilObjUser $actor;
 
     public function __construct()
     {
@@ -71,9 +71,6 @@ class ilCronManagerGUI
     }
 
     /**
-     * @param string $key
-     * @param \ILIAS\Refinery\Transformation $trafo
-     * @param bool $forceRetrieval
      * @param mixed $default
      * @return mixed|null
      */
@@ -194,55 +191,33 @@ class ilCronManagerGUI
 
     protected function getScheduleTypeFormElementName(int $scheduleTypeId): string
     {
-        switch ($scheduleTypeId) {
-            case ilCronJob::SCHEDULE_TYPE_DAILY:
-                return $this->lng->txt('cron_schedule_daily');
-
-            case ilCronJob::SCHEDULE_TYPE_WEEKLY:
-                return $this->lng->txt('cron_schedule_weekly');
-
-            case ilCronJob::SCHEDULE_TYPE_MONTHLY:
-                return $this->lng->txt('cron_schedule_monthly');
-
-            case ilCronJob::SCHEDULE_TYPE_QUARTERLY:
-                return $this->lng->txt('cron_schedule_quarterly');
-
-            case ilCronJob::SCHEDULE_TYPE_YEARLY:
-                return $this->lng->txt('cron_schedule_yearly');
-
-            case ilCronJob::SCHEDULE_TYPE_IN_MINUTES:
-                return sprintf($this->lng->txt('cron_schedule_in_minutes'), 'x');
-
-            case ilCronJob::SCHEDULE_TYPE_IN_HOURS:
-                return sprintf($this->lng->txt('cron_schedule_in_hours'), 'x');
-
-            case ilCronJob::SCHEDULE_TYPE_IN_DAYS:
-                return sprintf($this->lng->txt('cron_schedule_in_days'), 'x');
-        }
-
-        throw new InvalidArgumentException(sprintf(
-            'The passed argument %s is invalid!',
-            var_export($scheduleTypeId, true)
-        ));
+        return match ($scheduleTypeId) {
+            ilCronJob::SCHEDULE_TYPE_DAILY => $this->lng->txt('cron_schedule_daily'),
+            ilCronJob::SCHEDULE_TYPE_WEEKLY => $this->lng->txt('cron_schedule_weekly'),
+            ilCronJob::SCHEDULE_TYPE_MONTHLY => $this->lng->txt('cron_schedule_monthly'),
+            ilCronJob::SCHEDULE_TYPE_QUARTERLY => $this->lng->txt('cron_schedule_quarterly'),
+            ilCronJob::SCHEDULE_TYPE_YEARLY => $this->lng->txt('cron_schedule_yearly'),
+            ilCronJob::SCHEDULE_TYPE_IN_MINUTES => sprintf($this->lng->txt('cron_schedule_in_minutes'), 'x'),
+            ilCronJob::SCHEDULE_TYPE_IN_HOURS => sprintf($this->lng->txt('cron_schedule_in_hours'), 'x'),
+            ilCronJob::SCHEDULE_TYPE_IN_DAYS => sprintf($this->lng->txt('cron_schedule_in_days'), 'x'),
+            default => throw new InvalidArgumentException(sprintf(
+                'The passed argument %s is invalid!',
+                var_export($scheduleTypeId, true)
+            )),
+        };
     }
 
     protected function getScheduleValueFormElementName(int $scheduleTypeId): string
     {
-        switch ($scheduleTypeId) {
-            case ilCronJob::SCHEDULE_TYPE_IN_MINUTES:
-                return 'smini';
-
-            case ilCronJob::SCHEDULE_TYPE_IN_HOURS:
-                return 'shri';
-
-            case ilCronJob::SCHEDULE_TYPE_IN_DAYS:
-                return 'sdyi';
-        }
-
-        throw new InvalidArgumentException(sprintf(
-            'The passed argument %s is invalid!',
-            var_export($scheduleTypeId, true)
-        ));
+        return match ($scheduleTypeId) {
+            ilCronJob::SCHEDULE_TYPE_IN_MINUTES => 'smini',
+            ilCronJob::SCHEDULE_TYPE_IN_HOURS => 'shri',
+            ilCronJob::SCHEDULE_TYPE_IN_DAYS => 'sdyi',
+            default => throw new InvalidArgumentException(sprintf(
+                'The passed argument %s is invalid!',
+                var_export($scheduleTypeId, true)
+            )),
+        };
     }
 
     protected function hasScheduleValue(int $scheduleTypeId): bool
@@ -336,15 +311,10 @@ class ilCronManagerGUI
 
                 if ($valid && $job->hasFlexibleSchedule()) {
                     $type = (int) $form->getInput('type');
-                    switch (true) {
-                        case $this->hasScheduleValue($type):
-                            $value = (int) $form->getInput($this->getScheduleValueFormElementName($type));
-                            break;
-
-                        default:
-                            $value = null;
-                            break;
-                    }
+                    $value = match (true) {
+                        $this->hasScheduleValue($type) => (int) $form->getInput($this->getScheduleValueFormElementName($type)),
+                        default => null,
+                    };
 
                     $this->cronRepository->updateJobSchedule($job, $type, $value);
                 }
@@ -466,12 +436,12 @@ class ilCronManagerGUI
         try {
             try {
                 $job_ids = [$this->getRequestValue('jid', $this->refinery->kindlyTo()->string(), true)];
-            } catch (\ILIAS\Refinery\ConstraintViolationException | OutOfBoundsException $e) {
+            } catch (\ILIAS\Refinery\ConstraintViolationException | OutOfBoundsException) {
                 $job_ids = $this->getRequestValue('mjid', $this->refinery->kindlyTo()->listOf(
                     $this->refinery->kindlyTo()->string()
                 ), false);
             }
-        } catch (\ILIAS\Refinery\ConstraintViolationException | OutOfBoundsException $e) {
+        } catch (\ILIAS\Refinery\ConstraintViolationException | OutOfBoundsException) {
         }
 
         foreach ($job_ids as $job_id) {

@@ -891,8 +891,7 @@ class ilPersonalSettingsGUI
         // send notification
         $user_email = $ilUser->getEmail();
         $admin_mail = $ilSetting->get("user_delete_own_account_email");
-        /** @var ilMailMimeSenderFactory $senderFactory */
-        $senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
+        $senderFactory = $DIC->mail()->mime()->senderFactory();
 
         $mmail = new ilMimeMail();
         $mmail->From($senderFactory->system());

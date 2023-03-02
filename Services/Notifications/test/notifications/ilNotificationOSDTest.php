@@ -118,7 +118,7 @@ class ilNotificationOSDTest extends ilNotificationsBaseTest
     public function testGet0Notification(): void
     {
         $this->createDBFunctionCalls(0, 1, 1);
-        $this->assertCount(0, $this->handler->getNotificationsForUser($this->user->getId()));
+        $this->assertCount(0, $this->handler->getOSDNotificationsForUser($this->user->getId()));
     }
 
     public function testGetNotification(): void
@@ -128,7 +128,7 @@ class ilNotificationOSDTest extends ilNotificationsBaseTest
         $test_obj = new \ILIAS\Notifications\Model\ilNotificationObject($config, $this->user);
         $this->handler->notify($test_obj);
 
-        $this->assertCount(1, $this->handler->getNotificationsForUser($this->user->getId()));
+        $this->assertCount(1, $this->handler->getOSDNotificationsForUser($this->user->getId()));
     }
 
     public function testRemoveNotification(): void
@@ -138,17 +138,17 @@ class ilNotificationOSDTest extends ilNotificationsBaseTest
         $test_obj = new \ILIAS\Notifications\Model\ilNotificationObject($config, $this->user);
         $this->handler->notify($test_obj);
 
-        $notifications = $this->handler->getNotificationsForUser($this->user->getId());
+        $notifications = $this->handler->getOSDNotificationsForUser($this->user->getId());
 
         $this->assertCount(1, $notifications);
         $this->assertTrue($this->handler->removeNotification($notifications[0]->getId()));
-        $this->assertCount(0, $this->handler->getNotificationsForUser($this->user->getId()));
+        $this->assertCount(0, $this->handler->getOSDNotificationsForUser($this->user->getId()));
     }
 
     public function testRemoveNoNotification(): void
     {
         $this->createDBFunctionCalls(0, 2, 2, 0);
-        $this->assertCount(0, $this->handler->getNotificationsForUser($this->user->getId()));
+        $this->assertCount(0, $this->handler->getOSDNotificationsForUser($this->user->getId()));
         $this->assertFalse($this->handler->removeNotification(3));
     }
 

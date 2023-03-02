@@ -23,7 +23,7 @@ declare(strict_types=1);
  */
 class ilMailBody
 {
-    private string $bodyContent;
+    private readonly string $bodyContent;
 
     public function __construct(string $content, ilMailBodyPurifier $purifier)
     {

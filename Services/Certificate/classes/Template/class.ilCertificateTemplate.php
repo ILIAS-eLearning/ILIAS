@@ -24,19 +24,19 @@ declare(strict_types=1);
 class ilCertificateTemplate
 {
     public function __construct(
-        private int $obj_id,
-        private string $obj_type,
-        private string $certificateContent,
-        private string $certificateHash,
-        private string $templateValues,
-        private int $version,
-        private string $iliasVersion,
-        private int $createdTimestamp,
-        private bool $currentlyActive,
-        private string $backgroundImagePath = '',
-        private string $thumbnailImagePath = '',
-        private ?int $id = null,
-        private bool $deleted = false
+        private readonly int $obj_id,
+        private readonly string $obj_type,
+        private readonly string $certificateContent,
+        private readonly string $certificateHash,
+        private readonly string $templateValues,
+        private readonly int $version,
+        private readonly string $iliasVersion,
+        private readonly int $createdTimestamp,
+        private readonly bool $currentlyActive,
+        private readonly string $backgroundImagePath = '',
+        private readonly string $thumbnailImagePath = '',
+        private readonly ?int $id = null,
+        private readonly bool $deleted = false
     ) {
     }
 

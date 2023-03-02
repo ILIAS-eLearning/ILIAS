@@ -114,6 +114,13 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
                     }
                 }
             }
+            #22328 render session block if previous or next session link is available
+            if (
+                !count($this->items['sess'] ?? []) &&
+                ($prefix !== '' || $postfix !== '')
+            ) {
+                $this->renderer->addItemToBlock('sess', '', 0, '&nbsp;');
+            }
         }
 
         $pos = $this->getItemGroupsHTML(1);

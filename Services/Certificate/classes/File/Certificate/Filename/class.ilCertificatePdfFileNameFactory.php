@@ -23,7 +23,7 @@ declare(strict_types=1);
  */
 class ilCertificatePdfFileNameFactory
 {
-    public function __construct(private ilLanguage $lng)
+    public function __construct(private readonly ilLanguage $lng)
     {
     }
 

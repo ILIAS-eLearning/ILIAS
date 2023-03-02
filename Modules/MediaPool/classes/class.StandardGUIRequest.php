@@ -70,7 +70,14 @@ class StandardGUIRequest
     /** @return int[] */
     public function getItemIds(): array
     {
-        return $this->intArray("id");
+        $items = $this->intArray("id");
+        if (count($items) === 0) {
+            $id = $this->int("id");
+            if ($id > 0) {
+                return [$id];
+            }
+        }
+        return $items;
     }
 
     public function getRefId(): int

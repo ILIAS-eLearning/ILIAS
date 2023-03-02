@@ -1,34 +1,24 @@
 <?php
 
-namespace ILIAS\FileUpload\Processor;
-
-use ILIAS\Filesystem\Stream\FileStream;
-use ILIAS\FileUpload\DTO\Metadata;
-use ILIAS\FileUpload\DTO\ProcessingStatus;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
-/**
- * Class BlacklistExtensionPreProcessor
- * PreProcessor which denies all blacklisted file extensions.
- *
- * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since   5.3
- * @version 1.0.0
- */
-class BlacklistExtensionPreProcessor implements PreProcessor
+namespace ILIAS\FileUpload\Processor;
+
+class BlacklistExtensionPreProcessor extends AbstractRecursiveZipPreProcessor implements PreProcessor
 {
     private string $reason;
     /**
@@ -58,54 +48,25 @@ class BlacklistExtensionPreProcessor implements PreProcessor
         $this->reason = $reason;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function process(FileStream $stream, Metadata $metadata): ProcessingStatus
+    protected function checkPath(string $path): bool
     {
-        if ($this->isBlacklisted($metadata, $stream)) {
-            return new ProcessingStatus(ProcessingStatus::REJECTED, $this->reason);
+        $extension = $this->getExtensionForFilename($path);
+        $in_array = in_array($extension, $this->blacklist, true);
+        if ($in_array) {
+            $this->reason = $this->reason .= " ($path)";
+            return false;
         }
-
-        return new ProcessingStatus(ProcessingStatus::OK, 'Extension is not blacklisted.');
+        return true;
     }
 
-    /**
-     * Checks if the current filename has a listed extension. (*.png, *.mp4 etc ...)
-     *
-     * @return bool True if the extension is listed, otherwise false.
-     */
-    private function isBlacklisted(Metadata $metadata, FileStream $stream): bool
+    protected function getRejectionMessage(): string
     {
-        $filename = $metadata->getFilename();
-        $extension = $this->getExtensionForFilename($filename);
+        return $this->reason;
+    }
 
-        if (strtolower($extension) === 'zip') {
-            $zip_file_path = $stream->getMetadata('uri');
-            $zip = new \ZipArchive();
-            $zip->open($zip_file_path);
-
-            for ($i = 0; $i < $zip->numFiles; $i++) {
-                $original_path = $zip->getNameIndex($i);
-                $extension_sub_file = $this->getExtensionForFilename($original_path);
-                if ($extension_sub_file === '') {
-                    continue;
-                }
-                if (in_array($extension_sub_file, $this->blacklist, true)) {
-                    $zip->close();
-                    $this->reason = $this->reason .= " ($original_path in $filename)";
-
-                    return true;
-                }
-            }
-            $zip->close();
-        }
-
-        $in_array = in_array($extension, $this->blacklist, true);
-        if (!$in_array) {
-            $this->reason = $this->reason .= " ($filename)";
-        }
-        return $in_array;
+    protected function getOKMessage(): string
+    {
+        return 'Extension is not blacklisted.';
     }
 
     private function getExtensionForFilename(string $filename): string

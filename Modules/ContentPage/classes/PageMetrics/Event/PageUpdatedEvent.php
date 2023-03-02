@@ -29,11 +29,8 @@ use ilContentPagePage;
  */
 final class PageUpdatedEvent
 {
-    private ilContentPagePage $page;
-
-    public function __construct(ilContentPagePage $page)
+    public function __construct(private readonly ilContentPagePage $page)
     {
-        $this->page = $page;
     }
 
     public function page(): ilContentPagePage

@@ -44,6 +44,28 @@ class PCSectionTest extends COPageTestBase
         );
     }
 
+    public function testCharacteristic(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc_sec = new ilPCSection($page);
+        $pc_sec->create($page, "pg");
+        $pc_sec->setCharacteristic("MyChar");
+
+        $this->assertEquals(
+            "MyChar",
+            $pc_sec->getCharacteristic()
+        );
+
+        $expected = <<<EOT
+<PageObject HierId="pg"><PageContent><Section Characteristic="MyChar"></Section></PageContent></PageObject>
+EOT;
+
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
     public function testProtected(): void
     {
         $page = $this->getEmptyPageWithDom();
@@ -107,6 +129,169 @@ EOT;
         $this->assertXmlEquals(
             $expected,
             $page->getXMLFromDom()
+        );
+    }
+
+    public function testPermission(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc_sec = new ilPCSection($page);
+        $pc_sec->create($page, "pg");
+        $pc_sec->setPermission("write");
+
+        $this->assertEquals(
+            "write",
+            $pc_sec->getPermission()
+        );
+
+        $expected = <<<EOT
+<PageObject HierId="pg"><PageContent><Section Characteristic="Block" Permission="write"></Section></PageContent></PageObject>
+EOT;
+
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testPermissionRefId(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc_sec = new ilPCSection($page);
+        $pc_sec->create($page, "pg");
+        $pc_sec->setPermissionRefId(10);
+
+        $this->assertEquals(
+            10,
+            $pc_sec->getPermissionRefId()
+        );
+
+        $expected = <<<EOT
+<PageObject HierId="pg"><PageContent><Section Characteristic="Block" PermissionRefId="il__ref_10"></Section></PageContent></PageObject>
+EOT;
+
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testExtLink(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc_sec = new ilPCSection($page);
+        $pc_sec->create($page, "pg");
+        $pc_sec->setExtLink("https://www.ilias.de");
+
+        $ext_link = $pc_sec->getLink();
+
+        $this->assertEquals(
+            "ExtLink",
+            $ext_link["LinkType"]
+        );
+
+        $this->assertEquals(
+            "https://www.ilias.de",
+            $ext_link["Href"]
+        );
+
+        $expected = <<<EOT
+<PageObject HierId="pg"><PageContent><Section Characteristic="Block"><ExtLink Href="https://www.ilias.de"></ExtLink></Section></PageContent></PageObject>
+EOT;
+
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testIntLink(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc_sec = new ilPCSection($page);
+        $pc_sec->create($page, "pg");
+        $pc_sec->setIntLink("mytype", "mytarget", "myframe");
+
+        $link = $pc_sec->getLink();
+
+        $this->assertEquals(
+            "IntLink",
+            $link["LinkType"]
+        );
+
+        $this->assertEquals(
+            "mytype",
+            $link["Type"]
+        );
+
+        $this->assertEquals(
+            "mytarget",
+            $link["Target"]
+        );
+
+        $this->assertEquals(
+            "myframe",
+            $link["TargetFrame"]
+        );
+
+        $expected = <<<EOT
+<PageObject HierId="pg"><PageContent><Section Characteristic="Block"><IntLink Type="mytype" Target="mytarget" TargetFrame="myframe"></IntLink></Section></PageContent></PageObject>
+EOT;
+
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testNoLink(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc_sec = new ilPCSection($page);
+        $pc_sec->create($page, "pg");
+
+        $link = $pc_sec->getLink();
+
+        $this->assertEquals(
+            "NoLink",
+            $link["LinkType"]
+        );
+
+        $pc_sec->setIntLink("mytype", "mytarget", "myframe");
+        $pc_sec->setNoLink();
+
+        $link = $pc_sec->getLink();
+
+        $this->assertEquals(
+            "NoLink",
+            $link["LinkType"]
+        );
+
+        $expected = <<<EOT
+<PageObject HierId="pg"><PageContent><Section Characteristic="Block"></Section></PageContent></PageObject>
+EOT;
+
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testModel(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc_sec = new ilPCSection($page);
+        $pc_sec->create($page, "pg");
+
+        $pc_sec->setProtected(true);
+
+        $model = new stdClass();
+        $model->protected = true;
+
+
+        $this->assertEquals(
+            $model,
+            $pc_sec->getModel()
         );
     }
 }

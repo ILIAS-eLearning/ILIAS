@@ -18,6 +18,8 @@
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
+use ILIAS\Refinery\Random\Group as RandomGroup;
+
 /**
  * Class ilObjQuestionPoolGUI
  *
@@ -194,7 +196,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 }
 
                 $this->ctrl->saveParameter($this, "q_id");
-                $gui = new ilAssQuestionPreviewGUI($this->ctrl, $this->tabs_gui, $this->tpl, $this->lng, $ilDB, $ilUser, $randomGroup);
+                $gui = new ilAssQuestionPreviewGUI(
+                    $this->ctrl,
+                    $this->rbac_system,
+                    $this->tabs_gui,
+                    $this->tpl,
+                    $this->lng,
+                    $ilDB,
+                    $ilUser,
+                    $randomGroup,
+                    $this->ref_id
+                );
 
                 $gui->initQuestion((int) $this->qplrequest->raw('q_id'), $this->object->getId());
                 $gui->initPreviewSettings($this->object->getRefId());
@@ -1351,12 +1363,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         $p_gui = new ilAssQuestionPreviewGUI(
             $this->ctrl,
+            $this->rbac_system,
             $this->tabs_gui,
             $this->tpl,
             $this->lng,
             $DIC->database(),
             $DIC->user(),
-            new ILIAS\Refinery\Random\Group()
+            new RandomGroup(),
+            $this->ref_id
         );
         $this->ctrl->redirectByClass(get_class($p_gui), "show");
     }
@@ -1384,6 +1398,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     */
     protected function importFileObject(int $parent_id = null, bool $catch_errors = true): void
     {
+        if (!$this->checkPermissionBool("create", "", $_REQUEST["new_type"])) {
+            $this->error->raiseError($this->lng->txt("no_create_permission"));
+        }
+
         $form = $this->initImportForm($this->qplrequest->raw("new_type"));
         if ($form->checkInput()) {
             $this->uploadQplObject();

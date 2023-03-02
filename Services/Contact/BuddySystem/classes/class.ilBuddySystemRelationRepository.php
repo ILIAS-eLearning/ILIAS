@@ -29,14 +29,12 @@ class ilBuddySystemRelationRepository
     private const TYPE_IGNORED = 'ign';
 
     protected ilDBInterface $db;
-    protected int $usrId;
 
-    public function __construct(int $usrId, ilDBInterface $db = null)
+    public function __construct(protected int $usrId, ilDBInterface $db = null)
     {
         global $DIC;
 
         $this->db = $db ?? $DIC->database();
-        $this->usrId = $usrId;
     }
 
     /**

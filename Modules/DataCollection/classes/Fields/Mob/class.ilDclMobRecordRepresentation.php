@@ -51,9 +51,6 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
             ) . '">' . $value['name'] . '</a>';
         }
 
-        if (is_null($value)) {
-            return "";
-        }
         $mob = new ilObjMediaObject($value);
         $med = $mob->getMediaItem('Standard');
 

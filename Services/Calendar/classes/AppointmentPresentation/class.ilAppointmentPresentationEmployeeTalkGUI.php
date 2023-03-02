@@ -35,7 +35,7 @@ class ilAppointmentPresentationEmployeeTalkGUI extends ilAppointmentPresentation
         array $a_appointment,
         ?ilInfoScreenGUI $a_info_screen,
         ?ilToolbarGUI $a_toolbar,
-        Item $a_list_item
+        ?Item $a_list_item
     ) {
         parent::__construct($a_appointment, $a_info_screen, $a_toolbar, $a_list_item);
 
@@ -54,7 +54,7 @@ class ilAppointmentPresentationEmployeeTalkGUI extends ilAppointmentPresentation
         // get talk ref id (this is possible, since talks only have one ref id)
         $refs = ilObject::_getAllReferences($talk->getId());
         $etalRef = current($refs);
-        $this->addAction($this->lng->txt("etal_open"), ilLink::_getStaticLink($etalRef, ilObjEmployeeTalk::TYPE));
+        $this->addAction($this->lng->txt("etal_open"), $this->getTalkGoto($etalRef));
 
         $this->addInfoSection($this->lng->txt('obj_etal'));
         $this->addInfoProperty($this->lng->txt('title'), $talk->getTitle());
@@ -69,5 +69,11 @@ class ilAppointmentPresentationEmployeeTalkGUI extends ilAppointmentPresentation
         $this->addInfoProperty($this->lng->txt("il_orgu_employee"), $employee);
 
         parent::collectPropertiesAndActions();
+    }
+
+    private function getTalkGoto(int $ref_id): string
+    {
+        return ILIAS_HTTP_PATH . '/goto.php?target=' . ilObjEmployeeTalk::TYPE . '_' .
+            $ref_id . '&client_id=' . CLIENT_ID;
     }
 }

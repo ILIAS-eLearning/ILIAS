@@ -47,6 +47,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
     protected array $messages = [];
     protected ?int $current_page_id = 0;
     protected array $additional_content = [];
+    protected ?array $menu_entries = null;
 
     protected function getObjectClass(): string
     {
@@ -153,16 +154,12 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         $builder = $this->maybeBuildLearningProgressToggleControl($builder);
 
         // menu
-        $menu = new \ILIAS\LearningModule\Menu\ilLMMenuGUI($this->lm_pres_service);
-        foreach ($menu->getEntries() as $entry) {
+        foreach ($this->getMenuEntries() as $entry) {
             if (is_object($entry["signal"])) {
                 $builder = $builder->genericWithSignal(
                     $entry["label"],
                     $entry["signal"]
                 );
-            }
-            if (is_object($entry["modal"])) {
-                $this->additional_content[] = $entry["modal"];
             }
             if ($entry["on_load"] != "") {
                 $main_tpl->addOnLoadCode($entry["on_load"]);
@@ -174,6 +171,14 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         return $builder;
     }
 
+    protected function getMenuEntries(): array
+    {
+        if (is_null($this->menu_entries)) {
+            $menu = new \ILIAS\LearningModule\Menu\ilLMMenuGUI($this->lm_pres_service);
+            $this->menu_entries = $menu->getEntries();
+        }
+        return $this->menu_entries;
+    }
 
     protected function maybeBuildLearningProgressToggleControl(
         ControlBuilder $builder
@@ -231,11 +236,18 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         array $post = null
     ): Component {
         $this->initLMService((int) $state->getValueFor("current_page"));
+
+        $additional_content = [];
+        foreach ($this->getMenuEntries() as $entry) {
+            if (is_object($entry["modal"])) {
+                $additional_content[] = $entry["modal"];
+            }
+        }
+
         $this->ctrl->setParameterByClass("illmpresentationgui", 'ref_id', $this->lm->getRefId());
         $content = $this->uiRenderer->render($this->messages);
-        // @todo Check non-existence of third parameter (existed in ILIAS 7)
         $content .= $this->ctrl->getHTML($this->lm_pres, ["cmd" => "layout"], ["illmpresentationgui"]);
-        $content .= $this->uiRenderer->render($this->additional_content);
+        $content .= $this->uiRenderer->render($additional_content);
         return $factory->legacy($content);
     }
 }

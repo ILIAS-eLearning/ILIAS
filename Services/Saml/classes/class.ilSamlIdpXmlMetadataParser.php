@@ -28,8 +28,10 @@ final class ilSamlIdpXmlMetadataParser
     /** @var array<int, LibXMLError[]> */
     private array $errorStack = [];
 
-    public function __construct(private DataTypeFactory $dataFactory, private ilSamlIdpXmlMetadataErrorFormatter $errorFormatter)
-    {
+    public function __construct(
+        private readonly DataTypeFactory $dataFactory,
+        private readonly ilSamlIdpXmlMetadataErrorFormatter $errorFormatter
+    ) {
         $this->result = new Result\Error('No metadata parsed, yet');
     }
 

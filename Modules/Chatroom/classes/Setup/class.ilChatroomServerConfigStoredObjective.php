@@ -26,11 +26,8 @@ use ILIAS\Setup;
  */
 class ilChatroomServerConfigStoredObjective implements Setup\Objective
 {
-    protected ilChatroomSetupConfig $config;
-
-    public function __construct(ilChatroomSetupConfig $config)
+    public function __construct(protected ilChatroomSetupConfig $config)
     {
-        $this->config = $config;
     }
 
     public function getHash(): string

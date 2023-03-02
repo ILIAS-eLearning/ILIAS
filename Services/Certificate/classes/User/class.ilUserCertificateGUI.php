@@ -30,18 +30,18 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilUserCertificateGUI
 {
-    private ilGlobalTemplateInterface $template;
-    private ilCtrlInterface $ctrl;
-    private ilLanguage $language;
-    private ilUserCertificateRepository $userCertificateRepository;
-    private ilObjUser $user;
-    private ServerRequestInterface $request;
-    private ilLogger $certificateLogger;
+    private readonly ilGlobalTemplateInterface $template;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilLanguage $language;
+    private readonly ilUserCertificateRepository $userCertificateRepository;
+    private readonly ilObjUser $user;
+    private readonly ServerRequestInterface $request;
+    private readonly ilLogger $certificateLogger;
     protected ilSetting $certificateSettings;
     protected Factory $uiFactory;
     protected Renderer $uiRenderer;
     protected ilAccessHandler $access;
-    public const SORTATION_SESSION_KEY = 'my_certificates_sorting';
+    final public const SORTATION_SESSION_KEY = 'my_certificates_sorting';
     protected array $sortationOptions = [
         'title_ASC' => 'cert_sortable_by_title_asc',
         'title_DESC' => 'cert_sortable_by_title_desc',
@@ -49,7 +49,7 @@ class ilUserCertificateGUI
         'date_DESC' => 'cert_sortable_by_issue_date_desc',
     ];
     protected string $defaultSorting = 'date_DESC';
-    private Filesystem $filesystem;
+    private readonly Filesystem $filesystem;
 
     public function __construct(
         ?ilGlobalTemplateInterface $template = null,
@@ -313,7 +313,7 @@ class ilUserCertificateGUI
     {
         global $DIC;
 
-        $user = $DIC->user();
+        $user = $this->user;
         $language = $DIC->language();
 
         $pdfGenerator = new ilPdfGenerator($this->userCertificateRepository);

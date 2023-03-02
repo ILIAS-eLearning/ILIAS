@@ -34,7 +34,7 @@ use ilMailGUI;
  */
 class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
 {
-    public const SHOW_MAIL_FOLDERS_TOOL = 'show_mail_folders_tool';
+    final public const SHOW_MAIL_FOLDERS_TOOL = 'show_mail_folders_tool';
 
     public function isInterestedInContexts(): ContextCollection
     {

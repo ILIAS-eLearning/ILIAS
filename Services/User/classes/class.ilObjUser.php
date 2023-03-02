@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\ResourceStorage\Services;
 use ILIAS\UI\Component\Symbol\Avatar\Avatar;
 use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\Data\DateFormat\Factory as DateFormatFactory;
@@ -29,6 +31,7 @@ use ILIAS\Data\Factory as DataFactory;
  */
 class ilObjUser extends ilObject
 {
+    public const NO_AVATAR_RID = '-';
     public const PASSWD_PLAIN = "plain";
     public const PASSWD_CRYPTED = "crypted";
     protected string $ext_account = "";
@@ -110,8 +113,10 @@ class ilObjUser extends ilObject
     protected string $last_profile_prompt = "";	// timestamp
     protected string $first_login = "";	// timestamp
     protected bool $profile_incomplete = false;
+    protected ?string $avatar_rid = null;
 
     protected DateFormatFactory $date_format_factory;
+    private Services $irss;
 
     public function __construct(
         int $a_user_id = 0,
@@ -122,6 +127,7 @@ class ilObjUser extends ilObject
         $ilias = $DIC['ilias'];
         $this->ilias = $ilias;
         $this->db = $DIC->database();
+        $this->irss = $DIC->resourceStorage();
         $this->type = "usr";
         parent::__construct($a_user_id, $a_call_by_reference);
         $this->auth_mode = "default";
@@ -320,6 +326,9 @@ class ilObjUser extends ilObject
         $this->setExternalAccount((string) ($a_data['ext_account'] ?? ''));
 
         $this->setIsSelfRegistered((bool) ($a_data['is_self_registered'] ?? false));
+
+        // Avatar
+        $this->avatar_rid = (string) ($a_data['rid'] ?? self::NO_AVATAR_RID);
     }
 
     /**
@@ -489,8 +498,12 @@ class ilObjUser extends ilObject
             "passwd_policy_reset" => array("integer", $this->passwd_policy_reset),
             "last_update" => array("timestamp", ilUtil::now()),
             'inactivation_date' => array('timestamp', $this->inactivation_date),
-            'reg_hash' => array('text', null)
-            );
+            'reg_hash' => array('text', null),
+            'rid' => [
+                'text',
+                ($this->avatar_rid ?? self::NO_AVATAR_RID)
+            ],
+        );
 
         if ($this->agree_date === null || (is_string($this->agree_date) && strtotime($this->agree_date) !== false)) {
             $update_array["agree_date"] = array("timestamp", $this->agree_date);
@@ -1958,6 +1971,16 @@ class ilObjUser extends ilObject
         return $this->loc_zoom;
     }
 
+    public function getAvatarRid(): ?string
+    {
+        return $this->avatar_rid;
+    }
+
+    public function setAvatarRid(?string $avatar_rid): void
+    {
+        $this->avatar_rid = $avatar_rid;
+    }
+
 
     public static function hasActiveSession(
         int $a_user_id,
@@ -2833,27 +2856,30 @@ class ilObjUser extends ilObject
         string $tmp_file,
         int $obj_id
     ): bool {
-        $webspace_dir = ilFileUtils::getWebspaceDir();
-        $image_dir = $webspace_dir . "/usr_images";
-        $store_file = "usr_" . $obj_id . "." . "jpg";
+        global $DIC;
+        $user = new ilObjUser($obj_id);
+        $stakeholder = new ilUserProfilePictureStakeholder();
+        $stakeholder->setOwner($user->getId());
+        $stream = Streams::ofResource(fopen($tmp_file, 'rb'));
 
-        chmod($tmp_file, 0770);
+        if ($user->getAvatarRid() !== null && $user->getAvatarRid() !== ilObjUser::NO_AVATAR_RID) {
+            $rid = $DIC->resourceStorage()->manage()->find($user->getAvatarRid());
+            // append profile picture
+            $DIC->resourceStorage()->manage()->replaceWithStream(
+                $rid,
+                $stream,
+                $stakeholder
+            );
+        } else {
+            // new profile picture
+            $rid = $DIC->resourceStorage()->manage()->stream(
+                $stream,
+                $stakeholder
+            );
+        }
 
-        // take quality 100 to avoid jpeg artefacts when uploading jpeg files
-        // taking only frame [0] to avoid problems with animated gifs
-        $show_file = "$image_dir/usr_" . $obj_id . ".jpg";
-        $thumb_file = "$image_dir/usr_" . $obj_id . "_small.jpg";
-        $xthumb_file = "$image_dir/usr_" . $obj_id . "_xsmall.jpg";
-        $xxthumb_file = "$image_dir/usr_" . $obj_id . "_xxsmall.jpg";
-
-        ilShellUtil::execConvert($tmp_file . "[0] -geometry 200x200 -quality 100 JPEG:" . $show_file);
-        ilShellUtil::execConvert($tmp_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
-        ilShellUtil::execConvert($tmp_file . "[0] -geometry 75x75 -quality 100 JPEG:" . $xthumb_file);
-        ilShellUtil::execConvert($tmp_file . "[0] -geometry 30x30 -quality 100 JPEG:" . $xxthumb_file);
-
-        // store filename
-        self::_writePref($obj_id, "profile_image", $store_file);
-
+        $user->setAvatarRid($rid->serialize());
+        $user->update();
         return true;
     }
 
@@ -2883,6 +2909,7 @@ class ilObjUser extends ilObject
     public static function _getAvatar(int $a_usr_id): Avatar
     {
         $define = new ilUserAvatarResolver($a_usr_id ?: ANONYMOUS_USER_ID);
+        $define->setSize('xsmall');
         return $define->getAvatar();
     }
 
@@ -2911,7 +2938,21 @@ class ilObjUser extends ilObject
         if ($a_dir == "" || !is_dir($a_dir)) {
             return;
         }
+        // if profile picture is on IRSS
+        global $DIC;
+        $irss = $DIC->resourceStorage();
+        $user = new ilObjUser($a_user_id);
+        if ($user->getAvatarRid() !== null && $user->getAvatarRid() !== ilObjUser::NO_AVATAR_RID) {
+            $rid = $irss->manage()->find($user->getAvatarRid());
+            // Main Picture only is needed
+            $stream = $irss->consume()->stream($rid)->getStream();
+            $target = $a_dir . "/usr_" . $a_user_id . ".jpg";
+            fwrite(fopen($target, 'wb'), (string) $stream);
 
+            return;
+        }
+
+        // Legacy Picture Handling
         $webspace_dir = ilFileUtils::getWebspaceDir();
         $image_dir = $webspace_dir . "/usr_images";
         $images = array(
@@ -2932,34 +2973,16 @@ class ilObjUser extends ilObject
     public function removeUserPicture(
         bool $a_do_update = true
     ): void {
-        $webspace_dir = ilFileUtils::getWebspaceDir();
-        $image_dir = $webspace_dir . "/usr_images";
-        $file = $image_dir . "/usr_" . $this->getId() . "." . "jpg";
-        $thumb_file = $image_dir . "/usr_" . $this->getId() . "_small.jpg";
-        $xthumb_file = $image_dir . "/usr_" . $this->getId() . "_xsmall.jpg";
-        $xxthumb_file = $image_dir . "/usr_" . $this->getId() . "_xxsmall.jpg";
-        $upload_file = $image_dir . "/upload_" . $this->getId();
+        if ($this->getAvatarRid() !== null && $this->getAvatarRid() !== self::NO_AVATAR_RID) {
+            $rid = $this->irss->manage()->find($this->getAvatarRid());
+            $this->irss->manage()->remove($rid, new ilUserProfilePictureStakeholder());
+        }
 
         if ($a_do_update) {
             // remove user pref file name
+            $this->setAvatarRid(ilObjUser::NO_AVATAR_RID);
             $this->setPref("profile_image", "");
             $this->update();
-        }
-
-        if (is_file($file)) {
-            unlink($file);
-        }
-        if (is_file($thumb_file)) {
-            unlink($thumb_file);
-        }
-        if (is_file($xthumb_file)) {
-            unlink($xthumb_file);
-        }
-        if (is_file($xxthumb_file)) {
-            unlink($xxthumb_file);
-        }
-        if (is_file($upload_file)) {
-            unlink($upload_file);
         }
     }
 
@@ -3784,7 +3807,7 @@ class ilObjUser extends ilObject
 
     public function setBirthday(?string $a_birthday): void
     {
-        if (strlen($a_birthday)) {
+        if ($a_birthday && strlen($a_birthday)) {
             $date = new ilDate($a_birthday, IL_CAL_DATE);
             $this->birthday = $date->get(IL_CAL_DATE);
         } else {

@@ -23,9 +23,10 @@ declare(strict_types=1);
  */
 class ilMailAutoCompleteRecipientResult
 {
-    public const MODE_STOP_ON_MAX_ENTRIES = 1;
-    public const MODE_FETCH_ALL = 2;
-    public const MAX_RESULT_ENTRIES = 1000;
+    final public const MODE_STOP_ON_MAX_ENTRIES = 1;
+    final public const MODE_FETCH_ALL = 2;
+    final public const MAX_RESULT_ENTRIES = 1000;
+
     protected bool $allow_smtp;
     protected int $user_id;
     /** @var int[] */

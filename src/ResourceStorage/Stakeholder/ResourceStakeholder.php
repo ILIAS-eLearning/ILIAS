@@ -29,6 +29,13 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 interface ResourceStakeholder
 {
     /**
+     * Constructor must not have any parameters. The Stakeholder must be able to be instantiated without any parameters.
+     * Additionally, Stakeholder may get instantiated without dependencies available. Therefore, the Stakeholder must
+     * must check for dependencies and implement fallbacks.
+     */
+    public function __construct();
+
+    /**
      * @return string not longer than 64 characters
      */
     public function getId(): string;

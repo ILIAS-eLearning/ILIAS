@@ -84,9 +84,6 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->viewObject();
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function afterImport(ilObject $new_object): void
     {
         $part = ilCourseParticipants::_getInstanceByObjId($new_object->getId());
@@ -1713,7 +1710,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->getObject()->getMembersObject()->delete($this->user->getId());
         $this->getObject()->getMembersObject()->sendUnsubscribeNotificationToAdmins($this->user->getId());
         $this->getObject()->getMembersObject()->sendNotification(
-            ilCourseMembershipMailNotification::TYPE_NOTIFICATION_UNSUBSCRIBE,
+            ilCourseMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER,
             $this->user->getId()
         );
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_unsubscribed_from_crs'), true);

@@ -16,9 +16,14 @@ The deletion process needs to be checked. Some data is left behind, if exercises
 
 - The business logic of the different assignment phases (assignment member state) should be separated more strongly and put under unit tests.
 
+### Migrate to IRSS
+
+See https://docu.ilias.de/goto_docu_wiki_wpage_7775_1357.html
+
+
 ## Mid Term
 
-### Clariy use of table exc_returned
+### Clarify use of table exc_returned
 
 Current situation in ilExSubmission/exc_returned table
 - exc_returned entries are used for text and blog/portfolios submissions, too!

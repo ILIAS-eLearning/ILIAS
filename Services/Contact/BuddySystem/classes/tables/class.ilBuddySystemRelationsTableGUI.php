@@ -26,7 +26,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 {
     private const APPLY_FILTER_CMD = 'applyContactsTableFilter';
     private const RESET_FILTER_CMD = 'resetContactsTableFilter';
-    public const STATE_FILTER_ELM_ID = 'relation_state_type';
+    final public const STATE_FILTER_ELM_ID = 'relation_state_type';
 
     protected ilGlobalTemplateInterface $containerTemplate;
     protected bool $hasAccessToMailSystem = false;

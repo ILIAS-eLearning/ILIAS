@@ -52,7 +52,9 @@ class ilMStListCoursesGUI extends ilPropertyFormGUI
 
     protected function checkAccessOrFail(): void
     {
-        if ($this->access->hasCurrentUserAccessToMyStaff()) {
+        if ($this->access->hasCurrentUserAccessToMyStaff()
+            && $this->access->hasCurrentUserAccessToCourseMemberships()
+        ) {
             return;
         } else {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
@@ -103,6 +105,7 @@ class ilMStListCoursesGUI extends ilPropertyFormGUI
 
         $this->table = new ilMStListCoursesTableGUI($this, self::CMD_INDEX);
         $DIC->ui()->mainTemplate()->setTitle($DIC->language()->txt('mst_list_courses'));
+        $DIC->ui()->mainTemplate()->setTitleIcon(ilUtil::getImagePath('icon_enrl.svg'));
         $DIC->ui()->mainTemplate()->setContent($this->table->getHTML());
     }
 
@@ -153,7 +156,7 @@ class ilMStListCoursesGUI extends ilPropertyFormGUI
             $selection = new ilAdvancedSelectionListGUI();
 
             if ($DIC->access()->checkAccess("visible", "", $mst_lco_crs_ref_id)) {
-                $link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::DEFAULT_CONTEXT);
+                $link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::COURSE_CONTEXT);
                 $selection->addItem(
                     ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)),
                     '',

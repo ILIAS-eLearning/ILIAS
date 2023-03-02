@@ -32,32 +32,25 @@ class ilCronManagerTableFilterMediator
     private const FILTER_STATUS_ACTIVE = 1;
     private const FILTER_STATUS_INACTIVE = 2;
 
-    private ilCronJobCollection $items;
-    private Factory $uiFactory;
-    private ilUIService $uiService;
-    private ilLanguage $lng;
-
     public function __construct(
-        ilCronJobCollection $repository,
-        Factory $uiFactory,
-        ilUIService $uiService,
-        ilLanguage $lng
+        private readonly ilCronJobCollection $items,
+        private readonly Factory $uiFactory,
+        private readonly ilUIService $uiService,
+        private readonly ilLanguage $lng
     ) {
-        $this->items = $repository;
-        $this->uiFactory = $uiFactory;
-        $this->uiService = $uiService;
-        $this->lng = $lng;
     }
 
     public function filter(string $action): Standard
     {
-        $componentOptions = array_unique(array_map(function (ilCronJobEntity $entity): string {
-            if ($entity->isPlugin()) {
-                return $this->lng->txt('cmps_plugin') . '/' . $entity->getComponent();
-            }
+        $componentOptions = array_unique(
+            array_map(function (ilCronJobEntity $entity): string {
+                if ($entity->isPlugin()) {
+                    return $this->lng->txt('cmps_plugin') . '/' . $entity->getComponent();
+                }
 
-            return $entity->getComponent();
-        }, $this->items->toArray()));
+                return $entity->getComponent();
+            }, $this->items->toArray())
+        );
         asort($componentOptions);
 
         $title = $this->uiFactory->input()->field()->text($this->lng->txt('title'));

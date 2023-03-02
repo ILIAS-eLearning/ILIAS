@@ -592,7 +592,7 @@ class ilUserProfile
                     if (self::userSettingVisible($f)) {
                         $bi = new ilBirthdayInputGUI($lng->txt($lv), "usr_" . $f);
                         $date = null;
-                        if ($a_user && strlen($a_user->$m())) {
+                        if ($a_user && $a_user->$m() && strlen($a_user->$m())) {
                             $date = new ilDateTime($a_user->$m(), IL_CAL_DATE);
                             $bi->setDate($date);
                         }

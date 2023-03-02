@@ -246,6 +246,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
          */
         foreach ($this->tableview->getFieldSettings() as $setting) {
             if (!$setting->getFieldObject()->isStandardField()) {
+
                 // Radio Inputs
                 foreach (array("RadioGroup") as $attribute) {
                     $selection_key = $attribute . '_' . $setting->getField();

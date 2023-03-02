@@ -25,17 +25,13 @@ class ilPRGMail
 {
     protected ilComponentLogger $log;
     protected ilLanguage $lng;
-    protected ilPRGAssignmentDBRepository $assignment_repo;
 
     public function __construct(
         ilComponentLogger $log,
-        ilLanguage $lng,
-        ilPRGAssignmentDBRepository $assignment_repo
+        ilLanguage $lng
     ) {
         $this->log = $log;
         $this->lng = $lng;
-        $this->assignment_repo = $assignment_repo;
-
         $this->lng->loadLanguageModule("prg");
         $this->lng->loadLanguageModule("mail");
     }
@@ -43,10 +39,10 @@ class ilPRGMail
     /**
      * @return array [ilPRGAssignment, ilObjStudyProgramme]
      */
-    protected function getAssignmentAndProgramme(int $assignment_id): array
+    protected function getAssignmentAndProgramme(int $assignment_id, int $root_prg_id): array
     {
-        $ass = $this->assignment_repo->get($assignment_id);
-        $prg = ilObjStudyProgramme::getInstanceByObjId($ass->getRootId());
+        $prg = ilObjStudyProgramme::getInstanceByObjId($root_prg_id);
+        $ass = $prg->getSpecificAssignment($assignment_id);
         return [$ass, $prg];
     }
 
@@ -78,10 +74,9 @@ class ilPRGMail
         }
     }
 
-
-    public function sendInformToReAssignMail(int $assignment_id): void
+    public function sendInformToReAssignMail(int $assignment_id, int $root_prg_id): void
     {
-        list($ass, $prg) = $this->getAssignmentAndProgramme($assignment_id);
+        list($ass, $prg) = $this->getAssignmentAndProgramme($assignment_id, $root_prg_id);
 
         if (! $prg->getSettings()->getAutoMailSettings()->getReminderNotRestartedByUserDays() > 0) {
             $this->log->write("Send info to re-assign mail is deactivated in study programme settings");
@@ -93,14 +88,24 @@ class ilPRGMail
         $sent = $this->sendMail($prg, $ass, $subject, $body_template);
 
         if ($sent) {
-            $this->assignment_repo->storeExpiryInfoSentFor($ass);
+            $prg->storeExpiryInfoSentFor($ass);
         }
     }
 
-
-    public function sendRiskyToFailMail(int $assignment_id): void
+    public function resetExpiryInfoSentFor(int $assignment_id, int $root_prg_id): void
     {
-        list($ass, $prg) = $this->getAssignmentAndProgramme($assignment_id);
+        list($ass, $prg) = $this->getAssignmentAndProgramme($assignment_id, $root_prg_id);
+        $now = new \DateTimeImmutable();
+        $vq = $ass->getProgressTree()->getValidityOfQualification();
+
+        if ($vq && $vq > $now) {
+            $prg->resetExpiryInfoSentFor($ass);
+        }
+    }
+
+    public function sendRiskyToFailMail(int $assignment_id, int $root_prg_id): void
+    {
+        list($ass, $prg) = $this->getAssignmentAndProgramme($assignment_id, $root_prg_id);
 
         if (! $prg->getSettings()->getAutoMailSettings()->getProcessingEndsNotSuccessfulDays() > 0) {
             $this->log->write("Send risky to fail mail is deactivated in study programme settings");
@@ -112,13 +117,23 @@ class ilPRGMail
         $sent = $this->sendMail($prg, $ass, $subject, $body_template);
 
         if ($sent) {
-            $this->assignment_repo->storeRiskyToFailSentFor($ass);
+            $prg->storeRiskyToFailSentFor($ass);
         }
     }
 
-    public function sendReAssignedMail(int $assignment_id): bool
+    public function resetRiskyToFailSentFor(int $assignment_id, int $root_prg_id): void
     {
-        list($ass, $prg) = $this->getAssignmentAndProgramme($assignment_id);
+        list($ass, $prg) = $this->getAssignmentAndProgramme($assignment_id, $root_prg_id);
+        $now = new \DateTimeImmutable();
+        $deadline = $ass->getProgressTree()->getDeadline();
+        if ($deadline && $deadline > $now) {
+            $prg->resetRiskyToFailSentFor($ass);
+        }
+    }
+
+    public function sendReAssignedMail(int $assignment_id, int $root_prg_id): bool
+    {
+        list($ass, $prg) = $this->getAssignmentAndProgramme($assignment_id, $root_prg_id);
 
         if (! $prg->getSettings()->getAutoMailSettings()->getSendReAssignedMail()) {
             $this->log->write("Send re assign mail is deactivated in study programme settings");

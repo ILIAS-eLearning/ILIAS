@@ -153,9 +153,9 @@ class FooterTest extends ILIAS_UI_TestBase
                 return new I\Listing\Factory();
             }
 
-            public function button(): C\Button\Factory
+            public function link(): C\Link\Factory
             {
-                return new I\Button\Factory();
+                return new I\Link\Factory();
             }
         };
     }
@@ -226,7 +226,7 @@ EOT;
         $expected = <<<EOT
         <div class="il-maincontrols-footer">
             <div class="il-footer-content">
-                <div class="il-footer-permanent-url"><button class="btn btn-link" data-action="http://www.ilias.de/goto.php?target=xxx_123" id="id_1">copy_perma_link</button>
+                <div class="il-footer-permanent-url"><a href="http://www.ilias.de/goto.php?target=xxx_123">perma_link</a>
                 </div>
 
                 <div class="il-footer-text">footer text</div>
