@@ -19749,6 +19749,9 @@ div.ilc_Page.readonly textarea[disabled] {
 #tst_output #tst_right h1.ilc_page_title_PageTitle {
   margin-bottom: 6px;
 }
+#tst_pass_details_overview tr {
+  scroll-margin-top: 30px;
+}
 .dd-item {
   font-size: 0.875rem;
 }
@@ -20015,4 +20018,3 @@ table.mceToolbar td {
     content: "";
   }
 }
-/*# sourceMappingURL=delos.css.map */
