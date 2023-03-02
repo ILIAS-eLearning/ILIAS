@@ -30,14 +30,15 @@ use ilDBInterface;
 class ExpiredOrOrphanedMailsCollector
 {
     private const PING_THRESHOLD = 500;
-    private ilDBInterface $db;
-    private ilSetting $settings;
-    private ClockInterface $clock;
+
+    private readonly ilDBInterface $db;
+    private readonly ilSetting $settings;
+    private readonly ClockInterface $clock;
     /** @var int[] */
     private array $mail_ids = [];
 
     public function __construct(
-        private ilMailCronOrphanedMails $job,
+        private readonly ilMailCronOrphanedMails $job,
         ?ilDBInterface $db = null,
         ?ilSetting $setting = null,
         ?ClockInterface $clock = null

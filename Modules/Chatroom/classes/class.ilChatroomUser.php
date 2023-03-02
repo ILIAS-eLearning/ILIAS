@@ -26,14 +26,10 @@ declare(strict_types=1);
  */
 class ilChatroomUser
 {
-    private ilObjUser $user;
-    private ilChatroom $room;
     private string $username = '';
 
-    public function __construct(ilObjUser $user, ilChatroom $chatroom)
+    public function __construct(private readonly ilObjUser $user, private readonly ilChatroom $room)
     {
-        $this->user = $user;
-        $this->room = $chatroom;
     }
 
     public function enabledBroadcastTyping(): bool
@@ -44,7 +40,6 @@ class ilChatroomUser
     /**
      * Returns Ilias User ID. If user is anonymous, a random negative User ID
      * is created, stored in SESSION, and returned.
-     * @return int
      */
     public function getUserId(): int
     {
@@ -68,7 +63,6 @@ class ilChatroomUser
     /**
      * Returns username from Object or SESSION. If no Username is set, the login name
      * will be returned.
-     * @return string
      */
     public function getUsername(): string
     {
@@ -90,7 +84,6 @@ class ilChatroomUser
 
     /**
      * Sets and stores given username in SESSION
-     * @param string $username
      */
     public function setUsername(string $username): void
     {
@@ -141,7 +134,6 @@ class ilChatroomUser
 
     /**
      * Returns first letter of users firstname, followed by dot lastname
-     * @return string
      */
     public function buildShortname(): string
     {
@@ -185,8 +177,6 @@ class ilChatroomUser
 
     /**
      * @param int[] $usrIds
-     * @param int|null $roomId
-     * @return array
      */
     public static function getUserInformation(array $usrIds, ?int $roomId = null): array
     {

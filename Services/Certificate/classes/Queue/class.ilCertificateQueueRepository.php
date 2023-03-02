@@ -23,7 +23,7 @@ declare(strict_types=1);
  */
 class ilCertificateQueueRepository
 {
-    public function __construct(private ilDBInterface $database, private ilLogger $logger)
+    public function __construct(private readonly ilDBInterface $database, private readonly ilLogger $logger)
     {
     }
 

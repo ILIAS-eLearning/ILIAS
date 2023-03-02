@@ -74,12 +74,34 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         return $cache;
     }
 
+    public function hasCurrentUserAccessToTalks(): bool
+    {
+        static $cache = null;
+
+        if (null === $cache) {
+            $cache = $this->origin->hasCurrentUserAccessToTalks();
+        }
+
+        return $cache;
+    }
+
     public function hasCurrentUserAccessToCompetences(): bool
     {
         static $cache = null;
 
         if (null === $cache) {
             $cache = $this->origin->hasCurrentUserAccessToCompetences();
+        }
+
+        return $cache;
+    }
+
+    public function hasCurrentUserAccessToCourseMemberships(): bool
+    {
+        static $cache = null;
+
+        if (null === $cache) {
+            $cache = $this->origin->hasCurrentUserAccessToCourseMemberships();
         }
 
         return $cache;
@@ -145,8 +167,8 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
 
     public function countOrgusOfUserWithOperationAndContext(
         int $user_id,
-        string $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
-        string $context = self::DEFAULT_CONTEXT
+        string $org_unit_operation_string,
+        string $context
     ): int {
         return $this->origin->countOrgusOfUserWithOperationAndContext(
             $user_id,
@@ -158,8 +180,8 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
 
     public function getUsersForUserOperationAndContext(
         int $user_id,
-        string $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
-        string $context = self::DEFAULT_CONTEXT,
+        string $org_unit_operation_string,
+        string $context,
         string $tmp_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX
     ): array {
         return $this->origin->getUsersForUserOperationAndContext(
@@ -220,8 +242,8 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
 
     public function getIlobjectsAndUsersForUserOperationAndContext(
         int $user_id,
-        string $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
-        string $context = self::DEFAULT_CONTEXT
+        string $org_unit_operation_string,
+        string $context
     ): array {
         return $this->origin->getIlobjectsAndUsersForUserOperationAndContext(
             $user_id,
@@ -233,8 +255,8 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
 
     public function buildTempTableIlobjectsUserMatrixForUserOperationAndContext(
         int $user_id,
-        string $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
-        string $context = self::DEFAULT_CONTEXT,
+        string $org_unit_operation_string,
+        string $context,
         string $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX
     ): string {
         return $this->origin->buildTempTableIlobjectsUserMatrixForUserOperationAndContext(
@@ -247,8 +269,8 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
 
 
     public function buildTempTableIlobjectsSpecificPermissionSetForOperationAndContext(
-        string $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
-        string $context = self::DEFAULT_CONTEXT,
+        string $org_unit_operation_string,
+        string $context,
         string $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS
     ): string {
         return $this->origin->buildTempTableIlobjectsSpecificPermissionSetForOperationAndContext(
@@ -260,8 +282,8 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
 
 
     public function buildTempTableIlobjectsDefaultPermissionSetForOperationAndContext(
-        string $org_unit_operation_string = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS,
-        string $context = self::DEFAULT_CONTEXT,
+        string $org_unit_operation_string,
+        string $context,
         string $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS
     ): string {
         return $this->origin->buildTempTableIlobjectsDefaultPermissionSetForOperationAndContext(
@@ -273,8 +295,8 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
 
 
     public function buildTempTableIlorgunitDefaultPermissionSetForOperationAndContext(
-        string $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
-        string $context = self::DEFAULT_CONTEXT,
+        string $org_unit_operation_string,
+        string $context,
         string $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS
     ): string {
         return $this->origin->buildTempTableIlorgunitDefaultPermissionSetForOperationAndContext(

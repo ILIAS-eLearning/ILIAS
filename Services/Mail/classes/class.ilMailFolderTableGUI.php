@@ -29,7 +29,7 @@ use ILIAS\HTTP\GlobalHttpState;
  */
 class ilMailFolderTableGUI extends ilTable2GUI
 {
-    private GlobalHttpState $http;
+    private readonly GlobalHttpState $http;
     protected array $_folderNode = [];
     protected int $_number_of_mails = 0;
     protected array $_selectedItems = [];
@@ -39,8 +39,8 @@ class ilMailFolderTableGUI extends ilTable2GUI
     protected array $visibleOptionalColumns = [];
     protected array $optionalColumns = [];
     protected array $optional_filter = [];
-    private Factory $uiFactory;
-    private Renderer $uiRenderer;
+    private readonly Factory $uiFactory;
+    private readonly Renderer $uiRenderer;
     private ?array $column_definition = null;
 
     public function __construct(

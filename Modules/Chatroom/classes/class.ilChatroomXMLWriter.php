@@ -23,13 +23,10 @@ declare(strict_types=1);
  */
 class ilChatroomXMLWriter extends ilXmlWriter
 {
-    protected ilObjChatroom $chat;
     protected ilChatroom $room;
 
-    public function __construct(ilObjChatroom $chat)
+    public function __construct(protected ilObjChatroom $chat)
     {
-        $this->chat = $chat;
-
         $this->room = ilChatroom::byObjectId($this->chat->getId());
         if (!$this->room) {
             $this->room = new ilChatroom();

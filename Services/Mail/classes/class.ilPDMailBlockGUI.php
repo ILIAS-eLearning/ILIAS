@@ -30,8 +30,9 @@ use ILIAS\UI\Component\Item\Item;
 class ilPDMailBlockGUI extends ilBlockGUI
 {
     public static string $block_type = 'pdmail';
-    private GlobalHttpState $http;
-    private Refinery $refinery;
+
+    private readonly GlobalHttpState $http;
+    private readonly Refinery $refinery;
     private int $requestMailObjId = 0;
     protected ilRbacSystem $rbacsystem;
     protected ilSetting $setting;

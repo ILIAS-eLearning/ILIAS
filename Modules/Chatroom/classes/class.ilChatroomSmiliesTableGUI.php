@@ -27,18 +27,15 @@ declare(strict_types=1);
  */
 class ilChatroomSmiliesTableGUI extends ilTable2GUI
 {
-    private ilChatroomObjectGUI $gui;
-    protected \ILIAS\DI\Container $dic;
-
-    public function __construct(ilChatroomObjectGUI $a_ref, string $cmd)
-    {
+    public function __construct(
+        private readonly ilChatroomObjectGUI $gui,
+        private readonly \ILIAS\UI\Factory $ui_factory,
+        private readonly \ILIAS\UI\Renderer $ui_renderer,
+        private readonly ilRbacSystem $rbac_system,
+        string $cmd
+    ) {
         $this->setId('chatroom_smilies_tbl');
-        parent::__construct($a_ref, $cmd);
-
-        global $DIC;
-
-        $this->dic = $DIC;
-        $this->gui = $a_ref;
+        parent::__construct($gui, $cmd);
 
         $this->setTitle($this->lng->txt('chatroom_available_smilies'));
 
@@ -47,11 +44,11 @@ class ilChatroomSmiliesTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('chatroom_smiley_keyword'), 'keyword', '55%');
         $this->addColumn($this->lng->txt('actions'), '', '15%');
 
-        $this->setFormAction($this->ctrl->getFormAction($a_ref));
+        $this->setFormAction($this->ctrl->getFormAction($this->gui));
         $this->setRowTemplate('tpl.chatroom_smiley_list_row.html', 'Modules/Chatroom');
         $this->setSelectAllCheckbox('smiley_id');
 
-        if ($this->dic->rbac()->system()->checkAccess('write', $this->gui->getRefId())) {
+        if ($this->rbac_system->checkAccess('write', $this->gui->getRefId())) {
             $this->addMultiCommand(
                 'smiley-deleteMultipleObject',
                 $this->lng->txt('chatroom_delete_selected')
@@ -69,25 +66,30 @@ class ilChatroomSmiliesTableGUI extends ilTable2GUI
             str_replace("\n", "", $a_set['smiley_keywords'])
         );
 
-        if ($this->dic->rbac()->system()->checkAccess('write', $this->gui->getRefId())) {
-            $current_selection_list = new ilAdvancedSelectionListGUI();
-            $current_selection_list->setListTitle($this->lng->txt('actions'));
-            $current_selection_list->setId('act_' . $a_set['smiley_id']);
+        if ($this->rbac_system->checkAccess('write', $this->gui->getRefId())) {
+            $buttons = [];
 
             $this->ctrl->setParameter($this->gui, 'smiley_id', $a_set['smiley_id']);
-            $current_selection_list->addItem(
-                $this->lng->txt('edit'),
-                '',
-                $this->ctrl->getLinkTarget($this->gui, 'smiley-showEditSmileyEntryFormObject')
-            );
-            $current_selection_list->addItem(
-                $this->lng->txt('delete'),
-                '',
-                $this->ctrl->getLinkTarget($this->gui, 'smiley-showDeleteSmileyFormObject')
-            );
+            $buttons[] = $this->ui_factory
+                ->button()
+                ->shy(
+                    $this->lng->txt('edit'),
+                    $this->ctrl->getLinkTarget($this->gui, 'smiley-showEditSmileyEntryFormObject')
+                );
+            $buttons[] = $this->ui_factory
+                ->button()
+                ->shy(
+                    $this->lng->txt('delete'),
+                    $this->ctrl->getLinkTarget($this->gui, 'smiley-showDeleteSmileyFormObject')
+                );
             $this->ctrl->setParameter($this->gui, 'smiley_id', null);
 
-            $this->tpl->setVariable('VAL_ACTIONS', $current_selection_list->getHTML());
+            $drop_down = $this->ui_factory
+                ->dropdown()
+                ->standard($buttons)
+                ->withLabel($this->lng->txt('actions'));
+
+            $this->tpl->setVariable('VAL_ACTIONS', $this->ui_renderer->render($drop_down));
         }
     }
 }

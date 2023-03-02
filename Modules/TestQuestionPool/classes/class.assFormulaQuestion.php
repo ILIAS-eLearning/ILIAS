@@ -1198,28 +1198,28 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass): int
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
     {
-        parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
+        parent::setExportDetailsXLS($worksheet, $startrow, $col, $active_id, $pass);
 
         $solution = $this->getSolutionValues($active_id, $pass);
 
         $i = 1;
         foreach ($solution as $solutionvalue) {
-            $worksheet->setCell($startrow + $i, 0, $solutionvalue["value1"]);
-            $worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
+            $worksheet->setCell($startrow + $i, $col, $solutionvalue["value1"]);
+            $worksheet->setBold($worksheet->getColumnCoord($col) . ($startrow + $i));
             if (strpos($solutionvalue["value1"], "_unit")) {
                 $unit = $this->getUnitrepository()->getUnit($solutionvalue["value2"]);
                 if (is_object($unit)) {
-                    $worksheet->setCell($startrow + $i, 1, $unit->getUnit());
+                    $worksheet->setCell($startrow + $i, $col + 1, $unit->getUnit());
                 }
             } else {
-                $worksheet->setCell($startrow + $i, 1, $solutionvalue["value2"]);
+                $worksheet->setCell($startrow + $i, $col + 1, $solutionvalue["value2"]);
             }
             if (preg_match("/(\\\$v\\d+)/", $solutionvalue["value1"], $matches)) {
                 $var = $this->getVariable($solutionvalue["value1"]);
                 if (is_object($var) && (is_object($var->getUnit()))) {
-                    $worksheet->setCell($startrow + $i, 2, $var->getUnit()->getUnit());
+                    $worksheet->setCell($startrow + $i, $col + 2, $var->getUnit()->getUnit());
                 }
             }
             $i++;

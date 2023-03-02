@@ -319,10 +319,18 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $ilToolbar->setFormName('form_output_eval');
             $ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'exportEvaluation'));
             $export_type = new ilSelectInputGUI($this->lng->txt('exp_eval_data'), 'export_type');
-            $options = array(
-                'excel' => $this->lng->txt('exp_type_excel'),
-                'csv' => $this->lng->txt('exp_type_spss')
-            );
+            if ($this->getObject() && $this->getObject()->getQuestionSetType() !== ilObjTest::QUESTION_SET_TYPE_RANDOM) {
+                $options = array(
+                    'excel_scored_test_run' => $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_scored_test_run') . ')',
+                    'excel_all_test_runs' => $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_all_test_runs') . ')',
+                    'csv' => $this->lng->txt('exp_type_spss')
+                );
+            } else {
+                $options = array(
+                    'excel_scored_test_run' => $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_scored_test_run') . ')',
+                    'csv' => $this->lng->txt('exp_type_spss')
+                );
+            }
 
             if (!$this->object->getAnonymity()) {
                 try {
@@ -702,7 +710,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     public function exportEvaluation()
     {
-        $filterby = "";
+        $filterby = ilTestEvaluationData::FILTER_BY_NONE;
         if ($this->testrequest->isset("g_filterby")) {
             $filterby = $this->testrequest->raw("g_filterby");
         }
@@ -722,24 +730,27 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $expFactory = new ilTestExportFactory($this->object);
 
         switch ($this->testrequest->raw("export_type")) {
-            case "excel":
-                $expFactory->getExporter('results')->exportToExcel(
-                    $deliver = true,
-                    $filterby,
-                    $filtertext,
-                    $passedonly
-                );
+            case "excel_scored_test_run":
+                (new ilExcelTestExport($this->object, $filterby, $filtertext, $passedonly, true))
+                    ->withResultsPage()
+                    ->withAllUsersPages()
+                    ->withUserPages()
+                    ->deliver($this->object->getTitle() . '_results');
                 break;
 
             case "csv":
-                $expFactory->getExporter('results')->exportToCSV(
-                    $deliver = true,
-                    $filterby,
-                    $filtertext,
-                    $passedonly
-                );
+                (new ilCSVTestExport($this->object, $filterby, $filtertext, $passedonly))
+                    ->withAllResults()
+                    ->deliver($this->object->getTitle() . '_results');
                 break;
 
+            case "excel_all_test_runs":
+                (new ilExcelTestExport($this->object, $filterby, $filtertext, $passedonly, false))
+                    ->withResultsPage()
+                    ->withAllUsersPages()
+                    ->withUserPages()
+                    ->deliver($this->object->getTitle() . '_results');
+                break;
             case "certificate":
                 if ($passedonly) {
                     $this->ctrl->setParameterByClass("iltestcertificategui", "g_passedonly", "1");
@@ -759,10 +770,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         switch ($_POST["export_type"]) {
             case "excel":
-                $exportObj->exportToExcel($deliver = true);
+                (new ilExcelTestExport($this->object, ilTestEvaluationData::FILTER_BY_NONE, '', false, true))
+                    ->withAggregatedResultsPage()
+                    ->deliver($this->object->getTitle() . '_aggregated');
                 break;
             case "csv":
-                $exportObj->exportToCSV($deliver = true);
+                (new ilCSVTestExport($this->object, ilTestEvaluationData::FILTER_BY_NONE, '', false))
+                    ->withAggregatedResults()
+                    ->deliver($this->object->getTitle() . '_aggregated');
                 break;
         }
     }
@@ -1821,6 +1836,25 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				AND pass > ' . $ilDB->quote($pass, 'integer')
             );
         }
+
+        // qpl_hint_tracking
+        $ilDB->manipulate(
+            'DELETE
+				FROM qpl_hint_tracking
+				WHERE qhtr_active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
+				AND qhtr_pass = ' . $ilDB->quote($pass, 'integer')
+            );
+
+        if ($must_renumber) {
+            $ilDB->manipulate(
+                'UPDATE qpl_hint_tracking
+				SET qhtr_pass = qhtr_pass - 1
+				WHERE qhtr_active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
+				AND qhtr_pass > ' . $ilDB->quote($pass, 'integer')
+                );
+        }
+            
+        // tst_test_rnd_qst -> nothing to do
 
         // tst_times
         $ilDB->manipulate(

@@ -128,7 +128,7 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemAbstractionStorage i
     /**
      * Delete the existing file
      */
-    public function deleteAllFilesBut(string $filename): void
+    public function deleteAllFilesBut(?string $filename): void
     {
         $files = $this->readDir();
         foreach ($files as $file) {

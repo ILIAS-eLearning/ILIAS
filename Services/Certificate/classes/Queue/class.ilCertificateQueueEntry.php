@@ -24,13 +24,13 @@ declare(strict_types=1);
 class ilCertificateQueueEntry
 {
     public function __construct(
-        private int $objId,
-        private int $userId,
-        private string $adapterClass,
-        private string $state,
-        private int $templateId,
-        private ?int $startedTimestamp = null,
-        private ?int $id = null
+        private readonly int $objId,
+        private readonly int $userId,
+        private readonly string $adapterClass,
+        private readonly string $state,
+        private readonly int $templateId,
+        private readonly ?int $startedTimestamp = null,
+        private readonly ?int $id = null
     ) {
     }
 

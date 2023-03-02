@@ -36,7 +36,6 @@ use ILIAS\UI\Renderer as UIRenderer;
  */
 abstract class ilChatroomGUIHandler
 {
-    protected ilChatroomObjectGUI $gui;
     protected ilObjUser $ilUser;
     protected ilCtrlInterface $ilCtrl;
     protected ilLanguage $ilLng;
@@ -57,12 +56,10 @@ abstract class ilChatroomGUIHandler
     /**
      * @param ilChatroomObjectGUI $gui
      */
-    public function __construct(ilChatroomObjectGUI $gui)
+    public function __construct(protected ilChatroomObjectGUI $gui)
     {
         /** @var $DIC \ILIAS\DI\Container */
         global $DIC;
-
-        $this->gui = $gui;
         $this->ilUser = $DIC->user();
         $this->ilCtrl = $DIC->ctrl();
         $this->ilLng = $DIC->language();

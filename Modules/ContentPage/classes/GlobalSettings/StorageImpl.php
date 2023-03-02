@@ -31,11 +31,8 @@ class StorageImpl implements Storage
 {
     private const P_READING_TIME_STATUS = 'reading_time_status';
 
-    private ilSetting $globalSettings;
-
-    public function __construct(ilSetting $globalSettings)
+    public function __construct(private readonly ilSetting $globalSettings)
     {
-        $this->globalSettings = $globalSettings;
     }
 
     public function getSettings(): Settings

@@ -1,12 +1,12 @@
 {
   "maintenance_model": "Classic",
-  "first_maintainer": "mstuder(8473)",
-  "second_maintainer": "rklees(34047)",
+  "first_maintainer": "tfamula(58959)",
+  "second_maintainer": "tschmitz(92591)",
   "implicit_maintainers": [],
   "coordinator": [
     ""
   ],
-  "tester": "",
+  "tester": "qualitus.morgunova(69410)",
   "testcase_writer": "",
   "path": "Services/MyStaff",
   "belong_to_component": "Staff",

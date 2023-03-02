@@ -161,6 +161,10 @@ il.COPagePres =
 				title: d.copgIimTitle
 			});
 		});
+
+		$(document).on("il.accordion.start-opening", function (ev, el) {
+			il.COPagePres.fixMarkerPositions();
+		});
 	},
 	
 	/**

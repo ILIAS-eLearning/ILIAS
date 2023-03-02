@@ -23,7 +23,7 @@ declare(strict_types=1);
  */
 class ilCertificateTestTemplateDeleteAction implements ilCertificateDeleteAction
 {
-    public function __construct(private ilCertificateDeleteAction $deleteAction)
+    public function __construct(private readonly ilCertificateDeleteAction $deleteAction)
     {
     }
 

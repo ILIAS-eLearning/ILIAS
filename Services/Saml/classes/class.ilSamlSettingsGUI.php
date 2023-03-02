@@ -102,22 +102,24 @@ final class ilSamlSettingsGUI
         'chat_broadcast_typing',
     ];
 
-    private ilCtrlInterface $ctrl;
-    private ilLanguage $lng;
-    private ilGlobalTemplateInterface $tpl;
-    private ilAccessHandler $access;
-    private RBACServices $rbac;
-    private ilErrorHandling $error_handler;
-    private ilTabsGUI $tabs;
-    private ilToolbarGUI $toolbar;
-    private GlobalHttpState $httpState;
-    private Refinery $refinery;
-    private ilHelpGUI $help;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilLanguage $lng;
+    private readonly ilGlobalTemplateInterface $tpl;
+    private readonly ilAccessHandler $access;
+    private readonly RBACServices $rbac;
+    private readonly ilErrorHandling $error_handler;
+    private readonly ilTabsGUI $tabs;
+    private readonly ilToolbarGUI $toolbar;
+    private readonly GlobalHttpState $httpState;
+    private readonly Refinery $refinery;
+    private readonly ilHelpGUI $help;
     private ?ilExternalAuthUserAttributeMapping $mapping = null;
     private ?ilSamlIdp $idp = null;
     private ?ilSamlAuth $samlAuth = null;
+    private readonly \ILIAS\UI\Factory $ui_factory;
+    private readonly \ILIAS\UI\Renderer $ui_renderer;
 
-    public function __construct(private int $ref_id)
+    public function __construct(private readonly int $ref_id)
     {
         global $DIC;
 
@@ -132,6 +134,8 @@ final class ilSamlSettingsGUI
         $this->help = $DIC['ilHelp'];
         $this->httpState = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         $this->lng->loadLanguageModule('auth');
     }
@@ -233,14 +237,16 @@ final class ilSamlSettingsGUI
     private function listIdps(): void
     {
         if ($this->samlAuth && $this->rbac->system()->checkAccess(self::PERMISSION_WRITE, $this->ref_id)) {
-            $addIdpButton = ilLinkButton::getInstance();
-            $addIdpButton->setCaption('auth_saml_add_idp_btn');
-            $addIdpButton->setUrl($this->ctrl->getLinkTarget($this, 'showNewIdpForm'));
-            $this->toolbar->addStickyItem($addIdpButton);
+            $this->toolbar->addStickyItem($this->ui_factory->button()->standard(
+                $this->lng->txt('auth_saml_add_idp_btn'),
+                $this->ctrl->getLinkTarget($this, 'showNewIdpForm')
+            ));
         }
 
         $table = new ilSamlIdpTableGUI(
             $this,
+            $this->ui_factory,
+            $this->ui_renderer,
             self::DEFAULT_CMD,
             $this->rbac->system()->checkAccess(self::PERMISSION_WRITE, $this->ref_id)
         );
@@ -406,7 +412,7 @@ final class ilSamlSettingsGUI
 
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getUserAttributeMappingForm();
-            $data = array();
+            $data = [];
             foreach ($this->mapping as $rule) {
                 $data[$rule->getAttribute()] = $rule->getExternalAttribute();
                 $data[$rule->getAttribute() . self::PROP_UPDATE_SUFFIX] = $rule->isAutomaticallyUpdated();

@@ -44,8 +44,6 @@ class ilChatroomFormFactory
 
     /**
      * Applies given values to field in given form.
-     * @param ilPropertyFormGUI $form
-     * @param array $values
      */
     public static function applyValues(ilPropertyFormGUI $form, array $values): void
     {
@@ -58,7 +56,6 @@ class ilChatroomFormFactory
     /**
      * Instantiates and returns ilPropertyFormGUI containing ilTextInputGUI
      * and ilTextAreaInputGUI
-     * @return ilPropertyFormGUI
      * @deprecated replaced by default creation screens
      */
     public function getCreationForm(): ilPropertyFormGUI
@@ -76,8 +73,6 @@ class ilChatroomFormFactory
 
     /**
      * Adds 'create-save' and 'cancel' button to given $form and returns it.
-     * @param ilPropertyFormGUI $form
-     * @return ilPropertyFormGUI
      */
     private function addDefaultBehaviour(ilPropertyFormGUI $form): ilPropertyFormGUI
     {
@@ -158,7 +153,6 @@ class ilChatroomFormFactory
 
     /**
      * Prepares Fileupload form and returns it.
-     * @return ilPropertyFormGUI
      */
     public function getFileUploadForm(): ilPropertyFormGUI
     {
@@ -177,7 +171,6 @@ class ilChatroomFormFactory
 
     /**
      * Returns period form.
-     * @return ilPropertyFormGUI
      */
     public function getPeriodForm(): ilPropertyFormGUI
     {
@@ -198,7 +191,6 @@ class ilChatroomFormFactory
     /**
      * Returns chatname selection form.
      * @param array<string, string> $name_options
-     * @return ilPropertyFormGUI
      */
     public function getUserChatNameSelectionForm(array $name_options): ilPropertyFormGUI
     {
@@ -229,8 +221,6 @@ class ilChatroomFormFactory
 
     /**
      * Returns session form with period set by given $sessions.
-     * @param array $sessions
-     * @return ilPropertyFormGUI
      */
     public function getSessionForm(array $sessions): ilPropertyFormGUI
     {

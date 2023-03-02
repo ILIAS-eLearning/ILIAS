@@ -61,7 +61,7 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
     public function parseData(): void
     {
         $data = $this->parseRows(ilObjOrgUnitTree::_getInstance()
-                                                 ->getAssignements($_GET["ref_id"], $this->ilOrgUnitPosition));
+            ->getAssignedUsers([(int) $_GET["ref_id"]], $this->ilOrgUnitPosition->getId()));
         $this->setData($data);
     }
 

@@ -23,8 +23,8 @@ declare(strict_types=1);
  */
 class ilCertificateActiveValidator
 {
-    private ilSetting $setting;
-    private ilRPCServerSettings $rpcSettings;
+    private readonly ilSetting $setting;
+    private readonly ilRPCServerSettings $rpcSettings;
 
     public function __construct(?ilSetting $setting = null, ?ilRPCServerSettings $rpcSettings = null)
     {

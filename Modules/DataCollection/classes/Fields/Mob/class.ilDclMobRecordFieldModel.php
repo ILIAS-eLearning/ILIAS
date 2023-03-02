@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclMobRecordFieldModel
@@ -43,20 +42,21 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     public function parseValue($value)
     {
-        if ($value == -1) { //marked for deletion.
-            return 0;
+        if ($value === -1) { //marked for deletion.
+            return null;
         }
 
         $media = $value;
 
-        $hasRecordId = $this->http->wrapper()->query()->has('record_id');
+        $has_record_id = $this->http->wrapper()->query()->has('record_id');
+        $is_confirmed = $this->http->wrapper()->post()->has('save_confirmed');
+        $has_save_confirmation = ($this->getRecord()->getTable()->getSaveConfirmation() && !$has_record_id);
 
-        $has_save_confirmation = ($this->getRecord()->getTable()->getSaveConfirmation() && $hasRecordId);
-
-        $has_save_confirmed = $this->http->wrapper()->post()->has('save_confirmed');
-        $is_confirmed = $has_save_confirmed;
-
-        if (is_array($media) && $media['tmp_name'] != "" && (!$has_save_confirmation || $is_confirmed)) {
+        if (is_array($media)
+            && isset($media['tmp_name'])
+            && $media['tmp_name'] !== ""
+            && (!$has_save_confirmation || $is_confirmed)
+        ) {
             $mob = new ilObjMediaObject();
             $mob->setTitle($media['name']);
             $mob->create();
@@ -69,9 +69,10 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
             $media_item->setPurpose("Standard");
             $file_name = ilFileUtils::getASCIIFilename($media['name']);
             $file_name = str_replace(" ", "_", $file_name);
-            $file = $mob_dir . "/" . $file_name;
+            $target_file_path = $mob_dir . "/" . $file_name;
             $title = $file_name;
             $location = $file_name;
+
             if ($has_save_confirmation) {
                 $ilfilehash = $this->http->wrapper()->post()->retrieve(
                     'ilfilehash',
@@ -84,17 +85,17 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
                     $media["name"],
                     $media["type"]
                 );
-                ilFileUtils::rename($move_file, $file);
+                ilFileUtils::rename($move_file, $target_file_path);
             } else {
-                ilFileUtils::moveUploadedFile($media['tmp_name'], $file_name, $file);
+                ilFileUtils::moveUploadedFile($media['tmp_name'], $file_name, $target_file_path);
             }
 
             ilFileUtils::renameExecutables($mob_dir);
             // Check image/video
-            $format = ilObjMediaObject::getMimeType($file);
+            $format = ilObjMediaObject::getMimeType($target_file_path);
 
             if ($format == 'image/jpeg') {
-                list($width, $height, $type, $attr) = getimagesize($file);
+                list($width, $height, $type, $attr) = getimagesize($target_file_path);
                 $field = $this->getField();
                 $new_width = $field->getProperty(ilDclBaseFieldModel::PROP_WIDTH);
                 $new_height = $field->getProperty(ilDclBaseFieldModel::PROP_HEIGHT);
@@ -103,12 +104,12 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
                     if ($new_height < $height && $new_width < $width) {
                         //resize proportional
                         if (!$new_height || !$new_width) {
-                            $format = ilObjMediaObject::getMimeType($file);
+                            $format = ilObjMediaObject::getMimeType($target_file_path);
                             $wh
                                 = ilObjMediaObject::_determineWidthHeight(
                                     $format,
                                     "File",
-                                    $file,
+                                    $target_file_path,
                                     "",
                                     true,
                                     false,
@@ -120,7 +121,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
                             $wh['height'] = (int) $field->getProperty(ilDclBaseFieldModel::PROP_HEIGHT);
                         }
 
-                        $location = ilObjMediaObject::_resizeImage($file, $wh['width'], $wh['height']);
+                        $location = ilObjMediaObject::_resizeImage($target_file_path, $wh['width'], $wh['height']);
                     }
                 }
             }
@@ -134,7 +135,6 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
             $media_item->setLocation($location);
             $media_item->setLocationType("LocalFile");
 
-            // FSX MediaPreview
             if (ilFFmpeg::enabled() && ilFFmpeg::supportsImageExtraction($format)) {
                 $med = $mob->getMediaItem("Standard");
                 $mob_file = ilObjMediaObject::_getDirectory($mob->getId()) . "/" . $med->getLocation();

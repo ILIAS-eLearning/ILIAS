@@ -20,14 +20,14 @@ declare(strict_types=1);
 
 abstract class ilCronJob
 {
-    public const SCHEDULE_TYPE_DAILY = 1;
-    public const SCHEDULE_TYPE_IN_MINUTES = 2;
-    public const SCHEDULE_TYPE_IN_HOURS = 3;
-    public const SCHEDULE_TYPE_IN_DAYS = 4;
-    public const SCHEDULE_TYPE_WEEKLY = 5;
-    public const SCHEDULE_TYPE_MONTHLY = 6;
-    public const SCHEDULE_TYPE_QUARTERLY = 7;
-    public const SCHEDULE_TYPE_YEARLY = 8;
+    final public const SCHEDULE_TYPE_DAILY = 1;
+    final public const SCHEDULE_TYPE_IN_MINUTES = 2;
+    final public const SCHEDULE_TYPE_IN_HOURS = 3;
+    final public const SCHEDULE_TYPE_IN_DAYS = 4;
+    final public const SCHEDULE_TYPE_WEEKLY = 5;
+    final public const SCHEDULE_TYPE_MONTHLY = 6;
+    final public const SCHEDULE_TYPE_QUARTERLY = 7;
+    final public const SCHEDULE_TYPE_YEARLY = 8;
 
     protected ?int $schedule_type = null;
     protected ?int $schedule_value = null;
@@ -126,9 +126,6 @@ abstract class ilCronJob
         return false;
     }
 
-    /**
-     * @param Closure|null $date_time_provider
-     */
     public function setDateTimeProvider(?Closure $date_time_provider): void
     {
         if ($date_time_provider !== null) {
@@ -177,7 +174,6 @@ abstract class ilCronJob
 
     /**
      * Get current schedule type (if flexible)
-     * @return int|null
      */
     public function getScheduleType(): ?int
     {
@@ -190,7 +186,6 @@ abstract class ilCronJob
 
     /**
      * Get current schedule value (if flexible)
-     * @return int|null
      */
     public function getScheduleValue(): ?int
     {
@@ -203,8 +198,6 @@ abstract class ilCronJob
 
     /**
      * Update current schedule (if flexible)
-     * @param int|null $a_type
-     * @param int|null $a_value
      */
     public function setSchedule(?int $a_type, ?int $a_value): void
     {
@@ -283,10 +276,6 @@ abstract class ilCronJob
     /**
      * Important: This method is (also) called from the setup process, where the constructor of an ilCronJob ist NOT executed.
      * Furthermore only few dependencies may be available in the $DIC.
-     * @param ilDBInterface $db
-     * @param ilSetting $setting
-     * @param bool $a_currently_active
-     * @return void
      */
     public function activationWasToggled(ilDBInterface $db, ilSetting $setting, bool $a_currently_active): void
     {

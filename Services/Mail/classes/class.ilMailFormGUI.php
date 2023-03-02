@@ -31,29 +31,29 @@ use ILIAS\Filesystem\Stream\Streams;
  */
 class ilMailFormGUI
 {
-    public const MAIL_FORM_TYPE_ATTACH = 'attach';
-    public const MAIL_FORM_TYPE_SEARCH_RESULT = 'search_res';
-    public const MAIL_FORM_TYPE_NEW = 'new';
-    public const MAIL_FORM_TYPE_ROLE = 'role';
-    public const MAIL_FORM_TYPE_REPLY = 'reply';
-    public const MAIL_FORM_TYPE_ADDRESS = 'address';
-    public const MAIL_FORM_TYPE_FORWARD = 'forward';
-    public const MAIL_FORM_TYPE_DRAFT = 'draft';
+    final public const MAIL_FORM_TYPE_ATTACH = 'attach';
+    final public const MAIL_FORM_TYPE_SEARCH_RESULT = 'search_res';
+    final public const MAIL_FORM_TYPE_NEW = 'new';
+    final public const MAIL_FORM_TYPE_ROLE = 'role';
+    final public const MAIL_FORM_TYPE_REPLY = 'reply';
+    final public const MAIL_FORM_TYPE_ADDRESS = 'address';
+    final public const MAIL_FORM_TYPE_FORWARD = 'forward';
+    final public const MAIL_FORM_TYPE_DRAFT = 'draft';
 
-    private ilGlobalTemplateInterface $tpl;
-    private ilCtrlInterface $ctrl;
-    private ilLanguage $lng;
-    private ilObjUser $user;
-    private ilTabsGUI $tabs;
-    private ilToolbarGUI $toolbar;
-    private ilFormatMail $umail;
-    private ilMailbox $mbox;
-    private ilFileDataMail $mfile;
-    private GlobalHttpState $http;
-    private Refinery $refinery;
+    private readonly ilGlobalTemplateInterface $tpl;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilLanguage $lng;
+    private readonly ilObjUser $user;
+    private readonly ilTabsGUI $tabs;
+    private readonly ilToolbarGUI $toolbar;
+    private readonly ilFormatMail $umail;
+    private readonly ilMailbox $mbox;
+    private readonly ilFileDataMail $mfile;
+    private readonly GlobalHttpState $http;
+    private readonly Refinery $refinery;
     private ?array $requestAttachments = null;
     protected ilMailTemplateService $templateService;
-    private ilMailBodyPurifier $purifier;
+    private readonly ilMailBodyPurifier $purifier;
     private string $mail_form_type = '';
 
     public function __construct(
@@ -61,7 +61,7 @@ class ilMailFormGUI
         ilMailBodyPurifier $bodyPurifier = null
     ) {
         global $DIC;
-        $this->templateService = $templateService ?? $DIC['mail.texttemplates.service'];
+        $this->templateService = $templateService ?? $DIC->mail()->textTemplates();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -193,6 +193,8 @@ class ilMailFormGUI
 
         $mailer->setSaveInSentbox(true);
 
+        $mailer->autoresponder()->enableAutoresponder();
+
         if ($errors = $mailer->enqueue(
             ilUtil::securePlainString($this->getBodyParam('rcp_to', $this->refinery->kindlyTo()->string(), '')),
             ilUtil::securePlainString($this->getBodyParam('rcp_cc', $this->refinery->kindlyTo()->string(), '')),
@@ -205,6 +207,8 @@ class ilMailFormGUI
             $this->requestAttachments = $files;
             $this->showSubmissionErrors($errors);
         } else {
+            $mailer->autoresponder()->disableAutoresponder();
+
             $mailer->savePostData(
                 $this->user->getId(),
                 [],
@@ -224,6 +228,7 @@ class ilMailFormGUI
                 $this->ctrl->redirectByClass(ilMailGUI::class);
             }
         }
+        $mailer->autoresponder()->disableAutoresponder();
 
         $this->showForm();
     }
@@ -736,13 +741,13 @@ class ilMailFormGUI
         $inp->setDataSource($dsDataLink, ',');
         $form_gui->addItem($inp);
 
-        $inp = new ilTextInputGUI($this->lng->txt('cc'), 'rcp_cc');
+        $inp = new ilTextInputGUI($this->lng->txt('mail_cc'), 'rcp_cc');
         $inp->setSize(50);
         $inp->setValue((string) ($mailData['rcp_cc'] ?? ''));
         $inp->setDataSource($dsDataLink, ',');
         $form_gui->addItem($inp);
 
-        $inp = new ilTextInputGUI($this->lng->txt('bc'), 'rcp_bcc');
+        $inp = new ilTextInputGUI($this->lng->txt('mail_bcc'), 'rcp_bcc');
         $inp->setSize(50);
         $inp->setValue($mailData['rcp_bcc'] ?? '');
         $inp->setDataSource($dsDataLink, ',');

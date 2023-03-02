@@ -116,3 +116,7 @@ $il-test-working-time-font-weight: $il-font-weight-bold;
         border: 2px white solid;
     }
 }
+
+#tst_pass_details_overview tr {
+    scroll-margin-top: 30px;
+}

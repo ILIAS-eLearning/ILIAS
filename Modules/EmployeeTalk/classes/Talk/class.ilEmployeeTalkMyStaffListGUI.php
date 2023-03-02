@@ -82,6 +82,10 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
                 break;
             case strtolower(ilObjEmployeeTalkGUI::class):
                 $gui = new ilObjEmployeeTalkGUI();
+                $this->tabs->setBackTarget(
+                    $this->language->txt('etal_talks'),
+                    $this->controlFlow->getLinkTarget($this, ControlFlowCommand::INDEX)
+                );
                 $this->controlFlow->forwardCommand($gui);
                 break;
             case strtolower(ilFormPropertyDispatchGUI::class):
@@ -251,7 +255,7 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
             $talks = $this->repository->findAll();
         } else {
             $users = $this->getEmployeeIdsWithValidPermissionRights($this->currentUser->getId());
-            $talks = $this->repository->findByEmployeesAndOwner($users, $this->currentUser->getId());
+            $talks = $this->repository->findByUserOrTheirEmployees($this->currentUser->getId(), $users);
         }
         $table->setTalkData($talks);
 

@@ -22,63 +22,26 @@ use ILIAS\Setup;
 
 class ilChatroomSetupConfig implements Setup\Config
 {
-    protected string $address;
-    protected int $port;
-    protected string $sub_directory;
-    protected string $protocol;
-    protected string $cert;
-    protected string $key;
-    protected string $dhparam;
-    protected string $log;
-    protected string $log_level;
-    protected string $error_log;
-    protected bool $ilias_proxy;
-    protected string $ilias_url;
-    protected bool $client_proxy;
-    protected string $client_url;
-    protected bool $deletion_mode;
-    protected string $deletion_unit;
-    protected int $deletion_value;
-    protected string $deletion_time;
-
     public function __construct(
-        string $address,
-        int $port,
-        string $sub_directory,
-        string $protocol,
-        string $cert,
-        string $key,
-        string $dhparam,
-        string $log,
-        string $log_level,
-        string $error_log,
-        bool $ilias_proxy,
-        string $ilias_url,
-        bool $client_proxy,
-        string $client_url,
-        bool $deletion_mode,
-        string $deletion_unit,
-        int $deletion_value,
-        string $deletion_time
+        protected string $address,
+        protected int $port,
+        protected string $sub_directory,
+        protected string $protocol,
+        protected string $cert,
+        protected string $key,
+        protected string $dhparam,
+        protected string $log,
+        protected string $log_level,
+        protected string $error_log,
+        protected bool $ilias_proxy,
+        protected string $ilias_url,
+        protected bool $client_proxy,
+        protected string $client_url,
+        protected bool $deletion_mode,
+        protected string $deletion_unit,
+        protected int $deletion_value,
+        protected string $deletion_time
     ) {
-        $this->address = $address;
-        $this->port = $port;
-        $this->sub_directory = $sub_directory;
-        $this->protocol = $protocol;
-        $this->cert = $cert;
-        $this->key = $key;
-        $this->dhparam = $dhparam;
-        $this->log = $log;
-        $this->log_level = $log_level;
-        $this->error_log = $error_log;
-        $this->ilias_proxy = $ilias_proxy;
-        $this->ilias_url = $ilias_url;
-        $this->client_proxy = $client_proxy;
-        $this->client_url = $client_url;
-        $this->deletion_mode = $deletion_mode;
-        $this->deletion_unit = $deletion_unit;
-        $this->deletion_value = $deletion_value;
-        $this->deletion_time = $deletion_time;
     }
 
     public function getAddress(): string

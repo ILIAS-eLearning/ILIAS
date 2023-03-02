@@ -27,8 +27,8 @@ class ilLDAPUserSynchronisation
 {
     private string $authmode;
     private ilLDAPServer $server;
-    private string $extaccount = '';
-    private string $intaccount = '';
+    private ?string $extaccount;
+    private ?string $intaccount;
 
     private array $user_data = array();
     private bool $force_creation = false;
@@ -71,7 +71,7 @@ class ilLDAPUserSynchronisation
     /**
      * Get external accocunt
      */
-    public function getExternalAccount(): string
+    public function getExternalAccount(): ?string
     {
         return $this->extaccount;
     }

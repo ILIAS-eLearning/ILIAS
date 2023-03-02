@@ -29,8 +29,10 @@ final class ilSamlMappedUserAttributeValueParser
     /**
      * @param array<string, mixed> $userData
      */
-    public function __construct(private ilExternalAuthUserAttributeMappingRule $rule, private array $userData)
-    {
+    public function __construct(
+        private readonly ilExternalAuthUserAttributeMappingRule $rule,
+        private readonly array $userData
+    ) {
     }
 
     private function getValueIndex(): int

@@ -21,7 +21,6 @@ abstract class ilAbstractUsersGalleryCollectionProvider implements ilUsersGaller
 {
     /**
      * @param array<int, ilObjUser> $users An map of ilObjUser instances, with the respective user id as array key
-     * @return ilUsersGalleryUserCollection
      */
     protected function getPopulatedGroup(array $users): ilUsersGalleryUserCollection
     {

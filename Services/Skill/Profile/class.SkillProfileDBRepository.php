@@ -223,7 +223,7 @@ class SkillProfileDBRepository
         );
         $rec = $ilDB->fetchAssoc($set);
 
-        return $rec[$field] ?? "";
+        return (string) ($rec[$field] ?? "");
     }
 
     public function updateRefIdAfterImport(int $profile_id, int $new_ref_id): void
@@ -252,6 +252,6 @@ class SkillProfileDBRepository
             [$profile_id]
         );
         $rec = $db->fetchAssoc($set);
-        return (int) $rec["skill_tree_id"] ?? 0;
+        return (int) ($rec["skill_tree_id"] ?? 0);
     }
 }

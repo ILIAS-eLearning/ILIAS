@@ -891,14 +891,14 @@ class ilObjContentObject extends ilObject
             $ilDB->quote($this->getId(), "integer");
         $lm_set = $ilDB->query($q);
         $lm_rec = $ilDB->fetchAssoc($lm_set);
-        $this->setLayout($lm_rec["default_layout"]);
-        $this->setPageHeader($lm_rec["page_header"]);
-        $this->setTOCMode($lm_rec["toc_mode"]);
+        $this->setLayout((string) $lm_rec["default_layout"]);
+        $this->setPageHeader((string) $lm_rec["page_header"]);
+        $this->setTOCMode((string) $lm_rec["toc_mode"]);
         $this->setActiveTOC(ilUtil::yn2tf($lm_rec["toc_active"]));
         $this->setActiveNumbering(ilUtil::yn2tf($lm_rec["numbering"]));
         $this->setActivePrintView(ilUtil::yn2tf($lm_rec["print_view_active"]));
         $this->setActivePreventGlossaryAppendix(ilUtil::yn2tf($lm_rec["no_glo_appendix"]));
-        $this->setHideHeaderFooterPrint($lm_rec["hide_head_foot_print"]);
+        $this->setHideHeaderFooterPrint((bool) $lm_rec["hide_head_foot_print"]);
         $this->setActiveDownloads(ilUtil::yn2tf($lm_rec["downloads_active"]));
         $this->setActiveDownloadsPublic(ilUtil::yn2tf($lm_rec["downloads_public_active"]));
         $this->setActiveLMMenu(ilUtil::yn2tf($lm_rec["lm_menu_active"]));
@@ -906,21 +906,21 @@ class ilObjContentObject extends ilObject
         $this->setHeaderPage((int) $lm_rec["header_page"]);
         $this->setFooterPage((int) $lm_rec["footer_page"]);
         $this->setHistoryUserComments(ilUtil::yn2tf($lm_rec["hist_user_comments"]));
-        $this->setPublicAccessMode($lm_rec["public_access_mode"]);
+        $this->setPublicAccessMode((string) $lm_rec["public_access_mode"]);
         $this->setPublicExportFile("xml", (string) $lm_rec["public_xml_file"]);
         $this->setPublicExportFile("html", (string) $lm_rec["public_html_file"]);
         $this->setLayoutPerPage((bool) $lm_rec["layout_per_page"]);
-        $this->setRating($lm_rec["rating"]);
-        $this->setRatingPages($lm_rec["rating_pages"]);
-        $this->setDisableDefaultFeedback($lm_rec["disable_def_feedback"]);
-        $this->setProgressIcons($lm_rec["progr_icons"]);
-        $this->setStoreTries($lm_rec["store_tries"]);
-        $this->setRestrictForwardNavigation($lm_rec["restrict_forw_nav"]);
+        $this->setRating((bool) $lm_rec["rating"]);
+        $this->setRatingPages((bool) $lm_rec["rating_pages"]);
+        $this->setDisableDefaultFeedback((bool) $lm_rec["disable_def_feedback"]);
+        $this->setProgressIcons((bool) $lm_rec["progr_icons"]);
+        $this->setStoreTries((bool) $lm_rec["store_tries"]);
+        $this->setRestrictForwardNavigation((bool) $lm_rec["restrict_forw_nav"]);
 
         // #14661
         $this->setPublicNotes($this->notes->domain()->commentsActive($this->getId()));
 
-        $this->setForTranslation($lm_rec["for_translation"]);
+        $this->setForTranslation((bool) $lm_rec["for_translation"]);
     }
 
     public function updateProperties(): void
@@ -1726,94 +1726,6 @@ class ilObjContentObject extends ilObject
         // sort files
         sort($file);
         return $file;
-    }
-
-    public function exportFO(
-        ilXmlWriter $a_xml_writer,
-        string $a_target_dir
-    ): void {
-        throw new ilException("Export FO is deprecated.");
-        /*
-        // fo:root (start)
-        $attrs = array();
-        $attrs["xmlns:fo"] = "http://www.w3.org/1999/XSL/Format";
-        $a_xml_writer->xmlStartTag("fo:root", $attrs);
-
-        // fo:layout-master-set (start)
-        $attrs = array();
-        $a_xml_writer->xmlStartTag("fo:layout-master-set", $attrs);
-
-        // fo:simple-page-master (start)
-        $attrs = array();
-        $attrs["master-name"] = "DinA4";
-        $attrs["page-height"] = "29.7cm";
-        $attrs["page-width"] = "21cm";
-        $attrs["margin-top"] = "4cm";
-        $attrs["margin-bottom"] = "1cm";
-        $attrs["margin-left"] = "2.8cm";
-        $attrs["margin-right"] = "7.3cm";
-        $a_xml_writer->xmlStartTag("fo:simple-page-master", $attrs);
-
-        // fo:region-body (complete)
-        $attrs = array();
-        $attrs["margin-top"] = "0cm";
-        $attrs["margin-bottom"] = "1.25cm";
-        $a_xml_writer->xmlElement("fo:region-body", $attrs);
-
-        // fo:region-before (complete)
-        $attrs = array();
-        $attrs["extent"] = "1cm";
-        $a_xml_writer->xmlElement("fo:region-before", $attrs);
-
-        // fo:region-after (complete)
-        $attrs = array();
-        $attrs["extent"] = "1cm";
-        $a_xml_writer->xmlElement("fo:region-after", $attrs);
-
-        // fo:simple-page-master (end)
-        $a_xml_writer->xmlEndTag("fo:simple-page-master");
-
-        // fo:layout-master-set (end)
-        $a_xml_writer->xmlEndTag("fo:layout-master-set");
-
-        // fo:page-sequence (start)
-        $attrs = array();
-        $attrs["master-reference"] = "DinA4";
-        $a_xml_writer->xmlStartTag("fo:page-sequence", $attrs);
-
-        // fo:flow (start)
-        $attrs = array();
-        $attrs["flow-name"] = "xsl-region-body";
-        $a_xml_writer->xmlStartTag("fo:flow", $attrs);
-
-
-        // StructureObjects
-        $this->exportFOStructureObjects($a_xml_writer);
-
-        // fo:flow (end)
-        $a_xml_writer->xmlEndTag("fo:flow");
-
-        // fo:page-sequence (end)
-        $a_xml_writer->xmlEndTag("fo:page-sequence");
-
-        // fo:root (end)
-        $a_xml_writer->xmlEndTag("fo:root");
-        */
-    }
-
-    public function exportFOStructureObjects(
-        ilXmlWriter $a_xml_writer
-    ): void {
-        $childs = $this->lm_tree->getChilds($this->lm_tree->getRootId());
-        foreach ($childs as $child) {
-            if ($child["type"] != "st") {
-                continue;
-            }
-
-            $structure_obj = new ilStructureObject($this->lm, $child["obj_id"]);
-            $structure_obj->exportFO($a_xml_writer);
-            unset($structure_obj);
-        }
     }
 
     public function executeDragDrop(

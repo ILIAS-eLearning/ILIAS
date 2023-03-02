@@ -28,17 +28,17 @@ use ILIAS\Filesystem\Exception\IOException;
  */
 class ilCertificateTemplateImportAction
 {
-    private ilCertificateTemplateRepository $templateRepository;
-    private ilCertificateObjectHelper $objectHelper;
-    private ilCertificateUtilHelper $utilHelper;
-    private ilCertificateBackgroundImageFileService $fileService;
+    private readonly ilCertificateTemplateRepository $templateRepository;
+    private readonly ilCertificateObjectHelper $objectHelper;
+    private readonly ilCertificateUtilHelper $utilHelper;
+    private readonly ilCertificateBackgroundImageFileService $fileService;
 
     public function __construct(
-        private int $objectId,
-        private string $certificatePath,
-        private ilCertificatePlaceholderDescription $placeholderDescriptionObject,
+        private readonly int $objectId,
+        private readonly string $certificatePath,
+        private readonly ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ilLogger $logger,
-        private Filesystem $filesystem,
+        private readonly Filesystem $filesystem,
         ?ilCertificateTemplateRepository $templateRepository = null,
         ?ilCertificateObjectHelper $objectHelper = null,
         ?ilCertificateUtilHelper $utilHelper = null,
@@ -114,7 +114,7 @@ class ilCertificateTemplateImportAction
 
         $xmlFiles = 0;
         foreach ($directoryInformation as $file) {
-            if (strcmp($file['type'], 'file') === 0 && str_contains($file['entry'], '.xml')) {
+            if (strcmp($file['type'], 'file') === 0 && str_contains((string) $file['entry'], '.xml')) {
                 $xmlFiles++;
             }
         }
@@ -136,7 +136,7 @@ class ilCertificateTemplateImportAction
         foreach ($directoryInformation as $file) {
             if (strcmp($file['type'], 'file') === 0) {
                 $filePath = $importPath . $subDirectoryName . $file['entry'];
-                if (str_contains($file['entry'], '.xml')) {
+                if (str_contains((string) $file['entry'], '.xml')) {
                     $xsl = $this->filesystem->read($filePath);
                     // as long as we cannot make RPC calls in a given directory, we have
                     // to add the complete path to every url
@@ -156,7 +156,7 @@ class ilCertificateTemplateImportAction
                         },
                         $xsl
                     );
-                } elseif (str_contains($file['entry'], '.jpg')) {
+                } elseif (str_contains((string) $file['entry'], '.jpg')) {
                     $newBackgroundImageName = 'background_' . $newVersion . '.jpg';
                     $newPath = $this->certificatePath . $newBackgroundImageName;
                     $this->filesystem->copy($filePath, $newPath);
@@ -175,7 +175,7 @@ class ilCertificateTemplateImportAction
                         'JPEG',
                         "100"
                     );
-                } elseif (str_contains($file['entry'], '.svg')) {
+                } elseif (str_contains((string) $file['entry'], '.svg')) {
                     $newCardThumbnailName = 'thumbnail_' . $newVersion . '.svg';
                     $newPath = $this->certificatePath . $newCardThumbnailName;
 

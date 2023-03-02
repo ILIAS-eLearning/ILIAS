@@ -692,6 +692,17 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     }
 
     /**
+    * @param assAnswerMatchingPair[]
+    */
+    public function withMatchingPairs(array $pairs): self
+    {
+        $clone = clone $this;
+        $clone->matchingpairs = $pairs;
+        return $clone;
+    }
+
+
+    /**
     * Returns the number of matching pairs
     *
     * @return integer The number of matching pairs of the matching question
@@ -879,7 +890,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
-        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
+        $result = $this->getCurrentSolutionResultSet($active_id, (int)$pass, $authorizedSolution);
         while ($data = $ilDB->fetchAssoc($result)) {
             if (strcmp($data["value1"], "") != 0) {
                 if (!isset($found_values[$data['value2']])) {
@@ -1237,9 +1248,9 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass): int
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
     {
-        parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
+        parent::setExportDetailsXLS($worksheet, $startrow, $col, $active_id, $pass);
 
         $solutions = $this->getSolutionValues($active_id, $pass);
 
@@ -1249,21 +1260,21 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $matches_written = false;
             foreach ($this->getMatchingPairs() as $idx => $pair) {
                 if (!$matches_written) {
-                    $worksheet->setCell($startrow + $i, 1, $this->lng->txt("matches"));
+                    $worksheet->setCell($startrow + $i, $col + 1, $this->lng->txt("matches"));
                 }
                 $matches_written = true;
                 if ($pair->getDefinition()->getIdentifier() == $solution["value2"]) {
                     if (strlen($pair->getDefinition()->getText())) {
-                        $worksheet->setCell($startrow + $i, 0, $pair->getDefinition()->getText());
+                        $worksheet->setCell($startrow + $i, $col + 1, $pair->getDefinition()->getText());
                     } else {
-                        $worksheet->setCell($startrow + $i, 0, $pair->getDefinition()->getPicture());
+                        $worksheet->setCell($startrow + $i, $col + 1, $pair->getDefinition()->getPicture());
                     }
                 }
                 if ($pair->getTerm()->getIdentifier() == $solution["value1"]) {
                     if (strlen($pair->getTerm()->getText())) {
-                        $worksheet->setCell($startrow + $i, 2, $pair->getTerm()->getText());
+                        $worksheet->setCell($startrow + $i, $col + 2, $pair->getTerm()->getText());
                     } else {
-                        $worksheet->setCell($startrow + $i, 2, $pair->getTerm()->getPicture());
+                        $worksheet->setCell($startrow + $i, $col + 2, $pair->getTerm()->getPicture());
                     }
                 }
             }

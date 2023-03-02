@@ -33,7 +33,6 @@ class ilChatroomConfigFileHandler
 
     /**
      * Creates a client config file and saves it to the chatroom data directory
-     * @param array $settings
      * @throws Exception
      */
     public function createClientConfigFile(array $settings): void
@@ -44,8 +43,6 @@ class ilChatroomConfigFileHandler
 
     /**
      * Get the client config file content as json encoded string
-     * @param array $settings
-     * @return string
      */
     protected function getClientFileContent(array $settings): string
     {
@@ -77,8 +74,6 @@ class ilChatroomConfigFileHandler
 
     /**
      * Writes $content to file named by $filename
-     * @param string $content
-     * @param string $filename
      * @throws RuntimeException
      */
     protected function writeDataToFile(string $content, string $filename): void
@@ -95,7 +90,6 @@ class ilChatroomConfigFileHandler
 
     /**
      * Creates a data directory for configuration files, if the directory does not already exists.
-     * @return string
      * @throws RuntimeException Throws Exception if data dir creation failed
      */
     protected function createDataDirIfNotExists(): string
@@ -111,7 +105,6 @@ class ilChatroomConfigFileHandler
 
     /**
      * Creates a server config file and saves it to the chatroom data directory
-     * @param array $settings
      * @throws Exception
      */
     public function createServerConfigFile(array $settings): void
@@ -122,8 +115,6 @@ class ilChatroomConfigFileHandler
 
     /**
      * Get the server config file contetn as json encoded string
-     * @param array $settings
-     * @return string
      */
     protected function getServerFileContent(array $settings): string
     {

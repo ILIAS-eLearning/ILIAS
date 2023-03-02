@@ -31,11 +31,8 @@ use ILIAS\ContentPage\PageMetrics\ValueObject\PageReadingTime;
  */
 class PageMetricsRepositoryImp implements PageMetricsRepository
 {
-    private ilDBInterface $db;
-
-    public function __construct(ilDBInterface $db)
+    public function __construct(private readonly ilDBInterface $db)
     {
-        $this->db = $db;
     }
 
     public function store(PageMetrics $pageMetrics): void

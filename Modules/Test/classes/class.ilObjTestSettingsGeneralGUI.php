@@ -106,6 +106,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         }
 
         $DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
+        $DIC->tabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_GENERAL_SETTINGS);
 
         // process command
 

@@ -29,7 +29,6 @@ require_once __DIR__ . '/bootstrap.php';
 class ilModulesChatroomSuite extends TestSuite
 {
     /**
-     * @return self
      * @throws ReflectionException
      */
     public static function suite(): self

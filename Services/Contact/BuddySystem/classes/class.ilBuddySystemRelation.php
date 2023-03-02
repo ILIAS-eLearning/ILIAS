@@ -25,23 +25,15 @@ declare(strict_types=1);
 class ilBuddySystemRelation
 {
     protected ilBuddySystemRelationState $state;
-    protected int $usrId;
-    protected int $buddyUsrId;
-    protected bool $isOwnedByActor;
-    protected int $timestamp;
     protected ?ilBuddySystemRelationState $priorState = null;
 
     public function __construct(
         ilBuddySystemRelationState $state,
-        int $usrId,
-        int $buddyUsrId,
-        bool $isOwnedByActor,
-        int $timestamp
+        protected int $usrId,
+        protected int $buddyUsrId,
+        protected bool $isOwnedByActor,
+        protected int $timestamp
     ) {
-        $this->usrId = $usrId;
-        $this->buddyUsrId = $buddyUsrId;
-        $this->isOwnedByActor = $isOwnedByActor;
-        $this->timestamp = $timestamp;
         $this->setState($state, false);
     }
 
@@ -128,7 +120,6 @@ class ilBuddySystemRelation
     }
 
     /**
-     * @return self
      * @throws ilBuddySystemRelationStateException
      */
     public function link(): self
@@ -142,7 +133,6 @@ class ilBuddySystemRelation
     }
 
     /**
-     * @return self
      * @throws ilBuddySystemRelationStateException
      */
     public function unlink(): self
@@ -156,7 +146,6 @@ class ilBuddySystemRelation
     }
 
     /**
-     * @return self
      * @throws ilBuddySystemRelationStateException
      */
     public function request(): self
@@ -170,7 +159,6 @@ class ilBuddySystemRelation
     }
 
     /**
-     * @return self
      * @throws ilBuddySystemRelationStateException
      */
     public function ignore(): self

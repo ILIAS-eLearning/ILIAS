@@ -312,7 +312,10 @@ class ilTestRandomQuestionSetConfigGUI
 
             if ($this->configStateMessageHandler->hasValidationReports()) {
                 if ($this->configStateMessageHandler->isValidationFailed()) {
-                    $this->tpl->setOnScreenMessage('failure', $this->configStateMessageHandler->getValidationReportHtml());
+                    $this->tpl->setOnScreenMessage(
+                        'failure',
+                        $this->configStateMessageHandler->getValidationReportHtml()
+                    );
                 } else {
                     $this->tpl->setOnScreenMessage('info', $this->configStateMessageHandler->getValidationReportHtml());
                 }
@@ -896,7 +899,7 @@ class ilTestRandomQuestionSetConfigGUI
         $last_sync = $this->questionSetConfig->getLastQuestionSyncTimestamp();
 
         if ($last_sync !== null && $last_sync !== 0 &&
-            !$this->isFrozenConfigRequired()) {
+            !$this->isFrozenConfigRequired() && $this->questionSetConfig->isQuestionSetBuildable()) {
             $return = true;
 
             $sync_date = new ilDateTime($last_sync, IL_CAL_UNIX);

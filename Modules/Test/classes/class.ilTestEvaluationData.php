@@ -25,8 +25,15 @@
 * @defgroup ModulesTest Modules/Test
 * @extends ilObject
 */
+
 class ilTestEvaluationData
 {
+    public const FILTER_BY_NONE = '';
+    public const FILTER_BY_NAME = 'name';
+    public const FILTER_BY_GROUP = 'group';
+    public const FILTER_BY_COURSE = 'course';
+    public const FILTER_BY_ACTIVE_ID = 'active_id';
+
     /**
     * Question titles
     *
@@ -292,23 +299,23 @@ class ilTestEvaluationData
             $courseids = [];
             $groupids = [];
 
-            if (array_key_exists('group', $this->arrFilter)) {
-                $ids = ilObject::_getIdsForTitle($this->arrFilter['group'], 'grp', true);
+            if (array_key_exists(self::FILTER_BY_GROUP, $this->arrFilter)) {
+                $ids = ilObject::_getIdsForTitle($this->arrFilter[self::FILTER_BY_GROUP], 'grp', true);
                 $groupids = array_merge($groupids, $ids);
             }
-            if (array_key_exists('course', $this->arrFilter)) {
-                $ids = ilObject::_getIdsForTitle($this->arrFilter['course'], 'crs', true);
+            if (array_key_exists(self::FILTER_BY_COURSE, $this->arrFilter)) {
+                $ids = ilObject::_getIdsForTitle($this->arrFilter[self::FILTER_BY_COURSE], 'crs', true);
                 $courseids = array_merge($courseids, $ids);
             }
             foreach ($this->participants as $active_id => $participant) {
                 $remove = false;
-                if (array_key_exists('name', $this->arrFilter)) {
-                    if (!(strpos(strtolower($participant->getName()), strtolower((string) $this->arrFilter['name'])) !== false)) {
+                if (array_key_exists(self::FILTER_BY_NAME, $this->arrFilter)) {
+                    if (!(strpos(strtolower($participant->getName()), strtolower((string) $this->arrFilter[self::FILTER_BY_NAME])) !== false)) {
                         $remove = true;
                     }
                 }
                 if (!$remove) {
-                    if (array_key_exists('group', $this->arrFilter)) {
+                    if (array_key_exists(self::FILTER_BY_GROUP, $this->arrFilter)) {
                         $groups = ilParticipants::_getMembershipByType($participant->getUserID(), ["grp"]);
                         $foundfilter = false;
                         if (count(array_intersect($groupids, $groups))) {
@@ -320,7 +327,7 @@ class ilTestEvaluationData
                     }
                 }
                 if (!$remove) {
-                    if (array_key_exists('course', $this->arrFilter)) {
+                    if (array_key_exists(self::FILTER_BY_COURSE, $this->arrFilter)) {
                         $courses = ilParticipants::_getMembershipByType($participant->getUserID(), ["crs"]);
                         $foundfilter = false;
                         if (count(array_intersect($courseids, $courses))) {
@@ -332,8 +339,8 @@ class ilTestEvaluationData
                     }
                 }
                 if (!$remove) {
-                    if (array_key_exists('active_id', $this->arrFilter)) {
-                        if ($active_id != $this->arrFilter['active_id']) {
+                    if (array_key_exists(self::FILTER_BY_ACTIVE_ID, $this->arrFilter)) {
+                        if ($active_id != $this->arrFilter[self::FILTER_BY_ACTIVE_ID]) {
                             $remove = true;
                         }
                     }
@@ -356,12 +363,18 @@ class ilTestEvaluationData
     /*
     * Set an output filter for getParticipants
     *
-    * @param string $by name, course, group
+    * @param string $by name, course, group, active_id
     * @param string $text Filter text
     */
-    public function setFilter($by, $text)
+    public function setFilter(string $by, string $text): void
     {
-        $this->arrFilter = array($by => $text);
+        if (in_array(
+            $by,
+            [self::FILTER_BY_ACTIVE_ID, self::FILTER_BY_NAME, self::FILTER_BY_COURSE, self::FILTER_BY_GROUP],
+            true
+        )) {
+            $this->arrFilter = [$by => $text];
+        }
     }
 
     /*

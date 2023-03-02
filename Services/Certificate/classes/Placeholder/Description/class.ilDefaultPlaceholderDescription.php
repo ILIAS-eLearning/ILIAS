@@ -25,7 +25,7 @@ declare(strict_types=1);
 class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
     private array $placeholder;
-    private ilLanguage $language;
+    private readonly ilLanguage $language;
 
     public function __construct(
         ilLanguage $language,

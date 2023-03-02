@@ -353,7 +353,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param boolean $returndetails (deprecated !!)
      * @return integer/array $points/$details (array $details is deprecated !!)
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): int
+    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
     {
         if ($returndetails) {
             throw new ilTestException('return details not implemented for ' . __METHOD__);
@@ -493,9 +493,9 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass): int
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
     {
-        parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
+        parent::setExportDetailsXLS($worksheet, $startrow, $col, $active_id, $pass);
 
         $i = 0;
         $selections = array();
@@ -508,7 +508,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         }
         $errortext = $this->createErrorTextExport($selections);
         $i++;
-        $worksheet->setCell($startrow + $i, 0, $errortext);
+        $worksheet->setCell($startrow + $i, $col, $errortext);
         $i++;
 
         return $startrow + $i + 1;
@@ -817,8 +817,10 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                         }
                     } else {
                         $appendComma = "";
-                        if ($item[$posClosingBrackets + 2] == ',') {
-                            $appendComma = ",";
+                        if (isset($item[$posClosingBrackets + 2])) {
+                            if ($item[$posClosingBrackets + 2] == ',') {
+                                $appendComma = ",";
+                            }
                         }
 
                         $item = ilStr::substr($item, 0, $posClosingBrackets) . $appendComma;

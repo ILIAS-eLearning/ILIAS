@@ -438,7 +438,7 @@ JS;
     {
         // ordertext
         $ordertext = new ilTextAreaInputGUI($this->lng->txt("ordertext"), "ordertext");
-        $ordertext->setValue(self::prepareTextareaOutput($this->object->getOrderText()));
+        $ordertext->setValue(self::prepareTextareaOutput($this->object->getOrderText(), false, true));
         $ordertext->setRequired(true);
         $ordertext->setInfo(sprintf($this->lng->txt("ordertext_info"), $this->object->separator));
         $ordertext->setRows(10);

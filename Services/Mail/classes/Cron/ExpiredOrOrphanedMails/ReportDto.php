@@ -25,7 +25,7 @@ class ReportDto
     /** @var array<int, FolderDto> */
     private array $folder_objects = [];
 
-    public function __construct(private int $user_id)
+    public function __construct(private readonly int $user_id)
     {
     }
 

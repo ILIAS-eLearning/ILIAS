@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -173,7 +172,15 @@ class ilUtil
         if (strlen($filename) == 0 || !file_exists($filename)) {
             $filename = "./" . $a_css_location . "templates/default/" . $stylesheet_name;
         }
-        return $filename;
+        $skin_version_appendix = "";
+        if ($mode !== "filesystem") {
+            // use version from template xml to force reload on changes
+            $skin = ilStyleDefinition::getSkins()[ilStyleDefinition::getCurrentSkin()];
+            $skin_version = $skin->getVersion();
+            $skin_version_appendix .= ($skin_version !== '' ? str_replace(".", "-", $skin_version) : '0');
+            $skin_version_appendix = "?skin_version=" . $skin_version_appendix;
+        }
+        return $filename . $skin_version_appendix;
     }
 
     /**
@@ -183,15 +190,6 @@ class ilUtil
      */
     public static function getNewContentStyleSheetLocation(string $mode = "output"): string
     {
-        global $DIC;
-
-        $ilSetting = $DIC->settings();
-
-        // add version as parameter to force reload for new releases
-        if ($mode != "filesystem") {
-            $vers = str_replace(" ", "-", ILIAS_VERSION);
-            $vers = "?vers=" . str_replace(".", "-", $vers);
-        }
 
         // use ilStyleDefinition instead of account to get the current skin and style
         if (ilStyleDefinition::getCurrentSkin() == "default") {
@@ -203,9 +201,9 @@ class ilUtil
         }
 
         if (is_file("./" . $in_style)) {
-            return $in_style . $vers;
+            return $in_style;
         } else {
-            return "templates/default/delos_cont.css" . $vers;
+            return "templates/default/delos_cont.css";
         }
     }
 
@@ -804,11 +802,11 @@ class ilUtil
             filter_var("http://de.de/" . $url, FILTER_VALIDATE_URL) === false) {
             return "";
         }
-        if (trim(strtolower(parse_url($url, PHP_URL_SCHEME))) == "javascript") {
+        if (trim(strtolower(parse_url($url, PHP_URL_SCHEME) ?? '')) === "javascript") {
             return "";
         }
-        $url = htmlspecialchars($url, ENT_QUOTES);
-        return $url;
+
+        return htmlspecialchars($url, ENT_QUOTES);
     }
 
     /**

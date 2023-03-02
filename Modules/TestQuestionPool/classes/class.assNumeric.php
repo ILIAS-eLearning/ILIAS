@@ -623,21 +623,21 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass): int
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
     {
-        parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
+        parent::setExportDetailsXLS($worksheet, $startrow, $col, $active_id, $pass);
 
         $solutions = $this->getSolutionValues($active_id, $pass);
 
         $i = 1;
-        $worksheet->setCell($startrow + $i, 0, $this->lng->txt("result"));
-        $worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
+        $worksheet->setCell($startrow + $i, $col, $this->lng->txt("result"));
+        $worksheet->setBold($worksheet->getColumnCoord($col) . ($startrow + $i));
 
-        $worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
+        $worksheet->setBold($worksheet->getColumnCoord($col) . ($startrow + $i));
         if (array_key_exists(0, $solutions) &&
             array_key_exists('value1', $solutions[0]) &&
             strlen($solutions[0]["value1"])) {
-            $worksheet->setCell($startrow + $i, 1, $solutions[0]["value1"]);
+            $worksheet->setCell($startrow + $i, $col + 1, $solutions[0]["value1"]);
         }
         $i++;
 

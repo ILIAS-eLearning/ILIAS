@@ -32,6 +32,7 @@ namespace ILIAS\Data;
  */
 final class DataSize
 {
+    private const SIZE_FACTOR = 1000;
     public const Byte = 1;
 
     //binary
@@ -56,7 +57,7 @@ final class DataSize
     /**
      * @var array<int, string>
      */
-    private static array $suffixMap = [
+    private static array $suffix_map = [
         self::Byte => 'B',
 
         self::KB => 'KB',
@@ -132,18 +133,16 @@ final class DataSize
      * @param int $unit The unit which is used to calculate the data size.
      *
      * @throws \InvalidArgumentException If the given unit is not valid or the arguments are not of the type int.
-     *
-     * @since 5.3
      */
     public function __construct(int $size, int $unit)
     {
-        if (!isset(self::$suffixMap[$unit])) {
+        if (!isset(self::$suffix_map[$unit])) {
             throw new \InvalidArgumentException('The given data size unit is not valid, please check the provided class constants of the DataSize class.');
         }
 
         $this->size = floatval($size) / floatval($unit); //the div operation can return int and float
         $this->unit = $unit;
-        $this->suffix = self::$suffixMap[$unit];
+        $this->suffix = self::$suffix_map[$unit];
     }
 
     /**
@@ -175,16 +174,36 @@ final class DataSize
     }
 
     /**
-     * Returns the data size with the corresponding suffix.
+     * Returns the data size in a human readable manner.
      *
      * Example output:
-     * 1024 B
-     * 4096 GiB
-     *
-     * @since 5.3
+     * 950 B
+     * 3922 GB
      */
     public function __toString(): string
     {
-        return "$this->size $this->suffix";
+        $size = $this->inBytes();
+        // can be switched to match in ILIAS 9
+        switch (true) {
+            case $size > self::SIZE_FACTOR * self::SIZE_FACTOR * self::SIZE_FACTOR * self::SIZE_FACTOR:
+                $unit = DataSize::TB;
+                break;
+            case $size > self::SIZE_FACTOR * self::SIZE_FACTOR * self::SIZE_FACTOR:
+                $unit = DataSize::GB;
+                break;
+            case $size > self::SIZE_FACTOR * self::SIZE_FACTOR:
+                $unit = DataSize::MB;
+                break;
+            case $size > self::SIZE_FACTOR:
+                $unit = DataSize::KB;
+                break;
+            default:
+                $unit = DataSize::Byte;
+                break;
+        }
+
+        $size = round((float) $size / (float) $unit, 2);
+
+        return "$size " . self::$suffix_map[$unit];
     }
 }

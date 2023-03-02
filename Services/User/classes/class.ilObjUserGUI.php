@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
+
 /**
  * Class ilObjUserGUI
  * @author       Stefan Meyer <meyer@leifos.com>
@@ -43,6 +45,9 @@ class ilObjUserGUI extends ilObjectGUI
     protected string $requested_letter = "";
     protected string $requested_baseClass = "";
     protected string $requested_search = "";
+    protected \ILIAS\FileUpload\FileUpload $uploads;
+    protected \ILIAS\ResourceStorage\Services $irss;
+    protected ResourceStakeholder $stakeholder;
 
     public function __construct(
         $a_data,
@@ -70,6 +75,10 @@ class ilObjUserGUI extends ilObjectGUI
         $this->type = "usr";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         $this->usrf_ref_id = $this->ref_id;
+
+        $this->uploads = $DIC->upload();
+        $this->irss = $DIC->resourceStorage();
+        $this->stakeholder = new ilUserProfilePictureStakeholder();
 
         $this->ctrl = $ilCtrl;
         $this->ctrl->saveParameter($this, array('obj_id', 'letter'));
@@ -980,7 +989,7 @@ class ilObjUserGUI extends ilObjectGUI
             ? ilDatePresentation::formatDate(new ilDateTime($this->object->getLastLogin(), IL_CAL_DATETIME))
             : null;
         $data["active"] = $this->object->getActive();
-        $data["time_limit_unlimited"] = $this->object->getTimeLimitUnlimited();
+        $data["time_limit_unlimited"] = $this->object->getTimeLimitUnlimited() ? '1' : '0';
 
         $data["time_limit_from"] = $this->object->getTimeLimitFrom()
             ? new ilDateTime($this->object->getTimeLimitFrom(), IL_CAL_UNIX)
@@ -1167,14 +1176,11 @@ class ilObjUserGUI extends ilObjectGUI
         // access
         $radg = new ilRadioGroupInputGUI($lng->txt("time_limit"), "time_limit_unlimited");
         $radg->setValue(1);
-        $op1 = new ilRadioOption($lng->txt("user_access_unlimited"), 1);
+        $radg->setRequired(true);
+        $op1 = new ilRadioOption($lng->txt("user_access_unlimited"), '1');
         $radg->addOption($op1);
-        $op2 = new ilRadioOption($lng->txt("user_access_limited"), 0);
+        $op2 = new ilRadioOption($lng->txt("user_access_limited"), '0');
         $radg->addOption($op2);
-
-        //		$ac = new ilCheckboxInputGUI($lng->txt("time_limit"), "time_limit_unlimited");
-        //		$ac->setChecked(true);
-        //		$ac->setOptionTitle($lng->txt("crs_unlimited"));
 
         // access.from
         $acfrom = new ilDateTimeInputGUI($this->lng->txt("crs_from"), "time_limit_from");
@@ -1635,55 +1641,38 @@ class ilObjUserGUI extends ilObjectGUI
             $image_dir = $webspace_dir . "/usr_images";
             $store_file = "usr_" . $this->object->getId() . "." . "jpg";
 
-            // store filename
-            $this->object->setPref("profile_image", $store_file);
-            $this->object->update();
 
-            // move uploaded file
-            $pi = pathinfo($_FILES["userfile"]["name"]);
-            $uploaded_file = $image_dir . "/upload_" . $this->object->getId() . "." . $pi["extension"];
-            if (!ilFileUtils::moveUploadedFile(
-                $_FILES["userfile"]["tmp_name"],
-                $_FILES["userfile"]["name"],
-                $uploaded_file,
-                false
-            )) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("upload_error", true));
-                $this->ctrl->redirect($this, "showProfile");
-            }
-            chmod($uploaded_file, 0770);
+            // Store profile picture
+            // This part can be changed when using new Inputs: Currently we map the $_FILES array to get the "correct" upload as it was before
+            $this->uploads->process();
+            $uploads = $this->uploads->getResults();
+            $upload_tmp_name = $_FILES["userfile"]["tmp_name"];
+            $avatar_upload_result = $uploads[$upload_tmp_name] ?? null;
 
-            // take quality 100 to avoid jpeg artefacts when uploading jpeg files
-            // taking only frame [0] to avoid problems with animated gifs
-            $show_file = "$image_dir/usr_" . $this->object->getId() . ".jpg";
-            $thumb_file = "$image_dir/usr_" . $this->object->getId() . "_small.jpg";
-            $xthumb_file = "$image_dir/usr_" . $this->object->getId() . "_xsmall.jpg";
-            $xxthumb_file = "$image_dir/usr_" . $this->object->getId() . "_xxsmall.jpg";
-            $uploaded_file = ilShellUtil::escapeShellArg($uploaded_file);
-            $show_file = ilShellUtil::escapeShellArg($show_file);
-            $thumb_file = ilShellUtil::escapeShellArg($thumb_file);
-            $xthumb_file = ilShellUtil::escapeShellArg($xthumb_file);
-            $xxthumb_file = ilShellUtil::escapeShellArg($xxthumb_file);
-
-            if (ilShellUtil::isConvertVersionAtLeast("6.3.8-3")) {
-                ilShellUtil::execConvert(
-                    $uploaded_file . "[0] -geometry 200x200^ -gravity center -extent 200x200 -quality 100 JPEG:" . $show_file
-                );
-                ilShellUtil::execConvert(
-                    $uploaded_file . "[0] -geometry 100x100^ -gravity center -extent 100x100 -quality 100 JPEG:" . $thumb_file
-                );
-                ilShellUtil::execConvert(
-                    $uploaded_file . "[0] -geometry 75x75^ -gravity center -extent 75x75 -quality 100 JPEG:" . $xthumb_file
-                );
-                ilShellUtil::execConvert(
-                    $uploaded_file . "[0] -geometry 30x30^ -gravity center -extent 30x30 -quality 100 JPEG:" . $xxthumb_file
+            $existing_rid = $this->irss->manage()->find($this->object->getAvatarRid());
+            $revision_title = 'Avatar for user ' . $this->object->getLogin();
+            $this->stakeholder->setOwner($this->object->getId()); // The Resource is owned by the user we are editing
+            if ($existing_rid === null) {
+                $rid = $this->irss->manage()->upload(
+                    $avatar_upload_result,
+                    $this->stakeholder,
+                    $revision_title
                 );
             } else {
-                ilShellUtil::execConvert($uploaded_file . "[0] -geometry 200x200 -quality 100 JPEG:" . $show_file);
-                ilShellUtil::execConvert($uploaded_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
-                ilShellUtil::execConvert($uploaded_file . "[0] -geometry 75x75 -quality 100 JPEG:" . $xthumb_file);
-                ilShellUtil::execConvert($uploaded_file . "[0] -geometry 30x30 -quality 100 JPEG:" . $xxthumb_file);
+                $rid = $existing_rid;
+                $this->irss->manage()->replaceWithUpload(
+                    $existing_rid,
+                    $avatar_upload_result,
+                    $this->stakeholder,
+                    $revision_title
+                );
             }
+            $this->object->setAvatarRid($rid->serialize());
+            $this->irss->flavours()->ensure($rid, new ilUserProfilePictureDefinition()); // Create different sizes
+
+            // store filename
+            $this->object->setPref("profile_image", $store_file); // this may be dropped with the next release
+            $this->object->update();
         }
     }
 
@@ -1998,8 +1987,7 @@ class ilObjUserGUI extends ilObjectGUI
         $usr_lang->loadLanguageModule('crs');
         $usr_lang->loadLanguageModule('registration');
 
-        /** @var ilMailMimeSenderFactory $senderFactory */
-        $senderFactory = $GLOBALS['DIC']["mail.mime.sender.factory"];
+        $senderFactory = $DIC->mail()->mime()->senderFactory();
 
         $mmail = new ilMimeMail();
         $mmail->From($senderFactory->system());

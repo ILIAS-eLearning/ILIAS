@@ -23,13 +23,13 @@ declare(strict_types=1);
  */
 class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 {
-    private ilCertificateUtilHelper $utilHelper;
-    private ilCertificateObjectHelper $objectHelper;
+    private readonly ilCertificateUtilHelper $utilHelper;
+    private readonly ilCertificateObjectHelper $objectHelper;
 
     public function __construct(
-        private ilCertificateTemplateRepository $templateRepository,
-        private string $rootDirectory = CLIENT_WEB_DIR,
-        private string $iliasVersion = ILIAS_VERSION_NUMERIC,
+        private readonly ilCertificateTemplateRepository $templateRepository,
+        private readonly string $rootDirectory = CLIENT_WEB_DIR,
+        private readonly string $iliasVersion = ILIAS_VERSION_NUMERIC,
         ?ilCertificateUtilHelper $utilHelper = null,
         ?ilCertificateObjectHelper $objectHelper = null
     ) {

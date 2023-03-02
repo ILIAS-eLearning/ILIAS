@@ -1,8 +1,18 @@
 # Roadmap
 
+## Without Priority
+
+The following issues are mostly usability issues, that could be tackled as part of the ongoing PER project.
+- Action to edit translations is hard to find: https://mantis.ilias.de/view.php?id=33957
+
+
 ## Short Term
 
-### Page Editor Refactoring (ILIAS 7, at least partially)
+### Remove dependency to include/inc.xml5compliance.php
+
+Dom handling should be move to internal service, the dependency to include/inc.xml5compliance.php should be removed. More unit tests for dom transformations should be introduced.
+
+### Continue Page Editor Refactoring (started with ILIAS 7)
 
 https://docu.ilias.de/goto_docu_wiki_wpage_6254_1357.html
 
@@ -57,6 +67,8 @@ Cyclomatic Complexity
 ...
 ```
 
+## Long Term
+
 ### Integration of new question service
 
 The new questions service should be integrated into the page editor. Especially the client side "self-assessment" player part should be implemented (and factored out into a separate component).
@@ -64,6 +76,28 @@ The new questions service should be integrated into the page editor. Especially 
 ### Refactor page question handling
 
 Note this is an older entry. Should be done with integration of the question service.
+
+#### Render page questions
+
+- ilPCQuestion::getJavascriptFiles loads
+  - ./Modules/Scorm2004/scripts/questions/pure.js 
+  - ./Modules/Scorm2004/scripts/questions/question_handling.js 
+  - Modules/TestQuestionPool/js/ilAssMultipleChoice.js
+  - Modules/TestQuestionPool/js/ilMatchingQuestion.js
+  - (./Services/COPage/js/ilCOPageQuestionHandler.js)
+- ilPCQuestion::getJSTextInitCode loads
+  - ilias.question.txt... strings
+- ilPCQuestion::getQuestionJsOfPage
+  - uses Services/COPage/templates/default/tpl.question_export.html
+  - returns basix HTML of question (qtitle content)
+  - adds function renderILQuestion<NR>
+    - this function is declared early here, BUT not called yet
+    - it contains jQuery('div#container{VAL_ID}').autoRender call (pure.js rendering)
+- ilPCQuestion::getOnloadCode
+  - adds calls for all renderers renderILQuestion<NR>
+  - inits question answers and callback
+
+#### Saving page questions
 
 Saving of page question answers is quite strange and includes dependencies to the SCORM component. This should be refactored.
 

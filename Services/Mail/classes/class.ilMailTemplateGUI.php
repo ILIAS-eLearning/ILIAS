@@ -68,7 +68,7 @@ class ilMailTemplateGUI
         $this->refinery = $DIC->refinery();
         $this->uiFactory = $uiFactory ?? $DIC->ui()->factory();
         $this->uiRenderer = $uiRenderer ?? $DIC->ui()->renderer();
-        $this->service = $templateService ?? $DIC['mail.texttemplates.service'];
+        $this->service = $templateService ?? $DIC->mail()->textTemplates();
 
         $this->lng->loadLanguageModule('meta');
     }
@@ -93,10 +93,10 @@ class ilMailTemplateGUI
         if (count($contexts) <= 1) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_template_no_context_available'));
         } elseif ($this->isEditingAllowed()) {
-            $create_tpl_button = ilLinkButton::getInstance();
-            $create_tpl_button->setCaption('mail_new_template');
-            $create_tpl_button->setUrl($this->ctrl->getLinkTarget($this, 'showInsertTemplateForm'));
-            $this->toolbar->addButtonInstance($create_tpl_button);
+            $this->toolbar->addComponent($this->uiFactory->button()->standard(
+                $this->lng->txt('mail_new_template'),
+                $this->ctrl->getLinkTarget($this, 'showInsertTemplateForm')
+            ));
         }
 
         $tbl = new ilMailTemplateTableGUI(
@@ -309,9 +309,9 @@ class ilMailTemplateGUI
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this, 'deleteTemplate'));
 
-        $confirm->setHeaderText($this->lng->txt('mail_tpl_sure_delete_entry'));
+        $confirm->setHeaderText($this->lng->txt('mail_tpl_sure_delete_entries'));
         if (1 === count($templateIds)) {
-            $confirm->setHeaderText($this->lng->txt('mail_tpl_sure_delete_entries'));
+            $confirm->setHeaderText($this->lng->txt('mail_tpl_sure_delete_entry'));
         }
 
         $confirm->setConfirm($this->lng->txt('confirm'), 'deleteTemplate');

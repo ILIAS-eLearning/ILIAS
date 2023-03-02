@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use org\bovigo\vfs;
 
@@ -96,17 +97,14 @@ class ilObjUserPasswordTest extends ilUserBaseTest
      */
     public function testExceptionIsRaisedIfPasswordManagerIsCreatedWithoutValidFactory(): void
     {
-        $this->expectError();
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessageMatches('/' . ilUserPasswordEncoderFactory::class . '/');
 
-        try {
-            new ilUserPasswordManager([
-                'password_encoder' => 'md5',
-                'encoder_factory' => 'test',
-                'data_directory' => $this->getTestDirectoryUrl()
-            ]);
-        } catch (TypeError $e) {
-            throw new PHPUnit\Framework\Error\Error($e->getMessage(), $e->getCode(), $e->getFile(), $e->getLine());
-        }
+        new ilUserPasswordManager([
+            'password_encoder' => 'md5',
+            'encoder_factory' => 'test',
+            'data_directory' => $this->getTestDirectoryUrl()
+        ]);
     }
 
     /**

@@ -442,13 +442,13 @@ class ilFileDataMail extends ilFileData
 
         $umf_parts = preg_split(
             "/(\d+)([K|G|M])/",
-            $umf,
+            (string) $umf,
             -1,
             PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
         );
         $pms_parts = preg_split(
             "/(\d+)([K|G|M])/",
-            $pms,
+            (string) $pms,
             -1,
             PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
         );

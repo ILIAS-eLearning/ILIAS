@@ -23,9 +23,9 @@ declare(strict_types=1);
  */
 class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderValues
 {
-    private ilCertificateObjectHelper $objectHelper;
-    private ilUserDefinedFields $userDefinedFieldsObject;
-    private ilCertificateUtilHelper $ilUtilHelper;
+    private readonly ilCertificateObjectHelper $objectHelper;
+    private readonly ilUserDefinedFields $userDefinedFieldsObject;
+    private readonly ilCertificateUtilHelper $ilUtilHelper;
 
     public function __construct(
         ?ilCertificateObjectHelper $objectHelper = null,

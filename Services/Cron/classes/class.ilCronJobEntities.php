@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 class ilCronJobEntities implements ilCronJobCollection
 {
-    private ArrayIterator $jobs;
+    private readonly ArrayIterator $jobs;
 
     public function __construct(ilCronJobEntity ...$jobs)
     {

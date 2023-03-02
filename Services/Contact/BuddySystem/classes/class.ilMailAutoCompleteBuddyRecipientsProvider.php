@@ -23,9 +23,6 @@ declare(strict_types=1);
  */
 class ilMailAutoCompleteBuddyRecipientsProvider extends ilMailAutoCompleteUserProvider
 {
-    /**
-     * @return string
-     */
     protected function getFromPart(): string
     {
         $joins = [];

@@ -191,6 +191,8 @@ class ilPRGPermissionsHelper
     public function isOrguAccessEnabledGlobally(): bool
     {
         $obj_id = $this->data_cache->lookupObjId($this->getProgrammeRefId());
-        return $this->orgu_settings->isPositionAccessActiveForObject($obj_id);
+        $type_settings = $this->orgu_settings->getObjectPositionSettingsByType('prg');
+
+        return $type_settings->isActive() && $type_settings->isChangeableForObject();
     }
 }

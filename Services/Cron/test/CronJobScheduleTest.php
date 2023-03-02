@@ -38,22 +38,15 @@ class CronJobScheduleTest extends TestCase
         ?int $schedule_value
     ): ilCronJob {
         $job_instance = new class ($has_flexible_schedule, $default_schedule_type, $default_schedule_value, $schedule_type, $schedule_value) extends ilCronJob {
-            private bool $has_flexible_schedule;
-            private int $default_schedule_type;
-            private ?int $default_schedule_value;
-
             public function __construct(
-                bool $has_flexible_schedule,
-                int $default_schedule_type,
-                ?int $default_schedule_value,
+                private readonly bool $has_flexible_schedule,
+                private readonly int $default_schedule_type,
+                private readonly ?int $default_schedule_value,
                 int $schedule_type,
                 ?int $schedule_value
             ) {
-                $this->has_flexible_schedule = $has_flexible_schedule;
                 $this->schedule_type = $schedule_type;
                 $this->schedule_value = $schedule_value;
-                $this->default_schedule_type = $default_schedule_type;
-                $this->default_schedule_value = $default_schedule_value;
             }
 
             public function getId(): string

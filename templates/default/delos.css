@@ -3816,15 +3816,6 @@ select[multiple].input-lg,
 .form-horizontal .checkbox {
   min-height: 24px;
 }
-.form-horizontal .form-group {
-  --bs-gutter-x: 30px;
-  --bs-gutter-y: 0;
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: calc(-1 * var(--bs-gutter-y));
-  margin-right: calc(-0.5 * var(--bs-gutter-x));
-  margin-left: calc(-0.5 * var(--bs-gutter-x));
-}
 @media (min-width: 768px) {
   .form-horizontal .control-label {
     text-align: right;
@@ -8432,6 +8423,18 @@ table.mceToolbar tbody, table.mceToolbar tr, table.mceToolbar td {
     --bs-gutter-y: 18px;
   }
 }
+.container,
+.container-fluid {
+  --bs-gutter-x: 30px;
+  --bs-gutter-y: 0;
+  width: 100%;
+  padding-right: calc(var(--bs-gutter-x) * 0.5);
+  padding-left: calc(var(--bs-gutter-x) * 0.5);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* Responsive container system from Bootstrap 5 has been removed */
 html, body {
   height: 100%;
   overflow: hidden;
@@ -13627,7 +13630,7 @@ div.ilHeaderDesc {
 }
 
 div.il_HeaderInner {
-  padding: 15px;
+  padding: 12px 0;
   margin-bottom: 5px;
   overflow: visible;
 }
@@ -13867,10 +13870,6 @@ div.ilCommandRow {
 
 div.ilCommandRow.one_side_col {
   padding-right: 22%;
-}
-
-div.ilAdminRow {
-  margin: 10px 15px 20px 15px;
 }
 
 table.std {
@@ -16216,6 +16215,9 @@ div.ilc_Page.readonly textarea[disabled] {
 }
 #tst_output #tst_right li.dd-item.ilc_qordli_OrderListItem > ul li.dd-item.ilc_qordli_OrderListItem, #ilAssQuestionPreview li.dd-item.ilc_qordli_OrderListItem > ul li.dd-item.ilc_qordli_OrderListItem, #il_prop_cont_order_elems li.dd-item.ilc_qordli_OrderListItem > ul li.dd-item.ilc_qordli_OrderListItem {
   border: 2px white solid;
+}
+#tst_pass_details_overview tr {
+  scroll-margin-top: 30px;
 }
 
 /* Modules/Wiki */
@@ -19277,38 +19279,16 @@ div.ilCreationFormSection .form-horizontal {
   -webkit-hyphens: auto;
   hyphens: auto;
 }
+#onscreenchat-container .chat-window-wrapper .panel-footer-for-shadow {
+  height: 0;
+  width: 0;
+}
 #onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessageContainer {
-  background-color: transparent;
-}
-#onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessageContainer .iosOnScreenChatMessagePlaceholder {
-  position: absolute;
-  z-index: 0;
-  border: 0 none !important;
-  background-color: transparent;
-  opacity: 0.5;
-}
-#onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessageContainer .iosOnScreenChatMessage {
-  background-color: transparent;
-  position: relative;
-  z-index: 1;
-  white-space: pre-wrap;
-  user-select: text;
-  outline: none;
-  overflow-x: hidden;
-  height: auto;
-  min-height: 26px;
-  max-height: 75px;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  -ms-word-break: break-all;
-  word-break: break-all;
-  word-break: break-word;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-  cursor: text;
-  padding-right: 26px;
+  resize: none;
+  width: 100%;
+  border: 1px solid;
+  background: white;
+  height: 25px;
 }
 #onscreenchat-container .chat-window-wrapper .osc_truncate_username {
   width: 150px;
@@ -20802,7 +20782,7 @@ a.ilMediaLightboxClose:hover {
 
 #ilTab {
   padding: 0;
-  margin: 3px 15px 3px;
+  margin: 3px 0;
   border: 0 none;
   border-bottom: 2px solid #2c2c2c;
 }
@@ -20811,14 +20791,10 @@ a.ilMediaLightboxClose:hover {
   z-index: 3;
 }
 
-.ilTabsContentOuter {
-  padding: 0 12px;
-}
-
 /* Sub Tabs */
 #ilSubTab {
   padding: 6px 0;
-  margin: 0 15px;
+  margin: 0;
 }
 #ilSubTab > li:first-child > a {
   margin-left: 3px;

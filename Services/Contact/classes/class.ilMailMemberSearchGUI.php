@@ -27,21 +27,21 @@ use Psr\Http\Message\ServerRequestInterface;
 **/
 class ilMailMemberSearchGUI
 {
-    private ServerRequestInterface $httpRequest;
+    private readonly ServerRequestInterface $httpRequest;
     /** @var array{role_id: int, mailbox: string, form_option_title: string, default_checked: bool}[] */
-    private array $mail_roles;
+    private readonly array $mail_roles;
     private ?ilParticipants $objParticipants;
-    private ilCtrlInterface $ctrl;
-    private ilGlobalTemplateInterface $tpl;
-    private ilLanguage $lng;
-    private ilAccessHandler $access;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilGlobalTemplateInterface $tpl;
+    private readonly ilLanguage $lng;
+    private readonly ilAccessHandler $access;
 
     /**
      * ilMailMemberSearchGUI constructor.
      * @param ilObjGroupGUI|ilObjCourseGUI|ilMembershipGUI $gui
      * @param ilAbstractMailMemberRoles $objMailMemberRoles
      */
-    public function __construct(private object $gui, public int $ref_id, private ilAbstractMailMemberRoles $objMailMemberRoles)
+    public function __construct(private readonly object $gui, public int $ref_id, private readonly ilAbstractMailMemberRoles $objMailMemberRoles)
     {
         global $DIC;
 

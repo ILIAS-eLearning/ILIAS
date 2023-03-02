@@ -20,11 +20,8 @@ declare(strict_types=1);
 
 class ilCronServicesImpl implements ilCronServices
 {
-    private \ILIAS\DI\Container $dic;
-
-    public function __construct(\ILIAS\DI\Container $dic)
+    public function __construct(private readonly \ILIAS\DI\Container $dic)
     {
-        $this->dic = $dic;
     }
 
     public function manager(): ilCronManager

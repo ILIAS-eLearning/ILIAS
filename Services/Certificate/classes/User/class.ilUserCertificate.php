@@ -23,23 +23,23 @@ declare(strict_types=1);
  */
 class ilUserCertificate
 {
-    private int $validUntil;
-    private ?string $backgroundImagePath;
-    private ?string $thumbnailImagePath;
+    private readonly int $validUntil;
+    private readonly ?string $backgroundImagePath;
+    private readonly ?string $thumbnailImagePath;
 
     public function __construct(
-        private int $patternCertificateId,
-        private int $objId,
-        private string $objType,
-        private int $userId,
-        private string $userName,
-        private int $acquiredTimestamp,
-        private string $certificateContent,
-        private string $templateValues,
+        private readonly int $patternCertificateId,
+        private readonly int $objId,
+        private readonly string $objType,
+        private readonly int $userId,
+        private readonly string $userName,
+        private readonly int $acquiredTimestamp,
+        private readonly string $certificateContent,
+        private readonly string $templateValues,
         ?int $validUntil,
         private int $version,
-        private string $iliasVersion,
-        private bool $currentlyActive,
+        private readonly string $iliasVersion,
+        private readonly bool $currentlyActive,
         ?string $backgroundImagePath = null,
         ?string $thumbnailImagePath = null,
         private ?int $id = null

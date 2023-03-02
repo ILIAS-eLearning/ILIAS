@@ -37,6 +37,8 @@ abstract class ilMailSearchObjectGUI
     protected ilObjectDataCache $cache;
     protected ilFormatMail $umail;
     protected bool $mailing_allowed;
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $ui_renderer;
 
     /**
      * @param ilWorkspaceAccessHandler|ilPortfolioAccessHandler|null $wsp_access_handler
@@ -57,6 +59,8 @@ abstract class ilMailSearchObjectGUI
         $this->cache = $DIC['ilObjDataCache'];
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         $this->ctrl->saveParameter($this, 'mobj_id');
         $this->ctrl->saveParameter($this, 'ref');
@@ -364,7 +368,7 @@ abstract class ilMailSearchObjectGUI
         if ($this->http->wrapper()->query()->has('search_' . $this->getObjectType())) {
             $obj_ids = $this->refinery->kindlyTo()->listOf(
                 $this->refinery->kindlyTo()->int()
-            )->transform(explode(',', $this->http->wrapper()->query()->retrieve(
+            )->transform(explode(',', (string) $this->http->wrapper()->query()->retrieve(
                 'search_' . $this->getObjectType(),
                 $this->refinery->kindlyTo()->string()
             )));
@@ -378,7 +382,7 @@ abstract class ilMailSearchObjectGUI
         } elseif (ilSession::get('search_' . $this->getObjectType())) {
             $obj_ids = $this->refinery->kindlyTo()->listOf(
                 $this->refinery->kindlyTo()->int()
-            )->transform(explode(',', ilSession::get('search_' . $this->getObjectType())));
+            )->transform(explode(',', (string) ilSession::get('search_' . $this->getObjectType())));
             ilSession::set('search_' . $this->getObjectType(), '');
         }
 
@@ -530,42 +534,47 @@ abstract class ilMailSearchObjectGUI
                         $path .= $data['title'];
                     }
 
-                    $current_selection_list = new ilAdvancedSelectionListGUI();
-                    $current_selection_list->setListTitle($this->lng->txt('actions'));
-                    $current_selection_list->setId('act_' . $counter);
-
                     $this->ctrl->setParameter($this, 'search_' . $this->getObjectType(), $object->getId());
                     $this->ctrl->setParameter($this, 'view', 'myobjects');
+                    $buttons = [];
 
                     if ($this->isDefaultRequestContext()) {
                         if ($this->mailing_allowed) {
-                            $current_selection_list->addItem(
-                                $this->lng->txt('mail_members'),
-                                '',
-                                $this->ctrl->getLinkTarget($this, 'mail')
-                            );
+                            $buttons[] = $this->ui_factory
+                                ->button()
+                                ->shy(
+                                    $this->lng->txt('mail_members'),
+                                    $this->ctrl->getLinkTarget($this, 'mail')
+                                );
                         }
                     } else {
-                        $current_selection_list->addItem(
-                            $this->lng->txt('wsp_share_with_members'),
-                            '',
-                            $this->ctrl->getLinkTarget($this, 'share')
-                        );
+                        $buttons[] = $this->ui_factory
+                            ->button()
+                            ->shy(
+                                $this->lng->txt('wsp_share_with_members'),
+                                $this->ctrl->getLinkTarget($this, 'share')
+                            );
                     }
-                    $current_selection_list->addItem(
-                        $this->lng->txt('mail_list_members'),
-                        '',
-                        $this->ctrl->getLinkTarget($this, 'showMembers')
-                    );
+                    $buttons[] = $this->ui_factory
+                        ->button()
+                        ->shy(
+                            $this->lng->txt('mail_list_members'),
+                            $this->ctrl->getLinkTarget($this, 'showMembers')
+                        );
 
                     $this->ctrl->clearParameters($this);
+
+                    $drop_down = $this->ui_factory
+                        ->dropdown()
+                        ->standard($buttons)
+                        ->withLabel($this->lng->txt('actions'));
 
                     $rowData = [
                         'OBJECT_ID' => $object->getId(),
                         'OBJECT_NAME' => $object->getTitle(),
                         'OBJECT_NO_MEMBERS' => count($usr_ids),
                         'OBJECT_PATH' => $path,
-                        'COMMAND_SELECTION_LIST' => $current_selection_list->getHTML(),
+                        'COMMAND_SELECTION_LIST' => $this->ui_renderer->render($drop_down),
                         'hidden_members' => $hiddenMembers,
                     ];
                     $counter++;

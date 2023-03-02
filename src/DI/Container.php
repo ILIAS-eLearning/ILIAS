@@ -410,6 +410,11 @@ class Container extends \Pimple\Container
         return new \ilCronServicesImpl($this);
     }
 
+    public function mail(): \ILIAS\Mail\Service\MailService
+    {
+        return new \ILIAS\Mail\Service\MailService($this);
+    }
+
     /**
      * Note: Only use isDependencyAvailable if strictly required. The need for this,
      * mostly points to some underlying problem needing to be solved instead of using this.

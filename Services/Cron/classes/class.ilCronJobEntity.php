@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 class ilCronJobEntity
 {
-    private ilCronJob $job;
-    private bool $isPlugin;
     private string $jobId;
     private string $component;
     private int $scheduleType;
@@ -48,10 +46,8 @@ class ilCronJobEntity
      * @param array<string, mixed> $record
      * @param bool $isPlugin
      */
-    public function __construct(ilCronJob $job, array $record, bool $isPlugin = false)
+    public function __construct(private readonly ilCronJob $job, array $record, private readonly bool $isPlugin = false)
     {
-        $this->job = $job;
-        $this->isPlugin = $isPlugin;
         $this->mapRecord($record);
     }
 

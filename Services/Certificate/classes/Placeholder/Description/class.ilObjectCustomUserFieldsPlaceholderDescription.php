@@ -22,7 +22,7 @@ class ilObjectCustomUserFieldsPlaceholderDescription implements ilCertificatePla
 {
     private array $placeholder;
 
-    public function __construct(private int $objectId)
+    public function __construct(private readonly int $objectId)
     {
         $this->placeholder = [];
 

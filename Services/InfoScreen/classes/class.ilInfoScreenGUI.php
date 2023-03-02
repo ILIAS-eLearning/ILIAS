@@ -946,6 +946,14 @@ class ilInfoScreenGUI
     {
         $ilUser = $this->user;
 
+        // ensure a read event
+        ilLearningProgress::_tracProgress(
+            $ilUser->getId(),
+            $this->getContextObjId(),
+            $this->getContextRefId(),
+            ilObject::_lookupType($this->getContextObjId())
+        );
+
         $lp_marks = new ilLPMarks($this->getContextObjId(), $ilUser->getId());
         $lp_marks->setCompleted((bool) $this->request->getLPEdit());
         $lp_marks->update();
