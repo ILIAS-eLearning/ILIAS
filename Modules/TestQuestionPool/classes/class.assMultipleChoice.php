@@ -1118,7 +1118,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
-        $ilUser->writePref("tst_multiline_answers", $a_setting);
+        $ilUser->writePref("tst_multiline_answers", (string) $a_setting);
     }
 
     /**
