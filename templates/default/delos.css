@@ -11821,13 +11821,6 @@ footer {
 .il-maincontrols-footer .il-footer-permanent-url {
   margin-right: 3px;
 }
-.il-maincontrols-footer .il-footer-permanent-url label {
-  margin-right: 3px;
-  color: #4c6586;
-}
-.il-maincontrols-footer .il-footer-permanent-url label:hover {
-  text-decoration: underline;
-}
 .il-maincontrols-footer .il-footer-text {
   margin: 3px 3px 6px 0px;
 }
@@ -16216,6 +16209,7 @@ div.ilc_Page.readonly textarea[disabled] {
 #tst_output #tst_right li.dd-item.ilc_qordli_OrderListItem > ul li.dd-item.ilc_qordli_OrderListItem, #ilAssQuestionPreview li.dd-item.ilc_qordli_OrderListItem > ul li.dd-item.ilc_qordli_OrderListItem, #il_prop_cont_order_elems li.dd-item.ilc_qordli_OrderListItem > ul li.dd-item.ilc_qordli_OrderListItem {
   border: 2px white solid;
 }
+
 #tst_pass_details_overview tr {
   scroll-margin-top: 30px;
 }
@@ -20741,6 +20735,12 @@ a.ilMediaLightboxClose:hover {
 
 .modal-content {
   color: #161616;
+}
+.modal-content .form-horizontal .col-sm-4, .modal-content .form-horizontal .col-md-3, .modal-content .form-horizontal .col-lg-2 {
+  width: 33.33%;
+}
+.modal-content .form-horizontal .col-sm-8, .modal-content .form-horizontal .col-md-9, .modal-content .form-horizontal .col-lg-10 {
+  width: 66.67%;
 }
 
 /* currently don't seem to look any different from normal panels
