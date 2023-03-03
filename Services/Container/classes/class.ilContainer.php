@@ -372,7 +372,7 @@ class ilContainer extends ilObject
                     ]
                 );
 
-                $a_xml->xmlData($value);
+                $a_xml->xmlData((string) $value);
                 $a_xml->xmlEndTag("ContainerSetting");
             }
 
