@@ -87,7 +87,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     {
         if ($checkonly) {
             // form posting is checked
-            return ($_POST['types'] == 0) ? true : false;
+            return (!isset($_POST['types']) || $_POST['types'] == 0) ? true : false;
         }
 
         $lastChange = $this->object->getLastChange();
