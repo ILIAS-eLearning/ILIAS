@@ -37,7 +37,7 @@ class ilSessionDataSet extends ilDataSet
         global $DIC;
 
         parent::__construct();
-        $this->logger = $DIC->logger()->root();
+        $this->logger = $DIC->logger()->sess();
     }
 
     public function setTargetId(string $target_id): void

@@ -1150,7 +1150,7 @@ assessment#:#rectangle_click_tl_corner#:#Bitte klicken Sie auf die obere linke E
 assessment#:#redirectAfterSave#:#Die maximale Bearbeitungszeit für diesen Test wurde erreicht. Ihre letzte bearbeitete Frage wurde automatisch beim Erreichen der Bearbeitungszeit gespeichert. In wenigen Sekunden werden Sie weitergeleitet...
 assessment#:#redirect_after_finishing_rule#:#Weiterleitung
 assessment#:#redirect_after_finishing_tst#:#Weiterleitung
-assessment#:#redirect_after_finishing_tst_desc#:#Teilnehmer werden nach Beenden des Tests automatisch zu einer definierten Webseite weitergeleitet. Dies geschieht nur, wenn der Test so konfiguriert wurde, dass die Teilnehmer ihre Testergebnisse nach Beenden des Tests nicht einsehen können.
+assessment#:#redirect_after_finishing_tst_desc#:#Teilnehmer werden nach Beenden des Tests automatisch zu einer definierten Webseite weitergeleitet. Dies geschieht nur, wenn der Test so konfiguriert wurde, dass die Teilnehmer ihre Testergebnisse nach Beenden des Tests nicht einsehen können. Wenn Sie die Adresse einer externen Webseite eingeben, verwenden Sie die vollständige URL (einschließlich "https://"). Wenn Sie zu einem Objekt in ILIAS weiterleiten, verwenden Sie den Permalink, der in der Fußzeile des betreffenden Objekts zu finden ist.
 assessment#:#redirect_always#:#immer zur definierten Zielseite
 assessment#:#redirect_in_kiosk_mode#:#nur bei aktivierter Prüfungsansicht
 assessment#:#redirection_url#:#URL Zielseite
@@ -1372,6 +1372,7 @@ assessment#:#tst_count_correct_solutions#:#Nur vollständig richtig beantwortete
 assessment#:#tst_count_correct_solutions_desc#:#Vollständige und richtige Antworten erhalten die maximale Punktzahl. In allen anderen Fällen gibt es 0 Punkte. Dies gilt auch für Fragen, die Punkte für Teilantworten vorsehen.
 assessment#:#tst_count_partial_solutions#:#Auch teilweise falsch beantwortete Fragen ergeben Punkte
 assessment#:#tst_count_partial_solutions_desc#:#Bei einigen Fragetypen können für korrekt gegebene Teilantworten Punkte erzielt werden. Diese werden aufsummiert. Dies betrifft die Fragetypen Multiple Choice, KPrim, Mehrfachauswahl in Imagemaps, Fehler / Worte markieren und Zuordnungsfrage.
+assessment#:#tst_current_run_no_longer_valid#:#Ihr aktueller Testdurchlauf ist nicht mehr gültig. <br>Er wurde wahrscheinlich bereits abgeschlossen oder von einem Tutor beendet.
 assessment#:#tst_default_settings#:#Persönliche Standardeinstellungen
 assessment#:#tst_defaults_applied#:#Die ausgewählten Standardeinstellungen wurden angewendet.
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS konnte die ausgewählten Standardeinstellungen nicht auf diesen Test anwenden! Eventuell enthält dieser Test bereits Teilnehmerdatensätze, die verhindern, dass bestimmte Standardeinstellungen übernommen werden können.
@@ -2030,6 +2031,7 @@ auth#:#auth_info_migrate#:#Wenn Sie bereits ein ILIAS-Konto besitzen, geben Sie 
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 auth#:#auth_login_editor#:#Loginseite gestalten
 auth#:#auth_oidc#:#OpenId Connect
+auth#:#auth_oidc_failed#:#Login mittels OpenID Connect fehlgeschlagen
 auth#:#auth_oidc_login_element_info#:#Bei ILIAS anmelden über OpenID Connect
 auth#:#auth_oidc_mapping_table#:#Zuordnung von Datenfeldern der ILIAS-Konten zu OpenID-Connect-Attributen
 auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
@@ -2045,6 +2047,7 @@ auth#:#auth_oidc_settings_custom_session_duration_option#:#Eigene Sitzungsdauer
 auth#:#auth_oidc_settings_custom_session_duration_type#:#Einstellungen zur Sitzungsdauer
 auth#:#auth_oidc_settings_default_role#:#Rollenzuordnung
 auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS-Benutzer aus!
+auth#:#auth_oidc_settings_discovery_url#:#Discovery URL des Providers
 auth#:#auth_oidc_settings_img#:#Bild
 auth#:#auth_oidc_settings_img_file_info#:#Laden Sie ein Bild hoch das auf der Anmeldeseite angezeigt werden soll. Das Bild verlinkt automatisch auf das OpenId Connect Anmeldeskript.
 auth#:#auth_oidc_settings_invalid_scopes#:#Folgende Werte sind keine gültigen Scopes: %s
@@ -2069,6 +2072,10 @@ auth#:#auth_oidc_settings_txt_val_info#:#Tragen Sie einen Text ein, der auf der 
 auth#:#auth_oidc_settings_user_attr#:#Attributname der Benutzerzugänge
 auth#:#auth_oidc_settings_user_sync#:#Automatische Synchronisierung
 auth#:#auth_oidc_settings_user_sync_info#:#Für Personen, die noch kein ILIAS-Konto besitzen, sich aber erfolgreich gegen Open ID Connect authentifiziert haben, wird automatisch ein neues ILIAS-Konto erzeugt.
+auth#:#auth_oidc_settings_validate_scope_custom#:#Eigene OpenID Connect Discovery URL angeben
+auth#:#auth_oidc_settings_validate_scope_default#:#:Provider-URL:/.well-known/openid-configuration verwenden
+auth#:#auth_oidc_settings_validate_scope_none#:#Scopes beim speichern nicht überprüfen
+auth#:#auth_oidc_settings_validate_scopes#:#OpenID Connect Scopes beim speichern überprüfen
 auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 auth#:#auth_oidconnect#:#OpenID Connect
@@ -2507,6 +2514,7 @@ book#:#book_no_preferences_for_you#:#Sie haben keine Präferenzen abgespeichert.
 book#:#book_not#:#Nicht
 book#:#book_not_enough_preferences#:#Sie haben nicht genügend Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
 book#:#book_notification#:#Benachrichtigungen über Reservierungen
+book#:#book_notification_cron_not_active#:#Achtung: Der notwendige Cron-Job "Benachrichtigungen über Reservierungen" ist zurzeit nicht aktiviert.
 book#:#book_notification_info#:#Sendet eine Liste der Reservierungen des nächsten Tages an Benutzer (nur eigene) und Admins (wenn aktiviert).
 book#:#book_nr_of_preferences#:#Anzahl
 book#:#book_nr_of_preferences_info#:#Anzahl an Präferenzen, die jeder Teilnehmer abgeben darf.
@@ -2518,7 +2526,7 @@ book#:#book_objects_available#:#Verfügbare Objekte: %s
 book#:#book_open#:#Buchungspool öffnen
 book#:#book_overall_limit#:#Begrenzung
 book#:#book_overall_limit_warning#:#Sie haben die maximale Anzahl Buchungen erreicht.
-book#:#book_participant_already_assigned#:#Teilnehmer ist bereits zugewiesen.
+book#:#book_participant_already_assigned#:#Ein oder mehrere Teilnehmer waren bereits zugewiesen.
 book#:#book_participant_assigned#:#Teilnehmer wurde/n zugewiesen.
 book#:#book_period#:#Dauer
 book#:#book_pool_added#:#Ein Buchungspool wurde angelegt.
@@ -2795,7 +2803,7 @@ chatroom#:#banned#:#Sie wurden für diesen Chatraum gesperrt.
 chatroom#:#bans#:#Gesperrte Benutzer
 chatroom#:#chat_address#:#Ansprechen
 chatroom#:#chat_anonymous_not_allowed#:#Um den Chatraum nutzen zu können, loggen Sie sich bitte ein.
-chatroom#:#chat_auth_token_info#:#Bitte definieren Sie hier zwei eindeutige Zeichenketten, die ILIAS zur Authentifizierung in Anfragen an den Chat-Server nutzt. Alternativ können diese bei Klick auf den Button automatisch generiert werden. Der Chat-Server kann mehrere ILIAS-Mandanten verwalten, jeder Mandant benötigt aber eine <b>eindeutige</b> Mandanten-ID.
+chatroom#:#chat_auth_token_info#:#Bitte definieren Sie hier zwei eindeutige Zeichenketten, die ILIAS zur Authentifizierung in Anfragen an den Chat-Server nutzt. Alternativ können diese bei Klick auf den Button automatisch generiert werden. Der Chat-Server kann mehrere ILIAS-Mandanten verwalten, jeder Mandant benötigt aber einen <b>eindeutigen</b> Namen.
 chatroom#:#chat_ban#:#Sperren
 chatroom#:#chat_broadcast_typing#:#Tippen im Chat anzeigen
 chatroom#:#chat_broadcast_typing_info#:#Anderen Anwesenden in einem Chat bzw. Chatraum wird angezeigt, wenn Sie beginnen, eine Nachricht zu schreiben.
@@ -3427,6 +3435,7 @@ common#:#additional_info#:#Zusätzliche Informationen
 common#:#address#:#Adresse
 common#:#admin_force_noti#:#Benachrichtigung aktiv
 common#:#administrate_users#:#Lokale Konten
+common#:#administrate_users_headline#:#Lokale ILIAS-Konten dieser Kategorie
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Übernehmen
@@ -3630,7 +3639,6 @@ common#:#catr_add#:#Kategorielink anlegen
 common#:#catr_edit_info#:#Bitte wählen Sie die Kategorie aus, für die Sie einen Link erstellen möchten.
 common#:#catr_new#:#Neuen Kategorielink anlegen
 common#:#catr_settings#:#Einstellungen des Kategorielinks
-common#:#cc#:#CC
 common#:#certificate#:#Zertifikat
 common#:#certificate_file_already_exists_error#:#Die Zertikatsdatei exisitiert bereits im Dateisystem.
 common#:#certificate_file_input_output_error#:#Die Zertikatsdatei wurde im Dateisystem gefunden konnte aber aufgrund von Fehlern nicht gelöscht werden. Bitte kontaktieren Sie Ihren Administrator.
@@ -3696,6 +3704,7 @@ common#:#clientlist_public_access#:#Öffentlicher Bereich
 common#:#clientlist_start_page#:#Öffentlicher Bereich
 common#:#clipboard#:#Zwischenablage
 common#:#close#:#Schließen
+common#:#cmix#:#Objekt xAPI/cmi5
 common#:#cnt_new#:#(%s Neu)
 common#:#collapse#:#Einklappen
 common#:#collapse_all#:#Alle zusammenklappen
@@ -4141,6 +4150,7 @@ common#:#gender#:#Anrede
 common#:#gender_f#:#Frau
 common#:#gender_m#:#Herr
 common#:#gender_n#:#Keine Anrede
+common#:#general#:#Allgemein
 common#:#general_settings#:#Allgemeine Einstellungen
 common#:#generate#:#generieren
 common#:#ghostscript_not_configured#:#Ghostscript ist nicht konfiguriert. Bitte öffnen Sie das <a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a> um Ghostscript zu konfigurieren.
@@ -4497,8 +4507,9 @@ common#:#lso_edit#:#Lernsequenz bearbeiten
 common#:#lso_import#:#Lernsequenz importieren
 common#:#lso_new#:#Neue Lernsequenz anlegen
 common#:#lso_wizard_page#:#Lernsequenz kopieren (Schritt 2/2)
+common#:#lti#:#LTI Konsument
 common#:#lti_outcome#:#Benachrichtigung über LTI-Lernfortschritt
-common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI-Tool-Consumer.
+common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI-Tool-Consumer / LTI-Plattform.
 common#:#mail#:#Mail
 common#:#mail_addressbook#:#Kontakte
 common#:#mail_at_the_ilias_installation#:#Auf der ILIAS-Installation %2$s haben Sie %1$s neue Mail(s) erhalten
@@ -4537,7 +4548,7 @@ common#:#max_previews_per_object_info#:#Legt die Anzahl an Vorschaubildern fest,
 common#:#mcst#:#Mediacast
 common#:#mcst_add#:#Mediacast anlegen
 common#:#mcst_new#:#Neuen Mediacast anlegen
-common#:#mem_add_to_wl#:#Zur Warteliste hinzufügen
+common#:#mem_add_to_wl#:#In Warteliste eintragen
 common#:#mem_alert_no_places#:#Es sind keine freien Plätze verfügbar.
 common#:#mem_cron_min_members#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerzahl
 common#:#mem_cron_min_members_info#:#Die Administratoren werden benachrichtigt sofern die minimale Anzahl nicht erreicht wird.
@@ -5005,14 +5016,14 @@ common#:#obj_skmg_desc#:#Kompetenzen und Kategorien verwalten
 common#:#obj_spl#:#Fragenpool für Umfragen
 common#:#obj_spl_select#:#-- Bitte wählen Sie einen Fragenpool für Umfragen aus --
 common#:#obj_st#:#Kapitel
-common#:#obj_sty#:#Style
+common#:#obj_sty#:#Content-Style
 common#:#obj_stys#:#Layout
 common#:#obj_stys_desc#:#Einstellungen für das Erscheinungsbild der Installation und für Styles bestimmter Inhaltsobjekte
 common#:#obj_svy#:#Umfrage
 common#:#obj_svy_duplicate#:#Umfrage kopieren
 common#:#obj_svyf#:#Umfragen
 common#:#obj_svyf_desc#:#Systemweite Einstellungen für Umfragen
-common#:#obj_sysc#:#System Check
+common#:#obj_sysc#:#System-Check
 common#:#obj_sysc_desc#:#System-Check und Werkzeuge zur Fehlerbehebung
 common#:#obj_tags#:#Tagging
 common#:#obj_tags_desc#:#Einstellungen für Tagging
@@ -5971,6 +5982,7 @@ cont#:#cont_filter_fields#:#Filterfelder
 cont#:#cont_filter_record#:#Datensatz
 cont#:#cont_found_objects#:#Gefundene Objekte
 cont#:#cont_item_list#:#Liste
+cont#:#cont_item_list_info#:#Untergeordnete Objekte in einer Liste anzeigen.
 cont#:#cont_list_presentation#:#Präsentationsansicht für Inhalte
 cont#:#cont_mem_skills#:#Kompetenzen
 cont#:#cont_news_edited#:#Bearbeitet
@@ -6030,6 +6042,7 @@ cont#:#cont_tile_size_2#:#groß (bis zu drei Kacheln in einer Zeile)
 cont#:#cont_tile_size_3#:#sehr groß (bis zu zwei Kacheln in einer Zeile)
 cont#:#cont_tile_size_4#:#volle Breite (eine Kachel in einer Zeile)
 cont#:#cont_tile_view#:#Kacheln
+cont#:#cont_tile_view_info#:#Untergeordnete Objekte als Kacheln anzeigen. Bilder für diese Kacheln können in den Einstellungen jedes einzelnen Objekts hochgeladen werden.
 contact#:#contact_awrn_ap_contacts#:#Bestätigte Kontakte
 contact#:#contact_awrn_ap_contacts_info#:#Alle bestätigten Kontakte eines Benutzers werden aufgelistet.
 contact#:#contact_awrn_req_contacts#:#Kontaktanfragen
@@ -6100,7 +6113,7 @@ content#:#cont_add_popup#:#Popup hinzufügen
 content#:#cont_add_tab#:#Fach hinzufügen
 content#:#cont_add_url#:#Über URL einbinden
 content#:#cont_added_cell#:#Spalte hinzugefügt
-content#:#cont_added_comment#:#Kommentar wurde im Verlauf aufgenommen
+content#:#cont_added_comment#:#Kommentar wurde im Verlauf des Lernmoduls aufgenommen (siehe Reiter „Inhalt » Verlauf“).
 content#:#cont_added_tab#:#Fach wurde hinzugefügt.
 content#:#cont_added_term#:#Begriff hinzugefügt
 content#:#cont_adjust_size#:#Größe anpassen
@@ -6708,7 +6721,7 @@ content#:#cont_offline_mode_allow_info#:#Erlaubt die Nutzung des Lernmoduls ohne
 content#:#cont_offline_mode_disable_not_allowed_info#:#Da das Lernmodul von Nutzern aktuell im Offline-Modus genutzt wird, kann der Offline-Modus nicht deaktiviert werden.
 content#:#cont_online#:#Online
 content#:#cont_online_help_ids#:#Screen-IDs
-content#:#cont_online_info#:#Nur wenn das SCORM-Lernmodul online geschaltet ist, können Benutzer auf das Lernmodul zugreifen. Wenn nicht ist das SCORM-Lernmodul nur für Personen mit Bearbeitungsrechten verfügbar.
+content#:#cont_online_info#:#Nur wenn das SCORM-Lernmodul online geschaltet ist, können Benutzer auf das Lernmodul zugreifen. Wenn nicht, ist das SCORM-Lernmodul nur für Personen mit dem Recht „Einstellungen bearbeiten“ verfügbar.
 content#:#cont_open#:#Anzeige des Lernmoduls
 content#:#cont_open_clipboard#:#Medien-Clipboard öffnen
 content#:#cont_open_iframe#:#Öffnet im selben Fenster (iFrame) unterhalb des ILIAS-Hauptmenüs
@@ -7122,7 +7135,7 @@ content#:#glo_presentation_mode#:#Ansicht
 content#:#glo_presentation_view#:#Präsentationsansicht
 content#:#glo_quick_navigation#:#Schnellzugriff
 content#:#glo_show_taxonomy#:#Taxonomie
-content#:#glo_show_taxonomy_info#:#Die Taxonomie wird in der Präsentationsansicht angezeigt und kann zur Auswahl von Begriffen genutzt werden.
+content#:#glo_show_taxonomy_info#:#Die Taxonomie wird in der Präsentationsansicht zum Filtern der Glossarbegriffe angeboten. Sie kann im Unterreiter „Taxonomie“ angelegt werden.
 content#:#glo_style#:#Glossar-Style
 content#:#glo_table_form#:#Tabelle
 content#:#glo_table_form_info#:#Begriffe und gekürzte Definitionen werden in einer Übersichtstabelle dargestellt. Beim Anklicken eines Begriffes wird dieser mit der vollständigen Definition angezeigt.
@@ -8295,6 +8308,7 @@ dateplaner#:#cal_type_remote#:#Web-Kalender
 dateplaner#:#cal_type_rl#:#Ort des Kalenders
 dateplaner#:#cal_type_sess#:#Sitzungskalender
 dateplaner#:#cal_type_system#:#Öffentlicher Kalender
+dateplaner#:#cal_type_tals#:#Gespräche
 dateplaner#:#cal_unshare#:#Freigabe beenden
 dateplaner#:#cal_unshare_cal#:#Freigabe beenden
 dateplaner#:#cal_unshared_selected_usr#:#Die Freigabe für die ausgewählten Benutzer/Rollen wurde beendet.
@@ -8375,7 +8389,7 @@ dcl#:#dcl_any#:#Alle
 dcl#:#dcl_asc#:#Aufsteigende Reihenfolge (ASC)
 dcl#:#dcl_boolean#:#Checkbox
 dcl#:#dcl_boolean_desc#:#Auswahlfeld für "zutreffend"/"nicht zutreffend"
-dcl#:#dcl_cant_delete_last_table#:#Sie können diese Tabelle nicht komplett löschen, da Sie die einzige Tabelle dieser Datensammlung ist. Hingegen wurden der Inhalt und die Struktur erfolgreich gelöscht.
+dcl#:#dcl_cant_delete_last_table#:#Die Tabelle selbst kann nicht gelöscht werden, da sie die einzige Tabelle dieser Datensammlung ist. Es wurden aber Inhalt und Struktur der Tabelle erfolgreich gelöscht.
 dcl#:#dcl_change_notification_dcl_delete_record#:#Der folgende Eintrag wurde gelöscht
 dcl#:#dcl_change_notification_dcl_new_record#:#Der folgende Eintrag wurde erzeugt
 dcl#:#dcl_change_notification_dcl_update_record#:#Der folgende Eintrag wurde aktualisiert
@@ -8527,7 +8541,7 @@ dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht vorhanden:
 dcl#:#dcl_no_warnings#:#Der Import wurde reibungslos abgeschlossen.
 dcl#:#dcl_not_checked#:#Nicht ausgewählt
-dcl#:#dcl_not_supported_in_import#:#Dieser Feldtyp ist für den Import nicht unterstützt.
+dcl#:#dcl_not_supported_in_import#:#Dieser Feldtyp wird beim Import nicht unterstützt.
 dcl#:#dcl_notification_activate_dcl#:#Benachrichtigung aktivieren
 dcl#:#dcl_notification_activated#:#Benachrichtigung aktiv
 dcl#:#dcl_notification_deactivate_dcl#:#Benachrichtigung deaktivieren
@@ -8542,7 +8556,7 @@ dcl#:#dcl_order#:#Sortierung
 dcl#:#dcl_own_entries#:#Nur eigene Einträge
 dcl#:#dcl_owner#:#Eigener Eintrag von ###Modified as part of gender mainstreaming activities for ILIAS 8
 dcl#:#dcl_owner_description#:#Eigene Einträge bleiben stets sichtbar.###Modified as part of gender mainstreaming activities for ILIAS 8
-dcl#:#dcl_owner_name#:#Besitzer (Name)
+dcl#:#dcl_owner_name#:#Im Besitz von (Name)
 dcl#:#dcl_page_type_dclf#:#Detailansicht
 dcl#:#dcl_permissions_form#:#Berechtigungen für diese Tabelle
 dcl#:#dcl_please_select#:#--- Bitte wählen ---
@@ -8950,6 +8964,7 @@ etal#:#etal_add_new_item#:#Neues Gespräch hinzufügen
 etal#:#etal_date_appointment_edit#:#Gesprächsdatum
 etal#:#etal_date_series_edit#:#Gesprächsserie
 etal#:#etal_edit#:#Allgemein
+etal#:#etal_invalid_user#:#Dieses Konto existiert nicht, oder kann nicht eingeladen werden.
 etal#:#etal_new#:#Neues Gespräch
 etal#:#etal_open#:#Gespräch öffnen
 etal#:#etal_status_all#:#Alle
@@ -8960,13 +8975,12 @@ etal#:#lock_edititng_for_others#:#Bearbeitung für andere sperren
 etal#:#meta_adv_records#:#Metadaten
 etal#:#mm_org_etal#:#Gespräch
 etal#:#mm_talk_template#:#Gesprächsvorlagen
-etal#:#notification_talks_created#:#Sie wurden von %s zu einem Gespräch eingeladen.
-etal#:#notification_talks_date_details#:#Termindetails
+etal#:#notification_talks_created#:#Sie wurden zu einem Gespräch eingeladen.
 etal#:#notification_talks_date_list_header#:#Daten
-etal#:#notification_talks_removed#:#Folgende Termine mit %s wurden abgesagt.
-etal#:#notification_talks_subject#:#Termineinladung
-etal#:#notification_talks_talk_title#:#Titel: %s
-etal#:#notification_talks_updated#:#Folgende Gesprächstermine mit %s wurden angepasst.
+etal#:#notification_talks_removed#:#Folgende Termine wurden abgesagt.
+etal#:#notification_talks_subject#:#Termineinladung: %s
+etal#:#notification_talks_subject_update#:#Terminaktualisierung: %s
+etal#:#notification_talks_updated#:#Folgende Gesprächstermine wurden angepasst.
 etal#:#talk_serial#:#Talk Serial
 etal#:#tals_add#:#Gespräche hinzufügen
 etal#:#tals_new#:#Neue Gesprächsserie
@@ -8975,6 +8989,8 @@ etal#:#talt_add#:#Erstellen
 etal#:#talt_edit#:#Allgemein
 etal#:#talt_etal#:#Mitarbeiter-Gespräch
 etal#:#talt_new#:#Neue Gesprächsvorlage
+etal#:#will_update_series_info_lock#:#Die Bearbeitung von allen Gesprächsterminen dieser Serie sperren
+etal#:#will_update_series_info_title#:#Änderungen am Titel gelten für alle Gesprächstermine dieser Serie.
 exc#:#exc_add_assignment#:#Übungseinheit hinzufügen
 exc#:#exc_add_criteria#:#Kriterium hinzufügen
 exc#:#exc_add_criteria_catalogue#:#Katalog hinzufügen
@@ -10002,7 +10018,7 @@ iass#:#iass_consultation_hours#:#Sprechstunden
 iass#:#iass_contact#:#Name
 iass#:#iass_contact_info#:#Kontaktinformationen
 iass#:#iass_content#:#Inhalt
-iass#:#iass_content_explanation#:#Inhalte der Prüfung.
+iass#:#iass_content_explanation#:#Geben Sie hier die Inhalte der Prüfung ein.
 iass#:#iass_copy#:#Individuelle Bewertung kopieren
 iass#:#iass_download#:#Download
 iass#:#iass_edit#:#Einstellungen
@@ -10014,7 +10030,7 @@ iass#:#iass_event_time_place_required_info#:#Zeitpunkt und Ort der Prüfung müs
 iass#:#iass_file#:#Datei
 iass#:#iass_file_dropzone#:#Ziehen Sie ihre Datei hierhin
 iass#:#iass_file_required#:#Pflichtangabe Prüfungsblatt
-iass#:#iass_file_required_info#:#Ein Prüfungsblatt muss hochgeladen werden
+iass#:#iass_file_required_info#:#Ein Prüfungsblatt muss hochgeladen werden.
 iass#:#iass_file_visible_examinee#:#Datei für Teilnehmer sichtbar
 iass#:#iass_filter_all#:#Alle
 iass#:#iass_filter_failed#:#Nur nicht bestanden
@@ -10044,7 +10060,7 @@ iass#:#iass_place#:#Ort der Prüfung
 iass#:#iass_record#:#Prüfungsnotiz
 iass#:#iass_record_info#:#Die Prüfungsnotiz kann nach finaler Bewertung vom Teilnehmer eingesehen werden. Ist unten die Benachrichtigung aktiviert, erhält der Teilnehmer die Prüfungsnotiz auch per E-Mail.
 iass#:#iass_record_template#:#Vorlage Prüfungsnotiz
-iass#:#iass_record_template_explanation#:#Vorlage für die Prüfungsnotiz. Wird für jeden neuen Teilnehmer verwendet.
+iass#:#iass_record_template_explanation#:#Hier eingegebener Text dient als Vorlage für die Prüfungsnotiz und wird für jeden neuen Teilnehmer verwendet.
 iass#:#iass_remove_user_qst#:#Soll der Teilnehmer wirklich entfernt werden?
 iass#:#iass_responsibility#:#Zuständigkeit
 iass#:#iass_save_amend#:#Geänderte Prüfungsdaten speichern
@@ -10058,14 +10074,14 @@ iass#:#iass_sort_name_desc#:#Anmeldename → absteigend###Modified as part of ge
 iass#:#iass_status_completed#:#Bestanden
 iass#:#iass_status_failed#:#Nicht bestanden
 iass#:#iass_status_pending#:#Noch nicht bewertet
-iass#:#iass_subj_notification_completed#:#%s: Individuelle Bewertung erfolgreich abgeschlossen.
-iass#:#iass_subj_notification_failed#:#%s: Individuelle Bewertung nicht erfolgreich.
+iass#:#iass_subj_notification_completed#:#%s: Individuelle Bewertung wurde erfolgreich abgeschlossen.
+iass#:#iass_subj_notification_failed#:#%s: Individuelle Bewertung wurde nicht erfolgreich abgeschlossen.
 iass#:#iass_upload_file#:#Prüfungsblatt
 iass#:#iass_user_removed#:#Benutzer wurde erfolgreich entfernt.
 iass#:#iass_usr_amend#:#Prüfungsdaten nachträglich ändern
 iass#:#iass_usr_download_attachment#:#Datei herunterladen
-iass#:#iass_usr_edit#:#Teilnehmer bewerten und Lernfortschritt bearbeiten
-iass#:#iass_usr_remove#:#Teilnehmer entfernen
+iass#:#iass_usr_edit#:#Bewerten
+iass#:#iass_usr_remove#:#Entfernen
 iass#:#iass_usr_view#:#Prüfungsdaten
 iass#:#il_iass_member#:#Teilnehmer
 iass#:#il_iass_members#:#Teilnehmer
@@ -10752,7 +10768,6 @@ lti#:#user_provider_subtab#:#Von Benutzern definierte Provider bzw. Tools
 ltiv#:#ltiv_create#:#Zertifikat für LTI-Konsument-Objekt erstellen
 ltiv#:#ltiv_create_info#:#Wählen Sie ein abgeschlossenes LTI-Konsument-Objekt aus, um ein Zertifikat dafür zu generieren.
 mail#:#back_to_folder#:#Zurück zum Ordner
-mail#:#bc#:#BCC
 mail#:#chat_users_have_been_invited#:#Die Benutzer wurden eingeladen:
 mail#:#chat_users_without_login#:#Die folgenden Benutzer haben kein ILIAS-Konto und können nicht eingeladen werden:
 mail#:#chat_users_without_permission#:#Die folgenden Benutzer haben keinen Zugriff zum ausgewählten Raum:
@@ -10778,9 +10793,11 @@ mail#:#mail_assign_entry_to_mailing_list#:#Zuordnung eines Kontakts zum Verteile
 mail#:#mail_attachment_file_not_exist#:#Mindestens einer der folgenden Anhänge konnte nicht gefunden werden: %1$s
 mail#:#mail_attachments#:#Anhänge
 mail#:#mail_auto_generated_info#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.
+mail#:#mail_bcc#:#BCC
 mail#:#mail_bg_task_desc#:#Betreff: %s
 mail#:#mail_bg_task_title#:#Mailversand
 mail#:#mail_both_email#:#Beide E-Mail-Adressen
+mail#:#mail_cc#:#CC
 mail#:#mail_change_to_folder#:#Wechseln zu Ordner: %s
 mail#:#mail_create_tpl#:#Textvorlage erstellen
 mail#:#mail_cronjob_notification_info#:#Hier können Sie die regelmäßige Benachrichtigung über neue Mails aktivieren.
@@ -11036,7 +11053,7 @@ mathjax#:#mathjax_polyfill_url#:#Url eines Polyfills
 mathjax#:#mathjax_polyfill_url_desc_line1#:#Für MathJax 2 nicht benötigt
 mathjax#:#mathjax_polyfill_url_desc_line2#:#Für MathJax 3 in älteren Browsern, z.B. https://polyfill.io/v3/polyfill.min.js?features=es6
 mathjax#:#mathjax_script_url#:#URL des MathJax-Skripts
-mathjax#:#mathjax_script_url_desc_line1#:#Für MathJax 2 z.B. https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe
+mathjax#:#mathjax_script_url_desc_line1#:#Für MathJax 2 z.B. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe
 mathjax#:#mathjax_script_url_desc_line2#:#Für MathJax 3 z.B. https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 mathjax#:#mathjax_script_url_desc_line3#:#Bitte verwenden Sie den Safe Mode, um XSS-Angriffe durch MathJax-Code mit Javascript zu vermeiden. Für MathJax 2 kann er an die CDN-Url als Parameter angefügt werden (s.o). Für MathJax 3 müssen Sie ein Skript einbinden, dass ihn konfiguriert, bevor MathJax geladen wird. Verwenden Sie z.B. https://ihre-domain/ihr-ilias/Services/MathJax/js/cdn-mathjax3-es5-tex-mml-chtml-safe.js
 mathjax#:#mathjax_server_address#:#Server-Adresse
@@ -11190,6 +11207,7 @@ mep#:#mep_master_language_only_no_media#:#Basissprache für Übersetzung - ohne 
 mep#:#mep_media_files#:#Mediendateien
 mep#:#mep_media_subtitles#:#Untertitel
 mep#:#mep_mob#:#Medienobjekt
+mep#:#mep_move_select_insert#:#Navigieren Sie zum Zielordner und wählen Sie "Einfügen".
 mep#:#mep_mpg#:#Inhaltsbaustein
 mep#:#mep_new_content_snippet#:#Neuer Inhaltsbaustein
 mep#:#mep_new_folder#:#Neuer Ordner
@@ -11563,12 +11581,12 @@ meta#:#meta_copyright#:#Copyright
 meta#:#meta_copyright_and_other_restrictions#:#Copyright und andere Einschränkungen
 meta#:#meta_copyright_change_info#:#Beachten Sie unbedingt das Urheberrecht, wenn Sie die Lizenz für dieses Objekt ändern. Bitte fahren Sie nur fort, wenn Sie befugt sind, über die Nutzungsrechte an dem Objekt zu entscheiden.###Modified as part of gender mainstreaming activities for ILIAS 8
 meta#:#meta_copyright_change_warning_title#:#Lizenz ändern###Modified as part of gender mainstreaming activities for ILIAS 8
-meta#:#meta_copyright_in_use#:#In use
-meta#:#meta_copyright_outdated#:#Outdated
-meta#:#meta_copyright_show_usages#:#Show usages
+meta#:#meta_copyright_in_use#:#Aktuell
+meta#:#meta_copyright_outdated#:#Veraltet
+meta#:#meta_copyright_show_usages#:#Verwendung anzeigen
 meta#:#meta_copyright_status#:#Status
 meta#:#meta_copyright_sub_items#:#Sub Items
-meta#:#meta_copyright_usage#:#Usage
+meta#:#meta_copyright_usage#:#Verwendung
 meta#:#meta_cost#:#Kosten
 meta#:#meta_coverage#:#Anwendungsbereich
 meta#:#meta_cp_own#:#Eigene Angabe:
@@ -11806,7 +11824,7 @@ meta#:#meta_oer_blocked_info#:#Wird nicht automatisch als Open Educational Resou
 meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
 meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter den/der ausgewählten Lizenz veröffentlicht sind, werden in die OER-Kategorie verknüpft.
 meta#:#meta_oer_harvester#:#OER Harvester
-meta#:#meta_oer_harvester_desc#:#OER Harvester
+meta#:#meta_oer_harvester_desc#:#Scannt alle Dateiobjekte im Magazin auf ihre Lizenz. Der OER-Harvester fügt alle Ressourcen unter ausgewählten CC-Lizenzen der in den Cron-Job-Einstellungen definierten Kategorie hinzu. Damit dieser Cronjob Ergebnisse liefern kann, muss die Copyright-Auswahl in der Metadaten-Administration aktiviert und konfiguriert sein.
 meta#:#meta_oer_target#:#Kategorie für OER-Freigaben
 meta#:#meta_operating_system#:#Betriebssystem
 meta#:#meta_or_composite#:#... oder zusammengesetzt ...
@@ -11830,7 +11848,7 @@ meta#:#meta_resource#:#Ressource
 meta#:#meta_revised#:#Überarbeitete Fassung
 meta#:#meta_rights#:#Rechte und Lizenzen
 meta#:#meta_role#:#Rolle
-meta#:#meta_save_order#:#Save Order
+meta#:#meta_save_order#:#Reihenfolge speichern
 meta#:#meta_school#:#Schule
 meta#:#meta_scriptwriter#:#Werbetexter
 meta#:#meta_section#:#Bereich
@@ -11984,6 +12002,7 @@ mob#:#mob_mime_type_not_allowed#:#Die folgenden Mime-Typen sind am Zielort nicht
 mob#:#mob_multi_srt_files#:#SRT-Dateien
 mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
 mob#:#mob_object#:#Objekt
+mob#:#mob_please_select_pool#:#Please select a media pool.
 mob#:#mob_really_delete_srt#:#Möchten Sie wirklich die folgenden srt-Dateien löschen?
 mob#:#mob_srt_files_deleted#:#Dateien für Untertitel wurden gelöscht.
 mob#:#mob_srt_not_allowed#:#Dateien vom Typ .srt können aktuell nicht hochgeladen werden. Um die Funktion zu aktivieren, muss diese durch einen Systemadministrator entsprechend konfiguriert werden (Administration > Datei-Services).
@@ -12162,17 +12181,21 @@ noti#:#noti_activate_notification#:#Benachrichtigung aktivieren
 noti#:#noti_deactivate_notification#:#Benachrichtigung deaktivieren
 noti#:#noti_notification_activated#:#Benachrichtigungen sind aktiviert
 noti#:#noti_notification_deactivated#:#Benachrichtigungen sind deaktiviert
-notification_adm#:#enable_osd#:#Popup-Screen Benachrichtigungen aktivieren
-notification_adm#:#enable_osd_desc#:#Wenn aktiviert, werden Benutzer durch ein Popup über neue Benachrichtigungen informiert.
-notification_adm#:#notification_settings#:#Benachrichtigungseinstellungen
-notification_adm#:#osd_delay#:#Anzeigeverzögerung
-notification_adm#:#osd_delay_desc#:#Verzögerung der Anzeige der Benachrichtigungen in Millisekunden
-notification_adm#:#osd_interval#:#Abfrageintervall
-notification_adm#:#osd_interval_desc#:#Abfrageintervall für Nachrichten in Sekunden.Eine geringere Zeit ermöglicht zeitnähere Benachrichtigungen, erhöht aber die Serverlast.
-notification_adm#:#osd_vanish#:#Anzeigedauer
-notification_adm#:#osd_vanish_desc#:#Dauer der Anzeige von Benachrichtigungen in Sekunden
-notification_adm#:#play_sound#:#Ton abspielen
-notification_adm#:#play_sound_desc#:#Ton abspielen bei Erhalt einer neuen Benachrichtigung.
+notifications_adm#:#enable_osd#:#Popup Benachrichtigungen aktivieren
+notifications_adm#:#enable_osd_desc#:#Wenn aktiviert, werden Benutzer durch ein Popup über neue Benachrichtigungen informiert.
+notifications_adm#:#notification_settings#:#Benachrichtigungseinstellungen
+notifications_adm#:#osd_delay#:#Anzeigeverzögerung
+notifications_adm#:#osd_delay_desc#:#Verzögerung der Anzeige der Benachrichtigungen in Millisekunden
+notifications_adm#:#osd_error_presentation_time_too_small#:#Die Anzeigedauer muss mindestens 1000 Millisekunden betragen.
+notifications_adm#:#osd_error_refresh_interval_smaller_than_delay_and_vanish_combined#:#Das Abfrageintervall muss größer sein als die Summe der Anzeigedauer und der Anzeigeverzögerung.
+notifications_adm#:#osd_error_refresh_interval_too_small#:#Das Abfrageintervall muss mindestens 3000 Millisekunden betragen.
+notifications_adm#:#osd_interval#:#Abfrageintervall
+notifications_adm#:#osd_interval_desc#:#Abfrageintervall für Nachrichten in Millisekunden.Eine geringere Zeit ermöglicht zeitnähere Benachrichtigungen, erhöht aber die Serverlast.
+notifications_adm#:#osd_play_sound#:#Ton abspielen
+notifications_adm#:#osd_play_sound_desc#:#Ton abspielen bei Erhalt einer neuen Benachrichtigung.
+notifications_adm#:#osd_settings#:#Popup Benachrichtigungen
+notifications_adm#:#osd_vanish#:#Anzeigedauer
+notifications_adm#:#osd_vanish_desc#:#Dauer der Anzeige von Benachrichtigungen in Millisekunden
 obj#:#cont_filter_empty#:#Bitte nutzen Sie den Filter zur Anzeige von Objekten.
 obj#:#cont_skll_published#:#Alle Kompetenzzuweisungen wurden veröffentlicht.
 obj#:#cont_skll_published_some_not#:#Alle gegebenen Kompetenzzuweisungen wurden veröffentlicht. Zu einigen Benutzern konnten keine Kompetenzen veröffentlicht werden, da keine Zuweisungen vorlagen.
@@ -12211,7 +12234,7 @@ obj#:#obj_show_header_actions#:#Aktionen anzeigen
 obj#:#obj_show_title_and_icon#:#Titel und Icon anzeigen
 obj#:#obj_target_location#:#Zielordner
 obj#:#obj_tile_image#:#Kachelbild
-obj#:#obj_tile_image_info#:#Das Kachelbild wird genutzt, wenn im übergeordneten Container die Kachelansicht gewählt wurde. Um Performanzprobleme zu verhindern, laden Sie nur Bilder mit einer Auflösung von 72 dpi und einer Breite von weniger als 1000 px hoch. Ansonsten kommt es möglicherweise zu einem verzögerten Seitenaufbau.
+obj#:#obj_tile_image_info#:#Das Kachelbild wird genutzt, um dieses Objekt zu repräsentieren,, wenn im übergeordneten Container die Kachelansicht gewählt wurde. Um Performanzprobleme zu verhindern, laden Sie nur Bilder mit einer Auflösung von 72 dpi und einer Breite von weniger als 1000 px hoch.
 obj#:#obj_tool_booking#:#Ressourcen
 obj#:#obj_tool_booking_info#:#Buchungspools nutzen um Ressourcen zu buchen.
 obj#:#obj_tool_ext_mail_subject_prefix#:#Prefix E-Mail-Betreff
@@ -12531,6 +12554,7 @@ poll#:#poll_voting_period_full_info#:#Abstimmung von %s bis %s
 poll#:#poll_voting_period_info#:#Ende der Abstimmung: %s
 poll#:#poll_voting_period_limited#:#Zeitlich begrenzte Stimmperiode
 prg#:#access_ctr_by_orgu_position#:#Berechtigungen anhand Positionen in Organisationseinheiten
+prg#:#active_only#:#nur aktive
 prg#:#add_automembership_source#:#Automatismus hinzufügen
 prg#:#add_category#:#Kategorie hinzufügen
 prg#:#assignment_date#:#Beitrittsdatum
@@ -12552,8 +12576,11 @@ prg#:#edit_participants#:#Zuweisungen bearbeiten
 prg#:#error_updating_deadline#:#Ein Fehler ist während der Aktualisierung von 'Stichtag' aufgetreten.
 prg#:#error_updating_expire_date#:#Ein Fehler ist während der Aktualisierung von 'Ablauf Qualifikation' aufgetreten.
 prg#:#form_msg_file_wrong_file_type#:#Falscher Dateityp.
+prg#:#header_update_current_plan#:#Wollen Sie die individuellen Einstellungen der ausgewählten Zuweisungen wirklich zurücksetzen?
+prg#:#inactive_only#:#nur inaktive
 prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>die Gültigkeit ihrer Qualifikation am Studienprogramm '%s' läuft bald ab. Bitte melden Sie sich erneut an.
 prg#:#info_to_re_assign_mail_subject#:#Erinnerung zur erneuten Teilnahme am Studienprogramm
+prg#:#invalidated#:#Gültigkeit
 prg#:#label_crs#:#Kursname
 prg#:#label_grp#:#Gruppenname
 prg#:#label_role#:#Rollenname
@@ -12589,6 +12616,8 @@ prg#:#msg_update_individual_plan#:#Erfolgreich aktualisiert (%s)
 prg#:#msg_update_individual_plan_failed#:#Fehler beim Aktualisieren:
 prg#:#no_srctype_or_id#:#Id und Typ dürfen nicht leer sein.
 prg#:#not_a_valid_cat_id#:#%s entspricht keiner Kategorie.
+prg#:#optgrp_label_restart#:#Wiederaufnahme
+prg#:#optgrp_label_validity#:#Ablauf
 prg#:#orgu#:#Organisationseinheit
 prg#:#percentage#:#%
 prg#:#prg_access_by_orgu#:#Zugriffsregelungen nach Organisationseinheiten
@@ -12613,6 +12642,7 @@ prg#:#prg_can_not_manage_in_repo#:#Sie dürfen dieses Studienprogramm nicht verw
 prg#:#prg_cancel#:#Abbrechen
 prg#:#prg_cancel_tree_order#:#Reihenfolge des Baums verwerfen.
 prg#:#prg_changed_by#:#Geändert durch
+prg#:#prg_completed_by_subnodes#:#Unterprogramm(e)
 prg#:#prg_completion_by#:#Abgeschlossen durch
 prg#:#prg_completion_date#:#Abschlussdatum
 prg#:#prg_confirm_delete#:#Löschen
@@ -12620,18 +12650,20 @@ prg#:#prg_create_new_leaf#:#Neuen Kurslink hinzufügen.
 prg#:#prg_create_new_node#:#Neues Studienprogramm hinzufügen
 prg#:#prg_cron_job_configuration#:#Automatische Mails
 prg#:#prg_custom_plan#:#Individueller Plan
-prg#:#prg_dash_label_finish_until#:#Zu erledigen bis
-prg#:#prg_dash_label_gain#:#Aktueller Stand
-prg#:#prg_dash_label_minimum#:#Minimales Ziel
-prg#:#prg_dash_label_restart_from#:#Neubeginn ab
-prg#:#prg_dash_label_status#:#Status
+prg#:#prg_dash_label_finish_until#:#Zu erledigen bis:
+prg#:#prg_dash_label_gain#:#Aktueller Stand:
+prg#:#prg_dash_label_minimum#:#Minimales Ziel:
+prg#:#prg_dash_label_restart_from#:#Neubeginn ab:
+prg#:#prg_dash_label_status#:#Status:
 prg#:#prg_dash_label_unreachable#:#- Ziel kann nicht erreicht werden
-prg#:#prg_dash_label_valid#:#Gültigkeit
+prg#:#prg_dash_label_valid#:#Gültigkeit:
 prg#:#prg_deadline#:#Stichtag
 prg#:#prg_deadline_date#:#Bearbeitungszeitraum endet an festem Stichtag
 prg#:#prg_deadline_date_desc#:#Das Programm muss bis zu einem Stichtag abgeschlossen werden.
+prg#:#prg_deadline_date_label#:#Bearbeitung bis
 prg#:#prg_deadline_period#:#Bearbeitungszeitraum endet individuell
 prg#:#prg_deadline_period_desc#:#Das Programm muss innerhalb des angegebenen Zeitraums (in Tagen) abgeschlossen werden.
+prg#:#prg_deadline_period_label#:#Tage nach Zuweisung
 prg#:#prg_deadline_settings#:#Bearbeitungszeitraum
 prg#:#prg_delete_confirmation#:#Möchten Sie die ausgewählten Einträge wirklich löschen?
 prg#:#prg_delete_failure#:#Löschen fehlgeschlagen.
@@ -12651,6 +12683,7 @@ prg#:#prg_mail_context_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und
 prg#:#prg_mail_context_title#:#Studienprogramm: Mail an Mitglieder
 prg#:#prg_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Inhalt des Studienprogramms zuzugreifen:
 prg#:#prg_manage#:#Verwalten
+prg#:#prg_manage_members#:#Zuweisungen eines Studienprogramms bearbeiten
 prg#:#prg_manage_members_short#:#Zuweisungen verwalten
 prg#:#prg_manual_status#:#Manueller Status
 prg#:#prg_mark_accredited#:#akkreditieren
@@ -12697,6 +12730,7 @@ prg#:#prg_quali_still_valid#:#Qualifikation gültig
 prg#:#prg_remove_user#:#Zuweisung löschen
 prg#:#prg_remove_user_success#:#Die Zuweisung wurde entfernt.
 prg#:#prg_remove_users_not_possible#:#Ausgewählte Benutzer können nicht entfernt werden.
+prg#:#prg_remove_users_partial_success#:#Zuweisungen (teilweise) entfernt.
 prg#:#prg_remove_users_partitial_success#:#Ausgewählte Benutzer wurden teilweise entfernt.
 prg#:#prg_remove_users_success#:#Ausgewählte Benutzer wurden entfernt.
 prg#:#prg_restart_assignments_temporal_progress_desc#:#Bucht Teilnehmer erneut auf Studienprogramme wenn Wiederholungszeitraum beginnt.
@@ -12723,6 +12757,7 @@ prg#:#prg_status_byline#:#Verwenden Sie den Status, um zu steuern, ob dieses Pro
 prg#:#prg_status_completed#:#Abgeschlossen
 prg#:#prg_status_draft#:#Entwurf
 prg#:#prg_status_failed#:#nicht bestanden
+prg#:#prg_status_hide_irrelevant#:#Irrelevante ausblenden
 prg#:#prg_status_in_progress#:#In Bearbeitung
 prg#:#prg_status_not_relevant#:#Nicht relevant
 prg#:#prg_status_outdated#:#Abgelaufen
@@ -12744,14 +12779,14 @@ prg#:#prg_type_msg_missing_title#:#Titel kann nicht leer sein.
 prg#:#prg_type_msg_missing_title_default_language#:#Es muss eine Standardsprache und ein Titel für die Standardsprache gesetzt sein.
 prg#:#prg_type_msg_unable_delete#:#Konnte Typ nicht löschen, da er bei folgenden Studienprogrammen verwendet wird: %s
 prg#:#prg_unmark_accredited#:#Akkreditierung entfernen
-prg#:#prg_unmark_accredited_multi_success#:#Ausgewählte Benutzer als nicht akkreditiert markiert.
+prg#:#prg_unmark_accredited_multi_success#:#Ausgewählte Benutzer als nicht akkreditiert markiert
 prg#:#prg_unmark_accredited_success#:#Die Akkreditierung wurde erfolgreich entfernt.
-prg#:#prg_update_from_current_plan#:#Aus dem aktuellen Plan aktualisieren.
+prg#:#prg_update_from_current_plan#:#Aus dem aktuellen Plan aktualisieren
 prg#:#prg_update_from_current_plan_not_possible#:#Aus dem aktuellen Plan aktualisieren ist nicht möglich.
 prg#:#prg_update_from_current_plan_partitial_success#:#Aus dem aktuellen Plan aktualisieren teilweise abgeschlossen.
 prg#:#prg_update_from_current_plan_success#:#Aus dem aktuellen Plan aktualisieren ist erfolgreich.
 prg#:#prg_update_from_plan_successful#:#Die Aktualisierung aus dem aktuellen Plan war erfolgreich.
-prg#:#prg_update_progress_description#:#Setzt Status von 'in Bearbeitung' auf 'Nicht bestanden' wenn Ende der Bearbeitungsfrist erreicht.
+prg#:#prg_update_progress_description#:#Setzt Status von „in Bearbeitung“ auf „Nicht bestanden“, wenn das Ende der Bearbeitungsfrist erreicht ist.
 prg#:#prg_update_progress_title#:#Zeitlich begrenzte Bearbeitungszeiträume von Studienprogrammen
 prg#:#prg_update_successful#:#Änderungen erfolgreich gespeichert!
 prg#:#prg_user_not_restarted_desc#:#Sendet Benutzern eine Warnmail, wenn eine Qualifikation an einem Studienprogramm ausläuft und diese das Programm noch nicht neu gestartet haben.
@@ -12766,12 +12801,14 @@ prg#:#prg_validity_of_qualification_limit#:#Ablauf der Gültigkeit
 prg#:#prg_validity_of_qualification_restart#:#Wiederaufnahme
 prg#:#prg_view#:#Anzeigen
 prg#:#prgr_may_not_create_circular_reference#:#Das Verlinken dieses Programms ist hierher nicht möglich, da das beinhaltende Programm darin erhalten ist.
+prg#:#qualification_prg_finalization_error#:#Ein Abschluss des Qualifizierungsprogramms ist für den/die zugewiesene*n Benutzer*in bei den jetzigen Einstellungen nicht möglich.
 prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>Sie wurden erneut dem Studienprogramm '%s' als Teilnehmer zugeordnet.
 prg#:#re_assigned_mail_subject#:#Erneute Teilnahme am Studienprogramm
 prg#:#restart_information#:#Wiederaufnahme (in Tagen) vor Ablauf der Qualifikation
 prg#:#restart_period#:#Automatische Wiederaufnahme vor Ablauf der Qualifikation
-prg#:#restart_period_desc#:#Tage vor Ablauf der Qualifikation
+prg#:#restart_period_desc#:#Wiederaufnahme (in Tagen) vor Ablauf der Qualifikation
 prg#:#restart_period_info#:#Automatische Wiederaufnahme vor Ablauf der Qualifikation in Tagen
+prg#:#restart_period_label#:#Tage vor Ablauf der Qualifikation
 prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>der Stichtag für das Abschließen des Studienprogramm '%s' ist bald ereicht.
 prg#:#risky_to_fail_mail_subject#:#Erinnerung, das der Stichtag am Studienprogramm bald ereicht ist
 prg#:#rol#:#Rolle
@@ -12798,14 +12835,18 @@ prg#:#status_unchanged#:#Status unverändert
 prg#:#update_deadline#:#Stichtag erfolgreich aktualisiert.
 prg#:#update_expire_date#:#Ablauf Qualifikation wurde erfolgreich aktualisiert.
 prg#:#updated_from_settings#:#Aus Einstellungen aktualisiert
+prg#:#usr_active#:#Benutzer
 prg#:#validity_qualification_date#:#Ablauf der Qualifikation zu einem Stichtag
 prg#:#validity_qualification_date_desc#:#Datum des Ablaufs der Qualifikation
 prg#:#validity_qualification_period#:#Ablauf der Qualifikation - individuell
-prg#:#validity_qualification_period_desc#:#Tage nach erfolgreicher Teilnahme
+prg#:#validity_qualification_period_desc#:#Die Qualifikation ist nach erfolgreicher Teilnahme für einen Zeitraum (in Tagen) gültig
 prg#:#validity_updated#:#Gültigkeit aktualisiert
+prg#:#vq_date#:#Ablaufdatum
 prg#:#vq_date_info#:#Ablauf der Qualifikation zu einem Stichtag
+prg#:#vq_date_label#:#Ablaufdatum
 prg#:#vq_information#:#Gültigkeit einer erreichten Qualifikation
 prg#:#vq_period_info#:#Die Qualifikation ist nur eine begrenzte Anzahl Tage gültig
+prg#:#vq_period_label#:#Tage nach erfolgreicher Teilnahme
 prg#:#warning#:#Warnung!
 prg#:#will_not_modify_deadline_on_successful_progress#:#keine Änderung, da bereits abgeschlossen oder akkreditiert
 prg#:#will_not_modify_irrelevant_progress#:#keine Änderung, da irrelevant
@@ -13893,6 +13934,10 @@ rbac#:#tags_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#tags_read#:#Lesezugriff zu den Tagging-Einstellungen
 rbac#:#tags_visible#:#Tagging-Einstellungen sind sichtbar
 rbac#:#tags_write#:#Tagging-Einstellungen bearbeiten
+rbac#:#tala_edit_permission#:#Rechteeinstellungen in der Gesprächsvorlagen-Administration ändern
+rbac#:#tala_read#:#Lesezugriff auf Gesprächsvorlagen-Administration
+rbac#:#tala_visible#:#Gesprächsvorlagen-Administration ist sichtbar
+rbac#:#tala_write#:#Gesprächsvorlagen anlegen und bearbeiten
 rbac#:#taxs_edit_permission#:#Rechteeinstellungen für die Taxonomie-Administration ändern
 rbac#:#taxs_read#:#Lesezugriff auf Taxonomie-Administration
 rbac#:#taxs_visible#:#Taxonomie-Administration ist sichtbar
@@ -15772,7 +15817,7 @@ survey#:#survey_cancel_preview#:#Vorschau abbrechen
 survey#:#survey_cannot_preview_survey#:#Vorschau nicht verfügbar
 survey#:#survey_clipboard_notice#:#Es befinden sich Fragen in der Zwischenablage. Wählen Sie ein Ziel oder leeren Sie die Zwischenablage.
 survey#:#survey_code#:#Zugangsschlüssel
-survey#:#survey_code_delete_sure#:#Wollen Sie wirklich die folgenden Zugangsschlüssel löschen?
+survey#:#survey_code_delete_sure#:#Wollen Sie wirklich die folgenden ungenutzten Zugangsschlüssel löschen?
 survey#:#survey_code_url#:#URL für direkten Zugriff
 survey#:#survey_code_url_name#:#URL <small>(Benutzen Sie die rechte Maustaste, um die URL zu kopieren)</small>
 survey#:#survey_code_used#:#Der Zugangsschlüssel wurde ...
@@ -15867,7 +15912,7 @@ survey#:#survey_results_anonymized_info#:#Im Reiter 'Ergebnisse' werden die Name
 survey#:#survey_results_finished#:#Umfrage beendet
 survey#:#survey_results_not_started#:#Umfrage nicht begonnen
 survey#:#survey_results_personalized#:#Mit Namen
-survey#:#survey_results_personalized_info#:#Im Reiter 'Ergebnisse' werden Teilnehmer namentlich gelistet und ihre Antworten angezeigt. Alle Benutzer mit Zugang zu diesem Reiter können einsehen, wer welche Antworten gegeben hat.
+survey#:#survey_results_personalized_info#:#Im Reiter 'Ergebnisse' werden Teilnehmer namentlich gelistet und ihre Antworten angezeigt. Alle Benutzer mit vollem Zugang zu diesem Reiter können einsehen, wer welche Antworten gegeben hat. Auch Benutzer mit eingeschränktem Zugang zum Reiter können bei niedriger Teilnehmeranzahl einzelne Antworten Teilnehmern zuordnen.
 survey#:#survey_results_started#:#Umfrage begonnen
 survey#:#survey_results_tutor_body#:#Im Anhang finden Sie die Ergebnisse der folgenden Umfrage
 survey#:#survey_results_tutor_subject#:#Ergebnisse der Umfrage "%s"
@@ -15979,6 +16024,7 @@ survey#:#svy_page_error#:#Beim Beantworten einer Frage ist ein Fehler aufgetrete
 survey#:#svy_page_errors#:#Beim Beantworten mehrerer Fragen sind Fehler aufgetreten. Die Fehlermeldungen finden Sie bei den betroffenen Fragen!
 survey#:#svy_participant#:#Teilnehmer
 survey#:#svy_participation#:#Teilnahme
+survey#:#svy_please_select_unused_codes#:#Bitte wählen Sie zumindest einen ungenutzten Zugangsschlüssel aus.
 survey#:#svy_print_hide_labels#:#Labels ausblenden
 survey#:#svy_print_show_labels#:#Labels anzeigen
 survey#:#svy_privacy_info#:#Persönliche Daten
@@ -16017,6 +16063,7 @@ survey#:#svy_skl_comp_assignm_not_supported#:#Die Zuordnung von Kompetenzen ist 
 survey#:#svy_sum_score#:#Skalenpunktesumme
 survey#:#svy_type_of_rater#:#Art Feedback-Geber
 survey#:#svy_view_own_results#:#Eigene Antworten einsehen
+survey#:#svy_wrong_or_expired_code#:#Der angegebene Zugangsschlüssel ist leider nicht gültig oder abgelaufen. Bitte versuchen Sie es erneut.
 survey#:#text_maximum_chars_allowed#:#Bitte geben Sie nicht mehr als ein Maximum von %s Zeichen ein. Alle Zeichen, die darüber hinaus gehen, werden automatisch gelöscht.
 survey#:#text_question_not_filled_out#:#Sie müssen alle Antwortfelder ausfüllen!
 survey#:#unfold#:#Fragenblock auflösen
@@ -16058,12 +16105,12 @@ svy#:#svy_status#:#Status
 svy#:#svy_status_finished#:#Beendet
 svy#:#svy_status_in_progress#:#In Bearbeitung
 svy#:#svy_status_invited#:#Eingeladen
-svy#:#svy_user_added_360_appraisee#:#360°-Umfrage '%1'
-svy#:#svy_user_added_360_appraisee_close_mail#:#Die 360°-Umfrage wurde für Ihre Feedback-Geber geschlossen.
-svy#:#svy_user_added_360_appraisee_mail#:#Sie wurden der Umfrage als Feedback-Nehmer hinzugefügt.
-svy#:#svy_user_added_360_rater#:#360°-Umfrage '%1'
-svy#:#svy_user_added_360_rater_mail#:#Sie wurden als Feedback-Geber hinzugefügt.
-svy#:#svy_user_added_360_rater_reminder_mail#:#Bitte bewerten Sie noch die folgenden Feedback-Nehmer:
+svy#:#svy_user_added_appraisee#:#Umfrage '%1'
+svy#:#svy_user_added_appraisee_close_mail#:#Die Umfrage wurde für Ihre Feedback-Geber geschlossen.
+svy#:#svy_user_added_appraisee_mail#:#Sie wurden der Umfrage als Feedback-Nehmer hinzugefügt.
+svy#:#svy_user_added_rater#:#Umfrage '%1'
+svy#:#svy_user_added_rater_mail#:#Sie wurden als Feedback-Geber hinzugefügt.
+svy#:#svy_user_added_rater_reminder_mail#:#Bitte bewerten Sie noch die folgenden Feedback-Nehmer:
 svy#:#svy_user_not_found#:#Es wurde kein entsprechender Benutzer gefunden.
 svy#:#svy_users_invited#:#Die Benutzer wurden eingeladen.
 sysc#:#sysc_action_list_tree#:#Dump der Baumstruktur erzeugen

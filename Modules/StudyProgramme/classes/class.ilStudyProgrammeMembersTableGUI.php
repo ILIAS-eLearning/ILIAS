@@ -405,8 +405,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     public function initFilter(): void
     {
         foreach ($this->custom_filter->getItemConfig() as $conf) {
-            [$id, $type, $options] = $conf;
-            $item = $this->addFilterItemByMetaType($id, $type);
+            [$id, $type, $options, $caption] = $conf;
+            $item = $this->addFilterItemByMetaType($id, $type, false, $caption);
             if ($options) {
                 $item->setOptions($options);
             }

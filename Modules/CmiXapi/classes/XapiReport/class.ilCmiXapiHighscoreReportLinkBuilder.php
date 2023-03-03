@@ -42,10 +42,11 @@ class ilCmiXapiHighscoreReportLinkBuilder extends ilCmiXapiAbstractReportLinkBui
 
         $obj = $this->getObj();
         $id = null;
-        if ($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_GENERIC) {
+        $cmix = ilObject::_lookupType($this->getObjId()) == 'cmix';
+        if ($cmix && $obj->getContentType() == ilObjCmiXapi::CONT_TYPE_GENERIC) {
             $id = '$statement.actor.mbox';
         }
-        if ($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5 && !$obj->isMixedContentType()) {
+        if ($cmix && $obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5 && !$obj->isMixedContentType()) {
             $id = '$statement.actor.account.name';
         }
         $pipeline[] = ['$group' => [
@@ -77,7 +78,7 @@ class ilCmiXapiHighscoreReportLinkBuilder extends ilCmiXapiAbstractReportLinkBui
         ];
 
         $obj = $this->getObj();
-        if (($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_GENERIC) || $obj->isMixedContentType()) {
+        if ((ilObject::_lookupType($this->getObjId()) == 'cmix' && $obj->getContentType() == ilObjCmiXapi::CONT_TYPE_GENERIC) || $obj->isMixedContentType()) {
             $stage['$or'] = $this->getUsersStack();
         }
 

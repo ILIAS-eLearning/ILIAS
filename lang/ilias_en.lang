@@ -1372,6 +1372,7 @@ assessment#:#tst_count_correct_solutions#:#Only Correct and Complete Answers Sco
 assessment#:#tst_count_correct_solutions_desc#:#Participants score either the maximum number of points for a fully correct and complete answer or 0 points in every other case. This is also valid for questions that define points for partial answers.
 assessment#:#tst_count_partial_solutions#:#Incomplete or Partly Wrong Answers Score Points
 assessment#:#tst_count_partial_solutions_desc#:#When a question defines points for partial answers, points for correctly provided partial answers are added up: Participants can score points for incomplete or partly wrong answers on these questions.
+assessment#:#tst_current_run_no_longer_valid#:#Your current test run is no longer valid. <br>It was probably completed already or finished by a tutor.
 assessment#:#tst_default_settings#:#Personal Default Settings
 assessment#:#tst_defaults_applied#:#The selected test defaults have been applied.
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS could not apply the selected test defaults to this test! Maybe this test already contains participant data sets.
@@ -1447,6 +1448,8 @@ assessment#:#tst_general_properties#:#General Settings
 assessment#:#tst_header_participant#:#Your Answer:
 assessment#:#tst_header_solution#:#Best Solution:
 assessment#:#tst_heading_scoring#:#Scoring
+assessment#:#tst_hide_pagecontents#:#Hide page content
+assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.													  
 assessment#:#tst_hide_side_list#:#Hide List of Questions
 assessment#:#tst_highscore_achieved_ts#:#Date
 assessment#:#tst_highscore_achieved_ts_description#:#A column containing the test date will be included in the ranking.
@@ -1797,7 +1800,10 @@ assessment#:#tst_results_access_setting#:#Point in Time
 assessment#:#tst_results_aggregated#:#Aggregated Test Results
 assessment#:#tst_results_back_introduction#:#Back to Introductory Message
 assessment#:#tst_results_back_overview#:#Back to Results Overview
-assessment#:#tst_results_details_options#:#Further Details to be Included in Test Results
+assessment#:#tst_results_details_options#:#Further Options
+assessment#:#tst_results_gamification#:#Gamification
+assessment#:#tst_results_grading_opt_show_details#:#Show detailed test results
+assessment#:#tst_results_grading_opt_show_details_desc#:#In addition to the summary test result, a "Detailed Results" action is provided. The "Detailed test results" table shows the titles of the questions and the points achieved for each run. The content of the table can be further supplemented in the "Further options" section.													
 assessment#:#tst_results_grading_opt_show_mark#:#Show Resulting Mark
 assessment#:#tst_results_grading_opt_show_mark_desc#:#The resulting mark will be appended to the summary test result. Participants can access their test results within the ‘Results’-tab.
 assessment#:#tst_results_grading_opt_show_status#:#Show ‘Passed’ / ‘Failed’ Status
@@ -1858,7 +1864,9 @@ assessment#:#tst_show_solution_answers_only_desc#:#If is selected, the ILIAS con
 assessment#:#tst_show_solution_compare#:#Show Best Solution in ‘Detailed Results’
 assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the 'Detailed Results' that can be accessed via the 'Show Test Results'-button on the 'Info'-tab. It will not be displayed in the printable 'List of Answers' even though the setting is made here.
 assessment#:#tst_show_solution_details#:#Scored Answers of Participant
-assessment#:#tst_show_solution_details_desc#:#As an add-on  to the ‘Table of Detailed Test Results’, the participant get a link to a page for each question. This linked page contains the question, the answer provided by the participant, information on whether this was the correct answer and points scored by this answer.
+assessment#:#tst_show_solution_details_desc#:#The ‘Table of Detailed Test Results’ will be added by a list of answers.
+assessment#:#tst_show_solution_details_singlepage#:#Scored Answers on single pages
+assessment#:#tst_show_solution_details_singlepage_desc#:#Participants can access each question individually and see if their answers were correct and how many points they scored.
 assessment#:#tst_show_solution_feedback#:#Feedback
 assessment#:#tst_show_solution_feedback_desc#:#Feedback related to the answers provided by the participant is displayed. Please mind  that this option becomes effective only if you have activated ‘Scored Answers of Participant’  and feedback was prepared along with the questions in the first place.
 assessment#:#tst_show_solution_printview#:#Additional ‘List of Answers’ for Printing
@@ -2024,6 +2032,7 @@ auth#:#auth_info_migrate#:#If you have already an ILIAS account, enter username 
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 auth#:#auth_login_editor#:#Loginscreen Editor
 auth#:#auth_oidc#:#OpenID Connect
+auth#:#auth_oidc_failed#:#Login via OpenID Connect failed
 auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect
 auth#:#auth_oidc_mapping_table#:#Mapping ILIAS User Information to OpenID Connect Attributes
 auth#:#auth_oidc_profile#:#User Profile Mapping
@@ -2039,6 +2048,7 @@ auth#:#auth_oidc_settings_custom_session_duration_option#:#Duration of Own Sessi
 auth#:#auth_oidc_settings_custom_session_duration_type#:#Session Duration Settings
 auth#:#auth_oidc_settings_default_role#:#Role Assignment
 auth#:#auth_oidc_settings_default_role_info#:#Please select a global role for the ILIAS user accounts that will be created for users who have authenticated themselves using OpenID Connect.
+auth#:#auth_oidc_settings_discovery_url#:#Discovery URL of the provider
 auth#:#auth_oidc_settings_img#:#Image
 auth#:#auth_oidc_settings_img_file_info#:#Upload an image that you would like to have shown on the login page. The image will link automatically to the OpenID Connect login script.
 auth#:#auth_oidc_settings_invalid_scopes#:#The following values are not valid Scopes: %s
@@ -2063,6 +2073,10 @@ auth#:#auth_oidc_settings_txt_val_info#:#Enter a text to be displayed on the log
 auth#:#auth_oidc_settings_user_attr#:#Attribute name of user accounts
 auth#:#auth_oidc_settings_user_sync#:#Synchronise Automatically
 auth#:#auth_oidc_settings_user_sync_info#:#Users who do not have an ILIAS account, but have successfully authenticated themselves using OpenID Connect, will have an ILIAS account created for them automatically.
+auth#:#auth_oidc_settings_validate_scope_custom#:#Use custom OpenID Connect Discovery url
+auth#:#auth_oidc_settings_validate_scope_default#:#Use :Provider-URL:/.well-known/openid-configuration
+auth#:#auth_oidc_settings_validate_scope_none#:#Do not validate Scopes on saving
+auth#:#auth_oidc_settings_validate_scopes#:#Validate Scopes upon saving
 auth#:#auth_oidc_update_field_info#:#Update Automatically
 auth#:#auth_oidc_update_role_info#:#Only Synchronise Automatically the First Time a User Logs In.
 auth#:#auth_oidconnect#:#OpenID Connect
@@ -2501,6 +2515,7 @@ book#:#book_no_preferences_for_you#:#No preferences have been stored for you.
 book#:#book_not#:#Not
 book#:#book_not_enough_preferences#:#You selected not enough preferences. The preferences have not been saved.
 book#:#book_notification#:#Send Reservation Notifications
+book#:#book_notification_cron_not_active#:#Note: The corresponding cron job "Send Reservation Notifications" is currently not activated.
 book#:#book_notification_info#:#Send a list of reservations of the next day to users (own reservations) and admins (if activated).
 book#:#book_nr_of_preferences#:#Number of Preferences
 book#:#book_nr_of_preferences_info#:#Number of preferences each participant can indicate.
@@ -2512,7 +2527,7 @@ book#:#book_objects_available#:#Objects available %s
 book#:#book_open#:#Open Booking Pool
 book#:#book_overall_limit#:#Limit number of bookings
 book#:#book_overall_limit_warning#:#You have reached the maximum number of bookings.
-book#:#book_participant_already_assigned#:#Participant(s) already assigned.
+book#:#book_participant_already_assigned#:#One or more participants have already been assigned.
 book#:#book_participant_assigned#:#Participant(s) assigned
 book#:#book_period#:#Period
 book#:#book_pool_added#:#A booking pool has been added.
@@ -2789,7 +2804,7 @@ chatroom#:#banned#:#You have been banned from this chat room
 chatroom#:#bans#:#Bans
 chatroom#:#chat_address#:#Address
 chatroom#:#chat_anonymous_not_allowed#:#Please login to use the chat.
-chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client id has to be <b>unique</b>.
+chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client name has to be <b>unique</b>.
 chatroom#:#chat_ban#:#Ban
 chatroom#:#chat_broadcast_typing#:#Broadcast Typing
 chatroom#:#chat_broadcast_typing_info#:#If enabled, your typing will be broadcasted to other participants of a conversation or chat room.
@@ -3421,6 +3436,7 @@ common#:#additional_info#:#Additional Information
 common#:#address#:#Address
 common#:#admin_force_noti#:#Notification active
 common#:#administrate_users#:#Local User Administration
+common#:#administrate_users_headline#:#Local ILIAS Accounts of this Category
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Adopt
@@ -3624,7 +3640,6 @@ common#:#catr_add#:#Add Category Link
 common#:#catr_edit_info#:#Please choose one category for creating a new link.
 common#:#catr_new#:#Create Category Link
 common#:#catr_settings#:#Category Link Settings
-common#:#cc#:#CC
 common#:#certificate#:#Certificate
 common#:#certificate_file_already_exists_error#:#The certificate file already exists in the file system.
 common#:#certificate_file_input_output_error#:#The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator.
@@ -3690,6 +3705,7 @@ common#:#clientlist_public_access#:#Public Access
 common#:#clientlist_start_page#:#Start page
 common#:#clipboard#:#Clipboard
 common#:#close#:#Close
+common#:#cmix#:#Object xAPI/cmi5
 common#:#cnt_new#:#(%s New)
 common#:#collapse#:#Collapse
 common#:#collapse_all#:#Collapse All
@@ -4135,6 +4151,7 @@ common#:#gender#:#Salutation
 common#:#gender_f#:#Ms.
 common#:#gender_m#:#Mr.
 common#:#gender_n#:#Not stated
+common#:#general#:#General
 common#:#general_settings#:#General Settings
 common#:#generate#:#Generate
 common#:#ghostscript_not_configured#:#Ghostscript is not configured. Please open the <a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a> to configure it.
@@ -4491,8 +4508,9 @@ common#:#lso_edit#:#Edit Learning Sequence
 common#:#lso_import#:#Import Learning Sequence
 common#:#lso_new#:#New Learning Sequence
 common#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)
-common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung
-common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI Tool Consumer.
+common#:#lti#:#LTI Consumer
+common#:#lti_outcome#:#LTI Learning Progress Notification
+common#:#lti_outcome_info#:#Sends Learning Progress Status of LTI Users to LTI Tool Consumer / LTI Platform.
 common#:#mail#:#Mail
 common#:#mail_addressbook#:#Contacts
 common#:#mail_at_the_ilias_installation#:#You received %1$s new mail at the ILIAS-Installation %2$s
@@ -4531,7 +4549,7 @@ common#:#max_previews_per_object_info#:#Defines the maximum number of preview im
 common#:#mcst#:#Mediacast
 common#:#mcst_add#:#Add Mediacast
 common#:#mcst_new#:#New Mediacast
-common#:#mem_add_to_wl#:#Add to Waiting List
+common#:#mem_add_to_wl#:#Join Waiting List
 common#:#mem_alert_no_places#:#There are no free places available.
 common#:#mem_cron_min_members#:#Course/Group: Minimum Members Check
 common#:#mem_cron_min_members_info#:#The administrators will be notified if the minimum number is not met.
@@ -4907,7 +4925,7 @@ common#:#obj_mobs#:#Media Objects and Pools
 common#:#obj_mobs_desc#:#Settings for media objects and media pools.
 common#:#obj_not_found#:#Object Not Found
 common#:#obj_nota#:#Notifications
-common#:#obj_nota_desc#:#Notification Administration
+common#:#obj_nota_desc#:#Notifications Administration
 common#:#obj_nots#:#Notes
 common#:#obj_nots_desc#:#Notes settings
 common#:#obj_nwss#:#News and Web Feeds
@@ -4999,7 +5017,7 @@ common#:#obj_skmg_desc#:#Manage competences and competence categories.
 common#:#obj_spl#:#Question Pool Survey
 common#:#obj_spl_select#:#-- Please select one question pool survey --
 common#:#obj_st#:#Chapter
-common#:#obj_sty#:#Style
+common#:#obj_sty#:#Content Style
 common#:#obj_stys#:#Layout and Styles
 common#:#obj_stys_desc#:#Manage system skin and style settings here
 common#:#obj_svy#:#Survey
@@ -5965,6 +5983,7 @@ cont#:#cont_filter_fields#:#Filter Fields
 cont#:#cont_filter_record#:#Record
 cont#:#cont_found_objects#:#Found Objects
 cont#:#cont_item_list#:#List
+cont#:#cont_item_list_info#:#Display content objects in a list.
 cont#:#cont_list_presentation#:#Item Presentation
 cont#:#cont_mem_skills#:#Competences
 cont#:#cont_news_edited#:#Bearbeitet
@@ -6024,6 +6043,7 @@ cont#:#cont_tile_size_2#:#large (up to three tiles in a row)
 cont#:#cont_tile_size_3#:#extra large (up to two tiles in a row)
 cont#:#cont_tile_size_4#:#full (one tile in a row)
 cont#:#cont_tile_view#:#Tiles
+cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.
 contact#:#contact_awrn_ap_contacts#:#Approved Contacts
 contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.
 contact#:#contact_awrn_req_contacts#:#Contact Requests
@@ -6094,7 +6114,7 @@ content#:#cont_add_popup#:#Add Popup
 content#:#cont_add_tab#:#Add Panel
 content#:#cont_add_url#:#Enter URL
 content#:#cont_added_cell#:#Column added
-content#:#cont_added_comment#:#Comment has been added to history.
+content#:#cont_added_comment#:#Comment has been added to history of learning module (see tab 'Content » History').
 content#:#cont_added_tab#:#Panel added.
 content#:#cont_added_term#:#Term added
 content#:#cont_adjust_size#:#Adjust Size
@@ -7115,8 +7135,8 @@ content#:#glo_online_info#:#Only if the glossary is online, users are able to us
 content#:#glo_presentation_mode#:#Presentation Mode
 content#:#glo_presentation_view#:#Presentation View
 content#:#glo_quick_navigation#:#Quick Navigation
-content#:#glo_show_taxonomy#:#Show Taxonomy
-content#:#glo_show_taxonomy_info#:#The taxonomy will be visible in the presentation view of the glossary and can be used to select referenced terms.
+content#:#glo_show_taxonomy#:#Taxonomy
+content#:#glo_show_taxonomy_info#:#The taxonomy is offered in the presentation view for filtering the glossary terms. It can be created in the sub-tab 'Taxonomy'.
 content#:#glo_style#:#Glossary Style
 content#:#glo_table_form#:#In Table Form
 content#:#glo_table_form_info#:#Terms and definition are first shown in a two-column overview. Clicking the term opens the full content of a term on a separate screen.
@@ -7828,7 +7848,7 @@ crs#:#edit_timings_list#:#Edit Timings
 crs#:#event#:#Session
 crs#:#event_add_new_event#:#Added new session
 crs#:#event_assign_materials_info#:#Assigned materials will be displayed directly below the session.
-crs#:#event_assign_materials_table#:#Assignment of Materials
+crs#:#event_assign_materials_table#:#Assigned Materials
 crs#:#event_blank_columns#:#Additional Columns
 crs#:#event_btn_add#:#Add Session
 crs#:#event_btn_add_edit#:#Add Session and Assign Materials
@@ -8289,6 +8309,7 @@ dateplaner#:#cal_type_remote#:#Web Calendar
 dateplaner#:#cal_type_rl#:#Calendar Location
 dateplaner#:#cal_type_sess#:#Session Calendar
 dateplaner#:#cal_type_system#:#Public Calendar
+dateplaner#:#cal_type_tals#:#Talks
 dateplaner#:#cal_unshare#:#Cancel Sharing
 dateplaner#:#cal_unshare_cal#:#Stop Sharing
 dateplaner#:#cal_unshared_selected_usr#:#Stopped sharing the calendar with the selected users.
@@ -8547,7 +8568,7 @@ dcl#:#dcl_plugin_no_hooks_available#:#No active field-type plugins found
 dcl#:#dcl_prev_record#:#Previous Entry
 dcl#:#dcl_prop_expression#:#Expression
 dcl#:#dcl_prop_expression_info#:#Supported operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>‘(’, ‘)’</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>‘The result is ’ & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Available fields (click on title to copy field inside expression):<br>%s
-dcl#:#dcl_public_comments#:#Enable public comments for Entries
+dcl#:#dcl_public_comments#:#Activate Public Comments
 dcl#:#dcl_public_comments_desc#:#Users can comment on entries of the table.
 dcl#:#dcl_rating#:#Rating
 dcl#:#dcl_rating_desc#:#Users can rate entries with up to five stars.
@@ -8580,7 +8601,7 @@ dcl#:#dcl_simulate_info#:#Simulating the import will not add any fields into the
 dcl#:#dcl_skipped_delete_records#:#%s Entries were not deleted due to permission settings
 dcl#:#dcl_status#:#Your Status
 dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.
-dcl#:#dcl_std_filter#:#Standardfilter
+dcl#:#dcl_std_filter#:#Default Filter
 dcl#:#dcl_supported_filetypes#:#Allowed file-extensions
 dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: pdf, docx
 dcl#:#dcl_table#:#Table
@@ -8944,6 +8965,7 @@ etal#:#etal_add_new_item#:#Add new Talk
 etal#:#etal_date_appointment_edit#:#Date of Talk
 etal#:#etal_date_series_edit#:#Date of Talk Series
 etal#:#etal_edit#:#General
+etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.
 etal#:#etal_new#:#New Talk
 etal#:#etal_open#:#Open Employee Talk
 etal#:#etal_status_all#:#All
@@ -8954,13 +8976,12 @@ etal#:#lock_edititng_for_others#:#Lock editing for others
 etal#:#meta_adv_records#:#Metadata
 etal#:#mm_org_etal#:#Talks
 etal#:#mm_talk_template#:#Talk Templates
-etal#:#notification_talks_created#:#You have been invited by %s to the following employee talks.
-etal#:#notification_talks_date_details#:#Appointment details
+etal#:#notification_talks_created#:#You have been invited to the following employee talks.
 etal#:#notification_talks_date_list_header#:#Dates
-etal#:#notification_talks_removed#:#The following appointments have been canceled by %s.
-etal#:#notification_talks_subject#:#Invitation
-etal#:#notification_talks_talk_title#:#Titel: %s
-etal#:#notification_talks_updated#:#The following talk appointments have been changed by %s.
+etal#:#notification_talks_removed#:#The following appointments have been canceled.
+etal#:#notification_talks_subject#:#Invitation: %s
+etal#:#notification_talks_subject_update#:#Update: %s
+etal#:#notification_talks_updated#:#The following talk appointments have been changed.
 etal#:#talk_serial#:#Talk Serial
 etal#:#tals_add#:#Add Talks
 etal#:#tals_new#:#New Talks
@@ -8969,6 +8990,8 @@ etal#:#talt_add#:#Add Template
 etal#:#talt_edit#:#General
 etal#:#talt_etal#:#Employee Talk
 etal#:#talt_new#:#New Talk Template
+etal#:#will_update_series_info_lock#:#Lock the editing of all appointments in this series
+etal#:#will_update_series_info_title#:#Changes to the title will be made to all appointments in this series.
 exc#:#exc_add_assignment#:#Add Assignment
 exc#:#exc_add_criteria#:#Add Criteria
 exc#:#exc_add_criteria_catalogue#:#Add Catalogue
@@ -10052,13 +10075,13 @@ iass#:#iass_sort_name_desc#:#Username descending
 iass#:#iass_status_completed#:#Completed
 iass#:#iass_status_failed#:#Failed
 iass#:#iass_status_pending#:#Status pending
-iass#:#iass_subj_notification_completed#:#%s: Individual Assessment completed.
-iass#:#iass_subj_notification_failed#:#%s: Individual Assessment failed.
+iass#:#iass_subj_notification_completed#:#%s: Individual Assessment is completed.
+iass#:#iass_subj_notification_failed#:#%s: Individual Assessment is failed.
 iass#:#iass_upload_file#:#Record file
-iass#:#iass_user_removed#:#User successfully removed.
+iass#:#iass_user_removed#:#Participant has successfully been removed.
 iass#:#iass_usr_amend#:#Amend Grading
 iass#:#iass_usr_download_attachment#:#Download Attachment
-iass#:#iass_usr_edit#:#Edit Participant Record and Learning Progress
+iass#:#iass_usr_edit#:#Edit Participant Record
 iass#:#iass_usr_remove#:#Remove Participant from Assessment
 iass#:#iass_usr_view#:#Participant Record
 iass#:#il_iass_member#:#Participant
@@ -10078,7 +10101,7 @@ irss#:#storage_info#:#Storage Information
 itgr#:#itgr_always_open#:#Always Open
 itgr#:#itgr_assign_materials#:#Assign Materials
 itgr#:#itgr_assigned_materials#:#Assigned Materials
-itgr#:#itgr_assignment#:#Assignment
+itgr#:#itgr_assignment#:#Assigned
 itgr#:#itgr_behaviour#:#Block Behaviour
 itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.
@@ -10742,7 +10765,6 @@ lti#:#user_provider_subtab#:#Providers Defined by Users
 ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object
 ltiv#:#ltiv_create_info#:#Select a completed LTI consumer object to generate a certificate for it
 mail#:#back_to_folder#:#Back to Folder
-mail#:#bc#:#BCC
 mail#:#chat_users_have_been_invited#:#The following users have been invited:
 mail#:#chat_users_without_login#:#The following users don't have an ILIAS account and can't be invited to a chat room:
 mail#:#chat_users_without_permission#:#The following users don't have access to the selected chat room:
@@ -10768,9 +10790,11 @@ mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Contacts to M
 mail#:#mail_attachment_file_not_exist#:#At least one of the following attachments does not exist: %1$s
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_auto_generated_info#:#This mail was automatically sent to you by the ILIAS installation %s, %s
+mail#:#mail_bcc#:#BCC
 mail#:#mail_bg_task_desc#:#Subject: %s
 mail#:#mail_bg_task_title#:#E-mail Delivery
 mail#:#mail_both_email#:#Both E-Mail Addresses
+mail#:#mail_cc#:#CC
 mail#:#mail_change_to_folder#:#Switch to folder: %s
 mail#:#mail_create_tpl#:#Create Text Templates
 mail#:#mail_cronjob_notification_info#:#You can activate a periodic notification about new mail here.
@@ -11026,7 +11050,7 @@ mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill
 mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed
 mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe
 mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js
 mathjax#:#mathjax_script_url_desc_line3#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include script that configures it before MathJax is loaded. Use for example https://your-domain/your-ilias/Services/MathJax/js/cdn-mathjax3-es5-tex-mml-chtml-safe.js
 mathjax#:#mathjax_server_address#:#Server Address
@@ -11180,6 +11204,7 @@ mep#:#mep_master_language_only_no_media#:#Master Language without Media
 mep#:#mep_media_files#:#Media Files
 mep#:#mep_media_subtitles#:#Media Subtitles
 mep#:#mep_mob#:#Media Object
+mep#:#mep_move_select_insert#:#Navigate to target folder and click "Insert"
 mep#:#mep_mpg#:#Content Snippet
 mep#:#mep_new_content_snippet#:#New Content Snippet
 mep#:#mep_new_folder#:#New Folder
@@ -11794,9 +11819,9 @@ meta#:#meta_obj_type_optional#:#Data set needs activation
 meta#:#meta_oer_blocked#:#Ignored by OER Harvester
 meta#:#meta_oer_blocked_info#:#Will not be listed automatically as (an) Open Educational Resource(s) (OER)
 meta#:#meta_oer_copyright_selection#:#Copyright Selection
-meta#:#meta_oer_copyright_selection_info#:#Only Objects that have been published with one of the selected copyrights will be linked to the OER Category.
+meta#:#meta_oer_copyright_selection_info#:#Only objects that have been published with one of the selected copyrights will be linked to the OER Category.
 meta#:#meta_oer_harvester#:#OER Harvester
-meta#:#meta_oer_harvester_desc#:#OER Harvester
+meta#:#meta_oer_harvester_desc#:#Scans all File objects in the repository for their license. The OER Harvester adds all resources under selected CC licenses to the category defined in the cronjob settings. To get results from this cronjob it is necessary to activate and configurate the copyright selection in the administration of 'Metadata'.
 meta#:#meta_oer_target#:#Category for Release OER Content
 meta#:#meta_operating_system#:#Operating System
 meta#:#meta_or_composite#:#Or composite …
@@ -11974,6 +11999,7 @@ mob#:#mob_mime_type_not_allowed#:#The following mime types are not allowed at th
 mob#:#mob_multi_srt_files#:#SRT Files
 mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
 mob#:#mob_object#:#Object
+mob#:#mob_please_select_pool#:#Bitte wählen Sie einen Medienpool aus.
 mob#:#mob_really_delete_srt#:#Do you really want to delete the following srt files?
 mob#:#mob_srt_files_deleted#:#Subtitle files have been deleted.
 mob#:#mob_srt_not_allowed#:#Files with a .srt suffix are currently not allowed to be uploaded. If you would like to use srt files, contact your system administrator.
@@ -12152,17 +12178,21 @@ noti#:#noti_activate_notification#:#Activate Notification
 noti#:#noti_deactivate_notification#:#Deactivate Notification
 noti#:#noti_notification_activated#:#Notification Activated
 noti#:#noti_notification_deactivated#:#Notification Deactivated
-notification_adm#:#enable_osd#:#Enable On-Screen Notifications
-notification_adm#:#enable_osd_desc#:#If enabled, users are notified by a popup about new notifications.
-notification_adm#:#notification_settings#:#Notifciation Settings
-notification_adm#:#osd_delay#:#Presentation Delay
-notification_adm#:#osd_delay_desc#:#Delay of the visible presentation in milliseconds.
-notification_adm#:#osd_interval#:#Refreshinterval
-notification_adm#:#osd_interval_desc#:#Polling interval for checking of new notifications in seconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle.
-notification_adm#:#osd_vanish#:#Presentation Time
-notification_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in seconds.
-notification_adm#:#play_sound#:#Play a Sound
-notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiation.
+notifications_adm#:#enable_osd#:#Enable On-Screen Notifications
+notifications_adm#:#enable_osd_desc#:#If enabled, users are notified by a popup about new notifications.
+notifications_adm#:#notification_settings#:#Notification Settings
+notifications_adm#:#osd_delay#:#Presentation Delay
+notifications_adm#:#osd_delay_desc#:#Delay of the visible presentation in milliseconds.
+notifications_adm#:#osd_error_presentation_time_too_small#:#The Presentation Time has to be at least than 1000 miliseconds.
+notifications_adm#:#osd_error_refresh_interval_smaller_than_delay_and_vanish_combined#:#The Refresh Interval has to be greater than the Presentation Time and the Presentation Delay combined.
+notifications_adm#:#osd_error_refresh_interval_too_small#:#The Refresh Interval has to be at least than 3000 miliseconds.
+notifications_adm#:#osd_interval#:#Refreshinterval
+notifications_adm#:#osd_interval_desc#:#Polling interval for checking of new notifications in miliseconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle.
+notifications_adm#:#osd_play_sound#:#Play a Sound
+notifications_adm#:#osd_play_sound_desc#:#Play a sound when receiving a new notficiation.
+notifications_adm#:#osd_settings#:#On-Screen Notifications
+notifications_adm#:#osd_vanish#:#Presentation Time
+notifications_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in miliseconds.
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
 obj#:#cont_skll_published#:#All assignments have been published.
 obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some users lacked competence assignments, thus no assignments could be published for them.
@@ -12201,7 +12231,7 @@ obj#:#obj_show_header_actions#:#Show Header Actions
 obj#:#obj_show_title_and_icon#:#Show Title and Icon
 obj#:#obj_target_location#:#Target Location
 obj#:#obj_tile_image#:#Tile Image
-obj#:#obj_tile_image_info#:#The tile image will be used, if the container (course, folder, group, ...) activates the tile view presentation. To avoid performance issues, upload files with a resolution of 72dpi and a width less than 1000 px. Otherwise the display of the page will be unnecessarily delayed.
+obj#:#obj_tile_image_info#:#This image will be used as a thumbnail-style image (called a tile) to represent this object in the container (e.g. the category, folder group etc.) in which it is located. The tile is only used if the parent container sets its ‘Item Presentation’ (or 'Content Display Options' - see above) to ‘Tiles’ (rather than ‘List’). To avoid performance issues, only upload files with a resolution of 72dpi and a width of less than 1000 px.
 obj#:#obj_tool_booking#:#Resources
 obj#:#obj_tool_booking_info#:#Use the booking pools to book resources.
 obj#:#obj_tool_ext_mail_subject_prefix#:#Mail Subject Prefix
@@ -12521,6 +12551,7 @@ poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
 poll#:#poll_voting_period_info#:#Deadline for Voting: %s
 poll#:#poll_voting_period_limited#:#Limited Voting Period
 prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions
+prg#:#active_only#:#active users only
 prg#:#add_automembership_source#:#Add Source
 prg#:#add_category#:#Add Category
 prg#:#assignment_date#:#Assignment Date
@@ -12536,14 +12567,18 @@ prg#:#confirm_to_remove_selected_assignments#:#Do you really want to remove the 
 prg#:#content_automation#:#Content Automation
 prg#:#content_automation_title#:#Automatically add and remove Courses from these categories
 prg#:#could_not_add_users_no_permissons#:#Could not assign %d Users due to lacking permissions.
+prg#:#crs_affiliation_to_prg#:#Affiliation to study programmes
 prg#:#deadline_information#:#Information regarding processing period
 prg#:#deadline_updated#:#Updated deadline
 prg#:#edit_participants#:#Edit Members
 prg#:#error_updating_deadline#:#Error during updating deadline.
 prg#:#error_updating_expire_date#:#Error during updating expire date.
 prg#:#form_msg_file_wrong_file_type#:#Wrong file type.
+prg#:#header_update_current_plan#:#Do you really want to reset all individual settings for the selected assignments?
+prg#:#inactive_only#:#inactive users only
 prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>The validity of your participation in the study programm '%' will soon expire. Please sign in again.
 prg#:#info_to_re_assign_mail_subject#:#Reminder of renewed participation in the study programm
+prg#:#invalidated#:#validity
 prg#:#label_crs#:#Course Name
 prg#:#label_grp#:#Group Name
 prg#:#label_role#:#Role Name
@@ -12579,6 +12614,9 @@ prg#:#msg_update_individual_plan#:#Successfully updated individual plan (%)
 prg#:#msg_update_individual_plan_failed#:#Update  of individual plan failed
 prg#:#no_srctype_or_id#:#Id and type may not be empty.
 prg#:#not_a_valid_cat_id#:#%s is not a valid ref-id of a category.
+prg#:#obj_prg_select#:#-- Please select a study programme --
+prg#:#optgrp_label_restart#:#Restart
+prg#:#optgrp_label_validity#:#Expiry
 prg#:#orgu#:#Organisational Unit
 prg#:#percentage#:#%
 prg#:#prg_access_by_orgu#:#Access Control by Organisation Unit Positions
@@ -12603,25 +12641,29 @@ prg#:#prg_can_not_manage_in_repo#:#You're not allowed to manage this Study Progr
 prg#:#prg_cancel#:#Cancel
 prg#:#prg_cancel_tree_order#:#Dismiss tree order
 prg#:#prg_changed_by#:#Changed by
+prg#:#prg_completed_by_subnodes#:#subprogrammes
 prg#:#prg_completion_by#:#Completion by
 prg#:#prg_completion_date#:#Completion date
 prg#:#prg_confirm_delete#:#Delete
+prg#:#prg_copy_threads_info#:#Please decide which Study Programme elements are to be copied, linked or omitted.
 prg#:#prg_create_new_leaf#:#Create new leaf
 prg#:#prg_create_new_node#:#Create new node
 prg#:#prg_cron_job_configuration#:#Configuration automatic Mails
 prg#:#prg_custom_plan#:#Custom Plan
-prg#:#prg_dash_label_finish_until#:#Finish until
-prg#:#prg_dash_label_gain#:#Current Completion
-prg#:#prg_dash_label_minimum#:#Minimum Completion
-prg#:#prg_dash_label_restart_from#:#Restart from
-prg#:#prg_dash_label_status#:#Status
+prg#:#prg_dash_label_finish_until#:#Finish until:
+prg#:#prg_dash_label_gain#:#Current Completion:
+prg#:#prg_dash_label_minimum#:#Minimum Completion:
+prg#:#prg_dash_label_restart_from#:#Restart from:
+prg#:#prg_dash_label_status#:#Status:
 prg#:#prg_dash_label_unreachable#:#- cannot be achieved
-prg#:#prg_dash_label_valid#:#Valid
+prg#:#prg_dash_label_valid#:#Valid:
 prg#:#prg_deadline#:#Deadline
 prg#:#prg_deadline_date#:#Processing time expires at fixed date
 prg#:#prg_deadline_date_desc#:#the programme must be finished until a given date.
+prg#:#prg_deadline_date_label#:#Process until
 prg#:#prg_deadline_period#:#Processing time is determined inividually
 prg#:#prg_deadline_period_desc#:#The programme must be finished within a given timespan.
+prg#:#prg_deadline_period_label#:#Days after assignment
 prg#:#prg_deadline_settings#:#Processing Period
 prg#:#prg_delete_confirmation#:#Do you really want to delete the selected entries?
 prg#:#prg_delete_failure#:#Delete failed.
@@ -12641,6 +12683,7 @@ prg#:#prg_mail_context_info#:#For the participant e-mails on the member and lear
 prg#:#prg_mail_context_title#:#Study Programme: Mail to Members
 prg#:#prg_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the study programm:
 prg#:#prg_manage#:#Manage
+prg#:#prg_manage_members#:#Manage Enrolments of Study Programme
 prg#:#prg_manage_members_short#:#Manage Assignments
 prg#:#prg_manual_status#:#Manual Status
 prg#:#prg_mark_accredited#:#Mark Accredited
@@ -12687,6 +12730,7 @@ prg#:#prg_quali_still_valid#:#Qualification still valid
 prg#:#prg_remove_user#:#Remove Assignment
 prg#:#prg_remove_user_success#:#Assignment removed successfully.
 prg#:#prg_remove_users_not_possible#:#Remove Selected Users Not Possible
+prg#:#prg_remove_users_partial_success#:#Assignments (partially) removed.
 prg#:#prg_remove_users_partitial_success#:#Remove Selected Users Particially
 prg#:#prg_remove_users_success#:#Remove Selected Users
 prg#:#prg_restart_assignments_temporal_progress_desc#:#Restart Studyprogramme assignments with progresses about to expire
@@ -12713,12 +12757,13 @@ prg#:#prg_status_byline#:#Use the status to control if this programme is assigne
 prg#:#prg_status_completed#:#Completed
 prg#:#prg_status_draft#:#Draft
 prg#:#prg_status_failed#:#failed
+prg#:#prg_status_hide_irrelevant#:#hide irrelevant
 prg#:#prg_status_in_progress#:#In Progress
 prg#:#prg_status_not_relevant#:#Not Relevant
 prg#:#prg_status_outdated#:#Outdated
 prg#:#prg_still_valid#:#valid
 prg#:#prg_subtype_add#:#Add new subtype
-prg#:#prg_subtypes#:#Types
+prg#:#prg_subtypes#:#Subtypes
 prg#:#prg_title#:#Title
 prg#:#prg_type#:#Study Programme Type
 prg#:#prg_type_add#:#Study Programme Type
@@ -12760,8 +12805,9 @@ prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>you were reassigned to study progr
 prg#:#re_assigned_mail_subject#:#Renewed participation in the study programm
 prg#:#restart_information#:#Information regarding automatic restart upon pending qualification expiration
 prg#:#restart_period#:#Restart obligatory
-prg#:#restart_period_desc#:#days before expiry
+prg#:#restart_period_desc#:#automatic reassignment before expiry
 prg#:#restart_period_info#:#Days before qualification expiration to restart qualification
+prg#:#restart_period_label#:#Days before expiry
 prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>the deadline for completing the study program '%s' will soon be reached.
 prg#:#risky_to_fail_mail_subject#:#Reminder, that the deadline for the study program will soon be reached
 prg#:#rol#:#Role
@@ -12788,14 +12834,18 @@ prg#:#status_unchanged#:#Status unchanged
 prg#:#update_deadline#:#Successfully update deadline.
 prg#:#update_expire_date#:#Successfully update expire date.
 prg#:#updated_from_settings#:#Updated from settings
+prg#:#usr_active#:#User
 prg#:#validity_qualification_date#:#Qualification expires at fixed date
 prg#:#validity_qualification_date_desc#:#expiry date
 prg#:#validity_qualification_period#:#Qualification expires individually
-prg#:#validity_qualification_period_desc#:#days after completion
+prg#:#validity_qualification_period_desc#:#Qualification is valid for this amount of days and expires afterwards
 prg#:#validity_updated#:#Updated validity
+prg#:#vq_date#:#Expiration
 prg#:#vq_date_info#:#Qualification expires at fixed date
+prg#:#vq_date_label#:#Expiry date
 prg#:#vq_information#:#Information regarding validity of achived qualification
 prg#:#vq_period_info#:#Days until qualification will expire after achivement
+prg#:#vq_period_label#:#Days after completion
 prg#:#warning#:#Warning!
 prg#:#will_not_modify_deadline_on_successful_progress#:#No change because already completed or marked accredited
 prg#:#will_not_modify_irrelevant_progress#:#No change because not relevant
@@ -13260,7 +13310,7 @@ rbac#:#ecss_visible#:#ECS settings are visible
 rbac#:#ecss_write#:#User can edit ECS settings
 rbac#:#edit_event#:#Edit Calendar
 rbac#:#edit_in_online_editor#:#Open in online editor
-rbac#:#edit_learning_progress#:#Edit Learning Progress
+rbac#:#edit_learning_progress#:#Edit Learning Progress Settings
 rbac#:#edit_members#:#Manage members
 rbac#:#edit_permission#:#Change Permissions
 rbac#:#edit_roleassignment#:#Edit role assignment
@@ -13883,6 +13933,10 @@ rbac#:#tags_edit_permission#:#User can change permission settings in Tagging adm
 rbac#:#tags_read#:#User has read access to Tagging administration
 rbac#:#tags_visible#:#Tagging administration is visible
 rbac#:#tags_write#:#User can edit settings in Tagging administration
+rbac#:#tala_edit_permission#:#User can change permission settings in Talk Templates administration
+rbac#:#tala_read#:#User has read access to Talk Templates administration
+rbac#:#tala_visible#:#Talk Templates administration is visible
+rbac#:#tala_write#:#User can create and edit Talk Templates
 rbac#:#taxs_edit_permission#:#User can change permission settings in Taxonomy administration
 rbac#:#taxs_read#:#User has read access to Taxonomy administration
 rbac#:#taxs_visible#:#Taxonomy administration is visible
@@ -14597,7 +14651,7 @@ sess#:#sess_filter_all_types#:#All types
 sess#:#sess_filter_not_assigned#:#Not Assigned
 sess#:#sess_import#:#Import Session
 sess#:#sess_info_new_sess_type#:#New Session Type
-sess#:#sess_is_assigned#:#is Assigned
+sess#:#sess_is_assigned#:#Assigned
 sess#:#sess_list_reg_limit_places#:#Free places
 sess#:#sess_lp_preset#:#Activate Learning Progress
 sess#:#sess_lp_preset_info#:#Activates the learning progress for all session events to be created.
@@ -14611,7 +14665,7 @@ sess#:#sess_mail_permanent_link#:#Click on the following link to find all of the
 sess#:#sess_mail_permanent_link_participants#:#Click on the following link to edit the participants of the session:
 sess#:#sess_mail_sub_acc_bod#:#you have been registered for session "%s".
 sess#:#sess_mail_sub_acc_sub#:#Registration for Session "%s"
-sess#:#sess_mail_sub_dec_bod#:#we regret to say that your registration has been refused for session "%s".
+sess#:#sess_mail_sub_dec_bod#:#your registration for session "%s" has been refused.
 sess#:#sess_mail_sub_dec_sub#:#Registration refused for session "%s"
 sess#:#sess_mail_type#:#Mail to Participants
 sess#:#sess_material_assigned#:#Assigned
@@ -15762,7 +15816,7 @@ survey#:#survey_cancel_preview#:#Cancel Preview
 survey#:#survey_cannot_preview_survey#:#Preview not available
 survey#:#survey_clipboard_notice#:#There are question(s) in the clipboard. Select the target position or empty the clipboard.
 survey#:#survey_code#:#Survey Access Code
-survey#:#survey_code_delete_sure#:#Are you sure you want to delete the following access codes?
+survey#:#survey_code_delete_sure#:#Are you sure you want to delete the following unused access codes?
 survey#:#survey_code_url#:#URL for Direct Access
 survey#:#survey_code_url_name#:#URL <small>(use right mouse button to copy URL)</small>
 survey#:#survey_code_used#:#Code was ..
@@ -15857,7 +15911,7 @@ survey#:#survey_results_anonymized_info#:#In the tab ‘Results’ participants'
 survey#:#survey_results_finished#:#Survey finished
 survey#:#survey_results_not_started#:#Survey not started
 survey#:#survey_results_personalized#:#With Names
-survey#:#survey_results_personalized_info#:#In the tab ‘Results’ the names of the participants and their respective answers are listed. Users having access to this tab can inspect who has provided which answer.
+survey#:#survey_results_personalized_info#:#In the tab ‘Results’ the names of the participants and their respective answers are listed. Users having full access to this tab can inspect who has provided which answer. Even users with limited access to the tab may deduce given answers, if the number of participants is low.
 survey#:#survey_results_started#:#Survey started
 survey#:#survey_results_tutor_body#:#Attached you will find the detailed results for the following survey
 survey#:#survey_results_tutor_subject#:#Results for survey "%s"
@@ -15969,6 +16023,7 @@ survey#:#svy_page_error#:#There was an error answering a survey question. Please
 survey#:#svy_page_errors#:#There were errors answering the survey questions. Please refer to the questions to get more information on the errors!
 survey#:#svy_participant#:#Participant
 survey#:#svy_participation#:#Participation
+survey#:#svy_please_select_unused_codes#:#Please select at least one unused code.
 survey#:#svy_print_hide_labels#:#Hide labels
 survey#:#svy_print_show_labels#:#Show labels
 survey#:#svy_privacy_info#:#Privacy
@@ -16007,6 +16062,7 @@ survey#:#svy_skl_comp_assignm_not_supported#:#Competence assignment is not suppo
 survey#:#svy_sum_score#:#Sum Score
 survey#:#svy_type_of_rater#:#Type of Rater
 survey#:#svy_view_own_results#:#View given answers
+survey#:#svy_wrong_or_expired_code#:#Sorry, you entered an invalid or expired code.
 survey#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!
 survey#:#unfold#:#Unfold
@@ -16048,12 +16104,12 @@ svy#:#svy_status#:#Status
 svy#:#svy_status_finished#:#Finished
 svy#:#svy_status_in_progress#:#In Progress
 svy#:#svy_status_invited#:#Invited
-svy#:#svy_user_added_360_appraisee#:#360° Survey '%1'
-svy#:#svy_user_added_360_appraisee_close_mail#:#The 360° survey has been closed for your raters.
-svy#:#svy_user_added_360_appraisee_mail#:#You have been added to the survey as an appraisee.
-svy#:#svy_user_added_360_rater#:#360° Survey '%1'
-svy#:#svy_user_added_360_rater_mail#:#You have been added as a rater to the survey.
-svy#:#svy_user_added_360_rater_reminder_mail#:#Please finish to rate the following appraisees:
+svy#:#svy_user_added_appraisee#:#Survey '%1'
+svy#:#svy_user_added_appraisee_close_mail#:#The survey has been closed for your raters.
+svy#:#svy_user_added_appraisee_mail#:#You have been added to the survey as an appraisee.
+svy#:#svy_user_added_rater#:#Survey '%1'
+svy#:#svy_user_added_rater_mail#:#You have been added as a rater to the survey.
+svy#:#svy_user_added_rater_reminder_mail#:#Please finish to rate the following appraisees:
 svy#:#svy_user_not_found#:#User not found.
 svy#:#svy_users_invited#:#Users have been invited.
 sysc#:#sysc_action_list_tree#:#Create Repository Tree Dump

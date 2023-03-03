@@ -13,4 +13,5 @@
 		<event type="raise" id="readNews" />
 		<event type="raise" id="unreadNews" />
 	</events>
+	<logging />
 </service>

@@ -1282,8 +1282,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         //$questionAnchorNav = $this->object->canShowSolutionPrintview();
         $questionAnchorNav =
-            $this->object->getShowSolutionListOwnAnswers() &&
-            $this->object->getShowSolutionDetails() ;
+            $this->object->getShowSolutionListOwnAnswers();
 
         $tpl = new ilTemplate('tpl.il_as_tst_pass_details_overview_participants.html', true, true, "Modules/Test");
 
@@ -1996,6 +1995,23 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				SET pass = pass - 1
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass > ' . $ilDB->quote($pass, 'integer')
+            );
+        }
+
+        // qpl_hint_tracking
+        $ilDB->manipulate(
+            'DELETE
+				FROM qpl_hint_tracking
+				WHERE qhtr_active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
+				AND qhtr_pass = ' . $ilDB->quote($pass, 'integer')
+        );
+
+        if ($must_renumber) {
+            $ilDB->manipulate(
+                'UPDATE qpl_hint_tracking
+				SET qhtr_pass = qhtr_pass - 1
+				WHERE qhtr_active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
+				AND qhtr_pass > ' . $ilDB->quote($pass, 'integer')
             );
         }
 

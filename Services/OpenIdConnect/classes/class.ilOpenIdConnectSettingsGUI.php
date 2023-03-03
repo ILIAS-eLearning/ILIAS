@@ -168,6 +168,42 @@ class ilOpenIdConnectSettingsGUI
         $scopes->setMultiValues($scopeValues);
         $form->addItem($scopes);
 
+
+        // validation options
+        $validation_options = new ilRadioGroupInputGUI(
+            $this->lng->txt('auth_oidc_settings_validate_scopes'),
+            'validate_scopes'
+        );
+        $validation_options->setValue((string) $this->settings->getValidateScopes());
+        $form->addItem($validation_options);
+
+        $base_valid_url_option = new ilRadioOption(
+            $this->lng->txt('auth_oidc_settings_validate_scope_default'),
+            (string) ilOpenIdConnectSettings::URL_VALIDATION_PROVIDER
+        );
+
+        $validation_options->addOption($base_valid_url_option);
+
+        $custom_validation_url = new ilTextInputGUI(
+            '',
+            'custom_discovery_url'
+        );
+
+        $custom_valid_url_option = new ilRadioOption(
+            $this->lng->txt('auth_oidc_settings_validate_scope_custom'),
+            (string) ilOpenIdConnectSettings::URL_VALIDATION_CUSTOM
+        );
+        $validation_options->addOption($custom_valid_url_option);
+        $custom_validation_url->setValue($this->settings->getCustomDiscoveryUrl() ?? '');
+        $custom_validation_url->setMaxLength(120);
+        $custom_validation_url->setInfo($this->lng->txt('auth_oidc_settings_discovery_url'));
+        $custom_valid_url_option->addSubItem($custom_validation_url);
+        $no_validation_option = new ilRadioOption(
+            $this->lng->txt('auth_oidc_settings_validate_scope_none'),
+            (string) ilOpenIdConnectSettings::URL_VALIDATION_NONE
+        );
+        $validation_options->addOption($no_validation_option);
+
         // login element
         $login_element = new ilRadioGroupInputGUI(
             $this->lng->txt('auth_oidc_settings_le'),
@@ -347,7 +383,19 @@ class ilOpenIdConnectSettingsGUI
         }
 
         try {
-            $invalid_scopes = $this->settings->validateScopes((string) $form->getInput('provider'), (array) $scopes);
+            switch ((int) $form->getInput('validate_scopes')) {
+                case ilOpenIdConnectSettings::URL_VALIDATION_PROVIDER:
+                    $discoveryURL = $form->getInput('provider') . '/.well-known/openid-configuration';
+                    break;
+                case ilOpenIdConnectSettings::URL_VALIDATION_CUSTOM:
+                    $discoveryURL = $form->getInput('custom_discovery_url');
+                    break;
+                default:
+                    $discoveryURL = null;
+                    break;
+            }
+            $invalid_scopes = !is_null($discoveryURL) ? $this->settings->validateScopes($discoveryURL, (array) $scopes) : [];
+
             if (!empty($invalid_scopes)) {
                 $this->mainTemplate->setOnScreenMessage(
                     'failure',
@@ -390,6 +438,10 @@ class ilOpenIdConnectSettingsGUI
             $this->saveImageFromHttpRequest();
         }
 
+        $this->settings->setValidateScopes((int) $form->getInput('validate_scopes'));
+        if (ilOpenIdConnectSettings::URL_VALIDATION_CUSTOM === $this->settings->getValidateScopes()) {
+            $this->settings->setCustomDiscoveryUrl($form->getInput('custom_discovery_url'));
+        }
         $this->settings->save();
 
         $this->mainTemplate->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);

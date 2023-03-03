@@ -791,10 +791,10 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
         $arr_ref_ids = [];
         //Delete via Manage (more than one)
-        if (is_array($_POST['id']) && count($_POST['id']) > 0) {
+        if (isset($_POST["id"]) && is_array($_POST['id']) && count($_POST['id']) > 0) {
             $arr_ref_ids = $_POST['id'];
-        } elseif ($_GET['item_ref_id'] > 0) {
-            $arr_ref_ids = [$_GET['item_ref_id']];
+        } elseif (isset($_GET['item_ref_id']) && (int) $_GET['item_ref_id'] > 0) {
+            $arr_ref_ids = [(int) $_GET['item_ref_id']];
         }
 
         if (!$ru->showDeleteConfirmation($arr_ref_ids, false)) {

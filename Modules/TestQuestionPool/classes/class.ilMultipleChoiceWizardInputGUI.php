@@ -25,6 +25,8 @@
 */
 class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 {
+    private string $pending;
+
     public function setValue($a_value): void
     {
         $this->values = [];
@@ -363,5 +365,15 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         $tpl = $DIC['tpl'];
         $tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
         $tpl->addJavascript("./Modules/TestQuestionPool/templates/default/multiplechoicewizard.js");
+    }
+
+    public function setPending(string $a_val): void
+    {
+        $this->pending = $a_val;
+    }
+
+    public function getPending(): string
+    {
+        return $this->pending;
     }
 }

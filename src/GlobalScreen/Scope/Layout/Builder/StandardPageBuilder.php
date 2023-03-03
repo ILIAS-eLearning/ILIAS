@@ -60,6 +60,7 @@ class StandardPageBuilder implements PageBuilder
         $title = $parts->getTitle();
         $short_title = $parts->getShortTitle();
         $view_title = $parts->getViewTitle();
+        $toast_container = $parts->getToastContainer();
 
         $standard = $this->ui->factory()->layout()->page()->standard(
             [$parts->getContent()],
@@ -69,7 +70,7 @@ class StandardPageBuilder implements PageBuilder
             $header_image,
             $responsive_header_image,
             $favicon_path,
-            $this->ui->factory()->toast()->container(),
+            $toast_container,
             $footer,
             $title,
             $short_title,

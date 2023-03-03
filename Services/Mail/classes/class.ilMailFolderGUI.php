@@ -72,7 +72,10 @@ class ilMailFolderGUI
         } elseif ($this->http->wrapper()->query()->has('mobj_id')) {
             $folderId = $this->http->wrapper()->query()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
         } else {
-            $folderId = $this->refinery->kindlyTo()->int()->transform(ilSession::get('mobj_id'));
+            $folderId = $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->int(),
+                $this->refinery->always($this->currentFolderId),
+            ])->transform(ilSession::get('mobj_id'));
         }
 
         if (0 === $folderId || !$this->mbox->isOwnedFolder($folderId)) {
@@ -714,7 +717,7 @@ class ilMailFolderGUI
         $form->addItem($to);
 
         if ($mailData['rcp_cc']) {
-            $cc = new ilCustomInputGUI($this->lng->txt('cc') . ':');
+            $cc = new ilCustomInputGUI($this->lng->txt('mail_cc') . ':');
             $cc->setHtml(ilUtil::htmlencodePlainString(
                 $this->umail->formatNamesForOutput($mailData['rcp_cc'] ?? ''),
                 false
@@ -723,7 +726,7 @@ class ilMailFolderGUI
         }
 
         if ($mailData['rcp_bcc']) {
-            $bcc = new ilCustomInputGUI($this->lng->txt('bc') . ':');
+            $bcc = new ilCustomInputGUI($this->lng->txt('mail_bcc') . ':');
             $bcc->setHtml(ilUtil::htmlencodePlainString(
                 $this->umail->formatNamesForOutput($mailData['rcp_bcc'] ?? ''),
                 false
@@ -868,14 +871,14 @@ class ilMailFolderGUI
 
         if ($mailData['rcp_cc']) {
             $tplprint->setCurrentBlock('cc');
-            $tplprint->setVariable('TXT_CC', $this->lng->txt('cc'));
+            $tplprint->setVariable('TXT_CC', $this->lng->txt('mail_cc'));
             $tplprint->setVariable('CC', $mailData['rcp_cc']);
             $tplprint->parseCurrentBlock();
         }
 
         if ($mailData['rcp_bcc']) {
             $tplprint->setCurrentBlock('bcc');
-            $tplprint->setVariable('TXT_BCC', $this->lng->txt('bc'));
+            $tplprint->setVariable('TXT_BCC', $this->lng->txt('mail_bcc'));
             $tplprint->setVariable('BCC', $mailData['rcp_bcc']);
             $tplprint->parseCurrentBlock();
         }

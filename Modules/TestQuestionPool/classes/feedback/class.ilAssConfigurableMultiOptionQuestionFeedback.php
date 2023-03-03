@@ -105,7 +105,16 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
 
     public function saveSpecificFormProperties(ilPropertyFormGUI $form): void
     {
-        $this->saveSpecificFeedbackSetting($this->questionOBJ->getId(), $form->getInput('feedback_setting'));
+        $feedback_setting = $form->getInput('feedback_setting');
+
+        /* sk 03.03.2023: This avoids Problems with questions in Learning Module
+         * See: https://mantis.ilias.de/view.php?id=34724
+         */
+        if ($feedback_setting === '') {
+            return;
+        }
+
+        $this->saveSpecificFeedbackSetting($this->questionOBJ->getId(), (int) $feedback_setting);
 
         if (!$this->questionOBJ->isAdditionalContentEditingModePageObject()) {
             foreach ($this->getAnswerOptionsByAnswerIndex() as $index => $answer) {

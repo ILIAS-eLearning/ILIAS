@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=0);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -129,6 +130,11 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
     public function deleteMemberExportFile(string $a_export_name): bool
     {
         return $this->deleteFile($this->getMemberExportDirectory() . '/' . $a_export_name);
+    }
+
+    public function hasMemberExportFile(string $a_export_name): bool
+    {
+        return $this->fileExists($this->getMemberExportDirectory() . '/' . $a_export_name);
     }
 
     /**

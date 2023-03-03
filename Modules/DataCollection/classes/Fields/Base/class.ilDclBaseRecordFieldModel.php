@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclBaseFieldModel
@@ -251,7 +250,7 @@ class ilDclBaseRecordFieldModel
     /**
      * Function to parse incoming data from form input value $value. returns the string/number/etc. to store in the database.
      * @param int|string $value
-     * @return int|string
+     * @return int|string|null
      */
     public function parseValue($value)
     {

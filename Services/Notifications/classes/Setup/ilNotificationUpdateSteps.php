@@ -148,4 +148,24 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
     {
         $this->db->addIndex('notification_osd', ['usr_id', 'type', 'time_added'], 'i1');
     }
+
+    public function step_9(): void
+    {
+        $this->db->manipulateF(
+            "UPDATE settings SET value = CONCAT(value , '000') WHERE keyword = %s",
+            ['text'],
+            ['osd_interval']
+        );
+        $this->db->manipulateF(
+            "UPDATE settings SET value = CONCAT(value , '000') WHERE keyword = %s",
+            ['text'],
+            ['osd_vanish']
+        );
+        $this->db->manipulateF(
+            'UPDATE usr_pref SET keyword = %s WHERE keyword = %s',
+            ['text', 'text'],
+            ['osd_play_sound', 'play_sound']
+        );
+
+    }
 }

@@ -734,7 +734,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             } catch (Exception $e) {
             }
         }
-        $a_mob->setDescription($format);
 
         // determine width and height of known image types
         $wh_input = $form->getInput("standard_width_height");

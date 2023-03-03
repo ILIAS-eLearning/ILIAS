@@ -47,14 +47,10 @@
 		<event type="listen" id="Modules/Course" />
 		<event type="listen" id="Modules/Group" />
 		<event type="listen" id="Modules/OrgUnit" />
-		<event type="listen" id="Modules/StudyProgramme" />
 
 		<event type="raise" id="userAssigned" />
 		<event type="raise" id="userDeassigned" />
 		<event type="raise" id="userSuccessful" />
-		<event type="raise" id="userReAssigned" />
-		<event type="raise" id="informUserToRestart" />
-		<event type="raise" id="userRiskyToFail" />
 	</events>
 	<crons>
 		<cron id="prg_invalidate_expired_progresses" class="ilPrgInvalidateExpiredProgressesCronJob" />

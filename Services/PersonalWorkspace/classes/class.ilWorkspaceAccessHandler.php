@@ -418,13 +418,13 @@ class ilWorkspaceAccessHandler
             " WHERE " . $ilDB->in("acl.object_id", $obj_ids, "", "integer") .
             " AND obj.owner <> " . $ilDB->quote($ilUser->getId(), "integer");
 
-        if ($a_filter["obj_type"]) {
+        if ($a_filter["obj_type"] ?? false) {
             $sql .= " AND obj.type = " . $ilDB->quote($a_filter["obj_type"], "text");
         }
-        if ($a_filter["title"] && strlen($a_filter["title"]) >= 3) {
+        if (($a_filter["title"]  ?? false) && strlen($a_filter["title"]) >= 3) {
             $sql .= " AND " . $ilDB->like("obj.title", "text", "%" . $a_filter["title"] . "%");
         }
-        if ($a_filter["user"] && strlen($a_filter["user"]) >= 3) {
+        if (($a_filter["user"]  ?? false) && strlen($a_filter["user"]) >= 3) {
             $usr_ids = array();
             $set = $ilDB->query("SELECT usr_id FROM usr_data" .
                 " WHERE (" . $ilDB->like("login", "text", "%" . $a_filter["user"] . "%") . " " .
@@ -440,13 +440,13 @@ class ilWorkspaceAccessHandler
             $sql .= " AND " . $ilDB->in("obj.owner", $usr_ids, "", "integer"); // PHP8-Review: Parameter #3 $negate of method ilDBInterface::in() expects bool, string given.
         }
 
-        if ($a_filter["acl_date"]) {
+        if ($a_filter["acl_date"] ?? false) {
             $dt = $a_filter["acl_date"]->get(IL_CAL_DATE);
             $dt = new ilDateTime($dt . " 00:00:00", IL_CAL_DATETIME);
             $sql .= " AND acl.tstamp > " . $ilDB->quote($dt->get(IL_CAL_UNIX), "integer");
         }
 
-        if ($a_filter["crsgrp"]) {
+        if ($a_filter["crsgrp"] ?? false) {
             $part = ilParticipants::getInstanceByObjId($a_filter['crsgrp']);
             $part = $part->getParticipants();
             if (!sizeof($part)) {

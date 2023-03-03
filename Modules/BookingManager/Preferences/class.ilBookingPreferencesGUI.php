@@ -109,8 +109,8 @@ class ilBookingPreferencesGUI
 
         $fields = [];
         foreach (ilBookingObject::getList($this->pool->getId()) as $book_obj) {
-            $checked = is_array($preferences[$this->user->getId()]) &&
-                in_array($book_obj["booking_object_id"], $preferences[$this->user->getId()], true);
+            $checked = isset($preferences[$this->user->getId()]) &&
+                in_array((int) $book_obj["booking_object_id"], $preferences[$this->user->getId()], true);
 
             $fields["cb_" . $book_obj["booking_object_id"]] =
                 $f->input()->field()->checkbox($book_obj["title"], $book_obj["description"])->withValue($checked);
@@ -209,7 +209,7 @@ class ilBookingPreferencesGUI
         $preferences = $repo->getPreferencesOfUser($this->pool->getId(), $this->user->getId());
         $preferences = $preferences->getPreferences();
         $cnt = 1;
-        if (is_array($preferences[$this->user->getId()])) {
+        if (isset($preferences[$this->user->getId()])) {
             foreach ($preferences[$this->user->getId()] as $book_obj_id) {
                 $book_obj = new ilBookingObject($book_obj_id);
                 $info_gui->addProperty((string) $cnt++, $book_obj->getTitle());

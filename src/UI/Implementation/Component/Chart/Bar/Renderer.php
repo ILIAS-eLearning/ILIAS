@@ -136,10 +136,13 @@ class Renderer extends AbstractComponentRenderer
 
     protected function determineHeightForHorizontal(Bar\Bar $component): string
     {
-        $min_height = 300;
+        $min_height = 150;
         $max_height = 900;
         $item_count = count($component->getDataset()->getPoints());
         $height = $min_height + ($item_count - 2) * 50;
+        if ($height < $min_height) {
+            $height = $min_height;
+        }
         if ($height > $max_height) {
             $height = $max_height;
         }
@@ -149,7 +152,7 @@ class Renderer extends AbstractComponentRenderer
 
     protected function determineHeightForVertical(Bar\Bar $component): string
     {
-        $min_height = 300;
+        $min_height = 150;
         $max_height = 900;
         $data_max = $this->getHighestValueOfChart($component) - $this->getLowestValueOfChart($component);
         $height = $min_height + ($data_max / 10) * 50;

@@ -604,32 +604,33 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         $users = array();
         $usersToDelete = array();
         while (($csv_rows = fgetcsv($fhandle, 2 ** 16, ";")) !== false) {
+            $user_id = 0;
             $data = array_combine($fields, $csv_rows);
             //no check the format - sufficient to import users
-            if ($data["Login"]) {
+            if (isset($data["Login"])) {
                 $user_id = $this->get_user_id($data["Login"]);
             }
-            if ($data["login"]) {
+            if (isset($data["login"])) {
                 $user_id = $this->get_user_id($data["login"]);
             }
             //add mail in future
-            if ($data["user"] && is_numeric($data["user"])) {
+            if (isset($data["user"]) && is_numeric($data["user"])) {
                 $user_id = (int) $data["user"];
             }
 
             if ($user_id > 0) {
                 $last_access = ilUtil::now();
-                if ($data['Date']) {
+                if (isset($data['Date'])) {
                     $date_ex = explode('.', $data['Date']);
                     $last_access = implode('-', array($date_ex[2], $date_ex[1], $date_ex[0]));
                 }
-                if ($data['LastAccess']) {
+                if (isset($data['LastAccess'])) {
                     $last_access = $data['LastAccess'];
                 }
 
                 $status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
 
-                if ($data["Status"]) {
+                if (isset($data["Status"])) {
                     if (is_int($data["Status"])) {
                         $status = $data["Status"];
                     } elseif ($data["Status"] == "0" || $data["Status"] == "1" || $data["Status"] == "2" || $data["Status"] == "3") {
@@ -644,21 +645,21 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                 }
 
                 $attempts = null;
-                if ($data["Attempts"]) {
-                    $attempts = $data["Attempts"];
+                if (isset($data["Attempts"])) {
+                    $attempts = (int) $data["Attempts"];
                 }
 
                 $percentage_completed = 0;
                 if ($status == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
                     $percentage_completed = 100;
                 }
-                if ($data['percentageCompletedSCOs']) {
-                    $percentage_completed = $data['percentageCompletedSCOs'];
+                if (isset($data['percentageCompletedSCOs'])) {
+                    $percentage_completed = (int) $data['percentageCompletedSCOs'];
                 }
 
                 $sco_total_time_sec = null;
-                if ($data['SumTotal_timeSeconds']) {
-                    $sco_total_time_sec = $data['SumTotal_timeSeconds'];
+                if (isset($data['SumTotal_timeSeconds'])) {
+                    $sco_total_time_sec = (int) $data['SumTotal_timeSeconds'];
                 }
 
                 if ($status == ilLPStatus::LP_STATUS_NOT_ATTEMPTED) {
@@ -723,9 +724,9 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         int $user_id,
         string $last_access,
         int $status,
-        $attempts = null,
-        $percentage_completed = null,
-        $sco_total_time_sec = null
+        ?int $attempts = null,
+        ?int $percentage_completed = null,
+        ?int $sco_total_time_sec = null
     ): void {
         global $DIC;
         $ilDB = $DIC->database();
@@ -760,6 +761,11 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                 'sco_total_time_sec' => array('integer', $sco_total_time_sec)
             ));
         }
+//        since 8 necessary because attempts can be null
+        if (ilChangeEvent::_lookupReadEvents($this->getID(), $user_id) == []) {
+            ilChangeEvent::_recordReadEvent("sahs", $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int()), $this->getID(), $user_id, false);
+        }
+
         ilChangeEvent::_recordReadEvent("sahs", $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int()), $this->getID(), $user_id, false, $attempts, $sco_total_time_sec);
     }
 

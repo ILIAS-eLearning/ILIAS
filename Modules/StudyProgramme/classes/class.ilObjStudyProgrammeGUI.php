@@ -583,12 +583,16 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                     );
                 }
 
-                $this->tabs_gui->addSubTab(
-                    'commonSettings',
-                    $this->lng->txt("obj_features"),
-                    $this->getLinkTarget("commonSettings")
-                );
+                if ($this->permissions->isOrguAccessEnabledGlobally()) {
+                    $this->tabs_gui->addSubTab(
+                        'commonSettings',
+                        $this->lng->txt("obj_features"),
+                        $this->getLinkTarget("commonSettings")
+                    );
+                }
+
                 break;
+
             case 'members':
                 $this->tabs_gui->addSubTab(
                     'edit_participants',

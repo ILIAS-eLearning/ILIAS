@@ -489,8 +489,10 @@ class ilAdvancedMDRecordGUI
                          *  maps in appointment lists has to be improved.
                          **/
                         $presentation_value = $presentation_bridge->getSortable();
-                    } else {
+                    } elseif (get_class($element) == 'ilADTExternalLink' || get_class($element) == 'ilADTInternalLink') {
                         #22638
+                        $presentation_value = $presentation_bridge->getHTML();
+                    } else {
                         $presentation_value = strip_tags($presentation_bridge->getHTML());
                     }
                     $array_elements[$positions[$element_id]] =
@@ -722,7 +724,20 @@ class ilAdvancedMDRecordGUI
                     continue;
                 }
 
-                $html .= "<td class='std'>" . $data['md_' . $def->getFieldId()] . "</td>";
+                $res = '';
+                $res_raw = $data['md_' . $def->getFieldId()] ?? null;
+                $res_presentation = $data['md_' . $def->getFieldId() . '_presentation'] ?? null;
+                if ($res_raw) {
+                    $res = $res_raw;
+                }
+                if (
+                    $res_presentation instanceof ilADTPresentationBridge &&
+                    !($res_presentation instanceof ilADTLocationPresentationBridge)
+                ) {
+                    $res = $res_presentation->getHTML();
+                }
+
+                $html .= "<td class='std'>" . $res . "</td>";
             }
         }
         return $html;

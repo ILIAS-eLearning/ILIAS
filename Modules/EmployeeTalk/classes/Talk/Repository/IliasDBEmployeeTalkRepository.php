@@ -23,104 +23,95 @@ namespace ILIAS\Modules\EmployeeTalk\Talk\Repository;
 use ILIAS\Modules\EmployeeTalk\Talk\DAO\EmployeeTalk;
 use ilDBInterface;
 use ilDateTime;
+use ilDate;
 use ilTimeZone;
 use ILIAS\MyStaff\ilMyStaffAccess;
-use ilOrgUnitPermissionQueries;
-use ilObjEmployeeTalk;
-use ilOrgUnitOperation;
-use ILIAS\Modules\EmployeeTalk\Talk\EmployeeTalkPositionAccessLevel;
 
 final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
 {
     private ilDBInterface $database;
 
-    /**
-     * IliasDBEmployeeTalkRepository constructor.
-     * @param ilDBInterface $database
-     */
     public function __construct(ilDBInterface $database)
     {
         $this->database = $database;
     }
 
+    /**
+     * @return EmployeeTalk[]
+     */
     public function findAll(): array
     {
-        $statement = $this->database->prepare('SELECT * FROM etal_data;');
-        $statement = $statement->execute();
+        $result = $this->database->query('SELECT * FROM etal_data');
         $talks = [];
-        while (($result = $statement->fetchObject()) !== null) {
-            $talks[] = $this->parseFromStdClass($result);
+        while ($row = $result->fetchObject()) {
+            $talks[] = $this->parseFromStdClass($row);
         }
-
-        $this->database->free($statement);
-
         return $talks;
     }
 
+    /**
+     * @param int[] $employees
+     * @return EmployeeTalk[]
+     */
     public function findByEmployees(array $employees): array
     {
-        $statement = $this->database->prepare(
+        $result = $this->database->query(
             'SELECT * FROM etal_data AS talk 
-            WHERE ' . $this->database->in('employee', $employees, false, "integer")
+            WHERE ' . $this->database->in('employee', $employees, false, 'integer')
         );
-        $statement = $statement->execute();
         $talks = [];
-        while (($result = $statement->fetchObject()) !== null) {
-            $talks[] = $this->parseFromStdClass($result);
+        while ($row = $result->fetchObject()) {
+            $talks[] = $this->parseFromStdClass($row);
         }
-
-        $this->database->free($statement);
-
         return $talks;
     }
 
-    public function findByEmployeesAndOwner(array $employees, int $owner): array
+    /**
+     * @param int   $user
+     * @param int[] $employees
+     * @return EmployeeTalk[]
+     */
+    public function findByUserOrTheirEmployees(int $user, array $employees): array
     {
-        $statement = $this->database->prepare('SELECT * FROM etal_data AS talk
+        $result = $this->database->query($q = 'SELECT * FROM etal_data AS talk
             INNER JOIN object_data AS od ON od.obj_id = talk.object_id
-            WHERE ' . $this->database->in('employee', $employees, false, "integer") . ' OR od.owner = ?;', ["integer"]);
-        $statement = $statement->execute([$owner]);
+            WHERE (' . $this->database->in('employee', $employees, false, 'integer') .
+            ' AND ' . $this->database->in('od.owner', $employees, false, 'integer') .
+            ') OR od.owner = ' . $this->database->quote($user, 'integer') .
+            ' OR employee = ' . $this->database->quote($user, 'integer'));
         $talks = [];
-        while (($result = $statement->fetchObject()) !== null) {
-            $talks[] = $this->parseFromStdClass($result);
+        while ($row = $result->fetchObject()) {
+            $talks[] = $this->parseFromStdClass($row);
         }
-
-        $this->database->free($statement);
-
         return $talks;
     }
 
+    /**
+     * @param int $employee
+     * @param int $owner
+     * @return EmployeeTalk[]
+     */
     public function findTalksBetweenEmployeeAndOwner(int $employee, int $owner): array
     {
-        $statement = $this->database->prepare('SELECT * FROM etal_data AS talk
+        $result = $this->database->query('SELECT * FROM etal_data AS talk
             INNER JOIN object_data AS od ON od.obj_id = talk.object_id
-            WHERE talk.employee = ? AND od.owner = ?;', ["integer", "integer"]);
-        $statement = $statement->execute([$employee, $owner]);
+            WHERE talk.employee = ' . $this->database->quote($employee, 'integer') .
+            ' AND od.owner = ' . $this->database->quote($owner, 'integer'));
         $talks = [];
-        while (($result = $statement->fetchObject()) !== null) {
-            $talks[] = $this->parseFromStdClass($result);
+        while ($row = $result->fetchObject()) {
+            $talks[] = $this->parseFromStdClass($row);
         }
-
-        $this->database->free($statement);
-
         return $talks;
-    }
-
-    public function findUsersByPositionRights(int $user): array
-    {
-        return $managedUser;
     }
 
     public function findByObjectId(int $objectId): EmployeeTalk
     {
-        $statement = $this->database->prepare('SELECT * FROM etal_data WHERE object_id=?;', ["integer"]);
-        $statement = $statement->execute([$objectId]);
-        $result = $statement->fetchObject();
-        $this->database->free($statement);
-
-        //TODO raise exception if result count is 0 or greater 1
-
-        return $this->parseFromStdClass($result);
+        $result = $this->database->query('SELECT * FROM etal_data WHERE object_id = ' .
+            $this->database->quote($objectId, 'integer'));
+        while ($row = $result->fetchObject()) {
+            return $this->parseFromStdClass($row);
+        }
+        throw new \ilEmployeeTalkDBException('No EmployeeTalk found with obj_id ' . $objectId);
     }
 
     public function create(EmployeeTalk $talk): EmployeeTalk
@@ -130,11 +121,11 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
             'series_id'             => ['text', $talk->getSeriesId()],
             'start_date'            => ['int', $talk->getStartDate()->getUnixTime()],
             'end_date'              => ['int', $talk->getEndDate()->getUnixTime()],
-            'all_day'               => ['int', $talk->isAllDay()],
+            'all_day'               => ['int', (int) $talk->isAllDay()],
             'location'              => ['text', $talk->getLocation()],
             'employee'              => ['int', $talk->getEmployee()],
-            'completed'             => ['int', $talk->isCompleted()],
-            'standalone_date'       => ['int', $talk->isStandalone()]
+            'completed'             => ['int', (int) $talk->isCompleted()],
+            'standalone_date'       => ['int', (int) $talk->isStandalone()]
             ]);
 
         return $talk;
@@ -146,11 +137,11 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
             'series_id'             => ['text', $talk->getSeriesId()],
             'start_date'            => ['int', $talk->getStartDate()->getUnixTime()],
             'end_date'              => ['int', $talk->getEndDate()->getUnixTime()],
-            'all_day'               => ['int', $talk->isAllDay()],
+            'all_day'               => ['int', (int) $talk->isAllDay()],
             'location'              => ['text', $talk->getLocation()],
             'employee'              => ['int', $talk->getEmployee()],
-            'completed'             => ['int', $talk->isCompleted()],
-            'standalone_date'       => ['int', $talk->isStandalone()]
+            'completed'             => ['int', (int) $talk->isCompleted()],
+            'standalone_date'       => ['int', (int) $talk->isStandalone()]
         ], [
             'object_id'             => ['int', $talk->getObjectId()]
         ]);
@@ -160,48 +151,56 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
 
     public function delete(EmployeeTalk $talk): void
     {
-        $statement = $this->database->prepareManip('DELETE FROM etal_data WHERE object_id=?;', ["integer"]);
-        $statement->execute([$talk->getObjectId()]);
-        $this->database->free($statement);
+        $this->database->manipulate('DELETE FROM etal_data WHERE object_id = ' .
+            $this->database->quote($talk->getObjectId(), 'integer'));
     }
 
+    /**
+     * @param int $iliasUserId
+     * @return EmployeeTalk[]
+     */
     public function findByEmployee(int $iliasUserId): array
     {
-        $statement = $this->database->prepare('SELECT * FROM etal_data WHERE employee=?;', ["integer"]);
-        $statement = $statement->execute([$iliasUserId]);
-
+        $result = $this->database->query('SELECT * FROM etal_data WHERE employee = ' .
+            $this->database->quote($iliasUserId, 'integer'));
         $talks = [];
-        while (($result = $statement->fetchObject()) !== null) {
-            $talks[] = $this->parseFromStdClass($result);
+        while ($row = $result->fetchObject()) {
+            $talks[] = $this->parseFromStdClass($row);
         }
-
-        $this->database->free($statement);
-
         return $talks;
     }
 
+    /**
+     * @param string $seriesId
+     * @return EmployeeTalk[]
+     */
     public function findBySeries(string $seriesId): array
     {
-        $statement = $this->database->prepare('SELECT * FROM etal_data WHERE series_id=?;', ["text"]);
-        $statement = $statement->execute([$seriesId]);
-
+        $result = $this->database->query('SELECT * FROM etal_data WHERE series_id = ' .
+            $this->database->quote($seriesId, 'text'));
         $talks = [];
-        while (($result = $statement->fetchObject()) !== null) {
-            $talks[] = $this->parseFromStdClass($result);
+        while ($row = $result->fetchObject()) {
+            $talks[] = $this->parseFromStdClass($row);
         }
-
-        $this->database->free($statement);
-
         return $talks;
     }
 
     private function parseFromStdClass($stdClass): EmployeeTalk
     {
+        $all_day = boolval($stdClass->all_day);
+        if ($all_day) {
+            $start_date = new ilDate($stdClass->start_date, IL_CAL_UNIX);
+            $end_date = new ilDate($stdClass->start_date, IL_CAL_UNIX);
+        } else {
+            $start_date = new ilDateTime($stdClass->start_date, IL_CAL_UNIX, ilTimeZone::UTC);
+            $end_date = new ilDateTime($stdClass->start_date, IL_CAL_UNIX, ilTimeZone::UTC);
+        }
+
         return new EmployeeTalk(
             intval($stdClass->object_id),
-            new ilDateTime($stdClass->start_date, IL_CAL_UNIX, ilTimeZone::UTC),
-            new ilDateTime($stdClass->end_date, IL_CAL_UNIX, ilTimeZone::UTC),
-            boolval($stdClass->all_day),
+            $start_date,
+            $end_date,
+            $all_day,
             $stdClass->series_id ?? '',
             $stdClass->location ?? '',
             intval($stdClass->employee),

@@ -89,6 +89,10 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
         );
         $row = $this->db->fetchAssoc($res);
 
+        if ($row === null) {
+            return $entity;
+        }
+
         $entity = $entity
             ->withId((int) $row['id'])
             ->withUserId((int) $row['usr_id'])

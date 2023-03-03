@@ -63,13 +63,13 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
      * <id => ilPRGProgress>
      */
     protected array $progresses = [];
-    protected ilStudyProgrammeEvents $events;
+    protected StudyProgrammeEvents $events;
 
     public function __construct(
         ilDBInterface $db,
         ilTree $tree,
         ilStudyProgrammeSettingsRepository $settings_repo,
-        ilStudyProgrammeEvents $events
+        PRGEventsDelayed $events
     ) {
         $this->db = $db;
         $this->tree = $tree;
@@ -137,6 +137,8 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
                 $pgs
             );
         }
+
+        $this->events->raiseCollected();
     }
 
     public function delete(ilPRGAssignment $assignment): void
@@ -470,11 +472,8 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
             (int) $row[self::ASSIGNMENT_FIELD_ID],
             (int) $row[self::ASSIGNMENT_FIELD_USR_ID]
         );
-
-        $ass = $ass->withProgressSuccessNotification(
-            fn (ilPRGAssignment $ass, int $pgs_id) => $this->events->userSuccessful($ass, $pgs_id)
-        );
         $ass = $ass
+            ->withEvents($this->events)
             ->withLastChange(
                 (int) $row[self::ASSIGNMENT_FIELD_LAST_CHANGE_BY],
                 \DateTimeImmutable::createFromFormat(
@@ -673,11 +672,12 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
         $individual = $pgs->hasIndividualModifications() ? 1 : 0;
         $completion = $pgs->getCompletionBy() ?? 'NULL';
 
-        $q = 'REPLACE INTO ' . self::PROGRESS_TABLE
+        $q = 'INSERT INTO ' . self::PROGRESS_TABLE
             . '('
             . self::PROGRESS_FIELD_ASSIGNMENT_ID . ','
             . self::PROGRESS_FIELD_USR_ID . ','
             . self::PROGRESS_FIELD_PRG_ID . ','
+
             . self::PROGRESS_FIELD_STATUS . ','
             . self::PROGRESS_FIELD_POINTS . ','
             . self::PROGRESS_FIELD_POINTS_CUR . ','
@@ -690,10 +690,12 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
             . self::PROGRESS_FIELD_VQ_DATE . ','
             . self::PROGRESS_FIELD_INVALIDATED . ','
             . self::PROGRESS_FIELD_IS_INDIVIDUAL
+
             . PHP_EOL . ') VALUES (' . PHP_EOL
             . $assignment_id
             . ' ,' . $usr_id
             . ' ,' . $pgs->getNodeId()
+
             . ' ,' . $pgs->getStatus()
             . ' ,' . $pgs->getAmountOfPoints()
             . ' ,' . $pgs->getCurrentAmountOfPoints()
@@ -706,8 +708,21 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
             . ' ,' . $validity
             . ' ,' . $invalidated
             . ' ,' . $individual
-            . ')';
-
+            . ')' . PHP_EOL
+            . 'ON DUPLICATE KEY UPDATE' . PHP_EOL
+            . self::PROGRESS_FIELD_STATUS . '=' . $pgs->getStatus() . ','
+            . self::PROGRESS_FIELD_POINTS . '=' . $pgs->getAmountOfPoints() . ','
+            . self::PROGRESS_FIELD_POINTS_CUR . '=' . $pgs->getCurrentAmountOfPoints() . ','
+            . self::PROGRESS_FIELD_COMPLETION_BY . '=' . $completion . ','
+            . self::PROGRESS_FIELD_LAST_CHANGE_BY . '=' . $pgs->getLastChangeBy() . ','
+            . self::PROGRESS_FIELD_LAST_CHANGE . '=' . $lastchange . ','
+            . self::PROGRESS_FIELD_ASSIGNMENT_DATE . '=' . $assign_date . ','
+            . self::PROGRESS_FIELD_COMPLETION_DATE . '=' . $completion_date . ','
+            . self::PROGRESS_FIELD_DEADLINE . '=' . $deadline . ','
+            . self::PROGRESS_FIELD_VQ_DATE . '=' . $validity . ','
+            . self::PROGRESS_FIELD_INVALIDATED . '=' . $invalidated . ','
+            . self::PROGRESS_FIELD_IS_INDIVIDUAL . '=' . $individual
+            ;
         $this->db->manipulate($q);
     }
 
@@ -728,6 +743,19 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
         $this->db->update(self::PROGRESS_TABLE, $values, $where);
     }
 
+    public function resetExpiryInfoSentFor(ilPRGAssignment $ass): void
+    {
+        $where = [
+            self::PROGRESS_FIELD_ASSIGNMENT_ID => ['integer', $ass->getId()],
+            self::PROGRESS_FIELD_PRG_ID => ['integer', $ass->getRootId()]
+        ];
+
+        $values = [
+            self::PROGRESS_FIELD_MAIL_SENT_WILLEXPIRE => ['null', null]
+        ];
+        $this->db->update(self::PROGRESS_TABLE, $values, $where);
+    }
+
     public function storeRiskyToFailSentFor(ilPRGAssignment $ass): void
     {
         $where = [
@@ -740,6 +768,19 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
                 'timestamp',
                 date('Y-m-d H:i:s')
             ]
+        ];
+        $this->db->update(self::PROGRESS_TABLE, $values, $where);
+    }
+
+    public function resetRiskyToFailSentFor(ilPRGAssignment $ass): void
+    {
+        $where = [
+            self::PROGRESS_FIELD_ASSIGNMENT_ID => ['integer', $ass->getId()],
+            self::PROGRESS_FIELD_PRG_ID => ['integer', $ass->getRootId()]
+        ];
+
+        $values = [
+            self::PROGRESS_FIELD_MAIL_SENT_RISKYTOFAIL => ['null', null]
         ];
         $this->db->update(self::PROGRESS_TABLE, $values, $where);
     }

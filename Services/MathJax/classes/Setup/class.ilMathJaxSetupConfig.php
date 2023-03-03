@@ -47,6 +47,15 @@ class ilMathJaxSetupConfig implements Setup\Config
     }
 
     /**
+     * Get the MathJaxConfig object which is created from the data in config.json
+     * @return ilMathJaxConfig
+     */
+    public function getConfig(): ilMathJaxConfig
+    {
+        return $this->config;
+    }
+
+    /**
      * Get a data array from a config
      */
     public function getDataFromConfig(ilMathJaxConfig $config): array
@@ -66,7 +75,9 @@ class ilMathJaxSetupConfig implements Setup\Config
     }
 
     /**
-     * Check if the setup config can be applied to an existing config
+     * Check if the setup config can be applied to an existing stored config
+     * Only the values that are actually defined in the config.json will be applied
+     * The setup config is applicable if at least one setting in config.json is defined and differs fron the stored config
      */
     public function isApplicableTo(ilMathJaxConfig $config): bool
     {
@@ -83,7 +94,8 @@ class ilMathJaxSetupConfig implements Setup\Config
     }
 
     /**
-     * Apply the setup config to an existing config
+     * Apply the setup config to an existing stored config
+     * Only the values that are actually defined in the config.json will be applied
      */
     public function applyTo(ilMathJaxConfig $config): ilMathJaxConfig
     {

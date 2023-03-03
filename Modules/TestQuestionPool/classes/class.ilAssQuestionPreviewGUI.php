@@ -85,6 +85,9 @@ class ilAssQuestionPreviewGUI
         $this->randomGroup = $randomGroup;
 
         $this->parent_ref_id = $parent_ref_id;
+
+        $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
+        $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
     }
 
     public function initQuestion($questionId, $parentObjId): void

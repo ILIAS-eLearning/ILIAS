@@ -35,6 +35,10 @@ class ilFileServicesPolicy extends WhiteAndBlacklistedFileNamePolicy
         "ä" => "ae",
         "ö" => "oe",
         "ü" => "ue",
+        "é" => "e",
+        "è" => "e",
+        "é" => "e",
+        "ê" => "e",
         "ß" => "ss"
     ];
     protected int $file_admin_ref_id;
@@ -55,8 +59,11 @@ class ilFileServicesPolicy extends WhiteAndBlacklistedFileNamePolicy
     {
         $filename = $this->sanitizer->sanitize(basename($filename_with_extension));
         if ($this->as_ascii) {
-            return $this->ascii($filename);
+            $filename = $this->ascii($filename);
         }
+        // remove all control characters, see https://mantis.ilias.de/view.php?id=34975
+        $filename = preg_replace('/&#.*;/U', '_', $filename, 1);
+
         return $filename;
     }
 

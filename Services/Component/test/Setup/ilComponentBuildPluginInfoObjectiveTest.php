@@ -13,13 +13,14 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
 class ilComponentBuildPluginInfoObjectiveTest extends TestCase
 {
+    private ?ilComponentBuildPluginInfoObjective $builder = null;
+
     protected function setUp(): void
     {
         $this->scanned = [];
@@ -42,6 +43,18 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
             public function _scanDir(string $dir): array
             {
                 return parent::scanDir($dir);
+            }
+            protected function isDir(string $dir): bool
+            {
+                return true;
+            }
+            public function _isDir(string $dir): bool
+            {
+                return parent::isDir($dir);
+            }
+            public function _isDotFile(string $file): bool
+            {
+                return parent::isDotFile($file);
             }
             protected function buildPluginPath(string $type, string $component, string $slot, string $plugin): string
             {
@@ -80,7 +93,7 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
             "Services" => ["Service1"],
             "Modules/Module1" => ["Slot1", "Slot2"],
             "Modules/Module2" => [],
-            "Services/Service1" => ["Slot3"]
+            "Services/Service1" => ["Slot3",".DS_Store"] // .DS_Store should be skipped
         ];
 
         $this->builder->build();
@@ -120,7 +133,27 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
     {
         // Use the component directory without artifacts, because this should be mostly stable.
         $expected = ["ROADMAP.md", "classes", "exceptions", "maintenance.json", "service.xml", "test"];
-        $actual = array_values(array_diff($this->builder->_scanDir(__DIR__ . "/../.."), ["artifacts"]));
+        $actual = array_values(
+            array_diff(
+                $this->builder->_scanDir(__DIR__ . "/../.."),
+                ["artifacts", ".DS_Store"] // .DS_Store is a macOS artifact which is not relevant for the test.
+            )
+        );
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testIsDir(): void
+    {
+        // Use the component directory, because this should be mostly stable.
+        $expected = true;
+        $actual = $this->builder->_isDir(__DIR__ . "/../..");
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testIsDotFile(): void
+    {
+        $expected = true;
+        $actual = $this->builder->_isDotFile(".DS_Store");
         $this->assertEquals($expected, $actual);
     }
 

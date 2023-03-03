@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclTextFieldModel
@@ -79,8 +78,8 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
             return $this->checkValidityOfURLField($value, $record_id);
         }
 
-        //Don't check empty values
-        if ($value == null) {
+        // Don't check empty values
+        if ($value === null) {
             return true;
         }
 

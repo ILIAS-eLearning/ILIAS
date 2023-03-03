@@ -1894,6 +1894,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
     protected function move(): void
     {
         ilSession::set("mep_move_ids", $this->mep_request->getItemIds());
+        $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("mep_move_select_insert"), true);
         $this->ctrl->redirect($this, "listMedia");
     }
 

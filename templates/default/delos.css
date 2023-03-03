@@ -18235,38 +18235,16 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   -webkit-hyphens: auto;
   hyphens: auto;
 }
+#onscreenchat-container .chat-window-wrapper .panel-footer-for-shadow {
+  height: 0;
+  width: 0;
+}
 #onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessageContainer {
-  background-color: transparent;
-}
-#onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessageContainer .iosOnScreenChatMessagePlaceholder {
-  position: absolute;
-  z-index: 0;
-  border: 0 none !important;
-  background-color: transparent;
-  opacity: 0.5;
-}
-#onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessageContainer .iosOnScreenChatMessage {
-  background-color: transparent;
-  position: relative;
-  z-index: 1;
-  white-space: pre-wrap;
-  user-select: text;
-  outline: none;
-  overflow-x: hidden;
-  height: auto;
-  min-height: 26px;
-  max-height: 75px;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  -ms-word-break: break-all;
-  word-break: break-all;
-  word-break: break-word;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-  cursor: text;
-  padding-right: 26px;
+  resize: none;
+  width: 100%;
+  border: 1px solid;
+  background: white;
+  height: 25px;
 }
 #onscreenchat-container .chat-window-wrapper .osc_truncate_username {
   width: 150px;
@@ -18453,6 +18431,16 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 }
 .modal-content {
   color: #161616;
+}
+.modal-content .form-horizontal .col-sm-4,
+.modal-content .form-horizontal .col-md-3,
+.modal-content .form-horizontal .col-lg-2 {
+  width: 33.33%;
+}
+.modal-content .form-horizontal .col-sm-8,
+.modal-content .form-horizontal .col-md-9,
+.modal-content .form-horizontal .col-lg-10 {
+  width: 66.67%;
 }
 /* Services/Badge */
 img.ilBadgeImage {
@@ -19771,6 +19759,15 @@ div.ilc_Page.readonly textarea[disabled] {
 #tst_output #tst_right h1.ilc_page_title_PageTitle {
   margin-bottom: 6px;
 }
+#tst_pass_details_overview tr {
+  scroll-margin-top: 30px;
+}
+.dd-item {
+  font-size: 0.875rem;
+}
+li.dd-item.ilc_qordli_OrderListItem > ul li.dd-item.ilc_qordli_OrderListItem {
+  border: 2px white solid;
+}
 .il-mcst-side .row > .col-sm-3 {
   width: 100%;
 }
@@ -20031,4 +20028,3 @@ table.mceToolbar td {
     content: "";
   }
 }
-/*# sourceMappingURL=delos.css.map */

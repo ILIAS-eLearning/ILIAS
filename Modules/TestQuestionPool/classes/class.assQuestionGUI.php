@@ -812,7 +812,7 @@ abstract class assQuestionGUI
         if ($result == 0) {
             $ilUser->setPref("tst_lastquestiontype", $this->object->getQuestionType());
             $ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
-            $this->object->saveToDb();
+            $this->object->saveToDb($old_id);
             if ($this->object->getOriginalId() == null) {
                 $originalexists = false;
             } else {
@@ -1980,7 +1980,7 @@ abstract class assQuestionGUI
 
     public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex): ilAnswerFrequencyStatisticTableGUI
     {
-        $table = new ilAnswerFrequencyStatisticTableGUI($parentGui, $parentCmd, get_class($this->object));
+        $table = new ilAnswerFrequencyStatisticTableGUI($parentGui, $parentCmd, $this->object);
         $table->setQuestionIndex($questionIndex);
         $table->setData($this->getAnswersFrequency($relevantAnswers, $questionIndex));
         $table->initColumns();

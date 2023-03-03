@@ -19,6 +19,8 @@ class ilConsultationHourUtils
         $ctrl = $DIC->ctrl();
         $lng = $DIC->language();
         $logger = $DIC->logger()->cal();
+        $ctrl->setParameterByClass(end($ctrl_class_structure), 'seed', '');
+        $ctrl->setParameterByClass(end($ctrl_class_structure), 'category_id', '');
 
         $obj_id = \ilObject::_lookupObjId($ref_id);
         $participants = \ilParticipants::getInstance($ref_id);
@@ -38,7 +40,7 @@ class ilConsultationHourUtils
                     continue;
                 }
                 $booking_entry = new ilBookingEntry($entry->getContextId());
-                if (!in_array($obj_id, $booking_entry->getTargetObjIds())) {
+                if (count($booking_entry->getTargetObjIds()) > 0 && !in_array($obj_id, $booking_entry->getTargetObjIds())) {
                     continue;
                 }
                 if (!$booking_entry->isAppointmentBookableForUser($entry->getEntryId(), $current_user_id)) {
@@ -50,10 +52,13 @@ class ilConsultationHourUtils
 
             $ctrl->setParameterByClass(end($ctrl_class_structure), 'ch_user_id', $user_id);
             if ($next_entry instanceof \ilCalendarEntry) {
+                $arr = explode("-", $next_entry->getStart()->get(IL_CAL_DATE));
+                $arr[2] = "01";
+                $seed = implode("-", $arr);
                 $ctrl->setParameterByClass(
                     end($ctrl_class_structure),
                     'seed',
-                    $next_entry->getStart()->get(IL_CAL_DATE)
+                    $seed
                 );
             }
             $current_link = [

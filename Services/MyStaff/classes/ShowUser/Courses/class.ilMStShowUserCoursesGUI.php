@@ -16,7 +16,6 @@
  ********************************************************************
  */
 
-use ILIAS\MyStaff\Courses\ShowUser\ilMStShowUserCoursesTableGUI;
 use ILIAS\MyStaff\ilMyStaffAccess;
 
 /**
@@ -24,7 +23,7 @@ use ILIAS\MyStaff\ilMyStaffAccess;
  * @package           ILIAS\MyStaff\Courses\ShowUser
  * @author            Theodor Truffer <tt@studer-raimann.ch>
  * @ilCtrl_IsCalledBy ilMStShowUserCoursesGUI: ilMStShowUserGUI
- * @ilCtrl_Calls      ilMStShowUserCoursesGUI: ilFormPropertyDispatchGUI
+ * @ilCtrl_Calls      ilMStShowUserCoursesGUI: ilMStShowUserCoursesTableGUI
  */
 class ilMStShowUserCoursesGUI
 {
@@ -59,6 +58,7 @@ class ilMStShowUserCoursesGUI
 
         if ($this->access->hasCurrentUserAccessToMyStaff()
             && $this->access->hasCurrentUserAccessToUser($this->usr_id)
+            && $this->access->hasCurrentUserAccessToCourseMemberships()
         ) {
             return;
         } else {
@@ -77,10 +77,10 @@ class ilMStShowUserCoursesGUI
         $next_class = $DIC->ctrl()->getNextClass();
 
         switch ($next_class) {
-            case strtolower(ilFormPropertyDispatchGUI::class):
+            case strtolower(ilMStShowUserCoursesTableGUI::class):
                 $DIC->ctrl()->setReturn($this, self::CMD_INDEX);
                 $this->table = new ilMStShowUserCoursesTableGUI($this, self::CMD_INDEX);
-                $this->table->executeCommand();
+                $DIC->ctrl()->forwardCommand($this->table);
                 break;
             default:
                 switch ($cmd) {
@@ -154,7 +154,7 @@ class ilMStShowUserCoursesGUI
             $selection = new ilAdvancedSelectionListGUI();
 
             if ($DIC->access()->checkAccess("visible", "", $mst_lco_crs_ref_id)) {
-                $link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::DEFAULT_CONTEXT);
+                $link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::COURSE_CONTEXT);
                 $selection->addItem(
                     ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)),
                     '',

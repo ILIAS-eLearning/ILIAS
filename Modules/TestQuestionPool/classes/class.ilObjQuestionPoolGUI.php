@@ -212,7 +212,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $gui->initPreviewSettings($this->object->getRefId());
                 $gui->initPreviewSession($ilUser->getId(), $this->fetchAuthoringQuestionIdParamater());
                 $gui->initHintTracking();
-                $gui->initStyleSheets();
 
                 global $DIC;
                 $ilHelp = $DIC['ilHelp'];
@@ -1264,7 +1263,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             'detailed' => $this->lng->txt('detailed_output_solutions'),
             'detailed_printview' => $this->lng->txt('detailed_output_printview')
         ));
-        $mode->setValue(ilUtil::stripSlashes((string) $_POST['output']));
+        $mode->setValue(ilUtil::stripSlashes((string) $_POST['output'] ?? ''));
 
         $ilToolbar->setFormName('printviewOptions');
         $ilToolbar->addInputItem($mode, true);
@@ -1398,6 +1397,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     */
     protected function importFileObject(int $parent_id = null, bool $catch_errors = true): void
     {
+        if (!$this->checkPermissionBool("create", "", $_REQUEST["new_type"])) {
+            $this->error->raiseError($this->lng->txt("no_create_permission"));
+        }
+
         $form = $this->initImportForm($this->qplrequest->raw("new_type"));
         if ($form->checkInput()) {
             $this->uploadQplObject();

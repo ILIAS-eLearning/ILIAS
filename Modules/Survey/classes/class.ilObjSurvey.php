@@ -314,7 +314,7 @@ class ilObjSurvey extends ilObject
         );
         $this->deleteAllUserData(false);
 
-        $this->code_manager->deleteAll();
+        $this->code_manager->deleteAll(true);
 
         // delete export files
         $svy_data_dir = ilFileUtils::getDataDir() . "/svy_data";
@@ -424,6 +424,11 @@ class ilObjSurvey extends ilObject
         if (count($user_ids)) {
             $lp_obj = ilObjectLP::getInstance($this->getId());
             $lp_obj->resetLPDataForUserIds($user_ids);
+
+            // remove invitations, if exist
+            foreach ($user_ids as $user_id) {
+                $this->invitation_manager->remove($this->getSurveyId(), $user_id);
+            }
         }
     }
 
@@ -490,10 +495,9 @@ class ilObjSurvey extends ilObject
      */
     public function saveCompletionStatus(): void
     {
-        $ilDB = $this->db;
-
+        $db = $this->db;
         if ($this->getSurveyId() > 0) {
-            $ilDB->manipulateF(
+            $db->manipulateF(
                 "UPDATE svy_svy SET complete = %s, tstamp = %s WHERE survey_id = %s",
                 array('text','integer','integer'),
                 array($this->isComplete(), time(), $this->getSurveyId())
@@ -561,6 +565,7 @@ class ilObjSurvey extends ilObject
             $this->svy_log->debug("added entry to svy_svy_qst, id: " . $next_id . ", question id: " . $duplicate_id . ", sequence: " . $sequence);
 
             $this->loadQuestionsFromDb();
+            $this->saveCompletionStatus();
             return true;
         }
     }
@@ -2443,6 +2448,15 @@ class ilObjSurvey extends ilObject
             $ntf->setGotoLangId('survey_notification_tutor_link');
             $ntf->setReasonLangId('survey_notification_finished_reason');
 
+            $recipient = trim($recipient);
+            $user_id = (int) ilObjUser::_lookupId($recipient);
+            if ($user_id > 0) {
+                $ntf->sendMailAndReturnRecipients([$user_id]);
+            }
+            /*  note: this block is replace by the single line above
+                since the UI asks for account names and the "e-mail" fallback leads
+                to strange issues like multiple mails. Also the test case has been
+                adopted, see https://mantis.ilias.de/view.php?id=36327
             if (is_numeric($recipient)) {
                 $lng = $ntf->getUserLanguage((int) $recipient);
                 $ntf->sendMailAndReturnRecipients([(int) $recipient]);
@@ -2457,7 +2471,7 @@ class ilObjSurvey extends ilObject
                         $ntf->sendMailAndReturnRecipients(array($user_id));
                     }
                 }
-            }
+            }*/
         }
     }
 
@@ -4312,8 +4326,8 @@ class ilObjSurvey extends ilObject
         // user specific language
         $lng = $ntf->getUserLanguage($a_user_id);
 
-        $ntf->setIntroductionLangId("svy_user_added_360_appraisee_mail");
-        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_360_appraisee"));
+        $ntf->setIntroductionLangId("svy_user_added_appraisee_mail");
+        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_appraisee"));
 
         // #10044
         $mail = new ilMail(ANONYMOUS_USER_ID);
@@ -4341,8 +4355,8 @@ class ilObjSurvey extends ilObject
         // user specific language
         $lng = $ntf->getUserLanguage($a_user_id);
 
-        $ntf->setIntroductionLangId("svy_user_added_360_appraisee_close_mail");
-        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_360_appraisee"));
+        $ntf->setIntroductionLangId("svy_user_added_appraisee_close_mail");
+        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_appraisee"));
 
         // #10044
         $mail = new ilMail(ANONYMOUS_USER_ID);
@@ -4371,8 +4385,8 @@ class ilObjSurvey extends ilObject
         // user specific language
         $lng = $ntf->getUserLanguage($a_user_id);
 
-        $ntf->setIntroductionLangId("svy_user_added_360_rater_mail");
-        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_360_rater"));
+        $ntf->setIntroductionLangId("svy_user_added_rater_mail");
+        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_rater"));
         $ntf->addAdditionalInfo("survey_360_appraisee", ilUserUtil::getNamePresentation($a_appraisee_id, false, false, "", true));
 
         // #10044
@@ -5228,8 +5242,8 @@ class ilObjSurvey extends ilObject
         // user specific language
         $lng = $ntf->getUserLanguage($a_user_id);
 
-        $ntf->setIntroductionLangId("svy_user_added_360_rater_reminder_mail");
-        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_360_rater"));
+        $ntf->setIntroductionLangId("svy_user_added_rater_reminder_mail");
+        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_rater"));
 
         foreach ($a_appraisee_ids as $appraisee_id) {
             $ntf->addAdditionalInfo("survey_360_appraisee", ilUserUtil::getNamePresentation($appraisee_id, false, false, "", true));

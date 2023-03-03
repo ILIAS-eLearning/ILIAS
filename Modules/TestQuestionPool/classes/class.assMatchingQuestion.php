@@ -692,6 +692,17 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     }
 
     /**
+    * @param assAnswerMatchingPair[]
+    */
+    public function withMatchingPairs(array $pairs): self
+    {
+        $clone = clone $this;
+        $clone->matchingpairs = $pairs;
+        return $clone;
+    }
+
+
+    /**
     * Returns the number of matching pairs
     *
     * @return integer The number of matching pairs of the matching question
@@ -879,7 +890,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
-        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
+        $result = $this->getCurrentSolutionResultSet($active_id, (int)$pass, $authorizedSolution);
         while ($data = $ilDB->fetchAssoc($result)) {
             if (strcmp($data["value1"], "") != 0) {
                 if (!isset($found_values[$data['value2']])) {

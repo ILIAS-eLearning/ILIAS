@@ -108,33 +108,22 @@ class ilRegistrationRoleAccessLimitations
 
     public function getAbsolute(int $a_role_id): int
     {
-        $time = time();
-
-        if (isset($this->access_limitations[$a_role_id]['absolute'])) {
-            $time = $this->access_limitations[$a_role_id]['absolute'];
-        }
-
-        return $time;
+        return $this->access_limitations[$a_role_id]['absolute'] ?? time();
     }
 
     public function setAbsolute(?string $date, int $a_role_id): void
     {
         if (!is_null($date)) {
-            $data = strtotime($date);
+            $unix_date = strtotime($date);
+            if ($unix_date) {
+                $this->access_limitations[$a_role_id]['absolute'] = $unix_date;
+            }
         }
-
-        $this->access_limitations[$a_role_id]['absolute'] = $date;
     }
 
     public function getRelative(int $a_role_id, string $a_type): int
     {
-        $time = 0;
-
-        if (isset($this->access_limitations[$a_role_id]['relative_' . $a_type])) {
-            $time = $this->access_limitations[$a_role_id]['relative_' . $a_type];
-        }
-
-        return $time;
+        return $this->access_limitations[$a_role_id]['relative_' . $a_type] ?? 0;
     }
 
     /**

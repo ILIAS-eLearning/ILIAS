@@ -40,6 +40,8 @@ class ilPRGProgress extends Node
         self::STATUS_FAILED
     ];
 
+    public const COMPLETED_BY_SUBNODES = -2;
+
     public const DATE_TIME_FORMAT = ilPRGAssignment::DATE_TIME_FORMAT;
     public const DATE_FORMAT = ilPRGAssignment::DATE_FORMAT;
 
@@ -159,7 +161,8 @@ class ilPRGProgress extends Node
                 ];
             case self::STATUS_COMPLETED:
                 return [
-                    self::STATUS_IN_PROGRESS // deaccriditation of sub-progress might revert completion,
+                    self::STATUS_IN_PROGRESS, // deaccriditation of sub-progress might revert completion,
+                    self::STATUS_NOT_RELEVANT
                 ];
             case self::STATUS_FAILED:
                 return [

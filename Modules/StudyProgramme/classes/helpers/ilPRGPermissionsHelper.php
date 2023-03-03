@@ -51,6 +51,8 @@ class ilPRGPermissionsHelper
     ];
 
     protected ilAccess $access;
+    protected ilOrgUnitGlobalSettings $orgu_settings;
+    protected ilObjectDataCache $data_cache;
     protected ilOrgUnitPositionAccess $orgu_access;
     protected int $prg_ref_id;
     protected array $cache = [];
@@ -62,10 +64,14 @@ class ilPRGPermissionsHelper
 
     public function __construct(
         ilAccess $access,
+        ilOrgUnitGlobalSettings $orgu_settings,
+        ilObjectDataCache $data_cache,
         ilOrgUnitPositionAccess $orgu_access,
         int $prg_ref_id
     ) {
         $this->access = $access;
+        $this->orgu_settings = $orgu_settings;
+        $this->data_cache = $data_cache;
         $this->orgu_access = $orgu_access;
         $this->prg_ref_id = $prg_ref_id;
     }
@@ -180,5 +186,13 @@ class ilPRGPermissionsHelper
     protected function getProgrammeRefId(): int
     {
         return $this->prg_ref_id;
+    }
+
+    public function isOrguAccessEnabledGlobally(): bool
+    {
+        $obj_id = $this->data_cache->lookupObjId($this->getProgrammeRefId());
+        $type_settings = $this->orgu_settings->getObjectPositionSettingsByType('prg');
+
+        return $type_settings->isActive() && $type_settings->isChangeableForObject();
     }
 }

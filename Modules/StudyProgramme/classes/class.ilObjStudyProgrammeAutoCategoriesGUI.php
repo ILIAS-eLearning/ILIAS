@@ -19,6 +19,7 @@ declare(strict_types=1);
  *********************************************************************/
 
 use ILIAS\UI\Component\Button\Shy;
+use ILIAS\UI\Component\Link\Link;
 use ILIAS\UI\Component\Dropdown\Standard;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Factory;
@@ -161,7 +162,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
             ];
         }
         usort($data, static function (array $a, array $b): int {
-            return strnatcmp($a[4], $b[4]);
+            return strnatcasecmp($a[4], $b[4]);
         });
 
         $table = new ilStudyProgrammeAutoCategoriesTableGUI($this, "view", "");
@@ -399,7 +400,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         return $this->ui_factory->dropdown()->standard($items);
     }
 
-    protected function getUserRepresentation(int $usr_id): Shy
+    protected function getUserRepresentation(int $usr_id): Link
     {
         $username = ilObjUser::_lookupName($usr_id);
         $editor = implode(' ', [
@@ -412,7 +413,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         if (!$usr->hasPublicProfile()) {
             $url = $this->ctrl->getLinkTarget($this, self::CMD_PROFILE_NOT_PUBLIC);
         }
-        return $this->ui_factory->button()->shy($editor, $url);
+        return $this->ui_factory->link()->standard($editor, $url);
     }
 
     protected function getItemPath(int $cat_ref_id): array
@@ -426,7 +427,6 @@ class ilObjStudyProgrammeAutoCategoriesGUI
             $this->tree->getPathFull($cat_ref_id)
         );
         $path = implode(' > ', $hops);
-        $title = array_pop($hops);
-        return [$title, $this->ui_factory->button()->shy($path, $url)];
+        return [$path, $this->ui_factory->link()->standard($path, $url)];
     }
 }

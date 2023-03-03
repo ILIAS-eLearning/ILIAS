@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns = "http://www.w3.org/2001/XMLSchema"
-		targetNamespace = "http://www.ilias.de/Modules/Forum/frm/5_1"
-		xmlns:t = "http://www.ilias.de/Modules/Forum/frm/5_1"
+		targetNamespace = "http://www.ilias.de/Modules/Forum/frm/8"
+		xmlns:t = "http://www.ilias.de/Modules/Forum/frm/8"
 		elementFormDefault = "qualified">
 
 	<element name="Forum">
@@ -22,6 +22,7 @@
 				<element name="PresetSubject" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="PresetRe" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="NotificationType" type="string" minOccurs="1" maxOccurs="1" />
+				<element name="NotificationEvents" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="ForceNotification" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="ToggleNotification" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="LastPost" type="string" minOccurs="1" maxOccurs="1" />
@@ -49,6 +50,7 @@
 				<element name="UpdateDate" type="string" minOccurs="1" maxOccurs="1" />
 				<element name="ImportName" type="string" minOccurs="1" maxOccurs="1" />
 				<element name="Sticky" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="OrderSequenceIndex" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="Closed" type="integer" minOccurs="1" maxOccurs="1" />
 				<element ref="t:Post" minOccurs="1" maxOccurs="unbounded" />
 			</sequence>

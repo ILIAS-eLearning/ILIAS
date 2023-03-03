@@ -1048,6 +1048,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     */
     protected function importFileObject(int $parent_id = null, bool $catch_errors = true): void
     {
+        if (!$this->checkPermissionBool("create", "", $_REQUEST["new_type"])) {
+            $this->error->raiseError($this->lng->txt("no_create_permission"));
+        }
+
         $form = $this->initImportForm($this->testrequest->raw("new_type"));
         if ($form->checkInput()) {
             $this->ctrl->setParameter($this, "new_type", $this->type);
@@ -3464,6 +3468,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 case 'count_system':
                 case 'count_system':
                 case 'pass_scoring':
+                case 'score_cutting':
                     $settings = $settings->withScoringSettings(
                         $settings->getScoringSettings()->$setter(
                             (int) $templateData[$field]['value']

@@ -79,7 +79,20 @@ class Group extends Input implements C\Input\Field\Group
         return $clone;
     }
 
-    public function withOnUpdate(Signal $signal): C\OnUpdateable
+    public function isRequired(): bool
+    {
+        if ($this->is_required) {
+            return true;
+        }
+        foreach ($this->getInputs() as $input) {
+            if ($input->isRequired()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function withOnUpdate(Signal $signal)
     {
         $clone = parent::withOnUpdate($signal);
         $clone->inputs = array_map(fn ($i) => $i->withOnUpdate($signal), $this->inputs);

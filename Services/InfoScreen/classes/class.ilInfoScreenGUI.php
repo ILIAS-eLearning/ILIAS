@@ -946,6 +946,14 @@ class ilInfoScreenGUI
     {
         $ilUser = $this->user;
 
+        // ensure a read event
+        ilLearningProgress::_tracProgress(
+            $ilUser->getId(),
+            $this->getContextObjId(),
+            $this->getContextRefId(),
+            ilObject::_lookupType($this->getContextObjId())
+        );
+
         $lp_marks = new ilLPMarks($this->getContextObjId(), $ilUser->getId());
         $lp_marks->setCompleted((bool) $this->request->getLPEdit());
         $lp_marks->update();
@@ -1238,7 +1246,10 @@ class ilInfoScreenGUI
             if ($obligatory) {
                 $this->addSection($lng->txt("preconditions_obligatory_hint"));
             } else {
-                $this->addSection(sprintf($lng->txt("preconditions_optional_hint"), $num_optional_required));
+                $this->addSection(sprintf(
+                    $lng->txt("preconditions_optional_hint"),
+                    $num_optional_required - $passed_optional
+                ));
             }
 
             foreach ($properties as $p) {

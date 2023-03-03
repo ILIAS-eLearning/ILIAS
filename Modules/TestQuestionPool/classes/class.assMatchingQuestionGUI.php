@@ -164,8 +164,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
         if (!$this->object->getSelfAssessmentEditingMode()) {
-            $this->object->setShuffle($_POST["shuffle"]);
-            $this->object->setShuffleMode($_POST["shuffle"]);
+            $this->object->setShuffle($_POST["shuffle"] ?? '0');
+            $this->object->setShuffleMode($_POST["shuffle"] ?? '0');
         } else {
             $this->object->setShuffle(1);
             $this->object->setShuffleMode(1);
@@ -1170,10 +1170,28 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      */
     public function saveCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
-        $pairs = $form->getItemByPostVar('pairs')->getPairs();
+        $pairs = $this->object->getMatchingPairs();
+        $nu_pairs = [];
 
-        foreach ($this->object->getMatchingPairs() as $idx => $matchingPair) {
-            $matchingPair->points = (float) $pairs[$idx]->points;
+        if ($this->request->isset('pairs')) {
+            $points_of_pairs = $this->request->raw('pairs')['points'];
+            $pair_terms = explode(',', $this->request->raw('pairs')['term_id']);
+            $pair_definitions = explode(',', $this->request->raw('pairs')['definition_id']);
+            $values = [];
+            foreach ($points_of_pairs as $idx=>$points) {
+                $k = implode('.', [$pair_terms[$idx],$pair_definitions[$idx]]);
+                $values[$k] = (float)$points;
+            }
+
+            foreach ($pairs as $idx => $pair) {
+                $id = implode('.', [
+                    $pair->getTerm()->getIdentifier(),
+                    $pair->getDefinition()->getIdentifier()
+                ]);
+                $nu_pairs[$id] = $pair->withPoints($values[$id]);
+            }
+
+            $this->object = $this->object->withMatchingPairs($nu_pairs);
         }
     }
 }

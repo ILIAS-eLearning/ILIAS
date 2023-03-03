@@ -49,7 +49,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
     protected string $css_row = "";
     protected bool $access_key = false;
     protected ?array $toggle = null;
-    protected bool $asynch_url = false;
+    protected string $asynch_url = '';
     protected string $selected_value = "";
     protected string $trigger_event = "click";
     protected bool $auto_hide = false;
@@ -613,7 +613,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
 
         if ($a_only_cmd_list_asynch) {
             $tpl->touchBlock("cmd_table");
-            return $tpl->get("cmd_table");
+            return $tpl->get("item_loop");
         }
 
         if ($this->getGroupedList() === null) {
@@ -644,11 +644,16 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
 
 
         if ($this->getAsynch()) {
-            $tpl->setCurrentBlock("asynch_bl");
-            $tpl->setVariable("ASYNCH_URL", $this->getAsynchUrl());
-            $tpl->setVariable("ASYNCH_ID", $this->getId());
-            $tpl->setVariable("ASYNCH_TRIGGER_ID", $this->getId());
-            $tpl->parseCurrentBlock();
+            $js_tpl = $this->getJSTemplate();
+            $js_tpl->setVariable("ID", $this->getId());
+            $js_tpl->setCurrentBlock("asynch_bl");
+            $js_tpl->setVariable("ASYNCH_URL", $this->getAsynchUrl());
+            $js_tpl->setVariable("ASYNCH_ID", $this->getId());
+            $js_tpl->setVariable("ASYNCH_TRIGGER_ID", $this->getId());
+            $js_tpl->parseCurrentBlock();
+            $this->global_tpl->addOnloadCode(
+                $js_tpl->get()
+            );
         }
 
         // js section
@@ -728,6 +733,20 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
         return $tpl->get();
     }
 
+
+    protected function getJSTemplate(): ilTemplate
+    {
+        return new ilTemplate(
+            "tpl.adv_selection_list_js_init.js",
+            true,
+            true,
+            "Services/UIComponent/AdvancedSelectionList",
+            "DEFAULT",
+            false,
+            true
+        );
+    }
+
     public function getOnloadCode(): array
     {
         $items = $this->getItems();
@@ -737,15 +756,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
             return [];
         }
 
-        $js_tpl = new ilTemplate(
-            "tpl.adv_selection_list_js_init.js",
-            true,
-            true,
-            "Services/UIComponent/AdvancedSelectionList",
-            "DEFAULT",
-            false,
-            true
-        );
+        $js_tpl = $this->getJSTemplate();
 
         $cnt = 0;
 

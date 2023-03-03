@@ -55,9 +55,13 @@ class ilCmiXapiStatementsReport
 
         $responseBody = json_decode($responseBody, true);
 
-        $this->contentType = ilObjCmiXapi::getInstance($objId, false)->getContentType();
-
-        $this->isMixedContentType = ilObjCmiXapi::getInstance($objId, false)->isMixedContentType();
+        if (ilObject::_lookupType($objId) == 'lti') {
+            $this->contentType = ilObjCmiXapi::CONT_TYPE_GENERIC;
+            $this->isMixedContentType = ilObjLTIConsumer::getInstance($objId, false)->isMixedContentType();
+        } else {
+            $this->contentType = ilObjCmiXapi::getInstance($objId, false)->getContentType();
+            $this->isMixedContentType = ilObjCmiXapi::getInstance($objId, false)->isMixedContentType();
+        }
 
         if (is_array($responseBody) && count($responseBody) > 0) {
             $this->response = current($responseBody);

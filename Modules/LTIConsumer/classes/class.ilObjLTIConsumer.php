@@ -1300,4 +1300,14 @@ class ilObjLTIConsumer extends ilObject2
             $DIC->http()->close();
         }
     }
+
+    public static function getInstance(int $a_id = 0, bool $a_reference = true): \ilObjLTIConsumer
+    {
+        return new self($a_id, $a_reference);
+    }
+
+    public function isMixedContentType(): bool
+    {
+        return true;
+    }
 }
