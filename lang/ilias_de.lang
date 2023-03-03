@@ -12659,6 +12659,7 @@ prg#:#auto_memberships#:#Automatische Zuweisung
 prg#:#category#:#Kategorie
 prg#:#completion_date#:#Abschlussdatum
 prg#:#confirm_to_remove_selected_assignments#:#Benutzerzuweisung(en) wirklich entfernen?
+prg#:#cont_ed_insert_prgstatusinfo#:#Studienprogamm Statusinformation einfügen
 prg#:#content_automation#:#Inhaltsautomatisierung
 prg#:#content_automation_title#:#Kurse dieser Kategorien automatisch hinzufügen/entfernen
 prg#:#could_not_add_users_no_permissons#:#Konnte %d Benutzer wegen mangelnder Berechtigung nicht hinzufügen.
@@ -12711,6 +12712,13 @@ prg#:#not_a_valid_cat_id#:#%s entspricht keiner Kategorie.
 prg#:#optgrp_label_restart#:#Wiederaufnahme
 prg#:#optgrp_label_validity#:#Ablauf
 prg#:#orgu#:#Organisationseinheit
+prg#:#pc_prgstatus_edit_qualification#:#Erneut zu bearbeiten ab
+prg#:#pc_prgstatus_expiration_date#:#Ablaufdatum
+prg#:#pc_prgstatus_qualification_headline#:#Status Ihrer Qualifikation
+prg#:#pc_prgstatus_status_no_qualification#:#Keine Qualifikation
+prg#:#pc_prgstatus_status_valid_qualification#:#Gültig
+prg#:#pc_prgstatus_text_no_qualification#:#Sie besitzen keine gültige Qualifikation
+prg#:#pc_prgstatus_unlimited_validation#:#unbegrenzt gültig
 prg#:#percentage#:#%
 prg#:#prg_access_by_orgu#:#Zugriffsregelungen nach Organisationseinheiten
 prg#:#prg_access_by_orgu_byline#:#Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden.

@@ -38,6 +38,9 @@ class ilStudyProgrammeUpdateAgent extends Setup\Agent\NullAgent
         $update_auto_category = new ilDatabaseUpdateStepsExecutedObjective(
             new ilStudyProgrammeAutoCategoryTableUpdateSteps()
         );
+        $enable_pc_statusinfo = new ilDatabaseUpdateStepsExecutedObjective(
+            new ilStudyProgrammePCStatusInfoUpdateSteps()
+        );
 
         return new Setup\ObjectiveCollection(
             'Database is updated for Module/Studyprogramme',
@@ -45,7 +48,8 @@ class ilStudyProgrammeUpdateAgent extends Setup\Agent\NullAgent
             $update_progresses,
             $update_assignments,
             $update_settings,
-            $update_auto_category
+            $update_auto_category,
+            $enable_pc_statusinfo
         );
     }
 
@@ -57,7 +61,8 @@ class ilStudyProgrammeUpdateAgent extends Setup\Agent\NullAgent
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeProgressTableUpdateSteps()),
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeAssignmentTableUpdateSteps()),
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeSettingsTableUpdateSteps()),
-            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeAutoCategoryTableUpdateSteps())
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeAutoCategoryTableUpdateSteps()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammePCStatusInfoUpdateSteps())
         );
     }
 }

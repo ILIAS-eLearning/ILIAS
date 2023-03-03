@@ -364,6 +364,19 @@ class ilStudyProgrammeDIC
         $dic['current_user'] = static fn ($dic) =>
             $DIC['ilUser'];
 
+        $dic['pc.statusinfo'] = static fn ($dic) =>
+            new ilPRGStatusInfoBuilder(
+                $DIC['ui.factory'],
+                $DIC['ui.renderer'],
+                $DIC['lng'],
+                $DIC['ilCtrl'],
+                new ilTemplate("tpl.statusinformation.html", true, true, 'Modules/StudyProgramme'),
+                $dic['repo.assignment'],
+                $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
+                new ilCertificateDownloadValidator(),
+                $dic['current_user']->getId()
+            );
+
         $dic['cron.riskyToFail'] = static fn ($dic) =>
             new ilPrgRiskyToFail(
                 $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
