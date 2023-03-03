@@ -24,13 +24,12 @@
 class ilObjectBadgeTableGUI extends ilTable2GUI
 {
     protected ilAccessHandler $access;
-    protected bool $has_write;
     protected array $filter = [];
 
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd = "",
-        bool $a_has_write = false
+        protected bool $has_write = false
     ) {
         global $DIC;
 
@@ -41,7 +40,6 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
         $lng = $DIC->language();
 
         $this->setId("bdgobdg");
-        $this->has_write = $a_has_write;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 

@@ -28,7 +28,7 @@ use ILIAS\Notifications\Repository\ilNotificationOSDRepository;
 
 class BadgeNotificationProvider extends AbstractNotificationProvider
 {
-    public const NOTIFICATION_TYPE = 'badge_received';
+    final public const NOTIFICATION_TYPE = 'badge_received';
 
     public function getNotifications(): array
     {

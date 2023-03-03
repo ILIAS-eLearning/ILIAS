@@ -25,7 +25,7 @@ use ILIAS\Badge\Notification\BadgeNotificationPrefRepository;
  */
 class ilBadgeProfileGUI
 {
-    public const BACKPACK_EMAIL = "badge_mozilla_bp";
+    final public const BACKPACK_EMAIL = "badge_mozilla_bp";
     protected ilBadgeGUIRequest $request;
 
     protected ilCtrl $ctrl;

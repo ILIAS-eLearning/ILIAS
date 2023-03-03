@@ -24,16 +24,15 @@ use ILIAS\DI\UIServices;
  */
 class ilBadgeTableGUI extends ilTable2GUI
 {
-    protected bool $has_write;
     protected string $parent_type;
     protected array $filter = [];
-    private UIServices $ui;
+    private readonly UIServices $ui;
 
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd = "",
         int $a_parent_obj_id = 0,
-        bool $a_has_write = false
+        protected bool $has_write = false
     ) {
         global $DIC;
 
@@ -44,7 +43,6 @@ class ilBadgeTableGUI extends ilTable2GUI
         $lng = $DIC->language();
 
         $this->setId("bdgbdg");
-        $this->has_write = $a_has_write;
         $this->parent_type = ilObject::_lookupType($a_parent_obj_id);
 
         parent::__construct($a_parent_obj, $a_parent_cmd);

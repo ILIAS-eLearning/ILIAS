@@ -24,7 +24,7 @@ declare(strict_types=1);
  */
 class ilBadgeManagementSessionRepository
 {
-    public const KEY = "bdgclpbrd";
+    final public const KEY = "bdgclpbrd";
 
     public function __construct()
     {

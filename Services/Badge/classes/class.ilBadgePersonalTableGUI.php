@@ -27,7 +27,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 {
     protected ilObjUser $user;
     protected array $filter = [];
-    private UIServices $ui;
+    private readonly UIServices $ui;
 
     public function __construct(
         object $a_parent_obj,

@@ -20,13 +20,11 @@ declare(strict_types=1);
 
 class ilBadgeDefinitionProcessor implements ilComponentDefinitionProcessor
 {
-    protected \ilDBInterface $db;
     protected ?string $component_id;
     protected bool $has_badges = false;
 
-    public function __construct(\ilDBInterface $db)
+    public function __construct(protected \ilDBInterface $db)
     {
-        $this->db = $db;
     }
 
     public function purge(): void
