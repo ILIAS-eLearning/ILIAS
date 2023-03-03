@@ -292,7 +292,6 @@ class ilLMContentRendererGUI
                 $foot = $this->render($this->lm->getFooterPage());
             }
         }
-
         return $head . $focus_mess . $ret . $foot;
     }
 
