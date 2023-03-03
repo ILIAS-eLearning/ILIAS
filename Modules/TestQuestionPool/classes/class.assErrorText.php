@@ -1134,7 +1134,8 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
                     // #14115 - add position to correct answer
                     foreach ($result["correct_answers"] as $aidx => $answer) {
-                        if ($answer["answertext_wrong"] == $item && !$answer["pos"]) {
+                        if ($answer["answertext_wrong"] == $item
+                            && (!isset($answer['pos']) || !$answer["pos"])) {
                             $result["correct_answers"][$aidx]["pos"] = $this->getId() . "_" . $textidx . "_" . ($idx + 1);
                             break;
                         }
