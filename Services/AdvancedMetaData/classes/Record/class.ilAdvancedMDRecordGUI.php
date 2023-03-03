@@ -435,9 +435,15 @@ class ilAdvancedMDRecordGUI
                     $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($record_id);
                     $title = $field_translations->getTitleForLanguage($element_id, $this->user->getLanguage());
 
+                    $presentation_bridge = ilADTFactory::getInstance()->getPresentationBridgeForInstance($element);
+
+                    if ($element instanceof ilADTLocation) {
+                        $presentation_bridge->setSize('500px', '300px');
+                    }
+
                     $this->info->addProperty(
                         $title,
-                        ilADTFactory::getInstance()->getPresentationBridgeForInstance($element)->getHTML()
+                        $presentation_bridge->getHTML()
                     );
                 }
             }
@@ -477,10 +483,12 @@ class ilAdvancedMDRecordGUI
                     $presentation_bridge = ilADTFactory::getInstance()->getPresentationBridgeForInstance($element);
                     #21615
                     if (get_class($element) == 'ilADTLocation') {
-                        $presentation_bridge->setSize('100%', '200px');
-                        #22638
-                        $presentation_value = $presentation_bridge->getHTML();
-                        $presentation_value .= "<script>ilInitMaps();</script>";
+                        /**
+                         * TODO replace this by presentation_bridge->getHTML() when maps
+                         *  work in modals (36490). Note that at that point formatting of
+                         *  maps in appointment lists has to be improved.
+                         **/
+                        $presentation_value = $presentation_bridge->getSortable();
                     } else {
                         #22638
                         $presentation_value = strip_tags($presentation_bridge->getHTML());

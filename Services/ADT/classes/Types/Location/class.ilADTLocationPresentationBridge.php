@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 class ilADTLocationPresentationBridge extends ilADTPresentationBridge
 {
-    protected string $width = '0';
-    protected string $height = '0';
+    protected string $width = '100%';
+    protected string $height = '200px';
 
     protected function isValidADT(ilADT $a_adt): bool
     {
