@@ -682,7 +682,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $this->object->setSpecificFeedbackSetting($_POST['feedback_setting']);
         }
 
-        $this->object->setMultilineAnswerSetting($_POST["types"]);
+        $this->object->setMultilineAnswerSetting($_POST["types"] ?? '0');
         if (isset($_POST['choice']['imagename']) && is_array($_POST['choice']['imagename']) && $_POST["types"] == 1) {
             $this->object->setIsSingleline(true);
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('info_answer_type_change'), true);
