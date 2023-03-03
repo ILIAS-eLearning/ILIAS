@@ -87,7 +87,6 @@ class ilBadgeHandler
 
     /**
      * @param string[]|null $a_components
-     * @return void
      */
     public function setComponents(array $a_components = null): void
     {
@@ -188,7 +187,6 @@ class ilBadgeHandler
 
     /**
      * @param string[]|null $a_types
-     * @return void
      */
     public function setInactiveTypes(array $a_types = null): void
     {
@@ -365,7 +363,6 @@ class ilBadgeHandler
     }
 
     /**
-     * @param int $a_parent_ref_id
      * @param int|null $a_parent_obj_id
      * @param string|null $a_parent_type
      * @return int[]
@@ -452,7 +449,7 @@ class ilBadgeHandler
         foreach (glob($a_path . "/*") as $item) {
             if (is_dir($item)) {
                 $this->countStaticBadgeInstancesHelper($a_cnt, $item);
-            } elseif (substr($item, -5) === ".json") {
+            } elseif (str_ends_with($item, ".json")) {
                 $a_cnt++;
             }
         }

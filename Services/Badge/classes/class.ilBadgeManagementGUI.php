@@ -33,12 +33,11 @@ class ilBadgeManagementGUI
     protected ilToolbarGUI $toolbar;
     protected ilGlobalTemplateInterface $tpl;
     protected ilObjUser $user;
-    protected int $parent_ref_id;
     protected int $parent_obj_id;
     protected string $parent_obj_type;
 
     public function __construct(
-        int $a_parent_ref_id,
+        protected int $parent_ref_id,
         int $a_parent_obj_id = null,
         string $a_parent_obj_type = null
     ) {
@@ -52,10 +51,8 @@ class ilBadgeManagementGUI
         $this->tpl = $DIC["tpl"];
         $this->user = $DIC->user();
         $lng = $DIC->language();
-
-        $this->parent_ref_id = $a_parent_ref_id;
         $this->parent_obj_id = $a_parent_obj_id
-            ?: ilObject::_lookupObjId($a_parent_ref_id);
+            ?: ilObject::_lookupObjId($parent_ref_id);
         $this->parent_obj_type = $a_parent_obj_type
             ?: ilObject::_lookupType($this->parent_obj_id);
 
