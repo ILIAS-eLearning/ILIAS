@@ -74,7 +74,8 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                     ilPageObject::_exists("lm", $this->obj->getId(), "-")) {
                     if ($this->requested_totransl == "") {
                         $this->requested_totransl = $this->requested_transl;
-                        $ilCtrl->setCmd("switchToLanguage");
+                        $ilCtrl->setParameterByClass("illmpagegui", "totransl", $this->requested_transl);
+                        $ilCtrl->redirectByClass("illmpagegui", "switchToLanguage");
                     }
                     $ilCtrl->setCmdClass("illmpagegui");
                     $page_gui = new ilLMPageGUI($this->obj->getId(), 0, false, "-");
