@@ -40,6 +40,7 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilContainerPageGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStyleSheetGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectContentStyleSettingsGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilPRGPageObjectGUI
  */
 class ilObjStudyProgrammeGUI extends ilContainerGUI
 {
@@ -235,10 +236,12 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($output_gui);
                 break;
 
-            case "ilcontainerpagegui":
-                $ret = $this->forwardToPageObject();
-                if ($ret != "") {
-                    $this->tpl->setContent($ret);
+            case "ilprgpageobjectgui":
+                $gui = new ilPRGPageObjectGUI('prg', $this->object->getId());
+                $this->ctrl->setCmd($cmd);
+                $out = $this->ctrl->forwardCommand($gui);
+                if (!is_null($out)) {
+                    $this->tpl->setContent($out);
                 }
                 break;
 
@@ -681,7 +684,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         if ($cmd === "auto_content") {
             return $this->ctrl->getLinkTargetByClass("ilObjStudyProgrammeAutoCategoriesGUI", "view");
         }
-
         if ($cmd === self::SUBTAB_VIEW_TREE) {
             return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammetreegui", "view");
         }
@@ -705,8 +707,8 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         }
         if ($cmd == "edit_page") {
             return $this->ctrl->getLinkTargetByClass(
-                ["ilObjStudyProgrammeGUI"],
-                "editPageFrame"
+                ["ilObjStudyProgrammeGUI", "ilPRGPageObjectGUI"],
+                'edit'
             );
         }
 

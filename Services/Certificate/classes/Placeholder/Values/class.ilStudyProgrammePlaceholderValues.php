@@ -71,11 +71,11 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
             $latest_progress ? (string) $latest_progress->getCurrentAmountOfPoints() : ''
         );
         $placeholders['PRG_COMPLETION_DATE'] = ilLegacyFormElementsUtil::prepareFormOutput(
-            $latest_progress->getCompletionDate() instanceof DateTimeImmutable ? $latest_progress->getCompletionDate(
+            $latest_progress && $latest_progress->getCompletionDate() instanceof DateTimeImmutable ? $latest_progress->getCompletionDate(
             )->format('d.m.Y') : ''
         );
         $placeholders['PRG_EXPIRES_AT'] = ilLegacyFormElementsUtil::prepareFormOutput(
-            $latest_progress->getValidityOfQualification(
+            $latest_progress && $latest_progress->getValidityOfQualification(
             ) instanceof DateTimeImmutable ? $latest_progress->getValidityOfQualification()->format('d.m.Y') : ''
         );
         return $placeholders;

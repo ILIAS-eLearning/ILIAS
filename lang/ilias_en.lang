@@ -12657,6 +12657,7 @@ prg#:#auto_memberships#:#Membership Automation
 prg#:#category#:#Category
 prg#:#completion_date#:#Completion Date
 prg#:#confirm_to_remove_selected_assignments#:#Do you really want to remove the user assignment(s)?
+prg#:#cont_ed_insert_prgstatusinfo#:#Insert Study Progamme Statusinformation
 prg#:#content_automation#:#Content Automation
 prg#:#content_automation_title#:#Automatically add and remove Courses from these categories
 prg#:#could_not_add_users_no_permissons#:#Could not assign %d Users due to lacking permissions.
@@ -12711,6 +12712,13 @@ prg#:#obj_prg_select#:#-- Please select a study programme --
 prg#:#optgrp_label_restart#:#Restart
 prg#:#optgrp_label_validity#:#Expiry
 prg#:#orgu#:#Organisational Unit
+prg#:#pc_prgstatus_edit_qualification#:#Re-processing required from
+prg#:#pc_prgstatus_expiration_date#:#Expiry date
+prg#:#pc_prgstatus_qualification_headline#:#Status of your qualification
+prg#:#pc_prgstatus_status_no_qualification#:#No qualificatio
+prg#:#pc_prgstatus_status_valid_qualification#:#Valid
+prg#:#pc_prgstatus_text_no_qualification#:#Your qualification is not valid
+prg#:#pc_prgstatus_unlimited_validation#:#Unlimited validity
 prg#:#percentage#:#%
 prg#:#prg_access_by_orgu#:#Access Control by Organisation Unit Positions
 prg#:#prg_access_by_orgu_byline#:#If enabled, additional access control rules can be defined by positions in organisational units.
