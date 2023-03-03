@@ -1263,12 +1263,18 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             'detailed' => $this->lng->txt('detailed_output_solutions'),
             'detailed_printview' => $this->lng->txt('detailed_output_printview')
         ));
-        $mode->setValue(ilUtil::stripSlashes((string) $_POST['output'] ?? ''));
+
+        $trafo = $this->refinery->kindlyTo()->string();
+        $output = $this->request_wrapper->has('output') ?
+            (string) $this->request_wrapper->retrieve('output', $trafo) :
+            '';
+
+        $mode->setValue(ilUtil::stripSlashes($output));
 
         $ilToolbar->setFormName('printviewOptions');
         $ilToolbar->addInputItem($mode, true);
         $ilToolbar->addFormButton($this->lng->txt('submit'), 'print');
-        $table_gui = new ilQuestionPoolPrintViewTableGUI($this, 'print', $_POST['output']);
+        $table_gui = new ilQuestionPoolPrintViewTableGUI($this, 'print', $output);
         $data = $this->object->getPrintviewQuestions();
         $totalPoints = 0;
         foreach ($data as $d) {
