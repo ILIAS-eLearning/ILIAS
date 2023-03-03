@@ -11240,7 +11240,7 @@ footer {
   grid-template-areas: "icon title close" "none description description" "none actions actions";
   grid-template-columns: 20px 1fr 20px;
   grid-gap: 9px;
-  box-shadow: 3px 9px 9px 0 rgb(0 0 0);
+  box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
   transform: translateX(150%);
   transition: all 0.25s ease-in-out;
 }
@@ -18432,6 +18432,16 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 .modal-content {
   color: #161616;
 }
+.modal-content .form-horizontal .col-sm-4,
+.modal-content .form-horizontal .col-md-3,
+.modal-content .form-horizontal .col-lg-2 {
+  width: 33.33%;
+}
+.modal-content .form-horizontal .col-sm-8,
+.modal-content .form-horizontal .col-md-9,
+.modal-content .form-horizontal .col-lg-10 {
+  width: 66.67%;
+}
 /* Services/Badge */
 img.ilBadgeImage {
   max-width: 150px;
@@ -20018,4 +20028,3 @@ table.mceToolbar td {
     content: "";
   }
 }
-/*# sourceMappingURL=delos.css.map */
