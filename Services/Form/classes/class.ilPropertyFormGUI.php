@@ -374,7 +374,7 @@ class ilPropertyFormGUI extends ilFormGUI
                 // only try to keep files that are ok
                 // see 25484: Wrong error handling when uploading icon instead of tile
                 $item = $this->getItemByPostVar($field);
-                if (is_bool($item) || !$item->checkInput()) {
+                if (is_null($item) || !$item->checkInput()) {
                     continue;
                 }
                 // we support up to 2 nesting levels (see test/assessment)
