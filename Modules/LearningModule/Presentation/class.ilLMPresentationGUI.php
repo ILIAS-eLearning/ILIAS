@@ -343,7 +343,11 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                     $ilUser->getId()
                 );
                 $this->ctrl->forwardCommand($new_gui);
-                $this->tpl->printToStdout();
+                // this is nasty, but the LP classes do "sometimes" a printToStdout
+                // sometimes not, (here editManual does, other commands not)
+                if ($this->ctrl->getCmd() !== "editManual") {
+                    $this->tpl->printToStdout();
+                }
                 break;
 
             case "ilratinggui":
