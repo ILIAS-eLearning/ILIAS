@@ -100,7 +100,7 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
         parent::setValueByArray($a_values);
 
         foreach ($this->strArray($this->getPostVar() . '_open') as $oindex => $ovalue) {
-            $this->addOpenAnswerIndex($oindex);
+            $this->addOpenAnswerIndex((string) $oindex);
         }
     }
 
