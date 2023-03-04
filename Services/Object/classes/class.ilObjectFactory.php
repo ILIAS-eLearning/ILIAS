@@ -39,7 +39,7 @@ class ilObjectFactory
      * @param unknown_type $owner_id
      * @return unknown
      */
-    public function getObjectsForOwner($object_type, $owner_id)
+    public static function getObjectsForOwner($object_type, $owner_id)
     {
         global $DIC;
 
