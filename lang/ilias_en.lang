@@ -2058,6 +2058,7 @@ auth#:#auth_oidc_settings_custom_session_duration_option#:#Duration of Own Sessi
 auth#:#auth_oidc_settings_custom_session_duration_type#:#Session Duration Settings
 auth#:#auth_oidc_settings_default_role#:#Role Assignment
 auth#:#auth_oidc_settings_default_role_info#:#Please select a global role for the ILIAS user accounts that will be created for users who have authenticated themselves using OpenID Connect.
+auth#:#auth_oidc_settings_discovery_error#:#Retrieving the Discovery URL failed with: %s
 auth#:#auth_oidc_settings_discovery_url#:#Discovery URL of the provider
 auth#:#auth_oidc_settings_img#:#Image
 auth#:#auth_oidc_settings_img_file_info#:#Upload an image that you would like to have shown on the login page. The image will link automatically to the OpenID Connect login script.
