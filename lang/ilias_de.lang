@@ -2044,6 +2044,7 @@ auth#:#auth_oidc_settings_custom_session_duration_option#:#Eigene Sitzungsdauer
 auth#:#auth_oidc_settings_custom_session_duration_type#:#Einstellungen zur Sitzungsdauer
 auth#:#auth_oidc_settings_default_role#:#Rollenzuordnung
 auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS-Benutzer aus!
+auth#:#auth_oidc_settings_discovery_error#:#Die Discovery URL konnte nicht abgerufen werden. Fehler: %s
 auth#:#auth_oidc_settings_discovery_url#:#Discovery URL des Providers
 auth#:#auth_oidc_settings_img#:#Bild
 auth#:#auth_oidc_settings_img_file_info#:#Laden Sie ein Bild hoch das auf der Anmeldeseite angezeigt werden soll. Das Bild verlinkt automatisch auf das OpenId Connect Anmeldeskript.
