@@ -719,8 +719,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
                 $this->object->addAnswer(
                     $answertext,
-                    $_POST['choice']['points'][$index],
-                    $_POST['choice']['points_unchecked'][$index],
+                    (float)$_POST['choice']['points'][$index],
+                    (float)$_POST['choice']['points_unchecked'][$index],
                     $index,
                     $picturefile
                 );
@@ -730,8 +730,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                 $answertext = $answer;
                 $this->object->addAnswer(
                     $answertext,
-                    $_POST['choice']['points'][$index],
-                    $_POST['choice']['points_unchecked'][$index],
+                    (float)$_POST['choice']['points'][$index],
+                    (float)$_POST['choice']['points_unchecked'][$index],
                     $index
                 );
             }
