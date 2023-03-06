@@ -13,7 +13,7 @@ class ilECSUserConsents
      */
     private static array $instances = [];
 
-    private int $usr_id = 0;
+    private int $usr_id;
     /**
      * @var array<int, ilECSUserConsent>
      */
@@ -45,12 +45,12 @@ class ilECSUserConsents
         return $this->usr_id;
     }
 
-    public function hasConsented(int $a_mid): bool
+    public function hasConsented(int $server_id, int $a_mid): bool
     {
-        return array_key_exists($a_mid, $this->consents);
+        return array_key_exists("{$server_id}:{$a_mid}", $this->consents);
     }
 
-    public function delete()
+    public function delete(): void
     {
         foreach ($this->consents as $mid => $consent) {
             $consent->delete();
@@ -58,12 +58,12 @@ class ilECSUserConsents
         $this->consents = [];
     }
 
-    public function add(int $a_mid)
+    public function add(int $server_id, int $a_mid): void
     {
-        if (!$this->hasConsented($a_mid)) {
-            $consent = new ilECSUserConsent($this->getUserId(), $a_mid);
+        if (!$this->hasConsented($server_id, $a_mid)) {
+            $consent = new ilECSUserConsent($this->getUserId(), $server_id, $a_mid);
             $consent->save();
-            $this->consents[$a_mid] = $consent;
+            $this->consents["{$server_id}:{$a_mid}"] = $consent;
         }
     }
 
@@ -76,8 +76,9 @@ class ilECSUserConsents
             );
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->consents[(int) $row->mid] = new ilECSUserConsent(
+            $this->consents["{$row->server_id}:{$row->usr_id}"] = new ilECSUserConsent(
                 (int) $row->usr_id,
+                (int) $row->server_id,
                 (int) $row->mid
             );
         }
