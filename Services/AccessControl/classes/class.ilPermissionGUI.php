@@ -610,6 +610,7 @@ class ilPermissionGUI extends ilPermission2GUI
         $form->addCommandButton('perm', $this->lng->txt('cancel'));
 
         $zip = new ilFileInputGUI($this->lng->txt('import_file'), 'importfile');
+        $zip->setRequired(true);
         $zip->setSuffixes(['zip']);
         $form->addItem($zip);
 
