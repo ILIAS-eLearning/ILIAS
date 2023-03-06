@@ -1834,6 +1834,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     public function removeQuestionsObject()
     {
         $this->getTabsManager()->getQuestionsSubTabs();
+        $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_LIST_VIEW);
 
         $checked_questions = $this->testrequest->raw('q_id');
 
