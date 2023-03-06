@@ -112,6 +112,10 @@ class ilMyStaffAccess extends ilObjectAccess
             return true;
         }
 
+        if ($this->hasCurrentUserAccessToTalks()) {
+            return true;
+        }
+
         return false;
     }
 
