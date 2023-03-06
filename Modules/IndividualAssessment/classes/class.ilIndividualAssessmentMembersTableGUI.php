@@ -36,6 +36,7 @@ class ilIndividualAssessmentMembersTableGUI
     protected Renderer $renderer;
     protected int $current_user_id;
     protected array $data = [];
+    protected ILIAS\Data\Factory $data_factory;
 
     public function __construct(
         ilIndividualAssessmentMembersGUI $parent,
@@ -44,7 +45,8 @@ class ilIndividualAssessmentMembersTableGUI
         IndividualAssessmentAccessHandler $iass_access,
         Factory $factory,
         Renderer $renderer,
-        int $current_user_id
+        ILIAS\Data\Factory $data_factory,
+        int $current_user_id,
     ) {
         $this->parent = $parent;
         $this->lng = $lng;
@@ -52,6 +54,7 @@ class ilIndividualAssessmentMembersTableGUI
         $this->iass_access = $iass_access;
         $this->factory = $factory;
         $this->renderer = $renderer;
+        $this->data_factory = $data_factory;
         $this->current_user_id = $current_user_id;
     }
 
@@ -312,9 +315,9 @@ class ilIndividualAssessmentMembersTableGUI
         if (is_null($event_time)) {
             return [];
         }
-
-        $dt = new ilDateTime($event_time->format("Y-m-d H:m"), IL_CAL_DATE);
-        $event_time_str = ilDatePresentation::formatDate($dt);
+        $event_time_str = $event_time->format(
+            $this->data_factory->dateformat()->germanShort()->toString()
+        );
         return [$this->txt("iass_event_time") . ": " => $event_time_str];
     }
 

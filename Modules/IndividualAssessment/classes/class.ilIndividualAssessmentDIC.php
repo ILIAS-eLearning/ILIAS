@@ -68,7 +68,8 @@ trait ilIndividualAssessmentDIC
                 $dic['ilErr'],
                 $c['ilIndividualAssessmentMemberGUI'],
                 $dic->refinery(),
-                $dic->http()->wrapper()
+                $dic->http()->wrapper(),
+                $c['DataFactory']
             );
         };
 
