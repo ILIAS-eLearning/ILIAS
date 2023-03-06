@@ -15980,7 +15980,7 @@ tos#:#tos_period#:#Period
 tos#:#tos_period_from#:#From
 tos#:#tos_period_until#:#Until
 tos#:#tos_reevaluate_on_login#:#Reevaluate on Successful Login
-tos#:#tos_reevaluate_on_login_desc#:#If enabled, ILIAS checks if the user has to accept a new document after successful login. This applies for the cased, where the criteria of a signed document do not match anymore, and a new document can be determined based on the current user criteria.
+tos#:#tos_reevaluate_on_login_desc#:#If enabled, ILIAS checks if the user has to accept a new document after successful login. This applies for the case, where the criteria of a signed document do not match anymore, and a new document can be determined based on the current user criteria.
 tos#:#tos_reset_successful#:#The terms of service have been reset successfully.
 tos#:#tos_reset_tos_for_all_users#:#Reset Terms of Service
 tos#:#tos_saved_sorting#:#The sorting has been saved.
