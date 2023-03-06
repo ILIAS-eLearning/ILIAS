@@ -34,6 +34,8 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     public const MIN_LENGTH_AUTOCOMPLETE = 3;
     public const MAX_INPUT_FIELDS = 500;
 
+    protected const HAS_SPECIFIC_FEEDBACK = false;
+
     /** @var array */
     private $correct_answers = [];
 

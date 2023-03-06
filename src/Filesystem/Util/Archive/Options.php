@@ -16,17 +16,26 @@
  *
  *********************************************************************/
 
-/**
- * @version		$Id$
- *
- * @package     Modules/TestQuestionPool
- */
-class ilAssLongMenuFeedback extends ilAssMultiOptionQuestionFeedback
-{
-    public const SPECIFIC_QUESTION_TABLE_NAME = 'qpl_qst_lome';
+declare(strict_types=1);
 
-    protected function getSpecificQuestionTableName(): string
+namespace ILIAS\Filesystem\Util\Archive;
+
+/**
+ * @author Fabian Schmid <fabian@sr.solutions>
+ * @internal
+ */
+abstract class Options
+{
+    private array $ignore = [
+        '.DS_',
+        '__MACOSX',
+    ];
+
+    /**
+     * @description like __MACOSX, will filter out all paths which contain one of those snippets
+     */
+    public function getIgnoredPathSnippets(): array
     {
-        return self::SPECIFIC_QUESTION_TABLE_NAME;
+        return $this->ignore;
     }
 }

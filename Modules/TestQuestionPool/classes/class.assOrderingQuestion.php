@@ -51,6 +51,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     public const VALID_UPLOAD_SUFFIXES = ["jpg", "jpeg", "png", "gif"];
 
+    protected const HAS_SPECIFIC_FEEDBACK = false;
+
 
     /**
      * @var ilAssOrderingElementList
