@@ -863,7 +863,7 @@ class ilObjForum extends ilObject
 
         $forumId = self::lookupForumIdByRefId($ref_id);
         if ($forumId === 0) {
-            self::$forum_last_post_cache[$ref_id] = [];
+            self::$forum_last_post_cache[$ref_id] = null;
             return self::$forum_last_post_cache[$ref_id];
         }
 
