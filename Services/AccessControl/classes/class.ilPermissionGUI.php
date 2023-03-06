@@ -731,7 +731,7 @@ class ilPermissionGUI extends ilPermission2GUI
             );
 
             // copy rights
-            $right_id_to_copy = $form->getInput("rights");
+            $right_id_to_copy = (int) $form->getInput("rights");
             if ($right_id_to_copy) {
                 $parentRoles = $this->rbacreview->getParentRoleIds($this->getCurrentObject()->getRefId(), true);
                 $this->rbacadmin->copyRoleTemplatePermissions(
