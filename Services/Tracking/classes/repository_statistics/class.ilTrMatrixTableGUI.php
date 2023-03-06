@@ -685,7 +685,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
                     if (isset($this->perc_map) && ($this->perc_map[$obj_id] ?? false)) {
                         $cnt++;
-                        $perc = (int) $a_set[$c . "_perc"];
+                        $perc = (int) ($a_set[$c . "_perc"] ?? 0);
                         $perc = !$perc
                             ? null
                             : $perc . "%";
