@@ -75,7 +75,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     /**
      * @var bool
      */
-    protected $crs_start_time_indication = false;
+    protected $course_start_time_indication = false;
 
     /**
      * @var \ilDateTime | null
