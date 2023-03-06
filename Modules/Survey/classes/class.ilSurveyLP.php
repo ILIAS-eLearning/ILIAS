@@ -64,7 +64,15 @@ class ilSurveyLP extends ilObjectLP
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[(int) $row["obj_fi"]] = true;
         }
-
+        $set = $ilDB->query(
+            $q = 'select obj_fi from svy_invitation si ' .
+            'join svy_svy ss on ss.survey_id = si.survey_id ' .
+            'where ' . $ilDB->in('ss.obj_fi', $obj_ids, false, ilDBConstants::T_INTEGER) .
+            'and user_id = ' . $ilDB->quote($usr_id, ilDBConstants::T_INTEGER)
+        );
+        while ($row = $set->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $res[(int) $row->obj_fi] = true;
+        }
         return true;
     }
 }
