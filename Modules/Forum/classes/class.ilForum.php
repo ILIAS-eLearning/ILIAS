@@ -529,6 +529,21 @@ class ilForum
 
         $post = new ilForumPost((int) $p_node['pos_pk']);
         if ($raiseEvents) {
+            $is_deleted_thread = ($p_node["parent"] == 0) ? true : false;
+            $num_visible_active_posts = 0;
+            if ($is_deleted_thread) {
+                $query = '
+                    SELECT COUNT(*) AS cnt
+                    FROM frm_posts
+                    INNER JOIN frm_posts_tree ON pos_pk = pos_fk
+                    WHERE frm_posts_tree.parent_pos != 0
+                    AND pos_thr_fk = ' . $this->db->quote($p_node['pos_thr_fk'], 'integer') . '
+                    AND pos_status = ' . $this->db->quote(1, 'integer');
+                $res = $this->db->query($query);
+                $row = $this->db->fetchAssoc($res);
+                $num_visible_active_posts = (int) ($row['cnt'] ?? 0);
+            }
+            
             $this->event->raise(
                 'Modules/Forum',
                 'beforePostDeletion',
@@ -536,7 +551,8 @@ class ilForum
                     'obj_id' => $this->getForumId(),
                     'ref_id' => $this->getForumRefId(),
                     'post' => $post,
-                    'thread_deleted' => ((int) $p_node['parent']) === 0
+                    'thread_deleted' => $is_deleted_thread,
+                    'num_visible_active_posts' => $num_visible_active_posts
                 ]
             );
         }
