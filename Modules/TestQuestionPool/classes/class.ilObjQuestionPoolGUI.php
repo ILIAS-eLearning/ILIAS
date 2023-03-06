@@ -1314,6 +1314,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         global $DIC;
         $ilToolbar = $DIC['ilToolbar'];
 
+        $output = ilUtil::stripSlashes($_POST['output'] ?? $_GET['output']);
+
         $ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'print'));
         require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
         $mode = new ilSelectInputGUI($this->lng->txt('output_mode'), 'output');
@@ -1322,14 +1324,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
             'detailed' => $this->lng->txt('detailed_output_solutions'),
             'detailed_printview' => $this->lng->txt('detailed_output_printview')
         ));
-        $mode->setValue(ilUtil::stripSlashes($_POST['output']));
+        $mode->setValue($output);
 
         $ilToolbar->setFormName('printviewOptions');
         $ilToolbar->addInputItem($mode, true);
         $ilToolbar->addFormButton($this->lng->txt('submit'), 'print');
 
         include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionPoolPrintViewTableGUI.php";
-        $table_gui = new ilQuestionPoolPrintViewTableGUI($this, 'print', $_POST['output']);
+        $table_gui = new ilQuestionPoolPrintViewTableGUI($this, 'print', $output);
         $data = $this->object->getPrintviewQuestions();
         $totalPoints = 0;
         foreach ($data as $d) {
