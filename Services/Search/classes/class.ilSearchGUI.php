@@ -546,7 +546,7 @@ class ilSearchGUI extends ilSearchBaseGUI
                 case 'glo':
                     // Glossary term definition pages
                     $gdf_search = ilObjectSearchFactory::_getLMContentSearchInstance($query_parser);
-                    $gdf_search->setFilter(array('gdf'));
+                    $gdf_search->setFilter(array('term'));
                     $result->mergeEntries($gdf_search->performSearch());
                     // Glossary terms
                     $gdf_term_search = ilObjectSearchFactory::_getGlossaryDefinitionSearchInstance($query_parser);

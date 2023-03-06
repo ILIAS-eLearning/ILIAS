@@ -1971,32 +1971,19 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             foreach ($terms as $t) {
                 $link = $t["link"];
                 $key = $t["key"];
-                $defs = ilGlossaryDefinition::getDefinitionList($link["id"]);
-                $def_cnt = 1;
 
-                // output all definitions of term
-                foreach ($defs as $def) {
-                    // definition + number, if more than 1 definition
-                    if (count($defs) > 1) {
-                        $tpl->setCurrentBlock("def_title");
-                        $tpl->setVariable(
-                            "TXT_DEFINITION",
-                            $this->lng->txt("cont_definition") . " " . ($def_cnt++)
-                        );
-                        $tpl->parseCurrentBlock();
-                    }
-                    $page_gui = new ilGlossaryDefPageGUI($def["id"]);
-                    $page_gui->setTemplateOutput(false);
-                    $page_gui->setOutputMode("print");
+                // output definition of term
+                $page_gui = new ilGlossaryDefPageGUI($link["id"]);
+                $page_gui->setTemplateOutput(false);
+                $page_gui->setOutputMode("print");
 
-                    $tpl->setCurrentBlock("definition");
-                    $page_gui->setFileDownloadLink("#");
-                    $page_gui->setFullscreenLink("#");
-                    $page_gui->setSourcecodeDownloadScript("#");
-                    $output = $page_gui->showPage();
-                    $tpl->setVariable("VAL_DEFINITION", $output);
-                    $tpl->parseCurrentBlock();
-                }
+                $tpl->setCurrentBlock("definition");
+                $page_gui->setFileDownloadLink("#");
+                $page_gui->setFullscreenLink("#");
+                $page_gui->setSourcecodeDownloadScript("#");
+                $output = $page_gui->showPage();
+                $tpl->setVariable("VAL_DEFINITION", $output);
+                $tpl->parseCurrentBlock();
 
                 // output term
                 $tpl->setCurrentBlock("term");

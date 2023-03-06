@@ -76,7 +76,6 @@ class ilQuestionPageParser extends ilMDSaxParser
     protected ?ilGlossaryTerm $glossary_term = null;
     protected ?ilImportMapping $mapping = null;
     protected string $cur_qid = "";
-    protected ?ilGlossaryDefinition $glossary_definition = null;
     protected string $chr_data = "";
     protected bool $in_media_item = false;
 
@@ -215,7 +214,7 @@ class ilQuestionPageParser extends ilMDSaxParser
 
                     break;
 
-                case "gdf":
+                case "term":
                     $page_obj = new ilGlossaryDefPage($page_arr[1]);
                     break;
 
@@ -231,9 +230,9 @@ class ilQuestionPageParser extends ilMDSaxParser
             }
             $page_obj->update(false);
 
-            if ($page_arr[0] == "gdf") {
-                $def = new ilGlossaryDefinition($page_arr[1]);
-                $def->updateShortText();
+            if ($page_arr[0] == "term") {
+                $term = new ilGlossaryTerm($page_arr[1]);
+                $term->updateShortText();
             }
 
             unset($page_obj);
@@ -523,13 +522,10 @@ class ilQuestionPageParser extends ilMDSaxParser
 
             case "Definition":
                 $this->in_glossary_definition = true;
-                $this->glossary_definition = new ilGlossaryDefinition();
                 $this->page_object = new ilGlossaryDefPage();
                 $this->page_object->setParentId($this->glossary_term->getGlossaryId());
-                $this->glossary_definition->setTermId($this->glossary_term->getId());
-                $this->glossary_definition->assignPageObject($this->page_object);
-                $this->current_object = $this->glossary_definition;
-                $this->glossary_definition->create(true);
+                $this->glossary_term->assignPageObject($this->page_object);
+                $this->current_object = $this->glossary_term;
                 // see bug #12465, we need to clear xml after creation, since it will be <PageObject></PageObject>
                 // otherwise, and appendXML calls will lead to "<PageObject></PageObject><PageObject>....</PageObject>"
                 $this->page_object->setXMLContent("");
@@ -690,8 +686,8 @@ class ilQuestionPageParser extends ilMDSaxParser
                                 $this->current_object->getType()
                             );
                         }
-                        // type gdf
-                        elseif ($this->current_object->getType() == "gdf") {
+                        // type term
+                        elseif ($this->current_object->getType() == "term") {
                             $this->md = new ilMD(
                                 $this->glossary_object->getId(),
                                 $this->current_object->getId(),
@@ -1139,11 +1135,10 @@ class ilQuestionPageParser extends ilMDSaxParser
                     (strtolower(get_class($this->current_object)) == "ilobjglossary" && $this->in_glossary)) {
                     // todo: saving of md? getting title/descr and
                     // set it for current object
-                } elseif (strtolower(get_class($this->current_object)) == "ilglossarydefinition" && !$this->in_media_object) {
+                } elseif (strtolower(get_class($this->current_object)) == "ilglossaryterm" && !$this->in_media_object) {
                     // now on top
-                    //$this->glossary_definition->create();
 
-                    $this->page_object->setId($this->glossary_definition->getId());
+                    $this->page_object->setId($this->glossary_term->getId());
                     $this->page_object->updateFromXML();
 
                     // todo: saving of md? getting title/descr and
@@ -1172,10 +1167,6 @@ class ilQuestionPageParser extends ilMDSaxParser
                 if ($this->in_media_object) {
                     //echo "<br>call media object update listener";
                     $this->media_object->MDUpdateListener('General');
-                }
-
-                if ($this->in_glossary_definition) {
-                    $this->glossary_definition->MDUpdateListener('General');
                 }
 
                 break;
@@ -1219,13 +1210,13 @@ class ilQuestionPageParser extends ilMDSaxParser
                 $this->in_glossary_definition = false;
                 $this->page_object->updateFromXML();
                 $this->page_object->buildDom();
-                $this->glossary_definition->setShortText($this->page_object->getFirstParagraphText());
-                $this->glossary_definition->update();
+                $this->glossary_term->setShortText($this->page_object->getFirstParagraphText());
+                $this->glossary_term->update();
                 if ($this->page_object->containsIntLink()) {
-                    $this->pages_to_parse["gdf:" . $this->page_object->getId()] = "gdf:" . $this->page_object->getId();
+                    $this->pages_to_parse["term:" . $this->page_object->getId()] = "term:" . $this->page_object->getId();
                 }
                 if ($this->page_object->needsImportParsing()) {
-                    $this->pages_to_parse["gdf:" . $this->page_object->getId()] = "gdf:" . $this->page_object->getId();
+                    $this->pages_to_parse["term:" . $this->page_object->getId()] = "term:" . $this->page_object->getId();
                 }
                 break;
 

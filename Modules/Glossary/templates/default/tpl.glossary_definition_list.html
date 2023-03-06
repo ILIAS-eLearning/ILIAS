@@ -1,29 +1,6 @@
 <div id="ilGloContent" class="ilc_page_cont_PageContainer">
 <h2 class="ilc_page_title_PageTitle">{TXT_TERM}</h2>
-	<!-- BEGIN toc -->
-	<div class="ilc_page_toc_PageTOC">
-		<!-- BEGIN toc_item -->
-		<p><a class="ilc_page_toc_PageTOCLink" href="#ilPageTocDef{TOC_DEF_NR}">{TOC_DEF} {TOC_DEF_NR}</a></p>
-		<!-- END toc_item -->
-	</div>
-	<div class="ilClearFloat"></div>
-	<!-- END toc -->
 <!-- BEGIN definition -->
-<!-- BEGIN definition_header -->
-<div class="ilc_DefinitionHeader"><a name="ilPageTocDef{DEF_NR}"></a>{TXT_DEFINITION}</div>
-<!-- END definition_header -->
-<!-- BEGIN submit_btns -->
-<div class="il_ContainerItemCommands ilRight" style="margin: 0 0 10px 10px;">
-	<a class="il_ContainerItemCommand" href="{LINK_EDIT}">{TXT_EDIT}</a>
-	<a class="il_ContainerItemCommand" href="{LINK_DELETE}">{TXT_DELETE}</a>
-	<!-- BEGIN up -->
-	<a class="il_ContainerItemCommand" href="{LINK_UP}">{TXT_UP}</a>&nbsp;&nbsp;
-	<!-- END up -->
-	<!-- BEGIN down -->
-	<a class="il_ContainerItemCommand" href="{LINK_DOWN}">{TXT_DOWN}</a>&nbsp;&nbsp;
-	<!-- END down -->
-</div>
-<!-- END submit_btns -->
 <div>{PAGE_CONTENT}</div>
 <br />
 <!-- END definition -->
@@ -34,15 +11,3 @@
 <!-- END backlink_item -->
 <!-- END backlink_list -->
 </div>
-<form action="{FORMACTION}" name="post" method="post">
-<!-- BEGIN add_def -->
-<br /><div class="ilToolbar">
-<input type="submit" class="btn btn-default" name="cmd[{BTN_ADD}]" value="{TXT_ADD_DEFINITION}">
-</div>
-<!-- END add_def -->
-</form>
-<!-- BEGIN perma_link -->
-<div class="il_info"><br /><br />
-{TXT_PERMA_LINK}: <a href="{PERMA_LINK}" target="{PERMA_TARGET}">{PERMA_LINK}</a>
-</div>
-<!-- END perma_link -->

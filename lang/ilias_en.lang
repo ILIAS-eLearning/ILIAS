@@ -6107,7 +6107,6 @@ content#:#cont_active_to#:#Activation End
 content#:#cont_add_area#:#Add Area
 content#:#cont_add_cell#:#Add Column
 content#:#cont_add_change_comment#:#Add change comment
-content#:#cont_add_definition#:#Add Definition
 content#:#cont_add_elements#:#Click on a plus symbol to add a new element.
 content#:#cont_add_file#:#Add File
 content#:#cont_add_images#:#Add Images
@@ -6390,7 +6389,6 @@ content#:#cont_ed_width#:#Width
 content#:#cont_edit_base_image#:#Edit Background Image
 content#:#cont_edit_comp#:#Editing
 content#:#cont_edit_definition#:#Edit Definition
-content#:#cont_edit_definitions#:#Edit Definitions
 content#:#cont_edit_file_list_properties#:#Edit File List Properties
 content#:#cont_edit_language_version#:#Edit Version
 content#:#cont_edit_lrs_settings#:#Edit Settings
