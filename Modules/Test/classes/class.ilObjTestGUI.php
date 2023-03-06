@@ -661,7 +661,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $ilDB,
                     $ilUser,
                     $randomGroup,
-                    $this->ref_id
+                    $this->ref_id,
+                    $DIC->rbac()
                 );
 
                 $gui->initQuestion($this->fetchAuthoringQuestionIdParameter(), $this->object->getId());
