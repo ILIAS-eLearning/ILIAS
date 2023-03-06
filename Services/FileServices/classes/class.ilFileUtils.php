@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\Filesystem\Definitions\SuffixDefinitions;
+use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
@@ -566,48 +567,8 @@ class ilFileUtils
         string $a_file,
         bool $compress_content = false
     ): bool {
-        $cdir = getcwd();
-
-        if ($compress_content) {
-            $a_dir .= "/*";
-            $pathinfo = pathinfo($a_dir);
-            chdir($pathinfo["dirname"]);
-        }
-
-        $pathinfo = pathinfo($a_file);
-        $dir = $pathinfo["dirname"];
-        $file = $pathinfo["basename"];
-
-        if (!$compress_content) {
-            chdir($dir);
-        }
-
-        $zip = PATH_TO_ZIP;
-
-        if (!$zip) {
-            chdir($cdir);
-            return false;
-        }
-
-        if (is_array($a_dir)) {
-            $source = "";
-            foreach ($a_dir as $dir) {
-                $name = basename($dir);
-                $source .= " " . ilShellUtil::escapeShellArg($name);
-            }
-        } else {
-            $name = basename($a_dir);
-            if (trim($name) != "*") {
-                $source = ilShellUtil::escapeShellArg($name);
-            } else {
-                $source = $name;
-            }
-        }
-
-        $zipcmd = "-r " . ilShellUtil::escapeShellArg($a_file) . " " . $source;
-        ilShellUtil::execQuoted($zip, $zipcmd);
-        chdir($cdir);
-        return true;
+        global $DIC;
+        return $DIC->legacyArchives()->zip($a_dir, $a_file);
     }
 
     /**
@@ -843,80 +804,10 @@ class ilFileUtils
      * @static
      *
      */
-    public static function unzip(string $a_file, bool $overwrite = false, bool $a_flat = false): void
+    public static function unzip(string $a_file, bool $overwrite = false, bool $a_flat = false): bool
     {
         global $DIC;
-
-        $log = $DIC->logger()->root();
-
-        if (!is_file($a_file)) {
-            return;
-        }
-
-        // if flat, move file to temp directory first
-        if ($a_flat) {
-            $tmpdir = ilFileUtils::ilTempnam();
-            ilFileUtils::makeDir($tmpdir);
-            copy($a_file, $tmpdir . DIRECTORY_SEPARATOR . basename($a_file));
-            $orig_file = $a_file;
-            $a_file = $tmpdir . DIRECTORY_SEPARATOR . basename($a_file);
-            $origpathinfo = pathinfo($orig_file);
-        }
-
-        $pathinfo = pathinfo($a_file);
-        $dir = $pathinfo["dirname"];
-        $file = $pathinfo["basename"];
-
-        // unzip
-        $cdir = getcwd();
-        chdir($dir);
-        $unzip = PATH_TO_UNZIP;
-
-        // real unzip
-        if (!$overwrite) {
-            $unzipcmd = ilShellUtil::escapeShellArg($file);
-        } else {
-            $unzipcmd = "-o " . ilShellUtil::escapeShellArg($file);
-        }
-        ilShellUtil::execQuoted($unzip, $unzipcmd);
-
-        chdir($cdir);
-
-        // remove all sym links
-        clearstatcache();            // prevent is_link from using cache
-        $dir_realpath = realpath($dir);
-        foreach (new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($dir)
-        ) as $name => $f) {
-            if (is_link($name)) {
-                $target = readlink($name);
-                if (substr(
-                    $target,
-                    0,
-                    strlen($dir_realpath)
-                ) != $dir_realpath) {
-                    unlink($name);
-                    $log->info("Removed symlink " . $name);
-                }
-            }
-        }
-
-        // if flat, get all files and move them to original directory
-        if ($a_flat) {
-            $filearray = [];
-            ilFileUtils::recursive_dirscan($tmpdir, $filearray);
-            if (is_array($filearray["file"])) {
-                foreach ($filearray["file"] as $k => $f) {
-                    if (substr($f, 0, 1) != "." && $f != basename($orig_file)) {
-                        copy(
-                            $filearray["path"][$k] . $f,
-                            $origpathinfo["dirname"] . DIRECTORY_SEPARATOR . $f
-                        );
-                    }
-                }
-            }
-            ilFileUtils::delDir($tmpdir);
-        }
+        return $DIC->legacyArchives()->unzip($a_file, null, $overwrite, $a_flat);
     }
 
     /**
