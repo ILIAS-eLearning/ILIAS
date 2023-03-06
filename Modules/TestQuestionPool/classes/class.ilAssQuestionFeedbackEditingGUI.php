@@ -181,7 +181,9 @@ class ilAssQuestionFeedbackEditingGUI
         $form = $this->buildForm();
 
         $this->feedbackOBJ->initGenericFormProperties($form);
-        $this->feedbackOBJ->initSpecificFormProperties($form);
+        if ($this->questionOBJ->hasSpecificFeedback()) {
+            $this->feedbackOBJ->initSpecificFormProperties($form);
+        }
 
         $this->tpl->setContent($this->ctrl->getHTML($form));
     }
@@ -236,7 +238,9 @@ class ilAssQuestionFeedbackEditingGUI
         $form->setId("feedback");
 
         $this->feedbackOBJ->completeGenericFormProperties($form);
-        $this->feedbackOBJ->completeSpecificFormProperties($form);
+        if ($this->questionOBJ->hasSpecificFeedback()) {
+            $this->feedbackOBJ->completeSpecificFormProperties($form);
+        }
 
         if ($this->isFormSaveable()) {
             $form->addCommandButton(self::CMD_SAVE, $this->lng->txt("save"));
