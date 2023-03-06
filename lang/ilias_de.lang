@@ -9464,8 +9464,10 @@ export#:#export_select_resources#:#Objekte auswählen
 export#:#no_file#:#Keine Datei
 file#:#action_download#:#Datei herunterladen
 file#:#action_show#:#Infoseite anzeigen
+file#:#add_icon#:#Icon hinzufügen
 file#:#amount_of_downloads#:#Downloads
 file#:#amount_of_downloads_since#:#%d seit %s
+file#:#de_activate_icon#:#(De-)Aktivieren
 file#:#file_copy#:#Datei kopieren
 file#:#file_download#:#Datei herunterladen
 file#:#file_import#:#Dateiimport
@@ -9483,9 +9485,31 @@ file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
 file#:#file_upload_info_file_with_critical_extension#:#Mindestens eine Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Kontaktieren Sie gegebenfalls Ihren Administrator. Dateiname(n): %s
 file#:#file_uploaded_by#:#Version hochgeladen von
+file#:#form_icon_creation#:#Icon erstellen
+file#:#form_icon_updating#:#Icon aktualisieren
 file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
 file#:#generate_sanitize_report#:#Report über nicht erreichbare Dateien
+file#:#input_active#:#Aktiv
+file#:#input_desc_active#:#Dieses Icon aktivieren.
+file#:#input_desc_icon#:#Bild welches als Icon für Dateien mit den spezifizierten Suffixen verwendet werden soll.
+file#:#input_desc_suffixes#:#Liste Komma-separierter Suffixe (Nur Buchstaben und Zahlen ohne vorangehenden Punkt).
+file#:#input_icon#:#Icon
+file#:#input_suffixes#:#Suffixe
 file#:#migrated#:#Status
+file#:#msg_confirm_entry_deletion#:#Wollen Sie den nachfolgenden Eintrag wirklich löschen?:
+file#:#msg_error_active_suffixes_blacklisted#:#Eine der gewählten Dateiendungen ist auf der globalen Blacklist und kann derzeit nciht genutzt werden.
+file#:#msg_error_active_suffixes_conflict#:#Fehler: Es dürfen nicht mehrere Icons für ein Suffix aktiv sein. Bitte deaktivieren Sie entweder dieses Icon oder das andere aktivierte Icon, dessen Suffixe sich mit jenen dieses Icons überschneiden.
+file#:#msg_error_active_suffixes_not_whitelisted#:#Die gewählte Dateiendung ist nicht auf der globalen Whitelist, beim Download werden die Dateine zu .sec. umbenannt.
+file#:#msg_error_duplicate_suffix_entries#:#Fehler: Die Komma-separierte Suffix-Liste enthält Duplikate.
+file#:#msg_error_icon_deletion#:#Fehler: Icon Löschung fehlgeschlagen.
+file#:#msg_error_suffixes_with_forbidden_characters#:#Fehler: unerlaubte Zeichen. Nur Buchstaben, Nummern, Leerzeichen und Kommas sind erlaubt.
+file#:#msg_icon_missing_from_db#:#Icon ist nicht in der Datenbank.
+file#:#msg_icon_missing_from_irss#:#Icon ist nicht im Resource Storage.
+file#:#msg_success_icon_activated#:#Icon erfolgreich aktiviert.
+file#:#msg_success_icon_created#:#Icon erfolgreich erstellt.
+file#:#msg_success_icon_deactivated#:#Icon erfolgreich deaktiviert.
+file#:#msg_success_icon_deletion#:#Icon erfolgreich gelöscht.
+file#:#msg_success_icon_updated#:#Icon erfolgreich aktualisiert.
 file#:#msg_unzip_success#:#Archiv wurde erfolreich entpackt.
 file#:#not_yet_migrated#:#Dieses Datei-Objekt wurde noch nicht migriert und es können keine neue Versionen angelegt werden. Wenden Sie sich an die Administratoren der Plattform.
 file#:#on_click_action#:#Klick auf Titel
@@ -9494,6 +9518,8 @@ file#:#resource_id#:#Ressourcen ID
 file#:#show_amount_of_downloads#:#Anzahl Downloads anzeigen
 file#:#show_amount_of_downloads_info#:#Wenn aktiv, wird die Anzahl Downloads auf der Info-Seite eines File-Objektes angezeigt.
 file#:#storage_id#:#Storage ID
+file#:#suffix_specific_icons#:#Suffix-spezifische Icons
+file#:#suffixes#:#Suffixe
 file#:#upload_info#:#Datei
 file#:#upload_info_desc#:#Sie können die Dateien und die Dateiversionen im Tab "Versionen" verwalten.
 file#:#version_uploaded#:#Version hochgeladen am

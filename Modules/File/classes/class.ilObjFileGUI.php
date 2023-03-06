@@ -22,6 +22,7 @@ use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\UI\Implementation\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Implementation\Component\Dropzone\File\File as Dropzone;
+use ILIAS\File\Icon\IconDatabaseRepository;
 
 /**
  * GUI class for file objects.
@@ -58,6 +59,7 @@ class ilObjFileGUI extends ilObject2GUI
     protected \ILIAS\HTTP\Wrapper\WrapperFactory $http;
     protected ilFileServicesSettings $file_service_settings;
     protected ilObjFileAccessSettings $object_settings;
+    protected IconDatabaseRepository $icon_repo;
 
     /**
      * Constructor
@@ -80,6 +82,7 @@ class ilObjFileGUI extends ilObject2GUI
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
         $this->obj_service = $DIC->object();
         $this->lng->loadLanguageModule(ilObjFile::OBJECT_TYPE);
+        $this->icon_repo = new IconDatabaseRepository();
     }
 
     public function getType(): string
@@ -122,6 +125,10 @@ class ilObjFileGUI extends ilObject2GUI
         }
 
         $this->prepareOutput();
+
+        $suffix = ilObjFileAccess::getListGUIData($this->obj_id)["suffix"] ?? "";
+        $path_file_icon = $this->icon_repo->getIconFilePathBySuffix($suffix);
+        $this->tpl->setTitleIcon($path_file_icon);
 
         switch ($next_class) {
             case "ilinfoscreengui":

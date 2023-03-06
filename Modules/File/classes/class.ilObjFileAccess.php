@@ -350,6 +350,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
             if ($id = $DIC->resourceStorage()->manage()->find($rid)) {
                 $max = $DIC->resourceStorage()->manage()->getResource($id)->getCurrentRevision();
                 self::$preload_list_gui_data[(int) $file_id]["title"] = $max->getTitle();
+                self::$preload_list_gui_data[(int) $file_id]["suffix"] = $max->getInformation()->getSuffix();
                 self::$preload_list_gui_data[(int) $file_id]["mime"] = $max->getInformation()->getMimeType();
                 self::$preload_list_gui_data[(int) $file_id]["version"] = $max->getVersionNumber();
                 self::$preload_list_gui_data[(int) $file_id]["size"] = $max->getInformation()->getSize() ?? 0;

@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\DI\Container;
+use ILIAS\File\Icon\IconDatabaseRepository;
 
 /**
  * @author       Thibeau Fuhrer <thibeau@sr.solutions>
@@ -113,6 +114,58 @@ class ilFileObjectDatabaseObjective implements ilDatabaseUpdateSteps
                 'value' => ['text', '1'],
             ]
         );
+    }
+
+    /**
+     * adds two new tables to store data concerning suffix-specific icons for files
+     */
+    public function step_4(): void
+    {
+        $this->abortIfNotPrepared();
+        if (!$this->database->tableExists(IconDatabaseRepository::ICON_TABLE_NAME)) {
+            $this->database->createTable(
+                IconDatabaseRepository::ICON_TABLE_NAME,
+                [
+                    IconDatabaseRepository::ICON_RESOURCE_IDENTIFICATION => [
+                        'type' => 'text',
+                        'length' => 64,
+                        'notnull' => true,
+                        'default' => '',
+                    ],
+                    IconDatabaseRepository::ICON_ACTIVE => [
+                        'type' => 'integer',
+                        'length' => 1,
+                        'notnull' => false,
+                        'default' => 0,
+                    ],
+                    IconDatabaseRepository::IS_DEFAULT_ICON => [
+                        'type' => 'integer',
+                        'length' => 1,
+                        'notnull' => false,
+                        'default' => 0,
+                    ]
+                ]
+            );
+        }
+        if (!$this->database->tableExists(IconDatabaseRepository::SUFFIX_TABLE_NAME)) {
+            $this->database->createTable(
+                IconDatabaseRepository::SUFFIX_TABLE_NAME,
+                [
+                    IconDatabaseRepository::ICON_RESOURCE_IDENTIFICATION => [
+                        'type' => 'text',
+                        'length' => 64,
+                        'notnull' => true,
+                        'default' => '',
+                    ],
+                    IconDatabaseRepository::SUFFIX => [
+                        'type' => 'text',
+                        'length' => 32,
+                        'notnull' => false,
+                        'default' => '',
+                    ]
+                ]
+            );
+        }
     }
 
     /**

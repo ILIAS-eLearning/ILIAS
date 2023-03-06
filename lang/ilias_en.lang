@@ -1444,7 +1444,7 @@ assessment#:#tst_header_participant#:#Your Answer:
 assessment#:#tst_header_solution#:#Best Solution:
 assessment#:#tst_heading_scoring#:#Scoring
 assessment#:#tst_hide_pagecontents#:#Hide page content
-assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.													  
+assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.
 assessment#:#tst_hide_side_list#:#Hide List of Questions
 assessment#:#tst_highscore_achieved_ts#:#Date
 assessment#:#tst_highscore_achieved_ts_description#:#A column containing the test date will be included in the ranking.
@@ -1800,7 +1800,7 @@ assessment#:#tst_results_back_overview#:#Back to Results Overview
 assessment#:#tst_results_details_options#:#Further Options
 assessment#:#tst_results_gamification#:#Gamification
 assessment#:#tst_results_grading_opt_show_details#:#Show detailed test results
-assessment#:#tst_results_grading_opt_show_details_desc#:#In addition to the summary test result, a "Detailed Results" action is provided. The "Detailed test results" table shows the titles of the questions and the points achieved for each run. The content of the table can be further supplemented in the "Further options" section.													
+assessment#:#tst_results_grading_opt_show_details_desc#:#In addition to the summary test result, a "Detailed Results" action is provided. The "Detailed test results" table shows the titles of the questions and the points achieved for each run. The content of the table can be further supplemented in the "Further options" section.
 assessment#:#tst_results_grading_opt_show_mark#:#Show Resulting Mark
 assessment#:#tst_results_grading_opt_show_mark_desc#:#The resulting mark will be appended to the summary test result. Participants can access their test results within the ‘Results’-tab.
 assessment#:#tst_results_grading_opt_show_status#:#Show ‘Passed’ / ‘Failed’ Status
@@ -9465,8 +9465,10 @@ export#:#export_select_resources#:#Select Resources
 export#:#no_file#:#No file
 file#:#action_download#:#Enable Direct Download
 file#:#action_show#:#Redirect User to the Info Page
+file#:#add_icon#:#Add Icon
 file#:#amount_of_downloads#:#Downloads
 file#:#amount_of_downloads_since#:#%d times since %s
+file#:#de_activate_icon#:#(De-)Activate
 file#:#file_copy#:#Copy File
 file#:#file_download#:#Download File
 file#:#file_import#:#Import File
@@ -9484,9 +9486,31 @@ file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
 file#:#file_upload_info_file_with_critical_extension#:#At least one uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download. If necessary, contact your administrator. Filename(s): %s
 file#:#file_uploaded_by#:#Version uploaded by
+file#:#form_icon_creation#:#Create Icon
+file#:#form_icon_updating#:#Update Icon
 file#:#general_upload_error_occured#:#An unexpected error occured during upload.
 file#:#generate_sanitize_report#:#Report about inaccessible files
+file#:#input_active#:#Active
+file#:#input_desc_active#:#Activate this icon.
+file#:#input_desc_icon#:#Image which shall be shown as an icon for files with the specified suffixes.
+file#:#input_desc_suffixes#:#List of comma-separated suffixes (characters and numbers only without preceding period).
+file#:#input_icon#:#Icon
+file#:#input_suffixes#:#Suffixes
 file#:#migrated#:#Status
+file#:#msg_confirm_entry_deletion#:#Are you sure you want to delete the following entry?:
+file#:#msg_error_active_suffixes_blacklisted#:#One of the selected file extensions is on the global blacklist and cannot be used at the moment.
+file#:#msg_error_active_suffixes_conflict#:#Error: there must not be multiple activated icons for the same suffix. Please deactivate either this icon or the other activated icon whose suffixes overlap with the suffixes of this icon.
+file#:#msg_error_active_suffixes_not_whitelisted#:#The selected file extension is not on the global whitelist, the files are renamed to .sec. during download.
+file#:#msg_error_duplicate_suffix_entries#:#Error: the comma separated list of suffixes contains duplicate entries.
+file#:#msg_error_icon_deletion#:#Error: icon deletion failed.
+file#:#msg_error_suffixes_with_forbidden_characters#:#Error: forbidden characters. Only alphabetic characters, numbers, whitespaces and commas are allowed.
+file#:#msg_icon_missing_from_db#:#Icon missing from database.
+file#:#msg_icon_missing_from_irss#:#Icon missing from resource storage.
+file#:#msg_success_icon_activated#:#Icon successfully activated.
+file#:#msg_success_icon_created#:#Icon successfully created.
+file#:#msg_success_icon_deactivated#:#Icon successfully deactivated.
+file#:#msg_success_icon_deletion#:#Icon successfully deleted.
+file#:#msg_success_icon_updated#:#Icon successfully updated.
 file#:#msg_unzip_success#:#Archive has been successfully unziped.
 file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.
 file#:#on_click_action#:#Action on Click on Title
@@ -9495,6 +9519,8 @@ file#:#resource_id#:#Resource ID
 file#:#show_amount_of_downloads#:#Show number of downloads
 file#:#show_amount_of_downloads_info#:#When active, the number of downloads will be visible on the info-page of a file object.
 file#:#storage_id#:#Storage ID
+file#:#suffix_specific_icons#:#Suffix-specific Icons
+file#:#suffixes#:#Suffixes
 file#:#upload_info#:#File
 file#:#upload_info_desc#:#Manage Uploads and Versions in Tab "Versions"
 file#:#version_uploaded#:#Version uploaded

@@ -16,6 +16,9 @@
  *********************************************************************/
 
 use ILIAS\HTTP\Services;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ILIAS\File\Icon\ilObjFileIconsOverviewGUI;
 
 /**
  * Class ilObjFileAccessSettingsGUI
@@ -25,6 +28,7 @@ use ILIAS\HTTP\Services;
  * @version      $Id$
  *
  * @ilCtrl_Calls ilObjFileAccessSettingsGUI: ilPermissionGUI
+ * @ilCtrl_Calls ilObjFileAccessSettingsGUI: ILIAS\File\Icon\ilObjFileIconsOverviewGUI
  *
  * @extends      ilObjectGUI
  */
@@ -32,7 +36,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 {
     public const CMD_EDIT_SETTINGS = 'editSettings';
     public const CMD_SHOW_PREVIEW_RENDERERS = 'showPreviewRenderers';
-
+    public const SUBTAB_SUFFIX_SPECIFIC_ICONS = 'suffix_specific_icons';
     protected ilSetting $folderSettings;
     protected Services $http;
 
@@ -79,6 +83,13 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
+            case strtolower(ilObjFileIconsOverviewGUI::class):
+                $this->tabs_gui->setTabActive('file_objects');
+                $this->addFileObjectsSubTabs();
+                $this->tabs_gui->setSubTabActive(self::SUBTAB_SUFFIX_SPECIFIC_ICONS);
+                $icon_overview = new ilObjFileIconsOverviewGUI();
+                $this->ctrl->forwardCommand($icon_overview);
+                break;
             default:
                 if (!$cmd || $cmd == 'view') {
                     $cmd = self::CMD_EDIT_SETTINGS;
@@ -117,6 +128,11 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
             "settings",
             $this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS),
             array(self::CMD_EDIT_SETTINGS, "view")
+        );
+        $this->tabs_gui->addSubTabTarget(
+            self::SUBTAB_SUFFIX_SPECIFIC_ICONS,
+            $this->ctrl->getLinkTargetByClass(ilObjFileIconsOverviewGUI::class, ilObjFileIconsOverviewGUI::CMD_INDEX),
+            array(ilObjFileIconsOverviewGUI::CMD_INDEX, "view")
         );
         $this->tabs_gui->addSubTabTarget(
             "preview_renderers",
