@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Test\Setup;
 
@@ -32,14 +35,17 @@ use ILIAS\Setup\CLI\IOWrapper;
  */
 class ilManScoringSettingsToOwnDbTableMigration implements Setup\Migration
 {
+    private const TABLE_NAME = 'manscoring_done';
+    private const TESTS_PER_STEP = 10000;
+
     private ilDBInterface $db;
-    private const TABLE_NAME = "manscoring_done";
+
     /**
      * @var IOWrapper
      */
     private mixed $io;
 
-    private function manScoringDoneEntryExists(int $activeId) : bool
+    private function manScoringDoneEntryExists(int $activeId): bool
     {
         $result = $this->db->queryF(
             "SELECT active_id FROM manscoring_done WHERE active_id = %s",
@@ -50,17 +56,17 @@ class ilManScoringSettingsToOwnDbTableMigration implements Setup\Migration
         return $result->numRows() === 1;
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Migrate manual scoring done setting from ilSettings db table to own table for improved performance";
     }
 
-    public function getDefaultAmountOfStepsPerRun() : int
+    public function getDefaultAmountOfStepsPerRun(): int
     {
         return 10;
     }
 
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new ilDatabaseInitializedObjective(),
@@ -68,7 +74,7 @@ class ilManScoringSettingsToOwnDbTableMigration implements Setup\Migration
         ];
     }
 
-    public function prepare(Environment $environment) : void
+    public function prepare(Environment $environment): void
     {
         $this->db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $this->io = $environment->getResource(Environment::RESOURCE_ADMIN_INTERACTION);
@@ -77,22 +83,23 @@ class ilManScoringSettingsToOwnDbTableMigration implements Setup\Migration
     /**
      * @throws Exception
      */
-    public function step(Environment $environment) : void
+    public function step(Environment $environment): void
     {
-        $result = $this->db->query("SELECT keyword, value FROM `settings` WHERE keyword LIKE 'manscoring_done_%'");
-
         /**
-         * @var array<int, string>
-         *     <active_id, reason for failure>
+         * @var array<int, string> $failed A map where the key is the active_id and the value is the reason for failure.
          */
         $failed = [];
 
         /**
-         * @var array<int, int>
-         *     <index, active_id>y
+         * @var array<int, int> $success A map where the key is the index of the entry in the result set and the value is the active_id.
          */
         $success = [];
+
         $totalCount = 0;
+        $this->db->setLimit(self::TESTS_PER_STEP);
+        $result = $this->db->query(
+            "SELECT keyword, value FROM settings WHERE " . $this->db->like('keyword', 'text', 'manscoring_done_%')
+        );
         while ($row = $this->db->fetchAssoc($result)) {
             $totalCount++;
 
@@ -113,18 +120,20 @@ class ilManScoringSettingsToOwnDbTableMigration implements Setup\Migration
                 continue;
             }
 
-            if ((int) $this->db->manipulateF("INSERT INTO " . self::TABLE_NAME . " (active_id, done) VALUES (%s, %s)",
-                    ["integer", "integer"],
-                    [$activeId, (int) $row["value"]]
-                ) !== 1) {
+            if ((int) $this->db->manipulateF(
+                "INSERT INTO " . self::TABLE_NAME . " (active_id, done) VALUES (%s, %s)",
+                ["integer", "integer"],
+                [$activeId, (int) $row["value"]]
+            ) !== 1) {
                 $failed[$activeId] = "Error occurred while trying to insert manscoring done status into new table ' " . self::TABLE_NAME . "'.";
                 continue;
             }
 
-            if ((int) $this->db->manipulateF("DELETE FROM `settings` WHERE keyword = %s",
-                    ["text"],
-                    [$keyword]
-                ) !== 1) {
+            if ((int) $this->db->manipulateF(
+                "DELETE FROM settings WHERE keyword = %s",
+                ["text"],
+                [$keyword]
+            ) !== 1) {
                 $failed[$activeId] = "Error occurred while trying to delete manscoring done status '$keyword' from old table 'settings'.";
                 continue;
             }
@@ -134,18 +143,28 @@ class ilManScoringSettingsToOwnDbTableMigration implements Setup\Migration
 
         //To get into new line for cleaner error reporting.
         $this->io->text("");
-        foreach ($failed as $active => $reason) {
+        foreach ($failed as $reason) {
             $this->io->error($reason);
         }
 
         $successCount = count($success);
         $failedCount = count($failed);
 
-        $this->io->success("Successfully migrated $successCount of $totalCount ($failedCount failed) entries from table 'settings' to table '" . self::TABLE_NAME . "'.");
+        $this->io->success(
+            "Successfully migrated $successCount of $totalCount ($failedCount failed) entries " .
+            "from table 'settings' to table '" . self::TABLE_NAME . "'."
+        );
     }
 
-    public function getRemainingAmountOfSteps() : int
+    public function getRemainingAmountOfSteps(): int
     {
-        return 1;
+        $result = $this->db->query(
+            "SELECT COUNT(*) AS cnt FROM settings WHERE " . $this->db->like('keyword', 'text', 'manscoring_done_%')
+        );
+        $row = $this->db->fetchAssoc($result);
+
+        $num_legacy_tests = (int) ($row['cnt'] ?? 0);
+
+        return (int) ceil($num_legacy_tests / self::TESTS_PER_STEP);
     }
 }
