@@ -44,6 +44,8 @@ abstract class assQuestion
     public const IMG_MIME_TYPE_PNG = 'image/png';
     public const IMG_MIME_TYPE_GIF = 'image/gif';
 
+    protected const HAS_SPECIFIC_FEEDBACK = true;
+
     protected static $allowedFileExtensionsByMimeType = array(
         self::IMG_MIME_TYPE_JPG => array('jpg', 'jpeg'),
         self::IMG_MIME_TYPE_PNG => array('png'),
@@ -3160,6 +3162,11 @@ abstract class assQuestion
         }
 
         return array();
+    }
+
+    public function hasSpecificFeedback(): bool
+    {
+        return static::HAS_SPECIFIC_FEEDBACK;
     }
 
     public static function _includeClass(string $question_type, int $gui = 0): void
