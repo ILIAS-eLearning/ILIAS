@@ -35,6 +35,7 @@ require_once './Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoring
  */
 class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable
 {
+    protected const HAS_SPECIFIC_FEEDBACK = false;
     /**
     * Maximum number of characters of the answertext
     *

@@ -232,12 +232,6 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 $fb = $this->getGenericFeedbackOutput((int) $active_id, $pass);
                 $feedback .= strlen($fb) ? $fb : '';
             }
-
-            $fb = $this->getSpecificFeedbackOutput(
-                array($user_solution => '')
-            );
-
-            $feedback .= strlen($fb) ? $fb : '';
         }
         if (strlen($feedback)) {
             $cssClass = (
@@ -342,12 +336,6 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 $fb = $this->getGenericFeedbackOutput((int) $active_id, $pass);
                 $feedback .= strlen($fb) ? $fb : '';
             }
-
-            $fb = $this->getSpecificFeedbackOutput(
-                array($user_solution => '')
-            );
-
-            $feedback .= strlen($fb) ? $fb : '';
         }
         if (strlen($feedback)) {
             $cssClass = (
@@ -578,25 +566,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
     public function getSpecificFeedbackOutput(array $userSolution): string
     {
-        $user_solution = array_keys($userSolution);
-        $user_answer = array_shift($user_solution);
-
-        $feedback = '<table><tbody>';
-
-        foreach ($this->object->getAnswers() as $idx => $ans) {
-            if ($this->object->isKeywordMatching($user_answer, $ans->getAnswertext())) {
-                $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-                    $this->object->getId(),
-                    0,
-                    $idx
-                );
-                $feedback .= '<tr><td><b><i>' . $ans->getAnswertext() . '</i></b></td><td>';
-                $feedback .= $fb . '</td> </tr>';
-            }
-        }
-
-        $feedback .= '</tbody></table>';
-        return $this->object->prepareTextareaOutput($feedback, true);
+        return '';
     }
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void

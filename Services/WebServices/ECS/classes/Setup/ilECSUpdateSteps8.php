@@ -124,4 +124,19 @@ class ilECSUpdateSteps8 implements ilDatabaseUpdateSteps
             );
         }
     }
+
+    public function step_7(): void
+    {
+        if (!$this->db->tableColumnExists('ecs_user_consent', 'server_id')) {
+            $this->db->addTableColumn(
+                'ecs_user_consent',
+                'server_id',
+                [
+                    'type' => ilDBConstants::T_INTEGER,
+                    'length' => 4,
+                    'notnull' => true
+                ]
+            );
+        }
+    }
 }
