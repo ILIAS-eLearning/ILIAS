@@ -40,7 +40,8 @@ class ilECSUserConsentModalGUI
     private int $usr_id;
     private int $ref_id;
     private int $obj_id;
-    private int $mid = 0;
+    private int $mid;
+    private int $server_id;
 
     protected ?ilRemoteObjectBaseGUI $remote_gui = null;
     protected ilRemoteObjectBase $remote_object;
@@ -79,18 +80,19 @@ class ilECSUserConsentModalGUI
         $this->objDefinition = $DIC['objDefinition'];
 
         $this->remote_object = $this->initRemoteObject();
-        $this->initMid();
+        $this->initMidAndServer();
         $this->obj_id = $this->remote_object->getId();
     }
 
     public function hasConsented(): bool
     {
-        return $this->consents->hasConsented($this->mid);
+        return $this->consents->hasConsented($this->server_id, $this->mid);
     }
 
-    protected function initMid(): void
+    protected function initMidAndServer(): void
     {
         $this->mid = $this->remote_object->getMID();
+        $this->server_id = ilECSImportManager::getInstance()->lookupServerId($this->remote_object->getId());
     }
 
     protected function lookupOrganization(): string
@@ -230,7 +232,7 @@ class ilECSUserConsentModalGUI
     {
         $consented = (bool) ($this->request->getParsedBody()['consent'] ?? 0);
         if ($consented) {
-            $this->consents->add($this->mid);
+            $this->consents->add($this->server_id, $this->mid);
             $this->ctrl->setParameterByClass(
                 $this->getGUIClassName(),
                 'ref_id',
@@ -253,7 +255,7 @@ class ilECSUserConsentModalGUI
     protected function initConsentForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
-        $form->setId(uniqid('form'));
+        $form->setId(uniqid('form', true));
         $form->setFormAction('#');
 
         $title = new ilNonEditableValueGUI(
@@ -288,7 +290,7 @@ class ilECSUserConsentModalGUI
             'consent'
         );
         $consent->setValue("1");
-        $consent->setChecked($this->consents->hasConsented($this->mid));
+        $consent->setChecked($this->consents->hasConsented($this->server_id, $this->mid));
         $consent->setRequired(true);
         $form->addItem($consent);
 
