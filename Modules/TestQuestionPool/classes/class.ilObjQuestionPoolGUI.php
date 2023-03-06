@@ -1251,13 +1251,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
      */
     public function printObject(): void
     {
-        /**
-         * @var $ilToolbar ilToolbarGUI
-         */
-        global $DIC;
-        $ilToolbar = $DIC['ilToolbar'];
-
+        $ilToolbar = $this->toolbar;
         $ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'print'));
+
         $mode = new ilSelectInputGUI($this->lng->txt('output_mode'), 'output');
         $mode->setOptions(array(
             'overview' => $this->lng->txt('overview'),

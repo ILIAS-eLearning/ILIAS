@@ -42,6 +42,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
         $this->outputmode = $outputmode;
+        $this->ctrl->setParameterByClass('ilObjQuestionPoolGUI', 'output', $outputmode);
 
         $this->setFormName('printviewform');
         $this->setStyle('table', 'fullwidth');
@@ -53,11 +54,9 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setDefaultOrderField("title");
         $this->setDefaultOrderDirection("asc");
-        $this->setLimit(999);
 
         $this->enable('sort');
         $this->enable('header');
-        //		$this->disable('numinfo');
         $this->disable('select_all');
     }
 
