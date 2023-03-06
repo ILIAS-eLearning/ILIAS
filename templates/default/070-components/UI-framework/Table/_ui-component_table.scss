@@ -159,25 +159,9 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
     }
 }
 
-/*
-.c-table-data {
-    display: table;
-
-    .c-table-data__row {
-        display:table-row;
-        .c-table-data__cell {
-            display:table-cell;
-            border:thin solid black;
-            padding:5px;
-        }
-    }
-    .c-table-data__header.c-table-data__cell {
-        font-weight: $il-font-weight-bold;
-    }
-}
-*/
-
+//
 // basic table design
+//
 
 .c-table-data__table {
     border: 1px solid $il-main-border-dark-color;
@@ -187,10 +171,6 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
     background-color: $il-main-bg;
     padding: $il-padding-large-vertical $il-padding-large-horizontal;
     border: 1px solid $il-main-border-color;
-    // border-bottom: 1px solid $il-main-border-dark-color;
-}
-
-.c-table-data__row {
     // border-bottom: 1px solid $il-main-border-dark-color;
 }
 

@@ -13461,21 +13461,15 @@ div.alert ul > li:before {
   color: #6f6f6f;
 }
 
-.il-table-data {
-  display: table;
+.c-table-data__table {
+  border: 1px solid #757575;
 }
-.il-table-data .row {
-  display: table-row;
+
+.c-table-data__cell {
+  background-color: white;
+  padding: 6px 12px;
+  border: 1px solid #dddddd;
 }
-.il-table-data .row .cell {
-  display: table-cell;
-  border: thin solid black;
-  padding: 5px;
-}
-<<<<<<< HEAD
-.il-table-data .header.cell {
-  font-weight: 600;
-=======
 
 .c-table-data__row:hover td.c-table-data__cell {
   background-color: #f0f0f0;
@@ -13599,7 +13593,6 @@ td.c-table-data__cell--highlighted {
 
 .c-table-data__row:hover td.c-table-data__cell--highlighted {
   background-color: #dedede;
->>>>>>> 47763c2f00 (UI Data Table Highlight)
 }
 
 .il-toast-container {
