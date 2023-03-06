@@ -677,7 +677,8 @@ class ilRbacAdmin
         string $a_assign = "y"
     ): void {
         if ($a_rol_id == SYSTEM_ROLE_ID) {
-            throw new DomainException('System administrator role is not writeable.');
+            // ignore system role
+            return;
         }
         // if a wrong value is passed, always set assign to "n"
         if ($a_assign != "y") {
