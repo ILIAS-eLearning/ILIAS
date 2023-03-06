@@ -1,6 +1,21 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../Base.php");
 
@@ -426,4 +441,27 @@ class FormTest extends ILIAS_UI_TestBase
             ->getMock();
         return $config;
     }
+
+    public function testFormWithoutRequiredField(): void
+    {
+        $f = $this->buildFactory();
+        $if = $this->buildInputFactory();
+        $inputs = [$if->text(""), $if->text("")];
+        $form = new ConcreteForm($this->buildInputFactory(), $inputs);
+
+        $this->assertFalse($form->hasRequiredInputs());
+    }
+
+    public function testFormWithRequiredField(): void
+    {
+        $f = $this->buildFactory();
+        $if = $this->buildInputFactory();
+        $inputs = [
+            $if->text("")->withRequired(true),
+            $if->text("")
+        ];
+        $form = new ConcreteForm($this->buildInputFactory(), $inputs);
+        $this->assertTrue($form->hasRequiredInputs());
+    }
+
 }

@@ -374,8 +374,8 @@ class ilTestRandomQuestionSetConfigGUI
             }
 
             if (isset($_GET['modified']) && (int) $_GET['modified']) {
-            ilUtil::sendSuccess($this->getGeneralModificationSuccessMessage());
-
+                ilUtil::sendSuccess($this->getGeneralModificationSuccessMessage());
+            }
         }
     }
 

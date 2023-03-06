@@ -1,6 +1,21 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../../Base.php");
@@ -258,6 +273,40 @@ class StandardFormTest extends ILIAS_UI_TestBase
                     <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
                 </div>
             </form>
+        ');
+        $this->assertHTMLEquals($expected, $html);
+    }
+
+    public function testStandardFormRenderWithRequired(): void
+    {
+        $f = $this->buildFactory();
+        $if = $this->buildInputFactory();
+
+        $url = "MY_URL";
+        $form = $f->standard($url, [$if->text("label", "byline")->withRequired(true)]);
+
+        $r = $this->getDefaultRenderer();
+        $html = $this->brutallyTrimHTML($r->render($form));
+
+        $expected = $this->brutallyTrimHTML('
+<form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
+    <div class="il-standard-form-header clearfix">
+        <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
+    </div>
+    <div class="form-group row">
+        <label for="id_1" class="control-label col-sm-3">label<span class="asterisk">*</span></label>
+        <div class="col-sm-9">
+            <input id="id_1" type="text" name="form_input_1" class="form-control form-control-sm"/>
+             <div class="help-block">byline</div>
+        </div>
+    </div>
+    <div class="il-standard-form-footer clearfix">
+        <span class="asterisk">*</span><span class="small"> required_field</span>
+    </div>
+   <div class="il-standard-form-footer clearfix">
+      <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
+   </div>
+</form>
         ');
         $this->assertHTMLEquals($expected, $html);
     }

@@ -79,7 +79,7 @@ class ilLMMenuGUI
         $ctrl->setParameterByClass("illmpresentationgui", 'ref_id', $this->lm->getRefId());
 
         // print selection
-        if (!$this->service->getPresentationStatus()->getEmbedMode() && $this->lm->isActivePrintView() && $access->checkAccess("read", "", $this->lm->getRefId())) {
+        if ($this->lm->isActivePrintView() && $access->checkAccess("read", "", $this->lm->getRefId())) {
             if (!$this->offline) {
                 $ui->mainTemplate()->addJavaScript("./Services/Form/js/Form.js");
                 $modal = $ui->factory()->modal()->roundtrip(

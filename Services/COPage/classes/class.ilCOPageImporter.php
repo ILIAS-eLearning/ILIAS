@@ -118,6 +118,7 @@ class ilCOPageImporter extends ilXmlImporter
                             if ($lstr != "" && $lstr != "-") {
                                 $new_page->setLanguage($lstr);
                             }
+                            $this->log->debug(">>> CREATE PAGE " . $id[0] . ":" . $id[1]);
                             $new_page->setXMLContent($next_xml);
                             $new_page->setActive(true);
                             // array_key_exists does NOT work on simplexml!
@@ -171,14 +172,14 @@ class ilCOPageImporter extends ilXmlImporter
                     $new_page->buildDom();
                     $med = $new_page->resolveMediaAliases($media_objects, $this->config->getReuseOriginallyExportedMedia());
                     $fil = $new_page->resolveFileItems($file_objects);
-                    $new_page->resolveResources($ref_mapping);
+                    $res = $new_page->resolveResources($ref_mapping);
                     $il = false;
                     if (!$this->config->getSkipInternalLinkResolve()) {
                         $il = $new_page->resolveIntLinks();
                         $this->log->debug("resolve internal link for page " . $id[0] . "-" . $id[1] . "-" . $id[2]);
                     }
                     $plug = $this->replacePluginProperties($new_page);
-                    if ($med || $fil || $il || $plug) {
+                    if ($med || $fil || $il || $plug || $res) {
                         $new_page->update(false, true);
                     }
                 }

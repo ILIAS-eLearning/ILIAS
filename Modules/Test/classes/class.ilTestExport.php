@@ -689,7 +689,7 @@ abstract class ilTestExport
                 $username = (!is_null($userdata) && $userdata->getName())
                     ? $userdata->getName()
                     : "ID $active_id";
-                $username = substr($username, 0, 26);
+                $username = mb_substr($username, 0, 26);
 
                 $username_to_lower = strtolower($username);
                 if (array_key_exists($username_to_lower, $usernames)) {
