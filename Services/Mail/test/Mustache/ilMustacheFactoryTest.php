@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,17 +16,19 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 
 class ilMustacheFactoryTest extends TestCase
 {
-    public function testCreatInstance() : void
+    public function testCreatInstance(): void
     {
         $f = new ilMustacheFactory();
         $this->assertInstanceOf(ilMustacheFactory::class, $f);
     }
 
-    public function testCreateBasicEngine() : void
+    public function testCreateBasicEngine(): void
     {
         $f = new ilMustacheFactory();
         $engine = $f->getBasicEngine();
