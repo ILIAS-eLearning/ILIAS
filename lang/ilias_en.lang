@@ -3416,8 +3416,8 @@ common#:#access_users#:#Logged in Users
 common#:#accesscount_registered_users#:#Read by number of distinct ILIAS users
 common#:#accessibility_control_concept#:#Accessibility
 common#:#account#:#My Account
-common#:#account_expires_body#:#Your account is limited, it will expire at:
-common#:#account_expires_subject#:#Your account expires
+common#:#account_expires_body#:#your account %s on %s will expire at %s. After this date, access to ILIAS with this account will no longer be possible. To save your personal documents and certificates, please download them in good time.
+common#:#account_expires_subject#:#Your ILIAS account will expire soon!
 common#:#action#:#Action
 common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
