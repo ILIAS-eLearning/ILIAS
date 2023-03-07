@@ -78,9 +78,14 @@ class Data extends Table implements T\Data, JSBindable
 
     protected function setEnumeratedColumns(array $columns): void
     {
+        if (count($columns) === 0) {
+            throw new \InvalidArgumentException('cannot construct a table without columns.');
+        }
         $counter = 0;
         foreach ($columns as $id => $column) {
-            assert(is_a($column, T\Column\Column::class), \InvalidArgumentException($id . ' is not a column.'));
+            if (!is_a($column, T\Column\Column::class)) {
+                throw new \InvalidArgumentException($id . ' is not a column.');
+            }
             $this->columns[$id] = $column->withIndex($counter);
             $counter++;
         }

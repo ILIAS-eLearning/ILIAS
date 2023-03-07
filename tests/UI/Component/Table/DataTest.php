@@ -71,6 +71,22 @@ class DataTest extends ILIAS_UI_TestBase
         $this->assertEquals($data, $table->getDataRetrieval());
     }
 
+    public function testDataTableConstructionWithErrorColumns(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $data = $this->getDataRetrieval();
+        $cols = ['f0' => "col1"];
+        $table = $this->getFactory()->data('title', $cols, $data);
+    }
+
+    public function testDataTableConstructionWithoutColumns(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $data = $this->getDataRetrieval();
+        $cols = [];
+        $table = $this->getFactory()->data('title', $cols, $data);
+    }
+
     public function testDataTableColumns(): void
     {
         $f = $this->getFactory()->column();
