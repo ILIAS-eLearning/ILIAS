@@ -1449,7 +1449,7 @@ assessment#:#tst_header_participant#:#Your Answer:
 assessment#:#tst_header_solution#:#Best Solution:
 assessment#:#tst_heading_scoring#:#Scoring
 assessment#:#tst_hide_pagecontents#:#Hide page content
-assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.													  
+assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.
 assessment#:#tst_hide_side_list#:#Hide List of Questions
 assessment#:#tst_highscore_achieved_ts#:#Date
 assessment#:#tst_highscore_achieved_ts_description#:#A column containing the test date will be included in the ranking.
@@ -1803,7 +1803,7 @@ assessment#:#tst_results_back_overview#:#Back to Results Overview
 assessment#:#tst_results_details_options#:#Further Options
 assessment#:#tst_results_gamification#:#Gamification
 assessment#:#tst_results_grading_opt_show_details#:#Show detailed test results
-assessment#:#tst_results_grading_opt_show_details_desc#:#In addition to the summary test result, a "Detailed Results" action is provided. The "Detailed test results" table shows the titles of the questions and the points achieved for each run. The content of the table can be further supplemented in the "Further options" section.													
+assessment#:#tst_results_grading_opt_show_details_desc#:#In addition to the summary test result, a "Detailed Results" action is provided. The "Detailed test results" table shows the titles of the questions and the points achieved for each run. The content of the table can be further supplemented in the "Further options" section.
 assessment#:#tst_results_grading_opt_show_mark#:#Show Resulting Mark
 assessment#:#tst_results_grading_opt_show_mark_desc#:#The resulting mark will be appended to the summary test result. Participants can access their test results within the ‘Results’-tab.
 assessment#:#tst_results_grading_opt_show_status#:#Show ‘Passed’ / ‘Failed’ Status
@@ -3407,8 +3407,8 @@ common#:#access_users#:#Logged in Users
 common#:#accesscount_registered_users#:#Read by number of distinct ILIAS users
 common#:#accessibility_control_concept#:#Accessibility
 common#:#account#:#My Account
-common#:#account_expires_body#:#Your account is limited, it will expire at:
-common#:#account_expires_subject#:#Your account expires
+common#:#account_expires_body#:#your account %s on %s will expire at %s. After this date, access to ILIAS with this account will no longer be possible. To save your personal documents and certificates, please download them in good time.
+common#:#account_expires_subject#:#Your ILIAS account will expire soon!
 common#:#action#:#Action
 common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions

@@ -3406,8 +3406,8 @@ common#:#access_users#:#Eingeloggte Benutzer
 common#:#accesscount_registered_users#:#Gelesen von Benutzern (Anzahl)
 common#:#accessibility_control_concept#:#Info Barrierefreiheit
 common#:#account#:#Mein Konto
-common#:#account_expires_body#:#Ihr ILIAS-Konto ist zeitlich begrenzt. Ablauftermin:
-common#:#account_expires_subject#:#ILIAS-Konto
+common#:#account_expires_body#:#Ihr Konto %s auf der ILIAS-Installation %s läuft am %s ab. Nach diesem Datum wird der Zugang zu ILIAS mit diesem Konto nicht mehr möglich sein. Um Ihre persönlichen Dokumente und Zertifikate zu sichern, laden Sie diese bitte rechtzeitig herunter.
+common#:#account_expires_subject#:#Ihr ILIAS-Konto läuft bald aus!
 common#:#action#:#Aktion
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
@@ -10013,7 +10013,7 @@ iass#:#iass_added#:#Individuelle Bewertung hinzugefügt
 iass#:#iass_amend_saved#:#Geänderte Prüfungsdaten wurden gespeichert.
 iass#:#iass_assessment_not_completed#:#Noch nicht abgeschlossen
 iass#:#iass_cancel#:#Abbrechen
-iass#:#iass_changed_by#:#Nachträglich geändert 
+iass#:#iass_changed_by#:#Nachträglich geändert
 iass#:#iass_confirm_finalize#:#Abschließen
 iass#:#iass_consultation_hours#:#Sprechstunden
 iass#:#iass_contact#:#Name
