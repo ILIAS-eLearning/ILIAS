@@ -59,15 +59,12 @@ class ilUpdateNewAccountMailTemplatesForMustache implements Migration
         $this->replace($lang, '[IF_NO_PASSWORD]', '{{#IF_NO_PASSWORD}}');
         $this->replace($lang, '[IF_TARGET]', '{{#IF_TARGET}}');
         $this->replace($lang, '[IF_TIMELIMIT]', '{{#IF_TIMELIMIT}}');
-        $this->replace($lang, '[', '{{');
-        $this->replace($lang, ']', '}}');
     }
 
     public function getRemainingAmountOfSteps(): int
     {
         $q = "SELECT COUNT(lang) AS open FROM mail_template" . PHP_EOL
-            . " WHERE body LIKE '%[%' OR body LIKE '%]%' OR subject LIKE '%[%' OR subject LIKE '%]%'" . PHP_EOL
-            . "    AND type = 'nacc'" . PHP_EOL
+            . $this->getWhere()
         ;
         $res = $this->db->query($q);
         $row = $this->db->fetchAssoc($res);
@@ -77,8 +74,7 @@ class ilUpdateNewAccountMailTemplatesForMustache implements Migration
     protected function getNextLangToBeUpdated(): ?string
     {
         $q = "SELECT lang FROM mail_template" . PHP_EOL
-            . " WHERE body LIKE '%[%' OR body LIKE '%]%' OR subject LIKE '%[%' OR subject LIKE '%]%'" . PHP_EOL
-            . "    AND type = 'nacc'" . PHP_EOL
+            . $this->getWhere()
             . " LIMIT 1"
         ;
         $res = $this->db->query($q);
@@ -91,12 +87,23 @@ class ilUpdateNewAccountMailTemplatesForMustache implements Migration
         return $row["lang"];
     }
 
+    protected function getWhere(): string
+    {
+        return " WHERE " . PHP_EOL
+            . $this->db->like("body", ilDBConstants::T_TEXT, "[") . " OR " . PHP_EOL
+            . $this->db->like("body", ilDBConstants::T_TEXT, "]") . " OR " . PHP_EOL
+            . $this->db->like("subject", ilDBConstants::T_TEXT, "[") . " OR " . PHP_EOL
+            . $this->db->like("subject", ilDBConstants::T_TEXT, "]")
+            . "    AND type = 'nacc'" . PHP_EOL
+        ;
+    }
+
     protected function replace(string $lang, string $search, string $replacement): void
     {
         $q = "UPDATE mail_template" . PHP_EOL
             . " SET subject = REPLACE(subject, '" . $search . "', '" . $replacement . "')," . PHP_EOL
             . " body = REPLACE(body, '" . $search . "', '" . $replacement . "')" . PHP_EOL
-            . " WHERE lang = " . $this->db->quote($lang, 'text') . PHP_EOL
+            . " WHERE lang = " . $this->db->quote($lang, ilDBConstants::T_TEXT) . PHP_EOL
             . "    AND type = 'nacc'"
         ;
         $this->db->manipulate($q);
