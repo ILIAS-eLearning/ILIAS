@@ -57,14 +57,13 @@ class ilUpdateMailTemplatesForMustache implements Migration
         }
 
         list($tpl_id, $lang) = $tpl_values;
-        $this->replace($tpl_id, $lang, '[', '{{');
-        $this->replace($tpl_id, $lang, ']', '}}');
+        $this->replace($tpl_id, $lang);
     }
 
     public function getRemainingAmountOfSteps(): int
     {
         $q = "SELECT COUNT(tpl_id) AS open FROM mail_man_tpl" . PHP_EOL
-            . " WHERE m_message LIKE '%[%' OR m_message LIKE '%]%' OR m_subject LIKE '%[%' OR m_subject LIKE '%]%'" . PHP_EOL
+            . $this->getWhere()
         ;
         $res = $this->db->query($q);
         $row = $this->db->fetchAssoc($res);
@@ -74,7 +73,7 @@ class ilUpdateMailTemplatesForMustache implements Migration
     protected function getNextTemplateToBeUpdated(): ?array
     {
         $q = "SELECT tpl_id, lang FROM mail_man_tpl" . PHP_EOL
-            . " WHERE m_message LIKE '%[%' OR m_message LIKE '%]%' OR m_subject LIKE '%[%' OR m_subject LIKE '%]%'" . PHP_EOL
+            . $this->getWhere() . PHP_EOL
             . " LIMIT 1"
         ;
         $res = $this->db->query($q);
@@ -90,13 +89,23 @@ class ilUpdateMailTemplatesForMustache implements Migration
         ];
     }
 
-    protected function replace(int $tpl_id, string $lang, string $search, string $replacement): void
+    protected function getWhere(): string
     {
-        $q = "UPDATE mail_man_tpl" . PHP_EOL
-            . " SET m_subject = REPLACE(m_subject, '" . $search . "', '" . $replacement . "')," . PHP_EOL
-            . " m_message = REPLACE(m_message, '" . $search . "', '" . $replacement . "')" . PHP_EOL
-            . " WHERE tpl_id = " . $this->db->quote($tpl_id, 'integer') . PHP_EOL
-            . "    AND lang = " . $this->db->quote($lang, 'text')
+        return " WHERE " . PHP_EOL
+            . $this->db->like("m_message", ilDBConstants::T_TEXT, "[") . " OR " . PHP_EOL
+            . $this->db->like("m_message", ilDBConstants::T_TEXT, "]") . " OR " . PHP_EOL
+            . $this->db->like("m_subject", ilDBConstants::T_TEXT, "[") . " OR " . PHP_EOL
+            . $this->db->like("m_subject", ilDBConstants::T_TEXT, "]")
+        ;
+    }
+
+    protected function replace(int $tpl_id, string $lang): void
+    {
+        $q = 'UPDATE mail_man_tpl' . PHP_EOL
+            . ' SET m_subject = REGEXP_REPLACE(m_subject, "\\[([[:upper:]]+)\\]", "{{$1}}"),' . PHP_EOL
+            . ' m_message = REGEXP_REPLACE(m_message, "\\[([[:upper:]]+)\\]", "{{$1}}"),' . PHP_EOL
+            . ' WHERE tpl_id = ' . $this->db->quote($tpl_id, ilDBConstants::T_INTEGER) . PHP_EOL
+            . '    AND lang = ' . $this->db->quote($lang, ilDBConstants::T_TEXT)
         ;
         $this->db->manipulate($q);
     }
