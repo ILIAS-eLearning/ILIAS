@@ -182,7 +182,7 @@ class ilObjSurvey extends ilObject
             ->internal()
             ->domain()
             ->import();
-        $this->placeholder_resolver = $DIC["mail.template.placeholder.resolver"];
+        $this->placeholder_resolver = $DIC->mail()->placeholderResolver();
 
         parent::__construct($a_id, $a_call_by_reference);
         $this->svy_log = ilLoggerFactory::getLogger("svy");
