@@ -796,7 +796,9 @@ class ilObjForum extends ilObject
 
         // Prepare  cache array
         foreach ($ref_ids as $ref_id) {
-            self::$ref_id_to_forum_id_cache[$ref_id] = 0;
+            if (!array_key_exists($ref_id, self::$ref_id_to_forum_id_cache)) {
+                self::$ref_id_to_forum_id_cache[$ref_id] = 0;
+            }
         }
 
         while ($row = $ilDB->fetchAssoc($res)) {
@@ -964,7 +966,7 @@ class ilObjForum extends ilObject
 
         $forumId = self::lookupForumIdByRefId($ref_id);
         if (!$forumId) {
-            self::$forum_last_post_cache[$ref_id] = [];
+            self::$forum_last_post_cache[$ref_id] = null;
             return self::$forum_last_post_cache[$ref_id];
         }
 

@@ -208,6 +208,7 @@ il.UI.Input = il.UI.Input || {};
 				let file_preview = file_id_input.closest(SELECTOR.file_list_entry);
 
 				if (file_preview) {
+					file_preview.find(SELECTOR.removal_glyph).hide();
 					let progressContainer = file_preview.find(SELECTOR.progress_container);
 					let progressIndicator = file_preview.find(SELECTOR.progress_indicator);
 					let number = Math.round(progress);
@@ -674,6 +675,7 @@ il.UI.Input = il.UI.Input || {};
 		 * @param {jQuery} container
 		 */
 		let displayErrorMessage = function (message, container) {
+			container.find(SELECTOR.removal_glyph).show();
 			container.find(SELECTOR.error_message).html(message);
 			container.find(SELECTOR.progress_indicator).addClass('error');
 		}

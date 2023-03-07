@@ -579,6 +579,7 @@ class ilPermissionGUI extends ilPermission2GUI
         $form->addCommandButton('perm', $this->lng->txt('cancel'));
 
         $zip = new ilFileInputGUI($this->lng->txt('import_file'), 'importfile');
+        $zip->setRequired(true);
         $zip->setSuffixes(['zip']);
         $form->addItem($zip);
 
@@ -700,7 +701,7 @@ class ilPermissionGUI extends ilPermission2GUI
             );
 
             // copy rights
-            $right_id_to_copy = $form->getInput("rights");
+            $right_id_to_copy = (int) $form->getInput("rights");
             if ($right_id_to_copy) {
                 $parentRoles = $this->rbacreview->getParentRoleIds($this->getCurrentObject()->getRefId(), true);
                 $this->rbacadmin->copyRoleTemplatePermissions(

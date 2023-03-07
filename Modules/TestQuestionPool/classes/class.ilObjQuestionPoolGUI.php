@@ -46,7 +46,7 @@ use ILIAS\Refinery\Random\Group as RandomGroup;
 class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
     public ?ilObject $object;
-
+    protected ILIAS\TestQuestionPool\InternalRequestService $qplrequest;
 
     /**
     * Constructor
@@ -1251,13 +1251,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
      */
     public function printObject(): void
     {
-        /**
-         * @var $ilToolbar ilToolbarGUI
-         */
-        global $DIC;
-        $ilToolbar = $DIC['ilToolbar'];
-
+        $ilToolbar = $this->toolbar;
         $ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'print'));
+
         $mode = new ilSelectInputGUI($this->lng->txt('output_mode'), 'output');
         $mode->setOptions(array(
             'overview' => $this->lng->txt('overview'),
@@ -1265,10 +1261,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             'detailed_printview' => $this->lng->txt('detailed_output_printview')
         ));
 
-        $trafo = $this->refinery->kindlyTo()->string();
-        $output = $this->request_wrapper->has('output') ?
-            (string) $this->request_wrapper->retrieve('output', $trafo) :
-            '';
+        $output = $this->qplrequest->raw('output') ?? '';
 
         $mode->setValue(ilUtil::stripSlashes($output));
 
