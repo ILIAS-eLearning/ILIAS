@@ -50,9 +50,7 @@ class ilMStListCoursesGUI
     {
         global $DIC;
 
-        if ($this->access->hasCurrentUserAccessToMyStaff()
-            && $this->access->hasCurrentUserAccessToCourseMemberships()
-        ) {
+        if ($this->access->hasCurrentUserAccessToCourseMemberships()) {
             return;
         } else {
             ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);

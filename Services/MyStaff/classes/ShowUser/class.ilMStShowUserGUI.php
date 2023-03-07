@@ -66,8 +66,7 @@ class ilMStShowUserGUI
             $DIC->ctrl()->redirectByClass(ilDashboardGUI::class, "");
         }
 
-        if ($this->access->hasCurrentUserAccessToMyStaff()
-            && $this->access->hasCurrentUserAccessToUser($this->usr_id)) {
+        if ($this->access->hasCurrentUserAccessToUser($this->usr_id)) {
             return;
         } else {
             ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);

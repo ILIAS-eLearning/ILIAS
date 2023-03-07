@@ -43,9 +43,7 @@ class ilMStListCompetencesSkillsGUI
 
     protected function checkAccessOrFail() : void
     {
-        if ($this->access->hasCurrentUserAccessToMyStaff()
-            && $this->access->hasCurrentUserAccessToCompetences()
-        ) {
+        if ($this->access->hasCurrentUserAccessToCompetences()) {
             return;
         } else {
             ilUtil::sendFailure($this->dic->language()->txt("permission_denied"), true);

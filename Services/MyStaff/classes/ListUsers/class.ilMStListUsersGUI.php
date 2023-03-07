@@ -50,9 +50,7 @@ class ilMStListUsersGUI
     {
         global $DIC;
 
-        if ($this->access->hasCurrentUserAccessToMyStaff()
-            && $this->access->hasCurrentUserAccessToUser()
-        ) {
+        if ($this->access->hasCurrentUserAccessToUser()) {
             return;
         } else {
             ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);
