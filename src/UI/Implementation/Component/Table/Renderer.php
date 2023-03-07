@@ -272,6 +272,7 @@ class Renderer extends AbstractComponentRenderer
 
         foreach ($columns as $col_id => $col) {
             $param_sort_direction = $order::ASC;
+            $col_title = $col->getTitle();
             if ($col_id === $sort_col) {
                 if ($sort_direction === $order::ASC) {
                     $sortation = 'ascending';
@@ -282,14 +283,10 @@ class Renderer extends AbstractComponentRenderer
                     $sortation = 'decending';
                     $sortation_glyph = $glyph_factory->sortDescending("#");
                 }
-                $sortation_glyph = $default_renderer->render($sortation_glyph->withUnavailableAction());
-                $tpl->setVariable('COL_SORTATION', $sortation);
-                $tpl->setVariable('COL_SORTATION_GLYPH', $sortation_glyph);
             }
 
             $tpl->setCurrentBlock('header_cell');
             $tpl->setVariable('COL_INDEX', (string) $col->getIndex());
-            $col_title = $col->getTitle();
             if ($col->isSortable()) {
                 $uri = (string)$this->getDataFactory()->uri(
                     $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI']
@@ -300,6 +297,12 @@ class Renderer extends AbstractComponentRenderer
                 $col_title = $default_renderer->render(
                     $this->getUIFactory()->button()->shy($col_title, $uri)
                 );
+
+                if ($col_id === $sort_col) {
+                    $sortation_glyph = $default_renderer->render($sortation_glyph->withAction($uri));
+                    $tpl->setVariable('COL_SORTATION', $sortation);
+                    $tpl->setVariable('COL_SORTATION_GLYPH', $sortation_glyph);
+                }
             }
             $tpl->setVariable('COL_TITLE', $col_title);
 
