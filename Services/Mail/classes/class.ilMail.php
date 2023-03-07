@@ -103,7 +103,7 @@ class ilMail
         $this->table_mail = 'mail';
         $this->table_mail_saved = 'mail_saved';
         $this->setSaveInSentbox(false);
-        $this->placeholder_resolver = $placeholder_resolver ?? $DIC["mail.template.placeholder.resolver"];
+        $this->placeholder_resolver = $placeholder_resolver ?? $DIC->mail()->placeholderResolver();
     }
 
     public function autoresponder(): AutoresponderService

@@ -62,4 +62,16 @@ class MailService
     {
         return $this->dic[ilMailTemplateServiceInterface::class];
     }
+
+    public function placeholderResolver(): \ilMailTemplatePlaceholderResolver
+    {
+        return new \ilMailTemplatePlaceholderResolver(
+            $this->mustacheFactory()->getBasicEngine()
+        );
+    }
+
+    public function mustacheFactory(): \ilMustacheFactory
+    {
+        return new \ilMustacheFactory();
+    }
 }
