@@ -1,22 +1,17 @@
-# Administrative Notifications Privacy
+# AdministrativeNotification Privacy
 Disclaimer: This documentation does not warrant completeness or correctness. Please report any missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de) or contribute a fix via [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories).
 
-## Services being used
-- The Administrative Notifications service employs the following services, please consult the respective privacy.mds:
-    - [GlobalScreen](../../Services/GlobalScreen/PRIVACY.md)
-
 ## Data being stored
-- User ID of the account that created the notification is stored.
-- Creation timestamp of the notification is stored.
-- User ID of the account that last updated the notification is stored.
-- Last update timestamp of the notification is stored.
-- User IDs of the accounts that dismissed the notification are stored.
+- User IDs of the persons that created and last updated the AdministrativeNotification entry as well as the timestamps of the creation and last update of the entry are stored. This data is stored in order to ensure internal traceability regarding timing and authorship in the event of any problems caused by the AdministrativeNotification entry.
+- User IDs of the persons that dismissed the notification are stored. This prevents the AdministrativeNotification service from showing dismissed notifications again.
+- The AdministrativeNotification service employs the following services, please consult the respective privacy.mds:
+  - [GlobalScreen](../../Services/GlobalScreen/PRIVACY.md)
 
 ## Data being presented
-- The Administrative Notifications service does not present any personal data.
+- The AdministrativeNotification service does not present any personal data.
 
 ## Data being deleted
-- Persons with "Write" permission for the Administrative Notifications can delete notifications.
+- Persons with "Edit Settings" permission at "Administration" > "Communication" >  "Administrative Notifications" can delete AdministrativeNotification entries.
 
 ## Data being exported
-- The Administrative Notifications service does not have an export function. Therefore no personal data is being exported.
+- The AdministrativeNotification service does not have an export function. Therefore no personal data is being exported.
