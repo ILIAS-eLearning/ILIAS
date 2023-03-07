@@ -180,6 +180,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
         $showModalButton->setId('btnShow_' . $uid);
         $showModalButton->setCaption('tst_corr_add_as_answer_btn');
         $showModalButton->setOnClick("$('#{$modal->getId()}').modal('show')");
+        $showModalButton->setTarget('');
 
         // TODO: migrate stuff above to ui components when ui-form supports
         // - presentation in ui-roundtrip
