@@ -53,8 +53,7 @@ class ilMStShowUserCompetencesGUI
             $this->dic->ctrl()->redirectByClass(ilDashboardGUI::class, "");
         }
 
-        if ($this->access->hasCurrentUserAccessToMyStaff()
-            && $this->access->hasCurrentUserAccessToUser($this->usr_id)
+        if ($this->access->hasCurrentUserAccessToUser($this->usr_id)
             && $this->access->hasCurrentUserAccessToCompetences()
         ) {
             return;

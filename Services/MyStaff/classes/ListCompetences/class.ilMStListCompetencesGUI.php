@@ -47,9 +47,7 @@ class ilMStListCompetencesGUI
 
     protected function checkAccessOrFail(): void
     {
-        if ($this->access->hasCurrentUserAccessToMyStaff()
-            && $this->access->hasCurrentUserAccessToCompetences()
-        ) {
+        if ($this->access->hasCurrentUserAccessToCompetences()) {
             return;
         } else {
             $this->main_tpl->setOnScreenMessage('failure', $this->dic->language()->txt("permission_denied"), true);
