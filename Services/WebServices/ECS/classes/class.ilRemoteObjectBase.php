@@ -304,11 +304,16 @@ abstract class ilRemoteObjectBase extends ilObject2
             " WHERE obj_id = " . $this->db->quote($this->getId(), 'integer') . " ";
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setLocalInformation($row->local_information);
-            $this->setRemoteLink($row->remote_link);
+            if (!is_null($row->local_information)) {
+                $this->setLocalInformation($row->local_information);
+            }
+            if (!is_null($row->remote_link)) {
+                $this->setRemoteLink($row->remote_link);
+            }
             $this->setMID((int) $row->mid);
-            $this->setOrganization($row->organization);
-
+            if (!is_null($row->organization)) {
+                $this->setOrganization($row->organization);
+            }
             $this->doReadCustomFields($row);
         }
     }
