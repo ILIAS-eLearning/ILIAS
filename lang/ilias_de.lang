@@ -2044,6 +2044,7 @@ auth#:#auth_oidc_settings_custom_session_duration_option#:#Eigene Sitzungsdauer
 auth#:#auth_oidc_settings_custom_session_duration_type#:#Einstellungen zur Sitzungsdauer
 auth#:#auth_oidc_settings_default_role#:#Rollenzuordnung
 auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS-Benutzer aus!
+auth#:#auth_oidc_settings_discovery_error#:#Die Discovery URL konnte nicht abgerufen werden. Fehler: %s
 auth#:#auth_oidc_settings_discovery_url#:#Discovery URL des Providers
 auth#:#auth_oidc_settings_img#:#Bild
 auth#:#auth_oidc_settings_img_file_info#:#Laden Sie ein Bild hoch das auf der Anmeldeseite angezeigt werden soll. Das Bild verlinkt automatisch auf das OpenId Connect Anmeldeskript.
@@ -3762,7 +3763,6 @@ common#:#copy_all#:#Alle kopieren
 common#:#copy_n_of_suffix#:#- Kopie (%1$s)
 common#:#copy_of#:#Kopie von
 common#:#copy_of_suffix#:#- Kopie
-common#:#copy_perma_link#:#Link zu dieser Seite kopieren
 common#:#copy_selected_items#:#Kopieren
 common#:#count#:#Anzahl
 common#:#country#:#Land
@@ -6106,7 +6106,6 @@ content#:#cont_active_to#:#Aktiv bis
 content#:#cont_add_area#:#Bereich hinzufügen
 content#:#cont_add_cell#:#Spalte hinzufügen
 content#:#cont_add_change_comment#:#Überarbeitungskommentar hinzufügen
-content#:#cont_add_definition#:#Definition hinzufügen
 content#:#cont_add_elements#:#<b>Klicken</b> Sie auf ein <b>Plus-Symbol</b>, um ein neues Element <b>hinzuzufügen</b>.
 content#:#cont_add_file#:#Datei hinzufügen
 content#:#cont_add_images#:#Bild hinzufügen
@@ -6389,7 +6388,6 @@ content#:#cont_ed_width#:#Breite
 content#:#cont_edit_base_image#:#Ausgangsbild bearbeiten
 content#:#cont_edit_comp#:#Bearbeitungsmodus
 content#:#cont_edit_definition#:#Definition bearbeiten
-content#:#cont_edit_definitions#:#Definitionen bearbeiten
 content#:#cont_edit_file_list_properties#:#Eigenschaften der Dateilisten bearbeiten
 content#:#cont_edit_language_version#:#Version bearbeiten
 content#:#cont_edit_lrs_settings#:#Einstellungen
@@ -9464,8 +9462,10 @@ export#:#export_select_resources#:#Objekte auswählen
 export#:#no_file#:#Keine Datei
 file#:#action_download#:#Datei herunterladen
 file#:#action_show#:#Infoseite anzeigen
+file#:#add_icon#:#Icon hinzufügen
 file#:#amount_of_downloads#:#Downloads
 file#:#amount_of_downloads_since#:#%d seit %s
+file#:#de_activate_icon#:#(De-)Aktivieren
 file#:#file_copy#:#Datei kopieren
 file#:#file_download#:#Datei herunterladen
 file#:#file_import#:#Dateiimport
@@ -9483,9 +9483,31 @@ file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
 file#:#file_upload_info_file_with_critical_extension#:#Mindestens eine Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Kontaktieren Sie gegebenfalls Ihren Administrator. Dateiname(n): %s
 file#:#file_uploaded_by#:#Version hochgeladen von
+file#:#form_icon_creation#:#Icon erstellen
+file#:#form_icon_updating#:#Icon aktualisieren
 file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
 file#:#generate_sanitize_report#:#Report über nicht erreichbare Dateien
+file#:#input_active#:#Aktiv
+file#:#input_desc_active#:#Dieses Icon aktivieren.
+file#:#input_desc_icon#:#Bild welches als Icon für Dateien mit den spezifizierten Suffixen verwendet werden soll.
+file#:#input_desc_suffixes#:#Liste Komma-separierter Suffixe (Nur Buchstaben und Zahlen ohne vorangehenden Punkt).
+file#:#input_icon#:#Icon
+file#:#input_suffixes#:#Suffixe
 file#:#migrated#:#Status
+file#:#msg_confirm_entry_deletion#:#Wollen Sie den nachfolgenden Eintrag wirklich löschen?:
+file#:#msg_error_active_suffixes_blacklisted#:#Eine der gewählten Dateiendungen ist auf der globalen Blacklist und kann derzeit nciht genutzt werden.
+file#:#msg_error_active_suffixes_conflict#:#Fehler: Es dürfen nicht mehrere Icons für ein Suffix aktiv sein. Bitte deaktivieren Sie entweder dieses Icon oder das andere aktivierte Icon, dessen Suffixe sich mit jenen dieses Icons überschneiden.
+file#:#msg_error_active_suffixes_not_whitelisted#:#Die gewählte Dateiendung ist nicht auf der globalen Whitelist, beim Download werden die Dateine zu .sec. umbenannt.
+file#:#msg_error_duplicate_suffix_entries#:#Fehler: Die Komma-separierte Suffix-Liste enthält Duplikate.
+file#:#msg_error_icon_deletion#:#Fehler: Icon Löschung fehlgeschlagen.
+file#:#msg_error_suffixes_with_forbidden_characters#:#Fehler: unerlaubte Zeichen. Nur Buchstaben, Nummern, Leerzeichen und Kommas sind erlaubt.
+file#:#msg_icon_missing_from_db#:#Icon ist nicht in der Datenbank.
+file#:#msg_icon_missing_from_irss#:#Icon ist nicht im Resource Storage.
+file#:#msg_success_icon_activated#:#Icon erfolgreich aktiviert.
+file#:#msg_success_icon_created#:#Icon erfolgreich erstellt.
+file#:#msg_success_icon_deactivated#:#Icon erfolgreich deaktiviert.
+file#:#msg_success_icon_deletion#:#Icon erfolgreich gelöscht.
+file#:#msg_success_icon_updated#:#Icon erfolgreich aktualisiert.
 file#:#msg_unzip_success#:#Archiv wurde erfolreich entpackt.
 file#:#not_yet_migrated#:#Dieses Datei-Objekt wurde noch nicht migriert und es können keine neue Versionen angelegt werden. Wenden Sie sich an die Administratoren der Plattform.
 file#:#on_click_action#:#Klick auf Titel
@@ -9494,6 +9516,8 @@ file#:#resource_id#:#Ressourcen ID
 file#:#show_amount_of_downloads#:#Anzahl Downloads anzeigen
 file#:#show_amount_of_downloads_info#:#Wenn aktiv, wird die Anzahl Downloads auf der Info-Seite eines File-Objektes angezeigt.
 file#:#storage_id#:#Storage ID
+file#:#suffix_specific_icons#:#Suffix-spezifische Icons
+file#:#suffixes#:#Suffixe
 file#:#upload_info#:#Datei
 file#:#upload_info_desc#:#Sie können die Dateien und die Dateiversionen im Tab "Versionen" verwalten.
 file#:#version_uploaded#:#Version hochgeladen am
@@ -9790,23 +9814,50 @@ forum#:#topic_close#:#geschlossen
 forum#:#topics_please_select_one_action#:#Bitte wählen Sie eine Aktion aus.
 forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selbst aktivieren.
 glo#:#glo_add_from_other#:#Begriffe sammeln
+glo#:#glo_answered_correctly#:#Wusste ich
+glo#:#glo_answered_not_correctly#:#Wusste ich nicht
+glo#:#glo_box#:#Fach
+glo#:#glo_box_completed#:#Sie haben das Fach abgeschlossen.
+glo#:#glo_box_last_presented#:#Fach zuletzt angezeigt
+glo#:#glo_boxes#:#Fächer
+glo#:#glo_boxes_really_reset#:#Möchten Sie wirklich alle Fächer zurücksetzen? Alle Lernkarten werden in das erste Fach verschoben.
+glo#:#glo_boxes_reset#:#Die Fächer wurden erfolgreich zurückgesetzt.
 glo#:#glo_col_ordering_info#:#Sortieren Sie die Titel der Metadatenfelder, die in der Präsentationsansicht des Glossars als Spaltenüberschriften angezeigt werden.
 glo#:#glo_collection#:#Sammelglossar
 glo#:#glo_collection_info#:#Das Glossar sammelt automatisch zusätzliche Begriffe aus anderen Glossaren ein.
 glo#:#glo_content_assembly#:#Zusammenstellung der Inhalte
 glo#:#glo_copy#:#Glossar kopieren
 glo#:#glo_copy_terms#:#Begriffe kopieren
+glo#:#glo_days_ago#:#vor %s Tagen
+glo#:#glo_def_vs_term#:#Definition vs. Begriff
+glo#:#glo_def_vs_term_info#:#Zeige zuerst eine Definition, der Lernende muss den Begriff erraten.
+glo#:#glo_flashcard_training#:#Lernkarten Training
+glo#:#glo_flashcard_training_info#:#Bietet eine Präsentation in Form von Lernkarten, die es dem Benutzer ermöglicht, die Begriffe/Definitionen einzeln zu trainieren.
+glo#:#glo_flashcards#:#Lernkarten
+glo#:#glo_flashcards_from_today_confirmation#:#Das Fach beinhaltet %s Lernkarten, die Ihnen heute bereits angezeigt wurden. Möchten Sie nur die verbleibenden %s Lernkarten einbeziehen oder alle %s Lernkarten?
+glo#:#glo_flashcards_from_today_only_info#:#Das Fach beinhaltet ausschließlich Lernkarten, die Ihnen heute bereits angezeigt wurden. Bitte bestätigen Sie, dass Ihnen diese %s Lernkarten nochmal angezeigt werden.
+glo#:#glo_flashcards_intro#:#Sie sollen jede Lernkarte viermal hintereinander erinnern.<br />Am Anfang befinden sich alle Lernkarten in Fach 1.<br />Lernkarten, die Sie mit "Wusste ich" bewerten, werden in das nächste Fach befördert.<br />Lernkarten, die Sie mit "Wusste ich nicht" bewerten, kommen zurück in das erste Fach.<br />Fangen Sie an, indem Sie ein Fach auswählen. Dann werden die Lernkarten angezeigt.
+glo#:#glo_introduction#:#Einleitung
 glo#:#glo_link_glo_in_glo#:#Sollen jetzt alle Glossarbegriffe aus dem Zielglossar in das bestehende Glossar verlinkt werden?
+glo#:#glo_mode#:#Modus
 glo#:#glo_page_type_gdf#:#Begriffsdefinition
 glo#:#glo_please_select_other_glo#:#Bitte wählen Sie ein anderes Glossar aus.
+glo#:#glo_quit_box#:#Fach verlassen
 glo#:#glo_reference#:#Link
 glo#:#glo_reference_terms#:#Begriffe verlinken
 glo#:#glo_referenced_term#:#Verlinkte Begriffe
+glo#:#glo_reset_all_boxes#:#Alle Fächer zurücksetzen
 glo#:#glo_select_source_glo#:#Bitte wählen Sie das Ausgangsglossar aus.
 glo#:#glo_select_terms#:#Begriffe auswählen
 glo#:#glo_selected_terms_have_been_copied#:#Die ausgewählten Begriffe wurden in die Zwischenablage kopiert. Bitte öffnen Sie das Zielglossar und klicken dann auf "Einfügen".
+glo#:#glo_show_definition#:#Definition zeigen
+glo#:#glo_show_term#:#Begriff zeigen
 glo#:#glo_term#:#Glossarbegriff
 glo#:#glo_term_reference#:#Begriffslink
+glo#:#glo_term_vs_def#:#Begriff vs. Definition
+glo#:#glo_term_vs_def_info#:#Zeige zuerst einen Begriff, der Lernende muss die Definition erraten.
+glo#:#glo_use_all_flashcards#:#Alle Lernkarten nutzen (%s)
+glo#:#glo_use_remaining_flashcards#:#Verbleibende Lernkarten nutzen (%s)
 grp#:#crs_add_grouping#:#Neue Mitgliedschaftsbeschränkung
 grp#:#crs_grouping_delete_sure#:#Sind Sie sicher, dass diese Mitgliedschaftsbeschränkung entfernt werden soll ?
 grp#:#crs_grouping_deleted#:#Die Mitgliedschaftsbeschränkung wurde gelöscht.
@@ -12623,6 +12674,8 @@ prg#:#msg_update_individual_plan#:#Erfolgreich aktualisiert (%s)
 prg#:#msg_update_individual_plan_failed#:#Fehler beim Aktualisieren:
 prg#:#no_srctype_or_id#:#Id und Typ dürfen nicht leer sein.
 prg#:#not_a_valid_cat_id#:#%s entspricht keiner Kategorie.
+prg#:#optgrp_label_restart#:#Wiederaufnahme
+prg#:#optgrp_label_validity#:#Ablauf
 prg#:#orgu#:#Organisationseinheit
 prg#:#percentage#:#%
 prg#:#prg_access_by_orgu#:#Zugriffsregelungen nach Organisationseinheiten

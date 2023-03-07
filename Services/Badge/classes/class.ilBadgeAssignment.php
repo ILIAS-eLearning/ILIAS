@@ -96,7 +96,6 @@ class ilBadgeAssignment
     }
 
     /**
-     * @param int $a_user_id
      * @return self[]
      */
     public static function getInstancesByUserId(
@@ -121,7 +120,6 @@ class ilBadgeAssignment
     }
 
     /**
-     * @param int $a_badge_id
      * @return self[]
      */
     public static function getInstancesByBadgeId(
@@ -145,7 +143,6 @@ class ilBadgeAssignment
     }
 
     /**
-     * @param int $a_parent_obj_id
      * @return self[]
      */
     public static function getInstancesByParentId(
@@ -175,7 +172,6 @@ class ilBadgeAssignment
     }
 
     /**
-     * @param int $a_badge_id
      * @return int[]
      */
     public static function getAssignedUsers(
@@ -377,9 +373,6 @@ class ilBadgeAssignment
     }
 
     /**
-     * @param int $a_user_id
-     * @param int $a_ts_from
-     * @param int $a_ts_to
      * @return array[]
      */
     public static function getBadgesForUser(

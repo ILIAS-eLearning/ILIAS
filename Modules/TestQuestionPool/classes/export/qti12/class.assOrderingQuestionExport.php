@@ -176,21 +176,23 @@ class assOrderingQuestionExport extends assQuestionExport
                     $a_xml_writer->xmlElement("matimage", $attrs);
                 } else {
                     $imagepath = $this->object->getImagePath() . $element->getContent();
-                    $fh = @fopen($imagepath, "rb");
-                    if ($fh != false) {
-                        $imagefile = fread($fh, filesize($imagepath));
-                        fclose($fh);
-                        $base64 = base64_encode($imagefile);
+                    if (file_exists($imagepath) && is_file($imagepath)) {
+                        $fh = @fopen($imagepath, "rb");
+                        if ($fh != false) {
+                            $imagefile = fread($fh, filesize($imagepath));
+                            fclose($fh);
+                            $base64 = base64_encode($imagefile);
 
-                        if (preg_match("/.*\.(png|gif)$/", $element->getContent(), $matches)) {
-                            $imagetype = "image/" . $matches[1];
+                            if (preg_match("/.*\.(png|gif)$/", $element->getContent(), $matches)) {
+                                $imagetype = "image/" . $matches[1];
+                            }
+                            $attrs = array(
+                                "imagtype" => $imagetype,
+                                "label" => $element->getContent(),
+                                "embedded" => "base64"
+                            );
+                            $a_xml_writer->xmlElement("matimage", $attrs, $base64, false, false);
                         }
-                        $attrs = array(
-                            "imagtype" => $imagetype,
-                            "label" => $element->getContent(),
-                            "embedded" => "base64"
-                        );
-                        $a_xml_writer->xmlElement("matimage", $attrs, $base64, false, false);
                     }
                 }
                 $a_xml_writer->xmlEndTag("material");

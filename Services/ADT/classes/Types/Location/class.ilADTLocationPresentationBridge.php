@@ -20,15 +20,18 @@ declare(strict_types=1);
 
 class ilADTLocationPresentationBridge extends ilADTPresentationBridge
 {
-    protected int $width = 0;
-    protected int $height = 0;
+    protected string $width = '100%';
+    protected string $height = '200px';
 
     protected function isValidADT(ilADT $a_adt): bool
     {
         return ($a_adt instanceof ilADTLocation);
     }
 
-    public function setSize(int $a_width, int $a_height): void
+    /**
+     * Set size in strings of int + unit, e.g. 10em, 250px, 50%
+     */
+    public function setSize(string $a_width, string $a_height): void
     {
         $this->width = $a_width;
         $this->height = $a_height;
@@ -48,10 +51,10 @@ class ilADTLocationPresentationBridge extends ilADTPresentationBridge
                     ->setEnableCentralMarker(true);
 
             if ($this->width) {
-                $map_gui->setWidth((string) $this->width);
+                $map_gui->setWidth($this->width);
             }
             if ($this->height) {
-                $map_gui->setHeight((string) $this->height);
+                $map_gui->setHeight($this->height);
             }
 
             return $this->decorate($map_gui->getHtml());

@@ -312,6 +312,7 @@ class ilExcelTestExport extends ilTestExportAbstract
         $participantcount = count($this->complete_data->getParticipants());
         foreach ($this->complete_data->getParticipants() as $active_id => $userdata) {
             $username = (!is_null($userdata) && $userdata->getName()) ? $userdata->getName() : "ID $active_id";
+            $username = mb_substr($username, 0, 26);
             $username_to_lower = strtolower($username);
             if (array_key_exists($username_to_lower, $usernames)) {
                 $usernames[$username_to_lower]++;

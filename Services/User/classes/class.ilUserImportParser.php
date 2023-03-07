@@ -75,6 +75,7 @@ class ilUserImportParser extends ilSaxParser
     public array $roles; // Missing array type.
     public string $action;      // "Insert","Update","Delete"
     protected array $required_fields = []; // Missing array type.
+    protected array $containedTags = [];
 
     /**
      * The variable holds the protocol of the import.
@@ -464,6 +465,9 @@ class ilUserImportParser extends ilSaxParser
                     $ilias->ini->readVariable("layout", "style")
                 );
 
+                if (isset($a_attribs["Language"])) {
+                    $this->containedTags[] = "Language";
+                }
                 $this->userObj->setLanguage($a_attribs["Language"] ?? '');
                 $this->userObj->setImportId($a_attribs["Id"] ?? '');
                 $this->action = (is_null($a_attribs["Action"])) ? "Insert" : $a_attribs["Action"];
@@ -587,6 +591,7 @@ class ilUserImportParser extends ilSaxParser
 
             case "User":
                 $this->userCount++;
+                $this->containedTags = [];
                 $this->userObj = new ilObjUser();
                 $this->userObj->setLanguage($a_attribs["Language"] ?? '');
                 $this->userObj->setImportId($a_attribs["Id"]);
@@ -867,6 +872,11 @@ class ilUserImportParser extends ilSaxParser
         }
     }
 
+    protected function tagContained(string $tagname): bool
+    {
+        return in_array($tagname, $this->containedTags, true);
+    }
+
     /**
      * @param \XMLParser|resource $a_xml_parser
      */
@@ -879,6 +889,8 @@ class ilUserImportParser extends ilSaxParser
         $ilUser = $DIC['ilUser'];
         $lng = $DIC['lng'];
         $ilSetting = $DIC['ilSetting'];
+
+        $this->containedTags[] = $a_name;
 
         switch ($a_name) {
             case "Role":
@@ -1168,106 +1180,106 @@ class ilUserImportParser extends ilSaxParser
                                         break;
                                 }
                             }
-                            if (!is_null($this->userObj->getFirstname())) {
+                            if ($this->tagContained("Firstname")) {
                                 $updateUser->setFirstname($this->userObj->getFirstname());
                             }
-                            if (!is_null($this->userObj->getLastname())) {
+                            if ($this->tagContained("Lastname")) {
                                 $updateUser->setLastname($this->userObj->getLastname());
                             }
-                            if (!is_null($this->userObj->getUTitle())) {
+                            if ($this->tagContained("Title")) {
                                 $updateUser->setUTitle($this->userObj->getUTitle());
                             }
-                            if (!is_null($this->userObj->getGender())) {
+                            if ($this->tagContained("Gender")) {
                                 $updateUser->setGender($this->userObj->getGender());
                             }
-                            if (!is_null($this->userObj->getEmail())) {
+                            if ($this->tagContained("Email")) {
                                 $updateUser->setEmail($this->userObj->getEmail());
                             }
-                            if (!is_null($this->userObj->getSecondEmail())) {
+                            if ($this->tagContained("SecondEmail")) {
                                 $updateUser->setSecondEmail($this->userObj->getSecondEmail());
                             }
-                            if (!is_null($this->userObj->getBirthday())) {
+                            if ($this->tagContained("Birthday")) {
                                 $updateUser->setBirthday($this->userObj->getBirthday());
                             }
-                            if (!is_null($this->userObj->getInstitution())) {
+                            if ($this->tagContained("Institution")) {
                                 $updateUser->setInstitution($this->userObj->getInstitution());
                             }
-                            if (!is_null($this->userObj->getStreet())) {
+                            if ($this->tagContained("Street")) {
                                 $updateUser->setStreet($this->userObj->getStreet());
                             }
-                            if (!is_null($this->userObj->getCity())) {
+                            if ($this->tagContained("City")) {
                                 $updateUser->setCity($this->userObj->getCity());
                             }
-                            if (!is_null($this->userObj->getZipcode())) {
+                            if ($this->tagContained("PostalCode")) {
                                 $updateUser->setZipcode($this->userObj->getZipcode());
                             }
-                            if (!is_null($this->userObj->getCountry())) {
+                            if ($this->tagContained("Country")) {
                                 $updateUser->setCountry($this->userObj->getCountry());
                             }
-                            if (!is_null($this->userObj->getSelectedCountry())) {
+                            if ($this->tagContained("SelCountry")) {
                                 $updateUser->setSelectedCountry($this->userObj->getSelectedCountry());
                             }
-                            if (!is_null($this->userObj->getPhoneOffice())) {
+                            if ($this->tagContained("PhoneOffice")) {
                                 $updateUser->setPhoneOffice($this->userObj->getPhoneOffice());
                             }
-                            if (!is_null($this->userObj->getPhoneHome())) {
+                            if ($this->tagContained("PhoneHome")) {
                                 $updateUser->setPhoneHome($this->userObj->getPhoneHome());
                             }
-                            if (!is_null($this->userObj->getPhoneMobile())) {
+                            if ($this->tagContained("PhoneMobile")) {
                                 $updateUser->setPhoneMobile($this->userObj->getPhoneMobile());
                             }
-                            if (!is_null($this->userObj->getFax())) {
+                            if ($this->tagContained("Fax")) {
                                 $updateUser->setFax($this->userObj->getFax());
                             }
-                            if (!is_null($this->userObj->getHobby())) {
+                            if ($this->tagContained("Hobby")) {
                                 $updateUser->setHobby($this->userObj->getHobby());
                             }
-                            if (!is_null($this->userObj->getGeneralInterests())) {
+                            if ($this->tagContained("GeneralInterest")) {
                                 $updateUser->setGeneralInterests($this->userObj->getGeneralInterests());
                             }
-                            if (!is_null($this->userObj->getOfferingHelp())) {
+                            if ($this->tagContained("OfferingHelp")) {
                                 $updateUser->setOfferingHelp($this->userObj->getOfferingHelp());
                             }
-                            if (!is_null($this->userObj->getLookingForHelp())) {
+                            if ($this->tagContained("LookingForHelp")) {
                                 $updateUser->setLookingForHelp($this->userObj->getLookingForHelp());
                             }
-                            if (!is_null($this->userObj->getComment())) {
+                            if ($this->tagContained("Comment")) {
                                 $updateUser->setComment($this->userObj->getComment());
                             }
-                            if (!is_null($this->userObj->getDepartment())) {
+                            if ($this->tagContained("Department")) {
                                 $updateUser->setDepartment($this->userObj->getDepartment());
                             }
-                            if (!is_null($this->userObj->getMatriculation())) {
+                            if ($this->tagContained("Matriculation")) {
                                 $updateUser->setMatriculation($this->userObj->getMatriculation());
                             }
                             if (!is_null($this->currActive)) {
                                 $updateUser->setActive($this->currActive === "true", is_object($ilUser) ? $ilUser->getId() : 0);
                             }
-                            if (!is_null($this->userObj->getClientIP())) {
+                            if ($this->tagContained("ClientIP")) {
                                 $updateUser->setClientIP($this->userObj->getClientIP());
                             }
-                            if (!is_null($this->userObj->getTimeLimitUnlimited())) {
+                            if ($this->time_limit_set) {
                                 $updateUser->setTimeLimitUnlimited($this->userObj->getTimeLimitUnlimited());
                             }
-                            if (!is_null($this->userObj->getTimeLimitFrom())) {
+                            if ($this->tagContained("TimeLimitFrom")) {
                                 $updateUser->setTimeLimitFrom($this->userObj->getTimeLimitFrom());
                             }
-                            if (!is_null($this->userObj->getTimeLimitUntil())) {
+                            if ($this->tagContained("TimeLimitUntil")) {
                                 $updateUser->setTimeLimitUntil($this->userObj->getTimeLimitUntil());
                             }
-                            if (!is_null($this->userObj->getTimeLimitMessage())) {
+                            if ($this->tagContained("TimeLimitMessage")) {
                                 $updateUser->setTimeLimitMessage($this->userObj->getTimeLimitMessage());
                             }
-                            if (!is_null($this->userObj->getApproveDate())) {
+                            if ($this->tagContained("ApproveDate")) {
                                 $updateUser->setApproveDate($this->userObj->getApproveDate());
                             }
-                            if (!is_null($this->userObj->getAgreeDate())) {
+                            if ($this->tagContained("AgreeDate")) {
                                 $updateUser->setAgreeDate($this->userObj->getAgreeDate());
                             }
-                            if (!is_null($this->userObj->getLanguage())) {
+                            if ($this->tagContained("Language")) {
                                 $updateUser->setLanguage($this->userObj->getLanguage());
                             }
-                            if (!is_null($this->userObj->getExternalAccount())) {
+                            if ($this->tagContained("ExternalAccount")) {
                                 $updateUser->setExternalAccount($this->userObj->getExternalAccount());
                             }
 
@@ -1281,7 +1293,6 @@ class ilUserImportParser extends ilSaxParser
                             if ($this->time_limit_owner_set) {
                                 $updateUser->setTimeLimitOwner($this->userObj->getTimeLimitOwner());
                             }
-
 
                             if (count($this->prefs)) {
                                 foreach ($this->prefs as $key => $value) {
@@ -1326,7 +1337,7 @@ class ilUserImportParser extends ilSaxParser
                             }
 
                             // update login
-                            if (!is_null($this->userObj->getLogin()) && $this->user_id != -1) {
+                            if ($this->tagContained("Login") && $this->user_id != -1) {
                                 try {
                                     $updateUser->updateLogin($this->userObj->getLogin());
                                 } catch (ilUserException $e) {
@@ -1663,7 +1674,6 @@ class ilUserImportParser extends ilSaxParser
                 } else {
                     $user_exists = ilObjUser::getUserIdByLogin($this->userObj->getLogin()) != 0;
                 }
-
                 if (is_null($this->userObj->getLogin())) {
                     $this->logFailure("---", sprintf($lng->txt("usrimport_xml_element_for_action_required"), "Login", "Insert"));
                 }
@@ -1700,7 +1710,7 @@ class ilUserImportParser extends ilSaxParser
                     case "Update":
                         if (!$user_exists) {
                             $this->logWarning($this->userObj->getLogin(), $lng->txt("usrimport_cant_update"));
-                        } elseif ($this->user_id != -1 && !is_null($this->userObj->getLogin())) {
+                        } elseif ($this->user_id != -1 && $this->tagContained("Login")) {
                             // check if someone owns the new login name!
                             $someonesId = ilObjUser::_lookupId($this->userObj->getLogin());
 

@@ -216,9 +216,6 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
                 $fb = $this->getGenericFeedbackOutput((int) $active_id, $pass);
                 $feedback .= strlen($fb) ? $fb : '';
             }
-
-            $fb = $this->getSpecificFeedbackOutput(array());
-            $feedback .= strlen($fb) ? $fb : '';
         }
         if (strlen($feedback)) {
             $cssClass = (
@@ -353,24 +350,6 @@ JS;
         return $pageoutput;
     }
 
-    /**
-    * Saves the feedback for a single choice question
-    *
-    * @access public
-    */
-    public function saveFeedback(): void
-    {
-        include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-        // @PHP8-CR: This appears as if the feedback feature was not implmented completely for the question type.
-        // Fixing this situation would require these calls to be intact and since it's always been here like this,
-        // I like to leave it and put the work-item on the to-do list.
-        $errors = $this->feedback(true);
-        $this->object->saveFeedbackGeneric(0, $_POST["feedback_incomplete"]);
-        $this->object->saveFeedbackGeneric(1, $_POST["feedback_complete"]);
-        $this->object->cleanupMediaObjectUsage();
-        parent::saveFeedback();
-    }
-
     public function getPresentationJavascripts(): array
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
@@ -386,31 +365,7 @@ JS;
 
     public function getSpecificFeedbackOutput(array $userSolution): string
     {
-        if (strpos($this->object->getOrderText(), '::')) {
-            $answers = explode('::', $this->object->getOrderText());
-        } else {
-            $answers = explode(' ', $this->object->getOrderText());
-        }
-
-        if (!$this->object->feedbackOBJ->specificAnswerFeedbackExists()) {
-            return '';
-        }
-
-        $output = '<table class="test_specific_feedback"><tbody>';
-
-        foreach ($answers as $idx => $answer) {
-            $feedback = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-                $this->object->getId(),
-                0,
-                $idx
-            );
-
-            $output .= "<tr><td>{$answer}</td><td>{$feedback}</td></tr>";
-        }
-
-        $output .= '</tbody></table>';
-
-        return $this->object->prepareTextareaOutput($output, true);
+        return '';
     }
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
@@ -438,7 +393,7 @@ JS;
     {
         // ordertext
         $ordertext = new ilTextAreaInputGUI($this->lng->txt("ordertext"), "ordertext");
-        $ordertext->setValue(self::prepareTextareaOutput($this->object->getOrderText(), false, true));
+        $ordertext->setValue((string) self::prepareTextareaOutput($this->object->getOrderText(), false, true));
         $ordertext->setRequired(true);
         $ordertext->setInfo(sprintf($this->lng->txt("ordertext_info"), $this->object->separator));
         $ordertext->setRows(10);

@@ -112,6 +112,10 @@ class ilMyStaffAccess extends ilObjectAccess
             return true;
         }
 
+        if ($this->hasCurrentUserAccessToTalks()) {
+            return true;
+        }
+
         return false;
     }
 
@@ -272,6 +276,10 @@ class ilMyStaffAccess extends ilObjectAccess
     public function hasCurrentUserAccessToUser(int $usr_id = 0): bool
     {
         global $DIC;
+
+        if (!$DIC->settings()->get("enable_my_staff")) {
+            return false;
+        }
 
         $arr_users = $this->getUsersForUser($DIC->user()->getId());
         if (count($arr_users) > 0 && $usr_id === 0) {

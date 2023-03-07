@@ -115,7 +115,7 @@ class ilECSImportManager
                 'AND content_id = ' . $this->db->quote($a_content_id, 'text');
         $res = $this->db->query($query);
         if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->econtent_id;
+            return (int) $row->econtent_id;
         }
         return 0;
     }
@@ -221,38 +221,6 @@ class ilECSImportManager
             return (int) $row->obj_id;
         }
         return 0;
-    }
-
-    /**
-     * Lookup mid
-     *
-     */
-    public function _lookupMID(int $a_server_id, int $a_obj_id): int
-    {
-        $query = "SELECT * FROM ecs_import WHERE obj_id = " . $this->db->quote($a_obj_id) . " " .
-            'AND server_id = ' . $this->db->quote($a_server_id, 'integer');
-        $res = $this->db->query($query);
-        if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return (int) $row->mid;
-        }
-        return 0;
-    }
-
-    /**
-     * Lookup mids by
-     *
-     * @param int econtent_id
-     */
-    public function _lookupMIDs($a_server_id, $a_econtent_id): array
-    {
-        $query = "SELECT mid FROM ecs_import WHERE econtent_id = " . $this->db->quote($a_econtent_id, 'text') . " " .
-            'AND server_id = ' . $this->db->quote($a_server_id, 'integer');
-        $res = $this->db->query($query);
-        $mids = [];
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $mids[] = $row->mid;
-        }
-        return $mids;
     }
 
     /**

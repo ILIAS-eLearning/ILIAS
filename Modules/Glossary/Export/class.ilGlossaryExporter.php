@@ -65,11 +65,8 @@ class ilGlossaryExporter extends ilXmlExporter
                 );
 
                 foreach ($terms as $t) {
-                    $defs = ilGlossaryDefinition::getDefinitionList($t["id"]);
-                    foreach ($defs as $d) {
-                        $page_ids[] = "gdf:" . $d["id"];
-                        $md_ids[] = $id . ":" . $d["id"] . ":gdf";
-                    }
+                    $page_ids[] = "term:" . $t["id"];
+                    $md_ids[] = $id . ":" . $t["id"] . ":term";
                 }
             }
             // definition pages and their metadat
@@ -166,6 +163,12 @@ class ilGlossaryExporter extends ilXmlExporter
     public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
+            "9.0.0" => array(
+                "namespace" => "https://www.ilias.de/Modules/Glossary/htlm/9_0",
+                "xsd_file" => "ilias_glo_9_0.xsd",
+                "uses_dataset" => true,
+                "min" => "9.0.0",
+                "max" => ""),
             "5.4.0" => array(
                 "namespace" => "https://www.ilias.de/Modules/Glossary/htlm/5_4",
                 "xsd_file" => "ilias_glo_5_4.xsd",

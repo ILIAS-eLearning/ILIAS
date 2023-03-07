@@ -136,8 +136,9 @@ class ilPCAMDForm extends ilPageContent
                 $nodes = $xpath->query("//AMDForm");
                 foreach ($nodes as $node) {
                     $old_ids = explode(",", (string) $node->getAttribute("RecordIds"));
+                    // 36565: do not overwrite RecordIds that are not mapped
                     $new_ids = array_map(static function ($i) use ($mappings, $key) {
-                        return $mappings[$key][(int) $i] ?? null;
+                        return $mappings[$key][(int) $i] ?? $i;
                     }, $old_ids);
                     $new_ids = implode(",", $new_ids);
                     if ($new_ids !== "") {

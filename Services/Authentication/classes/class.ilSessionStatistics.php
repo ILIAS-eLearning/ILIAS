@@ -413,10 +413,8 @@ class ilSessionStatistics
 
     /**
      * Get latest slot during which sessions were maxed out
-     *
-     * @return ?int timestamp
      */
-    public static function getLastMaxedOut(): ?int
+    public static function getLastMaxedOut(): int
     {
         global $DIC;
 
@@ -428,10 +426,9 @@ class ilSessionStatistics
         $res = $ilDB->query($sql);
         $row = $ilDB->fetchAssoc($res);
         if ($row["latest"]) {
-            return $row["latest"];
+            return (int) $row["latest"];
         }
-        //TODO check if return null as timestamp causes issues
-        return null;
+        return 0;
     }
 
     /**

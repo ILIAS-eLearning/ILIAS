@@ -1,31 +1,53 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Definitions;
 
+/**
+ * @author                 Fabian Schmid <fabian@sr.solutions>
+ */
 final class SuffixDefinitions
 {
     public const SEC = ".sec";
     protected array $white_list = [];
-    protected array $black_list = [];
 
     /**
-     * @param array $white_list
-     * @param array $black_list
+     * @param mixed[] $black_list
      */
-    public function __construct(array $white_list, array $black_list)
+    public function __construct(array $white_list, protected array $black_list)
     {
         $this->white_list[] = '';
         $this->white_list = array_unique($white_list);
-        $this->black_list = $black_list;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getWhiteList(): array
     {
         return $this->white_list;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getBlackList(): array
     {
         return $this->black_list;
@@ -47,11 +69,9 @@ final class SuffixDefinitions
         }
         $basename .= self::SEC;
         if ($pi["dirname"] != "" && ($pi["dirname"] != "." || substr($filename, 0, 2) == "./")) {
-            $filename = $pi["dirname"] . "/" . $basename;
-        } else {
-            $filename = $basename;
+            return $pi["dirname"] . "/" . $basename;
         }
-        return $filename;
+        return $basename;
     }
 
     /**

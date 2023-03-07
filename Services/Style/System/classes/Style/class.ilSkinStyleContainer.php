@@ -392,9 +392,12 @@ class ilSkinStyleContainer
      */
     public function createTempZip(): string
     {
-        $rel_tmp_zip = '../' . $this->getSkin()->getId() . '.zip';
-        ilFileUtils::zip($this->getSkinDirectory(), $rel_tmp_zip, true);
-        return rtrim($this->getSkinDirectory(), '/') . '.zip';
+        $skin_directory = $this->getSkinDirectory(); // parent of skin directory
+        $output_file = dirname($skin_directory) . '/' . $this->getSkin()->getId() . '.zip';
+
+        ilFileUtils::zip($skin_directory, $output_file, true);
+
+        return $output_file;
     }
 
     protected function changeVariablesImport(

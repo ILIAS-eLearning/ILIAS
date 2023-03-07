@@ -146,7 +146,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 );
 
                 if (is_null($filename)) {
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_upload_error'));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('file_no_valid_file_type'));
                 } else {
                     $submitted_element = $submitted_element->withContent($filename);
                 }
@@ -323,6 +323,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     {
         $this->renderEditForm($this->buildNestingForm());
         $this->addEditSubtabs(self::TAB_EDIT_NESTING);
+        $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
+        $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
     }
 
 
@@ -453,9 +455,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $feedback .= strlen($fb) ? $fb : '';
             }
 
-            $fb = $this->getSpecificFeedbackOutput(array());
-            $feedback .= strlen($fb) ? $fb : '';
-
             if (strlen($feedback)) {
                 $cssClass = (
                     $this->hasCorrectSolution($active_id, $pass) ?
@@ -579,35 +578,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function getSpecificFeedbackOutput(array $userSolution): string
     {
-        if (!$this->object->feedbackOBJ->specificAnswerFeedbackExists()) {
-            return '';
-        }
-
-        $tpl = new ilTemplate('tpl.il_as_qpl_ordering_elem_fb.html', true, true, 'Modules/TestQuestionPool');
-
-        foreach ($this->object->getOrderingElementList() as $element) {
-            $feedback = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-                $this->object->getId(),
-                0,
-                $element->getPosition()
-            );
-
-            if ($this->object->isImageOrderingType()) {
-                $imgSrc = $this->object->getImagePathWeb() . $element->getContent();
-                $tpl->setCurrentBlock('image');
-                $tpl->setVariable('IMG_SRC', $imgSrc);
-            } else {
-                $tpl->setCurrentBlock('text');
-            }
-            $tpl->setVariable('CONTENT', $element->getContent());
-            $tpl->parseCurrentBlock();
-
-            $tpl->setCurrentBlock('element');
-            $tpl->setVariable('FEEDBACK', $feedback);
-            $tpl->parseCurrentBlock();
-        }
-
-        return $this->object->prepareTextareaOutput($tpl->get(), true);
+        return '';
     }
 
     /**

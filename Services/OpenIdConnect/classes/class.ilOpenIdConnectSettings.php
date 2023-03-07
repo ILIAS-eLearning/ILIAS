@@ -41,6 +41,9 @@ class ilOpenIdConnectSettings
     public const URL_VALIDATION_CUSTOM = 1;
     public const URL_VALIDATION_NONE = 2;
 
+    public const VALIDATION_ISSUE_INVALID_SCOPE = 0;
+    public const VALIDATION_ISSUE_DISCOVERY_ERROR = 1;
+
     private static ?self $instance = null;
 
     private ilSetting $storage;
@@ -331,13 +334,17 @@ class ilOpenIdConnectSettings
             $curl->setOpt(CURLOPT_RETURNTRANSFER, true);
             $curl->setOpt(CURLOPT_TIMEOUT, 4);
 
-            $response = json_decode($curl->exec(), false, 512, JSON_THROW_ON_ERROR);
+            $response = $curl->exec();
 
             if ($curl->getInfo(CURLINFO_RESPONSE_CODE) === 200) {
-                $available_scopes = $response->scopes_supported;
+                $decoded_response = json_decode($response, false, 512, JSON_THROW_ON_ERROR);
+                $available_scopes = $decoded_response->scopes_supported;
                 array_unshift($custom_scopes, self::DEFAULT_SCOPE);
-
-                $result = array_diff($custom_scopes, $available_scopes);
+                if (!empty(array_diff($custom_scopes, $available_scopes))) {
+                    $result = [self::VALIDATION_ISSUE_INVALID_SCOPE, array_diff($custom_scopes, $available_scopes)];
+                }
+            } else {
+                $result = [self::VALIDATION_ISSUE_DISCOVERY_ERROR, $response];
             }
         } finally {
             if (isset($curl)) {

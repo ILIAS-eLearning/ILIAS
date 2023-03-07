@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\FileUpload\MimeType;
+use ILIAS\File\Icon\IconDatabaseRepository;
 
 /**
  * Class ilObjFileListGUI
@@ -30,6 +31,7 @@ class ilObjFileListGUI extends ilObjectListGUI
     use ilObjFileSecureString;
 
     protected string $title;
+    protected IconDatabaseRepository $icon_repo;
 
     /**
      * initialisation
@@ -44,6 +46,7 @@ class ilObjFileListGUI extends ilObjectListGUI
         $this->info_screen_enabled = true;
         $this->type = ilObjFile::OBJECT_TYPE;
         $this->gui_class_name = ilObjFileGUI::class;
+        $this->icon_repo = new IconDatabaseRepository();
 
         $this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
         if ($this->substitutions->isActive()) {
@@ -89,6 +92,12 @@ class ilObjFileListGUI extends ilObjectListGUI
     public function getIconImageType(): string
     {
         return ilObjFileAccess::_isFileInline($this->title) ? $this->type . '_inline' : $this->type;
+    }
+
+    public function getTypeIcon(): string
+    {
+        $suffix = ilObjFileAccess::getListGUIData($this->obj_id)["suffix"] ?? "";
+        return $this->icon_repo->getIconFilePathBySuffix($suffix);
     }
 
     /**

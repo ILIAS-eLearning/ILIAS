@@ -501,6 +501,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         $talkSession->setTitle($this->talk->getTitle());
         $talkSession->setDescription($this->talk->getLongDescription());
         $talkSession->setType(ilObjEmployeeTalk::TYPE);
+        $talkSession->setOwner($series->getOwner());
         $talkSession->create();
 
         $talkSession->createReference();
@@ -538,6 +539,9 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
             }
             $cloneObject->setData($cloneData);
             $cloneObject->update();
+
+            $cloneObject->setOwner($series->getOwner());
+            $cloneObject->updateOwner();
 
             $talks[] = $cloneObject;
         }

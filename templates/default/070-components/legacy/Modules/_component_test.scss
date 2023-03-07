@@ -105,3 +105,18 @@ $il-test-working-time-font-weight: $il-font-weight-bold;
         margin-bottom: $il-test-padding-large-vertical;
     }
 }
+
+#tst_output #tst_right, #ilAssQuestionPreview, #il_prop_cont_order_elems {
+    // nested vertical ordering question
+    .dd-item {
+        font-size: $il-font-size-base;
+    }
+    // make nested layers more clear
+    li.dd-item.ilc_qordli_OrderListItem > ul li.dd-item.ilc_qordli_OrderListItem {
+        border: 2px white solid;
+    }
+}
+
+#tst_pass_details_overview tr {
+    scroll-margin-top: 30px;
+}

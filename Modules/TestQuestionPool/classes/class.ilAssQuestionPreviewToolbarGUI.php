@@ -37,20 +37,22 @@ class ilAssQuestionPreviewToolbarGUI extends ilToolbarGUI
 
     public function build(): void
     {
-        //Edit Question
-        $button_edit_question = ilLinkButton::getInstance();
-        $button_edit_question->setUrl($this->getEditQuestionCmd());
-        $button_edit_question->setPrimary(true);
-        $button_edit_question->setCaption('edit_question');
-        $this->addButtonInstance($button_edit_question);
-        //$this->addFormButton($this->lng->txt('edit_question'), $this->getEditQuestionCmd(), '', true);
+        // Edit Question
+        if ($this->getEditQuestionCmd() !== null) {
+            $button_edit_question = ilLinkButton::getInstance();
+            $button_edit_question->setUrl($this->getEditQuestionCmd());
+            $button_edit_question->setPrimary(true);
+            $button_edit_question->setCaption('edit_question');
+            $this->addButtonInstance($button_edit_question);
+        }
 
-        //Edit Page
-        $button_edit_page = ilLinkButton::getInstance();
-        $button_edit_page->setUrl($this->getEditPageCmd());
-        $button_edit_page->setCaption('edit_page');
-        $this->addButtonInstance($button_edit_page);
-        //$this->addFormButton($this->lng->txt('edit_page'), $this->getEditPageCmd(), '', false);
+        // Edit Page
+        if ($this->getEditPageCmd() !== null) {
+            $button_edit_page = ilLinkButton::getInstance();
+            $button_edit_page->setUrl($this->getEditPageCmd());
+            $button_edit_page->setCaption('edit_page');
+            $this->addButtonInstance($button_edit_page);
+        }
 
         //Reset Preview
         $button = \ilSubmitButton::getInstance();

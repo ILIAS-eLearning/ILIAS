@@ -119,6 +119,9 @@ class ilSkinFactoryTest extends ilSystemStyleBaseFSTest
 
     public function testImportSkin(): void
     {
+        $this->markTestSkipped('This test is skipped, because it is not possible to create a zip file, which can be unzipped at the moment in Test-Context. The test is violating thr policy to access only directories which are known to the LegacyPathHelper.');
+
+
         if (!defined('PATH_TO_ZIP')) {
             if (file_exists('ilias.ini.php')) {
                 $ini = parse_ini_file('ilias.ini.php', true);

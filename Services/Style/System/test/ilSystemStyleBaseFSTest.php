@@ -42,6 +42,9 @@ abstract class ilSystemStyleBaseFSTest extends TestCase
         if (!file_exists($this->system_style_config->test_skin_temp_path)) {
             mkdir($this->system_style_config->test_skin_temp_path);
         }
+
+        /** @noRector */
+        include_once('./tests/UI/Base.php');
         $this->lng = new ilLanguageMock();
 
         $this->file_system = new ilFileSystemHelper($this->lng, $this->message_stack);

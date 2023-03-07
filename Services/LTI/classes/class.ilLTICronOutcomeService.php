@@ -77,7 +77,7 @@ class ilLTICronOutcomeService extends ilCronJob
         $status = \ilCronJobResult::STATUS_NO_ACTION;
 
         $info = $this->cronRepo->getCronJobData($this->getId());
-        $last_ts = $info['job_status_ts'];
+        $last_ts = $info['job_status_ts'] ?? false;
         if (!$last_ts) {
             $last_ts = time() - 24 * 3600;
         }

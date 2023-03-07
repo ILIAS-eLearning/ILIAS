@@ -35,6 +35,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     public const DELETE_FILES_TBL_POSTVAR = 'deletefiles';
     // hey.
 
+    protected const HAS_SPECIFIC_FEEDBACK = false;
+
     protected ?int $maxsize = null;
 
     protected $allowedextensions;

@@ -44,7 +44,7 @@ class ilGlossaryDataSet extends ilDataSet
 
     public function getSupportedVersions(): array
     {
-        return array("5.1.0", "5.4.0");
+        return array("5.1.0", "5.4.0", "9.0.0");
     }
 
     protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
@@ -58,6 +58,7 @@ class ilGlossaryDataSet extends ilDataSet
             switch ($a_version) {
                 case "5.1.0":
                 case "5.4.0":
+                case "9.0.0":
                     return array(
                         "Id" => "integer",
                         "Title" => "text",
@@ -75,12 +76,15 @@ class ilGlossaryDataSet extends ilDataSet
             switch ($a_version) {
                 case "5.1.0":
                 case "5.4.0":
+                case "9.0.0":
                     return array(
                         "Id" => "integer",
                         "GloId" => "integer",
                         "Term" => "text",
                         "Language" => "text",
-                        "ImportId" => "text"
+                        "ImportId" => "text",
+                        "ShortText" => "text",
+                        "ShortTextDirty" => "text"
                     );
             }
         }
@@ -103,6 +107,7 @@ class ilGlossaryDataSet extends ilDataSet
             switch ($a_version) {
                 case "5.1.0":
                 case "5.4.0":
+                case "9.0.0":
                     return array(
                         "GloId" => "integer",
                         "FieldId" => "text",
@@ -114,6 +119,7 @@ class ilGlossaryDataSet extends ilDataSet
         if ($a_entity == "glo_auto_glossaries") {
             switch ($a_version) {
                 case "5.4.0":
+                case "9.0.0":
                     return array(
                         "GloId" => "integer",
                         "AutoGloId" => "text"
@@ -131,6 +137,7 @@ class ilGlossaryDataSet extends ilDataSet
             switch ($a_version) {
                 case "5.1.0":
                 case "5.4.0":
+                case "9.0.0":
                     $this->getDirectDataFromQuery("SELECT o.title, o.description, g.id, g.virtual, pres_mode, snippet_length, show_tax, glo_menu_active" .
                         " FROM glossary g JOIN object_data o " .
                         " ON (g.id = o.obj_id) " .
@@ -164,6 +171,26 @@ class ilGlossaryDataSet extends ilDataSet
                         ];
                     }
                     break;
+                case "9.0.0":
+                    $this->getDirectDataFromQuery("SELECT id, glo_id, term, language" .
+                        " FROM glossary_term " .
+                        " WHERE " . $ilDB->in("glo_id", $a_ids, false, "integer"));
+
+                    $set = $ilDB->query("SELECT r.term_id, r.glo_id, t.term, t.language, " .
+                        "t.short_text, t.short_text_dirty " .
+                        "FROM glo_term_reference r JOIN glossary_term t ON (r.term_id = t.id) " .
+                        " WHERE " . $ilDB->in("r.glo_id", $a_ids, false, "integer"));
+                    while ($rec = $ilDB->fetchAssoc($set)) {
+                        $this->data[] = [
+                            "Id" => $rec["term_id"],
+                            "GloId" => $rec["glo_id"],
+                            "Term" => $rec["term"],
+                            "Language" => $rec["language"],
+                            "ShortText" => $rec["short_text"],
+                            "ShortTextDirty" => $rec["short_text_dirty"]
+                        ];
+                    }
+                    break;
             }
         }
 
@@ -182,6 +209,7 @@ class ilGlossaryDataSet extends ilDataSet
             switch ($a_version) {
                 case "5.1.0":
                 case "5.4.0":
+                case "9.0.0":
                     $this->getDirectDataFromQuery("SELECT glo_id, field_id, order_nr" .
                         " FROM glo_advmd_col_order " .
                         " WHERE " . $ilDB->in("glo_id", $a_ids, false, "integer"));
@@ -192,6 +220,7 @@ class ilGlossaryDataSet extends ilDataSet
         if ($a_entity == "glo_auto_glossaries") {
             switch ($a_version) {
                 case "5.4.0":
+                case "9.0.0":
                     $set = $ilDB->query("SELECT * FROM glo_glossaries " .
                         " WHERE " . $ilDB->in("id", $a_ids, false, "integer"));
                     $this->data = [];
@@ -221,11 +250,6 @@ class ilGlossaryDataSet extends ilDataSet
                     "glo_term" => array("ids" => $a_rec["Id"] ?? null),
                     "glo_advmd_col_order" => array("ids" => $a_rec["Id"] ?? null),
                     "glo_auto_glossaries" => array("ids" => $a_rec["Id"] ?? null)
-                );
-
-            case "glo_term":
-                return array(
-                    "glo_definition" => array("ids" => $a_rec["Id"] ?? null)
                 );
         }
 
@@ -257,6 +281,8 @@ class ilGlossaryDataSet extends ilDataSet
                 $newObj->setSnippetLength($a_rec["SnippetLength"]);
                 $newObj->setActiveGlossaryMenu($a_rec["GloMenuActive"]);
                 $newObj->setShowTaxonomy($a_rec["ShowTax"]);
+                $newObj->setActiveFlashcards($a_rec["FlashActive"]);
+                $newObj->setFlashcardsMode($a_rec["FlashMode"]);
                 if ($this->getCurrentInstallationId() > 0) {
                     $newObj->setImportId("il_" . $this->getCurrentInstallationId() . "_glo_" . $a_rec["Id"]);
                 }
@@ -277,17 +303,19 @@ class ilGlossaryDataSet extends ilDataSet
 
             case "glo_term":
 
-                // id, glo_id, term, language, import_id
+                // id, glo_id, term, language, import_id, short_text, short_text_dirty
 
                 $glo_id = (int) $a_mapping->getMapping("Modules/Glossary", "glo", $a_rec["GloId"]);
                 $term = new ilGlossaryTerm();
                 $term->setGlossaryId($glo_id);
                 $term->setTerm($a_rec["Term"]);
                 $term->setLanguage($a_rec["Language"]);
+                $term->setShortText($a_rec["ShortText"]);
+                $term->setShortTextDirty($a_rec["ShortTextDirty"]);
                 if ($this->getCurrentInstallationId() > 0) {
                     $term->setImportId("il_" . $this->getCurrentInstallationId() . "_git_" . $a_rec["Id"]);
                 }
-                $term->create();
+                $term->create(true);
                 $term_id = $term->getId();
                 $this->log->debug("glo_term, import id: " . $term->getImportId() . ", term id: " . $term_id);
 
@@ -318,38 +346,13 @@ class ilGlossaryDataSet extends ilDataSet
                     "advmd:term:" . $a_rec["Id"],
                     $term_id
                 );
-                break;
 
-            case "glo_definition":
-
-                // id, term_id, short_text, nr, short_text_dirty
-
-                $term_id = (int) $a_mapping->getMapping("Modules/Glossary", "term", $a_rec["TermId"]);
-                if ($term_id == 0) {
-                    $this->log->debug("ERROR: Did not find glossary term glo_term id '" . $a_rec["TermId"] . "' for definition id '" . $a_rec["Id"] . "'.");
-                } else {
-                    $def = new ilGlossaryDefinition();
-                    $def->setTermId($term_id);
-                    $def->setShortText($a_rec["ShortText"]);
-                    $def->setNr($a_rec["Nr"]);
-                    $def->setShortTextDirty($a_rec["ShortTextDirty"]);
-                    // no metadata, no page creation
-                    $def->create(true, true);
-
-                    $a_mapping->addMapping("Modules/Glossary", "def", $a_rec["Id"], $def->getId());
-                    $a_mapping->addMapping(
-                        "Services/COPage",
-                        "pg",
-                        "gdf:" . $a_rec["Id"],
-                        "gdf:" . $def->getId()
-                    );
-                    $a_mapping->addMapping(
-                        "Services/MetaData",
-                        "md",
-                        $this->old_glo_id . ":" . $a_rec["Id"] . ":gdf",
-                        $this->current_obj->getId() . ":" . $def->getId() . ":gdf"
-                    );
-                }
+                $a_mapping->addMapping(
+                    "Services/COPage",
+                    "pg",
+                    "term:" . $a_rec["Id"],
+                    "term:" . $term_id
+                );
                 break;
 
             case "glo_advmd_col_order":

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Setup\ObjectiveConstructor;
 use ILIAS\Setup\Config;
@@ -66,8 +66,13 @@ class ilFileObjectAgent implements Setup\Agent
      */
     public function getUpdateObjective(Config $config = null): Setup\Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(
-            new ilFileObjectDatabaseObjective()
+        return new Setup\ObjectiveCollection(
+            "",
+            true,
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilFileObjectDatabaseObjective()
+            ),
+            new \ILIAS\File\Icon\ilObjFileDefaultIconsObjective()
         );
     }
 
@@ -97,12 +102,15 @@ class ilFileObjectAgent implements Setup\Agent
         ];
     }
 
+    /**
+     * @return array{updateFileObjectDatabase: \ILIAS\Setup\ObjectiveConstructor}
+     */
     public function getNamedObjectives(?Config $config = null): array
     {
         return [
             'updateFileObjectDatabase' => new ObjectiveConstructor(
                 'executes all file object database update steps.',
-                function () {
+                function (): \ILIAS\Setup\Objective {
                     return $this->getUpdateObjective();
                 }
             ),

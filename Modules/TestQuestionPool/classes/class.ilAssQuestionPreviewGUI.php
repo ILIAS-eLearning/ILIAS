@@ -20,6 +20,7 @@ use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\Refinery\Random\Seed\RandomSeed;
 use ILIAS\Refinery\Random\Seed\GivenSeed;
 use ILIAS\Refinery\Transformation;
+use ILIAS\DI\RBACServices;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -48,6 +49,8 @@ class ilAssQuestionPreviewGUI
 
     public const FEEDBACK_FOCUS_ANCHOR = 'focus';
 
+    private RBACServices $rbac_services;
+
     private ilCtrlInterface $ctrl;
     private ilRbacSystem $rbac_system;
     private ilTabsGUI $tabs;
@@ -73,7 +76,9 @@ class ilAssQuestionPreviewGUI
         ilDBInterface $db,
         ilObjUser $user,
         RandomGroup $randomGroup,
-        int $parent_ref_id
+        int $parent_ref_id,
+        RBACServices $rbac_services
+
     ) {
         $this->ctrl = $ctrl;
         $this->rbac_system = $rbac_system;
@@ -83,8 +88,11 @@ class ilAssQuestionPreviewGUI
         $this->db = $db;
         $this->user = $user;
         $this->randomGroup = $randomGroup;
-
+        $this->rbac_services = $rbac_services;
         $this->parent_ref_id = $parent_ref_id;
+
+        $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
+        $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
     }
 
     public function initQuestion($questionId, $parentObjId): void
@@ -238,10 +246,7 @@ class ilAssQuestionPreviewGUI
             return false;
         }
 
-        return $this->rbac_system->checkAccess(
-            'write',
-            $this->parent_ref_id
-        );
+        return (bool) $this->rbac_services->system()->checkAccess('write', (int) $_GET['ref_id']);
     }
 
     private function showCmd($notesPanelHTML = ''): void
@@ -340,16 +345,21 @@ class ilAssQuestionPreviewGUI
 
         $toolbarGUI->setFormAction($this->ctrl->getFormAction($this, self::CMD_SHOW));
         $toolbarGUI->setResetPreviewCmd(self::CMD_RESET);
-        $toolbarGUI->setEditPageCmd(
-            $this->ctrl->getLinkTargetByClass('ilAssQuestionPageGUI', 'edit')
-        );
 
-        $toolbarGUI->setEditQuestionCmd(
-            $this->ctrl->getLinkTargetByClass(
-                array('ilrepositorygui','ilobjquestionpoolgui', get_class($this->questionGUI)),
-                'editQuestion'
-            )
-        );
+        // Check Permissions first, some Toolbar Actions are only available for write access
+        if ($this->rbac_services->system()->checkAccess('write', (int) $_GET['ref_id'])) {
+            $toolbarGUI->setEditPageCmd(
+                $this->ctrl->getLinkTargetByClass('ilAssQuestionPageGUI', 'edit')
+            );
+
+            $toolbarGUI->setEditQuestionCmd(
+                $this->ctrl->getLinkTargetByClass(
+                    array('ilrepositorygui','ilobjquestionpoolgui', get_class($this->questionGUI)),
+                    'editQuestion'
+                )
+            );
+        }
+
         $toolbarGUI->build();
 
         $tpl->setVariable('PREVIEW_TOOLBAR', $this->ctrl->getHTML($toolbarGUI));

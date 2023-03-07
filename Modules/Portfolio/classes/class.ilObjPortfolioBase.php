@@ -411,6 +411,13 @@ abstract class ilObjPortfolioBase extends ilObject2
         $copy_id = ilCopyWizardOptions::_allocateCopyId();
         ilAdvancedMDValues::_cloneValues($copy_id, $a_source->getId(), $a_target->getId());
 
+        // copy selection of global optional sets
+        ilAdvancedMDRecord::saveObjRecSelection(
+            $a_target->getId(),
+            'pfpg',
+            ilAdvancedMDRecord::getObjRecSelection($a_source->getId(), 'pfpg')
+        );
+
         // fix metadata record type assignment
         // e.g. if portfolio is created from template
         // we need to change this from prtt to prtf

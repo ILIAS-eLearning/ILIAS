@@ -91,6 +91,21 @@ class ilLSEventHandler
         $db->deleteFor($lso->getRefId(), [$usr_id]);
     }
 
+    public function handleClonedObject(ilObject $new_obj, ilObject $origin_obj): void
+    {
+        if ($this->getParentLSOInfo($new_obj->getRefId())
+            && $this->getParentLSOInfo($origin_obj->getRefId())
+        ) {
+            $new_lso = $this->getInstanceByRefId(
+                (int)$this->getParentLSOInfo($new_obj->getRefId())['ref_id']
+            );
+            $post_condition_db = $new_lso->getDI()['db.postconditions'];
+            $post_condition = current($post_condition_db->select([$origin_obj->getRefId()]))
+                ->withRefId($new_obj->getRefId());
+            $post_condition_db->upsert([$post_condition]);
+        }
+    }
+
     /**
      * get the LSO up from $child_ref_id
      */

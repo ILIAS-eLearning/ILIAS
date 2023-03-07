@@ -41,6 +41,7 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
     private UIServices $ui;
     private ilLanguage $language;
     private ilTabsGUI $tabs;
+    private ilMyStaffAccess $access;
     private ilCtrl $controlFlow;
     private ilObjUser $currentUser;
     private EmployeeTalkRepository $repository;
@@ -60,6 +61,7 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
         $this->language = $container->language();
         $this->http = $container->http();
         $this->talkAccess = new ilObjEmployeeTalkAccess();
+        $this->access = ilMyStaffAccess::getInstance();
 
         $this->tabs = $container->tabs();
         $this->ui = $container->ui();
@@ -82,10 +84,12 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
                 break;
             case strtolower(ilObjEmployeeTalkGUI::class):
                 $gui = new ilObjEmployeeTalkGUI();
-                $this->tabs->setBackTarget(
-                    $this->language->txt('etal_talks'),
-                    $this->controlFlow->getLinkTarget($this, ControlFlowCommand::INDEX)
-                );
+                if ($this->access->hasCurrentUserAccessToTalks()) {
+                    $this->tabs->setBackTarget(
+                        $this->language->txt('etal_talks'),
+                        $this->controlFlow->getLinkTarget($this, ControlFlowCommand::INDEX)
+                    );
+                }
                 $this->controlFlow->forwardCommand($gui);
                 break;
             case strtolower(ilFormPropertyDispatchGUI::class):

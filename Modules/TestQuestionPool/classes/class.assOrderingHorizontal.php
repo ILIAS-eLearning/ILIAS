@@ -30,6 +30,8 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringAdjustable, iQuestionCondition
 {
+    protected const HAS_SPECIFIC_FEEDBACK = false;
+
     protected $ordertext;
     protected $textsize;
     protected $separator = "::";

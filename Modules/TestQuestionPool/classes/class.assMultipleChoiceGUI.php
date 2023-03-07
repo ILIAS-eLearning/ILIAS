@@ -682,7 +682,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $this->object->setSpecificFeedbackSetting($_POST['feedback_setting']);
         }
 
-        $this->object->setMultilineAnswerSetting($_POST["types"]);
+        $this->object->setMultilineAnswerSetting($_POST["types"] ?? '0');
         if (isset($_POST['choice']['imagename']) && is_array($_POST['choice']['imagename']) && $_POST["types"] == 1) {
             $this->object->setIsSingleline(true);
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('info_answer_type_change'), true);
@@ -719,8 +719,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
                 $this->object->addAnswer(
                     $answertext,
-                    $_POST['choice']['points'][$index],
-                    $_POST['choice']['points_unchecked'][$index],
+                    (float)$_POST['choice']['points'][$index],
+                    (float)$_POST['choice']['points_unchecked'][$index],
                     $index,
                     $picturefile
                 );
@@ -730,8 +730,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                 $answertext = $answer;
                 $this->object->addAnswer(
                     $answertext,
-                    $_POST['choice']['points'][$index],
-                    $_POST['choice']['points_unchecked'][$index],
+                    (float)$_POST['choice']['points'][$index],
+                    (float)$_POST['choice']['points_unchecked'][$index],
                     $index
                 );
             }
@@ -1006,13 +1006,13 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
      */
     public function saveCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
-        $pointsChecked = $form->getInput('choice')['points'];
-        $pointsUnchecked = $form->getInput('choice')['points_unchecked'];
+        $input = $form->getItemByPostVar('choice');
+        $answerElements = $input->getValues();
 
         foreach ($this->object->getAnswers() as $index => $answer) {
             /* @var ASS_AnswerMultipleResponseImage $answer */
-            $answer->setPointsChecked((float) $pointsChecked[$index]);
-            $answer->setPointsUnchecked((float) $pointsUnchecked[$index]);
+            $answer->setPointsChecked((float) $answerElements[$index]->getPointsChecked());
+            $answer->setPointsUnchecked((float) $answerElements[$index]->getPointsUnchecked());
         }
     }
 }

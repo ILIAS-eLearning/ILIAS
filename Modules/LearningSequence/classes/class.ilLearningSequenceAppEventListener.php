@@ -43,6 +43,11 @@ class ilLearningSequenceAppEventListener
                     case "toTrash":
                         self::onObjectToTrash($parameter);
                         break;
+                    case 'cloneObject':
+                        $new_obj = $parameter['object'];
+                        $origin_obj = $parameter['cloned_from_object'];
+                        self::onObjectCloned($new_obj, $origin_obj);
+                        break;
                 }
                 break;
 
@@ -83,6 +88,12 @@ class ilLearningSequenceAppEventListener
     {
         $handler = self::getLSEventHandler();
         $handler->handleObjectToTrash($parameter);
+    }
+
+    private static function onObjectCloned(ilObject $new_obj, ilObject $origin_obj): void
+    {
+        $handler = self::getLSEventHandler();
+        $handler->handleClonedObject($new_obj, $origin_obj);
     }
 
     private static function onParticipantDeletion(array $parameter): void

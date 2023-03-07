@@ -176,6 +176,8 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
                 ['restart_period_label'],
                 ['restart_period_desc'],
                 ['restart_period'],
+                ['optgrp_label_validity'],
+                ['optgrp_label_restart'],
                 ['prg_validity_of_qualification']
             )
             ->will($this->onConsecutiveCalls(
@@ -190,6 +192,8 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
                 'restart_period_label',
                 'restart_period_desc',
                 'restart_period',
+                'optgrp_label_validity',
+                'optgrp_label_restart',
                 'prg_validity_of_qualification'
             ))
         ;

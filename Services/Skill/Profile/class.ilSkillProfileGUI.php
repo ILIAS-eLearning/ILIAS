@@ -808,10 +808,11 @@ class ilSkillProfileGUI
 
             $ilToolbar->addSeparator();
 
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("skmg_add_assignment");
-            $button->setUrl($this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI', 'start'));
-            $ilToolbar->addButtonInstance($button);
+            $button = $this->ui_fac->button()->standard(
+                $this->lng->txt("skmg_add_assignment"),
+                $this->ctrl->getLinkTargetByClass("ilRepositorySearchGUI", "start")
+            );
+            $ilToolbar->addComponent($button);
         }
 
         $this->setTabs("users");

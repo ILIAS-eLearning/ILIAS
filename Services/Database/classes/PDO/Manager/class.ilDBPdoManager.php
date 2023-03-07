@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilDBPdoManager
@@ -470,5 +470,70 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         $name = $db->quoteIdentifier($name, true);
 
         return (bool) $this->pdo->exec("DROP TABLE $name");
+    }
+
+    /**
+     * @param string[] $field_names
+     * @param string[] $reference_field_names
+     */
+    public function addForeignKey(
+        string $foreign_key_name,
+        array $field_names,
+        string $table_name,
+        array $reference_field_names,
+        string $reference_table,
+        ?ForeignKeyConstraints $on_update = null,
+        ?ForeignKeyConstraints $on_delete = null
+    ): bool {
+        $table = $this->db_instance->quoteIdentifier($table_name, true);
+        $reference_table = $this->db_instance->quoteIdentifier($reference_table, true);
+        $field_names = implode(",", $field_names);
+        $field_names = $this->db_instance->quoteIdentifier($field_names, true);
+        $reference_field_names = implode(",", $reference_field_names);
+        $reference_field_names = $this->db_instance->quoteIdentifier($reference_field_names, true);
+        $foreign_key_name = $this->db_instance->quoteIdentifier($foreign_key_name, true);
+        $update = '';
+        if ($on_update) {
+            $on_update = $on_update->value;
+            $update = "ON UPDATE $on_update";
+        }
+        $delete = '';
+        if ($on_delete) {
+            $on_delete = $on_delete->value;
+            $delete = "ON DELETE $on_delete";
+        }
+        $query = "ALTER TABLE
+                    $table ADD CONSTRAINT
+                    $foreign_key_name FOREIGN KEY ($field_names)
+                    REFERENCES $reference_table ($reference_field_names)
+                    $update
+                    $delete
+                    ";
+
+        return (bool) $this->pdo->exec($query);
+    }
+
+    public function dropForeignKey(string $foreign_key_name, string $table_name): bool
+    {
+        $table = $this->db_instance->quoteIdentifier($table_name, true);
+        $name = $this->db_instance->quoteIdentifier($foreign_key_name, true);
+        $query = "ALTER TABLE $table DROP FOREIGN KEY $name;";
+
+        return (bool) $this->pdo->exec($query);
+    }
+
+    public function foreignKeyExists(string $foreign_key_name, string $table_name): bool
+    {
+        $query = "SELECT * FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE CONSTRAINT_TYPE='FOREIGN KEY';";
+        $result_set = $this->db_instance->query($query);
+        while ($foreign_data = $this->db_instance->fetchAssoc($result_set)) {
+            if (array_key_exists(
+                'CONSTRAINT_NAME',
+                $foreign_data
+            ) && $foreign_data['CONSTRAINT_NAME'] === $foreign_key_name) {
+                return true;
+            }
+        }
+        return false;
     }
 }

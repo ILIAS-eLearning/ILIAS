@@ -22,12 +22,10 @@
  */
 class ilBadgeImageTemplateTableGUI extends ilTable2GUI
 {
-    protected bool $has_write;
-
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd = "",
-        bool $a_has_write = false
+        protected bool $has_write = false
     ) {
         global $DIC;
 
@@ -37,7 +35,6 @@ class ilBadgeImageTemplateTableGUI extends ilTable2GUI
         $lng = $DIC->language();
 
         $this->setId("bdgtmpl");
-        $this->has_write = $a_has_write;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 

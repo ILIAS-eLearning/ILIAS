@@ -265,13 +265,10 @@ class ilCOPageHTMLExport
             if ($int_link["type"] == "git") {
                 $this->glossary_terms[] = $int_link["id"];
                 // store linked/embedded media objects of glosssary term
-                $defs = \ilGlossaryDefinition::getDefinitionList($int_link["id"]);
-                foreach ($defs as $def) {
-                    $pages[] = [
-                        "type" => "gdf:pg",
-                        "id" => $def["id"]
-                    ];
-                }
+                $pages[] = [
+                    "type" => "term:pg",
+                    "id" => $int_link["id"]
+                ];
             }
         }
 
