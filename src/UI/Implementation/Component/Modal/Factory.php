@@ -27,8 +27,6 @@ use ILIAS\UI\Implementation\Component\Modal\InterruptiveItem\Factory as ItemFact
 
 /**
  * Implementation of factory for modals
- *
- * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
 class Factory implements M\Factory
 {

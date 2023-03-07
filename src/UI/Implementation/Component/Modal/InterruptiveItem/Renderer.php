@@ -53,12 +53,12 @@ class Renderer extends AbstractComponentRenderer
         );
         $icon = ($component->getIcon()) ?
             $default_renderer->render($component->getIcon()) : '';
-        $desc = ($component->getDescription()) ?
-            '<br>' . $component->getDescription() : '';
         $tpl->setVariable('ITEM_ICON', $icon);
         $tpl->setVariable('ITEM_ID', $component->getId());
         $tpl->setVariable('ITEM_TITLE', $component->getTitle());
-        $tpl->setVariable('ITEM_DESCRIPTION', $desc);
+        if ($desc = $component->getDescription()) {
+            $tpl->setVariable('ITEM_DESCRIPTION', $desc);
+        }
         return $tpl->get();
     }
 

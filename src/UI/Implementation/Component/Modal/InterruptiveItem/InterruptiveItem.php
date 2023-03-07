@@ -23,11 +23,6 @@ namespace ILIAS\UI\Implementation\Component\Modal\InterruptiveItem;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component\Modal\InterruptiveItem\InterruptiveItem as ItemInterface;
 
-/**
- * Class InterruptiveItem
- *
- * @author Stefan Wanzenried <sw@studer-raimann.ch>
- */
 abstract class InterruptiveItem implements ItemInterface
 {
     use ComponentHelper;

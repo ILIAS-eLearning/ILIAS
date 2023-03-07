@@ -23,9 +23,6 @@ namespace ILIAS\UI\Implementation\Component\Modal\InterruptiveItem;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Modal\InterruptiveItem\Standard as StandardInterface;
 
-/**
- * @author Stefan Wanzenried <sw@studer-raimann.ch>
- */
 class Standard extends InterruptiveItem implements StandardInterface
 {
     protected string $title;

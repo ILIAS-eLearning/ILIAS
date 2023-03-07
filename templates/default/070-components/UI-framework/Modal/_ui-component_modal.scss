@@ -67,16 +67,16 @@ $il-modal-transition-speed: 0.15s;
 	}
 }
 
-.il-modal-interruptive {
-	.il-modal-interruptive-items {
+.c-modal--interruptive {
+	.c-modal--interruptive__items {
 			margin-bottom: $il-margin-xxxlarge-vertical;
-		.key-value-interruptive-item {
-			.item-key {
+		.c-modal--interruptive__items__key-value {
+			.c-modal--interruptive__items__key-value__key {
 				float: left;
 				clear: left;
 				font-weight: initial;
 			}
-			.item-value {
+			.c-modal--interruptive__items__key-value__value {
 				white-space: nowrap;
 				overflow: hidden;
 				text-overflow: ellipsis;

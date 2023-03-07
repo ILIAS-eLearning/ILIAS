@@ -65,11 +65,11 @@ class KeyValueInterruptiveItemTest extends ILIAS_UI_TestBase
         $html = $r->render($this->getItem());
 
         $expected = <<<EOT
-<span class="key-value-interruptive-item">
-	<dt class="item-key">
+<span class="c-modal--interruptive__items__key-value">
+	<dt class="c-modal--interruptive__items__key-value__key">
 		key <input type="hidden" name="interruptive_items[]" value="id">
 	</dt>
-	<dd class="item-value">
+	<dd class="c-modal--interruptive__items__key-value__value">
 		value
 	</dd>
 </span>

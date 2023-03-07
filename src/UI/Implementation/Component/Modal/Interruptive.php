@@ -23,9 +23,6 @@ namespace ILIAS\UI\Implementation\Component\Modal;
 use ILIAS\UI\Component\Modal as M;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
-/**
- * @author Stefan Wanzenried <sw@studer-raimann.ch>
- */
 class Interruptive extends Modal implements M\Interruptive
 {
     /**

@@ -23,9 +23,6 @@ namespace ILIAS\UI\Implementation\Component\Modal\InterruptiveItem;
 use ILIAS\UI\Component\Modal\InterruptiveItem as ItemInterface;
 use ILIAS\UI\Component\Image\Image;
 
-/**
- * @author Stefan Wanzenried <sw@studer-raimann.ch>
- */
 class Factory implements ItemInterface\Factory
 {
     public function standard(
