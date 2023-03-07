@@ -41,6 +41,12 @@ class DateFormat
     public const MONTH_SPELLED_SHORT = 'M';
     public const YEAR = 'Y';
     public const YEAR_TWO_DIG = 'y';
+    public const HOURS12 = 'h';
+    public const HOURS24 = 'H';
+    public const MINUTES = 'i';
+    public const SECONDS = 's';
+    public const MERIDIEM = 'a';
+    public const COLON = ':';
 
     public const TOKENS = [
         self::DOT,
@@ -57,7 +63,13 @@ class DateFormat
         self::MONTH_SPELLED,
         self::MONTH_SPELLED_SHORT,
         self::YEAR,
-        self::YEAR_TWO_DIG
+        self::YEAR_TWO_DIG,
+        self::HOURS12,
+        self::HOURS24,
+        self::MINUTES,
+        self::SECONDS,
+        self::MERIDIEM,
+        self::COLON
     ];
 
     /** @var string[] */

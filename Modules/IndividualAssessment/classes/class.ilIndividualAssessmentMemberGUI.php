@@ -61,6 +61,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     protected ilErrorHandling $error_object;
     protected ILIAS\Refinery\Factory $refinery;
     protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
+    protected ilIndividualAssessmentDateFormatter $date_formatter;
 
     public function __construct(
         ilCtrl $ctrl,
@@ -79,7 +80,8 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         ilObjIndividualAssessment $object,
         ilErrorHandling $error_object,
         ILIAS\Refinery\Factory $refinery,
-        ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper
+        ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper,
+        ilIndividualAssessmentDateFormatter $date_formatter
     ) {
         parent::__construct();
 
@@ -100,6 +102,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         $this->error_object = $error_object;
         $this->refinery = $refinery;
         $this->request_wrapper = $request_wrapper;
+        $this->date_formatter = $date_formatter;
     }
 
     public function executeCommand(): void
