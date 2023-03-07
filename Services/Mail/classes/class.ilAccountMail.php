@@ -252,9 +252,7 @@ class ilAccountMail
         global $DIC;
         $tree = $DIC->repositoryTree();
         $ilSetting = $DIC->settings();
-
-        /** @var ilMustacheFactory $mustache_factory */
-        $mustache_factory = $DIC["mail.mustache.factory"];
+        $mustache_factory = $DIC->mail()->mustacheFactory();
 
         $replacements = [];
 
