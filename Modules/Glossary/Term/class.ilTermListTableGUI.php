@@ -110,7 +110,6 @@ class ilTermListTableGUI extends ilTable2GUI
         $this->addMultiCommand("copyTerms", $this->lng->txt("copy"));
         $this->addMultiCommand("referenceTerms", $this->lng->txt("glo_reference"));
         $this->addMultiCommand("confirmTermDeletion", $this->lng->txt("delete"));
-        //$this->addMultiCommand("addDefinition", $this->lng->txt("cont_add_definition"));
 
         $this->setShowRowsSelector(true);
 
@@ -178,90 +177,79 @@ class ilTermListTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set): void
     {
-        $defs = ilGlossaryDefinition::getDefinitionList($a_set["id"]);
-        $this->ctrl->setParameterByClass("ilobjglossarygui", "term_id", $a_set["id"]);
-        $this->ctrl->setParameterByClass("ilglossarytermgui", "term_id", $a_set["id"]);
-        $this->ctrl->setParameterByClass("ilglossarydefpagegui", "term_id", $a_set["id"]);
+        $term_id = $a_set["id"];
+        $this->ctrl->setParameterByClass("ilobjglossarygui", "term_id", $term_id);
+        $this->ctrl->setParameterByClass("ilglossarytermgui", "term_id", $term_id);
+        $this->ctrl->setParameterByClass("ilglossarydefpagegui", "term_id", $term_id);
 
         // actions drop down
         //if ($this->glossary->getId() == $term["glo_id"])
 
-        if ($this->term_perm->checkPermission("write", $a_set["id"]) ||
-            $this->term_perm->checkPermission("edit_content", $a_set["id"])) {
-            if (ilGlossaryTerm::_lookGlossaryID($a_set["id"]) == $this->glossary->getId() ||
-                ilGlossaryTermReferences::isReferenced([$this->glossary->getId()], $a_set["id"])) {
+        if ($this->term_perm->checkPermission("write", $term_id) ||
+            $this->term_perm->checkPermission("edit_content", $term_id)) {
+            if (ilGlossaryTerm::_lookGlossaryID($term_id) == $this->glossary->getId() ||
+                ilGlossaryTermReferences::isReferenced([$this->glossary->getId()], $term_id)) {
                 $list = new ilAdvancedSelectionListGUI();
                 $list->addItem($this->lng->txt("cont_edit_term"), "", $this->ctrl->getLinkTargetByClass("ilglossarytermgui", "editTerm"));
-                if (count($defs) > 1) {
-                    $list->addItem($this->lng->txt("cont_edit_definitions"), "", $this->ctrl->getLinkTargetByClass("ilglossarytermgui", "listDefinitions"));
-                } elseif (count($defs) == 1) {
-                    $this->ctrl->setParameterByClass("ilglossarydefpagegui", "def", $defs[0]["id"]);
-                    $list->addItem($this->lng->txt("cont_edit_definition"), "", $this->ctrl->getLinkTargetByClass(array("ilglossarytermgui",
-                        "iltermdefinitioneditorgui",
-                        "ilglossarydefpagegui"), "edit"));
-                }
-                $list->addItem($this->lng->txt("cont_add_definition"), "", $this->ctrl->getLinkTargetByClass("ilobjglossarygui", "addDefinition"));
-                $this->ctrl->setParameterByClass("ilglossarydefpagegui", "def", "");
+                $this->ctrl->setParameterByClass("ilglossarydefpagegui", "term_id", $term_id);
+                $list->addItem($this->lng->txt("cont_edit_definition"), "", $this->ctrl->getLinkTargetByClass(array("ilglossarytermgui",
+                    "iltermdefinitioneditorgui",
+                    "ilglossarydefpagegui"), "edit"));
+                $this->ctrl->setParameterByClass("ilglossarydefpagegui", "term_id", "");
 
-                $list->setId("act_term_" . $a_set["id"]);
+                $list->setId("act_term_" . $term_id);
                 $list->setListTitle($this->lng->txt("actions"));
                 $this->tpl->setVariable("ACTIONS", $list->getHTML());
             }
         }
 
+        // text
+        $this->tpl->setCurrentBlock("definition");
+        $short_str = ilGlossaryTerm::_lookShortText($term_id);
 
-        for ($j = 0, $jMax = count($defs); $j < $jMax; $j++) {
-            $def = $defs[$j];
-
-
-            // text
-            $this->tpl->setCurrentBlock("definition");
-            $short_str = $def["short_text"];
-
-            if ($def["short_text_dirty"]) {
-                // #18022
-                $def_obj = new ilGlossaryDefinition($def["id"]);
-                $def_obj->updateShortText();
-                $short_str = $def_obj->getShortText();
-            }
-
-            // replace tex
-            // if a tex end tag is missing a tex end tag
-            $ltexs = strrpos($short_str, "[tex]");
-            $ltexe = strrpos($short_str, "[/tex]");
-            if ($ltexs > $ltexe) {
-                $page = new ilGlossaryDefPage($def["id"]);
-                $page->buildDom();
-                $short_str = $page->getFirstParagraphText();
-                $short_str = strip_tags($short_str, "<br>");
-                $ltexe = strpos($short_str, "[/tex]", $ltexs);
-                $short_str = ilStr::shortenTextExtended($short_str, $ltexe + 6, true);
-            }
-
-            $short_str = ilMathJax::getInstance()->insertLatexImages($short_str);
-
-            $short_str = ilPCParagraph::xml2output($short_str);
-            $this->tpl->setVariable("DEF_SHORT", $short_str);
-            $this->tpl->parseCurrentBlock();
-
-            $this->tpl->setCurrentBlock("definition_row");
-            $this->tpl->parseCurrentBlock();
+        if (ilGlossaryTerm::_lookShortTextDirty($term_id)) {
+            // #18022
+            $term_obj = new ilGlossaryTerm($term_id);
+            $term_obj->updateShortText();
+            $short_str = $term_obj->getShortText();
         }
 
-        $this->tpl->setCurrentBlock("check_col");
-        $this->tpl->setVariable("CHECKBOX_ID", $a_set["id"]);
+        // replace tex
+        // if a tex end tag is missing a tex end tag
+        $ltexs = strrpos($short_str, "[tex]");
+        $ltexe = strrpos($short_str, "[/tex]");
+        if ($ltexs > $ltexe) {
+            $page = new ilGlossaryDefPage($term_id);
+            $page->buildDom();
+            $short_str = $page->getFirstParagraphText();
+            $short_str = strip_tags($short_str, "<br>");
+            $ltexe = strpos($short_str, "[/tex]", $ltexs);
+            $short_str = ilStr::shortenTextExtended($short_str, $ltexe + 6, true);
+        }
+
+        $short_str = ilMathJax::getInstance()->insertLatexImages($short_str);
+
+        $short_str = ilPCParagraph::xml2output($short_str);
+        $this->tpl->setVariable("DEF_SHORT", $short_str);
         $this->tpl->parseCurrentBlock();
 
-        $this->ctrl->setParameter($this->parent_obj, "term_id", $a_set["id"]);
+        $this->tpl->setCurrentBlock("definition_row");
+        $this->tpl->parseCurrentBlock();
+
+        $this->tpl->setCurrentBlock("check_col");
+        $this->tpl->setVariable("CHECKBOX_ID", $term_id);
+        $this->tpl->parseCurrentBlock();
+
+        $this->ctrl->setParameter($this->parent_obj, "term_id", $term_id);
 
 
         // usage
         if (in_array("usage", $this->getSelectedColumns())) {
-            $nr_usage = ilGlossaryTerm::getNumberOfUsages($a_set["id"]);
+            $nr_usage = ilGlossaryTerm::getNumberOfUsages($term_id);
             if ($nr_usage > 0 && $this->glossary->getId() == $a_set["glo_id"]) {
                 $this->tpl->setCurrentBlock("link_usage");
-                $this->ctrl->setParameterByClass("ilglossarytermgui", "term_id", $a_set["id"]);
-                $this->tpl->setVariable("LUSAGE", ilGlossaryTerm::getNumberOfUsages($a_set["id"]));
+                $this->ctrl->setParameterByClass("ilglossarytermgui", "term_id", $term_id);
+                $this->tpl->setVariable("LUSAGE", ilGlossaryTerm::getNumberOfUsages($term_id));
                 $this->tpl->setVariable(
                     "LINK_USAGE",
                     $this->ctrl->getLinkTargetByClass("ilglossarytermgui", "listUsages")
@@ -269,7 +257,7 @@ class ilTermListTableGUI extends ilTable2GUI
                 $this->ctrl->setParameterByClass("ilglossarytermgui", "term_id", "");
             } else {
                 $this->tpl->setCurrentBlock("usage");
-                $this->tpl->setVariable("USAGE", ilGlossaryTerm::getNumberOfUsages($a_set["id"]));
+                $this->tpl->setVariable("USAGE", ilGlossaryTerm::getNumberOfUsages($term_id));
             }
             $this->tpl->parseCurrentBlock();
             $this->tpl->setCurrentBlock("td_usage");

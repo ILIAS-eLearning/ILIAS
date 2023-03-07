@@ -73,11 +73,6 @@ class PresentationGUIRequest
         return $this->int("term_id");
     }
 
-    public function getDefinitionId(): int
-    {
-        return $this->int("def");
-    }
-
     public function getTaxNode(): int
     {
         return $this->int("tax_node");

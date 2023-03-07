@@ -2118,7 +2118,7 @@ class ilPCParagraph extends ilPageContent
         DOMDocument $a_domdoc
     ): void {
         // not nice, should be set by context per method
-        if ($a_page->getParentType() == "gdf" ||
+        if ($a_page->getParentType() == "term" ||
             $a_page->getParentType() == "lm") {
             // get existing keywords
             $keywords = array();
@@ -2133,8 +2133,8 @@ class ilPCParagraph extends ilPageContent
                 }
             }
 
-            $meta_type = ($a_page->getParentType() == "gdf")
-                ? "gdf"
+            $meta_type = ($a_page->getParentType() == "term")
+                ? "term"
                 : "pg";
             $meta_rep_id = $a_page->getParentId();
             $meta_id = $a_page->getId();

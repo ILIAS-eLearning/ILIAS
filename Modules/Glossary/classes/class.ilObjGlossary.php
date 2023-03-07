@@ -88,7 +88,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
     public function read(): void
     {
         parent::read();
-        #		echo "Glossary<br>\n";
 
         $q = "SELECT * FROM glossary WHERE id = " .
             $this->db->quote($this->getId(), "integer");
@@ -125,7 +124,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         switch ($a_mode) {
             case "level":
             case "subtree":
-            // case "fixed":
+                // case "fixed":
                 $this->virtual_mode = $a_mode;
                 $this->virtual = true;
                 break;
@@ -547,20 +546,16 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $this->mob_ids = array();
         $this->file_ids = array();
         foreach ($terms as $term) {
-            $defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
-
-            foreach ($defs as $def) {
-                $this->page_object = new ilGlossaryDefPage($def["id"]);
-                $this->page_object->buildDom();
-                $this->page_object->insertInstIntoIDs(IL_INST_ID);
-                $mob_ids = $this->page_object->collectMediaObjects(false);
-                $file_ids = ilPCFileList::collectFileItems($this->page_object, $this->page_object->getDomDoc());
-                foreach ($mob_ids as $mob_id) {
-                    $this->mob_ids[$mob_id] = $mob_id;
-                }
-                foreach ($file_ids as $file_id) {
-                    $this->file_ids[$file_id] = $file_id;
-                }
+            $this->page_object = new ilGlossaryDefPage($term["id"]);
+            $this->page_object->buildDom();
+            $this->page_object->insertInstIntoIDs(IL_INST_ID);
+            $mob_ids = $this->page_object->collectMediaObjects(false);
+            $file_ids = ilPCFileList::collectFileItems($this->page_object, $this->page_object->getDomDoc());
+            foreach ($mob_ids as $mob_id) {
+                $this->mob_ids[$mob_id] = $mob_id;
+            }
+            foreach ($file_ids as $file_id) {
+                $this->file_ids[$file_id] = $file_id;
             }
         }
 
@@ -849,23 +844,17 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $source_terms = ilGlossaryTerm::getTermList([$this->getRefId()]);
         $found_pages = array();
         foreach ($source_terms as $source_term) {
-            $source_defs = ilGlossaryDefinition::getDefinitionList($source_term["id"]);
-
-            for ($j = 0, $jMax = count($source_defs); $j < $jMax; $j++) {
-                $def = $source_defs[$j];
-                $pg = new ilGlossaryDefPage($def["id"]);
-
-                $c = $pg->getXMLContent();
-                foreach ($terms as $t) {
-                    if (is_int(stripos($c, $t["term"]))) {
-                        $found_pages[$def["id"]]["terms"][] = $t;
-                        if (!isset($found_pages[$def["id"]]["page"])) {
-                            $found_pages[$def["id"]]["page"] = $pg;
-                        }
+            $pg = new ilGlossaryDefPage($source_term["id"]);
+            $c = $pg->getXMLContent();
+            foreach ($terms as $t) {
+                if (is_int(stripos($c, $t["term"]))) {
+                    $found_pages[$source_term["id"]]["terms"][] = $t;
+                    if (!isset($found_pages[$source_term["id"]]["page"])) {
+                        $found_pages[$source_term["id"]]["page"] = $pg;
                     }
                 }
-                reset($terms);
             }
+            reset($terms);
         }
 
         // ilPCParagraph autoLinkGlossariesPage with page and terms

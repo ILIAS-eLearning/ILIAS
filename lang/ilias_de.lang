@@ -6106,7 +6106,6 @@ content#:#cont_active_to#:#Aktiv bis
 content#:#cont_add_area#:#Bereich hinzufügen
 content#:#cont_add_cell#:#Spalte hinzufügen
 content#:#cont_add_change_comment#:#Überarbeitungskommentar hinzufügen
-content#:#cont_add_definition#:#Definition hinzufügen
 content#:#cont_add_elements#:#<b>Klicken</b> Sie auf ein <b>Plus-Symbol</b>, um ein neues Element <b>hinzuzufügen</b>.
 content#:#cont_add_file#:#Datei hinzufügen
 content#:#cont_add_images#:#Bild hinzufügen
@@ -6389,7 +6388,6 @@ content#:#cont_ed_width#:#Breite
 content#:#cont_edit_base_image#:#Ausgangsbild bearbeiten
 content#:#cont_edit_comp#:#Bearbeitungsmodus
 content#:#cont_edit_definition#:#Definition bearbeiten
-content#:#cont_edit_definitions#:#Definitionen bearbeiten
 content#:#cont_edit_file_list_properties#:#Eigenschaften der Dateilisten bearbeiten
 content#:#cont_edit_language_version#:#Version bearbeiten
 content#:#cont_edit_lrs_settings#:#Einstellungen
