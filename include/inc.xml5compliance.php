@@ -103,6 +103,8 @@ class php4DOMCDATASection extends php4DOMNode
 
 class php4DOMDocument
 {
+    public $success = null;
+    public string $error = "";
     public DOMDocument $myDOMDocument;
 
     // ##altered
@@ -118,7 +120,6 @@ class php4DOMDocument
             $this->success = true;
         } else {
             if ($file) {
-                $this->success = @$this->myDOMDocument->load($source, $a_mode);
                 $this->success = @$this->myDOMDocument->load($source, $a_mode);
             } else {
                 $this->success = $this->myDOMDocument->loadXML($source, $a_mode);
