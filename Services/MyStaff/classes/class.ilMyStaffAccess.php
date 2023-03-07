@@ -212,6 +212,10 @@ class ilMyStaffAccess extends ilObjectAccess
     {
         global $DIC;
 
+        if (!$DIC->settings()->get("enable_my_staff")) {
+            return false;
+        }
+
         $arr_users = $this->getUsersForUser($DIC->user()->getId());
         if (count($arr_users) > 0 && $usr_id === 0) {
             return true;
