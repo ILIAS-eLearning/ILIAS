@@ -68,7 +68,8 @@ trait ilIndividualAssessmentDIC
                 $dic['ilErr'],
                 $c['ilIndividualAssessmentMemberGUI'],
                 $dic->refinery(),
-                $dic->http()->wrapper()
+                $dic->http()->wrapper(),
+                $c['helper.dateformat']
             );
         };
 
@@ -90,7 +91,8 @@ trait ilIndividualAssessmentDIC
                 $object,
                 $dic['ilErr'],
                 $dic->refinery(),
-                $dic->http()->wrapper()->query()
+                $dic->http()->wrapper()->query(),
+                $c['helper.dateformat']
             );
         };
 
@@ -104,6 +106,11 @@ trait ilIndividualAssessmentDIC
             );
         };
 
+        $container['helper.dateformat'] = function ($c) use ($dic) {
+            return new ilIndividualAssessmentDateFormatter(
+                $c['DataFactory']
+            );
+        };
 
         return $container;
     }

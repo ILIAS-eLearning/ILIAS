@@ -61,6 +61,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     protected ilErrorHandling $error_object;
     protected ILIAS\Refinery\Factory $refinery;
     protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
+    protected ilIndividualAssessmentDateFormatter $date_formatter;
 
     public function __construct(
         ilCtrl $ctrl,
@@ -79,7 +80,8 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         ilObjIndividualAssessment $object,
         ilErrorHandling $error_object,
         ILIAS\Refinery\Factory $refinery,
-        ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper
+        ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper,
+        ilIndividualAssessmentDateFormatter $date_formatter
     ) {
         parent::__construct();
 
@@ -100,6 +102,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         $this->error_object = $error_object;
         $this->refinery = $refinery;
         $this->request_wrapper = $request_wrapper;
+        $this->date_formatter = $date_formatter;
     }
 
     public function executeCommand(): void
@@ -246,17 +249,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         bool $may_be_edited,
         bool $amend = false
     ): ILIAS\UI\Component\Input\Container\Form\Form {
-        switch ($this->user->getDateFormat()) {
-            case ilCalendarSettings::DATE_FORMAT_DMY:
-                $date_format = $this->data_factory->dateFormat()->germanShort();
-                break;
-            case ilCalendarSettings::DATE_FORMAT_MDY:
-                $date_format = $this->data_factory->dateFormat()->custom()->month()->slash()->day()->slash()->year()->get();
-                break;
-            case ilCalendarSettings::DATE_FORMAT_YMD:
-            default:
-                $date_format = $this->data_factory->dateFormat()->standard();
-        }
+        $date_format = $this->date_formatter->getUserDateFormat($this->user, false);
 
         $section = $this->getMember()->getGrading()->toFormInput(
             $this->input_factory->field(),
