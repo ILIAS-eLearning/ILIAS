@@ -146,7 +146,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 );
 
                 if (is_null($filename)) {
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_upload_error'));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('file_no_valid_file_type'));
                 } else {
                     $submitted_element = $submitted_element->withContent($filename);
                 }
