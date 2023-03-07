@@ -183,7 +183,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         }
 
         $this->tpl->setOnScreenMessage("success", $this->lng->txt('iass_membership_saved'), true);
-        $this->redirect(self::CMD_EDIT);
+        $this->ctrl->redirectByClass(ilIndividualAssessmentMembersGUI::class, 'view');
     }
 
     protected function amend(): void
@@ -240,7 +240,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             }
 
             $this->tpl->setOnScreenMessage("success", $this->lng->txt('iass_amend_saved'), true);
-            $this->redirect(self::CMD_AMEND);
+            $this->ctrl->redirectByClass(ilIndividualAssessmentMembersGUI::class, 'view');
         }
     }
 
@@ -302,6 +302,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 
         try {
             $member->maybeSendNotification($this->notificator);
+            $this->ctrl->redirectByClass(ilIndividualAssessmentMembersGUI::class, 'view');
         } catch (ilIndividualAssessmentException $e) {
             $this->tpl->setOnScreenMessage("failure", $e->getMessage(), true);
             $this->redirect('edit');

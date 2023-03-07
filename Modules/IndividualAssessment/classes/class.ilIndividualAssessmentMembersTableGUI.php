@@ -168,7 +168,7 @@ class ilIndividualAssessmentMembersTableGUI
         ];
     }
 
-    protected function getChangedByInformation(?int $changed_by_id, ?DateTime $change_date): array
+    protected function getChangedByInformation(?int $changed_by_id, ?DateTimeImmutable $change_date): array
     {
         if (is_null($changed_by_id)) {
             return [];
