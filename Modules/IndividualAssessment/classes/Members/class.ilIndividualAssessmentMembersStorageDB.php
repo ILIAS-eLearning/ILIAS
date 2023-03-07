@@ -105,7 +105,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
         $change_time = null;
         $change_time_db = $record[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME];
         if (!is_null($change_time_db)) {
-            $change_time = new DateTime($change_time_db);
+            $change_time = new DateTimeImmutable($change_time_db);
         }
         $examiner_id = $record[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID];
         if (!is_null($examiner_id)) {
