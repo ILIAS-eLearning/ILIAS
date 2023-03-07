@@ -1,8 +1,21 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
-
-/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Data\DateFormat;
 
@@ -115,6 +128,42 @@ class FormatBuilder
     public function twoDigitYear(): FormatBuilder
     {
         $this->format[] = DateFormat::YEAR_TWO_DIG;
+        return $this;
+    }
+
+    public function hours24(): FormatBuilder
+    {
+        $this->format[] = DateFormat::HOURS24;
+        return $this;
+    }
+
+    public function hours12(): FormatBuilder
+    {
+        $this->format[] = DateFormat::HOURS12;
+        return $this;
+    }
+
+    public function minutes(): FormatBuilder
+    {
+        $this->format[] = DateFormat::MINUTES;
+        return $this;
+    }
+
+    public function seconds(): FormatBuilder
+    {
+        $this->format[] = DateFormat::SECONDS;
+        return $this;
+    }
+
+    public function meridiem(): FormatBuilder
+    {
+        $this->format[] = DateFormat::MERIDIEM;
+        return $this;
+    }
+
+    public function colon(): FormatBuilder
+    {
+        $this->format[] = DateFormat::COLON;
         return $this;
     }
 }
