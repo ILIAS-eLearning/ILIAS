@@ -52,9 +52,7 @@ class ilMStListCoursesGUI extends ilPropertyFormGUI
 
     protected function checkAccessOrFail(): void
     {
-        if ($this->access->hasCurrentUserAccessToMyStaff()
-            && $this->access->hasCurrentUserAccessToCourseMemberships()
-        ) {
+        if ($this->access->hasCurrentUserAccessToCourseMemberships()) {
             return;
         } else {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
