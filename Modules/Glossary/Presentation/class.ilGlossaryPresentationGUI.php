@@ -21,6 +21,7 @@ use ILIAS\Glossary\Presentation;
 /**
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilGlossaryPresentationGUI: ilNoteGUI, ilInfoScreenGUI, ilPresentationListTableGUI, ilGlossaryDefPageGUI
+ * @ilCtrl_Calls ilGlossaryPresentationGUI: ilGlossaryFlashcardGUI, ilGlossaryFlashcardBoxGUI
  */
 class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
 {
@@ -57,6 +58,8 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
     protected \ILIAS\Style\Content\Service $content_style_service;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
+    protected \ILIAS\UI\Factory $ui_fac;
+    protected \ILIAS\UI\Renderer $ui_ren;
 
     public function __construct(
         string $export_format = "",
@@ -72,15 +75,13 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         $this->toolbar = $DIC->toolbar();
         $this->user = $DIC->user();
         $this->help = $DIC["ilHelp"];
-        $lng = $DIC->language();
-        $tpl = $DIC->ui()->mainTemplate();
-        $ilCtrl = $DIC->ctrl();
-        $ilTabs = $DIC->tabs();
+        $this->lng = $DIC->language();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->ctrl = $DIC->ctrl();
+        $this->tabs_gui = $DIC->tabs();
+        $this->ui_fac = $DIC->ui()->factory();
+        $this->ui_ren = $DIC->ui()->renderer();
 
-        $this->tabs_gui = $ilTabs;
-        $this->tpl = $tpl;
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
         $this->ctrl->saveParameter($this, array("ref_id", "letter", "tax_node"));
         $this->service = $DIC->glossary()
                        ->internal();
@@ -185,7 +186,11 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         $lng->loadLanguageModule("content");
 
         $next_class = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd("listTerms");
+        if ($this->glossary->isActiveFlashcards()) {
+            $cmd = $this->ctrl->getCmd("showFlashcards");
+        } else {
+            $cmd = $this->ctrl->getCmd("listTerms");
+        }
 
         // check write permission
         if (!$ilAccess->checkAccess("read", "", $this->requested_ref_id) &&
@@ -217,6 +222,16 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
                 $page_gui = new ilGlossaryDefPageGUI($this->requested_def_page_id);
                 $this->basicPageGuiInit($page_gui);
                 $this->ctrl->forwardCommand($page_gui);
+                break;
+
+            case "ilglossaryflashcardgui":
+                $flash_gui = new ilGlossaryFlashcardGUI();
+                $this->ctrl->forwardCommand($flash_gui);
+                break;
+
+            case "ilglossaryflashcardboxgui":
+                $flash_box_gui = new ilGlossaryFlashcardBoxGUI();
+                $this->ctrl->forwardCommand($flash_box_gui);
                 break;
 
             default:
@@ -1024,6 +1039,13 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         if (!$this->offlineMode()) {
             if ($this->ctrl->getCmd() != "listDefinitions") {
                 if ($ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
+                    if ($this->glossary->isActiveFlashcards()) {
+                        $this->tabs_gui->addTab(
+                            "flashcards",
+                            $lng->txt("glo_flashcards"),
+                            $ilCtrl->getLinkTarget($this, "showFlashcards")
+                        );
+                    }
                     $this->tabs_gui->addTab(
                         "terms",
                         $lng->txt("cont_terms"),
@@ -1179,5 +1201,15 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
                 }*/
             }
         }
+    }
+
+    public function showFlashcards(): void
+    {
+        $ilTabs = $this->tabs_gui;
+
+        $this->setTabs();
+        $ilTabs->activateTab("flashcards");
+        $flashcards = new ilGlossaryFlashcardGUI();
+        $flashcards->listBoxes();
     }
 }

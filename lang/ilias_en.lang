@@ -9815,23 +9815,50 @@ forum#:#topic_close#:#Closed
 forum#:#topics_please_select_one_action#:#Please select an action.
 forum#:#user_decides_notification#:#Members have to manually activate notifications
 glo#:#glo_add_from_other#:#Collect Terms
+glo#:#glo_answered_correctly#:#I got it right
+glo#:#glo_answered_not_correctly#:#I was wrong
+glo#:#glo_box#:#Box
+glo#:#glo_box_completed#:#You have completed the box.
+glo#:#glo_box_last_presented#:#Box Last Presented
+glo#:#glo_boxes#:#Boxes
+glo#:#glo_boxes_really_reset#:#Do you really want to reset all boxes? All flashcards will be moved to the first box.
+glo#:#glo_boxes_reset#:#The boxes have been reset successfully.
 glo#:#glo_col_ordering_info#:#Order the titles of the metadata fields. They are presented as column headers in the table presentation of the glossary.
 glo#:#glo_collection#:#Collection Glossary
 glo#:#glo_collection_info#:#The glossary collects additional terms of other glossaries.
 glo#:#glo_content_assembly#:#Content Assembly
 glo#:#glo_copy#:#Copy Glossary
 glo#:#glo_copy_terms#:#Copy Terms
+glo#:#glo_days_ago#:#%s days ago
+glo#:#glo_def_vs_term#:#Definition vs. Term
+glo#:#glo_def_vs_term_info#:#Show a definition first, the learner has to guess the term.
+glo#:#glo_flashcard_training#:#Flashcard Training
+glo#:#glo_flashcard_training_info#:#Offers a presentation as flashcards allowing the user to train the terms/definitions one by one.
+glo#:#glo_flashcards#:#Flashcards
+glo#:#glo_flashcards_from_today_confirmation#:#The box contains %s flashcards already presented today. Do you want to include only the remaining %s flashcards or all %s flashcards?
+glo#:#glo_flashcards_from_today_only_info#:#The box contains only flashcards already presented today. Please confirm that these %s flashcards will be shown to you again.
+glo#:#glo_flashcards_intro#:#Your goal is to correctly remember each flashcard four times in a row.<br />To begin with, all of the flashcards are in box 1.<br />Flagging a flashcard as "I got it right" will advance it to the next box.<br />Flagging a flashcard as "I was wrong" will return the card to the first box.<br />To start, select a box. This will reveal the flashcards.
+glo#:#glo_introduction#:#Introduction
 glo#:#glo_link_glo_in_glo#:#Should all glossary terms of the target glossary be linked in the current glossary now?
+glo#:#glo_mode#:#Mode
 glo#:#glo_page_type_gdf#:#Term Definition
 glo#:#glo_please_select_other_glo#:#Please select another glossary.
+glo#:#glo_quit_box#:#Quit Box
 glo#:#glo_reference#:#Reference
 glo#:#glo_reference_terms#:#Reference Terms
 glo#:#glo_referenced_term#:#Referenced Term
+glo#:#glo_reset_all_boxes#:#Reset All Boxes
 glo#:#glo_select_source_glo#:#Please select a source glossary.
 glo#:#glo_select_terms#:#Select Terms
 glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
+glo#:#glo_show_definition#:#Show Definition
+glo#:#glo_show_term#:#Show Term
 glo#:#glo_term#:#Glossary Term
 glo#:#glo_term_reference#:#Term Reference
+glo#:#glo_term_vs_def#:#Term vs. Definition
+glo#:#glo_term_vs_def_info#:#Show a term first, the learner has to guess the definition.
+glo#:#glo_use_all_flashcards#:#Use All Flashcards (%s)
+glo#:#glo_use_remaining_flashcards#:#Use Remaining Flashcards (%s)
 grp#:#crs_add_grouping#:#Add Membership Limitation
 grp#:#crs_grouping_delete_sure#:#Are you sure you want to delete this membership limitation ?
 grp#:#crs_grouping_deleted#:#Deleted membership limitation.

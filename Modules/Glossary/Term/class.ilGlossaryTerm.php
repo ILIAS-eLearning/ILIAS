@@ -35,6 +35,7 @@ class ilGlossaryTerm
     public string $short_text = "";
     public int $short_text_dirty = 0;
     public ilGlossaryDefPage $page_object;
+    protected ilAppEventHandler $event_handler;
 
     public function __construct(int $a_id = 0)
     {
@@ -52,6 +53,7 @@ class ilGlossaryTerm
         if ($a_id != 0) {
             $this->read();
         }
+        $this->event_handler = $DIC->event();
     }
 
     public function read(): void
@@ -256,6 +258,9 @@ class ilGlossaryTerm
             " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
 
         $this->page_object->delete();
+
+        // delete flashcard entries
+        $this->event_handler->raise("Modules/Glossary", "deleteTerm", ["term_id" => $this->getId()]);
     }
 
     public function update(): void

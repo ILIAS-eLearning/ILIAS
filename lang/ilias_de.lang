@@ -9814,23 +9814,50 @@ forum#:#topic_close#:#geschlossen
 forum#:#topics_please_select_one_action#:#Bitte wählen Sie eine Aktion aus.
 forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selbst aktivieren.
 glo#:#glo_add_from_other#:#Begriffe sammeln
+glo#:#glo_answered_correctly#:#Wusste ich
+glo#:#glo_answered_not_correctly#:#Wusste ich nicht
+glo#:#glo_box#:#Fach
+glo#:#glo_box_completed#:#Sie haben das Fach abgeschlossen.
+glo#:#glo_box_last_presented#:#Fach zuletzt angezeigt
+glo#:#glo_boxes#:#Fächer
+glo#:#glo_boxes_really_reset#:#Möchten Sie wirklich alle Fächer zurücksetzen? Alle Lernkarten werden in das erste Fach verschoben.
+glo#:#glo_boxes_reset#:#Die Fächer wurden erfolgreich zurückgesetzt.
 glo#:#glo_col_ordering_info#:#Sortieren Sie die Titel der Metadatenfelder, die in der Präsentationsansicht des Glossars als Spaltenüberschriften angezeigt werden.
 glo#:#glo_collection#:#Sammelglossar
 glo#:#glo_collection_info#:#Das Glossar sammelt automatisch zusätzliche Begriffe aus anderen Glossaren ein.
 glo#:#glo_content_assembly#:#Zusammenstellung der Inhalte
 glo#:#glo_copy#:#Glossar kopieren
 glo#:#glo_copy_terms#:#Begriffe kopieren
+glo#:#glo_days_ago#:#vor %s Tagen
+glo#:#glo_def_vs_term#:#Definition vs. Begriff
+glo#:#glo_def_vs_term_info#:#Zeige zuerst eine Definition, der Lernende muss den Begriff erraten.
+glo#:#glo_flashcard_training#:#Lernkarten Training
+glo#:#glo_flashcard_training_info#:#Bietet eine Präsentation in Form von Lernkarten, die es dem Benutzer ermöglicht, die Begriffe/Definitionen einzeln zu trainieren.
+glo#:#glo_flashcards#:#Lernkarten
+glo#:#glo_flashcards_from_today_confirmation#:#Das Fach beinhaltet %s Lernkarten, die Ihnen heute bereits angezeigt wurden. Möchten Sie nur die verbleibenden %s Lernkarten einbeziehen oder alle %s Lernkarten?
+glo#:#glo_flashcards_from_today_only_info#:#Das Fach beinhaltet ausschließlich Lernkarten, die Ihnen heute bereits angezeigt wurden. Bitte bestätigen Sie, dass Ihnen diese %s Lernkarten nochmal angezeigt werden.
+glo#:#glo_flashcards_intro#:#Sie sollen jede Lernkarte viermal hintereinander erinnern.<br />Am Anfang befinden sich alle Lernkarten in Fach 1.<br />Lernkarten, die Sie mit "Wusste ich" bewerten, werden in das nächste Fach befördert.<br />Lernkarten, die Sie mit "Wusste ich nicht" bewerten, kommen zurück in das erste Fach.<br />Fangen Sie an, indem Sie ein Fach auswählen. Dann werden die Lernkarten angezeigt.
+glo#:#glo_introduction#:#Einleitung
 glo#:#glo_link_glo_in_glo#:#Sollen jetzt alle Glossarbegriffe aus dem Zielglossar in das bestehende Glossar verlinkt werden?
+glo#:#glo_mode#:#Modus
 glo#:#glo_page_type_gdf#:#Begriffsdefinition
 glo#:#glo_please_select_other_glo#:#Bitte wählen Sie ein anderes Glossar aus.
+glo#:#glo_quit_box#:#Fach verlassen
 glo#:#glo_reference#:#Link
 glo#:#glo_reference_terms#:#Begriffe verlinken
 glo#:#glo_referenced_term#:#Verlinkte Begriffe
+glo#:#glo_reset_all_boxes#:#Alle Fächer zurücksetzen
 glo#:#glo_select_source_glo#:#Bitte wählen Sie das Ausgangsglossar aus.
 glo#:#glo_select_terms#:#Begriffe auswählen
 glo#:#glo_selected_terms_have_been_copied#:#Die ausgewählten Begriffe wurden in die Zwischenablage kopiert. Bitte öffnen Sie das Zielglossar und klicken dann auf "Einfügen".
+glo#:#glo_show_definition#:#Definition zeigen
+glo#:#glo_show_term#:#Begriff zeigen
 glo#:#glo_term#:#Glossarbegriff
 glo#:#glo_term_reference#:#Begriffslink
+glo#:#glo_term_vs_def#:#Begriff vs. Definition
+glo#:#glo_term_vs_def_info#:#Zeige zuerst einen Begriff, der Lernende muss die Definition erraten.
+glo#:#glo_use_all_flashcards#:#Alle Lernkarten nutzen (%s)
+glo#:#glo_use_remaining_flashcards#:#Verbleibende Lernkarten nutzen (%s)
 grp#:#crs_add_grouping#:#Neue Mitgliedschaftsbeschränkung
 grp#:#crs_grouping_delete_sure#:#Sind Sie sicher, dass diese Mitgliedschaftsbeschränkung entfernt werden soll ?
 grp#:#crs_grouping_deleted#:#Die Mitgliedschaftsbeschränkung wurde gelöscht.
