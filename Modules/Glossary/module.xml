@@ -24,4 +24,9 @@
 		<pageobject parent_type="term" class_name="ilGlossaryDefPage" directory="classes"/>
 	</copage>
 	<logging />
+	<events>
+		<event type="listen" id="Services/Object" />
+		<event type="raise" id="deleteTerm" />
+		<event type="listen" id="Modules/Glossary" />
+	</events>
 </module>

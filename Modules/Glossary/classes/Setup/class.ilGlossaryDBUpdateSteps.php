@@ -59,4 +59,95 @@ class ilGlossaryDBUpdateSteps implements ilDatabaseUpdateSteps
             ]);
         }
     }
+
+    public function step_3(): void
+    {
+        if (!$this->db->tableExists('glo_flashcard_term')) {
+            $fields = [
+                'term_id' => [
+                    'type' => 'integer',
+                    'length' => 4,
+                    'notnull' => true,
+                    'default' => 0
+                ],
+                'user_id' => [
+                    'type' => 'integer',
+                    'length' => 4,
+                    'notnull' => true,
+                    'default' => 0
+                ],
+                'glo_id' => [
+                    'type' => 'integer',
+                    'length' => 4,
+                    'notnull' => true,
+                    'default' => 0
+                ],
+                'last_access' => [
+                    'type' => 'timestamp',
+                    'notnull' => false
+                ],
+                'box_nr' => [
+                    'type' => 'integer',
+                    'length' => 4,
+                    'notnull' => true,
+                    'default' => 0
+                ]
+            ];
+            $this->db->createTable("glo_flashcard_term", $fields);
+            $this->db->addPrimaryKey("glo_flashcard_term", ["term_id", "user_id", "glo_id"]);
+        }
+    }
+
+    public function step_4(): void
+    {
+        if (!$this->db->tableExists('glo_flashcard_box')) {
+            $fields = [
+                'box_nr' => [
+                    'type' => 'integer',
+                    'length' => 4,
+                    'notnull' => true,
+                    'default' => 0
+                ],
+                'user_id' => [
+                    'type' => 'integer',
+                    'length' => 4,
+                    'notnull' => true,
+                    'default' => 0
+                ],
+                'glo_id' => [
+                    'type' => 'integer',
+                    'length' => 4,
+                    'notnull' => true,
+                    'default' => 0
+                ],
+                'last_access' => [
+                    'type' => 'timestamp',
+                    'notnull' => false
+                ]
+            ];
+            $this->db->createTable("glo_flashcard_box", $fields);
+            $this->db->addPrimaryKey("glo_flashcard_box", ["box_nr", "user_id", "glo_id"]);
+        }
+    }
+
+    public function step_5(): void
+    {
+        if (!$this->db->tableColumnExists("glossary", "flash_active")) {
+            $this->db->addTableColumn("glossary", "flash_active", [
+                "type" => "text",
+                "notnull" => true,
+                "length" => 1,
+                "default" => "n"
+            ]);
+        }
+
+        if (!$this->db->tableColumnExists("glossary", "flash_mode")) {
+            $this->db->addTableColumn("glossary", "flash_mode", [
+                "type" => "text",
+                "notnull" => true,
+                "length" => 10,
+                "default" => "term"
+            ]);
+        }
+    }
 }

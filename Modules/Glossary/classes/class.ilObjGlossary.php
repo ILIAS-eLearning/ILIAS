@@ -33,6 +33,8 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
     protected string $pres_mode = "";
     protected bool $virtual = false;
     protected string $virtual_mode = "";
+    protected bool $flashcards_active = false;
+    protected string $flashcards_mode = "";
     protected ilGlobalTemplateInterface $tpl;
     public array $auto_glossaries = array();
     protected ilObjUser $user;
@@ -106,6 +108,8 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $this->setPresentationMode((string) $gl_rec["pres_mode"]);
         $this->setSnippetLength((int) $gl_rec["snippet_length"]);
         $this->setShowTaxonomy((bool) $gl_rec["show_tax"]);
+        $this->setActiveFlashcards(ilUtil::yn2tf($gl_rec["flash_active"]));
+        $this->setFlashcardsMode($gl_rec["flash_mode"]);
 
         // read auto glossaries
         $set = $this->db->query(
@@ -248,6 +252,26 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         return $this->show_tax;
     }
 
+    public function setActiveFlashcards(bool $a_flash): void
+    {
+        $this->flashcards_active = $a_flash;
+    }
+
+    public function isActiveFlashcards(): bool
+    {
+        return $this->flashcards_active;
+    }
+
+    public function setFlashcardsMode(string $a_flash): void
+    {
+        $this->flashcards_mode = $a_flash;
+    }
+
+    public function getFlashcardsMode(): string
+    {
+        return $this->flashcards_mode;
+    }
+
     /**
      * @param int[] $a_val
      */
@@ -303,7 +327,9 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
                 'downloads_active' => array('text', ilUtil::tf2yn($this->isActiveDownloads())),
                 'pres_mode' => array('text', $this->getPresentationMode()),
                 'show_tax' => array('integer', $this->getShowTaxonomy()),
-                'snippet_length' => array('integer', $this->getSnippetLength())
+                'snippet_length' => array('integer', $this->getSnippetLength()),
+                'flash_active' => array('text', ilUtil::tf2yn($this->isActiveFlashcards())),
+                'flash_mode' => array('text', $this->getFlashcardsMode())
             ),
             array(
                 'id' => array('integer', $this->getId())
@@ -736,6 +762,8 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $new_obj->setPresentationMode($this->getPresentationMode());
         $new_obj->setSnippetLength($this->getSnippetLength());
         $new_obj->setAutoGlossaries($this->getAutoGlossaries());
+        $new_obj->setActiveFlashcards($this->isActiveFlashcards());
+        $new_obj->setFlashcardsMode($this->getFlashcardsMode());
         $new_obj->update();
 
         // set/copy stylesheet
