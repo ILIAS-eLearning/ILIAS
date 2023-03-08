@@ -33,18 +33,15 @@ class ilMailTemplateContextAdapter
     protected array $contexts = [];
     protected array $context_parameter = [];
     protected ?ilObjUser $recipient = null;
-    protected bool $html_markup = false;
 
     public function __construct(
         array $contexts,
         array $context_parameters,
-        ilObjUser $recipient = null,
-        bool $html_markup = false
+        ilObjUser $recipient = null
     ) {
         $this->contexts = $contexts;
         $this->context_parameter = $context_parameters;
         $this->recipient = $recipient;
-        $this->html_markup = $html_markup;
     }
 
     public function withContext(ilMailTemplateContext $context): ilMailTemplateContextAdapter
@@ -74,7 +71,7 @@ class ilMailTemplateContextAdapter
     public function __get($name)
     {
         foreach ($this->contexts as $context) {
-            $ret = $context->resolvePlaceholder($name, $this->context_parameter, $this->recipient, $this->html_markup);
+            $ret = $context->resolvePlaceholder($name, $this->context_parameter, $this->recipient);
             if ($ret !== "") {
                 return $ret;
             }

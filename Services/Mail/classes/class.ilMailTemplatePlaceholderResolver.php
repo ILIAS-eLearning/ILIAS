@@ -51,8 +51,7 @@ class ilMailTemplatePlaceholderResolver
             new ilMailTemplateContextAdapter(
                 [$context],
                 $contextParameters,
-                $user,
-                $replaceEmptyPlaceholders
+                $user
             )
         );
     }

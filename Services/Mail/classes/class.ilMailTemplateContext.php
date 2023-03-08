@@ -112,15 +112,13 @@ abstract class ilMailTemplateContext
     abstract public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
-        ilObjUser $recipient = null,
-        bool $html_markup = false
+        ilObjUser $recipient = null
     ): string;
 
     public function resolvePlaceholder(
         string $placeholder_id,
         array $context_parameters,
-        ilObjUser $recipient = null,
-        bool $html_markup = false
+        ilObjUser $recipient = null
     ): string {
         if ($recipient !== null) {
             $this->initLanguage($recipient);
@@ -193,8 +191,7 @@ abstract class ilMailTemplateContext
                 $resolved = $this->resolveSpecificPlaceholder(
                     $placeholder_id,
                     $context_parameters,
-                    $recipient,
-                    $html_markup
+                    $recipient
                 );
 
                 ilDatePresentation::setLanguage($datePresentationLanguage);
