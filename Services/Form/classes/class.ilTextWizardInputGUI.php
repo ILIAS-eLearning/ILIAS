@@ -51,7 +51,7 @@ class ilTextWizardInputGUI extends ilTextInputGUI
      */
     public function setValue($a_value): void
     {
-        $this->values = $a_value;
+        $this->values = (array) $a_value;
     }
 
     public function getValues(): array
