@@ -1162,6 +1162,7 @@ class ilObject
     public function putInTree(int $parent_ref_id): void
     {
         $this->tree->insertNode($this->getRefId(), $parent_ref_id);
+        $this->handleAutoRating();
 
         $log_entry = sprintf(
             "ilObject::putInTree(), parent_ref: %s, ref_id: %s, obj_id: %s, type: %s, title: %s",
@@ -1794,6 +1795,42 @@ class ilObject
         return self::getIconForReference(0, $obj_id, $size, $type, $offline);
     }
 
+    protected function handleAutoRating(): void
+    {
+        if ($this->getRefId() !== 0
+            && $this->hasAutoRating()
+            && method_exists($this, "setRating")
+        ) {
+            $this->setRating(true);
+            $this->update();
+        }
+    }
+
+    protected function hasAutoRating(): bool
+    {
+        $tree = $this->tree;
+        $ref_id = $this->getRefId();
+        $type = $this->type;
+
+        if (!$ref_id || !in_array($type, array("file", "lm", "wiki"))) {
+            return false;
+        }
+
+        $parent_ref_id = $tree->checkForParentType($ref_id, "grp");
+        if (!$parent_ref_id) {
+            $parent_ref_id = $tree->checkForParentType($ref_id, "crs");
+        }
+        if ($parent_ref_id) {
+            // get auto rate setting
+            $parent_obj_id = ilObject::_lookupObjId($parent_ref_id);
+            return (bool) ilContainer::_lookupContainerSetting(
+                $parent_obj_id,
+                ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS
+            );
+        }
+        return false;
+    }
+
     /**
      * Collect deletion dependencies. E.g.
      */
@@ -1972,33 +2009,6 @@ class ilObject
         $result = $db->query($sql);
         $rec = $db->fetchAssoc($result);
         return $rec["create_date"];
-    }
-
-    /**
-     * Check if auto rating is active for parent group/course
-     */
-    public static function hasAutoRating(string $type, int $ref_id): bool
-    {
-        global $DIC;
-        $tree = $DIC->repositoryTree();
-
-        if (!$ref_id || !in_array($type, array("file", "lm", "wiki"))) {
-            return false;
-        }
-
-        $parent_ref_id = $tree->checkForParentType($ref_id, "grp");
-        if (!$parent_ref_id) {
-            $parent_ref_id = $tree->checkForParentType($ref_id, "crs");
-        }
-        if ($parent_ref_id) {
-            // get auto rate setting
-            $parent_obj_id = ilObject::_lookupObjId($parent_ref_id);
-            return (bool) ilContainer::_lookupContainerSetting(
-                $parent_obj_id,
-                ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS
-            );
-        }
-        return false;
     }
 
     /**

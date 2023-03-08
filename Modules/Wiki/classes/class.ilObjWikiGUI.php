@@ -883,7 +883,7 @@ class ilObjWikiGUI extends ilObjectGUI
         if ($a_mode === "create") {
             $values["rating_new"] = true;
 
-            $values["rating_overall"] = ilObject::hasAutoRating("wiki", $this->requested_ref_id);
+            $values["rating_overall"] = $this->object->hasAutoRating();
         } else {
             $values["online"] = $this->object->getOnline();
             $values["title"] = $this->object->getTitle();
