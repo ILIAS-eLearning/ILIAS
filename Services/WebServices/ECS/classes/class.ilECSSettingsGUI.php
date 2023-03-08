@@ -1017,9 +1017,9 @@ class ilECSSettingsGUI
 
         $this->initCategoryMappingForm('add');
         if ($this->form->checkInput()) {
-            $this->rule->setContainerId($this->form->getInput('import_id'));
+            $this->rule->setContainerId((int) $this->form->getInput('import_id'));
             $this->rule->setFieldName($this->form->getInput('field'));
-            $this->rule->setMappingType($this->form->getInput('type'));
+            $this->rule->setMappingType((int) $this->form->getInput('type'));
 
             switch ($this->form->getInput('type')) {
                 case ilECSCategoryMappingRule::TYPE_FIXED:
@@ -1208,7 +1208,7 @@ class ilECSSettingsGUI
         $tpl->setVariable('POST_VAR', 'import_id');
         $tpl->setVariable('PROPERTY_VALUE', $this->rule->getContainerId());
 
-        if ($this->settings->getImportId()) {
+        if ($this->rule->getContainerId()) {
             $tpl->setVariable('COMPLETE_PATH', $this->buildPath($this->rule->getContainerId()));
         }
 

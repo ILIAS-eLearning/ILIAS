@@ -144,8 +144,8 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
                         }
                         break;
 
-                    case "gdf":
-                        $term_id = ilGlossaryDefinition::_lookupTermId($page_obj->getId());
+                    case "term":
+                        $term_id = $page_obj->getId();
                         $glo_id = ilGlossaryTerm::_lookGlossaryID($term_id);
                         $item["obj_type_txt"] = $this->lng->txt("obj_glo");
                         $item["obj_title"] = ilObject::_lookupTitle($glo_id);

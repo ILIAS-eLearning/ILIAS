@@ -523,11 +523,11 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
      */
     public function saveCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
-        $points = $form->getInput('answers')['points'];
+        $points = $form->getItemByPostVar('answers');
 
         foreach ($this->object->getAnswers() as $index => $answer) {
             /* @var ASS_AnswerBinaryStateImage $answer */
-            $answer->setPoints((float) $points[$index]);
+            $answer->setPoints((float) $points[$index]->getPoints());
         }
     }
 }

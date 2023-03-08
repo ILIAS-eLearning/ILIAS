@@ -317,7 +317,7 @@ class ilECSCategoryMappingRule
             return self::ERR_MISSING_VALUE;
         }
         // handled by form gui?
-        if ($this->getMappingType() === self::TYPE_FIXED || !$this->getMappingValue()) {
+        if ($this->getMappingType() === self::TYPE_FIXED && !$this->getMappingValue()) {
             return self::ERR_MISSING_VALUE;
         }
         if ($this->getMappingType() === self::TYPE_BY_TYPE && $this->getFieldName() !== 'type') {

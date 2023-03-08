@@ -576,9 +576,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 
     private function setStyle(): void
     {
-        if ($this->pg_obj->getParentType() == "gdf" ||
+        if ($this->pg_obj->getParentType() == "term" ||
             $this->pg_obj->getParentType() == "lm") {
-            if ($this->pg_obj->getParentType() != "gdf") {
+            if ($this->pg_obj->getParentType() != "term") {
                 $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(
                     ilObjContentObject::_lookupStyleSheetId($this->pg_obj->getParentId())
                 ));

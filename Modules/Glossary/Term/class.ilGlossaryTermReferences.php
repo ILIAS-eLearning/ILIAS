@@ -26,12 +26,14 @@ class ilGlossaryTermReferences
     /** @var int[] (term ids) */
     protected array $terms = array();
     protected ilDBInterface $db;
+    protected ilAppEventHandler $event_handler;
 
     public function __construct(int $a_glo_id = 0)
     {
         global $DIC;
 
         $this->db = $DIC->database();
+        $this->event_handler = $DIC->event();
 
         $this->setGlossaryId($a_glo_id);
         if ($a_glo_id > 0) {
@@ -79,6 +81,9 @@ class ilGlossaryTermReferences
                 unset($this->terms[$k]);
             }
         }
+
+        // delete flashcard entries
+        $this->event_handler->raise("Modules/Glossary", "deleteTerm", ["term_id" => $a_term_id]);
     }
 
     public function read(): void

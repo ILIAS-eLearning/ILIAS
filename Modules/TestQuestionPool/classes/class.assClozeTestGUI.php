@@ -1328,7 +1328,7 @@ JS;
 
     public function getSpecificFeedbackOutput(array $userSolution): string
     {
-        if (!$this->object->feedbackOBJ->specificAnswerFeedbackExists()) {
+        if (!$this->object->feedbackOBJ->isSpecificAnswerFeedbackAvailable($this->object->getId())) {
             return '';
         }
 

@@ -80,7 +80,7 @@ class ilSoapStructureObjectFactory
             case "git":
                 include_once "./webservice/soap/classes/class.ilSoapGLOTermStructureObject.php";
                 return "ilSoapGLOTermStructureObject";
-            case "gdf":
+            case "term":
                 include_once "./webservice/soap/classes/class.ilSoapGLOTermDefinitionStructureObject.php";
                 return "ilSoapGLOTermDefinitionStructureObject";
         }

@@ -22,17 +22,19 @@ declare(strict_types=1);
 class ilECSUserConsent
 {
     private int $usr_id;
+    private int $server_id;
     private int $mid;
 
     protected ilDBInterface $db;
 
-    public function __construct(int $a_usr_id, int $a_mid)
+    public function __construct(int $a_usr_id, int $server_id, int $a_mid)
     {
         global $DIC;
 
         $this->db = $DIC->database();
 
         $this->usr_id = $a_usr_id;
+        $this->server_id = $server_id;
         $this->mid = $a_mid;
     }
 
@@ -46,12 +48,18 @@ class ilECSUserConsent
         return $this->mid;
     }
 
+    public function getServerId(): int
+    {
+        return $this->server_id;
+    }
+
     public function save(): void
     {
         $this->db->replace(
             'ecs_user_consent',
             [
                 'usr_id' => [ilDBConstants::T_INTEGER, $this->getUserId()],
+                'server_id' => [ilDBConstants::T_INTEGER, $this->getServerId()],
                 'mid' => [ilDBConstants::T_INTEGER, $this->getMid()]
             ],
             []
@@ -63,6 +71,10 @@ class ilECSUserConsent
         $query = 'DELETE FROM ecs_user_consent ' .
             'WHERE usr_id = ' . $this->db->quote(
                 $this->getUserId(),
+                ilDBConstants::T_INTEGER
+            ) . ' ' .
+            'AND server_id = ' . $this->db->quote(
+                $this->getServerId(),
                 ilDBConstants::T_INTEGER
             ) . ' ' .
             'AND mid = ' . $this->db->quote(

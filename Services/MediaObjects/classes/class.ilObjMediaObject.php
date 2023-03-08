@@ -1167,10 +1167,9 @@ class ilObjMediaObject extends ilObject
                         $obj_id = ilLMObject::_lookupContObjID($id);
                         break;
 
-                    case "gdf":
-                        // glossary definition
-                        $term_id = ilGlossaryDefinition::_lookupTermId($id);
-                        $obj_id = (int) ilGlossaryTerm::_lookGlossaryID($term_id);
+                    case "term":
+                        $term_id = $id;
+                        $obj_id = ilGlossaryTerm::_lookGlossaryID($term_id);
                         break;
 
                     case "wpg":

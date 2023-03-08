@@ -32,6 +32,10 @@ class ilGlossaryTerm
     public string $language = "";
     public int $glo_id = 0;
     public string $import_id = "";
+    public string $short_text = "";
+    public int $short_text_dirty = 0;
+    public ilGlossaryDefPage $page_object;
+    protected ilAppEventHandler $event_handler;
 
     public function __construct(int $a_id = 0)
     {
@@ -49,6 +53,7 @@ class ilGlossaryTerm
         if ($a_id != 0) {
             $this->read();
         }
+        $this->event_handler = $DIC->event();
     }
 
     public function read(): void
@@ -56,7 +61,7 @@ class ilGlossaryTerm
         $ilDB = $this->db;
 
         $q = "SELECT * FROM glossary_term WHERE id = " .
-            $ilDB->quote($this->id, "integer");
+            $ilDB->quote($this->getId(), "integer");
         $term_set = $ilDB->query($q);
         $term_rec = $ilDB->fetchAssoc($term_set);
 
@@ -64,6 +69,8 @@ class ilGlossaryTerm
         $this->setImportId((string) $term_rec["import_id"]);
         $this->setLanguage((string) $term_rec["language"]);
         $this->setGlossaryId((int) $term_rec["glo_id"]);
+
+        $this->page_object = new ilGlossaryDefPage($this->getId());
     }
 
     public static function _getIdForImportId(
@@ -180,34 +187,68 @@ class ilGlossaryTerm
         return $this->import_id;
     }
 
-    public function create(): void
+    public function setShortText(string $a_text): void
+    {
+        $this->short_text = $this->shortenShortText($a_text);
+    }
+
+    public function getShortText(): string
+    {
+        return $this->short_text;
+    }
+
+    public function setShortTextDirty(int $a_val): void
+    {
+        $this->short_text_dirty = $a_val;
+    }
+
+    public function getShortTextDirty(): int
+    {
+        return $this->short_text_dirty;
+    }
+
+    public function assignPageObject(ilGlossaryDefPage $a_page_object): void
+    {
+        $this->page_object = $a_page_object;
+    }
+
+    public function getPageObject(): ilGlossaryDefPage
+    {
+        return $this->page_object;
+    }
+
+    public function create(bool $a_omit_page_creation = false): void
     {
         $ilDB = $this->db;
 
         $this->setId($ilDB->nextId("glossary_term"));
-        $ilDB->manipulate("INSERT INTO glossary_term (id, glo_id, term, language, import_id, create_date, last_update)" .
+        $ilDB->manipulate("INSERT INTO glossary_term" .
+            " (id, glo_id, term, language, import_id, create_date, last_update, short_text, short_text_dirty)" .
             " VALUES (" .
             $ilDB->quote($this->getId(), "integer") . ", " .
             $ilDB->quote($this->getGlossaryId(), "integer") . ", " .
-            $ilDB->quote($this->term, "text") . ", " .
-            $ilDB->quote($this->language, "text") . "," .
-            $ilDB->quote($this->getImportId(), "text") . "," .
+            $ilDB->quote($this->getTerm(), "text") . ", " .
+            $ilDB->quote($this->getLanguage(), "text") . ", " .
+            $ilDB->quote($this->getImportId(), "text") . ", " .
             $ilDB->now() . ", " .
-            $ilDB->now() . ")");
+            $ilDB->now() . ", " .
+            $ilDB->quote($this->getShortText()) . ", " .
+            $ilDB->quote($this->getShortTextDirty()) . ")");
+
+        if (!$a_omit_page_creation) {
+            $this->page_object = new ilGlossaryDefPage();
+            $this->page_object->setId($this->getId());
+            $this->page_object->setParentId($this->getGlossaryId());
+            $this->page_object->create(false);
+        }
     }
 
     /**
-     * delete glossary term (and all its definition objects)
+     * delete glossary term
      */
     public function delete(): void
     {
         $ilDB = $this->db;
-
-        $defs = ilGlossaryDefinition::getDefinitionList($this->getId());
-        foreach ($defs as $def) {
-            $def_obj = new ilGlossaryDefinition($def["id"]);
-            $def_obj->delete();
-        }
 
         // delete term references
         ilGlossaryTermReferences::deleteReferencesOfTerm($this->getId());
@@ -215,6 +256,11 @@ class ilGlossaryTerm
         // delete glossary_term record
         $ilDB->manipulate("DELETE FROM glossary_term " .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
+
+        $this->page_object->delete();
+
+        // delete flashcard entries
+        $this->event_handler->raise("Modules/Glossary", "deleteTerm", ["term_id" => $this->getId()]);
     }
 
     public function update(): void
@@ -226,8 +272,95 @@ class ilGlossaryTerm
             " term = " . $ilDB->quote($this->getTerm(), "text") . ", " .
             " import_id = " . $ilDB->quote($this->getImportId(), "text") . ", " .
             " language = " . $ilDB->quote($this->getLanguage(), "text") . ", " .
-            " last_update = " . $ilDB->now() . " " .
+            " last_update = " . $ilDB->now() . ", " .
+            " short_text = " . $ilDB->quote($this->getShortText(), "text") . ", " .
+            " short_text_dirty = " . $ilDB->quote($this->getShortTextDirty(), "integer") . " " .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
+    }
+
+    /**
+     * Shorten short text
+     */
+    public function shortenShortText(string $text): string
+    {
+        $a_length = 196;
+
+        if ($this->getId() > 0) {
+            $glo_id = self::_lookGlossaryID($this->getId());
+            $snippet_length = ilObjGlossary::lookupSnippetLength($glo_id);
+            if ($snippet_length > 0) {
+                $a_length = $snippet_length;
+            }
+        }
+
+        $text = str_replace("<br/>", "<br>", $text);
+        $text = strip_tags($text, "<br>");
+        $offset = 0;
+        if (is_int(strpos(substr($text, $a_length - 16 - 5, 10), "[tex]"))) {
+            $offset = 5;
+        }
+        $short = ilStr::shortenTextExtended($text, $a_length - 16 + $offset, true);
+
+        // make short text longer, if tex end tag is missing
+        $ltexs = strrpos($short, "[tex]");
+        $ltexe = strrpos($short, "[/tex]");
+        if ($ltexs > $ltexe) {
+            $ltexe = strpos($text, "[/tex]", $ltexs);
+            if ($ltexe > 0) {
+                $text = ilStr::shortenTextExtended($text, $ltexe + 6, true);
+            }
+        }
+
+        $short = ilStr::shortenTextExtended($text, $a_length, true);
+
+        return $short;
+    }
+
+    public function updateShortText(): void
+    {
+        $this->page_object->buildDom();
+        $text = $this->page_object->getFirstParagraphText();
+        $short = $this->shortenShortText($text);
+
+        $this->setShortText($short);
+        $this->setShortTextDirty(0);
+        $this->update();
+    }
+
+    /**
+     * Set all short texts of glossary dirty
+     * (e.g. if length is changed in settings)
+     */
+    public static function setShortTextsDirty(int $a_glo_id): void
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        $term_ids = self::getTermsOfGlossary($a_glo_id);
+
+        foreach ($term_ids as $term_id) {
+            $ilDB->manipulate(
+                "UPDATE glossary_term SET " .
+                " short_text_dirty = " . $ilDB->quote(1, "integer") .
+                " WHERE id = " . $ilDB->quote($term_id, "integer")
+            );
+        }
+    }
+
+    /**
+     * Set short texts dirty (for all glossaries)
+     */
+    public static function setShortTextsDirtyGlobally(): void
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        $ilDB->manipulate(
+            "UPDATE glossary_term SET " .
+            " short_text_dirty = " . $ilDB->quote(1, "integer")
+        );
     }
 
     /**
@@ -282,6 +415,40 @@ class ilGlossaryTerm
     }
 
     /**
+     * get definition short text
+     */
+    public static function _lookShortText(int $term_id): string
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        $query = "SELECT * FROM glossary_term WHERE id = " .
+            $ilDB->quote($term_id, "integer");
+        $obj_set = $ilDB->query($query);
+        $obj_rec = $ilDB->fetchAssoc($obj_set);
+
+        return $obj_rec["short_text"] ?? "";
+    }
+
+    /**
+     * get definition short text dirty
+     */
+    public static function _lookShortTextDirty(int $term_id): int
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        $query = "SELECT * FROM glossary_term WHERE id = " .
+            $ilDB->quote($term_id, "integer");
+        $obj_set = $ilDB->query($query);
+        $obj_rec = $ilDB->fetchAssoc($obj_set);
+
+        return (int) ($obj_rec["short_text_dirty"] ?? 0);
+    }
+
+    /**
      * Get all terms for given set of glossary ids.
      */
     public static function getTermList(
@@ -330,11 +497,10 @@ class ilGlossaryTerm
                 $glo_where = " page_object.parent_id = " . $ilDB->quote($a_glo_id, "integer");
             }
 
-            $join = " JOIN glossary_definition gd ON (gd.term_id = gt.id)" .
-            " JOIN page_object ON (" .
+            $join = " JOIN page_object ON (" .
             $glo_where .
-            " AND page_object.parent_type = " . $ilDB->quote("gdf", "text") .
-            " AND page_object.page_id = gd.id" .
+            " AND page_object.parent_type = " . $ilDB->quote("term", "text") .
+            " AND page_object.page_id = gt.id" .
             " AND " . $ilDB->like("page_object.content", "text", "%" . $a_def . "%") .
             ")";
         }
@@ -368,15 +534,16 @@ class ilGlossaryTerm
         $where .= $in;
 
 
-        $q = "SELECT DISTINCT(gt.term), gt.id, gt.glo_id, gt.language FROM glossary_term gt " . $join . " WHERE " . $where . $searchterm . " ORDER BY term";
-
-        //echo $q; exit;
+        $q = "SELECT DISTINCT(gt.term), gt.id, gt.glo_id, gt.language, gt.short_text, gt.short_text_dirty FROM glossary_term gt " .
+            $join . " WHERE " . $where . $searchterm . " ORDER BY gt.term, gt.id";
 
         $term_set = $ilDB->query($q);
         $glo_ids = array();
         while ($term_rec = $ilDB->fetchAssoc($term_set)) {
             $terms[] = array("term" => $term_rec["term"],
-                "language" => $term_rec["language"], "id" => $term_rec["id"], "glo_id" => $term_rec["glo_id"]);
+                "language" => $term_rec["language"], "id" => $term_rec["id"], "glo_id" => $term_rec["glo_id"],
+                "short_text" => strip_tags($term_rec["short_text"], "<br>"),
+                "short_text_dirty" => $term_rec["short_text_dirty"]);
             $glo_ids[] = $term_rec["glo_id"];
         }
 
@@ -440,13 +607,6 @@ class ilGlossaryTerm
         $attrs = array();
         $a_xml_writer->xmlElement("GlossaryTerm", $attrs, $this->getTerm());
 
-        $defs = ilGlossaryDefinition::getDefinitionList($this->getId());
-
-        foreach ($defs as $def) {
-            $definition = new ilGlossaryDefinition($def["id"]);
-            $definition->exportXML($a_xml_writer, $a_inst);
-        }
-
         $a_xml_writer->xmlEndTag("GlossaryItem");
     }
 
@@ -485,40 +645,24 @@ class ilGlossaryTerm
         $new_term->setTerm($old_term->getTerm());
         $new_term->setLanguage($old_term->getLanguage());
         $new_term->setGlossaryId($a_glossary_id);
+        $new_term->setShortText($old_term->getShortText());
+        $new_term->setShortTextDirty($old_term->getShortTextDirty());
         $new_term->create();
 
-        // copy the definitions
-        $def_list = ilGlossaryDefinition::getDefinitionList($a_term_id);
-        foreach ($def_list as $def) {
-            $old_def = new ilGlossaryDefinition($def["id"]);
+        // copy meta data
+        $md = new ilMD(
+            $old_term->getGlossaryId(),
+            $old_term->getPageObject()->getId(),
+            $old_term->getPageObject()->getParentType()
+        );
+        $new_md = $md->cloneMD(
+            $a_glossary_id,
+            $new_term->getPageObject()->getId(),
+            $old_term->getPageObject()->getParentType()
+        );
 
-            $new_def = new ilGlossaryDefinition();
-            $new_def->setShortText($old_def->getShortText());
-            $new_def->setNr($old_def->getNr());
-            $new_def->setTermId($new_term->getId());
-            $new_def->create();
-
-            // copy meta data
-            $md = new ilMD(
-                $old_term->getGlossaryId(),
-                $old_def->getPageObject()->getId(),
-                $old_def->getPageObject()->getParentType()
-            );
-            $new_md = $md->cloneMD(
-                $a_glossary_id,
-                $new_def->getPageObject()->getId(),
-                $old_def->getPageObject()->getParentType()
-            );
-
-
-            $new_page = $new_def->getPageObject();
-            $old_def->getPageObject()->copy($new_page->getId(), $new_page->getParentType(), $new_page->getParentId(), true);
-
-            // page content
-            //$new_def->getPageObject()->setXMLContent($old_def->getPageObject()->copyXmlContent(true));
-            //$new_def->getPageObject()->buildDom();
-            //$new_def->getPageObject()->update();
-        }
+        $new_page = $new_term->getPageObject();
+        $old_term->getPageObject()->copy($new_page->getId(), $new_page->getParentType(), $new_page->getParentId(), true);
 
         // adv metadata
         $old_recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("glo", $old_term->getGlossaryId(), "term");

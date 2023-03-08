@@ -24,7 +24,7 @@ namespace ILIAS\Glossary;
  * Glossary internal repo service
  * @author Alexander Killing <killing@leifos.de>
  */
-class InternalRepoService
+class InternalRepoService implements InternalRepoServiceInterface
 {
     protected InternalDataService $data;
     protected \ilDBInterface $db;
@@ -47,5 +47,20 @@ class InternalRepoService
     public function termSession(): Term\TermSessionRepository
     {
         return new Term\TermSessionRepository();
+    }
+
+    public function flashcardTerm(): Flashcard\FlashcardTermDBRepository
+    {
+        return new Flashcard\FlashcardTermDBRepository($this->db);
+    }
+
+    public function flashcardBox(): Flashcard\FlashcardBoxDBRepository
+    {
+        return new Flashcard\FlashcardBoxDBRepository($this->db);
+    }
+
+    public function flashcardSession(): Flashcard\FlashcardSessionRepository
+    {
+        return new Flashcard\FlashcardSessionRepository();
     }
 }

@@ -563,6 +563,20 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $pres_mode->addOption($op2);
         $this->form->addItem($pres_mode);
 
+        // flashcard training
+        $flash_active = new ilCheckboxInputGUI($this->lng->txt("glo_flashcard_training"), "flash_active");
+        $flash_active->setValue("y");
+        $flash_active->setInfo($this->lng->txt("glo_flashcard_training_info"));
+
+        //flashcard training mode
+        $flash_mode = new ilRadioGroupInputGUI($this->lng->txt("glo_mode"), "flash_mode");
+        $op1 = new ilRadioOption($this->lng->txt("glo_term_vs_def"), "term", $this->lng->txt("glo_term_vs_def_info"));
+        $flash_mode->addOption($op1);
+        $op2 = new ilRadioOption($this->lng->txt("glo_def_vs_term"), "def", $this->lng->txt("glo_def_vs_term_info"));
+        $flash_mode->addOption($op2);
+        $flash_active->addSubItem($flash_mode);
+        $this->form->addItem($flash_active);
+
         // show taxonomy
         $show_tax = null;
         $tax_ids = ilObjTaxonomy::getUsageOfObject($this->object->getId());
@@ -597,6 +611,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
             }
 
             $down->setChecked($this->object->isActiveDownloads());
+            $flash_active->setChecked($this->object->isActiveFlashcards());
+            $flash_mode->setValue($this->object->getFlashcardsMode());
 
             // additional features
             $feat = new ilFormSectionHeaderGUI();
@@ -647,6 +663,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
             $this->object->setPresentationMode($this->form->getInput("pres_mode"));
             $this->object->setSnippetLength($this->form->getInput("snippet_length"));
             $this->object->setShowTaxonomy($this->form->getInput("show_tax"));
+            $this->object->setActiveFlashcards(ilUtil::yn2tf($this->form->getInput("flash_active")));
+            $this->object->setFlashcardsMode($this->form->getInput("flash_mode"));
             $this->object->update();
 
             // tile image
@@ -660,7 +678,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
             }
 
             // set definition short texts dirty
-            ilGlossaryDefinition::setShortTextsDirty($this->object->getId());
+            ilGlossaryTerm::setShortTextsDirty($this->object->getId());
 
             ilObjectServiceSettingsGUI::updateServiceSettingsForm(
                 $this->object->getId(),
@@ -768,113 +786,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
         $this->term_manager->setSessionLang($lang);
 
-        // add first definition
-        $def = new ilGlossaryDefinition();
-        $def->setTermId($term->getId());
-        $def->setTitle($new_term);
-        $def->create();
-
         $this->ctrl->setParameterByClass("ilglossarydefpagegui", "term_id", $term->getId());
-        $this->ctrl->setParameterByClass("ilglossarydefpagegui", "def", $def->getId());
         $this->ctrl->redirectByClass(array("ilglossarytermgui",
             "iltermdefinitioneditorgui", "ilglossarydefpagegui"), "edit");
-    }
-
-    /**
-     * move a definition up
-     */
-    public function moveDefinitionUp(): void
-    {
-        $definition = new ilGlossaryDefinition(
-            $this->edit_request->getDefinitionId()
-        );
-        $definition->moveUp();
-
-        $this->ctrl->redirect($this, "listTerms");
-    }
-
-    /**
-     * move a definition down
-     */
-    public function moveDefinitionDown(): void
-    {
-        $definition = new ilGlossaryDefinition(
-            $this->edit_request->getDefinitionId()
-        );
-        $definition->moveDown();
-
-        $this->ctrl->redirect($this, "listTerms");
-    }
-
-    /**
-     * deletion confirmation screen
-     */
-    public function confirmDefinitionDeletion(): void
-    {
-        $term = new ilGlossaryTerm($this->term_id);
-
-        $add = "";
-        $nr = ilGlossaryTerm::getNumberOfUsages($this->term_id);
-        if ($nr > 0) {
-            $this->ctrl->setParameterByClass(
-                "ilglossarytermgui",
-                "term_id",
-                $this->term_id
-            );
-            $link = "[<a href='" .
-                $this->ctrl->getLinkTargetByClass("ilglossarytermgui", "listUsages") .
-                "'>" . $this->lng->txt("glo_list_usages") . "</a>]";
-            $add = "<br/>" . sprintf($this->lng->txt("glo_term_is_used_n_times"), $nr) . " " . $link;
-        }
-
-        $cgui = new ilConfirmationGUI();
-        $cgui->setHeaderText($this->lng->txt("info_delete_sure") . $add);
-
-        $cgui->setFormAction($this->ctrl->getFormAction($this));
-        $cgui->setCancel($this->lng->txt("cancel"), "cancelDefinitionDeletion");
-        $cgui->setConfirm($this->lng->txt("confirm"), "deleteDefinition");
-
-        // content style
-        $this->setContentStyleSheet($this->tpl);
-
-        // syntax style
-        $this->tpl->setCurrentBlock("SyntaxStyle");
-        $this->tpl->setVariable(
-            "LOCATION_SYNTAX_STYLESHEET",
-            ilObjStyleSheet::getSyntaxStylePath()
-        );
-        $this->tpl->parseCurrentBlock();
-
-        $definition = new ilGlossaryDefinition(
-            $this->edit_request->getDefinitionId()
-        );
-        $page_gui = new ilGlossaryDefPageGUI($definition->getId());
-        $page_gui->setTemplateOutput(false);
-        $page_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
-        $page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $this->requested_ref_id);
-        $page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $this->requested_ref_id);
-        $page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $this->requested_ref_id);
-        $output = $page_gui->preview();
-
-        $cgui->addItem(
-            "def",
-            $this->edit_request->getDefinitionId(),
-            $term->getTerm() . $output
-        );
-
-        $this->tpl->setContent($cgui->getHTML());
-    }
-
-    public function cancelDefinitionDeletion(): void
-    {
-        $this->ctrl->redirect($this, "listTerms");
-    }
-
-    public function deleteDefinition(): void
-    {
-        $definition = new ilGlossaryDefinition($this->edit_request->getDefinitionId());
-        $definition->delete();
-        $this->ctrl->redirect($this, "listTerms");
     }
 
     public function export(): void
@@ -1014,31 +928,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
     public function view(): void
     {
         $this->viewObject();
-    }
-
-    public function addDefinition(): void
-    {
-        $term_id = $this->edit_request->getTermId();
-
-        $term_glo_id = ilGlossaryTerm::_lookGlossaryID($term_id);
-        if ($term_glo_id != $this->object->getId()) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("glo_term_must_belong_to_glo"), true);
-            $this->ctrl->redirect($this, "listTerms");
-        }
-
-        // add term
-        $term = new ilGlossaryTerm($term_id);
-
-        // add first definition
-        $def = new ilGlossaryDefinition();
-        $def->setTermId($term->getId());
-        $def->setTitle(ilUtil::stripSlashes($term->getTerm()));
-        $def->create();
-
-        $this->ctrl->setParameterByClass("ilglossarydefpagegui", "term_id", $term->getId());
-        $this->ctrl->setParameterByClass("ilglossarydefpagegui", "def", $def->getId());
-        $this->ctrl->redirectByClass(array("ilglossarytermgui",
-            "iltermdefinitioneditorgui", "ilglossarydefpagegui"), "edit");
     }
 
     public function getTemplate(): void
