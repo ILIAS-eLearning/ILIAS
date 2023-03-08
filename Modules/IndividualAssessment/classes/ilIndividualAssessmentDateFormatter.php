@@ -31,29 +31,30 @@ class ilIndividualAssessmentDateFormatter
 
     public function getUserDateFormat(ilObjUser $user, bool $with_time = false): DateFormat
     {
-        $date_format = $this->data_factory->dateFormat()->custom();
+        $df = $this->data_factory->dateFormat();
         switch ($user->getDateFormat()) {
             case ilCalendarSettings::DATE_FORMAT_DMY:
-                $date_format = $date_format->day()->dot()->month()->dot()->year();
+                $date_format = $df->germanShort();
                 break;
             case ilCalendarSettings::DATE_FORMAT_MDY:
-                $date_format = $date_format->month()->slash()->day()->slash()->year();
+                //americanShort
+                $date_format = $df->custom()->month()->slash()->day()->slash()->year()->get();
                 break;
             case ilCalendarSettings::DATE_FORMAT_YMD:
             default:
-                $date_format = $date_format->year()->dash()->month()->dash()->day();
+                $date_format = $df->standard();
         }
         if ($with_time) {
             switch ($user->getTimeFormat()) {
                 case ilCalendarSettings::TIME_FORMAT_12:
-                    $date_format = $date_format->space()->hours12()->colon()->minutes()->space()->meridiem();
+                    $date_format = $df->withTime12($date_format);
                     break;
                 case ilCalendarSettings::TIME_FORMAT_24:
                 default:
-                    $date_format = $date_format->space()->hours24()->colon()->minutes();
+                    $date_format = $df->withTime24($date_format);
             }
         }
-        return $date_format->get();
+        return $date_format;
     }
 
     public function format(

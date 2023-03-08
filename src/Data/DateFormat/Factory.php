@@ -68,4 +68,16 @@ class Factory
     {
         return $this->builder->month()->slash()->day()->slash()->year()->get();
     }
+
+    public function withTime12(DateFormat $format): DateFormat
+    {
+        return $this->amend($format)
+            ->space()->hours12()->colon()->minutes()->space()->meridiem()->get();
+    }
+
+    public function withTime24(DateFormat $format): DateFormat
+    {
+        return $this->amend($format)
+            ->space()->hours24()->colon()->minutes()->get();
+    }
 }
