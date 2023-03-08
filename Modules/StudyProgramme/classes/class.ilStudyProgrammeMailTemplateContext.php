@@ -157,8 +157,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
     public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
-        ilObjUser $recipient = null,
-        bool $html_markup = false
+        ilObjUser $recipient = null
     ): string {
         if (is_null($recipient)) {
             return '';
