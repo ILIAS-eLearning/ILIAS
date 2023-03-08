@@ -972,7 +972,7 @@ class ilTestRandomQuestionSetConfigGUI
     protected function preventFormBecauseOfSync() : bool
     {
         $return = false;
-        $last_sync = $this->questionSetConfig->getLastQuestionSyncTimestamp();
+        $last_sync = (int) $this->questionSetConfig->getLastQuestionSyncTimestamp();
 
         if ($last_sync !== null && $last_sync !== 0 &&
             !$this->isFrozenConfigRequired() && $this->questionSetConfig->isQuestionSetBuildable()) {
