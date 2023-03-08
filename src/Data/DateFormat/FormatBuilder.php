@@ -38,94 +38,100 @@ class FormatBuilder
         return $df;
     }
 
+    public function initWithFormat(DateFormat $format): self
+    {
+        $this->format = $format->toArray();
+        return $this;
+    }
+
     /**
      * Append tokens to format.
      */
-    public function dot(): FormatBuilder
+    public function dot(): self
     {
         $this->format[] = DateFormat::DOT;
         return $this;
     }
 
-    public function comma(): FormatBuilder
+    public function comma(): self
     {
         $this->format[] = DateFormat::COMMA;
         return $this;
     }
 
-    public function dash(): FormatBuilder
+    public function dash(): self
     {
         $this->format[] = DateFormat::DASH;
         return $this;
     }
 
-    public function slash(): FormatBuilder
+    public function slash(): self
     {
         $this->format[] = DateFormat::SLASH;
         return $this;
     }
 
-    public function space(): FormatBuilder
+    public function space(): self
     {
         $this->format[] = DateFormat::SPACE;
         return $this;
     }
 
-    public function day(): FormatBuilder
+    public function day(): self
     {
         $this->format[] = DateFormat::DAY;
         return $this;
     }
 
-    public function dayOrdinal(): FormatBuilder
+    public function dayOrdinal(): self
     {
         $this->format[] = DateFormat::DAY_ORDINAL;
         return $this;
     }
 
-    public function weekday(): FormatBuilder
+    public function weekday(): self
     {
         $this->format[] = DateFormat::WEEKDAY;
         return $this;
     }
 
-    public function weekdayShort(): FormatBuilder
+    public function weekdayShort(): self
     {
         $this->format[] = DateFormat::WEEKDAY_SHORT;
         return $this;
     }
 
-    public function week(): FormatBuilder
+    public function week(): self
     {
         $this->format[] = DateFormat::WEEK;
         return $this;
     }
 
-    public function month(): FormatBuilder
+    public function month(): self
     {
         $this->format[] = DateFormat::MONTH;
         return $this;
     }
 
-    public function monthSpelled(): FormatBuilder
+    public function monthSpelled(): self
     {
         $this->format[] = DateFormat::MONTH_SPELLED;
         return $this;
     }
 
-    public function monthSpelledShort(): FormatBuilder
+    public function monthSpelledShort(): self
     {
         $this->format[] = DateFormat::MONTH_SPELLED_SHORT;
         return $this;
     }
 
-    public function year(): FormatBuilder
+    public function year(): self
     {
         $this->format[] = DateFormat::YEAR;
         return $this;
     }
 
-    public function twoDigitYear(): FormatBuilder
+    public function twoDigitYear(): self
     {
         $this->format[] = DateFormat::YEAR_TWO_DIG;
         return $this;
