@@ -389,7 +389,7 @@ class ilSession
 
         if ($ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) === (string) self::SESSION_HANDLING_LOAD_DEPENDENT) {
             // load dependent session settings
-            return (int) ($ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE) * 60);
+            return (int) ($ilSetting->get('session_max_idle', (string) (ilSessionControl::DEFAULT_MAX_IDLE) * 60));
         }
         return ilSessionControl::DEFAULT_MAX_IDLE * 60;
     }
