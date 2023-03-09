@@ -107,6 +107,17 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         return $cache;
     }
 
+    public function hasCurrentUserAccessToStaffList(): bool
+    {
+        static $cache = [];
+
+        if (null === $cache) {
+            $cache = $this->origin->hasCurrentUserAccessToStaffList();
+        }
+
+        return $cache;
+    }
+
     public function hasCurrentUserAccessToUser(int $usr_id = 0): bool
     {
         static $cache = [];

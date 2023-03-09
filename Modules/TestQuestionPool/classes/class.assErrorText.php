@@ -668,11 +668,13 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                     }
 
                     if ($correct_solution && !$in_passage) {
-                        $errorobject = $this->errordata[$errorcounter];
-                        if (is_object($errorobject)) {
-                            $item = strlen($errorobject->text_correct) ? $errorobject->text_correct : '&nbsp;';
+                        if (isset($this->errordata[$errorcounter])) {
+                            $errorobject = $this->errordata[$errorcounter];
+                            if (is_object($errorobject)) {
+                                $item = strlen($errorobject->text_correct) ? $errorobject->text_correct : '&nbsp;';
+                            }
+                            $errorcounter++;
                         }
-                        $errorcounter++;
                     }
                 }
 
@@ -857,13 +859,15 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                 $points = $this->getPointsWrong();
                 $isErrorItem = false;
                 if (strpos($word, '#') === 0) {
-                    /* Word selection detected */
-                    $errorobject = $this->errordata[$errorcounter];
-                    if (is_object($errorobject)) {
-                        $points = $errorobject->points;
-                        $isErrorItem = true;
+                    if (isset($this->errordata[$errorcounter])) {
+                        /* Word selection detected */
+                        $errorobject = $this->errordata[$errorcounter];
+                        if (is_object($errorobject)) {
+                            $points = $errorobject->points;
+                            $isErrorItem = true;
+                        }
+                        $errorcounter++;
                     }
-                    $errorcounter++;
                 } elseif (($posOpeningBracket = strpos($word, '((')) === 0
                         || ($posClosingBracket = strpos($word, '))')) !== false
                         || $inPassage) {
@@ -930,12 +934,14 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
             foreach ($items as $word) {
                 $points = $this->getPointsWrong();
                 if (strpos($word, '#') === 0) {
-                    /* Word selection detected */
-                    $errorobject = $this->errordata[$errorcounter];
-                    if (is_object($errorobject)) {
-                        $points = $errorobject->points;
+                    if (isset($this->errordata[$errorcounter])) {
+                        /* Word selection detected */
+                        $errorobject = $this->errordata[$errorcounter];
+                        if (is_object($errorobject)) {
+                            $points = $errorobject->points;
+                        }
+                        $errorcounter++;
                     }
-                    $errorcounter++;
                 } elseif (($posOpeningBracket = strpos($word, '((')) === 0
                         || ($posClosingBracket = strpos($word, '))')) !== false
                         || $inPassage) {

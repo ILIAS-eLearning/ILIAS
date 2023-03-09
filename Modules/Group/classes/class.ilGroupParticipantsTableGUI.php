@@ -367,7 +367,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
                     continue;
                 }
                 foreach ($fields as $field_id => $value) {
-                    if ($a_user_data[$usr_id]) {
+                    if ($a_user_data[$usr_id] ?? false) {
                         $a_user_data[$usr_id]['odf_' . $field_id] = $value;
                     }
                 }
