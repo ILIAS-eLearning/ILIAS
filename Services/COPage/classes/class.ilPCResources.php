@@ -131,7 +131,7 @@ class ilPCResources extends ilPageContent
             $ref_id = $ig_node->getAttribute("RefId");
             $log->debug(">>> Fix Item Group with import Ref Id:" . $ref_id);
             $log->debug("Ref Id Mapping:" . print_r($mappings, true));
-            if ($mappings[$ref_id] > 0) {
+            if (($mappings[$ref_id] ?? 0) > 0) {
                 $ig_node->setAttribute("RefId", $mappings[$ref_id]);
                 $changed = true;
             }
