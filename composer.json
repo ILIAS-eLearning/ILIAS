@@ -42,7 +42,7 @@
 		"ext-simplexml": "*",
 		"ext-libxml": "*",
 		"cweagans/composer-patches": "^1.7",
-		"filp/whoops": "^2.1.13",
+		"filp/whoops": "^2.15.1",
 		"monolog/monolog": "^2.3.5",
 		"technosophos/libris": "^2.0.2",
 		"ezyang/htmlpurifier": "^4.16",
