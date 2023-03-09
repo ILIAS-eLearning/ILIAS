@@ -963,22 +963,29 @@ export default class PageUI {
   {
     const pl = result.getPayload();
 
-    if(pl.renderedContent !== undefined)
-    {
-      $('#il_center_col').html(pl.renderedContent);
+    if (pl.error) {
+      this.showError(pl.error);
+    } else {
+      if (pl.renderedContent !== undefined) {
+        $('#il_center_col').html(pl.renderedContent);
 
-      this.log("PCMODEL---");
-      this.log(pl.pcModel);
-      il.COPagePres.initAudioVideo();
+        this.log("PCMODEL---");
+        this.log(pl.pcModel);
+        il.COPagePres.initAudioVideo();
 
-      for (const [key, value] of Object.entries(pl.pcModel)) {
-        this.model.addPCModelIfNotExists(key, value);
+        for (const [key, value] of Object.entries(pl.pcModel)) {
+          this.model.addPCModelIfNotExists(key, value);
+        }
+
+        //      il.IntLink.refresh();           // missing
+        this.reInit();
+        this.refreshUIFromModelState(this.model);
       }
-
-//      il.IntLink.refresh();           // missing
-      this.reInit();
-      this.refreshUIFromModelState(this.model);
     }
+  }
+
+  showError(error) {
+    this.pageModifier.displayError(error);
   }
 
   showDeleteConfirmation() {
