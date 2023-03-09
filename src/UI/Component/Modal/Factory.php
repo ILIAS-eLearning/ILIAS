@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Modal;
 
@@ -156,7 +156,8 @@ interface Factory
      *     that has a purely descriptive nature and does not offer interaction.
      *   composition: >
      *     A Lightbox modal consists of one or multiple lightbox pages representing the text or media together
-     *     with a title.
+     *     with a title. The Lightbox uses a dark scheme if there is one or more image pages and a bright scheme if
+     *     there are only text pages.
      *   effect: >
      *     Lightbox modals are activated by clicking the full view glyphicon,
      *     the title of the object, or it's thumbnail.
