@@ -44,12 +44,12 @@ class ContactToastProvider extends AbstractToastProvider
             true,
             0,
             self::NOTIFICATION_TYPE
-        ) as $invitation) {
+        ) as $contact_request_info) {
             $toast = $this->getDefaultToast(
-                $invitation->getObject()->title,
+                $contact_request_info->getObject()->title,
                 $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::CADM, 'buddysystem_request')
-            )->withDescription($invitation->getObject()->shortDescription);
-            foreach ($invitation->getObject()->links as $link) {
+            )->withDescription($contact_request_info->getObject()->shortDescription);
+            foreach ($contact_request_info->getObject()->links as $link) {
                 $toast = $toast->withAdditionalLink(
                     $this->dic->ui()->factory()->link()->standard(
                         $link->getTitle(),
