@@ -136,7 +136,7 @@ class ilPortfolioPage extends ilPageObject
     public function update(
         bool $a_validate = true,
         bool $a_no_history = false
-    ): bool {
+    ) {
         $ilDB = $this->db;
 
         $id = $this->getId();
@@ -148,8 +148,7 @@ class ilPortfolioPage extends ilPageObject
                 array("id" => array("integer", $id))
             );
 
-            parent::update($a_validate, $a_no_history);
-            return true;
+            return parent::update($a_validate, $a_no_history);
         }
         return false;
     }

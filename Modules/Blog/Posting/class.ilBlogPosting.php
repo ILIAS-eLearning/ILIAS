@@ -146,7 +146,7 @@ class ilBlogPosting extends ilPageObject
         bool $a_no_history = false,
         bool $a_notify = true,
         string $a_notify_action = "update"
-    ): bool {
+    ) {
         $ilDB = $this->db;
 
         // blog_id, author and created cannot be changed
@@ -161,13 +161,13 @@ class ilBlogPosting extends ilPageObject
             " WHERE id = " . $ilDB->quote($this->getId(), "integer");
         $ilDB->manipulate($query);
 
-        parent::update($a_validate, $a_no_history);
+        $ret = parent::update($a_validate, $a_no_history);
 
         if ($a_notify && $this->getActive()) {
             ilObjBlog::sendNotification($a_notify_action, $this->blog_node_is_wsp, $this->blog_node_id, $this->getId());
         }
 
-        return true;
+        return $ret;
     }
 
     /**
