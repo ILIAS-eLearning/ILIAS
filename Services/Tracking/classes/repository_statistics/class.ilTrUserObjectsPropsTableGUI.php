@@ -178,7 +178,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
             ilUtil::stripSlashes($this->getLimit()),
             $this->filter,
             $additional_fields,
-            $this->filter["view_mode"]
+            $this->filter["view_mode"] ?? false
         );
 
         if (count($tr_data["set"]) == 0 && $this->getOffset() > 0) {
@@ -193,13 +193,13 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                 ilUtil::stripSlashes($this->getLimit()),
                 $this->filter,
                 $additional_fields,
-                $this->filter["view_mode"]
+                $this->filter["view_mode"] ?? false
             );
         }
 
         // #13807
         foreach ($tr_data["set"] as $idx => $row) {
-            if ($row["ref_id"] &&
+            if (($row["ref_id"] ?? 0) &&
                 !ilLearningProgressAccess::checkPermission(
                     'read_learning_progress',
                     $row['ref_id']
@@ -290,11 +290,11 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 
         foreach ($this->getSelectedColumns() as $c) {
             if (!(bool) ($a_set["privacy_conflict"] ?? null)) {
-                $val = (trim($a_set[$c]) == "")
+                $val = (trim(($a_set[$c] ?? '')) == "")
                     ? " "
                     : $a_set[$c];
 
-                if ($a_set[$c] != "" || $c == "status") {
+                if (($a_set[$c] ?? '') != "" || $c == "status") {
                     switch ($c) {
                         case "first_access":
                             $val = ilDatePresentation::formatDate(
@@ -314,7 +314,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                         case "status":
                             $val = $icons->renderIconForStatus($a_set[$c] ?? ilLPStatusIcons::ICON_VARIANT_LONG);
 
-                            if ($a_set["ref_id"] &&
+                            if (($a_set["ref_id"] ?? 0) &&
                                 $a_set["type"] != "lobj" &&
                                 $a_set["type"] != "sco" &&
                                 $a_set["type"] != "st" &&
@@ -485,7 +485,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         }
 
         // #16453 / #17163
-        if ($a_set['ref_id']) {
+        if (($a_set['ref_id'] ?? 0)) {
             $path = new ilPathGUI();
             $path = $path->getPath($this->ref_id, $a_set['ref_id']);
             if ($path) {
@@ -497,7 +497,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         }
 
         // #13807 / #17069
-        if ($a_set["ref_id"] &&
+        if (($a_set["ref_id"] ?? 0) &&
             ilLearningProgressAccess::checkPermission(
                 'edit_learning_progress',
                 $a_set['ref_id']
