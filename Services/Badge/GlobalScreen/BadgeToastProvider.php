@@ -44,13 +44,12 @@ class BadgeToastProvider extends AbstractToastProvider
             true,
             0,
             self::NOTIFICATION_TYPE
-        ) as $invitation) {
+        ) as $badge_issued_info) {
             $toast = $this->getDefaultToast(
-                $invitation->getObject()->title,
+                $badge_issued_info->getObject()->title,
                 $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::BDGA, 'badge')
-            )->withDescription($invitation->getObject()->shortDescription);
-            foreach ($invitation->getObject()->links as $link) {
-
+            )->withDescription($badge_issued_info->getObject()->shortDescription);
+            foreach ($badge_issued_info->getObject()->links as $link) {
                 $toast = $toast->withAdditionalLink(
                     $this->dic->ui()->factory()->link()->standard(
                         $link->getTitle(),
