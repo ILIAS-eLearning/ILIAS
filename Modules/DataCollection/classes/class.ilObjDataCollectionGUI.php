@@ -524,7 +524,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $dataCollectionTemplate = $this->tpl;
 
         $refId = $this->object->getRefId();
-        if ($this->dclAccess->hasEditPermission($refId) === false) {
+        if ($this->dclAccess->hasWritePermission($refId) === false) {
             $this->dclUi->displayErrorMessage(
                 $this->lng->txt("msg_no_perm_write")
             );
