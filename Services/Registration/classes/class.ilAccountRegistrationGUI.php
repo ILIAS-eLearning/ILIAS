@@ -92,7 +92,7 @@ class ilAccountRegistrationGUI
                 $tpl = $this->displayForm();
         }
 
-        $this->tpl->setPermanentLink('usr', 0, 'registration');
+        $this->tpl->setPermanentLink('usr', null, 'registration');
         ilStartUpGUI::printToGlobalTemplate($tpl);
     }
 
