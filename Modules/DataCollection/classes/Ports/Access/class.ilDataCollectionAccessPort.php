@@ -26,7 +26,7 @@ interface ilDataCollectionAccessPort
 
     public function hasWritePermission(int $refId): bool;
 
-    public function hasEditPermission(int $refId): bool;
+    public function hasEditPermissionPermission(int $refId): bool;
 
     public function hasVisiblePermission(int $refId): bool;
 }

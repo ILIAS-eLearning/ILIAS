@@ -49,7 +49,7 @@ class ilDataCollectionAccessAdapter implements ilDataCollectionAccessPort
         return $this->ilAccess->checkAccess('write', "", $refId);
     }
 
-    public function hasEditPermission(int $refId): bool
+    public function hasEditPermissionPermission(int $refId): bool
     {
         return $this->ilAccess->checkAccess('edit_permission', "", $refId);
     }
