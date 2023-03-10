@@ -109,8 +109,6 @@ class assOrderingHorizontalExport extends assQuestionExport
 
         $this->addGenericFeedback($a_xml_writer);
 
-        $this->addAnswerSpecificFeedback($a_xml_writer, $this->object->feedbackOBJ->getAnswerOptionsByAnswerIndex());
-
         $a_xml_writer = $this->addSolutionHints($a_xml_writer);
 
         $a_xml_writer->xmlEndTag("item");
