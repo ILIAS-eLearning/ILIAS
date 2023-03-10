@@ -294,6 +294,7 @@ class ilOpenIdConnectSettingsGUI
             $this->lng->txt('auth_oidc_settings_logout_scope_local'),
             (string) ilOpenIdConnectSettings::LOGOUT_SCOPE_LOCAL
         );
+        $ilias_scope->setInfo($this->lng->txt('auth_oidc_settings_logout_scope_local_info'));
         $logout_scope->addOption($ilias_scope);
 
         $form->addItem($logout_scope);
@@ -407,7 +408,6 @@ class ilOpenIdConnectSettingsGUI
                         'failure',
                         sprintf($this->lng->txt('auth_oidc_settings_discovery_error'), $validation_result[1])
                     );
-
                 }
                 $form->setValuesByPost();
                 $this->settings($form);
