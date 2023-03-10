@@ -31,13 +31,8 @@ use ilObjUser;
  */
 class Conversation
 {
-    private ilDBInterface $db;
-    protected ilObjUser $user;
-
-    public function __construct(ilDBInterface $db, ilObjUser $user)
+    public function __construct(private readonly ilDBInterface $db, protected ilObjUser $user)
     {
-        $this->db = $db;
-        $this->user = $user;
     }
 
     /**
@@ -58,7 +53,7 @@ class Conversation
         );
 
         while ($row = $this->db->fetchAssoc($res)) {
-            $participants = json_decode($row['participants'], true, 512, JSON_THROW_ON_ERROR);
+            $participants = json_decode((string) $row['participants'], true, 512, JSON_THROW_ON_ERROR);
             $participantIds = array_filter(array_map(static function ($user): int {
                 if (is_array($user) && isset($user['id'])) {
                     return (int) $user['id'];

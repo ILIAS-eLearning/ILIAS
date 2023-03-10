@@ -26,15 +26,13 @@ namespace ILIAS\OnScreenChat\DTO;
  */
 class ConversationDto
 {
-    private string $id;
     private bool $isGroup = false;
     /** @var int[] */
     private array $subscriberUsrIds = [];
     private MessageDto $lastMessage;
 
-    public function __construct(string $id)
+    public function __construct(private string $id)
     {
-        $this->id = $id;
         $this->lastMessage = new MessageDto('', $this);
     }
 

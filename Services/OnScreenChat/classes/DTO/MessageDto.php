@@ -26,16 +26,12 @@ namespace ILIAS\OnScreenChat\DTO;
  */
 class MessageDto
 {
-    private string $id;
-    private ConversationDto $conversation;
     private int $createdTimestamp;
     private int $authorUsrId = 0;
     private string $message = '';
 
-    public function __construct(string $id, ConversationDto $conversation)
+    public function __construct(private string $id, private ConversationDto $conversation)
     {
-        $this->id = $id;
-        $this->conversation = $conversation;
         $this->createdTimestamp = time();
     }
 

@@ -44,8 +44,8 @@ use ILIAS\UI\Component\MessageBox\MessageBox;
  */
 class OnScreenChatProvider extends AbstractStaticMainMenuProvider
 {
-    private Conversation $conversationRepo;
-    private Subscriber $subscriberRepo;
+    private readonly Conversation $conversationRepo;
+    private readonly Subscriber $subscriberRepo;
 
     public function __construct(
         Container $dic,
