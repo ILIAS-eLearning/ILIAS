@@ -694,6 +694,18 @@ class ilDclBaseFieldModel
 
 
     /**
+     * check if calculated input, e.g. of formula field, is valid
+     *
+     * @param      $value
+     * @param null $record_id
+     */
+    public function checkValidityOfValue($value, $record_id = null)
+    {
+        $this->checkValidity($value, $record_id);
+    }
+
+
+    /**
      * Check if input is valid
      *
      * @param      $value
@@ -711,6 +723,7 @@ class ilDclBaseFieldModel
 
         if ($this->isUnique()) {
             $table = ilDclCache::getTableCache($this->getTableId());
+            // compare the content of the actual formula field with the content of the formula field of all other records
             foreach ($table->getRecords() as $record) {
                 if ($this->normalizeValue($record->getRecordFieldValue($this->getId())) == $this->normalizeValue($value) && ($record->getId() != $record_id || $record_id == 0)) {
                     throw new ilDclInputException(ilDclInputException::UNIQUE_EXCEPTION);
