@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\Notifications\Model;
+declare(strict_types=1);
 
-use ilNotification;
-use ilObjUser;
+namespace ILIAS\Notifications\Model;
 
 /**
  * @author Jan Posselt <jposselt@databay.de>
@@ -29,19 +26,14 @@ use ilObjUser;
 class ilNotificationLink
 {
     /**
-     * @var string|ilNotificationParameter
+     * @param string|ilNotificationParameter $title
      */
-    private $title;
-    private string $url;
-
-    public function __construct($title, string $url)
+    public function __construct(private $title, private string $url)
     {
-        $this->title = $title;
-        $this->url = $url;
     }
 
     /**
-     * @return  string|ilNotificationParameter
+     * @return string|ilNotificationParameter
      */
     public function getTitle()
     {

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,12 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\DI\Container;
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\GlobalScreen\Scope\Toast\Collector\ToastCollector;
 use ILIAS\Notifications\ilNotificationDatabaseHandler;
 use ILIAS\Notifications\ilNotificationHandler;
-use ILIAS\Notifications\ilNotificationOSDHandler;
 use ILIAS\Notifications\ilNotificationSettingsTable;
 
 /**
@@ -31,12 +29,13 @@ use ILIAS\Notifications\ilNotificationSettingsTable;
  */
 class ilNotificationGUI implements ilCtrlBaseClassInterface
 {
+    /** @var array<string, list<ilNotificationHandler>> */
     private array $handler = [];
-    private Container $dic;
-    private ilObjUser $user;
-    private ilGlobalTemplateInterface $template;
-    private ilCtrlInterface $controller;
-    private ilLanguage $language;
+    private readonly Container $dic;
+    private readonly ilObjUser $user;
+    private readonly ilGlobalTemplateInterface $template;
+    private readonly ilCtrlInterface $controller;
+    private readonly ilLanguage $language;
 
     public function __construct(
         ?ilObjUser $user = null,
@@ -72,11 +71,6 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
         $this->language = $language;
     }
 
-    public static function _forwards(): array
-    {
-        return [];
-    }
-
     public function executeCommand(): void
     {
         if (!$this->controller->getCmd()) {
@@ -88,18 +82,26 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
     }
 
     /**
-     * @return mixed
+     * @return list<ilNotificationHandler>|null
      */
-    public function getHandler(string $type)
+    public function getHandler(string $type): ?array
     {
-        return $this->handler[$type];
+        return $this->handler[$type] ?? null;
     }
 
+    /**
+     * @param list<string> $types
+     * @return array<string, array<string, mixed>>
+     */
     private function getAvailableTypes(array $types = []): array
     {
         return ilNotificationDatabaseHandler::getAvailableTypes($types);
     }
 
+    /**
+     * @param list<string> $types
+     * @return array<string, array<string, mixed>>
+     */
     private function getAvailableChannels(array $types = []): array
     {
         return ilNotificationDatabaseHandler::getAvailableChannels($types);
@@ -108,6 +110,7 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
     public function getOSDNotificationsObject(): void
     {
         ilSession::enableWebAccessWithoutSession(true);
+
         $toasts = $this->dic->globalScreen()->collector()->toasts()->getToasts();
 
         $this->dic->http()->saveResponse(
@@ -122,7 +125,7 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
 
     public function addHandler(string $channel, ilNotificationHandler $handler): void
     {
-        if (!array_key_exists($channel, $this->handler) || !is_array($this->handler[$channel])) {
+        if (!array_key_exists($channel, $this->handler)) {
             $this->handler[$channel] = [];
         }
 

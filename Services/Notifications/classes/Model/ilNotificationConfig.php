@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,25 +16,24 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Notifications\Model;
 
 use ILIAS\Notifications\ilNotificationSystem;
-use ilNotification;
 use ilObjUser;
+use stdClass;
 
 /**
  * @author Jan Posselt <jposselt@databay.de>
  */
 class ilNotificationConfig
 {
-    public const TTL_LONG = 1800;
-    public const TTL_SHORT = 120;
-    public const DEFAULT_TTS = 5;
+    final public const TTL_LONG = 1800;
+    final public const TTL_SHORT = 120;
+    final public const DEFAULT_TTS = 5;
 
-    private string $type;
-    /**
-     * @var ilNotificationLink[]
-     */
+    /** @var list<ilNotificationLink> */
     private array $links = [];
     private ilNotificationParameter $title;
     private string $iconPath;
@@ -45,11 +42,11 @@ class ilNotificationConfig
     private bool $disableAfterDelivery = false;
     private int $validForSeconds = 0;
     protected int $visibleForSeconds = 0;
+    /** @var array<string, array<string, string>> */
     private array $handlerParams = [];
 
-    public function __construct(string $type)
+    public function __construct(private readonly string $type)
     {
-        $this->type = $type;
     }
 
     public function getType(): string
@@ -68,7 +65,7 @@ class ilNotificationConfig
     }
 
     /**
-     * @param ilNotificationLink[] $links
+     * @param list<ilNotificationLink> $links
      */
     public function setLinks(array $links): void
     {
@@ -76,7 +73,7 @@ class ilNotificationConfig
     }
 
     /**
-     * @return ilNotificationLink[]
+     * @return list<ilNotificationLink>
      */
     public function getLinks(): array
     {
@@ -94,7 +91,7 @@ class ilNotificationConfig
     }
 
     /**
-     * @param string[]  $parameters
+     * @param array<string, string> $parameters
      */
     public function setTitleVar(string $name, array $parameters = [], string $language_module = 'notification'): void
     {
@@ -107,10 +104,13 @@ class ilNotificationConfig
     }
 
     /**
-     * @param string[]  $parameters
+     * @param array<string, string> $parameters
      */
-    public function setShortDescriptionVar(string $name, array $parameters = [], string $language_module = 'notification'): void
-    {
+    public function setShortDescriptionVar(
+        string $name,
+        array $parameters = [],
+        string $language_module = 'notification'
+    ): void {
         $this->short_description = new ilNotificationParameter($name, $parameters, $language_module);
     }
 
@@ -120,10 +120,13 @@ class ilNotificationConfig
     }
 
     /**
-     * @param string[]  $parameters
+     * @param array<string, string> $parameters
      */
-    public function setLongDescriptionVar(string $name, array $parameters = [], string $language_module = 'notification'): void
-    {
+    public function setLongDescriptionVar(
+        string $name,
+        array $parameters = [],
+        string $language_module = 'notification'
+    ): void {
         $this->long_description = new ilNotificationParameter($name, $parameters, $language_module);
     }
 
@@ -187,7 +190,7 @@ class ilNotificationConfig
     }
 
     /**
-     * @param int[] $recipients
+     * @param list<int> $recipients
      */
     final public function notifyByUsers(array $recipients, bool $processAsync = false): void
     {
@@ -196,7 +199,7 @@ class ilNotificationConfig
         $this->afterSendToUsers();
     }
 
-    final public function notifyByListeners(int $ref_id, $processAsync = false): void
+    final public function notifyByListeners(int $ref_id, bool $processAsync = false): void
     {
         $this->beforeSendToListeners();
         ilNotificationSystem::sendNotificationToListeners($this, $ref_id, $processAsync);
@@ -204,13 +207,16 @@ class ilNotificationConfig
     }
 
     /**
-     * @param string[] $roles
+     * @param list<int> $roles
      */
     final public function notifyByRoles(array $roles, bool $processAsync = false): void
     {
         ilNotificationSystem::sendNotificationToRoles($this, $roles, $processAsync);
     }
 
+    /**
+     * @param array<string, stdClass> $languageVars
+     */
     public function getUserInstance(ilObjUser $user, array $languageVars, string $defaultLanguage): ilNotificationObject
     {
         $notificationObject = new ilNotificationObject($this, $user);
@@ -283,6 +289,9 @@ class ilNotificationConfig
         }
     }
 
+    /**
+     * @return array<string, array<string, string>>
+     */
     public function getHandlerParams(): array
     {
         return $this->handlerParams;
