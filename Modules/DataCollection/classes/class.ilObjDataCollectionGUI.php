@@ -504,7 +504,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         }
 
         // edit permissions
-        if ($this->dclAccess->hasEditPermission($refId) === true) {
+        if ($this->dclAccess->hasEditPermissionPermission($refId) === true) {
             //list permissions
             $this->addTab(self::TAB_LIST_PERMISSIONS, $this->dclEndPoint->getListPermissionsLink());
         }
