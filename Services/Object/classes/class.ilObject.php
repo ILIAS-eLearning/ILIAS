@@ -64,6 +64,8 @@ class ilObject
     protected string $import_id = "";
     protected bool $register = false;	// registering required for object? set to true to implement a subscription interface
 
+    private bool $process_auto_reating = false;
+
 
     /**
     * @var array contains all child objects of current object
@@ -135,6 +137,14 @@ class ilObject
         return ($this->call_by_reference) ? true : $this->referenced;
     }
 
+    /**
+     *
+     * @deprecated: This function will be removed asap.
+     */
+    public function processAutoRating(): void
+    {
+        $this->process_auto_reating = true;
+    }
 
     public function read(): void
     {
@@ -1797,7 +1807,7 @@ class ilObject
 
     protected function handleAutoRating(): void
     {
-        if ($this->getRefId() !== 0
+        if ($this->process_auto_reating
             && $this->hasAutoRating()
             && method_exists($this, "setRating")
         ) {

@@ -826,6 +826,7 @@ class ilObjectGUI
             $newObj->setType($this->requested_new_type);
             $newObj->setTitle($form->getInput("title"));
             $newObj->setDescription($form->getInput("desc"));
+            $newObj->processAutoRating();
             $newObj->create();
 
             $this->putObjectInTree($newObj);
