@@ -1742,7 +1742,7 @@ class ilTable2GUI extends ilTableGUI
     /**
      * Standard Version of Fill Row. Most likely to
      * be overwritten by derived class.
-     * @param array $a_set data array
+     * @param array<string, mixed> $a_set data array
      */
     protected function fillRow(array $a_set): void
     {
