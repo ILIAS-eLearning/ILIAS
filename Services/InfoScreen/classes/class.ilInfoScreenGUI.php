@@ -483,7 +483,7 @@ class ilInfoScreenGUI
                 if (ilECSServerSettings::getInstance()->activeServerExists()) {
                     $this->addProperty(
                         $lng->txt("object_id"),
-                        $a_obj->getId()
+                        (string) $a_obj->getId()
                     );
                 }
 
