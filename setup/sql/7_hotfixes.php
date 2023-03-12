@@ -1664,3 +1664,12 @@ $DIC->database()->modifyTableColumn("object_translation", "title", [
     "notnull" => false
 ]);
 ?>
+<#95>
+<?php
+if (!$ilDB->indexExistsByFields('il_dcl_field_prop', array('id', 'field_id'))) {
+    $ilDB->addIndex('il_dcl_field_prop', array('id', 'field_id'), 'i1');
+}
+if (!$ilDB->indexExistsByFields('il_dcl_tview_set', array('tableview_id'))) {
+    $ilDB->addIndex('il_dcl_tview_set', array('tableview_id'), 'i1');
+}
+?>
