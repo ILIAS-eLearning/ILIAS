@@ -257,7 +257,6 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $tpl->setVariable('SAVE', $this->lng->txt('save'));
         $tpl->setVariable('CANCEL', $this->lng->txt('cancel'));
         $tag_input = new ilTagInputGUI();
-        $tag_input->setTypeAhead(true);
         $tag_input->setPostVar('taggable');
         $tag_input->setJsSelfInit(false);
         $tag_input->setTypeAheadMinLength(1);
