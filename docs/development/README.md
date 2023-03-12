@@ -15,7 +15,7 @@ A general overview on our processes can be found in the [development guide](http
 
 ## Coding
 
-- [GIT introduction](https://docu.ilias.de/goto_docu_pg_15604_42.html)
+- [Git introduction](https://docu.ilias.de/goto_docu_pg_15604_42.html)
 - [Git Hooks](git-hooks.md)
 - [Accessibility Guidelines](accessibility.md): Foster an accessible user interface
 - [Accessibility Process](accessibility-process.md): Describes, who is involved, which tools the community uses and
