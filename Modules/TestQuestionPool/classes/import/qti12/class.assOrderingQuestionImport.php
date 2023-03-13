@@ -210,6 +210,7 @@ class assOrderingQuestionImport extends assQuestionImport
         $this->object->setElementHeight($item->getMetadataEntry("element_height") ? (int) $item->getMetadataEntry("element_height") : null);
         $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $this->object->setShuffle($shuffle);
+        $this->object->setPoints(0);
         $this->object->saveQuestionDataToDb();
         $points = 0;
         $solanswers = array();
