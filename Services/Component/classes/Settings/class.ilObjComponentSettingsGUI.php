@@ -24,7 +24,7 @@ use ILIAS\UI\Renderer;
 /**
  * @ilCtrl_Calls ilObjComponentSettingsGUI: ilPermissionGUI
  */
-class ilObjComponentSettingsGUI extends ilObjectGUI
+class ilObjComponentSettingsGUI extends ilObjectGUI implements ilCtrlSecurityInterface
 {
     private const TYPE = 'cmps';
 
@@ -81,6 +81,21 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->renderer = $DIC->ui()->renderer();
 
         $this->lng->loadLanguageModule(self::TYPE);
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return [
+            self::CMD_UPDATE_PLUGIN,
+            self::CMD_ACTIVATE_PLUGIN,
+            self::CMD_DEACTIVATE_PLUGIN,
+            self::CMD_REFRESH_LANGUAGES,
+        ];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
     }
 
     public function executeCommand(): void
