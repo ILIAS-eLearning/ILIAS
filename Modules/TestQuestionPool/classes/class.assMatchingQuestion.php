@@ -398,7 +398,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $clone->setAuthor($author);
         }
         if ($owner) {
-            $clone->setOwner($owner);
+            $clone->setOwner((int) $owner);
         }
         if ($for_test) {
             $clone->saveToDb($original_id);
