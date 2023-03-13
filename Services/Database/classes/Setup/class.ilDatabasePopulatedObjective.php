@@ -71,6 +71,7 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
 
         $io->text("Default DB engine is $default");
 
+
         switch ($default) {
             case 'innodb':
                 $io->text("reading dump file, this may take a while...");
