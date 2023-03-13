@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,15 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Notifications\Repository;
 
-use ilDBInterface;
-use ILIAS\DI\Container;
-use ILIAS\Notifications\Model\ilNotificationConfig;
-use ILIAS\Notifications\Model\ilNotificationLink;
 use ILIAS\Notifications\Model\ilNotificationObject;
 use ILIAS\Notifications\Model\OSD\ilOSDNotificationObject;
-use ilLanguage;
 
 /**
  * @author Jan Posselt <jposselt@databay.de>
@@ -40,7 +35,7 @@ interface ilNotificationOSDRepositoryInterface
     public function ifOSDNotificationExistsById(int $id): bool;
 
     /**
-     * @return ilOSDNotificationObject[]
+     * @return list<ilOSDNotificationObject>
      */
     public function getOSDNotificationsByUser(int $user_id): array;
 

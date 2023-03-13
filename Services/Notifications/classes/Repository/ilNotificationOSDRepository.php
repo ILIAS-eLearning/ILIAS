@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,16 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Notifications\Repository;
 
 use ilDBInterface;
-use ILIAS\DI\Container;
 use ILIAS\Notifications\ilNotificationSetupHelper;
-use ILIAS\Notifications\Model\ilNotificationConfig;
 use ILIAS\Notifications\Model\ilNotificationLink;
 use ILIAS\Notifications\Model\ilNotificationObject;
 use ILIAS\Notifications\Model\OSD\ilOSDNotificationObject;
-use ilLanguage;
 use ilDBConstants;
 
 /**
@@ -38,7 +35,8 @@ class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterfac
     private const UNIQUE_TYPES = [
         'who_is_online'
     ];
-    private ilDBInterface $database;
+
+    private readonly ilDBInterface $database;
 
     public function __construct(?ilDBInterface $database = null)
     {
@@ -49,11 +47,16 @@ class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterfac
         $this->database = $database;
     }
 
+    private function getCurrentUnixTimestamp(): int
+    {
+        return time(); // Should be replace by the consumption of the `Clock` interface
+    }
+
     public function createOSDNotification(int $user_id, ilNotificationObject $object): ?ilOSDNotificationObject
     {
         $id = $this->database->nextId(ilNotificationSetupHelper::$tbl_notification_osd_handler);
         $base = $object->baseNotification;
-        $now = time();
+        $now = $this->getCurrentUnixTimestamp();
 
         $notification = new ilOSDNotificationObject(
             $id,
@@ -90,18 +93,18 @@ class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterfac
         $query = 'SELECT count(*) AS count FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE notification_osd_id = %s';
         $result = $this->database->queryF($query, [ilDBConstants::T_INTEGER], [$id]);
         $row = $this->database->fetchAssoc($result);
+
         return ((int) ($row['count'] ?? 0)) === 1;
     }
 
-    /**
-     * @return ilOSDNotificationObject[]
-     */
     public function getOSDNotificationsByUser(int $user_id, int $max_age_seconds = 0, string $type = ''): array
     {
-        $now = time();
+        $now = $this->getCurrentUnixTimestamp();
+
         if ($max_age_seconds === 0) {
             $max_age_seconds = $now;
         }
+
         $query =
             'SELECT * FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler .
             ' WHERE usr_id = %s AND (valid_until = 0 OR valid_until > %s) AND time_added > %s';
@@ -119,9 +122,15 @@ class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterfac
         $notifications = [];
 
         while ($row = $this->database->fetchAssoc($rset)) {
-            $object = unserialize($row['serialized'], ['allowed_classes' => [ilNotificationObject::class, ilNotificationLink::class]]);
+            $object = unserialize(
+                $row['serialized'],
+                ['allowed_classes' => [ilNotificationObject::class, ilNotificationLink::class]]
+            );
             if (isset($object->handlerParams[''], $object->handlerParams['osd'])) {
-                $object->handlerParams = ['general' => $object->handlerParams[''], 'osd' => $object->handlerParams['osd']];
+                $object->handlerParams = [
+                    'general' => $object->handlerParams[''],
+                    'osd' => $object->handlerParams['osd']
+                ];
             }
             $notification = new ilOSDNotificationObject(
                 (int) $row['notification_osd_id'],
@@ -145,6 +154,7 @@ class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterfac
             $query = 'DELETE FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE notification_osd_id = %s';
             return 1 === $this->database->manipulateF($query, [ilDBConstants::T_INTEGER], [$id]);
         }
+
         return false;
     }
 
