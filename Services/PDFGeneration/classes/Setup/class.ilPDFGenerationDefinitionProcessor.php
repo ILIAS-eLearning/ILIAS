@@ -20,12 +20,10 @@ declare(strict_types=1);
 
 class ilPDFGenerationDefinitionProcessor implements ilComponentDefinitionProcessor
 {
-    protected ilDBInterface $db;
     protected ?string $component = null;
 
-    public function __construct(ilDBInterface $db)
+    public function __construct(protected ilDBInterface $db)
     {
-        $this->db = $db;
     }
 
     public function purge(): void

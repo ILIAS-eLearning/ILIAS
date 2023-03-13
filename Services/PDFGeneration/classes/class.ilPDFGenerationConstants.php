@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 class ilPDFGenerationConstants
 {
-    public const HEADER_NONE = 0;
-    public const HEADER_TEXT = 1;
-    public const HEADER_HTML = 2;
+    final public const HEADER_NONE = 0;
+    final public const HEADER_TEXT = 1;
+    final public const HEADER_HTML = 2;
 
-    public const FOOTER_NONE = 0;
-    public const FOOTER_TEXT = 1;
-    public const FOOTER_HTML = 2;
+    final public const FOOTER_NONE = 0;
+    final public const FOOTER_TEXT = 1;
+    final public const FOOTER_HTML = 2;
 
     /**
      * @return array<string, string>

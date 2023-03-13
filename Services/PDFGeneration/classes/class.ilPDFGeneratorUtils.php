@@ -31,7 +31,7 @@ class ilPDFGeneratorUtils
             $map = self::getRendererMapForPurpose($service, $purpose);
             $renderer = self::getRendererInstance($map['selected']);
             $renderer->prepareGenerationRequest($service, $purpose);
-        } catch (Exception $e) {
+        } catch (Exception) {
             return;
         }
     }
@@ -64,9 +64,6 @@ class ilPDFGeneratorUtils
         }
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     */
     public static function setCheckedIfTrue(ilPropertyFormGUI $form): void
     {
         foreach ($form->getItems() as $item) {
@@ -163,7 +160,7 @@ class ilPDFGeneratorUtils
         }
 
         $row = $ilDB->fetchAssoc($result);
-        return json_decode($row['config'], true, 512, JSON_THROW_ON_ERROR);
+        return json_decode((string) $row['config'], true, 512, JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -242,8 +239,6 @@ class ilPDFGeneratorUtils
     }
 
     /**
-     * @param string $service
-     * @param string $purpose
      * @return array{selected: string, preferred: string}
      */
     public static function getRendererMapForPurpose(string $service, string $purpose): array

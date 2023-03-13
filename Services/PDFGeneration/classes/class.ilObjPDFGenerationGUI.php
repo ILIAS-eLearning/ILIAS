@@ -21,7 +21,7 @@ declare(strict_types=1);
 class ilObjPDFGenerationGUI extends ilObject2GUI
 {
     private string $active_tab = '';
-    private ilPDFGenerationRequest $pdfRequest;
+    private readonly ilPDFGenerationRequest $pdfRequest;
 
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
@@ -59,7 +59,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
                     $cmd = 'configForm';
                 }
 
-                if (strpos($cmd, 'saveandconf_selected_') === 0) {
+                if (str_starts_with($cmd, 'saveandconf_selected_')) {
                     $this->handleSaveAndConf(substr($cmd, 21));
                 } else {
                     $this->$cmd();
@@ -248,7 +248,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
      */
     public function getAdminTabs(): void
     {
-        if (strpos($this->ctrl->getCmd(), 'saveandconf') !== 0) {
+        if (!str_starts_with($this->ctrl->getCmd(), 'saveandconf')) {
             if ($this->checkPermissionBool('read')) {
                 $this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'view'), [], __CLASS__);
             }

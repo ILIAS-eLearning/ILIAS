@@ -20,13 +20,8 @@ declare(strict_types=1);
 
 class ilPDFGenerationRequest
 {
-    private ILIAS\Refinery\Factory $refinery;
-    private ILIAS\HTTP\GlobalHttpState $http;
-
-    public function __construct(\ILIAS\Refinery\Factory $refinery, \ILIAS\HTTP\GlobalHttpState $http)
+    public function __construct(private readonly \ILIAS\Refinery\Factory $refinery, private readonly \ILIAS\HTTP\GlobalHttpState $http)
     {
-        $this->refinery = $refinery;
-        $this->http = $http;
     }
 
     public function securedString(string $parameter, bool $cast_null_to_string = true): string

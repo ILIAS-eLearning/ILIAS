@@ -105,7 +105,6 @@ class ilPDFCompInstaller
     }
 
     /**
-     * @param string $service
      * @return string[]
      */
     public static function getPurposesByService(string $service): array

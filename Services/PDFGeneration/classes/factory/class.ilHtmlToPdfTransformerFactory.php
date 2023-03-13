@@ -84,7 +84,7 @@ class ilHtmlToPdfTransformerFactory
 
     protected function createOneFileFromArray(array $src): string
     {
-        $tmp_file = dirname(reset($src)) . '/complete_pages_overview.html';
+        $tmp_file = dirname((string) reset($src)) . '/complete_pages_overview.html';
         $html_content = '';
         foreach ($src as $filename) {
             if (file_exists($filename)) {

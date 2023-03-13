@@ -25,11 +25,8 @@ class ilPDFGenerationSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
 
-    protected Refinery\Factory $refinery;
-
-    public function __construct(Refinery\Factory $refinery)
+    public function __construct(protected Refinery\Factory $refinery)
     {
-        $this->refinery = $refinery;
     }
 
     public function hasConfig(): bool

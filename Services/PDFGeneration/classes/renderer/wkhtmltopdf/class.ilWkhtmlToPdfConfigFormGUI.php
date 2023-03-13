@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 class ilWkhtmlToPdfConfigFormGUI
 {
-    private ilLanguage $lng;
-    private ilGlobalTemplateInterface $main_tpl;
-    private ilPDFGenerationRequest $request;
+    private readonly ilLanguage $lng;
+    private readonly ilGlobalTemplateInterface $main_tpl;
+    private readonly ilPDFGenerationRequest $request;
 
     public function __construct()
     {
@@ -388,7 +388,6 @@ class ilWkhtmlToPdfConfigFormGUI
     }
 
     /**
-     * @param ilPropertyFormGUI $form
      * @return array<string, mixed>
      */
     public function getConfigFromForm(ilPropertyFormGUI $form): array

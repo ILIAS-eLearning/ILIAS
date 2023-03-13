@@ -119,10 +119,7 @@ class ilWkhtmlToPdfConfig
     }
 
     /**
-     * @param string $function
-     * @param string $key
      * @param array<string, mixed> $config
-     * @return void
      */
     protected function setKeyIfExists(string $function, string $key, array $config): void
     {

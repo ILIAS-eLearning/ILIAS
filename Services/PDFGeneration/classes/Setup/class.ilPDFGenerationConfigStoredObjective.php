@@ -22,11 +22,8 @@ use ILIAS\Setup;
 
 class ilPDFGenerationConfigStoredObjective implements Setup\Objective
 {
-    protected ilPDFGenerationSetupConfig $config;
-
-    public function __construct(ilPDFGenerationSetupConfig $config)
+    public function __construct(protected ilPDFGenerationSetupConfig $config)
     {
-        $this->config = $config;
     }
 
     public function getHash(): string
