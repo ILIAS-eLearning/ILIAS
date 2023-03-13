@@ -416,6 +416,9 @@
 			},
 			"imsglobal/lti": {
 				"ILIAS LTI Patches": "./libs/composer/patches/lti.patch"
+			},
+			"symfony/http-kernel": {
+				"ILIAS Symfony Http-Kernel Patches": "./libs/composer/patches/symfony_httpkernel.patch"
 			}
 		}
 	}
