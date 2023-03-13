@@ -3211,6 +3211,7 @@ abstract class assQuestion
 
         if ($this->isAdditionalContentEditingModePageObject()) {
             foreach ($hintIds as $originalHintId => $duplicateHintId) {
+                $this->ensureHintPageObjectExists($originalHintId);
                 $originalPageObject = new ilAssHintPage($originalHintId);
                 $originalXML = $originalPageObject->getXMLContent();
 
@@ -3268,29 +3269,21 @@ abstract class assQuestion
         $this->duplicateSkillAssignments($srcParentId, $srcQuestionId, $trgParentId, $trgQuestionId);
     }
 
-    /**
-     * returns boolean wether the question
-     * is answered during test pass or not
-     *
-     * method can be overwritten in derived classes,
-     * but be aware of also overwrite the method
-     * assQuestion::isObligationPossible()
-     *
-     */
+    public function ensureHintPageObjectExists($pageObjectId): void
+    {
+        if (!ilAssHintPage::_exists('qht', $pageObjectId)) {
+            $pageObject = new ilAssHintPage();
+            $pageObject->setParentId($this->getId());
+            $pageObject->setId($pageObjectId);
+            $pageObject->createFromXML();
+        }
+    }
+
     public function isAnswered(int $active_id, int $pass): bool
     {
         return true;
     }
 
-    /**
-     * returns boolean wether it is possible to set
-     * this question type as obligatory or not
-     * considering the current question configuration
-     *
-     * method can be overwritten in derived classes,
-     * but be aware of also overwrite the method
-     * assQuestion::isAnswered()
-     */
     public static function isObligationPossible(int $questionId): bool
     {
         return false;
