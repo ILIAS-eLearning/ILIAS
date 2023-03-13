@@ -26,7 +26,7 @@
 
 class ilTestInviteGroupsTableGUI extends ilTable2GUI
 {
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(ilObjTestGUI $a_parent_obj, string $a_parent_cmd)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -36,7 +36,6 @@ class ilTestInviteGroupsTableGUI extends ilTable2GUI
 
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
-        $this->counter = 1;
 
         $this->setFormName('invitegroups');
         $this->setStyle('table', 'fullwidth');
@@ -63,7 +62,7 @@ class ilTestInviteGroupsTableGUI extends ilTable2GUI
         $this->enable('select_all');
     }
 
-    public function fillRow(array $a_set): void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("GROUP_ID", $a_set['ref_id']);
         $this->tpl->setVariable("TITLE", $a_set['title']);
