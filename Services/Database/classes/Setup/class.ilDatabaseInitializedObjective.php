@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Setup;
 
@@ -52,6 +52,7 @@ class ilDatabaseInitializedObjective implements Setup\Objective
 
         $config = $environment->getConfigFor("database");
         return [
+            new ilDatabaseEnvironmentValidObjective(),
             new ilDatabasePopulatedObjective($config),
             new ilDatabaseConfigStoredObjective($config)
         ];
@@ -78,6 +79,7 @@ class ilDatabaseInitializedObjective implements Setup\Objective
                 "Database cannot be connected."
             );
         }
+
         return $environment->withResource(Setup\Environment::RESOURCE_DATABASE, $db);
     }
 
