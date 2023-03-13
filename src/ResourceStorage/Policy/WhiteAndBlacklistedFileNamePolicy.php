@@ -47,11 +47,15 @@ abstract class WhiteAndBlacklistedFileNamePolicy implements FileNamePolicy
 
     public function isValidExtension(string $extension): bool
     {
+        $extension = strtolower($extension);
+
         return in_array($extension, $this->whitelisted) && !in_array($extension, $this->blacklisted);
     }
 
     public function isBlockedExtension(string $extension): bool
     {
+        $extension = strtolower($extension);
+
         return in_array($extension, $this->blacklisted);
     }
 
