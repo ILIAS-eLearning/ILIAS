@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilVirusScannerSophos extends ilVirusScanner
 {
@@ -37,7 +37,7 @@ class ilVirusScannerSophos extends ilVirusScanner
         $a_filepath = realpath($file_path);
         $cmd = ilShellUtil::escapeShellCmd($this->scanCommand);
         $args = ilShellUtil::escapeShellArg(" " . $a_filepath . " ");
-        $cmd = $cmd .  " " . $args . " 2>&1";
+        $cmd = $cmd . " " . $args . " 2>&1";
         exec($cmd, $out, $ret);
         $this->scanResult = implode("\n", $out);
 

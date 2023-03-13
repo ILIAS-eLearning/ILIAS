@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilVirusScannerClamAV extends ilVirusScanner
 {
@@ -112,7 +112,7 @@ class ilVirusScannerClamAV extends ilVirusScanner
         chmod($file_path, $perm);
 
         $a_filepath = realpath($file_path);
-        if(file_exists($file_path)) {
+        if (file_exists($file_path)) {
             $args = ilShellUtil::escapeShellArg($file_path);
             $arguments = $this->buildScanCommandArguments($args) . " 2>&1";
             $cmd = ilShellUtil::escapeShellCmd($this->scanCommand);

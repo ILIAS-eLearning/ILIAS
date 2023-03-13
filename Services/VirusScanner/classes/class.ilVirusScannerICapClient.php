@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilVirusScannerICapClient extends ilVirusScanner
 {
@@ -52,7 +52,6 @@ class ilVirusScannerICapClient extends ilVirusScanner
                 if (is_array($virus_detected) && count($virus_detected) > 0) {
                     $return_string = sprintf('Virus detected in %s', $file_path);
                     $this->log->warning($return_string);
-
                 } elseif (is_array($timeout) && count($timeout) > 0) {
                     $return_string = 'Cannot connect to icap server.';
                     $this->log->warning($return_string);
