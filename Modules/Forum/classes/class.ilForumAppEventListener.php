@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Forum listener. Listens to events of other components.
@@ -359,7 +359,7 @@ class ilForumAppEventListener implements ilAppEventListener
                                     'Notification delivery via cron job is enabled: ' .
                                     'Storing posting data for deferred "Posting/Thread Deleted" notifications ...'
                                 );
-    
+
                                 if (!$thread_deleted ||
                                     (isset($a_parameter['num_visible_active_posts']) && $a_parameter['num_visible_active_posts']) > 0) {
                                     $delObj = new ilForumPostsDeleted($provider);

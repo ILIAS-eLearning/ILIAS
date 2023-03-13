@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class Forum
@@ -543,7 +543,7 @@ class ilForum
                 $row = $this->db->fetchAssoc($res);
                 $num_visible_active_posts = (int) ($row['cnt'] ?? 0);
             }
-            
+
             $this->event->raise(
                 'Modules/Forum',
                 'beforePostDeletion',
