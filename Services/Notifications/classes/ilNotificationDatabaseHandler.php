@@ -46,10 +46,6 @@ class ilNotificationDatabaseHandler
         $lang_var_to_type_dict = [];
 
         foreach ($vars as $type => $var) {
-            if (!($var instanceof ilNotificationParameter)) {
-                continue;
-            }
-
             $where[] = sprintf(
                 'module = %s AND identifier = %s',
                 $ilDB->quote($var->getLanguageModule()),

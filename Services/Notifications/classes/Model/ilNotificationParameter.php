@@ -20,9 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Notifications\Model;
 
-use ilNotification;
-use ilObjUser;
-
 /**
  * description of a localized parameter
  * this information is used locate translations while processing notifications

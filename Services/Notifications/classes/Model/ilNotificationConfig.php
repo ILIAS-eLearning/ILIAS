@@ -147,7 +147,7 @@ class ilNotificationConfig
         ];
 
         foreach ($this->links as $id => $link) {
-            $params['link_' . $id] = $link->getTitle();
+            $params['link_' . $id] = $link->getTitleParameter();
         }
 
         return $params;
@@ -256,9 +256,9 @@ class ilNotificationConfig
 
         $process_links = [];
         foreach ($this->links as $link) {
-            $link_title = $link->getTitle()->getName();
-            if (isset($languageVars[$link->getTitle()->getName()])) {
-                $var = $languageVars[$link->getTitle()->getName()]->lang;
+            $link_title = $link->getTitleParameter()->getName();
+            if (isset($languageVars[$link->getTitleParameter()->getName()])) {
+                $var = $languageVars[$link->getTitleParameter()->getName()]->lang;
                 if (isset($var[$user->getLanguage()])) {
                     $link_title = $var[$user->getLanguage()];
                 } elseif (isset($var[$defaultLanguage])) {

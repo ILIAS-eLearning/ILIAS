@@ -25,27 +25,31 @@ namespace ILIAS\Notifications\Model;
  */
 class ilNotificationLink
 {
-    /**
-     * @param string|ilNotificationParameter $title
-     */
-    public function __construct(private $title, private string $url)
+    private string $title = '';
+
+    public function __construct(private ilNotificationParameter $title_parameter, private string $url)
     {
+        $this->title = $title_parameter->getName();
     }
 
-    /**
-     * @return string|ilNotificationParameter
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param string|ilNotificationParameter $title
-     */
-    public function setTitle($title): void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
+    }
+
+    public function getTitleParameter(): ilNotificationParameter
+    {
+        return $this->title_parameter;
+    }
+
+    public function setTitleParameter(ilNotificationParameter $title_parameter): void
+    {
+        $this->title_parameter = $title_parameter;
     }
 
     public function getUrl(): string
