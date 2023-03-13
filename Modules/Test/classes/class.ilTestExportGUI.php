@@ -129,7 +129,8 @@ class ilTestExportGUI extends ilExportGUI
             $archiveService->archivePassesByActives($allActivesPasses);
 
             $test_id = $this->obj->getId();
-            $archive_exp = new ilTestArchiver($test_id);
+            $test_ref = $this->obj->getRefId();
+            $archive_exp = new ilTestArchiver($test_id, $test_ref);
 
             $scoring = new ilTestScoring($this->obj);
             $best_solution = $scoring->calculateBestSolutionForTest();
