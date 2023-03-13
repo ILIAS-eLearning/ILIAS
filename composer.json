@@ -65,7 +65,7 @@
 		"ramsey/uuid": "4.4.0",
 		"enshrined/svg-sanitize": "^0.15.0",
 		"guzzlehttp/guzzle": "^7.0",
-		"simplesamlphp/simplesamlphp": "^1.19.4",
+		"simplesamlphp/simplesamlphp": "^1.19.8",
 		"seld/jsonlint": "^1.8",
 		"ext-xml": "*",
 		"jasig/phpcas": "^1.4"
@@ -342,10 +342,10 @@
 		},
 		"simplesamlphp/simplesamlphp" : {
 			"source": "https://github.com/simplesamlphp/simplesamlphp",
-			"used_version": "v1.19.3",
+			"used_version": "v1.19.8",
 			"added_by": "Michael Jansen <mjansen@databay.de>",
 			"wrapped_by": "\\ilSimpleSAMLphpWrapper and \\ilSimpleSAMLphplIdpDiscovery",
-			"last_update": "2021-12-12",
+			"last_update": "2023-03-13",
 			"last_update_by": "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
