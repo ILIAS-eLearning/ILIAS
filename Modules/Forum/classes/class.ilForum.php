@@ -548,7 +548,7 @@ class ilForum
                 $row = $this->db->fetchAssoc($res);
                 $num_visible_active_posts = (int) ($row['cnt'] ?? 0);
             }
-            
+
             $this->event->raise(
                 'Modules/Forum',
                 'beforePostDeletion',

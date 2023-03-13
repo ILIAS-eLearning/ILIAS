@@ -360,7 +360,7 @@ class ilForumAppEventListener implements ilAppEventListener
                                     'Notification delivery via cron job is enabled: ' .
                                     'Storing posting data for deferred "Posting/Thread Deleted" notifications ...'
                                 );
-    
+
                                 if (!$thread_deleted ||
                                     (isset($a_parameter['num_visible_active_posts']) && $a_parameter['num_visible_active_posts']) > 0) {
                                     $delObj = new ilForumPostsDeleted($provider);
