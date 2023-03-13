@@ -116,10 +116,11 @@ class ilTestExportRandomQuestionSet extends ilTestExport
                 'id' => $definition->getId(),
                 'ref_id' => $definition->getPoolRefId(),
                 'poolId' => $definition->getPoolId(),
+                'questAmount' => $definition->getQuestionAmount() ?? '',
                 'poolQuestCount' => $definition->getPoolQuestionCount(),
-                'questAmount' => $definition->getQuestionAmount(),
                 'position' => $definition->getSequencePosition()
             );
+
 
             // #21330
             $mappedTaxFilter = $definition->getMappedTaxonomyFilter();

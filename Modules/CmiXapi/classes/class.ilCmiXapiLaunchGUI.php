@@ -267,7 +267,7 @@ class ilCmiXapiLaunchGUI
         $oldSessionLaunchedTimestamp = '';
         $abandoned = false;
         // cmi5_session already exists?
-        if (!empty($oldSession)) {
+        if ($oldSession != null && !empty($oldSession)) {
             $oldSessionData = json_decode($tokenObject->getCmi5SessionData());
             $oldSessionLaunchedTimestamp = $oldSessionData->launchedTimestamp;
             $tokenObject->delete();
@@ -275,7 +275,7 @@ class ilCmiXapiLaunchGUI
             $tokenObject = ilCmiXapiAuthToken::getInstanceByToken($token);
             $lastStatement = $this->object->getLastStatement($oldSession);
             // should never be 'terminated', because terminated statement is sniffed from proxy -> token delete
-            if ($lastStatement[0]['statement']['verb']['id'] != ilCmiXapiVerbList::getInstance()->getVerbUri('terminated')) {
+            if (isset($lastStatement[0]['statement']['verb']['id']) && $lastStatement[0]['statement']['verb']['id'] != ilCmiXapiVerbList::getInstance()->getVerbUri('terminated')) {
                 $abandoned = true;
                 $start = new DateTime($oldSessionLaunchedTimestamp);
                 $end = new DateTime($lastStatement[0]['statement']['timestamp']);

@@ -3113,6 +3113,8 @@ cmix#:#conf_launch_mode_review_info#:#Diese Option soll es dem Benutzer ermögli
 cmix#:#conf_lrs_endpoint#:#Endpoint
 cmix#:#conf_lrs_key#:#Key / Login
 cmix#:#conf_lrs_secret#:#Secret / Passwort
+cmix#:#conf_mastery_score#:#Mastery Score
+cmix#:#conf_mastery_score_info#:#Dieser Wert wird zur Bestimmung der für das Bestehen erforderlichen Punkte dem cmi5 Lernmodul beim Start übergeben. Wird ein höherer (oder gleicher) Wert erzielt, soll das Lernmodul den Status 'passed' übermitteln.
 cmix#:#conf_new_window#:#Neues Fenster
 cmix#:#conf_new_window_info#:#Der Inhalt wird in einem neuen Fenster geöffnet. Beim Verlassen des Inhalts wird dieses Fenster geschlossen.
 cmix#:#conf_own_window#:#Gleiches Fenster
@@ -3149,6 +3151,8 @@ cmix#:#conf_privacy_setting_default#:#Standardeinstellungen, änderbar für Obje
 cmix#:#conf_privacy_setting_force#:#Die Einstellungen sind für Objekte nicht änderbar.
 cmix#:#conf_privacy_setting_info#:#Konfigurationsoptionen für die Datenschutzeinstellungen
 cmix#:#conf_remarks#:#Interne Kommentare
+cmix#:#conf_switch_to_review#:#In den Review-Modus wechseln
+cmix#:#conf_switch_to_review_info#:#Nachdem das cmi5 Lernmodul erfolgreich bearbeitet wurde (Status satisfied), wird das Lernmodul beim nächsten Aufruf im Review-Modus gestartet.
 cmix#:#conf_title#:#Titel
 cmix#:#conf_user_ident#:#Benutzeridentifikation
 cmix#:#conf_user_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist

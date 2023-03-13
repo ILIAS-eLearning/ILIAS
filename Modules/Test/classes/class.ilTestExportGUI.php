@@ -77,7 +77,6 @@ class ilTestExportGUI extends ilExportGUI
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
 
-        require_once 'Modules/Test/classes/class.ilTestExportFactory.php';
         $expFactory = new ilTestExportFactory($this->obj);
         $test_exp = $expFactory->getExporter('xml');
         $test_exp->setResultExportingEnabledForTestExport(true);
@@ -99,7 +98,6 @@ class ilTestExportGUI extends ilExportGUI
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
 
-        require_once 'Modules/Test/classes/class.ilTestExportFactory.php';
         $expFactory = new ilTestExportFactory($this->obj);
         $test_exp = $expFactory->getExporter('results');
         $test_exp->buildExportFile();
@@ -119,25 +117,21 @@ class ilTestExportGUI extends ilExportGUI
             // prepare generation before contents are processed (for mathjax)
             ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
 
-            require_once 'Modules/Test/classes/class.ilTestEvaluation.php';
             $evaluation = new ilTestEvaluation($ilDB, $this->obj->getTestId());
             $allActivesPasses = $evaluation->getAllActivesPasses();
 
-            require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
             $participantData = new ilTestParticipantData($ilDB, $lng);
             $participantData->setActiveIdsFilter(array_keys($allActivesPasses));
             $participantData->load($this->obj->getTestId());
 
-            require_once 'Modules/Test/classes/class.ilTestArchiveService.php';
             $archiveService = new ilTestArchiveService($this->obj);
             $archiveService->setParticipantData($participantData);
             $archiveService->archivePassesByActives($allActivesPasses);
 
-            include_once("./Modules/Test/classes/class.ilTestArchiver.php");
             $test_id = $this->obj->getId();
-            $archive_exp = new ilTestArchiver($test_id);
+            $test_ref = $this->obj->getRefId();
+            $archive_exp = new ilTestArchiver($test_id, $test_ref);
 
-            require_once './Modules/Test/classes/class.ilTestScoring.php';
             $scoring = new ilTestScoring($this->obj);
             $best_solution = $scoring->calculateBestSolutionForTest();
 
@@ -149,7 +143,6 @@ class ilTestExportGUI extends ilExportGUI
             $directory_name = realpath($tmpFileName);
             $file_name = $directory_name . DIRECTORY_SEPARATOR . 'Best_Solution.pdf';
 
-            require_once './Modules/Test/classes/class.ilTestPDFGenerator.php';
             $generator = new ilTestPDFGenerator();
             $generator->generatePDF($best_solution, ilTestPDFGenerator::PDF_OUTPUT_FILE, $file_name, PDF_USER_RESULT);
             $archive_exp->handInTestBestSolution($best_solution, $file_name);
@@ -305,7 +298,6 @@ class ilTestExportGUI extends ilExportGUI
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
 
-        require_once 'class.ilTestArchiver.php';
         $archiver = new ilTestArchiver($this->getParentGUI()->getTestObject()->getId());
         $archiveDir = $archiver->getZipExportDirectory();
 

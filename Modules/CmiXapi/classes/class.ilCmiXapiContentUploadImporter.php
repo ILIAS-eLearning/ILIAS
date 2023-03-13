@@ -356,10 +356,24 @@ class ilCmiXapiContentUploadImporter
 
         foreach ($xPath->query("//*[local-name()='au']") as $assignedUnitNode) {
             $relativeLaunchUrl = $xPath->query("//*[local-name()='url']", $assignedUnitNode)->item(0)->nodeValue;
-            $launchParameters = $xPath->query("//*[local-name()='launchParameters']", $assignedUnitNode)->item(0)->nodeValue;
-            $moveOn = trim($assignedUnitNode->getAttribute('moveOn'));
-            $entitlementKey = $xPath->query("//*[local-name()='entitlementKey']", $assignedUnitNode)->item(0)->nodeValue;
-            $masteryScore = trim($assignedUnitNode->getAttribute('masteryScore'));
+            if (!empty($xPath->query("//*[local-name()='launchParameters']", $assignedUnitNode)->item(0)->nodeValue)) {
+                $launchParameters = $xPath->query(
+                    "//*[local-name()='launchParameters']",
+                    $assignedUnitNode
+                )->item(0)->nodeValue;
+            }
+            if (!empty($assignedUnitNode->getAttribute('moveOn'))) {
+                $moveOn = trim($assignedUnitNode->getAttribute('moveOn'));
+            }
+            if (!empty($xPath->query("//*[local-name()='entitlementKey']", $assignedUnitNode)->item(0)->nodeValue)) {
+                $entitlementKey = $xPath->query(
+                    "//*[local-name()='entitlementKey']",
+                    $assignedUnitNode
+                )->item(0)->nodeValue;
+            }
+            if (!empty($assignedUnitNode->getAttribute('masteryScore'))) {
+                $masteryScore = trim($assignedUnitNode->getAttribute('masteryScore'));
+            }
 
             if (!empty($relativeLaunchUrl)) {
                 $this->object->setLaunchUrl(trim($relativeLaunchUrl));
@@ -395,16 +409,16 @@ class ilCmiXapiContentUploadImporter
         switch ($moveOn) {
             case ilCmiXapiLP::MOVEON_COMPLETED:
                 $mode = ilLPObjSettings::LP_MODE_CMIX_COMPLETED;
-            break;
+                break;
             case ilCmiXapiLP::MOVEON_PASSED:
                 $mode = ilLPObjSettings::LP_MODE_CMIX_PASSED;
-            break;
+                break;
             case ilCmiXapiLP::MOVEON_COMPLETED_OR_PASSED:
                 $mode = ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED;
-            break;
+                break;
             case ilCmiXapiLP::MOVEON_COMPLETED_AND_PASSED: // ich würde es noch implementieren
                 $mode = ilLPObjSettings::LP_MODE_CMIX_PASSED;
-            break;
+                break;
         }
         $lpSettings->setMode($mode);
         $lpSettings->update();
