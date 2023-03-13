@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -17,6 +16,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\DI\UIServices;
@@ -52,6 +53,10 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         "",
     ];
 
+
+    /**
+     * @inheritDoc
+     */
     public function __construct(Services $gs, UIServices $ui, HTTPServices $http)
     {
         global $DIC;
@@ -126,6 +131,8 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->prepareBasicCSS();
 
         PageContentProvider::setContent($this->legacy_content_template->renderPage(self::DEFAULT_BLOCK, true));
+        $this->http->sendResponse();
+
         print $this->ui->renderer()->render($this->gs->collector()->layout()->getFinalPage());
 
         // save language usages as late as possible

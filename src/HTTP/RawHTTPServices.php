@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\HTTP;
 
@@ -132,7 +133,11 @@ class RawHTTPServices implements GlobalHttpState
      */
     public function sendResponse(): void
     {
-        $this->sender->sendResponse($this->response());
+        // Render Cookies to the response.
+        $response = $this->response();
+        $response = $this->cookieJar()->renderIntoResponseHeader($response);
+
+        $this->sender->sendResponse($response);
     }
 
 
