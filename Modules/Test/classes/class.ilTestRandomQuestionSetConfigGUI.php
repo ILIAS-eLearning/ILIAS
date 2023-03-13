@@ -394,7 +394,7 @@ class ilTestRandomQuestionSetConfigGUI
         $table->init($this->sourcePoolDefinitionList);
         $content .= $this->ctrl->getHTML($table);
 
-        if ($this->sourcePoolDefinitionList->areAllUsedPoolsAvailable()) {
+        if (!$this->sourcePoolDefinitionList->areAllUsedPoolsAvailable()) {
             $table = $this->buildNonAvailablePoolsTableGUI();
             $table->init($this->sourcePoolDefinitionList);
             $content .= $this->ctrl->getHTML($table);
