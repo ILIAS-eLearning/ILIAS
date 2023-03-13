@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -59,8 +59,7 @@ class assOrderingQuestionDatabaseRepository
     }
 
     protected function buildOrderingList(
-        int $question_id,
-        array $elements = []
+        int $question_id
     ): \ilAssOrderingElementList {
         $elements = $this->getOrderingElementsForList($question_id);
         return new \ilAssOrderingElementList($question_id, $elements);
