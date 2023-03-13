@@ -25,7 +25,7 @@ class ilVirusScannerFactory
         $vs = null;
 
         if (IL_VIRUS_SCANNER === "icap") {
-            if (strlen(IL_ICAP_CLIENT) > 0) {
+            if (strlen((string) IL_ICAP_CLIENT) > 0) {
                 $vs = new ilVirusScannerICapClient('', '');
             } else {
                 $vs = new ilVirusScannerICapRemoteAvClient('', '');

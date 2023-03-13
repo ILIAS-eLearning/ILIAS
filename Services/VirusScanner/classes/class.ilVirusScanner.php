@@ -24,10 +24,6 @@ class ilVirusScanner
 
     public bool $scanZipFiles;
 
-    public string $scanCommand;
-
-    public string $cleanCommand;
-
     public string $scanFilePath;
 
     public string $scanFileOrigName;
@@ -50,7 +46,7 @@ class ilVirusScanner
 
     public ilLogger $log;
 
-    public function __construct(string $scan_command, string $clean_command)
+    public function __construct(public string $scanCommand, public string $cleanCommand)
     {
         global $DIC;
         $error = $DIC['ilErr'];
@@ -60,17 +56,12 @@ class ilVirusScanner
         $this->error = $error;
         $this->lng = $lng;
         $this->log = $log;
-        $this->scanCommand = $scan_command;
-        $this->cleanCommand = $clean_command;
 
         $this->type = "simulate";
         $this->scanZipFiles = false;
     }
 
     /**
-     * @param string $a_file
-     * @param string $a_orig_name
-     * @param bool $a_clean
      * @return array{0: bool, 1: string}
      */
     public static function virusHandling(string $a_file, string $a_orig_name = '', bool $a_clean = true): array

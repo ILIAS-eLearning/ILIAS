@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 class ilVirusScannerICapRemote extends ilVirusScanner
 {
-    private string $host;
-    private int $port;
+    private readonly string $host;
+    private readonly int $port;
     /** @var resource */
     private $socket;
     public string $userAgent = 'PHP-CLIENT/0.1.0';
@@ -67,7 +67,7 @@ class ilVirusScannerICapRemote extends ilVirusScanner
                 case 'req-body':
                 case 'res-body':
                     $encapsulated[$type] = strlen($bodyData);
-                    $bodyData .= dechex(strlen($data)) . "\r\n";
+                    $bodyData .= dechex(strlen((string) $data)) . "\r\n";
                     $bodyData .= $data;
                     $bodyData .= "\r\n";
                     $hasBody = true;
@@ -105,7 +105,7 @@ class ilVirusScannerICapRemote extends ilVirusScanner
                 $response .= $buffer;
             }
             $this->disconnect();
-        } catch (ErrorException $e) {
+        } catch (ErrorException) {
             $this->log->warning("Cannot connect to icap://{$this->host}:{$this->port} (Socket error: " . $this->getLastSocketError() . ")");
         }
         return $response;
@@ -149,10 +149,10 @@ class ilVirusScannerICapRemote extends ilVirusScanner
         ];
         foreach (preg_split('/\r?\n/', $string) as $line) {
             if ([] === $response['protocol']) {
-                if (0 !== strpos($line, 'ICAP/')) {
+                if (!str_starts_with((string) $line, 'ICAP/')) {
                     throw new RuntimeException('Unknown ICAP response');
                 }
-                $parts = preg_split('/ +/', $line, 3);
+                $parts = preg_split('/ +/', (string) $line, 3);
                 $response['protocol'] = [
                     'icap' => $parts[0] ?? '',
                     'code' => $parts[1] ?? '',
@@ -163,7 +163,7 @@ class ilVirusScannerICapRemote extends ilVirusScanner
             if ('' === $line) {
                 break;
             }
-            $parts = explode(": ", $line, 2);
+            $parts = explode(": ", (string) $line, 2);
             if (isset($parts[0])) {
                 $response['headers'][$parts[0]] = $parts[1] ?? '';
             }

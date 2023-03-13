@@ -66,7 +66,7 @@ class ilVirusScannerICapRemoteAvClient extends ilVirusScannerICapRemote
                 self::HEADER_INFECTION_FOUND,
                 $header
             ) && $header[self::HEADER_INFECTION_FOUND] !== '') {
-                $infection_split = explode(";", $header[self::HEADER_INFECTION_FOUND]);
+                $infection_split = explode(";", (string) $header[self::HEADER_INFECTION_FOUND]);
                 foreach ($infection_split as $infection) {
                     $parts = explode("=", $infection);
                     if ($parts !== false &&

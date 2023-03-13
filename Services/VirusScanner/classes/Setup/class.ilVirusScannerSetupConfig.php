@@ -22,7 +22,7 @@ use ILIAS\Setup;
 
 class ilVirusScannerSetupConfig implements Setup\Config
 {
-    public const VIRUS_SCANNER_NONE = "none";
+    final public const VIRUS_SCANNER_NONE = "none";
     private const VIRUS_SCANNER_SOPHOS = "sophos";
     private const VIRUS_SCANNER_ANTIVIR = "antivir";
     private const VIRUS_SCANNER_CLAMAV = "clamav";

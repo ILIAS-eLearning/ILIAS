@@ -25,11 +25,8 @@ use ILIAS\FileUpload\Processor\PreProcessor;
 
 final class ilVirusScannerPreProcessor implements PreProcessor
 {
-    protected \ilVirusScanner $scanner;
-
-    public function __construct(ilVirusScanner $scanner)
+    public function __construct(protected ilVirusScanner $scanner)
     {
-        $this->scanner = $scanner;
     }
 
     public function process(FileStream $stream, Metadata $metadata): ProcessingStatus

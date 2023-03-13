@@ -22,12 +22,8 @@ use ILIAS\Setup;
 
 class ilVirusScannerConfigStoredObjective implements Setup\Objective
 {
-    protected ilVirusScannerSetupConfig $config;
-
-    public function __construct(
-        ilVirusScannerSetupConfig $config
-    ) {
-        $this->config = $config;
+    public function __construct(protected ilVirusScannerSetupConfig $config)
+    {
     }
 
     public function getHash(): string

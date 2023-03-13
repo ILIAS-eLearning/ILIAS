@@ -26,12 +26,8 @@ class ilVirusScannerSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
 
-    protected Factory $refinery;
-
-    public function __construct(
-        Factory $refinery
-    ) {
-        $this->refinery = $refinery;
+    public function __construct(protected Factory $refinery)
+    {
     }
 
     public function hasConfig(): bool
