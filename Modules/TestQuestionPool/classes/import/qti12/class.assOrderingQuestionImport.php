@@ -126,7 +126,7 @@ class assOrderingQuestionImport extends assQuestionImport
                     break;
             }
         }
-        $responses = array();
+
         $feedbacksgeneric = array();
         foreach ($item->resprocessing as $resprocessing) {
             foreach ($resprocessing->respcondition as $respcondition) {
@@ -210,6 +210,7 @@ class assOrderingQuestionImport extends assQuestionImport
         $this->object->setElementHeight($item->getMetadataEntry("element_height") ? (int) $item->getMetadataEntry("element_height") : null);
         $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $this->object->setShuffle($shuffle);
+        $this->object->saveQuestionDataToDb();
         $points = 0;
         $solanswers = array();
 
@@ -218,6 +219,7 @@ class assOrderingQuestionImport extends assQuestionImport
         }
         ksort($solanswers);
         $position = 0;
+        $element_list = $this->object->getOrderingElementList();
         foreach ($solanswers as $answer) {
             $points += $answer["points"];
 
@@ -238,8 +240,9 @@ class assOrderingQuestionImport extends assQuestionImport
                 $element->setContent($answer["answertext"]);
             }
 
-            $this->object->getOrderingElementList()->addElement($element);
+            $element_list->addElement($element);
         }
+        $this->object->setOrderingElementList($element_list);
         $points = ($item->getMetadataEntry("points") > 0) ? $item->getMetadataEntry("points") : $points;
         $this->object->setPoints($points);
         // additional content editing mode information
