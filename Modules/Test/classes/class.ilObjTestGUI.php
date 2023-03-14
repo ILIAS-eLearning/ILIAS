@@ -2485,7 +2485,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
      */
     public function applyDefaultsObject($confirmed = false)
     {
-        if (!is_array($_POST["chb_defaults"]) || 1 !== count($_POST["chb_defaults"])) {
+        if (!isset($_POST['chb_defaults']) || !is_array($_POST["chb_defaults"]) || 1 !== count($_POST["chb_defaults"])) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("tst_defaults_apply_select_one"));
 
             $this->defaultsObject();
