@@ -25,7 +25,7 @@ class ilGSProviderFactory implements ProviderFactory
     /**
      * @var array
      */
-    private $class_loader;
+    private $class_loader_a;
     /**
      * @var Container
      */
