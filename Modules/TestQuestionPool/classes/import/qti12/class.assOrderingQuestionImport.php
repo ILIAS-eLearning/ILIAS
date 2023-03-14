@@ -337,8 +337,8 @@ class assOrderingQuestionImport extends assQuestionImport
 
     protected function handleUploadedFile(array $answer): ?string
     {
-        $image = base64_decode($answer["answerimage"]["content"]);
-        $image_file_name = $answer['answerimage']['label'];
+        $image = base64_decode($answer["answerimage"]["content"] ?? '');
+        $image_file_name = $answer['answerimage']['label'] ?? '';
         $tmp_path = ilFileUtils::ilTempnam();
 
         $file_handle = fopen($tmp_path, "wb");
