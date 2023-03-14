@@ -210,11 +210,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         parent::loadFromDb($question_id);
     }
 
-    /**
-    * Duplicates an assOrderingQuestion
-    *
-    * @access public
-    */
     public function duplicate(
         bool $for_test = true,
         ?string $title = "",
@@ -317,7 +312,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $sourceParentId = $this->getObjId();
 
         // duplicate the question in database
-        $clone = $this;
+        $clone = clone $this;
         $clone->id = -1;
 
         $clone->setObjId($targetParentId);
@@ -327,6 +322,13 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         }
 
         $clone->saveToDb();
+
+        $list = $this->getRepository()->getOrderingList($this->getId())
+            ->withQuestionId($clone->getId());
+        $list->distributeNewRandomIdentifiers();
+        $clone->setOrderingElementList($list);
+        $clone->saveToDb();
+
         // copy question page content
         $clone->copyPageOfQuestion($sourceQuestionId);
         // copy XHTML media objects
