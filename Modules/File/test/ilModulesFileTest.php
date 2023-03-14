@@ -84,16 +84,36 @@ class ilModulesFileTest extends TestCase
 
     public function testAppendStream(): void
     {
-        $this->markTestSkipped('This test is skipped because it gets more and more problematic to fake all those dependecies we have with ilObjects.');
         // DB mock
-        $statement = $this->createMock(ilDBStatement::class);
-
         $title = 'Revision One';
         $file_stream = Streams::ofString('Test Content');
 
         $this->storage_mock->expects($this->any())
                            ->method('manage')
                            ->willReturn($this->manager_mock);
+
+        $this->db_mock->expects($this->any())
+                      ->method('query')
+                      ->willReturnCallback(function ($query) {
+                          $mock_object = $this->createMock(ilDBStatement::class);
+                          $mock_object->expects($this->any())->method('fetchAssoc')->willReturn([$query]);
+
+                          return $mock_object;
+                      });
+
+        $this->db_mock->expects($this->any())
+                      ->method('fetchAssoc')
+                      ->willReturnCallback(function (ilDBStatement $statement) {
+                          $query = end($statement->fetchAssoc());
+                          if (str_contains($query, 'last_update')) {
+                              return [
+                                  'last_update' => '',
+                                  'create_date' => ''
+                              ];
+                          }
+
+                          return null;
+                      });
 
         // Create File Object with disabled news notification
         $file = new ilObjFile();
@@ -135,7 +155,6 @@ class ilModulesFileTest extends TestCase
                            ->method('getCurrentRevision')
                            ->with($rid)
                            ->willReturn($revision);
-
 
         $this->manager_mock->expects($this->any())
                            ->method('getResource')
