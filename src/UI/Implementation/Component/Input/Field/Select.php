@@ -44,9 +44,10 @@ class Select extends Input implements C\Input\Field\Select
         \ILIAS\Refinery\Factory $refinery,
         string $label,
         array $options,
-        ?string $byline
+        ?string $byline,
+        ?string $dedicated_name
     ) {
-        parent::__construct($data_factory, $refinery, $label, $byline);
+        parent::__construct($data_factory, $refinery, $label, $byline, $dedicated_name);
         $this->options = $options;
     }
 

@@ -56,9 +56,10 @@ class DateTime extends Input implements C\Input\Field\DateTime
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
         string $label,
-        ?string $byline
+        ?string $byline,
+        ?string $dedicated_name
     ) {
-        parent::__construct($data_factory, $refinery, $label, $byline);
+        parent::__construct($data_factory, $refinery, $label, $byline, $dedicated_name);
 
         $this->format = $data_factory->dateFormat()->standard();
 

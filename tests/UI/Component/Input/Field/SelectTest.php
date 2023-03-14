@@ -64,7 +64,8 @@ class SelectInputTest extends ILIAS_UI_TestBase
             $this->createMock(ILIAS\Refinery\Factory::class),
             "",
             $options,
-            ""
+            "",
+            null
         );
 
         $this->assertTrue($select->_isClientSideValueOk("one"));
@@ -81,7 +82,8 @@ class SelectInputTest extends ILIAS_UI_TestBase
             $this->createMock(ILIAS\Refinery\Factory::class),
             "",
             $options,
-            ""
+            "",
+            null
         );
 
         $this->assertTrue($select->_isClientSideValueOk(""));
@@ -117,7 +119,8 @@ class SelectInputTest extends ILIAS_UI_TestBase
             $this->createMock(ILIAS\Refinery\Factory::class),
             "",
             $options,
-            ""
+            "",
+            null
         ))->withRequired(true);
 
         $this->assertTrue($select->_isClientSideValueOk(""));

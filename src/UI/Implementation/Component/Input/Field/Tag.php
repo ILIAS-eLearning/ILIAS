@@ -60,9 +60,10 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
         \ILIAS\Refinery\Factory $refinery,
         string $label,
         ?string $byline,
-        array $tags
+        array $tags,
+        ?string $dedicated_name
     ) {
-        parent::__construct($data_factory, $refinery, $label, $byline);
+        parent::__construct($data_factory, $refinery, $label, $byline, $dedicated_name);
         $this->tags = $tags;
 
         $this->addAdditionalTransformations();

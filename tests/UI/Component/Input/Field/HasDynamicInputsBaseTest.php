@@ -46,7 +46,7 @@ class HasDynamicInputsBaseTest extends TestCase
         $this->data_factory = $this->createMock(DataFactory::class);
         $this->language = $this->createMock(ilLanguage::class);
         $this->refinery = $this->createMock(Refinery::class);
-        $this->input = new class ($this->language, $this->data_factory, $this->refinery, 'test_input_name', $this->getTestInputTemplate(), 'test_byline') extends HasDynamicInputsBase {
+        $this->input = new class ($this->language, $this->data_factory, $this->refinery, 'test_input_name', $this->getTestInputTemplate(), 'test_byline', null) extends HasDynamicInputsBase {
             public function getUpdateOnLoadCode(): Closure
             {
                 return static function () {
@@ -129,7 +129,7 @@ class HasDynamicInputsBaseTest extends TestCase
      */
     public function testDynamicInputNameGeneration(): void
     {
-        $input_name = 'test_name[form_input_0][]';
+        $input_name = 'test_name/input_0[]';
         $dynamic_input = $this->input->withValue(['', '']);
         $dynamic_input = $dynamic_input->withNameFrom(
             $this->getTestNameSource()

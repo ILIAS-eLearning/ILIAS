@@ -58,7 +58,8 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
         C\Input\Field\UploadHandler $handler,
         string $label,
         ?InputInterface $metadata_input,
-        ?string $byline
+        ?string $byline,
+        ?string $dedicated_name
     ) {
         $this->upload_limit_resolver = $upload_limit_resolver;
         $this->language = $language;
@@ -73,7 +74,8 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
             $refinery,
             $label,
             $this->createDynamicInputsTemplate($metadata_input),
-            $byline
+            $byline,
+            $dedicated_name
         );
     }
 
@@ -227,7 +229,8 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
     {
         $default_metadata_input = new Hidden(
             $this->data_factory,
-            $this->refinery
+            $this->refinery,
+            null
         );
 
         if (null === $metadata_input) {
@@ -250,7 +253,9 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
             $this->refinery,
             $this->language,
             $inputs,
-            ''
+            '',
+            null,
+            null
         );
     }
 }

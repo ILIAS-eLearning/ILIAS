@@ -40,9 +40,10 @@ class Text extends Input implements C\Input\Field\Text
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
         string $label,
-        ?string $byline
+        ?string $byline,
+        ?string $dedicated_name
     ) {
-        parent::__construct($data_factory, $refinery, $label, $byline);
+        parent::__construct($data_factory, $refinery, $label, $byline, $dedicated_name);
         $this->setAdditionalTransformation($refinery->custom()->transformation(fn ($v) => strip_tags($v)));
     }
 

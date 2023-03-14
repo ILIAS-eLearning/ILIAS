@@ -57,9 +57,10 @@ class Group extends Input implements C\Input\Field\Group
         ilLanguage $lng,
         array $inputs,
         string $label,
-        string $byline = null
+        ?string $byline,
+        ?string $dedicated_name
     ) {
-        parent::__construct($data_factory, $refinery, $label, $byline);
+        parent::__construct($data_factory, $refinery, $label, $byline, $dedicated_name);
         $this->checkArgListElements("inputs", $inputs, InputInternal::class);
         $this->inputs = $inputs;
         $this->lng = $lng;
@@ -194,15 +195,16 @@ class Group extends Input implements C\Input\Field\Group
     /**
      * @inheritdoc
      */
-    public function withNameFrom(NameSource $source): C\Input\Field\Input
+    public function withNameFrom(NameSource $source, ?string $parent_name = null): C\Input\Field\Input
     {
-        $clone = parent::withNameFrom($source);
+        $clone = parent::withNameFrom($source, $parent_name);
+
         /**
          * @var $clone Group
          */
         $named_inputs = [];
         foreach ($this->getInputs() as $key => $input) {
-            $named_inputs[$key] = $input->withNameFrom($source);
+            $named_inputs[$key] = $input->withNameFrom($source, $clone->getName());
         }
 
         $clone->inputs = $named_inputs;

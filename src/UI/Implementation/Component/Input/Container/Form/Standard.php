@@ -38,9 +38,10 @@ class Standard extends Form implements C\Input\Container\Form\Standard
         FieldFactory $field_factory,
         NameSource $name_source,
         string $post_url,
-        array $inputs
+        array $inputs,
+        ?string $dedicated_name
     ) {
-        parent::__construct($field_factory, $name_source, $inputs);
+        parent::__construct($field_factory, $name_source, $inputs, $dedicated_name);
         $this->setPostURL($post_url);
     }
 

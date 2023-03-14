@@ -48,9 +48,10 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
         \ILIAS\Refinery\Factory $refinery,
         string $label,
         ?string $byline,
-        SignalGeneratorInterface $signal_generator
+        SignalGeneratorInterface $signal_generator,
+        ?string $dedicated_name
     ) {
-        parent::__construct($data_factory, $refinery, $label, $byline);
+        parent::__construct($data_factory, $refinery, $label, $byline, $dedicated_name);
 
         $this->signal_generator = $signal_generator;
         $trafo = $this->refinery->to()->data('password');

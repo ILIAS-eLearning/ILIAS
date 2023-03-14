@@ -35,8 +35,8 @@ class Factory implements F\Factory
     /**
      * @inheritdoc
      */
-    public function standard(string $post_url, array $inputs): F\Standard
+    public function standard(string $post_url, array $inputs, ?string $dedicated_name = null): F\Standard
     {
-        return new Standard($this->field_factory, new Input\FormInputNameSource(), $post_url, $inputs);
+        return new Standard($this->field_factory, new Input\FormInputNameSource(), $post_url, $inputs, $dedicated_name);
     }
 }

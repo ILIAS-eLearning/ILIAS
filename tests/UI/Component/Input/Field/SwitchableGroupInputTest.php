@@ -92,7 +92,8 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
             $this->lng,
             ["child1" => $this->child1, "child2" => $this->child2],
             "LABEL",
-            "BYLINE"
+            "BYLINE",
+            null
         ))->withNameFrom(new class () implements NameSource {
             public function getNewName(): string
             {
@@ -162,7 +163,8 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
             $this->lng,
             [$this->createMock(Input::class)],
             "LABEL",
-            "BYLINE"
+            "BYLINE",
+            null
         );
     }
 
@@ -425,7 +427,6 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
                         <div class="help-block">some field</div>
                     </div>
                 </div>
-                <div class="help-block"></div>
             </div>
             <div class="form-control form-control-sm il-input-radiooption">
                 <input type="radio" id="id_1_g2_opt" name="" value="g2" /><label for="id_1_g2_opt"></label>
@@ -436,7 +437,6 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
                         <div class="help-block">some other field</div>
                     </div>
                 </div>
-                <div class="help-block"></div>
             </div>
         </div>
         <div class="help-block">byline</div>
@@ -444,6 +444,8 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
 </div>
 
 EOT;
+
+
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),
             $this->brutallyTrimHTML($html)
@@ -472,7 +474,6 @@ EOT;
                         <div class="help-block">some field</div>
                     </div>
                 </div>
-                <div class="help-block"></div>
             </div>
             <div class="form-control form-control-sm il-input-radiooption">
                 <input type="radio" id="id_1_g2_opt" name="" value="g2" checked="checked" /><label for="id_1_g2_opt"></label>
@@ -483,7 +484,6 @@ EOT;
                         <div class="help-block">some other field</div>
                     </div>
                 </div>
-                <div class="help-block"></div>
             </div>
         </div>
         <div class="help-block">byline</div>
@@ -531,7 +531,6 @@ EOT;
                         <div class="help-block">some field</div>
                     </div>
                 </div>
-                <div class="help-block"></div>
             </div>
             <div class="form-control form-control-sm il-input-radiooption">
                 <input type="radio" id="id_1_1_opt" name="" value="1" checked="checked" /><label for="id_1_1_opt"></label>
@@ -542,7 +541,6 @@ EOT;
                         <div class="help-block">some other field</div>
                     </div>
                 </div>
-                <div class="help-block"></div>
             </div>
 
             <div class="form-control form-control-sm il-input-radiooption">

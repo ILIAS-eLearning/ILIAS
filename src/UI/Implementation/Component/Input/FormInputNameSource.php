@@ -35,6 +35,11 @@ class FormInputNameSource implements NameSource
      */
     public function getNewName(): string
     {
-        return 'form_input_' . $this->count++;
+        return 'input_' . $this->count++;
+    }
+
+    public function getNewDedicatedName(string $dedicated_name): string
+    {
+        return $dedicated_name . '_' . $this->count++;
     }
 }

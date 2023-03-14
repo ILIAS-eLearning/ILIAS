@@ -31,6 +31,7 @@ use ILIAS\Data\Factory as DataFactory;
 use InvalidArgumentException;
 use LogicException;
 use ilLanguage;
+use ILIAS\UI\Implementation\Component\Input\FormInputNameSource;
 
 /**
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
@@ -54,9 +55,10 @@ abstract class HasDynamicInputsBase extends Input implements HasDynamicInputs
         Refinery $refinery,
         string $label,
         InputInterface $template,
-        ?string $byline
+        ?string $byline,
+        ?string $dedicated_name
     ) {
-        parent::__construct($data_factory, $refinery, $label, $byline);
+        parent::__construct($data_factory, $refinery, $label, $byline, $dedicated_name);
         $this->dynamic_input_template = $template;
         $this->language = $language;
     }
@@ -118,9 +120,9 @@ abstract class HasDynamicInputsBase extends Input implements HasDynamicInputs
         return $clone;
     }
 
-    public function withNameFrom(NameSource $source): self
+    public function withNameFrom(NameSource $source, ?string $parent_name = null): self
     {
-        $clone = parent::withNameFrom($source);
+        $clone = parent::withNameFrom($source, $parent_name);
 
         $clone->dynamic_input_template = $clone->dynamic_input_template->withNameFrom(
             new DynamicInputsNameSource($clone->getName())

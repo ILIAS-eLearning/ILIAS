@@ -38,9 +38,10 @@ class Numeric extends Input implements C\Input\Field\Numeric
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
         string $label,
-        ?string $byline
+        ?string $byline,
+        ?string $dedicated_name
     ) {
-        parent::__construct($data_factory, $refinery, $label, $byline);
+        parent::__construct($data_factory, $refinery, $label, $byline, $dedicated_name);
 
         /**
          * @var $trafo_numericOrNull Transformation

@@ -53,7 +53,7 @@ class ConcreteForm extends Form
     public function __construct(Input\Field\Factory $field_factory, NameSource $name_source, array $inputs)
     {
         $this->input_factory = $field_factory;
-        parent::__construct($field_factory, $name_source, $inputs);
+        parent::__construct($field_factory, $name_source, $inputs, null);
     }
 
     public function _extractPostData(ServerRequestInterface $request): Input\InputData
@@ -483,5 +483,4 @@ class FormTest extends ILIAS_UI_TestBase
         $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), $inputs);
         $this->assertTrue($form->hasRequiredInputs());
     }
-
 }

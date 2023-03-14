@@ -40,9 +40,10 @@ class Url extends Input implements C\Input\Field\Url
         DataFactory $data_factory,
         Factory $refinery,
         string $label,
-        ?string $byline
+        ?string $byline,
+        ?string $dedicated_name
     ) {
-        parent::__construct($data_factory, $refinery, $label, $byline);
+        parent::__construct($data_factory, $refinery, $label, $byline, $dedicated_name);
         $this->addValidation();
         $this->addTransformation();
     }
