@@ -228,7 +228,7 @@ class ilTestCorrectionsGUI
         $gui->setCancel($this->DIC->language()->txt('cancel'), 'showQuestion');
         $gui->setConfirm($this->DIC->language()->txt('confirm'), 'saveQuestion');
 
-        $this->addHiddenItemsFromArray($gui, $_POST);
+        $this->addHiddenItemsFromArray($gui, $this->testrequest->getParsedBody());
 
         $this->DIC->ui()->mainTemplate()->setContent($gui->getHTML());
     }
