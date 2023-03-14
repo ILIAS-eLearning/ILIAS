@@ -229,16 +229,19 @@ class assOrderingQuestionImport extends assQuestionImport
             if ($element->isExportIdent($answer['ident'])) {
                 $element->setExportIdent($answer['ident']);
             } else {
-                $element->setPosition($position++);
+                $element = $element->withPosition($position++);
                 if (isset($answer['answerdepth'])) {
-                    $element->setIndentation($answer['answerdepth']);
+                    $element = $element->withIndentation((int) $answer['answerdepth']);
                 }
             }
 
             if ($this->object->isImageOrderingType()) {
-                $element->setContent($answer["answerimage"]["label"] ?? '');
+                $filename = $this->handleUploadedfile($answer);
+                if ($filename !== null) {
+                    $element = $element->withContent($filename);
+                }
             } else {
-                $element->setContent($answer["answertext"]);
+                $element = $element->withContent($answer["answertext"]);
             }
 
             $element_list->addElement($element);
@@ -256,29 +259,6 @@ class assOrderingQuestionImport extends assQuestionImport
                 $this->object->setSuggestedSolution($suggested_solution["solution"]->getContent(), $suggested_solution["gap_index"], true);
             }
             $this->object->saveToDb();
-        }
-        foreach ($answers as $answer) {
-            if ($type == OQ_PICTURES || $type == OQ_NESTED_PICTURES) {
-                include_once "./Services/Utilities/classes/class.ilUtil.php";
-                if (strlen($answer['answerimage']['label'] ?? '') && strlen($answer['answerimage']['content'])) {
-                    $image = base64_decode($answer["answerimage"]["content"]);
-                    $imagepath = $this->object->getImagePath();
-                    if (!file_exists($imagepath)) {
-                        ilFileUtils::makeDirParents($imagepath);
-                    }
-                    $imagepath .= $answer["answerimage"]["label"];
-                    $fh = fopen($imagepath, "wb");
-                    if ($fh == false) {
-                        //									global $DIC;
-//									$ilErr = $DIC['ilErr'];
-//									$ilErr->raiseError($this->object->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->MESSAGE);
-//									return;
-                    } else {
-                        $imagefile = fwrite($fh, $image);
-                        fclose($fh);
-                    }
-                }
-            }
         }
 
         foreach ($feedbacksgeneric as $correctness => $material) {
@@ -349,5 +329,45 @@ class assOrderingQuestionImport extends assQuestionImport
             $import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
         }
         return $import_mapping;
+    }
+
+    protected function handleUploadedFile(array $answer): ?string
+    {
+        $image = base64_decode($answer["answerimage"]["content"]);
+        $image_file_name = $answer['answerimage']['label'];
+        $tmp_path = ilFileUtils::ilTempnam();
+
+        $file_handle = fopen($tmp_path, "wb");
+        if ($file_handle === false) {
+            return null;
+        }
+        fwrite($file_handle, $image);
+        fclose($file_handle);
+
+        $filename_path_parts = explode(".", $image_file_name);
+        $suffix = strtolower(array_pop($filename_path_parts));
+        if (!in_array($suffix, assOrderingQuestion::VALID_UPLOAD_SUFFIXES)) {
+            return null;
+        }
+
+        $this->ensureImagePathExists();
+        $target_filename = $this->object->buildHashedImageFilename($image_file_name, true);
+        $target_filepath = $this->object->getImagePath() . $target_filename;
+        if (rename($tmp_path, $target_filepath)) {
+            $thumb_path = $this->object->getImagePath() . $this->object->getThumbPrefix() . $target_filename;
+            if ($this->object->getThumbGeometry()) {
+                ilShellUtil::convertImage($target_filepath, $thumb_path, "JPEG", $this->object->getThumbGeometry());
+            }
+            return $target_filename;
+        }
+
+        return null;
+    }
+
+    protected function ensureImagePathExists()
+    {
+        if (!file_exists($this->object->getImagePath())) {
+            ilFileUtils::makeDirParents($this->object->getImagePath());
+        }
     }
 }
