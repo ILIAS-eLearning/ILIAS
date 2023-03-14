@@ -2844,7 +2844,7 @@ abstract class assQuestion
     public function QTIMaterialToString(ilQTIMaterial $a_material): string
     {
         $result = "";
-        $mobs = array();
+        $mobs = ilSession::get('import_mob_xhtml') ?? [];
         for ($i = 0; $i < $a_material->getMaterialCount(); $i++) {
             $material = $a_material->getMaterial($i);
             if (strcmp($material["type"], "mattext") == 0) {
@@ -2853,13 +2853,10 @@ abstract class assQuestion
             if (strcmp($material["type"], "matimage") == 0) {
                 $matimage = $material["material"];
                 if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $matimage->getLabel(), $matches)) {
-                    // import an mediaobject which was inserted using tiny mce
-                    //if (!is_array(ilSession::get("import_mob_xhtml"))) {
-                    //    ilSession::set("import_mob_xhtml", array());
-                    //}
-                    $mobs[] = array("mob" => $matimage->getLabel(),
-                                                            "uri" => $matimage->getUri()
-                    );
+                    $mobs[] = [
+                        "mob" => $matimage->getLabel(),
+                        "uri" => $matimage->getUri()
+                    ];
                 }
             }
         }
