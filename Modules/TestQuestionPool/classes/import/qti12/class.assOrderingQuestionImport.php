@@ -300,17 +300,19 @@ class assOrderingQuestionImport extends assQuestionImport
             );
         }
         $this->object->saveToDb();
-        if ($tst_id > 0) {
-            $this->object->setObjId($tst_id);
-            $tstQid = $this->object->getId();
-            $qplQid = $this->object->duplicate(true, null, null, null, $questionpool_id);
-            assQuestion::resetOriginalId($qplQid);
-            assQuestion::saveOriginalId($tstQid, $qplQid);
+        if (isset($tst_id) && $tst_id !== $questionpool_id) {
+            $qplQid = $this->object->getId();
+            $tstQid = $this->object->duplicate(true, '', '', '', $tst_id);
             $tst_object->questions[$question_counter++] = $tstQid;
             $import_mapping[$item->getIdent()] = array("pool" => $qplQid, "test" => $tstQid);
-        } else {
-            $import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
+            return;
         }
+        if (isset($tst_id)) {
+            $tst_object->questions[$question_counter] = $this->object->getId();
+            $import_mapping[$item->getIdent()] = array("pool" => 0, "test" => $this->object->getId());
+            return;
+        }
+        $import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
     }
 
     protected function handleUploadedFile(array $answer) : ?string
