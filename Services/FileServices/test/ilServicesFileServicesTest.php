@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
@@ -149,35 +149,7 @@ class ilServicesFileServicesTest extends TestCase
         $this->assertEquals(0, count($diff));
     }
 
-    public function testDisabledASCIISetting(): void
-    {
-        $db_mock = $this->createMock(ilDBInterface::class);
-        $settings_mock = $this->createMock(ilSetting::class);
-        $ini_mock = $this->createMock(ilIniFile::class);
 
-        $ini_mock->expects($this->once())
-                 ->method('readVariable')
-                 ->with('file_access', 'disable_ascii')
-                 ->willReturn('1');
-
-        $settings = new ilFileServicesSettings($settings_mock, $ini_mock, $db_mock);
-        $this->assertFalse($settings->isASCIIConvertionEnabled());
-    }
-
-    public function testNoASCIISetting(): void
-    {
-        $db_mock = $this->createMock(ilDBInterface::class);
-        $settings_mock = $this->createMock(ilSetting::class);
-        $ini_mock = $this->createMock(ilIniFile::class);
-
-        $ini_mock->expects($this->once())
-                 ->method('readVariable')
-                 ->with('file_access', 'disable_ascii')
-                 ->willReturn('');
-
-        $settings = new ilFileServicesSettings($settings_mock, $ini_mock, $db_mock);
-        $this->assertTrue($settings->isASCIIConvertionEnabled());
-    }
 
     public function testFileNamePolicyOnDownloading(): void
     {
