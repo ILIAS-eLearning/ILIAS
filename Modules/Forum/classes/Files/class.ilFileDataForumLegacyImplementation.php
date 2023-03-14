@@ -70,11 +70,13 @@ class ilFileDataForumLegacyImplementation extends ilFileData implements ilFileDa
      */
     public function getFiles(): array
     {
-        $files = [];
+        $directory_iterator = new DirectoryIterator($this->forum_path);
+        $filter_iterator = new RegexIterator($directory_iterator, "/^{$this->obj_id}_(.+)$/");
 
-        foreach (new DirectoryIterator($this->forum_path) as $file) {
-            /** @var $file SplFileInfo */
-            if ($file->isDir()) {
+        $files = [];
+        foreach ($filter_iterator as $file) {
+            /** @var SplFileInfo $file */
+            if (!$file->isFile()) {
                 continue;
             }
 
@@ -82,7 +84,7 @@ class ilFileDataForumLegacyImplementation extends ilFileData implements ilFileDa
             if ((int) $obj_id === $this->obj_id) {
                 $files[] = [
                     'path' => $file->getPathname(),
-                    'md5' => md5($this->obj_id . '_' . $this->pos_id . '_' . $rest),
+                    'md5' => md5($this->obj_id . '_' . $rest),
                     'name' => $rest,
                     'size' => $file->getSize(),
                     'ctime' => date('Y-m-d H:i:s', $file->getCTime())
