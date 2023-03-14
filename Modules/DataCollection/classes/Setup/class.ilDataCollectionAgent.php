@@ -23,6 +23,6 @@ class ilDataCollectionAgent extends Setup\Agent\NullAgent
 {
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        return new \ilDatabaseUpdateStepsExecutedObjective(new ilDataCollectionDBUpdateSteps());
+        return new \ilDatabaseUpdateStepsExecutedObjective(new ilDataCollectionDBUpdateSteps9());
     }
 }
