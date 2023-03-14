@@ -13368,6 +13368,11 @@ img.ilSmallIcon {
   height: 0px;
   display: none;
 }
+@media print {
+  .ilAccHideContent {
+    display: none !important;
+  }
+}
 div.ilc_va_icont_VAccordICont {
   overflow: visible !important;
 }
