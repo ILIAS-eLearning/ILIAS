@@ -147,6 +147,8 @@ class ilFileDataForum extends ilFileData
                     $this->forum_path . '/' . $a_new_frm_id . '_' . $this->pos_id . '_' . $rest
                 );
             }
+
+            return true;
         }
 
         return false;
