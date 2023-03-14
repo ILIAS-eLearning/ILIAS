@@ -140,7 +140,6 @@ class assTextQuestionImport extends assQuestionImport
         }
         $this->object->setMatchcondition((strlen($item->getMetadataEntry('matchcondition'))) ? (int) $item->getMetadataEntry('matchcondition') : 0);
 
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php';
         $no_keywords_found = true;
 
         $termscoring = $this->fetchTermScoring($item);
@@ -187,8 +186,6 @@ class assTextQuestionImport extends assQuestionImport
         $feedbacks = $this->getFeedbackAnswerSpecific($item);
 
         if (is_array(ilSession::get("import_mob_xhtml"))) {
-            include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-            include_once "./Services/RTE/classes/class.ilRTE.php";
             foreach (ilSession::get("import_mob_xhtml") as $mob) {
                 if ($tst_id > 0) {
                     $importfile = $this->getTstImportArchivDirectory() . '/' . $mob["uri"];

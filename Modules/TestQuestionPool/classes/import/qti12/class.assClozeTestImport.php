@@ -272,10 +272,8 @@ class assClozeTestImport extends assQuestionImport
         $gaptext = array();
         foreach ($gaps as $gapidx => $gap) {
             $gapcontent = array();
-            include_once "./Modules/TestQuestionPool/classes/class.assClozeGap.php";
             $clozegap = new assClozeGap($gap["type"]);
             foreach ($gap["answers"] as $index => $answer) {
-                include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
                 $gapanswer = new assAnswerCloze($answer["answertext"], $answer["points"], $answer["answerorder"]);
                 $gapanswer->setGapSize((int) ($gap["gap_size"] ?? 0));
                 switch ($clozegap->getType()) {
@@ -321,8 +319,6 @@ class assClozeTestImport extends assQuestionImport
         $questiontext = $this->object->getQuestion();
         $clozetext = $this->object->getClozeText();
         if (is_array(ilSession::get("import_mob_xhtml"))) {
-            include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-            include_once "./Services/RTE/classes/class.ilRTE.php";
             foreach (ilSession::get("import_mob_xhtml") as $mob) {
                 if ($tst_id > 0) {
                     $importfile = $this->getTstImportArchivDirectory() . '/' . $mob["uri"];
@@ -378,7 +374,6 @@ class assClozeTestImport extends assQuestionImport
         }
         $this->object->saveToDb();
         if (is_array($combination) && count($combination) > 0) {
-            require_once './Modules/TestQuestionPool/classes/class.assClozeGapCombination.php';
             assClozeGapCombination::clearGapCombinationsFromDb($this->object->getId());
             assClozeGapCombination::importGapCombinationToDb($this->object->getId(), $combination);
         }
@@ -392,7 +387,6 @@ class assClozeTestImport extends assQuestionImport
      */
     protected function buildFeedbackIdentifier($ident): ilAssSpecificFeedbackIdentifier
     {
-        require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssSpecificFeedbackIdentifier.php';
         $fbIdentifier = new ilAssSpecificFeedbackIdentifier();
 
         $ident = explode('_', $ident);
