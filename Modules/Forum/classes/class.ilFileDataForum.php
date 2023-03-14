@@ -135,28 +135,27 @@ class ilFileDataForum extends ilFileData
      */
     public function moveFilesOfPost($a_new_frm_id = 0)
     {
-        if ((int) $a_new_frm_id) {
-            foreach (new DirectoryIterator($this->forum_path) as $file) {
-                /**
-                 * @var $file SplFileInfo
-                 */
+        if ($a_new_frm_id) {
+            $directory_iterator = new DirectoryIterator($this->forum_path);
+            $filter_iterator = new RegexIterator($directory_iterator, "/^{$this->obj_id}_(\d+)_(.+)$/");
 
-                if ($file->isDir()) {
+            foreach ($filter_iterator as $file) {
+                /** @var SplFileInfo $file */
+                if (!$file->isFile()) {
                     continue;
                 }
 
-                list($obj_id, $rest) = explode('_', $file->getFilename(), 2);
-                if ($obj_id == $this->obj_id) {
-                    list($pos_id, $rest) = explode('_', $rest, 2);
-                    if ($pos_id == $this->getPosId()) {
-                        \ilFileUtils::rename(
-                            $file->getPathname(),
-                            $this->forum_path . '/' . $a_new_frm_id . '_' . $this->pos_id . '_' . $rest
-                        );
-                    }
+                [$obj_id, $pos_id, $rest] = explode('_', $file->getFilename(), 3);
+                if ((int) $obj_id !== (int) $this->obj_id || (int) $pos_id !== (int) $this->getPosId()) {
+                    continue;
                 }
+
+                ilFileUtils::rename(
+                    $file->getPathname(),
+                    $this->forum_path . '/' . $a_new_frm_id . '_' . $this->pos_id . '_' . $rest
+                );
             }
-    
+
             return true;
         }
 
