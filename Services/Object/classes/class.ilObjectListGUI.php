@@ -1106,38 +1106,13 @@ class ilObjectListGUI
             $this->tpl->setVariable("TXT_TITLE_LINKED", $this->getTitle());
             $this->tpl->setVariable("HREF_TITLE_LINKED", $this->default_command["link"]);
 
-            // has preview?
-            if (ilPreview::hasPreview($this->obj_id, $this->type)) {
-                // get context for access checks later on
-                switch ($this->context) {
-                    case self::CONTEXT_WORKSPACE:
-                    case self::CONTEXT_WORKSPACE_SHARING:
-                        $context = ilPreviewGUI::CONTEXT_WORKSPACE;
-                        $access_handler = new ilWorkspaceAccessHandler();
-                        break;
-
-                    default:
-                        $ilAccess = $this->access;
-                        $context = ilPreviewGUI::CONTEXT_REPOSITORY;
-                        $access_handler = $ilAccess;
-                        break;
+            // New Preview Implementation, File-Objects only
+            if ($this->type === 'file') {
+                $preview = new ilObjFilePreviewRendererGUI($this->obj_id);
+                if ($preview->has()) {
+                    $this->tpl->setVariable("PREVIEW_GLYPH", $preview->getRenderedTriggerComponents());
+                    $this->tpl->parseCurrentBlock();
                 }
-
-                $preview = new ilPreviewGUI($this->ref_id, $context, $this->obj_id, $access_handler);
-                $preview_status = ilPreview::lookupRenderStatus($this->obj_id);
-                $preview_status_class = "";
-                $preview_text_topic = "preview_show";
-                if ($preview_status == ilPreview::RENDER_STATUS_NONE) {
-                    $preview_status_class = "ilPreviewStatusNone";
-                    $preview_text_topic = "preview_none";
-                }
-                $this->tpl->setCurrentBlock("item_title_linked");
-                $this->tpl->setVariable("PREVIEW_STATUS_CLASS", $preview_status_class);
-                $this->tpl->setVariable("SRC_PREVIEW_ICON", ilUtil::getImagePath("preview.png"));
-                $this->tpl->setVariable("ALT_PREVIEW_ICON", $this->lng->txt($preview_text_topic));
-                $this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt($preview_text_topic));
-                $this->tpl->setVariable("SCRIPT_PREVIEW_CLICK", $preview->getJSCall($this->getUniqueItemId(true)));
-                $this->tpl->parseCurrentBlock();
             }
         }
         $this->tpl->parseCurrentBlock();

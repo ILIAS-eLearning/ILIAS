@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\DI\Container;
 use ILIAS\File\Icon\IconDatabaseRepository;
+use ILIAS\Modules\File\Settings\General;
 
 /**
  * @author       Thibeau Fuhrer <thibeau@sr.solutions>
@@ -109,8 +110,8 @@ class ilFileObjectDatabaseObjective implements ilDatabaseUpdateSteps
         $this->database->insert(
             'settings',
             [
-                'module' => ['text', ilObjFileAccessSettings::SETTING_MODULE],
-                'keyword' => ['text', ilObjFileAccessSettings::SETTING_SHOW_AMOUNT_OF_DOWNLOADS],
+                'module' => ['text', General::MODULE_NAME],
+                'keyword' => ['text', General::F_SHOW_AMOUNT_OF_DOWNLOADS],
                 'value' => ['text', '1'],
             ]
         );

@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclFileuploadRecordRepresentation
@@ -67,32 +66,11 @@ class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation
             "ildclrecordlistgui",
             "sendFile"
         ) . '">' . $file_obj->getFileName() . '</a>';
-        if (ilPreview::hasPreview($file_obj->getId())) {
-            ilPreview::createPreview($file_obj); // Create preview if not already existing
 
-            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
-
-            $preview = new ilPreviewGUI(
-                $ref_id,
-                ilPreviewGUI::CONTEXT_REPOSITORY,
-                $file_obj->getId(),
-                $this->access
-            );
-            $preview_status = ilPreview::lookupRenderStatus($file_obj->getId());
-            $preview_status_class = "";
-            $preview_text_topic = "preview_show";
-            if ($preview_status == ilPreview::RENDER_STATUS_NONE) {
-                $preview_status_class = "ilPreviewStatusNone";
-                $preview_text_topic = "preview_none";
-            }
-            $wrapper_html_id = 'record_field_' . $this->getRecordField()->getId();
-            $script_preview_click = $preview->getJSCall($wrapper_html_id);
-            $preview_title = $this->lng->txt($preview_text_topic);
-            $preview_icon = ilUtil::getImagePath("preview.png");
+        $preview= new ilObjFilePreviewRendererGUI($file_obj->getId());
+        if ($preview->has()) {
             $html = '<div id="' . $wrapper_html_id . '">' . $html;
-            $html .= '<span class="il_ContainerItemPreview ' . $preview_status_class . '"><a href="javascript:void(0);" onclick="'
-                . $script_preview_click . '" title="' . $preview_title . '"><img src="' . $preview_icon
-                . '" height="16" width="16"></a></span></div>';
+            $html .= $preview->getRenderedTriggerComponents(false) . '</div>';
         }
 
         return $html;

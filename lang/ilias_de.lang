@@ -5259,9 +5259,11 @@ common#:#presentation_table_more#:#Mehr anzeigen
 common#:#preview#:#Vorschau
 common#:#preview_create#:#Vorschau erstellen
 common#:#preview_delete#:#Vorschau löschen
+common#:#preview_image_size#:#Grösse der Vorschau-Bilder
 common#:#preview_learner_info#:#Wenn aktiviert, wird Kurs- und Gruppenadministratoren die Möglichkeit angeboten, den Kurs oder die Gruppe aus Sicht eines fiktiven Kurs- bzw. Gruppenmitglieds zu betrachten.
 common#:#preview_loading#:#Lade Vorschau...
 common#:#preview_none#:#Vorschau (noch nicht vorhanden)
+common#:#preview_not_possible#:#Erstellung von Vorschaubildern ist derzeit nicht möglich, bitte lesen Sie die Dokumentation in %s.
 common#:#preview_renderers#:#Vorschau-Renderer
 common#:#preview_settings#:#Dateivorschau
 common#:#preview_show#:#Vorschau anzeigen
@@ -5586,6 +5588,7 @@ common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
 common#:#show_more#:#Mehr zeigen
 common#:#show_owner#:#Besitzerinfo
+common#:#show_preview#:#Vorschau anzeigen
 common#:#show_users_online#:#Aktive Benutzer anzeigen
 common#:#show_who_is_online#:#Zeig wer online ist
 common#:#side_frame#:#Rahmen Baumansicht
@@ -9466,6 +9469,8 @@ file#:#add_icon#:#Icon hinzufügen
 file#:#amount_of_downloads#:#Downloads
 file#:#amount_of_downloads_since#:#%d seit %s
 file#:#de_activate_icon#:#(De-)Aktivieren
+file#:#download_ascii_filename#:#Verwende ASCII-Zeichen für Dateinamen von Downloads
+file#:#download_ascii_filename_info#:#Dateinamen von Heruntergeladenen Dateien sollten nur ASCII-Zeichen enthalten. Option deaktivieren, um alle Zeichen zu verwenden.
 file#:#file_copy#:#Datei kopieren
 file#:#file_download#:#Datei herunterladen
 file#:#file_import#:#Dateiimport
@@ -9511,6 +9516,10 @@ file#:#msg_success_icon_updated#:#Icon erfolgreich aktualisiert.
 file#:#msg_unzip_success#:#Archiv wurde erfolreich entpackt.
 file#:#not_yet_migrated#:#Dieses Datei-Objekt wurde noch nicht migriert und es können keine neue Versionen angelegt werden. Wenden Sie sich an die Administratoren der Plattform.
 file#:#on_click_action#:#Klick auf Titel
+file#:#preview_caption#:#Vorschau %svon %s
+file#:#preview_image_size_info#:#Maximale Seitenlänge der Vorschaubilder in px.
+file#:#preview_persisting#:#Vorschaubilder persistieren
+file#:#preview_persisting_info#:#Generierte vVorschaubilder werden gespeichert. Wenn deaktiviert, werden die Vorschaubilder jeweils beim Aufruf generiert.
 file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
 file#:#resource_id#:#Ressourcen ID
 file#:#show_amount_of_downloads#:#Anzahl Downloads anzeigen

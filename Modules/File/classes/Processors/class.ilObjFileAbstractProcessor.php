@@ -79,7 +79,6 @@ abstract class ilObjFileAbstractProcessor implements ilObjFileProcessorInterface
 
         $file_obj->create();
 
-        ilPreview::createPreview($file_obj, true);
         if ($create_reference) {
             $file_obj->createReference();
         }

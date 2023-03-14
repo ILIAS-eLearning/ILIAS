@@ -5260,9 +5260,11 @@ common#:#presentation_table_more#:#Show More
 common#:#preview#:#Preview
 common#:#preview_create#:#Create Preview
 common#:#preview_delete#:#Delete Preview
+common#:#preview_image_size#:#Size of Preview Images
 common#:#preview_learner_info#:#If enabled, Course and Group administrators have the possibility to view the content form the perspective of a learner.
 common#:#preview_loading#:#Loading Preview...
 common#:#preview_none#:#Preview (not created yet)
+common#:#preview_not_possible#:#Creation of Previews is currently not possible, please read the documentation in %s.
 common#:#preview_renderers#:#Preview Renderers
 common#:#preview_settings#:#File Preview
 common#:#preview_show#:#Show Preview
@@ -5587,6 +5589,7 @@ common#:#show_list#:#Show List
 common#:#show_members#:#Display Members
 common#:#show_more#:#Show More
 common#:#show_owner#:#Show Owner
+common#:#show_preview#:#Show Preview
 common#:#show_users_online#:#Show active users
 common#:#show_who_is_online#:#Show who is online
 common#:#side_frame#:#Side Frame
@@ -9467,6 +9470,8 @@ file#:#add_icon#:#Add Icon
 file#:#amount_of_downloads#:#Downloads
 file#:#amount_of_downloads_since#:#%d times since %s
 file#:#de_activate_icon#:#(De-)Activate
+file#:#download_ascii_filename#:#Use ASCII-only characters for downloaded filenames
+file#:#download_ascii_filename_info#:#Downloaded files should only have ASCII-characters in their filename. Deactivate to use all characters.
 file#:#file_copy#:#Copy File
 file#:#file_download#:#Download File
 file#:#file_import#:#Import File
@@ -9512,6 +9517,10 @@ file#:#msg_success_icon_updated#:#Icon successfully updated.
 file#:#msg_unzip_success#:#Archive has been successfully unziped.
 file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.
 file#:#on_click_action#:#Action on Click on Title
+file#:#preview_caption#:#Preview %sof %s
+file#:#preview_image_size_info#:#Maximum length of the preview images in px.
+file#:#preview_persisting#:#Persist Preview Images
+file#:#preview_persisting_info#:#Generated previews will be stored, otherwise the previews will be generated on the fly
 file#:#replace_file_info#:#All previous file versions will be deleted.
 file#:#resource_id#:#Resource ID
 file#:#show_amount_of_downloads#:#Show number of downloads

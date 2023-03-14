@@ -15,7 +15,6 @@
  *
  *********************************************************************/
 
-use ILIAS\DI\Container;
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\ResourceStorage\Services;
@@ -23,6 +22,7 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\UI\Implementation\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Implementation\Component\Dropzone\File\File as Dropzone;
 use ILIAS\File\Icon\IconDatabaseRepository;
+use ILIAS\Modules\File\Settings\General;
 
 /**
  * GUI class for file objects.
@@ -47,6 +47,7 @@ class ilObjFileGUI extends ilObject2GUI
     public const CMD_VERSIONS = "versions";
     public const CMD_UPLOAD_FILES = "uploadFiles";
 
+
     public ?ilObject $object = null;
     public ilLanguage $lng;
     protected UIServices $ui;
@@ -57,8 +58,8 @@ class ilObjFileGUI extends ilObject2GUI
     protected ilObjectService $obj_service;
     protected \ILIAS\Refinery\Factory $refinery;
     protected \ILIAS\HTTP\Wrapper\WrapperFactory $http;
+    protected General $general_settings;
     protected ilFileServicesSettings $file_service_settings;
-    protected ilObjFileAccessSettings $object_settings;
     protected IconDatabaseRepository $icon_repo;
 
     /**
@@ -78,7 +79,7 @@ class ilObjFileGUI extends ilObject2GUI
         $this->storage = $DIC->resourceStorage();
         $this->upload_handler = new ilObjFileUploadHandlerGUI();
         $this->stakeholder = new ilObjFileStakeholder();
-        $this->object_settings = new ilObjFileAccessSettings();
+        $this->general_settings = new General();
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
         $this->obj_service = $DIC->object();
         $this->lng->loadLanguageModule(ilObjFile::OBJECT_TYPE);
@@ -709,7 +710,7 @@ class ilObjFileGUI extends ilObject2GUI
             );
         }
 
-        if ($this->object_settings->shouldShowAmountOfDownloads()) {
+        if ($this->general_settings->isShowAmountOfDownloads()) {
             $info->addProperty($this->lng->txt("amount_of_downloads"), sprintf(
                 $this->lng->txt("amount_of_downloads_since"),
                 $this->object->getAmountOfDownloads(),
@@ -737,24 +738,14 @@ class ilObjFileGUI extends ilObject2GUI
         if ($this->id_type == self::WORKSPACE_NODE_ID) {
             $info->addProperty($this->lng->txt("perma_link"), $this->getPermanentLinkWidget());
         }
+
+        $preview = new ilObjFilePreviewRendererGUI($this->object_id);
+
         if (!$this->ctrl->isAsynch()
-            && ilPreview::hasPreview($this->object->getId(), $this->object->getType())
+            && $preview->has()
             && $this->checkPermissionBool("read")
         ) {
-            // get context for access checks later on
-            switch ($this->id_type) {
-                case self::WORKSPACE_NODE_ID:
-                case self::WORKSPACE_OBJECT_ID:
-                    $context = ilPreviewGUI::CONTEXT_WORKSPACE;
-                    break;
-
-                default:
-                    $context = ilPreviewGUI::CONTEXT_REPOSITORY;
-                    break;
-            }
-
-            $preview = new ilPreviewGUI($this->node_id, $context, $this->object->getId(), $this->access_handler);
-            $info->addProperty($this->lng->txt("preview"), $preview->getInlineHTML());
+            $info->addProperty($this->lng->txt("preview"), $preview->getRenderedTriggerComponents(true));
         }
 
         // forward the command
