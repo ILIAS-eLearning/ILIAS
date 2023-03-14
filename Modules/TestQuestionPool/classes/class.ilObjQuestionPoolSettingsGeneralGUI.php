@@ -114,6 +114,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         // activate corresponding tab (auto activation does not work in ilObjTestGUI-Tabs-Salad)
 
         $this->tabs->activateTab('settings');
+        $this->tabs->activateSubTab('qpl_settings_subtab_general');
 
         // process command
 
