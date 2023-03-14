@@ -148,7 +148,11 @@ class ilCmiXapiStatementsReport
 
     protected function fetchVerbDisplay(array $statement): string
     {
-        return $statement['verb']['display']['en-US'];
+        try {
+            return $statement['verb']['display']['en-US'];
+        } catch (Exception $e) {
+            return $statement['verb']['id'];
+        }
     }
 
     protected function fetchObjectName(array $statement): string
