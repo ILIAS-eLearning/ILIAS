@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Setup;
 
@@ -84,28 +84,6 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
         }
 
         return $environment;
-    }
-
-    /**
-     * @description Method is currently not used, needed for non-mysql databases
-     */
-    private function readingAbstractionFile(
-        ilDBInterface $db,
-        Setup\CLI\IOWrapper $io
-    ): void {
-        $io->text("reading abstraction file, this may take a while...");
-        $db_backup = $GLOBALS['ilDB'];
-        $GLOBALS['ilDB'] = $db;
-        /** @noRector  */
-        require "./setup/sql/ilDBTemplate.php";
-        if (function_exists('setupILIASDatabase')) {
-            setupILIASDatabase();
-        } else {
-            throw new Setup\UnachievableException(
-                "Cannot read ilDBTemplate"
-            );
-        }
-        $GLOBALS['ilDB'] = $db_backup;
     }
 
     /**
