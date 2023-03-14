@@ -103,26 +103,20 @@ class ilFileDataForum extends ilFileData
      */
     public function getFilesOfPost(): array
     {
-        $files = [];
+        $directoryIterator = new DirectoryIterator($this->forum_path);
+        $filterIterator = new RegexIterator($directoryIterator, "/^{$this->obj_id}_{$this->getPosId()}_(.+)$/");
 
-        foreach (new DirectoryIterator($this->forum_path) as $file) {
-            /** @var $file SplFileInfo */
-            if ($file->isDir()) {
-                continue;
-            }
-
-            [$obj_id, $rest] = explode('_', $file->getFilename(), 2);
-            if ((int) $obj_id === $this->obj_id) {
-                [$pos_id, $rest] = explode('_', $rest, 2);
-                if ((int) $pos_id === $this->getPosId()) {
-                    $files[$rest] = [
-                        'path' => $file->getPathname(),
-                        'md5' => md5($this->obj_id . '_' . $this->pos_id . '_' . $rest),
-                        'name' => $rest,
-                        'size' => $file->getSize(),
-                        'ctime' => date('Y-m-d H:i:s', $file->getCTime())
-                    ];
-                }
+        $files = array();
+        foreach ($filterIterator as $file) {
+            if ($file->isFile()) {
+                list($obj_id, $pos_id, $rest) = explode('_', $file->getFilename(), 3);
+                $files[$rest] = array(
+                    'path' => $file->getPathname(),
+                    'md5' => md5($this->obj_id . '_' . $this->pos_id . '_' . $rest),
+                    'name' => $rest,
+                    'size' => $file->getSize(),
+                    'ctime' => date('Y-m-d H:i:s', $file->getCTime())
+                );
             }
         }
 
