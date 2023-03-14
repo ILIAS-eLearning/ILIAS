@@ -23,16 +23,24 @@ use Symfony\Component\DependencyInjection\Container;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
+use ILIAS\ResourceStorage\Services;
+use ILIAS\ResourceStorage\Manager\Manager;
 
 class ilServicesFileServicesTest extends TestCase
 {
     private ?\ILIAS\DI\Container $dic_backup;
+    /**
+     * @var ilDBInterface|(ilDBInterface&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private ?ilDBInterface $db_mock = null;
 
     protected function setUp(): void
     {
         global $DIC;
         $this->dic_backup = is_object($DIC) ? clone $DIC : null;
+
         $DIC = new \ILIAS\DI\Container();
+        $DIC['ilDB'] = $this->db_mock = $this->createMock(ilDBInterface::class);
     }
 
     protected function tearDown(): void
@@ -119,22 +127,18 @@ class ilServicesFileServicesTest extends TestCase
 
     public function testActualWhitelist(): void
     {
-        $db_mock = $this->createMock(ilDBInterface::class);
         $settings_mock = $this->createMock(ilSetting::class);
         $ini_mock = $this->createMock(ilIniFile::class);
 
         $ref = new stdClass();
         $ref->ref_id = 32;
-        $db_mock->expects($this->once())
+        $this->db_mock->expects($this->once())
                 ->method('fetchObject')
                 ->willReturn($ref);
 
-        $db_mock->expects($this->once())
+        $this->db_mock->expects($this->once())
                 ->method('fetchAssoc')
                 ->willReturn([]);
-
-        global $DIC;
-        $DIC['ilDB'] = $db_mock;
 
         $default_whitelist = include __DIR__ . "/../../../Services/FileServices/defaults/default_whitelist.php";
 
@@ -152,7 +156,7 @@ class ilServicesFileServicesTest extends TestCase
                           'wl001,wl002' // add whitelist
                       );
 
-        $settings = new ilFileServicesSettings($settings_mock, $ini_mock, $db_mock);
+        $settings = new ilFileServicesSettings($settings_mock, $ini_mock, $this->db_mock);
         $this->assertEquals(['bl001', 'bl002'], $settings->getBlackListedSuffixes());
         $this->assertEquals(['bl001', 'bl002'], $settings->getProhibited());
         $this->assertEquals($default_whitelist, $settings->getDefaultWhitelist());
