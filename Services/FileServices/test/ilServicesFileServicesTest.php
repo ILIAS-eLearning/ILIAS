@@ -28,6 +28,19 @@ class ilServicesFileServicesTest extends TestCase
 {
     private ?\ILIAS\DI\Container $dic_backup;
 
+    protected function setUp(): void
+    {
+        global $DIC;
+        $this->dic_backup = is_object($DIC) ? clone $DIC : null;
+        $DIC = new \ILIAS\DI\Container();
+    }
+
+    protected function tearDown(): void
+    {
+        global $DIC;
+        $DIC = $this->dic_backup;
+    }
+
     public function testSanitizing(): void
     {
         $settings = $this->createMock(ilFileServicesSettings::class);
@@ -116,7 +129,14 @@ class ilServicesFileServicesTest extends TestCase
                 ->method('fetchObject')
                 ->willReturn($ref);
 
-        $default_whitelist = include "./Services/FileServices/defaults/default_whitelist.php";
+        $db_mock->expects($this->once())
+                ->method('fetchAssoc')
+                ->willReturn([]);
+
+        global $DIC;
+        $DIC['ilDB'] = $db_mock;
+
+        $default_whitelist = include __DIR__ . "/../../../Services/FileServices/defaults/default_whitelist.php";
 
         // Blacklist
         $settings_mock->expects($this->exactly(3))

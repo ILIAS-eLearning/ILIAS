@@ -29,9 +29,6 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Revision\FileRevision;
 use ILIAS\ResourceStorage\Resource\StorableFileResource;
 
-/**
- * @runTestsInSeparateProcesses
- */
 class ilModulesFileTest extends TestCase
 {
     private ?\ILIAS\DI\Container $dic_backup = null;
@@ -48,7 +45,7 @@ class ilModulesFileTest extends TestCase
     protected function setUp(): void
     {
         global $DIC;
-        $this->dic_backup = is_object($DIC) ? clone $DIC : $DIC;
+        $this->dic_backup = is_object($DIC) ? clone $DIC : null;
 
         $DIC = new Container();
         $DIC['resource_storage'] = $this->storage_mock = $this->createMock(Services::class);
