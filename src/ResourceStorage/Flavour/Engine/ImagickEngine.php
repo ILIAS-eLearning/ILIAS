@@ -36,6 +36,7 @@ class ImagickEngine implements Engine
         'bmp',
         'pdf',
         'pdf',
+        'svg',
     ];
     protected array $supported;
 
