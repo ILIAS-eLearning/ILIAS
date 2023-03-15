@@ -1,6 +1,9 @@
 <!-- BEGIN row -->
 <tr class="{CSS_ROW}">
-	<td class="std" ><input type="checkbox" {CHECKED} name="mail_id[]" value="{MAIL_ID}" {CHECKBOX_CHECKED}></td>
+	<td class="std">
+		<input type="checkbox" {CHECKED} name="mail_id[]" id="select_mail_{MAIL_ID}" value="{MAIL_ID}" {CHECKBOX_CHECKED}>
+		<label class="sr-only" for="select_mail_{MAIL_ID}">{TXT_SELECT_MAIL_WITH_SUBJECT}</label>
+	</td>
 	<!-- BEGIN attachments_column -->
 	<td class="std">{ATTACHMENT_INDICATOR}</td>
 	<!-- END attachments_column -->
