@@ -191,11 +191,9 @@ class ilParticipantsTestResultsGUI
             $this->main_tpl->setOnScreenMessage('info', $this->questionSetConfig->getDepenciesInVulnerableStateMessage($this->lang));
         }
 
-        $manageParticipantFilter = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId());
         $accessResultsFilter = ilTestParticipantAccessFilter::getAccessResultsUserFilter($this->getTestObj()->getRefId());
 
         $participantList = $this->getTestObj()->getActiveParticipantList();
-        $participantList = $participantList->getAccessFilteredList($manageParticipantFilter);
         $participantList = $participantList->getAccessFilteredList($accessResultsFilter);
 
         $scoredParticipantList = $participantList->getScoredParticipantList();
