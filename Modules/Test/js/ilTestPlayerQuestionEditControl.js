@@ -710,3 +710,19 @@ il.TestPlayerQuestionEditControl = new function() {
         autoSavedData = '';
     }
 };
+
+/**
+ * Right now we need this in the global space as the corresponding function
+ * in TinyMCE expects it there.
+ */
+function saveTextarea(editor)
+{
+    let form = document.forms['taForm'];
+    let input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'cmd[submitSolution]';
+    input.value = 'save';
+
+    form.appendChild(input);
+    form.submit();
+}
