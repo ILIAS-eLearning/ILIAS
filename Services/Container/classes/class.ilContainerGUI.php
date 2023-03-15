@@ -1062,7 +1062,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
 
         if ($containers > 0 && count($this->std_request->getSelectedIds()) > 1) {
-            $ilErr->raiseError($this->lng->txt("cntr_container_only_on_their_own"), $ilErr->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cntr_container_only_on_their_own"), true);
+            $this->ctrl->redirect($this, "");
         }
 
         // IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'delete'
@@ -1071,10 +1072,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             foreach ($no_copy as $copy_id) {
                 $titles[] = ilObject::_lookupTitle(ilObject::_lookupObjId($copy_id));
             }
-            $ilErr->raiseError(
+            $this->tpl->setOnScreenMessage(
+                'failure',
                 $this->lng->txt("msg_no_perm_copy") . " " . implode(',', $titles),
-                $ilErr->MESSAGE
+                true
             );
+            $this->ctrl->redirect($this, "");
         }
 
         // if we have a single container, set it as source id and redirect to ilObjectCopyGUI
