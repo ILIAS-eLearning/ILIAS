@@ -983,10 +983,11 @@ class ilLOEditorGUI
                 $tst->putInTree($this->getParentObject()->getRefId());
                 $tst->setPermissions($this->getParentObject()->getRefId());
 
+                //To ensure Test id is set, we should save the test before apply settings template
+                $tst->setQuestionSetType($form->getInput('qtype'));
+                $tst->saveToDb();
                 // apply settings template
                 $this->applySettingsTemplate($tst);
-
-                $tst->setQuestionSetType($form->getInput('qtype'));
 
                 $tst->saveToDb();
 
