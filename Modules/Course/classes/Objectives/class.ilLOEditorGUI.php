@@ -902,6 +902,7 @@ class ilLOEditorGUI
                 $tst->setTitle($form->getInput('title'));
                 $tst->setDescription($form->getInput('desc'));
                 $tst->create();
+                $tst->saveToDb();
                 $tst->createReference();
                 $tst->putInTree($this->getParentObject()->getRefId());
                 $tst->setPermissions($this->getParentObject()->getRefId());
@@ -979,6 +980,7 @@ class ilLOEditorGUI
                 $tst->setTitle($form->getInput('title'));
                 $tst->setDescription($form->getInput('desc'));
                 $tst->create();
+                $tst->saveToDb();
                 $tst->createReference();
                 $tst->putInTree($this->getParentObject()->getRefId());
                 $tst->setPermissions($this->getParentObject()->getRefId());
