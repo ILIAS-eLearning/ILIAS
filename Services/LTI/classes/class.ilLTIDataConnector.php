@@ -1261,11 +1261,9 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         }
         $ok = (bool) $ilDB->manipulateF($query, $types, $values);
         $this->logger->debug('Update resource link with query: ' . $query);
-        if (ilLogLevel::DEBUG) {
-            $this->logger->logStack();
-            $this->logger->dump($values, ilLogLevel::DEBUG);
-            $this->logger->dump($ok);
-        }
+//        $this->logger->logStack();
+        $this->logger->dump($values, ilLogLevel::DEBUG);
+        $this->logger->dump($ok, ilLogLevel::DEBUG);
 
         if ($ok) {
             $resourceLink->updated = $time;
