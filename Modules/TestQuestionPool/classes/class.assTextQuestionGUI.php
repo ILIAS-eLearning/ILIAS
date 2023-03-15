@@ -572,7 +572,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
         $this->object->setWordCounterEnabled(isset($_POST['wordcounter']) && $_POST['wordcounter']);
-        $this->object->setMaxNumOfChars($_POST["maxchars"]);
+        $this->object->setMaxNumOfChars($_POST["maxchars"] ?? 0);
         $this->object->setTextRating($_POST["text_rating"]);
         $this->object->setKeywordRelation($_POST['scoring_mode']);
     }
