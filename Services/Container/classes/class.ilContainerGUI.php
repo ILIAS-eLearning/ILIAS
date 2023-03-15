@@ -1168,17 +1168,19 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
 
         // NO ACCESS
-        if (count($no_cut)) {
-            $ilErr->raiseError(
-                $this->lng->txt("msg_no_perm_link") . " " .
-                implode(',', $no_cut),
-                $ilErr->MESSAGE
+        if ($no_cut !== []) {
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt("msg_no_perm_link") . " " . implode(',', $no_cut),
+                true
             );
+            $this->ctrl->redirect($this, "");
         }
 
-        if (count($no_link)) {
+        if ($no_link !== []) {
             //#12203
-            $ilErr->raiseError($this->lng->txt("msg_obj_no_link"), $ilErr->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_obj_no_link'), true);
+            $this->ctrl->redirect($this, "");
         }
 
         $this->clipboard->setParent($this->requested_ref_id);
