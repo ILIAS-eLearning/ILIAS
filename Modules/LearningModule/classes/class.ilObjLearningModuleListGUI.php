@@ -56,12 +56,12 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
         $this->reading_time_manager = new \ILIAS\LearningModule\ReadingTime\ReadingTimeManager();
     }
 
-    public function setChildId(int $a_child_id): void
+    public function setChildId(string $a_child_id): void
     {
         $this->child_id = $a_child_id;
     }
 
-    public function getChildId(): int
+    public function getChildId(): string
     {
         return $this->child_id;
     }
