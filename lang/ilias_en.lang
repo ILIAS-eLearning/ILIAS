@@ -3356,7 +3356,7 @@ cmxv#:#cmxv_create#:#Create Certificate for xAPI/cmi5 Object
 cmxv#:#cmxv_create_info#:#Select a completed xAPI/cmi5 object to generate a certificate for it
 cntr#:#cntr_add_new_item#:#Add New Item
 cntr#:#cntr_adopt_content#:#Adopt Content
-cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only.
+cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders, learning sequences or study programmes can only be copied as single objects. Please select one item only.
 cntr#:#cntr_copy_crs_grp#:#My Courses and Groups
 cntr#:#cntr_copy_repo_tree#:#Repository Tree
 cntr#:#cntr_hide_title_and_icon#:#Hide Title and Icon
