@@ -3388,7 +3388,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
 
 
-        $settings = $object->getScoreSettings();
+        $score_settings = $object->getScoreSettings();
         foreach ($simpleSetters as $field => $setter) {
             if (! array_key_exists($field, $templateData)) {
                 continue;
@@ -3399,8 +3399,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 case 'count_system':
                 case 'pass_scoring':
                 case 'score_cutting':
-                    $settings = $settings->withScoringSettings(
-                        $settings->getScoringSettings()->$setter(
+                    $score_settings = $score_settings->withScoringSettings(
+                        $score_settings->getScoringSettings()->$setter(
                             (int) $templateData[$field]['value']
                         )
                     );
@@ -3409,15 +3409,15 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 case 'pass_deletion_allowed':
                 case 'grading_status':
                 case 'grading_mark':
-                    $settings = $settings->withResultSummarySettings(
-                        $settings->getResultSummarySettings()->$setter(
+                    $score_settings = $score_settings->withResultSummarySettings(
+                        $score_settings->getResultSummarySettings()->$setter(
                             (bool) $templateData[$field]['value']
                         )
                     );
                     break;
                 case 'results_access_enabled':
-                    $settings = $settings->withResultSummarySettings(
-                        $settings->getResultSummarySettings()->$setter(
+                    $score_settings = $score_settings->withResultSummarySettings(
+                        $score_settings->getResultSummarySettings()->$setter(
                             (int) $templateData[$field]['value']
                         )
                     );
@@ -3430,16 +3430,16 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 case 'solution_signature':
                 case 'examid_in_test_res':
                 case 'exp_sc_short':
-                    $settings = $settings->withResultDetailsSettings(
-                        $settings->getResultDetailsSettings()->$setter(
+                    $score_settings = $score_settings->withResultDetailsSettings(
+                        $score_settings->getResultDetailsSettings()->$setter(
                             (bool) $templateData[$field]['value']
                         )
                     );
                     break;
 
                 case 'highscore_enabled':
-                    $settings = $settings->withGamificationSettings(
-                        $settings->getGamificationSettings()->$setter(
+                    $score_settings = $score_settings->withGamificationSettings(
+                        $score_settings->getGamificationSettings()->$setter(
                             (bool) $templateData[$field]['value']
                         )
                     );
@@ -3502,7 +3502,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     }
             }
         }
-        $object->getScoreSettingsRepository()->store($settings);
+        $object->getScoreSettingsRepository()->store($score_settings);
     }
 
     public function saveOrderAndObligationsObject()
