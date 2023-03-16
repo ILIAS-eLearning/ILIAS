@@ -104,6 +104,8 @@ class ilObjLearningSequenceContentGUI
             $this->ctrl,
             $this->lng,
             $this->access,
+            $this->ui_factory,
+            $this->ui_renderer,
             new ilAdvancedSelectionListGUI(),
             $this->ls_item_online_status
         );
