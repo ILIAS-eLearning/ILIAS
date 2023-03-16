@@ -353,13 +353,17 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
 
     private function editMode(): string
     {
-        return filter_input(INPUT_GET, self::EDIT_MODE, FILTER_CALLBACK, ['options' => function (string $value) {
-            if ($value === self::EDIT_MODE_SERIES || $value === self::EDIT_MODE_APPOINTMENT) {
-                return $value;
-            }
-
-            return 'invalid';
-        }]) ?? 'invalid';
+        $mode = '';
+        if ($this->http->wrapper()->query()->has(self::EDIT_MODE)) {
+            $mode = $this->http->wrapper()->query()->retrieve(
+                self::EDIT_MODE,
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        if ($mode === self::EDIT_MODE_SERIES || $mode === self::EDIT_MODE_APPOINTMENT) {
+            return $mode;
+        }
+        return 'invalid';
     }
 
     private function getEditModeParameter(string $mode): string
