@@ -29,8 +29,8 @@ use ILIAS\Notifications\ilNotificationOSDHandler;
 
 class ChatInvitationNotificationProvider extends AbstractNotificationProvider
 {
-    public const MUTED_UNTIL_PREFERENCE_KEY = 'chatinv_nc_muted_until';
-    public const NOTIFICATION_TYPE = 'chat_invitation';
+    protected const NOTIFICATION_TYPE = 'chat_invitation';
+    protected const MUTED_UNTIL_PREFERENCE_KEY = 'chatinv_nc_muted_until';
 
     public function getNotifications(): array
     {
@@ -38,17 +38,9 @@ class ChatInvitationNotificationProvider extends AbstractNotificationProvider
             return [];
         }
 
-        $leftIntervalTimestamp = $this->dic->user()->getPref(self::MUTED_UNTIL_PREFERENCE_KEY);
-
         $latest_time = 0;
-        $osd_notification_handler = new ilNotificationOSDHandler(new ilNotificationOSDRepository($this->dic->database()));
         $invitations = [];
-        foreach ($osd_notification_handler->getOSDNotificationsForUser(
-            $this->dic->user()->getId(),
-            true,
-            time() - $leftIntervalTimestamp,
-            self::NOTIFICATION_TYPE
-        ) as $osd) {
+        foreach ($this->getUserOSDNotifications() as $osd) {
             $invitations[] = $osd;
             if ($latest_time < $osd->getTimeAdded()) {
                 $latest_time = $osd->getTimeAdded();
@@ -108,13 +100,10 @@ class ChatInvitationNotificationProvider extends AbstractNotificationProvider
                  )->withNotificationItem($notificationItem)
                   ->withNewAmount(count($invitations))
                   ->withClosedCallable(
-                      function () use ($osd_notification_handler): void {
+                      function (): void {
                           $this->dic->user()->writePref(self::MUTED_UNTIL_PREFERENCE_KEY, (string) time());
 
-                          $osd_notification_handler->deleteStaleNotificationsForUserAndType(
-                              $this->dic->user()->getId(),
-                              self::NOTIFICATION_TYPE
-                          );
+                          $this->deleteStaleNotifications();
                       }
                   )
              )

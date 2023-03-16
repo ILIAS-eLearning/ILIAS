@@ -31,6 +31,8 @@ use ILIAS\Chatroom\GlobalScreen\ChatInvitationNotificationProvider;
  */
 class ilChatroom
 {
+    public const CHAT_INVITATION = 'chat_invitation';
+
     private static string $settingsTable = 'chatroom_settings';
     private static string $historyTable = 'chatroom_history';
     private static string $userTable = 'chatroom_users';
@@ -843,6 +845,7 @@ class ilChatroom
         int $subScope = 0,
         string $invitationLink = ''
     ): void {
+        $provider = new ChatInvitationNotificationProvider();
         $links = [];
 
         if ($gui && $invitationLink === '') {
@@ -887,16 +890,14 @@ class ilChatroom
                 $bodyParams['room_name'] .= ' - ' . self::lookupPrivateRoomTitle($subScope);
             }
 
-            $notification = new ilNotificationConfig(ChatInvitationNotificationProvider::NOTIFICATION_TYPE);
+            $notification = $provider->getNotificationConfig();
             $notification->setTitleVar('chat_invitation', $bodyParams, 'chatroom');
             $notification->setShortDescriptionVar('chat_invitation_short', $bodyParams, 'chatroom');
             $notification->setLongDescriptionVar('chat_invitation_long', $bodyParams, 'chatroom');
             $notification->setLinks($links);
             $notification->setIconPath('templates/default/images/icon_chtr.svg');
-            $notification->setValidForSeconds(ilNotificationConfig::TTL_LONG);
-            $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
-
             $notification->setHandlerParam('mail.sender', (string) $sender_id);
+            $notification->setProviderKey(self::CHAT_INVITATION);
 
             $notification->notifyByUsers([$recipient_id]);
         }

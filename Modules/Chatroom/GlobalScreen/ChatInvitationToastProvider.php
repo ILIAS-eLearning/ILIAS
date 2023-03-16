@@ -21,15 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\Chatroom\GlobalScreen;
 
 use ILIAS\GlobalScreen\Scope\Toast\Provider\AbstractToastProvider;
-use ILIAS\Notifications\Repository\ilNotificationOSDRepository;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
-use ILIAS\Notifications\ilNotificationOSDHandler;
 
 class ChatInvitationToastProvider extends AbstractToastProvider
 {
-    public const MUTED_UNTIL_PREFERENCE_KEY = 'chatinv_nc_muted_until';
-    public const NOTIFICATION_TYPE = 'chat_invitation';
-
     public function getToasts(): array
     {
         $toasts = [];
@@ -38,14 +33,7 @@ class ChatInvitationToastProvider extends AbstractToastProvider
             return $toasts;
         }
 
-        $osd_notification_handler = new ilNotificationOSDHandler(new ilNotificationOSDRepository($this->dic->database()));
-
-        foreach ($osd_notification_handler->getOSDNotificationsForUser(
-            $this->dic->user()->getId(),
-            true,
-            time() - $this->dic->user()->getPref(self::MUTED_UNTIL_PREFERENCE_KEY),
-            self::NOTIFICATION_TYPE
-        ) as $invitation) {
+        foreach ((new ChatInvitationNotificationProvider($this->dic))->getUserOSDNotifications() as $invitation) {
             $toast = $this->getDefaultToast(
                 $invitation->getObject()->title,
                 $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::CHTA, 'chat_invitations')
