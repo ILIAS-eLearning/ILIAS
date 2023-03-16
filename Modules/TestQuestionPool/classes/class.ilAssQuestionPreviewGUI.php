@@ -347,17 +347,28 @@ class ilAssQuestionPreviewGUI
             if ($this->questionGUI->hasInlineFeedback()) {
                 // Don't jump to the feedback below the question if some feedback is shown within the question
                 $jump_to_response = false;
-            }
-            else if ($this->populateSpecificQuestionFeedback($tpl)) {
-                $response_available = true;
-                $jump_to_response = true;
+            } else {
+                if ($this->populateSpecificQuestionFeedback($tpl)) {
+                    $response_available = true;
+                    $jump_to_response = true;
+                }
             }
         }
 
         if ($response_required) {
             $this->populateInstantResponseHeader($tpl, $jump_to_response);
             if (!$response_available) {
-                $this->populateInstantResponseMissing($tpl);
+                if ($this->questionGUI->hasInlineFeedback()) {
+                    $this->populateInstantResponseMessage(
+                        $tpl,
+                        $this->lng->txt('tst_feedback_is_given_inline')
+                    );
+                } else {
+                    $this->populateInstantResponseMessage(
+                        $tpl,
+                        $this->lng->txt('tst_feedback_not_available_for_answer')
+                    );
+                }
             }
         }
     }
@@ -576,10 +587,10 @@ class ilAssQuestionPreviewGUI
         $tpl->parseCurrentBlock();
     }
 
-    protected function populateInstantResponseMissing(ilTemplate $tpl)
+    protected function populateInstantResponseMessage(ilTemplate $tpl, string $a_message)
     {
-        $tpl->setCurrentBlock('instant_response_missing');
-        $tpl->setVariable('INSTANT_RESPONSE_MISSING', $this->lng->txt('tst_feedback_not_available_for_answer'));
+        $tpl->setCurrentBlock('instant_response_message');
+        $tpl->setVariable('INSTANT_RESPONSE_MESSAGE', $a_message);
         $tpl->parseCurrentBlock();
     }
 

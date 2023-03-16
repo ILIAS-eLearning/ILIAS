@@ -2278,7 +2278,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     }
     // fau;
 
-
     /**
      * @see ilAssQuestionPreviewGUI::handleInstantResponseRendering()
      */
@@ -2343,8 +2342,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             if ($questionGui->hasInlineFeedback()) {
                 // Don't jump to the feedback below the question if some feedback is shown within the question
                 $jump_to_response = false;
-            }
-            elseif ($this->populateSpecificFeedbackBlock($questionGui)) {
+            } elseif ($this->populateSpecificFeedbackBlock($questionGui)) {
                 $response_available = true;
                 $jump_to_response = true;
             }
@@ -2352,7 +2350,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         $this->populateFeedbackBlockHeader($jump_to_response);
         if (!$response_available) {
-            $this->populateFeedbackMissingMessage();
+            if ($questionGui->hasInlineFeedback()) {
+                $this->populateFeedbackBlockMessage($this->lng->txt('tst_feedback_is_given_inline'));
+            } else {
+                $this->populateFeedbackBlockMessage($this->lng->txt('tst_feedback_not_available_for_answer'));
+            }
         }
     }
 
@@ -2369,10 +2371,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->tpl->parseCurrentBlock();
     }
 
-    protected function populateFeedbackMissingMessage()
+    protected function populateFeedbackBlockMessage(string $a_message)
     {
-        $this->tpl->setCurrentBlock('instant_response_missing');
-        $this->tpl->setVariable('INSTANT_RESPONSE_MISSING', $this->lng->txt('tst_feedback_not_available_for_answer'));
+        $this->tpl->setCurrentBlock('instant_response_message');
+        $this->tpl->setVariable('INSTANT_RESPONSE_MESSAGE', $a_message);
         $this->tpl->parseCurrentBlock();
     }
 
