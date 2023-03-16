@@ -47,6 +47,8 @@ class ilNotificationConfig
     protected int $visibleForSeconds = 0;
     private array $handlerParams = [];
 
+    private string $provider_key = '';
+
     public function __construct(string $type)
     {
         $this->type = $type;
@@ -291,5 +293,15 @@ class ilNotificationConfig
     public function unsetHandlerParam(string $name): void
     {
         unset($this->handlerParams[$name]);
+    }
+
+    public function setProviderKey(string $key): void
+    {
+        $this->provider_key = $key;
+    }
+
+    public function getProviderKey(): string
+    {
+        return $this->provider_key;
     }
 }

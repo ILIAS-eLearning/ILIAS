@@ -35,9 +35,6 @@ use ilDBConstants;
  */
 class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterface
 {
-    private const UNIQUE_TYPES = [
-        'who_is_online'
-    ];
     private ilDBInterface $database;
 
     public function __construct(?ilDBInterface $database = null)
@@ -65,10 +62,6 @@ class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterfac
             $base->getType()
         );
 
-        if (in_array($notification->getType(), self::UNIQUE_TYPES)) {
-            $this->deleteOSDNotificationByUserAndType($user_id, $notification->getType());
-        }
-
         $affected = $this->database->insert(
             ilNotificationSetupHelper::$tbl_notification_osd_handler,
             [
@@ -79,6 +72,7 @@ class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterfac
                 'visible_for' => [ilDBConstants::T_INTEGER, $notification->getVisibleFor()],
                 'type' => [ilDBConstants::T_TEXT, $notification->getType()],
                 'time_added' => [ilDBConstants::T_INTEGER, $notification->getTimeAdded()],
+                'provider_key' => [ilDBConstants::T_TEXT, $base->getProviderKey()]
             ]
         );
 
@@ -148,17 +142,20 @@ class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterfac
         return false;
     }
 
-    private function deleteOSDNotificationByUserAndType(int $user_id, string $type): void
+    public function deleteOSDNotificationByProviderKey(string $type, string $provider_key, int $user_id = 0): bool
     {
-        $query = 'DELETE FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE usr_id = %s AND type = %s';
-        $this->database->manipulateF(
-            $query,
-            [ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT],
-            [$user_id, $type]
-        );
+        $query = 'DELETE FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE type = %s AND provider_key = %s';
+        $keys = [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT];
+        $values = [$type, $provider_key];
+        if ($user_id > 0) {
+            $query .= ' AND user_id = %s';
+            $keys[] = ilDBConstants::T_INTEGER;
+            $values[] = $user_id;
+        }
+        return (1 === $this->database->manipulateF($query, $keys, $values));
     }
 
-    public function deleteStaleNotificationsForUserAndType(int $user_id, string $type, int $until_timestamp): void
+    public function deleteStaleOSDNotificationsForUserAndType(int $user_id, string $type, int $until_timestamp): void
     {
         $query = 'DELETE FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE usr_id = %s AND type = %s AND time_added < %s';
         $this->database->manipulateF(

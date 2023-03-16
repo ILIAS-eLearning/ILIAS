@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Notifications;
 
+use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
+use ILIAS\Notifications\Model\ilNotificationConfig;
 use ILIAS\Notifications\Model\ilNotificationObject;
 use ILIAS\Notifications\Model\OSD\ilOSDNotificationObject;
 use ILIAS\Notifications\Repository\ilNotificationOSDRepository;
@@ -69,14 +71,31 @@ class ilNotificationOSDHandler extends ilNotificationHandler
         return $notifications;
     }
 
+    /**
+     * @depracated
+     */
     public function deleteStaleNotificationsForUserAndType(int $user_id, string $type): void
     {
-        $this->repo->deleteStaleNotificationsForUserAndType($user_id, $type, $this->clock->now()->getTimestamp());
+        $this->repo->deleteStaleOSDNotificationsForUserAndType($user_id, $type, $this->clock->now()->getTimestamp());
+    }
+
+    public function deleteStaleOSDNotificationsForUserAndType(int $user_id, string $type): void
+    {
+        $this->repo->deleteStaleOSDNotificationsForUserAndType($user_id, $type, $this->clock->now()->getTimestamp());
     }
 
     public function removeNotification(int $notification_osd_id): bool
     {
         return $this->repo->deleteOSDNotificationById($notification_osd_id);
+    }
+
+    public function removeProviderNotification(AbstractNotificationProvider $provider, string $provider_key, int $user_id = 0): bool
+    {
+        return $this->repo->deleteOSDNotificationByProviderKey(
+            $provider->getType(),
+            $provider_key,
+            $user_id
+        );
     }
 
     private function appendParamToLink(string $link, string $param, int $value): string
