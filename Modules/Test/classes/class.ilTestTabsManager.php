@@ -1043,10 +1043,6 @@ class ilTestTabsManager
      */
     public function needsParticipantsResultsSubTab(): bool
     {
-        if ($this->testAccess->checkManageParticipantsAccess()) {
-            return true;
-        }
-
         if ($this->testAccess->checkParticipantsResultsAccess()) {
             return true;
         }
