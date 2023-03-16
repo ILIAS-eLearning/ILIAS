@@ -21,14 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\Badge\GlobalScreen;
 
 use ILIAS\GlobalScreen\Scope\Toast\Provider\AbstractToastProvider;
-use ILIAS\Notifications\Repository\ilNotificationOSDRepository;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
-use ILIAS\Notifications\ilNotificationOSDHandler;
 
 class BadgeToastProvider extends AbstractToastProvider
 {
-    public const NOTIFICATION_TYPE = 'badge_received';
-
     public function getToasts(): array
     {
         $toasts = [];
@@ -37,14 +33,7 @@ class BadgeToastProvider extends AbstractToastProvider
             return $toasts;
         }
 
-        $osd_notification_handler = new ilNotificationOSDHandler(new ilNotificationOSDRepository($this->dic->database()));
-
-        foreach ($osd_notification_handler->getOSDNotificationsForUser(
-            $this->dic->user()->getId(),
-            true,
-            0,
-            self::NOTIFICATION_TYPE
-        ) as $badge_issued_info) {
+        foreach ((new BadgeNotificationProvider($this->dic))->getUserOSDNotifications() as $badge_issued_info) {
             $toast = $this->getDefaultToast(
                 $badge_issued_info->getObject()->title,
                 $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::BDGA, 'badge')

@@ -28,7 +28,7 @@ use ILIAS\Notifications\Repository\ilNotificationOSDRepository;
 
 class BadgeNotificationProvider extends AbstractNotificationProvider
 {
-    public const NOTIFICATION_TYPE = 'badge_received';
+    protected const NOTIFICATION_TYPE = 'badge_received';
 
     public function getNotifications(): array
     {
@@ -61,21 +61,15 @@ class BadgeNotificationProvider extends AbstractNotificationProvider
             ->withDescription(str_replace("%1", (string) $new_badges, $lng->txt("badge_new_badges")))
             ->withProperties([$lng->txt("time") => \ilDatePresentation::formatDate($latest)]);
 
-        $osd_notification_handler = new ilNotificationOSDHandler(new ilNotificationOSDRepository($this->dic->database()));
-
         $group = $factory->standardGroup($id('badge_bucket_group'))->withTitle($lng->txt('badge_badge'))
             ->addNotification(
                 $factory->standard($id('badge_bucket'))->withNotificationItem($badge_notification_item)
                 ->withClosedCallable(
-                    function () use ($user, $osd_notification_handler): void {
+                    function () use ($user): void {
                         // Stuff we do, when the notification is closed
                         $noti_repo = new \ILIAS\Badge\Notification\BadgeNotificationPrefRepository($user);
                         $noti_repo->updateLastCheckedTimestamp();
-
-                        $osd_notification_handler->deleteStaleNotificationsForUserAndType(
-                            $this->dic->user()->getId(),
-                            self::NOTIFICATION_TYPE
-                        );
+                        $this->deleteStaleNotifications();
                     }
                 )
                 ->withNewAmount($new_badges)

@@ -27,6 +27,8 @@ use ILIAS\Badge\GlobalScreen\BadgeNotificationProvider;
  */
 class ilBadgeHandler
 {
+    public const BADGES = 'badges';
+
     protected ilComponentRepository $component_repository;
     protected ilDBInterface $db;
     protected ilTree $tree;
@@ -480,6 +482,8 @@ class ilBadgeHandler
         array $a_user_map,
         int $a_parent_ref_id = null
     ): void {
+        $provider = new BadgeNotificationProvider();
+
         $badges = [];
 
         foreach ($a_user_map as $user_id => $badge_ids) {
@@ -541,14 +545,14 @@ class ilBadgeHandler
                     $url = new ilNotificationLink(new ilNotificationParameter('badge_notification_badges_goto', [], 'badge'), $url);
                     $osd_params = ["badge_list" => implode(", ", $user_badges)];
 
-                    $notification = new ilNotificationConfig(BadgeNotificationProvider::NOTIFICATION_TYPE);
+                    $notification = $provider->getNotificationConfig();
                     $notification->setTitleVar("badge_notification_subject", [], "badge");
                     $notification->setShortDescriptionVar("badge_notification_osd", $osd_params, "badge");
                     $notification->setLongDescriptionVar("");
                     $notification->setLinks([$url]);
                     $notification->setIconPath(ilUtil::getImagePath('icon_bdga.svg'));
-                    $notification->setValidForSeconds(ilNotificationConfig::TTL_SHORT);
-                    $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
+                    $notification->setProviderKey(self::BADGES);
+
                     $notification->notifyByUsers([$user_id]);
                 }
             }
