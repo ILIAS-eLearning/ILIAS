@@ -187,7 +187,7 @@ class ilTestResultsGUI
         switch ($DIC->ctrl()->getNextClass()) {
             case 'ilparticipantstestresultsgui':
 
-                if (!$this->getTestAccess()->checkManageParticipantsAccess() && !$this->getTestAccess()->checkParticipantsResultsAccess()) {
+                if (!$this->getTestAccess()->checkParticipantsResultsAccess()) {
                     ilObjTestGUI::accessViolationRedirect();
                 }
 
