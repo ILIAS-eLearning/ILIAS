@@ -410,13 +410,7 @@ class ilObjUserGUI extends ilObjectGUI
             $userObj->setTitle($userObj->getFullname());
             $userObj->setDescription($userObj->getEmail());
 
-            $udf = array();
-            foreach ($this->request->getParsedBody() as $k => $v) {
-                if (strpos($k, "udf_") === 0) {
-                    $udf[substr($k, 4)] = $v;
-                }
-            }
-            $userObj->setUserDefinedData($udf);
+            $this->loadUserDefinedDataFromForm($userObj);
 
             $userObj->create();
 
@@ -755,6 +749,29 @@ class ilObjUserGUI extends ilObjectGUI
         return $user;
     }
 
+    protected function loadUserDefinedDataFromForm(?ilObjUser $user = null): void
+    {
+        if (!$user) {
+            $user = $this->object;
+        }
+
+        $user_defined_fields = ilUserDefinedFields::_getInstance();
+        if ($this->usrf_ref_id == USER_FOLDER_ID) {
+            $all_defs = $user_defined_fields->getDefinitions();
+        } else {
+            $all_defs = $user_defined_fields->getChangeableLocalUserAdministrationDefinitions();
+        }
+        $udf = [];
+        foreach ($all_defs as $definition) {
+            $f = "udf_" . $definition['field_id'];
+            $item = $this->form_gui->getItemByPostVar($f);
+            if ($item && !$item->getDisabled()) {
+                $udf[$definition['field_id']] = $this->form_gui->getInput($f);
+            }
+        }
+        $user->setUserDefinedData($udf);
+    }
+
     public function updateObject(): void
     {
         global $DIC;
@@ -822,13 +839,7 @@ class ilObjUserGUI extends ilObjectGUI
             #$this->object->assignData($_POST);
             $this->loadValuesFromForm('update');
 
-            $udf = array();
-            foreach ($this->request->getParsedBody() as $k => $v) {
-                if (strpos($k, "udf_") === 0) {
-                    $udf[substr($k, 4)] = $v;
-                }
-            }
-            $this->object->setUserDefinedData($udf);
+            $this->loadUserDefinedDataFromForm();
 
             try {
                 $this->object->updateLogin($this->form_gui->getInput("login"));

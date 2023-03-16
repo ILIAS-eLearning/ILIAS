@@ -49,13 +49,12 @@ abstract class ilUDFDefinitionPlugin extends ilPlugin
     ): void;
 
     /**
-     * Get form property for definition
      * Context: edit user; registration; edit user profile
-     * @param mixed $a_default_value
      */
     abstract public function getFormPropertyForDefinition(
         array $definition,
-        $a_default_value = null
+        bool $a_changeable = true,
+        ?string $a_default_value = null
     ): ilFormPropertyGUI;
 
 
