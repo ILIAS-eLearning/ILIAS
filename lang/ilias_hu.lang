@@ -1386,6 +1386,7 @@ assessment#:#tst_count_correct_solutions#:#Csak a teljesen hibátlan megoldások
 assessment#:#tst_count_correct_solutions_desc#:#A tökéletes, teljesen hibátlan megoldás maximális pontszámot, minden egyéb 0 pontot ér. Ez azokra a kérdésekre is érvényes, melyeknél részmegoldásért is járna pont.
 assessment#:#tst_count_partial_solutions#:#Nem teljes vagy részben hibás megoldások is érnek pontot
 assessment#:#tst_count_partial_solutions_desc#:#A részmegoldásért jár pont. A helyes részmegoldások pontszámai összeadódnak: a résztvevők pontot kapnak a nem teljes vagy részben hibás megoldásokért ezeknél a kérdéseknél.
+assessment#:#tst_current_run_no_longer_valid#:#Your current test run is no longer valid. <br>It was probably completed already or finished by a tutor.###16 03 2023 new variable
 assessment#:#tst_default_settings#:#Saját alapbeállítások teszthez
 assessment#:#tst_defaults_applied#:#A kiválasztott alapbeállítást sikeresen alkalmazta a tesztre.
 assessment#:#tst_defaults_apply_not_possible#:#Az ILIAS nem tudja beállítani a kiválasztott alapbeállítás értékeit ehhez a teszthez! Lehet, hogy a tesztet már töltik.
@@ -2041,6 +2042,7 @@ auth#:#auth_info_migrate#:#Ha van már ILIAS-fiókja, adja meg felhasználónev�
 auth#:#auth_ldap_server_ds#:#LDAP szerver
 auth#:#auth_login_editor#:#Bejelentkezési képernyő szerkesztő
 auth#:#auth_oidc#:#OpenID
+auth#:#auth_oidc_failed#:#Login via OpenID Connect failed###16 03 2023 new variable
 auth#:#auth_oidc_login_element_info#:#Bejelentkezés az ILIAS-ba OpenID hitelesítéssel
 auth#:#auth_oidc_mapping_table#:#ILIAS felhasználói adatok és OpenID-attribútumok összerendelése
 auth#:#auth_oidc_profile#:#Profiladatok hozzárendelése
@@ -2056,6 +2058,8 @@ auth#:#auth_oidc_settings_custom_session_duration_option#:#Saját munkamenet id�
 auth#:#auth_oidc_settings_custom_session_duration_type#:#A munkamenet időtartamának beállításai
 auth#:#auth_oidc_settings_default_role#:#Szerep hozzárendelése
 auth#:#auth_oidc_settings_default_role_info#:#Kérem, válasszon ki egy globális szerepet az új ILIAS-fiókhoz
+auth#:#auth_oidc_settings_discovery_error#:#Retrieving the Discovery URL failed with: %s###16 03 2023 new variable
+auth#:#auth_oidc_settings_discovery_url#:#Discovery URL of the provider###16 03 2023 new variable
 auth#:#auth_oidc_settings_img#:#Kép
 auth#:#auth_oidc_settings_img_file_info#:#Töltsön fel egy képet, ami a bejelentkezési oldalon fog megjelenni. A szöveget automatikusan hozzáfűzzük a bejelentkezési szkripthez.
 auth#:#auth_oidc_settings_invalid_scopes#:#Az következő értékek nem valós hatókörök: %s
@@ -2080,6 +2084,10 @@ auth#:#auth_oidc_settings_txt_val_info#:#Írjon be egy szöveget, ami a bejelent
 auth#:#auth_oidc_settings_user_attr#:#Felhasználónév attribútumneve
 auth#:#auth_oidc_settings_user_sync#:#Automatikus szinkronizálás
 auth#:#auth_oidc_settings_user_sync_info#:#Ha be van kapcsolva, azoknak a felhasználóknak, akik sikeresen hitelesítették magukat az OpenID-szerveren, létrehozzuk egy ILIAS-fiókot, ha az még nem létezik.
+auth#:#auth_oidc_settings_validate_scope_custom#:#Use custom OpenID Connect Discovery url###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scope_default#:#Use :Provider-URL:/.well-known/openid-configuration###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scope_none#:#Do not validate Scopes on saving###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scopes#:#Validate Scopes upon saving###16 03 2023 new variable
 auth#:#auth_oidc_update_field_info#:#Automatikus frissítés
 auth#:#auth_oidc_update_role_info#:#Csak az első bejelentkezéskor (automatikus szinkronizálás) alkalmazzuk
 auth#:#auth_oidconnect#:#OpenID
@@ -2519,6 +2527,7 @@ book#:#book_no_preferences_for_you#:#Egy előzetes választását sem tároltunk
 book#:#book_not#:#Nem
 book#:#book_not_enough_preferences#:#Az előzetes választása túl kevés, azokat nem mentettük.
 book#:#book_notification#:#Foglalási értesítők küldése
+book#:#book_notification_cron_not_active#:#Note: The corresponding cron job "Send Reservation Notifications" is currently not activated.###16 03 2023 new variable
 book#:#book_notification_info#:#A következő napon a foglalások listáját elküldjük a felhasználóknak (saját foglalásaikat) és az üzemeltetőknek (ha be van kapcsolva).
 book#:#book_nr_of_preferences#:#Választási lehetőségek száma
 book#:#book_nr_of_preferences_info#:#A felhasználók által előzetes választható elemek száma.
@@ -3654,7 +3663,6 @@ common#:#categories_imported#:#A kategória importja befejeződött.
 common#:#catr#:#Kategórialink
 common#:#catr_edit_info#:#Válasszon egy kategóriát új link létrehozásához!
 common#:#catr_new#:#Kategórialink létrehozása
-common#:#cc#:#Másolatot kap (CC)
 common#:#certificate#:#Igazolás
 common#:#certificate_file_already_exists_error#:#Az igazolásfájl már létezik a rendszerben.
 common#:#certificate_file_input_output_error#:#Az igazolásfájl létezik a rendszerben, de nem törölhető. Keresse meg a hibával az üzemeltetőt.
@@ -5976,6 +5984,7 @@ cont#:#cont_filter_fields#:#Szűrőmezők
 cont#:#cont_filter_record#:#Bejegyzések
 cont#:#cont_found_objects#:#Talált objektumok
 cont#:#cont_item_list#:#Felsorolás
+cont#:#cont_item_list_info#:#Display content objects in a list.###16 03 2023 new variable
 cont#:#cont_list_presentation#:#Elemek megjelenítése
 cont#:#cont_mem_skills#:#Kompetenciák
 cont#:#cont_news_edited#:#Módosította
@@ -6029,6 +6038,7 @@ cont#:#cont_std_filter_title_8#:#Objektumtípus
 cont#:#cont_std_filter_title_9#:#Online/Offline
 cont#:#cont_std_record_title#:#Standard
 cont#:#cont_tile_view#:#Csempék
+cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###16 03 2023 new variable
 contact#:#contact_awrn_ap_contacts#:#Elfogadott jelölések
 contact#:#contact_awrn_ap_contacts_info#:#A felhasználó összes elfogadott jelölését felsoroljuk.
 contact#:#contact_awrn_req_contacts#:#'Ismerősnek jelölés' kérések
@@ -10602,7 +10612,6 @@ lti#:#user_provider_subtab#:#Felhasználó által definiált Kiszolgálók
 ltiv#:#ltiv_create#:#Az LTI-Fogyasztóobjektumoknak tanúsítvány létrehozása
 ltiv#:#ltiv_create_info#:#Válassza ki a teljesített LTI-Fogyasztóobjektumot, melyhez tanúsítványt kíván generálni
 mail#:#back_to_folder#:#Vissza a mappához
-mail#:#bc#:#Titkos másolat (BCC)
 mail#:#chat_users_have_been_invited#:#Az alábbi felhasználókat hívta meg
 mail#:#chat_users_without_login#:#Az alábbi felhasználóknak nincs ILIAS-fiókja, nem lehetnek meghívva csevegőszobába.
 mail#:#chat_users_without_permission#:#Az alábbi felhasználóknak nincs hozzáférése a kiválasztott csevegőszobához:
@@ -10627,9 +10636,11 @@ mail#:#mail_assign_entry_to_mailing_list#:#Rendeljen hozzá egy névjegyet a cso
 mail#:#mail_attachment_file_not_exist#:#Legalább az egyik csatolmány nem található: %1$s
 mail#:#mail_attachments#:#Mellékletek
 mail#:#mail_auto_generated_info#:#Ezt a levelet automatikusan küldte Önnek az ILIAS %s: %s
+mail#:#mail_bcc#:#BCC###16 03 2023 new variable
 mail#:#mail_bg_task_desc#:#Tárgy: %s
 mail#:#mail_bg_task_title#:#E-mail szállítás
 mail#:#mail_both_email#:#Mindkét e-mail cím
+mail#:#mail_cc#:#CC###16 03 2023 new variable
 mail#:#mail_change_to_folder#:#Mappaváltás: %s
 mail#:#mail_create_tpl#:#Szövegminta létrehozása
 mail#:#mail_cronjob_notification_info#:#Periodikus értesítés aktiválása az új e-mailekről
@@ -10843,6 +10854,7 @@ mail#:#placeholders_advise#:#A címzettek személyes helyőrzőit csak a Címzet
 mail#:#search_content#:#Keresés eredménye
 mail#:#search_recipients#:#Címzettek keresése
 mail#:#second_email_missing_info#:#Ez a kiválasztás nem lehetséges, mert nincs megadva másodlagos e-mail cím.
+mail#:#select_mail_with_subject_x#:#Select mail with subject „%s“###16 03 2023 new variable
 mail#:#send_mail_admins#:#Összes vezető
 mail#:#send_mail_members#:#Összes tag
 mail#:#send_mail_to#:#Címzettek közé
