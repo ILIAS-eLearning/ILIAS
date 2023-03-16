@@ -31,6 +31,7 @@ use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Combined;
 use ILIAS\UI\Component\Toast\Container as TContainer;
+use ilSetting;
 use ilUserUtil;
 use ilUtil;
 use ILIAS\GlobalScreen\Services;
@@ -269,10 +270,13 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getToastContainer(): TContainer
+    public function getToastContainer(): ?TContainer
     {
-        $toast_container = $this->ui->factory()->toast()->container();
+        if ((new ilSetting('notifications'))->get('enable_osd') !== '1') {
+            return null;
+        }
 
+        $toast_container = $this->ui->factory()->toast()->container();
         foreach ($this->gs->collector()->toasts()->getToasts() as $toast) {
             $toast_container = $toast_container->withAdditionalToast($toast);
         }
