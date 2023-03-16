@@ -446,7 +446,7 @@ abstract class ilParticipant
                 $this->db->quote($a_usr_id, 'integer') . ", " .
                 $this->db->quote(0, 'integer') . ", " .
                 $this->db->quote(0, 'integer') .
-                ")";
+                ") ON DUPLICATE KEY UPDATE notification = VALUES(notification)";
         }
         $this->db->manipulate($query);
     }
