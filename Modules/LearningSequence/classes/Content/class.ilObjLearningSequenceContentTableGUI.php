@@ -24,6 +24,8 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
     protected ilObjLearningSequenceGUI $container_gui;
     protected string $cmd;
     protected ilAccess $access;
+    protected ILIAS\UI\Factory $ui_factory;
+    protected ILIAS\UI\Renderer $ui_renderer;
     protected ilAdvancedSelectionListGUI $advanced_selection_list_gui;
     protected LSItemOnlineStatus $ls_item_online_status;
 
@@ -34,6 +36,8 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
         ilCtrl $ctrl,
         ilLanguage $lng,
         ilAccess $access,
+        ILIAS\UI\Factory $ui_factory,
+        ILIAS\UI\Renderer $ui_renderer,
         ilAdvancedSelectionListGUI $advanced_selection_list_gui,
         LSItemOnlineStatus $ls_item_online_status
     ) {
@@ -44,6 +48,8 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
         $this->ctrl = $ctrl;
         $this->lng = $lng;
         $this->access = $access;
+        $this->ui_factory = $ui_factory;
+        $this->ui_renderer = $ui_renderer;
         $this->advanced_selection_list_gui = $advanced_selection_list_gui;
         $this->ls_item_online_status = $ls_item_online_status;
 
@@ -69,22 +75,22 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set): void
     {
-        /** @var LSItem $a_set */
-        $a_set = $a_set[0];
+        /** @var LSItem $ls_item */
+        $ls_item = $a_set[0];
 
         $ni = new ilNumberInputGUI(
             "",
-            $this->parent_gui->getFieldName($this->parent_gui::FIELD_ORDER, $a_set->getRefId())
+            $this->parent_gui->getFieldName($this->parent_gui::FIELD_ORDER, $ls_item->getRefId())
         );
         $ni->setSize(3);
-        $ni->setValue((string) (($a_set->getOrderNumber() + 1) * 10));
+        $ni->setValue((string) (($ls_item->getOrderNumber() + 1) * 10));
 
-        if ($this->ls_item_online_status->hasOnlineStatus($a_set->getRefId())) {
+        if ($this->ls_item_online_status->hasOnlineStatus($ls_item->getRefId())) {
             $cb = new ilCheckboxInputGUI(
                 "",
-                $this->parent_gui->getFieldName($this->parent_gui::FIELD_ONLINE, $a_set->getRefId())
+                $this->parent_gui->getFieldName($this->parent_gui::FIELD_ONLINE, $ls_item->getRefId())
             );
-            $cb->setChecked($a_set->isOnline());
+            $cb->setChecked($ls_item->isOnline());
         } else {
             $cb = new ilCheckboxInputGUI("", "");
             $cb->setChecked(true);
@@ -94,30 +100,40 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
 
         $si = new ilSelectInputGUI(
             "",
-            $this->parent_gui->getFieldName($this->parent_gui::FIELD_POSTCONDITION_TYPE, $a_set->getRefId())
+            $this->parent_gui->getFieldName($this->parent_gui::FIELD_POSTCONDITION_TYPE, $ls_item->getRefId())
         );
-        $options = $this->parent_gui->getPossiblePostConditionsForType($a_set->getType());
+        $options = $this->parent_gui->getPossiblePostConditionsForType($ls_item->getType());
 
         $si->setOptions($options);
-        $si->setValue($a_set->getPostCondition()->getConditionOperator());
+        $si->setValue($ls_item->getPostCondition()->getConditionOperator());
 
-        $action_items = $this->getActionMenuItems($a_set->getRefId(), $a_set->getType());
-        $obj_link = $this->getEditLink($a_set->getRefId(), $a_set->getType(), $action_items);
+        $action_items = $this->getActionMenuItems($ls_item->getRefId(), $ls_item->getType());
+        $obj_link = $this->getEditLink($ls_item->getRefId(), $ls_item->getType(), $action_items);
 
-        $title = $a_set->getTitle();
+        $title = $ls_item->getTitle();
         $title = sprintf(
             '<a href="%s">%s</a>',
             $obj_link,
             $title
         );
 
-        $this->tpl->setVariable("ID", $a_set->getRefId());
-        $this->tpl->setVariable("IMAGE", $a_set->getIconPath());
+        $this->tpl->setVariable("ID", $ls_item->getRefId());
+
+        $this->tpl->setVariable(
+            "IMAGE",
+            $this->ui_renderer->render(
+                $this->ui_factory->symbol()->icon()->custom(
+                    $ls_item->getIconPath(),
+                    $ls_item->getType()
+                )->withSize('medium')
+            )
+        );
+
         $this->tpl->setVariable("ORDER", $ni->render());
         $this->tpl->setVariable("TITLE", $title);
         $this->tpl->setVariable("POST_CONDITIONS", $si->render());
-        $this->tpl->setVariable("ACTIONS", $this->getItemActionsMenu($a_set->getRefId(), $a_set->getType()));
-        $this->tpl->setVariable("TYPE", $a_set->getType());
+        $this->tpl->setVariable("ACTIONS", $this->getItemActionsMenu($ls_item->getRefId(), $ls_item->getType()));
+        $this->tpl->setVariable("TYPE", $ls_item->getType());
     }
 
     protected function getItemActionsMenu(int $ref_id, string $type): string
