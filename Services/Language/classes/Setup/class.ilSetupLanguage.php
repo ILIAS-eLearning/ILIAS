@@ -567,7 +567,7 @@ class ilSetupLanguage extends ilLanguage
                 }
             }
     
-            $query = "INSERT INTO lng_modules (module, lang_key, lang_array) VALUES ";
+            $query = "REPLACE INTO lng_modules (module, lang_key, lang_array) VALUES ";
             foreach ($lang_array as $module => $lang_arr) {
                 if ($scope === "local") {
                     $q = "SELECT * FROM lng_modules WHERE " .
@@ -587,10 +587,6 @@ class ilSetupLanguage extends ilLanguage
                     $ilDB->quote(serialize($lang_arr), "clob"),
                 );
             }
-            $ilDB->manipulate(sprintf(
-                "DELETE FROM lng_modules WHERE lang_key = %s",
-                $ilDB->quote($lang_key, "text"),
-            ));
     
             $query = rtrim($query, ",") . ";";
             $ilDB->manipulate($query);
