@@ -29,6 +29,8 @@ use ILIAS\Contact\Provider\ContactNotificationProvider;
  */
 class ilBuddySystemNotification
 {
+    public const CONTACT_REQUEST = 'contact_request';
+
     protected ilObjUser $sender;
     protected ilSetting $settings;
     /** @var int[] */
@@ -62,13 +64,13 @@ class ilBuddySystemNotification
 
     public function send(): void
     {
+        $provider = new ContactNotificationProvider();
+
         foreach ($this->getRecipientIds() as $usr_id) {
             $user = new ilObjUser($usr_id);
 
             $recipientLanguage = ilLanguageFactory::_getLanguage($user->getLanguage());
             $recipientLanguage->loadLanguageModule('buddysystem');
-
-            $notification = new ilNotificationConfig(ContactNotificationProvider::NOTIFICATION_TYPE);
 
             $personalProfileLink = $recipientLanguage->txt('buddy_noti_cr_profile_not_published');
             if ($this->hasPublicProfile($this->sender->getId())) {
@@ -117,14 +119,16 @@ class ilBuddySystemNotification
                 'REQUESTING_USER' => ilUserUtil::getNamePresentation($this->sender->getId()),
                 'PERSONAL_PROFILE_LINK' => $personalProfileLink,
             ];
+
+            $notification = $provider->getNotificationConfig();
             $notification->setTitleVar('buddy_notification_contact_request', [], 'buddysystem');
             $notification->setShortDescriptionVar('buddy_notification_contact_request_short', $bodyParams, 'buddysystem');
             $notification->setLongDescriptionVar('buddy_notification_contact_request_long', $bodyParams, 'buddysystem');
             $notification->setLinks($links);
-            $notification->setValidForSeconds(ilNotificationConfig::TTL_LONG);
-            $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
             $notification->setIconPath('templates/default/images/icon_usr.svg');
             $notification->setHandlerParam('mail.sender', (string) ANONYMOUS_USER_ID);
+            $notification->setProviderKey(self::CONTACT_REQUEST);
+
             $notification->notifyByUsers([$user->getId()]);
         }
     }

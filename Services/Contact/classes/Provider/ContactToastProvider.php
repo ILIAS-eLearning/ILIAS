@@ -21,14 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\Contact\Provider;
 
 use ILIAS\GlobalScreen\Scope\Toast\Provider\AbstractToastProvider;
-use ILIAS\Notifications\Repository\ilNotificationOSDRepository;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
-use ILIAS\Notifications\ilNotificationOSDHandler;
 
 class ContactToastProvider extends AbstractToastProvider
 {
-    public const NOTIFICATION_TYPE = 'buddysystem_request';
-
     public function getToasts(): array
     {
         $toasts = [];
@@ -37,14 +33,7 @@ class ContactToastProvider extends AbstractToastProvider
             return $toasts;
         }
 
-        $osd_notification_handler = new ilNotificationOSDHandler(new ilNotificationOSDRepository($this->dic->database()));
-
-        foreach ($osd_notification_handler->getOSDNotificationsForUser(
-            $this->dic->user()->getId(),
-            true,
-            0,
-            self::NOTIFICATION_TYPE
-        ) as $contact_request_info) {
+        foreach ((new ContactNotificationProvider($this->dic))->getUserOSDNotifications() as $contact_request_info) {
             $toast = $this->getDefaultToast(
                 $contact_request_info->getObject()->title,
                 $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::CADM, 'buddysystem_request')

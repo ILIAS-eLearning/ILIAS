@@ -41,8 +41,8 @@ use ILIAS\Notifications\ilNotificationOSDHandler;
  */
 class ContactNotificationProvider extends AbstractNotificationProvider
 {
-    public const MUTED_UNTIL_PREFERENCE_KEY = 'bs_nc_muted_until';
-    public const NOTIFICATION_TYPE = 'buddysystem_request';
+    protected const NOTIFICATION_TYPE = 'buddysystem_request';
+    protected const MUTED_UNTIL_PREFERENCE_KEY = 'bs_nc_muted_until';
 
     private function getIdentifier(string $id): IdentificationInterface
     {
@@ -123,8 +123,6 @@ class ContactNotificationProvider extends AbstractNotificationProvider
                 )
             ]);
 
-        $osd_notification_handler = new ilNotificationOSDHandler(new ilNotificationOSDRepository($this->dic->database()));
-
         $group = $factory
             ->standardGroup($this->getIdentifier('contact_bucket_group'))
             ->withTitle($this->dic->language()->txt('nc_contact_requests_headline'))
@@ -132,13 +130,10 @@ class ContactNotificationProvider extends AbstractNotificationProvider
                 $factory->standard($this->getIdentifier('contact_bucket'))
                     ->withNotificationItem($notificationItem)
                     ->withClosedCallable(
-                        function () use ($osd_notification_handler): void {
+                        function (): void {
                             $this->dic->user()->writePref(self::MUTED_UNTIL_PREFERENCE_KEY, (string) time());
 
-                            $osd_notification_handler->deleteStaleNotificationsForUserAndType(
-                                $this->dic->user()->getId(),
-                                self::NOTIFICATION_TYPE
-                            );
+                            $this->deleteStaleNotifications();
                         }
                     )->withNewAmount(1)
             );
