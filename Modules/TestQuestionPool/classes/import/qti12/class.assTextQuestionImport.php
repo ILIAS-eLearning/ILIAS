@@ -142,12 +142,16 @@ class assTextQuestionImport extends assQuestionImport
 
         $no_keywords_found = true;
 
-        $termscoring = $this->fetchTermScoring($item);
-        for ($i = 0, $iMax = count($termscoring); $i < $iMax; $i++) {
-            $this->object->addAnswer($termscoring[$i]->getAnswertext(), $termscoring[$i]->getPoints());
-            $no_keywords_found = false;
+        if ($item->getMetadataEntry('termrelation') !== 'non'
+            && $item->getMetadataEntry('termrelation') !== null) {
+            $termscoring = $this->fetchTermScoring($item);
+            for ($i = 0, $iMax = count($termscoring); $i < $iMax; $i++) {
+                $this->object->addAnswer($termscoring[$i]->getAnswertext(), $termscoring[$i]->getPoints());
+                $no_keywords_found = false;
+            }
         }
-        if (count($termscoring)) {
+
+        if ($item->getMetadataEntry('termrelation') !== null) {
             $this->object->setKeywordRelation($item->getMetadataEntry('termrelation'));
         }
 
