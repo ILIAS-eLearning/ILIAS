@@ -334,7 +334,6 @@ class ilObjQuestionPool extends ilObject
         if ($question_id > 0) {
             return assQuestion::instantiateQuestionGUI($question_id);
         }
-        assQuestion::_includeClass($question_type, 1);
         $question_type_gui = $question_type . "GUI";
         $question_gui = new $question_type_gui();
         return $question_gui;

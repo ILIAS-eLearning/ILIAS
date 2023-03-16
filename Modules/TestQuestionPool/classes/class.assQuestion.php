@@ -2413,7 +2413,6 @@ abstract class assQuestion
             throw new InvalidArgumentException('No question with ID ' . $question_id . ' exists');
         }
 
-        assQuestion::_includeClass($question_type);
         $question = new $question_type();
         $question->loadFromDb($question_id);
 
@@ -2955,31 +2954,9 @@ abstract class assQuestion
         return static::HAS_SPECIFIC_FEEDBACK;
     }
 
-    public static function _includeClass(string $question_type, int $gui = 0): void
-    {
-        if (self::isCoreQuestionType($question_type)) {
-            self::includeCoreClass($question_type, $gui);
-        }
-    }
-
     public static function getFeedbackClassNameByQuestionType(string $questionType): string
     {
         return str_replace('ass', 'ilAss', $questionType) . 'Feedback';
-    }
-
-    public static function isCoreQuestionType(string $questionType): bool
-    {
-        return file_exists("Modules/TestQuestionPool/classes/class.{$questionType}GUI.php");
-    }
-
-    public static function includeCoreClass($questionType, $withGuiClass): void
-    {
-        if ($withGuiClass) {
-            // object class is included by gui classes constructor
-        } else {
-        }
-
-        $feedbackClassName = self::getFeedbackClassNameByQuestionType($questionType);
     }
 
     public static function _getQuestionTypeName($type_tag): string
@@ -3020,8 +2997,6 @@ abstract class assQuestion
 
         if (strcmp($a_question_id, "") != 0) {
             $question_type = assQuestion::_getQuestionType($a_question_id);
-
-            assQuestion::_includeClass($question_type, 1);
 
             $question_type_gui = $question_type . 'GUI';
             $question_gui = new $question_type_gui();
