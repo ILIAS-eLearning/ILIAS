@@ -8963,6 +8963,7 @@ etal#:#change_date_of_talk#:#Gesprächsdatum anpassen
 etal#:#date_of_talk#:#Start Datum
 etal#:#etal_add#:#Hinzufügen
 etal#:#etal_add_new_item#:#Neues Gespräch hinzufügen
+etal#:#etal_create_invalid_template_ref#:#Ungültige Gesprächsvorlagen-ID
 etal#:#etal_date_appointment_edit#:#Gesprächsdatum
 etal#:#etal_date_series_edit#:#Gesprächsserie
 etal#:#etal_edit#:#Allgemein

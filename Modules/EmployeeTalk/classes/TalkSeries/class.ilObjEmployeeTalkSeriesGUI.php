@@ -653,11 +653,14 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 
     private function getTemplateRefId(): int
     {
-        $template = filter_input(INPUT_GET, 'template', FILTER_VALIDATE_INT);
-        $refId = intval($template);
+        $refId = 0;
+        if ($this->container->http()->wrapper()->query()->has('template')) {
+            $refId = $this->container->http()->wrapper()->query()->retrieve(
+                'template',
+                $this->container->refinery()->kindlyTo()->int()
+            );
+        }
         if (
-            $template === null ||
-            $template === false ||
             !ilObjTalkTemplate::_exists($refId, true) ||
             ilObjTalkTemplate::lookupOfflineStatus(ilObjTalkTemplate::_lookupObjectId($refId)) ?? true
         ) {
@@ -669,6 +672,6 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
             ], ControlFlowCommand::INDEX);
         }
 
-        return intval($template);
+        return $refId;
     }
 }

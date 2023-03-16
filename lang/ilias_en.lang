@@ -8964,6 +8964,7 @@ etal#:#change_date_of_talk#:#Change date of talk
 etal#:#date_of_talk#:#Start Date
 etal#:#etal_add#:#Add Talk
 etal#:#etal_add_new_item#:#Add new Talk
+etal#:#etal_create_invalid_template_ref#:#Invalid Talk Template ID
 etal#:#etal_date_appointment_edit#:#Date of Talk
 etal#:#etal_date_series_edit#:#Date of Talk Series
 etal#:#etal_edit#:#General
