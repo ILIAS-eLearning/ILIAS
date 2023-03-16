@@ -598,7 +598,7 @@ abstract class ilParticipant
                 $ilDB->quote($a_usr_id, 'integer') . ", " .
                 $ilDB->quote(0, 'integer') . ", " .
                 $ilDB->quote(0, 'integer') .
-                ")";
+                ") ON DUPLICATE KEY UPDATE notification = VALUES(notification)";
         }
         $res = $ilDB->manipulate($query);
         return true;

@@ -225,7 +225,12 @@ class ilCourseParticipants extends ilParticipants
                 $ilDB->quote(0, 'integer') . ", " .
                 $ilDB->quote(0, 'integer') . ", " .
                 $ilDB->quote($origin, 'integer') . ", " .
-                $ilDB->quote($origin_ts, 'integer') . ")";
+                $ilDB->quote($origin_ts, 'integer') . ")
+                ON DUPLICATE KEY UPDATE
+                    passed = VALUES(passed),
+                    origin = VALUES(origin),
+                    origin_ts = VALUES(origin_ts)
+            ";
         }
         if (strlen($update_query)) {
             $ilDB->manipulate($update_query);
