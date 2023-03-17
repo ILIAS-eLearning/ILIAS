@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,17 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use PHPUnit\Framework\TestSuite;
+declare(strict_types=1);
 
-require_once __DIR__ . '/bootstrap.php';
+use PHPUnit\Framework\TestSuite;
 
 class ilServicesVirusScannerSuite extends TestSuite
 {
     public static function suite(): self
     {
         $suite = new self();
-
-        require_once __DIR__ . '/VirusScannerFactoryTest.php';
         $suite->addTestSuite(VirusScannerFactoryTest::class);
 
         return $suite;
