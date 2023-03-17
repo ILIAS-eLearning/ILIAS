@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 /** @noinspection PhpIncompatibleReturnTypeInspection */
 
 namespace ILIAS\GlobalScreen;
@@ -30,6 +30,7 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Factory\MetaBarItemFactory;
 use ILIAS\GlobalScreen\Scope\Notification\NotificationServices;
 use ILIAS\GlobalScreen\Scope\Toast\ToastServices;
 use ILIAS\GlobalScreen\Scope\Tool\ToolServices;
+use ILIAS\DI\UIServices;
 
 /**
  * Class Services
@@ -42,6 +43,7 @@ class Services
     private static ?Services $instance = null;
 
     private ProviderFactory $provider_factory;
+    private ToastServices $toast_services;
 
     public string $resource_version = '';
 
@@ -50,10 +52,15 @@ class Services
      * @param ProviderFactory $provider_factory
      * @param string          $resource_version
      */
-    public function __construct(ProviderFactory $provider_factory, string $resource_version = '')
-    {
+    public function __construct(
+        ProviderFactory $provider_factory,
+        ?UIServices $ui = null,
+        string $resource_version = ''
+    ) {
+        global $DIC;
         $this->provider_factory = $provider_factory;
         $this->resource_version = urlencode($resource_version);
+        $this->toast_services = new ToastServices($ui ?? $DIC->ui());
     }
 
     /**
@@ -100,7 +107,7 @@ class Services
 
     public function toasts(): ToastServices
     {
-        return $this->get(ToastServices::class);
+        return $this->toast_services;
     }
 
     /**

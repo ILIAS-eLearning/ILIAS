@@ -37,14 +37,14 @@ class StandardNotificationRendererTest extends BaseNotificationSetUp
         }
     }
 
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $renderer = new StandardNotificationRenderer($this->getUIFactory());
         $this->assertInstanceOf(StandardNotificationRenderer::class, $renderer);
     }
 
 
-    public function testGetNotificationComponentForItem()
+    public function testGetNotificationComponentForItem(): void
     {
         $renderer = new StandardNotificationRenderer($this->getUIFactory());
         $icon = $this->getUIFactory()->symbol()->icon()->standard("mail", "mail");
@@ -56,7 +56,7 @@ class StandardNotificationRendererTest extends BaseNotificationSetUp
     }
 
 
-    public function testGetNotificationComponentForItemWithCloseCallable()
+    public function testGetNotificationComponentForItemWithCloseCallable(): void
     {
         $renderer = new StandardNotificationRenderer($this->getUIFactory());
         $icon = $this->getUIFactory()->symbol()->icon()->standard("mail", "mail");
@@ -64,7 +64,7 @@ class StandardNotificationRendererTest extends BaseNotificationSetUp
 
         $standard_notification = $this->factory->standard($this->id)
             ->withNotificationItem($item)
-            ->withClosedCallable(function () {
+            ->withClosedCallable(function (): void {
             });
 
         $item = $item->withCloseAction("src/GlobalScreen/Client/notify.php?mode=closed&item_id=" . $this->hash($this->id->serialize()));

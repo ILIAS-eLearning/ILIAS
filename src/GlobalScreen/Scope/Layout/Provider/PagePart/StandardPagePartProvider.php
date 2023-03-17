@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,10 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart;
 
 use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
-use ILIAS\GlobalScreen\Scope\isGlobalScreenItem;
+use ILIAS\GlobalScreen\isGlobalScreenItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\SlateSessionStateCode;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\isToolItem;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
@@ -274,7 +275,8 @@ class StandardPagePartProvider implements PagePartProvider
         $toast_container = $this->ui->factory()->toast()->container();
 
         foreach ($this->gs->collector()->toasts()->getToasts() as $toast) {
-            $toast_container = $toast_container->withAdditionalToast($toast);
+            $renderer = $toast->getRenderer();
+            $toast_container = $toast_container->withAdditionalToast($renderer->getToastComponentForItem($toast));
         }
 
         return $toast_container;

@@ -18,24 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\GlobalScreen\Collector\Renderer;
+namespace ILIAS\GlobalScreen\Scope;
 
-use ILIAS\GlobalScreen\isGlobalScreenItem;
-use ILIAS\UI\Component\Component;
+use ILIAS\DI\UIServices;
 
 /**
- * Trait ComponentDecoratorApplierTrait
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
-trait ComponentDecoratorApplierTrait
+interface RenderFactory
 {
-    public function applyDecorator(Component $component, isGlobalScreenItem $item): Component
-    {
-        $c = $item->getComponentDecorator();
-        if ($c !== null) {
-            return $c($component);
-        }
-
-        return $component;
-    }
+    public function __construct(UIServices $ui);
 }
