@@ -579,8 +579,8 @@ class ilSetupLanguage extends ilLanguage
                     $arr2 = isset($row["lang_array"]) ? unserialize($row["lang_array"], ["allowed_classes" => false]) : "";
                     if (is_array($arr2)) {
                         $lang_arr = array_merge($arr2, $lang_arr);
+                        $modules_to_delete[] = $module;
                     }
-                    $modules_to_delete[] = $module;
                 }
                 $query .= sprintf(
                     "(%s,%s,%s),",
