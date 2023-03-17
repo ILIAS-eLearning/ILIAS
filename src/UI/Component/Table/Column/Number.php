@@ -25,5 +25,5 @@ interface Number extends Column
     public const UNIT_POSITION_AFT = 'AFT';
 
     public function withDecimals(int $number_of_decimals): self;
-    public function withUnit(string $unit, $unit_position = self::UNIT_POSITION_AFT): self;
+    public function withUnit(string $unit, string $unit_position = self::UNIT_POSITION_AFT): self;
 }
