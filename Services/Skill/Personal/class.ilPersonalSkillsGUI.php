@@ -1260,8 +1260,7 @@ class ilPersonalSkillsGUI
         }
 
         foreach ($this->cont_profiles as $p) {
-            $tree = $this->tree_service->getObjSkillTreeById((int) $p["skill_tree_id"]);
-            $cont_options[$p["profile_id"]] = $tree->getTitle() . ": " . $p["title"];
+            $cont_options[$p["profile_id"]] = $p["title"];
         }
 
         asort($cont_options);
@@ -1334,7 +1333,7 @@ class ilPersonalSkillsGUI
                     "level_id" => $l["level_id"]
                 );
             }
-        } elseif (is_array($a_skills)) {
+        } else {
             $skills = $a_skills;
         }
 
@@ -2206,6 +2205,10 @@ class ilPersonalSkillsGUI
 
     public function listAllAssignedProfiles(): void
     {
+        if (empty($this->user_profiles)) {
+            $this->ctrl->redirect($this, "listSkills");
+        }
+
         $this->setTabs("profile");
 
         $prof_items = [];
