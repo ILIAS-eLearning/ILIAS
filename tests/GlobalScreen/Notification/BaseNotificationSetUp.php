@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Provider\NullProviderFactory;
@@ -100,13 +116,17 @@ abstract class BaseNotificationSetUp extends TestCase
 
     public function getDIC(): ILIAS\DI\Container
     {
-        $dic = new class () extends ILIAS\DI\Container {
+        $mocks = [
+            'ui' => $this->createMock(\ILIAS\DI\UIServices::class),
+            'ui.factory' => $this->createMock(\ILIAS\UI\Factory::class),
+            'provider_factory'=> $this->createMock(ProviderFactory::class),
+        ];
+        return new class ($mocks) extends ILIAS\DI\Container {
             public function globalScreen(): Services
             {
-                return new Services(Mockery::mock(ProviderFactory::class));
+                return new Services($this['provider_factory'], $this['ui']);
             }
         };
-        return $dic;
     }
 
     public function getDummyNotificationsProviderWithNotifications($notifications): AbstractNotificationProvider

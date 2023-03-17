@@ -1,5 +1,4 @@
-<?php declare(strict_types=1);
-
+<?php
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,17 +15,21 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\GlobalScreen\Scope\Toast\ToastServices;
-use ILIAS\UI\Component\Toast\Factory;
 use PHPUnit\Framework\TestCase;
+use ILIAS\GlobalScreen\Scope\Toast\Factory\ToastFactory;
 
 require_once('./libs/composer/vendor/autoload.php');
 
 class ToastServicesTest extends TestCase
 {
-    public function testFactory()
+    public function testFactory(): void
     {
-        $factory = new ToastServices();
-        $this->assertInstanceOf(Factory::class, $factory->factory());
+        $ui_mock = $this->createMock(\ILIAS\DI\UIServices::class);
+
+        $services = new ToastServices($ui_mock);
+        $this->assertInstanceOf(ToastFactory::class, $services->factory());
     }
 }

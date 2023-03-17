@@ -1,5 +1,4 @@
-<?php declare(strict_types=1);
-
+<?php
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\Toast\Provider;
 
 use ILIAS\DI\Container;
@@ -28,12 +29,14 @@ use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Toast\Toast;
 use ILIAS\UI\Implementation\Component\Toast\Toast as IToast;
 use ILIAS\UI\Component\Toast\Factory;
+use ILIAS\GlobalScreen\Scope\Toast\Factory\ToastFactory;
 
 abstract class AbstractToastProvider extends AbstractProvider implements ToastProvider
 {
     protected Container $dic;
+    protected \ILIAS\UI\Factory $ui_factory;
     protected IdentificationProviderInterface $if;
-    protected Factory $toast_factory;
+    protected ToastFactory $toast_factory;
 
     /**
      * @inheritDoc
@@ -42,6 +45,7 @@ abstract class AbstractToastProvider extends AbstractProvider implements ToastPr
     {
         parent::__construct($dic);
         $this->toast_factory = $this->globalScreen()->toasts()->factory();
+        $this->ui_factory = $this->dic->ui()->factory();
         $this->if = $this->globalScreen()->identification()->core($this);
     }
 

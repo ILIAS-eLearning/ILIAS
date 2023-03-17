@@ -18,24 +18,30 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\GlobalScreen\Collector\Renderer;
+namespace ILIAS\GlobalScreen;
 
-use ILIAS\GlobalScreen\isGlobalScreenItem;
-use ILIAS\UI\Component\Component;
+use Closure;
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
 /**
- * Trait ComponentDecoratorApplierTrait
+ * Interface isGlobalScreenItem
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-trait ComponentDecoratorApplierTrait
+interface isGlobalScreenItem
 {
-    public function applyDecorator(Component $component, isGlobalScreenItem $item): Component
-    {
-        $c = $item->getComponentDecorator();
-        if ($c !== null) {
-            return $c($component);
-        }
+    /**
+     * @return IdentificationInterface
+     */
+    public function getProviderIdentification(): IdentificationInterface;
 
-        return $component;
-    }
+    /**
+     * @param Closure $component_decorator
+     * @return isGlobalScreenItem
+     */
+    public function addComponentDecorator(Closure $component_decorator): isGlobalScreenItem;
+
+    /**
+     * @return Closure|null
+     */
+    public function getComponentDecorator(): ?Closure;
 }

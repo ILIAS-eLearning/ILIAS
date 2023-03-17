@@ -24,12 +24,13 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\GlobalScreen\Scope\Toast\Provider\ToastProvider;
 use ILIAS\UI\Component\Toast\Toast;
 use Iterator;
+use ILIAS\GlobalScreen\Scope\Toast\Factory\isStandardItem;
 
 class ToastCollector extends AbstractBaseCollector
 {
     /** @var ToastProvider[] */
     private array $providers;
-    /** @var Toast[] */
+    /** @var isStandardItem[] */
     private array $toasts = [];
 
     /**
@@ -57,19 +58,23 @@ class ToastCollector extends AbstractBaseCollector
     }
 
     public function filterItemsByVisibilty(bool $async_only = false): void
-    {}
+    {
+    }
 
     public function prepareItemsForUIRepresentation(): void
-    {}
+    {
+    }
 
     public function cleanupItemsForUIRepresentation(): void
-    {}
+    {
+    }
 
     public function sortItemsForUIRepresentation(): void
-    {}
+    {
+    }
 
     /**
-     * @return Toast[]
+     * @return isStandardItem[]
      */
     public function getToasts(): array
     {
