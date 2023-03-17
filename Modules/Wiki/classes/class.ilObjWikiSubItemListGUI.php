@@ -51,7 +51,8 @@ class ilObjWikiSubItemListGUI extends ilSubItemListGUI
             $this->tpl->setCurrentBlock('subitem');
 
             // TODO: subitem type must returned from lucene
-            if (($title = ilWikiPage::lookupTitle($sub_item)) !== false) {
+            $title = (string) ilWikiPage::lookupTitle($sub_item);
+            if ($title !== '') {
                 // Page
                 $this->tpl->setVariable('SUBITEM_TYPE', $lng->txt('obj_pg'));
                 $this->tpl->setVariable('SEPERATOR', ':');
