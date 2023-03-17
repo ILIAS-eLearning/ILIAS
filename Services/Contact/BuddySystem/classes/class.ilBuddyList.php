@@ -267,6 +267,14 @@ class ilBuddyList
         $this->getRepository()->save($relation);
         $this->getRelations()->set($this->getRelationTargetUserId($relation), $relation);
 
+        $this->eventHandler->raise(
+            'Services/Contact',
+            'relationLinked',
+            [
+                'relation' => $relation
+            ]
+        );
+
         return $this;
     }
 
@@ -288,6 +296,14 @@ class ilBuddyList
 
             throw $e;
         }
+
+        $this->eventHandler->raise(
+            'Services/Contact',
+            'relationUnlinked',
+            [
+                'relation' => $relation
+            ]
+        );
 
         return $this;
     }
@@ -330,7 +346,8 @@ class ilBuddyList
             'Services/Contact',
             'contactRequested',
             [
-                'usr_id' => $this->getRelationTargetUserId($relation)
+                'usr_id' => $this->getRelationTargetUserId($relation),
+                'relation' => $relation
             ]
         );
 
@@ -364,6 +381,14 @@ class ilBuddyList
 
             throw $e;
         }
+
+        $this->eventHandler->raise(
+            'Services/Contact',
+            'contactIgnored',
+            [
+                'relation' => $relation
+            ]
+        );
 
         return $this;
     }

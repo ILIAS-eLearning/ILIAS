@@ -10,6 +10,9 @@
 		<event type="listen" id="Services/User" />
 		<event type="listen" id="Services/Contact" />
 		<event type="raise" id="contactRequested" />
+		<event type="raise" id="contactIgnored" />
+		<event type="raise" id="relationLinked" />
+		<event type="raise" id="relationUnlinked" />
 	</events>
 	<logging />
 </service>
