@@ -584,13 +584,28 @@ class ilSetupLanguage extends ilLanguage
                     "(%s,%s,%s),",
                     $ilDB->quote($module, "text"),
                     $ilDB->quote($lang_key, "text"),
-                    $ilDB->quote(serialize($lang_arr), "clob"),
+                    $ilDB->quote(serialize($lang_arr), "clob")
                 );
             }
-            $ilDB->manipulate(sprintf(
-                "DELETE FROM lng_modules WHERE lang_key = %s",
-                $ilDB->quote($lang_key, "text"),
-            ));
+            $delete_query = sprintf("DELETE FROM lng_modules WHERE lang_key = %s",
+                $ilDB->quote($lang_key, "text")
+            );
+            if ($scope === "local") {
+                // delete only modules containing local changes
+                // see mantis #36972
+                $modules_to_delete = "module = '";
+                $count_modules = count($lang_array);
+                foreach ($lang_array as $module => $lang_arr) {
+                    $modules_to_delete .= $module . "'";
+                    $count_modules -= 1;
+                    if ($count_modules) {
+                        $modules_to_delete .= " OR module = '";
+                    }
+                }
+                $delete_query .= " AND (" . $modules_to_delete . ")";
+            }
+    
+            $ilDB->manipulate($delete_query);
     
             $query = rtrim($query, ",") . ";";
             $ilDB->manipulate($query);
