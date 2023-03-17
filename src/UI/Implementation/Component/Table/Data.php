@@ -78,7 +78,7 @@ class Data extends Table implements T\Data, JSBindable
 
     protected function setEnumeratedColumns(array $columns): void
     {
-        if (count($columns) === 0) {
+        if ($columns === []) {
             throw new \InvalidArgumentException('cannot construct a table without columns.');
         }
         $counter = 0;
@@ -90,9 +90,10 @@ class Data extends Table implements T\Data, JSBindable
             $counter++;
         }
     }
+
     protected function initializeVisibleColumns(): void
     {
-        $this->selected_optional_column_ids =  array_keys(
+        $this->selected_optional_column_ids = array_keys(
             array_filter(
                 $this->getColumns(),
                 fn ($c) => $c->isInitiallyVisible()
@@ -225,11 +226,12 @@ class Data extends Table implements T\Data, JSBindable
 
     public function hasSingleActions(): bool
     {
-        return count($this->getSingleActions()) > 0;
+        return $this->getSingleActions() !== [];
     }
+
     public function hasMultiActions(): bool
     {
-        return count($this->getMultiActions()) > 0;
+        return $this->getMultiActions() !== [];
     }
 
     /**
@@ -240,7 +242,7 @@ class Data extends Table implements T\Data, JSBindable
     {
         return array_filter(
             $this->getActions(),
-            function ($action) use ($exclude) {
+            function ($action) use ($exclude): bool {
                 return !is_a($action, $exclude);
             }
         );
@@ -280,7 +282,7 @@ class Data extends Table implements T\Data, JSBindable
     {
         return array_filter(
             $this->getColumns(),
-            fn ($col, $col_id) => !$col->isOptional() || in_array($col_id, $this->selected_optional_column_ids),
+            fn ($col, $col_id): bool => !$col->isOptional() || in_array($col_id, $this->selected_optional_column_ids),
             ARRAY_FILTER_USE_BOTH
         );
     }

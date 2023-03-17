@@ -23,12 +23,12 @@ use ILIAS\UI\Component\Table\Column as C;
 
 class Number extends Column implements C\Number
 {
+    protected string $unit_position = self::UNIT_POSITION_AFT;
     protected int $decimals = 0;
     protected string $unit = '';
-    protected mixed $unit_pos = self::UNIT_POSITION_AFT;
 
-    protected $delim_decimal = ',';
-    protected $delim_thousands = '';
+    protected string $delim_decimal = ',';
+    protected string $delim_thousands = '';
 
     public function withDecimals(int $number_of_decimals): self
     {
@@ -42,9 +42,9 @@ class Number extends Column implements C\Number
         return $this->decimals;
     }
 
-    public function withUnit(string $unit, $unit_position = self::UNIT_POSITION_AFT): self
+    public function withUnit(string $unit, string $unit_position = self::UNIT_POSITION_AFT): self
     {
-        if (! in_array($unit_position, [
+        if (!in_array($unit_position, [
             self::UNIT_POSITION_FORE,
             self::UNIT_POSITION_AFT
         ])) {
@@ -59,7 +59,7 @@ class Number extends Column implements C\Number
 
     public function format($value): string
     {
-        $value = (string)number_format(
+        $value = number_format(
             $value,
             $this->decimals,
             $this->delim_decimal,

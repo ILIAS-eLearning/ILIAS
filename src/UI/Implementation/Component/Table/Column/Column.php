@@ -113,6 +113,6 @@ abstract class Column implements C\Column
 
     public function format($value): string
     {
-        return (string)$value;
+        return (string) $value;
     }
 }

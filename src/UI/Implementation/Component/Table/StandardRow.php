@@ -19,8 +19,6 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Table;
 
-use ILIAS\UI\Component\Table as T;
-
 class StandardRow extends DataRow
 {
     /**

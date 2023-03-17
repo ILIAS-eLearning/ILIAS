@@ -40,6 +40,6 @@ class Date extends Column implements C\Date
     public function format($value): string
     {
         assert(is_a($value, \DateTimeImmutable::class));
-        return (string)$value->format($this->getFormat()->toString());
+        return $value->format($this->getFormat()->toString());
     }
 }

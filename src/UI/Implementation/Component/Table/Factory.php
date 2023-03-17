@@ -21,7 +21,6 @@ namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
-use ILIAS\UI\NotImplementedException;
 use ILIAS\Data\Factory as DataFactory;
 use Closure;
 

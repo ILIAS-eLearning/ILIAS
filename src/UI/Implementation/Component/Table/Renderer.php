@@ -161,7 +161,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    public function renderDataTable(Component\Table\Data $component, RendererInterface $default_renderer)
+    public function renderDataTable(Component\Table\Data $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.datatable.html", true, true);
 
@@ -263,7 +263,7 @@ class Renderer extends AbstractComponentRenderer
         RendererInterface $default_renderer,
         Component\Table\Data $component,
         Template $tpl
-    ) {
+    ): void {
         $order = $component->getOrder();
         $glyph_factory = $this->getUIFactory()->symbol()->glyph();
         $sort_col = key($order->get());
@@ -332,7 +332,7 @@ class Renderer extends AbstractComponentRenderer
         Template $tpl,
         \Generator $rows,
         RendererInterface $default_renderer
-    ) {
+    ): void {
         $alternate = 'even';
         foreach ($rows as $row) {
             $row_contents = $default_renderer->render($row);
@@ -374,7 +374,7 @@ class Renderer extends AbstractComponentRenderer
         Component\Signal $action_signal,
         Component\Signal $modal_signal,
     ): ?\ILIAS\UI\Component\Dropdown\Dropdown {
-        if (count($actions) === 0) {
+        if ($actions === []) {
             return null;
         }
         $f = $this->getUIFactory();
@@ -440,7 +440,7 @@ class Renderer extends AbstractComponentRenderer
         };
     }
 
-    public function renderStandardRow(Component\Table\DataRow $component, RendererInterface $default_renderer)
+    public function renderStandardRow(Component\Table\Row $component, RendererInterface $default_renderer): string
     {
         $cell_tpl = $this->getTemplate("tpl.datacell.html", true, true);
         $cols = $component->getColumns();
@@ -470,11 +470,11 @@ class Renderer extends AbstractComponentRenderer
         return $cell_tpl->get();
     }
 
-    protected function getSingleActionsForRow(string $row_id, array $actions): ?\ILIAS\UI\Component\Dropdown\Dropdown
+    protected function getSingleActionsForRow(string $row_id, array $actions): \ILIAS\UI\Component\Dropdown\Standard
     {
         $f = $this->getUIFactory();
         $buttons = [];
-        foreach ($actions as $act_id => $act) {
+        foreach ($actions as $act) {
             $act = $act->withRowId($row_id);
             $target = $act->getTarget();
             if (!$target instanceof Component\Signal) {
@@ -511,11 +511,11 @@ class Renderer extends AbstractComponentRenderer
      */
     protected function getComponentInterfaceName(): array
     {
-        return array(
+        return [
             Component\Table\PresentationRow::class,
             Component\Table\Presentation::class,
             Component\Table\Data::class,
             Component\Table\DataRow::class
-        );
+        ];
     }
 }

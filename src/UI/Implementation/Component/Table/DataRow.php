@@ -56,7 +56,7 @@ class DataRow implements T\DataRow
 
     public function withDisabledAction(string $action_id, bool $disable = true): T\DataRow
     {
-        if ($disable !== true) {
+        if (!$disable) {
             return $this;
         }
         $clone = clone $this;
@@ -82,7 +82,7 @@ class DataRow implements T\DataRow
     {
         return array_filter(
             $this->actions,
-            function ($id) {
+            function ($id): bool {
                 return !array_key_exists($id, $this->disabled_actions);
             },
             ARRAY_FILTER_USE_KEY
