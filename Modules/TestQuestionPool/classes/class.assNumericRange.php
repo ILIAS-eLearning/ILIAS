@@ -214,7 +214,6 @@ class assNumericRange
      */
     public function contains($value): bool
     {
-        require_once './Services/Math/classes/class.EvalMath.php';
         $eval = new EvalMath();
         $eval->suppress_errors = true;
         $result = $eval->e($value);

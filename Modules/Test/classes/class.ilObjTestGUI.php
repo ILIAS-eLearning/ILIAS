@@ -2997,19 +2997,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         $total = $this->object->evalTotalPersons();
 
-        /*if (count($options)) {
-            include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-            $si = new ilSelectInputGUI($lng->txt("test_jump_to"), "q_id");
-            $si->addCustomAttribute("onChange=\"forms['ilToolbar'].submit();\"");
-            $si->setOptions($options);
-
-            if ($qid) {
-                $si->setValue($qid);
-            }
-
-            $ilToolbar->addInputItem($si, true);
-        }*/
-
         if (count($questions) && !$total) {
             $ilCtrl->setParameter($this, 'q_id', $this->testrequest->raw('q_id'));
             $ilToolbar->addSeparator();

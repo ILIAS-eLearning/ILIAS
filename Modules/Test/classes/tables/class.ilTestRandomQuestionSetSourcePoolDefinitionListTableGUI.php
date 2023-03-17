@@ -142,8 +142,6 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 
     private function getActionsHTML($sourcePoolDefinitionId): string
     {
-        require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
-
         $selectionList = new ilAdvancedSelectionListGUI();
 
         $selectionList->setId('sourcePoolDefinitionActions_' . $sourcePoolDefinitionId);

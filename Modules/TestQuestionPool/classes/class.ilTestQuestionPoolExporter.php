@@ -58,11 +58,9 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
      */
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
-        include_once './Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
         $qpl = new ilObjQuestionPool($a_id, false);
         $qpl->loadFromDb();
 
-        include_once("./Modules/TestQuestionPool/classes/class.ilQuestionpoolExport.php");
         $qpl_exp = new ilQuestionpoolExport($qpl, 'xml');
         $qpl_exp->buildExportFile();
 
@@ -105,8 +103,6 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
      */
     private function getDependingTaxonomyIds($poolObjIds): array
     {
-        include_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
-
         $taxIds = array();
 
         foreach ($poolObjIds as $poolObjId) {

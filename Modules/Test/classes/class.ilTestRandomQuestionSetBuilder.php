@@ -255,8 +255,6 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
         ilTestRandomQuestionSetStagingPoolQuestionList $stagingPoolQuestionList
     ) {
         if ($questionSetConfig->isQuestionAmountConfigurationModePerPool()) {
-            require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetBuilderWithAmountPerPool.php';
-
             return new ilTestRandomQuestionSetBuilderWithAmountPerPool(
                 $db,
                 $testOBJ,
@@ -265,8 +263,6 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
                 $stagingPoolQuestionList
             );
         }
-
-        require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetBuilderWithAmountPerTest.php';
 
         return new ilTestRandomQuestionSetBuilderWithAmountPerTest(
             $db,

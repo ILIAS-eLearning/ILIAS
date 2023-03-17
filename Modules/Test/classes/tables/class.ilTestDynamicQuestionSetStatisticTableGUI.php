@@ -95,8 +95,6 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
     public function initFilter(): void
     {
         if ($this->isTaxonomyFilterEnabled()) {
-            require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
-
             foreach ($this->taxIds as $taxId) {
                 $postvar = "tax_$taxId";
 
@@ -113,9 +111,6 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
         }
 
         if ($this->isAnswerStatusFilterEnabled()) {
-            require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
-            require_once 'Services/Form/classes/class.ilRadioOption.php';
-
             $inp = new ilSelectInputGUI($this->lng->txt('tst_question_answer_status'), 'question_answer_status');
             $inp->setOptions(array(
                 ilAssQuestionList::ANSWER_STATUS_FILTER_ALL_NON_CORRECT => $this->lng->txt('tst_question_answer_status_all_non_correct'),

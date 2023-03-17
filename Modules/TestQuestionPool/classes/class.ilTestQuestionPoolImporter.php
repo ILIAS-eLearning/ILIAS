@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-include_once("./Services/Export/classes/class.ilXmlImporter.php");
-
 /**
  * Importer class for question pools
  *
@@ -40,9 +38,6 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
      */
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
-        /* @var ilObjQuestionPool $newObj */
-
-        include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
         ilObjQuestionPool::_setImportDirectory($this->getImportDirectoryContainer());
 
         // Container import => pool object already created
@@ -100,12 +95,9 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
             $idents = null;
         }
 
-        // start parsing of QTI files
-        include_once "./Services/QTI/classes/class.ilQTIParser.php";
         $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_PARSE_QTI, $newObj->getId(), $idents);
         $qtiParser->startParsing();
 
-        // import page data
         if (strlen($xml_file)) {
             $questionPageParser = new ilQuestionPageParser($newObj, $xml_file, basename($this->getImportDirectory()));
             $questionPageParser->setQuestionMapping($qtiParser->getImportMapping());
@@ -154,9 +146,6 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
      */
     public function finalProcessing(ilImportMapping $a_mapping): void
     {
-        //echo "<pre>".print_r($a_mapping, true)."</pre>"; exit;
-        // get all glossaries of the import
-        include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
         $maps = $a_mapping->getMappingsOfEntity("Modules/TestQuestionPool", "qpl");
         foreach ($maps as $old => $new) {
             if ($old != "new_id" && (int) $old > 0) {
@@ -214,11 +203,9 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 
     protected function importQuestionSkillAssignments($xmlFile, ilImportMapping $mappingRegistry, $targetParentObjId): void
     {
-        require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentXmlParser.php';
         $parser = new ilAssQuestionSkillAssignmentXmlParser($xmlFile);
         $parser->startParsing();
 
-        require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImporter.php';
         $importer = new ilAssQuestionSkillAssignmentImporter();
         $importer->setTargetParentObjId($targetParentObjId);
         $importer->setImportInstallationId($this->getInstallId());
@@ -229,7 +216,6 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         $importer->import();
 
         if ($importer->getFailedImportAssignmentList()->assignmentsExist()) {
-            require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
             $qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($targetParentObjId);
             $qsaImportFails->registerFailedImports($importer->getFailedImportAssignmentList());
 

@@ -44,7 +44,6 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
     public function __construct($id = -1)
     {
         parent::__construct();
-        include_once "./Modules/TestQuestionPool/classes/class.assOrderingHorizontal.php";
         $this->object = new assOrderingHorizontal();
         $this->setErrorMessage($this->lng->txt("msg_form_save_error"));
         if ($id >= 0) {
@@ -64,7 +63,6 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
     {
         $hasErrors = (!$always) ? $this->editQuestion(true) : false;
         if (!$hasErrors) {
-            require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
             $this->writeQuestionGenericPostData();
             $this->writeQuestionSpecificPostData(new ilPropertyFormGUI());
             $this->saveTaxonomyAssignments();
@@ -83,7 +81,6 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         $save = $this->isSaveCommand();
         $this->getQuestionTemplate();
 
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $this->editForm = $form;
 
@@ -276,7 +273,6 @@ JS;
         }
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
-            require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
             $this->tpl->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
@@ -339,7 +335,6 @@ JS;
         //}
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
-            require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
             $this->tpl->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');

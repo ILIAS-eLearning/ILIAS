@@ -20,7 +20,7 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\Random\Seed\GivenSeed;
 use ILIAS\Refinery\Random\Group as RandomGroup;
 
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 /**
 * Service GUI class for tests. This class is the parent class for all

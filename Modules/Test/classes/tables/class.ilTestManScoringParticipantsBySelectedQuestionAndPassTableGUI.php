@@ -16,9 +16,6 @@
  *
  *********************************************************************/
 
-require_once 'Services/Form/classes/class.ilNumberInputGUI.php';
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
-
 /**
  * ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI
  * @author     Michael Jansen <mjansen@datababay.de>
@@ -84,7 +81,6 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
     {
         $this->setDisableFilterHiding(true);
 
-        include_once 'Services/Form/classes/class.ilSelectInputGUI.php';
         $available_questions = new ilSelectInputGUI($this->lng->txt('question'), 'question');
         $select_questions = array();
         if (!$this->getParentObject()->getObject()->isRandomTest()) {
@@ -94,7 +90,6 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         }
         $scoring = ilObjAssessmentFolder::_getManualScoring();
         foreach ($questions as $data) {
-            include_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
             $info = assQuestion::_getQuestionInfo($data['question_id']);
             $type = $info["question_type_fi"];
             if (in_array($type, $scoring)) {

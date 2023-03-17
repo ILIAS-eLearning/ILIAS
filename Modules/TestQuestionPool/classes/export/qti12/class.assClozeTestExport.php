@@ -17,8 +17,6 @@
 
 use ILIAS\Refinery\Random\Group as RandomGroup;
 
-include_once "./Modules/TestQuestionPool/classes/export/qti12/class.assQuestionExport.php";
-
 /**
 * Class for cloze question exports
 *
@@ -51,10 +49,9 @@ class assClozeTestExport extends assQuestionExport
         global $DIC;
         $ilias = $DIC['ilias'];
 
-        include_once "./Services/Math/classes/class.EvalMath.php";
         $eval = new EvalMath();
         $eval->suppress_errors = true;
-        include_once("./Services/Xml/classes/class.ilXmlWriter.php");
+
         $a_xml_writer = new ilXmlWriter();
         // set xml header
         $a_xml_writer->xmlHeader();
@@ -535,7 +532,6 @@ class assClozeTestExport extends assQuestionExport
      */
     protected function exportAnswerSpecificFeedbacks(ilXmlWriter $xmlWriter): void
     {
-        require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssSpecificFeedbackIdentifierList.php';
         $feedbackIdentifierList = new ilAssSpecificFeedbackIdentifierList();
         $feedbackIdentifierList->load($this->object->getId());
 

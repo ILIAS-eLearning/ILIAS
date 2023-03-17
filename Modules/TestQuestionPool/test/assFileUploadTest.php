@@ -52,9 +52,6 @@ class assFileUploadTest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assFileUpload.php';
-
         // Act
         $instance = new assFileUpload();
 

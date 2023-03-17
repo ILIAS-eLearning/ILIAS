@@ -587,7 +587,6 @@ class ilTestCorrectionsGUI
     {
         $setting = new ilSetting('assessment');
         $types = explode(',', $setting->get('assessment_scoring_adjustment'));
-        require_once './Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
         $type_def = array();
         foreach ($types as $type) {
             $type_def[$type] = ilObjQuestionPool::getQuestionTypeByTypeId($type);

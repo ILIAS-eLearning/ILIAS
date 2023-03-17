@@ -126,7 +126,6 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
             $this->setAuthor($data["author"]);
             $this->setPoints($data["points"]);
             $this->setOwner($data["owner"]);
-            include_once("./Services/RTE/classes/class.ilRTE.php");
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
             $this->setOrderText($data["ordertext"]);
             $this->setTextSize($data["textsize"]);
@@ -161,7 +160,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         $thisObjId = $this->getObjId();
 
         $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
 
@@ -206,7 +205,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         }
         // duplicate the question in database
         $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
@@ -230,8 +229,6 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
-
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 
         $sourceQuestionId = $this->id;
         $sourceParentId = $this->getObjId();
@@ -313,7 +310,6 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     public function splitAndTrimOrderElementText(string $in_string, string $separator): array
     {
         $result = array();
-        include_once "./Services/Utilities/classes/class.ilStr.php";
 
         if (ilStr::strPos($in_string, $separator) === false) {
             $result = preg_split("/\\s+/", $in_string);
@@ -348,7 +344,6 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         $ilUser = $DIC['ilUser'];
 
         if (is_null($pass)) {
-            include_once "./Modules/Test/classes/class.ilObjTest.php";
             $pass = ilObjTest::_getPass($active_id);
         }
 
@@ -367,7 +362,6 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         });
 
         if ($entered_values) {
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 assQuestion::logAction($this->lng->txtlng(
                     "assessment",
@@ -376,7 +370,6 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
                 ), $active_id, $this->getId());
             }
         } else {
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 assQuestion::logAction($this->lng->txtlng(
                     "assessment",
@@ -496,7 +489,6 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     */
     public function fromXML($item, int $questionpool_id, ?int $tst_id, &$tst_object, int &$question_counter, array $import_mapping, array &$solutionhints = []): array
     {
-        include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assOrderingHorizontalImport.php";
         $import = new assOrderingHorizontalImport($this);
         return $import->fromXML($item, $questionpool_id, $tst_id, $tst_object, $question_counter, $import_mapping);
     }
@@ -509,7 +501,6 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     */
     public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false): string
     {
-        include_once "./Modules/TestQuestionPool/classes/export/qti12/class.assOrderingHorizontalExport.php";
         $export = new assOrderingHorizontalExport($this);
         return $export->toXML($a_include_header, $a_include_binary, $a_shuffle, $test_output, $force_image_references);
     }
@@ -658,7 +649,6 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
      */
     public function toJSON(): string
     {
-        include_once("./Services/RTE/classes/class.ilRTE.php");
         $result = array();
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();

@@ -16,9 +16,6 @@
  *
  *********************************************************************/
 
-require_once('./Services/COPage/classes/class.ilPageObjectGUI.php');
-require_once('./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php');
-
 /**
  * Question page GUI class
  *

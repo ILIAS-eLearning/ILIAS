@@ -40,13 +40,11 @@ class ilTestExportRandomQuestionSet extends ilTestExport
         $ilDB = $DIC['ilDB'];
         $component_repository = $DIC['component.repository'];
 
-        require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
         $srcPoolDefFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
             $ilDB,
             $this->test_obj
         );
 
-        require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
         $this->srcPoolDefList = new ilTestRandomQuestionSetSourcePoolDefinitionList(
             $ilDB,
             $this->test_obj,
@@ -59,9 +57,6 @@ class ilTestExportRandomQuestionSet extends ilTestExport
         //		ilObjTest::exportPagesXML() uses $this->questions
         //		ilObjTest::loadQuestions() loads only those of the current active_id of ilUser
         $this->test_obj->questions = $this->getQuestionIds();
-        // fau.
-        require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolQuestionList.php';
-
         $this->stagingPoolQuestionListByPoolId = array();
     }
 

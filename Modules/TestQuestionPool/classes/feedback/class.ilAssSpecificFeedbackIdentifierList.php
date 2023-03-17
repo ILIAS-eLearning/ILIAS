@@ -91,7 +91,6 @@ class ilAssSpecificFeedbackIdentifierList implements Iterator
 
     protected function getSpecificFeedbackTableName(): string
     {
-        require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssClozeTestFeedback.php';
         return ilAssClozeTestFeedback::TABLE_NAME_SPECIFIC_FEEDBACK;
     }
 }

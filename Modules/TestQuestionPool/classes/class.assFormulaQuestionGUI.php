@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
  * Single choice question GUI representation
@@ -77,7 +77,6 @@ class assFormulaQuestionGUI extends assQuestionGUI
             $this->object->setTitle($_POST["title"]);
             $this->object->setAuthor($_POST["author"]);
             $this->object->setComment($_POST["comment"]);
-            include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
             $questiontext = ilUtil::stripOnlySlashes($_POST["question"]);
             $this->object->setQuestion($questiontext);
             $this->object->setEstimatedWorkingTime(
@@ -197,7 +196,6 @@ class assFormulaQuestionGUI extends assQuestionGUI
         $ilUser = $DIC['ilUser'];
         $user_id = $ilUser->getId();
         $question_id = $this->object->getId();
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewSession.php';
         $ilAssQuestionPreviewSession = new ilAssQuestionPreviewSession($user_id, $question_id);
         $ilAssQuestionPreviewSession->setParticipantsSolution(array());
     }
@@ -766,12 +764,10 @@ class assFormulaQuestionGUI extends assQuestionGUI
             if ($this->object->getOriginalId() != null && $this->object->_questionExistsInPool($this->object->getOriginalId())) {
                 $originalexists = true;
             }
-            include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
             if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer') && (int) $this->request->raw('calling_consumer')))
                 && $originalexists && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
                 $this->ctrl->redirect($this, "originalSyncForm");
             } elseif ($this->request->raw("calling_test")) {
-                require_once 'Modules/Test/classes/class.ilObjTest.php';
                 $test = new ilObjTest($this->request->raw("calling_test"));
                 #var_dump(assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId()));
                 $q_id = $this->object->getId();
@@ -999,7 +995,6 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
             $actualPassIndex = null;
             if ($this->object->getTestPresentationConfig()->isSolutionInitiallyPrefilled()) {
-                require_once 'Modules/Test/classes/class.ilObjTest.php';
                 $actualPassIndex = ilObjTest::_getPass($active_id);
             }
 

@@ -703,7 +703,6 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
     {
         $correctedsequence = $this->getCorrectedSequence();
         $result_array = array();
-        include_once "./Modules/Test/classes/class.ilObjTest.php";
         $solved_questions = ilObjTest::_getSolvedQuestions($this->active_id);
         $key = 1;
         foreach ($correctedsequence as $sequence) {

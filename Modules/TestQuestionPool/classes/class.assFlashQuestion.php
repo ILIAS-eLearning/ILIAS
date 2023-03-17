@@ -16,10 +16,7 @@
  *
  *********************************************************************/
 
-require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScoringAdjustable.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php';
 
 /**
  * Class for Flash based questions
@@ -172,7 +169,6 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
             $this->setOwner($data["owner"]);
             $this->setPoints($data["points"]);
 
-            include_once("./Services/RTE/classes/class.ilRTE.php");
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 
@@ -226,7 +222,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         $thisObjId = $this->getObjId();
 
         $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
 
@@ -277,7 +273,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         }
         // duplicate the question in database
         $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
@@ -304,8 +300,6 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
-
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 
         $sourceQuestionId = $this->id;
         $sourceParentId = $this->getObjId();
@@ -591,7 +585,6 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     */
     public function fromXML($item, int $questionpool_id, ?int $tst_id, &$tst_object, int &$question_counter, array $import_mapping, array &$solutionhints = []): array
     {
-        include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assFlashQuestionImport.php";
         $import = new assFlashQuestionImport($this);
         return $import->fromXML($item, $questionpool_id, $tst_id, $tst_object, $question_counter, $import_mapping);
     }
@@ -605,7 +598,6 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     */
     public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false): string
     {
-        include_once "./Modules/TestQuestionPool/classes/export/qti12/class.assFlashQuestionExport.php";
         $export = new assFlashQuestionExport($this);
         return $export->toXML($a_include_header, $a_include_binary, $a_shuffle, $test_output, $force_image_references);
     }

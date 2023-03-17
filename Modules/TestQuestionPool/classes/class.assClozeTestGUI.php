@@ -130,8 +130,6 @@ JS;
     {
         $hasErrors = (!$always) ? $this->editQuestion(true) : false;
         if (!$hasErrors) {
-            require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-
             $cloze_text = $this->object->getHtmlQuestionContentPurifier()->purify($_POST['cloze_text']);
 
             $cloze_text = $this->removeIndizesFromGapText($cloze_text);
@@ -313,7 +311,6 @@ JS;
         $save = $this->isSaveCommand();
         $this->getQuestionTemplate();
 
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $this->editForm = $form;
 
@@ -396,7 +393,6 @@ JS;
         if (!$this->object->getSelfAssessmentEditingMode()) {
             if ($this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE) {
                 $question->setUseRte(true);
-                include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
                 $question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
                 $question->addPlugin("latex");
                 $question->addButton("latex");
@@ -404,7 +400,6 @@ JS;
                 $question->setRTESupport($this->object->getId(), "qpl", "assessment");
             }
         } else {
-            require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
             $question->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
             $question->setUseTagsForRteOnly(false);
         }
@@ -463,14 +458,12 @@ JS;
         if (!$this->object->getSelfAssessmentEditingMode()) {
             if ($this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE) {
                 $cloze_text->setUseRte(true);
-                include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
                 $cloze_text->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
                 $cloze_text->addPlugin("latex");
                 $cloze_text->addButton("latex");
                 $cloze_text->addButton("pastelatex");
             }
         } else {
-            require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
             $cloze_text->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
             $cloze_text->setUseTagsForRteOnly(false);
         }
@@ -557,7 +550,6 @@ JS;
             }
             return $form;
         } else {
-            require_once 'Modules/TestQuestionPool/classes/Form/class.ilClozeGapInputBuilderGUI.php';
             $json = $this->populateJSON();
             $assClozeGapCombinationObject = new assClozeGapCombination();
             $combination_exists = $assClozeGapCombinationObject->combinationExistsForQid($this->object->getId());
@@ -715,8 +707,6 @@ JS;
      */
     protected function populateSelectGapFormPart($form, $gap, $gapCounter): ilPropertyFormGUI
     {
-        include_once "./Modules/TestQuestionPool/classes/class.ilAnswerWizardInputGUI.php";
-        include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
         $values = new ilAnswerWizardInputGUI($this->lng->txt("values"), "gap_" . $gapCounter . "");
         $values->setRequired(true);
         $values->setQuestionObject($this->object);
@@ -748,9 +738,6 @@ JS;
      */
     protected function populateTextGapFormPart($form, $gap, $gapCounter): ilPropertyFormGUI
     {
-        // Choices
-        include_once "./Modules/TestQuestionPool/classes/class.ilAnswerWizardInputGUI.php";
-        include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
         $values = new ilAnswerWizardInputGUI($this->lng->txt("values"), "gap_" . $gapCounter . "");
         $values->setRequired(true);
         $values->setQuestionObject($this->object);
@@ -876,8 +863,6 @@ JS;
     {
         $user_solution = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : array();
 
-        // generate the question output
-        include_once "./Services/UICore/classes/class.ilTemplate.php";
         $template = new ilTemplate("tpl.il_as_qpl_cloze_question_output.html", true, true, "Modules/TestQuestionPool");
         $output = $this->object->getClozeTextHTML();
         foreach ($this->object->getGaps() as $gap_index => $gap) {
@@ -992,7 +977,6 @@ JS;
             }
         }
 
-        include_once "./Services/UICore/classes/class.ilTemplate.php";
         $template = new ilTemplate("tpl.il_as_qpl_cloze_question_output_solution.html", true, true, "Modules/TestQuestionPool");
         $output = $this->object->getClozeTextHTML();
         $assClozeGapCombinationObject = new assClozeGapCombination();
@@ -1200,7 +1184,6 @@ JS;
 
     public function getGenericFeedbackOutput(int $active_id, $pass): string
     {
-        include_once "./Modules/Test/classes/class.ilObjTest.php";
         $manual_feedback = ilObjTest::getManualFeedback($active_id, $this->object->getId(), $pass);
         if (strlen($manual_feedback)) {
             return $manual_feedback;
@@ -1244,8 +1227,6 @@ JS;
             }
         }
 
-        // generate the question output
-        include_once "./Services/UICore/classes/class.ilTemplate.php";
         $template = new ilTemplate("tpl.il_as_qpl_cloze_question_output.html", true, true, "Modules/TestQuestionPool");
         $output = $this->object->getClozeTextHTML();
         foreach ($this->object->getGaps() as $gap_index => $gap) {
@@ -1684,7 +1665,6 @@ JS;
         $header->setTitle("Gap Combination " . ($combiIndex + 1));
         $form->addItem($header);
 
-        require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssClozeTestCombinationVariantsInputGUI.php';
         $inp = new ilAssClozeTestCombinationVariantsInputGUI('Answers', 'combination_' . $combiIndex);
         $inp->setValues($gapCombi);
         $form->addItem($inp);
@@ -1712,7 +1692,6 @@ JS;
 
     protected function populateTextOrSelectGapCorrectionFormProperty($form, $gap, $gapIndex, $hidePoints): void
     {
-        require_once "Modules/TestQuestionPool/classes/forms/class.ilAssAnswerCorrectionsInputGUI.php";
         $values = new ilAssAnswerCorrectionsInputGUI($this->lng->txt("values"), "gap_" . $gapIndex);
         $values->setHidePointsEnabled($hidePoints);
         $values->setRequired(true);

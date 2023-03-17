@@ -110,7 +110,6 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
      */
     public function getElementList($questionId): ilAssOrderingElementList
     {
-        require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElementList.php';
         return ilAssOrderingElementList::buildInstance($questionId, $this->getIdentifiedMultiValues());
     }
 

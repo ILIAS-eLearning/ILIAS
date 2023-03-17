@@ -233,8 +233,6 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
         $rbacreview = $DIC['rbacreview'];
         $ilUser = $DIC['ilUser'];
 
-        // name
-        include_once("./Services/Form/classes/class.ilTextInputGUI.php");
         $ti = new ilTextInputGUI($lng->txt("name"), "name");
         $ti->setMaxLength(64);
         $ti->setValidationRegexp('/^[^%]*$/is');
@@ -258,8 +256,6 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
         $this->addFilterItem($ti);
         $ti->readFromSession();
 
-        // passed tests
-        include_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
         $si = new ilCheckboxInputGUI($this->lng->txt("passed_only"), "passed_only");
         //		$si->setOptionTitle();
         $this->addFilterItem($si);

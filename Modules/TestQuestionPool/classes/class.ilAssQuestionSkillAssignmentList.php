@@ -297,7 +297,6 @@ class ilAssQuestionSkillAssignmentList
 
     public function hasSkillsAssignedLowerThanBarrier(): bool
     {
-        require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
         $globalBarrier = ilObjAssessmentFolder::getSkillTriggerAnswerNumberBarrier();
 
         foreach ($this->getUniqueAssignedSkills() as $skillData) {

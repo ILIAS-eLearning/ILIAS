@@ -95,7 +95,6 @@ class ilTestParticipantAccessFilter
                 return $this->accessStatisticsUserFilter($userIds);
         }
 
-        require_once 'Modules/Test/exceptions/class.ilTestException.php';
         throw new ilTestException('invalid user access filter mode chosen: ' . $this->getFilter());
     }
 

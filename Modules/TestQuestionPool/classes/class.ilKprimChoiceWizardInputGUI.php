@@ -16,10 +16,6 @@
  *
  *********************************************************************/
 
-require_once 'Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php';
-require_once 'Modules/TestQuestionPool/classes/class.ilAssKprimChoiceAnswer.php';
-require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
-
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -114,7 +110,6 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         global $DIC;
         $lng = $DIC['lng'];
 
-        include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
         if (is_array($_POST[$this->getPostVar()])) {
             $foundvalues = ilArrayUtil::stripSlashesRecursive(
                 $_POST[$this->getPostVar()],
@@ -319,7 +314,6 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();
 
-        include_once "./Services/YUI/classes/class.ilYuiUtil.php";
         $this->tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
         $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/kprimchoicewizard.js");
         $this->tpl->addJavascript('Modules/TestQuestionPool/js/ilAssKprimChoice.js');

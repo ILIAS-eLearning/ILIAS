@@ -145,8 +145,6 @@ class ilTestParticipantsTimeExtensionGUI
         $form->setId("tst_change_workingtime");
         $form->setTitle($this->lng->txt("tst_change_workingtime"));
 
-        // test users
-        require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
         $participantList = new ilTestParticipantList($this->getTestObj());
         $participantList->initializeFromDbRows($this->getTestObj()->getTestParticipants());
 

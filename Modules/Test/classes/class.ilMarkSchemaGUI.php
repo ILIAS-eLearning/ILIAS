@@ -175,7 +175,6 @@ class ilMarkSchemaGUI
 
     private function objectSupportsEctsGrades(): bool
     {
-        require_once 'Modules/Test/interfaces/interface.ilEctsGradesEnabled.php';
         return $this->object instanceof ilEctsGradesEnabled;
     }
 
@@ -187,17 +186,14 @@ class ilMarkSchemaGUI
 
         $this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'showMarkSchema'));
 
-        require_once 'Modules/Test/classes/tables/class.ilMarkSchemaTableGUI.php';
         $mark_schema_table = new ilMarkSchemaTableGUI($this, 'showMarkSchema', '', $this->object);
 
         if ($this->object->canEditMarks()) {
-            require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
             $create_simple_mark_schema_button = ilSubmitButton::getInstance();
             $create_simple_mark_schema_button->setCaption($this->lng->txt('tst_mark_create_simple_mark_schema'), false);
             $create_simple_mark_schema_button->setCommand('addSimpleMarkSchema');
             $this->toolbar->addButtonInstance($create_simple_mark_schema_button);
 
-            require_once 'Services/UIComponent/Button/classes/class.ilButton.php';
             $create_new_mark_step_button = ilButton::getInstance();
             $create_new_mark_step_button->setCaption($this->lng->txt('tst_mark_create_new_mark_step'), false);
             $create_new_mark_step_button->setButtonType(ilButton::BUTTON_TYPE_SUBMIT);
@@ -239,8 +235,6 @@ class ilMarkSchemaGUI
 
     protected function getEctsForm(): ilPropertyFormGUI
     {
-        require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-
         $disabled = !$this->object->canEditEctsGrades();
 
         $form = new ilPropertyFormGUI();

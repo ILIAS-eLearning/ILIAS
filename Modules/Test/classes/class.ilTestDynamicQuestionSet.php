@@ -92,8 +92,6 @@ class ilTestDynamicQuestionSet
         }
 
         if ($dynamicQuestionSetConfig->isTaxonomyFilterEnabled()) {
-            require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
-
             $questionList->setAvailableTaxonomyIds(ilObjTaxonomy::getUsageOfObject(
                 $dynamicQuestionSetConfig->getSourceQuestionPoolId()
             ));
@@ -132,8 +130,6 @@ class ilTestDynamicQuestionSet
         );
 
         if ($dynamicQuestionSetConfig->isTaxonomyFilterEnabled()) {
-            require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
-
             $questionList->setAvailableTaxonomyIds(ilObjTaxonomy::getUsageOfObject(
                 $dynamicQuestionSetConfig->getSourceQuestionPoolId()
             ));
@@ -169,10 +165,8 @@ class ilTestDynamicQuestionSet
 
     private function getQuestionSequenceStructuredByTaxonomy(ilAssQuestionList $questionList, $orderingTaxId): array
     {
-        require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
         $tax = new ilObjTaxonomy($orderingTaxId);
 
-        require_once 'Modules/Test/classes/class.ilTestTaxonomyTree.php';
         $tree = new ilTestTaxonomyTree($orderingTaxId);
         $tree->initOrderedTreeIndex($tax);
 

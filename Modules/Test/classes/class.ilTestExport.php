@@ -17,7 +17,7 @@
  *********************************************************************/
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
+
 /**
  * Export class for tests
  *
@@ -200,10 +200,8 @@ abstract class ilTestExport
 
         // make_directories
         $this->test_obj->createExportDirectory();
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
         ilFileUtils::makeDir($this->export_dir);
 
-        include_once './Services/Logging/classes/class.ilLog.php';
         $expLog = new ilLog($expDir, "export.log");
         $expLog->delete();
         $expLog->setLogFormat("");
@@ -242,7 +240,6 @@ abstract class ilTestExport
 
         $this->initXmlExport();
 
-        include_once("./Services/Xml/classes/class.ilXmlWriter.php");
         $this->xml = new ilXmlWriter();
 
         // set dtd definition
@@ -259,13 +256,11 @@ abstract class ilTestExport
 
         // create directories
         $this->test_obj->createExportDirectory();
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
         ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir);
         ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir . "/objects");
 
         // get Log File
         $expDir = $this->test_obj->getExportDirectory();
-        include_once "./Services/Logging/classes/class.ilLog.php";
         $expLog = new ilLog($expDir, "export.log");
         $expLog->delete();
         $expLog->setLogFormat("");
@@ -306,9 +301,7 @@ abstract class ilTestExport
         $this->xml->xmlDumpFile($this->export_dir . "/" . $this->subdir . "/" . $this->filename, false);
         $ilBench->stop("TestExport", "buildExportFile_dumpToFile");
 
-        if ($this->isResultExportingEnabledForTestExport() && @file_exists("./Modules/Test/classes/class.ilTestResultsToXML.php")) {
-            // dump results xml document to file
-            include_once "./Modules/Test/classes/class.ilTestResultsToXML.php";
+        if ($this->isResultExportingEnabledForTestExport()) {
             $resultwriter = new ilTestResultsToXML($this->test_obj->getTestId(), $this->test_obj->getAnonymity());
             $resultwriter->setIncludeRandomTestQuestionsEnabled($this->test_obj->isRandomTest());
             $ilBench->start("TestExport", "buildExportFile_results");
@@ -355,7 +348,6 @@ abstract class ilTestExport
 
     protected function getQuestionQtiXml($questionId)
     {
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $questionOBJ = assQuestion::_instantiateQuestion($questionId);
         $xml = $questionOBJ->toXML(false);
 
@@ -368,8 +360,6 @@ abstract class ilTestExport
 
     public function exportXHTMLMediaObjects($a_export_dir)
     {
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-
         $mobs = ilObjMediaObject::_getMobsOfObject("tst:html", $this->test_obj->getId());
         foreach ($mobs as $mob) {
             if (ilObjMediaObject::_exists($mob)) {
@@ -397,7 +387,6 @@ abstract class ilTestExport
      */
     protected function populateQuestionSkillAssignmentsXml(ilXmlWriter $a_xml_writer, ilAssQuestionSkillAssignmentList $assignmentList, $questions)
     {
-        require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentExporter.php';
         $skillQuestionAssignmentExporter = new ilAssQuestionSkillAssignmentExporter();
         $skillQuestionAssignmentExporter->setXmlWriter($a_xml_writer);
         $skillQuestionAssignmentExporter->setQuestionIds($questions);
@@ -410,12 +399,10 @@ abstract class ilTestExport
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdList.php';
         $thresholdList = new ilTestSkillLevelThresholdList($ilDB);
         $thresholdList->setTestId($this->test_obj->getTestId());
         $thresholdList->loadFromDb();
 
-        require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdExporter.php';
         $skillLevelThresholdExporter = new ilTestSkillLevelThresholdExporter();
         $skillLevelThresholdExporter->setXmlWriter($a_xml_writer);
         $skillLevelThresholdExporter->setAssignmentList($assignmentList);
@@ -431,7 +418,6 @@ abstract class ilTestExport
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
         $assignmentList = new ilAssQuestionSkillAssignmentList($ilDB);
         $assignmentList->setParentObjId($this->test_obj->getId());
         $assignmentList->loadFromDb();

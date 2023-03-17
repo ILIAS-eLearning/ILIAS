@@ -15,8 +15,6 @@
  *
  *********************************************************************/
 
-require_once 'Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolException.php';
-
 /**
  * Model class for managing a question hint
  *

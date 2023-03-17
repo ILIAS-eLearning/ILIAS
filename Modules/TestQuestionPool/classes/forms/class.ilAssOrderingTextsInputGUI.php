@@ -29,7 +29,6 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
      */
     public function __construct(ilAssOrderingFormValuesObjectsConverter $converter, $postVar)
     {
-        require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingDefaultElementFallback.php';
         $manipulator = new ilAssOrderingDefaultElementFallback();
         $this->addFormValuesManipulator($manipulator);
 

@@ -238,7 +238,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             $this->setAuthor($data["author"]);
             $this->setPoints($data["points"]);
             $this->setOwner($data["owner"]);
-            include_once("./Services/RTE/classes/class.ilRTE.php");
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
             $shuffle = (is_null($data['shuffle'])) ? true : $data['shuffle'];
             $this->setShuffle((bool) $shuffle);
@@ -266,14 +265,12 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             array('integer'),
             array($question_id)
         );
-        include_once "./Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php";
         if ($result->numRows() > 0) {
             while ($data = $ilDB->fetchAssoc($result)) {
                 $imagefilename = $this->getImagePath() . $data["imagefile"];
                 if (!@file_exists($imagefilename)) {
                     $data["imagefile"] = "";
                 }
-                include_once("./Services/RTE/classes/class.ilRTE.php");
                 $data["answertext"] = ilRTE::_replaceMediaObjectImageSrc($data["answertext"], 1);
 
                 $answer = new ASS_AnswerMultipleResponseImage($data["answertext"], $data["points"], $data["aorder"]);
@@ -301,7 +298,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $thisObjId = $this->getObjId();
 
         $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
 
@@ -348,7 +345,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         }
         // duplicate the question in database
         $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
@@ -374,8 +371,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
-
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 
         $sourceQuestionId = $this->id;
         $sourceParentId = $this->getObjId();
@@ -646,7 +641,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $ilDB = $DIC['ilDB'];
 
         if (is_null($pass)) {
-            include_once "./Modules/Test/classes/class.ilObjTest.php";
             $pass = ilObjTest::_getPass($active_id);
         }
 
@@ -673,7 +667,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         });
 
         if ($entered_values) {
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 assQuestion::logAction($this->lng->txtlng(
                     "assessment",
@@ -682,7 +675,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
                 ), $active_id, $this->getId());
             }
         } else {
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 assQuestion::logAction($this->lng->txtlng(
                     "assessment",
@@ -824,7 +816,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             if (!ilFileUtils::moveUploadedFile($image_tempfilename, $image_filename, $imagepath . $image_filename)) {
                 $result = 2;
             } else {
-                include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
                 $mimetype = ilObjMediaObject::getMimeType($imagepath . $image_filename);
                 if (!preg_match("/^image/", $mimetype)) {
                     unlink($imagepath . $image_filename);
@@ -1049,7 +1040,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      */
     public function toJSON(): string
     {
-        require_once './Services/RTE/classes/class.ilRTE.php';
         $result = array();
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();

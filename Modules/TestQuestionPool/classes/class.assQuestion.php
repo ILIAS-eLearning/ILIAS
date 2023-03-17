@@ -719,7 +719,6 @@ abstract class assQuestion
                         )
                     );
 
-                    require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
                     ilWACSignedPath::setTokenMaxLifetimeInSeconds(60);
                     $output[] = '<a href="'
                         . ilWACSignedPath::signFile(
@@ -2446,10 +2445,6 @@ abstract class assQuestion
     */
     public static function _getSolutionMaxPass(int $question_id, int $active_id): int
     {
-        /*		include_once "./Modules/Test/classes/class.ilObjTest.php";
-                $pass = ilObjTest::_getPass($active_id);
-                return $pass;*/
-
         // the following code was the old solution which added the non answered
         // questions of a pass from the answered questions of the previous pass
         // with the above solution, only the answered questions of the last pass are counted

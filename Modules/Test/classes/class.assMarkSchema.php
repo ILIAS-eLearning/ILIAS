@@ -80,7 +80,6 @@ class ASS_MarkSchema
      */
     public function addMarkStep(string $txt_short = "", string $txt_official = "", $percentage = 0, $passed = 0): void
     {
-        require_once './Modules/Test/classes/class.assMark.php';
         $mark = new ASS_Mark($txt_short, $txt_official, $percentage, $passed);
         array_push($this->mark_steps, $mark);
     }
@@ -92,7 +91,6 @@ class ASS_MarkSchema
         $ilDB = $DIC['ilDB'];
 
         $oldmarks = array();
-        include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
         if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
             $result = $ilDB->queryF(
                 "SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level",
@@ -433,7 +431,6 @@ class ASS_MarkSchema
         /** @var $ilUser ilObjUser */
         global $DIC;
         $ilUser = $DIC['ilUser'];
-        include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
         ilObjAssessmentFolder::_addLog($ilUser->getId(), ilObjTest::_getObjectIDFromTestID($test_id), $logtext, "", "", true);
     }
 }

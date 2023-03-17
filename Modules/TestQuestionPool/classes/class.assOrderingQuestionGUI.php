@@ -67,7 +67,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     public function __construct($id = -1)
     {
         parent::__construct();
-        include_once "./Modules/TestQuestionPool/classes/class.assOrderingQuestion.php";
         $this->object = new assOrderingQuestion();
         if ($id >= 0) {
             $this->object->loadFromDb($id);
@@ -330,7 +329,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     protected function buildEditForm(): ilAssOrderingQuestionAuthoringFormGUI
     {
-        require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingQuestionAuthoringFormGUI.php';
         $form = new ilAssOrderingQuestionAuthoringFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->outQuestionType());

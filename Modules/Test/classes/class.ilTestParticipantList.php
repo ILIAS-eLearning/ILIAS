@@ -229,8 +229,6 @@ class ilTestParticipantList implements Iterator
      */
     public function getScoredParticipantList(): ilTestParticipantList
     {
-        require_once 'Modules/Test/classes/class.ilTestParticipantScoring.php';
-
         $scoredParticipantList = new self($this->getTestObj());
 
         global $DIC; /* @var ILIAS\DI\Container $DIC */
@@ -432,7 +430,6 @@ class ilTestParticipantList implements Iterator
      */
     protected function buildParticipantsFullname(ilTestParticipant $participant): string
     {
-        require_once 'Modules/Test/classes/class.ilObjTestAccess.php';
         return ilObjTestAccess::_getParticipantData($participant->getActiveId());
     }
 }

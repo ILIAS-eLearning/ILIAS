@@ -98,8 +98,6 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
         $tableData = $questionHintList->getTableData();
 
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
-            require_once 'Modules/TestQuestionPool/classes/class.ilAssHintPageGUI.php';
-
             foreach ($tableData as $key => $data) {
                 $this->questionOBJ->ensureHintPageObjectExists($data['hint_id']);
                 $pageObjectGUI = new ilAssHintPageGUI($data['hint_id']);

@@ -16,8 +16,7 @@
  *
  *********************************************************************/
 
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
-include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
+require_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 /**
 * Scoring class for tests
@@ -133,7 +132,6 @@ class ilTestScoringGUI extends ilTestServiceGUI
             ilObjTestGUI::accessViolationRedirect();
         }
 
-        require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
         if (!ilObjAssessmentFolder::_mananuallyScoreableQuestionTypesExists()) {
             // allow only if at least one question type is marked for manual scoring
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("manscoring_not_allowed"), true);
@@ -215,8 +213,6 @@ class ilTestScoringGUI extends ilTestServiceGUI
 
         $contentHTML = '';
 
-        // pass overview table
-        require_once 'Modules/Test/classes/tables/class.ilTestPassManualScoringOverviewTableGUI.php';
         $table = new ilTestPassManualScoringOverviewTableGUI($this, 'showManScoringParticipantScreen');
 
         $userId = $this->object->_getUserIdFromActiveId($activeId);
@@ -272,8 +268,6 @@ class ilTestScoringGUI extends ilTestServiceGUI
             return false;
         }
 
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-
         $maxPointsByQuestionId = array();
         $maxPointsExceeded = false;
         foreach ($questionGuiList as $questionId => $questionGui) {
@@ -297,8 +291,6 @@ class ilTestScoringGUI extends ilTestServiceGUI
             $this->showManScoringParticipantScreen($form);
             return false;
         }
-
-        include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 
         foreach ($questionGuiList as $questionId => $questionGui) {
             $reachedPoints = $form->getItemByPostVar("question__{$questionId}__points")->getValue();
@@ -331,8 +323,6 @@ class ilTestScoringGUI extends ilTestServiceGUI
             );
         }
 
-        include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
-        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
         ilLPStatusWrapper::_updateStatus(
             $this->object->getId(),
             ilObjTestAccess::_getParticipantId($activeId)
@@ -343,8 +333,6 @@ class ilTestScoringGUI extends ilTestServiceGUI
 
         $manScoringNotify = $form->getItemByPostVar("manscoring_notify")->getChecked();
         if ($manScoringNotify) {
-            require_once 'Modules/Test/classes/notifications/class.ilTestManScoringParticipantNotification.php';
-
             $notification = new ilTestManScoringParticipantNotification(
                 $this->object->_getUserIdFromActiveId($activeId),
                 $this->object->getRefId()
@@ -360,7 +348,6 @@ class ilTestScoringGUI extends ilTestServiceGUI
             $notification->send();
         }
 
-        require_once './Modules/Test/classes/class.ilTestScoring.php';
         $scorer = new ilTestScoring($this->object);
         $scorer->setPreserveManualScores(true);
         $scorer->recalculateSolutions();
@@ -420,13 +407,6 @@ class ilTestScoringGUI extends ilTestServiceGUI
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
-
-        require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-        require_once 'Services/Form/classes/class.ilFormSectionHeaderGUI.php';
-        require_once 'Services/Form/classes/class.ilCustomInputGUI.php';
-        require_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
-        require_once 'Services/Form/classes/class.ilTextInputGUI.php';
-        require_once 'Services/Form/classes/class.ilTextAreaInputGUI.php';
 
         $ilCtrl->setParameter($this, 'active_id', $activeId);
         $ilCtrl->setParameter($this, 'pass', $pass);
@@ -504,13 +484,11 @@ class ilTestScoringGUI extends ilTestServiceGUI
      */
     private function buildManScoringParticipantsTable($withData = false): ilTestManScoringParticipantsTableGUI
     {
-        require_once 'Modules/Test/classes/tables/class.ilTestManScoringParticipantsTableGUI.php';
         $table = new ilTestManScoringParticipantsTableGUI($this);
 
         if ($withData) {
             $participantStatusFilterValue = $table->getFilterItemByPostVar('participant_status')->getValue();
 
-            require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
             $participantList = new ilTestParticipantList($this->object);
 
             $participantList->initializeFromDbRows(

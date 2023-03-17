@@ -35,9 +35,6 @@ class assAnswerMatchingTermTest extends assBaseTestCase
 
     public function test_instantiateObjectSimple(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
-
         // Act
         $instance = new assAnswerMatchingTerm();
 
@@ -47,8 +44,6 @@ class assAnswerMatchingTermTest extends assBaseTestCase
 
     public function test_setGetText(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
         $instance = new assAnswerMatchingTerm();
         $expected = 'Text';
 
@@ -62,8 +57,6 @@ class assAnswerMatchingTermTest extends assBaseTestCase
 
     public function test_setGetPicture(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
         $instance = new assAnswerMatchingTerm();
         $expected = 'path/to/picture?';
 
@@ -77,8 +70,6 @@ class assAnswerMatchingTermTest extends assBaseTestCase
 
     public function test_getUnsetPicture(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
         $instance = new assAnswerMatchingTerm();
         $expected = null;
 
@@ -91,8 +82,6 @@ class assAnswerMatchingTermTest extends assBaseTestCase
 
     public function test_setGetIdentifier(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
         $instance = new assAnswerMatchingTerm();
         $expected = 12345;
 
