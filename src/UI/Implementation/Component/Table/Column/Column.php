@@ -26,17 +26,14 @@ abstract class Column implements C\Column
 {
     use ComponentHelper;
 
-    protected string $title;
     protected bool $sortable = true;
     protected bool $optional = false;
     protected bool $initially_visible = true;
     protected bool $highlighted = false;
     protected int $index;
 
-
-    public function __construct(string $title)
+    public function __construct(protected string $title)
     {
-        $this->title = $title;
     }
 
     public function getTitle(): string

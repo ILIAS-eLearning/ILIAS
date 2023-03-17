@@ -28,21 +28,16 @@ abstract class Action implements I\Action
 {
     use ComponentHelper;
 
-    protected string $label;
-    protected string $parameter_name;
     protected Signal|URI $target;
 
     public function __construct(
-        string $label,
-        string $parameter_name,
+        protected string $label,
+        protected string $parameter_name,
         Signal|URI $target
     ) {
-        $this->label = $label;
-        $this->parameter_name = $parameter_name;
-
         $check = [$target];
         $valid = [Signal::class, URI::class];
-        $this->checkArgListElements("target", $check, $valid, "target class");
+        $this->checkArgListElements("target", $check, $valid);
         $this->target = $target;
     }
 

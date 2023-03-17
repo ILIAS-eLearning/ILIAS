@@ -35,7 +35,6 @@ class Data extends Table implements T\Data, JSBindable
     use JavaScriptBindable;
 
     protected string $title;
-    protected T\DataRetrieval $data_retrieval;
 
     /**
      * @var array <string, Column>
@@ -50,7 +49,6 @@ class Data extends Table implements T\Data, JSBindable
     protected Signal $multi_action_signal;
     protected Signal $selection_signal;
     protected ?ServerRequestInterface $request = null;
-    protected DataFactory $data_factory;
 
     protected int $number_of_rows = 800;
     protected array $selected_optional_column_ids = [];
@@ -61,16 +59,14 @@ class Data extends Table implements T\Data, JSBindable
 
     public function __construct(
         SignalGeneratorInterface $signal_generator,
-        DataFactory $data_factory,
+        protected DataFactory $data_factory,
         string $title,
         array $columns,
-        T\DataRetrieval $data_retrieval
+        protected T\DataRetrieval $data_retrieval
     ) {
         parent::__construct($title);
         $this->multi_action_signal = $signal_generator->create();
         $this->selection_signal = $signal_generator->create();
-        $this->data_factory = $data_factory;
-        $this->data_retrieval = $data_retrieval;
         $this->setEnumeratedColumns($columns);
         $this->initializeVisibleColumns();
         $this->initializeViewDefaults();

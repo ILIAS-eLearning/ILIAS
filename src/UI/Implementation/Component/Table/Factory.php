@@ -31,15 +31,10 @@ use Closure;
  */
 class Factory implements T\Factory
 {
-    protected SignalGeneratorInterface $signal_generator;
-    protected DataFactory $data_factory;
-
     public function __construct(
-        SignalGeneratorInterface $signal_generator,
-        DataFactory $data_factory
+        protected SignalGeneratorInterface $signal_generator,
+        protected DataFactory $data_factory
     ) {
-        $this->signal_generator = $signal_generator;
-        $this->data_factory = $data_factory;
     }
 
     /**

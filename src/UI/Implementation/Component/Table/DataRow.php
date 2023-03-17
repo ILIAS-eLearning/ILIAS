@@ -26,26 +26,24 @@ class DataRow implements T\DataRow
 {
     use ComponentHelper;
 
-    protected bool $table_has_singleactions;
-    protected bool $table_has_multiactions;
-    protected array $columns;
-    protected array $actions;
+    /**
+     * @var mixed[]
+     */
+    public $record;
     protected array $disabled_actions = [];
-    protected string  $id;
 
+    /**
+     * @param mixed[] $columns
+     * @param mixed[] $actions
+     */
     public function __construct(
-        bool $table_has_singleactions,
-        bool $table_has_multiactions,
-        array $columns,
-        array $actions,
-        string $id,
+        protected bool $table_has_singleactions,
+        protected bool $table_has_multiactions,
+        protected array $columns,
+        protected array $actions,
+        protected string $id,
         array $record
     ) {
-        $this->table_has_singleactions = $table_has_singleactions;
-        $this->table_has_multiactions = $table_has_multiactions;
-        $this->columns = $columns;
-        $this->actions = $actions;
-        $this->id = $id;
         $this->record = $record;
     }
 

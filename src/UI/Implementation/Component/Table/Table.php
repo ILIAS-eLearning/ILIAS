@@ -28,11 +28,8 @@ abstract class Table implements T\Table
 {
     use ComponentHelper;
 
-    protected string $title;
-
-    public function __construct(string $title)
+    public function __construct(protected string $title)
     {
-        $this->title = $title;
     }
 
     /**

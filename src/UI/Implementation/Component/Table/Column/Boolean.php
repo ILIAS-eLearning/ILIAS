@@ -23,13 +23,8 @@ use ILIAS\UI\Component\Table\Column as C;
 
 class Boolean extends Column implements C\Boolean
 {
-    protected string $true_option;
-    protected string $false_option;
-
-    public function __construct(string $title, string $true, string $false)
+    public function __construct(string $title, protected string $true_option, protected string $false_option)
     {
-        $this->true_option = $true;
-        $this->false_option = $false;
         parent::__construct($title);
     }
 
