@@ -26,12 +26,14 @@ class ilDclFileRecordPresentation extends ilDclBaseRecordRepresentation
     use ilDclFileFieldHelper;
 
     private \ILIAS\ResourceStorage\Services $irss;
+    private \ILIAS\DI\UIServices $ui_services;
 
     public function __construct(ilDclBaseRecordFieldModel $record_field)
     {
         global $DIC;
         parent::__construct($record_field);
         $this->irss = $DIC->resourceStorage();
+        $this->ui_services = $DIC->ui();
     }
 
     public function getSingleHTML(?array $options = null, bool $link = true): string
@@ -54,9 +56,12 @@ class ilDclFileRecordPresentation extends ilDclBaseRecordRepresentation
         }
 
         if ($link) {
-            $download_link = $this->buildDownloadLink();
+            $link_component = $this->ui_services->factory()->link()->standard(
+                $title,
+                $this->buildDownloadLink()
+            );
 
-            return '<a href="' . $download_link . '">' . $title . '</a>';
+            return $this->ui_services->renderer()->render($link_component);
         }
 
         return $title;
