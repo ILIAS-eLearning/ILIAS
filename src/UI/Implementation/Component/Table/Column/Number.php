@@ -74,7 +74,7 @@ class Number extends Column implements C\Number
             $value = $this->unit . ' ' . $value;
         }
         if ($this->unit_position === self::UNIT_POSITION_AFT) {
-            $value = $value . ' ' . $this->unit;
+            return $value . ' ' . $this->unit;
         }
         return $value;
     }

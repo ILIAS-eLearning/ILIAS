@@ -46,9 +46,8 @@ abstract class Column implements C\Column
 
     public function getType(): string
     {
-        $class = explode('\\', get_class($this));
-        $class = array_pop($class);
-        return $class;
+        $class = explode('\\', $this::class);
+        return array_pop($class);
     }
 
     public function withIsSortable(bool $flag): self
