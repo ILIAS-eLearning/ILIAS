@@ -568,6 +568,7 @@ class ilSetupLanguage extends ilLanguage
             }
     
             $query = "INSERT INTO lng_modules (module, lang_key, lang_array) VALUES ";
+            $modules_to_delete = [];
             foreach ($lang_array as $module => $lang_arr) {
                 if ($scope === "local") {
                     $q = "SELECT * FROM lng_modules WHERE " .
@@ -579,12 +580,7 @@ class ilSetupLanguage extends ilLanguage
                     if (is_array($arr2)) {
                         $lang_arr = array_merge($arr2, $lang_arr);
                     }
-                    // delete only modules containing local changes
-                    // see mantis #36972
-                    $ilDB->manipulate(sprintf("DELETE FROM lng_modules WHERE lang_key = %s AND module = %s",
-                        $ilDB->quote($lang_key, "text"),
-                        $ilDB->quote($module, "text")
-                    ));
+                    $modules_to_delete[] = $module;
                 }
                 $query .= sprintf(
                     "(%s,%s,%s),",
@@ -594,7 +590,14 @@ class ilSetupLanguage extends ilLanguage
                 );
             }
     
-            if ($scope !== "local") {
+            if ($scope === "local") {
+                // delete only modules for which there are language variables in a local language file
+                // see mantis #36972
+                $inModulesToDelete = $ilDB->in('module', $modules_to_delete, false, 'text');
+                $ilDB->manipulate(sprintf("DELETE FROM lng_modules WHERE lang_key = %s AND $inModulesToDelete",
+                    $ilDB->quote($lang_key, "text")
+                ));
+            } else {
                 $ilDB->manipulate(sprintf("DELETE FROM lng_modules WHERE lang_key = %s",
                     $ilDB->quote($lang_key, "text")
                 ));

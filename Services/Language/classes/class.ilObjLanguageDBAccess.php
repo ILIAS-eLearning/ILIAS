@@ -118,6 +118,7 @@ class ilObjLanguageDBAccess
         ilCachedLanguage::getInstance($this->key)->deleteInCache();
         
         $query = "INSERT INTO lng_modules (module, lang_key, lang_array) VALUES ";
+        $modules_to_delete = [];
         foreach ($lang_array as $module => $lang_arr) {
             if ($this->scope === "local") {
                 $q = "SELECT * FROM lng_modules WHERE " .
@@ -129,12 +130,7 @@ class ilObjLanguageDBAccess
                 if (is_array($arr2)) {
                     $lang_arr = array_merge($arr2, $lang_arr);
                 }
-                // delete only modules containing local changes
-                // see mantis #36972
-                $this->ilDB->manipulate(sprintf("DELETE FROM lng_modules WHERE lang_key = %s AND module = %s",
-                    $this->ilDB->quote($this->key, "text"),
-                    $this->ilDB->quote($module, "text")
-                ));
+                $modules_to_delete[] = $module;
             }
             $query .= sprintf(
                 "(%s,%s,%s),",
@@ -144,7 +140,14 @@ class ilObjLanguageDBAccess
             );
         }
         
-        if ($this->scope !== "local") {
+        if ($this->scope === "local") {
+            // delete only modules for which there are language variables in a local language file
+            // see mantis #36972
+            $inModulesToDelete = $this->ilDB->in('module', $modules_to_delete, false, 'text');
+            $this->ilDB->manipulate(sprintf("DELETE FROM lng_modules WHERE lang_key = %s AND $inModulesToDelete",
+                $this->ilDB->quote($this->key, "text")
+            ));
+        } else {
             $this->ilDB->manipulate(sprintf("DELETE FROM lng_modules WHERE lang_key = %s",
                 $this->ilDB->quote($this->key, "text")
             ));
