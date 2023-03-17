@@ -44,7 +44,7 @@ class ilAccordionGUI
     protected string $containerclass = "";
     protected string $id = "";
     protected bool $head_class_set = false;
-    public static string $owl_path = "./libs/bower/bower_components/owl.carousel/dist";
+    public static string $owl_path = "./node_modules/owl.carousel/dist";
     public static string $owl_js_path = "/owl.carousel.js";
     public static string $owl_css_path = "/assets/owl.carousel.css";
     protected ilGlobalTemplateInterface $main_tpl;
