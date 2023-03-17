@@ -18,24 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\GlobalScreen\Collector\Renderer;
+namespace ILIAS\GlobalScreen\Scope\Toast\Collector\Renderer;
 
-use ILIAS\GlobalScreen\isGlobalScreenItem;
-use ILIAS\UI\Component\Component;
+use ILIAS\GlobalScreen\Scope\RenderFactory;
 
 /**
- * Trait ComponentDecoratorApplierTrait
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
-trait ComponentDecoratorApplierTrait
+interface ToastRendererFactory extends RenderFactory
 {
-    public function applyDecorator(Component $component, isGlobalScreenItem $item): Component
-    {
-        $c = $item->getComponentDecorator();
-        if ($c !== null) {
-            return $c($component);
-        }
-
-        return $component;
-    }
+    public function getRenderer(string $fully_qualified): ToastRenderer;
 }

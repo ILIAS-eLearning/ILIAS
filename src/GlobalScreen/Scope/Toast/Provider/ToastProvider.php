@@ -19,12 +19,15 @@
 namespace ILIAS\GlobalScreen\Scope\Toast\Provider;
 
 use ILIAS\GlobalScreen\Provider\Provider;
-use ILIAS\UI\Component\Toast\Toast;
+use ILIAS\GlobalScreen\Scope\Toast\Factory\isStandardItem;
+use ILIAS\DI\Container;
 
 interface ToastProvider extends Provider
 {
+    public function __construct(Container $dic);
+
     /**
-     * @return Toast[]
+     * @return isStandardItem[]
      */
     public function getToasts(): array;
 }
