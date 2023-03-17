@@ -20,11 +20,15 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestSuite;
 
+require_once __DIR__ . '/bootstrap.php';
+
 class ilServicesVirusScannerSuite extends TestSuite
 {
     public static function suite(): self
     {
         $suite = new self();
+
+        require_once __DIR__ . '/VirusScannerFactoryTest.php';
         $suite->addTestSuite(VirusScannerFactoryTest::class);
 
         return $suite;
