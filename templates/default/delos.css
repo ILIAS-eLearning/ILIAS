@@ -13370,7 +13370,8 @@ img.ilSmallIcon {
 }
 @media print {
   .ilAccHideContent {
-    display: none !important;
+    height: auto !important;
+    width: auto !important;
   }
 }
 div.ilc_va_icont_VAccordICont {
