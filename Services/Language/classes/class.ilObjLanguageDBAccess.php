@@ -129,6 +129,12 @@ class ilObjLanguageDBAccess
                 if (is_array($arr2)) {
                     $lang_arr = array_merge($arr2, $lang_arr);
                 }
+                // delete only modules containing local changes
+                // see mantis #36972
+                $this->ilDB->manipulate(sprintf("DELETE FROM lng_modules WHERE lang_key = %s AND module = %s",
+                    $this->ilDB->quote($this->key, "text"),
+                    $this->ilDB->quote($module, "text")
+                ));
             }
             $query .= sprintf(
                 "(%s,%s,%s),",
@@ -138,25 +144,11 @@ class ilObjLanguageDBAccess
             );
         }
         
-        $delete_query = sprintf("DELETE FROM lng_modules WHERE lang_key = %s",
-            $this->ilDB->quote($this->key, "text")
-        );
-        if ($this->scope === "local") {
-            // delete only modules containing local changes
-            // see mantis #36972
-            $modules_to_delete = "module = '";
-            $count_modules = count($lang_array);
-            foreach ($lang_array as $module => $lang_arr) {
-                $modules_to_delete .= $module . "'";
-                $count_modules -= 1;
-                if ($count_modules) {
-                    $modules_to_delete .= " OR module = '";
-                }
-            }
-            $delete_query .= " AND (" . $modules_to_delete . ")";
+        if ($this->scope !== "local") {
+            $this->ilDB->manipulate(sprintf("DELETE FROM lng_modules WHERE lang_key = %s",
+                $this->ilDB->quote($this->key, "text")
+            ));
         }
-        
-        $this->ilDB->manipulate($delete_query);
         
         $query = rtrim($query, ",") . ";";
         $this->ilDB->manipulate($query);
