@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * DataCollection dataset class
@@ -408,7 +407,7 @@ class ilDataCollectionDataSet extends ilDataSet
                                 $value = ($new_mob_id) ? (int) $new_mob_id : null;
                                 $this->import_temp_new_mob_ids[] = $new_mob_id;
                                 break;
-                            case ilDclDatatype::INPUTFORMAT_FILE:
+                            case ilDclDatatype::INPUTFORMAT_FILEUPLOAD:
                                 $new_file_id = $a_mapping->getMapping('Modules/File', 'file', $a_rec['value']);
                                 $value = ($new_file_id) ? (int) $new_file_id : null;
                                 break;

@@ -19,10 +19,17 @@
 use ILIAS\Setup;
 use ILIAS\Setup\Objective;
 
-class ilDataCollectionAgent extends Setup\Agent\NullAgent
+class ilDataCollectionSetupAgent extends Setup\Agent\NullAgent
 {
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         return new \ilDatabaseUpdateStepsExecutedObjective(new ilDataCollectionDBUpdateSteps9());
+    }
+
+    public function getMigrations(): array
+    {
+        return [
+            new ilDataCollectionStorageMigration()
+        ];
     }
 }

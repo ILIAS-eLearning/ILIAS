@@ -13,13 +13,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
- * Class ilDclBooleanFieldModel
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
+ * @deprecated use new type ilDCLFileFieldModel instead
  */
 class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
 {

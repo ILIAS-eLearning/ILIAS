@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * @author  Martin Studer <ms@studer-raimann.ch>
@@ -37,6 +36,7 @@ class ilDclRecordListGUI
     public const CMD_CANCEL_DELETE = 'cancelDelete';
     public const CMD_DELETE_RECORDS = 'deleteRecords';
     public const CMD_SHOW_IMPORT_EXCEL = 'showImportExcel';
+
     /**
      * Stores current mode active
      */
@@ -56,6 +56,7 @@ class ilDclRecordListGUI
     protected ilTabsGUI $tabs;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
+    protected \ILIAS\ResourceStorage\Services $irss;
 
     private function init(
         ilDataCollectionOutboundsAdapter $adapter
@@ -79,6 +80,7 @@ class ilDclRecordListGUI
         $this->tabs = $DIC->tabs();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->irss = $DIC->resourceStorage();
 
         $this->table_id = $table_id;
         $this->tableview_id = $tableview_id;
@@ -369,19 +371,38 @@ class ilDclRecordListGUI
 
                 $filepath = $_FILES["field_" . $field_id]['tmp_name'];
                 $filetitle = $_FILES["field_" . $field_id]['name'];
+
+                ilFileDelivery::deliverFileLegacy($filepath, $filetitle);
             } else {
-                $rec_id = $this->http->wrapper()->query()->retrieve('record_id', $this->refinery->kindlyTo()->int());
+                $rec_id = $this->http->wrapper()
+                                     ->query()
+                                     ->retrieve('record_id', $this->refinery->kindlyTo()->int());
+
                 $record = ilDclCache::getRecordCache($rec_id);
-                $field_id = $this->http->wrapper()->query()->retrieve('field_id', $this->refinery->kindlyTo()->int());
-                $file_obj = new ilObjFile($record->getRecordFieldValue($field_id), false);
                 if (!$this->recordBelongsToCollection($record)) {
                     return;
                 }
-                $filepath = $file_obj->getFile();
-                $filetitle = $file_obj->getTitle();
-            }
 
-            ilFileDelivery::deliverFileLegacy($filepath, $filetitle);
+                $field_id = $this->http->wrapper()
+                                       ->query()
+                                       ->retrieve('field_id', $this->refinery->kindlyTo()->int());
+
+
+
+                // Find the current revision
+                $rid_string = $record->getRecordFieldValue($field_id);
+                $identification = $this->irss->manage()->find($rid_string);
+                if ($identification === null) {
+                    return;
+                }
+                $current_revision = $this->irss->manage()->getCurrentRevision($identification);
+
+                // Download the File
+                $this->irss->consume()
+                           ->download($identification)
+                           ->overrideFileName($current_revision->getTitle())
+                           ->run();
+            }
         }
     }
 
@@ -619,6 +640,10 @@ class ilDclRecordListGUI
 
     protected function checkAccess(): bool
     {
+        if (null === $this->table_id || null === $this->tableview_id) {
+            return false;
+        }
+
         return ilObjDataCollectionAccess::hasAccessTo(
             $this->parent_obj->getRefId(),
             $this->table_id,
