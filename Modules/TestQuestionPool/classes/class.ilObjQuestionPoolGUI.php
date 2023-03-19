@@ -1429,15 +1429,19 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
+
         switch ($this->ctrl->getCmd()) {
             case "create":
             case "importFile":
             case "cancel":
                 break;
             default:
+                $this->ctrl->clearParameterByClass(self::class, 'q_id');
                 $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->qplrequest->getRefId());
+                $this->ctrl->setParameter($this, 'q_id', $this->qplrequest->raw("q_id"));
                 break;
         }
+
         if (!is_array($this->qplrequest->raw("q_id")) && $this->qplrequest->raw("q_id") > 0 && $this->qplrequest->raw('cmd') !== 'questions') {
             $q_gui = assQuestionGUI::_getQuestionGUI("", $this->qplrequest->raw("q_id"));
             if ($q_gui !== null && $q_gui->object instanceof assQuestion) {
