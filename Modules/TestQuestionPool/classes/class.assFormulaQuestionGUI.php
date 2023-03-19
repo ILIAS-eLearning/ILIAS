@@ -110,7 +110,25 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
             foreach ($found_vars as $variable) {
                 if ($this->object->getVariable($variable) != null) {
-                    $varObj = new assFormulaQuestionVariable($variable, $_POST["range_min_$variable"], $_POST["range_max_$variable"], $this->object->getUnitrepository()->getUnit($_POST["unit_$variable"]), $_POST["precision_$variable"], $_POST["intprecision_$variable"]);
+
+                    $range_min = $_POST["range_min_$variable"];
+                    $range_max = $_POST["range_max_$variable"];
+
+                    //ensure max range > min range
+                    //ensure min range < max range
+                    if ($range_min !== "" && $range_max !== "") {
+                        $range_min = (double)$range_min;
+                        $range_max = (double)$range_max;
+
+                        //if not, switch the range to fulfill question condition
+                        if ($range_min > $range_max) {
+                            $temp_range = $range_min;
+                            $range_min = $range_max;
+                            $range_max = $temp_range;
+                        }
+                    }
+
+                    $varObj = new assFormulaQuestionVariable($variable, $range_min, $range_max, $this->object->getUnitrepository()->getUnit($_POST["unit_$variable"]), $_POST["precision_$variable"], $_POST["intprecision_$variable"]);
                     $varObj->setRangeMinTxt($_POST["range_min_$variable"]);
                     $varObj->setRangeMaxTxt($_POST["range_max_$variable"]);
                     $this->object->addVariable($varObj);
