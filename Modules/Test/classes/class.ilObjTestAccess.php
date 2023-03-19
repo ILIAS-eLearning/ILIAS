@@ -694,12 +694,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                 $data['not_attempted'] = 1;
             }
 
-            if ($data['failed'] && !isset($lastPassUsers[$data['active_fi']])) {
-                $data['passed'] = 0;
-                $data['failed'] = 0;
-                $data['in_progress'] = 1;
-            }
-
             $data['user_id'] = $data['user_fi'];
             array_push($passed_users, $data);
         }
