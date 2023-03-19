@@ -572,7 +572,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $file = pathinfo($_FILES["xmldoc"]["name"]);
         $full_path = $basedir . "/" . $_FILES["xmldoc"]["name"];
         $DIC['ilLog']->write(__METHOD__ . ": full path " . $full_path);
-        ilFileUtils::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
+        try {
+            ilFileUtils::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
+        } catch (Error $e) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
+            $this->ctrl->redirect($this, 'create');
+            return;
+        }
         $DIC['ilLog']->write(__METHOD__ . ": full path " . $full_path);
         if (strcmp($_FILES["xmldoc"]["type"], "text/xml") == 0) {
             $qti_file = $full_path;
@@ -1398,8 +1404,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     */
     protected function importFileObject(int $parent_id = null, bool $catch_errors = true): void
     {
+        if ($_REQUEST['new_type'] === null) {
+            $this->error->raiseError($this->lng->txt("import_file_not_valid"), true);
+            $this->ctrl->redirect($this, 'create');
+            return;
+        }
         if (!$this->checkPermissionBool("create", "", $_REQUEST["new_type"])) {
             $this->error->raiseError($this->lng->txt("no_create_permission"));
+            $this->createObject();
+            $this->ctrl->redirect($this, 'create');
+            return;
         }
 
         $form = $this->initImportForm($this->qplrequest->raw("new_type"));
