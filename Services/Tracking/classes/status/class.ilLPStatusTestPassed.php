@@ -129,7 +129,8 @@ class ilLPStatusTestPassed extends ilLPStatus
             }
         }
 
-        if ($old_status !== self::LP_STATUS_NOT_ATTEMPTED_NUM
+        if ($old_status !== null
+            && $old_status !== self::LP_STATUS_NOT_ATTEMPTED_NUM
             && $status === self::LP_STATUS_IN_PROGRESS_NUM) {
             return $old_status;
         }
