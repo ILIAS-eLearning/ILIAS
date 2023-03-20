@@ -10504,13 +10504,6 @@ footer {
 .il-maincontrols-footer .il-footer-permanent-url {
   margin-right: 3px;
 }
-.il-maincontrols-footer .il-footer-permanent-url label {
-  margin-right: 3px;
-  color: #4c6586;
-}
-.il-maincontrols-footer .il-footer-permanent-url label:hover {
-  text-decoration: underline;
-}
 .il-maincontrols-footer .il-footer-text {
   margin: 3px 3px 6px 0px;
 }
