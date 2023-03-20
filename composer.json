@@ -5,7 +5,11 @@
 	"authors": [],
 	"config": {
 		"optimize-autoloader": true,
-		"vendor-dir": "./libs/composer/vendor"
+		"vendor-dir": "./libs/composer/vendor",
+		"allow-plugins": {
+			"simplesamlphp/composer-module-installer": true,
+			"cweagans/composer-patches": true
+		}
 	},
 	"scripts": {
 		"post-autoload-dump": [
