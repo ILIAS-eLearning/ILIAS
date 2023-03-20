@@ -1028,8 +1028,12 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     public function deleteImagefile(string $filename): bool
     {
         $deletename = $filename;
-        $result = @unlink($this->getImagePath() . $deletename);
-        $result = $result && @unlink($this->getImagePath() . $this->getThumbPrefix() . $deletename);
+        try {
+            $result = unlink($this->getImagePath() . $deletename)
+                && unlink($this->getImagePath() . $this->getThumbPrefix() . $deletename);
+        } catch (Throwable $e) {
+            $result = false;
+        }
         return $result;
     }
 
