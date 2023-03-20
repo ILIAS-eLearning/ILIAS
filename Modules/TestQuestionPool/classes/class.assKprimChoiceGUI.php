@@ -256,7 +256,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         }
 
         if (!$this->object->getSelfAssessmentEditingMode() && $this->object->isSingleLineAnswerType($oldAnswerType)) {
-            $this->object->setThumbSize($form->getItemByPostVar('thumb_size')->getValue());
+            $this->object->setThumbSize($form->getItemByPostVar('thumb_size')->getValue() ?? $this->object->getThumbSize());
         }
 
         $this->object->setOptionLabel($form->getItemByPostVar('option_label')->getValue());
