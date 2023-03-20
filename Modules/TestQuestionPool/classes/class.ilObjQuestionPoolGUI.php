@@ -1411,7 +1411,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
         if (!$this->checkPermissionBool("create", "", $_REQUEST["new_type"])) {
             $this->error->raiseError($this->lng->txt("no_create_permission"));
-            $this->createObject();
             $this->ctrl->redirect($this, 'create');
             return;
         }
