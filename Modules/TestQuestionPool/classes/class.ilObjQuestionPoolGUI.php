@@ -571,12 +571,23 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         // copy uploaded file to import directory
         $file = pathinfo($_FILES["xmldoc"]["name"]);
         $full_path = $basedir . "/" . $_FILES["xmldoc"]["name"];
+
+        if (strpos($file['filename'], 'qpl') === false
+            && strpos($file['filename'], 'qti') === false) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
+            $cmd = $this->ctrl->getCmd() === 'upload' ? 'importQuestions' : 'create';
+            $this->ctrl->redirect($this, $cmd);
+            return;
+        }
+
+
         $DIC['ilLog']->write(__METHOD__ . ": full path " . $full_path);
         try {
             ilFileUtils::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
         } catch (Error $e) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
-            $this->ctrl->redirect($this, 'create');
+            $cmd = $this->ctrl->getCmd() === 'upload' ? 'importQuestions' : 'create';
+            $this->ctrl->redirect($this, $cmd);
             return;
         }
         $DIC['ilLog']->write(__METHOD__ . ": full path " . $full_path);
@@ -596,7 +607,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         if (!file_exists($qti_file)) {
             ilFileUtils::delDir($basedir);
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('cannot_find_xml'), true);
-            $this->ctrl->redirect($this, 'create');
+            $cmd = $this->ctrl->getCmd() === 'upload' ? 'importQuestions' : 'create';
+            $this->ctrl->redirect($this, $cmd);
             return false;
         }
         $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_VERIFY_QTI, 0, "");
@@ -1405,12 +1417,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     protected function importFileObject(int $parent_id = null, bool $catch_errors = true): void
     {
         if ($_REQUEST['new_type'] === null) {
-            $this->error->raiseError($this->lng->txt("import_file_not_valid"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
             $this->ctrl->redirect($this, 'create');
             return;
         }
         if (!$this->checkPermissionBool("create", "", $_REQUEST["new_type"])) {
-            $this->error->raiseError($this->lng->txt("no_create_permission"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_create_permission"), true);
             $this->ctrl->redirect($this, 'create');
             return;
         }

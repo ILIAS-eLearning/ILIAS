@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\FileDeliveryTypes;
@@ -8,19 +24,6 @@ use ILIAS\FileDelivery\ilFileDeliveryType;
 use ILIAS\HTTP\Services;
 use ILIAS\HTTP\Response\ResponseHeader;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class PHPChunked
  *
@@ -70,6 +73,12 @@ final class PHPChunked implements ilFileDeliveryType
     {
         $file = $path_to_file;
         $fp = @fopen($file, 'rb');
+        // see https://mantis.ilias.de/view.php?id=36970
+        if ($fp === false) {
+            $response = $this->httpService->response()->withStatus(404);
+            $this->httpService->saveResponse($response);
+            $this->close();
+        }
 
         $size = filesize($file); // File size
         $length = $size;           // Content length
