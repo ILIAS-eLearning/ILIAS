@@ -60,12 +60,11 @@ class ilObjFileSingleFileDelegate implements ilObjUploadDelegateInterface
             $response->fileSize = $file->getFileSize();
             $response->fileType = $file->getFileType();
             $response->error = null;
+            $this->uploaded_suffixes[] = $file->getFileExtension();
         } catch (Exception $e) {
             $file->delete();
             $response->error = $e->getMessage();
         }
-
-        $this->uploaded_suffixes[] = $file->getFileExtension();
 
         return $response;
     }
