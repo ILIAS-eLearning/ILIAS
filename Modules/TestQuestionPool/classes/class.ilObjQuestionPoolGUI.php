@@ -579,11 +579,20 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         $file = pathinfo($_FILES["xmldoc"]["name"]);
 
         $full_path = $basedir . "/" . $_FILES["xmldoc"]["name"];
+
+        if (strpos($file['filename'], 'qpl') === false
+            && strpos($file['filename'], 'qti') === false) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
+            $cmd = $this->ctrl->getCmd() === 'upload' ? 'importQuestions' : 'create';
+            $this->ctrl->redirect($this, $cmd);
+            return;
+        }
+
+
         $DIC['ilLog']->write(__METHOD__ . ": full path " . $full_path);
 
         ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
 
-        $DIC['ilLog']->write(__METHOD__ . ": full path " . $full_path);
         if (strcmp($_FILES["xmldoc"]["type"], "text/xml") == 0) {
             $qti_file = $full_path;
             ilObjTest::_setImportDirectory($basedir);
@@ -601,7 +610,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         if (!file_exists($qti_file)) {
             ilUtil::delDir($basedir);
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('cannot_find_xml'), true);
-            $this->ctrl->redirect($this, 'create');
+            $cmd = $this->ctrl->getCmd() === 'upload' ? 'importQuestions' : 'create';
+            $this->ctrl->redirect($this, $cmd);
             return false;
         }
 
@@ -1465,12 +1475,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     protected function importFileObject($parent_id = null, $a_catch_errors = true)
     {
         if ($_REQUEST['new_type'] === null) {
-            $this->error->raiseError($this->lng->txt("import_file_not_valid"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
             $this->ctrl->redirect($this, 'create');
             return;
         }
         if (!$this->checkPermissionBool("create", "", $_REQUEST["new_type"])) {
-            $this->error->raiseError($this->lng->txt("no_create_permission"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_create_permission"), true);
             $this->ctrl->redirect($this, 'create');
             return;
         }
