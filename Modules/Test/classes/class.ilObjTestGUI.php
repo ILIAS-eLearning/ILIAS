@@ -1231,15 +1231,8 @@ class ilObjTestGUI extends ilObjectGUI
 
         $full_path = $basedir . "/" . $_FILES["xmldoc"]["name"];
 
-        try {
-            ilFileUtils::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
-        } catch (Error $e) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
-            $this->ctrl->redirect($this, 'create');
-            return false;
-        }
-
-        ilFileUtils::unzip($full_path);
+        ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
+        ilUtil::unzip($full_path);
 
         ilObjTest::_setImportDirectory($basedir);
         $xml_file = ilObjTest::_getImportDirectory() . '/' . $subdir . '/' . $subdir . ".xml";
