@@ -13462,7 +13462,7 @@ div.alert ul > li:before {
 }
 
 .c-table-data__table {
-  border: 1px solid #757575;
+  background-color: white;
 }
 
 .c-table-data__cell {

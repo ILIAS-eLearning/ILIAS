@@ -160,28 +160,37 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
 }
 
 //
-// basic table design
+// DATA TABLE
+// ==========
+//
+
+//
+// Basic Table Design
 //
 
 .c-table-data__table {
-    border: 1px solid $il-main-border-dark-color;
+    background-color: $il-main-bg;
 }
 
 .c-table-data__cell {
-    background-color: $il-main-bg;
+    background-color: $il-main-bg; // so sticky cells can cover up cells underneath them
     padding: $il-padding-large-vertical $il-padding-large-horizontal;
     border: 1px solid $il-main-border-color;
-    // border-bottom: 1px solid $il-main-border-dark-color;
 }
 
+// hover row on larger screens only
 .c-table-data__row:hover td.c-table-data__cell {
     background-color: $il-main-darker-bg;
+
 }
 
-// table header
+//
+// Table Header
+//
 
 th.c-table-data__cell {
     padding: 0; // most of the header cells get padding from the resize wrapper
+    // sticky header
     position: -webkit-sticky;
     position: sticky;
     top: 0;
@@ -191,7 +200,8 @@ th.c-table-data__cell {
         text-align: center;
     }
 }
-// shadow that sticks to header when sticky, because borders and box shadow are left behind in tables
+
+// shadow below header when sticky (because borders and box shadow are left behind in tables)
 th.c-table-data__cell:after {
     position: absolute;
     content: "";
@@ -202,6 +212,8 @@ th.c-table-data__cell:after {
     background: linear-gradient(180deg, #00000021, transparent);
     z-index: 3;
 }
+
+// Resizable Header Cell
 .c-table-data__header__resize-wrapper {
     padding: $il-padding-xxlarge-vertical $il-padding-large-horizontal;
     height: 100%;
@@ -223,16 +235,19 @@ th.c-table-data__cell:after {
         background: linear-gradient(360deg, white, transparent);
         pointer-events: none;
     }
-    // resize is later added for specific types only
+    // actual resize attribute is later added for specific column types only
 }
 
-// row selection & multiaction
+//
+// Row Selection & Multiaction
+//
 
 .c-table-data__rowselection {
     min-width: 50px; // to align checkboxes with multiaction
     text-align: center;
 }
-// shadow that sticks to header when sticky, because borders and box shadow are left behind in tables
+
+// shadow that sticks to the right of action column (because borders and box shadow are left behind and do not stick)
 .c-table-data__rowselection:after {
     position: absolute;
     content: "";
@@ -243,6 +258,10 @@ th.c-table-data__cell:after {
     background: linear-gradient(90deg, rgba(0, 0, 0, 0.1294117647), transparent);
     z-index: 2;
 }
+
+//
+// Multiaction Dropdown below table
+//
 
 .c-table-data__multiaction-triggerer {
     width: fit-content;
@@ -261,8 +280,11 @@ th.c-table-data__cell:after {
     padding-left: $il-margin-large-horizontal;
 }
 
-// special column types
+//
+// Special Column Types
+//
 
+// Text
 .c-table-data__cell--text {
     .c-table-data__header__resize-wrapper {
         min-width: 140px;
@@ -271,6 +293,7 @@ th.c-table-data__cell:after {
     }
 }
 
+// E-Mail
 .c-table-data__cell--email {
     .c-table-data__header__resize-wrapper {
         min-width: 200px;
@@ -282,6 +305,7 @@ td.c-table-data__cell--email {
     text-align: right;
 }
 
+// Number
 .c-table-data__cell--number,
 .c-table-data__cell--status {
     .c-table-data__header__resize-wrapper {
@@ -293,6 +317,7 @@ td.c-table-data__cell--number {
     text-align: right;
 }
 
+// Date
 .c-table-data__cell--date {
     .c-table-data__header__resize-wrapper {
         // width: 110px;
@@ -301,6 +326,7 @@ td.c-table-data__cell--number {
     }
 }
 
+// Status Icon
 .c-table-data__cell--statusicon,
 .c-table-data__cell--boolean {
     .c-table-data__header__resize-wrapper {
@@ -310,10 +336,11 @@ td.c-table-data__cell--number {
     }
 }
 
-
+// Highlighted Columns
 td.c-table-data__cell--highlighted {
     background-color: $il-main-dark-bg;
 }
+// hover on larger screens only
 .c-table-data__row:hover td.c-table-data__cell--highlighted {
     background-color: darken($il-main-darker-bg, 7%);
 }
