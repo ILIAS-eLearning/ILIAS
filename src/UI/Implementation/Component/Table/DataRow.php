@@ -22,7 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Table;
 use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
-class Row implements T\Row
+class DataRow implements T\DataRow
 {
     use ComponentHelper;
 
@@ -54,7 +54,7 @@ class Row implements T\Row
         return $this->id;
     }
 
-    public function withDisabledAction(string $action_id, bool $disable = true): T\Row
+    public function withDisabledAction(string $action_id, bool $disable = true): T\DataRow
     {
         if ($disable !== true) {
             return $this;

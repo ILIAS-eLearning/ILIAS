@@ -31,7 +31,7 @@ function base()
         }
 
         public function getRows(
-            I\RowFactory $row_factory,
+            I\DataRowFactory $row_factory,
             array $visible_column_ids,
             Range $range,
             Order $order,

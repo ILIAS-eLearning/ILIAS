@@ -21,7 +21,7 @@ namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
 
-class StandardRow extends Row
+class StandardRow extends DataRow
 {
     /**
      * @var bool

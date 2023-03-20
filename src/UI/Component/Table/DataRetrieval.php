@@ -31,7 +31,7 @@ interface DataRetrieval
      * e.g. $row_factory->standard($row_id, $record).
      */
     public function getRows(
-        RowFactory $row_factory,
+        DataRowFactory $row_factory,
         array $visible_column_ids,
         Range $range,
         Order $order,

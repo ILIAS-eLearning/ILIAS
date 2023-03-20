@@ -44,7 +44,7 @@ class DataTest extends ILIAS_UI_TestBase
     {
         return new class () extends C\Table\DataRetrieval {
             public function getRows(
-                I\Table\RowFactory $row_factory,
+                I\Table\DataRowFactory $row_factory,
                 array $visible_column_ids,
                 Range $range,
                 Order $order,

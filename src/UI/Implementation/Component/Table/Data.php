@@ -35,7 +35,7 @@ class Data extends Table implements T\Data, JSBindable
     use JavaScriptBindable;
 
     protected string $title;
-    protected DataRetrieval $data_retrieval;
+    protected T\DataRetrieval $data_retrieval;
 
     /**
      * @var array <string, Column>
@@ -292,9 +292,9 @@ class Data extends Table implements T\Data, JSBindable
      * and I don't see a reason (yet) for having another/different RowFactory
      * in the table.
      */
-    public function getRowFactory(): RowFactory
+    public function getRowFactory(): DataRowFactory
     {
-        return new RowFactory(
+        return new DataRowFactory(
             $this->hasSingleActions(),
             $this->hasMultiActions(),
             $this->getVisibleColumns(),

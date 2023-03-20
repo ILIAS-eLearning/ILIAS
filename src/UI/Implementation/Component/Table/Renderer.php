@@ -47,7 +47,7 @@ class Renderer extends AbstractComponentRenderer
             */
             return $this->renderDataTable($component, $default_renderer);
         }
-        if ($component instanceof Component\Table\Row) {
+        if ($component instanceof Component\Table\DataRow) {
             return $this->renderStandardRow($component, $default_renderer);
         }
     }
@@ -440,7 +440,7 @@ class Renderer extends AbstractComponentRenderer
         };
     }
 
-    public function renderStandardRow(Component\Table\Row $component, RendererInterface $default_renderer)
+    public function renderStandardRow(Component\Table\DataRow $component, RendererInterface $default_renderer)
     {
         $cell_tpl = $this->getTemplate("tpl.datacell.html", true, true);
         $cols = $component->getColumns();
@@ -515,7 +515,7 @@ class Renderer extends AbstractComponentRenderer
             Component\Table\PresentationRow::class,
             Component\Table\Presentation::class,
             Component\Table\Data::class,
-            Component\Table\Row::class
+            Component\Table\DataRow::class
         );
     }
 }

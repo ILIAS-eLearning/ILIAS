@@ -21,7 +21,7 @@ namespace ILIAS\UI\Component\Table;
 
 use Exception;
 
-interface RowFactory
+interface DataRowFactory
 {
-    public function standard(string $id, array $record): Row;
+    public function standard(string $id, array $record): DataRow;
 }

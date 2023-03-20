@@ -19,7 +19,10 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Table;
 
-interface Row extends \ILIAS\UI\Component\Component
+use  ILIAS\UI\Component\Table\Column\Column;
+use  ILIAS\UI\Component\Table\Action\Action;
+
+interface DataRow extends \ILIAS\UI\Component\Component
 {
     public function getId(): string;
 
@@ -29,12 +32,12 @@ interface Row extends \ILIAS\UI\Component\Component
     public function withDisabledAction(string $action_id, bool $disable = true): self;
 
     /**
-     * @return <string, Column>
+     * @return array <string, Column>
      */
     public function getColumns(): array;
 
     /**
-     * @return <string, Action>
+     * @return array <string, Action>
      */
     public function getActions(): array;
 

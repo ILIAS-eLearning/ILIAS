@@ -49,7 +49,7 @@ function with_actions()
     // retrieve data and map records to table rows
     $data_retrieval = new class () extends T\DataRetrieval {
         public function getRows(
-            I\RowFactory $row_factory,
+            I\DataRowFactory $row_factory,
             array $visible_column_ids,
             Range $range,
             Order $order,

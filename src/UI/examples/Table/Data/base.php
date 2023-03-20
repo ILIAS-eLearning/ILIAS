@@ -43,12 +43,6 @@ function base()
             ->withIsSortable(false)
             ->withIsOptional(true)
             ->withIsInitiallyVisible(false),
-        'sql_order' => $f->table()->column()->text("sql order part")
-            ->withIsSortable(false)
-            ->withIsOptional(true),
-        'sql_range' => $f->table()->column()->text("sql range part")
-            ->withIsSortable(false)
-            ->withIsOptional(true)
     ];
 
     /**
@@ -70,7 +64,7 @@ function base()
         }
 
         public function getRows(
-            I\RowFactory $row_factory,
+            I\DataRowFactory $row_factory,
             array $visible_column_ids,
             Range $range,
             Order $order,
@@ -85,9 +79,6 @@ function base()
                 $record['achieve'] = $this->ui_renderer->render(
                     $this->ui_factory->chart()->progressMeter()->mini(80, $record['achieve'])
                 );
-                $record['sql_order'] = $order->join('ORDER BY', fn (...$o) => implode(' ', $o));
-                $record['sql_range'] = sprintf('LIMIT %2$s OFFSET %1$s', ...$range->unpack());
-
                 yield $row_factory->standard($row_id, $record);
             }
         }

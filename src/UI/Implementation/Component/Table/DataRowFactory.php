@@ -20,19 +20,21 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
+use ILIAS\UI\Component\Table\Column\Column;
+use ILIAS\UI\Component\Table\Action\Action;
 
-class RowFactory implements T\RowFactory
+class DataRowFactory implements T\DataRowFactory
 {
     protected bool $table_has_singleactions;
     protected bool $table_has_multiactions;
 
     /**
-     * @var <string, Column>
+     * @var array <string, Column>
      */
     protected array $columns;
 
     /**
-     * @var <string, Column>
+     * @var array <string, Action>
      */
     protected array $row_actions;
 
@@ -52,7 +54,7 @@ class RowFactory implements T\RowFactory
         $this->row_actions = $row_actions;
     }
 
-    public function standard(string $id, array $record): T\Row
+    public function standard(string $id, array $record): T\DataRow
     {
         $row = new StandardRow(
             $this->table_has_singleactions,

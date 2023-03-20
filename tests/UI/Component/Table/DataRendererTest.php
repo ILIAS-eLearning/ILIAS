@@ -225,7 +225,7 @@ class DataRendererTest extends ILIAS_UI_TestBase
         $f = $this->getColumnFactory();
         $data = new class () extends I\Table\DataRetrieval {
             public function getRows(
-                Component\Table\RowFactory $row_factory,
+                Component\Table\DataRowFactory $row_factory,
                 array $visible_column_ids,
                 Data\Range $range,
                 Data\Order $order,
@@ -294,11 +294,11 @@ EOT;
             'a1' => $f->standard('label1', 'param', $signal),
             'a2' => $f->standard('label2', 'param', $url)
         ];
-        $rf = new I\Table\RowFactory(true, true, $columns, $actions);
+        $rf = new I\Table\DataRowFactory(true, true, $columns, $actions);
 
-        $this->assertInstanceOf(Component\Table\RowFactory::class, $rf);
+        $this->assertInstanceOf(Component\Table\DataRowFactory::class, $rf);
         $row = $rf->standard('row_id-1', []);
-        $this->assertInstanceOf(Component\Table\Row::class, $row);
+        $this->assertInstanceOf(Component\Table\DataRow::class, $row);
         return [$rf, $columns, $actions];
     }
 
