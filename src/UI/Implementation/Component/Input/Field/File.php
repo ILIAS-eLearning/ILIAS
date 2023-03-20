@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
+use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
+use ILIAS\UI\Component\Input\Field\UploadHandler;
+use ILIAS\UI\Component\Input\Field\FileUpload;
 use ILIAS\UI\Component\Input\Field\Input as InputInterface;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
@@ -27,7 +30,6 @@ use ILIAS\UI\Component as C;
 use ILIAS\Refinery\Constraint;
 use Closure;
 use ilLanguage;
-use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 
 /**
  * Class File
@@ -41,7 +43,12 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
     // BEGIN IMPLEMENTATION OF FileUpload
     // ===============================================
 
-    use FileUploadHelper;
+    protected UploadLimitResolver $upload_limit_resolver;
+    protected UploadHandler $upload_handler;
+    protected array $accepted_mime_types = [];
+    protected bool $has_metadata_inputs = false;
+    protected int $max_file_amount = 1;
+    protected ?int $max_file_size = null;
 
     public function __construct(
         ilLanguage $language,
@@ -68,6 +75,52 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
             $this->createDynamicInputsTemplate($metadata_input),
             $byline
         );
+    }
+
+    public function getUploadHandler(): UploadHandler
+    {
+        return $this->upload_handler;
+    }
+
+    public function withMaxFileSize(int $size_in_bytes): FileUpload
+    {
+        $size_in_bytes = $this->upload_limit_resolver->min($size_in_bytes);
+
+        $clone = clone $this;
+        $clone->max_file_size = $size_in_bytes;
+
+        return $clone;
+    }
+
+    public function getMaxFileSize(): int
+    {
+        return $this->max_file_size ?? $this->upload_limit_resolver->getUploadLimit();
+    }
+
+    public function withMaxFiles(int $max_file_amount): FileUpload
+    {
+        $clone = clone $this;
+        $clone->max_file_amount = $max_file_amount;
+
+        return $clone;
+    }
+
+    public function getMaxFiles(): int
+    {
+        return $this->max_file_amount;
+    }
+
+    public function withAcceptedMimeTypes(array $mime_types): FileUpload
+    {
+        $clone = clone $this;
+        $clone->accepted_mime_types = $mime_types;
+
+        return $clone;
+    }
+
+    public function getAcceptedMimeTypes(): array
+    {
+        return $this->accepted_mime_types;
     }
 
     // ===============================================

@@ -828,7 +828,7 @@ class Renderer extends AbstractComponentRenderer
             Component\Input\Field\Duration::class,
             Component\Input\Field\File::class,
             Component\Input\Field\Url::class,
-            Hidden::class,
+            Component\Input\Field\Hidden::class,
         ];
     }
 
