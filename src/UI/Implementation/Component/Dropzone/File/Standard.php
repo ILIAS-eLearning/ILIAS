@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,29 +16,36 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
-use ILIAS\UI\Component\Dropzone\File\Standard as StandardInterface;
-use ILIAS\UI\Component\Input\Factory as InputFactory;
-use ILIAS\UI\Component\Input\Field\UploadHandler;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Component\Input\Field\File as FileInput;
+use ILIAS\UI\Component\Dropzone\File\Standard as StandardDropzone;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Button\Button;
-use ilLanguage;
 
 /**
- * @author  nmaerchy <nm@studer-raimann.ch>
  * @author  Thibeau Fuhrer <thibeau@sr.solutions>
  */
-class Standard extends File implements StandardInterface
+class Standard extends File implements StandardDropzone
 {
-    protected string $message = "";
     protected ?Button $upload_button = null;
+    protected string $message;
 
-    public function withMessage(string $message): self
-    {
-        $clone = clone $this;
-        $clone->message = $message;
-        return $clone;
+    public function __construct(
+        SignalGeneratorInterface $signal_generator,
+        FieldFactory $field_factory,
+        NameSource $name_source,
+        FileInput $file_input,
+        string $title,
+        string $message,
+        string $post_url
+    ) {
+        parent::__construct($signal_generator, $field_factory, $name_source, $file_input, $title, $post_url);
+        $this->message = $message;
     }
 
     public function getMessage(): string

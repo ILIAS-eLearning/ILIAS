@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -23,11 +21,12 @@ namespace ILIAS\UI\Component\Modal;
 use ILIAS\UI\Component\Button;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\ReplaceSignal;
+use ILIAS\UI\Component\Input\Container\Form\Standard;
 
 /**
  * @package ILIAS\UI\Component\Modal
  */
-interface RoundTrip extends Modal
+interface RoundTrip extends Modal, Standard
 {
     /**
      * Get the title of the modal
@@ -40,13 +39,6 @@ interface RoundTrip extends Modal
      * @return Component[]
      */
     public function getContent(): array;
-
-    /**
-     * Get Modal like this with the provided components representing the content of the modal
-     *
-     * @param Component[] $content
-     */
-    public function withContent(array $content): RoundTrip;
 
     /**
      * Get all action buttons in the footer of the modal

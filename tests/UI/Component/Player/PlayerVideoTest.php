@@ -23,6 +23,7 @@ require_once(__DIR__ . "/../../Base.php");
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation as I;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -33,9 +34,11 @@ class PlayerVideoTest extends ILIAS_UI_TestBase
     {
         return new class (
             $this->createMock(C\Modal\InterruptiveItem\Factory::class),
+            $this->createMock(FieldFactory::class),
         ) extends NoUIFactory {
             public function __construct(
-                protected C\Modal\InterruptiveItem\Factory $factory,
+                protected C\Modal\InterruptiveItem\Factory $item_factory,
+                protected FieldFactory $field_factory,
             ) {
             }
 
@@ -43,7 +46,8 @@ class PlayerVideoTest extends ILIAS_UI_TestBase
             {
                 return new I\Component\Modal\Factory(
                     new I\Component\SignalGenerator(),
-                    $this->factory,
+                    $this->item_factory,
+                    $this->field_factory,
                 );
             }
             public function button(): C\Button\Factory

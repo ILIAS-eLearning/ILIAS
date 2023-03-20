@@ -33,6 +33,7 @@ il.UI.Input = il.UI.Input || {};
 			expand_glyph: '[data-action="expand"] .glyph',
 			collapse_glyph: '[data-action="collapse"] .glyph',
 			form_submit_buttons: '.il-standard-form-cmd > button',
+			modal_form_controls: '.modal-footer > button',
 
 			progress_container: '.ui-input-file-input-progress-container',
 			progress_indicator: '.ui-input-file-input-progress-indicator',
@@ -184,10 +185,6 @@ il.UI.Input = il.UI.Input || {};
 				`${SELECTOR.file_list} ${SELECTOR.removal_glyph}`,
 				removeFileManuallyHook);
 
-			$(SELECTOR.dropzone).closest('form').on('click',
-				SELECTOR.form_submit_buttons,
-				processFormSubmissionHook);
-
 			instantiated = true;
 		}
 
@@ -195,6 +192,10 @@ il.UI.Input = il.UI.Input || {};
 		 * @param {Dropzone} dropzone
 		 */
 		let initDropzoneEventListeners = function (dropzone) {
+			document.getElementById(dropzone.options.input_id)
+				.closest('form')
+				.addEventListener('submit', processFormSubmissionHook);
+
 			dropzone.on('maxfilesexceeded', alertMaxFilesReachedHook);
 			dropzone.on('maxfilesreached', disableActionButtonHook);
 			dropzone.on('queuecomplete', submitCurrentFormHook);
@@ -273,22 +274,30 @@ il.UI.Input = il.UI.Input || {};
 		}
 
 		/**
-		 * @param {Event} event
+		 * @param {SubmitEvent} event
 		 */
 		let processFormSubmissionHook = function (event) {
-			current_form = $(this).closest('form');
+			// emitter will be an HTMLFormElement, but once the proper emitter is set
+			// for NoSubmit signals, this can also be an HTMLButtonElement.
+			current_form = $(this);
 			current_form.errors = false;
 
 			event.preventDefault();
 
-			// disable ALL submit buttons on the current page,
-			// so the data is submitted AFTER the queue is
-			// processed (queuecomplete is fired).
-			$(document)
-			.find(SELECTOR.form_submit_buttons)
-			.each(function () {
-				$(this).attr('disabled', true);
+			// NoSubmit forms will have disconnected buttons, since they will currently
+			// only be used in modals, this ternary can be used. Note that this will
+			// most likely break in the future and we should definitely refactor this.
+			let form_controls = (this.parentNode.classList.contains('modal-body')) ?
+				this.closest('.modal-content').querySelectorAll(SELECTOR.modal_form_controls) :
+				this.querySelectorAll(SELECTOR.form_submit_buttons);
+
+			// disable all form controls to prevent user from cancelling the upload.
+			form_controls.forEach(function (element) {
+				if (element instanceof HTMLButtonElement) {
+					element.disabled = true;
+				}
 			});
+
 			processCurrentFormDropzones(event);
 		}
 

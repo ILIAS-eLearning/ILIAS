@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,12 +16,16 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Component\Modal as M;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Component\Modal\InterruptiveItem\Factory as ItemFactory;
+use ILIAS\UI\Implementation\Component\Input\FormInputNameSource;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 
 /**
  * Implementation of factory for modals
@@ -33,6 +35,7 @@ class Factory implements M\Factory
     public function __construct(
         protected SignalGeneratorInterface $signal_generator,
         protected ItemFactory $item_factory,
+        protected FieldFactory $field_factory,
     ) {
     }
 
@@ -55,9 +58,17 @@ class Factory implements M\Factory
     /**
      * @inheritdoc
      */
-    public function roundtrip(string $title, $content): M\RoundTrip
+    public function roundtrip(string $title, $content, array $inputs = [], string $post_url = null): M\RoundTrip
     {
-        return new RoundTrip($title, $content, $this->signal_generator);
+        return new RoundTrip(
+            $this->signal_generator,
+            $this->field_factory,
+            new FormInputNameSource(),
+            $title,
+            $content,
+            $inputs,
+            $post_url
+        );
     }
 
     /**
