@@ -46,30 +46,3 @@
     </table>
     <div class="ilFormInfo">{TXT_MAX_SIZE}<!-- BEGIN allowed_image_suffixes --> {TXT_ALLOWED_SUFFIXES}<!-- END allowed_image_suffixes --></div>
 </div>
-<!-- BEGIN js_engine_initialisation -->
-<script type="application/javascript">
-window.setTimeout(function() {
-    (function($){
-
-        $(document).ready(function() {
-
-            $.extend({}, ilWizardInput, ilIdentifiedWizardInputExtend).init({
-                fieldContainerSelector: '.ilWzdContainerImage',
-                reindexingRequiredElementsSelectors: [
-                    'input:hidden[name*="[{ITERATOR}]"]', 'input:hidden[name*="[{STORED_IMAGE_POSTVAR}]"]', 'input:file[id*="__{UPLOAD_IMAGE_POSTVAR}__"]',
-                    'input:submit[name*="[{UPLOAD_CMD}]"]', 'input:submit[name*="[{REMOVE_CMD}]"]', 'button'
-                ],
-               
-                handleRowCleanUpCallback: function(rowElem)
-                {
-                    $(rowElem).find('div.imagepresentation').remove();
-                    $(rowElem).find('input[type=text]').val('');
-                }
-            });
-
-        });
-
-    })(jQuery)
-}, 0);
-</script>
-<!-- END js_engine_initialisation -->
