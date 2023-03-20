@@ -439,8 +439,10 @@ class Renderer extends AbstractComponentRenderer
         $perm_url = $component->getPermanentURL();
         if ($perm_url instanceof URI) {
             $url = $perm_url->__toString();
-            $tpl->setVariable('PERMA_LINK_LABEL', $this->txt('perma_link'));
-            $tpl->setVariable('PERMANENT_URL', $url);
+            $link = $this->getUIFactory()
+                         ->link()
+                         ->standard($this->txt('perma_link'), $url);
+            $tpl->setVariable('PERMANENT', $default_renderer->render($link));
         }
         return $tpl->get();
     }
@@ -454,7 +456,6 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('./src/UI/templates/js/MainControls/dist/mainbar.js');
         $registry->register('./src/UI/templates/js/MainControls/metabar.js');
         $registry->register('./src/GlobalScreen/Client/dist/GS.js');
-        $registry->register('./src/UI/templates/js/MainControls/footer.js');
         $registry->register('./src/UI/templates/js/MainControls/system_info.js');
     }
 
