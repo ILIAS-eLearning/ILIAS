@@ -80,18 +80,27 @@ class ilObjFileUploadDropzone
 
         /** @var $dropzone FileDropzone */
         $dropzone = $this->ui->factory()->dropzone()->file()->wrapper(
-            $this->upload_handler,
+            $this->language->txt('upload_files'),
             $post_url,
             $this->ui->factory()->legacy($this->content ?? ''),
-            $this->ui->factory()->input()->field()->group([
-                ilObjFileProcessorInterface::OPTION_FILENAME => $this->ui->factory()->input()->field()->text($this->language->txt('title')),
-                ilObjFileProcessorInterface::OPTION_DESCRIPTION => $this->ui->factory()->input()->field()->textarea($this->language->txt('description')),
-            ])
-        )->withMaxFiles(
-            ilObjFileGUI::UPLOAD_MAX_FILES
-        )->withMaxFileSize(
-            (int) ilFileUtils::getUploadSizeLimitBytes()
-        )->withTitle(
+            $this->ui->factory()->input()->field()->file(
+                $this->upload_handler,
+                $this->language->txt('files'),
+                null,
+                $this->ui->factory()->input()->field()->group([
+                    ilObjFileProcessorInterface::OPTION_FILENAME => $this->ui->factory()->input()->field()->text(
+                        $this->language->txt('title')
+                    ),
+                    ilObjFileProcessorInterface::OPTION_DESCRIPTION => $this->ui->factory()->input()->field()->textarea(
+                        $this->language->txt('description')
+                    ),
+                ])
+            )->withMaxFiles(
+                ilObjFileGUI::UPLOAD_MAX_FILES
+            )->withMaxFileSize(
+                (int) ilFileUtils::getUploadSizeLimitBytes()
+            )
+        )->withSubmitCaption(
             $this->language->txt('upload_files')
         );
 

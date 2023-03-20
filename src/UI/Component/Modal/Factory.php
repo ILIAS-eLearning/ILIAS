@@ -142,10 +142,12 @@ interface Factory
      *       does not fit the workflow presented on the screen.
      * ---
      * @param string $title
-     * @param Component\Component|Component\Component[] $content
+     * @param Component\Component|Component\Component[]|null $content
+     * @param Component\Input\Field\Input[] $inputs
+     * @param string|null $post_url
      * @return \ILIAS\UI\Component\Modal\RoundTrip
      */
-    public function roundtrip(string $title, array $content): RoundTrip;
+    public function roundtrip(string $title, array $content, array $inputs = [], string $post_url = null): RoundTrip;
 
 
     /**

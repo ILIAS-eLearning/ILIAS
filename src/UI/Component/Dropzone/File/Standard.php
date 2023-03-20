@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -29,11 +27,6 @@ use ILIAS\UI\Component\Button\Button;
  */
 interface Standard extends File
 {
-    /**
-     * Get a dropzone like this, displaying the given message in it.
-     */
-    public function withMessage(string $message): Standard;
-
     /**
      * Get the message of this dropzone.
      */
