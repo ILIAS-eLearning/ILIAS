@@ -138,7 +138,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
                 break;
 
             default:
-
+                $this->tabs->setTabActive('tst_question_hints_tab');
                 $cmd .= 'Cmd';
                 $this->$cmd();
                 break;
