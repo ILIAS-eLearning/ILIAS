@@ -16,40 +16,28 @@
  *
  *********************************************************************/
 
+use ILIAS\DI\UIServices;
+use ILIAS\Refinery\Factory as RefineryFactory;
+
 /**
  * Class ilAnswerFrequencyStatisticTableGUI
  *
  * @author    Björn Heyser <info@bjoernheyser.de>
+ * @author    Stephan Kergomard <office@kergomard.ch>
  * @version    $Id$
  *
  * @package    Modules/TestQuestionPool
  */
 class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
 {
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    protected $DIC;
-
-    /**
-     * @var assQuestion
-     */
-    protected $question;
-
-    /**
-     * @var int
-     */
-    protected $questionIndex;
-
-    /**
-     * @var bool
-     */
-    protected $actionsColumnEnabled = false;
-
-    /**
-     * @var string
-     */
-    protected $additionalHtml = '';
+    protected ilLanguage $language;
+    protected UIServices $ui;
+    protected RefineryFactory $refinery;
+    protected ilCtrl $ctrl;
+    protected assQuestion $question;
+    protected int $questionIndex;
+    protected bool $actionsColumnEnabled = false;
+    protected string $additionalHtml = '';
 
     /**
      * ilAnswerFrequencyStatisticTableGUI constructor.
@@ -59,15 +47,18 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
      */
     public function __construct($a_parent_obj, $a_parent_cmd = "", $question = "")
     {
-        global $DIC; /* @var ILIAS\DI\Container $this->DIC */
+        /** @var ILIAS\DI\Container $DIC */
+        global $DIC;
 
-        $this->DIC = $DIC;
-
+        $this->language = $DIC->language();
+        $this->ui = $DIC->ui();
+        $this->refinery = $DIC->refinery();
+        $this->ctrl = $DIC->ctrl();
         $this->question = $question;
 
         $this->setId('tstAnswerStatistic');
         $this->setPrefix('tstAnswerStatistic');
-        $this->setTitle($this->DIC->language()->txt('tst_corrections_answers_tbl'));
+        $this->setTitle($this->language->txt('tst_corrections_answers_tbl'));
 
         $this->setRowTemplate('tpl.tst_corrections_answer_row.html', 'Modules/Test');
 
@@ -135,8 +126,8 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
 
     public function initColumns(): void
     {
-        $this->addColumn($this->DIC->language()->txt('tst_corr_answ_stat_tbl_header_answer'), '');
-        $this->addColumn($this->DIC->language()->txt('tst_corr_answ_stat_tbl_header_frequency'), '');
+        $this->addColumn($this->language->txt('tst_corr_answ_stat_tbl_header_answer'), '');
+        $this->addColumn($this->language->txt('tst_corr_answ_stat_tbl_header_frequency'), '');
 
         foreach ($this->getData() as $row) {
             if (isset($row['addable'])) {
@@ -172,57 +163,24 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
 
     protected function buildAddAnswerAction($data): string
     {
-        $uid = md5($this->getQuestionIndex() . $data['answer']);
+        $ui_factory = $this->ui->factory();
+        $ui_renderer = $this->ui->renderer();
 
-        $modal = $this->buildAddAnswerModalGui($uid, $data);
+        $answer_form_builder = new ilAddAnswerFormBuilder($this->parent_obj, $ui_factory, $this->refinery, $this->language, $this->ctrl);
 
-        $showModalButton = ilJsLinkButton::getInstance();
-        $showModalButton->setId('btnShow_' . $uid);
-        $showModalButton->setCaption('tst_corr_add_as_answer_btn');
-        $showModalButton->setOnClick("$('#{$modal->getId()}').modal('show')");
-        $showModalButton->setTarget('');
+        $data['question_id'] = $this->question->getId();
+        $data['question_index'] = $this->getQuestionIndex();
 
-        // TODO: migrate stuff above to ui components when ui-form supports
-        // - presentation in ui-roundtrip
-        // - submit signals
+        $form = $answer_form_builder->buildAddAnswerForm($data);
+        $modal = $ui_factory->modal()->roundtrip('titel', $form);
 
-        $uiFactory = $this->DIC->ui()->factory();
-        $uiRenderer = $this->DIC->ui()->renderer();
-
-        $modal = $uiFactory->legacy($modal->getHTML());
-        $showModalButton = $uiFactory->legacy($showModalButton->render());
-
-        $this->addAdditionalHtml($uiRenderer->render($modal));
-
-        return $uiRenderer->render($showModalButton);
-    }
-
-    protected function buildAddAnswerModalGui($uid, $data): ilModalGUI
-    {
-        $formAction = $this->DIC->ctrl()->getFormAction(
-            $this->getParentObject(),
-            'addAnswerAsynch'
+        $show_modal_button = $ui_factory->button()->standard(
+            $this->language->txt('tst_corr_add_as_answer_btn'),
+            $modal->getShowSignal()
         );
 
-        $form = new ilAddAnswerModalFormGUI();
-        $form->setId($uid);
-        $form->setFormAction($formAction);
-        $form->setQuestionId($this->question->getId());
-        $form->setQuestionIndex($this->getQuestionIndex());
-        $form->setAnswerValue($data['answer']);
-        $form->build();
+        $this->addAdditionalHtml($ui_renderer->render($modal));
 
-        $bodyTpl = new ilTemplate('tpl.tst_corr_addanswermodal.html', true, true, 'Modules/TestQuestionPool');
-        $bodyTpl->setVariable('BODY_UID', $uid);
-        $bodyTpl->setVariable('FORM', $form->getHTML());
-        $bodyTpl->setVariable('JS_UID', $uid);
-
-        $modal = ilModalGUI::getInstance();
-        $modal->setId('modal_' . $uid);
-        $modal->setHeading($this->DIC->language()->txt('tst_corr_add_as_answer_btn'));
-
-        $modal->setBody($bodyTpl->get());
-
-        return $modal;
+        return $ui_renderer->render($show_modal_button);
     }
 }
