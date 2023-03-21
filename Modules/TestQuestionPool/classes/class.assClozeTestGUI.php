@@ -1569,11 +1569,12 @@ JS;
         }
     }
 
-    protected function completeAddAnswerAction($answers, $questionIndex): array
+    protected function completeAddAnswerAction($answers, $gap_index): array
     {
-        $gap = $this->object->getGap($questionIndex);
+        $gap = $this->object->getGap($gap_index);
 
-        if ($gap->type != CLOZE_TEXT) {
+        if ($gap->type != CLOZE_TEXT ||
+            $this->isUsedInCombinations($gap_index)) {
             return $answers;
         }
 
