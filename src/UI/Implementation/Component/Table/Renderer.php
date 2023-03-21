@@ -440,7 +440,7 @@ class Renderer extends AbstractComponentRenderer
         };
     }
 
-    public function renderStandardRow(Component\Table\Row $component, RendererInterface $default_renderer): string
+    public function renderStandardRow(Component\Table\DataRow $component, RendererInterface $default_renderer): string
     {
         $cell_tpl = $this->getTemplate("tpl.datacell.html", true, true);
         $cols = $component->getColumns();

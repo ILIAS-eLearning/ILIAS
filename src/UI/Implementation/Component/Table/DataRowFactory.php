@@ -19,7 +19,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Table;
 
-use ILIAS\UI\Component\Table\DataRow;
+use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Component\Table\Column\Column;
 use ILIAS\UI\Component\Table\Action\Action;
 
@@ -43,7 +43,7 @@ class DataRowFactory implements T\DataRowFactory
     ) {
     }
 
-    public function standard(string $id, array $record): DataRow
+    public function standard(string $id, array $record): T\DataRow
     {
         return new StandardRow(
             $this->table_has_singleactions,
