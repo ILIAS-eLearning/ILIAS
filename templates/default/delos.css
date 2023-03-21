@@ -13218,6 +13218,7 @@ div.ilSideBarContent {
   background-color: white;
   border: 1px solid #dddddd;
   font-size: 0.75rem;
+  z-index: 5;
   -webkit-box-shadow: 2px 2px 4px #c0c0c0;
   box-shadow: 2px 2px 4px #c0c0c0;
 }
@@ -13272,21 +13273,6 @@ div.ilSideBarContent {
 }
 .ui-menu .ui-menu-more:hover {
   background-color: white;
-}
-[dir="rtl"] .ui-menu {
-  float: right;
-}
-[dir="rtl"] .ui-menu .ui-menu-item {
-  float: right;
-  clear: right;
-}
-[dir="rtl"] .ui-menu .ui-menu-category {
-  float: right;
-  clear: right;
-}
-[dir="rtl"] .ui-menu .ui-menu-more {
-  float: right;
-  clear: right;
 }
 .ui-autocomplete {
   max-height: 400px;
