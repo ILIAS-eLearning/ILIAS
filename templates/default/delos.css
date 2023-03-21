@@ -20075,39 +20075,34 @@ td > img[src$="icon_custom.svg"] {
   margin: 3px 6px 3px 0;
   border-radius: 3px;
 }
-
-a.ilTag:hover, a.ilTag:active {
-  text-decoration: none;
-  color: #161616;
-  background-color: #75deea;
-}
-
-.ilTagRelHigh {
+.ilTag .ilTagRelHigh {
   background-color: #85d1da;
   color: #161616;
 }
-
-.ilTagRelMiddle {
+.ilTag .ilTagRelMiddle {
   background-color: #95c5ca;
   color: #161616;
 }
-
-.ilTagRelLow {
+.ilTag .ilTagRelLow {
   background-color: #a5b8ba;
   color: #161616;
 }
-
-.ilTagRelVeryLow {
+.ilTag .ilTagRelVeryLow {
   background-color: #b0b0b0;
   color: #161616;
 }
-
 .ilTag.ilHighlighted, .ilTag.ilHighlighted:hover {
   background-color: #B54F00;
   color: white;
 }
 .ilTag.ilHighlighted:hover, .ilTag.ilHighlighted:hover:hover {
   background-color: #9c4400;
+}
+
+a.ilTag:hover, a.ilTag:active {
+  text-decoration: none;
+  color: #161616;
+  background-color: #75deea;
 }
 
 #il_tags_modal textarea {
