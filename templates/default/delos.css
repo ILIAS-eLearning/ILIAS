@@ -13368,12 +13368,6 @@ img.ilSmallIcon {
   height: 0px;
   display: none;
 }
-@media print {
-  .ilAccHideContent {
-    height: auto !important;
-    width: auto !important;
-  }
-}
 div.ilc_va_icont_VAccordICont {
   overflow: visible !important;
 }
@@ -20032,5 +20026,9 @@ table.mceToolbar td {
   }
   a[href]:after {
     content: "";
+  }
+  .ilAccHideContent {
+    height: auto !important;
+    width: auto !important;
   }
 }
