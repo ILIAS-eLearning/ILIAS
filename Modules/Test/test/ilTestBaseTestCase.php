@@ -269,7 +269,12 @@ class ilTestBaseTestCase extends TestCase
 
     protected function addGlobal_ilHelp(): void
     {
-        $this->setGlobalVariable("ilHelp", $this->createMock(ilHelp::class));
+        $this->setGlobalVariable("ilHelp", $this->createMock(ilHelpGUI::class));
+    }
+
+    protected function addGlobal_ui(): void
+    {
+        $this->setGlobalVariable("ui", $this->createMock(ILIAS\DI\UIServices::class));
     }
 
     protected function addGlobal_uiFactory(): void
