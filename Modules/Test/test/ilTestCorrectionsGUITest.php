@@ -33,6 +33,12 @@ class ilTestCorrectionsGUITest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->addGlobal_ilAccess();
+        $this->addGlobal_ilCtrl();
+        $this->addGlobal_ilDB();
+        $this->addGlobal_ilHelp();
+        $this->addGlobal_ilTabs();
+        $this->addGlobal_http();
+        $this->addGlobal_refinery();
 
         $this->testObj = new ilTestCorrectionsGUI(
             $DIC,
