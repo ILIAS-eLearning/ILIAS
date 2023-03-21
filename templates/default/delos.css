@@ -17819,25 +17819,19 @@ div.ilSurveyPageEditActionMenu {
   margin: 2px 4px 2px 0;
   border-radius: 3px;
 }
-a.ilTag:hover,
-a.ilTag:active {
-  text-decoration: none;
-  color: #000000;
-  background-color: #5fd9e7;
-}
-.ilTagRelHigh {
+.ilTag .ilTagRelHigh {
   background-color: #85d1da;
   color: #000000;
 }
-.ilTagRelMiddle {
+.ilTag .ilTagRelMiddle {
   background-color: #95c5ca;
   color: #000000;
 }
-.ilTagRelLow {
+.ilTag .ilTagRelLow {
   background-color: #a5b8ba;
   color: #000000;
 }
-.ilTagRelVeryLow {
+.ilTag .ilTagRelVeryLow {
   background-color: #b0b0b0;
   color: #000000;
 }
@@ -17849,6 +17843,12 @@ a.ilTag:active {
 .ilTag.ilHighlighted:hover,
 .ilTag.ilHighlighted:hover:hover {
   background-color: #9c4400;
+}
+a.ilTag:hover,
+a.ilTag:active {
+  text-decoration: none;
+  color: #000000;
+  background-color: #5fd9e7;
 }
 #il_tags_modal textarea {
   resize: vertical;
