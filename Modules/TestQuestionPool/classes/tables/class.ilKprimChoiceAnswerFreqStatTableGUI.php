@@ -26,11 +26,6 @@
  */
 class ilKprimChoiceAnswerFreqStatTableGUI extends ilAnswerFrequencyStatisticTableGUI
 {
-    /**
-     * @var assKprimChoice
-     */
-    protected $question;
-
     protected function getTrueOptionLabel()
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
