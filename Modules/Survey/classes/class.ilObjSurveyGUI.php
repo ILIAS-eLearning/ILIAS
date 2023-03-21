@@ -80,6 +80,14 @@ class ilObjSurveyGUI extends ilObjectGUI
         $this->invitation_manager = new Participants\InvitationsManager();
 
         parent::__construct("", (int) $_GET["ref_id"], true, false);
+
+        // this class will be treated as a baseclass in most cases, therefore
+        // we need to claim the repository context manually. see #37010
+        if (!$DIC->globalScreen()->tool()->context()->stack()->hasMatch(
+            $DIC->globalScreen()->tool()->context()->collection()->repository()
+        )) {
+            $DIC->globalScreen()->tool()->context()->claim()->repository();
+        }
     }
     
     public function executeCommand()
