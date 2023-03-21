@@ -569,11 +569,10 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
     protected function handleCheckTestPassValid(): void
     {
-        global $DIC;
         $testObj = new ilObjTest($this->ref_id, true);
 
         $participants = $testObj->getActiveParticipantList();
-        $participant = $participants->getParticipantByUsrId($DIC->user()->getId());
+        $participant = $participants->getParticipantByActiveId($this->testrequest->getActiveId());
         if (!$participant || !$participant->hasUnfinishedPasses()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("tst_current_run_no_longer_valid"), true);
             $this->backToInfoScreenCmd();
