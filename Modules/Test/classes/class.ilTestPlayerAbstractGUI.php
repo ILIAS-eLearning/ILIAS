@@ -483,7 +483,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             return $this->showMaximumAllowedUsersReachedMessage();
         }
 
-        if ($this->testSession->isAnonymousUser() && !$this->testSession->getActiveId()) {
+        if ($this->testSession->isAnonymousUser()
+            && !$this->testSession->doesAccessCodeInSessionExists()) {
             $accessCode = $this->testSession->createNewAccessCode();
 
             $this->testSession->setAccessCodeToSession($accessCode);
@@ -493,7 +494,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->ctrl->redirect($this, ilTestPlayerCommands::DISPLAY_ACCESS_CODE);
         }
 
-        $this->testSession->unsetAccessCodeInSession();
+        if (!$this->testSession->isAnonymousUser()) {
+            $this->testSession->unsetAccessCodeInSession();
+        }
         $this->ctrl->redirect($this, ilTestPlayerCommands::START_TEST);
     }
 
