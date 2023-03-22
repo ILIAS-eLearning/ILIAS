@@ -30,9 +30,9 @@ use ILIAS\Data\Factory as DataFactory;
  */
 class Hidden extends Input implements \ILIAS\UI\Component\Input\Field\Hidden
 {
-    public function __construct(DataFactory $data_factory, Factory $refinery, ?string $dedicated_name)
+    public function __construct(DataFactory $data_factory, Factory $refinery)
     {
-        parent::__construct($data_factory, $refinery, '', null, $dedicated_name);
+        parent::__construct($data_factory, $refinery, '', null);
     }
 
     public function getUpdateOnLoadCode(): Closure

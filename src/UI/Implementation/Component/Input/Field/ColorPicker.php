@@ -43,15 +43,13 @@ class ColorPicker extends Input implements C\Input\Field\ColorPicker
         Data\Factory $datafactory,
         Refinery $refinery,
         string $label,
-        ?string $byline,
-        ?string $dedicated_name
+        ?string $byline
     ) {
         parent::__construct(
             $datafactory,
             $refinery,
             $label,
-            $byline,
-            $dedicated_name
+            $byline
         );
         $trafo = $this->refinery->to()->data('color');
         $this->setAdditionalTransformation($trafo);

@@ -44,10 +44,9 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect
         \ILIAS\Refinery\Factory $refinery,
         string $label,
         array $options,
-        ?string $byline,
-        ?string $dedicated_name
+        ?string $byline
     ) {
-        parent::__construct($data_factory, $refinery, $label, $byline, $dedicated_name);
+        parent::__construct($data_factory, $refinery, $label, $byline);
         $this->options = $options;
     }
 

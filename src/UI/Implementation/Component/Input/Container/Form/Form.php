@@ -40,7 +40,8 @@ abstract class Form implements C\Input\Container\Form\Form
     protected C\Input\Field\Group $input_group;
     protected ?Transformation $transformation;
     protected ?string $error = null;
-    protected ?string $name = null;
+    protected ?string $dedicated_name = null;
+    protected CI\Input\NameSource $name_source;
 
     /**
      * For the implementation of NameSource.
@@ -48,30 +49,20 @@ abstract class Form implements C\Input\Container\Form\Form
     public function __construct(
         FieldFactory $field_factory,
         NameSource $name_source,
-        array $inputs,
-        ?string $dedicated_name
+        array $inputs
     ) {
         $classes = [CI\Input\Field\Input::class];
         $this->checkArgListElements("input", $inputs, $classes);
         // TODO: this is a dependency and should be treated as such. `use` statements can be removed then.
 
-        $this->name = $dedicated_name;
+        $this->name_source = clone $name_source;
         $this->input_group = $field_factory->group(
-            $inputs,
-            '',
-            null,
-            $dedicated_name ?? 'form'
-        )->withNameFrom($name_source);
+            $inputs
+        )
+       ->withDedicatedName('form')
+       ->withNameFrom($name_source);
 
         $this->transformation = null;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getName(): ?string
-    {
-        return $this->name;
     }
 
     /**
@@ -169,5 +160,20 @@ abstract class Form implements C\Input\Container\Form\Form
     protected function extractPostData(ServerRequestInterface $request): InputData
     {
         return new PostDataFromServerRequest($request);
+    }
+
+    public function getDedicatedName(): ?string
+    {
+        return $this->dedicated_name;
+    }
+
+    public function withDedicatedName(string $dedicated_name): self
+    {
+        $clone = clone $this;
+        $clone->dedicated_name = $dedicated_name;
+        $clone->input_group = $clone->input_group
+            ->withDedicatedName($dedicated_name)
+            ->withNameFrom($clone->name_source);
+        return $clone;
     }
 }

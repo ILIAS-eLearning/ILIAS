@@ -51,15 +51,14 @@ class Duration extends Group implements C\Input\Field\Duration
         ilLanguage $lng,
         Factory $field_factory,
         string $label,
-        ?string $byline,
-        ?string $dedicated_name
+        ?string $byline
     ) {
         $inputs = [
-            $field_factory->dateTime($lng->txt('duration_default_label_start'), null, 'start'),
-            $field_factory->dateTime($lng->txt('duration_default_label_end'), null, 'end')
+            $field_factory->dateTime($lng->txt('duration_default_label_start'), null)->withDedicatedName('start'),
+            $field_factory->dateTime($lng->txt('duration_default_label_end'), null)->withDedicatedName('end')
         ];
 
-        parent::__construct($data_factory, $refinery, $lng, $inputs, $label, $byline, $dedicated_name);
+        parent::__construct($data_factory, $refinery, $lng, $inputs, $label, $byline);
 
         $this->addTransformation();
         $this->addValidation();

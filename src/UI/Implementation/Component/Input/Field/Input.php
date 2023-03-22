@@ -68,7 +68,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
 
     private ?string $name = null;
 
-    protected ?string $dedicated_name;
+    protected ?string $dedicated_name = null;
 
     /**
      * This is the current content of the input in the abstraction. This results by
@@ -89,14 +89,12 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
         DataFactory $data_factory,
         Factory $refinery,
         string $label,
-        ?string $byline = null,
-        ?string $dedicated_name = null
+        ?string $byline = null
     ) {
         $this->data_factory = $data_factory;
         $this->refinery = $refinery;
         $this->label = $label;
         $this->byline = $byline;
-        $this->dedicated_name = $dedicated_name;
         $this->operations = [];
     }
 

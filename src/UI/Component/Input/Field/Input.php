@@ -67,4 +67,13 @@ interface Input extends Component
      * @return static
      */
     public function withAdditionalTransformation(Transformation $trafo);
+
+    /**
+     * Set a dedicated name for this input which is used
+     * in the name attribute
+     *
+     * @param string $dedicated_name
+     * @return $this
+     */
+    public function withDedicatedName(string $dedicated_name): self;
 }

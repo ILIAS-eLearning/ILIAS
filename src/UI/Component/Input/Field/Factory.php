@@ -56,10 +56,9 @@ interface Factory
      * ---
      * @param string      $label
      * @param string|null $byline
-     * @param string|null $dedicated_name
      * @return    \ILIAS\UI\Component\Input\Field\Text
      */
-    public function text(string $label, ?string $byline = null, ?string $dedicated_name = null): Text;
+    public function text(string $label, ?string $byline = null): Text;
 
     /**
      * ---
@@ -83,10 +82,9 @@ interface Factory
      * ---
      * @param string      $label
      * @param string|null $byline
-     * @param string|null $dedicated_name
      * @return    \ILIAS\UI\Component\Input\Field\Numeric
      */
-    public function numeric(string $label, ?string $byline = null, ?string $dedicated_name = null): Numeric;
+    public function numeric(string $label, ?string $byline = null): Numeric;
 
     /**
      * ---
@@ -107,10 +105,9 @@ interface Factory
      * @param array<mixed,\ILIAS\UI\Component\Input\Field\FormInput> $inputs
      * @param string                                                 $label
      * @param string|null                                            $byline
-     * @param string|null                                            $dedicated_name
      * @return    \ILIAS\UI\Component\Input\Field\Group
      */
-    public function group(array $inputs, string $label = '', ?string $byline = null, ?string $dedicated_name = null): Group;
+    public function group(array $inputs, string $label = '', ?string $byline = null): Group;
 
     /**
      * ---
@@ -136,10 +133,9 @@ interface Factory
      * @param array<mixed,\ILIAS\UI\Component\Input\Field\FormInput> $inputs
      * @param string                                                 $label
      * @param string|null                                            $byline
-     * @param string|null                                            $dedicated_name
      * @return    \ILIAS\UI\Component\Input\Field\OptionalGroup
      */
-    public function optionalGroup(array $inputs, string $label, ?string $byline = null, ?string $dedicated_name = null): OptionalGroup;
+    public function optionalGroup(array $inputs, string $label, ?string $byline = null): OptionalGroup;
 
     /**
      * ---
@@ -165,10 +161,9 @@ interface Factory
      * @param array<mixed,\ILIAS\UI\Component\Input\Field\FormInput> $inputs
      * @param string                                                 $label
      * @param string|null                                            $byline
-     * @param string|null                                            $dedicated_name
      * @return    \ILIAS\UI\Component\Input\Field\SwitchableGroup
      */
-    public function switchableGroup(array $inputs, string $label, ?string $byline = null, ?string $dedicated_name = null): SwitchableGroup;
+    public function switchableGroup(array $inputs, string $label, ?string $byline = null): SwitchableGroup;
 
     /**
      * ---
@@ -207,10 +202,9 @@ interface Factory
      * @param array<mixed,\ILIAS\UI\Component\Input\Field\FormInput> $inputs
      * @param string                                                 $label
      * @param string|null                                            $byline
-     * @param string|null                                            $dedicated_name
      * @return    \ILIAS\UI\Component\Input\Field\Section
      */
-    public function section(array $inputs, string $label, ?string $byline = null, ?string $dedicated_name = null): Section;
+    public function section(array $inputs, string $label, ?string $byline = null): Section;
 
     /**
      * ---
@@ -238,10 +232,9 @@ interface Factory
      * ---
      * @param string      $label
      * @param string|null $byline
-     * @param string|null $dedicated_name
      * @return    \ILIAS\UI\Component\Input\Field\Checkbox
      */
-    public function checkbox(string $label, ?string $byline = null, ?string $dedicated_name = null): Checkbox;
+    public function checkbox(string $label, ?string $byline = null): Checkbox;
 
 
     /**
@@ -298,10 +291,9 @@ interface Factory
      * @param string[]    $tags  List of tags to select from, given as a list of texts
      *                           such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]
      * @param string|null $byline
-     * @param string|null $dedicated_name
      * @return    \ILIAS\UI\Component\Input\Field\Tag
      */
-    public function tag(string $label, array $tags, ?string $byline = null, ?string $dedicated_name = null): Tag;
+    public function tag(string $label, array $tags, ?string $byline = null): Tag;
 
     /**
      * ---
@@ -341,10 +333,9 @@ interface Factory
      * ---
      * @param string      $label
      * @param string|null $byline
-     * @param string|null $dedicated_name
      * @return    \ILIAS\UI\Component\Input\Field\Password
      */
-    public function password(string $label, ?string $byline = null, ?string $dedicated_name = null): Password;
+    public function password(string $label, ?string $byline = null): Password;
 
     /**
      * ---
@@ -377,10 +368,9 @@ interface Factory
      * @param string               $label
      * @param array<string,string> $options with the select options as key-value pairs.
      * @param string|null          $byline
-     * @param string|null          $dedicated_name
      * @return \ILIAS\UI\Component\Input\Field\Select
      */
-    public function select(string $label, array $options, ?string $byline = null, ?string $dedicated_name = null): Select;
+    public function select(string $label, array $options, ?string $byline = null): Select;
 
     /**
      * ---
@@ -422,10 +412,9 @@ interface Factory
      * ---
      * @param string      $label
      * @param string|null $byline
-     * @param string|null $dedicated_name
      * @return    \ILIAS\UI\Component\Input\Field\Textarea
      */
-    public function textarea(string $label, ?string $byline = null, ?string $dedicated_name = null): Textarea;
+    public function textarea(string $label, ?string $byline = null): Textarea;
 
     /**
      * ---
@@ -465,10 +454,9 @@ interface Factory
      * ---
      * @param string      $label
      * @param string|null $byline
-     * @param string|null $dedicated_name
      * @return    \ILIAS\UI\Component\Input\Field\Radio
      */
-    public function radio(string $label, ?string $byline = null, ?string $dedicated_name = null): Radio;
+    public function radio(string $label, ?string $byline = null): Radio;
 
     /**
      * ---
@@ -508,10 +496,9 @@ interface Factory
      * @param string               $label
      * @param array<string,string> $options with the select options as value=>label.
      * @param string|null          $byline
-     * @param string|null          $dedicated_name
      * @return \ILIAS\UI\Component\Input\Field\MultiSelect
      */
-    public function multiSelect(string $label, array $options, ?string $byline = null, ?string $dedicated_name = null): MultiSelect;
+    public function multiSelect(string $label, array $options, ?string $byline = null): MultiSelect;
 
     /**
      * ---
@@ -541,10 +528,9 @@ interface Factory
      * ---
      * @param string      $label
      * @param string|null $byline
-     * @param string|null $dedicated_name
      * @return \ILIAS\UI\Component\Input\Field\DateTime
      */
-    public function dateTime(string $label, ?string $byline = null, ?string $dedicated_name = null): DateTime;
+    public function dateTime(string $label, ?string $byline = null): DateTime;
 
     /**
      * ---
@@ -569,10 +555,9 @@ interface Factory
      * ---
      * @param string      $label
      * @param string|null $byline
-     * @param string|null $dedicated_name
      * @return \ILIAS\UI\Component\Input\Field\Duration
      */
-    public function duration(string $label, ?string $byline = null, ?string $dedicated_name = null): Duration;
+    public function duration(string $label, ?string $byline = null): Duration;
 
     /**
      * ---
@@ -608,15 +593,13 @@ interface Factory
      * @param string        $label
      * @param string|null   $byline
      * @param Input|null    $metadata_input
-     * @param string|null   $dedicated_name
      * @return \ILIAS\UI\Component\Input\Field\File
      */
     public function file(
         UploadHandler $handler,
         string $label,
         ?string $byline = null,
-        Input $metadata_input = null,
-        ?string $dedicated_name = null
+        Input $metadata_input = null
     ): File;
 
     /**
@@ -644,10 +627,9 @@ interface Factory
      * ---
      * @param string      $label
      * @param string|null $byline
-     * @param string|null $dedicated_name
      * @return \ILIAS\UI\Component\Input\Field\Url
      */
-    public function url(string $label, ?string $byline = null, ?string $dedicated_name = null): Url;
+    public function url(string $label, ?string $byline = null): Url;
 
     /**
      * ---
@@ -673,10 +655,9 @@ interface Factory
      * ---
      * @param string      $label
      * @param string|null $byline
-     * @param string|null $dedicated_name
      * @return \ILIAS\UI\Component\Input\Field\Link
      */
-    public function link(string $label, ?string $byline = null, ?string $dedicated_name = null): Link;
+    public function link(string $label, ?string $byline = null): Link;
 
     /**
      * ---
@@ -697,10 +678,9 @@ interface Factory
      *        Use this input for persistent data which the user should not manipulate.
      *
      * ---
-     * @param string|null $dedicated_name
      * @return \ILIAS\UI\Component\Input\Field\Hidden
      */
-    public function hidden(?string $dedicated_name = null): Hidden;
+    public function hidden(): Hidden;
 
     /**
      * ---
@@ -723,8 +703,7 @@ interface Factory
      * ---
      * @param string      $label
      * @param string|null $byline
-     * @param string|null $dedicated_name
      * @return \ILIAS\UI\Component\Input\Field\ColorPicker
      */
-    public function colorPicker(string $label, ?string $byline = null, ?string $dedicated_name = null): ColorPicker;
+    public function colorPicker(string $label, ?string $byline = null): ColorPicker;
 }

@@ -80,8 +80,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
             $this->language,
             [$this->child1, $this->child2],
             "LABEL",
-            "BYLINE",
-            null
+            "BYLINE"
         ))->withNameFrom(new class () implements NameSource {
             public function getNewName(): string
             {
@@ -153,8 +152,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
             $this->language,
             ["foo", "bar"],
             "LABEL",
-            "BYLINE",
-            null
+            "BYLINE"
         );
     }
 

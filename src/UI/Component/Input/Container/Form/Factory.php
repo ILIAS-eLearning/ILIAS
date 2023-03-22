@@ -62,8 +62,7 @@ interface Factory
      * ---
      * @param    string $post_url
      * @param    array<mixed,\ILIAS\UI\Component\Input\Field\FormInput>    $inputs
-     * @param    string|null $dedicated_name
      * @return    \ILIAS\UI\Component\Input\Container\Form\Standard
      */
-    public function standard(string $post_url, array $inputs, ?string $dedicated_name): Standard;
+    public function standard(string $post_url, array $inputs): Standard;
 }

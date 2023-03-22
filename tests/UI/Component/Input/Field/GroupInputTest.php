@@ -71,8 +71,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
             $this->language,
             [$this->child1, $this->child2],
             "LABEL",
-            "BYLINE",
-            null
+            "BYLINE"
         );
     }
 
@@ -130,8 +129,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
             $this->language,
             ["foo", "bar"],
             "LABEL",
-            "BYLINE",
-            null
+            "BYLINE"
         );
     }
 
@@ -177,8 +175,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
             $this->language,
             ["child1" => $this->child1, "child2" => $this->child2],
             "LABEL",
-            "BYLINE",
-            null
+            "BYLINE"
         );
 
         $this->child1
@@ -359,8 +356,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
             $this->language,
             [],
             "LABEL",
-            "BYLINE",
-            null
+            "BYLINE"
         );
         $content = $group->getContent();
         $this->assertInstanceOf(Ok::class, $content);

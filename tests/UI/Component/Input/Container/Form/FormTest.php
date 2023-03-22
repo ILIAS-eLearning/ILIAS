@@ -53,7 +53,7 @@ class ConcreteForm extends Form
     public function __construct(Input\Field\Factory $field_factory, NameSource $name_source, array $inputs)
     {
         $this->input_factory = $field_factory;
-        parent::__construct($field_factory, $name_source, $inputs, null);
+        parent::__construct($field_factory, $name_source, $inputs);
     }
 
     public function _extractPostData(ServerRequestInterface $request): Input\InputData
@@ -91,7 +91,7 @@ class FormTest extends ILIAS_UI_TestBase
 
     protected function buildFactory(): Input\Container\Form\Factory
     {
-        return new Input\Container\Form\Factory($this->buildInputFactory(), new DefNamesource());
+        return new Input\Container\Form\Factory($this->buildInputFactory());
     }
 
     protected function buildInputFactory(): Input\Field\Factory
@@ -432,6 +432,7 @@ class FormTest extends ILIAS_UI_TestBase
             ->getMockBuilder(FormInputInternal::class)
             ->onlyMethods([
                 "getName",
+                "withDedicatedName",
                 "withNameFrom",
                 "withInput",
                 "getContent",

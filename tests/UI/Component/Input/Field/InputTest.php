@@ -132,16 +132,9 @@ class InputTest extends ILIAS_UI_TestBase
             $this->data_factory,
             $this->refinery,
             "label",
-            "byline",
-            null
+            "byline"
         );
-        $this->named_input = new DefInput(
-            $this->data_factory,
-            $this->refinery,
-            "label",
-            "byline",
-            "dedicated_name"
-        );
+        $this->named_input = $this->input->withDedicatedName('dedicated_name');
         $this->name_source = new DefNamesource();
     }
 

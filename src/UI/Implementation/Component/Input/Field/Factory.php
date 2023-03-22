@@ -58,121 +58,121 @@ class Factory implements Field\Factory
     /**
      * @inheritdoc
      */
-    public function text(string $label, ?string $byline = null, ?string $dedicated_name = null): Field\Text
+    public function text(string $label, ?string $byline = null): Field\Text
     {
-        return new Text($this->data_factory, $this->refinery, $label, $byline, $dedicated_name);
+        return new Text($this->data_factory, $this->refinery, $label, $byline);
     }
 
     /**
      * @inheritdoc
      */
-    public function numeric(string $label, ?string $byline = null, ?string $dedicated_name = null): Field\Numeric
+    public function numeric(string $label, ?string $byline = null): Field\Numeric
     {
-        return new Numeric($this->data_factory, $this->refinery, $label, $byline, $dedicated_name);
+        return new Numeric($this->data_factory, $this->refinery, $label, $byline);
     }
 
     /**
      * @inheritdoc
      */
-    public function group(array $inputs, string $label = '', ?string $byline = null, ?string $dedicated_name = null): Field\Group
+    public function group(array $inputs, string $label = '', ?string $byline = null): Field\Group
     {
-        return new Group($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline, $dedicated_name);
+        return new Group($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline);
     }
 
     /**
      * @inheritdoc
      */
-    public function optionalGroup(array $inputs, string $label, ?string $byline = null, ?string $dedicated_name = null): Field\OptionalGroup
+    public function optionalGroup(array $inputs, string $label, ?string $byline = null): Field\OptionalGroup
     {
-        return new OptionalGroup($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline, $dedicated_name);
+        return new OptionalGroup($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline);
     }
 
     /**
      * @inheritdoc
      */
-    public function switchableGroup(array $inputs, string $label, ?string $byline = null, ?string $dedicated_name = null): Field\SwitchableGroup
+    public function switchableGroup(array $inputs, string $label, ?string $byline = null): Field\SwitchableGroup
     {
-        return new SwitchableGroup($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline, $dedicated_name);
+        return new SwitchableGroup($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline);
     }
 
     /**
      * @inheritdoc
      */
-    public function section(array $inputs, string $label, ?string $byline = null, ?string $dedicated_name = null): Field\Section
+    public function section(array $inputs, string $label, ?string $byline = null): Field\Section
     {
-        return new Section($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline, $dedicated_name);
+        return new Section($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline);
     }
 
     /**
      * @inheritdoc
      */
-    public function checkbox(string $label, ?string $byline = null, ?string $dedicated_name = null): Field\Checkbox
+    public function checkbox(string $label, ?string $byline = null): Field\Checkbox
     {
-        return new Checkbox($this->data_factory, $this->refinery, $label, $byline, $dedicated_name);
+        return new Checkbox($this->data_factory, $this->refinery, $label, $byline);
     }
 
     /**
      * @inheritDoc
      */
-    public function tag(string $label, array $tags, ?string $byline = null, ?string $dedicated_name = null): Field\Tag
+    public function tag(string $label, array $tags, ?string $byline = null): Field\Tag
     {
-        return new Tag($this->data_factory, $this->refinery, $label, $byline, $tags, $dedicated_name);
+        return new Tag($this->data_factory, $this->refinery, $label, $byline, $tags);
     }
 
     /**
      * @inheritdoc
      */
-    public function password(string $label, ?string $byline = null, ?string $dedicated_name = null): Field\Password
+    public function password(string $label, ?string $byline = null): Field\Password
     {
-        return new Password($this->data_factory, $this->refinery, $label, $byline, $this->signal_generator, $dedicated_name);
+        return new Password($this->data_factory, $this->refinery, $label, $byline, $this->signal_generator);
     }
 
     /**
      * @inheritdoc
      */
-    public function select(string $label, array $options, ?string $byline = null, ?string $dedicated_name = null): Field\Select
+    public function select(string $label, array $options, ?string $byline = null): Field\Select
     {
-        return new Select($this->data_factory, $this->refinery, $label, $options, $byline, $dedicated_name);
+        return new Select($this->data_factory, $this->refinery, $label, $options, $byline);
     }
 
     /**
      * @inheritdoc
      */
-    public function textarea(string $label, ?string $byline = null, ?string $dedicated_name = null): Field\Textarea
+    public function textarea(string $label, ?string $byline = null): Field\Textarea
     {
-        return new Textarea($this->data_factory, $this->refinery, $label, $byline, $dedicated_name);
+        return new Textarea($this->data_factory, $this->refinery, $label, $byline);
     }
 
     /**
      * @inheritdoc
      */
-    public function radio(string $label, ?string $byline = null, ?string $dedicated_name = null): Field\Radio
+    public function radio(string $label, ?string $byline = null): Field\Radio
     {
-        return new Radio($this->data_factory, $this->refinery, $label, $byline, $dedicated_name);
+        return new Radio($this->data_factory, $this->refinery, $label, $byline);
     }
 
     /**
      * @inheritdoc
      */
-    public function multiSelect(string $label, array $options, ?string $byline = null, ?string $dedicated_name = null): Field\MultiSelect
+    public function multiSelect(string $label, array $options, ?string $byline = null): Field\MultiSelect
     {
-        return new MultiSelect($this->data_factory, $this->refinery, $label, $options, $byline, $dedicated_name);
+        return new MultiSelect($this->data_factory, $this->refinery, $label, $options, $byline);
     }
 
     /**
      * @inheritdoc
      */
-    public function dateTime(string $label, ?string $byline = null, ?string $dedicated_name = null): Field\DateTime
+    public function dateTime(string $label, ?string $byline = null): Field\DateTime
     {
-        return new DateTime($this->data_factory, $this->refinery, $label, $byline, $dedicated_name);
+        return new DateTime($this->data_factory, $this->refinery, $label, $byline);
     }
 
     /**
      * @inheritdoc
      */
-    public function duration(string $label, ?string $byline = null, ?string $dedicated_name = null): Field\Duration
+    public function duration(string $label, ?string $byline = null): Field\Duration
     {
-        return new Duration($this->data_factory, $this->refinery, $this->lng, $this, $label, $byline, $dedicated_name);
+        return new Duration($this->data_factory, $this->refinery, $this->lng, $this, $label, $byline);
     }
 
     /**
@@ -182,41 +182,49 @@ class Factory implements Field\Factory
         UploadHandler $handler,
         string $label,
         ?string $byline = null,
-        Input $metadata_input = null,
-        ?string $dedicated_name = null
+        Input $metadata_input = null
     ): Field\File {
-        return new File($this->lng, $this->data_factory, $this->refinery, $this->upload_limit_resolver, $handler, $label, $metadata_input, $byline, $dedicated_name);
+        return new File(
+            $this->lng,
+            $this->data_factory,
+            $this->refinery,
+            $this->upload_limit_resolver,
+            $handler,
+            $label,
+            $metadata_input,
+            $byline
+        );
     }
 
     /**
      * @inheritdoc
      */
-    public function url(string $label, ?string $byline = null, ?string $dedicated_name = null): Field\Url
+    public function url(string $label, ?string $byline = null): Field\Url
     {
-        return new Url($this->data_factory, $this->refinery, $label, $byline, $dedicated_name);
+        return new Url($this->data_factory, $this->refinery, $label, $byline);
     }
 
     /**
      * @inheritdoc
      */
-    public function link(string $label, ?string $byline = null, ?string $dedicated_name = null): Field\Link
+    public function link(string $label, ?string $byline = null): Field\Link
     {
-        return new Link($this->data_factory, $this->refinery, $this->lng, $this, $label, $byline, $dedicated_name);
+        return new Link($this->data_factory, $this->refinery, $this->lng, $this, $label, $byline);
     }
 
     /**
      * @inheritDoc
      */
-    public function hidden(?string $dedicated_name = null): Field\Hidden
+    public function hidden(): Field\Hidden
     {
-        return new Hidden($this->data_factory, $this->refinery, $dedicated_name);
+        return new Hidden($this->data_factory, $this->refinery);
     }
 
     /**
      * @inheritDoc
      */
-    public function colorpicker(string $label, ?string $byline = null, ?string $dedicated_name = null): Field\ColorPicker
+    public function colorpicker(string $label, ?string $byline = null): Field\ColorPicker
     {
-        return new ColorPicker($this->data_factory, $this->refinery, $label, $byline, $dedicated_name);
+        return new ColorPicker($this->data_factory, $this->refinery, $label, $byline);
     }
 }

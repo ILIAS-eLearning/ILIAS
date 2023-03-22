@@ -92,8 +92,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
             $this->lng,
             ["child1" => $this->child1, "child2" => $this->child2],
             "LABEL",
-            "BYLINE",
-            null
+            "BYLINE"
         ))->withNameFrom(new class () implements NameSource {
             public function getNewName(): string
             {
@@ -163,8 +162,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
             $this->lng,
             [$this->createMock(Input::class)],
             "LABEL",
-            "BYLINE",
-            null
+            "BYLINE"
         );
     }
 
@@ -444,8 +442,6 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
 </div>
 
 EOT;
-
-
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),
             $this->brutallyTrimHTML($html)
