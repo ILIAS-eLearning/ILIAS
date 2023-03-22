@@ -307,11 +307,6 @@ class ilTestSession
         return $this->active_id;
     }
 
-    public function unsetActiveId(): int
-    {
-        return $this->active_id = 0;
-    }
-
     public function setUserId($user_id): void
     {
         $this->user_id = $user_id;
