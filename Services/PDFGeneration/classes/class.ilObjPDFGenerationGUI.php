@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+/**
+ * @deprecated
+ */
 class ilObjPDFGenerationGUI extends ilObject2GUI
 {
     private string $active_tab = '';

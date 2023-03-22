@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+/**
+ * @deprecated
+ */
 abstract class ilPDFRendererPlugin extends ilPlugin implements ilRendererConfig, ilPDFRenderer
 {
     /** --- ilPDFRendererPlugin -- */
