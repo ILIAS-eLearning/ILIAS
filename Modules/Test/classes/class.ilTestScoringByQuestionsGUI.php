@@ -63,14 +63,10 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         global $DIC;
 
         $tpl = $DIC->ui()->mainTemplate();
-        $ilAccess = $DIC->access();
 
         $DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_MANUAL_SCORING);
 
-        if (
-            false == $ilAccess->checkAccess("write", "", $this->ref_id) &&
-            false == $ilAccess->checkAccess("man_scoring_access", "", $this->ref_id)
-        ) {
+        if (!$this->testAccess->checkScoreParticipantsAccess()) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
             $this->ctrl->redirectByClass('ilobjtestgui', 'infoScreen');
         }

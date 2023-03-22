@@ -4071,12 +4071,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $questionData = [];
 
         while ($row = $ilDB->fetchAssoc($result)) {
-            $participantObject = $data->getParticipant($row["active_fi"]);
-
-            if (!($participantObject instanceof ilTestEvaluationUserData)) {
+            if (!$data->participantExists($row["active_fi"])) {
                 continue;
             }
 
+            $participantObject = $data->getParticipant($row["active_fi"]);
             $passObject = $participantObject->getPass($row["pass"]);
 
             if (!($passObject instanceof ilTestEvaluationPassData)) {
