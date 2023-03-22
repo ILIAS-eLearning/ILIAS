@@ -490,7 +490,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             return;
         }
 
-        if ($this->testSession->isAnonymousUser() && !$this->testSession->getActiveId()) {
+        if ($this->testSession->isAnonymousUser()
+            && !$this->testSession->doesAccessCodeInSessionExists()) {
             $accessCode = $this->testSession->createNewAccessCode();
 
             $this->testSession->setAccessCodeToSession($accessCode);
@@ -500,7 +501,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->ctrl->redirect($this, ilTestPlayerCommands::DISPLAY_ACCESS_CODE);
         }
 
-        $this->testSession->unsetAccessCodeInSession();
+        if (!$this->testSession->isAnonymousUser()) {
+            $this->testSession->unsetAccessCodeInSession();
+        }
         $this->ctrl->redirect($this, ilTestPlayerCommands::START_TEST);
     }
 
@@ -1060,7 +1063,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         global $DIC;
         $ilUser = $DIC['ilUser'];
 
-        //this is an abomination for release_8! 
+        //this is an abomination for release_8!
         //proper "kiosk-handling" is _very_ much encouraged for 9.
         $this->tpl->addCSS('Modules/Test/templates/default/test_kiosk_header.css');
         //end of hack
