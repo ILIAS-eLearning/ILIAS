@@ -356,11 +356,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
             $this->setFormAction($this->buildFormAction($this->getTestPlayerGUI()));
         }
 
-        if ($this->DIC->user()->getId() ===  ANONYMOUS_USER_ID) {
-            $this->testSession->unsetActiveId();
-            $this->testSession->unsetAccessCodeInSession();
-        }
-
         $online_access = false;
         if ($this->getTestOBJ()->getFixedParticipants()) {
             $online_access_result = ilObjTestAccess::_lookupOnlineTestAccess($this->getTestOBJ()->getId(), $this->getTestSession()->getUserId());
@@ -384,8 +379,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
                         $this->addInfoMessage($this->lng->txt('tst_test_contains_obligatory_questions'));
                     }
 
-                    if ($this->getTestSession()->getActiveId() > 0
-                        && $this->DIC->user()->getId() !== ANONYMOUS_USER_ID) {
+                    if ($this->getTestSession()->getActiveId() > 0) {
                         // resume test
                         $testPassesSelector = new ilTestPassesSelector($this->db, $this->getTestOBJ());
                         $testPassesSelector->setActiveId($this->getTestSession()->getActiveId());
