@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+/**
+ * @deprecated
+ */
 class ilObjPDFGeneration extends ilObject2
 {
     protected function initType(): void

@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 use ILIAS\Setup;
 
+/**
+ * @deprecated
+ */
 class ilPDFGenerationSetupConfig implements Setup\Config
 {
     protected ?string $path_to_phantom_js;

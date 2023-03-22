@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 use ILIAS\Setup;
 
+/**
+ * @deprecated
+ */
 class ilPDFGenerationConfigStoredObjective implements Setup\Objective
 {
     protected ilPDFGenerationSetupConfig $config;

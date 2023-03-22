@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+/**
+ * @deprecated
+ */
 class ilPDFGenerationRequest
 {
     private ILIAS\Refinery\Factory $refinery;
