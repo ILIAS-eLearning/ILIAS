@@ -152,7 +152,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 
                     $this->tpl->parseCurrentBlock();
                 } else {
-                    $this->tpl->touchBlock('initial_test_per_objective');
+                    $this->tpl->touchBlock('with_self_test');
                 }
             } else {
                 foreach (($a_set['self'] ?? []) as $test) {
@@ -192,7 +192,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 
                 $this->tpl->parseCurrentBlock();
             } else {
-                $this->tpl->touchBlock('final_test_per_objective');
+                $this->tpl->touchBlock('with_final_test');
             }
         } else {
             foreach ((array) ($a_set['final'] ?? []) as $test) {
