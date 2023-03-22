@@ -89,7 +89,7 @@ class ilCertificateCourseLearningProgressEvaluation
                 $subitem_obj_ids[$subItemRefId] = $this->objectHelper->lookupObjId((int) $subItemRefId);
             }
 
-            if (in_array($refId, $subItems, true)) {
+            if (in_array($refId, $subItems)) {
                 $completed = true;
 
                 // check if all subitems are completed now
