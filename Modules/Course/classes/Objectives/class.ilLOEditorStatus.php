@@ -170,6 +170,9 @@ class ilLOEditorStatus
         if (!$this->getObjectivesAvailableStatus()) {
             return 'showObjectiveCreation';
         }
+        if (!$this->getMaterialsStatus(false)) {
+            return 'materials';
+        }
         if ($this->getSettings()->worksWithInitialTest()) {
             if (!$this->getInitialTestStatus(false)) {
                 $this->forced_test_type = ilLOSettings::TYPE_TEST_INITIAL;
