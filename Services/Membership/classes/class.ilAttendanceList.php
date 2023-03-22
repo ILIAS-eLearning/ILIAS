@@ -101,7 +101,7 @@ class ilAttendanceList
                     $this->addRole($role_id, $DIC->language()->txt('event_tbl_member'), 'member');
                     break;
 
-                    // local
+                // local
                 default:
                     $this->has_local_role = true;
                     $this->addRole($role_id, $title, 'local');
@@ -380,18 +380,6 @@ class ilAttendanceList
 
             $settings->deleteValue('desc'); // #11340
             $settings->exportToForm($form);
-        } elseif ($a_cmd === 'printForMembersOutput') {
-            $settings = new ilUserFormSettings(
-                $this->parent_obj->getType() . 's_pview_' . $this->parent_obj->getId(),
-                -1
-            );
-            if (!$settings->hasStoredEntry()) {
-                // init from global defaults
-                $settings = new ilUserFormSettings($this->parent_obj->getType() . 's_pview', -1);
-            }
-
-            $settings->deleteValue('desc'); // #11340
-            $settings->exportToForm($form, true);
         }
         return $form;
     }
@@ -463,6 +451,93 @@ class ilAttendanceList
     }
 
     /**
+     * Directly set list attributes from default settings for print view
+     */
+    public function initFromSettings(): void
+    {
+        $settings = new ilUserFormSettings(
+            $this->parent_obj->getType() . 's_pview_' . $this->parent_obj->getId(),
+            -1
+        );
+        if (!$settings->hasStoredEntry()) {
+            // init from global defaults
+            $settings = new ilUserFormSettings($this->parent_obj->getType() . 's_pview', -1);
+        }
+        $settings->deleteValue('desc'); // #11340
+
+        // title and description
+        $this->setTitle(
+            (string) ($settings->getValue('title') ?? $this->title),
+            (string) ($settings->getValue('desc') ?? $this->description)
+        );
+
+        // preset
+        if ($preset_value = $settings->getValue('preset')) {
+            foreach (array_keys($this->presets) as $id) {
+                $this->presets[$id][1] = false;
+            }
+            foreach ((array) $preset_value as $value) {
+                if (isset($this->presets[$value])) {
+                    $this->presets[$value][1] = true;
+                } else {
+                    $this->addPreset($value, $value, true);
+                }
+            }
+        }
+
+        // blank
+        $this->setBlankColumns(
+            (array) ($settings->getValue('blank') ?? $this->pre_blanks)
+        );
+
+        // selection of users
+        $selection_of_users = $settings->getValue('selection_of_users');
+
+        //      participants by roles
+        $roles = [];
+        foreach ($this->role_data as $role_id => $role_data) {
+            $title = ilObject::_lookupTitle($role_id);
+
+            $role_name = $role_id;
+            if (strpos($title, 'il_' . $this->parent_obj->getType() . '_adm') === 0) {
+                $role_name = 'adm';
+            }
+            if (strpos($title, 'il_' . $this->parent_obj->getType() . '_mem') === 0) {
+                $role_name = 'mem';
+            }
+            if (strpos($title, 'il_' . $this->parent_obj->getType() . '_tut') === 0) {
+                $role_name = 'tut';
+            }
+
+            if (
+                isset($selection_of_users) &&
+                !in_array('role_' . $role_name, $selection_of_users)
+            ) {
+                continue;
+            }
+            $roles[] = $role_id;
+        }
+        $this->setRoleSelection($roles);
+
+        //      waiting list and subscribers (not in sessions)
+        if ($this->waiting_list && isset($selection_of_users)) {
+            $this->include_subscribers = in_array('subscr', $selection_of_users);
+            $this->include_waiting_list = in_array('wlist', $selection_of_users);
+        }
+
+        //      user filters
+        foreach (array_keys($this->user_filters) as $msub_id) {
+            if (isset($selection_of_users)) {
+                $this->user_filters[$msub_id][2] = in_array("members_" . $msub_id, $selection_of_users);
+                continue;
+            }
+            if ($this->user_filters[$msub_id][1]) {
+                $this->user_filters[$msub_id][2] = true;
+            }
+        }
+    }
+
+    /**
      * render list in fullscreen mode
      */
     public function getFullscreenHTML(): void
@@ -527,7 +602,7 @@ class ilAttendanceList
                         $valid_user_ids = array_merge($valid_user_ids, $this->participants->getTutors());
                         break;
 
-                        // member/local
+                    // member/local
                     default:
                         if (!$this->has_local_role) {
                             $valid_user_ids = array_merge($valid_user_ids, $members);
@@ -575,14 +650,14 @@ class ilAttendanceList
                                     $value = $name["lastname"] . ", " . $name["firstname"];
                                     break;
                                 }
-                                // no break
+                            // no break
                             case "login":
                                 if (!($user_data[$id] ?? false)) {
                                     $value = ilObjUser::_lookupLogin((int) $user_id);
                                     break;
                                 }
 
-                                // no break
+                            // no break
                             default:
                                 $value = (string) ($user_data[$id] ?? '');
                                 break;
