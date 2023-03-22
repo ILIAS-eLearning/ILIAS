@@ -1449,7 +1449,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             default:
                 $this->ctrl->clearParameterByClass(self::class, 'q_id');
                 $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->qplrequest->getRefId());
-                $this->ctrl->setParameter($this, 'q_id', $this->qplrequest->raw("q_id"));
+                $this->ctrl->setParameter($this, 'q_id', $this->qplrequest->getQuestionId());
                 break;
         }
 
