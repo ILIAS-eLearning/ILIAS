@@ -7633,6 +7633,7 @@ crs#:#crs_objective_status#:#Lernzielstatus
 crs#:#crs_objective_status_configure#:#Checkliste Kurs
 crs#:#crs_objective_status_itest#:#Einstiegstest konfigurieren
 crs#:#crs_objective_status_materials#:#Lerninhalte  hinzufügen
+crs#:#crs_objective_status_materials_info#:#Der Kurs hat momentan keinen Inhalt. Fügen Sie Lerninhalte hinzu, die Lernzielen zugeordnet werden können.
 crs#:#crs_objective_status_objective_creation#:#Lernziele hinzufügen
 crs#:#crs_objective_status_objectives#:#Lernziele konfigurieren
 crs#:#crs_objective_status_qtest#:#Abschlusstest konfigurieren

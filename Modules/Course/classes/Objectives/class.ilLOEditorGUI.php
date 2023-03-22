@@ -483,15 +483,10 @@ class ilLOEditorGUI
         #$gui->setAfterCreationCallback($this->getParentObject()->getRefId());
         $gui->render();
 
-        $obj_table = new ilObjectTableGUI(
-            $this,
-            'materials',
-            $this->getParentObject()->getRefId()
+        $this->tpl->setOnScreenMessage(
+            'info',
+            $this->lng->txt('crs_objective_status_materials_info')
         );
-        $obj_table->init();
-        $obj_table->setObjects($GLOBALS['DIC']['tree']->getChildIds($this->getParentObject()->getRefId()));
-        $obj_table->parse();
-        $this->tpl->setContent($obj_table->getHTML());
 
         $this->showStatus(ilLOEditorStatus::SECTION_MATERIALS);
     }

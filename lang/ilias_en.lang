@@ -7634,6 +7634,7 @@ crs#:#crs_objective_status#:#Objective Status
 crs#:#crs_objective_status_configure#:#Checklist for Course
 crs#:#crs_objective_status_itest#:#Assign Initial Test
 crs#:#crs_objective_status_materials#:#Create Course Content
+crs#:#crs_objective_status_materials_info#:#The course is currently empty. Add course materials that can be assigned to learning objectives.
 crs#:#crs_objective_status_objective_creation#:#Create Learning Objective
 crs#:#crs_objective_status_objectives#:#Configure Learning Objectives
 crs#:#crs_objective_status_qtest#:#Assign Final Test
