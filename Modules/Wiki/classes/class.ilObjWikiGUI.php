@@ -883,7 +883,8 @@ class ilObjWikiGUI extends ilObjectGUI
         if ($a_mode === "create") {
             $values["rating_new"] = true;
 
-            $values["rating_overall"] = $this->object->hasAutoRating();
+            $parent = ilObjectFactory::getInstanceByRefId($this->requested_ref_id);
+            $values["rating_overall"] = $parent->selfOrParentWithRatingEnabled();
         } else {
             $values["online"] = $this->object->getOnline();
             $values["title"] = $this->object->getTitle();

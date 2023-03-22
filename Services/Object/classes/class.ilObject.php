@@ -1818,7 +1818,6 @@ class ilObject
 
     protected function hasAutoRating(): bool
     {
-        $tree = $this->tree;
         $ref_id = $this->getRefId();
         $type = $this->type;
 
@@ -1826,6 +1825,13 @@ class ilObject
             return false;
         }
 
+        return $this->selfOrParentWithRatingEnabled();
+    }
+
+    public function selfOrParentWithRatingEnabled(): bool
+    {
+        $tree = $this->tree;
+        $ref_id = $this->getRefId();
         $parent_ref_id = $tree->checkForParentType($ref_id, "grp");
         if (!$parent_ref_id) {
             $parent_ref_id = $tree->checkForParentType($ref_id, "crs");
