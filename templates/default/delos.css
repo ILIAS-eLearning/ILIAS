@@ -13218,6 +13218,7 @@ div.ilSideBarContent {
   background-color: white;
   border: 1px solid #dddddd;
   font-size: 0.75rem;
+  z-index: 5;
   -webkit-box-shadow: 2px 2px 4px #c0c0c0;
   box-shadow: 2px 2px 4px #c0c0c0;
 }
@@ -13272,21 +13273,6 @@ div.ilSideBarContent {
 }
 .ui-menu .ui-menu-more:hover {
   background-color: white;
-}
-[dir="rtl"] .ui-menu {
-  float: right;
-}
-[dir="rtl"] .ui-menu .ui-menu-item {
-  float: right;
-  clear: right;
-}
-[dir="rtl"] .ui-menu .ui-menu-category {
-  float: right;
-  clear: right;
-}
-[dir="rtl"] .ui-menu .ui-menu-more {
-  float: right;
-  clear: right;
 }
 .ui-autocomplete {
   max-height: 400px;
@@ -15056,7 +15042,7 @@ th.calmini {
   background-color: white;
 }
 a.calminiapp {
-  font-weight: 600;
+  font-weight: 700;
 }
 p.il_calmini_monthday,
 div.il_calmini_monthday {
@@ -17833,25 +17819,19 @@ div.ilSurveyPageEditActionMenu {
   margin: 2px 4px 2px 0;
   border-radius: 3px;
 }
-a.ilTag:hover,
-a.ilTag:active {
-  text-decoration: none;
-  color: #000000;
-  background-color: #5fd9e7;
-}
-.ilTagRelHigh {
+.ilTag .ilTagRelHigh {
   background-color: #85d1da;
   color: #000000;
 }
-.ilTagRelMiddle {
+.ilTag .ilTagRelMiddle {
   background-color: #95c5ca;
   color: #000000;
 }
-.ilTagRelLow {
+.ilTag .ilTagRelLow {
   background-color: #a5b8ba;
   color: #000000;
 }
-.ilTagRelVeryLow {
+.ilTag .ilTagRelVeryLow {
   background-color: #b0b0b0;
   color: #000000;
 }
@@ -17863,6 +17843,12 @@ a.ilTag:active {
 .ilTag.ilHighlighted:hover,
 .ilTag.ilHighlighted:hover:hover {
   background-color: #9c4400;
+}
+a.ilTag:hover,
+a.ilTag:active {
+  text-decoration: none;
+  color: #000000;
+  background-color: #5fd9e7;
 }
 #il_tags_modal textarea {
   resize: vertical;

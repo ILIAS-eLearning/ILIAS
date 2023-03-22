@@ -10014,7 +10014,7 @@ iass#:#grading_info#:#Grading info
 iass#:#grading_record#:#Grading record
 iass#:#iass_add#:#Create Individual Assessment
 iass#:#iass_add_user_failure#:#One or more user could not be added.
-iass#:#iass_add_user_success#:#User added as examinee.
+iass#:#iass_add_user_success#:#User added as participant.
 iass#:#iass_added#:#Individual Assessment added
 iass#:#iass_amend_saved#:#Amended record has been saved.
 iass#:#iass_assessment_not_completed#:#Not completed yet
@@ -10046,12 +10046,12 @@ iass#:#iass_filter_not_finalized#:#Drafts only
 iass#:#iass_filter_not_started#:#Not started only
 iass#:#iass_finalize#:#Finalize
 iass#:#iass_finalize_info#:#Individual Assessment will be finalized.
-iass#:#iass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.
+iass#:#iass_finalize_user_qst#:#Should the participant's status really be finalised? No changes possible thereafter.
 iass#:#iass_further_field_headline#:#Detailed Information
 iass#:#iass_graded_by#:#Graded by
 iass#:#iass_info_emails_expl#:#You may provide several addresses separated by comma.
 iass#:#iass_internal_note#:#Internal record note
-iass#:#iass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.
+iass#:#iass_internal_note_info#:#Internal notes are only visible for tutors but not for participants.
 iass#:#iass_location#:#Location
 iass#:#iass_mails#:#E-Mail
 iass#:#iass_may_not_finalize#:#Examinee may not be finalised. Please grade the user first.
@@ -10061,14 +10061,14 @@ iass#:#iass_mess_notification_completed#:#You passed the assessment <i>%s</i>. P
 iass#:#iass_mess_notification_failed#:#You failed the assessment <i>%s</i>. Please check the following grading record for details:
 iass#:#iass_no_entries#:#No entries found.
 iass#:#iass_notify#:#Make Result available to Participant
-iass#:#iass_notify_explanation#:#The examinee will be notified via e-mail after finalisation and will get access to her or his record on the Info screen.
+iass#:#iass_notify_explanation#:#The participant will be notified via e-mail after finalisation and will get access to her or his record on the Info screen.
 iass#:#iass_phone#:#Phone
 iass#:#iass_place#:#Place of assessment
 iass#:#iass_record#:#Record note
-iass#:#iass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too.
+iass#:#iass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the participant by e-mail, too.
 iass#:#iass_record_template#:#Record template
-iass#:#iass_record_template_explanation#:#Template for examinee grading record. Will be used automatically for any new examinee.
-iass#:#iass_remove_user_qst#:#Should the examinee really be removed?
+iass#:#iass_record_template_explanation#:#Template for participant grading record. Will be used automatically for any new participant.
+iass#:#iass_remove_user_qst#:#Should the participant really be removed?
 iass#:#iass_responsibility#:#Responsibility
 iass#:#iass_save_amend#:#Save Amended Record
 iass#:#iass_settings_saved#:#Settings saved.
@@ -14860,6 +14860,7 @@ skmg#:#skmg_new_level#:#New Level
 skmg#:#skmg_new_sktr#:#New Competence Template Reference
 skmg#:#skmg_next_step#:#Next Step
 skmg#:#skmg_no_nodes_selectable#:#Currently there are no competences selectable.
+skmg#:#skmg_no_skill_entries#:#You do not have any entries for this competence yet.
 skmg#:#skmg_no_skills#:#No Competences
 skmg#:#skmg_no_skills_selected_info#:#You have not selected or fulfilled any competences yet. Click on the "Add Competence"-button to select a competence. You can add any number of competences. If you fulfill competences by editing learning materials, they will be automatically listed here.
 skmg#:#skmg_no_trigger#:#No Trigger

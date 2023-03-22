@@ -498,7 +498,9 @@ class ilLOEditorGUI
 
     protected function testsOverview(): void
     {
-        $this->setTestType($this->initTestTypeFromQuery());
+        if ($this->getTestType() === ilLOSettings::TYPE_TEST_UNDEFINED) {
+            $this->setTestType($this->initTestTypeFromQuery());
+        }
         $this->ctrl->setParameter($this, 'tt', $this->getTestType());
 
         $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
@@ -541,12 +543,26 @@ class ilLOEditorGUI
         }
     }
 
+    protected function testsOverviewInitial(): void
+    {
+        $this->setTestType(ilLOSettings::TYPE_TEST_INITIAL);
+        $this->testsOverview();
+    }
+
+    protected function testsOverviewQualified(): void
+    {
+        $this->setTestType(ilLOSettings::TYPE_TEST_QUALIFIED);
+        $this->testsOverview();
+    }
+
     /**
      * Show test overview
      */
     protected function testOverview(): void
     {
-        $this->setTestType($this->initTestTypeFromQuery());
+        if ($this->getTestType() === ilLOSettings::TYPE_TEST_UNDEFINED) {
+            $this->setTestType($this->initTestTypeFromQuery());
+        }
         $this->ctrl->setParameter($this, 'tt', $this->getTestType());
 
         $settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
@@ -586,6 +602,18 @@ class ilLOEditorGUI
             $this->logger->debug(': Show new assignment screen because of : ' . $ex->getMessage());
             $this->testSettings();
         }
+    }
+
+    protected function testOverviewInitial(): void
+    {
+        $this->setTestType(ilLOSettings::TYPE_TEST_INITIAL);
+        $this->testOverview();
+    }
+
+    protected function testOverviewQualified(): void
+    {
+        $this->setTestType(ilLOSettings::TYPE_TEST_QUALIFIED);
+        $this->testOverview();
     }
 
     /**

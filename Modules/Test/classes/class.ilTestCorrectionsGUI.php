@@ -156,6 +156,7 @@ class ilTestCorrectionsGUI
         $scoring->setQuestionId($questionGUI->object->getId());
         $scoring->recalculateSolutions();
 
+        $this->DIC->ui()->mainTemplate()->setOnScreenMessage('success', $this->DIC->language()->txt('saved_successfully'), true);
         $this->DIC->ctrl()->redirect($this, 'showQuestion');
     }
 

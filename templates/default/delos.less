@@ -1474,6 +1474,7 @@ div.ilSideBarContent{
 	background-color: @dropdown-bg;
 	border: 1px solid @il-main-border-color;
 	font-size: @il-font-size-small;
+	z-index: 5;
     .box-shadow(2px 2px 4px #c0c0c0);
 	.ui-menu-item {
 		margin: 0;
@@ -1524,22 +1525,6 @@ div.ilSideBarContent{
 		&:hover {
 			background-color: white;
 		}
-	}
-}
-
-[dir="rtl"] .ui-menu {
-	float: right;
-	.ui-menu-item {
-		float: right;
-		clear: right;
-	}
-	.ui-menu-category {
-		float: right;
-		clear: right;
-	}
-	.ui-menu-more {
-		float: right;
-		clear: right;
 	}
 }
 

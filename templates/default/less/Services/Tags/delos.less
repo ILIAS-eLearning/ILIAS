@@ -18,41 +18,41 @@
 	padding: 1px 5px;
 	margin: 2px 4px 2px 0;
 	border-radius: 3px;
+
+	.ilTagRelVeryHigh {
+
+	}
+	.ilTagRelHigh {
+		background-color: @il-btn-tag-bg-relevance-high;
+		color: @il-btn-tag-fg-relevance-high;
+	}
+	.ilTagRelMiddle {
+		background-color: @il-btn-tag-bg-relevance-middle;
+		color: @il-btn-tag-fg-relevance-middle;
+	}
+	.ilTagRelLow {
+		background-color: @il-btn-tag-bg-relevance-low;
+		color: @il-btn-tag-fg-relevance-low;
+	}
+	.ilTagRelVeryLow {
+		background-color: @il-btn-tag-bg-relevance-verylow;
+		color: @il-btn-tag-fg-relevance-verylow;
+	}
+
+	&.ilHighlighted, &.ilHighlighted:hover {
+		background-color: @il-btn-tag-bg-highlighted;
+		color: @il-btn-tag-fg-highlighted;
+
+		&:hover{
+			background-color: darken(@il-btn-tag-bg-highlighted, 5%);
+		}
+	}
 }
 
 a.ilTag:hover, a.ilTag:active {
 	text-decoration: none;
 	color: @il-btn-tag-fg-relevance-veryhigh;
 	background-color: darken(@il-btn-tag-bg, 5%);
-}
-
-.ilTagRelVeryHigh {
-
-}
-.ilTagRelHigh {
-	background-color: @il-btn-tag-bg-relevance-high;
-	color: @il-btn-tag-fg-relevance-high;
-}
-.ilTagRelMiddle {
-	background-color: @il-btn-tag-bg-relevance-middle;
-	color: @il-btn-tag-fg-relevance-middle;
-}
-.ilTagRelLow {
-	background-color: @il-btn-tag-bg-relevance-low;
-	color: @il-btn-tag-fg-relevance-low;
-}
-.ilTagRelVeryLow {
-	background-color: @il-btn-tag-bg-relevance-verylow;
-	color: @il-btn-tag-fg-relevance-verylow;
-}
-
-.ilTag.ilHighlighted, .ilTag.ilHighlighted:hover {
-	background-color: @il-btn-tag-bg-highlighted;
-	color: @il-btn-tag-fg-highlighted;
-
-	&:hover{
-		background-color: darken(@il-btn-tag-bg-highlighted, 5%);
-	}
 }
 
 #il_tags_modal textarea {

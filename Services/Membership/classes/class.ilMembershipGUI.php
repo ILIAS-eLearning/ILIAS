@@ -1561,9 +1561,7 @@ class ilMembershipGUI
 
         $list = $this->initAttendanceList();
         $list->setTitle($this->lng->txt('obj_' . $this->getParentObject()->getType()) . ': ' . $this->getParentObject()->getTitle());
-        $list->setId('0');
-        $list->initForm('printForMembersOutput');
-        $list->initFromForm();
+        $list->initFromSettings();
         $list->setCallback([$this, 'getAttendanceListUserData']);
         $this->member_data = $this->getPrintMemberData($this->getMembersObject()->getParticipants());
         $list->getNonMemberUserData($this->member_data);

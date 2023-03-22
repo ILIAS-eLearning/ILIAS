@@ -279,29 +279,6 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
 
     protected function getTabs(): void
     {
-        if ($this->object->accessHandler()->mayReadObject()) {
-            $this->tabs_gui->addTab(
-                self::TAB_INFO,
-                $this->txt('info_short'),
-                $this->getLinkTarget('info')
-            );
-        }
-        if ($this->object->accessHandler()->mayEditObject()) {
-            $this->tabs_gui->addTab(
-                self::TAB_SETTINGS,
-                $this->txt('settings'),
-                $this->getLinkTarget('settings')
-            );
-            $mdgui = new ilObjectMetaDataGUI($this->object);
-            $mdtab = $mdgui->getTab();
-            if ($mdtab) {
-                $this->tabs_gui->addTab(
-                    self::TAB_META_DATA,
-                    $this->txt("meta_data"),
-                    $mdtab
-                );
-            }
-        }
         if ($this->object->accessHandler()->mayEditMembers()
             || $this->object->accessHandler()->mayGradeAnyUser()
             || $this->object->accessHandler()->mayAmendAllUsers()
@@ -312,6 +289,23 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
                 $this->getLinkTarget('members')
             );
         }
+
+        if ($this->object->accessHandler()->mayReadObject()) {
+            $this->tabs_gui->addTab(
+                self::TAB_INFO,
+                $this->txt('info_short'),
+                $this->getLinkTarget('info')
+            );
+        }
+
+        if ($this->object->accessHandler()->mayEditObject()) {
+            $this->tabs_gui->addTab(
+                self::TAB_SETTINGS,
+                $this->txt('settings'),
+                $this->getLinkTarget('settings')
+            );
+        }
+
         if (($this->object->accessHandler()->mayViewAllUsers()
             || $this->object->accessHandler()->mayGradeAllUsers()
             || ($this->object->loadMembers()->userAllreadyMember($this->usr)
@@ -322,6 +316,18 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
                 $this->txt('learning_progress'),
                 $this->ctrl->getLinkTargetByClass('illearningprogressgui')
             );
+        }
+
+        if ($this->object->accessHandler()->mayEditObject()) {
+            $mdgui = new ilObjectMetaDataGUI($this->object);
+            $mdtab = $mdgui->getTab();
+            if ($mdtab) {
+                $this->tabs_gui->addTab(
+                    self::TAB_META_DATA,
+                    $this->txt("meta_data"),
+                    $mdtab
+                );
+            }
         }
 
         if ($this->object->accessHandler()->mayEditObject()) {

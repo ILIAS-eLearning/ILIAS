@@ -362,13 +362,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
             $this->setFormAction($this->buildFormAction($this->getTestPlayerGUI()));
         }
 
-        $active_id = $this->getTestSession()->getActiveId();
-
-        /*
-         * sk 2023-03-16: I put this in here, even if I'm pretty sure this is not
-         * the right place. I tried to put it in the clean-up of a test-pass, but
-         * that hat side-effects.
-         */
         if ($this->DIC->user()->getId() ===  ANONYMOUS_USER_ID) {
             $this->testSession->unsetActiveId();
             $this->testSession->unsetAccessCodeInSession();

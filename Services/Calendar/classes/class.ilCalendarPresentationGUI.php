@@ -443,10 +443,10 @@ class ilCalendarPresentationGUI
 
         // see #34998, if cal_view is requested (e.g. through starting point)
         // it must get high prio than history entry
-        $use_pref = ($this->user->getPref('cal_last_class') !== "")
-            && !$this->http->wrapper()->query()->has('cal_view');
+        $user_pref = $this->user->getPref('cal_last_class');
+        $use_pref = $user_pref && ($user_pref !== "") && !$this->http->wrapper()->query()->has('cal_view');
 
-        return $use_pref ? $this->user->getPref('cal_last_class') : $class;
+        return $use_pref ? $user_pref : $class;
     }
 
     public function setCmdClass($a_class): void

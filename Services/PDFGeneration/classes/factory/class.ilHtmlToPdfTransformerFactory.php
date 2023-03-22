@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+/**
+ * @deprecated
+ */
 class ilHtmlToPdfTransformerFactory
 {
     private const PDF_OUTPUT_DOWNLOAD = 'D';

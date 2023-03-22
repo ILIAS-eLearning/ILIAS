@@ -21,6 +21,9 @@ declare(strict_types=1);
 use ILIAS\Setup;
 use ILIAS\Refinery;
 
+/**
+ * @deprecated
+ */
 class ilPDFGenerationSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;

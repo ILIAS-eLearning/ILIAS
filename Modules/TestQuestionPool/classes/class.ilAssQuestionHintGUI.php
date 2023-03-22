@@ -66,7 +66,6 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 
         switch ($nextClass) {
             case 'ilasshintpagegui':
-
                 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintPageObjectCommandForwarder.php';
                 $forwarder = new ilAssQuestionHintPageObjectCommandForwarder($this->questionOBJ, $ilCtrl, $ilTabs, $lng);
                 $forwarder->setPresentationMode(ilAssQuestionHintPageObjectCommandForwarder::PRESENTATION_MODE_AUTHOR);
@@ -74,7 +73,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
                 break;
 
             default:
-
+                $this->tabs->setTabActive('tst_question_hints_tab');
                 $cmd .= 'Cmd';
                 $this->$cmd();
                 break;

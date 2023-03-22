@@ -679,9 +679,11 @@ class ilCourseObjectivesGUI
     protected function showRandomTestAssignment(ilPropertyFormGUI $form = null): void
     {
         $this->ctrl->saveParameter($this, 'objective_id');
-        $this->ctrl->setParameter($this, 'tt', $this->initTestTypeFromQuery());
         $this->objective = new ilCourseObjective($this->course_obj, $this->initObjectiveIdFromQuery());
-        $this->test_type = $this->initTestTypeFromQuery();
+        if ($this->test_type === ilLOSettings::TYPE_TEST_UNDEFINED) {
+            $this->test_type = $this->initTestTypeFromQuery();
+        }
+        $this->ctrl->setParameter($this, 'tt', $this->test_type);
         $this->setSubTabs("rand_test_assign");
 
         if (!$form instanceof ilPropertyFormGUI) {
@@ -689,7 +691,12 @@ class ilCourseObjectivesGUI
         }
 
         $this->__initQuestionObject($this->initObjectiveIdFromQuery());
-        $this->initWizard(self::STEP_FINAL_TEST_ASSIGNMENT);
+        if ($this->test_type === ilLOSettings::TYPE_TEST_INITIAL) {
+            $this->initWizard(self::STEP_INITIAL_TEST_ASSIGNMENT);
+        } else {
+            $this->initWizard(self::STEP_FINAL_TEST_ASSIGNMENT);
+        }
+
         $this->tpl->setContent($form->getHTML());
     }
 

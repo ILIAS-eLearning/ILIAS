@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+/**
+ * @deprecated
+ */
 class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
 {
     protected ilWkhtmlToPdfConfig $config;
