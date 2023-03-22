@@ -453,10 +453,15 @@ class ilCourseObjectivesGUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'), true);
             $this->ctrl->returnToParent($this);
         }
-        if ($this->getSettings()->worksWithInitialTest()) {
+        if (
+            $this->getSettings()->worksWithInitialTest() &&
+            !$this->getSettings()->hasSeparateInitialTests()
+        ) {
             $this->selfAssessmentAssignment();
-        } else {
+        } elseif (!$this->getSettings()->hasSeparateQualifiedTests()) {
             $this->finalTestAssignment();
+        } else {
+            $this->ctrl->redirectByClass(ilLOEditorGUI::class);
         }
     }
 
@@ -618,6 +623,10 @@ class ilCourseObjectivesGUI
         }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+        if (!$this->settings->hasSeparateQualifiedTests()) {
+            $this->finalTestAssignment();
+            return;
+        }
         $this->ctrl->returnToParent($this);
     }
 
@@ -834,7 +843,10 @@ class ilCourseObjectivesGUI
         }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
-        if ($this->test_type == ilLOSettings::TYPE_TEST_QUALIFIED) {
+        if (
+            $this->test_type == ilLOSettings::TYPE_TEST_QUALIFIED ||
+            $this->getSettings()->hasSeparateQualifiedTests()
+        ) {
             $this->ctrl->returnToParent($this);
         } else {
             $this->ctrl->redirect($this, 'finalTestAssignment');
