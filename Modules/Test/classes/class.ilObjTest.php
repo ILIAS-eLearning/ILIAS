@@ -5244,6 +5244,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             }
         }
 
+        $this->saveToDb();
         $score_settings = $score_settings
                 ->withGamificationSettings($gamification_settings)
                 ->withScoringSettings($scoring_settings)
