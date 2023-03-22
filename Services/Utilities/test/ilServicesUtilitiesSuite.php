@@ -32,6 +32,8 @@ class ilServicesUtilitiesSuite extends TestSuite
         $suite->addTestSuite('ilMimeTypeTest');
         require 'Services/Utilities/test/ilUtilsPreventTest.php';
         $suite->addTestSuite('ilUtilsPreventTest');
+        require 'Services/Utilities/test/ilUtilTest.php';
+        $suite->addTestSuite(ilUtilTest::class);
 
         return $suite;
     }
