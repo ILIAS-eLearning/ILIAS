@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+/**
+ * @deprecated
+ */
 class ilWkhtmlToPdfConfig
 {
     private const ENABLE_QUIET = true;

@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+/**
+ * @deprecated
+ */
 class ilPDFCompInstaller
 {
     private const PURPOSE_CONF_TABLE = "pdfgen_conf";
