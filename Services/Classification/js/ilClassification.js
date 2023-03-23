@@ -25,7 +25,8 @@ il.Classification = {
 		if(o.responseText !== "")
 		{
 			$('#ilSubTab').remove();
-			$('#ilTab').replaceWith(il.Classification.tabs_html);
+			$('#ilTab').remove();
+			$('#mainscrolldiv .ilTabsContentOuter').before(il.Classification.tabs_html);
 			$('#' + o.argument.el_id).html(o.responseText);			
 		}
 		else
@@ -43,5 +44,11 @@ il.Classification = {
 		loadergif.border = 0;
 		$(loadergif).css("position", "absolute");	
 		$('#' + element_id).html(loadergif);
+	},
+
+	returnToParent: function() {
+		this.loader(this.ajax_block_id + '_loader');
+		document.location.reload();
 	}
+
 }
