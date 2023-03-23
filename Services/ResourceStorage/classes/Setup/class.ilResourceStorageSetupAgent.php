@@ -85,6 +85,6 @@ class ilResourceStorageSetupAgent implements Agent
      */
     public function getMigrations(): array
     {
-        return [new ilStorageHandlerV1Migration()];
+        return [];
     }
 }
