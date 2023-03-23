@@ -295,6 +295,8 @@ class ilTestScoringGUI extends ilTestServiceGUI
         foreach ($questionGuiList as $questionId => $questionGui) {
             $reachedPoints = $form->getItemByPostVar("question__{$questionId}__points")->getValue();
 
+            $finalized = (bool) $form->getItemByPostVar("{$questionId}__evaluated")->getchecked();
+
             // fix #35543: save manual points only if they differ from the existing points
             // this prevents a question being set to "answered" if only feedback is entered
             $oldPoints = assQuestion::_getReachedPoints($activeId, $questionId, $pass);
@@ -316,7 +318,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
                 ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
             );
 
-            $this->object->saveManualFeedback($activeId, (int) $questionId, (int) $pass, $feedback);
+            $this->object->saveManualFeedback($activeId, (int) $questionId, (int) $pass, $feedback, $finalized, true);
 
             $notificationData[$questionId] = array(
                 'points' => $reachedPoints, 'feedback' => $feedback
@@ -422,6 +424,13 @@ class ilTestScoringGUI extends ilTestServiceGUI
             $questionSolution = $questionGUI->getSolutionOutput($activeId, $pass, false, false, true, false, false, true);
             $bestSolution = $questionGUI->object->getSuggestedSolutionOutput();
 
+            $feedback = $this->object->getSingleManualFeedback($activeId, $questionId, $pass);
+
+            $disabled = false;
+            if (isset($feedback['finalized_evaluation']) && $feedback['finalized_evaluation'] == 1) {
+                $disabled = true;
+            }
+
             $sect = new ilFormSectionHeaderGUI();
             $sect->setTitle($questionHeader . ' [' . $this->lng->txt('question_id_short') . ': ' . $questionGUI->object->getId() . ']');
             $form->addItem($sect);
@@ -433,6 +442,9 @@ class ilTestScoringGUI extends ilTestServiceGUI
             $text = new ilTextInputGUI($lng->txt('tst_change_points_for_question'), "question__{$questionId}__points");
             if ($initValues) {
                 $text->setValue(assQuestion::_getReachedPoints($activeId, $questionId, $pass));
+            }
+            if ($disabled) {
+                $text->setDisabled($disabled);
             }
             $form->addItem($text);
 
@@ -447,7 +459,17 @@ class ilTestScoringGUI extends ilTestServiceGUI
             if ($initValues) {
                 $area->setValue(ilObjTest::getSingleManualFeedback((int) $activeId, (int) $questionId, (int) $pass)['feedback'] ?? '');
             }
+            if ($disabled) {
+                $area->setDisabled($disabled);
+            }
             $form->addItem($area);
+
+            $check = new ilCheckboxInputGUI($lng->txt('finalized_evaluation'), "{$questionId}__evaluated");
+            if ($disabled) {
+                $check->setChecked(true);
+            }
+            $form->addItem($check);
+
             if (strlen(trim($bestSolution))) {
                 $cust = new ilCustomInputGUI($lng->txt('tst_show_solution_suggested'));
                 $cust->setHtml($bestSolution);
