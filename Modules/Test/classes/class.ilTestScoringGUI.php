@@ -431,8 +431,8 @@ class ilTestScoringGUI extends ilTestServiceGUI
             $questionSolution = $questionGUI->getSolutionOutput($activeId, $pass, false, false, true, false, false, true);
             $bestSolution = $questionGUI->object->getSuggestedSolutionOutput();
             $feedback = $this->object->getSingleManualFeedback($activeId, $questionId, $pass);
-
-                if(isset($feedback['finalized_evaluation']) && $feedback['finalized_evaluation'] == 1){
+            $disabled = false;
+            if (isset($feedback['finalized_evaluation']) && $feedback['finalized_evaluation'] == 1) {
                 $disabled = true;
             }
         
