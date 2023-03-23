@@ -4,8 +4,11 @@
 		<b>{TXT_USE_PLACEHOLDERS}</b>:<br /><!-- BEGIN placeholder_advise -->
 		{TXT_PLACEHOLDERS_ADVISE}<br /><!-- END placeholder_advise -->
 		<!-- BEGIN man_placeholder -->
-		<b><a href="#" onclick="il.Mail.insertTextIntoTextField('{DEPENDENCY_ELM_ID}', this.innerHTML); return false;">[{MANUAL_PLACEHOLDER}]</a></b>: {TXT_MANUAL_PLACEHOLDER}<br />
+		<b><a href="#" title="{PLACEHOLDER_INTERACTION_INFO}">{PLACEHOLDER}</a></b>: {PLACEHOLDER_DESCRIPTION}<br />
 		<!-- END man_placeholder -->
+		<script>
+			il.Mail.initMailPlaceholderSelection(document.querySelectorAll('#placeholders_box a'), '{DEPENDENCY_ELM_ID_OUTER}');
+		</script>
 	</div>
 </div>
 <!-- END placeholder_box -->
