@@ -95,6 +95,19 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
         $this->assertNotSame($this->optional_group, $new_group);
     }
 
+    public function testThatOptionalGroupIsNotRequiredBecauseOfItsChildren(): void
+    {
+        $this->assertNotSame($this->child1, $this->child2);
+        $this->child1->method('isRequired')->willReturn(true);
+        $this->child2->method('isRequired')->willReturn(true);
+
+        $new_group = $this->optional_group;
+
+        $this->assertEquals([$this->child1, $this->child2], $new_group->getInputs());
+        $this->assertInstanceOf(OptionalGroup::class, $new_group);
+        $this->assertFalse($new_group->isRequired());
+    }
+
     public function testOptionalGroupMayOnlyHaveInputChildren()
     {
         $this->expectException(\InvalidArgumentException::class);
