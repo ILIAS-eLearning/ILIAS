@@ -17,12 +17,14 @@
 
 use ILIAS\FileUpload\MimeType;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
+use ILIAS\ResourceStorage\Preloader\SecureString;
 
 /**
  * @deprecated Will be removed in ILIAS 10. Use ILIAS ResourceStorageService as replacement.
  */
 class ilFileSystemTableGUI extends ilTable2GUI
 {
+    use SecureString; // This is just for those legacy classes which will be removed soon anyway.
     protected bool $has_multi = false;
     protected array $row_commands = [];
     protected bool $label_enable = false;
@@ -34,7 +36,6 @@ class ilFileSystemTableGUI extends ilTable2GUI
     protected array $file_labels = [];
     protected \ILIAS\Filesystem\Filesystem $filesystem;
     protected ilFileSystemGUI $filesystem_gui;
-
     /**
      * Constructor
      */
@@ -244,7 +245,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
             $this->ctrl->setParameter($this->parent_obj, "resetoffset", "");
         } else {
             $this->tpl->setCurrentBlock("File");
-            $this->tpl->setVariable("TXT_FILENAME2", $a_set["entry"]);
+            $this->tpl->setVariable("TXT_FILENAME2", $this->secure($a_set["entry"]));
             $this->tpl->parseCurrentBlock();
         }
 
