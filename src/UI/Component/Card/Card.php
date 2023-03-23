@@ -70,6 +70,16 @@ interface Card extends Component, JavaScriptBindable, Clickable
     public function getSections(): array;
 
     /**
+     * @param \ILIAS\UI\Component\Component[] $sections
+     */
+    public function withHiddenSections(array $sections): Card;
+
+    /**
+     * @return \ILIAS\UI\Component\Component[] $sections
+     */
+    public function getHiddenSections(): array;
+
+    /**
      * Set the image of the card
      */
     public function withImage(Image $image): Card;

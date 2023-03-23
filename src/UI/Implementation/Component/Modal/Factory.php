@@ -24,6 +24,8 @@ use ILIAS\UI\Component\Modal as M;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\Modal\InterruptiveItem\Factory as ItemFactory;
+use ILIAS\UI\NotImplementedException;
+use ILIAS\UI\Component\Card\Card;
 
 /**
  * Implementation of factory for modals
@@ -83,5 +85,10 @@ class Factory implements M\Factory
     public function lightboxTextPage(string $text, string $title): M\LightboxTextPage
     {
         return new LightboxTextPage($text, $title);
+    }
+
+    public function lightboxCardPage(Card $card): M\LightboxCardPage
+    {
+        throw new NotImplementedException();
     }
 }
