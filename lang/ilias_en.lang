@@ -9790,6 +9790,7 @@ forum#:#post_activation_desc#:#Before being published all postings need to be ap
 forum#:#post_censored_by#:#censored posting in forum "%2$s" by "%1$s":
 forum#:#post_censored_comment_by_moderator#:#Posting Censored, Comment by Moderator
 forum#:#post_deleted_by#:#following posting in forum "%2$s" was deleted by "%1$s":
+forum#:#post_draft_info#:#This posting draft is only visible for you.
 forum#:#post_reply#:#Re:
 forum#:#post_reply_count#:#Re(%s):
 forum#:#post_uncensored_by#:#a posting was uncensored by "%1$s"
