@@ -3192,8 +3192,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         foreach ($result->ids as $oldId => $newId) {
             $questionInstance = assQuestion::instantiateQuestion($oldId);
 
-            if (assQuestion::originalQuestionExists($questionInstance->getOriginalId())) {
-                $oldOriginal = assQuestion::instantiateQuestion($questionInstance->getOriginalId());
+            $original_question_id = $questionInstance->getOriginalId();
+            if ($original_question_id !== null
+                && assQuestion::originalQuestionExists($original_question_id)) {
+                $oldOriginal = assQuestion::instantiateQuestion($original_question_id);
                 $oldOriginal->delete($oldOriginal->getId());
             }
 
