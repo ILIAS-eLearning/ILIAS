@@ -50,6 +50,9 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 
     protected $imageUploadCommand = 'uploadImage';
 
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+
     /**
      * Constructor
      *
@@ -58,9 +61,11 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
      */
     public function __construct($a_title = "", $a_postvar = "")
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->lng = $DIC->language();
+        $this->tpl = $DIC->ui()->mainTemplate();
         parent::__construct($a_title, $a_postvar);
 
         $this->setSuffixes(["jpg", "jpeg", "png", "gif"]);
@@ -372,18 +377,27 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
         $tpl->setVariable("COMMANDS_TEXT", $lng->txt('actions'));
 
         if (!$this->getDisabled()) {
-            $tpl->setCurrentBlock('js_engine_initialisation');
-            $tpl->setVariable('UPLOAD_CMD', $this->getImageUploadCommand());
-            $tpl->setVariable('REMOVE_CMD', $this->getImageRemovalCommand());
-            $tpl->setVariable('ITERATOR', self::ITERATOR_SUBFIELD_NAME);
-            $tpl->setVariable('STORED_IMAGE_POSTVAR', self::STORED_IMAGE_SUBFIELD_NAME);
-            $tpl->setVariable('UPLOAD_IMAGE_POSTVAR', self::IMAGE_UPLOAD_SUBFIELD_NAME);
-            $tpl->parseCurrentBlock();
+            $config = [
+                'fieldContainerSelector' => '.ilWzdContainerImage',
+                'reindexingRequiredElementsSelectors' => [
+                    'input:hidden[name*="[' . self::ITERATOR_SUBFIELD_NAME . ']"]',
+                    'input:file[id*="__' . self::IMAGE_UPLOAD_SUBFIELD_NAME . '__"]',
+                    'input:submit[name*="[' . $this->getImageUploadCommand() . ']"]',
+                    'input:submit[name*="[' . $this->getImageRemovalCommand() . ']"]',
+                    'button'
+                ],
+                'handleRowCleanUpCallback' => 'function(rowElem)
+                    {
+                        $(rowElem).find("div.imagepresentation").remove();
+                        $(rowElem).find("input[type=text]").val("");
+                    }'
+            ];
 
-            $globalTpl = $GLOBALS['DIC'] ? $GLOBALS['DIC']['tpl'] : $GLOBALS['tpl'];
-            $globalTpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
-            $globalTpl->addJavascript("./Services/Form/js/ServiceFormIdentifiedWizardInputExtend.js");
-            //$globalTpl->addJavascript("./Services/Form/js/ServiceFormIdentifiedImageWizardInputConcrete.js");
+            $this->tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
+            $this->tpl->addJavascript("./Services/Form/js/ServiceFormIdentifiedWizardInputExtend.js");
+            $this->tpl->addOnLoadCode("$.extend({}, ilWizardInput, ilIdentifiedWizardInputExtend).init("
+                . json_encode($config)
+                . ");");
         }
 
         return $tpl->get();
@@ -436,6 +450,6 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
      */
     protected function getTemplate(): ilTemplate
     {
-        return new ilTemplate(self::RENDERING_TEMPLATE, true, true, "Services/Form");
+        return new ilTemplate(self::RENDERING_TEMPLATE, true, true, "Modules/TestQuestionPool");
     }
 }

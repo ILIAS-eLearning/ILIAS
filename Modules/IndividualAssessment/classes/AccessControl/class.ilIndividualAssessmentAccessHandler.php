@@ -144,7 +144,9 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 
     public function mayViewAnyUser(): bool
     {
-        return $this->mayViewAllUsers() || $this->checkRBACOrPositionAccessToObj('read_learning_progress');
+        return $this->mayViewAllUsers()
+            || $this->checkRBACOrPositionAccessToObj('read_learning_progress')
+            || $this->checkRBACOrPositionAccessToObj('edit_learning_progress');
     }
 
     public function mayViewAllUsers(): bool

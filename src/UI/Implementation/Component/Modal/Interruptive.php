@@ -23,13 +23,10 @@ namespace ILIAS\UI\Implementation\Component\Modal;
 use ILIAS\UI\Component\Modal as M;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
-/**
- * @author Stefan Wanzenried <sw@studer-raimann.ch>
- */
 class Interruptive extends Modal implements M\Interruptive
 {
     /**
-     * @var M\InterruptiveItem[]
+     * @var M\InterruptiveItem\InterruptiveItem[]
      */
     protected array $items = array();
     protected string $title;
@@ -84,7 +81,7 @@ class Interruptive extends Modal implements M\Interruptive
      */
     public function withAffectedItems(array $items): M\Interruptive
     {
-        $types = array(M\InterruptiveItem::class);
+        $types = array(M\InterruptiveItem\InterruptiveItem::class);
         $this->checkArgListElements('items', $items, $types);
         $clone = clone $this;
         $clone->items = $items;

@@ -6941,7 +6941,7 @@ content#:#cont_select_item#:#Select at least one item.
 content#:#cont_select_max_one_item#:#Please select one item only.
 content#:#cont_select_media_pool#:#Select Media Pool
 content#:#cont_select_none#:#Clear Selection
-content#:#cont_select_other_qpool#:#Select other Pool
+content#:#cont_select_other_qpool#:#Select Other Pool
 content#:#cont_select_par_or_section#:#Please select at least one paragraph or section.
 content#:#cont_selected_items_have_been_copied#:#Selected items have been copied to the clipboard. Click target placeholders to paste them into the learning module.
 content#:#cont_selected_items_have_been_cut#:#Selected items have been cut to the clipboard. Click target placeholders to paste them into the learning module.
@@ -7631,6 +7631,7 @@ crs#:#crs_objective_status#:#Objective Status
 crs#:#crs_objective_status_configure#:#Checklist for Course
 crs#:#crs_objective_status_itest#:#Assign Initial Test
 crs#:#crs_objective_status_materials#:#Create Course Content
+crs#:#crs_objective_status_materials_info#:#The course is currently empty. Add course materials that can be assigned to learning objectives.
 crs#:#crs_objective_status_objective_creation#:#Create Learning Objective
 crs#:#crs_objective_status_objectives#:#Configure Learning Objectives
 crs#:#crs_objective_status_qtest#:#Assign Final Test
@@ -8465,10 +8466,10 @@ dcl#:#dcl_field_title_change_warning#:#You changed the title of the field hence 
 dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.
 dcl#:#dcl_field_visible#:#Visible
 dcl#:#dcl_fieldtitle#:#Field Title
+dcl#:#dcl_file#:#Fileupload
+dcl#:#dcl_file_desc#:#Field to upload arbitrary files. They can be downloaded with a link.
 dcl#:#dcl_file_format_description#:#The file needs to be an excel .XLSX file with the data you want to import on the first sheet. In the first row there have to be exactly the names of the fields (case sensitive) you want to import and in the following rows you can add the values. It is strongly recommended to simulate your import first. When importing reference or selection fields with multi selection, commas and/or semicolons can be used as delimiters.
 dcl#:#dcl_file_not_readable#:#The file could not be read. Please make sure to upload an XLSX file.
-dcl#:#dcl_fileupload#:#Fileupload
-dcl#:#dcl_fileupload_desc#:#Field to upload arbitrary files. They can be downloaded with a link.
 dcl#:#dcl_filter#:#Available in filter
 dcl#:#dcl_filter_changeable#:#Filter changeable
 dcl#:#dcl_formula#:#Formula
@@ -8665,6 +8666,7 @@ dcl#:#dcl_wrong_length#:#The text you entered is to long.
 dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification for this field (Regular Expression).
 dcl#:#dlc_xls_async_export#:#Asynchronous XLSX-Export
 dcl#:#fieldtitle_allow_chars#:#Not allowed chars: %s
+dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.
 didactic#:#activate_exclusive_template#:#Grey Out Default
 didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.
 didactic#:#activate_local_didactic_template#:#Scope of Application
@@ -10076,7 +10078,7 @@ iass#:#grading_info#:#Grading info
 iass#:#grading_record#:#Grading record
 iass#:#iass_add#:#Create Individual Assessment
 iass#:#iass_add_user_failure#:#One or more user could not be added.
-iass#:#iass_add_user_success#:#User added as examinee.
+iass#:#iass_add_user_success#:#User added as participant.
 iass#:#iass_added#:#Individual Assessment added
 iass#:#iass_amend_saved#:#Amended record has been saved.
 iass#:#iass_assessment_not_completed#:#Not completed yet
@@ -10108,12 +10110,12 @@ iass#:#iass_filter_not_finalized#:#Drafts only
 iass#:#iass_filter_not_started#:#Not started only
 iass#:#iass_finalize#:#Finalize
 iass#:#iass_finalize_info#:#Individual Assessment will be finalized.
-iass#:#iass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.
+iass#:#iass_finalize_user_qst#:#Should the participant's status really be finalised? No changes possible thereafter.
 iass#:#iass_further_field_headline#:#Detailed Information
 iass#:#iass_graded_by#:#Graded by
 iass#:#iass_info_emails_expl#:#You may provide several addresses separated by comma.
 iass#:#iass_internal_note#:#Internal record note
-iass#:#iass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.
+iass#:#iass_internal_note_info#:#Internal notes are only visible for tutors but not for participants.
 iass#:#iass_location#:#Location
 iass#:#iass_mails#:#E-Mail
 iass#:#iass_may_not_finalize#:#Examinee may not be finalised. Please grade the user first.
@@ -10123,14 +10125,14 @@ iass#:#iass_mess_notification_completed#:#You passed the assessment <i>%s</i>. P
 iass#:#iass_mess_notification_failed#:#You failed the assessment <i>%s</i>. Please check the following grading record for details:
 iass#:#iass_no_entries#:#No entries found.
 iass#:#iass_notify#:#Make Result available to Participant
-iass#:#iass_notify_explanation#:#The examinee will be notified via e-mail after finalisation and will get access to her or his record on the Info screen.
+iass#:#iass_notify_explanation#:#The participant will be notified via e-mail after finalisation and will get access to her or his record on the Info screen.
 iass#:#iass_phone#:#Phone
 iass#:#iass_place#:#Place of assessment
 iass#:#iass_record#:#Record note
-iass#:#iass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too.
+iass#:#iass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the participant by e-mail, too.
 iass#:#iass_record_template#:#Record template
-iass#:#iass_record_template_explanation#:#Template for examinee grading record. Will be used automatically for any new examinee.
-iass#:#iass_remove_user_qst#:#Should the examinee really be removed?
+iass#:#iass_record_template_explanation#:#Template for participant grading record. Will be used automatically for any new participant.
+iass#:#iass_remove_user_qst#:#Should the participant really be removed?
 iass#:#iass_responsibility#:#Responsibility
 iass#:#iass_save_amend#:#Save Amended Record
 iass#:#iass_settings_saved#:#Settings saved.
@@ -10460,7 +10462,7 @@ lso#:#abstract_img#:#Image for Abstract
 lso#:#avail_time_period#:#Period
 lso#:#completed_steps#:#Passed Steps
 lso#:#condition_always#:#Always
-lso#:#curriculum#:#Curriculum
+lso#:#curriculum#:#Content
 lso#:#delete_confirmation#:#Are you sure you want to delete this objects?
 lso#:#entries_deleted#:#Successfully deleted entries.
 lso#:#entries_updated#:#Entries saved
@@ -10503,7 +10505,7 @@ lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membersh
 lso#:#lso_mail_unsubscribe_member_sub#:#Your cancellation of membership in learning sequence "%s"
 lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s". You are assigned to position %s on the list.  You will receive a message from a learning sequence administrator when your request has been approved or rejected.
 lso#:#lso_mail_wl_sub#:#Your registration for learning sequence "%s"
-lso#:#lso_mainbar_button_label_curriculum#:#Curriculum
+lso#:#lso_mainbar_button_label_curriculum#:#Learning Sequence
 lso#:#lso_mainbar_button_label_toc#:#Content
 lso#:#lso_mem_tbl_header#:#Learning Sequence Member
 lso#:#lso_member_administration#:#Edit Participants
@@ -10930,6 +10932,7 @@ mail#:#mail_generic_rcp_error#:#An error occured while validating the recipients
 mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.
 mail#:#mail_grp_roles#:#Send Mail to Group Roles
+mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.
 mail#:#mail_incoming#:#Incoming Mail
 mail#:#mail_incoming_both#:#Receive Mail Locally and Forward to:
 mail#:#mail_incoming_local#:#Receive Mail Locally Only
@@ -14929,6 +14932,7 @@ skmg#:#skmg_new_level#:#New Level
 skmg#:#skmg_new_sktr#:#New Competence Template Reference
 skmg#:#skmg_next_step#:#Next Step
 skmg#:#skmg_no_nodes_selectable#:#Currently there are no competences selectable.
+skmg#:#skmg_no_skill_entries#:#You do not have any entries for this competence yet.
 skmg#:#skmg_no_skills#:#No Competences
 skmg#:#skmg_no_skills_selected_info#:#You have not selected or fulfilled any competences yet. Click on the "Add Competence"-button to select a competence. You can add any number of competences. If you fulfill competences by editing learning materials, they will be automatically listed here.
 skmg#:#skmg_no_trigger#:#No Trigger

@@ -26,6 +26,10 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Manager\Manager;
 
+/**
+ * @runTestsInSeparateProcesses // this is necessary to avoid side effects with the DIC
+ * @preserveGlobalState disabled
+ */
 class ilServicesFileServicesTest extends TestCase
 {
     private ?\ILIAS\DI\Container $dic_backup;

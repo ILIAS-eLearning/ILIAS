@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclDatatype
@@ -34,7 +33,7 @@ class ilDclDatatype
     public const INPUTFORMAT_REFERENCE = 3;
     public const INPUTFORMAT_BOOLEAN = 4;
     public const INPUTFORMAT_DATETIME = 5;
-    public const INPUTFORMAT_FILE = 6;
+    public const INPUTFORMAT_FILEUPLOAD = 6;
     public const INPUTFORMAT_RATING = 7;
     public const INPUTFORMAT_ILIAS_REF = 8;
     public const INPUTFORMAT_MOB = 9;
@@ -43,6 +42,7 @@ class ilDclDatatype
     public const INPUTFORMAT_PLUGIN = 12;
     public const INPUTFORMAT_TEXT_SELECTION = 14;
     public const INPUTFORMAT_DATE_SELECTION = 15;
+    public const INPUTFORMAT_FILE = 16;
 
     protected int $id = 0;
     protected string $title = "";

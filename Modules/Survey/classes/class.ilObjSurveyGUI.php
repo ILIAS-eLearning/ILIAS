@@ -112,6 +112,14 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             ->gui()
             ->editing()
             ->request();
+
+        // this class will be treated as a baseclass in most cases, therefore
+        // we need to claim the repository context manually. see #37010
+        if (!$DIC->globalScreen()->tool()->context()->stack()->hasMatch(
+            $DIC->globalScreen()->tool()->context()->collection()->repository()
+        )) {
+            $DIC->globalScreen()->tool()->context()->claim()->repository();
+        }
     }
 
     public function executeCommand(): void

@@ -1116,23 +1116,34 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     public function uploadTstObject()
     {
         if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("error_upload"));
-            $this->createObject();
-            return;
+            $this->lng->loadLanguageModule('file');
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('general_upload_error_occured'));
+            $this->ctrl->redirect($this, 'create');
+            return false;
         }
-        // create import directory
+
+        $file = pathinfo($_FILES["xmldoc"]["name"]);
+        $subdir = basename($file["basename"], "." . $file["extension"]);
+
+        if (strpos($subdir, 'tst') === false) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
+            $this->ctrl->redirect($this, 'create');
+            return false;
+        }
+
         $basedir = ilObjTest::_createImportDirectory();
 
-        // copy uploaded file to import directory
-        $file = pathinfo($_FILES["xmldoc"]["name"]);
         $full_path = $basedir . "/" . $_FILES["xmldoc"]["name"];
-        ilFileUtils::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
+        try {
+            ilFileUtils::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
+        } catch (Error $e) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
+            $this->ctrl->redirect($this, 'create');
+            return false;
+        }
 
-        // unzip file
         ilFileUtils::unzip($full_path);
 
-        // determine filenames of xml files
-        $subdir = basename($file["basename"], "." . $file["extension"]);
         ilObjTest::_setImportDirectory($basedir);
         $xml_file = ilObjTest::_getImportDirectory() . '/' . $subdir . '/' . $subdir . ".xml";
         $qti_file = ilObjTest::_getImportDirectory() . '/' . $subdir . '/' . preg_replace("/test|tst/", "qti", $subdir) . ".xml";
@@ -1140,9 +1151,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         if (!is_file($qti_file)) {
             ilFileUtils::delDir($basedir);
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("tst_import_non_ilias_zip"));
-            $this->createObject();
-            return;
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("tst_import_non_ilias_zip"), true);
+            $this->ctrl->redirect($this, 'create');
+            return false;
         }
         $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_VERIFY_QTI, 0, "");
         $qtiParser->startParsing();
@@ -1159,7 +1170,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         }
 
         if (count($founditems) && $complete == 0) {
-            // delete import directory
             ilFileUtils::delDir($basedir);
 
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_import_non_ilias_files"));

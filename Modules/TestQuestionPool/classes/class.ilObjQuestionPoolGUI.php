@@ -571,8 +571,25 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         // copy uploaded file to import directory
         $file = pathinfo($_FILES["xmldoc"]["name"]);
         $full_path = $basedir . "/" . $_FILES["xmldoc"]["name"];
+
+        if (strpos($file['filename'], 'qpl') === false
+            && strpos($file['filename'], 'qti') === false) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
+            $cmd = $this->ctrl->getCmd() === 'upload' ? 'importQuestions' : 'create';
+            $this->ctrl->redirect($this, $cmd);
+            return;
+        }
+
+
         $DIC['ilLog']->write(__METHOD__ . ": full path " . $full_path);
-        ilFileUtils::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
+        try {
+            ilFileUtils::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
+        } catch (Error $e) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
+            $cmd = $this->ctrl->getCmd() === 'upload' ? 'importQuestions' : 'create';
+            $this->ctrl->redirect($this, $cmd);
+            return;
+        }
         $DIC['ilLog']->write(__METHOD__ . ": full path " . $full_path);
         if (strcmp($_FILES["xmldoc"]["type"], "text/xml") == 0) {
             $qti_file = $full_path;
@@ -590,7 +607,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         if (!file_exists($qti_file)) {
             ilFileUtils::delDir($basedir);
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('cannot_find_xml'), true);
-            $this->ctrl->redirect($this, 'create');
+            $cmd = $this->ctrl->getCmd() === 'upload' ? 'importQuestions' : 'create';
+            $this->ctrl->redirect($this, $cmd);
             return false;
         }
         $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_VERIFY_QTI, 0, "");
@@ -1398,8 +1416,15 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     */
     protected function importFileObject(int $parent_id = null, bool $catch_errors = true): void
     {
+        if ($_REQUEST['new_type'] === null) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
+            $this->ctrl->redirect($this, 'create');
+            return;
+        }
         if (!$this->checkPermissionBool("create", "", $_REQUEST["new_type"])) {
-            $this->error->raiseError($this->lng->txt("no_create_permission"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_create_permission"), true);
+            $this->ctrl->redirect($this, 'create');
+            return;
         }
 
         $form = $this->initImportForm($this->qplrequest->raw("new_type"));
@@ -1415,15 +1440,19 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
+
         switch ($this->ctrl->getCmd()) {
             case "create":
             case "importFile":
             case "cancel":
                 break;
             default:
+                $this->ctrl->clearParameterByClass(self::class, 'q_id');
                 $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->qplrequest->getRefId());
+                $this->ctrl->setParameter($this, 'q_id', $this->qplrequest->getQuestionId());
                 break;
         }
+
         if (!is_array($this->qplrequest->raw("q_id")) && $this->qplrequest->raw("q_id") > 0 && $this->qplrequest->raw('cmd') !== 'questions') {
             $q_gui = assQuestionGUI::_getQuestionGUI("", $this->qplrequest->raw("q_id"));
             if ($q_gui !== null && $q_gui->object instanceof assQuestion) {

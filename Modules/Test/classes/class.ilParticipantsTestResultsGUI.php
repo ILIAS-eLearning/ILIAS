@@ -216,7 +216,8 @@ class ilParticipantsTestResultsGUI
                 $this->getTestAccess()->checkManageParticipantsAccess()
             );
 
-            if ($scoredParticipantList->hasScorings()) {
+            if ($this->testAccess->checkManageParticipantsAccess()
+                && $scoredParticipantList->hasScorings()) {
                 $this->addDeleteAllTestResultsButton($this->toolbar);
             }
         }

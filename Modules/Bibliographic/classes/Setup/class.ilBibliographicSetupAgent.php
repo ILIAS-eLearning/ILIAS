@@ -92,8 +92,6 @@ final class ilBibliographicSetupAgent implements Setup\Agent
      */
     public function getMigrations(): array
     {
-        return [
-            new ilBibliographicStorageMigration(),
-        ];
+        return [];
     }
 }

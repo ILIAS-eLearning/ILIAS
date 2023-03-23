@@ -972,7 +972,7 @@ assessment#:#or#:#oder
 assessment#:#order#:#Sortierung
 assessment#:#ordering_answer_sequence_info#:#Die hier definierte Reihenfolge der Antworten wird als korrekte Lösungsreihenfolge verwendet.
 assessment#:#ordertext#:#Anzuordnender Text
-assessment#:#ordertext_info#:#Bitte geben Sie den Text in der Reihenfolge ein, in der er horizontal angeordnet werden soll. Die einzelnen Bestandteile werden durch Leerzeichen getrennt. Wenn Sie eine abweichende Trennung benötigen, verwenden Sie bitte stattdessen den Trenner %s anstelle der Leerzeichen.
+assessment#:#ordertext_info#:#Bitte geben Sie den Text in der Reihenfolge ein, in der er horizontal angeordnet werden soll. Die einzelnen Bestandteile werden durch Leerzeichen getrennt. Wenn Sie eine abweichende Trennung benötigen, verwenden Sie bitte den Trenner %s anstelle der Leerzeichen.
 assessment#:#out_of_range#:#Ausserhalb des Bereichs
 assessment#:#output#:#Ausgabe
 assessment#:#output_mode#:#Ausgabemodus
@@ -6940,7 +6940,7 @@ content#:#cont_select_item#:#Bitte wählen Sie mindestens ein Objekt aus.
 content#:#cont_select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
 content#:#cont_select_media_pool#:#Medienpool auswählen
 content#:#cont_select_none#:#Auswahl aufheben
-content#:#cont_select_other_qpool#:#Wählen Sie einen anderen Pool aus!
+content#:#cont_select_other_qpool#:#Anderen Fragenpool auswählen
 content#:#cont_select_par_or_section#:#Bitte wählen Sie mindestens ein Text- oder Blockelement aus.
 content#:#cont_selected_items_have_been_copied#:#Die ausgewählten Elemente wurden in die Zwischenablage kopiert. Klicken Sie jetzt auf den entsprechenden Platzhalter, um diese in das Lernmodul einzufügen
 content#:#cont_selected_items_have_been_cut#:#Die ausgewählten Elemente wurden in die Zwischenablage verschoben. Klicken Sie jetzt auf den entsprechenden Platzhalter, um diese in das Lernmodul einzufügen.
@@ -7630,6 +7630,7 @@ crs#:#crs_objective_status#:#Lernzielstatus
 crs#:#crs_objective_status_configure#:#Checkliste Kurs
 crs#:#crs_objective_status_itest#:#Einstiegstest konfigurieren
 crs#:#crs_objective_status_materials#:#Lerninhalte  hinzufügen
+crs#:#crs_objective_status_materials_info#:#Der Kurs hat momentan keinen Inhalt. Fügen Sie Lerninhalte hinzu, die Lernzielen zugeordnet werden können.
 crs#:#crs_objective_status_objective_creation#:#Lernziele hinzufügen
 crs#:#crs_objective_status_objectives#:#Lernziele konfigurieren
 crs#:#crs_objective_status_qtest#:#Abschlusstest konfigurieren
@@ -8464,10 +8465,10 @@ dcl#:#dcl_field_title_change_warning#:#Sie haben den Titel des Feldes geändert.
 dcl#:#dcl_field_title_unique#:#Es existiert bereits ein Feld mit diesem Titel. Titel muss eindeutig sein.
 dcl#:#dcl_field_visible#:#Sichtbar
 dcl#:#dcl_fieldtitle#:#Feldtitel
+dcl#:#dcl_file#:#Datei-Upload
+dcl#:#dcl_file_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können
 dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel-Format .xlsx vorliegen, mit den zu importierenden Daten auf der ersten Seite. In der ersten Zeile müssen die exakten Namen der Felder stehen (inklusive Grossschreibung) und in den folgenden Zeilen die Werte der zu importierenden Datensatzeinträge. Es wird empfohlen, jeden Import zuerst zu simulieren. Für den Import von mehrfachen Einträgen bei Auswahlmenü-Feldern und Referenzfeldern werden Semikolon und/oder Komma als Trenner akzeptiert.
 dcl#:#dcl_file_not_readable#:#Die Datei konnte nicht gelesen werden. Bitte verwenden Sie das .xlsx-Dateiformat.
-dcl#:#dcl_fileupload#:#Datei-Upload
-dcl#:#dcl_fileupload_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können
 dcl#:#dcl_filter#:#Im Filter verfügbar
 dcl#:#dcl_filter_changeable#:#Filter änderbar
 dcl#:#dcl_formula#:#Formel
@@ -8664,6 +8665,7 @@ dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
 dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (Regulärer Ausdruck).
 dcl#:#dlc_xls_async_export#:#Asynchroner XLSX export
 dcl#:#fieldtitle_allow_chars#:#Nicht Erlaubte Zeichen: %s
+dcl#:#fileupload_not_migrated#:#Die Datei wurde noch nicht migriert und kann nicht angezeigt werden. Bitte wenden Sie sich an Ihre System-Administration.
 didactic#:#activate_exclusive_template#:#Standard ausgrauen
 didactic#:#activate_exclusive_template_info#:#Die Standard-Vorlage wird überall dort ausgegraut, wo diese didaktische Vorlage aktiv ist.
 didactic#:#activate_local_didactic_template#:#Gültigkeitsbereich
@@ -10459,7 +10461,7 @@ lso#:#abstract_img#:#Bild für die Einleitungsseite
 lso#:#avail_time_period#:#Zeitraum
 lso#:#completed_steps#:#Bestandene Schritte
 lso#:#condition_always#:#Immer
-lso#:#curriculum#:#Curriculum
+lso#:#curriculum#:#Inhalt
 lso#:#delete_confirmation#:#Möchten Sie folgende Objekte wirklich löschen?
 lso#:#entries_deleted#:#Einträge wurden erfolgreich gelöscht.
 lso#:#entries_updated#:#Einträge gespeichert
@@ -10502,7 +10504,7 @@ lso#:#lso_mail_unsubscribe_member_bod#:#wir bestätigen Ihre Abmeldung von der L
 lso#:#lso_mail_unsubscribe_member_sub#:#Ihre Abmeldung von der Lernsequenz "%s"
 lso#:#lso_mail_wl_bod#:#Sie sind auf die Warteliste der Lernsequenz "%s" gesetzt worden und haben die Position %s auf der Warteliste.  Sie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
 lso#:#lso_mail_wl_sub#:#Ihre Anmeldung für Lernsequenz "%s"
-lso#:#lso_mainbar_button_label_curriculum#:#Curriculum
+lso#:#lso_mainbar_button_label_curriculum#:#Lernsequenz
 lso#:#lso_mainbar_button_label_toc#:#Inhalte
 lso#:#lso_mem_tbl_header#:#Lernsequenz Teilnehmer
 lso#:#lso_member_administration#:#Teilnehmerverwaltung
@@ -10929,6 +10931,7 @@ mail#:#mail_generic_rcp_error#:#Beim Validieren des „An”-Feldes ist ein Fehl
 mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Bitte tragen Sie hier die gewünschte 'Reply-To'-E-Mail-Adresse ein.
 mail#:#mail_grp_roles#:#alle Personen mit folgenden lokalen Rollen###Modified as part of gender mainstreaming activities for ILIAS 8. Label is now generalised for all components that support ‘mail to members‘
+mail#:#mail_hint_add_placeholder_x#:#Füge Platzhalter '%s' in den Textkörper der Nachricht ein.
 mail#:#mail_incoming#:#Maileingang
 mail#:#mail_incoming_both#:#Lokal und Weiterleitung an E-Mail
 mail#:#mail_incoming_local#:#Nur lokal empfangen
@@ -14923,6 +14926,7 @@ skmg#:#skmg_new_level#:#Neue Ausprägung
 skmg#:#skmg_new_sktr#:#Neue Vorlagenreferenz
 skmg#:#skmg_next_step#:#Nächster Schritt
 skmg#:#skmg_no_nodes_selectable#:#Zur Zeit sind keine Kompetenzen auswählbar.
+skmg#:#skmg_no_skill_entries#:#Sie besitzen für diese Kompetenz bisher keine Einträge.
 skmg#:#skmg_no_skills#:#Keine Kompetenz
 skmg#:#skmg_no_skills_selected_info#:#Sie haben noch keine Kompetenzen ausgewählt oder erworben. Klicken Sie auf den Button "Kompetenz hinzufügen" um eine Kompetenz auszuwählen. Sie können beliebig viele Kompetenzen hinzufügen. Wenn Sie Kompetenzen durch das Bearbeiten von Lerninhalten erwerben, werden diese automatisch hier aufgelistet.
 skmg#:#skmg_no_trigger#:#Kein Auslöser

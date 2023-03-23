@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 use ILIAS\Setup;
 
+/**
+ * @deprecated
+ */
 class ilPDFGenerationMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 {
     /**

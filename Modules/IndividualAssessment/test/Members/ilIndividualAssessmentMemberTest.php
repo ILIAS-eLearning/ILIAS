@@ -163,7 +163,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
             22222,
             0,
             0,
-            new DateTime('2021-11-25')
+            new DateTimeImmutable('2021-11-25')
         );
 
         $this->assertEquals('2021-11-25', $obj->changeTime()->format('Y-m-d'));
@@ -506,7 +506,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
             22222
         );
 
-        $new_obj = $obj->withChangeTime(new DateTime("2021-11-25"));
+        $new_obj = $obj->withChangeTime(new DateTimeImmutable("2021-11-25"));
 
         $this->assertNull($obj->changeTime());
         $this->assertEquals("2021-11-25", $new_obj->changeTime()->format("Y-m-d"));

@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclReferenceFieldModel
@@ -116,7 +115,7 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel
         $ref_field = $this->getFieldRef();
 
         return !($ref_field->getDatatypeId() == ilDclDatatype::INPUTFORMAT_MOB
-            || $ref_field->getDatatypeId() == ilDclDatatype::INPUTFORMAT_FILE);
+            || $ref_field->getDatatypeId() == ilDclDatatype::INPUTFORMAT_FILEUPLOAD);
     }
 
     public function getFieldRef(): ilDclBaseFieldModel

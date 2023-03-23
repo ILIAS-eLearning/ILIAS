@@ -313,7 +313,7 @@ class ilLTIConsumerContentGUI
 
             $v = DEVMODE ? '?vers=' . time() : '?vers=' . ILIAS_VERSION_NUMERIC;
             $tpl->setVariable("DELOS_CSS_HREF", 'templates/default/delos.css' . $v);
-            $tpl->setVariable("JQUERY_SRC", 'libs/bower/bower_components/jquery/dist/jquery.js' . $v);
+            $tpl->setVariable("JQUERY_SRC", 'node_modules/jquery/dist/jquery.js' . $v);
 
             $tpl->setVariable("LOADER_ICON_SRC", ilUtil::getImagePath("loader.svg"));
             $tpl->setVariable('LAUNCH_URL', $this->object->getProvider()->getProviderUrl());

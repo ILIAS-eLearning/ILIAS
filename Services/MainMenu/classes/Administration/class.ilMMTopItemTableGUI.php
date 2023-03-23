@@ -2,6 +2,22 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
 /**
@@ -96,7 +112,7 @@ class ilMMTopItemTableGUI extends ilTable2GUI
 
             $rendered_modal = "";
             if ($item_facade->isDeletable()) {
-                $ditem = $factory->modal()->interruptiveItem($this->hash($a_set['identification']), $item_facade->getDefaultTitle());
+                $ditem = $factory->modal()->interruptiveItem()->standard($this->hash($a_set['identification']), $item_facade->getDefaultTitle());
                 $action = $this->ctrl->getFormActionByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_DELETE);
                 $m = $factory->modal()
                                   ->interruptive($this->lng->txt(ilMMTopItemGUI::CMD_DELETE), $this->lng->txt(ilMMTopItemGUI::CMD_CONFIRM_DELETE), $action)

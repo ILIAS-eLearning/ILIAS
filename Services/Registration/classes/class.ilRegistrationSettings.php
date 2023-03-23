@@ -276,7 +276,7 @@ class ilRegistrationSettings
         // create login array
         $tmp_logins = [];
         foreach ($this->approve_recipient_ids as $id) {
-            if ($login = ilObjUser::_lookupLogin($id)) {
+            if ($login = ilObjUser::_lookupLogin((int) $id)) {
                 $tmp_logins[] = $login;
             }
         }

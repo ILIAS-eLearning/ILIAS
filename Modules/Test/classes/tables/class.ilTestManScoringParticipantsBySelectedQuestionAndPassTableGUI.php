@@ -168,7 +168,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 
         $this->tpl->setVariable('VAL_REACHED_POINTS', $a_set['reached_points']);
         $this->tpl->setVariable('VAL_MAX_POINTS', $a_set['maximum_points']);
-        $finalized = isset($row['finalized_evaluation']) && ((int) $a_set['finalized_evaluation']) === 1;
+        $finalized = isset($a_set['finalized_evaluation']) && ((int) $a_set['finalized_evaluation']) === 1;
         $this->tpl->setVariable(
             'VAL_EVALUATED',
             $finalized ? $this->lng->txt('yes') : $this->lng->txt('no')

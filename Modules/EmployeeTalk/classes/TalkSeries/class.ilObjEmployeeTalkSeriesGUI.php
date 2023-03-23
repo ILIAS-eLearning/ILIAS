@@ -94,17 +94,27 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         switch ($next_class) {
             case strtolower(ilRepositorySearchGUI::class):
                 $repo = new ilRepositorySearchGUI();
-                $repo->addUserAccessFilterCallable(function ($userIds) {
+                $repo->addUserAccessFilterCallable(function ($user_ids) {
+                    $access = new ilObjEmployeeTalkAccess();
                     /**
-                     * @var ilAccess $access
+                     * If the performance of the autocomplete tanks, it's
+                     * definitely because of calling canCreate separately
+                     * for each user.
+                     * It would be better to use:
+                     * $DIC->access()->filterUserIdsByPositionOfCurrentUser(
+                     *      ilOrgUnitOperation::OP_CREATE_EMPLOYEE_TALK,
+                     *      **Insert talk ref id here**,
+                     *      $userIds
+                     * );
+                     * but that function gets its context exclusively from
+                     * the ref_id of an object, and at this point there
+                     * might not even exist an object with type etal at all...
                      */
-                    $access = $GLOBALS['DIC']->access();
-
-                    //this method does not check permissions (ILIAS 6.7)
-                    return $access->filterUserIdsForUsersPositionsAndPermission(
-                        $userIds,
-                        $this->user->getId(),
-                        ''
+                    return array_filter(
+                        $user_ids,
+                        function (int $id) use ($access) {
+                            return $access->canCreate(new ilObjUser($id));
+                        }
                     );
                 });
                 $this->container->ctrl()->forwardCommand($repo);
