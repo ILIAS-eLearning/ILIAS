@@ -77,18 +77,18 @@ class ilUserDefinedFields
         }
         $parts = explode('_', $a_import_id);
 
-        if ($parts[0] != 'il') {
+        if (($parts[0] ?? '') != 'il') {
             return 0;
         }
-        if ($parts[1] != $ilSetting->get('inst_id', '0')) {
+        if (($parts[1] ?? '') != $ilSetting->get('inst_id', '0')) {
             return 0;
         }
-        if ($parts[2] != 'udf') {
+        if (($parts[2] ?? '') != 'udf') {
             return 0;
         }
-        if ($parts[3]) {
+        if ($parts[3] ?? false) {
             // Check if field exists
-            if (is_array($this->definitions[$parts[3]])) {
+            if (is_array(($this->definitions[$parts[3]] ?? false))) {
                 return $parts[3];
             }
         }
