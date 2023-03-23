@@ -29,6 +29,7 @@ namespace ILIAS\UI\Implementation\Component\Input;
 class FormInputNameSource implements NameSource
 {
     private int $count = 0;
+    private array $used_names = [];
 
     /**
      * @inheritDoc
@@ -40,6 +41,14 @@ class FormInputNameSource implements NameSource
 
     public function getNewDedicatedName(string $dedicated_name): string
     {
-        return $dedicated_name . '_' . $this->count++;
+        if ($dedicated_name == 'input') {
+            return $this->getNewName();
+        }
+        if (in_array($dedicated_name, $this->used_names)) {
+            return $dedicated_name . '_' . $this->count++;
+        } else {
+            $this->used_names[] = $dedicated_name;
+            return $dedicated_name;
+        }
     }
 }

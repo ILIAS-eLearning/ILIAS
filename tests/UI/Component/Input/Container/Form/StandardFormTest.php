@@ -128,7 +128,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
    <div class="form-group row">
       <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
       <div class="col-sm-8 col-md-9 col-lg-10">
-         <input id="id_1" type="text" name="form_0/input_1" class="form-control form-control-sm"/>
+         <input id="id_1" type="text" name="form/input_0" class="form-control form-control-sm"/>
          <div class="help-block">byline</div>
       </div>
    </div>
@@ -179,7 +179,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
    <div class="form-group row">
       <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
       <div class="col-sm-8 col-md-9 col-lg-10">
-         <input id="id_1" type="text" name="form_0/input_1" class="form-control form-control-sm"/>
+         <input id="id_1" type="text" name="form/input_0" class="form-control form-control-sm"/>
          <div class="help-block">byline</div>
       </div>
    </div>
@@ -212,7 +212,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
    <div class="form-group row">
       <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
       <div class="col-sm-8 col-md-9 col-lg-10">
-         <input id="id_1" type="text" name="form_0/input_1" class="form-control form-control-sm"/>
+         <input id="id_1" type="text" name="form/input_0" class="form-control form-control-sm"/>
          <div class="help-block">byline</div>
       </div>
    </div>
@@ -368,7 +368,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
     <div class="form-group row">
         <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label<span class="asterisk">*</span></label>
         <div class="col-sm-8 col-md-9 col-lg-10">
-            <input id="id_1" type="text" name="form_0/input_1" class="form-control form-control-sm"/>
+            <input id="id_1" type="text" name="form/input_0" class="form-control form-control-sm"/>
              <div class="help-block">byline</div>
         </div>
     </div>
