@@ -1048,10 +1048,12 @@ class ilSurveyEditorGUI
         $heading = new ilTextAreaInputGUI($this->lng->txt("heading"), "heading");
         $heading->setRows(10);
         $heading->setCols(80);
-        $heading->setUseRte(true);
-        $heading->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
-        $heading->removePlugin(ilRTE::ILIAS_IMG_MANAGER_PLUGIN);
-        $heading->setRTESupport($this->object->getId(), "svy", "survey");
+        if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+            $heading->setUseRte(true);
+            $heading->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
+            $heading->removePlugin(ilRTE::ILIAS_IMG_MANAGER_PLUGIN);
+            $heading->setRTESupport($this->object->getId(), "svy", "survey");
+        }
         $heading->setRequired(true);
         $form->addItem($heading);
 
