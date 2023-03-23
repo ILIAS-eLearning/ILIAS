@@ -1138,7 +1138,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * @param integer $max_points The maximum number of points for the solution
     * @access public
     */
-    public function getTextgapPoints($a_original, $a_entered, $max_points): int
+    public function getTextgapPoints($a_original, $a_entered, $max_points): float
     {
         global $DIC;
         $refinery = $DIC->refinery();
@@ -1238,8 +1238,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      */
     public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false)
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $this->db;
 
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
