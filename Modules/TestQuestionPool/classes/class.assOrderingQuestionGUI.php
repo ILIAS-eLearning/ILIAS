@@ -839,7 +839,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      */
     public function saveCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
-        $this->object->setPoints((float) $form->getInput('points'));
+        $this->object->setPoints((float) str_replace(',', '.', $form->getInput('points')));
 
         $submittedElementList = $this->fetchSolutionListFromSubmittedForm($form);
 

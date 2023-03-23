@@ -328,7 +328,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
     {
         $this->object->setLowerLimit($_POST['lowerlimit']);
         $this->object->setUpperLimit($_POST['upperlimit']);
-        $this->object->setPoints((float)$_POST['points']);
+        $this->object->setPoints((float) str_replace(',', '.', $_POST['points']));
     }
 
     public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form): ilPropertyFormGUI
@@ -533,8 +533,8 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
      */
     public function saveCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
-        $this->object->setPoints((float) $form->getInput('points'));
-        $this->object->setLowerLimit((float) $form->getInput('lowerlimit'));
-        $this->object->setUpperLimit((float) $form->getInput('upperlimit'));
+        $this->object->setPoints((float) str_replace(',', '.', $form->getInput('points')));
+        $this->object->setLowerLimit((float) str_replace(',', '.', $form->getInput('lowerlimit')));
+        $this->object->setUpperLimit((float) str_replace(',', '.', $form->getInput('upperlimit')));
     }
 }

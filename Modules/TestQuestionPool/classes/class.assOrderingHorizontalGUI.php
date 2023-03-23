@@ -372,7 +372,7 @@ JS;
     {
         $this->object->setTextSize($_POST["textsize"]);
         $this->object->setOrderText($_POST["ordertext"]);
-        $this->object->setPoints((float)$_POST["points"]);
+        $this->object->setPoints((float) str_replace(',', '.', $_POST["points"]));
     }
 
     /**
@@ -516,6 +516,6 @@ JS;
      */
     public function saveCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
-        $this->object->setPoints((float) $form->getInput('points'));
+        $this->object->setPoints((float) str_replace(',', '.', $form->getInput('points')));
     }
 }

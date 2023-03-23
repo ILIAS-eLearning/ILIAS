@@ -719,8 +719,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
                 $this->object->addAnswer(
                     $answertext,
-                    (float)$_POST['choice']['points'][$index],
-                    (float)$_POST['choice']['points_unchecked'][$index],
+                    (float) str_replace(',', '.', $_POST['choice']['points'][$index]),
+                    (float) str_replace(',', '.', $_POST['choice']['points_unchecked'][$index]),
                     $index,
                     $picturefile
                 );
@@ -730,8 +730,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                 $answertext = $answer;
                 $this->object->addAnswer(
                     $answertext,
-                    (float)$_POST['choice']['points'][$index],
-                    (float)$_POST['choice']['points_unchecked'][$index],
+                    (float) str_replace(',', '.', $_POST['choice']['points'][$index]),
+                    (float) str_replace(',', '.', $_POST['choice']['points_unchecked'][$index]),
                     $index
                 );
             }
@@ -1011,8 +1011,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
         foreach ($this->object->getAnswers() as $index => $answer) {
             /* @var ASS_AnswerMultipleResponseImage $answer */
-            $answer->setPointsChecked((float) $answerElements[$index]->getPointsChecked());
-            $answer->setPointsUnchecked((float) $answerElements[$index]->getPointsUnchecked());
+            $answer->setPointsChecked((float) str_replace(',', '.', $answerElements[$index]->getPointsChecked()));
+            $answer->setPointsUnchecked((float) str_replace(',', '.', $answerElements[$index]->getPointsUnchecked()));
         }
     }
 }

@@ -155,7 +155,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $this->object->addMatchingPair(
                     $this->object->getTermWithIdentifier($term_id),
                     $this->object->getDefinitionWithIdentifier($definition_id),
-                    (float)$points
+                    (float) str_replace(',', '.', $points)
                 );
             }
         }
@@ -1178,9 +1178,9 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $pair_terms = explode(',', $this->request->raw('pairs')['term_id']);
             $pair_definitions = explode(',', $this->request->raw('pairs')['definition_id']);
             $values = [];
-            foreach ($points_of_pairs as $idx=>$points) {
+            foreach ($points_of_pairs as $idx => $points) {
                 $k = implode('.', [$pair_terms[$idx],$pair_definitions[$idx]]);
-                $values[$k] = (float)$points;
+                $values[$k] = (float) str_replace(',', '.', $points);
             }
 
             foreach ($pairs as $idx => $pair) {

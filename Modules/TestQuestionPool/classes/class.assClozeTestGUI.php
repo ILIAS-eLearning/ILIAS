@@ -1789,7 +1789,7 @@ JS;
         $answers = $form->getItemByPostVar('gap_' . $gapIndex)->getValues();
 
         foreach ($gap->getItemsRaw() as $index => $item) {
-            $item->setPoints((float) $answers[$index]->getPoints());
+            $item->setPoints((float) str_replace(',', '.', $answers[$index]->getPoints()));
         }
     }
 
@@ -1798,7 +1798,7 @@ JS;
         $item->setAnswertext($form->getInput('gap_' . $gapIndex . '_numeric'));
         $item->setLowerBound($form->getInput('gap_' . $gapIndex . '_numeric_lower'));
         $item->setUpperBound($form->getInput('gap_' . $gapIndex . '_numeric_upper'));
-        $item->setPoints((float) $form->getInput('gap_' . $gapIndex . '_numeric_points'));
+        $item->setPoints((float) str_replace(',', '.', $form->getInput('gap_' . $gapIndex . '_numeric_points')));
     }
 
     protected function saveGapCombinationCorrectionFormProperties(ilPropertyFormGUI $form): void
@@ -1818,7 +1818,7 @@ JS;
             }
 
             foreach ($combi as $varId => $variant) {
-                $combinationPoints['points'][$combiId][$varId] = (float) $values[$varId]['points'];
+                $combinationPoints['points'][$combiId][$varId] = (float) str_replace(',', '.', $values[$varId]['points']);
                 $combinationPoints['select'][$combiId] = array_keys($values[$varId]['gaps']);
                 $combinationValues[$combiId][$varId] = array_values($values[$varId]['gaps']);
             }

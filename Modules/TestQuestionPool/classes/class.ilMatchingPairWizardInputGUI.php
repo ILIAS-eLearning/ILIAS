@@ -52,7 +52,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
                     $this->pairs[] = new assAnswerMatchingPair(
                         new assAnswerMatchingTerm('', '', $term),
                         new assAnswerMatchingDefinition('', '', $a_value['definition'][$idx]),
-                        (float)$a_value['points'][$idx]
+                        (float) $a_value['points'][$idx]
                     );
                 }
             }
