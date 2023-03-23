@@ -15022,6 +15022,10 @@ li.ilPostingNeedsActivation {
   display: inline-block;
 }
 
+.ilFrmPostActivationStatus {
+  color: #B54F00;
+}
+
 .ilForumTreeTitleUnread {
   font-weight: 600;
 }
