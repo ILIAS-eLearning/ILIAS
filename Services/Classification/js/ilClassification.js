@@ -14,7 +14,11 @@ il.Classification = {
 	},
 	toggle: function(args) {
 		this.loader(this.ajax_block_id + '_loader');	
-		this.loader(this.ajax_content_id);		
+		this.loader(this.ajax_content_id);
+		if (args.event) {
+			event.preventDefault();
+			event.stopPropagation();
+		}
 		il.Util.sendAjaxGetRequestToUrl(this.ajax_block_url, args, {el_id: this.ajax_block_id, content_url: this.ajax_content_url, content_id: this.ajax_content_id}, this.toggleReload)			
 	},
 	toggleReload: function(o) {				
