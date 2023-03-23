@@ -636,9 +636,9 @@ abstract class ilContainerContentGUI
         ilObjectActivation::addListGUIActivationProperty($item_list_gui, $a_item_data);
 
         $html = $item_list_gui->getListItemHTML(
-            $a_item_data['ref_id'],
-            $a_item_data['obj_id'],
-            $a_item_data['title'],
+            (int) $a_item_data['ref_id'],
+            (int) $a_item_data['obj_id'],
+            (string) $a_item_data['title'],
             (string) $a_item_data['description'],
             $asynch,
             false,
