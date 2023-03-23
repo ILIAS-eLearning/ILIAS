@@ -74,7 +74,7 @@ class ilMembershipCronMinMembers extends ilCronJob
     public function run(): ilCronJobResult
     {
         $status = ilCronJobResult::STATUS_NO_ACTION;
-        $message = null;
+        $message = '';
 
         $recipients_map = array();
 
@@ -85,7 +85,6 @@ class ilMembershipCronMinMembers extends ilCronJob
             foreach ($recipients_map as $reci_id => $items) {
                 $this->sendMessage($reci_id, $items);
             }
-
             $status = ilCronJobResult::STATUS_OK;
             $message = count($recipients_map) . " notifications sent";
         }
