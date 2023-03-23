@@ -1876,8 +1876,7 @@ abstract class assQuestion
     */
     public function createNewQuestion(bool $a_create_page = true): int
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
+        $ilUser = $this->current_user;
 
         $complete = "0";
         $estw_time = $this->getEstimatedWorkingTime();
