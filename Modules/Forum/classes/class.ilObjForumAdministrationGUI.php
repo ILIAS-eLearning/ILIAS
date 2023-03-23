@@ -140,7 +140,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $frma_set = new ilSetting('frma');
 
         $form->setValuesByArray([
-            'forum_enable_print' => (string) $this->settings->get('forum_enable_print', '0'),
+            'forum_enable_print' => (bool) $this->settings->get('forum_enable_print', '0'),
             'fora_statistics' => (bool) $this->settings->get('enable_fora_statistics'),
             'anonymous_fora' => (bool) $this->settings->get('enable_anonymous_fora'),
             'forum_notification' => (int) $this->settings->get('forum_notification', '0') === 1,
@@ -162,6 +162,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $form->setTitle($this->lng->txt('settings'));
 
         $print_cb = new ilCheckboxInputGUI($this->lng->txt('frm_enable_print_option'), 'forum_enable_print');
+        $print_cb->setValue('1');
         $print_cb->setInfo($this->lng->txt('frm_enable_print_option_desc'));
         $form->addItem($print_cb);
 

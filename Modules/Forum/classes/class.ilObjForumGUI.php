@@ -2909,7 +2909,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $thr_pk = $this->retrieveThrPk();
 
         $bottom_toolbar = clone $this->toolbar;
-        $bottom_toolbar_split_button_items = [];
+        $toolbar_items = [];
 
         // quick and dirty: check for treeview
         $thread_control_session_values = ilSession::get('thread_control');
@@ -2969,6 +2969,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $additionalDataExists = $toolContext->getAdditionalData()->exists(ForumGlobalScreenToolsProvider::SHOW_FORUM_THREADS_TOOL);
         $subtree_nodes = $this->objCurrentTopic->getPostTree($firstNodeInThread);
         $numberOfPostings = count($subtree_nodes);
+        // TODO
         if ($numberOfPostings > 0 && !$additionalDataExists && $this->selectedSorting === ilForumProperties::VIEW_TREE) {
             $toolContext
                 ->addAdditionalData(ForumGlobalScreenToolsProvider::SHOW_FORUM_THREADS_TOOL, true)
@@ -3062,7 +3063,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     $this->ctrl->getLinkTarget($this, 'viewThread')
                 );
 
-                $bottom_toolbar_split_button_items[] = $mark_thr_read_button;
+                $toolbar_items[] = $mark_thr_read_button;
 
                 $this->ctrl->clearParameters($this);
             }
@@ -3079,7 +3080,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     $this->lng->txt('forums_print_thread'),
                     $this->ctrl->getLinkTargetByClass(ilForumExportGUI::class, 'printThread')
                 );
-                $bottom_toolbar_split_button_items[] = $print_thr_button;
+                $toolbar_items[] = $print_thr_button;
             }
 
 
@@ -3125,11 +3126,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     );
                 }
                 $this->ctrl->clearParameters($this);
-                array_unshift($bottom_toolbar_split_button_items, $reply_button);
+                array_unshift($toolbar_items, $reply_button);
             }
 
             // no posts
-            if (!$numberOfPostings && $firstNodeInThread->getId() === 0) {
+            if ($numberOfPostings === 0 && $firstNodeInThread->getId() === 0) {
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt('forums_no_posts_available'));
             }
 
@@ -3302,11 +3303,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $threadContentTemplate->setVariable('TOOLBAR_BOTTOM', $bottom_toolbar->getHTML());
         }
 
-        if ($bottom_toolbar_split_button_items !== []) {
-            foreach ($bottom_toolbar_split_button_items as $key => $item) {
+        if ($toolbar_items !== []) {
+            foreach ($toolbar_items as $component_index => $item) {
                 $this->toolbar->addComponent($item);
                 $bottom_toolbar->addComponent($item);
-                if ($key === 0 && $numberOfPostings > 0) {
+                if ($component_index === 0 && $numberOfPostings > 0) {
                     $this->renderViewModeControl($this->selectedSorting);
                     if ($this->selectedSorting !== ilForumProperties::VIEW_TREE) {
                         $this->renderSortationControl($this->selectedSorting);
