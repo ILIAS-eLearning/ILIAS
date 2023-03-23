@@ -308,8 +308,6 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
             $sourcePoolDefinitionList->loadDefinitions();
 
             foreach ($sourcePoolDefinitionList as $definition) {
-                /** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
-
                 if ($definition->getQuestionAmount() < 1) {
                     return false;
                 }
