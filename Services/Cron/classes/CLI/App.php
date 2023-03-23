@@ -18,12 +18,20 @@
 
 declare(strict_types=1);
 
-chdir(__DIR__);
-chdir('..');
+namespace ILIAS\Cron\CLI;
 
-require_once './libs/composer/vendor/autoload.php';
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
 
-$cron = new ILIAS\Cron\CLI\App(
-    new ILIAS\Cron\CLI\Commands\RunActiveJobsCommand()
-);
-$cron->run();
+class App extends Application
+{
+    public const NAME = "The ILIAS cron job script";
+
+    public function __construct(Command ...$commands)
+    {
+        parent::__construct(self::NAME);
+        foreach ($commands as $c) {
+            $this->add($c);
+        }
+    }
+}
