@@ -1028,6 +1028,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $tpl->setVariable('SUBJECT', $draft->getPostSubject());
             $tpl->setVariable('POST_DATE', $frm->convertDate($draft->getPostDate()));
 
+            $tpl->setVariable('POST_DRAFT_TEXT', $this->lng->txt('post_draft_info'));
+
             if (!$referencePosting->isCensored() || ($this->objCurrentPost->getId() === $referencePosting->getId() && $action === 'censor')) {
                 $spanClass = '';
                 if (ilForum::_isModerator($this->ref_id, $draft->getPostDisplayUserId())) {

@@ -9790,6 +9790,7 @@ forum#:#post_activation_desc#:#Alle Beiträge müssen durch die Moderation freig
 forum#:#post_censored_by#:#folgender Beitrag im Forum "%2$s" wurde von "%1$s" zensiert:
 forum#:#post_censored_comment_by_moderator#:#Beitrag zensiert! Bemerkung des Moderation###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#post_deleted_by#:#folgender Beitrag im Forum "%2$s" wurde von "%1$s" gelöscht:
+forum#:#post_draft_info#:#Der Inhalt dieses Beitrags ist als Entwurf nur für Sie sichtbar.
 forum#:#post_reply#:#Re:
 forum#:#post_reply_count#:#Re (%s):
 forum#:#post_uncensored_by#:#für folgenden Beitrag wurde die Zensur von "%1$s" aufgehoben:
@@ -9812,9 +9813,9 @@ forum#:#select_at_least_one_thread#:#Es muss mindestens ein Thema gewählt werde
 forum#:#select_max_one_thread#:#Bitte wählen Sie nur ein Thema aus!
 forum#:#selected_threads_closed#:#Die gewählten Themen wurden geschlossen.
 forum#:#selected_threads_reopened#:#Die gewählten Themen wurden wiedereröffnet.
-forum#:#sort_by_date#:#Sortieren nach Datum
+forum#:#sort_by_date#:#Nach Datum sortieren
 forum#:#sort_by_date_desc#:#Das Thema wird in flacher Ansicht präsentiert. Die Beiträge werden in der zeitlichen Reihenfolge der Erstellung gezeigt.
-forum#:#sort_by_posts#:#Nach Beiträgen sortieren
+forum#:#sort_by_posts#:#Nach Beiträge sortieren
 forum#:#sort_by_posts_desc#:#Das Thema wird in einer Baumansicht präsentiert. Antworten auf Beiträge werden in der Reihenfolge gezeigt, in der sie sich aufeinander beziehen.
 forum#:#sorting#:#Sortierung
 forum#:#sorting_manual_sticky#:#Sortierung der Top-Themen
