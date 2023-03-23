@@ -1439,7 +1439,7 @@ assessment#:#tst_failed#:#Durchgefallen
 assessment#:#tst_failed_imp_qst_skl_assign#:#Die Zuweisungen der Fragen zu folgenden Kompetenzen konnte durch den Import nicht hergestellt werden. Die entsprechenden Kompetenzen konnten im hiesigen System nicht identifiziert werden.
 assessment#:#tst_failed_imp_skl_thresholds#:#Der Import der Schwellenwerte für folgende Kompetenzen wurde übersprungen, weil die zugehörige Kompetenz im lokalen System eine abweichende Liste von Ausprägungen aufweist.
 assessment#:#tst_feedback#:#Rückmeldung
-assessment#:#tst_feedback_is_given_inline#:#Die Rückmeldung wird bei Ihrer Antwort angezeigt.
+assessment#:#tst_feedback_is_given_inline#:#Die Rückmeldung wird direkt unter Ihrer Antwort angezeigt.
 assessment#:#tst_feedback_not_available_for_answer#:#Für Ihre Antwort ist keine Rückmeldung verfügbar.
 assessment#:#tst_filter_lifecycle_enabled#:#Filter „Lebenszyklus“ verwenden
 assessment#:#tst_filter_question_type#:#Fragentyp
