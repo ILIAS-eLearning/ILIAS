@@ -63,6 +63,9 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
         $this->setDefaultOrderField(self::COL_LANGUAGE);
         $this->setDefaultOrderDirection('asc');
 
+        $this->setLimit(9999);
+        $this->setShowRowsSelector(false);
+
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
     }
 
