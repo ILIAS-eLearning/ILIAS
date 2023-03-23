@@ -7,7 +7,9 @@
 		<b><a href="#" title="{PLACEHOLDER_INTERACTION_INFO}">{PLACEHOLDER}</a></b>: {PLACEHOLDER_DESCRIPTION}<br />
 		<!-- END man_placeholder -->
 		<script>
-			il.Mail.initMailPlaceholderSelection(document.querySelectorAll('#placeholders_box a'), '{DEPENDENCY_ELM_ID_OUTER}');
+			document.addEventListener("DOMContentLoaded", (event) => {
+				il.Mail.initMailPlaceholderSelection(document.querySelectorAll('#placeholders_box a'), '{DEPENDENCY_ELM_ID_OUTER}');
+			});
 		</script>
 	</div>
 </div>
