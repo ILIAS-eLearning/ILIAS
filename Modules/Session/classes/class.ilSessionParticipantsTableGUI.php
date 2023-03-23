@@ -205,7 +205,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
             // user filter
             $user_query = new ilUserQuery();
             $user_query->setLimit(50000);
-            $user_query->setUserFilter(array_keys($all_possible_participants));
+            $user_query->setUserFilter($all_possible_participants);
             $user_query->setTextFilter((string) $this->current_filter['login']);
             $res = $user_query->query();
             $all_participants = $res['set'];
@@ -263,7 +263,20 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
      */
     protected function collectParticipants(): array
     {
-        return $this->getParticipants()->getEventParticipants()->getParticipants();
+        $direct_participants = $this->getParticipants()
+                                    ->getEventParticipants()
+                                    ->getParticipants();
+        $direct_participants = array_keys($direct_participants);
+
+        $part = ilParticipants::getInstance($this->member_ref_id);
+        if (!$part instanceof ilParticipants) {
+            return $direct_participants;
+        }
+
+        return array_unique(array_merge(
+            $direct_participants,
+            $part->getParticipants()
+        ));
     }
 
     protected function matchesFilterCriteria(array $a_user_info): bool
