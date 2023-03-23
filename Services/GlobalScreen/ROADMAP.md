@@ -1,20 +1,3 @@
 # Roadmap
 
-
-## Short Term
-
-### Title Short Term Goal 1 ...
-Description short term goal 1 ...
-
-
-## Mid Term
-
-### Title Mid Term Goal 1 ...
-Description mid term goal 1 ...
-
-
-## Long Term
-
-### Title Long Term Goal 1 ...
-Description long term goal 1 ...
-
+see Roadmap of the Service in [src/GlobalScreen](../../src/GlobalScreen/ROADMAP.md)

@@ -3,18 +3,14 @@
 
 ## Short Term
 
-### Title Short Term Goal 1 ...
-Description short term goal 1 ...
+### Curently no short term goals
 
 
 ## Mid Term
 
-### Title Mid Term Goal 1 ...
-Description mid term goal 1 ...
+### Currently no mid term goals
 
 
 ## Long Term
 
-### Title Long Term Goal 1 ...
-Description long term goal 1 ...
-
+### Currently no long term goals
