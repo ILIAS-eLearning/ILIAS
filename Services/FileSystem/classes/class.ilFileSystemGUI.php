@@ -21,6 +21,8 @@ use ILIAS\FileUpload\Location;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 
+use ILIAS\ResourceStorage\Preloader\SecureString;
+
 /**
  * File System Explorer GUI class
  *
@@ -28,6 +30,7 @@ use ILIAS\Filesystem\Util\LegacyPathHelper;
  */
 class ilFileSystemGUI
 {
+    use SecureString; // This is just for those legacy classes which will be removed soon anyway.
     public const PARAMETER_CDIR = "cdir";
     public const SESSION_LAST_COMMAND = "fsys_lastcomm";
     public const PARAMETER_NEWDIR = "newdir";
@@ -663,7 +666,7 @@ class ilFileSystemGUI
             ? $this->wrapper->post()->retrieve(self::POST_PARAM_UPLOADED_FILE, $this->refinery->to()->string())
             : '';
         if (is_file($_FILES["new_file"]["tmp_name"])) {
-            $name = ilUtil::stripSlashes($_FILES["new_file"]["name"]);
+            $name = $this->secure(ilUtil::stripSlashes($_FILES["new_file"]["name"]));
             $tgt_file = $cur_dir . "/" . $name;
 
             // use filesystem directly
