@@ -5261,6 +5261,7 @@ common#:#predefined_template#:#Vordefinierte Rollenvorlage
 common#:#preferences#:#Benutzerdefinierte Einstellungen
 common#:#presentation_table_more#:#Mehr anzeigen
 common#:#preview#:#Vorschau
+common#:#preview_caption#:#Vorschau %svon %s
 common#:#preview_create#:#Vorschau erstellen
 common#:#preview_delete#:#Vorschau löschen
 common#:#preview_learner_info#:#Wenn aktiviert, wird Kurs- und Gruppenadministratoren die Möglichkeit angeboten, den Kurs oder die Gruppe aus Sicht eines fiktiven Kurs- bzw. Gruppenmitglieds zu betrachten.
@@ -9490,7 +9491,6 @@ file#:#generate_sanitize_report#:#Report über nicht erreichbare Dateien
 file#:#migrated#:#Status
 file#:#msg_unzip_success#:#Archiv wurde erfolreich entpackt.
 file#:#not_yet_migrated#:#Dieses Datei-Objekt wurde noch nicht migriert und es können keine neue Versionen angelegt werden. Wenden Sie sich an die Administratoren der Plattform.
-common#:#preview_caption#:#Vorschau %svon %s
 file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
 file#:#resource_id#:#Ressourcen ID
 file#:#storage_id#:#Storage ID
