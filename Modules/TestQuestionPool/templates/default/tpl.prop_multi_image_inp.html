@@ -1,0 +1,48 @@
+<div class="form-inlne" id="{ELEMENT_ID}">
+    <table class="imagewizard table table-condensed table-striped">
+        <tbody class="ilWzdContainerImage">
+        <!-- BEGIN row -->
+        <tr class="ilWzdRow">
+            <td class="imagecolumn">
+                <!-- BEGIN addimage -->
+                <input type="hidden" name="{COUNT_POST_VAR}" value="1" />
+                <div class="imageselection">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <span class="btn btn-default btn-file">
+                                        {IMAGE_BROWSE} <input class="upload" type="file" id="{IMAGE_ID}" name="{UPLOAD_IMAGE_POST_VAR}" size="20" />
+                                    </span>
+                                </span>
+                                <input tabindex="-1" type="text" class="form-control" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="submit" class="btn btn-default" name="{IMAGE_CMD_UPLOAD}" value="{TXT_IMAGE_SUBMIT}" />
+                        </div>
+                    </div>
+                    <!-- BEGIN image -->
+                    <div class="imagepresentation">
+                        <input type="hidden" name="{STORED_IMAGE_POST_VAR}" value="{STORED_IMAGE_FILENAME}" />
+                        <img style="margin: 5px 0px 5px 0px;" src="{STORED_IMAGE_SRC}" alt="{STORED_IMAGE_ALT}" {WIDTH} {HEIGHT}  /><br />
+                        <input type="submit" class="btn btn-default" name="{IMAGE_CMD_REMOVE}" value="{TXT_DELETE_EXISTING}" /><br />
+                    </div>
+                    <!-- END image -->
+                </div>
+                <!-- END addimage -->
+            </td>
+            <td class="ilValignTop">
+                <button type="button" name="{CMD_ADD}" class="ilWzdBtn_add btn btn-link" id="{ID_ADD}" onclick="javascript: void(0); return false;">{ADD_BUTTON}</button>
+                <button type="button" name="{CMD_REMOVE}" class="ilWzdBtn_remove btn btn-link" id="{ID_REMOVE}" onclick="javascript: void(0); return false;">{REMOVE_BUTTON}</button>
+                <!-- BEGIN move -->
+                <button type="button" name="{CMD_UP}" class="ilWzdBtn_up btn btn-link" id="{ID_UP}" onclick="javascript: void(0); return false;">{UP_BUTTON}</button>
+                <button type="button" name="{CMD_DOWN}" class="ilWzdBtn_down btn btn-link" id="{ID_DOWN}" onclick="javascript: void(0); return false;">{DOWN_BUTTON}</button>
+                <!-- END move -->
+            </td>
+        </tr>
+        <!-- END row -->
+        </tbody>
+    </table>
+    <div class="ilFormInfo">{TXT_MAX_SIZE}<!-- BEGIN allowed_image_suffixes --> {TXT_ALLOWED_SUFFIXES}<!-- END allowed_image_suffixes --></div>
+</div>

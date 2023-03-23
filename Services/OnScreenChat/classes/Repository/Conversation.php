@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\OnScreenChat\Repository;
 
 use ilDBInterface;
@@ -31,13 +31,8 @@ use ilObjUser;
  */
 class Conversation
 {
-    private ilDBInterface $db;
-    protected ilObjUser $user;
-
-    public function __construct(ilDBInterface $db, ilObjUser $user)
+    public function __construct(private readonly ilDBInterface $db, protected ilObjUser $user)
     {
-        $this->db = $db;
-        $this->user = $user;
     }
 
     /**
@@ -58,7 +53,7 @@ class Conversation
         );
 
         while ($row = $this->db->fetchAssoc($res)) {
-            $participants = json_decode($row['participants'], true, 512, JSON_THROW_ON_ERROR);
+            $participants = json_decode((string) $row['participants'], true, 512, JSON_THROW_ON_ERROR);
             $participantIds = array_filter(array_map(static function ($user): int {
                 if (is_array($user) && isset($user['id'])) {
                     return (int) $user['id'];

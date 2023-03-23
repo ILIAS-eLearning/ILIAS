@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclTextFieldRepresentation
@@ -53,7 +52,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
         foreach ($reftable->getRecords() as $record) {
             // If the referenced field is MOB or FILE, we display the filename in the dropdown
             switch ($reffield->getDatatypeId()) {
-                case ilDclDatatype::INPUTFORMAT_FILE:
+                case ilDclDatatype::INPUTFORMAT_FILEUPLOAD:
                     $file_obj = new ilObjFile($record->getRecordFieldValue($fieldref), false);
                     $options[$record->getId()] = $file_obj->getFileName();
                     break;

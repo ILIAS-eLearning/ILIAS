@@ -29,7 +29,6 @@ class ilAssErrorTextCorrectionsInputGUI extends ilErrorTextWizardInputGUI
     public function setValue($a_value): void
     {
         if (is_array($a_value)) {
-            include_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
             if (is_array($a_value['points'])) {
                 foreach ($this->values as $idx => $key) {
                     $this->values[$idx]->points = (

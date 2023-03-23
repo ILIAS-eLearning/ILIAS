@@ -8,6 +8,8 @@
 //## Variables that modify and minpulate the appearance of modals
 //** Controls the speed of the fade in/out of the modal
 $il-modal-transition-speed: 0.15s;
+$il-modal-light-color: $il-main-bg;
+$il-modal-dark-color: $il-neutral-color;
 
 .modal {
 	&.fade{
@@ -23,31 +25,53 @@ $il-modal-transition-speed: 0.15s;
 			@include btstrp3.transition-transform(unquote("#{$il-modal-transition-speed} ease-out"));
 		}
 	}
+	&.il-modal-lightbox-dark {
+		.modal-content {
+			background-color: $il-modal-dark-color;
+			color: $il-modal-light-color;
+			.modal-header {
+				border-bottom-color: $il-modal-dark-color;
+			}
+		}
+		.close {
+			color: $il-modal-light-color;
+			opacity: 1;
+		}
+	}
 }
 
 .carousel {
 	.carousel-inner {
 		min-height: 400px;
+
+		.item:not(.text-only) .item-content {
+			display: flex;
+			justify-content: center
+		}
 	}
 
-	.carousel-indicators li {
-		border-color: $il-main-border-color;
-		background-color: $il-main-color;
+	.carousel-indicators {
+		position: relative; // show indicators on top of the image
+		li {
+			border-color: $il-main-bg;
+			background-color: $il-neutral-color;
 
-		&.active {
-			background-color: $il-main-bg;
+			&.active {
+				background-color: $il-main-bg;
+				border-color: $il-neutral-color;
+			}
 		}
 	}
 
 	.carousel-control {
 		background: transparent;
-		color: $il-main-color;
-		text-shadow: 0px 0px 8px $il-main-bg;
+		color: $il-main-bg;
+		text-shadow: 0px 0px 4px $il-neutral-color;
 		opacity: 0.9;
 		&:hover, &:focus-visible {
 			position: absolute;
 			opacity: 1;
-			text-shadow: 0px 0px 10px $il-main-bg;
+			text-shadow: 0px 0px 8px $il-neutral-color;
 		}
 	}
 }

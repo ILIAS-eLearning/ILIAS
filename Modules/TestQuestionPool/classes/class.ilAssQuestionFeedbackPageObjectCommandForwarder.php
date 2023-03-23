@@ -104,9 +104,7 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
      */
     public function getPageObjectGUI($pageObjectType, $pageObjectId)
     {
-        include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssQuestionFeedback.php");
         if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK) {
-            include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssGenFeedbackPageGUI.php");
             $pageObjectGUI = new ilAssGenFeedbackPageGUI($pageObjectId);
             $pageObjectGUI->obj->addUpdateListener(
                 $this->questionOBJ,
@@ -114,7 +112,6 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
             );
             return $pageObjectGUI;
         }
-        include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPageGUI.php");
         $pageObjectGUI = new ilAssSpecFeedbackPageGUI($pageObjectId);
         $pageObjectGUI->obj->addUpdateListener(
             $this->questionOBJ,

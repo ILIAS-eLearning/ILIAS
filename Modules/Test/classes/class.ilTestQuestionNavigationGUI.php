@@ -394,7 +394,6 @@ class ilTestQuestionNavigationGUI
     {
         $tpl = $this->getTemplate('actions');
 
-        include_once("Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
         $actions = new ilGroupedListGUI();
         $actions->setAsDropDown(true, true);
 
@@ -482,7 +481,6 @@ class ilTestQuestionNavigationGUI
             );
         }
 
-        // render the mark icon
         if ($this->getQuestionMarkLinkTarget()) {
             $this->renderActionsIcon(
                 $tpl,
@@ -492,8 +490,6 @@ class ilTestQuestionNavigationGUI
             );
         }
 
-        // render the action menu
-        include_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
         $list = new ilAdvancedSelectionListGUI();
         $list->setSelectionHeaderClass('btn-primary');
         $list->setId('QuestionActions');

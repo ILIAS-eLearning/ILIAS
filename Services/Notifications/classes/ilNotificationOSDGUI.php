@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Notifications;
 
 use ilGlobalTemplateInterface;
-use ILIAS\DI\UIServices;
 use iljQueryUtil;
 use ilLanguage;
 use ilObjUser;
@@ -34,19 +33,15 @@ use ilTemplate;
  */
 class ilNotificationOSDGUI
 {
-    public const DEFAULT_POLLING_INTERVAL = 60000;
+    final public const DEFAULT_POLLING_INTERVAL = 60000;
 
     protected ilObjUser $user;
-    protected ilGlobalTemplateInterface $page;
-    protected ilLanguage $lng;
 
-    public function __construct(ilGlobalTemplateInterface $page, ilLanguage $language)
+    public function __construct(protected ilGlobalTemplateInterface $page, protected ilLanguage $lng)
     {
         global $DIC;
 
         $this->user = $DIC->user();
-        $this->page = $page;
-        $this->lng = $language;
     }
 
     public function populatePage(): void

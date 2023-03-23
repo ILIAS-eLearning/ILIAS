@@ -44,7 +44,6 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     public function __construct($id = -1)
     {
         parent::__construct();
-        include_once "./Modules/TestQuestionPool/classes/class.assSingleChoice.php";
         $this->object = new assSingleChoice();
         if ($id >= 0) {
             $this->object->loadFromDb($id);
@@ -66,7 +65,6 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     {
         $hasErrors = (!$always) ? $this->editQuestion(true) : false;
         if (!$hasErrors) {
-            require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
             $this->writeQuestionGenericPostData();
             $this->writeQuestionSpecificPostData(new ilPropertyFormGUI());
             $this->writeAnswerSpecificPostData(new ilPropertyFormGUI());
@@ -109,7 +107,6 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $save = $this->isSaveCommand();
         $this->getQuestionTemplate();
 
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $this->editForm = $form;
 
@@ -266,8 +263,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             }
             $user_solution = $found_index;
         }
-        // generate the question output
-        include_once "./Services/UICore/classes/class.ilTemplate.php";
+
         $template = new ilTemplate("tpl.il_as_qpl_mc_sr_output_solution.html", true, true, "Modules/TestQuestionPool");
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
         foreach ($keys as $answer_id) {
@@ -367,8 +363,6 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     {
         $keys = $this->getChoiceKeys();
 
-        // generate the question output
-        include_once "./Services/UICore/classes/class.ilTemplate.php";
         $template = new ilTemplate("tpl.il_as_qpl_mc_sr_output.html", true, true, "Modules/TestQuestionPool");
         foreach ($keys as $answer_id) {
             $answer = $this->object->answers[$answer_id];
@@ -448,8 +442,6 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             }
         }
 
-        // generate the question output
-        include_once "./Services/UICore/classes/class.ilTemplate.php";
         $template = new ilTemplate("tpl.il_as_qpl_mc_sr_output.html", true, true, "Modules/TestQuestionPool");
         foreach ($keys as $answer_id) {
             $answer = $this->object->answers[$answer_id];
@@ -814,7 +806,6 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
     public function populateCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
-        require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssSingleChoiceCorrectionsInputGUI.php';
         $choices = new ilAssSingleChoiceCorrectionsInputGUI($this->lng->txt("answers"), "choice");
         $choices->setRequired(true);
         $choices->setQuestionObject($this->object);
@@ -827,11 +818,13 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
      */
     public function saveCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
-        $points = $form->getItemByPostVar('choice');
+        $input = $form->getItemByPostVar('choice');
+        $values = $input->getValues();
 
         foreach ($this->object->getAnswers() as $index => $answer) {
             /* @var ASS_AnswerMultipleResponseImage $answer */
-            $answer->setPoints((float) $points[$index]->getPoints());
+            $points = (float) str_replace(',', '.', $values[$index]->getPoints());
+            $answer->setPoints($points);
         }
     }
 }

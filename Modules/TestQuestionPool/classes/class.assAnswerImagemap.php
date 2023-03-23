@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
 * Class for true/false or yes/no answers

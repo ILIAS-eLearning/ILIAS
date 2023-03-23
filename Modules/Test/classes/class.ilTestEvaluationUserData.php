@@ -25,8 +25,7 @@
 * @defgroup ModulesTest Modules/Test
 * @extends ilObject
 */
-include_once "./Services/Object/classes/class.ilObject.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 class ilTestEvaluationUserData
 {
@@ -402,7 +401,7 @@ class ilTestEvaluationUserData
     {
         $bestpoints = 0;
         $bestpass = null;
-        
+
         $obligationsAnsweredPassExists = $this->doesObligationsAnsweredPassExist();
 
         foreach ($this->passes as $pass) {
@@ -415,7 +414,7 @@ class ilTestEvaluationUserData
                 $bestpass = $pass->getPass();
             }
         }
-        
+
         return (int) $bestpass;
     }
 

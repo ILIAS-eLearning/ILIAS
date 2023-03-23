@@ -93,8 +93,6 @@ class ilTestArchiveService
         );
 
         $gui = new ilTestServiceGUI($this->testOBJ);
-
-        require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
         $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($GLOBALS['DIC']->language(), $GLOBALS['DIC']['ilObjDataCache']);
 
         return $gui->getPassListOfAnswers(

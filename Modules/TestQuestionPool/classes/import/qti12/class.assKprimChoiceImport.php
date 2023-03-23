@@ -15,9 +15,6 @@
  *
  *********************************************************************/
 
-require_once 'Modules/TestQuestionPool/classes/import/qti12/class.assQuestionImport.php';
-require_once 'Modules/TestQuestionPool/classes/class.ilAssKprimChoiceAnswer.php';
-
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -237,7 +234,6 @@ class assKprimChoiceImport extends assQuestionImport
             if (is_array($answer["imagefile"]) && (count($answer["imagefile"]) > 0)) {
                 $image = base64_decode($answer["imagefile"]["content"]);
                 $imagepath = $this->object->getImagePath();
-                include_once "./Services/Utilities/classes/class.ilUtil.php";
                 if (!file_exists($imagepath)) {
                     ilFileUtils::makeDirParents($imagepath);
                 }
@@ -266,8 +262,6 @@ class assKprimChoiceImport extends assQuestionImport
         $questiontext = $this->object->getQuestion();
         $answers = $this->object->getAnswers();
         if (is_array(ilSession::get("import_mob_xhtml"))) {
-            include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-            include_once "./Services/RTE/classes/class.ilRTE.php";
             foreach (ilSession::get("import_mob_xhtml") as $mob) {
                 if ($tst_id > 0) {
                     $importfile = $this->getTstImportArchivDirectory() . '/' . $mob["uri"];

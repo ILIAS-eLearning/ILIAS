@@ -170,22 +170,25 @@ class ilLOEditorStatus
         if (!$this->getObjectivesAvailableStatus()) {
             return 'showObjectiveCreation';
         }
+        if (!$this->getMaterialsStatus(false)) {
+            return 'materials';
+        }
         if ($this->getSettings()->worksWithInitialTest()) {
             if (!$this->getInitialTestStatus(false)) {
                 $this->forced_test_type = ilLOSettings::TYPE_TEST_INITIAL;
                 if ($this->getSettings()->hasSeparateInitialTests()) {
-                    return 'testsOverview';
+                    return 'testsOverviewInitial';
                 } else {
-                    return 'testOverview';
+                    return 'testOverviewInitial';
                 }
             }
         }
         if (!$this->getQualifiedTestStatus(false)) {
             $this->forced_test_type = ilLOSettings::TYPE_TEST_QUALIFIED;
             if ($this->getSettings()->hasSeparateQualifiedTests()) {
-                return 'testsOverview';
+                return 'testsOverviewQualified';
             } else {
-                return 'testOverview';
+                return 'testOverviewQualified';
             }
         }
         return 'listObjectives';

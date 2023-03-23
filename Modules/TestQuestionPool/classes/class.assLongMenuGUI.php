@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-include_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
  * @version		$Id$
@@ -32,7 +32,6 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
     public function __construct($id = -1)
     {
         parent::__construct();
-        include_once './Modules/TestQuestionPool/classes/class.assLongMenu.php';
         $this->object = new assLongMenu();
         if ($id >= 0) {
             $this->object->loadFromDb($id);
@@ -161,7 +160,6 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $long_menu_text->setCols(80);
         if (!$this->object->getSelfAssessmentEditingMode()) {
             if ($this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE) {
-                include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
                 $long_menu_text->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
                 $long_menu_text->addPlugin("latex");
                 $long_menu_text->addButton("latex");
@@ -170,7 +168,6 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
                 $long_menu_text->setUseRte(true);
             }
         } else {
-            require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
             $long_menu_text->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
             $long_menu_text->setUseTagsForRteOnly(false);
         }
@@ -257,7 +254,6 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $tpl->setVariable('SAVE', $this->lng->txt('save'));
         $tpl->setVariable('CANCEL', $this->lng->txt('cancel'));
         $tag_input = new ilTagInputGUI();
-        $tag_input->setTypeAhead(true);
         $tag_input->setPostVar('taggable');
         $tag_input->setJsSelfInit(false);
         $tag_input->setTypeAheadMinLength(1);

@@ -152,15 +152,18 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 
                     $this->tpl->parseCurrentBlock();
                 } else {
-                    $this->tpl->touchBlock('initial_test_per_objective');
+                    $this->tpl->touchBlock('with_self_test');
                 }
             } else {
                 foreach (($a_set['self'] ?? []) as $test) {
                     // begin-patch lok
-                    foreach ((array) $test['questions'] as $question) {
+                    foreach ((array) ($test['questions'] ?? []) as $question) {
                         $this->tpl->setCurrentBlock('self_qst_row');
                         $this->tpl->setVariable('SELF_QST_TITLE', $question['title']);
                         $this->tpl->parseCurrentBlock();
+                    }
+                    if (count($test['questions'] ?? []) === 0) {
+                        $this->tpl->touchBlock('self_qst_row');
                     }
                     // end-patch lok
                 }
@@ -192,7 +195,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 
                 $this->tpl->parseCurrentBlock();
             } else {
-                $this->tpl->touchBlock('final_test_per_objective');
+                $this->tpl->touchBlock('with_final_test');
             }
         } else {
             foreach ((array) ($a_set['final'] ?? []) as $test) {
@@ -201,6 +204,12 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                     $this->tpl->setVariable('FINAL_QST_TITLE', $question['title'] ?? '');
                     $this->tpl->parseCurrentBlock();
                 }
+                if (count($test['questions'] ?? []) === 0) {
+                    $this->tpl->touchBlock('final_qst_row');
+                }
+            }
+            if (count($a_set['final'] ?? []) === 0) {
+                $this->tpl->touchBlock('final_qst_row');
             }
         }
         $this->ctrl->setParameterByClass('ilcourseobjectivesgui', 'objective_id', $a_set['id']);

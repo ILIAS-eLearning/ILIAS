@@ -16,9 +16,6 @@
  *
  *********************************************************************/
 
-require_once './Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php';
-require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
-
 /**
  * This class represents a single choice wizard property in a property form.
  *
@@ -178,7 +175,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     {
         global $DIC;
         $lng = $DIC['lng'];
-        include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+
         if (is_array($_POST[$this->getPostVar()])) {
             $foundvalues = ilArrayUtil::stripSlashesRecursive(
                 $_POST[$this->getPostVar()],

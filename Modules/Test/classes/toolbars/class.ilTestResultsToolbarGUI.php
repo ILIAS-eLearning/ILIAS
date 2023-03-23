@@ -61,7 +61,6 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
         if (count($this->getParticipantSelectorOptions())) {
             $this->addSeparator();
 
-            require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
             $sel = new ilSelectInputGUI('', 'active_id');
             $sel->setOptions($this->getParticipantSelectorOptionsWithHintOption());
             $this->addInputItem($sel);

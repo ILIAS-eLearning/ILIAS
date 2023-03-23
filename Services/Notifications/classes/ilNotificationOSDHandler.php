@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Notifications;
 
 use ILIAS\Notifications\Model\ilNotificationObject;
@@ -30,8 +30,8 @@ use ILIAS\Data\Clock\ClockInterface;
  */
 class ilNotificationOSDHandler extends ilNotificationHandler
 {
-    private ilNotificationOSDRepository $repo;
-    private ClockInterface $clock;
+    private readonly ilNotificationOSDRepository $repo;
+    private readonly ClockInterface $clock;
 
     public function __construct(?ilNotificationOSDRepository $repo = null, ?ClockInterface $clock = null)
     {
@@ -52,10 +52,14 @@ class ilNotificationOSDHandler extends ilNotificationHandler
     }
 
     /**
-     * @return ilOSDNotificationObject[]
+     * @return list<ilOSDNotificationObject>
      */
-    public function getOSDNotificationsForUser(int $user_id, bool $append_osd_id_to_link = true, int $max_age_seconds = 0, string $type = ''): array
-    {
+    public function getOSDNotificationsForUser(
+        int $user_id,
+        bool $append_osd_id_to_link = true,
+        int $max_age_seconds = 0,
+        string $type = ''
+    ): array {
         $notifications = $this->repo->getOSDNotificationsByUser($user_id, $max_age_seconds, $type);
 
         foreach ($notifications as $notification) {
@@ -81,11 +85,12 @@ class ilNotificationOSDHandler extends ilNotificationHandler
 
     private function appendParamToLink(string $link, string $param, int $value): string
     {
-        if (strpos($link, '?') !== false) {
+        if (str_contains($link, '?')) {
             $link .= '&' . $param . '=' . $value;
         } else {
             $link .= '?' . $param . '=' . $value;
         }
+
         return $link;
     }
 }

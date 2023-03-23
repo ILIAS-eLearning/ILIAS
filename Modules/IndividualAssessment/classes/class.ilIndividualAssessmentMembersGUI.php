@@ -57,6 +57,7 @@ class ilIndividualAssessmentMembersGUI
     protected ILIAS\Refinery\Factory $refinery;
     protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
     protected ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $post_wrapper;
+    protected ilIndividualAssessmentDateFormatter $date_formatter;
 
     public function __construct(
         ilObjIndividualAssessment $object,
@@ -72,7 +73,8 @@ class ilIndividualAssessmentMembersGUI
         ilErrorHandling $error_object,
         ilIndividualAssessmentMemberGUI $member_gui,
         ILIAS\Refinery\Factory $refinery,
-        ILIAS\HTTP\Wrapper\WrapperFactory $wrapper
+        ILIAS\HTTP\Wrapper\WrapperFactory $wrapper,
+        ilIndividualAssessmentDateFormatter $date_formatter
     ) {
         $this->object = $object;
         $this->ctrl = $ctrl;
@@ -89,6 +91,7 @@ class ilIndividualAssessmentMembersGUI
         $this->refinery = $refinery;
         $this->request_wrapper = $wrapper->query();
         $this->post_wrapper = $wrapper->post();
+        $this->date_formatter = $date_formatter;
 
         $this->ref_id = $object->getRefId();
     }
@@ -181,7 +184,8 @@ class ilIndividualAssessmentMembersGUI
             $this->iass_access,
             $this->factory,
             $this->renderer,
-            $this->user->getId()
+            $this->user,
+            $this->date_formatter
         );
 
         $filter = $this->getFilterValue();

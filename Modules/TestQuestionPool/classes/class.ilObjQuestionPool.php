@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
 * Class ilObjQuestionPool
@@ -130,11 +130,10 @@ class ilObjQuestionPool extends ilObject
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
-        include_once "./Services/MetaData/classes/class.ilMD.php";
+
         $md = new ilMD($this->getId(), 0, $this->getType());
         $md_gen = $md->getGeneral();
         if ($md_gen == false) {
-            include_once "./Services/MetaData/classes/class.ilMDCreator.php";
             $md_creator = new ilMDCreator($this->getId(), 0, $this->getType());
             $md_creator->setTitle($this->getTitle());
             $md_creator->setTitleLanguage($ilUser->getPref('language'));
@@ -174,7 +173,6 @@ class ilObjQuestionPool extends ilObject
         //put here your module specific stuff
         $this->deleteQuestionpool();
 
-        require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
         $qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->getId());
         $qsaImportFails->deleteRegisteredImportFails();
 
@@ -191,12 +189,9 @@ class ilObjQuestionPool extends ilObject
             }
         }
 
-        // delete export files
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
         $qpl_data_dir = ilFileUtils::getDataDir() . "/qpl_data";
         $directory = $qpl_data_dir . "/qpl_" . $this->getId();
         if (is_dir($directory)) {
-            include_once "./Services/Utilities/classes/class.ilUtil.php";
             ilFileUtils::delDir($directory);
         }
     }
@@ -209,9 +204,6 @@ class ilObjQuestionPool extends ilObject
     */
     public function deleteQuestion($question_id): void
     {
-        include_once "./Modules/Test/classes/class.ilObjTest.php";
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-
         $question = assQuestion::instantiateQuestion($question_id);
         $question->delete($question_id);
     }
@@ -330,11 +322,9 @@ class ilObjQuestionPool extends ilObject
 
     public function createQuestion($question_type, $question_id = -1)
     {
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         if ($question_id > 0) {
             return assQuestion::instantiateQuestionGUI($question_id);
         }
-        assQuestion::_includeClass($question_type, 1);
         $question_type_gui = $question_type . "GUI";
         $question_gui = new $question_type_gui();
         return $question_gui;
@@ -496,13 +486,11 @@ class ilObjQuestionPool extends ilObject
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
         $assignmentList = new ilAssQuestionSkillAssignmentList($ilDB);
         $assignmentList->setParentObjId($this->getId());
         $assignmentList->loadFromDb();
         $assignmentList->loadAdditionalSkillData();
 
-        require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentExporter.php';
         $skillQuestionAssignmentExporter = new ilAssQuestionSkillAssignmentExporter();
         $skillQuestionAssignmentExporter->setXmlWriter($a_xml_writer);
         $skillQuestionAssignmentExporter->setQuestionIds($questions);
@@ -518,7 +506,6 @@ class ilObjQuestionPool extends ilObject
     */
     public function exportXMLMetaData(&$a_xml_writer): void
     {
-        include_once("Services/MetaData/classes/class.ilMD2XML.php");
         $md2xml = new ilMD2XML($this->getId(), 0, $this->getType());
         $md2xml->setExportMode(true);
         $md2xml->startExport();
@@ -528,7 +515,6 @@ class ilObjQuestionPool extends ilObject
     public function modifyExportIdentifier($a_tag, $a_param, $a_value)
     {
         if ($a_tag == "Identifier" && $a_param == "Entry") {
-            include_once "./Services/Utilities/classes/class.ilUtil.php";
             $a_value = ilUtil::insertInstIntoID($a_value);
         }
 
@@ -547,8 +533,6 @@ class ilObjQuestionPool extends ilObject
         global $DIC;
         $ilBench = $DIC['ilBench'];
 
-        include_once "./Modules/LearningModule/classes/class.ilLMPageObject.php";
-
         foreach ($questions as $question_id) {
             $ilBench->start("ContentObjectExport", "exportPageObject");
             $expLog->write(date("[y-m-d H:i:s] ") . "Page Object " . $question_id);
@@ -559,12 +543,10 @@ class ilObjQuestionPool extends ilObject
 
             // export xml to writer object
             $ilBench->start("ContentObjectExport", "exportPageObject_XML");
-            include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php");
             $page_object = new ilAssQuestionPage($question_id);
             $page_object->buildDom();
             $page_object->insertInstIntoIDs($a_inst);
             $mob_ids = $page_object->collectMediaObjects(false);
-            require_once 'Services/COPage/classes/class.ilPCFileList.php';
             $file_ids = ilPCFileList::collectFileItems($page_object, $page_object->getDomDoc());
             $xml = $page_object->getXMLFromDom(false, false, false, "", true);
             $xml = str_replace("&", "&amp;", $xml);
@@ -599,8 +581,6 @@ class ilObjQuestionPool extends ilObject
 
     public function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog): void
     {
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-
         foreach ($this->mob_ids as $mob_id) {
             $expLog->write(date("[y-m-d H:i:s] ") . "Media Object " . $mob_id);
             if (ilObjMediaObject::_exists($mob_id)) {
@@ -618,8 +598,6 @@ class ilObjQuestionPool extends ilObject
     */
     public function exportFileItems($a_target_dir, &$expLog): void
     {
-        include_once("./Modules/File/classes/class.ilObjFile.php");
-
         foreach ($this->file_ids as $file_id) {
             $expLog->write(date("[y-m-d H:i:s] ") . "File Item " . $file_id);
             $file_obj = new ilObjFile($file_id, false);
@@ -635,7 +613,6 @@ class ilObjQuestionPool extends ilObject
     */
     public function createExportDirectory(): void
     {
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
         $qpl_data_dir = ilFileUtils::getDataDir() . "/qpl_data";
         ilFileUtils::makeDir($qpl_data_dir);
         if (!is_writable($qpl_data_dir)) {
@@ -665,10 +642,8 @@ class ilObjQuestionPool extends ilObject
     */
     public function getExportDirectory($type = ""): string
     {
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
         switch ($type) {
             case 'xml':
-                include_once("./Services/Export/classes/class.ilExport.php");
                 $export_dir = ilExport::_getExportDirectory($this->getId(), $type, $this->getType());
                 break;
             case 'xls':
@@ -692,7 +667,6 @@ class ilObjQuestionPool extends ilObject
         global $DIC;
         $ilias = $DIC['ilias'];
 
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
         $qpl_data_dir = ilFileUtils::getDataDir() . "/qpl_data";
         ilFileUtils::makeDir($qpl_data_dir);
 
@@ -1008,7 +982,6 @@ class ilObjQuestionPool extends ilObject
                         if (@is_dir($source_path)) {
                             $target_path = CLIENT_WEB_DIR . "/assessment/" . $this->getId() . "/";
                             if (!@is_dir($target_path)) {
-                                include_once "./Services/Utilities/classes/class.ilUtil.php";
                                 ilFileUtils::makeDirParents($target_path);
                             }
                             rename($source_path, $target_path . $question_object["question_id"]);
@@ -1097,7 +1070,6 @@ class ilObjQuestionPool extends ilObject
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
 
-        include_once "./Services/Object/classes/class.ilObject.php";
         $refs = ilObject::_getAllReferences($object_id);
         if (count($refs)) {
             foreach ($refs as $ref_id) {
@@ -1148,7 +1120,6 @@ class ilObjQuestionPool extends ilObject
         $result = array();
         $query_result = $ilDB->query("SELECT qpl_questions.*, qpl_qst_type.type_tag FROM qpl_questions, qpl_qst_type WHERE qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND " . $ilDB->in('qpl_questions.question_id', $question_ids, false, 'integer') . " ORDER BY qpl_questions.title");
         if ($query_result->numRows()) {
-            include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
             while ($row = $ilDB->fetchAssoc($query_result)) {
                 if (!assQuestion::_isUsedInRandomTest($row["question_id"])) {
                     array_push($result, $row);
@@ -1219,7 +1190,7 @@ class ilObjQuestionPool extends ilObject
             $counter++;
         }
         $fullpath = join(" > ", $items);
-        include_once "./Services/Utilities/classes/class.ilStr.php";
+
         if (strlen($fullpath) > 60) {
             $fullpath = ilStr::subStr($fullpath, 0, 30) . "..." . ilStr::subStr($fullpath, ilStr::strLen($fullpath) - 30, 30);
         }
@@ -1338,15 +1309,10 @@ class ilObjQuestionPool extends ilObject
             $questionIdsMap[$question_id] = $newQuestionId;
         }
 
-        // clone meta data
-        include_once "./Services/MetaData/classes/class.ilMD.php";
         $md = new ilMD($this->getId(), 0, $this->getType());
         $md->cloneMD($newObj->getId(), 0, $newObj->getType());
-
-        // update the metadata with the new title of the question pool
         $newObj->updateMetaData();
 
-        require_once 'Modules/TestQuestionPool/classes/class.ilQuestionPoolTaxonomiesDuplicator.php';
         $duplicator = new ilQuestionPoolTaxonomiesDuplicator();
         $duplicator->setSourceObjId($this->getId());
         $duplicator->setSourceObjType($this->getType());
@@ -1373,7 +1339,6 @@ class ilObjQuestionPool extends ilObject
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
 
-        include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
         $forbidden_types = ilObjAssessmentFolder::_getForbiddenQuestionTypes();
         $lng->loadLanguageModule("assessment");
         $result = $ilDB->query("SELECT * FROM qpl_qst_type");
@@ -1396,7 +1361,6 @@ class ilObjQuestionPool extends ilObject
             }
         }
 
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionTypeOrderer.php';
         $orderMode = ($fixOrder ? ilAssQuestionTypeOrderer::ORDER_MODE_FIX : ilAssQuestionTypeOrderer::ORDER_MODE_ALPHA);
         $orderer = new ilAssQuestionTypeOrderer($types, $orderMode);
         $types = $orderer->getOrderedTypes($withDeprecatedTypes);
@@ -1566,7 +1530,6 @@ class ilObjQuestionPool extends ilObject
         $ilDB = $DIC['ilDB'];
         $ilUser = $DIC['ilUser'];
 
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssIncompleteQuestionPurger.php';
         $incompleteQuestionPurger = new ilAssIncompleteQuestionPurger($ilDB);
         $incompleteQuestionPurger->setOwnerId($ilUser->getId());
         $incompleteQuestionPurger->purge();
@@ -1579,7 +1542,6 @@ class ilObjQuestionPool extends ilObject
      */
     public function getTaxonomyIds(): array
     {
-        require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
         return ilObjTaxonomy::getUsageOfObject($this->getId());
     }
 
@@ -1614,8 +1576,7 @@ class ilObjQuestionPool extends ilObject
 
     public function fromXML($xmlFile): void
     {
-        require_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPoolXMLParser.php';
         $parser = new ilObjQuestionPoolXMLParser($this, $xmlFile);
         $parser->startParsing();
     }
-} // END class.ilObjQuestionPool
+}

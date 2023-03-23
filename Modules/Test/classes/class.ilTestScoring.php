@@ -94,7 +94,6 @@ class ilTestScoring
     {
         $participants = $this->test->getCompleteEvaluationData(false)->getParticipants();
         if (is_array($participants)) {
-            require_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
             foreach ($participants as $active_id => $userdata) {
                 if (is_object($userdata) && is_array($userdata->getPasses())) {
                     $this->recalculatePasses($userdata, $active_id);

@@ -100,8 +100,13 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             ilAuthUtils::AUTH_OPENID_CONNECT
         ];
         // icon handlers
-        $icon_ok = "<img src=\"" . ilUtil::getImagePath("icon_ok.svg") . "\" alt=\"" . $this->lng->txt("enabled") . "\" title=\"" . $this->lng->txt("enabled") . "\" border=\"0\" vspace=\"0\"/>";
-        $icon_not_ok = "<img src=\"" . ilUtil::getImagePath("icon_not_ok.svg") . "\" alt=\"" . $this->lng->txt("disabled") . "\" title=\"" . $this->lng->txt("disabled") . "\" border=\"0\" vspace=\"0\"/>";
+
+        $icon_ok = $this->renderer->render(
+            $this->ui->symbol()->icon()->custom(ilUtil::getImagePath("icon_ok.svg"), $this->lng->txt("enabled"))
+        );
+        $icon_not_ok = $this->renderer->render(
+            $this->ui->symbol()->icon()->custom(ilUtil::getImagePath("icon_not_ok.svg"), $this->lng->txt("disabled"))
+        );
 
         $this->logger->debug(print_r($auth_modes, true));
         foreach ($auth_modes as $mode => $mode_name) {

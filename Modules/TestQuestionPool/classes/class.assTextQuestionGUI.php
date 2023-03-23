@@ -41,7 +41,6 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     public function __construct($id = -1)
     {
         parent::__construct();
-        include_once "./Modules/TestQuestionPool/classes/class.assTextQuestion.php";
         $this->object = new assTextQuestion();
         if ($id >= 0) {
             $this->object->loadFromDb($id);
@@ -55,7 +54,6 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     {
         $hasErrors = (!$always) ? $this->editQuestion(true) : false;
         if (!$hasErrors) {
-            require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
             $this->writeQuestionGenericPostData();
             $this->writeQuestionSpecificPostData(new ilPropertyFormGUI());
             $this->writeAnswerSpecificPostData(new ilPropertyFormGUI());
@@ -75,7 +73,6 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $save = $this->isSaveCommand();
         $this->getQuestionTemplate();
 
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $this->editForm = $form;
 
@@ -125,10 +122,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     public function magicAfterTestOutput(): void
     {
         // TODO - BEGIN: what exactly is done here? cant we use the parent method?
-
-        include_once "./Services/RTE/classes/class.ilRTE.php";
         $rtestring = ilRTE::_getRTEClassname();
-        include_once "./Services/RTE/classes/class.$rtestring.php";
         $rte = new $rtestring();
         $rte->addUserTextEditor("textinput");
         $this->outAdditionalOutput();
@@ -169,8 +163,6 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $solution = $this->getBestAnswer($this->renderPurposeSupportsFormHtml());
         }
 
-        // generate the question output
-        include_once "./Services/UICore/classes/class.ilTemplate.php";
         $template = new ilTemplate("tpl.il_as_qpl_text_question_output_solution.html", true, true, "Modules/TestQuestionPool");
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
 
@@ -287,8 +279,6 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $solution = $this->getBestAnswer($this->renderPurposeSupportsFormHtml());
         }
 
-        // generate the question output
-        include_once "./Services/UICore/classes/class.ilTemplate.php";
         $template = new ilTemplate("tpl.il_as_qpl_text_question_output_solution.html", true, true, "Modules/TestQuestionPool");
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
 
@@ -415,8 +405,6 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
     public function getPreview($show_question_only = false, $showInlineFeedback = false): string
     {
-        // generate the question output
-        include_once "./Services/UICore/classes/class.ilTemplate.php";
         $template = new ilTemplate("tpl.il_as_qpl_text_question_output.html", true, true, "Modules/TestQuestionPool");
         if ($this->object->getMaxNumOfChars()) {
             $template->setCurrentBlock("maximum_char_hint");
@@ -475,8 +463,6 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             }
         }
 
-        // generate the question output
-        include_once "./Services/UICore/classes/class.ilTemplate.php";
         $template = new ilTemplate("tpl.il_as_qpl_text_question_output.html", true, true, "Modules/TestQuestionPool");
         if ($this->object->getMaxNumOfChars()) {
             $template->setCurrentBlock("maximum_char_hint");
@@ -509,7 +495,6 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $questionoutput .= $this->getJsCode();
 
         $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
-        include_once "./Services/YUI/classes/class.ilYuiUtil.php";
         ilYuiUtil::initDomEvent();
         return $pageoutput;
     }
@@ -572,7 +557,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
         $this->object->setWordCounterEnabled(isset($_POST['wordcounter']) && $_POST['wordcounter']);
-        $this->object->setMaxNumOfChars($_POST["maxchars"]);
+        $this->object->setMaxNumOfChars($_POST["maxchars"] ?? 0);
         $this->object->setTextRating($_POST["text_rating"]);
         $this->object->setKeywordRelation($_POST['scoring_mode']);
     }
@@ -684,7 +669,6 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         if ($this->object->getAnswerCount() == 0) {
             $this->object->addAnswer("", 1, 0, 0);
         }
-        require_once "./Modules/TestQuestionPool/classes/class.ilEssayKeywordWizardInputGUI.php";
 
         // Without Keywords
         $nonKeywordPoints = new ilNumberInputGUI($this->lng->txt("points"), "non_keyword_points");

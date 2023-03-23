@@ -18,7 +18,7 @@
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\Random\Transformation\ShuffleTransformation;
 
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
  * Class for cloze question gaps
@@ -434,7 +434,6 @@ class assClozeGap
             return false;
         }
 
-        require_once 'Services/Math/classes/class.EvalMath.php';
         $math = new EvalMath();
 
         $item = $this->getItem(0);

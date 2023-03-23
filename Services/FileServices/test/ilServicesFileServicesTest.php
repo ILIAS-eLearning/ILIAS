@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,15 +16,42 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
+use ILIAS\ResourceStorage\Services;
+use ILIAS\ResourceStorage\Manager\Manager;
 
+/**
+ * @runTestsInSeparateProcesses // this is necessary to avoid side effects with the DIC
+ * @preserveGlobalState disabled
+ */
 class ilServicesFileServicesTest extends TestCase
 {
     private ?\ILIAS\DI\Container $dic_backup;
+    /**
+     * @var ilDBInterface|(ilDBInterface&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private ?ilDBInterface $db_mock = null;
+
+    protected function setUp(): void
+    {
+        global $DIC;
+        $this->dic_backup = is_object($DIC) ? clone $DIC : null;
+
+        $DIC = new \ILIAS\DI\Container();
+        $DIC['ilDB'] = $this->db_mock = $this->createMock(ilDBInterface::class);
+    }
+
+    protected function tearDown(): void
+    {
+        global $DIC;
+        $DIC = $this->dic_backup;
+    }
 
     public function testSanitizing(): void
     {
@@ -106,17 +131,20 @@ class ilServicesFileServicesTest extends TestCase
 
     public function testActualWhitelist(): void
     {
-        $db_mock = $this->createMock(ilDBInterface::class);
         $settings_mock = $this->createMock(ilSetting::class);
         $ini_mock = $this->createMock(ilIniFile::class);
 
         $ref = new stdClass();
         $ref->ref_id = 32;
-        $db_mock->expects($this->once())
+        $this->db_mock->expects($this->once())
                 ->method('fetchObject')
                 ->willReturn($ref);
 
-        $default_whitelist = include "./Services/FileServices/defaults/default_whitelist.php";
+        $this->db_mock->expects($this->once())
+                ->method('fetchAssoc')
+                ->willReturn([]);
+
+        $default_whitelist = include __DIR__ . "/../../../Services/FileServices/defaults/default_whitelist.php";
 
         // Blacklist
         $settings_mock->expects($this->exactly(3))
@@ -132,7 +160,7 @@ class ilServicesFileServicesTest extends TestCase
                           'wl001,wl002' // add whitelist
                       );
 
-        $settings = new ilFileServicesSettings($settings_mock, $ini_mock, $db_mock);
+        $settings = new ilFileServicesSettings($settings_mock, $ini_mock, $this->db_mock);
         $this->assertEquals(['bl001', 'bl002'], $settings->getBlackListedSuffixes());
         $this->assertEquals(['bl001', 'bl002'], $settings->getProhibited());
         $this->assertEquals($default_whitelist, $settings->getDefaultWhitelist());
@@ -149,35 +177,7 @@ class ilServicesFileServicesTest extends TestCase
         $this->assertEquals(0, count($diff));
     }
 
-    public function testDisabledASCIISetting(): void
-    {
-        $db_mock = $this->createMock(ilDBInterface::class);
-        $settings_mock = $this->createMock(ilSetting::class);
-        $ini_mock = $this->createMock(ilIniFile::class);
 
-        $ini_mock->expects($this->once())
-                 ->method('readVariable')
-                 ->with('file_access', 'disable_ascii')
-                 ->willReturn('1');
-
-        $settings = new ilFileServicesSettings($settings_mock, $ini_mock, $db_mock);
-        $this->assertFalse($settings->isASCIIConvertionEnabled());
-    }
-
-    public function testNoASCIISetting(): void
-    {
-        $db_mock = $this->createMock(ilDBInterface::class);
-        $settings_mock = $this->createMock(ilSetting::class);
-        $ini_mock = $this->createMock(ilIniFile::class);
-
-        $ini_mock->expects($this->once())
-                 ->method('readVariable')
-                 ->with('file_access', 'disable_ascii')
-                 ->willReturn('');
-
-        $settings = new ilFileServicesSettings($settings_mock, $ini_mock, $db_mock);
-        $this->assertTrue($settings->isASCIIConvertionEnabled());
-    }
 
     public function testFileNamePolicyOnDownloading(): void
     {

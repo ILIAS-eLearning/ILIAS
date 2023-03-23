@@ -25,6 +25,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 class ilObjFileStakeholder extends AbstractResourceStakeholder
 {
     protected int $owner = 6;
+    private int $current_user;
     protected ?ilDBInterface $database = null;
 
     /**
@@ -32,6 +33,8 @@ class ilObjFileStakeholder extends AbstractResourceStakeholder
      */
     public function __construct(int $owner = 6)
     {
+        global $DIC;
+        $this->current_user = (int)($DIC->isDependencyAvailable('user') ? $DIC->user()->getId() : ANONYMOUS_USER_ID);
         $this->owner = $owner;
     }
 
@@ -48,7 +51,26 @@ class ilObjFileStakeholder extends AbstractResourceStakeholder
         return $this->owner;
     }
 
-    public function resourceHasBeenDeleted(ResourceIdentification $identification): bool
+    public function canBeAccessedByCurrentUser(ResourceIdentification $identification): bool
+    {
+        global $DIC;
+
+        $object_id = $this->resolveObjectId($identification);
+        if ($object_id === null) {
+            return true;
+        }
+
+        $ref_ids = ilObject2::_getAllReferences($object_id);
+        foreach ($ref_ids as $ref_id) {
+            if ($DIC->access()->checkAccessOfUser($this->current_user, 'read', '', $ref_id)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function resolveObjectId(ResourceIdentification $identification): ?int
     {
         $this->initDB();
         $r = $this->database->queryF(
@@ -57,19 +79,24 @@ class ilObjFileStakeholder extends AbstractResourceStakeholder
             [$identification->serialize()]
         );
         $d = $this->database->fetchObject($r);
-        if (property_exists($d, 'file_id') && $d->file_id !== null) {
-            try {
-                $this->database->manipulateF(
-                    "UPDATE object_data SET offline = 1 WHERE obj_id = %s",
-                    ['text'],
-                    [$d->file_id]
-                );
-            } catch (Throwable $t) {
-                return false;
-            }
-            return true;
+
+        return (isset($d->file_id) ? (int)$d->file_id : null);
+    }
+
+
+    public function resourceHasBeenDeleted(ResourceIdentification $identification): bool
+    {
+        $object_id = $this->resolveObjectId($identification);
+        try {
+            $this->database->manipulateF(
+                "UPDATE object_data SET offline = 1 WHERE obj_id = %s",
+                ['text'],
+                [$object_id]
+            );
+        } catch (Throwable $t) {
+            return false;
         }
-        return false;
+        return true;
     }
 
     public function getLocationURIForResourceUsage(ResourceIdentification $identification): ?string

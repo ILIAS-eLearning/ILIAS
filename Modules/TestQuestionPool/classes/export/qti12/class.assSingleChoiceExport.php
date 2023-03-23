@@ -36,7 +36,6 @@ class assSingleChoiceExport extends assQuestionExport
         global $DIC;
         $ilias = $DIC['ilias'];
 
-        include_once("./Services/Xml/classes/class.ilXmlWriter.php");
         $a_xml_writer = new ilXmlWriter();
         // set xml header
         $a_xml_writer->xmlHeader();

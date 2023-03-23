@@ -69,7 +69,7 @@ For best results we recommend:
 
   * a current version of Debian GNU Linux, Ubuntu or RHEL
   * MySQL 5.7.x or MariaDB 10.2
-  * PHP 8.1
+  * PHP 8.2
   * Apache 2.4.x with `mod_php`
   * php-gd, php-xml, php-mysql, php-mbstring, php-imagick, php-zip
   * OpenJDK 11
@@ -77,6 +77,7 @@ For best results we recommend:
   * git
   * composer v2
   * a contemporary browser supporting ES6, CSS3 and HTML 5
+  * npm
 
 Package names may vary depending on the Linux distribution.
 
@@ -110,7 +111,7 @@ The ILIAS Testserver (https://test7.ilias.de) is currently configured as follows
 |----------------|------------------|
 | Distribution   | Ubuntu 20.04 LTS |
 | MariaDB        | 10.0.38          |
-| PHP            | 8.1              |
+| PHP            | 8.2              |
 | Apache2        | 2.4.18           |
 | JDK            | OpenJDK 8        |
 | Node.js        | 10.23.0          |
@@ -201,7 +202,7 @@ systemctl restart httpd.service
 ### PHP Installation and Configuration
 
 Refer to the to documentation of your installation to install PHP 8.1
-including packages for imagick, gd, mysql, mbstring, curl, dom, zip and xml.
+to PHP 8.2 including packages for imagick, gd, mysql, mbstring, curl, dom, zip and xml.
 
 To check if the installation was successfull create the file `/var/www/html/phpinfo.php`
 with the following contents:
@@ -340,10 +341,10 @@ Restart the apache webserver after you installed dependencies!
 
 Depending on your use case, you MAY want to install further dependencies (exact package names vary by distribution and PHP version you are using):
 
-* php8.1-curl
-* php8.1-xmlrpc
-* php8.1-soap
-* php8.1-ldap
+* php8.2-curl
+* php8.2-xmlrpc
+* php8.2-soap
+* php8.2-ldap
 * ffmpeg
 * mimetex
 
@@ -369,12 +370,11 @@ git clone https://github.com/ILIAS-eLearning/ILIAS.git . --single-branch
 git checkout release_X
 ```
 
-or unpack the downloaded archieve to the docroot. Replace `release_X` with the
-branch or tag you actually want to install.
+or unpack the downloaded archieve to the docroot. Replace `release_X` with the branch or tag you actually want to
+install.
 
-The repository of ILIAS doesn't contain all code that is required to run. To
-download the required PHP-dependencies and to create static artifacts from
-the source, run the following in your ILIAS folder:
+The repository of ILIAS doesn't contain all code that is required to run. To download the required PHP-dependencies and
+to create static artifacts from the source, run the following in your ILIAS folder:
 
 ```
 composer install --no-dev
@@ -383,9 +383,16 @@ composer install --no-dev
 This requires that the php dependency manager [composer](https://getcomposer.org/)
 is available in your $PATH.
 
-Create a directory outside the web servers docroot (e.g. `/var/www/files`). Make
-sure that the web server is the owner of the files and directories that were created
-by changing the group and owner to www-data (on Debian/Ubuntu) or apache (on RHEL).
+```
+npm install --omit=dev --ignore-scripts
+```
+
+This requires that the javascript dependency manager [npm](https://https://www.npmjs.com/)
+is available in your $PATH.
+
+Create a directory outside the web servers docroot (e.g. `/var/www/files`). Make sure that the web server is the owner
+of the files and directories that were created by changing the group and owner to www-data (on Debian/Ubuntu) or
+apache (on RHEL).
 
 ```
 chown www-data:www-data `/var/www/html
@@ -395,6 +402,7 @@ chown www-data:www-data `/var/www/files
 The commands above will directly serve ILIAS from the docroot.
 
 <a name="install-ilias"></a>
+
 ## Install ILIAS
 
 After having all dependencies installed and configured you should be able to run
@@ -611,6 +619,7 @@ your ILIAS basepath (e.g. `/var/www/html/`):
 ```
 git pull
 composer install --no-dev
+npm install --omit-dev --ignore-scripts
 ```
 
 if you follow a branch or
@@ -619,6 +628,7 @@ if you follow a branch or
 git fetch
 git checkout v7.1
 composer install --no-dev
+npm install --omit-dev --ignore-scripts
 ```
 
 if you use tags to pin a specific ILIAS version.
@@ -643,6 +653,7 @@ layout templates. Then execute the following commands in your ILIAS basepath
 git fetch
 git checkout release_X
 composer install --no-dev
+npm install --omit-dev --ignore-scripts
 ```
 
 Replace `release_X` with the branch or tag you actually want to upgrade to. You can
@@ -718,7 +729,7 @@ each ILIAS release.
 
 | ILIAS Version  | PHP Version                 |
 |----------------|-----------------------------|
-| 9.x            | 8.1.x                       |
+| 9.x            | 8.1.x, 8.2.x                |
 | 8.x            | 7.4.x, 8.0.x                |
 | 7.x            | 7.3.x, 7.4.x                |
 | 6.x            | 7.2.x, 7.3.x, 7.4.x         |

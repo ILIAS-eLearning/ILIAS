@@ -28,7 +28,6 @@ class assLongMenuExportQti21 extends assQuestionExport
         global $DIC;
         $ilias = $DIC['ilias'];
 
-        include_once("./Services/Xml/classes/class.ilXmlWriter.php");
         $xml = new ilXmlWriter();
         // set xml header
         $xml->xmlHeader();

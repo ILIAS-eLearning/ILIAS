@@ -188,7 +188,7 @@ class ilDclBaseRecordFieldModel
      */
     public function deserializeData($value)
     {
-        $deserialize = json_decode($value, true);
+        $deserialize = json_decode($value ?? '', true);
         if (is_array($deserialize)) {
             return $deserialize;
         }

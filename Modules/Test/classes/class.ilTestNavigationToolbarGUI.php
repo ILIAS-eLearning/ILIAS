@@ -16,9 +16,6 @@
  *
  *********************************************************************/
 
-require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
-require_once 'Modules/Test/classes/class.ilTestPlayerNavButton.php';
-
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\OnScreenChat\Provider\OnScreenChatProvider;
@@ -34,10 +34,10 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
 {
     protected static bool $frontend_initialized = false;
 
-    private ILIAS\DI\Container $dic;
-    private ILIAS\HTTP\Services $http;
-    private ilCtrlInterface $ctrl;
-    private ilObjUser $actor;
+    private readonly ILIAS\DI\Container $dic;
+    private readonly ILIAS\HTTP\Services $http;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilObjUser $actor;
 
     public function __construct()
     {
@@ -66,7 +66,6 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
     }
 
     /**
-     * @param ilChatroomServerSettings $chatSettings
      * @return array<string, string>
      */
     protected static function getEmoticons(ilChatroomServerSettings $chatSettings): array

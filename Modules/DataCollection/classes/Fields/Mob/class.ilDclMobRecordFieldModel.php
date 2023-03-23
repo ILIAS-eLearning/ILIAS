@@ -25,11 +25,13 @@
 class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
 {
     private \ilGlobalTemplateInterface $main_tpl;
+    private \ILIAS\FileUpload\FileUpload $upload;
 
     public function __construct(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field)
     {
         parent::__construct($record, $field);
         global $DIC;
+        $this->upload = $DIC->upload();
         $this->main_tpl = $DIC->ui()->mainTemplate();
     }
 
@@ -85,12 +87,20 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
                     $media["name"],
                     $media["type"]
                 );
-                ilFileUtils::rename($move_file, $target_file_path);
             } else {
-                ilFileUtils::moveUploadedFile($media['tmp_name'], $file_name, $target_file_path);
+                if (false === $this->upload->hasBeenProcessed()) {
+                    $this->upload->process();
+                }
+
+                if (false === $this->upload->hasUploads()) {
+                    throw new ilException($this->lng->txt('upload_error_file_not_found'));
+                }
+                $move_file = $media['tmp_name'];
             }
 
+            ilFileUtils::rename($move_file, $target_file_path);
             ilFileUtils::renameExecutables($mob_dir);
+
             // Check image/video
             $format = ilObjMediaObject::getMimeType($target_file_path);
 

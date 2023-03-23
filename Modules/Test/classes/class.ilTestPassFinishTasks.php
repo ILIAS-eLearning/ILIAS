@@ -71,8 +71,6 @@ class ilTestPassFinishTasks
 
     protected function updateLearningProgressAfterPassFinishedIsWritten()
     {
-        require_once './Modules/Test/classes/class.ilObjTestAccess.php';
-        require_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
         ilLPStatusWrapper::_updateStatus(
             $this->obj_id,
             ilObjTestAccess::_getParticipantId($this->active_id)

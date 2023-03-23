@@ -30,7 +30,6 @@ class assLongMenuExport extends assQuestionExport
         $correct_answers = $this->object->getCorrectAnswers();
         $answers = $this->object->getAnswers();
 
-        include_once("./Services/Xml/classes/class.ilXmlWriter.php");
         $xml = new ilXmlWriter();
         // set xml header
         $xml->xmlHeader();

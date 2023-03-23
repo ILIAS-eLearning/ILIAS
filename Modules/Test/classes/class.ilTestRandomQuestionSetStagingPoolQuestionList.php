@@ -202,9 +202,6 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
     {
         $expressions = array();
 
-        require_once 'Services/Taxonomy/classes/class.ilTaxonomyTree.php';
-        require_once 'Services/Taxonomy/classes/class.ilTaxNodeAssignment.php';
-
         foreach ($this->getTaxonomyFilters() as $taxId => $taxNodes) {
             $questionIds = array();
 

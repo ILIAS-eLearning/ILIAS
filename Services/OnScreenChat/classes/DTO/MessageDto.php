@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\OnScreenChat\DTO;
 
 /**
@@ -26,16 +26,12 @@ namespace ILIAS\OnScreenChat\DTO;
  */
 class MessageDto
 {
-    private string $id;
-    private ConversationDto $conversation;
     private int $createdTimestamp;
     private int $authorUsrId = 0;
     private string $message = '';
 
-    public function __construct(string $id, ConversationDto $conversation)
+    public function __construct(private string $id, private ConversationDto $conversation)
     {
-        $this->id = $id;
-        $this->conversation = $conversation;
         $this->createdTimestamp = time();
     }
 

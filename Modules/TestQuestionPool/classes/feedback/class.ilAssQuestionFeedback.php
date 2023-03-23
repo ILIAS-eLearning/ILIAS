@@ -305,8 +305,6 @@ abstract class ilAssQuestionFeedback
      */
     final public function saveGenericFeedbackContent(int $questionId, bool $solutionCompleted, string $feedbackContent): int
     {
-        require_once 'Services/RTE/classes/class.ilRTE.php';
-
         $feedbackId = $this->getGenericFeedbackId($questionId, $solutionCompleted);
 
         if (strlen($feedbackContent)) {
@@ -618,6 +616,8 @@ abstract class ilAssQuestionFeedback
 
     final protected function duplicatePageObject(string $pageObjectType, int $originalPageObjectId, int $duplicatePageObjectId, int $duplicatePageObjectParentId): void
     {
+        $this->ensurePageObjectExists($pageObjectType, $originalPageObjectId);
+
         $cl = $this->getClassNameByType($pageObjectType);
 
         $pageObject = new $cl($originalPageObjectId);

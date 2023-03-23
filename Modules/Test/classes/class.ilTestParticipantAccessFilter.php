@@ -95,7 +95,6 @@ class ilTestParticipantAccessFilter
                 return $this->accessStatisticsUserFilter($userIds);
         }
 
-        require_once 'Modules/Test/exceptions/class.ilTestException.php';
         throw new ilTestException('invalid user access filter mode chosen: ' . $this->getFilter());
     }
 
@@ -141,12 +140,21 @@ class ilTestParticipantAccessFilter
      */
     public function accessResultsUserFilter($userIds): array
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
+        /** @var ILIAS\DI\Container $DIC **/
+        global $DIC;
+
+        $ref_id = $this->getRefId();
+
+        $perm = 'write';
+
+        if ($DIC->access()->checkAccess('tst_results', '', $ref_id, 'tst')) {
+            $perm = 'tst_results';
+        }
 
         $userIds = $DIC->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
-            'write',
+            $perm,
             ilOrgUnitOperation::OP_ACCESS_RESULTS,
-            $this->getRefId(),
+            $ref_id,
             $userIds
         );
 

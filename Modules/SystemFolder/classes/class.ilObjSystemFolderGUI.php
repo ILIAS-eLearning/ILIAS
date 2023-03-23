@@ -760,8 +760,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
         // DB Benchmark User
         $ti = new ilTextInputGUI($lng->txt("adm_db_benchmark_user"), ilBenchmark::DB_BENCH_USER);
-        $user_id = $ilSetting->get(ilBenchmark::DB_BENCH_USER) ?? null;
-        if ($user_id !== null) {
+        $user_id = ((int) $ilSetting->get(ilBenchmark::DB_BENCH_USER)) ?? null;
+        if ($user_id !== null && ilObjUser::_lookupLogin((int) $user_id) !== '') {
             $ti->setValue(ilObjUser::_lookupLogin($user_id));
         }
         $ti->setInfo($lng->txt("adm_db_benchmark_user_desc"));
@@ -881,7 +881,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
      */
     public function saveBenchSettingsObject(): void
     {
-        if ($this->wrapper->post()->has(ilBenchmark::ENABLE_DB_BENCH) && $this->wrapper->post()->has(ilBenchmark::DB_BENCH_USER)) {
+        if ($this->wrapper->post()->has(ilBenchmark::ENABLE_DB_BENCH)
+            && $this->wrapper->post()->has(ilBenchmark::DB_BENCH_USER)) {
             $activate = $this->wrapper->post()->retrieve(ilBenchmark::ENABLE_DB_BENCH, $this->refinery->kindlyTo()->bool());
             if ($activate) {
                 $user_name = $this->wrapper->post()->retrieve(ilBenchmark::DB_BENCH_USER, $this->refinery->kindlyTo()->string());

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -84,7 +84,7 @@ class ilCertificateCourseLearningProgressEvaluation
                 $subitem_obj_ids[$subItemRefId] = $this->objectHelper->lookupObjId((int) $subItemRefId);
             }
 
-            if (in_array($refId, $subItems, true)) {
+            if (in_array($refId, $subItems)) {
                 $completed = true;
 
                 // check if all subitems are completed now

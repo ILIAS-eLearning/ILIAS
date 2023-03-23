@@ -25,11 +25,30 @@ namespace ILIAS\ResourceStorage\Flavour\Engine;
  */
 class ImagickEngine implements Engine
 {
+    protected array $whitelist = [
+        'jpg',
+        'jpeg',
+        'gif',
+        'png',
+        'webp',
+        'webm',
+        'tiff',
+        'bmp',
+        'pdf',
+        'pdf',
+        'svg',
+    ];
     protected array $supported;
 
     public function __construct()
     {
-        $this->supported = $this->isRunning() ? array_map(fn ($item): string => strtolower($item), \Imagick::queryFormats()) : [];
+        $this->supported = array_intersect(
+            array_map(
+                fn ($item): string => strtolower($item),
+                \Imagick::queryFormats()
+            ),
+            $this->whitelist
+        ) ?? [];
     }
 
 

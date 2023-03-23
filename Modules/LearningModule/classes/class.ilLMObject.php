@@ -1101,7 +1101,7 @@ class ilLMObject
                     $fix = array();
                     foreach ($sources as $source) {
                         $stype = explode(":", $source["type"]);
-                        $source_type = $stype[1];
+                        $source_type = $stype[1] ?? "";
 
                         if ($source_type == "pg" || $source_type == "st") {
                             // first of all: source must be in original lm

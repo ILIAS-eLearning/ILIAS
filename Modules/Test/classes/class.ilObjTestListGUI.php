@@ -26,7 +26,7 @@
  * @extends ilObjectListGUI
  * @ingroup ModulesTest
  */
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 class ilObjTestListGUI extends ilObjectListGUI
 {

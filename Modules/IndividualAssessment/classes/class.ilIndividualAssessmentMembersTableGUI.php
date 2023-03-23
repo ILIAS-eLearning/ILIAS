@@ -35,6 +35,8 @@ class ilIndividualAssessmentMembersTableGUI
     protected Factory $factory;
     protected Renderer $renderer;
     protected int $current_user_id;
+    protected ilObjUser $current_user;
+    protected ilIndividualAssessmentDateFormatter $date_formatter;
     protected array $data = [];
 
     public function __construct(
@@ -44,7 +46,8 @@ class ilIndividualAssessmentMembersTableGUI
         IndividualAssessmentAccessHandler $iass_access,
         Factory $factory,
         Renderer $renderer,
-        int $current_user_id
+        ilObjUser $current_user,
+        ilIndividualAssessmentDateFormatter $date_formatter
     ) {
         $this->parent = $parent;
         $this->lng = $lng;
@@ -52,7 +55,9 @@ class ilIndividualAssessmentMembersTableGUI
         $this->iass_access = $iass_access;
         $this->factory = $factory;
         $this->renderer = $renderer;
-        $this->current_user_id = $current_user_id;
+        $this->current_user_id = $current_user->getId();
+        $this->current_user = $current_user;
+        $this->date_formatter = $date_formatter;
     }
 
     /**
@@ -163,7 +168,7 @@ class ilIndividualAssessmentMembersTableGUI
         ];
     }
 
-    protected function getChangedByInformation(?int $changed_by_id, ?DateTime $change_date): array
+    protected function getChangedByInformation(?int $changed_by_id, ?DateTimeImmutable $change_date): array
     {
         if (is_null($changed_by_id)) {
             return [];
@@ -171,8 +176,7 @@ class ilIndividualAssessmentMembersTableGUI
 
         $changed_date_str = "";
         if (!is_null($change_date)) {
-            $dt = new ilDate($change_date->format("Y-m-d"), IL_CAL_DATE);
-            $changed_date_str = ilDatePresentation::formatDate($dt);
+            $changed_date_str = $this->date_formatter->format($this->current_user, $change_date);
         }
 
         $full_name = $this->getFullNameFor($changed_by_id);
@@ -312,9 +316,7 @@ class ilIndividualAssessmentMembersTableGUI
         if (is_null($event_time)) {
             return [];
         }
-
-        $dt = new ilDateTime($event_time->format("Y-m-d H:m"), IL_CAL_DATE);
-        $event_time_str = ilDatePresentation::formatDate($dt);
+        $event_time_str = $this->date_formatter->format($this->current_user, $event_time, true);
         return [$this->txt("iass_event_time") . ": " => $event_time_str];
     }
 

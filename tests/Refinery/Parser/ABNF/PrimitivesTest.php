@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,16 +16,16 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Tests\Refinery\Parser\ABNF;
 
 use Closure;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Data\Result\Error;
-use ILIAS\Refinery\Parser\ABNF\Brick;
 use ILIAS\Refinery\Parser\ABNF\Intermediate;
 use ILIAS\Refinery\Parser\ABNF\Primitives;
-use ILIAS\Refinery\Transformation;
 use PHPUnit\Framework\TestCase;
 use Exception;
 

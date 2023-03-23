@@ -78,29 +78,15 @@ class ilMyStaffAccess extends ilObjectAccess
     {
         global $DIC;
 
-        if ($DIC->rbac()->system()->checkAccess('visible', SYSTEM_FOLDER_ID)) {
-            return true;
-        }
-
         if (!$DIC->settings()->get("enable_my_staff")) {
             return false;
         }
 
-        if ($this->hasCurrentUserAccessToUser()) {
+        if ($this->hasCurrentUserAccessToStaffList()) {
             return true;
         }
 
-        if ($this->countOrgusOfUserWithOperationAndContext(
-            $DIC->user()->getId(),
-            self::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION,
-            self::COURSE_CONTEXT
-        )
-            > 0
-        ) {
-            return true;
-        }
-
-        if ($this->hasCurrentUserAccessToCourseLearningProgressForAtLeastOneUser()) {
+        if ($this->hasCurrentUserAccessToCourseMemberships()) {
             return true;
         }
 
@@ -273,7 +259,12 @@ class ilMyStaffAccess extends ilObjectAccess
         return false;
     }
 
-    public function hasCurrentUserAccessToUser(int $usr_id = 0): bool
+    public function hasCurrentUserAccessToStaffList(): bool
+    {
+        return $this->hasCurrentUserAccessToUser(0);
+    }
+
+    public function hasCurrentUserAccessToUser(int $usr_id): bool
     {
         global $DIC;
 

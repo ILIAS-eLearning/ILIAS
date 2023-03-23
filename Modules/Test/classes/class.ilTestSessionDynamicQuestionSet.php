@@ -150,9 +150,6 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
                 )
             );
 
-            // update learning progress
-            include_once("./Modules/Test/classes/class.ilObjTestAccess.php");
-            include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
             ilLPStatusWrapper::_updateStatus(
                 ilObjTestAccess::_lookupObjIdForTestId($this->getTestId()),
                 ilObjTestAccess::_getParticipantId($this->getActiveId())
@@ -180,9 +177,6 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
                 );
                 $this->active_id = $next_id;
 
-                // update learning progress
-                include_once("./Modules/Test/classes/class.ilObjTestAccess.php");
-                include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
                 ilLPStatusWrapper::_updateStatus(
                     ilObjTestAccess::_lookupObjIdForTestId($this->getTestId()),
                     $this->getUserId()
@@ -190,7 +184,6 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
             }
         }
 
-        include_once("./Services/Tracking/classes/class.ilLearningProgress.php");
         ilLearningProgress::_tracProgress(
             $this->getUserId(),
             ilObjTestAccess::_lookupObjIdForTestId($this->getTestId()),

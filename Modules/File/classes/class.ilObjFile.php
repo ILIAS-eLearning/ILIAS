@@ -35,7 +35,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 {
     use ilObjFileMetadata;
     use ilObjFileUsages;
-    use ilObjFilePreviewHandler;
     use ilObjFileNews;
     use ilObjFileSecureString;
 
@@ -98,19 +97,15 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     public function updateObjectFromCurrentRevision(): void
     {
         $this->updateObjectFromRevision(
-            $this->manager->getCurrentRevision($this->manager->find($this->getResourceId())),
-            false
+            $this->manager->getCurrentRevision($this->manager->find($this->getResourceId()))
         );
     }
 
-    private function updateObjectFromRevision(Revision $r, bool $create_previews = true): void
+    private function updateObjectFromRevision(Revision $r): void
     {
         $this->setTitle($r->getTitle());
         $this->setFileName($r->getInformation()->getTitle());
         $this->update();
-        if ($create_previews) {
-            $this->createPreview(true);
-        }
     }
 
     private function appendSuffixToTitle(string $title, string $filename): string
@@ -412,7 +407,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $new_current_revision = $this->manager->getCurrentRevision($new_resource_identification);
         $new_obj->setResourceId($new_resource_identification->serialize());
         $new_obj->initImplementation();
-        $new_obj->updateObjectFromRevision($new_current_revision, false); // Previews are already copied in 453
+        $new_obj->updateObjectFromRevision($new_current_revision); // Previews are already copied in 453
         $new_obj->setTitle($cloned_title); // see https://mantis.ilias.de/view.php?id=31375
         $new_obj->setPageCount($this->getPageCount());
         $new_obj->update();
@@ -475,9 +470,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         if ($this->getMode() != self::MODE_FILELIST) {
             $this->deleteMetaData();
         }
-
-        // delete preview
-        $this->deletePreview();
 
         // delete resource
         $identification = $this->getResourceId();

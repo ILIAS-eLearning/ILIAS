@@ -504,7 +504,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         }
 
         // edit permissions
-        if ($this->dclAccess->hasEditPermission($refId) === true) {
+        if ($this->dclAccess->hasEditPermissionPermission($refId) === true) {
             //list permissions
             $this->addTab(self::TAB_LIST_PERMISSIONS, $this->dclEndPoint->getListPermissionsLink());
         }
@@ -524,7 +524,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $dataCollectionTemplate = $this->tpl;
 
         $refId = $this->object->getRefId();
-        if ($this->dclAccess->hasEditPermission($refId) === false) {
+        if ($this->dclAccess->hasWritePermission($refId) === false) {
             $this->dclUi->displayErrorMessage(
                 $this->lng->txt("msg_no_perm_write")
             );

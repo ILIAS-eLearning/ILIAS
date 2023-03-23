@@ -80,7 +80,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     protected bool $blockPassesAfterPassedEnabled = false;
     public int $use_previous_answers;
     public int $title_output;
-    public $processing_time; // Initialized as string, but cannot be declared
+    public ?string $processing_time = null;
     public $enable_processing_time; // Initialized as int, but cannot be declared
     public int $reset_processing_time;
 
@@ -124,7 +124,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      * bool?
      */
     protected $passwordEnabled;
-    protected ?string $password;
+    protected ?string $password = null;
 
     /**
      * bool?
@@ -181,7 +181,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     * Name of a custom style sheet for the test
     * string?
     */
-    private $_customStyle;
+    private ?string $_customStyle = null;
 
     protected $mailnotification;
 
@@ -201,9 +201,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     protected $activation_visibility;
 
-    protected $activation_starting_time;
+    protected ?string $activation_starting_time = null;
 
-    protected $activation_ending_time;
+    protected ?string $activation_ending_time = null;
 
     protected bool $autosave;
     protected int $autosave_ival;
@@ -1555,7 +1555,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function getCustomStyle(): ?string
     {
-        return (strlen($this->_customStyle)) ? $this->_customStyle : null;
+        return ($this->_customStyle && $this->_customStyle !== '') ? $this->_customStyle : null;
     }
 
     /**
@@ -1640,7 +1640,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function setECTSFX($a_ects_fx): void
     {
-        $this->ects_fx = (float) str_replace(",", ".", $a_ects_fx);
+        $this->ects_fx = (float) str_replace(",", ".", (string) ($a_ects_fx ?? ''));
     }
 
     public function getECTSGrades(): array
@@ -2209,9 +2209,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     * @access public
     * @see $processing_time
     */
-    public function getProcessingTime()
+    public function getProcessingTime(): ?string
     {
-        return (strlen($this->processing_time)) ? $this->processing_time : null;
+        return ($this->processing_time && $this->processing_time !== '') ? $this->processing_time : null;
     }
 
     /**
@@ -2219,7 +2219,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function getProcessingTimeAsArray(): array
     {
-        if (strlen($this->processing_time)) {
+        if ($this->processing_time && $this->processing_time !== '') {
             if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", $this->processing_time, $matches)) {
                 if ((int) $matches[1] + (int) $matches[2] + (int) $matches[3] == 0) {
                     return $this->getEstimatedWorkingTime();
@@ -2513,7 +2513,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function getPassword(): ?string
     {
-        return (strlen($this->password)) ? $this->password : null;
+        return ($this->password && $this->password !== '') ? $this->password : null;
     }
 
     /**
@@ -2865,7 +2865,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             array($next_id, $this->getTestId(), $duplicate_id, $sequence, time())
         );
         if ($affectedRows == 1) {
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 $this->logAction($this->lng->txtlng("assessment", "log_question_added", ilObjAssessmentFolder::_getLogLanguage()) . ": " . $sequence, $duplicate_id);
             }
@@ -4072,12 +4071,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $questionData = [];
 
         while ($row = $ilDB->fetchAssoc($result)) {
-            $participantObject = $data->getParticipant($row["active_fi"]);
-
-            if (!($participantObject instanceof ilTestEvaluationUserData)) {
+            if (!$data->participantExists($row["active_fi"])) {
                 continue;
             }
 
+            $participantObject = $data->getParticipant($row["active_fi"]);
             $passObject = $participantObject->getPass($row["pass"]);
 
             if (!($passObject instanceof ilTestEvaluationPassData)) {
@@ -4668,8 +4666,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             return null;
         }
 
-        assQuestion::_includeClass($question_type, 1);
-
         $question_type_gui = $question_type . 'GUI';
         $question = new $question_type_gui();
 
@@ -4953,10 +4949,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     $this->setSequenceSettings($metadata["entry"]);
                     break;
                 case "solution_details":
-                    $this->setShowSolutionDetails((int) $metadata["entry"]);
+                    $result_details_settings = $result_details_settings->withShowSolutionDetails((bool) $metadata["entry"]);
                     break;
                 case "print_bs_with_res":
-                    $result_details_settings = $result_details_settings->withPrintBestSolutionWithResult((bool)$metadata["entry"]);
+                    $result_details_settings = $result_details_settings->withPrintBestSolutionWithResult((bool) $metadata["entry"]);
                     break;
                 case "author":
                     $this->setAuthor($metadata["entry"]);
@@ -4987,15 +4983,15 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     break;
 
                 case "highscore_enabled":
-                    $gamification_settings = $gamification_settings->withHighscoreEnabled((bool)$metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreEnabled((bool) $metadata["entry"]);
                     break;
 
                 case "highscore_anon":
-                    $gamification_settings = $gamification_settings->withHighscoreAnon((bool)$metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreAnon((bool) $metadata["entry"]);
                     break;
 
                 case "highscore_achieved_ts":
-                    $gamification_settings = $gamification_settings->withHighscoreAchievedTS((bool)$metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreAchievedTS((bool) $metadata["entry"]);
                     break;
 
                 case "highscore_score":
@@ -5003,27 +4999,27 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     break;
 
                 case "highscore_percentage":
-                    $gamification_settings = $gamification_settings->withHighscorePercentage((bool)$metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscorePercentage((bool) $metadata["entry"]);
                     break;
 
                 case "highscore_hints":
-                    $gamification_settings = $gamification_settings->withHighscoreHints((bool)$metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreHints((bool) $metadata["entry"]);
                     break;
 
                 case "highscore_wtime":
-                    $gamification_settings = $gamification_settings->withHighscoreWTime((bool)$metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreWTime((bool) $metadata["entry"]);
                     break;
 
                 case "highscore_own_table":
-                    $gamification_settings = $gamification_settings->withHighscoreOwnTable((bool)$metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreOwnTable((bool) $metadata["entry"]);
                     break;
 
                 case "highscore_top_table":
-                    $gamification_settings = $gamification_settings->withHighscoreTopTable((bool)$metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreTopTable((bool) $metadata["entry"]);
                     break;
 
                 case "highscore_top_num":
-                    $gamification_settings = $gamification_settings->withHighscoreTopNum((int)$metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreTopNum((int) $metadata["entry"]);
                     break;
 
                 case "hide_previous_results":
@@ -5054,7 +5050,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     }
                     break;
                 case "results_presentation":
-                    $this->setResultsPresentation($metadata["entry"]);
+                    $result_details_settings = $result_details_settings->withResultsPresentation((int) $metadata["entry"]);
                     break;
                 case "reset_processing_time":
                     $this->setResetProcessingTime($metadata["entry"]);
@@ -5093,7 +5089,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     $this->setShuffleQuestions($metadata["entry"]);
                     break;
                 case "count_system":
-                    $scoring_settings = $scoring_settings->withCountSystem((int)$metadata["entry"]);
+                    $scoring_settings = $scoring_settings->withCountSystem((int) $metadata["entry"]);
                     break;
                 case "mailnotification":
                     $this->setMailNotification($metadata["entry"]);
@@ -5102,7 +5098,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     $this->setMailNotificationType($metadata["entry"]);
                     break;
                 case "exportsettings":
-                    $result_details_settings = $result_details_settings->withExportSettings((int)$metadata["entry"]);
+                    $result_details_settings = $result_details_settings->withExportSettings((int) $metadata["entry"]);
                     break;
                 case "score_cutting":
                     $scoring_settings = $scoring_settings->withScoreCutting((int)$metadata["entry"]);
@@ -5119,10 +5115,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     $this->setAllowedUsersTimeGap($metadata["entry"]);
                     break;
                 case "pass_scoring":
-                    $scoring_settings = $scoring_settings->withPassScoring((int)$metadata["entry"]);
+                    $scoring_settings = $scoring_settings->withPassScoring((int) $metadata["entry"]);
                     break;
                 case 'pass_deletion_allowed':
-                    $result_summary_settings = $result_summary_settings->withPassDeletionAllowed((bool)$metadata["entry"]);
+                    $result_summary_settings = $result_summary_settings->withPassDeletionAllowed((bool) $metadata["entry"]);
                     break;
                 case "show_summary":
                     $this->setListOfQuestionsSettings($metadata["entry"]);
@@ -5173,7 +5169,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     break;
                 case 'show_exam_id':
                 case 'examid_in_test_res':
-                    $result_details_settings = $result_details_settings->withShowExamIdInTestResults((bool)$metadata["entry"]);
+                    $result_details_settings = $result_details_settings->withShowExamIdInTestResults((bool) $metadata["entry"]);
                     break;
                 case 'enable_archiving':
                     $this->setEnableArchiving($metadata['entry']);
@@ -5195,10 +5191,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     $result_details_settings = $result_details_settings->withTaxonomyFilterIds($tax_ids);
                     break;
                 case 'show_grading_status':
-                    $result_summary_settings = $result_summary_settings->withShowGradingStatusEnabled((bool)$metadata["entry"]);
+                    $result_summary_settings = $result_summary_settings->withShowGradingStatusEnabled((bool) $metadata["entry"]);
                     break;
                 case 'show_grading_mark':
-                    $result_summary_settings = $result_summary_settings->withShowGradingMarkEnabled((bool)$metadata["entry"]);
+                    $result_summary_settings = $result_summary_settings->withShowGradingMarkEnabled((bool) $metadata["entry"]);
                     break;
                 case 'activation_limited':
                     $this->setActivationLimited($metadata['entry']);
@@ -5241,6 +5237,17 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 $this->mark_schema->addMarkStep($mark_short, $mark_official, $mark_percentage, $mark_passed);
             }
         }
+
+        $this->saveToDb();
+        $score_settings = $score_settings
+                ->withGamificationSettings($gamification_settings)
+                ->withScoringSettings($scoring_settings)
+                ->withResultDetailsSettings($result_details_settings)
+                ->withResultSummarySettings($result_summary_settings);
+        $this->getScoreSettingsRepository()->store($score_settings);
+        $this->score_settings = $score_settings;
+        $this->loadFromDb();
+
         // handle the import of media objects in XHTML code
         if (is_array(ilSession::get("import_mob_xhtml"))) {
             foreach (ilSession::get("import_mob_xhtml") as $mob) {
@@ -5257,13 +5264,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 }
             }
             $this->saveToDb();
-
-            $score_settings = $score_settings
-                ->withGamificationSettings($gamification_settings)
-                ->withScoringSettings($scoring_settings)
-                ->withResultDetailsSettings($result_details_settings)
-                ->withResultSummarySettings($result_summary_settings);
-            $this->getScoreSettingsRepository()->store($score_settings);
         }
     }
 
@@ -6749,7 +6749,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
         $scoring = ilObjAssessmentFolder::_getManualScoring();
         if (count($scoring) == 0) {
             return array();
@@ -10063,8 +10062,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     {
         $classConcreteQuestion = assQuestion::_getQuestionType($questionId);
 
-        assQuestion::_includeClass($classConcreteQuestion, 0);
-
         // static binder is not at work yet (in PHP < 5.3)
         //$obligationPossible = $classConcreteQuestion::isObligationPossible();
         $obligationPossible = call_user_func(array($classConcreteQuestion, 'isObligationPossible'), $questionId);
@@ -10216,14 +10213,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->activation_ending_time = $ending_time;
     }
 
-    public function getActivationStartingTime()
+    public function getActivationStartingTime(): ?string
     {
-        return (strlen($this->activation_starting_time)) ? $this->activation_starting_time : null;
+        return ($this->activation_starting_time && $this->activation_starting_time !== '') ? $this->activation_starting_time : null;
     }
 
-    public function getActivationEndingTime()
+    public function getActivationEndingTime(): ?string
     {
-        return (strlen($this->activation_ending_time)) ? $this->activation_ending_time : null;
+        return ($this->activation_ending_time && $this->activation_ending_time !== '') ? $this->activation_ending_time : null;
     }
 
     /**

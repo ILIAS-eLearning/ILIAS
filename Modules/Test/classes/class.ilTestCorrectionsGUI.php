@@ -156,6 +156,7 @@ class ilTestCorrectionsGUI
         $scoring->setQuestionId($questionGUI->object->getId());
         $scoring->recalculateSolutions();
 
+        $this->DIC->ui()->mainTemplate()->setOnScreenMessage('success', $this->DIC->language()->txt('saved_successfully'), true);
         $this->DIC->ctrl()->redirect($this, 'showQuestion');
     }
 
@@ -228,7 +229,7 @@ class ilTestCorrectionsGUI
         $gui->setCancel($this->DIC->language()->txt('cancel'), 'showQuestion');
         $gui->setConfirm($this->DIC->language()->txt('confirm'), 'saveQuestion');
 
-        $this->addHiddenItemsFromArray($gui, $_POST);
+        $this->addHiddenItemsFromArray($gui, $this->testrequest->getParsedBody());
 
         $this->DIC->ui()->mainTemplate()->setContent($gui->getHTML());
     }
@@ -587,7 +588,6 @@ class ilTestCorrectionsGUI
     {
         $setting = new ilSetting('assessment');
         $types = explode(',', $setting->get('assessment_scoring_adjustment'));
-        require_once './Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
         $type_def = array();
         foreach ($types as $type) {
             $type_def[$type] = ilObjQuestionPool::getQuestionTypeByTypeId($type);

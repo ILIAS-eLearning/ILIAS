@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
 
@@ -183,7 +183,7 @@ class ilFileDataMail extends ilFileData
     }
 
     /**
-     * @return array{name: string, size: int, ctime: int}[]
+     * @return list<array{name: string, size: int, ctime: int}>
      */
     public function getUserFilesData(): array
     {
@@ -191,24 +191,26 @@ class ilFileDataMail extends ilFileData
     }
 
     /**
-     * @return array{name: string, size: int, ctime: int}[]
+     * @return list<array{name: string, size: int, ctime: int}>
      */
     private function getUnsentFiles(): array
     {
         $files = [];
 
-        $iter = new DirectoryIterator($this->mail_path);
+        $iter = new RegexIterator(new DirectoryIterator($this->mail_path), "/^{$this->user_id}_(.+)$/");
         foreach ($iter as $file) {
-            /** @var $file SplFileInfo */
-            if ($file->isFile()) {
-                [$uid, $rest] = explode('_', $file->getFilename(), 2);
-                if ($uid === (string) $this->user_id) {
-                    $files[] = [
-                        'name' => $rest,
-                        'size' => $file->getSize(),
-                        'ctime' => $file->getCTime(),
-                    ];
-                }
+            /** @var SplFileInfo $file */
+            if (!$file->isFile()) {
+                continue;
+            }
+
+            [$uid, $rest] = explode('_', $file->getFilename(), 2);
+            if ($uid === (string) $this->user_id) {
+                $files[] = [
+                    'name' => $rest,
+                    'size' => $file->getSize(),
+                    'ctime' => $file->getCTime(),
+                ];
             }
         }
 

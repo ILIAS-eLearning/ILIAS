@@ -145,8 +145,6 @@ class ilTestParticipantsTimeExtensionGUI
         $form->setId("tst_change_workingtime");
         $form->setTitle($this->lng->txt("tst_change_workingtime"));
 
-        // test users
-        require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
         $participantList = new ilTestParticipantList($this->getTestObj());
         $participantList->initializeFromDbRows($this->getTestObj()->getTestParticipants());
 
@@ -199,7 +197,7 @@ class ilTestParticipantsTimeExtensionGUI
         $extratime->setSize(5);
         $form->addItem($extratime);
 
-        if (is_array($_POST) && strlen($_POST['cmd']['timing'])) {
+        if (is_array($_POST) && isset($_POST['cmd']['timing']) && $_POST['cmd']['timing'] != '') {
             $form->setValuesByArray($_POST);
         }
 

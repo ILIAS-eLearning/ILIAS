@@ -49,8 +49,6 @@ class ilAssQuestionSkillAssignmentImportFails
     protected function getSettings(): ilAssQuestionSkillAssignmentRegistry
     {
         if ($this->settings === null) {
-            require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportList.php';
-            require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentRegistry.php';
             $this->settings = new ilAssQuestionSkillAssignmentRegistry(new ilSetting('assimportfails'));
         }
 

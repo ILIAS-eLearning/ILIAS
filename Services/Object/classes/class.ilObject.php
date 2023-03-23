@@ -1140,7 +1140,7 @@ class ilObject
 
         $objects = array();
         while ($row = $db->fetchAssoc($result)) {
-            if ((!$omit_trash) || ilObject::_hasUntrashedReference($row["obj_id"])) {
+            if ((!$omit_trash) || ilObject::_hasUntrashedReference((int) $row["obj_id"])) {
                 $objects[$row["title"] . "." . $row["obj_id"]] = [
                     "id" => $row["obj_id"],
                     "type" => $row["type"],

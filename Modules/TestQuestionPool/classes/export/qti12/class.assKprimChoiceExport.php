@@ -15,8 +15,6 @@
  *
  *********************************************************************/
 
-require_once 'Modules/TestQuestionPool/classes/export/qti12/class.assQuestionExport.php';
-
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -35,7 +33,6 @@ class assKprimChoiceExport extends assQuestionExport
         global $DIC;
         $ilias = $DIC['ilias'];
 
-        include_once("./Services/Xml/classes/class.ilXmlWriter.php");
         $xml = new ilXmlWriter();
         // set xml header
         $xml->xmlHeader();

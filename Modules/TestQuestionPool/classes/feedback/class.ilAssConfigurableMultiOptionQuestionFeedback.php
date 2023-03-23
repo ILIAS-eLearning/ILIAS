@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssMultiOptionQuestionFeedback.php';
-
 /**
  * abstract parent feedback class for question types
  * with multiple answer options (mc, sc, ...)
@@ -44,9 +42,6 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
             $header = new ilFormSectionHeaderGUI();
             $header->setTitle($this->lng->txt('feedback_answers'));
             $form->addItem($header);
-
-            require_once './Services/Form/classes/class.ilRadioGroupInputGUI.php';
-            require_once './Services/Form/classes/class.ilRadioOption.php';
 
             $feedback = new ilRadioGroupInputGUI($this->lng->txt('feedback_setting'), 'feedback_setting');
             $feedback->addOption(

@@ -54,7 +54,6 @@ class ilAssLacQuestionProvider
     public function getQuestion(): assQuestion
     {
         if ($this->question === null && $this->questionId) {
-            require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
             $this->question = assQuestion::_instantiateQuestion($this->questionId);
         }
 

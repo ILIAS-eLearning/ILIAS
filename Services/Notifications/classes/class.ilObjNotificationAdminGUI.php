@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,13 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 
 /**
- * @author Ingmar Szmais <iszmais@databay.de>
+ * @author            Ingmar Szmais <iszmais@databay.de>
  *
  * @ilCtrl_IsCalledBy ilObjNotificationAdminGUI: ilAdministrationGUI
  * @ilCtrl_Calls      ilObjNotificationAdminGUI: ilPermissionGUI
@@ -34,6 +34,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
     public function __construct($a_data, int $a_id = 0, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         global $DIC;
+
         $this->dic = $DIC;
 
         $this->type = 'nota';
@@ -56,13 +57,11 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
             default:
-                switch ($this->ctrl->getCmd()) {
-                    case 'saveOSDSettings':
-                        $this->saveOSDSettings();
-                        break;
-                    default:
-                        $this->showOSDSettings();
-                }
+                match ($this->ctrl->getCmd()) {
+                    'saveOSDSettings' => $this->saveOSDSettings(),
+                    // no break
+                    default => $this->showOSDSettings(),
+                };
         }
     }
 
@@ -119,9 +118,10 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
     }
 
     /**
+     * @param array<string, mixed>|null $values
      * @throws ilCtrlException
      */
-    protected function getForm(array $values = null): Form
+    protected function getForm(?array $values = null): Form
     {
         $enable_osd = $this->dic->ui()->factory()->input()->field()->optionalGroup(
             [
@@ -129,22 +129,26 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
                     $this->lng->txt('osd_interval'),
                     $this->lng->txt('osd_interval_desc')
                 )->withRequired(true)
-                ->withAdditionalTransformation($this->dic->refinery()->custom()->constraint(
-                    static function ($value) {
-                        return $value >= 3000;
-                    },
-                    $this->lng->txt('osd_error_refresh_interval_too_small')
-                )),
+                                            ->withAdditionalTransformation(
+                                                $this->dic->refinery()->custom()->constraint(
+                                                    static function ($value) {
+                                                        return $value >= 3000;
+                                                    },
+                                                    $this->lng->txt('osd_error_refresh_interval_too_small')
+                                                )
+                                            ),
                 'osd_vanish' => $this->dic->ui()->factory()->input()->field()->numeric(
                     $this->lng->txt('osd_vanish'),
                     $this->lng->txt('osd_vanish_desc')
                 )->withRequired(true)
-                ->withAdditionalTransformation($this->dic->refinery()->custom()->constraint(
-                    static function ($value) {
-                        return $value >= 1000;
-                    },
-                    $this->lng->txt('osd_error_presentation_time_too_small')
-                )),
+                                          ->withAdditionalTransformation(
+                                              $this->dic->refinery()->custom()->constraint(
+                                                  static function ($value) {
+                                                      return $value >= 1000;
+                                                  },
+                                                  $this->lng->txt('osd_error_presentation_time_too_small')
+                                              )
+                                          ),
                 'osd_delay' => $this->dic->ui()->factory()->input()->field()->numeric(
                     $this->lng->txt('osd_delay'),
                     $this->lng->txt('osd_delay_desc')
@@ -157,12 +161,14 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
             $this->lng->txt('enable_osd')
         )->withByline(
             $this->lng->txt('enable_osd_desc')
-        )->withAdditionalTransformation($this->dic->refinery()->custom()->constraint(
-            static function ($value) {
-                return $value === null || ($value['osd_interval'] > $value['osd_delay'] + $value['osd_vanish']);
-            },
-            $this->lng->txt('osd_error_refresh_interval_smaller_than_delay_and_vanish_combined')
-        ));
+        )->withAdditionalTransformation(
+            $this->dic->refinery()->custom()->constraint(
+                static function ($value) {
+                    return $value === null || ($value['osd_interval'] > $value['osd_delay'] + $value['osd_vanish']);
+                },
+                $this->lng->txt('osd_error_refresh_interval_smaller_than_delay_and_vanish_combined')
+            )
+        );
 
         if ($values !== null) {
             $enable_osd = $enable_osd->withValue($values['enable_osd'] ?? null);

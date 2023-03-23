@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . '/ModalBase.php');
 
@@ -84,7 +84,7 @@ class LightboxTest extends ModalBase
     protected function getExpectedTextPageHTML(): string
     {
         return <<<EOT
-<div class="modal fade il-modal-lightbox" tabindex="-1" role="dialog" id="id_1">
+<div class="modal fade il-modal-lightbox il-modal-lightbox-bright" tabindex="-1" role="dialog" id="id_1">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content il-modal-lightbox-page">
 			<div class="modal-header">
@@ -94,17 +94,20 @@ class LightboxTest extends ModalBase
 			<div class="modal-body">
 				<div id="id_1_carousel" class="carousel slide" data-ride="carousel" data-interval="false">
 
-
+					
 
 					<div class="carousel-inner" role="listbox">
-
+						
 						<div class="item active text-only" data-title="title">
-HelloWorld
+							<div class="item-content">
+							HelloWorld
+							</div>
+							
 						</div>
-
+						
 					</div>
 
-
+					
 
 				</div>
 			</div>
@@ -146,7 +149,7 @@ EOT;
     protected function getExpectedImagePageHTML(): string
     {
         return <<<EOT
-<div class="modal fade il-modal-lightbox" tabindex="-1" role="dialog" id="id_1">
+<div class="modal fade il-modal-lightbox il-modal-lightbox-dark" tabindex="-1" role="dialog" id="id_1">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content il-modal-lightbox-page">
 			<div class="modal-header">
@@ -156,28 +159,31 @@ EOT;
 			<div class="modal-body">
 				<div id="id_1_carousel" class="carousel slide" data-ride="carousel" data-interval="false">
 
-
+					
 
 					<div class="carousel-inner" role="listbox">
-
+						
 						<div class="item active" data-title="title">
-						
-						
-						
-						
-						
+							<div class="item-content">
+							
+
+
+
+
 <img src="src/fake/image.jpg" class="img-responsive" alt="description" />
 
 
 
+							</div>
+							
 							<div class="carousel-caption">
 								description
 							</div>
 						</div>
-
+						
 					</div>
 
-
+					
 
 				</div>
 			</div>
@@ -219,7 +225,7 @@ EOT;
     protected function getExpectedMixedPagesHTML(): string
     {
         return <<<EOT
-<div class="modal fade il-modal-lightbox" tabindex="-1" role="dialog" id="id_1">
+<div class="modal fade il-modal-lightbox il-modal-lightbox-dark" tabindex="-1" role="dialog" id="id_1">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content il-modal-lightbox-page">
 			<div class="modal-header">
@@ -229,50 +235,56 @@ EOT;
 			<div class="modal-body">
 				<div id="id_1_carousel" class="carousel slide" data-ride="carousel" data-interval="false">
 
-
+					
 					<ol class="carousel-indicators">
-
-					<li data-target="#id_1_carousel" data-slide-to="0" class="active"></li>
-					
-					<li data-target="#id_1_carousel" data-slide-to="1" class=""></li>
-					
+						
+						<li data-target="#id_1_carousel" data-slide-to="0" class="active"></li>
+						
+						<li data-target="#id_1_carousel" data-slide-to="1" class=""></li>
+						
 					</ol>
-
+					
 
 					<div class="carousel-inner" role="listbox">
-					
+						
 						<div class="item active text-only" data-title="title">
-HelloWorld
+							<div class="item-content">
+							HelloWorld
+							</div>
+							
 						</div>
-
+						
 						<div class="item" data-title="title">
-						
-						
-						
-						
-						
+							<div class="item-content">
+							
+
+
+
+
 <img src="src/fake/image.jpg" class="img-responsive" alt="description" />
 
 
 
+							</div>
+							
 							<div class="carousel-caption">
 								description
 							</div>
 						</div>
-
+						
 					</div>
-					
+
 					
 					<a class="left carousel-control" href="#id_1_carousel" role="button" data-slide="prev">
-					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-					<span class="sr-only">Previous</span>
+						<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
 					</a>
 					<a class="right carousel-control" href="#id_1_carousel" role="button" data-slide="next">
-					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-					<span class="sr-only">Next</span>
+						<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
 					</a>
 					
-					
+
 				</div>
 			</div>
 		</div>

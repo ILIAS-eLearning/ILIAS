@@ -294,7 +294,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $this->setAuthor($data["author"]);
             $this->setPoints((float)$data["points"]);
             $this->setOwner((int)$data["owner"]);
-            include_once("./Services/RTE/classes/class.ilRTE.php");
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
             $this->setThumbGeometry((int)$data["thumb_geometry"]);
             $this->setShuffle($data["shuffle"] != '0');
@@ -383,7 +382,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $thisObjId = $this->getObjId();
 
         $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
 
@@ -398,7 +397,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $clone->setAuthor($author);
         }
         if ($owner) {
-            $clone->setOwner($owner);
+            $clone->setOwner((int) $owner);
         }
         if ($for_test) {
             $clone->saveToDb($original_id);
@@ -428,7 +427,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         }
         // duplicate the question in database
         $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
@@ -454,8 +453,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
-
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 
         $sourceQuestionId = $this->id;
         $sourceParentId = $this->getObjId();
@@ -1031,8 +1028,12 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     public function deleteImagefile(string $filename): bool
     {
         $deletename = $filename;
-        $result = @unlink($this->getImagePath() . $deletename);
-        $result = $result && @unlink($this->getImagePath() . $this->getThumbPrefix() . $deletename);
+        try {
+            $result = unlink($this->getImagePath() . $deletename)
+                && unlink($this->getImagePath() . $this->getThumbPrefix() . $deletename);
+        } catch (Throwable $e) {
+            $result = false;
+        }
         return $result;
     }
 
@@ -1137,7 +1138,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         if ($submittedMatchingsValid) {
             if (is_null($pass)) {
-                include_once "./Modules/Test/classes/class.ilObjTest.php";
                 $pass = ilObjTest::_getPass($active_id);
             }
 
@@ -1157,7 +1157,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $saveWorkingDataResult = false;
         }
 
-        include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
         if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
             if ($matchingsExist) {
                 assQuestion::logAction($this->lng->txtlng(

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\Filesystem\Stream\Streams;
@@ -45,7 +45,7 @@ class ilModulesFileTest extends TestCase
     protected function setUp(): void
     {
         global $DIC;
-        $this->dic_backup = is_object($DIC) ? clone $DIC : $DIC;
+        $this->dic_backup = is_object($DIC) ? clone $DIC : null;
 
         $DIC = new Container();
         $DIC['resource_storage'] = $this->storage_mock = $this->createMock(Services::class);
@@ -84,12 +84,36 @@ class ilModulesFileTest extends TestCase
 
     public function testAppendStream(): void
     {
+        // DB mock
         $title = 'Revision One';
         $file_stream = Streams::ofString('Test Content');
 
         $this->storage_mock->expects($this->any())
                            ->method('manage')
                            ->willReturn($this->manager_mock);
+
+        $this->db_mock->expects($this->any())
+                      ->method('query')
+                      ->willReturnCallback(function ($query) {
+                          $mock_object = $this->createMock(ilDBStatement::class);
+                          $mock_object->expects($this->any())->method('fetchAssoc')->willReturn([$query]);
+
+                          return $mock_object;
+                      });
+
+        $this->db_mock->expects($this->any())
+                      ->method('fetchAssoc')
+                      ->willReturnCallback(function (ilDBStatement $statement) {
+                          $query = end($statement->fetchAssoc());
+                          if (str_contains($query, 'last_update')) {
+                              return [
+                                  'last_update' => '',
+                                  'create_date' => ''
+                              ];
+                          }
+
+                          return null;
+                      });
 
         // Create File Object with disabled news notification
         $file = new ilObjFile();
@@ -131,7 +155,6 @@ class ilModulesFileTest extends TestCase
                            ->method('getCurrentRevision')
                            ->with($rid)
                            ->willReturn($revision);
-
 
         $this->manager_mock->expects($this->any())
                            ->method('getResource')

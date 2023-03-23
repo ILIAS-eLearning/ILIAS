@@ -135,7 +135,6 @@ class ilTestService
      */
     public function getManScoringQuestionGuiList($activeId, $pass): array
     {
-        include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
         $manScoringQuestionTypes = ilObjAssessmentFolder::_getManualScoring();
 
         $testResultData = $this->object->getTestResult($activeId, $pass);
@@ -181,7 +180,7 @@ class ilTestService
      * @param int  $activeId
      * @param bool $manScoringDone
      */
-    public static function setManScoringDone(int $activeId, bool $manScoringDone) : void
+    public static function setManScoringDone(int $activeId, bool $manScoringDone): void
     {
         (new TestManScoringDoneHelper())->setDone($activeId, $manScoringDone);
     }
@@ -255,7 +254,6 @@ class ilTestService
         $marked_questions = array();
 
         if ($this->object->getShowMarker()) {
-            include_once "./Modules/Test/classes/class.ilObjTest.php";
             $marked_questions = ilObjTest::_getSolvedQuestions($testSequence->getActiveId());
         }
 

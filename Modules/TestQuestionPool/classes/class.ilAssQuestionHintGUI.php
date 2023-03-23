@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintAbstractGUI.php';
-
 /**
  * GUI class for management of a single hint for assessment questions
  *
@@ -66,15 +64,13 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 
         switch ($nextClass) {
             case 'ilasshintpagegui':
-
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintPageObjectCommandForwarder.php';
                 $forwarder = new ilAssQuestionHintPageObjectCommandForwarder($this->questionOBJ, $ilCtrl, $ilTabs, $lng);
                 $forwarder->setPresentationMode(ilAssQuestionHintPageObjectCommandForwarder::PRESENTATION_MODE_AUTHOR);
                 $forwarder->forward();
                 break;
 
             default:
-
+                $this->tabs->setTabActive('tst_question_hints_tab');
                 $cmd .= 'Cmd';
                 $this->$cmd();
                 break;
@@ -161,7 +157,6 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
             }
 
             $originalexists = $this->questionOBJ->_questionExistsInPool((int) $this->questionOBJ->getOriginalId());
-            include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
             if ($this->request->raw('calling_test') && $originalexists && assQuestion::_isWriteable($this->questionOBJ->getOriginalId(), $ilUser->getId())) {
                 $ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
             }
@@ -207,11 +202,6 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
 
-        require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-        require_once 'Services/Form/classes/class.ilTextAreaInputGUI.php';
-        require_once 'Services/Form/classes/class.ilNumberInputGUI.php';
-        require_once 'Services/Form/classes/class.ilHiddenInputGUI.php';
-
         $form = new ilPropertyFormGUI();
         $form->setTableWidth('100%');
 
@@ -227,7 +217,6 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
                 $areaInp->setUseRte(true);
             }
 
-            include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
             $areaInp->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
 
             $areaInp->setRTESupport($this->questionOBJ->getId(), 'qpl', 'assessment');
@@ -257,14 +246,8 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
                 $this->questionOBJ->getTitle()
             ));
 
-            // hidden input: hint id
-
             $hiddenInp = new ilHiddenInputGUI('hint_id');
             $form->addItem($hiddenInp);
-
-            // init values
-
-            require_once 'Services/Utilities/classes/class.ilUtil.php';
 
             if (!$this->questionOBJ->isAdditionalContentEditingModePageObject()) {
                 $areaInp->setValue($questionHint->getText());

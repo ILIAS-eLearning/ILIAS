@@ -91,12 +91,13 @@ class ilTestArchiver
 
     #region Properties
 
-    protected $external_directory_path;	/** @var $external_directory_path string External directory base path  */
-    protected $client_id;			 	/** @var $client_id string Client id of the current client */
-    protected $test_obj_id;				/** @var $test_obj_id integer Object-ID of the test, the archiver is instantiated for */
-    protected $archive_data_index;		/** @var $archive_data_index array[string[]] Archive data index as associative array */
+    protected $external_directory_path;
+    protected $client_id;
+    protected $test_obj_id;
+    protected $test_ref_id;
+    protected $archive_data_index;
 
-    protected $ilDB;					/** @var $ilDB ilDBInterface */
+    protected ilDBInterface $ilDB;
 
     /**
      * @var ilTestParticipantData
@@ -110,7 +111,7 @@ class ilTestArchiver
      *
      * @param $test_obj_id integer Object-ID of the test, the archiver is instantiated for.
      */
-    public function __construct($test_obj_id)
+    public function __construct($test_obj_id, $test_ref_id = null)
     {
         /** @var $ilias ILIAS */
         global $DIC;
@@ -118,6 +119,7 @@ class ilTestArchiver
         $this->external_directory_path = $ilias->ini_ilias->readVariable('clients', 'datadir');
         $this->client_id = $ilias->client_id;
         $this->test_obj_id = $test_obj_id;
+        $this->test_ref_id = $test_ref_id;
         $this->ilDB = $ilias->db;
 
         $this->archive_data_index = $this->readArchiveDataIndex();
@@ -392,10 +394,13 @@ class ilTestArchiver
 
         // Generate test pass overview
         $test = new ilObjTest($this->test_obj_id, false);
-        require_once 'Modules/Test/classes/class.ilParticipantsTestResultsGUI.php';
+        if ($this->test_ref_id !== null) {
+            $test->setRefId($this->test_ref_id);
+        }
+
         $gui = new ilParticipantsTestResultsGUI();
         $gui->setTestObj($test);
-        require_once 'Modules/Test/classes/class.ilTestObjectiveOrientedContainer.php';
+
         $objectiveOrientedContainer = new ilTestObjectiveOrientedContainer();
         $gui->setObjectiveParent($objectiveOrientedContainer);
         $array_of_actives = array();

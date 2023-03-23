@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Filesystem\Stream\Streams;
@@ -112,6 +112,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
             'Services/Mail'
         );
         $subtpl->setVariable('TXT_USE_PLACEHOLDERS', $this->lng->txt('mail_nacc_use_placeholder'));
+        $subtpl->setVariable('DEPENDENCY_ELM_ID_OUTER', $this->dependencyElementId);
         if ($this->getAdviseText() !== '') {
             $subtpl->setVariable('TXT_PLACEHOLDERS_ADVISE', $this->getAdviseText());
         }
@@ -119,8 +120,12 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
         foreach ($this->placeholders as $placeholder) {
             $subtpl->setCurrentBlock('man_placeholder');
             $subtpl->setVariable('DEPENDENCY_ELM_ID', $this->dependencyElementId);
-            $subtpl->setVariable('MANUAL_PLACEHOLDER', $placeholder['placeholder']);
-            $subtpl->setVariable('TXT_MANUAL_PLACEHOLDER', $placeholder['title']);
+            $subtpl->setVariable('PLACEHOLDER', '[' . $placeholder['placeholder'] . ']');
+            $subtpl->setVariable('PLACEHOLDER_INTERACTION_INFO', sprintf(
+                $this->lng->txt('mail_hint_add_placeholder_x'),
+                '[' . $placeholder['placeholder'] . ']'
+            ));
+            $subtpl->setVariable('PLACEHOLDER_DESCRIPTION', $placeholder['title']);
             $subtpl->parseCurrentBlock();
         }
 

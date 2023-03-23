@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * @author Oskar Truffer <ot@studer-raimann.ch>
@@ -83,7 +82,7 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
             $supported_internal_types = array(
                 ilDclDatatype::INPUTFORMAT_ILIAS_REF,
                 ilDclDatatype::INPUTFORMAT_MOB,
-                ilDclDatatype::INPUTFORMAT_FILE,
+                ilDclDatatype::INPUTFORMAT_FILEUPLOAD,
             );
 
             $supported_types = array_merge(
@@ -118,7 +117,7 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
                     $query .= " INNER JOIN object_data AS ilias_object ON ilias_object.obj_id = ilias_ref.obj_id ";
                     break;
                 case ilDclDatatype::INPUTFORMAT_MOB:
-                case ilDclDatatype::INPUTFORMAT_FILE:
+                case ilDclDatatype::INPUTFORMAT_FILEUPLOAD:
                     $query .= " INNER JOIN object_data AS ilias_object ON ilias_object.obj_id =  stlocRef.value ";
                     break;
             }

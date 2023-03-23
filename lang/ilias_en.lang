@@ -3361,7 +3361,7 @@ cmxv#:#cmxv_create#:#Create Certificate for xAPI/cmi5 Object
 cmxv#:#cmxv_create_info#:#Select a completed xAPI/cmi5 object to generate a certificate for it
 cntr#:#cntr_add_new_item#:#Add New Item
 cntr#:#cntr_adopt_content#:#Adopt Content
-cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only.
+cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders, learning sequences or study programmes can only be copied as single objects. Please select one item only.
 cntr#:#cntr_copy_crs_grp#:#My Courses and Groups
 cntr#:#cntr_copy_repo_tree#:#Repository Tree
 cntr#:#cntr_hide_title_and_icon#:#Hide Title and Icon
@@ -3416,8 +3416,8 @@ common#:#access_users#:#Logged in Users
 common#:#accesscount_registered_users#:#Read by number of distinct ILIAS users
 common#:#accessibility_control_concept#:#Accessibility
 common#:#account#:#My Account
-common#:#account_expires_body#:#Your account is limited, it will expire at:
-common#:#account_expires_subject#:#Your account expires
+common#:#account_expires_body#:#your account %s on %s will expire at %s. After this date, access to ILIAS with this account will no longer be possible. To save your personal documents and certificates, please download them in good time.
+common#:#account_expires_subject#:#Your ILIAS account will expire soon!
 common#:#action#:#Action
 common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
@@ -5260,9 +5260,11 @@ common#:#presentation_table_more#:#Show More
 common#:#preview#:#Preview
 common#:#preview_create#:#Create Preview
 common#:#preview_delete#:#Delete Preview
+common#:#preview_image_size#:#Size of Preview Images
 common#:#preview_learner_info#:#If enabled, Course and Group administrators have the possibility to view the content form the perspective of a learner.
 common#:#preview_loading#:#Loading Preview...
 common#:#preview_none#:#Preview (not created yet)
+common#:#preview_not_possible#:#Creation of Previews is currently not possible, please read the documentation in %s.
 common#:#preview_renderers#:#Preview Renderers
 common#:#preview_settings#:#File Preview
 common#:#preview_show#:#Show Preview
@@ -5587,6 +5589,7 @@ common#:#show_list#:#Show List
 common#:#show_members#:#Display Members
 common#:#show_more#:#Show More
 common#:#show_owner#:#Show Owner
+common#:#show_preview#:#Show Preview
 common#:#show_users_online#:#Show active users
 common#:#show_who_is_online#:#Show who is online
 common#:#side_frame#:#Side Frame
@@ -7628,6 +7631,7 @@ crs#:#crs_objective_status#:#Objective Status
 crs#:#crs_objective_status_configure#:#Checklist for Course
 crs#:#crs_objective_status_itest#:#Assign Initial Test
 crs#:#crs_objective_status_materials#:#Create Course Content
+crs#:#crs_objective_status_materials_info#:#The course is currently empty. Add course materials that can be assigned to learning objectives.
 crs#:#crs_objective_status_objective_creation#:#Create Learning Objective
 crs#:#crs_objective_status_objectives#:#Configure Learning Objectives
 crs#:#crs_objective_status_qtest#:#Assign Final Test
@@ -8462,10 +8466,10 @@ dcl#:#dcl_field_title_change_warning#:#You changed the title of the field hence 
 dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.
 dcl#:#dcl_field_visible#:#Visible
 dcl#:#dcl_fieldtitle#:#Field Title
+dcl#:#dcl_file#:#Fileupload
+dcl#:#dcl_file_desc#:#Field to upload arbitrary files. They can be downloaded with a link.
 dcl#:#dcl_file_format_description#:#The file needs to be an excel .XLSX file with the data you want to import on the first sheet. In the first row there have to be exactly the names of the fields (case sensitive) you want to import and in the following rows you can add the values. It is strongly recommended to simulate your import first. When importing reference or selection fields with multi selection, commas and/or semicolons can be used as delimiters.
 dcl#:#dcl_file_not_readable#:#The file could not be read. Please make sure to upload an XLSX file.
-dcl#:#dcl_fileupload#:#Fileupload
-dcl#:#dcl_fileupload_desc#:#Field to upload arbitrary files. They can be downloaded with a link.
 dcl#:#dcl_filter#:#Available in filter
 dcl#:#dcl_filter_changeable#:#Filter changeable
 dcl#:#dcl_formula#:#Formula
@@ -8662,6 +8666,7 @@ dcl#:#dcl_wrong_length#:#The text you entered is to long.
 dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification for this field (Regular Expression).
 dcl#:#dlc_xls_async_export#:#Asynchronous XLSX-Export
 dcl#:#fieldtitle_allow_chars#:#Not allowed chars: %s
+dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.
 didactic#:#activate_exclusive_template#:#Grey Out Default
 didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.
 didactic#:#activate_local_didactic_template#:#Scope of Application
@@ -8961,6 +8966,7 @@ etal#:#change_date_of_talk#:#Change date of talk
 etal#:#date_of_talk#:#Start Date
 etal#:#etal_add#:#Add Talk
 etal#:#etal_add_new_item#:#Add new Talk
+etal#:#etal_create_invalid_template_ref#:#Invalid Talk Template ID
 etal#:#etal_date_appointment_edit#:#Date of Talk
 etal#:#etal_date_series_edit#:#Date of Talk Series
 etal#:#etal_edit#:#General
@@ -9467,6 +9473,8 @@ file#:#add_icon#:#Add Icon
 file#:#amount_of_downloads#:#Downloads
 file#:#amount_of_downloads_since#:#%d times since %s
 file#:#de_activate_icon#:#(De-)Activate
+file#:#download_ascii_filename#:#Use ASCII-only characters for downloaded filenames
+file#:#download_ascii_filename_info#:#Downloaded files should only have ASCII-characters in their filename. Deactivate to use all characters.
 file#:#file_copy#:#Copy File
 file#:#file_download#:#Download File
 file#:#file_import#:#Import File
@@ -9512,6 +9520,10 @@ file#:#msg_success_icon_updated#:#Icon successfully updated.
 file#:#msg_unzip_success#:#Archive has been successfully unziped.
 file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.
 file#:#on_click_action#:#Action on Click on Title
+file#:#preview_caption#:#Preview %sof %s
+file#:#preview_image_size_info#:#Maximum length of the preview images in px.
+file#:#preview_persisting#:#Persist Preview Images
+file#:#preview_persisting_info#:#Generated previews will be stored, otherwise the previews will be generated on the fly
 file#:#replace_file_info#:#All previous file versions will be deleted.
 file#:#resource_id#:#Resource ID
 file#:#show_amount_of_downloads#:#Show number of downloads
@@ -10066,7 +10078,7 @@ iass#:#grading_info#:#Grading info
 iass#:#grading_record#:#Grading record
 iass#:#iass_add#:#Create Individual Assessment
 iass#:#iass_add_user_failure#:#One or more user could not be added.
-iass#:#iass_add_user_success#:#User added as examinee.
+iass#:#iass_add_user_success#:#User added as participant.
 iass#:#iass_added#:#Individual Assessment added
 iass#:#iass_amend_saved#:#Amended record has been saved.
 iass#:#iass_assessment_not_completed#:#Not completed yet
@@ -10098,12 +10110,12 @@ iass#:#iass_filter_not_finalized#:#Drafts only
 iass#:#iass_filter_not_started#:#Not started only
 iass#:#iass_finalize#:#Finalize
 iass#:#iass_finalize_info#:#Individual Assessment will be finalized.
-iass#:#iass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.
+iass#:#iass_finalize_user_qst#:#Should the participant's status really be finalised? No changes possible thereafter.
 iass#:#iass_further_field_headline#:#Detailed Information
 iass#:#iass_graded_by#:#Graded by
 iass#:#iass_info_emails_expl#:#You may provide several addresses separated by comma.
 iass#:#iass_internal_note#:#Internal record note
-iass#:#iass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.
+iass#:#iass_internal_note_info#:#Internal notes are only visible for tutors but not for participants.
 iass#:#iass_location#:#Location
 iass#:#iass_mails#:#E-Mail
 iass#:#iass_may_not_finalize#:#Examinee may not be finalised. Please grade the user first.
@@ -10113,14 +10125,14 @@ iass#:#iass_mess_notification_completed#:#You passed the assessment <i>%s</i>. P
 iass#:#iass_mess_notification_failed#:#You failed the assessment <i>%s</i>. Please check the following grading record for details:
 iass#:#iass_no_entries#:#No entries found.
 iass#:#iass_notify#:#Make Result available to Participant
-iass#:#iass_notify_explanation#:#The examinee will be notified via e-mail after finalisation and will get access to her or his record on the Info screen.
+iass#:#iass_notify_explanation#:#The participant will be notified via e-mail after finalisation and will get access to her or his record on the Info screen.
 iass#:#iass_phone#:#Phone
 iass#:#iass_place#:#Place of assessment
 iass#:#iass_record#:#Record note
-iass#:#iass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too.
+iass#:#iass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the participant by e-mail, too.
 iass#:#iass_record_template#:#Record template
-iass#:#iass_record_template_explanation#:#Template for examinee grading record. Will be used automatically for any new examinee.
-iass#:#iass_remove_user_qst#:#Should the examinee really be removed?
+iass#:#iass_record_template_explanation#:#Template for participant grading record. Will be used automatically for any new participant.
+iass#:#iass_remove_user_qst#:#Should the participant really be removed?
 iass#:#iass_responsibility#:#Responsibility
 iass#:#iass_save_amend#:#Save Amended Record
 iass#:#iass_settings_saved#:#Settings saved.
@@ -10920,6 +10932,7 @@ mail#:#mail_generic_rcp_error#:#An error occured while validating the recipients
 mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.
 mail#:#mail_grp_roles#:#Send Mail to Group Roles
+mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.
 mail#:#mail_incoming#:#Incoming Mail
 mail#:#mail_incoming_both#:#Receive Mail Locally and Forward to:
 mail#:#mail_incoming_local#:#Receive Mail Locally Only
@@ -11073,6 +11086,7 @@ mail#:#placeholders_advise#:#Personal placeholders are only substituted for reci
 mail#:#search_content#:#Search Result
 mail#:#search_recipients#:#Search Recipients
 mail#:#second_email_missing_info#:#Selection not possible because no second e-mail address has been entered
+mail#:#select_mail_with_subject_x#:#Select mail with subject „%s“
 mail#:#send_mail_admins#:#All Administrators
 mail#:#send_mail_members#:#All Members
 mail#:#send_mail_to#:#Mail to
@@ -14098,7 +14112,7 @@ registration#:#reg_confirmation_hash_life_time_expired#:#This confirmation link 
 registration#:#reg_confirmation_hash_life_time_info#:#Enter for how long (in seconds ) the confirmation link should be valid. The recommended value is 1800 seconds.
 registration#:#reg_confirmation_hash_not_found#:#No user account could be matched to this confirmation link.
 registration#:#reg_confirmation_hash_not_passed#:#The confirmation link is incomplete.
-registration#:#reg_confirmation_link_successful#:#You have successfully registered your account with ILIAS. To activate your account, please click on the link in the confirmation e-mail that you will receive shortly. The confirmation link is only valid for a certain period of time, so to avoid having to re-register, we recommend that you click on the link within the next few minutes. <br /> You will be redirected to the <a href="%s" title="login screen">login screen</a> in 20 seconds.
+registration#:#reg_confirmation_link_successful#:#You have successfully registered your account with ILIAS. To activate your account, please click on the link in the confirmation e-mail that you will receive shortly. The confirmation link is only valid for a certain period of time, so to avoid having to re-register, we recommend that you click on the link within the next few minutes.
 registration#:#reg_default#:#Default
 registration#:#reg_deleted_assignment#:#Deleted assignment(s).
 registration#:#reg_direct#:#Direct Registration
@@ -14918,6 +14932,7 @@ skmg#:#skmg_new_level#:#New Level
 skmg#:#skmg_new_sktr#:#New Competence Template Reference
 skmg#:#skmg_next_step#:#Next Step
 skmg#:#skmg_no_nodes_selectable#:#Currently there are no competences selectable.
+skmg#:#skmg_no_skill_entries#:#You do not have any entries for this competence yet.
 skmg#:#skmg_no_skills#:#No Competences
 skmg#:#skmg_no_skills_selected_info#:#You have not selected or fulfilled any competences yet. Click on the "Add Competence"-button to select a competence. You can add any number of competences. If you fulfill competences by editing learning materials, they will be automatically listed here.
 skmg#:#skmg_no_trigger#:#No Trigger

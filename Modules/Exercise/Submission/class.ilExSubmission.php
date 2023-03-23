@@ -535,7 +535,7 @@ class ilExSubmission
 
 
                 $row["filename"] = $path .
-                    "/" . $storage_id . "/" . basename($row["filename"]);
+                    "/" . $storage_id . "/" . (($row["filename"]) ? basename($row["filename"]) : '');
 
                 // see 22301, 22719
                 if (is_file($row["filename"]) || (!$this->assignment->getAssignmentType()->usesFileUpload())) {

@@ -729,7 +729,9 @@ class ilObjForum extends ilObject
 
         // Prepare  cache array
         foreach ($ref_ids as $ref_id) {
-            self::$ref_id_to_forum_id_cache[$ref_id] = 0;
+            if (!array_key_exists($ref_id, self::$ref_id_to_forum_id_cache)) {
+                self::$ref_id_to_forum_id_cache[$ref_id] = 0;
+            }
         }
 
         while ($row = $ilDB->fetchAssoc($res)) {

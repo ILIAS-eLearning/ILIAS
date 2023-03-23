@@ -15,8 +15,6 @@
  *
  *********************************************************************/
 
-include_once "./Modules/TestQuestionPool/classes/export/qti12/class.assQuestionExport.php";
-
 /**
 * Class for formula question question exports
 *
@@ -38,7 +36,6 @@ class assOrderingHorizontalExport extends assQuestionExport
         global $DIC;
         $ilias = $DIC['ilias'];
 
-        include_once("./Services/Xml/classes/class.ilXmlWriter.php");
         $a_xml_writer = new ilXmlWriter();
         // set xml header
         $a_xml_writer->xmlHeader();
@@ -108,8 +105,6 @@ class assOrderingHorizontalExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("presentation");
 
         $this->addGenericFeedback($a_xml_writer);
-
-        $this->addAnswerSpecificFeedback($a_xml_writer, $this->object->feedbackOBJ->getAnswerOptionsByAnswerIndex());
 
         $a_xml_writer = $this->addSolutionHints($a_xml_writer);
 

@@ -56,9 +56,7 @@ class ilMStListUsersGUI
 
     protected function checkAccessOrFail(): void
     {
-        if ($this->access->hasCurrentUserAccessToMyStaff()
-            && $this->access->hasCurrentUserAccessToUser()
-        ) {
+        if ($this->access->hasCurrentUserAccessToMyStaff()) {
             return;
         } else {
             $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("permission_denied"), true);

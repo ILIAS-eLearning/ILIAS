@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Data\Clock\ClockInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -26,8 +26,9 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilMailOptionsTest extends ilMailBaseTest
 {
-    protected MockObject $setting;
     protected stdClass $object;
+    protected MockObject&ilDBInterface $database;
+    protected MockObject&ilSetting $settings;
 
     protected function setUp(): void
     {

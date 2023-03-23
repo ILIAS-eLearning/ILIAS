@@ -9,7 +9,7 @@ modules of ILIAS.
 * **Product Management**: [Matthias Kunkel]
 * **Technical Board**: [Timon Amstutz], [Michael Jansen], [Richard Klees], [Fabian Schmid], [Stephan Winiker]
 * **Testcase Management**: [Fabian Kruse]
-* **Documentation**: [Ann-Christin Gruber]
+* **Technical Documentation**: [Ann-Christin Gruber]
 * **Online Help**: [Alexandra Tödt]
 
 # Maintainers
@@ -219,16 +219,6 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 	* Tester: [elena](https://docu.ilias.de/goto_docu_usr_49160.html)
 
 [//]: # (END Chat)
-
-[//]: # (BEGIN CloudObject)
-
-* **Cloud Object**
-	* 1st Maintainer: [ttruffer](https://docu.ilias.de/goto_docu_usr_42894.html)
-	* 2nd Maintainer: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
-	* Testcases: [ttruffer](https://docu.ilias.de/goto_docu_usr_42894.html)
-	* Tester: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-
-[//]: # (END CloudObject)
 
 [//]: # (BEGIN cmi5AndxAPIObject)
 
@@ -874,26 +864,6 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 	* Tester: Alexander Grundkötter, Qualitus
 
 [//]: # (END SAML)
-
-[//]: # (BEGIN SCORMOfflinePlayer)
-
-* **SCORM Offline Player**
-	* 1st Maintainer: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-	* 2nd Maintainer: [sschneider](https://docu.ilias.de/goto_docu_usr_21741.html)
-	* Testcases: [sschneider](https://docu.ilias.de/goto_docu_usr_21741.html)
-	* Tester: [sschneider](https://docu.ilias.de/goto_docu_usr_21741.html)
-
-[//]: # (END SCORMOfflinePlayer)
-
-[//]: # (BEGIN SCORMOnlineEditor)
-
-* **SCORM Online Editor**
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
-	* Tester: [Hester](https://docu.ilias.de/goto_docu_usr_31687.html)
-
-[//]: # (END SCORMOnlineEditor)
 
 [//]: # (BEGIN Search)
 

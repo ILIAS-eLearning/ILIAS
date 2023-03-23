@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
 * Class ilObjQuestionPoolListGUI
@@ -55,8 +55,6 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
         $this->type = "qpl";
         $this->gui_class_name = "ilobjquestionpoolgui";
 
-        // general commands array
-        include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPoolAccess.php";
         $this->commands = ilObjQuestionPoolAccess::_getCommands();
     }
 
@@ -71,7 +69,6 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
         switch ($cmd) {
             case "":
             case "questions":
-                include_once "./Services/UICore/classes/class.ilFrameTargetInfo.php";
                 $frame = ilFrameTargetInfo::_getFrame("MainContent");
                 break;
 
@@ -99,7 +96,6 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
 
         $props = array();
 
-        include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
         if (!ilObjQuestionPool::_lookupOnline($this->obj_id)) {
             $props[] = array("alert" => true, "property" => $lng->txt("status"),
                 "value" => $lng->txt("offline"));

@@ -160,8 +160,6 @@ class ilTestRandomQuestionSetPoolDeriver
 
     protected function filterForQuestionRelatedTaxonomies($taxonomyIds, $relatedQuestionIds): array
     {
-        require_once 'Services/Taxonomy/classes/class.ilTaxNodeAssignment.php';
-
         $filteredTaxIds = array();
 
         foreach ($taxonomyIds as $taxonomyId) {
@@ -187,7 +185,6 @@ class ilTestRandomQuestionSetPoolDeriver
 
     protected function duplicateTaxonomies($poolQidByTestQidMap, ilObjQuestionPool $pool): ilQuestionPoolDuplicatedTaxonomiesKeysMap
     {
-        require_once 'Modules/TestQuestionPool/classes/class.ilQuestionPoolTaxonomiesDuplicator.php';
         $taxDuplicator = new ilQuestionPoolTaxonomiesDuplicator();
         $taxDuplicator->setSourceObjId($this->testOBJ->getId());
         $taxDuplicator->setSourceObjType($this->testOBJ->getType());

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -440,6 +440,11 @@ class ilMailFolderTableGUI extends ilTable2GUI
             ) {
                 $mail['checked'] = ' checked="checked" ';
             }
+            
+            $mail['txt_select_mail_with_subject'] = sprintf(
+                $this->lng->txt('select_mail_with_subject_x'),
+                htmlspecialchars($mail['m_subject'])
+            );
 
             if ($this->isDraftFolder() || $this->isSentFolder()) {
                 $mail['rcp_to'] = $mail['mail_login'] = ilUtil::htmlencodePlainString(

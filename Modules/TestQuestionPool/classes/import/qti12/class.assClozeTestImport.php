@@ -264,7 +264,7 @@ class assClozeTestImport extends assQuestionImport
             strlen($item->getMetadataEntry("feedback_mode")) ?
             $item->getMetadataEntry("feedback_mode") : ilAssClozeTestFeedback::FB_MODE_GAP_QUESTION
         );
-        $combination = json_decode(base64_decode($item->getMetadataEntry("combinations")));
+        $combinations = json_decode(base64_decode($item->getMetadataEntry("combinations")));
         if (strlen($textgap_rating) == 0) {
             $textgap_rating = "ci";
         }
@@ -272,10 +272,8 @@ class assClozeTestImport extends assQuestionImport
         $gaptext = array();
         foreach ($gaps as $gapidx => $gap) {
             $gapcontent = array();
-            include_once "./Modules/TestQuestionPool/classes/class.assClozeGap.php";
             $clozegap = new assClozeGap($gap["type"]);
             foreach ($gap["answers"] as $index => $answer) {
-                include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
                 $gapanswer = new assAnswerCloze($answer["answertext"], $answer["points"], $answer["answerorder"]);
                 $gapanswer->setGapSize((int) ($gap["gap_size"] ?? 0));
                 switch ($clozegap->getType()) {
@@ -309,6 +307,15 @@ class assClozeTestImport extends assQuestionImport
         );
         $this->object->saveToDb();
 
+        if (is_array($combinations) && count($combinations) > 0) {
+            assClozeGapCombination::clearGapCombinationsFromDb($this->object->getId());
+            assClozeGapCombination::importGapCombinationToDb($this->object->getId(), $combinations);
+            $gap_combinations = new assClozeGapCombination();
+            $gap_combinations->loadFromDb($this->object->getId());
+            $this->object->setGapCombinations($gap_combinations);
+            $this->object->setGapCombinationsExists(true);
+        }
+
         // handle the import of media objects in XHTML code
         foreach ($feedbacks as $ident => $material) {
             $m = $this->object->QTIMaterialToString($material);
@@ -321,8 +328,6 @@ class assClozeTestImport extends assQuestionImport
         $questiontext = $this->object->getQuestion();
         $clozetext = $this->object->getClozeText();
         if (is_array(ilSession::get("import_mob_xhtml"))) {
-            include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-            include_once "./Services/RTE/classes/class.ilRTE.php";
             foreach (ilSession::get("import_mob_xhtml") as $mob) {
                 if ($tst_id > 0) {
                     $importfile = $this->getTstImportArchivDirectory() . '/' . $mob["uri"];
@@ -362,6 +367,7 @@ class assClozeTestImport extends assQuestionImport
             );
         }
         $this->object->saveToDb();
+
         if (count($item->suggested_solutions)) {
             foreach ($item->suggested_solutions as $suggested_solution) {
                 $this->importSuggestedSolution(
@@ -371,21 +377,21 @@ class assClozeTestImport extends assQuestionImport
                 );
             }
         }
-        if ($tst_id > 0) {
-            $q_1_id = $this->object->getId();
-            $question_id = $this->object->duplicate(true, "", "", "", $tst_id);
-            $tst_object->questions[$question_counter++] = $question_id;
-            $import_mapping[$item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
-        } else {
-            $import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
+        if (isset($tst_id) && $tst_id !== $questionpool_id) {
+            $qpl_qid = $this->object->getId();
+            $tst_qid = $this->object->duplicate(true, "", "", "", $tst_id);
+            $tst_object->questions[$question_counter++] = $tst_qid;
+            $import_mapping[$item->getIdent()] = array("pool" => $qpl_qid, "test" => $tst_qid);
+            return $import_mapping;
         }
-        $this->object->saveToDb();
-        if (is_array($combination) && count($combination) > 0) {
-            require_once './Modules/TestQuestionPool/classes/class.assClozeGapCombination.php';
-            assClozeGapCombination::clearGapCombinationsFromDb($this->object->getId());
-            assClozeGapCombination::importGapCombinationToDb($this->object->getId(), $combination);
+
+        if (isset($tst_id)) {
+            $tst_object->questions[$question_counter++] = $this->object->getId();
+            $import_mapping[$item->getIdent()] = ["pool" => 0, "test" => $this->object->getId()];
+            return $import_mapping;
         }
-        $this->object->saveToDb();
+
+        $import_mapping[$item->getIdent()] = ["pool" => $this->object->getId(), "test" => 0];
         return $import_mapping;
     }
 
@@ -395,7 +401,6 @@ class assClozeTestImport extends assQuestionImport
      */
     protected function buildFeedbackIdentifier($ident): ilAssSpecificFeedbackIdentifier
     {
-        require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssSpecificFeedbackIdentifier.php';
         $fbIdentifier = new ilAssSpecificFeedbackIdentifier();
 
         $ident = explode('_', $ident);

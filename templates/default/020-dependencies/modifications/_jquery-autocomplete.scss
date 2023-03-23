@@ -13,6 +13,7 @@
 	background-color: btstrp.$dropdown-bg;
 	border: 1px solid s.$il-main-border-color;
 	font-size: s.$il-font-size-small;
+	z-index: 5;
     @include btstrp.box-shadow(2px 2px 4px #c0c0c0);
 	.ui-menu-item {
 		margin: 0;

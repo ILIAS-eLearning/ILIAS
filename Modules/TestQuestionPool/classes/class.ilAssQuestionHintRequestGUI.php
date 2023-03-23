@@ -77,15 +77,12 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 
         switch ($nextClass) {
             case 'ilasshintpagegui':
-
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintPageObjectCommandForwarder.php';
                 $forwarder = new ilAssQuestionHintPageObjectCommandForwarder($this->questionOBJ, $ilCtrl, $ilTabs, $lng);
                 $forwarder->setPresentationMode(ilAssQuestionHintPageObjectCommandForwarder::PRESENTATION_MODE_REQUEST);
                 $forwarder->forward();
                 break;
 
             default:
-
                 $cmd .= 'Cmd';
                 return $this->$cmd();
                 break;
@@ -103,8 +100,6 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
-
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsTableGUI.php';
 
         $questionHintList = $this->questionHintTracking->getRequestedHintsList();
 
@@ -145,24 +140,14 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 
         $questionHint = ilAssQuestionHint::getInstanceById((int) $this->request->raw('hintId'));
 
-        require_once 'Services/Utilities/classes/class.ilUtil.php';
-        require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-        require_once 'Services/Form/classes/class.ilNonEditableValueGUI.php';
-
-        // build form
-
         $form = new ilPropertyFormGUI();
-
         $form->setFormAction($ilCtrl->getFormAction($this));
-
         $form->setTableWidth('100%');
-
         $form->setTitle(sprintf(
             $lng->txt('tst_question_hints_form_header_edit'),
             $questionHint->getIndex(),
             $this->questionOBJ->getTitle()
         ));
-
         $form->addCommandButton(self::CMD_BACK_TO_QUESTION, $lng->txt('tst_question_hints_back_to_question'));
 
         $numExistingRequests = $this->questionHintTracking->getNumExistingRequests();

@@ -91,7 +91,6 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
 
         $this->setDisableFilterHiding(true);
 
-        include_once 'Services/Form/classes/class.ilSelectInputGUI.php';
         $participantStatus = new ilSelectInputGUI($lng->txt('tst_participant_status'), 'participant_status');
 
         $statusOptions = array();

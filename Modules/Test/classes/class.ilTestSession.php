@@ -126,7 +126,6 @@ class ilTestSession
         $ilLog = $DIC['ilLog'];
 
         if (!$this->active_id) {
-            require_once 'Modules/Test/exceptions/class.ilTestException.php';
             throw new ilTestException('missing active id on test pass increase!');
         }
 
@@ -230,7 +229,7 @@ class ilTestSession
                 array('integer','integer','text'),
                 array($user_id, $test_id, $this->getAccessCodeFromSession())
             );
-        } elseif (strlen($anonymous_id)) {
+        } elseif ($anonymous_id && $anonymous_id !== '') {
             $result = $ilDB->queryF(
                 "SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
                 array('integer','integer','text'),
@@ -585,7 +584,6 @@ class ilTestSession
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
 
-        require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
         $testPassesSelector = new ilTestPassesSelector($DIC->database(), $testObj);
         $testPassesSelector->setActiveId($this->getActiveId());
         $testPassesSelector->setLastFinishedPass($this->getLastFinishedPass());

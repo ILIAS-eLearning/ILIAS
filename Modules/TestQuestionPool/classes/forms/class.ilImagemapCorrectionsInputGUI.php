@@ -89,7 +89,6 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
         if ($this->getImage() != "") {
             $template->setCurrentBlock("image");
             if (count($this->getAreas())) {
-                include_once "./Modules/TestQuestionPool/classes/class.ilImagemapPreview.php";
                 $preview = new ilImagemapPreview($this->getImagePath() . $this->getValue());
                 foreach ($this->getAreas() as $index => $area) {
                     $preview->addArea($index, $area->getArea(), $area->getCoords(), $area->getAnswertext(), "", "", true, $this->getLineColor());

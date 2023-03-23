@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use PHPUnit\Framework\TestCase;
+declare(strict_types=1);
 
 /**
  * @author  Ingmar Szmais <iszmais@databay.de>
@@ -27,70 +25,82 @@ class ilNotificationOSDTest extends ilNotificationsBaseTest
 {
     private \ILIAS\Notifications\ilNotificationOSDHandler $handler;
     private ilObjUser $user;
-    private ilDBInterface $db;
+    private ilDBInterface&\PHPUnit\Framework\MockObject\MockObject $db;
     private array $database;
     private array $result;
 
-    private function createDBFunctionCalls(int $insert = 0, int $queryF = 0, int $fetchAssoc = 0, int $manipulateF = 0): void
-    {
+    private function createDBFunctionCalls(
+        int $insert = 0,
+        int $queryF = 0,
+        int $fetchAssoc = 0,
+        int $manipulateF = 0
+    ): void {
         $this->database = [];
         $this->result = [];
         $this->db->expects(self::exactly($insert))->method('nextId')->willReturnCallback(function (string $table): int {
             return count($this->database) + 1;
         });
-        $this->db->expects(self::exactly($insert))->method('insert')->willReturnCallback(function (string $table, array $object): int {
-            foreach ($object as &$value) {
-                $value = $value[1];
+        $this->db->expects(self::exactly($insert))->method('insert')->willReturnCallback(
+            function (string $table, array $object): int {
+                foreach ($object as &$value) {
+                    $value = $value[1];
+                }
+                unset($value);
+                $this->database[] = $object;
+                return $object['notification_osd_id'];
             }
-            unset($value);
-            $this->database[] = $object;
-            return $object['notification_osd_id'];
-        });
-        $this->db->expects(self::exactly($queryF))->method('queryF')->willReturnCallback(function (string $query, array $types, array $values): ilPDOStatement {
-            $this->result = [];
-            if (strpos($query, 'WHERE usr_id') !== false) {
-                foreach ($this->database as $row) {
-                    if ($row['usr_id'] === $values[0]) {
-                        $this->result[] = $row;
+        );
+        $this->db->expects(self::exactly($queryF))->method('queryF')->willReturnCallback(
+            function (string $query, array $types, array $values): ilPDOStatement {
+                $this->result = [];
+                if (str_contains($query, 'WHERE usr_id')) {
+                    foreach ($this->database as $row) {
+                        if ($row['usr_id'] === $values[0]) {
+                            $this->result[] = $row;
+                        }
                     }
                 }
-            }
-            if (strpos($query, 'WHERE notification_osd_id') !== false) {
-                foreach ($this->database as $row) {
-                    if ($row['notification_osd_id'] === $values[0]) {
-                        $this->result[] = $row;
+                if (str_contains($query, 'WHERE notification_osd_id')) {
+                    foreach ($this->database as $row) {
+                        if ($row['notification_osd_id'] === $values[0]) {
+                            $this->result[] = $row;
+                        }
                     }
                 }
+                if (str_contains($query, 'SELECT count(*) AS count')) {
+                    $this->result = [0 => ['count' => count($this->result)]];
+                }
+                return $this->createMock(ilPDOStatement::class);
             }
-            if (strpos($query, 'SELECT count(*) AS count') !== false) {
-                $this->result = [0 => ['count' => count($this->result)]];
+        );
+        $this->db->expects(self::exactly($fetchAssoc))->method('fetchAssoc')->willReturnCallback(
+            function (ilPDOStatement $rset): ?array {
+                return array_shift($this->result);
             }
-            return $this->createMock(ilPDOStatement::class);
-        });
-        $this->db->expects(self::exactly($fetchAssoc))->method('fetchAssoc')->willReturnCallback(function (ilPDOStatement $rset): ?array {
-            return array_shift($this->result);
-        });
-        $this->db->expects(self::exactly($manipulateF))->method('manipulateF')->willReturnCallback(function (string $query, array $types, array $values): int {
-            if (count($values) === 1) {
-                foreach ($this->database as $key => $row) {
-                    if ($row['notification_osd_id'] === $values[0]) {
-                        unset($this->database[$key]);
-                        return 1;
+        );
+        $this->db->expects(self::exactly($manipulateF))->method('manipulateF')->willReturnCallback(
+            function (string $query, array $types, array $values): int {
+                if (count($values) === 1) {
+                    foreach ($this->database as $key => $row) {
+                        if ($row['notification_osd_id'] === $values[0]) {
+                            unset($this->database[$key]);
+                            return 1;
+                        }
                     }
                 }
-            }
-            if (count($values) === 2) {
-                $i = 0;
-                foreach ($this->database as $key => $row) {
-                    if ($row['usr_id'] === $values[0] && $row['type'] === $values[1]) {
-                        unset($this->database[$key]);
-                        $i++;
+                if (count($values) === 2) {
+                    $i = 0;
+                    foreach ($this->database as $key => $row) {
+                        if ($row['usr_id'] === $values[0] && $row['type'] === $values[1]) {
+                            unset($this->database[$key]);
+                            $i++;
+                        }
                     }
+                    return $i;
                 }
-                return $i;
+                return 0;
             }
-            return 0;
-        });
+        );
     }
 
     protected function setUp(): void

@@ -176,6 +176,7 @@ class ilIndividualAssessmentSettingsGUI
         if (!is_null($settings)) {
             $this->object->setSettings($settings);
             $this->object->update();
+            $this->tpl->setOnScreenMessage("success", $this->lng->txt("settings_saved"), true);
             $this->ctrl->redirect($this, "edit");
         } else {
             $this->tpl->setContent($this->ui_renderer->render($form));

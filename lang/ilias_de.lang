@@ -3360,7 +3360,7 @@ cmxv#:#cmxv_create#:#Zertifikat für xAPI/cmi5-Objekt erstellen
 cmxv#:#cmxv_create_info#:#Wählen Sie ein abgeschlossenes xAPI/cmi5-Objekt aus, um ein Zertifikat dafür zu generieren.
 cntr#:#cntr_add_new_item#:#Neues Objekt hinzufügen
 cntr#:#cntr_adopt_content#:#Inhalte übernehmen
-cntr#:#cntr_container_only_on_their_own#:#Kategorien, Kurse, Gruppen, Ordner und Studienprogramme können nur einzeln kopiert werden. Bitte wählen Sie nur ein solches Objekt aus.
+cntr#:#cntr_container_only_on_their_own#:#Kategorien, Kurse, Gruppen, Ordner, Lernsequenzen und Studienprogramme können nur einzeln kopiert werden. Bitte wählen Sie nur ein solches Objekt aus.
 cntr#:#cntr_copy_crs_grp#:#Auswahl Mitgliedschaften
 cntr#:#cntr_copy_repo_tree#:#Auswahl Magazinbaum
 cntr#:#cntr_hide_title_and_icon#:#Titel und Icon nicht anzeigen
@@ -3415,8 +3415,8 @@ common#:#access_users#:#Eingeloggte Benutzer
 common#:#accesscount_registered_users#:#Gelesen von Benutzern (Anzahl)
 common#:#accessibility_control_concept#:#Info Barrierefreiheit
 common#:#account#:#Mein Konto
-common#:#account_expires_body#:#Ihr ILIAS-Konto ist zeitlich begrenzt. Ablauftermin:
-common#:#account_expires_subject#:#ILIAS-Konto
+common#:#account_expires_body#:#Ihr Konto %s auf der ILIAS-Installation %s läuft am %s ab. Nach diesem Datum wird der Zugang zu ILIAS mit diesem Konto nicht mehr möglich sein. Um Ihre persönlichen Dokumente und Zertifikate zu sichern, laden Sie diese bitte rechtzeitig herunter.
+common#:#account_expires_subject#:#Ihr ILIAS-Konto läuft bald aus!
 common#:#action#:#Aktion
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
@@ -5259,9 +5259,11 @@ common#:#presentation_table_more#:#Mehr anzeigen
 common#:#preview#:#Vorschau
 common#:#preview_create#:#Vorschau erstellen
 common#:#preview_delete#:#Vorschau löschen
+common#:#preview_image_size#:#Grösse der Vorschau-Bilder
 common#:#preview_learner_info#:#Wenn aktiviert, wird Kurs- und Gruppenadministratoren die Möglichkeit angeboten, den Kurs oder die Gruppe aus Sicht eines fiktiven Kurs- bzw. Gruppenmitglieds zu betrachten.
 common#:#preview_loading#:#Lade Vorschau...
 common#:#preview_none#:#Vorschau (noch nicht vorhanden)
+common#:#preview_not_possible#:#Erstellung von Vorschaubildern ist derzeit nicht möglich, bitte lesen Sie die Dokumentation in %s.
 common#:#preview_renderers#:#Vorschau-Renderer
 common#:#preview_settings#:#Dateivorschau
 common#:#preview_show#:#Vorschau anzeigen
@@ -5586,6 +5588,7 @@ common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
 common#:#show_more#:#Mehr zeigen
 common#:#show_owner#:#Besitzerinfo
+common#:#show_preview#:#Vorschau anzeigen
 common#:#show_users_online#:#Aktive Benutzer anzeigen
 common#:#show_who_is_online#:#Zeig wer online ist
 common#:#side_frame#:#Rahmen Baumansicht
@@ -7627,6 +7630,7 @@ crs#:#crs_objective_status#:#Lernzielstatus
 crs#:#crs_objective_status_configure#:#Checkliste Kurs
 crs#:#crs_objective_status_itest#:#Einstiegstest konfigurieren
 crs#:#crs_objective_status_materials#:#Lerninhalte  hinzufügen
+crs#:#crs_objective_status_materials_info#:#Der Kurs hat momentan keinen Inhalt. Fügen Sie Lerninhalte hinzu, die Lernzielen zugeordnet werden können.
 crs#:#crs_objective_status_objective_creation#:#Lernziele hinzufügen
 crs#:#crs_objective_status_objectives#:#Lernziele konfigurieren
 crs#:#crs_objective_status_qtest#:#Abschlusstest konfigurieren
@@ -8461,10 +8465,10 @@ dcl#:#dcl_field_title_change_warning#:#Sie haben den Titel des Feldes geändert.
 dcl#:#dcl_field_title_unique#:#Es existiert bereits ein Feld mit diesem Titel. Titel muss eindeutig sein.
 dcl#:#dcl_field_visible#:#Sichtbar
 dcl#:#dcl_fieldtitle#:#Feldtitel
+dcl#:#dcl_file#:#Datei-Upload
+dcl#:#dcl_file_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können
 dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel-Format .xlsx vorliegen, mit den zu importierenden Daten auf der ersten Seite. In der ersten Zeile müssen die exakten Namen der Felder stehen (inklusive Grossschreibung) und in den folgenden Zeilen die Werte der zu importierenden Datensatzeinträge. Es wird empfohlen, jeden Import zuerst zu simulieren. Für den Import von mehrfachen Einträgen bei Auswahlmenü-Feldern und Referenzfeldern werden Semikolon und/oder Komma als Trenner akzeptiert.
 dcl#:#dcl_file_not_readable#:#Die Datei konnte nicht gelesen werden. Bitte verwenden Sie das .xlsx-Dateiformat.
-dcl#:#dcl_fileupload#:#Datei-Upload
-dcl#:#dcl_fileupload_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können
 dcl#:#dcl_filter#:#Im Filter verfügbar
 dcl#:#dcl_filter_changeable#:#Filter änderbar
 dcl#:#dcl_formula#:#Formel
@@ -8661,6 +8665,7 @@ dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
 dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (Regulärer Ausdruck).
 dcl#:#dlc_xls_async_export#:#Asynchroner XLSX export
 dcl#:#fieldtitle_allow_chars#:#Nicht Erlaubte Zeichen: %s
+dcl#:#fileupload_not_migrated#:#Die Datei wurde noch nicht migriert und kann nicht angezeigt werden. Bitte wenden Sie sich an Ihre System-Administration.
 didactic#:#activate_exclusive_template#:#Standard ausgrauen
 didactic#:#activate_exclusive_template_info#:#Die Standard-Vorlage wird überall dort ausgegraut, wo diese didaktische Vorlage aktiv ist.
 didactic#:#activate_local_didactic_template#:#Gültigkeitsbereich
@@ -8960,6 +8965,7 @@ etal#:#change_date_of_talk#:#Gesprächsdatum anpassen
 etal#:#date_of_talk#:#Start Datum
 etal#:#etal_add#:#Hinzufügen
 etal#:#etal_add_new_item#:#Neues Gespräch hinzufügen
+etal#:#etal_create_invalid_template_ref#:#Ungültige Gesprächsvorlagen-ID
 etal#:#etal_date_appointment_edit#:#Gesprächsdatum
 etal#:#etal_date_series_edit#:#Gesprächsserie
 etal#:#etal_edit#:#Allgemein
@@ -9466,6 +9472,8 @@ file#:#add_icon#:#Icon hinzufügen
 file#:#amount_of_downloads#:#Downloads
 file#:#amount_of_downloads_since#:#%d seit %s
 file#:#de_activate_icon#:#(De-)Aktivieren
+file#:#download_ascii_filename#:#Verwende ASCII-Zeichen für Dateinamen von Downloads
+file#:#download_ascii_filename_info#:#Dateinamen von Heruntergeladenen Dateien sollten nur ASCII-Zeichen enthalten. Option deaktivieren, um alle Zeichen zu verwenden.
 file#:#file_copy#:#Datei kopieren
 file#:#file_download#:#Datei herunterladen
 file#:#file_import#:#Dateiimport
@@ -9511,6 +9519,10 @@ file#:#msg_success_icon_updated#:#Icon erfolgreich aktualisiert.
 file#:#msg_unzip_success#:#Archiv wurde erfolreich entpackt.
 file#:#not_yet_migrated#:#Dieses Datei-Objekt wurde noch nicht migriert und es können keine neue Versionen angelegt werden. Wenden Sie sich an die Administratoren der Plattform.
 file#:#on_click_action#:#Klick auf Titel
+file#:#preview_caption#:#Vorschau %svon %s
+file#:#preview_image_size_info#:#Maximale Seitenlänge der Vorschaubilder in px.
+file#:#preview_persisting#:#Vorschaubilder persistieren
+file#:#preview_persisting_info#:#Generierte vVorschaubilder werden gespeichert. Wenn deaktiviert, werden die Vorschaubilder jeweils beim Aufruf generiert.
 file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
 file#:#resource_id#:#Ressourcen ID
 file#:#show_amount_of_downloads#:#Anzahl Downloads anzeigen
@@ -10919,6 +10931,7 @@ mail#:#mail_generic_rcp_error#:#Beim Validieren des „An”-Feldes ist ein Fehl
 mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Bitte tragen Sie hier die gewünschte 'Reply-To'-E-Mail-Adresse ein.
 mail#:#mail_grp_roles#:#alle Personen mit folgenden lokalen Rollen###Modified as part of gender mainstreaming activities for ILIAS 8. Label is now generalised for all components that support ‘mail to members‘
+mail#:#mail_hint_add_placeholder_x#:#Füge Platzhalter '%s' in den Textkörper der Nachricht ein.
 mail#:#mail_incoming#:#Maileingang
 mail#:#mail_incoming_both#:#Lokal und Weiterleitung an E-Mail
 mail#:#mail_incoming_local#:#Nur lokal empfangen
@@ -11072,6 +11085,7 @@ mail#:#placeholders_advise#:#Persönliche Platzhalter werden nur für Personen i
 mail#:#search_content#:#Suchergebnis
 mail#:#search_recipients#:#Personen suchen###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#second_email_missing_info#:#Auswahl nicht möglich, da keine zweite E-Mail-Adresse eingetragen wurde
+mail#:#select_mail_with_subject_x#:#Wähle Mail mit Betreff „%s“
 mail#:#send_mail_admins#:#Alle Administratoren
 mail#:#send_mail_members#:#Alle Mitglieder
 mail#:#send_mail_to#:#Mail an
@@ -14912,6 +14926,7 @@ skmg#:#skmg_new_level#:#Neue Ausprägung
 skmg#:#skmg_new_sktr#:#Neue Vorlagenreferenz
 skmg#:#skmg_next_step#:#Nächster Schritt
 skmg#:#skmg_no_nodes_selectable#:#Zur Zeit sind keine Kompetenzen auswählbar.
+skmg#:#skmg_no_skill_entries#:#Sie besitzen für diese Kompetenz bisher keine Einträge.
 skmg#:#skmg_no_skills#:#Keine Kompetenz
 skmg#:#skmg_no_skills_selected_info#:#Sie haben noch keine Kompetenzen ausgewählt oder erworben. Klicken Sie auf den Button "Kompetenz hinzufügen" um eine Kompetenz auszuwählen. Sie können beliebig viele Kompetenzen hinzufügen. Wenn Sie Kompetenzen durch das Bearbeiten von Lerninhalten erwerben, werden diese automatisch hier aufgelistet.
 skmg#:#skmg_no_trigger#:#Kein Auslöser

@@ -50,7 +50,6 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         $this->test_ids = array();
         $this->test_ending_times = array();
 
-        require_once 'Modules/Test/classes/class.ilTestProcessLockerFactory.php';
         $this->processLockerFactory = new ilTestProcessLockerFactory(
             new ilSetting('assessment'),
             $this->db

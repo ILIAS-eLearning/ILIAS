@@ -169,7 +169,6 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
         }
         if ((strcmp($this->outputmode, "detailed") == 0) || (strcmp($this->outputmode, "detailed_printview") == 0)) {
             $this->tpl->setCurrentBlock("overview_row_detail");
-            include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
             $question_gui = assQuestion::instantiateQuestionGUI($a_set["question_id"]);
             $question_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PREVIEW);
             if (strcmp($this->outputmode, "detailed") == 0) {

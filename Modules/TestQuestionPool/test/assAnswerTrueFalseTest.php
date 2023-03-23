@@ -35,9 +35,6 @@ class assAnswerTrueFalseTest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerTrueFalse.php';
-
         // Act
         $instance = new ASS_AnswerTrueFalse();
 
@@ -46,8 +43,6 @@ class assAnswerTrueFalseTest extends assBaseTestCase
 
     public function test_setGetCorrectness_shouldReturnUnchangedState(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerTrueFalse.php';
         $instance = new ASS_AnswerTrueFalse();
         $expected = true;
 
@@ -61,8 +56,6 @@ class assAnswerTrueFalseTest extends assBaseTestCase
 
     public function test_isTrue_shouldReturnTrue(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerTrueFalse.php';
         $instance = new ASS_AnswerTrueFalse();
         $expected = true;
 
@@ -76,8 +69,6 @@ class assAnswerTrueFalseTest extends assBaseTestCase
 
     public function test_isFalse_shouldReturnFalseOnTrueState(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerTrueFalse.php';
         $instance = new ASS_AnswerTrueFalse();
         $expected = false;
 
@@ -91,8 +82,6 @@ class assAnswerTrueFalseTest extends assBaseTestCase
 
     public function test_setFalseGetCorrectness_shouldReturnFalse(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerTrueFalse.php';
         $instance = new ASS_AnswerTrueFalse();
         $expected = false;
 
@@ -106,8 +95,6 @@ class assAnswerTrueFalseTest extends assBaseTestCase
 
     public function test_setTrueIsTrue_shouldReturnUnchangedState(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerTrueFalse.php';
         $instance = new ASS_AnswerTrueFalse();
         $expected = true;
 
@@ -121,8 +108,6 @@ class assAnswerTrueFalseTest extends assBaseTestCase
 
     public function test_setFalseIsFalse_shouldReturnUnchangedState(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerTrueFalse.php';
         $instance = new ASS_AnswerTrueFalse();
         $expected = true;
 

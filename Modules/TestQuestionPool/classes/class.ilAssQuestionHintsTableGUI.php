@@ -98,10 +98,8 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
         $tableData = $questionHintList->getTableData();
 
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
-            require_once 'Modules/TestQuestionPool/classes/class.ilAssHintPageGUI.php';
-
             foreach ($tableData as $key => $data) {
-                $this->ensurePageObjectExists('qht', $data['hint_id']);
+                $this->questionOBJ->ensureHintPageObjectExists($data['hint_id']);
                 $pageObjectGUI = new ilAssHintPageGUI($data['hint_id']);
                 $pageObjectGUI->setOutputMode("presentation");
                 $tableData[$key]['hint_text'] = $pageObjectGUI->presentation();
@@ -320,15 +318,5 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
         $txt = ilLegacyFormElementsUtil::prepareTextareaOutput($a_set['hint_text'], true);
         $this->tpl->setVariable('HINT_TEXT', $txt);
         $this->tpl->setVariable('HINT_POINTS', $a_set['hint_points']);
-    }
-
-    protected function ensurePageObjectExists($pageObjectType, $pageObjectId): void
-    {
-        if (!ilAssHintPage::_exists($pageObjectType, $pageObjectId)) {
-            $pageObject = new ilAssHintPage();
-            $pageObject->setParentId($this->questionOBJ->getId());
-            $pageObject->setId($pageObjectId);
-            $pageObject->createFromXML();
-        }
     }
 }

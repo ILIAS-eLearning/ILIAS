@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "43256135045fca58397813bb01b048fc",
+    "content-hash": "d48ca424ec0c6174106bc873971f6ef7",
     "packages": [
         {
             "name": "brick/math",
@@ -274,16 +274,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "2.15.0",
+            "version": "2.15.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "3e8aebbca9f0ae6f618962c4ad514077fd365ab3"
+                "reference": "e864ac957acd66e1565f25efda61e37791a5db0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/3e8aebbca9f0ae6f618962c4ad514077fd365ab3",
-                "reference": "3e8aebbca9f0ae6f618962c4ad514077fd365ab3",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/e864ac957acd66e1565f25efda61e37791a5db0b",
+                "reference": "e864ac957acd66e1565f25efda61e37791a5db0b",
                 "shasum": ""
             },
             "require": {
@@ -333,7 +333,7 @@
             ],
             "support": {
                 "issues": "https://github.com/filp/whoops/issues",
-                "source": "https://github.com/filp/whoops/tree/2.15.0"
+                "source": "https://github.com/filp/whoops/tree/2.15.1"
             },
             "funding": [
                 {
@@ -341,7 +341,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-03-03T12:00:00+00:00"
+            "time": "2023-03-06T18:09:13+00:00"
         },
         {
             "name": "geshi/geshi",
@@ -1784,16 +1784,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.7.1",
+            "version": "v6.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "49cd7ea3d2563f028d7811f06864a53b1f15ff55"
+                "reference": "df16b615e371d81fb79e506277faea67a1be18f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/49cd7ea3d2563f028d7811f06864a53b1f15ff55",
-                "reference": "49cd7ea3d2563f028d7811f06864a53b1f15ff55",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/df16b615e371d81fb79e506277faea67a1be18f1",
+                "reference": "df16b615e371d81fb79e506277faea67a1be18f1",
                 "shasum": ""
             },
             "require": {
@@ -1852,7 +1852,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.7.1"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.8.0"
             },
             "funding": [
                 {
@@ -1860,7 +1860,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-12-08T13:30:06+00:00"
+            "time": "2023-03-06T14:43:22+00:00"
         },
         {
             "name": "phpoffice/phpspreadsheet",
@@ -3415,16 +3415,16 @@
         },
         {
             "name": "simplesamlphp/saml2",
-            "version": "v4.6.5",
+            "version": "v4.6.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simplesamlphp/saml2.git",
-                "reference": "35e4cac48ef97d454d25a92eb24c85cadf96de9d"
+                "reference": "717c0adc4877ebd58428637e5626345e59fa0109"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simplesamlphp/saml2/zipball/35e4cac48ef97d454d25a92eb24c85cadf96de9d",
-                "reference": "35e4cac48ef97d454d25a92eb24c85cadf96de9d",
+                "url": "https://api.github.com/repos/simplesamlphp/saml2/zipball/717c0adc4877ebd58428637e5626345e59fa0109",
+                "reference": "717c0adc4877ebd58428637e5626345e59fa0109",
                 "shasum": ""
             },
             "require": {
@@ -3467,9 +3467,9 @@
             "description": "SAML2 PHP library from SimpleSAMLphp",
             "support": {
                 "issues": "https://github.com/simplesamlphp/saml2/issues",
-                "source": "https://github.com/simplesamlphp/saml2/tree/v4.6.5"
+                "source": "https://github.com/simplesamlphp/saml2/tree/v4.6.6"
             },
-            "time": "2022-11-23T12:50:43+00:00"
+            "time": "2023-03-08T19:32:49+00:00"
         },
         {
             "name": "simplesamlphp/simplesamlphp",
@@ -8497,16 +8497,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.14.4",
+            "version": "v3.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "1b3d9dba63d93b8a202c31e824748218781eae6b"
+                "reference": "7306744c63e9cc1337894252b4eec4920c38b053"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/1b3d9dba63d93b8a202c31e824748218781eae6b",
-                "reference": "1b3d9dba63d93b8a202c31e824748218781eae6b",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/7306744c63e9cc1337894252b4eec4920c38b053",
+                "reference": "7306744c63e9cc1337894252b4eec4920c38b053",
                 "shasum": ""
             },
             "require": {
@@ -8573,9 +8573,15 @@
                 }
             ],
             "description": "A tool to automatically fix PHP code style",
+            "keywords": [
+                "Static code analysis",
+                "fixer",
+                "standards",
+                "static analysis"
+            ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.14.4"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.15.0"
             },
             "funding": [
                 {
@@ -8583,7 +8589,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-02-09T21:49:13+00:00"
+            "time": "2023-03-12T22:44:55+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
@@ -8761,16 +8767,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.11.0",
+            "version": "1.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "14daed4296fae74d9e3201d2c4925d1acb7aa614"
+                "reference": "7284c22080590fb39f2ffa3e9057f10a4ddd0e0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/14daed4296fae74d9e3201d2c4925d1acb7aa614",
-                "reference": "14daed4296fae74d9e3201d2c4925d1acb7aa614",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/7284c22080590fb39f2ffa3e9057f10a4ddd0e0c",
+                "reference": "7284c22080590fb39f2ffa3e9057f10a4ddd0e0c",
                 "shasum": ""
             },
             "require": {
@@ -8808,7 +8814,7 @@
             ],
             "support": {
                 "issues": "https://github.com/myclabs/DeepCopy/issues",
-                "source": "https://github.com/myclabs/DeepCopy/tree/1.11.0"
+                "source": "https://github.com/myclabs/DeepCopy/tree/1.11.1"
             },
             "funding": [
                 {
@@ -8816,7 +8822,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-03T13:19:32+00:00"
+            "time": "2023-03-08T13:26:56+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -8987,16 +8993,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.3",
+            "version": "1.10.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "5419375b5891add97dc74be71e6c1c34baaddf64"
+                "reference": "50d089a3e0904b0fe7e2cf2d4fd37d427d64235a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/5419375b5891add97dc74be71e6c1c34baaddf64",
-                "reference": "5419375b5891add97dc74be71e6c1c34baaddf64",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/50d089a3e0904b0fe7e2cf2d4fd37d427d64235a",
+                "reference": "50d089a3e0904b0fe7e2cf2d4fd37d427d64235a",
                 "shasum": ""
             },
             "require": {
@@ -9026,7 +9032,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.10.3"
+                "source": "https://github.com/phpstan/phpstan/tree/1.10.6"
             },
             "funding": [
                 {
@@ -9042,7 +9048,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-02-25T14:47:13+00:00"
+            "time": "2023-03-09T16:55:12+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -9364,16 +9370,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.6.4",
+            "version": "9.6.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "9125ee085b6d95e78277dc07aa1f46f9e0607b8d"
+                "reference": "86e761949019ae83f49240b2f2123fb5ab3b2fc5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/9125ee085b6d95e78277dc07aa1f46f9e0607b8d",
-                "reference": "9125ee085b6d95e78277dc07aa1f46f9e0607b8d",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/86e761949019ae83f49240b2f2123fb5ab3b2fc5",
+                "reference": "86e761949019ae83f49240b2f2123fb5ab3b2fc5",
                 "shasum": ""
             },
             "require": {
@@ -9406,8 +9412,8 @@
                 "sebastian/version": "^3.0.2"
             },
             "suggest": {
-                "ext-soap": "*",
-                "ext-xdebug": "*"
+                "ext-soap": "To be able to generate mocks based on WSDL files",
+                "ext-xdebug": "PHP extension that provides line coverage as well as branch and path coverage"
             },
             "bin": [
                 "phpunit"
@@ -9446,7 +9452,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.4"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.5"
             },
             "funding": [
                 {
@@ -9462,7 +9468,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-02-27T13:06:37+00:00"
+            "time": "2023-03-09T06:34:10+00:00"
         },
         {
             "name": "rector/rector",
@@ -10911,7 +10917,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.1 <8.2",
+        "php": ">=8.1 <8.3",
         "ext-gd": "*",
         "ext-dom": "*",
         "ext-xsl": "*",
