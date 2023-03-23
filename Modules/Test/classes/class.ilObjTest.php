@@ -10176,19 +10176,18 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $user = $feedback_old['finalized_by_usr_id'];
             $finalized_time = $feedback_old['finalized_tstamp'];
         }
+        if ($finalized == false || $finalized == NULL) {
 
-        if ($finalized === true || $feedback_old['finalized_evaluation'] == 1) {
-            if (!array_key_exists('evaluated', $_POST)) {
-                $update_default['finalized_evaluation'] = ['integer', 0];
-                $update_default['finalized_by_usr_id'] = ['integer', 0];
-                $update_default['finalized_tstamp'] = ['integer', 0];
-            } else {
-                $update_default['finalized_evaluation'] = ['integer', 1];
-                $update_default['finalized_by_usr_id'] = ['integer', $user];
-                $update_default['finalized_tstamp'] = ['integer', $finalized_time];
-            }
+            $update_default['finalized_evaluation'] = ['integer', 0];
+            $update_default['finalized_by_usr_id'] = ['integer', 0];
+            $update_default['finalized_tstamp'] = ['integer', 0];
         }
-
+       elseif ($finalized == true) {
+            $update_default['finalized_evaluation'] = ['integer', 1];
+            $update_default['finalized_by_usr_id'] = ['integer', $user];
+            $update_default['finalized_tstamp'] = ['integer', $finalized_time];
+        }
+        
         $ilDB->insert('tst_manual_fb', $update_default);
     }
 
