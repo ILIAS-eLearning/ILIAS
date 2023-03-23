@@ -36,7 +36,7 @@ class assClozeGapCombination
 									INNER JOIN qpl_a_cloze AS cloze
 													WHERE combinations.question_fi = cloze.question_fi
 													AND combinations.gap_fi = cloze.gap_id
-													AND combinations.question_fi = %s 
+													AND combinations.question_fi = %s
 									ORDER BY combination_id, row_id, gap_fi ASC
 									',
             array('integer'),
@@ -116,7 +116,7 @@ class assClozeGapCombination
                             $gap_combinations['select'][$i][$k],
                             $j,
                             $gap_values[$i][$j][$k],
-                            (float) $gap_combinations['points'][$i][$j], //Temporary cast solution demanded by @kergomard in https://github.com/ILIAS-eLearning/ILIAS/pull/5178#issuecomment-1301983937
+                            (float) str_replace(',', '.', $gap_combinations['points'][$i][$j]),
                             $best_solution
                         )
                     );

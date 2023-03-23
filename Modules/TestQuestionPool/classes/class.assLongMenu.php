@@ -302,12 +302,12 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
                         ),
                     array(
                         'answer_text' => array('text', $answer),
-                        'points' => array('float', (float) $gap[1]),
+                        'points' => array('float', (float) str_replace(',', '.', $gap[1])),
                         'type' => array('integer', (int) $type)
                         )
                 );
             }
-            $points += (float) $gap[1];
+            $points += (float) str_replace(',', '.', $gap[1]);
         }
         $this->setPoints($points);
     }

@@ -76,7 +76,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                 $this->object->addErrorData(
                     $val,
                     $errordata['value'][$idx],
-                    (float) $errordata['points'][$idx]
+                    (float) str_replace(',', '.', $errordata['points'][$idx])
                 );
             }
         }
@@ -565,6 +565,6 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
             );
         }
 
-        $this->object->setPointsWrong((float) $form->getInput('points_wrong'));
+        $this->object->setPointsWrong((float) str_replace(',', '.', $form->getInput('points_wrong')));
     }
 }

@@ -911,7 +911,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
     public function saveCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
         $this->object->setPoints(
-            (float) $form->getInput('points')
+            (float) str_replace(',', '.', $form->getInput('points'))
         );
 
         $this->object->setScorePartialSolutionEnabled(

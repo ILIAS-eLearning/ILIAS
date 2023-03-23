@@ -1127,7 +1127,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
             array_push($answers, array(
                 "answertext_wrong" => (string) $answer_obj->text_wrong,
                 "answertext_correct" => (string) $answer_obj->text_correct,
-                "points" => (float) $answer_obj->points,
+                "points" => (float) str_replace(',', '.', $answer_obj->points),
                 "order" => (int) $idx + 1
             ));
         }
