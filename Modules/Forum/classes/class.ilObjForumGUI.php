@@ -1966,9 +1966,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->viewThreadObject();
     }
 
-    public function getActivationFormHTML(): string
+    public function addActivationFormModal(): ILIAS\UI\Component\Button\Standard
     {
-        $form_tpl = new ilTemplate('tpl.frm_activation_post_form.html', true, true, 'Modules/Forum');
+        $form = new ilPropertyFormGUI();
         $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
         $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
         $this->ctrl->setParameter(
@@ -1976,17 +1976,30 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             'orderby',
             $this->getOrderByParam()
         );
-        $form_tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, 'performPostActivation'));
-        $form_tpl->setVariable('SPACER', '<hr noshade="noshade" width="100%" size="1" align="center" />');
-        $form_tpl->setVariable('ANCHOR', $this->objCurrentPost->getId());
-        $form_tpl->setVariable('TXT_ACT', $this->lng->txt('activate_post_txt'));
-        $form_tpl->setVariable('CONFIRM_BUTTON', $this->lng->txt('activate_only_current'));
-        $form_tpl->setVariable('CMD_CONFIRM', 'performPostActivation');
-        $form_tpl->setVariable('CANCEL_BUTTON', $this->lng->txt('cancel'));
-        $form_tpl->setVariable('CMD_CANCEL', 'viewThread');
+        $form->setFormAction($this->ctrl->getFormAction($this, 'performPostActivation'));
+        $this->ctrl->clearParameters($this);
+        $form->setId('frm_activate_post_' . $this->objCurrentPost->getId());
+        $form_id = $form->getId();
+        $message = $this->uiFactory->messageBox()->confirmation($this->lng->txt('activate_post_txt'));
+        $submitBtn = $this->uiFactory->button()->primary(
+            $this->lng->txt('activate_only_current'),
+            '#'
+        )->withOnLoadCode(
+            static function (string $id) use ($form_id): string {
+                return "$('#$id').click(function() { $('#form_$form_id').submit(); return false; });";
+            }
+        );
+        $modal = $this->uiFactory->modal()->roundtrip(
+            $this->lng->txt('activate_only_current'),
+            [$this->uiFactory->legacy($form->getHTML()), $message]
+        )->withActionButtons([$submitBtn]);
+        $action_button = $this->uiFactory->button()->standard($this->lng->txt('activate_post'), '#')->withOnClick(
+            $modal->getShowSignal()
+        );
+        $this->modalActionsContainer[] = $modal;
         $this->ctrl->clearParameters($this);
 
-        return $form_tpl->get();
+        return $action_button;
     }
 
     public function getCensorshipFormHTML(): string
@@ -3211,9 +3224,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     } elseif ($this->requestAction === 'censor' &&
                         !$this->objCurrentTopic->isClosed() && $this->is_moderator) {
                         $threadContentTemplate->setVariable('FORM', $this->getCensorshipFormHTML());
-                    } elseif (!$this->objCurrentTopic->isClosed() &&
-                        $this->displayConfirmPostActivation() && $this->is_moderator) {
-                        $threadContentTemplate->setVariable('FORM', $this->getActivationFormHTML());
                     }
                 }
 
@@ -5622,11 +5632,15 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             }
             $action_menu = $this->uiFactory->dropdown()->standard($items);
             $render_content = [$action_menu];
-            if (isset($primary_action)) {
-                $action_button = $this->uiFactory->button()->standard(
-                    $this->lng->txt($primary_action_language_id),
-                    $primary_action
-                );
+            if (isset($primary_action, $primary_action_language_id)) {
+                if ($primary_action_language_id === 'activate_post') {
+                    $action_button = $this->addActivationFormModal();
+                } else {
+                    $action_button = $this->uiFactory->button()->standard(
+                        $this->lng->txt($primary_action_language_id),
+                        $primary_action
+                    );
+                }
                 array_unshift($render_content, $action_button);
             }
             $tpl->setVariable('COMMANDS', $this->uiRenderer->render($render_content));
