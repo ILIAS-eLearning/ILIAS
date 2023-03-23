@@ -79,9 +79,6 @@ class ilLearningSequenceBlockGUI extends ilDashboardBlockGUI
                 continue;
             }
 
-            if (!$this->isRelevantLso($lso_obj)) {
-                continue;
-            }
 
             $data[] = [
                 'title' => $lso_obj->getTitle(),

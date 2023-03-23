@@ -19,6 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Component\MessageBox\MessageBox;
+use ILIAS\UI\Implementation\Component\ReplaceSignal;
+use JetBrains\PhpStorm\NoReturn;
 
 /**
  * @ilCtrl_IsCalledBy ilDashboardBlockGUI: ilColumnGUI
@@ -36,6 +38,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     protected ilSetting $settings;
     protected ilLogger $logging;
     protected ILIAS\HTTP\Services $http;
+    private ILIAS\Refinery\Factory $refinery;
     protected ILIAS\UI\Factory $factory;
     protected ILIAS\UI\Renderer $renderer;
     protected ilPDSelectedItemsBlockViewSettings $viewSettings;
@@ -51,6 +54,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $this->factory = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();
         $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
         $this->logging = $DIC->logger()->root();
         $this->settings = $DIC->settings();
         $this->object_cache = $DIC['ilObjDataCache'];
@@ -373,14 +377,29 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
             }
         }
 
-        if (!$this->viewSettings->isLearningSequenceViewActive() && !$this->viewSettings->isStudyProgrammeViewActive()) {
+
+        if (!$this->viewSettings->isStudyProgrammeViewActive()) {
+            $roundtrip_modal = $this->ui->factory()->modal()->roundtrip(
+                $this->viewSettings->isMembershipsViewActive() ?
+                    $this->lng->txt('pd_remove_multiple') :
+                    $this->lng->txt('pd_unsubscribe_multiple_memberships'),
+                $this->ui->factory()->legacy('PH')
+            );
+            $roundtrip_modal = $roundtrip_modal->withAsyncRenderUrl(
+                $this->ctrl->getLinkTarget(
+                    $this,
+                    'removeFromDeskRoundtrip'
+                ) . '&page=manage&replaceSignal=' . $roundtrip_modal->getReplaceSignal()->getId()
+            );
             $this->addBlockCommand(
                 $this->ctrl->getLinkTarget($this, 'manage'),
                 $this->viewSettings->isSelectedItemsViewActive() ||
                 $this->viewSettings->isMembershipsViewActive() ||
                 $this->viewSettings->isRecommendedContentViewActive() ?
                     $this->lng->txt('pd_remove_multiple') :
-                    $this->lng->txt('pd_unsubscribe_multiple_memberships')
+                    $this->lng->txt('pd_unsubscribe_multiple_memberships'),
+                '',
+                $roundtrip_modal
             );
         }
     }
@@ -455,24 +474,65 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         }
     }
 
-    public function manageObject(): string
+    #[NoReturn]
+    public function removeFromDeskRoundtripObject(): void
     {
-        $top_tb = new ilToolbarGUI();
-        $top_tb->setFormAction($this->ctrl->getFormAction($this));
-        $top_tb->setLeadingImage(ilUtil::getImagePath('arrow_upright.svg'), $this->lng->txt('actions'));
+        $page = '';
+        if ($this->http->wrapper()->query()->has('page')) {
+            $page = $this->http->wrapper()->query()->retrieve('page', $this->refinery->kindlyTo()->string());
+        }
 
-        $button = ilSubmitButton::getInstance();
+        if ($this->http->wrapper()->query()->has('replaceSignal')) {
+            $signalId = $this->http->wrapper()->query()->retrieve('replaceSignal', $this->refinery->kindlyTo()->string());
+            $replace_signal = new ReplaceSignal($signalId);
+        }
+
+        switch ($page) {
+            case 'manage':
+                $modal = $this->ui->factory()->modal()->roundtrip(
+                    $this->lng->txt('pd_remove_multiple'),
+                    $this->ui->factory()->legacy($this->manage($replace_signal))
+                );
+                break;
+            case 'confirm':
+            default:
+                $modal = $this->ui->factory()->modal()->roundtrip(
+                    $this->lng->txt('pd_remove_multiple'),
+                    $this->ui->factory()->legacy($this->confirmRemoveObject())
+                );
+                break;
+        }
+        echo $this->ui->renderer()->renderAsync($modal);
+        exit;
+    }
+
+    public function manage(ILIAS\UI\Component\ReplaceSignal $replace_signal = null): string
+    {
+        $page = '';
+        if ($this->http->wrapper()->query()->has('page')) {
+            $page = $this->http->wrapper()->query()->retrieve('page', $this->refinery->kindlyTo()->string());
+        }
+        $top_tb = new ilToolbarGUI();
+        $top_tb->setFormAction($this->ctrl->getFormAction($this, 'confirmRemove'));
+        $top_tb->setFormName('pd_remove_multiple');
+        $top_tb->setLeadingImage(ilUtil::getImagePath('arrow_upright.svg'), $this->lng->txt('actions'));
+        $button = $this->ui->factory()->button()->standard($this->lng->txt('pd_unsubscribe_memberships'), '#')
+//        ->withOnLoadCode(function ($id) {
+//            return "$('#{$id}').click(function() { $('form[name=\"pd_remove_multiple\"]').submit(); return false; });";
+//        });
+        ->withOnClick(
+            $replace_signal->withAsyncRenderUrl(
+                $this->ctrl->getLinkTarget(
+                    $this,
+                    'removeFromDeskRoundtrip',
+                    '',
+                    true
+                ) . '&page=confirm&replaceSignal=' . $replace_signal->getId()
+            )
+        );
+
         $grouped_items = [];
         $item_groups = $this->getItemGroups();
-        if (
-            $this->viewSettings->isSelectedItemsViewActive() ||
-            $this->viewSettings->isRecommendedContentViewActive() ||
-            $this->viewSettings->isMembershipsViewActive()
-        ) {
-            $button->setCaption('remove');
-        } else {
-            $button->setCaption('pd_unsubscribe_memberships');
-        }
         foreach ($item_groups as $key => $item_group) {
             $group = new ilPDSelectedItemsBlockGroup();
             $group->setLabel($key);
@@ -485,7 +545,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
             $group->setItems($items);
             $grouped_items[] = $group;
         }
-        $button->setCommand('confirmRemove');
         $top_tb->addStickyItem($button);
 
         $top_tb->setCloseFormTag(false);
@@ -525,6 +584,20 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
                 $this->main_tpl->setHeaderActionMenu($ui->renderer()->render($dd));
             }
         }
+
+        $title = '';
+        if (
+            $this->viewSettings->isSelectedItemsViewActive() ||
+            $this->viewSettings->isRecommendedContentViewActive() ||
+            $this->viewSettings->isMembershipsViewActive()
+        ) {
+            $title .= $this->lng->txt('remove');
+        } else {
+            $title .= $this->lng->txt('pd_unsubscribe_memberships');
+        }
+        $title .= ' ' . strtolower($this->lng->txt('from')) . ' ' .
+            $this->lng->txt('dash_' . $this->viewSettings->getViewName($this->viewSettings->getCurrentView()));
+        $this->main_tpl->setTitle($title);
 
         return (new ilDashObjectsTableRenderer($this))->render($grouped_items);
     }
@@ -638,6 +711,13 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
                         );
                         break;
 
+                    case 'lso':
+                        $lso = ilObjLearningSequence::getInstanceByRefId((int) $ref_id);
+                        if ($lso instanceof ilObjLearningSequence) {
+                            $lso->getLSRoles()->leave($this->user->getId());
+                        }
+                        break;
+
                     default:
                         continue 2;
                 }
@@ -697,7 +777,18 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         if (count($presentationCommands) > 1) {
             $commandGroups[] = $presentationCommands;
         }
-
+        $roundtrip_modal = $this->ui->factory()->modal()->roundtrip(
+            $this->viewSettings->isMembershipsViewActive() ?
+                $this->lng->txt('pd_remove_multiple') :
+                $this->lng->txt('pd_unsubscribe_multiple_memberships'),
+            $this->ui->factory()->legacy('PH')
+        );
+        $roundtrip_modal = $roundtrip_modal->withAsyncRenderUrl(
+            $this->ctrl->getLinkTarget(
+                $this,
+                'removeFromDeskRoundtrip'
+            ) . '&page=manage&replaceSignal=' . $roundtrip_modal->getReplaceSignal()->getId()
+        );
         $commandGroups[] = [
             [
                 'txt' => $this->viewSettings->isSelectedItemsViewActive() ||
@@ -708,6 +799,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
                 'url' => $this->ctrl->getLinkTarget($this, 'manage'),
                 'asyncUrl' => null,
                 'active' => false,
+                'modal' => $roundtrip_modal,
             ]
         ];
 

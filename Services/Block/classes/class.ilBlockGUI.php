@@ -316,12 +316,13 @@ abstract class ilBlockGUI
         return $this->rowtemplatedir;
     }
 
-    public function addBlockCommand(string $a_href, string $a_text, string $a_onclick = ""): void
+    public function addBlockCommand(string $a_href, string $a_text, string $a_onclick = "", ILIAS\UI\Component\Modal\RoundTrip $modal = null): void
     {
         $this->block_commands[] = [
             "href" => $a_href,
             "text" => $a_text,
-            "onclick" => $a_onclick
+            "onclick" => $a_onclick,
+            "modal" => $modal
         ];
     }
 
@@ -868,6 +869,7 @@ abstract class ilBlockGUI
 
         // actions
         $actions = [];
+        $modals = [];
 
         foreach ($this->getBlockCommands() as $command) {
             $href = ($command["onclick"] != "")
@@ -880,6 +882,11 @@ abstract class ilBlockGUI
                         "$(\"#$id\").click(function() { ilBlockJSHandler('" . "block_" . $this->getBlockType() . "_" . $this->block_id .
                         "','" . $command["onclick"] . "');});";
                 });
+            }
+
+            if (isset($command['modal']) && $command['modal'] instanceof \ILIAS\UI\Component\Modal\Modal) {
+                $button = $button->withOnClick($command["modal"]->getShowSignal());
+                $modals[] = $command['modal'];
             }
             $actions[] = $button;
         }
@@ -916,9 +923,9 @@ abstract class ilBlockGUI
         }
 
         if ($ctrl->isAsynch()) {
-            $html = $renderer->renderAsync($panel);
+            $html = $renderer->renderAsync([$panel, ...$modals]);
         } else {
-            $html = $renderer->render($panel);
+            $html = $renderer->render([$panel, ...$modals]);
         }
 
 
