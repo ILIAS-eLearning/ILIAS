@@ -23,7 +23,7 @@ function show_modal_on_button_click_async_rendered()
     if ($request_wrapper->has('item')) {
         $id = $request_wrapper->retrieve('item', $refinery->kindlyTo()->string());
         $item = $items[$id];
-        $affected_item = $factory->modal()->interruptiveItem($id, $item);
+        $affected_item = $factory->modal()->interruptiveItem()->standard($id, $item);
         $modal = $factory->modal()->interruptive('Delete Items', $message, $form_action)
             ->withAffectedItems([$affected_item]);
         echo $renderer->render($modal);

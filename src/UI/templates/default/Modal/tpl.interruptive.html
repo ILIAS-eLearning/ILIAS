@@ -1,4 +1,4 @@
-<div class="modal fade il-modal-interruptive" tabindex="-1" role="dialog" id="{ID}">
+<div class="modal fade c-modal--interruptive" tabindex="-1" role="dialog" id="{ID}">
 	<div class="modal-dialog" role="document">
 		<form action="{FORM_ACTION}" method="POST">
 			<div class="modal-content">
@@ -7,28 +7,23 @@
 					<span class="modal-title">{TITLE}</span>
 				</div>
 				<div class="modal-body">
-					<div class="alert alert-warning il-modal-interruptive-message" role="alert">
+					<div class="alert alert-warning c-modal--interruptive__message" role="alert">
 						{MESSAGE}
 					</div>
-					<!-- BEGIN with_items -->
-					<div class="il-modal-interruptive-items">
+					<!-- BEGIN with_standard_items -->
+					<div class="c-modal--interruptive__items">
 						<table>
-							<!-- BEGIN item -->
-							<tr>
-								<td>
-									{ITEM_ICON}
-								</td>
-								<td>
-									{ITEM_TITLE}
-									{ITEM_DESCRIPTION}
-									<input type="hidden" name="interruptive_items[]" value="{ITEM_ID}">
-								</td>
-							</tr>
-							<!-- END item -->
+							{STANDARD_ITEMS}
 						</table>
-						{ITEMS}
 					</div>
-					<!-- END with_items -->
+					<!-- END with_standard_items -->
+					<!-- BEGIN with_key_value_items -->
+					<div class="c-modal--interruptive__items">
+						<dl>
+							{KEY_VALUE_ITEMS}
+						</dl>
+					</div>
+					<!-- END with_key_value_items -->
 				</div>
 				<div class="modal-footer">
 					<input type="submit" class="btn btn-primary" value="{ACTION_BUTTON_LABEL}" name="cmd[{ACTION_BUTTON}]">

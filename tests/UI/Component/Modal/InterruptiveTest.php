@@ -25,8 +25,6 @@ use ILIAS\UI\Implementation as I;
 
 /**
  * Tests on implementation for the interruptive modal
- *
- * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
 class InterruptiveTest extends ModalBase
 {
@@ -81,15 +79,41 @@ class InterruptiveTest extends ModalBase
         $this->assertEquals($expected, $actual);
     }
 
+    public function test_rendering_with_items(): void
+    {
+        $interruptive = $this->getModalFactory()->interruptive('Title', 'Message', 'myAction.php');
+        $items = [
+            $this->getKeyValueInterruptiveItem('keyvalue1'),
+            $this->getStandardInterruptiveItem('standard1'),
+            $this->getKeyValueInterruptiveItem('keyvalue2'),
+            $this->getKeyValueInterruptiveItem('keyvalue3'),
+            $this->getStandardInterruptiveItem('standard2')
+        ];
+        $interruptive = $interruptive->withAffectedItems($items);
+        $expected = $this->normalizeHTML($this->getExpectedHTML(true));
+        $actual = $this->normalizeHTML($this->getDefaultRenderer(null, $items)->render($interruptive));
+        $this->assertEquals($expected, $actual);
+    }
+
     protected function getInterruptiveItem(): InterruptiveItemMock
     {
         return new InterruptiveItemMock();
     }
 
-    protected function getExpectedHTML(): string
+    protected function getStandardInterruptiveItem(string $canonical_name): StandardItemMock
     {
-        $expected = <<<EOT
-<div class="modal fade il-modal-interruptive" tabindex="-1" role="dialog" id="id_1">
+        return new StandardItemMock($canonical_name);
+    }
+
+    protected function getKeyValueInterruptiveItem(string $canonical_name): KeyValueItemMock
+    {
+        return new KeyValueItemMock($canonical_name);
+    }
+
+    protected function getExpectedHTML(bool $with_items = false): string
+    {
+        $expected_start = <<<EOT
+<div class="modal fade c-modal--interruptive" tabindex="-1" role="dialog" id="id_1">
 	<div class="modal-dialog" role="document">
 		<form action="myAction.php" method="POST">
 			<div class="modal-content">
@@ -97,7 +121,24 @@ class InterruptiveTest extends ModalBase
 					<span aria-hidden="true"></span></button><span class="modal-title">Title</span>
 				</div>
 				<div class="modal-body">
-					<div class="alert alert-warning il-modal-interruptive-message" role="alert">Message</div>
+					<div class="alert alert-warning c-modal--interruptive__message" role="alert">Message</div>
+EOT;
+        $expected_items = <<<EOT
+					<div class="c-modal--interruptive__items">
+						<table>
+							standard1
+							standard2
+						</table>
+					</div>
+					<div class="c-modal--interruptive__items">
+						<dl>
+							keyvalue1
+							keyvalue2
+							keyvalue3
+						</dl>
+					</div>
+EOT;
+        $expected_end = <<<EOT
 				</div>
 				<div class="modal-footer">
 					<input type="submit" class="btn btn-primary" value="delete" name="cmd[delete]">
@@ -108,7 +149,10 @@ class InterruptiveTest extends ModalBase
 	</div>
 </div>
 EOT;
-        return $expected;
+        if ($with_items) {
+            return $expected_start . $expected_items . $expected_end;
+        }
+        return $expected_start . $expected_end;
     }
 
 
@@ -131,13 +175,28 @@ EOT;
     }
 }
 
-class InterruptiveItemMock implements C\Modal\InterruptiveItem
+class InterruptiveItemMock implements C\Modal\InterruptiveItem\InterruptiveItem
 {
+    protected string $canonical_name;
+
+    public function __construct(string $canonical_name = '')
+    {
+        $this->canonical_name = $canonical_name;
+    }
+
     public function getId(): string
     {
         return '1';
     }
 
+    public function getCanonicalName(): string
+    {
+        return $this->canonical_name ?: 'InterruptiveItem';
+    }
+}
+
+class StandardItemMock extends InterruptiveItemMock implements C\Modal\InterruptiveItem\Standard
+{
     public function getTitle(): string
     {
         return 'title';
@@ -151,5 +210,18 @@ class InterruptiveItemMock implements C\Modal\InterruptiveItem
     public function getIcon(): C\Image\Image
     {
         return new I\Component\Image\Image(C\Image\Image::STANDARD, '', '');
+    }
+}
+
+class KeyValueItemMock extends InterruptiveItemMock implements C\Modal\InterruptiveItem\KeyValue
+{
+    public function getKey(): string
+    {
+        return 'key';
+    }
+
+    public function getValue(): string
+    {
+        return 'value';
     }
 }

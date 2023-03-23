@@ -18,7 +18,7 @@
 
 use ILIAS\DI\Container;
 use ILIAS\Data\Factory;
-use ILIAS\UI\Component\Modal\InterruptiveItem;
+use ILIAS\UI\Component\Modal\InterruptiveItem\Standard as InterruptiveItem;
 use ILIAS\UI\Component\Modal\Interruptive;
 
 /**
@@ -111,7 +111,7 @@ class ilADNNotificationTableGUI extends ilTable2GUI
             );
 
             // Modals and actions
-            $ditem = $this->ui->factory()->modal()->interruptiveItem((string) $notification->getId(), $notification->getTitle());
+            $ditem = $this->ui->factory()->modal()->interruptiveItem()->standard((string) $notification->getId(), $notification->getTitle());
             $delete_modal = $this->modal($ditem, ilADNNotificationGUI::CMD_DELETE);
             $items[] = $this->ui->factory()->button()->shy($this->lng->txt('btn_' . ilADNNotificationGUI::CMD_DELETE), "")
                                        ->withOnClick($delete_modal->getShowSignal());

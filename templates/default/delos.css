@@ -12180,6 +12180,23 @@ div.alert ul > li:before {
   width: 66.67%;
 }
 
+.c-modal--interruptive .c-modal--interruptive__items {
+  margin-bottom: 15px;
+}
+.c-modal--interruptive .c-modal--interruptive__items .c-modal--interruptive__items__key-value .c-modal--interruptive__items__key-value__key {
+  float: left;
+  clear: left;
+  font-weight: initial;
+}
+.c-modal--interruptive .c-modal--interruptive__items .c-modal--interruptive__items__key-value .c-modal--interruptive__items__key-value__value {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-style: italic;
+  color: #6f6f6f;
+  padding-left: 6px;
+}
+
 .panel {
   margin-bottom: 20px;
   border: 1px solid #dddddd;
