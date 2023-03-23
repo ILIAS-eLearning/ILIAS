@@ -109,7 +109,17 @@ class ImplementationOfInterfaceFinder
 
 
         foreach ($this->classmap as $class_name => $file_path) {
-            $path = str_replace($this->root, "", realpath($file_path));
+            $real_path = realpath($file_path);
+            if ($real_path === false) {
+                throw new \RuntimeException(
+                    "Could not find file for class $class_name (path: $file_path). " .
+                    "Please check the composer classmap, maybe it is outdated. " .
+                    "You can regenerate it by executing 'composer du' or 'composer install' " .
+                    "(which also ensures dependencies are correctly installed) in the ILIAS root directory."
+                );
+            }
+
+            $path = str_replace($this->root, "", $real_path);
             if ($matching_path && !preg_match("#^" . $matching_path . "$#", $path)) {
                 continue;
             }
