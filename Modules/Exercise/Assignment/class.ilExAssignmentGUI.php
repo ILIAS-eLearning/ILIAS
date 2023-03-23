@@ -303,18 +303,20 @@ class ilExAssignmentGUI
                 $ui_factory = $DIC->ui()->factory();
                 $ui_renderer = $DIC->ui()->renderer();
 
+                $output_filename = htmlspecialchars($file['name']);
+
                 if ($this->media_type->isImage($mime)) {
                     $item_id = "il-ex-modal-img-" . $a_ass->getId() . "-" . $cnt;
 
 
-                    $image = $ui_renderer->render($ui_factory->image()->responsive($file['fullpath'], $file['name']));
+                    $image = $ui_renderer->render($ui_factory->image()->responsive($file['fullpath'], $output_filename));
                     $image_lens = ilUtil::getImagePath("enlarge.svg");
 
                     $modal = ilModalGUI::getInstance();
                     $modal->setId($item_id);
                     $modal->setType(ilModalGUI::TYPE_LARGE);
                     $modal->setBody($image);
-                    $modal->setHeading($file["name"]);
+                    $modal->setHeading($output_filename);
                     $modal = $modal->getHTML();
 
                     $img_tpl = new ilTemplate("tpl.image_file.html", true, true, "Modules/Exercise");
@@ -326,7 +328,7 @@ class ilExAssignmentGUI
                     $img_tpl->setvariable("ALT_LENS", $lng->txt("exc_fullscreen"));
                     $img_tpl->parseCurrentBlock();
 
-                    $a_info->addProperty($file["name"], $img_tpl->get());
+                    $a_info->addProperty($output_filename, $img_tpl->get());
                 } elseif ($this->media_type->isAudio($mime) || $this->media_type->isVideo($mime)) {
                     $media_tpl = new ilTemplate("tpl.media_file.html", true, true, "Modules/Exercise");
 
@@ -342,9 +344,9 @@ class ilExAssignmentGUI
                         $this->getSubmissionLink("downloadFile", array("file" => urlencode($file["name"])))
                     );
                     $media_tpl->setVariable("DOWNLOAD_BUTTON", $ui_renderer->render($but));
-                    $a_info->addProperty($file["name"], $media_tpl->get());
+                    $a_info->addProperty($output_filename, $media_tpl->get());
                 } else {
-                    $a_info->addProperty($file["name"], $lng->txt("download"), $this->getSubmissionLink("downloadFile", array("file" => urlencode($file["name"]))));
+                    $a_info->addProperty($output_filename, $lng->txt("download"), $this->getSubmissionLink("downloadFile", array("file" => urlencode($file["name"]))));
                 }
             }
         }
