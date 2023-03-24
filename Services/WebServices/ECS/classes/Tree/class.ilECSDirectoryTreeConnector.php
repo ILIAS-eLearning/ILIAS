@@ -48,7 +48,7 @@ class ilECSDirectoryTreeConnector extends ilECSConnector
             $this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
             $res = $this->call();
 
-            $ecsResult = new ilECSResult($res, false, ilECSResult::RESULT_TYPE_URL_LIST);
+            $ecsResult = new ilECSResult($res, ilECSResult::RESULT_TYPE_URL_LIST);
             return $ecsResult->getResult();
         } catch (ilCurlConnectionException $exc) {
             throw new ilECSConnectorException('Error calling ECS service: ' . $exc->getMessage());

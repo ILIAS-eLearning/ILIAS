@@ -329,7 +329,7 @@ class ilECSConnector
             }
             $ilLog->write(__METHOD__ . ': ... got HTTP 200 (ok)');
 
-            return new ilECSResult($res, false, ilECSResult::RESULT_TYPE_URL_LIST);
+            return new ilECSResult($res, ilECSResult::RESULT_TYPE_URL_LIST);
         } catch (ilCurlConnectionException $exc) {
             throw new ilECSConnectorException('Error calling ECS service: ' . $exc->getMessage());
         }
