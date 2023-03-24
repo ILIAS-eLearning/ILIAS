@@ -18,24 +18,24 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\GlobalScreen\Collector\Renderer;
+namespace ILIAS\GlobalScreen\Scope\Toast\Collector\Renderer;
 
-use ILIAS\GlobalScreen\isGlobalScreenItem;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\MainControls\Slate\Notification as NotificationSlate;
+use ILIAS\UI\Component\Item\Notification as NotificationItem;
+use ILIAS\UI\Implementation\Component\MainControls\SystemInfo;
+use ILIAS\GlobalScreen\Scope\Toast\Factory\isItem;
+use ILIAS\UI\Component\Toast\Toast;
 
 /**
- * Trait ComponentDecoratorApplierTrait
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
-trait ComponentDecoratorApplierTrait
+interface ToastRenderer
 {
-    public function applyDecorator(Component $component, isGlobalScreenItem $item): Component
-    {
-        $c = $item->getComponentDecorator();
-        if ($c !== null) {
-            return $c($component);
-        }
-
-        return $component;
-    }
+    /**
+     * Returns the UI Component for the past item
+     * @param isItem $item
+     * @return Toast
+     */
+    public function getToastComponentForItem(isItem $item): Component;
 }

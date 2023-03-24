@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,30 +16,19 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\GlobalScreen\Scope;
+declare(strict_types=1);
 
-use Closure;
+namespace ILIAS\GlobalScreen\Scope\Toast\Factory;
+
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
 /**
- * Interface isGlobalScreenItem
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface isGlobalScreenItem
+interface isItem
 {
     /**
      * @return IdentificationInterface
      */
     public function getProviderIdentification(): IdentificationInterface;
-
-    /**
-     * @param Closure $component_decorator
-     * @return isGlobalScreenItem
-     */
-    public function addComponentDecorator(Closure $component_decorator): isGlobalScreenItem;
-
-    /**
-     * @return Closure|null
-     */
-    public function getComponentDecorator(): ?Closure;
 }

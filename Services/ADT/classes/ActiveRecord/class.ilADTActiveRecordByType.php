@@ -446,7 +446,8 @@ class ilADTActiveRecordByType
             "int" => "integer",
             "float" => "float",
             "date" => "date",
-            "datetime" => "timestamp"
+            "datetime" => "timestamp",
+            "intlink" => "integer"
         );
     }
 
@@ -513,10 +514,16 @@ class ilADTActiveRecordByType
                             $fields['value_index'] = [ilDBConstants::T_INTEGER, $row['value_index']];
                             break;
 
+                        case 'extlink':
+                            $fields['value'] = [ilDBConstants::T_TEXT, $row['value']];
+                            $fields['title'] = [ilDBConstants::T_TEXT, $row['title']];
+                            break;
+
                         default:
-                            $fields[self::SINGLE_COLUMN_NAME] = array($type_map[$table],
-                                                                      $row[self::SINGLE_COLUMN_NAME]
-                            );
+                            $fields[self::SINGLE_COLUMN_NAME] = [
+                                $type_map[$table],
+                                $row[self::SINGLE_COLUMN_NAME]
+                            ];
                             break;
                     }
 
