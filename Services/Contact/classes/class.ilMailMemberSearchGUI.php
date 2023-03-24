@@ -30,7 +30,7 @@ class ilMailMemberSearchGUI
     private readonly ServerRequestInterface $httpRequest;
     /** @var array{role_id: int, mailbox: string, form_option_title: string, default_checked: bool}[] */
     private readonly array $mail_roles;
-    private ?ilParticipants $objParticipants;
+    private ?ilParticipants $objParticipants = null;
     private readonly ilCtrlInterface $ctrl;
     private readonly ilGlobalTemplateInterface $tpl;
     private readonly ilLanguage $lng;
