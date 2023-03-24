@@ -35,6 +35,7 @@ use ILIAS\ResourceStorage\Revision\FileStreamRevision;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
+use ILIAS\ResourceStorage\StorageHandler\PathGenerator\PathGenerator;
 
 /**
  * Class AbstractFileSystemStorageHandler
@@ -318,5 +319,10 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
     public function movementImplementation(): string
     {
         return $this->links_possible ? 'link' : 'rename';
+    }
+
+    public function getPathGenerator(): PathGenerator
+    {
+        return $this->path_generator;
     }
 }

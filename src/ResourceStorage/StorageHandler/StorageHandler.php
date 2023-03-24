@@ -30,6 +30,7 @@ use ILIAS\ResourceStorage\Revision\CloneRevision;
 use ILIAS\ResourceStorage\Revision\FileStreamRevision;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
+use ILIAS\ResourceStorage\StorageHandler\PathGenerator\PathGenerator;
 
 /**
  * Class FileResourceHandler
@@ -117,4 +118,6 @@ interface StorageHandler
      * @return string "link" or "rename"
      */
     public function movementImplementation(): string;
+
+    public function getPathGenerator(): PathGenerator;
 }
