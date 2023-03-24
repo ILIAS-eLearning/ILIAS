@@ -35,7 +35,7 @@ class UserCertificateAPITest extends ilCertificateBaseTestCase
             5,
             'Some Title',
             100,
-            1234567890,
+            1_234_567_890,
             20,
             'Ilyas',
             'Homer',

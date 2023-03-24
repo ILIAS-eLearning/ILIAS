@@ -28,7 +28,6 @@ use ILIAS\Filesystem\Exception\IOException;
 class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepository
 {
     private readonly ilCertificateSettingsFormRepository $settingsFormFactory;
-    private readonly ilSetting $setting;
 
     public function __construct(
         private readonly ilObject $object,
@@ -40,7 +39,7 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ?ilCertificateSettingsFormRepository $settingsFormRepository = null,
-        ?ilSetting $setting = null
+        private readonly ilSetting $setting = new ilSetting('scorm')
     ) {
         global $DIC;
 
@@ -56,7 +55,6 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
             $DIC->ui()->factory(),
             $DIC->ui()->renderer()
         );
-        $this->setting = $setting ?? new ilSetting('scorm');
     }
 
     /**

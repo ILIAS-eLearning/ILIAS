@@ -58,7 +58,6 @@ class ilCertificateGUI
     private readonly ilCertificateTemplatePreviewAction $previewAction;
     private readonly FileUpload $fileUpload;
     private readonly string $certificatePath;
-    private readonly ilSetting $settings;
     private readonly ilPageFormats $pageFormats;
     private readonly Filesystem $tmp_file_system;
     private readonly ilLogger $logger;
@@ -77,7 +76,7 @@ class ilCertificateGUI
         ?ilCertificateBackgroundImageUpload $upload = null,
         ?ilCertificateTemplatePreviewAction $previewAction = null,
         ?FileUpload $fileUpload = null,
-        ?ilSetting $settings = null,
+        private readonly ilSetting $settings = new ilSetting('certificate'),
         ?ilCertificateBackgroundImageDelete $backgroundImageDelete = null,
         ?Filesystem $fileSystem = null,
         ?ilCertificateBackgroundImageFileService $imageFileService = null,
@@ -140,9 +139,8 @@ class ilCertificateGUI
         );
         $this->fileUpload = $fileUpload ?? $DIC->upload();
         $this->certificatePath = $certificatePath;
-        $this->settings = $settings ?? new ilSetting('certificate');
         $this->fileSystem = $fileSystem ?? $DIC->filesystem()->web();
-        $imageFileService = $imageFileService ?? new ilCertificateBackgroundImageFileService(
+        $imageFileService ??= new ilCertificateBackgroundImageFileService(
             $this->certificatePath,
             $this->fileSystem
         );
