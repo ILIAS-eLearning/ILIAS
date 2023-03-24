@@ -22,6 +22,7 @@ namespace ILIAS\GlobalScreen\Scope\Toast\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Toast\Collector\Renderer\ToastRendererFactory;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -52,12 +53,14 @@ class ToastFactory
      */
     public function standard(
         IdentificationInterface $identification,
-        string $title
+        string $title,
+        ?Icon $icon = null
     ): StandardToastItem {
         return new StandardToastItem(
             $identification,
             $this->renderer_factory->getRenderer(StandardToastItem::class),
-            $title
+            $title,
+            $icon
         );
     }
 

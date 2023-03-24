@@ -20,14 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\Toast\Collector\Renderer;
 
-use ILIAS\UI\Component\Component;
-use ILIAS\GlobalScreen\Scope\Toast\Factory\isItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\DI\UIServices;
 use ILIAS\GlobalScreen\Scope\Toast\Factory\isStandardItem;
-use ILIAS\UI\Component\Symbol\Icon\Icon;
-use ILIAS\GlobalScreen\Client\Notifications as ClientNotifications;
-use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Toast\Factory\StandardToastItem;
 
 /**
