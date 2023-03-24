@@ -1623,7 +1623,7 @@ class ilMembershipGUI
             $olp = ilObjectLP::getInstance($this->getParentObject()->getId());
             $show_tracking = $olp->isActive();
         }
-        if ($show_tracking) {
+        if ($show_tracking && $this->getParentObject()->getType() !== 'sess') {
             $list->addPreset('progress', $this->lng->txt('learning_progress'), true);
         }
 
